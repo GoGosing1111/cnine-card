@@ -1,3 +1,4 @@
+import {readAccountRank} from './_account_rank.js';
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {readJointBody,assertJointOrigin,jointError} from './_joint_request.js';
 import {readMercenaryDocument,readMercenaryRuntime,battleConfig,mercenaryAccountState,mercenarySnapshotPower} from './_mercenary_account.js';
@@ -44,15 +45,15 @@ export async function loadCoopOwnedCards(env,user,deps,ids=null){
 }
 export async function loadCoopSelection(env,user,body,deps){
  const selected=validateCoopSelection(body);
- const [cards,owned,document,runtime,bonus,battleSettings]=await Promise.all([
+ const [cards,owned,document,runtime,bonus,battleSettings,accountRank]=await Promise.all([
   loadCoopOwnedCards(env,user,deps,selected.cardIds),
   env.DB.prepare('SELECT mercenary_code FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=?').bind(user.id,selected.mercenaryCode).first(),
-  readMercenaryDocument(env),readMercenaryRuntime(env),deps.userEquipmentBonuses(env,user.id),deps.battleSettings(env)]);
+  readMercenaryDocument(env),readMercenaryRuntime(env),deps.userEquipmentBonuses(env,user.id),deps.battleSettings(env),readAccountRank(env,user.id)]);
  if(cards.length!==2||!owned)fail('OWNERSHIP','보유한 카드 2장과 용병 1명만 출전할 수 있습니다.',403);
  if(cards.filter(c=>c.grade==='SUPERSTAR').length>1)fail('SUPERSTAR_LIMIT','한 사람은 슈퍼스타를 1장까지 선택할 수 있습니다.',400);
  const mercenary={...battleConfig(document.document,selected.mercenaryCode,1),combat:runtime.combat,cmsRevision:document.revision,policyVersion:runtime.version};
  const equipmentBonus=Math.max(0,Number(bonus.pve||0)-Number(bonus.battleSuitPve||0));
- return {pet:await loadPetBattleSnapshot(env,user,'PVE'),ownerId:Number(user.id),ownerName:user.nickname,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenary,
+ return {pet:await loadPetBattleSnapshot(env,user,'PVE'),ownerId:Number(user.id),ownerName:user.nickname,ownerRankLevel:accountRank.level,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenary,
   equipmentBonus,singleHealerBonus:battleSettings.engine?.singleHealerBonus||{},
   power:cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenarySnapshotPower(mercenary)};
 }

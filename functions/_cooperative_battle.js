@@ -18,7 +18,7 @@ export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withd
   cards.push(...own);
   const merc=buildMercenaryFighter(squad.mercenary,'A','PVE',buildFighter);
   mercenaries.push({...merc,id:`A:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:2,slot:6+squadIndex});
-  members.push({ownerId,ownerName,squadIndex});
+  members.push({ownerId,ownerName,squadIndex,ownerRankLevel:squad.ownerRankLevel??null});
  });
  const saved=combat?.difficulties.find(d=>d.id===config.id),maxBattleMs=combat?combat.maxBattleSeconds*1000:COOP_RULES.maxBattleMs;
  const tuned={...config,forcedEvery:saved?.forcedEvery??config.forcedEvery};

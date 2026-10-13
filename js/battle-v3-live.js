@@ -379,6 +379,18 @@
     return true;
   }
 
+  function setRosterOwner(owner, name, member=null) {
+    if(!owner)return;
+    owner.textContent=name||'';
+    delete owner.dataset.v3RosterOwnerId;
+    delete owner.dataset.v3RosterOwnerRankLevel;
+    if(member){
+      owner.dataset.v3RosterOwnerId=String(member.ownerId||'');
+      const level=Number(member.ownerRankLevel);
+      if(Number.isInteger(level)&&level>=1&&level<=250)owner.dataset.v3RosterOwnerRankLevel=String(level);
+    }
+  }
+
   function renderRoster(stage, payload, mode) {
     const roster = stage?.querySelector?.('[data-v3-roster]');
     if (!roster) return 0;
@@ -400,7 +412,7 @@
         if(squad){section.dataset.v3DuoExtra='1';roster.append(section);}
         const member=teams.A.members[squad];section.hidden=false;
         section.querySelector('[data-v3-roster-label]').textContent=`분대 ${squad+1}`;
-        section.querySelector('[data-v3-roster-owner]').textContent=member.ownerName;
+        setRosterOwner(section.querySelector('[data-v3-roster-owner]'),member.ownerName,member);
         section.querySelector('[data-v3-roster-list]').innerHTML=teams.A.cards.filter(c=>c.squadIndex===squad).map((c,i)=>rosterCardHtml(c,i,catalog)).join('');
       }
       roster.hidden=false;stage.classList.add('is-roster-visible');ensureRosterGeometry(roster);return 3;
@@ -411,7 +423,7 @@
         const section=squad===0?originals[i]:originals[i].cloneNode(true);if(squad){section.dataset.v3DuoExtra='1';roster.append(section);}
         const member=teams[side].members?.[squad],cards=(teams[side].cards||[]).filter(c=>Number(c.squadIndex)===squad);
         section.hidden=false;section.querySelector('[data-v3-roster-label]').textContent=`${side==='A'?'우리 팀':'상대 팀'} · ${squad+1}`;
-        section.querySelector('[data-v3-roster-owner]').textContent=member?.ownerName||'';
+        setRosterOwner(section.querySelector('[data-v3-roster-owner]'),member?.ownerName,{...member});
         section.querySelector('[data-v3-roster-list]').innerHTML=cards.map((card,j)=>rosterCardHtml(card,j,catalog)).join('');
       }
       roster.hidden=false;stage.classList.add('is-roster-visible');ensureRosterGeometry(roster);return 4;
@@ -432,7 +444,7 @@
       const label = section.querySelector('[data-v3-roster-label]');
       const owner = section.querySelector('[data-v3-roster-owner]');
       if (label) label.textContent = side === 'A' ? (versus ? 'MY TEAM' : '출전 카드') : 'OPPONENT';
-      if (owner) owner.textContent = owners[index] || '';
+      setRosterOwner(owner,owners[index]);
       section.querySelector('[data-v3-roster-list]').innerHTML = cards.map((entry, index) => rosterCardHtml(entry, index, catalog)).join('');
     });
     roster.hidden = shown === 0;

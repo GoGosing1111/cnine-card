@@ -1,0 +1,28 @@
+[
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "ranks": [
+      "Lv.1 훈련병",
+      "Lv.100 원사",
+      "Lv.250 원수"
+    ],
+    "legacyFallback": "only-self",
+    "solo": "preserved"
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "ranks": [
+      "Lv.1 훈련병",
+      "Lv.100 원사",
+      "Lv.250 원수"
+    ],
+    "legacyFallback": "only-self",
+    "solo": "preserved"
+  }
+]

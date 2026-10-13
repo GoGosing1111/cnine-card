@@ -35,11 +35,18 @@ function mount(){
     const signature=`${accountId}:${r.level}:${r.code}`;if(button.dataset.rank!==signature){button.dataset.rank=signature;button.innerHTML=badge(r);}
   }
   const deck=document.getElementById('battleDeck');
-  for(const owner of document.querySelectorAll('[data-v3-roster-side="A"] [data-v3-roster-owner]')){
-    if(!r)continue;
+  for(const owner of document.querySelectorAll('[data-v3-roster-owner]')){
+    const explicit=owner.hasAttribute('data-v3-roster-owner-id');
+    const level=Number(owner.dataset.v3RosterOwnerRankLevel);
+    const snapshot=Number.isInteger(level)&&level>=1&&level<=250?{...rankForLevel(level),level}:null;
+    const mine=explicit?accountId>0&&Number(owner.dataset.v3RosterOwnerId)===accountId:
+      !owner.closest('.is-cooperative,.is-duo')&&owner.closest('[data-v3-roster-side="A"]');
+    const rank=snapshot||(mine?r:null);
     let mark=owner.querySelector('.account-rank-inline');
-    if(!mark){owner.insertAdjacentHTML('afterbegin',identityHtml(accountId));mark=owner.querySelector('.account-rank-inline');}
-    if(mark&&mark.dataset.rank!==String(r.level)){mark.dataset.rank=String(r.level);mark.title=`Lv.${r.level} ${r.name}`;const img=mark.querySelector('img');img.src=art(r);img.alt=`${r.name} 계급장`;}
+    if(!rank){mark?.remove();continue;}
+    if(!mark){mark=document.createElement('span');mark.className='account-rank-inline';mark.innerHTML='<img width="28" height="28">';owner.prepend(mark);}
+    const signature=`${owner.dataset.v3RosterOwnerId||accountId}:${rank.level}:${rank.code}`;
+    if(mark.dataset.rank!==signature){mark.dataset.rank=signature;mark.title=`Lv.${rank.level} ${rank.name}`;const img=mark.querySelector('img');img.src=art(rank);img.alt=`${rank.name} 계급장`;}
   }
   if(deck&&!deck.parentElement.querySelector('[data-account-rank-presets]')){
     const button=document.createElement('button');button.type='button';button.className='account-rank-preset-entry';button.dataset.accountRankPresets='';button.textContent='내 편성 보관함';button.addEventListener('click',()=>open(true));deck.after(button);
