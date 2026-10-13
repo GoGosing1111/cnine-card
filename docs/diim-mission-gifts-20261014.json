@@ -1,0 +1,147 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:diim-mission-gifts:20261014:v1",
+  "planHash": "37d16f67702ffbb3fd2dd195a6159e3b35cee900a925be87e103f6926fe0079b",
+  "plan": {
+    "operationKey": "ops:diim-mission-gifts:20261014:v1",
+    "title": "디임 미션 사은품",
+    "coinPerRecipient": "1000000000000",
+    "totalCoin": "7000000000000",
+    "delivery": "DIRECT",
+    "recipients": [
+      {
+        "userId": "88",
+        "nickname": "0수표"
+      },
+      {
+        "userId": "290",
+        "nickname": "Mild7"
+      },
+      {
+        "userId": "567",
+        "nickname": "망순이"
+      },
+      {
+        "userId": "4172",
+        "nickname": "딤우스"
+      },
+      {
+        "userId": "4209",
+        "nickname": "#유나랜드"
+      },
+      {
+        "userId": "4693",
+        "nickname": "시소둥이"
+      },
+      {
+        "userId": "4774",
+        "nickname": "딤럼프"
+      }
+    ],
+    "skipped": [
+      {
+        "requestedNickname": "한강라면디임",
+        "reason": "계정 조회되지 않음; 사용자 '넘겨일단' 지시로 이번 지급에서 제외"
+      }
+    ],
+    "authorization": "딤럼프,한강라면디임,망순이,Mild7,딤우스,0수표,시소둥이,유나랜드 1조코인씩 지급해 / 디임 미션 사은품",
+    "clarification": "한강라면디임: 넘겨일단 / 유나랜드: #유나랜드가 맞음"
+  },
+  "adminId": "1",
+  "adminLogId": "45840",
+  "grants": [
+    {
+      "userId": "88",
+      "nickname": "0수표",
+      "amount": "1000000000000",
+      "before": "1473246835785",
+      "after": "2473246835785",
+      "coinLogId": "91035089"
+    },
+    {
+      "userId": "290",
+      "nickname": "Mild7",
+      "amount": "1000000000000",
+      "before": "84806130469",
+      "after": "1084806130469",
+      "coinLogId": "91035090"
+    },
+    {
+      "userId": "567",
+      "nickname": "망순이",
+      "amount": "1000000000000",
+      "before": "511872162602",
+      "after": "1511872162602",
+      "coinLogId": "91035091"
+    },
+    {
+      "userId": "4172",
+      "nickname": "딤우스",
+      "amount": "1000000000000",
+      "before": "5000",
+      "after": "1000000005000",
+      "coinLogId": "91035092"
+    },
+    {
+      "userId": "4209",
+      "nickname": "#유나랜드",
+      "amount": "1000000000000",
+      "before": "1158002007226",
+      "after": "2158002007226",
+      "coinLogId": "91035093"
+    },
+    {
+      "userId": "4693",
+      "nickname": "시소둥이",
+      "amount": "1000000000000",
+      "before": "2204817711896",
+      "after": "3204817711896",
+      "coinLogId": "91035094"
+    },
+    {
+      "userId": "4774",
+      "nickname": "딤럼프",
+      "amount": "1000000000000",
+      "before": "269605882889",
+      "after": "1269605882889",
+      "coinLogId": "91035095"
+    }
+  ],
+  "completedAt": "2026-10-13T20:52:06.648Z",
+  "validation": {
+    "dryRun": {
+      "operationKey": "ops:diim-mission-gifts:20261014:v1",
+      "planHash": "37d16f67702ffbb3fd2dd195a6159e3b35cee900a925be87e103f6926fe0079b",
+      "status": "DRY_RUN_ROLLED_BACK",
+      "replayed": false,
+      "completedAt": "2026-10-13T20:51:53.722Z",
+      "adminLogId": "45839",
+      "recipients": 7,
+      "coinLogs": 7,
+      "adminLogs": 1,
+      "totalCoin": "7000000000000",
+      "missing": 0,
+      "duplicates": 0,
+      "partialFailureRolledBack": true,
+      "replayPerformedNoWrites": true,
+      "balancesRestored": true,
+      "logsRolledBack": true
+    },
+    "postCommit": {
+      "operationKey": "ops:diim-mission-gifts:20261014:v1",
+      "planHash": "37d16f67702ffbb3fd2dd195a6159e3b35cee900a925be87e103f6926fe0079b",
+      "status": "COMPLETED",
+      "replayed": true,
+      "completedAt": "2026-10-13T20:52:06.648Z",
+      "adminLogId": "45840",
+      "recipients": 7,
+      "coinLogs": 7,
+      "adminLogs": 1,
+      "totalCoin": "7000000000000",
+      "missing": 0,
+      "duplicates": 0
+    }
+  },
+  "runtimeCodeChanged": false,
+  "deploymentRequired": false
+}

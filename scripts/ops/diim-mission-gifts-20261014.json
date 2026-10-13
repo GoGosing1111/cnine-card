@@ -1,0 +1,45 @@
+{
+  "operationKey": "ops:diim-mission-gifts:20261014:v1",
+  "title": "디임 미션 사은품",
+  "coinPerRecipient": "1000000000000",
+  "totalCoin": "7000000000000",
+  "delivery": "DIRECT",
+  "recipients": [
+    {
+      "userId": "88",
+      "nickname": "0수표"
+    },
+    {
+      "userId": "290",
+      "nickname": "Mild7"
+    },
+    {
+      "userId": "567",
+      "nickname": "망순이"
+    },
+    {
+      "userId": "4172",
+      "nickname": "딤우스"
+    },
+    {
+      "userId": "4209",
+      "nickname": "#유나랜드"
+    },
+    {
+      "userId": "4693",
+      "nickname": "시소둥이"
+    },
+    {
+      "userId": "4774",
+      "nickname": "딤럼프"
+    }
+  ],
+  "skipped": [
+    {
+      "requestedNickname": "한강라면디임",
+      "reason": "계정 조회되지 않음; 사용자 '넘겨일단' 지시로 이번 지급에서 제외"
+    }
+  ],
+  "authorization": "딤럼프,한강라면디임,망순이,Mild7,딤우스,0수표,시소둥이,유나랜드 1조코인씩 지급해 / 디임 미션 사은품",
+  "clarification": "한강라면디임: 넘겨일단 / 유나랜드: #유나랜드가 맞음"
+}
