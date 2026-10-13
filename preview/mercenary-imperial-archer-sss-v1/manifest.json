@@ -1,0 +1,3907 @@
+{
+  "version": 1,
+  "date": "2026-10-14",
+  "name": null,
+  "nameStatus": "UNDECIDED_BY_USER",
+  "rank": "SSS",
+  "edition": null,
+  "code": null,
+  "previewAdapterCode": "V-000",
+  "runtimeEnabled": false,
+  "status": "BATTLE_VISUAL_REVIEW_PENDING",
+  "sourceArt": "preview/mercenary-imperial-archer-sss-v1/assets/sources/source-art-approved.png",
+  "sourceArtSha256": "211DA5C9AD758CC6167FEF2BD7C997A9CD8EA427C04B6AD37D6613E62277393B",
+  "weapon": {
+    "source": "assets/sources/source-art-approved.png",
+    "sourceSha256": "211DA5C9AD758CC6167FEF2BD7C997A9CD8EA427C04B6AD37D6613E62277393B",
+    "bounds": {
+      "left": 540,
+      "top": 0,
+      "width": 410,
+      "height": 1180
+    },
+    "grip": {
+      "x": 267,
+      "y": 534
+    },
+    "upperTip": {
+      "x": 15,
+      "y": 20
+    },
+    "lowerTip": {
+      "x": 48,
+      "y": 1165
+    },
+    "emission": {
+      "x": 318,
+      "y": 486
+    },
+    "polygons": [
+      [
+        [
+          552,
+          10
+        ],
+        [
+          579,
+          25
+        ],
+        [
+          585,
+          42
+        ],
+        [
+          619,
+          52
+        ],
+        [
+          659,
+          77
+        ],
+        [
+          695,
+          101
+        ],
+        [
+          720,
+          125
+        ],
+        [
+          742,
+          153
+        ],
+        [
+          765,
+          171
+        ],
+        [
+          789,
+          194
+        ],
+        [
+          815,
+          227
+        ],
+        [
+          833,
+          259
+        ],
+        [
+          848,
+          289
+        ],
+        [
+          862,
+          325
+        ],
+        [
+          878,
+          358
+        ],
+        [
+          858,
+          330
+        ],
+        [
+          836,
+          302
+        ],
+        [
+          824,
+          289
+        ],
+        [
+          820,
+          306
+        ],
+        [
+          822,
+          333
+        ],
+        [
+          828,
+          356
+        ],
+        [
+          833,
+          369
+        ],
+        [
+          833,
+          383
+        ],
+        [
+          838,
+          395
+        ],
+        [
+          850,
+          396
+        ],
+        [
+          842,
+          407
+        ],
+        [
+          853,
+          424
+        ],
+        [
+          845,
+          424
+        ],
+        [
+          862,
+          441
+        ],
+        [
+          850,
+          439
+        ],
+        [
+          859,
+          461
+        ],
+        [
+          877,
+          468
+        ],
+        [
+          884,
+          466
+        ],
+        [
+          872,
+          479
+        ],
+        [
+          862,
+          481
+        ],
+        [
+          866,
+          505
+        ],
+        [
+          848,
+          511
+        ],
+        [
+          821,
+          503
+        ],
+        [
+          792,
+          493
+        ],
+        [
+          785,
+          479
+        ],
+        [
+          774,
+          465
+        ],
+        [
+          770,
+          450
+        ],
+        [
+          746,
+          439
+        ],
+        [
+          763,
+          439
+        ],
+        [
+          765,
+          424
+        ],
+        [
+          750,
+          419
+        ],
+        [
+          756,
+          412
+        ],
+        [
+          762,
+          408
+        ],
+        [
+          754,
+          394
+        ],
+        [
+          733,
+          391
+        ],
+        [
+          750,
+          386
+        ],
+        [
+          744,
+          372
+        ],
+        [
+          726,
+          363
+        ],
+        [
+          742,
+          362
+        ],
+        [
+          724,
+          333
+        ],
+        [
+          706,
+          329
+        ],
+        [
+          715,
+          321
+        ],
+        [
+          699,
+          315
+        ],
+        [
+          692,
+          310
+        ],
+        [
+          706,
+          310
+        ],
+        [
+          688,
+          293
+        ],
+        [
+          675,
+          284
+        ],
+        [
+          700,
+          290
+        ],
+        [
+          688,
+          277
+        ],
+        [
+          687,
+          260
+        ],
+        [
+          668,
+          251
+        ],
+        [
+          672,
+          240
+        ],
+        [
+          660,
+          238
+        ],
+        [
+          659,
+          230
+        ],
+        [
+          635,
+          225
+        ],
+        [
+          651,
+          221
+        ],
+        [
+          640,
+          209
+        ],
+        [
+          628,
+          205
+        ],
+        [
+          630,
+          196
+        ],
+        [
+          610,
+          189
+        ],
+        [
+          624,
+          190
+        ],
+        [
+          609,
+          173
+        ],
+        [
+          602,
+          165
+        ],
+        [
+          608,
+          163
+        ],
+        [
+          591,
+          142
+        ],
+        [
+          590,
+          126
+        ],
+        [
+          579,
+          108
+        ],
+        [
+          578,
+          98
+        ],
+        [
+          587,
+          115
+        ],
+        [
+          586,
+          98
+        ],
+        [
+          576,
+          77
+        ],
+        [
+          568,
+          52
+        ],
+        [
+          560,
+          29
+        ]
+      ],
+      [
+        [
+          799,
+          570
+        ],
+        [
+          831,
+          580
+        ],
+        [
+          838,
+          587
+        ],
+        [
+          846,
+          599
+        ],
+        [
+          863,
+          604
+        ],
+        [
+          876,
+          616
+        ],
+        [
+          858,
+          614
+        ],
+        [
+          850,
+          620
+        ],
+        [
+          834,
+          644
+        ],
+        [
+          835,
+          648
+        ],
+        [
+          831,
+          666
+        ],
+        [
+          839,
+          681
+        ],
+        [
+          854,
+          683
+        ],
+        [
+          842,
+          686
+        ],
+        [
+          837,
+          704
+        ],
+        [
+          846,
+          714
+        ],
+        [
+          841,
+          714
+        ],
+        [
+          835,
+          728
+        ],
+        [
+          832,
+          736
+        ],
+        [
+          820,
+          728
+        ],
+        [
+          817,
+          750
+        ],
+        [
+          828,
+          774
+        ],
+        [
+          832,
+          795
+        ],
+        [
+          833,
+          820
+        ],
+        [
+          832,
+          843
+        ],
+        [
+          846,
+          838
+        ],
+        [
+          865,
+          820
+        ],
+        [
+          882,
+          806
+        ],
+        [
+          865,
+          854
+        ],
+        [
+          844,
+          900
+        ],
+        [
+          821,
+          949
+        ],
+        [
+          785,
+          999
+        ],
+        [
+          740,
+          1051
+        ],
+        [
+          690,
+          1100
+        ],
+        [
+          642,
+          1135
+        ],
+        [
+          585,
+          1173
+        ],
+        [
+          592,
+          1148
+        ],
+        [
+          603,
+          1113
+        ],
+        [
+          612,
+          1066
+        ],
+        [
+          618,
+          1027
+        ],
+        [
+          625,
+          1001
+        ],
+        [
+          640,
+          966
+        ],
+        [
+          635,
+          966
+        ],
+        [
+          643,
+          947
+        ],
+        [
+          658,
+          928
+        ],
+        [
+          679,
+          893
+        ],
+        [
+          695,
+          868
+        ],
+        [
+          695,
+          860
+        ],
+        [
+          702,
+          854
+        ],
+        [
+          712,
+          832
+        ],
+        [
+          681,
+          842
+        ],
+        [
+          701,
+          823
+        ],
+        [
+          693,
+          815
+        ],
+        [
+          715,
+          811
+        ],
+        [
+          726,
+          799
+        ],
+        [
+          709,
+          795
+        ],
+        [
+          718,
+          788
+        ],
+        [
+          734,
+          787
+        ],
+        [
+          744,
+          763
+        ],
+        [
+          752,
+          744
+        ],
+        [
+          734,
+          752
+        ],
+        [
+          745,
+          738
+        ],
+        [
+          752,
+          731
+        ],
+        [
+          750,
+          721
+        ],
+        [
+          763,
+          715
+        ],
+        [
+          774,
+          694
+        ],
+        [
+          760,
+          702
+        ],
+        [
+          777,
+          681
+        ],
+        [
+          782,
+          669
+        ],
+        [
+          791,
+          647
+        ],
+        [
+          763,
+          647
+        ],
+        [
+          780,
+          635
+        ],
+        [
+          788,
+          620
+        ],
+        [
+          764,
+          629
+        ],
+        [
+          789,
+          606
+        ],
+        [
+          791,
+          588
+        ]
+      ]
+    ],
+    "holes": [],
+    "note": "승인 원화의 보이는 활 양쪽 날개만 원본 픽셀로 선택. 손에 가린 중앙은 몸의 파지부로 연결하며 시위는 등록된 활 끝과 오른손 사이에 표시.",
+    "width": 410,
+    "height": 1180,
+    "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+    "operation": "ORIGINAL_PIXEL_SELECTION_ONLY",
+    "copiedPixels": 118312,
+    "redrawnPixels": 0
+  },
+  "motion": {
+    "idle": {
+      "atlas": "assets/atlases/idle.png",
+      "sha256": "004DBF9B2431B8DC31B5CEA5DF687662B7561D89C95403052FE7DA1110B21109",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 4,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/idle-0.png",
+          "sha256": "A29250EFE5CA79E057C7E5C9724D9ADE8F2446416586F495EADD09C8C660CFD8",
+          "source": "assets/sources/idle.png",
+          "sourceSha256": "F64CFD5AA7FA7AC582DBE446F78E6757EF0578E4FC4EECC55F96FE4441D61766",
+          "sourceRect": {
+            "left": 15,
+            "top": 2,
+            "width": 600,
+            "height": 627
+          },
+          "sourceFoot": [
+            370,
+            623
+          ],
+          "sourceGrip": [
+            597,
+            174
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 483.9672131147541,
+            "y": 385.0163934426229
+          },
+          "hand": {
+            "x": 332.2950819672131,
+            "y": 382.655737704918
+          },
+          "tip": {
+            "x": 497.722,
+            "y": 371.59400000000005
+          },
+          "upperTip": {
+            "x": 413.185,
+            "y": 241.58
+          },
+          "lowerTip": {
+            "x": 422.392,
+            "y": 561.0350000000001
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 0,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/idle-1.png",
+          "sha256": "A98FCA3C8493DA745DD770BBFCF1C555F09A471CA9357FE0AD1F8A8ACD9CF605",
+          "source": "assets/sources/idle.png",
+          "sourceSha256": "F64CFD5AA7FA7AC582DBE446F78E6757EF0578E4FC4EECC55F96FE4441D61766",
+          "sourceRect": {
+            "left": 641,
+            "top": 5,
+            "width": 608,
+            "height": 624
+          },
+          "sourceFoot": [
+            1000,
+            623
+          ],
+          "sourceGrip": [
+            1220,
+            174
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 479.8360655737705,
+            "y": 385.0163934426229
+          },
+          "hand": {
+            "x": 326.39344262295083,
+            "y": 383.24590163934425
+          },
+          "tip": {
+            "x": 493.722,
+            "y": 371.59400000000005
+          },
+          "upperTip": {
+            "x": 409.185,
+            "y": 241.58
+          },
+          "lowerTip": {
+            "x": 418.392,
+            "y": 561.0350000000001
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 0,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/idle-2.png",
+          "sha256": "748CD687F4A98259BFEF2BCC1AF169C01DB2549949596E291F786040B1A729C5",
+          "source": "assets/sources/idle.png",
+          "sourceSha256": "F64CFD5AA7FA7AC582DBE446F78E6757EF0578E4FC4EECC55F96FE4441D61766",
+          "sourceRect": {
+            "left": 20,
+            "top": 630,
+            "width": 605,
+            "height": 619
+          },
+          "sourceFoot": [
+            382,
+            1240
+          ],
+          "sourceGrip": [
+            597,
+            811
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 476.88524590163934,
+            "y": 396.8196721311475
+          },
+          "hand": {
+            "x": 328.1639344262295,
+            "y": 383.8360655737705
+          },
+          "tip": {
+            "x": 490.722,
+            "y": 383.59400000000005
+          },
+          "upperTip": {
+            "x": 406.185,
+            "y": 253.58
+          },
+          "lowerTip": {
+            "x": 415.392,
+            "y": 573.0350000000001
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 0,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/idle-3.png",
+          "sha256": "361984FEEE11B9665C3C11A514DDD4AE65D133754BE49107A95B69DEE2816987",
+          "source": "assets/sources/idle.png",
+          "sourceSha256": "F64CFD5AA7FA7AC582DBE446F78E6757EF0578E4FC4EECC55F96FE4441D61766",
+          "sourceRect": {
+            "left": 645,
+            "top": 629,
+            "width": 603,
+            "height": 621
+          },
+          "sourceFoot": [
+            1015,
+            1238
+          ],
+          "sourceGrip": [
+            1220,
+            811
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 470.983606557377,
+            "y": 398
+          },
+          "hand": {
+            "x": 321.08196721311475,
+            "y": 388.55737704918033
+          },
+          "tip": {
+            "x": 484.722,
+            "y": 384.59400000000005
+          },
+          "upperTip": {
+            "x": 400.185,
+            "y": 254.58
+          },
+          "lowerTip": {
+            "x": 409.392,
+            "y": 574.0350000000001
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 0,
+            "redrawnPixels": 0
+          }
+        }
+      ]
+    },
+    "draw": {
+      "atlas": "assets/atlases/draw.png",
+      "sha256": "30EE52147113646E07E022A779179BC6966F848E74A9525E610F587308804CF2",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 4,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/draw-0.png",
+          "sha256": "6ADDD7B74C568BF3CF9A85FD551F61BC032FC8028B563058C2DBF16E8E940675",
+          "source": "assets/sources/draw.png",
+          "sourceSha256": "5AD2F405C5D3431AC7DED62DAE948D1492D6C3F591D1E0D58A4AEC1E65D956A8",
+          "sourceRect": {
+            "left": 50,
+            "top": 12,
+            "width": 479,
+            "height": 587
+          },
+          "sourceFoot": [
+            365,
+            593
+          ],
+          "sourceGrip": [
+            507,
+            130
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 435.2,
+            "y": 372.2
+          },
+          "hand": {
+            "x": 398.6,
+            "y": 376.40000000000003
+          },
+          "tip": {
+            "x": 449.722,
+            "y": 358.59400000000005
+          },
+          "upperTip": {
+            "x": 365.185,
+            "y": 228.58
+          },
+          "lowerTip": {
+            "x": 374.392,
+            "y": 548.0350000000001
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 0,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/draw-1.png",
+          "sha256": "264154C1E40C0E2C0DC2EBFC5684CE3FBCF84648A73F13D49851E4C9D6F51D08",
+          "source": "assets/sources/draw.png",
+          "sourceSha256": "5AD2F405C5D3431AC7DED62DAE948D1492D6C3F591D1E0D58A4AEC1E65D956A8",
+          "sourceRect": {
+            "left": 648,
+            "top": 13,
+            "width": 568,
+            "height": 589
+          },
+          "sourceFoot": [
+            1000,
+            593
+          ],
+          "sourceGrip": [
+            1201,
+            151
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 470.6,
+            "y": 384.8
+          },
+          "hand": {
+            "x": 302,
+            "y": 378.2
+          },
+          "tip": {
+            "x": 484.722,
+            "y": 371.59400000000005
+          },
+          "upperTip": {
+            "x": 400.185,
+            "y": 241.58
+          },
+          "lowerTip": {
+            "x": 409.392,
+            "y": 561.0350000000001
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 0,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/draw-2.png",
+          "sha256": "07F4140808CC47A18BB52B88F7E8EBCA13A5FD0012206DA2738DF4002B3E3ED2",
+          "source": "assets/sources/draw.png",
+          "sourceSha256": "5AD2F405C5D3431AC7DED62DAE948D1492D6C3F591D1E0D58A4AEC1E65D956A8",
+          "sourceRect": {
+            "left": 36,
+            "top": 634,
+            "width": 591,
+            "height": 558
+          },
+          "sourceFoot": [
+            407,
+            1186
+          ],
+          "sourceGrip": [
+            609,
+            751
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 471.2,
+            "y": 389
+          },
+          "hand": {
+            "x": 314.6,
+            "y": 390.2
+          },
+          "tip": {
+            "x": 485.722,
+            "y": 375.59400000000005
+          },
+          "upperTip": {
+            "x": 401.185,
+            "y": 245.58
+          },
+          "lowerTip": {
+            "x": 410.392,
+            "y": 565.0350000000001
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 0,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/draw-3.png",
+          "sha256": "36E41DF41315622E383D9F505EC0017AA0BC2181147A36AB5B301B61E17565DE",
+          "source": "assets/sources/draw.png",
+          "sourceSha256": "5AD2F405C5D3431AC7DED62DAE948D1492D6C3F591D1E0D58A4AEC1E65D956A8",
+          "sourceRect": {
+            "left": 663,
+            "top": 633,
+            "width": 570,
+            "height": 559
+          },
+          "sourceFoot": [
+            1045,
+            1185
+          ],
+          "sourceGrip": [
+            1214,
+            754
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 451.4,
+            "y": 391.40000000000003
+          },
+          "hand": {
+            "x": 302,
+            "y": 389
+          },
+          "tip": {
+            "x": 465.722,
+            "y": 377.59400000000005
+          },
+          "upperTip": {
+            "x": 381.185,
+            "y": 247.58
+          },
+          "lowerTip": {
+            "x": 390.392,
+            "y": 567.0350000000001
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 0,
+            "redrawnPixels": 0
+          }
+        }
+      ]
+    },
+    "release": {
+      "atlas": "assets/atlases/release.png",
+      "sha256": "0284153750188CE587442E5D73C6F2498F08F6E5096B2DF6332DA32D3ED0A8A6",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 4,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/release-0.png",
+          "sha256": "9078D87574855FACE93AFDE9503CE72AAAC957CC598287099D72ED4724F35379",
+          "source": "assets/sources/release.png",
+          "sourceSha256": "543BBB642A7CC0BB78A722BE5BEB263147FCBEDAB3440CE2052F049BC523F3A2",
+          "sourceRect": {
+            "left": 25,
+            "top": 2,
+            "width": 598,
+            "height": 628
+          },
+          "sourceFoot": [
+            403,
+            621
+          ],
+          "sourceGrip": [
+            601,
+            154
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 466.8524590163934,
+            "y": 374.39344262295083
+          },
+          "hand": {
+            "x": 300.42622950819674,
+            "y": 355.5081967213115
+          },
+          "tip": {
+            "x": 480.722,
+            "y": 360.59400000000005
+          },
+          "upperTip": {
+            "x": 396.185,
+            "y": 230.58
+          },
+          "lowerTip": {
+            "x": 405.392,
+            "y": 550.0350000000001
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 0,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/release-1.png",
+          "sha256": "AB37822EDD4D2B9273CE3BBAA6EA8E5860086E82813C673B2153499C0DF764A5",
+          "source": "assets/sources/release.png",
+          "sourceSha256": "543BBB642A7CC0BB78A722BE5BEB263147FCBEDAB3440CE2052F049BC523F3A2",
+          "sourceRect": {
+            "left": 645,
+            "top": 4,
+            "width": 588,
+            "height": 627
+          },
+          "sourceFoot": [
+            1002,
+            623
+          ],
+          "sourceGrip": [
+            1207,
+            164
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 470.983606557377,
+            "y": 379.11475409836066
+          },
+          "hand": {
+            "x": 322.26229508196724,
+            "y": 357.27868852459017
+          },
+          "tip": {
+            "x": 484.722,
+            "y": 365.59400000000005
+          },
+          "upperTip": {
+            "x": 400.185,
+            "y": 235.58
+          },
+          "lowerTip": {
+            "x": 409.392,
+            "y": 555.0350000000001
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 0,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/release-2.png",
+          "sha256": "06D74495913F9212619DFFC50AF8329F9AB80D4515D190A582134ED5CB72C7C5",
+          "source": "assets/sources/release.png",
+          "sourceSha256": "543BBB642A7CC0BB78A722BE5BEB263147FCBEDAB3440CE2052F049BC523F3A2",
+          "sourceRect": {
+            "left": 47,
+            "top": 615,
+            "width": 554,
+            "height": 610
+          },
+          "sourceFoot": [
+            416,
+            1216
+          ],
+          "sourceGrip": [
+            552,
+            782
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 430.2622950819672,
+            "y": 393.8688524590164
+          },
+          "hand": {
+            "x": 322.8524590163934,
+            "y": 389.1475409836066
+          },
+          "tip": {
+            "x": 445.93622133297174,
+            "y": 382.7901603136114
+          },
+          "upperTip": {
+            "x": 380.31638115398755,
+            "y": 242.27617118838378
+          },
+          "lowerTip": {
+            "x": 344.9742362956935,
+            "y": 559.9036238287615
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 8,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/release-3.png",
+          "sha256": "695FF902E50B9B5DCE120E4D7ADB51ECBD45039D11A49C37681E3D8D87381821",
+          "source": "assets/sources/release.png",
+          "sourceSha256": "543BBB642A7CC0BB78A722BE5BEB263147FCBEDAB3440CE2052F049BC523F3A2",
+          "sourceRect": {
+            "left": 656,
+            "top": 612,
+            "width": 521,
+            "height": 613
+          },
+          "sourceFoot": [
+            1016,
+            1216
+          ],
+          "sourceGrip": [
+            1078,
+            777
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 386.59016393442624,
+            "y": 390.91803278688525
+          },
+          "hand": {
+            "x": 304.55737704918033,
+            "y": 427.5081967213115
+          },
+          "tip": {
+            "x": 403.77271534313115,
+            "y": 381.1268781084787
+          },
+          "upperTip": {
+            "x": 353.2000588654324,
+            "y": 234.5234982641222
+          },
+          "lowerTip": {
+            "x": 284.85041245846367,
+            "y": 546.7166943944068
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 14,
+            "redrawnPixels": 0
+          }
+        }
+      ]
+    },
+    "dash": {
+      "atlas": "assets/atlases/dash.png",
+      "sha256": "0D50E4A5E42628CB2B58A7636C31271C07497EDBAD47E7B36C1C4C10F9FA1E73",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 4,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/dash-0.png",
+          "sha256": "81E34D9F1BAF0DE9D5CD2C231563B83DE65BB57D8AAA57B7D4881E9031FF62A0",
+          "source": "assets/sources/dash.png",
+          "sourceSha256": "4DDB95502E001F74277C35723CAFAD52C84FEE53B83901BF8D9ED0B0523DA918",
+          "sourceRect": {
+            "left": 24,
+            "top": 68,
+            "width": 605,
+            "height": 520
+          },
+          "sourceFoot": [
+            379,
+            582
+          ],
+          "sourceGrip": [
+            562,
+            244
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 458,
+            "y": 450.5245901639344
+          },
+          "hand": {
+            "x": 321.08196721311475,
+            "y": 437.54098360655735
+          },
+          "tip": {
+            "x": 469.01890285569965,
+            "y": 434.1302907970677
+          },
+          "upperTip": {
+            "x": 359.2978085624857,
+            "y": 324.53363924192354
+          },
+          "lowerTip": {
+            "x": 434.7220427126292,
+            "y": 635.0935380969823
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": -12,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/dash-1.png",
+          "sha256": "A9B552B3A3D8301F5A187B68B4182D3173E6D0F5CE02086F3963F2E126A8A410",
+          "source": "assets/sources/dash.png",
+          "sourceSha256": "4DDB95502E001F74277C35723CAFAD52C84FEE53B83901BF8D9ED0B0523DA918",
+          "sourceRect": {
+            "left": 636,
+            "top": 67,
+            "width": 603,
+            "height": 524
+          },
+          "sourceFoot": [
+            924,
+            589
+          ],
+          "sourceGrip": [
+            1219,
+            251
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 524.0983606557377,
+            "y": 450.5245901639344
+          },
+          "hand": {
+            "x": 436.75409836065575,
+            "y": 429.8688524590164
+          },
+          "tip": {
+            "x": 532.0837480452873,
+            "y": 432.3155531435529
+          },
+          "upperTip": {
+            "x": 404.9983048953984,
+            "y": 343.43678906350755
+          },
+          "lowerTip": {
+            "x": 533.2048359440751,
+            "y": 636.1813044185603
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": -22,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/dash-2.png",
+          "sha256": "EE1D565A8611EB3B199AA64021D92DD86A991C68095357BF6621C6D0B9FA5C76",
+          "source": "assets/sources/dash.png",
+          "sourceSha256": "4DDB95502E001F74277C35723CAFAD52C84FEE53B83901BF8D9ED0B0523DA918",
+          "sourceRect": {
+            "left": 26,
+            "top": 643,
+            "width": 599,
+            "height": 520
+          },
+          "sourceFoot": [
+            300,
+            1157
+          ],
+          "sourceGrip": [
+            610,
+            806
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 532.9508196721312,
+            "y": 442.8524590163935
+          },
+          "hand": {
+            "x": 440.88524590163934,
+            "y": 437.54098360655735
+          },
+          "tip": {
+            "x": 540.5336921465,
+            "y": 424.3959706089802
+          },
+          "upperTip": {
+            "x": 408.97086007182736,
+            "y": 342.29014997797066
+          },
+          "lowerTip": {
+            "x": 552.3227526714489,
+            "y": 627.9236577499171
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": -25,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/dash-3.png",
+          "sha256": "283B54B351C084852ED439BC471F2247F7C0D4764B9EB51530D6F5D4F0A76BF2",
+          "source": "assets/sources/dash.png",
+          "sourceSha256": "4DDB95502E001F74277C35723CAFAD52C84FEE53B83901BF8D9ED0B0523DA918",
+          "sourceRect": {
+            "left": 627,
+            "top": 673,
+            "width": 612,
+            "height": 514
+          },
+          "sourceFoot": [
+            1058,
+            1183
+          ],
+          "sourceGrip": [
+            1219,
+            844
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 445.016393442623,
+            "y": 449.9344262295082
+          },
+          "hand": {
+            "x": 325.21311475409834,
+            "y": 457.60655737704917
+          },
+          "tip": {
+            "x": 456.89034602026845,
+            "y": 434.960462096301
+          },
+          "upperTip": {
+            "x": 355.0816027448404,
+            "y": 317.9770258427955
+          },
+          "lowerTip": {
+            "x": 408.6585438209417,
+            "y": 633.0417450020946
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": -8,
+            "redrawnPixels": 0
+          }
+        }
+      ]
+    },
+    "ultimate": {
+      "atlas": "assets/atlases/ultimate.png",
+      "sha256": "A063DC0F1779DFF743A9383CF214B22A8E33CC41A54439E69D9EF702BC725511",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 4,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/ultimate-0.png",
+          "sha256": "0F5F276A0E896563DC5F50973BFB1B2B47ECA647CF9557C048D675CF4B09D613",
+          "source": "assets/sources/ultimate.png",
+          "sourceSha256": "E362FB62139B2A5E11430358AF563F5DF796BC51C7338C8451E0C3990CEB2327",
+          "sourceRect": {
+            "left": 21,
+            "top": 10,
+            "width": 570,
+            "height": 615
+          },
+          "sourceFoot": [
+            354,
+            622
+          ],
+          "sourceGrip": [
+            573,
+            148
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 479.24590163934425,
+            "y": 370.26229508196724
+          },
+          "hand": {
+            "x": 310.45901639344265,
+            "y": 365.5409836065574
+          },
+          "tip": {
+            "x": 493.722,
+            "y": 356.59400000000005
+          },
+          "upperTip": {
+            "x": 409.185,
+            "y": 226.58
+          },
+          "lowerTip": {
+            "x": 418.392,
+            "y": 546.0350000000001
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 0,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/ultimate-1.png",
+          "sha256": "D7942082A421789557499CADE253096F69B11C6043DF47D114ADB7B57EB77630",
+          "source": "assets/sources/ultimate.png",
+          "sourceSha256": "E362FB62139B2A5E11430358AF563F5DF796BC51C7338C8451E0C3990CEB2327",
+          "sourceRect": {
+            "left": 636,
+            "top": 16,
+            "width": 596,
+            "height": 609
+          },
+          "sourceFoot": [
+            1007,
+            622
+          ],
+          "sourceGrip": [
+            1138,
+            43
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 427.3114754098361,
+            "y": 308.2950819672131
+          },
+          "hand": {
+            "x": 263.8360655737705,
+            "y": 396.8196721311475
+          },
+          "tip": {
+            "x": 432.51905785885003,
+            "y": 289.10566967820705
+          },
+          "upperTip": {
+            "x": 294.3008682991249,
+            "y": 218.77874283057702
+          },
+          "lowerTip": {
+            "x": 462.0018641917682,
+            "y": 490.83138819653493
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": -30,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/ultimate-2.png",
+          "sha256": "37162226DB6F8E76A2C3DAEA182398E7CB3FD6041ED682C03C2E1F164CE893FD",
+          "source": "assets/sources/ultimate.png",
+          "sourceSha256": "E362FB62139B2A5E11430358AF563F5DF796BC51C7338C8451E0C3990CEB2327",
+          "sourceRect": {
+            "left": 4,
+            "top": 623,
+            "width": 626,
+            "height": 605
+          },
+          "sourceFoot": [
+            402,
+            1222
+          ],
+          "sourceGrip": [
+            546,
+            652
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 434.983606557377,
+            "y": 313.60655737704917
+          },
+          "hand": {
+            "x": 257.344262295082,
+            "y": 387.9672131147541
+          },
+          "tip": {
+            "x": 435.49121269582133,
+            "y": 293.629530070222
+          },
+          "upperTip": {
+            "x": 283.7807456854664,
+            "y": 261.4724349822014
+          },
+          "lowerTip": {
+            "x": 516.1798746037995,
+            "y": 480.8508996317654
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": -45,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/ultimate-3.png",
+          "sha256": "21FE179DDD3E6E4F16F9FEB6BC7185399C9D62C691D372C174BCA11438C8F497",
+          "source": "assets/sources/ultimate.png",
+          "sourceSha256": "E362FB62139B2A5E11430358AF563F5DF796BC51C7338C8451E0C3990CEB2327",
+          "sourceRect": {
+            "left": 629,
+            "top": 669,
+            "width": 611,
+            "height": 556
+          },
+          "sourceFoot": [
+            1031,
+            1220
+          ],
+          "sourceGrip": [
+            1215,
+            828
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 458.59016393442624,
+            "y": 418.655737704918
+          },
+          "hand": {
+            "x": 270.327868852459,
+            "y": 437.54098360655735
+          },
+          "tip": {
+            "x": 470.89034602026845,
+            "y": 402.960462096301
+          },
+          "upperTip": {
+            "x": 369.0816027448404,
+            "y": 285.9770258427955
+          },
+          "lowerTip": {
+            "x": 422.6585438209417,
+            "y": 601.0417450020946
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": -8,
+            "redrawnPixels": 0
+          }
+        }
+      ]
+    },
+    "defeat": {
+      "atlas": "assets/atlases/defeat.png",
+      "sha256": "6FE88F54A22CD9C6A726C9FC1E8CC5BAF38913A3AC2A5444388F21FA685A6E75",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 768,
+      "frameCount": 4,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/defeat-0.png",
+          "sha256": "2A007E2F07B5B440E30D466D7B28429ACCD987561A49B8F19C012A3E82564EDC",
+          "source": "assets/sources/defeat.png",
+          "sourceSha256": "F94DA8FF1830237B505850A38F586C9AA1D1F65BA80ABBE96A5D04935B388484",
+          "sourceRect": {
+            "left": 40,
+            "top": 8,
+            "width": 595,
+            "height": 628
+          },
+          "sourceFoot": [
+            415,
+            634
+          ],
+          "sourceGrip": [
+            500,
+            195
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 399.35483870967744,
+            "y": 395.09677419354836
+          },
+          "hand": {
+            "x": 309.35483870967744,
+            "y": 384.64516129032256
+          },
+          "tip": {
+            "x": 414.93622133297174,
+            "y": 383.7901603136114
+          },
+          "upperTip": {
+            "x": 349.31638115398755,
+            "y": 243.27617118838378
+          },
+          "lowerTip": {
+            "x": 313.9742362956935,
+            "y": 560.9036238287615
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 8,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/defeat-1.png",
+          "sha256": "EECECE40D77C470ABF5B2A5177BF8E44C8C2932D3245112DA28CCC74D9FF24CF",
+          "source": "assets/sources/defeat.png",
+          "sourceSha256": "F94DA8FF1830237B505850A38F586C9AA1D1F65BA80ABBE96A5D04935B388484",
+          "sourceRect": {
+            "left": 652,
+            "top": 84,
+            "width": 571,
+            "height": 563
+          },
+          "sourceFoot": [
+            1071,
+            643
+          ],
+          "sourceGrip": [
+            1163,
+            370
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 403.4193548387097,
+            "y": 491.48387096774195
+          },
+          "hand": {
+            "x": 305.2903225806452,
+            "y": 456.64516129032256
+          },
+          "tip": {
+            "x": 421.96609909425325,
+            "y": 485.20856360685707
+          },
+          "upperTip": {
+            "x": 400.29584838349126,
+            "y": 331.64898299030057
+          },
+          "lowerTip": {
+            "x": 273.63270737436255,
+            "y": 625.0645834339402
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 25,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/defeat-2.png",
+          "sha256": "AF987CF779FC6C454B083D5986394B287F93C4B71C3DC16728741A6F8FFAD207",
+          "source": "assets/sources/defeat.png",
+          "sourceSha256": "F94DA8FF1830237B505850A38F586C9AA1D1F65BA80ABBE96A5D04935B388484",
+          "sourceRect": {
+            "left": 18,
+            "top": 701,
+            "width": 622,
+            "height": 518
+          },
+          "sourceFoot": [
+            483,
+            1214
+          ],
+          "sourceGrip": [
+            533,
+            1000
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 379.03225806451616,
+            "y": 525.741935483871
+          },
+          "hand": {
+            "x": 329.0967741935484,
+            "y": 526.3225806451612
+          },
+          "tip": {
+            "x": 397.82377716750335,
+            "y": 531.0839354543491
+          },
+          "upperTip": {
+            "x": 463.2841175007025,
+            "y": 390.49557032955744
+          },
+          "lowerTip": {
+            "x": 197.24987960884653,
+            "y": 567.5889077064882
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 58,
+            "redrawnPixels": 0
+          }
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/defeat-3.png",
+          "sha256": "16526E6D2F4D1FD02D52D480BAF84B4852FD9381FC7235878A5A2AF3DB1AECA2",
+          "source": "assets/sources/defeat.png",
+          "sourceSha256": "F94DA8FF1830237B505850A38F586C9AA1D1F65BA80ABBE96A5D04935B388484",
+          "sourceRect": {
+            "left": 640,
+            "top": 804,
+            "width": 606,
+            "height": 409
+          },
+          "sourceFoot": [
+            1058,
+            1214
+          ],
+          "sourceGrip": [
+            1116,
+            1128
+          ],
+          "footAnchor": {
+            "x": 0.4557291666666667,
+            "y": 0.8463541666666666
+          },
+          "bodyPixels": 360,
+          "grip": {
+            "x": 383.6774193548387,
+            "y": 600.0645161290322
+          },
+          "hand": {
+            "x": 352.9032258064516,
+            "y": 608.7741935483871
+          },
+          "tip": {
+            "x": 400.63130968345394,
+            "y": 610.6596757438084
+          },
+          "upperTip": {
+            "x": 504.3354044467691,
+            "y": 495.35310483685026
+          },
+          "lowerTip": {
+            "x": 198.14851655785367,
+            "y": 586.9274219727195
+          },
+          "weapon": {
+            "sha256": "A659CE4F93FF360284F966403D4E69EE717328D666C635CE729EE926EFD1EDA7",
+            "uniformScale": 0.279,
+            "rotationDegrees": 75,
+            "redrawnPixels": 0
+          }
+        }
+      ]
+    }
+  },
+  "effects": {
+    "aura": {
+      "atlas": "assets/atlases/fx-aura.png",
+      "sha256": "A63E286B73F877DB576C9872136291443EAA81663EDCE0304AC94DADD7872608",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 675,
+      "frameCount": 12,
+      "sources": [
+        {
+          "path": "assets/sources/aura-red-1.png",
+          "sha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "width": 1254,
+          "height": 1254
+        },
+        {
+          "path": "assets/sources/aura-red-2.png",
+          "sha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "width": 1254,
+          "height": 1254
+        },
+        {
+          "path": "assets/sources/aura-red-3.png",
+          "sha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "width": 1254,
+          "height": 1254
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-aura-0.png",
+          "sha256": "6F10B6E21EDED84FE1A49D09514E8CEAD433C9574C34E5001D613839F5FE270B",
+          "source": "assets/sources/aura-red-1.png",
+          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-aura-1.png",
+          "sha256": "C0633E76154364C66A0D1F5E351BF6A983F24865EF345467A7CB22C723CAED07",
+          "source": "assets/sources/aura-red-1.png",
+          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-aura-2.png",
+          "sha256": "99720BE0E4DDCA18FCABD2010383C7E4B9D5688D6824BAD6245D93012A01E238",
+          "source": "assets/sources/aura-red-1.png",
+          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-aura-3.png",
+          "sha256": "81722EF59912AB0DD9916BB9DD479C79E1EE49535D9604C71A2815B824686353",
+          "source": "assets/sources/aura-red-1.png",
+          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-aura-4.png",
+          "sha256": "C5F458E3012E7F1C7930D3B1918C84D4D9A256CEFA315ECF6F4278168FFC5A13",
+          "source": "assets/sources/aura-red-2.png",
+          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-aura-5.png",
+          "sha256": "3CD2C56BC9239E54491E0BD943328B72F30F047F8F76F570A240194B910E63E3",
+          "source": "assets/sources/aura-red-2.png",
+          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-aura-6.png",
+          "sha256": "22FFE5CF762667D8080B4198DE91D6D13709D3B73374267C0AE9181BC9C01323",
+          "source": "assets/sources/aura-red-2.png",
+          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-aura-7.png",
+          "sha256": "EC572676779C23A348BC9FB77B77855A1BB44765D6CDECEC728B3E5EADD406C5",
+          "source": "assets/sources/aura-red-2.png",
+          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-aura-8.png",
+          "sha256": "F38FEF0F8D4AE84DFE0A4EBE26439F5D64AE747B5FC6AC76BB5C8C3589651E67",
+          "source": "assets/sources/aura-red-3.png",
+          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-aura-9.png",
+          "sha256": "7F4AB6465407B360B5A58EAF1A48A1C7A6C5A7BC9C61971A69A4E0FFFCCA0C54",
+          "source": "assets/sources/aura-red-3.png",
+          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-aura-10.png",
+          "sha256": "96B3159F8C4D7D70052B3AD494679D5656438847AF4B8939361DDE96ADE85DCF",
+          "source": "assets/sources/aura-red-3.png",
+          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-aura-11.png",
+          "sha256": "6BA7E1F361C3A8E83E7EBD44F2BA12BB0CBCBAD6F819583F3D9601EEEB0D05F0",
+          "source": "assets/sources/aura-red-3.png",
+          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ]
+    },
+    "aura-rear": {
+      "atlas": "assets/atlases/fx-aura-rear.png",
+      "sha256": "16D548D91DC9F337DCFFC32A44BDCEAC8C185C46DA75E10B27195D76AE99542E",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 675,
+      "frameCount": 12,
+      "sources": [
+        {
+          "path": "assets/sources/aura-red-1.png",
+          "sha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "width": 1254,
+          "height": 1254
+        },
+        {
+          "path": "assets/sources/aura-red-2.png",
+          "sha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "width": 1254,
+          "height": 1254
+        },
+        {
+          "path": "assets/sources/aura-red-3.png",
+          "sha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "width": 1254,
+          "height": 1254
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-aura-0.png",
+          "sha256": "6F10B6E21EDED84FE1A49D09514E8CEAD433C9574C34E5001D613839F5FE270B",
+          "source": "assets/sources/aura-red-1.png",
+          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-aura-1.png",
+          "sha256": "C0633E76154364C66A0D1F5E351BF6A983F24865EF345467A7CB22C723CAED07",
+          "source": "assets/sources/aura-red-1.png",
+          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-aura-2.png",
+          "sha256": "99720BE0E4DDCA18FCABD2010383C7E4B9D5688D6824BAD6245D93012A01E238",
+          "source": "assets/sources/aura-red-1.png",
+          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-aura-3.png",
+          "sha256": "81722EF59912AB0DD9916BB9DD479C79E1EE49535D9604C71A2815B824686353",
+          "source": "assets/sources/aura-red-1.png",
+          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-aura-4.png",
+          "sha256": "C5F458E3012E7F1C7930D3B1918C84D4D9A256CEFA315ECF6F4278168FFC5A13",
+          "source": "assets/sources/aura-red-2.png",
+          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-aura-5.png",
+          "sha256": "3CD2C56BC9239E54491E0BD943328B72F30F047F8F76F570A240194B910E63E3",
+          "source": "assets/sources/aura-red-2.png",
+          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-aura-6.png",
+          "sha256": "22FFE5CF762667D8080B4198DE91D6D13709D3B73374267C0AE9181BC9C01323",
+          "source": "assets/sources/aura-red-2.png",
+          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-aura-7.png",
+          "sha256": "EC572676779C23A348BC9FB77B77855A1BB44765D6CDECEC728B3E5EADD406C5",
+          "source": "assets/sources/aura-red-2.png",
+          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-aura-8.png",
+          "sha256": "F38FEF0F8D4AE84DFE0A4EBE26439F5D64AE747B5FC6AC76BB5C8C3589651E67",
+          "source": "assets/sources/aura-red-3.png",
+          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-aura-9.png",
+          "sha256": "7F4AB6465407B360B5A58EAF1A48A1C7A6C5A7BC9C61971A69A4E0FFFCCA0C54",
+          "source": "assets/sources/aura-red-3.png",
+          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-aura-10.png",
+          "sha256": "96B3159F8C4D7D70052B3AD494679D5656438847AF4B8939361DDE96ADE85DCF",
+          "source": "assets/sources/aura-red-3.png",
+          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-aura-11.png",
+          "sha256": "6BA7E1F361C3A8E83E7EBD44F2BA12BB0CBCBAD6F819583F3D9601EEEB0D05F0",
+          "source": "assets/sources/aura-red-3.png",
+          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "derivedFrom": "aura",
+      "alphaPartition": "rear"
+    },
+    "aura-front": {
+      "atlas": "assets/atlases/fx-aura-front.png",
+      "sha256": "B1B873CB43FC76AF148539BB504E393F849BA6F7229F3B953272957F81E3D119",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 675,
+      "frameCount": 12,
+      "sources": [
+        {
+          "path": "assets/sources/aura-red-1.png",
+          "sha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "width": 1254,
+          "height": 1254
+        },
+        {
+          "path": "assets/sources/aura-red-2.png",
+          "sha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "width": 1254,
+          "height": 1254
+        },
+        {
+          "path": "assets/sources/aura-red-3.png",
+          "sha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "width": 1254,
+          "height": 1254
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-aura-0.png",
+          "sha256": "6F10B6E21EDED84FE1A49D09514E8CEAD433C9574C34E5001D613839F5FE270B",
+          "source": "assets/sources/aura-red-1.png",
+          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-aura-1.png",
+          "sha256": "C0633E76154364C66A0D1F5E351BF6A983F24865EF345467A7CB22C723CAED07",
+          "source": "assets/sources/aura-red-1.png",
+          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-aura-2.png",
+          "sha256": "99720BE0E4DDCA18FCABD2010383C7E4B9D5688D6824BAD6245D93012A01E238",
+          "source": "assets/sources/aura-red-1.png",
+          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-aura-3.png",
+          "sha256": "81722EF59912AB0DD9916BB9DD479C79E1EE49535D9604C71A2815B824686353",
+          "source": "assets/sources/aura-red-1.png",
+          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-aura-4.png",
+          "sha256": "C5F458E3012E7F1C7930D3B1918C84D4D9A256CEFA315ECF6F4278168FFC5A13",
+          "source": "assets/sources/aura-red-2.png",
+          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-aura-5.png",
+          "sha256": "3CD2C56BC9239E54491E0BD943328B72F30F047F8F76F570A240194B910E63E3",
+          "source": "assets/sources/aura-red-2.png",
+          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-aura-6.png",
+          "sha256": "22FFE5CF762667D8080B4198DE91D6D13709D3B73374267C0AE9181BC9C01323",
+          "source": "assets/sources/aura-red-2.png",
+          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-aura-7.png",
+          "sha256": "EC572676779C23A348BC9FB77B77855A1BB44765D6CDECEC728B3E5EADD406C5",
+          "source": "assets/sources/aura-red-2.png",
+          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-aura-8.png",
+          "sha256": "F38FEF0F8D4AE84DFE0A4EBE26439F5D64AE747B5FC6AC76BB5C8C3589651E67",
+          "source": "assets/sources/aura-red-3.png",
+          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-aura-9.png",
+          "sha256": "7F4AB6465407B360B5A58EAF1A48A1C7A6C5A7BC9C61971A69A4E0FFFCCA0C54",
+          "source": "assets/sources/aura-red-3.png",
+          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-aura-10.png",
+          "sha256": "96B3159F8C4D7D70052B3AD494679D5656438847AF4B8939361DDE96ADE85DCF",
+          "source": "assets/sources/aura-red-3.png",
+          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-aura-11.png",
+          "sha256": "6BA7E1F361C3A8E83E7EBD44F2BA12BB0CBCBAD6F819583F3D9601EEEB0D05F0",
+          "source": "assets/sources/aura-red-3.png",
+          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "derivedFrom": "aura",
+      "alphaPartition": "front"
+    },
+    "shot": {
+      "atlas": "assets/atlases/fx-shot.png",
+      "sha256": "FCC3FBA8B2AE28E98AD54DECB3ACB320B76D7AE4BD90F7A6A2F1946E7E132CCA",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 410,
+      "frameCount": 12,
+      "sources": [
+        {
+          "path": "assets/sources/fx-shot.png",
+          "sha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-shot-0.png",
+          "sha256": "3759D4C26E69F4CF565C7D956C31396CD9A9618F261FF1CA747C2143119A00A6",
+          "source": "assets/sources/fx-shot.png",
+          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-shot-1.png",
+          "sha256": "4A497A69BCCFD852535A30EDD9ED923A1450416BD63F17D8918EFE003F92C165",
+          "source": "assets/sources/fx-shot.png",
+          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-shot-2.png",
+          "sha256": "F329CC9255E3FA002883AA92E18C4E91909EF69A900985A933C09FEC688A0403",
+          "source": "assets/sources/fx-shot.png",
+          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-shot-3.png",
+          "sha256": "0E425DD4C04D9DC9791E7B7F3DAB1255769C5C3FE3C409A1843A0BAA632ABC5F",
+          "source": "assets/sources/fx-shot.png",
+          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-shot-4.png",
+          "sha256": "2C124D339EB32F69AED3FD786DD433A69E18CBEB5E6867B32C99AAB953A43B56",
+          "source": "assets/sources/fx-shot.png",
+          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-shot-5.png",
+          "sha256": "9FC441A42FE79112F5799C1F5BA63BD8A4955DB3028836C227893CA94569EC1B",
+          "source": "assets/sources/fx-shot.png",
+          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-shot-6.png",
+          "sha256": "DA20F4482D29248BD1CC33FECAC4C9DEC855A648F6DD02CBC1C2E1F07F55332C",
+          "source": "assets/sources/fx-shot.png",
+          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-shot-7.png",
+          "sha256": "A4A5C891170D9D447431821F48CB1868FECE8B4B751832302A8F054DD941DA08",
+          "source": "assets/sources/fx-shot.png",
+          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-shot-8.png",
+          "sha256": "D13D3179ED1D58DACE555A7F362516AABB5CCFB03A899B8B72E3E521333ADF72",
+          "source": "assets/sources/fx-shot.png",
+          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-shot-9.png",
+          "sha256": "4B6F19E203C63F7036B217C8149A8015AD7E46B036A0E94F9F72AD896AA62F03",
+          "source": "assets/sources/fx-shot.png",
+          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-shot-10.png",
+          "sha256": "38E19A27F7A28164B61CE084B7A9E7A22E32BACE886E578ED32B5DC6A27554FC",
+          "source": "assets/sources/fx-shot.png",
+          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-shot-11.png",
+          "sha256": "E425AEADC86B2878DE4C7AF0A75ABE0192F2C4E5512055E20EBFB21B2DD8DDD4",
+          "source": "assets/sources/fx-shot.png",
+          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ]
+    },
+    "flight": {
+      "atlas": "assets/atlases/fx-flight.png",
+      "sha256": "9181592D0660C11A35BFD2D70A9920F745C086F5841149F212B264B92C84C185",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 410,
+      "frameCount": 12,
+      "sources": [
+        {
+          "path": "assets/sources/fx-flight.png",
+          "sha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-flight-0.png",
+          "sha256": "38544CCD805DE5138B9DE3DFBD8BB00995A7BFD73240BD0177D0AE3233184BA4",
+          "source": "assets/sources/fx-flight.png",
+          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-flight-1.png",
+          "sha256": "11D895B1DD1AFB0E7C215D91F74C947C6E735BE9E6DE862A75E6D445AF51AFC8",
+          "source": "assets/sources/fx-flight.png",
+          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-flight-2.png",
+          "sha256": "61C9E387C20054CA4ACDB94AD4F4BECA03F8680E0361C746B229145E337118FA",
+          "source": "assets/sources/fx-flight.png",
+          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-flight-3.png",
+          "sha256": "4BDD27357C944E99E6538AEBC90F343211C97F12D4EA5824E90DFDC37DB0E039",
+          "source": "assets/sources/fx-flight.png",
+          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-flight-4.png",
+          "sha256": "CED7532552BB86B65EEDD561921D97BA0D0033F78BE411F557EEF083E89E4613",
+          "source": "assets/sources/fx-flight.png",
+          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-flight-5.png",
+          "sha256": "A039F8BE3B30504417DCA054C9F5E0E66E6476B9DAE2D55FE18AE18C441D15C3",
+          "source": "assets/sources/fx-flight.png",
+          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-flight-6.png",
+          "sha256": "DA695AA46C1DCC7F6FC1A40CB5E359F301BB1B56A8089DBAA295029FC998AD73",
+          "source": "assets/sources/fx-flight.png",
+          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-flight-7.png",
+          "sha256": "864C3499D7183B2B0D4A2913EB4C0134EFB35A583B751EE1FDB1F39DCF2CE1E6",
+          "source": "assets/sources/fx-flight.png",
+          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-flight-8.png",
+          "sha256": "2EA6873DBB6E68BE729C087D050E8CB02AF4BB9D610E2E7445FA78554899A985",
+          "source": "assets/sources/fx-flight.png",
+          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-flight-9.png",
+          "sha256": "BC92C2DC1FC2A9CD4489B81430E1DC165E30060FDFEF794D89826785DF523625",
+          "source": "assets/sources/fx-flight.png",
+          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-flight-10.png",
+          "sha256": "8B53DF81AD9AEBBF1912882FB7306053282462662006914E94D3E900551B1A48",
+          "source": "assets/sources/fx-flight.png",
+          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-flight-11.png",
+          "sha256": "7E9CF45DBE34D63F23022288B79D12DDC48B48319012DE2652C4AED06A2C036D",
+          "source": "assets/sources/fx-flight.png",
+          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ]
+    },
+    "descent": {
+      "atlas": "assets/atlases/fx-descent.png",
+      "sha256": "BCBD1A0C8975599EFE61BF04B6062BD93DE634498B2742E349CE8D487FF7CFC1",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 410,
+      "frameCount": 12,
+      "sources": [
+        {
+          "path": "assets/sources/fx-descent.png",
+          "sha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-descent-0.png",
+          "sha256": "209E901AE84C33B7D7974B240A7DA372754F5766185F1A45141B40DB76EF4FD7",
+          "source": "assets/sources/fx-descent.png",
+          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-descent-1.png",
+          "sha256": "E46A5E38BB4700CBAECEB0B94BC590FB43C4F70BA16B3285887CD60DDEC98AD5",
+          "source": "assets/sources/fx-descent.png",
+          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-descent-2.png",
+          "sha256": "7FB29F971EB76A6DD8E93AE3D799479D68C7E8349DF9584426F5D7BFCF580961",
+          "source": "assets/sources/fx-descent.png",
+          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-descent-3.png",
+          "sha256": "E6A3A414D90E104BB6597C055D8D3074EA6397854CD6AE0BA2CFF0103FFE6A9A",
+          "source": "assets/sources/fx-descent.png",
+          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-descent-4.png",
+          "sha256": "3111AAAFF9F97CEDED3808268D89D8525D9BB8D3EBC6CF6C867B9A1BD7E36A9F",
+          "source": "assets/sources/fx-descent.png",
+          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-descent-5.png",
+          "sha256": "2A2F73A7DA4B75213A1E07D93E3273FF5F728A0A7AF174370ADA97AD4E7675F9",
+          "source": "assets/sources/fx-descent.png",
+          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-descent-6.png",
+          "sha256": "B7581A7DABAC1F370092624D79F92DDDD2C753F2079AA772C709744DB365FAA2",
+          "source": "assets/sources/fx-descent.png",
+          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-descent-7.png",
+          "sha256": "F60E89F74897172824050845F50779062595DCAE84B60270D30D5F0957985543",
+          "source": "assets/sources/fx-descent.png",
+          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-descent-8.png",
+          "sha256": "F766342FF9EC60F851B1939804299DB233D2D07586E8AE34706CAB9B0CE392A8",
+          "source": "assets/sources/fx-descent.png",
+          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-descent-9.png",
+          "sha256": "3757FB8643EE11C6440C6AFB00BCBC159BB615F8A213CDBFE686F1AFD526DE49",
+          "source": "assets/sources/fx-descent.png",
+          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-descent-10.png",
+          "sha256": "6CB54ECDF4BEB497860CA6A84D3D1B5B2A81AE15ADA8512C48558E3193CC4083",
+          "source": "assets/sources/fx-descent.png",
+          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-descent-11.png",
+          "sha256": "DAA5A2E9FA78AD9DB7F2DDA654A2F8CC7D4334E480A84B09C8B071FCC23CDBEA",
+          "source": "assets/sources/fx-descent.png",
+          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        }
+      ]
+    },
+    "ground": {
+      "atlas": "assets/atlases/fx-ground.png",
+      "sha256": "3E9CE9865E800AC1EB7FA36DA610166D29D4BCAEB4D7E9D391549E962AC52905",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 410,
+      "frameCount": 12,
+      "sources": [
+        {
+          "path": "assets/sources/fx-ground.png",
+          "sha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-ground-0.png",
+          "sha256": "39D885A2DE546F24BB583DBA4D92C308D8E98B93C285132514CDFAF47AA3D652",
+          "source": "assets/sources/fx-ground.png",
+          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-ground-1.png",
+          "sha256": "FB1B41C7917CBE08956731DB483D1D66924C0EB58BA6BB8DC8F9CA92168C3A9E",
+          "source": "assets/sources/fx-ground.png",
+          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-ground-2.png",
+          "sha256": "0AB3344D65F13B70C9D3765139DC14AC0457904C4B411D052D05CEFD947E442F",
+          "source": "assets/sources/fx-ground.png",
+          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-ground-3.png",
+          "sha256": "35DF57A27F4DDBA342F342E3C04376CF3E42B1A525B9AFC956194C6F433B02F8",
+          "source": "assets/sources/fx-ground.png",
+          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-ground-4.png",
+          "sha256": "AABD405CA30C1ABBA3EE1A688CBADA51ADC56840B8830BE5DF71F2DD84325A9F",
+          "source": "assets/sources/fx-ground.png",
+          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-ground-5.png",
+          "sha256": "A0AEC357B9B1859B2AD9B67010A1FC43DDB434DCA8B0612256CFF5EE10A61732",
+          "source": "assets/sources/fx-ground.png",
+          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-ground-6.png",
+          "sha256": "53B182ACAC78435CC7350A65A080525C97B8FBDD7DDD3C73BD15D4B033E1C4C3",
+          "source": "assets/sources/fx-ground.png",
+          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-ground-7.png",
+          "sha256": "FC38E01E55EDDE2AAD86620B8086C45EFA8F2313E247418E699E755267513CBB",
+          "source": "assets/sources/fx-ground.png",
+          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-ground-8.png",
+          "sha256": "F5534C6BBB88E211392DAFD65D11C73F8543F19F519E81473AEAD53AB37429C8",
+          "source": "assets/sources/fx-ground.png",
+          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-ground-9.png",
+          "sha256": "409746206F075CD5461BC28A5620E2874575CC5C0F00EA5299BD352EEC14521A",
+          "source": "assets/sources/fx-ground.png",
+          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-ground-10.png",
+          "sha256": "33740F75285174F971C3689ACA0AC2A80FB0B36E9F666C06E507BC058EF0CE47",
+          "source": "assets/sources/fx-ground.png",
+          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-ground-11.png",
+          "sha256": "3E379843AD4B3320F9BBB553C80334B0C6E921DE798B9A1C035DE78BFE89C0A7",
+          "source": "assets/sources/fx-ground.png",
+          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7825365853658536
+          }
+        }
+      ]
+    },
+    "array": {
+      "atlas": "assets/atlases/fx-array.png",
+      "sha256": "4B86F062AFD0315E006E03CCEB671B83CFB0209C47D8CA9105A42E550A39EAB0",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 410,
+      "frameCount": 12,
+      "sources": [
+        {
+          "path": "assets/sources/fx-array.png",
+          "sha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/fx-array-0.png",
+          "sha256": "034734844A9B3A022E4AFF2A3780854E3231302E38D2568F90691863CA16C44A",
+          "source": "assets/sources/fx-array.png",
+          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/fx-array-1.png",
+          "sha256": "136B8C0595B3573C829049DD10989B7E7C0E49BDFE05EA28B7A6FEA9984EDEF5",
+          "source": "assets/sources/fx-array.png",
+          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/fx-array-2.png",
+          "sha256": "1A93396697DE20A335D1710C2FD5C99BB942261CA6BCB6BFAF4E286F20B8FC36",
+          "source": "assets/sources/fx-array.png",
+          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/fx-array-3.png",
+          "sha256": "B19468DE662C9B31C677F6124B0C285B2E69BF27CE06695984966E4E8BE90AD6",
+          "source": "assets/sources/fx-array.png",
+          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/fx-array-4.png",
+          "sha256": "DEE23FB775E165FFB84B48A881F4EE54512D4AF4C9BB793384C241AE7E43EEAF",
+          "source": "assets/sources/fx-array.png",
+          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/fx-array-5.png",
+          "sha256": "0629D48AB29D3E9572D61AF8B2907C5098481088CEF3E9CB137D1C0E388C29F8",
+          "source": "assets/sources/fx-array.png",
+          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/fx-array-6.png",
+          "sha256": "6AE5FC1A186709E357810172450890A983217893BE3C0383671B2FAEDDE7A9DB",
+          "source": "assets/sources/fx-array.png",
+          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/fx-array-7.png",
+          "sha256": "6F7CD4779643BA130AC1E48EAEDF2A8AEB466D76D92A0F40E600FF672384088E",
+          "source": "assets/sources/fx-array.png",
+          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/fx-array-8.png",
+          "sha256": "1BAB292C48A08A8BB27680C3DDDBA1E3396EE887A83641C22D8ADDE05E67830E",
+          "source": "assets/sources/fx-array.png",
+          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/fx-array-9.png",
+          "sha256": "65A3C28F5CEB93959E96DAF1DFC45C1E0840A44DFE30805129A55255AD0B49E4",
+          "source": "assets/sources/fx-array.png",
+          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/fx-array-10.png",
+          "sha256": "FD0C29ABF96ACDD65E886FAFD3F38084A412B923974785BD96F2C2492D4DEDE4",
+          "source": "assets/sources/fx-array.png",
+          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/fx-array-11.png",
+          "sha256": "B44DB9BD4A103EC18F3DE26149F573981B5F3D742BC2368FA64FD556896696B2",
+          "source": "assets/sources/fx-array.png",
+          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ]
+    }
+  },
+  "displaySizing": {
+    "fullBodyHeight": 300,
+    "physicalBodyHeight": 300
+  },
+  "runtime": {
+    "engine": "COMMON_V3",
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "clock": "V3_REGISTERED_GSAP"
+  },
+  "audio": {
+    "enabled": false,
+    "reason": "Silent visual review; no synthetic audio"
+  },
+  "auraConcept": "User correction: deeply saturated emissive red Vermilion Bird wings and long tails wrap the character; alpha 1 rear/front layers, gold limited to tiny accents",
+  "exclusions": [
+    {
+      "source": "assets/sources/fx-aura.png",
+      "reason": "Weak transparent orange bird-ring rejected"
+    },
+    {
+      "source": "assets/sources/fx-aura-v2.png",
+      "reason": "Weak color and presence rejected"
+    },
+    {
+      "source": "assets/sources/fx-aura-v3.png",
+      "reason": "Superseded by user requirement for deeply glowing red"
+    },
+    {
+      "source": "assets/sources/fx-aura-v4.png",
+      "reason": "Strong red color direction retained; atlas re-authored in 2x2 sheets for wider alpha margins"
+    }
+  ],
+  "battleSprite": "preview/mercenary-imperial-archer-sss-v1/assets/battle-sprite.png",
+  "battleSpriteSha256": "A29250EFE5CA79E057C7E5C9724D9ADE8F2446416586F495EADD09C8C660CFD8",
+  "battleSpriteFootAnchor": {
+    "x": 0.4557291666666667,
+    "y": 0.8463541666666666
+  },
+  "battleSpriteStatus": "PREVIEW_PREPARED_AWAITING_APPROVAL",
+  "counts": {
+    "motion": 24,
+    "effects": 72,
+    "derivedAuraLayers": 2
+  }
+}

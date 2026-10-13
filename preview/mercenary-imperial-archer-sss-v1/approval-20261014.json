@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-14",
+  "userInstruction": "SSS 용병으로 확정하고 V3 리소스 만들어라 주변 광원효과,아우라,광역기,스킬 모두 화려하고 고급스럽게 만들어",
+  "sourceArt": "assets/sources/source-art-approved.png",
+  "sha256": "211DA5C9AD758CC6167FEF2BD7C997A9CD8EA427C04B6AD37D6613E62277393B",
+  "sourceArtStatus": "APPROVED_SOURCE_ART",
+  "rank": "SSS",
+  "name": null,
+  "code": null,
+  "edition": null,
+  "battleResourceStatus": "BATTLE_VISUAL_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "scope": "첨부 원화와 SSS 등급 확정, V3 전투 리소스 제작. 이름·리미티드 여부·성능·획득·운영 연결은 미정.",
+  "latestAuraInstruction": "진한 발광하는 빨강색으로 해야함",
+  "currentAuraSources": [
+    "assets/sources/aura-red-1.png",
+    "assets/sources/aura-red-2.png",
+    "assets/sources/aura-red-3.png"
+  ],
+  "reviewManifest": "manifest.json",
+  "technicalReview": "qa/runtime-report.json"
+}

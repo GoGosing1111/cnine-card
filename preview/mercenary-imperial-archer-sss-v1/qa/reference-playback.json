@@ -1,0 +1,15 @@
+{
+  "reference": "preview/battle-suit-x-v1/review-v2.webm",
+  "playback": {
+    "playing": true,
+    "time": 4.020442,
+    "duration": 4.135627,
+    "muted": true
+  },
+  "frames": [
+    0.6,
+    1.6,
+    2.6,
+    3.6
+  ]
+}

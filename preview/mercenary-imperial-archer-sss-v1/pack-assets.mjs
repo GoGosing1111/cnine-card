@@ -1,0 +1,48 @@
+import fs from 'node:fs/promises';import sharp from 'sharp';import {fileURLToPath} from 'node:url';import {createHash} from 'node:crypto';
+const file=p=>fileURLToPath(new URL(p,import.meta.url)),hash=b=>createHash('sha256').update(b).digest('hex').toUpperCase(),write=async(p,b)=>fs.writeFile(file(p),b);
+const defs=JSON.parse(await fs.readFile(file('pose-registration.json'))),bow=await fs.readFile(file('assets/locked/approved-bow.png')),locked=JSON.parse(await fs.readFile(file('assets/locked/bow-provenance.json')));
+if(hash(bow)!==locked.sha256)throw Error('Bow hash changed');
+const root='preview/mercenary-imperial-archer-sss-v1/',sourceArt=root+'assets/sources/source-art-approved.png';
+const manifest={version:1,date:'2026-10-14',name:null,nameStatus:'UNDECIDED_BY_USER',rank:'SSS',edition:null,code:null,previewAdapterCode:'V-000',runtimeEnabled:false,status:'BATTLE_VISUAL_REVIEW_PENDING',sourceArt,sourceArtSha256:locked.sourceSha256,weapon:locked,motion:{},effects:{},displaySizing:{fullBodyHeight:300,physicalBodyHeight:300},runtime:{engine:'COMMON_V3',pixi:'8.20.0',gsap:'3.13.0',clock:'V3_REGISTERED_GSAP'},audio:{enabled:false,reason:'Silent visual review; no synthetic audio'},auraConcept:'User correction: deeply saturated emissive red Vermilion Bird wings and long tails wrap the character; alpha 1 rear/front layers, gold limited to tiny accents',exclusions:[{source:'assets/sources/fx-aura.png',reason:'Weak transparent orange bird-ring rejected'},{source:'assets/sources/fx-aura-v2.png',reason:'Weak color and presence rejected'},{source:'assets/sources/fx-aura-v3.png',reason:'Superseded by user requirement for deeply glowing red'},{source:'assets/sources/fx-aura-v4.png',reason:'Strong red color direction retained; atlas re-authored in 2x2 sheets for wider alpha margins'}]};
+for(const p of ['assets/frames','assets/atlases','assets/thumbs'])await fs.mkdir(file(p),{recursive:true});
+function components(data,w,h){const seen=new Uint8Array(w*h),q=new Int32Array(w*h),out=[];for(let p=0;p<w*h;p++){if(seen[p]||data[p*4+3]<=24)continue;let a=0,b=1,x0=w,y0=h,x1=0,y1=0;q[0]=p;seen[p]=1;const ids=[];while(a<b){const i=q[a++],x=i%w,y=(i/w)|0;ids.push(i);x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);for(const n of[x?i-1:-1,x<w-1?i+1:-1,y?i-w:-1,y<h-1?i+w:-1])if(n>=0&&!seen[n]&&data[n*4+3]>24){seen[n]=1;q[b++]=n;}}if(ids.length>15000)out.push({ids,box:{left:x0,top:y0,width:x1-x0+1,height:y1-y0+1}});}out.sort((a,b)=>(a.box.top+a.box.height/2)-(b.box.top+b.box.height/2));return [...out.slice(0,2).sort((a,b)=>a.box.left-b.box.left),...out.slice(2,4).sort((a,b)=>a.box.left-b.box.left)];}
+for(const [key,def]of Object.entries(defs)){
+ const bytes=await fs.readFile(file('assets/sources/'+key+'.png')),{data,info}=await sharp(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true}),cc=components(data,info.width,info.height);if(cc.length!==4)throw Error(key+' components '+cc.length);console.log(key,cc.map(c=>c.box));const frames=[],buffers=[];
+ for(let i=0;i<4;i++){
+  const c=cc[i],pad=4,b={left:Math.max(0,c.box.left-pad),top:Math.max(0,c.box.top-pad)};b.width=Math.min(info.width,c.box.left+c.box.width+pad)-b.left;b.height=Math.min(info.height,c.box.top+c.box.height+pad)-b.top;
+  const mask=new Uint8Array(b.width*b.height);for(const p of c.ids){const x=p%info.width-b.left,y=((p/info.width)|0)-b.top;for(let dy=-3;dy<=3;dy++)for(let dx=-3;dx<=3;dx++){const xx=x+dx,yy=y+dy;if(xx>=0&&xx<b.width&&yy>=0&&yy<b.height)mask[yy*b.width+xx]=1;}}
+  const crop=Buffer.alloc(b.width*b.height*4);for(let y=0;y<b.height;y++)for(let x=0;x<b.width;x++)if(mask[y*b.width+x])data.copy(crop,(y*b.width+x)*4,((y+b.top)*info.width+x+b.left)*4,((y+b.top)*info.width+x+b.left)*4+4);
+  const s=360/def.upright,foot=def.feet[i],grip=def.grips[i],hand=def.hands[i],pivot={x:350,y:650};
+  const body=await sharp(crop,{raw:{width:b.width,height:b.height,channels:4}}).resize(Math.round(b.width*s),Math.round(b.height*s)).png().toBuffer();
+  const factor=.279,sw=Math.round(locked.width*factor),sh=Math.round(locked.height*factor),rot=def.angles[i],rad=rot*Math.PI/180;
+  const weapon=await sharp(bow).resize(sw,sh).rotate(rot,{background:'#00000000'}).png().toBuffer(),wm=await sharp(weapon).metadata();
+  const tf=p=>({x:wm.width/2+(p.x*factor-sw/2)*Math.cos(rad)-(p.y*factor-sh/2)*Math.sin(rad),y:wm.height/2+(p.x*factor-sw/2)*Math.sin(rad)+(p.y*factor-sh/2)*Math.cos(rad)}),g=tf(locked.grip);
+  const gx=pivot.x+(grip[0]-foot[0])*s,gy=pivot.y+(grip[1]-foot[1])*s,wx=Math.round(gx-g.x),wy=Math.round(gy-g.y),bx=Math.round(pivot.x-(foot[0]-b.left)*s),by=Math.round(pivot.y-(foot[1]-b.top)*s),pos=p=>{const v=tf(p);return{x:wx+v.x,y:wy+v.y};};
+  if(Math.min(wx,wy,bx,by)<4||wx+wm.width>764||wy+wm.height>764)throw Error(key+i+' clipping '+JSON.stringify({wx,wy,bx,by,wm}));
+  const handRect={left:Math.max(b.left,grip[0]-15),top:Math.max(b.top,grip[1]-24),width:30,height:48};
+  const foregroundHand=await sharp(bytes).extract(handRect).resize(Math.round(handRect.width*s),Math.round(handRect.height*s)).png().toBuffer();
+  const frame=await sharp({create:{width:768,height:768,channels:4,background:'#00000000'}}).composite([{input:body,left:bx,top:by},{input:weapon,left:wx,top:wy},{input:foregroundHand,left:Math.round(gx-15*s),top:Math.round(gy-24*s)}]).png().toBuffer();
+  const path=`assets/frames/${key}-${i}.png`;await write(path,frame);buffers.push(frame);frames.push({index:i,sourceIndex:i,file:path,sha256:hash(frame),source:'assets/sources/'+key+'.png',sourceSha256:hash(bytes),sourceRect:b,sourceFoot:foot,sourceGrip:grip,footAnchor:{x:pivot.x/768,y:pivot.y/768},bodyPixels:360,grip:{x:gx,y:gy},hand:{x:pivot.x+(hand[0]-foot[0])*s,y:pivot.y+(hand[1]-foot[1])*s},tip:pos(locked.emission),upperTip:pos(locked.upperTip),lowerTip:pos(locked.lowerTip),weapon:{sha256:locked.sha256,uniformScale:factor,rotationDegrees:rot,redrawnPixels:0}});
+  await sharp(frame).resize(384,384).png().toFile(file(`assets/thumbs/${key}-${i}.png`));
+ }
+ const atlas=await sharp({create:{width:1536,height:1536,channels:4,background:'#00000000'}}).composite(buffers.map((input,i)=>({input,left:i%2*768,top:Math.floor(i/2)*768}))).png().toBuffer(),path='assets/atlases/'+key+'.png';await write(path,atlas);manifest.motion[key]={atlas:path,sha256:hash(atlas),columns:2,rows:2,cellSize:768,frameCount:4,frames};
+}
+for(const key of ['aura','shot','flight','descent','ground','array']){
+ const paths=key==='aura'?[1,2,3].map(n=>`assets/sources/aura-red-${n}.png`):['assets/sources/fx-'+key+'.png'],columns=key==='aura'?2:4,rows=key==='aura'?2:3;
+ const sources=await Promise.all(paths.map(async path=>{const bytes=await fs.readFile(file(path)),m=await sharp(bytes).metadata();return{path,bytes,sha256:hash(bytes),width:m.width,height:m.height};}));
+ const cw=sources[0].width/columns,ch=sources[0].height/rows;
+ if(!Number.isInteger(cw)||cw!==ch||sources.some(s=>s.width/columns!==cw||s.height/rows!==ch))throw Error(key+' inconsistent source grid');
+ const frames=[],buffers=[];
+ for(let i=0;i<12;i++){
+  const src=sources[Math.floor(i/(columns*rows))],local=i%(columns*rows),rect={left:local%columns*cw,top:Math.floor(local/columns)*ch,width:cw,height:ch},out=await sharp(src.bytes).extract(rect).extend({top:24,bottom:24,left:24,right:24,background:'#00000000'}).png().toBuffer(),path=`assets/frames/fx-${key}-${i}.png`;await write(path,out);buffers.push(out);frames.push({index:i,file:path,sha256:hash(out),source:src.path,sourceSha256:src.sha256,sourceRect:rect,anchor:{x:.5,y:['descent','ground'].includes(key)?(24+ch*.82)/(ch+48):.5}});
+ }
+ const cell=cw+48,atlas=await sharp({create:{width:cell*4,height:cell*3,channels:4,background:'#00000000'}}).composite(buffers.map((input,i)=>({input,left:i%4*cell,top:Math.floor(i/4)*cell}))).png().toBuffer(),path='assets/atlases/fx-'+key+'.png';await write(path,atlas);manifest.effects[key]={atlas:path,sha256:hash(atlas),columns:4,rows:3,cellSize:cell,frameCount:12,sources:sources.map(({bytes,...metadata})=>metadata),frames};
+ // The same authored aura is split into complementary alpha layers, not counted twice.
+ if(key==='aura')for(const part of ['rear','front']){
+  const parts=[];for(const b of buffers){const {data,info}=await sharp(b).raw().toBuffer({resolveWithObject:true});for(let y=0;y<info.height;y++)for(let x=0;x<info.width;x++)if(part==='rear'?y>=info.height*.74:y<info.height*.74)data[(y*info.width+x)*4+3]=0;parts.push(await sharp(data,{raw:info}).png().toBuffer());}
+  const out=await sharp({create:{width:cell*4,height:cell*3,channels:4,background:'#00000000'}}).composite(parts.map((input,i)=>({input,left:i%4*cell,top:Math.floor(i/4)*cell}))).png().toBuffer(),p=`assets/atlases/fx-aura-${part}.png`;await write(p,out);manifest.effects['aura-'+part]={...manifest.effects.aura,atlas:p,sha256:hash(out),derivedFrom:'aura',alphaPartition:part,frames:frames.map(f=>({...f}))};
+ }
+}
+await fs.copyFile(file('assets/frames/idle-0.png'),file('assets/battle-sprite.png'));const sd=await fs.readFile(file('assets/battle-sprite.png'));manifest.battleSprite=root+'assets/battle-sprite.png';manifest.battleSpriteSha256=hash(sd);manifest.battleSpriteFootAnchor=manifest.motion.idle.frames[0].footAnchor;manifest.battleSpriteStatus='PREVIEW_PREPARED_AWAITING_APPROVAL';manifest.counts={motion:24,effects:72,derivedAuraLayers:2};
+await sharp(file('assets/sources/source-art-approved.png')).resize({width:512}).webp({quality:90}).toFile(file('assets/source-art-preview.webp'));
+await write('manifest.json',JSON.stringify(manifest,null,2)+'\n');console.log(manifest.counts);

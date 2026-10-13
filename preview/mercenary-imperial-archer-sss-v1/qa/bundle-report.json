@@ -1,0 +1,12 @@
+{
+  "engine": "COMMON_V3",
+  "pixiRoots": [
+    "../../../../../../Downloads/upload/cnine-card/node_modules/pixi.js"
+  ],
+  "gsapRoots": [
+    "../../../../../../Downloads/upload/cnine-card/node_modules/gsap"
+  ],
+  "sourceMatchesTestedBundle": true,
+  "sha256": "b7df96181807582fc26a3ecb61267e1e3e79b96a31e6612aff1b2ca470eed57b",
+  "inputCount": 885
+}
