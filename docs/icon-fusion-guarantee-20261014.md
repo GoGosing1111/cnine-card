@@ -10,3 +10,11 @@
 - SQLite/PostgreSQL 관련 6개 검사 통과. PC 1440 및 모바일 390에서 실제 합성 성공과 확률 표시 복귀 확인. 배포에서는 기존 합성 회귀와 Worker 검사를 수행하며 이미 통과한 신규 거래 검사는 반복하지 않는다.
 - 직전 운영 Pages `25cf5d7b-fc72-467e-b150-be3b429c2ae9`, source `3d775aa5`. 기존 app_meta/공통 거래를 사용하는 국소 기능으로 scoped 배포한다. 공통 DB·인증 기반 변경 없음.
 - 같은 요청 중 슈퍼스타 재강화: 계정 5950의 6종을 다시 +13, 7종 전체 +13 확인. 기존 계정별 운영 감사 영수증 `ops:namsudaengo-superstar-plus13:20261014:v3`.
+
+## 운영 완료
+
+- 구현 `3c4909d5`, Pages `https://79b9a652.cnine-card.pages.dev`, API Worker `c6041f11-ffd4-40e1-a418-1478361f9351`. 신규 6개 + 기존 22개 검사 통과, Worker 컴파일·Hyperdrive 캐시 검증 통과.
+- 운영 index/service-worker/아이콘 UI 번들 해시 일치.
+- 계정 5950 (`남수댕ㅗ`)에 grant `ops:namsudaengo-icon-guarantee:20261014:v1`을 등록했다. 등록 후 remaining=1 재조회 확인. 관리자 감사 로그와 설정을 동일 DB 거래로 기록했으며 카드·재료·재화는 변경하지 않았다.
+- 등록 시 진행 중인 PENDING 합성이 없음을 확인했다. 사용자가 다음 정상 합성을 실행하면 기존 재료·비용으로 100% 성공하고 기회는 소진된다.
+- 운영 결과 문서만 추가한 커밋은 재배포하지 않는다.
