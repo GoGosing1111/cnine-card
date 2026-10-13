@@ -1,0 +1,92 @@
+[
+  {
+    "name": "디임",
+    "url": "https://stimg.sooplive.com/LOGO/qp/qpqpro/qpqpro.webp",
+    "status": 200,
+    "width": 240,
+    "height": 240,
+    "format": "gif",
+    "frames": 117,
+    "bytes": 1170872
+  },
+  {
+    "name": "조은",
+    "url": "https://stimg.sooplive.com/LOGO/za/zalalz/zalalz.webp",
+    "status": 200,
+    "width": 200,
+    "height": 200,
+    "format": "webp",
+    "frames": 77,
+    "bytes": 439564
+  },
+  {
+    "name": "하이희야",
+    "url": "https://stimg.sooplive.com/LOGO/jk/jkmjkm1236/jkmjkm1236.webp",
+    "status": 200,
+    "width": 400,
+    "height": 400,
+    "format": "gif",
+    "frames": 38,
+    "bytes": 1572827
+  },
+  {
+    "name": "강구열",
+    "url": "https://stimg.sooplive.com/LOGO/ku/kuyol/kuyol.webp",
+    "status": 200,
+    "width": 300,
+    "height": 300,
+    "format": "webp",
+    "frames": 1,
+    "bytes": 8086
+  },
+  {
+    "name": "오리꿍",
+    "url": "https://stimg.sooplive.com/LOGO/im/imducko3o/imducko3o.webp",
+    "status": 200,
+    "width": 350,
+    "height": 350,
+    "format": "webp",
+    "frames": 1,
+    "bytes": 6478
+  },
+  {
+    "name": "주성",
+    "url": "https://stimg.sooplive.com/LOGO/dd/ddaggida3/ddaggida3.webp",
+    "status": 200,
+    "width": 130,
+    "height": 130,
+    "format": "webp",
+    "frames": 196,
+    "bytes": 801258
+  },
+  {
+    "name": "나무늘봉순",
+    "url": "https://stimg.sooplive.com/LOGO/yj/yjk011599/yjk011599.webp",
+    "status": 200,
+    "width": 204,
+    "height": 204,
+    "format": "webp",
+    "frames": 6,
+    "bytes": 23194
+  },
+  {
+    "name": "아윤♡",
+    "url": "https://stimg.sooplive.com/LOGO/ay/ayoona/ayoona.webp",
+    "status": 200,
+    "width": 316,
+    "height": 316,
+    "format": "webp",
+    "frames": 36,
+    "bytes": 222854
+  },
+  {
+    "name": "남수댕",
+    "url": "https://stimg.sooplive.com/LOGO/me/mew030709/mew030709.webp",
+    "status": 200,
+    "width": 453,
+    "height": 420,
+    "format": "webp",
+    "frames": 1,
+    "bytes": 8944
+  }
+]

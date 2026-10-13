@@ -1,4 +1,5 @@
 import { stationUrl, profileImageUrl } from './streamer-lounge-model-v2036.js?v=2036';
+import { portraitSourceUrl, portraitSize } from './streamer-lounge-portraits-v1.js?v=20261013-original';
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg>';
@@ -100,20 +101,20 @@ function paintHero() {
   </svg>`;
 }
 function card(row, index, width, mobile) {
-  const pad = mobile ? 14 : 25, photo = Math.min(172, width * .60), top = mobile ? 30 : 40;
+  const pad = mobile ? 14 : 25, photo = Math.min(mobile ? 64 : 96, width * .60), top = mobile ? 26 : 36;
   const handleY = top + photo + 24, nameY = handleY + (mobile ? 26 : 37);
   const lineY = nameY + 24, linkY = lineY + 33, height = linkY + 24;
   const x = (width-photo)/2, handle = stationUrl(row.stationUrl).split('/').pop();
   const nameSize = Math.min(mobile ? 20 : 29, (width-pad*2)/(Array.from(row.name).length*.93));
-  const id = `sl40Photo-${row.id}`, href = profileImageUrl(row.imageUrl);
+  const id = `sl40Photo-${row.id}`, href = portraitSourceUrl(row.imageUrl), fallback = profileImageUrl(row.imageUrl);
   return { height, markup: `<g class="sl40-card" role="listitem" data-profile-id="${esc(row.id)}">
     <image href="${art}member-card.png" width="${width}" height="${height}" preserveAspectRatio="none" aria-hidden="true"/>
     <text x="${pad}" y="${mobile ? 16 : 21}" fill="#c1aa85" font-family="Arial,sans-serif" font-size="${mobile ? 6.5 : 8}" letter-spacing="1.6" aria-hidden="true">STREAMER / ${String(index+1).padStart(2,'0')}</text>
     <g class="sl40-identity">
-      <defs><clipPath id="${id}"><rect x="${x}" y="${top}" width="${photo}" height="${photo}" rx="2"/></clipPath></defs>
-      <rect x="${x-3}" y="${top-3}" width="${photo+6}" height="${photo+6}" rx="3" fill="#171715" stroke="#aa9574" stroke-opacity=".65" stroke-width=".7"/>
-      <text x="${width/2}" y="${top+photo/2+8}" text-anchor="middle" fill="#bda988" font-size="26" font-family="${sans}" aria-hidden="true">${esc(Array.from(row.name)[0])}</text>
-      ${href ? `<image data-sl40-photo href="${esc(href)}" x="${x}" y="${top}" width="${photo}" height="${photo}" clip-path="url(#${id})" preserveAspectRatio="xMidYMid slice" aria-label="${esc(row.name)} 프로필"/>` : ''}
+      <defs><clipPath id="${id}"><rect data-sl40-photo-clip x="${x}" y="${top}" width="${photo}" height="${photo}" rx="2"/></clipPath></defs>
+      <rect data-sl40-photo-frame x="${x-3}" y="${top-3}" width="${photo+6}" height="${photo+6}" rx="3" fill="#171715" stroke="#aa9574" stroke-opacity=".65" stroke-width=".7"/>
+      <text data-sl40-photo-initial x="${width/2}" y="${top+photo/2+8}" text-anchor="middle" fill="#bda988" font-size="26" font-family="${sans}" aria-hidden="true">${esc(Array.from(row.name)[0])}</text>
+      ${href ? `<image data-sl40-photo data-fallback="${esc(fallback)}" href="${esc(href)}" x="${x}" y="${top}" width="${photo}" height="${photo}" clip-path="url(#${id})" preserveAspectRatio="xMidYMid slice" aria-label="${esc(row.name)} 프로필"/>` : ''}
       <text x="${width/2}" y="${handleY}" text-anchor="middle" fill="#b1a99b" font-family="Arial,sans-serif" font-size="${mobile ? 8 : 10}" letter-spacing=".5">@${esc(handle)}</text>
       <text role="heading" aria-level="3" x="${width/2}" y="${nameY}" text-anchor="middle" fill="#f1ebe0" font-family="${sans}" font-size="${nameSize}" font-weight="550" letter-spacing="-.6">${esc(row.name)}</text>
       ${row.description ? `<title>${esc(row.description)}</title>` : ''}
@@ -125,6 +126,32 @@ function card(row, index, width, mobile) {
       <path d="m${width-pad-12} ${linkY-1} 10-10m-10 0h10v10" fill="none" stroke="#d8bf94" stroke-width="1.1"/>
     </a>
   </g>` };
+}
+function bindPortraits(host) {
+  host.querySelectorAll('[data-sl40-photo]').forEach(img => {
+    const slot = Number(img.getAttribute('width')), left = Number(img.getAttribute('x')), top = Number(img.getAttribute('y'));
+    const identity = img.closest('.sl40-identity');
+    const fit = () => {
+      const source = img.getAttribute('href'), probe = new Image();
+      probe.onload = () => {
+        if (!img.isConnected || img.getAttribute('href') !== source) return;
+        const size = portraitSize(slot, probe.naturalWidth, probe.naturalHeight, window.devicePixelRatio || 1);
+        const x = left + (slot-size)/2, y = top + (slot-size)/2;
+        const set = (node, attrs) => Object.entries(attrs).forEach(([key,value]) => node.setAttribute(key,String(value)));
+        set(img,{x,y,width:size,height:size,'data-fitted':'true'});
+        set(identity.querySelector('[data-sl40-photo-clip]'),{x,y,width:size,height:size});
+        set(identity.querySelector('[data-sl40-photo-frame]'),{x:x-3,y:y-3,width:size+6,height:size+6});
+        identity.querySelector('[data-sl40-photo-initial]').setAttribute('visibility','hidden');
+      };
+      probe.src = source;
+    };
+    img.addEventListener('error', () => {
+      const fallback = img.dataset.fallback;
+      if (fallback && img.getAttribute('href') !== fallback) { img.setAttribute('href',fallback); fit(); }
+      else { identity.querySelector('[data-sl40-photo-initial]').removeAttribute('visibility'); img.remove(); }
+    });
+    fit();
+  });
 }
 function paintGrid() {
   const host = dialog?.querySelector('[data-sl36-grid]'); if (!host) return;
@@ -142,7 +169,7 @@ function paintGrid() {
   const cards = rows.map(row => card(row, all.indexOf(row), cardWidth, mobile)), cardHeight = cards[0].height;
   const height = Math.ceil(cards.length/columns)*(cardHeight+gap)-gap;
   host.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="${height}" viewBox="0 0 ${width} ${height}" display="block" role="list" aria-label="스트리머 방송국 목록">${cards.map((item,i) => `<g transform="translate(${(i%columns)*(cardWidth+gap)},${Math.floor(i/columns)*(cardHeight+gap)})">${item.markup}</g>`).join('')}</svg>`;
-  host.querySelectorAll('[data-sl40-photo]').forEach(img => img.addEventListener('error', () => img.remove(), { once:true }));
+  bindPortraits(host);
   host.querySelectorAll('.sl40-station-link').forEach(link => {
     const highlight = link.querySelector('[data-sl40-link-highlight]');
     const glow = () => highlight.setAttribute('fill-opacity','.10');

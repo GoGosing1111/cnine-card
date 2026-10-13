@@ -4,6 +4,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
 import { DEFAULT_STREAMER_SETTINGS, STREAMER_SETTINGS_KEY, stationUrl, profileImageUrl, validateStreamerSettings, publicStreamerSettings } from '../js/streamer-lounge-model-v2036.js';
 import { handleStreamerLounge } from '../functions/_streamer_lounge.js';
+import { portraitSourceUrl, portraitSize } from '../js/streamer-lounge-portraits-v1.js';
 
 const clone = () => structuredClone(DEFAULT_STREAMER_SETTINGS);
 function fixture() {
@@ -88,7 +89,7 @@ test('isolated live and CMS wiring, safe new-tab links and permanent no-LIVE con
   const client=read('js/streamer-lounge-v2036.js'),shell=read('js/soopketmon-v21-exact-shell-adapter.js'),api=read('functions/api/[[path]].js');
   assert.equal((shell.match(/data-streamer-lounge-host/g)||[]).length,2);assert.match(shell,/global\.StreamerLounge\?\.mount/);
   assert.match(client,/dialog\.showModal\(\)/);assert.match(client,/target="_blank" rel="noopener noreferrer"/);assert.match(client,/delete host\.dataset\.profileKey/);
-  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=20261013-premium-image"/);
+  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=20261013-profile-original"/);
   assert.match(read('admin/index.html'),/streamer-lounge-admin-v2036\.js\?v=2036/);
   assert.match(api,/handleStreamerLounge\(\{path,request,env,deps:\{json,requirePermission,writeAdminLog\}\}\)/);
   assert.ok(api.indexOf('if(path.startsWith(\'admin/\'))') < api.indexOf('const streamerResponse='));
@@ -119,4 +120,19 @@ test('premium lounge uses generated image plates, native station links and no ne
     assert.deepEqual([...bytes.subarray(0,8)],[137,80,78,71,13,10,26,10]);
   }
   assert.match(read('index.html'),/css\/streamer-lounge-v2036\.css\?v=2038-station-only/);
+});
+
+test('SOOP portraits use the larger animated source; custom CMS image URLs stay unchanged', () => {
+  assert.equal(portraitSourceUrl('https://stimg.sooplive.com/LOGO/za/zalalz/m/zalalz.webp'),'https://stimg.sooplive.com/LOGO/za/zalalz/zalalz.webp');
+  assert.equal(portraitSourceUrl('https://stimg.sooplive.com/LOGO/za/zalalz/m/zalalz.webp?v=2'),'https://stimg.sooplive.com/LOGO/za/zalalz/zalalz.webp?v=2');
+  for (const url of ['/assets/profile.png','https://example.com/m/photo.webp','https://stimg.sooplive.com/LOGO/za/zalalz/m/other.webp']) assert.equal(portraitSourceUrl(url),url);
+  assert.equal(portraitSourceUrl('javascript:alert(1)'),'');
+});
+
+test('portrait raster pixels are never enlarged beyond their resolution on high-density screens', () => {
+  assert.equal(portraitSize(96,200,200,1),96);
+  assert.equal(portraitSize(64,200,200,3),64);
+  assert.equal(portraitSize(64,130,130,3),43);
+  assert.equal(portraitSize(96,100,100,2),50,'thumbnail fallback must not be stretched on a 2x display');
+  assert.equal(portraitSize(96,453,420,2),96);
 });

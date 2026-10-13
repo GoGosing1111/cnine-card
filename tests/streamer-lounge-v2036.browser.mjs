@@ -27,7 +27,7 @@ const browser = await chromium.launch({ channel: 'chrome', headless: true });
 try {
   for (const [width, height, touch = width < 760] of JSON.parse(process.env.STREAMER_QA_VIEWPORTS || '[[1440,900],[390,844],[360,640]]')) {
     let settings = structuredClone(roster);
-    const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, isMobile: touch, hasTouch: touch });
+    const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: touch ? 3 : 1, isMobile: touch, hasTouch: touch });
     // Exercise the real new-tab link without loading or interacting with an external station.
     await context.route('https://www.sooplive.com/station/**',route=>route.fulfill({contentType:'text/html; charset=utf-8',body:'<!doctype html><title>방송국 QA</title><p>방송국 이동 확인</p>'}));
     const page = await context.newPage(), errors = [], calls = [];
@@ -67,6 +67,13 @@ try {
     assert.ok(links.every(x=>x.target==='_blank'&&x.rel.includes('noopener')&&x.rel.includes('noreferrer')));
     await page.waitForFunction(()=>[...document.querySelectorAll('.sl36-dialog img')].filter(img=>{const r=img.getBoundingClientRect();return r.width>0&&r.top<innerHeight;}).every(img=>img.complete));
     await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.querySelectorAll('.sl36-dialog image')].map(el=>new Promise(resolve=>{const img=new Image();img.onload=img.onerror=resolve;img.src=el.getAttribute('href');}))); });
+    await page.waitForFunction(count=>document.querySelectorAll('[data-sl40-photo][data-fitted="true"]').length===count,roster.profiles.length);
+    const portraits=await page.locator('[data-sl40-photo]').evaluateAll(async images=>Promise.all(images.map(async image=>{
+      const source=new Image();source.src=image.getAttribute('href');await source.decode();
+      return {url:source.src,size:image.getBoundingClientRect().width,native:Math.min(source.naturalWidth,source.naturalHeight),density:devicePixelRatio};
+    })));
+    assert.ok(portraits.every(photo=>photo.size <= (touch ? 64 : 96)+.1 && photo.size*photo.density <= photo.native+.1),'profiles never upscale raster pixels');
+    assert.ok(portraits.every(photo=>!photo.url.includes('/m/')),'large profile sources are used');
     assert.equal(await page.locator('.sl36-dialog').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(16, 17, 18)');
     await page.screenshot({path:path.join(output,`streamer-lounge-20261013-${width}-${height}.png`),animations:'disabled'});
     await page.getByRole('heading',{name:'남수댕',exact:true}).scrollIntoViewIfNeeded();
@@ -106,6 +113,17 @@ try {
     await page.locator('[data-sl36-close]').click();
     assert.match(await entry.getAttribute('aria-label'),/8명/);
     assert.equal(await page.locator('.game-frame').getAttribute('data-route'),'home');
+    if (width === 1440) {
+      await page.route('https://stimg.sooplive.com/LOGO/me/mew030709/mew030709.webp?qa-fallback=1',route=>route.fulfill({status:404,body:'missing original'}));
+      settings.profiles.at(-1).imageUrl += '?qa-fallback=1';
+      await entry.click();
+      await page.waitForFunction(()=>{
+        const image=document.querySelector('[data-profile-id="mew030709"] [data-sl40-photo]');
+        return image?.getAttribute('href').includes('/m/mew030709.webp?qa-fallback=1') && image.dataset.fitted==='true';
+      });
+      assert.ok(await page.locator('[data-profile-id="mew030709"] [data-sl40-photo]').evaluate(image=>image.getBoundingClientRect().width*devicePixelRatio<=100),'missing original falls back without upscaling');
+      await page.locator('[data-sl36-close]').click();
+    }
     assert.deepEqual(errors,[]);assert.ok(calls.every(url=>url.endsWith('/api/streamer-profiles')));await context.close();
     console.log(`PASS lobby + lounge ${width}x${height}: station-only cards, new-tab click, no overlaps, search, keyboard close and hide refresh`);
   }
