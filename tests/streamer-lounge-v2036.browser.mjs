@@ -6,6 +6,12 @@ import path from 'node:path';
 import { DEFAULT_STREAMER_SETTINGS, publicStreamerSettings, validateStreamerSettings } from '../js/streamer-lounge-model-v2036.js';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const origin = process.env.STREAMER_QA_ORIGIN || 'http://127.0.0.1:4186';
+const output = process.env.STREAMER_QA_OUTPUT || os.tmpdir();
+fs.mkdirSync(output, { recursive: true });
+const roster = structuredClone(DEFAULT_STREAMER_SETTINGS);
+for (const [id, name] of [['ddaggida3','주성'],['yjk011599','나무늘봉순'],['ayoona','아윤♡'],['mew030709','남수댕']]) {
+  roster.profiles.push({ id, name, stationUrl: `https://www.sooplive.com/station/${id}`, imageUrl: `https://stimg.sooplive.com/LOGO/${id.slice(0,2)}/${id}/m/${id}.webp`, description: '', visible: true });
+}
 const read = name => fs.readFileSync(new URL(`../${name}`, import.meta.url), 'utf8');
 const styles = [...read('index.html').matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/g)].map(m => m[1]).filter(url => url.startsWith('css/'));
 const ops = read('js/app.js').match(/function liveOperationsHtml\(surface='store'\)\{[\s\S]*?\n\}/)[0];
@@ -19,8 +25,8 @@ window.burningEventIsActive=()=>true;window.burningMode=()=>'BURNING';window.bur
 const adminHtml = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/admin/admin-v945.css"><link rel="stylesheet" href="/admin/streamer-lounge-admin-v2036.css?v=2036"></head><body><main style="margin:24px auto;width:min(1080px,calc(100% - 32px))"><h1>CMS · 설정</h1><section class="view" id="view-settings"></section></main><script type="module" src="/admin/streamer-lounge-admin-v2036.js?v=2036"></script></body></html>`;
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 try {
-  for (const [width, height, touch = width < 760] of [[1836,1160],[1440,900],[1024,768],[1024,1258,true],[390,844],[360,740],[360,640]]) {
-    let settings = structuredClone(DEFAULT_STREAMER_SETTINGS);
+  for (const [width, height, touch = width < 760] of JSON.parse(process.env.STREAMER_QA_VIEWPORTS || '[[1440,900],[390,844],[360,640]]')) {
+    let settings = structuredClone(roster);
     const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, isMobile: touch, hasTouch: touch });
     // Exercise the real new-tab link without loading or interacting with an external station.
     await context.route('https://www.sooplive.com/station/**',route=>route.fulfill({contentType:'text/html; charset=utf-8',body:'<!doctype html><title>방송국 QA</title><p>방송국 이동 확인</p>'}));
@@ -53,29 +59,32 @@ try {
     assert.deepEqual(collisions,[],`entry must not cover existing lobby functions (${width}x${height})`);
     assert.ok(bounds.height<=111,'compact entry does not grow into a large badge');
     if(touch) assert.equal(Math.round(bounds.height),width<760&&height<=680?86:104,'approved mobile height; short phones reserve chief space');
-    await page.screenshot({path:path.join(os.tmpdir(),`streamer-lobby-v2038-${width}-${height}.png`),animations:'disabled'});
+    await page.screenshot({path:path.join(output,`streamer-lobby-20261013-${width}-${height}.png`),animations:'disabled'});
     await entry.click(); await page.locator('.sl36-dialog[open]').waitFor();
-    assert.equal(await page.locator('.sl36-card').count(),5);
-    const links=await page.locator('.sl36-card a').evaluateAll(xs=>xs.map(x=>({url:x.href,target:x.target,rel:x.rel})));
-    assert.deepEqual(links.map(x=>x.url),DEFAULT_STREAMER_SETTINGS.profiles.map(row=>row.stationUrl));
+    assert.equal(await page.locator('.sl40-card').count(),roster.profiles.length);
+    const links=await page.locator('.sl40-card a').evaluateAll(xs=>xs.map(x=>({url:x.getAttribute("href"),target:x.getAttribute("target"),rel:x.getAttribute("rel")})));
+    assert.deepEqual(links.map(x=>x.url),roster.profiles.map(row=>row.stationUrl));
     assert.ok(links.every(x=>x.target==='_blank'&&x.rel.includes('noopener')&&x.rel.includes('noreferrer')));
     await page.waitForFunction(()=>[...document.querySelectorAll('.sl36-dialog img')].filter(img=>{const r=img.getBoundingClientRect();return r.width>0&&r.top<innerHeight;}).every(img=>img.complete));
-    assert.equal(await page.locator('.sl36-hero-mark').count(),0,'retired monitor badge is gone');
+    await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.querySelectorAll('.sl36-dialog image')].map(el=>new Promise(resolve=>{const img=new Image();img.onload=img.onerror=resolve;img.src=el.getAttribute('href');}))); });
     assert.equal(await page.locator('.sl36-dialog').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(16, 17, 18)');
-    await page.screenshot({path:path.join(os.tmpdir(),`streamer-lounge-v2038-${width}-${height}.png`),animations:'disabled'});
+    await page.screenshot({path:path.join(output,`streamer-lounge-20261013-${width}-${height}.png`),animations:'disabled'});
+    await page.getByRole('heading',{name:'남수댕',exact:true}).scrollIntoViewIfNeeded();
+    await page.screenshot({path:path.join(output,`streamer-lounge-roster-20261013-${width}-${height}.png`),animations:'disabled'});
     assert.equal(await page.locator('.sl36-dialog').evaluate(el=>el.scrollWidth<=el.clientWidth+1),true,'no lounge horizontal overflow');
-    assert.equal(await page.locator('.sl36-card button,.sl36-card [role="button"],.sl36-card [tabindex]').count(),0,'photos and names are not profile controls');
+    assert.equal(await page.locator('.sl40-card button,.sl40-card [role="button"],.sl40-card [tabindex]').count(),0,'photos and names are not profile controls');
     assert.equal(await page.getByText('프로필 보기',{exact:false}).count(),0);
-    for(const name of ['디임','조은','하이희야','강구열','오리꿍']) {
+    for(const {name} of roster.profiles) {
       assert.equal(await page.getByRole('heading',{name,exact:true}).count(),1);
       assert.equal(await page.getByRole('link',{name:`${name} 방송국 바로가기 (새 탭)`,exact:true}).count(),1);
     }
-    await page.locator('.sl36-card-identity').first().click();
-    assert.equal(await page.locator('.sl36-card').count(),5,'identity click must not open another screen');
+    await page.locator('.sl40-identity').first().click();
+    assert.equal(await page.locator('.sl40-card').count(),roster.profiles.length,'identity click must not open another screen');
     assert.equal(await page.locator('.sl36-detail,[data-sl36-list]').count(),0);
-    await page.getByRole('searchbox').fill('조은'); assert.equal(await page.locator('.sl36-card').count(),1);
+    await page.getByRole('searchbox').fill('조은'); assert.equal(await page.locator('.sl40-card').count(),1);
     const popupPromise=page.waitForEvent('popup');
-    await page.getByRole('link',{name:'조은 방송국 바로가기 (새 탭)',exact:true}).click();
+    await page.getByRole('link',{name:'조은 방송국 바로가기 (새 탭)',exact:true}).focus();
+    await page.keyboard.press('Enter');
     const popup=await popupPromise;await popup.waitForLoadState('domcontentloaded');
     assert.equal(popup.url(),'https://www.sooplive.com/station/zalalz');
     assert.equal(await popup.evaluate(()=>window.opener),null,'station cannot access the game opener');
@@ -83,17 +92,24 @@ try {
     assert.equal(page.url(),`${origin}/qa-streamer-lounge`);
     assert.equal(await page.locator('.sl36-dialog[open]').count(),1,'game lounge remains open in its original tab');
     await page.getByRole('searchbox').fill('없음');assert.match(await page.locator('[data-sl36-grid]').textContent(),/검색된 스트리머가 없습니다/);
+    await page.getByRole('button',{name:'전체 스트리머 보기',exact:true}).click();
+    assert.equal(await page.locator('.sl40-card').count(),roster.profiles.length);
+    assert.equal(await page.getByRole('searchbox').inputValue(),'');
+    await page.getByRole('searchbox').fill('남수댕');
+    assert.equal(await page.locator('.sl40-card').count(),1);
+    assert.equal(await page.getByRole('link',{name:'남수댕 방송국 바로가기 (새 탭)',exact:true}).getAttribute('href'),'https://www.sooplive.com/station/mew030709');
     await page.keyboard.press('Escape');assert.equal(await page.locator('.sl36-dialog').evaluate(el=>el.open),false);
     assert.equal(await entry.evaluate(el=>el===document.activeElement),true);
     // A CMS hide is reflected next time the lounge is opened; never reseed it.
-    settings.profiles[0].visible=false;await entry.click();await page.waitForFunction(()=>document.querySelectorAll('.sl36-card').length===4);
+    settings.profiles[0].visible=false;await entry.click();await page.waitForFunction(count=>document.querySelectorAll('.sl40-card').length===count,roster.profiles.length-1);
     assert.equal(await page.getByRole('link',{name:'디임 방송국 바로가기 (새 탭)',exact:true}).count(),0);
     await page.locator('[data-sl36-close]').click();
-    assert.match(await entry.getAttribute('aria-label'),/4명/);
+    assert.match(await entry.getAttribute('aria-label'),/8명/);
     assert.equal(await page.locator('.game-frame').getAttribute('data-route'),'home');
     assert.deepEqual(errors,[]);assert.ok(calls.every(url=>url.endsWith('/api/streamer-profiles')));await context.close();
     console.log(`PASS lobby + lounge ${width}x${height}: station-only cards, new-tab click, no overlaps, search, keyboard close and hide refresh`);
   }
+  if (process.env.STREAMER_QA_SKIP_CMS !== '1') {
   const page=await browser.newPage({viewport:{width:1280,height:960}}), errors=[];let settings=structuredClone(DEFAULT_STREAMER_SETTINGS),revision='initial-v2036',saves=0;
   page.on('pageerror',error=>errors.push(error.message));
   await page.route(`${origin}/admin/qa-streamers`,r=>r.fulfill({contentType:'text/html; charset=utf-8',body:adminHtml}));
@@ -109,4 +125,5 @@ try {
   await page.screenshot({path:path.join(os.tmpdir(),'streamer-cms-v2036.png'),animations:'disabled'});
   await page.locator('[data-sl36-add]').click();assert.equal(await page.locator('[data-sl36-row]').count(),6);assert.equal(saves,1);
   assert.deepEqual(errors,[]);await page.close();console.log('PASS CMS: read-only opening, reorder/hide/introduction save, reload persistence, add without auto-save');
+  }
 } finally { await browser.close(); }

@@ -88,40 +88,35 @@ test('isolated live and CMS wiring, safe new-tab links and permanent no-LIVE con
   const client=read('js/streamer-lounge-v2036.js'),shell=read('js/soopketmon-v21-exact-shell-adapter.js'),api=read('functions/api/[[path]].js');
   assert.equal((shell.match(/data-streamer-lounge-host/g)||[]).length,2);assert.match(shell,/global\.StreamerLounge\?\.mount/);
   assert.match(client,/dialog\.showModal\(\)/);assert.match(client,/target="_blank" rel="noopener noreferrer"/);assert.match(client,/delete host\.dataset\.profileKey/);
-  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=2038-station-only"/);
+  assert.match(read('index.html'),/type="module" src="js\/streamer-lounge-v2036\.js\?v=20261013-premium-image"/);
   assert.match(read('admin/index.html'),/streamer-lounge-admin-v2036\.js\?v=2036/);
   assert.match(api,/handleStreamerLounge\(\{path,request,env,deps:\{json,requirePermission,writeAdminLog\}\}\)/);
   assert.ok(api.indexOf('if(path.startsWith(\'admin/\'))') < api.indexOf('const streamerResponse='));
   assert.doesNotMatch(client,/new Audio|isLive|LIVE 방송|방송 중|broadcastStatus/);
 });
 
-test('v2037 keeps the approved mobile geometry, removes the TV badge and isolates the neutral lounge palette', () => {
+test('the lounge entry preserves mobile geometry and stays isolated from battle styles', () => {
   const css=readFileSync(new URL('../css/streamer-lounge-v2036.css',import.meta.url),'utf8');
   const client=readFileSync(new URL('../js/streamer-lounge-v2036.js',import.meta.url),'utf8');
   assert.match(css,/\.mobile-command-lobby > \[data-streamer-lounge-host\] \{ left:0; top:115px; width:calc\(53% - 11px\); max-width:213px;/);
   assert.match(css,/\.pc-lobby-scene > \[data-streamer-lounge-host\] \{ left:0;/);
   assert.match(client,/sl36-dock-spine/);
-  assert.match(css,/grid-template-columns:repeat\(6,minmax\(0,1fr\)\)/);
-  assert.match(css,/lounge-architecture-v2037\.webp/);
-  const hero=readFileSync(new URL('../assets/ui/streamer-lounge/lounge-architecture-v2037.webp',import.meta.url));
-  assert.equal(hero.subarray(0,4).toString(),'RIFF');
-  assert.equal(hero.subarray(8,12).toString(),'WEBP');
-  assert.ok(hero.length>10000 && hero.length<150000,'panoramic art must be present and optimized for mobile');
-  assert.match(css,/--sl-text:#f4f0e8; --sl-muted:#b8b3aa; --sl-accent:#d1b98c/);
   assert.match(css,/\.sl36-entrance \{ height:104px/);
   assert.doesNotMatch(client,/sl36-hero-mark|const icon =/);
   assert.doesNotMatch(css,/#10222e|#284653|#3b6670|battle-v3|roster-card|\.pc-main-character/);
 });
 
-test('v2038 leaves one station link per card and removes the profile action and detail state', () => {
-  const read=path=>readFileSync(new URL(`../${path}`,import.meta.url),'utf8');
-  const client=read('js/streamer-lounge-v2036.js'),css=read('css/streamer-lounge-v2036.css');
-  const card=client.slice(client.indexOf('function card('),client.indexOf('function paintGrid('));
-  assert.match(card,/<div class="sl36-card-identity">/);
-  assert.match(card,/<h3>\$\{esc\(row\.name\)\}<\/h3>/);
-  assert.equal((card.match(/stationLink\(row\)/g)||[]).length,1);
-  assert.doesNotMatch(card,/<button|tabindex|role="button"|onclick/);
-  assert.doesNotMatch(client,/프로필 보기|프로필과 방송국 보기|data-streamer-details|data-sl36-list|selectedId|sl36-detail/);
-  assert.doesNotMatch(css,/sl36-card-profile|sl36-detail|sl36-new-tab-note/);
+test('premium lounge uses generated image plates, native station links and no new CSS rules', () => {
+  const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
+  const client=read('js/streamer-lounge-v2036.js');
+  assert.match(client,/sl40-station-link/);
+  assert.match(client,/member-card\.png/);
+  assert.match(client,/lounge-interior\.png/);
+  assert.doesNotMatch(client,/<style|style=|\.style\b|insertRule|adoptedStyleSheets|CSSStyleSheet/);
+  assert.doesNotMatch(client,/프로필 보기|data-streamer-details|selectedId|sl36-detail|flower|sl36-tone/);
+  for(const name of ['lounge-interior.png','member-card.png']) {
+    const bytes=readFileSync(new URL('../assets/ui/streamer-lounge/premium-v1/'+name,import.meta.url));
+    assert.deepEqual([...bytes.subarray(0,8)],[137,80,78,71,13,10,26,10]);
+  }
   assert.match(read('index.html'),/css\/streamer-lounge-v2036\.css\?v=2038-station-only/);
 });
