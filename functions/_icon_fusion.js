@@ -5,6 +5,16 @@ import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {mercenaryRandomInt} from './_mercenary_draw_accounting.js';
 
 const KIND='ICON_FUSION';
+export const iconFusionGuaranteeKey=userId=>`icon_fusion_guarantee_v1:${Number(userId)}`;
+async function readGuarantee(DB,userId){
+  const key=iconFusionGuaranteeKey(userId),row=await DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
+  if(!row)return null;
+  const value=JSON.parse(row.value);
+  if(value.remaining!==1||Number(value.userId)!==Number(userId)||typeof value.grantId!=='string'||!value.grantId)return null;
+  return {key,raw:row.value,grantId:value.grantId};
+}
+const fusionPolicy=guarantee=>guarantee?{...POLICY,successRate:100,successChancePpm:POLICY.chanceTotal}:POLICY;
+
 const fail=(code,message,status=409)=>jointError(`ICON_FUSION_${code}`,message,status);
 const plainCard=row=>({id:String(row.id),name:row.name,title:row.title,grade:row.grade,image:row.image,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50),quantity:Number(row.quantity),breakthroughLevel:Number(row.breakthrough_level)});
 const sourceSelect=`SELECT uc.card_id AS id,uc.quantity,uc.breakthrough_level,c.rarity AS grade,c.title,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.name FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND uc.quantity>0 AND c.is_active=1 AND m.is_active=1 AND c.card_status='PUBLIC'`;
@@ -28,15 +38,15 @@ async function registeredCards(DB){
 async function resources(DB,userId){const rows=await DB.batch([DB.prepare('SELECT coin FROM users WHERE id=?').bind(userId),DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(userId)]);return {coin:String(rows[0].results[0]?.coin??0),masterStars:Number(rows[1].results[0]?.quantity||0)};}
 export async function iconFusionOverview(env,user){
   const DB=env.DB;
-  const [settings,catalog,owned,decks,wallet,icons,pending]=await Promise.all([
+  const [settings,catalog,owned,decks,wallet,icons,pending,guarantee]=await Promise.all([
     readIconFusionSettings(env),registeredCards(DB),
     DB.prepare(sourceSelect+" AND c.rarity IN ('SUPERSTAR','FUR') AND uc.breakthrough_level=13 ORDER BY c.rarity,c.id LIMIT 240").bind(user.id).all(),
     readDecks(DB,user.id),resources(DB,user.id),
     DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${ICON_FUSION_CARDS.map(()=>'?').join(',')})`).bind(user.id,...ICON_FUSION_CARDS.map(c=>c.cardId)).all(),
-    DB.prepare("SELECT request_id FROM joint_operations_v1 WHERE user_id=? AND kind=? AND status='PENDING' ORDER BY created_at DESC LIMIT 1").bind(user.id,KIND).first()
+    DB.prepare("SELECT request_id FROM joint_operations_v1 WHERE user_id=? AND kind=? AND status='PENDING' ORDER BY created_at DESC LIMIT 1").bind(user.id,KIND).first(),readGuarantee(DB,user.id)
   ]);
   const used=deckIds(decks),counts=new Map((icons.results||[]).map(c=>[String(c.card_id),Number(c.quantity)]));
-  return {policy:POLICY,settings,enabled:ICON_FUSION_RELEASE_ENABLED&&settings.enabled&&catalog.length===ICON_FUSION_CARDS.length,
+  return {policy:fusionPolicy(guarantee),guaranteedAttempts:guarantee?1:0,settings,enabled:ICON_FUSION_RELEASE_ENABLED&&settings.enabled&&catalog.length===ICON_FUSION_CARDS.length,
     catalog:catalog.map(c=>({...c,quantity:counts.get(c.cardId)||0})),resources:wallet,
     materials:(owned.results||[]).map(row=>({...plainCard(row),eligible:!used.has(String(row.id)),blockedReason:used.has(String(row.id))?'전투 덱 또는 저장 덱에서 먼저 해제해 주세요.':''})),
     pendingRequestId:pending?.request_id||null};
@@ -72,8 +82,9 @@ export async function runIconFusion(env,user,body,{randomInt=mercenaryRandomInt}
       });
       if(BigInt(wallet.coin)<BigInt(POLICY.coinCost)||wallet.masterStars<POLICY.masterStarCost)throw fail('BALANCE',`마스터의 별 ${formatIconAmount(POLICY.masterStarCost)} 개와 코인 ${formatIconAmount(POLICY.coinCost)}이 필요합니다.`);
       const targetOwned=await p('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?',user.id,target.cardId).first();
-      const roll=randomInt(POLICY.chanceTotal);if(!Number.isInteger(roll)||roll<0||roll>=POLICY.chanceTotal)throw Error('Invalid fusion roll');
-      return {version:1,input,policy:{...POLICY},materials,target,targetQuantityBefore:Number(targetOwned?.quantity||0),targetRowExists:Boolean(targetOwned),success:roll<POLICY.successChancePpm,roll,successVideo:{url:settings.successVideoUrl,durationMs:settings.successVideoDurationMs},createdAt:new Date().toISOString()};
+      const guarantee=await readGuarantee(DB,user.id);
+      const roll=guarantee?0:randomInt(POLICY.chanceTotal);if(!Number.isInteger(roll)||roll<0||roll>=POLICY.chanceTotal)throw Error('Invalid fusion roll');
+      return {version:1,input,policy:{...fusionPolicy(guarantee)},guarantee,materials,target,targetQuantityBefore:Number(targetOwned?.quantity||0),targetRowExists:Boolean(targetOwned),success:roll<POLICY.successChancePpm,roll,successVideo:{url:settings.successVideoUrl,durationMs:settings.successVideoDurationMs},createdAt:new Date().toISOString()};
     },
     statements:async plan=>{
       if(!ICON_FUSION_CARDS.some(c=>c.code===input.targetCode&&c.cardId===plan.target?.cardId))throw fail('INPUT','일반 ICON 제작 대상이 아닙니다.',400);
@@ -85,7 +96,13 @@ export async function runIconFusion(env,user,body,{randomInt=mercenaryRandomInt}
       if(plan.materials.some(m=>{const c=current.find(row=>String(row.card_id)===m.id);return !c||Number(c.quantity)!==m.quantityBefore||Number(c.breakthrough_level)!==13||used.has(m.id);}))throw Object.assign(fail('STALE','재료 또는 편성이 변경되어 합성을 취소했습니다. 재료는 소모되지 않았습니다.'),{terminal:true});
       const targetNow=await p('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?',user.id,plan.target.cardId).first();
       if(plan.success&&(Boolean(targetNow)!==plan.targetRowExists||Number(targetNow?.quantity||0)!==plan.targetQuantityBefore))throw Object.assign(fail('STALE','아이콘 보유 상태가 변경되어 합성을 취소했습니다. 재료는 소모되지 않았습니다.'),{terminal:true});
+      if(plan.guarantee){
+        const currentGuarantee=await readGuarantee(DB,user.id);
+        if(!plan.success||plan.guarantee.key!==iconFusionGuaranteeKey(user.id)||currentGuarantee?.raw!==plan.guarantee.raw)
+          throw Object.assign(fail('GUARANTEE','1회 확정 설정이 변경되었습니다. 다시 시도해 주세요.'),{terminal:true});
+      }
       const token=crypto.randomUUID(),conditions=['EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)'],values=[ICON_FUSION_SETTINGS_KEY,settingsRow.value];
+      if(plan.guarantee){conditions.push('EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)');values.push(plan.guarantee.key,plan.guarantee.raw);}
       for(const m of plan.materials){conditions.push('EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND quantity=? AND breakthrough_level=13)');values.push(user.id,m.id,m.quantityBefore);}
       for(const table of deckTables){conditions.push(`NOT EXISTS(SELECT 1 FROM ${table} d,json_each(d.card_ids) j WHERE d.user_id=? AND CAST(j.value AS TEXT) IN (?,?))`);values.push(user.id,input.superstarId,input.furId);}
       conditions.push("EXISTS(SELECT 1 FROM cards_effective_v1210 WHERE id=? AND rarity='ICON' AND is_active=1 AND card_status='PUBLIC')");values.push(plan.target.cardId);
@@ -98,6 +115,11 @@ export async function runIconFusion(env,user,body,{randomInt=mercenaryRandomInt}
       if(plan.success){
         list.push(p("INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level,first_obtained_at,last_obtained_at) SELECT ?,id,1,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP FROM cards_effective_v1210 WHERE id=? AND rarity='ICON' AND is_active=1 AND card_status='PUBLIC' ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+1,last_obtained_at=CURRENT_TIMESTAMP",user.id,plan.target.cardId));
         list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND quantity=?) THEN 1 ELSE 0 END WHERE token=?',user.id,plan.target.cardId,plan.targetQuantityBefore+1,token));
+      }
+      if(plan.guarantee){
+        const consumed=JSON.stringify({...JSON.parse(plan.guarantee.raw),remaining:0,consumedRequestId:requestId,consumedAt:new Date().toISOString()});
+        list.push(p('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',consumed,plan.guarantee.key,plan.guarantee.raw));
+        list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) THEN 1 ELSE 0 END WHERE token=?',plan.guarantee.key,consumed,token));
       }
       list.push(jointGuardEnd(DB,token));return list;
     }
