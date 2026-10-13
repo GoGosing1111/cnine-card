@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-13T21:14:19.878Z",
+  "sourceCommit": "eec4dbff621ea3b1df547f86c2c7a8a2fddc6525",
+  "pages": "d6513b36",
+  "apiRuntime": "b348a959-803d-43e4-84d5-0c1e427e5629",
+  "clanRuntime": "6e55dcee-1082-4a54-bdfe-405f414756c5",
+  "checks": [
+    {
+      "path": "preview/mercenary-imperial-archer-sss-v1/index.html",
+      "status": 200,
+      "sha256": "4234e47dafa4d4285ea0da13a4e5d55612d631548713010003232afdfab69397"
+    },
+    {
+      "path": "preview/mercenary-imperial-archer-sss-v1/battle.html",
+      "status": 200,
+      "sha256": "2184fc9bfdfac89928f78ecc30a678937b0d3cc3d614126bf038fdb6c05101cc"
+    },
+    {
+      "path": "preview/mercenary-imperial-archer-sss-v1/manifest.json",
+      "status": 200,
+      "sha256": "e7e6c876db7e73c42ad10281e8aaa8a28bfade662e520d130094d80cfb2067aa"
+    },
+    {
+      "path": "preview/mercenary-imperial-archer-sss-v1/preview.bundle.js",
+      "status": 200,
+      "sha256": "273a2211dbfc22fa26fdba56f2db70a8791acc77275c6cfbcec80b0eef31b7c9"
+    },
+    {
+      "path": "preview/mercenary-imperial-archer-sss-v1/review.html",
+      "status": 200,
+      "sha256": "e1b6207134b5f9f196b0c8e6ee3ba3a6cf2cd2ad335d188bc034da480d838732"
+    },
+    {
+      "path": "preview/mercenary-imperial-archer-sss-v1/assets/atlases/fx-aura-rear-v2.png",
+      "status": 200,
+      "sha256": "83d5947397971da57fa3162c601df612cf92037520cdbdbdcb94a9be41a8fbb5"
+    },
+    {
+      "path": "preview/mercenary-imperial-archer-sss-v1/assets/atlases/fx-aura-front-v2.png",
+      "status": 200,
+      "sha256": "4748d6f671d29b9016edf91a9f124560d5031f07b4d2ecf61f0c8946069e6964"
+    },
+    {
+      "path": "preview/mercenary-imperial-archer-sss-v1/qa/idle-v2/desktop-idle.webm",
+      "status": 200,
+      "type": "video/webm"
+    },
+    {
+      "path": "preview/mercenary-imperial-archer-sss-v1/qa/idle-v2/mobile-idle.webm",
+      "status": 200,
+      "type": "video/webm"
+    }
+  ],
+  "errors": [],
+  "live": {
+    "ready": true,
+    "revision": "idle-stability-v2",
+    "period": 8,
+    "pose": {
+      "key": "idle",
+      "frame": 0
+    },
+    "point": {
+      "x": 394.99999999999994,
+      "y": 115.5
+    },
+    "runtimeEnabled": false,
+    "atlas": "assets/atlases/fx-aura-rear-v2.png"
+  },
+  "status": "PASS"
+}

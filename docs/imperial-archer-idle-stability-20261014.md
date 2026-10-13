@@ -25,3 +25,12 @@
 - 작은 프리뷰 수정이므로 `npm run deploy:production -- --scoped`를 사용한다.
 - 선택 검사: `preview/mercenary-imperial-archer-sss-v1/qa.test.mjs` 5개. 원화/무기 원본 픽셀, 프레임/아틀라스 해시·알파, V2 앞뒤 알파/RGB 보존, 8초 반복 경계·대기 자세, 취소/대상 소멸/복귀 회귀다. 지정 배포 중 한 번 실행한다.
 - 같은 번들의 PC/모바일 확인을 배포 전후 반복하지 않고 배포 후 바뀐 파일 해시·프리뷰 부팅만 짧게 확인한다. 새 프리뷰 공개와 운영 용병 출시·최종 시각 승인은 별개다.
+
+## 배포 완료
+
+- 소스 `eec4dbff621ea3b1df547f86c2c7a8a2fddc6525`, Pages `d6513b36`. 지정 scoped 배포에서 관련 회귀 5개와 출시·캐시·Hyperdrive 검사가 통과했다.
+- API runtime `b348a959-803d-43e4-84d5-0c1e427e5629`, clan runtime `6e55dcee-1082-4a54-bdfe-405f414756c5`. 서버 실행 코드 변경 없이 지정 명령의 공통 배포 단계를 따랐다.
+- 기본 도메인의 프리뷰·내부 전장·manifest·번들·영상 페이지·앞뒤 V2 아틀라스는 HTTP 200이고 작업 파일과 바이트 SHA가 일치했다. PC/모바일 영상은 `video/webm` HTTP 200이다.
+- 공개 프리뷰 실제 부팅에서 `idle-stability-v2`, 8초 주기, idle:0, 등록된 주작 기준점과 운영 미연결을 확인했다. 콘솔 오류 0. 상세 증빙은 `imperial-archer-idle-stability-20261014-release.json`이다.
+- [수정 프리뷰](https://cnine-card.pages.dev/preview/mercenary-imperial-archer-sss-v1/index.html?revision=idle-v2), [대기 반복 영상](https://cnine-card.pages.dev/preview/mercenary-imperial-archer-sss-v1/review.html?revision=idle-v2).
+- 결과 기록만 추가하는 후속 커밋은 원격 반영으로 끝내며 운영을 다시 배포하지 않는다.
