@@ -21,3 +21,12 @@
 단일 콘텐츠의 표현 계층 변경으로 scoped 배포를 사용한다. 선택 회귀는 `tests/territory-formation-ui-20261013.test.mjs`, `tests/territory-my-team-v2062.test.mjs`다. 이미 완료한 PC·모바일 브라우저 검사를 반복하거나 무관한 게임 전체 검사를 추가하지 않는다.
 
 2026-10-13 11:16 KST 읽기 확인: 운영 커밋 `78932ff80f41d1bb0c0fc0a9c5f3db7a91a35619`, Pages `a522fddd.cnine-card.pages.dev`. 영토전 모드 OFF, 70회 DISABLED/V6, WAITING 146명, 네트워크 회차/거점 0건. 해당 상태를 임의로 모집 시작으로 변경하지 않는다. 공식 `npm run deploy:production -- --scoped`의 출시 플래그·캐시·Hyperdrive 검사를 유지한다.
+
+## 운영 반영 완료
+
+- 2026-10-13 11:21 KST 운영 확인 완료. 소스 `c9c49aeec58f81d0643eff9f38e5492de4a0d065`, Pages `6827c351-8d7d-4254-9bb2-b8a87f96a3fc`.
+- 관련 회귀 14/14 PASS, PC·모바일 모집신청과 편성/전투단 브라우저 검사 PASS. 출시 플래그·캐시·Hyperdrive 검사 통과.
+- 메인 로더·JS·CSS·로고·생성 버튼 4종·배경·자산 색인·미리보기 총 13개 운영 파일이 로컬 결과와 일치한다. 서비스 상태 200, 비인증 영토전 상태 401.
+- OFF, 70회 DISABLED/V6, WAITING 146명, 네트워크 회차/거점 0건 및 설정 해시가 배포 전과 같다. 실제 계정의 모집신청·취소·보상 요청을 실행하지 않았다.
+- API runtime `77828fd6-59eb-4390-9ed3-2ca66d6bd9e8`, clan-draft `4bb45096-d546-4641-bcaa-ee9adcfb941d`. 세부 영수증은 `territory-formation-ui-20261013-release.json`이다.
+- 공개 미리보기: https://cnine-card.pages.dev/preview/territory-formation-20261013-v1/

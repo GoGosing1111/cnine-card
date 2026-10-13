@@ -1,0 +1,137 @@
+{
+  "verifiedAt": "2026-10-13T02:21:18.918Z",
+  "commit": "c9c49aeec58f81d0643eff9f38e5492de4a0d065",
+  "deploymentId": "6827c351-8d7d-4254-9bb2-b8a87f96a3fc",
+  "url": "https://6827c351.cnine-card.pages.dev",
+  "previousProduction": {
+    "checkedAt": "2026-10-13T02:19:07.180Z",
+    "commit": "78932ff80f41d1bb0c0fc0a9c5f3db7a91a35619",
+    "url": "https://a522fddd.cnine-card.pages.dev"
+  },
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "3279ceed1964f3cf31b6f04fd5bb79b894ef8b8814cf60bbed9280ccadad86c6",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "99ab971129d53971e4fc38a2c6f6eed908fb097bdb36b049073eb5e3e3015f9f",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "js/territory-war-v1811.js",
+      "status": 200,
+      "sha256": "407bf3d9a854d45aab6ae53c28f1add579be48200b4e801aac45c79ddcc3597f",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "js/territory-formation-20261013.js",
+      "status": 200,
+      "sha256": "b41de6ac9ce0d33753f5f987353b7d41bb9942a73db6a5721a45b52d6b4b5209",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "css/territory-formation-20261013.css",
+      "status": 200,
+      "sha256": "669243fcaf975c77fd111f6ae4a7d3ef2479f65b21ae2ae8037b11bada52f207",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "assets/ui/territory-war/formation-v1/manifest.json",
+      "status": 200,
+      "sha256": "8ffae2a8f3670571faa5695beeb42448bd6467da30f8da2c9913d3acc83c7d33",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "assets/ui/territory-war/formation-v1/soopketmon-logo-approved.png",
+      "status": 200,
+      "sha256": "01486fb0ceeb822f654e0aae5a3e4e9ce0a05318574e6dfde2a2717b093f7a97",
+      "matched": true,
+      "lineEndingNormalized": false
+    },
+    {
+      "path": "assets/ui/territory-war/formation-v1/button-primary-v2.webp",
+      "status": 200,
+      "sha256": "f13eeb76e36faf9f281bca5ab4869059f504c5a0f2dc2613f7bd5159835dfd98",
+      "matched": true,
+      "lineEndingNormalized": false
+    },
+    {
+      "path": "assets/ui/territory-war/formation-v1/button-secondary-v2.webp",
+      "status": 200,
+      "sha256": "c4f1ff20fa95446de2b357ede53aa629915a0a3851a2d8d48bb09543aef13518",
+      "matched": true,
+      "lineEndingNormalized": false
+    },
+    {
+      "path": "assets/ui/territory-war/formation-v1/button-danger-v2.webp",
+      "status": 200,
+      "sha256": "0b3739d0d7aab1a88ad475da6b929f40d256deb15d5005d1ed664a163db418b9",
+      "matched": true,
+      "lineEndingNormalized": false
+    },
+    {
+      "path": "assets/ui/territory-war/formation-v1/button-square-v2.webp",
+      "status": 200,
+      "sha256": "51e3958c3c4d40e42fa0928d1635d6479ea568880a39e611f618dd712a11d04c",
+      "matched": true,
+      "lineEndingNormalized": false
+    },
+    {
+      "path": "assets/ui/territory-war/formation-v1/command-sanctum.webp",
+      "status": 200,
+      "sha256": "7697aa8ded3a53410ad35806ebf072a617263b6d937ece3f996daf149ee83888",
+      "matched": true,
+      "lineEndingNormalized": false
+    },
+    {
+      "path": "preview/territory-formation-20261013-v1/index.html",
+      "status": 200,
+      "sha256": "5277880cd05e51777f9ad5ef5cd8bfc8f00dbcb8814c7f613480d4fd68c44620",
+      "matched": true,
+      "lineEndingNormalized": true
+    }
+  ],
+  "routes": [
+    {
+      "path": "/api/service/status",
+      "status": 200
+    },
+    {
+      "path": "/api/territory-war/state?nodeIndex=4",
+      "status": 401
+    }
+  ],
+  "database": {
+    "checkedAt": "2026-10-13T02:21:14.801Z",
+    "mode": "OFF",
+    "settingsHash": "59f9454b1d95e17ac749ad855b1d0dfe7b1515e3165346295fc5b1b1297e472c",
+    "round": {
+      "id": "70",
+      "status": "DISABLED",
+      "warfare_version": 6
+    },
+    "roster": [
+      {
+        "status": "WAITING",
+        "count": 146
+      }
+    ],
+    "network": {
+      "rounds": 0,
+      "nodes": 0
+    },
+    "readOnly": true
+  },
+  "productionEnrollmentExecuted": false,
+  "passed": true
+}
