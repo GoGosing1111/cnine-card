@@ -1,0 +1,70 @@
+{
+  "status": "PREVIEW_DEPLOYED_VERIFIED",
+  "verifiedAt": "2026-10-13T03:16:24.784Z",
+  "sourceCommit": "277ae017ba87cc808d5cffc1b802c9cef43e6e01",
+  "previousProductionCommit": "c80830d7ca311a1ac3653510ef97cba421170f5a",
+  "deployCommand": "npm run deploy:production -- --assets-only",
+  "pagesDeploymentId": "fd6b1816-e97b-440d-8c4a-20afcb2838ab",
+  "previewUrl": "https://cnine-card.pages.dev/preview/monster-original-ip-20261013-v1/#hunt-006-nervan",
+  "sourceArt": 36,
+  "protected": "NORMAL 18 rows and Big Seal ID 8",
+  "runtimeConnected": false,
+  "gameplayChanges": false,
+  "userVisualApproval": false,
+  "checks": {
+    "assetHashes": "36 selected originals and references",
+    "browser": "PC 1440x1100 and mobile 390x844; filters, previous/next, zoom; no horizontal overflow",
+    "hyperdriveQueryCache": "disabled, deployment preflight passed"
+  },
+  "files": [
+    {
+      "path": "preview/monster-original-ip-20261013-v1/index.html",
+      "status": 200,
+      "sha256": "9CA082F6A6C76E8B0B84404418377D5EAA6857ACE20A05CA25FF16A7BCBB63B7",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "preview/monster-original-ip-20261013-v1/review.mjs",
+      "status": 200,
+      "sha256": "6E27D548D67F43834C53CADCEE8655D1561486FCC84463C74104E6E8EBECB33A",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "preview/monster-original-ip-20261013-v1/review.css",
+      "status": 200,
+      "sha256": "B32FD60C84E57225B39F4286717EE335535CA3009C9104D87FD2234B64EF51CC",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "preview/monster-original-ip-20261013-v1/manifest.json",
+      "status": 200,
+      "sha256": "E6FABD2F34C0602B203D51542B6D4C11B04E844916F490D1F6A0FCE0072C6A68",
+      "matched": true,
+      "lineEndingNormalized": true
+    },
+    {
+      "path": "preview/monster-original-ip-20261013-v1/assets/hunt-006-nervan-source-v2.png",
+      "status": 200,
+      "sha256": "75EA13A89360653243C2CA97EA58646B27CACD3F0B17A7DDEB5670085D4FF023",
+      "matched": true,
+      "lineEndingNormalized": false
+    },
+    {
+      "path": "preview/monster-original-ip-20261013-v1/assets/hunt-007-kardo-source-v2.png",
+      "status": 200,
+      "sha256": "812BC134347E092826823C7EAB7A0CDEC96536C82EA081050ACDEFF6FAC5F2DB",
+      "matched": true,
+      "lineEndingNormalized": false
+    },
+    {
+      "path": "preview/monster-original-ip-20261013-v1/assets/hunt-013-bareon-source-v2.png",
+      "status": 200,
+      "sha256": "50EA5836C526BEFBBC23C81A70083DA12871F65DD09DDEEB386E711919383CE5",
+      "matched": true,
+      "lineEndingNormalized": false
+    }
+  ]
+}
