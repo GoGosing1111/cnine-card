@@ -4,7 +4,7 @@
   "asset_type": "inventory_item_icon",
   "name": "SSS 용병 카드 조각",
   "rank": "SSS",
-  "status": "ART_RESOURCE_READY_USER_REVIEW_PENDING",
+  "status": "REGISTRATION_AUTHORIZED_20261014",
   "current_version": 1,
   "current_asset": "assets/items/mercenary-sss-card-shard-v1.png",
   "asset": {
@@ -50,7 +50,7 @@
       "bottom": 1209
     },
     "edge_observation": "캔버스 경계 29픽셀에 알파 1/255의 비가시적 흔적이 있음. 가시적인 본체·광원은 경계 안에 있으며 생성 원본 알파를 가공하지 않고 보존함.",
-    "user_final_approval": false
+    "user_final_approval": true
   },
   "scope": {
     "resource_only": true,
@@ -60,5 +60,12 @@
     "exchange_cost_assigned": false,
     "automatic_grant": false,
     "production_deployment": false
+  },
+  "registration": {
+    "authorized_date": "2026-10-14",
+    "authorization": "등록해 이전에 리소스 있을거야",
+    "item_code": "MERCENARY_SSS_CARD_SHARD",
+    "delivery": "71회차 승리팀 80명에게 메시지 1개씩",
+    "exchange_policy": "UNASSIGNED"
   }
 }

@@ -1,3 +1,4 @@
+import {ensureMercenarySssShardCatalog} from '../_mercenary_sss_shard.js';
 import {MERCENARY_EQUIPMENT_SQL_CODES} from '../../shared/mercenary-equipment-v1.mjs';
 import {presentOriginalIpResponse} from '../../shared/monster-original-ip-presentation-v1.mjs';
 import {registerApocalypseChallenge,apocalypseChallengeAction,reserveApocalypseBattle} from '../_apocalypse_challenge.js';
@@ -539,6 +540,7 @@ function messageRewardClaimToken(){
 }
 
 const VERIFIED_MESSAGE_REWARD_TYPES={
+  MERCENARY_SSS_CARD_SHARD:{label:'SSS 용병 카드 조각',icon:'🧩',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   JOKGAK_CITY_REWARD:{label:'족각도시 보상',icon:'🏙️',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   NEW_USER_GIFT_BOX:{label:'신규유저 기프트 박스',icon:'🎁',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
@@ -610,6 +612,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   if(rewardType==='FUNDING_GIFT_BOX')await ensureFundingGiftCatalog(env);
   if(rewardType==='RECRUITMENT_GIFT_BOX')await ensureRecruitmentGiftCatalog(env);
   if(rewardType==='PINGDU_THANKS_GIFT_BOX')await ensurePingduThanksGiftCatalog(env);
+  if(rewardType==='MERCENARY_SSS_CARD_SHARD')await ensureMercenarySssShardCatalog(env);
   if(rewardType==='EMPEROR_ENERGY')await ensureEmperorEnergyCatalog(env);
   const current=await env.DB.prepare('SELECT id,coin,card_shards FROM users WHERE id=?').bind(user.id).first();
   if(!current)throw new Error('보상을 받을 계정을 찾을 수 없습니다.');
@@ -5276,6 +5279,7 @@ async function handleRequest(context){
       await ensureForgeProtectionCatalog(env);
       await ensureForgeRepairCatalog(env);
       await ensureForgeScrollCatalog(env);
+      await ensureMercenarySssShardCatalog(env);
       await ensureSkillChipFoundation(env);
       await ensureBattleSuitCoreCatalog(env);
       await ensureUniqueAdvancementPassCatalog(env);

@@ -30,7 +30,7 @@ function fixture(t){
     const result=sqlite.prepare(statement.sql).run(...statement.values);return {meta:{changes:Number(result.changes)}};
   }
   const DB={prepare,async batch(statements){sqlite.exec('BEGIN');try{const results=statements.map(execute);sqlite.exec('COMMIT');return results}catch(error){sqlite.exec('ROLLBACK');throw error}}};
-  const context=vm.createContext({crypto:webcrypto,ensureVerifiedRewardMessageV1276:async()=>{},ensureTournamentGiftCatalog:async()=>{},ensureFundingGiftCatalog:async()=>{},ensureRecruitmentGiftCatalog:async()=>{},ensurePingduThanksGiftCatalog:async()=>{},ensureEmperorEnergyCatalog:async()=>{},messageRewardClaimToken:()=>webcrypto.randomUUID()});
+  const context=vm.createContext({crypto:webcrypto,ensureVerifiedRewardMessageV1276:async()=>{},ensureTournamentGiftCatalog:async()=>{},ensureFundingGiftCatalog:async()=>{},ensureRecruitmentGiftCatalog:async()=>{},ensurePingduThanksGiftCatalog:async()=>{},ensureEmperorEnergyCatalog:async()=>{},ensureMercenarySssShardCatalog:async()=>{},messageRewardClaimToken:()=>webcrypto.randomUUID()});
   vm.runInContext(`${specs}\n${claim}\nthis.claim=claimMessageRewardDirectV1222;this.spec=verifiedMessageRewardSpec;`,context);
   function reward(code,amount,id=1){
     sqlite.prepare('INSERT INTO user_messages(id,user_id) VALUES(?,1)').run(id);
@@ -90,7 +90,7 @@ test('대회 성황리 기념: two-message bulk claim recovers failed stars with
   assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM inventory_logs').get().n,1);
 });
 
-for(const [code,amount,label] of [...gifts,['EMPEROR_ENERGY',5,'엠퍼러 에너지'],['TOURNAMENT_GIFT_BOX',1,'대회 사은품'],['FUNDING_GIFT_BOX',1,'펀딩 사은품'],['RECRUITMENT_GIFT_BOX',1,'영입전 사은품'],['PINGDU_THANKS_GIFT_BOX',1,'핑두의 감사 선물']]){
+for(const [code,amount,label] of [...gifts,['MERCENARY_SSS_CARD_SHARD',1,'SSS 용병 카드 조각'],['EMPEROR_ENERGY',5,'엠퍼러 에너지'],['TOURNAMENT_GIFT_BOX',1,'대회 사은품'],['FUNDING_GIFT_BOX',1,'펀딩 사은품'],['RECRUITMENT_GIFT_BOX',1,'영입전 사은품'],['PINGDU_THANKS_GIFT_BOX',1,'핑두의 감사 선물']]){
   test(`${code}: supported inventory reward credits exactly once and never spends it`,async t=>{
     const f=fixture(t),r=f.reward(code,amount);
     assert.equal(f.context.spec(code).label,label);assert.equal(f.context.spec(code).inventory,true);
