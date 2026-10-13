@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import vm from 'node:vm';
 import { readFile } from 'node:fs/promises';
+import { retryLichRequest } from '../raid/lich-king/request-retry.mjs';
 
 const read = file => readFile(new URL('../' + file, import.meta.url), 'utf8');
 const [core, entry, client, index, adapter, bundle, styles] = await Promise.all([
@@ -42,13 +43,13 @@ test('disposing inline Lich ignores a late feature response and removes listener
     return nodes.get(selector);
   }};
   const storage={getItem:()=>null,setItem(){},removeItem(){}};
-  const context={AbortController,URLSearchParams,console,sessionStorage:storage,
+  const context={AbortController,URLSearchParams,console,retryLichRequest,sessionStorage:storage,
     request:(_path,options)=>{signal=options.signal;return new Promise(resolve=>{resolveFeature=resolve;});},
     document:{body:{hasAttribute:()=>false},addEventListener(){}},addEventListener(){},
     setTimeout:fn=>{timers.add(fn);return fn;},clearTimeout:fn=>timers.delete(fn)};
   context.window=context;
   vm.createContext(context);
-  vm.runInContext(client.replace(/^import[^\n]+\n/,'').replace('export function','function'),context);
+  vm.runInContext(client.replace(/^import[^\n]+\n/gm,'').replace('export function','function'),context);
   const controller=context.mountLichRaid(root);
   controller.destroy();assert.equal(signal.aborted,true);
   resolveFeature({accessible:true,mode:'TEST'});
@@ -61,7 +62,7 @@ test('disposing inline Lich ignores a late feature response and removes listener
 test('production loader points to native inline UI and reuses the canonical V3 runtime', () => {
   assert.doesNotMatch(entry,/location\.(assign|href)|window\.open|createElement\(['"]iframe/);
   assert.match(entry,/tab\.dataset\.raidContent = 'lich'/);
-  assert.match(index,/lich-king-raid-entry-v1\.js\?v=20261010-weekly-seven/);
+  assert.match(index,/lich-king-raid-entry-v1\.js\?v=20261013-lock-retry/);
   assert.match(index,/core-protocol-raid-v1924\.js[^"']+lich=20261003-coop-feedback/);
   assert.match(adapter,/ProjectVBattleV3Live\.ensureRuntime\(/);
   assert.doesNotMatch(adapter,/import.*project-v-pixi-battle|cnineCardCatalog\s*=/);
@@ -78,13 +79,13 @@ test('switching raid tabs during a pending lobby command ignores its late respon
     return nodes.get(selector);
   }};
   const storage={getItem:()=>null,setItem(){},removeItem(){}};
-  const context={AbortController,URLSearchParams,console,sessionStorage:storage,confirm:()=>true,crypto:{randomUUID:()=> 'local-command'},
+  const context={AbortController,URLSearchParams,console,retryLichRequest,sessionStorage:storage,confirm:()=>true,crypto:{randomUUID:()=> 'local-command'},
     request:path=>path==='raid/lich/feature'?Promise.resolve({accessible:true,mode:'TEST'}):path.startsWith('raid/lich/status')?
       Promise.resolve({state:null,entry:{quantity:1},rooms:[]}):new Promise(resolve=>{finishOpen=resolve;}),
     document:{body:{hasAttribute:()=>false},addEventListener(){}},addEventListener(){},
     setTimeout:fn=>{timers.add(fn);return fn;},clearTimeout:fn=>timers.delete(fn)};
   context.window=context;vm.createContext(context);
-  vm.runInContext(client.replace(/^import[^\n]+\n/,'').replace('export function','function'),context);
+  vm.runInContext(client.replace(/^import[^\n]+\n/gm,'').replace('export function','function'),context);
   const controller=context.mountLichRaid(root);await new Promise(resolve=>setImmediate(resolve));
   nodes.get('[data-lich-id="createButton"]').onclick();assert.equal(typeof finishOpen,'function');
   controller.destroy();removed=true;const before=reads;finishOpen({roomId:'local-room'});

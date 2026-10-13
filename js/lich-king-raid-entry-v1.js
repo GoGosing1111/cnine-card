@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261013-original-ip-v1';
+  const VERSION = '20261013-lock-retry';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, revision = 0;
   const host = () => document.getElementById('pveLichRaidView');
   async function refresh() {

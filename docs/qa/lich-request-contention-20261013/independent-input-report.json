@@ -1,0 +1,24 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "independentMechanics": true,
+      "phaseWhileResponsePending": true,
+      "pollingDuringInput": true,
+      "attackCooldown": true,
+      "sameAttackDedup": true,
+      "lateResponseIgnored": true,
+      "pageErrors": []
+    },
+    {
+      "width": 390,
+      "independentMechanics": true,
+      "phaseWhileResponsePending": true,
+      "pollingDuringInput": true,
+      "attackCooldown": true,
+      "sameAttackDedup": true,
+      "lateResponseIgnored": true,
+      "pageErrors": []
+    }
+  ]
+}

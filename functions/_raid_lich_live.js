@@ -302,6 +302,7 @@ export async function handleLichRaid({path,request,env,deps}){
     return json(result);
   }catch(error){
     const known=Number.isInteger(error.status);
-    return json({ok:false,error:known?error.message:'요청을 완료하지 못했습니다. 같은 요청으로 다시 시도하세요.',code:known?error.code:'LICH_RETRYABLE',retryable:!known||error.status>=500},known?error.status:503);
+    const contention=error.status===409&&['JOINT_LOCK_BUSY','USER_ACTION_IN_PROGRESS','LICH_BUSY'].includes(error.code);
+    return json({ok:false,error:known?error.message:'요청을 완료하지 못했습니다. 같은 요청으로 다시 시도하세요.',code:known?error.code:'LICH_RETRYABLE',retryable:contention||!known||error.status>=500,...(contention?{retryAfterMs:120}:{})},known?error.status:503);
   }
 }

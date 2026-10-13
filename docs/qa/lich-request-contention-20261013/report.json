@@ -1,0 +1,32 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "roleAttempts": 2,
+      "actionAttempts": 2,
+      "roleAssignmentRecovered": true,
+      "interruptSpamClicks": 20,
+      "interruptsApplied": 1,
+      "resourceSpent": 1,
+      "replayExactlyOnce": true,
+      "roleChangeAfterSpam": true,
+      "lockToastShown": false,
+      "sameReceipt": true,
+      "pageErrors": []
+    },
+    {
+      "width": 390,
+      "roleAttempts": 2,
+      "actionAttempts": 2,
+      "roleAssignmentRecovered": true,
+      "interruptSpamClicks": 20,
+      "interruptsApplied": 1,
+      "resourceSpent": 1,
+      "replayExactlyOnce": true,
+      "roleChangeAfterSpam": true,
+      "lockToastShown": false,
+      "sameReceipt": true,
+      "pageErrors": []
+    }
+  ]
+}

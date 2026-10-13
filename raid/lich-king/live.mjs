@@ -1,4 +1,5 @@
 import {jointAccountRequest as request} from '/js/joint-account-transport.mjs';
+import {retryLichRequest} from './request-retry.mjs?v=20261013-lock-retry';
 export function mountLichRaid(root=document.body,{loadBattle=async()=>{}}={}){
 const $=id=>root.querySelector('[data-lich-id="'+id+'"]')||root.querySelector('#'+id),roles={ASSAULT:'정벌대',WARDEN:'봉인대',RESCUE:'구출대',UNASSIGNED:'배정 대기'};
 const roleKeys=['ASSAULT','WARDEN','RESCUE'];
@@ -10,9 +11,14 @@ const on=(target,type,listener)=>target.addEventListener(type,listener,{signal:l
 let disposed=false;
 let portal=null,bodyOverflow='';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const api=(route,options)=>request('raid/lich/'+route,options);
+const api=(route,options={})=>{
+  const {canRetry,...input}=options;
+  input.signal||=lifecycle.signal;
+  return retryLichRequest(()=>request('raid/lich/'+route,input),{signal:input.signal,canRetry});
+};
 let state=null,eventSeq=0,roomId=sessionStorage.getItem('lichLiveRoom')||'',mounted=false,mounting=false,polling=false,busy=false,ended=false,view='landing',timer,toastTimer,memberKey='',failures=0,generation=0;
 let preparation=null;
+let stateReceivedAt=0;
 let loadoutKey='';
 function prewarm(){
   preparation||=loadBattle().then(()=>window.LichBattle?.preload?.()).catch(error=>{preparation=null;console.warn('[Lich resources]',error);});
@@ -123,7 +129,7 @@ function render(result){
   }
   const next=result.state;
   if(state?.id===next.id&&(next.serverNow<state.serverNow||next.serverNow===state.serverNow&&next.revision<state.revision))return;
-  const events=next.events.filter(e=>e.seq>eventSeq);eventSeq=Math.max(eventSeq,next.eventSeq);state=next;setRoom(state.id);
+  const events=next.events.filter(e=>e.seq>eventSeq);eventSeq=Math.max(eventSeq,next.eventSeq);state=next;stateReceivedAt=performance.now();setRoom(state.id);
   if($('guideDialog').open)renderGuideContext();
   renderMembers();
   if(state.status==='LOBBY'){
@@ -172,13 +178,20 @@ async function actionCommand(body){
   inflightActions.set(group,input);paintPendingActions();
   let applied=false;
   const current=()=>!disposed&&version===generation&&roomId===input.roomId;
+  const canRetry=()=>{
+    if(!current()||state?.status!=='ACTIVE'||state.challenge?.id!==input.challengeId)return false;
+    const control=state.controls?.find(control=>control.token===input.stepToken&&control.action===input.action);
+    const now=Number(state.responseNow||state.serverNow)+Math.max(0,performance.now()-stateReceivedAt);
+    return Boolean(control)&&(!control.deadline||now<control.deadline);
+  };
   try{
-    const result=await api('action?since='+eventSeq,{method:'POST',body:{...input,requestId:pending.get(key)},signal:lifecycle.signal,timeoutMs:15000});
+    const result=await api('action?since='+eventSeq,{method:'POST',body:{...input,requestId:pending.get(key)},signal:lifecycle.signal,timeoutMs:15000,canRetry});
     pending.delete(key);if(!current())return;
     if(result.state){render(result);applied=true;}
   }catch(error){
     if(error.status>=400&&error.status<500&&error.status!==429&&!error.retryable)pending.delete(key);
     if(!current())return;
+    if(error.code==='LICH_INPUT_SUPERSEDED')return;
     toast(error.message);
     if(['LICH_OFF','LICH_TEST_ONLY'].includes(error.code))showGate(error);
     if(['LICH_KICKED','LICH_NOT_MEMBER'].includes(error.code)){reset();screen('lobby');}
@@ -201,9 +214,10 @@ async function command(kind,body={}){
   let applied=false;
   if(kind==='action')window.LichBattle?.setPending?.(true);
   const input={...(kind!=='open'?{roomId}:{}),...(['open','join','ready','start'].includes(kind)?{clientRulesVersion:2}:{}),...body},key=kind+':'+JSON.stringify(input);
+  const version=generation;
   if(!pending.has(key))pending.set(key,crypto.randomUUID());sessionStorage.setItem('lichLiveRequests',JSON.stringify([...pending].slice(-20)));
   try{
-    const result=await api(kind+(kind==='action'?'?since='+eventSeq:''),{method:'POST',body:{...input,requestId:pending.get(key)},timeoutMs:15000});
+    const result=await api(kind+(kind==='action'?'?since='+eventSeq:''),{method:'POST',body:{...input,requestId:pending.get(key)},timeoutMs:15000,canRetry:()=>!disposed&&generation===version});
     pending.delete(key);
     if(disposed)return;
     if(kind==='leave'){reset();screen('lobby');}
