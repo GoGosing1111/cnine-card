@@ -36,4 +36,13 @@
 
 신규 기능 한 개가 기존 등록·인증·거래 기반을 재사용하며 일반 뽑기/전투를 변경하지 않는다. 관련 거래·클라이언트·운영 준비 검사와 Worker 문법 검사를 지정하고 `npm run deploy:production -- --scoped`를 사용한다. 직전 실제 운영은 Pages `d6513b36`, 소스 `eec4dbff621ea3b1df547f86c2c7a8a2fddc6525`로 조회했다. 다른 작업의 최신 주작 대기 연출을 보존한다. 출시 플래그·캐시 일치·Hyperdrive 캐시 OFF 조건을 유지한다. PC/모바일 검수는 통과한 범위를 불필요하게 반복하지 않는다.
 
-운영 반영 결과는 배포 후 기록한다.
+## 운영 반영 완료
+
+- 구현 소스 `48da35d100a631a73f037bd20494a8cf0b5f83fe`, Pages `34eed9ab`.
+- API runtime `52d892c4-4b93-491a-85bc-80f622a6c41e`, clan worker `d36ec8c4-c821-4632-b1c0-098fb1892938`.
+- 지정 배포 경로에서 관련 검사 13개·Worker 문법·출시 조건·캐시·Hyperdrive OFF 검사를 통과했다. PC/모바일 검수는 기존 성공 결과를 사용했다.
+- 운영 설정 버전 0, **OFF / cards={} / 지급 0 / 보유 계정 0** 확인. 준비 감사 기록 `45854`. 아이템 카탈로그는 API 배포 후 인벤토리 조회에서 먼저 등록되어 준비 작업에서는 기존 행을 보존했다.
+- 공개 화면·CMS·실행 모듈·이미지·미리보기 데이터가 HTTP 200이며 로컬 검수본 SHA-256과 일치했다. 새 API는 비로그인 요청에 401 / SSS_REROLL_AUTH를 반환하고 실제 regional-v1 런타임에서 처리됐다.
+- 증빙: `docs/qa/sss-reroll-20261014/production-preparation.json`, `live-verification.json`.
+- [연출 미리보기](https://cnine-card.pages.dev/mercenary-codex/sss-reroll/?preview=1), [OWNER CMS](https://cnine-card.pages.dev/admin/sss-reroll.html).
+- 이 결과 기록은 문서만 추가하므로 커밋·원격 반영으로 마무리하고 운영을 다시 배포하지 않는다.

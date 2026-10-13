@@ -1,0 +1,63 @@
+{
+  "at": "2026-10-13T21:36:15.147Z",
+  "source": "48da35d100a631a73f037bd20494a8cf0b5f83fe",
+  "pages": "34eed9ab",
+  "apiRuntime": "52d892c4-4b93-491a-85bc-80f622a6c41e",
+  "checks": [
+    {
+      "path": "mercenary-codex/sss-reroll/index.html",
+      "status": 200,
+      "sha256": "91be8ba5fc0e7c6f781dff3401b07d7e67c5ede3ec0dbccf3741b76e3c71d43c",
+      "matchesLocal": true
+    },
+    {
+      "path": "mercenary-codex/sss-reroll/app.mjs",
+      "status": 200,
+      "sha256": "916aded74aabd73d6939a7532eea76aaf8878148b9f52ff9c2a10f572dff7325",
+      "matchesLocal": true
+    },
+    {
+      "path": "mercenary-codex/sss-reroll/style.css",
+      "status": 200,
+      "sha256": "7ec326b77992f5959271dbf63831c6c1a48909da40b4e38628524210671fd11f",
+      "matchesLocal": true
+    },
+    {
+      "path": "admin/sss-reroll.html",
+      "status": 200,
+      "sha256": "cb37bbbeb6746498bddb104f8d6c30b817b2f67ac0a3a4c11ff5bc68ee33317f",
+      "matchesLocal": true
+    },
+    {
+      "path": "admin/sss-reroll.mjs",
+      "status": 200,
+      "sha256": "265cfb249a97228fad8822d2b9a9e6e74c426ec1a47457628a9da6f1135392ea",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/ui/sss-reroll-v1/ticket-256.webp",
+      "status": 200,
+      "sha256": "9ef643722d07bf3aec7815e1d0494338701485c17060dd3089e46bc23c569333",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/ui/sss-reroll-v1/chamber.webp",
+      "status": 200,
+      "sha256": "4ff4f92dcb379d391ae42670fc2d88f70a0d7fef9b41783a97111fcd7bad0af8",
+      "matchesLocal": true
+    },
+    {
+      "path": "preview/sss-reroll-v1/demo.json",
+      "status": 200,
+      "sha256": "e0083910d49ac269c9249b28284a9353fd0d06cc35259908f16b012162c9f3a2",
+      "matchesLocal": true
+    },
+    {
+      "path": "api/mercenary-sss-reroll/state",
+      "status": 401,
+      "code": "SSS_REROLL_AUTH",
+      "runtime": "regional-v1"
+    }
+  ],
+  "clanWorker": "d36ec8c4-c821-4632-b1c0-098fb1892938"
+}

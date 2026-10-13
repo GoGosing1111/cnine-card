@@ -1,0 +1,17 @@
+{
+  "createdCatalog": false,
+  "createdPolicy": true,
+  "revision": 0,
+  "mode": "OFF",
+  "assignedCards": 0,
+  "granted": 0,
+  "at": "2026-10-13T21:35:39.581Z",
+  "auditId": "45854",
+  "dryRun": false,
+  "verified": {
+    "mode": "OFF",
+    "revision": 0,
+    "cards": {},
+    "holders": 0
+  }
+}
