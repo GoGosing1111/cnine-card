@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "created_date": "2026-10-13",
+  "asset_type": "inventory_item_icon",
+  "name": "SSS 용병 카드 조각",
+  "rank": "SSS",
+  "status": "ART_RESOURCE_READY_USER_REVIEW_PENDING",
+  "current_version": 1,
+  "current_asset": "assets/items/mercenary-sss-card-shard-v1.png",
+  "asset": {
+    "path": "assets/items/mercenary-sss-card-shard-v1.png",
+    "sha256": "352DBCABEA111C3C761D23FD9489D83AF167BE9A8BB5170545EE57C3075CDB97",
+    "bytes": 2012949,
+    "width": 1254,
+    "height": 1254,
+    "format": "png",
+    "has_alpha": true
+  },
+  "generation": {
+    "mode": "built-in image_gen",
+    "prompt": "prompt-v1.json",
+    "generated_original": "exec-bbce7ab7-f0e3-411b-9425-8d9f4b0f9da0.png",
+    "transparent_background": true,
+    "postprocessing": "None. Generated PNG copied byte-for-byte. Alpha decoded only for inspection."
+  },
+  "design": {
+    "shape": "세로 카드의 아래쪽이 불규칙하게 깨진 큰 조각과 작은 파편 2개",
+    "rank_mark": "SSS",
+    "mercenary_mark": "밀폐형 투구와 교차 검 문장",
+    "palette": [
+      "진홍·장밋빛 보석질 카드 면",
+      "금색 입체 테두리·글자·문장"
+    ],
+    "specific_character": false
+  },
+  "visual_review": {
+    "image_inspected": true,
+    "rank_letters": "SSS 3글자 확인",
+    "fractured_edge_visible": true,
+    "transparent_pixels": 805542,
+    "semitransparent_pixels": 766673,
+    "opaque_pixels": 301,
+    "nonzero_alpha_edge_pixels": 29,
+    "max_edge_alpha_255": 1,
+    "visible_alpha_threshold": 8,
+    "visible_bounds": {
+      "left": 155,
+      "top": 45,
+      "right": 1092,
+      "bottom": 1209
+    },
+    "edge_observation": "캔버스 경계 29픽셀에 알파 1/255의 비가시적 흔적이 있음. 가시적인 본체·광원은 경계 안에 있으며 생성 원본 알파를 가공하지 않고 보존함.",
+    "user_final_approval": false
+  },
+  "scope": {
+    "resource_only": true,
+    "item_catalog_registered": false,
+    "live_connected": false,
+    "acquisition_policy_assigned": false,
+    "exchange_cost_assigned": false,
+    "automatic_grant": false,
+    "production_deployment": false
+  }
+}
