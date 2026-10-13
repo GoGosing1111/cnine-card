@@ -1,0 +1,42 @@
+{
+  "version": 3,
+  "title": "배찌 스타일 뿌까머리 펫",
+  "status": "PREVIEW",
+  "userApproved": false,
+  "assetType": "static-full-body-pet-sprite",
+  "sourceArt": "assets/pet-bazzi-pucca-v3.png",
+  "width": 1152,
+  "height": 1366,
+  "transparentBackground": true,
+  "sha256": "39c5e3451d9b6bac5fe5bb30419fb11856e6eef187c84405dfdb51bef9e47702",
+  "generator": "built-in image_gen",
+  "prompt": "prompt-v3.txt",
+  "referenceRoles": [
+    {
+      "file": "exec-ce9fdc3f-f445-475d-9d70-31d724afed2e.png",
+      "role": "V2 body redesign target"
+    },
+    {
+      "file": "20261014_050443.png",
+      "role": "sole face identity and black double-bun hairstyle reference"
+    }
+  ],
+  "userFeedback": [
+    "다시만들어라 뿌까머리 나오게 해봐",
+    "얼굴 반영 제대로해라",
+    "배쪽 비율이 좀 이상한데",
+    "좀 이쁘게 안되나"
+  ],
+  "changes": [
+    "몸통 하단으로 퍼진 실루엣을 줄이고 배를 중앙으로 조정",
+    "흰 배판과 리본 크기 조정",
+    "뿌까머리·사진 얼굴 기준·짧은 다리 유지"
+  ],
+  "validation": {
+    "visuallyInspected": true,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "originalGeneratedBytesPreserved": true
+  },
+  "runtimeIntegration": false
+}
