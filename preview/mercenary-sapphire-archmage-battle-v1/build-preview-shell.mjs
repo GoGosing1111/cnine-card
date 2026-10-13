@@ -10,3 +10,4 @@ let css=await read('../mercenary-golden-dragon-battle-v1/preview.css');for(const
 let battle=await read('../mercenary-golden-dragon-battle-v1/battle.html');battle=battle.replaceAll('천룡검황 진무','이름 미정 · SSS').replaceAll('jinmu-dialogue-v4','sapphire-v1').replaceAll('jinmu=dialogue-v4','sapphire=v1');battle=battle.replace('</head>','<style>.battle-v3-status{display:none!important}</style></head>');await write('battle.html',battle);
 let build=await read('../mercenary-golden-dragon-battle-v1/build.mjs');await write('build.mjs',build.replaceAll('Golden dragon','Sapphire mage'));
 console.log('Preview-only shell generated. No game registry or runtime changes.');
+await import('./upgrade-v2-shell.mjs');

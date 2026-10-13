@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "date": "2026-10-14",
   "name": null,
   "nameStatus": "UNDECIDED_BY_USER",
@@ -8,7 +8,7 @@
   "code": null,
   "previewAdapterCode": "V-000",
   "runtimeEnabled": false,
-  "status": "BATTLE_VISUAL_REVIEW_PENDING",
+  "status": "V2_VISUAL_REVIEW_PENDING",
   "sourceArt": "preview/mercenary-sapphire-archmage-sss-20261013-v1/assets/sapphire-archmage-sss-source-art-v1.png",
   "sourceArtSha256": "38DA2E9BBE7BEBB7BCB0855260705FCCB1EF0CD638A005308A7B164B0B660793",
   "weapon": {
@@ -991,7 +991,8 @@
           },
           "airborneSourcePixels": 0
         }
-      ]
+      ],
+      "previewEnabled": false
     },
     "defeat": {
       "atlas": "assets/atlases/defeat.png",
@@ -1761,6 +1762,390 @@
           }
         }
       ]
+    },
+    "aura": {
+      "atlas": "assets/atlases/aura-v2.png",
+      "sha256": "D34C335202959A91B2AB59A920E8535EFCAAA2BDCE0368DB65A0C9EC71FB4329",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 398,
+      "frameCount": 12,
+      "source": "assets/sources/aura-v2.png",
+      "sourceSha256": "1F54DCA21915B62F286AFA5CC127033EC3D7DCF82A3EAFC6B807DD9CA6854C20",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/aura-v2-0.png",
+          "sha256": "CFD9CCBE92F7655BFFBDD6DB7737F641018E3FE30873379FB80C09D9477C5D3F",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/aura-v2-1.png",
+          "sha256": "23D9F66629F510BBCC8F382049FCD5A7F5B30A476A7AF9A97FDBD925AAF85E97",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/aura-v2-2.png",
+          "sha256": "A0BD799CB4AA565CC80402119F65044D87BF8E506FF84DE92C62A9D25253BC8D",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/aura-v2-3.png",
+          "sha256": "B19E1841C12B2206D61B9403EF5EB2B718303F8CE607E1A71065F1BE12B93074",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/aura-v2-4.png",
+          "sha256": "5E79E21D7660080405F76BE0E375C57D5D4FA63C28AD38733C585CAB15B43F7F",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/aura-v2-5.png",
+          "sha256": "650033C5F2EA1CAE0D370083FBB8C6AFCC67ECF6412C1EAF7404A6836ADC5A7B",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/aura-v2-6.png",
+          "sha256": "2D5C991B8F7EE955F1E086F1598D84AF5129BA7D8C9A831280956FFAD43A1605",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/aura-v2-7.png",
+          "sha256": "2520512A8807C9BFEBA65C88E0C1A4EE8D92008B4DFE027C9802F6208CBC204A",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/aura-v2-8.png",
+          "sha256": "6DD8EEF72C073B517669FB8C0AF396242C6C19AF067DA9E2AEB98F7C01590887",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/aura-v2-9.png",
+          "sha256": "C808EB84E65417A34B2FCE557A657E9ECF9B79220C14243F92223D3BED5233D6",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/aura-v2-10.png",
+          "sha256": "4AFFDEE50637A72E4D2A41FE5CDDC171E145D1A1B0DA495CA301E07D81E1BBD6",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/aura-v2-11.png",
+          "sha256": "BE847E23DE8B9CF853CF76CA628425FFF185AD4917C4DFB7EF32CC4F0DD8AF4B",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ]
+    },
+    "nova": {
+      "atlas": "assets/atlases/nova-v2.png",
+      "sha256": "295695AF423593FF4D424BEF7BB980FDFFC86FD60DCAF2505B8352A1DC1E511E",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 398,
+      "frameCount": 12,
+      "source": "assets/sources/nova-v2.png",
+      "sourceSha256": "3B94C6F80C68AD792C490E4D12C5779E044DF99BA65B3EAA4B494B6CC7D44714",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/nova-v2-0.png",
+          "sha256": "A8B92210E89C0848725E10662FD31EB5373FBC41AE978FEB62C1D635F0978197",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/nova-v2-1.png",
+          "sha256": "7F5AB440539FC19085E71B4702A2B054DDEE6FD95642E7097DD1760F3617153F",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/nova-v2-2.png",
+          "sha256": "E1966A6C151E378DE635EC53686F034E5044DD4C36967C02110E396EF9369B7F",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/nova-v2-3.png",
+          "sha256": "F49C8C326BD5B306A889FE75D1D16881D0E66AD11A85CFBB89C418FAC1312B03",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/nova-v2-4.png",
+          "sha256": "38BD26B28332ABF6E230CCCCB64A13635F9D2FA8E58D2B5DC312B0253A98C29C",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/nova-v2-5.png",
+          "sha256": "4BB5E78A27050F5FBBF3756B74813A64D4BEB11F312AEE95C74E58A579166C82",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/nova-v2-6.png",
+          "sha256": "204F263275EFC45BFC4E3F751A7B13DE94E453A56863EBCE3C7CB383E35D1C23",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/nova-v2-7.png",
+          "sha256": "F6AAF4B1B1EE631719616DCB1DC11B776A3A94FDA66098E1AD33595FEBD1A734",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/nova-v2-8.png",
+          "sha256": "3A443133DE6EAD6040636DC09219432231797671171114A2482FC13922A3097B",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/nova-v2-9.png",
+          "sha256": "20CAA096A531D57EA48CB75A029381E168C80D2C87102054351CAD875A2DAD5C",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/nova-v2-10.png",
+          "sha256": "7BE54D800E80ACD7D72B671F3A86415CB3064502BBB329219E7C124C9E4D2CA9",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/nova-v2-11.png",
+          "sha256": "58F0CF81468E7BA52B6F5F34DD64489937B123D6FC14394E602478286783DF8E",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ]
     }
   },
   "displaySizing": {
@@ -1796,6 +2181,20 @@
   "battleSpriteStatus": "PREVIEW_PREPARED_AWAITING_APPROVAL",
   "counts": {
     "motion": 18,
-    "effects": 36
-  }
+    "effects": 60,
+    "activeMotion": 11
+  },
+  "idlePolicy": {
+    "bodyFrame": "idle:0",
+    "frameCycling": false,
+    "bodyScaleAnimation": false,
+    "bodyPositionAnimation": false,
+    "auraClock": "SAME_REGISTERED_GSAP",
+    "loop": true
+  },
+  "userCorrections": [
+    "대기자세가 부자연스럽게 움직임: 몸·발·지팡이 고정, 주변 오라만 흐름",
+    "마법사 대쉬 제거",
+    "결정창 6연사와 적중 폭쇄, 삼중 천공 마법진과 마지막 광역 폭쇄"
+  ]
 }

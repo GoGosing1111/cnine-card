@@ -1,4 +1,14 @@
-# 이름 미정 · 청옥 중갑 마법사 SSS 전투 리소스 검수판
+# 이름 미정 · 청옥 중갑 마법사 SSS 전투 리소스 검수판 V2
+
+2026-10-14 후속 정정: 사용자는 서 있는 그림 자체보다 **대기 중 부자연스러운 움직임**을 지적했다. 서로 다른 대기 그림 네 장을 0.5초마다 바꾸던 재생을 중단하고 `idle:0` 한 자세로 고정했다. 몸·발·지팡이에 이동·확대·축소를 주지 않는다. 독립된 청옥 오라 12프레임과 지팡이 광원만 같은 GSAP 시계에서 흐른다. 대기 시연은 6초 단위로 이어지고, 전체 시연에서는 다음 동작으로 넘어간다.
+
+후속 “스킬도 좀 화려하게 더 보강좀해보고... 대쉬기는 필요없잖아 마법사라서” 요청에 따라 대쉬를 시연 목록·행동 계획·리소스 로딩에서 제거했다. 포격은 6연사와 개별 결정 폭발, 궁극기는 삼중 천공 마법진·5개 지점 강림·최종 대형 폭쇄로 보강했다. 추가 폭쇄도 새 12프레임 작화다. 능력치나 서버 피해는 변경하지 않는다.
+
+현재 활성 몸 자세는 11개, 효과는 60프레임이다. 기존 몸 자세 18개와 V1 검수 증빙은 이력으로 보존하며, 대쉬 4개와 대기 대체 3개를 현재 재생에 사용하지 않는다. 기존 `qa/runtime-report.json`과 `qa/*-showcase.webm`는 V1 이력이다. **최신 검수·영상은 `qa/v2/`**, 최신 빌더는 `pack-v2.mjs`, 검사는 `qa-v2.mjs`다. 새 효과는 built-in image_gen으로 제작했고 `prompt-aura-v2.json`, `prompts-nova-v2.json`에 실제 프롬프트를 기록했다.
+
+PC·모바일 각각 7초 실제 대기 재생에서 40번 관찰한 몸 텍스처·위치·배율 상태는 정확히 1개, 오라 시각은 40개였다. 대기 반복 경계에서도 몸이 튀지 않는다. 각 모드 지면 오차 0, 효과 화면 경계 이탈 0, 포격·강림·최종 폭쇄 접점 오차 0을 확인했다. 정지·0.25/0.5/2배속·동작만·오라 OFF·동작 줄이기·시전 중단·대상 소멸·이탈 정리를 통과했다. `qa/v2/*-showcase.webm`를 실제 디코딩 재생해 대기 2초/4초, 포격, 최종 폭쇄, 잔향을 다시 확인했다. 사용자 최종 시각 승인은 대기다.
+
+아래는 승인 원화와 V1 제작 이력이다. V1의 대기 프레임 교체·대쉬·4연사·단일 마무리 설명보다 위 V2 정정이 우선한다.
 
 2026-10-14 사용자 요청: “이름은 나중에 정하고 전투 리소스 만들어 sss급에 걸맞게 화려하고 멋있는 스킬로”. 2026-10-13 승인 원화를 보존한 신규 전투 제작물이다. 이름·운영 코드·리미티드 여부·능력치·실제 피해 및 획득 경로를 정하지 않았다. `V-000`은 이 페이지의 메모리 안에서 공용 아트 어댑터를 검수하기 위한 임시 입력이며 운영 로스터에 등록하지 않는다.
 
@@ -39,13 +49,14 @@ X 승인 기준 영상은 실제 재생하고 `qa/video-reference-*.png`와 재�
 ```powershell
 node preview/mercenary-sapphire-archmage-battle-v1/extract-approved-staff.mjs
 node preview/mercenary-sapphire-archmage-battle-v1/pack-assets.mjs
+node preview/mercenary-sapphire-archmage-battle-v1/pack-v2.mjs
 node preview/mercenary-sapphire-archmage-battle-v1/build-preview-shell.mjs
 node preview/mercenary-sapphire-archmage-battle-v1/build.mjs
 node --test preview/mercenary-sapphire-archmage-battle-v1/qa.test.mjs
 node preview/mercenary-sapphire-archmage-battle-v1/serve.mjs
 # 별도 터미널, 서버가 켜진 상태
-node preview/mercenary-sapphire-archmage-battle-v1/qa-runtime.mjs
-node preview/mercenary-sapphire-archmage-battle-v1/inspect-video.mjs
+node preview/mercenary-sapphire-archmage-battle-v1/qa-v2.mjs
+node preview/mercenary-sapphire-archmage-battle-v1/inspect-v2-video.mjs
 ```
 
 프롬프트 생성은 built-in image_gen을 사용했다. idle/cast/ultimate/dash/defeat의 입력은 `assets/sources/sd-candidate.png`, SD 최초 입력은 승인 원화, 효과 3종은 신규 생성이다. 재현 스크립트는 보존된 생성 원본을 사용하며 승인 원화를 재생성하지 않는다. 편집 시 해당 부분만 다시 검수한다.

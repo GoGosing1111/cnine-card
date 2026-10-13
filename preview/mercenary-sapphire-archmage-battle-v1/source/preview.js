@@ -21,7 +21,7 @@ function resize(){if(!fx||disposed)return;const at=fx.time,was=fx.playing;fx.pau
 function dispose(){if(disposed)return;disposed=true;queue.active=false;engine?.app.renderer.off('resize',resize);fx?.destroy();for(const a of [...(engine?.allies||[]),...(engine?.enemies||[])]){a.animationAdapter?.destroy?.();a.animationController?.kill?.();}merc?.destroy();renderer?.destroy();window.ProjectVPixiBattle?.destroy();}
 async function boot(){
  try{
-  const [manifest,catalogs]=await Promise.all([get(ROOT+'manifest.json'),Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>get('/assets/ui/project-v/characters/'+p)))]);
+  const [manifest,catalogs]=await Promise.all([get(ROOT+'manifest.json?v=idle-aura-v2'),Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>get('/assets/ui/project-v/characters/'+p)))]);
   const available=catalogs.flatMap(m=>m.characters.map(c=>({...c,grade:m.rarity})));
   const deck=IDS.map((id,i)=>{const c=available.find(x=>x.cardId===id);if(!c)throw Error('실제 기준 카드 누락');return {...c,id,cardId:id,name:c.member,title:c.title,image:'/'+c.sourceArt,sourceArt:'/'+c.sourceArt,originalCardArt:'/'+c.sourceArt,power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],hp:100,maxHp:100};});
   window.cnineCardCatalog=()=>deck;const payload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{mode:'PVP',teams:{A:{cards:deck},B:{cards:deck}},result:{timeline:[]}}};
@@ -35,7 +35,7 @@ async function boot(){
   merc=new BattleCharacter({id:'SAPPHIRE_RESOURCE_PREVIEW',name:'이름 미정 · SSS',team:TEAM.ALLY,fullBodyTexture:sd,cutInTexture:cutin,fullBodyHeight:manifest.displaySizing.fullBodyHeight,accent:0x79ceff});
   merc.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);engine.combatLayer.addChild(merc.root);engine.setFormationMercenaries([merc]);merc.root.alpha=1;merc.root.visible=true;
   const targets=engine.enemies.slice().sort((a,b)=>b.baseY-a.baseY);fx=new SapphireFX(engine,merc,targets,assets,manifest,plan(),update);
-  fx.onCancel=stopQueue;fx.onComplete=()=>{if(!queue.active)return;queue.index++;if(queue.index<SHOWCASE.length)playQueue();else{queue.completed=true;stopQueue();$('cue').textContent='전체 시연 완료';}};
+  fx.onCancel=stopQueue;fx.onComplete=()=>{if(!queue.active)return false;queue.index++;if(queue.index<SHOWCASE.length)playQueue();else{queue.completed=true;stopQueue();$('cue').textContent='전체 시연 완료';}return true;};
   $('showcase').onclick=startQueue;$('play').onclick=()=>fx.playing?fx.pause():fx.play();$('restart').onclick=()=>{if(queue.active)startQueue();else{fx.seek(0);fx.play();}};$('cancel').onclick=()=>fx.cancel();
   $('impact').onclick=()=>fx.seek(fx.plan.contacts[0]??.35);$('scrub').oninput=()=>{stopQueue();fx.seek(Number($('scrub').value));};$('speed').onchange=()=>fx.setSpeed(Number($('speed').value));
   const change=()=>{stopQueue();fx.setPlan(plan());};$('mode').onchange=change;$('scenario').onchange=change;
@@ -43,7 +43,7 @@ async function boot(){
   $('reduced').checked=fx.reducedMotion;
   for(const b of parentDoc.querySelectorAll('[data-mode]'))b.onclick=()=>{$('mode').value=b.dataset.mode;change();fx.play();};
   for(const e of parentDoc.querySelectorAll('button,select,input'))e.disabled=false;$('sound').disabled=true;
-  $('health').textContent='재생 준비 완료 · 동작 18 / 이펙트 36 프레임';prepared.phase.textContent='SSS · 이름 미정 · SSS';
+  $('health').textContent='재생 준비 완료 · 대기 자세 보정 · 오라와 마법 강화';prepared.phase.textContent='SSS · 이름 미정 · SSS';
   engine.app.renderer.on('resize',resize);
   const review={get fx(){return fx},get engine(){return engine},get merc(){return merc},manifest,queue,diagnostics:()=>({...fx.diagnostics(),queue:{...queue}}),dispose};window.SapphirePreview=review;window.parent.SapphirePreview=review;
   if(new URLSearchParams(window.parent.location.search).has('showcase')&&!fx.reducedMotion)startQueue();else{fx.setPlan(makePlan({mode:'aura'}));$('mode').value='aura';if(!fx.reducedMotion)fx.play();}
