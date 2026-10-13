@@ -1,0 +1,75 @@
+{
+  "name": "댕무라사키",
+  "code": "DAENG_MURASAKI",
+  "serial": "A-35",
+  "status": "USER_RELEASE_AUTHORIZED",
+  "generator": "built-in image_gen",
+  "approval": {
+    "date": "2026-10-13",
+    "quote": "댕무라사키 아바타로 추가하고 한복디임2하고 동급 옵션으로 만들어",
+    "lobbySha256": "6cd628c2060fa2cf21fb298d653cfa4e1228c9598d3bc03d76f0d20edafe321b"
+  },
+  "equipmentPrompt": "equipment-prompt-v1.txt",
+  "processing": "Generated native-alpha cutout. Source PNGs preserved. Uniform resize, transparent padding and WebP export only.",
+  "alpha": {
+    "clearRatio": 0.5617116292317709,
+    "solidRatio": 0.40627797444661456,
+    "borderMax": 1,
+    "bounds": {
+      "left": 109,
+      "top": 66,
+      "right": 842,
+      "bottom": 1493
+    },
+    "crop": {
+      "left": 101,
+      "top": 58,
+      "width": 750,
+      "height": 1444
+    }
+  },
+  "runtime": {
+    "width": 640,
+    "height": 1088,
+    "uniformScale": 0.7202216066481995,
+    "bodyWidth": 540,
+    "bodyHeight": 1040
+  },
+  "files": {
+    "avatar-peach-kimono-source-art-v1.png": {
+      "sha256": "6cd628c2060fa2cf21fb298d653cfa4e1228c9598d3bc03d76f0d20edafe321b",
+      "bytes": 2828242,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-daeng-murasaki-equipment-source-art-v1.png": {
+      "sha256": "e0219e2a769d9c1638cd00681865840b0fc3cf21817a93ec1aa1fce79ccea328",
+      "bytes": 2048551,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    "avatar-daeng-murasaki-equipment-v1-640.webp": {
+      "sha256": "6b67725bf90ffdb9c5ae047c6c55dc18a7f42620b47ae7412d195a362ec78b69",
+      "bytes": 173190,
+      "width": 640,
+      "height": 1088,
+      "hasAlpha": true
+    },
+    "avatar-daeng-murasaki-lobby-v1-1024.webp": {
+      "sha256": "29b8500a6b0e078434306dafb00fcfe9d0cb000323bd9d82e7920cb64d7634d3",
+      "bytes": 395470,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-daeng-murasaki-lobby-v1-640.webp": {
+      "sha256": "1d4a0bdbbbfadb958a2aa61bb1e36603ff97e286ea9418f7ab21b4437e807d50",
+      "bytes": 199410,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    }
+  }
+}

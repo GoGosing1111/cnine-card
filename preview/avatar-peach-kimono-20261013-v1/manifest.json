@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "id": "avatar-peach-kimono-20261013-v1",
-  "title": "청록 머리 복숭아 의상 아바타",
+  "title": "댕무라사키",
   "createdAt": "2026-10-13T10:03:53.2413332Z",
   "request": "얼굴 의상 최대한 99% 반영해서 아바타 제작해라",
   "tool": "built-in image_gen",
   "useCase": "stylized-concept",
-  "status": "DRAFT_SOURCE_ART",
-  "userApproved": false,
+  "status": "USER_RELEASE_AUTHORIZED",
+  "userApproved": true,
   "runtimeRegistered": false,
   "source": {
     "file": "assets/avatar-peach-kimono-source-art-v1.png",
@@ -34,5 +34,12 @@
     "hair": "뿌리부터 끝까지 자연스러운 연속 모발 흐름 확인",
     "framing": "머리 장식·소매·발이 캔버스 안에 있으며 문구·프레임 없음",
     "unseenLowerCostume": "사진에서 보이지 않는 하단은 같은 기모노 원단을 발목까지 연장하고 분홍 신발로 완성"
-  }
+  },
+  "code": "DAENG_MURASAKI",
+  "serial": "A-35",
+  "registrationAuthorization": {
+    "date": "2026-10-13",
+    "quote": "댕무라사키 아바타로 추가하고 한복디임2하고 동급 옵션으로 만들어"
+  },
+  "runtimeManifest": "runtime-manifest.json"
 }

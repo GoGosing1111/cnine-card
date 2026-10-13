@@ -1,0 +1,56 @@
+[
+  {
+    "name": "desktop",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "check": {
+      "src": "../../preview/avatar-peach-kimono-20261013-v1/assets/avatar-daeng-murasaki-equipment-v1-640.webp",
+      "naturalWidth": 640,
+      "naturalHeight": 1088,
+      "inside": true,
+      "bounds": {
+        "x": 454.328125,
+        "y": 199.390625,
+        "width": 385,
+        "height": 668.796875
+      },
+      "stage": {
+        "x": 345.046875,
+        "y": 119.1875,
+        "width": 603.5625,
+        "height": 882
+      }
+    },
+    "errors": [],
+    "passed": true
+  },
+  {
+    "name": "mobile",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "check": {
+      "src": "../../preview/avatar-peach-kimono-20261013-v1/assets/avatar-daeng-murasaki-equipment-v1-640.webp",
+      "naturalWidth": 640,
+      "naturalHeight": 1088,
+      "inside": true,
+      "bounds": {
+        "x": 86.203125,
+        "y": 354.4375,
+        "width": 217.59375,
+        "height": 408.875
+      },
+      "stage": {
+        "x": 24,
+        "y": 305,
+        "width": 342,
+        "height": 540
+      }
+    },
+    "errors": [],
+    "passed": true
+  }
+]
