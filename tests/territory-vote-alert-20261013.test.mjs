@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 const globals={};
 vm.runInNewContext(readFileSync(new URL('../js/territory-vote-alert-v1.js',import.meta.url),'utf8'),{globalThis:globals,Date});
-const {pollsFor,createTracker}=globals.CNineTerritoryVoteAlert;
+const {pollsFor,createTracker,createPreferences}=globals.CNineTerritoryVoteAlert;
 const now=Date.now();
 function fixture(){
   const skill=(side,code,votes)=>({ready:true,readyAt:null,voteKey:`V25:7:11:${side}:${code}:0`,votes,voted:false});
@@ -47,4 +47,16 @@ test('own votes do not create a duplicate confirmation alert; storage failure ke
   assert.equal(tracker.unseen(pollsFor(s,now)).length,0);
   tracker.remember(pollsFor(s,now));s.counter.A.skills.INFILTRATION.voted=false;
   assert.equal(tracker.unseen(pollsFor(s,now)).length,0);
+});
+test('vote alert preference defaults on, survives reload and stays account-specific',()=>{
+  const data=new Map(),storage={getItem:k=>data.get(k),setItem:(k,v)=>data.set(k,v)},prefs=createPreferences(storage);
+  assert.equal(prefs.enabled(1),true);
+  prefs.set(1,false);assert.equal(prefs.enabled(1),false);
+  assert.equal(createPreferences(storage).enabled(1),false);
+  assert.equal(prefs.enabled(2),true);
+  prefs.set(1,true);assert.equal(createPreferences(storage).enabled(1),true);
+});
+test('unavailable preference storage still lets this page turn notifications off',()=>{
+  const prefs=createPreferences({getItem(){throw Error('denied');},setItem(){throw Error('denied');}});
+  assert.equal(prefs.enabled(1),true);prefs.set(1,false);assert.equal(prefs.enabled(1),false);
 });

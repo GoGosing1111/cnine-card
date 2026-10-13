@@ -29,10 +29,47 @@
       }
     };
   }
+  function createPreferences(storage){
+    const values=new Map(),prefix='cnine-territory-vote-alert-enabled-v1:';
+    return {
+      enabled(account){
+        const key=String(account);
+        if(!values.has(key)){let enabled=true;try{enabled=storage?.getItem(prefix+key)!=='OFF';}catch{}values.set(key,enabled);}
+        return values.get(key);
+      },
+      set(account,enabled){
+        const key=String(account);values.set(key,Boolean(enabled));
+        try{storage?.setItem(prefix+key,enabled?'ON':'OFF');}catch{}
+      }
+    };
+  }
   let storage;try{storage=globalThis.sessionStorage;}catch{}
   const tracker=createTracker(storage);
+  let local;try{local=globalThis.localStorage;}catch{}
+  const preferences=createPreferences(local);
   let notice=null,timer=0;
   function dispose(){clearTimeout(timer);timer=0;notice?.element.remove();notice=null;}
+  function paintPreference(root,state){
+    const account=state?.mine?.user_id??'guest',enabled=preferences.enabled(account);
+    const panel=root.querySelector('[data-tw4-panel="operations"]');
+    if(!panel)return enabled;
+    let control=panel.querySelector('.tw-vote-preference');
+    if(!control){
+      control=document.createElement('label');control.className='tw-vote-preference';
+      control.innerHTML='<input type="checkbox" aria-label="영토전 투표 알림"><span>투표 알림</span><b></b>';
+      control.querySelector('input').onchange=event=>{
+        const on=event.target.checked;preferences.set(control.dataset.voteAccount,on);
+        control.querySelector('b').textContent=on?'ON':'OFF';
+        if(!on)dispose();
+      };
+      panel.prepend(control);
+    }
+    control.dataset.voteAccount=String(account);
+    const input=control.querySelector('input'),status=control.querySelector('b');
+    if(input.checked!==enabled)input.checked=enabled;
+    if(status.textContent!==(enabled?'ON':'OFF'))status.textContent=enabled?'ON':'OFF';
+    return enabled;
+  }
   function paintButtons(root,polls){
     const byCode=new Map(polls.map(poll=>[poll.code,poll]));
     root.querySelectorAll('[data-tw4-drawer="operations"],[data-tw3-operation]').forEach(button=>{
@@ -53,14 +90,16 @@
     if(!current.length){dispose();return;}
     const first=current[0],count=current.length;
     const set=(part,text)=>{const node=notice.element.querySelector('[data-vote-'+part+']');if(node.textContent!==text)node.textContent=text;};
-    set('context',(state.front?.node_name||state.nodes?.[Number(state.round.current_front_index)]?.name||'현재 거점')+' · 아군 스킬');
     set('name',first.name+(count>1?` 외 ${count-1}개`:''));
-    set('count',first.votes>=first.required?`${first.votes} / ${first.required}명 · 발동 대기`:`${first.votes} / ${first.required}명 · 찬성표를 모으고 있습니다`);
+    set('count',`${first.votes}/${first.required}`);
+    notice.element.title=(state.front?.node_name||'현재 거점')+' · 아군 '+first.name+' 투표 진행 중';
   }
   function sync(root,state,{now=Date.now(),notify=true,open=()=>{}}={}){
     if(!root)return dispose();
     const polls=pollsFor(state,now);
     paintButtons(root,polls);
+    const enabled=paintPreference(root,state);
+    if(!enabled)dispose();
     // A player's own completed vote already has its normal confirmation toast.
     tracker.remember(polls.filter(poll=>poll.voted));
     if(notice){
@@ -68,16 +107,16 @@
       if(notice&&!notice.element.isConnected)root.appendChild(notice.element);
     }
     const fresh=tracker.unseen(polls);
-    if(!notify||!fresh.length||notice||root.ownerDocument.body.classList.contains('territory-war-drawer-open')||root.querySelector('.tw4-drawer-layer:not([hidden])'))return;
+    if(!enabled||!notify||!fresh.length||notice||root.ownerDocument.body.classList.contains('territory-war-drawer-open')||root.querySelector('.tw4-drawer-layer:not([hidden])'))return;
     tracker.remember(fresh);
     const element=document.createElement('aside');element.className='tw-vote-notice';
     element.setAttribute('aria-label','영토전 스킬 투표 알림');
-    element.innerHTML='<div class="tw-vote-notice-copy" role="status" aria-live="polite" aria-atomic="true"><small data-vote-context></small><b>스킬 투표 진행 중</b><strong data-vote-name></strong><span data-vote-count></span></div><button type="button" class="tw-vote-open">투표 보기 <span aria-hidden="true">→</span></button><button type="button" class="tw-vote-dismiss" aria-label="투표 알림 닫기">×</button>';
+    element.innerHTML='<div class="tw-vote-notice-copy" role="status" aria-live="polite" aria-atomic="true"><b>투표 중</b><strong data-vote-name></strong><span data-vote-count></span></div><button type="button" class="tw-vote-open" aria-label="스킬 투표 보기">보기 <span aria-hidden="true">→</span></button><button type="button" class="tw-vote-dismiss" aria-label="투표 알림 닫기">×</button>';
     notice={element,keys:new Set(fresh.map(poll=>poll.key))};
     paintNotice(polls,state);root.appendChild(element);
     element.querySelector('.tw-vote-open').onclick=()=>{dispose();open();};
     element.querySelector('.tw-vote-dismiss').onclick=dispose;
-    timer=setTimeout(dispose,8000);
+    timer=setTimeout(dispose,4000);
   }
-  globalThis.CNineTerritoryVoteAlert={sync,dispose,pollsFor,createTracker};
+  globalThis.CNineTerritoryVoteAlert={sync,dispose,pollsFor,createTracker,createPreferences};
 })();

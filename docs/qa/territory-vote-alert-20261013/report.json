@@ -14,6 +14,11 @@
       "frontScoped": true,
       "noRepeatOnReentry": true,
       "reducedMotion": true,
+      "compactNotice": true,
+      "offKeepsBorder": true,
+      "offPersistsOnReload": true,
+      "onRestoresAlert": true,
+      "autoDismissFourSeconds": true,
       "pageErrors": []
     },
     {
@@ -30,6 +35,11 @@
       "frontScoped": true,
       "noRepeatOnReentry": true,
       "reducedMotion": true,
+      "compactNotice": true,
+      "offKeepsBorder": true,
+      "offPersistsOnReload": true,
+      "onRestoresAlert": true,
+      "autoDismissFourSeconds": true,
       "pageErrors": []
     }
   ]
