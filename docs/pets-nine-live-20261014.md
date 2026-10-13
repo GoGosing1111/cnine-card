@@ -20,3 +20,12 @@
 
 - 직전 Pages `784574af`, 소스 `4ff6167c945f466f920b5e683b5882b31d2df981`.
 - 공통 펫 목록과 원본/기록 추가만 있으므로 scoped 배포. 신규 검사는 이미 통과했고 배포에서 기존 `pet-equipment-20261002`, `pet-live-magnet-20261006` 회귀만 실행한다. API 목록은 기존 no-store 응답을 사용한다.
+
+## 운영 반영 완료
+
+- 소스 `7afe8ae48`, Pages `b751d74f.cnine-card.pages.dev` 배포 완료. 기존 펫 관련 16개 회귀 및 출시 검사를 통과했다.
+- API runtime `e7b00272-f7b7-48c1-96ad-803094f34499`, clan-draft `dc74c145-5539-4931-bb73-d54c3388b1df`.
+- 운영 이미지 9개 HTTP 200 및 승인 SHA-256 일치, 공통 펫 목록과 로컬 파일 일치 확인 후 CMS 등록했다.
+- 운영 CMS revision 10 → 11. 기존 10개 정의 및 문서 정책이 그대로이고 신규 9개만 추가돼 총 19개 정의(원화 등록 18종, 기존 초안 1개)다.
+- 운영 영수증 `ops:pets-nine-live:20261014:v1`, 2026-10-14 03:38 KST 완료. 기존 말티즈디임/나무늘봉순의 25%를 포함한 버프, 개봉 풀/가중치, 보유권을 보존했다.
+- 원본 작업 폴더 `tmp/pets-nine-live-20261014/`의 `cms-before-save.json`, `cms-after.json`, `registration.json`, `live-assets.json`에 백업·검증을 보존했다. 문서만 후속 커밋하고 재배포하지 않는다.
