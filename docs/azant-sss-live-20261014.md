@@ -30,4 +30,12 @@
 
 직전 실제 운영 소스는 `da75616529fab13458de79be0fce337982f35633`, Pages `71de4565`이다. 다른 작업의 붉은 봉황 궁수 프리뷰와 디임 미션 지급 기록을 최신 main에서 보존한다. 일반 용병 1종의 기존 등록·거래·전투 경로 확장으로 범위가 한정되어 `npm run deploy:production -- --scoped`를 사용한다. 아잔트·CMS·도감·가중치 거래·원본/모션·메인 전장 연결 회귀와 `check:worker`, 기존 출시/캐시/Hyperdrive 검사를 지정한다. 동일 빌드의 브라우저 검수는 반복하지 않는다.
 
-배포 결과는 성공 후 기록한다.
+## 배포 완료
+
+- 운영 소스: `96e9d4f2de3c71673f60466c466e413fc54cf51d`. 아잔트 구현 `553c45ef0`, 승인 기록 `3f894a633`.
+- Pages: `5d1514fe`, API runtime: `db573fb5-5b43-42cd-91a6-c2f5fe15c01b`, clan worker: `dc076d4a-dc4f-4a99-bf66-785e4a43b93a`.
+- 첫 실행에서 관련 회귀 42개와 Worker 문법 검사를 통과했다. 그 사이 main에 추가된 디임 수신자 정정 운영 기록 3개 때문에 최신 소스 확인이 중단됐으며 배포 단계에는 들어가지 않았다. 해당 기록만 fast-forward하고 게임 실행 코드가 동일함을 확인했다.
+- 재실행은 기존 CMS·도감·가중치·원본 검수 결과를 재사용하고 배포 도구가 요구하는 아잔트 8개 및 메인 로더 9개(17개)만 통과했다. 출시 플래그·서비스 워커 캐시·Hyperdrive 캐시 OFF 조건 PASS.
+- 운영 공개 API는 V-056 / 아잔트 / SSS / 180,000 / MS-057·MS-058 ready를 반환했다. 원화·SD·썸네일·로스터·실제 전투 번들·모션 매니페스트·도감 검증 모델·서비스 워커 모두 HTTP 200이며 로컬 검수본과 SHA-256이 일치했다. 증빙: `docs/qa/azant-live-20261014/live-verification.json`.
+- [라이브 도감](https://cnine-card.pages.dev/mercenary-codex/?view=all#V-056), [아잔트 전투 시연](https://cnine-card.pages.dev/preview/mercenary-sapphire-archmage-battle-v1/index.html?revision=azant-live-v1).
+- 이 결과 기록은 문서·검수 증빙만 변경하므로 커밋·원격 반영으로 종료하고 운영을 재배포하지 않는다.
