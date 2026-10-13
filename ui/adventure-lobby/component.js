@@ -14,6 +14,13 @@
       const root=this.shadowRoot,scroller=root.querySelector('.lobby-body');this.lifecycle=new AbortController();
       const settings=this.navigationOptions||{},getUser=settings.getUser||(()=>global.loadUser?.()||{}),user=getUser();
       this.controls=global.SoopLobbyInteractions.mount(root,{scroller,accountId:user.serverUserId||user.id||'player',
+        getAccountId:()=>{const current=getUser();return current.serverUserId||current.id;},
+        favoriteRequest:async body=>{
+          const token=global.localStorage.getItem('cnine_card_api_token')||global.sessionStorage.getItem('cnine_card_api_token')||'';
+          const response=await fetch('/api/me/menu-favorites',{method:body?'POST':'GET',cache:'no-store',headers:{'content-type':'application/json',authorization:token?'Bearer '+token:''},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(8000)});
+          if(!response.ok)throw Error('즐겨찾기 요청에 실패했습니다.');
+          return response.json();
+        },
         isRouteVisible:id=>['equipmentForge','mercenaryEquipment'].includes(id)||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false,
         navigate:async(id,href)=>{if(href){location.assign(href);return;}return global.SoopketmonV21ExactShell.navigate(id);},
         openChief:()=>global.SoopketmonV21ExactShell.openChief(),openAccount:()=>global.showAccountPanel?.(),...settings,
@@ -26,7 +33,7 @@
       }).catch(()=>{});
       const listen=(target,event,handler)=>target.addEventListener(event,handler,{signal:this.lifecycle.signal});
       listen(global,'cnine:player-updated',()=>this.update({user:getUser()}));
-      listen(global,'storage',()=>this.update({user:getUser()}));
+      listen(global,'storage',event=>{this.controls?.storageChanged(event.key);this.update({user:getUser()});});
       listen(global,'cnine:messages-updated',event=>this.updateUnread(event.detail?.count));
       listen(global,'resize',()=>this.update(this.model));
       root.querySelector('.skip-link').onclick=event=>{event.preventDefault();const target=this.dataset.standalone?global.document.querySelector('body main'):this.dataset.view==='route'?this.parentElement.querySelector('.v21-route-body'):root.getElementById('main');if(target){target.tabIndex=-1;target.focus();}};

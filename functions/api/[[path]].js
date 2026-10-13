@@ -12,6 +12,7 @@ import {forwardApiRuntimeRequest} from '../_api_runtime_transport.js';
 import {rankedDuoLiveOperation} from '../_ranked_duo_live_operation.js';
 import {handleQuestHub} from '../_quest_hub.js';
 import {handleServerSupport} from '../_server_support.js';
+import {handleMenuFavorites} from '../_menu_favorites.js';
 import {liveSupportMessageSql,supportMessageCutoff,presentSupportMessage,deleteExpiredSupportMessages} from '../_supporter_message_expiry.js';
 import {handleRankedDuo} from '../_ranked_duo.js';
 import {reconcileDuoSeason,readDuoHonors} from '../_ranked_duo_seasons.js';
@@ -5018,6 +5019,7 @@ async function handleRequest(context){
       }
     }
 
+    const menuFavoritesResponse=await handleMenuFavorites({path,request,env,deps:{authenticate,readBody,json}});if(menuFavoritesResponse)return menuFavoritesResponse;
     if(path==='me/collection'&&request.method==='GET'){
       const user=await authenticate(request,env);
       if(!user)return json({error:'로그인이 필요합니다.'},401);

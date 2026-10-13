@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "device": "pc",
+      "emptyState": true,
+      "add": true,
+      "removeByKeyboard": true,
+      "reloadPersistence": true
+    },
+    {
+      "device": "pc",
+      "search": true,
+      "starTouchTarget44": true,
+      "noOverflow": true,
+      "standaloneDestination": true,
+      "saveFailurePreservesState": true,
+      "hiddenRouteFiltered": true,
+      "accountIsolation": true
+    },
+    {
+      "device": "mobile",
+      "otherDevicePersistence": true
+    },
+    {
+      "device": "mobile",
+      "search": true,
+      "starTouchTarget44": true,
+      "noOverflow": true,
+      "standaloneDestination": true,
+      "saveFailurePreservesState": true,
+      "hiddenRouteFiltered": true,
+      "accountIsolation": true
+    }
+  ],
+  "errors": []
+}
