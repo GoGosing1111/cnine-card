@@ -3,7 +3,7 @@
 
   const root = window;
   const VERSION = '3.37.1-progress-watchdog';
-  const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1';
+  const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime({effects=false}={}) {
     const ready=()=>root.ProjectVPixiBattle?.runtimeVersion===BATTLE_RUNTIME&&(!effects||Boolean(root.ProjectVPixiBattle.fxRuntime));
@@ -925,7 +925,7 @@
     const safePlayEvents = (events, message) => withTimeout(
       playEventsChecked(events).then(() => true),
       events.some(event => event.type === 'MERCENARY_JUDGMENT' && event.mechanic === 'PLATINUM_SANCTUARY' || event.type === 'MERCENARY_CRYSTAL_CROWN' && event.mechanic === 'CRYSTAL_CROWN') ? 9000 :
-      events.some(event => event.type === 'MERCENARY_STARFALL' && event.mechanic === 'GILDED_STARFALL' || event.type === 'MERCENARY_HIT' && event.skillId === 'MS-055' || event.type === 'MERCENARY_GROUP_HEAL' && event.mechanic === 'WHITE_OATH_GROUP_HEAL' || event.type === 'MERCENARY_COMBO' && event.mechanic === 'BLACK_MOON_TRIPLE_SEVER' || event.type === 'MERCENARY_VOLLEY' && event.mechanic === 'GOLDEN_ORCHID_VOLLEY' || event.type === 'MERCENARY_HIT' && event.mechanic === 'LAVENDER_RICOCHET') ? 6000 : 2000,
+      events.some(event => ['MERCENARY_AZANT_VOLLEY','MERCENARY_AZANT_AREA'].includes(event.type) || event.type === 'MERCENARY_STARFALL' && event.mechanic === 'GILDED_STARFALL' || event.type === 'MERCENARY_HIT' && event.skillId === 'MS-055' || event.type === 'MERCENARY_GROUP_HEAL' && event.mechanic === 'WHITE_OATH_GROUP_HEAL' || event.type === 'MERCENARY_COMBO' && event.mechanic === 'BLACK_MOON_TRIPLE_SEVER' || event.type === 'MERCENARY_VOLLEY' && event.mechanic === 'GOLDEN_ORCHID_VOLLEY' || event.type === 'MERCENARY_HIT' && event.mechanic === 'LAVENDER_RICOCHET') ? 6000 : 2000,
       message,
       { fallback: false, pauseWhenHidden:interactiveApocalypse, rejectOnFailure:interactiveApocalypse,
         onFailure: () => interactiveApocalypse?root.ProjectVPixiBattle.cancelActiveAnimations?.():recoverPlayback(message) }

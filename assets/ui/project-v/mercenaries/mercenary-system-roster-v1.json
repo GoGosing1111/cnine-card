@@ -1,7 +1,7 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
   "version": 11,
-  "updatedAt": "2026-09-27",
+  "updatedAt": "2026-10-14",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
   "battleAssetStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
   "rankPolicy": {
@@ -44,9 +44,9 @@
     ]
   },
   "summary": {
-    "total": 55,
-    "sourceArtReady": 55,
-    "battleSpriteReady": 55,
+    "total": 56,
+    "sourceArtReady": 56,
+    "battleSpriteReady": 56,
     "battleSpritePending": 0,
     "rankPending": 42
   },
@@ -1222,6 +1222,31 @@
         "y": 0.9864433811802232
       },
       "accent": "#edc878"
+    },
+    {
+      "code": "V-056",
+      "rank": "SSS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "name": "아잔트",
+      "title": "",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "후열 마법사",
+      "weapon": "청옥 지팡이",
+      "outfit": "청옥 결정 날개와 갑주",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20261014/azant-source-art-v1.png",
+      "sourceArtSha256": "38DA2E9BBE7BEBB7BCB0855260705FCCB1EF0CD638A005308A7B164B0B660793",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-10-13",
+      "catalogRelease": "USER_APPROVED_LIVE",
+      "approvalBatch": "2026-10-14-azant-live",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/azant-sss-v1/azant-sd-v3.png",
+      "battleSpriteSha256": "8CAC9E219FA4C8BA0A9800243AD18C3D42269DA9B7D176D64A6D91BB1792016B",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REQUESTED_LIVE",
+      "battleSpriteFootAnchor": {
+        "x": 0.5,
+        "y": 0.8463541666666666
+      },
+      "accent": "#7bdcff"
     }
   ]
 }

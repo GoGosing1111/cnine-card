@@ -1,4 +1,5 @@
 import {createBerkanSkill,createBerkanAreaSkill} from './mercenary-berkan-v1.mjs';
+import {createAzantSkills} from './mercenary-azant-v1.mjs';
 import {createSniperOrikkungSkill} from './mercenary-sniper-orikkung-v1.mjs';
 import {createNurseSkill} from './mercenary-nurse-healers-v1.mjs';
 import {CRYVERN_RELEASE_ENABLED,createCryvernSkill} from './mercenary-cryvern-v1.mjs';
@@ -134,6 +135,7 @@ export const MERCENARY_SKILLS = [
   createNurseSkill(definition,art),
   createBerkanSkill(definition,art),
   createBerkanAreaSkill(definition,art),
+  ...createAzantSkills(definition,art),
 ];
 
 export const SCENARIOS = {normal: '유효한 상황', counter: '약점 공략', boss: '보스 상대'};

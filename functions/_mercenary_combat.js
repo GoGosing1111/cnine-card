@@ -23,6 +23,8 @@ import {HELIOS_CODE,HELIOS_COMBAT,HELIOS_AREA_SKILL,HELIOS_AREA_MECHANIC,isHelio
 import {JINMU_CODE,JINMU_COMBAT,JINMU_AREA_SKILL,JINMU_AREA_MECHANIC,isJinmu,jinmuActionCredit} from '../shared/mercenary-jinmu-v1.mjs';
 import {resolveJinmuArea} from './_mercenary_jinmu.js';
 import {resolveHeliosArea} from './_mercenary_helios.js';
+import {AZANT_CODE,AZANT_VOLLEY_MECHANIC,AZANT_AREA_MECHANIC} from '../shared/mercenary-azant-v1.mjs';
+import {resolveAzantCast} from './_mercenary_azant.js';
 import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION,SS_LIMITED_TEMPO,ssLimitedActionCredit,ssLimitedProfile} from '../shared/mercenary-ss-limited-v1.mjs';
 import {ssRearPveInterval,ssRearPveHealing} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
@@ -177,6 +179,8 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   if(s.mechanic===VALTER_AREA_MECHANIC)return isValter(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===JINMU_AREA_MECHANIC)return isJinmu(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===HELIOS_AREA_MECHANIC)return isHelios(a)&&a.battleMode==='PVE'?en:[];
+  if(s.mechanic===AZANT_AREA_MECHANIC)return a.code===AZANT_CODE&&a.battleMode==='PVE'?en:[];
+  if(s.mechanic===AZANT_VOLLEY_MECHANIC)return a.code===AZANT_CODE&&a.battleMode==='PVP'?fr.slice(0,2):[];
   if(isBerkanAreaSkill(s))return a.battleMode==='PVE'?en:[];
   if(s.mechanic===BERKAN_MECHANIC)return [...en].sort((a,b)=>Number(b.row==='BACK')-Number(a.row==='BACK')||(b.openingAttack??b.attack)-(a.openingAttack??a.attack)||a.slot-b.slot||String(a.id).localeCompare(String(b.id))).slice(0,2);
   if(s.mechanic==='PLATINUM_SANCTUARY'||s.mechanic==='CRYSTAL_CROWN')return fr.slice(0,2);
@@ -286,6 +290,9 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
     finish(a,s);break;}
    case HELIOS_AREA_MECHANIC:{
     resolveHeliosArea({actor:a,skill:s,targets:ts,hit,damage:(t,n)=>damage(t,n,{actor:a,direct:true}),knockout,emit,damageScale:offensiveSkillScale(a,s)});
+    finish(a,s);break;}
+   case AZANT_VOLLEY_MECHANIC:case AZANT_AREA_MECHANIC:{
+    resolveAzantCast({actor:a,skill:s,targets:ts,hit,damage:(t,n)=>damage(t,n,{actor:a,direct:true}),knockout,emit,damageScale:offensiveSkillScale(a,s)});
     finish(a,s);break;}
    case 'WHITE_OATH_GROUP_HEAL':{
     // A single cast owns one budget, including full-HP allies. Lost/overheal

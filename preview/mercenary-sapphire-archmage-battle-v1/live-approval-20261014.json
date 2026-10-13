@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-14",
+  "userInstruction": "아잔트로 하고 라이브 올려",
+  "name": "아잔트",
+  "rank": "SSS",
+  "edition": "NORMAL",
+  "code": "V-056",
+  "approvedMotionVersion": 3,
+  "sourceArt": "assets/ui/project-v/mercenaries/approved-20261014/azant-source-art-v1.png",
+  "sourceArtSha256": "38DA2E9BBE7BEBB7BCB0855260705FCCB1EF0CD638A005308A7B164B0B660793",
+  "battleSprite": "assets/ui/project-v/characters/mercenary/azant-sss-v1/azant-sd-v3.png",
+  "battleSpriteSha256": "8CAC9E219FA4C8BA0A9800243AD18C3D42269DA9B7D176D64A6D91BB1792016B",
+  "staffSha256": "4ee9e724bbe7390bc4ac5a1bce287add89e7b916622b495f20bd8b8a975c47a9",
+  "scope": [
+    "일반 용병 도감·CMS 등록",
+    "기존 용병팩·합성 SSS 풀",
+    "소유 계정 PVE·PVP 편성 및 전투",
+    "V3 지팡이·고정 대기·오라·제자리 마법 연출"
+  ],
+  "balance": "기존 일반 SSS 전투력 180000 및 단일 시전 피해 예산 5.6 / 재사용 5턴 / 자원 35. 새 확률·추가 행동·면역·자동 지급 없음."
+}

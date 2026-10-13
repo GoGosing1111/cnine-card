@@ -1,14 +1,14 @@
 {
   "version": 3,
   "date": "2026-10-14",
-  "name": null,
-  "nameStatus": "UNDECIDED_BY_USER",
+  "name": "아잔트",
+  "nameStatus": "USER_ASSIGNED_NAME",
   "rank": "SSS",
   "edition": null,
-  "code": null,
+  "code": "V-056",
   "previewAdapterCode": "V-000",
-  "runtimeEnabled": false,
-  "status": "V3_STAFF_VISUAL_REVIEW_PENDING",
+  "runtimeEnabled": true,
+  "status": "USER_APPROVED_LIVE",
   "sourceArt": "preview/mercenary-sapphire-archmage-sss-20261013-v1/assets/sapphire-archmage-sss-source-art-v1.png",
   "sourceArtSha256": "38DA2E9BBE7BEBB7BCB0855260705FCCB1EF0CD638A005308A7B164B0B660793",
   "weapon": {
@@ -2180,7 +2180,7 @@
     "x": 0.5,
     "y": 0.8463541666666666
   },
-  "battleSpriteStatus": "PREVIEW_PREPARED_AWAITING_APPROVAL",
+  "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REQUESTED_LIVE",
   "counts": {
     "motion": 18,
     "effects": 60,
@@ -2209,5 +2209,6 @@
     "registration": "pose-registration-v3.json",
     "bodyEditPrompts": "prompts-staff-v3.json",
     "hiddenGripCoveredByHand": true
-  }
+  },
+  "liveApproval": "live-approval-20261014.json"
 }

@@ -610,6 +610,17 @@
       "specialty": "후열 우선 2명 동시 사격 · 제자리 흑금 화살",
       "weakness": "회피·보호막·방어에 대응되며 제압 상태에서는 발동하지 않음",
       "rationale": "사용자 지정 SSS 궁수. 달리기 대신 조준·발사·반동을 분리한 동작."
+    },
+    {
+      "code": "V-056",
+      "rank": "SSS",
+      "position": "REAR",
+      "role": "CONTROLLER",
+      "basicTarget": "FRONT_ENEMY",
+      "skillTarget": "FRONT_GROUP",
+      "specialty": "제자리 결정탄 · PVP 결정창 포격 · PVE 청옥 강림",
+      "weakness": "회피·보호막·방어에 대응되며 기절·침묵 중에는 스킬을 사용하지 않음",
+      "rationale": "승인된 지팡이와 안정된 대기 자세를 사용하는 SSS 마법사. 이동 공격 없이 후열에서 마법을 시전."
     }
   ]
 }

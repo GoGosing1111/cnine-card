@@ -120,6 +120,7 @@
     "preview/mercenary-bikini-joeun-v1/source/BikiniJoeunSkillFX.js",
     "preview/project-v-v3/source/battle/BikiniJoeunCombatPlayback.js",
     "js/project-v-mercenary-battle-art-adapter-v1.js",
+    "shared/mercenary-azant-v1.mjs",
     "shared/mercenary-nurse-healers-v1.mjs",
     "shared/mercenary-s-skills-v2.mjs",
     "shared/mercenary-hi-heeya-v2118.mjs",
@@ -157,6 +158,9 @@
     "preview/mercenary-limited-solar-sword-20261009-v1/source/SolarFX.js",
     "preview/project-v-v3/source/battle/HeliosSurroundingAura.js",
     "preview/project-v-v3/source/battle/HeliosCombatPlayback.js",
+    "preview/mercenary-sapphire-archmage-battle-v1/skill.mjs",
+    "preview/mercenary-sapphire-archmage-battle-v1/source/SapphireFX.js",
+    "preview/project-v-v3/source/battle/AzantCombatPlayback.js",
     "preview/mercenary-crimson-silver-knight-battle-v1/motion-counts-v10.mjs",
     "preview/mercenary-crimson-silver-knight-battle-v1/skill.mjs",
     "preview/mercenary-crimson-silver-knight-battle-v1/source/KnightFX.js",
@@ -178,5 +182,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1863965
+  "outputBytes": 1887821
 }

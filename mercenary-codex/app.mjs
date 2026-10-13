@@ -1,6 +1,6 @@
 import {jointAccountRequest as api} from '/js/joint-account-transport.mjs';
 import {withMercenaryDeadline} from '/shared/mercenary-loading-v1.mjs?v=20260925';
-import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCatalog} from './model.mjs?v=20261009-helios';
+import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCatalog} from './model.mjs?v=20261014-azant';
 
 const $=id=>document.getElementById(id),fmt=n=>Number(n||0).toLocaleString('ko-KR'),storageKey='cnine.mercenaryCodex.public.v1';
 const params=new URL(location.href).searchParams;

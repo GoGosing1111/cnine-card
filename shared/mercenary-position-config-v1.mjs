@@ -11,6 +11,7 @@ export const POSITIONS = Object.freeze({
 });
 
 export const TARGETS = Object.freeze({
+  ALL_ENEMIES: { label: '적 전체', description: '살아 있고 대상으로 지정 가능한 적 전체.' },
   FRONT_ENEMY: { label: '적 전열 우선', description: '생존 전열에서 HP 비율이 낮은 적. 전열이 없으면 생존 적 전체.' },
   LOW_HP_ENEMY: { label: '약화된 적 추격', description: '허용된 생존 적 중 HP 비율이 가장 낮은 대상. 전열 우회는 스킬에만 적용.' },
   BACK_THREAT: { label: '적 후열 핵심 위협', description: '생존 후열 중 전투 시작 시 확정 공격력이 가장 높은 적. 후열이 없으면 전열 우선.' },
