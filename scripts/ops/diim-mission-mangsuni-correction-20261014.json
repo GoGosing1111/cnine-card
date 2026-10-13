@@ -1,0 +1,21 @@
+{
+  "operationKey": "ops:diim-mission-gifts:mangsuni-correction:20261014:v1",
+  "originalOperationKey": "ops:diim-mission-gifts:20261014:v1",
+  "originalCoinLogId": "91035091",
+  "reversalKey": "ops:coin-grant-reversal:91035091",
+  "amount": "1000000000000",
+  "from": {
+    "userId": "567",
+    "nickname": "망순이"
+  },
+  "to": {
+    "userId": "4628",
+    "nickname": "망순이ෆ",
+    "provider": "PLAYDK",
+    "providerUserId": "0b464ee5",
+    "profileUrl": "https://www.playdk.kr/user/0b464ee5"
+  },
+  "recoveryReason": "디임 미션 사은품 오지급 회수",
+  "grantReason": "디임 미션 사은품",
+  "authorization": "[망순이ෆ](https://www.playdk.kr/user/0b464ee5) 이거임 회수하고 다시"
+}

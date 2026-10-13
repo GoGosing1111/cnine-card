@@ -1,0 +1,89 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:diim-mission-gifts:mangsuni-correction:20261014:v1",
+  "planHash": "09f09fe7787053b7617259401b1fa5c095e4a8c606ea233235936bc7203f4325",
+  "plan": {
+    "operationKey": "ops:diim-mission-gifts:mangsuni-correction:20261014:v1",
+    "originalOperationKey": "ops:diim-mission-gifts:20261014:v1",
+    "originalCoinLogId": "91035091",
+    "reversalKey": "ops:coin-grant-reversal:91035091",
+    "amount": "1000000000000",
+    "from": {
+      "userId": "567",
+      "nickname": "망순이"
+    },
+    "to": {
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "provider": "PLAYDK",
+      "providerUserId": "0b464ee5",
+      "profileUrl": "https://www.playdk.kr/user/0b464ee5"
+    },
+    "recoveryReason": "디임 미션 사은품 오지급 회수",
+    "grantReason": "디임 미션 사은품",
+    "authorization": "[망순이ෆ](https://www.playdk.kr/user/0b464ee5) 이거임 회수하고 다시"
+  },
+  "adminId": "1",
+  "adminLogId": "45845",
+  "from": {
+    "userId": "567",
+    "nickname": "망순이",
+    "before": "1511872162602",
+    "after": "511872162602",
+    "coinLogId": "91039439"
+  },
+  "to": {
+    "userId": "4628",
+    "nickname": "망순이ෆ",
+    "before": "563217957843",
+    "after": "1563217957843",
+    "coinLogId": "91039440"
+  },
+  "originalGrant": {
+    "userId": "567",
+    "nickname": "망순이",
+    "amount": "1000000000000",
+    "before": "511872162602",
+    "after": "1511872162602",
+    "coinLogId": "91035091"
+  },
+  "completedAt": "2026-10-13T21:00:42.007Z",
+  "validation": {
+    "dryRun": {
+      "operationKey": "ops:diim-mission-gifts:mangsuni-correction:20261014:v1",
+      "planHash": "09f09fe7787053b7617259401b1fa5c095e4a8c606ea233235936bc7203f4325",
+      "status": "DRY_RUN_ROLLED_BACK",
+      "replayed": false,
+      "completedAt": "2026-10-13T21:00:27.202Z",
+      "adminLogId": "45844",
+      "recoveredCoin": "1000000000000",
+      "regrantedCoin": "1000000000000",
+      "netCoinChange": "0",
+      "coinLogs": 2,
+      "adminLogs": 1,
+      "originalGrantPreserved": true,
+      "duplicates": 0,
+      "partialFailureRolledBack": true,
+      "replayPerformedNoWrites": true,
+      "balancesRestored": true,
+      "logsRolledBack": true
+    },
+    "postCommit": {
+      "operationKey": "ops:diim-mission-gifts:mangsuni-correction:20261014:v1",
+      "planHash": "09f09fe7787053b7617259401b1fa5c095e4a8c606ea233235936bc7203f4325",
+      "status": "COMPLETED",
+      "replayed": true,
+      "completedAt": "2026-10-13T21:00:42.007Z",
+      "adminLogId": "45845",
+      "recoveredCoin": "1000000000000",
+      "regrantedCoin": "1000000000000",
+      "netCoinChange": "0",
+      "coinLogs": 2,
+      "adminLogs": 1,
+      "originalGrantPreserved": true,
+      "duplicates": 0
+    }
+  },
+  "runtimeCodeChanged": false,
+  "deploymentRequired": false
+}
