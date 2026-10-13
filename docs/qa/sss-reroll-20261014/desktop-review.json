@@ -1,0 +1,14 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "transactions": 1,
+  "reloadRecovery": true,
+  "partialSlideReset": true,
+  "mouseOrTouch": true,
+  "receiptReplay": true,
+  "reducedMotionKeyboard": true,
+  "cmsIndependent": true,
+  "errors": []
+}

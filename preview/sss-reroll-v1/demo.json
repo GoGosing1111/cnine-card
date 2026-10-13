@@ -1,0 +1,138 @@
+{
+  "preview": true,
+  "accountId": 7,
+  "balance": 3,
+  "catalog": [
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "title": "종언의 성좌기사",
+      "rank": "SSS",
+      "limited": false,
+      "available": true,
+      "sourceArt": "/assets/ui/project-v/mercenaries/mercenary-v021-omega-x-source-art-v1.jpg"
+    },
+    {
+      "code": "V-046",
+      "name": "라그니엘",
+      "title": "종말의 대천사",
+      "rank": "SSS",
+      "limited": false,
+      "available": true,
+      "sourceArt": "/assets/ui/project-v/mercenaries/approved-20260919/mercenary-v046-ragniel-source-art-v1.png"
+    },
+    {
+      "code": "V-049",
+      "name": "크라이베른",
+      "title": "",
+      "rank": "SSS",
+      "limited": false,
+      "available": true,
+      "sourceArt": "/assets/ui/project-v/mercenaries/cryvern-source-art-v1.png"
+    },
+    {
+      "code": "V-055",
+      "name": "베르칸",
+      "title": "흑금의 궁수",
+      "rank": "SSS",
+      "limited": false,
+      "available": true,
+      "sourceArt": "/assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png"
+    },
+    {
+      "code": "V-056",
+      "name": "아잔트",
+      "title": "",
+      "rank": "SSS",
+      "limited": false,
+      "available": true,
+      "sourceArt": "/assets/ui/project-v/mercenaries/approved-20261014/azant-source-art-v1.png"
+    }
+  ],
+  "cards": [
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "title": "종언의 성좌기사",
+      "rank": "SSS",
+      "limited": false,
+      "available": true,
+      "sourceArt": "/assets/ui/project-v/mercenaries/mercenary-v021-omega-x-source-art-v1.jpg",
+      "copies": 2,
+      "equipped": false,
+      "selectable": true,
+      "disabledReason": ""
+    },
+    {
+      "code": "V-046",
+      "name": "라그니엘",
+      "title": "종말의 대천사",
+      "rank": "SSS",
+      "limited": false,
+      "available": true,
+      "sourceArt": "/assets/ui/project-v/mercenaries/approved-20260919/mercenary-v046-ragniel-source-art-v1.png",
+      "copies": 1,
+      "equipped": false,
+      "selectable": true,
+      "disabledReason": ""
+    },
+    {
+      "code": "V-049",
+      "name": "크라이베른",
+      "title": "",
+      "rank": "SSS",
+      "limited": false,
+      "available": true,
+      "sourceArt": "/assets/ui/project-v/mercenaries/cryvern-source-art-v1.png",
+      "copies": 1,
+      "equipped": false,
+      "selectable": true,
+      "disabledReason": ""
+    },
+    {
+      "code": "V-055",
+      "name": "베르칸",
+      "title": "흑금의 궁수",
+      "rank": "SSS",
+      "limited": false,
+      "available": true,
+      "sourceArt": "/assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png",
+      "copies": 1,
+      "equipped": false,
+      "selectable": true,
+      "disabledReason": ""
+    },
+    {
+      "code": "V-056",
+      "name": "아잔트",
+      "title": "",
+      "rank": "SSS",
+      "limited": false,
+      "available": true,
+      "sourceArt": "/assets/ui/project-v/mercenaries/approved-20261014/azant-source-art-v1.png",
+      "copies": 1,
+      "equipped": false,
+      "selectable": true,
+      "disabledReason": ""
+    }
+  ],
+  "policy": {
+    "format": "MERCENARY_SSS_REROLL_V1",
+    "mode": "ON",
+    "cards": {
+      "V-021": 20000000,
+      "V-046": 20000000,
+      "V-049": 20000000,
+      "V-055": 20000000,
+      "V-056": 20000000
+    },
+    "notes": ""
+  },
+  "mode": "ON",
+  "revision": 0,
+  "cmsRevision": 0,
+  "ready": true,
+  "openingEnabled": true,
+  "blockers": [],
+  "recentReceiptId": null
+}

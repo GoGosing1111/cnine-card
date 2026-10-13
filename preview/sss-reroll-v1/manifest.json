@@ -1,0 +1,84 @@
+{
+  "version": "SSS_RECONTRACT_ART_V1",
+  "createdAt": "2026-10-14",
+  "itemCode": "MERCENARY_SSS_REROLL_TICKET",
+  "status": "TECHNICAL_QA_COMPLETE_OPERATION_OFF",
+  "generator": "Built-in image_gen",
+  "prompts": "preview/sss-reroll-v1/prompts.json",
+  "preview": "/mercenary-codex/sss-reroll/?preview=1",
+  "assets": [
+    {
+      "path": "assets/ui/sss-reroll-v1/chamber-source-v1.png",
+      "sha256": "573ADFF3D1C7336FF40ECCA4846A2FEAB0DFB615A76B9452ADD823824F0B6671",
+      "bytes": 2539420,
+      "width": 1536,
+      "height": 1024,
+      "format": "png",
+      "alpha": false,
+      "role": "immutable-generated-original"
+    },
+    {
+      "path": "assets/ui/sss-reroll-v1/chamber.webp",
+      "sha256": "4FF4F92DCB379D391AE42670FC2D88F70A0D7FEF9B41783A97111FCD7BAD0AF8",
+      "bytes": 305342,
+      "width": 1536,
+      "height": 1024,
+      "format": "webp",
+      "alpha": false,
+      "role": "runtime-derivative"
+    },
+    {
+      "path": "assets/ui/sss-reroll-v1/ticket-256.webp",
+      "sha256": "9EF643722D07BF3AEC7815E1D0494338701485C17060DD3089E46BC23C569333",
+      "bytes": 27228,
+      "width": 256,
+      "height": 256,
+      "format": "webp",
+      "alpha": true,
+      "role": "runtime-derivative"
+    },
+    {
+      "path": "assets/ui/sss-reroll-v1/ticket-768.webp",
+      "sha256": "A271455B9AE1565C4D62C33829B84B1755E44A97DEBFC43640F2615E8E57F8C9",
+      "bytes": 206212,
+      "width": 768,
+      "height": 768,
+      "format": "webp",
+      "alpha": true,
+      "role": "runtime-derivative"
+    },
+    {
+      "path": "assets/ui/sss-reroll-v1/ticket-source-v1.png",
+      "sha256": "F66DDCBB5CA036B9047D71DC4DE41DDE40E380E3526C91A27F7109B7F660DD67",
+      "bytes": 2228330,
+      "width": 1254,
+      "height": 1254,
+      "format": "png",
+      "alpha": true,
+      "role": "immutable-generated-original"
+    }
+  ],
+  "design": {
+    "material": "Obsidian, engraved antique gold, cyan crystal",
+    "chamber": "Celestial contract sanctum",
+    "sequence": [
+      "source absorption",
+      "seal charge",
+      "slide to open",
+      "new SSS reveal"
+    ],
+    "reducedMotion": true,
+    "keyboard": true,
+    "audio": "silent; no autoplay"
+  },
+  "policy": {
+    "mode": "OFF",
+    "probabilities": "UNCONFIGURED",
+    "grants": 0,
+    "requiresSourceCount": 1,
+    "requiresItemCount": 1,
+    "excludeSource": true,
+    "excludeLimited": true
+  },
+  "qa": "docs/qa/sss-reroll-20261014/"
+}
