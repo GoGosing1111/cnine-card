@@ -83,10 +83,8 @@
     "twoLowPigtailsVisible": true,
     "bottleLabelReadable": true
   },
-  "registrationStatus": "IMPLEMENTED_PENDING_PRODUCTION",
-  "remainingOriginalRequest": [
-    "Deploy scoped implementation and execute audited one-time retirement/refund transaction"
-  ],
+  "registrationStatus": "LIVE_NEW_CRAFTABLE_ICON",
+  "remainingOriginalRequest": [],
   "runtime": {
     "cardId": "CN-1C000009",
     "code": "ICON-GUSUDAENG",
@@ -112,5 +110,13 @@
     "acquisition": "NEW_CARD_NORMAL_PAID_ICON_FUSION",
     "automaticConversionOrGrant": false,
     "portrait": "assets/cards/ICON/gusudaeng-source-20261013.webp"
+  },
+  "production": {
+    "at": "2026-10-13T11:20:14.087Z",
+    "commit": "e39392f9f5fbd5d8185bb16b23a88c8a727381f1",
+    "deploymentId": "a4204170-0486-4ffe-b511-758147c1facf",
+    "operation": "icon_gusudaeng_conversion_20261013_v1",
+    "automaticIconGrants": 0,
+    "audit": "docs/qa/icon-gusudaeng-20261013/production-apply.json"
   }
 }

@@ -1,0 +1,60 @@
+{
+  "verifiedAt": "2026-10-13T11:20:43.007Z",
+  "commit": "e39392f9f5fbd5d8185bb16b23a88c8a727381f1",
+  "origin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "js/icon-fusion-v1.bundle.js",
+      "status": 200,
+      "sha256": "97e0c2363768c2301e05124f83894c9d5c703a0b21881de1dfc3059effdecbaf",
+      "matches": true
+    },
+    {
+      "path": "shared/icon-roles-v1.mjs",
+      "status": 200,
+      "sha256": "f046a2b46007561153a59bbac492882070cb92e579943e13319e5b2f462bd01d",
+      "matches": true
+    },
+    {
+      "path": "assets/ui/project-v/characters/icon/manifest-v1.json",
+      "status": 200,
+      "sha256": "d0b0afadaa584751ee390455d34f6a626fb8020838d325c7622fff51bc9686dc",
+      "matches": true
+    },
+    {
+      "path": "assets/cards/ICON/gusudaeng-source-20261013.webp",
+      "status": 200,
+      "sha256": "934db48547d9858a470e3aabccf801c8299688ba55e8280099b655a4d19a7fb0",
+      "matches": true
+    },
+    {
+      "path": "preview/icon-battle-assets-v1/assets/sd/gusudaeng-sd-v1-20261013.webp",
+      "status": 200,
+      "sha256": "1900ed4d10d74af3321ac1571f463a1745c89de8e79b4e6a6d7882a8e69417ef",
+      "matches": true
+    },
+    {
+      "path": "preview/icon-battle-assets-v1/assets/fx/gusudaeng-hit/atlas-v1.webp",
+      "status": 200,
+      "sha256": "59ef951f96e3e014231fc37c1e3fe160549f1e45865740102b7cf8d56407f8b0",
+      "matches": true
+    },
+    {
+      "path": "preview/icon-battle-assets-v1/assets/fx/gusudaeng-skill/atlas-v1.webp",
+      "status": 200,
+      "sha256": "6e542bc0ae6d372d91d4947b15bb89779947251a641b24eba78389461e27775a",
+      "matches": true
+    }
+  ],
+  "api": {
+    "rolesStatus": 200,
+    "roleRevision": 2,
+    "roleCount": 9,
+    "gusudaengEnabled": true,
+    "cardStatus": 200,
+    "newCardId": "CN-1C000009",
+    "oldCardHidden": true
+  },
+  "deploymentId": "a4204170-0486-4ffe-b511-758147c1facf",
+  "deploymentUrl": "https://a4204170.cnine-card.pages.dev"
+}

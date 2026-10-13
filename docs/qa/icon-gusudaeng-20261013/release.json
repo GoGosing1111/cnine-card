@@ -1,0 +1,44 @@
+{
+  "commit": "e39392f9f5fbd5d8185bb16b23a88c8a727381f1",
+  "deploymentId": "a4204170-0486-4ffe-b511-758147c1facf",
+  "deployedBase": "1ad8b1fdaa48b31e9b6991f60e280a388ed9d153",
+  "command": "npm run deploy:production -- --scoped",
+  "tests": {
+    "initial": {
+      "total": 92,
+      "passed": 89,
+      "failed": 3
+    },
+    "fixtureRepair": {
+      "total": 24,
+      "passed": 24,
+      "failed": 0
+    },
+    "cacheTagRepair": {
+      "total": 9,
+      "passed": 9,
+      "failed": 0
+    },
+    "finalCoverage": "All 92 related regressions passed across scoped runs; only failed fixture inputs and affected loader were repeated"
+  },
+  "workerCompile": true,
+  "productionReleaseGate": true,
+  "hyperdriveQueryCacheDisabled": true,
+  "browserWidths": [
+    1440,
+    390
+  ],
+  "browserModes": [
+    "PVP",
+    "PVE"
+  ],
+  "apiRuntimeVersion": "16a2807b-2cee-43db-8dbe-c1eb31c8806c",
+  "clanDraftVersion": "11357baf-0c70-484e-a1fd-1cc13e4a55be",
+  "operationElapsedMs": 12046,
+  "notes": [
+    "No production deployment occurred on the first two preflight failures.",
+    "No unrelated game suites were rerun.",
+    "Production dry-run rolled back all ownership, catalog, refund, saved-deck and operation receipt changes.",
+    "Private account snapshots remain in the database and outside the public repository."
+  ]
+}
