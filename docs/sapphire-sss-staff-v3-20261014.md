@@ -20,3 +20,11 @@
 ## 배포 범위
 
 직전 실제 배포는 V2 소스 `31609ce2c5024d21f2f466425a9f090fe61d4300`, Pages `e157a916`다. 그 이후 원격의 `a896db316`은 별도 펫 프리뷰 자산 3개이며 보존한다. 게임 공용 실행 파일·DB·인증·경제 변경이 없으므로 `npm run deploy:production -- --scoped`와 해당 프리뷰 `qa.test.mjs`만 사용한다.
+
+## 배포 결과
+
+- 소스 `556bc53d7e8aca8632f3a29c39ccacacff144fb6`, Pages `70490e24`로 배포 완료. 관련 검사 5개, 출시 플래그·Hyperdrive 검사 PASS.
+- API runtime `e54e0a3d-4912-4463-931c-acfaae47c9e6`, clan worker `7c14971b-af87-4cf8-a1de-c28593ca0ff4`.
+- 운영 index·manifest·번들·최종 SD·대기 아틀라스·review의 HTTP 200 및 로컬 SHA-256 일치 확인. manifest V3 / 운영 미연결 유지, V3 영상 `video/webm` HTTP 200 확인. 배포 번들 LF 정규화 SHA는 이미 검수한 번들과 동일하다.
+- [현재 검수 프리뷰](https://cnine-card.pages.dev/preview/mercenary-sapphire-archmage-battle-v1/index.html?revision=staff-v3), [현재 시연 영상](https://cnine-card.pages.dev/preview/mercenary-sapphire-archmage-battle-v1/review.html?revision=staff-v3).
+- 이 결과 기록은 문서만 변경하므로 커밋·원격 반영 후 재배포하지 않는다.
