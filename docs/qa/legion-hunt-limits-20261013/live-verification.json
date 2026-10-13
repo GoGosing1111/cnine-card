@@ -1,0 +1,106 @@
+{
+  "verifiedAt": "2026-10-13T09:42:22.377Z",
+  "commit": "81850d4d7812c288a702b8021888e9257dd945d7",
+  "deploymentId": "00e46ad2-62a8-4266-abf8-04cc5ca66d74",
+  "url": "https://00e46ad2.cnine-card.pages.dev",
+  "previousProduction": {
+    "checkedAt": "2026-10-13T09:39:58.667Z",
+    "commit": "35e996be833995af56ff54824fc5a7d242ac1471",
+    "url": "https://28fc22bb.cnine-card.pages.dev"
+  },
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "5aedf24b87344232d546677866d221f17a5346adef50426c880c0e9eae3bde09",
+      "matched": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "83901f7f3724a5d6bb33a6dcbd14c1e7da851672f444203d536667e07d1c19db",
+      "matched": true
+    },
+    {
+      "path": "js/legion-hunt-entry-v1.mjs",
+      "status": 200,
+      "sha256": "5eb37a51beb0975d1eabcb07347cd89753df449a0fa8b56396f723332ed42ff1",
+      "matched": true
+    },
+    {
+      "path": "preview/sustained-hunt-v2/hunt-rules.mjs",
+      "status": 200,
+      "sha256": "ded391d73b5cf9dea8b7251e4ce9b0001a13a5c03486d2838132d2fb85d4c1b7",
+      "matched": true
+    },
+    {
+      "path": "preview/sustained-hunt-v2/app.js",
+      "status": 200,
+      "sha256": "06a6d37816d00d87ab0d36f08a989dfb63ba2f6b772ec5e18580f6c0dfcc52e1",
+      "matched": true
+    },
+    {
+      "path": "shared/legion-regions-v1.mjs",
+      "status": 200,
+      "sha256": "ccb7b073cec595efd1f9555af7b633d6f8ad5d0e445ff85121639ec462804bb3",
+      "matched": true
+    },
+    {
+      "path": "admin/legion-hunt-admin-v1.mjs",
+      "status": 200,
+      "sha256": "f7cddd4b9457725a1baebd7a27fc8130734fb716a7a1141d3cd70e370293d555",
+      "matched": true
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "sha256": "a2c4011de7ab89e16eee8929b5df6bd7a6ddd531376a1178d2cc45041e3931c0",
+      "matched": true
+    },
+    {
+      "path": "pve/legion-hunt/index.html",
+      "status": 200,
+      "sha256": "892cf14afe627fb2edcc5db77d9cab299e548363ebcf1826b5d4055324ecad43",
+      "matched": true
+    },
+    {
+      "path": "preview/sustained-hunt-v2/index.html",
+      "status": 200,
+      "sha256": "761b7ea341c4d5e196a4b63f5fca88c620f5ce3bd9040560c3f862b715c47f11",
+      "matched": true
+    }
+  ],
+  "routes": [
+    {
+      "path": "/api/service/status",
+      "status": 200
+    },
+    {
+      "path": "/api/legion-hunt/status",
+      "status": 401
+    },
+    {
+      "path": "/api/legion-hunt/bootstrap",
+      "status": 401
+    }
+  ],
+  "settingsUnchanged": true,
+  "settings": [
+    {
+      "key": "legion_hunt_regions_v1",
+      "hash": "9aed57b5d20044b539423b2c63aec9367302954c9926c7eca5e382d6be5106f0",
+      "mode": "TEST",
+      "revision": 0
+    },
+    {
+      "key": "legion_hunt_settings_v1",
+      "hash": "f4549f4aad5a9605785a04b9bf3addc58e42e5315cc5cee96d813e9c5f723fa1",
+      "mode": "ON",
+      "revision": 29
+    }
+  ],
+  "durationMs": 420000,
+  "dailyBaseEntries": 10,
+  "productionEntriesConsumed": 0,
+  "passed": true
+}

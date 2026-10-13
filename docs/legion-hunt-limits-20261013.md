@@ -17,3 +17,11 @@
 - PC 1440×1000·모바일 390×844의 실제 입장 모듈 → 전투 iframe에서 7분 안내, 기본 10회, 4:30 보스 안내, 07:00 타이머·420,000ms 서버 설정, 철수 결과와 콘솔/가로 잘림을 확인한다.
 - 국소 정책·표시 변경으로 `npm run deploy:production -- --scoped`를 사용한다. 선택 검사: duration-entries, deadline, modes-rewards, regions-combat와 `check:worker`. 이미 통과한 입장 로더·지정 참여자·후원 검사를 반복하지 않는다.
 - 배포 직전 확인한 운영 소스는 `35e996be833995af56ff54824fc5a7d242ac1471`이며 실제 실행 직전에 다시 조회한다.
+
+## 운영 반영 완료
+
+- 2026-10-13 18:42 KST에 운영 반영을 확인했다. 실행 소스는 `81850d4d7812c288a702b8021888e9257dd945d7`, Pages 배포는 `00e46ad2-62a8-4266-abf8-04cc5ca66d74`다.
+- 지정 scoped 배포 검사 28개와 `check:worker`, 출시·캐시·Hyperdrive 검사를 통과했다. API runtime `f1a95835-9d94-489c-bfcf-789ac4f0d052`, clan-draft `c941c862-f3cb-4157-ba6c-96e2b8595be2`를 같은 배포 명령에서 반영했다.
+- PC·모바일 모두 실제 입장 및 전투 화면의 7분·10회·07:00 표시, 420,000ms 서버 설정, 철수 결과와 콘솔 오류 없음 검수를 완료했다. 검수 자료는 `docs/qa/legion-hunt-limits-20261013/`에 보존했다.
+- 운영 파일 10개의 해시가 배포 소스와 일치했다. 서비스 상태는 200, 인증 없는 토벌 상태·bootstrap은 기존대로 401을 반환했다. 운영 입장 횟수를 소모하지 않았다.
+- 배포 전후 운영 설정 해시가 같고 기본 토벌 ON/r29·확장 지역 TEST/r0를 유지했다. 실제 확인 시각·파일 해시·설정 해시는 `docs/qa/legion-hunt-limits-20261013/live-verification.json`에 기록했다.
