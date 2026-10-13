@@ -1,9 +1,9 @@
 {
   "format": "MONSTER_ORIGINAL_IP_REVIEW_V1",
   "version": 1,
-  "status": "SOURCE_ART_REVIEW_READY",
+  "status": "SOURCE_ART_APPROVED_BASE_SD_REVIEW_READY",
   "baselineCapturedAt": "2026-10-13T01:58:46.246Z",
-  "updatedAt": "2026-10-13T03:00:17.632Z",
+  "updatedAt": "2026-10-13T04:15:42.185Z",
   "generator": "BUILT_IN_IMAGE_GEN",
   "userDirectives": {
     "scope": "All non-NORMAL hunt monsters except Big Seal; include raids",
@@ -203,17 +203,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-004-solvein-sd-v1.png",
+        "sha256": "1582DB58198948202FB027210D0049C1F68656342E23F838658376011B6E879B",
+        "bytes": 1194361,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 4,
           "sha256": "9D7049165542B0BF4A136B1EB273CA502F6EF4D1E0881CF8FA15E1B80ABE0BE8"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-006-nervan",
@@ -255,17 +266,28 @@
         1,
         2
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-006-nervan-sd-v1.png",
+        "sha256": "A7CD105B7993ADE6CB282BB81E557C8E8C7D60D01BEE09944ADB6C1FE87A3804",
+        "bytes": 1283896,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 6,
           "sha256": "C4676B9034534667F3798590262511E6E9E14AEC4023FF08A2319CFE1CD7DCEA"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-007-kardo",
@@ -307,17 +329,28 @@
         1,
         2
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-007-kardo-sd-v1.png",
+        "sha256": "3A08A83BF421A929B8515AEBF940650A327BAC1A88ABC7C8B5679A1E7EE84136",
+        "bytes": 1056769,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 7,
           "sha256": "45F0E2366FA07B95D1E819F18C7EA522BF2729AD483410009603CA2D81EFE6A3"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-010-brekan",
@@ -358,17 +391,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-010-brekan-sd-v1.png",
+        "sha256": "FBC006E719A064AFABE4E09B7F44D72CD6FBB4CEA7E105B68469B00281152F99",
+        "bytes": 1525709,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 10,
           "sha256": "44555567779AA285B6F9FB177FE7CC03FAA18BA194026EDF8787EB198B36CAD3"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-011-morden",
@@ -409,17 +453,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-011-morden-sd-v1.png",
+        "sha256": "FC62C1B0C5A5765B3A207B1C363201153E93389D9087FE5CC9D382E9E34A43EF",
+        "bytes": 1741632,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 11,
           "sha256": "5EA1D71F0356EAE85EE979CFFF97FD4726D7374D4922A8C82C11357CDF62FE2C"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-012-serk",
@@ -460,17 +515,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-012-serk-sd-v1.png",
+        "sha256": "804584DEC70CA3902985B242EBE800B5D5EA480176ABB0B796F8247799FEE6F7",
+        "bytes": 1724865,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 12,
           "sha256": "99E197C7676692117C7B9A2B3F7AA0010776143F4A463D43C3479CA5BF32C12D"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-013-bareon",
@@ -512,17 +578,28 @@
         1,
         2
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-013-bareon-sd-v1.png",
+        "sha256": "022A66C6ACB0838675B08E662FEBCB5D55DF0E917453CCE1EE6A46D021EFD95D",
+        "bytes": 1363303,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 13,
           "sha256": "E3D59CA58D9B280A056C44E3FB51E6C0BB0006C01BCD1491C98C193842EDA4EC"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-014-kirian",
@@ -565,10 +642,19 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-014-kirian-sd-v2.png",
+        "sha256": "4647841DACEB59FC5E84717CF6D0AE66502C7BEEA384454933932466B13B723E",
+        "bytes": 1259025,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 2
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
@@ -579,7 +665,9 @@
           "monsterId": 42,
           "sha256": "063708AFAC3599577AC0643B8A43DE29BD0FB8B33150C21BA6F9BE815EB33F29"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-015-seiran",
@@ -622,10 +710,19 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-015-seiran-sd-v1.png",
+        "sha256": "DCDDF7E7AEB370F74D6384CBBCC0030EB42217E4BB1881FD8575A60BABDC34DA",
+        "bytes": 1590231,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
@@ -636,7 +733,9 @@
           "monsterId": 43,
           "sha256": "CC485802A1DE2D13BB2C5B35A1EC848F1369B1ADEF2EA0B617FBB2D9DFEF7FC9"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-016-hajin",
@@ -679,10 +778,19 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-016-hajin-sd-v1.png",
+        "sha256": "3FA8404EE9C72AE0861C869B9C9BCBD2108459AB54399592904F5D4BDC3573E1",
+        "bytes": 1244819,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
@@ -693,7 +801,9 @@
           "monsterId": 44,
           "sha256": "455B318FD33CD50B5499864D9F90FC51ED02FFD5DC905BC619B6EA3754AA4565"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-025-rokas",
@@ -736,10 +846,19 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-025-rokas-sd-v1.png",
+        "sha256": "1270604BB85CE877B88A88A0B2807D54579EB3CAF7150A19968C9D376BE42F0D",
+        "bytes": 1264998,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
@@ -750,7 +869,9 @@
           "monsterId": 45,
           "sha256": "DE3EFE25FD8F825FF64BFB6CDE8BF165C82A85F96FE38D16989F84FDA775EA19"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-026-taeon",
@@ -794,10 +915,19 @@
         1,
         2
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-026-taeon-sd-v1.png",
+        "sha256": "BDE6EF525E1CB72A2E97BB00E03066E1EEB28992AD44A6DA91142D4160A5EEFF",
+        "bytes": 1561995,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
@@ -808,7 +938,9 @@
           "monsterId": 46,
           "sha256": "784A929174F874CEA71E2A2F83033A59F545211C6F81BD2F5D5168BBCB868F3A"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-029-saharin",
@@ -851,10 +983,19 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-029-saharin-sd-v1.png",
+        "sha256": "4BD3DF28142773FF7143094B2E1E563B3B53AA9C2F85040F7E71B3B3D9F8EF67",
+        "bytes": 1772782,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
@@ -865,7 +1006,9 @@
           "monsterId": 47,
           "sha256": "9D0E8ACD8167EABA875592F7330092CD37228E2DAD574D480853D5766230D9BF"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-030-seiran-shadow",
@@ -908,10 +1051,19 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-030-seiran-shadow-sd-v1.png",
+        "sha256": "9C70848844B4BE2238AB0824029BB72EA92BDB1324533A48AB26598AB2C0A964",
+        "bytes": 1516976,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
@@ -922,7 +1074,9 @@
           "monsterId": 48,
           "sha256": "2F2BEC97B91571E2BA684434E6DADD3C7AE8693B2392C8CEE747B6F797A7365D"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-031-yuren",
@@ -965,10 +1119,19 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-031-yuren-sd-v1.png",
+        "sha256": "C741BDB9A9C2DEC56F70432276CB6F1DA62E75965995B9BFE1030540844E7211",
+        "bytes": 1857951,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
@@ -979,7 +1142,9 @@
           "monsterId": 49,
           "sha256": "10D896CF14B092DB776366118CDB4837C4D7CEE3A4AD898FC1300133B4F0C1CC"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-032-torian",
@@ -1022,10 +1187,19 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-032-torian-sd-v1.png",
+        "sha256": "46A50E04AD89FDF454082BE5912DFBEDFE1245BC1B5FDD7ACC29BCCCF298F831",
+        "bytes": 1547666,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
@@ -1036,7 +1210,9 @@
           "monsterId": 50,
           "sha256": "5D8273332D342211FD700BEEE8CB67153A8B21AF1B0BCC9A0D1BD04F4EA1FBB0"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-061-aurek",
@@ -1077,17 +1253,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-061-aurek-sd-v1.png",
+        "sha256": "56E0102BA2DB0E07CC7762831E0E0EBA8136B9E1B40FBE5F76EA4A3B09367A86",
+        "bytes": 1318347,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 61,
           "sha256": "E2C568BC9A4AED1848CE3857CFD12B8AEFFD1CBCF0F1933763F658332EE6C411"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-062-veiron",
@@ -1128,17 +1315,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-062-veiron-sd-v1.png",
+        "sha256": "5F4163F6EDD1B8DBCED62ECD33425ACBB0622C3D36D7A6021B70FD961BA9276D",
+        "bytes": 1495686,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 62,
           "sha256": "EE98BCBF1AEFAC8E2D811D796F7F65632AF22CE5AD87EE814BA3A8F1A4DD4083"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-063-raskan",
@@ -1179,17 +1377,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-063-raskan-sd-v1.png",
+        "sha256": "93ECA67BEBD29AEAC455F3A7F0C58CA01F8C64F3911B7F5570DBBA623A779E3B",
+        "bytes": 1474187,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 63,
           "sha256": "2FB8C8A00F2728D4865FC0D8DC4E51F62E9FD644F05AF6B29C6BAE1B3D855897"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-070-gradan",
@@ -1230,17 +1439,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-070-gradan-sd-v1.png",
+        "sha256": "C0E7E59E16BE2F53F829527BE697D4A4569187380EDE866140030ECB0DE517A8",
+        "bytes": 1330289,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 70,
           "sha256": "1E50F107D21A67C711790777456B14C37BC2F05DF76A8409C807A682493E00E4"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-071-eltu",
@@ -1281,17 +1501,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-071-eltu-sd-v1.png",
+        "sha256": "F890EEBD38AA7D24C2ADAAC97887F4F6E547B553243A21B64BF3C7361820632B",
+        "bytes": 1617886,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 71,
           "sha256": "4C9FF4FD201FD858E17A0EB1AF9A376EEFE268D03F5FB6E0C174189A5DA6F701"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-072-yujin",
@@ -1332,17 +1563,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-072-yujin-sd-v1.png",
+        "sha256": "91DEEFF4413601A21B792FFBB1708901D06B0713B820FC7F7FA1E4D99F376D42",
+        "bytes": 1653631,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 72,
           "sha256": "A8208194EDB4C1FA3EF38D6BB64A9E9E4AAEFA0A60F0D7E8798E16F31C55FEC5"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-073-danro",
@@ -1383,17 +1625,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-073-danro-sd-v1.png",
+        "sha256": "1AD6A7D421D49063AA58BD42B50C5F6BB27DEADB34186F3FAEA62E9DDC943501",
+        "bytes": 1105410,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 73,
           "sha256": "861945D759C92BC1BBB18F5E62BD0351844A74B255F2CB65A2DAA65A978877C9"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-074-rohen",
@@ -1434,17 +1687,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-074-rohen-sd-v1.png",
+        "sha256": "751287E23177190338F4E775D9B021B1D8DFEBC480E4E98D6C2E43F712AF4C51",
+        "bytes": 1347081,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 74,
           "sha256": "758CB2AB53FC57DFAA29280285B36A41A6F2B46D30B764521E7B104E86BE563A"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-075-voldren",
@@ -1485,17 +1749,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-075-voldren-sd-v1.png",
+        "sha256": "4D4BB421141B01B3A545D5D756B6B3131C10EEC041DB7089FBECCF77DA8CE99D",
+        "bytes": 1277179,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 75,
           "sha256": "93C857902119DA1BA1D86C54AC4AC43217417060EE23490A5D790A750EEE2C53"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-076-nerik",
@@ -1536,17 +1811,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-076-nerik-sd-v2.png",
+        "sha256": "46B04FD34CDD54E39485CF007D3DCB2A32DFC0C4F172737DF84B6F5C5936DFFC",
+        "bytes": 1317954,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 2
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 76,
           "sha256": "DADECF62B7064AE5B144B532EF8A698BEB72B72CE0FFC473FE0C2577853E7A95"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-077-bareon-sovereign",
@@ -1587,17 +1873,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-077-bareon-sovereign-sd-v1.png",
+        "sha256": "8604EB0A348ECE8D8BE254BAF257468FD8CBC9FAD11C38761130FB132DB12F19",
+        "bytes": 1305044,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 77,
           "sha256": "F6A70BEC4989C1366B76F7F8E76A7C3EDE1FB5DFD11F2B933EFB5066A04A77EA"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-078-siluen",
@@ -1638,17 +1935,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-078-siluen-sd-v1.png",
+        "sha256": "78B1BF4DB6DACEBA4115EA1797FF38BDE41FEB65CD5837E49C75A7682068861C",
+        "bytes": 1512703,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 78,
           "sha256": "C48700834BE911E2588C6492B639A277A08EB6A6AEC16192BE0D4AD3F3D1EC2E"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "hunt-079-kaon",
@@ -1689,17 +1997,28 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-079-kaon-sd-v1.png",
+        "sha256": "651791EBE7F599200CFB4376ED90A46CBC51D27C92C8645B892C281379C761F7",
+        "bytes": 1228447,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
       "mechanicsHashes": [
         {
           "monsterId": 79,
           "sha256": "93F4D427D64ACBFEB1C25798A10B8AF456B504EE53317F2492531B26C9D24F70"
         }
-      ]
+      ],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "raid-002-ravok",
@@ -1736,12 +2055,23 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/raid-002-ravok-sd-v1.png",
+        "sha256": "9757DEA14A0DD7F6E8564DD0759F60C3669FE060AE997AE594DCEFF84F0C1F44",
+        "bytes": 1700603,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
-      "mechanicsHashes": []
+      "mechanicsHashes": [],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "raid-004-orthen",
@@ -1778,12 +2108,23 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/raid-004-orthen-sd-v1.png",
+        "sha256": "1B60D5041492F5A2121FE85CED7EF3C4C83A8A405BAA5A0C777CA2AE9E7523B5",
+        "bytes": 1514236,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
-      "mechanicsHashes": []
+      "mechanicsHashes": [],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "raid-006-haeryun",
@@ -1820,12 +2161,23 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/raid-006-haeryun-sd-v1.png",
+        "sha256": "0FB216935C43F01732D622AE8F387968501BC34368BF7C19A5F186DD4FC4D50A",
+        "bytes": 1605504,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
-      "mechanicsHashes": []
+      "mechanicsHashes": [],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "raid-008-noaren",
@@ -1862,12 +2214,23 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/raid-008-noaren-sd-v1.png",
+        "sha256": "7515F47F715C3D521DF5E3CE8D0599622C0C178DDB59667A9209925AB884B576",
+        "bytes": 1109054,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
-      "mechanicsHashes": []
+      "mechanicsHashes": [],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "raid-madara-vaelun",
@@ -1902,12 +2265,23 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/raid-madara-vaelun-sd-v1.png",
+        "sha256": "82A11B55463D262FD21E9153EB124D77EACE5B7C6D9AD812E5744612C1CA4278",
+        "bytes": 1173844,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
-      "mechanicsHashes": []
+      "mechanicsHashes": [],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "raid-lich-nivar",
@@ -1942,12 +2316,23 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/raid-lich-nivar-sd-v1.png",
+        "sha256": "74BE537DAE85C7D522676782D2C6CB1F0DFC25CD4328B125A3649EA640F8654E",
+        "bytes": 1607965,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
-      "mechanicsHashes": []
+      "mechanicsHashes": [],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     },
     {
       "key": "raid-core-astel",
@@ -1982,12 +2367,26 @@
       "sourceArtVersions": [
         1
       ],
-      "sourceArtStatus": "REVIEW_READY",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
-      "visualApproval": false,
+      "sourceArtStatus": "APPROVED",
+      "battleSprite": {
+        "path": "preview/monster-original-ip-sd-20261013-v1/assets/raid-core-astel-sd-v1.png",
+        "sha256": "84FDE8D5DD59224D7A3D3960FFA1E25908E0E4F19D9D454F2442F5DEEBEEBA65",
+        "bytes": 1383455,
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "hasAlpha": true,
+        "version": 1
+      },
+      "battleSpriteStatus": "REVIEW_READY",
+      "visualApproval": true,
       "runtimeConnected": false,
-      "mechanicsHashes": []
+      "mechanicsHashes": [],
+      "approval": "approval-20261013.json",
+      "battleSpriteVisualApproval": false
     }
-  ]
+  ],
+  "sourceArtApprovedOn": "2026-10-13",
+  "approval": "approval-20261013.json",
+  "sdReview": "../monster-original-ip-sd-20261013-v1/"
 }

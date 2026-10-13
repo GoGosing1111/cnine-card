@@ -1,0 +1,26 @@
+{
+  "key": "hunt-076-nerik",
+  "name": "심연포식자 네리크",
+  "approvedSource": {
+    "path": "preview/monster-original-ip-20261013-v1/assets/hunt-076-nerik-source-v1.png",
+    "sha256": "90A7B100D35B0AB589EF1A887CE0A92CD01923D31DC418BDED0E2F21B18D4B36",
+    "bytes": 2704206,
+    "width": 941,
+    "height": 1672,
+    "format": "png",
+    "hasAlpha": false
+  },
+  "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+  "pose": "Keep the pale young adult man with amber eyes, black hair tied in a loose low knot with natural stray strands, bronze angular lower-face mask with THREE vertical vent slits and no teeth, gray distressed sleeveless tunic over black fitted high collar and dark wraps. Full standing actor with relaxed raised hand, fitted dark trousers and plain black boots. Only ONE body and face; no collage, chair, moon, detached red-black blade petals or invented physical weapon.",
+  "prompt": "Use case: precise-object-edit. Image 1 is the V3 SD target. Image 2 is the approved character identity. Remove ONLY the extra physical sword from image 1, including its blade, hilt, guard and all red sword glow. Change that sword-holding hand into a relaxed EMPTY open hand beside his hip with correct fingers. Keep the other raised open hand, bronze three-vent lower-face mask, pale face, black low-knot hairstyle, expression, costume, boots, standing pose, proportions and exact rendering quality unchanged. NO replacement weapon or prop. Everything where the sword was becomes true transparent background. Preserve existing transparency everywhere, no floor, shadow, scene, text or border.",
+  "version": 2,
+  "repairReason": "Generated an unapproved extra physical sword. Remove sword and keep that hand empty while preserving costume, face, mask and pose.",
+  "references": [
+    "preview/monster-original-ip-sd-20261013-v1/assets/hunt-076-nerik-sd-v1.png",
+    "preview/monster-original-ip-20261013-v1/assets/hunt-076-nerik-source-v1.png"
+  ],
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-6c9d2891-5e47-44fc-b99c-6d953ed7eeda.png",
+  "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-076-nerik-sd-v2.png",
+  "userVisualApproval": false
+}

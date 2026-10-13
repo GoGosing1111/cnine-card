@@ -1,0 +1,26 @@
+{
+  "key": "hunt-014-kirian",
+  "name": "뇌흔검사 키르안",
+  "approvedSource": {
+    "path": "preview/monster-original-ip-20261013-v1/assets/hunt-014-kirian-source-v1.png",
+    "sha256": "2258A3858085764E7BD7EBE6F337302BA438A0B42750B9849BDB2DD6DF596FAB",
+    "bytes": 3021307,
+    "width": 941,
+    "height": 1672,
+    "format": "png",
+    "hasAlpha": false
+  },
+  "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+  "pose": "Keep the approved olive-fair young adult face, swept silver hair, navy fitted high-collar tunic and coat tails, asymmetric silver trim, white shoulder mantle, silver articulated forearm guards and black fingerless gloves. Hold the reference's SINGLE straight blue-steel sword low to one side, small blue electricity directly on the blade only. Complete dark fitted trousers and armored dark boots consistent with his coat. No background manta, giant lightning or duplicate figure.",
+  "prompt": "Use case: precise-object-edit. Image 1 is the V3 SD target to correct. Image 2 is the approved character art for identity only. Change ONLY the framing of image 1: zoom OUT proportionally so the COMPLETE character and full blue sword fit comfortably inside the central 82% of a square transparent canvas, leaving at least 8% clear transparent margin on every side. Restore any tiny clipped sword tip, hair wisp or mantle tip. Keep exactly the same SD drawing, adult face, silver hairstyle, eye color, expression, proportions, navy clothing, white mantle, silver armor, hands, rigid sword and stance. Do not stretch or compress the drawing. Keep both feet visible. Do not redesign or add anything. True transparent RGBA background, no floor, shadow, border, text, scene or halo cloud. This is a framing repair of an existing approved-source-based SD, not a new character.",
+  "version": 2,
+  "repairReason": "Hair and sword tip touch canvas edges; regenerate full silhouette with wider transparent margins.",
+  "references": [
+    "preview/monster-original-ip-sd-20261013-v1/assets/hunt-014-kirian-sd-v1.png",
+    "preview/monster-original-ip-20261013-v1/assets/hunt-014-kirian-source-v1.png"
+  ],
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-95100e41-8297-4c2e-8a75-454df140f22a.png",
+  "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-014-kirian-sd-v2.png",
+  "userVisualApproval": false
+}

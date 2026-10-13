@@ -1,0 +1,20 @@
+{
+  "key": "hunt-016-hajin",
+  "name": "벽뢰발도객 하진",
+  "approvedSource": {
+    "path": "preview/monster-original-ip-20261013-v1/assets/hunt-016-hajin-source-v1.png",
+    "sha256": "A3EED33E849285ABEF177F8A802F834EE105C37CFE0B1FED197DADE8AB26BF68",
+    "bytes": 2029402,
+    "width": 1122,
+    "height": 1402,
+    "format": "png",
+    "hasAlpha": false
+  },
+  "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+  "pose": "Preserve the fair East Asian young adult face, short natural brown hair, blue eyes, loose ochre-and-navy jacket, dark trousers, wrapped wrists and dark lace-up ankle boots. Ready grounded stance with ONE slender steel sword, two hands correctly around the grip below the plain oval guard, blade angled safely to the side. Blue glow attached to sword edge only, no big bolts, no triangle patterns or yellow hair.",
+  "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair East Asian young adult face, short natural brown hair, blue eyes, loose ochre-and-navy jacket, dark trousers, wrapped wrists and dark lace-up ankle boots. Ready grounded stance with ONE slender steel sword, two hands correctly around the grip below the plain oval guard, blade angled safely to the side. Blue glow attached to sword edge only, no big bolts, no triangle patterns or yellow hair.\nFraming priority: leave at least 5% completely clear transparent margin on ALL four sides, including sword tips, hair and cloth. Full character smaller inside the square if needed.",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-ed53c3b1-c3e3-4332-9e3a-92c04343d3b8.png",
+  "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-016-hajin-sd-v1.png",
+  "userVisualApproval": false
+}

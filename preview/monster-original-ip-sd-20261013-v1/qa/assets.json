@@ -1,0 +1,872 @@
+{
+  "checkedAt": "2026-10-13T04:15:42.185Z",
+  "scope": "Generated SD assets only; source approval hashes checked",
+  "checked": 36,
+  "passed": true,
+  "entries": [
+    {
+      "key": "hunt-004-solvein",
+      "sha256": "1582DB58198948202FB027210D0049C1F68656342E23F838658376011B6E879B",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.651014,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 273,
+        "y": 42,
+        "width": 723,
+        "height": 1175
+      },
+      "margins": {
+        "left": 273,
+        "top": 42,
+        "right": 258,
+        "bottom": 37
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-006-nervan",
+      "sha256": "A7CD105B7993ADE6CB282BB81E557C8E8C7D60D01BEE09944ADB6C1FE87A3804",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.621906,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 286,
+        "y": 9,
+        "width": 752,
+        "height": 1238
+      },
+      "margins": {
+        "left": 286,
+        "top": 9,
+        "right": 216,
+        "bottom": 7
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-007-kardo",
+      "sha256": "3A08A83BF421A929B8515AEBF940650A327BAC1A88ABC7C8B5679A1E7EE84136",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.653327,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 110,
+        "y": 46,
+        "width": 901,
+        "height": 1174
+      },
+      "margins": {
+        "left": 110,
+        "top": 46,
+        "right": 243,
+        "bottom": 34
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-010-brekan",
+      "sha256": "FBC006E719A064AFABE4E09B7F44D72CD6FBB4CEA7E105B68469B00281152F99",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.529669,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 125,
+        "y": 68,
+        "width": 1099,
+        "height": 1153
+      },
+      "margins": {
+        "left": 125,
+        "top": 68,
+        "right": 30,
+        "bottom": 33
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-011-morden",
+      "sha256": "FC62C1B0C5A5765B3A207B1C363201153E93389D9087FE5CC9D382E9E34A43EF",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.55961,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 43,
+        "y": 46,
+        "width": 1175,
+        "height": 1192
+      },
+      "margins": {
+        "left": 43,
+        "top": 46,
+        "right": 36,
+        "bottom": 16
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-012-serk",
+      "sha256": "804584DEC70CA3902985B242EBE800B5D5EA480176ABB0B796F8247799FEE6F7",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.534316,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 79,
+        "y": 68,
+        "width": 1063,
+        "height": 1155
+      },
+      "margins": {
+        "left": 79,
+        "top": 68,
+        "right": 112,
+        "bottom": 31
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-013-bareon",
+      "sha256": "022A66C6ACB0838675B08E662FEBCB5D55DF0E917453CCE1EE6A46D021EFD95D",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.615655,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 59,
+        "y": 36,
+        "width": 1162,
+        "height": 1182
+      },
+      "margins": {
+        "left": 59,
+        "top": 36,
+        "right": 33,
+        "bottom": 36
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-014-kirian",
+      "sha256": "4647841DACEB59FC5E84717CF6D0AE66502C7BEEA384454933932466B13B723E",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.717134,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 89,
+        "y": 114,
+        "width": 1114,
+        "height": 1062
+      },
+      "margins": {
+        "left": 89,
+        "top": 114,
+        "right": 51,
+        "bottom": 78
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-015-seiran",
+      "sha256": "DCDDF7E7AEB370F74D6384CBBCC0030EB42217E4BB1881FD8575A60BABDC34DA",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.625696,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 237,
+        "y": 51,
+        "width": 935,
+        "height": 1172
+      },
+      "margins": {
+        "left": 237,
+        "top": 51,
+        "right": 82,
+        "bottom": 31
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-016-hajin",
+      "sha256": "3FA8404EE9C72AE0861C869B9C9BCBD2108459AB54399592904F5D4BDC3573E1",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.628554,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 15,
+        "y": 58,
+        "width": 1193,
+        "height": 1158
+      },
+      "margins": {
+        "left": 15,
+        "top": 58,
+        "right": 46,
+        "bottom": 38
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-025-rokas",
+      "sha256": "1270604BB85CE877B88A88A0B2807D54579EB3CAF7150A19968C9D376BE42F0D",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.689884,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 42,
+        "y": 82,
+        "width": 1172,
+        "height": 1134
+      },
+      "margins": {
+        "left": 42,
+        "top": 82,
+        "right": 40,
+        "bottom": 38
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-026-taeon",
+      "sha256": "BDE6EF525E1CB72A2E97BB00E03066E1EEB28992AD44A6DA91142D4160A5EEFF",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.600583,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 81,
+        "y": 74,
+        "width": 1101,
+        "height": 1127
+      },
+      "margins": {
+        "left": 81,
+        "top": 74,
+        "right": 72,
+        "bottom": 53
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-029-saharin",
+      "sha256": "4BD3DF28142773FF7143094B2E1E563B3B53AA9C2F85040F7E71B3B3D9F8EF67",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.556453,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 65,
+        "y": 66,
+        "width": 1168,
+        "height": 1137
+      },
+      "margins": {
+        "left": 65,
+        "top": 66,
+        "right": 21,
+        "bottom": 51
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-030-seiran-shadow",
+      "sha256": "9C70848844B4BE2238AB0824029BB72EA92BDB1324533A48AB26598AB2C0A964",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.603198,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 184,
+        "y": 50,
+        "width": 855,
+        "height": 1173
+      },
+      "margins": {
+        "left": 184,
+        "top": 50,
+        "right": 215,
+        "bottom": 31
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-031-yuren",
+      "sha256": "C741BDB9A9C2DEC56F70432276CB6F1DA62E75965995B9BFE1030540844E7211",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.551355,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 85,
+        "y": 56,
+        "width": 1138,
+        "height": 1159
+      },
+      "margins": {
+        "left": 85,
+        "top": 56,
+        "right": 31,
+        "bottom": 39
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-032-torian",
+      "sha256": "46A50E04AD89FDF454082BE5912DFBEDFE1245BC1B5FDD7ACC29BCCCF298F831",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.626141,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 184,
+        "y": 59,
+        "width": 986,
+        "height": 1166
+      },
+      "margins": {
+        "left": 184,
+        "top": 59,
+        "right": 84,
+        "bottom": 29
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-061-aurek",
+      "sha256": "56E0102BA2DB0E07CC7762831E0E0EBA8136B9E1B40FBE5F76EA4A3B09367A86",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.65672,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 267,
+        "y": 34,
+        "width": 751,
+        "height": 1195
+      },
+      "margins": {
+        "left": 267,
+        "top": 34,
+        "right": 236,
+        "bottom": 25
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-062-veiron",
+      "sha256": "5F4163F6EDD1B8DBCED62ECD33425ACBB0622C3D36D7A6021B70FD961BA9276D",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.620258,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 122,
+        "y": 139,
+        "width": 982,
+        "height": 1065
+      },
+      "margins": {
+        "left": 122,
+        "top": 139,
+        "right": 150,
+        "bottom": 50
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-063-raskan",
+      "sha256": "93ECA67BEBD29AEAC455F3A7F0C58CA01F8C64F3911B7F5570DBBA623A779E3B",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.607106,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 84,
+        "y": 72,
+        "width": 985,
+        "height": 1140
+      },
+      "margins": {
+        "left": 84,
+        "top": 72,
+        "right": 185,
+        "bottom": 42
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-070-gradan",
+      "sha256": "C0E7E59E16BE2F53F829527BE697D4A4569187380EDE866140030ECB0DE517A8",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.634625,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 187,
+        "y": 16,
+        "width": 935,
+        "height": 1219
+      },
+      "margins": {
+        "left": 187,
+        "top": 16,
+        "right": 132,
+        "bottom": 19
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-071-eltu",
+      "sha256": "F890EEBD38AA7D24C2ADAAC97887F4F6E547B553243A21B64BF3C7361820632B",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.614477,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 239,
+        "y": 34,
+        "width": 892,
+        "height": 1192
+      },
+      "margins": {
+        "left": 239,
+        "top": 34,
+        "right": 123,
+        "bottom": 28
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-072-yujin",
+      "sha256": "91DEEFF4413601A21B792FFBB1708901D06B0713B820FC7F7FA1E4D99F376D42",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.594293,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 263,
+        "y": 9,
+        "width": 886,
+        "height": 1231
+      },
+      "margins": {
+        "left": 263,
+        "top": 9,
+        "right": 105,
+        "bottom": 14
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-073-danro",
+      "sha256": "1AD6A7D421D49063AA58BD42B50C5F6BB27DEADB34186F3FAEA62E9DDC943501",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.656211,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 149,
+        "y": 62,
+        "width": 908,
+        "height": 1154
+      },
+      "margins": {
+        "left": 149,
+        "top": 62,
+        "right": 197,
+        "bottom": 38
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-074-rohen",
+      "sha256": "751287E23177190338F4E775D9B021B1D8DFEBC480E4E98D6C2E43F712AF4C51",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.629958,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 225,
+        "y": 30,
+        "width": 890,
+        "height": 1193
+      },
+      "margins": {
+        "left": 225,
+        "top": 30,
+        "right": 139,
+        "bottom": 31
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-075-voldren",
+      "sha256": "4D4BB421141B01B3A545D5D756B6B3131C10EEC041DB7089FBECCF77DA8CE99D",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.657258,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 236,
+        "y": 27,
+        "width": 890,
+        "height": 1208
+      },
+      "margins": {
+        "left": 236,
+        "top": 27,
+        "right": 128,
+        "bottom": 19
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-076-nerik",
+      "sha256": "46B04FD34CDD54E39485CF007D3DCB2A32DFC0C4F172737DF84B6F5C5936DFFC",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.681302,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 370,
+        "y": 36,
+        "width": 748,
+        "height": 1200
+      },
+      "margins": {
+        "left": 370,
+        "top": 36,
+        "right": 136,
+        "bottom": 18
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-077-bareon-sovereign",
+      "sha256": "8604EB0A348ECE8D8BE254BAF257468FD8CBC9FAD11C38761130FB132DB12F19",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.622549,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 279,
+        "y": 25,
+        "width": 881,
+        "height": 1211
+      },
+      "margins": {
+        "left": 279,
+        "top": 25,
+        "right": 94,
+        "bottom": 18
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-078-siluen",
+      "sha256": "78B1BF4DB6DACEBA4115EA1797FF38BDE41FEB65CD5837E49C75A7682068861C",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.624484,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 182,
+        "y": 54,
+        "width": 915,
+        "height": 1169
+      },
+      "margins": {
+        "left": 182,
+        "top": 54,
+        "right": 157,
+        "bottom": 31
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "hunt-079-kaon",
+      "sha256": "651791EBE7F599200CFB4376ED90A46CBC51D27C92C8645B892C281379C761F7",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.674799,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 306,
+        "y": 33,
+        "width": 758,
+        "height": 1193
+      },
+      "margins": {
+        "left": 306,
+        "top": 33,
+        "right": 190,
+        "bottom": 28
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "raid-002-ravok",
+      "sha256": "9757DEA14A0DD7F6E8564DD0759F60C3669FE060AE997AE594DCEFF84F0C1F44",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.530669,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 219,
+        "y": 9,
+        "width": 900,
+        "height": 1226
+      },
+      "margins": {
+        "left": 219,
+        "top": 9,
+        "right": 135,
+        "bottom": 19
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "raid-004-orthen",
+      "sha256": "1B60D5041492F5A2121FE85CED7EF3C4C83A8A405BAA5A0C777CA2AE9E7523B5",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.642153,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 219,
+        "y": 31,
+        "width": 859,
+        "height": 1195
+      },
+      "margins": {
+        "left": 219,
+        "top": 31,
+        "right": 176,
+        "bottom": 28
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "raid-006-haeryun",
+      "sha256": "0FB216935C43F01732D622AE8F387968501BC34368BF7C19A5F186DD4FC4D50A",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.609395,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 298,
+        "y": 23,
+        "width": 835,
+        "height": 1203
+      },
+      "margins": {
+        "left": 298,
+        "top": 23,
+        "right": 121,
+        "bottom": 28
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "raid-008-noaren",
+      "sha256": "7515F47F715C3D521DF5E3CE8D0599622C0C178DDB59667A9209925AB884B576",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.711113,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 334,
+        "y": 88,
+        "width": 773,
+        "height": 1104
+      },
+      "margins": {
+        "left": 334,
+        "top": 88,
+        "right": 147,
+        "bottom": 62
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "raid-madara-vaelun",
+      "sha256": "82A11B55463D262FD21E9153EB124D77EACE5B7C6D9AD812E5744612C1CA4278",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.667598,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 279,
+        "y": 30,
+        "width": 804,
+        "height": 1204
+      },
+      "margins": {
+        "left": 279,
+        "top": 30,
+        "right": 171,
+        "bottom": 20
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "raid-lich-nivar",
+      "sha256": "74BE537DAE85C7D522676782D2C6CB1F0DFC25CD4328B125A3649EA640F8654E",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.592023,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 128,
+        "y": 56,
+        "width": 1023,
+        "height": 1156
+      },
+      "margins": {
+        "left": 128,
+        "top": 56,
+        "right": 103,
+        "bottom": 42
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    },
+    {
+      "key": "raid-core-astel",
+      "sha256": "84FDE8D5DD59224D7A3D3960FFA1E25908E0E4F19D9D454F2442F5DEEBEEBA65",
+      "hasTrueAlpha": true,
+      "nonEmpty": true,
+      "notTouchingCanvas": true,
+      "square": true,
+      "transparentPixelFraction": 0.617346,
+      "alphaThreshold": 16,
+      "alphaBounds": {
+        "x": 119,
+        "y": 80,
+        "width": 1052,
+        "height": 1127
+      },
+      "margins": {
+        "left": 119,
+        "top": 80,
+        "right": 83,
+        "bottom": 47
+      },
+      "edgePixels": 0,
+      "technicalPass": true
+    }
+  ]
+}

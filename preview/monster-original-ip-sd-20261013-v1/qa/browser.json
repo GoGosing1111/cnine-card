@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-13",
+  "url": "http://127.0.0.1:8876/preview/monster-original-ip-sd-20261013-v1/",
+  "runtime": "Codex in-app browser / cua_repl",
+  "desktop": {
+    "viewport": [
+      1440,
+      1050
+    ],
+    "clientWidth": 1425,
+    "scrollWidth": 1425,
+    "horizontalOverflow": false,
+    "sourceLoaded": true,
+    "sdLoaded": true,
+    "screenshot": "desktop-1440.png"
+  },
+  "mobile": {
+    "viewport": [
+      390,
+      844
+    ],
+    "clientWidth": 375,
+    "scrollWidth": 375,
+    "horizontalOverflow": false,
+    "searchLabelNoWrap": true,
+    "screenshots": [
+      "mobile-390-top.png",
+      "mobile-390.png"
+    ]
+  },
+  "interactions": {
+    "all36": true,
+    "raid7": true,
+    "searchNivarOneResult": true,
+    "nextToAstel": true,
+    "previousToNivar": true,
+    "zoomOpenAndClose": true,
+    "checkerBackground": true,
+    "lightBackground": true,
+    "battleSize160": true,
+    "rangeInput300": true,
+    "mirrorToggle": true
+  },
+  "consoleErrors": [],
+  "gameRuntimeTested": false,
+  "note": "Independent asset preview only. No game runtime or DB changes."
+}

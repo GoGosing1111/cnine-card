@@ -1,0 +1,740 @@
+{
+  "status": "BASE_SD_REVIEW_READY",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "sourceApproval": "preview/monster-original-ip-20261013-v1/approval-20261013.json",
+  "count": 36,
+  "jobs": [
+    {
+      "key": "hunt-004-solvein",
+      "name": "광휘집정관 솔베인",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-004-solvein-source-v1.png",
+        "sha256": "35BB251C57F0015534BC1211ECC3A552D9B620BC65D92697449A442EA5D9C84A",
+        "bytes": 1849788,
+        "width": 1402,
+        "height": 1122,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Standing light magistrate, calm mature face and short swept silver hair with the same rich dark complexion as the approved art. Preserve the asymmetric brass chest plate, charcoal high-neck tunic, ochre short mantle, amber-glass bracers and tall black boots. One open palm held forward at waist height, the other hand relaxed near chest, with only a tiny amber light attached to the bracer. Remove chair, ribbons and background entirely.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\nCharacter-specific pose and invariants: Standing light magistrate, calm mature face and short swept silver hair with the same rich dark complexion as the approved art. Preserve the asymmetric brass chest plate, charcoal high-neck tunic, ochre short mantle, amber-glass bracers and tall black boots. One open palm held forward at waist height, the other hand relaxed near chest, with only a tiny amber light attached to the bracer. Remove chair, ribbons and background entirely.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-3fa4fc4d-917e-41d2-a359-61ff41ec854d.png",
+      "output": "assets/hunt-004-solvein-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-006-nervan",
+      "name": "서리제독 네르반",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-006-nervan-source-v2.png",
+        "sha256": "75EA13A89360653243C2CA97EA58646B27CACD3F0B17A7DDEB5670085D4FF023",
+        "bytes": 2325301,
+        "width": 1207,
+        "height": 1303,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Standing frost commander, same fair East Asian adult face, swept black hair with gray temples, clean-shaven jaw. Preserve navy double-breasted long coat, steel shoulder guard with attached frost, brown strap and belt, light gray trousers and black buckled boots. Hold the same small blue-and-brass navigation instrument low in one hand; the other hand relaxed. No goggles, no white cape, no invented ice sword, no surrounding fog.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\nCharacter-specific pose and invariants: Standing frost commander, same fair East Asian adult face, swept black hair with gray temples, clean-shaven jaw. Preserve navy double-breasted long coat, steel shoulder guard with attached frost, brown strap and belt, light gray trousers and black buckled boots. Hold the same small blue-and-brass navigation instrument low in one hand; the other hand relaxed. No goggles, no white cape, no invented ice sword, no surrounding fog.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-1fbbf725-0117-47ca-b23b-050a0e66e608.png",
+      "output": "assets/hunt-006-nervan-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-007-kardo",
+      "name": "화산총독 카르도",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-007-kardo-source-v2.png",
+        "sha256": "812BC134347E092826823C7EAB7A0CDEC96536C82EA081050ACDEFF6FAC5F2DB",
+        "bytes": 2185319,
+        "width": 1402,
+        "height": 1122,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Standing magma governor with the same fair ruddy white European bald face and auburn goatee. Preserve dark red asymmetric coat, black collar and gloves, brass cuffs and belt, dark trousers and buckled black boots. Broad grounded dignified combat stance. Hold the same short straight black baton with orange ember fissures at his side; second hand a relaxed fist. No chair, cap, cape from any older design, no external lava cloud.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\nCharacter-specific pose and invariants: Standing magma governor with the same fair ruddy white European bald face and auburn goatee. Preserve dark red asymmetric coat, black collar and gloves, brass cuffs and belt, dark trousers and buckled black boots. Broad grounded dignified combat stance. Hold the same short straight black baton with orange ember fissures at his side; second hand a relaxed fist. No chair, cap, cape from any older design, no external lava cloud.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-1b3df5e6-ca81-42b3-a034-10cba012b848.png",
+      "output": "assets/hunt-007-kardo-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-010-brekan",
+      "name": "파도분쇄자 브레칸",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-010-brekan-source-v1.png",
+        "sha256": "9FA437EBF50A606CCE08B3A23C3B40C145E14DCE686E44531D93B15D12479EBA",
+        "bytes": 3191037,
+        "width": 1402,
+        "height": 1122,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Powerful standing heavy brawler, same dark bald head, enormous flowing braided black beard with gold bands, massive muscular physique, teal scale vest, dark blue trousers and brass shoulder harness/belt/knuckle gauntlets. Make his broad heavy build legible in SD proportions, not a skinny generic fighter. Both clenched gauntlets raised in a compact fighting guard, feet firmly planted. Do not include soldiers, ships, debris or full-screen shockwaves. No new handheld weapon.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\nCharacter-specific pose and invariants: Powerful standing heavy brawler, same dark bald head, enormous flowing braided black beard with gold bands, massive muscular physique, teal scale vest, dark blue trousers and brass shoulder harness/belt/knuckle gauntlets. Make his broad heavy build legible in SD proportions, not a skinny generic fighter. Both clenched gauntlets raised in a compact fighting guard, feet firmly planted. Do not include soldiers, ships, debris or full-screen shockwaves. No new handheld weapon.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-2a179e9c-29ef-4c57-a455-c5094b66a502.png",
+      "output": "assets/hunt-010-brekan-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-011-morden",
+      "name": "심해약탈자 모르덴",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-011-morden-source-v1.png",
+        "sha256": "0754B55A50FD9517FF0176EDCB199A698127EE0FA5F34751902FE6A8552BBC11",
+        "bytes": 2832982,
+        "width": 1402,
+        "height": 1122,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Keep the stocky copper-complexioned pirate, black shaved-side braided topknot, gray short beard, heavy round brass diving collar, dark green patched clothing, torn red sleeveless coat, rope belt and brass boots. One broad dark cleaver-axe in the right hand, held with its short handle low. Other empty hand open. An intact compact standing ready pose, not the lunging illustration. NO giant ink vortex, tentacles or scene debris; preserve his one original physical axe.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nKeep the stocky copper-complexioned pirate, black shaved-side braided topknot, gray short beard, heavy round brass diving collar, dark green patched clothing, torn red sleeveless coat, rope belt and brass boots. One broad dark cleaver-axe in the right hand, held with its short handle low. Other empty hand open. An intact compact standing ready pose, not the lunging illustration. NO giant ink vortex, tentacles or scene debris; preserve his one original physical axe.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-69961220-ff6e-4537-89bb-b5cbc44c2b21.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-011-morden-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-012-serk",
+      "name": "흑검재판관 세르크",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-012-serk-source-v1.png",
+        "sha256": "2A5D5E78CD8410B44FAA120E8D7BC1E7736EDD3FAB9F0C2D4FA6C840A7942D32",
+        "bytes": 2420698,
+        "width": 1402,
+        "height": 1122,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Keep the fair young adult swordsman with long black tied hair, narrow gray eyes, asymmetric steel cheek guard, dark teal armored tunic, brass trims, rust-red scarf/cape, light gray trousers and brown boots. Hold his SINGLE enormous broad straight charcoal cleaver with angular brass D-shaped guard diagonally at his side, full blade and both boots inside image. Scale the broad sword so the sprite remains readable. No cross-shaped sword, hat, second weapon or surrounding wave ring.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nKeep the fair young adult swordsman with long black tied hair, narrow gray eyes, asymmetric steel cheek guard, dark teal armored tunic, brass trims, rust-red scarf/cape, light gray trousers and brown boots. Hold his SINGLE enormous broad straight charcoal cleaver with angular brass D-shaped guard diagonally at his side, full blade and both boots inside image. Scale the broad sword so the sprite remains readable. No cross-shaped sword, hat, second weapon or surrounding wave ring.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-756fbc83-f5dc-4e6a-a8ee-dfee84a978e3.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-012-serk-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-013-bareon",
+      "name": "홍염항해왕 바레온",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-013-bareon-source-v2.png",
+        "sha256": "50EA5836C526BEFBBC23C81A70083DA12871F65DD09DDEEB386E711919383CE5",
+        "bytes": 2473517,
+        "width": 1402,
+        "height": 1122,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Keep the approved fair European adult face, thick wavy black hair with silver temple streak, full neat black beard, both intact arms, sleeveless navy vest, ochre scarf-shirt, navy short cloak, rust-brown trousers and tall brown boots. SINGLE slightly curved saber with brass oval knuckle guard in one hand held down and out; free hand relaxed. Mature captain standing ready. No red hair, no missing arm, no face scars, no surrounding fire/cloud ring.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nKeep the approved fair European adult face, thick wavy black hair with silver temple streak, full neat black beard, both intact arms, sleeveless navy vest, ochre scarf-shirt, navy short cloak, rust-brown trousers and tall brown boots. SINGLE slightly curved saber with brass oval knuckle guard in one hand held down and out; free hand relaxed. Mature captain standing ready. No red hair, no missing arm, no face scars, no surrounding fire/cloud ring.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-918f4264-fb28-4163-ae4f-df974f20efe2.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-013-bareon-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-014-kirian",
+      "name": "뇌흔검사 키르안",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-014-kirian-source-v1.png",
+        "sha256": "2258A3858085764E7BD7EBE6F337302BA438A0B42750B9849BDB2DD6DF596FAB",
+        "bytes": 3021307,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Keep the approved olive-fair young adult face, swept silver hair, navy fitted high-collar tunic and coat tails, asymmetric silver trim, white shoulder mantle, silver articulated forearm guards and black fingerless gloves. Hold the reference's SINGLE straight blue-steel sword low to one side, small blue electricity directly on the blade only. Complete dark fitted trousers and armored dark boots consistent with his coat. No background manta, giant lightning or duplicate figure.",
+      "prompt": "Use case: precise-object-edit. Image 1 is the V3 SD target to correct. Image 2 is the approved character art for identity only. Change ONLY the framing of image 1: zoom OUT proportionally so the COMPLETE character and full blue sword fit comfortably inside the central 82% of a square transparent canvas, leaving at least 8% clear transparent margin on every side. Restore any tiny clipped sword tip, hair wisp or mantle tip. Keep exactly the same SD drawing, adult face, silver hairstyle, eye color, expression, proportions, navy clothing, white mantle, silver armor, hands, rigid sword and stance. Do not stretch or compress the drawing. Keep both feet visible. Do not redesign or add anything. True transparent RGBA background, no floor, shadow, border, text, scene or halo cloud. This is a framing repair of an existing approved-source-based SD, not a new character.",
+      "version": 2,
+      "repairReason": "Hair and sword tip touch canvas edges; regenerate full silhouette with wider transparent margins.",
+      "references": [
+        "preview/monster-original-ip-sd-20261013-v1/assets/hunt-014-kirian-sd-v1.png",
+        "preview/monster-original-ip-20261013-v1/assets/hunt-014-kirian-source-v1.png"
+      ],
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-95100e41-8297-4c2e-8a75-454df140f22a.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-014-kirian-sd-v2.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-015-seiran",
+      "name": "적월감시자 세이란",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-015-seiran-source-v1.png",
+        "sha256": "BCC986FCE8E0581780B509D41D1839E134670981B255E6D188C1AB209AD8A6EA",
+        "bytes": 2787755,
+        "width": 1122,
+        "height": 1402,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the pale East Asian adult face and flowing black hair with one silver forelock, high black collar, fine silver filigree clasp and chains, feather-like black cloak panels from approved art. Build a complete standing mage in fitted charcoal trousers and black boots consistent with the upper portrait. Open hands near waist, fingers clearly separated and relaxed; no invented weapon. No red moths, halos or storm background in this base sprite.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the pale East Asian adult face and flowing black hair with one silver forelock, high black collar, fine silver filigree clasp and chains, feather-like black cloak panels from approved art. Build a complete standing mage in fitted charcoal trousers and black boots consistent with the upper portrait. Open hands near waist, fingers clearly separated and relaxed; no invented weapon. No red moths, halos or storm background in this base sprite.\nFraming priority: leave at least 5% completely clear transparent margin on ALL four sides, including sword tips, hair and cloth. Full character smaller inside the square if needed.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-49ce2ba7-ff0c-40f0-98f8-22452abaafe2.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-015-seiran-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-016-hajin",
+      "name": "벽뢰발도객 하진",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-016-hajin-source-v1.png",
+        "sha256": "A3EED33E849285ABEF177F8A802F834EE105C37CFE0B1FED197DADE8AB26BF68",
+        "bytes": 2029402,
+        "width": 1122,
+        "height": 1402,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair East Asian young adult face, short natural brown hair, blue eyes, loose ochre-and-navy jacket, dark trousers, wrapped wrists and dark lace-up ankle boots. Ready grounded stance with ONE slender steel sword, two hands correctly around the grip below the plain oval guard, blade angled safely to the side. Blue glow attached to sword edge only, no big bolts, no triangle patterns or yellow hair.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair East Asian young adult face, short natural brown hair, blue eyes, loose ochre-and-navy jacket, dark trousers, wrapped wrists and dark lace-up ankle boots. Ready grounded stance with ONE slender steel sword, two hands correctly around the grip below the plain oval guard, blade angled safely to the side. Blue glow attached to sword edge only, no big bolts, no triangle patterns or yellow hair.\nFraming priority: leave at least 5% completely clear transparent margin on ALL four sides, including sword tips, hair and cloth. Full character smaller inside the square if needed.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-ed53c3b1-c3e3-4332-9e3a-92c04343d3b8.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-016-hajin-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-025-rokas",
+      "name": "폭풍쌍검사 로카스",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-025-rokas-source-v1.png",
+        "sha256": "880E8990921FA9C422B719091B1751B64DA0397B63CEF9CF725750E010D8CAB6",
+        "bytes": 2318182,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair European adult face, short auburn swept hair and neat beard, steel-green chest armor, dark striped sleeves, green waist sash and split green coat tails. Complete dark trousers and armored boots. EXACTLY TWO physical blades, one in each hand, both fully in frame and held at low outward angles. No mouth sword, no third sword, no giant green aura.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair European adult face, short auburn swept hair and neat beard, steel-green chest armor, dark striped sleeves, green waist sash and split green coat tails. Complete dark trousers and armored boots. EXACTLY TWO physical blades, one in each hand, both fully in frame and held at low outward angles. No mouth sword, no third sword, no giant green aura.\nFraming priority: leave at least 5% completely clear transparent margin on ALL four sides, including sword tips, hair and cloth. Full character smaller inside the square if needed.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-81bbf945-f0b9-4c1d-a9fd-1de7f9ad3044.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-025-rokas-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-026-taeon",
+      "name": "잿불수문장 태온",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-026-taeon-source-v2.png",
+        "sha256": "D6BC8EB4543D01560C607AA83B3E7A357C8E789120A4E9645473CFC0E6C55EC8",
+        "bytes": 2601940,
+        "width": 972,
+        "height": 1619,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair East Asian adult swordsman with dark flowing tied hair, amber eyes, charcoal clothing and bronze arm guards, crimson-orange mantle and cream scarf. Compact grounded ready stance, ONE rigid dark straight sword held by its wrapped handle BELOW the gold rectangular guard, other hand near hilt. Small amber edge glow only. No hand on blade, no blonde/red hair, no forest, no giant flame ring.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair East Asian adult swordsman with dark flowing tied hair, amber eyes, charcoal clothing and bronze arm guards, crimson-orange mantle and cream scarf. Compact grounded ready stance, ONE rigid dark straight sword held by its wrapped handle BELOW the gold rectangular guard, other hand near hilt. Small amber edge glow only. No hand on blade, no blonde/red hair, no forest, no giant flame ring.\nFraming priority: leave at least 5% completely clear transparent margin on ALL four sides, including sword tips, hair and cloth. Full character smaller inside the square if needed.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-37767c2c-3570-48f1-95a1-658f02f88583.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-026-taeon-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-029-saharin",
+      "name": "낙화심판관 사하린",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-029-saharin-source-v1.png",
+        "sha256": "ECA1AEEAD13B4DA6F634780AF257C1C72EE14CFF494CEC1064C972F1696A8326",
+        "bytes": 3079480,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the older fair East Asian sage's long silver topknot hair, mustache and pointed short beard, flowing cream robes with muted gray-green floral pattern and charcoal geometric trim, dark underrobes and strapped black shoes. EXACTLY TWO curved silver swords, one per hand, elegant low crossed-but-separated guard pose; complete sword tips inside image. Sleeves readable, no willow, gold paper, petals or scene.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the older fair East Asian sage's long silver topknot hair, mustache and pointed short beard, flowing cream robes with muted gray-green floral pattern and charcoal geometric trim, dark underrobes and strapped black shoes. EXACTLY TWO curved silver swords, one per hand, elegant low crossed-but-separated guard pose; complete sword tips inside image. Sleeves readable, no willow, gold paper, petals or scene.\nFraming priority: leave at least 5% completely clear transparent margin on ALL four sides, including sword tips, hair and cloth. Full character smaller inside the square if needed.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-35fa3b68-c85b-455c-ae50-1dbf47b9b71d.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-029-saharin-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-030-seiran-shadow",
+      "name": "월영집행자 세이란",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-030-seiran-shadow-source-v1.png",
+        "sha256": "00D426741256AF283464C98B7C9DC99FEFC4C205086CCFBA6C6F5B6219D4F53F",
+        "bytes": 1916320,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Same pale East Asian man in approved image with flowing black hair and single silver forelock, layered black cloak, leather straps and metal buckles, fingerless gloves. Standing three-quarter, one hand lightly raises the approved asymmetric bronze-black overlapping-petal mask at his temple, leaving face visible. Keep one sheathed sword on his back, no drawn additional weapon. Complete fitted charcoal trousers and black boots. No red moon, smoke or extra moths.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nSame pale East Asian man in approved image with flowing black hair and single silver forelock, layered black cloak, leather straps and metal buckles, fingerless gloves. Standing three-quarter, one hand lightly raises the approved asymmetric bronze-black overlapping-petal mask at his temple, leaving face visible. Keep one sheathed sword on his back, no drawn additional weapon. Complete fitted charcoal trousers and black boots. No red moon, smoke or extra moths.\nFraming priority: leave at least 5% completely clear transparent margin on ALL four sides, including sword tips, hair and cloth. Full character smaller inside the square if needed.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-c1de7330-dd6c-4f4d-97e3-febef8b31639.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-030-seiran-shadow-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-031-yuren",
+      "name": "백야귀족 유르엔",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-031-yuren-source-v1.png",
+        "sha256": "33393D918DE9800CAF33D68D56EB04460214C41E237E8B8A4F7CB27BFC746C73",
+        "bytes": 3098494,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Keep the approved graceful pale moon-elf adult male, long flowing white-silver hair, pointed elf ears, silver leaf hairpin, ivory long coat with delicate silver botanical filigree and chains over black formal inner robes. ONE fine straight silver rapier with ornate circular leaf guard held low, fully in canvas. Shorten robe just enough to show both fitted dark boots. No giant duplicate face, no ruins, moon, flying petals, fur pelt or forehead marks.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nKeep the approved graceful pale moon-elf adult male, long flowing white-silver hair, pointed elf ears, silver leaf hairpin, ivory long coat with delicate silver botanical filigree and chains over black formal inner robes. ONE fine straight silver rapier with ornate circular leaf guard held low, fully in canvas. Shorten robe just enough to show both fitted dark boots. No giant duplicate face, no ruins, moon, flying petals, fur pelt or forehead marks.\nFraming priority: leave at least 5% completely clear transparent margin on ALL four sides, including sword tips, hair and cloth. Full character smaller inside the square if needed.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-18170216-5331-4f1b-8003-8858e0732ed1.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-031-yuren-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-032-torian",
+      "name": "천둥유희자 토리안",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-032-torian-source-v1.png",
+        "sha256": "A6A46DC886943192D080AFBD69F6D417C357511BFAD900B018EB9AF29B440B45",
+        "bytes": 2385087,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Keep the smiling fair European young adult man with natural teal-black curls, open pale-blue embroidered vest, cream scarf, exposed athletic abdomen, bronze wrist bracers, brass bell belt, charcoal loose cropped trousers and white strapped boots. Grounded relaxed martial ready pose, knees bent and open hands loosely lifted, joyful confident grin. NO weapon, hat, big clouds, lightning, duplicate body or floating pose.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nKeep the smiling fair European young adult man with natural teal-black curls, open pale-blue embroidered vest, cream scarf, exposed athletic abdomen, bronze wrist bracers, brass bell belt, charcoal loose cropped trousers and white strapped boots. Grounded relaxed martial ready pose, knees bent and open hands loosely lifted, joyful confident grin. NO weapon, hat, big clouds, lightning, duplicate body or floating pose.\nFraming priority: leave at least 5% completely clear transparent margin on ALL four sides, including sword tips, hair and cloth. Full character smaller inside the square if needed.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-93f8f1b4-c03e-4e92-97ec-ec5a72c49f08.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-032-torian-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-061-aurek",
+      "name": "금고군주 아우레크",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-061-aurek-source-v1.png",
+        "sha256": "8FE1E381FE7D986ACD7E5C589FE7A05B6FAF4324EB09A228D7142343D03039E5",
+        "bytes": 2179732,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair European adult face, swept dark-blond hair tied in low knot, confident expression, highly polished layered gold plate armor with broad asymmetric pauldrons, black undersuit and dark forest-green hanging waist cloth. Complete matching gold armored boots. Proud standing ready pose, one closed gauntlet at waist and one open hand, no physical weapon invented. All floating background spears and gold particles are excluded from base sprite.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair European adult face, swept dark-blond hair tied in low knot, confident expression, highly polished layered gold plate armor with broad asymmetric pauldrons, black undersuit and dark forest-green hanging waist cloth. Complete matching gold armored boots. Proud standing ready pose, one closed gauntlet at waist and one open hand, no physical weapon invented. All floating background spears and gold particles are excluded from base sprite.\nFraming: fit ALL hair, feet, coat and complete weapons inside central 88% of the square, clear transparent space on every side.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-1a93e1fe-b813-4069-bce5-04b6daf87432.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-061-aurek-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-062-veiron",
+      "name": "허공술사 베이론",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-062-veiron-source-v1.png",
+        "sha256": "6F40FD32CFDB2C1F24BDD23B21CCFC5FC728899E3A15E45B3FAA50B846F1E5A4",
+        "bytes": 2702611,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the faceless hooded void mage: deep charcoal hood and flowing layered black coat with square silver closures, THREE narrow vertical amber slits in the black faceplate, strapped dark boots, gloved hands. One hand lifted with the source's small blue-silver navigation gyroscope resting just above/against the palm; scale this into one compact connected-looking prop. No giant crystal monster, moon, rocks, floor or floating fragments elsewhere.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the faceless hooded void mage: deep charcoal hood and flowing layered black coat with square silver closures, THREE narrow vertical amber slits in the black faceplate, strapped dark boots, gloved hands. One hand lifted with the source's small blue-silver navigation gyroscope resting just above/against the palm; scale this into one compact connected-looking prop. No giant crystal monster, moon, rocks, floor or floating fragments elsewhere.\nFraming: fit ALL hair, feet, coat and complete weapons inside central 88% of the square, clear transparent space on every side.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-24420889-b102-46b1-8353-4eb16efbd1dd.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-062-veiron-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-063-raskan",
+      "name": "한낮의 거인 라스칸",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-063-raskan-source-v1.png",
+        "sha256": "CCFEA31269028F549501E44DE73CF39D95B8E1E4EA173F5D565D61384418AE52",
+        "bytes": 2696924,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair European older giant, bald head, thick salt-and-pepper beard and mustache, huge muscular arms, black sleeveless shirt, wide bronze harness and layered dark-bronze forearm wraps, ochre-brown split waist cloth and dark trousers. One massive rectangular brass-metal hammer held upright beside the body on a straight rigid shaft, whole hammer head visible, other fist relaxed. Dark heavy boots. No phoenix, fire wall or floor.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair European older giant, bald head, thick salt-and-pepper beard and mustache, huge muscular arms, black sleeveless shirt, wide bronze harness and layered dark-bronze forearm wraps, ochre-brown split waist cloth and dark trousers. One massive rectangular brass-metal hammer held upright beside the body on a straight rigid shaft, whole hammer head visible, other fist relaxed. Dark heavy boots. No phoenix, fire wall or floor.\nFraming: fit ALL hair, feet, coat and complete weapons inside central 88% of the square, clear transparent space on every side.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-23d89e50-552d-475d-87e4-48b772880dba.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-063-raskan-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-070-gradan",
+      "name": "해왕선장 그라단",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-070-gradan-source-v1.png",
+        "sha256": "0E6A5E89B38FF4A495D9AD084C28745DDDA427259F5683253C692AF8E6A30751",
+        "bytes": 2536237,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair European mature captain's swept gray hair, full neat gray beard and confident grin, closed long crimson coat with silver clasp fasteners, cream neck scarf, brown belt, olive-brown trousers and tall brown leather boots. One long wide steel saber with brass handguard held vertically downward at his side, point just above foot baseline. Complete sword and coat in canvas. No hat, red aura or ground embers.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair European mature captain's swept gray hair, full neat gray beard and confident grin, closed long crimson coat with silver clasp fasteners, cream neck scarf, brown belt, olive-brown trousers and tall brown leather boots. One long wide steel saber with brass handguard held vertically downward at his side, point just above foot baseline. Complete sword and coat in canvas. No hat, red aura or ground embers.\nFraming: fit ALL hair, feet, coat and complete weapons inside central 88% of the square, clear transparent space on every side.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-b7324b4c-99cb-4796-8b2e-f2ff69c81459.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-070-gradan-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-071-eltu",
+      "name": "기공연성사 엘투",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-071-eltu-source-v1.png",
+        "sha256": "BCCAB0504557F1E31A0B0071EA7435899B8C1D5A44CDE1848208AC6FF5F3BA84",
+        "bytes": 2839016,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair young adult East Asian face with freckles, short natural brown hair, blue eyes, dark navy coat with ochre hood, brown utility straps and belt canisters. Both original physical brass articulated gauntlets with inset BLUE glass energy chambers, hands read clearly as fingers. Ready stance one open palm forward and other fist lower, dark trousers and strapped boots. No giant lightning, mechanical replacement leg, red coat or blonde braid.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair young adult East Asian face with freckles, short natural brown hair, blue eyes, dark navy coat with ochre hood, brown utility straps and belt canisters. Both original physical brass articulated gauntlets with inset BLUE glass energy chambers, hands read clearly as fingers. Ready stance one open palm forward and other fist lower, dark trousers and strapped boots. No giant lightning, mechanical replacement leg, red coat or blonde braid.\nFraming: fit ALL hair, feet, coat and complete weapons inside central 88% of the square, clear transparent space on every side.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-87402c75-f4a1-4270-9365-0757f1276a84.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-071-eltu-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-072-yujin",
+      "name": "월하검객 유진",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-072-yujin-source-v1.png",
+        "sha256": "10C9EC5CCE9CA4E3068667ACDBE703B145601794F27B2E51EE333F78101C631D",
+        "bytes": 2388477,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair East Asian young adult face without scar, long black high ponytail and loose natural forelocks, weathered charcoal-indigo robe over pale gray inner layers, cloth waist belt and wrapped forearms. Both hands relaxed near the ONE dark sheathed sword at his hip, ready to draw; sword remains sheathed, hilt aligned rigidly with scabbard. Dark trousers and simple tied boots fully visible. No red hair, cross cheek scar, fire forest or aura.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair East Asian young adult face without scar, long black high ponytail and loose natural forelocks, weathered charcoal-indigo robe over pale gray inner layers, cloth waist belt and wrapped forearms. Both hands relaxed near the ONE dark sheathed sword at his hip, ready to draw; sword remains sheathed, hilt aligned rigidly with scabbard. Dark trousers and simple tied boots fully visible. No red hair, cross cheek scar, fire forest or aura.\nFraming: fit ALL hair, feet, coat and complete weapons inside central 88% of the square, clear transparent space on every side.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-ecc0b1ab-eb01-4dfa-b136-bcc88f48440d.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-072-yujin-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-073-danro",
+      "name": "적맥투왕 단로",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-073-danro-source-v1.png",
+        "sha256": "E168FCC1E47ABE392FE8DB09D9C073B158738D4D26991E3EB0AF0D37411C6106",
+        "bytes": 2300515,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair East Asian adult bald martial artist with intense eyes and stocky muscular arms, torn sleeveless charcoal vest, dark loose trousers, rust-orange waist sash, white wrapped fists and black calf wraps. Grounded boxer ready stance, both fists near chest, both plain dark cloth shoes fully visible. No physical weapon, no bull behind him, no rocks, red aura or glowing floor.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair East Asian adult bald martial artist with intense eyes and stocky muscular arms, torn sleeveless charcoal vest, dark loose trousers, rust-orange waist sash, white wrapped fists and black calf wraps. Grounded boxer ready stance, both fists near chest, both plain dark cloth shoes fully visible. No physical weapon, no bull behind him, no rocks, red aura or glowing floor.\nFraming: fit ALL hair, feet, coat and complete weapons inside central 88% of the square, clear transparent space on every side.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-efd92a7e-6cb2-475d-b210-78d193b92dc2.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-073-danro-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-074-rohen",
+      "name": "수림대장 로헨",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-074-rohen-source-v1.png",
+        "sha256": "BE778F94C5220BAA72601539545984D3C1792DEC0300055F75FF1CAC25D1ECB7",
+        "bytes": 3376845,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair East Asian mature forest marshal's dark hair in short braid, mustache and neat beard, mossy-leaf shoulder mantle, long dark green cloak, cream sleeves and tunic, layered brown leather-bronze waist armor and bracers, dark green trousers and tall brown boots. Arms folded with clearly separated hands and fingers, proud standing stance. No giant wooden owl, root snake, flowers, floor, floating leaves or invented weapon.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair East Asian mature forest marshal's dark hair in short braid, mustache and neat beard, mossy-leaf shoulder mantle, long dark green cloak, cream sleeves and tunic, layered brown leather-bronze waist armor and bracers, dark green trousers and tall brown boots. Arms folded with clearly separated hands and fingers, proud standing stance. No giant wooden owl, root snake, flowers, floor, floating leaves or invented weapon.\nFraming: fit ALL hair, feet, coat and complete weapons inside central 88% of the square, clear transparent space on every side.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-477b9eac-4633-43f3-97db-7804bbcf6bdb.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-074-rohen-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-075-voldren",
+      "name": "혈야공작 볼드렌",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-075-voldren-source-v1.png",
+        "sha256": "309513EAE39777B8C7E7C7CB460EDE42DB72C29151A96AF03BECDC79E414BD94",
+        "bytes": 1912280,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Keep the sinister pale bald vampire noble's pointed ears, golden eyes, small visible fangs, fine red fissures at temple, dramatic black fluted ruff with crimson inner edges and fine brass thornlike chains. Complete elegant fitted black formal coat and trousers with red lining and black pointed boots matching the portrait. One clawlike hand raised at chest, one at waist, tasteful stern grin. No hat, glasses, gun, bloody background or extra portrait.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nKeep the sinister pale bald vampire noble's pointed ears, golden eyes, small visible fangs, fine red fissures at temple, dramatic black fluted ruff with crimson inner edges and fine brass thornlike chains. Complete elegant fitted black formal coat and trousers with red lining and black pointed boots matching the portrait. One clawlike hand raised at chest, one at waist, tasteful stern grin. No hat, glasses, gun, bloody background or extra portrait.\nFraming: entire character with hair, boots and all cloth/weapon tips strictly within central 88% of square canvas, transparent margins all around.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-8ffe544f-885b-4c5a-873c-7a568f6fa5e1.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-075-voldren-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-076-nerik",
+      "name": "심연포식자 네리크",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-076-nerik-source-v1.png",
+        "sha256": "90A7B100D35B0AB589EF1A887CE0A92CD01923D31DC418BDED0E2F21B18D4B36",
+        "bytes": 2704206,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Keep the pale young adult man with amber eyes, black hair tied in a loose low knot with natural stray strands, bronze angular lower-face mask with THREE vertical vent slits and no teeth, gray distressed sleeveless tunic over black fitted high collar and dark wraps. Full standing actor with relaxed raised hand, fitted dark trousers and plain black boots. Only ONE body and face; no collage, chair, moon, detached red-black blade petals or invented physical weapon.",
+      "prompt": "Use case: precise-object-edit. Image 1 is the V3 SD target. Image 2 is the approved character identity. Remove ONLY the extra physical sword from image 1, including its blade, hilt, guard and all red sword glow. Change that sword-holding hand into a relaxed EMPTY open hand beside his hip with correct fingers. Keep the other raised open hand, bronze three-vent lower-face mask, pale face, black low-knot hairstyle, expression, costume, boots, standing pose, proportions and exact rendering quality unchanged. NO replacement weapon or prop. Everything where the sword was becomes true transparent background. Preserve existing transparency everywhere, no floor, shadow, scene, text or border.",
+      "version": 2,
+      "repairReason": "Generated an unapproved extra physical sword. Remove sword and keep that hand empty while preserving costume, face, mask and pose.",
+      "references": [
+        "preview/monster-original-ip-sd-20261013-v1/assets/hunt-076-nerik-sd-v1.png",
+        "preview/monster-original-ip-20261013-v1/assets/hunt-076-nerik-source-v1.png"
+      ],
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-6c9d2891-5e47-44fc-b99c-6d953ed7eeda.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-076-nerik-sd-v2.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-077-bareon-sovereign",
+      "name": "홍염항해왕 바레온 · 군림",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-077-bareon-sovereign-source-v1.png",
+        "sha256": "EF9407AD7E8619459484C690C95E05D22B9D21951E6A4EAE3D00513781F2C23B",
+        "bytes": 2163033,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Same fair European adult captain as approved portrait: wavy black hair with silver temple streak, full short dark beard, both intact muscular arms, ochre inner scarf-shirt, sleeveless navy vest and dark teal cloak. Angrier commanding expression, sturdy ready stance, one hand gripping the saber HANDLE at his waist with blade still sheathed, the other a fist. Rust-brown trousers and tall brown boots consistent with earlier form. Red rim light on edges only, no aura cloud, no red hair or missing arm.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nSame fair European adult captain as approved portrait: wavy black hair with silver temple streak, full short dark beard, both intact muscular arms, ochre inner scarf-shirt, sleeveless navy vest and dark teal cloak. Angrier commanding expression, sturdy ready stance, one hand gripping the saber HANDLE at his waist with blade still sheathed, the other a fist. Rust-brown trousers and tall brown boots consistent with earlier form. Red rim light on edges only, no aura cloud, no red hair or missing arm.\nFraming: entire character with hair, boots and all cloth/weapon tips strictly within central 88% of square canvas, transparent margins all around.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-07d631ed-9c61-417e-8f9f-f9a740ebb4be.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-077-bareon-sovereign-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-078-siluen",
+      "name": "청영환술사 실루엔",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-078-siluen-source-v1.png",
+        "sha256": "692895426EB3D551FE7009513CE8DFC83509FB0377705E939D1F747DE0D3AE23",
+        "bytes": 2788435,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair East Asian adult male face, natural short silvery charcoal hair, green-gray eyes, high black collar, dark emerald-black coat, engraved pale-metal shoulder guard and forearm wraps from the approved portrait. Compact caster stance with one open palm forward, five anatomically clean fingers, other hand near waist, dark fitted trousers and strapped dark boots. No giant mirror, butterflies, fragments or invented weapon.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair East Asian adult male face, natural short silvery charcoal hair, green-gray eyes, high black collar, dark emerald-black coat, engraved pale-metal shoulder guard and forearm wraps from the approved portrait. Compact caster stance with one open palm forward, five anatomically clean fingers, other hand near waist, dark fitted trousers and strapped dark boots. No giant mirror, butterflies, fragments or invented weapon.\nFraming: entire character with hair, boots and all cloth/weapon tips strictly within central 88% of square canvas, transparent margins all around.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-3a9241b0-6d5a-4244-97e5-8a59a1fc965d.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-078-siluen-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "hunt-079-kaon",
+      "name": "쇄염권사 카온",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-079-kaon-source-v1.png",
+        "sha256": "8FE03D62277202BED4850CD000D8496E54E738808CA32C4F875E3DE6BCBAD9AF",
+        "bytes": 2742189,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve fair East Asian adult male face, naturally tousled black hair, confident toothy grin, orange-rust sleeveless worn martial vest over charcoal chest wraps, navy wrapped fingerless gauntlets with brass finger bands, sash and dark loose trousers. Compact fighting ready pose both fists lifted, one forward, both boots/wrapped martial shoes visible. No face tattoos, pink hair, giant aura, blood spray, scene or weapon.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve fair East Asian adult male face, naturally tousled black hair, confident toothy grin, orange-rust sleeveless worn martial vest over charcoal chest wraps, navy wrapped fingerless gauntlets with brass finger bands, sash and dark loose trousers. Compact fighting ready pose both fists lifted, one forward, both boots/wrapped martial shoes visible. No face tattoos, pink hair, giant aura, blood spray, scene or weapon.\nFraming: entire character with hair, boots and all cloth/weapon tips strictly within central 88% of square canvas, transparent margins all around.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-2d2aae95-3de6-4dd1-89b3-84d6d28bcdc7.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-079-kaon-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "raid-002-ravok",
+      "name": "혈성투왕 라보크",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-002-ravok-source-v1.png",
+        "sha256": "841914A12F3CA28169FCEB19928FAAF09A241D3B4E0DE948A4A63BBFE028D3C1",
+        "bytes": 2471532,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the approved adult muscular humanoid LION warrior, actual leonine muzzle, golden eyes, round lion ears, natural dark crimson mane, tawny-brown fur, black-and-bronze segmented breastplate with round lion clasps, bronze belt, torn deep red sash, dark trousers and wrapped forearms. Grounded fighting stance with both heavy fists, full legs ending in sturdy dark leather wraps/boots shaped for lion feet. Short lion tail may rest close behind legs if visible. No human face, extra cats, sword, aura or landscape.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the approved adult muscular humanoid LION warrior, actual leonine muzzle, golden eyes, round lion ears, natural dark crimson mane, tawny-brown fur, black-and-bronze segmented breastplate with round lion clasps, bronze belt, torn deep red sash, dark trousers and wrapped forearms. Grounded fighting stance with both heavy fists, full legs ending in sturdy dark leather wraps/boots shaped for lion feet. Short lion tail may rest close behind legs if visible. No human face, extra cats, sword, aura or landscape.\nFraming: entire character with hair, boots and all cloth/weapon tips strictly within central 88% of square canvas, transparent margins all around.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-3690daa7-4f30-4a3a-b1f1-628b74113f80.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/raid-002-ravok-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "raid-004-orthen",
+      "name": "중력사제 오르텐",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-004-orthen-source-v1.png",
+        "sha256": "BBBC0FC09A0EA23D9D7847E458B53799C50B17E0AFFCB01FF9A0E40D19EC1815",
+        "bytes": 2950326,
+        "width": 887,
+        "height": 1774,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair European mature man's silver naturally curly hair, amber eyes and stern angular face, gold-trimmed black high-collar robe, large amber circular collar gem and metal ring on fingers. Keep complexion fair under neutral light with restrained warm gold rim light, not uniformly brown. One open hand forward in a calm gravitational casting pose, other near waist. Complete black-and-gold robe hem and dark formal boots. No giant hand foreshortening, floating stones, headband, glyph pupils or scene.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair European mature man's silver naturally curly hair, amber eyes and stern angular face, gold-trimmed black high-collar robe, large amber circular collar gem and metal ring on fingers. Keep complexion fair under neutral light with restrained warm gold rim light, not uniformly brown. One open hand forward in a calm gravitational casting pose, other near waist. Complete black-and-gold robe hem and dark formal boots. No giant hand foreshortening, floating stones, headband, glyph pupils or scene.\nFraming: entire character with hair, boots and all cloth/weapon tips strictly within central 88% of square canvas, transparent margins all around.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-d3272ca3-04b1-46d8-98d2-c5314f9ea408.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/raid-004-orthen-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "raid-006-haeryun",
+      "name": "천화검성 해륜",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-006-haeryun-source-v1.png",
+        "sha256": "05896F451F306925A27D9BF42677204C881A984D311A55335AAA0D4D561D527E",
+        "bytes": 2491483,
+        "width": 887,
+        "height": 1774,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair East Asian adult swordsman with dark brown naturally flowing tied hair, calm intense brown eyes, small round gold ear stud, navy-charcoal robe and cream shoulder cloth with bronze cord clasp. Full standing compact ready stance with ONE broad straight dark steel sword and square brass guard, both hands correctly gripping wrapped hilt below the guard, blade angled down and out. Matching dark trousers and strapped boots. Restrained warm edge glow on blade only. No giant flame ring, forehead mark or decorative franchise earrings.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair East Asian adult swordsman with dark brown naturally flowing tied hair, calm intense brown eyes, small round gold ear stud, navy-charcoal robe and cream shoulder cloth with bronze cord clasp. Full standing compact ready stance with ONE broad straight dark steel sword and square brass guard, both hands correctly gripping wrapped hilt below the guard, blade angled down and out. Matching dark trousers and strapped boots. Restrained warm edge glow on blade only. No giant flame ring, forehead mark or decorative franchise earrings.\nFraming: entire character with hair, boots and all cloth/weapon tips strictly within central 88% of square canvas, transparent margins all around.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-1e5b79c4-9479-4919-adc0-7a9de49e3777.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/raid-006-haeryun-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "raid-008-noaren",
+      "name": "공허검주 노아렌",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-008-noaren-source-v1.png",
+        "sha256": "DFEFB9755DC3A81FD017749D6416457C17973863E3B70B8DE00205A2212B8816",
+        "bytes": 1960581,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair European young adult male face, natural swept silver-gray mid-length hair, black tailored long coat with high collar and silver clasp, diagonal gray-white stole, fitted dark trousers and tall black strapped boots. ONE long straight black-steel sword with small straight crossguard held upright tip-down beside his body, intact hilt aligned with blade. Calm grounded standing pose, other hand relaxed. No void realm, dark fragments, white floor or duplicate.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair European young adult male face, natural swept silver-gray mid-length hair, black tailored long coat with high collar and silver clasp, diagonal gray-white stole, fitted dark trousers and tall black strapped boots. ONE long straight black-steel sword with small straight crossguard held upright tip-down beside his body, intact hilt aligned with blade. Calm grounded standing pose, other hand relaxed. No void realm, dark fragments, white floor or duplicate.\nFraming overrides: reduce the complete silhouette enough to fit strictly inside central 86% of square, all tips and boots have generous transparent margin.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-2edb393a-f024-49af-b2f2-b26ec3c90f13.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/raid-008-noaren-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "raid-madara-vaelun",
+      "name": "재앙군주 바엘룬",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-madara-vaelun-source-v1.png",
+        "sha256": "2269C4DD3598E9439D0BE5F61B7C9D9E1A6ECC8E77EE594386C639DCCB1B21FD",
+        "bytes": 2353943,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the mature fair European commander with swept gray-black hair, short square beard, brown-brass leather straps over black high-collar armor and long coat, burgundy waist drape and dark metal-trimmed boots. Proud arms-folded stance as approved original, both feet flat and fully visible. The SD is ONLY the foreground human commander; no giant blue golem, rock pedestal, fog or any weapon. Keep dark outfit readable with restrained cool edge highlights.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the mature fair European commander with swept gray-black hair, short square beard, brown-brass leather straps over black high-collar armor and long coat, burgundy waist drape and dark metal-trimmed boots. Proud arms-folded stance as approved original, both feet flat and fully visible. The SD is ONLY the foreground human commander; no giant blue golem, rock pedestal, fog or any weapon. Keep dark outfit readable with restrained cool edge highlights.\nFraming overrides: reduce the complete silhouette enough to fit strictly inside central 86% of square, all tips and boots have generous transparent margin.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-f692f0e9-3746-45aa-adae-59b8469275ad.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/raid-madara-vaelun-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "raid-lich-nivar",
+      "name": "빙혼군주 니바르",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-lich-nivar-source-v1.png",
+        "sha256": "56248539A7EB8BE4D68B2368578CB98B95E8C511E198C288282393AB001FEF1D",
+        "bytes": 2719287,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fully helmeted frost monarch: ivory-silver angular helmet with ONE horizontal cyan visor, THREE broken halo arcs hovering closely around the helmet as part of his defining headgear; dark steel-blue layered ice armor, crescent pauldrons, blue crystal chest inserts, black/navy cape, gauntlets and armored boots. ONE broad straight translucent blue ice sword with diamond crystal guard held vertically tip-down in both hands, hands ON THE WRAPPED HANDLE ABOVE THE CROSSGUARD, no hand on blade. Compact 3.5-head full body, complete boots and sword tip inside canvas. No skull motifs, separate frost cloud, castle, ground crystals or floor.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fully helmeted frost monarch: ivory-silver angular helmet with ONE horizontal cyan visor, THREE broken halo arcs hovering closely around the helmet as part of his defining headgear; dark steel-blue layered ice armor, crescent pauldrons, blue crystal chest inserts, black/navy cape, gauntlets and armored boots. ONE broad straight translucent blue ice sword with diamond crystal guard held vertically tip-down in both hands, hands ON THE WRAPPED HANDLE ABOVE THE CROSSGUARD, no hand on blade. Compact 3.5-head full body, complete boots and sword tip inside canvas. No skull motifs, separate frost cloud, castle, ground crystals or floor.\nFraming overrides: reduce the complete silhouette enough to fit strictly inside central 86% of square, all tips and boots have generous transparent margin.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-86f6f40a-f155-4096-8617-3dcfebd44095.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/raid-lich-nivar-sd-v1.png",
+      "userVisualApproval": false
+    },
+    {
+      "key": "raid-core-astel",
+      "name": "청뢰황 아스텔",
+      "approvedSource": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-core-astel-source-v1.png",
+        "sha256": "9E4B6D092FD188882112D71397DF5F4353DF745519BA0F80893A9274EA41A46C",
+        "bytes": 2444648,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+      "pose": "Preserve the fair European adult noble face, long silver hair tied low, navy blue gold-fastened coat, white shoulder cape with round gold clasp, dark gloves and tall armored dark boots. ONE straight cyan-blue sword with open circular guard, in one hand angled down to side, tiny attached blue edge glow only. Other hand calm open. Full grounded ready stance, keep coat proportions compact. No huge duplicate spirit, ruins, ice floor, floating rocks or screen-filling lightning.",
+      "prompt": "Use case: stylized-concept.\nAsset type: one production-quality V3 game battle SD sprite, a single full-body character on a genuinely transparent RGBA background.\nImage 1 is the USER-APPROVED ORIGINAL CHARACTER and is the authoritative identity, face, complexion, hairstyle, clothing, colors, armor and weapon design. Preserve these faithfully. Image 2 is ONLY the existing project's SD quality reference: clean expressive line work, polished cel shading, readable compact anatomy and crisp materials. NEVER copy its face, gender, cat ears, hair, outfit or weapon.\nConvert the adult character in image 1 into a handsome/expressive stylized super-deformed battle actor, approximately 3.5 heads tall, not a toddler, preserving age, ethnicity, body build and facial structure. Complete the full standing body from head to both boots; do not crop the source portrait or simply cut out the illustration. Camera is a restrained slightly elevated three-quarter game view, oriented slightly toward screen LEFT, face visible. Natural proportions within the SD design, never horizontally compressed. Keep all character details specific to image 1.\nOne coherent ready/idle combat pose, both feet clearly visible near a shared ground baseline at 92–94% of the image, centered in a square composition, with safe transparent margin around hair, cloth and complete weapon. Clean readable silhouette at small game size. Keep weapons rigid and straight from hilt/receiver through blade/barrel/tip, with hands gripping the actual handle, not the blade. Natural continuous hair strands, never layered plastic plates.\nBACKGROUND MUST BE TRUE TRANSPARENCY, including between limbs. No background scene, floor, pedestal, throne, painted checkerboard, baked drop shadow, text, UI, border, lettering or watermark. No detached decoration, duplicate character, huge aura cloud, giant background summon or particle confetti. Tiny localized existing glows attached to armor/weapon may remain. The approved color palette and complexion must not drift. Do not bring back any older franchise design. Do not invent an additional weapon.\n\nCharacter-specific invariants and pose:\nPreserve the fair European adult noble face, long silver hair tied low, navy blue gold-fastened coat, white shoulder cape with round gold clasp, dark gloves and tall armored dark boots. ONE straight cyan-blue sword with open circular guard, in one hand angled down to side, tiny attached blue edge glow only. Other hand calm open. Full grounded ready stance, keep coat proportions compact. No huge duplicate spirit, ruins, ice floor, floating rocks or screen-filling lightning.\nFraming overrides: reduce the complete silhouette enough to fit strictly inside central 86% of square, all tips and boots have generous transparent margin.",
+      "generator": "BUILT_IN_IMAGE_GEN",
+      "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-4197b1a4-fbc8-4085-aa9c-7ff78a45ae1e.png",
+      "output": "preview/monster-original-ip-sd-20261013-v1/assets/raid-core-astel-sd-v1.png",
+      "userVisualApproval": false
+    }
+  ]
+}
