@@ -1,0 +1,55 @@
+{
+  "checkedAt": "2026-10-13T11:50:10.328Z",
+  "origin": "https://cnine-card.pages.dev",
+  "apiStatus": 200,
+  "revision": 2,
+  "gusudaeng": {
+    "code": "ICON-GUSUDAENG",
+    "enabled": true,
+    "tuning": {
+      "firstAction": 2,
+      "cooldownActions": 4,
+      "maxCasts": 6,
+      "pveScale": 105,
+      "pvpScale": 90,
+      "damagePercent": 170,
+      "damageCapPercent": 46,
+      "maxTargets": 3,
+      "durationActions": 3,
+      "echoPercent": 30,
+      "soloPercent": 45,
+      "echoCapPercent": 6,
+      "echoBudgetPercent": 600
+    }
+  },
+  "otherIconTuningUnchanged": true,
+  "roleCount": 9,
+  "files": [
+    {
+      "path": "shared/icon-roles-v1.mjs",
+      "status": 200,
+      "sha256": "0baf5ff49f1b68802191f1de0a2ae23b4bf48e97d04f31f60ab6fb150389889f"
+    },
+    {
+      "path": "js/icon-fusion-v1.bundle.js",
+      "status": 200,
+      "sha256": "8809480f10b4a79b50d613d8b1ce1c2c117f47fd49726bf2bc7a150411188fa3"
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "199a67de4f85cba82610e52ad691cf6f83e41180a766bd28169574696f9892ba"
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "32df05e83a288993df745e39d1c7732f1e9cf1570afb629ac703945b8df2276b"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "fd1003644a585458b9b4d8fd2e89fb0d2a169690a0fe9c171fc7b32a179ba366"
+    }
+  ],
+  "shellTag": "20261013-gusudaeng-balance"
+}

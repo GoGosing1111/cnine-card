@@ -1,0 +1,30 @@
+{
+  "commit": "1f1b97f99c6c6a9570873804662bf68d6ce3c646",
+  "deploymentId": "aab16d79-cbb8-4394-85c2-a4010078f295",
+  "deployedBase": "8182693c82d35d545880f9c219abe79236c46b19",
+  "command": "npm run deploy:production -- --scoped",
+  "tests": {
+    "balance": 3,
+    "scoped": 39,
+    "total": 42,
+    "passed": 42,
+    "failed": 0
+  },
+  "serverSyntaxCheck": true,
+  "workerCompiled": true,
+  "productionReleaseGate": true,
+  "hyperdriveQueryCacheDisabled": true,
+  "apiRuntimeVersion": "7c976634-44c8-4d2e-971b-5462da93eb19",
+  "clanDraftVersion": "4794f34c-b9b3-43bd-9bdd-58b5cbd10eb4",
+  "liveCheckedAt": "2026-10-13T11:50:10.328Z",
+  "livePveScale": 105,
+  "livePvpScale": 90,
+  "otherIconTuningUnchanged": true,
+  "databaseWrites": 0,
+  "notes": [
+    "No failed deployment attempts or unrelated full suites.",
+    "Three balance regressions passed before commit; the other 39 ran once in deployment preflight.",
+    "Five live runtime file hashes and main cache tags match the release.",
+    "No previous card retirement or refund operation was rerun."
+  ]
+}
