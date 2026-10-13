@@ -1,0 +1,40 @@
+{
+  "checkedAt": "2026-10-13T16:07:10.007Z",
+  "origin": "https://cnine-card.pages.dev",
+  "commit": "d52dc78a",
+  "pages": "https://d7419689.cnine-card.pages.dev",
+  "apiVersion": "86b3fc4a-8685-44ef-be35-8ab13d5ecfb7",
+  "results": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "matches": true,
+      "sha256": "58d443a83dc41da33d82efcdf15da593bd4cf4a2dd55059415d6bdc31420e176"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "matches": true,
+      "sha256": "fcc18ca2d84805909d9a864dcc646a8e5df710131e63e5bd84e970933ed3ff7e"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "matches": true,
+      "sha256": "3fd079d32f3bc4c4f1086b48d5eef9795db93a35118d47dce207d2d11b821350"
+    },
+    {
+      "file": "js/account-rank-v1.mjs",
+      "status": 200,
+      "matches": true,
+      "sha256": "2f9fe9dea7338793825cc0dc184f0af7ac5ced75727796a5170a89423fcec473"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "matches": true,
+      "sha256": "838d9c587790e6fb66149ab03525268fbebe09f422e9b6aca5725dc9beed7433"
+    }
+  ],
+  "unauthenticatedStatus": 401
+}
