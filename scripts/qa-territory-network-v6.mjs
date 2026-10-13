@@ -10,6 +10,8 @@ import {battlefieldSkillCatalog,BATTLEFIELD_DEFAULTS} from '../shared/territory-
 import {NETWORK_EDGES,networkControl} from '../shared/territory-network-v6.mjs';
 import {factionReviewCards} from '../tests/helpers/clan-faction-fixture.mjs';
 import {createPvpBattleV2} from '../functions/_battle_v2_preview.js';
+import {formationFixture} from './qa-territory-formation-fixture-20261013.mjs';
+const formationQA=formationFixture();
 const root=fileURLToPath(new URL('../',import.meta.url)),now=Date.now(),iso=n=>new Date(n).toISOString();
 const user={id:1,serverUserId:1,nickname:'전장 검수 참가자',role:'OWNER',coin:1234567,cardShards:10,masterStars:10,pigCoin:0,owned:factionReviewCards.map(c=>c.id),quantities:Object.fromEntries(factionReviewCards.map(c=>[c.id,1])),breakthroughs:{},history:[],attendance:{totalDays:0},testCoinGrantedV13:true,collectionRepairR6:true};
 const operations={...territorySkillCatalog(T.OPERATIONS,T.DEFAULTS),...battlefieldSkillCatalog(BATTLEFIELD_DEFAULTS,{network:true})},control=networkControl(),fronts=control.nodes.map(n=>({a_access:n.a_access,b_access:n.b_access,id:n.index+1,node_index:n.index,node_code:n.code,node_name:n.name,node_type:n.type,sequence:n.index+1,status:'ACTIVE',a_hp:420000,b_hp:310000,a_max_hp:500000,b_max_hp:500000,started_at:iso(now-60000)}));
@@ -31,6 +33,7 @@ http.createServer(async(req,res)=>{
   }
   if(url.pathname.startsWith('/api/')){
     const key=url.pathname.slice(5);let raw='';for await(const part of req)raw+=part;let body={};try{body=JSON.parse(raw||'{}')}catch{}
+    if(key.startsWith('territory-war/')){const fixture=formationQA(req,state(url.searchParams.get('nodeIndex')??selected));if(fixture)return json(fixture);}
     if(key==='admin/territory-war/settings'){const current=state(url.searchParams.get('nodeIndex')??4),plans=Object.fromEntries(['A','B'].map(side=>[side,massAssaultPreview(current.round,current.front,current.settings,null,side)]));return json({settings:current.settings,state:current,isOwner:true,massAssaultBySide:plans,roundBonusEquipment:[]});}
     if(['territory-war/state','territory-war/state-lite'].includes(key))return json(state(url.searchParams.get('nodeIndex')??selected));
     if(key==='territory-war/commander-message'){const message=String(body.message||'').trim();commandMessages.push({id:commandMessages.length+1,side:'A',user_id:1,nickname:'수호 지휘관',message,created_at:iso(Date.now()).replace('T',' ').slice(0,19)});return json({ok:true,state:state(body.nodeIndex??selected)});}
@@ -54,4 +57,4 @@ http.createServer(async(req,res)=>{
     return res.end(fs.readFileSync(file,'utf8').replace('<head>','<head>'+boot).replace('</body>','<button id="qaTerritoryOpen" style="position:fixed;top:10px;left:10px;z-index:99999;padding:12px;background:#c8ff6b;color:#111" onclick="this.hidden=true;openTerritoryWar()">영토전 검수 열기</button></body>'));
   }
   fs.createReadStream(file).pipe(res);
-}).listen(0,'127.0.0.1',function(){console.log('Territory QA: http://127.0.0.1:'+this.address().port);});
+}).listen(Number(process.env.TERRITORY_QA_PORT)||0,'127.0.0.1',function(){console.log('Territory QA: http://127.0.0.1:'+this.address().port);});

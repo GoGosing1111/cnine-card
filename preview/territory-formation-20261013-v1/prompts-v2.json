@@ -1,0 +1,23 @@
+{
+  "mode": "built-in image_gen",
+  "reason": "User corrected to the established lobby / mercenary archive / forge UI meta and supplied the official Korean logo.",
+  "styleReference": "docs/ui-fixed-reference-20260915.md",
+  "prompts": [
+    [
+      "button-primary-v2",
+      "Use case: ui-mockup. Asset: a single production UI button surface for Soopketmon, a premium Korean RPG with modern dark navy #080c17 / #111828 interface and lime #c8ff6b accent. Orthographic front view, perfectly flat facing camera, precision manufactured matte metal, small chamfered corners, hairline edge highlights, quiet luxurious finish. Crisp and simple at a 56-pixel display height. Blank uninterrupted center for a live Korean label. Only ONE button isolated on genuinely transparent background. No text, symbols, icons, lettering, gold, medieval ornaments, jewels, wings, excessive glow, fog, gradients across the canvas, shadow outside the silhouette or presentation board. The BUTTON itself is opaque; outside transparent. Fill most of the canvas with a small even transparent margin. Very wide horizontal button, approximately 5.5:1 aspect ratio. Lime luminous enamel face #c8ff6b with subtle satin brushing, dark navy inset bevel at perimeter, thin illuminated lime precision edge. Broad calm center, legible with a dark navy text overlay."
+    ],
+    [
+      "button-secondary-v2",
+      "Use case: ui-mockup. Asset: a single production UI button surface for Soopketmon, a premium Korean RPG with modern dark navy #080c17 / #111828 interface and lime #c8ff6b accent. Orthographic front view, perfectly flat facing camera, precision manufactured matte metal, small chamfered corners, hairline edge highlights, quiet luxurious finish. Crisp and simple at a 56-pixel display height. Blank uninterrupted center for a live Korean label. Only ONE button isolated on genuinely transparent background. No text, symbols, icons, lettering, gold, medieval ornaments, jewels, wings, excessive glow, fog, gradients across the canvas, shadow outside the silhouette or presentation board. The BUTTON itself is opaque; outside transparent. Fill most of the canvas with a small even transparent margin. Very wide horizontal button, approximately 5.5:1 aspect ratio. Opaque dark navy metal face, thin cool slate silver frame and a restrained pale cyan edge only at the short sides. Broad calm center, legible with a white text overlay."
+    ],
+    [
+      "button-danger-v2",
+      "Use case: ui-mockup. Asset: a single production UI button surface for Soopketmon, a premium Korean RPG with modern dark navy #080c17 / #111828 interface and lime #c8ff6b accent. Orthographic front view, perfectly flat facing camera, precision manufactured matte metal, small chamfered corners, hairline edge highlights, quiet luxurious finish. Crisp and simple at a 56-pixel display height. Blank uninterrupted center for a live Korean label. Only ONE button isolated on genuinely transparent background. No text, symbols, icons, lettering, gold, medieval ornaments, jewels, wings, excessive glow, fog, gradients across the canvas, shadow outside the silhouette or presentation board. The BUTTON itself is opaque; outside transparent. Fill most of the canvas with a small even transparent margin. Very wide horizontal button, approximately 5.5:1 aspect ratio. Opaque dark navy graphite face, restrained desaturated rose red hairline border and subtle red edge at the short sides. Keep it quiet and sophisticated, legible with a light rose text overlay."
+    ],
+    [
+      "button-square-v2",
+      "Use case: ui-mockup. Asset: a single production UI button surface for Soopketmon, a premium Korean RPG with modern dark navy #080c17 / #111828 interface and lime #c8ff6b accent. Orthographic front view, perfectly flat facing camera, precision manufactured matte metal, small chamfered corners, hairline edge highlights, quiet luxurious finish. Crisp and simple at a 56-pixel display height. Blank uninterrupted center for a live Korean label. Only ONE button isolated on genuinely transparent background. No text, symbols, icons, lettering, gold, medieval ornaments, jewels, wings, excessive glow, fog, gradients across the canvas, shadow outside the silhouette or presentation board. The BUTTON itself is opaque; outside transparent. Fill most of the canvas with a small even transparent margin. A square compact utility button, aspect ratio exactly 1:1. Opaque dark navy face, thin cool slate silver border with minute lime detail at two diagonally opposite chamfered corners. Calm blank center for a white close or refresh symbol rendered separately."
+    ]
+  ]
+}

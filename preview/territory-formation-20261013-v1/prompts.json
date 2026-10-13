@@ -1,0 +1,30 @@
+{
+  "generator": "built-in image_gen",
+  "referenceRoles": [
+    "network-v2/three-fronts-map.webp: world geography",
+    "network-v2/guardian-citadel.webp: guardian architecture",
+    "network-v2/purifier-citadel.webp: purifier architecture"
+  ],
+  "prompts": [
+    {
+      "key": "button-primary",
+      "prompt": "Create ONE finished raster game UI button skin for the renewed Korean fantasy strategy game SOOPKETMON territory war. Premium contemporary PC/mobile RPG interface, restrained luxury, precision craftsmanship, navy obsidian enamel and finely brushed metallic bevel, elegant chamfered corners, perfectly front-facing orthographic, crisp material detail, no perspective. One wide rectangular button only with width:height about 4.6:1, centered, very small transparent margin. Keep the entire button face opaque and quiet enough to place a highly readable white Korean label over the middle 70%. Absolutely NO letters, text, numbers, glyphs or watermark. No scene, no extra buttons, no floating decorative objects, no broad glow or blurry fog. Real transparent alpha outside the silhouette, full button inside canvas. This is a reusable production UI skin; no device mockup. Primary action variant: luminous warm champagne-gold rim, smooth dark golden bronze/enamel inner face, subtle golden facet catches along the lower edge. Slim central top diamond notch inspired by citadel heraldry. Expensive and confident, not thick baroque."
+    },
+    {
+      "key": "button-secondary",
+      "prompt": "Create ONE finished raster game UI button skin for the renewed Korean fantasy strategy game SOOPKETMON territory war. Premium contemporary PC/mobile RPG interface, restrained luxury, precision craftsmanship, navy obsidian enamel and finely brushed metallic bevel, elegant chamfered corners, perfectly front-facing orthographic, crisp material detail, no perspective. One wide rectangular button only with width:height about 4.6:1, centered, very small transparent margin. Keep the entire button face opaque and quiet enough to place a highly readable white Korean label over the middle 70%. Absolutely NO letters, text, numbers, glyphs or watermark. No scene, no extra buttons, no floating decorative objects, no broad glow or blurry fog. Real transparent alpha outside the silhouette, full button inside canvas. This is a reusable production UI skin; no device mockup. Secondary action variant: precision platinum-silver bevel, deep sapphire/navy enamel face, tiny icy cyan edge reflection, discreet corner cuts. Same overall 4.6:1 form and slim central top diamond notch; refined and calm."
+    },
+    {
+      "key": "button-danger",
+      "prompt": "Create ONE finished raster game UI button skin for the renewed Korean fantasy strategy game SOOPKETMON territory war. Premium contemporary PC/mobile RPG interface, restrained luxury, precision craftsmanship, navy obsidian enamel and finely brushed metallic bevel, elegant chamfered corners, perfectly front-facing orthographic, crisp material detail, no perspective. One wide rectangular button only with width:height about 4.6:1, centered, very small transparent margin. Keep the entire button face opaque and quiet enough to place a highly readable white Korean label over the middle 70%. Absolutely NO letters, text, numbers, glyphs or watermark. No scene, no extra buttons, no floating decorative objects, no broad glow or blurry fog. Real transparent alpha outside the silhouette, full button inside canvas. This is a reusable production UI skin; no device mockup. Cancellation variant: muted rose-bronze edge, rich dark wine enamel face, tiny ruby corner glint. Same overall 4.6:1 form and slim central top diamond notch. Quiet deliberate action, not a bright warning or red neon."
+    },
+    {
+      "key": "button-square",
+      "prompt": "Create ONE premium contemporary fantasy strategy game UI square control button skin, front-facing orthographic. Navy obsidian enamel square face, lightly chamfered corners, finely brushed platinum silver slim beveled border with small champagne-gold corner accent, elegant architectural craftsmanship. Width:height exactly 1:1. Large quiet blank center for an HTML icon. NO text, numbers, letters, symbols or icon. One button only, not a sheet. Sharp and restrained, no ornate scrollwork, no bloom, no fog. Real transparent alpha only outside the button, small transparent margin. Production raster UI asset."
+    },
+    {
+      "key": "command-sanctum",
+      "prompt": "Create a cinematic premium 16:9 wide fantasy strategy-game COMMAND SANCTUM background, artwork only with absolutely NO text, interface, panels, frames, icons or people. Reference image 1 is the exact game's snowy mountains, crossroads, valley and turquoise river geography; image 2 and 3 are the blue guardian and red purifier citadel architectural identities. Reimagine a quiet elevated royal command gallery at pre-dawn, looking out through an open broad stone arch across the valley toward those two very distant citadels, blue crystalline towers to the left and ruby/gold towers on the far right. In the lower right foreground a low finely crafted dark slate strategic table with warm inlaid brass lines and tiny physical terrain pieces, subtle candle light, a folded dark blue banner. Upper left and center-left mostly clean dark navy stone shadow and soft clear atmospheric negative space for readable interface copy. Strong silhouette, controlled sapphire, pearl, antique champagne highlights, crisp illustrated game art, deep and sophisticated, beautifully lit. No heavy mist, no white wash, no oversaturated neon, no rainbow, no enormous glow. All important architecture sits below the top quarter and in the right half. Use references for project identity, not as a pasted collage."
+    }
+  ]
+}

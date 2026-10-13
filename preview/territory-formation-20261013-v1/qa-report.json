@@ -1,0 +1,136 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "device": "pc",
+      "label": "recruit",
+      "buttons": 3,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "pc",
+      "label": "registered",
+      "buttons": 4,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "pc",
+      "label": "preparing",
+      "buttons": 4,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "pc",
+      "label": "preparing-squad",
+      "buttons": 1,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "pc",
+      "label": "off",
+      "buttons": 3,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "pc",
+      "label": "off-reward",
+      "buttons": 4,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "pc",
+      "label": "long-name",
+      "buttons": 4,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "pc",
+      "label": "live-squad",
+      "buttons": 2,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "pc",
+      "registerCancelRefreshClaim": true,
+      "preparingLock": true,
+      "incompleteRepair": true,
+      "spectatorLock": true,
+      "truceRefresh": true,
+      "close": true
+    },
+    {
+      "device": "mobile",
+      "label": "recruit",
+      "buttons": 3,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "mobile",
+      "label": "registered",
+      "buttons": 4,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "mobile",
+      "label": "preparing",
+      "buttons": 4,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "mobile",
+      "label": "preparing-squad",
+      "buttons": 1,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "mobile",
+      "label": "off",
+      "buttons": 3,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "mobile",
+      "label": "off-reward",
+      "buttons": 4,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "mobile",
+      "label": "long-name",
+      "buttons": 4,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "mobile",
+      "label": "live-squad",
+      "buttons": 2,
+      "noOverflow": true,
+      "imagesLoaded": true
+    },
+    {
+      "device": "mobile",
+      "registerCancelRefreshClaim": true,
+      "preparingLock": true,
+      "incompleteRepair": true,
+      "spectatorLock": true,
+      "truceRefresh": true,
+      "close": true
+    }
+  ],
+  "errors": []
+}

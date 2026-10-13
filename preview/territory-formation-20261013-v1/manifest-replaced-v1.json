@@ -1,0 +1,74 @@
+{
+  "version": "20261013-v1",
+  "generatedWith": "built-in image_gen",
+  "promptSet": "/preview/territory-formation-20261013-v1/prompts.json",
+  "processing": "Preserve original PNG; trim transparent exterior padding only; uniform resize and WebP encode, no recoloring or creative pixel edits.",
+  "visualApproval": "USER_REVIEW_PENDING",
+  "assets": {
+    "button-primary": {
+      "source": "preview/territory-formation-20261013-v1/assets/",
+      "sourceFile": "button-primary-source.png",
+      "sourceSha256": "c321b0df11c894f38d14827cef44bd83203388044088be6f3be193db5da82b6f",
+      "sourceWidth": 2056,
+      "sourceHeight": 765,
+      "url": "/assets/ui/territory-war/formation-v1/button-primary.webp",
+      "width": 720,
+      "height": 183,
+      "hasAlpha": true,
+      "bytes": 28422,
+      "sha256": "064c2c00558970b1f07552e58cd4947872d768e9a87bf81c3d4f344485989808"
+    },
+    "button-secondary": {
+      "source": "preview/territory-formation-20261013-v1/assets/",
+      "sourceFile": "button-secondary-source.png",
+      "sourceSha256": "cc27af0780365fb3708db9972aa7a981e69ba0ebf93a216882464e1a1874f96d",
+      "sourceWidth": 2019,
+      "sourceHeight": 779,
+      "url": "/assets/ui/territory-war/formation-v1/button-secondary.webp",
+      "width": 720,
+      "height": 185,
+      "hasAlpha": true,
+      "bytes": 20192,
+      "sha256": "052df30a378384af2a152ab05edee5c00a2c4d694b33ae884180ce55b9259f43"
+    },
+    "button-danger": {
+      "source": "preview/territory-formation-20261013-v1/assets/",
+      "sourceFile": "button-danger-source.png",
+      "sourceSha256": "665f3ac7b72c73be0a9fedfb9cff2893ca7fb197f0d02e001cfcc0564dc1d7be",
+      "sourceWidth": 2079,
+      "sourceHeight": 756,
+      "url": "/assets/ui/territory-war/formation-v1/button-danger.webp",
+      "width": 720,
+      "height": 153,
+      "hasAlpha": true,
+      "bytes": 26372,
+      "sha256": "59afc8805dc553be48e203e47f0c079359c421088a21d210b9c70bb362235c83"
+    },
+    "button-square": {
+      "source": "preview/territory-formation-20261013-v1/assets/",
+      "sourceFile": "button-square-source.png",
+      "sourceSha256": "5637081f155aae439b69af142543fc257779041f6f057d2f8128e17214996eaf",
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "url": "/assets/ui/territory-war/formation-v1/button-square.webp",
+      "width": 192,
+      "height": 187,
+      "hasAlpha": true,
+      "bytes": 7832,
+      "sha256": "d97ba7e23650573a57de0f8c8334f8b723053f6958a268a2e9b33738287b3bc6"
+    },
+    "command-sanctum": {
+      "source": "preview/territory-formation-20261013-v1/assets/",
+      "sourceFile": "command-sanctum-source.png",
+      "sourceSha256": "5426ef18e7428a99f235e18898ce85f3bd5625458f44a0d53fe6bb6a94ef8e60",
+      "sourceWidth": 1672,
+      "sourceHeight": 941,
+      "url": "/assets/ui/territory-war/formation-v1/command-sanctum.webp",
+      "width": 1672,
+      "height": 941,
+      "hasAlpha": false,
+      "bytes": 534404,
+      "sha256": "7697aa8ded3a53410ad35806ebf072a617263b6d937ece3f996daf149ee83888"
+    }
+  }
+}
