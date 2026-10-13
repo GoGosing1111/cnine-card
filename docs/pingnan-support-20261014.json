@@ -1,0 +1,83 @@
+{
+  "inspection": {
+    "operationKey": "ops:pingnan-support:verified-coin:20261014:v1",
+    "title": "핑난지원금",
+    "inspectedAt": "2026-10-13 17:28:02.35744+00",
+    "coinPerRecipient": "200000000000",
+    "recipientCount": 569,
+    "totalCoin": "113800000000000",
+    "recipientHash": "f1b0316740849e64927be441adf85b03f74cdfc57097cdc56bb293c309ee4308",
+    "roleCounts": {
+      "OWNER": 2,
+      "USER": 565,
+      "ADMIN": 2
+    },
+    "providerCounts": {
+      "PLAYDK": 568,
+      "WAGO": 1
+    },
+    "excluded": [
+      {
+        "status": "BANNED",
+        "count": 1
+      }
+    ],
+    "priorReceipts": 0,
+    "priorAudits": 0,
+    "priorMessages": 0,
+    "unbackfilled": 0
+  },
+  "dryRun": {
+    "operationKey": "ops:pingnan-support:verified-coin:20261014:v1",
+    "planHash": "83e91d3e9d6f9b92d413edaf5f5479f7c25ca774aefa07687b7d8ce13e8e9167",
+    "status": "DRY_RUN_ROLLED_BACK",
+    "completedAt": "2026-10-13T17:28:26.447Z",
+    "replayed": false,
+    "adminLogId": "45786",
+    "recipients": 569,
+    "coinLogs": 569,
+    "adminLogs": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "totalCoin": "113800000000000",
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "replayPerformedNoWrites": true,
+    "balancesRestored": true,
+    "logsRolledBack": true,
+    "elapsedMs": 7239
+  },
+  "applied": {
+    "operationKey": "ops:pingnan-support:verified-coin:20261014:v1",
+    "planHash": "83e91d3e9d6f9b92d413edaf5f5479f7c25ca774aefa07687b7d8ce13e8e9167",
+    "status": "COMPLETED",
+    "completedAt": "2026-10-13T17:28:38.127Z",
+    "replayed": false,
+    "adminLogId": "45787",
+    "recipients": 569,
+    "coinLogs": 569,
+    "adminLogs": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "totalCoin": "113800000000000",
+    "elapsedMs": 4773
+  },
+  "verification": {
+    "operationKey": "ops:pingnan-support:verified-coin:20261014:v1",
+    "planHash": "83e91d3e9d6f9b92d413edaf5f5479f7c25ca774aefa07687b7d8ce13e8e9167",
+    "status": "COMPLETED",
+    "completedAt": "2026-10-13T17:28:38.127Z",
+    "replayed": true,
+    "adminLogId": "45787",
+    "recipients": 569,
+    "coinLogs": 569,
+    "adminLogs": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "totalCoin": "113800000000000",
+    "elapsedMs": 3656
+  },
+  "receiptLocation": "app_meta:ops:pingnan-support:verified-coin:20261014:v1",
+  "delivery": "DIRECT",
+  "runtimeChanged": false
+}
