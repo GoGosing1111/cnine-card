@@ -1,0 +1,316 @@
+{
+  "sourceBase": "d8020ff57",
+  "screens": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "rows": [
+        {
+          "time": 0,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "aura": {
+            "from": 0,
+            "to": 1,
+            "weight": 0,
+            "phase": 0,
+            "periodSeconds": 8,
+            "point": {
+              "x": 394.99999999999994,
+              "y": 115.5
+            },
+            "size": 368.13740694789084,
+            "bounds": {
+              "left": 188.84305210918106,
+              "right": 568.979011579818,
+              "top": 10,
+              "bottom": 297.9979838709678
+            }
+          }
+        },
+        {
+          "time": 0.67,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "aura": {
+            "from": 0,
+            "to": 1,
+            "weight": 0.5037499687499999,
+            "phase": 0.5025,
+            "periodSeconds": 8,
+            "point": {
+              "x": 394.99999999999994,
+              "y": 115.5
+            },
+            "size": 368.13740694789084,
+            "bounds": {
+              "left": 188.84305210918106,
+              "right": 568.979011579818,
+              "top": 10,
+              "bottom": 297.9979838709678
+            }
+          }
+        },
+        {
+          "time": 4,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "aura": {
+            "from": 3,
+            "to": 2,
+            "weight": 0,
+            "phase": 3,
+            "periodSeconds": 8,
+            "point": {
+              "x": 394.99999999999994,
+              "y": 115.5
+            },
+            "size": 368.13740694789084,
+            "bounds": {
+              "left": 188.84305210918106,
+              "right": 568.979011579818,
+              "top": 10,
+              "bottom": 297.9979838709678
+            }
+          }
+        },
+        {
+          "time": 7.999,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "aura": {
+            "from": 1,
+            "to": 0,
+            "weight": 0.99999831334375,
+            "phase": 5.999249999999999,
+            "periodSeconds": 8,
+            "point": {
+              "x": 394.99999999999994,
+              "y": 115.5
+            },
+            "size": 368.13740694789084,
+            "bounds": {
+              "left": 188.84305210918106,
+              "right": 568.979011579818,
+              "top": 10,
+              "bottom": 297.9979838709678
+            }
+          }
+        },
+        {
+          "time": 8,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "foot": {
+            "x": 380,
+            "y": 240
+          },
+          "aura": {
+            "from": 0,
+            "to": 1,
+            "weight": 0,
+            "phase": 0,
+            "periodSeconds": 8,
+            "point": {
+              "x": 394.99999999999994,
+              "y": 115.5
+            },
+            "size": 368.13740694789084,
+            "bounds": {
+              "left": 188.84305210918106,
+              "right": 568.979011579818,
+              "top": 10,
+              "bottom": 297.9979838709678
+            }
+          }
+        }
+      ],
+      "runtimeVersion": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rows": [
+        {
+          "time": 0,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "foot": {
+            "x": 361.6744186046512,
+            "y": 331.46802325581393
+          },
+          "aura": {
+            "from": 0,
+            "to": 1,
+            "weight": 0,
+            "phase": 0,
+            "periodSeconds": 8,
+            "point": {
+              "x": 381.1744186046512,
+              "y": 169.6180232558139
+            },
+            "size": 507.0000000000001,
+            "bounds": {
+              "left": 97.25441860465111,
+              "right": 620.7788630490957,
+              "top": 24.323089922480563,
+              "bottom": 420.95482325581395
+            }
+          }
+        },
+        {
+          "time": 0.67,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "foot": {
+            "x": 361.6744186046512,
+            "y": 331.46802325581393
+          },
+          "aura": {
+            "from": 0,
+            "to": 1,
+            "weight": 0.5037499687499999,
+            "phase": 0.5025,
+            "periodSeconds": 8,
+            "point": {
+              "x": 381.1744186046512,
+              "y": 169.6180232558139
+            },
+            "size": 507.0000000000001,
+            "bounds": {
+              "left": 97.25441860465111,
+              "right": 620.7788630490957,
+              "top": 24.323089922480563,
+              "bottom": 420.95482325581395
+            }
+          }
+        },
+        {
+          "time": 4,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "foot": {
+            "x": 361.6744186046512,
+            "y": 331.46802325581393
+          },
+          "aura": {
+            "from": 3,
+            "to": 2,
+            "weight": 0,
+            "phase": 3,
+            "periodSeconds": 8,
+            "point": {
+              "x": 381.1744186046512,
+              "y": 169.6180232558139
+            },
+            "size": 507.0000000000001,
+            "bounds": {
+              "left": 97.25441860465111,
+              "right": 620.7788630490957,
+              "top": 24.323089922480563,
+              "bottom": 420.95482325581395
+            }
+          }
+        },
+        {
+          "time": 7.999,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "foot": {
+            "x": 361.6744186046512,
+            "y": 331.46802325581393
+          },
+          "aura": {
+            "from": 1,
+            "to": 0,
+            "weight": 0.99999831334375,
+            "phase": 5.999249999999999,
+            "periodSeconds": 8,
+            "point": {
+              "x": 381.1744186046512,
+              "y": 169.6180232558139
+            },
+            "size": 507.0000000000001,
+            "bounds": {
+              "left": 97.25441860465111,
+              "right": 620.7788630490957,
+              "top": 24.323089922480563,
+              "bottom": 420.95482325581395
+            }
+          }
+        },
+        {
+          "time": 8,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "foot": {
+            "x": 361.6744186046512,
+            "y": 331.46802325581393
+          },
+          "aura": {
+            "from": 0,
+            "to": 1,
+            "weight": 0,
+            "phase": 0,
+            "periodSeconds": 8,
+            "point": {
+              "x": 381.1744186046512,
+              "y": 169.6180232558139
+            },
+            "size": 507.0000000000001,
+            "bounds": {
+              "left": 97.25441860465111,
+              "right": 620.7788630490957,
+              "top": 24.323089922480563,
+              "bottom": 420.95482325581395
+            }
+          }
+        }
+      ],
+      "runtimeVersion": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1"
+    }
+  ],
+  "errors": [],
+  "status": "PASS",
+  "bundleSha256": "273a2211dbfc22fa26fdba56f2db70a8791acc77275c6cfbcec80b0eef31b7c9"
+}

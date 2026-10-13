@@ -1,4 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs/promises';import sharp from 'sharp';import {createHash} from 'node:crypto';import {makePlan,sample,MODES} from './skill.mjs';
+import {sampleAura,AURA_REGISTRATION} from './aura-loop.mjs';
 const read=p=>fs.readFile(new URL(p,import.meta.url)),hash=b=>createHash('sha256').update(b).digest('hex').toUpperCase(),m=JSON.parse(await read('manifest.json'));
 test('approved source and every selected bow pixel preserved; rank confirmed, runtime remains separate',async()=>{
  assert.equal(m.rank,'SSS');assert.equal(m.name,null);assert.equal(m.code,null);assert.equal(m.runtimeEnabled,false);
@@ -17,9 +18,16 @@ test('authored motion/effects have exact hashes and real alpha, all poses retain
   }
  }assert.equal(motion,24);assert.equal(effects,72);assert.deepEqual(m.effects.aura.sources.map(s=>s.path),[1,2,3].map(n=>`assets/sources/aura-red-${n}.png`));
 });
-test('complementary aura layers preserve the authored alpha and cannot double-count feathers',async()=>{
+test('soft depth split preserves the authored alpha and RGB with no hard straight edge',async()=>{
  const full=await sharp(await read(m.effects.aura.atlas)).raw().toBuffer(),rear=await sharp(await read(m.effects['aura-rear'].atlas)).raw().toBuffer(),front=await sharp(await read(m.effects['aura-front'].atlas)).raw().toBuffer();assert.equal(full.length,rear.length);assert.equal(full.length,front.length);
- for(let i=3;i<full.length;i+=4){assert.equal(rear[i]+front[i],full[i]);assert.ok(!rear[i]||!front[i]);}
+ let feathered=0;for(let i=3;i<full.length;i+=4){assert.equal(rear[i]+front[i],full[i]);if(rear[i]&&front[i])feathered++;if(full[i])for(let c=1;c<=3;c++){assert.equal(rear[i-c],full[i-c]);assert.equal(front[i-c],full[i-c]);}}assert.ok(feathered>0);
+});
+test('idle keeps one body pose and a continuous, registered eight-second wingbeat',()=>{
+ const p=makePlan({mode:'aura'}),r=m.auraPlayback;assert.equal(p.duration,AURA_REGISTRATION.periodSeconds);assert.equal(p.duration,8);assert.equal(r.bodyIdleFrame,0);
+ const weights=t=>{const s=sampleAura(t),out=Array(4).fill(0);out[s.from]+=1-s.weight;out[s.to]+=s.weight;return out;};
+ for(let i=0;i<=800;i++){const t=i/100;assert.deepEqual(sample(p,t).pose,{key:'idle',frame:0});const a=weights(t),b=weights(t+8);assert.ok(Math.abs(a.reduce((n,w)=>n+w,0)-1)<1e-12);for(let j=0;j<4;j++)assert.ok(Math.abs(a[j]-b[j])<1e-12);for(const index of [sampleAura(t).from,sampleAura(t).to]){const f=r.sourceFrames.find(f=>f.index===index);assert.ok(f.beak.x>f.alphaBounds.left&&f.beak.x<f.alphaBounds.right);assert.ok(f.beak.y>f.alphaBounds.top&&f.beak.y<f.alphaBounds.bottom);}}
+ for(const t of [0,8/6,16/6,4,32/6,40/6,8]){const a=weights(t-.001),b=weights(t+.001);for(let j=0;j<4;j++)assert.ok(Math.abs(a[j]-b[j])<.000004,'loop/keyframe seam');}
+ assert.deepEqual(sampleAura(4,true),sampleAura(0,true));
 });
 test('cancel and target loss stop contacts and restore formation; authored phases reference valid poses',()=>{
  for(const mode of Object.keys(MODES)){

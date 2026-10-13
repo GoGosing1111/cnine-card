@@ -1,0 +1,74 @@
+[
+  {
+    "name": "desktop",
+    "time": 0.44459,
+    "duration": 8.767326,
+    "playing": true,
+    "width": 1362,
+    "height": 508,
+    "capture": "qa/idle-v2/video-desktop-0.15.png"
+  },
+  {
+    "name": "desktop",
+    "time": 2.300693,
+    "duration": 8.767326,
+    "playing": true,
+    "width": 1362,
+    "height": 508,
+    "capture": "qa/idle-v2/video-desktop-2.png"
+  },
+  {
+    "name": "desktop",
+    "time": 7.936514,
+    "duration": 8.767326,
+    "playing": true,
+    "width": 1362,
+    "height": 508,
+    "capture": "qa/idle-v2/video-desktop-7.65.png"
+  },
+  {
+    "name": "desktop",
+    "time": 8.39034,
+    "duration": 8.767326,
+    "playing": true,
+    "width": 1362,
+    "height": 508,
+    "capture": "qa/idle-v2/video-desktop-8.1.png"
+  },
+  {
+    "name": "mobile",
+    "time": 0.388075,
+    "duration": 8.769801,
+    "playing": true,
+    "width": 368,
+    "height": 630,
+    "capture": "qa/idle-v2/video-mobile-0.15.png"
+  },
+  {
+    "name": "mobile",
+    "time": 2.242864,
+    "duration": 8.769801,
+    "playing": true,
+    "width": 368,
+    "height": 630,
+    "capture": "qa/idle-v2/video-mobile-2.png"
+  },
+  {
+    "name": "mobile",
+    "time": 7.888579,
+    "duration": 8.769801,
+    "playing": true,
+    "width": 368,
+    "height": 630,
+    "capture": "qa/idle-v2/video-mobile-7.65.png"
+  },
+  {
+    "name": "mobile",
+    "time": 8.362172,
+    "duration": 8.769801,
+    "playing": true,
+    "width": 368,
+    "height": 630,
+    "capture": "qa/idle-v2/video-mobile-8.1.png"
+  }
+]

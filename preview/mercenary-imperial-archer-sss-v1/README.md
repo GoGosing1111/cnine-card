@@ -8,6 +8,19 @@
 - **SD·몸 동작 24장 / 독립 효과 72장**. 아우라 앞뒤 파생 계층은 중복 프레임으로 세지 않는다.
 - built-in `image_gen.imagegen`으로 작화했다. 실제 입력·프롬프트는 `prompt*.json`, 원본은 `assets/sources/`에 보존한다.
 
+## 대기 흔들림 수정 V2 · 2026-10-14
+
+사용자 제보: **“왜 캐릭터 대기상태에 주작 이팩트가 촐싹거리면서 위치도 안맞고 흔들려”**. 기존에는 프레임 안의 주작 위치가 다른데 모두 중앙 기준으로 잘라 재생했고, 2.4초 아우라 주기가 4초 대기 재시작과 어긋났다. 몸의 대기 자세도 0.5초마다 교체돼 함께 튀었다. 이전 정지 화면·접점·경계 검수만으로 이 반복 문제를 놓쳤다.
+
+- `aura-registration-v2.json`에서 실제 부리 끝을 기준점으로 등록한다. 캐릭터 발 위치를 기준으로 같은 위치·크기를 유지하며, 카메라는 전체 반복 구간의 공통 영역에 고정한다.
+- 연속된 날갯짓 0→1→2→3→2→1을 8초로 연결한다. 나머지 원본 프레임은 보존한다. 실제 작화 사이를 완만하게 보간하고 반복 끝도 같은 첫 자세로 이어진다. 몸은 대기 0번 자세를 유지한다.
+- 분리된 투명 계층 내부에서 premultiplied 색상을 보간한 뒤 전장에 정상 합성한다. 원본 붉은 RGB를 그대로 사용하고 뒤 배경에 직접 가산해 빨강을 희석하지 않는다. 앞뒤 알파의 합은 원본과 같다. 발 앞 꼬리 경계는 곡선과 부드러운 알파 분할로 처리한다.
+- PC 1440×1080 / 모바일 390×844에서 실제 반복을 녹화했다. 위치·활·카메라 오차는 최대 0.001px 미만, 화면 경계 이탈·콘솔/HTTP 오류 0이다. 배속·정지·취소·대상 소멸·효과 OFF·동작 줄이기 및 사격/광역기에서 대기 복귀를 확인했다.
+- 작업 중 반영된 아잔트 공용 전투 소스로 프리뷰 번들을 갱신했다. 동일한 아우라 코드를 유지하며 PC/모바일 부팅·위치·반복 경계·runtimeVersion만 재확인한 최종 번들 증빙은 `qa/idle-v2/rebase-compatibility.json`이다.
+- 최신 증빙은 **`qa/idle-v2/report.json`, `qa/idle-v2/*-idle.webm`, `qa/idle-v2/*-pose-*.png`**다. 영상 자체를 재생해 반복 전후까지 확인한 기록은 `qa/idle-v2/video-inspection.json`이다. `desktop-check-*`는 꼬리 경계 최종 수정 전 중간 이력이다.
+- 재현: `node preview/mercenary-imperial-archer-sss-v1/qa-idle-v2.mjs`, `node preview/mercenary-imperial-archer-sss-v1/inspect-idle-video.mjs`. 아래 공정 표의 4초·교차 페이드 제외·23.8초 시연은 최초 제작 이력이며 V2가 우선한다. 현재 전체 시연은 27.8초다.
+- 배포 기록: `docs/imperial-archer-idle-stability-20261014.md`. 원화·활·몸·원본 효과 작화는 수정하지 않았으며 사용자 시각 승인 대기는 유지한다.
+
 ## 11단계 공정과 증빙
 
 | 단계 | 실행 및 증빙 |
@@ -43,4 +56,4 @@ node preview/mercenary-imperial-archer-sss-v1/inspect-video.mjs
 
 ## 이력 해석
 
-`qa/*-first.png`는 반려된 약한 아우라의 최초 비교 캡처다. `qa/*-red-aura*.png`는 확대 카메라 여백 수정 전 비교 자료이고, **최종 화면 기준은 `qa/*-aura.png`, `qa/*-aura-focus.png`, `qa/*-showcase.webm`**이다. 단순 프레임 개수·해시 차이를 시각 승인 근거로 삼지 않는다. 배포 기록은 `docs/imperial-archer-sss-v3-20261014.md`를 따른다.
+`qa/*-first.png`는 반려된 약한 아우라의 최초 비교 캡처다. `qa/*-red-aura*.png`는 확대 카메라 여백 수정 전 비교 자료다. `qa/*-aura.png`, `qa/*-aura-focus.png`, `qa/*-showcase.webm`는 대기 V2 수정 전 자료이며 **현재 대기 기준은 `qa/idle-v2/`의 최종 pose 캡처와 idle 영상**이다. 단순 프레임 개수·해시 차이를 시각 승인 근거로 삼지 않는다. 최초 배포 기록은 `docs/imperial-archer-sss-v3-20261014.md`, 현재 수정 기록은 `docs/imperial-archer-idle-stability-20261014.md`를 따른다.

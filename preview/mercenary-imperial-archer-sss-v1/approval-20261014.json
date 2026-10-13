@@ -18,5 +18,8 @@
     "assets/sources/aura-red-3.png"
   ],
   "reviewManifest": "manifest.json",
-  "technicalReview": "qa/runtime-report.json"
+  "technicalReview": "qa/idle-v2/report.json",
+  "currentRevision": "idle-stability-v2",
+  "latestMotionInstruction": "왜 캐릭터 대기상태에 주작 이팩트가 촐싹거리면서 위치도 안맞고 흔들려",
+  "previousTechnicalReview": "qa/runtime-report.json"
 }

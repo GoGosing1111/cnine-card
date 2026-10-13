@@ -1,6 +1,6 @@
 export const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
 export const MODES={
- aura:{duration:4,description:'주작의 머리와 날개가 등을 감싸고 긴 금홍빛 꼬리가 발치로 흐릅니다.',events:[[0,'주작의 가호'],[1,'날개의 호흡'],[2.2,'금홍빛 깃의 선회'],[3.6,'꼬리깃의 잔광']],contacts:[]},
+ aura:{duration:8,description:'주작이 자리를 지키며 붉은 날개와 꼬리를 천천히 펼칩니다.',events:[[0,'주작의 가호'],[2,'느린 날갯짓'],[4,'진홍빛 꼬리의 흐름'],[6,'제자리에서 날개를 펼침']],contacts:[]},
  dash:{duration:1.8,description:'자세를 낮춰 이동하고 주작의 깃을 뒤로 흘립니다.',events:[[0,'무게 이동'],[.3,'추진'],[.85,'착지'],[1.25,'진형 복귀']],contacts:[]},
  attack:{duration:2.4,description:'금빛 시위를 당겨 정교한 관통 화살을 발사합니다.',events:[[0,'화살 응축'],[.5,'시위 만개'],[.8,'발사'],[1.22,'관통 · 깃 파열'],[1.7,'회복']],contacts:[1.22]},
  skill:{duration:4.4,description:'활에 응축된 주작이 세 번 비상하며 적을 관통합니다.',events:[[0,'주작을 활에 응축'],[.7,'날개의 개방'],[1.4,'첫 비상'],[2.1,'두 번째 관통'],[2.8,'마지막 관통'],[3.6,'잔광 회수']],contacts:[1.4,2.1,2.8]},
@@ -11,7 +11,7 @@ export const MODES={
 export const SHOWCASE=['aura','dash','attack','skill','ultimate','hit','defeat'];
 export function makePlan({mode='aura',cancelAt=null,targetLostAt=null}={}){if(!MODES[mode])throw Error('Unknown mode');const stops=[cancelAt,targetLostAt].filter(Number.isFinite);return{mode,...MODES[mode],stop:stops.length?Math.min(...stops):null};}
 const p=(key,frame)=>({key,frame});
-export function sample(plan,time){const t=clamp(time,0,plan.duration),cancelled=plan.stop!==null&&t>=plan.stop,done=t>=plan.duration;let pose=p('idle',Math.floor(t*2)%4),travel=0,jump=0;
+export function sample(plan,time){const t=clamp(time,0,plan.duration),cancelled=plan.stop!==null&&t>=plan.stop,done=t>=plan.duration;let pose=p('idle',0),travel=0,jump=0;
  if(!cancelled){switch(plan.mode){
  case 'dash':if(t<1.05){pose=p('dash',Math.min(3,Math.floor(t/.26)));travel=clamp(t/.85);jump=Math.sin(clamp((t-.25)/.6)*Math.PI)*.1;}else{travel=1-clamp((t-1.05)/.55);}break;
  case 'attack':pose=t<.8?p('draw',Math.min(3,Math.floor(t/.2))):t<1.8?p('release',Math.min(3,Math.floor((t-.8)/.25))):pose;break;

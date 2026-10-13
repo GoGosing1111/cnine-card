@@ -2277,8 +2277,8 @@
       ]
     },
     "aura-rear": {
-      "atlas": "assets/atlases/fx-aura-rear.png",
-      "sha256": "16D548D91DC9F337DCFFC32A44BDCEAC8C185C46DA75E10B27195D76AE99542E",
+      "atlas": "assets/atlases/fx-aura-rear-v2.png",
+      "sha256": "83D5947397971DA57FA3162C601DF612CF92037520CDBDBDCB94A9BE41A8FBB5",
       "columns": 4,
       "rows": 3,
       "cellSize": 675,
@@ -2510,11 +2510,12 @@
         }
       ],
       "derivedFrom": "aura",
-      "alphaPartition": "rear"
+      "alphaPartition": "rear",
+      "registrationVersion": 2
     },
     "aura-front": {
-      "atlas": "assets/atlases/fx-aura-front.png",
-      "sha256": "B1B873CB43FC76AF148539BB504E393F849BA6F7229F3B953272957F81E3D119",
+      "atlas": "assets/atlases/fx-aura-front-v2.png",
+      "sha256": "4748D6F671D29B9016EDF91A9F124560D5031F07B4D2ECF61F0C8946069E6964",
       "columns": 4,
       "rows": 3,
       "cellSize": 675,
@@ -2746,7 +2747,8 @@
         }
       ],
       "derivedFrom": "aura",
-      "alphaPartition": "front"
+      "alphaPartition": "front",
+      "registrationVersion": 2
     },
     "shot": {
       "atlas": "assets/atlases/fx-shot.png",
@@ -3903,5 +3905,92 @@
     "motion": 24,
     "effects": 72,
     "derivedAuraLayers": 2
-  }
+  },
+  "auraPlayback": {
+    "version": 2,
+    "periodSeconds": 8,
+    "order": [
+      0,
+      1,
+      2,
+      3,
+      2,
+      1
+    ],
+    "sizeInBodyHeights": 2.6,
+    "verticalRatio": 0.78,
+    "beakOffset": {
+      "x": 0.1,
+      "y": -0.83
+    },
+    "frontTailOffsetPixels": 275,
+    "depthFeatherPixels": 36,
+    "depthCurvePixels": 24,
+    "landmark": "VISIBLE_BEAK_TIP",
+    "sourceFrames": [
+      {
+        "index": 0,
+        "beak": {
+          "x": 396,
+          "y": 269
+        },
+        "alphaBounds": {
+          "left": 24,
+          "top": 41,
+          "right": 651,
+          "bottom": 651
+        }
+      },
+      {
+        "index": 1,
+        "beak": {
+          "x": 331,
+          "y": 281
+        },
+        "alphaBounds": {
+          "left": 24,
+          "top": 33,
+          "right": 650,
+          "bottom": 651
+        }
+      },
+      {
+        "index": 2,
+        "beak": {
+          "x": 402,
+          "y": 222
+        },
+        "alphaBounds": {
+          "left": 24,
+          "top": 24,
+          "right": 651,
+          "bottom": 651
+        }
+      },
+      {
+        "index": 3,
+        "beak": {
+          "x": 337,
+          "y": 222
+        },
+        "alphaBounds": {
+          "left": 24,
+          "top": 24,
+          "right": 651,
+          "bottom": 651
+        }
+      }
+    ],
+    "reason": "Align the same anatomical landmark before blending, use only a contiguous authored wing beat and retrace it without a reset jump; source RGB/alpha and scale are preserved.",
+    "envelope": {
+      "left": -0.56,
+      "right": 0.4725925925925926,
+      "top": -0.28657777777777776,
+      "bottom": 0.49573333333333336
+    },
+    "cellSize": 675,
+    "interpolation": "PREMULTIPLIED_LINEAR_IN_ISOLATED_LAYERS",
+    "bodyIdleFrame": 0
+  },
+  "revision": "idle-stability-v2"
 }
