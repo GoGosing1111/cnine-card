@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-10-13T13:03:43.409Z",
+  "commit": "43b3685a5277f0fac82d7c7134391426572f4bd5",
+  "results": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "db25439c56964b3904839addd887031db29097ee29c3e12953337b9dbfd94549",
+      "matches": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "b01f259bb597b3fea71ed314a9ecd76e0cbdbf6465c951f9aaedceb22fb8dccb",
+      "matches": true
+    },
+    {
+      "file": "js/territory-vote-alert-v1.js",
+      "status": 200,
+      "sha256": "9cf38c28c9ec4f811429a9abdf6a17ec69e56d25a43f5e2670ad622f56b4a4e5",
+      "matches": true
+    },
+    {
+      "file": "css/territory-vote-alert-v1.css",
+      "status": 200,
+      "sha256": "a9bbca151acc6b684ad23eb5fff6d677726dacc1abe01d4bf98ad34f6c7df550",
+      "matches": true
+    },
+    {
+      "file": "js/territory-war-v1811.js",
+      "status": 200,
+      "sha256": "1fc7806977bfbeb98675a76a034e0daa0396a0c2e6dd1e24b2e2503746746fde",
+      "matches": true
+    }
+  ],
+  "service": {
+    "status": 200,
+    "maintenanceActive": false
+  },
+  "productionMutations": 0
+}

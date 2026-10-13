@@ -31,3 +31,12 @@
 ## 배포 범위
 
 현재 영토전 UI에 한정된 작은 변경으로 `npm run deploy:production -- --scoped`를 사용한다. 기존 구수댕 변경과 운영 보상 기록은 보존한다. 초기 반영은 커밋 `697dd513` / Pages `86aa6558`로 완료됐고, 배포 중 도착한 사용자 후속 요청의 작은 알림·ON/OFF를 다음 scoped 배포로 반영한다. 배포 기준은 실제 직전 운영 커밋을 재조회해 사용한다.
+
+## 최종 운영 반영 완료
+
+- 커밋 `43b3685a5277f0fac82d7c7134391426572f4bd5`, Pages `ca043f91-5b4f-4679-8f11-5296f8d5cf3d` / `https://ca043f91.cnine-card.pages.dev`.
+- 관련 회귀 7건, PC·모바일 시나리오 및 출시·캐시·Hyperdrive 검증 통과.
+- 첫 축소본 배포는 Cloudflare의 Hyperdrive 바인딩 생성 내부 500 오류로 실패했다. 기존 운영이 유지되는 것을 확인한 뒤 같은 커밋과 지정 scoped 명령으로 재시도하여 성공했다. 소스·구성 변경이나 검사 범위 확대는 하지 않았다.
+- API Runtime `06aa925e-427a-4db1-b3ed-e8a9183efea0`, clan-draft `fa1045e5-0b32-48fa-925c-4eba4fab2b50`.
+- 2026-10-13 22:03 KST: 운영 index·서비스워커·영토전 메인·알림 JS/CSS 5개 모두 HTTP 200 및 배포 소스 SHA-256 일치. 서비스 상태 200·점검 OFF, 운영 검수용 투표/DB 변경 0건.
+- 결과: `docs/qa/territory-vote-alert-20261013/live-verification.json`. 로컬 검수 서버는 종료했다.
