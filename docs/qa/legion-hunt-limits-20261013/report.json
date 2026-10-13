@@ -1,0 +1,18 @@
+[
+  {
+    "name": "desktop",
+    "limit": 10,
+    "durationMs": 420000,
+    "bossAtMs": 270000,
+    "clock": "07:00",
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "limit": 10,
+    "durationMs": 420000,
+    "bossAtMs": 270000,
+    "clock": "07:00",
+    "errors": []
+  }
+]

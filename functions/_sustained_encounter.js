@@ -5,7 +5,9 @@ export function sustainedEncounterPlan(config, initial, capacity) {
   const {durationMs, templates, finalBoss} = config;
   const finalAdds=config.regionId?(config.finalAdds||[]):[];
   if(finalAdds.length>2||finalAdds.some(c=>!c.isMonster||c.isBoss||c.side!=='B'||c.hp<=0))throw Error('INVALID_SUSTAINED_ADDS');
-  if (![750000,765000,780000,900000].includes(durationMs) || capacity !== 12 || initial.length !== capacity ||
+  // Seven-minute hunts reserve the existing boss window. Preserve the older
+  // schedule values for saved/review sessions; arbitrary timings stay rejected.
+  if (![270000,285000,300000,750000,765000,780000,900000].includes(durationMs) || capacity !== 12 || initial.length !== capacity ||
       !Array.isArray(templates) || templates.length < 1 || templates.length > 12 || !finalBoss) {
     throw Error('INVALID_SUSTAINED_ENCOUNTER');
   }

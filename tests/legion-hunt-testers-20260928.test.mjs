@@ -26,7 +26,7 @@ for(const postgres of [false,true]){
       assert.equal((await search('1')).status,403);assert.equal((await f.call('admin/legion-hunt')).status,403);assert.equal(f.queries.length,0);
       const status=await f.call('legion-hunt/status');assert.equal(status.body.canEnter,true);assert.equal(status.body.access.liveRewards,false);assert.equal(f.queries.length,1);
       assert.equal(JSON.stringify(status.body).includes('testUser'),false);
-      const lobby=await f.call('legion-hunt/bootstrap');assert.equal(lobby.status,200);assert.equal(lobby.body.entries.remaining,2);assert.equal(JSON.stringify(lobby.body).includes('testUserIds'),false);
+      const lobby=await f.call('legion-hunt/bootstrap');assert.equal(lobby.status,200);assert.equal(lobby.body.entries.remaining,10);assert.equal(JSON.stringify(lobby.body).includes('testUserIds'),false);
     }finally{await f.close();}
   });
 

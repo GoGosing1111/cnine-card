@@ -88,30 +88,30 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 후�
   });
 });
 
-test('군단토벌 기본 2회 + 후원 3회, 만료 후 사용 이력 보존, KST 자정 초기화',()=>{
-  const at=Date.parse('2026-10-10T23:59:59+09:00'),support=supportBenefits({...emptySupport(),startsAt:at-1000,endsAt:at+1000},at),user={id:2,role:'USER'},run={daily:{day:'2026-10-10',used:4}};
+test('군단토벌 기본 10회 + 후원 3회, 만료 후 사용 이력 보존, KST 자정 초기화',()=>{
+  const at=Date.parse('2026-10-10T23:59:59+09:00'),support=supportBenefits({...emptySupport(),startsAt:at-1000,endsAt:at+1000},at),user={id:2,role:'USER'},run={daily:{day:'2026-10-10',used:12}};
   assert.equal(legionHuntEntries(run,at,user,support).remaining,1);
-  assert.equal(legionHuntEntries(run,at,user).remaining,0);assert.equal(legionHuntEntries(run,at,user).used,4);
-  assert.equal(legionHuntEntries(run,at+1000,user,support).limit,2);assert.equal(legionHuntEntries(run,at+1000,user,support).used,0);
+  assert.equal(legionHuntEntries(run,at,user).remaining,0);assert.equal(legionHuntEntries(run,at,user).used,12);
+  assert.equal(legionHuntEntries(run,at+1000,user,support).limit,10);assert.equal(legionHuntEntries(run,at+1000,user,support).used,0);
   assert.equal(legionHuntEntries(run,at,{id:1,role:'OWNER'},support).unlimited,true);
-  assert.throws(()=>legionHuntEntries({daily:{day:'2026-10-10',used:6}},at,user));
+  assert.throws(()=>legionHuntEntries({daily:{day:'2026-10-10',used:14}},at,user));
 });
 
-for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 실제 토벌 시작은 5회까지 허용, 재시도·만료·중단 환불',async t=>{
+for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 실제 토벌 시작은 후원 포함 13회까지 허용, 재시도·만료·중단 환불',async t=>{
   const f=await legionFixture({postgres});t.after(()=>f.close());
   const config=(await f.call('admin/legion-hunt')).body.policy;config.mode='ON';assert.equal((await f.call('admin/legion-hunt',{policy:config},{method:'PATCH'})).status,200);
   f.deps.createSession=options=>Object.assign(restoreHuntSession({id:crypto.randomUUID(),policy:{id:'normal',...options.dropPolicy},timeLimit:1000,eventTimes:[100],timeline:[{seq:1,combatAtMs:100,type:'RESULT',winner:'B'}],outcome:{winner:'B'}},{now:options.now}),{payload:{}});
   const support={...emptySupport(),revision:1,startsAt:0,endsAt:100000};
   await f.DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').bind(supportKey(2),JSON.stringify(support)).run();f.setUser(f.player);
-  for(let i=0;i<5;i++){
+  for(let i=0;i<13;i++){
     const start=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(start.status,200,JSON.stringify(start.body));const id=start.body.id;
     assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.used,i+1);assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.used,i+1);
     f.clock.now+=101;assert.equal((await f.call('legion-hunt/finish',{id,seq:1})).status,200);
   }
   assert.equal((await f.call('legion-hunt/start',{difficulty:'normal'})).body.code,'HUNT_DAILY_LIMIT');
-  const before=(await f.call('legion-hunt/bootstrap')).body.entries;assert.equal(before.limit,5);assert.equal(before.used,5);
+  const before=(await f.call('legion-hunt/bootstrap')).body.entries;assert.equal(before.limit,13);assert.equal(before.used,13);
   await f.DB.prepare('UPDATE app_meta SET value=? WHERE key=?').bind(JSON.stringify({...support,endsAt:f.clock.now}),supportKey(2)).run();
-  const expired=(await f.call('legion-hunt/bootstrap')).body.entries;assert.equal(expired.limit,2);assert.equal(expired.used,5);assert.equal(expired.remaining,0);
+  const expired=(await f.call('legion-hunt/bootstrap')).body.entries;assert.equal(expired.limit,10);assert.equal(expired.used,13);assert.equal(expired.remaining,0);
   await f.DB.prepare('UPDATE app_meta SET value=? WHERE key=?').bind(JSON.stringify({...support,endsAt:200000000}),supportKey(2)).run();assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.remaining,0);
   f.clock.now=86400000;const start=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(start.status,200);assert.equal((await f.call('legion-hunt/begin',{id:start.body.id})).body.entries.used,1);
   const cancel=await f.call('legion-hunt/cancel',{id:start.body.id});assert.equal(cancel.status,200);assert.equal(cancel.body.entries.used,0);assert.equal((await f.call('legion-hunt/recover',{})).body.entries.used,0);

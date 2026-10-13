@@ -50,8 +50,9 @@ for(const postgres of [false,true]){
       const id=await start(f);f.loseReply();assert.equal((await f.call('legion-hunt/begin',{id})).status,503);
       assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.used,1);
       f.clock.now+=101;await finish(f,id);const second=await start(f);f.clock.now+=101;await finish(f,second);
+      for(let used=2;used<10;used++){const next=await start(f);f.clock.now+=101;await finish(f,next);}
       assert.equal((await f.call('legion-hunt/start',{difficulty:'normal'})).body.code,'HUNT_DAILY_LIMIT');
-      assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.used,2);
+      assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.used,10);
       for(let i=0;i<3;i++)await start(f,f.owner);
       assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.unlimited,true);
       f.clock.now=Date.parse('2026-09-29T00:00:00+09:00');await start(f);assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.used,1);

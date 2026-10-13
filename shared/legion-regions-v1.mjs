@@ -1,5 +1,6 @@
 // Region equipment and enemy identities are independent from deployment policy.
 // All numeric balance values below are review defaults; the server snapshots CMS policy.
+import {HUNT_DURATION_MS} from '../preview/sustained-hunt-v2/hunt-rules.mjs';
 export const LEGION_REGIONS_VERSION = 1;
 export const LEGION_REGIONS_KEY = 'legion_hunt_regions_v1';
 export const LEGION_REGION_ART = '/assets/ui/legion-regions-v1/';
@@ -42,7 +43,7 @@ export const REGION_DIFFICULTIES = Object.freeze([
   ['inferno','지옥',8500000,400000000,160,24,4,120000,'X 완성~오버로드 구간','강한 연속 공격과 생존력',.5,30,25,1.2,14],
   ['calamity','재앙',14000000,950000000,185,32,3,120000,'8천만 슈트·완성된 덱 기준','최상위 패턴과 전투 압박',.6,40,35,1.8,20]
 ].map(([id,name,power,bossPower,attack,shield,forced,bossLimitMs,recommendation,description,stonePercent,eliteStonePercent,setPercent,uniquePercent,bossStones],index)=>Object.freeze({
-  id,name,index,power,bossPower,attack,shield,forced,repeat:1,limitMs:900000,huntDurationMs:900000-bossLimitMs,bossLimitMs,recommendation,description,
+  id,name,index,power,bossPower,attack,shield,forced,repeat:1,limitMs:HUNT_DURATION_MS,huntDurationMs:HUNT_DURATION_MS-bossLimitMs,bossLimitMs,recommendation,description,
   loot:Object.freeze({stonePercent,eliteStonePercent,eliteSetPercent:setPercent/5,bossSetPercent:setPercent,bossUniquePercent:uniquePercent,bossStones,lifetimeSeconds:12})
 })));
 export const REGION_EQUIPMENT = Object.freeze(LEGION_REGIONS.flatMap(region=>[

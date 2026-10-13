@@ -5,14 +5,16 @@ import {profiles,legionBalanceSnapshot} from '../scripts/measure-legion-regions-
 import {LEGION_REGIONS,regionEquipmentEffects} from '../shared/legion-regions-v1.mjs';
 import {buildPvePlayerTeam} from '../functions/_battle_v2_preview.js';
 import {equipmentAfterBasic,applyPveEquipmentGrowth} from '../shared/equipment-combat-growth-v1.mjs';
-test('all five regions expose their actual boss mechanics on the canonical 15-minute timeline',()=>{
+test('all five regions expose their actual boss mechanics on the canonical 7-minute timeline',()=>{
   for(const region of LEGION_REGIONS){
-    const s=createHuntSession({snapshot:legionBalanceSnapshot(profiles.at(-1)),regionId:region.id,difficulty:'calamity',seed:7919});
+    // Low incoming pressure isolates boss scheduling/mechanics from the
+    // evolving account balance. The tier-survival regression below stays real.
+    const s=createHuntSession({snapshot:legionBalanceSnapshot(profiles.at(-1)),regionId:region.id,difficulty:'calamity',regionDifficulty:{attack:1},seed:7919});
     const events=s.payload.battleV2.result.timeline,spawn=events.find(e=>e.finalBoss),patterns=events.filter(e=>e.type==='LEGION_PATTERN');
-    assert.equal(spawn.combatAtMs,780000);assert.ok(patterns.length>=3,region.id);assert.ok(events.every(e=>e.combatAtMs<=900000));
+    assert.equal(spawn.combatAtMs,300000);assert.ok(patterns.length>=3,region.id);assert.ok(events.every(e=>e.combatAtMs<=420000));
     assert.ok(s.payload.continuousEncounter.instances.every(i=>i.battleSprite.includes('/'+region.id+'/')));
     const shots=events.filter(e=>e.type==='TURN'&&e.actorKind==='BATTLE_SUIT');
-    assert.ok(shots.length>500);for(let i=1;i<shots.length;i++)assert.ok(shots[i].combatAtMs-shots[i-1].combatAtMs>=374,'SX shots must not bunch when the party shrinks');
+    assert.ok(shots.length>250);for(let i=1;i<shots.length;i++)assert.ok(shots[i].combatAtMs-shots[i-1].combatAtMs>=374,'SX shots must not bunch when the party shrinks');
   }
 });
 test('tier increase cannot turn into a burst-fire reward and weak decks fail upper tiers',()=>{

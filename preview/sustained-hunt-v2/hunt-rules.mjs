@@ -1,8 +1,8 @@
 // Local review policy. Fixed enemy stats never scale up with the selected party.
 // No live economy, ownership, account or CMS setting is changed here.
 export const CAPACITY = 12;
-export const HUNT_DURATION_MS = 15 * 60 * 1000;
-export const DAILY_ENTRIES = 2;
+export const HUNT_DURATION_MS = 7 * 60 * 1000;
+export const DAILY_ENTRIES = 10;
 export const ENGINE_BASE = '0d67ae862a1f9763605ad7323e889acf5d51ad41';
 export const DIFFICULTIES = Object.freeze([
   {id:'normal',name:'보통',power:32000,bossPower:350000,attack:100,shield:0,repeat:1,forced:7,limitMs:150000,dropChance:.28,dropLifeMs:9000,description:'완만한 압박 · 방벽 없는 보스'},

@@ -50,13 +50,13 @@ export function openLegionHunt(button){
       <section class="legion-intro" aria-labelledby="legion-island-title">
         <div class="legion-hero-halo" aria-hidden="true"></div><img class="legion-guardian" src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt="섬의 최종 보스 태고의 수호자">
         <div class="legion-intro-copy"><p class="legion-kicker"><span></span> LEGION HUNT · CHAPTER 01</p><h1 id="legion-island-title">잊혀진 섬</h1><p class="legion-intro-text">길은 끊겼다.<br>돌아갈 방법은, 끝까지 돌파하는 것.</p>
-        <div class="legion-facts"><span><b>15분</b> 연속 토벌</span><span><b>1</b> 최종 보스</span><span><b data-hunt-entry-limit>—</b> 하루 입장</span></div></div>
+        <div class="legion-facts"><span><b>7분</b> 연속 토벌</span><span><b>1</b> 최종 보스</span><span><b data-hunt-entry-limit>—</b> 하루 입장</span></div></div>
         <div class="legion-guardian-caption"><span>FINAL TARGET</span><strong>태고의 수호자</strong></div>
       </section>
       <nav class="legion-route" aria-label="토벌 진행 경로">
         <div><img src="${art}monsters/ember-mantis-sd-v2.png" alt=""><span><small>00:00 · 상륙</small><b>군단 조우</b></span></div>
-        <div><img src="${art}monsters/mossback-tortoise-sd-v2.png" alt=""><span><small>05:00 · 교전</small><b>끊임없는 증원</b></span></div>
-        <div><img src="${art}monsters/cobalt-bat-sd-v2.png" alt=""><span><small>10:00 · 돌파</small><b>끝까지 생존</b></span></div>
+        <div><img src="${art}monsters/mossback-tortoise-sd-v2.png" alt=""><span><small>02:00 · 교전</small><b>끊임없는 증원</b></span></div>
+        <div><img src="${art}monsters/cobalt-bat-sd-v2.png" alt=""><span><small>04:00 · 돌파</small><b>끝까지 생존</b></span></div>
         <div><img src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt=""><span><small data-hunt-boss-at>마지막 구간 · 최종 보스</small><b>태고의 수호자</b></span></div>
       </nav>
       <section class="legion-squad"><div class="legion-section-heading"><div><span>YOUR EXPEDITION</span><h2>출전 원정대</h2></div><button type="button" data-hunt-refresh>편성 새로고침 <span aria-hidden="true">↻</span></button></div>
@@ -121,7 +121,7 @@ export function openLegionHunt(button){
     find('.legion-equipment').textContent=loadout?'장착 슈트 · '+(eq?.equippedBattleSuit?.name||eq?.equippedBattleSuit?.code||'없음')+' / 무기 · '+(eq?.equippedWeapon?.name||eq?.equippedWeapon?.code||'없음'):'';
     find('.legion-difficulties').innerHTML=choices.map((d,i)=>`<button type="button" data-hunt-difficulty="${escape(d.id)}" aria-pressed="${d.id===state.difficulty}"><span class="legion-difficulty-number">0${i+1}</span><span class="legion-difficulty-copy"><strong>${escape(d.name)}</strong><small>${escape(d.recommendation||d.description)}</small></span><span class="legion-threat-bars" aria-hidden="true">${choices.map((_,n)=>`<i class="${n<=i?'lit':''}"></i>`).join('')}</span><span class="legion-selection-dot" aria-hidden="true"></span></button>`).join('');
     const selected=choices.find(d=>d.id===state.difficulty);
-    find('.legion-limit').textContent=selected?'보스전 포함 총 15분':'';
+    find('.legion-limit').textContent=selected?'보스전 포함 총 7분':'';
     if(selected)find('[data-hunt-boss-at]').textContent=Math.floor(selected.huntDurationMs/60000)+':'+String(selected.huntDurationMs/1000%60).padStart(2,'0')+' · 최종 보스';
     find('.legion-entries').textContent=unlimited?'무제한':data?.entries?data.entries.remaining+' / '+data.entries.limit+'회 남음':'';
     find('[data-hunt-entry-limit]').textContent=unlimited?'무제한':data?.entries?data.entries.limit+'회':'—';
@@ -129,7 +129,7 @@ export function openLegionHunt(button){
   };
   const controller=createHuntEntry({render,enter:()=>{
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
-    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20261011-background1';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
+    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20261013-seven-minutes1';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
   },dispose:()=>{clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus();}});
   const onMessage=event=>{
     if(event.origin!==location.origin||event.source!==frame?.contentWindow)return;

@@ -51,14 +51,14 @@ test('full hunt backlog cannot delay the boss; the server checkpoint and every r
     assert.equal(boss.clock.time,payload.huntPlayback.boss.combatAtMs/1000);
     assert.equal(boss.timeline.timeScale(),1);assert.equal(h.engine.previewSpeed,1);
     const initialTime=boss.clock.time;boss.timeline.time(1,true);assert.ok(Math.abs(boss.clock.time-initialTime-1)<.0001,'boss phase remains 1x');
-    boss.clock.time=899.999;boss.pump();await flush();assert.equal(h.engine.huntRun.deadlineReached,false);
-    boss.clock.time=900;boss.pump();assert.equal(await done,true);
+    boss.clock.time=419.999;boss.pump();await flush();assert.equal(h.engine.huntRun.deadlineReached,false);
+    boss.clock.time=420;boss.pump();assert.equal(await done,true);
     assert.equal(h.engine.huntRun.deadlineReached,true);assert.equal(h.engine.firing,false);
-    assert.equal(boss.active,false);assert.equal(boss.clock.time,900);
+    assert.equal(boss.active,false);assert.equal(boss.clock.time,420);
     assert.deepEqual(h.states.at(-1),payload.huntPlayback.final);
     assert.deepEqual(h.notified.map(e=>e.seq),events.map(e=>e.seq),'no duplicated or missing receipt');
     let now=0;const restored=restoreHuntSession(session.exportState(),{now:()=>now});restored.begin();
-    now=900000;const receipt=restored.finish(h.notified.at(-1).seq);
+    now=420000;const receipt=restored.finish(h.notified.at(-1).seq);
     assert.equal(receipt.reason,'CLEAR','use the server outcome, never invent a timeout for a visual delay');
     assert.deepEqual(restored.finish(h.notified.at(-1).seq),receipt);
     assert.equal(receipt.picked,0,'catch-up alone never grants an item');
@@ -71,19 +71,19 @@ test('pause freezes the deadline, resume finishes at zero, cancellation cannot r
   const h=harness(payload);
   try{
     const done=h.run(),phase=h.engine.skillChipPlayback;await phase.ready;phase.timeline.pause();
-    h.engine.huntPaused=true;phase.clock.time=750;phase.pump();await flush();
+    h.engine.huntPaused=true;phase.clock.time=payload.huntPlayback.boss.combatAtMs/1000;phase.pump();await flush();
     assert.equal(h.banners.length,0);assert.equal(phase.active,true);
     h.engine.huntPaused=false;phase.pump();await flush();
     const boss=h.engine.skillChipPlayback;await boss.ready;boss.timeline.pause();
     assert.equal(h.banners.length,1);
-    h.engine.huntPaused=true;boss.clock.time=900;boss.pump();await flush();
+    h.engine.huntPaused=true;boss.clock.time=420;boss.pump();await flush();
     assert.equal(h.engine.huntRun.deadlineReached,false);
     h.engine.huntPaused=false;boss.pump();assert.equal(await done,true);
   }finally{h.close();}
   const cancelled=harness(payload);
   try{
     const done=cancelled.run(),phase=cancelled.engine.skillChipPlayback;await phase.ready;phase.timeline.pause();
-    cancelled.engine.cancelTimelines();phase.clock.time=900;phase.pump();
+    cancelled.engine.cancelTimelines();phase.clock.time=420;phase.pump();
     assert.equal(await done,false);assert.equal(cancelled.banners.length,0);assert.equal(cancelled.notified.length,0);assert.equal(cancelled.clears,1);
   }finally{cancelled.close();}
 });

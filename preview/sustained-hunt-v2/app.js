@@ -87,7 +87,7 @@
   function updatePolicy(){
     if(liveMode)return;
     const p=policies.find(d=>d.id===$('hunt-difficulty').value);if(!p)return;
-    $('difficulty-description').textContent=p.description+' · 총 15분 / '+time(p.huntDurationMs)+'에 최종 보스 출현';
+    $('difficulty-description').textContent=p.description+' · 총 '+Math.round(p.limitMs/60000)+'분 / '+time(p.huntDurationMs)+'에 최종 보스 출현';
     $('hunt-threat').textContent=p.name+' · 전멸 / 보스 제한 시간 초과 시 실패';
   }
   async function prepare(reuse=false){
@@ -96,8 +96,8 @@
     engine?.setHuntPaused(false);renderer?.destroy();api.destroy();engine=null;session=null;buttons();
     if(oldSession&&!reuse)await request('cancel',{id:oldSession}).catch(()=>{});
     $('hunt-kills').textContent=$('hunt-bosses').textContent=$('hunt-picked').textContent='0';$('hunt-boss-hud').hidden=true;
-    $('hunt-time').textContent='15:00';if($('hunt-time-label'))$('hunt-time-label').textContent='남은 전투 시간';if($('hunt-progress-fill'))$('hunt-progress-fill').style.width='0%';
-    $('hunt-stage').textContent='15분 연속 토벌';$('hunt-objective').textContent='계속 밀려오는 군단을 처치하세요';inventory();updatePolicy();message('원정대와 몬스터를 배치하고 있습니다.');
+    $('hunt-time').textContent='07:00';if($('hunt-time-label'))$('hunt-time-label').textContent='남은 전투 시간';if($('hunt-progress-fill'))$('hunt-progress-fill').style.width='0%';
+    $('hunt-stage').textContent='전투 준비 중';$('hunt-objective').textContent='계속 밀려오는 군단을 처치하세요';inventory();updatePolicy();message('원정대와 몬스터를 배치하고 있습니다.');
     const data=reuse&&oldSession&&oldPayload?{id:oldSession,payload:oldPayload,entries}:await request('start',{difficulty:liveMode?liveDifficulty:$('hunt-difficulty').value,...(ownerMode?{version:5,...(liveRegion?{regionId:liveRegion}:{})}:{party:$('hunt-party').value})});
     if(token!==epoch){void request('cancel',{id:data.id});return;}
     session=data.id;payload=data.payload;entries=data.entries||null;notifyParent('legion-hunt-session',{id:session});window.cnineCardCatalog=()=>payload.cards;
@@ -114,7 +114,7 @@
     engine.setHuntBackground(backgrounded||document.hidden);
     engine.previewSpeed=1;engine.paceScale=1;
     prepared.stage.querySelector('.battle-v3-header strong').textContent=(payload.regionName||'잊혀진 섬')+' · '+payload.huntPolicy.name;
-    prepared.stage.querySelector('#battlePhase').textContent='군단 토벌 → 최종 보스 · 총 15분';
+    prepared.stage.querySelector('#battlePhase').textContent='군단 토벌 → 최종 보스 · 총 '+Math.round(payload.huntPolicy.limitMs/60000)+'분';
     await api.restoreDeployedFormation();
     engine.attachGroundDrops({
       claim:drop=>request('claim',{id:session,dropId:drop.id,token:drop.token,x:drop.position.x,y:drop.position.y}),
@@ -122,7 +122,7 @@
       onExpired:()=>{if(playing)message('드랍이 사라졌습니다. 다음 아이템은 다른 위치에 나타납니다.');},
       onError:e=>message(errorText(e))
     });
-    $('hunt-time').textContent=time(payload.huntPolicy.limitMs);$('hunt-threat').textContent=payload.huntPolicy.name+' · '+time(payload.huntPolicy.huntDurationMs)+'에 최종 보스 출현';message(payload.pet?.magnet?'자석 펫 장착 · 드랍 아이템을 자동 흡수합니다.':'아이템은 필드에서 직접 클릭해야 획득합니다.');buttons();
+    $('hunt-stage').textContent=Math.round(payload.huntPolicy.limitMs/60000)+'분 연속 토벌';$('hunt-time').textContent=time(payload.huntPolicy.limitMs);$('hunt-threat').textContent=payload.huntPolicy.name+' · '+time(payload.huntPolicy.huntDurationMs)+'에 최종 보스 출현';message(payload.pet?.magnet?'자석 펫 장착 · 드랍 아이템을 자동 흡수합니다.':'아이템은 필드에서 직접 클릭해야 획득합니다.');buttons();
   }
   function updateClock(){
     if(hudHidden()||!payload)return;
@@ -185,7 +185,7 @@
     try{
       await reveals;const receipt=await request('finish',{id:session,seq:ack});playing=false;ending=false;entries=receipt.entries||entries;
       if(receipt.liveRewards)notifyParent('legion-hunt-rewards-changed');
-      const labels={CLEAR:['사냥 클리어','제한 시간 안에 최종 보스를 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','총 15분이 종료되어 토벌을 마쳤습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 획득한 전리품을 집계합니다.']};
+      const labels={CLEAR:['사냥 클리어','제한 시간 안에 최종 보스를 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','제한 시간이 종료되어 토벌을 마쳤습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 획득한 전리품을 집계합니다.']};
       const [title,reason]=labels[receipt.reason];$('result-title').textContent=title;$('result-reason').textContent=reason;$('result-eyebrow').textContent=payload.huntPolicy.name+' · 원정 결과';
       const note=$('hunt-result').querySelector('.review-note');if(note)note.textContent=receipt.liveRewards?'종료가 확정되어 획득한 전리품을 계정에 지급했습니다.':'TEST · 검수용 획득 기록입니다. 계정에는 보상이 지급되지 않습니다.';
       $('result-kills').textContent=receipt.kills+'마리 · 보스 '+receipt.bosses+' / 1';
