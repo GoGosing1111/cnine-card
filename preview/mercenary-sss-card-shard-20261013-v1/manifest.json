@@ -4,7 +4,7 @@
   "asset_type": "inventory_item_icon",
   "name": "SSS 용병 카드 조각",
   "rank": "SSS",
-  "status": "REGISTRATION_AUTHORIZED_20261014",
+  "status": "REGISTERED_LIVE_20261014",
   "current_version": 1,
   "current_asset": "assets/items/mercenary-sss-card-shard-v1.png",
   "asset": {
@@ -53,19 +53,21 @@
     "user_final_approval": true
   },
   "scope": {
-    "resource_only": true,
-    "item_catalog_registered": false,
-    "live_connected": false,
-    "acquisition_policy_assigned": false,
+    "resource_only": false,
+    "item_catalog_registered": true,
+    "live_connected": true,
+    "acquisition_policy_assigned": true,
     "exchange_cost_assigned": false,
     "automatic_grant": false,
-    "production_deployment": false
+    "production_deployment": true
   },
   "registration": {
     "authorized_date": "2026-10-14",
     "authorization": "등록해 이전에 리소스 있을거야",
     "item_code": "MERCENARY_SSS_CARD_SHARD",
     "delivery": "71회차 승리팀 80명에게 메시지 1개씩",
-    "exchange_policy": "UNASSIGNED"
+    "exchange_policy": "UNASSIGNED",
+    "receipt": "ops:territory:71:sss-shard-message:20261014:v1",
+    "deployment": "25cf5d7b"
   }
 }
