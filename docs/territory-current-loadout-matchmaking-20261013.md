@@ -30,4 +30,10 @@
 
 ## 운영 확인
 
-배포 후 커밋·배포 식별자와 제보 계정의 확인 결과를 기록한다.
+- 실제 직전 운영 코드: `7205a9e45e44ec6e7ef2119d03141c7e28a78e27`(기존 운영 검증 문서 및 Pages 배포 기록 기준). 그 이후 문서 커밋을 보존하고 rebase했다.
+- 운영 코드: `1ad8b1fd`. scoped 선택 회귀 14/14, Worker 구문/번들 컴파일, 출시 보호 및 Hyperdrive query cache OFF 확인을 통과했다.
+- Pages: https://a190ca1f.cnine-card.pages.dev
+- API runtime: `e9ea9b2e-23a8-40a4-8ba4-f20cbd611e1b`; scheduler: `f7eedbdc-c2bf-4e82-a098-68124adb5876`.
+- 2026-10-13 19:57 KST 운영 CMS에서 **족게이다**를 조회했다. 현재 카드 5장의 ID와 용병 **베르칸**, 전투력 **3,429,644**가 마지막 반영 편성과 일치했다. 최신 10경기는 **10승 0패, 서로 다른 상대 10명**으로 표시됐다. 이는 배포 후 조회한 최신 기록이며 제보 당시의 10연패를 부정하거나 소급 복구했다는 뜻이 아니다. 원래 10연패의 상세 기록은 이 최근 10경기 범위에 포함되지 않는다.
+- 게임 JS·CSS 및 CMS JS 4개 파일의 운영 해시가 커밋과 일치했다. 공개 서비스 상태 200, 비로그인 관리자 조회 401을 확인했다.
+- [운영 파일 확인](qa/territory-current-loadout-20261013/live-verification.json), [실계정 CMS 조회](qa/territory-current-loadout-20261013/live-account.png). 운영 계정의 교전·재화 변경을 대신 실행하지 않았고 계정 조회만 수행했다.

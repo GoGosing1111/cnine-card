@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-10-13T10:58:15.213Z",
+  "commit": "1ad8b1fdaa48b31e9b6991f60e280a388ed9d153",
+  "files": [
+    {
+      "path": "js/territory-war-v1811.js",
+      "status": 200,
+      "sha256": "97f5d079d5de8014f2de8b7e477da3735dac94c080cce3eceaa09a145d90d479",
+      "matches": true
+    },
+    {
+      "path": "js/territory-formation-20261013.js",
+      "status": 200,
+      "sha256": "4928b72c12b0bb37d2dfce97b9dacc3e744a532888e79d9e097573160a0327d5",
+      "matches": true
+    },
+    {
+      "path": "css/territory-formation-20261013.css",
+      "status": 200,
+      "sha256": "94c66e2553ffd7e2822241ce3e8f0a51c81a33aece2512e235e86fe2f063e024",
+      "matches": true
+    },
+    {
+      "path": "admin/territory-war-admin-v1362.js",
+      "status": 200,
+      "sha256": "3e99d0d37fd1023f5f9954c5aad7fe1c143bfb8c22c086cc838d74987d269ab3",
+      "matches": true
+    },
+    {
+      "path": "api/service/status",
+      "status": 200
+    },
+    {
+      "path": "api/admin/territory-war/participant-inspect",
+      "status": 401
+    }
+  ]
+}
