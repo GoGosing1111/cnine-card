@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "avatar-peach-kimono-20261013-v1",
+  "title": "청록 머리 복숭아 의상 아바타",
+  "createdAt": "2026-10-13T10:03:53.2413332Z",
+  "request": "얼굴 의상 최대한 99% 반영해서 아바타 제작해라",
+  "tool": "built-in image_gen",
+  "useCase": "stylized-concept",
+  "status": "DRAFT_SOURCE_ART",
+  "userApproved": false,
+  "runtimeRegistered": false,
+  "source": {
+    "file": "assets/avatar-peach-kimono-source-art-v1.png",
+    "width": 1024,
+    "height": 1536,
+    "sha256": "6CD628C2060FA2CF21FB298D653CFA4E1228C9598D3BC03D76F0D20EDAFE321B"
+  },
+  "prompt": "prompt-v1.txt",
+  "references": [
+    {
+      "role": "SOLE_IDENTITY_HAIR_COSTUME_PROPS",
+      "file": "C:/Users/User/AppData/Local/Temp/codex-clipboard-482d6eb5-14c9-4ac9-b45a-7db815059e86.png",
+      "sha256": "506A57AAA71D507891C378E18F2A11332F1B9B01A203479F00761DADDC8548D5"
+    },
+    {
+      "role": "PAINTING_STYLE_ONLY",
+      "file": "preview/avatar-hanbok-diim-v1/assets/avatar-hanbok-diim-lobby-source-art-v1.png",
+      "sha256": "2F8CA42C38EA3865BE2628E2455455EEE5B0EA828EF62EAAE7F534EEC0569BE0"
+    }
+  ],
+  "visualReview": {
+    "faceAndCostume": "첨부 사진의 얼굴 구조·청록색 앞머리와 긴 머리·꽃 장식·분홍 기모노·흰 꽃과 초승달 무늬·앞쪽 연두색 리본·복숭아 소품을 대조했다. 99%는 사용자 충실도 목표이며 수치 측정 결과가 아니다.",
+    "pose": "사진과 다른 서 있는 전신 자세. 과일 쟁반은 허리 높이, 복숭아는 어깨 높이로 배치.",
+    "hair": "뿌리부터 끝까지 자연스러운 연속 모발 흐름 확인",
+    "framing": "머리 장식·소매·발이 캔버스 안에 있으며 문구·프레임 없음",
+    "unseenLowerCostume": "사진에서 보이지 않는 하단은 같은 기모노 원단을 발목까지 연장하고 분홍 신발로 완성"
+  }
+}
