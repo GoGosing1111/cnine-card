@@ -14,3 +14,15 @@ PC/모바일 전체 1배속 재생·0.25/0.5/2배속·정지·탐색·취소·�
 - 관련 검사: `preview/mercenary-imperial-archer-sss-v1/qa.test.mjs` 4개(원화/무기 원본 픽셀, 프레임/아틀라스 해시·알파, 앞뒤 아우라 알파 보존, 취소/소멸/복귀).
 - 검수용 정적 리소스를 공개하는 배포다. 원화·SSS 확정과 SD/연출 최종 사용자 승인, 운영 용병 연결은 별도다.
 - 같은 빌드의 브라우저 검수와 무관한 전체 게이트를 반복하지 않는다. 배포 후 프리뷰·manifest·번들·영상 반영만 짧게 확인한다.
+
+## 배포 결과
+
+- 소스 커밋: `da75616529fab13458de79be0fce337982f35633`.
+- Pages: `71de4565` (`https://71de4565.cnine-card.pages.dev`). 지정 scoped 배포 정상 종료, 관련 검사 4개·출시 플래그·Hyperdrive PASS.
+- API runtime: `a53b954e-e2f2-455f-b1b0-df9decbfff6b`, clan worker: `388c0352-7e77-4d33-877c-f3091feb4011`. 두 실행 코드는 변경하지 않았으며 지정 배포 명령의 공통 단계로 재배포됐다.
+- [V3 검수 프리뷰](https://cnine-card.pages.dev/preview/mercenary-imperial-archer-sss-v1/index.html?revision=red-phoenix-20261014), [전체 시연 영상](https://cnine-card.pages.dev/preview/mercenary-imperial-archer-sss-v1/review.html).
+- 프리뷰·manifest·번들·최종 SD·붉은 아우라 아틀라스·영상 페이지 HTTP 200 및 로컬 해시 일치, PC/모바일 영상 `video/webm` HTTP 200.
+- 운영 프리뷰 실제 부팅 ready=true, 붉은 아우라 앞/뒤 alpha=1, 콘솔 오류 0, 운영 용병 연결 false 확인. 상세 영수증은 `imperial-archer-sss-v3-20261014-release.json`이다.
+- Windows 체크아웃 CRLF를 LF로 정규화한 배포 번들은 기존 브라우저 검수 SHA `b7df96181807582fc26a3ecb61267e1e3e79b96a31e6612aff1b2ca470eed57b`와 동일하다. Pixi/GSAP 각 한 사본과 원본/번들 일치는 `qa/bundle-report.json`으로 확인했다.
+- 생성 번들 내부의 기존 GPU 셰이더 문자열 공백은 수작업으로 변경하지 않았다. 이를 제외한 작업 소스·문서의 diff 공백 검사 PASS.
+- 이 배포 결과·영수증 추가는 기록만 변경하므로 범위 커밋·원격 반영으로 끝내며 게임 재배포하지 않는다. 최종 시각 승인은 사용자 검수 대기다.

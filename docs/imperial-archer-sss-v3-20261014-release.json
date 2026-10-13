@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-13T20:46:51.323Z",
+  "sourceCommit": "da75616529fab13458de79be0fce337982f35633",
+  "pages": "71de4565",
+  "apiRuntime": "a53b954e-e2f2-455f-b1b0-df9decbfff6b",
+  "clanRuntime": "388c0352-7e77-4d33-877c-f3091feb4011",
+  "scope": "STATIC_RESOURCE_REVIEW",
+  "rank": "SSS",
+  "runtimeEnabled": false,
+  "tests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "207faeb8e355a45c9c30e5ad0d5ff4184e862caff12d8692a6b3ade55e1dbb31",
+      "matchesLocal": true
+    },
+    {
+      "path": "manifest.json",
+      "status": 200,
+      "sha256": "35bd65c38f2db85edb730f3a35758eebc12134f65abde6c2fc1778fcdaf8e70b",
+      "matchesLocal": true
+    },
+    {
+      "path": "preview.bundle.js",
+      "status": 200,
+      "sha256": "51700e9d16fd228c2ce3790ef81cea6c8d62401d01021c49247fcda7551d7d17",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/battle-sprite.png",
+      "status": 200,
+      "sha256": "a29250efe5ca79e057c7e5c9724d9ade8f2446416586f495eadd09c8c660cfd8",
+      "matchesLocal": true
+    },
+    {
+      "path": "assets/atlases/fx-aura-rear.png",
+      "status": 200,
+      "sha256": "16d548d91dc9f337dcffc32a44bdceac8c185c46da75e10b27195d76ae99542e",
+      "matchesLocal": true
+    },
+    {
+      "path": "review.html",
+      "status": 200,
+      "sha256": "0e9ca4ec39db6b3a09a9a2c3bba8e70100f730d34e34b253557d9910df220efe",
+      "matchesLocal": true
+    },
+    {
+      "path": "qa/desktop-showcase.webm",
+      "status": 200,
+      "contentType": "video/webm"
+    },
+    {
+      "path": "qa/mobile-showcase.webm",
+      "status": 200,
+      "contentType": "video/webm"
+    }
+  ],
+  "testedBundleNormalizedSha256": "b7df96181807582fc26a3ecb61267e1e3e79b96a31e6612aff1b2ca470eed57b",
+  "productionBoot": {
+    "ready": true,
+    "mode": "aura",
+    "auraEnabled": true,
+    "auraAlpha": [
+      1,
+      1
+    ],
+    "runtimeEnabled": false,
+    "errors": []
+  }
+}
