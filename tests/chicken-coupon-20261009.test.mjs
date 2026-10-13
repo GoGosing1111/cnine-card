@@ -57,7 +57,7 @@ async function noRedemption(f){
 
 test('Baemin coupon metadata is wired to CMS and remains separate from message rewards',()=>{
  const spec=couponRewardSpec(' pingdu_baemin_ticket ');assert.equal(spec.max,CHICKEN_COUPON_MAX);assert.equal(spec.label,'핑두의 배민권');assert.equal(spec.inventory,true);
- assert.equal(verifiedMessageRewardSpec(CHICKEN_TICKET),null);assert.equal(couponRewardSpec('COIN').max,10000000000);
+ assert.equal(verifiedMessageRewardSpec(CHICKEN_TICKET),null);assert.equal(couponRewardSpec('COIN').max,30000000000);
  const meta=Function(cms.slice(cms.indexOf('const COUPON_REWARD_META='),cms.indexOf('function syncCouponRewardForm'))+';return COUPON_REWARD_META')();
  assert.equal(meta[CHICKEN_TICKET].max,spec.max);assert.equal(meta[CHICKEN_TICKET].label,spec.label);
  assert.doesNotMatch(read('admin/index.html'),/<option value="PINGDU_BAEMIN_TICKET">/);
