@@ -1,0 +1,577 @@
+{
+  "format": "ORIGINAL_IP_SHORT_NAMES_V2",
+  "updatedAt": "2026-10-13T09:03:04.160Z",
+  "userStatement": "앞에 칭호같은거 빼고 2~3글자 여태 안쓰던거, 일본어 쓰던 뭐던해서 다시 이름짜라",
+  "status": "NAMING_PROPOSAL_V2",
+  "namingPolicy": {
+    "noTitles": true,
+    "hangulSyllables": [
+      2,
+      3
+    ],
+    "sameIdentitySharesName": true,
+    "previousProvisionalNamesReplaced": true,
+    "sourceKeysAndFilesPreserved": true
+  },
+  "counts": {
+    "artEntries": 36,
+    "distinctIdentities": 34
+  },
+  "verification": {
+    "baseCommit": "dd0ed374efb4d523ef94c448070f25ff0b11d99d",
+    "scanned": [
+      {
+        "directory": "C:/Users/User/.codex/worktrees/mercenary-ivory-knight-idle/cnine-card",
+        "matchingNames": 0,
+        "search": "Current text files and preserved documentation/preview naming records; standalone Korean token match",
+        "excluded": "Git history and data not present in the workspace"
+      },
+      {
+        "directory": "C:/Users/User/Downloads/upload/cnine-card",
+        "matchingNames": 0,
+        "search": "Current text files and preserved documentation/preview naming records; standalone Korean token match",
+        "excluded": "Git history and data not present in the workspace"
+      }
+    ],
+    "allNamesShort": true,
+    "sourceAndSdNamesMatch": true,
+    "onlyEntryWorkingNamesChanged": true
+  },
+  "entries": [
+    {
+      "key": "hunt-004-solvein",
+      "scope": "HUNT",
+      "monsterIds": [
+        4
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "해군대장 키자루"
+      ],
+      "previousWorkingName": "광휘집정관 솔베인",
+      "name": "하르트",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-006-nervan",
+      "scope": "HUNT",
+      "monsterIds": [
+        6
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "해군대장 아오키지"
+      ],
+      "previousWorkingName": "서리제독 네르반",
+      "name": "시구레",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-007-kardo",
+      "scope": "HUNT",
+      "monsterIds": [
+        7
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "해군대장 아카이누"
+      ],
+      "previousWorkingName": "화산총독 카르도",
+      "name": "볼가",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-010-brekan",
+      "scope": "HUNT",
+      "monsterIds": [
+        10
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "흰수염"
+      ],
+      "previousWorkingName": "파도분쇄자 브레칸",
+      "name": "드로칸",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-011-morden",
+      "scope": "HUNT",
+      "monsterIds": [
+        11
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "검은수염"
+      ],
+      "previousWorkingName": "심해약탈자 모르덴",
+      "name": "두르겐",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-012-serk",
+      "scope": "HUNT",
+      "monsterIds": [
+        12
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "미호크"
+      ],
+      "previousWorkingName": "흑검재판관 세르크",
+      "name": "쿠라오",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-013-bareon",
+      "scope": "HUNT",
+      "monsterIds": [
+        13
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "샹크스"
+      ],
+      "previousWorkingName": "홍염항해왕 바레온",
+      "name": "자이렌",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-014-kirian",
+      "scope": "HUNT",
+      "monsterIds": [
+        14,
+        42
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "우치하 사스케"
+      ],
+      "previousWorkingName": "뇌흔검사 키르안",
+      "name": "시엔",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-015-seiran",
+      "scope": "HUNT",
+      "monsterIds": [
+        15,
+        43
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "우치하 이타치"
+      ],
+      "previousWorkingName": "적월감시자 세이란",
+      "name": "쿠온",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-016-hajin",
+      "scope": "HUNT",
+      "monsterIds": [
+        16,
+        44
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "젠이츠"
+      ],
+      "previousWorkingName": "벽뢰발도객 하진",
+      "name": "렌키",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-025-rokas",
+      "scope": "HUNT",
+      "monsterIds": [
+        25,
+        45
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "조로"
+      ],
+      "previousWorkingName": "폭풍쌍검사 로카스",
+      "name": "로스크",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-026-taeon",
+      "scope": "HUNT",
+      "monsterIds": [
+        26,
+        46
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "렌고쿠 코쥬로"
+      ],
+      "previousWorkingName": "잿불수문장 태온",
+      "name": "히오",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-029-saharin",
+      "scope": "HUNT",
+      "monsterIds": [
+        29,
+        47
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "쿄라쿠 슌스이"
+      ],
+      "previousWorkingName": "낙화심판관 사하린",
+      "name": "츠쿠오",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-030-seiran-shadow",
+      "scope": "HUNT",
+      "monsterIds": [
+        30,
+        48
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "이타치 암부"
+      ],
+      "previousWorkingName": "월영집행자 세이란",
+      "name": "쿠온",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-031-yuren",
+      "scope": "HUNT",
+      "monsterIds": [
+        31,
+        49
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "셋쇼마루"
+      ],
+      "previousWorkingName": "백야귀족 유르엔",
+      "name": "라우엔",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-032-torian",
+      "scope": "HUNT",
+      "monsterIds": [
+        32,
+        50
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "태양신 루피"
+      ],
+      "previousWorkingName": "천둥유희자 토리안",
+      "name": "루코",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-061-aurek",
+      "scope": "HUNT",
+      "monsterIds": [
+        61
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "길가메시"
+      ],
+      "previousWorkingName": "금고군주 아우레크",
+      "name": "오르딘",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-062-veiron",
+      "scope": "HUNT",
+      "monsterIds": [
+        62
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "우치하 오비토"
+      ],
+      "previousWorkingName": "허공술사 베이론",
+      "name": "요겐",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-063-raskan",
+      "scope": "HUNT",
+      "monsterIds": [
+        63
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "에스카노르"
+      ],
+      "previousWorkingName": "한낮의 거인 라스칸",
+      "name": "도르크",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-070-gradan",
+      "scope": "HUNT",
+      "monsterIds": [
+        70
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "골 D. 로저"
+      ],
+      "previousWorkingName": "해왕선장 그라단",
+      "name": "드라오",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-071-eltu",
+      "scope": "HUNT",
+      "monsterIds": [
+        71
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "에드워드 엘릭"
+      ],
+      "previousWorkingName": "기공연성사 엘투",
+      "name": "에논",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-072-yujin",
+      "scope": "HUNT",
+      "monsterIds": [
+        72
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "히무라 켄신"
+      ],
+      "previousWorkingName": "월하검객 유진",
+      "name": "나기",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-073-danro",
+      "scope": "HUNT",
+      "monsterIds": [
+        73
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "마이트 가이"
+      ],
+      "previousWorkingName": "적맥투왕 단로",
+      "name": "간테",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-074-rohen",
+      "scope": "HUNT",
+      "monsterIds": [
+        74
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "센쥬 하시라마"
+      ],
+      "previousWorkingName": "수림대장 로헨",
+      "name": "류젠",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-075-voldren",
+      "scope": "HUNT",
+      "monsterIds": [
+        75
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "아카드"
+      ],
+      "previousWorkingName": "혈야공작 볼드렌",
+      "name": "자브릭",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-076-nerik",
+      "scope": "HUNT",
+      "monsterIds": [
+        76
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "카네키 켄"
+      ],
+      "previousWorkingName": "심연포식자 네리크",
+      "name": "야즈",
+      "syllables": 2
+    },
+    {
+      "key": "hunt-077-bareon-sovereign",
+      "scope": "HUNT",
+      "monsterIds": [
+        77
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "샹크스"
+      ],
+      "previousWorkingName": "홍염항해왕 바레온 · 군림",
+      "name": "자이렌",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-078-siluen",
+      "scope": "HUNT",
+      "monsterIds": [
+        78
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "우치하 시스이"
+      ],
+      "previousWorkingName": "청영환술사 실루엔",
+      "name": "아즈마",
+      "syllables": 3
+    },
+    {
+      "key": "hunt-079-kaon",
+      "scope": "HUNT",
+      "monsterIds": [
+        79
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "아카자"
+      ],
+      "previousWorkingName": "쇄염권사 카온",
+      "name": "텐마",
+      "syllables": 2
+    },
+    {
+      "key": "raid-002-ravok",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": 2,
+      "raidCode": null,
+      "previousNames": [
+        "족사이언"
+      ],
+      "previousWorkingName": "혈성투왕 라보크",
+      "name": "가르온",
+      "syllables": 3
+    },
+    {
+      "key": "raid-004-orthen",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": 4,
+      "raidCode": null,
+      "previousNames": [
+        "나가토"
+      ],
+      "previousWorkingName": "중력사제 오르텐",
+      "name": "오르제",
+      "syllables": 3
+    },
+    {
+      "key": "raid-006-haeryun",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": 6,
+      "raidCode": null,
+      "previousNames": [
+        "요리이치"
+      ],
+      "previousWorkingName": "천화검성 해륜",
+      "name": "렌조",
+      "syllables": 2
+    },
+    {
+      "key": "raid-008-noaren",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": 8,
+      "raidCode": null,
+      "previousNames": [
+        "이치고"
+      ],
+      "previousWorkingName": "공허검주 노아렌",
+      "name": "제노",
+      "syllables": 2
+    },
+    {
+      "key": "raid-madara-vaelun",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": null,
+      "raidCode": "MADARA",
+      "previousNames": [
+        "마다라"
+      ],
+      "previousWorkingName": "재앙군주 바엘룬",
+      "name": "바르센",
+      "syllables": 3
+    },
+    {
+      "key": "raid-lich-nivar",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": null,
+      "raidCode": "LICH_KING",
+      "previousNames": [
+        "리치왕"
+      ],
+      "previousWorkingName": "빙혼군주 니바르",
+      "name": "이스겐",
+      "syllables": 3
+    },
+    {
+      "key": "raid-core-astel",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": null,
+      "raidCode": "CORE_PROTOCOL",
+      "previousNames": [
+        "유하바하"
+      ],
+      "previousWorkingName": "청뢰황 아스텔",
+      "name": "세드릭",
+      "syllables": 3
+    }
+  ]
+}
