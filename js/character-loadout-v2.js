@@ -14,8 +14,8 @@
   const RARITY_ORDER = ['MYTHIC', 'LEGENDARY', 'EPIC', 'RARE', 'MAGIC', 'NORMAL'];
   const RARITY_LABELS = { NORMAL: '일반', MAGIC: '고급', RARE: '희귀', EPIC: '영웅', LEGENDARY: '전설', MYTHIC: '신화' };
   const TAB_LABELS = { equipment: '장비', title: '칭호', garage: '이동수단', skillChips: '스킬칩' };
-  const TITLE_STYLE_LABELS = { DEFAULT: '기본', FOREST: '숲', FLAME: '화염', FROST: '서리', STORM: '폭풍', SHADOW: '그림자', GOLD: '황금', RAINBOW: '무지개', VOID: '심연', CRIMSON: '진홍', CHALLENGER: '챌린저', COMPLETIONIST: '도감의 정점', TROPHY_HUNTER: '승리의 증명', GAMBLING_KING: '천 번의 적중', ASURA_BALBALTA: '만 번의 적중', SUPPORTER_VIP: '운영에 도움을 주신', BLUE_BEAST: '챌린저 누적 10회 달성', BUS_DRIVER: '행정부 정직원', SECRET_POLICE: '핑두의 비밀경찰', ADMINISTRATION: '헌신의 증표' };
-  const UNLOCK_LABELS = { MANUAL: '운영 지급', COLLECTION_COUNT: '도감 달성', GRADE_COUNT: '등급 도감', MEMBER_COMPLETE: '멤버 도감', CARD_SET: '카드 세트', CONTENT_CLEAR: '콘텐츠 클리어', COLLECTION_MASTERY: '카드 도감 100% · 대상 차량 90% 이상 (신규 4종 제외)', TROPHY_KINDS: '서로 다른 트로피 4종', PREDICTION_HITS: '승부예측 누적 적중 1,000회', CHALLENGER_TOTAL: '챌린저 누적 10회 달성' };
+  const TITLE_STYLE_LABELS = { DEFAULT: '기본', FOREST: '숲', FLAME: '화염', FROST: '서리', STORM: '폭풍', SHADOW: '그림자', GOLD: '황금', RAINBOW: '무지개', VOID: '심연', CRIMSON: '진홍', CHALLENGER: '챌린저', COMPLETIONIST: '도감의 정점', TROPHY_HUNTER: '승리의 증명', GAMBLING_KING: '천 번의 적중', ASURA_BALBALTA: '만 번의 적중', SUPPORTER_VIP: '운영에 도움을 주신', BLUE_BEAST: '챌린저 누적 10회 달성', BUS_DRIVER: '행정부 정직원', SECRET_POLICE: '핑두의 비밀경찰', ADMINISTRATION: '헌신의 증표', FLAG_BRIGADE: '끝까지 깃발을 지켜낸 자' };
+  const UNLOCK_LABELS = { MANUAL: '운영 지급', COLLECTION_COUNT: '도감 달성', GRADE_COUNT: '등급 도감', MEMBER_COMPLETE: '멤버 도감', CARD_SET: '카드 세트', CONTENT_CLEAR: '콘텐츠 클리어', COLLECTION_MASTERY: '카드 도감 100% · 대상 차량 90% 이상 (신규 4종 제외)', TROPHY_KINDS: '서로 다른 트로피 4종', PREDICTION_HITS: '승부예측 누적 적중 1,000회', CHALLENGER_TOTAL: '챌린저 누적 10회 달성', TERRITORY_VICTORIES: '영토전 30승 · 개인 교전 8,000승' };
 
   const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
   const formatNumber = (value) => Number(value || 0).toLocaleString('ko-KR');
@@ -254,7 +254,7 @@
 
     function titleBadge(row) {
       const style = String(row?.stylePreset || 'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g, '');
-      const appearance = ['completionist','trophy_hunter','gambling_king','asura_balbalta','challenger','supporter_vip','blue_beast','bus_driver','secret_police','administration'].includes(style) ? 'public-title-badge title-style-' + style : titleStyleClass(row?.stylePreset);
+      const appearance = ['completionist','trophy_hunter','gambling_king','asura_balbalta','challenger','supporter_vip','blue_beast','bus_driver','secret_police','administration','flag_brigade'].includes(style) ? 'public-title-badge title-style-' + style : titleStyleClass(row?.stylePreset);
       return '<span class="' + appearance + ' ' + titleFontClass(row?.fontPreset) + '">[' + escapeHtml(row?.badgeText || row?.name || '칭호 없음') + ']</span>';
     }
 
@@ -263,6 +263,13 @@
     function titleProgress(row) {
       const progress = state.titleProgress[row.code];
       if (row.owned || !progress) return '';
+      if (row.unlockType === 'TERRITORY_VICTORIES') {
+        const items=[['영토전 승리',progress.roundWins,progress.roundGoal],['개인 교전 승리',progress.battleWins,progress.battleGoal]];
+        return '<div class="clv2-title-progress clv2-title-progress-territory">'+items.map(([label,value,goal])=>{
+          const current=Math.max(0,Number(value)||0),target=Math.max(1,Number(goal)||1),percent=Math.min(100,current/target*100);
+          return '<span>'+label+' <b>'+formatNumber(current)+' / '+formatNumber(target)+'승</b></span><div class="clv2-title-progress-track" role="progressbar" aria-label="'+label+'" aria-valuemin="0" aria-valuemax="'+target+'" aria-valuenow="'+Math.min(current,target)+'"><i style="width:'+percent+'%"></i></div>';
+        }).join('')+'<small>두 조건 모두 달성 시 획득 · 개인 교전은 공격·방어 승리 합산</small></div>';
+      }
       if (row.unlockType === 'CHALLENGER_TOTAL') return '<div class="clv2-title-progress"><span>챌린저 누적 <b>' + formatNumber(progress.owned) + ' / ' + formatNumber(progress.goal) + '회</b></span><div class="clv2-title-progress-track" role="progressbar" aria-label="챌린저 누적 달성 횟수" aria-valuemin="0" aria-valuemax="' + Number(progress.goal) + '" aria-valuenow="' + Math.min(Number(progress.owned),Number(progress.goal)) + '"><i style="width:' + Math.min(100,Math.max(0,Number(progress.owned)/Number(progress.goal)*100)) + '%"></i></div></div>';
       if (row.unlockType === 'COLLECTION_MASTERY') return '<div class="clv2-title-progress"><span>카드 <b>' + formatNumber(progress.cards.owned) + ' / ' + formatNumber(progress.cards.total) + '</b></span><span>대상 차량 <b>' + formatNumber(progress.vehicles.owned) + ' / ' + formatNumber(Math.ceil(progress.vehicles.total * .9)) + '</b></span></div>';
       if (row.unlockType === 'PREDICTION_HITS') return '<div class="clv2-title-progress"><span>누적 적중 <b>' + formatNumber(progress.owned) + ' / ' + formatNumber(progress.goal) + '회</b></span><div class="clv2-title-progress-track" role="progressbar" aria-label="승부예측 적중 횟수" aria-valuemin="0" aria-valuemax="' + Number(progress.goal) + '" aria-valuenow="' + Math.min(Number(progress.owned),Number(progress.goal)) + '"><i style="width:' + Math.min(100,Math.max(0,Number(progress.owned)/Number(progress.goal)*100)) + '%"></i></div></div>';
@@ -272,6 +279,7 @@
 
     function titleRequirement(row) {
       const cfg = row.unlockConfig || {};
+      if (row.unlockType === 'TERRITORY_VICTORIES') return `영토전 ${formatNumber(cfg.roundWins || 30)}승 + 영토전 내 개인 교전 ${formatNumber(cfg.battleWins || 8000)}승 모두 달성`;
       if (row.unlockType === 'CHALLENGER_TOTAL') return `챌린저 누적 ${formatNumber(cfg.count || 10)}회 달성`;
       if (row.unlockType === 'PREDICTION_HITS') return `승부예측 누적 적중 ${formatNumber(cfg.count || 1000)}회`;
       if (row.unlockType === 'COLLECTION_COUNT') return `도감 ${formatNumber(cfg.count || 1)}장`;

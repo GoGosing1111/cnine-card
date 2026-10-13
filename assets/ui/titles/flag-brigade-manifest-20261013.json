@@ -1,0 +1,19 @@
+{
+  "skill": "imagegen",
+  "mode": "built-in generate",
+  "createdAt": "2026-10-13",
+  "prompt": "Use case: stylized-concept. Asset: production achievement title insignia for the Korean RPG Soopketmon, the elite territorial-war title named 깃발부대 (Flag Brigade). Generate ONE exceptionally polished compact military heraldic emblem, with no words because the Korean title will be typeset live beside it. A strong pair of crossed spear-tipped battle standards: rich sapphire blue fabric to the left, deep crimson fabric to the right, both visibly sculpted folded cloth with fine silver piping. A prominent central vertical spear and a small angular platinum shield, inset midnight graphite and a precise warm pale-gold victory diamond, communicate a battle-hardened standard-bearing brigade. Strong symmetrical silhouette, flags raised with controlled outward flowing fabric, tiny battle nicks but pristine prestigious craftsmanship. Layered brushed gunmetal, carved silver metal and restrained champagne-gold edges; convincing hand-painted high-end Korean game item illustration, sharp authored edge control, tasteful local highlights, excellent readability as a small badge. Front facing with shallow material depth, large emblem fills a square composition with an even safe margin, all spear tips and cloth included. Actual transparent background, fully opaque detailed insignia. No background, no fog, no huge aura, no detached sparks, no text, no initials, no numbers, no watermark, no crown, no skull, no guns. It must feel like an earned veteran war honour, not a generic flat icon or a shiny toy.",
+  "source": "flag-brigade-source-20261013.png",
+  "derivatives": [
+    {
+      "file": "flag-brigade-v1.webp",
+      "size": 512
+    },
+    {
+      "file": "flag-brigade-badge-v1.webp",
+      "size": 128
+    }
+  ],
+  "processing": "Resize/WebP conversion only; generated alpha preserved.",
+  "sourceSha256": "c2e9e5da02569e24dbfadc629f5faf6a788d195fd8540373cb438b505e330ec2"
+}

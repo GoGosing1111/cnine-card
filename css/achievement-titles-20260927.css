@@ -44,7 +44,7 @@
   --achievement-light:#8f6330;--achievement-glow:239,179,71;
   --achievement-logo:url('../assets/ui/titles/trophy-hunter-v1.webp');
 }
-:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-asura_balbalta,.title-style-supporter_vip,.title-style-blue_beast,.title-style-secret_police,.title-style-administration) {
+:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-asura_balbalta,.title-style-supporter_vip,.title-style-blue_beast,.title-style-secret_police,.title-style-administration,.title-style-flag_brigade) {
   position:relative;display:inline-flex;align-items:center;vertical-align:middle;
   width:fit-content;max-width:100%;white-space:nowrap;box-sizing:border-box;
   padding:.4em .7em .4em 2.2em!important;line-height:1.15!important;
@@ -55,44 +55,44 @@
   font-weight:900;letter-spacing:.025em;text-shadow:0 1px 2px #000!important;
   animation:none!important;overflow:visible!important;
 }
-:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-asura_balbalta,.title-style-supporter_vip,.title-style-blue_beast,.title-style-secret_police,.title-style-administration)::before {
+:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-asura_balbalta,.title-style-supporter_vip,.title-style-blue_beast,.title-style-secret_police,.title-style-administration,.title-style-flag_brigade)::before {
   content:"";position:absolute;left:.22em;top:50%;width:1.8em;height:1.8em;
   transform:translateY(-50%);background:var(--achievement-logo) center/contain no-repeat;
   pointer-events:none;filter:drop-shadow(0 1px 2px #0009);
 }
-:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-asura_balbalta,.title-style-supporter_vip,.title-style-blue_beast,.title-style-secret_police,.title-style-administration)::after { content:none!important; }
+:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-asura_balbalta,.title-style-supporter_vip,.title-style-blue_beast,.title-style-secret_police,.title-style-administration,.title-style-flag_brigade)::after { content:none!important; }
 .clv2-title-sigil.has-emblem {
   width:clamp(150px,18vw,240px);border:0;transform:none;background:none;box-shadow:none;
 }
 .clv2-title-sigil.has-emblem img { display:block;width:100%;height:auto;object-fit:contain; }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration) {
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration,.is-title-flag_brigade) {
   border-color:var(--achievement-line);
   background:radial-gradient(ellipse at 50% 35%,rgba(var(--achievement-glow),.19),transparent 58%),linear-gradient(165deg,#17121e,#0a0b11 75%);
 }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration)::before,
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration)::after { content:none; }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration) > p { margin-top:26px;color:var(--achievement-ink); }
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration,.is-title-flag_brigade)::before,
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration,.is-title-flag_brigade)::after { content:none; }
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration,.is-title-flag_brigade) > p { margin-top:26px;color:var(--achievement-ink); }
 .clv2-title-showcase h2 .public-title-badge { font-size:clamp(22px,2.3vw,36px); }
-.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration) > strong { font-size:12px;color:var(--achievement-ink);letter-spacing:.14em; }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration) {
+.clv2-title-showcase:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration,.is-title-flag_brigade) > strong { font-size:12px;color:var(--achievement-ink);letter-spacing:.14em; }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration,.is-title-flag_brigade) {
   align-items:center;text-align:center;min-height:300px;border-color:var(--achievement-line);
   background:radial-gradient(ellipse at 50% 0,rgba(var(--achievement-glow),.13),transparent 75%),#0e1019;
 }
 .clv2-title-emblem { display:block;object-fit:contain;width:88px;height:88px;margin:8px 0; }
 .clv2-title-card .public-title-badge { font-size:15px; }
 .clv2-title-card > strong { max-width:100%; }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration) > span { color:var(--achievement-ink); }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration) button { width:100%;margin-top:auto; }
-.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration) em { margin-bottom:14px; }
-.clv2-title-card.is-locked:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration) { opacity:1;filter:none;border-color:#454051; }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration,.is-title-flag_brigade) > span { color:var(--achievement-ink); }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration,.is-title-flag_brigade) button { width:100%;margin-top:auto; }
+.clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration,.is-title-flag_brigade) em { margin-bottom:14px; }
+.clv2-title-card.is-locked:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration,.is-title-flag_brigade) { opacity:1;filter:none;border-color:#454051; }
 .clv2-title-card.is-locked .clv2-title-emblem { opacity:.55;filter:grayscale(.7); }
 .clv2-title-progress { display:grid;gap:5px;width:100%;margin:12px 0;font-size:11px;color:#a4a1b0; }
 .clv2-title-progress span { display:flex;justify-content:space-between;gap:8px; }
 .clv2-title-progress b { color:var(--achievement-ink);font-variant-numeric:tabular-nums; }
-.pc-equipped-title:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-asura_balbalta,.title-style-supporter_vip,.title-style-blue_beast,.title-style-secret_police,.title-style-administration) { font-size:13px; }
+.pc-equipped-title:is(.title-style-completionist,.title-style-trophy_hunter,.title-style-gambling_king,.title-style-asura_balbalta,.title-style-supporter_vip,.title-style-blue_beast,.title-style-secret_police,.title-style-administration,.title-style-flag_brigade) { font-size:13px; }
 @media(max-width:640px) {
   .clv2-title-sigil.has-emblem { width:170px; }
-  .clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration) { padding:18px 12px; }
+  .clv2-title-card:is(.is-title-completionist,.is-title-trophy_hunter,.is-title-gambling_king,.is-title-asura_balbalta,.is-title-supporter_vip,.is-title-blue_beast,.is-title-secret_police,.is-title-administration,.is-title-flag_brigade) { padding:18px 12px; }
   .clv2-title-card .public-title-badge { font-size:13px; }
   .clv2-title-showcase h2 .public-title-badge { font-size:25px; }
 }
@@ -205,7 +205,7 @@
 }
 .title-style-administration::before { width:2.2em;height:2.2em;left:.12em; }
 /* The CMS's 96px generic thumbnail column clips the complete metal badge. */
-.title-form-preview-card:has(>.title-style-administration) { grid-template-columns:max-content minmax(0,1fr); }
+.title-form-preview-card:has(>.title-style-administration,.title-style-flag_brigade) { grid-template-columns:max-content minmax(0,1fr); }
 .clv2-title-showcase.is-title-administration {
   border-color:#798b9f;
   background:linear-gradient(130deg,#758ba518,transparent 42%),
@@ -232,7 +232,33 @@
 .clv2-title-card.is-locked.is-title-administration .clv2-title-emblem { opacity:.7;filter:grayscale(.4); }
 .clv2-title-card.is-title-administration button:disabled { color:#a9bdd0;opacity:.8; }
 @media(max-width:640px) {
-  .title-form-preview-card:has(>.title-style-administration) { grid-template-columns:1fr; }
+  .title-form-preview-card:has(>.title-style-administration,.title-style-flag_brigade) { grid-template-columns:1fr; }
   .clv2-title-showcase.is-title-administration .clv2-title-sigil.has-emblem { width:220px;max-width:100%; }
   .clv2-title-showcase.is-title-administration>span { max-width:100%;text-wrap:balance; }
 }
+
+/* Flag Brigade: crossed standards, silver trim and the established lobby type. */
+.title-style-flag_brigade,.is-title-flag_brigade {
+  --achievement-ink:#f0e5d0;--achievement-line:#a79980;--achievement-dark:#111828;
+  --achievement-light:#314b76;--achievement-glow:114,154,215;
+  --achievement-logo:url('../assets/ui/titles/flag-brigade-badge-v1.webp');
+  font-family:'Noto Sans KR',sans-serif;
+}
+.title-style-flag_brigade {padding-left:2.55em!important;border-radius:3px 8px 3px 8px;background:linear-gradient(105deg,#173053,#111828 48%,#40202b)!important;}
+.title-style-flag_brigade::before {width:2.15em;height:2.15em;left:.17em;}
+.clv2-title-showcase.is-title-flag_brigade {background:radial-gradient(ellipse at 15% 30%,#23477b55,transparent 60%),radial-gradient(ellipse at 85% 30%,#8d293d40,transparent 60%),#080c17;}
+.clv2-title-showcase.is-title-flag_brigade .clv2-title-sigil.has-emblem {width:clamp(200px,24vw,290px);max-width:100%;}
+.clv2-title-showcase.is-title-flag_brigade>p {letter-spacing:.08em;color:#b8c8e0;}
+.clv2-title-showcase.is-title-flag_brigade>span {max-width:29ch;line-height:1.9;word-break:keep-all;color:#d3dbea;}
+.clv2-title-showcase.is-title-flag_brigade>strong {color:#c8ff6b;letter-spacing:0;}
+.clv2-title-card.is-title-flag_brigade {background:linear-gradient(135deg,#15243c,#111828 55%,#2d1c29);}
+.is-title-flag_brigade .clv2-title-emblem {width:128px;height:128px;filter:drop-shadow(0 7px 9px #0008);}
+.clv2-title-card.is-title-flag_brigade>small {line-height:1.8;word-break:keep-all;}
+.clv2-title-card.is-title-flag_brigade>em {color:#c8ff6b;}
+.clv2-title-card.is-title-flag_brigade button,.clv2-title-showcase.is-title-flag_brigade>button {background:#182b30;border-color:#748c67;color:#dcf7c4;}
+.clv2-title-card.is-locked.is-title-flag_brigade {border-color:#64708a;}
+.clv2-title-progress-territory {width:100%;text-align:left;gap:7px!important;padding:12px;border:1px solid #28324a;border-radius:6px;background:#080c1799;}
+.clv2-title-progress-territory>span {color:#c6d1e2;font-size:11px;}
+.clv2-title-progress-territory b {font-family:'Barlow Condensed','Noto Sans KR',sans-serif;font-size:15px;color:#f3f5ff;letter-spacing:0;}
+.clv2-title-progress-territory>.clv2-title-progress-track:nth-of-type(2) i {background:linear-gradient(90deg,#aa5363,#ead4b0);}
+.clv2-title-progress-territory>small {font-size:10px;color:#8b97b0;line-height:1.65;word-break:keep-all;}
