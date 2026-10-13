@@ -1,0 +1,21 @@
+{
+  "verifiedAt": "2026-10-13T03:02:34.406Z",
+  "status": "COMPLETED",
+  "mode": "OFF",
+  "enabled": false,
+  "revision": 35,
+  "epoch": 82957,
+  "completedAt": "2026-10-13T03:00:58.111Z",
+  "savedAt": "2026-10-13 03:01:00",
+  "messages": 9,
+  "attachments": 9,
+  "totalCoin": 4100000000000,
+  "totalItems": 0,
+  "claimedByUsers": 6,
+  "claimedByAutomation": 0,
+  "settlementCursor": 82958,
+  "cleanupCursor": 82958,
+  "audits": 1,
+  "otherSettingsPreserved": true,
+  "readOnly": true
+}
