@@ -1,0 +1,39 @@
+{
+  "verifiedAt": "2026-10-13T04:23:08.855Z",
+  "base": "https://cnine-card.pages.dev",
+  "releaseCommit": "ccf46f182a1bd8a5ab7810c14e4417cc9d2f60b0",
+  "deploymentUrl": "https://ef485180.cnine-card.pages.dev",
+  "manifestEntries": 36,
+  "allManifestHashesMatch": true,
+  "pageStatus": 200,
+  "assetChecks": [
+    {
+      "key": "hunt-014-kirian",
+      "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-014-kirian-sd-v2.png",
+      "sha256": "4647841DACEB59FC5E84717CF6D0AE66502C7BEEA384454933932466B13B723E",
+      "bytes": 1259025,
+      "status": 200
+    },
+    {
+      "key": "hunt-076-nerik",
+      "path": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-076-nerik-sd-v2.png",
+      "sha256": "46B04FD34CDD54E39485CF007D3DCB2A32DFC0C4F172737DF84B6F5C5936DFFC",
+      "bytes": 1317954,
+      "status": 200
+    },
+    {
+      "key": "raid-lich-nivar",
+      "path": "preview/monster-original-ip-sd-20261013-v1/assets/raid-lich-nivar-sd-v1.png",
+      "sha256": "74BE537DAE85C7D522676782D2C6CB1F0DFC25CD4328B125A3649EA640F8654E",
+      "bytes": 1607965,
+      "status": 200
+    },
+    {
+      "key": "raid-core-astel",
+      "path": "preview/monster-original-ip-sd-20261013-v1/assets/raid-core-astel-sd-v1.png",
+      "sha256": "84FDE8D5DD59224D7A3D3960FFA1E25908E0E4F19D9D454F2442F5DEEBEEBA65",
+      "bytes": 1383455,
+      "status": 200
+    }
+  ]
+}

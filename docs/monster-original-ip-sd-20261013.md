@@ -26,3 +26,7 @@
 검수 페이지: `/preview/monster-original-ip-sd-20261013-v1/`.
 
 `npm run deploy:production -- --assets-only`를 사용한다. 배포 직전 production Source를 조회해 `ASSET_DEPLOY_BASE`로 지정한다. 공개 후 manifest 36종, 선택 V2/레이드 자산 해시와 페이지 응답만 확인한다. 게임 전투 자산을 활성화하는 배포가 아니다.
+
+2026-10-13 자산 커밋 `ccf46f182a1bd8a5ab7810c14e4417cc9d2f60b0`을 `origin/main`에 반영하고 지정 자산 배포를 완료했다. 직전 운영 기준은 `277ae017ba87cc808d5cffc1b802c9cef43e6e01`, 배포 주소는 `https://ef485180.cnine-card.pages.dev`다. Hyperdrive 캐시 OFF 검사를 통과했다.
+
+운영 주소의 페이지 200 응답, 36종 전체 manifest 해시 일치, 키르안·네리크 V2와 니바르·아스텔 PNG의 실제 바이트 해시 일치를 확인했다. `qa/deployment.json`에 기록했다. PC 1440×1050, 모바일 390×844에서 가로 넘침 없이 비교·분류·검색·확대·크기·좌우 보기 동작을 확인했고 콘솔 오류는 없었다. 이후 검수 기록만 저장하는 커밋은 재배포하지 않는다.
