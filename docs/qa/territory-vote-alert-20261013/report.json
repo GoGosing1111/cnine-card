@@ -1,0 +1,36 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "allyOnly": true,
+      "activeCardAndMenu": true,
+      "countUpdates": true,
+      "noticeReused": true,
+      "ctaOpensSkills": true,
+      "voteCalls": 1,
+      "ownVoteRemainsHighlighted": true,
+      "cooldownClears": true,
+      "newBallotNotifies": true,
+      "frontScoped": true,
+      "noRepeatOnReentry": true,
+      "reducedMotion": true,
+      "pageErrors": []
+    },
+    {
+      "width": 390,
+      "allyOnly": true,
+      "activeCardAndMenu": true,
+      "countUpdates": true,
+      "noticeReused": true,
+      "ctaOpensSkills": true,
+      "voteCalls": 1,
+      "ownVoteRemainsHighlighted": true,
+      "cooldownClears": true,
+      "newBallotNotifies": true,
+      "frontScoped": true,
+      "noRepeatOnReentry": true,
+      "reducedMotion": true,
+      "pageErrors": []
+    }
+  ]
+}

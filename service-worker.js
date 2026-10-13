@@ -4,7 +4,7 @@
 // Z-BODY dash V2: approved 245 ms contact, 640 ms motion and authored wake/cut FX.
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
-const SHELL_CACHE='soop-card-shell-v20261013-gusudaeng-balance';
+const SHELL_CACHE='soop-card-shell-v20261013-territory-vote-alert';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -12,6 +12,8 @@ const APP_SHELL_URL='/index.html';
 const FRESH_BATTLE_SCRIPTS=new Set(['/js/app.js','/js/battle-v3-live.js','/preview/project-v-v3/project-v-pixi-battle.bundle.js','/pve-v3/battle.bundle.js','/preview/sustained-hunt-v2/battle.bundle.js','/preview/sustained-hunt-v2/app.js','/js/legion-hunt-entry-v1.mjs']);
 const FRESH_ACCOUNT_SCRIPTS=new Set(['/js/character-loadout-v2.js','/js/character-loadout-v2-live.js','/js/equipment-thumbnails-v1.js','/js/adventure-lobby-v2107.js','/js/adventure-navigation-standalone.js','/js/soopketmon-v21-exact-shell-adapter.js','/js/player-card-v2052.js','/js/account-rank-v1.mjs','/js/joint-account-transport.mjs','/js/soopketmon-v21-runtime-router.js','/js/clan-v1.js','/js/clan-faction-v1.mjs']);
 FRESH_ACCOUNT_SCRIPTS.add('/js/server-support-v1.mjs');
+FRESH_ACCOUNT_SCRIPTS.add('/js/territory-vote-alert-v1.js');
+FRESH_ACCOUNT_SCRIPTS.add('/js/territory-war-v1811.js');
 FRESH_ACCOUNT_SCRIPTS.add('/js/mercenary-deck-slot.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/mercenary-codex/equipment/app.mjs');
 for(const path of ['/equipment-forge/app.mjs','/shared/equipment-forge-policy-v1.mjs','/shared/equipment-forge-resources-v1.mjs','/shared/equipment-forge-advanced-v1.mjs','/admin/equipment-forge-admin-v1.js','/admin/equipment-forge-advanced-editor-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
