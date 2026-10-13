@@ -2,7 +2,7 @@ import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {buildFighter,simulateBattleV2Preview,createPveBattleV2} from '../functions/_battle_v2_preview.js';
-import {ICON_ROLES,iconRoleSnapshot} from '../shared/icon-roles-v1.mjs';
+import {ICON_ROLES,iconRoleSnapshot,validateIconRoles} from '../shared/icon-roles-v1.mjs';
 import {skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
 import {SKILL_CHIP_CLOCK} from '../shared/battle-suit-skill-chips.mjs';
 import {BattleSuitSkillChipPlayback} from '../preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js';
@@ -12,6 +12,8 @@ after(()=>gsap.ticker.sleep());
 
 const fixture=JSON.parse(fs.readFileSync(new URL('./helpers/icon-apocalypse-20261006.json',import.meta.url)));
 const live=JSON.parse(fs.readFileSync(new URL('./helpers/icon-cadence-roles-20261006.json',import.meta.url)));
+// Apply the production read adapter to this historical seven-card fixture.
+live.document=validateIconRoles(live.document,{allowLegacy:true});
 export function iconActor(def,slot,side,{mode='PVP',gear=500000}={}){
  const card={id:def.cardId,title:def.name,grade:'ICON',power:180000,equipmentShare:gear,effectivePower:180000+gear};
  card.iconRole={...iconRoleSnapshot(card,live.document,mode,live.revision),supremacy:fixture.iconArgs.cards[2].iconRole.supremacy};
@@ -20,7 +22,7 @@ export function iconActor(def,slot,side,{mode='PVP',gear=500000}={}){
 const actions=(result,id)=>result.timeline.filter(e=>e.actorId===id&&(['TURN','ICON_SKILL'].includes(e.type)||e.type==='ICON_STATUS'&&e.status==='CHANNEL'));
 function durable(actor){actor.hp=actor.maxHp=1e12;actor.attack=1;actor.defense=1e12;actor.shield=actor.maxShield=0;return actor;}
 
-test('all seven ICONs receive proportional turns on both sides below the old speed threshold',()=>{
+test('all registered ICONs receive proportional turns on both sides below the old speed threshold',()=>{
  for(const def of ICON_ROLES)for(const gear of [100000,500000]){
   const ally=ICON_ROLES.find(d=>d.cardId!==def.cardId&&d.role!=='ASSAULT');
   const team=side=>[iconActor(def,0,side,{gear}),iconActor(ally,1,side,{gear}),...Array.from({length:3},(_,i)=>buildFighter({id:'neutral-'+i,grade:'ZENITH',power:180000+gear},i+2,side))].map(durable);
@@ -37,7 +39,7 @@ test('all seven ICONs receive proportional turns on both sides below the old spe
  }
 });
 
-test('one magic-seal charge blocks one eligible ICON skill, then all seven roles recover without equipped magic',()=>{
+test('one magic-seal charge blocks one eligible ICON skill, then all registered roles recover without equipped magic',()=>{
  for(const def of ICON_ROLES){
   const a=iconActor(def,0,'A',{gear:1000000}),b=durable(buildFighter({id:'sealed-training-target',power:1000000},0,'B'));
   a.hp=Math.round(a.maxHp*.1);a.speed=1e6;b.speed=1;a.magicSealCharges=1;a.magicSealSourceId=b.id;
