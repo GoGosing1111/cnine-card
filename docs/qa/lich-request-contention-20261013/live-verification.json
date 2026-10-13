@@ -1,0 +1,50 @@
+{
+  "checkedAt": "2026-10-13T11:26:48.974Z",
+  "commit": "8182693c82d35d545880f9c219abe79236c46b19",
+  "origin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "d641b77b78feb4e080eb016e69b3240d16d6a74f00bebae99951cdcc1a2da8cd"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "2edd63918efdec984c34b9105aab9d860ccea86d56485f64cd3f46b0a5757ed8"
+    },
+    {
+      "file": "js/lich-king-raid-entry-v1.js",
+      "status": 200,
+      "sha256": "6192ca1d2ca2a0467c28e1d34943ca07dd756a42dab4e8529c1eeade752f0a9d"
+    },
+    {
+      "file": "raid/lich-king/index.html",
+      "status": 200,
+      "sha256": "360fb04476701d1e05cd1c7cb0d1f525b326e1309eab57261736db41c272da59"
+    },
+    {
+      "file": "raid/lich-king/inline.mjs",
+      "status": 200,
+      "sha256": "40e43b4e64dcf666fb2b1aafe890b01952e4d9b3c92fdf1b1c9b4d64b0d47040"
+    },
+    {
+      "file": "raid/lich-king/live.mjs",
+      "status": 200,
+      "sha256": "e95555e953450eb4126c8e395463f9b3355fb3b4d5c139553cebd05dd586248d"
+    },
+    {
+      "file": "raid/lich-king/request-retry.mjs",
+      "status": 200,
+      "sha256": "f62d9ec9bd1cffd6c0d73325799cf8c093ac538bfb7119e3bf40dcd5210c93e5"
+    }
+  ],
+  "serviceStatus": 200,
+  "maintenance": false,
+  "unauthenticatedRaidStatus": 401,
+  "shippedRetryHelper": {
+    "attempts": 2,
+    "recovered": true
+  },
+  "productionGameMutations": 0
+}
