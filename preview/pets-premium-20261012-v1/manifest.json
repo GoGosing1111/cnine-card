@@ -1,7 +1,7 @@
 {
   "createdDate": "2026-10-12",
   "generator": "Built-in image_gen.imagegen",
-  "status": "concept-review",
+  "status": "approved-live",
   "prompts": "generation.json",
   "preview": "index.html",
   "download": "pets-premium-six-v1.zip",
@@ -32,9 +32,11 @@
         "visibleEdgePixels": 0
       },
       "originalUnmodified": true,
-      "status": "concept-review",
-      "userApproved": false,
-      "liveRegistered": false
+      "status": "approved-live",
+      "userApproved": true,
+      "liveRegistered": true,
+      "petCode": "PET-MOON-FOX",
+      "approval": "../../assets/ui/pets/approved-nine-20261014/approval-20261014.json"
     },
     {
       "id": "frost-wolf",
@@ -62,9 +64,11 @@
         "visibleEdgePixels": 0
       },
       "originalUnmodified": true,
-      "status": "concept-review",
-      "userApproved": false,
-      "liveRegistered": false
+      "status": "approved-live",
+      "userApproved": true,
+      "liveRegistered": true,
+      "petCode": "PET-FROST-WOLF",
+      "approval": "../../assets/ui/pets/approved-nine-20261014/approval-20261014.json"
     },
     {
       "id": "gilded-dragon",
@@ -92,9 +96,11 @@
         "visibleEdgePixels": 0
       },
       "originalUnmodified": true,
-      "status": "concept-review",
-      "userApproved": false,
-      "liveRegistered": false
+      "status": "approved-live",
+      "userApproved": true,
+      "liveRegistered": true,
+      "petCode": "PET-GILDED-DRAGON",
+      "approval": "../../assets/ui/pets/approved-nine-20261014/approval-20261014.json"
     },
     {
       "id": "solar-phoenix",
@@ -122,9 +128,11 @@
         "visibleEdgePixels": 0
       },
       "originalUnmodified": true,
-      "status": "concept-review",
-      "userApproved": false,
-      "liveRegistered": false
+      "status": "approved-live",
+      "userApproved": true,
+      "liveRegistered": true,
+      "petCode": "PET-SOLAR-PHOENIX",
+      "approval": "../../assets/ui/pets/approved-nine-20261014/approval-20261014.json"
     },
     {
       "id": "verdant-stag",
@@ -152,9 +160,11 @@
         "visibleEdgePixels": 0
       },
       "originalUnmodified": true,
-      "status": "concept-review",
-      "userApproved": false,
-      "liveRegistered": false
+      "status": "approved-live",
+      "userApproved": true,
+      "liveRegistered": true,
+      "petCode": "PET-VERDANT-STAG",
+      "approval": "../../assets/ui/pets/approved-nine-20261014/approval-20261014.json"
     },
     {
       "id": "astral-panther",
@@ -182,9 +192,11 @@
         "visibleEdgePixels": 0
       },
       "originalUnmodified": true,
-      "status": "concept-review",
-      "userApproved": false,
-      "liveRegistered": false
+      "status": "approved-live",
+      "userApproved": true,
+      "liveRegistered": true,
+      "petCode": "PET-ASTRAL-PANTHER",
+      "approval": "../../assets/ui/pets/approved-nine-20261014/approval-20261014.json"
     }
   ]
 }

@@ -1,0 +1,74 @@
+{
+  "approvedDate": "2026-10-14",
+  "userInstruction": "펫 최근에 준비해둔 승인본 찾아서 다 라이브에 반영해",
+  "scopeConfirmation": "이 9종 전체 라이브 반영",
+  "status": "APPROVED_FOR_LIVE",
+  "assets": [
+    {
+      "code": "PET-MOON-FOX",
+      "name": "월령 여우",
+      "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-moon-fox-v1.png",
+      "sha256": "824485d758f320ca411234def77a7e3384e231b563e16d5878f6819d1e7cb481",
+      "source": "preview/pets-premium-20261012-v1/assets/pet-moon-fox-v1.png"
+    },
+    {
+      "code": "PET-FROST-WOLF",
+      "name": "빙관 늑대",
+      "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-frost-crown-wolf-v1.png",
+      "sha256": "13993cd58715dd68c624e1c8f280937995bda1c623d17b1a0f40747fb85057f7",
+      "source": "preview/pets-premium-20261012-v1/assets/pet-frost-crown-wolf-v1.png"
+    },
+    {
+      "code": "PET-GILDED-DRAGON",
+      "name": "흑금 영룡",
+      "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-gilded-spirit-dragon-v2.png",
+      "sha256": "4b8cbc3d7981b2fd0ee4ccd22a4031500182838799d5419942339ad149e1fb76",
+      "source": "preview/pets-premium-20261012-v1/assets/pet-gilded-spirit-dragon-v2.png"
+    },
+    {
+      "code": "PET-SOLAR-PHOENIX",
+      "name": "태양 봉황",
+      "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-solar-phoenix-v1.png",
+      "sha256": "cf8ed295e76817e7aa5f402cd788e2747de332aaf0985295986c1d7bca7299ec",
+      "source": "preview/pets-premium-20261012-v1/assets/pet-solar-phoenix-v1.png"
+    },
+    {
+      "code": "PET-VERDANT-STAG",
+      "name": "비취 성록",
+      "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-verdant-crown-stag-v1.png",
+      "sha256": "e46649298c1fc8cdc841630f614c0555e8977a9b0faff357deba846083606d2e",
+      "source": "preview/pets-premium-20261012-v1/assets/pet-verdant-crown-stag-v1.png"
+    },
+    {
+      "code": "PET-ASTRAL-PANTHER",
+      "name": "성운 마수",
+      "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-astral-panther-v1.png",
+      "sha256": "0a3437d0163dfdb985e8622abeb7ac70651bbee906138e1e30b67daef99410f8",
+      "source": "preview/pets-premium-20261012-v1/assets/pet-astral-panther-v1.png"
+    },
+    {
+      "code": "PET-WHITE-SPIRIT",
+      "name": "흰 정령",
+      "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-white-spirit-v1.png",
+      "sha256": "888eb0f9fe355fdbdf662af592254315d1a853cd014ddddc2550cb71bdcc723e",
+      "source": "preview/pets-classic-rpg-20261012-v1/assets/pet-white-spirit-v1.png"
+    },
+    {
+      "code": "PET-BULLDOG",
+      "name": "금방울 불독",
+      "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-bell-bulldog-v1.png",
+      "sha256": "70f637d222ed371dbeae6310f00c4db8765213cdbcb47115f743467e83b419f1",
+      "source": "preview/pets-classic-rpg-20261012-v1/assets/pet-bell-bulldog-v1.png"
+    },
+    {
+      "code": "PET-CRIMSON-DEMON",
+      "name": "붉은 날개 마신",
+      "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-crimson-wing-demon-v1.png",
+      "sha256": "6fd7dafa0989c012b382d1580ec2fc1178637d86450b5fa4cac57a4a56071a3d",
+      "source": "preview/pets-classic-rpg-20261012-v1/assets/pet-crimson-wing-demon-v1.png"
+    }
+  ],
+  "originalBytesPreserved": true,
+  "grantToAccounts": false,
+  "openingPoolChanged": false
+}

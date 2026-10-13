@@ -1,7 +1,7 @@
 {
   "createdDate": "2026-10-12",
   "generator": "Built-in image_gen.imagegen",
-  "status": "concept-review",
+  "status": "approved-live",
   "prompts": "generation.json",
   "preview": "index.html",
   "assets": [
@@ -30,9 +30,11 @@
         "maxEdgeAlpha": 1
       },
       "originalUnmodified": true,
-      "status": "concept-review",
-      "userApproved": false,
-      "liveRegistered": false
+      "status": "approved-live",
+      "userApproved": true,
+      "liveRegistered": true,
+      "petCode": "PET-WHITE-SPIRIT",
+      "approval": "../../assets/ui/pets/approved-nine-20261014/approval-20261014.json"
     },
     {
       "id": "bulldog",
@@ -59,9 +61,11 @@
         "maxEdgeAlpha": 1
       },
       "originalUnmodified": true,
-      "status": "concept-review",
-      "userApproved": false,
-      "liveRegistered": false
+      "status": "approved-live",
+      "userApproved": true,
+      "liveRegistered": true,
+      "petCode": "PET-BULLDOG",
+      "approval": "../../assets/ui/pets/approved-nine-20261014/approval-20261014.json"
     },
     {
       "id": "crimson-demon",
@@ -88,9 +92,11 @@
         "maxEdgeAlpha": 1
       },
       "originalUnmodified": true,
-      "status": "concept-review",
-      "userApproved": false,
-      "liveRegistered": false
+      "status": "approved-live",
+      "userApproved": true,
+      "liveRegistered": true,
+      "petCode": "PET-CRIMSON-DEMON",
+      "approval": "../../assets/ui/pets/approved-nine-20261014/approval-20261014.json"
     }
   ]
 }
