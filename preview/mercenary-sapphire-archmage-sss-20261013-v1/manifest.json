@@ -3,10 +3,11 @@
   "title": "청옥 중갑 마법사 SSS 용병 원화",
   "titleType": "descriptive working label, not a confirmed character name",
   "date": "2026-10-13",
-  "status": "SOURCE_ART_DRAFT_USER_REVIEW_PENDING",
+  "status": "SOURCE_ART_APPROVED",
+  "approval": "approval-20261013.json",
   "request": "해당 캐릭터 디자인 최대한 다 반영하면서 지팡이 들고있는 마법사형 SSS 용병 일러스트 만들어",
   "rank": "SSS",
-  "rankStatus": "USER_SPECIFIED",
+  "rankStatus": "CONFIRMED_BY_USER",
   "name": null,
   "mercenaryCode": null,
   "edition": null,
@@ -45,7 +46,7 @@
     "handGripConnected": true,
     "staffCoreAndCastingHandDistinct": true,
     "noEmbeddedTextLogoFrame": true,
-    "userApproval": false
+    "userApproval": true
   },
   "scope": {
     "sourceArtOnly": true,

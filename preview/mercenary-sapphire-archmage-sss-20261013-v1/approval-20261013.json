@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-13",
+  "timezone": "Asia/Seoul",
+  "authorization": "일단 방금 작업건은 SSS 일러스트 승인",
+  "status": "SOURCE_ART_APPROVED",
+  "rank": "SSS",
+  "rankStatus": "CONFIRMED_BY_USER",
+  "sourceArt": "assets/sapphire-archmage-sss-source-art-v1.png",
+  "sourceArtSha256": "38DA2E9BBE7BEBB7BCB0855260705FCCB1EF0CD638A005308A7B164B0B660793",
+  "preserveOriginalBytes": true,
+  "scope": {
+    "entireIllustrationApproved": true,
+    "nameConfirmed": false,
+    "mercenaryCodeAssigned": false,
+    "limitedEditionConfirmed": false,
+    "battleSpriteApproved": false,
+    "statsOrSkillsAssigned": false,
+    "runtimeConnected": false
+  },
+  "referenceRightsReview": {
+    "status": "NOT_VERIFIED",
+    "note": "Visual approval does not establish provenance or commercial-use rights for the supplied character design."
+  }
+}
