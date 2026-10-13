@@ -1,0 +1,16 @@
+{
+  "key": "hunt-011-morden",
+  "name": "심해약탈자 모르덴",
+  "ids": [
+    11
+  ],
+  "ref": "assets/0717monster/BLACK1.jpg",
+  "composition": "Landscape 5:4 crowded dynamic cel-shaded illustration, a bulky marauder at the center lunging forward with left arm raised, curling black vortex tendrils framing the whole body, pink-violet sparks and broken floor blocks in foreground, warm brown background.",
+  "identity": "A copper-skinned scarred corsair with shaved sides and a short tied dark braid, a neat gray jaw beard and hooked nose, fully covered by dark green leather breastplate and rust-red waistcoat, heavy copper diving collar and belts; no tricorne hat, bare belly, jewel necklaces, reference grin or coat. He wields a short hooked iron boarding axe in one raised hand while the other generates an ink-dark whirlpool with small violet pearls. Distinct original sturdy silhouette and face.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Landscape 5:4 crowded dynamic cel-shaded illustration, a bulky marauder at the center lunging forward with left arm raised, curling black vortex tendrils framing the whole body, pink-violet sparks and broken floor blocks in foreground, warm brown background.\nNew original identity: A copper-skinned scarred corsair with shaved sides and a short tied dark braid, a neat gray jaw beard and hooked nose, fully covered by dark green leather breastplate and rust-red waistcoat, heavy copper diving collar and belts; no tricorne hat, bare belly, jewel necklaces, reference grin or coat. He wields a short hooked iron boarding axe in one raised hand while the other generates an ink-dark whirlpool with small violet pearls. Distinct original sturdy silhouette and face.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "output": "assets/hunt-011-morden-source-v1.png",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-7cc8f382-7716-48ff-a005-ebdfeb36dc52.png",
+  "status": "SOURCE_ART_REVIEW",
+  "visualApproval": false
+}

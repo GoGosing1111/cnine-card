@@ -1,0 +1,20 @@
+{
+  "key": "hunt-077-bareon-sovereign",
+  "name": "홍염항해왕 바레온 · 군림",
+  "ids": [
+    77
+  ],
+  "ref": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shanks-source.jpg",
+  "composition": "Tall 9:16 commanding frontal torso close-up, centered down-tilted stern face, sword hilt crossing lower center, stark scarlet-black palette and diagonal red slash filaments, forceful cel-shaded linework.",
+  "identity": "BAREON must be same original identity as lower-tier form: fair European complexion with a slight natural sun tan, thick naturally wavy black hair with one silver temple streak tied back at nape, angular nose, short full black beard, both arms intact, no facial scars. Closed high-neck ochre shirt under navy sleeveless leather command vest, dark teal shoulder scarf, oval brass saber guard. No red hair, three-eye scars, open white shirt or black cape. Scarlet dramatic lighting and darker sovereign mood, but no new change of character identity.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Tall 9:16 commanding frontal torso close-up, centered down-tilted stern face, sword hilt crossing lower center, stark scarlet-black palette and diagonal red slash filaments, forceful cel-shaded linework.\nNew original identity: BAREON must be same original identity as lower-tier form: fair European complexion with a slight natural sun tan, thick naturally wavy black hair with one silver temple streak tied back at nape, angular nose, short full black beard, both arms intact, no facial scars. Closed high-neck ochre shirt under navy sleeveless leather command vest, dark teal shoulder scarf, oval brass saber guard. No red hair, three-eye scars, open white shirt or black cape. Scarlet dramatic lighting and darker sovereign mood, but no new change of character identity.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.\nImage 2 is the new ORIGINAL Bareon identity anchor: preserve that exact face, black hair with silver temple streak, short beard, FAIR complexion and outfit identity, while using image 1 only for the tight frontal crop and red-black dramatic lighting. Do not reproduce image 1's old character.",
+  "appearanceSteering": "User asked for East Asian and white characters as well; do not make the roster uniformly dark-skinned. Keep each character's face and complexion distinct.",
+  "references": [
+    "C:/Users/User/.codex/worktrees/mercenary-ivory-knight-idle/cnine-card/assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shanks-source.jpg",
+    "C:/Users/User/.codex/worktrees/mercenary-ivory-knight-idle/cnine-card/preview/monster-original-ip-20261013-v1/assets/hunt-013-bareon-source-v2.png"
+  ],
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-53a23b22-1015-49c0-b783-343e75c59644.png",
+  "output": "assets/hunt-077-bareon-sovereign-source-v1.png",
+  "userApproval": false
+}

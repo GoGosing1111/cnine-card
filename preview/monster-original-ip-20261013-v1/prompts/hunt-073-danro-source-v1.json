@@ -1,0 +1,16 @@
+{
+  "key": "hunt-073-danro",
+  "name": "적맥투왕 단로",
+  "ids": [
+    73
+  ],
+  "ref": "assets/tower/GAI.jpg",
+  "composition": "Tall 9:16 extreme foreshortened charging martial artist down low in frame, one knee and fist thrust toward camera, giant red fiery beast face filling upper half, floating stones, graphic red-black and amber anime energy.",
+  "identity": "An original compact muscular middle-aged fighter with shaved head, clean jaw, thick straight eyebrows, fair warm East Asian skin and normal glowing amber eyes, simple charcoal sleeveless padded martial vest, rusty orange sash, dark gray trousers and wrapped boxing hands/boots. No green bodysuit, bowl haircut, reference leg warmers or distinctive brow silhouette. Huge burning bull mask-shaped aura with broad crescent horns, NOT a dragon, looms above; red pressure ribbons trace his forward motion. New natural anatomy and face.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Tall 9:16 extreme foreshortened charging martial artist down low in frame, one knee and fist thrust toward camera, giant red fiery beast face filling upper half, floating stones, graphic red-black and amber anime energy.\nNew original identity: An original compact muscular middle-aged fighter with shaved head, clean jaw, thick straight eyebrows, fair warm East Asian skin and normal glowing amber eyes, simple charcoal sleeveless padded martial vest, rusty orange sash, dark gray trousers and wrapped boxing hands/boots. No green bodysuit, bowl haircut, reference leg warmers or distinctive brow silhouette. Huge burning bull mask-shaped aura with broad crescent horns, NOT a dragon, looms above; red pressure ribbons trace his forward motion. New natural anatomy and face.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.",
+  "appearanceSteering": "User asked for East Asian and white characters as well; do not make the roster uniformly dark-skinned. Keep each character's face and complexion distinct.",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-f84a3134-51fb-412e-9b7f-7b10fdf61be8.png",
+  "output": "assets/hunt-073-danro-source-v1.png",
+  "userApproval": false
+}

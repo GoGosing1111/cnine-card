@@ -1,0 +1,46 @@
+{
+  "checkedAt": "2026-10-13T03:11:04.600Z",
+  "browser": "Codex in-app browser",
+  "desktop": {
+    "width": 1440,
+    "height": 1100,
+    "pass": true
+  },
+  "mobile": {
+    "width": 390,
+    "height": 844,
+    "pass": true
+  },
+  "filters": [
+    {
+      "label": "하드",
+      "count": 7
+    },
+    {
+      "label": "헬 / 나이트메어",
+      "count": 14
+    },
+    {
+      "label": "아포칼립스",
+      "count": 8
+    },
+    {
+      "label": "레이드",
+      "count": 7
+    },
+    {
+      "label": "전체",
+      "count": 36
+    }
+  ],
+  "previousNext": true,
+  "zoomOpenClose": true,
+  "selectedCharacterVisible": true,
+  "pairedAspectRatio": true,
+  "horizontalOverflow": false,
+  "mediaElements": 0,
+  "audio": "No audio, video or sound-producing code in preview",
+  "consoleWarningsAndErrors": [],
+  "runtimeMutation": false,
+  "screenshotNote": "Viewport captures. Full-page capture failed after horizontal roster scrolling; documented screenshot API used instead."
+}

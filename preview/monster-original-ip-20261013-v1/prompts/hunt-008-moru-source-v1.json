@@ -1,0 +1,16 @@
+{
+  "key": "hunt-008-moru",
+  "name": "극지정찰대장 모루",
+  "ids": [
+    8
+  ],
+  "ref": "assets/cards/15565.jpg",
+  "composition": "Landscape 3:2 chest-up portrait of a cute anthropomorphic arctic scout, face centered, long weapon rising diagonally on the left, dark blurred teal woodland backdrop. Soft detailed fur and warm expressive eyes, cinematic rendered storybook rather than flat anime.",
+  "identity": "A young sea otter scout with cocoa-brown fur, pale cream cheeks, rounded ears and a tiny nose, both eyes fully visible; a forest-green canvas field cap with short brim, ochre scarf and tan waxed-canvas utility vest. He carries a simple brass-and-wood long rifle as one straight rigid object along the left edge. No beret, eyepatch, pirate accessories or pipe. Both paws anatomically sound, barrel and receiver on one straight axis.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Landscape 3:2 chest-up portrait of a cute anthropomorphic arctic scout, face centered, long weapon rising diagonally on the left, dark blurred teal woodland backdrop. Soft detailed fur and warm expressive eyes, cinematic rendered storybook rather than flat anime.\nNew original identity: A young sea otter scout with cocoa-brown fur, pale cream cheeks, rounded ears and a tiny nose, both eyes fully visible; a forest-green canvas field cap with short brim, ochre scarf and tan waxed-canvas utility vest. He carries a simple brass-and-wood long rifle as one straight rigid object along the left edge. No beret, eyepatch, pirate accessories or pipe. Both paws anatomically sound, barrel and receiver on one straight axis.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "output": "unused/hunt-008-moru-source-v1.png",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-8e6e9cf5-53eb-41d3-bc01-4cb2499e409d.png",
+  "status": "EXCLUDED_BY_USER_BIG_SEAL_RETAINED",
+  "visualApproval": false
+}

@@ -1,0 +1,17 @@
+{
+  "key": "hunt-015-seiran",
+  "name": "적월감시자 세이란",
+  "ids": [
+    15,
+    43
+  ],
+  "ref": "assets/cards/top/13.jpg",
+  "composition": "Tall 4:5 right-facing three-quarter shoulder/head close-up, largely grayscale drawing with intense red energy streaks across black space; fine etched highlights, flowing dark hair lit silver, dramatic serious expression.",
+  "identity": "SEIRAN is an fair-skinned East Asian adult illusion sentinel with narrow face, a strong straight nose, muted gray eyes with ordinary pupils, and naturally flowing shoulder-length dark hair featuring a single pale lock at the left temple. Asymmetric charcoal leather high collar with intricate silver wire closures and layered fabric, no forehead plate, facial tear lines, cloud motifs, red sigil pupils or existing ninja costume. A broken red glass halo and wisps of glowing moth dust instead of franchise ocular marks and birds. Keep delicate hair flow, individual strands.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Tall 4:5 right-facing three-quarter shoulder/head close-up, largely grayscale drawing with intense red energy streaks across black space; fine etched highlights, flowing dark hair lit silver, dramatic serious expression.\nNew original identity: SEIRAN is an fair-skinned East Asian adult illusion sentinel with narrow face, a strong straight nose, muted gray eyes with ordinary pupils, and naturally flowing shoulder-length dark hair featuring a single pale lock at the left temple. Asymmetric charcoal leather high collar with intricate silver wire closures and layered fabric, no forehead plate, facial tear lines, cloud motifs, red sigil pupils or existing ninja costume. A broken red glass halo and wisps of glowing moth dust instead of franchise ocular marks and birds. Keep delicate hair flow, individual strands.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.",
+  "appearanceSteering": "User asked for East Asian and white characters as well; do not make the roster uniformly dark-skinned. Keep each character's face and complexion distinct.",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-77821704-a515-4a9f-9fdf-c477574ddeef.png",
+  "output": "assets/hunt-015-seiran-source-v1.png",
+  "userApproval": false
+}

@@ -1,0 +1,1993 @@
+{
+  "format": "MONSTER_ORIGINAL_IP_REVIEW_V1",
+  "version": 1,
+  "status": "SOURCE_ART_REVIEW_READY",
+  "baselineCapturedAt": "2026-10-13T01:58:46.246Z",
+  "updatedAt": "2026-10-13T03:00:17.632Z",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "userDirectives": {
+    "scope": "All non-NORMAL hunt monsters except Big Seal; include raids",
+    "style": "Preserve individual illustration style, composition, camera, pose flow, character placement, light and background density; redesign identities",
+    "appearance": "Include East Asian and white characters; avoid uniform dark skin and faces",
+    "mechanics": "Preserve skill performance, timing, targets, effects, patterns and rewards",
+    "runtimeApproval": false
+  },
+  "counts": {
+    "huntRows": 38,
+    "huntSourceArt": 29,
+    "raidSourceArt": 7,
+    "sourceReady": 36,
+    "sourceTotal": 36,
+    "excludedNormal": 18,
+    "excludedBigSeal": 8
+  },
+  "excluded": [
+    {
+      "id": 2,
+      "name": "인방갤러",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "7C23CEE249D4EF3143FAF30DFD0E3DB64B78683C95E3D1F2A9F29380DA26AFD7",
+      "source": "assets/cards/bang1.jpg"
+    },
+    {
+      "id": 3,
+      "name": "맥주눈깔구",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "ADE0B916F3EBBEF75C6939F235B8169F8561849D9BB391DC1BB485460D2F1348",
+      "source": "assets/cards/monster/chul9.jpg"
+    },
+    {
+      "id": 5,
+      "name": "경화수월",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "18F6009C1428D8E15E5F10F8A9818B29D34A4511C59FFEC410022EF43C0DC7C9",
+      "source": "assets/cards/monster71.jpg"
+    },
+    {
+      "id": 8,
+      "name": "빅물개",
+      "reason": "USER_EXPLICIT_BIG_SEAL_EXCLUSION",
+      "rowSha256": "E18373012F0204A98179AFDC66437C07D7D819F0F247964A37CBF28A2D17584D",
+      "source": "assets/cards/15565.jpg"
+    },
+    {
+      "id": 9,
+      "name": "와고악성아윤",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "8F7B862B154B908A40DBDFCB8D5029D3994214076DE69772841A216E902C20B7",
+      "source": "assets/cards/monster711.jpg"
+    },
+    {
+      "id": 17,
+      "name": "위장악성",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "2B1834FAFB3266353FEE8FE62365A9FDFF749D11C1C894DD94A45E55901263A3",
+      "source": "assets/tower/3.jpg"
+    },
+    {
+      "id": 18,
+      "name": "이그리트",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "B6AA643749854ED38C46D4B8968FFEAE94E1CDBADF0A363C8072CD95D87065D5",
+      "source": "assets/tower/5.jpg"
+    },
+    {
+      "id": 19,
+      "name": "뱀파이어",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "E023CA6CD72D461D550FDF4F7E8DDFE44C5B4F208B5A762D227FE95001B5A1EA",
+      "source": "assets/tower/1.jpg"
+    },
+    {
+      "id": 20,
+      "name": "히츠가야 토시로",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "6DA4A8980C93E38BDF0C1B6C87FD5BA7F8B875EA6022B98C84DB45F7BD154EF0",
+      "source": "assets/tower/8.jpg"
+    },
+    {
+      "id": 21,
+      "name": "타락한 성기사",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "94E174452BFC3C70A4EC9C325DA4D0C250F1171409267DA251E1E951BA4C8636",
+      "source": "assets/tower/2.jpg"
+    },
+    {
+      "id": 22,
+      "name": "우르키오라",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "07E3F13304CDEBC51B77E91E75FC50B020ABDCB94940EE4D2ECD34B96B3DF53A",
+      "source": "assets/tower/4.jpg"
+    },
+    {
+      "id": 23,
+      "name": "쿠치키 뱌쿠야",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "6E885E14C101FC7B5C0698F7967CDD6433EE628500340B7CEA47D53C31956C33",
+      "source": "assets/tower/7.jpg"
+    },
+    {
+      "id": 24,
+      "name": "블러드 크로우",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "5392577B46337B6232D208D72BA05A110EE6232CE82AD01D711FEBCDC45A2DD4",
+      "source": "assets/tower/tower111.jpg"
+    },
+    {
+      "id": 27,
+      "name": "달빛 악령",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "9476A404E455E3688AD4BAAD8FCACD148E24A4BE9CBBDB4CCE56E7259D51B944",
+      "source": "assets/tower/98fb377d65ff92e9392cbd53d75169e8.jpg"
+    },
+    {
+      "id": 28,
+      "name": "아이젠 소스케",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "AF40589C87961D688156A5D40534E63D0BE6C7BC67451B1F95078C15041995CF",
+      "source": "assets/tower/10.jpg"
+    },
+    {
+      "id": 64,
+      "name": "커맨더 크리그",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "01DA1D248D0698B74910AE7BCD331CDA0CD1405F1CB73BF5D3E84DC0541AD615",
+      "source": "assets/tower/dad.jpg"
+    },
+    {
+      "id": 67,
+      "name": "나미카제 미나토",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "52329712561849C0B4856636D2A19C7D303F77AD09F362D63438F3F6E0BD82BB",
+      "source": "assets/tower/nami2.jpg"
+    },
+    {
+      "id": 68,
+      "name": "오메가-09",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "88DF030EFE4A7DD56A4A7FD4076C2C5EC93258C3861A8459CFFDC2707A5CBF74",
+      "source": "assets/tower/badq.jpg"
+    },
+    {
+      "id": 69,
+      "name": "쿠로사키 이치고",
+      "reason": "NORMAL_EXCLUDED",
+      "rowSha256": "5A28C73B40BAEF7C029065E6C7A6EA8428CE1907B7BD6D437ECD34237D5557E2",
+      "source": "assets/tower/curo.jpg"
+    }
+  ],
+  "retiredRaidIds": [
+    1,
+    3,
+    5,
+    7,
+    9
+  ],
+  "entries": [
+    {
+      "key": "hunt-004-solvein",
+      "scope": "HUNT",
+      "monsterIds": [
+        4
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "해군대장 키자루"
+      ],
+      "workingName": "광휘집정관 솔베인",
+      "nameApproval": false,
+      "tabs": [
+        "HARD"
+      ],
+      "reference": {
+        "path": "assets/cards/monster/kizaru1.jfif",
+        "sha256": "9D980773B28C7F89DFFBEC210054B1CB920F60FE67D311E62D04BDDC5B23C844",
+        "bytes": 40793,
+        "width": 499,
+        "height": 400,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": null,
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-004-solvein-source-v1.png",
+        "sha256": "35BB251C57F0015534BC1211ECC3A552D9B620BC65D92697449A442EA5D9C84A",
+        "bytes": 1849788,
+        "width": 1402,
+        "height": 1122,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-004-solvein-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 4,
+          "sha256": "9D7049165542B0BF4A136B1EB273CA502F6EF4D1E0881CF8FA15E1B80ABE0BE8"
+        }
+      ]
+    },
+    {
+      "key": "hunt-006-nervan",
+      "scope": "HUNT",
+      "monsterIds": [
+        6
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "해군대장 아오키지"
+      ],
+      "workingName": "서리제독 네르반",
+      "nameApproval": false,
+      "tabs": [
+        "HARD"
+      ],
+      "reference": {
+        "path": "assets/cards/monster/aokizi1.png",
+        "sha256": "2D6E132E823C805591702C3F8CF9F970F23506918F4A83F694AA0AEA18D7D577",
+        "bytes": 405692,
+        "width": 401,
+        "height": 433,
+        "format": "png",
+        "hasAlpha": true
+      },
+      "composition": null,
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-006-nervan-source-v2.png",
+        "sha256": "75EA13A89360653243C2CA97EA58646B27CACD3F0B17A7DDEB5670085D4FF023",
+        "bytes": 2325301,
+        "width": 1207,
+        "height": 1303,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-006-nervan-source-v2.json",
+      "sourceArtVersions": [
+        1,
+        2
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 6,
+          "sha256": "C4676B9034534667F3798590262511E6E9E14AEC4023FF08A2319CFE1CD7DCEA"
+        }
+      ]
+    },
+    {
+      "key": "hunt-007-kardo",
+      "scope": "HUNT",
+      "monsterIds": [
+        7
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "해군대장 아카이누"
+      ],
+      "workingName": "화산총독 카르도",
+      "nameApproval": false,
+      "tabs": [
+        "HARD"
+      ],
+      "reference": {
+        "path": "assets/cards/monster/akainu1.jpg",
+        "sha256": "E3ADB34010705871903037CC8EDFB103EE022CC356C42CE88634191869985595",
+        "bytes": 43577,
+        "width": 400,
+        "height": 320,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": null,
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-007-kardo-source-v2.png",
+        "sha256": "812BC134347E092826823C7EAB7A0CDEC96536C82EA081050ACDEFF6FAC5F2DB",
+        "bytes": 2185319,
+        "width": 1402,
+        "height": 1122,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-007-kardo-source-v2.json",
+      "sourceArtVersions": [
+        1,
+        2
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 7,
+          "sha256": "45F0E2366FA07B95D1E819F18C7EA522BF2729AD483410009603CA2D81EFE6A3"
+        }
+      ]
+    },
+    {
+      "key": "hunt-010-brekan",
+      "scope": "HUNT",
+      "monsterIds": [
+        10
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "흰수염"
+      ],
+      "workingName": "파도분쇄자 브레칸",
+      "nameApproval": false,
+      "tabs": [
+        "HARD"
+      ],
+      "reference": {
+        "path": "assets/0717monster/white2.png",
+        "sha256": "94D81C5183C85B20965B2A5A43EDA27309834AA70C8D6A0C057621A6A806A669",
+        "bytes": 614823,
+        "width": 640,
+        "height": 512,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "composition": "Landscape 5:4 dynamic 2D cel-shaded action tableau. Enormous muscular fighter in middle with arms spread broadly across the canvas; foreshortened fists, blue-white shock fractures, rubble and thrown armored opponents below both sides. Courtyard structures behind, maximal force and readable muscular anatomy.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-010-brekan-source-v1.png",
+        "sha256": "9FA437EBF50A606CCE08B3A23C3B40C145E14DCE686E44531D93B15D12479EBA",
+        "bytes": 3191037,
+        "width": 1402,
+        "height": 1122,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-010-brekan-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 10,
+          "sha256": "44555567779AA285B6F9FB177FE7CC03FAA18BA194026EDF8787EB198B36CAD3"
+        }
+      ]
+    },
+    {
+      "key": "hunt-011-morden",
+      "scope": "HUNT",
+      "monsterIds": [
+        11
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "검은수염"
+      ],
+      "workingName": "심해약탈자 모르덴",
+      "nameApproval": false,
+      "tabs": [
+        "HARD"
+      ],
+      "reference": {
+        "path": "assets/0717monster/BLACK1.jpg",
+        "sha256": "5E00D30463C6D8587BB7631CE8A3C142A7AC2A0BBD13FC0083DD6FE93ECF0CB7",
+        "bytes": 124060,
+        "width": 640,
+        "height": 498,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Landscape 5:4 crowded dynamic cel-shaded illustration, a bulky marauder at the center lunging forward with left arm raised, curling black vortex tendrils framing the whole body, pink-violet sparks and broken floor blocks in foreground, warm brown background.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-011-morden-source-v1.png",
+        "sha256": "0754B55A50FD9517FF0176EDCB199A698127EE0FA5F34751902FE6A8552BBC11",
+        "bytes": 2832982,
+        "width": 1402,
+        "height": 1122,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-011-morden-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 11,
+          "sha256": "5EA1D71F0356EAE85EE979CFFF97FD4726D7374D4922A8C82C11357CDF62FE2C"
+        }
+      ]
+    },
+    {
+      "key": "hunt-012-serk",
+      "scope": "HUNT",
+      "monsterIds": [
+        12
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "미호크"
+      ],
+      "workingName": "흑검재판관 세르크",
+      "nameApproval": false,
+      "tabs": [
+        "HARD"
+      ],
+      "reference": {
+        "path": "assets/0717monster/hoke.png",
+        "sha256": "E318A007094A6F2A3A8A44D258CF647B914BE5E5BE62BC3A7C014ED90D9AB045",
+        "bytes": 374617,
+        "width": 640,
+        "height": 512,
+        "format": "png",
+        "hasAlpha": true
+      },
+      "composition": "Landscape 5:4 close action view, lunging swordsman crouched diagonally, massive blade foreshortened from upper-right to lower-left, green energy crawling along the blade and gray-blue curling gusts around the perimeter. Bold clean 2D cel shading.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-012-serk-source-v1.png",
+        "sha256": "2A5D5E78CD8410B44FAA120E8D7BC1E7736EDD3FAB9F0C2D4FA6C840A7942D32",
+        "bytes": 2420698,
+        "width": 1402,
+        "height": 1122,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-012-serk-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 12,
+          "sha256": "99E197C7676692117C7B9A2B3F7AA0010776143F4A463D43C3479CA5BF32C12D"
+        }
+      ]
+    },
+    {
+      "key": "hunt-013-bareon",
+      "scope": "HUNT",
+      "monsterIds": [
+        13
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "샹크스"
+      ],
+      "workingName": "홍염항해왕 바레온",
+      "nameApproval": false,
+      "tabs": [
+        "HARD"
+      ],
+      "reference": {
+        "path": "assets/0717monster/c2006.jpg",
+        "sha256": "C970A7E4749281A122E58DBF1318EF22731F14D75D30F3D1B74631F573B66BFA",
+        "bytes": 81632,
+        "width": 640,
+        "height": 512,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Landscape 5:4 centered crouching swordsman, saber sweeping strongly from high left to low right, intense foreshortened weapon hand, circular orange sparks and pale blue wind clouds, warm ochre setting. Crisp cel-shaded anime action.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-013-bareon-source-v2.png",
+        "sha256": "50EA5836C526BEFBBC23C81A70083DA12871F65DD09DDEEB386E711919383CE5",
+        "bytes": 2473517,
+        "width": 1402,
+        "height": 1122,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-013-bareon-source-v2.json",
+      "sourceArtVersions": [
+        1,
+        2
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 13,
+          "sha256": "E3D59CA58D9B280A056C44E3FB51E6C0BB0006C01BCD1491C98C193842EDA4EC"
+        }
+      ]
+    },
+    {
+      "key": "hunt-014-kirian",
+      "scope": "HUNT",
+      "monsterIds": [
+        14,
+        42
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "우치하 사스케"
+      ],
+      "workingName": "뇌흔검사 키르안",
+      "nameApproval": false,
+      "tabs": [
+        "HELL",
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/cards/top/12.jpg",
+        "sha256": "9087D077545EB67A85D04996F60AD68D7E5CEE3F0A51F7311C2E6682E9C38F33",
+        "bytes": 38143,
+        "width": 236,
+        "height": 419,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 anime fantasy portrait down to the hips, standing swordsman turned three-quarters away looking back, upper arm toward camera, electric violet and blue-white coils fill backdrop, strong rimlight, luminous energetic rendering.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-014-kirian-source-v1.png",
+        "sha256": "2258A3858085764E7BD7EBE6F337302BA438A0B42750B9849BDB2DD6DF596FAB",
+        "bytes": 3021307,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-014-kirian-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 14,
+          "sha256": "09A6981AD456AC26C6A9AAA71020C9B136A1BD2980CAA624132BF6567A43CE49"
+        },
+        {
+          "monsterId": 42,
+          "sha256": "063708AFAC3599577AC0643B8A43DE29BD0FB8B33150C21BA6F9BE815EB33F29"
+        }
+      ]
+    },
+    {
+      "key": "hunt-015-seiran",
+      "scope": "HUNT",
+      "monsterIds": [
+        15,
+        43
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "우치하 이타치"
+      ],
+      "workingName": "적월감시자 세이란",
+      "nameApproval": false,
+      "tabs": [
+        "HELL",
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/cards/top/13.jpg",
+        "sha256": "BB4813B165374EE3E71D06489C8D9C562D3E7FB3FCEFB588666496A8248809FC",
+        "bytes": 137723,
+        "width": 736,
+        "height": 920,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 4:5 right-facing three-quarter shoulder/head close-up, largely grayscale drawing with intense red energy streaks across black space; fine etched highlights, flowing dark hair lit silver, dramatic serious expression.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-015-seiran-source-v1.png",
+        "sha256": "BCC986FCE8E0581780B509D41D1839E134670981B255E6D188C1AB209AD8A6EA",
+        "bytes": 2787755,
+        "width": 1122,
+        "height": 1402,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-015-seiran-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 15,
+          "sha256": "915F12A063FF7617C0B2007C8F903BB6C77D3492E6667A440497E4FD1AF6FAD0"
+        },
+        {
+          "monsterId": 43,
+          "sha256": "CC485802A1DE2D13BB2C5B35A1EC848F1369B1ADEF2EA0B617FBB2D9DFEF7FC9"
+        }
+      ]
+    },
+    {
+      "key": "hunt-016-hajin",
+      "scope": "HUNT",
+      "monsterIds": [
+        16,
+        44
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "젠이츠"
+      ],
+      "workingName": "벽뢰발도객 하진",
+      "nameApproval": false,
+      "tabs": [
+        "HELL",
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/effects/zne.jpg",
+        "sha256": "DDB8A4D950881BC22AFAE4C951505E28491B5BB03D3656A1F61C37CBF3C48EF3",
+        "bytes": 121767,
+        "width": 735,
+        "height": 896,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Portrait 4:5 dynamic anime cel-shaded crouching draw-cut pose, camera slightly above, face tilted down focused, sword hilt near lower chest, huge blue-white zigzag lightning crosses foreground, dim warm wooden hall.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-016-hajin-source-v1.png",
+        "sha256": "A3EED33E849285ABEF177F8A802F834EE105C37CFE0B1FED197DADE8AB26BF68",
+        "bytes": 2029402,
+        "width": 1122,
+        "height": 1402,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-016-hajin-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 16,
+          "sha256": "F070B4B077FFBF639A6D04F654338137331E6521DE39E70AA91D92ED88CA1DC9"
+        },
+        {
+          "monsterId": 44,
+          "sha256": "455B318FD33CD50B5499864D9F90FC51ED02FFD5DC905BC619B6EA3754AA4565"
+        }
+      ]
+    },
+    {
+      "key": "hunt-025-rokas",
+      "scope": "HUNT",
+      "monsterIds": [
+        25,
+        45
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "조로"
+      ],
+      "workingName": "폭풍쌍검사 로카스",
+      "nameApproval": false,
+      "tabs": [
+        "HELL",
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/effects/ZORO1.jpg",
+        "sha256": "6A691FEFC08B46DDEFE85A04FC2126AC5546A5BFA47A07153A9C7FEBDEDD683B",
+        "bytes": 147434,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 chest-to-thigh swordsman facing camera at three-quarter angle, forward hand and crossed diagonal blades dominate foreground, emerald-white wind arcs behind and in front, green-black backlight, graphic cel shading.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-025-rokas-source-v1.png",
+        "sha256": "880E8990921FA9C422B719091B1751B64DA0397B63CEF9CF725750E010D8CAB6",
+        "bytes": 2318182,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-025-rokas-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 25,
+          "sha256": "A6D202A1FC8DAF7EF7D7A97CC18794CCCBF3DFB831461F1C8BA26387105CC8DB"
+        },
+        {
+          "monsterId": 45,
+          "sha256": "DE3EFE25FD8F825FF64BFB6CDE8BF165C82A85F96FE38D16989F84FDA775EA19"
+        }
+      ]
+    },
+    {
+      "key": "hunt-026-taeon",
+      "scope": "HUNT",
+      "monsterIds": [
+        26,
+        46
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "렌고쿠 코쥬로"
+      ],
+      "workingName": "잿불수문장 태온",
+      "nameApproval": false,
+      "tabs": [
+        "HELL",
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/tower/cc0457ef4abb426eda53051b533d1050.jpg",
+        "sha256": "8CED202523D2C49CFBA4B81199CEAECAB83D28E91621B9D2DF422AAF944B9886",
+        "bytes": 226998,
+        "width": 736,
+        "height": 1226,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 3:5 crouched rushing swordsman, forward-looking face in upper-right-middle, cloth flowing from lower body to upper left, circular ribbon of orange fire enclosing the figure, blue night forest verticals behind. Polished vivid anime linework and cel shading.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-026-taeon-source-v2.png",
+        "sha256": "D6BC8EB4543D01560C607AA83B3E7A357C8E789120A4E9645473CFC0E6C55EC8",
+        "bytes": 2601940,
+        "width": 972,
+        "height": 1619,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-026-taeon-source-v2.json",
+      "sourceArtVersions": [
+        1,
+        2
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 26,
+          "sha256": "2E0C3982CB5B7D207CAA0F8BE8E3A5C692FE0296EA7EEEEA1022519759C36531"
+        },
+        {
+          "monsterId": 46,
+          "sha256": "784A929174F874CEA71E2A2F83033A59F545211C6F81BD2F5D5168BBCB868F3A"
+        }
+      ]
+    },
+    {
+      "key": "hunt-029-saharin",
+      "scope": "HUNT",
+      "monsterIds": [
+        29,
+        47
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "쿄라쿠 슌스이"
+      ],
+      "workingName": "낙화심판관 사하린",
+      "nameApproval": false,
+      "tabs": [
+        "HELL",
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/effects/ko.jpg",
+        "sha256": "64033E075A4EF5F8B07ABE4067FAC3F6EEC1C1826A29603A328153375DF8152F",
+        "bytes": 147813,
+        "width": 736,
+        "height": 1041,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 2:3 illustrated poster, full-body airborne robed dual-blade warrior centered with a diagonal twist, huge pale garments sweeping outward, large blade above and another crossing lower front, gold flat textured background and dark tree-branch silhouettes; elegant ink and cel shading.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-029-saharin-source-v1.png",
+        "sha256": "ECA1AEEAD13B4DA6F634780AF257C1C72EE14CFF494CEC1064C972F1696A8326",
+        "bytes": 3079480,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-029-saharin-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 29,
+          "sha256": "EE51C64601EF7364E61EEDC6D8F3A121A614B0C7367A3A8E879149D65B87C36B"
+        },
+        {
+          "monsterId": 47,
+          "sha256": "9D0E8ACD8167EABA875592F7330092CD37228E2DAD574D480853D5766230D9BF"
+        }
+      ]
+    },
+    {
+      "key": "hunt-030-seiran-shadow",
+      "scope": "HUNT",
+      "monsterIds": [
+        30,
+        48
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "이타치 암부"
+      ],
+      "workingName": "월영집행자 세이란",
+      "nameApproval": false,
+      "tabs": [
+        "HELL",
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/effects/ANBU.jpg",
+        "sha256": "284593940E6062AE07CFFC358B4195EA9958356C0317C348995DF81EF1D7D8C3",
+        "bytes": 39362,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 dark close-up of black-clad assassin seen over shoulder, face lower center, hand lifting mask at upper right side of face; large muted red moon behind upper left, black negative space, understated red sparks. Clean restrained 2D anime illustration.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-030-seiran-shadow-source-v1.png",
+        "sha256": "00D426741256AF283464C98B7C9DC99FEFC4C205086CCFBA6C6F5B6219D4F53F",
+        "bytes": 1916320,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-030-seiran-shadow-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 30,
+          "sha256": "9B4918D09A2177BC66A51F83A8722E11FD4011DAAB325FA7FA64D49CD226AAE5"
+        },
+        {
+          "monsterId": 48,
+          "sha256": "2F2BEC97B91571E2BA684434E6DADD3C7AE8693B2392C8CEE747B6F797A7365D"
+        }
+      ]
+    },
+    {
+      "key": "hunt-031-yuren",
+      "scope": "HUNT",
+      "monsterIds": [
+        31,
+        49
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "셋쇼마루"
+      ],
+      "workingName": "백야귀족 유르엔",
+      "nameApproval": false,
+      "tabs": [
+        "HELL",
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/tower/SET.jpg",
+        "sha256": "6E1BE2052DE4DDDB736842FF27ED9E9CC50F51D9AF667453A2E1A4D0950171FB",
+        "bytes": 175110,
+        "width": 736,
+        "height": 1104,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 2:3 luminous fantasy illustration: elegant full-body white-clad figure below center, much larger mist portrait of the SAME new character at upper right, full moon upper left, violet-blue petals and flowing hair, stone garden foreground. Keep fine painterly anime detail and layered scale.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-031-yuren-source-v1.png",
+        "sha256": "33393D918DE9800CAF33D68D56EB04460214C41E237E8B8A4F7CB27BFC746C73",
+        "bytes": 3098494,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-031-yuren-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 31,
+          "sha256": "15F3AEEFCF884C4194D5636A733A92A64D059223CA32E3940E9A232F5FCB1316"
+        },
+        {
+          "monsterId": 49,
+          "sha256": "10D896CF14B092DB776366118CDB4837C4D7CEE3A4AD898FC1300133B4F0C1CC"
+        }
+      ]
+    },
+    {
+      "key": "hunt-032-torian",
+      "scope": "HUNT",
+      "monsterIds": [
+        32,
+        50
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "태양신 루피"
+      ],
+      "workingName": "천둥유희자 토리안",
+      "nameApproval": false,
+      "tabs": [
+        "HELL",
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/effects/ro2.jpg",
+        "sha256": "5A3F727BBA6253899323AB6CBCFAFA12104ED75716AD6882000B0E9EE3C282CB",
+        "bytes": 169600,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 joyous airborne full-body anime figure in center, head thrown slightly back laughing, both arms wide, legs bent in a leap, storm clouds form an oval around him with opening sunlight at top, white-blue lightning and floating rocks. Vivid buoyant illustration.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-032-torian-source-v1.png",
+        "sha256": "A6A46DC886943192D080AFBD69F6D417C357511BFAD900B018EB9AF29B440B45",
+        "bytes": 2385087,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-032-torian-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 32,
+          "sha256": "E68C73FBCB32855470B05E59A7D12908DB3C004612F4C316A04DD07863F6AC90"
+        },
+        {
+          "monsterId": 50,
+          "sha256": "5D8273332D342211FD700BEEE8CB67153A8B21AF1B0BCC9A0D1BD04F4EA1FBB0"
+        }
+      ]
+    },
+    {
+      "key": "hunt-061-aurek",
+      "scope": "HUNT",
+      "monsterIds": [
+        61
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "길가메시"
+      ],
+      "workingName": "금고군주 아우레크",
+      "nameApproval": false,
+      "tabs": [
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/tower/gg123.jpg",
+        "sha256": "4868C04DAC0E0E2A19CA04DE96C91CBF4C004C0B3B975BD3351A37346F3FDF67",
+        "bytes": 179699,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 low-angle thigh-up regal warrior in left-facing three-quarter profile, massive gold shoulder near camera, brilliant reflective gold armor and vertically levitating weapon silhouettes framing both sides against near-black space. Hard-edged luminous cel shading.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-061-aurek-source-v1.png",
+        "sha256": "8FE1E381FE7D986ACD7E5C589FE7A05B6FAF4324EB09A228D7142343D03039E5",
+        "bytes": 2179732,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-061-aurek-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 61,
+          "sha256": "E2C568BC9A4AED1848CE3857CFD12B8AEFFD1CBCF0F1933763F658332EE6C411"
+        }
+      ]
+    },
+    {
+      "key": "hunt-062-veiron",
+      "scope": "HUNT",
+      "monsterIds": [
+        62
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "우치하 오비토"
+      ],
+      "workingName": "허공술사 베이론",
+      "nameApproval": false,
+      "tabs": [
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/tower/we13.jpg",
+        "sha256": "1C44192DDF4C5BD27F35B5577CDE464CBA5BF8C8AE5A74D356AEA4D81A4C9F57",
+        "bytes": 179274,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 low-angle full-body small summoner in front of enormous blue luminous guardian, moon high right, rocky ground, mist and floating rubble. Blue spectral bloom with realistic volumetric light and crisp anime contours.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-062-veiron-source-v1.png",
+        "sha256": "6F40FD32CFDB2C1F24BDD23B21CCFC5FC728899E3A15E45B3FAA50B846F1E5A4",
+        "bytes": 2702611,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-062-veiron-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 62,
+          "sha256": "EE98BCBF1AEFAC8E2D811D796F7F65632AF22CE5AD87EE814BA3A8F1A4DD4083"
+        }
+      ]
+    },
+    {
+      "key": "hunt-063-raskan",
+      "scope": "HUNT",
+      "monsterIds": [
+        63
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "에스카노르"
+      ],
+      "workingName": "한낮의 거인 라스칸",
+      "nameApproval": false,
+      "tabs": [
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/tower/ascar.jpg",
+        "sha256": "5DB3BEA3F52DB45D6ADF22013D719523F35334D95F7FA3A58019363A85EAC4A2",
+        "bytes": 196914,
+        "width": 736,
+        "height": 1307,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 low-angle muscular warrior from thigh up, head small against vast blazing golden animal apparition above, one enormous arm near camera holding weapon down, deep burnt shadows and rich golden rimlight. Painterly cinematic anime.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-063-raskan-source-v1.png",
+        "sha256": "CCFEA31269028F549501E44DE73CF39D95B8E1E4EA173F5D565D61384418AE52",
+        "bytes": 2696924,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-063-raskan-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 63,
+          "sha256": "2FB8C8A00F2728D4865FC0D8DC4E51F62E9FD644F05AF6B29C6BAE1B3D855897"
+        }
+      ]
+    },
+    {
+      "key": "hunt-070-gradan",
+      "scope": "HUNT",
+      "monsterIds": [
+        70
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "골 D. 로저"
+      ],
+      "workingName": "해왕선장 그라단",
+      "nameApproval": false,
+      "tabs": [
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/tower/goldd.jpg",
+        "sha256": "DCD30AFAF36EC626B596660FDD55BDB110ED38FA8642B973C4B8EB503472AB4E",
+        "bytes": 214869,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 low-angle full-body confident pirate captain planted on rock, one hand resting on upright saber hilt, long coat flares wide behind, red-orange energy explosion and embers, bold warm anime illustration.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-070-gradan-source-v1.png",
+        "sha256": "0E6A5E89B38FF4A495D9AD084C28745DDDA427259F5683253C692AF8E6A30751",
+        "bytes": 2536237,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-070-gradan-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 70,
+          "sha256": "1E50F107D21A67C711790777456B14C37BC2F05DF76A8409C807A682493E00E4"
+        }
+      ]
+    },
+    {
+      "key": "hunt-071-eltu",
+      "scope": "HUNT",
+      "monsterIds": [
+        71
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "에드워드 엘릭"
+      ],
+      "workingName": "기공연성사 엘투",
+      "nameApproval": false,
+      "tabs": [
+        "APOCALYPSE"
+      ],
+      "reference": {
+        "path": "assets/tower/apo1.jpg",
+        "sha256": "61B786CD68FEF5FC56BFFE4DB7703AF01F5FDA02E21395FD2847817358A3F66F",
+        "bytes": 185726,
+        "width": 711,
+        "height": 1264,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 waist-up attack portrait, young fighter lunging toward viewer, oversized metal forearm and hand foreshortened across front, face at upper center, crackling cyan lightning, warm bronze metal reflections and dark storm backdrop. Rich painterly anime detail.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-071-eltu-source-v1.png",
+        "sha256": "BCCAB0504557F1E31A0B0071EA7435899B8C1D5A44CDE1848208AC6FF5F3BA84",
+        "bytes": 2839016,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-071-eltu-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 71,
+          "sha256": "4C9FF4FD201FD858E17A0EB1AF9A376EEFE268D03F5FB6E0C174189A5DA6F701"
+        }
+      ]
+    },
+    {
+      "key": "hunt-072-yujin",
+      "scope": "HUNT",
+      "monsterIds": [
+        72
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "히무라 켄신"
+      ],
+      "workingName": "월하검객 유진",
+      "nameApproval": false,
+      "tabs": [
+        "APOCALYPSE"
+      ],
+      "reference": {
+        "path": "assets/tower/apo2.jpg",
+        "sha256": "D70F8FF60262C5CC74B64A6BF85DD765BA9320CE4B3642A0F3C740BEF48F48DB",
+        "bytes": 106836,
+        "width": 673,
+        "height": 1200,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 mid-thigh-up swordsman viewed from left side turning his face toward camera, one hand poised on sheathed blade at waist, windswept hair trailing right, ember-red forest background, spare moody anime cel shading.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-072-yujin-source-v1.png",
+        "sha256": "10C9EC5CCE9CA4E3068667ACDBE703B145601794F27B2E51EE333F78101C631D",
+        "bytes": 2388477,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-072-yujin-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 72,
+          "sha256": "A8208194EDB4C1FA3EF38D6BB64A9E9E4AAEFA0A60F0D7E8798E16F31C55FEC5"
+        }
+      ]
+    },
+    {
+      "key": "hunt-073-danro",
+      "scope": "HUNT",
+      "monsterIds": [
+        73
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "마이트 가이"
+      ],
+      "workingName": "적맥투왕 단로",
+      "nameApproval": false,
+      "tabs": [
+        "APOCALYPSE"
+      ],
+      "reference": {
+        "path": "assets/tower/GAI.jpg",
+        "sha256": "F7BDE029D43C6B2499536830EF0863CBB52DBA1757FC22A1D23B8F3C9CCA526A",
+        "bytes": 118602,
+        "width": 735,
+        "height": 1262,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 extreme foreshortened charging martial artist down low in frame, one knee and fist thrust toward camera, giant red fiery beast face filling upper half, floating stones, graphic red-black and amber anime energy.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-073-danro-source-v1.png",
+        "sha256": "E168FCC1E47ABE392FE8DB09D9C073B158738D4D26991E3EB0AF0D37411C6106",
+        "bytes": 2300515,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-073-danro-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 73,
+          "sha256": "861945D759C92BC1BBB18F5E62BD0351844A74B255F2CB65A2DAA65A978877C9"
+        }
+      ]
+    },
+    {
+      "key": "hunt-074-rohen",
+      "scope": "HUNT",
+      "monsterIds": [
+        74
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "센쥬 하시라마"
+      ],
+      "workingName": "수림대장 로헨",
+      "nameApproval": false,
+      "tabs": [
+        "APOCALYPSE"
+      ],
+      "reference": {
+        "path": "assets/tower/SENJU.jpg",
+        "sha256": "98EACD896E99F28B6C2E7C400AA18BB481CB36C5D205A460A61218DCD6E82EB2",
+        "bytes": 246564,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 full-body arms-folded commander in lower center, huge living-wood guardian and tall forest canopy above, emerald fireflies, foreground leaves and overgrown terraces. Expansive luminous painterly fantasy composition.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-074-rohen-source-v1.png",
+        "sha256": "BE778F94C5220BAA72601539545984D3C1792DEC0300055F75FF1CAC25D1ECB7",
+        "bytes": 3376845,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-074-rohen-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 74,
+          "sha256": "758CB2AB53FC57DFAA29280285B36A41A6F2B46D30B764521E7B104E86BE563A"
+        }
+      ]
+    },
+    {
+      "key": "hunt-075-voldren",
+      "scope": "HUNT",
+      "monsterIds": [
+        75
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "아카드"
+      ],
+      "workingName": "혈야공작 볼드렌",
+      "nameApproval": false,
+      "tabs": [
+        "APOCALYPSE"
+      ],
+      "reference": {
+        "path": "assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-source.jpg",
+        "sha256": "06062FD5A6BEDA5F62AE56F6CB770B936E0D6C4D4DAF68988A59F78CB854A039",
+        "bytes": 75651,
+        "width": 736,
+        "height": 1104,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 2:3 very tight frontal head-and-shoulder sinister grinning portrait, stark red-black graphic ink treatment with warm amber focal eyes, heavy black negative shadows. Preserve the intense ink-poster feeling and crop.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-075-voldren-source-v1.png",
+        "sha256": "309513EAE39777B8C7E7C7CB460EDE42DB72C29151A96AF03BECDC79E414BD94",
+        "bytes": 1912280,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-075-voldren-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 75,
+          "sha256": "93C857902119DA1BA1D86C54AC4AC43217417060EE23490A5D790A750EEE2C53"
+        }
+      ]
+    },
+    {
+      "key": "hunt-076-nerik",
+      "scope": "HUNT",
+      "monsterIds": [
+        76
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "카네키 켄"
+      ],
+      "workingName": "심연포식자 네리크",
+      "nameApproval": false,
+      "tabs": [
+        "APOCALYPSE"
+      ],
+      "reference": {
+        "path": "assets/ui/project-v/monsters/apocalypse-legion-v1/kaneki-source.jpg",
+        "sha256": "D1925739D0760CCB0C64107FEEB420A91575B592B62D51DDB0BF0C739EE1435D",
+        "bytes": 189428,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 layered black-white-red ink poster: central upper-body figure from low three-quarter angle, two larger ghost portraits of the same new identity above, red moon behind shoulders, violent ink-like crimson appendages across lower foreground, small lonely silhouette bottom. Scratchy dark graphic atmosphere.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-076-nerik-source-v1.png",
+        "sha256": "90A7B100D35B0AB589EF1A887CE0A92CD01923D31DC418BDED0E2F21B18D4B36",
+        "bytes": 2704206,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-076-nerik-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 76,
+          "sha256": "DADECF62B7064AE5B144B532EF8A698BEB72B72CE0FFC473FE0C2577853E7A95"
+        }
+      ]
+    },
+    {
+      "key": "hunt-077-bareon-sovereign",
+      "scope": "HUNT",
+      "monsterIds": [
+        77
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "샹크스"
+      ],
+      "workingName": "홍염항해왕 바레온 · 군림",
+      "nameApproval": false,
+      "tabs": [
+        "APOCALYPSE"
+      ],
+      "reference": {
+        "path": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shanks-source.jpg",
+        "sha256": "501F60A81BD14FDC90B117787F088F4DE1F87A2F0A34F725C627874EDEF37415",
+        "bytes": 129810,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 commanding frontal torso close-up, centered down-tilted stern face, sword hilt crossing lower center, stark scarlet-black palette and diagonal red slash filaments, forceful cel-shaded linework.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-077-bareon-sovereign-source-v1.png",
+        "sha256": "EF9407AD7E8619459484C690C95E05D22B9D21951E6A4EAE3D00513781F2C23B",
+        "bytes": 2163033,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-077-bareon-sovereign-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 77,
+          "sha256": "F6A70BEC4989C1366B76F7F8E76A7C3EDE1FB5DFD11F2B933EFB5066A04A77EA"
+        }
+      ]
+    },
+    {
+      "key": "hunt-078-siluen",
+      "scope": "HUNT",
+      "monsterIds": [
+        78
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "우치하 시스이"
+      ],
+      "workingName": "청영환술사 실루엔",
+      "nameApproval": false,
+      "tabs": [
+        "APOCALYPSE"
+      ],
+      "reference": {
+        "path": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shisui-source.jpg",
+        "sha256": "050CDEA29A306746D6D542624300C9DB301F59274E5DE99FC76B0D9E8EFCA798",
+        "bytes": 175424,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 dynamic foreshortened crouching mage reaching open hand toward viewer, face upper right-middle, green concentric luminous background high center, black feather-like debris swirling throughout, diagonally tilted action energy. Lush neon-green anime rendering.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-078-siluen-source-v1.png",
+        "sha256": "692895426EB3D551FE7009513CE8DFC83509FB0377705E939D1F747DE0D3AE23",
+        "bytes": 2788435,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-078-siluen-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 78,
+          "sha256": "C48700834BE911E2588C6492B639A277A08EB6A6AEC16192BE0D4AD3F3D1EC2E"
+        }
+      ]
+    },
+    {
+      "key": "hunt-079-kaon",
+      "scope": "HUNT",
+      "monsterIds": [
+        79
+      ],
+      "raidId": null,
+      "raidCode": null,
+      "previousNames": [
+        "아카자"
+      ],
+      "workingName": "쇄염권사 카온",
+      "nameApproval": false,
+      "tabs": [
+        "NIGHTMARE"
+      ],
+      "reference": {
+        "path": "assets/ui/project-v/monsters/nightmare-akaza-v1/akaza-source-v1.png",
+        "sha256": "A2060FE4D1478077D4B033C1A2045655154C2D24B88A418784E038E65AA50AEC",
+        "bytes": 1623271,
+        "width": 736,
+        "height": 1104,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "composition": "Tall 2:3 close dynamic waist-to-knee martial arts illustration, aggressive smiling fighter leaning forward, large clenched forward fist at lower right-middle, other fist pulled back, circular red-orange energy strips framing him, blue night moon and ruined street behind. Rich clean anime painting.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/hunt-079-kaon-source-v1.png",
+        "sha256": "8FE03D62277202BED4850CD000D8496E54E738808CA32C4F875E3DE6BCBAD9AF",
+        "bytes": 2742189,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/hunt-079-kaon-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": [
+        {
+          "monsterId": 79,
+          "sha256": "93F4D427D64ACBFEB1C25798A10B8AF456B504EE53317F2492531B26C9D24F70"
+        }
+      ]
+    },
+    {
+      "key": "raid-002-ravok",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": 2,
+      "raidCode": null,
+      "previousNames": [
+        "족사이언"
+      ],
+      "workingName": "혈성투왕 라보크",
+      "nameApproval": false,
+      "tabs": [],
+      "reference": {
+        "path": "assets/tower/fare.jpg",
+        "sha256": "7AE1F80794A578C311D857C836C91F199ECD98EEDA47895452C90C47FCBB1249",
+        "bytes": 212899,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 powerful muscular fighter from knees up, fists relaxed beside body, stern three-quarter face, burnt sunset rocky arena, crimson glowing motes. Crisp strong anime cel shading and rim lighting.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-002-ravok-source-v1.png",
+        "sha256": "841914A12F3CA28169FCEB19928FAAF09A241D3B4E0DE948A4A63BBFE028D3C1",
+        "bytes": 2471532,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/raid-002-ravok-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": []
+    },
+    {
+      "key": "raid-004-orthen",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": 4,
+      "raidCode": null,
+      "previousNames": [
+        "나가토"
+      ],
+      "workingName": "중력사제 오르텐",
+      "nameApproval": false,
+      "tabs": [],
+      "reference": {
+        "path": "assets/ui/project-v/monsters/weekly-raid-v1/nagato-source.jpg",
+        "sha256": "10A2AD880F19C8A58301BF4CCC46005CB40013CF4CB27F5507F098F82D5391E8",
+        "bytes": 216504,
+        "width": 736,
+        "height": 1472,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 1:2 extreme close-up, giant foreshortened open hand reaching from lower front, calm centered face slightly tilted, warm orange rimlight on dark cloak, fine scratch-like highlights and black negative backdrop. Preserve commanding dramatic hand/face hierarchy.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-004-orthen-source-v1.png",
+        "sha256": "BBBC0FC09A0EA23D9D7847E458B53799C50B17E0AFFCB01FF9A0E40D19EC1815",
+        "bytes": 2950326,
+        "width": 887,
+        "height": 1774,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/raid-004-orthen-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": []
+    },
+    {
+      "key": "raid-006-haeryun",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": 6,
+      "raidCode": null,
+      "previousNames": [
+        "요리이치"
+      ],
+      "workingName": "천화검성 해륜",
+      "nameApproval": false,
+      "tabs": [],
+      "reference": {
+        "path": "assets/ui/project-v/monsters/weekly-raid-v1/yoriichi-source.jpg",
+        "sha256": "04D28A59C54B23E7164F8AA5ED8F47B15F31C5D9CD0CD9B242AB7164E4CA9F46",
+        "bytes": 177615,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 1:2 close front-facing swordsman bust, face upper center, blade runs diagonal from left-middle to lower-right foreground, intense fire sweep below, warm glowing orange edge light and dark background. Detailed painted anime.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-006-haeryun-source-v1.png",
+        "sha256": "05896F451F306925A27D9BF42677204C881A984D311A55335AAA0D4D561D527E",
+        "bytes": 2491483,
+        "width": 887,
+        "height": 1774,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/raid-006-haeryun-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": []
+    },
+    {
+      "key": "raid-008-noaren",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": 8,
+      "raidCode": null,
+      "previousNames": [
+        "이치고"
+      ],
+      "workingName": "공허검주 노아렌",
+      "nameApproval": false,
+      "tabs": [],
+      "reference": {
+        "path": "assets/ui/project-v/monsters/weekly-raid-v1/ichigo-source.jpg",
+        "sha256": "F11FF1FC35D6B8C24B152EAE197338B950A4DC6F69287E4CC9AE85CA469F42D8",
+        "bytes": 93070,
+        "width": 736,
+        "height": 1308,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 minimal high-key fantasy poster with huge pale cloudy negative space in upper half, solitary full-body black-clad swordsman small and right of center, grounded upright blade on his left, broken ivory tiles below, black torn ink mist spreading to right, tiny red accents. Fine grayscale painterly anime.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-008-noaren-source-v1.png",
+        "sha256": "DFEFB9755DC3A81FD017749D6416457C17973863E3B70B8DE00205A2212B8816",
+        "bytes": 1960581,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/raid-008-noaren-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": []
+    },
+    {
+      "key": "raid-madara-vaelun",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": null,
+      "raidCode": "MADARA",
+      "previousNames": [],
+      "workingName": "재앙군주 바엘룬",
+      "nameApproval": false,
+      "tabs": [],
+      "reference": {
+        "path": "preview/madara-raid-v1/assets/madara-source-reference.png",
+        "sha256": "56961C972F4F229D5CB09267F469C2C6822EC41A8411FA0197C15DB07A12A163",
+        "bytes": 2299288,
+        "width": 1170,
+        "height": 2080,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "composition": "Tall 9:16 illustrated poster: full-body arms-folded commander below center on broken rock, massive blue spirit occupying upper background, gray rainstorm, scattered swords and smoke, slightly low camera. Crisp 2D fantasy anime with restrained cinematic depth.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-madara-vaelun-source-v1.png",
+        "sha256": "2269C4DD3598E9439D0BE5F61B7C9D9E1A6ECC8E77EE594386C639DCCB1B21FD",
+        "bytes": 2353943,
+        "width": 941,
+        "height": 1672,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/raid-madara-vaelun-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": []
+    },
+    {
+      "key": "raid-lich-nivar",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": null,
+      "raidCode": "LICH_KING",
+      "previousNames": [],
+      "workingName": "빙혼군주 니바르",
+      "nameApproval": false,
+      "tabs": [],
+      "reference": {
+        "path": "preview/lich-king-raid-poster-v1/lich-king-source-art-v1.png",
+        "sha256": "408335E37611F21A180B46F7960BB6D099254244694B2F185C56D950FF5D4850",
+        "bytes": 2822312,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "composition": "Tall 2:3 epic dark-fantasy painted illustration, central full-body armored death monarch, both hands stacked on an upright frost sword pointed into icy rock, sweeping dark cloak, frozen gothic fortress behind, blue eye-level glow, moonlit snow and rich metal texture.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-lich-nivar-source-v1.png",
+        "sha256": "56248539A7EB8BE4D68B2368578CB98B95E8C511E198C288282393AB001FEF1D",
+        "bytes": 2719287,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/raid-lich-nivar-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": []
+    },
+    {
+      "key": "raid-core-astel",
+      "scope": "RAID",
+      "monsterIds": [],
+      "raidId": null,
+      "raidCode": "CORE_PROTOCOL",
+      "previousNames": [],
+      "workingName": "청뢰황 아스텔",
+      "nameApproval": false,
+      "tabs": [],
+      "reference": {
+        "path": "assets/tower/uhabha.jpg",
+        "sha256": "C6DBF7F366B77B62156511CC648647A2FA541AD71091CCE3A029F7FC81C5C3C2",
+        "bytes": 141978,
+        "width": 736,
+        "height": 1104,
+        "format": "jpeg",
+        "hasAlpha": false
+      },
+      "composition": "Tall 2:3 low-angle full-body commander centered foreground, long cyan energy sword down to lower-left ground, flowing dark cape, gigantic luminous ghost double behind upper-left, ruined spired architecture at right, blue magical storm. Detailed vivid anime illustration.",
+      "sourceArt": {
+        "path": "preview/monster-original-ip-20261013-v1/assets/raid-core-astel-source-v1.png",
+        "sha256": "9E4B6D092FD188882112D71397DF5F4353DF745519BA0F80893A9274EA41A46C",
+        "bytes": 2444648,
+        "width": 1024,
+        "height": 1536,
+        "format": "png",
+        "hasAlpha": false
+      },
+      "prompt": "prompts/raid-core-astel-source-v1.json",
+      "sourceArtVersions": [
+        1
+      ],
+      "sourceArtStatus": "REVIEW_READY",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING_SOURCE_REVIEW",
+      "visualApproval": false,
+      "runtimeConnected": false,
+      "mechanicsHashes": []
+    }
+  ]
+}

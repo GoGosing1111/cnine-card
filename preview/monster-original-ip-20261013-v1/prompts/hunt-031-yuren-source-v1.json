@@ -1,0 +1,20 @@
+{
+  "key": "hunt-031-yuren",
+  "name": "백야귀족 유르엔",
+  "ids": [
+    31,
+    49
+  ],
+  "ref": "assets/tower/SET.jpg",
+  "composition": "Tall 2:3 luminous fantasy illustration: elegant full-body white-clad figure below center, much larger mist portrait of the SAME new character at upper right, full moon upper left, violet-blue petals and flowing hair, stone garden foreground. Keep fine painterly anime detail and layered scale.",
+  "identity": "An original androgynous adult moon elf noble with pale blue-gray skin, long flowing silver-lilac hair swept back off forehead, long narrow ears, ordinary lavender irises, no facial stripes or forehead crescent. Ivory high-collar long coat with silver leaf-chain embroidery and charcoal pleated inner robes, broad translucent silk stole, no fur pelt or spiked shoulder. Thin moonsteel saber with an asymmetrical silver loop guard. Replace shrine architecture with ruined circular garden arches. No lettering or franchise motifs.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Tall 2:3 luminous fantasy illustration: elegant full-body white-clad figure below center, much larger mist portrait of the SAME new character at upper right, full moon upper left, violet-blue petals and flowing hair, stone garden foreground. Keep fine painterly anime detail and layered scale.\nNew original identity: An original androgynous adult moon elf noble with pale blue-gray skin, long flowing silver-lilac hair swept back off forehead, long narrow ears, ordinary lavender irises, no facial stripes or forehead crescent. Ivory high-collar long coat with silver leaf-chain embroidery and charcoal pleated inner robes, broad translucent silk stole, no fur pelt or spiked shoulder. Thin moonsteel saber with an asymmetrical silver loop guard. Replace shrine architecture with ruined circular garden arches. No lettering or franchise motifs.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.",
+  "appearanceSteering": "User asked for East Asian and white characters as well; do not make the roster uniformly dark-skinned. Keep each character's face and complexion distinct.",
+  "references": [
+    "C:/Users/User/.codex/worktrees/mercenary-ivory-knight-idle/cnine-card/assets/tower/SET.jpg"
+  ],
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-9e66e874-18ff-454b-921c-e4a0da6288e4.png",
+  "output": "assets/hunt-031-yuren-source-v1.png",
+  "userApproval": false
+}

@@ -1,0 +1,20 @@
+{
+  "key": "hunt-029-saharin",
+  "name": "낙화심판관 사하린",
+  "ids": [
+    29,
+    47
+  ],
+  "ref": "assets/effects/ko.jpg",
+  "composition": "Tall 2:3 illustrated poster, full-body airborne robed dual-blade warrior centered with a diagonal twist, huge pale garments sweeping outward, large blade above and another crossing lower front, gold flat textured background and dark tree-branch silhouettes; elegant ink and cel shading.",
+  "identity": "An older silver-haired wandering arbiter with a tight topknot, light olive East Asian complexion, a trimmed short beard, no eyepatch or hat. Layered pale jade and cream scholar robes with navy woven geometry, sleeves and sash flowing naturally; two leaf-shaped curved swords with straight utilitarian hilts, no large hooked tips. Sparse plum petals and broad willow ink silhouettes, not copied pine silhouettes, flower-pattern captain cloak or existing insignia.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Tall 2:3 illustrated poster, full-body airborne robed dual-blade warrior centered with a diagonal twist, huge pale garments sweeping outward, large blade above and another crossing lower front, gold flat textured background and dark tree-branch silhouettes; elegant ink and cel shading.\nNew original identity: An older silver-haired wandering arbiter with a tight topknot, light olive East Asian complexion, a trimmed short beard, no eyepatch or hat. Layered pale jade and cream scholar robes with navy woven geometry, sleeves and sash flowing naturally; two leaf-shaped curved swords with straight utilitarian hilts, no large hooked tips. Sparse plum petals and broad willow ink silhouettes, not copied pine silhouettes, flower-pattern captain cloak or existing insignia.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.",
+  "appearanceSteering": "User asked for East Asian and white characters as well; do not make the roster uniformly dark-skinned. Keep each character's face and complexion distinct.",
+  "references": [
+    "C:/Users/User/.codex/worktrees/mercenary-ivory-knight-idle/cnine-card/assets/effects/ko.jpg"
+  ],
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-ea7978ae-1f5c-4fa1-bdc3-04cebfb31a15.png",
+  "output": "assets/hunt-029-saharin-source-v1.png",
+  "userApproval": false
+}

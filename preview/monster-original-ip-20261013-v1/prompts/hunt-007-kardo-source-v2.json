@@ -1,0 +1,12 @@
+{
+  "key": "hunt-007-kardo",
+  "name": "화산총독 카르도",
+  "ref": "preview/monster-original-ip-20261013-v1/assets/hunt-007-kardo-source-v1.png",
+  "prompt": "Use case: precise-object-edit. Revise only the exposed head and face of the ORIGINAL seated volcanic governor in image 1. Make him an older WHITE EUROPEAN man with naturally FAIR slightly ruddy skin, a broad weathered angular face, gray-blue ordinary eyes, bald head, a dark auburn moustache and neat short goatee. Preserve believable orange furnace highlights but the underlying complexion must clearly be fair, not bronze, copper or brown. Do not just lighten the old face: subtly redesign natural facial proportions to this new mature European identity without caricature. Keep EXACTLY the outfit, crossed-leg and folded-arm pose, weapon, gloves, obsidian throne, lava glow, smoke, architecture, lighting arrangement, framing, aspect ratio, body proportions and cel-shaded illustration treatment. No other edits, no text, watermark or UI.",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "output": "assets/hunt-007-kardo-source-v2.png",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-cf85cb51-cbea-46ea-bdae-881b685c6d18.png",
+  "version": 2,
+  "status": "SOURCE_ART_REVIEW",
+  "userApproval": false
+}

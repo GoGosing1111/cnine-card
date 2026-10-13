@@ -1,0 +1,21 @@
+{
+  "key": "hunt-030-seiran-shadow",
+  "name": "월영집행자 세이란",
+  "ids": [
+    30,
+    48
+  ],
+  "ref": "assets/effects/ANBU.jpg",
+  "composition": "Tall 9:16 dark close-up of black-clad assassin seen over shoulder, face lower center, hand lifting mask at upper right side of face; large muted red moon behind upper left, black negative space, understated red sparks. Clean restrained 2D anime illustration.",
+  "identity": "SEIRAN: fair-skinned East Asian adult with an angular long face, straight strong nose, gray ordinary irises, shoulder-length naturally flowing dark hair with one pale left-temple lock. New half mask made of flat dark-bronze overlapping petals, human face shape with NO animal ears, eye designs or teeth; a narrow red glass slit. Matte layered charcoal stealth cuirass, braided gray collar, no forehead plate, ocular sigils or ninja clan insignia. Held mask reveals his ordinary eye.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Tall 9:16 dark close-up of black-clad assassin seen over shoulder, face lower center, hand lifting mask at upper right side of face; large muted red moon behind upper left, black negative space, understated red sparks. Clean restrained 2D anime illustration.\nNew original identity: SEIRAN: fair-skinned East Asian adult with an angular long face, straight strong nose, gray ordinary irises, shoulder-length naturally flowing dark hair with one pale left-temple lock. New half mask made of flat dark-bronze overlapping petals, human face shape with NO animal ears, eye designs or teeth; a narrow red glass slit. Matte layered charcoal stealth cuirass, braided gray collar, no forehead plate, ocular sigils or ninja clan insignia. Held mask reveals his ordinary eye.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.\nInput image 2 is the newly designed ORIGINAL Seiran. Use only its face, natural hair structure, pale temple lock and complexion to keep the two outfits the same person; keep image 1's masked over-shoulder pose and restrained flat 2D style, not image 2's framing.",
+  "appearanceSteering": "User asked for East Asian and white characters as well; do not make the roster uniformly dark-skinned. Keep each character's face and complexion distinct.",
+  "references": [
+    "C:/Users/User/.codex/worktrees/mercenary-ivory-knight-idle/cnine-card/assets/effects/ANBU.jpg",
+    "C:/Users/User/.codex/worktrees/mercenary-ivory-knight-idle/cnine-card/preview/monster-original-ip-20261013-v1/assets/hunt-015-seiran-source-v1.png"
+  ],
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-95b40d2a-c8d8-4171-8095-732be7a794c2.png",
+  "output": "assets/hunt-030-seiran-shadow-source-v1.png",
+  "userApproval": false
+}

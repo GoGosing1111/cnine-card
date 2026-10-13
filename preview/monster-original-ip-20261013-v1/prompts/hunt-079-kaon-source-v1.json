@@ -1,0 +1,16 @@
+{
+  "key": "hunt-079-kaon",
+  "name": "쇄염권사 카온",
+  "ids": [
+    79
+  ],
+  "ref": "assets/ui/project-v/monsters/nightmare-akaza-v1/akaza-source-v1.png",
+  "composition": "Tall 2:3 close dynamic waist-to-knee martial arts illustration, aggressive smiling fighter leaning forward, large clenched forward fist at lower right-middle, other fist pulled back, circular red-orange energy strips framing him, blue night moon and ruined street behind. Rich clean anime painting.",
+  "identity": "KAON, original athletic adult male with fair warm East Asian skin, short naturally swept charcoal hair, ordinary copper eyes and a broad nose; no face or body tattoos. Asymmetric burnt-orange sleeveless wrap vest over dark slate chest wraps, charcoal trousers, broad copper belt and blue-gray forearm boxing wraps with thin brass knuckle plates. No pink hair, eye kanji, blue stripe markings, purple open vest or thick white rope belt. Individual face and costume; small fire-chip fragments flow around fists, not a franchise-specific symbol.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Tall 2:3 close dynamic waist-to-knee martial arts illustration, aggressive smiling fighter leaning forward, large clenched forward fist at lower right-middle, other fist pulled back, circular red-orange energy strips framing him, blue night moon and ruined street behind. Rich clean anime painting.\nNew original identity: KAON, original athletic adult male with fair warm East Asian skin, short naturally swept charcoal hair, ordinary copper eyes and a broad nose; no face or body tattoos. Asymmetric burnt-orange sleeveless wrap vest over dark slate chest wraps, charcoal trousers, broad copper belt and blue-gray forearm boxing wraps with thin brass knuckle plates. No pink hair, eye kanji, blue stripe markings, purple open vest or thick white rope belt. Individual face and costume; small fire-chip fragments flow around fists, not a franchise-specific symbol.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.",
+  "appearanceSteering": "User asked for East Asian and white characters as well; do not make the roster uniformly dark-skinned. Keep each character's face and complexion distinct.",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-3c77e2dc-82ae-4726-b4b4-c7c32a32a7d6.png",
+  "output": "assets/hunt-079-kaon-source-v1.png",
+  "userApproval": false
+}

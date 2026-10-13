@@ -1,0 +1,16 @@
+{
+  "key": "hunt-072-yujin",
+  "name": "월하검객 유진",
+  "ids": [
+    72
+  ],
+  "ref": "assets/tower/apo2.jpg",
+  "composition": "Tall 9:16 mid-thigh-up swordsman viewed from left side turning his face toward camera, one hand poised on sheathed blade at waist, windswept hair trailing right, ember-red forest background, spare moody anime cel shading.",
+  "identity": "An adult wandering swordsman with long charcoal-blue hair tied high with plain cloth, naturally flowing strands, fair East Asian skin, aquiline nose, ordinary gray eyes and no cheek scars. Worn indigo crossover coat with structured charcoal shoulder panels, gray trousers and faded copper sash, leather bracers. One straight-backed single-edged blade sheathed at waist with oval dark guard, no reverse blade gimmick, red hair, X scar or red kimono. Preserve somber sideways sword-draw energy.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Tall 9:16 mid-thigh-up swordsman viewed from left side turning his face toward camera, one hand poised on sheathed blade at waist, windswept hair trailing right, ember-red forest background, spare moody anime cel shading.\nNew original identity: An adult wandering swordsman with long charcoal-blue hair tied high with plain cloth, naturally flowing strands, fair East Asian skin, aquiline nose, ordinary gray eyes and no cheek scars. Worn indigo crossover coat with structured charcoal shoulder panels, gray trousers and faded copper sash, leather bracers. One straight-backed single-edged blade sheathed at waist with oval dark guard, no reverse blade gimmick, red hair, X scar or red kimono. Preserve somber sideways sword-draw energy.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.",
+  "appearanceSteering": "User asked for East Asian and white characters as well; do not make the roster uniformly dark-skinned. Keep each character's face and complexion distinct.",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-2c72d436-0a70-4ba6-93ef-4c7ad3c7b6d7.png",
+  "output": "assets/hunt-072-yujin-source-v1.png",
+  "userApproval": false
+}

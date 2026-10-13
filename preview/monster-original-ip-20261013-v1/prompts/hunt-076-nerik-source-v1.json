@@ -1,0 +1,19 @@
+{
+  "key": "hunt-076-nerik",
+  "name": "심연포식자 네리크",
+  "ids": [
+    76
+  ],
+  "ref": "assets/ui/project-v/monsters/apocalypse-legion-v1/kaneki-source.jpg",
+  "composition": "Tall 9:16 layered black-white-red ink poster: central upper-body figure from low three-quarter angle, two larger ghost portraits of the same new identity above, red moon behind shoulders, violent ink-like crimson appendages across lower foreground, small lonely silhouette bottom. Scratchy dark graphic atmosphere.",
+  "identity": "Original adult abyss host with long dark hair pulled into a low knot, pale gray skin, both ordinary amber eyes, angular long nose and faint vertical healed scar below chin. Black high-neck sleeveless coat, worn gray shoulder wraps, solid bronze lower-face respirator with three narrow vents and NO tooth print or zipper. Crimson-black floating blade petals orbit his back, NOT fleshy tentacles. No white mop hair, eyepatch, teeth mask or franchise lettering. Portrait silhouettes all show this new identity.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Tall 9:16 layered black-white-red ink poster: central upper-body figure from low three-quarter angle, two larger ghost portraits of the same new identity above, red moon behind shoulders, violent ink-like crimson appendages across lower foreground, small lonely silhouette bottom. Scratchy dark graphic atmosphere.\nNew original identity: Original adult abyss host with long dark hair pulled into a low knot, pale gray skin, both ordinary amber eyes, angular long nose and faint vertical healed scar below chin. Black high-neck sleeveless coat, worn gray shoulder wraps, solid bronze lower-face respirator with three narrow vents and NO tooth print or zipper. Crimson-black floating blade petals orbit his back, NOT fleshy tentacles. No white mop hair, eyepatch, teeth mask or franchise lettering. Portrait silhouettes all show this new identity.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.",
+  "appearanceSteering": "User asked for East Asian and white characters as well; do not make the roster uniformly dark-skinned. Keep each character's face and complexion distinct.",
+  "references": [
+    "C:/Users/User/.codex/worktrees/mercenary-ivory-knight-idle/cnine-card/assets/ui/project-v/monsters/apocalypse-legion-v1/kaneki-source.jpg"
+  ],
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-1441e529-46e7-45a2-8fa6-22000c73d124.png",
+  "output": "assets/hunt-076-nerik-source-v1.png",
+  "userApproval": false
+}

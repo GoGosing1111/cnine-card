@@ -1,0 +1,304 @@
+{
+  "checkedAt": "2026-10-13T03:11:42.517Z",
+  "mode": "SOURCE_ASSET_VERIFICATION",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "pass": true,
+  "sourceArt": 36,
+  "huntRows": 38,
+  "raidSourceArt": 7,
+  "protectedRows": 19,
+  "originalGeneratedBytesPreserved": true,
+  "originalReferencesUnchanged": true,
+  "userVisualApproval": false,
+  "runtimeConnected": false,
+  "checked": [
+    {
+      "key": "hunt-004-solvein",
+      "sourceVersion": 1,
+      "referenceHash": "9D980773B28C7F89DFFBEC210054B1CB920F60FE67D311E62D04BDDC5B23C844",
+      "sourceHash": "35BB251C57F0015534BC1211ECC3A552D9B620BC65D92697449A442EA5D9C84A",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-006-nervan",
+      "sourceVersion": 2,
+      "referenceHash": "2D6E132E823C805591702C3F8CF9F970F23506918F4A83F694AA0AEA18D7D577",
+      "sourceHash": "75EA13A89360653243C2CA97EA58646B27CACD3F0B17A7DDEB5670085D4FF023",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-007-kardo",
+      "sourceVersion": 2,
+      "referenceHash": "E3ADB34010705871903037CC8EDFB103EE022CC356C42CE88634191869985595",
+      "sourceHash": "812BC134347E092826823C7EAB7A0CDEC96536C82EA081050ACDEFF6FAC5F2DB",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-010-brekan",
+      "sourceVersion": 1,
+      "referenceHash": "94D81C5183C85B20965B2A5A43EDA27309834AA70C8D6A0C057621A6A806A669",
+      "sourceHash": "9FA437EBF50A606CCE08B3A23C3B40C145E14DCE686E44531D93B15D12479EBA",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-011-morden",
+      "sourceVersion": 1,
+      "referenceHash": "5E00D30463C6D8587BB7631CE8A3C142A7AC2A0BBD13FC0083DD6FE93ECF0CB7",
+      "sourceHash": "0754B55A50FD9517FF0176EDCB199A698127EE0FA5F34751902FE6A8552BBC11",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-012-serk",
+      "sourceVersion": 1,
+      "referenceHash": "E318A007094A6F2A3A8A44D258CF647B914BE5E5BE62BC3A7C014ED90D9AB045",
+      "sourceHash": "2A5D5E78CD8410B44FAA120E8D7BC1E7736EDD3FAB9F0C2D4FA6C840A7942D32",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-013-bareon",
+      "sourceVersion": 2,
+      "referenceHash": "C970A7E4749281A122E58DBF1318EF22731F14D75D30F3D1B74631F573B66BFA",
+      "sourceHash": "50EA5836C526BEFBBC23C81A70083DA12871F65DD09DDEEB386E711919383CE5",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-014-kirian",
+      "sourceVersion": 1,
+      "referenceHash": "9087D077545EB67A85D04996F60AD68D7E5CEE3F0A51F7311C2E6682E9C38F33",
+      "sourceHash": "2258A3858085764E7BD7EBE6F337302BA438A0B42750B9849BDB2DD6DF596FAB",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-015-seiran",
+      "sourceVersion": 1,
+      "referenceHash": "BB4813B165374EE3E71D06489C8D9C562D3E7FB3FCEFB588666496A8248809FC",
+      "sourceHash": "BCC986FCE8E0581780B509D41D1839E134670981B255E6D188C1AB209AD8A6EA",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-016-hajin",
+      "sourceVersion": 1,
+      "referenceHash": "DDB8A4D950881BC22AFAE4C951505E28491B5BB03D3656A1F61C37CBF3C48EF3",
+      "sourceHash": "A3EED33E849285ABEF177F8A802F834EE105C37CFE0B1FED197DADE8AB26BF68",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-025-rokas",
+      "sourceVersion": 1,
+      "referenceHash": "6A691FEFC08B46DDEFE85A04FC2126AC5546A5BFA47A07153A9C7FEBDEDD683B",
+      "sourceHash": "880E8990921FA9C422B719091B1751B64DA0397B63CEF9CF725750E010D8CAB6",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-026-taeon",
+      "sourceVersion": 2,
+      "referenceHash": "8CED202523D2C49CFBA4B81199CEAECAB83D28E91621B9D2DF422AAF944B9886",
+      "sourceHash": "D6BC8EB4543D01560C607AA83B3E7A357C8E789120A4E9645473CFC0E6C55EC8",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-029-saharin",
+      "sourceVersion": 1,
+      "referenceHash": "64033E075A4EF5F8B07ABE4067FAC3F6EEC1C1826A29603A328153375DF8152F",
+      "sourceHash": "ECA1AEEAD13B4DA6F634780AF257C1C72EE14CFF494CEC1064C972F1696A8326",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-030-seiran-shadow",
+      "sourceVersion": 1,
+      "referenceHash": "284593940E6062AE07CFFC358B4195EA9958356C0317C348995DF81EF1D7D8C3",
+      "sourceHash": "00D426741256AF283464C98B7C9DC99FEFC4C205086CCFBA6C6F5B6219D4F53F",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-031-yuren",
+      "sourceVersion": 1,
+      "referenceHash": "6E1BE2052DE4DDDB736842FF27ED9E9CC50F51D9AF667453A2E1A4D0950171FB",
+      "sourceHash": "33393D918DE9800CAF33D68D56EB04460214C41E237E8B8A4F7CB27BFC746C73",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-032-torian",
+      "sourceVersion": 1,
+      "referenceHash": "5A3F727BBA6253899323AB6CBCFAFA12104ED75716AD6882000B0E9EE3C282CB",
+      "sourceHash": "A6A46DC886943192D080AFBD69F6D417C357511BFAD900B018EB9AF29B440B45",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-061-aurek",
+      "sourceVersion": 1,
+      "referenceHash": "4868C04DAC0E0E2A19CA04DE96C91CBF4C004C0B3B975BD3351A37346F3FDF67",
+      "sourceHash": "8FE1E381FE7D986ACD7E5C589FE7A05B6FAF4324EB09A228D7142343D03039E5",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-062-veiron",
+      "sourceVersion": 1,
+      "referenceHash": "1C44192DDF4C5BD27F35B5577CDE464CBA5BF8C8AE5A74D356AEA4D81A4C9F57",
+      "sourceHash": "6F40FD32CFDB2C1F24BDD23B21CCFC5FC728899E3A15E45B3FAA50B846F1E5A4",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-063-raskan",
+      "sourceVersion": 1,
+      "referenceHash": "5DB3BEA3F52DB45D6ADF22013D719523F35334D95F7FA3A58019363A85EAC4A2",
+      "sourceHash": "CCFEA31269028F549501E44DE73CF39D95B8E1E4EA173F5D565D61384418AE52",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-070-gradan",
+      "sourceVersion": 1,
+      "referenceHash": "DCD30AFAF36EC626B596660FDD55BDB110ED38FA8642B973C4B8EB503472AB4E",
+      "sourceHash": "0E6A5E89B38FF4A495D9AD084C28745DDDA427259F5683253C692AF8E6A30751",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-071-eltu",
+      "sourceVersion": 1,
+      "referenceHash": "61B786CD68FEF5FC56BFFE4DB7703AF01F5FDA02E21395FD2847817358A3F66F",
+      "sourceHash": "BCCAB0504557F1E31A0B0071EA7435899B8C1D5A44CDE1848208AC6FF5F3BA84",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-072-yujin",
+      "sourceVersion": 1,
+      "referenceHash": "D70F8FF60262C5CC74B64A6BF85DD765BA9320CE4B3642A0F3C740BEF48F48DB",
+      "sourceHash": "10C9EC5CCE9CA4E3068667ACDBE703B145601794F27B2E51EE333F78101C631D",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-073-danro",
+      "sourceVersion": 1,
+      "referenceHash": "F7BDE029D43C6B2499536830EF0863CBB52DBA1757FC22A1D23B8F3C9CCA526A",
+      "sourceHash": "E168FCC1E47ABE392FE8DB09D9C073B158738D4D26991E3EB0AF0D37411C6106",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-074-rohen",
+      "sourceVersion": 1,
+      "referenceHash": "98EACD896E99F28B6C2E7C400AA18BB481CB36C5D205A460A61218DCD6E82EB2",
+      "sourceHash": "BE778F94C5220BAA72601539545984D3C1792DEC0300055F75FF1CAC25D1ECB7",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-075-voldren",
+      "sourceVersion": 1,
+      "referenceHash": "06062FD5A6BEDA5F62AE56F6CB770B936E0D6C4D4DAF68988A59F78CB854A039",
+      "sourceHash": "309513EAE39777B8C7E7C7CB460EDE42DB72C29151A96AF03BECDC79E414BD94",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-076-nerik",
+      "sourceVersion": 1,
+      "referenceHash": "D1925739D0760CCB0C64107FEEB420A91575B592B62D51DDB0BF0C739EE1435D",
+      "sourceHash": "90A7B100D35B0AB589EF1A887CE0A92CD01923D31DC418BDED0E2F21B18D4B36",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-077-bareon-sovereign",
+      "sourceVersion": 1,
+      "referenceHash": "501F60A81BD14FDC90B117787F088F4DE1F87A2F0A34F725C627874EDEF37415",
+      "sourceHash": "EF9407AD7E8619459484C690C95E05D22B9D21951E6A4EAE3D00513781F2C23B",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-078-siluen",
+      "sourceVersion": 1,
+      "referenceHash": "050CDEA29A306746D6D542624300C9DB301F59274E5DE99FC76B0D9E8EFCA798",
+      "sourceHash": "692895426EB3D551FE7009513CE8DFC83509FB0377705E939D1F747DE0D3AE23",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "hunt-079-kaon",
+      "sourceVersion": 1,
+      "referenceHash": "A2060FE4D1478077D4B033C1A2045655154C2D24B88A418784E038E65AA50AEC",
+      "sourceHash": "8FE03D62277202BED4850CD000D8496E54E738808CA32C4F875E3DE6BCBAD9AF",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "raid-002-ravok",
+      "sourceVersion": 1,
+      "referenceHash": "7AE1F80794A578C311D857C836C91F199ECD98EEDA47895452C90C47FCBB1249",
+      "sourceHash": "841914A12F3CA28169FCEB19928FAAF09A241D3B4E0DE948A4A63BBFE028D3C1",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "raid-004-orthen",
+      "sourceVersion": 1,
+      "referenceHash": "10A2AD880F19C8A58301BF4CCC46005CB40013CF4CB27F5507F098F82D5391E8",
+      "sourceHash": "BBBC0FC09A0EA23D9D7847E458B53799C50B17E0AFFCB01FF9A0E40D19EC1815",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "raid-006-haeryun",
+      "sourceVersion": 1,
+      "referenceHash": "04D28A59C54B23E7164F8AA5ED8F47B15F31C5D9CD0CD9B242AB7164E4CA9F46",
+      "sourceHash": "05896F451F306925A27D9BF42677204C881A984D311A55335AAA0D4D561D527E",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "raid-008-noaren",
+      "sourceVersion": 1,
+      "referenceHash": "F11FF1FC35D6B8C24B152EAE197338B950A4DC6F69287E4CC9AE85CA469F42D8",
+      "sourceHash": "DFEFB9755DC3A81FD017749D6416457C17973863E3B70B8DE00205A2212B8816",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "raid-madara-vaelun",
+      "sourceVersion": 1,
+      "referenceHash": "56961C972F4F229D5CB09267F469C2C6822EC41A8411FA0197C15DB07A12A163",
+      "sourceHash": "2269C4DD3598E9439D0BE5F61B7C9D9E1A6ECC8E77EE594386C639DCCB1B21FD",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "raid-lich-nivar",
+      "sourceVersion": 1,
+      "referenceHash": "408335E37611F21A180B46F7960BB6D099254244694B2F185C56D950FF5D4850",
+      "sourceHash": "56248539A7EB8BE4D68B2368578CB98B95E8C511E198C288282393AB001FEF1D",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    },
+    {
+      "key": "raid-core-astel",
+      "sourceVersion": 1,
+      "referenceHash": "C6DBF7F366B77B62156511CC648647A2FA541AD71091CCE3A029F7FC81C5C3C2",
+      "sourceHash": "9E4B6D092FD188882112D71397DF5F4353DF745519BA0F80893A9274EA41A46C",
+      "imageMetadataRead": true,
+      "promptPresent": true
+    }
+  ]
+}

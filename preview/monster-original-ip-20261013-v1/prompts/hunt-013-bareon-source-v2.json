@@ -1,0 +1,12 @@
+{
+  "key": "hunt-013-bareon",
+  "name": "홍염항해왕 바레온",
+  "ref": "preview/monster-original-ip-20261013-v1/assets/hunt-013-bareon-source-v1.png",
+  "prompt": "Use case: precise-object-edit. Update only the face and exposed skin of the ORIGINAL saber captain in image 1 to a WHITE EUROPEAN man with a FAIR LIGHT warm complexion and a mild believable sun tan. Clear light skin across face, neck, both arms and hands. Give him a naturally angular European face, gray-green eyes, retain his wavy black hair with the single silver streak and full short beard. Preserve EXACTLY the existing pose, giant foreground hand perspective, saber geometry, costume, scarf, sword belt, cloud and fire arcs, brown background, composition, crop, landscape aspect ratio and cel-shaded anime illustration treatment. No ethnic caricature, no new scars, no new accessories, no other changes, no text or watermark.",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "output": "assets/hunt-013-bareon-source-v2.png",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-532e2ff1-024c-4058-87c9-57ddc6e0e573.png",
+  "version": 2,
+  "status": "SOURCE_ART_REVIEW",
+  "userApproval": false
+}

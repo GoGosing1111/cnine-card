@@ -1,0 +1,12 @@
+{
+  "key": "hunt-006-nervan",
+  "name": "서리제독 네르반",
+  "ref": "preview/monster-original-ip-20261013-v1/assets/hunt-006-nervan-source-v1.png",
+  "prompt": "Use case: precise-object-edit. Revise only the head, face and all visible skin of the ORIGINAL commander in image 1. The user requests more East Asian and white characters; this commander should be an older EAST ASIAN man with a FAIR LIGHT complexion, naturally swept-back BLACK hair with subtle gray temples, dark brown eyes, clean-shaven chin and only faint short gray sideburns, strong calm face with natural East Asian features. All visible hands must have the same fair light skin tone; preserve natural skin shadows without bronze or dark-brown tanning. Keep EXACTLY the navy uniform, ice shoulder guard, compass in hand, pose, body proportions, chair, ice smoke, warm navigation background, lighting pattern, framing, aspect ratio and existing detailed cel-shaded drawing treatment. Change no other design element. No ethnic caricature or stereotyped features. No text, emblems, border or watermark; no face compression.",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "output": "assets/hunt-006-nervan-source-v2.png",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-bf5078e3-adcd-48a0-98bd-6d55f45e9620.png",
+  "version": 2,
+  "status": "SOURCE_ART_REVIEW",
+  "userApproval": false
+}

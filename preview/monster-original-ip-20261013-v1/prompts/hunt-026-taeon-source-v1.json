@@ -1,0 +1,20 @@
+{
+  "key": "hunt-026-taeon",
+  "name": "잿불수문장 태온",
+  "ids": [
+    26,
+    46
+  ],
+  "ref": "assets/tower/cc0457ef4abb426eda53051b533d1050.jpg",
+  "composition": "Tall 3:5 crouched rushing swordsman, forward-looking face in upper-right-middle, cloth flowing from lower body to upper left, circular ribbon of orange fire enclosing the figure, blue night forest verticals behind. Polished vivid anime linework and cel shading.",
+  "identity": "A youthful fair-skinned East Asian swordsman with smoothly wind-swept black hair in a short ponytail, amber ordinary eyes, tapered eyebrows and broad cheekbones. Deep rust-red long split vest over dark brown fitted armor, a short cream scarf with plain woven edges, dark trousers and bronze forearm cuffs. Black straight-backed saber with an open squared bronze guard. No yellow-red flame hair, flame-edge white cape, reference eyebrows or iconic uniform.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Tall 3:5 crouched rushing swordsman, forward-looking face in upper-right-middle, cloth flowing from lower body to upper left, circular ribbon of orange fire enclosing the figure, blue night forest verticals behind. Polished vivid anime linework and cel shading.\nNew original identity: A youthful fair-skinned East Asian swordsman with smoothly wind-swept black hair in a short ponytail, amber ordinary eyes, tapered eyebrows and broad cheekbones. Deep rust-red long split vest over dark brown fitted armor, a short cream scarf with plain woven edges, dark trousers and bronze forearm cuffs. Black straight-backed saber with an open squared bronze guard. No yellow-red flame hair, flame-edge white cape, reference eyebrows or iconic uniform.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.",
+  "appearanceSteering": "User asked for East Asian and white characters as well; do not make the roster uniformly dark-skinned. Keep each character's face and complexion distinct.",
+  "references": [
+    "C:/Users/User/.codex/worktrees/mercenary-ivory-knight-idle/cnine-card/assets/tower/cc0457ef4abb426eda53051b533d1050.jpg"
+  ],
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-1eaa3c87-e79d-4e7c-88b2-7aaa7c8663ad.png",
+  "output": "assets/hunt-026-taeon-source-v1.png",
+  "userApproval": false
+}

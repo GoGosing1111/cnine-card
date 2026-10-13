@@ -1,0 +1,16 @@
+{
+  "key": "hunt-010-brekan",
+  "name": "파도분쇄자 브레칸",
+  "ids": [
+    10
+  ],
+  "ref": "assets/0717monster/white2.png",
+  "composition": "Landscape 5:4 dynamic 2D cel-shaded action tableau. Enormous muscular fighter in middle with arms spread broadly across the canvas; foreshortened fists, blue-white shock fractures, rubble and thrown armored opponents below both sides. Courtyard structures behind, maximal force and readable muscular anatomy.",
+  "identity": "A broad dark-skinned bald veteran with a long black beard in two leather-bound sections, normal ears and eyes, heavy teal scale-mail vest exposing powerful upper arms, bronze shoulder harness and dark blue trousers. He creates transparent crystalline pressure waves through oversized bronze knuckle guards. Opponents are fully helmeted original gray sentinels. Invent a stone harbor fortress, not the reference building. No crescent moustache, white captain cape, reference scars or emblems.",
+  "prompt": "Use case: stylized-concept. Create one entirely new ORIGINAL game boss illustration. Input image 1 is used ONLY for its broad composition, framing, illustrative technique, lighting, effect placement and atmosphere. Retain those qualities carefully while independently designing every character-identifying feature; this is not a recolor or a lightly edited existing character. Do not copy pixels or exact background linework.\n\nComposition/style: Landscape 5:4 dynamic 2D cel-shaded action tableau. Enormous muscular fighter in middle with arms spread broadly across the canvas; foreshortened fists, blue-white shock fractures, rubble and thrown armored opponents below both sides. Courtyard structures behind, maximal force and readable muscular anatomy.\nNew original identity: A broad dark-skinned bald veteran with a long black beard in two leather-bound sections, normal ears and eyes, heavy teal scale-mail vest exposing powerful upper arms, bronze shoulder harness and dark blue trousers. He creates transparent crystalline pressure waves through oversized bronze knuckle guards. Opponents are fully helmeted original gray sentinels. Invent a stone harbor fortress, not the reference building. No crescent moustache, white captain cape, reference scars or emblems.\nOne finished illustration in the requested aspect ratio with opaque background, no UI, border, lettering, watermarks, signatures, symbols from a franchise or extra unrelated characters. Keep the reference drawing treatment, not generic realistic armor for every character. Natural face proportions without horizontal compression. Hair flows organically in continuous strands with soft volume, never layered plastic blades. Anatomically coherent hands, rigid straight weapon shafts/blades aligned continuously; no broken or bent weapon connections.",
+  "generator": "BUILT_IN_IMAGE_GEN",
+  "output": "assets/hunt-010-brekan-source-v1.png",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-c2c81da7-7f7f-46c3-a006-0a42f60b3502.png",
+  "status": "SOURCE_ART_REVIEW",
+  "visualApproval": false
+}

@@ -1,0 +1,12 @@
+{
+  "key": "hunt-006-nervan",
+  "name": "서리제독 네르반",
+  "ref": "assets/cards/monster/aokizi1.png",
+  "prompt": "Use case: stylized-concept. Create a completely newly designed ORIGINAL ice commander boss illustration. Input image 1 is a composition/style reference ONLY; do not preserve the existing character identity, recognizable costume or chair design.\nKeep the reference illustration feel: near-square 0.93:1 vertical composition, seated man occupying most of the frame, full shoes visible at the bottom, eye-level frontal camera, elbows supported by wide chair arms and hands resting toward the center, diagonal frost clouds framing both sides. Bold polished 2D anime line art and cel shading, antique brown backdrop contrasting with ice blue and white effects. Preserve the crop, posture weight and foreground/background placement, not exact drawing contours.\nNew character NERVAN: powerful broad-faced man around fifty, warm brown skin, naturally short swept-back steel-gray hair, visible gray sideburns, a small trimmed chin beard, piercing normal pale gray eyes. No goggles, black ringlets or eye mask. New outfit: midnight-blue double-breasted naval greatcoat WORN with arms in its sleeves, asymmetrical frosted steel shoulder guard on one side, high folded collar, glacier-gray trousers and dark practical boots; fastened leather belts, no white cape, white suit, gold epaulettes or necktie. He holds a small blue sextant in one relaxed hand. Chair is new weathered dark wood reinforced with squared steel ribs and blue stone insets, no ornate golden spirals. Use a dim amber navigation chamber with hazy circular chart lines behind him, and soft stylized ice mist sweeping along the floor and side edges. Distinct new silhouette and face, not a recolor.\nOne complete original illustration, nearly square portrait. No text, recognizable symbols, brands, caption, watermark, UI or frame. Do not flatten the face. Natural continuous hair flow, no sharp layered hair plates. Render opaque background.",
+  "mode": "BUILT_IN_IMAGE_GEN",
+  "intent": "STYLE_COMPOSITION_REFERENCE_NEW_IDENTITY",
+  "referenceRole": "Composition, framing, illustrative treatment and broad atmosphere only; never existing character identity.",
+  "generatedOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a12068-4d0f-75a3-909e-95671007c1fd\\exec-0712b24b-4b09-4c4d-8eea-f1a7d5b28d35.png",
+  "output": "assets/hunt-006-nervan-source-v1.png",
+  "visualApproval": false
+}
