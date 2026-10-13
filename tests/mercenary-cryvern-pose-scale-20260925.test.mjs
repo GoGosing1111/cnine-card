@@ -94,3 +94,21 @@ test('authored Cryvern motion owns body transforms until completion, then normal
   assert.ok(f.sprite.height<=380&&f.sprite.width<=380*1.021);
  }finally{f.dispose();}
 });
+
+
+test('Cryvern idle and cancellation return to current formation after a viewport resize',()=>{
+ const f=fixture();
+ try{
+  f.actor.baseX=825;f.actor.baseY=620;
+  f.fx.cancel();
+  assert.deepEqual([f.actor.root.x,f.actor.root.y],[825,620]);
+  for(const mode of ['attack','ultimate']){
+   f.fx.plan=makePlan({mode});f.fx.captureFormation();
+   f.fx.render(.5);
+   f.actor.baseX=374;f.actor.baseY=928;
+   f.fx.cancel();
+   assert.deepEqual([f.actor.root.x,f.actor.root.y],[374,928]);
+   assert.equal(f.sprite.texture,f.idle);
+  }
+ }finally{f.dispose();}
+});

@@ -82,6 +82,9 @@ export class IceDualSwordFX{
  setPlan(plan){this.cancel();this.plan=plan;this.makeTimeline();this.render(0);}
  cancel(){this.audio.stop();this.removeTimeline();this.clock.time=0;this.render(0);}
  positionAt(state){
+  // Responsive layout can move the formation after assets capture their start.
+  // Idle/cancel/return must use current feet, not that obsolete loading position.
+  if(!state.travel)return {x:this.merc.baseX??this.start.x,y:this.merc.baseY??this.start.y};
   const contact=state.contactTrack,candidates=contact?this.destinations[contact.key]:null;
   const a=candidates?.[0]||this.destination,b=candidates?.[1]||a,q=contact?.blend||0;
   return {x:mix(this.start.x,mix(a.x,b.x,q),state.travel),y:mix(this.start.y,mix(a.y,b.y,q),state.travel)};
