@@ -17,3 +17,10 @@
 - 원본 404를 한 프로필에 재현하여 기존 썸네일로 복구되고 확대 제한이 유지됨을 확인했다.
 - 같은 기능의 tests/streamer-lounge-v2036.test.mjs만 scoped 배포에서 실행한다. 직전 운영 배포는 05ef954d-4763-4fe6-b165-be3deab60739, 커밋 ca7a919e3089d5490214f9e599caba3f38bb94fd(Cloudflare Pages 조회).
 - [PC](qa/streamer-lounge-portrait-fix-20261013/desktop.png), [모바일](qa/streamer-lounge-portrait-fix-20261013/mobile.png), [원본 해상도 확인](qa/streamer-lounge-portrait-fix-20261013/originals.json).
+
+## 운영 반영
+
+- scoped 회귀 18/18 및 출시·Hyperdrive 검사를 통과했다. 운영 코드 커밋 7205a9e4.
+- Pages: https://00237b0e.cnine-card.pages.dev
+- 2026-10-13 19:48 KST 실제 운영 주소에서 두 JS 해시 일치, 9개 원본 주소 사용과 3배 모바일의 픽셀 확대 방지를 확인했다. 주성은 130px 원본에 맞춰 43px, 나머지는 64px로 표시됐다.
+- [운영 검증](qa/streamer-lounge-portrait-fix-20261013/live-verification.json), [운영 모바일 화면](qa/streamer-lounge-portrait-fix-20261013/live-mobile.png).

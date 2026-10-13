@@ -1,0 +1,94 @@
+{
+  "at": "2026-10-13T10:48:52.437Z",
+  "origin": "https://cnine-card.pages.dev",
+  "assets": [
+    {
+      "path": "js/streamer-lounge-v2036.js?v=20261013-profile-original",
+      "sha256": "9fd78075abcd50df1aee1341cb2188dee0d89783f71b6b3fb6de6f312ca2f4ac"
+    },
+    {
+      "path": "js/streamer-lounge-portraits-v1.js?v=20261013-original",
+      "sha256": "4628a295c4322cc1f17a560c56e5bbba9c625217267b8fbe98843e855955be00"
+    }
+  ],
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "density": 3
+  },
+  "portraits": [
+    {
+      "name": "디임 프로필",
+      "url": "https://stimg.sooplive.com/LOGO/qp/qpqpro/qpqpro.webp",
+      "displaySize": 64,
+      "nativeWidth": 240,
+      "nativeHeight": 240,
+      "density": 3
+    },
+    {
+      "name": "조은 프로필",
+      "url": "https://stimg.sooplive.com/LOGO/za/zalalz/zalalz.webp",
+      "displaySize": 64,
+      "nativeWidth": 200,
+      "nativeHeight": 200,
+      "density": 3
+    },
+    {
+      "name": "하이희야 프로필",
+      "url": "https://stimg.sooplive.com/LOGO/jk/jkmjkm1236/jkmjkm1236.webp",
+      "displaySize": 64,
+      "nativeWidth": 400,
+      "nativeHeight": 400,
+      "density": 3
+    },
+    {
+      "name": "강구열 프로필",
+      "url": "https://stimg.sooplive.com/LOGO/ku/kuyol/kuyol.webp",
+      "displaySize": 64,
+      "nativeWidth": 300,
+      "nativeHeight": 300,
+      "density": 3
+    },
+    {
+      "name": "오리꿍 프로필",
+      "url": "https://stimg.sooplive.com/LOGO/im/imducko3o/imducko3o.webp",
+      "displaySize": 64,
+      "nativeWidth": 350,
+      "nativeHeight": 350,
+      "density": 3
+    },
+    {
+      "name": "주성 프로필",
+      "url": "https://stimg.sooplive.com/LOGO/dd/ddaggida3/ddaggida3.webp",
+      "displaySize": 43,
+      "nativeWidth": 130,
+      "nativeHeight": 130,
+      "density": 3
+    },
+    {
+      "name": "나무늘봉순 프로필",
+      "url": "https://stimg.sooplive.com/LOGO/yj/yjk011599/yjk011599.webp",
+      "displaySize": 64,
+      "nativeWidth": 204,
+      "nativeHeight": 204,
+      "density": 3
+    },
+    {
+      "name": "아윤♡ 프로필",
+      "url": "https://stimg.sooplive.com/LOGO/ay/ayoona/ayoona.webp",
+      "displaySize": 64,
+      "nativeWidth": 316,
+      "nativeHeight": 316,
+      "density": 3
+    },
+    {
+      "name": "남수댕 프로필",
+      "url": "https://stimg.sooplive.com/LOGO/me/mew030709/mew030709.webp",
+      "displaySize": 64,
+      "nativeWidth": 453,
+      "nativeHeight": 420,
+      "density": 3
+    }
+  ],
+  "passed": true
+}
