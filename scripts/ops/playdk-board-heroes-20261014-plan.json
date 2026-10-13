@@ -1,0 +1,283 @@
+{
+  "operationKey": "ops:playdk-board-heroes-top30:20261014:v1",
+  "campaignKey": "playdk-board-heroes-top30-20261014-v1",
+  "title": "갤을 지키는 용사 보상",
+  "amount": "5000000000000",
+  "totalAmount": "150000000000000",
+  "sourceCutoff": "2026-10-14T07:11:20",
+  "sourceFirstPostAt": "2026-08-19T01:17:29",
+  "sourceFileSha256": "45afb9d1270627e4067325a46c91c7231aea153f717eccdadf38a4aa3332aa75",
+  "recipients": [
+    {
+      "rank": 1,
+      "postCount": 4641,
+      "dkName": "핑크빛유두",
+      "providerUuid": "e9d1aaac",
+      "id": "3710",
+      "nickname": "꼭지위생크림",
+      "role": "ADMIN"
+    },
+    {
+      "rank": 2,
+      "postCount": 4567,
+      "dkName": "씨나인택갓",
+      "providerUuid": "5c0809e6",
+      "id": "1195",
+      "nickname": "씨나인택갓",
+      "role": "USER"
+    },
+    {
+      "rank": 3,
+      "postCount": 4412,
+      "dkName": "타마",
+      "providerUuid": "a05fd922",
+      "id": "5",
+      "nickname": "싸이타마",
+      "role": "USER"
+    },
+    {
+      "rank": 4,
+      "postCount": 3772,
+      "dkName": "박세라-ㅂ-",
+      "providerUuid": "0ab57d26",
+      "id": "45",
+      "nickname": "박세라-ㅂ-",
+      "role": "USER"
+    },
+    {
+      "rank": 5,
+      "postCount": 3170,
+      "dkName": "유나이은",
+      "providerUuid": "c7626e57",
+      "id": "236",
+      "nickname": "유나이은",
+      "role": "USER"
+    },
+    {
+      "rank": 6,
+      "postCount": 3094,
+      "dkName": "족짜미♡",
+      "providerUuid": "082bf4b6",
+      "id": "3480",
+      "nickname": "족짜미♡",
+      "role": "USER"
+    },
+    {
+      "rank": 7,
+      "postCount": 2992,
+      "dkName": "음순",
+      "providerUuid": "9f0cdb34",
+      "id": "65",
+      "nickname": "음순이",
+      "role": "USER"
+    },
+    {
+      "rank": 8,
+      "postCount": 2987,
+      "dkName": "족게이다",
+      "providerUuid": "6c8a26e9",
+      "id": "4111",
+      "nickname": "족게이다",
+      "role": "USER"
+    },
+    {
+      "rank": 9,
+      "postCount": 2986,
+      "dkName": "폭군",
+      "providerUuid": "cd3ea662",
+      "id": "52",
+      "nickname": "폭군#",
+      "role": "USER"
+    },
+    {
+      "rank": 10,
+      "postCount": 2977,
+      "dkName": "처음와봄",
+      "providerUuid": "50d1cfb5",
+      "id": "850",
+      "nickname": "뽑기고수71",
+      "role": "USER"
+    },
+    {
+      "rank": 11,
+      "postCount": 2721,
+      "dkName": "족버지",
+      "providerUuid": "690682f0",
+      "id": "197",
+      "nickname": "무버지",
+      "role": "USER"
+    },
+    {
+      "rank": 12,
+      "postCount": 2691,
+      "dkName": "족구조아",
+      "providerUuid": "cba2b411",
+      "id": "525",
+      "nickname": "족구조아",
+      "role": "USER"
+    },
+    {
+      "rank": 13,
+      "postCount": 2681,
+      "dkName": "오승환이다.",
+      "providerUuid": "8b176e68",
+      "id": "16",
+      "nickname": "오승환이다",
+      "role": "USER"
+    },
+    {
+      "rank": 14,
+      "postCount": 2620,
+      "dkName": "치타구",
+      "providerUuid": "2f9fa1d1",
+      "id": "493",
+      "nickname": "치타구",
+      "role": "USER"
+    },
+    {
+      "rank": 15,
+      "postCount": 2375,
+      "dkName": "오일바른가지",
+      "providerUuid": "3c4794b7",
+      "id": "3011",
+      "nickname": "오일바른가지",
+      "role": "USER"
+    },
+    {
+      "rank": 16,
+      "postCount": 2265,
+      "dkName": "짭희야",
+      "providerUuid": "2e985e89",
+      "id": "23",
+      "nickname": "하이희야",
+      "role": "USER"
+    },
+    {
+      "rank": 17,
+      "postCount": 2245,
+      "dkName": "애장",
+      "providerUuid": "c2b34582",
+      "id": "83",
+      "nickname": "애장이",
+      "role": "ADMIN"
+    },
+    {
+      "rank": 18,
+      "postCount": 2187,
+      "dkName": "불곰덫",
+      "providerUuid": "9363afd4",
+      "id": "92",
+      "nickname": "불곰덫",
+      "role": "USER"
+    },
+    {
+      "rank": 19,
+      "postCount": 2069,
+      "dkName": "토닭토닭",
+      "providerUuid": "5de5f0c2",
+      "id": "19",
+      "nickname": "토닭토닭",
+      "role": "USER"
+    },
+    {
+      "rank": 20,
+      "postCount": 2037,
+      "dkName": "[C9]핑쪽이",
+      "providerUuid": "4779b1f1",
+      "id": "303",
+      "nickname": "[C9]족쪽이",
+      "role": "USER"
+    },
+    {
+      "rank": 21,
+      "postCount": 1974,
+      "dkName": "망순이ෆ",
+      "providerUuid": "0b464ee5",
+      "id": "4628",
+      "nickname": "망순이ෆ",
+      "role": "USER"
+    },
+    {
+      "rank": 22,
+      "postCount": 1952,
+      "dkName": "미미미눙",
+      "providerUuid": "1e8b6e0f",
+      "id": "75",
+      "nickname": "미미미눙",
+      "role": "USER"
+    },
+    {
+      "rank": 23,
+      "postCount": 1938,
+      "dkName": "센텀신사",
+      "providerUuid": "b6e04c16",
+      "id": "792",
+      "nickname": "센텀신사",
+      "role": "USER"
+    },
+    {
+      "rank": 24,
+      "postCount": 1932,
+      "dkName": "족단",
+      "providerUuid": "22c31ef9",
+      "id": "4582",
+      "nickname": "족단",
+      "role": "USER"
+    },
+    {
+      "rank": 25,
+      "postCount": 1913,
+      "dkName": "비쥬얼깡패",
+      "providerUuid": "03320b3e",
+      "id": "81",
+      "nickname": "비쥬얼깡패",
+      "role": "USER"
+    },
+    {
+      "rank": 26,
+      "postCount": 1901,
+      "dkName": "구와함",
+      "providerUuid": "cd31c10a",
+      "id": "2333",
+      "nickname": "구와함",
+      "role": "USER"
+    },
+    {
+      "rank": 27,
+      "postCount": 1837,
+      "dkName": "ε연두з",
+      "providerUuid": "79e810b1",
+      "id": "3",
+      "nickname": "ε연두з",
+      "role": "USER"
+    },
+    {
+      "rank": 28,
+      "postCount": 1814,
+      "dkName": "쁠리의무사시",
+      "providerUuid": "4859c4a2",
+      "id": "115",
+      "nickname": "쁠리의무사시",
+      "role": "USER"
+    },
+    {
+      "rank": 29,
+      "postCount": 1797,
+      "dkName": "더듬이구",
+      "providerUuid": "b86ce1fb",
+      "id": "4391",
+      "nickname": "더듬이구",
+      "role": "USER"
+    },
+    {
+      "rank": 30,
+      "postCount": 1778,
+      "dkName": "커피먹는봉순",
+      "providerUuid": "49cd3f96",
+      "id": "22",
+      "nickname": "커피먹는철구",
+      "role": "USER"
+    }
+  ],
+  "authorization": "해당 사용자에게 5조 코인 메세지로 지급 / 갤을 지키는 용사 보상"
+}
