@@ -1,0 +1,103 @@
+{
+  "verifiedAt": "2026-10-13T02:57:33.653Z",
+  "commit": "6044477b355ea883daf5241d5c12a4fb1db09fa5",
+  "deploymentId": "0eceea3b-51a8-49e3-a8be-4dc78c30711a",
+  "url": "https://0eceea3b.cnine-card.pages.dev",
+  "previousProduction": {
+    "checkedAt": "2026-10-13T02:55:35.094Z",
+    "commit": "c9c49aeec58f81d0643eff9f38e5492de4a0d065",
+    "url": "https://6827c351.cnine-card.pages.dev"
+  },
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "3b7882c4058c8679a9264d6664bdfffa3360f7875a893f7930ffaa430849821e",
+      "matched": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "fc68e7c8da5ec404b9638dbd67b1e34dbc92ac2fecfd971ad777065e35586e8c",
+      "matched": true
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "91b46f0fee7e87f58e839fab016e661a57cad8f238b0ea475c2f550155eca462",
+      "matched": true
+    },
+    {
+      "path": "js/character-loadout-v2.js",
+      "status": 200,
+      "sha256": "8f1cf5b5721a3fb5ae4ff9844445390736671e5b52cdd50f136224109903f002",
+      "matched": true
+    },
+    {
+      "path": "js/equipment-v1274.js",
+      "status": 200,
+      "sha256": "dd725579146de727916e9518cf913b85fa529f9d85708b1c4786b805b716913d",
+      "matched": true
+    },
+    {
+      "path": "css/achievement-titles-20260927.css",
+      "status": 200,
+      "sha256": "989da6ac286b3d27f38afd01fe831622d449d8fbd42ad22d338f4110bbc1ca0f",
+      "matched": true
+    },
+    {
+      "path": "admin/equipment-admin-v1278.js",
+      "status": 200,
+      "sha256": "6ceddf0ae0128d3d302a171814febf11d97e93560feeedc2e231ed0b17302c06",
+      "matched": true
+    },
+    {
+      "path": "assets/ui/titles/flag-brigade-v1.webp",
+      "status": 200,
+      "sha256": "f98f4c55a8a4bf31c01cb3cdacdb4fb4f5478f7227af7a04ef6ec3be2105abc5",
+      "matched": true
+    },
+    {
+      "path": "assets/ui/titles/flag-brigade-badge-v1.webp",
+      "status": 200,
+      "sha256": "d75464cd54dac0d53dcd5810ccbfe6e4fda33a9267628fdd2c3990031affe0e0",
+      "matched": true
+    },
+    {
+      "path": "preview/flag-brigade-title-20261013/index.html",
+      "status": 200,
+      "sha256": "57053cb95742a6845dbb2140adffba45843ee934ab209c42261f599494fbc4b2",
+      "matched": true
+    }
+  ],
+  "routes": [
+    {
+      "path": "/api/service/status",
+      "status": 200
+    },
+    {
+      "path": "/api/character/loadout",
+      "status": 401
+    }
+  ],
+  "database": {
+    "checkedAt": "2026-10-13T02:57:30.990Z",
+    "title": {
+      "code": "FLAG_BRIGADE",
+      "name": "깃발부대",
+      "pve_power": 100000,
+      "unlock_type": "TERRITORY_VICTORIES",
+      "unlock_config_json": "{\"roundWins\":30,\"battleWins\":8000,\"fontPreset\":\"DEFAULT\"}",
+      "style_preset": "FLAG_BRIGADE",
+      "image_url": "/assets/ui/titles/flag-brigade-v1.webp",
+      "is_active": 1,
+      "is_public": 1
+    },
+    "marker": "1",
+    "countQueryMs": 1112,
+    "countQueryPassed": true,
+    "readOnly": true
+  },
+  "productionManualGrantsExecuted": false,
+  "passed": true
+}
