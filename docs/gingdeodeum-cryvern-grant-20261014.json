@@ -1,0 +1,32 @@
+{
+  "status": "COMPLETED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:gingdeodeum-cryvern:20261014:v1:5877:V-049",
+    "actor": "SYSTEM_OPS",
+    "userId": 5877,
+    "nickname": "깅더듬",
+    "mercenaryCode": "V-049",
+    "mercenaryName": "크라이베른",
+    "rank": "SSS",
+    "quantity": 1,
+    "permanent": true,
+    "expiresAt": null,
+    "beforeCopies": 0,
+    "totalCopies": 1,
+    "duplicates": 0,
+    "completedAt": "2026-10-13T19:08:24.444Z",
+    "adminLogId": "45825"
+  },
+  "currentCopies": 1,
+  "missing": 0,
+  "duplicates": 0,
+  "authorization": "사용자 지시: 깅더듬 계정에 크라이베른 sss 지급해",
+  "checks": {
+    "partialFailureRolledBack": true,
+    "replayVerified": true,
+    "rollbackVerified": true
+  },
+  "execution": "Existing USER_LOCK + PostgreSQL transaction; temporary helper stopped",
+  "gameDeployment": "Not needed: operational grant only"
+}
