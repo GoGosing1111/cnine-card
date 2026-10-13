@@ -2,7 +2,7 @@
   "name": "댕무라사키",
   "code": "DAENG_MURASAKI",
   "serial": "A-35",
-  "status": "USER_RELEASE_AUTHORIZED",
+  "status": "REGISTERED",
   "generator": "built-in image_gen",
   "approval": {
     "date": "2026-10-13",
@@ -71,5 +71,14 @@
       "height": 960,
       "hasAlpha": false
     }
+  },
+  "runtimeRegistered": true,
+  "registration": {
+    "code": "DAENG_MURASAKI",
+    "serial": "A-35",
+    "name": "댕무라사키",
+    "appliedAt": "2026-10-13T10:24:14Z",
+    "operationKey": "ops:avatar-daeng-murasaki-register:20261013:v1",
+    "record": "docs/qa/avatar-daeng-murasaki-20261013/registration.json"
   }
 }

@@ -1,0 +1,91 @@
+{
+  "verifiedAt": "2026-10-13T10:24:10.190Z",
+  "commit": "70e7199a4b2b87b59dc4563e02dbcc1ff04518c3",
+  "deploymentId": "f264c6ee-16af-4b49-bdd5-1928b867b538",
+  "url": "https://f264c6ee.cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "preview/avatar-peach-kimono-20261013-v1/assets/avatar-peach-kimono-source-art-v1.png",
+      "status": 200,
+      "sha256": "6cd628c2060fa2cf21fb298d653cfa4e1228c9598d3bc03d76f0d20edafe321b",
+      "matched": true
+    },
+    {
+      "path": "preview/avatar-peach-kimono-20261013-v1/assets/avatar-daeng-murasaki-equipment-source-art-v1.png",
+      "status": 200,
+      "sha256": "e0219e2a769d9c1638cd00681865840b0fc3cf21817a93ec1aa1fce79ccea328",
+      "matched": true
+    },
+    {
+      "path": "preview/avatar-peach-kimono-20261013-v1/assets/avatar-daeng-murasaki-equipment-v1-640.webp",
+      "status": 200,
+      "sha256": "6b67725bf90ffdb9c5ae047c6c55dc18a7f42620b47ae7412d195a362ec78b69",
+      "matched": true
+    },
+    {
+      "path": "preview/avatar-peach-kimono-20261013-v1/assets/avatar-daeng-murasaki-lobby-v1-1024.webp",
+      "status": 200,
+      "sha256": "29b8500a6b0e078434306dafb00fcfe9d0cb000323bd9d82e7920cb64d7634d3",
+      "matched": true
+    },
+    {
+      "path": "preview/avatar-peach-kimono-20261013-v1/assets/avatar-daeng-murasaki-lobby-v1-640.webp",
+      "status": 200,
+      "sha256": "1d4a0bdbbbfadb958a2aa61bb1e36603ff97e286ea9418f7ab21b4437e807d50",
+      "matched": true
+    },
+    {
+      "path": "preview/avatar-peach-kimono-20261013-v1/catalog.json",
+      "status": 200,
+      "sha256": "a76ec847752f0ce1624b18579fca065d03a714c95cf1574787afeeb9324b2df3",
+      "matched": true
+    },
+    {
+      "path": "preview/avatar-peach-kimono-20261013-v1/index.html",
+      "status": 200,
+      "sha256": "6746bf461b011ec8189b47fdcacc51e5abf721fc112e45f10e3782e6ce956b21",
+      "matched": true
+    },
+    {
+      "path": "preview/avatar-peach-kimono-20261013-v1/preview.js",
+      "status": 200,
+      "sha256": "cda87117ec61ea695a68ff25f4c76fcad00e89431c07f39ddbccc92806c2f66c",
+      "matched": true
+    },
+    {
+      "path": "css/character-loadout-v2.css",
+      "status": 200,
+      "sha256": "b3cd7da24ea156b7d20a715db6c36a3d63e7bf6d59d5553e5104562105f81984",
+      "matched": true
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "4b767c345891938717dbfc9cdc9723a276937b0142b5e9132ac6567a03a8614b",
+      "matched": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "59e61d25143c835fdacda40b69f9be2edb792fd21a0e9c81f5b3160cfd9a27f5",
+      "matched": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "3d2a57c06e27ed09a605f888976127bc0bf2a7998e7e7ba2f3302f11cbf84713",
+      "matched": true
+    }
+  ],
+  "api": [
+    {
+      "path": "/api/service/status",
+      "status": 200
+    },
+    {
+      "path": "/api/avatar/catalog",
+      "status": 401
+    }
+  ],
+  "passed": true
+}

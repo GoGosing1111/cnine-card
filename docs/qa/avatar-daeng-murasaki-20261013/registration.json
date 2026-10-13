@@ -1,0 +1,65 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:avatar-daeng-murasaki-register:20261013:v1",
+  "appliedAt": "2026-10-13 10:24:14",
+  "avatar": {
+    "code": "DAENG_MURASAKI",
+    "serial": "A-35",
+    "name": "댕무라사키",
+    "call_sign": "DAENG MURASAKI",
+    "role_label": "복숭아 정원의 기모노",
+    "description": "청록색 긴 머리와 꽃 장식, 분홍 기모노와 연두색 리본의 댕무라사키 아바타입니다.",
+    "lobby_image": "preview/avatar-peach-kimono-20261013-v1/assets/avatar-daeng-murasaki-lobby-v1-1024.webp",
+    "lobby_mobile_image": "preview/avatar-peach-kimono-20261013-v1/assets/avatar-daeng-murasaki-lobby-v1-640.webp",
+    "equipment_image": "preview/avatar-peach-kimono-20261013-v1/assets/avatar-daeng-murasaki-equipment-v1-640.webp",
+    "accent": "#5dcdd0",
+    "acquisition_type": "UNSET",
+    "coin_price": null,
+    "source_label": "획득 경로 미설정",
+    "source_detail": "획득 방법과 지급 대상은 운영 설정 후 안내됩니다.",
+    "effect_type": "DROP_RATE_PERCENT",
+    "effect_value": 30,
+    "is_active": 1,
+    "is_public": 1,
+    "sale_enabled": 0,
+    "sort_order": 350,
+    "version": 1,
+    "created_at": "2026-10-13 10:24:14",
+    "updated_at": "2026-10-13 10:24:14"
+  },
+  "sourceAvatar": {
+    "code": "FM_DIMWOOS",
+    "name": "한복 디임2",
+    "version": 3
+  },
+  "effects": [
+    {
+      "option_order": 0,
+      "effect_type": "DROP_RATE_PERCENT",
+      "effect_value": 30
+    },
+    {
+      "option_order": 1,
+      "effect_type": "COIN_GAIN_PERCENT",
+      "effect_value": 100
+    },
+    {
+      "option_order": 2,
+      "effect_type": "RAID_EXTRA_ENTRY",
+      "effect_value": 10
+    },
+    {
+      "option_order": 3,
+      "effect_type": "BATTLE_POWER_PERCENT",
+      "effect_value": 3
+    }
+  ],
+  "registered": 1,
+  "granted": 0,
+  "loadoutChanged": false,
+  "walletChanged": false,
+  "adminLogId": "45574",
+  "replayed": false,
+  "checkedAt": "2026-10-13T10:24:17.804Z",
+  "preservedHash": "256c4fddba54fa9497c5a7d95380a0aa0da07ba9bb320fccaad0f37e04b043ff"
+}
