@@ -1,0 +1,77 @@
+{
+  "at": "2026-10-13T10:34:51.247Z",
+  "origin": "https://cnine-card.pages.dev",
+  "assets": [
+    {
+      "path": "js/streamer-lounge-v2036.js?v=20261013-premium-image",
+      "bytes": 15453,
+      "sha256": "c9c696d59effab0e6765816ea6633b235fec29706e5c91df5e7c983b1f40b1c6"
+    },
+    {
+      "path": "assets/ui/streamer-lounge/premium-v1/lounge-interior.png",
+      "bytes": 2305879,
+      "sha256": "cf076e21a5c683628b871ace393429de310230d12baea9d08b2965c765b89169"
+    },
+    {
+      "path": "assets/ui/streamer-lounge/premium-v1/member-card.png",
+      "bytes": 2023832,
+      "sha256": "0b46af60c47312d99a5135979517a132bd8efef557e36c77d8bc37d4908fc877"
+    }
+  ],
+  "roster": [
+    {
+      "id": "qpqpro",
+      "name": "디임",
+      "stationUrl": "https://www.sooplive.com/station/qpqpro"
+    },
+    {
+      "id": "zalalz",
+      "name": "조은",
+      "stationUrl": "https://www.sooplive.com/station/zalalz"
+    },
+    {
+      "id": "jkmjkm1236",
+      "name": "하이희야",
+      "stationUrl": "https://www.sooplive.com/station/jkmjkm1236"
+    },
+    {
+      "id": "kuyol",
+      "name": "강구열",
+      "stationUrl": "https://www.sooplive.com/station/kuyol"
+    },
+    {
+      "id": "imducko3o",
+      "name": "오리꿍",
+      "stationUrl": "https://www.sooplive.com/station/imducko3o"
+    },
+    {
+      "id": "ddaggida3",
+      "name": "주성",
+      "stationUrl": "https://www.sooplive.com/station/ddaggida3"
+    },
+    {
+      "id": "yjk011599",
+      "name": "나무늘봉순",
+      "stationUrl": "https://www.sooplive.com/station/yjk011599"
+    },
+    {
+      "id": "ayoona",
+      "name": "아윤♡",
+      "stationUrl": "https://www.sooplive.com/station/ayoona"
+    },
+    {
+      "id": "mew030709",
+      "name": "남수댕",
+      "stationUrl": "https://www.sooplive.com/station/mew030709"
+    }
+  ],
+  "browser": "Chrome desktop actual production page, public lounge, no login",
+  "verified": [
+    "9 profile cards",
+    "production image bytes match local originals",
+    "search Namsudaeng",
+    "requested station URL",
+    "no horizontal overflow",
+    "Escape closes"
+  ]
+}

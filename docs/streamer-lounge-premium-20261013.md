@@ -25,4 +25,8 @@
 - 전역 스타일·인증·게임 거래를 바꾸지 않는 라운지 국소 변경이므로 scoped 배포를 사용한다.
 - 실제 직전 운영 배포: f264c6ee-16af-4b49-bdd5-1928b867b538, 커밋 70e7199a4b2b87b59dc4563e02dbcc1ff04518c3. Cloudflare Pages 목록으로 확인.
 - 선택 회귀: tests/streamer-lounge-v2036.test.mjs. 해당 회귀와 기존 출시/캐시/Hyperdrive 보호 검사는 npm run deploy:production -- --scoped 안에서 한 번 수행한다.
-- 최종 배포 결과는 배포 완료 후 아래에 기록한다.
+- 선택 회귀 16/16, 출시 보호 검사, Hyperdrive 검사 통과. 운영 커밋 ca7a919e3089d5490214f9e599caba3f38bb94fd.
+- Pages 배포 05ef954d-4763-4fe6-b165-be3deab60739: https://05ef954d.cnine-card.pages.dev
+- API runtime 버전 10abaef9-85a3-4033-92a3-8f55ffe63a08 / clan-draft 버전 ceb2dc27-b679-49e5-8aa4-500597da4d18.
+- 2026-10-13 19:34 KST 운영 주소 확인: JS와 두 PNG의 SHA-256이 로컬 원본과 일치하고, 실제 페이지에서 라운지를 열어 9명 표시·남수댕 검색·방송국 주소·가로 넘침 없음·Escape 닫기를 확인했다.
+- 공개 API·파일 해시 검증: [운영 확인 기록](qa/streamer-lounge-premium-20261013/live-verification.json), [실제 운영 화면](qa/streamer-lounge-premium-20261013/live-desktop.png), [목록 추가 영수증](qa/streamer-lounge-premium-20261013/roster-receipt.json).

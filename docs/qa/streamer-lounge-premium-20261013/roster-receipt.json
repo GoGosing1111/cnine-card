@@ -1,0 +1,18 @@
+{
+  "operation": "ops:streamer-namsudaeng:20261013:v1",
+  "at": "2026-10-13T10:28:28.121Z",
+  "beforeRevision": "fc7c7bb3-03f2-4f71-bbed-beee37df06dd",
+  "revision": "db2ab200-8f5c-47d1-83e0-f6200884a57d",
+  "beforeCount": 8,
+  "afterCount": 9,
+  "added": {
+    "id": "mew030709",
+    "name": "남수댕",
+    "stationUrl": "https://www.sooplive.com/station/mew030709",
+    "imageUrl": "https://stimg.sooplive.com/LOGO/me/mew030709/m/mew030709.webp",
+    "description": "",
+    "visible": true
+  },
+  "existingProfilesPreserved": true,
+  "adminLogId": "45576"
+}
