@@ -10,9 +10,9 @@ import {ICON_FUSION_CARDS} from '../shared/icon-fusion-policy-v1.mjs';
 import {iconFusionFixture} from './helpers/icon-fusion-db.mjs';
 import {runIconFusion} from '../functions/_icon_fusion.js';
 const id='CN-1C000009',code='ICON-GUSUDAENG';
-const card=(mode='PVE')=>({id,title:'구수댕',grade:'ICON',power:180000,iconRole:iconRoleSnapshot({id,grade:'ICON'},defaultIconRoles(),mode)});
-function harness(count=3,mode='PVE',dodge=false){
- const actor=buildFighter(card(mode),0,'A',null,mode),ally=buildFighter({id:'ally',grade:'FUR',power:180000},1,'A',null,mode);
+const card=(mode='PVE',tuning={})=>{const document=defaultIconRoles();Object.assign(document.cards.find(c=>c.code===code).tuning,tuning);return {id,title:'구수댕',grade:'ICON',power:180000,iconRole:iconRoleSnapshot({id,grade:'ICON'},document,mode)};};
+function harness(count=3,mode='PVE',dodge=false,tuning={}){
+ const actor=buildFighter(card(mode,tuning),0,'A',null,mode),ally=buildFighter({id:'ally',grade:'FUR',power:180000},1,'A',null,mode);
  const foes=Array.from({length:count},(_,i)=>buildFighter({id:'foe-'+i,grade:'FUR',power:180000},i,'B',null,mode));
  for(const f of [actor,ally,...foes])Object.assign(f,{hp:100000,maxHp:100000,attack:1000,shield:0,maxShield:0,damageDealt:0});
  const events=[];let runtime,sealed=false;
@@ -34,7 +34,7 @@ test('one direct allied action echoes to other marks once, respects PVE/PVP scal
  for(const mode of ['PVE','PVP']){
   const h=harness(3,mode);assert.equal(h.foes.filter(t=>t.iconLink).length,3);h.ally.actions=1;
   h.damage(h.foes[0],1000,{actor:h.ally,direct:true});assert.equal(h.echo().length,2);
-  assert.ok(h.echo().every(e=>e.damage===Math.round(300*(mode==='PVE'?1:.9))&&e.linkedFromId===h.foes[0].id));
+  assert.ok(h.echo().every(e=>e.damage===Math.round(300*(mode==='PVE'?1.05:.9))&&e.linkedFromId===h.foes[0].id));
   h.damage(h.foes[0],1000,{actor:h.ally,direct:true});assert.equal(h.echo().length,2);
   h.ally.actions++;h.damage(h.foes[0],1000,{actor:h.ally,direct:true,iconSecondary:true});h.damage(h.foes[0],1000,{actor:h.ally,iconIndirect:true});assert.equal(h.echo().length,2);
   h.damage(h.foes[0],1000,{actor:h.ally,direct:true});assert.equal(h.echo().length,4);
@@ -43,9 +43,19 @@ test('one direct allied action echoes to other marks once, respects PVE/PVP scal
 test('solo boss receives bounded focused extra damage; each cast has a finite total budget',()=>{
  const h=harness(1);h.foes[0].isBoss=true;
  for(let i=1;i<20;i++){h.ally.actions=i;h.damage(h.foes[0],100,{actor:h.ally,direct:true});}
- assert.equal(h.echo().length,19);assert.ok(h.echo().every(e=>e.solo&&e.damage===45));
+ assert.equal(h.echo().length,19);assert.ok(h.echo().every(e=>e.solo&&e.damage===47));
  const many=harness(3);for(let i=1;i<40;i++){many.ally.actions=i;many.damage(many.foes[i%3],1000,{actor:many.ally,direct:true});}
- assert.ok(many.echo().reduce((n,e)=>n+e.damage+e.absorbed,0)<=6000);assert.equal(many.runtime.snapshot()[0].echoRemaining,0);
+ assert.ok(many.echo().reduce((n,e)=>n+e.damage+e.absorbed,0)<=6300);assert.equal(many.runtime.snapshot()[0].echoRemaining,0);
+});
+test('PVE-only tuning improves strikes and solo echoes while old snapshots and PVP retain their damage',()=>{
+ for(const mode of ['PVE','PVP']){
+  const old=harness(1,mode,false,{pveScale:100}),next=harness(1,mode);
+  for(const h of [old,next]){h.ally.actions=1;h.damage(h.foes[0],1000,{actor:h.ally,direct:true});}
+  assert.equal(old.echo()[0].damage,mode==='PVE'?450:405);
+  assert.equal(next.echo()[0].damage,mode==='PVE'?473:405);
+  const strike=h=>h.events.find(e=>e.type==='ICON_SKILL').hits[0].damage;
+  assert.equal(strike(old),mode==='PVE'?1700:1530);assert.equal(strike(next),mode==='PVE'?1785:1530);
+ }
 });
 test('cleanse, expiry, seals, caster death and evasion suppress links; cooldown and cast counts remain finite',()=>{
  const h=harness(3);assert.ok(h.runtime.hasDebuff(h.foes[0]));assert.equal(h.runtime.cleanse(h.foes[0]),true);h.ally.actions=1;

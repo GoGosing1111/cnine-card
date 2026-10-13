@@ -1,0 +1,23 @@
+{
+  "base": "8182693c82d35d545880f9c219abe79236c46b19",
+  "baseDeployment": "6175d564-cb4a-4f76-9444-4d974216050e",
+  "command": "npm run deploy:production -- --scoped",
+  "reason": "Gusudaeng PVE role scale +5% only. Preserve PVP, historical snapshots and existing CMS values; verify LINK boundaries, ICON cadence and shipped V3 loader plus Worker compilation.",
+  "alreadyPassed": {
+    "file": "tests/icon-gusudaeng-balance-20261013.test.mjs",
+    "tests": 3
+  },
+  "tests": [
+    "tests/icon-gusudaeng-20261013.test.mjs",
+    "tests/icon-roles-v1.test.mjs",
+    "tests/icon-action-cadence-20261006.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "simulationsPerVersion": 5040,
+  "totalPairedSimulations": 10080,
+  "pvpAggregateUnchanged": true,
+  "visualLayout": "unchanged; prior PC 1440px / mobile 390px validation retained"
+}

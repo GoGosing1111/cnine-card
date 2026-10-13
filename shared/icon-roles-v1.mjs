@@ -38,7 +38,7 @@ export const ICON_ROLES=freeze([
   fields:[...common(2,4),field('maxTargets','뇌격 최대 대상',1,5,3,'명',true),field('focusPercent','빈 대상당 번개 집중',0,40,20),field('penetrationPercent','뇌격 방어 무시',0,45,25)]},
  {code:'ICON-GUSUDAENG',cardId:'CN-1C000009',name:'구수댕',role:'LINK',label:'연계',archetype:'국간장 비법 전수자',color:'#eeb958',glyph:'link',attackStyle:'RANGED',
   passive:'깊은 감칠맛',skill:'비법 배합',passiveText:'배합 표식에 아군이 직접 피해를 주면 다른 표식 대상에게 피해 일부가 전이됩니다. 아군 각자의 행동당 한 번만 발동하며 추가 피해가 다시 전이되지는 않습니다.',skillText:'최대 세 적을 공격하고 배합 표식으로 연결합니다. 적이 하나만 남으면 전이 대신 집중 추가 피해를 줍니다. 표식은 정화할 수 있고 시전자가 쓰러지거나 봉인되면 전이가 멈춥니다.',
-  fields:[...common(2,4).map(f=>f.key==='damagePercent'?{...f,value:170}:f),field('maxTargets','배합 최대 대상',1,3,3,'명',true),field('durationActions','표식 유지',1,4,3,'시전자 행동',true),field('echoPercent','다른 표식에 전이',5,45,30,'직접 피해 %'),field('soloPercent','적 한 명일 때 추가 피해',5,60,45,'직접 피해 %'),field('echoCapPercent','대상별 1회 전이 상한',1,8,6,'대상 최대 HP %'),field('echoBudgetPercent','시전당 전이 총량',100,800,600,'시전자 공격력 %')]}
+  fields:[...common(2,4).map(f=>f.key==='damagePercent'?{...f,value:170}:f.key==='pveScale'?{...f,value:105}:f),field('maxTargets','배합 최대 대상',1,3,3,'명',true),field('durationActions','표식 유지',1,4,3,'시전자 행동',true),field('echoPercent','다른 표식에 전이',5,45,30,'직접 피해 %'),field('soloPercent','적 한 명일 때 추가 피해',5,60,45,'직접 피해 %'),field('echoCapPercent','대상별 1회 전이 상한',1,8,6,'대상 최대 HP %'),field('echoBudgetPercent','시전당 전이 총량',100,800,600,'시전자 공격력 %')]}
 ]);
 export function iconDefinition(card){
  const id=typeof card==='string'?card:String(card?.cardId??card?.id??card?.card_id??'');

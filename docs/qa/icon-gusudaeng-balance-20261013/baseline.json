@@ -1,0 +1,2498 @@
+{
+  "checkedAt": "2026-10-13T11:45:59.623Z",
+  "liveInput": "docs/qa/icon-gusudaeng-balance-20261013/live-input.json",
+  "liveCheckedAt": "2026-10-13T11:31:14.449Z",
+  "method": "Production server engine and live FUR+15 stat reference. Same four/three teammates, one/two ICONs, same equipment, front/rear and reversed PVP sides. Controlled comparison, not observed ranked win rates. No mercenaries, pets, magic or suits in the baseline.",
+  "seedsPerScenario": 24,
+  "seedRanges": {
+    "pvp": [
+      131001,
+      131024
+    ],
+    "pve": [
+      132001,
+      132024
+    ]
+  },
+  "gusudaengTuning": {
+    "firstAction": 2,
+    "cooldownActions": 4,
+    "maxCasts": 6,
+    "pveScale": 100,
+    "pvpScale": 90,
+    "damagePercent": 170,
+    "damageCapPercent": 46,
+    "maxTargets": 3,
+    "durationActions": 3,
+    "echoPercent": 30,
+    "soloPercent": 45,
+    "echoCapPercent": 6,
+    "echoBudgetPercent": 600
+  },
+  "commons": {
+    "PVE": [
+      {
+        "id": "CN-47AD4B47B6A7452C",
+        "title": "아이젠 족스케",
+        "grade": "FUR",
+        "power": 195200,
+        "breakthroughLevel": 15,
+        "power_type": "FIXED",
+        "uniqueAbility": {
+          "attackPercent": 120,
+          "defensePercent": 195,
+          "hpPercent": 150,
+          "speedPercent": 0,
+          "dominantType": "DEFENSE"
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "RIPOSTE",
+          "dominantType": "DEFENSE",
+          "name": "반격자",
+          "subtitle": "RIPOSTE",
+          "description": "반격 확률 +11%p, 반격 배율 +13%p, 방벽이 없을 때 반격 확률 +5%p, 가하는 피해 +2%가 적용됩니다.",
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 0,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 11,
+            "counterMultiplierPoints": 13,
+            "unshieldedCounterChancePoints": 5,
+            "maxHpPercent": 0,
+            "damageCapPoints": 0,
+            "damageDealtPercent": 2,
+            "lastStandHealPoolPercent": 0,
+            "sealedLastStandHealPoolPercent": 0,
+            "healPoolBonusPercent": 0
+          }
+        }
+      },
+      {
+        "id": "CN-346F8DB0DEB84D41",
+        "title": "철구",
+        "grade": "FUR",
+        "power": 195200,
+        "breakthroughLevel": 15,
+        "power_type": "FIXED",
+        "uniqueAbility": {
+          "attackPercent": 180,
+          "defensePercent": 90,
+          "hpPercent": 90,
+          "speedPercent": 0,
+          "dominantType": "ATTACK"
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "SHATTER",
+          "dominantType": "ATTACK",
+          "name": "파쇄자",
+          "subtitle": "BREACHER",
+          "description": "PVP 시작 행동 게이지 +10, 치명타 확률 +15%p, 관통 +35%p, 공격 피해 상한 +20%p, 직접 피해 +13%가 적용됩니다.",
+          "modifiers": {
+            "criticalChancePoints": 15,
+            "penetrationPoints": 35,
+            "openingGaugePoints": 10,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 0,
+            "counterMultiplierPoints": 0,
+            "unshieldedCounterChancePoints": 0,
+            "maxHpPercent": 0,
+            "damageCapPoints": 20,
+            "damageDealtPercent": 13,
+            "lastStandHealPoolPercent": 0,
+            "sealedLastStandHealPoolPercent": 0,
+            "healPoolBonusPercent": 0
+          }
+        }
+      },
+      {
+        "id": "QA-SUPERSTAR",
+        "title": "동일 슈퍼스타",
+        "grade": "SUPERSTAR",
+        "power": 93200
+      },
+      {
+        "id": "QA-ZENITH",
+        "title": "동일 제니스",
+        "grade": "ZENITH",
+        "power": 75625
+      }
+    ],
+    "PVP": [
+      {
+        "id": "CN-47AD4B47B6A7452C",
+        "title": "아이젠 족스케",
+        "grade": "FUR",
+        "power": 195200,
+        "breakthroughLevel": 15,
+        "power_type": "FIXED",
+        "uniqueAbility": {
+          "attackPercent": 120,
+          "defensePercent": 195,
+          "hpPercent": 150,
+          "speedPercent": 0,
+          "dominantType": "DEFENSE"
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "RIPOSTE",
+          "dominantType": "DEFENSE",
+          "name": "반격자",
+          "subtitle": "RIPOSTE",
+          "description": "반격 확률 +11%p, 반격 배율 +13%p, 방벽이 없을 때 반격 확률 +5%p, 가하는 피해 +2%가 적용됩니다.",
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 0,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 11,
+            "counterMultiplierPoints": 13,
+            "unshieldedCounterChancePoints": 5,
+            "maxHpPercent": 0,
+            "damageCapPoints": 0,
+            "damageDealtPercent": 2,
+            "lastStandHealPoolPercent": 0,
+            "sealedLastStandHealPoolPercent": 0,
+            "healPoolBonusPercent": 0
+          }
+        }
+      },
+      {
+        "id": "CN-346F8DB0DEB84D41",
+        "title": "철구",
+        "grade": "FUR",
+        "power": 195200,
+        "breakthroughLevel": 15,
+        "power_type": "FIXED",
+        "uniqueAbility": {
+          "attackPercent": 180,
+          "defensePercent": 90,
+          "hpPercent": 90,
+          "speedPercent": 0,
+          "dominantType": "ATTACK"
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "SHATTER",
+          "dominantType": "ATTACK",
+          "name": "파쇄자",
+          "subtitle": "BREACHER",
+          "description": "PVP 시작 행동 게이지 +10, 치명타 확률 +15%p, 관통 +35%p, 공격 피해 상한 +20%p, 직접 피해 +13%가 적용됩니다.",
+          "modifiers": {
+            "criticalChancePoints": 15,
+            "penetrationPoints": 35,
+            "openingGaugePoints": 10,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 0,
+            "counterMultiplierPoints": 0,
+            "unshieldedCounterChancePoints": 0,
+            "maxHpPercent": 0,
+            "damageCapPoints": 20,
+            "damageDealtPercent": 13,
+            "lastStandHealPoolPercent": 0,
+            "sealedLastStandHealPoolPercent": 0,
+            "healPoolBonusPercent": 0
+          }
+        }
+      },
+      {
+        "id": "QA-SUPERSTAR",
+        "title": "동일 슈퍼스타",
+        "grade": "SUPERSTAR",
+        "power": 93200
+      },
+      {
+        "id": "QA-ZENITH",
+        "title": "동일 제니스",
+        "grade": "ZENITH",
+        "power": 75625
+      }
+    ]
+  },
+  "references": {
+    "PVE": {
+      "version": "20261005-fur15-v1",
+      "power": 198200,
+      "cardCount": 20,
+      "CAPTAIN": {
+        "attack": {
+          "base": 546560,
+          "perPower": 2.8
+        },
+        "maxHp": {
+          "base": 488000,
+          "perPower": 2.5
+        },
+        "defense": {
+          "base": 295,
+          "perPower": 0
+        },
+        "speed": {
+          "base": 250,
+          "perPower": 0
+        }
+      },
+      "PVE": {
+        "maxHp": {
+          "base": 456768,
+          "perPower": 2.340001
+        },
+        "attack": {
+          "base": 220230,
+          "perPower": 1.128226
+        },
+        "defense": {
+          "base": 134499,
+          "perPower": 0.689032
+        },
+        "speed": {
+          "base": 17011,
+          "perPower": 0.086251
+        }
+      },
+      "PVP": {
+        "maxHp": {
+          "base": 507520,
+          "perPower": 2.600001
+        },
+        "attack": {
+          "base": 207317,
+          "perPower": 1.062076
+        },
+        "defense": {
+          "base": 130455,
+          "perPower": 0.668313
+        },
+        "speed": {
+          "base": 17011,
+          "perPower": 0.086251
+        }
+      }
+    },
+    "PVP": {
+      "version": "20261005-fur15-v1",
+      "power": 198200,
+      "cardCount": 20,
+      "CAPTAIN": {
+        "attack": {
+          "base": 546560,
+          "perPower": 2.8
+        },
+        "maxHp": {
+          "base": 488000,
+          "perPower": 2.5
+        },
+        "defense": {
+          "base": 295,
+          "perPower": 0
+        },
+        "speed": {
+          "base": 250,
+          "perPower": 0
+        }
+      },
+      "PVE": {
+        "maxHp": {
+          "base": 456768,
+          "perPower": 2.340001
+        },
+        "attack": {
+          "base": 220230,
+          "perPower": 1.128226
+        },
+        "defense": {
+          "base": 134499,
+          "perPower": 0.689032
+        },
+        "speed": {
+          "base": 17011,
+          "perPower": 0.086251
+        }
+      },
+      "PVP": {
+        "maxHp": {
+          "base": 507520,
+          "perPower": 2.600001
+        },
+        "attack": {
+          "base": 207317,
+          "perPower": 1.062076
+        },
+        "defense": {
+          "base": 130455,
+          "perPower": 0.668313
+        },
+        "speed": {
+          "base": 17011,
+          "perPower": 0.086251
+        }
+      }
+    }
+  },
+  "pvp": [
+    {
+      "opponent": "ICON-DIIM",
+      "name": "디임",
+      "partner": null,
+      "total": 192,
+      "wins": 102,
+      "winPercent": 53.125,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 24,
+          "winPercent": 50,
+          "averageEchoDamage": 0,
+          "averageCasts": 1,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 23,
+          "winPercent": 47.9167,
+          "averageEchoDamage": 34285.2708,
+          "averageCasts": 1.6458,
+          "noCastBattles": 1
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 33,
+          "winPercent": 68.75,
+          "averageEchoDamage": 0,
+          "averageCasts": 1,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 22,
+          "winPercent": 45.8333,
+          "averageEchoDamage": 260807.0208,
+          "averageCasts": 1.6042,
+          "noCastBattles": 2
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-HI-HEEYA",
+      "name": "하이희야",
+      "partner": null,
+      "total": 192,
+      "wins": 156,
+      "winPercent": 81.25,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 39,
+          "winPercent": 81.25,
+          "averageEchoDamage": 46363.6875,
+          "averageCasts": 1.4583,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 37,
+          "winPercent": 77.0833,
+          "averageEchoDamage": 45547.25,
+          "averageCasts": 2.1875,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 40,
+          "winPercent": 83.3333,
+          "averageEchoDamage": 348741.7708,
+          "averageCasts": 1.5208,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 40,
+          "winPercent": 83.3333,
+          "averageEchoDamage": 348196.1667,
+          "averageCasts": 2.125,
+          "noCastBattles": 0
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-NAMUNEUL-BONGSOON",
+      "name": "나무늘봉순",
+      "partner": null,
+      "total": 192,
+      "wins": 179,
+      "winPercent": 93.2292,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 44,
+          "winPercent": 91.6667,
+          "averageEchoDamage": 78874.5,
+          "averageCasts": 1.5833,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 47,
+          "winPercent": 97.9167,
+          "averageEchoDamage": 48892.8333,
+          "averageCasts": 2.0833,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 45,
+          "winPercent": 93.75,
+          "averageEchoDamage": 590967.7917,
+          "averageCasts": 1.5833,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 43,
+          "winPercent": 89.5833,
+          "averageEchoDamage": 390186.875,
+          "averageCasts": 2.0417,
+          "noCastBattles": 0
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-OH-JOEUN",
+      "name": "오조은",
+      "partner": null,
+      "total": 192,
+      "wins": 150,
+      "winPercent": 78.125,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 35,
+          "winPercent": 72.9167,
+          "averageEchoDamage": 38937.6042,
+          "averageCasts": 1.4792,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 37,
+          "winPercent": 77.0833,
+          "averageEchoDamage": 13134.8958,
+          "averageCasts": 2.5833,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 38,
+          "winPercent": 79.1667,
+          "averageEchoDamage": 260967,
+          "averageCasts": 1.3958,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 40,
+          "winPercent": 83.3333,
+          "averageEchoDamage": 97639.8958,
+          "averageCasts": 2.6875,
+          "noCastBattles": 0
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-ORIKKUNG",
+      "name": "오리꿍",
+      "partner": null,
+      "total": 192,
+      "wins": 130,
+      "winPercent": 67.7083,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 33,
+          "winPercent": 68.75,
+          "averageEchoDamage": 33075.8542,
+          "averageCasts": 1.125,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 27,
+          "winPercent": 56.25,
+          "averageEchoDamage": 47946.125,
+          "averageCasts": 2.125,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 36,
+          "winPercent": 75,
+          "averageEchoDamage": 227423.875,
+          "averageCasts": 1.0208,
+          "noCastBattles": 2
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 34,
+          "winPercent": 70.8333,
+          "averageEchoDamage": 381034.2708,
+          "averageCasts": 2.0208,
+          "noCastBattles": 0
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-KANGGUYEOL",
+      "name": "강구열",
+      "partner": null,
+      "total": 192,
+      "wins": 138,
+      "winPercent": 71.875,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 41,
+          "winPercent": 85.4167,
+          "averageEchoDamage": 90175.8958,
+          "averageCasts": 1.2917,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 27,
+          "winPercent": 56.25,
+          "averageEchoDamage": 75641.7083,
+          "averageCasts": 2.6042,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 42,
+          "winPercent": 87.5,
+          "averageEchoDamage": 689362.1667,
+          "averageCasts": 1.2917,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 28,
+          "winPercent": 58.3333,
+          "averageEchoDamage": 639700.25,
+          "averageCasts": 2.5625,
+          "noCastBattles": 0
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-AYOON",
+      "name": "아윤",
+      "partner": null,
+      "total": 192,
+      "wins": 166,
+      "winPercent": 86.4583,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 41,
+          "winPercent": 85.4167,
+          "averageEchoDamage": 85224.5,
+          "averageCasts": 1.3125,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 39,
+          "winPercent": 81.25,
+          "averageEchoDamage": 68287.5,
+          "averageCasts": 2.2083,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 45,
+          "winPercent": 93.75,
+          "averageEchoDamage": 659180.9792,
+          "averageCasts": 1.375,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 41,
+          "winPercent": 85.4167,
+          "averageEchoDamage": 526468.0208,
+          "averageCasts": 2.125,
+          "noCastBattles": 0
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-ZEUS-CHEOLGU",
+      "name": "제우스 철구",
+      "partner": null,
+      "total": 192,
+      "wins": 179,
+      "winPercent": 93.2292,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 44,
+          "winPercent": 91.6667,
+          "averageEchoDamage": 78874.5,
+          "averageCasts": 1.5833,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 47,
+          "winPercent": 97.9167,
+          "averageEchoDamage": 48892.8333,
+          "averageCasts": 2.0833,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 45,
+          "winPercent": 93.75,
+          "averageEchoDamage": 590967.7917,
+          "averageCasts": 1.5833,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 43,
+          "winPercent": 89.5833,
+          "averageEchoDamage": 390186.875,
+          "averageCasts": 2.0417,
+          "noCastBattles": 0
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-DIIM",
+      "name": "디임",
+      "partner": "ICON-OH-JOEUN",
+      "total": 192,
+      "wins": 82,
+      "winPercent": 42.7083,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 11,
+          "winPercent": 22.9167,
+          "averageEchoDamage": 154.5417,
+          "averageCasts": 0.2708,
+          "noCastBattles": 35
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 28,
+          "winPercent": 58.3333,
+          "averageEchoDamage": 11072.1875,
+          "averageCasts": 1.7292,
+          "noCastBattles": 1
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 12,
+          "winPercent": 25,
+          "averageEchoDamage": 1745.6667,
+          "averageCasts": 0.2708,
+          "noCastBattles": 35
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 31,
+          "winPercent": 64.5833,
+          "averageEchoDamage": 71284.6667,
+          "averageCasts": 1.7083,
+          "noCastBattles": 1
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-HI-HEEYA",
+      "name": "하이희야",
+      "partner": "ICON-OH-JOEUN",
+      "total": 192,
+      "wins": 167,
+      "winPercent": 86.9792,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 38,
+          "winPercent": 79.1667,
+          "averageEchoDamage": 5515.5833,
+          "averageCasts": 1.0208,
+          "noCastBattles": 3
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 45,
+          "winPercent": 93.75,
+          "averageEchoDamage": 11336.7708,
+          "averageCasts": 1.8958,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 40,
+          "winPercent": 83.3333,
+          "averageEchoDamage": 38207.125,
+          "averageCasts": 1.0208,
+          "noCastBattles": 3
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 44,
+          "winPercent": 91.6667,
+          "averageEchoDamage": 64272.375,
+          "averageCasts": 1.8542,
+          "noCastBattles": 0
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-NAMUNEUL-BONGSOON",
+      "name": "나무늘봉순",
+      "partner": "ICON-OH-JOEUN",
+      "total": 192,
+      "wins": 173,
+      "winPercent": 90.1042,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 43,
+          "winPercent": 89.5833,
+          "averageEchoDamage": 10028.3333,
+          "averageCasts": 1.0625,
+          "noCastBattles": 3
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 44,
+          "winPercent": 91.6667,
+          "averageEchoDamage": 14832.8125,
+          "averageCasts": 1.9375,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 41,
+          "winPercent": 85.4167,
+          "averageEchoDamage": 66012.7708,
+          "averageCasts": 1.1042,
+          "noCastBattles": 3
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 45,
+          "winPercent": 93.75,
+          "averageEchoDamage": 99880.2292,
+          "averageCasts": 1.9375,
+          "noCastBattles": 0
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-ORIKKUNG",
+      "name": "오리꿍",
+      "partner": "ICON-OH-JOEUN",
+      "total": 192,
+      "wins": 123,
+      "winPercent": 64.0625,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 28,
+          "winPercent": 58.3333,
+          "averageEchoDamage": 4753.9583,
+          "averageCasts": 0.6875,
+          "noCastBattles": 16
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 31,
+          "winPercent": 64.5833,
+          "averageEchoDamage": 6161.7917,
+          "averageCasts": 1.6875,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 30,
+          "winPercent": 62.5,
+          "averageEchoDamage": 36479.4167,
+          "averageCasts": 0.6875,
+          "noCastBattles": 16
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 34,
+          "winPercent": 70.8333,
+          "averageEchoDamage": 40386.2917,
+          "averageCasts": 1.8125,
+          "noCastBattles": 0
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-KANGGUYEOL",
+      "name": "강구열",
+      "partner": "ICON-OH-JOEUN",
+      "total": 192,
+      "wins": 128,
+      "winPercent": 66.6667,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 38,
+          "winPercent": 79.1667,
+          "averageEchoDamage": 16020.7917,
+          "averageCasts": 1.0417,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 27,
+          "winPercent": 56.25,
+          "averageEchoDamage": 9527.9583,
+          "averageCasts": 1.8333,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 35,
+          "winPercent": 72.9167,
+          "averageEchoDamage": 131524.8958,
+          "averageCasts": 1.0417,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 28,
+          "winPercent": 58.3333,
+          "averageEchoDamage": 105966.5,
+          "averageCasts": 1.7917,
+          "noCastBattles": 0
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-AYOON",
+      "name": "아윤",
+      "partner": "ICON-OH-JOEUN",
+      "total": 192,
+      "wins": 157,
+      "winPercent": 81.7708,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 39,
+          "winPercent": 81.25,
+          "averageEchoDamage": 18768.0417,
+          "averageCasts": 1.0625,
+          "noCastBattles": 1
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 40,
+          "winPercent": 83.3333,
+          "averageEchoDamage": 13418.625,
+          "averageCasts": 2.0208,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 36,
+          "winPercent": 75,
+          "averageEchoDamage": 127428.4375,
+          "averageCasts": 1.0417,
+          "noCastBattles": 1
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 42,
+          "winPercent": 87.5,
+          "averageEchoDamage": 104444.25,
+          "averageCasts": 2,
+          "noCastBattles": 0
+        }
+      ]
+    },
+    {
+      "opponent": "ICON-ZEUS-CHEOLGU",
+      "name": "제우스 철구",
+      "partner": "ICON-OH-JOEUN",
+      "total": 192,
+      "wins": 173,
+      "winPercent": 90.1042,
+      "groups": [
+        {
+          "equipment": 0,
+          "slot": 0,
+          "total": 48,
+          "wins": 43,
+          "winPercent": 89.5833,
+          "averageEchoDamage": 10028.3333,
+          "averageCasts": 1.0625,
+          "noCastBattles": 3
+        },
+        {
+          "equipment": 0,
+          "slot": 4,
+          "total": 48,
+          "wins": 44,
+          "winPercent": 91.6667,
+          "averageEchoDamage": 14832.8125,
+          "averageCasts": 1.9375,
+          "noCastBattles": 0
+        },
+        {
+          "equipment": 5000000,
+          "slot": 0,
+          "total": 48,
+          "wins": 41,
+          "winPercent": 85.4167,
+          "averageEchoDamage": 66012.7708,
+          "averageCasts": 1.1042,
+          "noCastBattles": 3
+        },
+        {
+          "equipment": 5000000,
+          "slot": 4,
+          "total": 48,
+          "wins": 45,
+          "winPercent": 93.75,
+          "averageEchoDamage": 99880.2292,
+          "averageCasts": 1.9375,
+          "noCastBattles": 0
+        }
+      ]
+    }
+  ],
+  "pve": [
+    {
+      "code": "ICON-DIIM",
+      "name": "디임",
+      "groups": [
+        {
+          "equipment": 0,
+          "power": 792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 12.6667,
+          "averageTeamDamage": 2206362,
+          "averageActorDamage": 1850065.3333,
+          "averageEchoDamage": 0,
+          "averageCasts": 2.0417,
+          "averageActions": 12.6667
+        },
+        {
+          "equipment": 0,
+          "power": 1982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 32.2083,
+          "averageTeamDamage": 5515906,
+          "averageActorDamage": 4046686.4583,
+          "averageEchoDamage": 0,
+          "averageCasts": 4.7083,
+          "averageActions": 32.2083
+        },
+        {
+          "equipment": 0,
+          "power": 4955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 62.3333,
+          "averageTeamDamage": 13789765,
+          "averageActorDamage": 9502617.9167,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 62.3333
+        },
+        {
+          "equipment": 0,
+          "power": 9910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 64.9167,
+          "averageTeamDamage": 27579530,
+          "averageActorDamage": 19402754.9583,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 64.9167
+        },
+        {
+          "equipment": 0,
+          "power": 19820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 64.9167,
+          "averageTeamDamage": 55159060,
+          "averageActorDamage": 38873893.5833,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 64.9167
+        },
+        {
+          "equipment": 5000000,
+          "power": 4792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 13.8333,
+          "averageTeamDamage": 13338362,
+          "averageActorDamage": 11071215.6667,
+          "averageEchoDamage": 0,
+          "averageCasts": 2,
+          "averageActions": 13.8333
+        },
+        {
+          "equipment": 5000000,
+          "power": 11982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 34.125,
+          "averageTeamDamage": 33345906,
+          "averageActorDamage": 23558197.0417,
+          "averageEchoDamage": 0,
+          "averageCasts": 4.125,
+          "averageActions": 34.125
+        },
+        {
+          "equipment": 5000000,
+          "power": 29955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 62.5417,
+          "averageTeamDamage": 83364765,
+          "averageActorDamage": 52735900.125,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 62.5417
+        },
+        {
+          "equipment": 5000000,
+          "power": 59910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 64.9583,
+          "averageTeamDamage": 166729530,
+          "averageActorDamage": 106108262.3333,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 64.9583
+        },
+        {
+          "equipment": 5000000,
+          "power": 119820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 64.9583,
+          "averageTeamDamage": 333459060,
+          "averageActorDamage": 212415410.125,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 64.9583
+        }
+      ]
+    },
+    {
+      "code": "ICON-HI-HEEYA",
+      "name": "하이희야",
+      "groups": [
+        {
+          "equipment": 0,
+          "power": 792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 11.5417,
+          "averageTeamDamage": 2206362,
+          "averageActorDamage": 1872004.2917,
+          "averageEchoDamage": 0,
+          "averageCasts": 2,
+          "averageActions": 11.5417
+        },
+        {
+          "equipment": 0,
+          "power": 1982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 28.9167,
+          "averageTeamDamage": 5515906,
+          "averageActorDamage": 4139437.1667,
+          "averageEchoDamage": 0,
+          "averageCasts": 4,
+          "averageActions": 28.9167
+        },
+        {
+          "equipment": 0,
+          "power": 4955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 59.75,
+          "averageTeamDamage": 13789765,
+          "averageActorDamage": 9417043.375,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 59.75
+        },
+        {
+          "equipment": 0,
+          "power": 9910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 63.875,
+          "averageTeamDamage": 27579530,
+          "averageActorDamage": 19172482.2083,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 63.875
+        },
+        {
+          "equipment": 0,
+          "power": 19820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 63.875,
+          "averageTeamDamage": 55159060,
+          "averageActorDamage": 38411217.75,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 63.875
+        },
+        {
+          "equipment": 5000000,
+          "power": 4792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 12.5417,
+          "averageTeamDamage": 13338362,
+          "averageActorDamage": 11138625.1667,
+          "averageEchoDamage": 0,
+          "averageCasts": 2,
+          "averageActions": 12.5417
+        },
+        {
+          "equipment": 5000000,
+          "power": 11982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 30.8333,
+          "averageTeamDamage": 33345906,
+          "averageActorDamage": 24138421.4583,
+          "averageEchoDamage": 0,
+          "averageCasts": 4,
+          "averageActions": 30.8333
+        },
+        {
+          "equipment": 5000000,
+          "power": 29955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 60.375,
+          "averageTeamDamage": 83364765,
+          "averageActorDamage": 51919998.4583,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 60.375
+        },
+        {
+          "equipment": 5000000,
+          "power": 59910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 63.8333,
+          "averageTeamDamage": 166729530,
+          "averageActorDamage": 103451498.0833,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 63.8333
+        },
+        {
+          "equipment": 5000000,
+          "power": 119820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 63.8333,
+          "averageTeamDamage": 333459060,
+          "averageActorDamage": 207308422.2917,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 63.8333
+        }
+      ]
+    },
+    {
+      "code": "ICON-NAMUNEUL-BONGSOON",
+      "name": "나무늘봉순",
+      "groups": [
+        {
+          "equipment": 0,
+          "power": 792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 14.1667,
+          "averageTeamDamage": 2206362,
+          "averageActorDamage": 1626979.9583,
+          "averageEchoDamage": 0,
+          "averageCasts": 2,
+          "averageActions": 14.1667
+        },
+        {
+          "equipment": 0,
+          "power": 1982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 34.125,
+          "averageTeamDamage": 5515906,
+          "averageActorDamage": 3917807.375,
+          "averageEchoDamage": 0,
+          "averageCasts": 4,
+          "averageActions": 34.125
+        },
+        {
+          "equipment": 0,
+          "power": 4955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 66.25,
+          "averageTeamDamage": 13789765,
+          "averageActorDamage": 9232885.5833,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 66.25
+        },
+        {
+          "equipment": 0,
+          "power": 9910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 68.7917,
+          "averageTeamDamage": 27579530,
+          "averageActorDamage": 18630768.5833,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 68.7917
+        },
+        {
+          "equipment": 0,
+          "power": 19820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 68.7917,
+          "averageTeamDamage": 55159060,
+          "averageActorDamage": 37310564.5417,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 68.7917
+        },
+        {
+          "equipment": 5000000,
+          "power": 4792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 15.0833,
+          "averageTeamDamage": 13338362,
+          "averageActorDamage": 9453853.625,
+          "averageEchoDamage": 0,
+          "averageCasts": 2,
+          "averageActions": 15.0833
+        },
+        {
+          "equipment": 5000000,
+          "power": 11982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 37.9167,
+          "averageTeamDamage": 33345906,
+          "averageActorDamage": 21520798,
+          "averageEchoDamage": 0,
+          "averageCasts": 3.9167,
+          "averageActions": 37.9167
+        },
+        {
+          "equipment": 5000000,
+          "power": 29955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 66.875,
+          "averageTeamDamage": 83364765,
+          "averageActorDamage": 49852239.5,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 66.875
+        },
+        {
+          "equipment": 5000000,
+          "power": 59910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 68.9583,
+          "averageTeamDamage": 166729530,
+          "averageActorDamage": 99883885.4583,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 68.9583
+        },
+        {
+          "equipment": 5000000,
+          "power": 119820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 68.9583,
+          "averageTeamDamage": 333459060,
+          "averageActorDamage": 200012745.4583,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 68.9583
+        }
+      ]
+    },
+    {
+      "code": "ICON-OH-JOEUN",
+      "name": "오조은",
+      "groups": [
+        {
+          "equipment": 0,
+          "power": 792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 17.5417,
+          "averageTeamDamage": 2206362,
+          "averageActorDamage": 1572747.375,
+          "averageEchoDamage": 0,
+          "averageCasts": 0,
+          "averageActions": 17.5417
+        },
+        {
+          "equipment": 0,
+          "power": 1982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 42.8333,
+          "averageTeamDamage": 5515906,
+          "averageActorDamage": 3369618.8333,
+          "averageEchoDamage": 0,
+          "averageCasts": 2.9583,
+          "averageActions": 42.8333
+        },
+        {
+          "equipment": 0,
+          "power": 4955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 74.2917,
+          "averageTeamDamage": 13789765,
+          "averageActorDamage": 7368986.0417,
+          "averageEchoDamage": 0,
+          "averageCasts": 5.5,
+          "averageActions": 74.2917
+        },
+        {
+          "equipment": 0,
+          "power": 9910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 76.0417,
+          "averageTeamDamage": 27579530,
+          "averageActorDamage": 14815216.9583,
+          "averageEchoDamage": 0,
+          "averageCasts": 5.5,
+          "averageActions": 76.0417
+        },
+        {
+          "equipment": 0,
+          "power": 19820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 76.0417,
+          "averageTeamDamage": 55159060,
+          "averageActorDamage": 29654161.5,
+          "averageEchoDamage": 0,
+          "averageCasts": 5.5,
+          "averageActions": 76.0417
+        },
+        {
+          "equipment": 5000000,
+          "power": 4792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 19.4583,
+          "averageTeamDamage": 13338362,
+          "averageActorDamage": 9070561.5,
+          "averageEchoDamage": 0,
+          "averageCasts": 0,
+          "averageActions": 19.4583
+        },
+        {
+          "equipment": 5000000,
+          "power": 11982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 44.7083,
+          "averageTeamDamage": 33345906,
+          "averageActorDamage": 18561666.5,
+          "averageEchoDamage": 0,
+          "averageCasts": 2.75,
+          "averageActions": 44.7083
+        },
+        {
+          "equipment": 5000000,
+          "power": 29955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 74.2083,
+          "averageTeamDamage": 83364765,
+          "averageActorDamage": 38061117.0417,
+          "averageEchoDamage": 0,
+          "averageCasts": 5.5,
+          "averageActions": 74.2083
+        },
+        {
+          "equipment": 5000000,
+          "power": 59910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 76.0417,
+          "averageTeamDamage": 166729530,
+          "averageActorDamage": 77648934.4167,
+          "averageEchoDamage": 0,
+          "averageCasts": 5.5,
+          "averageActions": 76.0417
+        },
+        {
+          "equipment": 5000000,
+          "power": 119820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 76.0417,
+          "averageTeamDamage": 333459060,
+          "averageActorDamage": 155539412.375,
+          "averageEchoDamage": 0,
+          "averageCasts": 5.5,
+          "averageActions": 76.0417
+        }
+      ]
+    },
+    {
+      "code": "ICON-ORIKKUNG",
+      "name": "오리꿍",
+      "groups": [
+        {
+          "equipment": 0,
+          "power": 792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 11.0833,
+          "averageTeamDamage": 2206362,
+          "averageActorDamage": 1912853.0833,
+          "averageEchoDamage": 0,
+          "averageCasts": 2,
+          "averageActions": 11.0833
+        },
+        {
+          "equipment": 0,
+          "power": 1982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 28.25,
+          "averageTeamDamage": 5515906,
+          "averageActorDamage": 4255559.0833,
+          "averageEchoDamage": 0,
+          "averageCasts": 4,
+          "averageActions": 28.25
+        },
+        {
+          "equipment": 0,
+          "power": 4955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 53.5833,
+          "averageTeamDamage": 13789765,
+          "averageActorDamage": 9704468.75,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 53.5833
+        },
+        {
+          "equipment": 0,
+          "power": 9910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 56.75,
+          "averageTeamDamage": 27579530,
+          "averageActorDamage": 19606148.375,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 56.75
+        },
+        {
+          "equipment": 0,
+          "power": 19820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 57.2917,
+          "averageTeamDamage": 55159060,
+          "averageActorDamage": 39126715.4167,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 57.2917
+        },
+        {
+          "equipment": 5000000,
+          "power": 4792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 12.625,
+          "averageTeamDamage": 13338362,
+          "averageActorDamage": 11180868.7083,
+          "averageEchoDamage": 0,
+          "averageCasts": 2,
+          "averageActions": 12.625
+        },
+        {
+          "equipment": 5000000,
+          "power": 11982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 30.7917,
+          "averageTeamDamage": 33345906,
+          "averageActorDamage": 23978396.8333,
+          "averageEchoDamage": 0,
+          "averageCasts": 4,
+          "averageActions": 30.7917
+        },
+        {
+          "equipment": 5000000,
+          "power": 29955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 54.6667,
+          "averageTeamDamage": 83364765,
+          "averageActorDamage": 53732066,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 54.6667
+        },
+        {
+          "equipment": 5000000,
+          "power": 59910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 56.7917,
+          "averageTeamDamage": 166729530,
+          "averageActorDamage": 107512597.625,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 56.7917
+        },
+        {
+          "equipment": 5000000,
+          "power": 119820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 58.0833,
+          "averageTeamDamage": 333459060,
+          "averageActorDamage": 214591520.125,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 58.0833
+        }
+      ]
+    },
+    {
+      "code": "ICON-KANGGUYEOL",
+      "name": "강구열",
+      "groups": [
+        {
+          "equipment": 0,
+          "power": 792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 12.2083,
+          "averageTeamDamage": 2206362,
+          "averageActorDamage": 1770386.9583,
+          "averageEchoDamage": 0,
+          "averageCasts": 3,
+          "averageActions": 12.2083
+        },
+        {
+          "equipment": 0,
+          "power": 1982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 31.8333,
+          "averageTeamDamage": 5515906,
+          "averageActorDamage": 3985917.7917,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 31.8333
+        },
+        {
+          "equipment": 0,
+          "power": 4955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 62.5833,
+          "averageTeamDamage": 13789765,
+          "averageActorDamage": 8981763.4167,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 62.5833
+        },
+        {
+          "equipment": 0,
+          "power": 9910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 64.75,
+          "averageTeamDamage": 27579530,
+          "averageActorDamage": 18245403.1667,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 64.75
+        },
+        {
+          "equipment": 0,
+          "power": 19820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 64.75,
+          "averageTeamDamage": 55159060,
+          "averageActorDamage": 36534305.0833,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 64.75
+        },
+        {
+          "equipment": 5000000,
+          "power": 4792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 13.375,
+          "averageTeamDamage": 13338362,
+          "averageActorDamage": 10711325.25,
+          "averageEchoDamage": 0,
+          "averageCasts": 3,
+          "averageActions": 13.375
+        },
+        {
+          "equipment": 5000000,
+          "power": 11982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 34.125,
+          "averageTeamDamage": 33345906,
+          "averageActorDamage": 22674287.6667,
+          "averageEchoDamage": 0,
+          "averageCasts": 5.75,
+          "averageActions": 34.125
+        },
+        {
+          "equipment": 5000000,
+          "power": 29955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 62.625,
+          "averageTeamDamage": 83364765,
+          "averageActorDamage": 49546916.0417,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 62.625
+        },
+        {
+          "equipment": 5000000,
+          "power": 59910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 64.8333,
+          "averageTeamDamage": 166729530,
+          "averageActorDamage": 99269402.5417,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 64.8333
+        },
+        {
+          "equipment": 5000000,
+          "power": 119820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 64.8333,
+          "averageTeamDamage": 333459060,
+          "averageActorDamage": 198629083.25,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 64.8333
+        }
+      ]
+    },
+    {
+      "code": "ICON-AYOON",
+      "name": "아윤",
+      "groups": [
+        {
+          "equipment": 0,
+          "power": 792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 13.6667,
+          "averageTeamDamage": 2206362,
+          "averageActorDamage": 1605685.9583,
+          "averageEchoDamage": 0,
+          "averageCasts": 2.1667,
+          "averageActions": 13.6667
+        },
+        {
+          "equipment": 0,
+          "power": 1982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 33.5,
+          "averageTeamDamage": 5515906,
+          "averageActorDamage": 3825211.3333,
+          "averageEchoDamage": 0,
+          "averageCasts": 5,
+          "averageActions": 33.5
+        },
+        {
+          "equipment": 0,
+          "power": 4955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 63.6667,
+          "averageTeamDamage": 13789765,
+          "averageActorDamage": 9099687.7917,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 63.6667
+        },
+        {
+          "equipment": 0,
+          "power": 9910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 66.125,
+          "averageTeamDamage": 27579530,
+          "averageActorDamage": 18562148.2917,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 66.125
+        },
+        {
+          "equipment": 0,
+          "power": 19820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 66.125,
+          "averageTeamDamage": 55159060,
+          "averageActorDamage": 37184948.5417,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 66.125
+        },
+        {
+          "equipment": 5000000,
+          "power": 4792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 14.625,
+          "averageTeamDamage": 13338362,
+          "averageActorDamage": 9506236.3333,
+          "averageEchoDamage": 0,
+          "averageCasts": 2.0833,
+          "averageActions": 14.625
+        },
+        {
+          "equipment": 5000000,
+          "power": 11982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 35.375,
+          "averageTeamDamage": 33345906,
+          "averageActorDamage": 21449543.1667,
+          "averageEchoDamage": 0,
+          "averageCasts": 4.875,
+          "averageActions": 35.375
+        },
+        {
+          "equipment": 5000000,
+          "power": 29955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 63.4167,
+          "averageTeamDamage": 83364765,
+          "averageActorDamage": 48207663.9583,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 63.4167
+        },
+        {
+          "equipment": 5000000,
+          "power": 59910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 65.4583,
+          "averageTeamDamage": 166729530,
+          "averageActorDamage": 98430504.7083,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 65.4583
+        },
+        {
+          "equipment": 5000000,
+          "power": 119820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 65.7917,
+          "averageTeamDamage": 333459060,
+          "averageActorDamage": 197185515.5417,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 65.7917
+        }
+      ]
+    },
+    {
+      "code": "ICON-ZEUS-CHEOLGU",
+      "name": "제우스 철구",
+      "groups": [
+        {
+          "equipment": 0,
+          "power": 792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 14.1667,
+          "averageTeamDamage": 2206362,
+          "averageActorDamage": 1626979.9583,
+          "averageEchoDamage": 0,
+          "averageCasts": 2,
+          "averageActions": 14.1667
+        },
+        {
+          "equipment": 0,
+          "power": 1982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 34.125,
+          "averageTeamDamage": 5515906,
+          "averageActorDamage": 3917807.375,
+          "averageEchoDamage": 0,
+          "averageCasts": 4,
+          "averageActions": 34.125
+        },
+        {
+          "equipment": 0,
+          "power": 4955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 66.25,
+          "averageTeamDamage": 13789765,
+          "averageActorDamage": 9232885.5833,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 66.25
+        },
+        {
+          "equipment": 0,
+          "power": 9910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 68.7917,
+          "averageTeamDamage": 27579530,
+          "averageActorDamage": 18630768.5833,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 68.7917
+        },
+        {
+          "equipment": 0,
+          "power": 19820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 68.7917,
+          "averageTeamDamage": 55159060,
+          "averageActorDamage": 37310564.5417,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 68.7917
+        },
+        {
+          "equipment": 5000000,
+          "power": 4792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 15.0833,
+          "averageTeamDamage": 13338362,
+          "averageActorDamage": 9453853.625,
+          "averageEchoDamage": 0,
+          "averageCasts": 2,
+          "averageActions": 15.0833
+        },
+        {
+          "equipment": 5000000,
+          "power": 11982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 37.9167,
+          "averageTeamDamage": 33345906,
+          "averageActorDamage": 21520798,
+          "averageEchoDamage": 0,
+          "averageCasts": 3.9167,
+          "averageActions": 37.9167
+        },
+        {
+          "equipment": 5000000,
+          "power": 29955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 66.875,
+          "averageTeamDamage": 83364765,
+          "averageActorDamage": 49852239.5,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 66.875
+        },
+        {
+          "equipment": 5000000,
+          "power": 59910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 68.9583,
+          "averageTeamDamage": 166729530,
+          "averageActorDamage": 99883885.4583,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 68.9583
+        },
+        {
+          "equipment": 5000000,
+          "power": 119820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 68.9583,
+          "averageTeamDamage": 333459060,
+          "averageActorDamage": 200012745.4583,
+          "averageEchoDamage": 0,
+          "averageCasts": 6,
+          "averageActions": 68.9583
+        }
+      ]
+    },
+    {
+      "code": "ICON-GUSUDAENG",
+      "name": "구수댕",
+      "groups": [
+        {
+          "equipment": 0,
+          "power": 792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 10.875,
+          "averageTeamDamage": 2206362,
+          "averageActorDamage": 1928974.0417,
+          "averageEchoDamage": 340002.0417,
+          "averageCasts": 2,
+          "averageActions": 10.875
+        },
+        {
+          "equipment": 0,
+          "power": 1982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 27.0833,
+          "averageTeamDamage": 5515906,
+          "averageActorDamage": 4411167.4583,
+          "averageEchoDamage": 1035276.8333,
+          "averageCasts": 4,
+          "averageActions": 27.0833
+        },
+        {
+          "equipment": 0,
+          "power": 4955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 52.125,
+          "averageTeamDamage": 13789765,
+          "averageActorDamage": 9953607.7917,
+          "averageEchoDamage": 2613847.5,
+          "averageCasts": 6,
+          "averageActions": 52.125
+        },
+        {
+          "equipment": 0,
+          "power": 9910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 54.2917,
+          "averageTeamDamage": 27579530,
+          "averageActorDamage": 20128462.3333,
+          "averageEchoDamage": 5047038.3333,
+          "averageCasts": 6,
+          "averageActions": 54.2917
+        },
+        {
+          "equipment": 0,
+          "power": 19820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 55.2917,
+          "averageTeamDamage": 55159060,
+          "averageActorDamage": 40178567.5,
+          "averageEchoDamage": 9573800.0417,
+          "averageCasts": 6,
+          "averageActions": 55.2917
+        },
+        {
+          "equipment": 5000000,
+          "power": 4792800,
+          "multiplier": 4,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 12.2083,
+          "averageTeamDamage": 13338362,
+          "averageActorDamage": 11327667.0833,
+          "averageEchoDamage": 2103817.8333,
+          "averageCasts": 2,
+          "averageActions": 12.2083
+        },
+        {
+          "equipment": 5000000,
+          "power": 11982000,
+          "multiplier": 10,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 29.375,
+          "averageTeamDamage": 33345906,
+          "averageActorDamage": 24465698.75,
+          "averageEchoDamage": 6139966.7917,
+          "averageCasts": 4,
+          "averageActions": 29.375
+        },
+        {
+          "equipment": 5000000,
+          "power": 29955000,
+          "multiplier": 25,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 51.625,
+          "averageTeamDamage": 83364765,
+          "averageActorDamage": 56386654.5,
+          "averageEchoDamage": 16663833.375,
+          "averageCasts": 6,
+          "averageActions": 51.625
+        },
+        {
+          "equipment": 5000000,
+          "power": 59910000,
+          "multiplier": 50,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 53.4167,
+          "averageTeamDamage": 166729530,
+          "averageActorDamage": 113239021.7083,
+          "averageEchoDamage": 32412204,
+          "averageCasts": 6,
+          "averageActions": 53.4167
+        },
+        {
+          "equipment": 5000000,
+          "power": 119820000,
+          "multiplier": 100,
+          "total": 24,
+          "wins": 24,
+          "winPercent": 100,
+          "averageBossDamagePercent": 100,
+          "averageClearActions": 55.0833,
+          "averageTeamDamage": 333459060,
+          "averageActorDamage": 224146356.0417,
+          "averageEchoDamage": 59016594.1667,
+          "averageCasts": 6,
+          "averageActions": 55.0833
+        }
+      ]
+    }
+  ],
+  "battles": 5040,
+  "elapsedMs": 4290
+}
