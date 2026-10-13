@@ -8,6 +8,7 @@
       const response=await fetch(ROOT+'assets/presentation-manifest.json');if(!response.ok)throw new Error('연출 매니페스트를 읽지 못했습니다.');
       const manifest=await response.json(),rt=window.ProjectVPixiBattle.fxRuntime,frames={};
       await Promise.all(Object.entries(manifest.atlases).map(async([key,spec])=>{
+        if(key==='cast')return; // The live actor now owns the approved original-IP body.
         const atlas=await rt.Assets.load(ROOT+spec.url);
         frames[key]=spec.frames.map(f=>new rt.Texture({source:atlas.source,frame:new rt.Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));
       }));return assets={manifest,frames};
@@ -46,13 +47,12 @@
       if(t>2.1)this.banner.style.opacity='0';
       this.body.visible=!end&&!this.spirit;
       this.original.visible=this.body.visible?false:this.originalVisible;
-      const cast=assets.manifest.atlases.cast,pose=cast.frames[this.poseIndex],bodyScale=actor.fullBodyHeight/cast.referenceHeight;
       if(this.body.visible){
-        this.body.texture=assets.frames.cast[this.poseIndex];this.body.anchor.set(pose.pivot.x/cast.frameSize,pose.pivot.y/cast.frameSize);this.body.scale.set(bodyScale);
-        this.body.position.set(0,0);
+        this.body.texture=this.original.texture;this.body.anchor.copyFrom(this.original.anchor);this.body.scale.copyFrom(this.original.scale);
+        this.body.position.copyFrom(this.original.position);
       }
       const bossFeet=this.point(actor),targetFeet=this.point(this.target),torso=this.point(this.target,.48),bossTorso=this.point(actor,.5);
-      const hand=this.front.toLocal(this.body.toGlobal({x:pose.emission.x-pose.pivot.x,y:pose.emission.y-pose.pivot.y}));
+      const hand=this.point(actor,.6);
       const key=assets.frames[cue.effect]?cue.effect:cue.effect==='gaze'?'illusion':cue.effect==='expose'?'awakening':null;
       const progress=clamp((t-.45)/2.7,0,.9999);this.fxIndex=Math.floor(progress*12);
       this.fx.visible=Boolean(key&&this.effects&&!end&&t>=.45&&t<3.3);
@@ -79,8 +79,8 @@
       this.ghosts.forEach((s,i)=>{
         s.visible=cue.effect==='clones'&&this.effects&&!reduce&&!end&&t>.4&&t<2.9;
         if(!s.visible)return;
-        const oldIndex=clamp(this.poseIndex-i,0,3),f=cast.frames[oldIndex];s.texture=assets.frames.cast[oldIndex];s.anchor.set(f.pivot.x/cast.frameSize,f.pivot.y/cast.frameSize);
-        s.scale.set(bodyScale*actor.root.scale.x*.85,bodyScale*actor.root.scale.y*.85);
+        s.texture=this.original.texture;s.anchor.copyFrom(this.original.anchor);
+        s.scale.set(this.original.scale.x*actor.root.scale.x*.85,this.original.scale.y*actor.root.scale.y*.85);
         const p=this.point(actor,0,this.back);s.position.set(p.x-(i+1)*110,p.y+(i+1)*28);s.tint=0x789bd5;s.alpha=.37*clamp((2.9-t)/.4,0,1);
       });
       const bodyFeet=this.front.toLocal(this.body.toGlobal({x:0,y:0}));

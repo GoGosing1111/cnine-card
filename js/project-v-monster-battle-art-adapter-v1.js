@@ -2,7 +2,7 @@
   'use strict';
 
   const root = typeof window !== 'undefined' ? window : globalThis;
-  const MANIFEST_URL = '/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json?v=9-apocalypse-legion&nm=20261007-akaza';
+  const MANIFEST_URL = '/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json?v=20261013-original-ip-v1';
   const PLAY_ENTRY_POINTS = Object.freeze([
     'playPveBattleV2Live',
     'playTowerBattleV2Live',
@@ -114,7 +114,7 @@
         isBoss: Boolean(entry.isBoss),
         primaryUrl,
         pngFallbackUrl,
-        footAnchor: Object.freeze({ x: 0.5, y: 0.94 }),
+        footAnchor: Object.freeze(entry.footAnchor || { x: 0.5, y: 0.94 }),
         objectFit: 'contain',
         objectPosition: '50% 100%',
         sha256: upper(entry.sha256),
@@ -127,6 +127,7 @@
       if (!art) return monster;
       return {
         ...monster,
+        ...(monster.originalIpKey ? {name:art.name,...(monster.title?{title:art.name}:{})} : {}),
         image: art.primaryUrl,
         imageBattle: art.primaryUrl,
         battleImage: art.primaryUrl,

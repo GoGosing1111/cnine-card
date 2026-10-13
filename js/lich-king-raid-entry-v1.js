@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261010-weekly-seven';
+  const VERSION = '20261013-original-ip-v1';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, revision = 0;
   const host = () => document.getElementById('pveLichRaidView');
   async function refresh() {
@@ -34,7 +34,7 @@
     if (!root || controller) return;
     const version = ++revision;
     root.hidden = false;
-    root.innerHTML = '<div class="core-raid-loading" role="status"><i></i><b>리치왕 정벌을 불러오는 중</b></div>';
+    root.innerHTML = '<div class="core-raid-loading" role="status"><i></i><b>이스겐 정벌을 불러오는 중</b></div>';
     try {
       const { mountInlineRaid } = await import('/raid/lich-king/inline.mjs?v=' + VERSION);
       const current = () => version === revision && root.isConnected && !root.hidden;
@@ -43,7 +43,7 @@
       controller = mounted;
     } catch (error) {
       if (version !== revision || !root.isConnected) return;
-      root.innerHTML = '<div class="core-raid-loading" role="status"><b>리치왕 정벌을 불러오지 못했습니다.</b><button type="button">다시 시도</button></div>';
+      root.innerHTML = '<div class="core-raid-loading" role="status"><b>이스겐 정벌을 불러오지 못했습니다.</b><button type="button">다시 시도</button></div>';
       root.querySelector('button').onclick = () => void open();
       console.warn('[LICH RAID] inline entry failed', error);
     }
@@ -57,7 +57,7 @@
       tab.type = 'button'; tab.id = 'lichRaidTab'; tab.hidden = true;
       tab.dataset.raidContent = 'lich';
       tab.setAttribute('aria-selected', 'false'); tab.setAttribute('aria-hidden', 'true');
-      tab.innerHTML = '<small>TEST · LICH KING</small><b>리치왕 정벌</b>';
+      tab.innerHTML = '<small>RAID · ISGEN</small><b>이스겐 정벌</b>';
       tabs.appendChild(tab);
       const root = document.createElement('div');
       root.id = 'pveLichRaidView'; root.hidden = true;

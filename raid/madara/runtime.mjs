@@ -61,6 +61,7 @@ export function mountMadara(root){
       const response=await fetch(ROOT+'assets/presentation-manifest.json');if(!response.ok)throw new Error('연출 매니페스트를 읽지 못했습니다.');
       const manifest=await response.json(),rt=window.ProjectVPixiBattle.fxRuntime,frames={};
       await Promise.all(Object.entries(manifest.atlases).map(async([key,spec])=>{
+        if(key==='cast')return; // The live actor now owns the approved original-IP body.
         const atlas=await rt.Assets.load(ROOT+spec.url);
         frames[key]=spec.frames.map(f=>new rt.Texture({source:atlas.source,frame:new rt.Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));
       }));return assets={manifest,frames};
@@ -99,13 +100,12 @@ export function mountMadara(root){
       if(t>2.1)this.banner.style.opacity='0';
       this.body.visible=!end&&!this.spirit;
       this.original.visible=this.body.visible?false:this.originalVisible;
-      const cast=assets.manifest.atlases.cast,pose=cast.frames[this.poseIndex],bodyScale=actor.fullBodyHeight/cast.referenceHeight;
       if(this.body.visible){
-        this.body.texture=assets.frames.cast[this.poseIndex];this.body.anchor.set(pose.pivot.x/cast.frameSize,pose.pivot.y/cast.frameSize);this.body.scale.set(bodyScale);
-        this.body.position.set(0,0);
+        this.body.texture=this.original.texture;this.body.anchor.copyFrom(this.original.anchor);this.body.scale.copyFrom(this.original.scale);
+        this.body.position.copyFrom(this.original.position);
       }
       const bossFeet=this.point(actor),targetFeet=this.point(this.target),torso=this.point(this.target,.48),bossTorso=this.point(actor,.5);
-      const hand=this.front.toLocal(this.body.toGlobal({x:pose.emission.x-pose.pivot.x,y:pose.emission.y-pose.pivot.y}));
+      const hand=this.point(actor,.6);
       const key=assets.frames[cue.effect]?cue.effect:cue.effect==='gaze'?'illusion':cue.effect==='expose'?'awakening':null;
       const progress=clamp((t-.45)/2.7,0,.9999);this.fxIndex=Math.floor(progress*12);
       this.fx.visible=Boolean(key&&this.effects&&!end&&t>=.45&&t<3.3);
@@ -132,8 +132,8 @@ export function mountMadara(root){
       this.ghosts.forEach((s,i)=>{
         s.visible=cue.effect==='clones'&&this.effects&&!reduce&&!end&&t>.4&&t<2.9;
         if(!s.visible)return;
-        const oldIndex=clamp(this.poseIndex-i,0,3),f=cast.frames[oldIndex];s.texture=assets.frames.cast[oldIndex];s.anchor.set(f.pivot.x/cast.frameSize,f.pivot.y/cast.frameSize);
-        s.scale.set(bodyScale*actor.root.scale.x*.85,bodyScale*actor.root.scale.y*.85);
+        s.texture=this.original.texture;s.anchor.copyFrom(this.original.anchor);
+        s.scale.set(this.original.scale.x*actor.root.scale.x*.85,this.original.scale.y*actor.root.scale.y*.85);
         const p=this.point(actor,0,this.back);s.position.set(p.x-(i+1)*110,p.y+(i+1)*28);s.tint=0x789bd5;s.alpha=.37*clamp((2.9-t)/.4,0,1);
       });
       const bodyFeet=this.front.toLocal(this.body.toGlobal({x:0,y:0}));
@@ -224,7 +224,6 @@ export function mountMadara(root){
   let engine=null,renderer=null,epoch=0,queue=Promise.resolve(),pending=0,snapshot=null,synced='',bossId='',visible=new Set(),scene=null,lastCue='',spirit=false,telegraph=null;
   async function preload(){
     await window.ProjectVBattleV3Live.ensureRuntime({effects:true});
-    await Promise.all(['madara-battle-v1.png','azure-spirit-v1.png'].map(file=>window.ProjectVPixiBattle.fxRuntime.Assets.load('/preview/madara-raid-v1/assets/'+file)));
     await window.MadaraPresentation.preload();
   }
   async function mount(payload){
@@ -237,10 +236,10 @@ export function mountMadara(root){
     api.mountForBattle=async(data,host)=>{engine=await original(data,host);return engine;};
     api.resetSession=async(data,host)=>{engine=await reset(data,host);return engine;};
     try{
-      const prepared=window.ProjectVBattleV3Live.prepareLoading({modal,mode:'RAID',playerName:payload.accountNickname,opponentName:'마다라',autoText:'마다라 전장 준비 중'});
+      const prepared=window.ProjectVBattleV3Live.prepareLoading({modal,mode:'RAID',playerName:payload.accountNickname,opponentName:'바르센',autoText:'바르센 전장 준비 중'});
       const candidate=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal,data:payload,mode:'RAID',playUltimateCinematics:false});
       if(version!==epoch){candidate.destroy();return;}renderer=candidate;
-      modal.querySelector('.battle-v3-header strong').textContent='마다라 레이드';
+      modal.querySelector('.battle-v3-header strong').textContent='바르센 레이드';
       modal.querySelector('.battle-v3-header small').textContent='공대의 판단이 전장을 바꾼다';
       await engine.deployCards({instant:true,force:true});
       telegraph=window.MadaraPresentation.telegraph(engine);
@@ -378,7 +377,7 @@ export function mountMadara(root){
     throw lastError;
   }
   async function accept(result){
-    if(result.feature){document.querySelector('.mr-development').textContent=result.feature.mode+' · 마다라 레이드';}
+    if(result.feature){document.querySelector('.mr-development').textContent=result.feature.mode+' · 바르센 레이드';}
     if(result.settings){const s=result.settings,w=result.weeklyReward;document.querySelector('[data-reward-policy]').textContent='광폭화 '+s.enrageSeconds+'초 · 기믹 제한 '+s.mechanicTimePercent+'% · '+(result.feature.mode==='TEST'?'TEST 보상 없음':s.rewardsEnabled?'클리어 '+Number(s.coinReward).toLocaleString()+' 코인 / 마별 '+s.masterStarReward+' / 펫 정수 '+s.petEssenceReward:'클리어 보상 지급 OFF')+(w?' · 주간 '+w.used+'/'+w.limit+'회':'');}
     if(result.token){token=result.token;persist();}
     if(result.account){account=result.account;updateWallet();}
@@ -401,7 +400,7 @@ export function mountMadara(root){
       }else if(!mounting)window.MadaraBattle.update(state);
     }
     if(['CLEAR','FAILED'].includes(state.status)&&!resultShown){
-      resultShown=true;$('resultTitle').textContent=state.status==='CLEAR'?'마다라 격파':'공대 작전 실패';
+      resultShown=true;$('resultTitle').textContent=state.status==='CLEAR'?'바르센 격파':'공대 작전 실패';
       $('resultReason').textContent=state.failure?.reason||'세 역할의 협동으로 완전체를 저지했습니다.';
       const seconds=Math.round((state.finishedAt-state.startedAt)/1000);
       $('resultStats').innerHTML=`<span><b>${seconds}</b>전투 시간, 초</span><span><b>${state.statistics.tasks}</b>완료 임무</span><span><b>${state.statistics.mistakes}</b>실수</span>`;

@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261013-fullscreen1';
+  const VERSION = '20261013-original-ip-v1';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, activeRoot = null, revision = 0;
   const host = () => document.getElementById('pveMadaraRaidView');
   async function refresh() {
@@ -36,7 +36,7 @@
     activeRoot = root;
     const version = ++revision;
     root.hidden = false;
-    root.innerHTML = '<div class="core-raid-loading" role="status"><i></i><b>마다라 레이드를 불러오는 중</b></div>';
+    root.innerHTML = '<div class="core-raid-loading" role="status"><i></i><b>바르센 레이드를 불러오는 중</b></div>';
     try {
       const { mountInlineRaid } = await import('/raid/madara/inline.mjs?v=' + VERSION);
       const current = () => version === revision && root.isConnected && !root.hidden;
@@ -45,7 +45,7 @@
       controller = mounted;
     } catch (error) {
       if (version !== revision || !root.isConnected) return;
-      root.innerHTML = '<div class="core-raid-loading" role="status"><b>마다라 레이드를 불러오지 못했습니다.</b><button type="button">다시 시도</button></div>';
+      root.innerHTML = '<div class="core-raid-loading" role="status"><b>바르센 레이드를 불러오지 못했습니다.</b><button type="button">다시 시도</button></div>';
       root.querySelector('button').onclick = () => void open();
       console.warn('[MADARA RAID] inline entry failed', error);
     }
@@ -59,7 +59,7 @@
       tab.type = 'button'; tab.id = 'madaraRaidTab'; tab.hidden = true;
       tab.dataset.raidContent = 'madara';
       tab.setAttribute('aria-selected', 'false'); tab.setAttribute('aria-hidden', 'true');
-      tab.innerHTML = '<small>TEST · MADARA</small><b>마다라 레이드</b>';
+      tab.innerHTML = '<small>RAID · VARSEN</small><b>바르센 레이드</b>';
       tabs.appendChild(tab);
       const root = document.createElement('div');
       root.id = 'pveMadaraRaidView'; root.hidden = true;

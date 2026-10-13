@@ -1,3 +1,4 @@
+import {originalRaidPresentation} from '../shared/monster-original-ip-presentation-v1.mjs';
 const ROOT='/assets/ui/project-v/monsters';
 const WEEKLY=`${ROOT}/weekly-raid-v1`;
 const RESP='/assets/responsive/project-v/monsters';
@@ -55,7 +56,7 @@ export function weeklyRaidBossForKst(nowMs=Date.now(),rotation=WEEKLY_RAID_ROTAT
   return profile?{...profile,weekday,dayLabel:WEEKLY_RAID_DAY_LABELS[weekday]}:null;
 }
 
-export function weeklyRaidBossByName(name){return WEEKLY_RAID_BOSSES_V1.find(row=>row.name===String(name||''))||null;}
+export function weeklyRaidBossByName(name){return WEEKLY_RAID_BOSSES_V1.find(row=>row.name===String(name||'')||originalRaidPresentation(row.name)?.name===String(name||''))||null;}
 export function weeklyRaidBossByCode(code){return WEEKLY_RAID_BOSSES_V1.find(row=>row.code===String(code||'').toUpperCase())||null;}
 
 export const WEEKLY_RAID_SETTINGS_KEY='raid_weekly_boss_settings_v2141';

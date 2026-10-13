@@ -1,7 +1,7 @@
 {
   "format": "MONSTER_ORIGINAL_IP_REVIEW_V1",
   "version": 1,
-  "status": "SOURCE_ART_APPROVED_BASE_SD_REVIEW_READY",
+  "status": "APPROVED_LIVE_BINDING",
   "baselineCapturedAt": "2026-10-13T01:58:46.246Z",
   "updatedAt": "2026-10-13T09:03:04.158Z",
   "generator": "BUILT_IN_IMAGE_GEN",
@@ -176,7 +176,7 @@
         "해군대장 키자루"
       ],
       "workingName": "하르트",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -214,9 +214,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 4,
@@ -224,7 +224,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-006-nervan",
@@ -238,7 +238,7 @@
         "해군대장 아오키지"
       ],
       "workingName": "시구레",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -277,9 +277,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 6,
@@ -287,7 +287,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-007-kardo",
@@ -301,7 +301,7 @@
         "해군대장 아카이누"
       ],
       "workingName": "볼가",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -340,9 +340,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 7,
@@ -350,7 +350,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-010-brekan",
@@ -364,7 +364,7 @@
         "흰수염"
       ],
       "workingName": "드로칸",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -402,9 +402,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 10,
@@ -412,7 +412,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-011-morden",
@@ -426,7 +426,7 @@
         "검은수염"
       ],
       "workingName": "두르겐",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -464,9 +464,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 11,
@@ -474,7 +474,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-012-serk",
@@ -488,7 +488,7 @@
         "미호크"
       ],
       "workingName": "쿠라오",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -526,9 +526,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 12,
@@ -536,7 +536,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-013-bareon",
@@ -550,7 +550,7 @@
         "샹크스"
       ],
       "workingName": "자이렌",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -589,9 +589,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 13,
@@ -599,7 +599,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-014-kirian",
@@ -614,7 +614,7 @@
         "우치하 사스케"
       ],
       "workingName": "시엔",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -653,9 +653,9 @@
         "hasAlpha": true,
         "version": 2
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 14,
@@ -667,7 +667,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-015-seiran",
@@ -682,7 +682,7 @@
         "우치하 이타치"
       ],
       "workingName": "쿠온",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -721,9 +721,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 15,
@@ -735,7 +735,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-016-hajin",
@@ -750,7 +750,7 @@
         "젠이츠"
       ],
       "workingName": "렌키",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -789,9 +789,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 16,
@@ -803,7 +803,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-025-rokas",
@@ -818,7 +818,7 @@
         "조로"
       ],
       "workingName": "로스크",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -857,9 +857,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 25,
@@ -871,7 +871,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-026-taeon",
@@ -886,7 +886,7 @@
         "렌고쿠 코쥬로"
       ],
       "workingName": "히오",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -926,9 +926,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 26,
@@ -940,7 +940,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-029-saharin",
@@ -955,7 +955,7 @@
         "쿄라쿠 슌스이"
       ],
       "workingName": "츠쿠오",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -994,9 +994,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 29,
@@ -1008,7 +1008,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-030-seiran-shadow",
@@ -1023,7 +1023,7 @@
         "이타치 암부"
       ],
       "workingName": "쿠온",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -1062,9 +1062,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 30,
@@ -1076,7 +1076,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-031-yuren",
@@ -1091,7 +1091,7 @@
         "셋쇼마루"
       ],
       "workingName": "라우엔",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -1130,9 +1130,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 31,
@@ -1144,7 +1144,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-032-torian",
@@ -1159,7 +1159,7 @@
         "태양신 루피"
       ],
       "workingName": "루코",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -1198,9 +1198,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 32,
@@ -1212,7 +1212,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-061-aurek",
@@ -1226,7 +1226,7 @@
         "길가메시"
       ],
       "workingName": "오르딘",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "NIGHTMARE"
       ],
@@ -1264,9 +1264,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 61,
@@ -1274,7 +1274,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-062-veiron",
@@ -1288,7 +1288,7 @@
         "우치하 오비토"
       ],
       "workingName": "요겐",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "NIGHTMARE"
       ],
@@ -1326,9 +1326,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 62,
@@ -1336,7 +1336,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-063-raskan",
@@ -1350,7 +1350,7 @@
         "에스카노르"
       ],
       "workingName": "도르크",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "NIGHTMARE"
       ],
@@ -1388,9 +1388,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 63,
@@ -1398,7 +1398,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-070-gradan",
@@ -1412,7 +1412,7 @@
         "골 D. 로저"
       ],
       "workingName": "드라오",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "NIGHTMARE"
       ],
@@ -1450,9 +1450,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 70,
@@ -1460,7 +1460,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-071-eltu",
@@ -1474,7 +1474,7 @@
         "에드워드 엘릭"
       ],
       "workingName": "에논",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -1512,9 +1512,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 71,
@@ -1522,7 +1522,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-072-yujin",
@@ -1536,7 +1536,7 @@
         "히무라 켄신"
       ],
       "workingName": "나기",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -1574,9 +1574,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 72,
@@ -1584,7 +1584,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-073-danro",
@@ -1598,7 +1598,7 @@
         "마이트 가이"
       ],
       "workingName": "간테",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -1636,9 +1636,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 73,
@@ -1646,7 +1646,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-074-rohen",
@@ -1660,7 +1660,7 @@
         "센쥬 하시라마"
       ],
       "workingName": "류젠",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -1698,9 +1698,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 74,
@@ -1708,7 +1708,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-075-voldren",
@@ -1722,7 +1722,7 @@
         "아카드"
       ],
       "workingName": "자브릭",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -1760,9 +1760,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 75,
@@ -1770,7 +1770,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-076-nerik",
@@ -1784,7 +1784,7 @@
         "카네키 켄"
       ],
       "workingName": "야즈",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -1822,9 +1822,9 @@
         "hasAlpha": true,
         "version": 2
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 76,
@@ -1832,7 +1832,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-077-bareon-sovereign",
@@ -1846,7 +1846,7 @@
         "샹크스"
       ],
       "workingName": "자이렌",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -1884,9 +1884,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 77,
@@ -1894,7 +1894,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-078-siluen",
@@ -1908,7 +1908,7 @@
         "우치하 시스이"
       ],
       "workingName": "아즈마",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -1946,9 +1946,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 78,
@@ -1956,7 +1956,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "hunt-079-kaon",
@@ -1970,7 +1970,7 @@
         "아카자"
       ],
       "workingName": "텐마",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "NIGHTMARE"
       ],
@@ -2008,9 +2008,9 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [
         {
           "monsterId": 79,
@@ -2018,7 +2018,7 @@
         }
       ],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "raid-002-ravok",
@@ -2030,7 +2030,7 @@
         "족사이언"
       ],
       "workingName": "가르온",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "reference": {
         "path": "assets/tower/fare.jpg",
@@ -2066,12 +2066,12 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "raid-004-orthen",
@@ -2083,7 +2083,7 @@
         "나가토"
       ],
       "workingName": "오르제",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "reference": {
         "path": "assets/ui/project-v/monsters/weekly-raid-v1/nagato-source.jpg",
@@ -2119,12 +2119,12 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "raid-006-haeryun",
@@ -2136,7 +2136,7 @@
         "요리이치"
       ],
       "workingName": "렌조",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "reference": {
         "path": "assets/ui/project-v/monsters/weekly-raid-v1/yoriichi-source.jpg",
@@ -2172,12 +2172,12 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "raid-008-noaren",
@@ -2189,7 +2189,7 @@
         "이치고"
       ],
       "workingName": "제노",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "reference": {
         "path": "assets/ui/project-v/monsters/weekly-raid-v1/ichigo-source.jpg",
@@ -2225,12 +2225,12 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "raid-madara-vaelun",
@@ -2240,7 +2240,7 @@
       "raidCode": "MADARA",
       "previousNames": [],
       "workingName": "바르센",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "reference": {
         "path": "preview/madara-raid-v1/assets/madara-source-reference.png",
@@ -2276,12 +2276,12 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "raid-lich-nivar",
@@ -2291,7 +2291,7 @@
       "raidCode": "LICH_KING",
       "previousNames": [],
       "workingName": "이스겐",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "reference": {
         "path": "preview/lich-king-raid-poster-v1/lich-king-source-art-v1.png",
@@ -2327,12 +2327,12 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     },
     {
       "key": "raid-core-astel",
@@ -2342,7 +2342,7 @@
       "raidCode": "CORE_PROTOCOL",
       "previousNames": [],
       "workingName": "세드릭",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "reference": {
         "path": "assets/tower/uhabha.jpg",
@@ -2378,15 +2378,16 @@
         "hasAlpha": true,
         "version": 1
       },
-      "battleSpriteStatus": "REVIEW_READY",
+      "battleSpriteStatus": "APPROVED_LIVE_BINDING",
       "visualApproval": true,
-      "runtimeConnected": false,
+      "runtimeConnected": true,
       "mechanicsHashes": [],
       "approval": "approval-20261013.json",
-      "battleSpriteVisualApproval": false
+      "battleSpriteVisualApproval": true
     }
   ],
   "sourceArtApprovedOn": "2026-10-13",
   "approval": "approval-20261013.json",
-  "sdReview": "../monster-original-ip-sd-20261013-v1/"
+  "sdReview": "../monster-original-ip-sd-20261013-v1/",
+  "liveApproval": "preview/monster-original-ip-sd-20261013-v1/live-approval-20261013.json"
 }

@@ -139,7 +139,7 @@ function render(result){
 function showResult(){
   if($('partyDialog').open)$('partyDialog').close();
   const clear=state.status==='CLEAR';$('resultDialog').classList.toggle('is-clear',clear);$('resultCaption').textContent=clear?'CONQUEST COMPLETE':'EXPEDITION ENDED';
-  $('resultTitle').textContent=clear?'리치왕 정벌 성공':state.status==='CANCELLED'?'공대 해산':'공대 전멸';
+  $('resultTitle').textContent=clear?'이스겐 정벌 성공':state.status==='CANCELLED'?'공대 해산':'공대 전멸';
   const essence=state.petEssenceReward;
   const reward=state.clearReward;
   const amounts=reward?[[reward.petEssence,'펫 정수','개'],[reward.masterStars,'마별','개'],[reward.coin,'코인','']].filter(([n])=>n>0).map(([n,label,unit])=>label+' '+Number(n).toLocaleString('ko-KR')+unit).join(' · '):'';
@@ -230,13 +230,13 @@ async function command(kind,body={}){
 }
 async function boot(){
   try{const feature=await api('feature',{signal:lifecycle.signal});if(disposed)return;$('modeLabel').textContent=feature.mode==='TEST'?'테스트 운영 · 지정 공대':feature.mode==='ON'?'공대 모집 중':'운영 중지';
-    if(!feature.accessible)return showGate(new Error(feature.mode==='OFF'?'리치왕 정벌은 현재 운영 중지 상태입니다.':'CMS에서 지정된 테스트 참여자만 입장할 수 있습니다.'));
+    if(!feature.accessible)return showGate(new Error(feature.mode==='OFF'?'이스겐 정벌은 현재 운영 중지 상태입니다.':'CMS에서 지정된 테스트 참여자만 입장할 수 있습니다.'));
     screen('lobby');await sync();
   }catch(error){if(!disposed)showGate(error);}
 }
 $('enterButton').onclick=()=>{screen('lobby');prewarm();if(root===document.body)window.scrollTo(0,0);else root.scrollIntoView({block:'start'});void sync();};
 $('backLanding').onclick=()=>screen('landing');
-$('createButton').onclick=()=>{if(confirm('리치왕 정벌 입장권 1장을 사용해 공대를 창설합니다. 해산해도 입장권은 반환되지 않습니다.'))void command('open');};
+$('createButton').onclick=()=>{if(confirm('이스겐 정벌 입장권 1장을 사용해 공대를 창설합니다. 해산해도 입장권은 반환되지 않습니다.'))void command('open');};
 $('refreshRooms').onclick=()=>void sync();$('readyButton').onclick=()=>void command('ready',{ready:!state.me.ready});$('startButton').onclick=()=>void command('start');
 $('lobbyLeave').onclick=()=>{if(confirm(state.me.isHost?'공대를 해산할까요? 입장권은 반환되지 않습니다.':'공대에서 나갈까요?'))void command('leave');};
 $('leaveButton').onclick=()=>{if(confirm(state.me.isHost?'전투를 종료하고 공대를 해산할까요?':'공대에서 나가면 이 전투에 다시 참가할 수 없습니다. 나갈까요?'))void command('leave');};

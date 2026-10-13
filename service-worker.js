@@ -4,7 +4,7 @@
 // Z-BODY dash V2: approved 245 ms contact, 640 ms motion and authored wake/cut FX.
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
-const SHELL_CACHE='soop-card-shell-v20261013-legion-limits1';
+const SHELL_CACHE='soop-card-shell-v20261013-original-ip-v1';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -28,6 +28,7 @@ FRESH_ACCOUNT_SCRIPTS.add('/js/lobby-bgm-v1803.js');
 FRESH_ACCOUNT_SCRIPTS.add('/js/supporter-screen-guard-v1.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/js/supporter-application-v1.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/js/supporter-message-expiry-v1.mjs');
+for(const path of ['/js/project-v-monster-battle-art-adapter-v1.js','/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json','/js/madara-raid-entry-v1.js','/js/lich-king-raid-entry-v1.js','/js/core-protocol-raid-v1924.js','/raid/madara/inline.mjs','/raid/madara/runtime.mjs','/raid/lich-king/inline.mjs','/raid/lich-king/live.mjs'])FRESH_BATTLE_SCRIPTS.add(path);
 const SHELL_CORE=[
   OFFLINE_URL,
   APP_SHELL_URL,

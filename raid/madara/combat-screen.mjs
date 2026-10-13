@@ -36,7 +36,7 @@ export function createMadaraCombatScreen(surface) {
     surface.classList.add('mr-fullscreen');
     surface.setAttribute('role', 'dialog');
     surface.setAttribute('aria-modal', 'true');
-    surface.setAttribute('aria-label', '마다라 레이드 전투');
+    surface.setAttribute('aria-label', '바르센 레이드 전투');
     surface.setAttribute('tabindex', '-1');
     surface.scrollTop = 0;
     surface.focus({ preventScroll: true });

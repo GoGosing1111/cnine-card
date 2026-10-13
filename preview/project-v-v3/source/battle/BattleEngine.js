@@ -2112,11 +2112,12 @@ export class BaseBattleEngine{
 
   prepareApocalypseBossUltimateRuntime(payload){
     this.apocalypseMode=isApocalypsePayload(payload);
+    this.originalIpUltimateMode=Boolean(payload?.monster?.originalIpKey||payload?.battleV2?.teams?.B?.cards?.some(card=>card.originalIpKey));
     const legion=this.apocalypseMode&&apocalypseLegionBoss(payload?.monster||payload?.battleV2?.teams?.B?.cards?.[0]||{});
     ApocalypseLegionFX.retain(legion?.skills||[]);
     if(legion){this.apocalypseSignatureSkill=null;this.apocalypseBossUltimateReadyPromise=Promise.all(legion.skills.map(s=>ApocalypseLegionFX.preload(s))).catch(()=>false);return true;}
     this.apocalypseSignatureSkill=this.apocalypseMode?apocalypseSignatureSkill(payload?.monster||payload?.battleV2?.teams?.B?.cards?.[0]||{}):null;
-    if(!this.apocalypseMode){
+    if(!this.apocalypseMode&&!this.originalIpUltimateMode){
       this.apocalypseBossUltimateReadyPromise=Promise.resolve(false);
       this.audio?.releaseApocalypseBossUltimate?.();
       void ApocalypseBossUltimateFX.release();
@@ -2134,7 +2135,7 @@ export class BaseBattleEngine{
   }
 
   async ensureApocalypseBossUltimateReady(){
-    if(!this.apocalypseMode)return false;
+    if(!this.apocalypseMode&&!this.originalIpUltimateMode)return false;
     const load=Promise.all([
       this.apocalypseBossUltimateReadyPromise,
       this.apocalypseUltimateRuntime().preload(),
@@ -3300,7 +3301,7 @@ export class BaseBattleEngine{
         else await this.playUltimate({target,targetHp:resolvedTargetHp});
       }else if(type==='BOSS_ULTIMATE'){
         const bossActor=explicitActor||this.enemies.find(character=>this.isAlive(character));
-        const apocalypsePlayed=this.apocalypseMode&&await this.playApocalypseBossUltimate(event,bossActor);
+        const apocalypsePlayed=(this.apocalypseMode||this.originalIpUltimateMode)&&await this.playApocalypseBossUltimate(event,bossActor);
         if(!apocalypsePlayed){
           this.queueBanner(event.label||'보스 광역 공격',0xff5c6e,'BOSS ULTIMATE');
           for(const hit of event.hits||[]){

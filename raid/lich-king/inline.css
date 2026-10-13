@@ -140,7 +140,7 @@
 #pveLichRaidView .hero-art {
   position: absolute;
   inset: 0;
-  background: url(/preview/lich-king-raid-poster-v1/lich-king-source-art-v1.png) 88% 20%/auto 126% no-repeat;
+  background: url(/preview/monster-original-ip-20261013-v1/assets/raid-lich-nivar-source-v1.png) 88% 20%/auto 126% no-repeat;
   z-index: -3;
 }
 #pveLichRaidView .hero-fade {
@@ -303,7 +303,7 @@
       #060b13 15%,
       #060b13d9 50%,
       #060b1344),
-    url(/preview/lich-king-raid-poster-v1/lich-king-source-art-v1.png) right 18%/auto 115% no-repeat;
+    url(/preview/monster-original-ip-20261013-v1/assets/raid-lich-nivar-source-v1.png) right 18%/auto 115% no-repeat;
 }
 #pveLichRaidView .lobby-content {
   max-width: 480px;
@@ -2648,7 +2648,7 @@
       #122337ef 27%,
       #12233724 64%,
       #0b152824),
-    url(/preview/lich-king-raid-poster-v1/lich-king-source-art-v1.png) 88% 6% / 780px auto no-repeat;
+    url(/preview/monster-original-ip-20261013-v1/assets/raid-lich-nivar-source-v1.png) 88% 6% / 780px auto no-repeat;
 }
 #pveLichRaidView .mission-banner::after {
   content: "";
@@ -3588,7 +3588,7 @@
       90deg,
       #0d182cf7,
       #0d182cbb),
-    url(/preview/lich-king-raid-poster-v1/lich-king-source-art-v1.png) 95% 25%/600px auto no-repeat;
+    url(/preview/monster-original-ip-20261013-v1/assets/raid-lich-nivar-source-v1.png) 95% 25%/600px auto no-repeat;
 }
 #pveLichRaidView .lobby-intro h1 {
   font: 800 34px/1.5 var(--lich-font);
@@ -3732,7 +3732,7 @@
         #122337e8 5%,
         #12233791 45%,
         #12233725),
-      url(/preview/lich-king-raid-poster-v1/lich-king-source-art-v1.png) 72% 8%/420px auto no-repeat;
+      url(/preview/monster-original-ip-20261013-v1/assets/raid-lich-nivar-source-v1.png) 72% 8%/420px auto no-repeat;
   }
   #pveLichRaidView .mission-facts {
     gap: 20px;

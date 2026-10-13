@@ -1,0 +1,712 @@
+// Generated from the approved source/SD manifest. Stable IDs are gameplay identities.
+export const ORIGINAL_IP_MONSTERS = Object.freeze([
+  {
+    "key": "hunt-004-solvein",
+    "name": "하르트",
+    "monsterIds": [
+      4
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "해군대장 키자루"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-004-solvein-source-v1.png",
+    "sourceSha256": "35BB251C57F0015534BC1211ECC3A552D9B620BC65D92697449A442EA5D9C84A",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-004-solvein-sd-v1.png",
+    "spriteSha256": "1582DB58198948202FB027210D0049C1F68656342E23F838658376011B6E879B",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9705
+    }
+  },
+  {
+    "key": "hunt-006-nervan",
+    "name": "시구레",
+    "monsterIds": [
+      6
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "해군대장 아오키지"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-006-nervan-source-v2.png",
+    "sourceSha256": "75EA13A89360653243C2CA97EA58646B27CACD3F0B17A7DDEB5670085D4FF023",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-006-nervan-sd-v1.png",
+    "spriteSha256": "A7CD105B7993ADE6CB282BB81E557C8E8C7D60D01BEE09944ADB6C1FE87A3804",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9944
+    }
+  },
+  {
+    "key": "hunt-007-kardo",
+    "name": "볼가",
+    "monsterIds": [
+      7
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "해군대장 아카이누"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-007-kardo-source-v2.png",
+    "sourceSha256": "812BC134347E092826823C7EAB7A0CDEC96536C82EA081050ACDEFF6FAC5F2DB",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-007-kardo-sd-v1.png",
+    "spriteSha256": "3A08A83BF421A929B8515AEBF940650A327BAC1A88ABC7C8B5679A1E7EE84136",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9729
+    }
+  },
+  {
+    "key": "hunt-010-brekan",
+    "name": "드로칸",
+    "monsterIds": [
+      10
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "흰수염"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-010-brekan-source-v1.png",
+    "sourceSha256": "9FA437EBF50A606CCE08B3A23C3B40C145E14DCE686E44531D93B15D12479EBA",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-010-brekan-sd-v1.png",
+    "spriteSha256": "FBC006E719A064AFABE4E09B7F44D72CD6FBB4CEA7E105B68469B00281152F99",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9737
+    }
+  },
+  {
+    "key": "hunt-011-morden",
+    "name": "두르겐",
+    "monsterIds": [
+      11
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "검은수염"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-011-morden-source-v1.png",
+    "sourceSha256": "0754B55A50FD9517FF0176EDCB199A698127EE0FA5F34751902FE6A8552BBC11",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-011-morden-sd-v1.png",
+    "spriteSha256": "FC62C1B0C5A5765B3A207B1C363201153E93389D9087FE5CC9D382E9E34A43EF",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9872
+    }
+  },
+  {
+    "key": "hunt-012-serk",
+    "name": "쿠라오",
+    "monsterIds": [
+      12
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "미호크"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-012-serk-source-v1.png",
+    "sourceSha256": "2A5D5E78CD8410B44FAA120E8D7BC1E7736EDD3FAB9F0C2D4FA6C840A7942D32",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-012-serk-sd-v1.png",
+    "spriteSha256": "804584DEC70CA3902985B242EBE800B5D5EA480176ABB0B796F8247799FEE6F7",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9753
+    }
+  },
+  {
+    "key": "hunt-013-bareon",
+    "name": "자이렌",
+    "monsterIds": [
+      13
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "샹크스"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-013-bareon-source-v2.png",
+    "sourceSha256": "50EA5836C526BEFBBC23C81A70083DA12871F65DD09DDEEB386E711919383CE5",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-013-bareon-sd-v1.png",
+    "spriteSha256": "022A66C6ACB0838675B08E662FEBCB5D55DF0E917453CCE1EE6A46D021EFD95D",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9713
+    }
+  },
+  {
+    "key": "hunt-014-kirian",
+    "name": "시엔",
+    "monsterIds": [
+      14,
+      42
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "우치하 사스케"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-014-kirian-source-v1.png",
+    "sourceSha256": "2258A3858085764E7BD7EBE6F337302BA438A0B42750B9849BDB2DD6DF596FAB",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-014-kirian-sd-v2.png",
+    "spriteSha256": "4647841DACEB59FC5E84717CF6D0AE66502C7BEEA384454933932466B13B723E",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9378
+    }
+  },
+  {
+    "key": "hunt-015-seiran",
+    "name": "쿠온",
+    "monsterIds": [
+      15,
+      43
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "우치하 이타치"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-015-seiran-source-v1.png",
+    "sourceSha256": "BCC986FCE8E0581780B509D41D1839E134670981B255E6D188C1AB209AD8A6EA",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-015-seiran-sd-v1.png",
+    "spriteSha256": "DCDDF7E7AEB370F74D6384CBBCC0030EB42217E4BB1881FD8575A60BABDC34DA",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9753
+    }
+  },
+  {
+    "key": "hunt-016-hajin",
+    "name": "렌키",
+    "monsterIds": [
+      16,
+      44
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "젠이츠"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-016-hajin-source-v1.png",
+    "sourceSha256": "A3EED33E849285ABEF177F8A802F834EE105C37CFE0B1FED197DADE8AB26BF68",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-016-hajin-sd-v1.png",
+    "spriteSha256": "3FA8404EE9C72AE0861C869B9C9BCBD2108459AB54399592904F5D4BDC3573E1",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9697
+    }
+  },
+  {
+    "key": "hunt-025-rokas",
+    "name": "로스크",
+    "monsterIds": [
+      25,
+      45
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "조로"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-025-rokas-source-v1.png",
+    "sourceSha256": "880E8990921FA9C422B719091B1751B64DA0397B63CEF9CF725750E010D8CAB6",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-025-rokas-sd-v1.png",
+    "spriteSha256": "1270604BB85CE877B88A88A0B2807D54579EB3CAF7150A19968C9D376BE42F0D",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9697
+    }
+  },
+  {
+    "key": "hunt-026-taeon",
+    "name": "히오",
+    "monsterIds": [
+      26,
+      46
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "렌고쿠 코쥬로"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-026-taeon-source-v2.png",
+    "sourceSha256": "D6BC8EB4543D01560C607AA83B3E7A357C8E789120A4E9645473CFC0E6C55EC8",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-026-taeon-sd-v1.png",
+    "spriteSha256": "BDE6EF525E1CB72A2E97BB00E03066E1EEB28992AD44A6DA91142D4160A5EEFF",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9577
+    }
+  },
+  {
+    "key": "hunt-029-saharin",
+    "name": "츠쿠오",
+    "monsterIds": [
+      29,
+      47
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "쿄라쿠 슌스이"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-029-saharin-source-v1.png",
+    "sourceSha256": "ECA1AEEAD13B4DA6F634780AF257C1C72EE14CFF494CEC1064C972F1696A8326",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-029-saharin-sd-v1.png",
+    "spriteSha256": "4BD3DF28142773FF7143094B2E1E563B3B53AA9C2F85040F7E71B3B3D9F8EF67",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9593
+    }
+  },
+  {
+    "key": "hunt-030-seiran-shadow",
+    "name": "쿠온",
+    "monsterIds": [
+      30,
+      48
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "이타치 암부"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-030-seiran-shadow-source-v1.png",
+    "sourceSha256": "00D426741256AF283464C98B7C9DC99FEFC4C205086CCFBA6C6F5B6219D4F53F",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-030-seiran-shadow-sd-v1.png",
+    "spriteSha256": "9C70848844B4BE2238AB0824029BB72EA92BDB1324533A48AB26598AB2C0A964",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9753
+    }
+  },
+  {
+    "key": "hunt-031-yuren",
+    "name": "라우엔",
+    "monsterIds": [
+      31,
+      49
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "셋쇼마루"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-031-yuren-source-v1.png",
+    "sourceSha256": "33393D918DE9800CAF33D68D56EB04460214C41E237E8B8A4F7CB27BFC746C73",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-031-yuren-sd-v1.png",
+    "spriteSha256": "C741BDB9A9C2DEC56F70432276CB6F1DA62E75965995B9BFE1030540844E7211",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9689
+    }
+  },
+  {
+    "key": "hunt-032-torian",
+    "name": "루코",
+    "monsterIds": [
+      32,
+      50
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "태양신 루피"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-032-torian-source-v1.png",
+    "sourceSha256": "A6A46DC886943192D080AFBD69F6D417C357511BFAD900B018EB9AF29B440B45",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-032-torian-sd-v1.png",
+    "spriteSha256": "46A50E04AD89FDF454082BE5912DFBEDFE1245BC1B5FDD7ACC29BCCCF298F831",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9769
+    }
+  },
+  {
+    "key": "hunt-061-aurek",
+    "name": "오르딘",
+    "monsterIds": [
+      61
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "길가메시"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-061-aurek-source-v1.png",
+    "sourceSha256": "8FE1E381FE7D986ACD7E5C589FE7A05B6FAF4324EB09A228D7142343D03039E5",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-061-aurek-sd-v1.png",
+    "spriteSha256": "56E0102BA2DB0E07CC7762831E0E0EBA8136B9E1B40FBE5F76EA4A3B09367A86",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9801
+    }
+  },
+  {
+    "key": "hunt-062-veiron",
+    "name": "요겐",
+    "monsterIds": [
+      62
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "우치하 오비토"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-062-veiron-source-v1.png",
+    "sourceSha256": "6F40FD32CFDB2C1F24BDD23B21CCFC5FC728899E3A15E45B3FAA50B846F1E5A4",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-062-veiron-sd-v1.png",
+    "spriteSha256": "5F4163F6EDD1B8DBCED62ECD33425ACBB0622C3D36D7A6021B70FD961BA9276D",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9601
+    }
+  },
+  {
+    "key": "hunt-063-raskan",
+    "name": "도르크",
+    "monsterIds": [
+      63
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "에스카노르"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-063-raskan-source-v1.png",
+    "sourceSha256": "CCFEA31269028F549501E44DE73CF39D95B8E1E4EA173F5D565D61384418AE52",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-063-raskan-sd-v1.png",
+    "spriteSha256": "93ECA67BEBD29AEAC455F3A7F0C58CA01F8C64F3911B7F5570DBBA623A779E3B",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9665
+    }
+  },
+  {
+    "key": "hunt-070-gradan",
+    "name": "드라오",
+    "monsterIds": [
+      70
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "골 D. 로저"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-070-gradan-source-v1.png",
+    "sourceSha256": "0E6A5E89B38FF4A495D9AD084C28745DDDA427259F5683253C692AF8E6A30751",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-070-gradan-sd-v1.png",
+    "spriteSha256": "C0E7E59E16BE2F53F829527BE697D4A4569187380EDE866140030ECB0DE517A8",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9848
+    }
+  },
+  {
+    "key": "hunt-071-eltu",
+    "name": "에논",
+    "monsterIds": [
+      71
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "에드워드 엘릭"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-071-eltu-source-v1.png",
+    "sourceSha256": "BCCAB0504557F1E31A0B0071EA7435899B8C1D5A44CDE1848208AC6FF5F3BA84",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-071-eltu-sd-v1.png",
+    "spriteSha256": "F890EEBD38AA7D24C2ADAAC97887F4F6E547B553243A21B64BF3C7361820632B",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9777
+    }
+  },
+  {
+    "key": "hunt-072-yujin",
+    "name": "나기",
+    "monsterIds": [
+      72
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "히무라 켄신"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-072-yujin-source-v1.png",
+    "sourceSha256": "10C9EC5CCE9CA4E3068667ACDBE703B145601794F27B2E51EE333F78101C631D",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-072-yujin-sd-v1.png",
+    "spriteSha256": "91DEEFF4413601A21B792FFBB1708901D06B0713B820FC7F7FA1E4D99F376D42",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9888
+    }
+  },
+  {
+    "key": "hunt-073-danro",
+    "name": "간테",
+    "monsterIds": [
+      73
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "마이트 가이"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-073-danro-source-v1.png",
+    "sourceSha256": "E168FCC1E47ABE392FE8DB09D9C073B158738D4D26991E3EB0AF0D37411C6106",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-073-danro-sd-v1.png",
+    "spriteSha256": "1AD6A7D421D49063AA58BD42B50C5F6BB27DEADB34186F3FAEA62E9DDC943501",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9697
+    }
+  },
+  {
+    "key": "hunt-074-rohen",
+    "name": "류젠",
+    "monsterIds": [
+      74
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "센쥬 하시라마"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-074-rohen-source-v1.png",
+    "sourceSha256": "BE778F94C5220BAA72601539545984D3C1792DEC0300055F75FF1CAC25D1ECB7",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-074-rohen-sd-v1.png",
+    "spriteSha256": "751287E23177190338F4E775D9B021B1D8DFEBC480E4E98D6C2E43F712AF4C51",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9753
+    }
+  },
+  {
+    "key": "hunt-075-voldren",
+    "name": "자브릭",
+    "monsterIds": [
+      75
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "아카드"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-075-voldren-source-v1.png",
+    "sourceSha256": "309513EAE39777B8C7E7C7CB460EDE42DB72C29151A96AF03BECDC79E414BD94",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-075-voldren-sd-v1.png",
+    "spriteSha256": "4D4BB421141B01B3A545D5D756B6B3131C10EEC041DB7089FBECCF77DA8CE99D",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9848
+    }
+  },
+  {
+    "key": "hunt-076-nerik",
+    "name": "야즈",
+    "monsterIds": [
+      76
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "카네키 켄"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-076-nerik-source-v1.png",
+    "sourceSha256": "90A7B100D35B0AB589EF1A887CE0A92CD01923D31DC418BDED0E2F21B18D4B36",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-076-nerik-sd-v2.png",
+    "spriteSha256": "46B04FD34CDD54E39485CF007D3DCB2A32DFC0C4F172737DF84B6F5C5936DFFC",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9856
+    }
+  },
+  {
+    "key": "hunt-077-bareon-sovereign",
+    "name": "자이렌",
+    "monsterIds": [
+      77
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "샹크스"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-077-bareon-sovereign-source-v1.png",
+    "sourceSha256": "EF9407AD7E8619459484C690C95E05D22B9D21951E6A4EAE3D00513781F2C23B",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-077-bareon-sovereign-sd-v1.png",
+    "spriteSha256": "8604EB0A348ECE8D8BE254BAF257468FD8CBC9FAD11C38761130FB132DB12F19",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9856
+    }
+  },
+  {
+    "key": "hunt-078-siluen",
+    "name": "아즈마",
+    "monsterIds": [
+      78
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "우치하 시스이"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-078-siluen-source-v1.png",
+    "sourceSha256": "692895426EB3D551FE7009513CE8DFC83509FB0377705E939D1F747DE0D3AE23",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-078-siluen-sd-v1.png",
+    "spriteSha256": "78B1BF4DB6DACEBA4115EA1797FF38BDE41FEB65CD5837E49C75A7682068861C",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9753
+    }
+  },
+  {
+    "key": "hunt-079-kaon",
+    "name": "텐마",
+    "monsterIds": [
+      79
+    ],
+    "raidId": null,
+    "raidCode": null,
+    "previousNames": [
+      "아카자"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/hunt-079-kaon-source-v1.png",
+    "sourceSha256": "8FE03D62277202BED4850CD000D8496E54E738808CA32C4F875E3DE6BCBAD9AF",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/hunt-079-kaon-sd-v1.png",
+    "spriteSha256": "651791EBE7F599200CFB4376ED90A46CBC51D27C92C8645B892C281379C761F7",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9777
+    }
+  },
+  {
+    "key": "raid-002-ravok",
+    "name": "가르온",
+    "monsterIds": [],
+    "raidId": 2,
+    "raidCode": null,
+    "previousNames": [
+      "족사이언"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/raid-002-ravok-source-v1.png",
+    "sourceSha256": "841914A12F3CA28169FCEB19928FAAF09A241D3B4E0DE948A4A63BBFE028D3C1",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-002-ravok-sd-v1.png",
+    "spriteSha256": "9757DEA14A0DD7F6E8564DD0759F60C3669FE060AE997AE594DCEFF84F0C1F44",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9848
+    }
+  },
+  {
+    "key": "raid-004-orthen",
+    "name": "오르제",
+    "monsterIds": [],
+    "raidId": 4,
+    "raidCode": null,
+    "previousNames": [
+      "나가토"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/raid-004-orthen-source-v1.png",
+    "sourceSha256": "BBBC0FC09A0EA23D9D7847E458B53799C50B17E0AFFCB01FF9A0E40D19EC1815",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-004-orthen-sd-v1.png",
+    "spriteSha256": "1B60D5041492F5A2121FE85CED7EF3C4C83A8A405BAA5A0C777CA2AE9E7523B5",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9777
+    }
+  },
+  {
+    "key": "raid-006-haeryun",
+    "name": "렌조",
+    "monsterIds": [],
+    "raidId": 6,
+    "raidCode": null,
+    "previousNames": [
+      "요리이치"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/raid-006-haeryun-source-v1.png",
+    "sourceSha256": "05896F451F306925A27D9BF42677204C881A984D311A55335AAA0D4D561D527E",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-006-haeryun-sd-v1.png",
+    "spriteSha256": "0FB216935C43F01732D622AE8F387968501BC34368BF7C19A5F186DD4FC4D50A",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9777
+    }
+  },
+  {
+    "key": "raid-008-noaren",
+    "name": "제노",
+    "monsterIds": [],
+    "raidId": 8,
+    "raidCode": null,
+    "previousNames": [
+      "이치고"
+    ],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/raid-008-noaren-source-v1.png",
+    "sourceSha256": "DFEFB9755DC3A81FD017749D6416457C17973863E3B70B8DE00205A2212B8816",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-008-noaren-sd-v1.png",
+    "spriteSha256": "7515F47F715C3D521DF5E3CE8D0599622C0C178DDB59667A9209925AB884B576",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9506
+    }
+  },
+  {
+    "key": "raid-madara-vaelun",
+    "name": "바르센",
+    "monsterIds": [],
+    "raidId": null,
+    "raidCode": "MADARA",
+    "previousNames": [],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/raid-madara-vaelun-source-v1.png",
+    "sourceSha256": "2269C4DD3598E9439D0BE5F61B7C9D9E1A6ECC8E77EE594386C639DCCB1B21FD",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-madara-vaelun-sd-v1.png",
+    "spriteSha256": "82A11B55463D262FD21E9153EB124D77EACE5B7C6D9AD812E5744612C1CA4278",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9841
+    }
+  },
+  {
+    "key": "raid-lich-nivar",
+    "name": "이스겐",
+    "monsterIds": [],
+    "raidId": null,
+    "raidCode": "LICH_KING",
+    "previousNames": [],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/raid-lich-nivar-source-v1.png",
+    "sourceSha256": "56248539A7EB8BE4D68B2368578CB98B95E8C511E198C288282393AB001FEF1D",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-lich-nivar-sd-v1.png",
+    "spriteSha256": "74BE537DAE85C7D522676782D2C6CB1F0DFC25CD4328B125A3649EA640F8654E",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9665
+    }
+  },
+  {
+    "key": "raid-core-astel",
+    "name": "세드릭",
+    "monsterIds": [],
+    "raidId": null,
+    "raidCode": "CORE_PROTOCOL",
+    "previousNames": [],
+    "sourceArt": "/preview/monster-original-ip-20261013-v1/assets/raid-core-astel-source-v1.png",
+    "sourceSha256": "9E4B6D092FD188882112D71397DF5F4353DF745519BA0F80893A9274EA41A46C",
+    "battleSprite": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-core-astel-sd-v1.png",
+    "spriteSha256": "84FDE8D5DD59224D7A3D3960FFA1E25908E0E4F19D9D454F2442F5DEEBEEBA65",
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.9625
+    }
+  }
+]);

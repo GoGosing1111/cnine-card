@@ -104,7 +104,7 @@ assert.match(battleCharacterSource,/SHIELD BREAK/,'depleted boss shields must re
 assert.match(battleEngineSource,/function openingShieldState\(payload,card\)/,'opening shields must be reconstructed from the server timeline, not final-state card rows');
 assert.match(battleEngineSource,/targetShieldAfter=hasFiniteNumber\(event\.targetShieldAfter\)/,'every authoritative damage event must drive the shield HUD');
 assert.match(battleEngineSource,/character\.setShield\?\.\(Math\.max\(0,Number\(row\?\.shield\)\|\|0\),character\.serverMaxShield\)/,'final server shield state must be forced after playback');
-assert.match(battleEngineSource,/this\.apocalypseMode&&await this\.playApocalypseBossUltimate\(event,bossActor\)/,'the authored finisher must stay scoped to Apocalypse BOSS_ULTIMATE events');
+assert.match(battleEngineSource,/\(this\.apocalypseMode\|\|this\.originalIpUltimateMode\)&&await this\.playApocalypseBossUltimate\(event,bossActor\)/,'approved original-IP bosses reuse the existing V3 finisher for BOSS_ULTIMATE events');
 const apocalypsePlayback=battleEngineSource.slice(battleEngineSource.indexOf('async playApocalypseBossUltimate'),battleEngineSource.indexOf('\n  /**',battleEngineSource.indexOf('async playApocalypseBossUltimate')));
 assert.match(apocalypsePlayback,/this\.apocalypseUltimateRuntime\(\)/);
 assert.match(apocalypsePlayback,/runtime\.create/);

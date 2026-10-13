@@ -2,7 +2,7 @@
   "format": "MONSTER_ORIGINAL_IP_SD_REVIEW_V1",
   "version": 1,
   "updatedAt": "2026-10-13T09:03:04.159Z",
-  "status": "BASE_SD_REVIEW_READY",
+  "status": "APPROVED_LIVE_BINDING",
   "generator": "BUILT_IN_IMAGE_GEN",
   "sourceApproval": "preview/monster-original-ip-20261013-v1/approval-20261013.json",
   "counts": {
@@ -17,12 +17,12 @@
     "noBakedShadow": true,
     "preserveApprovedSourceIdentity": true,
     "sourceIllustrationsApproved": true,
-    "sdUserApproval": false,
-    "namesApproved": false,
+    "sdUserApproval": true,
+    "namesApproved": true,
     "normalAndBigSealExcluded": true,
     "stableIdsPreserved": true,
     "mechanicsChanged": false,
-    "runtimeBinding": false,
+    "runtimeBinding": true,
     "motionSheetsComplete": false
   },
   "excluded": [
@@ -174,7 +174,7 @@
         "해군대장 키자루"
       ],
       "workingName": "하르트",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -202,20 +202,20 @@
       "prompt": "prompts/hunt-004-solvein-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9705
         },
         "sourceAlphaBottom": 0.9705,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -252,7 +252,7 @@
         "해군대장 아오키지"
       ],
       "workingName": "시구레",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -280,20 +280,20 @@
       "prompt": "prompts/hunt-006-nervan-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9944
         },
         "sourceAlphaBottom": 0.9944,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -330,7 +330,7 @@
         "해군대장 아카이누"
       ],
       "workingName": "볼가",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -358,20 +358,20 @@
       "prompt": "prompts/hunt-007-kardo-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9729
         },
         "sourceAlphaBottom": 0.9729,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -408,7 +408,7 @@
         "흰수염"
       ],
       "workingName": "드로칸",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -436,20 +436,20 @@
       "prompt": "prompts/hunt-010-brekan-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9737
         },
         "sourceAlphaBottom": 0.9737,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -486,7 +486,7 @@
         "검은수염"
       ],
       "workingName": "두르겐",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -514,20 +514,20 @@
       "prompt": "prompts/hunt-011-morden-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9872
         },
         "sourceAlphaBottom": 0.9872,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -564,7 +564,7 @@
         "미호크"
       ],
       "workingName": "쿠라오",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -592,20 +592,20 @@
       "prompt": "prompts/hunt-012-serk-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9753
         },
         "sourceAlphaBottom": 0.9753,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -642,7 +642,7 @@
         "샹크스"
       ],
       "workingName": "자이렌",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HARD"
       ],
@@ -670,20 +670,20 @@
       "prompt": "prompts/hunt-013-bareon-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9713
         },
         "sourceAlphaBottom": 0.9713,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -721,7 +721,7 @@
         "우치하 사스케"
       ],
       "workingName": "시엔",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -750,20 +750,20 @@
       "prompt": "prompts/hunt-014-kirian-sd-v2.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9378
         },
         "sourceAlphaBottom": 0.9378,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -801,7 +801,7 @@
         "우치하 이타치"
       ],
       "workingName": "쿠온",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -830,20 +830,20 @@
       "prompt": "prompts/hunt-015-seiran-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9753
         },
         "sourceAlphaBottom": 0.9753,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -881,7 +881,7 @@
         "젠이츠"
       ],
       "workingName": "렌키",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -910,20 +910,20 @@
       "prompt": "prompts/hunt-016-hajin-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9697
         },
         "sourceAlphaBottom": 0.9697,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -961,7 +961,7 @@
         "조로"
       ],
       "workingName": "로스크",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -990,20 +990,20 @@
       "prompt": "prompts/hunt-025-rokas-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9697
         },
         "sourceAlphaBottom": 0.9697,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1041,7 +1041,7 @@
         "렌고쿠 코쥬로"
       ],
       "workingName": "히오",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -1070,20 +1070,20 @@
       "prompt": "prompts/hunt-026-taeon-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9577
         },
         "sourceAlphaBottom": 0.9577,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1121,7 +1121,7 @@
         "쿄라쿠 슌스이"
       ],
       "workingName": "츠쿠오",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -1150,20 +1150,20 @@
       "prompt": "prompts/hunt-029-saharin-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9593
         },
         "sourceAlphaBottom": 0.9593,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1201,7 +1201,7 @@
         "이타치 암부"
       ],
       "workingName": "쿠온",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -1230,20 +1230,20 @@
       "prompt": "prompts/hunt-030-seiran-shadow-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9753
         },
         "sourceAlphaBottom": 0.9753,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1281,7 +1281,7 @@
         "셋쇼마루"
       ],
       "workingName": "라우엔",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -1310,20 +1310,20 @@
       "prompt": "prompts/hunt-031-yuren-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9689
         },
         "sourceAlphaBottom": 0.9689,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1361,7 +1361,7 @@
         "태양신 루피"
       ],
       "workingName": "루코",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "HELL",
         "NIGHTMARE"
@@ -1390,20 +1390,20 @@
       "prompt": "prompts/hunt-032-torian-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9769
         },
         "sourceAlphaBottom": 0.9769,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1440,7 +1440,7 @@
         "길가메시"
       ],
       "workingName": "오르딘",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "NIGHTMARE"
       ],
@@ -1468,20 +1468,20 @@
       "prompt": "prompts/hunt-061-aurek-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9801
         },
         "sourceAlphaBottom": 0.9801,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1518,7 +1518,7 @@
         "우치하 오비토"
       ],
       "workingName": "요겐",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "NIGHTMARE"
       ],
@@ -1546,20 +1546,20 @@
       "prompt": "prompts/hunt-062-veiron-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9601
         },
         "sourceAlphaBottom": 0.9601,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1596,7 +1596,7 @@
         "에스카노르"
       ],
       "workingName": "도르크",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "NIGHTMARE"
       ],
@@ -1624,20 +1624,20 @@
       "prompt": "prompts/hunt-063-raskan-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9665
         },
         "sourceAlphaBottom": 0.9665,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1674,7 +1674,7 @@
         "골 D. 로저"
       ],
       "workingName": "드라오",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "NIGHTMARE"
       ],
@@ -1702,20 +1702,20 @@
       "prompt": "prompts/hunt-070-gradan-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9848
         },
         "sourceAlphaBottom": 0.9848,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1752,7 +1752,7 @@
         "에드워드 엘릭"
       ],
       "workingName": "에논",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -1780,20 +1780,20 @@
       "prompt": "prompts/hunt-071-eltu-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9777
         },
         "sourceAlphaBottom": 0.9777,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1830,7 +1830,7 @@
         "히무라 켄신"
       ],
       "workingName": "나기",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -1858,20 +1858,20 @@
       "prompt": "prompts/hunt-072-yujin-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9888
         },
         "sourceAlphaBottom": 0.9888,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1908,7 +1908,7 @@
         "마이트 가이"
       ],
       "workingName": "간테",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -1936,20 +1936,20 @@
       "prompt": "prompts/hunt-073-danro-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9697
         },
         "sourceAlphaBottom": 0.9697,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -1986,7 +1986,7 @@
         "센쥬 하시라마"
       ],
       "workingName": "류젠",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -2014,20 +2014,20 @@
       "prompt": "prompts/hunt-074-rohen-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9753
         },
         "sourceAlphaBottom": 0.9753,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2064,7 +2064,7 @@
         "아카드"
       ],
       "workingName": "자브릭",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -2092,20 +2092,20 @@
       "prompt": "prompts/hunt-075-voldren-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9848
         },
         "sourceAlphaBottom": 0.9848,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2142,7 +2142,7 @@
         "카네키 켄"
       ],
       "workingName": "야즈",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -2170,20 +2170,20 @@
       "prompt": "prompts/hunt-076-nerik-sd-v2.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9856
         },
         "sourceAlphaBottom": 0.9856,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2220,7 +2220,7 @@
         "샹크스"
       ],
       "workingName": "자이렌",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -2248,20 +2248,20 @@
       "prompt": "prompts/hunt-077-bareon-sovereign-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9856
         },
         "sourceAlphaBottom": 0.9856,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2298,7 +2298,7 @@
         "우치하 시스이"
       ],
       "workingName": "아즈마",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "APOCALYPSE"
       ],
@@ -2326,20 +2326,20 @@
       "prompt": "prompts/hunt-078-siluen-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9753
         },
         "sourceAlphaBottom": 0.9753,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2376,7 +2376,7 @@
         "아카자"
       ],
       "workingName": "텐마",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [
         "NIGHTMARE"
       ],
@@ -2404,20 +2404,20 @@
       "prompt": "prompts/hunt-079-kaon-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9777
         },
         "sourceAlphaBottom": 0.9777,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2452,7 +2452,7 @@
         "족사이언"
       ],
       "workingName": "가르온",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "sourceArt": {
         "path": "preview/monster-original-ip-20261013-v1/assets/raid-002-ravok-source-v1.png",
@@ -2478,20 +2478,20 @@
       "prompt": "prompts/raid-002-ravok-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9848
         },
         "sourceAlphaBottom": 0.9848,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2526,7 +2526,7 @@
         "나가토"
       ],
       "workingName": "오르제",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "sourceArt": {
         "path": "preview/monster-original-ip-20261013-v1/assets/raid-004-orthen-source-v1.png",
@@ -2552,20 +2552,20 @@
       "prompt": "prompts/raid-004-orthen-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9777
         },
         "sourceAlphaBottom": 0.9777,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2600,7 +2600,7 @@
         "요리이치"
       ],
       "workingName": "렌조",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "sourceArt": {
         "path": "preview/monster-original-ip-20261013-v1/assets/raid-006-haeryun-source-v1.png",
@@ -2626,20 +2626,20 @@
       "prompt": "prompts/raid-006-haeryun-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9777
         },
         "sourceAlphaBottom": 0.9777,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2674,7 +2674,7 @@
         "이치고"
       ],
       "workingName": "제노",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "sourceArt": {
         "path": "preview/monster-original-ip-20261013-v1/assets/raid-008-noaren-source-v1.png",
@@ -2700,20 +2700,20 @@
       "prompt": "prompts/raid-008-noaren-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9506
         },
         "sourceAlphaBottom": 0.9506,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2746,7 +2746,7 @@
       "raidCode": "MADARA",
       "previousNames": [],
       "workingName": "바르센",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "sourceArt": {
         "path": "preview/monster-original-ip-20261013-v1/assets/raid-madara-vaelun-source-v1.png",
@@ -2772,20 +2772,20 @@
       "prompt": "prompts/raid-madara-vaelun-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9841
         },
         "sourceAlphaBottom": 0.9841,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2818,7 +2818,7 @@
       "raidCode": "LICH_KING",
       "previousNames": [],
       "workingName": "이스겐",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "sourceArt": {
         "path": "preview/monster-original-ip-20261013-v1/assets/raid-lich-nivar-source-v1.png",
@@ -2844,20 +2844,20 @@
       "prompt": "prompts/raid-lich-nivar-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9665
         },
         "sourceAlphaBottom": 0.9665,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2890,7 +2890,7 @@
       "raidCode": "CORE_PROTOCOL",
       "previousNames": [],
       "workingName": "세드릭",
-      "nameApproval": false,
+      "nameApproval": true,
       "tabs": [],
       "sourceArt": {
         "path": "preview/monster-original-ip-20261013-v1/assets/raid-core-astel-source-v1.png",
@@ -2916,20 +2916,20 @@
       "prompt": "prompts/raid-core-astel-sd-v1.json",
       "staticBaseOnly": true,
       "motionSheet": null,
-      "skillFx": null,
-      "visualApproval": false,
-      "visualReview": "AUTHOR_CHECKED_USER_REVIEW_PENDING",
-      "runtimeConnected": false,
+      "skillFx": "EXISTING_V3_EFFECTS",
+      "visualApproval": true,
+      "visualReview": "USER_APPROVED_FOR_LIVE",
+      "runtimeConnected": true,
       "render": {
         "fit": "contain",
         "objectPosition": "center bottom",
         "spriteOrientation": "PRESERVE_GENERATED_ORIENTATION",
         "targetFootAnchor": {
           "x": 0.5,
-          "y": 0.94
+          "y": 0.9625
         },
         "sourceAlphaBottom": 0.9625,
-        "note": "Base art only; establish final per-frame pivot with motion atlas before runtime binding."
+        "note": "Approved static SD with measured foot anchor; existing V3 movement and effects. No new motion sheets."
       },
       "qa": {
         "hasTrueAlpha": true,
@@ -2954,5 +2954,6 @@
         "technicalPass": true
       }
     }
-  ]
+  ],
+  "liveApproval": "preview/monster-original-ip-sd-20261013-v1/live-approval-20261013.json"
 }

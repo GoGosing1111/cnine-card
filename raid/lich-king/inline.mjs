@@ -1,6 +1,6 @@
-import { mountLichRaid } from './live.mjs?v=20261010-weekly-seven';
+import { mountLichRaid } from './live.mjs?v=20261013-original-ip-v1';
 
-const VERSION = '20261010-weekly-seven';
+const VERSION = '20261013-original-ip-v1';
 let styles, battle;
 function loadAsset(tag, url) {
   return new Promise((resolve, reject) => {
@@ -8,7 +8,7 @@ function loadAsset(tag, url) {
     if (tag === 'link') { node.rel = 'stylesheet'; node.href = url; }
     else node.src = url;
     node.onload = resolve;
-    node.onerror = () => { node.remove(); reject(new Error('리치왕 리소스를 불러오지 못했습니다.')); };
+    node.onerror = () => { node.remove(); reject(new Error('이스겐 리소스를 불러오지 못했습니다.')); };
     document.head.appendChild(node);
   });
 }
@@ -21,7 +21,7 @@ export async function mountInlineRaid(root, { current }) {
   styles ||= loadAsset('link', '/raid/lich-king/inline.css?v=' + VERSION)
     .catch(error => { styles = null; throw error; });
   const [response] = await Promise.all([fetch('/raid/lich-king/?v=' + VERSION), styles]);
-  if (!response.ok) throw new Error('리치왕 입장 화면을 불러오지 못했습니다.');
+  if (!response.ok) throw new Error('이스겐 입장 화면을 불러오지 못했습니다.');
   const page = new DOMParser().parseFromString(await response.text(), 'text/html');
   if (!current()) return null;
   // Reuse the live entry markup without executing its standalone scripts or styles.

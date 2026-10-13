@@ -3,7 +3,6 @@
   let engine=null,renderer=null,epoch=0,queue=Promise.resolve(),pending=0,snapshot=null,synced='',bossId='',visible=new Set(),scene=null,lastCue='',spirit=false,telegraph=null;
   async function preload(){
     await window.ProjectVBattleV3Live.ensureRuntime({effects:true});
-    await Promise.all(['madara-battle-v1.png','azure-spirit-v1.png'].map(file=>window.ProjectVPixiBattle.fxRuntime.Assets.load('/preview/madara-raid-v1/assets/'+file)));
     await window.MadaraPresentation.preload();
   }
   async function mount(payload){

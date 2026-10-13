@@ -56,15 +56,20 @@
     {
       "monsterId": 4,
       "mode": "HUNT",
-      "name": "해군대장 키자루",
-      "sourceArt": "assets/cards/monster/kizaru1.jfif",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-004-light-admiral-boss-sd-v1.png",
+      "name": "하르트",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-004-solvein-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-004-solvein-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "A1CCD40F409304739B2AE7145946823BCE6861471FC2C7B366FD03487AF0FA1B"
+      "sha256": "1582DB58198948202FB027210D0049C1F68656342E23F838658376011B6E879B",
+      "originalIpKey": "hunt-004-solvein",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9705
+      }
     },
     {
       "monsterId": 5,
@@ -82,28 +87,38 @@
     {
       "monsterId": 6,
       "mode": "HUNT",
-      "name": "해군대장 아오키지",
-      "sourceArt": "assets/cards/monster/aokizi1.png",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-006-ice-admiral-boss-sd-v1.png",
+      "name": "시구레",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-006-nervan-source-v2.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-006-nervan-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "A61EFFBB9620B7FB971F6B60F21FCE6D4DE503B318A44700EB689AB21B8C1D44"
+      "sha256": "A7CD105B7993ADE6CB282BB81E557C8E8C7D60D01BEE09944ADB6C1FE87A3804",
+      "originalIpKey": "hunt-006-nervan",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9944
+      }
     },
     {
       "monsterId": 7,
       "mode": "HUNT",
-      "name": "해군대장 아카이누",
-      "sourceArt": "assets/cards/monster/akainu1.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-007-magma-admiral-boss-sd-v1.png",
+      "name": "볼가",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-007-kardo-source-v2.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-007-kardo-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "2C819E55929D49E7861A1D68327817D1F03640DB95BCF3ADA0FA374C059BB5F9"
+      "sha256": "3A08A83BF421A929B8515AEBF940650A327BAC1A88ABC7C8B5679A1E7EE84136",
+      "originalIpKey": "hunt-007-kardo",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9729
+      }
     },
     {
       "monsterId": 8,
@@ -134,54 +149,74 @@
     {
       "monsterId": 10,
       "mode": "HUNT",
-      "name": "흰수염",
-      "sourceArt": "assets/0717monster/white2.png",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-010-white-beard-boss-sd-v1.png",
+      "name": "드로칸",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-010-brekan-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-010-brekan-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "B670D93AB874C45CD62AF7378640463A2C1044470F131C056B10121CC7F3799A"
+      "sha256": "FBC006E719A064AFABE4E09B7F44D72CD6FBB4CEA7E105B68469B00281152F99",
+      "originalIpKey": "hunt-010-brekan",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9737
+      }
     },
     {
       "monsterId": 11,
       "mode": "HUNT",
-      "name": "검은수염",
-      "sourceArt": "assets/0717monster/BLACK1.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-011-black-beard-boss-sd-v1.png",
+      "name": "두르겐",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-011-morden-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-011-morden-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "5B496F5A0DBC9257D2FB902C4496FB0E9FD63152BD8EE41B12609877CDF18604"
+      "sha256": "FC62C1B0C5A5765B3A207B1C363201153E93389D9087FE5CC9D382E9E34A43EF",
+      "originalIpKey": "hunt-011-morden",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9872
+      }
     },
     {
       "monsterId": 12,
       "mode": "HUNT",
-      "name": "미호크",
-      "sourceArt": "assets/0717monster/hoke.png",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-012-hawkeye-boss-sd-v1.png",
+      "name": "쿠라오",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-012-serk-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-012-serk-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "D18B3C357F778D2FDF4FBD39F176545F8289FC56C363A56456D0F60C9587D862"
+      "sha256": "804584DEC70CA3902985B242EBE800B5D5EA480176ABB0B796F8247799FEE6F7",
+      "originalIpKey": "hunt-012-serk",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9753
+      }
     },
     {
       "monsterId": 13,
       "mode": "HUNT",
-      "name": "샹크스",
-      "sourceArt": "assets/0717monster/c2006.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-013-red-haired-boss-sd-v1.png",
+      "name": "자이렌",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-013-bareon-source-v2.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-013-bareon-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "157C7D91EB7BC1D3B557E2AE584EDFA7F520F3B99CA6B8001612ED4F5F22F2A5"
+      "sha256": "022A66C6ACB0838675B08E662FEBCB5D55DF0E917453CCE1EE6A46D021EFD95D",
+      "originalIpKey": "hunt-013-bareon",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9713
+      }
     },
     {
       "monsterId": 14,
@@ -189,15 +224,20 @@
         42
       ],
       "mode": "HUNT",
-      "name": "우치하 사스케",
-      "sourceArt": "assets/cards/top/12.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-014-lightning-rival-boss-sd-v1.png",
+      "name": "시엔",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-014-kirian-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-014-kirian-sd-v2.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "2AA62BF6737C7D7A0F8D839D2C2776145B6E806D8C3B01C8AD74EA6AF4F6C136"
+      "sha256": "4647841DACEB59FC5E84717CF6D0AE66502C7BEEA384454933932466B13B723E",
+      "originalIpKey": "hunt-014-kirian",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9378
+      }
     },
     {
       "monsterId": 15,
@@ -205,15 +245,20 @@
         43
       ],
       "mode": "HUNT",
-      "name": "우치하 이타치",
-      "sourceArt": "assets/cards/top/13.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-015-crimson-eye-boss-sd-v1.png",
+      "name": "쿠온",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-015-seiran-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-015-seiran-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "DA468C9D459374BCB5C512E1A0F90B6F1C1F3820BCE957B6BD380195663D8624"
+      "sha256": "DCDDF7E7AEB370F74D6384CBBCC0030EB42217E4BB1881FD8575A60BABDC34DA",
+      "originalIpKey": "hunt-015-seiran",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9753
+      }
     },
     {
       "monsterId": 16,
@@ -221,15 +266,20 @@
         44
       ],
       "mode": "HUNT",
-      "name": "젠이츠",
-      "sourceArt": "assets/effects/zne.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-016-thunder-swordsman-boss-sd-v1.png",
+      "name": "렌키",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-016-hajin-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-016-hajin-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "ED231B9EF5DF7FEB2211949B35A254DB579635A7B2FCDB832FB0916C9EBDA5BB"
+      "sha256": "3FA8404EE9C72AE0861C869B9C9BCBD2108459AB54399592904F5D4BDC3573E1",
+      "originalIpKey": "hunt-016-hajin",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9697
+      }
     },
     {
       "monsterId": 25,
@@ -237,15 +287,20 @@
         45
       ],
       "mode": "HUNT",
-      "name": "조로",
-      "sourceArt": "assets/effects/ZORO1.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-025-green-swordsman-boss-sd-v1.png",
+      "name": "로스크",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-025-rokas-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-025-rokas-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "C7A5C5026B82B02737F8B9C903CCB48225BD80B3F848B2E171D29CE3DEE8E2BC"
+      "sha256": "1270604BB85CE877B88A88A0B2807D54579EB3CAF7150A19968C9D376BE42F0D",
+      "originalIpKey": "hunt-025-rokas",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9697
+      }
     },
     {
       "monsterId": 26,
@@ -253,15 +308,20 @@
         46
       ],
       "mode": "HUNT",
-      "name": "렌고쿠 코쥬로",
-      "sourceArt": "assets/tower/cc0457ef4abb426eda53051b533d1050.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-026-flame-pillar-boss-sd-v1.png",
+      "name": "히오",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-026-taeon-source-v2.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-026-taeon-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "924B9C27F6D6B015DAA6D9886FC620936066B5A6F8CA98B07BC67BA51DD65140"
+      "sha256": "BDE6EF525E1CB72A2E97BB00E03066E1EEB28992AD44A6DA91142D4160A5EEFF",
+      "originalIpKey": "hunt-026-taeon",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9577
+      }
     },
     {
       "monsterId": 29,
@@ -269,15 +329,20 @@
         47
       ],
       "mode": "HUNT",
-      "name": "쿄라쿠 슌스이",
-      "sourceArt": "assets/effects/ko.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-029-flower-captain-boss-sd-v1.png",
+      "name": "츠쿠오",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-029-saharin-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-029-saharin-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "78D0E38CC02A0386E3719419103B2A87EAB7AD008391C9C0B8B268E495AB62B0"
+      "sha256": "4BD3DF28142773FF7143094B2E1E563B3B53AA9C2F85040F7E71B3B3D9F8EF67",
+      "originalIpKey": "hunt-029-saharin",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9593
+      }
     },
     {
       "monsterId": 30,
@@ -285,15 +350,20 @@
         48
       ],
       "mode": "HUNT",
-      "name": "이타치 암부",
-      "sourceArt": "assets/effects/ANBU.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-030-black-ops-boss-sd-v1.png",
+      "name": "쿠온",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-030-seiran-shadow-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-030-seiran-shadow-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "07B80A3C8B4A332BEA7DF423EFCE9B7A9C4B7939E60D271DC7F3F6ADC750B96E"
+      "sha256": "9C70848844B4BE2238AB0824029BB72EA92BDB1324533A48AB26598AB2C0A964",
+      "originalIpKey": "hunt-030-seiran-shadow",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9753
+      }
     },
     {
       "monsterId": 31,
@@ -301,15 +371,20 @@
         49
       ],
       "mode": "HUNT",
-      "name": "셋쇼마루",
-      "sourceArt": "assets/tower/SET.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-031-moon-demon-boss-sd-v1.png",
+      "name": "라우엔",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-031-yuren-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-031-yuren-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "0608BC42C44F1E801CB8C80C0AEDE82E78715C2064FA769EB11553B09E773995"
+      "sha256": "C741BDB9A9C2DEC56F70432276CB6F1DA62E75965995B9BFE1030540844E7211",
+      "originalIpKey": "hunt-031-yuren",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9689
+      }
     },
     {
       "monsterId": 32,
@@ -317,56 +392,74 @@
         50
       ],
       "mode": "HUNT",
-      "name": "태양신 루피",
-      "sourceArt": "assets/effects/ro2.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-032-sun-god-boss-sd-v1.png",
+      "name": "루코",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-032-torian-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-032-torian-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "E59236616409F98BFF12EBDA874B588C22B833E405E4A968090E7BEB0778A323"
+      "sha256": "46A50E04AD89FDF454082BE5912DFBEDFE1245BC1B5FDD7ACC29BCCCF298F831",
+      "originalIpKey": "hunt-032-torian",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9769
+      }
     },
     {
       "monsterId": 61,
       "mode": "HUNT",
-      "name": "길가메시",
-      "sourceArt": "assets/tower/gg123.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-061-golden-king-boss-sd-v1.png",
+      "name": "오르딘",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-061-aurek-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-061-aurek-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "B6920374BD5A7CD264F77BF021B7576035AD3E124D38AE96A6816EC8F011F552"
+      "sha256": "56E0102BA2DB0E07CC7762831E0E0EBA8136B9E1B40FBE5F76EA4A3B09367A86",
+      "originalIpKey": "hunt-061-aurek",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9801
+      }
     },
     {
       "monsterId": 62,
       "mode": "HUNT",
-      "name": "오비토",
-      "sourceArt": "LIVE_DB:monsterId=62",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-062-obito-boss-sd-v1.png",
+      "name": "요겐",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-062-veiron-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-062-veiron-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "5670BE32B657A95119B04E81306B30C56019E9E39DB05DAF9FC94E78EF976E84"
+      "sha256": "5F4163F6EDD1B8DBCED62ECD33425ACBB0622C3D36D7A6021B70FD961BA9276D",
+      "originalIpKey": "hunt-062-veiron",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9601
+      }
     },
     {
       "monsterId": 63,
       "mode": "HUNT",
-      "name": "에스카노르",
-      "sourceArt": "assets/tower/ascar.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-063-solar-lion-king-boss-sd-v1.png",
-      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-063-solar-lion-king-boss-sd-v1-768.webp",
-      "battleSpriteWebpSha256": "1CC9FA6E5AAA126BB5E5F91B82B803D8C17388F15DF875CFFCADC2A5A38C8038",
+      "name": "도르크",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-063-raskan-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-063-raskan-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "38CE93E602EB3A6DBD9E5E7201FD1EA5533CDC0667113538856FF2256B056A2F"
+      "sha256": "93ECA67BEBD29AEAC455F3A7F0C58CA01F8C64F3911B7F5570DBBA623A779E3B",
+      "originalIpKey": "hunt-063-raskan",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9665
+      }
     },
     {
       "monsterId": 64,
@@ -587,11 +680,9 @@
         "HUNT",
         "NIGHTMARE"
       ],
-      "name": "골 D. 로저",
-      "sourceArt": "assets/tower/goldd.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-070-pirate-king-boss-sd-v1.png",
-      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-070-pirate-king-boss-sd-v1-768.webp",
-      "battleSpriteWebpSha256": "FEFDE4AB234979A28619DDAB3F5A59EE9FA704DBB21A2DD632B02DFCAE64EF4A",
+      "name": "드라오",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-070-gradan-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-070-gradan-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
@@ -600,7 +691,12 @@
         "edgeAlphaClear": true,
         "safeMarginPx": 67
       },
-      "sha256": "2DF123EB1D65EF688D8EE3EAB665EB6BFD70C4FF03D91F59B92674EC7514C6C9"
+      "sha256": "C0E7E59E16BE2F53F829527BE697D4A4569187380EDE866140030ECB0DE517A8",
+      "originalIpKey": "hunt-070-gradan",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9848
+      }
     },
     {
       "monsterId": 71,
@@ -609,11 +705,9 @@
         "HUNT",
         "APOCALYPSE"
       ],
-      "name": "에드워드 엘릭",
-      "sourceArt": "assets/tower/apo1.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-071-automail-alchemist-boss-sd-v1.png",
-      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-071-automail-alchemist-boss-sd-v1-768.webp",
-      "battleSpriteWebpSha256": "EAC812169372A3561F5E6F9AC05E3C1A498FFA3F8861B58EF6AB8CC6E221275B",
+      "name": "에논",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-071-eltu-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-071-eltu-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
@@ -622,7 +716,12 @@
         "edgeAlphaClear": true,
         "safeMarginPx": 72
       },
-      "sha256": "C87AB6B0C4A32254CC87AD1731AF88E6565A0EA2E99B85C955DA8D0713F97F9D"
+      "sha256": "F890EEBD38AA7D24C2ADAAC97887F4F6E547B553243A21B64BF3C7361820632B",
+      "originalIpKey": "hunt-071-eltu",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9777
+      }
     },
     {
       "monsterId": 72,
@@ -631,11 +730,9 @@
         "HUNT",
         "APOCALYPSE"
       ],
-      "name": "히무라 켄신",
-      "sourceArt": "assets/tower/apo2.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-072-reverse-blade-swordsman-boss-sd-v1.png",
-      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-072-reverse-blade-swordsman-boss-sd-v1-768.webp",
-      "battleSpriteWebpSha256": "2705C14AB9543D394296AD1A689D88151B33BFF16A56A30991BE98FAE28CB4D7",
+      "name": "나기",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-072-yujin-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-072-yujin-sd-v1.png",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
@@ -644,7 +741,12 @@
         "edgeAlphaClear": true,
         "safeMarginPx": 72
       },
-      "sha256": "22CA349FBABA785BF6402918D8E0FBFA7CB824A6C57FDA58D5C3882CDBB62596"
+      "sha256": "91DEEFF4413601A21B792FFBB1708901D06B0713B820FC7F7FA1E4D99F376D42",
+      "originalIpKey": "hunt-072-yujin",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9888
+      }
     },
     {
       "monsterId": 73,
@@ -653,13 +755,11 @@
         "HUNT",
         "APOCALYPSE"
       ],
-      "name": "마이트 가이",
-      "sourceArt": "assets/tower/GAI.jpg",
+      "name": "간테",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-073-danro-source-v1.png",
       "isBoss": true,
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-073-night-guy-boss-sd-v1.png",
-      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-073-night-guy-boss-sd-v1-768.webp",
-      "battleSpriteWebpSha256": "ABD69ADCB2FA4D6742B3C20780EC94FFA2D8B4F706105FCC663C0548FB4C14A0",
-      "sha256": "BED306C12B9CD70317942EEB4F7C32E1D6DD12370CD544242EB355A7A563B707",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-073-danro-sd-v1.png",
+      "sha256": "1AD6A7D421D49063AA58BD42B50C5F6BB27DEADB34186F3FAEA62E9DDC943501",
       "qa": {
         "technicalPass": true,
         "visualApproval": true,
@@ -667,6 +767,11 @@
         "transparentRgbaVerified": true,
         "edgeAlphaClear": true,
         "safeMarginPx": 72
+      },
+      "originalIpKey": "hunt-073-danro",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9697
       }
     },
     {
@@ -676,13 +781,11 @@
         "HUNT",
         "APOCALYPSE"
       ],
-      "name": "센쥬 하시라마",
-      "sourceArt": "assets/tower/SENJU.jpg",
+      "name": "류젠",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-074-rohen-source-v1.png",
       "isBoss": true,
-      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-074-wood-dragon-boss-sd-v1.png",
-      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-074-wood-dragon-boss-sd-v1-768.webp",
-      "battleSpriteWebpSha256": "3C393CD8B6455E1563806103E6AE0538DB2837B02089AEB0309E7A4FD316341D",
-      "sha256": "60E7BC9C972AA3441127311E47129F033DB66F450AC4BB5EC174DA5EB499160B",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-074-rohen-sd-v1.png",
+      "sha256": "751287E23177190338F4E775D9B021B1D8DFEBC480E4E98D6C2E43F712AF4C51",
       "qa": {
         "technicalPass": true,
         "visualApproval": true,
@@ -690,44 +793,59 @@
         "transparentRgbaVerified": true,
         "edgeAlphaClear": true,
         "safeMarginPx": 72
+      },
+      "originalIpKey": "hunt-074-rohen",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9753
       }
     },
     {
       "monsterId": 75,
-      "name": "아카드",
+      "name": "자브릭",
       "mode": "HUNT",
       "modes": [
         "HUNT",
         "APOCALYPSE"
       ],
-      "sourceArt": "assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-source.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/apocalypse-legion-v1/alucard-sd-v1.png",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-075-voldren-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-075-voldren-sd-v1.png",
       "isBoss": true,
-      "sha256": "22B518E0648C3D755A1DD0AE709C391C344E9F38F9723506E9D11E67B9D41C17",
+      "sha256": "4D4BB421141B01B3A545D5D756B6B3131C10EEC041DB7089FBECCF77DA8CE99D",
       "qa": {
         "technicalPass": true,
         "visualApproval": true,
         "approval": "2026-09-18 사용자 전부 승인",
         "transparentRgbaVerified": true
+      },
+      "originalIpKey": "hunt-075-voldren",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9848
       }
     },
     {
       "monsterId": 76,
-      "name": "카네키 켄",
+      "name": "야즈",
       "mode": "HUNT",
       "modes": [
         "HUNT",
         "APOCALYPSE"
       ],
-      "sourceArt": "assets/ui/project-v/monsters/apocalypse-legion-v1/kaneki-source.jpg",
-      "battleSprite": "assets/ui/project-v/monsters/apocalypse-legion-v1/kaneki-sd-v1.png",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-076-nerik-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-076-nerik-sd-v2.png",
       "isBoss": true,
-      "sha256": "F137BE53FDB358CD9220916B453194ECB87995A8EC908CEF370A8217B5100683",
+      "sha256": "46B04FD34CDD54E39485CF007D3DCB2A32DFC0C4F172737DF84B6F5C5936DFFC",
       "qa": {
         "technicalPass": true,
         "visualApproval": true,
         "approval": "2026-09-18 사용자 전부 승인",
         "transparentRgbaVerified": true
+      },
+      "originalIpKey": "hunt-076-nerik",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9856
       }
     },
     {
@@ -737,11 +855,11 @@
         "HUNT",
         "NIGHTMARE"
       ],
-      "name": "아카자",
-      "sourceArt": "assets/ui/project-v/monsters/nightmare-akaza-v1/akaza-source-v1.png",
-      "battleSprite": "assets/ui/project-v/monsters/nightmare-akaza-v1/akaza-sd-v1.png",
+      "name": "텐마",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-079-kaon-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-079-kaon-sd-v1.png",
       "isBoss": true,
-      "sha256": "4066D554A52617D3F0FFB46A03C7C2AA60349225A7332C63C2A1AEFBC91FD5E1",
+      "sha256": "651791EBE7F599200CFB4376ED90A46CBC51D27C92C8645B892C281379C761F7",
       "qa": {
         "technicalPass": true,
         "visualApproval": true,
@@ -762,6 +880,55 @@
         "naturalAdultProportions": true,
         "fullBodyAndFeetVisible": true,
         "sharedNightmareUltimate": true
+      },
+      "originalIpKey": "hunt-079-kaon",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9777
+      }
+    },
+    {
+      "monsterId": 77,
+      "mode": "HUNT",
+      "modes": [
+        "HUNT",
+        "APOCALYPSE"
+      ],
+      "isBoss": true,
+      "name": "자이렌",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-077-bareon-sovereign-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-077-bareon-sovereign-sd-v1.png",
+      "sha256": "8604EB0A348ECE8D8BE254BAF257468FD8CBC9FAD11C38761130FB132DB12F19",
+      "originalIpKey": "hunt-077-bareon-sovereign",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9856
+      },
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      }
+    },
+    {
+      "monsterId": 78,
+      "mode": "HUNT",
+      "modes": [
+        "HUNT",
+        "APOCALYPSE"
+      ],
+      "isBoss": true,
+      "name": "아즈마",
+      "sourceArt": "preview/monster-original-ip-20261013-v1/assets/hunt-078-siluen-source-v1.png",
+      "battleSprite": "preview/monster-original-ip-sd-20261013-v1/assets/hunt-078-siluen-sd-v1.png",
+      "sha256": "78B1BF4DB6DACEBA4115EA1797FF38BDE41FEB65CD5837E49C75A7682068861C",
+      "originalIpKey": "hunt-078-siluen",
+      "footAnchor": {
+        "x": 0.5,
+        "y": 0.9753
+      },
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
       }
     }
   ]
