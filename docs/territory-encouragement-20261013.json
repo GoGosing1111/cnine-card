@@ -1,0 +1,49 @@
+{
+  "request": "현재 영토전 참여자 공격횟수 20회 이상 진행중 사람들에게 영토전 격려 지원금 2천억씩 메세지로 지급해",
+  "round": {
+    "id": "71",
+    "battle_name": "털",
+    "starts_at": "2026-10-13T09:32:07.881Z"
+  },
+  "roundStatusAtGrant": "ACTIVE",
+  "cutoff": "2026-10-13 20:58:22 KST",
+  "minimumAttacks": 20,
+  "bySide": {
+    "A": 56,
+    "B": 57
+  },
+  "attackRangeAtCutoff": [
+    23,
+    85
+  ],
+  "title": "영토전 격려 지원금",
+  "body": "영토전 71회차 ‘털’에 적극적으로 참여해 주셔서 감사합니다.\n\n2026-10-13 20:58:22 KST 기준, 진행 중인 영토전에서 공격 20회 이상인 참여자에게 격려 지원금 2,000억 코인을 지급합니다.\n\n아래 보상 수령 버튼을 눌러 지원금을 받아 주세요. 앞으로도 좋은 활약을 응원합니다!",
+  "campaign": "territory-encouragement-71-attacks20-20261013-v1-coin",
+  "checkedAt": "2026-10-13T12:03:27.907Z",
+  "auditId": "45664",
+  "completedAt": "2026-10-13T12:03:15.245Z",
+  "operationKey": "ops:territory:71:encouragement-attacks20:20261013:v1",
+  "recipientHash": "f27c751149290a9a5bc7154140fbf659e7cb298313bb4dd0b12d44729960eef6",
+  "replayWrites": 0,
+  "recipients": 113,
+  "messages": 113,
+  "rewards": 113,
+  "amount": "200000000000",
+  "totalAmount": "22600000000000",
+  "claimed": 0,
+  "pending": 113,
+  "missing": 0,
+  "duplicates": 0,
+  "delivery": "MESSAGE",
+  "immediateWalletCredit": false,
+  "checks": {
+    "wrongSnapshotBlocked": true,
+    "attachmentFailureRolledBack": true,
+    "allWritesAtomic": true,
+    "replayWrites": 0,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "runtimeDeployment": false,
+  "privateEvidence": "Stored in the operation receipt and outside the repository; recipient identities omitted from this public record."
+}
