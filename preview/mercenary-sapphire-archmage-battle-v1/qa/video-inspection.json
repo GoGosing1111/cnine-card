@@ -1,0 +1,119 @@
+[
+  {
+    "name": "reference",
+    "time": 0.956969,
+    "duration": 4.135627,
+    "playing": true,
+    "width": 1440,
+    "height": 518,
+    "capture": "qa/video-reference-0.6.png"
+  },
+  {
+    "name": "reference",
+    "time": 1.95879,
+    "duration": 4.135627,
+    "playing": true,
+    "width": 1440,
+    "height": 518,
+    "capture": "qa/video-reference-1.6.png"
+  },
+  {
+    "name": "reference",
+    "time": 2.930889,
+    "duration": 4.135627,
+    "playing": true,
+    "width": 1440,
+    "height": 518,
+    "capture": "qa/video-reference-2.6.png"
+  },
+  {
+    "name": "reference",
+    "time": 3.971841,
+    "duration": 4.135627,
+    "playing": true,
+    "width": 1440,
+    "height": 518,
+    "capture": "qa/video-reference-3.6.png"
+  },
+  {
+    "name": "desktop",
+    "time": 7.76837,
+    "duration": 24.272478,
+    "playing": true,
+    "width": 1362,
+    "height": 508,
+    "capture": "qa/video-desktop-7.4.png"
+  },
+  {
+    "name": "desktop",
+    "time": 11.261759,
+    "duration": 24.272478,
+    "playing": true,
+    "width": 1362,
+    "height": 508,
+    "capture": "qa/video-desktop-10.9.png"
+  },
+  {
+    "name": "desktop",
+    "time": 16.451286,
+    "duration": 24.272478,
+    "playing": true,
+    "width": 1362,
+    "height": 508,
+    "capture": "qa/video-desktop-16.1.png"
+  },
+  {
+    "name": "desktop",
+    "time": 17.454689,
+    "duration": 24.272478,
+    "playing": true,
+    "width": 1362,
+    "height": 508,
+    "capture": "qa/video-desktop-17.1.png"
+  },
+  {
+    "name": "desktop",
+    "time": 23.879716,
+    "duration": 24.272478,
+    "playing": true,
+    "width": 1362,
+    "height": 508,
+    "capture": "qa/video-desktop-23.5.png"
+  },
+  {
+    "name": "mobile",
+    "time": 11.176357,
+    "duration": 24.300447,
+    "playing": true,
+    "width": 368,
+    "height": 630,
+    "capture": "qa/video-mobile-10.9.png"
+  },
+  {
+    "name": "mobile",
+    "time": 16.380782,
+    "duration": 24.300447,
+    "playing": true,
+    "width": 368,
+    "height": 630,
+    "capture": "qa/video-mobile-16.1.png"
+  },
+  {
+    "name": "mobile",
+    "time": 17.381898,
+    "duration": 24.300447,
+    "playing": true,
+    "width": 368,
+    "height": 630,
+    "capture": "qa/video-mobile-17.1.png"
+  },
+  {
+    "name": "mobile",
+    "time": 23.795621,
+    "duration": 24.300447,
+    "playing": true,
+    "width": 368,
+    "height": 630,
+    "capture": "qa/video-mobile-23.5.png"
+  }
+]

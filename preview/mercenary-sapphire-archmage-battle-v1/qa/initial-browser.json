@@ -1,0 +1,382 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "diagnostics": {
+      "ready": true,
+      "mode": "ultimate",
+      "time": 3.108,
+      "playing": false,
+      "speed": 1,
+      "pose": {
+        "key": "ultimate",
+        "frame": 3
+      },
+      "cancelled": false,
+      "visibleSprites": 18,
+      "activeFrames": [
+        {
+          "key": "seal",
+          "frame": 2.2258397287318035,
+          "point": {
+            "x": 379.99999999999994,
+            "y": 243
+          },
+          "size": 177,
+          "alpha": 0.8
+        },
+        {
+          "key": "seal",
+          "frame": 8.996842105263159,
+          "point": {
+            "x": 341.25614035087716,
+            "y": 113.77631578947368
+          },
+          "size": 120,
+          "alpha": 0.9105263157894733
+        },
+        {
+          "key": "seal",
+          "frame": 6.953913043478261,
+          "point": {
+            "x": 1220,
+            "y": 102.5
+          },
+          "size": 375,
+          "alpha": 1
+        },
+        {
+          "key": "seal",
+          "frame": 7.355897435897435,
+          "point": {
+            "x": 1220,
+            "y": 68
+          },
+          "size": 262.5,
+          "alpha": 1
+        },
+        {
+          "key": "fall",
+          "frame": 6.717500000000001,
+          "point": {
+            "x": 1220,
+            "y": 592
+          },
+          "size": 300,
+          "alpha": 1
+        },
+        {
+          "key": "fall",
+          "frame": 6.3425,
+          "point": {
+            "x": 1430,
+            "y": 415.99999999999994
+          },
+          "size": 217.5,
+          "alpha": 1
+        },
+        {
+          "key": "fall",
+          "frame": 5.9675,
+          "point": {
+            "x": 1010,
+            "y": 415.99999999999994
+          },
+          "size": 217.5,
+          "alpha": 1
+        },
+        {
+          "key": "fall",
+          "frame": 5.592499999999999,
+          "point": {
+            "x": 1430,
+            "y": 240
+          },
+          "size": 217.5,
+          "alpha": 1
+        },
+        {
+          "key": "fall",
+          "frame": 5.217500000000001,
+          "point": {
+            "x": 1010,
+            "y": 240
+          },
+          "size": 217.5,
+          "alpha": 1
+        }
+      ],
+      "contacts": [
+        {
+          "at": 2.65,
+          "targetId": "CN-519C181C18DF4B8E",
+          "from": {
+            "x": 1220,
+            "y": 352
+          },
+          "to": {
+            "x": 1220,
+            "y": 592
+          },
+          "endpointError": 0
+        },
+        {
+          "at": 2.75,
+          "targetId": "CN-25F931CE393D474E",
+          "from": {
+            "x": 1430,
+            "y": 175.99999999999994
+          },
+          "to": {
+            "x": 1430,
+            "y": 415.99999999999994
+          },
+          "endpointError": 0
+        },
+        {
+          "at": 2.85,
+          "targetId": "CN-23EB4B19986D4818",
+          "from": {
+            "x": 1010,
+            "y": 175.99999999999994
+          },
+          "to": {
+            "x": 1010,
+            "y": 415.99999999999994
+          },
+          "endpointError": 0
+        },
+        {
+          "at": 2.95,
+          "targetId": "CN-02D9DC1E8A8A4209",
+          "from": {
+            "x": 1430,
+            "y": 0
+          },
+          "to": {
+            "x": 1430,
+            "y": 240
+          },
+          "endpointError": 0
+        },
+        {
+          "at": 3.05,
+          "targetId": "CN-0505936A0CBB4E59",
+          "from": {
+            "x": 1010,
+            "y": 0
+          },
+          "to": {
+            "x": 1010,
+            "y": 240
+          },
+          "endpointError": 0
+        }
+      ],
+      "registeredTimelines": 0,
+      "effectLayers": 1,
+      "motionOnly": false,
+      "auraEnabled": true,
+      "reducedMotion": false,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "unit": 150,
+      "queue": {
+        "active": false,
+        "index": 0,
+        "completed": false
+      }
+    },
+    "overflow": false
+  },
+  {
+    "name": "mobile",
+    "errors": [],
+    "diagnostics": {
+      "ready": true,
+      "mode": "ultimate",
+      "time": 3.171,
+      "playing": false,
+      "speed": 1,
+      "pose": {
+        "key": "ultimate",
+        "frame": 3
+      },
+      "cancelled": false,
+      "visibleSprites": 18,
+      "activeFrames": [
+        {
+          "key": "seal",
+          "frame": 2.2645448718954664,
+          "point": {
+            "x": 361.6744186046512,
+            "y": 334.46802325581393
+          },
+          "size": 230.10000000000002,
+          "alpha": 0.8
+        },
+        {
+          "key": "seal",
+          "frame": 9.179210526315789,
+          "point": {
+            "x": 311.30740106079156,
+            "y": 167.37723378212968
+          },
+          "size": 156.00000000000003,
+          "alpha": 0.8276315789473687
+        },
+        {
+          "key": "seal",
+          "frame": 7.104565217391304,
+          "point": {
+            "x": 966.4744186046512,
+            "y": 147.5180232558139
+          },
+          "size": 485.2465116279069,
+          "alpha": 1
+        },
+        {
+          "key": "seal",
+          "frame": 7.533589743589742,
+          "point": {
+            "x": 966.4744186046512,
+            "y": 102.66802325581388
+          },
+          "size": 339.67255813953483,
+          "alpha": 1
+        },
+        {
+          "key": "fall",
+          "frame": 6.953749999999999,
+          "point": {
+            "x": 1009.6744186046511,
+            "y": 1231.468023255814
+          },
+          "size": 390.00000000000006,
+          "alpha": 1
+        },
+        {
+          "key": "fall",
+          "frame": 6.578749999999999,
+          "point": {
+            "x": 1009.6744186046511,
+            "y": 931.4680232558139
+          },
+          "size": 282.75000000000006,
+          "alpha": 1
+        },
+        {
+          "key": "fall",
+          "frame": 6.203749999999999,
+          "point": {
+            "x": 793.6744186046511,
+            "y": 931.4680232558139
+          },
+          "size": 282.75000000000006,
+          "alpha": 1
+        },
+        {
+          "key": "fall",
+          "frame": 5.8287499999999985,
+          "point": {
+            "x": 1009.6744186046511,
+            "y": 631.4680232558139
+          },
+          "size": 282.75000000000006,
+          "alpha": 1
+        },
+        {
+          "key": "fall",
+          "frame": 5.45375,
+          "point": {
+            "x": 1009.6744186046511,
+            "y": 331.46802325581393
+          },
+          "size": 282.75000000000006,
+          "alpha": 1
+        }
+      ],
+      "contacts": [
+        {
+          "at": 2.65,
+          "targetId": "CN-519C181C18DF4B8E",
+          "from": {
+            "x": 1009.6744186046511,
+            "y": 919.4680232558139
+          },
+          "to": {
+            "x": 1009.6744186046511,
+            "y": 1231.468023255814
+          },
+          "endpointError": 0
+        },
+        {
+          "at": 2.75,
+          "targetId": "CN-25F931CE393D474E",
+          "from": {
+            "x": 1009.6744186046511,
+            "y": 619.4680232558139
+          },
+          "to": {
+            "x": 1009.6744186046511,
+            "y": 931.4680232558139
+          },
+          "endpointError": 0
+        },
+        {
+          "at": 2.85,
+          "targetId": "CN-23EB4B19986D4818",
+          "from": {
+            "x": 793.6744186046511,
+            "y": 619.4680232558139
+          },
+          "to": {
+            "x": 793.6744186046511,
+            "y": 931.4680232558139
+          },
+          "endpointError": 0
+        },
+        {
+          "at": 2.95,
+          "targetId": "CN-0505936A0CBB4E59",
+          "from": {
+            "x": 1009.6744186046511,
+            "y": 319.4680232558139
+          },
+          "to": {
+            "x": 1009.6744186046511,
+            "y": 631.4680232558139
+          },
+          "endpointError": 0
+        },
+        {
+          "at": 3.05,
+          "targetId": "CN-02D9DC1E8A8A4209",
+          "from": {
+            "x": 1009.6744186046511,
+            "y": 19.468023255813875
+          },
+          "to": {
+            "x": 1009.6744186046511,
+            "y": 331.46802325581393
+          },
+          "endpointError": 0
+        }
+      ],
+      "registeredTimelines": 0,
+      "effectLayers": 1,
+      "motionOnly": false,
+      "auraEnabled": true,
+      "reducedMotion": false,
+      "clockOwner": "V3_REGISTERED_GSAP",
+      "damageAuthority": "NONE_VISUAL_PREVIEW",
+      "unit": 195.00000000000003,
+      "queue": {
+        "active": false,
+        "index": 0,
+        "completed": false
+      }
+    },
+    "overflow": false
+  }
+]

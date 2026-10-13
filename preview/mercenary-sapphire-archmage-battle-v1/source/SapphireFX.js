@@ -1,0 +1,53 @@
+import {Container,Sprite,Assets,Texture,Rectangle} from 'pixi.js';import {gsap} from 'gsap';import {clamp,sample} from '../skill.mjs';
+const ROOT='/preview/mercenary-sapphire-archmage-battle-v1/',mix=(a,b,t)=>a+(b-a)*t;
+export async function loadSapphireAssets(m){const a={motion:{},effects:{}};await Promise.all(['motion','effects'].flatMap(kind=>Object.entries(m[kind]).map(async([k,v])=>{const tex=await Assets.load(ROOT+v.atlas);a[kind][k]=v.frames.map((_,i)=>new Texture({source:tex.source,frame:new Rectangle(i%v.columns*v.cellSize,Math.floor(i/v.columns)*v.cellSize,v.cellSize,v.cellSize)}));})));return a;}
+export class SapphireFX{
+ constructor(engine,merc,targets,assets,manifest,plan,onUpdate=()=>{}){Object.assign(this,{engine,merc,targets,assets,manifest,plan,onUpdate});merc.animationController.kill();this.bodyHeight=manifest.displaySizing.physicalBodyHeight;this.clock={time:0};this.speed=1;this.auraEnabled=true;this.motionOnly=false;this.reducedMotion=!!engine.reducedMotion;this.layer=new Container({label:'SapphireFX'});this.layer.eventMode='none';engine.effectLayer.addChild(this.layer);this.pool=Array.from({length:70},()=>{const s=new Sprite();s.visible=false;this.layer.addChild(s);return s;});this.targetsBase=targets.map(a=>({x:a.view.x,tint:a.fullBodySprite.tint}));this.captureFormation();this.makeTimeline();this.render(0);}
+ get time(){return this.clock.time}get playing(){return !!this.timeline&&!this.timeline.paused()&&this.time<this.plan.duration}
+ captureFormation(){this.start={x:this.merc.baseX??this.merc.root.x,y:this.merc.baseY??this.merc.root.y};}
+ makeTimeline(){this.removeTimeline();this.clock.time=0;this.timeline=gsap.timeline({paused:true,onUpdate:()=>this.render(this.clock.time),onComplete:()=>{this.engine.simpleTimelines.delete(this.registration);this.render(this.plan.duration);this.onComplete?.();}}).to(this.clock,{time:this.plan.duration,duration:this.plan.duration,ease:'none'}).timeScale(this.speed);this.registration={instance:this.timeline,settle:()=>this.cancel()};if(!this.motionOnly&&!this.reducedMotion)for(const at of this.plan.contacts)if(this.plan.stop===null||at<this.plan.stop)this.engine.camera?.addShake(this.timeline,{at,intensity:this.plan.mode==='ultimate'?9:3,duration:.16,rotation:.001});}
+ removeTimeline(){if(this.registration)this.engine.simpleTimelines.delete(this.registration);this.timeline?.kill();this.timeline=null;this.registration=null;}
+ play(){if(this.destroyed)return;if(!this.timeline)this.makeTimeline();if(this.time>=this.plan.duration)this.seek(0);this.engine.simpleTimelines.add(this.registration);this.timeline.play();this.onUpdate(this);}
+ pause(){this.timeline?.pause();this.onUpdate(this);}
+ seek(t){if(!this.timeline)this.makeTimeline();t=clamp(t,0,this.plan.duration);this.timeline.pause().time(t,true);this.clock.time=t;this.engine.camera?.reset(true);this.render(t);}
+ setSpeed(s){this.speed=clamp(+s,.25,2);this.timeline?.timeScale(this.speed);this.onUpdate(this);}
+ setSound(){}setAura(on){this.auraEnabled=!!on;this.render(this.time);}
+ setMotionOnly(on){const t=this.time;this.motionOnly=!!on;this.makeTimeline();this.seek(t);}
+ setReducedMotion(on){const t=this.time;this.reducedMotion=!!on;this.makeTimeline();this.seek(t);}
+ setPlan(p){this.cancel(false);this.plan=p;this.makeTimeline();this.render(0);}
+ cancel(notify=true){if(this.destroyed)return;if(notify)this.onCancel?.();this.removeTimeline();this.engine.camera?.reset(true);this.clock.time=0;this.render(0);this.pool.forEach(s=>s.visible=false);this.activeFrames=[];}
+ ownPoint(x=0,y=0){return this.engine.effectLayer.toLocal(this.merc.view.toGlobal({x,y}));}
+ point(a,f=.43){return this.engine.effectLayer.toLocal(a.root.toGlobal({x:0,y:-a.fullBodyHeight*f}));}
+ applyPose(pose){const f=this.manifest.motion[pose.key].frames[pose.frame],s=this.merc.fullBodySprite;s.texture=this.assets.motion[pose.key][pose.frame];s.anchor.set(f.footAnchor.x,f.footAnchor.y);s.position.set(0,0);s.scale.set(this.bodyHeight/f.bodyPixels);this.poseFrame=f;const n=this.merc.neutralAvatarPose?.mainSprite;if(n){n.scaleX=s.scale.x;n.scaleY=s.scale.y;}}
+ anchorPoint(key){const f=this.poseFrame,p=f[key];return this.ownPoint((p.x-f.footAnchor.x*768)*this.bodyHeight/f.bodyPixels,(p.y-f.footAnchor.y*768)*this.bodyHeight/f.bodyPixels);}
+ draw(key,frame,point,size,{alpha=1,angle=0,anchor=null,stretch=1}={}){if(this.used>=this.pool.length||alpha<=0)return;frame=clamp(frame,0,11);const i=Math.floor(frame),q=frame-i,spec=this.manifest.effects[key],a=anchor||spec.frames[i].anchor;
+  const corners=[[0,0],[1,0],[0,1],[1,1]].map(([x,y])=>({x:(x-a.x)*Math.cos(angle)-(y-a.y)*stretch*Math.sin(angle),y:(x-a.x)*Math.sin(angle)+(y-a.y)*stretch*Math.cos(angle)})),bounds={left:Math.min(...corners.map(p=>p.x)),right:Math.max(...corners.map(p=>p.x)),top:Math.min(...corners.map(p=>p.y)),bottom:Math.max(...corners.map(p=>p.y))},scene=this.engine.scene,margin=10;
+  if(bounds.left<0)size=Math.min(size,(point.x-margin)/-bounds.left);if(bounds.right>0)size=Math.min(size,(scene.width-margin-point.x)/bounds.right);if(bounds.top<0)size=Math.min(size,(point.y-margin)/-bounds.top);if(bounds.bottom>0)size=Math.min(size,(scene.height-margin-point.y)/bounds.bottom);size=Math.max(0,size);
+  for(const [j,opacity]of [[i,1-q],[Math.min(11,i+1),q]]){if(opacity<.001)continue;const s=this.pool[this.used++];s.texture=this.assets.effects[key][j];s.anchor.set(a.x,a.y);s.position.set(point.x,point.y);s.width=size;s.height=size*stretch;s.rotation=angle;s.alpha=alpha*opacity;s.visible=true;s.blendMode='normal';}this.activeFrames.push({key,frame,point:{...point},size,alpha,bounds:{left:point.x+bounds.left*size,right:point.x+bounds.right*size,top:point.y+bounds.top*size,bottom:point.y+bounds.bottom*size}});}
+ seq(key,t,start,end,p,size,options={}){if(t<start||t>end)return;const q=clamp((t-start)/(end-start));this.draw(key,q*11,p,size,{...options,alpha:(options.alpha??1)*Math.min(1,(1-q)*5)});}
+ render(t){if(this.destroyed)return;this.pool.forEach(s=>s.visible=false);this.used=0;this.activeFrames=[];this.contactChecks=[];const state=sample(this.plan,t);this.sample=state;this.applyPose(state.pose);this.merc.root.position.set((this.merc.baseX??this.start.x)+state.travel*60,(this.merc.baseY??this.start.y)-state.jump*this.bodyHeight);this.targets.forEach((a,i)=>{a.view.x=this.targetsBase[i].x;a.fullBodySprite.tint=this.targetsBase[i].tint;});this.engine.sortCombatDepth();if(this.motionOnly||state.cancelled||state.done){this.onUpdate(this);return;}
+ const foot=this.ownPoint(),head=this.ownPoint(0,-this.bodyHeight),unit=Math.hypot(head.x-foot.x,head.y-foot.y),palm=this.anchorPoint('hand'),staff=this.anchorPoint('tip'),scene=this.engine.scene;this.unit=unit;const mode=this.plan.mode;
+ if(this.auraEnabled&&mode!=='defeat'){const phase=(t%4)/4;this.draw('seal',4+Math.sin(phase*Math.PI*2)*1.8,{x:foot.x,y:foot.y+3},unit*1.18,{stretch:.3,alpha:.8});}
+ if(['attack','skill','ultimate'].includes(mode)){
+  const end=mode==='ultimate'?3.8:mode==='skill'?3.2:1.1;this.seq('seal',t,0,end,staff,unit*(mode==='ultimate'?.8:.52));
+  if(mode==='skill')for(let i=0;i<3;i++){const a=-Math.PI/2+i*Math.PI*2/3;this.seq('seal',t,.15+i*.1,3.75,{x:staff.x+Math.cos(a)*unit*.48,y:staff.y+Math.sin(a)*unit*.35},unit*.63);}
+ }
+ if(mode==='attack'||mode==='skill')for(let i=0;i<this.plan.contacts.length;i++){
+  const hit=this.plan.contacts[i],target=this.targets[mode==='attack'?0:i%this.targets.length],end=this.point(target),start=mode==='skill'?{x:staff.x+unit*.32,y:staff.y+Math.sin(i*2)*unit*.3}:palm,launch=hit-.65;
+  if(t>=launch&&t<hit){const q=clamp((t-launch)/.65),pt={x:mix(start.x,end.x,q),y:mix(start.y,end.y,q)},angle=Math.atan2(end.y-start.y,end.x-start.x);this.draw('lance',3+q*4,pt,unit*1.25,{angle,anchor:{x:.86,y:.5}});}
+  if(t>=hit&&t<=hit+.55)this.draw('lance',8+clamp((t-hit)/.55)*3,end,unit*1.35,{anchor:{x:.72,y:.5},alpha:clamp((hit+.55-t)/.18)});
+  this.contactChecks.push({at:hit,targetId:target.id,from:start,to:end,mapping:'PROJECTILE_TIP_TO_TARGET_CHEST'});
+ }
+ if(mode==='ultimate'){
+  const feet=this.targets.map(a=>this.point(a,0)),center={x:feet.reduce((s,p)=>s+p.x,0)/feet.length,y:feet.reduce((s,p)=>s+p.y,0)/feet.length},top=Math.min(...this.targets.map(a=>this.point(a,.8).y));
+  const sealSize=Math.min(unit*2.5,scene.width*.42),sky={x:center.x,y:Math.max(sealSize*.22+20,top-unit*.25)};
+  this.seq('seal',t,.2,4.8,sky,sealSize,{stretch:.42});this.seq('seal',t,.5,4.4,{x:sky.x,y:sky.y-unit*.23},sealSize*.7,{stretch:.42});
+  for(let i=0;i<this.targets.length;i++){const hit=this.plan.contacts[i],at=feet[i],size=Math.min(unit*(i===0?3.1:1.45),(at.y-24)/.89);if(t>=hit-1.0&&t<=hit+1.6){const frame=t<hit?clamp((t-hit+1)/1)*5:5+clamp((t-hit)/1.6)*6;this.draw('fall',frame,at,size,{alpha:clamp((hit+1.6-t)/.4)});}this.contactChecks.push({at:hit,targetId:this.targets[i].id,from:{x:at.x,y:at.y-unit*1.6},to:at,mapping:'CRYSTAL_CONTACT_TO_TARGET_GROUND'});}
+ }
+ if(mode==='dash'&&t<1.4)this.seq('seal',t,.15,1.3,foot,unit*.9,{stretch:.34,alpha:.7});
+ for(const hit of state.contacts){const index=this.plan.contacts.indexOf(hit.at),a=this.targets[mode==='attack'?0:index%this.targets.length];a.fullBodySprite.tint=0x8adfff;if(!this.reducedMotion)a.view.x+=Math.sin(hit.age*60)*2;}
+ this.onUpdate(this);
+ }
+ diagnostics(){return{ready:!this.destroyed,mode:this.plan.mode,time:this.time,playing:this.playing,speed:this.speed,pose:this.sample.pose,cancelled:this.sample.cancelled,visibleSprites:this.pool.filter(s=>s.visible).length,activeFrames:this.activeFrames,contacts:this.contactChecks,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,effectLayers:this.engine.effectLayer.children.filter(c=>c.label==='SapphireFX').length,motionOnly:this.motionOnly,auraEnabled:this.auraEnabled,reducedMotion:this.reducedMotion,clockOwner:'V3_REGISTERED_GSAP',damageAuthority:'NONE_VISUAL_PREVIEW',unit:this.unit};}
+ destroy(){if(this.destroyed)return;this.cancel();this.layer.destroy({children:true});for(const a of [...Object.values(this.assets.motion),...Object.values(this.assets.effects)])for(const tex of a)tex.destroy(false);this.destroyed=true;this.pool=[];}
+}

@@ -1,0 +1,276 @@
+{
+  "date": "2026-10-13T19:40:34.313Z",
+  "screens": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "checks": [
+        {
+          "mode": "aura",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "dash",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "attack",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "skill",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "ultimate",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "hit",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "defeat",
+          "clips": 0,
+          "groundError": 0
+        }
+      ],
+      "rates": [
+        {
+          "speed": 0.25,
+          "elapsed": 0.12625
+        },
+        {
+          "speed": 0.5,
+          "elapsed": 0.254
+        },
+        {
+          "speed": 2,
+          "elapsed": 1.008
+        }
+      ],
+      "contacts": [
+        {
+          "mode": "attack",
+          "at": 1.35,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.5,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.86,
+          "targetId": "CN-25F931CE393D474E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.22,
+          "targetId": "CN-23EB4B19986D4818",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.58,
+          "targetId": "CN-02D9DC1E8A8A4209",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.65,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.75,
+          "targetId": "CN-25F931CE393D474E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.85,
+          "targetId": "CN-23EB4B19986D4818",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.95,
+          "targetId": "CN-02D9DC1E8A8A4209",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.05,
+          "targetId": "CN-0505936A0CBB4E59",
+          "error": 0
+        }
+      ],
+      "pause": "PASS",
+      "cancellation": "PASS",
+      "targetLoss": "PASS",
+      "effectsOff": "PASS",
+      "reducedMotion": "PASS",
+      "fullSpeedShowcase": "PASS",
+      "cleanup": {
+        "timelines": 0,
+        "effectLayers": 1,
+        "visible": 0,
+        "destroyed": true,
+        "pool": 0
+      },
+      "height": 1490
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        {
+          "mode": "aura",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "dash",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "attack",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "skill",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "ultimate",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "hit",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "defeat",
+          "clips": 0,
+          "groundError": 0
+        }
+      ],
+      "rates": [
+        {
+          "speed": 0.25,
+          "elapsed": 0.12925
+        },
+        {
+          "speed": 0.5,
+          "elapsed": 0.2535
+        },
+        {
+          "speed": 2,
+          "elapsed": 1.032
+        }
+      ],
+      "contacts": [
+        {
+          "mode": "attack",
+          "at": 1.35,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.5,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.86,
+          "targetId": "CN-25F931CE393D474E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.22,
+          "targetId": "CN-23EB4B19986D4818",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.58,
+          "targetId": "CN-0505936A0CBB4E59",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.65,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.75,
+          "targetId": "CN-25F931CE393D474E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.85,
+          "targetId": "CN-23EB4B19986D4818",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.95,
+          "targetId": "CN-0505936A0CBB4E59",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.05,
+          "targetId": "CN-02D9DC1E8A8A4209",
+          "error": 0
+        }
+      ],
+      "pause": "PASS",
+      "cancellation": "PASS",
+      "targetLoss": "PASS",
+      "effectsOff": "PASS",
+      "reducedMotion": "PASS",
+      "fullSpeedShowcase": "PASS",
+      "cleanup": {
+        "timelines": 0,
+        "effectLayers": 1,
+        "visible": 0,
+        "destroyed": true,
+        "pool": 0
+      },
+      "height": 1993
+    }
+  ],
+  "errors": [],
+  "status": "PASS",
+  "bundleSha256": "e5c94578919eb63ceea25e7265cf6aa1edf359cab7099a223ec38c23ac29eeed"
+}
