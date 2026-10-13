@@ -16,3 +16,9 @@
 
 - 직전 운영 Pages `9997a534-55f7-41de-9dca-624f18ddb78b`, 소스 `a4cda3180fa5b461b3167ad0e92c079c250a10f2`.
 - `npm run deploy:production -- --scoped` 사용. 경제·보상·공통 DB·인증 변경이 없는 국소 표시 수정이다.
+
+## 완료
+
+- 크라이번 관련 회귀 6건, 협동 서버 회귀 4건 통과. 메인 로더 버전 일치 검사가 누락된 app.js 상수를 찾아 수정한 뒤 해당 입장 검사 9건만 재실행하여 통과했다.
+- 운영 소스 `4ff6167c9`, Pages `784574af.cnine-card.pages.dev`, API runtime `9339fb5a-822f-4908-b8e4-24eeb8574871` 배포 완료.
+- 운영 기본 도메인의 app.js, 라이브 래퍼, 실제 전투 번들, service-worker.js가 로컬 파일과 SHA-256 일치. 셸 캐시는 `20261014-coop-loading-formation`.
