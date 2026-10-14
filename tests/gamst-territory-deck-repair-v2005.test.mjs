@@ -122,6 +122,8 @@ test('health가 일회 복구를 실행하고 영토전 진입 전에 전투력 
   assert.match(territory,/ensureGamstDeckRepairV2005\(env\)/);
   assert.match(territory,/refreshGamstRepairedTerritoryFormations\(env,deps\)/);
   assert.match(territory,/formation_breakdown_json LIKE \?/);
-  assert.match(territory,/json_array_length\(CASE WHEN json_valid\(w\.deck_snapshot\)/);
-  assert.match(territory,/COUNT\(DISTINCT uc\.card_id\)[\s\S]*COALESCE\(uc\.quantity,0\)>0\)=5/);
+  assert.match(territory,/json_each\(CASE WHEN json_valid\(w\.deck_snapshot\)/);
+  assert.match(territory,/uc\.user_id=w\.user_id AND uc\.card_id=c\.id AND COALESCE\(uc\.quantity,0\)>0/);
+  assert.match(territory,/valid=users\.filter\(row=>\(deckMap\.get\(Number\(row\.user_id\)\)\|\|\[\]\)\.length===5\)/);
+  assert.match(territory,/deck\.length!==5\|\|new Set\(deck\.map\(card=>String\(card\.id\)\)\)\.size!==5/);
 });
