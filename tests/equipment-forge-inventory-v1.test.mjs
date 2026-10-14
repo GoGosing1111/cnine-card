@@ -1,3 +1,6 @@
+import {ensureWormContestGiftCatalog} from '../functions/_worm_contest_gift.js';
+import {ensureMercenarySssShardCatalog} from '../functions/_mercenary_sss_shard.js';
+import {ensureSssRerollCatalog,presentSssRerollInventory} from '../functions/_mercenary_sss_reroll.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -19,7 +22,7 @@ const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url
 const body=api.slice(api.indexOf("    if(path==='inventory'){"),api.indexOf("    if(path==='inventory/seen'"));
 assert(body.includes('ensureForgeProtectionCatalog'));
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
-const inventoryRoute=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,LICH_TICKET,MADARA_TICKET,presentMiracleInventory}=deps;
+const inventoryRoute=new AsyncFunction('deps',`const {env,request,authenticate,json,ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,LICH_TICKET,MADARA_TICKET,presentMiracleInventory,ensureWormContestGiftCatalog,ensureMercenarySssShardCatalog,ensureSssRerollCatalog,presentSssRerollInventory}=deps;
 const path='inventory',ensureTournamentGiftCatalog=async()=>{},ensureFundingGiftCatalog=async()=>{},ensureRecruitmentGiftCatalog=async()=>{},ensurePingduThanksGiftCatalog=async()=>{},ensureSkillChipFoundation=async()=>{},ensureBattleSuitCoreCatalog=async()=>{},ensureUniqueAdvancementPassCatalog=async()=>{},ensureMysticEnergyCatalog=async()=>{},blackMiracleSettings=async()=>({enabled:false}),UNIQUE_ADVANCEMENT_PASS_CODE='UNIQUE_ADVANCEMENT_PASS';${body}`);
 
 for(const postgres of [false,true]){
@@ -53,7 +56,7 @@ for(const postgres of [false,true]){
     const f=await forgeFixture(t,{postgres});
     await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,?,3,1)',FORGE_PROTECTION_ITEM.code).run();
     await f.p('INSERT INTO cnine_user_inventory(user_id,item_code,quantity) VALUES(8,?,99)',FORGE_PROTECTION_ITEM.code).run();
-    const deps={env:f.env,request:new Request('https://qa.test/api/inventory'),authenticate:async()=>f.user,json:(body,status=200)=>({body,status}),ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,LICH_TICKET,MADARA_TICKET,presentMiracleInventory};
+    const deps={env:f.env,request:new Request('https://qa.test/api/inventory'),authenticate:async()=>f.user,json:(body,status=200)=>({body,status}),ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM,ensureForgeRepairCatalog,FORGE_REPAIR_ITEM,ensureForgeScrollCatalog,ensureEmperorEnergyCatalog,ensurePetOpeningItems,ensurePetPotentialItem,LICH_TICKET,MADARA_TICKET,presentMiracleInventory,ensureWormContestGiftCatalog,ensureMercenarySssShardCatalog,ensureSssRerollCatalog,presentSssRerollInventory};
     const response=await inventoryRoute(deps),item=response.body.items.find(item=>item.code===FORGE_PROTECTION_ITEM.code);
     assert.equal(response.status,200);assert.equal(item.quantity,3);assert.equal(item.unseenQuantity,1);assert.equal(item.image,FORGE_PROTECTION_ITEM.image);assert.equal(item.usable,false);assert.match(item.useDisabledMessage,/장비 강화/);
     assert.equal(await f.qty(FORGE_PROTECTION_ITEM.code),3);assert.equal(await f.coin(),10000000);
