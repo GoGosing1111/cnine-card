@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {build} from 'esbuild';
 import {TextStyle, path as pixiPath} from 'pixi.js';
 import {ACTION_LIMIT, BATTLE_SUIT, CARD_IDS, IdleSession, MAX_TRAINING, STAGES, STORAGE_KEY, VERSION, ZONES,
   buildPreviewDeck, farmableStages, freshState, powerMultiplier, restoreState, simulateStage, trainingCost}
@@ -230,12 +231,16 @@ test('Pages extensionless battle redirects keep Pixi backgrounds and scripts at 
   }
 });
 
-test('preview has no production UI entry, API mutations or independent Pixi/GSAP copy', () => {
+test('preview has no production UI entry, API mutations or independent Pixi/GSAP copy', async () => {
   for (const file of ['index.html', 'js/app.js', 'functions/api/[[path]].js', 'js/pve-command-v2-live.js']) {
     assert.doesNotMatch(read(file), /idle-v3-v1/);
   }
   const bundle = read('preview/idle-v3-v1/app.bundle.js');
-  assert.ok(Buffer.byteLength(bundle) < 90000);
+  // Shared combat rules now include mercenaries/pets. Bound that small simulator
+  // separately from renderer libraries and inspect the real build dependency graph.
+  assert.ok(Buffer.byteLength(bundle) < 256*1024);
+  const rebuilt=await build({entryPoints:['preview/idle-v3-v1/source/idle-app.mjs'],bundle:true,minify:true,format:'iife',target:['es2022'],legalComments:'none',write:false,metafile:true,logLevel:'silent'});
+  for(const [input,usage] of Object.entries(Object.values(rebuilt.metafile.outputs)[0].inputs))if(usage.bytesInOutput>0)assert.doesNotMatch(input,/node_modules\/(?:pixi\.js|gsap)\//);
   assert.doesNotMatch(bundle, /\/api\/|method:\s*["']POST["']|gsap\.timeline|new Application/);
 });
 test('silent bridge disposes the mixer before playback and never changes the live sound preference', async () => {
