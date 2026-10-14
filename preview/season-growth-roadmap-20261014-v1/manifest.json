@@ -1,0 +1,64 @@
+{
+  "title": "숲켓몬 시즌 로드맵 — 성장",
+  "status": "DELIVERED_FOR_USER_VISUAL_REVIEW",
+  "generationMode": "built-in image_gen",
+  "artwork": {
+    "path": "preview/season-growth-roadmap-20261014-v1/art-source-v1.png",
+    "sha256": "c4115814b35cebc39003b70a75cad9e6231803a7f40ebeaea2d13b0f42e06816",
+    "originalBytesPreserved": true
+  },
+  "poster": {
+    "path": "assets/posters/soopketmon-season-growth-roadmap-20261014-v1.png",
+    "sha256": "100d777a1956a7c1a66b1d28611953f0be189a8c16677c27a6053eac0c7bec4b",
+    "width": 2160,
+    "height": 3240,
+    "mimeType": "image/png"
+  },
+  "editableSource": "preview/season-growth-roadmap-20261014-v1/index.html",
+  "prompt": "preview/season-growth-roadmap-20261014-v1/prompt.json",
+  "fonts": [
+    {
+      "name": "Noto Sans KR",
+      "file": "assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+      "license": "assets/fonts/lich-raid/NotoSansKR-OFL.txt"
+    },
+    {
+      "name": "Black Han Sans",
+      "file": "assets/fonts/clan-camp/BlackHanSans-Regular.ttf",
+      "license": "assets/fonts/clan-camp/BlackHanSans-OFL.txt"
+    },
+    {
+      "name": "IBM Plex Mono Medium",
+      "file": "assets/fonts/clan-camp/IBMPlexMono-Medium.ttf",
+      "license": "assets/fonts/clan-camp/IBMPlexMono-OFL.txt"
+    }
+  ],
+  "scope": "포스터 자산과 편집용 프리뷰만 추가. 게임 동작·경제·확률·기능 활성화·공지 등록 변경 없음.",
+  "copy": [
+    "숲켓몬",
+    "SEASON ROADMAP",
+    "이번 시즌의 키워드",
+    "성장",
+    "플레이를 통한",
+    "손실 없는 성장",
+    "단계별로 클리어하고,",
+    "내 캐릭터가 강해지는 계단.",
+    "GROWTH PATH",
+    "01",
+    "단계별 클리어",
+    "한 계단씩 강해지는 내 캐릭터",
+    "02",
+    "SSS 조각으로 제작",
+    "조각을 모아 완성하는 SSS 용병",
+    "03",
+    "군단토벌 · 용병 장비",
+    "토벌을 통해 차근차근 장비 완성",
+    "04",
+    "칭호 · 트로피 획득",
+    "오직 노력으로 내실 다지기",
+    "NEXT SEASON",
+    "다음 시즌의 키워드",
+    "카드 · 용병의 전술과 조합"
+  ],
+  "qa": "preview/season-growth-roadmap-20261014-v1/qa/render-check.json"
+}

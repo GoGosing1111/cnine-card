@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>숲켓몬 | 이번 시즌의 키워드, 성장</title>
+  <link rel="stylesheet" href="./poster.css">
+</head>
+<body>
+  <main class="stage" aria-label="숲켓몬 시즌 성장 로드맵 포스터">
+    <article class="poster">
+      <img class="art" src="./art-source-v1.png" alt="빛나는 계단을 오르는 캐릭터. 계단 위로 SSS 조각과 카드, 용병 장비, 황금 트로피가 이어진다.">
+      <div class="readability" aria-hidden="true"></div>
+      <header class="masthead">
+        <span class="brand">숲켓몬</span>
+        <span class="edition">SEASON ROADMAP</span>
+      </header>
+      <section class="hero">
+        <p class="eyebrow">이번 시즌의 키워드</p>
+        <h1>성장</h1>
+        <p class="promise">플레이를 통한<br><strong>손실 없는 성장</strong></p>
+        <p class="intro">단계별로 클리어하고,<br>내 캐릭터가 강해지는 계단.</p>
+      </section>
+      <section class="roadmap" aria-label="이번 시즌의 성장 단계">
+        <p class="path-label"><span></span> GROWTH PATH</p>
+        <ol>
+          <li><span class="number">01</span><div><h2>단계별 클리어</h2><p>한 계단씩 강해지는 내 캐릭터</p></div></li>
+          <li><span class="number">02</span><div><h2>SSS 조각으로 제작</h2><p>조각을 모아 완성하는 SSS 용병</p></div></li>
+          <li><span class="number">03</span><div><h2>군단토벌 · 용병 장비</h2><p>토벌을 통해 차근차근 장비 완성</p></div></li>
+          <li><span class="number">04</span><div><h2>칭호 · 트로피 획득</h2><p>오직 노력으로 내실 다지기</p></div></li>
+        </ol>
+      </section>
+      <footer class="next-season">
+        <div class="next-rule"></div>
+        <div class="next-heading"><span>NEXT SEASON</span><p>다음 시즌의 키워드</p></div>
+        <p class="next-title">카드 · 용병의 <strong>전술과 조합</strong></p>
+      </footer>
+    </article>
+  </main>
+  <script>
+    const exporting = new URLSearchParams(location.search).has('export');
+    if (exporting) document.body.classList.add('export');
+    const stage = document.querySelector('.stage');
+    const poster = document.querySelector('.poster');
+    function fitPoster() {
+      const width = exporting ? 1080 : Math.min(1080, document.documentElement.clientWidth);
+      stage.style.width = width + 'px';
+      stage.style.height = width * 1.5 + 'px';
+      poster.style.transform = 'scale(' + width / 1080 + ')';
+    }
+    fitPoster();
+    if (!exporting) new ResizeObserver(fitPoster).observe(document.documentElement);
+  </script>
+</body>
+</html>
+
