@@ -1,10 +1,20 @@
 # 시라누이 · AR 연발·중앙 중포대
 
+## 현재 V5 · 진무 방식의 백호 아우라만 교체
+
+최신 사용자 정정 **“아우라를 탄환에서 백호느낌으로 진무 보고 만들면 되는데”**, **“왜 백호 공격을 만들고 있어”**를 최우선으로 반영했다. **주변 아우라만 변경**했다. 진무의 실제 아우라 화면·원본·`GoldenDragonFX.js`를 확인하고, 어깨 뒤 백호 머리와 몸 둘레를 감싸는 백색 기운, 낮은 앞쪽 기운을 별도 계층으로 연결했다. 기존 총기·AR 9발 평타·30발 스킬/해골·25발 엄호/중앙 포격 5회·머리 광륜·카이론 동급 성능은 유지한다.
+
+- 사용 원본: `assets/sources/white-tiger-wrap-v5-padded.png`, 실제 작화 4프레임. 코 기준점을 정합하고 12초로 천천히 진행/복귀한다. 위치와 크기는 전체 반복 구간에서 고정한다.
+- 원본 알파를 뒤/앞 계층으로 상보 분할한다. 얼굴·총기 앞에는 뒤 계층이 올라오지 않는다. 격리된 투명 계층 안에서 두 프레임의 색을 합산해 교차 시 밝기 저하를 줄인다.
+- `pack-tiger-aura-v5.mjs`, `prompts/white-tiger-wrap-v5*.json`, `qa/aura-v5/`가 현재 대응 자료다. 아우라 레이어 파생본을 중복 작화로 세지 않는다. 고유 효과 56+4=60프레임이다.
+- 잘못 확대한 백호 본체/공격/포효/발톱 생성은 **반려 이력으로만 보존**, manifest 재생 목록과 실제 공격 함수에 연결하지 않았다. 이전 탄환 아우라도 `previewEnabled:false`다. 새 아우라의 최종 시각 승인은 별도다.
+- 공정·범위 보존·검수는 `../../docs/shiranui-white-tiger-aura-20261015.md`에 기록한다. 아래 V4 및 초기 백호 제안은 이력이며 최신 범위를 대체하지 않는다.
+
 ## 2026-10-15 이름 확정 · 주변 아우라 재검토
 
 사용자 **“시라누이로 짓고”**로 이름은 **시라누이(不知火)**로 확정했다. 칭호는 미정이며 카이론 동급 성능은 유지한다. 백은 탄환·탄도 궤적·발밑 은빛 파동을 두르는 주변 아우라 V4는 어울리지 않는다고 반려했다. 아래 V4 제작·검수 자료와 기존 프리뷰는 비교용 이력으로 보존하며 승인본으로 취급하지 않는다.
 
-사용자는 대체 후보로 늑대·백호를 제시했다. 현재 제안은 등 뒤에 흰 불꽃과 선명한 검은 줄무늬의 큰 영체 백호를 배치하고, 대기 중에는 고정 위치에서 천천히 호흡하게 만드는 방향이다. **백호 선택·새 효과 제작은 아직 미확정**이다. 머리 뒤 광륜·캐릭터/총기 원본·AR 연발·중앙 중포대는 유지한다.
+사용자는 대체 후보로 늑대·백호를 제시했고 이후 백호 아우라 제작을 지시했다. 백호를 별도 공격 동작으로 확대한 중간 제안은 반려됐으며, 위 최신 V5 아우라 범위를 따른다.
 
 ## 2026-10-15 성능 기준 확정
 
@@ -76,14 +86,16 @@
 node preview/mercenary-monochrome-artillery-battle-v1/pack-ar-v3.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/pack-fx-v3.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/pack-aura-v4.mjs
+node preview/mercenary-monochrome-artillery-battle-v1/pack-tiger-aura-v5.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/build-source-index.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/save-combat-preparation.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/build.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/qa-ar-v3.test.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/serve.mjs
 # 별도 터미널
-node preview/mercenary-monochrome-artillery-battle-v1/qa-aura-v4.mjs
-node preview/mercenary-monochrome-artillery-battle-v1/inspect-aura-v4-video.mjs
+node preview/mercenary-monochrome-artillery-battle-v1/qa-tiger-aura-v5.test.mjs
+node preview/mercenary-monochrome-artillery-battle-v1/qa-aura-v5.mjs
+node preview/mercenary-monochrome-artillery-battle-v1/inspect-aura-v5-video.mjs
 ```
 
 프리뷰: http://127.0.0.1:8877/preview/mercenary-monochrome-artillery-battle-v1/

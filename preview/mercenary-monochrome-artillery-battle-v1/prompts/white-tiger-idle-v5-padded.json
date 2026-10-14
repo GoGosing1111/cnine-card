@@ -1,0 +1,10 @@
+{
+  "version": 5,
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "role": "Idle frame gutter correction",
+  "references": [
+    "assets/sources/white-tiger-idle-v5.png"
+  ],
+  "prompt": "Use case: precise-object-edit. Edit this exact 2x2 WHITE TIGER idle animation sheet into a usable transparent sprite atlas. Preserve the four existing tiger designs, detailed face, stripe shapes, white/black palette, same upright front paws, same relative scale in all 4 frames, and tiny genuine breathing differences. Correct ONLY cell padding and cut-off white flames. In EVERY cell uniformly reduce the entire tiger and all flames to 72% of its present size, centered within that cell. Complete any previously clipped flame tips. There MUST be at least 15% completely EMPTY TRANSPARENT gutter on all four sides of EACH of the FOUR square cells. Keep head, paws and spirit-tail fully contained. NONE of the flames may touch the outside sheet edges or interior grid boundaries. Exactly 2 columns and 2 rows, no extra cell, no text or visible grid, no painted checkerboard. Real alpha transparent background. Prefer 2048x2048. Do not add character, scenery, ring, floor ripple or bullets. Clean 2D fantasy illustration, same fixed camera and paws grounded at one registered baseline."
+}

@@ -1,0 +1,10 @@
+{
+  "version": 5,
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "role": "4 braced gaze frames",
+  "references": [
+    "assets/sources/white-tiger-idle-v5-padded.png"
+  ],
+  "prompt": "Use case: stylized-concept. Create a NEW animation sprite sheet based on this exact WHITE TIGER guardian reference sheet. Preserve this same feline identity, charcoal stripe pattern, broad feline muzzle, round ears, two huge forepaws, flowing white spirit-fire and graphite-white palette. True transparent alpha, no human, no guns, no halo, no bullets, no ground circles. The four poses must be distinct hand-painted phases of ONE continuous animation, not repeated stills. High-end 2D anime fantasy forms and fine painterly fur, NOT photoreal. SAME three-quarter front camera facing a little toward screen RIGHT, same tiger size and front-paw baseline in all frames. Total sheet exactly2 columns by2rows, 4squarecells; prefer2048x2048. Entire tiger, both forepaws and ALL flames must fit inside EACH cell with at least15% EMPTY TRANSPARENT margin on ALL sides. Flame tails cannot cross cell boundaries. NO text, drawn grid or checkerboard. Keep the compact arch of body and curved spirit-tail, don't make a full horizontal running tiger. Dense white facial structure with black stripes, luminous WHITE eyes, no blue/cyan/gold/violet/red. Action: BRACED HUNTING GAZE, the tiger steadily lowers its head toward enemies at screen RIGHT while bracing the forelegs and increasing shoulder/back fire. It is supporting sustained automatic rifle fire without moving around. Frame1 head begins to lower, ears focus, mouth closed. Frame2 head lowered slightly, brow intense, lips start a restrained snarl. Frame3 fully focused low braced gaze, very small exposed upper fangs, shoulder fire rises. Frame4 continues the same braced stance with breathing and changing fire tongues. Paws remain firmly planted, exact baseline and same size as reference, head lowering must result from neck/jaw articulation not scaling whole image. No jumping or lunge or howling upward. Sharp nose, eyes, teeth and whiskers. Maintain readable face rather than blank white bloom."
+}

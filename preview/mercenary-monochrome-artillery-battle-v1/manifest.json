@@ -2967,6 +2967,289 @@
           },
           "maxBorderAlpha": 8
         }
+      ],
+      "previewEnabled": false
+    },
+    "white-tiger-aura": {
+      "atlas": "assets/atlases/white-tiger-aura-v5.png",
+      "sha256": "8c0aa5faf08999578baa8f99cc6287bf41865a8d9548dc4eaa0482106c81bac7",
+      "source": "assets/sources/white-tiger-wrap-v5-padded.png",
+      "sourceSha256": "c207253c3fff8ba927013e8842bf386a02f2d5ebd5054b806ab6d603134276ca",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 723,
+      "frameCount": 4,
+      "previewEnabled": false,
+      "derivedAlphaLayer": null,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/white-tiger-aura-v5-0.png",
+          "sha256": "1f99710654328cb60c85651c2d9aca52e38d041d47e0fcb578919ac42034e401",
+          "anchor": {
+            "x": 0.8022130013831259,
+            "y": 0.40387275242047027
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "noseSource": {
+            "x": 532,
+            "y": 244
+          },
+          "maxBorderAlpha": 1
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/white-tiger-aura-v5-1.png",
+          "sha256": "23acfa94d870dcd0039b6c3201bcfc82c5a806b320f12c38b69edfd93322e501",
+          "anchor": {
+            "x": 0.7897648686030428,
+            "y": 0.4107883817427386
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "noseSource": {
+            "x": 523,
+            "y": 249
+          },
+          "maxBorderAlpha": 1
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/white-tiger-aura-v5-2.png",
+          "sha256": "b3915eb7f1f55f84f17f41f76ffb60f29709ebc25642bbaf2f1412e35bf71779",
+          "anchor": {
+            "x": 0.8035961272475796,
+            "y": 0.40387275242047027
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "noseSource": {
+            "x": 533,
+            "y": 244
+          },
+          "maxBorderAlpha": 1
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/white-tiger-aura-v5-3.png",
+          "sha256": "8ac10ebd19275b1cd1caeb420a05d9333ea856819795dcd287bfd9e8021cc0cc",
+          "anchor": {
+            "x": 0.7869986168741355,
+            "y": 0.40387275242047027
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "noseSource": {
+            "x": 521,
+            "y": 244
+          },
+          "maxBorderAlpha": 1
+        }
+      ]
+    },
+    "white-tiger-aura-rear": {
+      "atlas": "assets/atlases/white-tiger-aura-rear-v5.png",
+      "sha256": "414434256bd2fce14c366937e35f199d90faf551303c388a204176f665fad263",
+      "source": "assets/sources/white-tiger-wrap-v5-padded.png",
+      "sourceSha256": "c207253c3fff8ba927013e8842bf386a02f2d5ebd5054b806ab6d603134276ca",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 723,
+      "frameCount": 4,
+      "previewEnabled": true,
+      "derivedAlphaLayer": "REAR",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/white-tiger-aura-rear-v5-0.png",
+          "sha256": "3161c88dc4ac4d1a8e9db931575b6e4fe2a0d012f90e7329a159af20cc524c77",
+          "anchor": {
+            "x": 0.8022130013831259,
+            "y": 0.40387275242047027
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "noseSource": {
+            "x": 532,
+            "y": 244
+          },
+          "maxBorderAlpha": 1
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/white-tiger-aura-rear-v5-1.png",
+          "sha256": "3552cde04a7017677e605132a261c1da8bbbddca9aa2c4322e757cce86eb3e25",
+          "anchor": {
+            "x": 0.7897648686030428,
+            "y": 0.4107883817427386
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "noseSource": {
+            "x": 523,
+            "y": 249
+          },
+          "maxBorderAlpha": 1
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/white-tiger-aura-rear-v5-2.png",
+          "sha256": "783b55185b320be5d872966e30f35bdbdbc1af0296ee965a6dcddc9c1d601865",
+          "anchor": {
+            "x": 0.8035961272475796,
+            "y": 0.40387275242047027
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "noseSource": {
+            "x": 533,
+            "y": 244
+          },
+          "maxBorderAlpha": 1
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/white-tiger-aura-rear-v5-3.png",
+          "sha256": "358da3f2a6e8ce9a0605c57e4aac84731f5dfc96de6d6e028e4eacebd2513a50",
+          "anchor": {
+            "x": 0.7869986168741355,
+            "y": 0.40387275242047027
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "noseSource": {
+            "x": 521,
+            "y": 244
+          },
+          "maxBorderAlpha": 1
+        }
+      ]
+    },
+    "white-tiger-aura-front": {
+      "atlas": "assets/atlases/white-tiger-aura-front-v5.png",
+      "sha256": "a9fc4b77d6ad11d20d1d0ca112960097c08a3233d126a6cb5f1efd6d00fbdab7",
+      "source": "assets/sources/white-tiger-wrap-v5-padded.png",
+      "sourceSha256": "c207253c3fff8ba927013e8842bf386a02f2d5ebd5054b806ab6d603134276ca",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 723,
+      "frameCount": 4,
+      "previewEnabled": true,
+      "derivedAlphaLayer": "FRONT",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/white-tiger-aura-front-v5-0.png",
+          "sha256": "7b7c2d030e724dbc45b67bbd107cf2374575363301e2bffbe842b062f3bf09ba",
+          "anchor": {
+            "x": 0.8022130013831259,
+            "y": 0.40387275242047027
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "noseSource": {
+            "x": 532,
+            "y": 244
+          },
+          "maxBorderAlpha": 1
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/white-tiger-aura-front-v5-1.png",
+          "sha256": "0266240c612b849ead8ad8c622d76a017d8a767485ef06d5632f49365ee1c9dc",
+          "anchor": {
+            "x": 0.7897648686030428,
+            "y": 0.4107883817427386
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "noseSource": {
+            "x": 523,
+            "y": 249
+          },
+          "maxBorderAlpha": 1
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/white-tiger-aura-front-v5-2.png",
+          "sha256": "a0c7a555bf6f605612a75e60b54edb563ee9a3d913e250d50b38065738f36e9c",
+          "anchor": {
+            "x": 0.8035961272475796,
+            "y": 0.40387275242047027
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "noseSource": {
+            "x": 533,
+            "y": 244
+          },
+          "maxBorderAlpha": 1
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/white-tiger-aura-front-v5-3.png",
+          "sha256": "2c3edb1f0474544d64f01ce1609b52671c9f2f51a7befe6a2db16fa6d4c80e24",
+          "anchor": {
+            "x": 0.7869986168741355,
+            "y": 0.40387275242047027
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "noseSource": {
+            "x": 521,
+            "y": 244
+          },
+          "maxBorderAlpha": 1
+        }
       ]
     }
   },
@@ -2995,7 +3278,14 @@
     "body-aim.png",
     "body-skill.png",
     "body-command.png",
-    "body-move-rejected.png"
+    "body-move-rejected.png",
+    "ballistic-aura-v4.png",
+    "white-tiger-idle-v5.png",
+    "white-tiger-idle-v5-padded.png",
+    "white-tiger-aim-v5.png",
+    "white-tiger-roar-v5.png",
+    "white-tiger-claw-v5.png",
+    "white-tiger-wrap-v5.png"
   ],
   "battleSprite": "preview/mercenary-monochrome-artillery-battle-v1/assets/frames/ar-v3-0.png",
   "battleSpriteSha256": "07309373c5453d0389238d63a46ffa721dad22a3e43441d6f532fe76a6265057",
@@ -3007,24 +3297,24 @@
   "counts": {
     "motion": 4,
     "retainedMotion": 5,
-    "effects": 68,
-    "retainedEffects": 36
+    "effects": 60,
+    "retainedEffects": 48
   },
   "sourceIndex": "source-index.json",
   "productionNotes": "README.md",
   "qa": {
     "assets": "qa-ar-v3.test.mjs",
-    "runtime": "qa/aura-v4/runtime-report.json",
-    "video": "qa/aura-v4/video-inspection.json",
-    "completeCharacter": "qa/aura-v4/desktop-aura-3.png",
+    "runtime": "qa/aura-v5/runtime-report.json",
+    "video": "qa/aura-v5/video-inspection.json",
+    "completeCharacter": "qa/aura-v5/desktop-aura-3.png",
     "headDetail": "qa/head-detail.png",
     "arV3": "qa/ar-v3/runtime-report.json",
     "legacyAssets": "qa-assets.test.mjs",
     "legacyRuntime": "qa/runtime-report.json",
     "legacyVideo": "qa/video-inspection.json",
-    "bodyAura": "qa/aura-v4/runtime-report.json"
+    "bodyAura": "qa/aura-v5/runtime-report.json"
   },
-  "revision": "AR_AUTO_CENTRAL_BARRAGE_WITH_BALLISTIC_AURA_V4",
+  "revision": "SHIRANUI_WHITE_TIGER_AMBIENT_AURA_V5",
   "arRecoil": {
     "fixedHead": true,
     "fixedFeet": true,
@@ -3039,14 +3329,30 @@
     "wideFormationBlast": true
   },
   "bodyAura": {
-    "source": "ballistic-aura",
-    "layer": "BEHIND_BODY_AND_HEAD_HALO",
-    "anchor": "REGISTERED_GROUND_RIPPLE",
+    "source": "white-tiger-aura",
+    "rear": "white-tiger-aura-rear",
+    "front": "white-tiger-aura-front",
+    "reference": "preview/mercenary-golden-dragon-battle-v1/source/GoldenDragonFX.js",
+    "layer": "JINMU_STYLE_REAR_AND_LOW_FOREGROUND",
+    "anchor": "FIXED_TIGER_NOSE",
     "cycleSeconds": 12,
     "phase": "COSINE_FORWARD_REVERSE",
+    "noseOffset": {
+      "x": 0.48,
+      "y": -0.94
+    },
+    "sizeInBodyHeights": 2.15,
+    "envelope": {
+      "left": -0.6224066390041494,
+      "right": 0.03734439834024896,
+      "top": -0.22821576763485477,
+      "bottom": 0.42047026279391425
+    },
     "fixedPosition": true,
     "fixedScale": true,
-    "shotsAndBodyUnchanged": true
+    "shotsAndBodyUnchanged": true,
+    "ambientOnly": true,
+    "attackEffectsAdded": false
   },
   "combatPreparation": {
     "file": "combat-preparation-20261015.json",

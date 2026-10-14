@@ -1,0 +1,18 @@
+{
+  "version": 5,
+  "tool": "built-in image_gen",
+  "useCase": "stylized-concept",
+  "transparent_background": true,
+  "role": "4 authored idle guardian frames",
+  "references": [
+    {
+      "path": "preview/monochrome-gunner-illustration-20261015-v1/monochrome-gunner-ballistic-aura-v3.png",
+      "role": "palette and rendering; character immutable"
+    },
+    {
+      "path": "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/art-references/style-reset-20261014/style-02-ice-sovereign.png",
+      "role": "unified 2D painterly style and guardian depth; no copying subjects"
+    }
+  ],
+  "prompt": "Use case: stylized-concept. Asset type: premium collectible-RPG battle VFX animation sprite sheet, real transparent background. Create ONLY a majestic spectral WHITE TIGER guardian, no human, no guns, no background. Input 1 is the existing monochrome gunner, palette and polish reference ONLY; do not redraw him or his bullets. Input 2 is style/depth reference ONLY; do not include that character. NEW design: immense muscular white tiger with crisply readable charcoal-black tiger stripes, anatomically feline broad muzzle, small round ears, piercing luminous WHITE eyes, large front paws, layered white fur merging into sculpted WHITE FIRE around shoulders, back and tail. Use clean 2D anime fantasy forms with refined painterly shading throughout. Very intimidating, regal guardian, neither cute pet nor realistic photo. A dense, solid readable tiger face and paws, with translucency confined to trailing spirit flames. Monochrome ivory-white / graphite-black only, absolutely no blue, cyan, purple, orange or colored light. No halo, no bullet orbit, no metal particles, no circular ground ripple; these are already separate game layers. Composition in each cell: near frontal three-quarter view facing slightly SCREEN RIGHT, complete head, shoulders, both forelegs and front paws, haunches dissolve into a single curved ghost-fire tail around the lower LEFT side. A tall arch-like silhouette embracing the space where a human will be composited in front. Head sits upper middle slightly right, paws lower left and lower right. Both paws grounded at the SAME Y, same camera, consistent skull and stripe pattern and absolute scale across every frame. Do not cut off any part of the silhouette. Layout: exactly 2 columns by 2 rows, 4 equal square cells, preferably 2048x2048 sheet. No drawn grid, no labels. Each cell has at least 13 percent EMPTY TRANSPARENT gutter on EVERY side including flames. Four SUBTLE consecutive IDLE BREATHING animation drawings: 1 settled calm menace closed mouth; 2 chest gently taking breath with fur/flames curling; 3 slow full inhale chest and shoulder fur expanded very slightly, gaze fixed; 4 softly exhaling toward settled. The paws, muzzle position, ears and camera stay registered; NO jumping, bouncing, swinging or rapidly varying size. Flame shapes must genuinely evolve between drawings. High detail in face, nose, stripes, toes, white fur and sharp flame contours. This sheet is a production alpha sprite source, not a presentation poster or checkerboard image."
+}

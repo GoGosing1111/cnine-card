@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "frames": [
+    {
+      "name": "tiger-ambient",
+      "capture": "tiger-ambient-0.6.png",
+      "currentTime": 0.956798,
+      "readyState": 4,
+      "width": 1362,
+      "height": 508,
+      "playing": true
+    },
+    {
+      "name": "tiger-ambient",
+      "capture": "tiger-ambient-3.1.png",
+      "currentTime": 3.468056,
+      "readyState": 4,
+      "width": 1362,
+      "height": 508,
+      "playing": true
+    },
+    {
+      "name": "tiger-ambient",
+      "capture": "tiger-ambient-5.6.png",
+      "currentTime": 5.953614,
+      "readyState": 4,
+      "width": 1362,
+      "height": 508,
+      "playing": true
+    },
+    {
+      "name": "x-standard",
+      "capture": "x-standard-0.7.png",
+      "currentTime": 1.071173,
+      "readyState": 4,
+      "width": 1440,
+      "height": 518,
+      "playing": true
+    },
+    {
+      "name": "x-standard",
+      "capture": "x-standard-2.2.png",
+      "currentTime": 2.537429,
+      "readyState": 4,
+      "width": 1440,
+      "height": 518,
+      "playing": true
+    }
+  ]
+}

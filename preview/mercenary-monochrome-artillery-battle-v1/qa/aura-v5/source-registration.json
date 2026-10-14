@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "source": "assets/sources/white-tiger-wrap-v5-padded.png",
+  "sha256": "c207253c3fff8ba927013e8842bf386a02f2d5ebd5054b806ab6d603134276ca",
+  "cell": 723,
+  "registration": [
+    {
+      "index": 0,
+      "nose": {
+        "x": 532,
+        "y": 244,
+        "dx": 0,
+        "dy": 0,
+        "score": 0
+      },
+      "sourceBounds": {
+        "left": 121,
+        "top": 80,
+        "right": 552,
+        "bottom": 540
+      },
+      "maxBorderAlpha": 1
+    },
+    {
+      "index": 1,
+      "nose": {
+        "score": 1436347,
+        "dx": -9,
+        "dy": 5,
+        "x": 523,
+        "y": 249
+      },
+      "sourceBounds": {
+        "left": 73,
+        "top": 87,
+        "right": 532,
+        "bottom": 553
+      },
+      "maxBorderAlpha": 1
+    },
+    {
+      "index": 2,
+      "nose": {
+        "score": 656677,
+        "dx": 1,
+        "dy": 0,
+        "x": 533,
+        "y": 244
+      },
+      "sourceBounds": {
+        "left": 114,
+        "top": 79,
+        "right": 560,
+        "bottom": 538
+      },
+      "maxBorderAlpha": 1
+    },
+    {
+      "index": 3,
+      "nose": {
+        "score": 2402588,
+        "dx": -11,
+        "dy": 0,
+        "x": 521,
+        "y": 244
+      },
+      "sourceBounds": {
+        "left": 78,
+        "top": 79,
+        "right": 530,
+        "bottom": 541
+      },
+      "maxBorderAlpha": 1
+    }
+  ],
+  "policy": "Preserve generated RGB/alpha. Nose landmark anchors, uniform size, complementary rear/front alpha. No new attack effects."
+}

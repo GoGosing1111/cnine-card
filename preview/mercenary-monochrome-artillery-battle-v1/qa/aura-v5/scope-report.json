@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "scope": "AMBIENT_AURA_ONLY",
+  "unchanged": [
+    "body and rigid rifle",
+    "head halo",
+    "9-shot AR attack",
+    "30-shot skill and skull",
+    "25-shot cover and 5 central artillery salvos",
+    "combat preparation and release flags"
+  ],
+  "authoredAuraFrames": 4,
+  "derivedLayers": 2,
+  "attackEffectsAdded": 0,
+  "sourceAlphaPreserved": true
+}

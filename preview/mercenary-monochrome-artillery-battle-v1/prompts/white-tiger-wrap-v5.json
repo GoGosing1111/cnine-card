@@ -1,0 +1,17 @@
+{
+  "version": 5,
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "userScope": "진무를 참고하여 주변 탄환 아우라만 백호 느낌으로 교체. 공격·스킬·광역기는 유지.",
+  "references": [
+    {
+      "file": "preview/mercenary-golden-dragon-battle-v1/qa/desktop-aura.png",
+      "role": "Jinmu body-enveloping ambient aura composition"
+    },
+    {
+      "file": "preview/mercenary-golden-dragon-battle-v1/assets/sources/dragon.png",
+      "role": "spirit head and surrounding energy relationship only; no gold or dragon copying"
+    }
+  ],
+  "prompt": "Use case: stylized-concept. Asset: ONE transparent RPG AMBIENT AURA animation sheet, not an animal character or attack skill. Reference image1 is the EXISTING JINMU BATTLE SCREEN: specifically match how the golden dragon spirit continuously EMBRACES the human's silhouette, with the spirit head over one shoulder and circulating energy around the body, leaving the human visible. Reference image2 is its dragon effect: use ONLY the enveloping aura composition, not dragon anatomy, scales or gold color. Create the corresponding WHITE TIGER SPIRIT AURA for a black-and-white rifle character. A clearly recognizable powerful WHITE TIGER HEAD with short round ears, broad feline nose, WHITE luminous eyes and crisp dark tiger facial stripes emerges at the UPPER RIGHT of an open vertical crescent of blazing WHITE spirit energy. Its neck dissolves into flowing flame ribbons with tiger-stripe accents that sweep up behind the empty center, down the LEFT side and sweep across the lower foreground, embracing an imaginary human. The center must be EMPTY TRANSPARENT and at least40% of effect width so a whole human can be composited there. This is aura only: NO full standing animal, NO paws or legs, NO separate pet, NO attack, claw strike, projectile, pounce, attack roar, explosion, weapon or human. The tiger head stays facing screen RIGHT at fixed calm intimidating pose, mouth closed or barely parting, no aggressive jaw animation. Head not above-center: upper RIGHT, away from future human face at center. Dense brilliant white-and-graphite tiger facial forms, brilliant white energy edges with dark smoky inner threads, no blue cyan gold purple. It must have premium high-rarity presence at small battle scale, strong coherent tiger silhouette and flowing energy, not random fog. Clean 2D anime fantasy forms, consistent refined painterly shading, no photographic fur. FOUR consecutive gentle ambient-flow frames, EXACTLY2 columns and2rows of equal square cells, prefer2048x2048. Keep identical tiger head size, exact nose position, camera and outer aura envelope in all4frames. Only the white flame/striped energy ribbons genuinely flow between drawings, phase1 gathers up the left, phase2 flows behind top, phase3 descends on right, phase4 returns low-left; repeatable calm ambient motion, no bouncing or zoom. Each frame must be COMPLETE and SMALLER than its cell, with at least15% completely EMPTY TRANSPARENT gutter on EVERY side. No flame touches a cell boundary, no visible grid, labels, background, checkerboard, ground circle, bullets or shell casings. Truly transparent RGBA, semi-transparent glow only where painted aura exists. DO NOT copy the human or stage from references."
+}

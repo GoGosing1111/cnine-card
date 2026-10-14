@@ -54,7 +54,7 @@
       "height": 1086,
       "sha256": "909c3ca09c145a78c04690fdb17ab2dd44c66ee6d233638f96b6846908a6a331",
       "prompt": "prompts/ballistic-aura-v4.json",
-      "status": "VISUAL_REVIEW_PENDING"
+      "status": "REJECTED_RETAINED"
     },
     {
       "file": "assets/sources/ballistic-shot.png",
@@ -199,6 +199,69 @@
       "sha256": "536f6e11ce038cac0e5a9693123f24313b15a1eea9becde704ea4f5b4a4c7463",
       "prompt": "prompts/skull.json",
       "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/white-tiger-aim-v5.png",
+      "bytes": 2089403,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3adb9b66856d155fe12c86324f9be6c081d2bae4cb66a3cd85b506efa6aedd8a",
+      "prompt": "prompts/white-tiger-aim-v5.json",
+      "status": "REJECTED_RETAINED"
+    },
+    {
+      "file": "assets/sources/white-tiger-claw-v5.png",
+      "bytes": 1762914,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "03111880d6b404e53b08931d1260a6c3cb4252b0402c35f0d19c915dc7b5d7a4",
+      "prompt": "prompts/white-tiger-claw-v5.json",
+      "status": "REJECTED_RETAINED"
+    },
+    {
+      "file": "assets/sources/white-tiger-idle-v5-padded.png",
+      "bytes": 1655761,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f349895719bd278b753968aa260f57ceb94d49e789231bfced6811a441160935",
+      "prompt": "prompts/white-tiger-idle-v5-padded.json",
+      "status": "REJECTED_RETAINED"
+    },
+    {
+      "file": "assets/sources/white-tiger-idle-v5.png",
+      "bytes": 2617784,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "6abb7e731c25c0dc37f15a53266b0ff6f1fc2dd3698dcfbdebfbc73b447d899c",
+      "prompt": "prompts/white-tiger-idle-v5.json",
+      "status": "REJECTED_RETAINED"
+    },
+    {
+      "file": "assets/sources/white-tiger-roar-v5.png",
+      "bytes": 2255426,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "d4cdc5305cb70e5f53ab61eca71e5faa82d24edd903205d66753f852222f6a8b",
+      "prompt": "prompts/white-tiger-roar-v5.json",
+      "status": "REJECTED_RETAINED"
+    },
+    {
+      "file": "assets/sources/white-tiger-wrap-v5-padded.png",
+      "bytes": 1473690,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c207253c3fff8ba927013e8842bf386a02f2d5ebd5054b806ab6d603134276ca",
+      "prompt": "prompts/white-tiger-wrap-v5-padded.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/white-tiger-wrap-v5.png",
+      "bytes": 2717310,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "470d74e542a9b75943b2dd2e5de257e2539105209ad5fe17b1e0bbd60849324c",
+      "prompt": "prompts/white-tiger-wrap-v5.json",
+      "status": "REJECTED_RETAINED"
     },
     {
       "file": "assets/sources/wide-barrage-v3-padded.png",

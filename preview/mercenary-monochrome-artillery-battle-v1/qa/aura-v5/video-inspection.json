@@ -1,0 +1,125 @@
+{
+  "status": "PASS",
+  "frames": [
+    {
+      "name": "desktop",
+      "time": 6.807072,
+      "duration": 18.667183,
+      "playing": true,
+      "width": 1362,
+      "height": 508,
+      "readyState": 4,
+      "capture": "qa/aura-v5/video-desktop-6.42.png"
+    },
+    {
+      "name": "desktop",
+      "time": 8.82079,
+      "duration": 18.667183,
+      "playing": true,
+      "width": 1362,
+      "height": 508,
+      "readyState": 4,
+      "capture": "qa/aura-v5/video-desktop-8.45.png"
+    },
+    {
+      "name": "desktop",
+      "time": 9.57766,
+      "duration": 18.667183,
+      "playing": true,
+      "width": 1362,
+      "height": 508,
+      "readyState": 4,
+      "capture": "qa/aura-v5/video-desktop-9.2.png"
+    },
+    {
+      "name": "desktop",
+      "time": 14.58225,
+      "duration": 18.667183,
+      "playing": true,
+      "width": 1362,
+      "height": 508,
+      "readyState": 4,
+      "capture": "qa/aura-v5/video-desktop-14.2.png"
+    },
+    {
+      "name": "desktop",
+      "time": 14.959753,
+      "duration": 18.667183,
+      "playing": true,
+      "width": 1362,
+      "height": 508,
+      "readyState": 4,
+      "capture": "qa/aura-v5/video-desktop-14.6.png"
+    },
+    {
+      "name": "desktop",
+      "time": 17.003789,
+      "duration": 18.667183,
+      "playing": true,
+      "width": 1362,
+      "height": 508,
+      "readyState": 4,
+      "capture": "qa/aura-v5/video-desktop-16.65.png"
+    },
+    {
+      "name": "mobile",
+      "time": 6.71835,
+      "duration": 18.634361,
+      "playing": true,
+      "width": 368,
+      "height": 630,
+      "readyState": 4,
+      "capture": "qa/aura-v5/video-mobile-6.42.png"
+    },
+    {
+      "name": "mobile",
+      "time": 8.735853,
+      "duration": 18.634361,
+      "playing": true,
+      "width": 368,
+      "height": 630,
+      "readyState": 4,
+      "capture": "qa/aura-v5/video-mobile-8.45.png"
+    },
+    {
+      "name": "mobile",
+      "time": 9.484057,
+      "duration": 18.634361,
+      "playing": true,
+      "width": 368,
+      "height": 630,
+      "readyState": 4,
+      "capture": "qa/aura-v5/video-mobile-9.2.png"
+    },
+    {
+      "name": "mobile",
+      "time": 14.51,
+      "duration": 18.634361,
+      "playing": true,
+      "width": 368,
+      "height": 630,
+      "readyState": 4,
+      "capture": "qa/aura-v5/video-mobile-14.2.png"
+    },
+    {
+      "name": "mobile",
+      "time": 14.878273,
+      "duration": 18.634361,
+      "playing": true,
+      "width": 368,
+      "height": 630,
+      "readyState": 4,
+      "capture": "qa/aura-v5/video-mobile-14.6.png"
+    },
+    {
+      "name": "mobile",
+      "time": 16.927754,
+      "duration": 18.634361,
+      "playing": true,
+      "width": 368,
+      "height": 630,
+      "readyState": 4,
+      "capture": "qa/aura-v5/video-mobile-16.65.png"
+    }
+  ]
+}

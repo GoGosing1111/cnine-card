@@ -1,0 +1,10 @@
+{
+  "version": 5,
+  "tool": "built-in image_gen",
+  "transparent_background": true,
+  "role": "Ambient aura only; repair sheet padding",
+  "references": [
+    "assets/sources/white-tiger-wrap-v5.png"
+  ],
+  "prompt": "Use case: precise-object-edit. Correct ONLY the TRANSPARENT CELL GUTTERS in this exact2x2 WHITE TIGER AMBIENT AURA sprite sheet. Keep these same four tiger heads, monochrome white/charcoal stripes, closed mouth, ring of spirit energy, hollow transparent center and four distinct energy-flow phases. Uniformly shrink the ENTIRE complete aura inside EACH of the FOUR cells to 70 percent of its current size. Keep the same scale in every cell. Restore any cut-off outer flame tips. At least15 percent of EACH cell's width must be completely EMPTY TRANSPARENT on LEFT, RIGHT, TOP and BOTTOM. In particular leave a wide empty transparent CROSS between the four cells and empty transparent outer border. No energy or low-opacity haze may cross into another cell. Maintain fixed nose position across all four cells; no head motion or size change. Head stays upper RIGHT facing right. No animal body, legs, attacks, claw slashes, roar or additional objects. Remove any blue/purple fringe: all nontransparent light is neutral white and gray. Real alpha background, no checkerboard or painted rectangle.2columns2rows,4squarecells,prefer2048x2048. Preserve detailed face and intended strong aura silhouette."
+}
