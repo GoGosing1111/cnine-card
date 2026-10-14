@@ -35,7 +35,7 @@ test('28 profiles use preserved recordings and align their measured principal pe
  assert.ok(audio.profiles['MS-050'],'released Sniper Orikkung retains its recorded audio profile');
  for(const row of Object.values(audio.assets)){assert.equal(createHash('sha256').update(read(row.url.slice(1))).digest('hex'),row.sha256);assert.ok(row.licenseUrl&&row.sources&&row.peakAmplitude>0);}
  for(const skill of MERCENARY_SKILLS){
-   if(['MS-045','MS-046','MS-047','MS-048','MS-049','MS-051','MS-055','MS-056'].includes(skill.id)){
+   if(['MS-045','MS-046','MS-047','MS-048','MS-049','MS-051','MS-055','MS-056','MS-057','MS-058'].includes(skill.id)){
     assert.equal(audio.profiles[skill.id],undefined);
     assert.deepEqual(mercenaryAudioEvents(skill,{authoritative:true,duration:skill.visual.duration,events:skill.visual.impacts.map(at=>({at}))}),[],'Dedicated approved motion playback has no generic audio profile');continue;
    }
