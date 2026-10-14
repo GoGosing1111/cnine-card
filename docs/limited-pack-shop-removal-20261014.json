@@ -1,0 +1,75 @@
+{
+  "commit": "b2ea434d8ee4a675de99e03c893eb63d4e0ecd49",
+  "pagesDeployment": "https://70624019.cnine-card.pages.dev",
+  "apiRuntimeVersion": "69035752-c536-4683-bf9b-49ed120b5bd7",
+  "clanWorkerVersion": "2b7ac843-e1cd-41db-b1d9-31ea2b69c0cd",
+  "release": {
+    "mode": "scoped",
+    "base": "a179505d6debc649ba992bd7691c56c7e8706c81",
+    "regression": {
+      "file": "tests/limited-pack-sales-end-20261014.test.mjs",
+      "passed": 1,
+      "failed": 0
+    },
+    "workerSyntax": true,
+    "productionGuards": true,
+    "hyperdriveCacheDisabled": true
+  },
+  "api": {
+    "verifiedAt": "2026-10-14T14:02:59.260Z",
+    "packIds": [
+      "pickup",
+      "ultimate",
+      "superstar",
+      "hyper"
+    ],
+    "limitedMode": "OFF",
+    "limitedRevision": 18,
+    "limitedOpeningEnabled": false,
+    "hyperOpeningEnabled": true
+  },
+  "ui": {
+    "verifiedAt": "2026-10-14T14:04:35.409Z",
+    "mode": "public catalog with actual shop component, isolated anonymous browser; event notice dismissed",
+    "results": [
+      {
+        "name": "desktop",
+        "width": 1440,
+        "height": 1000,
+        "apiIds": [
+          "pickup",
+          "ultimate",
+          "superstar",
+          "hyper"
+        ],
+        "visibleIds": [
+          "pickup",
+          "ultimate",
+          "superstar",
+          "hyper"
+        ],
+        "limitedEntries": 0,
+        "horizontalOverflow": false
+      },
+      {
+        "name": "mobile",
+        "width": 390,
+        "height": 844,
+        "apiIds": [
+          "pickup",
+          "ultimate",
+          "superstar",
+          "hyper"
+        ],
+        "visibleIds": [
+          "pickup",
+          "ultimate",
+          "superstar",
+          "hyper"
+        ],
+        "limitedEntries": 0,
+        "horizontalOverflow": false
+      }
+    ]
+  }
+}
