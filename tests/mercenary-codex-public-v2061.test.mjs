@@ -31,7 +31,7 @@ function navigationRuntime() {
 
 test('public document uses the native forge-inspired archive with game links and CMS information', () => {
   const limitedTab='<button id="limitedView" type="button" role="tab" data-view="limited" aria-controls="cardGrid" aria-selected="false">리미티드 <b id="limitedCount">—</b></button>';
-  const limitedCss='<link rel="stylesheet" href="/mercenary-codex/limited.css?v=20261002">';
+  const limitedCss='<link rel="stylesheet" href="/mercenary-codex/limited.css?v=20261015-shiranui-fit-v1">';
   const levelingLink='<a id="openLeveling" class="fusion-entry" href="/mercenary-codex/leveling/" hidden>용병 성장</a>';
   assert.equal(html.split(levelingLink).length,2,'the prepared growth entry must remain hidden');
   assert.equal(html.split(limitedTab).length,2);assert.equal(html.split(limitedCss).length,2);
