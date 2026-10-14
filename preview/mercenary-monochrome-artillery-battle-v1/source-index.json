@@ -1,0 +1,159 @@
+{
+  "version": 1,
+  "generation": "built-in image_gen",
+  "sources": [
+    {
+      "file": "assets/sources/approved-art-v3.png",
+      "bytes": 3070435,
+      "width": 1121,
+      "height": 1403,
+      "sha256": "3b67b37e9e3ab1e017552c6d6864c0469056edc1332c2555c9f4cc6f5e3ffe65",
+      "prompt": null,
+      "status": "APPROVED_SOURCE"
+    },
+    {
+      "file": "assets/sources/artillery-impact.png",
+      "bytes": 1579219,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "4565792e962fd5b818ca536670c9fbd1275ce60b0815b1bb7373173dae6dbf28",
+      "prompt": "prompts/artillery-impact.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/artillery.png",
+      "bytes": 1634507,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "4928c95d0d9bf8f055ed0a40657825f409c1cd3cbc001ac2d0caa604ee8e99ba",
+      "prompt": "prompts/artillery.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/ballistic-shot.png",
+      "bytes": 1168251,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "6753beee09f8a17ac712dbe2801a0c807e3f22e805ed7c7bb61ad1d49227b17e",
+      "prompt": "prompts/ballistic-shot.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/battle-base-v2.png",
+      "bytes": 1922103,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "cfb388209a0585ecd75eb4e8d740247b90d5e8d503b9aee4dab82a9c5595751c",
+      "prompt": "prompts/battle-base-v2.json",
+      "status": "INTERMEDIATE_STYLE_REFERENCE"
+    },
+    {
+      "file": "assets/sources/battle-base-v3.png",
+      "bytes": 1390316,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "8f3113ed7c33e324416b302e9b6c8627a62793ee0634ee8900bd22243876c453",
+      "prompt": "prompts/battle-base-v3.json",
+      "status": "INTERMEDIATE_STYLE_REFERENCE"
+    },
+    {
+      "file": "assets/sources/body-aim.png",
+      "bytes": 1702754,
+      "width": 1214,
+      "height": 1295,
+      "sha256": "7aa5c0bf0b64128cf8e8a63a053b9e4c91118f880a6b5c16a6a7d50f5949be31",
+      "prompt": "prompts/body-aim.json",
+      "status": "REJECTED_RETAINED"
+    },
+    {
+      "file": "assets/sources/body-brace-v2.png",
+      "bytes": 1393886,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "0f4996141b4798035aa2c4dd5821197fc1945795ab3e04c5e0ea2da214b37cfb",
+      "prompt": "prompts/body-brace-v2.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/body-command-fire-v2.png",
+      "bytes": 1484223,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "522ca92367e7732d66d7f29b50b877edf8538c4d5d08ab159442c3b96d7a3aab",
+      "prompt": "prompts/body-command-fire-v2.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/body-command-point-v2.png",
+      "bytes": 1449118,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e8a48b27067fcb8cfd9086b57cd8e645e22d4d45ce834dca3ad911bfd103ddf8",
+      "prompt": "prompts/body-command-point-v2.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/body-command.png",
+      "bytes": 1714316,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "8c2182a5789d61b38276608f30d85d75a0f39105a3d4e3f738a708bf849491b4",
+      "prompt": "prompts/body-command.json",
+      "status": "REJECTED_RETAINED"
+    },
+    {
+      "file": "assets/sources/body-move-rejected.png",
+      "bytes": 1500099,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c89e34bd3a1f5ed41ecd4376367081bfc17f8178ddb2c42672c0a2483be20177",
+      "prompt": "prompts/body-move-rejected.json",
+      "status": "REJECTED_RETAINED"
+    },
+    {
+      "file": "assets/sources/body-ready-v2.png",
+      "bytes": 1411005,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f1dffb11985b1af935737fe38e52f85cf939b1fde89d137698682da96e908d7e",
+      "prompt": "prompts/body-ready-v2.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/body-recoil-v2.png",
+      "bytes": 1355733,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "6fa8a03a49f23d36ee2ee0bfbff0ce9e2655d03d88a41590cc34642da7de7f1a",
+      "prompt": "prompts/body-recoil-v2.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/body-skill.png",
+      "bytes": 1732649,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "6295c8df82260ececfb4463fbca159b0861e951622a63d4dc097b1a98057c458",
+      "prompt": "prompts/body-skill.json",
+      "status": "REJECTED_RETAINED"
+    },
+    {
+      "file": "assets/sources/halo.png",
+      "bytes": 1988392,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "bb7eee4e2ad97e73a4b1eb7d27fc3bc106dc751d49e6ba55c12054721fcdfddd",
+      "prompt": "prompts/halo.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/skull.png",
+      "bytes": 1935054,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "536f6e11ce038cac0e5a9693123f24313b15a1eea9becde704ea4f5b4a4c7463",
+      "prompt": "prompts/skull.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-15",
+  "userFeedback": "대가리쪽 화질 왜저러냐? 왜 머리 뒤 아우라 이펙트는 빼먹음?",
+  "rejectedSources": [
+    "body-aim.png",
+    "body-skill.png",
+    "body-command.png",
+    "body-move-rejected.png"
+  ],
+  "reason": "Head/face detail too coarse in early multi-pose sheets; body-only presentation omitted the required visible halo.",
+  "doNotUseAsQualityAnchor": true,
+  "correction": "Rebuild large single-character battle reference from approved art with clearly resolved face and the complete head halo. Preserve the circle behind the head as a required independent runtime layer.",
+  "newCandidate": "battle-base-v2.png",
+  "candidateQa": "Face detail improved; wide tails and outer halo need additional canvas breathing room before production use."
+}

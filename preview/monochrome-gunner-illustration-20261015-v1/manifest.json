@@ -1,7 +1,7 @@
 {
   "version": 1,
   "createdAt": "2026-10-14T15:51:21.570Z",
-  "status": "character-v2-approved-ballistic-aura-v3-awaiting-user-review",
+  "status": "source-art-v3-approved",
   "generationMode": "built-in image_gen edit",
   "sourceAttachment": "codex-clipboard-2e913cf7-14ec-42c6-89fb-6613258ecd22.png",
   "prompt": "prompt-v3.json",
@@ -69,6 +69,7 @@
     "Added silver-white spectral rifle cartridges, straight ballistic tracers, muzzle-flash-shaped highlights, gray gunpowder smoke and outer foreground casings around the figure.",
     "Preserved readable face, outfit, pose, rifle silhouette and monochrome palette; aura derivative saved separately for review."
   ],
-  "approval": "approval-20261015.json",
-  "approvedCharacterFile": "monochrome-gunner-v2.png"
+  "approval": "approval-aura-v3-20261015.json",
+  "approvedCharacterFile": "monochrome-gunner-ballistic-aura-v3.png",
+  "battleResourcePreview": "preview/mercenary-monochrome-artillery-battle-v1"
 }

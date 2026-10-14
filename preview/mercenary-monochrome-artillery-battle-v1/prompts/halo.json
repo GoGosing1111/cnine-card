@@ -1,0 +1,7 @@
+{
+  "mode": "built-in image_gen",
+  "input": "assets/sources/battle-base-v3.png",
+  "inputRole": "head halo design",
+  "output": "assets/sources/halo.png",
+  "prompt": "Create a clean production animation sprite sheet of ONLY the white/silver head halo from the reference. EXACT 4 columns by 3 rows = 12 equal square cells, chronological seamless gentle loop. The SAME large concentric white/silver metallic halo ring with four long compass spikes and four shorter diagonal points in every frame. Completely NO character, head, gun, body, bullets, ground or background. Keep center at exactly (0.5,0.5) in every cell, ring diameter and all spike endpoints identical across all 12 cells; it must NOT wobble, drift, stretch or change shape. Only the luminous energy flowing through the ring's engraved segments, small sparks and faint silver arcs evolve smoothly frame to frame, building and fading in different sections. Brilliant white core, silver edges, dark graphite inner metal, premium sharp design. Clean continuous ring planes and crisp silhouette, controlled smooth translucent white glow; no dirty gray speckle, noisy fringe, pixel mosaic or thick fog. Maintain at least 18% fully empty transparent margins around every full halo in EVERY cell. Uniform camera and dimensions, true RGBA transparency including central hole and exterior. No checkerboard, text, labels, grid lines or watermark. This is an independent effect layer to remain fixed behind a sharp character head in a game."
+}

@@ -1,0 +1,337 @@
+[
+  {
+    "name": "halo",
+    "width": 1448,
+    "height": 1086,
+    "cells": [
+      {
+        "i": 0,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 1,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 2,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 3,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 4,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 5,
+        "edges": 0,
+        "edgeAlphaMax": 6
+      },
+      {
+        "i": 6,
+        "edges": 0,
+        "edgeAlphaMax": 19
+      },
+      {
+        "i": 7,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 8,
+        "edges": 0,
+        "edgeAlphaMax": 2
+      },
+      {
+        "i": 9,
+        "edges": 0,
+        "edgeAlphaMax": 3
+      },
+      {
+        "i": 10,
+        "edges": 0,
+        "edgeAlphaMax": 6
+      },
+      {
+        "i": 11,
+        "edges": 0,
+        "edgeAlphaMax": 3
+      }
+    ]
+  },
+  {
+    "name": "skull",
+    "width": 1448,
+    "height": 1086,
+    "cells": [
+      {
+        "i": 0,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 1,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 2,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 3,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 4,
+        "edges": 0,
+        "edgeAlphaMax": 4
+      },
+      {
+        "i": 5,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 6,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 7,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 8,
+        "edges": 0,
+        "edgeAlphaMax": 5
+      },
+      {
+        "i": 9,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 10,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 11,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      }
+    ]
+  },
+  {
+    "name": "ballistic-shot",
+    "width": 1448,
+    "height": 1086,
+    "cells": [
+      {
+        "i": 0,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 1,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 2,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 3,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 4,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 5,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 6,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 7,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 8,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 9,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 10,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 11,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      }
+    ]
+  },
+  {
+    "name": "artillery",
+    "width": 1448,
+    "height": 1086,
+    "cells": [
+      {
+        "i": 0,
+        "edges": 0,
+        "edgeAlphaMax": 2
+      },
+      {
+        "i": 1,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 2,
+        "edges": 0,
+        "edgeAlphaMax": 2
+      },
+      {
+        "i": 3,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 4,
+        "edges": 0,
+        "edgeAlphaMax": 2
+      },
+      {
+        "i": 5,
+        "edges": 0,
+        "edgeAlphaMax": 6
+      },
+      {
+        "i": 6,
+        "edges": 0,
+        "edgeAlphaMax": 2
+      },
+      {
+        "i": 7,
+        "edges": 0,
+        "edgeAlphaMax": 3
+      },
+      {
+        "i": 8,
+        "edges": 0,
+        "edgeAlphaMax": 6
+      },
+      {
+        "i": 9,
+        "edges": 0,
+        "edgeAlphaMax": 3
+      },
+      {
+        "i": 10,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 11,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      }
+    ]
+  },
+  {
+    "name": "artillery-impact",
+    "width": 1448,
+    "height": 1086,
+    "cells": [
+      {
+        "i": 0,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 1,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 2,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 3,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 4,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 5,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 6,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 7,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 8,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 9,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 10,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      },
+      {
+        "i": 11,
+        "edges": 0,
+        "edgeAlphaMax": 1
+      }
+    ]
+  }
+]

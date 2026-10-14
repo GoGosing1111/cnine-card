@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "approvedOn": "2026-10-15",
+  "timezone": "Asia/Seoul",
+  "userInstruction": "승인하고 총구앞에 정렬한 상태로 전투 리소스 만들어 / 카이론과 안겹치게 새로운 컨셉으로 스킬 , 광역기 만들어 맞은 적에게 해골 이펙트가 떠도 좋을거같고 / 적 앞에 탱크나 K9자포가 타격하는 광역기 느낌도 한번 만들어보면 좋을듯",
+  "approvedFile": "monochrome-gunner-ballistic-aura-v3.png",
+  "sha256": "3b67b37e9e3ab1e017552c6d6864c0469056edc1332c2555c9f4cc6f5e3ffe65",
+  "scope": "Full V3 ballistic-aura character illustration approved; battle resources authorized as new derivatives.",
+  "battlePreview": "preview/mercenary-monochrome-artillery-battle-v1",
+  "battleVisualApproval": "pending",
+  "runtimeIntegration": false,
+  "nameAndRank": null
+}

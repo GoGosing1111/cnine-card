@@ -1,0 +1,6 @@
+{
+  "mode": "built-in image_gen edit",
+  "input": "assets/sources/body-command-point-v2.png",
+  "output": "assets/sources/body-command-fire-v2.png",
+  "prompt": "Edit the supplied high-resolution gunner artillery-command body into ONE follow-through FIRE command pose. Preserve exact clean face and hair, natural adult proportions, black-white outfit and complete silver-white circular halo directly behind the head. The RIGHT firing hand remains a closed grip at the same low chest/hip position for the separately composited rifle; NO rifle or barrel in this body layer. Change the LEFT arm from pointing outward to a decisive downward bent-elbow clenched fist just in front of the waist, signaling fire. Bend both knees slightly, brace shoulders, head leans forward with eyes still locked SCREEN RIGHT, coat catches up in a new fold pattern. Make the actual elbow/hand/shoulder/hip shapes visibly different, not just image rotation. Same character scale, camera, face and head halo. Full body, no grid. Extremely crisp smooth facial features and natural hair shapes, no grain, pixel noise, blur or greasy shine. Large clear cloth panels and metal surfaces. Preserve all halo spikes, feet, coat tails and hands with safe empty transparent padding. True RGBA transparency, no gun, projectiles, floor, scenery, shadows, text or UI."
+}

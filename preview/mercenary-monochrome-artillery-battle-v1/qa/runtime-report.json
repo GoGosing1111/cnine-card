@@ -1,0 +1,260 @@
+{
+  "version": 2,
+  "errors": [],
+  "screens": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "idle": {
+        "bodyStates": 1,
+        "haloPositions": 1,
+        "haloFrames": 34,
+        "looping": true,
+        "visible": true
+      },
+      "checks": [
+        {
+          "mode": "aura",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 2,
+          "poses": [
+            "ready"
+          ]
+        },
+        {
+          "mode": "attack",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 3,
+          "poses": [
+            "brace",
+            "recoil",
+            "ready"
+          ]
+        },
+        {
+          "mode": "skill",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 11,
+          "poses": [
+            "brace",
+            "recoil",
+            "ready"
+          ]
+        },
+        {
+          "mode": "ultimate",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 19,
+          "poses": [
+            "commandPoint",
+            "commandFire",
+            "ready"
+          ]
+        }
+      ],
+      "rates": [
+        {
+          "speed": 0.25,
+          "elapsed": 0.11725
+        },
+        {
+          "speed": 0.5,
+          "elapsed": 0.235
+        },
+        {
+          "speed": 2,
+          "elapsed": 0.916
+        }
+      ],
+      "contacts": [
+        {
+          "mode": "skill",
+          "at": 1.23,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.65,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.08,
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.72,
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.84,
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.62,
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.74,
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.25,
+          "error": 0
+        }
+      ],
+      "hidden": true,
+      "cleanup": {
+        "visible": 0,
+        "halo": false,
+        "timelines": 0,
+        "destroyed": true,
+        "haloDestroyed": true
+      }
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "idle": {
+        "bodyStates": 1,
+        "haloPositions": 1,
+        "haloFrames": 34,
+        "looping": true,
+        "visible": true
+      },
+      "checks": [
+        {
+          "mode": "aura",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 2,
+          "poses": [
+            "ready"
+          ]
+        },
+        {
+          "mode": "attack",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 3,
+          "poses": [
+            "brace",
+            "recoil",
+            "ready"
+          ]
+        },
+        {
+          "mode": "skill",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 11,
+          "poses": [
+            "brace",
+            "recoil",
+            "ready"
+          ]
+        },
+        {
+          "mode": "ultimate",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 19,
+          "poses": [
+            "commandPoint",
+            "commandFire",
+            "ready"
+          ]
+        }
+      ],
+      "rates": [
+        {
+          "speed": 0.25,
+          "elapsed": 0.1165
+        },
+        {
+          "speed": 0.5,
+          "elapsed": 0.229
+        },
+        {
+          "speed": 2,
+          "elapsed": 0.922
+        }
+      ],
+      "contacts": [
+        {
+          "mode": "skill",
+          "at": 1.23,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.65,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.08,
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.72,
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.84,
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.62,
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.74,
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.25,
+          "error": 0
+        }
+      ],
+      "hidden": true,
+      "cleanup": {
+        "visible": 0,
+        "halo": false,
+        "timelines": 0,
+        "destroyed": true,
+        "haloDestroyed": true
+      }
+    }
+  ],
+  "status": "PASS",
+  "bundleLfSha256": "d9f44acc211d5a7dc2afd8274f2b94e6010aafd7140908ae4dd121421c459a4f"
+}
