@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "reason": "Rebased onto origin/main 70831c9a7; shared loader version and Kairon/Helios unrelated playback changed. Rebuilt preview bundle and checked only affected loading paths.",
+  "bundleLfSha256": "c900f25cc0d9decdd48aa744af919b683ddc990301dfbb9689ed77742fec9f18",
+  "screens": [
+    {
+      "name": "desktop",
+      "version": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015",
+      "checks": {
+        "aura": {
+          "halo": true,
+          "effects": 2,
+          "groundError": 0
+        },
+        "skill": {
+          "halo": true,
+          "effects": 8,
+          "groundError": 0
+        },
+        "ultimate": {
+          "halo": true,
+          "effects": 5,
+          "groundError": 0
+        }
+      },
+      "destroyed": true
+    },
+    {
+      "name": "mobile",
+      "version": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015",
+      "checks": {
+        "aura": {
+          "halo": true,
+          "effects": 2,
+          "groundError": 0
+        },
+        "skill": {
+          "halo": true,
+          "effects": 8,
+          "groundError": 0
+        },
+        "ultimate": {
+          "halo": true,
+          "effects": 5,
+          "groundError": 0
+        }
+      },
+      "destroyed": true
+    }
+  ],
+  "errors": []
+}
