@@ -1,0 +1,59 @@
+{
+  "source": "19861d8283e572ce53da2f1c79e5b06ef6394482",
+  "verifiedAt": "2026-10-14T22:30:34.227Z",
+  "origin": "https://cnine-card.pages.dev",
+  "assets": [
+    {
+      "path": "equipment-forge/index.html",
+      "status": 200,
+      "sha256": "d674efe61a4ccef2312320eab0bdfa85d1c71c0494b97313ecd8999c4a99fe87",
+      "bytes": 13905
+    },
+    {
+      "path": "equipment-forge/app.mjs",
+      "status": 200,
+      "sha256": "1a3a6368be5d6961b470f1f7322831e850a8d93bf77c672f10738d1c2aff4dc5",
+      "bytes": 31695
+    },
+    {
+      "path": "equipment-forge/live.css",
+      "status": 200,
+      "sha256": "4ab0aaad37463d8863e10bc3952cbe1a5f1a1f6f19f21c706aa440bce52e7f70",
+      "bytes": 8381
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "1c5acd22dc44aae1581d05608c6b322fa226828a328502995b98cb1b6fd0ca7f",
+      "bytes": 24923
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "40e6bf3b1e95f24e5548ac4e2a57cee1efce8ca30198a074b153f0c68f92f4ce",
+      "bytes": 13003
+    }
+  ],
+  "screens": [
+    {
+      "width": 1440,
+      "anonymous": true,
+      "disabled": true,
+      "hint": "로그인 후 장비를 선택하면 보호권 사용 조건을 확인할 수 있습니다.",
+      "clickFeedback": true,
+      "overflow": false,
+      "pageErrors": [],
+      "writeRequests": []
+    },
+    {
+      "width": 390,
+      "anonymous": true,
+      "disabled": true,
+      "hint": "로그인 후 장비를 선택하면 보호권 사용 조건을 확인할 수 있습니다.",
+      "clickFeedback": true,
+      "overflow": false,
+      "pageErrors": [],
+      "writeRequests": []
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "19861d8283e572ce53da2f1c79e5b06ef6394482",
+  "previousSource": "93e47176e546cb0bf75a47288092cd3c29a5b98b",
+  "pagesId": "ab92fe41-2bc5-499c-a7a0-f2d2c77af3de",
+  "pagesUrl": "https://ab92fe41.cnine-card.pages.dev",
+  "publicUrl": "https://cnine-card.pages.dev/equipment-forge/",
+  "apiVersion": "4bbd0480-3ba1-486e-b27c-c6889f84c301",
+  "schedulerVersion": "673fccc5-01c1-43d1-809c-7b08cbaa611f",
+  "verifiedAt": "2026-10-14T22:30:34.227Z",
+  "scope": "Visible protection availability and required, owned and missing ticket counts; click feedback when disabled",
+  "accountInspection": "Related equipment, ticket quantity and recent enhancement receipts in a read-only transaction",
+  "productionAccountMutations": 0,
+  "protectionPolicyChanged": false,
+  "advancedCmsSettingsChanged": false,
+  "testsPassed": 25,
+  "tests": [
+    "tests/equipment-forge-protection-feedback-20261015.test.mjs",
+    "tests/equipment-forge-recovery-20260923.test.mjs"
+  ],
+  "checks": [
+    "Isolated PC/mobile native mouse, touch and keyboard protection selection with real forge quote handlers",
+    "Blocked stage, shortage with retained protection selection, pending advanced stage, configured advanced stage and maximum level",
+    "No enhancement or restoration execution requests and unchanged test account balances",
+    "Existing quote retry and ambiguous request recovery regressions",
+    "Five production file SHA-256 matches",
+    "Anonymous production PC/mobile disabled click feedback, no page errors or horizontal overflow"
+  ],
+  "hyperdriveQueryCache": "disabled",
+  "evidence": "qa/equipment-protection-feedback-20261015/verification.json"
+}

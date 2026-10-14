@@ -14,4 +14,8 @@
 
 검수: `tests/equipment-forge-protection-feedback-20261015.test.mjs`의 실제 화면·API를 이용한 PC 1440 / 모바일 390 검사와 기존 요청 복구 회귀에 한정한다. 로컬 가상 계정으로 사용 불가 안내, 보호 선택/해제, 키보드, 부족·새로고침 후 선택 유지, 고급 단계 준비/사용 가능, 최대 단계, 실제 실행 요청 0건과 재고 불변을 확인한다. 캡처는 배포 디렉터리 외부의 임시 폴더에 생성한다.
 
-운영 배포 영수증은 검증 완료 후 `equipment-protection-feedback-live-20261015.json`에 기록한다.
+2026-10-15 07:30 KST 운영 반영 완료. 소스 `19861d8283e572ce53da2f1c79e5b06ef6394482`, Pages `ab92fe41-2bc5-499c-a7a0-f2d2c77af3de`. `--scoped` 관련 검사 25개, 출시 캐시 및 Hyperdrive 검사 통과. 전체 검사는 실행하지 않았다.
+
+운영 `/equipment-forge/`의 PC 1440 / 모바일 390에서 로그인 필요 안내와 잠긴 영역 클릭·터치 응답, 가로 넘침 없음 및 실행 오류 없음을 확인했다. 변경된 운영 파일 5개의 SHA-256이 배포 소스와 일치한다. 운영 검수는 익명 접속으로 수행했고 계정의 실제 강화·차감 요청은 보내지 않았다. 로그인 계정의 단계·부족 수량·보호 견적은 앞서 실제 API와 격리된 로컬 DB로 검증했다.
+
+배포 영수증: `equipment-protection-feedback-live-20261015.json`. 검수 자료: `qa/equipment-protection-feedback-20261015/verification.json`, 같은 폴더의 `local-*`는 격리한 가상 계정, `*-live-anonymous.png`는 익명 운영 화면이다.
