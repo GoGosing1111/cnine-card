@@ -1,12 +1,12 @@
+import {currentOrganization,organizationRosterView,organizationHideoutView} from './organization-headquarters-v1.mjs';
 import {createOrganizationAdmission} from './organization-admission-v1.mjs';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const number=value=>Number(value||0).toLocaleString('ko-KR');
 const phaseName={PREPARATION:'모집 준비',SURVEY:'희망 조직 설문',CLOSED:'균등 배정 준비',ASSIGNED:'배정 완료'};
 function emblem(index,image){return `<svg class="org-emblem-v1" viewBox="${[174,442,708][index%3]} ${[188,410,630,850,1072][Math.floor(index/3)]} 206 ${index<9?184:188}" aria-hidden="true"><image href="${esc(image)}" width="1086" height="1448"/></svg>`;}
-function building(index,image){return `<svg class="org-building" viewBox="${index*303+12} 540 297 177" preserveAspectRatio="xMidYMid slice" role="img" aria-label="아지트 ${index+1}단계 콘셉트"><image href="${esc(image)}" width="1536" height="1024"/></svg>`;}
 export async function mountOrganization({root,api,isOwner=false}){
   const admission=createOrganizationAdmission();
-  let state,tab=isOwner?'manage':'survey',stage=0,busy=false,timer;
+  let state,tab=isOwner?'manage':'survey',stage=null,busy=false,timer;
   const message=(text,error=false)=>{const el=document.querySelector('#org-message');if(!el)return;clearTimeout(timer);el.className='org-message show'+(error?' error':'');el.textContent=text;timer=setTimeout(()=>el.classList.remove('show'),error?10000:4500);};
   const post=(path,body)=>api(path,{method:'POST',body:{requestId:crypto.randomUUID(),...body}});
   const load=async()=>{state=await api(isOwner?'admin/organization':'organization/overview');if(state.membership&&tab==='survey'&&state.round.phase==='ASSIGNED')tab='mine';render();};
@@ -14,12 +14,9 @@ export async function mountOrganization({root,api,isOwner=false}){
   function survey(){return admission.render(state);}
   function mine(){
     const id=state.membership?.organizationId;if(!id)return `<section class="org-empty"><span class="org-kicker">A NEW BEGINNING</span><h2>함께할 조직을 기다립니다.</h2><p>${state.survey?.submitted?`희망 조직 <strong>${esc(state.organizations[state.survey.preferredOrganizationId-1].name)}</strong> 설문이 접수되었습니다.`:state.previewOnly?'입단 심사에서 나와 맞는 조직을 미리 알아보세요.':'먼저 희망 조직 설문에 참여해 주세요.'}<br>운영자가 전체 인원과 전력을 확인한 뒤 최종 소속을 안내합니다.</p><button type="button" class="org-secondary" data-tab="survey">희망 조직 살펴보기</button></section>`;
-    const org=state.organizations[id-1];return `<header class="org-my-head">${emblem(id-1,state.preparation.emblemsImage)}<div><span class="org-kicker">MY ORGANIZATION</span><h2>${esc(org.name)}</h2><p>새로운 출발, 함께하는 ${org.memberCount}명.<br>조직 점수 ${number(org.hideout.points)} · ${esc(org.hideout.name)}</p></div></header>${hideout(true)}`;
+    const org=state.organizations[id-1];return `<header class="org-my-head">${emblem(id-1,state.preparation.emblemsImage)}<div><span class="org-kicker">MY ORGANIZATION</span><h2>${esc(org.name)}</h2><p>새로운 출발, 함께하는 ${org.memberCount}명.<br>조직 점수 ${number(org.hideout.points)} · ${esc(org.hideout.name)}</p></div></header>${organizationRosterView(state)}${hideout(true)}`;
   }
-  function hideout(compact=false){
-    const names=state.preparation.hideouts,threshold=state.policy.hideoutThresholds[stage];
-    return `${compact?'':`<div class="org-section-head"><div><span class="org-kicker">02 / OUR HEADQUARTERS</span><h2>골목에서, 도시의 가장 높은 곳까지.</h2></div><p>점령 지역을 정산해 조직 점수를 얻고<br>함께 아지트를 성장시키는 여정입니다.</p></div>`}<section class="org-hideout-stage">${building(stage,state.preparation.conceptImage)}<div class="org-hideout-copy"><span class="org-kicker">HEADQUARTERS / STAGE ${String(stage+1).padStart(2,'0')}</span><h3>${esc(names[stage])}</h3><p>${['모든 조직이 새로 시작하는 첫 거점. 동료를 모으고 도시로 나아갈 준비를 합니다.','낮은 골목의 불빛 아래, 조직만의 작은 사무실을 준비합니다.','동료들이 돌아올 본거지. 영역을 넓혀 더 큰 조직으로 성장합니다.','도시에 자리 잡은 조직의 거점. 다음 성장을 준비합니다.','도시의 밤을 내려다보는 최종 아지트 콘셉트입니다.'][stage]}</p><p style="color:#dcc58d;margin-top:18px">${stage===0?'시작 단계 · 조직 점수 0':threshold===null?'성장 조건 미정':`설정된 성장 기준 · ${number(threshold)}점`}</p><p style="font-size:10px;margin-top:10px">성장·전용 콘텐츠는 준비 중입니다.</p></div></section><nav class="org-stage-tabs" aria-label="아지트 단계">${names.map((name,i)=>`<button type="button" data-stage="${i}" aria-pressed="${i===stage}"><span>STAGE 0${i+1}</span><b>${esc(name)}</b><small>${i===0?'시작 단계':state.policy.hideoutThresholds[i]===null?'조건 미정':'기준 '+number(state.policy.hideoutThresholds[i])+'점'}</small></button>`).join('')}</nav><div class="org-locked-content">${[['ORGANIZATION','조직 내부 콘텐츠','동료들과 함께할 조직 전용 활동을 준비합니다.'],['HUNTING GROUND','전용 사냥터','아지트 성장과 연결될 사냥터를 준비합니다.'],['EXCLUSIVE BOSS','전용 보스','조직의 이름으로 도전할 보스를 준비합니다.']].map(([en,title,desc])=>`<article><span class="org-kicker">${en}</span><h3>${title}</h3><p>${desc}<br>해금 조건과 보상은 추후 확정됩니다.</p></article>`).join('')}</div>`;
-  }
+  function hideout(compact=false){return organizationHideoutView(state,{compact,stage:stage??((currentOrganization(state)?.hideout.stage||1)-1)});}
   function policyForm(){
     const p=state.policy,input=(key,label,value)=>`<label>${label}<input name="${key}" type="number" min="0" step="1" value="${value===null?'':value}" placeholder="미정"></label>`;
     return `<details class="org-policy"><summary>조직 점수·아지트 운영 초안</summary><p>비워 둔 항목은 미정으로 저장됩니다. 초안 저장은 모집을 개방하거나 점수를 지급하지 않습니다.</p><form id="org-policy-form"><div class="org-policy-grid">${input('pointsPerRegion','점령 지역당 조직 점수',p.pointsPerRegion)}${input('settlementMinutes','정산 간격 (분)',p.settlementMinutes)}<label class="span2">아지트 성장 방식<select name="growthMode"><option value="" ${p.growthMode===null?'selected':''}>미정</option><option value="CUMULATIVE" ${p.growthMode==='CUMULATIVE'?'selected':''}>누적 점수 기준</option><option value="SPEND" ${p.growthMode==='SPEND'?'selected':''}>점수 소모 방식 (실행 준비 중)</option></select></label>${p.hideoutThresholds.slice(1).map((n,i)=>input('stage'+(i+2),'아지트 '+(i+2)+'단계 기준',n)).join('')}${[['internal','내부 콘텐츠'],['hunting','전용 사냥터'],['boss','전용 보스']].map(([key,label])=>`<label>${label} 해금 단계<select name="${key}"><option value="">미정</option>${[1,2,3,4,5].map(n=>`<option value="${n}" ${p.unlocks[key]===n?'selected':''}>${n}단계</option>`).join('')}</select></label>`).join('')}</div><button type="submit" class="org-secondary">운영 초안 저장</button></form></details>`;
@@ -34,7 +31,7 @@ export async function mountOrganization({root,api,isOwner=false}){
   }
   function bind(){
     if(tab==='survey')admission.bind(root,{repaint:render,submit:({answers,preferredOrganizationId})=>state.round?.phase!=='SURVEY'?message('실제 입단 모집은 추후 시작됩니다.'):run(()=>post('organization/survey',{roundId:state.round.id,revision:state.survey?.revision||0,answers,preferredOrganizationId}),'입단 지원서를 접수했습니다.'),withdraw:()=>run(()=>post('organization/withdraw',{roundId:state.round.id,revision:state.survey.revision}),'입단 지원을 철회했습니다.')});
-    root.querySelectorAll('[data-tab]').forEach(button=>button.onclick=()=>{tab=button.dataset.tab;render();root.querySelector(`[data-tab="${tab}"]`)?.focus();});
+    root.querySelectorAll('[data-tab]').forEach(button=>button.onclick=()=>{tab=button.dataset.tab;if(tab==='mine'||tab==='hideout')stage=null;render();root.querySelector(`[data-tab="${tab}"]`)?.focus();});
     root.querySelectorAll('[data-stage]').forEach(button=>button.onclick=()=>{stage=Number(button.dataset.stage);render();root.querySelector(`[data-stage="${stage}"]`)?.focus({preventScroll:true});});
     root.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>{
       const action=button.dataset.action,roundId=state.round?.id;

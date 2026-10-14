@@ -3,3 +3,35 @@
 @media(max-width:1100px){.org-choices{grid-template-columns:repeat(3,minmax(0,1fr))}.org-inspector{top:12px}.org-hero-v1{min-height:280px}.org-capacity{min-width:260px;gap:20px}.org-team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.review-bar{padding:8px 14px;font-size:9px;align-items:flex-start;line-height:1.8}.review-bar label{white-space:nowrap}.review-bar select{font-size:10px;margin-left:3px}.org-topbar{padding:18px}.org-brand{gap:10px}.org-brand b{font-size:16px}.org-brand span{font-size:7px;letter-spacing:.08em}.org-topbar .org-status{font-size:9px;padding:6px}.org-hero-v1{padding:28px 20px 20px;min-height:315px;display:block;background-position:60% center}.org-hero-v1 h1{font-size:36px;margin:12px 0}.org-hero-v1 p{font-size:11px}.org-capacity{margin-top:26px;justify-content:space-between;min-width:0;max-width:360px;gap:20px;padding:12px 4px;background:none;backdrop-filter:none}.org-capacity b{font-size:25px}.org-capacity small{font-size:9px}.org-capacity span{flex-direction:row;align-items:baseline;gap:7px}.org-nav{padding:0 18px;gap:25px;justify-content:space-between}.org-nav button{font-size:11px;padding:17px 0}.org-nav .phase{display:none}.org-content{padding:24px 16px 30px}.org-section-head{display:block;margin-bottom:20px}.org-section-head h2{font-size:25px}.org-section-head p{text-align:left;margin-top:12px;font-size:10px}.org-survey-layout{grid-template-columns:1fr;gap:18px}.org-choices{gap:8px}.org-choice{padding:10px 5px 12px;min-height:147px}.org-choice .org-emblem-v1{max-width:88px}.org-choice b{font-size:12px}.org-choice .choice-no{left:7px;top:8px;font-size:8px}.org-choice small{font-size:9px}.org-inspector{position:relative;top:auto;padding:20px;display:grid;grid-template-columns:116px 1fr;column-gap:15px;text-align:left}.org-inspector>.org-kicker{grid-column:1/-1}.org-inspector>.org-emblem-v1{grid-column:1;grid-row:2/4;max-width:116px;margin:17px 0 0}.org-inspector h3{grid-column:2;margin:24px 0 8px;font-size:27px}.org-inspector dl{grid-column:2;gap:9px;margin:5px 0 13px;font-size:10px}.org-inspector .notice,.org-inspector .org-primary,.org-inspector .org-saved,.org-inspector .org-quiet{grid-column:1/-1}.org-inspector .notice{padding:14px 0;font-size:11px}.org-inspector .org-quiet{margin:5px 0 0}.org-footnote{display:block;font-size:9px}.org-steps{gap:13px;margin-bottom:13px;font-size:10px}.org-my-head{padding:15px;gap:16px}.org-my-head .org-emblem-v1{width:90px}.org-my-head h2{font-size:29px}.org-my-head p{font-size:10px}.org-hideout-stage{grid-template-columns:1fr}.org-building{min-height:200px;max-height:240px}.org-hideout-copy{padding:24px}.org-hideout-copy h3{font-size:26px}.org-hideout-copy p{font-size:11px}.org-stage-tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.org-stage-tabs b{font-size:10px}.org-stage-tabs button{padding:12px 8px}.org-locked-content{grid-template-columns:1fr;gap:10px}.org-locked-content article{padding:18px}.org-admin-actions{gap:8px}.org-admin-actions button{flex:1 1 140px;font-size:11px}.org-admin-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.org-admin-stats>div{padding:15px;border-bottom:1px solid #3c463e}.org-admin-stats>div:nth-child(even){border-right:0}.org-admin-stats b{font-size:25px}.org-team-grid{grid-template-columns:1fr}.org-policy{padding:17px}.org-policy-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.org-policy summary{font-size:13px}.org-empty{padding:35px 20px}.org-empty h2{font-size:27px}.org-message{bottom:14px;width:calc(100vw - 28px);font-size:11px;padding:12px 16px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+.org-member-section{margin:26px 0 32px}
+.org-member-section>header{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:15px}
+.org-member-section h3{font:24px OrgTitle,sans-serif;margin-top:9px}
+.org-member-section>header p{font:13px Georgia,serif;color:#96a2ab}
+.org-member-section>header b{font-size:26px;color:#e2c791}
+.org-member-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;list-style:none;margin:0;padding:0}
+.org-member-slot{display:flex;align-items:center;gap:10px;min-width:0;min-height:110px;padding:24px 24px;background:#101a23 url('/assets/ui/organization/admission-v1/answer-steel.png') center/100% 100%;position:relative}
+.org-member-number{font:21px Georgia,serif;color:#a99b78;flex-shrink:0}
+.org-member-slot>div{min-width:0}
+.org-member-slot b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:12px;overflow-wrap:anywhere;line-height:1.6}
+.org-member-slot small{display:block;color:#96a39d;font-size:9px;margin-top:5px}
+.org-member-slot.is-self{background-image:url('/assets/ui/organization/admission-v1/action-gold.png')}
+.org-member-slot.is-self b{color:#f1dbab}
+.org-member-slot.is-vacant{opacity:.55}
+.org-member-self{position:absolute;right:10px;top:8px;color:#e7ce91;font:8px Georgia,serif}
+.org-roster-note{font-size:10px;line-height:1.8;color:#95a2a7;margin-top:12px}
+.org-headquarters-status{display:grid;grid-template-columns:1fr 1fr;gap:25px;padding:23px 26px;border:1px solid #57513d;background:linear-gradient(115deg,#20291f,#101d26);margin-bottom:18px}
+.org-headquarters-status h3{font:25px OrgTitle,sans-serif;margin:9px 0}
+.org-headquarters-status p{font-size:11px;color:#b3beb5;line-height:1.8}
+.org-headquarters-status strong{color:#e7cf99}
+.org-growth-status{align-self:center}
+.org-growth-status>b{font-size:12px;color:#ddc898}
+.org-growth-status p{margin-top:8px}
+.org-growth-meter{height:6px;background:#09121a;border:1px solid #414a3d;margin-top:12px;overflow:hidden}
+.org-growth-meter i{height:100%;display:block;background:linear-gradient(90deg,#96834f,#f2d59d)}
+.org-stage-status{display:inline-block;font-size:10px;color:#b2bcc4;border:1px solid #52606a;padding:5px 9px;margin-bottom:18px}
+.org-stage-status.is-current{color:#dfd0a7;border-color:#a38d56;background:#d1b56c0e}
+.org-hideout-copy .org-stage-condition{color:#dcc58d;margin-top:18px}
+.org-hideout-copy .org-growth-note{font-size:10px;margin-top:12px}
+.org-hideout-copy .org-secondary{margin-top:16px}
+@media(max-width:1000px){.org-member-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.org-member-section h3{font-size:21px}.org-member-slot{min-height:106px;padding:22px 20px}.org-member-slot b{font-size:11px}.org-headquarters-status{grid-template-columns:1fr;gap:20px;padding:20px}.org-headquarters-status h3{font-size:23px}}

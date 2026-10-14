@@ -7,7 +7,7 @@ export function organizationPublicOverview(){
  const policy=defaultOrganizationPolicy();
  return {ok:true,viewerId:'public-preparation',previewOnly:true,releaseEnabled:false,
   preparation:ORGANIZATION_PREPARATION,round:null,policy,survey:null,membership:null,
-  participantCount:null,ratedCount:0,proposal:null,
+  roster:[],participantCount:null,ratedCount:0,proposal:null,
   organizations:ORGANIZATIONS.map(o=>({...o,applicants:0,memberCount:0,power:0,hideout:organizationHideout(0,policy)}))};
 }
 export async function organizationPublicApi(path,options={}){

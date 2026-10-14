@@ -9,7 +9,7 @@
 .org-nav button{min-width:138px;min-height:48px;padding:12px 23px}
 .org-nav button:after{display:none}
 .org-nav .phase{margin-left:auto;white-space:nowrap;color:#b7a889}
-.org-stage-tabs button{min-height:100px;background-size:100% 122%}
+.organization-app .org-stage-tabs button{min-height:100px;background-color:transparent;background-size:100% 122%;background-position:center;background-repeat:no-repeat;padding:22px 22px}
 .org-admin-actions button,.org-policy button,.org-empty button{min-height:62px;min-width:190px;padding:16px 30px;background-size:100% 145%}
 .org-admission-content{padding:0!important}
 .admission-room{position:relative;isolation:isolate;min-height:790px;background:#0b1117 url('/assets/ui/organization/admission-v1/admission-room.png') center top/1440px auto no-repeat;border-bottom:1px solid #4f4534}
