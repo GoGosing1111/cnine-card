@@ -10,28 +10,32 @@ import {JINMU_CODE,JINMU_ART,JINMU_COMBAT,JINMU_AREA_SKILL} from '../shared/merc
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 import {grantJinmuOwner,inspectJinmuGrant,OPERATION_KEY} from '../scripts/ops/jinmu-owner-grant-20261012.mjs';
 const rid=()=>crypto.randomUUID();
-test('only the designated owner may load or deploy Jinmu; public pools and LIMITED counts exclude him',async t=>{
- const f=await mercenaryFixture(t,{postgres:true}),owner={id:1,role:'OWNER'},other={...f.user,role:'OWNER'};
- await f.p('INSERT INTO users(id,nickname) VALUES(1,?)','핑크빛유두').run();
+test('only the two designated accounts may load or deploy owned Jinmu; public pools and LIMITED counts exclude him',async t=>{
+ const f=await mercenaryFixture(t,{postgres:true}),allowed=[{id:1,role:'OWNER'},{id:4977,role:'USER'}],blocked=[{...f.user,role:'OWNER'},{id:4824,role:'USER'}];
+ for(const [id,name]of [[1,'핑크빛유두'],[4977,'하이희야♡'],[4824,'헬로희야']])await f.p('INSERT INTO users(id,nickname) VALUES(?,?)',id,name).run();
  assert(!LIMITED_MERCENARIES.some(c=>c.code===JINMU_CODE));
  assert(!MERCENARY_CMS_SEED.catalog.cards.some(c=>c.code===JINMU_CODE));
  assert(!MERCENARY_CMS_SEED.document.mercenaries.some(c=>c.code===JINMU_CODE));
- for(const u of [owner,other])await assert.rejects(saveMercenaryLoadout(f.env,u,{requestId:rid(),mode:'PVE',mercenaryCode:JINMU_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
- for(const id of [1,7])await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1,0,?,?)',id,JINMU_CODE,'2026-10-12','2026-10-12').run();
+ for(const u of [...allowed,...blocked])await assert.rejects(saveMercenaryLoadout(f.env,u,{requestId:rid(),mode:'PVE',mercenaryCode:JINMU_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
+ for(const id of [1,4977,7,4824])await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1,0,?,?)',id,JINMU_CODE,'2026-10-12','2026-10-12').run();
  for(const mode of ['PVE','PVP']){
-  await assert.rejects(saveMercenaryLoadout(f.env,other,{requestId:rid(),mode,mercenaryCode:JINMU_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
-  const body={requestId:rid(),mode,mercenaryCode:JINMU_CODE,revision:0};
-  await saveMercenaryLoadout(f.env,owner,body);
-  assert.equal((await saveMercenaryLoadout(f.env,owner,body)).replayed,true);
-  const one=await loadMercenaryBattleSnapshot(f.env,owner,mode),batch=await releasedMercenarySnapshots(f.env,[1,7],mode);
-  assert.equal(one.code,JINMU_CODE);assert.equal(one.basePower,JINMU_COMBAT.basePower);assert.deepEqual(one.skills,[JINMU_AREA_SKILL]);
-  assert.deepEqual(batch.get(1),one);assert.equal(batch.has(7),false);
+  for(const user of blocked)await assert.rejects(saveMercenaryLoadout(f.env,user,{requestId:rid(),mode,mercenaryCode:JINMU_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
+  for(const user of allowed){
+   const body={requestId:rid(),mode,mercenaryCode:JINMU_CODE,revision:0};
+   await saveMercenaryLoadout(f.env,user,body);
+   assert.equal((await saveMercenaryLoadout(f.env,user,body)).replayed,true);
+   const one=await loadMercenaryBattleSnapshot(f.env,user,mode),batch=await releasedMercenarySnapshots(f.env,[1,4977,7,4824],mode);
+   assert.equal(one.code,JINMU_CODE);assert.equal(one.basePower,JINMU_COMBAT.basePower);assert.deepEqual(one.skills,[JINMU_AREA_SKILL]);
+   assert.deepEqual(batch.get(user.id),one);assert.equal(batch.has(7),false);assert.equal(batch.has(4824),false);
+  }
  }
- const state=await mercenaryAccountState(f.env,owner);
- assert.equal(state.cards[0].canDeploy,true);assert.equal(state.cards[0].exclusiveGrant,true);assert.equal(state.cards[0].excludedFromLimitedCount,true);
- assert.equal((await mercenaryAccountState(f.env,other)).cards.length,0);
- await saveMercenaryLoadout(f.env,owner,{requestId:rid(),mode:'PVE',mercenaryCode:null,revision:1});
- assert.equal(await loadMercenaryBattleSnapshot(f.env,owner,'PVE'),null);assert.equal((await loadMercenaryBattleSnapshot(f.env,owner,'PVP')).code,JINMU_CODE);
+ for(const user of blocked)assert.equal((await mercenaryAccountState(f.env,user)).cards.length,0);
+ for(const user of allowed){
+  const state=await mercenaryAccountState(f.env,user);
+  assert.equal(state.cards[0].canDeploy,true);assert.equal(state.cards[0].exclusiveGrant,true);assert.equal(state.cards[0].excludedFromLimitedCount,true);
+  await saveMercenaryLoadout(f.env,user,{requestId:rid(),mode:'PVE',mercenaryCode:null,revision:1});
+  assert.equal(await loadMercenaryBattleSnapshot(f.env,user,'PVE'),null);assert.equal((await loadMercenaryBattleSnapshot(f.env,user,'PVP')).code,JINMU_CODE);
+ }
 });
 test('exact one-card grant is atomic, replayable, isolated from public issuance, and rejects a wrong account identity',async t=>{
  const db=new PGlite();t.after(()=>db.close());
@@ -58,6 +62,8 @@ test('exact one-card grant is atomic, replayable, isolated from public issuance,
  assert.equal((await db.query('SELECT * FROM mercenary_card_acquisitions_v1')).rows.length,1);
  assert.equal((await db.query('SELECT * FROM admin_logs')).rows.length,1);
  assert.equal(second.receipt.operationKey,OPERATION_KEY);
+ await db.query("INSERT INTO user_mercenary_cards_v1 VALUES(4977,'V-989',1,0,'later','later')");
+ assert.equal((await grantJinmuOwner(db)).replayed,true,'A later authorized grant must not invalidate the original receipt');
  await db.query("UPDATE users SET nickname='different' WHERE id=1");
  await assert.rejects(grantJinmuOwner(db));assert.equal((await db.query('SELECT total_copies FROM user_mercenary_cards_v1')).rows[0].total_copies,1);
 });

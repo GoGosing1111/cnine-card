@@ -1,6 +1,6 @@
 import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
 
-// Explicit 2026-10-12 release: one designated account, no public issue stock.
+// Explicit grants: original owner and 하이희야♡ (2026-10-15); no public issue stock.
 // Keep this identity out of LIMITED_MERCENARIES and every acquisition pool.
 export const JINMU_CODE='V-989';
 export const JINMU_OWNER_ID=1;
@@ -18,7 +18,7 @@ export const JINMU_COMBAT=Object.freeze({
  basicCapScale:2.4,damageTakenScale:.25,hardCounter:BERKAN_CODE
 });
 export const isJinmu=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===JINMU_CODE;
-export const jinmuAccountAllowed=(userId,code)=>code!==JINMU_CODE||Number(userId)===JINMU_OWNER_ID;
+export const jinmuAccountAllowed=(userId,code)=>code!==JINMU_CODE||[JINMU_OWNER_ID,4977].includes(Number(userId));
 export const jinmuActionCredit=actors=>actors.some(a=>isJinmu(a)&&a.alive!==false&&a.hp>0)?JINMU_COMBAT.actionCredit:1;
 export function jinmuIncomingDamage(target,incoming,source){
  if(!isJinmu(target))return incoming;

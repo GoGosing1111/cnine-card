@@ -26,7 +26,7 @@ export async function verifyJinmuGrant(db){
  assert.equal(r?.status,'COMPLETED');assert.equal(r.operationKey,OPERATION_KEY);assert.deepEqual(r.target,TARGET);
  assert.equal(r.limitedDigestBefore,r.limitedDigestAfter);assert.equal(r.countedInLimited,false);
  assert.equal(s.jinmuStock.length,0);assert.equal(s.jinmuIssues.length,0);
- const h=one(s.holders);assert.equal(Number(h.user_id),TARGET.id);assert.equal(Number(h.total_copies),1);assert.equal(Number(h.duplicate_count),0);
+ const h=one(s.holders.filter(row=>Number(row.user_id)===TARGET.id));assert.equal(Number(h.total_copies),1);assert.equal(Number(h.duplicate_count),0);
  const acquisition=one(await q(db,'SELECT * FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=$1',[OPERATION_KEY]));
  assert.equal(Number(acquisition.user_id),TARGET.id);assert.equal(acquisition.mercenary_code,TARGET.code);
  assert.equal(Number(acquisition.total_copies_after),1);assert.equal(Number(acquisition.is_duplicate),0);
