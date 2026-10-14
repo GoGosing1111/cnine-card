@@ -210,7 +210,8 @@ test('raid QTE holds the same game clock in event order, skips rejected branches
 });
 test('live adapter batches the full server clock and cancel/reset stops the clock',async()=>{
   const [adapter,engine]=await Promise.all([readFile(new URL('../js/battle-v3-live.js',import.meta.url),'utf8'),readFile(new URL('../preview/project-v-v3/source/battle/BattleEngine.js',import.meta.url),'utf8')]);
-  assert.match(adapter,/playEventsChecked\(timedEvents, \{ beforeEvent: prepareEvent \}\)/);
+  assert.match(adapter,/playEventsChecked\(timedEvents, \{ beforeEvent: prepareEvent, afterEvent: event => \{completedEvents\+\+;options\.onCombatEvent\?\.\(event\);\} \}\)/);
+  assert.match(adapter,/progress:\(\)=>completedEvents, progressTimeoutMs:30000/);
   assert.match(adapter,/const playEventsChecked=async\(events,playOptions\)=>\{\s*const result=await root\.ProjectVPixiBattle\.playEvents\(events,playOptions\);/);
   assert.match(adapter,/durationMs \* 2 \+ 15000/);
   const timed=adapter.slice(adapter.indexOf('else if (timedSkillChips && !destroyed)'),adapter.indexOf('const finalState = payload?.battleV2?.result?.final'));
