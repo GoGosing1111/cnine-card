@@ -1,0 +1,53 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:verified-barsen-message-additional:20261014:v1",
+  "campaignKey": "verified-barsen-message-additional-20261014-v1",
+  "authorization": "2차인증 전체유저 바르센 입장권 10장 지급해",
+  "delivery": "MESSAGE",
+  "additionalGrant": true,
+  "previousOperationKey": "ops:verified-barsen-tickets-ten:20261014:v1",
+  "eligibility": "All ACTIVE secondary-verified accounts, all roles and verification providers",
+  "recipientCount": 573,
+  "recipientHash": "4865d35f1ac4258dba8157a78e27cb213a3a2cb4acde7a7273f5d7c3a26c7022",
+  "roles": {
+    "OWNER": 2,
+    "USER": 569,
+    "ADMIN": 2
+  },
+  "providers": {
+    "PLAYDK": 572,
+    "WAGO": 1
+  },
+  "excludedInactive": [
+    {
+      "status": "BANNED",
+      "count": 1
+    }
+  ],
+  "itemCode": "MADARA_RAID_ENTRY_TICKET",
+  "itemName": "바르센 레이드 입장권",
+  "amountEach": 10,
+  "totalAmount": 5730,
+  "title": "2차 인증 유저 바르센 입장권 10장 추가 지급",
+  "body": "2차 인증을 완료하신 유저 여러분께 바르센 레이드 입장권 10장을 추가로 드립니다. 메시지함에서 보상을 수령해 주세요.",
+  "auditId": "46177",
+  "completedAt": "2026-10-14T14:41:19.226Z",
+  "checkedAt": "2026-10-14T14:41:20.538Z",
+  "verification": {
+    "messages": 573,
+    "rewards": 573,
+    "totalAmount": 5730,
+    "claimed": 0,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "replayedWithoutReissue": true,
+  "sourceCommit": "9c034e064c61e0de9a047e695c5022e3b20333e9",
+  "testsPassed": 5,
+  "dryRunResidue": {
+    "messages": 0,
+    "receipts": 0,
+    "audits": 0
+  },
+  "deploymentRequired": false
+}
