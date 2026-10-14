@@ -1,0 +1,44 @@
+{
+  "request": "비쥬얼깡패 계정에 엠퍼러에너지 100개 넣어줘",
+  "status": "COMPLETED",
+  "operationKey": "ops:visualgangster-emperor-energy:20261014:100:v1",
+  "user": {
+    "id": 81,
+    "nickname": "비쥬얼깡패"
+  },
+  "allocations": [
+    {
+      "code": "EMPEROR_ENERGY",
+      "name": "엠퍼러 에너지",
+      "amount": 100,
+      "before": {
+        "quantity": "6",
+        "unseenQuantity": "0"
+      },
+      "after": {
+        "quantity": "106",
+        "unseenQuantity": "100"
+      },
+      "logId": "83679593"
+    }
+  ],
+  "completedAt": "2026-10-14T06:11:50.425Z",
+  "auditId": "45930",
+  "currentInventoryAtVerification": [
+    {
+      "item_code": "EMPEROR_ENERGY",
+      "quantity": "106",
+      "unseen_quantity": "100"
+    }
+  ],
+  "verifiedAt": "2026-10-14T06:11:51.867Z",
+  "validation": {
+    "productionDryRunRollbackVerified": true,
+    "postCommitReadVerified": true,
+    "replayVerified": true,
+    "grantLogCount": 1,
+    "transaction": "account and inventory row locks; atomic increment, inventory log, admin audit and unique receipt"
+  },
+  "gameRuntimeChanged": false,
+  "deploymentRequired": false
+}
