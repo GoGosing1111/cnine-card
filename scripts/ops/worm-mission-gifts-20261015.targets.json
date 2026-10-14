@@ -1,0 +1,688 @@
+{
+  "operationKey": "ops:worm-mission-gifts:playdk-1322742:v1",
+  "sourceCheck": {
+    "url": "https://www.playdk.kr/board/skm/1322742",
+    "postId": 1322742,
+    "title": "🏆지렁이게임 대결이 펀딩 명단 확인후 확인댓(누락 무조껀댓)🏆",
+    "updatedAt": "2026-10-15T00:42:25",
+    "checkedAt": "2026-10-14T20:34:54.286Z",
+    "contentSha256": "eb312a3846e3100cc83a4086b1c3e5fda9737d5b7375cf87e56f1c3fb11bd8b9",
+    "matchingRows": 74,
+    "totalBoxes": 180,
+    "groups": {
+      "1": 13,
+      "2": 16,
+      "3": 45
+    }
+  },
+  "targets": [
+    {
+      "sourceRow": 14,
+      "sourceNickname": "연두",
+      "inputNickname": "ε연두з",
+      "userId": "3",
+      "nickname": "ε연두з",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 12,
+      "sourceNickname": "[C9]오승환",
+      "inputNickname": "커피먹는철구",
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 44,
+      "sourceNickname": "뎁짜이",
+      "inputNickname": "여우",
+      "userId": "25",
+      "nickname": "여우",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 51,
+      "sourceNickname": "DK쑤댕",
+      "inputNickname": "DK쑤댕",
+      "userId": "32",
+      "nickname": "쑤댕",
+      "boxes": 2,
+      "identityEvidence": "scripts/ops/ayoon-recruitment-gift-20261003.targets.json; docs/pingdu-thanks-ppanghun-20261002.json"
+    },
+    {
+      "sourceRow": 36,
+      "sourceNickname": "빡세라-ㅁ-",
+      "inputNickname": "박세라-ㅂ-",
+      "userId": "45",
+      "nickname": "박세라-ㅂ-",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 17,
+      "sourceNickname": "하이폭군#",
+      "inputNickname": "폭군#",
+      "userId": "52",
+      "nickname": "폭군#",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 53,
+      "sourceNickname": "란x2",
+      "inputNickname": "란x2",
+      "userId": "73",
+      "nickname": "란x2",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 33,
+      "sourceNickname": "씨구탱탱",
+      "inputNickname": "랄네미탱탱",
+      "userId": "76",
+      "nickname": "랄네미탱탱",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 6,
+      "sourceNickname": "비쥬얼깡패",
+      "inputNickname": "비쥬얼깡패",
+      "userId": "81",
+      "nickname": "비쥬얼깡패",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 27,
+      "sourceNickname": "0수표",
+      "inputNickname": "0수표",
+      "userId": "88",
+      "nickname": "0수표",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 57,
+      "sourceNickname": "족쌤",
+      "inputNickname": "족구선생",
+      "userId": "130",
+      "nickname": "족구선생",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 66,
+      "sourceNickname": "혜루1",
+      "inputNickname": "혜루",
+      "userId": "148",
+      "nickname": "혜루",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 50,
+      "sourceNickname": "숲에사는족구",
+      "inputNickname": "차단하다",
+      "userId": "162",
+      "nickname": "차단하다",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 34,
+      "sourceNickname": "하이초월",
+      "inputNickname": "박사",
+      "userId": "164",
+      "nickname": "박사",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 32,
+      "sourceNickname": "현하루",
+      "inputNickname": "현하루",
+      "userId": "218",
+      "nickname": "현하루",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 13,
+      "sourceNickname": "쇼메이커",
+      "inputNickname": "ShowMaker",
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 71,
+      "sourceNickname": "블랑코_",
+      "inputNickname": "유나이은",
+      "userId": "236",
+      "nickname": "유나이은",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 11,
+      "sourceNickname": "베배킹",
+      "inputNickname": "베배킹",
+      "userId": "289",
+      "nickname": "베베킹",
+      "boxes": 3,
+      "identityEvidence": "scripts/ops/ayoon-recruitment-gift-20261003.targets.json; docs/mangsuni-rescue-20261008.json"
+    },
+    {
+      "sourceRow": 21,
+      "sourceNickname": "Mild7",
+      "inputNickname": "Mild7",
+      "userId": "290",
+      "nickname": "Mild7",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 63,
+      "sourceNickname": "tmxkzmfovmxm",
+      "inputNickname": "모래",
+      "userId": "295",
+      "nickname": "모래",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 2,
+      "sourceNickname": "라피e",
+      "inputNickname": "라피e",
+      "userId": "360",
+      "nickname": "라피e",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 46,
+      "sourceNickname": "족구쪼아",
+      "inputNickname": "족구조아",
+      "userId": "525",
+      "nickname": "족구조아",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 48,
+      "sourceNickname": "#LafeStar",
+      "inputNickname": "라페스타다",
+      "userId": "750",
+      "nickname": "라페스타다",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 72,
+      "sourceNickname": "뚱초환",
+      "inputNickname": "뚱초환",
+      "userId": "787",
+      "nickname": "뚱초환",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 28,
+      "sourceNickname": "[DJ]처음와봄",
+      "inputNickname": "뽑기고수71",
+      "userId": "850",
+      "nickname": "뽑기고수71",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 20,
+      "sourceNickname": "гain",
+      "inputNickname": "씨나인택갓",
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 40,
+      "sourceNickname": "코파먹는성태",
+      "inputNickname": "전게씹선미아웃",
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 49,
+      "sourceNickname": "핫시:D",
+      "inputNickname": "핫시",
+      "userId": "1768",
+      "nickname": "핫시",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 37,
+      "sourceNickname": "날종",
+      "inputNickname": "옹가망함1",
+      "userId": "2246",
+      "nickname": "옹가망함1",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 24,
+      "sourceNickname": "블랙캐슬",
+      "inputNickname": "블랙캐슬",
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 47,
+      "sourceNickname": "딸기찾는철구",
+      "inputNickname": "오일바른가지",
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 45,
+      "sourceNickname": "z7005z",
+      "inputNickname": "zkzk9999",
+      "userId": "3884",
+      "nickname": "zkzk9999",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 52,
+      "sourceNickname": "스프°",
+      "inputNickname": "우회하세요",
+      "userId": "3974",
+      "nickname": "우회하세요",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 22,
+      "sourceNickname": "족게이다",
+      "inputNickname": "족게이다",
+      "userId": "4111",
+      "nickname": "족게이다",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 58,
+      "sourceNickname": "도댕...",
+      "inputNickname": "도댕",
+      "userId": "4235",
+      "nickname": "도댕",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 31,
+      "sourceNickname": "탱탱노",
+      "inputNickname": "더듬이구",
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 19,
+      "sourceNickname": "연구가태여니",
+      "inputNickname": "레가파",
+      "userId": "4408",
+      "nickname": "레가파",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 60,
+      "sourceNickname": "대지#",
+      "inputNickname": "대지",
+      "userId": "4479",
+      "nickname": "대지",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 64,
+      "sourceNickname": "ausuusuha",
+      "inputNickname": "지아영",
+      "userId": "4540",
+      "nickname": "지아영",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 18,
+      "sourceNickname": "혜정♪",
+      "inputNickname": "혜정",
+      "userId": "4570",
+      "nickname": "혜정",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 23,
+      "sourceNickname": "응맨♡",
+      "inputNickname": "응맨",
+      "userId": "4572",
+      "nickname": "응맨",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 41,
+      "sourceNickname": "[C9]족단",
+      "inputNickname": "족단",
+      "userId": "4582",
+      "nickname": "족단",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 54,
+      "sourceNickname": "[C9]비니",
+      "inputNickname": "비니",
+      "userId": "4595",
+      "nickname": "비니",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 26,
+      "sourceNickname": "Rrr",
+      "inputNickname": "찬호",
+      "userId": "4597",
+      "nickname": "찬호",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 29,
+      "sourceNickname": "암살자..",
+      "inputNickname": "암살자..",
+      "userId": "4598",
+      "nickname": "암살자..",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 42,
+      "sourceNickname": "고라니ㅇ",
+      "inputNickname": "고라니ㅇ",
+      "userId": "4610",
+      "nickname": "고라니ㅇ",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 68,
+      "sourceNickname": "공허한단발",
+      "inputNickname": "공단",
+      "userId": "4614",
+      "nickname": "공단",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 1,
+      "sourceNickname": "[C9]플랜비",
+      "inputNickname": "랭비!",
+      "userId": "4615",
+      "nickname": "랭비!",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 73,
+      "sourceNickname": "리이렐",
+      "inputNickname": "리이렐",
+      "userId": "4621",
+      "nickname": "리이렐",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 59,
+      "sourceNickname": "제롬3",
+      "inputNickname": "제롬",
+      "userId": "4625",
+      "nickname": "제롬",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 35,
+      "sourceNickname": "학벌",
+      "inputNickname": "학벌",
+      "userId": "4627",
+      "nickname": "학벌",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 3,
+      "sourceNickname": "망액이",
+      "inputNickname": "망순이ෆ",
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 74,
+      "sourceNickname": "norwaysoop",
+      "inputNickname": "Veil",
+      "userId": "4629",
+      "nickname": "Veil",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 69,
+      "sourceNickname": ".의지",
+      "inputNickname": "의지",
+      "userId": "4641",
+      "nickname": "의지",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 25,
+      "sourceNickname": "세라네꼬라지",
+      "inputNickname": "세라네꼬라지",
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 43,
+      "sourceNickname": "시소둥이",
+      "inputNickname": "시소둥이",
+      "userId": "4693",
+      "nickname": "시소둥이",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 39,
+      "sourceNickname": "˚쟁이。",
+      "inputNickname": "˚쟁이。",
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 62,
+      "sourceNickname": "튜브브브브",
+      "inputNickname": "겨밥디임",
+      "userId": "4712",
+      "nickname": "겨밥디임",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 30,
+      "sourceNickname": "음주플레이어",
+      "inputNickname": "음주플레이어",
+      "userId": "4757",
+      "nickname": "음주플레이어",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 65,
+      "sourceNickname": "네이아네이",
+      "inputNickname": "펜타",
+      "userId": "4772",
+      "nickname": "펜타",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 16,
+      "sourceNickname": "진짜디임",
+      "inputNickname": "진짜디임",
+      "userId": "4773",
+      "nickname": "진짜디임",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 15,
+      "sourceNickname": "생스머신디임 / 딤럼프",
+      "inputNickname": "딤럼프",
+      "userId": "4774",
+      "nickname": "딤럼프",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 4,
+      "sourceNickname": "[늘]음주",
+      "inputNickname": "음주",
+      "userId": "4817",
+      "nickname": "음주",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 10,
+      "sourceNickname": "딤키우기",
+      "inputNickname": "딤키우기",
+      "userId": "4836",
+      "nickname": "딤키우기",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 70,
+      "sourceNickname": "[C9]가시",
+      "inputNickname": "[C9]가시",
+      "userId": "4866",
+      "nickname": "[C9]가시",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 8,
+      "sourceNickname": "굳건창수b",
+      "inputNickname": "굳건창수",
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 9,
+      "sourceNickname": "늘예쁜몬나니",
+      "inputNickname": "심심이",
+      "userId": "4933",
+      "nickname": "심심이",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 5,
+      "sourceNickname": "쁴로리",
+      "inputNickname": "쁴로리",
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 55,
+      "sourceNickname": "단정한밤",
+      "inputNickname": "나무",
+      "userId": "5008",
+      "nickname": "나무",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 61,
+      "sourceNickname": "하이타몽♡",
+      "inputNickname": "타몽",
+      "userId": "5148",
+      "nickname": "타몽",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 56,
+      "sourceNickname": "ΘωΘ비니",
+      "inputNickname": "비_니",
+      "userId": "5504",
+      "nickname": "비_니",
+      "boxes": 2,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 7,
+      "sourceNickname": "하이도령",
+      "inputNickname": "하이도령",
+      "userId": "5521",
+      "nickname": "하이도령",
+      "boxes": 3,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    },
+    {
+      "sourceRow": 67,
+      "sourceNickname": "남수댕",
+      "inputNickname": "남수댕ㅗ",
+      "userId": "5950",
+      "nickname": "남수댕ㅗ",
+      "boxes": 1,
+      "identityEvidence": "EXACT_GAME_NICKNAME"
+    }
+  ],
+  "pending": [
+    {
+      "sourceRow": 38,
+      "sourceNickname": "캄레인",
+      "gameNickname": "캄레인",
+      "boxes": 3,
+      "reason": "GAME_ACCOUNT_NOT_FOUND"
+    }
+  ],
+  "delivery": "DIRECT_INVENTORY",
+  "maxPerAccount": 3
+}
