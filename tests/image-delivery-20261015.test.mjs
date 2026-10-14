@@ -2,6 +2,21 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {readFile,mkdtemp,mkdir,writeFile,access,realpath,rm} from 'node:fs/promises';
 import {createHash} from 'node:crypto';import {tmpdir} from 'node:os';import path from 'node:path';
 import {prepareProductionAssets,isProductionFile} from '../scripts/prepare-production-assets.mjs';
+test('overlapping Pages image rules emit one cache lifetime and keep immutable limited to hashed derivatives',async()=>{
+ const headers=await readFile(new URL('../_headers',import.meta.url),'utf8'),rules=[];let route;
+ for(const line of headers.split(/\r?\n/)){
+  if(line.startsWith('/'))route=line.trim();
+  const value=line.match(/^\s+Cache-Control:\s*(.+)$/i)?.[1];if(value)rules.push({route,value});
+ }
+ const cacheFor=url=>rules.filter(({route})=>route.endsWith('*')?url.startsWith(route.slice(0,-1)):url===route).map(row=>row.value).join(', ');
+ for(const url of ['/assets/optimized/20261015-v1/hash.webp','/assets/approved.png']){
+  const directives=cacheFor(url).split(',').map(value=>value.trim());
+  assert.equal(directives.filter(value=>/^max-age=/.test(value)).length,1,'conflicting lifetimes invalidate caching');
+  assert.ok(directives.includes('max-age=86400'));
+  assert.equal(directives.includes('immutable'),url.includes('/optimized/'));
+ }
+ assert.equal(cacheFor('/api/sync/state'),'');
+});
 test('all delivery mappings preserve their originals and resolve to verified smaller derivatives',async()=>{
  const manifest=JSON.parse(await readFile(new URL('../docs/image-delivery-20261015/manifest.json',import.meta.url),'utf8')),checked=new Set();
  const hash=b=>createHash('sha256').update(b).digest('hex');let source=0,compressed=0;

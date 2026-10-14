@@ -95,5 +95,6 @@
 /events/wish-lamp/*
   Cache-Control: no-cache, must-revalidate, max-age=0
 
+# Pages joins matching rules: inherit the single /assets/* lifetime above.
 /assets/optimized/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: immutable
