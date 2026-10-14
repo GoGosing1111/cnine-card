@@ -9,16 +9,18 @@ export class BallisticArtilleryFX{
  constructor(engine,merc,targets,assets,manifest,plan,onUpdate=()=>{}){Object.assign(this,{engine,merc,targets,assets,manifest,plan,onUpdate});merc.animationController.kill();this.bodyHeight=manifest.displaySizing.physicalBodyHeight;this.clock={time:0};this.speed=1;this.auraEnabled=true;this.motionOnly=false;this.reducedMotion=!!engine.reducedMotion;this.layer=new Container({label:'BallisticArtilleryFX'});this.layer.eventMode='none';engine.effectLayer.addChild(this.layer);this.pool=Array.from({length:100},()=>{const s=new Sprite();s.visible=false;this.layer.addChild(s);return s;});this.targetsBase=targets.map(a=>({x:a.view.x,tint:a.fullBodySprite.tint}));this.ambientOffset=0;this.makeBodyAura();this.makeHalo();this.captureFormation();this.makeTimeline();this.render(0);}
  get time(){return this.clock.time}get playing(){return !!this.timeline&&!this.timeline.paused()&&this.time<this.plan.duration}
  makeBodyAura(){
-  this.bodyAuraBack=new Container({label:'WhiteTigerAuraBack'});this.bodyAuraBack.zIndex=5;this.merc.view.addChild(this.bodyAuraBack);
-  this.bodyAuraFront=new Container({label:'WhiteTigerAuraFront'});this.bodyAuraFront.zIndex=this.merc.fullBodySprite.zIndex+.01;this.merc.view.addChild(this.bodyAuraFront);
+  this.bodyAuraBack=new Container({label:'MercenaryAmbientBack'});this.bodyAuraBack.zIndex=5;this.merc.view.addChild(this.bodyAuraBack);
+  this.bodyAuraFront=new Container({label:'MercenaryAmbientFront'});this.bodyAuraFront.zIndex=this.merc.fullBodySprite.zIndex+.01;this.merc.view.addChild(this.bodyAuraFront);
   this.bodyAuraFilters=[new AlphaFilter({alpha:1}),new AlphaFilter({alpha:1})];
   this.bodyAuraBack.filters=[this.bodyAuraFilters[0]];this.bodyAuraFront.filters=[this.bodyAuraFilters[1]];
   this.bodyAuraSprites=[0,1].map(()=>{const s=new Sprite();this.bodyAuraBack.addChild(s);return s;});
-  this.bodyAuraFrontSprites=[0,1].map(()=>{const s=new Sprite();this.bodyAuraFront.addChild(s);return s;});this.merc.view.sortChildren();
+  this.bodyAuraFrontSprites=[0,1].map(()=>{const s=new Sprite();this.bodyAuraFront.addChild(s);return s;});
+  this.standardRightSprites=[0,1].map(()=>{const s=new Sprite();s.visible=false;this.bodyAuraBack.addChild(s);return s;});this.merc.view.sortChildren();
  }
  updateBodyAura(state){
   this.bodyAuraBack.visible=this.bodyAuraFront.visible=this.manifest.bodyAura?.enabled!==false&&this.auraEnabled&&!this.motionOnly&&!state.cancelled;
   if(!this.bodyAuraBack.visible)return;
+  if(this.manifest.bodyAura.kind==='SPECTRAL_STANDARDS'){this.bodyAuraFront.visible=false;this.updateSpectralStandards(state);return;}
   const r=this.manifest.bodyAura,count=this.manifest.effects[r.rear].frameCount,time=this.ambientOffset+state.time;
   const phase=this.reducedMotion?0:(1-Math.cos(time/r.cycleSeconds*Math.PI*2))*(count-1)/2,i=Math.floor(phase),q=phase-i;
   this.bodyAuraFrame=phase;this.bodyAuraPosition={x:this.bodyHeight*r.noseOffset.x,y:this.bodyHeight*r.noseOffset.y};
@@ -30,6 +32,22 @@ export class BallisticArtilleryFX{
    s.texture=this.assets.effects[key][n];s.anchor.set(a.x,a.y);s.position.set(this.bodyAuraPosition.x,this.bodyAuraPosition.y);
    s.width=s.height=this.bodyAuraSize;s.rotation=0;s.alpha=j?q:1-q;s.blendMode='add';
   }
+ }
+ updateSpectralStandards(state){
+  const r=this.manifest.bodyAura,count=this.manifest.effects[r.left].frameCount,time=this.ambientOffset+state.time;
+  const phase=this.reducedMotion?0:((time%r.cycleSeconds+r.cycleSeconds)%r.cycleSeconds)/r.cycleSeconds*count,i=Math.floor(phase),q=phase-i;
+  this.bodyAuraFrame=phase;this.bodyAuraPosition={x:r.origin.x*this.bodyHeight,y:r.origin.y*this.bodyHeight};this.bodyAuraSize=this.bodyHeight;
+  this.bodyAuraPoleChecks=[];
+  for(const [side,key,sprites]of [[0,r.left,this.bodyAuraSprites],[1,r.right,this.standardRightSprites]])for(let j=0;j<2;j++){
+   const n=(i+j)%count,f=this.manifest.effects[key].frames[n],s=sprites[j],base=r.bases[side],v=r.poleVectors[side];
+   s.texture=this.assets.effects[key][n];s.anchor.set(f.anchor.x,f.anchor.y);s.position.set(this.bodyAuraPosition.x+base.x*this.bodyHeight,this.bodyAuraPosition.y+base.y*this.bodyHeight);
+   s.scale.set(this.bodyHeight*f.scaleInBodyHeights);s.rotation=f.rotation;s.alpha=j?q:1-q;s.visible=true;s.blendMode='add';
+   const dx=(f.landmarks.top.x-f.landmarks.base.x)*s.scale.x,dy=(f.landmarks.top.y-f.landmarks.base.y)*s.scale.y;
+   const top={x:s.x+dx*Math.cos(s.rotation)-dy*Math.sin(s.rotation),y:s.y+dx*Math.sin(s.rotation)+dy*Math.cos(s.rotation)},expected={x:s.x+v.x*this.bodyHeight,y:s.y+v.y*this.bodyHeight};
+   this.bodyAuraPoleChecks.push({side,frame:n,base:{x:s.x,y:s.y},top,expected,error:Math.hypot(top.x-expected.x,top.y-expected.y)});
+  }
+  const e=r.envelope,corners=[this.ownPoint(e.left*this.bodyHeight,e.top*this.bodyHeight),this.ownPoint(e.right*this.bodyHeight,e.top*this.bodyHeight),this.ownPoint(e.left*this.bodyHeight,e.bottom*this.bodyHeight),this.ownPoint(e.right*this.bodyHeight,e.bottom*this.bodyHeight)];
+  this.bodyAuraBounds={left:Math.min(...corners.map(p=>p.x)),right:Math.max(...corners.map(p=>p.x)),top:Math.min(...corners.map(p=>p.y)),bottom:Math.max(...corners.map(p=>p.y))};
  }
  makeHalo(){this.haloBack=new Container({label:'MandatoryHeadHalo'});this.haloBack.zIndex=10;this.merc.view.addChild(this.haloBack);this.haloSprites=[0,1].map(()=>{const s=new Sprite();this.haloBack.addChild(s);return s;});this.merc.view.sortChildren();}
  updateHalo(state){this.haloBack.visible=this.auraEnabled&&!this.motionOnly&&!state.cancelled;if(!this.haloBack.visible)return;const p=this.localAnchor('head'),phase=(this.reducedMotion?0:state.time%6/6*12),i=Math.floor(phase),q=phase-i;this.haloFrame=phase;this.haloPosition={x:p.x,y:p.y-this.bodyHeight*.035};for(let j=0;j<2;j++){const s=this.haloSprites[j],idx=(i+j)%12,a=this.manifest.effects.halo.frames[idx].anchor;s.texture=this.assets.effects.halo[idx];s.anchor.set(a.x,a.y);s.position.set(this.haloPosition.x,this.haloPosition.y);s.width=s.height=this.bodyHeight*.64;s.alpha=j?q:1-q;s.rotation=0;}}

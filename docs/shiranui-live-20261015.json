@@ -1,0 +1,132 @@
+{
+  "status": "COMPLETED",
+  "deployment": {
+    "source": "dd53e4691bacff7ffa8d77201d7893e0a9489fe2",
+    "previousSource": "204dddd81abf7fe36216dc263792fe8105f34ef8",
+    "url": "https://298ccda2.cnine-card.pages.dev",
+    "apiVersion": "f26eba59-798b-4557-8ee2-c17edbfbd971",
+    "schedulerVersion": "fdec60a0-6841-4a02-9ce7-de0e0f0e1729",
+    "scopedTestsPassed": 16,
+    "hyperdriveCacheDisabled": true
+  },
+  "delivery": {
+    "status": "PASS",
+    "checkedAt": "2026-10-14T21:21:54.452Z",
+    "releaseCommit": "dd53e4691bacff7ffa8d77201d7893e0a9489fe2",
+    "checks": [
+      {
+        "file": "shared/mercenary-shiranui-v1.mjs",
+        "status": 200,
+        "sha256": "0351301ed0a781cd6f890e25963a8d1c4adc51e2fefc0b9c6bca04aadbe6b62c",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-monochrome-artillery-battle-v1/manifest.json",
+        "status": 200,
+        "sha256": "0d13906d4c43c13eab2ab0f8ff3d8dc3937865f46f3831385ec1604a5b1821c0",
+        "matches": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/shiranui-20261015/source-art.png",
+        "status": 200,
+        "sha256": "3b67b37e9e3ab1e017552c6d6864c0469056edc1332c2555c9f4cc6f5e3ffe65",
+        "matches": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/shiranui-20261015/idle.png",
+        "status": 200,
+        "sha256": "07309373c5453d0389238d63a46ffa721dad22a3e43441d6f532fe76a6265057",
+        "matches": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/codex-v1/v-987-art-320.webp",
+        "status": 200,
+        "sha256": "1f612991b13e5b66e857d892e430ddeb0316f80b772813b1e169d9f612d0f3a9",
+        "matches": true
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "status": 200,
+        "sha256": "20c423c1b0984268a18d94f24af2862f16561b84d9cdeb240762e2d7076d4a7e",
+        "matches": true
+      },
+      {
+        "file": "preview/sustained-hunt-v2/battle.bundle.js",
+        "status": 200,
+        "sha256": "874b495bad965e43029b0cf226fee20b8a0c3d9ae92d2d5242217d758fa57f9a",
+        "matches": true
+      },
+      {
+        "file": "js/battle-v3-live.js",
+        "status": 200,
+        "sha256": "b4b53840b18c9bd178c0fb684833f132e0f6f169737fe52eb6051e23ce5aef4e",
+        "matches": true
+      },
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "50a5b8cb80b5c11be78aaaaa3cf0b751f09bf243049aa7c2c0c42b9107eae100",
+        "matches": true
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "sha256": "ec43037bb27af18108cae30131d0927abb514c1540ec3b77d7967778378007ec",
+        "matches": true
+      }
+    ],
+    "publicAcquisitionCatalogExcluded": true
+  },
+  "grant": {
+    "status": "VERIFIED",
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:pingdu-shiranui-grant:20261015:v1",
+      "authorization": "시라누이 라이브 승인 · 일반 획득 불가 · 핑크빛유두 지급·편성 · SSS 리미티드",
+      "target": {
+        "id": 1,
+        "nickname": "핑크빛유두",
+        "code": "V-987",
+        "quantity": 1
+      },
+      "completedAt": "2026-10-14T21:22:10.248Z",
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "protectedBefore": "9d5c7c20e6d63f86f949357140da69121f7e530bc22082141e0674fa3ffc26be",
+      "protectedAfter": "9d5c7c20e6d63f86f949357140da69121f7e530bc22082141e0674fa3ffc26be",
+      "automaticLoadout": false,
+      "cost": 0,
+      "adminLogId": "46287"
+    },
+    "currentCopies": 1,
+    "missing": 0,
+    "duplicateOperationGrants": 0
+  },
+  "checks": {
+    "dryRunRolledBack": true,
+    "replayedWithoutExtraGrant": true,
+    "separateReadConnectionVerified": true,
+    "accountState": {
+      "source": "deployed source mercenaryAccountState against live PostgreSQL; no impersonated user session",
+      "accountId": 1,
+      "code": "V-987",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "totalCopies": 1,
+      "canDeploy": true,
+      "acquisitionEnabled": false,
+      "excludedFromLimitedCount": true,
+      "loadouts": {
+        "PVE": {
+          "mercenaryCode": "V-988",
+          "revision": 11
+        },
+        "PVP": {
+          "mercenaryCode": "V-989",
+          "revision": 10
+        }
+      }
+    },
+    "helperStopped": true
+  }
+}

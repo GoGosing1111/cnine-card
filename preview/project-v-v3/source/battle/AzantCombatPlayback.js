@@ -1,5 +1,5 @@
 import {gsap} from 'gsap';
-import {AZANT_CODE,AZANT_BATTLE_SPRITE_SHA256,AZANT_SOURCE_ART,AZANT_BATTLE_SPRITE,AZANT_VOLLEY_EVENT,AZANT_AREA_EVENT} from '../../../../shared/mercenary-azant-v1.mjs';
+import {AZANT_CODE,AZANT_BATTLE_SPRITE_SHA256,AZANT_SOURCE_ART,AZANT_BATTLE_SPRITE,AZANT_VOLLEY_EVENT,AZANT_AREA_EVENT,azantPlaybackRate} from '../../../../shared/mercenary-azant-v1.mjs';
 import {SapphireFX,loadSapphireAssets} from '../../../mercenary-sapphire-archmage-battle-v1/source/SapphireFX.js';
 import {makePlan} from '../../../mercenary-sapphire-archmage-battle-v1/skill.mjs';
 const BODY_HEIGHT=300,POSE_SCALE=BODY_HEIGHT/360;
@@ -60,7 +60,7 @@ async function playback(engine,actor,targets,mode,apply){
  const valid=()=>!engine.mercenaryDisposed&&engine.visible&&epoch===engine.mercenaryEpoch&&playbackEpoch===engine.playbackEpoch&&!actor.root.destroyed&&targets.every(t=>!t.root.destroyed);
  if(!valid()||!targets.length)return false;const s=await setupAzantActor(engine,actor);if(!s||!valid())return false;
  engine.settlePendingTails?.([actor,...targets]);stopAmbient(s);actor.animationController.kill();s.busy=true;s.stopped=false;s.fx.begin(mode,targets);
- const plan=s.fx.plan,duration=plan.duration,contact=plan.finalAt??plan.contacts[0],rate=engine.reducedMotion?8:1.3*(engine.paceScale||1),clock={time:0};let applied=false;
+ const plan=s.fx.plan,duration=plan.duration,contact=plan.finalAt??plan.contacts[0],rate=azantPlaybackRate(engine),clock={time:0};let applied=false;
  const result=await engine.timeline(t=>{
   t.to(clock,{time:duration,duration:duration/rate,ease:'none',onUpdate(){if(valid()&&!s.stopped){s.fx.clock.time=clock.time;s.fx.render(clock.time);}}});
   t.call(()=>{if(valid()&&!s.stopped&&!applied){applied=true;apply();}},[],contact/rate);
@@ -74,7 +74,7 @@ export function playAzantBasic(engine,{attacker:actor,target,damage=0,targetHp=n
 }
 export function playAzantSkill(engine,event){
  const actor=engine.combatantById(event.actorId),area=event.type===AZANT_AREA_EVENT;
- if(actor?.cardId!==AZANT_CODE||![AZANT_VOLLEY_EVENT,AZANT_AREA_EVENT].includes(event.type)||event.battleMode!==(area?'PVE':'PVP'))return true;
+ if(actor?.cardId!==AZANT_CODE||![AZANT_VOLLEY_EVENT,AZANT_AREA_EVENT].includes(event.type)||(area?event.battleMode!=='PVE':!['PVE','PVP'].includes(event.battleMode)))return true;
  const rows=[...new Map((event.hits||[]).map(hit=>[hit.targetId,hit])).values()].map(hit=>({hit,target:engine.combatantById(hit.targetId)})).filter(r=>r.target&&!r.target.root.destroyed);if(!rows.length)return true;
  return playback(engine,actor,rows.map(r=>r.target),area?'ultimate':'skill',()=>{for(const {hit,target}of rows){
   if(Number.isFinite(hit.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,hit.targetHpAfter,hit.targetMaxHp));

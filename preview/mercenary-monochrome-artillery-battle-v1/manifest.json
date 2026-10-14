@@ -2,11 +2,11 @@
   "version": 3,
   "date": "2026-10-15",
   "name": "시라누이",
-  "rank": null,
-  "code": null,
+  "rank": "SSS",
+  "code": "V-987",
   "previewAdapterCode": "V-000",
-  "runtimeEnabled": false,
-  "status": "BATTLE_VISUAL_REVIEW_PENDING",
+  "runtimeEnabled": true,
+  "status": "USER_APPROVED_EXCLUSIVE_LIVE",
   "sourceArt": "preview/monochrome-gunner-illustration-20261015-v1/monochrome-gunner-ballistic-aura-v3.png",
   "sourceArtSha256": "3b67b37e9e3ab1e017552c6d6864c0469056edc1332c2555c9f4cc6f5e3ffe65",
   "weapon": {
@@ -3254,6 +3254,408 @@
         }
       ],
       "status": "REJECTED_RETAINED"
+    },
+    "spectral-standards": {
+      "atlas": "assets/atlases/spectral-standards-v7.png",
+      "sha256": "ae6f83e54c99bdcf8b2afacf3b73e551bfb672d176cebe367d00fe6a47741aa6",
+      "source": "assets/sources/spectral-standards-v7.png",
+      "sourceSha256": "346228537b660d1440838ea5833a407ade7f2b79edf5a3783ecec8e3a04dfabd",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 723,
+      "frameCount": 4,
+      "previewEnabled": false,
+      "derivedLayer": null,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/spectral-standards-v7-0.png",
+          "sha256": "bc6454717e0d067ae2c5d419f4c4f0807b60be1371e10783d18700a861157500",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "bounds": {
+            "left": 53,
+            "top": 45,
+            "right": 578,
+            "bottom": 542
+          },
+          "maxBorderAlpha": 1
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/spectral-standards-v7-1.png",
+          "sha256": "b92c0ee09992a3da74029870df4d971f302af7fd3b0f46a43db27eaebc5c14e2",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "bounds": {
+            "left": 26,
+            "top": 45,
+            "right": 586,
+            "bottom": 542
+          },
+          "maxBorderAlpha": 1
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/spectral-standards-v7-2.png",
+          "sha256": "d141b5a1a1ab9aea1e4b8d0183620c61ec4dbaa801b365c56e1720a7b1eeea69",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "bounds": {
+            "left": 60,
+            "top": 35,
+            "right": 586,
+            "bottom": 534
+          },
+          "maxBorderAlpha": 1
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/spectral-standards-v7-3.png",
+          "sha256": "60d8783c7d633cca526271d1bdf7f7c01e706fe32c6e6d4aead0ece96a09b127",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "bounds": {
+            "left": 33,
+            "top": 35,
+            "right": 577,
+            "bottom": 533
+          },
+          "maxBorderAlpha": 1
+        }
+      ]
+    },
+    "spectral-standard-left": {
+      "atlas": "assets/atlases/spectral-standard-left-v7.png",
+      "sha256": "367927cf1e30e8e550b8bc725b5fe138ce251433c49624daa4e75b7810c8ed57",
+      "source": "assets/sources/spectral-standards-v7.png",
+      "sourceSha256": "346228537b660d1440838ea5833a407ade7f2b79edf5a3783ecec8e3a04dfabd",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 723,
+      "frameCount": 4,
+      "previewEnabled": true,
+      "derivedLayer": "LEFT",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/spectral-standard-left-v7-0.png",
+          "sha256": "ab57fdf63828020b2ae10a60459e7236e4760a6bc6da148bfa0b99e84d919e89",
+          "anchor": {
+            "x": 0.46473029045643155,
+            "y": 0.8118948824343015
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "bounds": {
+            "left": 53,
+            "top": 45,
+            "right": 295,
+            "bottom": 542
+          },
+          "maxBorderAlpha": 1,
+          "landmarks": {
+            "top": {
+              "x": 217.5,
+              "y": 48
+            },
+            "base": {
+              "x": 288,
+              "y": 539
+            }
+          },
+          "scaleInBodyHeights": 0.0023380207128649525,
+          "rotation": 0.012907275702463306
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/spectral-standard-left-v7-1.png",
+          "sha256": "6317b62c8c3f851bff187c013f851e1bbcfb6d9144518f36cda805ec49d0bef5",
+          "anchor": {
+            "x": 0.44398340248962653,
+            "y": 0.8132780082987552
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "bounds": {
+            "left": 26,
+            "top": 45,
+            "right": 280,
+            "bottom": 542
+          },
+          "maxBorderAlpha": 0,
+          "landmarks": {
+            "top": {
+              "x": 202,
+              "y": 47
+            },
+            "base": {
+              "x": 273,
+              "y": 540
+            }
+          },
+          "scaleInBodyHeights": 0.00232839422050824,
+          "rotation": 0.013330235301798998
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/spectral-standard-left-v7-2.png",
+          "sha256": "a63d9ebd7c95540ef9f7da056ae2bfb619f1d1c7cf8e6fe4b4cda6c17695fa70",
+          "anchor": {
+            "x": 0.4654218533886584,
+            "y": 0.7994467496542186
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "bounds": {
+            "left": 60,
+            "top": 35,
+            "right": 295,
+            "bottom": 534
+          },
+          "maxBorderAlpha": 1,
+          "landmarks": {
+            "top": {
+              "x": 218,
+              "y": 37
+            },
+            "base": {
+              "x": 288.5,
+              "y": 530
+            }
+          },
+          "scaleInBodyHeights": 0.002328726295830567,
+          "rotation": 0.012336502396893101
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/spectral-standard-left-v7-3.png",
+          "sha256": "5328db3f9487864b15a5fe5e19092f93aa9d2915c100a12340a218cc57a128ed",
+          "anchor": {
+            "x": 0.44398340248962653,
+            "y": 0.7994467496542186
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "bounds": {
+            "left": 33,
+            "top": 35,
+            "right": 280,
+            "bottom": 533
+          },
+          "maxBorderAlpha": 1,
+          "landmarks": {
+            "top": {
+              "x": 202,
+              "y": 37
+            },
+            "base": {
+              "x": 273,
+              "y": 530
+            }
+          },
+          "scaleInBodyHeights": 0.00232839422050824,
+          "rotation": 0.013330235301798998
+        }
+      ]
+    },
+    "spectral-standard-right": {
+      "atlas": "assets/atlases/spectral-standard-right-v7.png",
+      "sha256": "4a51fb88aba6e7c38b05fe2cabd0482950a199a56897bada482db8a338215103",
+      "source": "assets/sources/spectral-standards-v7.png",
+      "sourceSha256": "346228537b660d1440838ea5833a407ade7f2b79edf5a3783ecec8e3a04dfabd",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 723,
+      "frameCount": 4,
+      "previewEnabled": true,
+      "derivedLayer": "RIGHT",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/spectral-standard-right-v7-0.png",
+          "sha256": "25af2f7ee1a530d7266324ca916fe26f9d89c50bc9a093587723623f5e72bb10",
+          "anchor": {
+            "x": 0.5546334716459198,
+            "y": 0.8146611341632088
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "bounds": {
+            "left": 347,
+            "top": 45,
+            "right": 578,
+            "bottom": 542
+          },
+          "maxBorderAlpha": 1,
+          "landmarks": {
+            "top": {
+              "x": 424.5,
+              "y": 48
+            },
+            "base": {
+              "x": 353,
+              "y": 541
+            }
+          },
+          "scaleInBodyHeights": 0.0023280599418935453,
+          "rotation": -0.014323683854674307
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/spectral-standard-right-v7-1.png",
+          "sha256": "a05838d2aa32af60bc608615534c05548d362d29d5514bf8c395a359a1576879",
+          "anchor": {
+            "x": 0.5338865836791148,
+            "y": 0.8132780082987552
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 627,
+            "height": 627
+          },
+          "bounds": {
+            "left": 331,
+            "top": 45,
+            "right": 586,
+            "bottom": 542
+          },
+          "maxBorderAlpha": 1,
+          "landmarks": {
+            "top": {
+              "x": 409,
+              "y": 47
+            },
+            "base": {
+              "x": 338,
+              "y": 540
+            }
+          },
+          "scaleInBodyHeights": 0.00232839422050824,
+          "rotation": -0.013330235301798998
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/spectral-standard-right-v7-2.png",
+          "sha256": "22bbdd133614b17f4de9e4f5ead5a471eb0035b4548234749e647dc44a5a32a0",
+          "anchor": {
+            "x": 0.5546334716459198,
+            "y": 0.8008298755186722
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "bounds": {
+            "left": 346,
+            "top": 35,
+            "right": 586,
+            "bottom": 533
+          },
+          "maxBorderAlpha": 1,
+          "landmarks": {
+            "top": {
+              "x": 425,
+              "y": 36
+            },
+            "base": {
+              "x": 353,
+              "y": 531
+            }
+          },
+          "scaleInBodyHeights": 0.00231851376466039,
+          "rotation": -0.01473904121873204
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/spectral-standard-right-v7-3.png",
+          "sha256": "f468e2e68044a5915cf9d407c0e1ef55635b5941deee02dd8d27e3ab305595a0",
+          "anchor": {
+            "x": 0.5338865836791148,
+            "y": 0.8008298755186722
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 627,
+            "height": 627
+          },
+          "bounds": {
+            "left": 331,
+            "top": 35,
+            "right": 577,
+            "bottom": 533
+          },
+          "maxBorderAlpha": 0,
+          "landmarks": {
+            "top": {
+              "x": 409,
+              "y": 37
+            },
+            "base": {
+              "x": 338,
+              "y": 531
+            }
+          },
+          "scaleInBodyHeights": 0.0023237763588178913,
+          "rotation": -0.01304461642170951
+        }
+      ]
     }
   },
   "displaySizing": {
@@ -3301,29 +3703,30 @@
   "counts": {
     "motion": 4,
     "retainedMotion": 5,
-    "effects": 56,
+    "effects": 60,
     "retainedEffects": 52
   },
   "sourceIndex": "source-index.json",
   "productionNotes": "README.md",
   "qa": {
     "assets": "qa-ar-v3.test.mjs",
-    "runtime": "qa/aura-reset/preview-report.json",
-    "video": null,
-    "completeCharacter": "qa/aura-reset/desktop.png",
+    "runtime": "qa/standards-v7/runtime-report.json",
+    "video": "qa/standards-v7/video-inspection.json",
+    "completeCharacter": "qa/standards-v7/desktop-aura-3.png",
     "headDetail": "qa/head-detail.png",
     "arV3": "qa/ar-v3/runtime-report.json",
     "legacyAssets": "qa-assets.test.mjs",
     "legacyRuntime": "qa/runtime-report.json",
     "legacyVideo": "qa/video-inspection.json",
-    "bodyAura": null,
+    "bodyAura": "qa/standards-v7/runtime-report.json",
     "rejectedAuraV5": {
       "runtime": "qa/aura-v5/runtime-report.json",
       "video": "qa/aura-v5/video-inspection.json",
       "completeCharacter": "qa/aura-v5/desktop-aura-3.png"
-    }
+    },
+    "scope": "qa/standards-v7/scope-report.json"
   },
-  "revision": "SHIRANUI_AURA_REDESIGN_PENDING_V6",
+  "revision": "SHIRANUI_SPECTRAL_STANDARDS_AMBIENT_V7",
   "arRecoil": {
     "fixedHead": true,
     "fixedFeet": true,
@@ -3338,33 +3741,52 @@
     "wideFormationBlast": true
   },
   "bodyAura": {
-    "source": "white-tiger-aura",
-    "rear": "white-tiger-aura-rear",
-    "front": "white-tiger-aura-front",
-    "reference": "preview/mercenary-golden-dragon-battle-v1/source/GoldenDragonFX.js",
-    "layer": "JINMU_STYLE_REAR_AND_LOW_FOREGROUND",
-    "anchor": "FIXED_TIGER_NOSE",
-    "cycleSeconds": 12,
-    "phase": "COSINE_FORWARD_REVERSE",
-    "noseOffset": {
-      "x": 0.48,
-      "y": -0.94
+    "kind": "SPECTRAL_STANDARDS",
+    "enabled": true,
+    "source": "spectral-standards",
+    "left": "spectral-standard-left",
+    "right": "spectral-standard-right",
+    "origin": {
+      "x": -0.1,
+      "y": -0.28
     },
-    "sizeInBodyHeights": 2.15,
+    "bases": [
+      {
+        "x": -0.11,
+        "y": 0
+      },
+      {
+        "x": 0.11,
+        "y": 0
+      }
+    ],
+    "poleVectors": [
+      {
+        "x": -0.15,
+        "y": -1.15
+      },
+      {
+        "x": 0.15,
+        "y": -1.15
+      }
+    ],
     "envelope": {
-      "left": -0.6224066390041494,
-      "right": 0.03734439834024896,
-      "top": -0.22821576763485477,
-      "bottom": 0.42047026279391425
+      "left": -0.7851243500342617,
+      "right": 0.5874525373856262,
+      "top": -1.4421019599151763,
+      "bottom": -0.2704990741646062
     },
-    "fixedPosition": true,
-    "fixedScale": true,
-    "shotsAndBodyUnchanged": true,
+    "cycleSeconds": 12,
+    "phase": "FOUR_AUTHORED_CLOTH_PHASES_CYCLIC",
+    "layer": "REAR_ONLY",
+    "anchor": "TWO_FIXED_POLE_LANDMARKS",
     "ambientOnly": true,
     "attackEffectsAdded": false,
-    "enabled": false,
-    "status": "REJECTED_BY_USER",
-    "decision": "aura-rejection-20261015.json"
+    "fixedPosition": true,
+    "fixedPoleEndpoints": true,
+    "shotsAndBodyUnchanged": true,
+    "status": "USER_APPROVED",
+    "decision": "spectral-standards-selection-20261015.json"
   },
   "combatPreparation": {
     "file": "combat-preparation-20261015.json",
@@ -3372,5 +3794,7 @@
     "status": "NAME_AND_BALANCE_APPROVED_RELEASE_PENDING",
     "referenceCode": "V-988",
     "basePower": 1347840
-  }
+  },
+  "edition": "LIMITED",
+  "liveApproval": "live-approval-20261015.json"
 }

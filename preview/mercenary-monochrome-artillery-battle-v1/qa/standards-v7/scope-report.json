@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "scope": "SPECTRAL_BANNER_AMBIENT_ONLY",
+  "authoredPairFrames": 4,
+  "derivedLayers": 2,
+  "sourceHash": "346228537b660d1440838ea5833a407ade7f2b79edf5a3783ecec8e3a04dfabd",
+  "maxPoleError": 2.9504581591051765e-16,
+  "sourceAlphaPreserved": true,
+  "previousMotionWeaponHaloAndCombatPreserved": true,
+  "attackMethodsSha256": "de31fda517970f9bc33f8ff681c55d093f42d283884040b5689582a8c06d7f12",
+  "rejectedAuraAssetsDisabled": true
+}

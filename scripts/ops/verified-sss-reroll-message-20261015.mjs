@@ -56,7 +56,10 @@ export async function verifyVerifiedSssRerollMessage(client,receipt,{unclaimed=f
 // messages, rewards, audit and receipt commit together; inventory is unchanged.
 export async function sendVerifiedSssRerollMessage(client,{expectedRecipientHash,dryRun=false}={}){
  assert.match(String(expectedRecipientHash||''),/^[a-f0-9]{64}$/,'Reviewed recipient hash is required');
- await client.query('BEGIN ISOLATION LEVEL REPEATABLE READ');
+ // Freeze eligibility in the single reviewed recipient SELECT below. READ
+ // COMMITTED lets message-sync stamps wait for concurrent gameplay revisions;
+ // the unique operation reservation and campaign key still prevent reissues.
+ await client.query('BEGIN ISOLATION LEVEL READ COMMITTED');
  try{
   await client.query("SET LOCAL lock_timeout='5s'");await client.query("SET LOCAL statement_timeout='20s'");
   const reserved=await client.query(`INSERT INTO app_meta(key,value,updated_at) VALUES($1,$2,CURRENT_TIMESTAMP)

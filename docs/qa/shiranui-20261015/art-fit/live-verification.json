@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-10-14T21:35:12.000Z",
+  "releaseCommit": "ad4d6c1028248292c857e1bb2a33c85634b1d59a",
+  "checks": [
+    {
+      "file": "mercenary-codex/index.html",
+      "status": 200,
+      "sha256": "ca015628e32e18367a90e6ab7755e277d774eb24c25dd5b34f63b2f4f8a4494b"
+    },
+    {
+      "file": "mercenary-codex/limited.css",
+      "url": "/mercenary-codex/limited.css?v=20261015-shiranui-fit-v1",
+      "status": 200,
+      "sha256": "91bbe29ad03a2ae56bf3dcdef689cb49406c76cf895a1be77edd4004a0c2d09e"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "url": "/mercenary-codex/app.mjs?shiranuiArt=20261015-fit-v1&halloween=20261014-art&kairon=20261014-craft-v1&azant=20261014-live-v1&helios=20261009&deployment=20261009-v1&loadoutModes=20261009&balance=20261009-ss-limited-tempo&limited=20261004-approved&v=2133&limited=20261002-canonical2&strength=2103&art=20260915&fusion=20260925-on&cryvern=20260924",
+      "status": 200,
+      "sha256": "7af90b06c0f900b79d8937a8d6b0edd580e8be2c92c9ddb0ac6f9e7804afb0a3"
+    }
+  ]
+}

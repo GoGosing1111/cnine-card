@@ -1,8 +1,9 @@
+import {SHIRANUI_CODE} from './mercenary-shiranui-v1.mjs';
 // CMS weight zero is the single acquisition OFF setting. Missing weights keep
 // their existing registration defaults; ownership and combat are independent.
 import {isLimitedMercenary} from './mercenary-limited-catalog-v1.mjs';
 import {KAIRON_CODE} from './mercenary-kairon-v1.mjs';
-export const mercenaryAcquisitionEnabled=(code,rules)=>code!==KAIRON_CODE&&!isLimitedMercenary(code)&&rules?.cardWeights?.[code]!==0;
+export const mercenaryAcquisitionEnabled=(code,rules)=>code!==SHIRANUI_CODE&&code!==KAIRON_CODE&&!isLimitedMercenary(code)&&rules?.cardWeights?.[code]!==0;
 export function assertMercenaryAcquisitionEnabled(code,rules){
  if(!mercenaryAcquisitionEnabled(code,rules))throw Object.assign(Error('현재 획득이 중지된 용병입니다.'),{code:'MERCENARY_ACQUISITION_DISABLED',status:409,terminal:true});
 }
