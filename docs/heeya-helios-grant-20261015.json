@@ -1,0 +1,56 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:heeya-helios-grant:20261015:v1",
+    "planHash": "01f0d4393dd319e11cefb8365a52e745a8684370fe13645faa45de5b1c513d07",
+    "authorization": "하이희야♡ 헬리오스 1장 지급해",
+    "target": {
+      "id": 4977,
+      "nickname": "하이희야♡",
+      "code": "V-999",
+      "name": "헬리오스",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "quantity": 1
+    },
+    "completedAt": "2026-10-14T15:28:32.115Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "serial": 4,
+    "stockBefore": {
+      "limit": 7,
+      "issued": 3,
+      "remaining": 4
+    },
+    "stockAfter": {
+      "limit": 7,
+      "issued": 4,
+      "remaining": 3
+    },
+    "protectedBefore": "56ab0aeb8919f211e46df16ad5b64d2555406d4a22ea1da5c010531b8486a73f",
+    "protectedAfter": "56ab0aeb8919f211e46df16ad5b64d2555406d4a22ea1da5c010531b8486a73f",
+    "permanent": true,
+    "automaticLoadout": false,
+    "cost": 0,
+    "adminLogId": "46193"
+  },
+  "currentCopies": 1,
+  "stock": {
+    "limit": 7,
+    "issued": 4,
+    "remaining": 3
+  },
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "execution": {
+    "sourceCommit": "336147832e643df2f09d84ff61e2ed1a59cb34a8",
+    "transactionTestPassed": true,
+    "productionDryRunRolledBack": true,
+    "replayedWithoutAdditionalGrant": true,
+    "liveAccountLockAndFallback": true,
+    "fallbackReleased": true,
+    "verifiedWithNewConnection": true,
+    "deploymentRequired": false
+  }
+}
