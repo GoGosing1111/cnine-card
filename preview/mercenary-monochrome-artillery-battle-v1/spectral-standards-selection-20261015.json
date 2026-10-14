@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-15",
+  "userSelection": "망령 군기 — 찢어진 검은 군기 두 장이 등 뒤에서 천천히 펼쳐지는 느낌",
+  "concept": "망령 군기",
+  "conceptStatus": "SELECTED_BY_USER",
+  "visualStatus": "REVIEW_PENDING",
+  "scope": "AMBIENT_AURA_ONLY",
+  "source": "assets/sources/spectral-standards-v7.png",
+  "prompt": "prompts/spectral-standards-v7.json",
+  "generation": "built-in image_gen",
+  "replaces": "WHITE_TIGER_REJECTED_REPLACEMENT_CONCEPT_PENDING",
+  "policy": "Two dark spectral banners behind the character. Keep the face and complete rifle readable. Fixed pole endpoints, authored slow cloth animation; preserve mandatory head halo and all AR/artillery actions.",
+  "newAttackEffects": false,
+  "combatPreparationChanged": false,
+  "runtimeEnabled": false,
+  "sourceSha256": "346228537b660d1440838ea5833a407ade7f2b79edf5a3783ecec8e3a04dfabd",
+  "qa": "qa/standards-v7/runtime-report.json",
+  "video": "qa/standards-v7/video-inspection.json"
+}

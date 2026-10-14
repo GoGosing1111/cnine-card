@@ -201,6 +201,15 @@
       "status": "VISUAL_REVIEW_PENDING"
     },
     {
+      "file": "assets/sources/spectral-standards-v7.png",
+      "bytes": 1231377,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "346228537b660d1440838ea5833a407ade7f2b79edf5a3783ecec8e3a04dfabd",
+      "prompt": "prompts/spectral-standards-v7.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
       "file": "assets/sources/white-tiger-aim-v5.png",
       "bytes": 2089403,
       "width": 1254,

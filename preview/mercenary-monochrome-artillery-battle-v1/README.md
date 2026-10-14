@@ -1,6 +1,29 @@
 # 시라누이 · AR 연발·중앙 중포대
 
-## 최신 · 백호 폐기, 대체 콘셉트 검토
+## 현재 V7 · 망령 군기
+
+사용자가 **“망령 군기 — 찢어진 검은 군기 두 장이 등 뒤에서 천천히 펼쳐지는 느낌”**을 선택했다. 검은 천·은색 테두리·백색 문양의 군기 두 장을 후면에 배치하고, 실제로 천 주름과 끝자락이 변하는 4프레임을 12초 주기로 연결했다. 각 깃대의 위아래 두 기준점을 고정해 위치/길이/각도가 흔들리지 않게 등록했다. 최초 낮은 배치에서 옷자락과 합쳐 보이는 문제를 확인하여 등 뒤 위쪽으로 올렸다.
+
+- 최신 선택/상태: `spectral-standards-selection-20261015.json`, `manifest.json`. **콘셉트 선택 완료 / 새 결과의 사용자 시각 승인 대기 / 운영 OFF**.
+- 생성 원본: `assets/sources/spectral-standards-v7.png`, built-in `image_gen`, SHA-256 `346228537b660d1440838ea5833a407ade7f2b79edf5a3783ecec8e3a04dfabd`. 실제 프롬프트: `prompts/spectral-standards-v7.json`.
+- `pack-spectral-standards-v7.mjs`가 원본 알파를 보존하면서 좌우를 분리·패킹한다. 원본 한 쌍 4프레임의 파생 레이어를 8개 새 작화로 세지 않는다. 새 고유 효과 4 + 기존 56 = 60프레임이다.
+- 기존 승인 몸/총기·머리 광륜·9발 AR·30발 스킬/해골·25발 엄호/5회 중앙 포격·성능은 동일하다. 백호/탄환 아우라 자산은 로드하지 않는다.
+- `qa/standards-v7/`: 범위·양 끝점 정합 검사 통과. PC/모바일 120표본에서 몸/아우라 위치 각각 1개, 깃대 위/아래 기준점 각 2개, 전환 위상 오차 0. 후면 배치·화면 범위·제어·정리·반려 자산 미로드와 콘솔/HTTP 오류 0을 확인했다. 각 약 18.67초 실제 영상을 녹화·디코딩 재생하고 대기/연발/포격을 시각 확인했다.
+- 11단계 대응과 검수 설명: `../../docs/shiranui-spectral-standards-20261015.md`. 프리뷰 `index.html`, 현재 영상 `review.html`.
+
+현재 V7 재현:
+
+```powershell
+node preview/mercenary-monochrome-artillery-battle-v1/pack-spectral-standards-v7.mjs
+node preview/mercenary-monochrome-artillery-battle-v1/build-source-index.mjs
+node preview/mercenary-monochrome-artillery-battle-v1/build.mjs
+node preview/mercenary-monochrome-artillery-battle-v1/qa-spectral-standards-v7.test.mjs
+# 기존 8877 프리뷰 서버에서 아래 관련 검수만 실행
+node preview/mercenary-monochrome-artillery-battle-v1/qa-standards-v7.mjs
+node preview/mercenary-monochrome-artillery-battle-v1/inspect-standards-v7-video.mjs
+```
+
+## 이전 결정 · 백호 폐기, 대체 콘셉트 검토
 
 사용자 **“백호 폐기하고..다른 색다른거로 가자”**에 따라 백호 전체/뒤/앞 아우라 로드와 재생을 비활성화했다. 원본과 V5 검수는 반려 이력으로 보존한다. `aura-rejection-20261015.json`이 최신 결정이다. 승인 본체·총기·필수 머리 광륜·연발/포격·성능은 유지한다. 새 콘셉트는 아직 선택되지 않았으며 흑식·망령 군기·봉인된 사신은 제안이다.
 

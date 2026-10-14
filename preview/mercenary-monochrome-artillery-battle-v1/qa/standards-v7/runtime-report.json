@@ -1,0 +1,66 @@
+{
+  "version": 7,
+  "errors": [],
+  "screens": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "stability": {
+        "positions": 1,
+        "roots": 1,
+        "frames": 120,
+        "basePoints": 2,
+        "topPoints": 2,
+        "maxPoleError": 8.038873388460929e-14,
+        "continuityError": 0,
+        "rearOnly": true,
+        "bounds": {
+          "left": 262.2313474948607,
+          "right": 468.1178806078439,
+          "top": 23.68470601272358,
+          "bottom": 199.42513887530907
+        },
+        "unclipped": true
+      },
+      "cleanup": {
+        "hidden": true,
+        "destroyed": true
+      },
+      "rejectedRequests": []
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stability": {
+        "positions": 1,
+        "roots": 1,
+        "frames": 120,
+        "basePoints": 2,
+        "topPoints": 2,
+        "maxPoleError": 8.038873388460929e-14,
+        "continuityError": 0,
+        "rearOnly": true,
+        "bounds": {
+          "left": 208.57517034797013,
+          "right": 476.22766339484826,
+          "top": 50.25814107235452,
+          "bottom": 278.7207037937157
+        },
+        "unclipped": true
+      },
+      "cleanup": {
+        "hidden": true,
+        "destroyed": true
+      },
+      "rejectedRequests": []
+    }
+  ],
+  "status": "PASS",
+  "bundleLfSha256": "4e204ddd89405243624af81b4baafdf922c0b89050f8a5c3b38da9238758b3bb"
+}

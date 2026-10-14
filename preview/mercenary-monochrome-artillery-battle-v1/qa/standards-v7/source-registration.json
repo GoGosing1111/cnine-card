@@ -1,0 +1,153 @@
+{
+  "status": "PASS",
+  "source": "assets/sources/spectral-standards-v7.png",
+  "sourceSha256": "346228537b660d1440838ea5833a407ade7f2b79edf5a3783ecec8e3a04dfabd",
+  "cell": 723,
+  "registration": [
+    {
+      "index": 0,
+      "bounds": {
+        "left": 53,
+        "top": 45,
+        "right": 578,
+        "bottom": 542
+      },
+      "maxBorderAlpha": 1,
+      "poles": [
+        {
+          "side": "left",
+          "top": {
+            "x": 217.5,
+            "y": 48
+          },
+          "base": {
+            "x": 288,
+            "y": 539
+          }
+        },
+        {
+          "side": "right",
+          "top": {
+            "x": 424.5,
+            "y": 48
+          },
+          "base": {
+            "x": 353,
+            "y": 541
+          }
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "bounds": {
+        "left": 26,
+        "top": 45,
+        "right": 586,
+        "bottom": 542
+      },
+      "maxBorderAlpha": 1,
+      "poles": [
+        {
+          "side": "left",
+          "top": {
+            "x": 202,
+            "y": 47
+          },
+          "base": {
+            "x": 273,
+            "y": 540
+          }
+        },
+        {
+          "side": "right",
+          "top": {
+            "x": 409,
+            "y": 47
+          },
+          "base": {
+            "x": 338,
+            "y": 540
+          }
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "bounds": {
+        "left": 60,
+        "top": 35,
+        "right": 586,
+        "bottom": 534
+      },
+      "maxBorderAlpha": 1,
+      "poles": [
+        {
+          "side": "left",
+          "top": {
+            "x": 218,
+            "y": 37
+          },
+          "base": {
+            "x": 288.5,
+            "y": 530
+          }
+        },
+        {
+          "side": "right",
+          "top": {
+            "x": 425,
+            "y": 36
+          },
+          "base": {
+            "x": 353,
+            "y": 531
+          }
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "bounds": {
+        "left": 33,
+        "top": 35,
+        "right": 577,
+        "bottom": 533
+      },
+      "maxBorderAlpha": 1,
+      "poles": [
+        {
+          "side": "left",
+          "top": {
+            "x": 202,
+            "y": 37
+          },
+          "base": {
+            "x": 273,
+            "y": 530
+          }
+        },
+        {
+          "side": "right",
+          "top": {
+            "x": 409,
+            "y": 37
+          },
+          "base": {
+            "x": 338,
+            "y": 531
+          }
+        }
+      ]
+    }
+  ],
+  "envelope": {
+    "left": -0.7851243500342617,
+    "right": 0.5874525373856262,
+    "top": -1.4421019599151763,
+    "bottom": -0.2704990741646062
+  },
+  "authoredPairFrames": 4,
+  "derivedLayers": 2,
+  "policy": "Original RGBA retained. Complementary left/right split; uniform scale and rotation align each rigid pole top/base to two fixed endpoints. No mesh warping or invented attack."
+}
