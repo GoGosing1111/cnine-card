@@ -38,3 +38,12 @@ PC 1440×1000·모바일 390×844의 실제 도감 및 OWNER CMS 편집기를 �
 운영 DB 등록은 완료됐다. 7종 모두 한도 5·발행 0, 팩 OFF·가격/확률 null, 실제 지급 0장이다. 운영 사전 트랜잭션 dry-run 후 같은 등록을 적용했다. PC/모바일 실제 도감·CMS 모듈·전송 계층·격리 API 검수도 모두 통과했고 오류/실패 자산/가로 넘침은 0이다.
 
 직전 운영은 Pages `dd7c8213-428e-45f0-8278-6a97327ec438`, 소스 `fa8deeb7f660243d3b6ac08bb5bcb73213b68498`이다. 최신 운영 변경을 보존한 별도 깨끗한 작업 트리에서 배포한다.
+
+## 운영 반영 완료
+
+- 2026-10-14 19:51 KST 검증 완료. 배포 소스 `c85ec3b193b2277d811cd1cb3ee2beb7f208d115`, Pages `a9661201-5a06-4eba-b4a5-bcf9c7575d7c`, API Runtime `abafaa55-36ac-4b73-899b-6b4a49a50294`, Clan Draft `9c0297b9-4cd9-454f-8cb6-9d34af7bb35f`.
+- scoped 배포 통과. 신규 회귀 7개 + 기존 리미티드 카탈로그/정책 회귀 6개 = 총 13개, PC/모바일 2개 화면 크기에서 도감 7종과 CMS 초안 저장·재조회 통과. Worker 컴파일·출시/캐시/Hyperdrive 보호 검사 통과.
+- 운영 공개 도감의 7종 이름·SS 등급·전용 팩·각 5장 한도·전투 잠금 확인. 승인 원본 PNG 7장의 SHA-256과 WebP 14장 연결, 변경 HTML/클라이언트/공통 설정 9개 파일의 실제 배포 내용 일치 확인.
+- 운영 전용 팩 설정 API는 OFF, releaseEnabled/userOpeningEnabled=false, 모든 가격/확률 null을 반환한다. 실제 재고 7행 모두 한도 5·발행 0·잔여 5. 코인 차감·계정 지급·전투 활성화 없음.
+- 라이브: https://cnine-card.pages.dev/mercenary-codex/?view=limited&q=%ED%95%A0%EB%A1%9C%EC%9C%88#V-986
+- 이 완료 기록은 문서만 커밋·원격 반영하며 게임을 다시 배포하지 않는다.
