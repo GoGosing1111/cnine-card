@@ -1,0 +1,38 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:pingdu-kairon-grant:20261014:v1",
+    "authorization": "핑크빛유두 계정에 카이론 지급",
+    "target": {
+      "id": 1,
+      "nickname": "핑크빛유두",
+      "code": "V-988",
+      "quantity": 1
+    },
+    "completedAt": "2026-10-14T13:40:51.687Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "protectedBefore": "a1cdb6aeb0ab4e788d5ca15a2bf219ca6edd7d6c80534c6d20e24fe121876888",
+    "protectedAfter": "a1cdb6aeb0ab4e788d5ca15a2bf219ca6edd7d6c80534c6d20e24fe121876888",
+    "automaticLoadout": false,
+    "cost": 0,
+    "adminLogId": "46145"
+  },
+  "currentCopies": 1,
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "card": {
+    "name": "카이론",
+    "rank": "SSS",
+    "edition": "LIMITED"
+  },
+  "verifiedAt": "2026-10-14T13:41:51.238Z",
+  "validation": {
+    "localTransactionTestPassed": true,
+    "productionDryRunRolledBack": true,
+    "replayNoAdditionalGrant": true,
+    "newConnectionVerified": true
+  },
+  "notificationSent": false
+}
