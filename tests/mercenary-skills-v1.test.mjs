@@ -20,7 +20,10 @@ const positions=read('preview/project-v-mercenary-system-v1/position-draft-v1.js
 const finish=(id,scenario='normal',snapshot)=>sampleRehearsal(compileRehearsal(id,scenario,snapshot),10);
 const actor=(sample,id)=>sample.actors.find(a=>a.id===id);
 const copy=v=>structuredClone(v);
-const genericSkills=skills.filter(s=>s.id!=='MS-056');
+// Azant uses the separately tested live mode-specific player, not the offline rehearsal.
+const rehearsalSkills=skills.filter(s=>!['MS-057','MS-058'].includes(s.id));
+const genericSkills=rehearsalSkills.filter(s=>s.id!=='MS-056');
+// Live Azant budgets, mode gating and ownership are covered by test:v3-joint.
 
 test('event horizon is independently assignable and preserves bounded shares and its cleanse window',()=>{
   const omega=skills.find(s=>s.id==='MS-021');
@@ -46,7 +49,7 @@ test('both legacy reviews preserve names, notes and revisions while removing pro
       skills:createSkillDraft().skills.filter(s=>!['MS-044','MS-045','MS-046','MS-047','MS-048','MS-049','MS-050','MS-051','MS-055','MS-056'].includes(s.id)&&!S_SKILL_IDS.includes(s.id)&&(version===2||s.id!=='MS-021')).map(s=>({...s,code:`V-${s.id.slice(3)}`}))};
     old.skills[0].name='내가 검토한 이름';old.skills[0].note='보존할 의견';old.skills[0].review='REVISE';
     const before=copy(old),migrated=parseSkillDraft(JSON.stringify(old));
-    assert.equal(migrated.revision,7);assert.equal(migrated.skills.length,36);assert.equal(migrated.version,3);
+    assert.equal(migrated.revision,7);assert.equal(migrated.skills.length,38);assert.equal(migrated.version,3);
     assert.equal(migrated.rosterVersion,undefined);assert.equal(migrated.catalogVersion,2);assert.deepEqual(old,before);
     assert.deepEqual(migrated.skills.filter(s=>!['MS-044','MS-045','MS-046','MS-047','MS-048','MS-049','MS-050','MS-051','MS-055','MS-056'].includes(s.id)&&!S_SKILL_IDS.includes(s.id)&&(version===2||s.id!=='MS-021')),old.skills.map(({code,...review})=>review));
     assert.deepEqual(migrated.skills.find(s=>s.id==='MS-056'),createSkillDraft().skills.find(s=>s.id==='MS-056'));
@@ -66,13 +69,13 @@ test('Pages extensionless documents and local .html resolve shared V3 assets ide
   }
 });
 
-test('36 independent skills cover seven effect categories without a mercenary or rank owner',()=>{
-  assert.equal(skills.length,36);assert.equal(new Set(skills.map(s=>s.role)).size,7);
-  assert.equal(new Set(skills.map(s=>s.id)).size,36);
-  assert.equal(new Set(skills.map(s=>s.mechanic)).size,36);
+test('38 independent skills cover seven effect categories without a mercenary or rank owner',()=>{
+  assert.equal(skills.length,38);assert.equal(new Set(skills.map(s=>s.role)).size,7);
+  assert.equal(new Set(skills.map(s=>s.id)).size,38);
+  assert.equal(new Set(skills.map(s=>s.mechanic)).size,38);
   assert.deepEqual(skills.filter(s=>s.mechanic==='LOCKED_THREAT_SHOT').map(s=>s.id),['MS-004']);
-  assert.equal(new Set(skills.map(s=>s.visual.asset)).size,36);
-  assert.equal(new Set(skills.map(s=>s.visual.motion)).size,36);
+  assert.equal(new Set(skills.map(s=>s.visual.asset)).size,38);
+  assert.equal(new Set(skills.map(s=>s.visual.motion)).size,38);
   for(const s of skills){assert.equal(s.code,undefined);assert.equal(s.exclusivity,undefined);assert.equal(s.rank,undefined);
     for(const card of roster.cards)assert.ok(!`${s.trigger} ${s.effect} ${s.counterplay}`.includes(card.name));
     assert.equal(s.runtimeEnabled,false);assert.equal(s.status,'DRAFT');assert.equal(s.balance.damageRatio,null);assert.equal(s.balance.cooldownTurns,null);assert.equal(s.balance.cost,null);}
@@ -90,7 +93,7 @@ test('PVE area rehearsal shares one budget across living enemies, handles one bo
   assert.deepEqual(selectSkillTargets('ALL_ENEMIES',wounded).map(a=>a.id),['E2','E3','E4','E5']);
   const empty=wounded.filter(a=>a.team==='ALLY');assert.equal(compileRehearsal('MS-056','normal',empty).events[0].kind,'CANCEL');
 });
-for(const s of skills)for(const scenario of ['normal','counter','boss'])test(`${s.id} ${scenario}: resolved playback is deterministic, bounded and reversible`,()=>{
+for(const s of rehearsalSkills)for(const scenario of ['normal','counter','boss'])test(`${s.id} ${scenario}: resolved playback is deterministic, bounded and reversible`,()=>{
   const initial=rehearsalSnapshot(scenario),before=copy(initial),plan=compileRehearsal(s.id,scenario,initial);
   assert.deepEqual(initial,before);assert.deepEqual(plan,compileRehearsal(s.id,scenario,initial));assert.equal(plan.previewOnly,true);
   for(const [i,e] of plan.events.entries()){assert.ok(e.at>=0&&e.at<plan.duration);if(i)assert.ok(e.at>=plan.events[i-1].at);assert.ok(e.targets.every(id=>initial.some(a=>a.id===id)));}
@@ -152,10 +155,10 @@ test('review imports reject assignment fields, live activation, missing skills a
   assert.throws(()=>parseSkillDraft(' '.repeat(49*1024)));
 });
 
-test('assignment drafts start with all 55 mercenaries unassigned, including SSS Omega',()=>{
+test('assignment drafts start with all 56 mercenaries unassigned, including SSS Omega',()=>{
   const before=copy(roster),draft=createSkillAssignments(roster);
   assert.equal(draft.authority,'USER');assert.equal(draft.runtimeEnabled,false);
-  assert.equal(draft.assignments.length,55);assert.ok(draft.assignments.every(row=>row.skillIds.length===0));
+  assert.equal(draft.assignments.length,56);assert.ok(draft.assignments.every(row=>row.skillIds.length===0));
   assert.deepEqual(roster,before);assert.equal(roster.cards.find(card=>card.code==='V-021').rank,'SSS');
   assert.notEqual(ASSIGNMENT_STORAGE_KEY,'cnine.mercenarySkills.draft.v1');
 });
@@ -276,5 +279,5 @@ test('skill review stays outside production battle routes, source-art roster and
   for(const path of ['index.html','js/app.js','functions/api/[[path]].js','js/battle-v3-live.js']){
     const content=fs.readFileSync(new URL('../'+path,import.meta.url),'utf8');assert.ok(!/mercenary-skills-v1|skills\.bundle\.js|skill-rehearsal\.mjs/.test(content),path);
   }
-  assert.ok(roster.cards.every(c=>['V-021','V-046','V-049','V-055'].includes(c.code)?c.rank==='SSS':['V-044','V-045','V-047','V-048','V-050','V-051','V-052','V-053','V-054'].includes(c.code)?c.rank==='SS':c.rank===null));assert.equal(roster.formationRule.regularCardSlots,5);
+  assert.ok(roster.cards.every(c=>['V-021','V-046','V-049','V-055','V-056'].includes(c.code)?c.rank==='SSS':['V-044','V-045','V-047','V-048','V-050','V-051','V-052','V-053','V-054'].includes(c.code)?c.rank==='SS':c.rank===null));assert.equal(roster.formationRule.regularCardSlots,5);
 });

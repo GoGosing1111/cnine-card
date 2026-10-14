@@ -15,6 +15,38 @@ const offlineSkillPreview=new Set([
 const limitedPackView='js/mercenary-limited-pack-live.mjs';
 const limitedPackBrowser='tests/mercenary-limited-shop-20261006.browser.mjs';
 const gateTestPath=path=>/^(?:tests\/[^/]+\.mjs|preview\/[a-zA-Z0-9_-]+\/qa\.test\.mjs)$/.test(path);
+// A newly approved card may lack its read-only thumbnails. Preserve every
+// existing entry and source byte; this narrowly scoped repair has no game state.
+export function codexCompatibilityRepair({changed,base,git,read,readBytes}){
+  const repaired=new Set(),model='preview/mercenary-codex-v1/model.js',directory='assets/ui/project-v/mercenaries/codex-v1/',manifest=directory+'manifest.json';
+  if(changed.includes(model)){
+    const before=git('show',`${base}:${model}`).replace(/\r\n/g,'\n'),after=read(model).replace(/\r\n/g,'\n');
+    const old="card.code==='V-049'?card.title!==''",next="['V-049','V-056'].includes(card.code)?card.title!==''";
+    if(before.split(old).length!==2||before.replace(old,next)!==after)throw Error('Codex model changed outside the approved empty-title compatibility repair.');
+    repaired.add(model);
+  }
+  const mediaChanges=changed.filter(p=>p.startsWith(directory));
+  if(mediaChanges.length){
+    if(!mediaChanges.includes(manifest))throw Error('Codex media repair requires its manifest.');
+    const before=JSON.parse(git('show',`${base}:${manifest}`)),after=JSON.parse(read(manifest)),count=before.entries.length;
+    if(before.entries.some(e=>e.code==='V-056')||after.entries.length!==count+3||JSON.stringify({...after,entries:after.entries.slice(0,count)})!==JSON.stringify(before))throw Error('Codex media repair must preserve all prior entries.');
+    const roster=JSON.parse(read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json')),card=roster.cards.find(c=>c.code==='V-056');
+    const added=new Set(git('diff','--name-only','--diff-filter=A',base,'HEAD').split('\n'));
+    const expected=new Set(['v-056-art-320.webp','v-056-art-640.webp','v-056-sd-640.webp']);
+    for(const row of after.entries.slice(count)){
+      const file=directory+row.file,source=row.kind==='art'?card?.sourceArt:card?.battleSprite,sourceHash=row.kind==='art'?card?.sourceArtSha256:card?.battleSpriteSha256;
+      const hash=bytes=>createHash('sha256').update(bytes).digest('hex').toUpperCase();
+      if(row.code!=='V-056'||!['art','sd'].includes(row.kind)||!expected.delete(row.file)||row.file!==`v-056-${row.kind}-${row.width}.webp`||row.source!==source||row.sourceSha256!==sourceHash||hash(readBytes(source))!==sourceHash)throw Error('Codex thumbnail source or addition is not approved.');
+      if(!added.has(file)){if(changed.includes(file))throw Error('Existing codex thumbnail changed.');git('cat-file','-e',`${base}:${file}`);}
+      const bytes=readBytes(file);
+      if(row.bytes!==bytes.length||row.sha256!==hash(bytes)||bytes.toString('ascii',0,4)!=='RIFF'||bytes.toString('ascii',8,12)!=='WEBP')throw Error('Codex thumbnail hash or format mismatch.');
+      if(added.has(file))repaired.add(file);
+    }
+    repaired.add(manifest);
+    if(expected.size||mediaChanges.some(p=>!repaired.has(p)))throw Error('Unexpected codex media repair files.');
+  }
+  return repaired;
+}
 // Legacy `node tests/*.mjs` assertions exit without a node:test summary.
 // Recognize only an uncaught assertion plus Node's terminal version footer;
 // its whole failed stage is rerun, with the same hash/source/continuity guards.
@@ -53,6 +85,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   const commands=gate.split(' && '),names=commands.map(command=>command.match(/^npm run ([\w:-]+)$/)?.[1]);
   if(commands.at(-1)!=='node scripts/verify-production-release.mjs'||names.slice(0,-1).some(name=>!name))throw Error('Unsupported full gate structure.');
   const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),bgmAdditions=new Set(),artAdditions=new Set();
+  const codexRepairs=codexCompatibilityRepair({changed,base,git,read,readBytes});
   // A fixture used only by directly registered gate tests may be repaired.
   // Every importing stage is rechecked; runtime, shared-helper and unregistered
   // test consumers still require a fresh gate.
@@ -154,7 +187,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(/^ℹ fail [1-9]/m.test(continuation.slice(0,continuationStart)))throw Error('Continuation guard tests failed.');
     changesAfterLastRun=new Set(git('diff','--name-only',candidate,'HEAD').split('\n').filter(Boolean));
     const repairTools=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
-    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!(path==='index.html'&&cacheOrderOnly)&&!path.startsWith('docs/')&&!gateTestPath(path)&&!helperStages.has(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
+    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!(path==='index.html'&&cacheOrderOnly)&&!path.startsWith('docs/')&&!gateTestPath(path)&&!helperStages.has(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!codexRepairs.has(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
     logText=logText.slice(0,originalLast)+continuation.slice(continuationStart);
     seen=stageNames(logText);
   }
@@ -172,6 +205,11 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     &&String(env.RELEASE_GATE_RESUME_REASON||'').trim().length>=20;
   if(/^ℹ fail [1-9]/m.test(prefix)||(!failed&&!interrupted&&!sourceGuardBlocked))throw Error('Resume requires a failed or explicitly interrupted final stage, or the exact completed source-identity guard.');
   const rerun=new Set(),operationTests=new Set();
+  if(codexRepairs.size){
+    const stage=names.indexOf('test:mercenary-codex');
+    if(stage<0||!scripts[names[stage]].includes('tests/mercenary-codex-preview-v1.test.mjs'))throw Error('Codex compatibility repair requires the complete codex gate.');
+    if(stage<failedIndex&&(!changesAfterLastRun||[...codexRepairs].some(p=>changesAfterLastRun.has(p))))rerun.add(stage);
+  }
   if(cacheOrderOnly&&(!changesAfterLastRun||changesAfterLastRun.has('index.html'))){
     for(let i=0;i<failedIndex;i++){
       const inputs=scripts[names[i]].split(/\s+/).filter(p=>/^(?:tests|preview)\/.*\.(?:mjs|js)$/.test(p));
@@ -270,6 +308,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(path==='AGENTS.md'||path.startsWith('docs/')||path==='preview/project-v-mercenary-system-v1/README.md'||tooling.has(path))continue;
     if(bgmAdditions.has(path))continue;
     if(artAdditions.has(path))continue;
+    if(codexRepairs.has(path))continue;
     if(qaReceipts.includes(path))continue;
     if(operations.includes(path))continue;
     if(browserProof.has(path))continue;

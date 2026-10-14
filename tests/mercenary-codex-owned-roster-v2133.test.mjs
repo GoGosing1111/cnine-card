@@ -13,7 +13,7 @@ test('용병도감은 내 용병을 기본으로 표시하고 전체 도감을 �
   assert.match(html,/id="allView"[^>]*aria-selected="false"/);
   assert.match(html,/id="ownedCount"/);
   assert.match(html,/id="loadoutName"/);
-  assert.match(client,/catalog\.cards\.filter\(c=>ownedCard\(c\.code\)\)/);
+  assert.match(client,/catalogCards\(\)\.filter\(c=>ownedCard\(c\.code\)\)/);
   assert.match(client,/Lv\.\$\{fmt\(owned\.level\)\} · 보유/);
 });
 

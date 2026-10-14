@@ -1,7 +1,28 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {fullGateResumePlan} from '../scripts/resume-release-gate.mjs';
+import {fullGateResumePlan,codexCompatibilityRepair} from '../scripts/resume-release-gate.mjs';
+
+test('codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources',()=>{
+ const model='preview/mercenary-codex-v1/model.js',dir='assets/ui/project-v/mercenaries/codex-v1/',manifest=dir+'manifest.json';
+ const old="if(card.code==='V-049'?card.title!=='':!card.title)throw Error('invalid');",next=old.replace("card.code==='V-049'","['V-049','V-056'].includes(card.code)");
+ const hash=b=>createHash('sha256').update(b).digest('hex').toUpperCase(),art=Buffer.from('approved art'),sd=Buffer.from('approved SD');
+ const card={code:'V-056',sourceArt:'assets/approved.png',sourceArtSha256:hash(art),battleSprite:'assets/sd.png',battleSpriteSha256:hash(sd)};
+ const before={format:'MERCENARY_CODEX_MEDIA_V1',originalsModified:false,entries:[{code:'V-055',sha256:'untouched'}]};
+ const rows=[['art',320],['art',640],['sd',640]].map(([kind,width])=>{const bytes=Buffer.from('RIFF0000WEBP'+kind+width);return {code:'V-056',kind,width,file:`v-056-${kind}-${width}.webp`,bytes:bytes.length,sha256:hash(bytes),source:kind==='art'?card.sourceArt:card.battleSprite,sourceSha256:kind==='art'?card.sourceArtSha256:card.battleSpriteSha256};});
+ const after={...before,entries:[...before.entries,...rows]},files={[model]:next,[manifest]:JSON.stringify(after),'assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json':JSON.stringify({cards:[card]}),[card.sourceArt]:art,[card.battleSprite]:sd};
+ for(const row of rows)files[dir+row.file]=Buffer.from('RIFF0000WEBP'+row.kind+row.width);
+ const setup=()=>({base:'a'.repeat(40),changed:[model,manifest,...rows.map(r=>dir+r.file)],git:(cmd,...args)=>cmd==='show'?(args[0].endsWith(':'+model)?old:JSON.stringify(before)):rows.map(r=>dir+r.file).join('\n'),read:p=>String(files[p]),readBytes:p=>files[p]});
+ assert.equal(codexCompatibilityRepair(setup()).size,5);
+ for(const bad of [next+'run()',next.replace('V-056','V-099'),next.replace("throw Error('invalid')",'return true')])assert.throws(()=>codexCompatibilityRepair({...setup(),read:p=>p===model?bad:String(files[p])}),/outside/);
+ for(const mutate of [v=>v.entries[0].sha256='rewritten',v=>v.entries.pop(),v=>v.entries.at(-1).sourceSha256='BAD',v=>v.entries.at(-1).sha256='BAD']){
+  const v=structuredClone(after);mutate(v);assert.throws(()=>codexCompatibilityRepair({...setup(),read:p=>p===manifest?JSON.stringify(v):String(files[p])}));
+ }
+ assert.throws(()=>codexCompatibilityRepair({...setup(),readBytes:p=>p===card.sourceArt?Buffer.from('changed art'):files[p]}),/not approved/);
+ assert.throws(()=>codexCompatibilityRepair({...setup(),changed:[...setup().changed,dir+'unrelated.webp']}),/Unexpected/);
+ const f=fixture({changed:[model]}),git=f.git;f.git=(...a)=>a[0]==='show'&&a[1].endsWith(':'+model)?old:git(...a);f.read=p=>p===model?next:'';
+ assert.throws(()=>fullGateResumePlan(f),/complete codex gate/);
+});
 
 const base='a'.repeat(40),head='b'.repeat(40);
 function fixture({changed=['tests/b.test.mjs'],dirty='',ignored='',remote=head,log,previous,ancestor=true}={}){

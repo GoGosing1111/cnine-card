@@ -1817,6 +1817,39 @@
       "source": "assets/ui/project-v/characters/mercenary/berkan-sss-v1/berkan-sd-v1.png",
       "sourceSha256": "79D144E33E1113C82787A93E6AD49BE3583A8DA1BA8DAAF91037020EC31D6101",
       "sha256": "F0D1ECFFED96F38E2D1958CE85483412918E38B2982B51C54DF3F9FBB0103E1A"
+    },
+    {
+      "code": "V-056",
+      "kind": "art",
+      "file": "v-056-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 58864,
+      "source": "assets/ui/project-v/mercenaries/approved-20261014/azant-source-art-v1.png",
+      "sourceSha256": "38DA2E9BBE7BEBB7BCB0855260705FCCB1EF0CD638A005308A7B164B0B660793",
+      "sha256": "F2B9386A1BA2CD96F4EC87A1C3DB7867A081FC949099777A8816E73960A49537"
+    },
+    {
+      "code": "V-056",
+      "kind": "art",
+      "file": "v-056-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 182672,
+      "source": "assets/ui/project-v/mercenaries/approved-20261014/azant-source-art-v1.png",
+      "sourceSha256": "38DA2E9BBE7BEBB7BCB0855260705FCCB1EF0CD638A005308A7B164B0B660793",
+      "sha256": "6790CCD620FC8306C258A2DA53BB8586B3837958347766A55E645CCF0104B3EA"
+    },
+    {
+      "code": "V-056",
+      "kind": "sd",
+      "file": "v-056-sd-640.webp",
+      "width": 640,
+      "height": 640,
+      "bytes": 55724,
+      "source": "assets/ui/project-v/characters/mercenary/azant-sss-v1/azant-sd-v3.png",
+      "sourceSha256": "8CAC9E219FA4C8BA0A9800243AD18C3D42269DA9B7D176D64A6D91BB1792016B",
+      "sha256": "795928125C6941159827BC6BB447A9886323BD9CDADA917FA0E20C9ED3C860FE"
     }
   ]
 }

@@ -27,7 +27,7 @@ test('explicit approval adds exactly four originals without changing the previou
   assert.equal(approval.originalsModified, false);
   assert.equal(hash(JSON.stringify(beforeOmegaRankAssignment(roster.cards.slice(0, 37)))), approval.previousRosterCardsSha256);
   assert.deepEqual(roster.cards.slice(37, 41).map(card => card.code), codes);
-  assert.equal(new Set(roster.cards.map(card => card.name)).size,55);
+  assert.equal(new Set(roster.cards.map(card => card.name)).size,56);
   for (const entry of approval.entries) {
     const card = roster.cards.find(card => card.code === entry.code);
     assert.equal(card.sourceArt, entry.sourceArt);
@@ -44,7 +44,7 @@ test('outfit and weapon concepts remain searchable after the four SDs are connec
   const outfits = ['오피스룩', '가터벨트 치마', '비키니룩', '핫팬츠룩'];
   const weapons = ['건틀릿', '체인소드', '활', '대검'];
   const adapter = createMercenaryBattleArtAdapter(roster);
-  assert.deepEqual(roster.summary, { total:55, sourceArtReady:55, battleSpriteReady:55, battleSpritePending: 0, rankPending: 42 });
+  assert.deepEqual(roster.summary, { total:56, sourceArtReady:56, battleSpriteReady:56, battleSpritePending: 0, rankPending: 42 });
   for (const [i, code] of codes.entries()) {
     const card = roster.cards.find(card => card.code === code);
     assert.equal(card.outfit, outfits[i]);
@@ -63,10 +63,10 @@ test('outfit and weapon concepts remain searchable after the four SDs are connec
     assert.equal(media.entries.filter(entry => entry.code === code && entry.kind === 'art').length, 2);
     assert.equal(media.entries.some(entry => entry.code === code && entry.kind === 'sd'), true);
   }
-  assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, 'V-055');
+  assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, 'V-056');
 });
 
-test('catalog release uses current CMS data and preserves all 55 separate art and SD resources', () => {
+test('catalog release uses current CMS data and preserves all 56 separate art and SD resources', () => {
   assert.equal(ROSTER_URL.searchParams.get('v'), '20260911-omega-ranks');
   const html = read('mercenary-codex/index.html').toString();
   const codexSource=html.match(/src="([^"\n]*mercenary-codex\/app\.mjs\?[^"\n]+)"/)?.[1];
@@ -76,8 +76,8 @@ test('catalog release uses current CMS data and preserves all 55 separate art an
   assert.ok(codexCache.getAll('limited').includes('20261004-approved'));
   assert.equal(codexCache.get('v'),'2133');
   const published = mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}).cards;
-  assert.equal(published.filter(card=>!card.artOnly).length,55);
-  assert.equal(published.filter(card=>!card.artOnly && card.sourceArt && card.battleSprite && card.sourceArt!==card.battleSprite).length,55);
+  assert.equal(published.filter(card=>!card.artOnly).length,56);
+  assert.equal(published.filter(card=>!card.artOnly && card.sourceArt && card.battleSprite && card.sourceArt!==card.battleSprite).length,56);
   assert.doesNotMatch(html, /신규 6종의 SD는 제작 대기/);
   assert.match(read('preview/mercenary-codex-v1/codex.js').toString(), /의상 콘셉트/);
   const generation = json('preview/mercenary-four-looks-v1/generation.json');

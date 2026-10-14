@@ -100,8 +100,8 @@ test('native desktop, mobile and old subtab fallbacks redirect without mounting 
 test('codex keeps public catalog browsing while account writes are limited to the existing loadout route', () => {
   const roster = JSON.parse(read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'));
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
-  assert.equal(roster.cards.length,55);
-  assert.ok(roster.cards.filter(c=>!['V-044','V-045','V-047','V-048','V-050','V-051','V-052','V-053','V-054'].includes(c.code)).every(card => ['V-021','V-046','V-049','V-055'].includes(card.code)? card.rank === 'SSS' && card.rankStatus === 'USER_ASSIGNED_RANK' : card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
+  assert.equal(roster.cards.length,56);
+  assert.ok(roster.cards.filter(c=>!['V-044','V-045','V-047','V-048','V-050','V-051','V-052','V-053','V-054'].includes(c.code)).every(card => ['V-021','V-046','V-049','V-055','V-056'].includes(card.code)? card.rank === 'SSS' && card.rankStatus === 'USER_ASSIGNED_RANK' : card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
   for(const match of html.matchAll(/src="([^"\n]+)"/g))assert.doesNotMatch(new URL(match[1].replaceAll('&amp;','&'),'https://test.invalid').pathname, /runtime-router|battle-engine|loadout|gsap|pixi/i);
   assert.match(client, /api\('mercenaries\/v3\/state'/);
   assert.match(client, /api\(`mercenaries\/v3\/\$\{pending\.action\}`/);
@@ -128,7 +128,7 @@ test('public page and live entry use synchronized cache tags and revalidation he
   assert.equal(codexCache.get('v'),'2133');
   assert.match(html, /mercenary-codex\/style\.css\?v=2133/);
   assert.match(read('mercenary-codex/style.css'), /search-field input\{height:44px/);
-  assert.match(client, /model\.mjs\?v=20261009-helios/);
+  assert.match(client, /model\.mjs\?v=20261014-halloween-art/);
   assert.match(read('_headers'), /\/mercenary-codex\/\r?\n  Cache-Control: no-cache, must-revalidate, max-age=0/);
 });
 
@@ -153,6 +153,7 @@ function workerHarness() {
     }
   };
   vm.createContext(context);
+  context.importScripts = pathname => vm.runInContext(read(pathname.replace(/^\//, '')), context);
   vm.runInContext(sw, context);
   return {
     data,
