@@ -1,0 +1,1357 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:team-event-diim-rewards:20261014:v1",
+  "planHash": "8ae5aa4e8f946a3bd8359383cbc169c82bc8b32e8bdbf3cd339682fd4654961f",
+  "delivery": "MESSAGE",
+  "noImmediateCredit": true,
+  "authorization": "지정한 48명: 디임팀 8명은 우승+참가 보상 합산(13조 코인·마별 7천만 개), 나머지 40명은 참가 보상(3조 코인·마별 2천만 개)",
+  "recipients": [
+    {
+      "input": "커피먹는봉순(c9오승환)",
+      "team": "봉순팀",
+      "winner": false,
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "커피먹는봉순",
+      "providerId": "49cd3f96",
+      "identityBasis": "exact verified PLAYDK name",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "여우",
+      "team": "진짜디임팀",
+      "winner": true,
+      "userId": "25",
+      "nickname": "여우",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "여우",
+      "providerId": "fd8e8c81",
+      "identityBasis": "exact game nickname",
+      "coin": "13000000000000",
+      "masterStar": "70000000"
+    },
+    {
+      "input": "쑤댕",
+      "team": "주성팀",
+      "winner": false,
+      "userId": "32",
+      "nickname": "쑤댕",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "쑤댕",
+      "providerId": "8eeb626d",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "박세라-ㅂ-(세라)",
+      "team": "희야팀",
+      "winner": false,
+      "userId": "45",
+      "nickname": "박세라-ㅂ-",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "박세라-ㅁ-",
+      "providerId": "0ab57d26",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "폭군",
+      "team": "조은없는조은팀",
+      "winner": false,
+      "userId": "52",
+      "nickname": "폭군#",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "폭군",
+      "providerId": "cd3ea662",
+      "identityBasis": "exact verified PLAYDK name",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "란x2",
+      "team": "주성팀",
+      "winner": false,
+      "userId": "73",
+      "nickname": "란x2",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "란x2",
+      "providerId": "262820c8",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "0수표",
+      "team": "리꿍없는리꿍팀",
+      "winner": false,
+      "userId": "88",
+      "nickname": "0수표",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "0수표",
+      "providerId": "2ed65346",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "박사",
+      "team": "조은없는조은팀",
+      "winner": false,
+      "userId": "164",
+      "nickname": "박사",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "박사",
+      "providerId": "00a28fb2",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "현하루(하루)",
+      "team": "조은없는조은팀",
+      "winner": false,
+      "userId": "218",
+      "nickname": "현하루",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "현하루",
+      "providerId": "a05e2d57",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "ShowMaker",
+      "team": "진짜디임팀",
+      "winner": true,
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "ShowMaker",
+      "providerId": "25958d94",
+      "identityBasis": "exact game nickname",
+      "coin": "13000000000000",
+      "masterStar": "70000000"
+    },
+    {
+      "input": "모래",
+      "team": "진짜디임팀",
+      "winner": true,
+      "userId": "295",
+      "nickname": "모래",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "모래",
+      "providerId": "11092f52",
+      "identityBasis": "exact game nickname",
+      "coin": "13000000000000",
+      "masterStar": "70000000"
+    },
+    {
+      "input": "대저동토마토(대져동토마토)",
+      "team": "봉순팀",
+      "winner": false,
+      "userId": "521",
+      "nickname": "대저동토마토",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "대저동토마토",
+      "providerId": "abea9012",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "족구조아",
+      "team": "진짜디임팀",
+      "winner": true,
+      "userId": "525",
+      "nickname": "족구조아",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "족구조아",
+      "providerId": "cba2b411",
+      "identityBasis": "exact game nickname",
+      "coin": "13000000000000",
+      "masterStar": "70000000"
+    },
+    {
+      "input": "씨나인택갓",
+      "team": "진짜디임팀",
+      "winner": true,
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "씨나인택갓",
+      "providerId": "5c0809e6",
+      "identityBasis": "exact game nickname",
+      "coin": "13000000000000",
+      "masterStar": "70000000"
+    },
+    {
+      "input": "전게씹선미아웃(코파먹는성태)",
+      "team": "주성팀",
+      "winner": false,
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "전게씹선미아웃",
+      "providerId": "561a0ff8",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "핫시",
+      "team": "봉순팀",
+      "winner": false,
+      "userId": "1768",
+      "nickname": "핫시",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "핫시",
+      "providerId": "8dd27727",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "구와함",
+      "team": "희야팀",
+      "winner": false,
+      "userId": "2333",
+      "nickname": "구와함",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "구와함",
+      "providerId": "cd31c10a",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "zkzk9999",
+      "team": "진짜디임팀",
+      "winner": true,
+      "userId": "3884",
+      "nickname": "zkzk9999",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "zkzk9999",
+      "providerId": "2113359e",
+      "identityBasis": "exact game nickname",
+      "coin": "13000000000000",
+      "masterStar": "70000000"
+    },
+    {
+      "input": "게임닉네임",
+      "team": "봉순팀",
+      "winner": false,
+      "userId": "4084",
+      "nickname": "게임닉네임",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "게임닉네임",
+      "providerId": "491e9cc1",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "#유나랜드(유나랜드)",
+      "team": "희야팀",
+      "winner": false,
+      "userId": "4209",
+      "nickname": "#유나랜드",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "#유나랜드",
+      "providerId": "d98a8c3a",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "더듬이구",
+      "team": "리꿍없는리꿍팀",
+      "winner": false,
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "더듬이구",
+      "providerId": "b86ce1fb",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "대지",
+      "team": "조은없는조은팀",
+      "winner": false,
+      "userId": "4479",
+      "nickname": "대지",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "대지",
+      "providerId": "22ca5c12",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "혜정",
+      "team": "조은없는조은팀",
+      "winner": false,
+      "userId": "4570",
+      "nickname": "혜정",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "혜정",
+      "providerId": "0e8cf635",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "응맨",
+      "team": "희야팀",
+      "winner": false,
+      "userId": "4572",
+      "nickname": "응맨",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "응맨",
+      "providerId": "2ab08a59",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "찬호",
+      "team": "리꿍없는리꿍팀",
+      "winner": false,
+      "userId": "4597",
+      "nickname": "찬호",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "찬호",
+      "providerId": "cd23e0b4",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "암살자..(암살자)",
+      "team": "희야팀",
+      "winner": false,
+      "userId": "4598",
+      "nickname": "암살자..",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "암살자..",
+      "providerId": "4c7adda2",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "공단",
+      "team": "리꿍없는리꿍팀",
+      "winner": false,
+      "userId": "4614",
+      "nickname": "공단",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "공단",
+      "providerId": "0559204b",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "제롬",
+      "team": "조은없는조은팀",
+      "winner": false,
+      "userId": "4625",
+      "nickname": "제롬",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "제롬",
+      "providerId": "b15e1ffc",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "학벌",
+      "team": "희야팀",
+      "winner": false,
+      "userId": "4627",
+      "nickname": "학벌",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "학벌",
+      "providerId": "6da5a7a7",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "놀숲",
+      "team": "주성팀",
+      "winner": false,
+      "userId": "4629",
+      "nickname": "Veil",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "놀숲",
+      "providerId": "0791c490",
+      "identityBasis": "exact verified PLAYDK name",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "수댕",
+      "team": "조은없는조은팀",
+      "winner": false,
+      "userId": "4637",
+      "nickname": "수댕",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "수댕",
+      "providerId": "764c0116",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "의지",
+      "team": "리꿍없는리꿍팀",
+      "winner": false,
+      "userId": "4641",
+      "nickname": "의지",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "의지",
+      "providerId": "cfd8587e",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "세라네꼬라지",
+      "team": "리꿍없는리꿍팀",
+      "winner": false,
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "세라네꼬라지",
+      "providerId": "644d3393",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "시소둥이",
+      "team": "주성팀",
+      "winner": false,
+      "userId": "4693",
+      "nickname": "시소둥이",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "시소둥이",
+      "providerId": "b629d0b0",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "˚쟁이。(쟁이)",
+      "team": "주성팀",
+      "winner": false,
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "˚쟁이。",
+      "providerId": "634d4201",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "음주플레이어",
+      "team": "리꿍없는리꿍팀",
+      "winner": false,
+      "userId": "4757",
+      "nickname": "음주플레이어",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "음주플레이어",
+      "providerId": "0c8c8f1c",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "진짜디임",
+      "team": "진짜디임팀",
+      "winner": true,
+      "userId": "4773",
+      "nickname": "진짜디임",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "진짜디임",
+      "providerId": "f6c66b68",
+      "identityBasis": "exact game nickname",
+      "coin": "13000000000000",
+      "masterStar": "70000000"
+    },
+    {
+      "input": "음주",
+      "team": "봉순팀",
+      "winner": false,
+      "userId": "4817",
+      "nickname": "음주",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "음주",
+      "providerId": "d5dc4495",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "딤키우기",
+      "team": "진짜디임팀",
+      "winner": true,
+      "userId": "4836",
+      "nickname": "딤키우기",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "딤키우기",
+      "providerId": "9fc36f09",
+      "identityBasis": "exact game nickname",
+      "coin": "13000000000000",
+      "masterStar": "70000000"
+    },
+    {
+      "input": "굳건창수(창수)",
+      "team": "조은없는조은팀",
+      "winner": false,
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "굳건창수",
+      "providerId": "6a375b2a",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "쁴로리",
+      "team": "리꿍없는리꿍팀",
+      "winner": false,
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "쁴로리",
+      "providerId": "f3aa85e5",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "하이희야❤",
+      "team": "희야팀",
+      "winner": false,
+      "userId": "4977",
+      "nickname": "하이희야♡",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "하이희야❤",
+      "providerId": "5e2dc209",
+      "identityBasis": "exact verified PLAYDK name",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "공백(망액이)",
+      "team": "봉순팀",
+      "winner": false,
+      "userId": "5140",
+      "nickname": "공백",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "공백",
+      "providerId": "2a02bfed",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "타몽(헬로타몽)",
+      "team": "주성팀",
+      "winner": false,
+      "userId": "5148",
+      "nickname": "타몽",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "타몽",
+      "providerId": "c6f83864",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "주성",
+      "team": "주성팀",
+      "winner": false,
+      "userId": "5393",
+      "nickname": "주성",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "주성",
+      "providerId": "85f30ca0",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "나무늘봉순",
+      "team": "봉순팀",
+      "winner": false,
+      "userId": "5426",
+      "nickname": "나무늘봉순",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "나무늘봉순",
+      "providerId": "8be68ada",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "비_니",
+      "team": "봉순팀",
+      "winner": false,
+      "userId": "5504",
+      "nickname": "비_니",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": "PLAYDK",
+      "providerName": "비_니",
+      "providerId": "c633da6a",
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    },
+    {
+      "input": "쌈8(쌈팔)",
+      "team": "희야팀",
+      "winner": false,
+      "userId": "5582",
+      "nickname": "쌈8",
+      "role": "USER",
+      "status": "ACTIVE",
+      "provider": null,
+      "providerName": null,
+      "providerId": null,
+      "identityBasis": "exact game nickname",
+      "coin": "3000000000000",
+      "masterStar": "20000000"
+    }
+  ],
+  "totals": {
+    "recipients": 48,
+    "winners": 8,
+    "coin": "224000000000000",
+    "masterStar": "1360000000"
+  },
+  "deliveries": [
+    {
+      "userId": "22",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206958",
+      "rewardId": "198871"
+    },
+    {
+      "userId": "22",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207006",
+      "rewardId": "198919"
+    },
+    {
+      "userId": "25",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206959",
+      "rewardId": "198872"
+    },
+    {
+      "userId": "25",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207007",
+      "rewardId": "198920"
+    },
+    {
+      "userId": "32",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206960",
+      "rewardId": "198873"
+    },
+    {
+      "userId": "32",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207008",
+      "rewardId": "198921"
+    },
+    {
+      "userId": "45",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206961",
+      "rewardId": "198874"
+    },
+    {
+      "userId": "45",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207009",
+      "rewardId": "198922"
+    },
+    {
+      "userId": "52",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206962",
+      "rewardId": "198875"
+    },
+    {
+      "userId": "52",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207010",
+      "rewardId": "198923"
+    },
+    {
+      "userId": "73",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206963",
+      "rewardId": "198876"
+    },
+    {
+      "userId": "73",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207011",
+      "rewardId": "198924"
+    },
+    {
+      "userId": "88",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206964",
+      "rewardId": "198877"
+    },
+    {
+      "userId": "88",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207012",
+      "rewardId": "198925"
+    },
+    {
+      "userId": "164",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206965",
+      "rewardId": "198878"
+    },
+    {
+      "userId": "164",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207013",
+      "rewardId": "198926"
+    },
+    {
+      "userId": "218",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206966",
+      "rewardId": "198879"
+    },
+    {
+      "userId": "218",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207014",
+      "rewardId": "198927"
+    },
+    {
+      "userId": "233",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206967",
+      "rewardId": "198880"
+    },
+    {
+      "userId": "233",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207015",
+      "rewardId": "198928"
+    },
+    {
+      "userId": "295",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206968",
+      "rewardId": "198881"
+    },
+    {
+      "userId": "295",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207016",
+      "rewardId": "198929"
+    },
+    {
+      "userId": "521",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206969",
+      "rewardId": "198882"
+    },
+    {
+      "userId": "521",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207017",
+      "rewardId": "198930"
+    },
+    {
+      "userId": "525",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206970",
+      "rewardId": "198883"
+    },
+    {
+      "userId": "525",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207018",
+      "rewardId": "198931"
+    },
+    {
+      "userId": "1195",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206971",
+      "rewardId": "198884"
+    },
+    {
+      "userId": "1195",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207019",
+      "rewardId": "198932"
+    },
+    {
+      "userId": "1255",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206972",
+      "rewardId": "198885"
+    },
+    {
+      "userId": "1255",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207020",
+      "rewardId": "198933"
+    },
+    {
+      "userId": "1768",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206973",
+      "rewardId": "198886"
+    },
+    {
+      "userId": "1768",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207021",
+      "rewardId": "198934"
+    },
+    {
+      "userId": "2333",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206974",
+      "rewardId": "198887"
+    },
+    {
+      "userId": "2333",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207022",
+      "rewardId": "198935"
+    },
+    {
+      "userId": "3884",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206975",
+      "rewardId": "198888"
+    },
+    {
+      "userId": "3884",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207023",
+      "rewardId": "198936"
+    },
+    {
+      "userId": "4084",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206976",
+      "rewardId": "198889"
+    },
+    {
+      "userId": "4084",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207024",
+      "rewardId": "198937"
+    },
+    {
+      "userId": "4209",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206977",
+      "rewardId": "198890"
+    },
+    {
+      "userId": "4209",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207025",
+      "rewardId": "198938"
+    },
+    {
+      "userId": "4391",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206978",
+      "rewardId": "198891"
+    },
+    {
+      "userId": "4391",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207026",
+      "rewardId": "198939"
+    },
+    {
+      "userId": "4479",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206979",
+      "rewardId": "198892"
+    },
+    {
+      "userId": "4479",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207027",
+      "rewardId": "198940"
+    },
+    {
+      "userId": "4570",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206980",
+      "rewardId": "198893"
+    },
+    {
+      "userId": "4570",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207028",
+      "rewardId": "198941"
+    },
+    {
+      "userId": "4572",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206981",
+      "rewardId": "198894"
+    },
+    {
+      "userId": "4572",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207029",
+      "rewardId": "198942"
+    },
+    {
+      "userId": "4597",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206982",
+      "rewardId": "198895"
+    },
+    {
+      "userId": "4597",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207030",
+      "rewardId": "198943"
+    },
+    {
+      "userId": "4598",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206983",
+      "rewardId": "198896"
+    },
+    {
+      "userId": "4598",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207031",
+      "rewardId": "198944"
+    },
+    {
+      "userId": "4614",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206984",
+      "rewardId": "198897"
+    },
+    {
+      "userId": "4614",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207032",
+      "rewardId": "198945"
+    },
+    {
+      "userId": "4625",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206985",
+      "rewardId": "198898"
+    },
+    {
+      "userId": "4625",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207033",
+      "rewardId": "198946"
+    },
+    {
+      "userId": "4627",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206986",
+      "rewardId": "198899"
+    },
+    {
+      "userId": "4627",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207034",
+      "rewardId": "198947"
+    },
+    {
+      "userId": "4629",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206987",
+      "rewardId": "198900"
+    },
+    {
+      "userId": "4629",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207035",
+      "rewardId": "198948"
+    },
+    {
+      "userId": "4637",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206988",
+      "rewardId": "198901"
+    },
+    {
+      "userId": "4637",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207036",
+      "rewardId": "198949"
+    },
+    {
+      "userId": "4641",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206989",
+      "rewardId": "198902"
+    },
+    {
+      "userId": "4641",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207037",
+      "rewardId": "198950"
+    },
+    {
+      "userId": "4651",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206990",
+      "rewardId": "198903"
+    },
+    {
+      "userId": "4651",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207038",
+      "rewardId": "198951"
+    },
+    {
+      "userId": "4693",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206991",
+      "rewardId": "198904"
+    },
+    {
+      "userId": "4693",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207039",
+      "rewardId": "198952"
+    },
+    {
+      "userId": "4705",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206992",
+      "rewardId": "198905"
+    },
+    {
+      "userId": "4705",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207040",
+      "rewardId": "198953"
+    },
+    {
+      "userId": "4757",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206993",
+      "rewardId": "198906"
+    },
+    {
+      "userId": "4757",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207041",
+      "rewardId": "198954"
+    },
+    {
+      "userId": "4773",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206994",
+      "rewardId": "198907"
+    },
+    {
+      "userId": "4773",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207042",
+      "rewardId": "198955"
+    },
+    {
+      "userId": "4817",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206995",
+      "rewardId": "198908"
+    },
+    {
+      "userId": "4817",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207043",
+      "rewardId": "198956"
+    },
+    {
+      "userId": "4836",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206996",
+      "rewardId": "198909"
+    },
+    {
+      "userId": "4836",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207044",
+      "rewardId": "198957"
+    },
+    {
+      "userId": "4908",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206997",
+      "rewardId": "198910"
+    },
+    {
+      "userId": "4908",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207045",
+      "rewardId": "198958"
+    },
+    {
+      "userId": "4965",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206998",
+      "rewardId": "198911"
+    },
+    {
+      "userId": "4965",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207046",
+      "rewardId": "198959"
+    },
+    {
+      "userId": "4977",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "206999",
+      "rewardId": "198912"
+    },
+    {
+      "userId": "4977",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207047",
+      "rewardId": "198960"
+    },
+    {
+      "userId": "5140",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "207000",
+      "rewardId": "198913"
+    },
+    {
+      "userId": "5140",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207048",
+      "rewardId": "198961"
+    },
+    {
+      "userId": "5148",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "207001",
+      "rewardId": "198914"
+    },
+    {
+      "userId": "5148",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207049",
+      "rewardId": "198962"
+    },
+    {
+      "userId": "5393",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "207002",
+      "rewardId": "198915"
+    },
+    {
+      "userId": "5393",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207050",
+      "rewardId": "198963"
+    },
+    {
+      "userId": "5426",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "207003",
+      "rewardId": "198916"
+    },
+    {
+      "userId": "5426",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207051",
+      "rewardId": "198964"
+    },
+    {
+      "userId": "5504",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "207004",
+      "rewardId": "198917"
+    },
+    {
+      "userId": "5504",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207052",
+      "rewardId": "198965"
+    },
+    {
+      "userId": "5582",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "207005",
+      "rewardId": "198918"
+    },
+    {
+      "userId": "5582",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207053",
+      "rewardId": "198966"
+    }
+  ],
+  "actor": "SYSTEM_OPS",
+  "completedAt": "2026-10-14T13:49:42.115Z",
+  "auditId": "46157",
+  "sourceCommit": "4a215839f7b691f5b4bc291d71d2a3d28de5d0b9",
+  "validation": {
+    "testsPassed": 4,
+    "dryRun": {
+      "verification": {
+        "recipients": 48,
+        "winners": 8,
+        "participantsOnly": 40,
+        "messages": 96,
+        "rewards": 96,
+        "coin": "224000000000000",
+        "masterStar": "1360000000",
+        "claimed": 0,
+        "missing": 0,
+        "duplicates": 0
+      },
+      "committed": false,
+      "replayed": false,
+      "residue": {
+        "receipt_count": 0,
+        "message_count": 0
+      },
+      "at": "2026-10-14T13:48:57.900Z"
+    },
+    "postCommit": {
+      "recipients": 48,
+      "winners": 8,
+      "participantsOnly": 40,
+      "messages": 96,
+      "rewards": 96,
+      "coin": "224000000000000",
+      "masterStar": "1360000000",
+      "claimed": 0,
+      "missing": 0,
+      "duplicates": 0
+    },
+    "replayPrevented": true,
+    "checkedAt": "2026-10-14T13:49:45.214Z"
+  },
+  "scope": "One-time claimable inbox rewards only; game runtime and production deployment unchanged."
+}
