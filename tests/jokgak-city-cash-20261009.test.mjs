@@ -7,6 +7,7 @@ import {defaultCitySettings,validateCitySettings,CITY_SETTINGS_KEY} from '../sha
 import {cityLifeKey,newCityLife,readCityLife} from '../shared/jokgak-city-life-v1.mjs';
 import {changeCityCash,CITY_CASH_MAX} from '../shared/jokgak-city-cash-v1.mjs';
 import {cityShift} from '../shared/jokgak-city-v1.mjs';
+import {claimCityMessageReward} from '../functions/_jokgak_city_message_reward.js';
 const owner={id:80,role:'OWNER'};
 const policy=f=>readCitySettings(f.env).then(r=>r.policy);
 const save=(f,p)=>saveCitySettings(f.env,owner,p,f.now);
@@ -57,7 +58,11 @@ for(const pg of [false,true]){
     const first=await cityAction(f.env,f.deps,f.users.get(1),'attack',body);assert.equal(first.replayed,true);assert.equal(first.mine.cash,10500);assert.equal(first.reward.cashReceipt.after,10500);assert.equal(first.target.cash,undefined);
     assert.equal((await cityAction(f.env,f.deps,f.users.get(1),'attack',body)).mine.cash,10500);assert.ok((await status(f)).people.every(p=>!('cash' in p)&&!('bag' in p)));
     await reset(f);assert.equal((await f.action(1,'attack',{targetId:2})).reward.status,'TARGET_COOLDOWN');assert.equal((await status(f)).mine.cash,10500);
-    await rewardPolicy(f,{cash:700,coin:123});await reset(f);const mixed=await f.action(1,'attack',{targetId:3});assert.equal(mixed.mine.cash,11200);assert.equal((await f.p('SELECT coin FROM users WHERE id=1').first()).coin,123579);assert.equal((await f.p('SELECT quantity FROM cnine_user_inventory WHERE user_id=1').first()).quantity,2);
+    await rewardPolicy(f,{cash:700,coin:123});await reset(f);const mixed=await f.action(1,'attack',{targetId:3});assert.equal(mixed.mine.cash,11200);assert.equal(mixed.reward.status,'MESSAGE_SENT');assert.equal((await f.p('SELECT coin FROM users WHERE id=1').first()).coin,123456);assert.equal((await f.p('SELECT COUNT(*) n FROM cnine_user_inventory WHERE user_id=1').first()).n,0);
+    const delivered=(await f.p("SELECT * FROM user_message_rewards WHERE user_id=1 AND reward_type='JOKGAK_CITY_REWARD' AND claimed_at IS NULL").all()).results;assert.equal(delivered.length,1);
+    await claimCityMessageReward(f.env,f.users.get(1),delivered[0],Number(delivered[0].message_id));
+    await claimCityMessageReward(f.env,f.users.get(1),delivered[0],Number(delivered[0].message_id));
+    assert.equal((await f.p('SELECT coin FROM users WHERE id=1').first()).coin,123579);assert.equal((await f.p('SELECT quantity FROM cnine_user_inventory WHERE user_id=1').first()).quantity,2);
     await reset(f);f.advance(61000);assert.equal((await f.action(1,'attack',{targetId:2})).reward.status,'DAILY_LIMIT');assert.equal((await status(f)).mine.cash,11200);
     assert.equal((await f.p('SELECT COUNT(*) n FROM coin_logs').first()).n,1);
   });

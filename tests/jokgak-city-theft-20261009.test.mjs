@@ -61,7 +61,7 @@ for(const pg of [false,true]){
     for(const id of [1,2])await cityStatus(f.env,f.users.get(id),'MARKET',0,f.now);
     await wallet(f,2,12349,'TEST');await f.p('UPDATE jokgak_city_players_v1 SET health=10 WHERE user_id=2').run();const b=body(f),result=await attack(f,b);
     assert.equal(result.theft.mode,'TEST');assert.equal(result.target.deadUntil,f.now+180000);assert.deepEqual(await balances(f,'TEST'),[11234,11115]);assert.deepEqual(await balances(f),[10000,10000]);
-    f.advance(180000);const respawn=await cityStatus(f.env,f.users.get(2),'HOSPITAL',0,f.now);assert.equal(respawn.mine.cash,11115);assert.equal(respawn.mine.location,'HOSPITAL');
+    f.advance(180000);const respawn=await cityStatus(f.env,f.users.get(2),'HOSPITAL',0,f.now);assert.equal(respawn.mine.cash,11115);assert.equal(respawn.mine.location==='HOSPITAL',['DOCTOR','NURSE'].includes(respawn.mine.role));assert.equal(respawn.mine.deadUntil,0);
     const on=await policy(f);on.mode='ON';await save(f,on);assert.equal((await attack(f,b)).theft.mode,'TEST');assert.deepEqual(await balances(f),[10000,10000]);
   });
   test(db+': theft precedes role reward; other residents and defender receipt do not expose opponent wallet',async t=>{

@@ -96,6 +96,7 @@ test('riot and wanted UI stays inert until loaded, escapes names and shows payou
  const markup=cityRiotMap(state,1)+cityRiotPin(state,'MARKET',1)+cityBountyBoard(state,1)+cityBountyNoticeMarkup({kind:'CLAIMED',id:'one',targetName:name,killerName:name,amount:5000,shownAt:1},1)+cityBountyReceipt({claimed:{targetName:name,killerName:name,killerId:2,amount:5000}},2)+cityConflictRules(state);
  assert.ok(markup.includes('폭동지역'));assert.ok(markup.includes('현상수배범 사망'));assert.ok(markup.includes('수배 완료'));assert.ok(markup.includes('내 현상금 수령'));assert.ok(markup.includes('&lt;img'));assert.ok(!markup.includes('<img src=x'));assert.ok(markup.includes('체포'));
  state.mode='TEST';assert.equal(cityRiotMap(state,1),'');assert.ok(!cityBountyBoard(state,1).includes('5,000'));state.mode='ON';assert.equal(cityRiotMap(state,10000),'');
- const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8'),version=read('js/jokgak-city-v1.js').match(/VERSION='([^']+)'/)[1];
- assert.ok(read('css/jokgak-city-v1.css').includes('jokgak-city-conflict-v1.css?v='+version));assert.ok(read('admin/jokgak-city-admin-v1.mjs').includes('jokgak-city-conflict-admin-v1.mjs?v='+version));
+ const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
+ // Main-view countdown revisions need not rewrite unchanged conflict assets.
+ const version=read('css/jokgak-city-v1.css').match(/jokgak-city-conflict-v1\.css\?v=([A-Za-z0-9-]+)/)?.[1];assert.ok(version);assert.ok(read('admin/jokgak-city-admin-v1.mjs').includes('jokgak-city-conflict-admin-v1.mjs?v='+version));
 });
