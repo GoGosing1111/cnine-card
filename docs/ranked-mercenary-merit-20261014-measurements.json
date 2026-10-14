@@ -1,0 +1,232 @@
+{
+  "capturedAt": "2026-10-14T00:13:26.373Z",
+  "roster": 682,
+  "ready": 678,
+  "readMs": 8441,
+  "settings": {
+    "score": 250,
+    "power": 20
+  },
+  "valterUsers": 6,
+  "audit": {
+    "total": 82,
+    "valterAttacks": 82,
+    "mirrors": 41
+  },
+  "method": {
+    "database": "REPEATABLE READ READ ONLY",
+    "auditSinceUtc": "2026-10-13 00:00:00",
+    "auditLimitPerValter": 100,
+    "simulation": "Current frozen PVP defense roster, unchanged scores and loadouts; 200 draws per account, rolling last 20 opponents and fixed random seed. Predictions, not observed post-release outcomes.",
+    "before": "card/equipment + mercenary",
+    "after": "card/equipment; all mercenary power including mercenary gear removed only from matching"
+  },
+  "rosterComparison": {
+    "power": {
+      "accounts": 678,
+      "noEligibleOpponent": 4,
+      "meanBatches": 1.7536873156342183,
+      "maxBatches": 7
+    },
+    "matchPower": {
+      "accounts": 678,
+      "noEligibleOpponent": 2,
+      "meanBatches": 1.6873156342182891,
+      "maxBatches": 7
+    }
+  },
+  "valterAccounts": [
+    {
+      "sample": 1,
+      "score": 1056,
+      "power": 2060325,
+      "matchPower": 980325,
+      "before": {
+        "totalEligible": 4,
+        "primary": 4,
+        "valters": 3,
+        "batches": 7,
+        "stage": 0,
+        "simulation": {
+          "picks": 200,
+          "valters": 151,
+          "unique": 4,
+          "meanBaseGap": 2.8289087802514423
+        }
+      },
+      "after": {
+        "totalEligible": 41,
+        "primary": 34,
+        "valters": 0,
+        "batches": 1,
+        "stage": 0,
+        "simulation": {
+          "picks": 200,
+          "valters": 0,
+          "unique": 34,
+          "meanBaseGap": 2.778474174555319
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "score": 2423,
+      "power": 2176625,
+      "matchPower": 1096625,
+      "before": {
+        "totalEligible": 0,
+        "primary": 0,
+        "valters": 0,
+        "batches": 1,
+        "stage": null,
+        "simulation": {
+          "picks": 0,
+          "valters": 0,
+          "unique": 0,
+          "meanBaseGap": 0
+        }
+      },
+      "after": {
+        "totalEligible": 8,
+        "primary": 1,
+        "valters": 0,
+        "batches": 1,
+        "stage": 0,
+        "simulation": {
+          "picks": 200,
+          "valters": 0,
+          "unique": 2,
+          "meanBaseGap": 8.947716653308722
+        }
+      }
+    },
+    {
+      "sample": 3,
+      "score": 935,
+      "power": 2061325,
+      "matchPower": 981325,
+      "before": {
+        "totalEligible": 4,
+        "primary": 2,
+        "valters": 2,
+        "batches": 7,
+        "stage": 0,
+        "simulation": {
+          "picks": 200,
+          "valters": 200,
+          "unique": 2,
+          "meanBaseGap": 3.0163819361513706
+        }
+      },
+      "after": {
+        "totalEligible": 35,
+        "primary": 25,
+        "valters": 0,
+        "batches": 1,
+        "stage": 0,
+        "simulation": {
+          "picks": 200,
+          "valters": 0,
+          "unique": 25,
+          "meanBaseGap": 5.854393226903349
+        }
+      }
+    },
+    {
+      "sample": 4,
+      "score": 1137,
+      "power": 2119525,
+      "matchPower": 1039525,
+      "before": {
+        "totalEligible": 4,
+        "primary": 4,
+        "valters": 3,
+        "batches": 7,
+        "stage": 0,
+        "simulation": {
+          "picks": 200,
+          "valters": 145,
+          "unique": 4,
+          "meanBaseGap": 4.534018043163032
+        }
+      },
+      "after": {
+        "totalEligible": 62,
+        "primary": 53,
+        "valters": 2,
+        "batches": 1,
+        "stage": 0,
+        "simulation": {
+          "picks": 200,
+          "valters": 6,
+          "unique": 53,
+          "meanBaseGap": 5.240791937648479
+        }
+      }
+    },
+    {
+      "sample": 5,
+      "score": 1232,
+      "power": 2092625,
+      "matchPower": 1012625,
+      "before": {
+        "totalEligible": 5,
+        "primary": 3,
+        "valters": 2,
+        "batches": 7,
+        "stage": 0,
+        "simulation": {
+          "picks": 200,
+          "valters": 133,
+          "unique": 3,
+          "meanBaseGap": 2.328211421118012
+        }
+      },
+      "after": {
+        "totalEligible": 70,
+        "primary": 63,
+        "valters": 2,
+        "batches": 1,
+        "stage": 0,
+        "simulation": {
+          "picks": 200,
+          "valters": 5,
+          "unique": 62,
+          "meanBaseGap": 3.3089526654755086
+        }
+      }
+    },
+    {
+      "sample": 6,
+      "score": 1667,
+      "power": 2151325,
+      "matchPower": 1071325,
+      "before": {
+        "totalEligible": 2,
+        "primary": 2,
+        "valters": 1,
+        "batches": 1,
+        "stage": 2,
+        "simulation": {
+          "picks": 200,
+          "valters": 100,
+          "unique": 2,
+          "meanBaseGap": 6.351070694931275
+        }
+      },
+      "after": {
+        "totalEligible": 51,
+        "primary": 13,
+        "valters": 0,
+        "batches": 1,
+        "stage": 0,
+        "simulation": {
+          "picks": 200,
+          "valters": 0,
+          "unique": 13,
+          "meanBaseGap": 8.096999852295955
+        }
+      }
+    }
+  ]
+}

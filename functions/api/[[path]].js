@@ -4,7 +4,7 @@ import {MERCENARY_EQUIPMENT_SQL_CODES} from '../../shared/mercenary-equipment-v1
 import {presentOriginalIpResponse} from '../../shared/monster-original-ip-presentation-v1.mjs';
 import {registerApocalypseChallenge,apocalypseChallengeAction,reserveApocalypseBattle} from '../_apocalypse_challenge.js';
 import {rankedScoreAdjustment,rankedPowerDifference,normalizeRankedRechargeMinutes} from '../../shared/ranked-reform-v1.mjs';
-import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchBands,rankedMatchBand,selectRankedCandidate} from '../../shared/ranked-matchmaking-v2.mjs';
+import {RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchPower,rankedMatchBands,rankedMatchBand,selectRankedCandidate} from '../../shared/ranked-matchmaking-v2.mjs';
 import {RANKED_REFORM_SCHEMA,readRankedEnergy,rankedFightReceipt,commitRankedFight} from '../_ranked_reform.js';
 import {reopenRankedIfDue} from '../_ranked_reopen.js';
 import {retiredContentResponse} from '../_retired_content.js';
@@ -1101,8 +1101,9 @@ function pvpSeasonScoreAdjustment(isWin,myScore,opponentScore){return rankedScor
 function pvpTierIndex(score,tiers=[]){const resolved=resolveTier(Number(score||0),tiers);return Math.max(0,(tiers||[]).findIndex(tier=>tier.id===resolved.id))}
 async function pvpFormationPower(env,userId,battle,{defense=false}={}){
   const [deck,bonus,mercenary]=await Promise.all([pvpDeckSnapshot(env,userId,defense),userEquipmentBonuses(env,userId),releasedMercenarySnapshot(env,{id:userId},'PVP')]);
-  if(deck.length!==5)return {power:0,deckReady:false};
-  return {power:Math.max(1,deck.reduce((sum,card)=>sum+cardBattlePower(card,Number(card.breakthrough_level||0),battle),0)+Number(bonus.pvp||0)+mercenarySnapshotPower(mercenary)),deckReady:true};
+  if(deck.length!==5)return {power:0,matchPower:0,deckReady:false};
+  const mercenaryPower=mercenarySnapshotPower(mercenary),power=Math.max(1,deck.reduce((sum,card)=>sum+cardBattlePower(card,Number(card.breakthrough_level||0),battle),0)+Number(bonus.pvp||0)+mercenaryPower);
+  return {power,matchPower:rankedMatchPower(power,mercenaryPower),deckReady:true};
 }
 async function pvpDefenseFormationPowers(env,userIds,battle){
   const ids=[...new Set((userIds||[]).map(Number).filter(Boolean))];if(!ids.length)return new Map();const marks=ids.map(()=>'?').join(',');
@@ -1127,7 +1128,7 @@ async function pvpDefenseFormationPowers(env,userIds,battle){
   ]);
   const result=new Map(ids.map(id=>[id,{power:0,count:0,superstarCount:0,iconCount:0}]));for(const row of cardRows.results||[]){const state=result.get(Number(row.user_id));if(state){state.power+=cardBattlePower(row,Number(row.breakthrough_level||0),battle);state.count++;state.superstarCount+=superstarDeckCount([row]);state.iconCount+=iconDeckCount([row])}}
   for(const rows of [equipmentRows.results||[],garageRows.results||[],titleRows.results||[]])for(const row of rows){const state=result.get(Number(row.user_id));if(state)state.power+=Number(row.power||0)}
-  return new Map([...result].map(([id,state])=>[id,{power:Math.max(0,Math.floor(state.power+mercenarySnapshotPower(mercenaries.get(id))+Number(forgeBonuses.get(id)?.pvp||0))),deckReady:state.count===5&&state.superstarCount<=SUPERSTAR_DECK_LIMIT&&state.iconCount<=ICON_DECK_LIMIT}]));
+  return new Map([...result].map(([id,state])=>{const mercenaryPower=mercenarySnapshotPower(mercenaries.get(id)),power=Math.max(0,Math.floor(state.power+mercenaryPower+Number(forgeBonuses.get(id)?.pvp||0)));return [id,{power,matchPower:rankedMatchPower(power,mercenaryPower),deckReady:state.count===5&&state.superstarCount<=SUPERSTAR_DECK_LIMIT&&state.iconCount<=ICON_DECK_LIMIT}]}));
 }
 async function createRankedMatchTicket(env,user,settings){
   await ensureRankedPvpFoundation(env);
@@ -1142,7 +1143,10 @@ async function createRankedMatchTicket(env,user,settings){
       AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
     ORDER BY t.created_at DESC LIMIT 1`).bind(user.id,seasonKey).first();
   if(existing){
-    const titleMap=await publicEquippedTitleMap(env,[existing.defender_id]),scoreDiff=Math.abs(Number(existing.defender_score)-Number(existing.attacker_score)),powerDiff=rankedPowerDifference(Number(existing.attacker_power),Number(existing.defender_power));
+    // Recheck the same card/equipment basis on refresh, including pre-patch tickets.
+    // One two-account batch preserves the fast path without rebuilding candidates.
+    const [titleMap,mercenaries]=await Promise.all([publicEquippedTitleMap(env,[existing.defender_id]),releasedMercenarySnapshots(env,[Number(user.id),Number(existing.defender_id)],'PVP')]);
+    const scoreDiff=Math.abs(Number(existing.defender_score)-Number(existing.attacker_score)),powerDiff=rankedPowerDifference(rankedMatchPower(existing.attacker_power,mercenarySnapshotPower(mercenaries.get(Number(user.id)))),rankedMatchPower(existing.defender_power,mercenarySnapshotPower(mercenaries.get(Number(existing.defender_id)))));
     if(rankedMatchBand({scoreDiff,powerDiff},settings)<0){await env.DB.prepare('DELETE FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND used_at IS NULL').bind(existing.token).run();return createRankedMatchTicket(env,user,settings)}
     return {token:existing.token,expiresAt:existing.expires_at,reused:true,opponent:{id:Number(existing.defender_id),nickname:existing.nickname,season_score:Number(existing.defender_score),wins:Number(existing.wins||0),losses:Number(existing.losses||0),title:titleMap[String(existing.defender_id)]||null,tier:resolvePvpTier(Number(existing.defender_score),settings,await pvpChallengerRank(env,existing.defender_id)),expectedWin:pvpSeasonScoreAdjustment(true,existing.attacker_score,existing.defender_score).change,expectedLoss:pvpSeasonScoreAdjustment(false,existing.attacker_score,existing.defender_score).change,balance:{tierDistance:Math.abs(pvpTierIndex(existing.defender_score,settings.tiers)-pvpTierIndex(existing.attacker_score,settings.tiers)),scoreDifference:scoreDiff,powerDifferencePercent:Math.round(powerDiff*10)/10}}};
   }
@@ -1166,7 +1170,7 @@ async function createRankedMatchTicket(env,user,settings){
     const batch=candidateRows.slice(offset,offset+RANKED_MATCH_BATCH_SIZE),formationMap=await pvpDefenseFormationPowers(env,batch.map(candidate=>candidate.id),battle);
     for(const candidate of batch){
       const formation=formationMap.get(Number(candidate.id));if(!formation?.deckReady)continue;
-      const scoreDiff=Math.abs(Number(candidate.season_score)-Number(mine.season_score)),powerDiff=rankedPowerDifference(formation.power,myFormation.power),tierDistance=Math.abs(pvpTierIndex(candidate.season_score,settings.tiers)-pvpTierIndex(mine.season_score,settings.tiers));
+      const scoreDiff=Math.abs(Number(candidate.season_score)-Number(mine.season_score)),powerDiff=rankedPowerDifference(formation.matchPower,myFormation.matchPower),tierDistance=Math.abs(pvpTierIndex(candidate.season_score,settings.tiers)-pvpTierIndex(mine.season_score,settings.tiers));
       const matchStage=rankedMatchBand({scoreDiff,powerDiff},settings);if(matchStage<0)continue;
       evaluated.push({...candidate,power:formation.power,scoreDiff,powerDiff,tierDistance});
       if(matchStage===0)baselineCount++;

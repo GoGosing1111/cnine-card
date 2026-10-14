@@ -6,6 +6,14 @@ export const RANKED_MATCH_MIN_POOL_SIZE=8;
 export const RANKED_MATCH_HISTORY_LIMIT=20;
 export const RANKED_MATCH_RECENT_AVOID=5;
 
+// Mercenary strength remains a combat advantage, not an opponent-selection tax.
+// Tickets still retain full formation power for the pre-fight change guard.
+export function rankedMatchPower(formationPower,mercenaryPower=0){
+ const total=Number(formationPower),mercenary=Number(mercenaryPower);
+ if(!Number.isFinite(total)||!Number.isFinite(mercenary)||total<=0||mercenary<0)return 0;
+ return Math.max(0,total-mercenary);
+}
+
 // Keep the CMS range as the first choice. Only an empty band widens the search;
 // neither rating nor power can become an unrestricted fallback.
 export function rankedMatchBands(settings){

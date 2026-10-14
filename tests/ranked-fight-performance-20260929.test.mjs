@@ -5,10 +5,10 @@ import {createPvpTimings} from '../functions/_pvp_performance.js';
 
 const source=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const fight=source.slice(source.indexOf("if(path==='pvp/fight'&&request.method==='POST')"),source.indexOf("if(path==='pvp/history')"));
-function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=false}={}){
+function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=false,mercenaryPowers={},ticketMercenaryPowers=mercenaryPowers}={}){
   const users={1:{id:1,nickname:'a',role:'USER',coin:300},2:{id:2,nickname:'b',role:'USER',coin:900}};
   const profiles={1:{season_score:1000,highest_score:1000,wins:0,losses:0},2:{season_score:1000,highest_score:1000,wins:0,losses:0}};
-  let energy=5,claimed=false,receipt=null;const effects=[],queries=[],settings={enabled:true,winCoin:50,loseCoin:25};
+  let energy=5,claimed=false,receipt=null;const effects=[],queries=[],combatInputs=[],settings={enabled:true,winCoin:50,loseCoin:25};
   const env={DB:{
     prepare(sql){let v=[];return {bind(...values){v=values;return this},async all(){queries.push(sql);assert.match(sql,/FROM pvp_match_history/);return {results:recent.map(defender_id=>({defender_id}))};},async first(){queries.push(sql);assert.match(sql,/FROM users/);return {...users[v[0]],magic_crystals:0};},async run(){queries.push(sql);
       if(sql.startsWith('UPDATE pvp_profiles'))Object.assign(profiles[v[4]],{season_score:v[0],highest_score:Math.max(profiles[v[4]].highest_score,v[1]),wins:profiles[v[4]].wins+v[2],losses:profiles[v[4]].losses+v[3]});
@@ -25,7 +25,7 @@ function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=fals
   const deps={
     ensureRankedPvpFoundation:async()=>{},rankedFightReceipt:async()=>receipt?{...receipt,replayed:true}:null,utcMs:()=>0,authenticate:async()=>users[1],readBody:async()=>({requestId:'ranked-performance-request',matchToken:'ticket'}),
     advancePvpSeasonLifecycle:async()=>({settings,settling:false}),burningEventSettings:async()=>({}),applyBurningPvpSettings:s=>s,isAdminRole:()=>false,
-    claimRankedMatchTicket:async()=>{if(claimed||invalidTicket)throw Object.assign(Error('invalid or used'),{status:409});claimed=true;return {token:'ticket',defender_id:2,attacker_score:stale?999:1000,defender_score:1000,attacker_power:500,defender_power:500};},
+    claimRankedMatchTicket:async()=>{if(claimed||invalidTicket)throw Object.assign(Error('invalid or used'),{status:409});claimed=true;return {token:'ticket',defender_id:2,attacker_score:stale?999:1000,defender_score:1000,attacker_power:500+(ticketMercenaryPowers[1]||0),defender_power:500+(ticketMercenaryPowers[2]||0)};},
     ensurePvpProfile:async(_,user)=>({...profiles[user.id]}),
     pvpDeckSnapshot:async(_,id)=>Array.from({length:id===1?deckLength:5},(_,i)=>({id:String(i+1),rarity:'C',base_power:100,breakthrough_level:0})),
     battleSettings:async()=>({}),publicEquippedTitleMap:async()=>({}),cardBattlePower:()=>100,
@@ -33,9 +33,9 @@ function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=fals
     evaluateDeckSynergies:async()=>({totals:{attackPercent:0}}),
     cardUniqueDeckStates:async(_,entries)=>entries.map(x=>({enabled:false,power:500,cards:x.cards})),
     userEquipmentBonuses:async()=>({pvp:0}),magicBattleLoadout:async()=>({cards:[]}),equippedAvatarEffect:async()=>null,
-    releasedMercenarySnapshot:async()=>null,mercenarySnapshotPower:()=>0,loadPetBattleSnapshot:async()=>null,
+    releasedMercenarySnapshot:async(_,user)=>mercenaryPowers[user.id]?{code:'mercenary-'+user.id,basePower:mercenaryPowers[user.id]}:null,mercenarySnapshotPower:m=>m?.basePower??0,loadPetBattleSnapshot:async()=>null,
     battleEngineState:()=>({active:true}),drawIntegrityHash:()=> 'abc123',
-    createPvpBattleV2:()=>({result:{winner:win?'A':'B',reason:'ELIMINATION',actions:5,final:{A:[],B:[]}},teams:{A:{summary:{power:500}},B:{summary:{power:500}}}}),
+    createPvpBattleV2:input=>{combatInputs.push(input);return {result:{winner:win?'A':'B',reason:'ELIMINATION',actions:5,final:{A:[],B:[]}},teams:{A:{summary:{power:500}},B:{summary:{power:500}}}};},
     pvpSeasonScoreAdjustment:w=>({change:24}),consumePvpEnergy:async()=>{effects.push('energy');return {state:{energy}};},commitRankedFight:async(_,options)=>{await env.DB.batch(options.writes);receipt={...options.response,energy:{energy:--energy}};return receipt;},
     burningRewardAmount:amount=>amount,applyAvatarCoinGain:base=>({base,total:base,bonus:0,percent:0}),
     grantBattleCube:async()=>assert.fail('retired cube rewards must not run'),grantHighGradeRerollDrop:reward('reroll'),magicSettings:async()=>({acquisition:{pvp:{enabled:true,chance:1,amount:1,dailyLimit:3}}}),
@@ -44,7 +44,7 @@ function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=fals
     json:(data,status=200)=>({data,status})
   };
   const execute=Function('deps',`with(deps){return async(context)=>{const {env,request}=context;const path='pvp/fight';${fight}}}`)(deps);
-  return {call:()=>execute({env,request:{method:'POST'},pvpTiming:createPvpTimings('pvp/fight')}),users,profiles,effects,queries,energy:()=>energy};
+  return {call:()=>execute({env,request:{method:'POST'},pvpTiming:createPvpTimings('pvp/fight')}),users,profiles,effects,queries,combatInputs,energy:()=>energy};
 }
 
 test('optimized ranked fight preserves win/loss energy, attacker-only coins, scores and reward ordering',async()=>{
@@ -86,4 +86,12 @@ test('repeat-opponent fallback still requires a valid ticket and current score a
     assert.ok([400,409].includes(result.status));assert.equal(f.energy(),5);
     assert.equal(f.users[1].coin,300);assert.equal(f.profiles[1].season_score,1000);assert.deepEqual(f.effects,[]);
   }
+});
+
+test('different mercenary power reaches combat unchanged and cannot be swapped after a ticket',async()=>{
+ const f=fixture({mercenaryPowers:{1:1080000,2:180000}}),r=await f.call();
+ assert.equal(r.status,200);assert.equal(f.combatInputs[0].attackerMercenary.basePower,1080000);assert.equal(f.combatInputs[0].defenderMercenary.basePower,180000);assert.equal(f.energy(),4);
+ for(const options of [{mercenaryPowers:{1:1080000},ticketMercenaryPowers:{}},{mercenaryPowers:{2:180000},ticketMercenaryPowers:{2:1080000}}]){
+  const stale=fixture(options),response=await stale.call();assert.equal(response.status,409);assert.equal(response.data.code,'PVP_MATCH_FORMATION_CHANGED');assert.equal(stale.energy(),5);assert.deepEqual(stale.effects,[]);assert.deepEqual(stale.combatInputs,[]);
+ }
 });
