@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "state": {
+    "origin": "https://cnine-card.pages.dev",
+    "engine": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1",
+    "ready": true,
+    "status": "전투 배치 완료 · 자동 전투 시작",
+    "diagnostics": {
+      "mounted": true,
+      "visible": true,
+      "renderer": 1,
+      "resolution": 1.25,
+      "actors": 10,
+      "battlefield": {
+        "mode": "RAID",
+        "asset": "../../assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png",
+        "loading": "LAZY_ACTIVE_SCENE_ONLY",
+        "available": [
+          "HUNT",
+          "TOWER",
+          "PVP",
+          "RAID",
+          "ESCORT",
+          "SIEGE"
+        ]
+      }
+    }
+  },
+  "redirect": {
+    "status": 308,
+    "location": "/?desktopProbe=1"
+  },
+  "minimumWindow": {
+    "playVisible": true,
+    "overflow": false
+  },
+  "localApiRequests": 88,
+  "battleRequests": 1,
+  "downloadedObjects": 1555,
+  "errors": [],
+  "dialogs": [],
+  "failures": []
+}

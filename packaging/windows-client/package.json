@@ -1,0 +1,48 @@
+{
+  "name": "soopketmon-windows",
+  "productName": "숲켓몬",
+  "version": "0.1.0",
+  "private": true,
+  "description": "숲켓몬 Windows 게임 클라이언트와 리소스 런처",
+  "author": "YAKCODE",
+  "main": "main.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test ../../tests/windows-client-20261015.test.mjs",
+    "dist": "electron-builder --win nsis --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "44.7.2",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "kr.yakcode.soopketmon",
+    "productName": "숲켓몬",
+    "artifactName": "Soopketmon-Setup-${version}-${arch}.${ext}",
+    "asar": true,
+    "directories": { "output": "release", "buildResources": "build-resources" },
+    "files": ["main.mjs", "preload.cjs", "lib/**", "renderer/**", "package.json"],
+    "win": {
+      "target": ["nsis"],
+      "icon": "build-resources/icon.ico",
+      "executableName": "Soopketmon",
+      "requestedExecutionLevel": "asInvoker",
+      "signExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "숲켓몬",
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": false,
+      "installerLanguages": ["ko_KR", "en_US"],
+      "language": "1042",
+      "license": "LICENSE.txt"
+    }
+  }
+}

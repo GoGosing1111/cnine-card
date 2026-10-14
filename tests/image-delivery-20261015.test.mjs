@@ -27,13 +27,15 @@ test('all delivery mappings preserve their originals and resolve to verified sma
  }
  assert.equal(source,manifest.sourceBytes);assert.equal(compressed,manifest.optimizedBytes);assert(compressed<source*.7);
 });
-test('Pages staging excludes only test executables, preserving preview fixture imports and original images',async()=>{
+test('Pages staging preserves fixture imports and images and generates a desktop resource manifest',async()=>{
  const parent=await mkdtemp(path.join(tmpdir(),'cnine-stage-test-'));let stage;
  try{
   const root=path.join(parent,'source'),deps=path.join(parent,'dependencies');await mkdir(root);await mkdir(deps);
-  const files=['index.html','assets/approved.png','tests/a.test.mjs','tests/b.browser.mjs','tests/fixtures/live.json','tests/helpers/live.mjs','functions/api/test.js'];
+  const files=['index.html','assets/approved.png','tests/a.test.mjs','tests/b.browser.mjs','tests/fixtures/live.json','tests/helpers/live.mjs','functions/api/test.js','packaging/windows-client/main.mjs'];
   for(const f of files){await mkdir(path.dirname(path.join(root,f)),{recursive:true});await writeFile(path.join(root,f),'preserved '+f);}
-  stage=await prepareProductionAssets({root,files,tempRoot:parent,dependencies:deps});assert.equal(stage.assetCount,4);assert.equal(stage.excluded,2);
+  stage=await prepareProductionAssets({root,files,tempRoot:parent,dependencies:deps});assert.equal(stage.assetCount,5);assert.equal(stage.excluded,3);
+  const desktop=JSON.parse(await readFile(path.join(stage.directory,'client/windows/manifest.json'),'utf8'));
+  assert.deepEqual(desktop.files.map(f=>f.path),['/assets/approved.png','/index.html']);
   for(const file of files)if(isProductionFile(file))assert.equal(await readFile(path.join(stage.directory,file),'utf8'),'preserved '+file);else await assert.rejects(access(path.join(stage.directory,file)));
   await stage.dispose();stage=null;assert.equal(await realpath(deps),deps);assert.equal(await readFile(path.join(root,'assets/approved.png'),'utf8'),'preserved assets/approved.png');
  }finally{await stage?.dispose();const resolved=await realpath(parent);assert.equal(path.dirname(resolved),await realpath(tmpdir()));assert(path.basename(resolved).startsWith('cnine-stage-test-'));await rm(resolved,{recursive:true,force:true});}

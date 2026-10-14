@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "staticDownloads": 3,
+  "repeatStaticDownloads": 0,
+  "apiRequests": 2,
+  "authorizationBodyAndSessionCookieVerified": true,
+  "remoteNodeAndBridgeDisabled": true,
+  "serviceWorkers": 0,
+  "errors": []
+}

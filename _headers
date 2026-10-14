@@ -53,6 +53,10 @@
 /service-worker.js
   Cache-Control: no-store, no-cache, must-revalidate, max-age=0
 
+# Native Windows clients check the complete resource version before launching.
+/client/windows/manifest.json
+  Cache-Control: no-store
+
 # =============================================================
 # 런타임 번들: 파일명이 콘텐츠 해시가 아니므로 immutable 을 사용하지 않는다.
 # ETag 재검증(304)으로 전송량은 아끼면서 새 배포는 즉시 확인한다.

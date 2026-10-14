@@ -1,0 +1,31 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "prompt-launcher-citadel-v1.json",
+  "assets": [
+    {
+      "file": "art/launcher-citadel-v1-source.png",
+      "bytes": 2303004,
+      "sha256": "26cc5fcf826ec7473b3bd23c5b03e070c228c648ca91f79c0c8a7c627f7a8c30"
+    },
+    {
+      "file": "renderer/assets/launcher-citadel-v1.webp",
+      "bytes": 203136,
+      "sha256": "e5c3744926a65c7e1c5677fb28b9e2d860c0b9871396e3eb09e72999102d36e4"
+    },
+    {
+      "file": "renderer/assets/soopketmon-logo-approved.png",
+      "bytes": 3295,
+      "sha256": "01486fb0ceeb822f654e0aae5a3e4e9ce0a05318574e6dfde2a2717b093f7a97"
+    },
+    {
+      "file": "renderer/assets/hero.avif",
+      "bytes": 78437,
+      "sha256": "332dfe702987f8337bf6301af379767f2d4b545845bcb7934886880c89c8bdd6"
+    },
+    {
+      "file": "renderer/assets/icon.png",
+      "bytes": 506057,
+      "sha256": "df8f8562d4e4806ff90297fddc7d573ac3fefd782632bb0a2388980c99b55f04"
+    }
+  ]
+}
