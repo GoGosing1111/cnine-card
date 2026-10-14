@@ -22,3 +22,9 @@
 직전 운영 기준: `cdd6c14316c33f6e1284e697d938983984b3cf04`, Pages `25a86e42-1f66-40fb-9a28-2891ce940cd5`. 기준 이후 기존 변경은 배포 기록 문서뿐이며, 현재 변경은 모두 `assets/`, `preview/`, `docs/` 범위다.
 
 배포 명령: `ASSET_DEPLOY_BASE=cdd6c14316c33f6e1284e697d938983984b3cf04 npm run deploy:production -- --assets-only` (PowerShell에서는 해당 환경 변수를 설정). 깨끗한 범위 커밋·origin/main 일치·Hyperdrive 캐시 조건을 유지한다.
+
+## 운영 반영 결과
+소스 `287b1d746163b31b9593be16b2b2b9290b1faa5a`를 Pages `84b4e65e`로 자산 전용 배포했다. Hyperdrive 캐시 OFF 확인을 통과했다. API 런타임과 클랜 워커는 재배포하지 않았다. 운영 PNG 200 응답·2160 × 3240 크기·로컬과 SHA-256 일치, 프리뷰 200 응답 및 브랜드·다음 시즌 문구를 확인했다. 근거는 `docs/season-growth-roadmap-poster-20261014-live.json`에 보존한다.
+
+- PNG: https://cnine-card.pages.dev/assets/posters/soopketmon-season-growth-roadmap-20261014-v1.png
+- 편집용 프리뷰: https://cnine-card.pages.dev/preview/season-growth-roadmap-20261014-v1/
