@@ -44,6 +44,8 @@ export async function inspectTeamEventRewards(c,{lock=false}={}){
 }
 export async function verifyTeamEventRewards(c,receipt,{unclaimed=false}={}){
  validate(receipt.planHash);assert.equal(receipt.operationKey,OPERATION_KEY);assert.equal(receipt.status,'COMPLETED');assert.equal(receipt.delivery,'MESSAGE');assert.equal(receipt.noImmediateCredit,true);assert.deepEqual(receipt.recipients,TARGETS);assert.deepEqual(receipt.totals,PLAN.totals);assert.equal(receipt.authorization,PLAN.authorization);
+ const [correction]=await q(c,'SELECT value FROM app_meta WHERE key=$1',['ops:team-event-diim-rewards:mangsuni-correction:20261014:v1']);
+ if(correction&&parse(correction.value).status==='COMPLETED'){const {verifyCorrection}=await import('./team-event-mangsuni-correction-20261014.mjs');return verifyCorrection(c,parse(correction.value));}
  const rows=await q(c,`SELECT m.id::text message_id,m.user_id::text user_id,m.title,m.body,m.campaign_key,m.sender_type,m.message_type,m.is_read,m.hidden_at,
  r.id::text reward_id,r.user_id::text reward_user_id,r.reward_type,r.reward_amount::text reward_amount,r.claimed_at,
  cr.reward_id::text claim_id,cr.message_id::text claim_message_id,cr.user_id::text claim_user_id,cr.reward_type claim_type,cr.reward_amount::text claim_amount,cr.balance_before::text,cr.balance_after::text
