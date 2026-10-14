@@ -37,6 +37,17 @@ test('only an equivalent main asset query permutation retains backend passes and
   }
 });
 
+test('main cache version alignment accepts only the tested shell version and rechecks affected HTML tests',()=>{
+ const f=fixture({changed:['index.html']}),before='<script src="js/app.js?v=old&amp;feature=1"></script>',after=before.replace('v=old','v=20261015-sync-media-v1'),worker="const SHELL_CACHE='soop-card-shell-v20261015-sync-media-v1';";
+ const git=f.git;f.git=(...a)=>a[0]==='show'&&a[1]===base+':index.html'?before:git(...a);
+ f.read=p=>p==='index.html'?after:p==='service-worker.js'?worker:p==='tests/a.test.mjs'?"read('index.html')":'';
+ const plan=fullGateResumePlan(f);assert.equal(plan.reused,0);assert.equal(plan.commands[1],'npm run test:a');
+ for(const invalid of [after.replace('sync-media-v1','other'),after.replace('feature=1','feature=2'),after+'<script>run()</script>',after+after])assert.throws(()=>fullGateResumePlan({...f,read:p=>p==='index.html'?invalid:f.read(p)}),/fresh full gate/);
+ assert.throws(()=>fullGateResumePlan({...f,read:p=>p==='service-worker.js'?'':f.read(p)}),/fresh full gate/);
+ const changedGit=(...a)=>a[0]==='diff'?'index.html\nservice-worker.js':f.git(...a);
+ assert.throws(()=>fullGateResumePlan({...f,git:changedGit}),/fresh full gate/);
+});
+
 test('isolated lobby menu/icon rebuild must exactly replace source blocks and rerun source integrity',()=>{
  const bundle='js/adventure-lobby-v2107.js',icons='ui/adventure-lobby/icons.js',app='preview/lobby-clarity-v1/app.js';
  const f=fixture({changed:[bundle,icons,app]});

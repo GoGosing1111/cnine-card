@@ -30,6 +30,14 @@ function mainCacheQueryOrderOnly(before,after){
   const a=normalize(before),b=normalize(after);
   return a.count===1&&b.count===1&&a.source===b.source;
 }
+function mainShellVersionOnly(before,after,worker){
+  const shell=worker.match(/const SHELL_CACHE=['"]soop-card-shell-v([^'"]+)['"]/)?.[1];
+  if(!shell)return false;
+  const current=after.match(/\bsrc="js\/app\.js\?v=([^&"]+)/g);
+  const previous=before.match(/\bsrc="js\/app\.js\?v=([^&"]+)/g);
+  if(current?.length!==1||previous?.length!==1||current[0]!==`src="js/app.js?v=${shell}`)return false;
+  return after.replace(current[0],previous[0]).replace(/\r\n/g,'\n').trim()===before.replace(/\r\n/g,'\n').trim();
+}
 export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileSync(path,'utf8'),readBytes=path=>readFileSync(path)}){
   const base=env.RELEASE_GATE_RESUME_BASE;
   if(!/^[a-f0-9]{40}$/.test(base||''))throw Error('Resume requires the original candidate SHA.');
@@ -44,9 +52,9 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   const commands=gate.split(' && '),names=commands.map(command=>command.match(/^npm run ([\w:-]+)$/)?.[1]);
   if(commands.at(-1)!=='node scripts/verify-production-release.mjs'||names.slice(0,-1).some(name=>!name))throw Error('Unsupported full gate structure.');
   const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),bgmAdditions=new Set(),artAdditions=new Set();
-  // A static asset URL with exactly the same parameters can be reordered to
-  // preserve existing cache-tag contracts without invalidating backend tests.
-  const cacheOrderOnly=changed.includes('index.html')&&mainCacheQueryOrderOnly(git('show',`${base}:index.html`),read('index.html'));
+  // An equivalent query permutation or sole main-app version alignment with
+  // the already-tested shell cache does not change runtime source. Recheck HTML contracts.
+  const cacheOrderOnly=changed.includes('index.html')&&(mainCacheQueryOrderOnly(git('show',`${base}:index.html`),read('index.html'))||mainShellVersionOnly(git('show',`${base}:index.html`),read('index.html'),read('service-worker.js')));
   // A concurrent, additive audio upload cannot change game execution. Keep its
   // exact source bytes and paired, unreferenced receipt bound to their hash.
   for(const path of changed.filter(path=>/^assets\/bgm\/[a-z0-9-]+\.mp3$/.test(path))){
@@ -127,7 +135,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(/^ℹ fail [1-9]/m.test(continuation.slice(0,continuationStart)))throw Error('Continuation guard tests failed.');
     changesAfterLastRun=new Set(git('diff','--name-only',candidate,'HEAD').split('\n').filter(Boolean));
     const repairTools=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
-    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!path.startsWith('docs/')&&!/^tests\/[^/]+\.mjs$/.test(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
+    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!(path==='index.html'&&cacheOrderOnly)&&!path.startsWith('docs/')&&!/^tests\/[^/]+\.mjs$/.test(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
     logText=logText.slice(0,originalLast)+continuation.slice(continuationStart);
     seen=stageNames(logText);
   }
