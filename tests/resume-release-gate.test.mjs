@@ -100,7 +100,7 @@ test('multiple immutable continuation logs keep contiguous passes and reject a c
   const plan=fullGateResumePlan(f);assert.equal(plan.reused,2);assert.deepEqual(plan.commands.slice(1),['npm run test:c','node scripts/verify-production-release.mjs']);
   assert.throws(()=>fullGateResumePlan({...f,read:path=>(logs[path]||'')+'changed'}),/log hash/);
   assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATIONS:JSON.stringify([chain[1]])}}),/without gaps/);
-  assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATIONS:JSON.stringify(Array(17).fill(chain[0]))}}),/At most sixteen/);
+  assert.throws(()=>fullGateResumePlan({...f,env:{...f.env,RELEASE_GATE_RESUME_CONTINUATIONS:JSON.stringify(Array(33).fill(chain[0]))}}),/At most thirty-two/);
 });
 
 test('a continuation validates successful earlier reruns before its contiguous failed-stage suffix',()=>{

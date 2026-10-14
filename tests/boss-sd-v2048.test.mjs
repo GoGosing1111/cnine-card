@@ -48,7 +48,10 @@ test('exact monster/card IDs resolve the new sprites without changing original c
   const tierAdapter=sandbox.ProjectVTierBattleArt.createAdapter({manifests});
   for(const entry of expected.slice(0,2)){
     const original={id:entry.id,image:entry.art,mode:'APOCALYPSE'},resolved=monsterAdapter.resolveForV3(original);
-    assert(resolved);assert(resolved.primaryUrl.includes(entry.master.replace('.png','-768.webp')));assert.equal(original.image,entry.art);
+    const current=monsters.sprites.find(row=>Number(row.monsterId)===entry.id);
+    assert(current.originalIpKey,'live monster art follows the approved original-IP replacement');
+    assert.equal(createHash('sha256').update(await read(current.battleSprite)).digest('hex').toUpperCase(),current.sha256);
+    assert(resolved);assert(resolved.primaryUrl.includes(current.battleSprite));assert.equal(original.image,entry.art);
   }
   const card=expected[3],original={id:card.id,cardId:card.id,image:card.art,grade:'FUR'};
   const art=tierAdapter.resolveForV3(original);assert(art);assert(art.primaryUrl.includes(card.master));assert.equal(original.image,card.art);

@@ -49,5 +49,9 @@ test('live monster adapter resolves escort art from monster ID, never the instan
  const battleV2=createPveBattleV2({cards:party(10000000),monster:monster(75),seed:83});
  const actual=adapter.adaptBattlePayload({battleV2}).battleV2.teams.B.cards;
  assert.deepEqual(actual.map(c=>c.projectVMonsterArt.monsterId),[75,19,19,21,21,27,27]);
- for(const c of actual)assert.equal(c.name||c.title,c.projectVMonsterArt.name);
+ for(const [index,c] of actual.entries()){
+  const art=manifest.sprites.find(row=>Number(row.monsterId)===c.projectVMonsterArt.monsterId);
+  assert.equal(c.projectVMonsterArt.name,art.name,'presentation follows the approved original-IP name');
+  assert.equal(c.name||c.title,battleV2.teams.B.cards[index].name||battleV2.teams.B.cards[index].title,'art adaptation does not rewrite the battle receipt');
+ }
 });
