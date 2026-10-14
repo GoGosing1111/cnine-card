@@ -252,7 +252,7 @@
       "height": 1254,
       "sha256": "c207253c3fff8ba927013e8842bf386a02f2d5ebd5054b806ab6d603134276ca",
       "prompt": "prompts/white-tiger-wrap-v5-padded.json",
-      "status": "VISUAL_REVIEW_PENDING"
+      "status": "REJECTED_RETAINED"
     },
     {
       "file": "assets/sources/white-tiger-wrap-v5.png",

@@ -1,0 +1,91 @@
+{
+  "scope": "Rejected tiger aura removal only",
+  "status": "PASS",
+  "errors": [],
+  "screens": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "modes": [
+        {
+          "mode": "aura",
+          "back": false,
+          "front": false,
+          "halo": true,
+          "loadedTiger": false
+        },
+        {
+          "mode": "attack",
+          "back": false,
+          "front": false,
+          "halo": true,
+          "loadedTiger": false
+        },
+        {
+          "mode": "skill",
+          "back": false,
+          "front": false,
+          "halo": true,
+          "loadedTiger": false
+        },
+        {
+          "mode": "ultimate",
+          "back": false,
+          "front": false,
+          "halo": true,
+          "loadedTiger": false
+        }
+      ],
+      "tigerRequests": []
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "modes": [
+        {
+          "mode": "aura",
+          "back": false,
+          "front": false,
+          "halo": true,
+          "loadedTiger": false
+        },
+        {
+          "mode": "attack",
+          "back": false,
+          "front": false,
+          "halo": true,
+          "loadedTiger": false
+        },
+        {
+          "mode": "skill",
+          "back": false,
+          "front": false,
+          "halo": true,
+          "loadedTiger": false
+        },
+        {
+          "mode": "ultimate",
+          "back": false,
+          "front": false,
+          "halo": true,
+          "loadedTiger": false
+        }
+      ],
+      "tigerRequests": []
+    }
+  ],
+  "preserved": [
+    "body and rifle",
+    "mandatory head halo",
+    "AR attack and skill",
+    "central artillery",
+    "combat preparation"
+  ],
+  "bundleLfSha256": "9c81ab8f85d8232fda11001cc3819088e09d7f736010024b172f7b8e317f0805"
+}

@@ -17,7 +17,7 @@ export class BallisticArtilleryFX{
   this.bodyAuraFrontSprites=[0,1].map(()=>{const s=new Sprite();this.bodyAuraFront.addChild(s);return s;});this.merc.view.sortChildren();
  }
  updateBodyAura(state){
-  this.bodyAuraBack.visible=this.bodyAuraFront.visible=this.auraEnabled&&!this.motionOnly&&!state.cancelled;
+  this.bodyAuraBack.visible=this.bodyAuraFront.visible=this.manifest.bodyAura?.enabled!==false&&this.auraEnabled&&!this.motionOnly&&!state.cancelled;
   if(!this.bodyAuraBack.visible)return;
   const r=this.manifest.bodyAura,count=this.manifest.effects[r.rear].frameCount,time=this.ambientOffset+state.time;
   const phase=this.reducedMotion?0:(1-Math.cos(time/r.cycleSeconds*Math.PI*2))*(count-1)/2,i=Math.floor(phase),q=phase-i;

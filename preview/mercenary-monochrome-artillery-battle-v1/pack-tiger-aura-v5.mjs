@@ -3,6 +3,9 @@ import sharp from 'sharp';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 const file=p=>fileURLToPath(new URL(p,import.meta.url)),hash=b=>createHash('sha256').update(b).digest('hex');
+// The user retired this concept. Keep the packer as production history only.
+const rejection=await fs.readFile(file('aura-rejection-20261015.json'),'utf8').then(JSON.parse).catch(e=>{if(e.code==='ENOENT')return null;throw e;});
+if(rejection?.rejectedRevision==='SHIRANUI_WHITE_TIGER_AMBIENT_AURA_V5')throw Error('백호 아우라는 사용자 폐기본입니다. 현재 manifest를 과거 제작본으로 덮어쓸 수 없습니다.');
 const m=JSON.parse(await fs.readFile(file('manifest.json'),'utf8'));
 const source='assets/sources/white-tiger-wrap-v5-padded.png',bytes=await fs.readFile(file(source));
 const meta=await sharp(bytes).metadata(),crop=meta.width/2,pad=48,cell=crop+pad*2;

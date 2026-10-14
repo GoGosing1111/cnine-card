@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-15",
+  "userInstruction": "백호 폐기하고..다른 색다른거로 가자",
+  "status": "WHITE_TIGER_REJECTED_REPLACEMENT_CONCEPT_PENDING",
+  "rejectedRevision": "SHIRANUI_WHITE_TIGER_AMBIENT_AURA_V5",
+  "rejectedEffectKeys": ["white-tiger-aura", "white-tiger-aura-rear", "white-tiger-aura-front"],
+  "sourcePolicy": "RETAIN_REJECTED_HISTORY_ONLY",
+  "replacement": null,
+  "proposalsOnly": ["흑식", "망령 군기", "봉인된 사신"],
+  "priority": "Keep the entire rifle clearly visible; place new ambient effects behind and beside the character.",
+  "preserved": ["approved character and rigid rifle", "mandatory head halo", "AR attack and skill", "central artillery", "Kairon-equivalent combat preparation"],
+  "newAttackEffects": false,
+  "runtimeEnabled": false
+}

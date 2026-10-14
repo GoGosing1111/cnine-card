@@ -3062,7 +3062,8 @@
           },
           "maxBorderAlpha": 1
         }
-      ]
+      ],
+      "status": "REJECTED_RETAINED"
     },
     "white-tiger-aura-rear": {
       "atlas": "assets/atlases/white-tiger-aura-rear-v5.png",
@@ -3073,7 +3074,7 @@
       "rows": 2,
       "cellSize": 723,
       "frameCount": 4,
-      "previewEnabled": true,
+      "previewEnabled": false,
       "derivedAlphaLayer": "REAR",
       "frames": [
         {
@@ -3156,7 +3157,8 @@
           },
           "maxBorderAlpha": 1
         }
-      ]
+      ],
+      "status": "REJECTED_RETAINED"
     },
     "white-tiger-aura-front": {
       "atlas": "assets/atlases/white-tiger-aura-front-v5.png",
@@ -3167,7 +3169,7 @@
       "rows": 2,
       "cellSize": 723,
       "frameCount": 4,
-      "previewEnabled": true,
+      "previewEnabled": false,
       "derivedAlphaLayer": "FRONT",
       "frames": [
         {
@@ -3250,7 +3252,8 @@
           },
           "maxBorderAlpha": 1
         }
-      ]
+      ],
+      "status": "REJECTED_RETAINED"
     }
   },
   "displaySizing": {
@@ -3285,7 +3288,8 @@
     "white-tiger-aim-v5.png",
     "white-tiger-roar-v5.png",
     "white-tiger-claw-v5.png",
-    "white-tiger-wrap-v5.png"
+    "white-tiger-wrap-v5.png",
+    "white-tiger-wrap-v5-padded.png"
   ],
   "battleSprite": "preview/mercenary-monochrome-artillery-battle-v1/assets/frames/ar-v3-0.png",
   "battleSpriteSha256": "07309373c5453d0389238d63a46ffa721dad22a3e43441d6f532fe76a6265057",
@@ -3297,24 +3301,29 @@
   "counts": {
     "motion": 4,
     "retainedMotion": 5,
-    "effects": 60,
-    "retainedEffects": 48
+    "effects": 56,
+    "retainedEffects": 52
   },
   "sourceIndex": "source-index.json",
   "productionNotes": "README.md",
   "qa": {
     "assets": "qa-ar-v3.test.mjs",
-    "runtime": "qa/aura-v5/runtime-report.json",
-    "video": "qa/aura-v5/video-inspection.json",
-    "completeCharacter": "qa/aura-v5/desktop-aura-3.png",
+    "runtime": "qa/aura-reset/preview-report.json",
+    "video": null,
+    "completeCharacter": "qa/aura-reset/desktop.png",
     "headDetail": "qa/head-detail.png",
     "arV3": "qa/ar-v3/runtime-report.json",
     "legacyAssets": "qa-assets.test.mjs",
     "legacyRuntime": "qa/runtime-report.json",
     "legacyVideo": "qa/video-inspection.json",
-    "bodyAura": "qa/aura-v5/runtime-report.json"
+    "bodyAura": null,
+    "rejectedAuraV5": {
+      "runtime": "qa/aura-v5/runtime-report.json",
+      "video": "qa/aura-v5/video-inspection.json",
+      "completeCharacter": "qa/aura-v5/desktop-aura-3.png"
+    }
   },
-  "revision": "SHIRANUI_WHITE_TIGER_AMBIENT_AURA_V5",
+  "revision": "SHIRANUI_AURA_REDESIGN_PENDING_V6",
   "arRecoil": {
     "fixedHead": true,
     "fixedFeet": true,
@@ -3352,7 +3361,10 @@
     "fixedScale": true,
     "shotsAndBodyUnchanged": true,
     "ambientOnly": true,
-    "attackEffectsAdded": false
+    "attackEffectsAdded": false,
+    "enabled": false,
+    "status": "REJECTED_BY_USER",
+    "decision": "aura-rejection-20261015.json"
   },
   "combatPreparation": {
     "file": "combat-preparation-20261015.json",
