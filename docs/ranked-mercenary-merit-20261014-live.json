@@ -1,0 +1,32 @@
+{
+  "verifiedAt": "2026-10-14T00:21:25.721Z",
+  "origin": "https://cnine-card.pages.dev",
+  "asset": {
+    "path": "/shared/ranked-matchmaking-v2.mjs",
+    "status": 200,
+    "sha256": "13d0ce7d6376bdf14b554aa6cf92430f68d76d1f86df12130cdd22605d10070a",
+    "localSha256": "13d0ce7d6376bdf14b554aa6cf92430f68d76d1f86df12130cdd22605d10070a"
+  },
+  "pvpConfig": {
+    "status": 401,
+    "body": {
+      "error": "로그인이 필요합니다."
+    },
+    "runtime": "regional-v1",
+    "headers": {
+      "x-cnine-api-runtime": "regional-v1",
+      "x-cnine-d1-queries": "1",
+      "x-cnine-db-backend": "postgres",
+      "x-cnine-response-ms": "6"
+    }
+  },
+  "sourceCommit": "cdd6c14316c33f6e1284e697d938983984b3cf04",
+  "pages": "25a86e42",
+  "apiRuntime": "663dccef-7fa8-458b-919b-34fae9696440",
+  "clanWorker": "02c247f1-70aa-4169-bc9d-6ee1583ec121",
+  "tests": {
+    "developmentPassed": 23,
+    "additionalDeploymentPassed": 22
+  },
+  "liveGameplayMutations": 0
+}
