@@ -1,0 +1,29 @@
+{
+  "originalsModified": false,
+  "entries": [
+    {
+      "file": "assets/ui/project-v/mercenaries/codex-v1/v-987-art-320.webp",
+      "source": "assets/ui/project-v/mercenaries/shiranui-20261015/source-art.png",
+      "sourceSha256": "3B67B37E9E3AB1E017552C6D6864C0469056EDC1332C2555C9F4CC6F5E3FFE65",
+      "sha256": "1F612991B13E5B66E857D892E430DDEB0316F80B772813B1E169D9F612D0F3A9",
+      "width": 320,
+      "bytes": 47964
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/codex-v1/v-987-art-640.webp",
+      "source": "assets/ui/project-v/mercenaries/shiranui-20261015/source-art.png",
+      "sourceSha256": "3B67B37E9E3AB1E017552C6D6864C0469056EDC1332C2555C9F4CC6F5E3FFE65",
+      "sha256": "10D8F26C62C7243649AA0729B020F0B52AF42F9056F56F0D4FCF64397289D40A",
+      "width": 640,
+      "bytes": 157922
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/codex-v1/v-987-sd-640.webp",
+      "source": "assets/ui/project-v/mercenaries/shiranui-20261015/idle.png",
+      "sourceSha256": "07309373C5453D0389238D63A46FFA721DAD22A3E43441D6F532FE76A6265057",
+      "sha256": "757A8F3B0A962D5244E27BCB1552707A799B6BDEDA29A78F61C98E0CCFD0F0C3",
+      "width": 640,
+      "bytes": 40464
+    }
+  ]
+}

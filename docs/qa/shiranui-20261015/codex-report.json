@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "loadout",
+      "pve": true,
+      "pvp": true,
+      "persisted": true
+    },
+    {
+      "label": "mobile",
+      "mode": "loadout",
+      "pve": true,
+      "pvp": true,
+      "persisted": true
+    }
+  ],
+  "errors": []
+}

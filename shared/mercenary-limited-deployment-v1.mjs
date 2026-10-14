@@ -1,3 +1,4 @@
+import {SHIRANUI_CODE,shiranuiDeploymentSnapshot} from './mercenary-shiranui-v1.mjs';
 import {LIMITED_MERCENARIES} from './mercenary-limited-catalog-v1.mjs';
 import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION} from './mercenary-ss-limited-v1.mjs';
 import {VALTER_CODE,VALTER_COMBAT,VALTER_AREA_SKILL} from './mercenary-valter-v1.mjs';
@@ -10,6 +11,7 @@ import {KAIRON_CODE,kaironDeploymentSnapshot} from './mercenary-kairon-v1.mjs';
 // Artwork provenance, acquisition and pack release remain separate contracts.
 export const LIMITED_DEPLOYMENT_VERSION='20261012-helios-deployment-v1';
 export function limitedDeploymentSnapshot(code){
+ if(code===SHIRANUI_CODE)return shiranuiDeploymentSnapshot();
  if(code===KAIRON_CODE)return kaironDeploymentSnapshot();
  if(code===JINMU_CODE)return jinmuDeploymentSnapshot();
  const art=LIMITED_MERCENARIES.find(c=>c.code===code);if(!art)return null;

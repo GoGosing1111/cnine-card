@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-15",
+  "status": "USER_APPROVED_FOR_EXCLUSIVE_LIVE",
+  "userInstructions": [
+    "승인하고 라이브 올려라",
+    "그리고 획득 불가 걸어놓고 핑크빛유두에 지급,편성되게 해놔",
+    "카이론과 같은 SSS 리미티드 (추천)"
+  ],
+  "identity": {
+    "code": "V-987",
+    "name": "시라누이",
+    "japanese": "不知火",
+    "rank": "SSS",
+    "edition": "LIMITED"
+  },
+  "approvedVisualRevision": "SHIRANUI_SPECTRAL_STANDARDS_AMBIENT_V7",
+  "acquisition": {
+    "public": false,
+    "packs": false,
+    "craft": false,
+    "synthesis": false,
+    "limitedStockCounted": false
+  },
+  "exclusiveAccount": {
+    "id": 1,
+    "nickname": "핑크빛유두",
+    "copies": 1,
+    "modes": [
+      "PVE",
+      "PVP"
+    ],
+    "changeExistingLoadout": false
+  },
+  "balanceReference": "shared/mercenary-kairon-v1.mjs",
+  "policy": "shared/mercenary-shiranui-v1.mjs",
+  "assets": [
+    {
+      "file": "preview/mercenary-monochrome-artillery-battle-v1/assets/sources/approved-art-v3.png",
+      "sha256": "3b67b37e9e3ab1e017552c6d6864c0469056edc1332c2555c9f4cc6f5e3ffe65"
+    },
+    {
+      "file": "preview/mercenary-monochrome-artillery-battle-v1/assets/locked/approved-rifle.png",
+      "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff"
+    },
+    {
+      "file": "preview/mercenary-monochrome-artillery-battle-v1/assets/frames/ar-v3-0.png",
+      "sha256": "07309373c5453d0389238d63a46ffa721dad22a3e43441d6f532fe76a6265057"
+    },
+    {
+      "file": "preview/mercenary-monochrome-artillery-battle-v1/assets/sources/spectral-standards-v7.png",
+      "sha256": "346228537b660d1440838ea5833a407ade7f2b79edf5a3783ecec8e3a04dfabd"
+    }
+  ],
+  "visualContract": {
+    "headHalo": true,
+    "spectralStandards": true,
+    "whiteTiger": false,
+    "attackRounds": 9,
+    "skillRounds": 30,
+    "artillerySalvos": 5,
+    "coveringFireRounds": 25,
+    "serverDamageApplicationsPerTarget": 1
+  }
+}

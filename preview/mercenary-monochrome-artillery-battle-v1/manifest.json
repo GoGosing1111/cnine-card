@@ -2,11 +2,11 @@
   "version": 3,
   "date": "2026-10-15",
   "name": "시라누이",
-  "rank": null,
-  "code": null,
+  "rank": "SSS",
+  "code": "V-987",
   "previewAdapterCode": "V-000",
-  "runtimeEnabled": false,
-  "status": "BATTLE_VISUAL_REVIEW_PENDING",
+  "runtimeEnabled": true,
+  "status": "USER_APPROVED_EXCLUSIVE_LIVE",
   "sourceArt": "preview/monochrome-gunner-illustration-20261015-v1/monochrome-gunner-ballistic-aura-v3.png",
   "sourceArtSha256": "3b67b37e9e3ab1e017552c6d6864c0469056edc1332c2555c9f4cc6f5e3ffe65",
   "weapon": {
@@ -3785,7 +3785,7 @@
     "fixedPosition": true,
     "fixedPoleEndpoints": true,
     "shotsAndBodyUnchanged": true,
-    "status": "VISUAL_REVIEW_PENDING",
+    "status": "USER_APPROVED",
     "decision": "spectral-standards-selection-20261015.json"
   },
   "combatPreparation": {
@@ -3794,5 +3794,7 @@
     "status": "NAME_AND_BALANCE_APPROVED_RELEASE_PENDING",
     "referenceCode": "V-988",
     "basePower": 1347840
-  }
+  },
+  "edition": "LIMITED",
+  "liveApproval": "live-approval-20261015.json"
 }

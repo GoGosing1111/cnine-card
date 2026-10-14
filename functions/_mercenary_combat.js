@@ -1,3 +1,5 @@
+import {SHIRANUI_CODE,SHIRANUI_COMBAT,SHIRANUI_AREA_SKILL,SHIRANUI_AREA_MECHANIC,isShiranui,shiranuiActionCredit} from '../shared/mercenary-shiranui-v1.mjs';
+import {resolveShiranuiArea} from './_mercenary_shiranui.js';
 import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_CAP_SCALE,BERKAN_MECHANIC,BERKAN_AREA_MECHANIC,isBerkanAreaSkill,BERKAN_TEMPO,berkanActionCredit,berkanPvpBasicDamageScale,berkanStarfallCapScale} from '../shared/mercenary-berkan-v1.mjs';
 import {resolveBerkanStarfall,resolveBerkanArrowRain} from './_mercenary_berkan.js';
 import {iconHealingAmount} from '../shared/icon-roles-v1.mjs';
@@ -30,7 +32,7 @@ import {resolveAzantCast} from './_mercenary_azant.js';
 import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION,SS_LIMITED_TEMPO,ssLimitedActionCredit,ssLimitedProfile} from '../shared/mercenary-ss-limited-v1.mjs';
 import {ssRearPveInterval,ssRearPveHealing} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
-const sovereign=a=>isValter(a)||isHelios(a)||isJinmu(a)||isKairon(a);
+const sovereign=a=>isValter(a)||isHelios(a)||isJinmu(a)||isKairon(a)||isShiranui(a);
 const ordered=team=>team.filter(living).sort((a,b)=>a.slot-b.slot||String(a.id).localeCompare(String(b.id)));
 const front=team=>{const all=ordered(team),rows=all.filter(x=>x.row==='FRONT');return rows.length?rows:all.slice(0,1);};
 const weakest=team=>ordered(team).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-b.slot)[0];
@@ -43,7 +45,7 @@ export function mercenaryTurnCadence(teams){
  if([...teams.A,...teams.B].some(actor=>actor.ownerId))return duoMercenaryTurnCadence(teams);
  const debt={A:0,B:0};
  const interval=side=>mercenaryActionInterval(teams[side]||[]);
- const credit=side=>Math.max(azantActionCredit(teams[side]||[]),berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]),heliosActionCredit(teams[side]||[]),jinmuActionCredit(teams[side]||[]),kaironActionCredit(teams[side]||[]),ssLimitedActionCredit(teams[side]||[]));
+ const credit=side=>Math.max(azantActionCredit(teams[side]||[]),berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]),heliosActionCredit(teams[side]||[]),jinmuActionCredit(teams[side]||[]),kaironActionCredit(teams[side]||[]),shiranuiActionCredit(teams[side]||[]),ssLimitedActionCredit(teams[side]||[]));
  const accrue=side=>debt[side]=normalizeHeliosCredit(Math.min(heliosCreditLimit(interval(side),credit(side)),debt[side]+credit(side)),credit(side));
  const regular=actor=>living(actor)&&!actor.isMonster&&!actor.isMercenary&&actor.actorKind!=='BATTLE_SUIT';
  return {
@@ -82,7 +84,7 @@ function duoMercenaryTurnCadence(teams){
  const groups=['A','B'].flatMap(side=>[...new Set(teams[side].map(a=>a.ownerId))].map(ownerId=>({side,ownerId,actors:teams[side].filter(a=>a.ownerId===ownerId),debt:0})));
  const regular=a=>living(a)&&!a.isMercenary&&!a.isMonster&&!a.isBattleSuit;
  const interval=g=>mercenaryActionInterval(g.actors);
- const credit=g=>Math.max(azantActionCredit(g.actors),berkanActionCredit(g.actors),valterActionCredit(g.actors),heliosActionCredit(g.actors),jinmuActionCredit(g.actors),kaironActionCredit(g.actors),ssLimitedActionCredit(g.actors));
+ const credit=g=>Math.max(azantActionCredit(g.actors),berkanActionCredit(g.actors),valterActionCredit(g.actors),heliosActionCredit(g.actors),jinmuActionCredit(g.actors),kaironActionCredit(g.actors),shiranuiActionCredit(g.actors),ssLimitedActionCredit(g.actors));
  const accrue=g=>g.debt=normalizeHeliosCredit(Math.min(heliosCreditLimit(interval(g),credit(g)),g.debt+credit(g)),credit(g));
  const pending=(g,eligible)=>g.debt>=interval(g)?g.actors.find(a=>a.isMercenary&&living(a)&&eligible(a)):null;
  return {
@@ -135,23 +137,25 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  if(jinmu)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?[structuredClone(JINMU_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,jinmuPolicyVersion:JINMU_COMBAT.version};
  const kairon=snapshot.code===KAIRON_CODE;
  if(kairon)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'RANGED',skills:mode==='PVE'?[structuredClone(KAIRON_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,kaironPolicyVersion:1};
- const supreme=valter?VALTER_COMBAT:helios?HELIOS_COMBAT:jinmu?JINMU_COMBAT:kairon?KAIRON_COMBAT:null;
+ const shiranui=snapshot.code===SHIRANUI_CODE;
+ if(shiranui)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'RANGED',skills:mode==='PVE'?[structuredClone(SHIRANUI_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,shiranuiPolicyVersion:1};
+ const supreme=valter?VALTER_COMBAT:helios?HELIOS_COMBAT:jinmu?JINMU_COMBAT:kairon?KAIRON_COMBAT:shiranui?SHIRANUI_COMBAT:null;
  const limited=Object.hasOwn(SS_LIMITED_COMBAT,snapshot.code)?SS_LIMITED_COMBAT[snapshot.code]:null;
  if(limited)snapshot={...snapshot,rank:'SS',statMode:'RANK_FIXED',position:limited.position,role:limited.role,attackStyle:limited.attackStyle,skills:[structuredClone(limited.skill)],ssLimitedPolicyVersion:SS_LIMITED_BALANCE_VERSION};
  if(snapshot.statMode==='RANK_FIXED'){
   const rankPower=supreme?supreme.basePower:limited?limited.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
   const power=rankPower?rankPower+mercenaryEquipmentPower(snapshot,mode):0;
   if(!power||typeof buildCardFighter!=='function')throw Error('INVALID_MERCENARY_RANK_POWER');
-  const statsPower=jinmu||kairon?JINMU_COMBAT.statsReferencePower+mercenaryEquipmentPower(snapshot,mode):power;
+  const statsPower=jinmu||kairon||shiranui?JINMU_COMBAT.statsReferencePower+mercenaryEquipmentPower(snapshot,mode):power;
   const base=buildCardFighter({id:snapshot.code,power:statsPower,type:'NONE'},5,side,null,mode);
   // Compare natural speed with the same equipment on Valter. Higher nominal
   // Helios power must neither compound the +4% nor dilute it under strong gear.
-  const speedBase=helios||jinmu||kairon?buildCardFighter({id:snapshot.code,power:supreme.speedReferencePower+mercenaryEquipmentPower(snapshot,mode),type:'NONE'},5,side,null,mode):base;
+  const speedBase=helios||jinmu||kairon||shiranui?buildCardFighter({id:snapshot.code,power:supreme.speedReferencePower+mercenaryEquipmentPower(snapshot,mode),type:'NONE'},5,side,null,mode):base;
   snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(speedBase.speed*(supreme?supreme.speedScale:snapshot.code===AZANT_CODE?AZANT_COMBAT.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:limited?SS_LIMITED_TEMPO.speedScale:1))}};
-  if(jinmu||kairon)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*JINMU_COMBAT.statScale));
+  if(jinmu||kairon||shiranui)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*JINMU_COMBAT.statScale));
   if(limited)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*limited.scale));
   if(mercenaryEquipmentPower(snapshot,mode)){
-   const unarmed=buildCardFighter({id:snapshot.code,power:jinmu||kairon?JINMU_COMBAT.statsReferencePower:rankPower,type:'NONE'},5,side,null,mode),scale=jinmu||kairon?JINMU_COMBAT.statScale:limited?.scale||1;
+   const unarmed=buildCardFighter({id:snapshot.code,power:jinmu||kairon||shiranui?JINMU_COMBAT.statsReferencePower:rankPower,type:'NONE'},5,side,null,mode),scale=jinmu||kairon||shiranui?JINMU_COMBAT.statScale:limited?.scale||1;
    snapshot.equipmentStats={version:1,attack:Math.max(0,snapshot.stats.attack-Math.max(1,Math.round(unarmed.attack*scale))),hp:Math.max(0,snapshot.stats.hp-Math.max(1,Math.round(unarmed.maxHp*scale)))};
   }
  }
@@ -182,6 +186,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
  const send=(a,s,phase,t,data={})=>emit(`MERCENARY_${phase}`,{actorId:a.id,actorKind:'MERCENARY',skillId:s.id,skillName:s.name,mechanic:s.mechanic,skillPhaseIndex:['DOT','RIPOSTE'].includes(phase)?1:state(a).pending?.step||0,targetId:t?.id,...data,label:s.name});
  function targets(a,s){const en=enemies(a),fr=front(en),friends=friendly(a);
   if(s.mechanic===VALTER_AREA_MECHANIC)return isValter(a)&&a.battleMode==='PVE'?en:[];
+  if(s.mechanic===SHIRANUI_AREA_MECHANIC)return isShiranui(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===KAIRON_AREA_MECHANIC)return isKairon(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===JINMU_AREA_MECHANIC)return isJinmu(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===HELIOS_AREA_MECHANIC)return isHelios(a)&&a.battleMode==='PVE'?en:[];
@@ -290,6 +295,9 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   switch(s.mechanic){
    case VALTER_AREA_MECHANIC:{
     resolveValterArea({actor:a,skill:s,targets:ts,hit,damage:(t,n)=>damage(t,n,{actor:a,direct:true}),knockout,emit,damageScale:offensiveSkillScale(a,s)});
+    finish(a,s);break;}
+   case SHIRANUI_AREA_MECHANIC:{
+    resolveShiranuiArea({actor:a,skill:s,targets:ts,hit,damage:(t,n)=>damage(t,n,{actor:a,direct:true}),knockout,emit,damageScale:offensiveSkillScale(a,s)});
     finish(a,s);break;}
    case KAIRON_AREA_MECHANIC:{
     resolveKaironArea({actor:a,skill:s,targets:ts,hit,damage:(t,n)=>damage(t,n,{actor:a,direct:true}),knockout,emit,damageScale:offensiveSkillScale(a,s)});
@@ -433,7 +441,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    }return false;
   },
   basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){if(a.actions<d.restraint.expires)factor*=1-d.restraint.percent/100;else delete d.restraint;}return factor*tierScale(a);},
-  basicDamageCapScale(a){return tierScale(a)*mercenaryPvpTierOffense(a)*(isValter(a)?VALTER_COMBAT.basicCapScale:isHelios(a)?HELIOS_COMBAT.basicCapScale:isKairon(a)?KAIRON_COMBAT.basicCapScale:isJinmu(a)?JINMU_COMBAT.basicCapScale:1);},
+  basicDamageCapScale(a){return tierScale(a)*mercenaryPvpTierOffense(a)*(isValter(a)?VALTER_COMBAT.basicCapScale:isHelios(a)?HELIOS_COMBAT.basicCapScale:isShiranui(a)?SHIRANUI_COMBAT.basicCapScale:isKairon(a)?KAIRON_COMBAT.basicCapScale:isJinmu(a)?JINMU_COMBAT.basicCapScale:1);},
   beforeBasicDamage(a,t,amount){const buff=table(buffs,t),d=table(debuffs,a);
    const basicScale=berkanPvpBasicDamageScale(a)*cryvernPvpBasicDamageScale(a);if(basicScale!==1)amount=Math.floor(amount*basicScale);
    if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}

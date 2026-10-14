@@ -87,6 +87,14 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "shared/mercenary-cryvern-v1.mjs",
+    "shared/mercenary-berkan-v1.mjs",
+    "shared/mercenary-jinmu-v1.mjs",
+    "shared/mercenary-kairon-v1.mjs",
+    "shared/mercenary-shiranui-v1.mjs",
+    "preview/mercenary-monochrome-artillery-battle-v1/skill.mjs",
+    "preview/mercenary-monochrome-artillery-battle-v1/source/BallisticArtilleryFX.js",
+    "preview/project-v-v3/source/battle/ShiranuiCombatPlayback.js",
     "shared/mercenary-limited-duo-20261008.mjs",
     "shared/mercenary-limited-duo-assets-20261008.mjs",
     "preview/mercenary-limited-ayoon-heeya-v3-20261008/skill.mjs",
@@ -101,8 +109,6 @@
     "preview/mercenary-nurse-healers-ss-v1/skill.mjs",
     "preview/mercenary-nurse-healers-ss-v1/source/NurseHealFX.js",
     "preview/project-v-v3/source/battle/NurseHealCombatPlayback.js",
-    "shared/mercenary-cryvern-v1.mjs",
-    "shared/mercenary-berkan-v1.mjs",
     "preview/mercenary-berkan-sss-v1/skill.mjs",
     "preview/mercenary-berkan-sss-v1/source/BerkanFX.js",
     "preview/mercenary-berkan-area-v1/skill.mjs",
@@ -145,8 +151,6 @@
     "shared/mercenary-limited-visual-catalog-v1.mjs",
     "shared/mercenary-limited-visuals-v1.mjs",
     "shared/mercenary-valter-v1.mjs",
-    "shared/mercenary-jinmu-v1.mjs",
-    "shared/mercenary-kairon-v1.mjs",
     "preview/mercenary-black-uniform-dual-uzi-v1/skill.mjs",
     "preview/mercenary-black-uniform-dual-uzi-v1/aura-registration.mjs",
     "preview/mercenary-black-uniform-dual-uzi-v1/missile-flight.mjs",
@@ -190,5 +194,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1920577
+  "outputBytes": 1949816
 }
