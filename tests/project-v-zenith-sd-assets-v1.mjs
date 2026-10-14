@@ -335,6 +335,16 @@ for(const file of productionFiles){
   // 덱/도감/뽑기 렌더러는 계속 전면 금지한다.
   if(approvedBattleConsumers.has(file))continue;
   const source=await readFile(file,'utf8');
+  if(file===resolve(rootPath,'js/image-delivery-map-20261015.js')){
+    const literal=source.match(/^globalThis\.CNineImageDeliveryMap=(\{[^]*\});\s*$/);
+    assert(literal,'delivery index must contain only a JSON assignment, never rendering code');
+    const delivery=JSON.parse(literal[1]);
+    for(const [from,to] of Object.entries(delivery.map))if(from.includes('/characters/zenith/')){
+      assert(expectedSpritePaths.has(from.slice(1)),'delivery may only map registered SD originals');
+      assert.match(to,/^\/assets\/optimized\/20261015-v1\/[a-f0-9]{24}\.webp$/);
+    }
+    continue;
+  }
   for(const needle of forbiddenRefs){
     assert(!source.includes(needle),`전투 전용 ZENITH SD가 운영 deck/dex 경로에 노출됐습니다: ${file.slice(rootPath.length)} (${needle})`);
   }
