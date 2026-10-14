@@ -42,7 +42,7 @@ test('offline public codex accepts exactly the untitled Cryvern and valid immuta
  invalid.cards.find(c=>c.code===CRYVERN_CODE).title='';invalid.cards[0].title='';assert.throws(()=>validateCatalog(invalid));
 });
 test('historical pre-Cryvern draft appends released skills without losing existing review edits',()=>{
- assert.equal(MERCENARY_SKILLS.length,36);
+ assert.equal(MERCENARY_SKILLS.length,38);
  const released=['MS-049','MS-050','MS-051','MS-055','MS-056'];
  assert.ok(released.every(id=>MERCENARY_SKILLS.some(s=>s.id===id)),'current independent skill catalog includes released single-target and area skills');
  const old=createSkillDraft();old.skills=old.skills.filter(s=>!released.includes(s.id));old.skills[0].note='기존 운영자 의견';
