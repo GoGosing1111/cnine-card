@@ -49,7 +49,8 @@ export async function readLimitedPackDaily(env,userId,now=Date.now()){
 }
 export async function limitedPackShopRow(env){
  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LIMITED_PACK_KEY).first();
- return limitedPackCatalogRow(row?readLimitedPack(JSON.parse(row.value).settings):limitedPackDraft());
+ const pack=limitedPackCatalogRow(row?readLimitedPack(JSON.parse(row.value).settings):limitedPackDraft());
+ return pack.drawEnabled?pack:null;
 }
 export async function saveLimitedPack(env,actor,body){
  const keys=['expectedRevision','expectedPackRevision','policy','packSettings','requestId','reason'];

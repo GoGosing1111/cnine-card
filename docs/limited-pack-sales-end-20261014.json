@@ -1,0 +1,105 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:limited-pack-sales-end:20261014:v1",
+  "authorization": "리미티드 하이퍼팩 판매 종료 관련 API 차단 / 용병 리미티드팩만",
+  "completedAt": "2026-10-14T13:51:29.877Z",
+  "packId": "mercenary-limited",
+  "modeBefore": "ON",
+  "modeAfter": "OFF",
+  "revisionBefore": 17,
+  "revisionAfter": 18,
+  "hyperMode": "ON",
+  "preserved": {
+    "hyper": true,
+    "prices": true,
+    "odds": true,
+    "stock": true,
+    "ownedCards": true,
+    "completedReceipts": true
+  },
+  "adminLogId": "46159",
+  "scope": {
+    "closed": [
+      "mercenary-limited"
+    ],
+    "preserved": [
+      "hyper",
+      "pickup"
+    ]
+  },
+  "verification": {
+    "database": {
+      "verifiedAt": "2026-10-14T13:51:35.970Z",
+      "mode": "OFF",
+      "revision": 18,
+      "hyper": {
+        "revision": 1,
+        "mode": "ON",
+        "version": "hyper-opening-2093",
+        "updatedBy": 1,
+        "updatedAt": "2026-09-13T09:19:14.963Z"
+      },
+      "pickup": {
+        "id": "pickup",
+        "name": "리미티드팩",
+        "is_active": "1"
+      },
+      "stockUnchanged": true,
+      "policyUnchanged": true,
+      "retryNoop": true,
+      "audit": [
+        {
+          "id": "46159",
+          "action_type": "OPS_LIMITED_PACK_SALES_END",
+          "target_id": "mercenary_limited_pack_v1"
+        }
+      ]
+    },
+    "liveApi": {
+      "verifiedAt": "2026-10-14T13:51:51.025Z",
+      "limitedConfig": {
+        "path": "mercenary-limited-pack/config",
+        "httpStatus": 200,
+        "mode": "OFF",
+        "revision": 18,
+        "userOpeningEnabled": false
+      },
+      "hyperFeature": {
+        "path": "mercenary-cards/feature",
+        "httpStatus": 200,
+        "mode": "ON",
+        "userOpeningEnabled": true
+      },
+      "packs": {
+        "path": "packs",
+        "httpStatus": 200,
+        "limited": {
+          "drawEnabled": false,
+          "ownerDrawEnabled": false
+        },
+        "hyper": {
+          "drawEnabled": true
+        },
+        "pickup": {
+          "is_active": 1
+        }
+      }
+    },
+    "regression": {
+      "command": "node --test tests/limited-pack-sales-end-20261014.test.mjs",
+      "passed": true,
+      "cases": [
+        "dry-run rollback",
+        "audit failure rollback",
+        "idempotent closure",
+        "USER and OWNER direct opening blocked",
+        "pending unpaid request cancelled",
+        "paid receipt recovery and replay preserved",
+        "coin and stock unchanged",
+        "Hyper remains ON"
+      ]
+    },
+    "gameDeploymentRequired": false,
+    "reason": "Existing runtime gate reads the saved setting; only audited operational setting and documentation changed."
+  }
+}
