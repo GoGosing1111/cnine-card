@@ -27,3 +27,14 @@
 - 직전 운영은 Cloudflare 생산 배포 목록에서 확인한 `70624019-1e02-4c6d-884a-868b67a4ee13`, 소스 `b2ea434d8ee4a675de99e03c893eb63d4e0ecd49`다.
 - 브라우저 8개 시나리오는 최종 전투 빌드로 통과했으므로 배포 과정에서 반복하지 않는다. 배포 시 공통 메인 로더/실제 번들 연결 회귀와 두 용병 관련 서버 회귀를 수행한다.
 - 사용 명령은 `npm run deploy:production -- --scoped`이며 출시 플래그·캐시·Hyperdrive·깨끗한 커밋·origin/main 일치 검사를 유지한다. 운영 반영 결과는 아래에 추가한다.
+
+## 운영 반영 완료
+
+- 구현 커밋: `d1418b86b5d47fc8f09eb1e757bc93d43db310ec`.
+- Pages: `https://c8bbf02e.cnine-card.pages.dev`, 운영 주소 `https://cnine-card.pages.dev`.
+- API runtime: `c0f240c7-89a3-4e9d-b7d9-bf2f3510361b`, clan-draft: `ef3f4f2b-293c-42c2-8a26-027237785cf6`. 지정 배포 명령 종료 코드 0.
+- 서버 광역 영수증/PVE·PVP 발생 조건 회귀 3개 통과: `node --test --test-name-pattern='one quantum cast|PVE collapse|real server payloads publish Helios' tests/kairon-craft-combat-20261014.test.mjs tests/helios-supremacy-20261012.test.mjs`.
+- scoped 배포의 `tests/pve-battlefield-entry-v2117.test.mjs` 9개 통과. PC·모바일 브라우저 8개 결과는 재실행하지 않았다.
+- 운영 확인 시각 2026-10-15 01:10 KST. 메인 HTML·앱 로더·라이브 래퍼·메인 전투 번들·사냥 전투 번들 모두 HTTP 200, 새 버전 포함, 검수본과 UTF8/LF SHA-256 일치. 상세는 `docs/qa/mercenary-visual-lifecycle-20261015/deployment.json`에 보존한다.
+- 새 브라우저 검사를 다른 환경에서 실행할 때 `PLAYWRIGHT_MODULE`에 설치된 Playwright의 `index.mjs`를 지정하거나 저장소에서 `playwright` 패키지를 해석할 수 있게 한다. 결과는 `MERCENARY_VISUAL_QA_OUTPUT` 또는 OS 임시 폴더에 저장해 배포 디렉터리를 오염시키지 않는다.
+- 이 완료 기록은 문서만 커밋·원격 반영하며 운영을 다시 배포하지 않는다.

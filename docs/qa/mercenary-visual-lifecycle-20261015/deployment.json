@@ -1,0 +1,54 @@
+{
+  "checkedAt": "2026-10-14T16:10:32.231Z",
+  "commit": "d1418b86b5d47fc8f09eb1e757bc93d43db310ec",
+  "url": "https://cnine-card.pages.dev",
+  "deploymentUrl": "https://c8bbf02e.cnine-card.pages.dev",
+  "checks": [
+    {
+      "file": "index.html",
+      "url": "https://cnine-card.pages.dev/?mercenaryFx=20261015-lifecycle",
+      "status": 200,
+      "localHash": "da58ac7ca687d0ed954ae6a564f5c9c66afe99c590ccfa28ba39546fb54fc2b4",
+      "remoteHash": "da58ac7ca687d0ed954ae6a564f5c9c66afe99c590ccfa28ba39546fb54fc2b4",
+      "cacheControl": "no-cache, must-revalidate, max-age=0",
+      "matches": true
+    },
+    {
+      "file": "js/app.js",
+      "url": "https://cnine-card.pages.dev/js/app.js?mercenaryFx=20261015-lifecycle",
+      "status": 200,
+      "localHash": "18b9da8e22c9af6c11bcaf843e1b49d81793c1e1280d026b1b2f17a0a60f852d",
+      "remoteHash": "18b9da8e22c9af6c11bcaf843e1b49d81793c1e1280d026b1b2f17a0a60f852d",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "matches": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "url": "https://cnine-card.pages.dev/js/battle-v3-live.js?mercenaryFx=20261015-lifecycle",
+      "status": 200,
+      "localHash": "765a2ecd0687c84244758dc7d15ca1573981b8cd1589fd5b3534d664805e0199",
+      "remoteHash": "765a2ecd0687c84244758dc7d15ca1573981b8cd1589fd5b3534d664805e0199",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "matches": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/project-v-v3/project-v-pixi-battle.bundle.js?mercenaryFx=20261015-lifecycle",
+      "status": 200,
+      "localHash": "a5f1dcdb67f850c031397c646161f5d2efd90d31f2dd7d20a6d465fd7c226289",
+      "remoteHash": "a5f1dcdb67f850c031397c646161f5d2efd90d31f2dd7d20a6d465fd7c226289",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "matches": true
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?mercenaryFx=20261015-lifecycle",
+      "status": 200,
+      "localHash": "53f9ef19c455a348a6850aafa2509dcfacb948c9837578889cf4bc4ede02a9b9",
+      "remoteHash": "53f9ef19c455a348a6850aafa2509dcfacb948c9837578889cf4bc4ede02a9b9",
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "matches": true
+    }
+  ],
+  "passed": true
+}
