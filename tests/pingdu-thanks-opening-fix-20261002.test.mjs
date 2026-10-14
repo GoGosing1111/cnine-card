@@ -38,14 +38,13 @@ test('a failed resource load leaves all rewards untouched and permits an explici
 });
 
 function workerFixture(){
-  const handlers={},entries=new Map(),removed=[],cacheNames=['soop-card-shell-v2108-shared-navigation-ranked-reform-20261002-retired-20261001-gift-recovery-ranked-energy150-furFrames14-15','soop-card-content-v3-media-integrity',worker.match(/const CONTENT_CACHE='([^']+)'/)[1]];
+  const handlers={},entries=new Map(),removed=[],cacheNames=['soop-card-shell-v2108-shared-navigation-ranked-reform-20261002-retired-20261001-gift-recovery-ranked-energy150-furFrames14-15','soop-card-content-v3-media-integrity'];
   let offline=false,fetches=0;
   const cache={keys:async()=>[...entries.keys()].map(url=>({url})),match:async request=>entries.get(request.url||request)?.clone(),
     put:async(request,response)=>entries.set(request.url||request,response),delete:async request=>entries.delete(request.url||request),addAll:async()=>{}};
   const context=vm.createContext({URL,Response,self:{location:{origin:'https://test.invalid'},addEventListener:(name,fn)=>handlers[name]=fn,clients:{claim:async()=>{}},skipWaiting:()=>{}},
     caches:{keys:async()=>cacheNames,open:async()=>cache,delete:async name=>{removed.push(name);return true;},match:async()=>undefined},
     fetch:async()=>{fetches++;if(offline)throw Error('offline');return new Response('current gift module',{headers:{'content-type':'text/javascript'}});}});
-  context.importScripts=path=>{assert.equal(path,'/js/image-delivery-map-20261015.js');vm.runInContext(read(path.slice(1)),context);};
   vm.runInContext(worker,context);
   return {entries,removed,get fetches(){return fetches;},set offline(value){offline=value;},
     activate:async()=>{let work;handlers.activate({waitUntil:value=>work=value});await work;},
@@ -60,9 +59,9 @@ test('installed clients revalidate old gift module URLs and keep the last valid 
   assert.equal(await f.request('/api/inventory'),undefined);
 });
 
-test('the delivery revision removes obsolete shell/media caches and preserves current media',async()=>{
+test('the gift release invalidates the previous shell cache while preserving media',async()=>{
   const f=workerFixture();await f.activate();
-  assert.equal(f.removed.length,2);assert.ok(f.removed[0].endsWith('furFrames14-15'));assert.equal(f.removed[1],'soop-card-content-v3-media-integrity');
+  assert.equal(f.removed.length,1);assert.ok(f.removed[0].endsWith('furFrames14-15'));
   const appTag=read('index.html').match(/js\/app\.js\?v=([^"'&]+)/)?.[1];
   const shellTag=worker.match(/soop-card-shell-v([^']+)/)?.[1];
   assert.ok(appTag);assert.equal(appTag,shellTag);assert.notEqual('soop-card-shell-v'+shellTag,f.removed[0]);
