@@ -218,7 +218,7 @@ test('30s defaults, public countdown and scheduled deployment are included in th
     const calls=await runDeployment(platform);assert.equal(calls.length,4);
     assert.match(calls[0].join(' '),/npm(?: run)? release:gate|npm run release:gate/);
     assert.deepEqual(calls[1],['node','/tools/wrangler/bin/wrangler.js','deploy','--config','workers/api-runtime/wrangler.jsonc']);
-    assert.deepEqual(calls[2],['node','/tools/wrangler/bin/wrangler.js','pages','deploy','/staged','--config','/staged/wrangler.toml','--project-name','cnine-card','--branch','main','--commit-hash','c'.repeat(40)]);
+    assert.deepEqual(calls[2],['node','/tools/wrangler/bin/wrangler.js','pages','deploy','/staged','--project-name','cnine-card','--branch','main','--commit-hash','c'.repeat(40)]);
     assert.deepEqual(calls[3],['node','/tools/wrangler/bin/wrangler.js','deploy','--config','workers/clan-draft/wrangler.jsonc']);
     assert.equal((await runDeployment(platform,1)).length,1,'failed release gate must stop all deployments');
     assert.equal((await runDeployment(platform,0,true)).length,1,'failed cache check must stop all deployments');

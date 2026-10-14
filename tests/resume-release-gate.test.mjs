@@ -46,6 +46,14 @@ test('full gate resumes a proven prefix and retains failed, remaining and final 
   assert.match(plan.commands[0],/resume-release-gate\.test\.mjs/);
 });
 
+test('an upload failure reuses only a complete successful gate and rechecks changed deployment contracts',()=>{
+ const f=fixture(),log=`> release:gate\n> ${f.scripts['release:gate']}\n> test:a\nℹ fail 0\n> test:b\nℹ fail 0\n> test:c\nℹ fail 0\n[PRODUCTION RELEASE OK] candidate\nX [ERROR] Pages upload failed\n`;
+ const input=fixture({changed:['scripts/deploy-production.mjs','tests/a.test.mjs'],log});
+ const plan=fullGateResumePlan(input);assert.equal(plan.reused,2);assert.deepEqual(plan.commands.slice(1),['npm run test:a','node scripts/verify-production-release.mjs']);
+ for(const bad of [log.replace('[PRODUCTION RELEASE OK]','[NOT A GATE]'),log.replace('> test:b\nℹ fail 0\n',''),log.replace('> test:b\nℹ fail 0','> test:b\nℹ fail 1')])assert.throws(()=>fullGateResumePlan(fixture({log:bad})));
+ assert.throws(()=>fullGateResumePlan(fixture({changed:['functions/_auth.js'],log})),/fresh full gate/);
+});
+
 test('only an equivalent main asset query permutation retains backend passes and rechecks HTML contracts',()=>{
   const f=fixture({changed:['index.html']}),before='<script src="js/app.js?city=1&amp;v=20261009"></script>',after='<script src="js/app.js?v=20261009&amp;city=1"></script>';
   const git=f.git;f.git=(...a)=>a[0]==='show'&&a[1]===base+':index.html'?before:git(...a);

@@ -198,13 +198,17 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   const sourceGuardBlocked=seen.length===names.length-1
     &&logText.includes(`[PRODUCTION RELEASE BLOCKED] deploy source differs from origin/main: HEAD=${previousCandidate} origin/main=`)
     &&!/^ℹ fail [1-9]/m.test(logText);
-  const failedIndex=sourceGuardBlocked?names.length-1:seen.length-1,last=logText.lastIndexOf(`> ${seen.at(-1)}`),prefix=logText.slice(0,last);
+  // A transport/upload error after a successful full gate does not invalidate
+  // game checks. Every candidate/hash/source restriction still applies, and the
+  // production guard, deployment-tool tests and any changed test stage rerun.
+  const uploadRetry=seen.length===names.length-1&&/^\[PRODUCTION RELEASE OK\] /m.test(logText)&&/\[ERROR\]/.test(logText)&&!/^ℹ fail [1-9]/m.test(logText);
+  const failedIndex=sourceGuardBlocked||uploadRetry?names.length-1:seen.length-1,last=logText.lastIndexOf(`> ${seen.at(-1)}`),prefix=logText.slice(0,last);
   const tail=logText.slice(last),failed=failedGateStage(tail);
   // An interrupted process has no final Node test summary. Always rerun that
   // whole stage; never treat individual passing test lines as stage completion.
   const interrupted=env.RELEASE_GATE_RESUME_INTERRUPTED==='1'&&!/^ℹ fail \d+/m.test(tail)
     &&String(env.RELEASE_GATE_RESUME_REASON||'').trim().length>=20;
-  if(/^ℹ fail [1-9]/m.test(prefix)||(!failed&&!interrupted&&!sourceGuardBlocked))throw Error('Resume requires a failed or explicitly interrupted final stage, or the exact completed source-identity guard.');
+  if(/^ℹ fail [1-9]/m.test(prefix)||(!failed&&!interrupted&&!sourceGuardBlocked&&!uploadRetry))throw Error('Resume requires a failed/interrupted stage, a source-identity block, or upload failure after a proven full gate.');
   const rerun=new Set(),operationTests=new Set();
   if(codexRepairs.size){
     const stage=names.indexOf('test:mercenary-codex');

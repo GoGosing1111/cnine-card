@@ -69,6 +69,8 @@ if(!assetsOnly){
   run(process.execPath,[wrangler,'deploy','--config','workers/api-runtime/wrangler.jsonc'],productionEnv);
   await prepareApiRuntime({wrangler,env:productionEnv});
 }
-try{run(process.execPath,[wrangler,'pages','deploy',assets.directory,'--config',join(assets.directory,'wrangler.toml'),'--project-name','cnine-card','--branch','main','--commit-hash',git('rev-parse','HEAD')],productionEnv);}
+// Pages discovers the canonical root wrangler.toml; unlike Workers it rejects
+// --config. The positional directory selects the bounded asset staging tree.
+try{run(process.execPath,[wrangler,'pages','deploy',assets.directory,'--project-name','cnine-card','--branch','main','--commit-hash',git('rev-parse','HEAD')],productionEnv);}
 finally{await assets.dispose();}
 if(!assetsOnly)run(process.execPath,[wrangler,'deploy','--config','workers/clan-draft/wrangler.jsonc'],productionEnv);
