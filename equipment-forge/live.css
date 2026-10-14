@@ -16,6 +16,11 @@
 .forge-public .forge-connection .text-button[hidden]{display:none}
 .forge-public .forge-connection .text-button:disabled{opacity:.55;cursor:wait}
 .forge-public .control-panel{display:flex;flex-direction:column}
+.forge-public .protection-card{cursor:pointer}
+.forge-public .protection-card:has(input:disabled){cursor:help;border-color:#455065;background:#151e2b}
+.forge-public .protection-card:has(input:disabled) .switch{opacity:.45}
+.forge-public .protection-status{margin:9px 0 7px;font-size:11px;line-height:1.8;color:#aee2cd;word-break:keep-all;overflow-wrap:anywhere}
+.forge-public .protection-status[data-state="unavailable"],.forge-public .protection-status[data-state="shortage"]{color:#e4c591}
 .forge-public #enhance-options,.forge-public #restore-options{height:auto;flex:1 1 auto}
 .forge-public .restore-coupon b{overflow-wrap:anywhere}
 .forge-public .inventory-panel{min-height:0}

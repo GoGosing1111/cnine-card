@@ -51,6 +51,27 @@ function reconcileCompletedPending(){
  }
 }
 function toast(text){$('toast').textContent=text;$('toast').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').hidden=true,3500);}
+function protectionHint(item,{pending=false}={}){
+ const control=$('protection-toggle'),status=$('protection-status'),card=document.querySelector('.protection-card');
+ const level=item?.enhancement?.level,quantity=data?.policy?.steps?.[level]?.protectionQuantity,owned=data?.wallet?.protection;
+ let text,state='unavailable';
+ if(pending)text='이전 강화 결과를 확인한 뒤 보호권을 선택할 수 있습니다.';
+ else if(executing||recovering)text='강화 결과를 확인하고 있습니다. 처리 중에는 보호권 선택을 바꿀 수 없습니다.';
+ else if(!activeToken)text='로그인 후 장비를 선택하면 보호권 사용 조건을 확인할 수 있습니다.';
+ else if(!item||mode!=='enhance')text='강화할 장비를 선택하면 보호권 사용 조건을 확인할 수 있습니다.';
+ else if(!data?.canEnhance)text='현재 강화가 중지되어 보호권을 사용할 수 없습니다.';
+ else if(level>=(data.policy.maxLevel||15))text='최대 강화 단계입니다. 추가 강화와 보호권 사용이 불가능합니다.';
+ else if(!data.policy.protection?.itemCode||quantity==null)text=`+${level+1} 도전의 보호권 설정을 준비 중입니다.`;
+ else if(quantity===0){
+  const first=data.policy.steps.findIndex(step=>step.protectionQuantity>0)+1;
+  text=`현재 +${level} → +${level+1} 도전은 보호권 사용 불가입니다.${first>level+1?' +'+first+' 도전부터 사용할 수 있습니다.':''}`;
+ }else{
+  const missing=Math.max(0,quantity-Number(owned||0));state=missing?'shortage':control.checked?'selected':'available';
+  text=`${control.checked?'사용 선택됨':missing?'보호권 부족':'사용 가능'} · +${level+1} 도전 ${number(quantity)}장 필요 / 보유 ${number(owned)}장${missing?' / '+number(missing)+'장 부족':''}`;
+ }
+ status.textContent=text;status.dataset.state=state;card.title=text;control.title=text;
+ control.setAttribute('aria-describedby','protection-status');
+}
 function renderList(){
   const list=$('inventory-list'),viewport=$('inventory-scroll'),scrollTop=viewport.scrollTop;
   document.querySelectorAll('[data-filter],[data-mode]').forEach(b=>b.disabled=loading||executing||recovering);refresh.disabled=loading||executing||recovering;
@@ -107,7 +128,7 @@ $('rules-button').onclick=()=>$('rules-dialog').showModal();document.querySelect
 async function updateQuote(){
  scrollCost.hidden=true;
  const stamp=++quoteGeneration;quote=null;for(const id of ['enhance-button','restore-button'])$(id).disabled=true;
- const pending=safePending();if(pending){$('protection-toggle').disabled=true;if(!pending.invalid)pendingNotice();pendingButtons(pending);return;}
+ const pending=safePending();if(pending){$('protection-toggle').disabled=true;protectionHint(null,{pending:true});if(!pending.invalid)pendingNotice();pendingButtons(pending);return;}
  if(mode==='enhance'){
   $('success-rate').textContent='—';$('rate-level').textContent='견적 확인';$('power-after').textContent='—';
   document.querySelectorAll('.rate-legend b').forEach(b=>b.textContent='—');document.querySelector('.probability-bar').style.background='';
@@ -117,7 +138,7 @@ async function updateQuote(){
  const protectionQuantity=data?.policy?.steps?.[item?.enhancement?.level]?.protectionQuantity;
  protection.disabled=executing||recovering||mode!=='enhance'||!data?.canEnhance||!data?.policy?.protection?.itemCode||!(protectionQuantity>0);
  if(protection.disabled&&!executing)protection.checked=false;
- protection.title=protectionQuantity===0?'이 단계에서는 보호권을 사용할 수 없습니다.':'';
+ protectionHint(item);
  if(executing||recovering)return;
  if(!item||!(mode==='enhance'?data?.canEnhance:data?.canRestore)){connectionNotice();$(mode+'-button').querySelector('span').textContent=!activeToken?'로그인 필요':!item?'장비를 선택하세요':'현재 이용 불가';return;}
  const button=$(mode+'-button');button.querySelector('span').textContent='확률·비용 확인 중';
@@ -158,7 +179,7 @@ async function recoverPending(submit=false){
  finally{recovering=false;recover.disabled=false;$('forge-retry').disabled=false;const remaining=safePending();recover.hidden=!remaining;if(remaining)pendingButtons(remaining);renderList();if(refreshNeeded||auth!==token())await load();}
 }
 async function submitPending(pending,key,auth){
- executing=true;pendingSubmit=false;quoteGeneration++;quoteQueue.invalidate();quote=null;renderList();for(const id of ['enhance-button','restore-button'])$(id).disabled=true;$('protection-toggle').disabled=true;recover.disabled=true;
+ executing=true;pendingSubmit=false;quoteGeneration++;quoteQueue.invalidate();quote=null;renderList();for(const id of ['enhance-button','restore-button'])$(id).disabled=true;$('protection-toggle').disabled=true;protectionHint(null);recover.disabled=true;
  connectionNotice('강화 요청을 처리하고 있습니다. 결과가 확정될 때까지 중복 요청을 막습니다.');let refreshNeeded=false;
  try{
   const receipt=await api(pending.kind==='ENHANCE'?'enhance':'restore',undefined,{requestId:pending.requestId,quoteId:pending.quoteId},{token:auth,retries:2,lockOnly:true,onRetry:()=>connectionNotice('같은 계정의 작업이 끝나기를 잠시 기다린 뒤 재확인합니다. 새 요청은 만들지 않습니다.')});
@@ -176,6 +197,7 @@ async function execute(){
  return submitPending(pending,key,activeToken);
 }
 $('enhance-button').onclick=execute;$('restore-button').onclick=execute;$('protection-toggle').onchange=()=>void updateQuote();
+document.querySelector('.protection-card').onclick=event=>{if($('protection-toggle').disabled){event.preventDefault();toast($('protection-status').textContent);}};
 const recover=document.createElement('button');recover.className='text-button';recover.textContent='결과 다시 확인';recover.hidden=true;recover.onclick=()=>void recoverPending(false);document.querySelector('.inventory-footer').append(recover);
 document.addEventListener('visibilitychange',()=>{fx?.suspend(document.hidden);if(!document.hidden&&fx?.running)fx.pause(false);});
 $('weapon-fallback').onerror=()=>{$('weapon-fallback').hidden=true;$('stage-empty').hidden=false;};
