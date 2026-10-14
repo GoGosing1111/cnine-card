@@ -25,7 +25,7 @@ test('skip/close acknowledged only after the completed server result is shown, w
     return new Promise(r=>finish=r);
   }});
   await new Promise(r=>setImmediate(r));assert.ok(f.client.pending());finish(true);
-  const shown=await applying;assert.equal(shown.pending,false);assert.equal(shown.account.cards[0].growth.level,6);assert.equal(f.posts(),1);
+  const shown=await applying;assert.equal(shown.pending,false);assert.equal(shown.account.cards.find(c=>c.code==='V-004').growth.level,6);assert.equal(f.posts(),1);
 });
 test('leaving the reveal keeps its receipt and restores the exact failure after a lost POST response',async()=>{
   const f=fixture({success:false});f.failPost(true);await assert.rejects(f.start,/LOST_RESPONSE/);
@@ -53,5 +53,5 @@ test('pending receipt does not reveal or acknowledge; final level remains 20',as
   const pending=await presentLevelReceipt({receipt:{status:'PENDING'},client:f.client,account:f.account,present:()=>assert.fail()});assert.equal(pending.completed,false);assert.equal(pending.pending,true);
   const shown=await presentLevelReceipt({receipt,client:f.client,account:f.account,present:async r=>{assert.equal(r.complete,true);assert.equal(r.after.level,20);assert.equal(r.after.breakthroughMask,15);return true;}});
   assert.equal(shown.pending,false);assert.equal(f.posts(),1);
-  assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED,false);assert.equal(mercenaryLevelDraft().sameCardMultiplier,null);assert.equal(mercenaryLevelDraft().mode,'OFF');
+  assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED,false);assert.equal(mercenaryLevelDraft().sameCardMultiplier,3);assert.equal(mercenaryLevelDraft().mode,'OFF');
 });

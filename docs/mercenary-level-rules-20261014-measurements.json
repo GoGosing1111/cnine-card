@@ -1,0 +1,272 @@
+{
+  "scope": "ISOLATED_PREPARATION_FEASIBILITY_NOT_APPROVED_ECONOMY_OR_LIVE_WIN_RATE",
+  "policy": {
+    "version": "mercenary-level-20261014",
+    "revision": 0,
+    "mode": "OFF",
+    "sameCardMultiplier": 3,
+    "xpPerCard": {
+      "C": 100,
+      "B": 100,
+      "A": 100,
+      "S": 100,
+      "SS": 100,
+      "SSS": 100
+    },
+    "levels": [
+      {
+        "level": 1,
+        "requiredXp": 1000
+      },
+      {
+        "level": 2,
+        "requiredXp": 1000
+      },
+      {
+        "level": 3,
+        "requiredXp": 1000
+      },
+      {
+        "level": 4,
+        "requiredXp": 1000
+      },
+      {
+        "level": 5,
+        "requiredXp": 1000
+      },
+      {
+        "level": 6,
+        "requiredXp": 1000
+      },
+      {
+        "level": 7,
+        "requiredXp": 1000
+      },
+      {
+        "level": 8,
+        "requiredXp": 1000
+      },
+      {
+        "level": 9,
+        "requiredXp": 1000
+      },
+      {
+        "level": 10,
+        "requiredXp": 1000
+      },
+      {
+        "level": 11,
+        "requiredXp": 1000
+      },
+      {
+        "level": 12,
+        "requiredXp": 1000
+      },
+      {
+        "level": 13,
+        "requiredXp": 1000
+      },
+      {
+        "level": 14,
+        "requiredXp": 1000
+      },
+      {
+        "level": 15,
+        "requiredXp": 1000
+      },
+      {
+        "level": 16,
+        "requiredXp": 1000
+      },
+      {
+        "level": 17,
+        "requiredXp": 1000
+      },
+      {
+        "level": 18,
+        "requiredXp": 1000
+      },
+      {
+        "level": 19,
+        "requiredXp": 1000
+      },
+      {
+        "level": 20,
+        "requiredXp": 1000
+      }
+    ],
+    "milestones": [
+      {
+        "level": 5,
+        "successChancePpm": 500000,
+        "bonus": {
+          "type": "COMBAT_STATS_PERCENT",
+          "value": 500
+        }
+      },
+      {
+        "level": 10,
+        "successChancePpm": 500000,
+        "bonus": {
+          "type": "COMBAT_STATS_PERCENT",
+          "value": 500
+        }
+      },
+      {
+        "level": 15,
+        "successChancePpm": 500000,
+        "bonus": {
+          "type": "COMBAT_STATS_PERCENT",
+          "value": 500
+        }
+      },
+      {
+        "level": 20,
+        "successChancePpm": 500000,
+        "bonus": {
+          "type": "COMBAT_STATS_PERCENT",
+          "value": 500
+        }
+      }
+    ]
+  },
+  "regular": "크라이베른",
+  "seeds": [
+    104729,
+    112648,
+    120567,
+    128486,
+    136405,
+    144324,
+    152243,
+    160162,
+    168081,
+    176000,
+    183919,
+    191838
+  ],
+  "cardPowers": [
+    180000,
+    1000000
+  ],
+  "decks": [
+    "balanced",
+    "defense"
+  ],
+  "releaseEnabled": false,
+  "productionPolicyWritten": false,
+  "rows": [
+    {
+      "regular": "V-049",
+      "regularLevel": 1,
+      "limited": "V-996",
+      "limitedLevel": 1,
+      "wins": 0,
+      "total": 96,
+      "draws": 0,
+      "winRate": 0,
+      "winsBySide": {
+        "A": 0,
+        "B": 0
+      }
+    },
+    {
+      "regular": "V-049",
+      "regularLevel": 11,
+      "limited": "V-996",
+      "limitedLevel": 1,
+      "wins": 19,
+      "total": 96,
+      "draws": 0,
+      "winRate": 0.19791666666666666,
+      "winsBySide": {
+        "A": 10,
+        "B": 9
+      }
+    },
+    {
+      "regular": "V-049",
+      "regularLevel": 20,
+      "limited": "V-996",
+      "limitedLevel": 1,
+      "wins": 95,
+      "total": 96,
+      "draws": 0,
+      "winRate": 0.9895833333333334,
+      "winsBySide": {
+        "A": 48,
+        "B": 47
+      }
+    },
+    {
+      "regular": "V-049",
+      "regularLevel": 20,
+      "limited": "V-996",
+      "limitedLevel": 20,
+      "wins": 0,
+      "total": 96,
+      "draws": 0,
+      "winRate": 0,
+      "winsBySide": {
+        "A": 0,
+        "B": 0
+      }
+    },
+    {
+      "regular": "V-049",
+      "regularLevel": 1,
+      "limited": "V-999",
+      "limitedLevel": 1,
+      "wins": 0,
+      "total": 96,
+      "draws": 0,
+      "winRate": 0,
+      "winsBySide": {
+        "A": 0,
+        "B": 0
+      }
+    },
+    {
+      "regular": "V-049",
+      "regularLevel": 11,
+      "limited": "V-999",
+      "limitedLevel": 1,
+      "wins": 8,
+      "total": 96,
+      "draws": 0,
+      "winRate": 0.08333333333333333,
+      "winsBySide": {
+        "A": 3,
+        "B": 5
+      }
+    },
+    {
+      "regular": "V-049",
+      "regularLevel": 20,
+      "limited": "V-999",
+      "limitedLevel": 1,
+      "wins": 95,
+      "total": 96,
+      "draws": 0,
+      "winRate": 0.9895833333333334,
+      "winsBySide": {
+        "A": 48,
+        "B": 47
+      }
+    },
+    {
+      "regular": "V-049",
+      "regularLevel": 20,
+      "limited": "V-999",
+      "limitedLevel": 20,
+      "wins": 0,
+      "total": 96,
+      "draws": 0,
+      "winRate": 0,
+      "winsBySide": {
+        "A": 0,
+        "B": 0
+      }
+    }
+  ]
+}

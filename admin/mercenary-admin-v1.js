@@ -1,4 +1,4 @@
-import {createMercenaryLevelEditor} from './mercenary-level-admin-v1.mjs?v=20261005';
+import {createMercenaryLevelEditor} from './mercenary-level-admin-v1.mjs?v=20261014-growth3';
 import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms-model-v1.mjs?v=20261014-azant';
 import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=20260927-berkan-off';
 import {mercenaryCmsRequest as api} from './mercenary-request-v1.mjs?v=20261006-pack';

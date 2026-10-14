@@ -1,7 +1,7 @@
-import {MERCENARY_LEVEL_RULES as RULES, LEVEL_BONUS_TYPES, levelProgress, planMercenaryTraining, planMercenaryBreakthrough} from '../../shared/mercenary-level-v1.mjs?v=20261005';
+import {MERCENARY_LEVEL_RULES as RULES, LEVEL_BONUS_TYPES, mercenaryLevelRequiredXp, levelProgress, planMercenaryTraining, planMercenaryBreakthrough} from '../../shared/mercenary-level-v1.mjs?v=20261014-growth3';
 import {jointAccountRequest} from '../../js/joint-account-transport.mjs';
 import {createLevelClient} from './client.mjs?v=20261005';
-import {levelDemo} from './demo.mjs?v=20261005';
+import {levelDemo} from './demo.mjs?v=20261014-growth3';
 import {showBreakthrough} from './breakthrough.mjs?v=20261006-growth2';
 import {presentLevelReceipt} from './receipt-presentation.mjs?v=20261006-growth2';
 
@@ -13,7 +13,7 @@ const icon = (type = 'diamond') => `<svg viewBox="0 0 32 32" aria-hidden="true">
 let account, selected, quantities = {}, notice = '', isError = false, busy = false, client;
 let allowOverflow = false, qaResult = 'success', pending = false, qaOpen = false, search = '';
 const target = () => account.cards.find(c => c.code === selected);
-const progress = () => levelProgress(account.policy, target().growth);
+const progress = () => levelProgress(account.policy, target().growth, target());
 const materials = () => Object.entries(quantities).filter(([, n]) => n !== 0).map(([code, quantity]) => ({code, quantity}));
 function training() {
   if (!materials().length) return null;
@@ -36,7 +36,7 @@ function render() {
   const next = p.milestones.find((m, i) => !(s.breakthroughMask & (1 << i)));
   const status = s.complete ? '최종 돌파 완료' : s.breakthroughReady ? '돌파 준비 완료' : '성장 진행 중';
   app.innerHTML = `
-    <div class="mode-strip"><span class="status-dot"></span><b>${preview ? '검수 전용 · 실제 소모 없음' : account.enabled ? '용병의 다음 경지를 준비하세요' : '용병 성장 활성화 준비 중'}</b><span>${preview ? '화면의 등급·경험치·배수·확률·효과는 예시입니다.' : account.enabled ? '같은 등급의 용병 카드를 경험치로 전수합니다.' : '운영 수치 확정 후 공개됩니다.'}</span>${preview ? `<button id="demo-break" ${blocked ? 'disabled' : ''}>돌파 연출 보기 <span>↗</span></button>` : ''}</div>
+    <div class="mode-strip"><span class="status-dot"></span><b>${preview ? '검수 전용 · 실제 소모 없음' : account.enabled ? '용병의 다음 경지를 준비하세요' : '용병 성장 활성화 준비 중'}</b><span>${preview ? '동일 용병 3배 · 리미티드 요구 경험치 5배. 나머지 수치는 예시입니다.' : account.enabled ? '같은 등급의 용병 카드를 경험치로 전수합니다.' : '운영 수치 확정 후 공개됩니다.'}</span>${preview ? `<button id="demo-break" ${blocked ? 'disabled' : ''}>돌파 연출 보기 <span>↗</span></button>` : ''}</div>
     <div class="growth-workspace" id="workbench" tabindex="-1">
       <aside class="roster-panel panel" aria-label="성장 대상 선택">
         <div class="panel-title"><h2>보유 용병</h2><span>${account.cards.length}</span></div>
@@ -50,7 +50,7 @@ function render() {
         <div class="stage-top"><span class="stage-code">${esc(c.code)} <i>/</i> ${esc(c.rank)}${preview ? ' · 예시' : ''}</span><span class="stage-status">${status}</span></div>
         <div class="stage-identity"><p>${next ? `다음 돌파 Lv.${next.level}` : '네 번의 돌파를 모두 완료했습니다'}</p><h2>${esc(c.name)}</h2></div>
         <div class="portrait-area"><div class="portrait-orbit orbit-one" aria-hidden="true"></div><div class="portrait-orbit orbit-two" aria-hidden="true"></div><figure class="hero-card"><img src="/${esc(c.sourceArt)}" alt="${esc(c.name)} 승인 원화"><span class="card-corner top-left"></span><span class="card-corner bottom-right"></span></figure><div class="stage-floor" aria-hidden="true"></div></div>
-        <div class="stage-progress"><div class="level-display"><span>현재 레벨</span><strong><small>Lv.</small>${s.level}</strong><i>/ 20</i></div><div class="xp-display"><div><span>${s.complete ? '성장 완료' : '레벨 경험치'}</span><b>${s.percent === null ? '미정' : s.percent.toFixed(1) + '%'}</b></div><div class="xp-track" role="progressbar" aria-label="현재 레벨 경험치" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${s.percent ?? 0}"><span style="width:${s.percent ?? 0}%"></span><i id="xp-forecast"></i></div><p>${s.complete ? '모든 돌파 효과 해금' : `${fmt(s.experience)} <span>/ ${fmt(s.requiredXp)} EXP</span>`}</p></div></div>
+        <div class="stage-progress"><div class="level-display"><span>현재 레벨</span><strong><small>Lv.</small>${s.level}</strong><i>/ 20</i></div><div class="xp-display"><div><span>${s.complete ? '성장 완료' : s.requiredXpMultiplier === 5 ? '리미티드 경험치 · 요구량 ×5' : '레벨 경험치'}</span><b>${s.percent === null ? '미정' : s.percent.toFixed(1) + '%'}</b></div><div class="xp-track" role="progressbar" aria-label="현재 레벨 경험치" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${s.percent ?? 0}"><span style="width:${s.percent ?? 0}%"></span><i id="xp-forecast"></i></div><p>${s.complete ? '모든 돌파 효과 해금' : `${fmt(s.experience)} <span>/ ${fmt(s.requiredXp)} EXP</span>`}</p></div></div>
         <div class="milestone-path" aria-label="돌파 단계">${p.milestones.map((m, i) => `<div class="milestone ${s.breakthroughMask & (1 << i) ? 'unlocked' : next?.level === m.level ? 'current' : ''}"><span class="milestone-symbol">${s.breakthroughMask & (1 << i) ? '✓' : icon()}</span><b>Lv.${m.level}</b><small>${s.breakthroughMask & (1 << i) ? '해금 완료' : next?.level === m.level ? '다음 돌파' : '잠김'}</small></div>`).join('')}</div>
       </section>
       <section class="control-panel panel" aria-label="성장 재료와 돌파 조작">
@@ -101,7 +101,7 @@ function render() {
 }
 function jump(level) {
   if (!preview || busy || pending) return;
-  target().growth = {level, experience:account.policy.levels[level - 1].requiredXp, breakthroughMask:(1 << RULES.milestones.indexOf(level)) - 1, revision:target().growth.revision + 1};
+  target().growth = {level, experience:mercenaryLevelRequiredXp(account.policy, level, target()), breakthroughMask:(1 << RULES.milestones.indexOf(level)) - 1, revision:target().growth.revision + 1};
   quantities = {}; allowOverflow = false; isError = false; notice = `Lv.${level} 돌파 준비 상태입니다.`; render();
 }
 function renderCalculation() {
@@ -112,7 +112,7 @@ function renderCalculation() {
   document.querySelector('#train').disabled = blocked || !plan || Boolean(plan.error) || Boolean(plan.overflowXp && !allowOverflow) || s.complete || s.breakthroughReady;
   document.querySelector('#breakthrough').disabled = blocked || !s.breakthroughReady;
   const forecast = document.querySelector('#xp-forecast');
-  forecast.style.width = `${plan && !plan.error ? plan.after.level > s.level ? 100 : levelProgress(account.policy, plan.after).percent : 0}%`;
+  forecast.style.width = `${plan && !plan.error ? plan.after.level > s.level ? 100 : levelProgress(account.policy, plan.after, target()).percent : 0}%`;
 }
 function describe(result, action) {
   return action === 'TRAIN' ? `경험치 전수 완료 · +${fmt(result.appliedXp)} EXP · Lv.${result.after.level}${result.overflowXp ? ` · 초과 ${fmt(result.overflowXp)} EXP 소멸` : ''}` : result.success ? `Lv.${result.before.level} 돌파 성공 · ${effect(result.milestone)} 해금${result.complete ? ' · 최종 돌파 완료' : ` · Lv.${result.after.level}`}` : `돌파 실패 · Lv.${result.before.level} 유지 · 경험치 0%로 재시작합니다. 기존 효과는 유지됩니다.`;
@@ -143,7 +143,7 @@ async function act(action) {
   try {
     if (preview) {
       const card = target();
-      const result = action === 'TRAIN' ? planMercenaryTraining({policy:account.policy, state:card.growth, target:card, materials:body.materials, owned:account.cards, catalog:account.cards}) : planMercenaryBreakthrough({policy:account.policy, state:card.growth, roll:qaResult === 'success' ? 0 : 999999});
+      const result = action === 'TRAIN' ? planMercenaryTraining({policy:account.policy, state:card.growth, target:card, materials:body.materials, owned:account.cards, catalog:account.cards}) : planMercenaryBreakthrough({policy:account.policy, state:card.growth, target:card, roll:qaResult === 'success' ? 0 : 999999});
       card.growth = result.after;
       for (const m of result.consumed || []) { const row = account.cards.find(c => c.code === m.code); row.totalCopies -= m.quantity; row.duplicates -= m.quantity; }
       await present(result, action, card);

@@ -1,0 +1,29 @@
+{
+  "verifiedAt": "2026-10-14T00:43:10.329Z",
+  "report": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1080,
+      "sameCardXp": 300,
+      "otherSssXp": 100,
+      "normalRequiredXp": 250,
+      "limitedRequiredXp": 1250,
+      "limitedLevel5RequiredXp": 2250,
+      "errors": [],
+      "posts": 0
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "sameCardXp": 300,
+      "otherSssXp": 100,
+      "normalRequiredXp": 250,
+      "limitedRequiredXp": 1250,
+      "limitedLevel5RequiredXp": 2250,
+      "errors": [],
+      "posts": 0
+    }
+  ]
+}
