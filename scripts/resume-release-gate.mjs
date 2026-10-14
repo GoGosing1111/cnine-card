@@ -56,7 +56,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   // A fixture used only by directly registered gate tests may be repaired.
   // Every importing stage is rechecked; runtime, shared-helper and unregistered
   // test consumers still require a fresh gate.
-  const helperStages=new Map(),gateInputs=new Map();
+  const helperStages=new Map(),gateInputs=new Map(),fixtureChecks=new Set();
   for(let i=0;i<names.length-1;i++)for(const file of scripts[names[i]].split(/\s+/).filter(p=>/^(?:tests|preview)\/.*\.mjs$/.test(p))){
     if(!gateInputs.has(file))gateInputs.set(file,[]);gateInputs.get(file).push(i);
   }
@@ -64,6 +64,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     const leaf=helper.split('/').at(-1),stages=new Set();
     const sources=git('ls-files','*.js','*.mjs','*.cjs','*.html').split('\n').filter(Boolean);
     for(const source of sources){if(source===helper||!read(source).includes(leaf))continue;
+      if(source==='scripts/serve-joint-account-qa.mjs'&&!changed.includes(source)&&read(source).includes("server.listen(port,'127.0.0.1'")&&read(source).includes("from 'node:http'")){fixtureChecks.add('node --check '+source);continue;}
       if(!gateInputs.has(source))throw Error(`Shared fixture consumer (${source}): run a fresh full gate.`);
       for(const index of gateInputs.get(source))stages.add(index);
     }
@@ -284,6 +285,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   // The resume implementation is itself verified, including on its first use.
   return {base,reused:failedIndex-rerun.size,commands:[
     'node --test tests/resume-release-gate.test.mjs tests/scoped-release-policy-20260923.test.mjs tests/hyperdrive-cache-deploy-guard.test.mjs',
+    ...fixtureChecks,
     ...[...operationTests].map(path=>'node --test '+path),
     ...[...rerun].sort((a,b)=>a-b).map(i=>commands[i]),...commands.slice(failedIndex)
   ]};

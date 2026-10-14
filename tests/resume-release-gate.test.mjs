@@ -165,6 +165,9 @@ test('a directly imported test fixture rechecks every consumer and rejects runti
    assert.throws(()=>fullGateResumePlan({...f,git:(...a)=>a[0]==='ls-files'&&a[1]==='*.js'?f.git(...a)+'\n'+consumer:f.git(...a)}),/Shared fixture consumer/);
  }
  assert.throws(()=>fullGateResumePlan({...f,read:()=>''}),/Unregistered fixture/);
+ const server='scripts/serve-joint-account-qa.mjs',withServer={...f,git:(...a)=>a[0]==='ls-files'&&a[1]==='*.js'?f.git(...a)+'\n'+server:f.git(...a),read:p=>p===server?"import './route.mjs'; import http from 'node:http'; server.listen(port,'127.0.0.1');":f.read(p)};
+ assert.ok(fullGateResumePlan(withServer).commands.includes('node --check '+server));
+ assert.throws(()=>fullGateResumePlan({...withServer,read:p=>p===server?withServer.read(p).replace('127.0.0.1','0.0.0.0'):withServer.read(p)}),/Shared fixture consumer/);
 });
 
 test('concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt',()=>{
