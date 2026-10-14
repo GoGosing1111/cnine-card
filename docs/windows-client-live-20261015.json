@@ -1,0 +1,24 @@
+{
+  "verifiedAt": "2026-10-14T23:05:33.697Z",
+  "source": "701d51fdf594b63b50538f7b6e33deac5c339fff",
+  "pagesUrl": "https://e852227e.cnine-card.pages.dev",
+  "apiVersion": "870b7d5f-1c43-4dc8-9527-1be382f35c64",
+  "schedulerVersion": "4d9d8dd8-7885-49f8-a7ac-35c2c783421e",
+  "manifestStatus": 200,
+  "manifestCache": "no-store",
+  "releaseId": "d82872cbd31de09230009157fd8a3cf49bcd0841956d40d91bb84ba57443d1eb",
+  "listedFiles": 12931,
+  "essentialFiles": 1500,
+  "privateRankReviewListed": false,
+  "indexHashMatches": true,
+  "maintenanceActive": false,
+  "productionAccountWrites": 0,
+  "installer": {
+    "version": "0.1.0",
+    "bytes": 113483591,
+    "sha256": "754e41e4137d6d6199db16f588d9e08da43e4bd3017cf06a962cbd8a86a7bf95",
+    "signed": false,
+    "file": "Soopketmon-Setup-0.1.0-x64.exe"
+  },
+  "packagedClientReport": "qa/windows-client-20261015/packaged-live.json"
+}

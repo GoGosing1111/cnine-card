@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "packaged": true,
+  "version": "0.1.0",
+  "releaseId": "d82872cbd31d",
+  "essentialFiles": 1500,
+  "storedFiles": 1486,
+  "storedBytes": 87504913,
+  "client": {
+    "origin": "https://cnine-card.pages.dev",
+    "source": "disk",
+    "node": "undefined",
+    "bridge": "undefined",
+    "serviceWorkers": 0
+  },
+  "errors": [],
+  "productionWrites": []
+}
