@@ -804,7 +804,7 @@ function renderMainNavigation(tab){
   ];
   const primaryHtml=`<nav class="tabs primary-tabs" aria-label="메인 메뉴">${primary.map(item=>`<button class="tab ${((item.id===group)||(item.id===tab))?'active':''}" data-tab="${item.tab||item.id}">${item.label}</button>`).join('')}</nav>`;
   if(group==='dex')return `${primaryHtml}<nav class="sub-tabs" aria-label="도감과 강화 메뉴"><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">카드 도감</button><button class="tab" data-tab="mercenaryDex">용병도감</button><button class="tab ${tab==='upgrade'?'active':''}" data-tab="upgrade">일괄 강화</button><button class="tab ${tab==='evolution'?'active':''}" data-tab="evolution">카드 진화</button>${magicSystemState.visible?`<button class="tab ${tab==='magic'?'active':''}" data-tab="magic">마법카드</button>`:''}</nav>`;
-  if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='duo'?'active':''}" data-tab="duo">랭크 듀오</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE 전투</button><button class="tab ${tab==='scrapyard'?'active':''}" data-tab="scrapyard">폐차장 원정</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP·경쟁</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">시즌 랭킹</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">클랜·조직</button>`:''}</nav>`;
+  if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='duo'?'active':''}" data-tab="duo">랭크 듀오</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE 전투</button><button class="tab ${tab==='scrapyard'?'active':''}" data-tab="scrapyard">폐차장 원정</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP·경쟁</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">시즌 랭킹</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">조직</button>`:''}</nav>`;
   if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호·차고</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작소</button>${alchemyFeatureVisible()?`<button class="tab ${tab==='alchemy'?'active':''}" data-tab="alchemy">연금술</button>`:''}${avatarFeatureVisible()?`<button class="tab ${tab==='avatar'?'active':''}" data-tab="avatar">아바타</button>`:''}</nav>`;
   if(group==='market')return `${primaryHtml}<nav class="sub-tabs" aria-label="승부와 경매 메뉴"><button class="tab ${tab==='prediction'?'active':''}" data-tab="prediction">승부예측</button><button class="tab ${tab==='auction'?'active':''}" data-tab="auction">경매장</button></nav>`;
   if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일·주간 퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
@@ -845,7 +845,7 @@ function mobileNavigationHtml(tab){
         <button type="button" data-mobile-tab="escort"><i>▰</i><span><b>호송작전</b><small>5구간 장갑 수송차 호위전</small></span><em>입장</em></button>
         <button type="button" data-v21-route="scrapyard"><i>W</i><span><b>폐차장 원정</b><small>PVE 전용 원정과 보상</small></span><em>입장</em></button>
         ${pvpFeatureEnabled?'<button type="button" data-mobile-tab="pvp"><i>V</i><span><b>PVP·경쟁</b><small>랭크전 자동 균형 매칭</small></span><em>입장</em></button><button type="button" data-mobile-tab="rank"><i>R</i><span><b>시즌 랭킹</b><small>현재 시즌 순위와 보상</small></span><em>확인</em></button>':''}
-        ${clanFeatureVisible()?'<button type="button" data-mobile-tab="clan"><i>C</i><span><b>클랜·조직</b><small>조직 입단 심사 · 아지트</small></span><em>입장</em></button>':''}
+        ${clanFeatureVisible()?'<button type="button" data-mobile-tab="clan"><i>C</i><span><b>조직</b><small>조직 본부 · 아지트</small></span><em>입장</em></button>':''}
         <button type="button" data-mobile-territory-war><i>♜</i><span><b>영토전</b><small>실시간 진영 공성전</small></span><em>입장</em></button>
       </div>
     </section>
@@ -1402,7 +1402,7 @@ function renderShell(tab,routeOptions={}) {
         <button type="button" data-v21-route="escort"><span>5구간 장갑 수송차 호위전</span><b>호송작전</b></button>
         <button type="button" data-v21-route="scrapyard"><span>PVE 전용 원정과 보상</span><b>폐차장 원정</b></button>
         ${pvpFeatureEnabled?'<button type="button" data-tab="pvp"><span>자동 균형 매칭</span><b>PVP·경쟁</b></button><button type="button" data-tab="rank"><span>현재 시즌 순위</span><b>시즌 랭킹</b></button>':''}
-        ${clanFeatureVisible()?'<button type="button" data-tab="clan"><span>조직 입단 심사 · 아지트</span><b>클랜·조직</b></button>':''}
+        ${clanFeatureVisible()?'<button type="button" data-tab="clan"><span>조직 본부 · 아지트</span><b>조직</b></button>':''}
       </div>
     </div>
     <div class="main-nav-group ${characterActive?'active':''}" data-nav-group="character">

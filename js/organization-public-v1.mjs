@@ -1,4 +1,4 @@
-import {mountOrganization} from './organization-system-v1.mjs?v=20261015-live-v2';
+import {mountOrganization} from './organization-system-v1.mjs?v=20261015-organization-off-stable-v1';
 import {organizationPublicApi} from '../shared/organization-public-v1.mjs';
 
 const embedded=window.parent!==window;
