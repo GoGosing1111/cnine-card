@@ -89,9 +89,9 @@ test('storage cleanup only removes optional content inside the app cache',async 
 });
 test('deployment manifest hashes staged bytes and excludes account/tool files',async t=>{
  const root=await mkdtemp(path.join(os.tmpdir(),'soop-manifest-test-'));t.after(()=>rm(root,{recursive:true,force:true}));
- const input={'index.html':'<html>\r\n</html>','js/app.js':'app','assets/a.png':'png','functions/_auth.js':'secret','scripts/ops/grant.json':'secret','packaging/windows-client/main.mjs':'native'};
+ const input={'index.html':'<html>\r\n</html>','js/app.js':'app','assets/a.png':'png','functions/_auth.js':'secret','scripts/ops/grant.json':'secret','packaging/windows-client/main.mjs':'native','_redirects':'/events/chuseok/* /events/golden-axe/ 302\n','events/chuseok/old.js':'retired','preview/account-rank-v1/mobile-review.html':'private review','preview/account-rank-v1/mock.json':'private fixture','preview/account-rank-v1/app.mjs':'public app'};
  for(const [file,content]of Object.entries(input)){await mkdir(path.dirname(path.join(root,file)),{recursive:true});await writeFile(path.join(root,file),content);}
- const m=validateManifest(await buildClientManifest({root,files:Object.keys(input)}));assert.deepEqual(m.files.map(f=>f.path),['/assets/a.png','/index.html','/js/app.js']);
+ const m=validateManifest(await buildClientManifest({root,files:Object.keys(input)}));assert.deepEqual(m.files.map(f=>f.path),['/assets/a.png','/index.html','/js/app.js','/preview/account-rank-v1/app.mjs']);
  assert.equal(m.files.find(f=>f.path==='/index.html').sha256,hash(input['index.html']));
 });
 
