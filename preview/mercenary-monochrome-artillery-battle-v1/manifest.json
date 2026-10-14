@@ -1,7 +1,7 @@
 {
   "version": 3,
   "date": "2026-10-15",
-  "name": null,
+  "name": "시라누이",
   "rank": null,
   "code": null,
   "previewAdapterCode": "V-000",
@@ -3051,7 +3051,7 @@
   "combatPreparation": {
     "file": "combat-preparation-20261015.json",
     "module": "combat-preparation.mjs",
-    "status": "BALANCE_APPROVED_IDENTITY_AND_RELEASE_PENDING",
+    "status": "NAME_AND_BALANCE_APPROVED_RELEASE_PENDING",
     "referenceCode": "V-988",
     "basePower": 1347840
   }

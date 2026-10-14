@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-10-15",
-  "status": "BALANCE_APPROVED_IDENTITY_AND_RELEASE_PENDING",
+  "status": "NAME_AND_BALANCE_APPROVED_RELEASE_PENDING",
   "userInstruction": "성능은 카이론하고 동급으로 맞추고 이름은 뭐가 좋냐",
   "referenceCode": "V-988",
   "referenceModule": "shared/mercenary-kairon-v1.mjs",
@@ -61,7 +61,7 @@
     "skullMarkAddsDebuff": false
   },
   "identity": {
-    "name": null,
+    "name": "시라누이",
     "title": null,
     "code": null,
     "rank": null,
@@ -74,24 +74,9 @@
     "acquisitionMethod": null
   },
   "naming": {
-    "selected": null,
-    "recommended": "실베른",
-    "suggestions": [
-      {
-        "name": "실베른",
-        "title": "백탄의 군주",
-        "reason": "백은 탄환과 중포대를 지휘하는 차갑고 강한 이미지"
-      },
-      {
-        "name": "아르겐",
-        "title": "백은의 집행자",
-        "reason": "날카로운 총기와 절제된 백색 광원"
-      },
-      {
-        "name": "노크센",
-        "title": "종언의 포격수",
-        "reason": "해골 낙인과 어두운 포격 콘셉트"
-      }
-    ]
+    "selected": "시라누이",
+    "japanese": "不知火",
+    "selectedBy": "USER",
+    "userInstruction": "시라누이로 짓고"
   }
 }

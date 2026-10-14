@@ -1,10 +1,10 @@
 import {KAIRON_CODE,KAIRON_COMBAT,KAIRON_AREA_SKILL} from '../../shared/mercenary-kairon-v1.mjs';
 
-// Approved balance target, 2026-10-15. This preparation has no roster identity or live registration.
+// Approved name and balance target, 2026-10-15. Roster code and live registration remain pending.
 export const MONOCHROME_ARTILLERY_COMBAT=KAIRON_COMBAT;
 export const MONOCHROME_ARTILLERY_AREA_BALANCE=KAIRON_AREA_SKILL.balance;
 export const MONOCHROME_ARTILLERY_COMBAT_PREPARATION=Object.freeze({
- version:1,date:'2026-10-15',status:'BALANCE_APPROVED_IDENTITY_AND_RELEASE_PENDING',
+ version:1,date:'2026-10-15',status:'NAME_AND_BALANCE_APPROVED_RELEASE_PENDING',
  userInstruction:'성능은 카이론하고 동급으로 맞추고 이름은 뭐가 좋냐',
  referenceCode:KAIRON_CODE,referenceModule:'shared/mercenary-kairon-v1.mjs',
  combat:MONOCHROME_ARTILLERY_COMBAT,
@@ -17,11 +17,7 @@ export const MONOCHROME_ARTILLERY_COMBAT_PREPARATION=Object.freeze({
   damageAllocation:'TOTAL_RATIO_DIVIDED_BY_UNIQUE_LIVING_TARGET_COUNT',damageApplicationsPerTargetPerCast:1}),
  visualDamageContract:Object.freeze({attackRounds:9,skillRounds:30,artillerySalvos:5,coveringFireRounds:25,
   damageAuthority:'SERVER_RECEIPT_ONLY',roundsMultiplyDamage:false,skullMarkAddsDebuff:false}),
- identity:Object.freeze({name:null,title:null,code:null,rank:null,edition:null}),
+ identity:Object.freeze({name:'시라누이',title:null,code:null,rank:null,edition:null}),
  release:Object.freeze({runtimeEnabled:false,acquisitionEnabled:false,deploymentEnabled:false,acquisitionMethod:null}),
- naming:Object.freeze({selected:null,recommended:'실베른',suggestions:Object.freeze([
-  Object.freeze({name:'실베른',title:'백탄의 군주',reason:'백은 탄환과 중포대를 지휘하는 차갑고 강한 이미지'}),
-  Object.freeze({name:'아르겐',title:'백은의 집행자',reason:'날카로운 총기와 절제된 백색 광원'}),
-  Object.freeze({name:'노크센',title:'종언의 포격수',reason:'해골 낙인과 어두운 포격 콘셉트'})
- ])})
+ naming:Object.freeze({selected:'시라누이',japanese:'不知火',selectedBy:'USER',userInstruction:'시라누이로 짓고'})
 });
