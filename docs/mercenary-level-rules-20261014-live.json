@@ -1,0 +1,102 @@
+{
+  "scope": "PREPARATION_ONLY_RELEASE_DISABLED",
+  "sourceCommit": "886b463a84f932ce32fb8587e9b6ac95c014c41f",
+  "previousProductionCommit": "287b1d746163b31b9593be16b2b2b9290b1faa5a",
+  "deployment": {
+    "Id": "4c81f8b9-bb2e-4d0b-a27e-e0d939b89e4c",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "886b463",
+    "Deployment": "https://4c81f8b9.cnine-card.pages.dev",
+    "Status": "55 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/4c81f8b9-bb2e-4d0b-a27e-e0d939b89e4c"
+  },
+  "workers": {
+    "apiRuntime": "5296cfc4-e825-4ae5-af06-b733167ff9fd",
+    "clanDraft": "a3c27db2-8ba6-4561-9bed-c6ae744eae17"
+  },
+  "validation": {
+    "growthTests": 35,
+    "adjacentDeploymentTests": 17,
+    "totalPassed": 52,
+    "workerSyntax": "passed",
+    "desktopMobile": "passed",
+    "releaseGuard": "passed",
+    "hyperdriveQueryCache": "disabled"
+  },
+  "http": {
+    "checkedAt": "2026-10-14T00:52:43.151Z",
+    "feature": {
+      "status": 200,
+      "releaseEnabled": false,
+      "rules": {
+        "version": "mercenary-level-20261014",
+        "maxLevel": 20,
+        "milestones": [
+          5,
+          10,
+          15,
+          20
+        ],
+        "materialKind": "MERCENARY",
+        "materialRank": "SAME_RANK",
+        "sameCardMultiplier": 3,
+        "limitedRequiredXpMultiplier": 5,
+        "preserveOriginal": true,
+        "coinCost": 0,
+        "masterStarCost": 0,
+        "maxMaterials": 100,
+        "failure": "CURRENT_LEVEL_EXP_ZERO"
+      }
+    },
+    "trainingLocked": {
+      "status": 423,
+      "ok": false,
+      "code": "MERCENARY_LEVEL_PREPARATION",
+      "error": "용병 레벨 활성화를 준비 중입니다. 카드가 소모되지 않았습니다.",
+      "retryable": false
+    },
+    "assets": [
+      {
+        "path": "shared/mercenary-level-v1.mjs",
+        "status": 200,
+        "sha256": "c1cdb84bc4d046fc2c1a71e93339e72385711445e366c2f3b3bda71c758e80c5",
+        "matchesLocal": true
+      },
+      {
+        "path": "admin/mercenary-level-admin-v1.mjs",
+        "status": 200,
+        "sha256": "c00c53ab39837ccbe7eee0c4699093d06226b5c9a9076b3dba3cbad0a5f22b6e",
+        "matchesLocal": true
+      },
+      {
+        "path": "mercenary-codex/leveling/app.mjs",
+        "status": 200,
+        "sha256": "b31b5d1ae3b9bb8073603ddf78535f7a80f67a27091581ee4126ef0074a79b18",
+        "matchesLocal": true
+      },
+      {
+        "path": "mercenary-codex/leveling/demo.mjs",
+        "status": 200,
+        "sha256": "bc1b8e6901700fe466de8f318668d0a4df3e1629d04a2e7d0403ae95b4e33abd",
+        "matchesLocal": true
+      }
+    ]
+  },
+  "database": {
+    "mode": "READ_ONLY",
+    "before": {
+      "checkedAt": "2026-10-14T00:44:47.638Z",
+      "level_table_installed": false,
+      "policy": null,
+      "has_growth_operation": false
+    },
+    "after": {
+      "checkedAt": "2026-10-14T00:52:53.747Z",
+      "level_table_installed": false,
+      "policy": null,
+      "has_growth_operation": false,
+      "matchesBefore": true
+    }
+  }
+}
