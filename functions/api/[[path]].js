@@ -5278,7 +5278,7 @@ async function handleRequest(context){
       const [rows,burning,superstarSettings,hyperOpening,limitedPack]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env),hyperOpeningFeature(env),limitedPackShopRow(env)]);
       const packs=rows.filter(row=>String(row.id)!=='basic').map(row=>{const originalPrice=Number(row.price||0);return {...row,price:originalPrice,originalPrice,burningDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}});
       if(superstarSettings.visible)packs.push(superstarPackCatalogRow(superstarSettings));
-      return json({packs:[...arrangeHyperPackCatalog(packs,hyperOpening.userOpeningEnabled),limitedPack],burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
+      return json({packs:[...arrangeHyperPackCatalog(packs,hyperOpening.userOpeningEnabled),...(limitedPack?[limitedPack]:[])],burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
     }
     if(path==='superstar-pack/draw'&&request.method==='POST'){
       return handleSuperstarPackDraw({request,env,deps:{authenticate,json,readBody}});
