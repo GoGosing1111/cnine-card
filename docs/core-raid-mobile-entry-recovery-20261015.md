@@ -22,3 +22,7 @@
 동시 작업 중 공개된 조직 미리보기를 보존했다. 직전 운영 소스는 Pages 목록에서 확인한 `b443c5d97ebac65aab01b854e80c917a5c4fda15`이며, 후속 main의 조직 준비 코드 `590b8bcb3`도 그대로 통합했다. 이 코드는 운영 API 미연결·모집 OFF를 유지하고 조직 문서에 기록된 관련 검사 16개 통과 결과를 재사용한다. 공통 HTML/SW 캐시 태그 충돌만 이번 태그로 통합했다.
 
 `npm run deploy:production -- --scoped`를 사용하고, 배포 후 변경된 앱·래퍼·HTML·서비스워커의 실제 응답을 확인한다.
+
+- **2026-10-15 06:59 KST 라이브 확인 완료.** 배포 소스 `fa3b16eb9cc0d41d7f9d69c541ecaa0779885e86`, Pages `https://b27889af.cnine-card.pages.dev`.
+- 관련 회귀 19개·Worker 구문·출시/캐시 계약·Hyperdrive cache OFF 검사를 통과했다. API 버전 `cc387165-92cf-47c3-98e5-8741af471f4f`, 스케줄러 `93110099-3018-4a31-86ba-cf4cd22e726f`.
+- 운영 HTML·앱·래퍼·서비스워커 4개가 검수한 파일과 SHA-256 일치한다. `docs/qa/core-raid-entry-20261015/live-verification.json`에 보존했다. 격리 QA 서버는 종료했다.

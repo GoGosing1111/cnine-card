@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-10-14T21:59:18.719Z",
+  "releaseCommit": "fa3b16eb9cc0d41d7f9d69c541ecaa0779885e86",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "d2e5c70f7e09c76fb1f8f6334d4ff649eae1815cb2ad3ce3556606e348b2dc7f",
+      "matches": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "2ee81d885d6852219f5771df8027f6186af552c538042e0a085f4ab4fcbaa256",
+      "matches": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "7c302fa3e69f93cf17b256bd58d0c6630848e2644ad7267582fcce5dce79a8b4",
+      "matches": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "e05ae85152117b3dae691444c7a799bd58be58a4fc504afa95b16a544715cba4",
+      "matches": true
+    }
+  ]
+}
