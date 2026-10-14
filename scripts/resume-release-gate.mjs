@@ -97,7 +97,8 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     const leaf=helper.split('/').at(-1),stages=new Set();
     const sources=git('ls-files','*.js','*.mjs','*.cjs','*.html').split('\n').filter(Boolean);
     for(const source of sources){if(source===helper||!read(source).includes(leaf))continue;
-      if(source==='scripts/serve-joint-account-qa.mjs'&&!changed.includes(source)&&read(source).includes("server.listen(port,'127.0.0.1'")&&read(source).includes("from 'node:http'")){fixtureChecks.add('node --check '+source);continue;}
+      const localFixtureServer=(source==='scripts/serve-joint-account-qa.mjs'&&read(source).includes("server.listen(port,'127.0.0.1'"))||(source==='tests/qa-seal-master-star-20260925.mjs'&&read(source).includes("server.listen(0,'127.0.0.1'"));
+      if(localFixtureServer&&!changed.includes(source)&&read(source).includes("from 'node:http'")){fixtureChecks.add('node --check '+source);continue;}
       if(!gateInputs.has(source))throw Error(`Shared fixture consumer (${source}): run a fresh full gate.`);
       for(const index of gateInputs.get(source))stages.add(index);
     }

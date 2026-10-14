@@ -1,10 +1,11 @@
+import {collectionRewardCoin} from '../../functions/_collection_bonuses.js';
 import fs from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
 import {accountRankAward} from '../../functions/_account_rank.js';
 import {__postgresCompatTest} from '../../functions/_postgres_d1_compat.js';
 const source=fs.readFileSync(new URL('../../functions/_seal_battle.js',import.meta.url),'utf8');
-export const sealModule=()=>Function('accountRankAward',source.replace(/^import .*;\r?\n/gm,'').replace(/^export /gm,'')+';return {ensureFoundation,ensureMasterStarSchema,cleanSettings,normalizeEvent,saveSettings,loadSettings,adminStart,handleSealBattle,statusPayload,claimClearReward};')(accountRankAward);
+export const sealModule=()=>Function('accountRankAward','collectionRewardCoin',source.replace(/^import .*;\r?\n/gm,'').replace(/^export /gm,'')+';return {ensureFoundation,ensureMasterStarSchema,cleanSettings,normalizeEvent,saveSettings,loadSettings,adminStart,handleSealBattle,statusPayload,claimClearReward};')(accountRankAward,collectionRewardCoin);
 export async function sealStarFixture(dialect='sqlite'){
  const sqlite=new DatabaseSync(':memory:');
  sqlite.exec(`CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);
