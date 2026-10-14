@@ -156,6 +156,17 @@ test('preview QA repairs must be existing executable tests in the unchanged full
  for(const changed of ['preview/example-v1/app.mjs','preview/example-v1/qa/production.mjs'])assert.throws(()=>fullGateResumePlan({...f,git:(...args)=>args[0]==='diff'?changed:f.git(...args)}),/fresh full gate/);
 });
 
+test('a directly imported test fixture rechecks every consumer and rejects runtime or indirect consumers',()=>{
+ const helper='tests/helpers/route.mjs',f=fixture({changed:[helper]}),git=f.git;
+ f.git=(...args)=>args[0]==='ls-files'&&args[1]==='*.js'?['tests/a.test.mjs','tests/b.test.mjs',helper].join('\n'):git(...args);
+ f.read=p=>p===helper?'fixture implementation':"import './helpers/route.mjs';";
+ const plan=fullGateResumePlan(f);assert.equal(plan.reused,0);assert.equal(plan.commands[1],'npm run test:a');
+ for(const consumer of ['js/live.js','tests/unregistered.test.mjs','tests/helpers/shared.mjs']){
+   assert.throws(()=>fullGateResumePlan({...f,git:(...a)=>a[0]==='ls-files'&&a[1]==='*.js'?f.git(...a)+'\n'+consumer:f.git(...a)}),/Shared fixture consumer/);
+ }
+ assert.throws(()=>fullGateResumePlan({...f,read:()=>''}),/Unregistered fixture/);
+});
+
 test('concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt',()=>{
   const path='assets/bgm/example.mp3',receipt='assets/bgm/example.json',bytes=Buffer.from('ID3 fixture audio');
   const f=fixture({changed:[path,receipt]}),metadata={path:'/'+path,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')};

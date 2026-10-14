@@ -58,6 +58,7 @@ function workerFixture(){
   let fetches=0,type='application/javascript';const entries=new Map(),handlers={};
   const cache={async match(request){return entries.get(request.url||request)?.clone()},async put(request,response){entries.set(request.url||request,response)},async delete(request){return entries.delete(request.url||request)}};
   const context=vm.createContext({URL,Response,self:{location:{origin:'https://test.invalid'},addEventListener(type,fn){handlers[type]=fn}},caches:{open:async()=>cache},fetch:async()=>{fetches++;return new Response('resource',{headers:{'content-type':type}})}});
+  context.importScripts=path=>{assert.equal(path,'/js/image-delivery-map-20261015.js');vm.runInContext(read(path.slice(1)),context);};
   vm.runInContext(read('service-worker.js'),context);
   async function request(url,destination='script'){
     let response;handlers.fetch({request:{url:'https://test.invalid'+url,method:'GET',mode:'cors',destination},respondWith(value){response=value},waitUntil(){}});if(response)await response;return Boolean(response);

@@ -53,6 +53,23 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   const commands=gate.split(' && '),names=commands.map(command=>command.match(/^npm run ([\w:-]+)$/)?.[1]);
   if(commands.at(-1)!=='node scripts/verify-production-release.mjs'||names.slice(0,-1).some(name=>!name))throw Error('Unsupported full gate structure.');
   const changed=git('diff','--name-only',base,'HEAD').split('\n').filter(Boolean),bgmAdditions=new Set(),artAdditions=new Set();
+  // A fixture used only by directly registered gate tests may be repaired.
+  // Every importing stage is rechecked; runtime, shared-helper and unregistered
+  // test consumers still require a fresh gate.
+  const helperStages=new Map(),gateInputs=new Map();
+  for(let i=0;i<names.length-1;i++)for(const file of scripts[names[i]].split(/\s+/).filter(p=>/^(?:tests|preview)\/.*\.mjs$/.test(p))){
+    if(!gateInputs.has(file))gateInputs.set(file,[]);gateInputs.get(file).push(i);
+  }
+  for(const helper of changed.filter(p=>/^tests\/helpers\/[a-zA-Z0-9_-]+\.mjs$/.test(p))){
+    const leaf=helper.split('/').at(-1),stages=new Set();
+    const sources=git('ls-files','*.js','*.mjs','*.cjs','*.html').split('\n').filter(Boolean);
+    for(const source of sources){if(source===helper||!read(source).includes(leaf))continue;
+      if(!gateInputs.has(source))throw Error(`Shared fixture consumer (${source}): run a fresh full gate.`);
+      for(const index of gateInputs.get(source))stages.add(index);
+    }
+    if(!stages.size)throw Error('Unregistered fixture repair: run a fresh full gate.');
+    helperStages.set(helper,stages);
+  }
   // An equivalent query permutation or sole main-app version alignment with
   // the already-tested shell cache does not change runtime source. Recheck HTML contracts.
   const cacheOrderOnly=changed.includes('index.html')&&(mainCacheQueryOrderOnly(git('show',`${base}:index.html`),read('index.html'))||mainShellVersionOnly(git('show',`${base}:index.html`),read('index.html'),read('service-worker.js')));
@@ -136,7 +153,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(/^ℹ fail [1-9]/m.test(continuation.slice(0,continuationStart)))throw Error('Continuation guard tests failed.');
     changesAfterLastRun=new Set(git('diff','--name-only',candidate,'HEAD').split('\n').filter(Boolean));
     const repairTools=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
-    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!(path==='index.html'&&cacheOrderOnly)&&!path.startsWith('docs/')&&!gateTestPath(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
+    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!(path==='index.html'&&cacheOrderOnly)&&!path.startsWith('docs/')&&!gateTestPath(path)&&!helperStages.has(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
     logText=logText.slice(0,originalLast)+continuation.slice(continuationStart);
     seen=stageNames(logText);
   }
@@ -247,6 +264,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(stage<failedIndex&&(!changesAfterLastRun||[...lobbySources,bundle].some(path=>changesAfterLastRun.has(path))))rerun.add(stage);
   }
   for(const path of changed){
+    if(helperStages.has(path)){if(!changesAfterLastRun||changesAfterLastRun.has(path))for(const index of helperStages.get(path))if(index<failedIndex)rerun.add(index);continue;}
     if(path==='index.html'&&cacheOrderOnly)continue;
     if(path==='AGENTS.md'||path.startsWith('docs/')||path==='preview/project-v-mercenary-system-v1/README.md'||tooling.has(path))continue;
     if(bgmAdditions.has(path))continue;

@@ -92,7 +92,8 @@ for(const scriptPath of ['/js/app.js','/preview/sustained-hunt-v2/battle.bundle.
   const events={},deleted=[],url='https://test.invalid'+scriptPath+'?v=old';let fetched=0;
   const cache={keys:async()=>[new Request(url),new Request('https://test.invalid/css/app.css?v=old')],delete:async r=>deleted.push(r.url),match:async()=>new Response('OLD',{headers:{'Content-Type':'text/javascript'}}),put:async()=>{}};
   const context={self:{location:{origin:'https://test.invalid'},addEventListener:(n,f)=>events[n]=f,clients:{claim:async()=>{}}},caches:{keys:async()=>[source.match(/const SHELL_CACHE='([^']+)'/)[1]],open:async()=>cache},URL,Response,fetch:async()=>{fetched++;return new Response('CURRENT',{headers:{'Content-Type':'text/javascript'}})}};
-  vm.runInNewContext(source,context);let wait;events.activate({waitUntil:p=>wait=p});await wait;assert.deepEqual(deleted,[url]);
+  vm.createContext(context);context.importScripts=path=>{assert.equal(path,'/js/image-delivery-map-20261015.js');vm.runInContext(readFileSync(new URL('..'+path,import.meta.url),'utf8'),context);};
+  vm.runInContext(source,context);let wait;events.activate({waitUntil:p=>wait=p});await wait;assert.deepEqual(deleted,[url]);
   let reply;events.fetch({request:{method:'GET',url,destination:'script',mode:'no-cors'},respondWith:p=>reply=p});
   assert.equal(await (await reply).text(),'CURRENT');assert.equal(fetched,1);
 });
