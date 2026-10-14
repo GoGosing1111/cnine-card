@@ -11,3 +11,11 @@
 신규 관련 회귀는 8종 보유/효과 일치, 타 계정/공식 기록/진척도 보존, 기존 보유분 보존, 중복 실행, dry-run, 감사/영수증 실패 롤백, 잘못된 계정/저장값 거부를 검증한다. 실제 운영 DB dry-run에서 8종 지급 계획과 감사 삽입을 확인하고 롤백했다. PC 1440×1000·모바일 390×844 명함 양쪽 진열장과 운영 지급 표기·상세·닫기를 확인한다.
 
 국소 트로피 보유 조회·운영 지급 추가이므로 scoped 배포한다. 직전 운영은 Pages `df39af3a-8f4d-4d3a-9ad8-8ced957d6471`, 소스 `a811f7ebba2eb2b6f8bccd7ccee3847e0166fc46`이다. 선택 검사: `tests/player-card-v2052.test.mjs`, `tests/collection-bonuses-20261014.test.mjs`, `tests/achievement-titles-20260927.test.mjs`, Worker 컴파일·출시·캐시·Hyperdrive 보호 검사. 운영 지급과 최종 확인 결과는 완료 후 추가한다.
+
+## 운영 완료
+
+- 2026-10-14 20:17:20 KST에 핑크빛유두(ID 1)에게 8종 각 1개를 지급했다. 관리자 감사 ID `46015`, 고정 영수증 `ops:all-trophies:1:20261014:v1`이다.
+- 20:18 KST 운영 DB 및 실제 공통 서버 보유 조회에서 **8종 모두 count=1**을 확인했다. 실제 업적 진척도와 CMS 보너스 설정을 보존하고 현재 설정된 보유 효과를 적용한다.
+- 배포 소스 `a179505d6debc649ba992bd7691c56c7e8706c81`, Pages `a9762a01-31cc-4dd0-90fd-4da0bbdb4ccd`, API Runtime `2c22317a-4c93-4494-8610-0a69571747ba`, Clan Draft `11563740-1a94-45da-807b-15b31560995b`.
+- scoped 관련 회귀 **53개 통과**, Worker 컴파일·출시·캐시·Hyperdrive 검사 통과. PC/모바일 각 2페이지, 지급 문구·상세·ESC 닫기·가로 넘침 없음 확인. 운영 HTML/명함 스크립트는 배포 원본과 일치한다.
+- 근거는 `docs/qa/pink-all-trophies-20261014/browser.json`, 같은 폴더의 화면 4장과 `production.json`에 보존한다. 이 완료 기록만 커밋·원격 반영하고 재배포하지 않는다.
