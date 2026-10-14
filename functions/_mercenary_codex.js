@@ -1,3 +1,4 @@
+import {KAIRON_ART} from '../shared/mercenary-kairon-v1.mjs';
 import {MERCENARY_CMS_SEED as seed} from './_mercenary_cms_seed.js';
 import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs';
 import {MERCENARY_POWER_STANDARD} from '../shared/equipment-mercenary-power-v1.mjs';
@@ -35,7 +36,7 @@ export function mercenaryCodexDocument(row){
           return {id:s.id,name:s.name,role:seed.catalog.roles[s.role]?.label||s.role,target:seed.catalog.targets[s.target]?.label||s.target,
             trigger:s.trigger,effect:s.effect,counterplay:s.counterplay,bossRule:s.bossRule,procRule:s.procRule,balance:{...s.balance},...(s.pveBalance?{pveBalance:{...s.pveBalance}}:{}),ready};
         })};
-    }).concat(MERCENARY_ART_RELEASES.filter(art=>!document.mercenaries.some(c=>c.code===art.code)).map(art=>({...art,skills:[]})),LIMITED_MERCENARIES.map(art=>({...art,deploymentEnabled:Boolean(limitedDeploymentSnapshot(art.code)),deploymentVersion:LIMITED_DEPLOYMENT_VERSION,...(art.code===HELIOS_CODE?{combatLinkDescription:HELIOS_COMBAT_DESCRIPTION}:ssLimitedCombatDescription(art.code)?{combatLinkDescription:ssLimitedCombatDescription(art.code)}:{})})))};
+    }).concat(MERCENARY_ART_RELEASES.filter(art=>!document.mercenaries.some(c=>c.code===art.code)).map(art=>({...art,skills:[]})),[...LIMITED_MERCENARIES,{...KAIRON_ART,artOnly:true,basePower:null,skills:[],releaseStatus:'LIMITED_PREVIEW',acquisitionEnabled:false}].map(art=>({...art,deploymentEnabled:Boolean(limitedDeploymentSnapshot(art.code)),deploymentVersion:LIMITED_DEPLOYMENT_VERSION,...(art.code===HELIOS_CODE?{combatLinkDescription:HELIOS_COMBAT_DESCRIPTION}:ssLimitedCombatDescription(art.code)?{combatLinkDescription:ssLimitedCombatDescription(art.code)}:{})})))};
 }
 
 export async function handleMercenaryCodex({path,request,env,deps}){

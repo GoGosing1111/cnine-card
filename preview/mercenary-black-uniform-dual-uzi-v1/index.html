@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>카이론 · 흑탄의 집행관 | SSS 리미티드</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="preview.css">
+</head>
+<body>
+  <header>
+    <span class="eyebrow">PROJECT V / CHARACTER STUDY 01</span>
+    <div class="title-row"><h1>카이론 <i>·</i> 흑탄의 집행관</h1><span class="status">제작 전용 · CMS 잠금</span></div>
+    <p>SSS 리미티드 · 팩 획득 불가 · 진무와 동일한 전투력 1,347,840. 제작 조건을 CMS에 입력하기 전까지 잠금.</p>
+  </header>
+  <main>
+    <section class="art-panel" aria-labelledby="art-title">
+      <div class="section-label"><h2 id="art-title">01 / 일러스트</h2><span>1024 × 1536</span></div>
+      <a class="art-link" href="assets/black-uniform-dual-uzi-source-art-v4-face-angle-locked.png" target="_blank" rel="noopener" aria-label="일러스트 원본 크게 보기"><img class="source-art" src="assets/black-uniform-dual-uzi-source-art-v4-face-angle-locked.png" alt="첨부의 얼굴 각도를 유지하고 장발과 스코프·탄도 아우라를 반영한 검은 제복 쌍우지 전신 일러스트"></a>
+      <div class="caption"><span>장발 · 얼굴 각도 유지 · 사격 방향 시선</span><a href="assets/black-uniform-dual-uzi-source-art-v4-face-angle-locked.png" download>원본 PNG ↓</a></div>
+    </section>
+    <section class="battle-panel" aria-labelledby="battle-title">
+      <div class="section-label"><h2 id="battle-title">02 / 서 있는 전투 리소스</h2><span>투명 PNG</span></div>
+      <div class="stage" data-background="graphite" aria-label="전투 이미지 미리보기">
+        <span class="stage-note">RIGHT FACING / STANDING</span>
+        <div class="ground-line" aria-hidden="true"></div>
+        <div class="portrait-aura" aria-hidden="true"></div>
+        <img class="actor" id="actor" src="assets/black-uniform-dual-uzi-battle-v3-longhair.png" alt="장발과 검은 마스크의 캐릭터가 서서 양손 우지를 조준하는 투명 전신 이미지">
+        <span class="stage-caption" id="stage-caption">전투 전신 · 스코프 아우라</span>
+      </div>
+      <div class="controls">
+        <div class="control-group" role="group" aria-label="전투 포즈">
+          <button type="button" data-pose="ready" aria-pressed="false">투명 전신</button>
+          <button type="button" data-pose="fire" aria-pressed="true">스코프 아우라</button>
+        </div>
+        <div class="background-controls" role="group" aria-label="확인 배경">
+          <span>배경</span><button type="button" data-background="graphite" aria-pressed="true">흑연</button><button type="button" data-background="check" aria-pressed="false">투명 격자</button><button type="button" data-background="light" aria-pressed="false">밝음</button>
+        </div>
+      </div>
+      <div class="caption"><span id="pose-note">캐릭터와 아우라를 별도 계층으로 표시</span><a id="battle-download" href="assets/black-uniform-dual-uzi-battle-v3-longhair.png" download>투명 전신 PNG ↓</a></div>
+      <div class="details">
+        <p>첨부의 고개 각도를 유지하고 눈동자는 사격 방향으로, 머리는 자연스럽게 어깨 아래로 이어지도록 수정했습니다. 정밀 조준경과 탄환 궤적을 두른 군인 콘셉트의 광원입니다.</p>
+        <div class="spec-row"><span>자연스러운 성인 비율</span><span>검은 천 마스크</span><span>우측 방향</span></div>
+        <p class="scope">SSS 리미티드급 연출 승인본 · 흰색 실루엣 광원과 제자리 회전 아우라. 아래에서 일제난사와 광역기 ‘양자 탄도 폭쇄’를 재생할 수 있습니다.</p>
+      </div>
+    </section>
+    <section class="skill-preview" id="skill-preview" aria-labelledby="skill-title">
+      <div class="skill-heading"><div><span class="eyebrow">V3 BATTLE / QUANTUM BALLISTICS</span><h2 id="skill-title">양자 탄도 폭쇄</h2></div><p id="skill-description">적 전원 포착 → 상공 미사일 강하 → 직격 대폭발 → 연쇄 폭격</p></div>
+      <div class="skill-modes" role="group" aria-label="시연할 스킬"><button data-skill-mode="barrage" aria-pressed="false" disabled><span>기본 사격</span>일제난사</button><button data-skill-mode="quantum" aria-pressed="true" disabled><span>광역 필살기</span>양자 탄도 폭쇄</button></div>
+      <p class="ultimate-description">쌍우지 사격으로 적 전원의 폭격 좌표를 지정합니다. 상공에서 추진 불꽃을 뿜는 미사일이 내려와 적 진형의 중심을 직격하고, 각 표적에도 후속 미사일이 떨어져 연쇄 폭발합니다.</p>
+      <div class="skill-controls"><button id="skill-play" disabled>전장 준비 중</button><button id="skill-restart" disabled>처음부터</button><button id="skill-descent" disabled>미사일 강하 보기</button><button id="skill-impact" disabled>대폭발 보기</button><button id="skill-stop" disabled>정지·복귀</button><label>속도 <select id="skill-speed" disabled><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label><label><input id="skill-aura" type="checkbox" checked disabled> 스코프 아우라</label><label><input id="skill-rim" type="checkbox" checked disabled> 흰색 테두리 광원</label></div>
+      <div class="skill-scrubber"><span id="skill-cue">리소스 준비</span><input id="skill-scrub" type="range" min="0" max="7.8" step="0.01" value="0" aria-label="선택한 스킬 시간 탐색" disabled><output id="skill-time">0.00 / 7.80초</output></div>
+      <div id="v3-host" aria-label="기존 V3 전장의 일제난사 시연"></div>
+      <p id="skill-health" role="status">기존 V3 전장을 준비하고 있습니다.</p>
+      <p class="skill-note">일제난사는 표적 3개, 광역기는 적 진형 5명을 사용하는 연출 시안입니다. 피해량·공격 횟수·섬멸 판정은 별도 게임 설정 사항입니다.</p>
+      <details class="atlas-gallery"><summary>사격 모션과 독립 이펙트 원본 72프레임</summary><div><figure><img loading="lazy" src="assets/standing-burst-motion-v2.png" alt="서 있는 쌍우지 반동 8프레임"><figcaption>사격 모션 · 8</figcaption></figure><figure><img loading="lazy" src="assets/scope-ballistic-aura-12f-v2.png" alt="조준경과 탄환 아우라 12프레임"><figcaption>군인 아우라 · 12 / 중심 정렬</figcaption></figure><figure><img loading="lazy" src="assets/uzi-muzzle-8f-v1.png" alt="총구 섬광 8프레임"><figcaption>총구 섬광 · 8</figcaption></figure><figure><img loading="lazy" src="assets/scope-elimination-16f-v2.png" alt="스코프 집중 타격 16프레임"><figcaption>스코프 타격 · 16</figcaption></figure><figure><img loading="lazy" src="assets/quantum-bullet-convergence-12f-v1.png" alt="양자 탄환 수렴 12프레임"><figcaption>탄환 수렴 · 12 / 이전 연출 보관</figcaption></figure><figure><img loading="lazy" src="assets/quantum-ballistic-collapse-16f-v2.png" alt="양자 폭발과 소멸 16프레임"><figcaption>양자 대폭발 · 16</figcaption></figure></div></details>
+    </section>
+    <section class="inspection" aria-labelledby="inspection-title">
+      <div><span class="eyebrow">REFERENCE & SCALE</span><h2 id="inspection-title">실루엣과 축소 가독성</h2><p>사용자 참고 이미지와 160px 크기의 원화·전투 이미지입니다.</p><a href="manifest.json" target="_blank" rel="noopener">리소스·프롬프트 기록 ↗</a></div>
+      <figure class="reference"><img src="reference/user-character-reference.png" alt="사용자가 제공한 긴 제복과 모자의 픽셀 캐릭터 참고 이미지"><figcaption>사용자 참고</figcaption></figure>
+      <figure><img class="small-art" src="assets/black-uniform-dual-uzi-source-art-v4-face-angle-locked.png" alt="160px 폭 원화 축소 확인"><figcaption>원화 · 160px</figcaption></figure>
+      <figure class="small-sprite"><img src="assets/black-uniform-dual-uzi-battle-v3-longhair.png" alt="160px 폭 투명 전신 이미지 축소 확인"><figcaption>전투 · 160px</figcaption></figure>
+    </section>
+  </main>
+  <footer><span>V3 RESOURCE STUDY · 2026.10.14</span><span>이름·원화·전투 밸런스 승인 · 제작 조건 미입력 잠금</span></footer>
+  <script src="preview.js"></script>
+  <script src="/js/project-v-battle-art-adapter-v1.js"></script>
+  <script src="/js/project-v-tier-battle-art-adapter-v1.js"></script>
+  <script src="/js/project-v-monster-battle-art-adapter-v1.js"></script>
+  <script src="/js/project-v-unassigned-battle-fallback-v1.js"></script>
+  <script defer src="battle-preview.bundle.js"></script>
+</body>
+</html>

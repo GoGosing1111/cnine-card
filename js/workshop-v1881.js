@@ -240,6 +240,7 @@
       <button type="button" data-ws-section="BATTLE_SUIT_CRAFT" class="${workshopSection === 'BATTLE_SUIT_CRAFT' ? 'active' : ''}"><i>04</i><span><b>배틀슈트 제작</b><small>슈트 코어 · 코인 · 마스터의 별</small></span></button>
       <button type="button" data-ws-section="SUIT_CORE_SYNTHESIS" class="${workshopSection === 'SUIT_CORE_SYNTHESIS' ? 'active' : ''}"><i>05</i><span><b>슈트코어 합성</b><small>코어 승급 레시피</small></span></button>
       <button type="button" data-ws-section="ITEM_SYNTHESIS" class="${workshopSection === 'ITEM_SYNTHESIS' ? 'active' : ''}"><i>06</i><span><b>장비제작</b><small>+10 장비 · 누적 천장</small></span></button>
+      <button type="button" data-ws-section="MERCENARY_CRAFT" class="${workshopSection === 'MERCENARY_CRAFT' ? 'active' : ''}"><i>07</i><span><b>용병 제작</b><small>카이론 · SSS 리미티드</small></span></button>
     </nav>`;
   }
 
@@ -417,13 +418,20 @@
     </section></div>`;
   }
 
+  function kaironCraftPanel(recipe) {
+    const locked=!recipe||recipe.craftLocked||!recipe.is_active,info=recipe?materialCraftInfo(recipe):null;
+    const recovering=info?.recovering,rate=recipe?.success_rate;
+    return `<section class="ws-kairon-forge" aria-label="카이론 용병 제작"><div class="ws-kairon-art"><img src="/assets/ui/project-v/mercenaries/kairon-20261014/source-art.png" alt="쌍우지를 사격하는 장발의 카이론"><span>SSS <small>LIMITED</small></span></div><div class="ws-kairon-contract"><small>CRAFT EXCLUSIVE · 흑탄의 집행관</small><h2>카이론</h2><p class="ws-kairon-lead">두 개의 총구. 하나의 섬멸 명령.</p><div class="ws-kairon-facts"><span>제작 전용</span><span>팩 획득 불가</span><span>전투력 1,347,840</span></div><p>진무와 동일한 최강급 전투 밸런스.<br>직선 일제사격과 양자 탄도 폭쇄로 적진을 제압합니다.</p><div class="ws-kairon-condition"><b>${locked?'제작 잠금':'계약 제작 조건'}</b><span>${rate==null?'성공 확률 미설정':`성공 확률 ${rate}%`}</span></div>${locked?`<p class="ws-kairon-lock">${esc(recipe?.lockReason||'제작 재료·수량·비용·성공 확률을 준비 중입니다. 조건 설정이 완료되면 제작할 수 있습니다.')}</p>`:window.WorkshopRecipes.costRows(info.rows)}<button id="wsMaterialCraft" type="button" class="ws76-primary" ${workshopBusy||locked||!info?.ready&&!recovering?'disabled':''}>${workshopBusy?'제작 결과 확인 중':recovering?'이전 제작 결과 확인':locked?'조건 설정 전 · 제작 잠금':info.ready?'카이론 제작':'재료 또는 재화 부족'}</button><small class="ws-kairon-note">${locked?'제작 잠금 중에는 재료와 재화가 소모되지 않습니다.':'성공·실패 모두 표시된 재료와 비용을 소모합니다. 성공 시 카이론 1장을 획득합니다.'}</small></div></section>`;
+  }
+
   function materialCraftPanel() {
-    const category = ['SUIT_CORE_SYNTHESIS', 'ITEM_SYNTHESIS'].includes(workshopSection) ? workshopSection : 'MATERIAL_CRAFT';
+    const category = ['SUIT_CORE_SYNTHESIS', 'ITEM_SYNTHESIS', 'MERCENARY_CRAFT'].includes(workshopSection) ? workshopSection : 'MATERIAL_CRAFT';
     const all = (workshopState?.recipes || []).filter(row => row.category === category);
     const recipes = filterRecipes(all, 'material'), pending = currentMutationRequest('material');
     const [pendingId, pendingPayment] = String(pending?.target || '').split(':');
     if (pending && ['COIN', 'MASTER_STAR'].includes(pendingPayment)) payment = pendingPayment;
     const recipe = recipes.find(row => String(row.id) === pendingId) || recipes.find(row => Number(row.id) === selectedMaterialRecipe) || recipes[0];
+    if (category === 'MERCENARY_CRAFT') { if(recipe)selectedMaterialRecipe=Number(recipe.id);return kaironCraftPanel(recipe); }
     if (!recipe) {
       if (all.length) return noRecipeMatch();
       const core = category === 'SUIT_CORE_SYNTHESIS';
@@ -524,7 +532,7 @@
     const scrolls = ['.ws76-blueprints','.ws81-suit-blueprints','.ws81-lineage-list','.ws22-recipe-list','.ws81-nav'].map(selector => [selector, root.querySelector(selector)?.scrollTop || 0, root.querySelector(selector)?.scrollLeft || 0]);
     const panel = workshopSection === 'SYNTHESIS'
       ? synthesisPanel()
-      : ['MATERIAL_CRAFT', 'SUIT_CORE_SYNTHESIS', 'ITEM_SYNTHESIS'].includes(workshopSection)
+      : ['MATERIAL_CRAFT', 'SUIT_CORE_SYNTHESIS', 'ITEM_SYNTHESIS', 'MERCENARY_CRAFT'].includes(workshopSection)
         ? materialCraftPanel()
         : workshopSection === 'BATTLE_SUIT_CRAFT'
           ? battleSuitCraftPanel()
@@ -772,7 +780,7 @@
   }
 
   async function craftMaterial() {
-    const recipe = (workshopState?.recipes || []).find(row => ['MATERIAL_CRAFT','SUIT_CORE_SYNTHESIS','ITEM_SYNTHESIS'].includes(row.category) && Number(row.id) === selectedMaterialRecipe);
+    const recipe = (workshopState?.recipes || []).find(row => ['MATERIAL_CRAFT','SUIT_CORE_SYNTHESIS','ITEM_SYNTHESIS','MERCENARY_CRAFT'].includes(row.category) && Number(row.id) === selectedMaterialRecipe);
     if (!recipe || workshopBusy) return;
     const pending = currentMutationRequest('material');
     const recovering = String(pending?.target || '').split(':')[0] === String(recipe.id);
@@ -839,6 +847,7 @@
         window.saveUser?.(user);
       }
       window.clearApiCache?.('inventory');
+      if(data?.category==='MERCENARY_CRAFT'){window.clearApiCache?.('mercenary/account');window.clearApiCache?.('mercenaries');}
       if (data?.equipmentCraft) window.clearApiCache?.('equipment');
       window.clearApiCache?.('shell/summary');
       window.clearApiCache?.('me/summary');
@@ -854,6 +863,11 @@
     const outputName = output.name || data?.recipeName || '미스틱 에너지';
     const attempts = Number(data?.attempts || 1), successCount = Number(data?.successCount ?? (success ? 1 : 0));
     const summary = `<div class="ws28-material-summary"><span>제작 <b>${fmt(attempts)}회</b></span><span>성공 <b>${fmt(successCount)}회</b></span><span>실패 <b>${fmt(data?.failureCount ?? attempts - successCount)}회</b></span></div>`;
+    if (data?.category === 'MERCENARY_CRAFT') {
+      modal.className = `modal show ws76-simple-result ws81-material-result ${success ? 'is-success' : 'is-failed'}`;
+      modal.innerHTML = `<section><small>SSS LIMITED · CRAFT EXCLUSIVE</small><h2>${success?'카이론 제작 성공':'카이론 제작 실패'}</h2>${success?`<img src="${esc(asset(output.image))}" alt="카이론"><b>흑탄의 집행관 카이론</b><p>용병 보관함에 카이론 1장이 지급되었습니다.</p>`:'<div class="ws76-result-failure-mark"><b>FAILED</b></div><p>투입한 재료와 비용이 소모되었습니다.</p>'}<button type="button">확인</button></section>`;
+      modal.querySelector('button').onclick=()=>{modal.className='modal';modal.innerHTML='';renderWorkshop();};return;
+    }
     if (data?.equipmentCraft) {
       modal.className = `modal show ws76-simple-result ws81-material-result ${success ? 'is-success' : 'is-failed'}`;
       modal.innerHTML = `<section><small>EQUIPMENT FORGE · ${data.guaranteed ? 'GUARANTEED' : '10% CHANCE'}</small><h2>${success ? '장비 제작 성공' : '장비 제작 실패'}</h2>${success ? `<img src="${esc(asset(output.image))}" alt="${esc(outputName)}"><b>${esc(outputName)} +0 획득</b><p>투입 장비가 소모되었으며, 실패 누적이 초기화되었습니다.</p>` : `<div class="ws76-result-failure-mark" aria-hidden="true"><i></i><b>FAILED</b></div><b>+10 ${esc(data.input?.name)} ${data.input?.preserved===false?'소모':'보존'}</b>${data.input?.repairRecordId?'<p>강화 센터 → 파괴 기록에서 리페어권으로 +10 장비를 복구할 수 있습니다.</p>':''}<p>재료·마스터의 별·코인은 소모되었습니다.<br>실패 누적 ${fmt(data.pity.failures)} / ${fmt(data.pity.pityAfter)}회<br>${data.pity.guaranteed ? '<strong>다음 제작 100% 성공</strong>' : '누적 횟수는 다음 제작으로 이어집니다.'}</p>`}<button type="button">확인</button></section>`;

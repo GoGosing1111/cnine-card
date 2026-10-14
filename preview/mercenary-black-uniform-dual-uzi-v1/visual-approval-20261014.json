@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-14",
+  "timezone": "Asia/Seoul",
+  "status": "USER_VISUAL_APPROVED",
+  "userQuote": "승인 이름지어봐",
+  "approvedRevision": "STRAIGHT_DUAL_UZI_TRACERS_V4",
+  "revisionCommit": "a8059a66",
+  "scope": [
+    "현재 장발·얼굴 각도 원화와 서 있는 전투 리소스",
+    "제자리 회전 스코프 아우라와 흰색 실루엣 광원",
+    "일제난사·광역기 직선 사격과 총구·명중 효과",
+    "상공 미사일 강하와 몸통 높이 대폭발"
+  ],
+  "assets": [
+    {
+      "path": "assets/black-uniform-dual-uzi-source-art-v4-face-angle-locked.png",
+      "sha256": "5AFBA87D0291A4DAB69DCF45F5C0F2D57676A79ED472DED655062E2FBD36AF09"
+    },
+    {
+      "path": "assets/black-uniform-dual-uzi-battle-v3-longhair.png",
+      "sha256": "95320B3BEAA782DE1217154A15427BA1B3E91DEE4CD23317EB0CE1E080FA90F1"
+    },
+    {
+      "path": "assets/standing-burst-motion-v2.png",
+      "sha256": "4043C2CEDAE11F4CB7EA05CE52225E8E14BF41822D99A35C553C9FBDCC9FA908"
+    },
+    {
+      "path": "assets/scope-ballistic-aura-12f-v2.png",
+      "sha256": "9EAA708FA22A35E5DD47F5BFA2EC40E63558359B7E6F3A291917573509E814B5"
+    },
+    {
+      "path": "assets/uzi-muzzle-8f-v1.png",
+      "sha256": "42A7BF7552EA1C7C648C203D1BD56891DFEA1EB5AA15E4F6F2C42A4B9F603B85"
+    },
+    {
+      "path": "assets/scope-elimination-16f-v2.png",
+      "sha256": "E0E00BD227A95B33C8598991BB4CFA5DEE69827A2174776027B94024680FFC02"
+    },
+    {
+      "path": "assets/quantum-ballistic-collapse-16f-v2.png",
+      "sha256": "CF8A3512D4BB2B8FBF0ECACCA1D6BA6734315A03280E8436D03E9F114600172E"
+    },
+    {
+      "path": "assets/strike-missile-body-v1.webp",
+      "sha256": "55E04D2BDF9F0EBF3307B487E51866D3A14164D3BAA183922C3D511E6DBB3091"
+    },
+    {
+      "path": "assets/strike-missile-exhaust-v1.webp",
+      "sha256": "24246ACF64B345570FFC9B667B20AC8A78E8B2C6729FF460485BD81CC2575891"
+    },
+    {
+      "path": "assets/strike-missile-smoke-v1.webp",
+      "sha256": "900E987C42F39AD151AFD184CAEE0B645D8A33C8E53A78426355EECBF8D83813"
+    }
+  ],
+  "implementation": [
+    {
+      "path": "source/UziBarrageFX.js",
+      "sha256": "DE3B660D31A0C6CEAE4B199F66150CDF262281C23127E4D0B6C5BD27EB3C197C"
+    },
+    {
+      "path": "source/battle-preview.js",
+      "sha256": "3D800814FF6670F7C2C111759A93779A99C25DA24A63EEE7BCEB35C64E8393AF"
+    },
+    {
+      "path": "bullet-flight.mjs",
+      "sha256": "29135E61F6BDA6C8E80354AB79185AD0C37C3518E070CBD74A3C6EE2E420E010"
+    },
+    {
+      "path": "skill.mjs",
+      "sha256": "8B777047BDE4411F971442C4EC88D413ACAF6341D1947B917FBA685235FEFC2C"
+    },
+    {
+      "path": "aura-registration.mjs",
+      "sha256": "DAEEA2CF01CD4F6C2BBA82EEBCC265BE871765095B20F029DC321A1F2DE104D4"
+    },
+    {
+      "path": "missile-flight.mjs",
+      "sha256": "9B5FD376C7ACE473B70FEE91E4107FCA5458D68B833F31F5799BC8ADA722AAAB"
+    },
+    {
+      "path": "battle-preview.bundle.js",
+      "sha256": "4B9935F753676EC210DF0C21C6D8B85008C1432625941DC505BE463EB57FEF83"
+    }
+  ],
+  "namingProposal": {
+    "name": "카이론",
+    "latin": "Kairon",
+    "epithet": "흑탄의 집행관",
+    "status": "PROPOSED_NOT_USER_CONFIRMED"
+  },
+  "release": {
+    "runtimeConnected": false,
+    "catalogConnected": false,
+    "acquisitionEnabled": false,
+    "balanceConfigured": false,
+    "previewOnly": true
+  }
+}
