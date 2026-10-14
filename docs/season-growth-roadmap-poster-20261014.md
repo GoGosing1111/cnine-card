@@ -22,4 +22,3 @@
 직전 운영 기준: `cdd6c14316c33f6e1284e697d938983984b3cf04`, Pages `25a86e42-1f66-40fb-9a28-2891ce940cd5`. 기준 이후 기존 변경은 배포 기록 문서뿐이며, 현재 변경은 모두 `assets/`, `preview/`, `docs/` 범위다.
 
 배포 명령: `ASSET_DEPLOY_BASE=cdd6c14316c33f6e1284e697d938983984b3cf04 npm run deploy:production -- --assets-only` (PowerShell에서는 해당 환경 변수를 설정). 깨끗한 범위 커밋·origin/main 일치·Hyperdrive 캐시 조건을 유지한다.
-
