@@ -14,7 +14,9 @@ const create=(id='unique-create-001',extra={})=>({requestId:id,name:'공대장',
 test('duplicate and concurrent room creates charge the creator exactly once; refresh and free joins retain identity',async t=>{
  const {call,host,guest}=await fixture(t),body=create();
  const [a,b]=await Promise.all([call(host.token,'create',body),call(host.token,'create',body)]);
- assert.equal(a.status,200);assert.equal(b.status,200);assert.equal(a.state.id,b.state.id);assert.equal(b.account.tickets,2);assert.equal(b.receipt.replayed,true);
+ assert.equal(a.status,200);assert.equal(b.status,200);assert.equal(a.state.id,b.state.id);assert.equal(a.account.tickets,2);assert.equal(b.account.tickets,2);
+ assert.equal([a,b].filter(result=>result.receipt.replayed===true).length,1,'either concurrent request may reach the server first');
+ assert.equal((await call(host.token,'create',body)).receipt.replayed,true);
  assert.equal((await call(host.token,'create',create('another-request-001'))).code,'ALREADY_JOINED');
  const refreshed=await call(host.token,'session',{});assert.equal(refreshed.account.id,host.account.id);assert.equal(refreshed.account.tickets,2);
  const joined=await call(guest.token,'join',{code:a.state.id,name:'정벌 참가자',role:'ASSAULT'});assert.equal(joined.account.tickets,3);
