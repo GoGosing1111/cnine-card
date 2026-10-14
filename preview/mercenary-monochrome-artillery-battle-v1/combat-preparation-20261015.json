@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "date": "2026-10-15",
+  "status": "BALANCE_APPROVED_IDENTITY_AND_RELEASE_PENDING",
+  "userInstruction": "성능은 카이론하고 동급으로 맞추고 이름은 뭐가 좋냐",
+  "referenceCode": "V-988",
+  "referenceModule": "shared/mercenary-kairon-v1.mjs",
+  "combat": {
+    "version": 1,
+    "basePower": 1347840,
+    "statsReferencePower": 1123200,
+    "statScale": 1.2,
+    "speedReferencePower": 1080000,
+    "speedScale": 3.12,
+    "actionCredit": 3.12,
+    "motionPlaybackRate": 2.6,
+    "link": {
+      "attackPercent": 2196.48,
+      "hpPercent": 1397.76,
+      "shieldPercent": 763.68
+    },
+    "basicCapScale": 2.4,
+    "damageTakenScale": 0.25,
+    "hardCounter": "V-055"
+  },
+  "fighter": {
+    "statMode": "RANK_FIXED",
+    "position": "FRONT",
+    "role": "VANGUARD",
+    "attackStyle": "RANGED",
+    "counterImmune": true,
+    "controlImmune": true,
+    "poisonImmune": true,
+    "debuffProtection": "SAME_SOVEREIGN_BRANCHES_AS_KAIRON",
+    "equipmentScaling": "SAME_STATS_AND_SPEED_REFERENCE_FORMULAS_AS_KAIRON"
+  },
+  "pvp": {
+    "areaSkillEnabled": false,
+    "basicCapScale": 2.4,
+    "tierOffenseReferenceCode": "V-988",
+    "tierDamageTakenReferenceCode": "V-988"
+  },
+  "pve": {
+    "areaSkillEnabled": true,
+    "target": "ALL_ENEMIES",
+    "balance": {
+      "damageRatio": 5.6,
+      "cooldownTurns": 5,
+      "cost": 35
+    },
+    "damageAllocation": "TOTAL_RATIO_DIVIDED_BY_UNIQUE_LIVING_TARGET_COUNT",
+    "damageApplicationsPerTargetPerCast": 1
+  },
+  "visualDamageContract": {
+    "attackRounds": 9,
+    "skillRounds": 30,
+    "artillerySalvos": 5,
+    "coveringFireRounds": 25,
+    "damageAuthority": "SERVER_RECEIPT_ONLY",
+    "roundsMultiplyDamage": false,
+    "skullMarkAddsDebuff": false
+  },
+  "identity": {
+    "name": null,
+    "title": null,
+    "code": null,
+    "rank": null,
+    "edition": null
+  },
+  "release": {
+    "runtimeEnabled": false,
+    "acquisitionEnabled": false,
+    "deploymentEnabled": false,
+    "acquisitionMethod": null
+  },
+  "naming": {
+    "selected": null,
+    "recommended": "실베른",
+    "suggestions": [
+      {
+        "name": "실베른",
+        "title": "백탄의 군주",
+        "reason": "백은 탄환과 중포대를 지휘하는 차갑고 강한 이미지"
+      },
+      {
+        "name": "아르겐",
+        "title": "백은의 집행자",
+        "reason": "날카로운 총기와 절제된 백색 광원"
+      },
+      {
+        "name": "노크센",
+        "title": "종언의 포격수",
+        "reason": "해골 낙인과 어두운 포격 콘셉트"
+      }
+    ]
+  }
+}

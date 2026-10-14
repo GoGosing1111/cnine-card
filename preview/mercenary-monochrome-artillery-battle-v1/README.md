@@ -1,5 +1,14 @@
 # 백색 포격 · AR 연발·중앙 중포대 + 백은 탄환 아우라 V4
 
+## 2026-10-15 성능 기준 확정
+
+사용자 **“성능은 카이론하고 동급으로 맞추고 이름은 뭐가 좋냐”**에 따라 전투 성능 기준을 카이론(V-988)과 동일하게 준비했다. `combat-preparation.mjs`는 운영 `KAIRON_COMBAT`와 광역기 balance를 직접 공유하며, 현재 수치와 연결 조건은 `combat-preparation-20261015.json`에 저장한다. 이후 출시 연결에서도 같은 기준을 사용한다.
+
+- 기본 전투력 **1,347,840**, 공격·체력·방어 산정 배율, 공격속도·추가 행동, 방벽/연계, 피해 75% 경감, 베르칸 피해 면역, 반격·제어·독 및 카이론의 전용 약화 방어 기준을 동일하게 적용하는 준비본이다.
+- PVE 광역기는 적 전체에 **총 560% 분산 피해 / 에너지 35 / 재사용 5행동**, PVP 광역기 제외와 평타 상한 2.4배도 기준을 공유한다. 30발 연발·5회 포격은 한 번의 서버 피해 결과를 표현하며 피해를 곱하지 않는다. 해골 낙인 자체에 추가 약화 효과를 붙이지 않는다.
+- 이름 후보는 **백탄의 군주 실베른(추천)**, 백은의 집행자 아르겐, 종언의 포격수 노크센이다. 현재 용병 카탈로그에서 같은 이름은 발견되지 않았다. 이름·등급·한정 여부·획득 방식·코드·운영 연결은 이번 성능 지시만으로 확정하지 않는다.
+- 이는 실제 운영 전투에 새 용병을 등록한 결과가 아니다. 기존 카이론 성능을 변경하지 않았으며 이름 결정 이후 연결할 동일 성능 기준을 확정한 것이다. 준비 모듈의 공유 참조·저장 수치·잠금 상태만 검사했고, 기존 시각 검수와 게임 전체 검사는 반복하지 않았다.
+
 후속 사용자 **“좋은데? 캐릭터 주변에 잘 어울리는 아우라 이펙트나 효과 이펙트 추가하면 좋을 듯”**에 따라 현재 AR 연발과 중앙 포대는 유지하고 주변 아우라만 추가했다. 이 긍정적 피드백을 등급/이름/운영 출시 승인으로 확대하지 않는다.
 
 - 승인 원화의 백은색 탄환·얇은 탄도 궤적·회색 금속 파편과 발밑 은빛 파동을 별도의 12프레임 아우라로 생성했다. 몸과 기존 머리 광륜 뒤에서 재생하여 얼굴·총기를 가리지 않는다.
@@ -9,7 +18,7 @@
 
 2026-10-15 후속 요청 **“반동을 자연스럽게 AR 연발로”, “자주포를 가운데에 배치하고 폭발 범위를 크게”, “다 다시 만들고 스킬도 연발”**이 이전 단발·3발 사격 설계보다 우선한다. 현재 색인은 `manifest.json`, 이전 제작·검수 이력은 `manifest-v2.json`과 `README-v2.md`다.
 
-승인 원화 V3의 얼굴·의상·직선 총기와 머리 뒤 백색/은색 광륜을 유지한다. `백색 포격`, `백탄 난사`, `중앙 중포대`는 설명용 명칭이다. 캐릭터명·등급·운영 코드·성능·획득·편성은 미지정이며 **새 전투 시안의 사용자 최종 시각 승인 대기**다.
+승인 원화 V3의 얼굴·의상·직선 총기와 머리 뒤 백색/은색 광륜을 유지한다. `백색 포격`, `백탄 난사`, `중앙 중포대`는 설명용 명칭이다. 성능은 카이론 동급으로 준비했다. 캐릭터명·등급·운영 코드·획득·편성은 미지정이며 **새 전투 시안의 사용자 최종 시각 승인 대기**다.
 
 ## 현재 동작
 
@@ -62,6 +71,7 @@ node preview/mercenary-monochrome-artillery-battle-v1/pack-ar-v3.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/pack-fx-v3.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/pack-aura-v4.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/build-source-index.mjs
+node preview/mercenary-monochrome-artillery-battle-v1/save-combat-preparation.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/build.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/qa-ar-v3.test.mjs
 node preview/mercenary-monochrome-artillery-battle-v1/serve.mjs
