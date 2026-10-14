@@ -1,0 +1,1911 @@
+{
+  "schemaVersion": 3,
+  "title": "카이론 · 흑탄의 집행관 / 일제난사 · 양자 탄도 폭쇄",
+  "updatedDate": "2026-10-14",
+  "timezone": "Asia/Seoul",
+  "status": "CRAFT_PREPARED_CMS_LOCKED",
+  "policyApprovalRecord": "kairon-approval-20261014.json",
+  "approvalRecord": "visual-approval-20261014.json",
+  "userCorrection": {
+    "faceAngle": "최신 첨부의 얼굴 각도 고정. 고개를 돌리지 않고 눈동자만 사격 방향으로.",
+    "hair": "어깨 아래로 이어지는 자연스러운 검은 장발",
+    "aura": "SSS 리미티드급 군인·스나이핑·탄환 광원",
+    "skill": "일제난사: 양손 우지 난사와 스코프 표적 집중 타격"
+  },
+  "reference": {
+    "path": "reference/user-face-angle-locked-20261014.png",
+    "width": 1024,
+    "height": 1536,
+    "channels": 3,
+    "hasAlpha": false,
+    "bytes": 2803709,
+    "sha256": "63E76E43B5FCB594054F2DD8950284279AEE9CFB156CC137CB468B9D98223C8F"
+  },
+  "generator": {
+    "mode": "BUILT_IN_IMAGE_GEN",
+    "rawPngPreserved": true,
+    "manualPixelEdits": false,
+    "upscaled": false,
+    "atlasAccess": "원본 시트를 Pixi Texture 사각형으로 읽음. 재압축·배경 제거·워핑 없음."
+  },
+  "character": {
+    "assignedName": "카이론",
+    "assignedCode": "V-988",
+    "rank": "SSS",
+    "presentationQuality": "SSS_LIMITED_GRADE_REQUESTED",
+    "skillName": "일제난사",
+    "facing": "RIGHT",
+    "stance": "STANDING",
+    "naturalAdultProportions": true,
+    "namingProposal": {
+      "name": "카이론",
+      "latin": "Kairon",
+      "epithet": "흑탄의 집행관",
+      "status": "USER_CONFIRMED"
+    }
+  },
+  "release": {
+    "userVisualApproval": true,
+    "runtimeConnected": true,
+    "catalogConnected": true,
+    "acquisitionEnabled": false,
+    "acquisition": "CRAFT_ONLY",
+    "packEligible": false,
+    "craftLockedUntilCms": true,
+    "balanceConfigured": true,
+    "balanceReference": "V-989",
+    "previewOnly": false
+  },
+  "sourceArt": {
+    "path": "assets/black-uniform-dual-uzi-source-art-v4-face-angle-locked.png",
+    "width": 1024,
+    "height": 1536,
+    "channels": 3,
+    "hasAlpha": false,
+    "bytes": 2814489,
+    "sha256": "5AFBA87D0291A4DAB69DCF45F5C0F2D57676A79ED472DED655062E2FBD36AF09"
+  },
+  "battleSprite": {
+    "path": "assets/black-uniform-dual-uzi-battle-v3-longhair.png",
+    "width": 1024,
+    "height": 1536,
+    "channels": 4,
+    "hasAlpha": true,
+    "bytes": 1991018,
+    "sha256": "95320B3BEAA782DE1217154A15427BA1B3E91DEE4CD23317EB0CE1E080FA90F1",
+    "foot": {
+      "x": 530,
+      "y": 1478
+    },
+    "bodyHeight": 1404
+  },
+  "motion": {
+    "burst": {
+      "path": "assets/standing-burst-motion-v2.png",
+      "width": 1448,
+      "height": 1086,
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 1575278,
+      "sha256": "4043C2CEDAE11F4CB7EA05CE52225E8E14BF41822D99A35C553C9FBDCC9FA908",
+      "columns": 4,
+      "rows": 2,
+      "frameCount": 8,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 543
+          },
+          "bounds": [
+            43,
+            101,
+            318,
+            508
+          ],
+          "clearRatio": 0.6407364447564685,
+          "borderPixelsAt32": 0,
+          "foot": {
+            "x": 195.2296072507553,
+            "y": 508
+          },
+          "bodyHeight": 407,
+          "muzzles": [
+            [
+              313,
+              147
+            ],
+            [
+              300,
+              205
+            ]
+          ]
+        },
+        {
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 543
+          },
+          "bounds": [
+            47,
+            103,
+            328,
+            508
+          ],
+          "clearRatio": 0.6539584668762655,
+          "borderPixelsAt32": 0,
+          "foot": {
+            "x": 200.47857142857143,
+            "y": 508
+          },
+          "bodyHeight": 405,
+          "muzzles": [
+            [
+              320,
+              159
+            ],
+            [
+              305,
+              211
+            ]
+          ]
+        },
+        {
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 543
+          },
+          "bounds": [
+            43,
+            101,
+            332,
+            509
+          ],
+          "clearRatio": 0.6229154584210901,
+          "borderPixelsAt32": 0,
+          "foot": {
+            "x": 202.2816593886463,
+            "y": 509
+          },
+          "bodyHeight": 408,
+          "muzzles": [
+            [
+              315,
+              135
+            ],
+            [
+              309,
+              198
+            ]
+          ]
+        },
+        {
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 543
+          },
+          "bounds": [
+            47,
+            102,
+            328,
+            508
+          ],
+          "clearRatio": 0.6244111392611134,
+          "borderPixelsAt32": 0,
+          "foot": {
+            "x": 200.91179385530228,
+            "y": 508
+          },
+          "bodyHeight": 406,
+          "muzzles": [
+            [
+              329,
+              148
+            ],
+            [
+              308,
+              211
+            ]
+          ]
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 543,
+            "width": 362,
+            "height": 543
+          },
+          "bounds": [
+            42,
+            53,
+            338,
+            462
+          ],
+          "clearRatio": 0.6049622009910157,
+          "borderPixelsAt32": 0,
+          "foot": {
+            "x": 203.5158415841584,
+            "y": 462
+          },
+          "bodyHeight": 409,
+          "muzzles": [
+            [
+              314,
+              102
+            ],
+            [
+              308,
+              161
+            ]
+          ]
+        },
+        {
+          "rect": {
+            "x": 362,
+            "y": 543,
+            "width": 362,
+            "height": 543
+          },
+          "bounds": [
+            42,
+            52,
+            335,
+            462
+          ],
+          "clearRatio": 0.6238311813843697,
+          "borderPixelsAt32": 0,
+          "foot": {
+            "x": 198.67027559055117,
+            "y": 462
+          },
+          "bodyHeight": 410,
+          "muzzles": [
+            [
+              330,
+              113
+            ],
+            [
+              325,
+              168
+            ]
+          ]
+        },
+        {
+          "rect": {
+            "x": 724,
+            "y": 543,
+            "width": 362,
+            "height": 543
+          },
+          "bounds": [
+            38,
+            47,
+            347,
+            462
+          ],
+          "clearRatio": 0.5697831771516946,
+          "borderPixelsAt32": 0,
+          "foot": {
+            "x": 205.9680751173709,
+            "y": 462
+          },
+          "bodyHeight": 415,
+          "muzzles": [
+            [
+              325,
+              90
+            ],
+            [
+              315,
+              157
+            ]
+          ]
+        },
+        {
+          "rect": {
+            "x": 1086,
+            "y": 543,
+            "width": 362,
+            "height": 543
+          },
+          "bounds": [
+            38,
+            50,
+            328,
+            462
+          ],
+          "clearRatio": 0.623124039762726,
+          "borderPixelsAt32": 0,
+          "foot": {
+            "x": 195.0830115830116,
+            "y": 462
+          },
+          "bodyHeight": 412,
+          "muzzles": [
+            [
+              329,
+              109
+            ],
+            [
+              323,
+              171
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "effects": {
+    "aura": {
+      "path": "assets/scope-ballistic-aura-12f-v2.png",
+      "width": 1448,
+      "height": 1086,
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 1302144,
+      "sha256": "9EAA708FA22A35E5DD47F5BFA2EC40E63558359B7E6F3A291917573509E814B5",
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            91,
+            86,
+            317,
+            317
+          ],
+          "clearRatio": 0.6848997283355209,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 204,
+            "y": 208,
+            "radius": 68
+          }
+        },
+        {
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            67,
+            84,
+            297,
+            321
+          ],
+          "clearRatio": 0.6430130337901774,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 181,
+            "y": 208,
+            "radius": 68
+          }
+        },
+        {
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            59,
+            82,
+            294,
+            318
+          ],
+          "clearRatio": 0.6426391135801716,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 175,
+            "y": 208,
+            "radius": 68
+          }
+        },
+        {
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            53,
+            83,
+            284,
+            321
+          ],
+          "clearRatio": 0.6580843075608193,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 171,
+            "y": 208,
+            "radius": 68
+          }
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            87,
+            60,
+            320,
+            297
+          ],
+          "clearRatio": 0.6424636000122096,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 204,
+            "y": 184,
+            "radius": 68
+          }
+        },
+        {
+          "rect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            64,
+            61,
+            298,
+            296
+          ],
+          "clearRatio": 0.6450657794328623,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 181,
+            "y": 184,
+            "radius": 68
+          }
+        },
+        {
+          "rect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            55,
+            61,
+            295,
+            299
+          ],
+          "clearRatio": 0.630513415341412,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 175,
+            "y": 184,
+            "radius": 68
+          }
+        },
+        {
+          "rect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            50,
+            60,
+            293,
+            300
+          ],
+          "clearRatio": 0.6388541253319496,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 171,
+            "y": 184,
+            "radius": 68
+          }
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            86,
+            36,
+            320,
+            265
+          ],
+          "clearRatio": 0.6557492140044565,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 204,
+            "y": 158,
+            "radius": 68
+          }
+        },
+        {
+          "rect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            67,
+            31,
+            301,
+            266
+          ],
+          "clearRatio": 0.6535056927444217,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 181,
+            "y": 158,
+            "radius": 68
+          }
+        },
+        {
+          "rect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            58,
+            30,
+            287,
+            263
+          ],
+          "clearRatio": 0.6592518543390007,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 175,
+            "y": 158,
+            "radius": 68
+          }
+        },
+        {
+          "rect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            56,
+            34,
+            284,
+            265
+          ],
+          "clearRatio": 0.6603354598455481,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 171,
+            "y": 158,
+            "radius": 68
+          }
+        }
+      ]
+    },
+    "muzzle": {
+      "path": "assets/uzi-muzzle-8f-v1.png",
+      "width": 1774,
+      "height": 887,
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 731481,
+      "sha256": "42A7BF7552EA1C7C648C203D1BD56891DFEA1EB5AA15E4F6F2C42A4B9F603B85",
+      "columns": 4,
+      "rows": 2,
+      "frameCount": 8,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 444,
+            "height": 444
+          },
+          "bounds": [
+            150,
+            188,
+            235,
+            245
+          ],
+          "clearRatio": 0.9248488353218083,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 444,
+            "y": 0,
+            "width": 443,
+            "height": 444
+          },
+          "bounds": [
+            121,
+            146,
+            313,
+            279
+          ],
+          "clearRatio": 0.8064588290321925,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 887,
+            "y": 0,
+            "width": 444,
+            "height": 444
+          },
+          "bounds": [
+            91,
+            104,
+            390,
+            354
+          ],
+          "clearRatio": 0.6576373670968265,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 1331,
+            "y": 0,
+            "width": 443,
+            "height": 444
+          },
+          "bounds": [
+            111,
+            134,
+            379,
+            318
+          ],
+          "clearRatio": 0.7147723344111606,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 444,
+            "width": 444,
+            "height": 443
+          },
+          "bounds": [
+            108,
+            109,
+            370,
+            341
+          ],
+          "clearRatio": 0.7050210481361723,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 444,
+            "y": 444,
+            "width": 443,
+            "height": 443
+          },
+          "bounds": [
+            111,
+            130,
+            403,
+            309
+          ],
+          "clearRatio": 0.6977258482845773,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 887,
+            "y": 444,
+            "width": 444,
+            "height": 443
+          },
+          "bounds": [
+            136,
+            148,
+            376,
+            274
+          ],
+          "clearRatio": 0.8245581925040164,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 1331,
+            "y": 444,
+            "width": 443,
+            "height": 443
+          },
+          "bounds": [
+            140,
+            178,
+            320,
+            256
+          ],
+          "clearRatio": 0.87803249952866,
+          "borderPixelsAt32": 0
+        }
+      ]
+    },
+    "impact": {
+      "path": "assets/scope-elimination-16f-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 1301085,
+      "sha256": "E0E00BD227A95B33C8598991BB4CFA5DEE69827A2174776027B94024680FFC02",
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            81,
+            84,
+            233,
+            230
+          ],
+          "clearRatio": 0.7082335997403546,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 314,
+            "y": 0,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            60,
+            60,
+            251,
+            252
+          ],
+          "clearRatio": 0.6086770720986548,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 627,
+            "y": 0,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            60,
+            61,
+            254,
+            252
+          ],
+          "clearRatio": 0.5343928759787415,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 941,
+            "y": 0,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            59,
+            60,
+            250,
+            252
+          ],
+          "clearRatio": 0.5044769133717263,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 314,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            61,
+            61,
+            252,
+            251
+          ],
+          "clearRatio": 0.5476180785901793,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 314,
+            "y": 314,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            61,
+            60,
+            252,
+            251
+          ],
+          "clearRatio": 0.5621472098316814,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 627,
+            "y": 314,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            53,
+            40,
+            254,
+            251
+          ],
+          "clearRatio": 0.4792332268370607,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 941,
+            "y": 314,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            48,
+            51,
+            266,
+            251
+          ],
+          "clearRatio": 0.5551449948453082,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 627,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            37,
+            34,
+            279,
+            274
+          ],
+          "clearRatio": 0.5082863402166417,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 314,
+            "y": 627,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            47,
+            39,
+            267,
+            260
+          ],
+          "clearRatio": 0.5159540912883336,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 627,
+            "y": 627,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            48,
+            39,
+            267,
+            261
+          ],
+          "clearRatio": 0.5072011034930423,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 941,
+            "y": 627,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            51,
+            49,
+            264,
+            260
+          ],
+          "clearRatio": 0.5704706863922183,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 941,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            56,
+            33,
+            264,
+            243
+          ],
+          "clearRatio": 0.5686697462404102,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 314,
+            "y": 941,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            59,
+            45,
+            250,
+            230
+          ],
+          "clearRatio": 0.6294338004879094,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 627,
+            "y": 941,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            70,
+            49,
+            243,
+            217
+          ],
+          "clearRatio": 0.6518080625139904,
+          "borderPixelsAt32": 0
+        },
+        {
+          "rect": {
+            "x": 941,
+            "y": 941,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            73,
+            59,
+            211,
+            211
+          ],
+          "clearRatio": 0.7513499168104196,
+          "borderPixelsAt32": 0
+        }
+      ]
+    },
+    "convergence": {
+      "path": "assets/quantum-bullet-convergence-12f-v1.png",
+      "width": 1448,
+      "height": 1086,
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 2227958,
+      "sha256": "9192CE3AFA553F415F1FBAA08A2C9624EBEBE2BBA5F0BC1492624D6AEF1B3AD1",
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            78,
+            77,
+            313,
+            305
+          ],
+          "clearRatio": 0.503701046976588,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 186,
+            "y": 181
+          }
+        },
+        {
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            66,
+            67,
+            322,
+            292
+          ],
+          "clearRatio": 0.49023228839168526,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 186,
+            "y": 181
+          }
+        },
+        {
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            53,
+            66,
+            316,
+            308
+          ],
+          "clearRatio": 0.44301913860993253,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 185,
+            "y": 181
+          }
+        },
+        {
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            27,
+            41,
+            334,
+            317
+          ],
+          "clearRatio": 0.3634351820762492,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 184,
+            "y": 181
+          }
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            22,
+            45,
+            337,
+            335
+          ],
+          "clearRatio": 0.2693904337474436,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 186,
+            "y": 181
+          }
+        },
+        {
+          "rect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            26,
+            29,
+            338,
+            334
+          ],
+          "clearRatio": 0.2693904337474436,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 186,
+            "y": 181
+          }
+        },
+        {
+          "rect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            37,
+            34,
+            331,
+            330
+          ],
+          "clearRatio": 0.300402918103843,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 185,
+            "y": 181
+          }
+        },
+        {
+          "rect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            33,
+            30,
+            329,
+            333
+          ],
+          "clearRatio": 0.30324929031470343,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 184,
+            "y": 181
+          }
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            37,
+            29,
+            326,
+            326
+          ],
+          "clearRatio": 0.29621348554683924,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 186,
+            "y": 178
+          }
+        },
+        {
+          "rect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            37,
+            24,
+            330,
+            331
+          ],
+          "clearRatio": 0.34544122584780684,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 186,
+            "y": 178
+          }
+        },
+        {
+          "rect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            53,
+            45,
+            306,
+            323
+          ],
+          "clearRatio": 0.5028005860626965,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 185,
+            "y": 178
+          }
+        },
+        {
+          "rect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "bounds": [
+            76,
+            86,
+            289,
+            282
+          ],
+          "clearRatio": 0.5938616037361497,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 184,
+            "y": 178
+          }
+        }
+      ]
+    },
+    "collapse": {
+      "path": "assets/quantum-ballistic-collapse-16f-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 1750737,
+      "sha256": "CF8A3512D4BB2B8FBF0ECACCA1D6BA6734315A03280E8436D03E9F114600172E",
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 314,
+            "height": 324
+          },
+          "bounds": [
+            106,
+            142,
+            225,
+            257
+          ],
+          "clearRatio": 0.8420814657545018,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 168,
+            "y": 196
+          }
+        },
+        {
+          "rect": {
+            "x": 314,
+            "y": 0,
+            "width": 313,
+            "height": 324
+          },
+          "bounds": [
+            85,
+            107,
+            249,
+            277
+          ],
+          "clearRatio": 0.7186230426379521,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 163,
+            "y": 196
+          }
+        },
+        {
+          "rect": {
+            "x": 627,
+            "y": 0,
+            "width": 314,
+            "height": 324
+          },
+          "bounds": [
+            49,
+            91,
+            242,
+            289
+          ],
+          "clearRatio": 0.6711095384131478,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 154,
+            "y": 196
+          }
+        },
+        {
+          "rect": {
+            "x": 941,
+            "y": 0,
+            "width": 313,
+            "height": 324
+          },
+          "bounds": [
+            27,
+            81,
+            253,
+            303
+          ],
+          "clearRatio": 0.6426063976649706,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 143,
+            "y": 196
+          }
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 324,
+            "width": 314,
+            "height": 315
+          },
+          "bounds": [
+            40,
+            38,
+            291,
+            300
+          ],
+          "clearRatio": 0.5886058032554848,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 168,
+            "y": 191
+          }
+        },
+        {
+          "rect": {
+            "x": 314,
+            "y": 324,
+            "width": 313,
+            "height": 315
+          },
+          "bounds": [
+            20,
+            29,
+            298,
+            305
+          ],
+          "clearRatio": 0.48748922359146,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 163,
+            "y": 191
+          }
+        },
+        {
+          "rect": {
+            "x": 627,
+            "y": 324,
+            "width": 314,
+            "height": 315
+          },
+          "bounds": [
+            21,
+            29,
+            288,
+            301
+          ],
+          "clearRatio": 0.44198766555454455,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 154,
+            "y": 191
+          }
+        },
+        {
+          "rect": {
+            "x": 941,
+            "y": 324,
+            "width": 313,
+            "height": 315
+          },
+          "bounds": [
+            7,
+            31,
+            276,
+            303
+          ],
+          "clearRatio": 0.3791571580708961,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 143,
+            "y": 191
+          }
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 639,
+            "width": 314,
+            "height": 311
+          },
+          "bounds": [
+            40,
+            9,
+            293,
+            291
+          ],
+          "clearRatio": 0.33533700616462203,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 168,
+            "y": 182
+          }
+        },
+        {
+          "rect": {
+            "x": 314,
+            "y": 639,
+            "width": 313,
+            "height": 311
+          },
+          "bounds": [
+            52,
+            20,
+            286,
+            292
+          ],
+          "clearRatio": 0.41238712593612276,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 163,
+            "y": 182
+          }
+        },
+        {
+          "rect": {
+            "x": 627,
+            "y": 639,
+            "width": 314,
+            "height": 311
+          },
+          "bounds": [
+            26,
+            33,
+            280,
+            291
+          ],
+          "clearRatio": 0.436182849652856,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 154,
+            "y": 182
+          }
+        },
+        {
+          "rect": {
+            "x": 941,
+            "y": 639,
+            "width": 313,
+            "height": 311
+          },
+          "bounds": [
+            35,
+            30,
+            271,
+            292
+          ],
+          "clearRatio": 0.5214447880176284,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 143,
+            "y": 182
+          }
+        },
+        {
+          "rect": {
+            "x": 0,
+            "y": 950,
+            "width": 314,
+            "height": 304
+          },
+          "bounds": [
+            64,
+            19,
+            270,
+            253
+          ],
+          "clearRatio": 0.5654332886356017,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 168,
+            "y": 145
+          }
+        },
+        {
+          "rect": {
+            "x": 314,
+            "y": 950,
+            "width": 313,
+            "height": 304
+          },
+          "bounds": [
+            62,
+            17,
+            263,
+            253
+          ],
+          "clearRatio": 0.612872036320834,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 163,
+            "y": 145
+          }
+        },
+        {
+          "rect": {
+            "x": 627,
+            "y": 950,
+            "width": 314,
+            "height": 304
+          },
+          "bounds": [
+            76,
+            25,
+            252,
+            254
+          ],
+          "clearRatio": 0.6289599396580624,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 154,
+            "y": 145
+          }
+        },
+        {
+          "rect": {
+            "x": 941,
+            "y": 950,
+            "width": 313,
+            "height": 304
+          },
+          "bounds": [
+            92,
+            76,
+            226,
+            251
+          ],
+          "clearRatio": 0.7717546662182613,
+          "borderPixelsAt32": 0,
+          "registration": {
+            "x": 143,
+            "y": 145
+          }
+        }
+      ],
+      "extents": {
+        "left": 0.45686900958466453,
+        "right": 0.43130990415335463,
+        "up": 0.5509554140127388,
+        "down": 0.36421725239616615
+      }
+    }
+  },
+  "props": {
+    "missile": {
+      "path": "assets/strike-missile-body-v1.webp",
+      "width": 357,
+      "height": 105,
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 34642,
+      "sha256": "55E04D2BDF9F0EBF3307B487E51866D3A14164D3BAA183922C3D511E6DBB3091",
+      "source": "../battle-suit-skill-chip-v1/assets/textures/rocket.webp",
+      "reusedWithoutPixelEdits": true,
+      "frameCount": 1,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 357,
+            "height": 105
+          }
+        }
+      ]
+    },
+    "missileExhaust": {
+      "path": "assets/strike-missile-exhaust-v1.webp",
+      "width": 397,
+      "height": 126,
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 73388,
+      "sha256": "24246ACF64B345570FFC9B667B20AC8A78E8B2C6729FF460485BD81CC2575891",
+      "source": "../battle-suit-skill-chip-v1/assets/textures/exhaust.webp",
+      "reusedWithoutPixelEdits": true,
+      "frameCount": 1,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 397,
+            "height": 126
+          }
+        }
+      ]
+    },
+    "missileSmoke": {
+      "path": "assets/strike-missile-smoke-v1.webp",
+      "width": 382,
+      "height": 385,
+      "channels": 4,
+      "hasAlpha": true,
+      "bytes": 178154,
+      "sha256": "900E987C42F39AD151AFD184CAEE0B645D8A33C8E53A78426355EECBF8D83813",
+      "source": "../battle-suit-skill-chip-v1/assets/textures/smoke.webp",
+      "reusedWithoutPixelEdits": true,
+      "frameCount": 1,
+      "frames": [
+        {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 382,
+            "height": 385
+          }
+        }
+      ]
+    }
+  },
+  "latestRevision": {
+    "request": "일제난사와 광역기 사격 모두 휘는 탄도를 없애고 강렬한 직선 사격으로 수정",
+    "straightShots": {
+      "flight": 0.055,
+      "maxTrail": 180,
+      "trailFraction": 0.36,
+      "muzzleDuration": 0.075,
+      "impactDuration": 0.16,
+      "implementation": "bullet-flight.mjs",
+      "modes": [
+        "barrage",
+        "quantum"
+      ],
+      "trajectory": "총구와 명중점을 잇는 직선. 곡선 보간·낙차 없음.",
+      "lighting": "짧은 예광탄의 백색 중심 + 얇은 금빛 광원, 8프레임 총구 섬광, 명중 파열과 직선 파편",
+      "contact": "비행 0.055초 후 탄환 도착점과 같은 좌표에서 타격 시작"
+    },
+    "auraRegistration": "12프레임 실제 원 중심을 고정 좌표에 정렬한 뒤 제자리 회전 / 원본 픽셀 보존",
+    "outline": "포즈별 알파를 보존한 흰색 실루엣 8방향 외곽 + 이중 블룸",
+    "areaSkill": "양자 탄도 폭쇄: 적 5명 포착 → 쌍우지 직선 사격·좌표 지정 → 상공 미사일 강하 → 적 몸통 높이 직격 대폭발 → 5명 연쇄 미사일 명중",
+    "impactAnchor": "적 몸통 좌표 범위의 중심. 상단 잘림 방지는 크기에만 적용하며 폭발 위치를 아래로 이동시키지 않음.",
+    "missileTipAnchor": "원본 미사일 전방 끝 (1,0.5), 아래 방향 90도 회전. 탄두와 폭발이 동일한 적 좌표 사용."
+  },
+  "skillPlans": {
+    "barrage": {
+      "name": "일제난사",
+      "duration": 5.8,
+      "release": 0.9,
+      "interval": 0.11,
+      "volleys": 20,
+      "finish": [
+        3.25,
+        3.47,
+        3.69
+      ]
+    },
+    "quantum": {
+      "name": "양자 탄도 폭쇄",
+      "duration": 7.8,
+      "release": 0.95,
+      "interval": 0.075,
+      "volleys": 24,
+      "detonation": 3.25,
+      "finish": [
+        3.65,
+        3.83,
+        4.01,
+        4.19,
+        4.37
+      ],
+      "missiles": [
+        {
+          "id": "primary",
+          "target": null,
+          "launch": 2.15,
+          "impact": 3.25,
+          "scale": 1
+        },
+        {
+          "id": "target-0",
+          "target": 0,
+          "launch": 2.5999999999999996,
+          "impact": 3.65,
+          "scale": 0.58
+        },
+        {
+          "id": "target-1",
+          "target": 1,
+          "launch": 2.7800000000000002,
+          "impact": 3.83,
+          "scale": 0.58
+        },
+        {
+          "id": "target-2",
+          "target": 2,
+          "launch": 2.96,
+          "impact": 4.01,
+          "scale": 0.58
+        },
+        {
+          "id": "target-3",
+          "target": 3,
+          "launch": 3.1400000000000006,
+          "impact": 4.19,
+          "scale": 0.58
+        },
+        {
+          "id": "target-4",
+          "target": 4,
+          "launch": 3.3200000000000003,
+          "impact": 4.37,
+          "scale": 0.58
+        }
+      ]
+    }
+  },
+  "timing": {
+    "duration": 5.8,
+    "lock": [
+      0,
+      0.9
+    ],
+    "firing": [
+      0.9,
+      3.1
+    ],
+    "doubleVolleys": 20,
+    "volleyInterval": 0.11,
+    "finish": [
+      3.25,
+      3.47,
+      3.69
+    ],
+    "fadesUntil": 5.5,
+    "previewDamage": null
+  },
+  "renderer": {
+    "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+    "implementation": "source/UziBarrageFX.js",
+    "entry": "source/battle-preview.js",
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "layers": [
+      "combatLayer",
+      "effectLayer"
+    ],
+    "clock": "ONE_GSAP_TIMELINE",
+    "pixiAutoPlay": false,
+    "soundAdded": false,
+    "sharedGameplayFilesChanged": true
+  },
+  "validation": {
+    "alphaAndCellBounds": true,
+    "frameCount": 72,
+    "characterFrames": 8,
+    "effectFrames": 64,
+    "muzzleAnchorMethod": "ASSISTANT_VISUAL_MARKUP_PIXELS",
+    "visualApproval": "USER_APPROVED",
+    "browserReview": "qa/review.json"
+  },
+  "superseded": {
+    "sourceArt": "source-art-v1/v2와 측면으로 회전한 v3는 현재 기준이 아님. 사용자 재첨부 얼굴 각도에 맞춘 v4가 현재 시안.",
+    "battle": "기존 짧은 머리·측면 얼굴 이미지와 가장자리 여백 보정 전 시트는 이력으로만 보존.",
+    "collapse": "quantum-ballistic-collapse-16f-v1.png는 셀 경계 간섭으로 미채택. 여백을 보정한 v2 원본을 사용한다."
+  },
+  "prompts": [
+    {
+      "path": "prompts/battle-v3-longhair-locked-face-angle.txt",
+      "text": "Use case: stylized-concept.\nAsset type: clean V3 full-body standing battleSprite, one character, native 1024x1536 RGBA PNG with genuine transparent background.\nImage 1 is the final current character DESIGN and FACE ANGLE reference. Image 2 only shows convenient isolated full-body framing; it is an older hairstyle and must not override image 1.\nReproduce the character in image 1 as a clean transparent battleSprite. Keep EXACTLY his three-quarter head angle (do not turn into side profile), handsome adult face, same black mask and peaked cap. The EYES look SCREEN RIGHT toward his guns' firing direction without changing the head angle. Retain his new shoulder-length flowing black hair, long back strands behind shoulders with continuous natural flow, no plate-like hair or sharp tiers.\nSame black/silver long uniform, silver shoulder cord, black trousers and boots, natural slim adult proportions. 대두 금지 / 자연스러운 성인 비율 / 원화 체형 유지. Full body standing with both boots planted, same confident stance, arms extended forward to screen RIGHT holding TWO black/silver UZI submachine guns at staggered chest heights. Both guns point toward the same enemy. The entire two weapons and hands/grips must be clearly separated and visible. One UZI per hand, box receivers, short barrels, straight magazine through each grip. Each whole gun is a rigid object with straight aligned receiver-barrel-muzzle axis, no bends, no sagging handguard or distorted top rails. Do not add a rifle or physical scope.\nREMOVE background, scope aura, smoke wisps, projectile aura, muzzle flashes and floating shell cases. This is the clean body layer for animation; all effects will be separate. Keep attractive silver rim-light on the black clothes as part of the artwork, without a thick halo outline. Do not add an opaque black/gray gradient.\nTransparent canvas, no floor, no cast shadow. Full character and both weapons fitted inside with at least 60 pixels of completely empty transparent margin on every edge, including hair, coat tips, boots and gun muzzles. Native 1024x1536 portrait, ONE character, no contact sheet, no text, no frame.\n"
+    },
+    {
+      "path": "prompts/quantum-ballistic-collapse-16f-v1.txt",
+      "text": "Use case: stylized-concept\nAsset type: original continuous VFX animation atlas for a premium SSS limited military gunner's area skill, named Quantum Ballistic Cataclysm / 양자 탄도 폭쇄.\nPrimary request: A spectacular silver-white quantum bomb detonation made from condensed bullet energy, evolving into a towering white-hot blast with a black pressure shell, horizontal shockwave, torn lightning, flying ballistic fragments and finally rolling charcoal vapor. The explosion has weight and readable mass, exquisitely painted anime game VFX, not a flat vector icon.\nComposition: One square PNG sheet, exactly 4 columns by 4 rows of equal square cells, 16 chronological animation frames read left-to-right then top-to-bottom. Each frame has the SAME camera and SAME fixed detonation center at 50% width, 57% height of its cell. Truly transparent background. Keep every effect and every glow at least 9% of the cell width away from all four cell boundaries. No cell dividers, labels, numbers or text. No character, guns, environment, UI or checkerboard.\nSequence: frames 1-3 tiny intense silver compression star within contracting charcoal bullet vortex; frame 4 piercing white ignition with black lens; frames 5-6 explosive white sphere erupts with sharp black pressure envelope and horizontal shockwave; frames 7-9 enormous multilayer luminous atomic-like cloud crown with a short energy stem, black smoke filigree and jagged silver rays; frames 10-12 cloud rolls upward and fractures into dense charcoal-and-silver turbulent lobes with showering fragments; frames 13-16 thinning vapor wisps and dying sparks gradually disappear. Geometry, material flow, shock front and particle arrangement must evolve in every frame, not copies resized or rotated. The widest blast fits fully inside its own cell with 9% transparent padding; all small early and late frames stay registered at exactly the same detonation point. White and gray highlights, deep graphite smoke, subtle warm metallic bullet flecks only; no rainbow, purple or blue color scheme.\nConstraints: The alpha channel must genuinely be transparent between particles and outside the effect, no black background rectangle. Keep each frame completely separate from adjacent cells. Native detailed raster VFX suitable for compositing over a dark battlefield. No weapons or human victims, only the fantasy blast effect.\n"
+    },
+    {
+      "path": "prompts/quantum-ballistic-collapse-16f-v2.txt",
+      "text": "Use case: stylized-concept\nAsset type: original continuous VFX animation atlas for a premium SSS limited military gunner's area skill, named Quantum Ballistic Cataclysm / 양자 탄도 폭쇄.\nPrimary request: A spectacular silver-white quantum bomb detonation made from condensed bullet energy, evolving into a towering white-hot blast with a black pressure shell, horizontal shockwave, torn lightning, flying ballistic fragments and finally rolling charcoal vapor. The explosion has weight and readable mass, exquisitely painted anime game VFX, not a flat vector icon.\nComposition: One square PNG sheet, exactly 4 columns by 4 rows of equal square cells, 16 chronological animation frames read left-to-right then top-to-bottom. Each frame has the SAME camera and SAME fixed detonation center at 50% width, 57% height of its cell. Truly transparent background. Keep every effect and every glow at least 9% of the cell width away from all four cell boundaries. No cell dividers, labels, numbers or text. No character, guns, environment, UI or checkerboard.\nSequence: frames 1-3 tiny intense silver compression star within contracting charcoal bullet vortex; frame 4 piercing white ignition with black lens; frames 5-6 explosive white sphere erupts with sharp black pressure envelope and horizontal shockwave; frames 7-9 enormous multilayer luminous atomic-like cloud crown with a short energy stem, black smoke filigree and jagged silver rays; frames 10-12 cloud rolls upward and fractures into dense charcoal-and-silver turbulent lobes with showering fragments; frames 13-16 thinning vapor wisps and dying sparks gradually disappear. Geometry, material flow, shock front and particle arrangement must evolve in every frame, not copies resized or rotated. The widest blast fits fully inside its own cell with 9% transparent padding; all small early and late frames stay registered at exactly the same detonation point. White and gray highlights, deep graphite smoke, subtle warm metallic bullet flecks only; no rainbow, purple or blue color scheme.\nConstraints: The alpha channel must genuinely be transparent between particles and outside the effect, no black background rectangle. Keep each frame completely separate from adjacent cells. Native detailed raster VFX suitable for compositing over a dark battlefield. No weapons or human victims, only the fantasy blast effect.\n\nEdit target: the attached 16-frame explosion atlas. Preserve the visual design and chronological material evolution. Correct ONLY layout registration and clear gutters: the first version lets peak explosion rays cross cell boundaries. Every frame, including its faintest visible glow and sparks, must fit within the CENTRAL 60% of its own equal square cell, leaving at least 20% fully transparent margin on EVERY side. There must be obvious wide clear transparent gaps between every neighboring effect. Keep the exact 4x4 equal-cell grid. Fix each frame's detonation point at normalized (0.50, 0.57) of its cell. Do not draw dividing lines or checkerboards. Do not crop any ray or cloud. This is essential for texture atlas playback. Preserve actual transparency.\r\n"
+    },
+    {
+      "path": "prompts/quantum-bullet-convergence-12f-v1.txt",
+      "text": "Use case: stylized-concept\nAsset type: original continuous charging VFX atlas for a premium SSS limited dual-Uzi military gunner's Quantum Ballistic Cataclysm area skill.\nPrimary request: A dense sphere of silver bullet-shaped energy tracers orbiting a black gravitational nucleus, with fine white sniper-rangefinder arc segments and smoky graphite energy, tightening and collapsing into one blazing silver point before detonation. Elegant military ballistics and frightening compression, highly detailed painted anime game VFX.\nComposition: exactly 4 columns by 3 rows of equal square cells, landscape 4:3 PNG, 12 chronological animation frames read left-to-right then top-to-bottom. Every cell has the same fixed nucleus at exactly 50% width and 50% height. Truly transparent background. All particles, glow and smoke must fit inside the central 78% of each cell. No text, labels, frame lines, UI, checkerboard, background, characters or weapons.\nSequence: frames 1-3 a few thin silver orbital tracks and small bullet-shaped luminous flecks materialize around a dark nucleus; frames 4-6 dozens of bright ballistic slivers spiral faster and form two oblique elliptical orbit bands; frames 7-9 a compressed bright shell of bullet traces wraps a rich charcoal core, detailed sparks and thin smoky tendrils pulled inward; frames 10-12 the orbit shell fractures inward, particles converge and all energy contracts into a small brilliant white star with a thin black pressure halo. Each frame must change real particle placement, flow, density and material geometry, not just scale or rotate one drawing. Sharply readable silver highlights and deep black smoke, no rainbow and no sci-fi purple/blue palette.\nConstraints: Genuine alpha transparency in gaps and around the effect; no black rectangle. Maintain fixed center and exact regular grid with wide clear margins. The atlas is a raw project asset, not a presentation board.\n"
+    },
+    {
+      "path": "prompts/scope-ballistic-aura-12f-v1.txt",
+      "text": "Use case: stylized-concept. Asset type: ONE independently animated military scope / ballistic aura sprite sheet for a black-uniform dual-UZI character. Native 2048x1536 RGBA, exactly 12 sequential frames, 4 equal columns by 3 equal rows, each square cell 512x512. True transparent background.\nDesign: luxurious SSS-limited-quality SILVER-WHITE sniper-scope light aura with charcoal-black energy, fine precise scope rings interrupted into four arcs, clean crosshair ticks, smoky black curls edged in bright silver, a small controlled orbit of four to six silver bullet-shaped lights / ballistic tracer streaks. Sophisticated military supernatural glow, not wizard magic. No letters, numerals, UI panels, angel wings, crowns, blue or purple. No actual character, no gun, no environment.\nTwelve individually drawn evolving frames of one seamless 1.5-second aura loop: the reticle arc segments sweep incrementally, bullet silhouettes advance around the orbit and briefly stretch into trajectories, charcoal smoke curls evolve organically, silver highlights pass from one arc to the next, brightest clustered flashes bloom then dissolve. Different smoke/particle material shapes and glow forms in every frame, NOT identical copied images and not simple whole-image rotation. Frame 12 leads naturally back into frame 1. The open center remains mostly transparent for the character's torso.\nAll 12 auras have the SAME center, same overall scale and aligned origin. Each stays in the central 78 percent of its cell, leaving at least 10 percent completely empty transparent padding from all cell edges. Absolutely no overlapping neighboring cells, no cropped light tips. Fine luminous effects on true alpha; no opaque black rectangles, no drawn checkerboard, no grid lines, no frame numbers.\n"
+    },
+    {
+      "path": "prompts/scope-ballistic-aura-12f-v2-margin.txt",
+      "text": "Use case: precise-object-edit. Reference image 1 is the edit target, a 12-frame scope/ballistic aura spritesheet, 4 columns by 3 rows.\nChange ONLY internal spacing. Preserve the exact 12 distinct scope-ring, smoke and bullet-light animation frames and their order. Uniformly scale the ENTIRE effect inside EACH CELL to 67 percent of its current size, centered in that same cell. This creates WIDE clear gutters. Each effect must be contained entirely within the central 67 percent of each square cell and leave at least 15 percent completely empty alpha on each side. No smoke, glow, bullets or reticle marks may touch ANY cell boundary. No overlap across cells and no clipping at outer sheet borders.\nKeep 4 equal columns by 3 equal rows, native 2048x1536 RGBA PNG, true transparent background. Preserve fine silver-white scope ticks, charcoal-black swirls, silver bullet streaks, individual shape evolution in all 12 frames. No redesign, no duplicate frames, no labels, no grid lines or text. Transparent padding is the only change.\n"
+    },
+    {
+      "path": "prompts/scope-elimination-16f-v1.txt",
+      "text": "Use case: stylized-concept. Asset type: 16-frame independent sniper-scope elimination impact animation sprite sheet, exact 4 columns by 4 rows, native 2048x2048 RGBA, equal square cells.\nONE fictional military ballistic skill effect, silver-white and charcoal-black. A precision sniper crosshair made of thin interrupted concentric scope rings and clean reticle ticks locks onto the center, then a concentrated volley of bullet-like white tracer impacts shatters the reticle into brilliant silver fragments and charcoal pressure smoke. Strong dramatic SSS-limited collectible-game quality. No blood, no bodies, no gun, no character or landscape.\n16 unique chronological frames: 1-4 four fine reticle arcs acquire and align into a precise crosshair; 5-6 first concentrated white projectile pinpricks strike the center, sharp tiny radial cracks and sparks; 7-8 three rapid distinct impacts chip the inner ring; 9-10 decisive brilliant compact cross-shaped white flash with silver shrapnel and black pressure petals, highest energy; 11-12 ring breaks apart into bright shards pushed outward; 13-14 expanding irregular thin smoke curls, fewer fading particles; 15-16 sparse ash and a dim broken crosshair echo fading almost completely. Shapes and material fragments MUST evolve genuinely across frames, not clones, not static-image scale/fade. Clean target center/origin identical in every cell.\nKeep each COMPLETE effect inside the central 62 percent of its square cell, with wide 18 percent truly empty transparent margins on every side. All glows, smoke, shrapnel stay inside their own cell, no cross-cell overlap, no crop. Native true RGBA transparency. Black smoke must have real soft alpha, no opaque black backdrop. No numbers, letters, labels, grid lines, user interface or watermark.\n"
+    },
+    {
+      "path": "prompts/scope-elimination-16f-v2-margin.txt",
+      "text": "Use case: precise-object-edit. Image 1 is an existing 16-frame sniper reticle elimination effect sheet, exactly 4 columns and 4 rows.\nKeep ALL 16 effect frames exactly as designed and in the same order, but shrink the COMPLETE effect in EACH individual cell to 70 percent of its present size, centered at that cell's center. Each square cell must have a completely transparent border at least 12 percent of the cell width on all four edges. Every white star ray, smoke curl, ring fragment and spark stays INSIDE its own cell with no cropping or neighbor bleed. This is only a spacing repair; do not redesign or rearrange the animation, do not clone poses, do not add anything. Reticle acquire, center impacts, starburst, breaking ring and final smoke all remain as before.\nKeep a perfect 4x4 equal-square grid, native 2048x2048 RGBA PNG with actual alpha. Zero-alpha empty gutters, not black rectangles or painted checkerboard. No text, borders or labels.\n"
+    },
+    {
+      "path": "prompts/source-art-v1.txt",
+      "text": "Use case: stylized-concept.\nAsset type: PROJECT V premium character sourceArt, single full-length standing portrait, native 1024x1536 RGB PNG, exact 2:3.\nInput images: image 1 is the USER'S CHARACTER DESIGN reference (small pixel-art long-uniform officer). Image 2 is ONLY painterly 2D rendering quality and material quality reference. Image 3 is ONLY male facial refinement and painterly quality reference. Do not copy image 2 or 3's character, outfit, weapons, pose, or palette.\nPrimary request: reimagine the adult male officer from image 1 in a BLACK long uniform, holding one recognizable UZI submachine gun in EACH hand, firing both simultaneously while STANDING. A black face mask covers nose, mouth and jaw. Preserve the reference's peaked officer cap, slim upright full-length figure, calf-length split uniform coat, shoulder epaulettes, belt, fitted trousers and boots, redesigned coherently in black and graphite with restrained silver tailoring. A small amount of dark hair flows naturally from under the cap.\nPose: both boots firmly planted, upright standing firing stance with modest shoulder-width stagger, body in a 3/4 view toward screen right, face visible in three-quarter view. Both arms aim diagonally forward to the same offscreen enemy at screen right; neither gun points toward the viewer. The nearer gun sits at lower chest height, the farther one slightly higher so BOTH complete weapons and BOTH grips are clearly visible and separated. Do not splay the guns in opposite directions. Both UZIs have simultaneous modest white-hot pale warm muzzle flashes and a few visible ejected cases.\nWeapon design: exactly TWO compact UZI SMGs, recognizable box-shaped straight receivers, short straight barrels, top sights and straight magazines entering through the pistol grips. Tasteful coordinated black-and-silver fantasy metal skin across each whole gun, retaining recognizable UZI geometry. No rifles, no pistols, no scopes, no giant magazines. Each gun is ONE RIGID SOLID: receiver, barrel and muzzle share one unbroken straight bore axis. No sagging or bent fore-end, no warped receiver, no disconnected parts. Fit the hand and wrist to the correct pistol grip.\nAura: luminous CHARCOAL BLACK with bright SILVER-GRAY edges, a few elegant rising smoky wisps around the shoulders, sides and boots; bright dark energy, readable against both figure and environment. No purple, no blue, no orange or colored magical aura. Keep the face, hands, weapons and boots unobscured. Avoid large rings and wings.\nStyle: beautiful high-end Korean/Japanese collectible RPG semi-real painterly 2D splash illustration, crisp handsome eyes above the mask, clean refined materials, soft realistic cloth folds, natural adult anatomy. NOT photographic, NOT 3D render, NOT pixel art, NOT chibi. Natural connected strands of hair, no rigid hair plates or tiered bands. Restrained uniform details, coherent black leather, black tailored cloth and gunmetal.\nBackdrop: subdued misty graphite military courtyard at night, distant restrained stone and iron architecture, low-contrast charcoal and silver fog, no extra people. Silver aura provides the main rim light. Full character dominates frame but all cap, coat tails, two full guns, flashes and both boots fit inside image with adequate margin. Standing, no running, kneeling, jumping or floating.\nNo written text, labels, numbers, insignia text, rank, logo, watermark, card frame, split panels or UI. Deliver ONE finished full-body portrait.\n"
+    },
+    {
+      "path": "prompts/source-art-v2-longhair-target-gaze.txt",
+      "text": "Use case: precise-object-edit.\nAsset type: revised premium PROJECT V character sourceArt, native 1024x1536 RGB PNG, exact 2:3.\nInput image 1 is the EDIT TARGET and identity/outfit/weapon baseline. Revise only these user-requested features:\n1. HAIR: make his black hair slightly longer, a natural shoulder-length to just-below-shoulder male hairstyle visible down the back of the neck and flowing behind the shoulder. Beautiful connected soft black strands, organic natural volume, no thick flat plates, no rigid tiers. Keep his peaked cap and adult male identity.\n2. AIMING GAZE: turn his head farther toward SCREEN RIGHT and turn BOTH eyes to look along the guns toward the offscreen target. Absolutely NO eye contact with the viewer. We should see an elegant near-profile or strong three-quarter side face, the black mask still covering nose, mouth and jaw. The eye's pupil points RIGHT, in the same direction as both UZIs.\n3. SSS-LIMITED-QUALITY MILITARY AURA: upgrade generic smoky wisps into a beautiful military marksman / ballistic targeting aura. Luminous SILVER-WHITE thin telescopic reticle arcs, precise interrupted scope rings and clean crosshair ticks around and behind the upper body, glowing charcoal-black energy flowing along the coat, and a small controlled orbit of silver projectile silhouettes / tracer streaks. Like a supernatural elite soldier acquiring targets through a sniper scope. Reticle graphics are an EFFECT, not an actual scope or rifle. Reticle arcs have no numbers, lettering or UI frame. Strong crisp silver rim light on uniform and guns, layered luminous depth, sophisticated rare-character presence; no large feather wings, no angel halo, no purple or blue magic. Dark graphite and silver remain the dominant aura colors, restrained warm brass from physical ejected shells and muzzle flash only.\nPreserve the existing black long uniform, silver details, exact officer cap, gloves, mask, trousers and boots, naturally slim adult proportion, coat silhouette, standing planted-feet stance, both arms extended toward screen RIGHT, TWO recognizable UZI SMGs firing SIMULTANEOUSLY toward the same enemy. Keep the black/silver UZI designs, magazine-in-grip construction, short barrels. Both entire guns are ONE RIGID SOLID each, straight receiver/barrel/muzzle axis, straight rails, no bend or sag at the hand. Preserve natural grips and wrists. Do not add rifle, actual sniper scope, third gun, knife or unrelated equipment.\nKeep full-length composition, high-end semi-real painterly 2D collectible game illustration, sober charcoal military courtyard background. The new longer hair, focused rightward gaze and elite ballistic aura must be clear. Refined adult eyes, no photoreal soldier, no chibi, no 3D render.\nNo written text, SSS letters, rank badge, label, readable numbers, UI, card frame or watermark. One finished illustration.\n"
+    },
+    {
+      "path": "prompts/source-art-v3-profile-gaze.txt",
+      "text": "Use case: precise-object-edit. Input 1 is the EDIT TARGET.\nChange ONLY the direction of this man's head and eyes. Everything else is already the desired design and must remain unchanged: shoulder-length black hair, black cap, black mask, black/silver long uniform, two UZIs, planted standing stance, hands, body, scope/ballistic aura, background, framing and colors.\nTurn his head to a clear 85-90 degree SIDE PROFILE FACING RIGHT, so his visible eye and nose bridge point in exactly the firing direction of the UZI muzzles to SCREEN RIGHT. Only ONE eye should be visible. That eye must look straight RIGHT at the unseen enemy. Place its dark iris/pupil toward the forward/right end of the visible eye opening, toward the nose/muzzle direction, NOT toward the left/ear/viewer. His eye is narrow and intent, sighting along the weapons. Absolutely NO eye contact with the viewer and NO looking back from the side of the eye. Do not simply turn the head while keeping an eye looking at the viewer.\nPreserve the recognizable handsome adult male identity, natural anatomy, black mask and black officer cap from the target. Preserve long flowing black hair without rigid tiers or thick plates. Keep both weapons unchanged and perfectly straight from receiver to muzzle. No other design or pose changes.\nSingle complete native 1024x1536 RGB PNG portrait, exact 2:3. No text, no UI, no border.\n"
+    },
+    {
+      "path": "prompts/source-art-v4-locked-face-angle.txt",
+      "text": "Use case: precise-object-edit.\nAsset type: revised PROJECT V premium sourceArt portrait, native 1024x1536 RGB PNG.\nImage 1 is the ONLY EDIT TARGET and the user's explicitly selected face-angle baseline. The user rejected turning the head to a side profile. Keep the exact head angle in image 1.\nThree localized changes ONLY:\nA. EYE GAZE ONLY: keep the head, face, nose bridge, black mask, ear placement, visible-eye shapes, brows, cap tilt and three-quarter face angle EXACTLY as they are in the input. DO NOT TURN, TILT OR ROTATE THE HEAD. Do not make a profile. Move only the irises/pupils within the existing eye openings so the character looks toward SCREEN RIGHT, toward the direction his two UZIs are firing. No eye contact with the viewer. The eyes can glance right while the head remains precisely at the input angle. Do not redraw eye shapes or change the handsome adult identity.\nB. HAIR LENGTH: keep existing black color, part, bangs and cap, but extend the hair behind the ears and shoulders into natural male shoulder-length / just-below-shoulder black hair. Soft continuous flowing strands, delicate flyaways, no plate-like clumps, tiers or ribbon bands.\nC. MILITARY SSS-LIMITED-QUALITY AURA: upgrade the gray smoke aura into sophisticated silver-white and charcoal-black ballistic targeting energy. Fine luminous sniper-scope reticle arcs and crosshair ticks around and behind the upper torso, a few elegant silver bullet/tracer silhouettes following controlled trajectories around the character, luminous charcoal wisps following coat edges. Powerful rare-character silver rim light and layered glow, but uniform and weapons remain clear. Scope/reticle is an EFFECT, not a physical scope attached to either UZI. No letters, numbers, text, rank lettering or UI border. No angel wings, no crown, no blue/purple magic. Retain warm brass shell casings and simultaneous compact white-hot muzzle flashes.\nSTRICT PRESERVATION: exact original head angle, facial outline, mask shape, peaked officer cap shape and angle, body, standing feet, pose, black/silver long uniform, silver shoulder cords, hands, two original UZIs, trousers, boots, backdrop and full-length framing. Do not redesign clothes or weapons. Both full guns must remain rigid and straight from receiver through short barrel to muzzle; no bending at the hand or handguard. Exactly two guns, firing together in the same direction.\nNo other changes. No profile face. One 2:3 complete illustration, no crop, text, card frame or watermark.\n"
+    },
+    {
+      "path": "prompts/standing-burst-motion-v1.txt",
+      "text": "Use case: stylized-concept.\nAsset type: PRODUCTION ANIMATION SPRITE SHEET, exactly 8 frames in a perfect 4-column by 2-row equal-cell grid, native 2048x1536 RGBA PNG (each cell 512x768). TRUE transparent background and gutters. No labels or grid lines.\nReference image 1 is the exact character master. Reproduce this SAME black/silver long-uniform adult male, shoulder-length flowing black hair, black officer cap and mask, exact THREE-QUARTER HEAD ANGLE (do not turn into profile), pupils glancing right toward firing direction, two UZI SMGs. Natural slim ADULT proportions, not chibi, no big head.\nAnimation: STANDING DUAL-UZI AUTOMATIC BURST. All frames face screen RIGHT. Both boots stay planted at the identical position in each cell, same full-body scale, same cap size, same outfit. Both arms extend to screen right, gun heights staggered so both full weapons and correct gloved grips are distinct. EXACTLY TWO UZIs in every frame.\nEight UNIQUE hand-drawn chronological frames, read left to right, top row then bottom row:\n0 steady aimed stance, both gun bores near horizontal;\n1 shoulder bracing and tiny elbow compression before burst;\n2 simultaneous recoil in both wrists/elbows/shoulders, guns shift backward a little as RIGID wholes, coat and hair lag;\n3 arms settle forward while long hair and coat flow catches up;\n4 second distinct recoil pulse in both shoulders, subtle different coat fold/hair flow;\n5 return to aim with slightly lower forearms;\n6 final strongest double recoil, small chest compression, both planted legs absorb force;\n7 calm recovery toward the first aimed stance.\nDo not merely copy/paste the same pose. Arms, shoulder compression, coat folds and flowing hair must visibly change across frames, while the torso/legs remain in place. No walking, jumping, kneeling or lunging.\nNO muzzle flash, smoke, shell cases, aura, scenery, floor, shadow, projectile or text baked into body frames. Separate effects will be attached at the muzzles.\nWeapon invariant: every UZI is one single rigid object with straight aligned box receiver, top rail, short barrel and muzzle. Magazines extend down through pistol grips. Recoil translates/rotates the whole gun gently; do not bend, stretch, break, split or deform the gun. Maintain natural wrist and grip contact.\nEach full character fits entirely inside its own equal rectangle with generous transparent safety margin, no overlap or crop. Same foot baseline at roughly 93 percent of EVERY cell height, cap at about 8 percent. Do not draw background checkerboard; real alpha transparency only. Fine polished 2D painterly game sprites consistent with reference.\n"
+    },
+    {
+      "path": "prompts/standing-burst-motion-v2-margin.txt",
+      "text": "Use case: precise-object-edit. Reference image 1 is the edit target: an 8-frame standing dual-UZI soldier animation sheet in 4 columns and 2 rows.\nFix ONLY the safety margins inside each cell. Keep exactly the same 8 distinct animation poses and art, in the exact same 4 by 2 grid. Within EACH of the eight equal cells, scale its WHOLE character uniformly down to 82 percent of its current size and center it. Every cell must have at least 8 percent completely transparent empty margin on ALL four sides. No coats or muzzles or hair or boot soles may touch any cell boundary or the image boundary. Do not overlap neighboring frames. Keep cap/boots and the entire two UZIs visible in every frame.\nThe new baseline for each pair of feet should be the same 90 percent of cell height and each cap around 12 percent. Natural adult body proportions remain UNCHANGED. Do not individually stretch any body part or gun. Keep the long black hair, exact three-quarter face angle, pupils looking toward screen RIGHT, black face mask, black officer cap, black/silver long uniform and exact TWO straight rigid UZIs. Preserve all chronological shoulder/elbow recoil and coat/hair changes between frames, do not duplicate a single pose. No effects, labels, letters, grid borders, numbers, scenery, floor or opaque pixels in background. Native 2048x1536 RGBA with TRUE transparent background and gaps.\n"
+    },
+    {
+      "path": "prompts/standing-dual-fire-v1.txt",
+      "text": "Use case: stylized-concept.\nAsset type: PROJECT V standing simultaneous-fire battleSprite with charcoal/silver aura; one native 1024x1536 transparent RGBA PNG, exact 2:3.\nInput 1 is CHARACTER DESIGN and simultaneous two-gun shooting pose reference. Input 2 is SAME CHARACTER'S clean standing battleSprite: preserve its identity, all uniform details, natural adult body proportions, cap, mask, coat, weapons and feet. Create the corresponding FIRING standing battle pose, not a poster.\nOne adult male black-uniform officer in a clear 3/4 side view facing screen RIGHT, head and gaze directed toward an offscreen enemy to the RIGHT. The face's nose, mouth and jaw remain covered by the black fabric mask. Black peaked cap, natural black hair, silver cord on shoulder, long black split-tail uniform, black trousers and black boots. Natural slim ADULT proportions, NO enlarged SD head, no chibi, no short legs.\nBoth boots planted firmly, same shoulder-width standing stance; torso upright, no crouching, lunging, running, jumping or floating. Two gloved hands hold exactly TWO matching compact UZI submachine guns. Both arms extended toward screen RIGHT, gun muzzles aimed nearly horizontal at the SAME opponent; near gun lower at chest height, far gun slightly higher to show complete silhouettes separately. Both full receivers and grips remain visible. The pose should read as calmly unleashing a simultaneous double burst while standing.\nThe two UZIs MUST be geometrically solid: receiver, short barrel and muzzle form one straight unbroken bore axis. Straight top rails and sights, recognizable box receivers and straight magazines through pistol grips, coordinated restrained silver engraving. No distorted gun front, bent barrel, kinked handguard, disconnected stock, no extra guns. Hands wrap the actual grip without intersecting magazines, natural wrists, five fingers.\nAt exactly the SAME instant BOTH muzzles emit short sharp white-hot pale amber flashes pointing RIGHT, with a few small brass cases. Flashes small and controlled, both distinct, all flash tips comfortably within frame.\nAura requested by user: bright BLACK/CHARCOAL wisps with SILVER-GRAY luminous edges rising around both sides of the character and boots, energetic spectral glow but mostly grayscale. Flow in a few restrained organic rising curves, no large ring, halo, wings or colored magic. Character, mask, guns, fingers and boots remain clearly readable. Aura belongs to the sprite and fades smoothly to TRUE ALPHA, no rectangle, no surrounding opaque mist wall.\nClean high-end semi-real PAINTERLY 2D game art consistent with reference, not a photograph or 3D render. Natural continuous strands of hair, no stiff layered plates.\nCRITICAL OUTPUT: genuine transparent background with no scenery, no floor, no black/gray gradient backdrop, no checkerboard drawn in pixels, no baked rectangular glow. Background and gaps between coat/arms/legs have real zero alpha. Full figure plus ALL coat tips, both muzzles, flashes and aura fit inside canvas with at least 5 percent transparent margin. Character height about 78 percent of canvas to allow aura. No text, panel, frame, label, stats, UI or watermark. ONE isolated character only.\n"
+    },
+    {
+      "path": "prompts/standing-dual-fire-v2-margin.txt",
+      "text": "Use case: precise-object-edit.\nInput 1 is the EDIT TARGET: a full-body black-uniform masked officer firing exactly two UZI SMGs simultaneously, with luminous silver-edged charcoal aura, on actual transparent background.\nChange ONLY the framing/empty transparent safety margin. The current image's rightmost muzzle-flash sparks and lowest aura wisps touch the canvas border. Uniformly REDUCE THE ENTIRE EXISTING COMPOSITION to about 84 percent of its present scale and center it within the SAME native 1024x1536 canvas, extending genuine transparent empty alpha around it. Keep enough empty transparent margin for every aura wisp, spark, flash tip, coat tip, gun and boot: at least 60 pixels from every edge. The framing should show exactly the same COMPLETE image content, just farther from all canvas boundaries.\nSTRICT INVARIANTS: same character identity, face, eyes, black mask, black officer cap, natural flowing hair, exact black and silver uniform and boots, natural adult body/head proportions, standing pose, two correctly gripped UZI guns, same straight rigid receiver-barrel-muzzle geometry, same simultaneous pair of muzzle flashes, shell cases and silver-gray/charcoal aura design. No redesign, no extra objects, no new pose, no new effects. Do not bend, stretch, warp or move individual body or weapon parts.\nCRITICAL: keep true RGBA alpha. Background and expanded border are completely transparent, not black, gray, white or checkerboard pixels. Preserve soft alpha of wispy aura and muzzle flashes, without a rectangular glow. The outermost 40 pixels on ALL four sides must be entirely empty alpha. One character. No text, labels, UI, frame or shadow floor.\n"
+    },
+    {
+      "path": "prompts/standing-ready-v1.txt",
+      "text": "Use case: stylized-concept.\nAsset type: V3 full-body transparent battleSprite, one standing-ready character, native 1024x1536 RGBA PNG.\nInput image 1 is the exact newly created CHARACTER DESIGN source. Keep this same adult male, black officer cap, handsome visible eyes, black fabric face mask covering nose/mouth/jaw, black long officer uniform, restrained silver piping and shoulder cord, black trousers and boots, exactly two matching compact black/silver UZI submachine guns. Natural connected flowing hair, not separate hair plates. This is the SAME character and outfit, not a new concept.\nCreate ONE clean isolated full-body character sprite on a genuinely transparent background with no scenery, no floor and no baked shadow. Premium painterly 2D game rendering, legible clean silhouette suitable for shrinking into a battlefield. Maintain the source's slim natural ADULT body proportions; 대두 금지 / 자연스러운 성인 비율 / 원화 체형 유지. Do not turn into chibi, oversized-head SD, doll or pixel art.\nSTANDING READY pose, body and gaze toward screen RIGHT in a readable 3/4 side view. Both boots fully grounded on the same imaginary horizontal baseline, shoulder width stance, torso upright. Both elbows comfortably bent, ONE UZI in each gloved hand held low at hip-to-waist height, both gun muzzles directed forward RIGHT at about 10 degrees below horizontal, separated visibly. NOT firing in this image; no muzzle flash or smoke, no shell cases. There must be exactly two distinct entire UZIs and two arms. Keep recognizable straight box receivers, short straight barrels, top sights, and magazines entering the pistol grips. Lock each weapon as ONE RIGID SOLID: receiver-to-barrel-to-muzzle straight bore axis, parallel aligned exterior edges, no bend at the handguard or hand. Both complete gun silhouettes and both real hand grips visible.\nCoat hangs naturally, at most two restrained trailing coat tails flowing toward screen LEFT. Both legs and boots readable. No extra weapons, no holsters resembling a third gun, no extra hands.\nDo not include aura in this clean base layer; it will be supplied separately. Soft silver rim-light on black fabric ensures silhouette readability on dark maps, without a thick white outline.\nFull figure, both guns, all coat tails and boots comfortably inside the canvas, generous 6 percent clear margin on all sides, character height about 84 percent of canvas. Natural eye-level camera, modest side view, no overhead perspective, no front-facing gun aim. The PNG must have true alpha transparency, including between arms, legs, and coat tails. NO checkerboard pixels, NO solid background, NO text, NO frame, NO panels.\n"
+    },
+    {
+      "path": "prompts/standing-ready-v2-longhair-target-gaze.txt",
+      "text": "Use case: precise-object-edit.\nAsset type: revised clean standing-ready battleSprite, native 1024x1536 RGBA PNG on TRUE transparency.\nInput 1 is the EDIT TARGET: clean standing-ready transparent sprite. Input 2 is the NEW DESIGN reference showing user-requested longer hair and focused gaze.\nRevise only the hair and head/eye direction of image 1 to match image 2. Hair is black and slightly longer, reaching shoulders and just below shoulders, flowing naturally behind his shoulder/neck in fine connected strands, not plates or layered ribbons. Turn the head and BOTH pupils to SCREEN RIGHT, looking toward the same offscreen enemy his two UZIs point at. Strong three-quarter side face / near profile, absolutely no eye contact with the viewer. Keep the original handsome male identity and mask covering nose/mouth/jaw.\nPreserve the exact black peaked cap, black/silver long uniform, silver shoulder cords, gloves, trousers, boots, TWO UZI submachine guns, natural slim adult proportions, standing ready stance, two hands on correct grips, coat shape and all other details of image 1. Keep the two recognizable box-shaped UZI receivers, short straight barrels and straight magazines through the grips. Treat each whole weapon as a single rigid solid with straight receiver-barrel-muzzle axis, no bending or warping. No oversized head or chibi.\nNo aura or muzzle flashes in this clean base layer; separate effects will be rendered on the battlefield. Keep genuinely transparent background and gaps, no scenery, no opaque backdrop, no shadow floor. Uniformly fit the COMPLETE character and both weapons with at least 45px transparent margin on every side; no part touches any edge. Do not crop boots, coat or gun muzzles. One character, no labels or text or frame.\n"
+    },
+    {
+      "path": "prompts/uzi-muzzle-8f-v1.txt",
+      "text": "Use case: stylized-concept. Asset type: eight independently drawn animation frames of ONE compact UZI automatic-fire muzzle flash, exact 4 columns by 2 rows equal square grid, native 2048x1024 RGBA PNG.\nA single muzzle flash points horizontally RIGHT. Silver-white hot core with restrained warm pale brass edge, several thin irregular sparks and charcoal wisp, polished cinematic 2D game effect. It attaches to a muzzle located at 35 percent cell width and 50 percent cell height. Every frame has the same origin. NO gun, character or shell casing.\n8 chronological frames: 1 tiny ignition point, 2 compact white jet begins, 3 sharp full flash with branched sparks, 4 shorter fragmented flash, 5 second distinct pressure jet and jagged spark burst, 6 breaking hot particles, 7 faint silver smoke curling to right, 8 tiny last embers and residual wisp. Material silhouette and spark positions change significantly each frame. No identical clones, no simple rotation or color variants.\nThe entire effect is SMALL within each cell: keep all sparks and smoke inside the central 60 percent of the square, at least 18 percent empty transparent margin on EVERY side. Consistent origin at .35,.5. True alpha, no opaque black or colored rectangles, no checkerboard, no floor/background. No grid lines, text, numbers, labels or watermark.\n"
+    }
+  ]
+}

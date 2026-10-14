@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-10-14T10:48:03.729Z",
+  "status": "VERIFIED",
+  "replayed": false,
+  "mode": "OFF",
+  "prices": {
+    "single": null,
+    "ten": null
+  },
+  "cardRatesPpm": {
+    "V-980": null,
+    "V-981": null,
+    "V-982": null,
+    "V-983": null,
+    "V-984": null,
+    "V-985": null,
+    "V-986": null
+  },
+  "missRatePpm": null,
+  "stock": [
+    {
+      "code": "V-980",
+      "limit": 5,
+      "issued": 0
+    },
+    {
+      "code": "V-981",
+      "limit": 5,
+      "issued": 0
+    },
+    {
+      "code": "V-982",
+      "limit": 5,
+      "issued": 0
+    },
+    {
+      "code": "V-983",
+      "limit": 5,
+      "issued": 0
+    },
+    {
+      "code": "V-984",
+      "limit": 5,
+      "issued": 0
+    },
+    {
+      "code": "V-985",
+      "limit": 5,
+      "issued": 0
+    },
+    {
+      "code": "V-986",
+      "limit": 5,
+      "issued": 0
+    }
+  ],
+  "grants": 0
+}

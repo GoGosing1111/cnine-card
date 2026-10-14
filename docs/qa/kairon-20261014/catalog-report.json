@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "codexCraftOnly": true,
+      "overflow": false
+    },
+    {
+      "label": "mobile",
+      "codexCraftOnly": true,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

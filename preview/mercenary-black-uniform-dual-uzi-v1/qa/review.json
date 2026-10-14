@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-14",
+  "timezone": "Asia/Seoul",
+  "status": "USER_VISUAL_APPROVED",
+  "currentSourceArt": "assets/black-uniform-dual-uzi-source-art-v4-face-angle-locked.png",
+  "latestUserCorrection": "일제난사와 광역기 사격의 휘는 탄도를 강렬한 직선으로 수정",
+  "revision": "STRAIGHT_DUAL_UZI_TRACERS_V4",
+  "straightShotRevision": {
+    "modes": [
+      "barrage",
+      "quantum"
+    ],
+    "flightSecondsBefore": 0.075,
+    "flightSecondsAfter": 0.055,
+    "maximumTrailWorldPixels": 180,
+    "muzzleAtlasFramesUsed": 8,
+    "muzzleWidthBefore": 95,
+    "muzzleWidthAfter": 124,
+    "impactWidthBefore": 130,
+    "impactWidthAfter": 158,
+    "desktop": {
+      "viewport": "1365x1000",
+      "bothSkillsViewed": true,
+      "barrageSegmentsChecked": 200,
+      "quantumSegmentsChecked": 240,
+      "maximumDistanceFromStraightPath": 1.351857128408272e-13,
+      "maximumContactMismatch": 5.684341886080802e-14,
+      "halfSpeedPlaybackPauseBackwardSeekAndCancel": true
+    },
+    "mobile": {
+      "viewport": "390x844",
+      "bothSkillsViewed": true,
+      "normalSpeedPlaybackBothSkills": true,
+      "maximumContactMismatch": 0,
+      "horizontalOverflow": false,
+      "canvasCount": 1,
+      "endAndCancelClearTracersAndHits": true
+    },
+    "browserErrors": 0,
+    "artAndMissileAssetsChanged": false,
+    "captureEvidence": "Both skills inspected in inline desktop/mobile screenshots; no screenshot files claimed."
+  },
+  "missileRevision": {
+    "assets": "Existing project rocket, exhaust and smoke copied byte-for-byte; source hashes checked",
+    "mainLaunch": 2.15,
+    "mainImpact": 3.25,
+    "firstExplosionFrameOnContact": 4,
+    "noseDistanceToImpactAt3_249Seconds": 0.4722409797248588,
+    "desktopImpactYBefore": 439.43,
+    "desktopImpactYAfter": 342.864,
+    "mobileImpactYBefore": 970.64,
+    "mobileImpactYAfter": 842.189,
+    "layoutPolicy": "Keep impact at enemy torso bounds center; resize artwork to fit, never move impact down",
+    "desktopDescentAndRaisedExplosionViewed": true,
+    "mobileDescentAndRaisedExplosionViewed": true,
+    "descentButtonPlaybackCompletes": true,
+    "missilesAndTransientSpritesAtEnd": 0,
+    "hpUnchanged": true,
+    "browserErrors": 0
+  },
+  "unchangedArtReviewFromCommit": "a5aa6b3a8",
+  "imageReview": {
+    "faceAngleComparedWithLatestAttachmentAt2x": true,
+    "longBlackHairAndEyeGazeCompared": true,
+    "straightUziReceiversBarrelsAndGripsInspected": true,
+    "naturalAdultProportions": true,
+    "trueAlphaAndEveryAtlasCellBounds": "PASS",
+    "nativePngPreserved": true,
+    "totalAuthoredFrames": 72,
+    "userApproval": true
+  },
+  "browserReview": {
+    "desktopViewport": "1365x1000",
+    "mobileViewport": "390x844",
+    "horizontalOverflow": false,
+    "singleExistingV3Canvas": true,
+    "desktopLockConvergenceAndQuantumPeakViewed": true,
+    "mobileConvergenceAndQuantumPeakViewed": true,
+    "pauseStableOver200ms": true,
+    "halfSpeedDeltaSecondsOver440ms": 0.219,
+    "mobileHalfSpeedDeltaSecondsOver600ms": 0.302,
+    "seekBackwardAndModeSwitch": true,
+    "barrageTargetCount": 3,
+    "quantumTargetCount": 5,
+    "auraGlobalCenterAcrossAll12Frames": {
+      "x": 392.63931122238904,
+      "y": 113.97371537483004,
+      "maximumDelta": 0
+    },
+    "whiteRimTracksCurrentPose": true,
+    "auraAndRimToggles": true,
+    "normalPlaybackEndsAtSeconds": 7.8,
+    "effectSpritesAtEndOrCancel": 0,
+    "quantumPeakVisibleWithinDesktopAndMobileCanvas": true,
+    "reducedMotionFlashRenderedAtReducedOpacity": true,
+    "cancelRemovesTimelineRegistration": true,
+    "endRemovesTransientEffects": true,
+    "disposeDestroysOwnEffectsRimAuraAndV3Engine": true,
+    "hpNotMutatedByEffect": true,
+    "audioAdded": false,
+    "captureEvidence": "Screenshots inspected inline in this chat; no screenshots claimed as saved files.",
+    "sharedEngineWarning": "Existing optional apocalypse impact atlas cache warning observed. This preview does not use that effect and no shared file was modified."
+  },
+  "commands": [
+    "node preview/mercenary-black-uniform-dual-uzi-v1/build-resources.mjs — PASS",
+    "node --test preview/mercenary-black-uniform-dual-uzi-v1/qa.test.mjs — 9 PASS",
+    "node preview/mercenary-black-uniform-dual-uzi-v1/build.mjs — PASS",
+    "git diff --check -- preview/mercenary-black-uniform-dual-uzi-v1 — PASS"
+  ],
+  "scope": "Preview-only art/animation/effect work; no gameplay, balance, API, acquisition, catalog, or production activation.",
+  "approvalRecord": "visual-approval-20261014.json"
+}

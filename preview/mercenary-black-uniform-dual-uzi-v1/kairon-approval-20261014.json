@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-14",
+  "status": "USER_NAME_BALANCE_ACQUISITION_APPROVED",
+  "userQuote": "승인, 해당 용병은 제작전용으로 팩습득 불가 밸런스는 진무랑 동일하게 맞추도록 최강급으로",
+  "craftPolicyQuote": "CMS 입력 전까지 제작 잠금",
+  "name": "카이론",
+  "latin": "Kairon",
+  "epithet": "흑탄의 집행관",
+  "code": "V-988",
+  "rank": "SSS",
+  "edition": "LIMITED",
+  "acquisition": "CRAFT_ONLY",
+  "packEligible": false,
+  "balanceReference": "V-989",
+  "balanceSource": "shared/mercenary-jinmu-v1.mjs#JINMU_COMBAT",
+  "basePower": 1347840,
+  "crafting": {
+    "mode": "OFF_UNTIL_CMS_COMPLETE",
+    "materials": [],
+    "coinCost": null,
+    "masterStarCost": null,
+    "successRate": null
+  },
+  "visualApprovalRecord": "visual-approval-20261014.json",
+  "sourceArtSha256": "5AFBA87D0291A4DAB69DCF45F5C0F2D57676A79ED472DED655062E2FBD36AF09",
+  "battleSpriteSha256": "95320B3BEAA782DE1217154A15427BA1B3E91DEE4CD23317EB0CE1E080FA90F1",
+  "ownerGrant": false
+}

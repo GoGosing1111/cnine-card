@@ -1,6 +1,7 @@
 import { readDuoHonors } from './_ranked_duo_honors.js';
 import { readPredictionStakeHonors, PREDICTION_TROPHY_GOAL } from './_prediction_trophy.js';
 import {readCityTopHonors,readLichClearHonors,CITY_TOP_GOAL,LICH_CLEAR_GOAL} from './_milestone_trophies.js';
+import {readTrophyManualGrants,applyTrophyManualGrants} from './_trophy_manual_grants.js';
 
 const QUALIFIED = "tier_id='challenger' AND final_rank BETWEEN 1 AND 20";
 // Include EVERY completed season before marking streaks. An absent player breaks the chain.
@@ -52,12 +53,12 @@ export function trophyHonors({ stats = {}, clanStats = {}, champions = {}, duo =
 }
 
 export async function readTrophyHonors(env, userId) {
-  const [stats, clanStats, champions, duo, prediction, cityTop, lichClear] = await Promise.all([
+  const [stats, clanStats, champions, duo, prediction, cityTop, lichClear, manualGrants] = await Promise.all([
     env.DB.prepare(RANKED_HONORS_SQL).bind(userId).first(),
     env.DB.prepare(`SELECT COUNT(*) wins,MIN(x.completed_at) first_at ${CLAN_HONORS}`).bind(userId).first(),
     env.DB.prepare(CHAMPIONS_HONORS_SQL).bind(userId).first(),
     readDuoHonors(env, userId),
-    readPredictionStakeHonors(env, userId),readCityTopHonors(env,userId),readLichClearHonors(env,userId)
+    readPredictionStakeHonors(env, userId),readCityTopHonors(env,userId),readLichClearHonors(env,userId),readTrophyManualGrants(env,userId)
   ]);
-  return trophyHonors({ stats: stats || {}, clanStats: clanStats || {}, champions: champions || {}, duo, prediction, cityTop, lichClear });
+  return applyTrophyManualGrants(trophyHonors({ stats: stats || {}, clanStats: clanStats || {}, champions: champions || {}, duo, prediction, cityTop, lichClear }),manualGrants);
 }

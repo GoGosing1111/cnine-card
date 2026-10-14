@@ -43,8 +43,8 @@
   }
   function describe(recipe, state, choice, attempts = 1) {
     const rows = requirements(recipe, state, choice, attempts), unit = paymentFor(recipe, choice);
-    return {cost:{type:unit.type, coin:unit.coin * attempts, stars:unit.stars * attempts, shards:unit.shards * attempts}, rows, ready:!recipe.owned && rows.every(row => Number.isSafeInteger(row.required) && row.missing === 0),
-      shortage:recipe.owned ? '이미 보유한 차량' : rows.filter(row => row.missing).map(row => `${row.name} ${fmt(row.missing)}개 부족`).join(' · ')};
+    return {cost:{type:unit.type, coin:unit.coin * attempts, stars:unit.stars * attempts, shards:unit.shards * attempts}, rows, ready:!recipe.craftLocked && !recipe.owned && rows.every(row => Number.isSafeInteger(row.required) && row.missing === 0),
+      shortage:recipe.craftLocked ? recipe.lockReason||'제작 잠금' : recipe.owned ? '이미 보유한 차량' : rows.filter(row => row.missing).map(row => `${row.name} ${fmt(row.missing)}개 부족`).join(' · ')};
   }
   function costRows(rows) {
     return rows.map(row => `<article class="ws22-cost ${row.missing ? 'short' : 'ready'}">${row.image ? `<img src="${esc(image(row.image))}" alt="" loading="lazy" decoding="async">` : `<i class="ws22-currency" aria-hidden="true">${row.code === 'COIN' ? 'C' : row.code === 'MASTER_STAR' ? '✦' : '▤'}</i>`}<div><b>${esc(row.name)}</b><span>보유 ${fmt(row.owned)}</span></div><strong>${fmt(row.required)}<small>${row.missing ? `${fmt(row.missing)} 부족` : '충족'}</small></strong></article>`).join('');

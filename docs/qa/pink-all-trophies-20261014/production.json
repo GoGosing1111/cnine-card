@@ -1,0 +1,80 @@
+{
+  "checkedAt": "2026-10-14T11:18:01.244Z",
+  "userId": 1,
+  "nickname": "핑크빛유두",
+  "trophies": [
+    {
+      "code": "DUO_CHALLENGER",
+      "name": "듀오 챌린저",
+      "count": 1,
+      "adminGranted": true
+    },
+    {
+      "code": "CLAN_CHAMPION",
+      "name": "클랜의 영광",
+      "count": 1,
+      "adminGranted": true
+    },
+    {
+      "code": "CHALLENGER_STREAK_3",
+      "name": "푸른 왕조",
+      "count": 1,
+      "adminGranted": true
+    },
+    {
+      "code": "RANKED_CHAMPION",
+      "name": "정점의 증명",
+      "count": 1,
+      "adminGranted": true
+    },
+    {
+      "code": "CLAN_CHAMPIONS_TROPHY",
+      "name": "챔피언스리그 우승",
+      "count": 1,
+      "adminGranted": true
+    },
+    {
+      "code": "PREDICTION_STAKE_300T",
+      "name": "승부예측 300조 감사패",
+      "count": 1,
+      "adminGranted": true
+    },
+    {
+      "code": "CITY_TOP_25",
+      "name": "도시의 무법자",
+      "count": 1,
+      "adminGranted": true
+    },
+    {
+      "code": "LICH_KING_CLEAR_1000",
+      "name": "서리한",
+      "count": 1,
+      "adminGranted": true
+    }
+  ],
+  "ownedKinds": 8,
+  "grantedKinds": 8,
+  "adminLogId": "46015",
+  "completedAt": "2026-10-14T11:17:20.175Z",
+  "productionDatabaseVerified": true,
+  "sharedServerHonorsProjectionVerified": true,
+  "milestoneProgressPreserved": true,
+  "trophyBonusConfigurationChanged": false,
+  "collectionBonusTotals": {
+    "dropPercent": 47,
+    "accountXpPercent": 75,
+    "coinPercent": 120
+  },
+  "assets": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sourceMatches": true
+    },
+    {
+      "path": "js/player-card-v2052.js",
+      "status": 200,
+      "sourceMatches": true
+    }
+  ]
+}

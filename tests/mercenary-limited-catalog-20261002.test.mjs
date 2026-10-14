@@ -12,7 +12,7 @@ import {validateCatalog,filterCatalog} from '../mercenary-codex/model.mjs';
 const digest=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
 test('read-only codex includes all nine limited cards with confirmed ranks and original artwork',()=>{
  const catalog=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1,updated_at:'2026-10-02'}));
- assert.equal(catalog.cards.filter(c=>c.edition==='LIMITED').length,9);assert.equal(new Set(catalog.cards.map(c=>c.code)).size,catalog.cards.length);
+ assert.equal(catalog.cards.filter(c=>c.edition==='LIMITED'&&c.season!=='HALLOWEEN').length,9);assert.equal(new Set(catalog.cards.map(c=>c.code)).size,catalog.cards.length);
  assert.equal(cards.find(c=>c.name==='나무늘봉순').rank,'SS');assert.equal(cards.find(c=>c.name==='조은').rank,'SS');
  assert.deepEqual(cards.filter(c=>c.rank==='SSS').map(c=>c.name),['발테르','헬리오스']);
  assert.deepEqual(cards.filter(c=>c.rank==='SS').map(c=>c.name),['나무늘봉순','조은','이네스','오리꿍','디임','아윤','하이희야']);

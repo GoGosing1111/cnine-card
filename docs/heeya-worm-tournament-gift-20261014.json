@@ -1,0 +1,28 @@
+{
+  "status": "VERIFIED",
+  "recipientCount": 573,
+  "coinLogs": 573,
+  "coinPerUser": "300000000000",
+  "totalCoin": "171900000000000",
+  "missing": 0,
+  "duplicates": 0,
+  "auditId": "46047",
+  "completedAt": "2026-10-14T12:28:15.948Z",
+  "operationKey": "ops:heeya-worm-tournament:verified-300b:20261014:v1",
+  "title": "하이희야배 지렁이 대회 기념 사료",
+  "delivery": "DIRECT",
+  "roles": {
+    "OWNER": 2,
+    "USER": 569,
+    "ADMIN": 2
+  },
+  "recipientHash": "4865d35f1ac4258dba8157a78e27cb213a3a2cb4acde7a7273f5d7c3a26c7022",
+  "actual": {
+    "logs": 573,
+    "accounts": 573,
+    "minimum": "300000000000",
+    "maximum": "300000000000",
+    "total": "171900000000000"
+  },
+  "checkedAt": "2026-10-14T12:28:21.036Z"
+}

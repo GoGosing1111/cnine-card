@@ -1,0 +1,34 @@
+{
+  "status": "PASSED",
+  "scope": "Actual codex, OWNER CMS module, transport and Halloween API on isolated PostgreSQL fixture; no production transactions",
+  "reports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "cards": 7,
+      "namsudaengOriginal": true,
+      "packOnly": true,
+      "serverCap": 5,
+      "battleLocked": true,
+      "ownerCmsSaveReload": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "cards": 7,
+      "namsudaengOriginal": true,
+      "packOnly": true,
+      "serverCap": 5,
+      "battleLocked": true,
+      "ownerCmsSaveReload": true,
+      "errors": [],
+      "failed": []
+    }
+  ]
+}

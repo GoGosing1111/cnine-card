@@ -22,6 +22,8 @@ import {playMangisaVolley,preloadMangisaVolley} from './MangisaCombatPlayback.js
 import {playRagnielJudgment,playRagnielBasic,preloadRagniel} from './RagnielCombatPlayback.js';
 import {limitedVisual,limitedBattleArt} from '../../../../shared/mercenary-limited-visuals-v1.mjs';
 import {VALTER_AREA_EVENT} from '../../../../shared/mercenary-valter-v1.mjs';
+import {KAIRON_CODE,KAIRON_AREA_EVENT} from '../../../../shared/mercenary-kairon-v1.mjs';
+import {kaironBattleArt,setupKaironActor,clearKaironActors,cancelKaironPlayback,resumeKaironPlayback,playKaironBasic,playKaironArea} from './KaironCombatPlayback.js';
 import {JINMU_CODE,JINMU_AREA_EVENT} from '../../../../shared/mercenary-jinmu-v1.mjs';
 import {jinmuBattleArt,setupJinmuActor,clearJinmuActors,cancelJinmuPlayback,resumeJinmuPlayback,playJinmuBasic,playJinmuArea} from './JinmuCombatPlayback.js';
 import {HELIOS_CODE,HELIOS_AREA_EVENT} from '../../../../shared/mercenary-helios-v1.mjs';
@@ -33,10 +35,11 @@ const json=async url=>{const r=await fetch(url);if(!r.ok)throw Error(`MERCENARY_
 let rosterPromise,atlasPromise;
 export const withMercenaryBattle=Base=>class extends Base{
  constructor(options){super(options);this.mercenaries=[];this.mercenarySequences=new Map();this.mercenaryLoads=new Map();this.mercenaryHitIndices=new Map();this.mercenaryFx=null;}
- async setVisible(next){const out=await super.setVisible(next);if(this.visible){resumeLimitedPlayback(this);resumeJinmuPlayback(this);resumeHeliosPlayback(this);resumeAzantPlayback(this);}return out;}
- cancelTimelines(){this.mercenaryAudio?.stop();cancelCryvernPlayback(this);cancelBerkanPlayback(this);cancelLimitedPlayback(this);cancelHeliosPlayback(this);cancelJinmuPlayback(this);cancelAzantPlayback(this);super.cancelTimelines();}
+ async setVisible(next){const out=await super.setVisible(next);if(this.visible){resumeLimitedPlayback(this);resumeJinmuPlayback(this);resumeKaironPlayback(this);resumeHeliosPlayback(this);resumeAzantPlayback(this);}return out;}
+ cancelTimelines(){this.mercenaryAudio?.stop();cancelCryvernPlayback(this);cancelBerkanPlayback(this);cancelLimitedPlayback(this);cancelHeliosPlayback(this);cancelJinmuPlayback(this);cancelKaironPlayback(this);cancelAzantPlayback(this);super.cancelTimelines();}
  syncTargetShield(target,value,maxValue=null){const before=target?.shield,result=super.syncTargetShield(target,value,maxValue);showCryvernShieldImpact(this,target,before,target?.shield);return result;}
  normalAttack(index,options){
+  if(options?.attacker?.isMercenary&&options.attacker.cardId===KAIRON_CODE)return playKaironBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId===AZANT_CODE)return playAzantBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId===JINMU_CODE)return playJinmuBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId===HELIOS_CODE)return playHeliosBasic(this,options);
@@ -51,7 +54,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(options?.attacker?.isMercenary&&MERCENARY_ROLE_ATTACKS[options.attacker.role])return playMercenaryRoleAttack(this,options);
   return super.normalAttack(index,options);
  }
- clearMercenaryActors(){this.mercenaryEpoch=(this.mercenaryEpoch||0)+1;this.cancelTimelines?.();clearCryvernActors(this);clearBerkanActors(this);clearLimitedActors(this);clearHeliosActors(this);clearJinmuActors(this);clearAzantActors(this);this.mercenaryFx?.destroy();this.mercenaryFx=null;for(const a of this.mercenaries||[]){this.characters=this.characters.filter(c=>c!==a);a.destroy();}this.mercenaries=[];this.setFormationMercenaries([]);}
+ clearMercenaryActors(){this.mercenaryEpoch=(this.mercenaryEpoch||0)+1;this.cancelTimelines?.();clearCryvernActors(this);clearBerkanActors(this);clearLimitedActors(this);clearHeliosActors(this);clearJinmuActors(this);clearKaironActors(this);clearAzantActors(this);this.mercenaryFx?.destroy();this.mercenaryFx=null;for(const a of this.mercenaries||[]){this.characters=this.characters.filter(c=>c!==a);a.destroy();}this.mercenaries=[];this.setFormationMercenaries([]);}
  async applyBattlePayload(payload){
   this.clearMercenaryActors();const epoch=this.mercenaryEpoch,result=await super.applyBattlePayload(payload);const entries=['A','B'].flatMap(side=>(payload?.battleV2?.teams?.[side]?.mercenaries||[]).map(card=>({side,card})));
   const limit=payload?.battleV2?.rules?.formation==='COOP_THREE_SQUADS'?3:payload?.battleV2?.rules?.formation==='DUO_TWO_SQUADS'?2:1;
@@ -65,7 +68,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(entries.some(({card})=>card.cardId==='V-046'||card.code==='V-046'||card.skills?.some(s=>s.mechanic==='PLATINUM_SANCTUARY')))await preloadRagniel();
   if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
   const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?azant=20261014-live-v1&nurseHealers=20260927&berkan=20260927')),adapter=createMercenaryBattleArtAdapter(roster);
-  for(const {side,card}of entries){const art=azantBattleArt(card.code||card.cardId)||jinmuBattleArt(card.code||card.cardId)||heliosBattleArt(card.code||card.cardId)||limitedDuoBattleArt(card.code||card.cardId)||limitedBattleArt(card.code||card.cardId)||adapter.resolveForConsumer('BATTLE_FIELD',card.code||card.cardId);if(!art)throw Error('MERCENARY_SD_NOT_READY');
+  for(const {side,card}of entries){const art=kaironBattleArt(card.code||card.cardId)||azantBattleArt(card.code||card.cardId)||jinmuBattleArt(card.code||card.cardId)||heliosBattleArt(card.code||card.cardId)||limitedDuoBattleArt(card.code||card.cardId)||limitedBattleArt(card.code||card.cardId)||adapter.resolveForConsumer('BATTLE_FIELD',card.code||card.cardId);if(!art)throw Error('MERCENARY_SD_NOT_READY');
    const [sd,original]=await Promise.all([Assets.load(art.spriteUrl),Assets.load('/'+art.sourceArt.replace(/^\//,'')),MERCENARY_ROLE_ATTACKS[card.role]?preloadMercenaryRole(card.role):null]);
    if(epoch!==this.mercenaryEpoch||this.mercenaryDisposed)return false;
    const a=new BattleCharacter({id:card.id,name:card.name||card.title,team:side==='A'?TEAM.ALLY:TEAM.ENEMY,fullBodyTexture:sd,texture:original,cutInTexture:original,fullBodyHeight:art.fullBodyHeight??(card.cardId==='V-048'?300:['V-046',CRYVERN_CODE].includes(card.cardId)?380:card.cardId==='V-047'?320:260),x:0,y:0,scale:.5,hp:card.hp/card.maxHp*100});
@@ -76,6 +79,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   await Promise.all(this.mercenaries.filter(a=>a.cardId===CRYVERN_CODE).map(a=>setupCryvernActor(this,a)));
   await Promise.all(this.mercenaries.filter(a=>a.cardId===BERKAN_CODE).map(a=>setupBerkanActor(this,a)));
   await Promise.all(this.mercenaries.filter(a=>limitedVisual(a.cardId)).map(a=>setupLimitedActor(this,a)));
+  await Promise.all(this.mercenaries.filter(a=>a.cardId===KAIRON_CODE).map(a=>setupKaironActor(this,a)));
   await Promise.all(this.mercenaries.filter(a=>a.cardId===JINMU_CODE).map(a=>setupJinmuActor(this,a)));
   await Promise.all(this.mercenaries.filter(a=>a.cardId===AZANT_CODE).map(a=>setupAzantActor(this,a)));
   await Promise.all(this.mercenaries.filter(a=>a.cardId===HELIOS_CODE).map(a=>setupHeliosActor(this,a)));return result;
@@ -95,6 +99,10 @@ export const withMercenaryBattle=Base=>class extends Base{
   if(limitedActor?.cardId===AZANT_CODE){
    if(event.type==='MERCENARY_WINDUP'&&[AZANT_VOLLEY_SKILL,AZANT_AREA_SKILL].includes(event.skillId))return true;
    if([AZANT_VOLLEY_EVENT,AZANT_AREA_EVENT].includes(event.type))return playAzantSkill(this,event);
+  }
+  if(limitedActor?.cardId===KAIRON_CODE){
+   if(event.type==='MERCENARY_WINDUP')return true;
+   if(event.type===KAIRON_AREA_EVENT)return playKaironArea(this,event);
   }
   if(limitedActor?.cardId===JINMU_CODE){
    if(event.type==='MERCENARY_WINDUP')return true;

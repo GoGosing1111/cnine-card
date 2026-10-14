@@ -1,0 +1,17 @@
+Use case: stylized-concept.
+Asset type: PRODUCTION ANIMATION SPRITE SHEET, exactly 8 frames in a perfect 4-column by 2-row equal-cell grid, native 2048x1536 RGBA PNG (each cell 512x768). TRUE transparent background and gutters. No labels or grid lines.
+Reference image 1 is the exact character master. Reproduce this SAME black/silver long-uniform adult male, shoulder-length flowing black hair, black officer cap and mask, exact THREE-QUARTER HEAD ANGLE (do not turn into profile), pupils glancing right toward firing direction, two UZI SMGs. Natural slim ADULT proportions, not chibi, no big head.
+Animation: STANDING DUAL-UZI AUTOMATIC BURST. All frames face screen RIGHT. Both boots stay planted at the identical position in each cell, same full-body scale, same cap size, same outfit. Both arms extend to screen right, gun heights staggered so both full weapons and correct gloved grips are distinct. EXACTLY TWO UZIs in every frame.
+Eight UNIQUE hand-drawn chronological frames, read left to right, top row then bottom row:
+0 steady aimed stance, both gun bores near horizontal;
+1 shoulder bracing and tiny elbow compression before burst;
+2 simultaneous recoil in both wrists/elbows/shoulders, guns shift backward a little as RIGID wholes, coat and hair lag;
+3 arms settle forward while long hair and coat flow catches up;
+4 second distinct recoil pulse in both shoulders, subtle different coat fold/hair flow;
+5 return to aim with slightly lower forearms;
+6 final strongest double recoil, small chest compression, both planted legs absorb force;
+7 calm recovery toward the first aimed stance.
+Do not merely copy/paste the same pose. Arms, shoulder compression, coat folds and flowing hair must visibly change across frames, while the torso/legs remain in place. No walking, jumping, kneeling or lunging.
+NO muzzle flash, smoke, shell cases, aura, scenery, floor, shadow, projectile or text baked into body frames. Separate effects will be attached at the muzzles.
+Weapon invariant: every UZI is one single rigid object with straight aligned box receiver, top rail, short barrel and muzzle. Magazines extend down through pistol grips. Recoil translates/rotates the whole gun gently; do not bend, stretch, break, split or deform the gun. Maintain natural wrist and grip contact.
+Each full character fits entirely inside its own equal rectangle with generous transparent safety margin, no overlap or crop. Same foot baseline at roughly 93 percent of EVERY cell height, cap at about 8 percent. Do not draw background checkerboard; real alpha transparency only. Fine polished 2D painterly game sprites consistent with reference.

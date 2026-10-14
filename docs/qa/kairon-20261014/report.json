@@ -1,0 +1,1104 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "cmsNullPersistence": true,
+      "partialStillLocked": true,
+      "playerLocked": true,
+      "overflow": false
+    },
+    {
+      "label": "desktop",
+      "mode": "basic",
+      "hpCalls": [
+        {
+          "id": "CN-02D9DC1E8A8A4209",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "CN-02D9DC1E8A8A4209"
+      ],
+      "center0": [
+        {
+          "x": -12,
+          "y": -173.85
+        },
+        {
+          "x": -12,
+          "y": -173.85
+        }
+      ],
+      "center2": [
+        {
+          "x": -12,
+          "y": -173.85
+        },
+        {
+          "x": -12,
+          "y": -173.85
+        }
+      ],
+      "fx": {
+        "mode": "barrage",
+        "time": 0.9594,
+        "pose": 2,
+        "phase": "일제난사 · 쌍우지 연속 사격",
+        "usedSprites": 6,
+        "muzzles": [
+          {
+            "x": 419.3685380811713,
+            "y": 109.375
+          },
+          {
+            "x": 417.27294984587724,
+            "y": 131.37867647058823
+          }
+        ],
+        "targets": [
+          {
+            "x": 1430,
+            "y": 177.04091100000002
+          },
+          {
+            "x": 1430,
+            "y": 177.04091100000002
+          },
+          {
+            "x": 1430,
+            "y": 177.04091100000002
+          }
+        ],
+        "clock": "GSAP",
+        "frameCount": 72,
+        "activeFrames": [],
+        "gameplayMutation": false,
+        "playing": false,
+        "speed": 1,
+        "aura": true,
+        "auraCenters": [
+          {
+            "x": -12,
+            "y": -173.85
+          },
+          {
+            "x": -12,
+            "y": -173.85
+          }
+        ],
+        "auraRadius": 86.925,
+        "auraRotation": 0.230256,
+        "rim": {
+          "enabled": true,
+          "color": "WHITE",
+          "textureMatchesPose": true
+        },
+        "missiles": [],
+        "tracers": [
+          {
+            "gun": 0,
+            "origin": {
+              "x": 419.3685380811713,
+              "y": 109.375
+            },
+            "hit": {
+              "x": 1438.112637351712,
+              "y": 165.48675787835407
+            },
+            "start": {
+              "x": 1339.8845817043086,
+              "y": 160.07642089648078
+            },
+            "end": {
+              "x": 1438.112637351712,
+              "y": 165.48675787835407
+            },
+            "alpha": 0.5465385651208952
+          },
+          {
+            "gun": 1,
+            "origin": {
+              "x": 417.27294984587724,
+              "y": 131.37867647058823
+            },
+            "hit": {
+              "x": 1438.112637351712,
+              "y": 165.48675787835407
+            },
+            "start": {
+              "x": 1339.8801996045288,
+              "y": 162.20463628318925
+            },
+            "end": {
+              "x": 1438.112637351712,
+              "y": 165.48675787835407
+            },
+            "alpha": 0.5460402957341348
+          }
+        ],
+        "bulletHits": [
+          {
+            "target": 0,
+            "point": {
+              "x": 1438.112637351712,
+              "y": 165.48675787835407
+            },
+            "at": 0.9550000000000001,
+            "age": 0.004400000000000008
+          }
+        ],
+        "timelineRegistered": false,
+        "destroyed": false,
+        "damageAuthority": "SERVER_ONLY",
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "hpCalls": 1
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "enemy",
+      "hpCalls": [
+        {
+          "id": "CN-02D9DC1E8A8A4209",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "CN-02D9DC1E8A8A4209"
+      ],
+      "center0": [
+        {
+          "x": -12,
+          "y": -173.85
+        },
+        {
+          "x": -12,
+          "y": -173.85
+        }
+      ],
+      "center2": [
+        {
+          "x": -12,
+          "y": -173.85
+        },
+        {
+          "x": -12,
+          "y": -173.85
+        }
+      ],
+      "fx": {
+        "mode": "barrage",
+        "time": 0.962,
+        "pose": 2,
+        "phase": "일제난사 · 쌍우지 연속 사격",
+        "usedSprites": 6,
+        "muzzles": [
+          {
+            "x": 1180.6314619188288,
+            "y": 109.375
+          },
+          {
+            "x": 1182.727050154123,
+            "y": 131.37867647058823
+          }
+        ],
+        "targets": [
+          {
+            "x": 170,
+            "y": 176.90024050000005
+          },
+          {
+            "x": 170,
+            "y": 176.90024050000005
+          },
+          {
+            "x": 170,
+            "y": 176.90024050000005
+          }
+        ],
+        "clock": "GSAP",
+        "frameCount": 72,
+        "activeFrames": [],
+        "gameplayMutation": false,
+        "playing": false,
+        "speed": 1,
+        "aura": true,
+        "auraCenters": [
+          {
+            "x": -12,
+            "y": -173.85
+          },
+          {
+            "x": -12,
+            "y": -173.85
+          }
+        ],
+        "auraRadius": 86.925,
+        "auraRotation": 0.23087999999999997,
+        "rim": {
+          "enabled": true,
+          "color": "WHITE",
+          "textureMatchesPose": true
+        },
+        "missiles": [],
+        "tracers": [
+          {
+            "gun": 0,
+            "origin": {
+              "x": 1180.6314619188288,
+              "y": 109.375
+            },
+            "hit": {
+              "x": 178.1126373517121,
+              "y": 165.3460873783541
+            },
+            "start": {
+              "x": 230.23945290768233,
+              "y": 162.43582327483628
+            },
+            "end": {
+              "x": 178.11263735171212,
+              "y": 165.3460873783541
+            },
+            "alpha": 0.29004440577212065
+          },
+          {
+            "gun": 1,
+            "origin": {
+              "x": 1182.727050154123,
+              "y": 131.37867647058823
+            },
+            "hit": {
+              "x": 178.1126373517121,
+              "y": 165.3460873783541
+            },
+            "start": {
+              "x": 230.1498203949567,
+              "y": 163.58663782598126
+            },
+            "end": {
+              "x": 178.11263735171212,
+              "y": 165.3460873783541
+            },
+            "alpha": 0.2892606625862916
+          }
+        ],
+        "bulletHits": [
+          {
+            "target": 0,
+            "point": {
+              "x": 178.1126373517121,
+              "y": 165.3460873783541
+            },
+            "at": 0.9550000000000001,
+            "age": 0.006999999999999944
+          }
+        ],
+        "timelineRegistered": false,
+        "destroyed": false,
+        "damageAuthority": "SERVER_ONLY",
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "direction": -1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "hpCalls": 1
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "area",
+      "hpCalls": [
+        {
+          "id": "B:0:ENCOUNTER:INITIAL",
+          "hp": 8.000927643784788
+        },
+        {
+          "id": "B:1:ENCOUNTER:INITIAL",
+          "hp": 53.99962356484096
+        },
+        {
+          "id": "B:2:ENCOUNTER:INITIAL",
+          "hp": 53.99946516493369
+        },
+        {
+          "id": "B:3:ENCOUNTER:INITIAL",
+          "hp": 53.99981962481962
+        },
+        {
+          "id": "B:4:ENCOUNTER:INITIAL",
+          "hp": 53.99940968122786
+        },
+        {
+          "id": "B:5:ENCOUNTER:INITIAL",
+          "hp": 54.00027056277056
+        },
+        {
+          "id": "B:6:ENCOUNTER:INITIAL",
+          "hp": 54.0004831501389
+        },
+        {
+          "id": "B:7:ENCOUNTER:INITIAL",
+          "hp": 54.000463821892396
+        },
+        {
+          "id": "B:8:ENCOUNTER:INITIAL",
+          "hp": 53.99962356484096
+        },
+        {
+          "id": "B:9:ENCOUNTER:INITIAL",
+          "hp": 53.99946516493369
+        },
+        {
+          "id": "B:10:ENCOUNTER:INITIAL",
+          "hp": 53.99981962481962
+        },
+        {
+          "id": "B:11:ENCOUNTER:INITIAL",
+          "hp": 53.99940968122786
+        }
+      ],
+      "damageCalls": [
+        "B:0:ENCOUNTER:INITIAL",
+        "B:1:ENCOUNTER:INITIAL",
+        "B:2:ENCOUNTER:INITIAL",
+        "B:3:ENCOUNTER:INITIAL",
+        "B:4:ENCOUNTER:INITIAL",
+        "B:5:ENCOUNTER:INITIAL",
+        "B:6:ENCOUNTER:INITIAL",
+        "B:7:ENCOUNTER:INITIAL",
+        "B:8:ENCOUNTER:INITIAL",
+        "B:9:ENCOUNTER:INITIAL",
+        "B:10:ENCOUNTER:INITIAL",
+        "B:11:ENCOUNTER:INITIAL"
+      ],
+      "center0": [
+        {
+          "x": -12,
+          "y": -173.85
+        },
+        {
+          "x": -12,
+          "y": -173.85
+        }
+      ],
+      "center2": [
+        {
+          "x": -12,
+          "y": -173.85
+        },
+        {
+          "x": -12,
+          "y": -173.85
+        }
+      ],
+      "fx": {
+        "mode": "quantum",
+        "time": 3.2578,
+        "pose": 7,
+        "phase": "양자 탄도 폭쇄 · 미사일 연쇄 폭격",
+        "usedSprites": 44,
+        "muzzles": [
+          {
+            "x": 426.3183758481088,
+            "y": 117.90655339805826
+          },
+          {
+            "x": 424.2431331296623,
+            "y": 139.35072815533982
+          }
+        ],
+        "targets": [
+          {
+            "x": 865,
+            "y": 194.75987171680003
+          },
+          {
+            "x": 1260.9999999999998,
+            "y": 194.75987171680003
+          },
+          {
+            "x": 1098.6399999999999,
+            "y": 318.06101836320005
+          },
+          {
+            "x": 1063,
+            "y": 450.7598717168
+          },
+          {
+            "x": 900.64,
+            "y": 578.7598717168
+          }
+        ],
+        "clock": "GSAP",
+        "frameCount": 72,
+        "activeFrames": [
+          {
+            "key": "collapse",
+            "index": 4,
+            "next": 5
+          }
+        ],
+        "gameplayMutation": false,
+        "playing": false,
+        "speed": 1,
+        "aura": true,
+        "auraCenters": [
+          {
+            "x": -12,
+            "y": -173.85
+          },
+          {
+            "x": -12,
+            "y": -173.85
+          }
+        ],
+        "auraRadius": 86.925,
+        "auraRotation": 0.781872,
+        "rim": {
+          "enabled": true,
+          "color": "WHITE",
+          "textureMatchesPose": true
+        },
+        "epicenter": {
+          "x": 1037.656,
+          "y": 386.75987171680003
+        },
+        "blastSize": 658.4196515553481,
+        "missiles": [
+          {
+            "id": "target-0",
+            "target": 0,
+            "tip": {
+              "x": 865,
+              "y": 92.18749260992377
+            },
+            "hit": {
+              "x": 865,
+              "y": 194.75987171680003
+            },
+            "impact": 3.65,
+            "progress": 0.6264761904761906
+          },
+          {
+            "id": "target-1",
+            "target": 1,
+            "tip": {
+              "x": 1260.9999999999998,
+              "y": 51.33348613729852
+            },
+            "hit": {
+              "x": 1260.9999999999998,
+              "y": 194.75987171680003
+            },
+            "impact": 3.83,
+            "progress": 0.4550476190476189
+          },
+          {
+            "id": "target-2",
+            "target": 2,
+            "tip": {
+              "x": 1098.6399999999999,
+              "y": 38.12175173516984
+            },
+            "hit": {
+              "x": 1098.6399999999999,
+              "y": 318.06101836320005
+            },
+            "impact": 4.01,
+            "progress": 0.2836190476190477
+          },
+          {
+            "id": "target-3",
+            "target": 3,
+            "tip": {
+              "x": 1063,
+              "y": 0.4281310419845781
+            },
+            "hit": {
+              "x": 1063,
+              "y": 450.7598717168
+            },
+            "impact": 4.19,
+            "progress": 0.1121904761904757
+          }
+        ],
+        "tracers": [],
+        "bulletHits": [],
+        "timelineRegistered": false,
+        "destroyed": false,
+        "damageAuthority": "SERVER_ONLY",
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "hpCalls": 12
+      }
+    },
+    {
+      "label": "mobile",
+      "cmsNullPersistence": true,
+      "partialStillLocked": true,
+      "playerLocked": true,
+      "overflow": false
+    },
+    {
+      "label": "mobile",
+      "mode": "basic",
+      "hpCalls": [
+        {
+          "id": "CN-02D9DC1E8A8A4209",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "CN-02D9DC1E8A8A4209"
+      ],
+      "center0": [
+        {
+          "x": -12,
+          "y": -173.85
+        },
+        {
+          "x": -12,
+          "y": -173.85
+        }
+      ],
+      "center2": [
+        {
+          "x": -12,
+          "y": -173.85
+        },
+        {
+          "x": -12,
+          "y": -173.85
+        }
+      ],
+      "fx": {
+        "mode": "barrage",
+        "time": 0.9646,
+        "pose": 2,
+        "phase": "일제난사 · 쌍우지 연속 사격",
+        "usedSprites": 6,
+        "muzzles": [
+          {
+            "x": 410.5889355710965,
+            "y": 264.77766393442613
+          },
+          {
+            "x": 407.8646708652141,
+            "y": 293.3824433461908
+          }
+        ],
+        "targets": [
+          {
+            "x": 1007.4098360655738,
+            "y": 352.53800543442617
+          },
+          {
+            "x": 1007.4098360655738,
+            "y": 352.53800543442617
+          },
+          {
+            "x": 1007.4098360655738,
+            "y": 352.53800543442617
+          }
+        ],
+        "clock": "GSAP",
+        "frameCount": 72,
+        "activeFrames": [],
+        "gameplayMutation": false,
+        "playing": false,
+        "speed": 1,
+        "aura": true,
+        "auraCenters": [
+          {
+            "x": -12,
+            "y": -173.85
+          },
+          {
+            "x": -12,
+            "y": -173.85
+          }
+        ],
+        "auraRadius": 86.925,
+        "auraRotation": 0.231504,
+        "rim": {
+          "enabled": true,
+          "color": "WHITE",
+          "textureMatchesPose": true
+        },
+        "missiles": [],
+        "tracers": [
+          {
+            "gun": 0,
+            "origin": {
+              "x": 410.5889355710965,
+              "y": 264.77766393442613
+            },
+            "hit": {
+              "x": 1015.5224734172859,
+              "y": 340.9838523127802
+            },
+            "start": {
+              "x": 942.5223563490421,
+              "y": 331.7877004631881
+            },
+            "end": {
+              "x": 1015.5224734172859,
+              "y": 340.9838523127802
+            },
+            "alpha": 0.40876154043504276
+          },
+          {
+            "gun": 1,
+            "origin": {
+              "x": 407.8646708652141,
+              "y": 293.3824433461908
+            },
+            "hit": {
+              "x": 1015.5224734172859,
+              "y": 340.9838523127802
+            },
+            "start": {
+              "x": 942.1361377843609,
+              "y": 335.23506909901914
+            },
+            "end": {
+              "x": 1015.5224734172859,
+              "y": 340.9838523127802
+            },
+            "alpha": 0.4089508847198935
+          }
+        ],
+        "bulletHits": [
+          {
+            "target": 0,
+            "point": {
+              "x": 1015.5224734172859,
+              "y": 340.9838523127802
+            },
+            "at": 0.9550000000000001,
+            "age": 0.00959999999999999
+          }
+        ],
+        "timelineRegistered": false,
+        "destroyed": false,
+        "damageAuthority": "SERVER_ONLY",
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "hpCalls": 1
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "enemy",
+      "hpCalls": [
+        {
+          "id": "CN-02D9DC1E8A8A4209",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "CN-02D9DC1E8A8A4209"
+      ],
+      "center0": [
+        {
+          "x": -12,
+          "y": -173.85
+        },
+        {
+          "x": -12,
+          "y": -173.85
+        }
+      ],
+      "center2": [
+        {
+          "x": -12,
+          "y": -173.85
+        },
+        {
+          "x": -12,
+          "y": -173.85
+        }
+      ],
+      "fx": {
+        "mode": "barrage",
+        "time": 0.9568,
+        "pose": 2,
+        "phase": "일제난사 · 쌍우지 연속 사격",
+        "usedSprites": 6,
+        "muzzles": [
+          {
+            "x": 740.2307365600511,
+            "y": 264.77766393442613
+          },
+          {
+            "x": 742.9550012659334,
+            "y": 293.3824433461908
+          }
+        ],
+        "targets": [
+          {
+            "x": 143.40983606557373,
+            "y": 352.5475285844261
+          },
+          {
+            "x": 143.40983606557373,
+            "y": 352.5475285844261
+          },
+          {
+            "x": 143.40983606557373,
+            "y": 352.5475285844261
+          }
+        ],
+        "clock": "GSAP",
+        "frameCount": 72,
+        "activeFrames": [],
+        "gameplayMutation": false,
+        "playing": false,
+        "speed": 1,
+        "aura": true,
+        "auraCenters": [
+          {
+            "x": -12,
+            "y": -173.85
+          },
+          {
+            "x": -12,
+            "y": -173.85
+          }
+        ],
+        "auraRadius": 86.925,
+        "auraRotation": 0.22963199999999998,
+        "rim": {
+          "enabled": true,
+          "color": "WHITE",
+          "textureMatchesPose": true
+        },
+        "missiles": [],
+        "tracers": [
+          {
+            "gun": 0,
+            "origin": {
+              "x": 740.2307365600511,
+              "y": 264.77766393442613
+            },
+            "hit": {
+              "x": 151.52247341728582,
+              "y": 340.99337546278014
+            },
+            "start": {
+              "x": 310.7659071971236,
+              "y": 320.3773040202677
+            },
+            "end": {
+              "x": 151.52247341728582,
+              "y": 340.99337546278014
+            },
+            "alpha": 0.8920688536323165
+          },
+          {
+            "gun": 1,
+            "origin": {
+              "x": 742.9550012659334,
+              "y": 293.3824433461908
+            },
+            "hit": {
+              "x": 151.52247341728582,
+              "y": 340.99337546278014
+            },
+            "start": {
+              "x": 311.58608173948545,
+              "y": 328.1080889231889
+            },
+            "end": {
+              "x": 151.52247341728582,
+              "y": 340.99337546278014
+            },
+            "alpha": 0.8921189458411364
+          }
+        ],
+        "bulletHits": [
+          {
+            "target": 0,
+            "point": {
+              "x": 151.52247341728582,
+              "y": 340.99337546278014
+            },
+            "at": 0.9550000000000001,
+            "age": 0.0017999999999999614
+          }
+        ],
+        "timelineRegistered": false,
+        "destroyed": false,
+        "damageAuthority": "SERVER_ONLY",
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "direction": -1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "hpCalls": 1
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "area",
+      "hpCalls": [
+        {
+          "id": "B:0:ENCOUNTER:INITIAL",
+          "hp": 8.000927643784788
+        },
+        {
+          "id": "B:1:ENCOUNTER:INITIAL",
+          "hp": 53.99962356484096
+        },
+        {
+          "id": "B:2:ENCOUNTER:INITIAL",
+          "hp": 53.99946516493369
+        },
+        {
+          "id": "B:3:ENCOUNTER:INITIAL",
+          "hp": 53.99981962481962
+        },
+        {
+          "id": "B:4:ENCOUNTER:INITIAL",
+          "hp": 53.99940968122786
+        },
+        {
+          "id": "B:5:ENCOUNTER:INITIAL",
+          "hp": 54.00027056277056
+        },
+        {
+          "id": "B:6:ENCOUNTER:INITIAL",
+          "hp": 54.0004831501389
+        },
+        {
+          "id": "B:7:ENCOUNTER:INITIAL",
+          "hp": 54.000463821892396
+        },
+        {
+          "id": "B:8:ENCOUNTER:INITIAL",
+          "hp": 53.99962356484096
+        },
+        {
+          "id": "B:9:ENCOUNTER:INITIAL",
+          "hp": 53.99946516493369
+        },
+        {
+          "id": "B:10:ENCOUNTER:INITIAL",
+          "hp": 53.99981962481962
+        },
+        {
+          "id": "B:11:ENCOUNTER:INITIAL",
+          "hp": 53.99940968122786
+        }
+      ],
+      "damageCalls": [
+        "B:0:ENCOUNTER:INITIAL",
+        "B:1:ENCOUNTER:INITIAL",
+        "B:2:ENCOUNTER:INITIAL",
+        "B:3:ENCOUNTER:INITIAL",
+        "B:4:ENCOUNTER:INITIAL",
+        "B:5:ENCOUNTER:INITIAL",
+        "B:6:ENCOUNTER:INITIAL",
+        "B:7:ENCOUNTER:INITIAL",
+        "B:8:ENCOUNTER:INITIAL",
+        "B:9:ENCOUNTER:INITIAL",
+        "B:10:ENCOUNTER:INITIAL",
+        "B:11:ENCOUNTER:INITIAL"
+      ],
+      "center0": [
+        {
+          "x": -12,
+          "y": -173.85
+        },
+        {
+          "x": -12,
+          "y": -173.85
+        }
+      ],
+      "center2": [
+        {
+          "x": -12,
+          "y": -173.85
+        },
+        {
+          "x": -12,
+          "y": -173.85
+        }
+      ],
+      "fx": {
+        "mode": "quantum",
+        "time": 3.2526,
+        "pose": 7,
+        "phase": "양자 탄도 폭쇄 · 미사일 연쇄 폭격",
+        "usedSprites": 43,
+        "muzzles": [
+          {
+            "x": 419.62372466811524,
+            "y": 396.852289909279
+          },
+          {
+            "x": 416.92590913413466,
+            "y": 424.729717093745
+          }
+        ],
+        "targets": [
+          {
+            "x": 625.4098360655737,
+            "y": 541.3212544922033
+          },
+          {
+            "x": 909.4098360655738,
+            "y": 541.3212544922033
+          },
+          {
+            "x": 792.9698360655738,
+            "y": 749.8567007898033
+          },
+          {
+            "x": 767.4098360655738,
+            "y": 969.3212544922033
+          },
+          {
+            "x": 650.9698360655738,
+            "y": 1183.3212544922033
+          }
+        ],
+        "clock": "GSAP",
+        "frameCount": 72,
+        "activeFrames": [
+          {
+            "key": "collapse",
+            "index": 4,
+            "next": 5
+          }
+        ],
+        "gameplayMutation": false,
+        "playing": false,
+        "speed": 1,
+        "aura": true,
+        "auraCenters": [
+          {
+            "x": -12,
+            "y": -173.85
+          },
+          {
+            "x": -12,
+            "y": -173.85
+          }
+        ],
+        "auraRadius": 86.925,
+        "auraRotation": 0.780624,
+        "rim": {
+          "enabled": true,
+          "color": "WHITE",
+          "textureMatchesPose": true
+        },
+        "epicenter": {
+          "x": 749.2338360655738,
+          "y": 862.3212544922033
+        },
+        "blastSize": 714.0000000000001,
+        "missiles": [
+          {
+            "id": "target-0",
+            "target": 0,
+            "tip": {
+              "x": 625.4098360655737,
+              "y": 275.9237517688185
+            },
+            "hit": {
+              "x": 625.4098360655737,
+              "y": 541.3212544922033
+            },
+            "impact": 3.65,
+            "progress": 0.6215238095238098
+          },
+          {
+            "id": "target-1",
+            "target": 1,
+            "tip": {
+              "x": 909.4098360655738,
+              "y": 171.81974405561277
+            },
+            "hit": {
+              "x": 909.4098360655738,
+              "y": 541.3212544922033
+            },
+            "impact": 3.83,
+            "progress": 0.4500952380952381
+          },
+          {
+            "id": "target-2",
+            "target": 2,
+            "tip": {
+              "x": 792.9698360655738,
+              "y": 118.1199973904998
+            },
+            "hit": {
+              "x": 792.9698360655738,
+              "y": 749.8567007898033
+            },
+            "impact": 4.01,
+            "progress": 0.2786666666666669
+          },
+          {
+            "id": "target-3",
+            "target": 3,
+            "tip": {
+              "x": 767.4098360655738,
+              "y": 29.656896571330808
+            },
+            "hit": {
+              "x": 767.4098360655738,
+              "y": 969.3212544922033
+            },
+            "impact": 4.19,
+            "progress": 0.10723809523809487
+          }
+        ],
+        "tracers": [],
+        "bulletHits": [],
+        "timelineRegistered": false,
+        "destroyed": false,
+        "damageAuthority": "SERVER_ONLY",
+        "clockOwner": "V3_REGISTERED_GSAP"
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "hpCalls": 12
+      }
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,165 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-14T10:51:40.504Z",
+  "catalogRevision": 61,
+  "illustrations": [
+    {
+      "code": "V-980",
+      "name": "나무늘봉순",
+      "sourceHashMatches": true,
+      "derivativesHTTP200": true,
+      "battleDisabled": true
+    },
+    {
+      "code": "V-981",
+      "name": "조은",
+      "sourceHashMatches": true,
+      "derivativesHTTP200": true,
+      "battleDisabled": true
+    },
+    {
+      "code": "V-982",
+      "name": "하이희야",
+      "sourceHashMatches": true,
+      "derivativesHTTP200": true,
+      "battleDisabled": true
+    },
+    {
+      "code": "V-983",
+      "name": "오리꿍",
+      "sourceHashMatches": true,
+      "derivativesHTTP200": true,
+      "battleDisabled": true
+    },
+    {
+      "code": "V-984",
+      "name": "디임",
+      "sourceHashMatches": true,
+      "derivativesHTTP200": true,
+      "battleDisabled": true
+    },
+    {
+      "code": "V-985",
+      "name": "아윤",
+      "sourceHashMatches": true,
+      "derivativesHTTP200": true,
+      "battleDisabled": true
+    },
+    {
+      "code": "V-986",
+      "name": "남수댕",
+      "sourceHashMatches": true,
+      "derivativesHTTP200": true,
+      "battleDisabled": true
+    }
+  ],
+  "pack": {
+    "id": "mercenary-halloween-ss-limited",
+    "mode": "OFF",
+    "prices": {
+      "single": null,
+      "ten": null
+    },
+    "cardRatesPpm": {
+      "V-980": null,
+      "V-981": null,
+      "V-982": null,
+      "V-983": null,
+      "V-984": null,
+      "V-985": null,
+      "V-986": null
+    },
+    "missRatePpm": null,
+    "userOpeningEnabled": false,
+    "stock": [
+      {
+        "code": "V-980",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5,
+        "prepared": true
+      },
+      {
+        "code": "V-981",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5,
+        "prepared": true
+      },
+      {
+        "code": "V-982",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5,
+        "prepared": true
+      },
+      {
+        "code": "V-983",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5,
+        "prepared": true
+      },
+      {
+        "code": "V-984",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5,
+        "prepared": true
+      },
+      {
+        "code": "V-985",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5,
+        "prepared": true
+      },
+      {
+        "code": "V-986",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5,
+        "prepared": true
+      }
+    ]
+  },
+  "runtime": [
+    {
+      "file": "mercenary-codex/index.html",
+      "sourceMatches": true
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sourceMatches": true
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sourceMatches": true
+    },
+    {
+      "file": "admin/index.html",
+      "sourceMatches": true
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sourceMatches": true
+    },
+    {
+      "file": "admin/mercenary-request-v1.mjs",
+      "sourceMatches": true
+    },
+    {
+      "file": "admin/mercenary-halloween-admin-v1.mjs",
+      "sourceMatches": true
+    },
+    {
+      "file": "shared/mercenary-halloween-pack-v1.mjs",
+      "sourceMatches": true
+    },
+    {
+      "file": "shared/mercenary-halloween-catalog-v1.mjs",
+      "sourceMatches": true
+    }
+  ],
+  "productionPurchaseOrGrant": false
+}

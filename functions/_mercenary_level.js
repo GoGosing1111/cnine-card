@@ -4,6 +4,7 @@ import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED as SEED} from './_mercenary_cms_seed.js';
 import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
+import {KAIRON_CODE} from '../shared/mercenary-kairon-v1.mjs';
 import {JINMU_CODE,jinmuAccountAllowed} from '../shared/mercenary-jinmu-v1.mjs';
 import {mercenaryRandomInt} from './_mercenary_draw_accounting.js';
 import {runJointOperation,readJointOperation} from './_joint_transactions.js';
@@ -12,7 +13,7 @@ import {readJointBody,jointResponseError} from './_joint_request.js';
 
 const KIND='MERCENARY_LEVEL_V1';
 const terminal=message=>Object.assign(levelError('MERCENARY_LEVEL_CONFLICT',message,409),{terminal:true});
-function levelCatalog(document,userId){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),JINMU_CODE].filter(code=>jinmuAccountAllowed(userId,code)).map(limitedDeploymentSnapshot).filter(Boolean)];}
+function levelCatalog(document,userId){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),JINMU_CODE,KAIRON_CODE].filter(code=>jinmuAccountAllowed(userId,code)).map(limitedDeploymentSnapshot).filter(Boolean)];}
 function normalize(body,action){
  if(!['TRAIN','BREAKTHROUGH'].includes(action)||!SEED.catalog.cards.some(c=>c.code===body.mercenaryCode)&&!limitedDeploymentSnapshot(body.mercenaryCode))throw levelError('MERCENARY_LEVEL_TARGET','성장 대상 용병을 확인하세요.');
  if(!Number.isSafeInteger(body.revision)||body.revision<0)throw levelError('MERCENARY_LEVEL_REVISION','최신 성장 상태를 불러오세요.');
