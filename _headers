@@ -98,3 +98,8 @@
 # Pages joins matching rules: inherit the single /assets/* lifetime above.
 /assets/optimized/*
   Cache-Control: immutable
+
+/organization
+  Cache-Control: no-cache, must-revalidate, max-age=0
+/organization/*
+  Cache-Control: no-cache, must-revalidate, max-age=0

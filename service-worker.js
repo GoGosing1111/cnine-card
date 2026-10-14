@@ -5,7 +5,7 @@
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
 importScripts('/js/image-delivery-map-20261015.js');
-const SHELL_CACHE='soop-card-shell-v20261015-azant-berkan-v1';
+const SHELL_CACHE='soop-card-shell-v20261015-organization-admission-v1';
 const CONTENT_CACHE='soop-card-content-v4-lossless-media';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -14,6 +14,7 @@ const FRESH_BATTLE_SCRIPTS=new Set(['/js/app.js','/js/battle-v3-live.js','/previ
 const FRESH_ACCOUNT_SCRIPTS=new Set(['/js/character-loadout-v2.js','/js/character-loadout-v2-live.js','/js/equipment-thumbnails-v1.js','/js/adventure-lobby-v2107.js','/js/adventure-navigation-standalone.js','/js/soopketmon-v21-exact-shell-adapter.js','/js/player-card-v2052.js','/js/account-rank-v1.mjs','/js/joint-account-transport.mjs','/js/soopketmon-v21-runtime-router.js','/js/clan-v1.js','/js/clan-faction-v1.mjs']);
 for(const path of ['/js/account-sync-client-v1.mjs','/shared/account-sync-v1.mjs','/shared/server-clock-v1.mjs','/js/pvp-request-recovery-v1.mjs','/js/cooperative-battleground-entry.js','/raid/cooperative/live.mjs','/raid/cooperative/battle.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/js/server-support-v1.mjs');
+for(const path of ['/js/organization-preparation-v1.js','/js/organization-public-v1.mjs','/js/organization-system-v1.mjs','/js/organization-admission-v1.mjs','/shared/organization-public-v1.mjs','/shared/organization-interview-v1.mjs','/shared/organization-system-v1.mjs','/shared/organization-preparation-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/js/mercenary-pack-live.mjs','/js/image-delivery-map-20261015.js','/js/image-delivery-v1.js'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/js/pet-deck-slot-v1.mjs','/js/pet-equipment-window-v1.mjs','/pet-codex/app.mjs','/shared/pet-cms-v1.mjs','/shared/collection-bonuses-v1.mjs','/shared/trophy-bonuses-v1.mjs','/admin/companion-admin-v2.mjs','/admin/trophy-bonuses-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/js/territory-vote-alert-v1.js');
