@@ -1,0 +1,119 @@
+{
+  "sourceCommit": "fa8deeb7f660243d3b6ac08bb5bcb73213b68498",
+  "previousSourceCommit": "207a521631cbfc67486fa23644d54dae8e4be8a6",
+  "deployment": {
+    "Id": "dd7c8213-428e-45f0-8278-6a97327ec438",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "fa8deeb",
+    "Deployment": "https://dd7c8213.cnine-card.pages.dev",
+    "Status": "29 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/dd7c8213-428e-45f0-8278-6a97327ec438"
+  },
+  "workers": {
+    "apiRuntime": "34aea51b-b075-43f2-830a-cd24a690bc5c",
+    "clanDraft": "29967835-1f6f-4bda-9a16-965acc9c128f"
+  },
+  "checkedAt": "2026-10-14T10:44:29.422Z",
+  "validation": {
+    "relatedRegressionsPassed": 196,
+    "finalAffectedRegressionsPassed": 36,
+    "browserScenariosPassed": 8,
+    "browserErrors": 0,
+    "workerCompilation": "passed",
+    "releaseGuard": "passed",
+    "hyperdriveQueryCache": "disabled",
+    "productionDatabaseWrites": 0
+  },
+  "settings": {
+    "unchanged": true,
+    "petRevision": 18,
+    "petCount": 19,
+    "nonzeroPetBonuses": 0,
+    "trophySettingsPresent": false,
+    "recordHashes": [
+      {
+        "key": "pet_cms_preparation_v1",
+        "sha256": "35f9d47af11b1cefc0ea47499d6a86662c75f6c0830590156c9d6168dc4ab739"
+      }
+    ]
+  },
+  "mercenaryGrowthEnabled": false,
+  "authGuards": [
+    {
+      "path": "/api/collection-bonuses",
+      "status": 401
+    },
+    {
+      "path": "/api/admin/trophy-bonuses",
+      "status": 401
+    }
+  ],
+  "assets": [
+    {
+      "path": "admin/trophy-bonuses-v1.mjs",
+      "status": 200,
+      "sha256": "f1e02dd9499a0febfbd6af564d916501ad1a009b6050ae23728a513df8efcff8"
+    },
+    {
+      "path": "admin/companion-admin-v2.mjs",
+      "status": 200,
+      "sha256": "7b0fbb51c5bee253dd99481d601b786d16d36ee3cf990e65a0b3229c50068a46"
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "sha256": "d1c11ff091cc3c9f7e8877940ab618966b498d1c8c5e5809060f618e7fe7624d"
+    },
+    {
+      "path": "css/collection-bonuses-v1.css",
+      "status": 200,
+      "sha256": "e9be4465a4b3ebc6f372808c8c519c81b2b39ec8dd50a44f4eb05e104591dd04"
+    },
+    {
+      "path": "js/pet-equipment-window-v1.mjs",
+      "status": 200,
+      "sha256": "9d1f4ff2b291871d3add7622598913c374008deb9c76d11dbc3c3d51df9ca59f"
+    },
+    {
+      "path": "js/player-card-v2052.js",
+      "status": 200,
+      "sha256": "195721ae10b14f806d2fb57e38addf9a7eaa15c6457e69a7c700019d9bf43fd4"
+    },
+    {
+      "path": "shared/collection-bonuses-v1.mjs",
+      "status": 200,
+      "sha256": "ab26c892fc2756bfffaac4309eb552ed0c5b6649d90207c32642e9d45921a6a0"
+    },
+    {
+      "path": "shared/trophy-bonuses-v1.mjs",
+      "status": 200,
+      "sha256": "ff7e1162b174fef8b24c0e9b8a76661024c3726398e53a1a9efbdf72b0d94ff9"
+    },
+    {
+      "path": "shared/pet-cms-v1.mjs",
+      "status": 200,
+      "sha256": "48c70965f87916362a7eed06e13161ac64db7e07268eae3eb4996deee213e221"
+    },
+    {
+      "path": "shared/mercenary-level-v1.mjs",
+      "status": 200,
+      "sha256": "c1cdb84bc4d046fc2c1a71e93339e72385711445e366c2f3b3bda71c758e80c5"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "fd49f3a5ac48cf3d8fc36083a521cd96429cc7785e1869bfdadbf77e2c433c43"
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "7ca1ebd0c3f07b693babe0feea7e72e55d3ff7b0c97a4845e76a55ec1f6523d9"
+    },
+    {
+      "path": "pet-codex/app.mjs",
+      "status": 200,
+      "sha256": "13c0696c3e3f7e9a9af870da3f7a6591aa867f51323165d72f7cd8885d6f00cd"
+    }
+  ]
+}
