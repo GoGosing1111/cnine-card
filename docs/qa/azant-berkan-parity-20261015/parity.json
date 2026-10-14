@@ -1,0 +1,12 @@
+{
+  "scope": "SAME_INPUT_CANONICAL_COMBAT_PARITY",
+  "pairedCases": {
+    "plain": 64,
+    "equipped": 184,
+    "pve": 12,
+    "duo": 6,
+    "hunt": 2
+  },
+  "mismatches": 0,
+  "battles": 536
+}

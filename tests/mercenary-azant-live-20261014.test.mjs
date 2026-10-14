@@ -50,26 +50,26 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} acqui
  await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVE',mercenaryCode:null,revision:1});assert.equal(await loadMercenaryBattleSnapshot(f.env,f.user,'PVE'),null);assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,'PVP')).code,AZANT_CODE);assert.equal((await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===AZANT_CODE).totalCopies,2);
 });
 test('one cast budget across 1/2/12 targets; no extra hits, illegal modes or controlled casts',()=>{
- for(const mode of ['PVE','PVP'])for(const count of [0,1,2,12])for(const control of ['normal','stunned','silenced','dead','dodge']){
-  const actor=buildMercenaryFighter({...snapshot,statMode:'CMS'},'A',mode);actor.stunned=control==='stunned';actor.silenced=control==='silenced';if(control==='dead'){actor.hp=0;actor.alive=false;}
+ for(const mode of ['PVE','PVP'])for(const spell of mode==='PVE'?ids:[AZANT_VOLLEY_SKILL])for(const count of [0,1,2,12])for(const control of ['normal','stunned','silenced','dead','dodge']){
+  const actor=buildMercenaryFighter({...snapshot,skills:snapshot.skills.filter(s=>s.id===spell),statMode:'CMS'},'A',mode);actor.stunned=control==='stunned';actor.silenced=control==='silenced';if(control==='dead'){actor.hp=0;actor.alive=false;}
   const targets=Array.from({length:count},(_,i)=>({id:'B:'+i,alive:true,hp:100000,maxHp:100000,shield:100,maxShield:100,slot:i,row:'FRONT'})),events=[],ratios=[];
   const runtime=mercenaryCombat({teams:{A:[actor],B:targets},hit:(_a,_t,ratio)=>{ratios.push(ratio);return {damage:1000*ratio,dodge:control==='dodge'};},damage:(t,n)=>{const absorbed=Math.min(t.shield,n);t.shield-=absorbed;const hpDamage=Math.min(t.hp,n-absorbed);t.hp-=hpDamage;return {hpDamage,absorbed};},knockout:t=>{if(t.hp<=0)t.alive=false;},emit:(type,data)=>events.push({type,...data}),clock:()=>0});
   runtime.state(actor).energy=100;actor.actions++;runtime.beforeAction(actor);
-  const active=count>0&&['normal','dodge'].includes(control),expected=active?(mode==='PVE'?count:Math.min(2,count)):0;
+  const active=count>0&&['normal','dodge'].includes(control),expected=active?(spell===AZANT_AREA_SKILL?count:Math.min(2,count)):0;
   assert.equal(ratios.length,expected);assert.equal(runtime.state(actor).energy,active?65:100);
   const cast=events.filter(e=>e.type==='MERCENARY_AZANT_AREA'||e.type==='MERCENARY_AZANT_VOLLEY');assert.equal(cast.length,active?1:0);
-  if(active){assert.ok(Math.abs(ratios.reduce((n,r)=>n+r,0)-5.6)<1e-9);assert.equal(cast[0].hits.length,expected);assert.equal(cast[0].skillId,mode==='PVE'?AZANT_AREA_SKILL:AZANT_VOLLEY_SKILL);assert.equal(new Set(cast[0].targetIds).size,expected);if(control==='dodge')assert.ok(targets.every(t=>t.hp===100000&&t.shield===100));}
+  if(active){assert.ok(Math.abs(ratios.reduce((n,r)=>n+r,0)-5.6)<1e-9);assert.equal(cast[0].hits.length,expected);assert.equal(cast[0].skillId,spell);assert.equal(new Set(cast[0].targetIds).size,expected);if(control==='dodge')assert.ok(targets.every(t=>t.hp===100000&&t.shield===100));}
  }
 });
 test('real PVE/PVP generators use the intended Azant event with five cards plus a separate mercenary',()=>{
  const cards=Array.from({length:5},(_,i)=>({id:'TEST-'+i,title:'검수 '+i,rarity:'FUR',power:100000,power_type:'ATTACK'}));
  for(const mode of ['PVE','PVP']){const data=mode==='PVE'?createPveBattleV2({cards,mercenary:snapshot,monster:{id:1,name:'검수',battle_power:1000000},seed:17}):createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:snapshot,defenderMercenary:snapshot,seed:12});
-  assert.equal(data.teams.A.cards.length,5);assert.equal(data.teams.A.mercenaries[0].cardId,AZANT_CODE);assert.ok(data.result.timeline.some(e=>e.type===(mode==='PVE'?'MERCENARY_AZANT_AREA':'MERCENARY_AZANT_VOLLEY')));
+  assert.equal(data.teams.A.cards.length,5);assert.equal(data.teams.A.mercenaries[0].cardId,AZANT_CODE);assert.ok(data.result.timeline.some(e=>e.type==='MERCENARY_AZANT_VOLLEY'));
  }
 });
 test('all production consumers and main loaders include Azant playback and a fresh matching cache version',()=>{
  const report=JSON.parse(fs.readFileSync('preview/project-v-v3/grid-build-report.json'));assert.ok(report.sources.some(s=>s.file.endsWith('/AzantCombatPlayback.js')));
  for(const {file}of report.outputs){const b=fs.readFileSync(file,'utf8');assert.ok(b.includes('MERCENARY_AZANT_AREA')&&b.includes('AZANT_MOTION_ASSETS'),file);}
  for(const p of ['js/app.js','js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert.ok(fs.readFileSync(p,'utf8').includes('azant-live-20261014-v1'),p);
- assert.ok(fs.readFileSync('index.html','utf8').includes('20261014-azant-balance-v1'));
+ assert.ok(fs.readFileSync('index.html','utf8').includes('20261015-azant-berkan-v1'));
 });

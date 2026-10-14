@@ -37,7 +37,8 @@ test('Azant speed matches Berkan with and without personal gear; base power, hea
 
 test('PVP cap and existing variance apply once; raw budget, PVE budget, cost, cooldown and zero damage remain intact',()=>{
  for(const mode of ['PVP','PVE'])for(const count of [1,2,12])for(const tierOffense of [1,2])for(const zero of [false,true]){
-  const a=buildMercenaryFighter(candidate(AZANT_CODE),'A',mode,buildFighter);a.mercenaryLink={tierOffense};if(zero)for(const s of a.skills)s.balance.damageRatio=0;
+  const prepared=structuredClone(candidate(AZANT_CODE));if(mode==='PVE')prepared.skills=prepared.skills.filter(s=>s.id==='MS-058');
+  const a=buildMercenaryFighter(prepared,'A',mode,buildFighter);a.mercenaryLink={tierOffense};if(zero)for(const s of a.skills)s.balance.damageRatio=0;
   const targets=Array.from({length:count},(_,i)=>({...actor('T'+i,'B'),hp:1e6,maxHp:1e6,shield:1000,row:'FRONT',slot:i})),hits=[],events=[];
   const runtime=mercenaryCombat({teams:{A:[a],B:targets},hit(_a,t,ratio,options){hits.push({id:t.id,ratio,...options});return {damage:ratio*1000,dodge:t.id==='T0'};},damage(t,damage){const absorbed=Math.min(t.shield,damage),hpDamage=Math.min(t.hp,damage-absorbed);t.shield-=absorbed;t.hp-=hpDamage;return {absorbed,hpDamage};},knockout(){},emit:(type,data)=>events.push({type,...data}),clock:()=>0});
   a.actions++;runtime.beforeAction(a);const expected=mode==='PVP'?Math.min(count,2):count;
@@ -45,7 +46,7 @@ test('PVP cap and existing variance apply once; raw budget, PVE budget, cost, co
   const cast=events.find(e=>e.type===(mode==='PVP'?'MERCENARY_AZANT_VOLLEY':'MERCENARY_AZANT_AREA'));assert.ok(cast);assert.equal(cast.hits.length,expected);assert.equal(new Set(cast.targetIds).size,expected);
   for(const hit of hits){assert.equal(hit.varyDamageCap,mode==='PVP');assert.equal(hit.capScale,mode==='PVP'?AZANT_COMBAT.pvpSkillCapScale*tierOffense:1);assert.equal(hit.castShare,1/expected);assert.equal(hit.rangedSkill,false);}
   if(!zero)assert.ok(Math.abs(hits.reduce((s,h)=>s+h.ratio,0)-5.6)<1e-9);
-  assert.equal(targets[0].hp,1e6);assert.equal(targets[0].shield,1000);assert.equal(runtime.beforeBasicDamage(a,targets[0],1000),1000);
+  assert.equal(targets[0].hp,1e6);assert.equal(targets[0].shield,1000);assert.equal(runtime.beforeBasicDamage(a,targets[0],1000),mode==='PVP'?500:1000);
   if(zero)assert.equal(a.damageDealt,0);
  }
 });
@@ -61,6 +62,6 @@ test('actual solo, duo and twelve-target hunt remain deterministic with authorit
 });
 
 test('public combat description explains Azant cadence and PVP cap without rewriting other mercenaries',()=>{
- const azant=mercenaryCombatLinkText('SSS','REAR',{code:AZANT_CODE});assert.match(azant,/25%/);assert.match(azant,/카드 4회당 용병 추가 행동 5회/);assert.match(azant,/1\.6배/);
+ const azant=mercenaryCombatLinkText('SSS','REAR',{code:AZANT_CODE});assert.match(azant,/25%/);assert.match(azant,/카드 4회당 용병 추가 행동 5회/);assert.match(azant,/1\.865배/);assert.match(azant,/후열 우선 최대 2명/);assert.match(azant,/PVE에서는 결정창 포격과 적 전체 청옥 강림/);
  const other=mercenaryCombatLinkText('SSS','REAR',{code:'V-055'});assert.doesNotMatch(other,/아잔트|결정창/);assert.match(other,/아군 카드 1회 행동마다 추가 행동/);
 });

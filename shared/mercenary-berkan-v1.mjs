@@ -16,6 +16,7 @@ export const BERKAN_MECHANIC='GILDED_STARFALL';
 export const BERKAN_BALANCE=Object.freeze({damageRatio:5.6,cooldownTurns:5,cost:35});
 export const BERKAN_CAP_SCALE=1.7;
 export const berkanStarfallCapScale=actor=>isBerkanPvp(actor)?BERKAN_PVP_SKILL_CAP_SCALE:BERKAN_CAP_SCALE;
+export const berkanVolleyTargets=enemies=>[...enemies].sort((a,b)=>Number(b.row==='BACK')-Number(a.row==='BACK')||(b.openingAttack??b.attack)-(a.openingAttack??a.attack)||a.slot-b.slot||String(a.id).localeCompare(String(b.id))).slice(0,2);
 export const BERKAN_IMPACT=2.08;
 export const BERKAN_POSITION=Object.freeze({code:BERKAN_CODE,rank:'SSS',position:'REAR',role:'SNIPER',basicTarget:'FRONT_ENEMY',skillTarget:'BACK_THREAT',specialty:'후열 우선 2명 동시 사격 · 제자리 흑금 화살',weakness:'회피·보호막·방어에 대응되며 제압 상태에서는 발동하지 않음',rationale:'사용자 지정 SSS 궁수. 달리기 대신 조준·발사·반동을 분리한 동작.'});
 export function berkanSelectionWeights(codes,weights={}){

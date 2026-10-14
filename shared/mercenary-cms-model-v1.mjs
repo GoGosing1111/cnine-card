@@ -1,5 +1,5 @@
 import {upgradeBerkanTwinSkill,BERKAN_AREA_SKILL_ID} from './mercenary-berkan-v1.mjs';
-import {AZANT_CODE,AZANT_VOLLEY_SKILL,AZANT_AREA_SKILL} from './mercenary-azant-v1.mjs';
+import {AZANT_CODE,AZANT_VOLLEY_SKILL,AZANT_AREA_SKILL,upgradeAzantBerkanParity} from './mercenary-azant-v1.mjs';
 import {CRYVERN_CODE,CRYVERN_SKILL_ID} from './mercenary-cryvern-v1.mjs';
 import {NURSE_CODES,NURSE_SKILL_ID} from './mercenary-nurse-healers-v1.mjs';
 import {S_SKILL_IDS} from './mercenary-s-skills-v2.mjs';
@@ -92,6 +92,7 @@ export function expandMercenarySkillCatalog(document, defaults, catalog) {
       assignments:[...previous.assignments,structuredClone(defaults.assignments.find(c=>c.code===AZANT_CODE))]},catalog);
   }
   document=upgradeBerkanTwinSkill(document,defaults);
+  document=upgradeAzantBerkanParity(document,defaults);
   if(catalog.skills.some(s=>s.id===BERKAN_AREA_SKILL_ID)&&!document?.skills?.some(s=>s.id===BERKAN_AREA_SKILL_ID)){
     const previousCatalog={...catalog,skills:catalog.skills.filter(s=>s.id!==BERKAN_AREA_SKILL_ID)};
     const previous=expandMercenarySkillCatalog(document,defaults,previousCatalog);

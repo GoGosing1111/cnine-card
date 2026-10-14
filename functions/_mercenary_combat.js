@@ -1,6 +1,6 @@
 import {SHIRANUI_CODE,SHIRANUI_COMBAT,SHIRANUI_AREA_SKILL,SHIRANUI_AREA_MECHANIC,isShiranui,shiranuiActionCredit} from '../shared/mercenary-shiranui-v1.mjs';
 import {resolveShiranuiArea} from './_mercenary_shiranui.js';
-import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_CAP_SCALE,BERKAN_MECHANIC,BERKAN_AREA_MECHANIC,isBerkanAreaSkill,BERKAN_TEMPO,berkanActionCredit,berkanPvpBasicDamageScale,berkanStarfallCapScale} from '../shared/mercenary-berkan-v1.mjs';
+import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_CAP_SCALE,BERKAN_MECHANIC,BERKAN_AREA_MECHANIC,isBerkanAreaSkill,BERKAN_TEMPO,berkanActionCredit,berkanPvpBasicDamageScale,berkanStarfallCapScale,berkanVolleyTargets} from '../shared/mercenary-berkan-v1.mjs';
 import {resolveBerkanStarfall,resolveBerkanArrowRain} from './_mercenary_berkan.js';
 import {iconHealingAmount} from '../shared/icon-roles-v1.mjs';
 import {SNIPER_ORIKKUNG_SKILL_ID,SNIPER_ORIKKUNG_CAP_SCALE} from '../shared/mercenary-sniper-orikkung-v1.mjs';
@@ -27,7 +27,7 @@ import {resolveJinmuArea} from './_mercenary_jinmu.js';
 import {KAIRON_CODE,KAIRON_COMBAT,KAIRON_AREA_SKILL,KAIRON_AREA_MECHANIC,isKairon,kaironActionCredit} from '../shared/mercenary-kairon-v1.mjs';
 import {resolveKaironArea} from './_mercenary_kairon.js';
 import {resolveHeliosArea} from './_mercenary_helios.js';
-import {AZANT_CODE,AZANT_VOLLEY_SKILL,AZANT_VOLLEY_MECHANIC,AZANT_AREA_MECHANIC,AZANT_COMBAT,azantActionCredit} from '../shared/mercenary-azant-v1.mjs';
+import {AZANT_CODE,AZANT_VOLLEY_SKILL,AZANT_VOLLEY_MECHANIC,AZANT_AREA_MECHANIC,AZANT_COMBAT,azantActionCredit,azantPvpBasicDamageScale,azantVolleyCapScale} from '../shared/mercenary-azant-v1.mjs';
 import {resolveAzantCast} from './_mercenary_azant.js';
 import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION,SS_LIMITED_TEMPO,ssLimitedActionCredit,ssLimitedProfile} from '../shared/mercenary-ss-limited-v1.mjs';
 import {ssRearPveInterval,ssRearPveHealing} from '../shared/mercenary-ss-rear-pve-v1.mjs';
@@ -118,7 +118,7 @@ export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
 });
 export function mercenarySkillCapActions(actor,skill,ranged,sequentialCount){
  const actions=ranged?Math.max(1,sequentialCount||1):(MERCENARY_SKILL_RESOLVE_ACTIONS[skill?.mechanic]??1);
- const scale=skill?.id===BERKAN_SKILL_ID?berkanStarfallCapScale(actor):skill?.id===CRYVERN_SKILL_ID?cryvernCrownCapScale(actor):(MERCENARY_SKILL_CAP_SCALE[skill?.id]??1);
+ const scale=skill?.id===AZANT_VOLLEY_SKILL?azantVolleyCapScale(actor):skill?.id===BERKAN_SKILL_ID?berkanStarfallCapScale(actor):skill?.id===CRYVERN_SKILL_ID?cryvernCrownCapScale(actor):(MERCENARY_SKILL_CAP_SCALE[skill?.id]??1);
  return actions*scale*mercenaryPvpTierOffense(actor)*(actor?.battleMode==='PVP'?(ssLimitedProfile(actor)?.pvpSkillCapScale??1):1);
 }
 // 피해가 없는 보조 스킬은 행동을 잡아먹지 않는다. 용병이 스킬을 쓰느라 공격을 거르면
@@ -191,9 +191,9 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   if(s.mechanic===JINMU_AREA_MECHANIC)return isJinmu(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===HELIOS_AREA_MECHANIC)return isHelios(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===AZANT_AREA_MECHANIC)return a.code===AZANT_CODE&&a.battleMode==='PVE'?en:[];
-  if(s.mechanic===AZANT_VOLLEY_MECHANIC)return a.code===AZANT_CODE&&a.battleMode==='PVP'?fr.slice(0,2):[];
+  if(s.mechanic===AZANT_VOLLEY_MECHANIC)return a.code===AZANT_CODE&&['PVE','PVP'].includes(a.battleMode)?berkanVolleyTargets(en):[];
   if(isBerkanAreaSkill(s))return a.battleMode==='PVE'?en:[];
-  if(s.mechanic===BERKAN_MECHANIC)return [...en].sort((a,b)=>Number(b.row==='BACK')-Number(a.row==='BACK')||(b.openingAttack??b.attack)-(a.openingAttack??a.attack)||a.slot-b.slot||String(a.id).localeCompare(String(b.id))).slice(0,2);
+  if(s.mechanic===BERKAN_MECHANIC)return berkanVolleyTargets(en);
   if(s.mechanic==='PLATINUM_SANCTUARY'||s.mechanic==='CRYSTAL_CROWN')return fr.slice(0,2);
   if(s.mechanic==='GOLDEN_ORCHID_VOLLEY'){const primary=fr[0];return primary?[primary,...en.filter(t=>t!==primary).slice(0,2)]:[];}
   if(isMercenaryGuardSkill(s))return [weakest(friends.filter(t=>t.id!==a.id&&!activeIntercept(t)))].filter(Boolean);
@@ -443,7 +443,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){if(a.actions<d.restraint.expires)factor*=1-d.restraint.percent/100;else delete d.restraint;}return factor*tierScale(a);},
   basicDamageCapScale(a){return tierScale(a)*mercenaryPvpTierOffense(a)*(isValter(a)?VALTER_COMBAT.basicCapScale:isHelios(a)?HELIOS_COMBAT.basicCapScale:isShiranui(a)?SHIRANUI_COMBAT.basicCapScale:isKairon(a)?KAIRON_COMBAT.basicCapScale:isJinmu(a)?JINMU_COMBAT.basicCapScale:1);},
   beforeBasicDamage(a,t,amount){const buff=table(buffs,t),d=table(debuffs,a);
-   const basicScale=berkanPvpBasicDamageScale(a)*cryvernPvpBasicDamageScale(a);if(basicScale!==1)amount=Math.floor(amount*basicScale);
+   const basicScale=azantPvpBasicDamageScale(a)*berkanPvpBasicDamageScale(a)*cryvernPvpBasicDamageScale(a);if(basicScale!==1)amount=Math.floor(amount*basicScale);
    if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}
    if(buff.standfast){const ward=buff.standfast;delete buff.standfast;if(living(ward.actor)&&ward.actor.actions<ward.expires){const saved=Math.min(ward.budget,Math.floor(amount*ward.percent/100));amount-=saved;send(ward.actor,ward.skill,'BUFF',t,{effect:'STAND_FAST_CONSUMED',amount:saved});}}
 
