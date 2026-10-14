@@ -1,3 +1,4 @@
+import {handleHalloweenPack} from '../_mercenary_halloween_pack.js';
 import {WORM_CONTEST_GIFT,ensureWormContestGiftCatalog,openWormContestGift,grantWormContestGift} from '../_worm_contest_gift.js';
 import {ensureMercenarySssShardCatalog} from '../_mercenary_sss_shard.js';
 import {MERCENARY_EQUIPMENT_SQL_CODES} from '../../shared/mercenary-equipment-v1.mjs';
@@ -5080,6 +5081,7 @@ async function handleRequest(context){
     const sssRerollResponse=await handleSssReroll({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(sssRerollResponse)return sssRerollResponse;
     const miracleCubeResponse=await handleMiracleCube({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(miracleCubeResponse)return miracleCubeResponse;
     const mineResponse=await handleMasterStarMine({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mineResponse)return mineResponse;
+    const halloweenPackResponse=await handleHalloweenPack({path,request,env,deps:{json,requirePermission}});if(halloweenPackResponse)return halloweenPackResponse;
     const limitedPackResponse=await handleLimitedPack({path,request,env,deps:{authenticate,json,requirePermission,withUserMutationLock:withJointUserMutationLock}});if(limitedPackResponse)return limitedPackResponse;
     const mercenaryAccountResponse=await handleMercenaryAccount({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mercenaryAccountResponse)return mercenaryAccountResponse;
     const hyperPackResponse=await handleHyperPack({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(hyperPackResponse)return hyperPackResponse;

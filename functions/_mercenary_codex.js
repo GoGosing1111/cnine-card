@@ -7,7 +7,7 @@ import {mercenaryAttackStyle} from '../shared/mercenary-attack-style-v1.mjs';
 import {isRangedMercenarySkill,rangedMercenarySkillText,MERCENARY_RANGED_SUMMARY,MERCENARY_RANGED_BALANCE_VERSION} from '../shared/mercenary-ranged-balance-v1.mjs';
 import {mercenaryGuardSkillText,MERCENARY_GUARD_BALANCE_VERSION} from '../shared/mercenary-guard-balance-v1.mjs';
 import {mercenaryMoonDrawSkillText,MERCENARY_MOON_DRAW_VERSION} from '../shared/mercenary-moon-draw-v1.mjs';
-import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
+import {ALL_LIMITED_MERCENARIES as LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {limitedDeploymentSnapshot,LIMITED_DEPLOYMENT_VERSION} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {ssRearPveSkillText} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 import {ssLimitedCombatDescription,SS_LIMITED_BALANCE_VERSION} from '../shared/mercenary-ss-limited-v1.mjs';

@@ -2,7 +2,7 @@ import {mercenaryMode,readMercenaryModes,mercenaryModeGuard,mercenaryModeStateme
 import {attachMercenaryEquipment,mercenaryEquipmentRuntimes,readMercenaryEquipmentRecords} from './_mercenary_equipment.js';
 import {mercenaryEquipmentPower} from '../shared/mercenary-equipment-v1.mjs';
 import {JINMU_CODE,JINMU_ART,jinmuAccountAllowed} from '../shared/mercenary-jinmu-v1.mjs';
-import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
+import {ALL_LIMITED_MERCENARIES as LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {readJointReleaseComponent} from './_joint_release_document.js';
 import {attachReleasedMercenaryLevels,releasedMercenaryLevelSummary} from './_mercenary_level_policy.js';
