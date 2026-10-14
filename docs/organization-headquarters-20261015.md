@@ -23,3 +23,11 @@
 로컬에서 배정 이후 화면을 확인하려면 node scripts/serve-organization-preview.mjs --assigned로 실행한다. 기본 실행은 기존 입단 심사 검수다. 두 모드 모두 localhost와 가상 계정만 사용하며 실제 운영 데이터에 연결하지 않는다.
 
 점령 지역 구현·정산 영수증·성장 실행은 이후 개발 대상이다. 지역당 점수, 정산 간격, 성장 기준과 보상을 임의 확정하지 않는다.
+
+## 화면 보정 운영 반영
+
+- 배포 소스 590b8bcb3f7ded1ff1606149e9f09fa5b7658e4b, Pages https://cacc3249.cnine-card.pages.dev. 현재 운영 /organization/에 아지트 활성 버튼 이미지·표시 영역·미리보기 표식을 반영했다.
+- 추가 관련 검사 5개·Worker·출시/캐시·Hyperdrive 검증을 통과했다. 첫 배포 후 검수에서 확인한 활성 버튼의 이미지 위치/크기 초기화 문제를 바로잡기 위한 scoped 추가 배포다. 무관한 전체 검사는 반복하지 않았다.
+- 운영 정적 파일 14개 SHA-256 일치. PC 1440·모바일 390에서 활성 이미지 버튼과 투명 배경, 미리보기 표시, 가상 명부 없음, 화면 넘침·브라우저 오류 없음과 API 요청 0건을 확인했다.
+- 모집·점수·성장 실행은 계속 OFF, 신규 명부와 실제 단계 조회는 격리 TEST에서만 사용한다. 실제 운영에 새 조직 DB를 설치하거나 임의 계정을 배정하지 않았다.
+- 영수증은 docs/organization-headquarters-live-20261015.json, 운영 캡처는 docs/qa/organization-headquarters-live-20261015/다.

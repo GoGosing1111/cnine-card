@@ -1,0 +1,97 @@
+{
+  "verifiedAt": "2026-10-14T21:56:46.419Z",
+  "url": "https://cnine-card.pages.dev/organization/",
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "8cb6179b5b8310460ed5a19f3f6b23719944f3d439da27fc107745b125082e99",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "f0330f43c6ff00d07f7a9f6c0fa0b83f68ec6bcebb42ab3bd4881760c67c20cf",
+      "status": 200
+    },
+    {
+      "file": "organization/index.html",
+      "sha256": "cbbc7776f06d70e61385c1981f3e7c688f78d32f9a91f97b6c5d8105d0647b6d",
+      "status": 200
+    },
+    {
+      "file": "js/organization-preparation-v1.js",
+      "sha256": "2c6a0d56a2e2cc60cdd92c6025640a8ed3a15fe62f0ecbf9dc7775c89cf4975a",
+      "status": 200
+    },
+    {
+      "file": "js/organization-public-v1.mjs",
+      "sha256": "bac4210fedac98decb77ee3618584304afb32dac64a3ce9141f2caf5da7c7f02",
+      "status": 200
+    },
+    {
+      "file": "js/organization-system-v1.mjs",
+      "sha256": "a9af2955495b1b42844495e98caaaaddf1a203d307880de5bb09d99c95cc5672",
+      "status": 200
+    },
+    {
+      "file": "js/organization-admission-v1.mjs",
+      "sha256": "7ec2df61e2587b2c9daf590cbd58908b9179439283d84d704d689836dbd5bff8",
+      "status": 200
+    },
+    {
+      "file": "shared/organization-public-v1.mjs",
+      "sha256": "fc69efd0f414ccfe044d5a1ff35762033d4b2fac8ade4b57460690f4c52dcf5b",
+      "status": 200
+    },
+    {
+      "file": "css/organization-public-v1.css",
+      "sha256": "8bbe71145fa69424f565f226cc501d5098b1cca15cae4fc271b6e3c4f9592b74",
+      "status": 200
+    },
+    {
+      "file": "css/organization-admission-v1.css",
+      "sha256": "9a62ca24fa80a4289b5863a101ebaaba59de3cf92f25c19fb58270632406c847",
+      "status": 200
+    },
+    {
+      "file": "css/organization-system-v1.css",
+      "sha256": "0bdb47b5f710f03020703438db0273d557339111c1d0ed4e4b5aad722c6badfb",
+      "status": 200
+    },
+    {
+      "file": "js/organization-headquarters-v1.mjs",
+      "sha256": "4eefc4f678a1d6f212460afa46010e2a263c4e201fb950564c73b81bcb0c719c",
+      "status": 200
+    },
+    {
+      "file": "shared/organization-headquarters-v1.mjs",
+      "sha256": "fc07b91d5e0374c9d7b9690d0dce6e7b332cd942635787e0fd1e940727373370",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/organization/admission-v1/action-gold.png",
+      "sha256": "0a8b6c4d4000e781fb426fbd4a1e5fdecefae26e05e429f535ed85d116be76c5",
+      "status": 200
+    }
+  ],
+  "browsers": [
+    {
+      "width": 1440,
+      "publicPreparation": true,
+      "hideoutImageButton": true,
+      "liveRoster": false,
+      "overflow": false,
+      "errors": [],
+      "apiRequests": 0
+    },
+    {
+      "width": 390,
+      "publicPreparation": true,
+      "hideoutImageButton": true,
+      "liveRoster": false,
+      "overflow": false,
+      "errors": [],
+      "apiRequests": 0
+    }
+  ],
+  "scope": "Public preparation only; no accounts or production DB writes"
+}

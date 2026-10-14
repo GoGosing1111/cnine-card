@@ -1,0 +1,15 @@
+{
+  "source": "590b8bcb3f7ded1ff1606149e9f09fa5b7658e4b",
+  "previousSource": "b443c5d97ebac65aab01b854e80c917a5c4fda15",
+  "pagesId": "cacc3249-2642-49d7-be3f-62fb55c5c4a3",
+  "pagesUrl": "https://cacc3249.cnine-card.pages.dev",
+  "publicUrl": "https://cnine-card.pages.dev/organization/",
+  "apiVersion": "863cb35c-a697-42d6-b696-2f4d4553fb2d",
+  "schedulerVersion": "154fb688-154a-4c6d-8deb-1bc83efa0ebc",
+  "verifiedAt": "2026-10-14T21:56:46.419Z",
+  "scopedChecksPassed": 5,
+  "productionFileHashesMatched": 14,
+  "recruitmentOpen": false,
+  "organizationProductionSchemaInstalled": false,
+  "evidence": "qa/organization-headquarters-live-20261015/verification.json"
+}

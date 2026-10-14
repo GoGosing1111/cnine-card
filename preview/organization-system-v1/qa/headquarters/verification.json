@@ -1,0 +1,22 @@
+{
+  "source": "590b8bcb3f7ded1ff1606149e9f09fa5b7658e4b",
+  "status": "isolated-test-preparation",
+  "productionEnrollment": false,
+  "productionOrganizationDatabaseInstalled": false,
+  "relatedRegressionsPassed": 16,
+  "finalScopedChecksPassed": 5,
+  "browserWidths": [
+    1440,
+    390
+  ],
+  "checks": [
+    "own-organization roster only",
+    "no other participant answers/preferences/power",
+    "stored stage survives policy changes",
+    "null thresholds remain unconfigured",
+    "HTML escaping and long names",
+    "current hideout versus concept preview",
+    "image button active skin",
+    "preview actions do not change points or stage"
+  ]
+}
