@@ -6,6 +6,7 @@ import vm from 'node:vm';
 import {webcrypto} from 'node:crypto';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 import {claimMessageRewardBatch} from '../functions/_message_reward_batch.js';
+import {ACCOUNT_SYNC_SCHEMA_SQL,accountSyncTriggersSql} from '../scripts/ops/account-sync-schema-20261015.mjs';
 import {inspectVerifiedSssRerollMessage as inspect,sendVerifiedSssRerollMessage as send,verifyVerifiedSssRerollMessage as verify,CAMPAIGN_KEY,OPERATION_KEY,ITEM_CODE,TITLE,BODY} from '../scripts/ops/verified-sss-reroll-message-20261015.mjs';
 
 async function fixture(t){
@@ -26,10 +27,12 @@ async function fixture(t){
  CREATE TABLE inventory_logs(user_id BIGINT,item_code TEXT,change_amount BIGINT,balance_after BIGINT,reason TEXT,reference_type TEXT,reference_id TEXT);
  CREATE TABLE user_message_reward_claim_receipts_v1222(reward_id BIGINT PRIMARY KEY,message_id BIGINT UNIQUE,user_id BIGINT,
  reward_type TEXT,reward_amount BIGINT,claim_token TEXT UNIQUE,balance_before BIGINT,balance_after BIGINT,source TEXT,credited_at TEXT);`);
+ await db.exec(ACCOUNT_SYNC_SCHEMA_SQL+accountSyncTriggersSql(['user_messages']));
+ await db.exec("INSERT INTO account_sync_versions_v1(user_id,revision,domains) VALUES(3,7,'{\"wallet\":\"7\"}')");
  return {db,client:{query:(sql,args=[])=>db.query(sql,args)}};
 }
 async function snapshot(db){
- const result={};for(const name of ['users','cnine_user_inventory','user_messages','user_message_rewards','app_meta','admin_logs'])result[name]=(await db.query(`SELECT * FROM ${name} ORDER BY 1,2`)).rows;return result;
+ const result={};for(const name of ['users','cnine_user_inventory','user_messages','user_message_rewards','app_meta','admin_logs','account_sync_versions_v1'])result[name]=(await db.query(`SELECT * FROM ${name} ORDER BY 1,2`)).rows;return result;
 }
 
 test('all active verified roles/providers beyond one page receive exactly one SSS reroll ticket by message; replay freezes recipients',async t=>{
@@ -40,6 +43,8 @@ test('all active verified roles/providers beyond one page receive exactly one SS
  assert.equal(receipt.title,'2차 인증 유저 SSS 재뽑기권 지급');assert.equal(receipt.totalAmount,204);
  assert.deepEqual(receipt.verification,{messages:204,rewards:204,totalAmount:204,claimed:0,missing:0,duplicates:0});
  assert.deepEqual(after.users,before.users);assert.deepEqual(after.cnine_user_inventory,before.cnine_user_inventory);
+ const sync=after.account_sync_versions_v1.find(row=>Number(row.user_id)===3);
+ assert.equal(Number(sync.revision),8);assert.deepEqual(sync.domains,{wallet:'7',messages:'8'});
  assert.ok(after.user_messages.every(row=>row.title===TITLE&&row.body===BODY&&row.campaign_key===CAMPAIGN_KEY));
  assert.ok(after.user_message_rewards.every(row=>row.reward_type===ITEM_CODE&&Number(row.reward_amount)===1));
  assert.equal((await verify(client,receipt)).duplicates,0);

@@ -13,3 +13,5 @@
 운영 완료 수량·시각·감사 ID·배포 식별자는 실행 후 이 문서와 같은 이름의 JSON에 보존한다.
 
 사전 조회: 대상 573명(OWNER 2·ADMIN 2·USER 569, PLAYDK 572·WAGO 1), 정지 1명 제외. 대상 해시 `4865d35f1ac4258dba8157a78e27cb213a3a2cb4acde7a7273f5d7c3a26c7022`. 기존 해당 아이템 메시지 0건. 운영 SSS 재뽑기 정책은 revision 2·ON·설정 5종이며 읽기만 했다. 직전 배포 소스는 `b304643daf2bd497fda6a620b39ac5db90946fbb`다.
+
+첫 운영 dry run은 동시 계정 동기화 revision 갱신으로 PostgreSQL `could not serialize access due to concurrent update`가 발생해 전체 롤백됐다. 일회 발송 도구에 한해 READ COMMITTED를 명시해 동기화 갱신의 행 잠금을 기다리도록 했다. 대상은 한 번의 SELECT와 검토한 해시로 고정하며 작업 예약·캠페인 유일성·메시지/첨부/감사/영수증 원자성은 유지한다. 테스트에 실제 메시지 동기화 트리거를 연결해 기존 wallet revision 보존·메시지 revision 증가·실패 롤백·재시도 무변경을 확인한다. 공통 DB 설정·운영 트리거·게임 실행 코드를 바꾸지 않으므로 이 후속 도구 수정은 관련 검사와 커밋만 진행한다.
