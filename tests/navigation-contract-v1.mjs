@@ -120,7 +120,11 @@ for(const [route,section] of [['fusion','SYNTHESIS'],['vehicle','VEHICLE']]){
   assert.deepEqual(calls,[{shell:'workshop',section}],'workshop owns its loading/error UI; router must not poll an API-dependent selector');
 }
 
-assert.match(appSource, /scrapyard:\{[\s\S]*?css\/workshop-v1881\.css\?v=2009-material-label[\s\S]*?js\/workshop-v1881\.js\?v=2098-hyper-codex/);
+const scrapyardFeature=appSource.slice(appSource.indexOf('  scrapyard:{'),appSource.indexOf('  dexTools:{'));
+for(const [path,version] of [['css/workshop-v1881.css','2009-material-label'],['js/workshop-v1881.js','2098-hyper-codex']]){
+  const resource=[...scrapyardFeature.matchAll(/'([^']+\?[^']+)'/g)].map(m=>new URL(m[1],'https://test.invalid/')).find(url=>url.pathname==='/'+path);
+  assert.equal(resource?.searchParams.get('v'),version,'feature version is independent of query parameter order');
+}
 assert.match(appSource, /js\/scrapyard-battle-v1698\.js\?v=2098-hyper-codex/);
 assert.match(appSource, /typeof window\.scrapyardView==='function'&&typeof window\.bindScrapyardView==='function'/);
 assert.match(appSource, /if\(itemCode==='SCRAPYARD_ENTRY_TICKET'\)return renderShell\('scrapyard'\)/, 'entry ticket must open the independent scrapyard shell');
