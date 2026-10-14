@@ -1,0 +1,37 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-14T10:58:52.628Z",
+  "sourceCommit": "a811f7ebba2eb2b6f8bccd7ccee3847e0166fc46",
+  "deployment": {
+    "Id": "df39af3a-8f4d-4d3a-9ad8-8ced957d6471",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "a811f7e",
+    "Deployment": "https://df39af3a.cnine-card.pages.dev",
+    "Status": "44 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/df39af3a-8f4d-4d3a-9ad8-8ced957d6471"
+  },
+  "card": {
+    "code": "V-988",
+    "name": "카이론",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "acquisition": "CRAFT_ONLY",
+    "packAcquisitionEnabled": false,
+    "deploymentEnabled": true
+  },
+  "catalogRevision": 61,
+  "approvedArtHashMatches": true,
+  "approvedBattleHashMatches": true,
+  "mainCacheConnected": true,
+  "cmsEditorPresent": true,
+  "preparedCraftStatus": "CRAFT_PREPARED_CMS_LOCKED",
+  "productionEconomicWrites": false,
+  "liveBrowser": {
+    "viewport": "1440x1000",
+    "selectedCode": "V-988",
+    "craftOnlyVisible": true,
+    "overflow": false,
+    "pageErrors": []
+  }
+}
