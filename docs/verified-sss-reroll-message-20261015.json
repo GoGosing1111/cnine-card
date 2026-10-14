@@ -1,0 +1,72 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:verified-sss-reroll-message:20261015:v1",
+  "campaignKey": "verified-sss-reroll-message-20261015-v1",
+  "authorization": "2차인증메세지 전체유저에 SSS 재뽑기권 지급해",
+  "delivery": "MESSAGE",
+  "eligibility": "All ACTIVE secondary-verified accounts, all roles and verification providers",
+  "recipientCount": 573,
+  "recipientHash": "4865d35f1ac4258dba8157a78e27cb213a3a2cb4acde7a7273f5d7c3a26c7022",
+  "roles": {
+    "OWNER": 2,
+    "USER": 569,
+    "ADMIN": 2
+  },
+  "providers": [
+    {
+      "provider": "PLAYDK",
+      "count": 572
+    },
+    {
+      "provider": "WAGO",
+      "count": 1
+    }
+  ],
+  "excludedInactive": [
+    {
+      "status": "BANNED",
+      "count": 1
+    }
+  ],
+  "itemCode": "MERCENARY_SSS_REROLL_TICKET",
+  "itemName": "SSS 재뽑기권",
+  "amountEach": 1,
+  "totalAmount": 573,
+  "title": "2차 인증 유저 SSS 재뽑기권 지급",
+  "body": "2차 인증을 완료하신 유저 여러분께 SSS 재뽑기권 1장을 드립니다. 메시지함에서 보상을 수령해 주세요.",
+  "auditId": "46285",
+  "completedAt": "2026-10-14T20:55:11.879Z",
+  "completedAtKst": "2026-10-15T05:55:11.879+09:00",
+  "checkedAt": "2026-10-14T20:55:13.030Z",
+  "verification": {
+    "messages": 573,
+    "rewards": 573,
+    "totalAmount": 573,
+    "claimed": 0,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "dryRunRollbackVerified": true,
+  "replayedWithoutReissue": true,
+  "inventoryCreditedOnlyOnUserClaim": true,
+  "testsPassed": 10,
+  "workerSyntaxPassed": true,
+  "operationSourceCommit": "e3c305d3314305045f6d4e476bedd53bdba36500",
+  "rerollPolicyReadOnly": {
+    "revision": 2,
+    "mode": "ON",
+    "configuredCards": 5
+  },
+  "deployment": {
+    "checkedAt": "2026-10-14T20:52:48.548Z",
+    "sourceCommit": "204dddd81abf7fe36216dc263792fe8105f34ef8",
+    "pagesUrl": "https://47cc06fd.cnine-card.pages.dev",
+    "pagesStatus": "success",
+    "deployedMessageRewardSupported": true,
+    "liveClientMatches": true,
+    "liveClientSha256": "6cf4404a0de648aaf98e4cd37560326e720f04cd6f25beea7714a77a28dad547",
+    "rerollConfigurationChanged": false,
+    "apiVersion": "4ee0e604-ec30-44ef-b641-40544111f995",
+    "schedulerVersion": "49aea1db-4b3c-4d85-b187-25934eb94a13"
+  }
+}

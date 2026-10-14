@@ -546,6 +546,7 @@ function messageRewardClaimToken(){
 }
 
 const VERIFIED_MESSAGE_REWARD_TYPES={
+  MERCENARY_SSS_REROLL_TICKET:{label:'SSS 재뽑기권',icon:'🎟️',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   WORM_CONTEST_GIFT_BOX:{label:'지렁이대회 사은품',icon:'🎁',inventory:true,messageOnly:true,max:9999,messageType:'ITEM_REWARD'},
   MERCENARY_SSS_CARD_SHARD:{label:'SSS 용병 카드 조각',icon:'🧩',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   JOKGAK_CITY_REWARD:{label:'족각도시 보상',icon:'🏙️',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
