@@ -1,0 +1,1907 @@
+{
+  "version": 2,
+  "date": "2026-10-15",
+  "name": null,
+  "rank": null,
+  "code": null,
+  "previewAdapterCode": "V-000",
+  "runtimeEnabled": false,
+  "status": "BATTLE_VISUAL_REVIEW_PENDING",
+  "sourceArt": "preview/monochrome-gunner-illustration-20261015-v1/monochrome-gunner-ballistic-aura-v3.png",
+  "sourceArtSha256": "3b67b37e9e3ab1e017552c6d6864c0469056edc1332c2555c9f4cc6f5e3ffe65",
+  "weapon": {
+    "source": "assets/sources/approved-art-v3.png",
+    "sourceSha256": "3b67b37e9e3ab1e017552c6d6864c0469056edc1332c2555c9f4cc6f5e3ffe65",
+    "region": {
+      "left": 655,
+      "top": 425,
+      "width": 456,
+      "height": 815
+    },
+    "axisDegrees": 64.2,
+    "grip": {
+      "x": 121,
+      "y": 266
+    },
+    "support": {
+      "x": 252,
+      "y": 519
+    },
+    "muzzle": {
+      "x": 427,
+      "y": 790
+    },
+    "polygons": [
+      [
+        [
+          22,
+          71
+        ],
+        [
+          60,
+          25
+        ],
+        [
+          72,
+          26
+        ],
+        [
+          94,
+          77
+        ],
+        [
+          105,
+          92
+        ],
+        [
+          109,
+          116
+        ],
+        [
+          124,
+          151
+        ],
+        [
+          137,
+          182
+        ],
+        [
+          146,
+          182
+        ],
+        [
+          146,
+          174
+        ],
+        [
+          161,
+          166
+        ],
+        [
+          181,
+          207
+        ],
+        [
+          188,
+          219
+        ],
+        [
+          204,
+          244
+        ],
+        [
+          208,
+          251
+        ],
+        [
+          202,
+          260
+        ],
+        [
+          215,
+          282
+        ],
+        [
+          230,
+          279
+        ],
+        [
+          244,
+          310
+        ],
+        [
+          259,
+          348
+        ],
+        [
+          269,
+          368
+        ],
+        [
+          281,
+          391
+        ],
+        [
+          273,
+          402
+        ],
+        [
+          294,
+          454
+        ],
+        [
+          292,
+          465
+        ],
+        [
+          306,
+          492
+        ],
+        [
+          320,
+          516
+        ],
+        [
+          334,
+          545
+        ],
+        [
+          348,
+          573
+        ],
+        [
+          361,
+          598
+        ],
+        [
+          371,
+          622
+        ],
+        [
+          383,
+          644
+        ],
+        [
+          393,
+          667
+        ],
+        [
+          390,
+          676
+        ],
+        [
+          398,
+          687
+        ],
+        [
+          391,
+          697
+        ],
+        [
+          402,
+          721
+        ],
+        [
+          436,
+          792
+        ],
+        [
+          420,
+          802
+        ],
+        [
+          381,
+          726
+        ],
+        [
+          372,
+          699
+        ],
+        [
+          359,
+          701
+        ],
+        [
+          347,
+          684
+        ],
+        [
+          335,
+          682
+        ],
+        [
+          320,
+          661
+        ],
+        [
+          301,
+          625
+        ],
+        [
+          285,
+          597
+        ],
+        [
+          267,
+          566
+        ],
+        [
+          249,
+          535
+        ],
+        [
+          237,
+          513
+        ],
+        [
+          223,
+          482
+        ],
+        [
+          223,
+          476
+        ],
+        [
+          218,
+          460
+        ],
+        [
+          217,
+          481
+        ],
+        [
+          222,
+          490
+        ],
+        [
+          219,
+          503
+        ],
+        [
+          202,
+          507
+        ],
+        [
+          184,
+          498
+        ],
+        [
+          163,
+          485
+        ],
+        [
+          160,
+          474
+        ],
+        [
+          164,
+          463
+        ],
+        [
+          177,
+          420
+        ],
+        [
+          165,
+          403
+        ],
+        [
+          165,
+          397
+        ],
+        [
+          151,
+          395
+        ],
+        [
+          148,
+          386
+        ],
+        [
+          163,
+          375
+        ],
+        [
+          145,
+          358
+        ],
+        [
+          133,
+          362
+        ],
+        [
+          114,
+          376
+        ],
+        [
+          101,
+          380
+        ],
+        [
+          94,
+          364
+        ],
+        [
+          104,
+          343
+        ],
+        [
+          87,
+          323
+        ],
+        [
+          84,
+          304
+        ],
+        [
+          70,
+          291
+        ],
+        [
+          63,
+          274
+        ],
+        [
+          55,
+          250
+        ],
+        [
+          53,
+          241
+        ],
+        [
+          64,
+          211
+        ],
+        [
+          53,
+          205
+        ],
+        [
+          44,
+          192
+        ],
+        [
+          34,
+          170
+        ],
+        [
+          41,
+          165
+        ],
+        [
+          40,
+          152
+        ],
+        [
+          26,
+          128
+        ],
+        [
+          20,
+          107
+        ]
+      ]
+    ],
+    "holes": [
+      [
+        [
+          73,
+          211
+        ],
+        [
+          92,
+          210
+        ],
+        [
+          108,
+          220
+        ],
+        [
+          113,
+          235
+        ],
+        [
+          130,
+          244
+        ],
+        [
+          147,
+          269
+        ],
+        [
+          148,
+          283
+        ],
+        [
+          138,
+          293
+        ],
+        [
+          127,
+          285
+        ],
+        [
+          117,
+          290
+        ],
+        [
+          106,
+          282
+        ],
+        [
+          92,
+          281
+        ],
+        [
+          82,
+          269
+        ],
+        [
+          73,
+          248
+        ],
+        [
+          68,
+          231
+        ]
+      ],
+      [
+        [
+          41,
+          83
+        ],
+        [
+          65,
+          69
+        ],
+        [
+          73,
+          95
+        ],
+        [
+          62,
+          104
+        ],
+        [
+          47,
+          92
+        ]
+      ],
+      [
+        [
+          66,
+          120
+        ],
+        [
+          76,
+          127
+        ],
+        [
+          99,
+          178
+        ],
+        [
+          94,
+          185
+        ],
+        [
+          86,
+          177
+        ],
+        [
+          75,
+          158
+        ]
+      ],
+      [
+        [
+          193,
+          418
+        ],
+        [
+          213,
+          427
+        ],
+        [
+          222,
+          451
+        ],
+        [
+          217,
+          474
+        ],
+        [
+          181,
+          464
+        ]
+      ],
+      [
+        [
+          63,
+          276
+        ],
+        [
+          79,
+          282
+        ],
+        [
+          94,
+          296
+        ],
+        [
+          108,
+          307
+        ],
+        [
+          130,
+          309
+        ],
+        [
+          138,
+          315
+        ],
+        [
+          102,
+          337
+        ],
+        [
+          85,
+          318
+        ]
+      ],
+      [
+        [
+          68,
+          208
+        ],
+        [
+          69,
+          231
+        ],
+        [
+          82,
+          263
+        ],
+        [
+          99,
+          270
+        ],
+        [
+          129,
+          290
+        ],
+        [
+          132,
+          309
+        ],
+        [
+          111,
+          321
+        ],
+        [
+          88,
+          307
+        ],
+        [
+          67,
+          287
+        ],
+        [
+          58,
+          242
+        ],
+        [
+          56,
+          215
+        ]
+      ],
+      [
+        [
+          125,
+          308
+        ],
+        [
+          131,
+          319
+        ],
+        [
+          99,
+          343
+        ],
+        [
+          86,
+          324
+        ]
+      ]
+    ],
+    "notes": [
+      "Pixel selection only; no redraw or nonlinear deformation.",
+      "Original hand occlusion is removed and covered by generated pose hand layer.",
+      "Rigid source reused at one uniform scale in all body poses."
+    ],
+    "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+    "width": 456,
+    "height": 815,
+    "copiedPixels": 61742,
+    "redrawnPixels": 0,
+    "operation": "ORIGINAL_PIXEL_SELECTION_ONLY",
+    "implementationReference": "../mercenary-sapphire-archmage-battle-v1/extract-approved-staff.mjs"
+  },
+  "motion": {
+    "ready": {
+      "atlas": "assets/atlases/ready.png",
+      "sha256": "9e25026bd037797ef7a3deee8344572c4b754f52cf57bb0f1e58ef572c7f2f90",
+      "columns": 1,
+      "rows": 1,
+      "cellSize": 1536,
+      "frameCount": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/ready-0.png",
+          "sha256": "9e25026bd037797ef7a3deee8344572c4b754f52cf57bb0f1e58ef572c7f2f90",
+          "source": "assets/sources/body-ready-v2.png",
+          "sourceSha256": "f1dffb11985b1af935737fe38e52f85cf939b1fde89d137698682da96e908d7e",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 553.3521126760563,
+            "y": 719.2676056338029
+          },
+          "head": {
+            "x": 529.6901408450705,
+            "y": 627.3239436619718
+          },
+          "muzzle": {
+            "x": 965.175825929889,
+            "y": 687.3799831596787
+          },
+          "weaponAxisRadians": 0,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -64.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true
+        }
+      ]
+    },
+    "brace": {
+      "atlas": "assets/atlases/brace.png",
+      "sha256": "400c373440a714f85e6f159dd921ffc4db1822c28706c814ea3b0d64b19b3d3e",
+      "columns": 1,
+      "rows": 1,
+      "cellSize": 1536,
+      "frameCount": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/brace-0.png",
+          "sha256": "400c373440a714f85e6f159dd921ffc4db1822c28706c814ea3b0d64b19b3d3e",
+          "source": "assets/sources/body-brace-v2.png",
+          "sourceSha256": "0f4996141b4798035aa2c4dd5821197fc1945795ab3e04c5e0ea2da214b37cfb",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 714.2535211267606,
+            "y": 726.7042253521126
+          },
+          "head": {
+            "x": 674.3661971830986,
+            "y": 653.0140845070423
+          },
+          "muzzle": {
+            "x": 1125.175825929889,
+            "y": 694.3799831596787
+          },
+          "weaponAxisRadians": 0,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -64.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true
+        }
+      ]
+    },
+    "recoil": {
+      "atlas": "assets/atlases/recoil.png",
+      "sha256": "fed3d3226ea79ea96ad7a35c3c4e9656b1df3211d46414d334689cc3f0005803",
+      "columns": 1,
+      "rows": 1,
+      "cellSize": 1536,
+      "frameCount": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/recoil-0.png",
+          "sha256": "fed3d3226ea79ea96ad7a35c3c4e9656b1df3211d46414d334689cc3f0005803",
+          "source": "assets/sources/body-recoil-v2.png",
+          "sourceSha256": "6fa8a03a49f23d36ee2ee0bfbff0ce9e2655d03d88a41590cc34642da7de7f1a",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 605.4084507042254,
+            "y": 725.3521126760563
+          },
+          "head": {
+            "x": 488.4507042253521,
+            "y": 643.5492957746479
+          },
+          "muzzle": {
+            "x": 1017.175825929889,
+            "y": 693.3799831596787
+          },
+          "weaponAxisRadians": 0,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -64.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true
+        }
+      ]
+    },
+    "commandPoint": {
+      "atlas": "assets/atlases/commandPoint.png",
+      "sha256": "9e43841f99a7ea9e50e46b6343e1fb7c97edef8342c022be152f877e38b1292e",
+      "columns": 1,
+      "rows": 1,
+      "cellSize": 1536,
+      "frameCount": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/commandPoint-0.png",
+          "sha256": "9e43841f99a7ea9e50e46b6343e1fb7c97edef8342c022be152f877e38b1292e",
+          "source": "assets/sources/body-command-point-v2.png",
+          "sourceSha256": "e8a48b27067fcb8cfd9086b57cd8e645e22d4d45ce834dca3ad911bfd103ddf8",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 531.7183098591549,
+            "y": 816.6197183098591
+          },
+          "head": {
+            "x": 583.0985915492957,
+            "y": 622.5915492957747
+          },
+          "muzzle": {
+            "x": 897.1951140006311,
+            "y": 1007.0493290974582
+          },
+          "weaponAxisRadians": 0.5585053606381855,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -32.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true
+        }
+      ]
+    },
+    "commandFire": {
+      "atlas": "assets/atlases/commandFire.png",
+      "sha256": "317f3d3be93be7c0cfde75926a113fa84daacc3de894e881a0b81e7ecd8a18f7",
+      "columns": 1,
+      "rows": 1,
+      "cellSize": 1536,
+      "frameCount": 1,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/commandFire-0.png",
+          "sha256": "317f3d3be93be7c0cfde75926a113fa84daacc3de894e881a0b81e7ecd8a18f7",
+          "source": "assets/sources/body-command-fire-v2.png",
+          "sourceSha256": "522ca92367e7732d66d7f29b50b877edf8538c4d5d08ab159442c3b96d7a3aab",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 531.7183098591549,
+            "y": 819.3239436619718
+          },
+          "head": {
+            "x": 608.7887323943662,
+            "y": 635.4366197183099
+          },
+          "muzzle": {
+            "x": 897.1951140006311,
+            "y": 1010.0493290974582
+          },
+          "weaponAxisRadians": 0.5585053606381855,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -32.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true
+        }
+      ]
+    }
+  },
+  "effects": {
+    "halo": {
+      "atlas": "assets/atlases/halo.png",
+      "sha256": "efd455b1c08bc17bab95fe5395c0dc0b9eeb309eb9d378c9dad062b518cdec97",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 416,
+      "frameCount": 12,
+      "sourceSha256": "bb7eee4e2ad97e73a4b1eb7d27fc3bc106dc751d49e6ba55c12054721fcdfddd",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/halo-0.png",
+          "sha256": "10a8e5e574b538dce75ceffa3e329c75b8477ff58d499a0505eca5e5408fda86",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/halo-1.png",
+          "sha256": "6b91f18b64f012e4ce2d6281bf27d8723263b665ab747c1796a72acbe333183e",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/halo-2.png",
+          "sha256": "db1b0bf8004b5b1dd1cef8800706d7b86b3382b029d8011695c9edd324129a11",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/halo-3.png",
+          "sha256": "1efeda25a8ca4f847774c2f4752943281d0e364dbe7488e47e92ed83720094bf",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/halo-4.png",
+          "sha256": "321115d6d1d399bbeb33e1f70e6bdc943a72f2c7052681bb14b1175de6f08f12",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/halo-5.png",
+          "sha256": "4f6861493e97f76a5740ff86227c60a01639c09a179d3ee27a3da412a09886df",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/halo-6.png",
+          "sha256": "2b4d9707418a9e1d3acddb5b1e89fdd47db898fd5dc6be7cbef7bc9d61c90878",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/halo-7.png",
+          "sha256": "604e8cec6cbe94d07d01786494c6c888c471f5d50044dfa1b9bf80547fb42cd3",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/halo-8.png",
+          "sha256": "b608eaed8458fff21f578819691db12827daf2b7a5eebffff01af4001e49ebe8",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/halo-9.png",
+          "sha256": "48b331d47609655083af8653e2b2be9c588f82899ed4698eae0f1d6d424c32d6",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/halo-10.png",
+          "sha256": "3410b3428da66c9bfed11804f821b799def0ad1a9bb015d6e74035601a4b89a7",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/halo-11.png",
+          "sha256": "5f690ccb19ee7a68c12eb77c584f6289c766ba7b16ab5f08b39fd2eabb39cb57",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ]
+    },
+    "skull": {
+      "atlas": "assets/atlases/skull.png",
+      "sha256": "e9308bc0526173d5d3b63dd92edf8bc72645776a618a3b4725d3ad704258e495",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 416,
+      "frameCount": 12,
+      "sourceSha256": "536f6e11ce038cac0e5a9693123f24313b15a1eea9becde704ea4f5b4a4c7463",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/skull-0.png",
+          "sha256": "ea00f337895a894cb0a9fa566cc87dc0795d36d3ed6a6fc3f193ce4dceba06d0",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5435096153846154
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/skull-1.png",
+          "sha256": "1f323c0f8a8bae92cb7dcb47a71c722b411ef905bb6d198176a09c73d904b608",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5435096153846154
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/skull-2.png",
+          "sha256": "c16a8590b84bc5d42dd3bacb2a0e50488f563f8551627273b6b2d2e20649d458",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5435096153846154
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/skull-3.png",
+          "sha256": "3d8417b6a38904553d5a44e45ac226456c43a50e30efa85f3d3519d54c856a95",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5435096153846154
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/skull-4.png",
+          "sha256": "4f05a506783463b90779c13558017726faec22481c94819628f3619fe01b23e6",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5435096153846154
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/skull-5.png",
+          "sha256": "98cda439fe24a10fac565d34bb57723c4ce7e419891be37055cd55004c375f5e",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5435096153846154
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/skull-6.png",
+          "sha256": "8d36a544b7127a43d4bb9d9ab0d03ddda1f4969e389497cc16956a6b5112998e",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5435096153846154
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/skull-7.png",
+          "sha256": "f0447580e2cd8454e026e9d5da33c24aea5aa006db9873656a240c2d408f5518",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5435096153846154
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/skull-8.png",
+          "sha256": "9f270a6f4deb01f07046e04a83be706c96a31911221cbeba4b2e4c7ef4f4fb28",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5435096153846154
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/skull-9.png",
+          "sha256": "d40553edb1be615187115544ce937d3bb62a6e15f1f22f4c8591d0f9ead0534d",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5435096153846154
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/skull-10.png",
+          "sha256": "5cb39774f95b871379c0d887e78669c19382ca5e72a5aed64cf87f6fc0462104",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5435096153846154
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/skull-11.png",
+          "sha256": "45c1a4d50f26e8aec1698b406fb4f39e15e45bd2f8c2709718cda1da8582065b",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5435096153846154
+          }
+        }
+      ]
+    },
+    "ballistic-shot": {
+      "atlas": "assets/atlases/ballistic-shot.png",
+      "sha256": "62dfbecd2e00b4f2d39da170150816ea7f45729f2f950df1323171540a3e5943",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 416,
+      "frameCount": 12,
+      "sourceSha256": "6753beee09f8a17ac712dbe2801a0c807e3f22e805ed7c7bb61ad1d49227b17e",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/ballistic-shot-0.png",
+          "sha256": "d16f81138cf0c0d198d5a089a5912b546f8cf9b0c6c96b959a24c510474b3a80",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7001442307692307,
+            "y": 0.5261057692307692
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/ballistic-shot-1.png",
+          "sha256": "7fc7383915174ac7cac0913fa913a164c1a2d53cbbbce18a9883192cd4b68b5e",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7001442307692307,
+            "y": 0.5261057692307692
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/ballistic-shot-2.png",
+          "sha256": "fd98afdb26a503115e9d5fa00de8429887aeba3fde0e16c2fa29121d2415aecc",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7001442307692307,
+            "y": 0.5261057692307692
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/ballistic-shot-3.png",
+          "sha256": "c1212c6f4fa0d4d2fe0af3fd3711b88169af6293521bd5076a223da93e7f4b1e",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7001442307692307,
+            "y": 0.5261057692307692
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/ballistic-shot-4.png",
+          "sha256": "7561129d77b380e3bcfe884aa71ef3a8e59350d9b2c12575b285568461228d3c",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7001442307692307,
+            "y": 0.5261057692307692
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/ballistic-shot-5.png",
+          "sha256": "235dbcd1177ac1530fafd808bceaea880cc29ac1d254c76d14d2f17e76ff332c",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7001442307692307,
+            "y": 0.5261057692307692
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/ballistic-shot-6.png",
+          "sha256": "5716c20b46715623918d4f01b922583aeddf686063b401839ca3f50c8e6b6c08",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7001442307692307,
+            "y": 0.5261057692307692
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/ballistic-shot-7.png",
+          "sha256": "29460721f259a3e69e72eb9f7326a94142a6486eb914f7be26cb7b8eb97adb9b",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7001442307692307,
+            "y": 0.5261057692307692
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/ballistic-shot-8.png",
+          "sha256": "e974a0be2a43c8bd07a3c3f7f379a5477f3ad61fb9382700607d9e5dd8453adf",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7001442307692307,
+            "y": 0.5261057692307692
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/ballistic-shot-9.png",
+          "sha256": "e506d2bb1e7ffd94c277fa338e98ce6cfca9ac553198dba7c85434f143845e4c",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7001442307692307,
+            "y": 0.5261057692307692
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/ballistic-shot-10.png",
+          "sha256": "65adce172baa3d8d2eea9c59e59319b814d3bd08ae987db5c11b8140103d3917",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7001442307692307,
+            "y": 0.5261057692307692
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/ballistic-shot-11.png",
+          "sha256": "9c8ccab03af90e0d6b11beda64495cbf0ff4b131cc254c05be223f27cd20d9d1",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7001442307692307,
+            "y": 0.5261057692307692
+          }
+        }
+      ]
+    },
+    "artillery": {
+      "atlas": "assets/atlases/artillery.png",
+      "sha256": "d0109b17097bde26fb1134aba4528c18251d88a68a19a81d82d43be356696735",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 416,
+      "frameCount": 12,
+      "sourceSha256": "4928c95d0d9bf8f055ed0a40657825f409c1cd3cbc001ac2d0caa604ee8e99ba",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/artillery-0.png",
+          "sha256": "2c50c6c2275212aca9c18a1434929195139efb1cecb96ed7b0a858934e4ef490",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4564903846153846,
+            "y": 0.8785336538461539
+          },
+          "muzzle": {
+            "x": 0.8480769230769231,
+            "y": 0.5870192307692308
+          },
+          "barrelAngleRadians": -0.15707963267948966
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/artillery-1.png",
+          "sha256": "0c93f1967bdce6d51c886c63f1c369afe0605973d5c6e30b41587c3296db1475",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4564903846153846,
+            "y": 0.8785336538461539
+          },
+          "muzzle": {
+            "x": 0.8480769230769231,
+            "y": 0.5870192307692308
+          },
+          "barrelAngleRadians": -0.15707963267948966
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/artillery-2.png",
+          "sha256": "7d06bffa4fef49b708a0271df9bad3bce2c19e21927b709f78660beb44d145bc",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4564903846153846,
+            "y": 0.8785336538461539
+          },
+          "muzzle": {
+            "x": 0.8654807692307693,
+            "y": 0.5783173076923076
+          },
+          "barrelAngleRadians": -0.15707963267948966
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/artillery-3.png",
+          "sha256": "e237b31013e2446566b3e04858ab1ac08edb31269f097f0338e47864704fa6fa",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4564903846153846,
+            "y": 0.8785336538461539
+          },
+          "muzzle": {
+            "x": 0.8654807692307693,
+            "y": 0.5783173076923076
+          },
+          "barrelAngleRadians": -0.15707963267948966
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/artillery-4.png",
+          "sha256": "1f10bd552a12b0913ac23717fbf8be191075f6b8aee1225ec95fe76824ad879b",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4564903846153846,
+            "y": 0.7828124999999999
+          },
+          "muzzle": {
+            "x": 0.8567788461538461,
+            "y": 0.5
+          },
+          "barrelAngleRadians": -0.15707963267948966
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/artillery-5.png",
+          "sha256": "c379315be6a8198c10bce1705b2a35e3198c3f228e319851f11aaeae12305e8a",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4564903846153846,
+            "y": 0.7828124999999999
+          },
+          "muzzle": {
+            "x": 0.6305288461538462,
+            "y": 0.5174038461538462
+          },
+          "barrelAngleRadians": -0.15707963267948966
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/artillery-6.png",
+          "sha256": "df3aa898d40b2daf1c68ec61570529bcb251b7f5b04e57bf3190faf7fbaaad7c",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4564903846153846,
+            "y": 0.7828124999999999
+          },
+          "muzzle": {
+            "x": 0.7958653846153846,
+            "y": 0.5
+          },
+          "barrelAngleRadians": -0.15707963267948966
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/artillery-7.png",
+          "sha256": "7bf47827d562b0f74be532372a67bc234c884a0601ce7b024d9d098f00529db2",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4564903846153846,
+            "y": 0.7828124999999999
+          },
+          "muzzle": {
+            "x": 0.6305288461538462,
+            "y": 0.5174038461538462
+          },
+          "barrelAngleRadians": -0.15707963267948966
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/artillery-8.png",
+          "sha256": "13a7b97426674431b5cd37a90cd36583992df5235456b16a141867e90b5ca386",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4564903846153846,
+            "y": 0.6923125
+          },
+          "muzzle": {
+            "x": 0.8306730769230769,
+            "y": 0.38687499999999997
+          },
+          "barrelAngleRadians": -0.15707963267948966
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/artillery-9.png",
+          "sha256": "5d8bccca55b9fc9b593aabe749e6dff30dc4742deb13ce6fc54e1b1c2f6025f5",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4564903846153846,
+            "y": 0.6923125
+          },
+          "muzzle": {
+            "x": 0.8654807692307693,
+            "y": 0.4042788461538462
+          },
+          "barrelAngleRadians": -0.15707963267948966
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/artillery-10.png",
+          "sha256": "84b93098d8f363de7f84023871f030afbf4e0f9e1da1b4efb58f2629fea275b0",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4564903846153846,
+            "y": 0.6923125
+          },
+          "muzzle": {
+            "x": 0.8654807692307693,
+            "y": 0.4042788461538462
+          },
+          "barrelAngleRadians": -0.15707963267948966
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/artillery-11.png",
+          "sha256": "e0c88fb12e011382661afa530cc76a6820ce0b57f5016b7a8af7193dc1bb56af",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4564903846153846,
+            "y": 0.6923125
+          },
+          "muzzle": {
+            "x": 0.8654807692307693,
+            "y": 0.4042788461538462
+          },
+          "barrelAngleRadians": -0.15707963267948966
+        }
+      ]
+    },
+    "artillery-impact": {
+      "atlas": "assets/atlases/artillery-impact.png",
+      "sha256": "00707cbbda2d4bcfb3ebd275c98ff5ab06129504a9fe9a1221ae8f8a7f500eee",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 416,
+      "frameCount": 12,
+      "sourceSha256": "4565792e962fd5b818ca536670c9fbd1275ce60b0815b1bb7373173dae6dbf28",
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/artillery-impact-0.png",
+          "sha256": "5cac595f2c63e3976d78e0df127c8f25a5bcba663b9075669f622a9850c1d137",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7958653846153846
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/artillery-impact-1.png",
+          "sha256": "592af5c3da859557f8e3b3d5c7b0ae9770984593f4d0bb45a84e4ef0590669d6",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7958653846153846
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/artillery-impact-2.png",
+          "sha256": "c10a9a3948681a8038bd1036ea6881b49f406ecc9881f1f6cced377102fb0e74",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7958653846153846
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/artillery-impact-3.png",
+          "sha256": "fc423a56c5cfa4787058cc46e84b1eba673471f68002de244ccc07da825942af",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7958653846153846
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/artillery-impact-4.png",
+          "sha256": "13566168d1291e6942d6cd6b00aca17baa2b1ac3d31d6548a34f8b2f8b0dab9d",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7958653846153846
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/artillery-impact-5.png",
+          "sha256": "b8a0d3a785c46109ec2064400354a4b3eda6e3df458f374a682db178fcc297c6",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7958653846153846
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/artillery-impact-6.png",
+          "sha256": "1b62726fc1002fe7625ec8bb9d968f05628976d77d019ebcc552f7db8743538a",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7958653846153846
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/artillery-impact-7.png",
+          "sha256": "9c1ed378ccd779d4244fb9eca7cb2b82c7e67c45c3778372ee370e990af58e8f",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7958653846153846
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/artillery-impact-8.png",
+          "sha256": "81c077126e7cec04f738bed90541aeb826cc2aa930fc647d10c092619bcb2e9f",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7958653846153846
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/artillery-impact-9.png",
+          "sha256": "5fa16347a993e8b2d03b8dc77842ae0318a1c7bc26ef9ae9edf89772907b0816",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7958653846153846
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/artillery-impact-10.png",
+          "sha256": "ed01e5f083dc88c07db05396b035f4847dd8a0402bbbf3d6513202cbe370d1a2",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7958653846153846
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/artillery-impact-11.png",
+          "sha256": "0c1adacd9323f03092bafb31297bcb6f8891ba16113263497bf610a78f0f0ed8",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7958653846153846
+          }
+        }
+      ]
+    }
+  },
+  "displaySizing": {
+    "fullBodyHeight": 300,
+    "physicalBodyHeight": 300
+  },
+  "runtime": {
+    "engine": "COMMON_V3",
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "clock": "V3_REGISTERED_GSAP"
+  },
+  "audio": {
+    "enabled": false,
+    "reason": "Silent visual review"
+  },
+  "headHalo": {
+    "mandatory": true,
+    "separateLayer": true,
+    "anchor": "head",
+    "idleBody": "ready:0",
+    "noBodyWobble": true
+  },
+  "rejectedSources": [
+    "body-aim.png",
+    "body-skill.png",
+    "body-command.png",
+    "body-move-rejected.png"
+  ],
+  "battleSprite": "preview/mercenary-monochrome-artillery-battle-v1/assets/battle-sprite.png",
+  "battleSpriteSha256": "9e25026bd037797ef7a3deee8344572c4b754f52cf57bb0f1e58ef572c7f2f90",
+  "battleSpriteFootAnchor": {
+    "x": 0.390625,
+    "y": 0.8463541666666666
+  },
+  "battleSpriteStatus": "PREVIEW_PREPARED_AWAITING_APPROVAL",
+  "counts": {
+    "motion": 5,
+    "effects": 60
+  },
+  "sourceIndex": "source-index.json",
+  "productionNotes": "README.md",
+  "qa": {
+    "assets": "qa-assets.test.mjs",
+    "runtime": "qa/runtime-report.json",
+    "video": "qa/video-inspection.json",
+    "completeCharacter": "qa/character-detail.png",
+    "headDetail": "qa/head-detail.png"
+  }
+}

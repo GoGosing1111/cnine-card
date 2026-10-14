@@ -1,0 +1,46 @@
+{
+  "version": 4,
+  "errors": [],
+  "screens": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "stability": {
+        "positions": 1,
+        "sizes": 1,
+        "roots": 1,
+        "frames": 120,
+        "continuityError": 0,
+        "depth": true
+      },
+      "cleanup": {
+        "hidden": true,
+        "destroyed": true
+      }
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stability": {
+        "positions": 1,
+        "sizes": 1,
+        "roots": 1,
+        "frames": 120,
+        "continuityError": 0,
+        "depth": true
+      },
+      "cleanup": {
+        "hidden": true,
+        "destroyed": true
+      }
+    }
+  ],
+  "status": "PASS",
+  "bundleLfSha256": "e16c217eec5e049d82feb8c4d80ff44b061c4a22cfa62fb6411d0479c4c9643e"
+}

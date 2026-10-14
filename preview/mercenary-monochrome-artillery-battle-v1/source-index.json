@@ -12,6 +12,24 @@
       "status": "APPROVED_SOURCE"
     },
     {
+      "file": "assets/sources/ar-ballistics-v3.png",
+      "bytes": 1380381,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "a5c8a7a7a8cab49925d543182ba48e564c33bbf9a77c6cbda842a97004e763f9",
+      "prompt": "prompts/ar-ballistics-v3.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/ar-micro-recoil-v3.png",
+      "bytes": 1815880,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "4f8c18cc2f8eaa2caef1cce8b30bb65bf5109b17aacd11ef77c348a10dd57939",
+      "prompt": "prompts/ar-micro-recoil-v3.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
       "file": "assets/sources/artillery-impact.png",
       "bytes": 1579219,
       "width": 1448,
@@ -27,6 +45,15 @@
       "height": 1086,
       "sha256": "4928c95d0d9bf8f055ed0a40657825f409c1cd3cbc001ac2d0caa604ee8e99ba",
       "prompt": "prompts/artillery.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/ballistic-aura-v4.png",
+      "bytes": 3328456,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "909c3ca09c145a78c04690fdb17ab2dd44c66ee6d233638f96b6846908a6a331",
+      "prompt": "prompts/ballistic-aura-v4.json",
       "status": "VISUAL_REVIEW_PENDING"
     },
     {
@@ -138,6 +165,24 @@
       "status": "REJECTED_RETAINED"
     },
     {
+      "file": "assets/sources/central-artillery-v3-padded.png",
+      "bytes": 1592409,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "1effe1b3305eb990403cae771145d989ea3215e8f8f6eee23003afd706f91f86",
+      "prompt": "prompts/central-artillery-v3-padded.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/central-artillery-v3.png",
+      "bytes": 2122289,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "fcedf7f53def8f206143661fb79ba9c3e326756bae42c89cb61d5645272cdc29",
+      "prompt": "prompts/central-artillery-v3.json",
+      "status": "REJECTED_RETAINED"
+    },
+    {
       "file": "assets/sources/halo.png",
       "bytes": 1988392,
       "width": 1448,
@@ -154,6 +199,24 @@
       "sha256": "536f6e11ce038cac0e5a9693123f24313b15a1eea9becde704ea4f5b4a4c7463",
       "prompt": "prompts/skull.json",
       "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/wide-barrage-v3-padded.png",
+      "bytes": 1619174,
+      "width": 1447,
+      "height": 1087,
+      "sha256": "1dbb4478ca8393b4e4de73d6b583e448474552acbc0b87ec206d0585dd346944",
+      "prompt": "prompts/wide-barrage-v3-padded.json",
+      "status": "VISUAL_REVIEW_PENDING"
+    },
+    {
+      "file": "assets/sources/wide-barrage-v3.png",
+      "bytes": 1991986,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "029ce7c840d8d233123e9f17767e214b58acfe9de22aff6bc96c3e5dab2cb1b3",
+      "prompt": "prompts/wide-barrage-v3.json",
+      "status": "REJECTED_RETAINED"
     }
   ]
 }

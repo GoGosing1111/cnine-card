@@ -1,0 +1,125 @@
+{
+  "status": "PASS",
+  "frames": [
+    {
+      "name": "desktop",
+      "time": 6.774148,
+      "duration": 18.638919,
+      "playing": true,
+      "width": 1362,
+      "height": 508,
+      "readyState": 4,
+      "capture": "qa/ar-v3/video-desktop-6.42.png"
+    },
+    {
+      "name": "desktop",
+      "time": 8.810644,
+      "duration": 18.638919,
+      "playing": true,
+      "width": 1362,
+      "height": 508,
+      "readyState": 4,
+      "capture": "qa/ar-v3/video-desktop-8.45.png"
+    },
+    {
+      "name": "desktop",
+      "time": 9.562026,
+      "duration": 18.638919,
+      "playing": true,
+      "width": 1362,
+      "height": 508,
+      "readyState": 4,
+      "capture": "qa/ar-v3/video-desktop-9.2.png"
+    },
+    {
+      "name": "desktop",
+      "time": 14.544092,
+      "duration": 18.638919,
+      "playing": true,
+      "width": 1362,
+      "height": 508,
+      "readyState": 4,
+      "capture": "qa/ar-v3/video-desktop-14.2.png"
+    },
+    {
+      "name": "desktop",
+      "time": 14.954833,
+      "duration": 18.638919,
+      "playing": true,
+      "width": 1362,
+      "height": 508,
+      "readyState": 4,
+      "capture": "qa/ar-v3/video-desktop-14.6.png"
+    },
+    {
+      "name": "desktop",
+      "time": 16.977391,
+      "duration": 18.638919,
+      "playing": true,
+      "width": 1362,
+      "height": 508,
+      "readyState": 4,
+      "capture": "qa/ar-v3/video-desktop-16.65.png"
+    },
+    {
+      "name": "mobile",
+      "time": 6.705114,
+      "duration": 18.638412,
+      "playing": true,
+      "width": 368,
+      "height": 630,
+      "readyState": 4,
+      "capture": "qa/ar-v3/video-mobile-6.42.png"
+    },
+    {
+      "name": "mobile",
+      "time": 8.741866,
+      "duration": 18.638412,
+      "playing": true,
+      "width": 368,
+      "height": 630,
+      "readyState": 4,
+      "capture": "qa/ar-v3/video-mobile-8.45.png"
+    },
+    {
+      "name": "mobile",
+      "time": 9.48456,
+      "duration": 18.638412,
+      "playing": true,
+      "width": 368,
+      "height": 630,
+      "readyState": 4,
+      "capture": "qa/ar-v3/video-mobile-9.2.png"
+    },
+    {
+      "name": "mobile",
+      "time": 14.478559,
+      "duration": 18.638412,
+      "playing": true,
+      "width": 368,
+      "height": 630,
+      "readyState": 4,
+      "capture": "qa/ar-v3/video-mobile-14.2.png"
+    },
+    {
+      "name": "mobile",
+      "time": 14.892976,
+      "duration": 18.638412,
+      "playing": true,
+      "width": 368,
+      "height": 630,
+      "readyState": 4,
+      "capture": "qa/ar-v3/video-mobile-14.6.png"
+    },
+    {
+      "name": "mobile",
+      "time": 16.937428,
+      "duration": 18.638412,
+      "playing": true,
+      "width": 368,
+      "height": 630,
+      "readyState": 4,
+      "capture": "qa/ar-v3/video-mobile-16.65.png"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "date": "2026-10-15",
   "name": null,
   "rank": null,
@@ -669,7 +669,8 @@
           },
           "handOverlay": true
         }
-      ]
+      ],
+      "previewEnabled": false
     },
     "brace": {
       "atlas": "assets/atlases/brace.png",
@@ -711,7 +712,8 @@
           },
           "handOverlay": true
         }
-      ]
+      ],
+      "previewEnabled": false
     },
     "recoil": {
       "atlas": "assets/atlases/recoil.png",
@@ -753,7 +755,8 @@
           },
           "handOverlay": true
         }
-      ]
+      ],
+      "previewEnabled": false
     },
     "commandPoint": {
       "atlas": "assets/atlases/commandPoint.png",
@@ -795,7 +798,8 @@
           },
           "handOverlay": true
         }
-      ]
+      ],
+      "previewEnabled": false
     },
     "commandFire": {
       "atlas": "assets/atlases/commandFire.png",
@@ -836,6 +840,149 @@
             "redrawnPixels": 0
           },
           "handOverlay": true
+        }
+      ],
+      "previewEnabled": false
+    },
+    "ar": {
+      "atlas": "assets/atlases/ar-v3.png",
+      "sha256": "b6faddf4bcad7b9075c3f250b0d439b10ef77cd3a416aab6d402e478bc05a3d5",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 1536,
+      "frameCount": 4,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/ar-v3-0.png",
+          "sha256": "07309373c5453d0389238d63a46ffa721dad22a3e43441d6f532fe76a6265057",
+          "source": "assets/sources/ar-micro-recoil-v3.png",
+          "sourceSha256": "4f8c18cc2f8eaa2caef1cce8b30bb65bf5109b17aacd11ef77c348a10dd57939",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 595.943661971831,
+            "y": 726.0281690140845
+          },
+          "head": {
+            "x": 529.6901408450705,
+            "y": 627.3239436619718
+          },
+          "muzzle": {
+            "x": 1007.175825929889,
+            "y": 693.3799831596787
+          },
+          "weaponAxisRadians": 0,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -64.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true,
+          "bodyPatchOnly": true
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/ar-v3-1.png",
+          "sha256": "d65dbd136a52ef5bac518fcfca3ecb96389094c1125a7527f2b2c65f940902cb",
+          "source": "assets/sources/ar-micro-recoil-v3.png",
+          "sourceSha256": "4f8c18cc2f8eaa2caef1cce8b30bb65bf5109b17aacd11ef77c348a10dd57939",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 592.5633802816901,
+            "y": 726.0281690140845
+          },
+          "head": {
+            "x": 529.6901408450705,
+            "y": 627.3239436619718
+          },
+          "muzzle": {
+            "x": 1004.175825929889,
+            "y": 693.3799831596787
+          },
+          "weaponAxisRadians": 0,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -64.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true,
+          "bodyPatchOnly": true
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/ar-v3-2.png",
+          "sha256": "8c757cf9c33d0260618bc1bb01732a21a88a1ffa918dbcf1ec7319618bfedfa3",
+          "source": "assets/sources/ar-micro-recoil-v3.png",
+          "sourceSha256": "4f8c18cc2f8eaa2caef1cce8b30bb65bf5109b17aacd11ef77c348a10dd57939",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 593.9154929577464,
+            "y": 726.0281690140845
+          },
+          "head": {
+            "x": 529.6901408450705,
+            "y": 627.3239436619718
+          },
+          "muzzle": {
+            "x": 1005.175825929889,
+            "y": 693.3799831596787
+          },
+          "weaponAxisRadians": 0,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -64.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true,
+          "bodyPatchOnly": true
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/ar-v3-3.png",
+          "sha256": "2e28169af64514cce189fe050d0f761b9d956a3fa06fb7e45435673e253495ee",
+          "source": "assets/sources/ar-micro-recoil-v3.png",
+          "sourceSha256": "4f8c18cc2f8eaa2caef1cce8b30bb65bf5109b17aacd11ef77c348a10dd57939",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 595.943661971831,
+            "y": 726.0281690140845
+          },
+          "head": {
+            "x": 529.6901408450705,
+            "y": 627.3239436619718
+          },
+          "muzzle": {
+            "x": 1007.175825929889,
+            "y": 693.3799831596787
+          },
+          "weaponAxisRadians": 0,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -64.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true,
+          "bodyPatchOnly": true
         }
       ]
     }
@@ -1412,7 +1559,8 @@
             "y": 0.5261057692307692
           }
         }
-      ]
+      ],
+      "previewEnabled": false
     },
     "artillery": {
       "atlas": "assets/atlases/artillery.png",
@@ -1663,7 +1811,8 @@
           },
           "barrelAngleRadians": -0.15707963267948966
         }
-      ]
+      ],
+      "previewEnabled": false
     },
     "artillery-impact": {
       "atlas": "assets/atlases/artillery-impact.png",
@@ -1854,6 +2003,970 @@
             "y": 0.7958653846153846
           }
         }
+      ],
+      "previewEnabled": false
+    },
+    "ar-ballistics": {
+      "atlas": "assets/atlases/ar-ballistics-v3.png",
+      "sha256": "7e8664d8f7461f249a684b1d0da5ad6d1c585d9148a853197780792bf3905353",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 410,
+      "frameCount": 12,
+      "source": "assets/sources/ar-ballistics-v3.png",
+      "sourceSha256": "a5c8a7a7a8cab49925d543182ba48e564c33bbf9a77c6cbda842a97004e763f9",
+      "distinctSourceFrames": 12,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/ar-ballistics-v3-0.png",
+          "sha256": "5b66698bc78e9d36643f649c4c9b9b36e8ea4024d6c1a883c46d449a4cad0063",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5882926829268292
+          },
+          "borderMax": 2
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/ar-ballistics-v3-1.png",
+          "sha256": "c16e4d3eabc2a06bf45a403b5308a3a2577195c91b10ab1286d29b61c8209581",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.23953658536585365,
+            "y": 0.5882926829268292
+          },
+          "borderMax": 1
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/ar-ballistics-v3-2.png",
+          "sha256": "e521cbd11623db3325d83c4fb298abf576dd5c3f10a31a1ad62d77e5dda42428",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.21746341463414634,
+            "y": 0.5882926829268292
+          },
+          "borderMax": 2
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/ar-ballistics-v3-3.png",
+          "sha256": "b51cbf9aa1bf7ab7008ea255e63a4d845dd6ec11bef02e0c938daf513ac4c787",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5882926829268292
+          },
+          "borderMax": 1
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "file": "assets/frames/ar-ballistics-v3-4.png",
+          "sha256": "f44971882ae46b60860b438ee0ef93ec8ebe0833029fa8ecbae3e5c70aba706f",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7172000000000001,
+            "y": 0.49117073170731707
+          },
+          "borderMax": 2
+        },
+        {
+          "index": 5,
+          "sourceIndex": 5,
+          "file": "assets/frames/ar-ballistics-v3-5.png",
+          "sha256": "00b5defd07b41ea1486102b7a2c6184b12ed3319626dc10443ae71fd20ba0b71",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7560487804878049,
+            "y": 0.49117073170731707
+          },
+          "borderMax": 2
+        },
+        {
+          "index": 6,
+          "sourceIndex": 6,
+          "file": "assets/frames/ar-ballistics-v3-6.png",
+          "sha256": "551cef87f41e34c274fd37d7f98a233c71cdfa5abb3d5d2ae2f71d5340a67580",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7604634146341464,
+            "y": 0.49117073170731707
+          },
+          "borderMax": 2
+        },
+        {
+          "index": 7,
+          "sourceIndex": 7,
+          "file": "assets/frames/ar-ballistics-v3-7.png",
+          "sha256": "0be69079abadd9ea6478ed0417176706fe27b355ae823d823cd705ac029b4c98",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.7878341463414634,
+            "y": 0.49117073170731707
+          },
+          "borderMax": 1
+        },
+        {
+          "index": 8,
+          "sourceIndex": 8,
+          "file": "assets/frames/ar-ballistics-v3-8.png",
+          "sha256": "4cb3376ffbfccc18e6d8b24c8b27eabaa491a10f43e0635e52e9194de055be6e",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5176585365853659,
+            "y": 0.4646829268292683
+          },
+          "borderMax": 1
+        },
+        {
+          "index": 9,
+          "sourceIndex": 9,
+          "file": "assets/frames/ar-ballistics-v3-9.png",
+          "sha256": "fd37e9d690f4d9c82f7de854a901b6f5833f9cad5a553bd1e6a5f4f4fa4fe856",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.4646829268292683
+          },
+          "borderMax": 1
+        },
+        {
+          "index": 10,
+          "sourceIndex": 10,
+          "file": "assets/frames/ar-ballistics-v3-10.png",
+          "sha256": "96859664ea8958f24c20bf3c07e8a4b06c788547c4597b03bd4b94c2f6edf156",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.4646829268292683
+          },
+          "borderMax": 1
+        },
+        {
+          "index": 11,
+          "sourceIndex": 11,
+          "file": "assets/frames/ar-ballistics-v3-11.png",
+          "sha256": "3c20c77b37297a1fd30d13917a1c8fbb7faebc2cb4a6b05e6b8ea2298b8a5cce",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.4646829268292683
+          },
+          "borderMax": 1
+        }
+      ]
+    },
+    "artillery-v3": {
+      "atlas": "assets/atlases/artillery-v3-v3.png",
+      "sha256": "0b3b0a10acb83294fdfcb72ccc6a0db9114af8ceca1a6b3d36ee8be92d0e29a2",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 410,
+      "frameCount": 12,
+      "source": "assets/sources/central-artillery-v3-padded.png",
+      "sourceSha256": "1effe1b3305eb990403cae771145d989ea3215e8f8f6eee23003afd706f91f86",
+      "distinctSourceFrames": 8,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 11,
+          "file": "assets/frames/artillery-v3-v3-0.png",
+          "sha256": "ef34c2ca938b874c32021c86cb064c2cb75db1c911bd367c2151e3bcda82c3da",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4558536585365854,
+            "y": 0.795780487804878
+          },
+          "muzzle": {
+            "x": 0.6765853658536585,
+            "y": 0.5
+          },
+          "barrelAngleRadians": -0.3316125578789226,
+          "borderMax": 1
+        },
+        {
+          "index": 1,
+          "sourceIndex": 10,
+          "file": "assets/frames/artillery-v3-v3-1.png",
+          "sha256": "78311fe3ac0ab5922f631633c8e092ac53e4531a3a05b4b2143c48b13ea96ec8",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4558536585365854,
+            "y": 0.853170731707317
+          },
+          "muzzle": {
+            "x": 0.6765853658536585,
+            "y": 0.5
+          },
+          "barrelAngleRadians": -0.3316125578789226,
+          "borderMax": 2
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/artillery-v3-v3-2.png",
+          "sha256": "364842f9ead92f70a6dffe8d364eb859629792e4cac6af9418c78d928674851b",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.45121951219512196,
+            "y": 0.919390243902439
+          },
+          "muzzle": {
+            "x": 0.7913658536585365,
+            "y": 0.5441463414634147
+          },
+          "barrelAngleRadians": -0.3316125578789226,
+          "borderMax": 1
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/artillery-v3-v3-3.png",
+          "sha256": "f59de82364060906c0922b09a9656b19863f1987c9e8ab7610ea459ae0534a76",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.41341463414634144,
+            "y": 0.919390243902439
+          },
+          "muzzle": {
+            "x": 0.7825365853658536,
+            "y": 0.5397317073170732
+          },
+          "barrelAngleRadians": -0.3316125578789226,
+          "borderMax": 2
+        },
+        {
+          "index": 4,
+          "sourceIndex": 7,
+          "file": "assets/frames/artillery-v3-v3-4.png",
+          "sha256": "334a9dfb74f5db34a8fe962ef71bf31530de6ada1ab2db0166ce0570cbd959ef",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.39390243902439026,
+            "y": 0.8734780487804878
+          },
+          "muzzle": {
+            "x": 0.557390243902439,
+            "y": 0.5794634146341463
+          },
+          "barrelAngleRadians": -0.3316125578789226,
+          "borderMax": 2
+        },
+        {
+          "index": 5,
+          "sourceIndex": 6,
+          "file": "assets/frames/artillery-v3-v3-5.png",
+          "sha256": "0e521d7224d2d851e660d95191c82b3ad155a2683e3bdbf7a9d191a3ef0a07a5",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.41829268292682925,
+            "y": 0.8734780487804878
+          },
+          "muzzle": {
+            "x": 0.7119024390243902,
+            "y": 0.557390243902439
+          },
+          "barrelAngleRadians": -0.3316125578789226,
+          "borderMax": 1
+        },
+        {
+          "index": 6,
+          "sourceIndex": 9,
+          "file": "assets/frames/artillery-v3-v3-6.png",
+          "sha256": "287288fc4e5df2a70b6efe8a6dd4376193a677250ba5edec8849e345faa162c1",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.44390243902439025,
+            "y": 0.7675268292682927
+          },
+          "muzzle": {
+            "x": 0.5927073170731707,
+            "y": 0.4558536585365854
+          },
+          "barrelAngleRadians": -0.3316125578789226,
+          "borderMax": 2
+        },
+        {
+          "index": 7,
+          "sourceIndex": 8,
+          "file": "assets/frames/artillery-v3-v3-7.png",
+          "sha256": "a0d314e212c05342c52ea8ce872d5ea0210dff5c208a3e8fdbb51669bd6dc7b2",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4695121951219512,
+            "y": 0.7675268292682927
+          },
+          "muzzle": {
+            "x": 0.747219512195122,
+            "y": 0.3631463414634146
+          },
+          "barrelAngleRadians": -0.3316125578789226,
+          "borderMax": 1
+        },
+        {
+          "index": 8,
+          "sourceIndex": 3,
+          "file": "assets/frames/artillery-v3-v3-8.png",
+          "sha256": "f59de82364060906c0922b09a9656b19863f1987c9e8ab7610ea459ae0534a76",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.41341463414634144,
+            "y": 0.919390243902439
+          },
+          "muzzle": {
+            "x": 0.7825365853658536,
+            "y": 0.5397317073170732
+          },
+          "barrelAngleRadians": -0.3316125578789226,
+          "borderMax": 2
+        },
+        {
+          "index": 9,
+          "sourceIndex": 9,
+          "file": "assets/frames/artillery-v3-v3-9.png",
+          "sha256": "287288fc4e5df2a70b6efe8a6dd4376193a677250ba5edec8849e345faa162c1",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.44390243902439025,
+            "y": 0.7675268292682927
+          },
+          "muzzle": {
+            "x": 0.5927073170731707,
+            "y": 0.4558536585365854
+          },
+          "barrelAngleRadians": -0.3316125578789226,
+          "borderMax": 2
+        },
+        {
+          "index": 10,
+          "sourceIndex": 10,
+          "file": "assets/frames/artillery-v3-v3-10.png",
+          "sha256": "78311fe3ac0ab5922f631633c8e092ac53e4531a3a05b4b2143c48b13ea96ec8",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4558536585365854,
+            "y": 0.853170731707317
+          },
+          "muzzle": {
+            "x": 0.6765853658536585,
+            "y": 0.5
+          },
+          "barrelAngleRadians": -0.3316125578789226,
+          "borderMax": 2
+        },
+        {
+          "index": 11,
+          "sourceIndex": 11,
+          "file": "assets/frames/artillery-v3-v3-11.png",
+          "sha256": "ef34c2ca938b874c32021c86cb064c2cb75db1c911bd367c2151e3bcda82c3da",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4558536585365854,
+            "y": 0.795780487804878
+          },
+          "muzzle": {
+            "x": 0.6765853658536585,
+            "y": 0.5
+          },
+          "barrelAngleRadians": -0.3316125578789226,
+          "borderMax": 1
+        }
+      ]
+    },
+    "wide-barrage": {
+      "atlas": "assets/atlases/wide-barrage-v3.png",
+      "sha256": "de66532ce864009a0c33fc24851d5404669c889158970a7c0d8025379c8468d0",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 411,
+      "frameCount": 12,
+      "source": "assets/sources/wide-barrage-v3-padded.png",
+      "sourceSha256": "1dbb4478ca8393b4e4de73d6b583e448474552acbc0b87ec206d0585dd346944",
+      "distinctSourceFrames": 12,
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "assets/frames/wide-barrage-v3-0.png",
+          "sha256": "562628c442b269071e3738d4bbe816846d0b29dcb5e1ac8228a1e895c56bfb77",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.49878345498783455,
+            "y": 0.8599026763990268
+          },
+          "borderMax": 1
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "assets/frames/wide-barrage-v3-1.png",
+          "sha256": "429b9ffa82ae987b24f96a707f47a0a5728acdb77e66341d2ec82f02f3371677",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.49878345498783455,
+            "y": 0.8599026763990268
+          },
+          "borderMax": 1
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "assets/frames/wide-barrage-v3-2.png",
+          "sha256": "a1ea5a0565f0ccd281522c78ad7feee2669f6c152e0404cd60ea1c2135074f5c",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 361,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4975669099756691,
+            "y": 0.8599026763990268
+          },
+          "borderMax": 1
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "assets/frames/wide-barrage-v3-3.png",
+          "sha256": "17b68b86d1fce64776e9ac7122f9c460e9bf689f5b0fa5e9e27e274626126d76",
+          "sourceRect": {
+            "left": 1085,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.49878345498783455,
+            "y": 0.8599026763990268
+          },
+          "borderMax": 54
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "file": "assets/frames/wide-barrage-v3-4.png",
+          "sha256": "f5121415fe5bdf80b83173ee7b03932855286fb5c19bd2405669712220145e02",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 363
+          },
+          "anchor": {
+            "x": 0.49878345498783455,
+            "y": 0.8974452554744524
+          },
+          "borderMax": 1
+        },
+        {
+          "index": 5,
+          "sourceIndex": 5,
+          "file": "assets/frames/wide-barrage-v3-5.png",
+          "sha256": "c6665dc8f93f771e04aa67b39a1e088f73695f8a9d532d1211de1f3fe361a974",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 363
+          },
+          "anchor": {
+            "x": 0.49878345498783455,
+            "y": 0.8974452554744524
+          },
+          "borderMax": 36
+        },
+        {
+          "index": 6,
+          "sourceIndex": 6,
+          "file": "assets/frames/wide-barrage-v3-6.png",
+          "sha256": "ed23a5ed8ee0843800758d2781ace2415415933d3bd648d69e7516f547607b23",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 361,
+            "height": 363
+          },
+          "anchor": {
+            "x": 0.4975669099756691,
+            "y": 0.8974452554744524
+          },
+          "borderMax": 2
+        },
+        {
+          "index": 7,
+          "sourceIndex": 7,
+          "file": "assets/frames/wide-barrage-v3-7.png",
+          "sha256": "4aa38aec67eb8204f2ec4c7f16af9b0b3201ba43352030829c84e5e4334131b1",
+          "sourceRect": {
+            "left": 1085,
+            "top": 362,
+            "width": 362,
+            "height": 363
+          },
+          "anchor": {
+            "x": 0.49878345498783455,
+            "y": 0.8974452554744524
+          },
+          "borderMax": 40
+        },
+        {
+          "index": 8,
+          "sourceIndex": 8,
+          "file": "assets/frames/wide-barrage-v3-8.png",
+          "sha256": "c6b141ca9e5b8e91988595e2dee21d239673e627cd65f663577c12feabb6199c",
+          "sourceRect": {
+            "left": 0,
+            "top": 725,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.49878345498783455,
+            "y": 0.842287104622871
+          },
+          "borderMax": 1
+        },
+        {
+          "index": 9,
+          "sourceIndex": 9,
+          "file": "assets/frames/wide-barrage-v3-9.png",
+          "sha256": "a5eac1d8924cd4cd5cdc476d84d3468fb18b365651aa3626d245eb1962f2b121",
+          "sourceRect": {
+            "left": 362,
+            "top": 725,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.49878345498783455,
+            "y": 0.842287104622871
+          },
+          "borderMax": 22
+        },
+        {
+          "index": 10,
+          "sourceIndex": 10,
+          "file": "assets/frames/wide-barrage-v3-10.png",
+          "sha256": "eec9e07a2529cb40bb76d96c423c572bdfce4cefa07e3d5c6b5a5fb695e8d27b",
+          "sourceRect": {
+            "left": 724,
+            "top": 725,
+            "width": 361,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.4975669099756691,
+            "y": 0.842287104622871
+          },
+          "borderMax": 2
+        },
+        {
+          "index": 11,
+          "sourceIndex": 11,
+          "file": "assets/frames/wide-barrage-v3-11.png",
+          "sha256": "0bdeb3d747d7671dd951c63d4c041813288ac6b308eb44d1195f60096790adc4",
+          "sourceRect": {
+            "left": 1085,
+            "top": 725,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.49878345498783455,
+            "y": 0.842287104622871
+          },
+          "borderMax": 3
+        }
+      ]
+    },
+    "ballistic-aura": {
+      "atlas": "assets/atlases/ballistic-aura-v4.png",
+      "sha256": "720eee68fc409e3ea900e8c54c2ce7b01cd02fadfc8c8bf35c51672977d477ee",
+      "source": "assets/sources/ballistic-aura-v4.png",
+      "sourceSha256": "909c3ca09c145a78c04690fdb17ab2dd44c66ee6d233638f96b6846908a6a331",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 410,
+      "frameCount": 12,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/ballistic-aura-v4-0.png",
+          "sha256": "7a0fd0112d1c0be8094a0a9c31fb06a6d374a36a47b830d7c44a6a508cef193e",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundSource": {
+            "x": 185,
+            "y": 330
+          },
+          "anchor": {
+            "x": 0.5097560975609756,
+            "y": 0.8634146341463415
+          },
+          "maxBorderAlpha": 5
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/ballistic-aura-v4-1.png",
+          "sha256": "3b43b8f157b570ff5031c9c6d7e364288e1240e8267fc55a3bd2795197e37e1f",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundSource": {
+            "x": 185,
+            "y": 330
+          },
+          "anchor": {
+            "x": 0.5097560975609756,
+            "y": 0.8634146341463415
+          },
+          "maxBorderAlpha": 7
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/ballistic-aura-v4-2.png",
+          "sha256": "80a6d960e6b798f3eff8a065db68065ce2140b796518131db6a9336cf787dc7a",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundSource": {
+            "x": 185,
+            "y": 329
+          },
+          "anchor": {
+            "x": 0.5097560975609756,
+            "y": 0.8609756097560975
+          },
+          "maxBorderAlpha": 7
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/ballistic-aura-v4-3.png",
+          "sha256": "a1376ceeb843371a1d4d4eed7acda61474520a71caffd3ae02a7250f7577f23d",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundSource": {
+            "x": 185,
+            "y": 330
+          },
+          "anchor": {
+            "x": 0.5097560975609756,
+            "y": 0.8634146341463415
+          },
+          "maxBorderAlpha": 7
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/ballistic-aura-v4-4.png",
+          "sha256": "fc9d8fd62ca343d3beaea17d0db3169046c05d3647f317774f77b463eb2fdf9f",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundSource": {
+            "x": 185,
+            "y": 313
+          },
+          "anchor": {
+            "x": 0.5097560975609756,
+            "y": 0.8219512195121951
+          },
+          "maxBorderAlpha": 9
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/ballistic-aura-v4-5.png",
+          "sha256": "39c9994421c088f18dcff827a08c9598c55575c822a6ba699c596eac5e4b3202",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundSource": {
+            "x": 185,
+            "y": 313
+          },
+          "anchor": {
+            "x": 0.5097560975609756,
+            "y": 0.8219512195121951
+          },
+          "maxBorderAlpha": 12
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/ballistic-aura-v4-6.png",
+          "sha256": "a446540edbf5005a857058f487b5f39399cb2984ecb010f5386f0ec54f486fe0",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundSource": {
+            "x": 185,
+            "y": 313
+          },
+          "anchor": {
+            "x": 0.5097560975609756,
+            "y": 0.8219512195121951
+          },
+          "maxBorderAlpha": 9
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/ballistic-aura-v4-7.png",
+          "sha256": "5190f5ee82df142665f91ee9c5a5f91363e5f0eea82c7a86afd8fd2a723e2e3c",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundSource": {
+            "x": 185,
+            "y": 313
+          },
+          "anchor": {
+            "x": 0.5097560975609756,
+            "y": 0.8219512195121951
+          },
+          "maxBorderAlpha": 8
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/ballistic-aura-v4-8.png",
+          "sha256": "6e61e5a516d5dc0a92c71a16c877c13999752fc891325227c15ff5f44d316db7",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundSource": {
+            "x": 185,
+            "y": 300
+          },
+          "anchor": {
+            "x": 0.5097560975609756,
+            "y": 0.7902439024390244
+          },
+          "maxBorderAlpha": 11
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/ballistic-aura-v4-9.png",
+          "sha256": "1162d946bfc048b89d65b8d8193fc321438163136b99a720db701b3cf37e66ee",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundSource": {
+            "x": 185,
+            "y": 300
+          },
+          "anchor": {
+            "x": 0.5097560975609756,
+            "y": 0.7902439024390244
+          },
+          "maxBorderAlpha": 14
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/ballistic-aura-v4-10.png",
+          "sha256": "0708062c0f5ff70d7e35c42d10cec4e83c1030e003b5250829664da484be7059",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundSource": {
+            "x": 185,
+            "y": 300
+          },
+          "anchor": {
+            "x": 0.5097560975609756,
+            "y": 0.7902439024390244
+          },
+          "maxBorderAlpha": 11
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/ballistic-aura-v4-11.png",
+          "sha256": "1638b4fa093d5bd474aa92105f0597832032880688ad4a39932e35d629be5c6c",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundSource": {
+            "x": 185,
+            "y": 300
+          },
+          "anchor": {
+            "x": 0.5097560975609756,
+            "y": 0.7902439024390244
+          },
+          "maxBorderAlpha": 8
+        }
       ]
     }
   },
@@ -1875,7 +2988,7 @@
     "mandatory": true,
     "separateLayer": true,
     "anchor": "head",
-    "idleBody": "ready:0",
+    "idleBody": "ar:0",
     "noBodyWobble": true
   },
   "rejectedSources": [
@@ -1884,24 +2997,55 @@
     "body-command.png",
     "body-move-rejected.png"
   ],
-  "battleSprite": "preview/mercenary-monochrome-artillery-battle-v1/assets/battle-sprite.png",
-  "battleSpriteSha256": "9e25026bd037797ef7a3deee8344572c4b754f52cf57bb0f1e58ef572c7f2f90",
+  "battleSprite": "preview/mercenary-monochrome-artillery-battle-v1/assets/frames/ar-v3-0.png",
+  "battleSpriteSha256": "07309373c5453d0389238d63a46ffa721dad22a3e43441d6f532fe76a6265057",
   "battleSpriteFootAnchor": {
     "x": 0.390625,
     "y": 0.8463541666666666
   },
   "battleSpriteStatus": "PREVIEW_PREPARED_AWAITING_APPROVAL",
   "counts": {
-    "motion": 5,
-    "effects": 60
+    "motion": 4,
+    "retainedMotion": 5,
+    "effects": 68,
+    "retainedEffects": 36
   },
   "sourceIndex": "source-index.json",
   "productionNotes": "README.md",
   "qa": {
-    "assets": "qa-assets.test.mjs",
-    "runtime": "qa/runtime-report.json",
-    "video": "qa/video-inspection.json",
-    "completeCharacter": "qa/character-detail.png",
-    "headDetail": "qa/head-detail.png"
+    "assets": "qa-ar-v3.test.mjs",
+    "runtime": "qa/aura-v4/runtime-report.json",
+    "video": "qa/aura-v4/video-inspection.json",
+    "completeCharacter": "qa/aura-v4/desktop-aura-3.png",
+    "headDetail": "qa/head-detail.png",
+    "arV3": "qa/ar-v3/runtime-report.json",
+    "legacyAssets": "qa-assets.test.mjs",
+    "legacyRuntime": "qa/runtime-report.json",
+    "legacyVideo": "qa/video-inspection.json",
+    "bodyAura": "qa/aura-v4/runtime-report.json"
+  },
+  "revision": "AR_AUTO_CENTRAL_BARRAGE_WITH_BALLISTIC_AURA_V4",
+  "arRecoil": {
+    "fixedHead": true,
+    "fixedFeet": true,
+    "fixedCoat": true,
+    "bodyPatchOnly": true,
+    "maxSourceGripDelta": 5,
+    "shotsPerSecond": 9
+  },
+  "centralArtillery": {
+    "alignment": "BATTLEFIELD_CENTER",
+    "salvos": 5,
+    "wideFormationBlast": true
+  },
+  "bodyAura": {
+    "source": "ballistic-aura",
+    "layer": "BEHIND_BODY_AND_HEAD_HALO",
+    "anchor": "REGISTERED_GROUND_RIPPLE",
+    "cycleSeconds": 12,
+    "phase": "COSINE_FORWARD_REVERSE",
+    "fixedPosition": true,
+    "fixedScale": true,
+    "shotsAndBodyUnchanged": true
   }
 }

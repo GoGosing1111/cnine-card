@@ -1,0 +1,192 @@
+{
+  "version": 3,
+  "patch": [
+    [
+      427,
+      306
+    ],
+    [
+      492,
+      297
+    ],
+    [
+      535,
+      332
+    ],
+    [
+      585,
+      346
+    ],
+    [
+      653,
+      340
+    ],
+    [
+      699,
+      319
+    ],
+    [
+      747,
+      342
+    ],
+    [
+      790,
+      378
+    ],
+    [
+      834,
+      386
+    ],
+    [
+      870,
+      347
+    ],
+    [
+      945,
+      342
+    ],
+    [
+      971,
+      385
+    ],
+    [
+      947,
+      427
+    ],
+    [
+      911,
+      444
+    ],
+    [
+      858,
+      514
+    ],
+    [
+      790,
+      540
+    ],
+    [
+      742,
+      505
+    ],
+    [
+      714,
+      469
+    ],
+    [
+      674,
+      484
+    ],
+    [
+      645,
+      550
+    ],
+    [
+      515,
+      550
+    ],
+    [
+      491,
+      492
+    ],
+    [
+      427,
+      471
+    ],
+    [
+      377,
+      447
+    ],
+    [
+      364,
+      387
+    ],
+    [
+      390,
+      342
+    ]
+  ],
+  "frames": [
+    {
+      "frame": 0,
+      "sourceCell": {
+        "x": 0,
+        "y": 0,
+        "width": 627,
+        "height": 627
+      },
+      "alignment": {
+        "score": 0,
+        "dx": 0,
+        "dy": 0
+      },
+      "sourceGrip": {
+        "x": 699,
+        "y": 400
+      },
+      "microRecoilSourcePixels": 0,
+      "headAndLowerBodySource": "body-ready-v2.png"
+    },
+    {
+      "frame": 1,
+      "sourceCell": {
+        "x": 627,
+        "y": 0,
+        "width": 627,
+        "height": 627
+      },
+      "alignment": {
+        "score": 12298.813071895427,
+        "dx": -16,
+        "dy": 2
+      },
+      "sourceGrip": {
+        "x": 694,
+        "y": 400
+      },
+      "microRecoilSourcePixels": -5,
+      "headAndLowerBodySource": "body-ready-v2.png"
+    },
+    {
+      "frame": 2,
+      "sourceCell": {
+        "x": 0,
+        "y": 627,
+        "width": 627,
+        "height": 627
+      },
+      "alignment": {
+        "score": 11472.355555555563,
+        "dx": 1,
+        "dy": -3
+      },
+      "sourceGrip": {
+        "x": 696,
+        "y": 400
+      },
+      "microRecoilSourcePixels": -3,
+      "headAndLowerBodySource": "body-ready-v2.png"
+    },
+    {
+      "frame": 3,
+      "sourceCell": {
+        "x": 627,
+        "y": 627,
+        "width": 627,
+        "height": 627
+      },
+      "alignment": {
+        "score": 11544.10065359478,
+        "dx": -17,
+        "dy": -3
+      },
+      "sourceGrip": {
+        "x": 699,
+        "y": 400
+      },
+      "microRecoilSourcePixels": 0,
+      "headAndLowerBodySource": "body-ready-v2.png"
+    }
+  ],
+  "weaponUniformScale": 0.68
+}

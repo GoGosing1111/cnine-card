@@ -1,0 +1,342 @@
+{
+  "sources": {
+    "ar-ballistics": [
+      {
+        "sourceIndex": 0,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.6
+        ]
+      },
+      {
+        "sourceIndex": 1,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.205,
+          0.6
+        ]
+      },
+      {
+        "sourceIndex": 2,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.18,
+          0.6
+        ]
+      },
+      {
+        "sourceIndex": 3,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.6
+        ]
+      },
+      {
+        "sourceIndex": 4,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.746,
+          0.49
+        ]
+      },
+      {
+        "sourceIndex": 5,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.79,
+          0.49
+        ]
+      },
+      {
+        "sourceIndex": 6,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.795,
+          0.49
+        ]
+      },
+      {
+        "sourceIndex": 7,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.826,
+          0.49
+        ]
+      },
+      {
+        "sourceIndex": 8,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.52,
+          0.46
+        ]
+      },
+      {
+        "sourceIndex": 9,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.46
+        ]
+      },
+      {
+        "sourceIndex": 10,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.46
+        ]
+      },
+      {
+        "sourceIndex": 11,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.46
+        ]
+      }
+    ],
+    "artillery-v3": [
+      {
+        "sourceIndex": 11,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.45,
+          0.835
+        ]
+      },
+      {
+        "sourceIndex": 10,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.45,
+          0.9
+        ]
+      },
+      {
+        "sourceIndex": 2,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.4447513812154696,
+          0.975
+        ]
+      },
+      {
+        "sourceIndex": 3,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.40193370165745856,
+          0.975
+        ]
+      },
+      {
+        "sourceIndex": 7,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.3798342541436464,
+          0.923
+        ]
+      },
+      {
+        "sourceIndex": 6,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.4074585635359116,
+          0.923
+        ]
+      },
+      {
+        "sourceIndex": 9,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.43646408839779005,
+          0.803
+        ]
+      },
+      {
+        "sourceIndex": 8,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.4654696132596685,
+          0.803
+        ]
+      },
+      {
+        "sourceIndex": 3,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.40193370165745856,
+          0.975
+        ]
+      },
+      {
+        "sourceIndex": 9,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.43646408839779005,
+          0.803
+        ]
+      },
+      {
+        "sourceIndex": 10,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.45,
+          0.9
+        ]
+      },
+      {
+        "sourceIndex": 11,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.45,
+          0.835
+        ]
+      }
+    ],
+    "wide-barrage": [
+      {
+        "sourceIndex": 0,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.91
+        ]
+      },
+      {
+        "sourceIndex": 1,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.91
+        ]
+      },
+      {
+        "sourceIndex": 2,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.91
+        ]
+      },
+      {
+        "sourceIndex": 3,
+        "borderMax": 54,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.91
+        ]
+      },
+      {
+        "sourceIndex": 4,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.95
+        ]
+      },
+      {
+        "sourceIndex": 5,
+        "borderMax": 36,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.95
+        ]
+      },
+      {
+        "sourceIndex": 6,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.95
+        ]
+      },
+      {
+        "sourceIndex": 7,
+        "borderMax": 40,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.95
+        ]
+      },
+      {
+        "sourceIndex": 8,
+        "borderMax": 1,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.89
+        ]
+      },
+      {
+        "sourceIndex": 9,
+        "borderMax": 22,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.89
+        ]
+      },
+      {
+        "sourceIndex": 10,
+        "borderMax": 2,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.89
+        ]
+      },
+      {
+        "sourceIndex": 11,
+        "borderMax": 3,
+        "opaqueEdge": 0,
+        "anchor": [
+          0.5,
+          0.89
+        ]
+      }
+    ]
+  },
+  "excludedTankSourceFrames": [
+    0,
+    1,
+    4,
+    5
+  ],
+  "reason": "Opaque effects crossed source grid boundaries; retain the sources but do not load the clipped frames.",
+  "selectedTankDistinctFrames": 8
+}
