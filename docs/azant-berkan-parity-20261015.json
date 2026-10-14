@@ -1,0 +1,119 @@
+{
+  "status": "COMPLETED",
+  "deployment": {
+    "source": "34659440b5c25953e942f395bf26a6ac46bb94d9",
+    "previousSource": "dd53e4691bacff7ffa8d77201d7893e0a9489fe2",
+    "url": "https://95749fd3.cnine-card.pages.dev",
+    "apiVersion": "25c3099a-7c12-49b4-b7e3-b281f75ed8c2",
+    "schedulerVersion": "feb62ae4-712f-4764-a306-15bea188ae43",
+    "scopedTestsPassed": 18,
+    "hyperdriveCacheDisabled": true
+  },
+  "verification": {
+    "status": "PASS",
+    "checkedAt": "2026-10-14T21:36:10.198Z",
+    "sourceCommit": "34659440b5c25953e942f395bf26a6ac46bb94d9",
+    "pagesUrl": "https://95749fd3.cnine-card.pages.dev",
+    "pagesStatus": "success",
+    "apiParityCodeConfirmed": true,
+    "shiranuiCodePreserved": true,
+    "checks": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "a11f5e2edf122953d70bee24acc8cd714307924f67d2a279172772469ae86c7e",
+        "matches": true
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "sha256": "acf429c8e9a37dafd540425ed89ac0ebcb9d2e40db8226943753fb0a86b90b22",
+        "matches": true
+      },
+      {
+        "file": "js/app.js",
+        "status": 200,
+        "sha256": "99fa84242b330b7dc71a19f7a66ef0f616f76cdbeb0debee650c15d5878eaf23",
+        "matches": true
+      },
+      {
+        "file": "js/battle-v3-live.js",
+        "status": 200,
+        "sha256": "00886288f1a480562ad10a24033b702dad20dab59957aaa40f29a3606a0a567e",
+        "matches": true
+      },
+      {
+        "file": "shared/mercenary-azant-v1.mjs",
+        "status": 200,
+        "sha256": "992648f5b68aa6f08ee2ac30724b0d0b549941cad11db4dfe399ee6cc38e3005",
+        "matches": true
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "status": 200,
+        "sha256": "0ac41286afd1a6d741545aa0de8ee0da45f316103d12324a9d0c3ef6431c20d6",
+        "matches": true
+      },
+      {
+        "file": "preview/sustained-hunt-v2/battle.bundle.js",
+        "status": 200,
+        "sha256": "05f1b30461ba8edf7027d1035cc38b547aba0f81975803bc2018f6aa9b7a2ab4",
+        "matches": true
+      }
+    ],
+    "publicCodex": {
+      "revision": 61,
+      "otherCardsUnchanged": true,
+      "rawBalancesUnchanged": true,
+      "code": "V-056",
+      "name": "아잔트",
+      "basePower": 180000,
+      "combatLinkDescription": "아군 일반 카드 5명의 평균 공격력 220%를 최소 공격력, 평균 최대 체력 280%를 최소 최대 체력으로 사용합니다. 전투 시작 시 평균 최대 체력 150%의 기본 전용 방벽을 얻습니다. 아잔트는 PVE·PVP 기본 속도와 아군 카드 행동당 추가 행동량이 25% 증가합니다(카드 4회당 용병 추가 행동 5회). 베르칸과 동일하게 PVP 기본 공격 최종 피해는 50%이며, 후열 우선 최대 2명 결정창 포격의 피해 상한은 기본의 1.865배입니다. 같은 타격의 95~105% 피해 편차를 적용합니다. PVE에서는 결정창 포격과 적 전체 청옥 강림을 각각의 자원·재사용 조건에 따라 번갈아 사용합니다. PVP에서 아군 일반 카드가 모두 전투 불능이면 적 일반 카드 행동마다 반격 행동을 이어갑니다. 기본 공격과 피해·회복·보호 스킬 모두 연계 공격력을 사용합니다. PVP에서 S·SS·SSS 상대 용병보다 등급이 높으면 전투 시작 시 등급 차이 1단계마다 연계 공격·피해 상한 100%, 연계 체력·방벽 500%를 추가합니다. 동일 등급과 PVE에는 이 등급 차이 보정을 적용하지 않습니다.",
+      "skills": [
+        {
+          "id": "MS-057",
+          "name": "결정창 포격",
+          "target": "적 후열 핵심 위협",
+          "trigger": "PVE·PVP에서 자원과 재사용 조건을 충족하면 후열 우선, 전투 시작 공격력 순으로 서로 다른 적 최대 2명을 지정합니다. 후열이 부족하면 전열로 채웁니다.",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        },
+        {
+          "id": "MS-058",
+          "name": "청옥 강림",
+          "target": "적 전체",
+          "trigger": "PVE에서 자원과 재사용 조건을 충족하면 살아 있는 적 전원을 지정합니다. PVP에서는 사용하지 않습니다.",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          }
+        }
+      ]
+    }
+  },
+  "parity": {
+    "scope": "SAME_INPUT_CANONICAL_COMBAT_PARITY",
+    "pairedCases": {
+      "plain": 64,
+      "equipped": 184,
+      "pve": 12,
+      "duo": 6,
+      "hunt": 2
+    },
+    "mismatches": 0,
+    "battles": 536
+  },
+  "browser": {
+    "scenarios": 6,
+    "viewports": [
+      "1440x1000",
+      "390x844"
+    ],
+    "errors": 0
+  },
+  "databaseWrites": false
+}
