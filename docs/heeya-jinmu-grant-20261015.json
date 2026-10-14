@@ -1,0 +1,67 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:heeya-jinmu-grant:20261015:v1",
+    "authorization": "하이희야♡ 계정에 진무 지급하고 편성 가능하게 해",
+    "target": {
+      "id": 4977,
+      "nickname": "하이희야♡",
+      "code": "V-989",
+      "quantity": 1
+    },
+    "completedAt": "2026-10-14T16:52:30.807Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "protectedBefore": "2b652e019e9ce0f616f63f8c29dbe70ab47c42534fc45fbaa77409b1ef9a5904",
+    "protectedAfter": "2b652e019e9ce0f616f63f8c29dbe70ab47c42534fc45fbaa77409b1ef9a5904",
+    "automaticLoadout": false,
+    "permanent": true,
+    "countedInLimited": false,
+    "cost": 0,
+    "adminLogId": "46242"
+  },
+  "currentCopies": 1,
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "account": {
+    "id": 4977,
+    "nickname": "하이희야♡",
+    "code": "V-989",
+    "name": "천룡검황 진무",
+    "totalCopies": 1,
+    "canDeploy": true,
+    "basePower": 1347840,
+    "excludedFromLimitedCount": true,
+    "loadouts": {
+      "PVE": {
+        "mercenaryCode": "V-999",
+        "revision": 14
+      },
+      "PVP": {
+        "mercenaryCode": "V-999",
+        "revision": 17
+      }
+    },
+    "automaticLoadout": false
+  },
+  "deployment": {
+    "checkedAt": "2026-10-14T16:51:37.138Z",
+    "commit": "1e536dc0dad159b846490249e2c5b03c692f494d",
+    "deploymentUrl": "https://4b0dff4f.cnine-card.pages.dev",
+    "apiVersion": "f130ed10-1349-4992-b8d2-299690c66fa5",
+    "schedulerVersion": "d53bdd67-c8f9-42c2-86f7-a58aeeb9d179",
+    "file": "shared/mercenary-jinmu-v1.mjs",
+    "url": "https://cnine-card.pages.dev/shared/mercenary-jinmu-v1.mjs?heeyaJinmu=20261015-v1",
+    "status": 200,
+    "sha256": "052e72a07e2970e3b564429757dc3706572ccf16d19820655760a4d9cdbd2dd9",
+    "matches": true
+  },
+  "execution": {
+    "productionDryRunRolledBack": true,
+    "replayedWithoutAdditionalGrant": true,
+    "liveUserLockAndFallback": true,
+    "verifiedWithNewConnection": true,
+    "temporaryHelperStopped": true
+  }
+}
