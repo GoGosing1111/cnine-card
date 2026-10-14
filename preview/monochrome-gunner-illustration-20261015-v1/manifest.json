@@ -1,10 +1,10 @@
 {
   "version": 1,
   "createdAt": "2026-10-14T15:51:21.570Z",
-  "status": "art-preview-awaiting-user-review",
+  "status": "character-v2-approved-ballistic-aura-v3-awaiting-user-review",
   "generationMode": "built-in image_gen edit",
   "sourceAttachment": "codex-clipboard-2e913cf7-14ec-42c6-89fb-6613258ecd22.png",
-  "prompt": "prompt-v2.json",
+  "prompt": "prompt-v3.json",
   "changes": [
     "Pose and composition mirrored horizontally; rifle on viewer right and coat tails on viewer left.",
     "Purple aura replaced by intense white and silver light with charcoal gray smoke.",
@@ -18,7 +18,15 @@
     "rifleRigidAxisReviewed": true,
     "naturalHairReviewed": true,
     "rifleContourAndComponentsReadable": true,
-    "clothPanelsAndFoldsDefined": true
+    "clothPanelsAndFoldsDefined": true,
+    "ballisticAura": {
+      "recognizableCartridges": true,
+      "whiteSilverGrayPalette": true,
+      "faceAndClothingReadable": true,
+      "rifleContourReadable": true,
+      "rigidRifleAxisRetained": true,
+      "approvedOriginalHashVerified": true
+    }
   },
   "runtimeIntegration": false,
   "rankOrNameAssignment": null,
@@ -43,15 +51,24 @@
       "width": 1121,
       "height": 1403,
       "sha256": "82c15cc579e6f66a37a0664cf77a1f0ed821e5cfb50f38853c1a11fbec3b99a4"
+    },
+    {
+      "file": "monochrome-gunner-ballistic-aura-v3.png",
+      "bytes": 3070435,
+      "width": 1121,
+      "height": 1403,
+      "sha256": "3b67b37e9e3ab1e017552c6d6864c0469056edc1332c2555c9f4cc6f5e3ffe65"
     }
   ],
-  "updatedAt": "2026-10-14T15:53:57.422Z",
-  "currentPreview": "monochrome-gunner-v2.png",
-  "previousPrompt": "prompt.json",
-  "revision": 2,
+  "updatedAt": "2026-10-14T15:58:44.403Z",
+  "currentPreview": "monochrome-gunner-ballistic-aura-v3.png",
+  "previousPrompt": "prompt-v2.json",
+  "revision": 3,
   "revisionNotes": [
-    "Preserved pose and monochrome aura while clarifying rifle construction, outer contour and rigid barrel alignment.",
-    "Replaced noisy speckled clothing surfaces with continuous cloth panels, defined seams and folds; retained torn outer hems.",
-    "Original attachment and first generation retained without modification."
-  ]
+    "User approved character illustration V2 on 2026-10-15 KST; original bytes and hash remain fixed.",
+    "Added silver-white spectral rifle cartridges, straight ballistic tracers, muzzle-flash-shaped highlights, gray gunpowder smoke and outer foreground casings around the figure.",
+    "Preserved readable face, outfit, pose, rifle silhouette and monochrome palette; aura derivative saved separately for review."
+  ],
+  "approval": "approval-20261015.json",
+  "approvedCharacterFile": "monochrome-gunner-v2.png"
 }

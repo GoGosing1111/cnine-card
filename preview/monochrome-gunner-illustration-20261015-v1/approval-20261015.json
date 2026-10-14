@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "approvedOn": "2026-10-15",
+  "timezone": "Asia/Seoul",
+  "recordedAt": "2026-10-14T15:56:46.446Z",
+  "userInstruction": "승인하고 캐릭터 주변에 총알이나 무기와 관련된 아우라 이펙트 넣어",
+  "approvedFile": "monochrome-gunner-v2.png",
+  "sha256": "82c15cc579e6f66a37a0664cf77a1f0ed821e5cfb50f38853c1a11fbec3b99a4",
+  "scope": "Character illustration V2: appearance, mirrored pose, outfit, rigid rifle design and white/gray color scheme.",
+  "preserveOriginalBytes": true,
+  "requestedDerivative": "Add weapon- and bullet-themed white/silver aura around the approved character while preserving face, costume, pose and rifle clarity.",
+  "derivativeApproval": "pending-user-review",
+  "runtimeIntegration": false,
+  "nameAndRank": null
+}
