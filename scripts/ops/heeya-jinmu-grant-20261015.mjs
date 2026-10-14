@@ -3,6 +3,7 @@ import {createHash} from 'node:crypto';
 import {JINMU_CODE} from '../../shared/mercenary-jinmu-v1.mjs';
 
 export const OPERATION_KEY='ops:heeya-jinmu-grant:20261015:v1';
+export const REVOCATION_KEY='ops:heeya-jinmu-revoke:20261015:v1';
 export const TARGET=Object.freeze({id:4977,nickname:'하이희야♡',code:JINMU_CODE,quantity:1});
 export const AUTHORIZATION='하이희야♡ 계정에 진무 지급하고 편성 가능하게 해';
 const q=async(db,sql,args=[])=>(await db.query(sql,args)).rows;
@@ -59,6 +60,7 @@ export async function grantJinmu(db,{dryRun=false,lockDeadline}={}){
  try{
   await db.query("SET LOCAL lock_timeout='3s'");await db.query("SET LOCAL statement_timeout='10s'");
   one(await q(db,'SELECT id FROM users WHERE id=$1 FOR UPDATE',[TARGET.id]));
+  assert.equal((await q(db,'SELECT key FROM app_meta WHERE key=$1',[REVOCATION_KEY])).length,0,'This Jinmu grant was revoked; it must not be reapplied');
   await q(db,'SELECT key FROM app_meta WHERE key=ANY($1::text[]) ORDER BY key FOR SHARE',[settings]);
   await q(db,'SELECT user_id FROM user_second_verifications WHERE user_id=$1 FOR SHARE',[TARGET.id]);
   const before=await inspectJinmuGrant(db),user=one(before.users);

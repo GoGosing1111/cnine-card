@@ -1,0 +1,103 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:heeya-jinmu-revoke:20261015:v1",
+    "sourceGrantKey": "ops:heeya-jinmu-grant:20261015:v1",
+    "sourceGrantAuditId": "46242",
+    "authorization": "진무 다시 회수해 — 직전 하이희야♡ 지급 1장 회수 및 추가 편성 허용 해제",
+    "target": {
+      "id": 4977,
+      "nickname": "하이희야♡",
+      "code": "V-989",
+      "quantity": 1
+    },
+    "completedAt": "2026-10-14T17:13:22.622Z",
+    "copiesBefore": 1,
+    "copiesAfter": 0,
+    "clearedModes": [],
+    "loadoutsBefore": {
+      "PVE": {
+        "mercenaryCode": "V-999",
+        "revision": 16
+      },
+      "PVP": {
+        "mercenaryCode": "V-999",
+        "revision": 19
+      }
+    },
+    "loadoutsAfter": {
+      "PVE": {
+        "mercenaryCode": "V-999",
+        "revision": 16
+      },
+      "PVP": {
+        "mercenaryCode": "V-999",
+        "revision": 19
+      }
+    },
+    "protectedBefore": "10b2c4c89492ef6abe2531ff9fdbff963594ff0e0320763a1e924ec6e9b325af",
+    "protectedAfter": "10b2c4c89492ef6abe2531ff9fdbff963594ff0e0320763a1e924ec6e9b325af",
+    "grantHistoryPreserved": true,
+    "adminLogId": "46245"
+  },
+  "currentCopies": 0,
+  "loadouts": {
+    "PVE": {
+      "mercenaryCode": "V-999",
+      "revision": 16
+    },
+    "PVP": {
+      "mercenaryCode": "V-999",
+      "revision": 19
+    }
+  },
+  "grantHistoryPreserved": true,
+  "account": {
+    "id": 4977,
+    "nickname": "하이희야♡",
+    "code": "V-989",
+    "totalCopies": 0,
+    "visibleInOwnedList": false,
+    "canDeploy": false,
+    "loadouts": {
+      "PVE": {
+        "mercenaryCode": "V-999",
+        "revision": 16
+      },
+      "PVP": {
+        "mercenaryCode": "V-999",
+        "revision": 19
+      }
+    }
+  },
+  "deployment": {
+    "checkedAt": "2026-10-14T17:13:00.143Z",
+    "commit": "99c1939191be1a4c34389137a63d2e6acccb3db4",
+    "deploymentUrl": "https://35e73715.cnine-card.pages.dev",
+    "apiVersion": "dfb63715-e632-4c31-b5be-6b26d9dadb61",
+    "schedulerVersion": "916b9c26-0859-465d-a867-fe9f292aad42",
+    "file": "shared/mercenary-jinmu-v1.mjs",
+    "url": "https://cnine-card.pages.dev/shared/mercenary-jinmu-v1.mjs?heeyaJinmu=20261015-revoke-v1",
+    "status": 200,
+    "sha256": "4d67bbc89ab556c7b54a355e55b47ac696f1fe8ef0cb772b99520c955aebad74",
+    "matches": true
+  },
+  "validation": {
+    "scopedTests": [
+      "tests/heeya-jinmu-revoke-20261015.test.mjs",
+      "tests/jinmu-live-20261012.test.mjs"
+    ],
+    "testsPassed": 10,
+    "workerSyntax": true,
+    "v3GridBuild": true
+  },
+  "execution": {
+    "productionDryRunRolledBack": true,
+    "replayedWithoutAdditionalRevoke": true,
+    "liveUserLockAndFallback": true,
+    "verifiedWithNewConnection": true,
+    "temporaryHelperStopped": true,
+    "temporaryHelperDisabled": true
+  }
+}

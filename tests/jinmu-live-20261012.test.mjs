@@ -10,8 +10,8 @@ import {JINMU_CODE,JINMU_ART,JINMU_COMBAT,JINMU_AREA_SKILL} from '../shared/merc
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 import {grantJinmuOwner,inspectJinmuGrant,OPERATION_KEY} from '../scripts/ops/jinmu-owner-grant-20261012.mjs';
 const rid=()=>crypto.randomUUID();
-test('only the two designated accounts may load or deploy owned Jinmu; public pools and LIMITED counts exclude him',async t=>{
- const f=await mercenaryFixture(t,{postgres:true}),allowed=[{id:1,role:'OWNER'},{id:4977,role:'USER'}],blocked=[{...f.user,role:'OWNER'},{id:4824,role:'USER'}];
+test('after the Heeya recall only the original owner may load or deploy Jinmu; public pools and LIMITED counts exclude him',async t=>{
+ const f=await mercenaryFixture(t,{postgres:true}),allowed=[{id:1,role:'OWNER'}],blocked=[{...f.user,role:'OWNER'},{id:4977,role:'USER'},{id:4824,role:'USER'}];
  for(const [id,name]of [[1,'핑크빛유두'],[4977,'하이희야♡'],[4824,'헬로희야']])await f.p('INSERT INTO users(id,nickname) VALUES(?,?)',id,name).run();
  assert(!LIMITED_MERCENARIES.some(c=>c.code===JINMU_CODE));
  assert(!MERCENARY_CMS_SEED.catalog.cards.some(c=>c.code===JINMU_CODE));
@@ -26,7 +26,7 @@ test('only the two designated accounts may load or deploy owned Jinmu; public po
    assert.equal((await saveMercenaryLoadout(f.env,user,body)).replayed,true);
    const one=await loadMercenaryBattleSnapshot(f.env,user,mode),batch=await releasedMercenarySnapshots(f.env,[1,4977,7,4824],mode);
    assert.equal(one.code,JINMU_CODE);assert.equal(one.basePower,JINMU_COMBAT.basePower);assert.deepEqual(one.skills,[JINMU_AREA_SKILL]);
-   assert.deepEqual(batch.get(user.id),one);assert.equal(batch.has(7),false);assert.equal(batch.has(4824),false);
+   assert.deepEqual(batch.get(user.id),one);for(const rejected of blocked)assert.equal(batch.has(rejected.id),false);
   }
  }
  for(const user of blocked)assert.equal((await mercenaryAccountState(f.env,user)).cards.length,0);
@@ -63,7 +63,7 @@ test('exact one-card grant is atomic, replayable, isolated from public issuance,
  assert.equal((await db.query('SELECT * FROM admin_logs')).rows.length,1);
  assert.equal(second.receipt.operationKey,OPERATION_KEY);
  await db.query("INSERT INTO user_mercenary_cards_v1 VALUES(4977,'V-989',1,0,'later','later')");
- assert.equal((await grantJinmuOwner(db)).replayed,true,'A later authorized grant must not invalidate the original receipt');
+ assert.equal((await grantJinmuOwner(db)).replayed,true,'Another account holding must not invalidate the original owner receipt');
  await db.query("UPDATE users SET nickname='different' WHERE id=1");
  await assert.rejects(grantJinmuOwner(db));assert.equal((await db.query('SELECT total_copies FROM user_mercenary_cards_v1')).rows[0].total_copies,1);
 });
