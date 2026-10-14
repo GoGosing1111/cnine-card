@@ -1,3 +1,5 @@
+import {collectionDropPercent} from './_collection_bonuses.js';
+import {rewardDropWithBonus} from '../shared/collection-bonuses-v1.mjs';
 import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {COW_ROOM_PUBLIC_RELEASE_ENABLED} from '../shared/pve-public-release-v2092.mjs';
 import {readExpeditionPolicy} from './_expedition_v3_settings.js';
@@ -40,7 +42,7 @@ export async function discoverCowPortalReady(env,user,event,{randomInt=randomPpm
   const values=[userId,event.sourceType,event.sourceRef];
   const existing=await p(env,`SELECT * FROM ${COW_PORTAL_TABLE} WHERE user_id=? AND source_type=? AND source_ref=?`,...values).first();
   if(existing)return visible(existing);
-  const rate=cowPortalRate(event),roll=randomInt();
+  const rate=rewardDropWithBonus(cowPortalRate(event),await collectionDropPercent(env,userId,'HUNT')),roll=randomInt();
   if(!Number.isSafeInteger(roll)||roll<0||roll>=1000000)throw jointError('PVE_V3_PORTAL_RANDOM','포탈 판정을 확인할 수 없습니다.',503);
   const difficulty=event.isApocalypse===true?'APOCALYPSE':'STANDARD';
   // PIPE-0920: INSERT 와 확인 SELECT 를 한 batch 로 보낸다(PostgreSQL 어댑터가 한 왕복으로 묶는다). 결과는 같다.

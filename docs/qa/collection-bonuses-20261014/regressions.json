@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-14",
+  "defaults": {
+    "petCount": 19,
+    "petRevision": 18,
+    "petBonusesConfigured": 0,
+    "trophySettingsPresent": false
+  },
+  "newRegressions": {
+    "passed": 17,
+    "cases": [
+      "neutral defaults, strict percentages, decimal sums, relative drop cap and exact safe-integer coin math",
+      "SQLite: only owned equipped live pet + earned distinct trophies; request scope refreshes on next request",
+      "SQLite: account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive",
+      "SQLite: OWNER CMS validates all three values, saves once, rejects stale/forged requests and reads do not grant",
+      "SQLite: portal bonus freezes rate on first roll; no retry reroll after unequip",
+      "Postgres: only owned equipped live pet + earned distinct trophies; request scope refreshes on next request",
+      "Postgres: account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive",
+      "Postgres: OWNER CMS validates all three values, saves once, rejects stale/forged requests and reads do not grant",
+      "Postgres: portal bonus freezes rate on first roll; no retry reroll after unequip",
+      "SQLite: duo bonus freezes on admission and survives failed settlement, unequip and retry",
+      "pipeline: duo bonus freezes on admission and survives failed settlement, unequip and retry",
+      "weighted item odds consume only empty outcomes, preserve coin odds and one reward; quantities/daily budgets remain separate",
+      "fixed raid plan applies owned bonuses without a second roll; mercenary growth remains unreleased",
+      "SQLite: boosted coin drops roll back with logs, replay unchanged and stop at the daily limit",
+      "Postgres: boosted coin drops roll back with logs, replay unchanged and stop at the daily limit",
+      "SQLite: core reward seals freeze boosted choices and minimum without repricing old offers",
+      "Postgres: core reward seals freeze boosted choices and minimum without repricing old offers"
+    ],
+    "note": "Failed fixture cases were repaired and only the affected tests were rerun; later passing results supersede earlier attempts."
+  },
+  "existingRegressions": {
+    "passed": 179,
+    "groups": {
+      "accountPetProfile": 52,
+      "contentRewards": 113,
+      "duoWeekly": 14
+    }
+  },
+  "browser": {
+    "passed": 8,
+    "errors": 0,
+    "desktop": "1440x1000",
+    "mobile": "390x844"
+  },
+  "productionDatabaseWrites": false,
+  "mercenaryGrowthEnabled": false
+}

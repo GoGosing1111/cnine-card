@@ -1,3 +1,4 @@
+import {collectionRewardCoin} from './_collection_bonuses.js';
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {accountRankAward} from './_account_rank.js';
 import {releasedMercenarySnapshot} from './_mercenary_account.js';
@@ -1129,7 +1130,7 @@ async function settle(env, event, cfg, status) {
   for (const row of participants) {
     const eligible = Number(row.attacks) >= cfg.minAttacks,
       ratio = success ? 1 : 0.35,
-      coin = eligible ? Math.floor(cfg.rewardCoin * ratio) : 0,
+      coin = eligible ? await collectionRewardCoin(env,row.user_id,Math.floor(cfg.rewardCoin * ratio),'SIEGE') : 0,
       shards = eligible ? Math.floor(cfg.rewardShards * ratio) : 0,
       items = eligible && success ? cfg.finalRewardItems : [];
     statements.push(
@@ -1636,7 +1637,7 @@ export async function handleSiege({ path, request, env, deps }) {
       damage = Math.min(raw, Number(event.phase_hp || 0)),
       nextHp = Math.max(0, Number(event.phase_hp || 0) - damage),
       winReward = {
-        coin: result === "WIN" ? cfg.perBattleWinCoin : 0,
+        coin: result === "WIN" ? await collectionRewardCoin(env,user.id,cfg.perBattleWinCoin,'SIEGE') : 0,
         shards: result === "WIN" ? cfg.perBattleWinShards : 0,
         items: result === "WIN" ? cfg.perBattleWinItems : [],
       };

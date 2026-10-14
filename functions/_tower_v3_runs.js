@@ -1,6 +1,7 @@
+import {collectionRewardCoin} from './_collection_bonuses.js';
 import {planForgeProtectionDrop} from './_forge_protection_drop.js';
 import {buildTowerV3Battle,validateTowerV3Config,migrateTowerProgress,towerProgressAfter,towerError,towerInt} from './_tower_v3.js';
-import {validateTowerEconomy,planTowerRewards,towerBudgetDate} from './_tower_v3_economy.js';
+import {validateTowerEconomy,planTowerRewards,towerBudgetDate,towerFirstReward,towerRepeatCoin} from './_tower_v3_economy.js';
 import {prepareUnifiedDropGrant} from './_drop_pool.js';
 
 const RUNS='tower_v3_runs_v1',PROGRESS='tower_v3_progress_v1',DAILY='tower_v3_daily_v1',FIRST='tower_v3_first_clears_v1',RECORDS='tower_v3_records_v1';
@@ -97,6 +98,10 @@ export async function runTowerV3(env,user,body,deps){
     const budget=Object.fromEntries(Object.entries(before).map(([k,v])=>[k,Number(v)]));
     const first=await p(env,`SELECT 1 AS claimed FROM ${FIRST} WHERE user_id=? AND tier=?`,uid,tier).first();
     const plan=planTowerRewards({battle,progress:state,firstClaimed:Boolean(first),budget,policy,firstTable:legacy.firstRewards});
+    for(const reward of plan.rewards)if(reward.rewardType==='COIN'){
+      const first=plan.firstClear?(towerFirstReward(tier,legacy.firstRewards)?.coin||0):0,repeat=plan.repeatReserved?towerRepeatCoin(tier,policy,legacy.firstRewards):0;
+      reward.quantity=await collectionRewardCoin(env,uid,first,'TOWER')+await collectionRewardCoin(env,uid,repeat,'TOWER',policy.repeatCoinCap);
+    }
     plan.rewards.push(...await planForgeProtectionDrop(env,'TOWER',{cleared:battle.success,eligible:plan.repeatReserved||plan.firstClear}));
     const checkpoint=json({userId:uid,requestId:rid,snapshot,battle,progress:state,plan,config,policy,seed});
     const stamp=now();

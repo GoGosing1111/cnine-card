@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "desktop: pet CMS three fields save through real handler",
+    "desktop: trophy CMS save and decimal percent preserved",
+    "desktop: equipped pet bonuses visible and readable",
+    "desktop: owned trophy summary and detailed effects",
+    "mobile: pet CMS three fields save through real handler",
+    "mobile: trophy CMS save and decimal percent preserved",
+    "mobile: equipped pet bonuses visible and readable",
+    "mobile: owned trophy summary and detailed effects"
+  ],
+  "errors": []
+}

@@ -1,3 +1,4 @@
+import {collectionRewardCoin} from './_collection_bonuses.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {PET_ESSENCE} from '../shared/pet-opening-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -34,7 +35,7 @@ export function lichClearRewardFor(room,userId){
   const reward=room.clearRewardSettlement;if(!reward)return null;
   const granted=reward.grantedIds.includes(String(userId));
   return {status:granted?'GRANTED':reward.limitedIds.includes(String(userId))?'WEEKLY_LIMIT':'DISABLED',granted,
-    petEssence:granted?reward.petEssence:0,masterStars:granted?reward.masterStars:0,coin:granted?reward.coin:0,
+    petEssence:granted?reward.petEssence:0,masterStars:granted?reward.masterStars:0,coin:granted?(reward.coinByUser?.[String(userId)]??reward.coin):0,
     weeklyReward:reward.weeklyByUser[String(userId)],settingsRevision:reward.settingsRevision};
 }
 export async function prepareLichClearRewards(env,row,room){
@@ -68,8 +69,10 @@ export async function prepareLichClearRewards(env,row,room){
         env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'리치왕 정벌 클리어','LICH_RAID_CLEAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(amount,room.id,uid,code),jointGuardEnd(env.DB,guard));
     }
     if(policy.coin){
-      plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(policy.coin,uid),
-        env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(policy.coin,'리치왕 정벌 클리어 ['+room.id+']',uid));
+      const coin=await collectionRewardCoin(env,uid,policy.coin,'LICH_RAID');
+      (reward.coinByUser||={})[userId]=coin;
+      plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(coin,uid),
+        env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin,'리치왕 정벌 클리어 ['+room.id+']',uid));
     }
     plan.statements.push(jointGuardEnd(env.DB,token));
     reward.grantedIds.push(userId);reward.weeklyByUser[userId]=quota(before.weekly,before.weekly.used+1);

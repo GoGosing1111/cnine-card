@@ -1,4 +1,4 @@
-import {openPetEquipment,petUiIcon} from './pet-equipment-window-v1.mjs?v=20261009-pet-codex';
+import {openPetEquipment,petUiIcon} from './pet-equipment-window-v1.mjs?v=20261014-reward1';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 let refreshing=false;
 async function refresh(){

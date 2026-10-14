@@ -1,3 +1,4 @@
+import {collectionRewardCoin} from './_collection_bonuses.js';
 import {CORE_REWARD_DEFAULT,CORE_REWARD_TYPES,validateCoreRewardPolicy,drawCoreRewards,minimumCoreReward} from '../shared/core-raid-reward-policy-v1.mjs';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {readMercenaryDocument} from './_mercenary_account.js';
@@ -63,6 +64,7 @@ export async function openCoreRewardOffer(env,user,roomId){
   if(!stored){
     const policy=await readCoreRewardPolicy(env);if(!policy.enabled)return {enabled:false};
     const id=await offerId(roomId,user.id),offer={version:1,offerId:id,revision:policy.revision,minimum:minimumCoreReward(policy),choices:drawCoreRewards(policy,mercenaryRandomInt),selectedIndex:null};
+    for(const reward of [offer.minimum,...offer.choices])if(reward.rewardType==='COIN')reward.quantity=await collectionRewardCoin(env,user.id,reward.quantity,'CORE_RAID');
     await env.DB.prepare(`INSERT INTO ${TABLE}(request_id,room_id,user_id,action_type,status,response_json) VALUES(?,?,?,?,'COMPLETED',?) ON CONFLICT(request_id) DO NOTHING`).bind(id,roomId,user.id,OFFER,JSON.stringify(offer)).run();
     stored=await readOffer(env,roomId,user.id);
   }

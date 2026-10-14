@@ -1,3 +1,4 @@
+import {collectionRewardCoin} from './_collection_bonuses.js';
 import {pigCoinRewardStatements,pigCoinRewardAmount} from './_loot_shop.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {CORE_MECHANIC_VERSION,createCoreMechanicPlans,coreMechanicPlans,coreMechanicEvents,verifyScreenMechanic,MECHANIC_NAMES} from '../shared/core-raid-mechanics-v2086.js';
@@ -2065,7 +2066,7 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
       "WHERE room_id=? AND user_id=? AND status='PENDING' AND request_id=? AND updated_at=?"
     ).bind(roomId, user.id, existing.request_id, existing.updated_at).run();
   }
-  const rewardCoin = cfg.rewardCoin;
+  const rewardCoin = await collectionRewardCoin(env,user.id,cfg.rewardCoin,'CORE_RAID',CORE_RAID_MAX_REWARD_COIN);
   const rewardShards = cfg.rewardShards;
   const response = {
     ok: true,
@@ -2274,7 +2275,7 @@ export async function handleRaidCoreProtocol({ path, request, env, deps }) {
       if (cfg.rewardLocked) return json({error:'붕괴 코어 보상이 잠겨 있습니다.',code:'CORE_RAID_REWARD_LOCKED'},423);
       const weeklyReward=await coreRaidWeeklyReward(env,user.id);
       if (!weeklyReward.remaining) return json({error:'이번 주 보상 3회를 모두 수령했습니다.',code:'CORE_RAID_WEEKLY_LIMIT',weeklyReward},409);
-      return json({ok:true,roomId,weeklyReward,baseReward:{coin:cfg.rewardCoin,shards:cfg.rewardShards},...await openCoreRewardOffer(env,user,roomId)});
+      return json({ok:true,roomId,weeklyReward,baseReward:{coin:await collectionRewardCoin(env,user.id,cfg.rewardCoin,'CORE_RAID',CORE_RAID_MAX_REWARD_COIN),shards:cfg.rewardShards},...await openCoreRewardOffer(env,user,roomId)});
     } catch(error){return json({error:error.status?error.message:'봉인된 보상을 불러오지 못했습니다. 다시 시도하세요.',code:error.code||'CORE_REWARD_RETRYABLE'},error.status||503);}
   }
   if (path === 'raid/core/open' && request.method === 'POST') {

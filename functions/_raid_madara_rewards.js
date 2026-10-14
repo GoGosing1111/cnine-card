@@ -1,3 +1,4 @@
+import {collectionRewardCoin} from './_collection_bonuses.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 
@@ -20,7 +21,8 @@ export async function prepareMadaraRewards(env,row,room){
   for(const member of [...room.members].filter(m=>!m.left).sort((a,b)=>Number(a.id)-Number(b.id))){
     const uid=Number(member.id),before=await counter(env,uid,room.finishedAt,p.weeklyLimit||7);
     const granted=enabled&&before.weekly.remaining>0;
-    room.clearRewards[member.id]={granted,status:granted?'GRANTED':enabled?'WEEKLY_LIMIT':'DISABLED',coin:granted?p.coin:0,masterStars:granted?p.masterStars:0,petEssence:granted?p.petEssence:0,weeklyReward:before.weekly};
+    const coin=granted?await collectionRewardCoin(env,uid,p.coin,'MADARA_RAID'):0;
+    room.clearRewards[member.id]={granted,status:granted?'GRANTED':enabled?'WEEKLY_LIMIT':'DISABLED',coin,masterStars:granted?p.masterStars:0,petEssence:granted?p.petEssence:0,weeklyReward:before.weekly};
     if(!granted)continue;
     const token=crypto.randomUUID(),raw=JSON.stringify({count:before.weekly.used+1,roomId:room.id,token});plan.counters.push(before);
     plan.statements.push(before.raw===null
@@ -35,8 +37,8 @@ export async function prepareMadaraRewards(env,row,room){
         env.DB.prepare('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP').bind(uid,code,amount,amount),
         env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'마다라 레이드 클리어','MADARA_RAID_CLEAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(amount,room.id,uid,code),jointGuardEnd(env.DB,guard));
     }
-    if(p.coin)plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(p.coin,uid),
-      env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(p.coin,`마다라 레이드 클리어 [${room.id}]`,uid));
+    if(p.coin)plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(coin,uid),
+      env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin,`마다라 레이드 클리어 [${room.id}]`,uid));
     plan.statements.push(jointGuardEnd(env.DB,token+':user'),jointGuardEnd(env.DB,token));
     room.clearRewards[member.id].weeklyReward={...before.weekly,used:before.weekly.used+1,remaining:before.weekly.remaining-1};
   }

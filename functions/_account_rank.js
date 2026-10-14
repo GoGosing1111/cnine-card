@@ -1,3 +1,5 @@
+import {readCollectionBonuses} from './_collection_bonuses.js';
+import {rewardAmountWithBonus} from '../shared/collection-bonuses-v1.mjs';
 import {RANKS,rankForLevel} from '../shared/account-ranks-v1.mjs';
 
 // Server-only. Never return the curve, payout rules or receipt ledger to clients.
@@ -45,7 +47,9 @@ export async function readAccountRank(env,userId){
 }
 export async function accountRankAward(env,userId,source,eventId,{quantity=1,ticks,guard='1=1',values=[]}={}){
   if(!Number.isSafeInteger(Number(userId))||Number(userId)<=0||typeof eventId!=='string'||!eventId||eventId.length>200)throw new Error('Invalid account rank event');
-  const amount=source==='IDLE'?ticks:(PAYOUT[source]||0)*600*quantity;
+  const base=source==='IDLE'?ticks:(PAYOUT[source]||0)*600*quantity;
+  if(!Number.isSafeInteger(base)||base<=0||base>MAX_RANK_TICKS)throw new Error('Invalid account rank award');
+  const amount=rewardAmountWithBonus(base,(await readCollectionBonuses(env,userId)).totals.accountXpPercent,MAX_RANK_TICKS);
   if(!Number.isSafeInteger(amount)||amount<=0||amount>MAX_RANK_TICKS)throw new Error('Invalid account rank award');
   await ensureAccountRank(env);
   const token=crypto.randomUUID();
@@ -60,10 +64,10 @@ export async function accountRankAward(env,userId,source,eventId,{quantity=1,tic
 const PERSONAL=new Set(['HUNT','APOCALYPSE','SCRAPYARD','COW_ROOM','ESCORT','IDLE','RIFT']);
 export async function accountRankBenefits(env,userId,scope){
   if(!PERSONAL.has(scope))return {attackBp:0,hpBp:0,coinBp:0,dropBp:0};
-  const r=await readAccountRank(env,userId);
-  return {attackBp:r.attackBp,hpBp:r.hpBp,coinBp:r.coinBp,dropBp:r.dropBp};
+  const [r,collection]=await Promise.all([readAccountRank(env,userId),readCollectionBonuses(env,userId)]);
+  return {attackBp:r.attackBp,hpBp:r.hpBp,coinBp:r.coinBp,dropBp:r.dropBp,...(collection.totals.coinPercent?{collectionCoinPercent:collection.totals.coinPercent}:{})};
 }
-export function rankCoin(base,benefits){return Math.max(0,Math.floor(Number(base||0)*(10000+Number(benefits?.coinBp||0))/10000));}
+export function rankCoin(base,benefits){return rewardAmountWithBonus(Math.max(0,Math.floor(Number(base||0)*(10000+Number(benefits?.coinBp||0))/10000)),Number(benefits?.collectionCoinPercent||0));}
 // Only trusted server snapshots call this; raw browser deck data never reaches it.
 export function rankCards(cards,benefits){return cards.map(c=>({...c,accountRankBonus:{attackBp:Number(benefits?.attackBp||0),hpBp:Number(benefits?.hpBp||0)}}));}
 

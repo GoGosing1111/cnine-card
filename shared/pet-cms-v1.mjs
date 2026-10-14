@@ -1,3 +1,4 @@
+import {validateRewardBonuses} from './collection-bonuses-v1.mjs';
 import {isPetCode} from './companion-loadout-v2.mjs';
 
 export const PET_CMS_KEY='pet_cms_preparation_v1';
@@ -11,6 +12,7 @@ export const isPetSpritePath=value=>typeof value==='string'&&/^\/?assets\/[A-Za-
 export function emptyPetCmsDocument(){return {version:1,...PET_CMS_LOCKS,pets:[]};}
 export function emptyPetDraft(code='PET-001'){return {code,name:'새 펫',sourceArt:'',battleSprite:'',enabled:false,modes:['PVE','PVP'],target:'ALL_ALLIES',buffs:[{type:'ATTACK_PERCENT',percent:null}],notes:''};}
 export function validatePetDefinition(raw){
+  if(raw&&Object.hasOwn(raw,'rewardBonuses')){const {rewardBonuses,...definition}=raw;return {...validatePetDefinition(definition),rewardBonuses:validateRewardBonuses(rewardBonuses)};}
   if(raw&&Object.hasOwn(raw,'liveEnabled')){
     if(typeof raw.liveEnabled!=='boolean')throw Error('펫 실전 사용 여부를 확인해 주세요.');
     const {liveEnabled,...definition}=raw;return {...validatePetDefinition(definition),liveEnabled};

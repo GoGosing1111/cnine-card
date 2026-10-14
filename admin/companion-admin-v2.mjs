@@ -1,5 +1,6 @@
+import {REWARD_BONUS_LABELS,ZERO_REWARD_BONUSES} from '../shared/collection-bonuses-v1.mjs?v=20261014-reward1';
 import {petBuffIcon} from '../js/pet-buff-fx-v1.mjs?v=20261003';
-import {emptyPetDraft,validatePetCmsDocument,PET_BUFF_TYPES,PET_BUFF_TARGETS} from '../shared/pet-cms-v1.mjs?v=20261006-pet-live-v1';
+import {emptyPetDraft,validatePetCmsDocument,PET_BUFF_TYPES,PET_BUFF_TARGETS} from '../shared/pet-cms-v1.mjs?v=20261014-reward1';
 import {withMercenaryDeadline} from '../shared/mercenary-loading-v1.mjs?v=20260925';
 import {mountPetPotentialCms} from './pet-potential-admin-v1.mjs?v=20261006-pet-live';
 
@@ -20,7 +21,7 @@ async function request(path,options={}){
 
 export function mountCompanionCms(root){
   root.classList.add('companion-cms');
-  root.innerHTML=`<header class="cp-head"><div><p class="cp-kicker">COMPANION</p><h2>펫 관리</h2><p>펫을 선택하고 시작 버프 한 개를 설정하세요.</p></div><a class="cp-equipment-link" href="/pets/?review=1">펫 장착창 보기 ↗</a></header>
+  root.innerHTML=`<header class="cp-head"><div><p class="cp-kicker">COMPANION</p><h2>펫 관리</h2><p>펫을 선택하고 시작 버프와 장착 보너스를 설정하세요.</p></div><a class="cp-equipment-link" href="/pets/?review=1">펫 장착창 보기 ↗</a></header>
     <div class="cp-workspace"><section class="cp-library" aria-label="등록된 펫"><div class="cp-section-head"><h3>등록된 펫</h3><span data-pet-total></span></div><div class="cp-roster"></div><details class="cp-register"><summary>새 펫 등록</summary><div class="cp-art-picker"></div><button type="button" data-add>직접 추가</button></details></section>
     <section class="cp-editor"><div class="cp-fields"><div class="cp-empty">펫을 불러오는 중입니다.</div></div></section></div>
     <footer class="cp-footer"><p data-status role="status">설정을 불러오는 중입니다.</p><div><button type="button" data-reload>새로고침</button><button type="button" data-save class="cp-primary">변경사항 저장</button></div></footer>
@@ -84,8 +85,9 @@ export function mountCompanionCms(root){
       <div class="cp-buff-summary"><span data-buff-icon>${petBuffIcon(buff.type)}</span><strong data-buff-title>${esc(PET_BUFF_TYPES[buff.type])}</strong><b data-buff-value>${buff.percent===null?'미정':esc(buff.percent)+'<small>%</small>'}</b></div>
       <div class="cp-buff-row"><label>버프 종류<select data-buff-type="0" aria-label="버프 종류">${Object.entries(PET_BUFF_TYPES).map(([key,label])=>`<option value="${key}" ${key===buff.type?'selected':''}>${label}</option>`).join('')}</select></label><label>효과<span class="cp-percent"><input data-buff-percent="0" type="number" min="0" max="1000" step="any" aria-label="버프 효과" placeholder="미정" value="${buff.percent??''}"><i>%</i></span></label></div>
       ${row.buffs.length>1?'<p class="cp-legacy-buffs">기존 버프가 여러 개입니다. 버프 종류를 선택하면 한 개로 정리됩니다.</p>':''}
-      <label class="cp-switch"><input data-field="liveEnabled" type="checkbox" ${row.liveEnabled!==false?'checked':''}> 실제 전투에서 사용</label><div class="cp-field-grid"><label>적용 대상<select data-field="target" aria-label="적용 대상">${Object.entries(PET_BUFF_TARGETS).map(([key,label])=>`<option value="${key}" ${key===row.target?'selected':''}>${label}</option>`).join('')}</select></label><fieldset class="cp-mode-field"><legend>사용 모드</legend>${['PVE','PVP'].map(mode=>`<label><input data-pet-mode="${mode}" type="checkbox" ${row.modes.includes(mode)?'checked':''}> ${mode==='PVE'?'PvE':'PvP'}</label>`).join('')}</fieldset></div>
+      <label class="cp-switch"><input data-field="liveEnabled" type="checkbox" ${row.liveEnabled!==false?'checked':''}> 실제 펫 효과 사용</label><div class="cp-field-grid"><label>적용 대상<select data-field="target" aria-label="적용 대상">${Object.entries(PET_BUFF_TARGETS).map(([key,label])=>`<option value="${key}" ${key===row.target?'selected':''}>${label}</option>`).join('')}</select></label><fieldset class="cp-mode-field"><legend>사용 모드</legend>${['PVE','PVP'].map(mode=>`<label><input data-pet-mode="${mode}" type="checkbox" ${row.modes.includes(mode)?'checked':''}> ${mode==='PVE'?'PvE':'PvP'}</label>`).join('')}</fieldset></div>
       <p class="cp-helper">전투 시작에 한 번 적용합니다.</p>
+      <section class="cp-reward-bonuses"><h3>장착 보너스</h3><p>장착한 펫 1마리의 효과만 적용됩니다. 계정 레벨 경험치이며, 0%는 미적용입니다.</p><div class="reward-bonus-fields">${Object.entries(REWARD_BONUS_LABELS).map(([key,label])=>`<label>${label}<span><input type="number" min="0" max="1000" step="0.01" data-reward-bonus="${key}" aria-label="펫 ${label}" value="${row.rewardBonuses?.[key]??0}"><i>%</i></span></label>`).join('')}</div><p>트로피 보유 효과와 합산 · 드랍 확률 최대 100% · 콘텐츠 보상 한도 유지</p></section>
       <details class="cp-advanced"><summary>상세 설정<span>이름 · 리소스 · 검수</span></summary><div class="cp-advanced-body"><label>이름<input data-field="name" maxlength="40" value="${esc(row.name)}"></label><label>장착창 일러스트 경로<input data-field="sourceArt" value="${esc(row.sourceArt||'')}" placeholder="assets/ui/pets/파일명.png"></label><label>전투 SD 경로<input data-field="battleSprite" value="${esc(row.battleSprite)}" placeholder="assets/ui/pets/파일명.png"></label><label class="cp-switch"><input data-field="enabled" type="checkbox" ${row.enabled?'checked':''}> 전투 검수에 사용</label><label>운영 메모<textarea data-field="notes" maxlength="1200" rows="2">${esc(row.notes)}</textarea></label><div class="cp-advanced-actions"><code>${esc(row.code)}</code><button type="button" data-delete class="cp-delete">펫 삭제</button></div></div></details></div>`;
   }
   function buffSummary(){
@@ -145,6 +147,7 @@ export function mountCompanionCms(root){
   root.addEventListener('input',event=>{
     const target=event.target,row=pet();if(!row||busy||pending)return;
     if(target.dataset.field&&target.type!=='checkbox'&&target.tagName!=='SELECT'){row[target.dataset.field]=target.value;changed();}
+    if(target.hasAttribute('data-reward-bonus')){row.rewardBonuses={...ZERO_REWARD_BONUSES,...row.rewardBonuses,[target.dataset.rewardBonus]:target.value===''?NaN:Number(target.value)};changed();}
     if(target.hasAttribute('data-buff-percent')){row.buffs=[{type:row.buffs[0].type,percent:target.value===''?null:Number(target.value)}];changed();buffSummary();$('.cp-legacy-buffs')?.remove();}
   });
   root.addEventListener('change',event=>{

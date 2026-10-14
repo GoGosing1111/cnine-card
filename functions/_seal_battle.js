@@ -1,3 +1,4 @@
+import {collectionRewardCoin} from './_collection_bonuses.js';
 import {accountRankAward} from './_account_rank.js';
 const ROLE_META = {
   ATTACK: { key: 'ATTACK', label: '파괴 봉인', shortLabel: '파괴', icon: '⚔', progressColumn: 'attack_progress', targetColumn: 'attack_target', userColumn: 'attack_contribution' },
@@ -965,7 +966,7 @@ async function participate(env, deps, user, settings, event, body) {
   const contribution = result === 'WIN'
     ? Math.min(2000000000, rawContribution)
     : defeatPercent > 0 ? Math.max(1, Math.min(2000000000, Math.floor(rawContribution * defeatPercent / 100))) : 0;
-  const attemptCoin = Math.max(0, Number(event.attemptReward.coin || 0));
+  const attemptCoin = await collectionRewardCoin(env,user.id,Math.max(0,Number(event.attemptReward.coin||0)),'SEAL',SEAL_COIN_REWARD_MAX);
   const attemptShards = Math.max(0, Number(event.attemptReward.shards || 0));
 
   const statements = [
@@ -1062,8 +1063,9 @@ async function claimClearReward(env, deps, user, event) {
   const eligibility = rewardEligibility(event, progress?.total_attempts);
   if (!eligibility.eligible) return deps.json({ error: `보상을 받으려면 이번 봉인전에서 ${eligibility.minimumAttempts}회 이상 공격해야 합니다. (현재 ${eligibility.completedAttempts}회)`, code: 'SEAL_REWARD_MIN_ATTEMPTS', rewardEligibility: eligibility }, 403);
 
+  const bonusCoin=await collectionRewardCoin(env,user.id,Number(event.clearReward.coin||0),'SEAL',SEAL_COIN_REWARD_MAX);
   await env.DB.prepare(`INSERT OR IGNORE INTO seal_battle_clear_claims(event_id,user_id,status,reward_coin,reward_shards)
-    VALUES(?,?,'PENDING',?,?)`).bind(event.id, user.id, event.clearReward.coin, event.clearReward.shards).run();
+    VALUES(?,?,'PENDING',?,?)`).bind(event.id, user.id, bonusCoin, event.clearReward.shards).run();
   const reserved = await env.DB.prepare(`UPDATE seal_battle_clear_claims SET status='CLAIMING',updated_at=CURRENT_TIMESTAMP
     WHERE event_id=? AND user_id=? AND status='PENDING'`).bind(event.id, user.id).run();
   if (!Number(reserved?.meta?.changes || 0)) {
@@ -1072,7 +1074,8 @@ async function claimClearReward(env, deps, user, event) {
     return deps.json({ error: '봉인 완료 보상을 처리 중입니다.' }, 409);
   }
 
-  const coin = Number(event.clearReward.coin || 0);
+  const savedClaim=await env.DB.prepare('SELECT reward_coin FROM seal_battle_clear_claims WHERE event_id=? AND user_id=?').bind(event.id,user.id).first();
+  const coin = Number(savedClaim.reward_coin);
   const shards = Number(event.clearReward.shards || 0);
   const masterStar = Number(event.clearReward.masterStar || 0);
   const statements = [env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+?

@@ -1,3 +1,5 @@
+import {readCollectionBonuses} from './_collection_bonuses.js';
+import {rewardAmountWithBonus,rewardDropWithBonus} from '../shared/collection-bonuses-v1.mjs';
 const ITEM_TYPES=['EQUIPMENT_SUPPLY_BOX','MAGIC_CARD_PACK','MASTER_STAR','CORE_RAID_ENTRY_TICKET'];
 const CLEAR_MYSTIC_ENERGY_CODE='STARLIGHT_ARMOR_CORE';
 const DEFAULT_CLEAR_MYSTIC_ENERGY=3;
@@ -272,7 +274,7 @@ export async function raidFinalParticipantV1293(env,instanceId,userId){await ens
 
 function hash01(text){let hash=2166136261;for(const ch of String(text)){hash^=ch.charCodeAt(0);hash=Math.imul(hash,16777619)>>>0;}return hash/4294967296;}
 function addReward(target,item,source){if(!item||Number(item.amount)<=0)return;const type=String(item.type).toUpperCase(),amount=Math.floor(Number(item.amount));if(!ALL_REWARD_TYPES.includes(type)&&type!==CLEAR_MYSTIC_ENERGY_CODE)return;target.push({type,amount,source,label:type==='COIN'?'코인':type==='CARD_SHARD'?'카드 조각':ITEM_LABELS[type]||type});}
-export function raidRewardPlanV1293({cfg,instanceId,userId,totalDamage,finalRank,cleared,minionsDefeated=0}){
+export function raidRewardPlanV1293({cfg,instanceId,userId,totalDamage,finalRank,cleared,minionsDefeated=0,collectionBonuses=null}){
   const rewards=cfg?.rewards||DEFAULT_REWARDS,entries=[];
   for(const item of rewards.participation||[])addReward(entries,item,'참여');
   if(Number(minionsDefeated)>0)for(const item of rewards.minionClear||[])addReward(entries,{...item,amount:Number(item.amount||0)*Math.min(2,Math.floor(Number(minionsDefeated)))},`쫄몹 ${Math.min(2,Math.floor(Number(minionsDefeated)))}기 처치`);
@@ -282,7 +284,8 @@ export function raidRewardPlanV1293({cfg,instanceId,userId,totalDamage,finalRank
   }
   for(const milestone of rewards.damageMilestones||[])if(Number(totalDamage)>=Number(milestone.damage||0))for(const item of milestone.rewards||[])addReward(entries,item,`누적 피해 ${Number(milestone.damage).toLocaleString()}`);
   const rankBand=(rewards.rankRewards||[]).find(x=>Number(finalRank)>=Number(x.from)&&Number(finalRank)<=Number(x.to));if(rankBand)for(const item of rankBand.rewards||[])addReward(entries,item,`${rankBand.from===rankBand.to?rankBand.from:`${rankBand.from}~${rankBand.to}`}위`);
-  const rare=[];for(let i=0;i<(rewards.rareDrops||[]).length;i++){const item=rewards.rareDrops[i];if(!ALL_REWARD_TYPES.includes(String(item.type).toUpperCase()))continue;const roll=hash01(`${instanceId}:${userId}:${item.type}:${i}`)*100,won=roll<Number(item.chance||0);rare.push({...item,roll:Number(roll.toFixed(4)),won});if(won)addReward(entries,item,`희귀 드롭 ${Number(item.chance||0)}%`);}
+  const rare=[];for(let i=0;i<(rewards.rareDrops||[]).length;i++){const item=rewards.rareDrops[i];if(!ALL_REWARD_TYPES.includes(String(item.type).toUpperCase()))continue;const chance=rewardDropWithBonus(Number(item.chance||0),String(item.type).toUpperCase()==='COIN'?0:collectionBonuses?.dropPercent),roll=hash01(`${instanceId}:${userId}:${item.type}:${i}`)*100,won=roll<chance;rare.push({...item,chance,roll:Number(roll.toFixed(4)),won});if(won)addReward(entries,item,`희귀 드롭 ${chance}%`);}
+  for(const entry of entries)if(entry.type==='COIN')entry.amount=rewardAmountWithBonus(entry.amount,Number(collectionBonuses?.coinPercent||0));
   const aggregate={coin:0,shards:0,inventory:{}};for(const entry of entries){if(entry.type==='COIN')aggregate.coin+=entry.amount;else if(entry.type==='CARD_SHARD')aggregate.shards+=entry.amount;else aggregate.inventory[entry.type]=(aggregate.inventory[entry.type]||0)+entry.amount;}
   const inventoryRewards=Object.entries(aggregate.inventory).map(([type,amount])=>({type,itemCode:type,amount,label:ITEM_LABELS[type]||type}));
   return {coin:aggregate.coin,shards:aggregate.shards,inventoryRewards,entries,rareDrops:rare,totalDamage:Number(totalDamage||0),finalRank:Number(finalRank||0),cleared:Boolean(cleared),minionsDefeated:Math.max(0,Math.floor(Number(minionsDefeated)||0))};
@@ -295,7 +298,7 @@ function cleanStoredRaidRewardPlan(plan={}){
 export async function ensureRaidUserRewardPlanV1293(env,{instanceId,userId,cfg,totalDamage,finalRank,cleared,minionsDefeated=0}){
   await ensureRaidOverhaulV1293(env);let row=await env.DB.prepare('SELECT status,reward_json AS rewardJson FROM raid_user_reward_v1293 WHERE instance_id=? AND user_id=?').bind(Number(instanceId),Number(userId)).first();
   if(row?.rewardJson){try{return {status:String(row.status||'READY'),plan:cleanStoredRaidRewardPlan(JSON.parse(row.rewardJson))}}catch{}}
-  const plan=raidRewardPlanV1293({cfg,instanceId,userId,totalDamage,finalRank,cleared,minionsDefeated});await env.DB.prepare(`INSERT OR IGNORE INTO raid_user_reward_v1293(instance_id,user_id,status,reward_json,created_at,updated_at) VALUES(?,?,'READY',?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(Number(instanceId),Number(userId),JSON.stringify(plan)).run();
+  const collectionBonuses=(await readCollectionBonuses(env,userId)).totals,plan=raidRewardPlanV1293({cfg,instanceId,userId,totalDamage,finalRank,cleared,minionsDefeated,collectionBonuses});await env.DB.prepare(`INSERT OR IGNORE INTO raid_user_reward_v1293(instance_id,user_id,status,reward_json,created_at,updated_at) VALUES(?,?,'READY',?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(Number(instanceId),Number(userId),JSON.stringify(plan)).run();
   row=await env.DB.prepare('SELECT status,reward_json AS rewardJson FROM raid_user_reward_v1293 WHERE instance_id=? AND user_id=?').bind(Number(instanceId),Number(userId)).first();try{return {status:String(row?.status||'READY'),plan:cleanStoredRaidRewardPlan(JSON.parse(row?.rewardJson||JSON.stringify(plan)))}}catch{return {status:'READY',plan};}
 }
 export async function raidInventoryGrantStatementsV1293(env,{userId,instanceId,inventoryRewards}){

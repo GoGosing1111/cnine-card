@@ -1,4 +1,4 @@
-import { readDuoHonors } from './_ranked_duo_seasons.js';
+import { readDuoHonors } from './_ranked_duo_honors.js';
 import { readPredictionStakeHonors, PREDICTION_TROPHY_GOAL } from './_prediction_trophy.js';
 import {readCityTopHonors,readLichClearHonors,CITY_TOP_GOAL,LICH_CLEAR_GOAL} from './_milestone_trophies.js';
 

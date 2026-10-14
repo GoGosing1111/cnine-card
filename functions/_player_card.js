@@ -1,4 +1,6 @@
 // A public, read-only projection. Viewing a card never settles a season or grants a bonus.
+import {readTrophyBonusSettings} from './_collection_bonuses.js';
+import {trophyBonusProjection} from '../shared/trophy-bonuses-v1.mjs';
 export const PLAYER_CARD_VERSION = 2052;
 import { TROPHY_CATALOG } from '../js/player-card-model-v2052.js';
 export { TROPHY_CATALOG };
@@ -55,6 +57,7 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
     const openSeason = !settlement && (!endAt || endAt > now) && (!startAt || startAt <= now);
     const tier = rank && openSeason ? resolvePvpTier(n(rank.season_score), settings, n(rank.position)) : null;
     const earned = trophyHonors({ stats, clanStats, champions, duo, prediction, cityTop, lichClear });
+    const trophyBonuses=trophyBonusProjection((await readTrophyBonusSettings(env)).document,earned);
     return json({ version: PLAYER_CARD_VERSION, serverNow: new Date(now).toISOString(),
       player: { id, accountRank:deps.readAccountRank?await deps.readAccountRank(env,id):null, nickname: user.nickname, title: title ? { name: title.name, badgeText: title.badge_text, stylePreset: title.style_preset } : null,
         avatar: avatar ? { name: avatar.name, image: avatar.lobby_image } : null,
@@ -66,9 +69,9 @@ export async function handlePlayerCard({ path, request, env, deps, now = Date.no
         bestRank: stats.best_rank ? n(stats.best_rank) : null, completedSeasons: n(stats.seasons), longestStreak: n(stats.longest_streak), currentStreak: n(stats.current_streak),
         history: (history.results || []).map(r => ({ season: r.season_name, settledAt: r.completed_at, rank: n(r.final_rank), tier: r.tier_name, tierId: r.tier_id, score: n(r.season_score) })) },
       clanHistory: (clanHistory.results || []).map(r => ({ season: n(r.season_no), clan: r.name, settledAt: r.completed_at })),
-      trophies: TROPHY_CATALOG.map(t => ({ ...t, ...earned[t.code], owned: earned[t.code].count > 0, effect: { enabled: false, description: '효과 추후 공개 · 현재 미적용' } })),
+      trophies:trophyBonuses.trophies,trophyBonuses:trophyBonuses.totals,
       frame: { code: 'OBSIDIAN', name: '옵시디언', level: 0, enhancement: { enabled: false } },
-      effects: { enabled: false, modifiers: [] }, historyLimit: 12
+      effects: { enabled:Object.values(trophyBonuses.totals).some(n=>n>0),modifiers:Object.entries(trophyBonuses.totals).filter(([,percent])=>percent>0).map(([type,percent])=>({type,percent})) }, historyLimit: 12
     });
   } catch (error) {
     // Do not turn unavailable historical data into a false "no trophies" result.

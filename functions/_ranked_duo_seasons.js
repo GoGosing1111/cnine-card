@@ -5,7 +5,8 @@ import {validateDuoConfig} from '../shared/ranked-duo-v1.mjs';
 import {duoWeeklyConfig,DUO_WEEKLY_POLICY_KEY} from '../shared/ranked-duo-weekly-v3.mjs';
 import {readDuoPolicy,prepareDuoEconomy,deliverDuoTierRewards} from './_ranked_duo_economy.js';
 
-export const DUO_AUTO_SCHEMA_KEY='ranked_duo_auto_schema_v2';
+import {DUO_AUTO_SCHEMA_KEY,readDuoHonors} from './_ranked_duo_honors.js';
+export {DUO_AUTO_SCHEMA_KEY,readDuoHonors};
 export const DUO_AUTO_SCHEMA=[
  "CREATE TABLE IF NOT EXISTS ranked_duo_pair_chunks_v2(season_id TEXT NOT NULL,offset_no BIGINT NOT NULL,payload_json TEXT NOT NULL,PRIMARY KEY(season_id,offset_no))",
  "CREATE TABLE IF NOT EXISTS ranked_duo_auto_v2(source_key TEXT PRIMARY KEY,season_id TEXT NOT NULL UNIQUE,created_at TEXT NOT NULL)",
@@ -21,11 +22,6 @@ export async function prepareDuoAutomation(env){
  await prepareDuoSchema(env);
  if(env.DB.execSchema)await env.DB.execSchema(DUO_AUTO_SCHEMA);else for(const sql of DUO_AUTO_SCHEMA)await env.DB.prepare(sql).run();
  await p(env)('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING',DUO_AUTO_SCHEMA_KEY,'20260925-24h').run();
-}
-export async function readDuoHonors(env,userId){
- if(!await p(env)('SELECT value FROM app_meta WHERE key=?',DUO_AUTO_SCHEMA_KEY).first())return {count:0,acquiredAt:null};
- const row=await p(env)('SELECT COUNT(*) AS n,MIN(acquired_at) AS first_at FROM ranked_duo_trophies_v2 WHERE user_id=?',userId).first();
- return {count:Number(row.n),acquiredAt:row.first_at||null};
 }
 async function change(env,s,status,config=s.config,extra=[]){
  await env.DB.batch(core.seasonWrite(env,s,[

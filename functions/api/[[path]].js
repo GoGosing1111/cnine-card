@@ -58,6 +58,8 @@ import { ensureSkillChipFoundation } from '../_skill_chips.js';
 import {handleMercenaryCms} from '../_mercenary_cms.js';
 import {handleIconCms} from '../_icon_cms.js';
 import {handleIconRoles} from '../_icon_roles.js';
+import {handleTrophyBonusCms} from '../_trophy_bonus_cms.js';
+import {collectionRewardCoin} from '../_collection_bonuses.js';
 import {handlePetCompanionCms} from '../_pet_companion_cms.js';
 import {handlePetEquipment} from '../_pet_equipment.js';
 import {handlePetGrants} from '../_pet_grants.js';
@@ -5147,6 +5149,7 @@ async function handleRequest(context){
     const mercenaryCmsResponse=await handleMercenaryCms({path,request,env,deps:{requirePermission,json}});if(mercenaryCmsResponse)return mercenaryCmsResponse;
     const iconRolesResponse=await handleIconRoles({path,request,env,deps:{requirePermission,json}});if(iconRolesResponse)return iconRolesResponse;
     const iconCmsResponse=await handleIconCms({path,request,env,deps:{requirePermission,json}});if(iconCmsResponse)return iconCmsResponse;
+    const trophyBonusResponse=await handleTrophyBonusCms({path,request,env,deps:{requirePermission,authenticate,json}});if(trophyBonusResponse)return trophyBonusResponse;
     const petCompanionCmsResponse=await handlePetCompanionCms({path,request,env,deps:{requirePermission,json}});if(petCompanionCmsResponse)return petCompanionCmsResponse;
     const petEquipmentResponse=await handlePetEquipment({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petEquipmentResponse)return petEquipmentResponse;
     const petGrantsResponse=await handlePetGrants({path,request,env,deps:{requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petGrantsResponse)return petGrantsResponse;
@@ -6771,7 +6774,7 @@ async function handleRequest(context){
       let completed=false,nextFloor=floorNo;
       let magicReward=null,equipmentReward=null,blackMiracleReward=null,forgeProtectionReward=null;
       if(result==='WIN'){
-        reward=Number(floor.reward_coin||Math.max(100,floorNo*100));completed=floorNo>=maxFloor;nextFloor=completed?maxFloor+1:floorNo+1;
+        reward=await collectionRewardCoin(env,user.id,Number(floor.reward_coin||Math.max(100,floorNo*100)),'TOWER');completed=floorNo>=maxFloor;nextFloor=completed?maxFloor+1:floorNo+1;
         // V1785: 코인 지급과 층 진행도 갱신은 서로 독립적인 쓰기다. D1 배치 1회로 묶는다(왕복 2회 → 1회).
         const towerClearWrites=[env.DB.prepare('UPDATE tower_user_progress SET current_floor=?,highest_floor=MAX(highest_floor,?),highest_reached_at=CASE WHEN ?>highest_floor THEN CURRENT_TIMESTAMP ELSE highest_reached_at END,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?').bind(nextFloor,floorNo,floorNo,season.id,user.id)];
         if(reward)towerClearWrites.unshift(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id));
@@ -6982,7 +6985,7 @@ async function handleRequest(context){
       context.pvpTiming?.mark('simulation_energy');
       // PvP battle coin is an active-challenge reward. Only the authenticated attacker receives it.
       // The asynchronous defender never receives win/lose coins from being challenged.
-      const attackerEventCoinReward=burningRewardAmount(attackerWin?settings.winCoin:settings.loseCoin,burning),attackerAvatarCoin=applyAvatarCoinGain(attackerEventCoinReward,aAvatarEffect),attackerCoinReward=attackerAvatarCoin.total;
+      const attackerEventCoinReward=burningRewardAmount(attackerWin?settings.winCoin:settings.loseCoin,burning),attackerAvatarCoin=applyAvatarCoinGain(attackerEventCoinReward,aAvatarEffect),attackerCoinReward=await collectionRewardCoin(env,user.id,attackerAvatarCoin.total,'PVP');
       const auditResult=battleV2?.result||{},auditFinal=auditResult.final||{A:[],B:[]},auditSurvivors=auditResult.survivorCount||{A:(auditFinal.A||[]).filter(card=>Number(card.hp||0)>0).length,B:(auditFinal.B||[]).filter(card=>Number(card.hp||0)>0).length};
       const auditHpPercent=side=>{const rows=Array.isArray(auditFinal?.[side])?auditFinal[side]:[],current=rows.reduce((sum,card)=>sum+Math.max(0,Number(card.hp||0))+Math.max(0,Number(card.shield||0)),0),maximum=rows.reduce((sum,card)=>sum+Math.max(0,Number(card.maxHp||0))+Math.max(0,Number(card.maxShield||0)),0);return maximum>0?Math.round(current/maximum*1000)/10:0};
       const matchWrites=[

@@ -1,3 +1,4 @@
+import {ZERO_REWARD_BONUSES,REWARD_BONUS_LABELS} from '../shared/collection-bonuses-v1.mjs';
 import {COMPANION_RELEASE} from '../shared/companion-loadout-v2.mjs';
 import {PET_ART_CATALOG} from '../shared/pet-art-catalog-v1.mjs';
 import {PET_EQUIPMENT_RULES,petReviewKey,validatePetEquipmentSave,validateOwnedPetSelection} from '../shared/pet-equipment-v1.mjs';
@@ -15,6 +16,7 @@ export function petCatalogFrom(document,{review=true,includeUnowned=false,collec
     const art=PET_ART_CATALOG.find(row=>row.code===code),pet=document.pets.find(row=>row.code===code);
     return {code,name:pet?.name||art.name,sourceArt:pet?.sourceArt||art?.sourceArt||pet?.battleSprite||'',battleSprite:pet?.battleSprite||'',
       animal:art?.animal||'동료',description:art?.description||'',artStatus:art?.artStatus||'CMS_DRAFT',configured:Boolean(pet),
+      rewardBonuses:pet?.rewardBonuses||{...ZERO_REWARD_BONUSES},rewardBonusesActive:pet?.liveEnabled!==false,
       target:pet?.target||null,modes:pet?.modes||[],buffs:pet?.buffs||[],ready:pet?['PVE','PVP'].filter(mode=>review?petReadiness(pet,mode).ok:!!livePetDefinition(pet,mode)):[],owned:review||Number(collection[code]||0)>0,reviewOwned:review,quantity:Number(collection[code]||0),potential:potentials[code]?.potential||null,attempts:potentials[code]?.attempts||0};
   }).filter(row=>review||includeUnowned||row.owned);
 }
@@ -29,7 +31,7 @@ const closedState=()=>({version:1,available:false,reviewOnly:false,canEquip:fals
 function output(cms,record,catalog,{review=true,potential=null,userId=null}={}){
   const present=catalog.some(row=>row.code===record.state.petCode);
   return {version:1,userId,available:true,reviewOnly:review,canEquip:true,release:COMPANION_RELEASE,rules:PET_EQUIPMENT_RULES,potential,
-    petCmsRevision:cms.state.revision,buffTypes:PET_BUFF_TYPES,buffTargets:PET_BUFF_TARGETS,cards:catalog,ownedCount:catalog.filter(p=>p.owned).length,catalogCount:catalog.length,
+    petCmsRevision:cms.state.revision,rewardBonusLabels:REWARD_BONUS_LABELS,buffTypes:PET_BUFF_TYPES,buffTargets:PET_BUFF_TARGETS,cards:catalog,ownedCount:catalog.filter(p=>p.owned).length,catalogCount:catalog.length,
     loadout:{petCode:present?record.state.petCode:null,revision:record.state.revision},orphaned:Boolean(record.state.petCode&&!present),
     message:review?'OWNER 장착 검수입니다. 검수용 선택만 저장하며 실제 보유권·계정 편성·전투에는 반영되지 않습니다.':'보유한 펫 1마리를 장착하면 다음 전투부터 시작 버프가 적용됩니다.'};
 }

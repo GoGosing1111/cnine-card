@@ -1,4 +1,4 @@
-import {mountPetEquipment} from '/js/pet-equipment-window-v1.mjs?v=20261012-pass-magnet1';
+import {mountPetEquipment} from '/js/pet-equipment-window-v1.mjs?v=20261014-reward1';
 mountPetEquipment(document.getElementById('pet-codex'),{codex:true});
 for(const [src,attributes] of [
  ['/js/soopketmon-v21-exact-shell-adapter.js?v=20261009-pet-codex',{enabled:'false'}],

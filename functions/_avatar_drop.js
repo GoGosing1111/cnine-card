@@ -1,6 +1,8 @@
 import { MIRACLE_BURNING_META_KEY,MIRACLE_BURNING_DROP_PERCENT,applyMiracleDropChance } from './_miracle_burning.js';
 import { burningEventIsLive } from './_burning_event_access.js';
 import { readAccountRank } from './_account_rank.js';
+import {withCollectionBonusScope,collectionDropPercent} from './_collection_bonuses.js';
+import {rewardDropWithBonus} from '../shared/collection-bonuses-v1.mjs';
 const DROP_SCOPE = Symbol('avatarDropRequestScope');
 const RANK_DROP_SOURCES=new Set(['PVE','PVE_AUTO','PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO','PVE_APOCALYPSE','HUNT','APOCALYPSE','SCRAPYARD','COW_ROOM','ESCORT','RIFT']);
 
@@ -18,7 +20,7 @@ export function applyAvatarDropRate(chance, increasePercent = 0) {
 // Each API request owns its promises. Sweeps and parallel reward paths share
 // one lookup without keeping ownership, expiry or operator changes globally.
 export function withAvatarDropScope(env) {
-  return { ...env, [DROP_SCOPE]: { settings: null, miracle: null, users: new Map(), ranks:new Map() } };
+  return { ...withCollectionBonusScope(env), [DROP_SCOPE]: { settings: null, miracle: null, users: new Map(), ranks:new Map() } };
 }
 
 async function readDropSettings(env, scope) {
@@ -74,9 +76,10 @@ export async function resolveAvatarDropRate(env, userId, chance,rankSource) {
   const base = chanceValue(chance);
   if (base === 0 || base === 100) return applyAvatarDropRate(base);
   const scoped=env[DROP_SCOPE]?env:withAvatarDropScope(env);
-  const [avatarPercent,miraclePercent,rankPercent]=await Promise.all([avatarDropIncreasePercent(scoped,userId),miracleDropIncreasePercent(scoped),rankDropIncreasePercent(scoped,userId,rankSource)]);
+  const [avatarPercent,miraclePercent,rankPercent,collectionPercent]=await Promise.all([avatarDropIncreasePercent(scoped,userId),miracleDropIncreasePercent(scoped),rankDropIncreasePercent(scoped,userId,rankSource),collectionDropPercent(scoped,userId,rankSource)]);
   let result=applyAvatarDropRate(base,avatarPercent);
   if(rankPercent)result={...result,rankPercent,total:applyAvatarDropRate(result.total,rankPercent).total};
+  if(collectionPercent)result={...result,collectionPercent,total:rewardDropWithBonus(result.total,collectionPercent)};
   return miraclePercent ? {...result,miraclePercent,total:applyMiracleDropChance(result.total,miraclePercent)} : result;
 }
 

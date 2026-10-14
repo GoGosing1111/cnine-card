@@ -1,3 +1,5 @@
+import {collectionDropPercent} from './_collection_bonuses.js';
+import {rewardDropWithBonus} from '../shared/collection-bonuses-v1.mjs';
 import {createHuntSession,restoreHuntSession,DIFFICULTIES} from '../preview/sustained-hunt-v2/session.mjs';
 import {loadScrapyardV3Snapshot} from './_scrapyard_v3.js';
 import {legionHuntAccess,canAccessLegionHunt,legionHuntCatalog,legionHuntTestUsers,searchLegionHuntTestUsers,readLegionHuntPolicy,saveLegionHuntPolicy} from './_legion_hunt_settings.js';
@@ -140,11 +142,11 @@ export async function handleLegionHunt({path,request,env,deps}){
         const d=regionDifficulty||policy.difficulties.find(r=>r.id===body.difficulty);
         if(!d)throw jointError('HUNT_POLICY_UNAVAILABLE','난이도별 드랍 설정을 확인하세요.',503);
         const snapshot=await accountSnapshot(env,user,deps);
-        const miracleDropPercent=await readMiracleDropPercent(env);
+        const miracleDropPercent=await readMiracleDropPercent(env),collectionPercent=await collectionDropPercent(env,user.id,'LEGION_HUNT');
         const paying=access.liveRewards&&(!regionPolicy||regionPolicy.mode==='ON');
         const regionLoot=regionDifficulty?{...regionDifficulty.loot}:null;
-        if(regionLoot)for(const key of ['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'])regionLoot[key]=applyMiracleDropChance(regionLoot[key],miracleDropPercent);
-        const dropPolicy=regionPolicy?{regionLoot,dropLifeMs:regionLoot.lifetimeSeconds*1000,items:await regionRewardCatalog(env,{live:paying})}:{dropChance:applyMiracleDropChance(d.dropPercent,miracleDropPercent)/100,bossDropChance:applyMiracleDropChance(d.bossDropPercent,miracleDropPercent)/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items};
+        if(regionLoot)for(const key of ['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'])regionLoot[key]=rewardDropWithBonus(applyMiracleDropChance(regionLoot[key],miracleDropPercent),collectionPercent);
+        const dropPolicy=regionPolicy?{regionLoot,dropLifeMs:regionLoot.lifetimeSeconds*1000,items:await regionRewardCatalog(env,{live:paying})}:{dropChance:rewardDropWithBonus(applyMiracleDropChance(d.dropPercent,miracleDropPercent),collectionPercent)/100,bossDropChance:rewardDropWithBonus(applyMiracleDropChance(d.bossDropPercent,miracleDropPercent),collectionPercent)/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items};
         const session=(deps.createSession||createHuntSession)({snapshot,...body,regionDifficulty,now,dropPolicy});
         await saveRun(env,key,before.raw,{daily:before.run?.daily||null,expiresAt:now()+TTL,configRevision:policy.revision,regionRevision:regionPolicy?.revision??null,liveRewards:paying,rewardTiming:'FINISH',entry:{charged:false,status:'READY'},state:session.exportState()});
         return {ok:true,id:session.id,payload:session.payload,entries,access:{...access,liveRewards:paying,...(regionPolicy&&!paying?{mode:'TEST'}:{})},recovery,configRevision:policy.revision};
