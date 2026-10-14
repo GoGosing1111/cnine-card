@@ -201,7 +201,7 @@ test('30s defaults, public countdown and scheduled deployment are included in th
   const runDeployment=async(platform,gateStatus=0,cacheError=false,runtimeError=false)=>{
     const calls=[];
     const context={console,process:{argv:['node','deploy-production.mjs'],platform,execPath:'node',env:{},exit:status=>{throw Error('exit '+status)}},
-      execFileSync:(command,args)=>{assert.equal(command,'git');assert.deepEqual(args,['rev-parse','HEAD']);return 'c'.repeat(40);},
+      execFileSync:(command,args)=>{assert.equal(command,'git');assert.equal(args.join(' '),'rev-parse HEAD');return 'c'.repeat(40);},
       verifyProductionHyperdriveCache:()=>{assert.equal(calls.length,1,'cache check follows the release gate and precedes deployments');if(cacheError)throw Error('cache enabled')},
       prepareApiRuntime:async()=>{assert.equal(calls.length,2,'runtime credentials follow Worker upload and precede Pages cutover');if(runtimeError)throw Error('runtime credentials missing')},
       prepareProductionAssets:async()=>({directory:'/staged',assetCount:100,excluded:2,dispose:async()=>{}}),
