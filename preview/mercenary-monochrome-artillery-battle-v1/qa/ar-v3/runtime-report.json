@@ -1,0 +1,818 @@
+{
+  "version": 3,
+  "errors": [],
+  "screens": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "idle": {
+        "bodyStates": 1,
+        "haloPositions": 1,
+        "haloFrames": 8,
+        "looping": true,
+        "visible": true
+      },
+      "checks": [
+        {
+          "mode": "aura",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 2,
+          "poses": [
+            "ar"
+          ]
+        },
+        {
+          "mode": "attack",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 9,
+          "poses": [
+            "ar"
+          ]
+        },
+        {
+          "mode": "skill",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 11,
+          "poses": [
+            "ar"
+          ]
+        },
+        {
+          "mode": "ultimate",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 34,
+          "poses": [
+            "ar"
+          ]
+        }
+      ],
+      "rates": [
+        {
+          "speed": 0.25,
+          "elapsed": 0.1155
+        },
+        {
+          "speed": 0.5,
+          "elapsed": 0.2315
+        },
+        {
+          "speed": 2,
+          "elapsed": 0.93
+        }
+      ],
+      "contacts": [
+        {
+          "mode": "skill",
+          "at": 0.485,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 0.5961111111111111,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 0.7072222222222222,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 0.8183333333333334,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 0.9294444444444444,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.0405555555555557,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.1516666666666666,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.2627777777777776,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.3738888888888887,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.4849999999999999,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.596111111111111,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.7072222222222222,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.8183333333333334,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.9294444444444445,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.0405555555555552,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.1516666666666664,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.2627777777777776,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.3738888888888887,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.485,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.596111111111111,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.707222222222222,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.818333333333333,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.929444444444444,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.0405555555555552,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.1516666666666664,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.2627777777777776,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.3738888888888887,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.485,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.5961111111111106,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.7072222222222218,
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.0700000000000003,
+          "target": "CN-519C181C18DF4B8E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.0700000000000003,
+          "target": "CN-25F931CE393D474E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.0700000000000003,
+          "target": "CN-23EB4B19986D4818",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.0700000000000003,
+          "target": "CN-02D9DC1E8A8A4209",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.0700000000000003,
+          "target": "CN-0505936A0CBB4E59",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.62,
+          "target": "CN-519C181C18DF4B8E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.62,
+          "target": "CN-25F931CE393D474E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.62,
+          "target": "CN-23EB4B19986D4818",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.62,
+          "target": "CN-02D9DC1E8A8A4209",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.62,
+          "target": "CN-0505936A0CBB4E59",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.17,
+          "target": "CN-519C181C18DF4B8E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.17,
+          "target": "CN-25F931CE393D474E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.17,
+          "target": "CN-23EB4B19986D4818",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.17,
+          "target": "CN-02D9DC1E8A8A4209",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.17,
+          "target": "CN-0505936A0CBB4E59",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.72,
+          "target": "CN-519C181C18DF4B8E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.72,
+          "target": "CN-25F931CE393D474E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.72,
+          "target": "CN-23EB4B19986D4818",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.72,
+          "target": "CN-02D9DC1E8A8A4209",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.72,
+          "target": "CN-0505936A0CBB4E59",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.27,
+          "target": "CN-519C181C18DF4B8E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.27,
+          "target": "CN-25F931CE393D474E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.27,
+          "target": "CN-23EB4B19986D4818",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.27,
+          "target": "CN-02D9DC1E8A8A4209",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.27,
+          "target": "CN-0505936A0CBB4E59",
+          "error": 0,
+          "centerError": 0
+        }
+      ],
+      "hidden": true,
+      "cleanup": {
+        "visible": 0,
+        "halo": false,
+        "timelines": 0,
+        "destroyed": true,
+        "haloDestroyed": true
+      }
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "idle": {
+        "bodyStates": 1,
+        "haloPositions": 1,
+        "haloFrames": 8,
+        "looping": true,
+        "visible": true
+      },
+      "checks": [
+        {
+          "mode": "aura",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 2,
+          "poses": [
+            "ar"
+          ]
+        },
+        {
+          "mode": "attack",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 9,
+          "poses": [
+            "ar"
+          ]
+        },
+        {
+          "mode": "skill",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 11,
+          "poses": [
+            "ar"
+          ]
+        },
+        {
+          "mode": "ultimate",
+          "groundError": 0,
+          "alignmentError": 0,
+          "haloError": 0,
+          "maxSprites": 42,
+          "poses": [
+            "ar"
+          ]
+        }
+      ],
+      "rates": [
+        {
+          "speed": 0.25,
+          "elapsed": 0.1155
+        },
+        {
+          "speed": 0.5,
+          "elapsed": 0.2285
+        },
+        {
+          "speed": 2,
+          "elapsed": 0.916
+        }
+      ],
+      "contacts": [
+        {
+          "mode": "skill",
+          "at": 0.485,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 0.5961111111111111,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 0.7072222222222222,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 0.8183333333333334,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 0.9294444444444444,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.0405555555555557,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.1516666666666666,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.2627777777777776,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.3738888888888887,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.4849999999999999,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.596111111111111,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.7072222222222222,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.8183333333333334,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.9294444444444445,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.0405555555555552,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.1516666666666664,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.2627777777777776,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.3738888888888887,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.485,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.596111111111111,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.707222222222222,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.818333333333333,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.929444444444444,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.0405555555555552,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.1516666666666664,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.2627777777777776,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.3738888888888887,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.485,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.5961111111111106,
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 3.7072222222222218,
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.0700000000000003,
+          "target": "CN-519C181C18DF4B8E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.0700000000000003,
+          "target": "CN-25F931CE393D474E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.0700000000000003,
+          "target": "CN-23EB4B19986D4818",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.0700000000000003,
+          "target": "CN-0505936A0CBB4E59",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.0700000000000003,
+          "target": "CN-02D9DC1E8A8A4209",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.62,
+          "target": "CN-519C181C18DF4B8E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.62,
+          "target": "CN-25F931CE393D474E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.62,
+          "target": "CN-23EB4B19986D4818",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.62,
+          "target": "CN-0505936A0CBB4E59",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.62,
+          "target": "CN-02D9DC1E8A8A4209",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.17,
+          "target": "CN-519C181C18DF4B8E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.17,
+          "target": "CN-25F931CE393D474E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.17,
+          "target": "CN-23EB4B19986D4818",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.17,
+          "target": "CN-0505936A0CBB4E59",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.17,
+          "target": "CN-02D9DC1E8A8A4209",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.72,
+          "target": "CN-519C181C18DF4B8E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.72,
+          "target": "CN-25F931CE393D474E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.72,
+          "target": "CN-23EB4B19986D4818",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.72,
+          "target": "CN-0505936A0CBB4E59",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.72,
+          "target": "CN-02D9DC1E8A8A4209",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.27,
+          "target": "CN-519C181C18DF4B8E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.27,
+          "target": "CN-25F931CE393D474E",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.27,
+          "target": "CN-23EB4B19986D4818",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.27,
+          "target": "CN-0505936A0CBB4E59",
+          "error": 0,
+          "centerError": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.27,
+          "target": "CN-02D9DC1E8A8A4209",
+          "error": 0,
+          "centerError": 0
+        }
+      ],
+      "hidden": true,
+      "cleanup": {
+        "visible": 0,
+        "halo": false,
+        "timelines": 0,
+        "destroyed": true,
+        "haloDestroyed": true
+      }
+    }
+  ],
+  "status": "PASS",
+  "bundleLfSha256": "d0b0c4e30149f4ccd50f7ff1031a6ed19f257cb73f562517914accc9fd1ff33c"
+}

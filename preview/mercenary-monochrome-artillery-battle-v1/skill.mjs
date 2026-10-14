@@ -1,13 +1,16 @@
 export const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+export const SHOT_INTERVAL=1/9, RIFLE_FLIGHT=.105;
+const burst=(start,count)=>Array.from({length:count},(_,i)=>start+i*SHOT_INTERVAL);
+const rifleMode=(duration,start,count,description,events)=>{const launches=burst(start,count);return{duration,description,events,launches,rifleLaunches:launches,contacts:launches.map(t=>t+RIFLE_FLIGHT)};};
+const artillery=[1.8,2.35,2.9,3.45,4];
 export const MODES={
- aura:{duration:6,description:'머리 뒤 백색 광륜 · 총구 앞에 정렬된 은탄',events:[[0,'대기 · 백색 광륜'],[2,'총구 축에 은탄 정렬'],[4,'광륜의 은은한 발광']],contacts:[]},
- attack:{duration:2.1,description:'총구에서 시작하는 단발 사격 · 명중점에서 파편 발생',events:[[0,'정밀 조준'],[.6,'단발 발사'],[.88,'적중'],[1.35,'자세 회복']],contacts:[.88],launches:[.6]},
- skill:{duration:4.1,description:'백탄 낙인 · 세 발의 은탄을 정렬하고 적중한 적에게 해골 표식',events:[[0,'총구 앞 은탄 응축'],[.95,'첫 번째 정밀 사격'],[1.23,'적중 · 해골 낙인'],[1.8,'마지막 은탄 발사'],[2.08,'낙인 파쇄'],[3.3,'잔향 해체']],contacts:[1.23,1.65,2.08],launches:[.95,1.37,1.8]},
- ultimate:{duration:6.8,description:'망령 포대 · 적 진형 앞 자주포 전개 → 포신 반동 → 지면 폭쇄',events:[[0,'포격 지점 지시'],[.65,'적 진형 앞 포대 전개'],[1.8,'포신 충전'],[2.2,'첫 번째 포격'],[3.1,'재장전 · 두 번째 포격'],[4.25,'적 진형 연쇄 폭쇄'],[5.5,'포대 해체']],contacts:[2.72,2.84,3.62,3.74,4.25],launches:[2.2,3.1,3.73]},
+ aura:{duration:6,description:'고정된 사격 자세 · 머리 뒤 백색 광륜 · 총구 앞 은탄',events:[[0,'백색 광륜'],[2,'총구 앞 은탄 정렬'],[4,'고정된 대기 자세']],contacts:[],rifleLaunches:[]},
+ attack:rifleMode(1.75,.22,9,'AR 연발 사격 · 짧은 팔 반동과 연속 탄도',[[0,'견착 유지'],[.22,'9발 자동 사격'],[1.22,'사격 종료 · 복귀']]),
+ skill:rifleMode(4.55,.38,30,'백탄 난사 · 30발 지속 사격 → 해골 낙인 파쇄',[[0,'총구 앞 은탄 응축'],[.38,'AR 지속 사격'],[.485,'적중 · 해골 낙인'],[3.602,'마지막 탄환'],[3.9,'낙인 파쇄 · 잔향']]),
+ ultimate:{duration:6.35,description:'중앙 중포대 · AR 엄호 연발과 5회 연속 광역 포격',events:[[0,'중앙 포대 소환'],[1.25,'포신 충전'],[1.35,'AR 엄호 연발'],[1.8,'연속 광역 포격 개시'],[4,'최종 대폭쇄'],[5.2,'포대 해체']],launches:artillery,rifleLaunches:burst(1.35,25),contacts:artillery.map(t=>t+.27)},
 };
 export const SHOWCASE=['aura','attack','skill','ultimate'];
 export function makePlan({mode='aura',cancelAt=null,targetLostAt=null}={}){if(!MODES[mode])throw Error('Unknown mode');const stops=[cancelAt,targetLostAt].filter(Number.isFinite);return{mode,...MODES[mode],stop:stops.length?Math.min(...stops):null};}
-export function sample(plan,time){const t=clamp(time,0,plan.duration),cancelled=plan.stop!==null&&t>=plan.stop,done=t>=plan.duration;let key='ready';
- if(!cancelled&&!done){if(plan.mode==='attack'||plan.mode==='skill'){const launches=plan.launches;key=t<launches[0]?'brace':'ready';for(const at of launches){if(t>=at-.12&&t<at)key='brace';if(t>=at&&t<at+.13)key='recoil';}}
- if(plan.mode==='ultimate')key=t<1.75?'commandPoint':t<4.5?'commandFire':'ready';}
- return{time:t,pose:{key,frame:0},cancelled,done,label:cancelled?'연출 중단 · 원위치 복귀':plan.events.filter(e=>e[0]<=t).at(-1)?.[1]||'',contacts:cancelled?[]:plan.contacts.filter(at=>t>=at&&t-at<.22).map(at=>({at,age:t-at}))};}
+export function sample(plan,time){const t=clamp(time,0,plan.duration),cancelled=plan.stop!==null&&t>=plan.stop,done=t>=plan.duration;let frame=0;
+ if(!cancelled&&!done){const last=plan.rifleLaunches.filter(at=>at<=t).at(-1),age=last===undefined?Infinity:t-last;frame=age<.025?1:age<.052?2:age<.083?3:0;}
+ return{time:t,pose:{key:'ar',frame},cancelled,done,label:cancelled?'사격 중단 · 이펙트 정리':plan.events.filter(e=>e[0]<=t).at(-1)?.[1]||'',contacts:cancelled?[]:plan.contacts.filter(at=>t>=at&&t-at<.085).map(at=>({at,age:t-at}))};}

@@ -21,7 +21,7 @@ function resize(){if(!fx||disposed)return;const at=fx.time,was=fx.playing;fx.pau
 function dispose(){if(disposed)return;disposed=true;queue.active=false;engine?.app.renderer.off('resize',resize);fx?.destroy();for(const a of [...(engine?.allies||[]),...(engine?.enemies||[])]){a.animationAdapter?.destroy?.();a.animationController?.kill?.();}merc?.destroy();renderer?.destroy();window.ProjectVPixiBattle?.destroy();}
 async function boot(){
  try{
-  const [manifest,catalogs]=await Promise.all([get(ROOT+'manifest.json?v=head-halo-v2'),Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>get('/assets/ui/project-v/characters/'+p)))]);
+  const [manifest,catalogs]=await Promise.all([get(ROOT+'manifest.json?v=ar-ballistic-aura-v4'),Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>get('/assets/ui/project-v/characters/'+p)))]);
   const available=catalogs.flatMap(m=>m.characters.map(c=>({...c,grade:m.rarity})));
   const deck=IDS.map((id,i)=>{const c=available.find(x=>x.cardId===id);if(!c)throw Error('실제 기준 카드 누락');return {...c,id,cardId:id,name:c.member,title:c.title,image:'/'+c.sourceArt,sourceArt:'/'+c.sourceArt,originalCardArt:'/'+c.sourceArt,power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],hp:100,maxHp:100};});
   window.cnineCardCatalog=()=>deck;const payload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{mode:'PVP',teams:{A:{cards:deck},B:{cards:deck}},result:{timeline:[]}}};
@@ -43,7 +43,7 @@ async function boot(){
   $('reduced').checked=fx.reducedMotion;
   for(const b of parentDoc.querySelectorAll('[data-mode]'))b.onclick=()=>{$('mode').value=b.dataset.mode;change();fx.play();};
   for(const e of parentDoc.querySelectorAll('button,select,input'))e.disabled=false;$('sound').disabled=true;
-  $('health').textContent='준비 완료 · 얼굴 보정 · 머리 뒤 광륜 복원';prepared.phase.textContent='백색 포격';
+  $('health').textContent='준비 완료 · 백은 탄환 아우라 · AR 연발';prepared.phase.textContent='백색 포격';
   engine.app.renderer.on('resize',resize);
   const review={get fx(){return fx},get engine(){return engine},get merc(){return merc},manifest,queue,diagnostics:()=>({...fx.diagnostics(),queue:{...queue}}),dispose};window.BallisticPreview=review;window.parent.BallisticPreview=review;
   if(new URLSearchParams(window.parent.location.search).has('showcase')&&!fx.reducedMotion)startQueue();else{fx.setPlan(makePlan({mode:'aura'}));$('mode').value='aura';if(!fx.reducedMotion)fx.play();}

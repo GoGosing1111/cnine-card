@@ -1,0 +1,103 @@
+{
+  "status": "PASS",
+  "source": "assets/sources/ballistic-aura-v4.png",
+  "frames": [
+    {
+      "index": 0,
+      "groundSource": {
+        "x": 185,
+        "y": 330
+      },
+      "maxBorderAlpha": 5
+    },
+    {
+      "index": 1,
+      "groundSource": {
+        "x": 185,
+        "y": 330
+      },
+      "maxBorderAlpha": 7
+    },
+    {
+      "index": 2,
+      "groundSource": {
+        "x": 185,
+        "y": 329
+      },
+      "maxBorderAlpha": 7
+    },
+    {
+      "index": 3,
+      "groundSource": {
+        "x": 185,
+        "y": 330
+      },
+      "maxBorderAlpha": 7
+    },
+    {
+      "index": 4,
+      "groundSource": {
+        "x": 185,
+        "y": 313
+      },
+      "maxBorderAlpha": 9
+    },
+    {
+      "index": 5,
+      "groundSource": {
+        "x": 185,
+        "y": 313
+      },
+      "maxBorderAlpha": 12
+    },
+    {
+      "index": 6,
+      "groundSource": {
+        "x": 185,
+        "y": 313
+      },
+      "maxBorderAlpha": 9
+    },
+    {
+      "index": 7,
+      "groundSource": {
+        "x": 185,
+        "y": 313
+      },
+      "maxBorderAlpha": 8
+    },
+    {
+      "index": 8,
+      "groundSource": {
+        "x": 185,
+        "y": 300
+      },
+      "maxBorderAlpha": 11
+    },
+    {
+      "index": 9,
+      "groundSource": {
+        "x": 185,
+        "y": 300
+      },
+      "maxBorderAlpha": 14
+    },
+    {
+      "index": 10,
+      "groundSource": {
+        "x": 185,
+        "y": 300
+      },
+      "maxBorderAlpha": 11
+    },
+    {
+      "index": 11,
+      "groundSource": {
+        "x": 185,
+        "y": 300
+      },
+      "maxBorderAlpha": 8
+    }
+  ],
+  "policy": "Generated alpha preserved, ground landmarks registered, uniform scale only; no clipping, recoloring, blur, or body edits."
+}
