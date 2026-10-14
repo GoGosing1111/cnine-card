@@ -1,0 +1,59 @@
+import {ORGANIZATION_INTERVIEW as questions,ORGANIZATION_IDENTITIES as identities,ORGANIZATION_INTERVIEW_VERSION,reviewOrganizationAnswers} from '../shared/organization-interview-v1.mjs';
+const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const asset='/assets/ui/organization/admission-v1/';
+const seal='<img class="admission-seal" src="'+asset+'admission-seal.png" alt="" width="170" height="170">';
+const emblem=(id,image)=>'<svg class="admission-emblem" viewBox="'+[174,442,708][(id-1)%3]+' '+[188,410,630,850,1072][Math.floor((id-1)/3)]+' 206 '+(id<10?184:188)+'" aria-hidden="true"><image href="'+esc(image)+'" width="1086" height="1448"/></svg>';
+export function createOrganizationAdmission(){
+ let key='',answers={},step='intro',preferred=null,showAll=false,snapshot,submittedRevision=null,editing=false;
+ const complete=()=>questions.every(q=>q.options.some(o=>o.id===answers[q.id]));
+ const save=()=>{try{localStorage.setItem(key,JSON.stringify({answers,preferred,editing,baseRevision:snapshot.survey?.revision||0}));}catch{}};
+ const validDraft=value=>Object.fromEntries(questions.flatMap(q=>q.options.some(o=>o.id===value?.[q.id])?[[q.id,value[q.id]]]:[]));
+ const review=()=>complete()?reviewOrganizationAnswers(answers):null;
+ const button=(label,action,primary=false,disabled=false)=>'<button type="button" class="admission-button '+(primary?'is-gold':'')+'" data-admission="'+action+'" '+(disabled?'disabled':'')+'>'+label+'</button>';
+ function sync(state){
+  snapshot=state;const next='org-admission:'+ORGANIZATION_INTERVIEW_VERSION+':'+state.viewerId+':'+(state.round?.id||'preparation');
+  if(key!==next){key=next;let draft;try{draft=JSON.parse(localStorage.getItem(key));}catch{}editing=!!(draft?.editing&&draft.baseRevision===(state.survey?.revision||0));const useSaved=state.survey?.submitted&&!editing;answers=validDraft(useSaved?state.survey.answers:draft?.answers);preferred=useSaved?state.survey.preferredOrganizationId:identities.some(o=>o.id===draft?.preferred)?draft.preferred:null;step=useSaved?'submitted':'intro';submittedRevision=state.survey?.submitted?state.survey.revision:null;}
+  else if(state.survey?.submitted&&state.survey.revision!==submittedRevision){answers=validDraft(state.survey.answers);preferred=state.survey.preferredOrganizationId;step='submitted';submittedRevision=state.survey.revision;editing=false;save();}
+  else if(!state.survey?.submitted&&submittedRevision!==null){step='intro';submittedRevision=null;editing=false;save();}
+ }
+ function intro(){
+  const count=Object.keys(answers).length;
+  return '<section class="admission-invitation">'+seal+'<span class="admission-eyebrow">THE CITY IS WAITING FOR YOUR ANSWER</span><h1>당신의 자리는,<br><em>어느 조직에 있습니까.</em></h1><p class="admission-lead">힘을 쓰는 방식. 동료를 대하는 태도.<br>불리한 판 앞에서 내리는 결정.<br><strong>일곱 번의 선택으로, 당신과 맞는 조직을 찾습니다.</strong></p><div class="admission-invite-action">'+button(count?'작성하던 심사 이어가기':'입단 심사 시작','start',true)+'<span>7개 질문 · 모든 답변을 종합한 조직 추천</span></div><ol class="admission-chapters">'+questions.map((q,i)=>'<li><span>0'+(i+1)+'</span>'+q.chapter+'</li>').join('')+'</ol><div class="admission-invite-note"><span>15개 조직</span><i></i><span>조직별 최대 10명</span><i></i><span>인원·전력 균형 배정</span></div><p class="admission-disclaimer">심사 후 희망 조직을 선택합니다. 최종 소속은 전체 참가자의 인원과 전력 균형을 함께 고려해 정해집니다.</p></section>';
+ }
+ function questionView(){
+  const q=questions[step],answered=Object.keys(answers).length;
+  return '<section class="admission-interview"><header class="admission-interview-head"><div><span class="admission-eyebrow">ORGANIZATION ADMISSION / 입단 심사</span><p>조직은 당신의 선택을 기억합니다.</p></div><span class="admission-count"><b>0'+(step+1)+'</b> / 07</span></header><nav class="admission-progress" aria-label="심사 질문">'+questions.map((item,i)=>'<button type="button" data-admission-step="'+i+'" aria-label="'+(i+1)+'번 '+item.chapter+(answers[item.id]?' · 응답 완료':'')+'" '+(i===step?'aria-current="step"':'')+' '+(questions.slice(0,i).some(x=>!answers[x.id])?'disabled':'')+'><span>0'+(i+1)+'</span><small>'+['동기','공략','판단','정보','역할','자원','서약'][i]+'</small>'+(answers[item.id]?'<i aria-hidden="true">✓</i>':'')+'</button>').join('')+'</nav><div class="admission-question-heading"><span class="admission-eyebrow">FILE 0'+(step+1)+' — '+q.chapter+'</span><h1 id="admission-question" tabindex="-1">'+q.title+'</h1><p>'+q.context+'</p></div><div class="admission-answers" role="radiogroup" aria-labelledby="admission-question">'+q.options.map((o,i)=>'<button type="button" class="admission-answer" data-answer="'+o.id+'" role="radio" aria-checked="'+(answers[q.id]===o.id)+'" tabindex="'+(answers[q.id]===o.id||!answers[q.id]&&i===0?'0':'-1')+'"><span class="admission-answer-letter">'+String.fromCharCode(65+i)+'</span><span class="admission-answer-copy"><b>'+o.label+'</b><small>'+o.detail+'</small></span><span class="admission-answer-check" aria-hidden="true">'+(answers[q.id]===o.id?'✓':'')+'</span></button>').join('')+'</div><footer class="admission-question-footer">'+button(step===0?'심사 안내':'이전 질문','previous')+'<p>정답은 없습니다.<br><span>당신에게 가까운 선택을 골라주세요.</span></p>'+button(step===6?'종합 결과 확인':'다음 질문','next',true,!answers[q.id])+'</footer><span class="admission-autosave" role="status">'+answered+' / 7 응답 · 이 기기에 임시 저장됨</span></section>';
+ }
+ function resultView(){
+  const r=review(),selected=r.recommendations.find(o=>o.id===preferred)||r.recommendations[0],open=snapshot.round?.phase==='SURVEY';
+  preferred=selected.id;
+  return '<section class="admission-results"><header class="admission-result-heading">'+seal+'<span class="admission-eyebrow">YOUR ORGANIZATION DOSSIER</span><h1 tabindex="-1" id="admission-result-title">당신의 선택이 가리킨 조직.</h1><p>일곱 답변을 종합했습니다. 추천 이유를 살펴보고<br>마지막으로 입단을 희망하는 조직을 선택하세요.</p><div class="admission-traits">'+r.traits.slice(0,3).map(t=>'<span>'+t.label+'</span>').join('')+'</div></header><div class="admission-dossiers">'+r.recommendations.slice(0,3).map((o,i)=>'<article class="admission-dossier '+(preferred===o.id?'selected':'')+'"><span class="admission-file-rank">'+['가장 가까운 조직','함께 살펴볼 조직','또 다른 가능성'][i]+'</span>'+emblem(o.id,snapshot.preparation.emblemsImage)+'<span class="admission-match">성향 일치 <b>'+o.score+'</b><small> / 100</small></span><h2>'+o.name+'</h2><p class="admission-motto">'+o.motto+'</p><p class="admission-org-description">'+o.description+'</p><div class="admission-reasons"><span>당신의 답변에서 발견한 이유</span>'+o.reasons.map(reason=>'<p><small>'+reason.chapter+'</small><q>'+reason.answer+'</q></p>').join('')+'</div><button type="button" class="admission-button '+(preferred===o.id?'is-gold':'')+'" data-admission-pick="'+o.id+'" aria-pressed="'+(preferred===o.id)+'">'+(preferred===o.id?'✓ 희망 조직으로 선택됨':'이 조직 선택')+'</button></article>').join('')+'</div><p class="admission-score-note">성향 일치는 답변과 조직 성향이 얼마나 가까운지 보여주는 지표이며, 배정 확률이 아닙니다.</p><div class="admission-all-toggle">'+button(showAll?'조직 목록 접기':'15개 조직 모두 살펴보기','all')+button('일곱 답변 다시 살펴보기','review')+'</div>'+(showAll?'<div class="admission-all-organizations">'+identities.map(o=>'<button type="button" data-admission-pick="'+o.id+'" aria-pressed="'+(preferred===o.id)+'">'+emblem(o.id,snapshot.preparation.emblemsImage)+'<b>'+o.name+'</b><span>'+o.motto+'</span><small>성향 일치 '+r.organizationFit[o.id-1]+' / 100</small></button>').join('')+'</div>':'')+'<section class="admission-application"><div>'+emblem(selected.id,snapshot.preparation.emblemsImage)+'<div><span class="admission-eyebrow">YOUR FINAL PREFERENCE</span><h2>희망 조직 · '+selected.name+'</h2><p>'+selected.motto+'</p></div></div><div class="admission-application-action">'+button(open?(snapshot.survey?.submitted?'입단 지원서 수정 제출':'이 조직에 입단 지원'):'현재 입단 접수 대기 중','submit',true,!open)+'<small>답변 7개와 희망 조직을 함께 제출합니다.</small></div><p class="admission-application-note">조직별 인원과 전력을 먼저 균형 있게 맞춘 뒤, 희망 조직과 심사 결과를 반영합니다. 선택한 조직으로의 배정을 보장하지 않습니다.</p></section></section>';
+ }
+ function submittedView(){
+  const org=identities[snapshot.survey.preferredOrganizationId-1],r=review(),open=snapshot.round?.phase==='SURVEY';
+  return '<section class="admission-submitted">'+seal+'<span class="admission-eyebrow">APPLICATION RECEIVED</span><h1>당신의 입단 지원서가<br>접수되었습니다.</h1><div class="admission-submitted-org">'+emblem(org.id,snapshot.preparation.emblemsImage)+'<div><span>희망 조직</span><h2>'+org.name+'</h2><p>'+org.motto+'</p></div></div><p class="admission-lead">일곱 답변과 희망 조직을 함께 전달했습니다.<br>전체 참가자의 인원과 전력을 고려한 배정을 기다려 주세요.</p><div class="admission-traits">'+r.traits.slice(0,3).map(t=>'<span>'+t.label+'</span>').join('')+'</div><details class="admission-answer-record"><summary>내가 제출한 일곱 답변</summary><ol>'+questions.map(q=>'<li><small>'+q.chapter+'</small><p>'+q.options.find(o=>o.id===answers[q.id]).label+'</p></li>').join('')+'</ol></details><div class="admission-submitted-actions">'+button('내 심사 결과 보기','results')+button(open?'지원서 수정':'접수 마감 · 수정 불가','edit',false,!open)+'</div>'+button('입단 지원 철회','withdraw',false,!open)+'<p class="admission-disclaimer">현재는 TEST 검수 회차입니다. 실제 조직 모집은 준비 중입니다.</p></section>';
+ }
+ function render(state){sync(state);return '<div class="admission-room '+(typeof step==='number'?'is-interview':'')+'"><div class="admission-room-content">'+(step==='intro'?intro():step==='results'?resultView():step==='submitted'?submittedView():questionView())+'</div><div class="admission-room-caption" aria-hidden="true">SOOPKETMON · ORGANIZATION HEADQUARTERS</div></div>';}
+ function bind(root,{repaint,submit,withdraw}){
+  const paint=focus=>{save();repaint();if(focus){const el=root.querySelector(focus);el?.focus({preventScroll:true});if(!matchMedia('(prefers-reduced-motion:reduce)').matches)el?.scrollIntoView({block:'center',behavior:'smooth'});}};
+  root.querySelectorAll('[data-answer]').forEach(b=>{
+   b.onclick=()=>{editing=true;answers[questions[step].id]=b.dataset.answer;paint('[data-answer="'+b.dataset.answer+'"]');};
+   b.onkeydown=event=>{if(!['ArrowDown','ArrowRight','ArrowUp','ArrowLeft'].includes(event.key))return;event.preventDefault();const options=questions[step].options,i=options.findIndex(o=>o.id===b.dataset.answer),next=options[(i+(['ArrowDown','ArrowRight'].includes(event.key)?1:3))%4];editing=true;answers[questions[step].id]=next.id;paint('[data-answer="'+next.id+'"]');};
+  });
+  root.querySelectorAll('[data-admission-step]').forEach(b=>b.onclick=()=>{step=Number(b.dataset.admissionStep);paint('#admission-question');});
+  root.querySelectorAll('[data-admission-pick]').forEach(b=>b.onclick=()=>{editing=true;preferred=Number(b.dataset.admissionPick);paint('[data-admission-pick="'+preferred+'"]');});
+  root.querySelectorAll('[data-admission]').forEach(b=>b.onclick=()=>{
+   const action=b.dataset.admission;
+   if(action==='submit')return submit({answers:review().answers,preferredOrganizationId:preferred});
+   if(action==='withdraw')return withdraw();
+   if(action==='start'){step=questions.findIndex(q=>!answers[q.id]);if(step<0)step='results';}
+   if(action==='previous')step=step===0?'intro':step-1;
+   if(action==='next'){if(!answers[questions[step].id])return;if(step===6){step='results';if(!preferred)preferred=review().recommendations[0].id;}else step++;}
+   if(action==='all')showAll=!showAll;
+   if(action==='review'||action==='edit'){step=0;editing=true;}
+   if(action==='results')step='results';
+   paint(typeof step==='number'?'#admission-question':step==='results'&&action!=='all'?'#admission-result-title':null);
+  });
+ }
+ return {render,bind};
+}

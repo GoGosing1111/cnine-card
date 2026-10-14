@@ -73,16 +73,16 @@ async function rebuild(env,versions,config,deps,hash,now,advanced){
 const profileRetryDelays=[200,400,800,1600];
 const profileWait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const currentProfile=(v,hash,now)=>v.payload_json&&Number(v.source_version)===Number(v.cached_version)&&Number(v.policy_revision)===Number(v.cached_policy)&&v.config_hash===hash&&Date.parse(v.expires_at)>now;
-const validateAccounts=(versions,count,now)=>{
- if(versions.length!==count||versions.some(v=>v.status!=='ACTIVE'||v.role==='OWNER'||v.banned_until&&Date.parse(v.banned_until)>now))throw duoError('ACCOUNT','참가 계정 상태를 확인하세요.');
+const validateAccounts=(versions,count,now,allowOwner=false)=>{
+ if(versions.length!==count||versions.some(v=>v.status!=='ACTIVE'||!allowOwner&&v.role==='OWNER'||v.banned_until&&Date.parse(v.banned_until)>now))throw duoError('ACCOUNT','참가 계정 상태를 확인하세요.');
 };
-export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait}={}){
+export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait,allowOwner=false}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
  const advanced=await readForgeAdvancedPolicy(env.DB);
  const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:'PVP-v1',mercenaryEquipment:'20261011',advancedForgeRevision:advanced.revision}),started=Date.now();
  for(let attempt=0;attempt<=profileRetryDelays.length;attempt++){
   const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
-  validateAccounts(versions,ids.length,at);
+  validateAccounts(versions,ids.length,at,allowOwner);
   const collect=rows=>rows.filter(v=>{
    if(!currentProfile(v,hash,at))return true;
    const cached=parsed(v.payload_json,{});profiles.set(Number(v.user_id),{...cached,nickname:v.nickname,attack:{...cached.attack,ownerName:v.nickname},defense:{...cached.defense,ownerName:v.nickname}});return false;
@@ -97,7 +97,7 @@ export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wa
     if(owned.length){
      // Another builder may have finished between our first read and lease claim.
      // Build only the still-missing accounts we own, never abandon a partial claim.
-     const fresh=await duoVersions(env,owned);validateAccounts(fresh,owned.length,at);
+     const fresh=await duoVersions(env,owned);validateAccounts(fresh,owned.length,at,allowOwner);
      const needed=collect(fresh);
      if(needed.length)for(const profile of await rebuild(env,needed,config,deps,hash,at,advanced))profiles.set(profile.userId,profile);
     }

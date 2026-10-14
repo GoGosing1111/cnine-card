@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-15",
+  "status": "PASS",
+  "scope": "isolated preparation; no live database or deployment",
+  "tests": {
+    "organizationSystem": 11,
+    "organizationRatings": 1,
+    "existingDuoProfile": 4,
+    "existingDuoSchemaOwners": 1,
+    "organizationBrowser": 1,
+    "total": 18
+  },
+  "browser": {
+    "widths": [
+      1440,
+      390
+    ],
+    "pageErrors": 0,
+    "horizontalOverflow": false,
+    "imageBackgroundOnEveryButton": true,
+    "checks": [
+      "seven mandatory answers",
+      "keyboard radio selection",
+      "draft restore after reload",
+      "three recommendations with actual answer reasons",
+      "all fifteen organizations selectable",
+      "submission and revision",
+      "editing draft restore",
+      "owner closes, rates, proposes, applies",
+      "assigned membership and five hideout stages"
+    ]
+  },
+  "assets": {
+    "count": 5,
+    "mode": "built-in imagegen",
+    "originalCopiesHashMatched": true,
+    "manifest": "../../../assets/ui/organization/admission-v1/manifest.json"
+  },
+  "release": {
+    "enabled": false,
+    "productionRouterConnected": false,
+    "productionDatabaseInstalled": false,
+    "productionDeployed": false
+  }
+}
