@@ -201,9 +201,10 @@ test('30s defaults, public countdown and scheduled deployment are included in th
   const runDeployment=async(platform,gateStatus=0,cacheError=false,runtimeError=false)=>{
     const calls=[];
     const context={console,process:{argv:['node','deploy-production.mjs'],platform,execPath:'node',env:{},exit:status=>{throw Error('exit '+status)}},
-      execFileSync:()=>{throw Error('normal release must not enter the asset-only shortcut')},
+      execFileSync:(command,args)=>{assert.equal(command,'git');assert.deepEqual(args,['rev-parse','HEAD']);return 'c'.repeat(40);},
       verifyProductionHyperdriveCache:()=>{assert.equal(calls.length,1,'cache check follows the release gate and precedes deployments');if(cacheError)throw Error('cache enabled')},
       prepareApiRuntime:async()=>{assert.equal(calls.length,2,'runtime credentials follow Worker upload and precede Pages cutover');if(runtimeError)throw Error('runtime credentials missing')},
+      prepareProductionAssets:async()=>({directory:'/staged',assetCount:100,excluded:2,dispose:async()=>{}}),
       spawnSync:(command,args)=>{calls.push([command,...args]);return {status:calls.length===1?gateStatus:0}},
       createRequire:()=>({resolve:()=>'/tools/wrangler/package.json'}),dirname:()=>'/tools/wrangler',join:(...parts)=>parts.join('/'),readFileSync};
     const execute=()=>runInNewContext('(async()=>{'+deploySource+'\n})()',context);
@@ -217,7 +218,7 @@ test('30s defaults, public countdown and scheduled deployment are included in th
     const calls=await runDeployment(platform);assert.equal(calls.length,4);
     assert.match(calls[0].join(' '),/npm(?: run)? release:gate|npm run release:gate/);
     assert.deepEqual(calls[1],['node','/tools/wrangler/bin/wrangler.js','deploy','--config','workers/api-runtime/wrangler.jsonc']);
-    assert.deepEqual(calls[2],['node','/tools/wrangler/bin/wrangler.js','pages','deploy','.','--project-name','cnine-card','--branch','main']);
+    assert.deepEqual(calls[2],['node','/tools/wrangler/bin/wrangler.js','pages','deploy','/staged','--config','/staged/wrangler.toml','--project-name','cnine-card','--branch','main','--commit-hash','c'.repeat(40)]);
     assert.deepEqual(calls[3],['node','/tools/wrangler/bin/wrangler.js','deploy','--config','workers/clan-draft/wrangler.jsonc']);
     assert.equal((await runDeployment(platform,1)).length,1,'failed release gate must stop all deployments');
     assert.equal((await runDeployment(platform,0,true)).length,1,'failed cache check must stop all deployments');
