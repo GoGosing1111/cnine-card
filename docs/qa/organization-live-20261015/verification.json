@@ -1,0 +1,77 @@
+{
+  "verifiedAt": "2026-10-14T21:48:25.046Z",
+  "url": "https://cnine-card.pages.dev/organization/",
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "031844203c3fcf7105348519dc45388ba4123414d1f88bafdcb10cb0f3bd0570",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "4de806d3c7c1395ac7da1521cdb7606417bb8a87cab8e6fd635e1c06e8bff47f",
+      "status": 200
+    },
+    {
+      "file": "organization/index.html",
+      "sha256": "671e10088dcdec21954a85461e9bcba5a6cbb00e766fa4ba0af182d594be0682",
+      "status": 200
+    },
+    {
+      "file": "js/organization-preparation-v1.js",
+      "sha256": "d8ed017e798e967178354540d563b0d0603dffc636409acc74d397363b0e84ff",
+      "status": 200
+    },
+    {
+      "file": "js/organization-public-v1.mjs",
+      "sha256": "050591d726620b209a794e2fcf6ca8aef58be90edad056ff3db853f1c5724e3a",
+      "status": 200
+    },
+    {
+      "file": "js/organization-system-v1.mjs",
+      "sha256": "651bbcec4b0bb47efe80df9d114e759306bcecf4e40338455a5afb0c0529197b",
+      "status": 200
+    },
+    {
+      "file": "js/organization-admission-v1.mjs",
+      "sha256": "7ec2df61e2587b2c9daf590cbd58908b9179439283d84d704d689836dbd5bff8",
+      "status": 200
+    },
+    {
+      "file": "shared/organization-public-v1.mjs",
+      "sha256": "cc7635e3ea1427c6f3ce0adfdc0df60ccba157fbc6f02ee3f62b7670f1e8845a",
+      "status": 200
+    },
+    {
+      "file": "css/organization-public-v1.css",
+      "sha256": "8bbe71145fa69424f565f226cc501d5098b1cca15cae4fc271b6e3c4f9592b74",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/organization/admission-v1/action-gold.png",
+      "sha256": "0a8b6c4d4000e781fb426fbd4a1e5fdecefae26e05e429f535ed85d116be76c5",
+      "status": 200
+    }
+  ],
+  "browsers": [
+    {
+      "width": 1440,
+      "questions": 7,
+      "recommendations": 3,
+      "submissionDisabled": true,
+      "overflow": false,
+      "errors": [],
+      "apiRequests": 0
+    },
+    {
+      "width": 390,
+      "questions": 7,
+      "recommendations": 3,
+      "submissionDisabled": true,
+      "overflow": false,
+      "errors": [],
+      "apiRequests": 0
+    }
+  ],
+  "scope": "Public preparation only; no accounts or production DB writes"
+}

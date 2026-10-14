@@ -845,7 +845,7 @@ function mobileNavigationHtml(tab){
         <button type="button" data-mobile-tab="escort"><i>▰</i><span><b>호송작전</b><small>5구간 장갑 수송차 호위전</small></span><em>입장</em></button>
         <button type="button" data-v21-route="scrapyard"><i>W</i><span><b>폐차장 원정</b><small>PVE 전용 원정과 보상</small></span><em>입장</em></button>
         ${pvpFeatureEnabled?'<button type="button" data-mobile-tab="pvp"><i>V</i><span><b>PVP·경쟁</b><small>랭크전 자동 균형 매칭</small></span><em>입장</em></button><button type="button" data-mobile-tab="rank"><i>R</i><span><b>시즌 랭킹</b><small>현재 시즌 순위와 보상</small></span><em>확인</em></button>':''}
-        ${clanFeatureVisible()?'<button type="button" data-mobile-tab="clan"><i>C</i><span><b>클랜·조직</b><small>마지막 챔스 · 조직 개편 준비</small></span><em>입장</em></button>':''}
+        ${clanFeatureVisible()?'<button type="button" data-mobile-tab="clan"><i>C</i><span><b>클랜·조직</b><small>조직 입단 심사 · 아지트</small></span><em>입장</em></button>':''}
         <button type="button" data-mobile-territory-war><i>♜</i><span><b>영토전</b><small>실시간 진영 공성전</small></span><em>입장</em></button>
       </div>
     </section>
@@ -1402,7 +1402,7 @@ function renderShell(tab,routeOptions={}) {
         <button type="button" data-v21-route="escort"><span>5구간 장갑 수송차 호위전</span><b>호송작전</b></button>
         <button type="button" data-v21-route="scrapyard"><span>PVE 전용 원정과 보상</span><b>폐차장 원정</b></button>
         ${pvpFeatureEnabled?'<button type="button" data-tab="pvp"><span>자동 균형 매칭</span><b>PVP·경쟁</b></button><button type="button" data-tab="rank"><span>현재 시즌 순위</span><b>시즌 랭킹</b></button>':''}
-        ${clanFeatureVisible()?'<button type="button" data-tab="clan"><span>마지막 챔스 · 조직 개편 준비</span><b>클랜·조직</b></button>':''}
+        ${clanFeatureVisible()?'<button type="button" data-tab="clan"><span>조직 입단 심사 · 아지트</span><b>클랜·조직</b></button>':''}
       </div>
     </div>
     <div class="main-nav-group ${characterActive?'active':''}" data-nav-group="character">

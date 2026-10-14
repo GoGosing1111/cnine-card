@@ -1,0 +1,16 @@
+{
+  "source": "b443c5d97ebac65aab01b854e80c917a5c4fda15",
+  "previousSource": "34659440b5c25953e942f395bf26a6ac46bb94d9",
+  "pagesId": "f9ad8349-b6ff-411a-9ee0-1f5f5375d23f",
+  "pagesUrl": "https://f9ad8349.cnine-card.pages.dev",
+  "publicUrl": "https://cnine-card.pages.dev/organization/",
+  "apiVersion": "c8251015-0ded-4d37-8c45-40a873226728",
+  "schedulerVersion": "cc4634fe-d82a-498c-9985-02bf3447ddab",
+  "verifiedAt": "2026-10-14T21:48:25.046Z",
+  "testsPassed": 19,
+  "workerCheck": "passed",
+  "hyperdriveQueryCache": "disabled",
+  "recruitmentOpen": false,
+  "organizationProductionSchemaInstalled": false,
+  "evidence": "qa/organization-live-20261015/verification.json"
+}

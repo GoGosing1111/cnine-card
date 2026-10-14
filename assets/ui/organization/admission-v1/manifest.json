@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "date": "2026-10-15",
+  "generationMode": "built-in imagegen",
+  "prompts": "prompts.json",
+  "status": "published-preview-recruitment-closed",
+  "assets": [
+    {
+      "key": "admission-room",
+      "file": "admission-room.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2125373,
+      "sha256": "83269A46F6827AD698DC3AE347F1FD3333176FFE88494E3190E8C3A7434C0E73",
+      "original": "C:\\Users\\User\\.codex\\generated_images\\01a13c2e-5fb7-7591-ab47-8f303363c001\\exec-e437e796-991f-437e-8fcc-37faaad386f5.png",
+      "preservation": "Byte-identical original copy; no image edits"
+    },
+    {
+      "key": "action-gold",
+      "file": "action-gold.png",
+      "width": 2172,
+      "height": 724,
+      "bytes": 2306951,
+      "sha256": "0A8B6C4D4000E781FB426FBD4A1E5FDECEFAE26E05E429F535ED85D116BE76C5",
+      "original": "C:\\Users\\User\\.codex\\generated_images\\01a13c2e-5fb7-7591-ab47-8f303363c001\\exec-80e401f1-6029-4cb3-8586-5a24e021fdc8.png",
+      "preservation": "Byte-identical original copy; no image edits"
+    },
+    {
+      "key": "answer-steel",
+      "file": "answer-steel.png",
+      "width": 2172,
+      "height": 724,
+      "bytes": 2229628,
+      "sha256": "29004B15ACFD32FA887AD536009AB08E50D5E81C91A249484A75791960350A56",
+      "original": "C:\\Users\\User\\.codex\\generated_images\\01a13c2e-5fb7-7591-ab47-8f303363c001\\exec-f57db53b-037e-454c-ba92-a808d5a86b05.png",
+      "preservation": "Byte-identical original copy; no image edits"
+    },
+    {
+      "key": "dossier-frame",
+      "file": "dossier-frame.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2632789,
+      "sha256": "221F8CABDEB5BE8220FA4408511674FFF45FB0CE8437867B7D58FE34022CA1DC",
+      "original": "C:\\Users\\User\\.codex\\generated_images\\01a13c2e-5fb7-7591-ab47-8f303363c001\\exec-5abe5c87-f381-4dd8-95df-f17796e7f646.png",
+      "preservation": "Byte-identical original copy; no image edits"
+    },
+    {
+      "key": "admission-seal",
+      "file": "admission-seal.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2682858,
+      "sha256": "AD5C8A25EFB8614A0BEB8CBBA6FDF6D339DDDCF6E759401AA442F71BDF5375BE",
+      "original": "C:\\Users\\User\\.codex\\generated_images\\01a13c2e-5fb7-7591-ab47-8f303363c001\\exec-2a92a79d-31f3-4ca9-a6c7-7d087f263c1a.png",
+      "preservation": "Byte-identical original copy; no image edits"
+    }
+  ],
+  "approvedExistingEmblems": "../emblem-concepts-20261012.png",
+  "notes": "Korean copy is rendered in HTML, not baked into images. Admission, answers, navigation and action buttons use these assets. New visual result is awaiting user review.",
+  "publication": {
+    "entry": "/organization/",
+    "sourceCommit": "b443c5d97ebac65aab01b854e80c917a5c4fda15",
+    "authorization": "라이브 반영하고 다음 조직 개발할거 작업시작해",
+    "recruitmentOpen": false
+  }
+}

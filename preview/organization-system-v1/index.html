@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>숲켓몬 · 조직 본부 검수</title><link rel="stylesheet" href="/css/organization-system-v1.css"><link rel="stylesheet" href="/css/organization-admission-v1.css"></head>
+<body><aside class="review-bar"><span><b>개발 검수</b> 가상 계정 · 실제 모집 닫힘</span><label>검수 시점 <select id="qa-role"><option value="player">참가자</option><option value="owner">운영자</option></select></label></aside><div id="organization-root" class="organization-app" aria-busy="true"><p class="loading">조직 본부를 불러오고 있습니다.</p></div><div id="org-message" class="org-message" role="status" aria-live="polite"></div>
+<script type="module">
+import {mountOrganization} from '/js/organization-system-v1.mjs';
+localStorage.setItem('cnine_battle_sound','OFF');
+const mode=new URLSearchParams(location.search).get('view')==='owner'?'owner':'player';
+document.querySelector('#qa-role').value=mode;
+document.querySelector('#qa-role').onchange=event=>{location.search='view='+event.target.value;};
+const api=async(path,options={})=>{const response=await fetch('/api/'+path,{method:options.method||'GET',headers:{'Content-Type':'application/json','x-qa-user':mode==='owner'?'1':'2'},...(options.body?{body:JSON.stringify(options.body)}:{})});const data=await response.json();if(!response.ok)throw Object.assign(Error(data.error),data);return data;};
+mountOrganization({root:document.querySelector('#organization-root'),api,isOwner:mode==='owner'});
+</script></body></html>
