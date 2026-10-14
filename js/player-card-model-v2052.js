@@ -1,4 +1,4 @@
-// Shared trophy definitions. Eligibility is evaluated only from official server settlements.
+// Shared trophy definitions. Ownership uses official records and audited server grants.
 export const TROPHY_CATALOG = Object.freeze([
   { code: 'DUO_CHALLENGER', name: '듀오 챌린저', category: 'DUO CHALLENGER', rule: '공식 듀오 시즌 종료 시 최종 1~10위 팀의 두 사람에게 각각 시즌당 1개 지급', art: '/assets/ui/ranked-duo/challenger-trophy-v2.webp', tone: 'blue' },
   { code: 'CLAN_CHAMPION', name: '클랜의 영광', category: 'CLAN CHAMPION', rule: '공식 클랜 시즌 우승 당시 우승 클랜에 소속', art: '/assets/ui/player-card/clan-champion-v2052.webp', tone: 'gold' },
