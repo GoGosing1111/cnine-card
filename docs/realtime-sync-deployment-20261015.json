@@ -1,0 +1,280 @@
+{
+  "version": "20261015-sync-media-v1",
+  "deployedSource": "b304643daf2bd497fda6a620b39ac5db90946fbb",
+  "initialDeployment": {
+    "source": "09bb3667b6da61c2c12baa334359e502004c62a2",
+    "pagesUrl": "https://053293f8.cnine-card.pages.dev",
+    "apiVersion": "78a6984c-ca4e-4ed3-b2d6-2c4e5e0adfb9",
+    "schedulerVersion": "9177d408-f9ae-4676-a36e-3ee79244e669"
+  },
+  "finalDeployment": {
+    "pagesUrl": "https://9f1178af.cnine-card.pages.dev",
+    "apiVersion": "b60c7348-6db6-4c68-a49a-ece95e2a0725",
+    "schedulerVersion": "a2c9ce87-7600-40cb-abed-e81bd737400b"
+  },
+  "releaseGate": {
+    "allRegisteredStagesPassed": true,
+    "method": "Full release gate with hash-bound continuation of unchanged passing stages; final cache-header correction uses the approved scoped deployment path.",
+    "scopedTestsPassed": 7,
+    "evidence": [
+      {
+        "log": "deploy-full3.log",
+        "candidate": "535d7f584d8e6bc06f4cf0d3b0da7fa2a6340879",
+        "sha256": "0aa725bf5103d374cb4d27fe180b1b587f7326ffe13be4c7d2e08beed4f3559c"
+      },
+      {
+        "log": "deploy-resume1.log",
+        "candidate": "19b7fff96034d95296b71a30b1f3b3ed6e0caa25",
+        "sha256": "5b6e06858ab0407a1d4faf8b21bc84c861d43403c61f5e8677554453e0f67240"
+      },
+      {
+        "log": "deploy-resume2.log",
+        "candidate": "42ebf84a26a69c437fce2f0ddcd384e84eff330a",
+        "sha256": "589a747d51dee647af03cf93b71dd77bff42dde995103abe77220944f92dbb51"
+      },
+      {
+        "log": "deploy-resume3.log",
+        "candidate": "fdce566d131d0b1c1248e2236ba9eb409ce83b01",
+        "sha256": "c49b81242a7fc338bf66ed8c7a682390926bc6f1e96a422d028c92abb945d214"
+      },
+      {
+        "log": "deploy-resume4.log",
+        "candidate": "ed4355fb814b609235298b6635bc6fe3c47e4513",
+        "sha256": "37e4556af93ad2826fed5f4060673c4df809fb2fe654b05b8a9f1be6c356fced"
+      },
+      {
+        "log": "deploy-resume7.log",
+        "candidate": "c8a77fd85643fc595d89395df62a688cc4551c28",
+        "sha256": "d7f6ee73b137b809ed0a3e0b1460b63d7bcc973ebc2fb8ab8c3601bb9969c09a"
+      },
+      {
+        "log": "deploy-resume8.log",
+        "candidate": "a2c40c648c7804e669d202ec64f2c02969ed272a",
+        "sha256": "90f6ff3b83f42850b751045ba8e3cfd3610a04d73161064004cd6b8040b1cc20"
+      },
+      {
+        "log": "deploy-resume9.log",
+        "candidate": "1daae504774d3f3ecc5f876efedcdb5a4f35e44f",
+        "sha256": "7af1e4908a10ba37602180c6f9353e5a1499fce5284592083762078cfba94cdb"
+      },
+      {
+        "log": "deploy-resume11.log",
+        "candidate": "21a09212d76e7591411d49cf9683901b0879dede",
+        "sha256": "f41c2111a4874f8f7a45281ea6297f5f8ede6e69e0904fa3d1a709ef7a3e0299"
+      },
+      {
+        "log": "deploy-resume12.log",
+        "candidate": "08dcea604a27692661a1b520326cc959cc7c2c7e",
+        "sha256": "3660e40589f0291ed247c04c6ae85dc9290b0a61672acce6139ccc32bbfd0d88"
+      },
+      {
+        "log": "deploy-resume13.log",
+        "candidate": "47e03e168b1ae0d8e4700bdb12a78fbfb3b6f9f3",
+        "sha256": "aea8b10e35b1069847889d265dfc76899489c9ad202078e422396c8e61a270d5"
+      },
+      {
+        "log": "deploy-resume14.log",
+        "candidate": "aacdbc9c45352708eca8cd104d4630882e7e947d",
+        "sha256": "abc6c528b3e810fcaf2c32bc38432876e5f909e0240cdac816311947487eafb9"
+      },
+      {
+        "log": "deploy-resume15.log",
+        "candidate": "ba7e7301dc653985e98731578ffac4b6f3731120",
+        "sha256": "0097c6502998f9f1de267fca7ab29dcf9ce9d9f2f9919e95e4577bfb8c76d5c2"
+      },
+      {
+        "log": "deploy-resume16.log",
+        "candidate": "3d4efd11e502274bad4cc746b43d545e45a32feb",
+        "sha256": "77350f5a86d2ef02bec8cd5d84868db61aec8f8a8715c40b25b2662aa7db8ff8"
+      },
+      {
+        "log": "deploy-resume17.log",
+        "candidate": "faaac60e498884d22941005704c0037b548e2a3d",
+        "sha256": "38f313760d654d84b24064678462f9daaf60eee5e967f6ff380ca635b36821fc"
+      },
+      {
+        "log": "deploy-resume18.log",
+        "candidate": "266e12574cafdfd5d0246ee16c8e23607945b497",
+        "sha256": "eacce5f52bdc6304f336c051147b7dcbf01f52f029f5157451932af6eb3129e1"
+      },
+      {
+        "log": "deploy-resume19.log",
+        "candidate": "7f6252cf64eea51d91687642c2147ff5dc1aeefe",
+        "sha256": "28649062dcea4ea50d5d573b6e372e8d9789da6f7dfb004a6ca3c176fccff019"
+      },
+      {
+        "log": "deploy-resume20.log",
+        "candidate": "806ec336358d548de227fb1d71ac479653b3e3d6",
+        "sha256": "b0be8e4ed8573bcf07821be5731c487bf39ea0daa15a7459b85f1f939115d3cf"
+      },
+      {
+        "log": "deploy-resume21.log",
+        "candidate": "813c24404a5b5b0e767ec0d35655f781d8c94e11",
+        "sha256": "5dda215c0e4f892574d7263c5b681e172265e421e2f5b9e4ad697a81e2bec8d9"
+      },
+      {
+        "log": "deploy-resume22.log",
+        "candidate": "8a0e3c1d8287ed8f893d261923b971c969b56f83",
+        "sha256": "0c8f85a27a58a22d6b7127a20b6b2108408c18f36c2b3fd312a5d9c516f160a1"
+      },
+      {
+        "log": "deploy-resume23.log",
+        "candidate": "ff9f05cb9f8dd6fcf533e78bee0e34a9c8bc4dab",
+        "sha256": "5b17d73aed5a060734f80c4101ab4971be504e52194f65a0fcb2f831b01898ab"
+      },
+      {
+        "log": "deploy-resume24.log",
+        "candidate": "9a4ce0915a92f3c603570966459b588ab77c7c8a",
+        "sha256": "080b4d5fcf21158e002efe20af87cb64f1f80b56aab34af10d63724fb1d5a698"
+      },
+      {
+        "log": "deploy-resume25.log",
+        "candidate": "1b7f14af6a39000b1bf53e231f620b1745c422c8",
+        "sha256": "e02be6f0526407b14725dcbe6c4fd64958cf6864ab71fbf1041ec01b8a5cc533"
+      },
+      {
+        "log": "deploy-resume26.log",
+        "candidate": "582a6045db30bd67be8135b0dd80692a463596c9",
+        "sha256": "b086525cb81d7e1d255c9454d1a55a16422826ae3acd5bb813a7321fa375c485"
+      },
+      {
+        "log": "deploy-resume27.log",
+        "candidate": "268a5e8e3ba8907eda3a95fb2f06fd5f25c49b6a",
+        "sha256": "b7133628cfeb124bed5cb2ca7d5ec18dcab4bafe325c620ed7a1661cccb08dd0"
+      },
+      {
+        "log": "deploy-resume28.log",
+        "candidate": "09bb3667b6da61c2c12baa334359e502004c62a2",
+        "sha256": "07263e89d1641813c9edfb2f410edbda71c516a9160b84463b808ddadff235a7"
+      },
+      {
+        "log": "deploy-cache-final.log",
+        "candidate": "b304643daf2bd497fda6a620b39ac5db90946fbb",
+        "sha256": "a918a6e2d993c0409e978b96f11a8a14f76afbd88a37554c2f63a1ba9a724561"
+      }
+    ]
+  },
+  "assets": {
+    "deployedFiles": 19140,
+    "excludedTestRunners": 909,
+    "compressedUrls": 1282,
+    "uniqueDerivatives": 1245,
+    "sourceBytes": 2238268820,
+    "optimizedBytes": 1444950238,
+    "savedBytes": 793318582,
+    "approvedOriginalsPreserved": true,
+    "optimizedCache": "public, max-age=86400, stale-while-revalidate=604800, immutable"
+  },
+  "databaseReceipt": "realtime-sync-schema-20261015.json",
+  "hyperdriveQueryCacheDisabled": true,
+  "productionSmoke": {
+    "verifiedAt": "2026-10-14T20:02:08.078Z",
+    "origin": "https://cnine-card.pages.dev",
+    "files": [
+      {
+        "path": "index.html",
+        "bytes": 24668,
+        "sha256": "78ec9050f942408537eb89ba2e33d0b90ae6968d8462ae44ce3d50183330737f",
+        "cacheControl": "no-cache, must-revalidate, max-age=0"
+      },
+      {
+        "path": "service-worker.js",
+        "bytes": 12548,
+        "sha256": "edd54bb9a83a85af42f1bb94a473663003b8dfc22cda676098ac6f87090d04bd",
+        "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+      },
+      {
+        "path": "js/account-sync-client-v1.mjs",
+        "bytes": 4967,
+        "sha256": "ed9650e6179e4b5ec0c25fc2ed0acd8cc19e9e6a2533c753c7e11acafb156036",
+        "cacheControl": "public, max-age=0, must-revalidate"
+      },
+      {
+        "path": "js/pvp-request-recovery-v1.mjs",
+        "bytes": 1739,
+        "sha256": "f8d915646ec8412bd384156f2490283318709b1c854ba73f26bb9a8f96330b56",
+        "cacheControl": "public, max-age=0, must-revalidate"
+      },
+      {
+        "path": "shared/server-clock-v1.mjs",
+        "bytes": 1170,
+        "sha256": "d3c0e57045cd94d9c83f2c22340f12f3dcd88e197dcf50a9da7432c2ecad913f",
+        "cacheControl": "public, max-age=0, must-revalidate"
+      },
+      {
+        "path": "raid/cooperative/live.mjs",
+        "bytes": 45412,
+        "sha256": "24c7172a22b207ba8b5ab05e549bb87389e7971bf3a735b68a6e1cfa86050a54",
+        "cacheControl": "public, max-age=0, must-revalidate"
+      },
+      {
+        "path": "raid/cooperative/battle.mjs",
+        "bytes": 4397,
+        "sha256": "f5b90c26fd8637670e862e9b57740d317f51f26b59c5425d51afca5c1c0678c2",
+        "cacheControl": "public, max-age=0, must-revalidate"
+      },
+      {
+        "path": "js/image-delivery-map-20261015.js",
+        "bytes": 166956,
+        "sha256": "272900c2ba83dba78cc75d9cc5b2a04d60ca5cb297ff5dda87c05ee52d376972",
+        "cacheControl": "public, max-age=0, must-revalidate"
+      },
+      {
+        "path": "js/image-delivery-v1.js",
+        "bytes": 1892,
+        "sha256": "d6d2261d06a09f7d3cf30ba85ab6238044e1bc90c8e55d361b76d7caa81b3a80",
+        "cacheControl": "public, max-age=0, must-revalidate"
+      },
+      {
+        "path": "assets/0717monster/hoke.png",
+        "bytes": 374617,
+        "sha256": "e318a007094a6f2a3a8a44d258cf647b914be5e5be62bc3a7c014ed90d9ab045",
+        "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+      },
+      {
+        "path": "assets/optimized/20261015-v1/e318a007094a6f2a3a8a44d2.webp",
+        "bytes": 109284,
+        "sha256": "1623d99b639abe0be06d01be63a773d2feb6b82b3f8e3f561dde32a77f26beaf",
+        "cacheControl": "public, max-age=86400, stale-while-revalidate=604800, immutable"
+      },
+      {
+        "path": "assets/ui/project-v/mercenaries/kairon-20261014/idle.png",
+        "bytes": 1991018,
+        "sha256": "95320b3beaa782de1217154a15427ba1b3e91dee4cd23317eb0ce1e080fa90f1",
+        "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+      },
+      {
+        "path": "assets/optimized/20261015-v1/95320b3beaa782de1217154a.webp",
+        "bytes": 839590,
+        "sha256": "46662bdde6e0cbbfe7067d65eef257c815bf00f41763805f6e1f7450d954465f",
+        "cacheControl": "public, max-age=86400, stale-while-revalidate=604800, immutable"
+      }
+    ],
+    "apis": [
+      {
+        "path": "service/status",
+        "status": 200,
+        "runtime": "regional-v1"
+      },
+      {
+        "path": "sync/state",
+        "status": 503,
+        "code": "MAINTENANCE"
+      },
+      {
+        "path": "sync/ticket",
+        "status": 503,
+        "code": "MAINTENANCE"
+      },
+      {
+        "path": "sync/stream",
+        "status": 401,
+        "code": "SYNC_TICKET",
+        "productionDurableObjectReached": true
+      }
+    ],
+    "maintenanceActive": true,
+    "passed": true
+  },
+  "maintenanceLeftActive": true
+}
