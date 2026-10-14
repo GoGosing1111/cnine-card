@@ -23,4 +23,5 @@ const observer=new MutationObserver(mount);
 function observe(){observer.observe(document.body,{childList:true,subtree:true});mount();}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',observe,{once:true});else observe();
 addEventListener('pageshow',event=>{if(event.persisted)observe();});addEventListener('pagehide',()=>observer.disconnect());
+addEventListener('cnine:account-sync',event=>{if(document.querySelector('[data-pet-deck-slot]')&&event.detail?.domains?.some(d=>['collection','loadout'].includes(d)))void refresh();});
 addEventListener('cnine:pet-equipment-changed',event=>{if(!event.detail?.reviewOnly)void refresh();});

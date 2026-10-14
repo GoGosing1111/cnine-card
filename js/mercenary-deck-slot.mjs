@@ -14,6 +14,7 @@ function render(){
     host.innerHTML=`${card?`<img src="${esc(portrait)}" alt="${esc(card.name)} 카드 원화">`:'<span class="mercenary-slot-emblem" aria-hidden="true">V</span>'}<div><small>${mode} 용병 전용 슬롯 · ${card?'1':'0'}/1</small><strong>${esc(label)}</strong><p>${esc(error||('일반 카드 5장과 별도로 출전'+(card?.pendingSkillCount?' · 스킬 수치 설정 대기':'')))}</p></div><a href="/mercenary-codex/?view=owned&amp;mode=${mode}">${card?'용병 변경':'용병 편성'} <span aria-hidden="true">→</span></a><a class="mercenary-gear-link" href="/mercenary-codex/equipment/?mode=${mode}">용병 장비</a>`;
   }
 }
+addEventListener('cnine:account-sync',event=>{if(event.detail?.domains?.some(d=>['collection','loadout'].includes(d))){lastRead=0;if(document.querySelector('[data-mercenary-deck-slot]')){const pending=flight||Promise.resolve();void pending.finally(()=>refresh());}else state=null;}});
 function refresh(){
   if(flight)return flight;lastRead=Date.now();error='';const signature=()=>JSON.stringify(['PVE','PVP'].map(mode=>[loadout(mode)?.mercenaryCode,globalThis.MercenaryDeckSlot.power(mode)])),before=signature();
   flight=request('mercenaries/v3/state').then(value=>{state=value;}).catch(e=>{state=null;error=e.status===401?'로그인 후 용병을 편성할 수 있습니다.':e.message;}).finally(()=>{flight=null;render();if(before!==signature())dispatchEvent(new Event('mercenary-deployment:changed'));});return flight;

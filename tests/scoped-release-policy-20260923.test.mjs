@@ -66,6 +66,7 @@ test('actual deploy entry supports scoped checks and guards the regional service
    runScopedReleaseChecks:options=>runScopedReleaseChecks({...options,platform,execPath:'node',log:()=>{}}),
    verifyProductionHyperdriveCache:()=>calls.push(['cache guard']),
    prepareApiRuntime:async()=>calls.push(['runtime credentials']),
+   prepareProductionAssets:async()=>({directory:'/staged',assetCount:100,excluded:2,dispose:async()=>{}}),
    createRequire:()=>({resolve:()=>'/tools/wrangler/package.json'}),dirname:()=>'/tools/wrangler',join:(...p)=>p.join('/'),
    readFileSync:p=>{assert.equal(p,'package.json');return JSON.stringify({scripts:f.scripts});}};
   const execute=()=>runInNewContext('(async()=>{'+source+'\n})()',context);
@@ -84,6 +85,7 @@ test('policy-only commits do not block the next asset release, while dependencie
    execFileSync:(_command,args)=>args[0]==='show'?JSON.stringify(before):f.git(...args),
    spawnSync:(command,args)=>{calls.push([command,...args]);return {status:0};},
    verifyProductionHyperdriveCache:()=>calls.push(['cache guard']),
+   prepareProductionAssets:async()=>({directory:'/staged',assetCount:100,excluded:2,dispose:async()=>{}}),
    createRequire:()=>({resolve:()=>'/tools/wrangler/package.json'}),dirname:()=>'/tools/wrangler',join:(...p)=>p.join('/'),readFileSync:()=>JSON.stringify(current)};
   const execute=()=>runInNewContext('(async()=>{'+source+'\n})()',context);
   if(dependencies){await assert.rejects(execute(),/Only deployment\/test/);assert.equal(calls.length,0);}

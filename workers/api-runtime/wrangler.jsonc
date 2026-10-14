@@ -42,6 +42,10 @@
       {
         "name": "COOP_PLAYERS",
         "class_name": "CooperativePlayer"
+      },
+      {
+        "name": "ACCOUNT_SYNC",
+        "class_name": "AccountSync"
       }
     ]
   },
@@ -51,6 +55,12 @@
       "new_sqlite_classes": [
         "CooperativeRoom",
         "CooperativePlayer"
+      ]
+    },
+    {
+      "tag": "account-sync-20261015-v1",
+      "new_sqlite_classes": [
+        "AccountSync"
       ]
     }
   ]

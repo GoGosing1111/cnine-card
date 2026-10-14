@@ -10,6 +10,7 @@ import {RANKED_REFORM_SCHEMA,readRankedEnergy,rankedFightReceipt,commitRankedFig
 import {reopenRankedIfDue} from '../_ranked_reopen.js';
 import {retiredContentResponse} from '../_retired_content.js';
 import {handleCooperative,cooperativeStream} from '../_cooperative_live.js';
+import {handleAccountSync,accountSyncStream,publishAccountSync} from '../_account_sync.js';
 import {coupLiveOperation} from '../_coup_live_operation.js';
 import {createRequestSettingsCache} from '../_request_settings_cache.js';
 import {forwardApiRuntimeRequest} from '../_api_runtime_transport.js';
@@ -1192,7 +1193,7 @@ async function createRankedMatchTicket(env,user,settings){
 async function claimRankedMatchTicket(env,userId,token,settings){
   await ensureRankedPvpFoundation(env);const cleanToken=String(token||'').trim();if(!cleanToken){const error=new Error('랭크전 자동 매칭을 먼저 진행하세요.');error.status=400;throw error}
   const ticket=await env.DB.prepare(`SELECT * FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND attacker_id=? AND season_key=? AND used_at IS NULL AND expires_at>CURRENT_TIMESTAMP`).bind(cleanToken,userId,pvpSeasonKey(settings)).first();
-  if(!ticket){const error=new Error('매칭권이 만료되었거나 이미 사용되었습니다. 다시 매칭하세요.');error.status=409;throw error}
+  if(!ticket){const error=new Error('매칭권이 만료되었거나 이미 사용되었습니다. 다시 매칭하세요.');error.status=409;error.code='PVP_MATCH_EXPIRED';throw error}
   // Ticket consumption is committed with score and energy in commitRankedFight.
   return ticket;
 }
@@ -3794,16 +3795,16 @@ function primeSessionRow(request,tokenHash,user){
 const SESSION_CACHE_TTL_MS=5000;
 const SESSION_CACHE_MAX=500;
 const sessionUserCache=new Map();
-function cachedSessionUser(tokenHash){
+function cachedSessionUser(tokenHash,syncRevision=''){
   const hit=sessionUserCache.get(tokenHash);
   if(!hit)return null;
-  if(hit.expiresAt<=Date.now()){sessionUserCache.delete(tokenHash);return null}
+  if(hit.expiresAt<=Date.now()||hit.syncRevision!==syncRevision){sessionUserCache.delete(tokenHash);return null}
   return hit.user;
 }
-function rememberSessionUser(tokenHash,user){
+function rememberSessionUser(tokenHash,user,syncRevision=''){
   if(!tokenHash||!user)return;
   if(sessionUserCache.size>=SESSION_CACHE_MAX)sessionUserCache.clear();
-  sessionUserCache.set(tokenHash,{user,expiresAt:Date.now()+SESSION_CACHE_TTL_MS});
+  sessionUserCache.set(tokenHash,{user,syncRevision,expiresAt:Date.now()+SESSION_CACHE_TTL_MS});
 }
 function forgetSessionUser(tokenHash){if(tokenHash)sessionUserCache.delete(tokenHash)}
 async function authenticate(request,env){
@@ -3813,11 +3814,11 @@ async function authenticate(request,env){
   if(!raw) return null;
   const primed=requestSessionRowCache.get(request);
   const tokenHash=primed?.tokenHash||await hash(raw);
-  const readOnly=String(request.method||'GET').toUpperCase()==='GET';
+  const readOnly=String(request.method||'GET').toUpperCase()==='GET',syncRevision=(request.headers.get('x-cnine-sync-revision')||'').slice(0,20);
   if(!readOnly)forgetSessionUser(tokenHash);          // 쓰기가 지나가면 캐시는 버린다
   let user=primed?primed.user:null,fromCache=false;
   if(!user&&readOnly){
-    const hit=cachedSessionUser(tokenHash);
+    const hit=cachedSessionUser(tokenHash,syncRevision);
     if(hit){user=hit;fromCache=true}
   }
   if(!user)user=await env.DB.prepare(SESSION_LOOKUP_SQL).bind(tokenHash).first();
@@ -3829,7 +3830,7 @@ async function authenticate(request,env){
       await env.DB.prepare('UPDATE sessions SET expires_at=? WHERE token_hash=?').bind(extended,tokenHash).run();
       user.session_expires_at=extended;
     }
-    if(readOnly)rememberSessionUser(tokenHash,user);
+    if(readOnly)rememberSessionUser(tokenHash,user,syncRevision);
   }
   return user;
   })();
@@ -4953,6 +4954,7 @@ async function handleRequest(context){
       if(!restrictedAdminPathAllowed(path,access))return json({error:'ADMIN 계정은 승부예측 관리만 사용할 수 있습니다.',code:'ADMIN_PERMISSION_RESTRICTED'},403);
     }
 
+    const accountSyncResponse=await handleAccountSync({path,request,env,deps:{authenticate,json}});if(accountSyncResponse)return accountSyncResponse;
     const campAdminResponse=await handlePrisonCampAdmin({path,request,env,deps:{requirePermission,readBody,json}});if(campAdminResponse)return campAdminResponse;
     const deathGameResponse=await handlePrisonDeathGame({path,request,env,deps:{authenticate,readBody,json,prisonStatusForUser}});if(deathGameResponse)return deathGameResponse;
     // Unlike detention, death also closes prison chat, trial voting and other prison exemptions.
@@ -6928,7 +6930,7 @@ async function handleRequest(context){
       context.pvpTiming?.mark('auth');
       const [lifecycle,burning]=await Promise.all([advancePvpSeasonLifecycle(env),burningEventSettings(env)]),settings=applyBurningPvpSettings(lifecycle.settings,burning);if(lifecycle.settling)return json({error:'현재 시즌 정산 중입니다.',code:'PVP_SEASON_SETTLING'},409);if(!settings.enabled||utcMs(settings.startsAt)>Date.now())return json({error:'현재 랭크전이 중지되어 있습니다.'},503);
       context.pvpTiming?.mark('settings');
-      let rankedTicket;try{rankedTicket=await claimRankedMatchTicket(env,user.id,body.matchToken,settings)}catch(error){return json({error:error.message||'랭크전 매칭 확인에 실패했습니다.'},Number(error.status||500))}const defenderId=Number(rankedTicket.defender_id);if(!defenderId||defenderId===user.id)return json({error:'자동 배정된 상대가 올바르지 않습니다.'},400);
+      let rankedTicket;try{rankedTicket=await claimRankedMatchTicket(env,user.id,body.matchToken,settings)}catch(error){return json({error:error.message||'랭크전 매칭 확인에 실패했습니다.',code:error.code},Number(error.status||500))}const defenderId=Number(rankedTicket.defender_id);if(!defenderId||defenderId===user.id)return json({error:'자동 배정된 상대가 올바르지 않습니다.'},400);
       const rejectRankedMatch=async(payload,status)=>{await env.DB.prepare('DELETE FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND attacker_id=? AND used_at IS NULL').bind(rankedTicket.token,user.id).run();return json(payload,status);};
       context.pvpTiming?.mark('ticket');
       // Matchmaking already prefers another opponent and permits a repeat only
@@ -9273,6 +9275,10 @@ async function handleRequestWithDatabase(context){
       if(typeof context.waitUntil==='function')context.waitUntil(release);else await release;
     }
   }
+  if(response.ok&&!['GET','HEAD','OPTIONS'].includes(request.method)&&!actionPath.startsWith('sync/')){
+    const syncJob=Promise.resolve(requestAuthenticationCache.get(request)).then(user=>publishAccountSync(context.env,user?.id)).catch(()=>console.warn('ACCOUNT_SYNC_PUBLICATION_RETRY'));
+    if(context.waitUntil)context.waitUntil(syncJob);else await syncJob;
+  }
   if(response.status===401){
     const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
     if(raw){
@@ -9325,6 +9331,7 @@ export async function onRequest(context){
   const requestUrl=new URL(context.request.url);
   const requestPath=requestUrl.pathname.replace(/^\/api\/?/,'');
   if(requestPath==='coop/stream'&&context.env?.DB_MIGRATION_FREEZE!=='1')return cooperativeStream(context.request,context.env);
+  if(requestPath==='sync/stream'&&context.env?.DB_MIGRATION_FREEZE!=='1')return accountSyncStream(context.request,context.env);
   const migrationFrozen=String(context.env?.DB_MIGRATION_FREEZE||'').trim()==='1';
   const freezeExempt=context.request.method==='OPTIONS'||requestPath==='service/status'||requestPath==='health';
   if(migrationFrozen&&!freezeExempt){

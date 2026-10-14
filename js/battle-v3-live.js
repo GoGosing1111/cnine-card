@@ -202,6 +202,7 @@
         return url.href;
       } catch { return raw; }
     }
+    raw=window.CNineImageDelivery?.url(raw)||raw;
     const queryIndex = raw.indexOf('?');
     const query = queryIndex >= 0 ? raw.slice(queryIndex) : '';
     let path = queryIndex >= 0 ? raw.slice(0, queryIndex) : raw;

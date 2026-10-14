@@ -6,6 +6,7 @@ import {verifyProductionHyperdriveCache} from './verify-hyperdrive-cache.mjs';
 import {runScopedReleaseChecks} from './scoped-release-checks.mjs';
 import {resumeFullReleaseGate} from './resume-release-gate.mjs';
 import {prepareApiRuntime} from './prepare-api-runtime.mjs';
+import {prepareProductionAssets} from './prepare-production-assets.mjs';
 
 const args=process.argv.slice(2),assetsOnly=args.length===1&&args[0]==='--assets-only';
 const scoped=args.length===1&&args[0]==='--scoped';
@@ -62,9 +63,12 @@ if(assetsOnly){
 else run('npm',['run','release:gate']);
 const wrangler=join(dirname(createRequire(import.meta.url).resolve('wrangler/package.json')),'bin/wrangler.js');
 verifyProductionHyperdriveCache({wrangler,env:productionEnv,message:'Hyperdrive query cache must be disabled for cnine-card (stale reads break draw/raid/energy).'});
+const assets=await prepareProductionAssets();
+console.log(`Pages delivery: ${assets.assetCount} files; ${assets.excluded} test runners kept in the repository.`);
 if(!assetsOnly){
   run(process.execPath,[wrangler,'deploy','--config','workers/api-runtime/wrangler.jsonc'],productionEnv);
   await prepareApiRuntime({wrangler,env:productionEnv});
 }
-run(process.execPath,[wrangler,'pages','deploy','.','--project-name','cnine-card','--branch','main'],productionEnv);
+try{run(process.execPath,[wrangler,'pages','deploy',assets.directory,'--config',join(assets.directory,'wrangler.toml'),'--project-name','cnine-card','--branch','main','--commit-hash',git('rev-parse','HEAD')],productionEnv);}
+finally{await assets.dispose();}
 if(!assetsOnly)run(process.execPath,[wrangler,'deploy','--config','workers/clan-draft/wrangler.jsonc'],productionEnv);

@@ -1,6 +1,7 @@
 import {onRequest} from '../../../functions/api/[[path]].js';
 import {openApiRuntimeRequest} from '../../../functions/_api_runtime_transport.js';
 export {CooperativeRoom,CooperativePlayer} from './cooperative.js';
+export {AccountSync} from './account-sync.js';
 
 export default {
   async fetch(request, env, context) {

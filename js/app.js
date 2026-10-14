@@ -4599,7 +4599,7 @@ async function apiRequest(path, options={}, config={}) {
     const response=await fetchWithTimeout(`/api/${cleanPath}`,{
       cache:isGet&&ttl>0?'default':'no-store',
       ...options,
-      headers:{'content-type':'application/json','authorization':requestToken?`Bearer ${requestToken}`:'','x-cnine-client-id':playerClientId(),...d1BookmarkHeader(),...(options.headers||{})}
+      headers:{'content-type':'application/json','authorization':requestToken?`Bearer ${requestToken}`:'','x-cnine-client-id':playerClientId(),'x-cnine-sync-revision':window.CNineAccountSync?.revision||'0',...d1BookmarkHeader(),...(options.headers||{})}
     },timeoutMs,`서버 요청 (${cleanPath})`);
     rememberD1Bookmark(response);
     const contentType=(response.headers.get('content-type')||'').toLowerCase(),text=await response.text();
@@ -4639,6 +4639,11 @@ async function apiRequest(path, options={}, config={}) {
       }
       const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;
     }
+    if(requestToken!==API_TOKEN)throw Object.assign(new Error('계정이 변경되어 최신 정보를 다시 확인합니다.'),{code:'ACCOUNT_RESPONSE_STALE',retryable:false});
+    if(isGet&&requestEpoch!==PLAYER_STATE_MUTATION_EPOCH&&/^(?:me(?:[/?]|$)|pvp\/|inventory|mercenaries\/|equipment\/|pets\/)/.test(cleanPath)){
+      if((config.syncRetry||0)<1)return apiRequest(path,options,{...config,replaceInflight:true,syncRetry:1,microcache:false});
+      throw Object.assign(new Error('정보가 갱신되고 있습니다. 잠시 후 다시 확인해 주세요.'),{code:'ACCOUNT_RESPONSE_STALE',retryable:true});
+    }
     if(isGet&&ttl>0&&requestEpoch===PLAYER_STATE_MUTATION_EPOCH)API_GET_CACHE.set(cleanPath,{data,epoch:requestEpoch,expiresAt:Date.now()+ttl});
     if(!isGet){
       PLAYER_STATE_MUTATION_EPOCH++;
@@ -4653,6 +4658,27 @@ async function apiRequest(path, options={}, config={}) {
   if(isGet)API_INFLIGHT.set(cleanPath,task);
   try{return await task}finally{if(isGet&&API_INFLIGHT.get(cleanPath)===task)API_INFLIGHT.delete(cleanPath)}
 }
+const ACCOUNT_SYNC_PENDING=new Set();let accountSyncTimer=null,accountSyncBusy=false;
+function scheduleAccountSync(delay=350){clearTimeout(accountSyncTimer);accountSyncTimer=setTimeout(refreshAccountSync,delay);}
+async function refreshAccountSync(){
+  accountSyncTimer=null;
+  if(!API_MODE||!API_TOKEN||!loadUser()){ACCOUNT_SYNC_PENDING.clear();return;}
+  if(document.hidden||accountSyncBusy||document.querySelector('.coop-battle-portal,.modal.show .battle-v3-stage,.modal.show .battle-v3-root')||pvpState.matching){if(ACCOUNT_SYNC_PENDING.size)scheduleAccountSync(1500);return;}
+  accountSyncBusy=true;const domains=new Set(ACCOUNT_SYNC_PENDING),token=API_TOKEN;ACCOUNT_SYNC_PENDING.clear();
+  try{
+    if(domains.has('wallet')||domains.has('inventory')){const value=await apiRequest('me/summary',{}, {ttl:0,microcache:false});if(token!==API_TOKEN)return;saveUser(mergeApiUserSummary(value.user),{source:'account-sync'});if(value.prison)applyPrisonStatus(value.prison);}
+    if(domains.has('collection')){const value=await apiRequest('me/collection',{}, {ttl:0,microcache:false});if(token!==API_TOKEN)return;if(Array.isArray(value.collection?.owned)){saveUser({...loadUser(),...value.collection,collectionRepairR6:true},{source:'account-sync'});collectionSyncAt=Date.now();if(runtimeCommandContext==='dex'&&!document.querySelector('.modal.show'))renderShell('dex');}}
+    if((domains.has('pvp')||domains.has('loadout'))&&document.getElementById('pvpContent')){clearApiCache('pvp/config');if(pvpState.tab==='match')await loadPvpView();else await loadPvpEnergyOnly();}
+    if(domains.has('wallet')&&document.getElementById('battleEnergyCount'))await loadBattleEnergyOnly();
+    if(domains.has('inventory')){clearApiCache('inventory');await loadInventorySummary();if(document.getElementById('inventoryVault'))await loadInventory();}
+    if(domains.has('messages')){clearApiCache('shell/summary');await loadShellSummary();if(runtimeCommandContext==='messages')await loadMessages();void pollRuntimeCommand();}
+    if(domains.has('wallet'))window.dispatchEvent(new Event('cnine:account-mutation'));
+    window.dispatchEvent(new CustomEvent('cnine:account-synced',{detail:{domains:[...domains]}}));
+  }catch(error){if(token===API_TOKEN&&error.status!==401&&error.status!==403){for(const domain of domains)ACCOUNT_SYNC_PENDING.add(domain);scheduleAccountSync(5000);}}
+  finally{accountSyncBusy=false;if(ACCOUNT_SYNC_PENDING.size&&!accountSyncTimer)scheduleAccountSync();}
+}
+window.addEventListener('cnine:account-sync',event=>{PLAYER_STATE_MUTATION_EPOCH++;API_GET_CACHE.clear();API_INFLIGHT.clear();for(const domain of event.detail?.domains||[])ACCOUNT_SYNC_PENDING.add(domain);scheduleAccountSync();});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ACCOUNT_SYNC_PENDING.size)scheduleAccountSync();});
 const RUNTIME_COMMAND_TAB_KEY='cnine_runtime_command_last_id_v1091';
 function runtimeCommandStorageKey(){const user=loadUser();return `${RUNTIME_COMMAND_TAB_KEY}:${Number(user?.serverUserId||0)||String(user?.nickname||'guest')}`}
 let runtimeCommandTimer=null,runtimeCommandBusy=false,runtimeCommandContext='buy';
@@ -5335,7 +5361,7 @@ window.SuperstarPackV1894=Object.freeze({
 });
 
 openPack=async function(packId,count,cost,options={}){
-  if(String(packId)==='hyper'){await import('./mercenary-pack-live.mjs?v=2145-acquisition-video&draw=20260922-weighted&auto=20260924-response');return globalThis.MercenaryPack.open(Number(count));}
+  if(String(packId)==='hyper'){await import('./mercenary-pack-live.mjs?v=2145-acquisition-video&draw=20260922-weighted&auto=20260924-response&sync=20261015-v1');return globalThis.MercenaryPack.open(Number(count));}
   if(String(packId)==='premium'&&!readPendingDraw())return showSupplyNotice('이 카드팩은 현재 개봉할 수 없습니다.',true);
   const autoRun=Boolean(options?.autoRun&&autoDrawState.active);
   const v21Bulk1000=autoRun&&autoDrawState.prefs?.source==='V21_BULK_1000';
@@ -5597,7 +5623,7 @@ function rankedMatchButtonLabel(button,label){if(!button)return;const target=but
 function rankedLiveDeckHtml(user=loadUser()){const selected=pvpState.deck.map(id=>cards.find(card=>String(card.id)===String(id))),rules=normalizeDeckRules(pvpState.deckRules),front=rules.formation.front;return Array.from({length:rules.deckSize},(_,index)=>{const card=selected[index],row=index<front?'front':'back',label=pvpFormationLabel(index);return `<article class="ranked-mini-slot ${row}">${card?cardHtml(card,true,'pvp-card-display ranked-roster-card',user):`<div class="ranked-mini-empty"><b>${index+1}</b><span>EMPTY</span></div>`}<span class="slot-position">${label}</span></article>`}).join('')}
 function rankedLiveMatchHtml(){const user=loadUser(),rules=normalizeDeckRules(pvpState.deckRules),tier=pvpState.profile?.tier||{id:'bronze',name:'브론즈',min:0},score=Number(pvpState.profile?.season_score||0),power=pvpState.deck.reduce((sum,id)=>{const card=cards.find(item=>String(item.id)===String(id));return sum+(card?battleCardPower(card,user,pvpState.battleConfig||battleState.config):0)},0)+Number(pvpState.characterBonus?.pvp||0),violation=deckGradeLimitViolation(pvpState.deck,rules),ready=deckCardCount(pvpState.deck)===rules.deckSize&&!violation,energy=pvpState.energy,accessLabel=energy?.unlimited?'무제한':energy?`${Number(energy.energy||0)} / ${Number(energy.maxEnergy||0)}`:'확인 중',entryLabel=violation?'편성 제한':ready?'READY':'덱 미완성',seasonLabel=escapeHtml(pvpState.config?.seasonName||'RANKED SEASON');
   return `<section class="ranked-match-console ranked-match-v2 ranked-match-v1907" aria-busy="${pvpState.matching?'true':'false'}"><article class="ranked-match-hero ranked-match-hero-v1907"><div class="ranked-match-ambient-v1907" aria-hidden="true"><i></i><i></i><i></i></div><header class="ranked-match-topline-v1907"><span><i></i>매칭 서버 정상</span><b>${seasonLabel}</b></header><div class="ranked-match-radar ranked-match-radar-v1907" aria-hidden="true"><span class="radar-ring ring-a"></span><span class="radar-ring ring-b"></span><picture class="ranked-match-scanner"><source srcset="assets/ui/ranked/ranked-match-scanner-v1826.avif" type="image/avif"><img src="assets/ui/ranked/ranked-match-scanner-v1826.webp" alt="" decoding="async" fetchpriority="high"></picture></div><div class="ranked-match-copy-v1907"><span>RANKED MATCHMAKING</span><h2>랭크전 매칭</h2><p>점수와 편성 전투력 범위에 맞는 상대를 찾습니다.</p></div><div class="ranked-match-status ranked-match-status-v1907"><article><small>현재 티어</small><b>${escapeHtml(tier.name)}</b><span>${score.toLocaleString()}점</span></article><article><small>출전 덱</small><b>${deckCardCount(pvpState.deck)} / ${rules.deckSize}</b><span>${power.toLocaleString()} 전투력</span></article><article class="${ready?'ready':''} ${violation?'blocked':''}"><small>입장 상태</small><b>${entryLabel}</b><span>행동력 ${accessLabel}</span></article></div><button type="button" class="pvp-fight ranked-match-cta ranked-match-start-v1907" id="rankedMatchStart"><span>RANKED BATTLE</span><strong>${ready?'랭크전 매칭 시작':violation?`${deckGradeRuleLabel(violation.grade)} 편성 제한 확인`:`덱 ${rules.deckSize}장을 먼저 편성하세요`}</strong><i aria-hidden="true">→</i></button><p class="ranked-match-rule-v1907">상대 정보는 매칭 완료 후 공개됩니다.</p><div class="ranked-reform-rules"><b>동점 상대 +24 / −24</b><span>방어전 점수 변동 없음 · 행동력은 ${pvpRechargeIntervalText(energy?.rechargeMinutes)}마다 1 회복</span><small>버닝의 횟수 증가·충전 단축은 랭크전에 적용되지 않습니다.</small></div></article><aside class="ranked-match-deck-v1907"><header><div><small>현재 출전 덱</small><b>프리셋 ${Math.max(1,Math.min(3,Number(pvpState.activePreset||1)))}</b></div><button type="button" id="rankedDeckShortcut">덱 편성</button></header><div class="ranked-mini-roster" aria-label="현재 출전 덱">${rankedLiveDeckHtml(user)}</div><footer><span><small>덱 전투력</small><b>${power.toLocaleString()}</b></span><p>전열 ${rules.formation.front} · 후열 ${rules.formation.back}</p></footer></aside></section>`}
-function renderPvpEnergy(){const e=pvpState.energy,count=document.getElementById('pvpEnergyCount'),fill=document.getElementById('pvpEnergyFill'),timer=document.getElementById('pvpEnergyTimer');if(!e||!count)return;count.textContent=e.unlimited?'무제한':`${e.energy} / ${e.maxEnergy}`;if(fill)fill.style.width=`${e.unlimited?100:Math.max(0,Math.min(100,e.energy/e.maxEnergy*100))}%`;if(timer){if(e.unlimited)timer.textContent='무제한 적용';else if(e.energy>=e.maxEnergy)timer.textContent='충전 완료';else if(e.nextRechargeAt){const remain=Date.parse(e.nextRechargeAt)-(Date.now()+pvpState.serverOffset);timer.textContent=remain<=0?'충전 갱신 중...':`다음 충전 ${pvpEnergyText(remain)}`;}else timer.textContent='충전 대기';}const rules=normalizeDeckRules(pvpState.deckRules);document.querySelectorAll('.pvp-fight').forEach(b=>{const blocked=!e.unlimited&&e.energy<e.costPerBattle,violation=deckGradeLimitViolation(pvpState.deck,rules),incomplete=deckCardCount(pvpState.deck)!==rules.deckSize;b.disabled=blocked||pvpState.matching||incomplete||Boolean(violation);if(b.id==='rankedMatchStart')rankedMatchButtonLabel(b,violation?`${deckGradeRuleLabel(violation.grade)} 편성 제한 확인`:incomplete?`덱 ${rules.deckSize}장을 먼저 편성하세요`:blocked?'횟수 부족':pvpState.matching?'상대 탐색 중...':'랭크전 매칭 시작');else b.textContent=violation?'편성 제한':blocked?'횟수 부족':'도전';});}
+function renderPvpEnergy(){const e=pvpState.energy,count=document.getElementById('pvpEnergyCount'),fill=document.getElementById('pvpEnergyFill'),timer=document.getElementById('pvpEnergyTimer');if(!e||!count)return;count.textContent=e.unlimited?'무제한':`${e.energy} / ${e.maxEnergy}`;if(fill)fill.style.width=`${e.unlimited?100:Math.max(0,Math.min(100,e.energy/e.maxEnergy*100))}%`;if(timer){if(e.unlimited)timer.textContent='무제한 적용';else if(e.energy>=e.maxEnergy)timer.textContent='충전 완료';else if(e.nextRechargeAt){const remain=Date.parse(e.nextRechargeAt)-(Date.now()+pvpState.serverOffset);timer.textContent=remain<=0?'충전 갱신 중...':`다음 충전 ${pvpEnergyText(remain)}`;}else timer.textContent='충전 대기';}const rules=normalizeDeckRules(pvpState.deckRules);document.querySelectorAll('.pvp-fight').forEach(b=>{const blocked=!e.unlimited&&e.energy<e.costPerBattle,violation=deckGradeLimitViolation(pvpState.deck,rules),incomplete=deckCardCount(pvpState.deck)!==rules.deckSize;const pendingReceipt=b.id==='rankedMatchStart'&&window.CNinePvpRecovery?.read(loadUser()?.serverUserId);b.disabled=pvpState.matching||(!pendingReceipt&&(blocked||incomplete||Boolean(violation)));if(b.id==='rankedMatchStart')rankedMatchButtonLabel(b,pendingReceipt?'미확인 경기 결과 확인':violation?`${deckGradeRuleLabel(violation.grade)} 편성 제한 확인`:incomplete?`덱 ${rules.deckSize}장을 먼저 편성하세요`:blocked?'횟수 부족':pvpState.matching?'상대 탐색 중...':'랭크전 매칭 시작');else b.textContent=violation?'편성 제한':blocked?'횟수 부족':'도전';});}
 function startPvpEnergyTimer(){stopPvpEnergyTimer();renderPvpEnergy();pvpState.energyTimer=setInterval(()=>{if(!document.getElementById('pvpEnergyCount'))return stopPvpEnergyTimer();const e=pvpState.energy;if(e&&!e.unlimited&&e.nextRechargeAt&&Date.parse(e.nextRechargeAt)<=(Date.now()+pvpState.serverOffset)){loadPvpEnergyOnly();return}renderPvpEnergy()},1000)}
 async function loadPvpEnergyOnly(){try{const d=await apiRequest('pvp/config');pvpState.energy=d.energy;pvpState.deckRules=normalizeDeckRules(d.deckRules||pvpState.deckRules);pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();startPvpEnergyTimer()}catch(_){renderPvpEnergy()}}
 async function loadPvpView(){
@@ -5693,10 +5719,12 @@ async function fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken}){
   const modal=document.getElementById('modal'),user=loadUser();
   const earlyLive=prepareImmediateBattleV3Entry({modal,mode:'PVP',playerName:user?.nickname||'MY PVP TEAM',opponentName:target?.nickname||'OPPONENT'});
   let stage=earlyLive?.stage||null,phase=earlyLive?.phase||null,msg=earlyLive?.msg||null;
-  const close=()=>{modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';pvpState.tab='match';renderShell('pvp')};
+  const close=()=>{modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';pvpState.tab='match';renderShell('pvp');ACCOUNT_SYNC_PENDING.add('wallet');ACCOUNT_SYNC_PENDING.add('pvp');scheduleAccountSync()};
   try{
     if(phase)phase.textContent='전투 계산';
-    const d=await apiRequest('pvp/fight',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,matchToken})},{timeoutMs:20000});
+    const recovery=window.CNinePvpRecovery||(await import('/js/pvp-request-recovery-v1.mjs')).createPvpReceiptStore(sessionStorage);
+    const d=await recovery.execute(Number(user?.serverUserId),{matchToken,opponentId:id},apiRequest);
+    const receiptEpoch=PLAYER_STATE_MUTATION_EPOCH;
     if(d?.replayed){
       const saved=loadUser();if(saved){if(d.coinAfter!=null)saved.coin=Number(d.coinAfter);if(d.magicCrystalsAfter!=null)saved.magicCrystals=Number(d.magicCrystalsAfter);saveUser(saved);}
       modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.className='modal show';
@@ -5718,7 +5746,7 @@ async function fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken}){
     const pvpV2Detail=` · PROJECT V V3${judged?` · ${Number(d.battleV2?.result?.actions||0)}행동 판정`:''}`;
     msg.innerHTML=buildPvpV2ResultHtml(d,myWin,d.attackerPower||pvpPreviewPower,d.defenderPower||0,pvpV2Detail);
     msg.classList.add('is-visible');
-    pvpState.profile.season_score=d.scoreAfter;const savedPvpUser=loadUser();if(savedPvpUser){if(d.coinAfter!=null)savedPvpUser.coin=Number(d.coinAfter);if(d.magicCrystalsAfter!=null)savedPvpUser.magicCrystals=Number(d.magicCrystalsAfter);saveUser(savedPvpUser)}
+    pvpState.profile.season_score=d.scoreAfter;const savedPvpUser=loadUser();if(savedPvpUser&&receiptEpoch===PLAYER_STATE_MUTATION_EPOCH){if(d.coinAfter!=null)savedPvpUser.coin=Number(d.coinAfter);if(d.magicCrystalsAfter!=null)savedPvpUser.magicCrystals=Number(d.magicCrystalsAfter);saveUser(savedPvpUser)}
     pvpState.energy=d.energy||pvpState.energy;pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();
     modal.onclick=e=>{if(!e.target.closest('.v3-battle-report'))close()};const confirmBtn=document.getElementById('pvpResultConfirm');if(confirmBtn){confirmBtn.onclick=e=>{e.stopPropagation();close()};confirmBtn.focus({preventScroll:true})}
   }catch(e){
@@ -5732,6 +5760,9 @@ async function fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken}){
 
 async function startRankedMatch(){
   if(pvpState.matching)return;
+  const recovery=window.CNinePvpRecovery||(await import('/js/pvp-request-recovery-v1.mjs')).createPvpReceiptStore(sessionStorage),pending=recovery.read(loadUser()?.serverUserId);
+  if(pvpState.matching)return;
+  if(pending){pvpState.matching=true;try{await ensureFeatureResources('battleV2');await fightPvpV2Live({id:pending.opponentId,target:{nickname:'이전 경기 상대'},mine:[],pvpPreviewPower:0,matchToken:pending.matchToken});}finally{pvpState.matching=false;}return;}
   if(pvpState.energy&&!pvpState.energy.unlimited&&pvpState.energy.energy<pvpState.energy.costPerBattle)return alert(`랭크전 횟수가 부족합니다. ${pvpRechargeIntervalText(pvpState.energy.rechargeMinutes)}마다 1회 충전됩니다.`);
   const button=document.getElementById('rankedMatchStart'),consoleEl=document.querySelector('.ranked-match-v1907');pvpState.matching=true;if(consoleEl){consoleEl.classList.add('is-searching');consoleEl.setAttribute('aria-busy','true')}if(button){button.disabled=true;rankedMatchButtonLabel(button,'상대 탐색 중...')}
   try{const matched=await apiRequest('pvp/match',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`})});pvpState.opponents=[matched.opponent];await fightPvp(Number(matched.opponent.id),matched.token)}catch(error){alert(error.message);if(error.code==='PVP_SEASON_SETTLING')setTimeout(()=>loadPvpView(),Number(error.retryAfterMs||1500))}finally{pvpState.matching=false;if(consoleEl&&document.body.contains(consoleEl)){consoleEl.classList.remove('is-searching');consoleEl.setAttribute('aria-busy','false')}if(button&&document.body.contains(button)){button.disabled=false;rankedMatchButtonLabel(button,'랭크전 매칭 시작')}}

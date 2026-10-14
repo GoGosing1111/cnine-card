@@ -258,6 +258,7 @@ let featureFlight;const refreshFeature=()=>{if(document.hidden||featureFlight)re
 const pollFeature=()=>{if(document.querySelector('[data-mercenary-open]'))refreshFeature();};let timer=setInterval(pollFeature,15000);
 addEventListener('focus',refreshFeature);addEventListener('storage',event=>{invalidateAccount();if(event.key==='cnine.hyper-opening.changed')refreshFeature();else requestSync();});document.addEventListener('visibilitychange',refreshFeature);
 addEventListener('cnine:account-mutation',()=>{invalidateAccount();requestSync();});
+addEventListener('cnine:account-sync',event=>{if(event.detail?.domains?.some(d=>['wallet','collection','inventory','loadout'].includes(d))){invalidateAccount();requestSync();}});
 // Login/profile saves also replace the same-tab account without a storage event.
 addEventListener('cnine:player-updated',()=>{invalidateAccount();requestSync();});
 addEventListener('pagehide',()=>{observer.disconnect();clearInterval(timer);});

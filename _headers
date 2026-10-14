@@ -94,3 +94,6 @@
   Cache-Control: no-cache, must-revalidate, max-age=0
 /events/wish-lamp/*
   Cache-Control: no-cache, must-revalidate, max-age=0
+
+/assets/optimized/*
+  Cache-Control: public, max-age=31536000, immutable

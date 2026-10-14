@@ -110,13 +110,16 @@ export class CooperativeRoom extends DurableObject{
  async command(user,kind,input){
   const room=this.read();if(!room)return {ok:false,status:404,code:'COOP_MISSING',error:'대기방을 찾을 수 없습니다.'};
   // Persist timeouts even if the submitted command is rejected.
+  const beforeSignal=JSON.stringify([room.status,room.battleRevision,room.pattern?.id,room.pattern?.status,room.members.map(m=>m.result)]);
   advanceCoopRoom(room,Date.now());this.save(room);
   const signature=JSON.stringify([Number(user.id),kind,input.clientId,input.cardIds,input.mercenaryCode,input.patternId,input.action]);
   const prior=input.requestId&&room.receipts.find(r=>r.id===user.id+':'+input.requestId);
   if(prior&&prior.signature!==signature)return {ok:false,status:409,code:'COOP_REQUEST_CONFLICT',error:'같은 요청으로 다른 작업을 할 수 없습니다.'};
   try{
    if(!prior){coopCommand(room,user,kind,input,Date.now());room.version++;if(input.requestId){room.receipts.push({id:user.id+':'+input.requestId,signature});room.receipts=room.receipts.slice(-100);}}
-   this.save(room);await this.schedule(room);this.broadcast(room);
+   this.save(room);await this.schedule(room);
+   const afterSignal=JSON.stringify([room.status,room.battleRevision,room.pattern?.id,room.pattern?.status,room.members.map(m=>m.result)]);
+   if(kind!=='ping'||beforeSignal!==afterSignal)this.broadcast(room);
    return kind==='leave'?{ok:true}:coopView(room,user,Date.now(),input.revision??-1);
   }catch(e){const saved=this.read();await this.schedule(saved);this.broadcast(saved);return {ok:false,status:e.status||400,code:e.code||'COOP_ERROR',error:e.code?e.message:'전투 편성을 확인하지 못했습니다.'};}
  }
@@ -151,7 +154,8 @@ export class CooperativeRoom extends DurableObject{
    if(body.type==='ping'&&Date.now()-(session.lastPing||0)<700)return;
    if(body.type==='ping'){session.lastPing=Date.now();ws.serializeAttachment(session);}
    const result=await this.command({id:session.id},body.type,{clientId:session.clientId,revision:session.revision,...(body.type==='mechanic'?{patternId:body.patternId,action:body.action}:{})});
-   if(!result.ok)ws.send(JSON.stringify(result));
+   if(body.type==='ping'&&result.ok){session.revision=result.state.battleRevision;ws.serializeAttachment(session);ws.send(JSON.stringify({...result,clientSentAt:Number.isFinite(body.clientSentAt)?body.clientSentAt:null}));}
+   else if(!result.ok)ws.send(JSON.stringify(result));
   }catch{ws.send(JSON.stringify({ok:false,code:'COOP_MESSAGE',error:'연결 요청을 확인하세요.'}));}
  }
  async webSocketClose(ws,code,reason){try{ws.close(code,reason);}catch{}}

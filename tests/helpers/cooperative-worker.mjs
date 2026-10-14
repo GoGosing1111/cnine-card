@@ -2,6 +2,8 @@
 // Authentication and account inventory are isolated QA fixtures, never production.
 export {CooperativeRoom,CooperativePlayer} from '../../workers/api-runtime/src/cooperative.js';
 export {UserMutationLock} from '../../workers/user-lock/src/index.js';
+export {AccountSync} from '../../workers/api-runtime/src/account-sync.js';
+import {handleAccountSync,accountSyncStream} from '../../functions/_account_sync.js';
 import {handleCooperative,cooperativeStream} from '../../functions/_cooperative_live.js';
 import {prepareApiRuntimeRequest,openApiRuntimeRequest} from '../../functions/_api_runtime_transport.js';
 import fixture from '../fixtures/cooperative-balance-20261001.json' with {type:'json'};
@@ -12,11 +14,13 @@ export default {async fetch(request,env){
   const rows=await request.json();return Response.json(await env.DB.batch(rows.map(({sql,args=[]})=>env.DB.prepare(sql).bind(...args))));
  }
  const path=new URL(request.url).pathname.replace(/^\/api\//,'');
+ if(path==='sync/stream')return accountSyncStream(request,env);
  if(path==='coop/stream'){
   const forwarded=await prepareApiRuntimeRequest(request,{API_RUNTIME_KEY:env.API_RUNTIME_KEY});
   const opened=await openApiRuntimeRequest(forwarded,env);return cooperativeStream(opened.request,opened.env);
  }
  const id=Number(request.headers.get('authorization')?.match(/^Bearer local-qa-([1-4])$/)?.[1]||0),user=id?qaUser(id):null;
+ if(path.startsWith('sync/'))return handleAccountSync({path,request,env,deps:{authenticate:async()=>user?{...user,status:'ACTIVE'}:null,json:(value,status=200,headers={})=>Response.json(value,{status,headers})}});
  if(path.startsWith('coop/')||path.startsWith('admin/coop/'))return handleCooperative({path,request,env,deps:{
   authenticate:async()=>user,json:(value,status=200,headers={})=>Response.json(value,{status,headers}),
   battleSettings:async()=>({engine:{singleHealerBonus:fixture.singleHealerBonus}}),

@@ -1,5 +1,7 @@
+import './account-sync-client-v1.mjs';
 const TOKEN_KEY='cnine_card_api_token',CLIENT_KEY='cnine_player_client_id_v1552';
-export async function jointAccountRequest(path,{method='GET',body,signal,timeoutMs=30000,credential='player'}={}){
+export async function jointAccountRequest(path,{method='GET',body,signal,timeoutMs=30000,credential='player',syncRetry=0}={}){
+  const syncEpoch=window.CNineAccountSync?.epoch||0;
   const tokenKey=credential==='admin'?'cnine_admin_token':TOKEN_KEY;
   let token='',client='';try{token=localStorage.getItem(tokenKey)||sessionStorage.getItem(tokenKey)||'';client=localStorage.getItem(CLIENT_KEY)||'';
     if(!/^[a-zA-Z0-9:_-]{12,120}$/.test(client)){client=crypto.randomUUID();localStorage.setItem(CLIENT_KEY,client);}}catch{}
@@ -7,7 +9,7 @@ export async function jointAccountRequest(path,{method='GET',body,signal,timeout
   const timer=setTimeout(abort,timeoutMs);
   try{
     const response=await fetch('/api/'+path,{method,cache:'no-store',credentials:'same-origin',signal:controller.signal,
-      headers:{'content-type':'application/json',authorization:token?`Bearer ${token}`:'','x-cnine-client-id':client},...(body!==undefined?{body:JSON.stringify(body)}:{})});
+      headers:{'content-type':'application/json',authorization:token?`Bearer ${token}`:'','x-cnine-client-id':client,'x-cnine-sync-revision':window.CNineAccountSync?.revision||'0'},...(body!==undefined?{body:JSON.stringify(body)}:{})});
     let value;
     try{value=await response.json();}
     catch(error){
@@ -20,7 +22,13 @@ export async function jointAccountRequest(path,{method='GET',body,signal,timeout
       });
     }
     if(!response.ok)throw Object.assign(new Error(value?.error||'요청을 처리하지 못했습니다.'),{...value,status:response.status});
-    if(String(method).toUpperCase()!=='GET')window.dispatchEvent(new Event('cnine:account-mutation'));
+    let currentToken='';try{currentToken=localStorage.getItem(tokenKey)||sessionStorage.getItem(tokenKey)||'';}catch{}
+    if(currentToken!==token)throw Object.assign(new Error('로그인 정보가 변경되었습니다. 다시 확인해 주세요.'),{code:'ACCOUNT_RESPONSE_STALE',retryable:false});
+    if(credential==='player'&&String(method).toUpperCase()==='GET'&&syncEpoch!==(window.CNineAccountSync?.epoch||0)){
+      if(syncRetry<1)return jointAccountRequest(path,{method,body,signal,timeoutMs,credential,syncRetry:syncRetry+1});
+      throw Object.assign(new Error('최신 정보를 다시 확인하고 있습니다.'),{code:'ACCOUNT_RESPONSE_STALE',retryable:true});
+    }
+    if(String(method).toUpperCase()!=='GET'&&!path.startsWith('sync/'))window.dispatchEvent(new Event('cnine:account-mutation'));
     return value;
   }finally{clearTimeout(timer);signal?.removeEventListener('abort',abort);}
 }

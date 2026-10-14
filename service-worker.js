@@ -4,14 +4,17 @@
 // Z-BODY dash V2: approved 245 ms contact, 640 ms motion and authored wake/cut FX.
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
-const SHELL_CACHE='soop-card-shell-v20261014-collection-bonuses-v1';
-const CONTENT_CACHE='soop-card-content-v3-media-integrity';
+importScripts('/js/image-delivery-map-20261015.js');
+const SHELL_CACHE='soop-card-shell-v20261015-sync-media-v1';
+const CONTENT_CACHE='soop-card-content-v4-lossless-media';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
 // Renderer contracts can change while an installed client keeps old versioned URLs.
 const FRESH_BATTLE_SCRIPTS=new Set(['/js/app.js','/js/battle-v3-live.js','/preview/project-v-v3/project-v-pixi-battle.bundle.js','/pve-v3/battle.bundle.js','/preview/sustained-hunt-v2/battle.bundle.js','/preview/sustained-hunt-v2/app.js','/js/legion-hunt-entry-v1.mjs']);
 const FRESH_ACCOUNT_SCRIPTS=new Set(['/js/character-loadout-v2.js','/js/character-loadout-v2-live.js','/js/equipment-thumbnails-v1.js','/js/adventure-lobby-v2107.js','/js/adventure-navigation-standalone.js','/js/soopketmon-v21-exact-shell-adapter.js','/js/player-card-v2052.js','/js/account-rank-v1.mjs','/js/joint-account-transport.mjs','/js/soopketmon-v21-runtime-router.js','/js/clan-v1.js','/js/clan-faction-v1.mjs']);
+for(const path of ['/js/account-sync-client-v1.mjs','/shared/account-sync-v1.mjs','/shared/server-clock-v1.mjs','/js/pvp-request-recovery-v1.mjs','/js/cooperative-battleground-entry.js','/raid/cooperative/live.mjs','/raid/cooperative/battle.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/js/server-support-v1.mjs');
+for(const path of ['/js/mercenary-pack-live.mjs','/js/image-delivery-map-20261015.js','/js/image-delivery-v1.js'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/js/pet-deck-slot-v1.mjs','/js/pet-equipment-window-v1.mjs','/pet-codex/app.mjs','/shared/pet-cms-v1.mjs','/shared/collection-bonuses-v1.mjs','/shared/trophy-bonuses-v1.mjs','/admin/companion-admin-v2.mjs','/admin/trophy-bonuses-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/js/territory-vote-alert-v1.js');
 FRESH_ACCOUNT_SCRIPTS.add('/js/territory-war-v1811.js');
@@ -146,6 +149,15 @@ async function networkFirst(request,cacheName,fallback=null){
   }
 }
 
+async function optimizedImage(event,request,target){
+ const url=new URL(target,request.url),optimized=new Request(url,{credentials:'same-origin'}),cache=await caches.open(CONTENT_CACHE),cached=await cache.match(optimized);
+ if(cached&&validMediaResponse(request,cached))return cached;
+ try{const response=await fetch(optimized);if(validMediaResponse(request,response)){
+   const write=(async()=>{try{await cache.put(optimized,response.clone());if(--contentWritesUntilTrim<=0){contentWritesUntilTrim=24;await trimCache(CONTENT_CACHE,CONTENT_CACHE_LIMIT);}}catch(_){}})();
+   event.waitUntil(write);return response;
+ }}catch(_){}
+ return staleWhileRevalidate(event,request,CONTENT_CACHE);
+}
 self.addEventListener('fetch',event=>{
   const request=event.request,url=new URL(request.url);
   if(!sameOriginGet(request,url))return;
@@ -155,6 +167,10 @@ self.addEventListener('fetch',event=>{
   // 서버가 /admin/* 에 no-store 를 줘도 워커 캐시의 옛 파일이 계속 나갔다.
   // (CMS 를 고쳐 배포해도 운영자 화면이 그대로인 원인)
   if(url.pathname==='/admin'||url.pathname.startsWith('/admin/'))return;
+
+  const optimizedTarget=globalThis.CNineImageDeliveryMap?.map?.[url.pathname];
+  if(optimizedTarget&&!url.searchParams.has('original')){event.respondWith(optimizedImage(event,request,optimizedTarget));return;}
+  if(url.pathname.startsWith('/assets/optimized/')){event.respondWith(optimizedImage(event,request,url.href));return;}
 
   if(request.mode==='navigate'){
     event.respondWith((async()=>{
