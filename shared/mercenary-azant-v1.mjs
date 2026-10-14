@@ -4,6 +4,10 @@ export const AZANT_VOLLEY_SKILL='MS-057',AZANT_AREA_SKILL='MS-058';
 export const AZANT_VOLLEY_MECHANIC='SAPPHIRE_CRYSTAL_VOLLEY',AZANT_AREA_MECHANIC='SAPPHIRE_DESCENT';
 export const AZANT_VOLLEY_EVENT='MERCENARY_AZANT_VOLLEY',AZANT_AREA_EVENT='MERCENARY_AZANT_AREA';
 export const AZANT_BALANCE=Object.freeze({damageRatio:5.6,cooldownTurns:5,cost:35});
+// Same-tier competitiveness: fixed policy for Azant, never an opponent check.
+export const AZANT_COMBAT=Object.freeze({version:'azant-balance-20261014-v1',speedScale:1.25,actionCredit:1.25,pvpSkillCapScale:1.6});
+export const isAzant=actor=>!!actor?.isMercenary&&actor.code===AZANT_CODE;
+export const azantActionCredit=actors=>actors.some(a=>isAzant(a)&&a.statMode==='RANK_FIXED')?AZANT_COMBAT.actionCredit:1;
 export const AZANT_SOURCE_ART='assets/ui/project-v/mercenaries/approved-20261014/azant-source-art-v1.png';
 export const AZANT_BATTLE_SPRITE='assets/ui/project-v/characters/mercenary/azant-sss-v1/azant-sd-v3.png';
 export const AZANT_POSITION=Object.freeze({code:AZANT_CODE,rank:'SSS',position:'REAR',role:'CONTROLLER',basicTarget:'FRONT_ENEMY',skillTarget:'FRONT_GROUP',specialty:'제자리 결정탄 · PVP 결정창 포격 · PVE 청옥 강림',weakness:'회피·보호막·방어에 대응되며 기절·침묵 중에는 스킬을 사용하지 않음',rationale:'승인된 지팡이와 안정된 대기 자세를 사용하는 SSS 마법사. 이동 공격 없이 후열에서 마법을 시전.'});

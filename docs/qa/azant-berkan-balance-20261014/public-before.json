@@ -1,0 +1,153 @@
+{
+  "checkedAt": "2026-10-14T08:11:12.449Z",
+  "revision": 61,
+  "combatLink": {
+    "version": 2144,
+    "regularActionsPerTurn": 1,
+    "frontRowShieldBonusPercent": 60,
+    "pvpFrontRowShieldBonusByRank": {
+      "S": 20,
+      "SS": 40,
+      "SSS": 60
+    },
+    "pvpTierGuardPerStep": 5,
+    "ranks": {
+      "C": {
+        "attackPercent": 60,
+        "shieldPercent": 60,
+        "hpPercent": 80
+      },
+      "B": {
+        "attackPercent": 75,
+        "shieldPercent": 70,
+        "hpPercent": 100
+      },
+      "A": {
+        "attackPercent": 90,
+        "shieldPercent": 80,
+        "hpPercent": 120
+      },
+      "S": {
+        "attackPercent": 120,
+        "shieldPercent": 90,
+        "hpPercent": 150
+      },
+      "SS": {
+        "attackPercent": 160,
+        "shieldPercent": 120,
+        "hpPercent": 200
+      },
+      "SSS": {
+        "attackPercent": 220,
+        "shieldPercent": 150,
+        "hpPercent": 280
+      }
+    }
+  },
+  "cards": [
+    {
+      "code": "V-055",
+      "name": "베르칸",
+      "title": "흑금의 궁수",
+      "rank": "SSS",
+      "position": "REAR",
+      "role": "SNIPER",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20260927/berkan-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/berkan-sss-v1/berkan-sd-v1.png",
+      "accent": "#edc878",
+      "basePower": 180000,
+      "combatLinkDescription": "아군 일반 카드 5명의 평균 공격력 220%를 최소 공격력, 평균 최대 체력 280%를 최소 최대 체력으로 사용합니다. 전투 시작 시 평균 최대 체력 150%의 기본 전용 방벽을 얻습니다. 아군 카드 1회 행동마다 추가 행동합니다. PVP에서 아군 일반 카드가 모두 전투 불능이면 적 일반 카드 행동마다 반격 행동을 이어갑니다. 기본 공격과 피해·회복·보호 스킬 모두 연계 공격력을 사용합니다. PVP에서 S·SS·SSS 상대 용병보다 등급이 높으면 전투 시작 시 등급 차이 1단계마다 연계 공격·피해 상한 100%, 연계 체력·방벽 500%를 추가합니다. 동일 등급과 PVE에는 이 등급 차이 보정을 적용하지 않습니다.",
+      "specialty": "후열 우선 2명 동시 사격 · 제자리 흑금 화살",
+      "weakness": "회피·보호막·방어에 대응되며 제압 상태에서는 발동하지 않음",
+      "basicTarget": "적 전열 우선",
+      "skills": [
+        {
+          "id": "MS-055",
+          "name": "흑금 낙성",
+          "role": "저격",
+          "target": "적 후열 핵심 위협",
+          "trigger": "자원과 재사용 조건을 충족하면 후열 우선, 전투 시작 공격력 순으로 서로 다른 적 최대 2명을 지정합니다. 후열이 부족하면 전열로 채웁니다.",
+          "effect": "한 번의 제자리 사격에서 흑금 화살 두 줄기가 동시에 명중합니다. 전체 피해 배율을 지정 대상 수로 나누며 각 대상은 한 번만 타격합니다.",
+          "counterplay": "대상별 회피·방어·보호막·피해 경감이 적용됩니다. 사망·기절·침묵은 발동을 막고 대상이 없으면 자원을 소모하지 않습니다.",
+          "bossRule": "적이 하나면 전체 피해 예산으로 한 번 타격합니다. 회피한 몫은 다른 적에게 옮기지 않으며 방어 무시·추가 행동은 없습니다.",
+          "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          },
+          "ready": true
+        },
+        {
+          "id": "MS-056",
+          "name": "흑금 천우",
+          "role": "저격",
+          "target": "적 전체",
+          "trigger": "PVE에서 자원과 재사용 조건을 충족하면 살아 있는 적 전원을 지정합니다. PVP에서는 사용하지 않습니다.",
+          "effect": "적 진영에 흑금 화살비를 내립니다. 전체 피해 배율을 지정 대상 수로 나누어 각각 한 번 타격합니다.",
+          "counterplay": "대상별 회피·방어·보호막·피해 경감을 적용합니다. 사망·기절·침묵 중에는 발동하지 않습니다.",
+          "bossRule": "적이 하나면 전체 피해 예산으로 한 번 타격합니다. 회피한 몫은 다른 적에게 옮기지 않습니다.",
+          "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          },
+          "ready": true
+        }
+      ]
+    },
+    {
+      "code": "V-056",
+      "name": "아잔트",
+      "title": "",
+      "rank": "SSS",
+      "position": "REAR",
+      "role": "CONTROLLER",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20261014/azant-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/azant-sss-v1/azant-sd-v3.png",
+      "accent": "#7bdcff",
+      "basePower": 180000,
+      "combatLinkDescription": "아군 일반 카드 5명의 평균 공격력 220%를 최소 공격력, 평균 최대 체력 280%를 최소 최대 체력으로 사용합니다. 전투 시작 시 평균 최대 체력 150%의 기본 전용 방벽을 얻습니다. 아군 카드 1회 행동마다 추가 행동합니다. PVP에서 아군 일반 카드가 모두 전투 불능이면 적 일반 카드 행동마다 반격 행동을 이어갑니다. 기본 공격과 피해·회복·보호 스킬 모두 연계 공격력을 사용합니다. PVP에서 S·SS·SSS 상대 용병보다 등급이 높으면 전투 시작 시 등급 차이 1단계마다 연계 공격·피해 상한 100%, 연계 체력·방벽 500%를 추가합니다. 동일 등급과 PVE에는 이 등급 차이 보정을 적용하지 않습니다.",
+      "specialty": "제자리 결정탄 · PVP 결정창 포격 · PVE 청옥 강림",
+      "weakness": "회피·보호막·방어에 대응되며 기절·침묵 중에는 스킬을 사용하지 않음",
+      "basicTarget": "적 전열 우선",
+      "skills": [
+        {
+          "id": "MS-057",
+          "name": "결정창 포격",
+          "role": "제압",
+          "target": "적 전열 집단",
+          "trigger": "PVP에서 자원과 재사용 조건을 충족하면 살아 있는 전열 적 최대 2명을 지정합니다.",
+          "effect": "제자리에서 삼중 마법진을 열고 여섯 발의 결정창을 연속 발사합니다. 전체 피해 예산을 지정 대상 수로 나누어 각각 한 번 판정합니다. 회피한 몫은 재분배하지 않으며 연출의 결정·폭발은 추가 피해를 만들지 않습니다.",
+          "counterplay": "대상별 회피·방어·보호막·피해 경감이 적용됩니다. 사망·기절·침묵 중에는 발동하지 않고, 대상이 없으면 자원을 소모하지 않습니다.",
+          "bossRule": "전체 피해 예산을 지정 대상 수로 나누어 각각 한 번 판정합니다. 회피한 몫은 재분배하지 않으며 연출의 결정·폭발은 추가 피해를 만들지 않습니다.",
+          "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          },
+          "ready": true
+        },
+        {
+          "id": "MS-058",
+          "name": "청옥 강림",
+          "role": "제압",
+          "target": "적 전체",
+          "trigger": "PVE에서 자원과 재사용 조건을 충족하면 살아 있는 적 전원을 지정합니다. PVP에서는 사용하지 않습니다.",
+          "effect": "삼중 천공 봉인에서 거대한 결정을 내리고 청옥 폭쇄를 일으킵니다. 전체 피해 예산을 지정 대상 수로 나누어 각각 한 번 판정합니다. 회피한 몫은 재분배하지 않으며 연출의 결정·폭발은 추가 피해를 만들지 않습니다.",
+          "counterplay": "대상별 회피·방어·보호막·피해 경감이 적용됩니다. 사망·기절·침묵 중에는 발동하지 않고, 대상이 없으면 자원을 소모하지 않습니다.",
+          "bossRule": "전체 피해 예산을 지정 대상 수로 나누어 각각 한 번 판정합니다. 회피한 몫은 재분배하지 않으며 연출의 결정·폭발은 추가 피해를 만들지 않습니다.",
+          "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+          "balance": {
+            "damageRatio": 5.6,
+            "cooldownTurns": 5,
+            "cost": 35
+          },
+          "ready": true
+        }
+      ]
+    }
+  ]
+}

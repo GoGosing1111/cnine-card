@@ -23,7 +23,7 @@ import {HELIOS_CODE,HELIOS_COMBAT,HELIOS_AREA_SKILL,HELIOS_AREA_MECHANIC,isHelio
 import {JINMU_CODE,JINMU_COMBAT,JINMU_AREA_SKILL,JINMU_AREA_MECHANIC,isJinmu,jinmuActionCredit} from '../shared/mercenary-jinmu-v1.mjs';
 import {resolveJinmuArea} from './_mercenary_jinmu.js';
 import {resolveHeliosArea} from './_mercenary_helios.js';
-import {AZANT_CODE,AZANT_VOLLEY_MECHANIC,AZANT_AREA_MECHANIC} from '../shared/mercenary-azant-v1.mjs';
+import {AZANT_CODE,AZANT_VOLLEY_SKILL,AZANT_VOLLEY_MECHANIC,AZANT_AREA_MECHANIC,AZANT_COMBAT,azantActionCredit} from '../shared/mercenary-azant-v1.mjs';
 import {resolveAzantCast} from './_mercenary_azant.js';
 import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION,SS_LIMITED_TEMPO,ssLimitedActionCredit,ssLimitedProfile} from '../shared/mercenary-ss-limited-v1.mjs';
 import {ssRearPveInterval,ssRearPveHealing} from '../shared/mercenary-ss-rear-pve-v1.mjs';
@@ -41,7 +41,7 @@ export function mercenaryTurnCadence(teams){
  if([...teams.A,...teams.B].some(actor=>actor.ownerId))return duoMercenaryTurnCadence(teams);
  const debt={A:0,B:0};
  const interval=side=>mercenaryActionInterval(teams[side]||[]);
- const credit=side=>Math.max(berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]),heliosActionCredit(teams[side]||[]),jinmuActionCredit(teams[side]||[]),ssLimitedActionCredit(teams[side]||[]));
+ const credit=side=>Math.max(azantActionCredit(teams[side]||[]),berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]),heliosActionCredit(teams[side]||[]),jinmuActionCredit(teams[side]||[]),ssLimitedActionCredit(teams[side]||[]));
  const accrue=side=>debt[side]=normalizeHeliosCredit(Math.min(heliosCreditLimit(interval(side),credit(side)),debt[side]+credit(side)),credit(side));
  const regular=actor=>living(actor)&&!actor.isMonster&&!actor.isMercenary&&actor.actorKind!=='BATTLE_SUIT';
  return {
@@ -53,7 +53,7 @@ export function mercenaryTurnCadence(teams){
    return teams[actor.side]?.find(a=>a.isMercenary&&living(a))||actor;
   },
   acted(actor){
-   // Fractional progress funds five Berkan turns per four card actions or
+   // Fractional progress funds five Berkan/Azant turns per four card actions or
    // three Valter turns per card, 78 Helios turns per 25 cards, or two SS
    // limited turns per card action.
    // Mercenary/suit actions create no new credit.
@@ -80,7 +80,7 @@ function duoMercenaryTurnCadence(teams){
  const groups=['A','B'].flatMap(side=>[...new Set(teams[side].map(a=>a.ownerId))].map(ownerId=>({side,ownerId,actors:teams[side].filter(a=>a.ownerId===ownerId),debt:0})));
  const regular=a=>living(a)&&!a.isMercenary&&!a.isMonster&&!a.isBattleSuit;
  const interval=g=>mercenaryActionInterval(g.actors);
- const credit=g=>Math.max(berkanActionCredit(g.actors),valterActionCredit(g.actors),heliosActionCredit(g.actors),jinmuActionCredit(g.actors),ssLimitedActionCredit(g.actors));
+ const credit=g=>Math.max(azantActionCredit(g.actors),berkanActionCredit(g.actors),valterActionCredit(g.actors),heliosActionCredit(g.actors),jinmuActionCredit(g.actors),ssLimitedActionCredit(g.actors));
  const accrue=g=>g.debt=normalizeHeliosCredit(Math.min(heliosCreditLimit(interval(g),credit(g)),g.debt+credit(g)),credit(g));
  const pending=(g,eligible)=>g.debt>=interval(g)?g.actors.find(a=>a.isMercenary&&living(a)&&eligible(a)):null;
  return {
@@ -105,6 +105,7 @@ function duoMercenaryTurnCadence(teams){
 // PVE 는 상한 자체가 거의 걸리지 않아 이 값의 영향을 받지 않는다.
 const MERCENARY_SKILL_RESOLVE_ACTIONS=Object.freeze({RIFT_MARK_DETONATION:2,TWO_BEAT_FOLLOWUP:2,SAME_TARGET_CALIBRATION:3,DANCING_TARGET_VOLLEY:3,PLATINUM_FOCUS_LOCK:3,DISTRIBUTED_CORAL_VOLLEY:3,ABYSS_SHIELD_ECHO:2,CLEANSE_THEN_MEND:2});
 export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
+ [AZANT_VOLLEY_SKILL]:AZANT_COMBAT.pvpSkillCapScale,
  [BERKAN_SKILL_ID]:BERKAN_CAP_SCALE,
  [SNIPER_ORIKKUNG_SKILL_ID]:SNIPER_ORIKKUNG_CAP_SCALE,
  [CRYVERN_SKILL_ID]:CRYVERN_CAP_SCALE,
@@ -142,7 +143,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
   // Compare natural speed with the same equipment on Valter. Higher nominal
   // Helios power must neither compound the +4% nor dilute it under strong gear.
   const speedBase=helios||jinmu?buildCardFighter({id:snapshot.code,power:supreme.speedReferencePower+mercenaryEquipmentPower(snapshot,mode),type:'NONE'},5,side,null,mode):base;
-  snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(speedBase.speed*(supreme?supreme.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:limited?SS_LIMITED_TEMPO.speedScale:1))}};
+  snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(speedBase.speed*(supreme?supreme.speedScale:snapshot.code===AZANT_CODE?AZANT_COMBAT.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:limited?SS_LIMITED_TEMPO.speedScale:1))}};
   if(jinmu)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*JINMU_COMBAT.statScale));
   if(limited)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*limited.scale));
   if(mercenaryEquipmentPower(snapshot,mode)){
@@ -292,7 +293,8 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
     resolveHeliosArea({actor:a,skill:s,targets:ts,hit,damage:(t,n)=>damage(t,n,{actor:a,direct:true}),knockout,emit,damageScale:offensiveSkillScale(a,s)});
     finish(a,s);break;}
    case AZANT_VOLLEY_MECHANIC:case AZANT_AREA_MECHANIC:{
-    resolveAzantCast({actor:a,skill:s,targets:ts,hit,damage:(t,n)=>damage(t,n,{actor:a,direct:true}),knockout,emit,damageScale:offensiveSkillScale(a,s)});
+    const damageScale=offensiveSkillScale(a,s);
+    resolveAzantCast({actor:a,skill:s,targets:ts,hit,damage:(t,n)=>damage(t,n,{actor:a,direct:true}),knockout,emit,damageScale,capActions:mercenarySkillCapActions(a,s,false)*(a.battleMode==='PVP'?damageScale:1)});
     finish(a,s);break;}
    case 'WHITE_OATH_GROUP_HEAL':{
     // A single cast owns one budget, including full-HP allies. Lost/overheal

@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-10-14T08:21:33.920Z",
+  "mode": "READ_ONLY",
+  "runtimeVersion": "mercenary-runtime-connected-2091",
+  "combat": {
+    "energyMax": 100,
+    "energyPerBasic": 10,
+    "windupTurns": 1,
+    "statusTurns": 2,
+    "armorReductionPercent": 20,
+    "interceptPercent": 40,
+    "parryPercent": 40,
+    "orderPercent": 15,
+    "veilPercent": 25,
+    "finisherHpPercent": 30,
+    "finisherBonusPercent": 50,
+    "focusBonusPercent": 40,
+    "poisonPercent": 40,
+    "restraintHits": 2,
+    "restraintPercent": 25,
+    "suppressGauge": 20,
+    "reloadGauge": 20,
+    "powerGrowthPercentPerLevel": 0
+  },
+  "fixtureMatches": true
+}

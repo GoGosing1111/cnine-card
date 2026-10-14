@@ -71,5 +71,5 @@ test('all production consumers and main loaders include Azant playback and a fre
  const report=JSON.parse(fs.readFileSync('preview/project-v-v3/grid-build-report.json'));assert.ok(report.sources.some(s=>s.file.endsWith('/AzantCombatPlayback.js')));
  for(const {file}of report.outputs){const b=fs.readFileSync(file,'utf8');assert.ok(b.includes('MERCENARY_AZANT_AREA')&&b.includes('AZANT_MOTION_ASSETS'),file);}
  for(const p of ['js/app.js','js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert.ok(fs.readFileSync(p,'utf8').includes('azant-live-20261014-v1'),p);
- assert.ok(fs.readFileSync('index.html','utf8').includes('20261014-azant-live-v1'));
+ assert.ok(fs.readFileSync('index.html','utf8').includes('20261014-azant-balance-v1'));
 });

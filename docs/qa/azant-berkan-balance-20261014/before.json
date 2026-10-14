@@ -1,0 +1,813 @@
+{
+  "scope": "PAIRED_CANONICAL_ENGINE_NOT_LIVE_WIN_RATE",
+  "count": 128,
+  "start": 150001,
+  "pveCount": 24,
+  "powers": [
+    1000000,
+    20000000,
+    100000000,
+    2000000000
+  ],
+  "normalFormations": 16,
+  "equippedFormations": 23,
+  "pvp": [
+    {
+      "kind": "plain",
+      "wins": 1449,
+      "total": 4096,
+      "winRate": 0.353759765625,
+      "draws": 0,
+      "sides": {
+        "A": 0.43359375,
+        "B": 0.27392578125
+      }
+    },
+    {
+      "kind": "equipped",
+      "wins": 1674,
+      "total": 5888,
+      "winRate": 0.2843070652173913,
+      "draws": 0,
+      "sides": {
+        "A": 0.31216032608695654,
+        "B": 0.2564538043478261
+      }
+    }
+  ],
+  "rows": [
+    {
+      "kind": "plain",
+      "id": "balanced-1000000",
+      "wins": 87,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 64,
+        "B": 23
+      },
+      "winRate": 0.33984375
+    },
+    {
+      "kind": "plain",
+      "id": "balanced-20000000",
+      "wins": 59,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 38,
+        "B": 21
+      },
+      "winRate": 0.23046875
+    },
+    {
+      "kind": "plain",
+      "id": "balanced-100000000",
+      "wins": 59,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 38,
+        "B": 21
+      },
+      "winRate": 0.23046875
+    },
+    {
+      "kind": "plain",
+      "id": "balanced-2000000000",
+      "wins": 59,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 38,
+        "B": 21
+      },
+      "winRate": 0.23046875
+    },
+    {
+      "kind": "plain",
+      "id": "attack-1000000",
+      "wins": 154,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 96,
+        "B": 58
+      },
+      "winRate": 0.6015625
+    },
+    {
+      "kind": "plain",
+      "id": "attack-20000000",
+      "wins": 128,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 67,
+        "B": 61
+      },
+      "winRate": 0.5
+    },
+    {
+      "kind": "plain",
+      "id": "attack-100000000",
+      "wins": 127,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 66,
+        "B": 61
+      },
+      "winRate": 0.49609375
+    },
+    {
+      "kind": "plain",
+      "id": "attack-2000000000",
+      "wins": 127,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 66,
+        "B": 61
+      },
+      "winRate": 0.49609375
+    },
+    {
+      "kind": "plain",
+      "id": "defense-1000000",
+      "wins": 52,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 49,
+        "B": 3
+      },
+      "winRate": 0.203125
+    },
+    {
+      "kind": "plain",
+      "id": "defense-20000000",
+      "wins": 34,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 26,
+        "B": 8
+      },
+      "winRate": 0.1328125
+    },
+    {
+      "kind": "plain",
+      "id": "defense-100000000",
+      "wins": 35,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 26,
+        "B": 9
+      },
+      "winRate": 0.13671875
+    },
+    {
+      "kind": "plain",
+      "id": "defense-2000000000",
+      "wins": 34,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 26,
+        "B": 8
+      },
+      "winRate": 0.1328125
+    },
+    {
+      "kind": "plain",
+      "id": "speed-1000000",
+      "wins": 194,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 126,
+        "B": 68
+      },
+      "winRate": 0.7578125
+    },
+    {
+      "kind": "plain",
+      "id": "speed-20000000",
+      "wins": 100,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 54,
+        "B": 46
+      },
+      "winRate": 0.390625
+    },
+    {
+      "kind": "plain",
+      "id": "speed-100000000",
+      "wins": 100,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 54,
+        "B": 46
+      },
+      "winRate": 0.390625
+    },
+    {
+      "kind": "plain",
+      "id": "speed-2000000000",
+      "wins": 100,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 54,
+        "B": 46
+      },
+      "winRate": 0.390625
+    },
+    {
+      "kind": "equipped",
+      "id": "F01",
+      "wins": 21,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 15,
+        "B": 6
+      },
+      "winRate": 0.08203125
+    },
+    {
+      "kind": "equipped",
+      "id": "F02",
+      "wins": 79,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 47,
+        "B": 32
+      },
+      "winRate": 0.30859375
+    },
+    {
+      "kind": "equipped",
+      "id": "F03",
+      "wins": 208,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 104,
+        "B": 104
+      },
+      "winRate": 0.8125
+    },
+    {
+      "kind": "equipped",
+      "id": "F04",
+      "wins": 121,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 61,
+        "B": 60
+      },
+      "winRate": 0.47265625
+    },
+    {
+      "kind": "equipped",
+      "id": "F05",
+      "wins": 29,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 17,
+        "B": 12
+      },
+      "winRate": 0.11328125
+    },
+    {
+      "kind": "equipped",
+      "id": "F06",
+      "wins": 139,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 72,
+        "B": 67
+      },
+      "winRate": 0.54296875
+    },
+    {
+      "kind": "equipped",
+      "id": "F07",
+      "wins": 31,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 14,
+        "B": 17
+      },
+      "winRate": 0.12109375
+    },
+    {
+      "kind": "equipped",
+      "id": "F08",
+      "wins": 141,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 67,
+        "B": 74
+      },
+      "winRate": 0.55078125
+    },
+    {
+      "kind": "equipped",
+      "id": "F09",
+      "wins": 126,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 66,
+        "B": 60
+      },
+      "winRate": 0.4921875
+    },
+    {
+      "kind": "equipped",
+      "id": "F10",
+      "wins": 22,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 15,
+        "B": 7
+      },
+      "winRate": 0.0859375
+    },
+    {
+      "kind": "equipped",
+      "id": "F11",
+      "wins": 50,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 29,
+        "B": 21
+      },
+      "winRate": 0.1953125
+    },
+    {
+      "kind": "equipped",
+      "id": "F12",
+      "wins": 46,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 32,
+        "B": 14
+      },
+      "winRate": 0.1796875
+    },
+    {
+      "kind": "equipped",
+      "id": "F13",
+      "wins": 68,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 44,
+        "B": 24
+      },
+      "winRate": 0.265625
+    },
+    {
+      "kind": "equipped",
+      "id": "F14",
+      "wins": 6,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 5,
+        "B": 1
+      },
+      "winRate": 0.0234375
+    },
+    {
+      "kind": "equipped",
+      "id": "F15",
+      "wins": 105,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 54,
+        "B": 51
+      },
+      "winRate": 0.41015625
+    },
+    {
+      "kind": "equipped",
+      "id": "F16",
+      "wins": 7,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 5,
+        "B": 2
+      },
+      "winRate": 0.02734375
+    },
+    {
+      "kind": "equipped",
+      "id": "F17",
+      "wins": 138,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 74,
+        "B": 64
+      },
+      "winRate": 0.5390625
+    },
+    {
+      "kind": "equipped",
+      "id": "F18",
+      "wins": 90,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 56,
+        "B": 34
+      },
+      "winRate": 0.3515625
+    },
+    {
+      "kind": "equipped",
+      "id": "F19",
+      "wins": 44,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 26,
+        "B": 18
+      },
+      "winRate": 0.171875
+    },
+    {
+      "kind": "equipped",
+      "id": "F20",
+      "wins": 137,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 74,
+        "B": 63
+      },
+      "winRate": 0.53515625
+    },
+    {
+      "kind": "equipped",
+      "id": "F21",
+      "wins": 4,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 4,
+        "B": 0
+      },
+      "winRate": 0.015625
+    },
+    {
+      "kind": "equipped",
+      "id": "F22",
+      "wins": 5,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 4,
+        "B": 1
+      },
+      "winRate": 0.01953125
+    },
+    {
+      "kind": "equipped",
+      "id": "F23",
+      "wins": 57,
+      "draws": 0,
+      "total": 256,
+      "sides": {
+        "A": 34,
+        "B": 23
+      },
+      "winRate": 0.22265625
+    }
+  ],
+  "pve": [
+    {
+      "power": 1000000,
+      "multiplier": 10,
+      "total": 24,
+      "azant": {
+        "clears": 24,
+        "actions": 23.458333333333332,
+        "mercenaryActions": 21.125,
+        "damage": 18593887
+      },
+      "berkan": {
+        "clears": 24,
+        "actions": 18.083333333333332,
+        "mercenaryActions": 19.333333333333332,
+        "damage": 20874262.958333332
+      },
+      "actionRatio": 1.2972350230414746,
+      "damageRatio": 0.8907565760340789
+    },
+    {
+      "power": 1000000,
+      "multiplier": 30,
+      "total": 24,
+      "azant": {
+        "clears": 24,
+        "actions": 33.75,
+        "mercenaryActions": 29.416666666666668,
+        "damage": 44926997.083333336
+      },
+      "berkan": {
+        "clears": 24,
+        "actions": 28.5,
+        "mercenaryActions": 31.041666666666668,
+        "damage": 50417615.791666664
+      },
+      "actionRatio": 1.1842105263157894,
+      "damageRatio": 0.8910972162781079
+    },
+    {
+      "power": 1000000,
+      "multiplier": 100,
+      "total": 24,
+      "azant": {
+        "clears": 24,
+        "actions": 38.083333333333336,
+        "mercenaryActions": 33.416666666666664,
+        "damage": 131417026.375
+      },
+      "berkan": {
+        "clears": 24,
+        "actions": 35.083333333333336,
+        "mercenaryActions": 37.583333333333336,
+        "damage": 143959726.08333334
+      },
+      "actionRatio": 1.0855106888361046,
+      "damageRatio": 0.9128735511689373
+    },
+    {
+      "power": 20000000,
+      "multiplier": 10,
+      "total": 24,
+      "azant": {
+        "clears": 24,
+        "actions": 23.416666666666668,
+        "mercenaryActions": 21.166666666666668,
+        "damage": 370859181.25
+      },
+      "berkan": {
+        "clears": 24,
+        "actions": 18.041666666666668,
+        "mercenaryActions": 19.25,
+        "damage": 417890331.0833333
+      },
+      "actionRatio": 1.297921478060046,
+      "damageRatio": 0.8874557597171239
+    },
+    {
+      "power": 20000000,
+      "multiplier": 30,
+      "total": 24,
+      "azant": {
+        "clears": 24,
+        "actions": 33.833333333333336,
+        "mercenaryActions": 29.416666666666668,
+        "damage": 898895925.9166666
+      },
+      "berkan": {
+        "clears": 24,
+        "actions": 28.541666666666668,
+        "mercenaryActions": 31.083333333333332,
+        "damage": 1007447385.5
+      },
+      "actionRatio": 1.1854014598540146,
+      "damageRatio": 0.8922509888400189
+    },
+    {
+      "power": 20000000,
+      "multiplier": 100,
+      "total": 24,
+      "azant": {
+        "clears": 24,
+        "actions": 38,
+        "mercenaryActions": 33.541666666666664,
+        "damage": 2635999169.3333335
+      },
+      "berkan": {
+        "clears": 24,
+        "actions": 35.166666666666664,
+        "mercenaryActions": 37.583333333333336,
+        "damage": 2891621876.875
+      },
+      "actionRatio": 1.080568720379147,
+      "damageRatio": 0.9115988471432094
+    },
+    {
+      "power": 100000000,
+      "multiplier": 10,
+      "total": 24,
+      "azant": {
+        "clears": 24,
+        "actions": 23.416666666666668,
+        "mercenaryActions": 21.166666666666668,
+        "damage": 1854295911.3333333
+      },
+      "berkan": {
+        "clears": 24,
+        "actions": 18.041666666666668,
+        "mercenaryActions": 19.25,
+        "damage": 2089451673.0416667
+      },
+      "actionRatio": 1.297921478060046,
+      "damageRatio": 0.8874557546640878
+    },
+    {
+      "power": 100000000,
+      "multiplier": 30,
+      "total": 24,
+      "azant": {
+        "clears": 24,
+        "actions": 33.833333333333336,
+        "mercenaryActions": 29.416666666666668,
+        "damage": 4494479647.708333
+      },
+      "berkan": {
+        "clears": 24,
+        "actions": 28.541666666666668,
+        "mercenaryActions": 31.083333333333332,
+        "damage": 5037236954.541667
+      },
+      "actionRatio": 1.1854014598540146,
+      "damageRatio": 0.8922509876483031
+    },
+    {
+      "power": 100000000,
+      "multiplier": 100,
+      "total": 24,
+      "azant": {
+        "clears": 24,
+        "actions": 38,
+        "mercenaryActions": 33.541666666666664,
+        "damage": 13179995868.125
+      },
+      "berkan": {
+        "clears": 24,
+        "actions": 35.166666666666664,
+        "mercenaryActions": 37.583333333333336,
+        "damage": 14458109425.041666
+      },
+      "actionRatio": 1.080568720379147,
+      "damageRatio": 0.9115988460633065
+    },
+    {
+      "power": 2000000000,
+      "multiplier": 10,
+      "total": 24,
+      "azant": {
+        "clears": 24,
+        "actions": 23.416666666666668,
+        "mercenaryActions": 21.166666666666668,
+        "damage": 37085918228.25
+      },
+      "berkan": {
+        "clears": 24,
+        "actions": 18.041666666666668,
+        "mercenaryActions": 19.25,
+        "damage": 41789033462.625
+      },
+      "actionRatio": 1.297921478060046,
+      "damageRatio": 0.8874557546639278
+    },
+    {
+      "power": 2000000000,
+      "multiplier": 30,
+      "total": 24,
+      "azant": {
+        "clears": 24,
+        "actions": 33.833333333333336,
+        "mercenaryActions": 29.416666666666668,
+        "damage": 89889592952.54167
+      },
+      "berkan": {
+        "clears": 24,
+        "actions": 28.541666666666668,
+        "mercenaryActions": 31.083333333333332,
+        "damage": 100744739091.95833
+      },
+      "actionRatio": 1.1854014598540146,
+      "damageRatio": 0.8922509876222099
+    },
+    {
+      "power": 2000000000,
+      "multiplier": 100,
+      "total": 24,
+      "azant": {
+        "clears": 24,
+        "actions": 38,
+        "mercenaryActions": 33.541666666666664,
+        "damage": 263599917366.45834
+      },
+      "berkan": {
+        "clears": 24,
+        "actions": 35.166666666666664,
+        "mercenaryActions": 37.583333333333336,
+        "damage": 289162188502.2083
+      },
+      "actionRatio": 1.080568720379147,
+      "damageRatio": 0.9115988460726608
+    }
+  ],
+  "controls": [
+    {
+      "code": "V-055",
+      "mode": "PVP",
+      "seed": 55433,
+      "sha256": "1db733604ce23570757255304b4ef5979bbe1ff095f39ee0686e390d657063b7"
+    },
+    {
+      "code": "V-055",
+      "mode": "PVP",
+      "seed": 229651,
+      "sha256": "905b8f49eba33b3cb15b8e90aa4ff5db54b9990edc6dd17be203462a10a461d2"
+    },
+    {
+      "code": "V-055",
+      "mode": "PVE",
+      "seed": 55433,
+      "sha256": "87d6802dfd7250341b1a9f774cc0cea48131767bd40c331c7a81845015e81dfa"
+    },
+    {
+      "code": "V-055",
+      "mode": "PVE",
+      "seed": 229651,
+      "sha256": "0a6f375955192c43a5977012dc098bd51614d17684a890610193ca5c25843c5c"
+    },
+    {
+      "code": "V-049",
+      "mode": "PVP",
+      "seed": 55433,
+      "sha256": "dce5e3d597864f353753029364a70f0906ab9e396eb9804253e115ef476ca566"
+    },
+    {
+      "code": "V-049",
+      "mode": "PVP",
+      "seed": 229651,
+      "sha256": "390410e612d34b7eb2297f96c8b29e42ae248e861e7ca239747877f130b8516b"
+    },
+    {
+      "code": "V-049",
+      "mode": "PVE",
+      "seed": 55433,
+      "sha256": "06c5b767912880a09e09455e0a5fa69c8b96bbf474996664e3e5398b7311bd52"
+    },
+    {
+      "code": "V-049",
+      "mode": "PVE",
+      "seed": 229651,
+      "sha256": "e19105c0f5a56a5da97fa6d8124abcd02c478ddfc00248a6886db08d71f1c7b5"
+    },
+    {
+      "code": "V-046",
+      "mode": "PVP",
+      "seed": 55433,
+      "sha256": "f60c392ab95e2f204c98573012c7845c1b0787708f47334384f8d462fc800c0b"
+    },
+    {
+      "code": "V-046",
+      "mode": "PVP",
+      "seed": 229651,
+      "sha256": "4d6658ebfd7e1ec5bd1df26c5e4ef6a4fe53f866c0cf647df425c3ebd7d2281d"
+    },
+    {
+      "code": "V-046",
+      "mode": "PVE",
+      "seed": 55433,
+      "sha256": "176acc9ea47831b5edaa3bc6c8d7c529499044051960b72742f6929dec9a1387"
+    },
+    {
+      "code": "V-046",
+      "mode": "PVE",
+      "seed": 229651,
+      "sha256": "ee5ef31c2c2e861f09d9dac123d66564a63df4aa9ba82bb00686377fd6e37a01"
+    }
+  ],
+  "battles": 10572
+}
