@@ -98,11 +98,13 @@ async function playback(engine,actor,targets,mode,apply){
  const valid=()=>!engine.mercenaryDisposed&&engine.visible&&epoch===engine.mercenaryEpoch&&playbackEpoch===engine.playbackEpoch&&!actor.root.destroyed&&targets.every(t=>!t.root.destroyed);
  if(!valid()||!targets.length)return false;const s=await setupHeliosActor(engine,actor);if(!s||!valid())return false;
  engine.settlePendingTails?.([actor,...targets]);stopAmbient(s);actor.animationController.kill();s.busy=true;s.stopped=false;s.fx.begin(mode,targets);
- const duration=MODES[mode].duration,contact=MODES[mode].contacts[0],rate=HELIOS_COMBAT.motionPlaybackRate,clock={time:0};let applied=false;
+ const ultimate=mode==='ultimate',duration=MODES[mode].duration,contact=MODES[mode].contacts[0],rate=HELIOS_COMBAT.motionPlaybackRate,clock={time:0};let applied=false;
  const result=await engine.timeline(t=>{
   t.to(clock,{time:duration,duration:duration/rate,ease:'none',onUpdate(){if(valid()&&!s.stopped){s.fx.clock.time=clock.time;s.fx.render(clock.time);}}});
   t.call(()=>{if(valid()&&!s.stopped&&!applied){applied=true;apply();}},[],contact/rate);
- },()=>{s.busy=false;s.fx.cancel();if(valid()&&!s.stopped&&actor.hp>0){actor.animationController.setState('IDLE');startAmbient(s);}},null,{releaseAt:(contact+.12)/rate,owners:[actor,...targets]});
+ // Complete the ground explosion before another receipt cancels its tail.
+ // Automatic battle acceleration must not reduce it to a few visible frames.
+ },()=>{s.busy=false;s.fx.cancel();if(valid()&&!s.stopped&&actor.hp>0){actor.animationController.setState('IDLE');startAmbient(s);}},ultimate?(engine.reducedMotion?8:1):null,{releaseAt:ultimate?null:(contact+.12)/rate,owners:[actor,...targets]});
  engine.lastMercenaryPlayback={code:HELIOS_CODE,eventType:mode==='attack'?'ATTACK':HELIOS_AREA_EVENT,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0,playbackRate:rate,contactSeconds:contact/rate,durationSeconds:duration/rate};
  return result&&valid();
 }

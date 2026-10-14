@@ -47,7 +47,15 @@ class KaironLiveFX extends UziBarrageFX{
   this.targetDefaults=this.targets.map(t=>({alpha:t.view.alpha,x:t.view.x,tint:t.fullBodySprite.tint}));
   this.clock.time=0;this.render(0);
  }
- cancel(){if(this.destroyed)return;this.removeTimeline();this.clock.time=0;this.render(0);}
+ cancel(){
+  if(this.destroyed)return;this.removeTimeline();this.clock.time=0;this.render(0);
+  if(this.actor.root.destroyed)return;
+  // Generic idle restores the original SD's scale. Restore its texture and
+  // anchor as well, or the smaller firing-atlas cell shrinks under that scale.
+  const s=this.actor.fullBodySprite,idle=this.original;
+  s.texture=idle.texture;s.anchor.set(idle.anchor.x,idle.anchor.y);s.width=idle.width;s.height=idle.height;
+  this.actor.restoreNeutralAvatarPose();this.updateRim({time:0});
+ }
  diagnostics(){return {...super.diagnostics(),damageAuthority:'SERVER_ONLY',clockOwner:'V3_REGISTERED_GSAP'};}
 }
 function stopAmbient(s){if(!s.ambient)return;const entry=s.ambient;s.ambient=null;s.engine.simpleTimelines.delete(entry);entry.instance.kill();}
@@ -81,12 +89,14 @@ async function playback(engine,actor,targets,mode,apply){
  const valid=()=>!engine.mercenaryDisposed&&engine.visible&&epoch===engine.mercenaryEpoch&&playbackEpoch===engine.playbackEpoch&&!actor.root.destroyed&&targets.every(t=>!t.root.destroyed);
  if(!valid()||!targets.length)return false;const s=await setupKaironActor(engine,actor);if(!s||!valid())return false;
  engine.settlePendingTails?.([actor,...targets]);stopAmbient(s);actor.animationController.kill();s.busy=true;s.stopped=false;s.fx.begin(mode,targets);
- const duration=PLANS[mode].duration,contact=mode==='quantum'?PLANS.quantum.detonation:PLANS.barrage.release+BULLET.flight,rate=KAIRON_COMBAT.motionPlaybackRate,clock={time:0};let applied=false;
+ const ultimate=mode==='quantum',duration=PLANS[mode].duration,contact=ultimate?PLANS.quantum.detonation:PLANS.barrage.release+BULLET.flight,rate=KAIRON_COMBAT.motionPlaybackRate,clock={time:0};let applied=false;
  const result=await engine.timeline(t=>{
   t.to(clock,{time:duration,duration:duration/rate,ease:'none',onUpdate(){if(valid()&&!s.stopped){s.fx.clock.time=clock.time;s.fx.render(clock.time);}}});
   t.call(()=>{if(valid()&&!s.stopped&&!applied){applied=true;apply();}},[],contact/rate);
- },()=>{s.busy=false;s.fx.cancel();if(valid()&&!s.stopped&&actor.hp>0){actor.animationController.setState('IDLE');startAmbient(s);}},null,{releaseAt:(contact+(mode==='quantum'?.25:.12))/rate,owners:[actor,...targets]});
- engine.lastMercenaryPlayback={code:KAIRON_CODE,eventType:mode==='quantum'?KAIRON_AREA_EVENT:'ATTACK',mode,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0,playbackRate:rate,contactSeconds:contact/rate};
+ // The next receipt must not settle the shared targets while the missile
+ // explosion is still expanding. Keep the full visual out of automatic pacing.
+ },()=>{s.busy=false;s.fx.cancel();if(valid()&&!s.stopped&&actor.hp>0){actor.animationController.setState('IDLE');startAmbient(s);}},ultimate?(engine.reducedMotion?8:1):null,{releaseAt:ultimate?null:(contact+.12)/rate,owners:[actor,...targets]});
+ engine.lastMercenaryPlayback={code:KAIRON_CODE,eventType:ultimate?KAIRON_AREA_EVENT:'ATTACK',mode,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0,playbackRate:rate,contactSeconds:contact/rate,durationSeconds:duration/rate};
  return result&&valid();
 }
 export function playKaironBasic(engine,{attacker:actor,target,damage=0,targetHp=null,targetShield=null,onImpact=()=>{}}={}){

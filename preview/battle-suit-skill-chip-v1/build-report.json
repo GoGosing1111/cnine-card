@@ -160,6 +160,7 @@
     "preview/project-v-v3/source/battle/JinmuDialogue.js",
     "preview/project-v-v3/source/battle/JinmuCombatPlayback.js",
     "shared/mercenary-helios-v1.mjs",
+    "shared/mercenary-halloween-catalog-v1.mjs",
     "shared/mercenary-limited-catalog-v1.mjs",
     "preview/mercenary-limited-solar-sword-20261009-v1/motion.mjs",
     "preview/mercenary-limited-solar-sword-20261009-v1/source/SolarFX.js",
@@ -189,5 +190,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1911389
+  "outputBytes": 1920577
 }
