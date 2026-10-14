@@ -20,7 +20,7 @@ const gateTestPath=path=>/^(?:tests\/[^/]+\.mjs|preview\/[a-zA-Z0-9_-]+\/qa\.tes
 export function codexCompatibilityRepair({changed,base,git,read,readBytes}){
   const repaired=new Set(),model='preview/mercenary-codex-v1/model.js',directory='assets/ui/project-v/mercenaries/codex-v1/',manifest=directory+'manifest.json';
   if(changed.includes(model)){
-    const before=git('show',`${base}:${model}`).replace(/\r\n/g,'\n'),after=read(model).replace(/\r\n/g,'\n');
+    const before=git('show',`${base}:${model}`).replace(/\r\n/g,'\n').trim(),after=read(model).replace(/\r\n/g,'\n').trim();
     const old="card.code==='V-049'?card.title!==''",next="['V-049','V-056'].includes(card.code)?card.title!==''";
     if(before.split(old).length!==2||before.replace(old,next)!==after)throw Error('Codex model changed outside the approved empty-title compatibility repair.');
     repaired.add(model);
