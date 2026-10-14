@@ -1,0 +1,89 @@
+{
+  "verifiedAt": "2026-10-14T22:12:20.747Z",
+  "publicUrl": "https://cnine-card.pages.dev/organization/",
+  "version": "20261015-organization-off-stable-v1",
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "5df01d5eccb4c96f5671a2dd0b95efce99526e5f37b133d795f649075279a5ca"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "00b55e1a44ec601942213f1fdc643d4a118fc32e84fd08b2a1a4489c0ec89500"
+    },
+    {
+      "file": "organization/index.html",
+      "status": 200,
+      "sha256": "64b51773d09d5f547c833a6167e1208906db689fa106b00eb3bd1c3e30f327ee"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "status": 200,
+      "sha256": "41b51b0966a1fe09b49c6a54f56cc56d21ebadd272dfcee571226e293f1f37db"
+    },
+    {
+      "file": "js/soopketmon-v21-exact-shell-adapter.js",
+      "status": 200,
+      "sha256": "2e605b973c33458a4b063a121826ef7ca333301171d317e7a186ff1dffa04d66"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "1f2ecc05b80b236ddd1f955cf8fb15b2ad6aa9fd37932050c66c4d5026e76c06"
+    },
+    {
+      "file": "js/clan-v1.js",
+      "status": 200,
+      "sha256": "792c0de79aba25974d19caa0958efdf2eb0f81675e5a0043d15fc5c33edf52c7"
+    },
+    {
+      "file": "js/organization-preparation-v1.js",
+      "status": 200,
+      "sha256": "5a6edde124583d1d2d41aba02ab58422777357e4d3716c5c426973f31e3ec403"
+    },
+    {
+      "file": "js/organization-public-v1.mjs",
+      "status": 200,
+      "sha256": "a219650a0d55b7de8a4c262c4661a0654972f68c350407dbf41a42b3cbb73c4a"
+    },
+    {
+      "file": "js/organization-system-v1.mjs",
+      "status": 200,
+      "sha256": "e5e9edc501024bd2c55a2f723f71b814722777f3ed9c202cd79e68e23c3316b5"
+    },
+    {
+      "file": "js/organization-admission-v1.mjs",
+      "status": 200,
+      "sha256": "c6c41a071b90e7f4f55f0e8d93344863f5d49e5e6adcf23e13fce77271df45ba"
+    },
+    {
+      "file": "shared/organization-public-v1.mjs",
+      "status": 200,
+      "sha256": "81053849c5100bf6d5814f5d04a4acae73db0f3e98083ef73f333abddb184fb1"
+    }
+  ],
+  "checks": [
+    {
+      "width": 1440,
+      "admissionEnabled": false,
+      "questions": 0,
+      "stableForMs": 22000,
+      "repeatNavigations": 0,
+      "selectedHideoutPreserved": true,
+      "apiRequests": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "admissionEnabled": false,
+      "questions": 0,
+      "stableForMs": 22000,
+      "repeatNavigations": 0,
+      "selectedHideoutPreserved": true,
+      "apiRequests": [],
+      "errors": []
+    }
+  ]
+}

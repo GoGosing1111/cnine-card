@@ -1,0 +1,25 @@
+{
+  "source": "93e47176e546cb0bf75a47288092cd3c29a5b98b",
+  "previousSource": "fa3b16eb9cc0d41d7f9d69c541ecaa0779885e86",
+  "pagesId": "903861bf-a32b-4e25-9f95-bb77fe6a16e7",
+  "pagesUrl": "https://903861bf.cnine-card.pages.dev",
+  "publicUrl": "https://cnine-card.pages.dev/organization/",
+  "apiVersion": "46833f63-c12b-4210-8a07-44d5d502971c",
+  "schedulerVersion": "91e09f4e-49e8-4525-b942-304e46ebb5ad",
+  "verifiedAt": "2026-10-14T22:12:20.747Z",
+  "sidebarLabel": "조직",
+  "admissionEnabled": false,
+  "recruitmentOpen": false,
+  "organizationProductionSchemaInstalled": false,
+  "testsPassed": 2,
+  "checks": [
+    "PC/mobile old draft and direct entry OFF",
+    "three scheduled clan refreshes including failure preserve iframe, stage, focus, scroll",
+    "reviewed lobby source integrity",
+    "PC/mobile rendered navigation and clan route",
+    "12 production asset SHA-256 matches",
+    "PC/mobile production page remains stable for 22 seconds"
+  ],
+  "hyperdriveQueryCache": "disabled",
+  "evidence": "qa/organization-admission-off-live-20261015/verification.json"
+}

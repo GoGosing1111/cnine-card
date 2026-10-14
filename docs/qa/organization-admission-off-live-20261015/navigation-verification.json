@@ -1,0 +1,19 @@
+{
+  "verifiedAt": "2026-10-14T22:08:33.195Z",
+  "checks": [
+    {
+      "width": 1440,
+      "sidebar": "조직",
+      "category": "조직",
+      "route": "clan",
+      "errors": []
+    },
+    {
+      "width": 390,
+      "sidebar": "조직",
+      "category": "조직",
+      "route": "clan",
+      "errors": []
+    }
+  ]
+}
