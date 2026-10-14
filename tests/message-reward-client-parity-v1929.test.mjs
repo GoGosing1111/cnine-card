@@ -32,7 +32,9 @@ test('every server-supported message reward renders a client claim control', asy
   for(const type of serverTypes){
     const message=context.present({id:1,reward_type:type,reward_amount:1});
     assert.equal(message.reward_supported,true,type);
-    assert.equal(context.meta(message).label,message.reward_label,type);
+    // The approved original-IP rename keeps its legacy inventory/protocol code.
+    const displayLabel=type==='LICH_KING_ENTRY_TICKET'?'이스겐 정벌 입장권':message.reward_label;
+    assert.equal(context.meta(message).label,displayLabel,type);
     assert.equal(context.queue([message]).length,1,type+' has a claim control, including server-provided metadata');
   }
   assert.equal(context.queue([context.present({reward_type:'UNKNOWN',reward_amount:1})]).length,0);
