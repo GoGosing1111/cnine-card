@@ -1031,11 +1031,16 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&azant=20261014-live-v1&originalIp=20261013-original-ip-v1&petFx=20261012-v3&jokgakCity=20261009-v1&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261013-gusudaeng-balance&icon=20260930&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1',
-      'js/battle-v3-live.js?v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&azant=20261014-live-v1&coopLoading=20261014-v1&rosterRank=20261014&originalIp=20261013-original-ip-v1&ultimateCooldown=20261013-40s&limitedDialogue=20261013-v1&coopCamera=20261013-v1&playback=20261012-progress1&petFx=20261012-v3&jokgakCity=20261009-v1&worldRaid=20261008-v2&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&territoryFx=20261003-v1&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261013-gusudaeng-balance&icon=20260930&suggestions=20261005&apocalypseCompletion=20261005-settlement3&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1'
+      'js/battle-v3-live.js?v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1&entryRecovery=20261015-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&azant=20261014-live-v1&coopLoading=20261014-v1&rosterRank=20261014&originalIp=20261013-original-ip-v1&ultimateCooldown=20261013-40s&limitedDialogue=20261013-v1&coopCamera=20261013-v1&playback=20261012-progress1&petFx=20261012-v3&jokgakCity=20261009-v1&worldRaid=20261008-v2&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&territoryFx=20261003-v1&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261013-gusudaeng-balance&icon=20260930&suggestions=20261005&apocalypseCompletion=20261005-settlement3&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1'
     ],
     initialize:()=>window.ProjectVBattleV3Live?.ensureRuntime?.(),
-    // A cached wrapper and engine can agree with each other while both are old.
-    ready:()=>Boolean(window.ProjectVFirearmAudio)&&window.ProjectVPixiBattle?.runtimeVersion===FEATURE_RESOURCE_MANIFEST.battleV2.runtimeVersion&&window.ProjectVBattleV3Live?.runtimeVersion===FEATURE_RESOURCE_MANIFEST.battleV2.runtimeVersion&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
+    // Accept additive releases in an already-open lobby, but never an older pair
+    // or an incompatible entry API. The engine must still match its wrapper exactly.
+    ready:()=>{
+      const live=window.ProjectVBattleV3Live,expected=FEATURE_RESOURCE_MANIFEST.battleV2.runtimeVersion,version=live?.runtimeVersion;
+      const compatible=version===expected||(live?.entryContractVersion===1&&typeof version==='string'&&version.startsWith(expected+'-'));
+      return compatible&&Boolean(window.ProjectVFirearmAudio)&&window.ProjectVPixiBattle?.runtimeVersion===version&&Boolean(live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function';
+    }
   }
 };
 const featureResourcePromises=new Map();
@@ -1095,6 +1100,12 @@ function loadFeatureScript(src){
   if(existing)return new Promise((resolve,reject)=>{existing.addEventListener('load',()=>resolve(),{once:true});existing.addEventListener('error',()=>reject(new Error(`스크립트 리소스를 불러오지 못했습니다: ${src}`)),{once:true})});
   return new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=src;script.async=false;script.dataset.cnineFeatureScript='1';script.onload=()=>{script.dataset.loaded='1';resolve()};script.onerror=()=>{script.remove();reject(new Error(`스크립트 리소스를 불러오지 못했습니다: ${src}`))};document.body.appendChild(script)});
 }
+let battleFeatureRecoverySequence=0;
+function refreshBattleFeatureRuntime(){
+  const token=Date.now().toString(36)+'-'+(++battleFeatureRecoverySequence);
+  const sources=FEATURE_RESOURCE_MANIFEST.battleV2.scripts.filter(src=>src.includes('/project-v-pixi-battle.bundle.js?')||src.includes('/battle-v3-live.js?'));
+  return Promise.all(sources.map(src=>loadFeatureScript(src+'&battleRecovery='+token)));
+}
 function ensureFeatureResources(key){
   const manifest=FEATURE_RESOURCE_MANIFEST[key];if(!manifest)return Promise.reject(new Error(`알 수 없는 기능 리소스입니다: ${key}`));
   if(featureResourcesReady(key))return Promise.resolve();
@@ -1107,7 +1118,17 @@ function ensureFeatureResources(key){
   // Workshop scripts only define views; mounting still waits for both asset groups.
   // Keep the existing CSS-first contract for every other feature.
   const assets=manifest.parallelStyles?Promise.all([styles,scripts()]):styles.then(scripts);
-  const request=assets.then(async()=>{await manifest.initialize?.();if(!manifest.ready())throw new Error(`${key} 기능 초기화에 실패했습니다.`)}).catch(error=>{featureResourcePromises.delete(key);throw error});
+  const initialize=async()=>{await manifest.initialize?.();if(!manifest.ready())throw new Error(`${key} 기능 초기화에 실패했습니다.`)};
+  const request=assets.then(async()=>{
+    try{await initialize();}
+    catch(error){
+      if(key!=='battleV2')throw error;
+      // A cached wrapper can request an obsolete engine after deployment. Reload
+      // both halves together once; callers still wait before creating a battle.
+      try{await refreshBattleFeatureRuntime();await initialize();}
+      catch(cause){throw Object.assign(new Error('전투 리소스를 준비하지 못했습니다. 화면을 새로고침한 뒤 다시 시도해 주세요.',{cause}),{code:'BATTLE_RESOURCE_RECOVERY_FAILED'});}
+    }
+  }).finally(()=>{featureResourcePromises.delete(key)});
   featureResourcePromises.set(key,request);return request;
 }
 function featureKeyForTab(tab){return tab==='character'?'character':tab==='avatar'?'avatar':tab==='workshop'?'workshop':tab==='alchemy'?'alchemy':tab==='scrapyard'?'scrapyard':['dex','inventory'].includes(tab)?'dexTools':tab==='auction'?'auction':tab==='prediction'?'prediction':tab==='soopketland'?'soopketland':['battle','pvp'].includes(tab)?'battleV2':''}

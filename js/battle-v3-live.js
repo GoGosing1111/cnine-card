@@ -1330,6 +1330,8 @@
   root.ProjectVBattleV3Live = Object.freeze({
     version: VERSION,
     runtimeVersion: BATTLE_RUNTIME,
+    // Additive runtime suffixes preserve this entry API; bump for breaking changes.
+    entryContractVersion: 1,
     resultHtml,
     playbackSpeed: PLAYBACK_SPEED,
     ready: () => root.ProjectVPixiBattle?.runtimeVersion === BATTLE_RUNTIME,
