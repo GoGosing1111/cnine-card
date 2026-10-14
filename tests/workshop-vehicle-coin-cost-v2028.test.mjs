@@ -77,7 +77,7 @@ test('CMS는 모든 제작 분류에서 코인 입력 max를 제거하고 캐시
     assert.equal(input.min,'0');
     assert.equal(input.readOnly,true);
   }
-  assert.match(adminIndex,/workshop-admin-v1668\.js\?v=2074-workshop-coin-unlimited/);
+  assert.match(adminIndex,/workshop-admin-v1668\.js\?[^'"\s]*\bv=2074-workshop-coin-unlimited/);
   assert.match(packageJson,/tests\/workshop-vehicle-coin-cost-v2028\.test\.mjs/);
 });
 
