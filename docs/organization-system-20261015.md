@@ -89,3 +89,11 @@ http://127.0.0.1:4287/ 참가자 화면, ?view=owner 운영 검수 화면. 150�
 실제 PostgreSQL 문법은 PGlite로 검증했다. 운영 Hyperdrive 연결 검사 또는 배포가 완료됐다는 의미는 아니다. 운영 연결 시 명시적 스키마 설치, 의존 스키마·버전 트리거, 실제 계정 평가 통합 검증, 대규모 변경 출시 게이트가 필요하다.
 
 PC 1440px·모바일 390px에서 안내, 7문항, 추천, 제출, 수정 초안 새로고침 복원, 전체 조직 선택, 운영 마감·평가·배정 확정, 내 조직·아지트를 검증한다. 가로 넘침·브라우저 오류 없음과 모든 버튼의 이미지 적용을 확인한다. 화면은 preview/organization-system-v1/qa/에 보존한다.
+
+## 라이브 확인 완료 — 2026-10-15
+
+- 배포 소스 b443c5d97ebac65aab01b854e80c917a5c4fda15, Pages https://f9ad8349.cnine-card.pages.dev. 운영 주소 https://cnine-card.pages.dev/organization/.
+- 관련 검사 19개, Worker 구문, 출시/캐시 계약, Hyperdrive query cache OFF 확인 후 scoped 1회 배포했다.
+- 운영 정적 파일 10개가 검증한 로컬 파일과 SHA-256 일치한다. 운영 주소 PC 1440·모바일 390에서 7문항, 추천 3곳, 접수 비활성, 화면 넘침/브라우저 오류 없음, API 요청 0건을 확인했다.
+- 모집·배정·새 조직 DB 설치·점수 지급은 수행하지 않았다. 기존 대회 기록은 그대로 접근 가능하다.
+- 배포 영수증 docs/organization-live-20261015.json과 검수 캡처 docs/qa/organization-live-20261015/를 보존한다.

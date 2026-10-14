@@ -3,7 +3,7 @@
   "date": "2026-10-15",
   "generationMode": "built-in imagegen",
   "prompts": "prompts.json",
-  "status": "implemented-for-review",
+  "status": "published-preview-recruitment-closed",
   "assets": [
     {
       "key": "admission-room",
@@ -57,5 +57,11 @@
     }
   ],
   "approvedExistingEmblems": "../emblem-concepts-20261012.png",
-  "notes": "Korean copy is rendered in HTML, not baked into images. Admission, answers, navigation and action buttons use these assets. New visual result is awaiting user review."
+  "notes": "Korean copy is rendered in HTML, not baked into images. Admission, answers, navigation and action buttons use these assets. New visual result is awaiting user review.",
+  "publication": {
+    "entry": "/organization/",
+    "sourceCommit": "b443c5d97ebac65aab01b854e80c917a5c4fda15",
+    "authorization": "라이브 반영하고 다음 조직 개발할거 작업시작해",
+    "recruitmentOpen": false
+  }
 }
