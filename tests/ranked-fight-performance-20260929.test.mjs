@@ -38,6 +38,7 @@ function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=fals
     createPvpBattleV2:input=>{combatInputs.push(input);return {result:{winner:win?'A':'B',reason:'ELIMINATION',actions:5,final:{A:[],B:[]}},teams:{A:{summary:{power:500}},B:{summary:{power:500}}}};},
     pvpSeasonScoreAdjustment:w=>({change:24}),consumePvpEnergy:async()=>{effects.push('energy');return {state:{energy}};},commitRankedFight:async(_,options)=>{await env.DB.batch(options.writes);receipt={...options.response,energy:{energy:--energy}};return receipt;},
     burningRewardAmount:amount=>amount,applyAvatarCoinGain:base=>({base,total:base,bonus:0,percent:0}),
+    collectionRewardCoin:async(_env,userId,base,source)=>{assert.equal(userId,1);assert.equal(source,'PVP');return base;}, // This fixture has no collection bonuses.
     grantBattleCube:async()=>assert.fail('retired cube rewards must not run'),grantHighGradeRerollDrop:reward('reroll'),magicSettings:async()=>({acquisition:{pvp:{enabled:true,chance:1,amount:1,dailyLimit:3}}}),
     resolveMagicCrystalReward:reward('magic'),safeEquipmentDrop:reward('equipment'),rollBlackMiracleDrop:reward('black'),safeUnifiedDrop:reward('unified'),
     premiumCubeWeeklyStatus:async()=>({remaining:1}),burningPublicState:()=>({}),uniqueBattleResponsePayload:()=>null,
