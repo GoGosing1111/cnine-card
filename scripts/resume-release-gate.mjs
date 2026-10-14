@@ -14,6 +14,7 @@ const offlineSkillPreview=new Set([
 ]);
 const limitedPackView='js/mercenary-limited-pack-live.mjs';
 const limitedPackBrowser='tests/mercenary-limited-shop-20261006.browser.mjs';
+const gateTestPath=path=>/^(?:tests\/[^/]+\.mjs|preview\/[a-zA-Z0-9_-]+\/qa\.test\.mjs)$/.test(path);
 // Legacy `node tests/*.mjs` assertions exit without a node:test summary.
 // Recognize only an uncaught assertion plus Node's terminal version footer;
 // its whole failed stage is rerun, with the same hash/source/continuity guards.
@@ -135,7 +136,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(/^ℹ fail [1-9]/m.test(continuation.slice(0,continuationStart)))throw Error('Continuation guard tests failed.');
     changesAfterLastRun=new Set(git('diff','--name-only',candidate,'HEAD').split('\n').filter(Boolean));
     const repairTools=new Set(['scripts/deploy-production.mjs','scripts/resume-release-gate.mjs','tests/resume-release-gate.test.mjs']);
-    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!(path==='index.html'&&cacheOrderOnly)&&!path.startsWith('docs/')&&!/^tests\/[^/]+\.mjs$/.test(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
+    for(const path of changesAfterLastRun)if(path!=='AGENTS.md'&&!(path==='index.html'&&cacheOrderOnly)&&!path.startsWith('docs/')&&!gateTestPath(path)&&!repairTools.has(path)&&!bgmAdditions.has(path)&&!artAdditions.has(path)&&!(env.RELEASE_GATE_RESUME_UI_REPORT&&/^raid\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\.(?:mjs|css)$/.test(path))&&!/^preview\/[a-zA-Z0-9_-]+\/qa\/production\.json$/.test(path))throw Error(`Runtime changed after continuation (${path}): run a fresh full gate.`);
     logText=logText.slice(0,originalLast)+continuation.slice(continuationStart);
     seen=stageNames(logText);
   }
@@ -256,7 +257,7 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
     if(lobbySourceRepair&&(lobbySources.has(path)||(lobbyBundleRepair&&path==='js/adventure-lobby-v2107.js')))continue;
     // Legacy gate entry points also use .mjs without the .test suffix. Require
     // direct membership in a gate command below; shared helpers remain excluded.
-    if(!/^tests\/[^/]+\.mjs$/.test(path))throw Error(`Runtime/shared helper changed (${path}): run a fresh full gate.`);
+    if(!gateTestPath(path))throw Error(`Runtime/shared helper changed (${path}): run a fresh full gate.`);
     let matched=false;
     for(let i=0;i<names.length-1;i++)if(scripts[names[i]].split(/\s+/).includes(path)){matched=true;if(i<failedIndex&&(!changesAfterLastRun||changesAfterLastRun.has(path)))rerun.add(i);}
     if(!matched&&operations.length&&path.endsWith('.test.mjs')&&operations.some(operation=>read(path).includes('../'+operation)))operationTests.add(path);

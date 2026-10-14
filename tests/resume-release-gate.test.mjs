@@ -148,6 +148,14 @@ test('changed tests in a completed stage rerun that stage without invalidating u
   assert.equal(plan.reused,0);assert.equal(plan.commands[1],'npm run test:a');
 });
 
+test('preview QA repairs must be existing executable tests in the unchanged full gate',()=>{
+ const file='preview/example-v1/qa.test.mjs',f=fixture({changed:[file]});
+ assert.throws(()=>fullGateResumePlan(f),/Cannot map changed test/);
+ f.scripts['test:a']='node --test '+file;
+ const plan=fullGateResumePlan(f);assert.equal(plan.reused,0);assert.equal(plan.commands[1],'npm run test:a');
+ for(const changed of ['preview/example-v1/app.mjs','preview/example-v1/qa/production.mjs'])assert.throws(()=>fullGateResumePlan({...f,git:(...args)=>args[0]==='diff'?changed:f.git(...args)}),/fresh full gate/);
+});
+
 test('concurrent new BGM retains passes only with its exact bytes and an unreferenced additive receipt',()=>{
   const path='assets/bgm/example.mp3',receipt='assets/bgm/example.json',bytes=Buffer.from('ID3 fixture audio');
   const f=fixture({changed:[path,receipt]}),metadata={path:'/'+path,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')};
