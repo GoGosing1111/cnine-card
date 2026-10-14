@@ -1,0 +1,67 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:team-event-diim-rewards:mangsuni-correction:20261014:v1",
+  "originalOperationKey": "ops:team-event-diim-rewards:20261014:v1",
+  "originalPlanHash": "8ae5aa4e8f946a3bd8359383cbc169c82bc8b32e8bdbf3cd339682fd4654961f",
+  "originalAuditId": "46157",
+  "sourceUserId": "5140",
+  "sourceNickname": "공백",
+  "destinationUserId": "4628",
+  "destinationNickname": "망순이ෆ",
+  "providerUserId": "0b464ee5",
+  "profileUrl": "https://www.playdk.kr/user/0b464ee5",
+  "authorization": "공백(망액이) > 망순이 특수문자 / [망순이ෆ](https://www.playdk.kr/user/0b464ee5)",
+  "mode": "REVOKE_UNCLAIMED_AND_REISSUE",
+  "noImmediateCredit": true,
+  "coin": "3000000000000",
+  "masterStar": "20000000",
+  "revoked": [
+    {
+      "userId": "5140",
+      "campaign": "team-event-diim-20261014-v1-coin",
+      "messageId": "207000",
+      "rewardId": "198913"
+    },
+    {
+      "userId": "5140",
+      "campaign": "team-event-diim-20261014-v1-star",
+      "messageId": "207048",
+      "rewardId": "198961"
+    }
+  ],
+  "deliveries": [
+    {
+      "userId": "4628",
+      "campaign": "team-event-diim-20261014-v1-mangsuni-correction-coin",
+      "messageId": "207057",
+      "rewardId": "198970"
+    },
+    {
+      "userId": "4628",
+      "campaign": "team-event-diim-20261014-v1-mangsuni-correction-star",
+      "messageId": "207058",
+      "rewardId": "198971"
+    }
+  ],
+  "completedAt": "2026-10-14T14:25:10.282Z",
+  "auditId": "46172",
+  "execution": {
+    "sourceCommit": "4e3b80f6f7148d1795f18182b8327896fd98c8f9",
+    "verification": {
+      "recipients": 48,
+      "winners": 8,
+      "participantsOnly": 40,
+      "messages": 96,
+      "rewards": 96,
+      "historicalMessages": 98,
+      "revokedMessages": 2,
+      "coin": "224000000000000",
+      "masterStar": "1360000000",
+      "claimed": 67,
+      "missing": 0,
+      "duplicates": 0,
+      "correctionOperationKey": "ops:team-event-diim-rewards:mangsuni-correction:20261014:v1"
+    },
+    "replayedWithoutReissue": true
+  }
+}
