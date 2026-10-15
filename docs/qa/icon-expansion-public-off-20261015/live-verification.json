@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-15",
+  "releaseCommit": "e4517ca0eacd0bba1102029923a32a55923e1c8b",
+  "base": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "f057f51167d1bd9475896fa615f020e5a74fc4f82ebcf6802e26ac16282026a3"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "02999f0b456d0bd085dad3c0552e6df9b6b320cc1c3378a0c2eb5359744c41c1"
+    },
+    {
+      "path": "js/icon-fusion-v1.bundle.js",
+      "status": 200,
+      "sha256": "eb828b084cb36c31d45b8c5e3f2738a140bd6180cb26cdb4cc78380c5dfb3905"
+    },
+    {
+      "path": "css/icon-fusion-v1.css",
+      "status": 200,
+      "sha256": "079eb0682490789dd6c4983dfd09068df3f775bcbd8dc32ec7c042a28088a03e"
+    },
+    {
+      "path": "shared/icon-expansion-v1.mjs",
+      "status": 200,
+      "sha256": "9f15299ea891aa80f8b797e1e6dfb472d7a9071cdd87b346536d16498b62e6c5"
+    },
+    {
+      "path": "admin/icon-technique-editor-v1.mjs",
+      "status": 200,
+      "sha256": "b1d92ee8896ce65224a3bfdbc44866986d115692250d821dad7b905a07e2d989"
+    },
+    {
+      "path": "preview/icon-namsudaeng-battle-20261015-v1/index.html",
+      "status": 200,
+      "sha256": "c537c99406795d8041044d8c70f70fd3e2a3d5adddacad1591741534c5a0dfc0"
+    },
+    {
+      "path": "preview/icon-namsudaeng-battle-20261015-v1/assets/namsudaeng-sd.webp",
+      "status": 200,
+      "sha256": "32f55f27d7dcb86d5c7c14c1e056bd12a1de85fd1f2b0007eb978642c39287a9"
+    },
+    {
+      "path": "preview/icon-namsudaeng-battle-20261015-v1/assets/fx/atlas.webp",
+      "status": 200,
+      "sha256": "a21329336a281ebfb82b2850b320338a2c029dde0ddfe18193ea6508f9cbc8c8"
+    },
+    {
+      "path": "preview/icon-diim-redcap-battle-20261015-v1/index.html",
+      "status": 200,
+      "sha256": "e9798402e0b59ae27665cea36a87825319c6ff901a0030fccda0ad2a04fc6302"
+    },
+    {
+      "path": "preview/icon-diim-redcap-battle-20261015-v1/assets/diim-sd.webp",
+      "status": 200,
+      "sha256": "132f08a4b246a39731a9915620be87fa7a9ea62b151b647b848cf52727a87737"
+    },
+    {
+      "path": "preview/icon-diim-redcap-battle-20261015-v1/assets/autonomous-weapon.webp",
+      "status": 200,
+      "sha256": "5104691e05e44b3a15fc390d27d4c285faf407b752c1db08c024db53bd9949a7"
+    },
+    {
+      "path": "preview/icon-diim-redcap-battle-20261015-v1/assets/fx/atlas.webp",
+      "status": 200,
+      "sha256": "0a73f6a904e655cd5d2b51d6f004e2a491d01638430ee0575deb531e1dc7cc0e"
+    }
+  ],
+  "liveRoles": {
+    "status": 200,
+    "count": 9,
+    "enabled": true,
+    "deckLimit": 2
+  },
+  "unauthenticatedTechniqueCmsStatus": 401,
+  "operatingWrites": 0
+}

@@ -26,3 +26,13 @@
 - 신규 상위안 1대1 격리 비교 1,152전: 남수댕 PVE 280승/8패, PVP 288승/0패; 디임 PVE/PVP 각각 288승/0패. 장비·용병 없는 동일 18만 전투력/기존 기본 역할 기준이며 모든 팀 구성이나 운영 승률을 보장하는 수치가 아니다. 근거 `balance.json`, 재현 `scripts/benchmark-icon-expansion-20261015.mjs`.
 - PC 1440px·모바일 390px 제작 준비 표시/CMS는 같은 QA 폴더의 `browser.json` 및 캡처를 따른다.
 - 변경은 공개 준비와 잠금에 한정한다. DB 스키마·운영 경제 설정·계정 재화 변경 없이 지정 scoped 배포를 사용한다. 운영 배포 식별자와 읽기 검증은 완료 후 별도로 기록한다.
+
+## 운영 반영 완료
+
+- 소스 커밋 e4517ca0eacd0bba1102029923a32a55923e1c8b. 지정 scoped 배포 명령 종료 코드 0, 운영 업로드 1회.
+- Pages 배포 c5539581, 고정 주소 https://c5539581.cnine-card.pages.dev. 운영 주소 https://cnine-card.pages.dev.
+- API Worker c06f0219-d2f3-4aa8-8deb-261e328e82e7, 기존 스케줄러 478d7f50-572b-4877-9f6a-ed30c7a90b92. Hyperdrive query cache OFF 확인.
+- 배포 직전 19개 관련 검사와 Worker 문법 검사, 깨끗한 커밋·캐시 버전 보호 검사를 통과했다. 이미 통과한 전체 검사는 반복하지 않았다.
+- 운영 읽기 검증: HTML·번들·CSS·준비 계약·CMS·양쪽 SD/FX/병기 등 13개 파일의 SHA-256이 로컬 배포본과 일치한다. 공개 역할 API에서 기존 9종 enabled=true, deckLimit=2를 확인했다. OWNER 기술 CMS 비인증 요청은 401로 차단된다.
+- 신규 코드의 423 차단과 재화/영수증 미변경은 배포한 서버 코드의 국소 회귀로 확인했다. 실제 이용자의 유료 제작 요청·지급·DB 설정 쓰기를 실행하지 않았다. 증빙: docs/qa/icon-expansion-public-off-20261015/live-verification.json.
+- 최종 운영 기록만 추가하며 코드 재검사·운영 재배포를 반복하지 않는다.
