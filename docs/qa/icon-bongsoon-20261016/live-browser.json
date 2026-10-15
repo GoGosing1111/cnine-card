@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-10-15T21:26:33.359Z",
+  "url": "https://cnine-card.pages.dev/preview/icon-bongsoon-battle-20261016-v1/",
+  "diagnostics": {
+    "ready": true,
+    "disposed": false,
+    "scenario": "PVP",
+    "mode": "PVP",
+    "playing": false,
+    "paused": false,
+    "index": 5,
+    "eventCount": 15,
+    "fxVisible": true,
+    "speed": 1,
+    "techniqueCode": "RETURN_OATH",
+    "cardId": null,
+    "releaseEnabled": false,
+    "authority": "REAL_SERVER_SYMBOL_SIMULATION",
+    "calls": {
+      "oaths": 1,
+      "revivals": 1,
+      "failures": 0
+    },
+    "oaths": [],
+    "canvases": 1,
+    "manualFx": {
+      "effect": "return-oath",
+      "playing": false,
+      "time": 1.44,
+      "speed": 1,
+      "frame": 9,
+      "nextFrame": 10,
+      "mix": 0,
+      "visible": true,
+      "contactAt": 1.44,
+      "contactReached": true,
+      "phase": "충돌",
+      "clock": "GSAP",
+      "autoAnimationTicker": false,
+      "activeSprites": 2,
+      "registered": false,
+      "damageCalculated": false,
+      "releaseEnabled": false
+    }
+  },
+  "errors": [],
+  "missing": [],
+  "writes": []
+}

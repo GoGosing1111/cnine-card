@@ -37,4 +37,8 @@ PC 1440px·모바일 390px에서 새 사진·SD·스킬, 재생/일시정지/탐
 
 ## 배포
 
-관련 자동 검사와 지정 scoped 배포 진행 전. 운영 반영 후 리소스 해시·신규 잠금·기존 역할 revision 3 전체 응답을 확인하고 이 절에 기록한다.
+2026-10-16 운영 반영 완료. 소스 b130287412789eeb28888ae443a21e6be6d8d041, Pages e04aefab. 관련 자동 검사 53개 모두 통과, Worker 컴파일·출시 보호·Hyperdrive 캐시 OFF 검사를 통과했다.
+
+운영 파일 12개의 SHA-256이 로컬 배포 소스와 일치했다. 기존 ICON 역할 revision 3, 9종 전체 응답이 작업 전과 정확히 같았다. 운영 프리뷰에서 귀환 1회 재생, 캔버스 1개, 오류/누락/쓰기 요청 0회를 확인했다. 제작·획득·실전 OFF 및 신규 카드 ID null을 유지한다. 운영 계정 지급이나 설정 저장을 수행하지 않았다.
+
+상세 결과: docs/qa/icon-bongsoon-20261016/deployment.json, live-check.json, live-browser.json. 공개 프리뷰: https://cnine-card.pages.dev/preview/icon-bongsoon-battle-20261016-v1/ . 배포 뒤 기록만 추가한 커밋은 재배포하지 않는다.

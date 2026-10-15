@@ -1,0 +1,84 @@
+{
+  "checkedAt": "2026-10-15T21:26:15.653Z",
+  "origin": "https://cnine-card.pages.dev",
+  "source": "b130287412789eeb28888ae443a21e6be6d8d041",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "D5709DF176500767BF68A0B384A5FB3FD0BFCB291B3626288FE50CAC6870F4BE",
+      "bytes": 24941
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "02049CD3BF47A419818D84109F4F7E40399AB7F11EFB8DD331CE66FF5B22E289",
+      "bytes": 13222
+    },
+    {
+      "path": "js/icon-fusion-v1.bundle.js",
+      "status": 200,
+      "sha256": "78E238EE8F402CC51D2E941A7D341F9387998AF926F8F420F8B7131DBD966349",
+      "bytes": 48668
+    },
+    {
+      "path": "shared/icon-expansion-v1.mjs",
+      "status": 200,
+      "sha256": "659E496DC5D90E949717242F8C609FB958E2DA0DB9641F329AA9DA9732DF1F03",
+      "bytes": 3736
+    },
+    {
+      "path": "admin/icon-technique-editor-v1.mjs",
+      "status": 200,
+      "sha256": "B2F8895E4D6ACC76C320863D6844D2B7023091BF6B590D5C02E7A72B2CAC4D41",
+      "bytes": 8941
+    },
+    {
+      "path": "preview/icon-bongsoon-battle-20261016-v1/index.html",
+      "status": 200,
+      "sha256": "D54060EE15D689CF6824A0D13F885685E7A4BA77DB494AF0DF5D4A16D2029E43",
+      "bytes": 4465
+    },
+    {
+      "path": "preview/icon-bongsoon-battle-20261016-v1/manifest.json",
+      "status": 200,
+      "sha256": "887731BD0997617B84F0E03E92D44258B75C3F0E7856BF0F03612F865673DC3A",
+      "bytes": 8952
+    },
+    {
+      "path": "preview/icon-bongsoon-battle-20261016-v1/preview.bundle.js",
+      "status": 200,
+      "sha256": "303B70EADD7195EABEDF85EA4E145DF5B90A3524D38112C98F5769BDE9100AE9",
+      "bytes": 1976630
+    },
+    {
+      "path": "preview/icon-bongsoon-battle-20261016-v1/assets/bongsoon-portrait.webp",
+      "status": 200,
+      "sha256": "A1643F8E9CE1619217A31E2D245C34660713EEDE4E489463CCABB57BE6286B78",
+      "bytes": 17454
+    },
+    {
+      "path": "preview/icon-bongsoon-battle-20261016-v1/assets/bongsoon-sd.webp",
+      "status": 200,
+      "sha256": "4BEB48622675EF312D4049B3F8042F1469E54BB30530F1E66DEA02D1BBEF15EB",
+      "bytes": 181806
+    },
+    {
+      "path": "preview/icon-bongsoon-battle-20261016-v1/assets/return-oath-atlas.webp",
+      "status": 200,
+      "sha256": "5CC5E480F71D37D53A679A79B4CE350E1BB79AF92BC3397A9A15CE0989976CFE",
+      "bytes": 807430
+    },
+    {
+      "path": "preview/icon-bongsoon-battle-20261016-v1/sources/bongsoon-photo-original.png",
+      "status": 200,
+      "sha256": "06F470732BE2F36D62DA074F23287619572F3E0E1B5EE2964A20E86FA62BF53E",
+      "bytes": 171918
+    }
+  ],
+  "rolesRevision": 3,
+  "rolesCount": 9,
+  "rolesEntireResponseUnchanged": true,
+  "craftAcquisitionBattleOff": true,
+  "cardId": null
+}

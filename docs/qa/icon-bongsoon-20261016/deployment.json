@@ -1,0 +1,23 @@
+{
+  "source": "b130287412789eeb28888ae443a21e6be6d8d041",
+  "pages": "https://e04aefab.cnine-card.pages.dev",
+  "production": "https://cnine-card.pages.dev",
+  "preview": "https://cnine-card.pages.dev/preview/icon-bongsoon-battle-20261016-v1/",
+  "apiVersion": "c2e47cb0-06fe-4a74-b5b4-e7471e031a4a",
+  "schedulerVersion": "6cfa0612-37c4-455f-aeac-3e7a5cc3181e",
+  "base": "f843e6358855b7332b92332facd2fb47002824ea",
+  "command": "npm run deploy:production -- --scoped",
+  "tests": [
+    "tests/icon-bongsoon-20261016.test.mjs",
+    "tests/icon-expansion-public-off-20261015.test.mjs",
+    "tests/icon-techniques-preparation-v1.test.mjs",
+    "tests/icon-techniques-combat-20261015.test.mjs",
+    "tests/icon-cms-v1.test.mjs"
+  ],
+  "passed": 53,
+  "failed": 0,
+  "workerCheck": true,
+  "releaseCheck": true,
+  "hyperdriveCacheDisabled": true,
+  "pagesAssetCount": 19302
+}
