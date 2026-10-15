@@ -365,8 +365,19 @@
   },
   "additionalRequest": {
     "inputNickname": "안경!",
+    "resolvedNickname": "여봉상",
+    "userId": "5598",
     "boxes": 2,
-    "status": "AWAITING_ACCOUNT_IDENTITY",
-    "reason": "Exact and partial game/secondary-verification nickname queries returned no matching account. User clarification requested."
+    "status": "COMPLETED",
+    "identityEvidence": "사용자가 정확한 게임 닉네임 확인 질문에 여봉상으로 답변",
+    "operationKey": "ops:worm-named-gifts-two:20261016:yeobongsang:v1",
+    "auditId": "46701",
+    "completedAt": "2026-10-15T21:02:08.057Z",
+    "record": "yeobongsang-additional.json"
+  },
+  "combinedTotals": {
+    "recipients": 22,
+    "totalBoxes": 44,
+    "pending": 0
   }
 }

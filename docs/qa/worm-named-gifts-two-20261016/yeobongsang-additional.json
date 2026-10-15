@@ -1,0 +1,66 @@
+{
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:worm-named-gifts-two:20261016:yeobongsang:v1",
+    "planHash": "e0baba91095225545283071ea2f23f01e9357b53ee8f4f4f4912689228582c6d",
+    "authorization": "안경! 추가 지급 후 정확한 게임 닉네임 확인 질문에 사용자가 여봉상으로 지정. 기존 21명과 별도로 해당 계정에 지렁이대회 사은품 2개 지급.",
+    "itemCode": "WORM_CONTEST_GIFT_BOX",
+    "itemName": "지렁이대회 사은품",
+    "delivery": "DIRECT_INVENTORY",
+    "recipientCount": 1,
+    "totalBoxes": 2,
+    "adminId": "1",
+    "completedAt": "2026-10-15T21:02:08.057Z",
+    "allocations": [
+      {
+        "inputNickname": "안경!",
+        "userId": "5598",
+        "nickname": "여봉상",
+        "boxes": 2,
+        "identityEvidence": "사용자 직접 확인: 여봉상",
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84456951"
+      }
+    ],
+    "auditId": "46701"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "recipients": 1,
+    "totalBoxes": 2,
+    "boxesPerAccount": 2,
+    "ledgerRows": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "auditId": "46701",
+    "completedAt": "2026-10-15T21:02:08.057Z"
+  },
+  "committed": true,
+  "replayed": false,
+  "rollbackVerified": false,
+  "sourceCommit": "2b99fbdbe536ab8a3f82b100bc349bc9c419ef93",
+  "postVerification": {
+    "status": "VERIFIED",
+    "recipients": 1,
+    "totalBoxes": 2,
+    "boxesPerAccount": 2,
+    "ledgerRows": 1,
+    "missing": 0,
+    "duplicates": 0,
+    "auditId": "46701",
+    "completedAt": "2026-10-15T21:02:08.057Z"
+  },
+  "dryRunRolledBack": true,
+  "replayPreventedDuplicate": true,
+  "tests": {
+    "pass": 1,
+    "fail": 0
+  }
+}
