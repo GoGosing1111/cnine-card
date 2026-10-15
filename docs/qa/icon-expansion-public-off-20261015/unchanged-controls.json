@@ -1,0 +1,884 @@
+{
+  "baselineRef": "b32434933c66a073659a0e7d9ef519e4bf94a69c",
+  "scope": "FULL_RECEIPT_EQUALITY_WITHOUT_TRUSTED_TECHNIQUE_PREPARATION",
+  "pairedBattles": 125,
+  "battles": 250,
+  "mismatches": 0,
+  "rows": [
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-DIIM-1-false",
+      "sha256": "5d2f0168394e802107080ee0ddb97632777ce1da2955c67effeb36da1e4e27da",
+      "baselineSha256": "5d2f0168394e802107080ee0ddb97632777ce1da2955c67effeb36da1e4e27da",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-DIIM-1-true",
+      "sha256": "c141612107a904b03687ced202bc6898d222773d834537e7e4f4c6a10ca40764",
+      "baselineSha256": "c141612107a904b03687ced202bc6898d222773d834537e7e4f4c6a10ca40764",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-DIIM-17-false",
+      "sha256": "5922a8bedee417b399f26123ab4b08451b3cee483f02025c580cef1c5bc32af4",
+      "baselineSha256": "5922a8bedee417b399f26123ab4b08451b3cee483f02025c580cef1c5bc32af4",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-DIIM-17-true",
+      "sha256": "f23e2055843cbc5fd035717fa5823a8e33f9c1048d1f5ff89841032f7b477543",
+      "baselineSha256": "f23e2055843cbc5fd035717fa5823a8e33f9c1048d1f5ff89841032f7b477543",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-DIIM-43-false",
+      "sha256": "cfea92f1f0b28ffbe3a398e216cfea8b1cff5a8ca00870d9a36103361470f840",
+      "baselineSha256": "cfea92f1f0b28ffbe3a398e216cfea8b1cff5a8ca00870d9a36103361470f840",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-DIIM-43-true",
+      "sha256": "6eb5758c94be64c3e109aa25c776b151e40c5292457efadaf69ac909c782a444",
+      "baselineSha256": "6eb5758c94be64c3e109aa25c776b151e40c5292457efadaf69ac909c782a444",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-DIIM-99-false",
+      "sha256": "b494a4d1ea7542c3a907f13eda1c037ddcf45dcad9e8b4eddeb3f2e6d9fbb872",
+      "baselineSha256": "b494a4d1ea7542c3a907f13eda1c037ddcf45dcad9e8b4eddeb3f2e6d9fbb872",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-DIIM-99-true",
+      "sha256": "e8a49bdea01d9d188abeb4bc3488d73eda0213ca5ef948589bd37afe65ae54c1",
+      "baselineSha256": "e8a49bdea01d9d188abeb4bc3488d73eda0213ca5ef948589bd37afe65ae54c1",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-DIIM-pve-3",
+      "sha256": "54e89c869e791fcf275839be3763ff8256be088d2b80eb1889b01aa2d21e1691",
+      "baselineSha256": "54e89c869e791fcf275839be3763ff8256be088d2b80eb1889b01aa2d21e1691",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-DIIM-pve-37",
+      "sha256": "dc9824ab44c2df7301bfcd7728e254990756572909135643b17180ebe9c3b30d",
+      "baselineSha256": "dc9824ab44c2df7301bfcd7728e254990756572909135643b17180ebe9c3b30d",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-DIIM-pve-101",
+      "sha256": "c183c86ca4de7f6bcd0b93cedb7d2619bddc8bd0aa00717d66577e4468af42c0",
+      "baselineSha256": "c183c86ca4de7f6bcd0b93cedb7d2619bddc8bd0aa00717d66577e4468af42c0",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-HI-HEEYA-1-false",
+      "sha256": "47ed8d3458f58a797f9646d8fde75a0d9bf7e83d0c9159aba3694b8ee42431c3",
+      "baselineSha256": "47ed8d3458f58a797f9646d8fde75a0d9bf7e83d0c9159aba3694b8ee42431c3",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-HI-HEEYA-1-true",
+      "sha256": "f8714b4dba1b74e4e918c05b67273183df4a2257c4ab0bf9d456918634f00220",
+      "baselineSha256": "f8714b4dba1b74e4e918c05b67273183df4a2257c4ab0bf9d456918634f00220",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-HI-HEEYA-17-false",
+      "sha256": "7dc28f2a7743f9aaece43f7661153f7f34d49a56198e88a2c28f58038a88554e",
+      "baselineSha256": "7dc28f2a7743f9aaece43f7661153f7f34d49a56198e88a2c28f58038a88554e",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-HI-HEEYA-17-true",
+      "sha256": "3e3830797a1b1f037e8df76b069183f6cb9538bd81f8d572d8da4093d54fd5f2",
+      "baselineSha256": "3e3830797a1b1f037e8df76b069183f6cb9538bd81f8d572d8da4093d54fd5f2",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-HI-HEEYA-43-false",
+      "sha256": "bfeea21166e1405b2536671bf2d0fcd3facf7ef6627c97fe672231d0064b75e5",
+      "baselineSha256": "bfeea21166e1405b2536671bf2d0fcd3facf7ef6627c97fe672231d0064b75e5",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-HI-HEEYA-43-true",
+      "sha256": "3ee9c2a1bcb870f3eeb462e7ce3fc11fe165bc9fc708c99b2f2efce3f9f34c13",
+      "baselineSha256": "3ee9c2a1bcb870f3eeb462e7ce3fc11fe165bc9fc708c99b2f2efce3f9f34c13",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-HI-HEEYA-99-false",
+      "sha256": "fa46a3ee753396af6463140c38fa9b9c733a82599806f7d724ebd4b74d0702f6",
+      "baselineSha256": "fa46a3ee753396af6463140c38fa9b9c733a82599806f7d724ebd4b74d0702f6",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-HI-HEEYA-99-true",
+      "sha256": "094639437bcbd4a3c611524a65d6687bd59ae15865eb8bc09cfd1861df1e34c1",
+      "baselineSha256": "094639437bcbd4a3c611524a65d6687bd59ae15865eb8bc09cfd1861df1e34c1",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-HI-HEEYA-pve-3",
+      "sha256": "02cbeeb43e268ef022d35d7e467c8f678db4fd781a0566e7d443d7d19daf2cca",
+      "baselineSha256": "02cbeeb43e268ef022d35d7e467c8f678db4fd781a0566e7d443d7d19daf2cca",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-HI-HEEYA-pve-37",
+      "sha256": "6f7c3b721c849f5007cc0ce2bad791942046d092b91aec4e86736f96c8829ca1",
+      "baselineSha256": "6f7c3b721c849f5007cc0ce2bad791942046d092b91aec4e86736f96c8829ca1",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-HI-HEEYA-pve-101",
+      "sha256": "b3d2cf8adabeec27995f364d996c71dfa5f3cdb831727365cf2073703bcd7b9b",
+      "baselineSha256": "b3d2cf8adabeec27995f364d996c71dfa5f3cdb831727365cf2073703bcd7b9b",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-NAMUNEUL-BONGSOON-1-false",
+      "sha256": "9c3cd426338b7262f1a359daf518611e590e396619521ad71ce8e74dd4b86e65",
+      "baselineSha256": "9c3cd426338b7262f1a359daf518611e590e396619521ad71ce8e74dd4b86e65",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-NAMUNEUL-BONGSOON-1-true",
+      "sha256": "9df93d3de54c9be65a8fa44e09129552beb87f5ae52ad49ab5fd17dd09df9d2c",
+      "baselineSha256": "9df93d3de54c9be65a8fa44e09129552beb87f5ae52ad49ab5fd17dd09df9d2c",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-NAMUNEUL-BONGSOON-17-false",
+      "sha256": "6a13064b91371d5f43cdf2232ca289938f6280ca4833f18cae57193a7b9cde68",
+      "baselineSha256": "6a13064b91371d5f43cdf2232ca289938f6280ca4833f18cae57193a7b9cde68",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-NAMUNEUL-BONGSOON-17-true",
+      "sha256": "8fee2f0fd5c4f319b6b2984fe5025a7caa7e88be4a1dd69b60c45592a50a395f",
+      "baselineSha256": "8fee2f0fd5c4f319b6b2984fe5025a7caa7e88be4a1dd69b60c45592a50a395f",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-NAMUNEUL-BONGSOON-43-false",
+      "sha256": "366c19e2aeda4c73f6285dcc06899b7a7b30b421696b8710e102ee5e365dfa63",
+      "baselineSha256": "366c19e2aeda4c73f6285dcc06899b7a7b30b421696b8710e102ee5e365dfa63",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-NAMUNEUL-BONGSOON-43-true",
+      "sha256": "2605e632bbe090df982be60d08a2cf58361f2e751190a504a57f1c5b58566e07",
+      "baselineSha256": "2605e632bbe090df982be60d08a2cf58361f2e751190a504a57f1c5b58566e07",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-NAMUNEUL-BONGSOON-99-false",
+      "sha256": "8250808fb5f8f137dcfe0e7a21c147e8898b932ed4f1a77e7d4b87e438fbad08",
+      "baselineSha256": "8250808fb5f8f137dcfe0e7a21c147e8898b932ed4f1a77e7d4b87e438fbad08",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-NAMUNEUL-BONGSOON-99-true",
+      "sha256": "793866370e16bf84355213230968f88ab73446ca78accc00dd1f1e467a732ec7",
+      "baselineSha256": "793866370e16bf84355213230968f88ab73446ca78accc00dd1f1e467a732ec7",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-NAMUNEUL-BONGSOON-pve-3",
+      "sha256": "d32b7111b6c069379a98ae84ccf1bbea43367ef31489c8fcb46702d4002d669a",
+      "baselineSha256": "d32b7111b6c069379a98ae84ccf1bbea43367ef31489c8fcb46702d4002d669a",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-NAMUNEUL-BONGSOON-pve-37",
+      "sha256": "25d3317394a10431c4cc05c049067cd3d859965a3fed9973503214843c58cc9c",
+      "baselineSha256": "25d3317394a10431c4cc05c049067cd3d859965a3fed9973503214843c58cc9c",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-NAMUNEUL-BONGSOON-pve-101",
+      "sha256": "b2a7bf5dc5a84a5e72dc4b6372c95c7f9630eba598a89dfa6bcd11e6a371b5c0",
+      "baselineSha256": "b2a7bf5dc5a84a5e72dc4b6372c95c7f9630eba598a89dfa6bcd11e6a371b5c0",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-OH-JOEUN-1-false",
+      "sha256": "f7b6570b5033882867496933e2a45e3f7529b3bed616fc2ac8b5c5ef31de3001",
+      "baselineSha256": "f7b6570b5033882867496933e2a45e3f7529b3bed616fc2ac8b5c5ef31de3001",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-OH-JOEUN-1-true",
+      "sha256": "3c328d7f3d0b9c9735f13dc1fd7ab6c527de40fa1def68e3c2d4b5b38426d367",
+      "baselineSha256": "3c328d7f3d0b9c9735f13dc1fd7ab6c527de40fa1def68e3c2d4b5b38426d367",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-OH-JOEUN-17-false",
+      "sha256": "6b78f8e94da80a32038331f177d68cb7406a1ce359c325da430455ea47decf7e",
+      "baselineSha256": "6b78f8e94da80a32038331f177d68cb7406a1ce359c325da430455ea47decf7e",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-OH-JOEUN-17-true",
+      "sha256": "40ef879497587169f62c57b7d8cb0738f91812669249d6bf180ed67bf59db6e2",
+      "baselineSha256": "40ef879497587169f62c57b7d8cb0738f91812669249d6bf180ed67bf59db6e2",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-OH-JOEUN-43-false",
+      "sha256": "a87dd351ea8bb380c5254467311b2c559c2f2e0abbb5f849d2a453fc5465e194",
+      "baselineSha256": "a87dd351ea8bb380c5254467311b2c559c2f2e0abbb5f849d2a453fc5465e194",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-OH-JOEUN-43-true",
+      "sha256": "9ed00b391d00f1ce4ba2f697d9fa14b4bcd497392519d646bfe22e697a937229",
+      "baselineSha256": "9ed00b391d00f1ce4ba2f697d9fa14b4bcd497392519d646bfe22e697a937229",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-OH-JOEUN-99-false",
+      "sha256": "157970a8fdd245630499e03f98b8b30c78297196ff9ec0e58120523468d784a9",
+      "baselineSha256": "157970a8fdd245630499e03f98b8b30c78297196ff9ec0e58120523468d784a9",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-OH-JOEUN-99-true",
+      "sha256": "5e74f22dcfb50c18cf0801904a6990109079a0fcc48ace398842c9a75de8cf8b",
+      "baselineSha256": "5e74f22dcfb50c18cf0801904a6990109079a0fcc48ace398842c9a75de8cf8b",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-OH-JOEUN-pve-3",
+      "sha256": "206a7fa16d1259d1d5e93633ca565acfc606de189acdb9ff92113804485e9128",
+      "baselineSha256": "206a7fa16d1259d1d5e93633ca565acfc606de189acdb9ff92113804485e9128",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-OH-JOEUN-pve-37",
+      "sha256": "fb0ecd367be449010559d5b7fcd43025bb1f430b604200201ae98975da940877",
+      "baselineSha256": "fb0ecd367be449010559d5b7fcd43025bb1f430b604200201ae98975da940877",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-OH-JOEUN-pve-101",
+      "sha256": "f2d1dacf3c2f0f262528ade6499d03c47499f00e11e3b62416a6b754dd72ac9c",
+      "baselineSha256": "f2d1dacf3c2f0f262528ade6499d03c47499f00e11e3b62416a6b754dd72ac9c",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ORIKKUNG-1-false",
+      "sha256": "e426a067cc951c4d2530c1280078cb8a7dd09a019a68d43c19be6a5257a7e329",
+      "baselineSha256": "e426a067cc951c4d2530c1280078cb8a7dd09a019a68d43c19be6a5257a7e329",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ORIKKUNG-1-true",
+      "sha256": "285256373523d3f28bb2ae8ced4454c1568be742ad4fd62a52f42fa4c0942d45",
+      "baselineSha256": "285256373523d3f28bb2ae8ced4454c1568be742ad4fd62a52f42fa4c0942d45",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ORIKKUNG-17-false",
+      "sha256": "33966e1766c0dad8ae936baff7949fbaa4ac6db5190af29ef3f8bd71934b3454",
+      "baselineSha256": "33966e1766c0dad8ae936baff7949fbaa4ac6db5190af29ef3f8bd71934b3454",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ORIKKUNG-17-true",
+      "sha256": "0c3443f3b016d31abb17865ec1bb6aa9c073ec32d958cfb64e56904bc918c7dd",
+      "baselineSha256": "0c3443f3b016d31abb17865ec1bb6aa9c073ec32d958cfb64e56904bc918c7dd",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ORIKKUNG-43-false",
+      "sha256": "eef143a59e5575674faa036db04f5fe6e48edb3785a87f95f133298087b76459",
+      "baselineSha256": "eef143a59e5575674faa036db04f5fe6e48edb3785a87f95f133298087b76459",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ORIKKUNG-43-true",
+      "sha256": "adc19473ca22f1327af2cf49092af21d7ca6f2d1e7cb19d8685d54b1fda54bd7",
+      "baselineSha256": "adc19473ca22f1327af2cf49092af21d7ca6f2d1e7cb19d8685d54b1fda54bd7",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ORIKKUNG-99-false",
+      "sha256": "e8d0cc5d3083ac138ecd010574c1892771476c101cf64b3bcd009dd684895b92",
+      "baselineSha256": "e8d0cc5d3083ac138ecd010574c1892771476c101cf64b3bcd009dd684895b92",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ORIKKUNG-99-true",
+      "sha256": "484a9517419ce2fde7ffe03de4d71ef232ca330c2f4410caa05f4816b8594510",
+      "baselineSha256": "484a9517419ce2fde7ffe03de4d71ef232ca330c2f4410caa05f4816b8594510",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-ORIKKUNG-pve-3",
+      "sha256": "49ec74f96f97ac417916ee6999db1e09912de23ae4947a999ff360f636a8d9e9",
+      "baselineSha256": "49ec74f96f97ac417916ee6999db1e09912de23ae4947a999ff360f636a8d9e9",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-ORIKKUNG-pve-37",
+      "sha256": "c5acc1ab51a1732eef91f7a8f0279697103f2a91d507be1b8c77a40f6e3f765c",
+      "baselineSha256": "c5acc1ab51a1732eef91f7a8f0279697103f2a91d507be1b8c77a40f6e3f765c",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-ORIKKUNG-pve-101",
+      "sha256": "dc7bc57d5977571058eeafb1401d38b72a2a6e3c89a2b72a279dda755ce36cbf",
+      "baselineSha256": "dc7bc57d5977571058eeafb1401d38b72a2a6e3c89a2b72a279dda755ce36cbf",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-KANGGUYEOL-1-false",
+      "sha256": "02024122a1fd227f0b676191e9ef1fb528570dd570a4b263da48c9848549b0dc",
+      "baselineSha256": "02024122a1fd227f0b676191e9ef1fb528570dd570a4b263da48c9848549b0dc",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-KANGGUYEOL-1-true",
+      "sha256": "3aeed799ce579ea38e24c97965bffc330ea45e09eade99f77db947818f2c3c01",
+      "baselineSha256": "3aeed799ce579ea38e24c97965bffc330ea45e09eade99f77db947818f2c3c01",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-KANGGUYEOL-17-false",
+      "sha256": "f56e638701cf1eb0bf41bdb95d361c7ed879acc012dcc639069f552dfd7fd7cd",
+      "baselineSha256": "f56e638701cf1eb0bf41bdb95d361c7ed879acc012dcc639069f552dfd7fd7cd",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-KANGGUYEOL-17-true",
+      "sha256": "a57bb484383dd5b61d604594d9f73913459ef57d25f94f0eee61bd06557f6f43",
+      "baselineSha256": "a57bb484383dd5b61d604594d9f73913459ef57d25f94f0eee61bd06557f6f43",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-KANGGUYEOL-43-false",
+      "sha256": "28b27825cf5c0c68a6477b359eec677327b6520f7fa6ad691055928cb2180fcc",
+      "baselineSha256": "28b27825cf5c0c68a6477b359eec677327b6520f7fa6ad691055928cb2180fcc",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-KANGGUYEOL-43-true",
+      "sha256": "076c5c9b2f6176c9cc0990f9ccfcb2e30bd07ffcf0a70a7f2b38a7041841ef2f",
+      "baselineSha256": "076c5c9b2f6176c9cc0990f9ccfcb2e30bd07ffcf0a70a7f2b38a7041841ef2f",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-KANGGUYEOL-99-false",
+      "sha256": "a459fa4290ab2ae409fc376958611e01b3addb45e9ddfc088a23e42881172ed7",
+      "baselineSha256": "a459fa4290ab2ae409fc376958611e01b3addb45e9ddfc088a23e42881172ed7",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-KANGGUYEOL-99-true",
+      "sha256": "7441429118b318e05b4408110857f05bb37857854dad272f35b40eaf3a55a76b",
+      "baselineSha256": "7441429118b318e05b4408110857f05bb37857854dad272f35b40eaf3a55a76b",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-KANGGUYEOL-pve-3",
+      "sha256": "6d0db2b8fa2d65487181419900f5cf15f35dcea27e9cb1d33a1311385e0aedab",
+      "baselineSha256": "6d0db2b8fa2d65487181419900f5cf15f35dcea27e9cb1d33a1311385e0aedab",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-KANGGUYEOL-pve-37",
+      "sha256": "71339f1dd180378d90f6fa9d06915fb20a5ab0863f793e15222c6d2ae4562a3e",
+      "baselineSha256": "71339f1dd180378d90f6fa9d06915fb20a5ab0863f793e15222c6d2ae4562a3e",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-KANGGUYEOL-pve-101",
+      "sha256": "6a9b7151e987de15b5014408a66bc1530edfc12ec6b2ec1bcfec9ad37f9012ab",
+      "baselineSha256": "6a9b7151e987de15b5014408a66bc1530edfc12ec6b2ec1bcfec9ad37f9012ab",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-AYOON-1-false",
+      "sha256": "0ca0ddd97e5fe1baf1879f3847baa364cb17f956573f7066afb894948e5ef50f",
+      "baselineSha256": "0ca0ddd97e5fe1baf1879f3847baa364cb17f956573f7066afb894948e5ef50f",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-AYOON-1-true",
+      "sha256": "d1a8863ba5b441f9ab43ea86f01da1bea78592603a51117eb5caee1ae711491e",
+      "baselineSha256": "d1a8863ba5b441f9ab43ea86f01da1bea78592603a51117eb5caee1ae711491e",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-AYOON-17-false",
+      "sha256": "0379ca8057c220ab840e5d2b865918262389843bb3655ffd77a1f09f821b2a0a",
+      "baselineSha256": "0379ca8057c220ab840e5d2b865918262389843bb3655ffd77a1f09f821b2a0a",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-AYOON-17-true",
+      "sha256": "9789fa45e427a2ba7dbb44be9c0c725252befc94dc2799b16e989f3e9db02739",
+      "baselineSha256": "9789fa45e427a2ba7dbb44be9c0c725252befc94dc2799b16e989f3e9db02739",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-AYOON-43-false",
+      "sha256": "10f5121c97b20f30a289281aabf63cf0b5e38f5cc450afc1459b4f24c452b329",
+      "baselineSha256": "10f5121c97b20f30a289281aabf63cf0b5e38f5cc450afc1459b4f24c452b329",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-AYOON-43-true",
+      "sha256": "f18d64e3a1391312f50fafca573e8222d52b361d7529b7de8c2525156c7dea92",
+      "baselineSha256": "f18d64e3a1391312f50fafca573e8222d52b361d7529b7de8c2525156c7dea92",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-AYOON-99-false",
+      "sha256": "6d61676253f72da97f4010819a53e3f2b306af300adaaa318df28eeb4583e436",
+      "baselineSha256": "6d61676253f72da97f4010819a53e3f2b306af300adaaa318df28eeb4583e436",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-AYOON-99-true",
+      "sha256": "8a550379ff982385abca7647f76c3916bacd173bbd00521a40b0a10b6f51b08e",
+      "baselineSha256": "8a550379ff982385abca7647f76c3916bacd173bbd00521a40b0a10b6f51b08e",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-AYOON-pve-3",
+      "sha256": "2a3f728d846ce45b8b5053e616e279926e409d83a21db6bcce93f87b00a1acef",
+      "baselineSha256": "2a3f728d846ce45b8b5053e616e279926e409d83a21db6bcce93f87b00a1acef",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-AYOON-pve-37",
+      "sha256": "e2f50f4e5f88fdfb862a6368dfaf897226a1bdc5c9314867544b286837981685",
+      "baselineSha256": "e2f50f4e5f88fdfb862a6368dfaf897226a1bdc5c9314867544b286837981685",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-AYOON-pve-101",
+      "sha256": "55dcdd0fb62e0c76e52d0ebdfeceee06d7c8254793cf7e74a90d069627b1cd31",
+      "baselineSha256": "55dcdd0fb62e0c76e52d0ebdfeceee06d7c8254793cf7e74a90d069627b1cd31",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ZEUS-CHEOLGU-1-false",
+      "sha256": "9662ac0a46d62f6593e59e8cf40b6370c5aefb3744c3e7af776165d6ba73ea11",
+      "baselineSha256": "9662ac0a46d62f6593e59e8cf40b6370c5aefb3744c3e7af776165d6ba73ea11",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ZEUS-CHEOLGU-1-true",
+      "sha256": "c2ecd0baf8c94220a72775e8eae3c9cb7e4c383832738de12838478a617fba41",
+      "baselineSha256": "c2ecd0baf8c94220a72775e8eae3c9cb7e4c383832738de12838478a617fba41",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ZEUS-CHEOLGU-17-false",
+      "sha256": "3d901e92e465e89febbc049bfdb6606771c7e9f67d28e232ff65e1b01d4ae971",
+      "baselineSha256": "3d901e92e465e89febbc049bfdb6606771c7e9f67d28e232ff65e1b01d4ae971",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ZEUS-CHEOLGU-17-true",
+      "sha256": "df6f0445cb048a58795475e19187b57cd93b00a06d8b6ce0a48136b7ade590d6",
+      "baselineSha256": "df6f0445cb048a58795475e19187b57cd93b00a06d8b6ce0a48136b7ade590d6",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ZEUS-CHEOLGU-43-false",
+      "sha256": "11c65219ffc0a3188f72f37773544f5446c11b922fb58f06b7d5a510378f20aa",
+      "baselineSha256": "11c65219ffc0a3188f72f37773544f5446c11b922fb58f06b7d5a510378f20aa",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ZEUS-CHEOLGU-43-true",
+      "sha256": "db2a3074a9b2df0c122ad959152ffe626846bebc4e77991b77c08d2ee9d1ce43",
+      "baselineSha256": "db2a3074a9b2df0c122ad959152ffe626846bebc4e77991b77c08d2ee9d1ce43",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ZEUS-CHEOLGU-99-false",
+      "sha256": "98a0aa4426d4d3f7d1f6776da8eb215f7e6fa43d765bafbc747403e89ad7d258",
+      "baselineSha256": "98a0aa4426d4d3f7d1f6776da8eb215f7e6fa43d765bafbc747403e89ad7d258",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-ZEUS-CHEOLGU-99-true",
+      "sha256": "1d40c8f4e9ba5a3ae375faae5e1287bf1be14d4359465fd1346626547ed82423",
+      "baselineSha256": "1d40c8f4e9ba5a3ae375faae5e1287bf1be14d4359465fd1346626547ed82423",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-ZEUS-CHEOLGU-pve-3",
+      "sha256": "0d1c3ea84a0a41363d1f28a6178e7e29c3e7b821230d6932743eb78fc3124d2b",
+      "baselineSha256": "0d1c3ea84a0a41363d1f28a6178e7e29c3e7b821230d6932743eb78fc3124d2b",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-ZEUS-CHEOLGU-pve-37",
+      "sha256": "4b33ccdd3c01fe1cf6ce156a99c502da78238eee0f2142551cfa210b40458ebf",
+      "baselineSha256": "4b33ccdd3c01fe1cf6ce156a99c502da78238eee0f2142551cfa210b40458ebf",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-ZEUS-CHEOLGU-pve-101",
+      "sha256": "80f0d52010a93511542e944aaedbcc9ce73fa2d4940461880e0d4f043036eec3",
+      "baselineSha256": "80f0d52010a93511542e944aaedbcc9ce73fa2d4940461880e0d4f043036eec3",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-GUSUDAENG-1-false",
+      "sha256": "7ca7c85200d459be5c18ef74b47bfb2b5820a8b3387c0a1d2901e73aa51b228c",
+      "baselineSha256": "7ca7c85200d459be5c18ef74b47bfb2b5820a8b3387c0a1d2901e73aa51b228c",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-GUSUDAENG-1-true",
+      "sha256": "aadef55a77913dca3eac5ef41a7c6bb27102428c45dc6a24d55c8c41941bedd1",
+      "baselineSha256": "aadef55a77913dca3eac5ef41a7c6bb27102428c45dc6a24d55c8c41941bedd1",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-GUSUDAENG-17-false",
+      "sha256": "23f2228d0fff33e40533300bb64cf83f427ec23066318c81b3913eac70d3d951",
+      "baselineSha256": "23f2228d0fff33e40533300bb64cf83f427ec23066318c81b3913eac70d3d951",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-GUSUDAENG-17-true",
+      "sha256": "53ffe56adf97a4f9dc3bccfa860bad32815a780bf9d8c5e5303451adbf9bfa1e",
+      "baselineSha256": "53ffe56adf97a4f9dc3bccfa860bad32815a780bf9d8c5e5303451adbf9bfa1e",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-GUSUDAENG-43-false",
+      "sha256": "965fb65562df9e781b0ab2cfd1117b58d76b25b026b7c43616d14443578a6114",
+      "baselineSha256": "965fb65562df9e781b0ab2cfd1117b58d76b25b026b7c43616d14443578a6114",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-GUSUDAENG-43-true",
+      "sha256": "59dade95d8480439edb1c3215d3456e4852fb5313251874892f16636b090418c",
+      "baselineSha256": "59dade95d8480439edb1c3215d3456e4852fb5313251874892f16636b090418c",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-GUSUDAENG-99-false",
+      "sha256": "d5b98a6f0d55a622406953700a1a578c7c0b73374f2eda8ebaddcc5dd92b4d18",
+      "baselineSha256": "d5b98a6f0d55a622406953700a1a578c7c0b73374f2eda8ebaddcc5dd92b4d18",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "ICON-GUSUDAENG-99-true",
+      "sha256": "03310d684e52c886d0d380875c833c22ef375eb9929ed4223b28584536eec20e",
+      "baselineSha256": "03310d684e52c886d0d380875c833c22ef375eb9929ed4223b28584536eec20e",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-GUSUDAENG-pve-3",
+      "sha256": "9879d5cf919c4d472df45a576c488b2384af5db4a62b5c7f1f08ff0d99c29e1b",
+      "baselineSha256": "9879d5cf919c4d472df45a576c488b2384af5db4a62b5c7f1f08ff0d99c29e1b",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-GUSUDAENG-pve-37",
+      "sha256": "dc0d5d5e21ee31cb93b21a924e3252ec1771f9adb7a5f94cb3b5e1a186cf286e",
+      "baselineSha256": "dc0d5d5e21ee31cb93b21a924e3252ec1771f9adb7a5f94cb3b5e1a186cf286e",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "ICON-GUSUDAENG-pve-101",
+      "sha256": "fc9cb6d0617a268a7c2ddf3f987e653f660e3499b8a4a05abe35ae9f1f05bbeb",
+      "baselineSha256": "fc9cb6d0617a268a7c2ddf3f987e653f660e3499b8a4a05abe35ae9f1f05bbeb",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "plain-2",
+      "sha256": "814809a484343ca8157b62a27eb40da2dfd59de50a0366c2bee7a99edfbb1eda",
+      "baselineSha256": "814809a484343ca8157b62a27eb40da2dfd59de50a0366c2bee7a99edfbb1eda",
+      "unchanged": true
+    },
+    {
+      "kind": "createDuoBattleV2",
+      "label": "duo-2",
+      "sha256": "fa69c211daeecb9ac06d8a7ed6f7c8d76af5f7c6272303c3bf21d9c53205d980",
+      "baselineSha256": "fa69c211daeecb9ac06d8a7ed6f7c8d76af5f7c6272303c3bf21d9c53205d980",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "plain-31",
+      "sha256": "fcdf5a283ec70641305d2025f49f3a6760bc9c3de8088f9279e0ec1c4a9fa7bb",
+      "baselineSha256": "fcdf5a283ec70641305d2025f49f3a6760bc9c3de8088f9279e0ec1c4a9fa7bb",
+      "unchanged": true
+    },
+    {
+      "kind": "createDuoBattleV2",
+      "label": "duo-31",
+      "sha256": "7ff01c0ca8444da0d78b0cd0a64893656efd2d068746d8042aab93a2720b603b",
+      "baselineSha256": "7ff01c0ca8444da0d78b0cd0a64893656efd2d068746d8042aab93a2720b603b",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "plain-73",
+      "sha256": "16409c0d55d6b6e9be11c86af78ba1b9c27153d22bead927c8eb29b207f30746",
+      "baselineSha256": "16409c0d55d6b6e9be11c86af78ba1b9c27153d22bead927c8eb29b207f30746",
+      "unchanged": true
+    },
+    {
+      "kind": "createDuoBattleV2",
+      "label": "duo-73",
+      "sha256": "e94b1d2d27131d3285ff7eb2c54f49bfcb0ec6b8949b64e2247b8cf8f980e214",
+      "baselineSha256": "e94b1d2d27131d3285ff7eb2c54f49bfcb0ec6b8949b64e2247b8cf8f980e214",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "V-055-merc-pvp-7",
+      "sha256": "10cb9d8184620e85dac4277b16adbed253774e9e5159489ea05f217d34e55289",
+      "baselineSha256": "10cb9d8184620e85dac4277b16adbed253774e9e5159489ea05f217d34e55289",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "V-055-merc-pve-7",
+      "sha256": "02dd8df4d1f6cff864891534bd9722e3e86ccc9d1a88df122bd0b74758b499a8",
+      "baselineSha256": "02dd8df4d1f6cff864891534bd9722e3e86ccc9d1a88df122bd0b74758b499a8",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "V-055-merc-pvp-29",
+      "sha256": "bd994fc98099aeb780296bcbfeaa927030d366086f781d0a3f61d63b70d98331",
+      "baselineSha256": "bd994fc98099aeb780296bcbfeaa927030d366086f781d0a3f61d63b70d98331",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "V-055-merc-pve-29",
+      "sha256": "1d37f0a50c7b43736743166532781c7d4209b14154a3aa0a93a3814132f53983",
+      "baselineSha256": "1d37f0a50c7b43736743166532781c7d4209b14154a3aa0a93a3814132f53983",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "V-056-merc-pvp-7",
+      "sha256": "348aa7443b7273151ba246bb191082abbedae33e49b9e120cc72f9e6309526df",
+      "baselineSha256": "348aa7443b7273151ba246bb191082abbedae33e49b9e120cc72f9e6309526df",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "V-056-merc-pve-7",
+      "sha256": "e95d66ffd03e9c5c54af59e22405ab53140fe32b03b95c3b0cca0f37eef0aa21",
+      "baselineSha256": "e95d66ffd03e9c5c54af59e22405ab53140fe32b03b95c3b0cca0f37eef0aa21",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "V-056-merc-pvp-29",
+      "sha256": "b55cbb642c3c6e2517d17a3c093c8d4de5bfbc717c44eae85a31403ec81b6547",
+      "baselineSha256": "b55cbb642c3c6e2517d17a3c093c8d4de5bfbc717c44eae85a31403ec81b6547",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "V-056-merc-pve-29",
+      "sha256": "8b2347184a3f4a065e5ba801b0e4f3eb3e5441e29e131fecf3df78008d9ed604",
+      "baselineSha256": "8b2347184a3f4a065e5ba801b0e4f3eb3e5441e29e131fecf3df78008d9ed604",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "V-049-merc-pvp-7",
+      "sha256": "00781dba1b07c5f7d1cce06f8500f689e57aa30aeb84210134c9c4ab08199f91",
+      "baselineSha256": "00781dba1b07c5f7d1cce06f8500f689e57aa30aeb84210134c9c4ab08199f91",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "V-049-merc-pve-7",
+      "sha256": "530f067f0379de76cbeb364dfde9e651be168f99534537d5fd5db3f33e0f1216",
+      "baselineSha256": "530f067f0379de76cbeb364dfde9e651be168f99534537d5fd5db3f33e0f1216",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "V-049-merc-pvp-29",
+      "sha256": "ed4e546ee13bac42230ebfd3062a751446c8e49c37fee3424a3e93d729868ed0",
+      "baselineSha256": "ed4e546ee13bac42230ebfd3062a751446c8e49c37fee3424a3e93d729868ed0",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "V-049-merc-pve-29",
+      "sha256": "1f46453555867eb26d43498dd7727e338f220421a437d7469770c6b312a5b664",
+      "baselineSha256": "1f46453555867eb26d43498dd7727e338f220421a437d7469770c6b312a5b664",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "V-046-merc-pvp-7",
+      "sha256": "cbede5d73d161632fd619214f022a86ce8c033671a97211eb7db948d31db1c27",
+      "baselineSha256": "cbede5d73d161632fd619214f022a86ce8c033671a97211eb7db948d31db1c27",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "V-046-merc-pve-7",
+      "sha256": "eb5170a710a935da2051ddcd6522dd916fb374643a37e897ddab95a57ac23b6d",
+      "baselineSha256": "eb5170a710a935da2051ddcd6522dd916fb374643a37e897ddab95a57ac23b6d",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "V-046-merc-pvp-29",
+      "sha256": "1582e500f7da973e97c58c3b34d9815c4904437d98a4b440db830ed5b5d9c62f",
+      "baselineSha256": "1582e500f7da973e97c58c3b34d9815c4904437d98a4b440db830ed5b5d9c62f",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "V-046-merc-pve-29",
+      "sha256": "54ed69f4fce92e104c1d6db9cabe26608c6f9605c20c9756ed78cca6d0302a46",
+      "baselineSha256": "54ed69f4fce92e104c1d6db9cabe26608c6f9605c20c9756ed78cca6d0302a46",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "V-021-merc-pvp-7",
+      "sha256": "5d26aa1b6a1c7f58e8477ffe16a998cbfe41ebfe4f5795373d8abacbb04c893e",
+      "baselineSha256": "5d26aa1b6a1c7f58e8477ffe16a998cbfe41ebfe4f5795373d8abacbb04c893e",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "V-021-merc-pve-7",
+      "sha256": "d8d566510bd5ad67aeffff613ec51cabe963e54765a9d0b232691899393d9e67",
+      "baselineSha256": "d8d566510bd5ad67aeffff613ec51cabe963e54765a9d0b232691899393d9e67",
+      "unchanged": true
+    },
+    {
+      "kind": "createPvpBattleV2",
+      "label": "V-021-merc-pvp-29",
+      "sha256": "402b321bfe90bb08ff547505a1493a1ca47bfa40bea8aacf90bbbdd5f481396a",
+      "baselineSha256": "402b321bfe90bb08ff547505a1493a1ca47bfa40bea8aacf90bbbdd5f481396a",
+      "unchanged": true
+    },
+    {
+      "kind": "createPveBattleV2",
+      "label": "V-021-merc-pve-29",
+      "sha256": "6bd6dd3a00c84cb156754f3e307ae0e759db3da94915df738a79863e6183077f",
+      "baselineSha256": "6bd6dd3a00c84cb156754f3e307ae0e759db3da94915df738a79863e6183077f",
+      "unchanged": true
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import {iconFusionFixture} from './helpers/icon-fusion-db.mjs';
 import {handleIconFusion,runIconFusion} from '../functions/_icon_fusion.js';
 import {handleIconCms} from '../functions/_icon_cms.js';
 import {handleIconRoles} from '../functions/_icon_roles.js';
+import {handleIconTechniques} from '../functions/_icon_techniques.js';
 import {ICON_LIVE_CARDS} from '../shared/icon-fusion-policy-v1.mjs';
 const root=path.resolve(import.meta.dirname,'..'),port=Number(process.env.ICON_QA_PORT||8977),origin=`http://127.0.0.1:${port}`;
 let f,roll=0,posts=0,lose=false;
@@ -29,7 +30,7 @@ const server=http.createServer(async(req,res)=>{try{
    posts++;const result=await f.deps.withUserMutationLock(f.env,7,apiPath,()=>runIconFusion(f.env,f.user,JSON.parse(body),{randomInt:()=>roll}));
    if(lose){lose=false;return send(res,503,{error:'QA lost acknowledgement',retryable:true});}return send(res,200,result);
   }
-  const response=await handleIconFusion({path:apiPath,request,env:f.env,deps:f.deps})||await handleIconCms({path:apiPath,request,env:f.env,deps:f.deps})||await handleIconRoles({path:apiPath,request,env:f.env,deps:f.deps});
+  const response=await handleIconFusion({path:apiPath,request,env:f.env,deps:f.deps})||await handleIconCms({path:apiPath,request,env:f.env,deps:f.deps})||await handleIconRoles({path:apiPath,request,env:f.env,deps:f.deps})||await handleIconTechniques({path:apiPath,request,env:f.env,deps:f.deps});
   if(response)return send(res,response.status,await response.json());
   if(['me','me/summary'].includes(apiPath))return send(res,200,{user:await profile(),prison:{incarcerated:false}});
   if(apiPath==='me/collection')return send(res,200,{collection:await profile()});

@@ -1,4 +1,4 @@
-import {mountIconTechniqueEditor} from './icon-technique-editor-v1.mjs?v=20261015-preparation-v1';
+import {mountIconTechniqueEditor} from './icon-technique-editor-v1.mjs?v=20261015-public-off-v1';
 import {mountIconRoleEditor} from './icon-role-editor-v1.mjs?v=20261010-zeus';
 import {ICON_ROLES} from '../shared/icon-roles-v1.mjs';
 import {ICON_EFFECTS} from '../shared/icon-grade-v1.mjs';

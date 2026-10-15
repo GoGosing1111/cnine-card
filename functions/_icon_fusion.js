@@ -3,6 +3,7 @@ import {runJointOperation,readJointOperation,jointCoinDebit,jointInventoryChange
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
 import {mercenaryRandomInt} from './_mercenary_draw_accounting.js';
+import {ICON_EXPANSION_CARDS,preparedIconForCode} from '../shared/icon-expansion-v1.mjs';
 
 const KIND='ICON_FUSION';
 export const iconFusionGuaranteeKey=userId=>`icon_fusion_guarantee_v1:${Number(userId)}`;
@@ -47,12 +48,13 @@ export async function iconFusionOverview(env,user){
   ]);
   const used=deckIds(decks),counts=new Map((icons.results||[]).map(c=>[String(c.card_id),Number(c.quantity)]));
   return {policy:fusionPolicy(guarantee),guaranteedAttempts:guarantee?1:0,settings,enabled:ICON_FUSION_RELEASE_ENABLED&&settings.enabled&&catalog.length===ICON_FUSION_CARDS.length,
-    catalog:catalog.map(c=>({...c,quantity:counts.get(c.cardId)||0})),resources:wallet,
+    catalog:catalog.map(c=>({...c,quantity:counts.get(c.cardId)||0})),upcomingCatalog:ICON_EXPANSION_CARDS,resources:wallet,
     materials:(owned.results||[]).map(row=>({...plainCard(row),eligible:!used.has(String(row.id)),blockedReason:used.has(String(row.id))?'전투 덱 또는 저장 덱에서 먼저 해제해 주세요.':''})),
     pendingRequestId:pending?.request_id||null};
 }
 function inputFor(body){
   const {superstarId,furId,targetCode,policyVersion}=body;
+  if(preparedIconForCode(targetCode))throw fail('PREPARATION_CLOSED','신규 아이콘은 준비 중입니다. 현재 제작과 획득은 OFF입니다.',423);
   if(policyVersion!==POLICY.version)throw fail('POLICY','합성 조건이 변경되었습니다. 화면을 다시 불러오세요.');
   if(![superstarId,furId].every(id=>typeof id==='string'&&/^[A-Za-z0-9_-]{1,100}$/.test(id))||superstarId===furId||!ICON_FUSION_CARDS.some(c=>c.code===targetCode))throw fail('INPUT','SUPERSTAR +13, FUR +13과 제작 가능한 아이콘을 선택해 주세요.',400);
   return {superstarId,furId,targetCode,policyVersion};

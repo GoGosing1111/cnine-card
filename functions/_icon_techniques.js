@@ -1,11 +1,12 @@
-import {ICON_TECHNIQUES,ICON_TECHNIQUES_KEY,ICON_TECHNIQUES_VERSION,defaultIconTechniques,validateIconTechniques} from '../shared/icon-techniques-v1.mjs';
+import {ICON_TECHNIQUES,ICON_TECHNIQUES_KEY,ICON_TECHNIQUES_VERSION,defaultIconTechniques,validateIconTechniques,applyPreparedIconTechniqueDefaults} from '../shared/icon-techniques-v1.mjs';
+import {ICON_EXPANSION_CARDS} from '../shared/icon-expansion-v1.mjs';
 
 export async function readIconTechniqueState(env){
  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(ICON_TECHNIQUES_KEY).first();
  if(!row)return{raw:null,state:{revision:1,document:defaultIconTechniques(),audit:[],updatedAt:null,updatedBy:null}};
  const state=JSON.parse(row.value);
  if(!Number.isSafeInteger(state.revision)||state.revision<1||state.revision>=2147483647||!Array.isArray(state.audit)||state.audit.length>50)throw Error('INVALID_ICON_TECHNIQUE_RECORD');
- state.document=validateIconTechniques(state.document);
+ state.document=applyPreparedIconTechniqueDefaults(validateIconTechniques(state.document));
  return{raw:row.value,state};
 }
 const digest=async value=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value))),byte=>byte.toString(16).padStart(2,'0')).join('');
@@ -31,7 +32,7 @@ export async function handleIconTechniques({path,request,env,deps}){
  }catch(error){return reply({error:error instanceof SyntaxError?'올바른 JSON 요청이 필요합니다.':error.message},400);}
  try{
   let current=await readIconTechniqueState(env);
-  const output=state=>({revision:state.revision,document:state.document,catalog:ICON_TECHNIQUES,version:ICON_TECHNIQUES_VERSION,locks:{releaseEnabled:false,cardAssignmentEnabled:false,tuningApproved:false},updatedAt:state.updatedAt,updatedBy:state.updatedBy,audit:state.audit});
+  const output=state=>({revision:state.revision,document:state.document,catalog:ICON_TECHNIQUES,preparedCards:ICON_EXPANSION_CARDS,version:ICON_TECHNIQUES_VERSION,locks:{releaseEnabled:false,cardAssignmentEnabled:false,tuningApproved:false},updatedAt:state.updatedAt,updatedBy:state.updatedBy,audit:state.audit});
   if(request.method==='GET')return reply(output(current.state));
   const payloadHash=await digest(JSON.stringify([String(admin.id),body.expectedRevision,body.document]));
   const replay=state=>{

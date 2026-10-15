@@ -10,7 +10,7 @@ import {azantBalanceCandidate as mercenary} from './measure-azant-berkan-2026101
 
 // Compare complete receipts, not only winners. The baseline is the committed
 // engine before these eight preparation-only techniques were introduced.
-const baselineRef='0fb6b15cf1c71bcfce7c3500a5beb1378d5292fc';
+const baselineRef=process.env.ICON_PARITY_BASE||'0fb6b15cf1c71bcfce7c3500a5beb1378d5292fc';
 const root=process.cwd(),out=path.join(root,'tmp/icon-techniques-parity');
 fs.mkdirSync(out,{recursive:true});
 const baselineFiles=new Set(['functions/_battle_v2_preview.js','functions/_icon_combat.js','functions/_mercenary_combat.js']);
@@ -50,6 +50,6 @@ for(const code of ['V-055','V-056','V-049','V-046','V-021'])for(const seed of [7
  compare('createPveBattleV2',code+'-merc-pve-'+seed,{cards:cards([ICON_ROLES[3]],'PVE'),mercenary:mercenary(code),monster:{id:1,name:'격리 용병 대조 보스',battle_power:780000},seed});
 }
 const report={baselineRef,scope:'FULL_RECEIPT_EQUALITY_WITHOUT_TRUSTED_TECHNIQUE_PREPARATION',pairedBattles:rows.length,battles:rows.length*2,mismatches:0,rows};
-const target=path.join(root,'docs/qa/icon-techniques-20261015/unchanged-controls.json');
+const target=path.join(root,process.env.ICON_PARITY_REPORT||'docs/qa/icon-techniques-20261015/unchanged-controls.json');
 fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({pairedBattles:rows.length,battles:rows.length*2,mismatches:0,report:path.relative(root,target)}));

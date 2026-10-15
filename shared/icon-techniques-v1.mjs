@@ -1,6 +1,7 @@
 // New ICON techniques are preparation-only; this catalog never assigns a live card.
+import {preparedIconForTechnique} from './icon-expansion-v1.mjs';
 export const ICON_TECHNIQUES_KEY='icon_technique_preparation_v1';
-export const ICON_TECHNIQUES_VERSION='20261015-preparation-v1';
+export const ICON_TECHNIQUES_VERSION='20261015-public-off-v1';
 export const ICON_TECHNIQUES_RELEASE_ENABLED=false;
 // The battle engine accepts this non-JSON capability only from isolated preparation callers.
 export const ICON_TECHNIQUE_PREPARATION=Symbol('ICON_TECHNIQUE_PREPARATION');
@@ -60,7 +61,10 @@ export function validateIconTechniqueTuning(code,raw,{allowNull=false}={}){
   return[f.key,value];
  }));
 }
-export function defaultIconTechniques(){return{version:1,enabled:false,techniques:ICON_TECHNIQUES.map(def=>({code:def.code,cardId:null,enabled:false,tuning:null,notes:''}))};}
+export function defaultIconTechniques(){return{version:1,enabled:false,techniques:ICON_TECHNIQUES.map(def=>({code:def.code,cardId:null,enabled:false,tuning:preparedIconForTechnique(def.code)?{...preparedIconForTechnique(def.code).tuning}:null,notes:''}))};}
+export function applyPreparedIconTechniqueDefaults(document){
+ return {...document,techniques:document.techniques.map(row=>({...row,tuning:row.tuning===null&&preparedIconForTechnique(row.code)?{...preparedIconForTechnique(row.code).tuning}:row.tuning}))};
+}
 export function validateIconTechniques(raw){
  if(!exact(raw,['version','enabled','techniques'])||raw.version!==1||raw.enabled!==false||!Array.isArray(raw.techniques)||raw.techniques.length!==ICON_TECHNIQUES.length)throw Error('신규 ICON 기술은 8종 준비 초안 · OFF로만 저장할 수 있습니다.');
  return{version:1,enabled:false,techniques:ICON_TECHNIQUES.map(def=>{

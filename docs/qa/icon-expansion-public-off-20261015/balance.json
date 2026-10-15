@@ -1,0 +1,337 @@
+{
+  "status": "OFF_PREPARATION_ONLY",
+  "basis": "180000 power, maximum existing ICON stat per field, 1.25 multiplier, defaults, no equipment or mercenaries",
+  "limitation": "Isolated 1v1 balance evidence, not live win rates or every team matchup",
+  "results": [
+    {
+      "code": "ICON-NAMSUDAENG",
+      "mode": "PVE",
+      "benchmark": {
+        "maxHp": 168480,
+        "attack": 52920,
+        "defense": 27540,
+        "speed": 4750
+      },
+      "preparedStats": {
+        "maxHp": 210600,
+        "attack": 66150,
+        "defense": 34425,
+        "speed": 5938
+      },
+      "tuning": {
+        "firstAction": 1,
+        "cooldownActions": 2,
+        "maxCasts": 8
+      },
+      "wins": 280,
+      "losses": 8,
+      "draws": 0,
+      "casts": 32,
+      "opponents": [
+        {
+          "name": "디임",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "하이희야",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "나무늘봉순",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "오조은",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "오리꿍",
+          "wins": 24,
+          "losses": 8,
+          "draws": 0
+        },
+        {
+          "name": "강구열",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "아윤",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "제우스 철구",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "구수댕",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        }
+      ]
+    },
+    {
+      "code": "ICON-DIIM-REDCAP",
+      "mode": "PVE",
+      "benchmark": {
+        "maxHp": 168480,
+        "attack": 52920,
+        "defense": 27540,
+        "speed": 4750
+      },
+      "preparedStats": {
+        "maxHp": 210600,
+        "attack": 66150,
+        "defense": 34425,
+        "speed": 5938
+      },
+      "tuning": {
+        "firstAction": 1,
+        "cooldownActions": 4,
+        "maxCasts": 3,
+        "hpPercent": 50,
+        "attackPercent": 80,
+        "speedPercent": 110
+      },
+      "wins": 288,
+      "losses": 0,
+      "draws": 0,
+      "casts": 296,
+      "opponents": [
+        {
+          "name": "디임",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "하이희야",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "나무늘봉순",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "오조은",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "오리꿍",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "강구열",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "아윤",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "제우스 철구",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "구수댕",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        }
+      ]
+    },
+    {
+      "code": "ICON-NAMSUDAENG",
+      "mode": "PVP",
+      "benchmark": {
+        "maxHp": 187200,
+        "attack": 52920,
+        "defense": 27540,
+        "speed": 4750
+      },
+      "preparedStats": {
+        "maxHp": 234000,
+        "attack": 66150,
+        "defense": 34425,
+        "speed": 5938
+      },
+      "tuning": {
+        "firstAction": 1,
+        "cooldownActions": 2,
+        "maxCasts": 8
+      },
+      "wins": 288,
+      "losses": 0,
+      "draws": 0,
+      "casts": 24,
+      "opponents": [
+        {
+          "name": "디임",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "하이희야",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "나무늘봉순",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "오조은",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "오리꿍",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "강구열",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "아윤",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "제우스 철구",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "구수댕",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        }
+      ]
+    },
+    {
+      "code": "ICON-DIIM-REDCAP",
+      "mode": "PVP",
+      "benchmark": {
+        "maxHp": 187200,
+        "attack": 52920,
+        "defense": 27540,
+        "speed": 4750
+      },
+      "preparedStats": {
+        "maxHp": 234000,
+        "attack": 66150,
+        "defense": 34425,
+        "speed": 5938
+      },
+      "tuning": {
+        "firstAction": 1,
+        "cooldownActions": 4,
+        "maxCasts": 3,
+        "hpPercent": 50,
+        "attackPercent": 80,
+        "speedPercent": 110
+      },
+      "wins": 288,
+      "losses": 0,
+      "draws": 0,
+      "casts": 288,
+      "opponents": [
+        {
+          "name": "디임",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "하이희야",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "나무늘봉순",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "오조은",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "오리꿍",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "강구열",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "아윤",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "제우스 철구",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        },
+        {
+          "name": "구수댕",
+          "wins": 32,
+          "losses": 0,
+          "draws": 0
+        }
+      ]
+    }
+  ]
+}

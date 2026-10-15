@@ -1,0 +1,22 @@
+[
+  {
+    "width": 1440,
+    "liveFusionChoices": 8,
+    "upcomingOff": 2,
+    "coin": "1조",
+    "masterStars": "500만",
+    "successRate": "10%",
+    "deckLimit": 2,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "liveFusionChoices": 8,
+    "upcomingOff": 2,
+    "coin": "1조",
+    "masterStars": "500만",
+    "successRate": "10%",
+    "deckLimit": 2,
+    "errors": []
+  }
+]
