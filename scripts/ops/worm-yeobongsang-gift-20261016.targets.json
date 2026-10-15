@@ -1,0 +1,17 @@
+{
+  "operationKey": "ops:worm-named-gifts-two:20261016:yeobongsang:v1",
+  "itemCode": "WORM_CONTEST_GIFT_BOX",
+  "itemName": "지렁이대회 사은품",
+  "authorization": "안경! 추가 지급 후 정확한 게임 닉네임 확인 질문에 사용자가 여봉상으로 지정. 기존 21명과 별도로 해당 계정에 지렁이대회 사은품 2개 지급.",
+  "sourceType": "CURRENT_USER_CLARIFICATION",
+  "delivery": "DIRECT_INVENTORY",
+  "targets": [
+    {
+      "inputNickname": "안경!",
+      "userId": "5598",
+      "nickname": "여봉상",
+      "boxes": 2,
+      "identityEvidence": "사용자 직접 확인: 여봉상"
+    }
+  ]
+}
