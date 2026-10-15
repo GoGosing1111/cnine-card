@@ -3,6 +3,7 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 import path from 'node:path';
 import {GAME_ORIGIN,CLIENT_VERSION,manifestEntry,allowedNavigation} from './lib/policy.mjs';
 import {ResourceStore,fileResponse} from './lib/resource-store.mjs';
+import {forwardNetworkRequest} from './lib/network-request.mjs';
 
 const here=path.dirname(fileURLToPath(import.meta.url));
 const qa=!app.isPackaged && process.env.SOOPKETMON_QA==='1';
@@ -101,8 +102,7 @@ async function start(){
     }
     // API requests, cookies, auth headers, bodies and live sockets stay on the
     // original HTTPS service. They are never written to the resource store.
-    if(fixtureOrigin&&url.origin===GAME_ORIGIN)return gameSession.fetch(fixtureOrigin+url.pathname+url.search,{method:request.method,headers:request.headers,body:['GET','HEAD'].includes(request.method)?undefined:await request.arrayBuffer(),bypassCustomProtocolHandlers:true});
-    return gameSession.fetch(request,{bypassCustomProtocolHandlers:true});
+    return forwardNetworkRequest(gameSession,request,fixtureOrigin);
   });
   launcher=new BrowserWindow({width:1120,height:760,minWidth:950,minHeight:680,show:!qa,title:'숲켓몬 런처',titleBarStyle:'hidden',titleBarOverlay:{color:'#0b101b',symbolColor:'#9caac0',height:38},backgroundColor:'#080c17',icon:path.join(here,'renderer/assets/icon.png'),autoHideMenuBar:true,webPreferences:{preload:path.join(here,'preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true,spellcheck:false}});
   launcher.webContents.setWindowOpenHandler(()=>({action:'deny'}));

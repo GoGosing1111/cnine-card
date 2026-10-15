@@ -1,3 +1,4 @@
 /node_modules/
 /release/
-/build-resources/
+/build-resources/*
+!/build-resources/installer.nsh

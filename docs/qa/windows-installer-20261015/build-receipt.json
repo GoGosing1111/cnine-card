@@ -1,0 +1,19 @@
+{
+  "version": "0.1.3",
+  "kind": "custom-wpf-installer",
+  "qa": false,
+  "output": "C:\\Users\\User\\.codex\\tmp\\soopketmon-windows-build-20261015\\release\\Soopketmon-Setup-0.1.3-x64.exe",
+  "bytes": 116979712,
+  "sha256": "71adce46871d5d91663721a25a9b593068c66cb638b43e4bb4310aec44e792a6",
+  "backend": {
+    "path": "C:\\Users\\User\\.codex\\tmp\\soopketmon-windows-build-20261015\\release\\Soopketmon-Engine-0.1.3-x64.exe",
+    "bytes": 113449675,
+    "sha256": "d15329ccf299fe575c9e0b87335940175aee95c8a17dd699535903ea3d81efe0"
+  },
+  "installed": {
+    "exe": "Soopketmon.exe",
+    "asarSha256": "8799cb799f3d76bd5ebe07820cfcea802535cc3513a79739335bfe6566460bf5",
+    "bytes": 386938577
+  },
+  "registryGuid": "c69fcbf2-955f-5c48-8ff1-55c03889cb40"
+}

@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "transport": "native HTTPS using a temporary pinned local TLS certificate",
+  "productionRequests": 0,
+  "before": {
+    "status": 403,
+    "body": {
+      "url": "/api/scrapyard/v3/run",
+      "method": "POST",
+      "origin": null,
+      "site": "none",
+      "cookie": "qa-session=kept",
+      "authorization": "Bearer isolated-qa",
+      "body": "{\"requestId\":\"isolated-no-production-write\",\"difficultyId\":1}",
+      "error": "JOINT_ORIGIN"
+    }
+  },
+  "after": {
+    "status": 200,
+    "body": {
+      "url": "/api/scrapyard/v3/run",
+      "method": "POST",
+      "origin": "https://cnine-card.pages.dev",
+      "site": "same-origin",
+      "cookie": "qa-session=kept",
+      "authorization": "Bearer isolated-qa",
+      "body": "{\"requestId\":\"isolated-no-production-write\",\"difficultyId\":1}",
+      "error": null
+    }
+  },
+  "noReferrer": 200,
+  "foreignRejected": 1,
+  "opaqueRejected": 1
+}

@@ -4,7 +4,6 @@ import {mkdtemp,mkdir,readFile,writeFile} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import {pathToFileURL} from 'node:url';
 const { _electron }=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
 const build=process.argv[2],output=process.argv[3];if(!build||!output)throw new Error('Supply build directory and QA output directory');
 await mkdir(output,{recursive:true});
@@ -18,8 +17,16 @@ const manifest={schema:1,origin:'https://cnine-card.pages.dev',minimumClientVers
 const requests=[];
 const server=createServer(async(req,res)=>{
  const pathname=new URL(req.url,'http://localhost').pathname;requests.push({path:pathname,method:req.method});
+ // Only the QA transport maps the real HTTPS origin to a local HTTP fixture.
+ if(req.headers.origin==='https://cnine-card.pages.dev'){
+   res.setHeader('Access-Control-Allow-Origin',req.headers.origin);
+   res.setHeader('Access-Control-Allow-Headers','content-type,authorization');
+   res.setHeader('Access-Control-Allow-Methods','POST,GET,OPTIONS');
+   res.setHeader('Access-Control-Allow-Credentials','true');
+ }
+ if(req.method==='OPTIONS'){res.statusCode=204;return res.end();}
  if(pathname==='/client/windows/manifest.json'){res.setHeader('Content-Type','application/json');return res.end(JSON.stringify(manifest));}
- if(pathname==='/api/echo'){const chunks=[];for await(const b of req)chunks.push(b);res.setHeader('Content-Type','application/json');return res.end(JSON.stringify({authorization:req.headers.authorization,cookie:req.headers.cookie,body:Buffer.concat(chunks).toString()}));}
+ if(pathname==='/api/echo'){const chunks=[];for await(const b of req)chunks.push(b);res.setHeader('Content-Type','application/json');return res.end(JSON.stringify({authorization:req.headers.authorization,cookie:req.headers.cookie,origin:req.headers.origin,body:Buffer.concat(chunks).toString()}));}
  if(bodies[pathname])return res.end(bodies[pathname]);res.statusCode=404;res.end('missing');
 });
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
@@ -31,13 +38,15 @@ try {
  await page.waitForFunction(()=>document.getElementById('playLabel')?.textContent==='다운로드');
 
  await page.locator('#playButton').click();await page.waitForFunction(()=>document.getElementById('playLabel')?.textContent==='게임 시작');
- const before=requests.length;
  await page.locator('#playButton').click();
  let game;for(let n=0;n<100;n++){game=electron.windows().find(p=>p!==page);if(game)break;await new Promise(r=>setTimeout(r,50));}
  assert(game,'game window opened');game.setDefaultTimeout(15000);game.on('pageerror',e=>errors.push(e.message));
  await game.waitForFunction(()=>window.fixtureReady===true);
  assert.deepEqual(await game.evaluate(()=>({require:typeof require,process:typeof process,bridge:typeof window.soopLauncher})),{require:'undefined',process:'undefined',bridge:'undefined'});
  const echo=await game.evaluate(()=>window.echo);assert.equal(echo.authorization,'Bearer qa-token');assert.deepEqual(JSON.parse(echo.body),{test:'no-production-write'});
+ assert.equal(echo.origin,'https://cnine-card.pages.dev');
+ // Exact server guard and cross-site rejection are checked over native HTTPS
+ // in windows-client-origin-20261015.browser.mjs, without this HTTP QA remap.
  assert.match(await game.evaluate(()=>document.cookie),/qa-cookie=kept/);
  assert.equal(await game.evaluate(()=>location.origin),'https://cnine-card.pages.dev');
  assert.equal(await game.evaluate(()=>navigator.serviceWorker.getRegistrations().then(r=>r.length)),0);
@@ -53,7 +62,7 @@ try {
  for(let n=0;n<100;n++){game=electron.windows().find(p=>p!==page);if(game)break;await new Promise(r=>setTimeout(r,50));}
  await game.waitForFunction(()=>window.fixtureReady===true);await game.locator('img').evaluate(img=>img.decode());
  assert.equal(requests.filter(r=>Object.hasOwn(bodies,r.path)).length,firstDownloads,'repeat game launch uses all cached static files');
- assert.equal(requests.filter(r=>r.path==='/api/echo').length,2,'API is sent online each game session');
+ assert.equal(requests.filter(r=>r.path==='/api/echo'&&r.method==='POST').length,2,'API is sent online each game session');
  assert.deepEqual(errors,[]);
  await writeFile(path.join(output,'report.json'),JSON.stringify({passed:true,profile,staticDownloads:firstDownloads,repeatStaticDownloads:0,apiRequests:2,authorizationBodyAndSessionCookieVerified:true,remoteNodeAndBridgeDisabled:true,serviceWorkers:0,errors},null,2));
  console.log('Windows launcher browser checks passed.');
