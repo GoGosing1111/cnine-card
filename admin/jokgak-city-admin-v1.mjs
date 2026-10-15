@@ -7,14 +7,16 @@ import {CITY_WEAPONS} from '../shared/jokgak-city-expansion-v1.mjs';
 import {CITY_ROUND_REWARD_MAX_COIN} from '../shared/jokgak-city-round-rewards-v1.mjs';
 import {cityConflictSettings} from './jokgak-city-conflict-admin-v1.mjs?v=20261012-background-perf1';
 import {cityExplorationSettings} from './jokgak-city-exploration-admin-v1.mjs?v=20261012-background-perf1';
+import {mountCityOffSchedule} from './jokgak-city-schedule-off-v1.mjs?v=20261016-scheduled-off1';
 
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const modes=[['OFF','운영 중지','모든 신규 행동 차단'],['TEST','테스트 운영','OWNER·지정 참여자 / 테스트 현금 사용'],['ON','정식 운영','전체 공개 / 보상 설정 적용']];
 export function mountCityCms(root){
   let policy,savedMode='',catalog=[],tab='operation',selected='CITIZEN',busy=false,dirty=false,destroyed=false,testUsers=new Map(),results=[];
   const controller=new AbortController(),request=(path,options={})=>api(path,{...options,signal:controller.signal});
-  root.innerHTML='<div class="city-cms-note" role="status" aria-live="polite"></div><form class="city-cms-form"></form>';
-  const status=root.querySelector('[role=status]'),form=root.querySelector('form');
+  root.innerHTML='<div class="city-cms-note" role="status" aria-live="polite"></div><div data-city-off-schedule></div><form class="city-cms-form"></form>';
+  const status=root.querySelector('.city-cms-note'),form=root.querySelector('.city-cms-form');
+  const disposeSchedule=mountCityOffSchedule(root.querySelector('[data-city-off-schedule]'));
   const field=(path,label,value,min,max,scale=1)=>`<label>${label}<input type="number" data-path="${path}" data-scale="${scale}" value="${value/scale}" min="${min/scale}" max="${max/scale}" step="${scale===1000?.1:1}" required></label>`;
   const check=(path,label,value)=>`<label class="city-cms-check"><input type="checkbox" data-path="${path}" ${value?'checked':''}>${label}</label>`;
   function collect(){
@@ -102,7 +104,7 @@ export function mountCityCms(root){
     setBusy(true);notice('설정을 저장하고 있습니다.');
     try{const data=await request('admin/jokgak-city',{method:'PATCH',body:{policy:next}});if(destroyed)return;policy=data.policy;savedMode=policy.mode;dirty=false;draw();notice('저장 완료 · '+policy.mode+' · r'+policy.revision+(policy.mode==='TEST'?' · 실제 보상 미지급':''));}catch(e){notice(e.message,true);}finally{setBusy(false);}
   });
-  void load();return ()=>{destroyed=true;controller.abort();root.replaceChildren();};
+  void load();return ()=>{destroyed=true;controller.abort();disposeSchedule();root.replaceChildren();};
 }
 function install(){
   const nav=document.getElementById('nav'),cms=document.getElementById('cms'),badge=document.getElementById('roleBadge');if(!nav||!cms||!badge)return;

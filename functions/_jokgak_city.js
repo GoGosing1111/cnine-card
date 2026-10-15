@@ -19,12 +19,14 @@ import {cityExpansionAction} from './_jokgak_city_expansion.js';
 import {projectCityFacilities} from '../shared/jokgak-city-expansion-v1.mjs';
 import {cityBroadcastText,cityCommsAction} from '../shared/jokgak-city-comms-v1.mjs';
 import {settleCityRound} from './_jokgak_city_round.js';
+import {processCityScheduledOff,handleCityOffSchedule,cityOffScheduleWriteGuards} from './_jokgak_city_scheduled_off.js';
 import {cityRoundWriteGuards} from './_jokgak_city_top.js';
 import {freezeCityRoundRewards} from './_jokgak_city_round_rewards.js';
 import {cityNoticePreferences,saveCityNoticePreferences,cityNoticeCount,skipCityNotices,cityActivityLog,cityBroadcasts} from './_jokgak_city_comms.js';
 import {prepareCityConflict,cityConflictWorld,invalidateCityRiots} from './_jokgak_city_conflict.js';
 
 const p=(env,sql,...v)=>env.DB.prepare(sql).bind(...v);
+const settleCityAccess=async(env,now)=>{await processCityScheduledOff(env,now);return settleCityRound(env,now);};
 const parse=(value,fallback={})=>{try{return JSON.parse(value)??fallback;}catch{return fallback;}};
 const fail=(code,message,status=409,cooldown)=>{throw Object.assign(Error(message),{code:'CITY_'+code,status,...(cooldown?{cooldown}:{})});};
 const tokenValid=value=>typeof value==='string'&&/^[a-zA-Z0-9:_-]{8,100}$/.test(value);
@@ -78,7 +80,7 @@ export async function dischargeCityHospital(env,{now=Date.now(),policy,policyRaw
   return {moved};
 }
 export async function cityStatus(env,user,location='HOME',after=0,now=Date.now()){
-  await settleCityRound(env,now);
+  await settleCityAccess(env,now);
   const {policy:storedPolicy,raw:policyRaw}=await readCitySettings(env);requireCityAccess(storedPolicy,user);
   const policy=await cityCareerPolicy(env,storedPolicy,now);
   if(!cityPlace(location))fail('PLACE','장소를 확인하세요.',400);
@@ -92,7 +94,7 @@ export async function cityStatus(env,user,location='HOME',after=0,now=Date.now()
   return {ok:true,serverNow:now,shift:cityShift(now),...cityPublicPolicy(policy),places:CITY_PLACES,mine,location,people,noticePreferences,unreadCount,broadcasts,conflicts,beggingOffers:await cityBeggingOffers(env,user,mine,now,policy),nextCursor:rows.length>10?Number(rows[9].user_id):null};
 }
 export async function cityOrganization(env,user,after=0,now=Date.now()){
-  await settleCityRound(env,now);
+  await settleCityAccess(env,now);
   const {policy:storedPolicy}=await readCitySettings(env);requireCityAccess(storedPolicy,user);
   const policy=await cityCareerPolicy(env,storedPolicy,now),weights=await cityRoleWeights(env,cityShift(now).id,policy);
   const testerFilter=policy.mode==='TEST'?` AND (u.role='OWNER'${policy.testUserIds.length?` OR c.user_id IN (${policy.testUserIds.map(()=>'?').join(',')})`:''})`:'';
@@ -133,7 +135,7 @@ export async function cityAction(env,deps,user,action,body){
   if(action==='explore'&&!cityPlace(location))fail('PLACE','탐색 지역을 확인하세요.',400);
   if(action!=='broadcast'&&body.message!==undefined)fail('FIELDS','행동에 맞는 메시지를 확인하세요.',400);
   const message=action==='broadcast'?cityBroadcastText(body.message):null;
-  await settleCityRound(env,now);
+  await settleCityAccess(env,now);
   if(body.epoch!==epoch)fail('SHIFT','교대가 끝난 요청입니다. 도시에 다시 입장하세요.');
   const fingerprint=JSON.stringify({action,targetId,location,epoch:body.epoch,...(product?{product}:{}),...(action==='donate'?{offerId:body.offerId}:{}),...(message?{message}:{})});
   const previous=await receipt(env,user,body.requestId,fingerprint);if(previous)return previous;
@@ -253,6 +255,7 @@ export async function cityAction(env,deps,user,action,body){
     cityMode:policy.mode,expansion,exploration,work,comms,bounty:conflict.result,effects:{damageToMine:Math.max(0,(healthBefore??me.health)-me.health),damageToTarget:Math.max(0,(targetHealthBefore??0)-(target?.health??0)),healed:action==='heal'?target.health-targetHealthBefore:0,jailMs:action==='arrest'&&simulation?.battleV2?.result?.winner==='A'?role.arrestMs:0}};
   if(simulation)result.result=simulation.battleV2.result.winner==='A'?'WIN':simulation.battleV2.result.winner==='B'?'LOSE':'DRAW';
   const policyGuard=body.requestId+':policy',statements=cityRoundWriteGuards(env,epoch,body.requestId);
+  statements.push(...cityOffScheduleWriteGuards(env,clock(),body.requestId));
   if(env.DB.dialect==='postgres')statements.push(p(env,'SELECT key FROM app_meta WHERE key=? FOR SHARE',CITY_SETTINGS_KEY));
   statements.push(cityGuard(env,policyGuard,policyRaw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',policyRaw===null?[CITY_SETTINGS_KEY]:[CITY_SETTINGS_KEY,policyRaw]),cityGuardEnd(env,policyGuard));
   if(!raw){
@@ -274,12 +277,13 @@ export async function cityAction(env,deps,user,action,body){
   return result;
 }
 export async function handleJokgakCity({path,request,env,deps}){
-  if(!path.startsWith('jokgak-city/')&&!['admin/jokgak-city','admin/jokgak-city/test-users'].includes(path))return null;
+  if(!path.startsWith('jokgak-city/')&&!['admin/jokgak-city','admin/jokgak-city/test-users','admin/jokgak-city/schedule-off'].includes(path))return null;
   const json=deps.json;const user=await deps.authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
   try{
+    const scheduled=await handleCityOffSchedule({path,request,env,deps,user});if(scheduled)return scheduled;
     const cms=await handleCityCms({path,request,env,deps,user});if(cms)return cms;
     await ensureCitySchema(env);
-    const requestNow=(deps.now||Date.now)();await settleCityRound(env,requestNow);
+    const requestNow=(deps.now||Date.now)();await settleCityAccess(env,requestNow);
     const part=path.slice('jokgak-city/'.length),url=new URL(request.url);
     if(request.method==='GET'&&part==='notifications'){
       const rows=(await p(env,"SELECT n.id,n.summary_json FROM jokgak_city_notifications_v1 n JOIN jokgak_city_actions_v1 a ON a.request_id=n.request_id WHERE n.user_id=? AND n.read_at=0 AND n.created_at>=? AND a.action NOT IN ('beg','alms') ORDER BY n.created_at,n.id LIMIT 10",user.id,cityShift(requestNow).startsAt).all()).results||[];

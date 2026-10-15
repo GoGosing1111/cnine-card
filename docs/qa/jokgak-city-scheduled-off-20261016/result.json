@@ -1,0 +1,33 @@
+{
+  "verifiedAt": "2026-10-15T23:33:12.127Z",
+  "viewports": [
+    "1440x1080",
+    "390x844"
+  ],
+  "timezones": [
+    "UTC",
+    "America/New_York"
+  ],
+  "checks": [
+    "KST noon save",
+    "reload persistence",
+    "reschedule",
+    "lost response exact retry",
+    "cancel",
+    "independent policy dirty state",
+    "past input rejected",
+    "mobile no overflow",
+    "current mode preserved"
+  ],
+  "schedule": {
+    "revision": 5,
+    "pending": {
+      "id": "1:63541399-5aed-4d29-bbd2-9a7fbe5c00c3",
+      "offAt": 1792119600000,
+      "createdAt": 1792116000000,
+      "createdBy": 1
+    },
+    "lastRun": null
+  },
+  "pageErrors": []
+}

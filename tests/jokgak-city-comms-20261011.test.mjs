@@ -67,6 +67,6 @@ test('log pagination is stable at equal timestamps and never returns another use
 test('broadcast and log render malicious text as text, and scheduler closes its connection on success or failure',async()=>{
  const message='<img src=x onerror=alert(1)>';assert.equal(cityBroadcastText('  한글   방송  '),'한글 방송');assert.throws(()=>cityBroadcastText('\u202e가림'));
  const html=cityBroadcastMarkup({id:'one',message,senderName:'<script>',shownAt:0},0)+cityActivityPanel({items:[{id:'one',direction:'sent',action:'broadcast',comms:{message},createdAt:0}],next:null});assert.equal(html.includes('<img src=x'),false);assert.ok(html.includes('&lt;img'));
- let closed=0;const openDatabase=async()=>({db:{},close:async()=>closed++});await runCityRotationSchedule({},{openDatabase,discharge:async()=>{},settle:async(_e,now,options)=>{assert.equal(now,123);assert.equal(options.force,true);return {changed:true};},now:123});assert.equal(closed,1);
- await assert.rejects(runCityRotationSchedule({},{openDatabase,settle:async()=>{throw Error('offline');}}),/offline/);assert.equal(closed,2);
+ let closed=0;const openDatabase=async()=>({db:{},close:async()=>closed++});await runCityRotationSchedule({},{openDatabase,scheduledOff:async()=>{},discharge:async()=>{},settle:async(_e,now,options)=>{assert.equal(now,123);assert.equal(options.force,true);return {changed:true};},now:123});assert.equal(closed,1);
+ await assert.rejects(runCityRotationSchedule({},{openDatabase,scheduledOff:async()=>{},settle:async()=>{throw Error('offline');}}),/offline/);assert.equal(closed,2);
 });
