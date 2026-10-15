@@ -31,7 +31,7 @@ built-in image_gen을 사용했다. 기존 합본에서 약 270px 영역을 확�
 - assets/ui/organization/war-v1/manifest.json — 수도권 작전지도 배경 원본·파생본·해시.
 - assets/ui/organization/war-v1/prompts.json — 최종 지도 프롬프트.
 - 배경은 분위기용이다. 서울 25구 + 경기남부 21시군의 실제 경계는 통계청 SGIS KOSTAT 2013 전국 원본을 함께 투영한 연속 SVG로 제공한다. 일반구를 시 단위로 합치고 광역 전체 / 서울 확대 / 선택 지역 확대에서 46지역 점령 조작을 유지한다. 출처는 organization/faction/NOTICE.md, 빌더는 scripts/build-organization-faction-map.mjs, 최신 PC/모바일 검수는 preview/organization-faction-v2/qa/다.
-- 입단 답변·탭·확정·아지트·세력전·CMS 버튼은 기존 imagegen 금속 프레임 자산을 사용한다.
+- 입단 답변·탭·확정·아지트·세력전·CMS 버튼은 최신 사용자 지시에 따라 interface-v2 imagegen 자산으로 전면 교체한다. 구형 금장 프레임과 장식체를 제거하고 기본·선택·주요 행동·비활성 표면을 통일한다. docs/organization-interface-v2-20261015.md를 따른다.
 
 ## 검수
 

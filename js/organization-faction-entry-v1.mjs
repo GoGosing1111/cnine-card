@@ -1,4 +1,4 @@
-import {mount} from './organization-faction-v1.mjs?v=20261015-boundaries2';
+import {mount} from './organization-faction-v1.mjs?v=20261015-organization-interface-v3';
 const root=document.getElementById('organizationFactionRoot');
 const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const roundId=new URL(location.href).searchParams.get('roundId');
@@ -35,7 +35,7 @@ async function playFactionBattle(data){
   live.stage.querySelector('.battle-v3-header strong').textContent='조직 세력전';
   live.stage.querySelector('.battle-v3-header small').textContent='ORGANIZATION · TERRITORY WAR';
   await host.playPvpBattleV2Live({...live,modal,data});
-  await new Promise(resolve=>{const button=host.document.createElement('button');button.className='fw-battle-close';button.textContent='조직 전투실로 복귀';Object.assign(button.style,{position:'absolute',right:'20px',bottom:'20px',padding:'15px 24px',zIndex:'1000',background:'transparent url(/assets/ui/organization/admission-v1/action-gold.png) center/100% 145% no-repeat',color:'#ffe7aa',border:'0',fontWeight:'700',minHeight:'52px'});button.onclick=()=>{close();resolve();};modal.append(button);});
+  await new Promise(resolve=>{const button=host.document.createElement('button');button.className='fw-battle-close';button.textContent='조직 전투실로 복귀';Object.assign(button.style,{position:'absolute',right:'20px',bottom:'20px',padding:'16px 26px',zIndex:'1000',background:'transparent url(/assets/ui/organization/interface-v2/action-primary.webp) center/100% 100% no-repeat',color:'#eee5cf',border:'0',fontWeight:'700',minHeight:'52px'});button.onclick=()=>{close();resolve();};modal.append(button);});
  }catch(error){close();throw error;}
 }
 mount(root,{apiRequest,ensureFeatureResources:ensureBattle,playFactionBattle});

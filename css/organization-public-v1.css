@@ -1,5 +1,1 @@
-.organization-app{min-height:100vh}
-.org-embedded .organization-app{min-height:0}
-.org-public-notice{display:flex;align-items:center;gap:18px;padding:14px 38px;background:#1c231f;border-block:1px solid #5a5239;font-size:11px;line-height:1.8;color:#b9c1b9}
-.org-public-notice strong{color:#e4ce9e;white-space:nowrap;letter-spacing:.04em}
-@media(max-width:700px){.org-public-notice{display:block;padding:12px 18px;font-size:10px}.org-public-notice strong{display:block;margin-bottom:3px}}
+.org-embedded .organization-app{min-height:0}.org-public-notice{display:flex;align-items:center;gap:18px;margin:12px 36px;padding:20px 28px;background:var(--org-choice) center/100% 100% no-repeat;font-size:11px;line-height:1.9;color:#9dbbb2}.org-public-notice strong{color:#c8dfcb;white-space:nowrap;letter-spacing:.03em}@media(max-width:700px){.org-public-notice{display:block;margin:12px;padding:20px 22px;font-size:10px}.org-public-notice strong{display:block;margin-bottom:6px}}

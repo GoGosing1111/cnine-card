@@ -1,13 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
-import {readFile,mkdir} from 'node:fs/promises';
+import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {resolve,extname,join,relative,isAbsolute} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {organizationFactionFixture} from './helpers/organization-faction-fixture.mjs';
-const root=fileURLToPath(new URL('..',import.meta.url)),out=join(root,'preview/organization-faction-v2/qa');
+const root=fileURLToPath(new URL('..',import.meta.url)),out=join(root,'preview/organization-interface-v2/faction');
 test('organization faction desktop and mobile map, formation, fund ledger and stable refresh use isolated accounts',async t=>{
  const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
+ const controlAudit=[];
+ const inspectControls=async(page,label)=>{const controls=await page.locator('.fw-root button,.fw-root select,.fw-org-funds a').evaluateAll(nodes=>nodes.filter(n=>n.getClientRects().length).map(n=>({text:n.getAttribute('aria-label')||n.textContent.trim().slice(0,50),tag:n.tagName,disabled:n.disabled||false,image:getComputedStyle(n).backgroundImage})));assert.ok(controls.length);assert.ok(controls.every(c=>c.image.includes('/interface-v2/')),label+' has image surfaces on every control');assert.ok(controls.filter(c=>c.disabled).every(c=>c.image.includes('action-disabled.webp')),label+' uses a distinct disabled surface');controlAudit.push({label,controls});};
  const browser=await chromium.launch({channel:'chrome',headless:true});t.after(()=>browser.close());await mkdir(out,{recursive:true});
  const server=createServer(async(req,res)=>{try{
   const url=new URL(req.url,'http://'+req.headers.host),requested=url.pathname.endsWith('/')?url.pathname+'index.html':url.pathname,file=resolve(root,'.'+decodeURIComponent(requested)),rel=relative(root,file);
@@ -19,10 +21,12 @@ test('organization faction desktop and mobile map, formation, fund ledger and st
  for(const width of [1440,390]){
   const f=await organizationFactionFixture(t);
   await f.post('organization/faction/formation',{formation:{attack1:[2,3],attack2:[],defense1:[4,5,6],defense2:[]}});
-  const page=await browser.newPage({viewport:{width,height:1000},isMobile:width===390,hasTouch:width===390,reducedMotion:'reduce',serviceWorkers:'block'});t.after(()=>page.close());const errors=[];
-  page.on('pageerror',error=>errors.push(error.message));
+  const page=await browser.newPage({viewport:{width,height:1000},isMobile:width===390,hasTouch:width===390,reducedMotion:'reduce',serviceWorkers:'block'});t.after(()=>page.close());const errors=[],failedAssets=[];
+  page.on('response',r=>{if(r.status()>=400&&r.url().includes('/interface-v2/'))failedAssets.push(r.url());});
+  page.on('pageerror',error=>errors.push(error.message));let qaUser=2,visualAlert=false;
   await page.route('**/api/**',async route=>{
-   const url=new URL(route.request().url()),result=await f.call(url.pathname.slice(5)+url.search,{method:route.request().method(),body:route.request().postDataJSON()||undefined});
+   const url=new URL(route.request().url()),result=await f.call(url.pathname.slice(5)+url.search,{method:route.request().method(),body:route.request().postDataJSON()||undefined,user:qaUser});
+   if(visualAlert&&url.pathname.endsWith('/overview'))result.data.alerts=[{id:'interface-review-alert',side:'ATTACK',districtName:'강남구',attackerClan:'도끼파',attackerName:'검수 조직원',districtId:'11680'}];
    await route.fulfill({status:result.status,contentType:'application/json',body:JSON.stringify(result.data)});
   });
   await page.goto(origin+'/organization/faction/?roundId='+f.roundId);
@@ -32,6 +36,9 @@ test('organization faction desktop and mobile map, formation, fund ledger and st
   assert.notEqual(await page.locator('.fw-zone.selected > path:first-of-type').evaluate(n=>getComputedStyle(n).stroke),paints[0].stroke,'selected territory has its own outline');
   await page.evaluate(()=>document.fonts.ready);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'no horizontal page overflow');
   assert.match(await page.locator('.fw-map-panel h3').innerText(),/경기남부 21/);
+  await inspectControls(page,width+' map');
+  await page.locator('[data-fw-launch]').hover();assert.match(await page.locator('[data-fw-launch]').evaluate(n=>getComputedStyle(n).backgroundImage),/interface-v2\/action-primary.webp/);
+  await page.mouse.move(1,1);
   await page.screenshot({path:join(out,width+'-map.png'),fullPage:true});
   const fullBox=await page.locator('.fw-seoul-map').getAttribute('viewBox');
   await page.locator('[data-fw-focus=seoul]').first().click();
@@ -51,12 +58,17 @@ test('organization faction desktop and mobile map, formation, fund ledger and st
   await page.waitForTimeout(350);
   assert.equal(await replayNode.evaluate(node=>node.isConnected),true,'unchanged refresh keeps the same map node');
   await page.locator('[data-fw-tab="formation"]').first().click();assert.equal(await page.locator('.fw-member-slot.filled').count(),5);
+  await inspectControls(page,width+' formation');await page.screenshot({path:join(out,width+'-formation.png'),fullPage:true});
   await page.locator('[data-fw-tab="treasury"]').first().click();await page.locator('.fw-org-funds').waitFor();
   assert.match(await page.locator('.fw-org-funds').innerText(),/CMS 설정 대기/);
   assert.match(await page.locator('.fw-treasury').innerText(),/46개/);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   await page.screenshot({path:join(out,width+'-treasury.png'),fullPage:true});
-  assert.deepEqual(errors,[]);await page.close();
+  await inspectControls(page,width+' treasury');
+  qaUser=3;await page.reload();await page.locator('[data-fw-zone]').first().waitFor();await page.locator('[data-fw-tab="formation"]').first().click();assert.equal(await page.locator('[data-fw-save]').isDisabled(),true);await inspectControls(page,width+' no management permission');await page.screenshot({path:join(out,width+'-readonly.png'),fullPage:true});
+  visualAlert=true;await page.reload();await page.locator('.fw-invasion-alert').waitFor();const alertControls=await page.locator('.fw-invasion-alert button').evaluateAll(nodes=>nodes.map(n=>({text:n.textContent.trim(),image:getComputedStyle(n).backgroundImage})));assert.ok(alertControls.every(c=>c.image.includes('/interface-v2/')));controlAudit.push({label:width+' invasion alert',controls:alertControls});await page.screenshot({path:join(out,width+'-alert.png')});await page.locator('.fw-alert-later').click();
+  assert.deepEqual(failedAssets,[]);assert.deepEqual(errors,[]);await page.close();
  }
+ await writeFile(join(out,'control-audit.json'),JSON.stringify(controlAudit,null,2));
  t.diagnostic('Screenshots: '+out);
 });

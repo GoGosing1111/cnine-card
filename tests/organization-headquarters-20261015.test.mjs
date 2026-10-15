@@ -77,7 +77,7 @@ test('PC/mobile show actual members, separate organization funds and HD headquar
   assert.equal(await page.locator('.org-member-slot.is-self b').innerText(),nickname);assert.equal(await page.evaluate(()=>window.orgUnexpected),undefined);
   assert.match(await page.locator('.org-headquarters-status').innerText(),/골목 사무실[\s\S]*공동 자금[\s\S]*275[\s\S]*225 부족/);
   assert.equal(await page.locator('[data-stage="1"]').getAttribute('aria-pressed'),'true');
-  assert.equal(await page.locator('[data-stage="1"]').evaluate(el=>getComputedStyle(el).backgroundSize),'100% 122%');
+  assert.match(await page.locator('[data-stage="1"]').evaluate(el=>getComputedStyle(el).backgroundImage),/interface-v2\/choice-selected/);
   assert.equal(await page.locator('[data-stage="1"]').evaluate(el=>getComputedStyle(el).backgroundColor),'rgba(0, 0, 0, 0)');
   assert.equal(await page.locator('.org-stage-status').innerText(),'현재 우리 조직의 아지트');
   assert.equal(await page.locator('[data-org-upgrade]').isDisabled(),true);
@@ -93,7 +93,7 @@ test('PC/mobile show actual members, separate organization funds and HD headquar
   assert.match(await page.locator('.org-headquarters-status h3').innerText(),/골목 사무실/);
   await page.getByRole('button',{name:'현재 아지트로 돌아가기'}).click();
   assert.equal(await page.locator('[data-stage="1"]').getAttribute('aria-pressed'),'true');
-  assert.equal(await page.locator('[data-stage="1"]').evaluate(el=>getComputedStyle(el).backgroundSize),'100% 122%');
+  assert.match(await page.locator('[data-stage="1"]').evaluate(el=>getComputedStyle(el).backgroundImage),/interface-v2\/choice-selected/);
   assert.equal(await page.locator('[data-stage="1"]').evaluate(el=>getComputedStyle(el).backgroundColor),'rgba(0, 0, 0, 0)');
   await fits();await page.screenshot({path:join(out,width+'-current-hideout.jpg'),fullPage:true,type:'jpeg',quality:85});
   assert.deepEqual(await page.locator('#organization-root button').evaluateAll(bs=>bs.filter(b=>getComputedStyle(b).backgroundImage==='none').map(b=>b.textContent)),[]);

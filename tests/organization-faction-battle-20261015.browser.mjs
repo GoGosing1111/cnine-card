@@ -26,7 +26,8 @@ test('standalone organization faction loads current V3 resources, plays isolated
   await page.route('**/api/**',async route=>{const req=route.request(),url=new URL(req.url());if(url.pathname.endsWith('/strike'))strikes++;if(!url.pathname.startsWith('/api/organization/faction/')){await route.fulfill({json:{enabled:false,visible:false,items:[]}});return;}const result=await f.call(url.pathname.slice(5)+url.search,{method:req.method(),body:req.postDataJSON()||undefined});await route.fulfill({status:result.status,json:result.data});});
   await page.goto(origin+'/organization/faction/?roundId='+f.roundId);await page.locator('[data-fw-zone="11680"]').waitFor();
   if(width===390)await page.locator('[data-fw-district-select]').selectOption('11680');else await page.locator('[data-fw-zone="11680"]').click();
-  await page.locator('[data-fw-launch]').click();await page.locator('[data-fw-room-strike]').waitFor();await page.locator('[data-fw-room-strike]').click();
+  await page.locator('[data-fw-launch]').click();await page.locator('[data-fw-room-strike]').waitFor();
+  const roomSurfaces=await page.locator('.fw-battle-room button').evaluateAll(nodes=>nodes.map(n=>getComputedStyle(n).backgroundImage));assert.ok(roomSurfaces.every(s=>s.includes('/interface-v2/')));await page.screenshot({path:join(out,width+'-room.png')});await page.locator('[data-fw-room-strike]').click();
   try{
    await page.waitForFunction(()=>window.ProjectVPixiBattle?.diagnostics?.().mounted===true,{},{timeout:60000});
    await page.waitForFunction(()=>document.querySelector('.battle-v3-live-shell.is-v3-ready'),{},{timeout:60000});
@@ -36,9 +37,9 @@ test('standalone organization faction loads current V3 resources, plays isolated
    const cardRects=await page.locator('.battle-v3-roster-frame .card-art img').evaluateAll(images=>images.map(img=>{const r=img.getBoundingClientRect(),f=img.closest('.card-frame').getBoundingClientRect();return {width:r.width,frameWidth:f.width,right:r.right,bottom:r.bottom,viewportWidth:innerWidth,viewportHeight:innerHeight};}));
    assert.equal(cardRects.length,10);for(const r of cardRects){assert.ok(r.width>0&&r.width<=r.frameWidth,'Card artwork fits the scaled roster frame');assert.ok(r.right<=r.viewportWidth+1&&r.bottom<=r.viewportHeight+1,'Card artwork remains inside the viewport');}
 assert.equal(strikes,1);await page.screenshot({path:join(out,width+'-battle.png')});
-   await page.locator('.fw-battle-close').waitFor({timeout:120000});assert.match(await page.locator('.fw-battle-close').evaluate(el=>getComputedStyle(el).backgroundImage),/action-gold\.png/);await page.locator('.fw-battle-close').click();await page.locator('[data-fw-room-strike]').waitFor();
+   await page.locator('.fw-battle-close').waitFor({timeout:120000});assert.match(await page.locator('.fw-battle-close').evaluate(el=>getComputedStyle(el).backgroundImage),/action-primary\.webp/);await page.screenshot({path:join(out,width+'-result.png')});await page.locator('.fw-battle-close').click();await page.locator('[data-fw-room-strike]').waitFor();assert.match(await page.locator('[data-fw-room-strike]').evaluate(n=>getComputedStyle(n).backgroundImage),/action-disabled\.webp/);
    assert.equal(await page.locator('#modal canvas').count(),0);assert.equal(strikes,1);assert.match(await page.locator('.fw-notice').innerText(),/공유 HP/);assert.deepEqual(errors,[]);await page.screenshot({path:join(out,width+'-return.png')});
-   checks.push({width,strikes,errors,failedResources,diagnostics});
+   assert.deepEqual(failedResources.filter(r=>r.url.includes('/interface-v2/')),[]);checks.push({width,strikes,errors,failedResources,diagnostics});
   }catch(error){await page.screenshot({path:join(out,width+'-failure.png'),fullPage:true});await writeFile(join(out,width+'-failure.json'),JSON.stringify({error:error.message,errors,failedResources,notice:await page.locator('.fw-notice').allTextContents(),html:await page.locator('#modal').innerHTML()},null,2));throw error;}
   await page.close();
  }

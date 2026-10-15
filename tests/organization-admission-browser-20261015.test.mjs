@@ -3,9 +3,10 @@ import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
 import {readFile,mkdir} from 'node:fs/promises';
 import {resolve,extname,join,relative,isAbsolute} from 'node:path';
+import {tmpdir} from 'node:os';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {organizationFixture} from './helpers/organization-fixture.mjs';
-const root=fileURLToPath(new URL('..',import.meta.url)),out=join(root,'preview/organization-system-v1/qa');
+const root=fileURLToPath(new URL('..',import.meta.url)),out=join(tmpdir(),'cnine-organization-interface-v2');
 
 test('PC and mobile admission complete seven questions, restore drafts, submit, revise and allocate in isolated PostgreSQL',async t=>{
  const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
@@ -21,13 +22,13 @@ test('PC and mobile admission complete seven questions, restore drafts, submit, 
   const f=await organizationFixture(t,{people:30}),roundId=await f.prepare({enroll:16});await f.post('organization/withdraw',{roundId,revision:1},{user:2});
   const page=await browser.newPage({viewport:{width,height:980},isMobile:width===390,hasTouch:width===390,reducedMotion:'reduce',serviceWorkers:'block'});t.after(()=>page.close());const errors=[];
   page.on('pageerror',error=>errors.push(error.message));page.on('console',message=>{if(message.type()==='error')errors.push(message.text());});
-  await page.route('**/api/**',async route=>{const req=route.request(),path=new URL(req.url()).pathname.slice(5),result=await f.call(path,{user:Number(req.headers()['x-qa-user']),method:req.method(),...(req.postData()?{body:req.postDataJSON()}:{})});await route.fulfill({status:result.status,json:result.data});});
+  await page.route('**/api/**',async route=>{const req=route.request(),path=new URL(req.url()).pathname.slice(5);if(path==='organization/faction/overview'){assert.equal(req.method(),'GET');await route.fulfill({status:200,json:{ok:true,treasury:{funds:0,nextCost:null,canUpgrade:false},policy:{upgradeCosts:[0,null,null,null,null]}}});return;}const result=await f.call(path,{user:Number(req.headers()['x-qa-user']),method:req.method(),...(req.postData()?{body:req.postDataJSON()}:{})});await route.fulfill({status:result.status,json:result.data});});
   const shot=async name=>{await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:join(out,width+'-'+name+'.jpg'),fullPage:true,type:'jpeg',quality:85});};
   const fits=async()=>assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'No horizontal overflow at '+width);
-  const images=async()=>assert.deepEqual(await page.locator('#organization-root button').evaluateAll(buttons=>buttons.filter(b=>getComputedStyle(b).backgroundImage==='none').map(b=>b.textContent)),[],'Every button uses generated artwork');
+  const images=async()=>assert.deepEqual(await page.locator('#organization-root button').evaluateAll(buttons=>buttons.filter(b=>!getComputedStyle(b).backgroundImage.includes('/interface-v2/')).map(b=>b.textContent)),[],'Every button uses the same V2 generated artwork family');
   await page.goto(origin);await page.locator('[data-admission="start"]').waitFor();await page.evaluate(()=>document.fonts.ready);await fits();await images();await shot('invitation');
-  await page.locator('[data-admission="start"]').click();assert.equal(await page.locator('[data-admission="next"]').isDisabled(),true);
-  await page.locator('[data-answer="name"]').focus();await page.keyboard.press('ArrowRight');assert.equal(await page.locator('[data-answer="crew"]').getAttribute('aria-checked'),'true');await fits();await images();await shot('question');
+  await page.locator('[data-admission="start"]').click();assert.equal(await page.locator('[data-admission="next"]').isDisabled(),true);assert.match(await page.locator('[data-admission="next"]').evaluate(el=>getComputedStyle(el).backgroundImage),/action-disabled/);
+  await page.locator('[data-answer="name"]').focus();await page.keyboard.press('ArrowRight');assert.equal(await page.locator('[data-answer="crew"]').getAttribute('aria-checked'),'true');await fits();await images();assert.match(await page.locator('[data-answer="crew"]').evaluate(el=>getComputedStyle(el).backgroundImage),/choice-selected/);await shot('question');
   await page.locator('[data-admission="next"]').click();await page.locator('[data-answer="cover"]').click();await page.reload();
   await page.locator('[data-admission="start"]').click();assert.match(await page.locator('#admission-question').innerText(),/불리해졌습니다/);
   for(const answer of ['regroup','system','foundation','members','promise']){await page.locator('[data-answer="'+answer+'"]').click();await page.locator('[data-admission="next"]').click();}
@@ -37,7 +38,7 @@ test('PC and mobile admission complete seven questions, restore drafts, submit, 
   await page.locator('[data-admission="edit"]').click();await page.locator('[data-answer="name"]').click();await page.reload();
   await page.locator('[data-admission="start"]').click();await page.locator('[data-admission="review"]').click();assert.equal(await page.locator('[data-answer="name"]').getAttribute('aria-checked'),'true');
   for(let i=0;i<7;i++)await page.locator('[data-admission="next"]').click();
-  await page.locator('[data-admission="all"]').click();assert.equal(await page.locator('.admission-all-organizations button').count(),15);await fits();await images();
+  await page.locator('[data-admission="all"]').click();assert.equal(await page.locator('.admission-all-organizations button').count(),15);await fits();await images();await shot('all-organizations');
   await page.locator('.admission-all-organizations [data-admission-pick="15"]').click();await page.locator('[data-admission="submit"]').click();await page.locator('.admission-submitted').waitFor();
   state=(await f.call('organization/overview',{user:2})).data;assert.equal(state.survey.preferredOrganizationId,15);assert.equal(state.survey.answers.motive,'name');
   await page.goto(origin+'/?view=owner');await page.locator('[data-action="phase"]').click();await page.waitForFunction(()=>!document.querySelector('[data-action="rate"]').disabled);
