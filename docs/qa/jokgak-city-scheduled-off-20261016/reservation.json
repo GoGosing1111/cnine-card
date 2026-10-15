@@ -1,0 +1,30 @@
+{
+  "action": "register",
+  "verifiedAt": "2026-10-15T23:42:07.952Z",
+  "currentMode": "ON",
+  "policyRevision": 38,
+  "enabled": true,
+  "schedule": {
+    "revision": 1,
+    "pending": {
+      "id": "1:city-off-20261016-noon-v1",
+      "offAt": 1792119600000,
+      "createdAt": 1792107723109,
+      "createdBy": 1
+    },
+    "lastRun": null
+  },
+  "authorizedId": "1:city-off-20261016-noon-v1",
+  "receipt": null,
+  "cursors": [
+    {
+      "key": "jokgak_city_rotation_cleanup_v1",
+      "value": "82969"
+    },
+    {
+      "key": "jokgak_city_top_next_epoch_v1",
+      "value": "82969"
+    }
+  ],
+  "result": null
+}

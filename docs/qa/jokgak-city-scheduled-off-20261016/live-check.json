@@ -1,0 +1,32 @@
+{
+  "verifiedAt": "2026-10-15T23:43:33.118Z",
+  "origin": "https://cnine-card.pages.dev",
+  "resources": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "778620e25f9a8b30e64be21939456045dc8245c7fd83bc5782ef53f04503dfe3"
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.mjs",
+      "status": 200,
+      "sha256": "3957dc25f3972bd7eaefc9bc27d994b4e0d6acb116aa38c9030042ca6b990a7a"
+    },
+    {
+      "file": "admin/jokgak-city-admin-v1.css",
+      "status": 200,
+      "sha256": "9d35eaa3a46726235d22ecfe3605fb1703e88fee4cbdbe9d2d100a3ba1b4d872"
+    },
+    {
+      "file": "admin/jokgak-city-schedule-off-v1.mjs",
+      "status": 200,
+      "sha256": "c9ed86835295dbe2a0cb7a404d09447f6e087f01f7c173b40bcf5dbd0cc2f2c5"
+    },
+    {
+      "file": "shared/jokgak-city-schedule-off-v1.mjs",
+      "status": 200,
+      "sha256": "6d316816733b74d495fe7a0a229fec1c28e0c539d4be90f6be71a2f8a73ddceb"
+    }
+  ],
+  "unauthenticatedScheduleStatus": 401
+}
