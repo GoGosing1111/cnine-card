@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-15",
+  "code": "ICON-OH-JOEUN",
+  "cardId": "CN-1C000004",
+  "userRequest": "오조은 아이콘 SD스럽게 리소스 변경해달랜다 귀여운 메딕느낌으로 해봐라",
+  "method": "BUILT_IN_IMAGEGEN",
+  "visualStatus": "CREATED_FOR_USER_REQUEST_20261015",
+  "source": "assets/source/oh-joeun-medic-chibi-sd-20261015.png",
+  "sourceSha256": "9888394646D8AAA8E732A7DBE65B09B14CD3CEDFDF89279A7221E6B80FCA07E5",
+  "runtime": "assets/sd/oh-joeun-medic-chibi-sd-20261015.webp",
+  "prompt": "Use case: style-transfer.\nAsset type: one transparent full-body SD battle sprite for an existing Korean collectible RPG character, Oh Joeun ICON.\nPrimary request: Redesign the character in reference 1 as an unmistakably cute super-deformed/chibi futuristic combat medic. Approximately 2.75 heads tall, a large expressive head, compact torso, short sturdy legs, rounded armor and big little boots. A warm reassuring smile. This must look adorable and readable at 180px high, NOT a realistic adult body with a pasted oversized photo face.\nInputs: image 1 is the existing character and equipment reference (white sci-fi medic armor, dark flowing hair, green wrist medical injector). Image 2 is ONLY the same character's identity reference: preserve recognizable eye shape/spacing, brows, nose and lip character translated into a cohesive cute 2D style, not photo pixels or realistic skin. Image 3 is ONLY a rendering-style reference for consistent 2D anime linework and painterly shading on face/body/hair; do not copy its character, outfit, colors, pose or adult proportions.\nDesign: long naturally flowing dark brown-black hair with the original side part, soft continuous strands rather than separated rigid plates or tiered chunks; brown eyes; clean pearly white rounded medical power armor with restrained warm metal joints and clear red medical crosses, short white waist tabard with red trim, dark undersuit, rounded gloves and boots. Preserve a compact straight green glowing wrist-mounted healing injector, clearly a medical tool. No weapons or new companions. Same crisp simplified linework and soft painterly shadows on face, body, armor, hands, and hair.\nPose: single relaxed ready-to-heal idle pose, three-quarter view facing the viewer's right, feet planted apart on one baseline, one gloved palm slightly extended in a caring gesture. Keep full head/hair and both boots fully in frame. Center character; about 84% canvas height, generous transparent padding on every side. Single isolated character only.\nOutput: genuinely transparent alpha background. No environment, floor plane, drop shadow, square backdrop, halo, frame, text, logos, watermark, sprite sheet or extra poses. Do not alter or create a card illustration. High clarity silhouette and polished game-ready edges.",
+  "references": [
+    {
+      "role": "existing SD design",
+      "file": "preview/icon-battle-assets-v1/assets/source/oh-joeun-medic-sd-approved-20261006.png"
+    },
+    {
+      "role": "face identity only; portrait remains unchanged",
+      "file": "assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png"
+    },
+    {
+      "role": "2D unified drawing style only",
+      "file": "assets/ui/project-v/art-references/style-reset-20261014/style-03-black-crimson-kimono.png",
+      "sha256": "A43EC7046FE7C2566C04D884E1D340FFAE154A9AFB31C591F197AD7C36665E49",
+      "location": "Original user workspace"
+    }
+  ],
+  "export": "Uniform contain resize, transparent safety padding, lossless WebP; original alpha preserved.",
+  "previousSource": "assets/source/oh-joeun-medic-sd-approved-20261006.png",
+  "previousRuntime": "assets/sd/oh-joeun-medic-sd-20261006.webp",
+  "healingPatch": {
+    "firstAction": 1,
+    "cooldownActions": 3,
+    "maxCasts": 8,
+    "healPercent": 30,
+    "healBudgetPercent": 225
+  }
+}

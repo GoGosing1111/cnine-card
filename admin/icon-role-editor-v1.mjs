@@ -1,4 +1,4 @@
-import {ICON_ROLES} from '../shared/icon-roles-v1.mjs';
+import {ICON_ROLES} from '../shared/icon-roles-v1.mjs?v=20261015-joeun-medic-v2';
 import {iconRoleGlyph} from '../js/icon-role-view-v1.mjs';
 import {mercenaryCmsRequest} from './mercenary-request-v1.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

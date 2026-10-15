@@ -4,6 +4,11 @@ import crypto from 'node:crypto';
 import sharp from 'sharp';
 import {ICON_CARD_ROSTER} from '../shared/icon-card-roster-v1.mjs';
 const root=new URL('../',import.meta.url),base=new URL('preview/icon-battle-assets-v1/',root);
+// The user requested a cute SD replacement on 2026-10-15. Historical exports
+// must never replace that current selection with the old adult proportions.
+if(await fs.access(new URL('joeun-medic-chibi-20261015.json',base)).then(()=>true,()=>false)){
+ await import('./build-icon-joeun-chibi-20261015.mjs');process.exit(0);
+}
 const card=ICON_CARD_ROSTER.find(c=>c.code==='ICON-OH-JOEUN');
 const source='assets/source/oh-joeun-medic-sd-approved-20261006.png';
 const runtime='assets/sd/oh-joeun-medic-sd-20261006.webp';

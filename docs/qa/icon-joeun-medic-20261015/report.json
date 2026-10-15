@@ -1,0 +1,140 @@
+{
+  "version": "20261015-joeun-medic-v2",
+  "tests": {
+    "focused": 13,
+    "passed": 13
+  },
+  "browser": [
+    {
+      "width": 1440,
+      "mode": "PVP",
+      "mainLoader": true,
+      "actualLiveWrapper": true,
+      "result": true,
+      "return": true,
+      "deckIcons": 1,
+      "seed": 29,
+      "serverHeals": 2,
+      "totalHealing": 244296,
+      "serverTimelineSha256": "62d6c621cbe7c3f866efb0ce7b4b35b381ee275296357a21bfe05a42057ac2b6",
+      "tuning": {
+        "firstAction": 1,
+        "cooldownActions": 3,
+        "maxCasts": 8,
+        "pveScale": 125,
+        "pvpScale": 150,
+        "healPercent": 30,
+        "resonancePercent": 3,
+        "maxStacks": 8,
+        "healBudgetPercent": 225,
+        "nextAttackPercent": 35,
+        "durationActions": 3
+      },
+      "diagnostics": {
+        "last": {
+          "code": "ICON-OH-JOEUN",
+          "role": "SUPPORT",
+          "eventType": "ICON_SKILL",
+          "serverRows": 1,
+          "appliedRows": 1,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY"
+        },
+        "muzzle": null,
+        "metrics": {
+          "skills": 2,
+          "basics": 4,
+          "serverRows": 6,
+          "appliedRows": 6,
+          "roles": [
+            "SUPPORT"
+          ]
+        }
+      },
+      "assets": [
+        {
+          "url": "http://127.0.0.1:8979/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-chibi-sd-20261015.webp?v=F8047B2598E5CBB1",
+          "status": 200
+        }
+      ],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "mode": "PVE",
+      "mainLoader": true,
+      "actualLiveWrapper": true,
+      "result": true,
+      "return": true,
+      "deckIcons": 1,
+      "seed": 29,
+      "serverHeals": 4,
+      "totalHealing": 137206,
+      "serverTimelineSha256": "5eb9523bdd7c50b2bdd9501f4ee8b568cc0af11692b01a0b9510aec3c259ab35",
+      "tuning": {
+        "firstAction": 1,
+        "cooldownActions": 3,
+        "maxCasts": 8,
+        "pveScale": 125,
+        "pvpScale": 150,
+        "healPercent": 30,
+        "resonancePercent": 3,
+        "maxStacks": 8,
+        "healBudgetPercent": 225,
+        "nextAttackPercent": 35,
+        "durationActions": 3
+      },
+      "diagnostics": {
+        "last": {
+          "code": "ICON-OH-JOEUN",
+          "role": "SUPPORT",
+          "eventType": "ICON_SKILL",
+          "serverRows": 1,
+          "appliedRows": 1,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY"
+        },
+        "muzzle": null,
+        "metrics": {
+          "skills": 4,
+          "basics": 9,
+          "serverRows": 13,
+          "appliedRows": 13,
+          "roles": [
+            "SUPPORT"
+          ]
+        }
+      },
+      "assets": [
+        {
+          "url": "http://127.0.0.1:8979/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-chibi-sd-20261015.webp?v=F8047B2598E5CBB1",
+          "status": 200
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "productionDryRun": {
+    "dryRun": true,
+    "revisionBefore": 2,
+    "plannedRevision": 3,
+    "rolledBack": true,
+    "verification": {
+      "status": "VERIFIED",
+      "revision": 3,
+      "changedCodes": [
+        "ICON-OH-JOEUN"
+      ],
+      "otherRolesPreserved": true,
+      "scopesAndFlagsPreserved": true
+    }
+  },
+  "visualReview": {
+    "sourceAndRuntime": true,
+    "desktopAndMobile": true,
+    "transparentBackground": true,
+    "fullBodyAndFootAnchor": true,
+    "consistent2dStyle": true,
+    "oldPortraitPreserved": true
+  }
+}

@@ -2,7 +2,7 @@
 // All durations/cooldowns are actor actions, never animation time or browser clocks.
 export const ICON_ROLES_KEY='icon_role_settings_v1';
 import {validatedIconSupremacy} from './icon-supremacy-v1.mjs';
-export const ICON_ROLES_VERSION='20261005-fur15-v1';
+export const ICON_ROLES_VERSION='20261015-joeun-medic-v2';
 const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
 const field=(key,label,min,max,value,unit='%',integer=false)=>({key,label,min,max,value,unit,integer});
 const common=(first,cooldown)=>[
@@ -22,7 +22,7 @@ export const ICON_ROLES=freeze([
   fields:[...common(2,4),field('maxTargets','화살비 최대 대상',1,5,3,'명',true),field('focusPercent','빈 대상당 화력 집중',0,40,20),field('penetrationPercent','마력 화살 방어 무시',0,45,25)]},
  {code:'ICON-OH-JOEUN',cardId:'CN-1C000004',name:'오조은',role:'SUPPORT',label:'지원',archetype:'프리즘 공명술사',color:'#aaa8ff',glyph:'resonance',attackStyle:'CAST',
   passive:'공명 화음',skill:'프리즘 앙코르',passiveText:'아군의 본인 행동이 끝날 때 공명을 모읍니다. 추가타와 반격으로는 공명이 쌓이지 않습니다.',skillText:'공명을 소비해 부상한 아군을 회복하고 해로운 효과 한 종류를 정화합니다. 회복한 아군의 다음 직접 공격을 강화합니다.',
-  fields:[...common(2,4).filter(f=>!['damagePercent','damageCapPercent'].includes(f.key)),field('healPercent','기본 회복량',1,25,20,'대상 최대 HP %'),field('resonancePercent','공명당 추가 회복량',0,3,2,'대상 최대 HP %'),field('maxStacks','공명 중첩 상한',1,8,5,'중첩',true),field('healBudgetPercent','전투당 회복 총량',10,150,80,'시전자 최대 HP %'),field('nextAttackPercent','다음 공격 강화',0,35,25),field('durationActions','강화 유지',1,4,2,'대상 행동',true)]},
+  fields:[...common(2,4).filter(f=>!['damagePercent','damageCapPercent'].includes(f.key)),field('healPercent','기본 회복량',1,40,20,'대상 최대 HP %'),field('resonancePercent','공명당 추가 회복량',0,3,2,'대상 최대 HP %'),field('maxStacks','공명 중첩 상한',1,8,5,'중첩',true),field('healBudgetPercent','전투당 회복 총량',10,300,80,'시전자 최대 HP %'),field('nextAttackPercent','다음 공격 강화',0,35,25),field('durationActions','강화 유지',1,4,2,'대상 행동',true)]},
  {code:'ICON-ORIKKUNG',cardId:'CN-1C000005',name:'오리꿍',role:'CURSE',label:'저주',archetype:'낙화 주술사',color:'#f2a5c5',glyph:'curse',attackStyle:'CAST',
   passive:'낙화 저주',skill:'화접 낙인',passiveText:'평타 적중 시 저주를 중첩합니다. 저주받은 적은 본인 행동 시작에 지속 피해를 받고 회복량이 감소합니다.',skillText:'대상에게 쌓인 저주를 폭발시키고 다른 적 한 명에게 일부 전이합니다. 보스에게도 저주 피해와 약화가 적용됩니다.',
   fields:[...common(3,4),field('maxStacks','저주 중첩 상한',1,4,3,'중첩',true),field('dotPercent','중첩당 지속 피해',1,20,9,'시전자 공격력 %'),field('healReductionPercent','중첩당 회복 감소',0,20,10),field('stackPercent','폭발 중첩당 추가 피해',0,35,15),field('durationActions','저주 지속',1,5,3,'대상 행동',true),field('bossVulnerabilityPercent','보스가 받는 피해 증가',0,15,6)]},

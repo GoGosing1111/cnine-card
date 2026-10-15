@@ -1026,7 +1026,7 @@ const FEATURE_RESOURCE_MANIFEST={
     scripts:[
       'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114-frames20261002&flow=2126&cubeRemoval=20261003&suggestions=20261005&apocalypseCompletion=20261006-foreground&damageFont=20261007-russo-v1',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya&sd=20260919-bongsoon-armed',
-      'js/project-v-tier-battle-art-adapter-v1.js?v=3.7.1-cheetah-scale&sd=2115-joksuke&icon=20261013-gusudaeng',
+      'js/project-v-tier-battle-art-adapter-v1.js?v=3.7.1-cheetah-scale&sd=2115-joksuke&icon=20261015-joeun-medic-v2',
       'js/project-v-monster-battle-art-adapter-v1.js?v=20261013-original-ip-v1',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',

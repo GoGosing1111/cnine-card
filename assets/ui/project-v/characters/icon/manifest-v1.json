@@ -45,11 +45,11 @@
       "title": "오조은",
       "member": "오조은",
       "sourceArt": "assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png",
-      "battleSprite": "preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp",
-      "sha256": "E5DCA0FF5A423FD9246DD0DD4A61B5A10555A950410B6F37E5FD9298FE7A0AF2",
+      "battleSprite": "preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-chibi-sd-20261015.webp",
+      "sha256": "F8047B2598E5CBB1E6AF902EAB7E084BC4D4CFA4FADD596EFFDD3E3C11005036",
       "footAnchor": {
-        "x": 0.5182291666666666,
-        "y": 0.9261067708333334
+        "x": 0.5455729166666666,
+        "y": 0.92041015625
       }
     },
     {

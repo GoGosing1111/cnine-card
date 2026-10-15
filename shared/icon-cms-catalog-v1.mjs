@@ -143,10 +143,10 @@ export const ICON_CMS_CATALOG=[
     "sourceGrade": "ICON",
     "releaseEnabled": false,
     "id": "oh-joeun",
-    "weapon": "의료 슈트 · 녹색 주입기",
+    "weapon": "SD 메딕 의료 슈트 · 녹색 치료 주입기",
     "accent": "#aaa8ff",
-    "battleSprite": "preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-sd-20261006.webp",
-    "visualApproval": "USER_APPROVED_20261006",
+    "battleSprite": "preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-chibi-sd-20261015.webp",
+    "visualApproval": "CREATED_FOR_USER_REQUEST_20261015",
     "effects": [
       {
         "id": "oh-joeun-hit",
