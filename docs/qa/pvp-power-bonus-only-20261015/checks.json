@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-15",
+  "status": "BONUS_ONLY_REVIEW_COMPLETE_NOT_RELEASED",
+  "baseCommit": "8f6c207745ff260c45d1e4ee63ab39016fcc27f5",
+  "supersededReviewCommit": "046477fefbdfcfb564f4d0d557eab00296ca6031",
+  "policyVersion": "pvp-power-bonus-20261015-v2",
+  "releaseEnabled": false,
+  "mercenaryLevelReleaseEnabled": false,
+  "deployed": false,
+  "productionWrites": false,
+  "relatedTests": {
+    "status": "PASS",
+    "tests": 141,
+    "pass": 141,
+    "fail": 0,
+    "skipped": 0,
+    "command": "node --test tests/pvp-power-reform-20261015.test.mjs tests/mercenary-guard-balance.test.mjs tests/icon-roles-v1.test.mjs tests/ranked-duo-battle.test.mjs tests/ranked-duo-server.test.mjs tests/ranked-duo-batch.test.mjs tests/ranked-duo-enrollment-summary.test.mjs tests/territory-current-loadout-20261013.test.mjs tests/mercenary-level-rules-20261014.test.mjs tests/mercenary-level-preparation-20261005.test.mjs"
+  },
+  "legacyPvpFullHashCases": 15,
+  "equalPowerPolicyPreservationCases": 15,
+  "pveFullHashCases": 8,
+  "audit": {
+    "status": "COMPLETE",
+    "battles": 9216,
+    "conditions": 144,
+    "command": "node scripts/audit-pvp-power-reform-20261015.mjs",
+    "method": "Only damage/tempo bonus differs. Existing mercenary power, links, immunity, action credit and tier rules are retained. Synthetic equal-per-card inputs, four type formations, 16 seeds and both sides per condition. No promise of growth-only limited wins; prepared mercenary levels remain a separate OFF policy."
+  },
+  "browser": {
+    "status": "PASS",
+    "summary": "browser.json",
+    "command": "node tests/pvp-power-reform-20261015.browser.mjs"
+  },
+  "worker": {
+    "status": "PASS",
+    "mode": "--dry-run",
+    "actualDeploy": false
+  },
+  "restoredExactly": [
+    "functions/_mercenary_account.js",
+    "functions/_mercenary_equipment.js",
+    "functions/_ranked_duo_profiles.js",
+    "shared/mercenary-combat-link-v2103.mjs",
+    "mercenary-codex/app.mjs"
+  ],
+  "unchangedGrowth": [
+    "shared/mercenary-level-v1.mjs",
+    "functions/_mercenary_level.js",
+    "functions/_mercenary_level_policy.js"
+  ],
+  "fullGate": {
+    "rerun": false,
+    "status": "NOT_CLAIMED_PASS",
+    "reason": "Only affected paths repeated after scope reduction. Prior repository failures retained in the rejected V1 report."
+  },
+  "sourceSha256": {
+    "shared/pvp-power-balance-v1.mjs": "ed834b50674f8d0365be272529118e3e22842e41ad464efa098c624fb8fc5fd9",
+    "functions/_battle_v2_preview.js": "36b7734ad82e2ff08bc90eae240b7d4ed792e0532692a2be43304ab338055e84",
+    "functions/_mercenary_combat.js": "bf3b550479599b988bdaf44abacf60d24ebc6fa536cbb460369fea6e0e672555",
+    "functions/_icon_combat.js": "0771ca80360cb7accd9bb8c4431a4e89a287405a3d95f1f892989696f6efc558",
+    "functions/_territory_war.js": "e990252389232db6e791b5a36448c4df69dd2e676b6dd763a37b5baa95cd4ee3",
+    "functions/_ranked_duo.js": "f997f6393e2793e6bb17083ae0f06f871b0733b19238439377e7ec2410facf8a",
+    "functions/_mercenary_account.js": "71a8af1cb203100ad069de895396cbd869877b7889159d94d770d2f8647103fb",
+    "functions/_mercenary_equipment.js": "05c706e2c21f5d625451131b67e12119432c389884c44ce26d1d1e5d9846b2b9",
+    "functions/_ranked_duo_profiles.js": "bb6717f1b87f0aba4d14bb051b9874a3799d219a04aaa8bbc176120674f51747",
+    "shared/mercenary-combat-link-v2103.mjs": "38ba3eb1f24b6c5f21139515914d4fcd36297a522bdbe382b60c5866c5933454",
+    "mercenary-codex/app.mjs": "7af90b06c0f900b79d8937a8d6b0edd580e8be2c92c9ddb0ac6f9e7804afb0a3",
+    "shared/mercenary-level-v1.mjs": "18a576bc0ec1da9d9a6d1a10b644c3297da6092ccba4be8911860e0cd953c89e",
+    "functions/_mercenary_level.js": "4f7e5daeb5c82e790017c03174c0ed7d32eb212b03b3ffdd574b99116135b9b0",
+    "functions/_mercenary_level_policy.js": "e9835ff02a8f8732a389a25cae868e870769814a8b24490dc3461bb8f8747201",
+    "scripts/audit-pvp-power-reform-20261015.mjs": "5370117aa2d8195a524ee0966309701aaa03ad86e511600cc087c7380531f175",
+    "tests/pvp-power-reform-20261015.test.mjs": "d365d89ce195433155fbedb8ba92d82bfab0836168834909c187182071d69270",
+    "tests/pvp-power-reform-20261015.browser.mjs": "b2a3f4e36e030075f055ee60c18715e410d3d176bf38cf8817139da5c20c11f0"
+  },
+  "logs": [
+    {
+      "name": "tests",
+      "file": "logs/tests.log.gz",
+      "rawSha256": "fb6b60228c6f7e511ceafd3dbb527bb57bdd37558f359e26a9bee5a07d484c34",
+      "gzipSha256": "61870967bfcb18eef14d72902640fa4cb81369e8900158073d2fb2f3762ad0f3"
+    },
+    {
+      "name": "audit",
+      "file": "logs/audit.log.gz",
+      "rawSha256": "ce8d42f00efd0549b11f48fc79e0f421f9de6699c24d57578c8116029e89998d",
+      "gzipSha256": "b4376facbdc92486cf096cd8a89078ff3aa6c19b5405237ddd0b666f2c8db2da"
+    },
+    {
+      "name": "browser",
+      "file": "logs/browser.log.gz",
+      "rawSha256": "9c1b642d782e08bab01bc6fd0055f0dcd0112a7d18aa72617ac42547388806f6",
+      "gzipSha256": "417783a1ae5a8e000ac52e673c94317b41d3275d7ca980e79d96522b8a1b4155"
+    },
+    {
+      "name": "build",
+      "file": "logs/build.log.gz",
+      "rawSha256": "358f90d5d277889173658106023d5bc34fcb84b27d2bbd28e3017a19049e2aea",
+      "gzipSha256": "355f6c99bce1ecb07c4867cd7058703739a3d38ab8ea9c2a07d420636d8abbe2"
+    }
+  ]
+}

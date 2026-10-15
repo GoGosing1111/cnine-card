@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "scope": "GROWTH_COMBAT_SCOPED_ONLY",
+  "newTests": {
+    "file": "tests/mercenary-growth-v2-20261015.test.mjs",
+    "passed": 10,
+    "failed": 0
+  },
+  "relatedLegacy": {
+    "passed": 83,
+    "failed": 0
+  },
+  "afterPrecisionAndActionLimitFix": {
+    "passed": 51,
+    "failed": 0,
+    "overlapsOtherGroups": true
+  },
+  "comparison": {
+    "total": 46080,
+    "file": "comparison.json",
+    "sha256": "9c8b743d5877134dbc6f1b34cf494244c02cf42335001b4677f09cadbc55e6e0",
+    "seedStart": 730001
+  },
+  "sourceFingerprints": {
+    "shared/mercenary-growth-review-v2.mjs": "62e7ff1a89260e4b4ebe60bc61b326488aed69a1c49c03beb3c2271d45e3e0af",
+    "shared/mercenary-level-v1.mjs": "a9e5f2be4318c645c14cc5e19fe58d566b647fa4772b360ccbde65715ff06d9b",
+    "functions/_mercenary_combat.js": "29b47ba170f1441a74cc75817f8774b8b5383311ccf10b3678a33dc63a810946",
+    "functions/_battle_v2_preview.js": "652e9c4d3f3587af582847aeebf3f91ccc0ecedee5bbbdf6b585ef629e3e9659",
+    "shared/pvp-power-balance-v1.mjs": "ed834b50674f8d0365be272529118e3e22842e41ad464efa098c624fb8fc5fd9"
+  },
+  "liveDeployment": false,
+  "releaseFlags": {
+    "mercenaryLevel": false,
+    "pvpPowerBonus": false
+  },
+  "afterActionOpportunityFix": {
+    "passed": 52,
+    "failed": 0,
+    "overlapsOtherGroups": true,
+    "command": "node --test tests/mercenary-growth-v2-20261015.test.mjs tests/pvp-power-reform-20261015.test.mjs tests/ranked-duo-battle.test.mjs"
+  }
+}

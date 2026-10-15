@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-15",
+  "releaseCommit": "ef11d8ddd7eda9128d6deb0a77beb6dc93fb719e",
+  "base": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "mercenary-codex/index.html",
+      "status": 200,
+      "sha256": "e0db94c4e6f050559e9ffbf76d6d7b1e8ea4e7511ab11df3260fd174df08e49c"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "status": 200,
+      "sha256": "86a5402eb3d55993e1de9bced07e6cad0b69109663907a8b87da1c34b28ffa01"
+    },
+    {
+      "file": "mercenary-codex/leveling/index.html",
+      "status": 200,
+      "sha256": "66362b9d836fedfd527b5e5aba6046bbd4f8c06ef88913b6b9dd72b85af48760"
+    },
+    {
+      "file": "mercenary-codex/leveling/app.mjs",
+      "status": 200,
+      "sha256": "4809e11ba7a02ca4ed6637a9daea452f0555e8473c0781ebcf2f8009eb5f0e0b"
+    },
+    {
+      "file": "mercenary-codex/leveling/growth-view.mjs",
+      "status": 200,
+      "sha256": "bc81a27ba2b15e978af43d63f54317f0aab403d70d011a52aa35a6ba005dd6bf"
+    },
+    {
+      "file": "mercenary-codex/leveling/readability-v4.css",
+      "status": 200,
+      "sha256": "c480b6bc38837fc495325fe538cca022d97e68757b096b57dc3e08ed95b75004"
+    },
+    {
+      "file": "shared/mercenary-level-v1.mjs",
+      "status": 200,
+      "sha256": "a9e5f2be4318c645c14cc5e19fe58d566b647fa4772b360ccbde65715ff06d9b"
+    },
+    {
+      "file": "shared/pvp-power-balance-v1.mjs",
+      "status": 200,
+      "sha256": "ed834b50674f8d0365be272529118e3e22842e41ad464efa098c624fb8fc5fd9"
+    },
+    {
+      "file": "assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp",
+      "status": 200,
+      "sha256": "3e8847fd95eb8d3944b2deb044974428ce463831de03dc38b0cce06e8734334c"
+    }
+  ],
+  "api": {
+    "feature": {
+      "status": 200,
+      "releaseEnabled": false,
+      "version": "mercenary-level-20261015-v2"
+    },
+    "train": {
+      "status": 423,
+      "code": "MERCENARY_LEVEL_PREPARATION"
+    },
+    "breakthrough": {
+      "status": 423,
+      "code": "MERCENARY_LEVEL_PREPARATION"
+    },
+    "preview": {
+      "status": 423,
+      "code": "MERCENARY_LEVEL_PREPARATION"
+    },
+    "unauthenticatedState": {
+      "status": 401
+    }
+  },
+  "deployment": {
+    "pages": "https://0d351ad8.cnine-card.pages.dev",
+    "apiWorkerVersion": "3081c983-680e-4429-a5e6-d4fefd4ed726",
+    "schedulerVersion": "0978713e-427c-40fd-801c-65584e146e8d",
+    "testsPassed": 110,
+    "testsFailed": 0,
+    "hyperdriveCacheDisabled": true
+  },
+  "userApproval": "main 직접 푸시와 운영 배포 승인",
+  "growthExecution": false,
+  "pvpPowerBonus": false
+}

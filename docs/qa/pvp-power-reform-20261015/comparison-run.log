@@ -1,0 +1,219 @@
+{
+  "battles": 36416,
+  "problems": [],
+  "followups": [
+    {
+      "kind": "growth-win-dip",
+      "before": {
+        "code": "V-055",
+        "opponent": "V-992",
+        "ratio": 1.05,
+        "power": 20000000,
+        "deck": "speed",
+        "enemyDeck": "speed",
+        "review": true,
+        "wins": 332,
+        "draws": 0,
+        "battles": 1024,
+        "winRate": 0.32421875,
+        "regularBasicActions": 8.3779296875,
+        "mercenaryBasicActions": 2.509765625,
+        "totalDamage": 199888844.11523438
+      },
+      "after": {
+        "code": "V-055",
+        "opponent": "V-992",
+        "ratio": 1.1,
+        "power": 20000000,
+        "deck": "speed",
+        "enemyDeck": "speed",
+        "review": true,
+        "wins": 411,
+        "draws": 0,
+        "battles": 1024,
+        "winRate": 0.4013671875,
+        "regularBasicActions": 8.5322265625,
+        "mercenaryBasicActions": 2.62109375,
+        "totalDamage": 211387354.14941406
+      },
+      "delta": 0.0771484375
+    },
+    {
+      "kind": "growth-scale-dip",
+      "before": {
+        "code": "V-056",
+        "opponent": "V-989",
+        "ratio": 1.1,
+        "power": 10000,
+        "deck": "balanced",
+        "enemyDeck": "balanced",
+        "review": true,
+        "wins": 122,
+        "draws": 0,
+        "battles": 1024,
+        "winRate": 0.119140625,
+        "regularBasicActions": 0.8662109375,
+        "mercenaryBasicActions": 7.3759765625,
+        "totalDamage": 277861.9873046875
+      },
+      "after": {
+        "code": "V-056",
+        "opponent": "V-989",
+        "ratio": 1.25,
+        "power": 10000,
+        "deck": "balanced",
+        "enemyDeck": "balanced",
+        "review": true,
+        "wins": 153,
+        "draws": 0,
+        "battles": 1024,
+        "winRate": 0.1494140625,
+        "regularBasicActions": 1.0498046875,
+        "mercenaryBasicActions": 7.4033203125,
+        "totalDamage": 286861.7197265625
+      },
+      "delta": 0.0302734375
+    }
+  ],
+  "limitedSummary": [
+    {
+      "code": "V-990",
+      "battles": 512,
+      "wins": 355,
+      "winRate": 0.693359375
+    },
+    {
+      "code": "V-991",
+      "battles": 512,
+      "wins": 395,
+      "winRate": 0.771484375
+    },
+    {
+      "code": "V-992",
+      "battles": 512,
+      "wins": 437,
+      "winRate": 0.853515625
+    },
+    {
+      "code": "V-993",
+      "battles": 512,
+      "wins": 420,
+      "winRate": 0.8203125
+    },
+    {
+      "code": "V-994",
+      "battles": 512,
+      "wins": 395,
+      "winRate": 0.771484375
+    },
+    {
+      "code": "V-997",
+      "battles": 512,
+      "wins": 436,
+      "winRate": 0.8515625
+    },
+    {
+      "code": "V-998",
+      "battles": 512,
+      "wins": 438,
+      "winRate": 0.85546875
+    },
+    {
+      "code": "V-996",
+      "battles": 512,
+      "wins": 461,
+      "winRate": 0.900390625
+    },
+    {
+      "code": "V-999",
+      "battles": 512,
+      "wins": 473,
+      "winRate": 0.923828125
+    },
+    {
+      "code": "V-989",
+      "battles": 512,
+      "wins": 492,
+      "winRate": 0.9609375
+    },
+    {
+      "code": "V-988",
+      "battles": 512,
+      "wins": 492,
+      "winRate": 0.9609375
+    },
+    {
+      "code": "V-987",
+      "battles": 512,
+      "wins": 492,
+      "winRate": 0.9609375
+    }
+  ],
+  "upsetCases": 24,
+  "topUpsets": [
+    {
+      "code": "V-990",
+      "opponent": "V-055",
+      "ratio": 0.9,
+      "power": 20000000,
+      "deck": "speed",
+      "enemyDeck": "defense",
+      "review": true,
+      "wins": 47,
+      "draws": 0,
+      "battles": 48,
+      "winRate": 0.9791666666666666,
+      "regularBasicActions": 12.208333333333334,
+      "mercenaryBasicActions": 2.9375,
+      "totalDamage": 251572512.52083334
+    },
+    {
+      "code": "V-990",
+      "opponent": "V-055",
+      "ratio": 0.9,
+      "power": 20000000,
+      "deck": "speed",
+      "enemyDeck": "attack",
+      "review": true,
+      "wins": 41,
+      "draws": 0,
+      "battles": 48,
+      "winRate": 0.8541666666666666,
+      "regularBasicActions": 9.895833333333334,
+      "mercenaryBasicActions": 2.7291666666666665,
+      "totalDamage": 215064400.625
+    },
+    {
+      "code": "V-055",
+      "opponent": "V-996",
+      "ratio": 0.9,
+      "power": 20000000,
+      "deck": "speed",
+      "enemyDeck": "attack",
+      "review": true,
+      "wins": 38,
+      "draws": 0,
+      "battles": 48,
+      "winRate": 0.7916666666666666,
+      "regularBasicActions": 15.020833333333334,
+      "mercenaryBasicActions": 4.375,
+      "totalDamage": 310644683.2083333
+    },
+    {
+      "code": "V-996",
+      "opponent": "V-996",
+      "ratio": 0.9,
+      "power": 20000000,
+      "deck": "speed",
+      "enemyDeck": "attack",
+      "review": true,
+      "wins": 38,
+      "draws": 0,
+      "battles": 48,
+      "winRate": 0.7916666666666666,
+      "regularBasicActions": 16.479166666666668,
+      "mercenaryBasicActions": 7.291666666666667,
+      "totalDamage": 320589647.1041667
+    }
+  ]
+}

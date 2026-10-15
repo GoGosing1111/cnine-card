@@ -4,6 +4,13 @@ import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCata
 
 const $=id=>document.getElementById(id),fmt=n=>Number(n||0).toLocaleString('ko-KR'),storageKey='cnine.mercenaryCodex.public.v1';
 const params=new URL(location.href).searchParams;
+const growthReview=document.body.dataset.growthReview==='true';
+function growthHref(code){
+  const query=new URLSearchParams();
+  if(code)query.set('code',code);
+  if(growthReview)query.set('preview','1');
+  return '/mercenary-codex/leveling/'+(query.size?'?'+query:'');
+}
 const filters={q:params.get('q')||'',position:params.get('position')||'',rank:params.get('rank')||'',sort:params.get('sort')||'code',saved:params.get('saved')==='1'};
 let catalog,account=null,accountError='',selected=location.hash.slice(1),media='art',view=['all','limited'].includes(params.get('view'))?params.get('view'):'owned',favorites=new Set(),loading=false,loadoutBusy=false,lastCheck=0,toastTimer;
 try{const saved=JSON.parse(localStorage.getItem(storageKey)||'[]');if(Array.isArray(saved))favorites=new Set(saved);}catch{}
@@ -31,7 +38,7 @@ function controls(){
   document.querySelectorAll('[data-position]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.position===filters.position)));
 }
 function renderAccountSummary(){
-  $('openLeveling').hidden=!account?.leveling?.enabled;
+  $('openLeveling').href=growthHref();
   const owned=account?.cards?.length||0,active=ownedCard(activeCode());
   $('ownedCount').textContent=account?String(owned):'—';$('totalCount').textContent=catalog?String(catalogCards().length):'—';
   $('limitedCount').textContent=catalog?String(catalogCards().filter(countedLimited).length):'—';
@@ -70,7 +77,7 @@ function deploymentHtml(c){
   const owned=ownedCard(c.code),active=activeCode()===c.code,pending=pendingLoadout(),blocked=loadoutBusy||!account?.available||Boolean(pending);
   if(!account)return `<section class="deployment-card unavailable"><div><span>내 용병</span><strong>계정 연결 필요</strong></div><p>${esc(accountError||'보유 용병 정보를 불러오지 못했습니다.')}</p><button type="button" data-retry-account>다시 불러오기</button></section>`;
   if(!owned)return `<section class="deployment-card unavailable"><div><span>보유 상태</span><strong>미보유</strong></div><p>전체 도감 정보는 확인할 수 있지만 편성은 보유 용병만 가능합니다.</p>${c.acquisition==='CRAFT_ONLY'?'<a href="/?screen=workshop">제작소에서 조건 확인 ↗</a>':c.edition==='LIMITED'?'':'<a href="/?screen=buy&amp;pack=hyper">하이퍼팩 확인 ↗</a>'}</section>`;
-  return `<section class="deployment-card ${active?'active':''}"><div class="deployment-title"><span>내 용병</span><strong>${loadoutMode} ${active?'편성 중':'편성'}</strong></div><dl><div><dt>레벨</dt><dd>Lv.${fmt(owned.level)}</dd></div><div><dt>보유</dt><dd>${fmt(Number(owned.duplicates||0)+1)}장</dd></div><div><dt>전투력</dt><dd>${fmt(owned.basePower)}</dd></div></dl><div class="deployment-actions"><button class="equip-button" type="button" data-equip="${c.code}" ${blocked||active||owned.canDeploy===false?'disabled':''}>${active?`${loadoutMode} 편성 완료`:owned.canDeploy===false?'현재 편성 불가':`${loadoutMode}에 편성`}</button>${active?`<button class="unequip-button" type="button" data-unequip ${blocked?'disabled':''}>${loadoutMode} 편성 해제</button>`:''}${pending?'<button class="recover-button" type="button" data-recover-loadout>처리 결과 확인</button>':''}</div><p>${loadoutMode} 용병 전용 슬롯 · 일반 카드 5장과 별도</p></section>`;
+  return `<section class="deployment-card ${active?'active':''}"><div class="deployment-title"><span>내 용병</span><strong>${loadoutMode} ${active?'편성 중':'편성'}</strong></div><dl><div><dt>레벨</dt><dd>Lv.${fmt(owned.level)}</dd></div><div><dt>보유</dt><dd>${fmt(Number(owned.duplicates||0)+1)}장</dd></div><div><dt>전투력</dt><dd>${fmt(owned.basePower)}</dd></div></dl><div class="deployment-actions"><button class="equip-button" type="button" data-equip="${c.code}" ${blocked||active||owned.canDeploy===false?'disabled':''}>${active?`${loadoutMode} 편성 완료`:owned.canDeploy===false?'현재 편성 불가':`${loadoutMode}에 편성`}</button>${active?`<button class="unequip-button" type="button" data-unequip ${blocked?'disabled':''}>${loadoutMode} 편성 해제</button>`:''}<a class="growth-entry" href="${esc(growthHref(c.code))}" aria-label="${esc(c.name)} 성장">용병 성장 <span aria-hidden="true">↗</span></a>${pending?'<button class="recover-button" type="button" data-recover-loadout>처리 결과 확인</button>':''}</div><p>${loadoutMode} 용병 전용 슬롯 · 일반 카드 5장과 별도</p></section>`;
 }
 function renderSelection(){
   const c=current();if(!c){$('inspection').innerHTML=`<div class="empty-selection"><span>PROJECT V</span><h2>${view==='owned'?'보유 용병을 선택하세요.':'당신의 다음 전력을 확인하세요.'}</h2><p>${view==='owned'?'선택한 자리에서 바로 편성할 수 있습니다.':'용병을 선택하면 원화와 스킬을 볼 수 있습니다.'}</p></div>`;return;}

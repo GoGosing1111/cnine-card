@@ -1,0 +1,27 @@
+{
+  "visualVersion": "imagegen-v4-readable-20261015",
+  "status": "prepared-off-review-only",
+  "latestVisualReport": "readability-v4/report.json",
+  "latestScreenshots": "readability-v4/",
+  "rejectedVisualLayouts": [
+    "rejected-css-v2/",
+    "rejected-button-layout-v3/"
+  ],
+  "existingFunctionalChecks": {
+    "report": "rejected-button-layout-v3/report.json",
+    "valid": true,
+    "reason": "Receipt, growth policy and action logic unchanged by V4 typography, image slicing and decorative shape removal. Previous functional regression remains valid."
+  },
+  "v4Scope": [
+    "16px actions and 44px targets",
+    "20/18px fixed-corner summary headers",
+    "16px desktop / 14px mobile body and stat table",
+    "18px level numbers and mobile five-column layout",
+    "3→2→1-column responsive layout",
+    "source-ratio primary artwork",
+    "focus-only skip link and keyboard Enter",
+    "mobile primary fully visible above shared dock",
+    "decorative SVG/diamond/ring removal"
+  ],
+  "notes": "Root qa/*.png are historical V3 images. Use readability-v4 only for the current visual review."
+}

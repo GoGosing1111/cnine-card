@@ -1,0 +1,291 @@
+{
+  "date": "2026-10-15",
+  "status": "IMPLEMENTED_REVIEW_ONLY_NOT_RELEASED",
+  "baseCommit": "8f6c207745ff260c45d1e4ee63ab39016fcc27f5",
+  "policyVersion": "pvp-deck-growth-20261015-v1",
+  "releaseEnabled": false,
+  "deployed": false,
+  "productionWrites": false,
+  "releaseGate": {
+    "status": "FAILED_PREEXISTING_ASSERTIONS_AND_RELEASE_GUARD",
+    "method": "One release:gate prefix then only the remaining commands. Unrelated successful tests were not rerun.",
+    "tests": 3539,
+    "pass": 3524,
+    "fail": 7,
+    "skipped": 8,
+    "productionVerifier": "Blocked dirty working tree at gate time; no override; no deployment."
+  },
+  "extraMercenaryChecks": {
+    "tests": 45,
+    "pass": 44,
+    "fail": 1,
+    "skipped": 0
+  },
+  "finalRelatedChecks": {
+    "status": "PASS",
+    "command": "node --test tests/pvp-power-reform-20261015.test.mjs tests/mercenary-guard-balance.test.mjs tests/icon-roles-v1.test.mjs tests/ranked-duo-battle.test.mjs tests/ranked-duo-server.test.mjs tests/ranked-duo-batch.test.mjs tests/ranked-duo-enrollment-summary.test.mjs tests/territory-current-loadout-20261013.test.mjs",
+    "tests": 97,
+    "pass": 97,
+    "fail": 0,
+    "skipped": 0
+  },
+  "audit": {
+    "status": "PASS",
+    "command": "node scripts/audit-pvp-power-reform-20261015.mjs",
+    "battles": 36416,
+    "blockingProblems": 0,
+    "initialWinRateDips": 2,
+    "expandedFollowups": 2,
+    "scope": "Server engine; synthetic fixed equal-per-card powers; four card-type formations; fixed seed range n*7919; both A/B sides. Not live-account win rates or exhaustive proofs."
+  },
+  "browser": {
+    "status": "PASS",
+    "command": "node tests/pvp-power-reform-20261015.browser.mjs",
+    "environment": "LOCAL_MOCK_ONLY",
+    "viewports": [
+      "1440x1000",
+      "390x844"
+    ],
+    "summary": "browser.json"
+  },
+  "workerBuild": {
+    "status": "PASS",
+    "command": "wrangler deploy --dry-run --config workers/api-runtime/wrangler.jsonc --outdir <temporary-directory>",
+    "actualDeploy": false
+  },
+  "existingFailures": [
+    {
+      "file": "tests/mercenary-combat-v3.test.mjs",
+      "count": 1,
+      "reason": "MS-057 PVE availability expectation predates released Azant parity",
+      "baseline": "logs/baseline.log.gz"
+    },
+    {
+      "file": "tests/project-v-v3-live-payload-v1.mjs",
+      "count": 1,
+      "reason": "Old bundle cache tag 106-combat-flow",
+      "baseline": "logs/baseline-renderer.log.gz"
+    },
+    {
+      "file": "tests/project-v-v3-nonblocking-fx-v2060.test.mjs",
+      "count": 2,
+      "reason": "Old source count 50 vs 51 and old cache tag",
+      "baseline": "logs/baseline-renderer.log.gz"
+    },
+    {
+      "file": "tests/clan-v3-v1820.mjs",
+      "count": 2,
+      "reason": "Menu/cache assertions predate organization UI",
+      "baseline": "logs/baseline-clan.log.gz"
+    },
+    {
+      "file": "tests/boss-sd-v2048.test.mjs",
+      "count": 1,
+      "reason": "Old monster original-art mapping",
+      "baseline": "logs/baseline-boss.log.gz"
+    },
+    {
+      "file": "tests/shiranui-live-20261015.test.mjs",
+      "count": 1,
+      "reason": "Old service-worker cache marker shiranui-live-v1",
+      "baseline": "logs/baseline.log.gz"
+    }
+  ],
+  "sourceSha256": {
+    "functions/_battle_v2_preview.js": "f657b227501aaf3e61a7bba73413994e645bf02620ca8f58c8ddc7fc5f3a8abc",
+    "functions/_icon_combat.js": "0771ca80360cb7accd9bb8c4431a4e89a287405a3d95f1f892989696f6efc558",
+    "functions/_mercenary_combat.js": "0e99e7fd3b76e13e37faf69ec1f4493d767189a1df51d9f854d35e85e0970a10",
+    "functions/_mercenary_account.js": "d5990a3d4edcab5abf81133bdb825725d218f96f9f73ede663eecf5ead818bd5",
+    "functions/_mercenary_equipment.js": "f07daadff196b64c7aa72f7e1c4489a0461bc517df877a1179e69429cc3357c3",
+    "functions/_ranked_duo.js": "f997f6393e2793e6bb17083ae0f06f871b0733b19238439377e7ec2410facf8a",
+    "functions/_ranked_duo_profiles.js": "cf34a13804873172864401b48ba9ec1be87e6a77598a0b67de6ae8f785b5020c",
+    "functions/_territory_war.js": "a8f1a1ae5e4e247efe9295702e17353a6475cad7bc6e80906138f2892411d169",
+    "mercenary-codex/app.mjs": "3a1440fe2733a8144e3ed15a090344d63559cabbd2b45cb20e87b3b111eaffb4",
+    "shared/mercenary-combat-link-v2103.mjs": "d4cc55c236ea63f44e124045dbcca6c7c487d95c479d3abaf64ca5e0225b2a6b",
+    "shared/pvp-power-balance-v1.mjs": "30272176047af5c07250842d1c956d13e5a2b2c6c589b9cd56bc9d10d755fa9e",
+    "shared/mercenary-pvp-balance-v1.mjs": "435825f88edb84b7253cec01df817b5a0058c5c00f2dbcc7d8246a14caa30ac4",
+    "tests/helpers/pvp-power-reform-20261015.mjs": "41a7eb0d4fe25d6888cefc38b6de64972984e2dcd551acff3f4f60359a10193e",
+    "tests/pvp-power-reform-20261015.test.mjs": "a1970863e016186344bf35ee1d56c1d50a47138f08983679670b7d3056a60a3d",
+    "tests/pvp-power-reform-20261015.browser.mjs": "955fc5437e2b5ae1101fbaaa97b2e0085ea7f54dbf1fb13d6602041ea72ed332",
+    "scripts/audit-pvp-power-reform-20261015.mjs": "fa41b25526018c60da66ea27416adaae8c715b58474d1bd3d39c942e8d608892"
+  },
+  "logs": [
+    {
+      "name": "release-gate",
+      "file": "logs/release-gate.log.gz",
+      "rawBytes": 112180,
+      "rawSha256": "768d4411297b09a5bb3bd6a899ec5299d2926c700a99cac1acab306c07c0ba33",
+      "gzipSha256": "56ab0693f6410fe27921c43e178f33fcc065da3d42a5b87c6523020be242c3b9",
+      "counts": {
+        "tests": 847,
+        "pass": 839,
+        "fail": 1,
+        "skipped": 7
+      },
+      "failures": [
+        "✖ every catalog mechanic executes a distinct server event path"
+      ]
+    },
+    {
+      "name": "remaining-gate",
+      "file": "logs/remaining-gate.log.gz",
+      "rawBytes": 379981,
+      "rawSha256": "a6e915b786aa4a844adbc9774450d3b75074c5cd27beaf604d8bef4838d1e0a0",
+      "gzipSha256": "ae6ec0a7513808a02405924077695f6810ca9b986168b310cead5c2ce0daac98",
+      "counts": {
+        "tests": 2692,
+        "pass": 2685,
+        "fail": 6,
+        "skipped": 1
+      },
+      "failures": [
+        "✖ tests\\project-v-v3-live-payload-v1.mjs",
+        "✖ 번들이 소스와 같은 계약을 담고 있다",
+        "✖ 캐시 태그가 갱신되어 있다",
+        "✖ OWNER TEST 잠금과 정식 ON 공개 게이트가 서버·유저 메뉴에 연결된다",
+        "✖ 현 로비 기준 클랜 본부와 정규·세력전 진입을 제공한다",
+        "✖ exact monster/card IDs resolve the new sprites without changing original catalog artwork"
+      ]
+    },
+    {
+      "name": "related",
+      "file": "logs/related.log.gz",
+      "rawBytes": 6072,
+      "rawSha256": "17ee071e847d9b735103051c49134362b91d3ea9b7505394c05e5303562d4b3e",
+      "gzipSha256": "fe30ac39b50817517638d3a8d2984275c8aee8070c25cce7767952526379aa7b",
+      "counts": {
+        "tests": 45,
+        "pass": 44,
+        "fail": 1,
+        "skipped": 0
+      },
+      "failures": [
+        "✖ approved art, thumbnail, shipped bundles and live cache tags are connected"
+      ]
+    },
+    {
+      "name": "baseline",
+      "file": "logs/baseline.log.gz",
+      "rawBytes": 1859,
+      "rawSha256": "23c5c4c366fc95a080ff8252d3596d6c375b0781b1ca31aa3c1c267740875b69",
+      "gzipSha256": "63359518913fa9c39314d1fe95d9f9fa4159ee2f989b94dbca826e9f0a3984f0",
+      "counts": {
+        "tests": 2,
+        "pass": 0,
+        "fail": 2,
+        "skipped": 0
+      },
+      "failures": [
+        "✖ every catalog mechanic executes a distinct server event path",
+        "✖ approved art, thumbnail, shipped bundles and live cache tags are connected"
+      ]
+    },
+    {
+      "name": "baseline-renderer",
+      "file": "logs/baseline-renderer.log.gz",
+      "rawBytes": 4406,
+      "rawSha256": "ed857fbaef12624bc47a9e890097656506fdf94e4b41c3ca0eaeed366fdba249",
+      "gzipSha256": "c724aeb7753e12d282ffaf40a94f7ea44ba0f2a0c2368e16eb2869e402cc1c7a",
+      "counts": {
+        "tests": 14,
+        "pass": 11,
+        "fail": 3,
+        "skipped": 0
+      },
+      "failures": [
+        "✖ tests\\project-v-v3-live-payload-v1.mjs",
+        "✖ 번들이 소스와 같은 계약을 담고 있다",
+        "✖ 캐시 태그가 갱신되어 있다"
+      ]
+    },
+    {
+      "name": "baseline-clan",
+      "file": "logs/baseline-clan.log.gz",
+      "rawBytes": 46823,
+      "rawSha256": "7b7724a99989913b5263eddb54507569251ba3e2d36a053335a3cc687d6606b0",
+      "gzipSha256": "34f87bc483799eb1877587003f2f8a6d0239912f9def1e625513402c0153e701",
+      "counts": {
+        "tests": 2,
+        "pass": 0,
+        "fail": 2,
+        "skipped": 0
+      },
+      "failures": [
+        "✖ OWNER TEST 잠금과 정식 ON 공개 게이트가 서버·유저 메뉴에 연결된다",
+        "✖ 현 로비 기준 클랜 본부와 정규·세력전 진입을 제공한다"
+      ]
+    },
+    {
+      "name": "baseline-boss",
+      "file": "logs/baseline-boss.log.gz",
+      "rawBytes": 1101,
+      "rawSha256": "7992918632972a14e303df4ff6d6e62e8a1c5e8179f44eac186473f51bb1f1f7",
+      "gzipSha256": "b224b7481c644744e873d89cc2c56e557460907c293d391e2be22fd2ea682a90",
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "skipped": 0
+      },
+      "failures": [
+        "✖ exact monster/card IDs resolve the new sprites without changing original catalog artwork"
+      ]
+    },
+    {
+      "name": "final-checks",
+      "file": "logs/final-checks.log.gz",
+      "rawBytes": 14968,
+      "rawSha256": "1652b028d5ac842e2a78d49328c8b2fb7b0dbdfe076c15e85a5c81da5cad1ac1",
+      "gzipSha256": "3b4008d420d1f26e41912251dc2b98c453cf2efa66f291bdf07fec527d9e1acb",
+      "counts": {
+        "tests": 97,
+        "pass": 97,
+        "fail": 0,
+        "skipped": 0
+      },
+      "failures": []
+    },
+    {
+      "name": "final-audit",
+      "file": "logs/final-audit.log.gz",
+      "rawBytes": 5154,
+      "rawSha256": "8b1c1af2a249501f2380b9cc41bb7681d17753ccd570812a8bf7b0d8597444af",
+      "gzipSha256": "965079577db8bb4df9d0a3b56b10ebd4064b09b3da6616bf03a9db5dad03a35a",
+      "counts": {
+        "tests": 0,
+        "pass": 0,
+        "fail": 0,
+        "skipped": 0
+      },
+      "failures": []
+    },
+    {
+      "name": "final-browser",
+      "file": "logs/final-browser.log.gz",
+      "rawBytes": 510,
+      "rawSha256": "1f20b2d3d3f82b424ccb470ce3b288249bf9ceef4cbec0b7e1bf3780656c29fb",
+      "gzipSha256": "62d20d8535caa8a6776cd3b7e99efd7e39cc54f9488c988e2ebb6e2e747b0123",
+      "counts": {
+        "tests": 0,
+        "pass": 0,
+        "fail": 0,
+        "skipped": 0
+      },
+      "failures": []
+    },
+    {
+      "name": "final-worker-build",
+      "file": "logs/final-worker-build.log.gz",
+      "rawBytes": 1016,
+      "rawSha256": "0631d771ff34786859acfac0d9d27a6cf71f7fb191a7ea223a07f1c248e793c7",
+      "gzipSha256": "2d07490ae5a0d38d6f72d8dca55b0a25ee2f9164bd7bcbd336de43e02c0cfc4e",
+      "counts": {
+        "tests": 0,
+        "pass": 0,
+        "fail": 0,
+        "skipped": 0
+      },
+      "failures": []
+    }
+  ]
+}

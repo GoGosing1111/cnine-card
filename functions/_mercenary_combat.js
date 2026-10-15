@@ -1,3 +1,5 @@
+import {mercenaryGrowthActionCredit} from '../shared/mercenary-growth-review-v2.mjs';
+import {pvpPowerDamageMultiplier} from '../shared/pvp-power-balance-v1.mjs';
 import {SHIRANUI_CODE,SHIRANUI_COMBAT,SHIRANUI_AREA_SKILL,SHIRANUI_AREA_MECHANIC,isShiranui,shiranuiActionCredit} from '../shared/mercenary-shiranui-v1.mjs';
 import {resolveShiranuiArea} from './_mercenary_shiranui.js';
 import {BERKAN_CODE,BERKAN_SKILL_ID,BERKAN_CAP_SCALE,BERKAN_MECHANIC,BERKAN_AREA_MECHANIC,isBerkanAreaSkill,BERKAN_TEMPO,berkanActionCredit,berkanPvpBasicDamageScale,berkanStarfallCapScale,berkanVolleyTargets} from '../shared/mercenary-berkan-v1.mjs';
@@ -41,12 +43,13 @@ const weakest=team=>ordered(team).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-
 // released fighters use their captured cadence without replacing a card,
 // advancing its gauge, or consuming the five-card battle's action budget.
 // Natural mercenary turns clear the debt; suit shots and enemy turns cannot.
+export const mercenaryBaseActionCredit=actors=>Math.max(azantActionCredit(actors),berkanActionCredit(actors),valterActionCredit(actors),heliosActionCredit(actors),jinmuActionCredit(actors),kaironActionCredit(actors),shiranuiActionCredit(actors),ssLimitedActionCredit(actors));
 export function mercenaryTurnCadence(teams){
  if([...teams.A,...teams.B].some(actor=>actor.ownerId))return duoMercenaryTurnCadence(teams);
  const debt={A:0,B:0};
  const interval=side=>mercenaryActionInterval(teams[side]||[]);
- const credit=side=>Math.max(azantActionCredit(teams[side]||[]),berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]),heliosActionCredit(teams[side]||[]),jinmuActionCredit(teams[side]||[]),kaironActionCredit(teams[side]||[]),shiranuiActionCredit(teams[side]||[]),ssLimitedActionCredit(teams[side]||[]));
- const accrue=side=>debt[side]=normalizeHeliosCredit(Math.min(heliosCreditLimit(interval(side),credit(side)),debt[side]+credit(side)),credit(side));
+ const credit=side=>Math.max(azantActionCredit(teams[side]||[]),berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]),heliosActionCredit(teams[side]||[]),jinmuActionCredit(teams[side]||[]),kaironActionCredit(teams[side]||[]),shiranuiActionCredit(teams[side]||[]),ssLimitedActionCredit(teams[side]||[]))+mercenaryGrowthActionCredit(teams[side]||[]);
+ const accrue=side=>{const growth=mercenaryGrowthActionCredit(teams[side]||[]),next=Math.min(growth?interval(side)+credit(side):heliosCreditLimit(interval(side),credit(side)),debt[side]+credit(side));debt[side]=growth?Math.round(next*10000)/10000:normalizeHeliosCredit(next,credit(side));};
  const regular=actor=>living(actor)&&!actor.isMonster&&!actor.isMercenary&&actor.actorKind!=='BATTLE_SUIT';
  return {
   pending(eligible=()=>true){
@@ -84,8 +87,8 @@ function duoMercenaryTurnCadence(teams){
  const groups=['A','B'].flatMap(side=>[...new Set(teams[side].map(a=>a.ownerId))].map(ownerId=>({side,ownerId,actors:teams[side].filter(a=>a.ownerId===ownerId),debt:0})));
  const regular=a=>living(a)&&!a.isMercenary&&!a.isMonster&&!a.isBattleSuit;
  const interval=g=>mercenaryActionInterval(g.actors);
- const credit=g=>Math.max(azantActionCredit(g.actors),berkanActionCredit(g.actors),valterActionCredit(g.actors),heliosActionCredit(g.actors),jinmuActionCredit(g.actors),kaironActionCredit(g.actors),shiranuiActionCredit(g.actors),ssLimitedActionCredit(g.actors));
- const accrue=g=>g.debt=normalizeHeliosCredit(Math.min(heliosCreditLimit(interval(g),credit(g)),g.debt+credit(g)),credit(g));
+ const credit=g=>Math.max(azantActionCredit(g.actors),berkanActionCredit(g.actors),valterActionCredit(g.actors),heliosActionCredit(g.actors),jinmuActionCredit(g.actors),kaironActionCredit(g.actors),shiranuiActionCredit(g.actors),ssLimitedActionCredit(g.actors))+mercenaryGrowthActionCredit(g.actors);
+ const accrue=g=>{const growth=mercenaryGrowthActionCredit(g.actors),next=Math.min(growth?interval(g)+credit(g):heliosCreditLimit(interval(g),credit(g)),g.debt+credit(g));g.debt=growth?Math.round(next*10000)/10000:normalizeHeliosCredit(next,credit(g));};
  const pending=(g,eligible)=>g.debt>=interval(g)?g.actors.find(a=>a.isMercenary&&living(a)&&eligible(a)):null;
  return {
   pending(eligible=()=>true){return groups.map(g=>pending(g,eligible)).find(Boolean)||null;},
@@ -127,6 +130,7 @@ const MERCENARY_SUPPORT_MECHANICS=new Set(['INTERCEPT_ONE_HIT','FRONT_STAND_FAST
 export const isMercenarySupportSkill=skill=>MERCENARY_SUPPORT_MECHANICS.has(skill?.mechanic);
 export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  if(!snapshot)return null;
+ snapshot={...snapshot};delete snapshot.pvpPowerBalance;delete snapshot.pvpBalanceVersion;
  // Limited account/release gates remain outside this canonical fighter builder.
  // Trusted prepared limited snapshots always use their server-owned policy.
  const valter=snapshot.code===VALTER_CODE;
@@ -225,7 +229,8 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   const protector=ward.actor,share=Math.floor(amount*ward.percent/100),result=damage(protector,share,{actor:a}),transferred=result.hpDamage+result.absorbed;
   a.damageDealt+=transferred;
   send(protector,ward.skill,'INTERCEPT',protector,{sourceAttackerId:a.id,protectedTargetId:t.id,damage:result.hpDamage,absorbed:result.absorbed,targetHpAfter:protector.hp,targetMaxHp:protector.maxHp,targetShieldAfter:protector.shield});
-  knockout(protector);return amount-transferred;
+  // Return the unused share in pre-bonus units; the normal damage path scales it once.
+  knockout(protector);return Math.max(0,amount-transferred/pvpPowerDamageMultiplier(a));
  }
  function offensiveSkillScale(a,s,followup=false){
   const p=state(a).pending;
@@ -353,7 +358,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    // Authored barrage tracers share one canonical hit, never one damage roll per visual shot.
    case 'LAVENDER_RICOCHET':case 'TIDAL_BARRAGE':once(t=>strike(a,s,t));break;
    case 'DUEL_OATH':once(t=>{if(strike(a,s,t).hit&&living(t)&&!sovereign(t)){table(debuffs,t).oath={actorId:a.id,percent:c.parryPercent,expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'DUEL_OATH'});}});break;
-   case 'OBSERVED_SHIELD_BREAK':once(t=>{const h=strike(a,s,t);if(h.hit&&living(t)&&t.shield>0){const budget=Math.min(t.shield,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.armorReductionPercent/100)),result=damage(t,budget,{actor:a});a.damageDealt+=result.absorbed;send(a,s,'DEBUFF',t,{effect:'SHIELD_ONLY_BREAK',amount:result.absorbed,targetShieldAfter:t.shield});}});break;
+   case 'OBSERVED_SHIELD_BREAK':once(t=>{const h=strike(a,s,t);if(h.hit&&living(t)&&t.shield>0){const budget=Math.min(t.shield,Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.armorReductionPercent/100)),result=damage(t,budget,{actor:a,shieldOnly:true});a.damageDealt+=result.absorbed;send(a,s,'DEBUFF',t,{effect:'SHIELD_ONLY_BREAK',amount:result.absorbed,targetShieldAfter:t.shield});}});break;
    case 'WOUNDED_MOON_DRAW':once(t=>strike(a,s,t,1+(1-t.hp/t.maxHp)*c.finisherBonusPercent/100));break;
    case 'FRONT_STAND_FAST':once(t=>{table(buffs,t).standfast={actor:a,skill:s,percent:mercenaryWardPercent(c.interceptPercent),budget:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio/p.targets.length),expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'FRONT_STAND_FAST'});});break;
    case 'THORN_RECOIL_SEAL':once(t=>{const h=strike(a,s,t,1-c.poisonPercent/100,'HIT',{capShare:1-c.poisonPercent/100});if(h.hit&&living(t)&&!sovereign(t)){table(debuffs,t).thorn={actor:a,skill:s,damage:Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*c.poisonPercent/100),expires:t.actions+c.statusTurns};send(a,s,'DEBUFF',t,{effect:'THORN_RECOIL_SEAL'});}});break;

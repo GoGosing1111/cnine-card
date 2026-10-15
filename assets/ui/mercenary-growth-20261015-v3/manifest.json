@@ -1,0 +1,96 @@
+{
+  "version": "mercenary-growth-imagegen-v4-readable-20261015",
+  "createdAt": "2026-10-15T10:17:20.454Z",
+  "status": "USER_REVIEW_PENDING",
+  "release": {
+    "mercenaryLevel": false,
+    "pvpPowerBonus": false,
+    "productionDeployed": false
+  },
+  "method": "Built-in image_gen; original PNG bytes preserved. Runtime WebP preserves alpha. Seal assets uniformly resized; button assets trim only near-transparent outer fringe with padding before resizing. Korean labels remain native HTML. V4 header is a newly generated asset with original PNG preserved and transparent fringe trim; use corner-preserving nine-slice rather than whole-image horizontal stretch.",
+  "scope": "All interactive local mercenary growth and breakthrough surfaces; existing shared navigation remains unchanged.",
+  "supersedes": "Rejected CSS/SVG seal and plain button visual; historical screenshots preserved in preview/mercenary-level-v2-20261015/qa/rejected-css-v2/ V3 long stretched ornament bars and tiny text also rejected; compact corner-preserving generated control surface and readable typography replace them.",
+  "assets": [
+    {
+      "key": "seal-closed",
+      "source": "sources/seal-closed.png",
+      "runtime": "seal-closed.webp",
+      "promptManifest": "seal-manifest.json",
+      "sourceSha256": "e0a32f8519fafef3db8b37afda97f6225fdc73426c67bf7eb56a20366581cc07",
+      "runtimeSha256": "e92e0bb171e92abed011f1c60eea42101ec001bfba053161a10a3979c7035e59"
+    },
+    {
+      "key": "seal-opened",
+      "source": "sources/seal-opened.png",
+      "runtime": "seal-opened.webp",
+      "promptManifest": "seal-manifest.json",
+      "sourceSha256": "c22913311286e7aac63767b9ccf4e95ced099a32cab658f9fe208e99a1a59875",
+      "runtimeSha256": "f7a14153b888577f840db1cbb87f43d9a87f166b0ff4497a4473b82e4cecc197"
+    },
+    {
+      "key": "seal-failed",
+      "source": "sources/seal-failed.png",
+      "runtime": "seal-failed.webp",
+      "promptManifest": "seal-manifest.json",
+      "sourceSha256": "5075a80911d88f1bb4ec3c47c58519713443ad22bc19ca5301aa57d3a6556233",
+      "runtimeSha256": "4e375119115bf1f9a3dedc42a11b1ee88b55df2e7aa59f96724eb42e875f0a31"
+    },
+    {
+      "key": "button-primary",
+      "source": "sources/button-primary.png",
+      "runtime": "button-primary.webp",
+      "prompt": "button-primary.prompt.txt",
+      "promptManifest": "buttons-manifest.json",
+      "sourceSha256": "a4f6d56be1cc821c15390a4e74629865eddb5b97a169539d042112de6ac9a7e2",
+      "runtimeSha256": "c02bf255281bff05bb31bb2c1de4375a9f0f4a98ecdb29cdba08c9f98950596b"
+    },
+    {
+      "key": "button-secondary",
+      "source": "sources/button-secondary.png",
+      "runtime": "button-secondary.webp",
+      "prompt": "button-secondary.prompt.txt",
+      "promptManifest": "buttons-manifest.json",
+      "sourceSha256": "c4638d16d828e49dd73129d374ffc981d1096eef7b9edc789a685fcea9af3b59",
+      "runtimeSha256": "d8841e119d99225bd4f83ccb8769786816348c2f91dbfa7b6c5c4e27efe38409",
+      "status": "SUPERSEDED_BUTTON_LAYOUT_V3"
+    },
+    {
+      "key": "button-slot",
+      "source": "sources/button-slot.png",
+      "runtime": "button-slot.webp",
+      "prompt": "button-slot.prompt.txt",
+      "promptManifest": "buttons-manifest.json",
+      "sourceSha256": "a526a3b5bb4fb8a77257065312a0b99b57b41cae31264ad3380d9faeb5978456",
+      "runtimeSha256": "f067a7d2cb041576dd59f0254159300fde9bda4d155a68b5faa9b5c3fcdff7fc"
+    },
+    {
+      "key": "button-slider",
+      "source": "sources/button-slider.png",
+      "runtime": "button-slider.webp",
+      "prompt": "button-slider.prompt.txt",
+      "promptManifest": "buttons-manifest.json",
+      "sourceSha256": "b16cec5ea0a64a91b3128d49526a31d9c39888897d136429c57c26876ea3a939",
+      "runtimeSha256": "731e28ebdd7c24cb3f1bfaf23574893f1d9bc915d181b178c646efba467f9f04"
+    },
+    {
+      "key": "button-header-v4",
+      "source": "sources/button-header-v4.png",
+      "runtime": "button-header-v4.webp",
+      "prompt": "button-header-v4.prompt.txt",
+      "promptManifest": "header-v4-manifest.json",
+      "sourceSha256": "781ffc5e7ae89c6bb282977bcffd51e2cbeb2d0e98d2905dd42cb55d64876b82",
+      "runtimeSha256": "3e8847fd95eb8d3944b2deb044974428ce463831de03dc38b0cce06e8734334c"
+    }
+  ],
+  "buttonInventory": "button-inventory.json",
+  "sealManifest": "seal-manifest.json",
+  "buttonsManifest": "buttons-manifest.json",
+  "preview": "/preview/mercenary-level-v2-20261015/",
+  "qa": "../../../preview/mercenary-level-v2-20261015/qa/report.json",
+  "previousVisualVersion": "mercenary-growth-imagegen-v3-20261015",
+  "activeAssetCount": 7,
+  "preservedSourceCount": 8,
+  "headerV4Manifest": "header-v4-manifest.json",
+  "decorationPolicy": "User requested removal of CSS shapes. Remove slider/header diamonds, ornamental SVGs, CSS orbit/ring/corner decoration and dead CSS seal effects. Preserve native interaction/focus and generated-image motion.",
+  "latestVisualEvidence": "../../../preview/mercenary-level-v2-20261015/qa/readability-v4/"
+}

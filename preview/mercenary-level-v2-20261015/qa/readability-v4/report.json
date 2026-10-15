@@ -1,0 +1,2393 @@
+{
+  "visualVersion": "imagegen-v4-readable-20261015",
+  "checkedAt": "2026-10-15T10:33:02.580Z",
+  "rejectedPredecessor": "../rejected-button-layout-v3/",
+  "report": [
+    {
+      "name": "desktop",
+      "initial": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "workspaceColumns": "234px 501px 400px",
+        "levelColumns": "44px 44px 44px 44px 44px 44px 44px 44px 44px 44px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 200,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 20,
+              "width": 1169,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 20,
+              "width": 1169,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [
+            {
+              "text": "−",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "+",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [
+            {
+              "text": "경험치 전수 →",
+              "font": 16,
+              "width": 354,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#breakthrough": [],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [],
+          ".break-continue": [],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "expanded": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "workspaceColumns": "234px 501px 400px",
+        "levelColumns": "44px 44px 44px 44px 44px 44px 44px 44px 44px 44px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 200,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 20,
+              "width": 1169,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 20,
+              "width": 1169,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [
+            {
+              "text": "−",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "+",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [
+            {
+              "text": "경험치 전수 →",
+              "font": 16,
+              "width": 354,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#breakthrough": [],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [],
+          ".break-continue": [],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "seal": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "workspaceColumns": "234px 501px 400px",
+        "levelColumns": "44px 44px 44px 44px 44px 44px 44px 44px 44px 44px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 200,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 20,
+              "width": 1169,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 20,
+              "width": 1169,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [],
+          "#breakthrough": [
+            {
+              "text": "돌파 결과 확인 중…",
+              "font": 16,
+              "width": 354,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#replay-reveal": [],
+          ".break-skip": [
+            {
+              "text": "바로 결과 보기 ↗",
+              "font": 16,
+              "width": 187.765625,
+              "height": 54,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-sound": [
+            {
+              "text": "사운드 OFF",
+              "font": 16,
+              "width": 150,
+              "height": 50,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-continue": [],
+          ".break-slider-label": [
+            {
+              "text": "밀어서 봉인 개방",
+              "font": 16,
+              "width": 353,
+              "height": 80,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "none"
+            }
+          ]
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "result": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "workspaceColumns": "234px 501px 400px",
+        "levelColumns": "44px 44px 44px 44px 44px 44px 44px 44px 44px 44px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 200,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 20,
+              "width": 1169,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 20,
+              "width": 1169,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [],
+          "#breakthrough": [
+            {
+              "text": "돌파 결과 확인 중…",
+              "font": 16,
+              "width": 354,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [
+            {
+              "text": "사운드 OFF",
+              "font": 16,
+              "width": 150,
+              "height": 50,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-continue": [
+            {
+              "text": "성장실로 돌아가기 →",
+              "font": 16,
+              "width": 420,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "errors": [],
+      "mutations": []
+    },
+    {
+      "name": "compact",
+      "initial": {
+        "width": 1100,
+        "scrollWidth": 1100,
+        "workspaceColumns": "441px 400px",
+        "levelColumns": "71.0938px 71.0938px 71.1094px 71.0938px 71.0938px 71.1094px 71.0938px 71.1094px 71.0938px 71.0938px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 200,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 20,
+              "width": 857,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 20,
+              "width": 857,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [
+            {
+              "text": "−",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "+",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 71.09375,
+              "height": 71.09375,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 71.09375,
+              "height": 71.09375,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [
+            {
+              "text": "경험치 전수 →",
+              "font": 16,
+              "width": 354,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#breakthrough": [],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [],
+          ".break-continue": [],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "expanded": {
+        "width": 1100,
+        "scrollWidth": 1100,
+        "workspaceColumns": "441px 400px",
+        "levelColumns": "71.0938px 71.0938px 71.1094px 71.0938px 71.0938px 71.1094px 71.0938px 71.1094px 71.0938px 71.0938px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 200,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 20,
+              "width": 857,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 20,
+              "width": 857,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [
+            {
+              "text": "−",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "+",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 71.09375,
+              "height": 71.09375,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 71.09375,
+              "height": 71.09375,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [
+            {
+              "text": "경험치 전수 →",
+              "font": 16,
+              "width": 354,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#breakthrough": [],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [],
+          ".break-continue": [],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "seal": {
+        "width": 1100,
+        "scrollWidth": 1100,
+        "workspaceColumns": "441px 400px",
+        "levelColumns": "71.0938px 71.0938px 71.1094px 71.0938px 71.0938px 71.1094px 71.0938px 71.1094px 71.0938px 71.0938px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 200,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 20,
+              "width": 857,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 20,
+              "width": 857,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 71.09375,
+              "height": 71.09375,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 71.09375,
+              "height": 71.09375,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [],
+          "#breakthrough": [
+            {
+              "text": "돌파 결과 확인 중…",
+              "font": 16,
+              "width": 354,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#replay-reveal": [],
+          ".break-skip": [
+            {
+              "text": "바로 결과 보기 ↗",
+              "font": 16,
+              "width": 187.765625,
+              "height": 54,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-sound": [
+            {
+              "text": "사운드 OFF",
+              "font": 16,
+              "width": 150,
+              "height": 50,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-continue": [],
+          ".break-slider-label": [
+            {
+              "text": "밀어서 봉인 개방",
+              "font": 16,
+              "width": 353,
+              "height": 80,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "none"
+            }
+          ]
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "result": {
+        "width": 1100,
+        "scrollWidth": 1100,
+        "workspaceColumns": "441px 400px",
+        "levelColumns": "71.0938px 71.0938px 71.1094px 71.0938px 71.0938px 71.1094px 71.0938px 71.1094px 71.0938px 71.0938px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 200,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 20,
+              "width": 857,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 20,
+              "width": 857,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 71.09375,
+              "height": 71.09375,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 71.09375,
+              "height": 71.09375,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [],
+          "#breakthrough": [
+            {
+              "text": "돌파 결과 확인 중…",
+              "font": 16,
+              "width": 354,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [
+            {
+              "text": "사운드 OFF",
+              "font": 16,
+              "width": 150,
+              "height": 50,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-continue": [
+            {
+              "text": "성장실로 돌아가기 →",
+              "font": 16,
+              "width": 420,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "errors": [],
+      "mutations": []
+    },
+    {
+      "name": "tablet",
+      "initial": {
+        "width": 800,
+        "scrollWidth": 800,
+        "workspaceColumns": "760px",
+        "levelColumns": "61.1875px 61.2031px 61.2031px 61.2031px 61.2031px 61.1875px 61.2031px 61.2031px 61.2031px 61.2031px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 200,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 20,
+              "width": 758,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 20,
+              "width": 758,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [
+            {
+              "text": "−",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "+",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 61.1875,
+              "height": 61.1875,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 61.203125,
+              "height": 61.203125,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [
+            {
+              "text": "경험치 전수 →",
+              "font": 16,
+              "width": 702,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#breakthrough": [],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [],
+          ".break-continue": [],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "expanded": {
+        "width": 800,
+        "scrollWidth": 800,
+        "workspaceColumns": "760px",
+        "levelColumns": "61.1875px 61.2031px 61.2031px 61.2031px 61.2031px 61.1875px 61.2031px 61.2031px 61.2031px 61.2031px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 200,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 20,
+              "width": 758,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 20,
+              "width": 758,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [
+            {
+              "text": "−",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "+",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 61.1875,
+              "height": 61.1875,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 61.203125,
+              "height": 61.203125,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [
+            {
+              "text": "경험치 전수 →",
+              "font": 16,
+              "width": 702,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#breakthrough": [],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [],
+          ".break-continue": [],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "seal": {
+        "width": 800,
+        "scrollWidth": 800,
+        "workspaceColumns": "760px",
+        "levelColumns": "61.1875px 61.2031px 61.2031px 61.2031px 61.2031px 61.1875px 61.2031px 61.2031px 61.2031px 61.2031px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 200,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 20,
+              "width": 758,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 20,
+              "width": 758,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 61.1875,
+              "height": 61.1875,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 61.203125,
+              "height": 61.203125,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [],
+          "#breakthrough": [
+            {
+              "text": "돌파 결과 확인 중…",
+              "font": 16,
+              "width": 702,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#replay-reveal": [],
+          ".break-skip": [
+            {
+              "text": "바로 결과 보기 ↗",
+              "font": 16,
+              "width": 187.765625,
+              "height": 54,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-sound": [
+            {
+              "text": "사운드 OFF",
+              "font": 16,
+              "width": 150,
+              "height": 50,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-continue": [],
+          ".break-slider-label": [
+            {
+              "text": "밀어서 봉인 개방",
+              "font": 16,
+              "width": 353,
+              "height": 80,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "none"
+            }
+          ]
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "result": {
+        "width": 800,
+        "scrollWidth": 800,
+        "workspaceColumns": "760px",
+        "levelColumns": "61.1875px 61.2031px 61.2031px 61.2031px 61.2031px 61.1875px 61.2031px 61.2031px 61.2031px 61.2031px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 200,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 20,
+              "width": 758,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 20,
+              "width": 758,
+              "height": 72,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 61.1875,
+              "height": 61.1875,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 61.203125,
+              "height": 61.203125,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [],
+          "#breakthrough": [
+            {
+              "text": "돌파 결과 확인 중…",
+              "font": 16,
+              "width": 702,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [
+            {
+              "text": "사운드 OFF",
+              "font": 16,
+              "width": 150,
+              "height": 50,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-continue": [
+            {
+              "text": "성장실로 돌아가기 →",
+              "font": 16,
+              "width": 420,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "errors": [],
+      "mutations": []
+    },
+    {
+      "name": "mobile",
+      "initial": {
+        "width": 390,
+        "scrollWidth": 390,
+        "workspaceColumns": "366px",
+        "levelColumns": "58.3906px 58.4062px 58.3906px 58.4062px 58.4062px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 336,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 18,
+              "width": 364,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 18,
+              "width": 364,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [
+            {
+              "text": "−",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "+",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 58.390625,
+              "height": 58.390625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 58.40625,
+              "height": 58.40625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [
+            {
+              "text": "경험치 전수 →",
+              "font": 16,
+              "width": 328,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#breakthrough": [],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [],
+          ".break-continue": [],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "expanded": {
+        "width": 390,
+        "scrollWidth": 390,
+        "workspaceColumns": "366px",
+        "levelColumns": "58.3906px 58.4062px 58.3906px 58.4062px 58.4062px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 336,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 18,
+              "width": 364,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 18,
+              "width": 364,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [
+            {
+              "text": "−",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "+",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 58.390625,
+              "height": 58.390625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 58.40625,
+              "height": 58.40625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [
+            {
+              "text": "경험치 전수 →",
+              "font": 16,
+              "width": 328,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#breakthrough": [],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [],
+          ".break-continue": [],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "seal": {
+        "width": 390,
+        "scrollWidth": 390,
+        "workspaceColumns": "366px",
+        "levelColumns": "58.3906px 58.4062px 58.3906px 58.4062px 58.4062px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 336,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 18,
+              "width": 364,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 18,
+              "width": 364,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 58.390625,
+              "height": 58.390625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 58.40625,
+              "height": 58.40625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [],
+          "#breakthrough": [
+            {
+              "text": "돌파 결과 확인 중…",
+              "font": 16,
+              "width": 328,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#replay-reveal": [],
+          ".break-skip": [
+            {
+              "text": "바로 결과 보기 ↗",
+              "font": 16,
+              "width": 137.28125,
+              "height": 52,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-sound": [
+            {
+              "text": "사운드 OFF",
+              "font": 16,
+              "width": 148,
+              "height": 50,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-continue": [],
+          ".break-slider-label": [
+            {
+              "text": "밀어서 봉인 개방",
+              "font": 16,
+              "width": 265,
+              "height": 80,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "none"
+            }
+          ]
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "result": {
+        "width": 390,
+        "scrollWidth": 390,
+        "workspaceColumns": "366px",
+        "levelColumns": "58.3906px 58.4062px 58.3906px 58.4062px 58.4062px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 336,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 18,
+              "width": 364,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 18,
+              "width": 364,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 58.390625,
+              "height": 58.390625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 58.40625,
+              "height": 58.40625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [],
+          "#breakthrough": [
+            {
+              "text": "돌파 결과 확인 중…",
+              "font": 16,
+              "width": 328,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [
+            {
+              "text": "사운드 OFF",
+              "font": 16,
+              "width": 148,
+              "height": 50,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-continue": [
+            {
+              "text": "성장실로 돌아가기 →",
+              "font": 16,
+              "width": 358,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "errors": [],
+      "mutations": []
+    },
+    {
+      "name": "narrow",
+      "initial": {
+        "width": 320,
+        "scrollWidth": 320,
+        "workspaceColumns": "296px",
+        "levelColumns": "44.3906px 44.4062px 44.3906px 44.4062px 44.4062px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 266,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 18,
+              "width": 294,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 18,
+              "width": 294,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [
+            {
+              "text": "−",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "+",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 44.390625,
+              "height": 44.390625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 44.40625,
+              "height": 44.40625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [
+            {
+              "text": "경험치 전수 →",
+              "font": 16,
+              "width": 258,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#breakthrough": [],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [],
+          ".break-continue": [],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "expanded": {
+        "width": 320,
+        "scrollWidth": 320,
+        "workspaceColumns": "296px",
+        "levelColumns": "44.3906px 44.4062px 44.3906px 44.4062px 44.4062px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 266,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 18,
+              "width": 294,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 18,
+              "width": 294,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [
+            {
+              "text": "−",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "+",
+              "font": 18,
+              "width": 44,
+              "height": 44,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 44.390625,
+              "height": 44.390625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 44.40625,
+              "height": 44.40625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [
+            {
+              "text": "경험치 전수 →",
+              "font": 16,
+              "width": 258,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#breakthrough": [],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [],
+          ".break-continue": [],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "seal": {
+        "width": 320,
+        "scrollWidth": 320,
+        "workspaceColumns": "296px",
+        "levelColumns": "44.3906px 44.4062px 44.3906px 44.4062px 44.4062px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 266,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 18,
+              "width": 294,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 18,
+              "width": 294,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 44.390625,
+              "height": 44.390625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 44.40625,
+              "height": 44.40625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [],
+          "#breakthrough": [
+            {
+              "text": "돌파 결과 확인 중…",
+              "font": 16,
+              "width": 258,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#replay-reveal": [],
+          ".break-skip": [
+            {
+              "text": "바로 결과 보기 ↗",
+              "font": 16,
+              "width": 288,
+              "height": 52,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-sound": [
+            {
+              "text": "사운드 OFF",
+              "font": 16,
+              "width": 148,
+              "height": 50,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-continue": [],
+          ".break-slider-label": [
+            {
+              "text": "밀어서 봉인 개방",
+              "font": 16,
+              "width": 208,
+              "height": 80,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "none"
+            }
+          ]
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "result": {
+        "width": 320,
+        "scrollWidth": 320,
+        "workspaceColumns": "296px",
+        "levelColumns": "44.3906px 44.4062px 44.3906px 44.4062px 44.4062px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 266,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 18,
+              "width": 294,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 18,
+              "width": 294,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 44.390625,
+              "height": 44.390625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 44.40625,
+              "height": 44.40625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [],
+          "#breakthrough": [
+            {
+              "text": "돌파 결과 확인 중…",
+              "font": 16,
+              "width": 258,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#replay-reveal": [],
+          ".break-skip": [],
+          ".break-sound": [
+            {
+              "text": "사운드 OFF",
+              "font": 16,
+              "width": 148,
+              "height": 50,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-continue": [
+            {
+              "text": "성장실로 돌아가기 →",
+              "font": 16,
+              "width": 288,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "failure": {
+        "width": 320,
+        "scrollWidth": 320,
+        "workspaceColumns": "296px",
+        "levelColumns": "44.3906px 44.4062px 44.3906px 44.4062px 44.4062px",
+        "controls": {
+          "#demo-break": [
+            {
+              "text": "돌파 연출 보기 ↗",
+              "font": 16,
+              "width": 266,
+              "height": 58,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".growth-guide summary": [
+            {
+              "text": "성장 · 돌파 규칙 ＋",
+              "font": 18,
+              "width": 294,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            },
+            {
+              "text": "화면 검수 도구 ＋",
+              "font": 18,
+              "width": 294,
+              "height": 68,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".quantity button": [],
+          "[data-inspect-level]": [
+            {
+              "text": "1",
+              "font": 18,
+              "width": 44.390625,
+              "height": 44.390625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            },
+            {
+              "text": "2",
+              "font": 18,
+              "width": 44.40625,
+              "height": 44.40625,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-slot.webp\")"
+            }
+          ],
+          "#train": [],
+          "#breakthrough": [
+            {
+              "text": "돌파 결과 확인 중…",
+              "font": 16,
+              "width": 258,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          "#replay-reveal": [
+            {
+              "text": "최근 크라이베른 돌파 결과 · 추가 소모 없음",
+              "font": 16,
+              "width": 258,
+              "height": 88,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-skip": [],
+          ".break-sound": [
+            {
+              "text": "사운드 OFF",
+              "font": 16,
+              "width": 148,
+              "height": 50,
+              "borderImage": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-header-v4.webp\")",
+              "borderSlice": "100 fill",
+              "background": "none"
+            }
+          ],
+          ".break-continue": [
+            {
+              "text": "성장실로 돌아가기 →",
+              "font": 16,
+              "width": 288,
+              "height": 72,
+              "borderImage": "none",
+              "borderSlice": "100%",
+              "background": "url(\"http://127.0.0.1:2679/assets/ui/mercenary-growth-20261015-v3/button-primary.webp\")"
+            }
+          ],
+          ".break-slider-label": []
+        },
+        "smallText": [
+          {
+            "text": "✓",
+            "class": "selected-mark",
+            "font": "10px"
+          }
+        ],
+        "undersizedControls": []
+      },
+      "errors": [],
+      "mutations": []
+    }
+  ],
+  "finalChecksAt": "2026-10-15T10:39:57.990Z",
+  "finalLocalizedChecks": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "selectedMarkPx": 14,
+      "skipKeyboardFocus": true,
+      "skipHiddenAfterBlur": true,
+      "primaryFullyAboveDock": null,
+      "undersizedControls": [],
+      "smallText": []
+    },
+    {
+      "name": "tablet",
+      "viewport": {
+        "width": 800,
+        "height": 1000
+      },
+      "selectedMarkPx": 14,
+      "skipKeyboardFocus": true,
+      "skipHiddenAfterBlur": true,
+      "primaryFullyAboveDock": null,
+      "undersizedControls": [],
+      "smallText": []
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selectedMarkPx": 14,
+      "skipKeyboardFocus": true,
+      "skipHiddenAfterBlur": true,
+      "primaryFullyAboveDock": true,
+      "undersizedControls": [],
+      "smallText": []
+    },
+    {
+      "name": "narrow",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "selectedMarkPx": 14,
+      "skipKeyboardFocus": true,
+      "skipHiddenAfterBlur": true,
+      "primaryFullyAboveDock": true,
+      "undersizedControls": [],
+      "smallText": []
+    }
+  ],
+  "captureNotes": "Final component images refreshed after blur. *-viewport.png are actual viewport captures with shared dock preserved. The old V3 functional report remains valid for unchanged receipt behavior; this run verifies V4 typography, artwork ratios, focus-only skip link and dock clearance.",
+  "finalNoShapeChecksAt": "2026-10-15T10:43:02.643Z",
+  "finalNoShapeChecks": [
+    {
+      "name": "tablet",
+      "mainDecorativeShapeCount": 0,
+      "sealDecorativeShapeCount": 0,
+      "handleText": "",
+      "generatedSealImagesLoaded": true,
+      "keyboardOpening": true,
+      "resultVisible": true,
+      "primary": {
+        "width": 380,
+        "height": 84,
+        "font": 16,
+        "backgroundSize": "contain"
+      },
+      "errors": [],
+      "mutations": []
+    },
+    {
+      "name": "narrow",
+      "mainDecorativeShapeCount": 0,
+      "sealDecorativeShapeCount": 0,
+      "handleText": "",
+      "generatedSealImagesLoaded": true,
+      "keyboardOpening": true,
+      "resultVisible": true,
+      "primary": {
+        "width": 258,
+        "height": 76,
+        "font": 16,
+        "backgroundSize": "contain"
+      },
+      "errors": [],
+      "mutations": []
+    }
+  ],
+  "latestNoShapeScreenshots": [
+    "tablet-seal-top.png",
+    "tablet-seal-controls.png",
+    "tablet-opening.png",
+    "tablet-success-bottom.png",
+    "narrow-seal-top.png",
+    "narrow-seal-controls.png",
+    "narrow-opening.png",
+    "narrow-success-bottom.png",
+    "narrow-failure-bottom.png",
+    "narrow-stats-viewport.png"
+  ],
+  "initialMeasurementsNote": "The original measurements in report[] precede the final localized fixes; finalLocalizedChecks and finalNoShapeChecks are the latest authoritative results."
+}

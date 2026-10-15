@@ -8,3 +8,6 @@
 @media(prefers-reduced-motion:reduce){.mc-admin *{scroll-behavior:auto!important}}
 
 .mc-admin .mc-level-form{border:0;padding:0;margin:0;min-width:0}.mc-admin .mc-level-xp{grid-template-columns:repeat(5,minmax(0,1fr))}.mc-admin [data-level-root]>.mc-savebar{z-index:5}@media(max-width:900px){.mc-admin .mc-level-xp{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:600px){.mc-admin .mc-level-xp{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Level V2: scroll inside the table, preserving mobile control access. */
+.mc-level-form{min-width:0}.mc-level-growth-scroll{max-width:100%;max-height:540px;overflow:auto;border:1px solid var(--mc-line);border-radius:8px;scrollbar-width:thin}.mc-level-growth-table{width:100%;border-collapse:separate;border-spacing:0;white-space:nowrap;font-size:12px}.mc-level-growth-table th,.mc-level-growth-table td{padding:10px 13px;border-bottom:1px solid var(--mc-line);text-align:right}.mc-level-growth-table thead th{position:sticky;top:0;z-index:2;background:#142124;color:var(--mc-gold)}.mc-level-growth-table th:first-child{position:sticky;left:0;text-align:left;background:#142124;z-index:1}.mc-level-growth-table thead th:first-child{z-index:3}.mc-level-table-hint{color:var(--mc-muted);font-size:12px}.mc-level-growth-table tr:last-child td,.mc-level-growth-table tr:last-child th{color:var(--mc-gold);font-weight:700}

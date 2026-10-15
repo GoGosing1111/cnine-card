@@ -1,0 +1,16 @@
+function sealSvg(side) {
+  return `<svg viewBox="0 0 400 460" aria-hidden="true"><defs><linearGradient id="metal-${side}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#756a59"/><stop offset=".17" stop-color="#332c25"/><stop offset=".49" stop-color="#101e29"/><stop offset=".72" stop-color="#514538"/><stop offset="1" stop-color="#111721"/></linearGradient><linearGradient id="edge-${side}" x2=".5" y2="1"><stop stop-color="#ffe3ac"/><stop offset=".4" stop-color="#a27e42"/><stop offset=".7" stop-color="#362a20"/><stop offset="1" stop-color="#d5af66"/></linearGradient><radialGradient id="core-${side}"><stop stop-color="#fff5d3"/><stop offset=".28" stop-color="#f8d48d"/><stop offset=".55" stop-color="#aa6e29"/><stop offset="1" stop-color="#162c2c"/></radialGradient></defs>
+  <path d="M200 12 345 97 379 230 345 363 200 448 55 363 21 230 55 97Z" fill="#06121f" stroke="#0a1019" stroke-width="11"/>
+  <path d="M200 6 350 94 385 230 350 366 200 454 50 366 15 230 50 94Z" fill="url(#metal-${side})" stroke="url(#edge-${side})" stroke-width="5"/>
+  <path d="M200 27 333 106 364 230 333 354 200 433 67 354 36 230 67 106Z" fill="none" stroke="#a88a56" stroke-width="1"/>
+  <path d="M200 46 314 118 343 230 314 342 200 414 86 342 57 230 86 118Z" fill="#0b1a27" stroke="#685637" stroke-width="3"/>
+  <path d="m200 50 104 74 28 106-28 106-104 74L96 336 68 230l28-106Z" fill="url(#metal-${side})" stroke="#1a2d33" stroke-width="6"/>
+  <g fill="none" stroke="#d1ad62" stroke-width="1"><circle cx="200" cy="230" r="130"/><circle cx="200" cy="230" r="116" stroke-dasharray="2 8"/><path d="M200 80v50m0 200v50M70 230h50m160 0h50M111 141l30 30m118 118 30 30m0-178-30 30M141 289l-30 30"/></g>
+  <path d="m200 128 83 102-83 102-83-102Z" fill="#0a1924" stroke="url(#edge-${side})" stroke-width="4"/>
+  <path d="m200 147 64 83-64 83-64-83Z" fill="none" stroke="#b18b46"/>
+  <path d="m200 170 40 60-40 60-40-60Z" fill="url(#core-${side})" stroke="#ffdc91" stroke-width="2"/>
+  <path d="M200 179v102m-28-51h56" stroke="#fff3c3" stroke-width="2"/>
+  <g fill="#b18b46" stroke="#e4c588"><path d="m200 24 8 15-8 15-8-15Zm0 382 8 15-8 15-8-15ZM39 230l14-8 14 8-14 8Zm294 0 14-8 14 8-14 8Z"/></g>
+  <path d="M74 105 200 31l126 74M73 352l127 75 127-75" fill="none" stroke="#efd49a" stroke-width="2" opacity=".7"/>
+  </svg>`;
+}

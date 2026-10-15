@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-15T09:55:47.829Z",
+  "report": [
+    {
+      "viewport": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "partialDraftSaved": true,
+      "missingValuesRemainNull": true,
+      "rows": 21,
+      "errors": [],
+      "writes": [],
+      "overflow": false
+    },
+    {
+      "viewport": "mobile",
+      "width": 390,
+      "height": 844,
+      "partialDraftSaved": true,
+      "missingValuesRemainNull": true,
+      "rows": 21,
+      "errors": [],
+      "writes": [],
+      "overflow": false
+    }
+  ]
+}

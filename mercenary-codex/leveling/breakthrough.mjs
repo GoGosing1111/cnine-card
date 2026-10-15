@@ -1,24 +1,10 @@
+import {resultStatsHtml} from './growth-view.mjs?v=20261015-v2';
 // Presentation only: this module receives a completed, immutable result. It has
 // no API, random outcome, inventory or account mutation dependency.
 let active = null;
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const SOUND_KEY = 'cnine.mercenary.breakthrough.sound';
-function sealSvg(side) {
-  return `<svg viewBox="0 0 400 460" aria-hidden="true"><defs><linearGradient id="metal-${side}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#61716d"/><stop offset=".17" stop-color="#263940"/><stop offset=".49" stop-color="#101e29"/><stop offset=".72" stop-color="#36494a"/><stop offset="1" stop-color="#0a1723"/></linearGradient><linearGradient id="edge-${side}" x2=".5" y2="1"><stop stop-color="#e4eac6"/><stop offset=".4" stop-color="#607759"/><stop offset=".7" stop-color="#192d30"/><stop offset="1" stop-color="#b2bb88"/></linearGradient><radialGradient id="core-${side}"><stop stop-color="#ebffc9"/><stop offset=".28" stop-color="#b9f76d"/><stop offset=".55" stop-color="#63944a"/><stop offset="1" stop-color="#162c2c"/></radialGradient></defs>
-  <path d="M200 12 345 97 379 230 345 363 200 448 55 363 21 230 55 97Z" fill="#06121f" stroke="#0a1019" stroke-width="11"/>
-  <path d="M200 6 350 94 385 230 350 366 200 454 50 366 15 230 50 94Z" fill="url(#metal-${side})" stroke="url(#edge-${side})" stroke-width="5"/>
-  <path d="M200 27 333 106 364 230 333 354 200 433 67 354 36 230 67 106Z" fill="none" stroke="#8a9d79" stroke-width="1"/>
-  <path d="M200 46 314 118 343 230 314 342 200 414 86 342 57 230 86 118Z" fill="#0b1a27" stroke="#556958" stroke-width="3"/>
-  <path d="m200 50 104 74 28 106-28 106-104 74L96 336 68 230l28-106Z" fill="url(#metal-${side})" stroke="#1a2d33" stroke-width="6"/>
-  <g fill="none" stroke="#9cb077" stroke-width="1"><circle cx="200" cy="230" r="130"/><circle cx="200" cy="230" r="116" stroke-dasharray="2 8"/><path d="M200 80v50m0 200v50M70 230h50m160 0h50M111 141l30 30m118 118 30 30m0-178-30 30M141 289l-30 30"/></g>
-  <path d="m200 128 83 102-83 102-83-102Z" fill="#0a1924" stroke="url(#edge-${side})" stroke-width="4"/>
-  <path d="m200 147 64 83-64 83-64-83Z" fill="none" stroke="#849d63"/>
-  <path d="m200 170 40 60-40 60-40-60Z" fill="url(#core-${side})" stroke="#d2ff92" stroke-width="2"/>
-  <path d="M200 179v102m-28-51h56" stroke="#efffc2" stroke-width="2"/>
-  <g fill="#93aa68" stroke="#d0d5a2"><path d="m200 24 8 15-8 15-8-15Zm0 382 8 15-8 15-8-15ZM39 230l14-8 14 8-14 8Zm294 0 14-8 14 8-14 8Z"/></g>
-  <path d="M74 105 200 31l126 74M73 352l127 75 127-75" fill="none" stroke="#d8e5a1" stroke-width="2" opacity=".7"/>
-  </svg>`;
-}
+const sealArt='/assets/ui/mercenary-growth-20261015-v3/';
 export function showBreakthrough({result, card, bonusLabel, preview = false}) {
   if (active) return active.promise;
   if (!result || typeof result.success !== 'boolean' || !result.before || !result.after || !card) return Promise.reject(Error('돌파 결과를 표시하지 못했습니다. 이전 요청 결과를 다시 확인하세요.'));
@@ -34,10 +20,10 @@ export function showBreakthrough({result, card, bonusLabel, preview = false}) {
   root.className = 'break-reveal'; root.dataset.phase = phase; root.dataset.reduced = String(reduced);
   root.setAttribute('aria-labelledby', 'break-title'); root.setAttribute('aria-describedby', 'break-description');
   root.innerHTML = `<div class="break-room" aria-hidden="true"></div><canvas class="break-particles" aria-hidden="true"></canvas><div class="break-vignette" aria-hidden="true"></div>
-    <div class="break-layout"><header class="break-top"><div><span class="break-top-symbol">◇</span><b>한계 돌파</b><span>Lv.${receipt.before.level}</span>${preview ? '<small>검수 예시 · 실제 소모 없음</small>' : ''}</div><button class="break-skip" type="button">바로 결과 보기 <span>↗</span></button></header>
+    <div class="break-layout"><header class="break-top"><div><b>한계 돌파</b><span>Lv.${receipt.before.level}</span>${preview ? '<small>검수 예시 · 실제 소모 없음</small>' : ''}</div><button class="break-skip" type="button">바로 결과 보기 <span>↗</span></button></header>
     <div class="break-heading"><p class="break-phase-caption">돌파 에너지 충전</p><h2 id="break-title">봉인을 깨울 시간</h2><p id="break-description">${esc(identity.name)} · Lv.${receipt.before.level} 돌파</p></div>
-    <div class="break-arena"><div class="break-column" aria-hidden="true"></div><div class="break-ring ring-a" aria-hidden="true"></div><div class="break-ring ring-b" aria-hidden="true"></div><div class="break-ring ring-c" aria-hidden="true"></div><div class="break-shockwave" aria-hidden="true"></div><div class="break-seal" aria-hidden="true"><div class="seal-half seal-left">${sealSvg('left')}</div><div class="seal-half seal-right">${sealSvg('right')}</div><div class="seal-seam"></div><div class="seal-gleam"></div></div><div class="break-art" aria-hidden="true"><img src="/${esc(identity.sourceArt)}" alt=""><span class="break-art-corner"></span></div><div class="break-plinth" aria-hidden="true"></div></div>
-    <div class="break-bottom"><div class="break-interaction"><p class="break-instruction" role="status">에너지가 봉인에 모이고 있습니다.</p><div class="break-slider" role="slider" tabindex="0" aria-label="오른쪽으로 밀어 돌파 결과 공개" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="충전 중" aria-disabled="true"><div class="break-slider-fill"></div><span class="break-slider-label">밀어서 봉인 개방</span><span class="break-slider-chevrons" aria-hidden="true">› › ›</span><span class="break-slider-handle" aria-hidden="true">◇</span></div><p class="break-keyboard-hint">오른쪽으로 끝까지 밀기 · Enter로 개방</p></div><div class="break-result" hidden><div class="break-result-level"></div><div class="break-result-effect"></div><p class="break-result-note"></p><button class="break-continue primary" type="button">성장실로 돌아가기 <span>→</span></button></div></div>
+    <div class="break-arena"><div class="break-generated-seal" aria-hidden="true"><div class="seal-generated-half generated-left"><img src="${sealArt}seal-closed.webp" alt=""></div><div class="seal-generated-half generated-right"><img src="${sealArt}seal-closed.webp" alt=""></div><img class="seal-generated-opened" src="${sealArt}seal-opened.webp" alt=""><img class="seal-generated-failed" src="${sealArt}seal-failed.webp" alt=""></div><div class="break-art" aria-hidden="true"><img src="/${esc(identity.sourceArt)}" alt=""></div></div>
+    <div class="break-bottom"><div class="break-interaction"><p class="break-instruction" role="status">에너지가 봉인에 모이고 있습니다.</p><div class="break-slider" role="slider" tabindex="0" aria-label="오른쪽으로 밀어 돌파 결과 공개" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="충전 중" aria-disabled="true"><span class="break-slider-label">밀어서 봉인 개방</span><span class="break-slider-chevrons" aria-hidden="true">› › ›</span><span class="break-slider-handle" aria-hidden="true"></span></div><p class="break-keyboard-hint">오른쪽으로 끝까지 밀기 · Enter로 개방</p></div><div class="break-result" hidden><div class="break-result-level"></div><div class="break-result-effect"></div><p class="break-result-note"></p><div class="break-result-stats"></div><div class="break-preserved" hidden><span>✓ 용병 보존</span><span>✓ 현재 레벨 유지</span><span>✓ 기존 돌파 보존</span></div><button class="break-continue primary" type="button">성장실로 돌아가기 <span>→</span></button></div></div>
     <footer class="break-footer"><div class="break-steps"><span data-step="charging">01 충전</span><i></i><span data-step="sealed">02 봉인 개방</span><i></i><span data-step="result">03 결과</span></div><button class="break-sound" type="button" aria-pressed="${sound}">사운드 ${sound ? 'ON' : 'OFF'}</button></footer></div>`;
   document.body.append(root); document.documentElement.style.overflow = 'hidden'; root.showModal();
   const $ = s => root.querySelector(s), slider = $('.break-slider');
@@ -65,7 +51,7 @@ export function showBreakthrough({result, card, bonusLabel, preview = false}) {
   function setCharge(value) {
     charge = Math.max(0, Math.min(1, value));
     root.style.setProperty('--charge', charge);
-    const travel = Math.max(1, slider.clientWidth - 56);
+    const travel = Math.max(1, slider.clientWidth - 80);
     root.style.setProperty('--handle-x', `${travel * charge}px`);
     slider.setAttribute('aria-valuenow', String(Math.round(charge * 100)));
     slider.setAttribute('aria-valuetext', `${Math.round(charge * 100)}% 개방 준비`);
@@ -89,6 +75,8 @@ export function showBreakthrough({result, card, bonusLabel, preview = false}) {
     $('.break-result-level').innerHTML = receipt.success ? receipt.complete ? `<b>Lv.${receipt.after.level}</b><small>MAX</small>` : `<span>Lv.${receipt.before.level}</span><i>→</i><b>Lv.${receipt.after.level}</b>` : `<b>Lv.${receipt.after.level}</b><small>유지</small><i>·</i><span>경험치 0%</span>`;
     $('.break-result-effect').textContent = receipt.success ? bonusLabel : '기존 돌파 효과 유지';
     $('.break-result-note').textContent = receipt.success ? receipt.complete ? '20레벨 최종 돌파를 완료했습니다.' : '돌파 효과가 해금되었습니다. 다음 성장을 시작하세요.' : '용병은 보존됩니다. 현재 레벨의 경험치를 다시 채워 도전하세요.';
+    $('.break-result-stats').innerHTML = resultStatsHtml(receipt);
+    $('.break-preserved').hidden = receipt.success;
     $('.break-art').setAttribute('aria-hidden', 'false'); $('.break-art img').alt = `${identity.name} 원화`;
     $('.break-continue').focus({preventScroll:true});
     if (receipt.success) [392, 523.25, 659.25, 783.99].forEach((f, i) => tone(f, .8, i * .12, .025));
@@ -97,11 +85,11 @@ export function showBreakthrough({result, card, bonusLabel, preview = false}) {
   function openSeal() {
     if (phase !== 'sealed' || done) return;
     pointer = null; setCharge(1); setPhase('opening'); root.dataset.resonance = receipt.success ? 'success' : 'failure'; slider.setAttribute('aria-disabled', 'true');
-    $('.break-instruction').textContent = '봉인이 열리고 있습니다.';
+    $('.break-instruction').textContent = receipt.success ? '봉인이 분리되고 있습니다.' : '봉인의 에너지가 흩어지고 있습니다.';
     $('.break-heading .break-phase-caption').textContent = '봉인 개방';
-    $('#break-title').textContent = '한계를 넘어서';
+    $('#break-title').textContent = receipt.success ? '한계를 넘어서' : '공명이 멈췄습니다';
     tone(98, 1.1, 0, .07); tone(receipt.success ? 392 : 123.5, .8, .25, .025);
-    later(showResult, reduced ? 0 : 1550);
+    later(showResult, reduced ? 0 : receipt.success ? 1850 : 2100);
   }
   listen($('.break-skip'), 'click', showResult);
   listen($('.break-continue'), 'click', () => finish(true));
@@ -117,7 +105,7 @@ export function showBreakthrough({result, card, bonusLabel, preview = false}) {
   });
   listen(slider, 'pointermove', e => {
     if (e.pointerId !== pointer || phase !== 'sealed') return;
-    setCharge(startCharge + (e.clientX - startX) / Math.max(1, slider.clientWidth - 56));
+    setCharge(startCharge + (e.clientX - startX) / Math.max(1, slider.clientWidth - 80));
     if (charge >= .97) { root.classList.remove('is-dragging'); openSeal(); }
   });
   const release = e => { if (e.pointerId !== pointer) return; pointer = null; root.classList.remove('is-dragging'); if (phase === 'sealed') setCharge(0); };
@@ -155,7 +143,7 @@ export function showBreakthrough({result, card, bonusLabel, preview = false}) {
         const angle = m.angle + time * m.speed, r = span * m.radius * collapse;
         const x = width / 2 + Math.cos(angle) * r, y = height * .46 + Math.sin(angle) * r * .8;
         const alpha = phase === 'result' && !receipt.success ? .12 : .25 + .35 * Math.sin(angle * 2) ** 2;
-        ctx.fillStyle = `rgba(215,249,158,${alpha})`; ctx.beginPath(); ctx.arc(x, y, m.size + charge, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = receipt.success || phase !== 'opening' && phase !== 'result' ? `rgba(247,215,153,${alpha})` : `rgba(193,140,114,${alpha})`; ctx.beginPath(); ctx.arc(x, y, m.size + charge, 0, Math.PI * 2); ctx.fill();
       }
     };
     raf = requestAnimationFrame(draw);

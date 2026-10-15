@@ -1,4 +1,5 @@
 import {iconDefinition,iconHealingAmount} from '../shared/icon-roles-v1.mjs';
+import {pvpPowerDamageMultiplier} from '../shared/pvp-power-balance-v1.mjs';
 import {apocalypseSealed,apocalypseCursed} from './_apocalypse_legion.js';
 
 const live=a=>a?.alive&&a.hp>0&&a.untargetable!==true&&!a.isBattleSuit;
@@ -55,7 +56,7 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
    const request=Math.min(budget,Math.max(0,Math.round(h.damage+extraDamage/parts)));
    // Shield bonus is inside the whole-cast target cap, never multiplied per pellet.
    const incoming=Math.min(budget,request+Math.min(t.shield,request*shieldBonus));
-   const r=damage(t,incoming,{actor:a,direct:true,iconSkill:true,iconSecondary:i>0,iconDamageCap:budget});budget=Math.max(0,budget-r.hpDamage-r.absorbed-(r.deferredHpDamage||0));
+   const r=damage(t,incoming,{actor:a,direct:true,iconSkill:true,iconSecondary:i>0,iconDamageCap:budget});budget=Math.max(0,budget-(r.hpDamage+r.absorbed+(r.deferredHpDamage||0))/pvpPowerDamageMultiplier(a));
    a.damageDealt+=r.hpDamage+r.absorbed;
    rows.push({...snapshot(t),damage:r.hpDamage,absorbed:r.absorbed,critical:h.critical,hit:i+1});
   }

@@ -1,0 +1,134 @@
+{
+  "date": "2026-10-15T09:55:24.910Z",
+  "candidateProfile": {
+    "version": "mercenary-growth-v2-20261015",
+    "perLevel": {
+      "hpPercent": 25,
+      "attackPercent": 25,
+      "defensePercent": 6,
+      "speedPercent": 1
+    },
+    "milestones": [
+      {
+        "level": 5,
+        "hpPercent": 100,
+        "attackPercent": 125,
+        "defensePercent": 15,
+        "speedPercent": 2,
+        "skillPowerPercent": 5,
+        "mitigationBypassPercent": 12.5,
+        "actionCatchupPercent": 10,
+        "actionCreditPercent": 10
+      },
+      {
+        "level": 10,
+        "hpPercent": 100,
+        "attackPercent": 125,
+        "defensePercent": 15,
+        "speedPercent": 2,
+        "skillPowerPercent": 5,
+        "mitigationBypassPercent": 12.5,
+        "actionCatchupPercent": 15,
+        "actionCreditPercent": 15
+      },
+      {
+        "level": 15,
+        "hpPercent": 100,
+        "attackPercent": 125,
+        "defensePercent": 15,
+        "speedPercent": 2,
+        "skillPowerPercent": 5,
+        "mitigationBypassPercent": 12.5,
+        "actionCatchupPercent": 20,
+        "actionCreditPercent": 20
+      },
+      {
+        "level": 20,
+        "hpPercent": 100,
+        "attackPercent": 125,
+        "defensePercent": 15,
+        "speedPercent": 2,
+        "skillPowerPercent": 5,
+        "mitigationBypassPercent": 12.5,
+        "actionCatchupPercent": 25,
+        "actionCreditPercent": 30
+      }
+    ]
+  },
+  "results": [
+    {
+      "screen": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "statComparison": true,
+      "twentyLevelRoadmap": true,
+      "materialValidation": true,
+      "overflowConsent": true,
+      "partialSlideReset": true,
+      "input": "mouse",
+      "successLedger": true,
+      "failureKeepsStatsAndLevel": true,
+      "replayNoNewGrowth": true,
+      "skipAndEscape": true,
+      "limitedXp5x": true,
+      "noWrites": true,
+      "noOverflow": true
+    },
+    {
+      "screen": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "statComparison": true,
+      "twentyLevelRoadmap": true,
+      "materialValidation": true,
+      "overflowConsent": true,
+      "partialSlideReset": true,
+      "input": "native touch",
+      "successLedger": true,
+      "failureKeepsStatsAndLevel": true,
+      "replayNoNewGrowth": true,
+      "skipAndEscape": true,
+      "limitedXp5x": true,
+      "noWrites": true,
+      "noOverflow": true
+    },
+    {
+      "screen": "narrow",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "statComparison": true,
+      "twentyLevelRoadmap": true,
+      "materialValidation": true,
+      "overflowConsent": true,
+      "partialSlideReset": true,
+      "input": "native touch",
+      "successLedger": true,
+      "failureKeepsStatsAndLevel": true,
+      "replayNoNewGrowth": true,
+      "skipAndEscape": true,
+      "limitedXp5x": true,
+      "noWrites": true,
+      "noOverflow": true
+    },
+    {
+      "screen": "tablet / reduced motion / OFF",
+      "reducedMotion": true,
+      "keyboardEnd": true,
+      "routeCleanup": true,
+      "productionDisabled": true,
+      "productionGrowthUnset": true,
+      "noOverflow": true
+    }
+  ],
+  "finalCopyCheckedAt": "2026-10-15T09:57:09.249Z",
+  "finalCopyChecks": [
+    "PVP-only action credit label",
+    "Partial growth configuration remains unset"
+  ]
+}

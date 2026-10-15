@@ -1,3 +1,5 @@
+export {mercenaryGrowthDraft,mercenaryGrowthSummary,mercenaryGrowthStatPreview,mercenaryGrowthLevelTable,mercenaryGrowthReadiness,MERCENARY_GROWTH_VERSION,MERCENARY_GROWTH_REVIEW} from './mercenary-growth-review-v2.mjs';
+import {validateMercenaryGrowth,mercenaryGrowthSummary,mercenaryGrowthStatPreview,mercenaryGrowthReadiness} from './mercenary-growth-review-v2.mjs';
 import {SHIRANUI_CODE} from './mercenary-shiranui-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 import {LIMITED_MERCENARIES} from './mercenary-limited-catalog-v1.mjs';
@@ -7,9 +9,9 @@ import {JINMU_CODE} from './mercenary-jinmu-v1.mjs';
 // Preparation only. A future user-approved release must explicitly open this gate.
 export const MERCENARY_LEVEL_RELEASE_ENABLED=false;
 export const MERCENARY_LEVEL_KEY='mercenary_level_policy_v1';
-export const MERCENARY_LEVEL_RULES=Object.freeze({version:'mercenary-level-20261014',maxLevel:20,milestones:Object.freeze([5,10,15,20]),materialKind:'MERCENARY',materialRank:'SAME_RANK',sameCardMultiplier:3,limitedRequiredXpMultiplier:5,preserveOriginal:true,coinCost:0,masterStarCost:0,maxMaterials:100,failure:'CURRENT_LEVEL_EXP_ZERO'});
+export const MERCENARY_LEVEL_RULES=Object.freeze({version:'mercenary-level-20261015-v2',maxLevel:20,milestones:Object.freeze([5,10,15,20]),materialKind:'MERCENARY',materialRank:'SAME_RANK',sameCardMultiplier:3,limitedRequiredXpMultiplier:5,preserveOriginal:true,coinCost:0,masterStarCost:0,maxMaterials:100,failure:'CURRENT_LEVEL_EXP_ZERO'});
 export const LEVEL_BONUS_TYPES=Object.freeze({HP_PERCENT:'최대 체력 증가',ATTACK_PERCENT:'공격력 증가',DEFENSE_PERCENT:'방어력 증가',SPEED_PERCENT:'행동 속도 증가',COMBAT_STATS_PERCENT:'체력·공격·방어·속도 증가',SKILL_POWER_PERCENT:'배정 스킬 계수 증가',SKILL_COOLDOWN_TURNS:'배정 스킬 재사용 감소'});
-export function mercenaryLevelDraft(){return {version:MERCENARY_LEVEL_RULES.version,revision:0,mode:'OFF',sameCardMultiplier:MERCENARY_LEVEL_RULES.sameCardMultiplier,xpPerCard:Object.fromEntries(MERCENARY_RANKS.map(rank=>[rank,null])),levels:Array.from({length:20},(_,i)=>({level:i+1,requiredXp:null})),milestones:[5,10,15,20].map(level=>({level,successChancePpm:null,bonus:{type:null,value:null}}))};}
+export function mercenaryLevelDraft(){return {version:MERCENARY_LEVEL_RULES.version,revision:0,mode:'OFF',growth:null,sameCardMultiplier:MERCENARY_LEVEL_RULES.sameCardMultiplier,xpPerCard:Object.fromEntries(MERCENARY_RANKS.map(rank=>[rank,null])),levels:Array.from({length:20},(_,i)=>({level:i+1,requiredXp:null})),milestones:[5,10,15,20].map(level=>({level,successChancePpm:null,bonus:{type:null,value:null}}))};}
 const limitedCodes=new Set([...LIMITED_MERCENARIES.map(card=>card.code),JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE]);
 export const mercenaryLevelXpMultiplier=target=>limitedCodes.has(target?.code)?MERCENARY_LEVEL_RULES.limitedRequiredXpMultiplier:1;
 export function mercenaryLevelRequiredXp(policy,level,target){const base=policy.levels[level-1].requiredXp;return base===null?null:base*mercenaryLevelXpMultiplier(target);}
@@ -18,7 +20,8 @@ const check=(ok,message,code='MERCENARY_LEVEL_CONFIG')=>{if(!ok)throw levelError
 const keys=(value,expected,label)=>check(value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).length===expected.length&&expected.every(k=>Object.hasOwn(value,k)),label+' 항목을 확인하세요.');
 const int=(v,min,max,label,nullable=false)=>{check(nullable&&v===null||Number.isSafeInteger(v)&&v>=min&&v<=max,label+' 값을 확인하세요.');return v;};
 export function validateMercenaryLevelPolicy(raw){
- keys(raw,['version','revision','mode','sameCardMultiplier','xpPerCard','levels','milestones'],'성장 정책');
+ raw={...raw,growth:raw?.growth??null};
+ keys(raw,['version','revision','mode','sameCardMultiplier','xpPerCard','levels','milestones','growth'],'성장 정책');
  check(raw.version===MERCENARY_LEVEL_RULES.version,'성장 정책 버전을 확인하세요.');int(raw.revision,0,2147483646,'정책 수정 버전');
  check(['OFF','ON'].includes(raw.mode),'성장 실행 상태를 확인하세요.');
  check(raw.sameCardMultiplier===MERCENARY_LEVEL_RULES.sameCardMultiplier,'동일 용병 재료의 경험치는 기본 수치의 3배로 고정합니다.');
@@ -28,13 +31,15 @@ export function validateMercenaryLevelPolicy(raw){
  check(Array.isArray(raw.milestones)&&raw.milestones.length===4,'5·10·15·20레벨 돌파를 모두 설정하세요.');
  raw.milestones.forEach((r,i)=>{keys(r,['level','successChancePpm','bonus'],'돌파');check(r.level===MERCENARY_LEVEL_RULES.milestones[i],'돌파 레벨을 확인하세요.');int(r.successChancePpm,0,1000000,`${r.level}레벨 돌파 확률`,true);keys(r.bonus,['type','value'],'돌파 효과');check(r.bonus.type===null||Object.hasOwn(LEVEL_BONUS_TYPES,r.bonus.type),'돌파 효과 종류를 확인하세요.');
   const v=r.bonus.value;check(v===null||Number.isFinite(v)&&v>0&&v<=1000&&Math.abs(v*100-Math.round(v*100))<1e-8,'돌파 효과 수치를 확인하세요.');if(r.bonus.type==='SKILL_COOLDOWN_TURNS'&&v!==null)int(v,1,20,'재사용 감소 턴');});
+ if(raw.growth!==null)validateMercenaryGrowth(raw.growth);
  return structuredClone(raw);
 }
-export function mercenaryLevelReadiness(policy){
+export function mercenaryLevelReadiness(policy,{requireGrowth=false}={}){
  const p=validateMercenaryLevelPolicy(policy),missing=[];
  for(const rank of MERCENARY_RANKS)if(p.xpPerCard[rank]===null)missing.push(rank+' 등급 재료 경험치');
  for(const r of p.levels)if(r.requiredXp===null)missing.push(`Lv.${r.level} 필요 경험치`);
- for(const r of p.milestones){if(r.successChancePpm===null)missing.push(`Lv.${r.level} 돌파 확률`);if(r.bonus.type===null||r.bonus.value===null)missing.push(`Lv.${r.level} 돌파 효과`);}
+ for(const r of p.milestones){if(r.successChancePpm===null)missing.push(`Lv.${r.level} 돌파 확률`);if(!p.growth&&!requireGrowth&&(r.bonus.type===null||r.bonus.value===null))missing.push(`Lv.${r.level} 돌파 효과`);}
+ if(requireGrowth||p.growth!==null)missing.push(...mercenaryGrowthReadiness(p.growth).missing);
  return {ready:missing.length===0,missing};
 }
 export const initialMercenaryLevel=()=>({level:1,experience:0,breakthroughMask:0,revision:0});
@@ -86,7 +91,7 @@ export function planMercenaryBreakthrough({policy,state,target,roll}){
  const milestone=policy.milestones.find(m=>m.level===before.level),success=roll<milestone.successChancePpm,index=MERCENARY_LEVEL_RULES.milestones.indexOf(before.level);
  const after={...before,experience:0,revision:before.revision+1};
  if(success){after.breakthroughMask|=1<<index;after.level=Math.min(20,before.level+1);}
- return {before,after,milestone:structuredClone(milestone),success,roll,reward:success?structuredClone(milestone.bonus):null,complete:isLevelComplete(after)};
+ return {before,after,milestone:structuredClone(milestone),success,roll,reward:success?structuredClone(policy.growth?policy.growth.milestones[index]:milestone.bonus):null,complete:isLevelComplete(after)};
 }
 export function mercenaryLevelBonuses(policy,state){
  const s=mercenaryLevelState(state);return policy.milestones.filter((_,i)=>s.breakthroughMask&(1<<i)).map(m=>({level:m.level,...m.bonus}));
@@ -95,10 +100,12 @@ export function mercenaryLevelBonuses(policy,state){
 // without this property retain their exact pre-growth behavior on replay.
 export function attachMercenaryLevel(snapshot,policy,state){
  configured(policy);const s=mercenaryLevelState(state),bonuses=mercenaryLevelBonuses(policy,s);
+ if(policy.growth)return {...snapshot,level:s.level,mercenaryLevel:{version:2,level:s.level,policyRevision:policy.revision,breakthroughMask:s.breakthroughMask,growth:validateMercenaryGrowth(policy.growth)}};
  return {...snapshot,level:s.level,mercenaryLevel:{version:1,level:s.level,policyRevision:policy.revision,breakthroughMask:s.breakthroughMask,bonuses}};
 }
 export function applyMercenaryLevelStats(actor){
- const g=actor.mercenaryLevel;if(!actor.isMercenary||g?.version!==1||actor.mercenaryLevelApplied)return;
+ const g=actor.mercenaryLevel;if(!actor.isMercenary||![1,2].includes(g?.version)||actor.mercenaryLevelApplied)return;
+ if(g.version===2){applyMercenaryGrowthV2(actor);return;}
  mercenaryLevelState({level:g.level,experience:0,breakthroughMask:g.breakthroughMask,revision:0});
  check(Array.isArray(g.bonuses)&&g.bonuses.length===MERCENARY_LEVEL_RULES.milestones.filter((_,i)=>g.breakthroughMask&(1<<i)).length&&g.bonuses.every((b,i)=>b.level===MERCENARY_LEVEL_RULES.milestones[i]&&Object.hasOwn(LEVEL_BONUS_TYPES,b.type)&&Number.isFinite(b.value)&&b.value>0&&b.value<=1000),'전투 성장 효과를 확인하세요.');
  const sum=type=>g.bonuses.filter(b=>b.type===type).reduce((n,b)=>n+b.value,0),scale=(n,percent)=>{const v=Math.floor(n*(1+percent/100));if(!Number.isSafeInteger(v)||v<0)throw Error('INVALID_MERCENARY_LEVEL_STATS');return v;};
@@ -109,4 +116,18 @@ export function applyMercenaryLevelStats(actor){
  const power=sum('SKILL_POWER_PERCENT'),cooldown=sum('SKILL_COOLDOWN_TURNS');
  actor.skills=(actor.skills||[]).map(skill=>({...skill,balance:{...skill.balance,damageRatio:Math.min(10000,skill.balance.damageRatio*(1+power/100)),cooldownTurns:skill.balance.cooldownTurns===0?0:Math.max(1,skill.balance.cooldownTurns-cooldown)}}));
  actor.level=g.level;actor.mercenaryLevelApplied=true;
+}
+
+function applyMercenaryGrowthV2(actor){
+ const g=actor.mercenaryLevel;mercenaryLevelState({level:g.level,experience:0,breakthroughMask:g.breakthroughMask,revision:0});
+ const summary=mercenaryGrowthSummary(g.growth,g),ratio=actor.maxHp>0?Math.max(0,Math.min(1,actor.hp/actor.maxHp)):0;
+ actor.mercenaryGrowthBaseSpeed=actor.speed;
+ const {after}=mercenaryGrowthStatPreview({hp:actor.maxHp,attack:actor.attack,defense:actor.defense,speed:actor.speed},summary);
+ actor.maxHp=after.hp;actor.hp=Math.floor(after.hp*ratio);actor.attack=after.attack;actor.defense=after.defense;actor.speed=after.speed;
+ if(actor.stats)actor.stats={...actor.stats,speed:actor.speed};
+ // Link floors and intrinsic stats are alternatives (max), never additive.
+ // Both are scaled once because effectiveAttack selects their maximum later.
+ if(actor.mercenaryLink)actor.mercenaryLink={...actor.mercenaryLink,attackFloor:Math.floor(actor.mercenaryLink.attackFloor*(1+summary.total.attackPercent/100)),hpFloor:Math.floor(actor.mercenaryLink.hpFloor*(1+summary.total.hpPercent/100))};
+ actor.skills=(actor.skills||[]).map(skill=>({...skill,balance:{...skill.balance,damageRatio:Math.min(10000,skill.balance.damageRatio*(1+summary.total.skillPowerPercent/100))}}));
+ actor.level=g.level;actor.mercenaryGrowth=summary;actor.mercenaryLevelApplied=true;
 }

@@ -1,0 +1,51 @@
+{
+  "recordedAt": "2026-10-15T10:45:57.584Z",
+  "status": "PREPARED_NOT_RELEASED",
+  "liveDeployment": false,
+  "productionPolicyWrites": false,
+  "releaseFlags": {
+    "mercenaryLevel": false,
+    "pvpPowerBonus": false
+  },
+  "visualApproval": "USER_REVIEW_PENDING",
+  "visualVersion": "imagegen-v4-readable-20261015",
+  "assets": {
+    "active": 7,
+    "preserved": 8,
+    "originalAndRuntimeHashes": "verified"
+  },
+  "combat": {
+    "battles": 46080,
+    "seedStart": 730001,
+    "sourceHashes": "match final measured source",
+    "comparisonSha256": "9c8b743d5877134dbc6f1b34cf494244c02cf42335001b4677f09cadbc55e6e0",
+    "ordinary20VsLimited1": {
+      "wins": 1636,
+      "total": 5760,
+      "ratePercent": 28.4
+    },
+    "report": "growth-combat-report.md"
+  },
+  "checks": {
+    "initialRelatedRegression": 117,
+    "newCombatTests": 10,
+    "newTransactionIntegration": 10,
+    "afterActionOpportunityFix": 52,
+    "afterDecorativeRemovalUiRegression": 5,
+    "countsOverlap": true,
+    "workerDryRun": true,
+    "visualViewports": [
+      1440,
+      1100,
+      800,
+      390,
+      320
+    ],
+    "finalNoShapeViewports": [
+      800,
+      320
+    ],
+    "finalUiReport": "../../../preview/mercenary-level-v2-20261015/qa/readability-v4/report.json"
+  },
+  "preview": "http://127.0.0.1:9127/preview/mercenary-level-v2-20261015/?revision=imagegen-v4-readable-no-shapes-20261015"
+}
