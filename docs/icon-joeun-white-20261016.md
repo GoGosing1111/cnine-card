@@ -34,3 +34,12 @@ PVP와 PVE 고정 시드 23의 실서버 시뮬레이션은 각각 조기 시전
 새 카탈로그·선택 목록·CMS·전용 시연과 캐시 버전을 갱신한다. Pages 20,000개 제한에 맞추기 위해 기존 staging의 실행용 테스트 제외 대상을 `tests/` 외 `preview/`의 `.test.*js` 및 `.browser.mjs`로 확대했다. 모든 실행용 검사는 Git/로컬 QA에 남기며 원화·페이지·fixture·모듈을 제거하지 않는다. staging의 파일 보존/제외 회귀를 통과했다.
 
 작은 범위의 준비 공개이므로 지정된 scoped 배포를 사용한다. 공통 DB/인증/의존성/실전 전투 계산은 수정하지 않는다.
+
+## 라이브 완료
+
+- 운영 소스 `4e9ced65d95a171a4062bec3f76dfb4a43190aa0`, Pages `https://40c04875.cnine-card.pages.dev`. `npm run deploy:production -- --scoped` 한 번으로 배포했다.
+- API Worker `eb6f36d6-4272-4bb8-811d-218908b4962f`, scheduler `607dc536-a9ae-464e-b5cd-ef73fc11a703`. Hyperdrive query cache OFF, 깨끗한 커밋·origin/main 일치·메인/SW 캐시 일치 확인.
+- 배포 단계의 제작 잠금·CMS OFF/CAS/재시도/롤백 검사 12개와 Worker 구문 검사 통과. 앞선 8개를 합쳐 관련 검사 총 20개다. 무관한 전체 게임 검사를 반복하지 않았다. Pages 19,989개 중 새 파일 42개를 업로드했다.
+- 운영 원본 사진·SD·FX·카탈로그·번들·CMS·셸 등 11개 파일의 응답 200과 로컬 SHA-256 일치를 확인했다. 기존 `/api/icons/roles` revision 3의 전체 응답이 배포 전과 동일하다.
+- 운영 PC 1440/PVP·모바일 390/PVE에서 시연 로딩·조기 시전·상환·OFF·종료 후 캔버스 제거를 확인했다. JS 오류·누락 리소스·쓰기 요청은 0건이다. `docs/qa/icon-joeun-white-20261016/live.json`과 `*-live.png` 참조.
+- 공개 시연: `https://cnine-card.pages.dev/preview/icon-joeun-white-battle-20261016-v1/`. 사용자 화면은 기존 아이콘 제작 선택 목록의 11번 오조은이며 제작 실행은 잠금이다. 신규 DB 등록·지급·ON 저장은 하지 않았다.

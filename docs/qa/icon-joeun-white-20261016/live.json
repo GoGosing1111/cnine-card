@@ -1,0 +1,111 @@
+{
+  "verifiedAt": "2026-10-15T18:41:57.715Z",
+  "origin": "https://cnine-card.pages.dev",
+  "preview": "https://cnine-card.pages.dev/preview/icon-joeun-white-battle-20261016-v1/",
+  "assets": [
+    {
+      "file": "admin/icon-technique-editor-v1.mjs",
+      "status": 200,
+      "bytes": 8861,
+      "sha256": "5F3114A75CB6B8EE85E8F6854E4DA7799C420060D02D1331358B2F312F1FBF9F"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 24728,
+      "sha256": "B48EA2270EF32204246340482B90DF60EC1AE669F23CA930548FF1737E972E98"
+    },
+    {
+      "file": "js/icon-fusion-v1.bundle.js",
+      "status": 200,
+      "bytes": 47561,
+      "sha256": "CA276BD1FC5218FDAE9CD679245111F75B549696A651F85CB7A16C7DA2F24C1F"
+    },
+    {
+      "file": "preview/icon-joeun-white-battle-20261016-v1/assets/joeun-portrait.webp",
+      "status": 200,
+      "bytes": 106804,
+      "sha256": "B6E977157E2AA95B4BFB0D11985FAA9C93EC2E6B1E9B0DCF7FAFA37046433D3A"
+    },
+    {
+      "file": "preview/icon-joeun-white-battle-20261016-v1/assets/joeun-sd.webp",
+      "status": 200,
+      "bytes": 218168,
+      "sha256": "DB351C6A8E4B93B832CBE54FE622D8120B784B4EEBB8EBA952B55B043A2A3116"
+    },
+    {
+      "file": "preview/icon-joeun-white-battle-20261016-v1/assets/skill-advance-atlas.webp",
+      "status": 200,
+      "bytes": 1183306,
+      "sha256": "3038D1FD5BE7DA302347457F1BD189DDD4E1B539838AD97E6BF4FA21797E5C21"
+    },
+    {
+      "file": "preview/icon-joeun-white-battle-20261016-v1/manifest.json",
+      "status": 200,
+      "bytes": 8844,
+      "sha256": "D3CE73F5F9386B4A5333709A38DBAE79C52344A43792805CC519C694A506CE98"
+    },
+    {
+      "file": "preview/icon-joeun-white-battle-20261016-v1/preview.bundle.js",
+      "status": 200,
+      "bytes": 1975618,
+      "sha256": "B6D0F06F24AC05D15F72F6773FAEFEA2BD31B19240B795C59850501FB4811703"
+    },
+    {
+      "file": "preview/icon-joeun-white-battle-20261016-v1/sources/joeun-photo-original.png",
+      "status": 200,
+      "bytes": 21763702,
+      "sha256": "9DA6986B613413B8F7C2F8F3798B47AE785A6569D29E0F2CD0CBD97109695C08"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "bytes": 13000,
+      "sha256": "9053D04E6DC7FD49EC632DD1460D305CDA9BC9F988F60FE6E011AB8E2B50B2AC"
+    },
+    {
+      "file": "shared/icon-expansion-v1.mjs",
+      "status": 200,
+      "bytes": 3139,
+      "sha256": "0293D491F25FB2182EFAC4225D66CDA40AE54871111989A817E9CFACFD1206D0"
+    }
+  ],
+  "roles": {
+    "revision": 3,
+    "preserved": true,
+    "sha256": "4899E712AE44BE4BD30FEA2A58BCFA0F99127447D3BB8CF2CC2B2F8BC4B6E5B1"
+  },
+  "screens": [
+    {
+      "width": 1440,
+      "mode": "PVP",
+      "ready": true,
+      "advance": true,
+      "repay": true,
+      "releaseEnabled": false,
+      "errors": [],
+      "missing": [],
+      "writes": []
+    },
+    {
+      "width": 390,
+      "mode": "PVE",
+      "ready": true,
+      "advance": true,
+      "repay": true,
+      "releaseEnabled": false,
+      "errors": [],
+      "missing": [],
+      "writes": []
+    }
+  ],
+  "deployment": {
+    "source": "4e9ced65d95a171a4062bec3f76dfb4a43190aa0",
+    "pages": "https://40c04875.cnine-card.pages.dev",
+    "apiWorker": "eb6f36d6-4272-4bb8-811d-218908b4962f",
+    "scheduler": "607dc536-a9ae-464e-b5cd-ef73fc11a703",
+    "assetCount": 19989,
+    "focusedTests": 20,
+    "queryCacheEnabled": false
+  }
+}
