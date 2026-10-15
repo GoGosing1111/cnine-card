@@ -58,7 +58,14 @@ test('exact monster/card IDs resolve the new sprites without changing original c
   assert.equal(art.kind,'FUR_SD');
   const app=(await read('js/app.js')).toString();
   const bundle=app.match(/['"](preview\/project-v-v3\/project-v-pixi-battle\.bundle\.js\?[^'"]+)['"]/)[1];
-  assert.equal(new URL(bundle,'https://qa.test/').searchParams.get('v'),'106-combat-flow');
+  const bridge=(await read('js/battle-v3-live.js')).toString();
+  const recoveryBundle=bridge.match(/['"]([^'"\n]*project-v-pixi-battle\.bundle\.js\?[^'"\n]+)['"]/)?.[1];
+  const sourceRuntime=(await read('preview/project-v-v3/source/project-v-pixi-battle.src.js')).toString().match(/runtimeVersion:\s*["']([^"']+)["']/)?.[1];
+  const cacheVersion=new URL(bundle,'https://qa.test/').searchParams.get('v');
+  assert.ok(cacheVersion&&recoveryBundle&&sourceRuntime,'current bundle and runtime source must retain explicit versions');
+  assert.equal(cacheVersion,new URL(recoveryBundle,'https://qa.test/').searchParams.get('v'),'main and recovery loaders must request the same cached battle bundle');
+  assert.equal(app.match(/battleV2:\{\s*runtimeVersion:\s*['"]([^'"]+)['"]/)?.[1],sourceRuntime,'main loader must request the current runtime source');
+  assert.equal(bridge.match(/const BATTLE_RUNTIME\s*=\s*['"]([^'"]+)['"]/)?.[1],sourceRuntime,'bridge must request the same runtime source');
   const preview=(await read('preview/boss-resources-v2048/battle.html')).toString();
   for(const adapter of ['project-v-battle-art-adapter-v1','project-v-tier-battle-art-adapter-v1','project-v-monster-battle-art-adapter-v1','project-v-unassigned-battle-fallback-v1'])assert(preview.includes(adapter));
 });
