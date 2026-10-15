@@ -40,4 +40,9 @@
 - Engine SHA-256: `6d32a90a620f5ea8ce71658f2168519dd707d432e7659cde9abd82a148fdd04e`
 - 로컬 전달 폴더: `C:/Users/User/Downloads/Soopketmon-Windows-0.1.5-20261016/`
 
-공개 결과·실제 Electron GitHub 공급처 확인은 발행 후 영수증에 기록한다. 사용자 PC의 기존 설치판을 이 작업에서 직접 교체하지 않는다.
+## 공개 완료
+
+- 소스 커밋 `01fcd915668d93250e931978579d401d4a4730ba`를 main에 반영하고 [v0.1.5 릴리스](https://github.com/GoGosing1111/cnine-card/releases/tag/v0.1.5)를 공개했다. Setup·Engine·blockmap·latest.yml·SHA256SUMS의 GitHub SHA-256이 로컬 빌드와 일치한다. 영수증은 `publish-receipt.json`이다.
+- [0.1.5 설치 파일](https://github.com/GoGosing1111/cnine-card/releases/download/v0.1.5/Soopketmon-Setup-0.1.5-x64.exe)을 바로 내려받을 수 있다. 로컬 전달 폴더에도 동일한 파일을 저장했다.
+- `tests/windows-client-updater-feed-20261016.mjs`의 실제 Electron GitHub 공급처 검사 통과: 최신 버전 0.1.5, 현재 버전에 추가 업데이트 없음, 공개 SHA-512/파일 크기 일치, 설치 파일 HTTP 206 다운로드와 실행 파일 헤더 확인. 결과는 `public-feed.json`이다.
+- 사용자 PC의 기존 설치판은 직접 교체하지 않았다. 이번 버전을 한 번 설치하면 이후에는 런처 안에서 업데이트한다.
