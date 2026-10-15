@@ -1,0 +1,34 @@
+{
+  "version": "20261015-v1",
+  "mode": "built-in image_gen",
+  "purpose": "Decorative dark metropolitan operations backdrop for organization territory war; actual city borders, names and gameplay geometry are rendered separately by code.",
+  "geography": "Illustrative backdrop only; not a geographic source of truth.",
+  "processing": "Generated PNG preserved byte-for-byte. Uniform downsample and WebP encode only, no upscaling.",
+  "source": {
+    "file": "metropolitan-operations-map-source.png",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 3523078,
+    "sha256": "58926419c479c5225d6fb0e2556c117109baba0f81ce5d0c5834e455343a05da",
+    "generatedSource": "C:/Users/User/.codex/generated_images/01a13e49-d4bb-7c50-a5ab-0957918bdbd2/exec-f7e286ca-4bc4-4326-bebc-3428a22d3fd3.png"
+  },
+  "runtime": [
+    {
+      "file": "metropolitan-operations-map-960.webp",
+      "width": 960,
+      "height": 960,
+      "bytes": 392078,
+      "sha256": "bb2a124c250598e6b02d47947b6a75443cc757287bb87d6f54ac9300655e718c",
+      "url": "/assets/ui/organization/war-v1/metropolitan-operations-map-960.webp"
+    },
+    {
+      "file": "metropolitan-operations-map-1254.webp",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 618124,
+      "sha256": "e4916fd477bd653305d0196f85cb1aa377d06f8662140f20b63e920861f996ec",
+      "url": "/assets/ui/organization/war-v1/metropolitan-operations-map-1254.webp"
+    }
+  ],
+  "review": "Inspected: dark charcoal blue-gray aerial city texture with muted brass lighting, no text, territory outlines, pins, icons or UI baked in."
+}

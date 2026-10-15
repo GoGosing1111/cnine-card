@@ -342,3 +342,6 @@ export async function reconcileFactionSessions(env, options = {}) {
   for (const season of seasons) synced = await syncFactionSessions(env,season,options);
   return {enabled:true,session:synced?.view || null};
 }
+
+// Shared unchanged session transitions for the independent organization mode.
+export {reconcilePauses,closeSession,sessionView};

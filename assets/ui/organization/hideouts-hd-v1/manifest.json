@@ -1,0 +1,164 @@
+{
+  "version": "20261015-v1",
+  "mode": "built-in image_gen",
+  "purpose": "Replace magnified 270x177 concept-sheet crops with individual high-resolution headquarters artwork.",
+  "reference": {
+    "url": "/assets/ui/organization/renewal-plan-20261012.png",
+    "sha256": "827a40e168dc5fe9dda7b84fd69587b4dfcaf9c3313b7ac3e6d5e2e8cf9a74ac",
+    "unchanged": true
+  },
+  "processing": "Original generated PNG preserved byte-for-byte. Runtime derivatives only uniformly downsample and encode WebP quality94; no recoloring, compositing, sharpening or invented emblems.",
+  "review": "Inspected all five outputs: matching progression identities, clear architectural detail, no labels or dividers; new high-resolution derivatives, not pixel-identical upscales.",
+  "assets": [
+    {
+      "stage": 1,
+      "name": "낡은 판자촌",
+      "source": {
+        "file": "hideout-stage-1-source.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3164396,
+        "sha256": "f707e4c3c99fc475db974066062d2cb79b2b954abd9b366d87289ab911429fd1",
+        "generatedSource": "C:/Users/User/.codex/generated_images/01a13e49-d4bb-7c50-a5ab-0957918bdbd2/exec-776610ed-cf6b-47f1-8f62-c78c4d938092.png"
+      },
+      "runtime": [
+        {
+          "file": "hideout-stage-1-960.webp",
+          "width": 960,
+          "height": 640,
+          "bytes": 293460,
+          "sha256": "d5944ca9dec79112911ab8a008e53fb3a183141e282881ed5f5fcc661a288c07",
+          "url": "/assets/ui/organization/hideouts-hd-v1/hideout-stage-1-960.webp"
+        },
+        {
+          "file": "hideout-stage-1-1536.webp",
+          "width": 1536,
+          "height": 1024,
+          "bytes": 660850,
+          "sha256": "df9903644bd13d4b7ce56bb3a9a9e039973be4fddabab9954f2d09959b7cb516",
+          "url": "/assets/ui/organization/hideouts-hd-v1/hideout-stage-1-1536.webp"
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "name": "골목 사무실",
+      "source": {
+        "file": "hideout-stage-2-source.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3031720,
+        "sha256": "0c8b19eb0d80c82440ddcbb6a406c7ef9411d64b7e9ac02316fd21f1e987865a",
+        "generatedSource": "C:/Users/User/.codex/generated_images/01a13e49-d4bb-7c50-a5ab-0957918bdbd2/exec-573135fa-d6b2-47b0-bee8-8a2f4246f341.png"
+      },
+      "runtime": [
+        {
+          "file": "hideout-stage-2-960.webp",
+          "width": 960,
+          "height": 640,
+          "bytes": 276030,
+          "sha256": "580d66708ae8dbf30936d1956aff1d4de310980a5011f404f68994e703f4abe0",
+          "url": "/assets/ui/organization/hideouts-hd-v1/hideout-stage-2-960.webp"
+        },
+        {
+          "file": "hideout-stage-2-1536.webp",
+          "width": 1536,
+          "height": 1024,
+          "bytes": 635800,
+          "sha256": "059416bb91bb59d0e79b90b5a7796622011a3c8610e659ebcec073d508914d3b",
+          "url": "/assets/ui/organization/hideouts-hd-v1/hideout-stage-2-1536.webp"
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "name": "조직 본거지",
+      "source": {
+        "file": "hideout-stage-3-source.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 2996800,
+        "sha256": "c886039a25b690ab1b9d9fa4e2cf33ce69730b95bfa36be7087bb193b3edf492",
+        "generatedSource": "C:/Users/User/.codex/generated_images/01a13e49-d4bb-7c50-a5ab-0957918bdbd2/exec-2038dbc9-42a5-484e-88e1-a08b50dcdd02.png"
+      },
+      "runtime": [
+        {
+          "file": "hideout-stage-3-960.webp",
+          "width": 960,
+          "height": 640,
+          "bytes": 264560,
+          "sha256": "e175e2012467af572eed85ee8d609ca997043c9ee7471b709b80231046bed6f3",
+          "url": "/assets/ui/organization/hideouts-hd-v1/hideout-stage-3-960.webp"
+        },
+        {
+          "file": "hideout-stage-3-1536.webp",
+          "width": 1536,
+          "height": 1024,
+          "bytes": 617174,
+          "sha256": "3d5c6a6dd3256355bdb3ea30c03187aeef1769bbfe418bcc09e05bf26f062032",
+          "url": "/assets/ui/organization/hideouts-hd-v1/hideout-stage-3-1536.webp"
+        }
+      ]
+    },
+    {
+      "stage": 4,
+      "name": "고급 저택",
+      "source": {
+        "file": "hideout-stage-4-source.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 2895698,
+        "sha256": "751fb49153d08701d43adf299dca1747ae41aecb3d383ca74c429948a3aad49b",
+        "generatedSource": "C:/Users/User/.codex/generated_images/01a13e49-d4bb-7c50-a5ab-0957918bdbd2/exec-831b9340-998d-413b-84ce-c3829313fe38.png"
+      },
+      "runtime": [
+        {
+          "file": "hideout-stage-4-960.webp",
+          "width": 960,
+          "height": 640,
+          "bytes": 245616,
+          "sha256": "a76f2ab7440337ca817e6918bd9cf7cf70eee7972fd7f907d39f0b536087dbe1",
+          "url": "/assets/ui/organization/hideouts-hd-v1/hideout-stage-4-960.webp"
+        },
+        {
+          "file": "hideout-stage-4-1536.webp",
+          "width": 1536,
+          "height": 1024,
+          "bytes": 569818,
+          "sha256": "cee4f71cd00b3f4d9f50c2f6564edd2dc1e1f6e6bcaad54a865409bd19608f1c",
+          "url": "/assets/ui/organization/hideouts-hd-v1/hideout-stage-4-1536.webp"
+        }
+      ]
+    },
+    {
+      "stage": 5,
+      "name": "고급 펜트하우스",
+      "source": {
+        "file": "hideout-stage-5-source.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 2900448,
+        "sha256": "08b1c3651107daf13c90fa837045690abb68916c7370310ec83ab8ee2823b4df",
+        "generatedSource": "C:/Users/User/.codex/generated_images/01a13e49-d4bb-7c50-a5ab-0957918bdbd2/exec-5e75851a-fba6-4327-a3e6-91a92a8c7a0c.png"
+      },
+      "runtime": [
+        {
+          "file": "hideout-stage-5-960.webp",
+          "width": 960,
+          "height": 640,
+          "bytes": 259994,
+          "sha256": "eb91735db504fca15a9406da96cc289ba1abb153aafd1f5c4305663fff37e9fc",
+          "url": "/assets/ui/organization/hideouts-hd-v1/hideout-stage-5-960.webp"
+        },
+        {
+          "file": "hideout-stage-5-1536.webp",
+          "width": 1536,
+          "height": 1024,
+          "bytes": 589234,
+          "sha256": "2cb83fc1dc5c6b4ba5375f8db4ccf5f7178cca9bdfae04424f7c54e4c873b8a0",
+          "url": "/assets/ui/organization/hideouts-hd-v1/hideout-stage-5-1536.webp"
+        }
+      ]
+    }
+  ]
+}

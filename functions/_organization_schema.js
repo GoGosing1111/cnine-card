@@ -12,9 +12,18 @@ export const ORGANIZATION_SCHEMA = [
   `CREATE TABLE IF NOT EXISTS organization_actors_v1(user_id BIGINT PRIMARY KEY REFERENCES users(id))`,
   `CREATE TABLE IF NOT EXISTS organization_receipts_v1(actor_id BIGINT NOT NULL REFERENCES users(id),request_id TEXT NOT NULL,fingerprint TEXT NOT NULL,response_json TEXT NOT NULL,created_at BIGINT NOT NULL,PRIMARY KEY(actor_id,request_id))`
 ];
+export const ORGANIZATION_LIVE_SCHEMA = [
+  "ALTER TABLE organization_rounds_v1 ADD COLUMN IF NOT EXISTS opened_at BIGINT",
+  "ALTER TABLE organization_rounds_v1 ADD COLUMN IF NOT EXISTS closes_at BIGINT",
+  "ALTER TABLE organization_rounds_v1 ADD COLUMN IF NOT EXISTS auto_assign INTEGER NOT NULL DEFAULT 1 CHECK(auto_assign IN(0,1))",
+  "ALTER TABLE organization_rounds_v1 ADD COLUMN IF NOT EXISTS assignment_status TEXT NOT NULL DEFAULT 'WAITING'",
+  "ALTER TABLE organization_rounds_v1 ADD COLUMN IF NOT EXISTS assignment_error TEXT",
+  "ALTER TABLE organization_rounds_v1 ADD COLUMN IF NOT EXISTS assignment_token TEXT",
+  "ALTER TABLE organization_rounds_v1 ADD COLUMN IF NOT EXISTS assignment_lease_until BIGINT"
+];
 export async function installOrganizationSchema(DB){
   if(DB.dialect!=='postgres'||!DB.execSchema)throw Error('Organization preparation requires PostgreSQL');
-  await DB.execSchema(ORGANIZATION_SCHEMA);
+  await DB.execSchema([...ORGANIZATION_SCHEMA,...ORGANIZATION_LIVE_SCHEMA]);
   const {defaultOrganizationPolicy}=await import('../shared/organization-system-v1.mjs');
   await DB.prepare('INSERT INTO organization_policy_v1(id,policy_json) VALUES(1,?) ON CONFLICT(id) DO NOTHING').bind(JSON.stringify(defaultOrganizationPolicy())).run();
 }

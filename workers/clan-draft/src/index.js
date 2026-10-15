@@ -3,6 +3,7 @@ import {ensureDraftAlarm,handleDraftAlarm} from './schedule.js';
 import {ensureDuoAlarm,handleDuoAlarm} from './duo-schedule.js';
 import {runRankedReopenSchedule} from './ranked-reopen.js';
 import {runCityRotationSchedule} from './city-rotation.js';
+import {runOrganizationSchedule} from './organization-schedule.js';
 
 // One coordination object for the official clan competition, not for game requests.
 export class ClanDraftAlarm extends DurableObject{
@@ -23,7 +24,7 @@ export default class ClanDraftWorker extends WorkerEntrypoint{
     return {...clan,duoNextAlarmAt:duo.nextAlarmAt};
   }
   async scheduled(){
-    const results=await Promise.allSettled([this.arm(),runRankedReopenSchedule(this.env),runCityRotationSchedule(this.env)]);
+    const results=await Promise.allSettled([this.arm(),runRankedReopenSchedule(this.env),runCityRotationSchedule(this.env),runOrganizationSchedule(this.env)]);
     const failure=results.find(result=>result.status==='rejected');if(failure)throw failure.reason;
   }
   async fetch(){return new Response('Not found',{status:404})}
