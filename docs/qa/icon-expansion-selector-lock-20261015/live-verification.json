@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-10-15T12:05:41.849Z",
+  "releaseCommit": "a04d049760047b4afc14f1cd38b503dceeba2a22",
+  "base": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "e78fc9117c66eda4e9ed35cb77527c4ba26ba82d0ea55a5334fedbea6293eb14"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "41169ce60b1bd0487805a3ddde519cc472269b63a7a5a89052cc9e5ea537c70b"
+    },
+    {
+      "path": "js/icon-fusion-v1.bundle.js",
+      "status": 200,
+      "sha256": "98d4de0aa63df815a639077c5e82937dabbbd147932beb1f4925b0166084ff4b"
+    },
+    {
+      "path": "css/icon-fusion-v1.css",
+      "status": 200,
+      "sha256": "aee636ac144bcd91a6f4f06a489ac00a80cd912f7603911ff334981a51524c6e"
+    }
+  ],
+  "liveRoles": {
+    "count": 9,
+    "enabled": true,
+    "deckLimit": 2
+  },
+  "operatingWrites": 0
+}

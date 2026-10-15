@@ -13,6 +13,13 @@
 
 - 재현: `tests/icon-expansion-public-off-20261015.browser.mjs`
 - 화면·결과: `docs/qa/icon-expansion-selector-lock-20261015/`
-- 배포 직전 신규 OFF 및 기존 제작 보존 5개 회귀를 지정 scoped 배포로 확인한다. 공통 서버·DB·경제·전투 코드는 변경하지 않았다.
+- 배포 직전 신규 OFF 및 기존 제작 보존 5개 회귀가 지정 scoped 배포에서 통과했다. 공통 서버·DB·경제·전투 코드는 변경하지 않았다.
 
-운영 배포 결과는 완료 후 이 문서에 기록한다.
+## 운영 반영 완료
+
+- 소스 a04d04976, 지정 `npm run deploy:production -- --scoped` 종료 코드 0. 운영 업로드 1회.
+- Pages fbedee45: https://fbedee45.cnine-card.pages.dev. 운영 https://cnine-card.pages.dev.
+- API Worker be81e389-9d46-4c6c-b963-84e5bb4652ee, 기존 스케줄러 4ae2c9cb-f66a-4f1a-bf72-b254b130fbb1. Hyperdrive query cache OFF 확인.
+- 운영 HTML·서비스 워커·합성 번들·CSS 4개 파일 SHA-256이 배포 소스와 일치한다. 캐시는 `20261015-icon-selector-lock-v2`다.
+- 공개 역할 API 기존 9종·enabled=true·deckLimit=2 확인. 운영 계정의 제작·재화·지급·설정 쓰기는 수행하지 않았다.
+- 증빙: `docs/qa/icon-expansion-selector-lock-20261015/live-verification.json`. 완료 기록만 커밋하며 재배포하지 않는다.
