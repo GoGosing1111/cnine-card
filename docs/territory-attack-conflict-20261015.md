@@ -24,3 +24,11 @@
 - 화면 회귀: tests/territory-state-change-ui-20261015.test.mjs, 7/7 통과. 실제 공격/조회 함수와 공통 apiRequest의 오류 필드 전파를 VM에서 실행했다. 자동 POST 재전송 없이 선택 지역의 새 front로 갱신하며 조회 실패 시 오래된 공격 버튼을 닫는다. 성공 결과와 누락된 잔액을 임의 변경하지 않는다.
 - 해당 JS에만 stateRecovery=20261015-v1 캐시 키를 추가했다. 전역 앱 캐시 및 조직 모집 시각은 변경하지 않는다.
 - 최종 scoped 배포 검사는 위 2개 파일, 기존 tests/territory-network-v6.test.mjs 및 check:worker로 한정한다.
+
+### 운영 반영 완료
+
+- 소스: 95ae9437b93b853d314a790d29d4877b6e892c22. 지정 3개 회귀 파일 46/46 PASS, check:worker, production guard, Hyperdrive SQL cache OFF 검사 통과. scoped 배포 exit 0.
+- Pages: 93767305-77f2-410e-879a-e18a789ef361, production success, 2026-10-15T09:41:09.815824Z(18:41:09 KST), https://93767305.cnine-card.pages.dev.
+- API Worker: c2f42440-7b31-47b5-a643-ae7c60b2024c. 스케줄러: f38d0dd1-13d6-48dc-91e7-dfd57516b927. 기존 분당 스케줄 유지.
+- 18:41:42 KST 운영 GET 확인: index/영토전 JS HTTP 200, index의 stateRecovery=20261015-v1 연결과 배포 JS의 로컬 소스 해시 일치. SHA-256 a8159a3a59c129e9466f891654f777be8bddcc25ea47c4e9a832fb87a7a8a143. 실제 계정 공격을 추가 실행하지 않았다.
+- 로그: 작업트리 상위 territory-attack-conflict-deploy-20261015.log. 이 결과 기록은 문서만 후속 커밋하며 재검사·재배포하지 않는다.
