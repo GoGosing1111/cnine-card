@@ -5,7 +5,7 @@
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
 importScripts('/js/image-delivery-map-20261015.js');
-const SHELL_CACHE='soop-card-shell-v20261016-bongsoon-icon-v1';
+const SHELL_CACHE='soop-card-shell-v20261016-reward-reveal-v1';
 const CONTENT_CACHE='soop-card-content-v4-lossless-media';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -38,6 +38,7 @@ FRESH_ACCOUNT_SCRIPTS.add('/js/supporter-screen-guard-v1.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/js/supporter-application-v1.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/js/supporter-message-expiry-v1.mjs');
 for(const path of ['/js/project-v-monster-battle-art-adapter-v1.js','/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json','/js/madara-raid-entry-v1.js','/js/lich-king-raid-entry-v1.js','/js/core-protocol-raid-v1924.js','/raid/madara/inline.mjs','/raid/madara/runtime.mjs','/raid/lich-king/inline.mjs','/raid/lich-king/live.mjs','/raid/lich-king/request-retry.mjs'])FRESH_BATTLE_SCRIPTS.add(path);
+for(const path of ['/js/content-reward-reveal-v1.mjs','/js/core-raid-reward-stage-v2.mjs','/js/core-raid-reward-picker-v2.mjs','/shared/core-raid-reward-policy-v1.mjs','/shared/reward-reveal-contents-v1.mjs','/admin/reward-reveal-admin-v1.mjs','/admin/core-raid-rewards-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 const SHELL_CORE=[
   OFFLINE_URL,
   APP_SHELL_URL,

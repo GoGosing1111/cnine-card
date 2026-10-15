@@ -4,6 +4,7 @@ import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.
 import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {reconcileCoopDuties} from './_raid_lich_coop.js';
 import {ensurePetOpeningItems} from './_pet_opening.js';
+import {readRewardRevealPolicy} from './_reward_reveal.js';
 import {LICH_WEEKLY_REWARD_LIMIT,lichWeeklyReward,lichClearRewardPolicy,lichClearRewardFor,prepareLichClearRewards,lichRewardCounterChanged} from './_raid_lich_rewards.js';
 
 export const LICH_TICKET='LICH_KING_ENTRY_TICKET';
@@ -236,6 +237,7 @@ async function roomCommand(env,user,cfg,kind,body,deps,now,since=0){
           startLichRoom(room,id(user.id),now);
           room.petEssencePolicy={enabled:cfg.mode==='ON'&&room.releaseMode==='ON'&&cfg.petEssenceEnabled,quantity:cfg.petEssenceReward,settingsRevision:cfg.revision};
           room.clearRewardPolicy=lichClearRewardPolicy(cfg,room.releaseMode);
+          room.revealPolicy=cfg.mode==='ON'&&room.releaseMode==='ON'?await readRewardRevealPolicy(env,'LICH'):null;
         }
       }else if(kind==='leave'){
         if(isHost&&['LOBBY','ACTIVE'].includes(room.status)){

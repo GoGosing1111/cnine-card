@@ -1,6 +1,7 @@
 import {collectionRewardCoin} from './_collection_bonuses.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
+import {prepareRewardRevealContext,prepareRewardRevealOffer} from './_reward_reveal.js';
 
 async function counter(env,userId,at,limit){
   const week=pigCoinRewardWeek(at),key=`raid_madara_weekly_v1:${week.weekKey}:${Number(userId)}`;
@@ -16,7 +17,10 @@ export function madaraRewardFor(room,userId){
 export async function prepareMadaraRewards(env,row,room){
   const plan={statements:[],counters:[]};
   if(row.status!=='ACTIVE'||room.status!=='CLEAR'||room.clearRewards)return plan;
-  const p=room.rewardPolicy||{},enabled=p.enabled===true&&room.releaseMode==='ON'&&(p.coin>0||p.masterStars>0||p.petEssence>0);
+  const frozen=room.rewardPolicy||{},reveal=await prepareRewardRevealContext(env,'MADARA',room.revealPolicy,room.releaseMode==='ON');
+  const p=frozen.enabled?frozen:{...frozen,coin:0,masterStars:0,petEssence:0};
+  const enabled=p.enabled===true&&room.releaseMode==='ON'&&(p.coin>0||p.masterStars>0||p.petEssence>0)||reveal.enabled;
+  plan.statements.push(...reveal.statements);
   room.clearRewards={};
   for(const member of [...room.members].filter(m=>!m.left).sort((a,b)=>Number(a.id)-Number(b.id))){
     const uid=Number(member.id),before=await counter(env,uid,room.finishedAt,p.weeklyLimit||7);
@@ -41,6 +45,8 @@ export async function prepareMadaraRewards(env,row,room){
       env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin,`마다라 레이드 클리어 [${room.id}]`,uid));
     plan.statements.push(jointGuardEnd(env.DB,token+':user'),jointGuardEnd(env.DB,token));
     room.clearRewards[member.id].weeklyReward={...before.weekly,used:before.weekly.used+1,remaining:before.weekly.remaining-1};
+    const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin,masterStars:p.masterStars,petEssence:p.petEssence},quota:{...room.clearRewards[member.id].weeklyReward,period:'week'},finishedAt:room.finishedAt});
+    if(choice.offer){plan.statements.push(...choice.statements);room.clearRewards[member.id].choiceOffer=choice.offer;}
   }
   return plan;
 }

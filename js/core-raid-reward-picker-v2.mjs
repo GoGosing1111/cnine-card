@@ -1,10 +1,11 @@
-import {ReliquaryStage} from './core-raid-reward-stage-v2.mjs?v=20260925-live';
+import {rewardRevealContent} from '../shared/reward-reveal-contents-v1.mjs?v=20261016-reveal1';
+import {ReliquaryStage} from './core-raid-reward-stage-v2.mjs?v=20261016-reveal1';
 
 let stylePromise;
 function ensureStyle(){
   if(stylePromise)return stylePromise;
   stylePromise=new Promise((resolve,reject)=>{
-    const link=document.createElement('link');link.rel='stylesheet';link.href='/css/core-raid-reward-picker-v2.css?v=20260925-live';
+    const link=document.createElement('link');link.rel='stylesheet';link.href='/css/core-raid-reward-picker-v2.css?v=20261016-reveal1';
     const timer=setTimeout(()=>fail(),10000);
     const fail=()=>{clearTimeout(timer);link.remove();stylePromise=null;reject(Error('보상 화면을 불러오지 못했습니다. 다시 확인하세요.'));};
     link.onload=()=>{clearTimeout(timer);resolve();};link.onerror=fail;document.head.append(link);
@@ -14,24 +15,30 @@ function ensureStyle(){
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const count=value=>Number(value||0).toLocaleString('ko-KR');
 const money=value=>Number(value)>=100000000&&Number(value)%100000000===0?count(value/100000000)+'억':count(value);
-const asset=value=>/^\/?assets\/[\w./% -]+$/.test(String(value||''))&&!String(value).includes('..')?'/'+String(value).replace(/^\//,''):'';
-const types={MERCENARY:'용병 계약',EQUIPMENT:'장비',MASTER_STAR:'성장 재료',COIN:'재화',INVENTORY_ITEM:'아이템 · 재료',MAGIC_CRYSTAL:'강화 재료',CARD_SHARDS:'카드 조각'};
+const asset=value=>{
+  const path=String(value||'');
+  if(/^\/?(?:assets|preview)\/[\w./% -]+$/.test(path)&&!path.includes('..'))return '/'+path.replace(/^\//,'');
+  try{const url=new URL(path);if(url.protocol==='https:'&&!url.username&&!url.password)return url.href;}catch{}
+  return '';
+};
+const types={MERCENARY:'용병 계약',EQUIPMENT:'장비',VEHICLE:'이동수단',MASTER_STAR:'성장 재료',COIN:'재화',INVENTORY_ITEM:'아이템 · 재료',MAGIC_CRYSTAL:'강화 재료',CARD_SHARDS:'카드 조각'};
 
 // Both the approved preview and live flow use this renderer. Only the injected
 // server claim can choose and grant a result. Preview data remains in its page.
-export async function showCoreRewardPicker({offer,claim,speed=1,preview=false}){
-  await ensureStyle();
+export async function showCoreRewardPicker({offer,claim,speed=1,preview=false,content='CORE',signal}){
+  if(signal?.aborted)return null;await ensureStyle();if(signal?.aborted)return null;
   return new Promise(resolve=>{
     const previous=document.activeElement,dialog=document.createElement('dialog');
-    dialog.className='reliquary';dialog.setAttribute('aria-labelledby','reliquary-title');dialog.tabIndex=-1;
+    dialog.className='reliquary'+(content!=='CORE'?' is-content-reward':'');dialog.setAttribute('aria-labelledby','reliquary-title');dialog.tabIndex=-1;
     let closed=false,loading=true,pending=false,selected=offer.selectedIndex??null,paid=offer.result||null,stage,rewardTween,claimTimer,loadTimer,generation=0;
+    const contentInfo=rewardRevealContent(content)||rewardRevealContent('CORE'),quota=offer.quota||offer.result?.quota,core=content==='CORE';
     const base=offer.baseReward||paid?.reward||{},weekly=offer.weeklyReward||paid?.weeklyReward;
-    dialog.innerHTML=`<div class="reliquary-scene"><div class="reliquary-backdrop" aria-hidden="true"></div><div class="reliquary-shade" aria-hidden="true"></div><div class="reliquary-canvas"></div><div class="reliquary-topline"><span>붕괴 코어 <i></i> 클리어 보상</span>${preview?'<span class="reliquary-review">연출 미리보기</span>':''}</div><div class="reliquary-tools"><button class="reliquary-sound" type="button" aria-pressed="true" aria-label="효과음 끄기">소리 켬</button><button class="reliquary-close" type="button" aria-label="${preview?'미리보기':'보상 창'} 닫기">×</button></div><header class="reliquary-heading"><p class="reliquary-eyebrow">CORE PROTOCOL · VICTORY</p><h1 id="reliquary-title">봉인된 전리품</h1><p class="reliquary-lead">당신의 승리에 응답할, 단 하나의 봉인.</p><div class="reliquary-rule" aria-hidden="true"><span></span><i></i><span></span></div></header><div class="reliquary-choices">${[0,1,2].map(i=>`<button class="reliquary-choice" data-slot="${i}" type="button" disabled aria-label="${i+1}번 봉인 선택"><span class="reliquary-label"><small>봉인 0${i+1}</small><b>선택하기</b><i aria-hidden="true"></i></span></button>`).join('')}</div><div class="reliquary-instruction"><span class="reliquary-step">01 — SELECT</span><p>세 개의 보관함 중 하나를 선택하세요.</p></div><section class="reliquary-result" aria-live="polite" hidden></section><div class="reliquary-status" role="status"><span>봉인 보관함을 불러오는 중…</span><button class="reliquary-retry" type="button" hidden>다시 불러오기</button></div><footer class="reliquary-footer"><div class="reliquary-base"><span>기본 클리어 보상</span><b>${money(base.coin)} <small>코인</small></b></div><div class="reliquary-guarantee"><span class="reliquary-weekly">추가 보상 1개${weekly?' · 이번 주 '+count(weekly.used)+'/3회':''}</span><b>꽝 없음 · 주간 최대 3회</b></div><p class="reliquary-sample-note">${preview?'시연 화면 · 실제 보상은 지급되지 않습니다':'기본·선택 보상 함께 주간 최대 3회 · 선택 즉시 지급'}</p></footer></div>`;
+    dialog.innerHTML=`<div class="reliquary-scene"><div class="reliquary-backdrop" aria-hidden="true"></div><div class="reliquary-shade" aria-hidden="true"></div><div class="reliquary-canvas"></div><div class="reliquary-topline"><span>${esc(contentInfo.name)} <i></i> 보상</span>${preview?'<span class="reliquary-review">연출 미리보기</span>':''}</div><div class="reliquary-tools"><button class="reliquary-sound" type="button" aria-pressed="true" aria-label="효과음 끄기">소리 켬</button><button class="reliquary-close" type="button" aria-label="${preview?'미리보기':'보상 창'} 닫기">×</button></div><header class="reliquary-heading"><p class="reliquary-eyebrow">${core?'CORE PROTOCOL':'SEALED TREASURES'} · REWARD</p><h1 id="reliquary-title">봉인된 전리품</h1><p class="reliquary-lead">당신의 승리에 응답할, 단 하나의 봉인.</p><div class="reliquary-rule" aria-hidden="true"><span></span><i></i><span></span></div></header><div class="reliquary-choices">${[0,1,2].map(i=>`<button class="reliquary-choice" data-slot="${i}" type="button" disabled aria-label="${i+1}번 봉인 선택"><span class="reliquary-label"><small>봉인 0${i+1}</small><b>선택하기</b><i aria-hidden="true"></i></span></button>`).join('')}</div><div class="reliquary-instruction"><span class="reliquary-step">01 — SELECT</span><p>세 개의 보관함 중 하나를 선택하세요.</p></div><section class="reliquary-result" aria-live="polite" hidden></section><div class="reliquary-status" role="status"><span>봉인 보관함을 불러오는 중…</span><button class="reliquary-retry" type="button" hidden>다시 불러오기</button></div><footer class="reliquary-footer"><div class="reliquary-base"><span>기본 클리어 보상</span><b>${core?money(base.coin):[...(base.coin?[money(base.coin)+' 코인']:[]),...(base.masterStars?[count(base.masterStars)+' 마별']:[]),...(base.petEssence?[count(base.petEssence)+' 펫 정수']:[]),...(base.items?.length?[base.items.length+'종 아이템']:[])].join(' · ')||'선택 보상'} <small>${core?'코인':''}</small></b></div><div class="reliquary-guarantee"><span class="reliquary-weekly">선택 보상 1개${core?(weekly?' · 이번 주 '+count(weekly.used)+'/3회':''):(quota?' · '+(quota.period==='day'?'오늘 ':'이번 주 ')+count(quota.used)+'/'+count(quota.limit)+'회':'')}</span><b>${core?'꽝 없음 · 주간 최대 3회':'꽝 없음 · 미수령 봉인 보관'}</b></div><p class="reliquary-sample-note">${preview?'시연 화면 · 실제 보상은 지급되지 않습니다':core?'기본·선택 보상 함께 주간 최대 3회 · 선택 즉시 지급':'클리어 횟수에 포함된 보상 · 선택할 때 추가 횟수 차감 없음'}</p></footer></div>`;
     document.body.append(dialog);dialog.showModal();
     const q=selector=>dialog.querySelector(selector),buttons=[...dialog.querySelectorAll('[data-slot]')];
     function finish(){
       if(closed)return;closed=true;generation++;clearTimeout(claimTimer);clearTimeout(loadTimer);stage?.destroy();rewardTween?.kill();
-      document.removeEventListener('visibilitychange',visibility);dialog.close();dialog.remove();previous?.focus?.();resolve(paid);
+      signal?.removeEventListener('abort',finish);document.removeEventListener('visibilitychange',visibility);dialog.close();dialog.remove();previous?.focus?.();resolve(paid);
     }
     function status(message,retryLabel=''){
       q('.reliquary-status span').textContent=message;q('.reliquary-retry').hidden=!retryLabel;
@@ -48,7 +55,7 @@ export async function showCoreRewardPicker({offer,claim,speed=1,preview=false}){
       const image=asset(reward.image)||(reward.rewardType==='COIN'?'/assets/ui/events/golden-axe-v1/coin.svg':reward.rewardType==='MASTER_STAR'?'/assets/ui/core-raid-rewards-v2/master-star.svg':'');
       dialog.classList.add('is-revealed');dialog.classList.toggle('has-portrait',portrait);
       const panel=q('.reliquary-result');
-      panel.innerHTML=`<div class="reliquary-prize-art ${portrait?'is-portrait':'is-item'}"><div class="reliquary-prize-aura"></div>${image?`<img class="reliquary-prize-image" src="${esc(image)}" alt="${esc(reward.name)}">`:'<span class="reliquary-prize-placeholder">획득</span>'}${portrait?'<img class="reliquary-prize-frame" src="/assets/ui/card-frames/mercenary-contract-frame-premium-v2.png" alt="">':''}<div class="reliquary-prize-glint"></div>${portrait?`<span class="reliquary-card-rank">${esc(reward.rarity||'')}</span>`:''}</div><div class="reliquary-prize-copy"><span class="reliquary-acquired">봉인 해제 완료</span><p class="reliquary-prize-kind">${esc(types[reward.rewardType]||'추가 보상')}${reward.rarity?' <i>·</i> '+esc(reward.rarity):''}</p><h2>${esc(reward.name||'클리어 보상')}</h2><p class="reliquary-quantity">${reward.rewardType==='COIN'?money(reward.quantity):count(reward.quantity)}<span>${reward.rewardType==='COIN'?' 코인':portrait?' 장':' 개'}</span></p><p class="reliquary-prize-note">${portrait?'깨어난 힘이 새로운 전투를 기다립니다.':'다음 도전을 위한 전리품을 회수했습니다.'}</p><button class="reliquary-done" type="button">${preview?'다시 보기':'확인'} <span aria-hidden="true">${preview?'↻':'→'}</span></button></div>`;
+      panel.innerHTML=`<div class="reliquary-prize-art ${portrait?'is-portrait':'is-item'}"><div class="reliquary-prize-aura"></div>${image?`<img class="reliquary-prize-image" src="${esc(image)}" alt="${esc(reward.name)}">`:'<span class="reliquary-prize-placeholder">획득</span>'}${portrait?'<img class="reliquary-prize-frame" src="/assets/ui/card-frames/mercenary-contract-frame-premium-v2.png" alt="">':''}<div class="reliquary-prize-glint"></div>${portrait?`<span class="reliquary-card-rank">${esc(reward.rarity||'')}</span>`:''}</div><div class="reliquary-prize-copy"><span class="reliquary-acquired">봉인 해제 완료</span><p class="reliquary-prize-kind">${esc(types[reward.rewardType]||'추가 보상')}${reward.rarity?' <i>·</i> '+esc(reward.rarity):''}</p><h2>${esc(reward.name||'클리어 보상')}</h2><p class="reliquary-quantity">${reward.rewardType==='COIN'?money(reward.quantity):count(reward.quantity)}<span>${reward.rewardType==='COIN'?' 코인':portrait?' 장':reward.rewardType==='VEHICLE'?' 대':' 개'}</span></p><p class="reliquary-prize-note">${reward.converted?'이미 보유했거나 지급이 중지된 후보여서 보관된 최소 보상으로 지급했습니다.':portrait?'깨어난 힘이 새로운 전투를 기다립니다.':'다음 도전을 위한 전리품을 회수했습니다.'}</p><button class="reliquary-done" type="button">${preview?'다시 보기':'확인'} <span aria-hidden="true">${preview?'↻':'→'}</span></button></div>`;
       panel.hidden=false;panel.querySelector('.reliquary-done').onclick=finish;status('');
       if(paid.weeklyReward)q('.reliquary-weekly').textContent='추가 보상 1개 · 이번 주 '+count(paid.weeklyReward.used)+'/3회';
       const art=panel.querySelector('.reliquary-prize-image');if(art)art.onerror=()=>{art.onerror=null;if(reward.rewardType==='MASTER_STAR')art.src='/assets/ui/core-raid-rewards-v2/master-star.svg';else art.hidden=true;};
@@ -77,6 +84,8 @@ export async function showCoreRewardPicker({offer,claim,speed=1,preview=false}){
       const current=new ReliquaryStage(q('.reliquary-canvas'),{speed,onPhase:phase,onReveal:reveal,onLayout:positions=>{
         positions.forEach((p,i)=>Object.assign(buttons[i].style,{left:(p.x-p.width*.52)+'px',top:(p.y-p.height)+'px',width:p.width*1.04+'px',height:(p.height+(innerWidth<650&&innerHeight<700?52:68))+'px'}));
       }});stage=current;
+      try{if(localStorage.getItem('cnine_battle_sound')==='OFF')current.soundEnabled=false;}catch{}
+      q('.reliquary-sound').textContent=current.soundEnabled?'소리 켬':'소리 끔';q('.reliquary-sound').setAttribute('aria-pressed',String(current.soundEnabled));q('.reliquary-sound').setAttribute('aria-label',current.soundEnabled?'효과음 끄기':'효과음 켜기');
       try{
         await Promise.race([current.init(),new Promise((_,reject)=>{loadTimer=setTimeout(()=>reject(Error('보관함을 불러오지 못했습니다. 다시 시도해 주세요.')),12000);})]);
         clearTimeout(loadTimer);if(closed||attempt!==generation)return;loading=false;status('');dialog.classList.add('is-ready');
@@ -93,6 +102,7 @@ export async function showCoreRewardPicker({offer,claim,speed=1,preview=false}){
     q('.reliquary-close').onclick=finish;
     q('.reliquary-sound').onclick=()=>{const enabled=stage?.mute();q('.reliquary-sound').setAttribute('aria-pressed',String(enabled));q('.reliquary-sound').setAttribute('aria-label',enabled?'효과음 끄기':'효과음 켜기');q('.reliquary-sound').textContent=enabled?'소리 켬':'소리 끔';};
     const visibility=()=>{if(document.hidden)rewardTween?.pause();else rewardTween?.resume();};document.addEventListener('visibilitychange',visibility);
+    signal?.addEventListener('abort',finish,{once:true});
     dialog.addEventListener('cancel',event=>{event.preventDefault();finish();});void load();
   });
 }

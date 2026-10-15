@@ -1,6 +1,7 @@
 import {COOP_SETTINGS_KEY,COOP_REWARD_DAILY_LIMIT,coopRewardDay,hasCoopReward,validateCoopRewards} from '../shared/cooperative-rewards-v1.mjs';
 import {EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE} from '../shared/equipment-forge-release-v1.mjs';
 import {jointGuard,jointGuardEnd,ensureJointAtomicSchema} from './_joint_atomic.js';
+import {prepareRewardRevealContext,prepareRewardRevealOffer} from './_reward_reveal.js';
 
 const p=(env,sql,...args)=>env.DB.prepare(sql).bind(...args);
 const read=async(env,key)=>(await p(env,'SELECT value FROM app_meta WHERE key=?',key).first())?.value??null;
@@ -18,7 +19,7 @@ export async function coopDailyReward(env,userId,at=Date.now()){return (await co
 const empty=(status)=>({status,granted:false,coin:0,masterStars:0,items:[]});
 export function coopUnpaidRewards(room){
  const policy=room.rewardPolicy;
- if(room.status==='VICTORY'&&policy?.enabled&&policy.mode==='ON'&&hasCoopReward(policy))return null;
+ if(room.status==='VICTORY'&&policy?.mode==='ON'&&(policy.enabled&&hasCoopReward(policy)||policy.revealPolicy?.enabled))return null;
  return Object.fromEntries(room.members.map(m=>[m.id,empty(m.result==='VICTORY'?'DISABLED':'DEFEAT')]));
 }
 
@@ -28,7 +29,7 @@ export function coopUnpaidRewards(room){
 export async function settleCoopRewards(env,room){
  if(!['VICTORY','DEFEAT','CANCELLED'].includes(room.status))throw Error('Cooperative room is not terminal');
  const unpaid=coopUnpaidRewards(room);if(unpaid)return unpaid;
- const key='coop_reward_receipt_v1:'+room.id,policy=room.rewardPolicy;
+ const key='coop_reward_receipt_v1:'+room.id,frozen=room.rewardPolicy;
  if(!Number.isSafeInteger(room.finishedAt)||room.finishedAt<room.createdAt||!room.creationRequest)throw Error('Invalid cooperative finish proof');
  const replay=async()=>{
   const raw=await read(env,key);if(raw===null)return null;const receipt=JSON.parse(raw);
@@ -41,17 +42,20 @@ export async function settleCoopRewards(env,room){
   const settingsRaw=await read(env,COOP_SETTINGS_KEY),settings=settingsRaw===null?null:JSON.parse(settingsRaw);
   const enabled=settings?.mode==='ON'&&settings?.rewards?.enabled===true;
   if(enabled)validateCoopRewards(settings.rewards);
+  const reveal=await prepareRewardRevealContext(env,'COOP_'+room.difficulty,frozen.revealPolicy,settings?.mode==='ON'&&frozen.mode==='ON');
+  const baseEnabled=enabled&&frozen.enabled,active=baseEnabled||reveal.enabled;
+  const policy=baseEnabled?frozen:{...frozen,coin:0,masterStars:0,items:[]};
   const grantedItems=[...(policy.masterStars?[{code:'MASTER_STAR',quantity:policy.masterStars}]:[]),...policy.items];
   const itemRows=enabled&&grantedItems.length?(await p(env,`SELECT code,name FROM inventory_items WHERE is_active=1 AND code IN (${grantedItems.map(()=>'?').join(',')})`,...grantedItems.map(i=>i.code)).all()).results:[];
   const names=new Map(itemRows.map(i=>[i.code,i.name]));
   if(enabled&&grantedItems.some(i=>!names.has(i.code)||i.code===EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE))throw Error('Cooperative reward item unavailable');
-  const rewards={},statements=[],counters=[],token=crypto.randomUUID();
+  const rewards={},statements=[...reveal.statements],counters=[],token=crypto.randomUUID();
   for(const member of [...room.members].sort((a,b)=>Number(a.id)-Number(b.id))){
    const uid=Number(member.id);
    if(member.result!=='VICTORY'){rewards[uid]=empty('DEFEAT');continue;}
    const before=await counter(env,uid,room.finishedAt);counters.push(before);
-   const awarded=enabled&&before.daily.remaining>0;
-   rewards[uid]={...empty(awarded?'GRANTED':enabled?'DAILY_LIMIT':'DISABLED'),dailyReward:before.daily};
+   const awarded=active&&before.daily.remaining>0;
+   rewards[uid]={...empty(awarded?'GRANTED':active?'DAILY_LIMIT':'DISABLED'),dailyReward:before.daily};
    if(!awarded)continue;
    const nextRaw=JSON.stringify({count:before.daily.used+1,roomId:room.id,token});
    statements.push(before.raw===null?p(env,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING',before.key,nextRaw):p(env,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',nextRaw,before.key,before.raw),jointGuard(env.DB,token+':quota:'+uid,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[before.key,nextRaw]),jointGuardEnd(env.DB,token+':quota:'+uid));
@@ -64,6 +68,8 @@ export async function settleCoopRewards(env,room){
      p(env,"INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'격전지 클리어','COOP_CLEAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?",item.quantity,room.id,uid,item.code),jointGuard(env.DB,guard+':cap','EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity<=? AND unseen_quantity<=?)',[uid,item.code,Number.MAX_SAFE_INTEGER,Number.MAX_SAFE_INTEGER]),jointGuardEnd(env.DB,guard+':cap'),jointGuardEnd(env.DB,guard));
    }
    rewards[uid]={status:'GRANTED',granted:true,coin:policy.coin,masterStars:policy.masterStars,items:policy.items.map(i=>({...i,name:names.get(i.code)})),dailyReward:{...before.daily,used:before.daily.used+1,remaining:before.daily.remaining-1}};
+   const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin:policy.coin,masterStars:policy.masterStars,items:rewards[uid].items},quota:{...rewards[uid].dailyReward,period:'day'},finishedAt:room.finishedAt});
+   if(choice.offer){statements.push(...choice.statements);rewards[uid].choiceOffer=choice.offer;}
   }
   const receipt=JSON.stringify({version:1,roomId:room.id,creationRequest:room.creationRequest,difficulty:room.difficulty,finishedAt:room.finishedAt,settingsRevision:policy.settingsRevision,rewards});
   try{

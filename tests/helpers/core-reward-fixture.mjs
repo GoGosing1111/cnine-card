@@ -15,6 +15,8 @@ export async function coreRewardFixture(dialect='sqlite'){
     'CREATE TABLE shard_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT)',
     'CREATE TABLE magic_crystal_logs(user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT,reference_type TEXT,reference_id TEXT)',
     'CREATE TABLE character_equipment_items(id BIGINT PRIMARY KEY,name TEXT,rarity TEXT,image_url TEXT,slot TEXT,sort_order INTEGER,is_active INTEGER,is_public INTEGER)',
+    'CREATE TABLE character_garage_items(id BIGINT PRIMARY KEY,name TEXT,rarity TEXT,image_url TEXT,sort_order INTEGER,is_active INTEGER,is_public INTEGER)',
+    'CREATE TABLE user_garage_vehicles(user_id BIGINT,garage_id BIGINT,source_type TEXT,source_id TEXT,PRIMARY KEY(user_id,garage_id))',
     `CREATE TABLE user_equipment_instances(id ${dialect==='postgres'?'BIGSERIAL PRIMARY KEY':'INTEGER PRIMARY KEY AUTOINCREMENT'},user_id BIGINT,equipment_id BIGINT,source_type TEXT,source_id TEXT,request_id TEXT UNIQUE)`,
     'CREATE TABLE mercenary_cms_documents_v1(doc_key TEXT PRIMARY KEY,payload_json TEXT,revision INTEGER)'
   ];

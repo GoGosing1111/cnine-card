@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 960,
+      "candidates": 3,
+      "preview": true,
+      "persistedReopen": true,
+      "claimReplay": true,
+      "abortCloses": true
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "candidates": 3,
+      "preview": true,
+      "persistedReopen": true,
+      "claimReplay": true,
+      "abortCloses": true
+    }
+  ],
+  "errors": []
+}

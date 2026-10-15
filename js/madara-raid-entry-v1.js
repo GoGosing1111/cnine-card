@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261013-original-ip-v1';
+  const VERSION = '20261016-reveal1';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, activeRoot = null, revision = 0;
   const host = () => document.getElementById('pveMadaraRaidView');
   async function refresh() {

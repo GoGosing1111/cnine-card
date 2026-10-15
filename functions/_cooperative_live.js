@@ -8,6 +8,7 @@ import {coopCombatSummary} from '../shared/cooperative-settings-v1.mjs';
 import {COOP_DIRECTORY} from '../shared/cooperative-room-list-v1.mjs';
 import {freezeCoopReward} from '../shared/cooperative-rewards-v1.mjs';
 import {coopDailyReward} from './_cooperative_rewards.js';
+import {readRewardRevealPolicy} from './_reward_reveal.js';
 export {coopSettings} from './_cooperative_settings.js';
 const fail=(code,message,status=409)=>{throw jointError('COOP_'+code,message,status);};
 export const coopAccess=(user,cfg)=>Boolean(user)&&(cfg.mode==='ON'||cfg.mode==='TEST'&&(user.role==='OWNER'||cfg.testUserIds.includes(Number(user.id))));
@@ -93,7 +94,7 @@ export async function handleCooperative({path,request,env,deps}){
      if(previous.ok&&['LOBBY','LOADING','ACTIVE'].includes(previous.state.status)&&!previous.state.myResult&&prior!==target)fail('ALREADY_JOINED','현재 대기방에서 먼저 나와주세요.');}
     if(kind==='create'){
      const id=target;
-     const result=await roomStub(env,id).create({id,user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId,combat:config.combat,settingsRevision:config.revision,encounterVersion:config.encounterVersion===3?3:2,rewardPolicy:freezeCoopReward(config,body.difficulty)});
+     const result=await roomStub(env,id).create({id,user:{id:Number(user.id),nickname:user.nickname},clientId:body.clientId,difficulty:body.difficulty,seed:crypto.getRandomValues(new Uint32Array(1))[0],requestId:body.requestId,combat:config.combat,settingsRevision:config.revision,encounterVersion:config.encounterVersion===3?3:2,rewardPolicy:{...freezeCoopReward(config,body.difficulty),revealPolicy:await readRewardRevealPolicy(env,'COOP_'+body.difficulty)}});
      if(result.ok)await pointer.setRoom(id);return response(deps,result);
     }
     const result=await roomStub(env,body.roomId).command({id:Number(user.id),nickname:user.nickname},kind,body);

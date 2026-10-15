@@ -3,6 +3,7 @@ import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {PET_ESSENCE} from '../shared/pet-opening-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {prepareLichClearMilestone} from './_milestone_trophies.js';
+import {prepareRewardRevealContext,prepareRewardRevealOffer} from './_reward_reveal.js';
 
 export const LICH_WEEKLY_REWARD_LIMIT=7;
 export const lichRewardWeek=pigCoinRewardWeek;
@@ -36,7 +37,7 @@ export function lichClearRewardFor(room,userId){
   const granted=reward.grantedIds.includes(String(userId));
   return {status:granted?'GRANTED':reward.limitedIds.includes(String(userId))?'WEEKLY_LIMIT':'DISABLED',granted,
     petEssence:granted?reward.petEssence:0,masterStars:granted?reward.masterStars:0,coin:granted?(reward.coinByUser?.[String(userId)]??reward.coin):0,
-    weeklyReward:reward.weeklyByUser[String(userId)],settingsRevision:reward.settingsRevision};
+    weeklyReward:reward.weeklyByUser[String(userId)],settingsRevision:reward.settingsRevision,...(reward.choiceOffers?.[String(userId)]?{choiceOffer:reward.choiceOffers[String(userId)]}:{})};
 }
 export async function prepareLichClearRewards(env,row,room){
   const plan={statements:[],counters:[]};
@@ -45,7 +46,9 @@ export async function prepareLichClearRewards(env,row,room){
   // In-flight rooms retain the reward amounts snapshotted by the previous build.
   const policy=room.clearRewardPolicy||{enabled:room.petEssencePolicy?.enabled===true,
     petEssence:room.petEssencePolicy?.quantity||0,masterStars:0,coin:0,settingsRevision:room.petEssencePolicy?.settingsRevision??null};
-  const enabled=policy.enabled&&room.releaseMode==='ON'&&(policy.petEssence>0||policy.masterStars>0||policy.coin>0);
+  const reveal=await prepareRewardRevealContext(env,'LICH',room.revealPolicy,room.releaseMode==='ON');
+  plan.statements.push(...reveal.statements);
+  const enabled=policy.enabled&&room.releaseMode==='ON'&&(policy.petEssence>0||policy.masterStars>0||policy.coin>0)||reveal.enabled;
   const reward={petEssence:policy.petEssence,masterStars:policy.masterStars,coin:policy.coin,
     settingsRevision:policy.settingsRevision,grantedIds:[],limitedIds:[],weeklyByUser:{}};
   const participants=[...room.members].sort((a,b)=>Number(a.id)-Number(b.id));
@@ -76,6 +79,8 @@ export async function prepareLichClearRewards(env,row,room){
     }
     plan.statements.push(jointGuardEnd(env.DB,token));
     reward.grantedIds.push(userId);reward.weeklyByUser[userId]=quota(before.weekly,before.weekly.used+1);
+    const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin:reward.coinByUser?.[userId]??reward.coin,masterStars:reward.masterStars,petEssence:reward.petEssence},quota:{...reward.weeklyByUser[userId],period:'week'},finishedAt:room.finishedAt});
+    if(choice.offer){plan.statements.push(...choice.statements);(reward.choiceOffers||={})[userId]=choice.offer;}
   }
   room.clearRewardSettlement=reward;
   // Retain the old response contract for players who still have an open tab.

@@ -1,3 +1,4 @@
+import {mountRewardRevealButton,mountRewardRevealInbox} from '/js/content-reward-reveal-v1.mjs?v=20261016-reveal1';
 import {rosterMarkup,automaticGuide} from './roster.mjs?v=20261012-random-v3';
 import {jointAccountRequest} from '/js/joint-account-transport.mjs';
 import {COOP_DIFFICULTIES,COOP_RULES,COOP_VERSION,COOP_ENCOUNTER,COOP_STAGES} from '/shared/cooperative-battleground-v1.mjs?v=20261002-arke-v2';
@@ -41,13 +42,14 @@ export async function mountCooperative(root){
  <section class="coop-owner" data-owner hidden><button class="coop-quiet" data-settings>운영 테스트 설정</button></section>
  <dialog class="coop-dialog" data-guide-dialog><header><div><small>격전지 공략 지침</small><h3 data-guide-title></h3></div><button class="coop-quiet" data-close-guide aria-label="공략 닫기">닫기 ×</button></header><nav>${GUIDE.map(([name],i)=>`<button data-chapter="${i}">${i+1}. ${name}</button>`).join('')}</nav><article data-guide-content></article></dialog>
  <dialog class="coop-dialog" data-settings-dialog><header><h3>운영 테스트 설정</h3><button class="coop-quiet" data-close-settings>닫기 ×</button></header><form data-settings-form><label>공개 상태<select name="mode"><option value="TEST">테스트 참여자만</option><option value="OFF">운영 중지</option><option value="ON">전체 공개</option></select></label><label>테스트 계정 ID<input name="users" placeholder="예: 12, 34" /></label><p>OWNER는 자동으로 참여할 수 있습니다. 보상은 CMS의 클리어 보상 탭에서 설정합니다.</p><button class="coop-primary">설정 저장</button><p role="status" data-settings-message></p></form></dialog>`;
- function drawRewardSummary(){const daily=feature?.dailyReward;const node=$('[data-reward-summary]');node.textContent=daily?`오늘 보상 ${daily.used} / ${daily.limit}회 · 남은 ${daily.remaining}회 · 자정(KST) 초기화${feature.rewardLocked?' · 현재 보상 지급 OFF':''}`:'';}
+ function drawRewardSummary(){const daily=feature?.dailyReward;const node=$('[data-reward-summary]');node.textContent=daily?`오늘 보상 ${daily.used} / ${daily.limit}회 · 남은 ${daily.remaining}회 · 자정(KST) 초기화${feature.rewardLocked?' · 현재 기본 보상 지급 OFF':''}`:'';}
  function rewardMarkup(reward,won){
   if(!won)return '<small>패배 · 보상 횟수 차감 없음</small>';
   if(!reward)return state.rewardLocked?'<small>보상 지급 OFF · 횟수 차감 없음</small>':'<small role="status">보상을 정산하고 있습니다. 나가도 서버에서 계속 처리됩니다.</small>';
   if(!reward.granted)return '<small>'+(reward.status==='DAILY_LIMIT'?'오늘 보상 3회 수령 완료 · 자정(KST) 이후 다시 받을 수 있습니다.':'보상 지급 OFF · 횟수 차감 없음')+'</small>';
   return '<div class="coop-reward-receipt"><b>보상 지급 완료</b><ul>'+[...(reward.coin?['코인 '+number(reward.coin)]:[]),...(reward.masterStars?['마스터의 별 '+number(reward.masterStars)+'개']:[]),...reward.items.map(i=>i.name+' '+number(i.quantity)+'개')].map(text=>'<li>'+esc(text)+'</li>').join('')+'</ul><small>'+esc(reward.dailyReward.day)+' 보상 '+reward.dailyReward.used+' / 3회</small></div>';
  }
+ const rewardInbox=mountRewardRevealInbox(root,{signal:lifecycle.signal});
  function alert(message){$('[data-alert]').hidden=!message;$('[data-alert]').textContent=message||'';}
  function drawRooms(){
   $('[data-room-list-count]').textContent=String(rooms.length)+(hasMore?'+':'');
@@ -177,6 +179,7 @@ export async function mountCooperative(root){
    const result=portal.querySelector('.coop-result');result.hidden=false;const won=(state.myResult||state.status)==='VICTORY';
    result.innerHTML=`<div><span>${won?'VICTORY':'DEFEAT'}</span><h2>${won?'격전지 돌파 성공':'격전지 돌파 실패'}</h2><p>${esc(state.members.find(m=>m.id===you)?.reason||(won?'세 분대의 힘으로 모든 적을 격파했습니다.':'미격파 적 생존 또는 아군 전멸'))}</p>${state.encounter?'<p>'+esc(state.encounter.boss.name)+' · 최종 보스</p>':'<p>협동 대응 '+(state.patternHistory?.filter(p=>p.status==='SUCCESS').length||0)+' / '+(state.patternHistory?.length||0)+'회 성공</p>'}${rewardMarkup(state.clearReward,won)}<button class="coop-primary" data-return>대기방 목록으로</button></div>`;
    result.querySelector('[data-return]').onclick=()=>void leave();
+   mountRewardRevealButton(result.firstElementChild,state.clearReward?.choiceOffer,{signal:lifecycle.signal,auto:true});
   }
   battleHud();
  }
@@ -227,7 +230,7 @@ export async function mountCooperative(root){
   else showBattle(value);
  }
  function resetRoom(){connectionGeneration++;lastAcceptedServerNow=0;ws?.close();ws=null;clearTimeout(reconnectTimer);closeBattle();state=null;roomId='';selectionRoom='';squadSignature='';selected={cardIds:[],mercenaryCode:''};$('[data-entry]').hidden=false;$('[data-room]').hidden=true;drawConfiguration();void refreshRooms();}
- async function leave(){if(!roomId){resetRoom();return;}try{await command('leave');resetRoom();feature=await api('feature');drawRewardSummary();}catch(e){alert(e.message);}}
+ async function leave(){if(!roomId){resetRoom();return;}try{await command('leave');resetRoom();feature=await api('feature');drawRewardSummary();void rewardInbox?.refresh();}catch(e){alert(e.message);}}
  function abandon(){
   if(disposed)return;send('leave');
   if(roomId){const token=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
@@ -265,7 +268,7 @@ export async function mountCooperative(root){
  let settingsRevision=0;
  async function availability(){
   feature=await api('feature');drawRewardSummary();$('[data-owner]').hidden=!feature.owner;drawConfiguration();
-  $('[data-release]').textContent=feature.mode==='OFF'?'운영 중지':feature.mode==='TEST'?'테스트 운영 · 보상 없음':feature.rewardLocked?'보상 OFF':'일일 보상 3회';
+  $('[data-release]').textContent=feature.mode==='OFF'?'운영 중지':feature.mode==='TEST'?'테스트 운영 · 보상 없음':feature.rewardLocked?'기본 보상 OFF':'일일 보상 3회';
   if(!feature.accessible){$('[data-entry]').hidden=true;alert('격전지는 현재 운영 중지 상태입니다. 운영 설정에서 변경할 수 있습니다.');return false;}
   options=await api('options');you=options.you;if(!state){$('[data-entry]').hidden=false;void refreshRooms();}return true;
  }

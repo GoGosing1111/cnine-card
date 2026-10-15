@@ -16,15 +16,18 @@ export async function readCoreRewardPolicy(env){
   return row?validateCoreRewardPolicy(parse(row.value)):structuredClone(CORE_REWARD_DEFAULT);
 }
 export async function coreRewardCatalog(env){
-  const [inventory,equipment,mercenary]=await Promise.all([
+  const [inventory,equipment,vehicles,mercenary,draw]=await Promise.all([
     env.DB.prepare('SELECT code,name,rarity,image_url image,category FROM inventory_items WHERE is_active=1 AND code<>? ORDER BY category,sort_order,name').bind(EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE).all(),
     env.DB.prepare('SELECT id,name,rarity,image_url image,slot FROM character_equipment_items WHERE is_active=1 AND is_public=1 ORDER BY slot,sort_order,name').all(),
-    readMercenaryDocument(env)
+    env.DB.prepare('SELECT id,name,rarity,image_url image FROM character_garage_items WHERE is_active=1 AND is_public=1 ORDER BY sort_order,name').all(),
+    readMercenaryDocument(env),
+    env.DB.prepare('SELECT payload_json FROM mercenary_draw_config_v1 WHERE id=1').first()
   ]);
   return {
     INVENTORY_ITEM:(inventory.results||[]).map(row=>({...row,ref:row.code})),
     EQUIPMENT:(equipment.results||[]).map(row=>({...row,ref:String(row.id)})),
-    MERCENARY:mercenary.document.mercenaries.filter(row=>['C','B','A','S','SS','SSS'].includes(row.rank)).map(row=>({ref:row.code,name:row.name,rarity:row.rank,image:MERCENARY_CMS_SEED.catalog.cards.find(card=>card.code===row.code)?.sourceArt||''}))
+    VEHICLE:(vehicles.results||[]).map(row=>({...row,ref:String(row.id)})),
+    MERCENARY:mercenary.document.mercenaries.filter(row=>['C','B','A','S','SS','SSS'].includes(row.rank)&&MERCENARY_CMS_SEED.catalog.cards.some(card=>card.code===row.code)&&(draw?parse(draw.payload_json).cardRules?.cardWeights?.[row.code]:1)!==0).map(row=>({ref:row.code,name:row.name,rarity:row.rank,image:MERCENARY_CMS_SEED.catalog.cards.find(card=>card.code===row.code)?.sourceArt||''}))
   };
 }
 export async function saveCoreRewardPolicy(env,user,body){
@@ -85,15 +88,18 @@ export async function selectCoreReward(env,user,roomId,body){
 }
 // The caller includes every statement and proof in its weekly/base-reward transaction.
 // No grant runs before that transaction has verified its exclusive receipt reservation.
-export async function prepareCoreChoiceGrant(env,user,offer){
+export async function prepareCoreChoiceGrant(env,user,offer,{sourceType='CORE_RAID_CHOICE',referenceType='CORE_RAID',reason='CORE_RAID_CHOICE'}={}){
   let reward={...offer.choices[offer.selectedIndex]},converted=false,meta=null;
   const eligible=async row=>{
     if(row.rewardType==='MERCENARY'){
       const art=MERCENARY_CMS_SEED.catalog.cards.find(card=>card.code===row.rewardRef);if(!art)return null;
+      const draw=await env.DB.prepare('SELECT payload_json FROM mercenary_draw_config_v1 WHERE id=1').first();
+      if(draw&&parse(draw.payload_json).cardRules?.cardWeights?.[row.rewardRef]===0)return null;
       const {document}=await readMercenaryDocument(env),card=document.mercenaries.find(card=>card.code===row.rewardRef);
       return {...art,name:card?.name||art.name,rarity:card?.rank||''};
     }
     if(row.rewardType==='EQUIPMENT')return env.DB.prepare('SELECT name,rarity,image_url image FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1').bind(Number(row.rewardRef)).first();
+    if(row.rewardType==='VEHICLE')return env.DB.prepare('SELECT name,rarity,image_url image FROM character_garage_items g WHERE id=? AND is_active=1 AND is_public=1 AND NOT EXISTS(SELECT 1 FROM user_garage_vehicles u WHERE u.user_id=? AND u.garage_id=g.id)').bind(Number(row.rewardRef),Number(user.id)).first();
     if(['MASTER_STAR','INVENTORY_ITEM'].includes(row.rewardType))return row.rewardRef===EQUIPMENT_FORGE_RELEASE_PROTECTION_CODE?null:env.DB.prepare('SELECT name,rarity,image_url image FROM inventory_items WHERE code=? AND is_active=1').bind(row.rewardType==='MASTER_STAR'?'MASTER_STAR':row.rewardRef).first();
     return Object.hasOwn(CORE_REWARD_TYPES,row.rewardType)?{}:null;
   };
@@ -102,17 +108,24 @@ export async function prepareCoreChoiceGrant(env,user,offer){
   if(!meta)throw fail('최소 보상의 지급 설정을 확인 중입니다. 선택은 보존되며 다시 수령할 수 있습니다.',503,'CORE_REWARD_DESTINATION_UNAVAILABLE');
   const DB=env.DB,uid=Number(user.id),qty=reward.quantity,ref=reward.rewardRef,source=offer.offerId,statements=[],guard=crypto.randomUUID();
   const stmt=(sql,...args)=>DB.prepare(sql).bind(...args);
+  if(DB.dialect==='postgres')statements.push(stmt('SELECT id FROM users WHERE id=? FOR UPDATE',uid));
+  statements.push(jointGuard(DB,guard+':owner','EXISTS(SELECT 1 FROM users WHERE id=?)',[uid]));
   if(['COIN','CARD_SHARDS','MAGIC_CRYSTAL'].includes(reward.rewardType)){
     const column={COIN:'coin',CARD_SHARDS:'card_shards',MAGIC_CRYSTAL:'magic_crystals'}[reward.rewardType],table={COIN:'coin_logs',CARD_SHARDS:'shard_logs',MAGIC_CRYSTAL:'magic_crystal_logs'}[reward.rewardType];
+    statements.push(jointGuard(DB,guard,`EXISTS(SELECT 1 FROM users WHERE id=? AND ${column}>=0 AND ${column}<=?)`,[uid,Number.MAX_SAFE_INTEGER-qty]));
     statements.push(stmt(`UPDATE users SET ${column}=${column}+? WHERE id=?`,qty,uid));
-    statements.push(reward.rewardType==='MAGIC_CRYSTAL'?stmt(`INSERT INTO ${table}(user_id,change_amount,balance_after,reason,reference_type,reference_id) SELECT id,?,${column},'CORE_RAID_CHOICE','CORE_RAID',? FROM users WHERE id=?`,qty,source,uid):stmt(`INSERT INTO ${table}(user_id,change_amount,balance_after,reason) SELECT id,?,${column},'CORE_RAID_CHOICE' FROM users WHERE id=?`,qty,uid));
+    statements.push(reward.rewardType==='MAGIC_CRYSTAL'?stmt(`INSERT INTO ${table}(user_id,change_amount,balance_after,reason,reference_type,reference_id) SELECT id,?,${column},?,?,? FROM users WHERE id=?`,qty,reason,referenceType,source,uid):stmt(`INSERT INTO ${table}(user_id,change_amount,balance_after,reason) SELECT id,?,${column},? FROM users WHERE id=?`,qty,reason,uid),jointGuardEnd(DB,guard));
   }else if(['MASTER_STAR','INVENTORY_ITEM'].includes(reward.rewardType)){
-    statements.push(jointGuard(DB,guard,'EXISTS(SELECT 1 FROM inventory_items WHERE code=? AND is_active=1)',[ref]),stmt('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP',uid,ref,qty,qty),stmt("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'CORE_RAID_CHOICE','CORE_RAID',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?",qty,source,uid,ref),jointGuardEnd(DB,guard));
+    statements.push(jointGuard(DB,guard,'EXISTS(SELECT 1 FROM inventory_items WHERE code=? AND is_active=1) AND EXISTS(SELECT 1 FROM users WHERE id=?) AND NOT EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND (quantity<0 OR unseen_quantity<0 OR CAST(quantity AS BIGINT)>? OR CAST(unseen_quantity AS BIGINT)>?))',[ref,uid,uid,ref,Number.MAX_SAFE_INTEGER-qty,Number.MAX_SAFE_INTEGER-qty]),stmt('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP',uid,ref,qty,qty),stmt('INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,?,?,? FROM cnine_user_inventory WHERE user_id=? AND item_code=?',qty,reason,referenceType,source,uid,ref),jointGuardEnd(DB,guard));
   }else if(reward.rewardType==='MERCENARY'){
     for(let i=0;i<qty;i++)statements.push(...mercenaryCardAcquisitionStatements(DB,{userId:uid,mercenaryCode:ref,acquisitionId:source+':'+i}));
   }else if(reward.rewardType==='EQUIPMENT'){
-    for(let i=0;i<qty;i++)statements.push(stmt("INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,id,'CORE_RAID_CHOICE',?,? FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1",uid,source,source+':'+i,Number(ref)));
-    statements.push(jointGuard(DB,guard,"(SELECT COUNT(*) FROM user_equipment_instances WHERE user_id=? AND equipment_id=? AND source_type='CORE_RAID_CHOICE' AND source_id=?)=?",[uid,Number(ref),source,qty]),jointGuardEnd(DB,guard));
+    for(let i=0;i<qty;i++)statements.push(stmt('INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,id,?,?,? FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1',uid,sourceType,source,source+':'+i,Number(ref)));
+    statements.push(jointGuard(DB,guard,'(SELECT COUNT(*) FROM user_equipment_instances WHERE user_id=? AND equipment_id=? AND source_type=? AND source_id=?)=?',[uid,Number(ref),sourceType,source,qty]),jointGuardEnd(DB,guard));
+  }else if(reward.rewardType==='VEHICLE'){
+    statements.push(stmt('INSERT INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) SELECT ?,id,?,? FROM character_garage_items WHERE id=? AND is_active=1 AND is_public=1 ON CONFLICT(user_id,garage_id) DO NOTHING',uid,sourceType,source,Number(ref)),jointGuard(DB,guard,'EXISTS(SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=? AND source_type=? AND source_id=?)',[uid,Number(ref),sourceType,source]),jointGuardEnd(DB,guard));
   }
+  if(['MASTER_STAR','INVENTORY_ITEM'].includes(reward.rewardType))statements.push(jointGuard(DB,guard+':cap','EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND CAST(quantity AS BIGINT)<=? AND CAST(unseen_quantity AS BIGINT)<=?)',[uid,ref,Number.MAX_SAFE_INTEGER,Number.MAX_SAFE_INTEGER]),jointGuardEnd(DB,guard+':cap'));
+  statements.push(jointGuardEnd(DB,guard+':owner'));
   return {statements,reward:{...reward,name:meta.name||CORE_REWARD_TYPES[reward.rewardType],image:meta.image||meta.sourceArt||'',rarity:meta.rarity||meta.rank||'',converted},offerId:offer.offerId,selectedIndex:offer.selectedIndex};
 }

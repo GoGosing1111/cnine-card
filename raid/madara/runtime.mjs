@@ -1,3 +1,4 @@
+import {mountRewardRevealButton,mountRewardRevealInbox} from '/js/content-reward-reveal-v1.mjs?v=20261016-reveal1';
 // Generated from reviewed presentation, battle, mechanics and client sources.
 import {jointAccountRequest} from '../../js/joint-account-transport.mjs';
 import {createMadaraCombatScreen} from './combat-screen.mjs?v=20261013-fullscreen1';
@@ -50,6 +51,7 @@ export function createMadaraScope(root){
 }
 
 export function mountMadara(root){
+ const revealLifecycle=new AbortController();mountRewardRevealInbox(root,{signal:revealLifecycle.signal});
  const scope=createMadaraScope(root);const {window,document,fetch,setTimeout,clearTimeout,requestAnimationFrame}=scope;
 /* Authored body frames and five independent VFX atlases, driven only by the installed V3 GSAP clock. */
 (()=>{
@@ -405,6 +407,7 @@ export function mountMadara(root){
       const seconds=Math.round((state.finishedAt-state.startedAt)/1000);
       $('resultStats').innerHTML=`<span><b>${seconds}</b>전투 시간, 초</span><span><b>${state.statistics.tasks}</b>완료 임무</span><span><b>${state.statistics.mistakes}</b>실수</span>`;
       const reward=state.clearReward;$('resultDialog').querySelector('.mr-muted').textContent=reward?.granted?('클리어 보상 · '+Number(reward.coin).toLocaleString()+' 코인 / 마별 '+reward.masterStars+' / 펫 정수 '+reward.petEssence):reward?.status==='WEEKLY_LIMIT'?'이번 주 보상 수령 한도에 도달했습니다.':'TEST 또는 보상 미설정 공대 · 보상 지급 없음';$('resultDialog').showModal();
+      mountRewardRevealButton($('resultDialog'),reward?.choiceOffer,{signal:revealLifecycle.signal,auto:true});
     }
   }
   function schedulePoll(){clearTimeout(pollTimer);if(token&&!leaving&&!showcase)pollTimer=setTimeout(poll,Math.min(8000,(state?(document.hidden?2500:900):5000)*2**Math.min(pollFailures,3)));}
@@ -567,5 +570,5 @@ export function mountMadara(root){
   bootstrap();
 })();
 
- return {destroy:()=>scope.destroy()};
+ return {destroy(){revealLifecycle.abort();scope.destroy();}};
 }

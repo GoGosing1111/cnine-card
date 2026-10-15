@@ -7,3 +7,7 @@
 .reliquary{font-family:'Noto Sans KR','Malgun Gothic',sans-serif}.reliquary-eyebrow,.reliquary-step,.reliquary-base b,.reliquary-quantity,.reliquary-card-rank{font-family:'Barlow Condensed','Noto Sans KR',sans-serif}
 @media(max-height:700px) and (max-width:649px){.reliquary-heading{top:12%}.reliquary-heading h1{font-size:29px}.reliquary-lead{margin:12px 0;font-size:10px}.reliquary-heading .reliquary-eyebrow{margin-bottom:10px}.reliquary-instruction{display:none}.reliquary-result{top:11%;height:76%;gap:12px}.reliquary-prize-art.is-portrait{height:40%;min-height:150px}.reliquary-prize-copy h2{font-size:25px}.reliquary-prize-kind{margin-top:10px}.reliquary-quantity{font-size:21px;margin-top:7px}.reliquary-prize-note{margin:8px 0 12px;font-size:9px}.reliquary-done{padding:10px 16px}.reliquary-acquired{font-size:8px;padding-bottom:8px}.reliquary-footer{bottom:33px}.reliquary-base b{font-size:17px}.reliquary-guarantee b{font-size:8px}}
 @media(prefers-reduced-motion:reduce){.reliquary *{transition:none!important;animation:none!important}}
+
+.reliquary.is-content-reward .reliquary-base{max-width:55%}.reliquary.is-content-reward .reliquary-base b{font-size:16px;line-height:1.6;overflow-wrap:anywhere}@media(max-width:649px){.reliquary.is-content-reward .reliquary-topline{max-width:60%;font-size:9px}.reliquary.is-content-reward .reliquary-topline i{display:none}.reliquary.is-content-reward .reliquary-base b{font-size:11px}.reliquary.is-content-reward .reliquary-guarantee{max-width:42%}}
+
+.reliquary-heading{display:block}

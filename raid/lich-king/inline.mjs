@@ -1,6 +1,6 @@
-import { mountLichRaid } from './live.mjs?v=20261013-lock-retry';
+import { mountLichRaid } from './live.mjs?v=20261016-reveal1';
 
-const VERSION = '20261013-lock-retry';
+const VERSION = '20261016-reveal1';
 let styles, battle;
 function loadAsset(tag, url) {
   return new Promise((resolve, reject) => {

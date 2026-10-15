@@ -1,3 +1,4 @@
+import {mountRewardRevealButton,mountRewardRevealInbox} from '/js/content-reward-reveal-v1.mjs?v=20261016-reveal1';
 import {jointAccountRequest as request} from '/js/joint-account-transport.mjs';
 import {retryLichRequest} from './request-retry.mjs?v=20261013-lock-retry';
 export function mountLichRaid(root=document.body,{loadBattle=async()=>{}}={}){
@@ -9,6 +10,7 @@ const icon=name=>'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke
 const lifecycle=new AbortController();
 const on=(target,type,listener)=>target.addEventListener(type,listener,{signal:lifecycle.signal});
 let disposed=false;
+mountRewardRevealInbox(root,{signal:lifecycle.signal});
 let portal=null,bodyOverflow='';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const api=(route,options={})=>{
@@ -151,6 +153,7 @@ function showResult(){
   const amounts=reward?[[reward.petEssence,'펫 정수','개'],[reward.masterStars,'마별','개'],[reward.coin,'코인','']].filter(([n])=>n>0).map(([n,label,unit])=>label+' '+Number(n).toLocaleString('ko-KR')+unit).join(' · '):'';
   $('resultReason').textContent=clear?(reward?.granted?'클리어 보상 지급 완료 · '+amounts+' (이번 주 남은 보상 '+reward.weeklyReward.remaining+'회)':reward?.status==='WEEKLY_LIMIT'?'정벌 성공 · 이번 주 클리어 보상 '+reward.weeklyReward.limit+'회를 모두 수령하여 추가 보상은 지급되지 않습니다.':essence?.granted?'죽음의 왕좌가 무너졌습니다. 펫 정수 '+essence.quantity+'개가 인벤토리에 지급되었습니다.':state.release?.mode==='TEST'?'정벌 성공 · TEST에서는 실제 보상을 지급하지 않습니다.':'정벌 성공 · 이 공대에는 클리어 보상이 설정되지 않았습니다.'):state.failure?.reason||'공략에 실패했습니다.';
   $('resultStats').innerHTML='<span><b>'+state.round+'/7</b>도달 작전</span><span><b>'+state.statistics.mistakes+'</b>누적 실수</span><span><b>'+state.statistics.rescues+'</b>영혼 구출</span>';$('resultDialog').showModal();
+  mountRewardRevealButton($('resultDialog'),reward?.choiceOffer,{signal:lifecycle.signal,auto:true});
 }
 async function mount(payload){
   if(disposed||mounted||mounting||!payload)return;mounting=true;

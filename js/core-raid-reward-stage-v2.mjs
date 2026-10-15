@@ -84,6 +84,8 @@ export class ReliquaryStage{
     this.selected=index;const item=this.items[index];
     this.world.setChildIndex(item.sprite,this.world.children.length-1);
     this.items.forEach(target=>this.gsap.killTweensOf(target));
+    // A fast tap may interrupt the entrance fade before this chest is visible.
+    item.alpha=1;
     this.sound('afterimage-advancement-v1.mp3',.10);
     return this.sequence(timeline=>{
       this.items.forEach((target,i)=>{if(i!==index)timeline.to(target,{alpha:0,x:target.x+(i<index?-1:1)*this.w*.13,y:target.y+45,duration:.5,ease:'power2.in'},0);});

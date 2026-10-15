@@ -10,6 +10,7 @@ import {RANKED_REFORM_SCHEMA,readRankedEnergy,rankedFightReceipt,commitRankedFig
 import {reopenRankedIfDue} from '../_ranked_reopen.js';
 import {retiredContentResponse} from '../_retired_content.js';
 import {handleCooperative,cooperativeStream} from '../_cooperative_live.js';
+import {handleRewardReveal} from '../_reward_reveal.js';
 import {handleAccountSync,accountSyncStream,publishAccountSync} from '../_account_sync.js';
 import {coupLiveOperation} from '../_coup_live_operation.js';
 import {createRequestSettingsCache} from '../_request_settings_cache.js';
@@ -5140,6 +5141,7 @@ async function handleRequest(context){
     const evolutionResponse=await handleEvolution({path,request,env,deps:{authenticate,readBody,json,isAdminRole,profile,shardReward:SHARD_REWARD}});if(evolutionResponse)return evolutionResponse;
     const captainResponse=await handleCaptain({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,cardUniqueSettings,userEquipmentBonuses,grantEquipmentDrop,rollBlackMiracleDrop,publicEquippedTitleMap}});if(captainResponse)return captainResponse;
     const blackMiracleAdminResponse=await handleBlackMiracleAdmin({path,request,env,deps:{authenticate,readBody,json}});if(blackMiracleAdminResponse)return blackMiracleAdminResponse;
+    const revealResponse=await handleRewardReveal({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(revealResponse)return revealResponse;
     const cooperativeResponse=await handleCooperative({path,request,env,deps:{authenticate,json,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,userEquipmentBonuses,withUserMutationLock:withJointUserMutationLock}});if(cooperativeResponse)return cooperativeResponse;
     const madaraRaidResponse=await handleMadaraRaid({path,request,env,deps:{authenticate,json,raidDeckPower,withUserMutationLock:withJointUserMutationLock}});if(madaraRaidResponse)return madaraRaidResponse;
     const lichRaidResponse=await handleLichRaid({path,request,env,deps:{authenticate,json,raidDeckPower,withUserMutationLock:withJointUserMutationLock}});if(lichRaidResponse)return lichRaidResponse;
