@@ -6,7 +6,8 @@ import {showBreakthrough} from './breakthrough.mjs?v=20261015-v4-no-shape';
 import {presentLevelReceipt} from './receipt-presentation.mjs?v=20261015-growth-v2';
 import {renderGrowthAnalysis, growthSummary, growthLabel, resultBonusLabel} from './growth-view.mjs?v=20261015-v2';
 
-const preview = document.body.dataset.growthReview === 'true' || new URL(location.href).searchParams.get('preview') === '1';
+const entryParams = new URL(location.href).searchParams;
+const preview = document.body.dataset.growthReview === 'true' || entryParams.get('preview') === '1';
 const app = document.querySelector('#app');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => n === null || n === undefined ? '미정' : Number(n).toLocaleString('ko-KR');
@@ -171,7 +172,7 @@ async function act(action) {
 async function start() {
   try {
     account = preview ? levelDemo() : await jointAccountRequest('mercenaries/v3/leveling/state');
-    selected = account.cards[0]?.code;
+    selected = account.cards.find(card => card.code === entryParams.get('code'))?.code || account.cards[0]?.code;
     if (!preview) {
       client = createLevelClient({accountId:account.userId}); pending = Boolean(client.pending());
       if (pending) { busy = true; render(); await applyReceipt(await client.run(null, null, {submit:false})); busy = false; }

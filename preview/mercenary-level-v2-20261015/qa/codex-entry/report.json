@@ -1,0 +1,249 @@
+{
+  "date": "2026-10-15",
+  "changes": "Existing codex-style growth entry only",
+  "layouts": [
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "header": [
+        {
+          "text": "SSS 재뽑기",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "12px",
+          "height": 44,
+          "x": 998.0625,
+          "right": 1086.40625
+        },
+        {
+          "text": "용병 장비",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "12px",
+          "height": 44,
+          "x": 1106.40625,
+          "right": 1183.9375
+        },
+        {
+          "text": "용병 성장",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "12px",
+          "height": 44,
+          "x": 1203.9375,
+          "right": 1281.46875
+        },
+        {
+          "text": "중복 합성",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "12px",
+          "height": 44,
+          "x": 1301.46875,
+          "right": 1406
+        }
+      ],
+      "detail": {
+        "text": "용병 성장\n↗",
+        "color": "rgb(182, 196, 220)",
+        "background": "none",
+        "border": "rgb(40, 50, 74)",
+        "font": "12px",
+        "height": 44,
+        "x": 1020.578125,
+        "right": 1382
+      }
+    },
+    {
+      "width": 800,
+      "scrollWidth": 800,
+      "header": [
+        {
+          "text": "SSS 재뽑기",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "12px",
+          "height": 44,
+          "x": 370.09375,
+          "right": 458.40625
+        },
+        {
+          "text": "용병 장비",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "12px",
+          "height": 44,
+          "x": 478.40625,
+          "right": 555.9375
+        },
+        {
+          "text": "용병 성장",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "12px",
+          "height": 44,
+          "x": 575.9375,
+          "right": 653.46875
+        },
+        {
+          "text": "중복 합성",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "12px",
+          "height": 44,
+          "x": 673.46875,
+          "right": 778
+        }
+      ],
+      "detail": {
+        "text": "용병 성장\n↗",
+        "color": "rgb(182, 196, 220)",
+        "background": "none",
+        "border": "rgb(40, 50, 74)",
+        "font": "12px",
+        "height": 44,
+        "x": 282,
+        "right": 762
+      }
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "header": [
+        {
+          "text": "SSS 재뽑기",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "11px",
+          "height": 44,
+          "x": 16,
+          "right": 191.5
+        },
+        {
+          "text": "용병 장비",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "11px",
+          "height": 44,
+          "x": 198.5,
+          "right": 374
+        },
+        {
+          "text": "용병 성장",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "11px",
+          "height": 44,
+          "x": 16,
+          "right": 191.5
+        },
+        {
+          "text": "중복 합성",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "11px",
+          "height": 44,
+          "x": 198.5,
+          "right": 374
+        }
+      ],
+      "detail": {
+        "text": "용병 성장\n↗",
+        "color": "rgb(182, 196, 220)",
+        "background": "none",
+        "border": "rgb(40, 50, 74)",
+        "font": "12px",
+        "height": 48,
+        "x": 34,
+        "right": 356
+      }
+    },
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "header": [
+        {
+          "text": "SSS 재뽑기",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "11px",
+          "height": 44,
+          "x": 12,
+          "right": 156.5
+        },
+        {
+          "text": "용병 장비",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "11px",
+          "height": 44,
+          "x": 163.5,
+          "right": 308
+        },
+        {
+          "text": "용병 성장",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "11px",
+          "height": 44,
+          "x": 12,
+          "right": 156.5
+        },
+        {
+          "text": "중복 합성",
+          "color": "rgb(200, 255, 107)",
+          "background": "linear-gradient(110deg, rgb(34, 51, 38), rgb(20, 32, 29))",
+          "border": "rgb(83, 107, 60)",
+          "font": "11px",
+          "height": 44,
+          "x": 163.5,
+          "right": 308
+        }
+      ],
+      "detail": {
+        "text": "용병 성장\n↗",
+        "color": "rgb(182, 196, 220)",
+        "background": "none",
+        "border": "rgb(40, 50, 74)",
+        "font": "12px",
+        "height": 48,
+        "x": 30,
+        "right": 290
+      }
+    }
+  ],
+  "navigation": [
+    {
+      "via": "owned detail",
+      "code": "V-055",
+      "url": "http://127.0.0.1:9127/mercenary-codex/leveling/?code=V-055&preview=1",
+      "selected": true
+    },
+    {
+      "via": "invalid owned code",
+      "fallback": "V-049"
+    },
+    {
+      "via": "header",
+      "url": "http://127.0.0.1:9127/mercenary-codex/leveling/?preview=1"
+    }
+  ],
+  "errors": [],
+  "writes": [],
+  "offGate": "Without local review marker, OFF account keeps both entries hidden"
+}
