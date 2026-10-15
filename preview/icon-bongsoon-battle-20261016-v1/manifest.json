@@ -1,0 +1,379 @@
+{
+  "version": 1,
+  "date": "2026-10-16",
+  "id": "ICON-NAMUNEUL-BONGSOON-20261016",
+  "name": "나무늘봉순",
+  "cardId": null,
+  "techniqueCode": "RETURN_OATH",
+  "techniqueName": "귀환 서약",
+  "techniqueAssignment": "AGENT_DESIGNED_USER_REQUESTED_PREPARATION",
+  "releaseEnabled": false,
+  "acquisitionEnabled": false,
+  "battleEnabled": false,
+  "visualApproval": "PENDING_USER_REVIEW",
+  "status": "BUILT_PREPARATION_OFF",
+  "tuning": {
+    "firstAction": 1,
+    "cooldownActions": 4,
+    "maxCasts": 2,
+    "reviveHpPercent": 35,
+    "bossDamagePercent": 10,
+    "windowActions": 5
+  },
+  "statMultiplier": 1.25,
+  "sourceArt": {
+    "file": "sources/bongsoon-photo-original.png",
+    "sha256": "06F470732BE2F36D62DA074F23287619572F3E0E1B5EE2964A20E86FA62BF53E",
+    "size": [
+      338,
+      376
+    ],
+    "preserved": true,
+    "runtime": "assets/bongsoon-portrait.webp",
+    "runtimeSha256": "A1643F8E9CE1619217A31E2D245C34660713EEDE4E489463CCABB57BE6286B78"
+  },
+  "character": {
+    "source": "sources/bongsoon-sd.png",
+    "sourceSha256": "649707022AB64AC86984F64EBB743D581AB16FAC82EEE27C3122F889BB4C5486",
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "sourceAlpha": {
+      "edgeMax": 0,
+      "transparentFraction": 0.7156601268285983,
+      "bounds": [
+        313,
+        48,
+        915,
+        1213
+      ]
+    },
+    "runtime": "assets/bongsoon-sd.webp",
+    "runtimeSha256": "4BEB48622675EF312D4049B3F8042F1469E54BB30530F1E66DEA02D1BBEF15EB",
+    "size": [
+      768,
+      768
+    ],
+    "runtimeAlpha": {
+      "edgeMax": 0,
+      "transparentFraction": 0.7829640706380209,
+      "bounds": [
+        215,
+        74,
+        539,
+        698
+      ]
+    },
+    "footAnchor": {
+      "x": 0.5251196172248804,
+      "y": 0.9081937799043063
+    }
+  },
+  "effect": {
+    "id": "return-oath",
+    "name": "귀환 서약",
+    "kind": "SKILL",
+    "source": "sources/return-oath-fx.png",
+    "sourceSha256": "404DC23ABC153CD73419FB2ED229F3A12750FE9FF1B3D24E0C124DDF9969A4FB",
+    "runtime": "assets/return-oath-atlas.webp",
+    "runtimeSha256": "5CC5E480F71D37D53A679A79B4CE350E1BB79AF92BC3397A9A15CE0989976CFE",
+    "columns": 4,
+    "rows": 4,
+    "cellSize": 384,
+    "frameCount": 16,
+    "duration": 2.4,
+    "collisionFrame": 9,
+    "contactAt": 1.44,
+    "frames": [
+      {
+        "index": 0,
+        "sourceRect": {
+          "left": 0,
+          "top": 0,
+          "width": 314,
+          "height": 314
+        },
+        "rawSha256": "68B30E5FC7AD78A1DB1717BE79C19BF9835F736AECB45A20F468F852D16C1D3F",
+        "edgeMax": 1,
+        "transparentFraction": 0.5268063613128322,
+        "bounds": [
+          109,
+          137,
+          228,
+          260
+        ]
+      },
+      {
+        "index": 1,
+        "sourceRect": {
+          "left": 314,
+          "top": 0,
+          "width": 313,
+          "height": 314
+        },
+        "rawSha256": "3D604E93C6E8C0B2D089F14CCB0F50BE2C6F840B9770E1FD8EFBF501FD336AEA",
+        "edgeMax": 2,
+        "transparentFraction": 0.4756516961396797,
+        "bounds": [
+          97,
+          130,
+          228,
+          261
+        ]
+      },
+      {
+        "index": 2,
+        "sourceRect": {
+          "left": 627,
+          "top": 0,
+          "width": 314,
+          "height": 314
+        },
+        "rawSha256": "51F4B3D87072EC34A689EBABF13BFA83F7571796D2A619373CBD31584287F5E6",
+        "edgeMax": 2,
+        "transparentFraction": 0.3114527972737231,
+        "bounds": [
+          73,
+          120,
+          221,
+          271
+        ]
+      },
+      {
+        "index": 3,
+        "sourceRect": {
+          "left": 941,
+          "top": 0,
+          "width": 313,
+          "height": 314
+        },
+        "rawSha256": "60C7199E746FA022C2217A89094012FEF0FC575862004661DB5C3A75E27AB087",
+        "edgeMax": 2,
+        "transparentFraction": 0.3747685232290755,
+        "bounds": [
+          87,
+          116,
+          212,
+          269
+        ]
+      },
+      {
+        "index": 4,
+        "sourceRect": {
+          "left": 0,
+          "top": 314,
+          "width": 314,
+          "height": 313
+        },
+        "rawSha256": "7C95D79354F19EF76C6CFC78E798D3AEA85AEDAB696637DC2D743D9BF9334644",
+        "edgeMax": 2,
+        "transparentFraction": 0.2768767424350339,
+        "bounds": [
+          80,
+          105,
+          234,
+          257
+        ]
+      },
+      {
+        "index": 5,
+        "sourceRect": {
+          "left": 314,
+          "top": 314,
+          "width": 313,
+          "height": 313
+        },
+        "rawSha256": "183E347E2772CF1252970231BE73EF152FB19E276996B50A5F28DEB2A38F3D36",
+        "edgeMax": 2,
+        "transparentFraction": 0.20080841898968038,
+        "bounds": [
+          88,
+          100,
+          236,
+          258
+        ]
+      },
+      {
+        "index": 6,
+        "sourceRect": {
+          "left": 627,
+          "top": 314,
+          "width": 314,
+          "height": 313
+        },
+        "rawSha256": "3AE253BE22FA960F7F52AEB787357045B2D82C03732B96BD518BF84FA7D6B637",
+        "edgeMax": 2,
+        "transparentFraction": 0.1265542011762072,
+        "bounds": [
+          84,
+          93,
+          232,
+          266
+        ]
+      },
+      {
+        "index": 7,
+        "sourceRect": {
+          "left": 941,
+          "top": 314,
+          "width": 313,
+          "height": 313
+        },
+        "rawSha256": "60C018A29F4BB6577406E66819800F6AF0791E9232DF3735607F2954EB343405",
+        "edgeMax": 2,
+        "transparentFraction": 0.1524665965764681,
+        "bounds": [
+          82,
+          79,
+          231,
+          279
+        ]
+      },
+      {
+        "index": 8,
+        "sourceRect": {
+          "left": 0,
+          "top": 627,
+          "width": 314,
+          "height": 314
+        },
+        "rawSha256": "99CFADE7C62CF097225E0E04F3AF544AF11B36CDB89B24571468DD5FEB606610",
+        "edgeMax": 2,
+        "transparentFraction": 0.1159681934358392,
+        "bounds": [
+          81,
+          94,
+          245,
+          271
+        ]
+      },
+      {
+        "index": 9,
+        "sourceRect": {
+          "left": 314,
+          "top": 627,
+          "width": 313,
+          "height": 314
+        },
+        "rawSha256": "1425D86336C7687A59BD4980DB02ACB33B2439E63E183F7DC9665546FA09D627",
+        "edgeMax": 2,
+        "transparentFraction": 0.14441098064752445,
+        "bounds": [
+          65,
+          61,
+          247,
+          282
+        ]
+      },
+      {
+        "index": 10,
+        "sourceRect": {
+          "left": 627,
+          "top": 627,
+          "width": 314,
+          "height": 314
+        },
+        "rawSha256": "0F4C1ED060D4F1DC85EB496B0965F128F7690DC2131E0915856DC2BF6ECA1AB4",
+        "edgeMax": 2,
+        "transparentFraction": 0.11618118382084464,
+        "bounds": [
+          64,
+          58,
+          247,
+          287
+        ]
+      },
+      {
+        "index": 11,
+        "sourceRect": {
+          "left": 941,
+          "top": 627,
+          "width": 313,
+          "height": 314
+        },
+        "rawSha256": "B55C487D42753F90EF1F525B858F17C1198454C077A9C385E1C5E18D7D2BBF86",
+        "edgeMax": 2,
+        "transparentFraction": 0.19303636474634212,
+        "bounds": [
+          60,
+          54,
+          242,
+          280
+        ]
+      },
+      {
+        "index": 12,
+        "sourceRect": {
+          "left": 0,
+          "top": 941,
+          "width": 314,
+          "height": 313
+        },
+        "rawSha256": "C45713850D6EAE8620832D25113F52DC27421D6BA7D687DB7192C4B4579CEF86",
+        "edgeMax": 2,
+        "transparentFraction": 0.20264137888931855,
+        "bounds": [
+          81,
+          45,
+          241,
+          257
+        ]
+      },
+      {
+        "index": 13,
+        "sourceRect": {
+          "left": 314,
+          "top": 941,
+          "width": 313,
+          "height": 313
+        },
+        "rawSha256": "C07BB249A44E7EE7C350FC50F4F2F3BBA115F6CDD290B272C8433106369E9115",
+        "edgeMax": 2,
+        "transparentFraction": 0.2928987741020118,
+        "bounds": [
+          101,
+          72,
+          223,
+          237
+        ]
+      },
+      {
+        "index": 14,
+        "sourceRect": {
+          "left": 627,
+          "top": 941,
+          "width": 314,
+          "height": 313
+        },
+        "rawSha256": "4873FE85B33A388A0C3710FEF78AACD396166C98E957E9FFF8EE1F17AC5F1E6D",
+        "edgeMax": 2,
+        "transparentFraction": 0.33623654382287704,
+        "bounds": [
+          112,
+          77,
+          209,
+          238
+        ]
+      },
+      {
+        "index": 15,
+        "sourceRect": {
+          "left": 941,
+          "top": 941,
+          "width": 313,
+          "height": 313
+        },
+        "rawSha256": "F52DD9E1AE87712909C1BA4C3EE0A273DCFE8E90C88AAABE07A3262E902E003B",
+        "edgeMax": 1,
+        "transparentFraction": 0.4437628229337852,
+        "bounds": [
+          106,
+          85,
+          202,
+          235
+        ]
+      }
+    ]
+  }
+}

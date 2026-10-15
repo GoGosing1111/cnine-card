@@ -26,14 +26,14 @@ test('forged upcoming target is rejected before DB access, randomness, receipt o
 });
 test('published preparations never close the existing eight-card fusion or mutate wallets',async t=>{
  const f=await iconFusionFixture(t);const before=await f.snapshot(),view=await iconFusionOverview(f.env,f.user);
- assert.equal(view.enabled,true);assert.equal(view.catalog.length,8);assert.equal(view.upcomingCatalog.length,3);
+ assert.equal(view.enabled,true);assert.equal(view.catalog.length,8);assert.equal(view.upcomingCatalog.length,4);
  assert.deepEqual(view.policy,ICON_FUSION_POLICY);assert.deepEqual(await f.snapshot(),before);
  for(const c of view.upcomingCatalog)await assert.rejects(runIconFusion(f.env,f.user,{...f.body(),targetCode:c.code}),e=>e.status===423);
  assert.deepEqual(await f.snapshot(),before);
 });
-test('three stronger draft presets stay OFF; five unknown cards stay null; saved operator tuning survives',()=>{
+test('four stronger draft presets stay OFF; four unknown cards stay null; saved operator tuning survives',()=>{
  const draft=defaultIconTechniques();assert.deepEqual(validateIconTechniques(draft),draft);
- assert.equal(draft.techniques.filter(t=>t.tuning!==null).length,3);
+ assert.equal(draft.techniques.filter(t=>t.tuning!==null).length,4);
  assert.ok(draft.techniques.every(t=>t.enabled===false&&t.cardId===null));
  const legacy=structuredClone(draft);legacy.techniques.forEach(t=>t.tuning=null);legacy.techniques[0].notes='preserve';
  const migrated=applyPreparedIconTechniqueDefaults(legacy);assert.equal(legacy.techniques[0].tuning,null);assert.equal(migrated.techniques[0].notes,'preserve');

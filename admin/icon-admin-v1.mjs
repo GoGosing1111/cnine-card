@@ -1,4 +1,4 @@
-import {mountIconTechniqueEditor} from './icon-technique-editor-v1.mjs?v=20261016-joeun-white-v1';
+import {mountIconTechniqueEditor} from './icon-technique-editor-v1.mjs?v=20261016-bongsoon-icon-v1';
 import {mountIconRoleEditor} from './icon-role-editor-v1.mjs?v=20261015-joeun-medic-v2';
 import {ICON_ROLES} from '../shared/icon-roles-v1.mjs?v=20261015-joeun-medic-v2';
 import {ICON_EFFECTS} from '../shared/icon-grade-v1.mjs';

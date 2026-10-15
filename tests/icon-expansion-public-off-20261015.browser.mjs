@@ -13,13 +13,13 @@ try{for(const width of [1440,390]){
  await page.goto(origin+'/?screen=home');await page.waitForFunction(()=>window.loadUser?.()?.serverUserId===7&&window.SoopketmonV21RuntimeRouter);
  await page.evaluate(()=>window.SoopketmonV21RuntimeRouter.navigate('iconfusion'));await page.locator('[data-target="ICON-NAMSUDAENG"]').waitFor();
  await page.waitForFunction(()=>document.querySelector('.if-availability')?.textContent.includes('각 1장 필요'));
- assert.equal(await page.locator('.if-target-list [data-target]').count(),11);assert.equal(await page.locator('.if-upcoming,[data-upcoming-icon]').count(),0);
+ assert.equal(await page.locator('.if-target-list [data-target]').count(),12);assert.equal(await page.locator('.if-upcoming,[data-upcoming-icon]').count(),0);
  const existingCode=await page.locator('.if-target-list [data-target]').first().getAttribute('data-target');
  assert.match(await page.locator('.if-checkout').innerText(),/5천억/);assert.match(await page.locator('.if-checkout').innerText(),/500만/);
  for(const [grade,id] of [['SUPERSTAR','CN-SUPER'],['FUR','CN-FUR']]){await page.locator('[data-pick="'+grade+'"]').click();await page.locator('[data-material="'+id+'"]').click();}
  await page.locator('.if-ack input').check();assert.equal(await page.locator('.if-submit').isEnabled(),true);
  const before=await fetch(origin+'/__qa/state').then(r=>r.json());
- for(const [code,name,skill,photo] of [['ICON-NAMSUDAENG','남수댕','왕관 찬탈','namsudaeng-photo-original.png'],['ICON-DIIM-REDCAP','디임','자율 병기','diim-photo-original.png'],['ICON-OH-JOEUN-WHITE','오조은','선불 출격','joeun-portrait.webp']]){
+ for(const [code,name,skill,photo] of [['ICON-NAMSUDAENG','남수댕','왕관 찬탈','namsudaeng-photo-original.png'],['ICON-DIIM-REDCAP','디임','자율 병기','diim-photo-original.png'],['ICON-OH-JOEUN-WHITE','오조은','선불 출격','joeun-portrait.webp'],['ICON-NAMUNEUL-BONGSOON-20261016','나무늘봉순','귀환 서약','bongsoon-portrait.webp']]){
   const choice=page.locator('.if-target-list [data-target="'+code+'"]');assert.equal(await choice.isEnabled(),true);assert.equal(await choice.locator('i').isVisible(),true);assert.match(await choice.innerText(),/제작 잠금/);
   await choice.click();assert.equal(await page.locator('.if-stage-caption h2').innerText(),name);assert.ok((await page.locator('.if-hero-card .icon-live-art').getAttribute('src')).endsWith(photo));
   assert.equal(await page.locator('.if-cost-row strong').first().innerText(),'1조');assert.match(await page.locator('.if-cost-row strong').last().innerText(),/500만/);assert.equal(await page.locator('.if-odds b').innerText(),'10%');
@@ -37,8 +37,8 @@ try{for(const width of [1440,390]){
  await page.locator('[data-target="'+existingCode+'"]').click();assert.match(await page.locator('.if-checkout').innerText(),/5천억/);await page.locator('.if-ack input').check();assert.equal(await page.locator('.if-submit').isEnabled(),true);
  await fetch(origin+'/__qa/control',{method:'POST',body:JSON.stringify({guarantee:true})});await page.reload();await page.waitForFunction(()=>window.loadUser?.()?.serverUserId===7&&window.SoopketmonV21RuntimeRouter);await page.evaluate(()=>window.SoopketmonV21RuntimeRouter.navigate('iconfusion'));
  await page.waitForFunction(()=>document.querySelector('.if-odds b')?.textContent==='100%');assert.match(await page.locator('.if-odds small').innerText(),/다음 1회 확정/);
- for(const code of ['ICON-NAMSUDAENG','ICON-DIIM-REDCAP','ICON-OH-JOEUN-WHITE']){await page.locator('[data-target="'+code+'"]').click();assert.equal(await page.locator('.if-odds b').innerText(),'10%');assert.equal(await page.locator('.if-submit').isDisabled(),true);}
+ for(const code of ['ICON-NAMSUDAENG','ICON-DIIM-REDCAP','ICON-OH-JOEUN-WHITE','ICON-NAMUNEUL-BONGSOON-20261016']){await page.locator('[data-target="'+code+'"]').click();assert.equal(await page.locator('.if-odds b').innerText(),'10%');assert.equal(await page.locator('.if-submit').isDisabled(),true);}
  assert.deepEqual(await fetch(origin+'/__qa/state').then(r=>r.json()),before);assert.deepEqual(errors,[]);
- report.push({width,selectorChoices:11,existingEnabled:8,selectableLocked:3,separateUpcomingSection:false,coin:'1조',masterStars:'500만',successRate:'10%',guaranteeOnlyExisting:true,walletAndMaterialsUnchanged:true,craftPosts:0,errors});await context.close();
+ report.push({width,selectorChoices:await page.locator('.if-target-list [data-target]').count(),existingEnabled:8,selectableLocked:await page.locator('.if-target-list .is-craft-locked').count(),separateUpcomingSection:false,coin:'1조',masterStars:'500만',successRate:'10%',guaranteeOnlyExisting:true,walletAndMaterialsUnchanged:true,craftPosts:0,errors});await context.close();
 }}finally{await browser.close();}
 fs.writeFileSync(out+'/browser.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));

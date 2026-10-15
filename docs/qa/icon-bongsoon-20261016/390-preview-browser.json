@@ -1,0 +1,35 @@
+{
+  "width": 390,
+  "mode": "PVE",
+  "done": {
+    "ready": true,
+    "disposed": false,
+    "scenario": "PVE",
+    "mode": "PVE",
+    "playing": false,
+    "paused": false,
+    "index": 31,
+    "eventCount": 31,
+    "fxVisible": true,
+    "speed": 2,
+    "techniqueCode": "RETURN_OATH",
+    "cardId": null,
+    "releaseEnabled": false,
+    "authority": "REAL_SERVER_SYMBOL_SIMULATION",
+    "calls": {
+      "oaths": 1,
+      "revivals": 1,
+      "failures": 0
+    },
+    "oaths": [],
+    "canvases": 1,
+    "manualFx": null
+  },
+  "controls": true,
+  "modeSwitchOneCanvas": true,
+  "disposeZeroCanvas": true,
+  "cmsSaveOff": true,
+  "existingRolesAndWalletUnchanged": true,
+  "errors": [],
+  "missing": []
+}

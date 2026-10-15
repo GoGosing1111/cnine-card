@@ -16,7 +16,7 @@ async function fixture(){
  };
  return{...f,call};
 }
-test('eight techniques stay unassigned and OFF with three prepared presets, preserving nine live roles',()=>{
+test('eight techniques stay unassigned and OFF with four prepared presets, preserving nine live roles',()=>{
  assert.equal(ICON_TECHNIQUES.length,8);assert.equal(ICON_ROLES.length,9);
  assert.deepEqual(ICON_TECHNIQUES.map(def=>def.name),['왕관 찬탈','전열 편집','상처 유예','선불 출격','추적 금지','기술 검열','자율 병기','귀환 서약']);
  const draft=defaultIconTechniques();assert.deepEqual(validateIconTechniques(draft),draft);
@@ -24,7 +24,7 @@ test('eight techniques stay unassigned and OFF with three prepared presets, pres
  assert.ok(draft.techniques.every(row=>row.cardId===null&&row.enabled===false));
  assert.equal(ICON_TECHNIQUES_RELEASE_ENABLED,false);assert.equal(typeof ICON_TECHNIQUE_PREPARATION,'symbol');
  assert.equal(JSON.stringify({[ICON_TECHNIQUE_PREPARATION]:{assignments:[]}}),'{}');
- assert.equal(defaultIconRoles().cards.length,9);assert.equal(draft.techniques.filter(row=>row.tuning!==null).length,3);
+ assert.equal(defaultIconRoles().cards.length,9);assert.equal(draft.techniques.filter(row=>row.tuning!==null).length,4);
  for(const def of ICON_TECHNIQUES){assert.ok(def.summary&&def.target&&def.timing&&def.safety.length>=3);assert.ok(def.fields.every(field=>!('value'in field)));}
 });
 test('draft validation accepts partial null tuning but rejects release, mappings, foreign keys and unsafe numbers',()=>{

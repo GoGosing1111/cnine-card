@@ -1,6 +1,6 @@
-import {ICON_TECHNIQUES,emptyIconTechniqueTuning,validateIconTechniques} from '../shared/icon-techniques-v1.mjs?v=20261016-joeun-white-v1';
+import {ICON_TECHNIQUES,emptyIconTechniqueTuning,validateIconTechniques} from '../shared/icon-techniques-v1.mjs?v=20261016-bongsoon-icon-v1';
 import {mercenaryCmsRequest} from './mercenary-request-v1.mjs';
-import {preparedIconForTechnique,ICON_EXPANSION_CARDS} from '../shared/icon-expansion-v1.mjs?v=20261016-joeun-white-v1';
+import {preparedIconForTechnique,ICON_EXPANSION_CARDS} from '../shared/icon-expansion-v1.mjs?v=20261016-bongsoon-icon-v1';
 const preparedNames=ICON_EXPANSION_CARDS.map(c=>c.name).join('·'),preparedCount=ICON_EXPANSION_CARDS.length;
 import {formatIconAmount} from '../shared/icon-fusion-policy-v1.mjs';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

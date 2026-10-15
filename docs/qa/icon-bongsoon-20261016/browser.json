@@ -1,0 +1,32 @@
+[
+  {
+    "width": 1440,
+    "selectorChoices": 12,
+    "existingEnabled": 8,
+    "selectableLocked": 4,
+    "separateUpcomingSection": false,
+    "coin": "1조",
+    "masterStars": "500만",
+    "successRate": "10%",
+    "guaranteeOnlyExisting": true,
+    "walletAndMaterialsUnchanged": true,
+    "craftPosts": 0,
+    "errors": [],
+    "reportMetadataCorrection": "Counts corrected from old report constants; the browser assertion checked 12 and all four locked entries."
+  },
+  {
+    "width": 390,
+    "selectorChoices": 12,
+    "existingEnabled": 8,
+    "selectableLocked": 4,
+    "separateUpcomingSection": false,
+    "coin": "1조",
+    "masterStars": "500만",
+    "successRate": "10%",
+    "guaranteeOnlyExisting": true,
+    "walletAndMaterialsUnchanged": true,
+    "craftPosts": 0,
+    "errors": [],
+    "reportMetadataCorrection": "Counts corrected from old report constants; the browser assertion checked 12 and all four locked entries."
+  }
+]

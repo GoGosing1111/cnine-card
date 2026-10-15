@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "date": "2026-10-16",
+  "code": "ICON-NAMUNEUL-BONGSOON-20261016",
+  "name": "나무늘봉순",
+  "techniqueCode": "RETURN_OATH",
+  "techniqueName": "귀환 서약",
+  "techniqueAssignment": "AGENT_DESIGNED_USER_REQUESTED_PREPARATION",
+  "visualApproval": "PENDING_USER_REVIEW",
+  "portrait": "sources/bongsoon-photo-original.png",
+  "sd": "sources/bongsoon-sd.png",
+  "fx": "sources/return-oath-fx.png",
+  "footAnchorSource": {
+    "x": 663,
+    "y": 1212
+  },
+  "duration": 2.4,
+  "collisionFrame": 9,
+  "prompts": {
+    "initial": "prompts.json",
+    "fxFinal": "prompt-fx-final.txt"
+  },
+  "references": [
+    {
+      "path": "sources/bongsoon-photo-original.png",
+      "role": "USER_PHOTO_IDENTITY_HAIR_CLOTHING"
+    },
+    {
+      "path": "../icon-battle-assets-v1/assets/sd/oh-joeun-medic-chibi-sd-20261015.webp",
+      "role": "STYLE_AND_SD_PROPORTIONS_ONLY"
+    }
+  ],
+  "generation": "BUILT_IN_IMAGEGEN",
+  "rejectedFx": "sources/return-oath-fx-v1.png",
+  "portraitSha256": "06F470732BE2F36D62DA074F23287619572F3E0E1B5EE2964A20E86FA62BF53E",
+  "sdSha256": "649707022AB64AC86984F64EBB743D581AB16FAC82EEE27C3122F889BB4C5486",
+  "fxSha256": "404DC23ABC153CD73419FB2ED229F3A12750FE9FF1B3D24E0C124DDF9969A4FB"
+}

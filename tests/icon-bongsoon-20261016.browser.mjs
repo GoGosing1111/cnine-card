@@ -1,0 +1,53 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {pathToFileURL} from 'node:url';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
+const origin=process.env.ICON_QA_ORIGIN||'http://127.0.0.1:8979';assert.equal(new URL(origin).hostname,'127.0.0.1');
+const out='docs/qa/icon-bongsoon-20261016';fs.mkdirSync(out,{recursive:true});
+const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']}),report=[];
+const base='/preview/icon-bongsoon-battle-20261016-v1/';
+try{for(const width of JSON.parse(process.env.BONGSOON_QA_WIDTHS||'[1440,390]')){
+ const context=await browser.newContext({viewport:{width,height:1000},isMobile:width===390,hasTouch:width===390,serviceWorkers:'block'}),page=await context.newPage(),errors=[],missing=[];
+ page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400&&!r.url().includes('/api/'))missing.push(r.url());});
+ await context.addInitScript(()=>localStorage.setItem('cnine_battle_sound','OFF'));
+ await page.goto(origin+base);await page.waitForFunction(()=>JSON.parse(document.querySelector('#health')?.dataset.diagnostics||'{}').ready,null,{timeout:60000});
+ const frame=page.frames().find(f=>f.url().includes('/battle.html')),d=()=>frame.evaluate(()=>BongsoonPreview.diagnostics());
+ const mode=width===390?'PVE':'PVP';if(mode==='PVE'){await page.locator('#mode').selectOption(mode);await frame.waitForFunction(()=>BongsoonPreview.diagnostics().ready&&BongsoonPreview.diagnostics().mode==='PVE');}
+ assert.equal((await d()).canvases,1);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+ await page.locator('.identity').evaluate(async el=>Promise.all([...el.querySelectorAll('img')].map(img=>img.decode())));
+ await page.locator('#impact').click();assert.equal((await d()).calls.oaths,1);assert.equal((await d()).oaths.length,1);assert.ok((await d()).manualFx);
+ await page.screenshot({path:out+'/'+width+'-overview.png',fullPage:true});
+ await page.locator('.viewport').screenshot({path:out+'/'+width+'-oath.png'});
+ await page.locator('#fx-toggle').click();await frame.evaluate(()=>BongsoonPreview.showFrame(9));
+ assert.equal(await frame.evaluate(()=>__bongsoonEngine.effectLayer.children.find(c=>c.label==='ICON_PREVIEW_EFFECT')?.visible),false);
+ await page.locator('#fx-toggle').click();await page.locator('#repay').click();assert.equal((await d()).calls.revivals,1);assert.equal((await d()).oaths.length,0);
+ await page.locator('#cancel').click();assert.deepEqual((await d()).calls,{oaths:0,revivals:0,failures:0});assert.equal((await d()).index,0);
+ const initial=await frame.evaluate(()=>{__bongsoonEngine.resize();return __bongsoonEngine.characters.filter(a=>a.battleActive).map(a=>({id:a.id,x:a.root.x,y:a.root.y,hp:a.hp}));});
+ await frame.evaluate(()=>{BongsoonPreview.seek(2);BongsoonPreview.seek(0);__bongsoonEngine.resize();});
+ assert.deepEqual(await frame.evaluate(()=>__bongsoonEngine.characters.filter(a=>a.battleActive).map(a=>({id:a.id,x:a.root.x,y:a.root.y,hp:a.hp}))),initial);
+ await page.locator('#speed').selectOption('2');await page.locator('#play').click();
+ await frame.waitForFunction(()=>BongsoonPreview.diagnostics().calls.oaths>0,null,{timeout:30000});
+ await frame.evaluate(()=>BongsoonPreview.pause(true));assert.equal((await d()).paused,true);await page.locator('#play').click();
+ await frame.waitForFunction(()=>{const d=BongsoonPreview.diagnostics();return !d.playing&&d.index===d.eventCount;},null,{timeout:60000});
+ const done=await d(),fixtures=await fetch(origin+base+'fixtures.json').then(r=>r.json());
+ assert.deepEqual(done.calls,{oaths:fixtures[mode].review.oaths,revivals:fixtures[mode].review.revivals,failures:fixtures[mode].review.failures});assert.equal(done.releaseEnabled,false);assert.equal(done.manualFx,null);
+ await page.locator('#repay').click();await page.locator('.viewport').screenshot({path:out+'/'+width+'-revival.png'});
+ await page.locator('#mode').selectOption('FAIL');await frame.waitForFunction(()=>BongsoonPreview.diagnostics().ready&&BongsoonPreview.diagnostics().scenario==='FAIL');assert.equal((await d()).canvases,1);
+ await page.locator('#repay').click();assert.equal((await d()).calls.revivals,0);assert.equal((await d()).calls.failures,1);assert.equal(await frame.evaluate(()=>__bongsoonEngine.allies.find(a=>a.id.includes('ally')).hp),0);
+ await page.locator('.viewport').screenshot({path:out+'/'+width+'-failure.png'});
+ await frame.evaluate(()=>BongsoonPreview.dispose());assert.equal(await frame.locator('canvas').count(),0);
+ // The real local CMS handler saves only a draft and cannot grant or activate this card.
+ await fetch(origin+'/__qa/reset',{method:'POST'});const wallet=await fetch(origin+'/__qa/state').then(r=>r.json()),roles=await fetch(origin+'/api/icons/roles').then(r=>r.json());
+ await page.goto(origin+'/__qa/cms');await page.waitForFunction(()=>document.querySelector('[data-it-status]')?.textContent.includes('초안 버전'));
+ await page.locator('[data-it-select="RETURN_OATH"]').click();assert.match(await page.locator('.it-lock').innerText(),/4 \/ 8/);
+ assert.equal(await page.locator('[data-prepared-icon="ICON-NAMUNEUL-BONGSOON-20261016"]').count(),1);assert.equal(await page.locator('[data-it-field="firstAction"]').inputValue(),'1');assert.equal(await page.locator('[data-it-field="cooldownActions"]').inputValue(),'4');assert.equal(await page.locator('[data-it-field="maxCasts"]').inputValue(),'2');
+ assert.equal(await page.locator('.it-preview a').getAttribute('href'),base);
+ await page.locator('[data-it-notes]').fill('격리 로컬 검수 '+width);await page.locator('[data-it-save]').click();await page.waitForFunction(()=>document.querySelector('[data-it-status]')?.textContent.includes('초안 저장 완료'));
+ const saved=await fetch(origin+'/api/admin/icon-techniques').then(r=>r.json());assert.equal(saved.document.enabled,false);assert.ok(saved.document.techniques.every(t=>!t.enabled&&t.cardId===null));
+ assert.deepEqual(await fetch(origin+'/api/icons/roles').then(r=>r.json()),roles);assert.deepEqual(await fetch(origin+'/__qa/state').then(r=>r.json()),wallet);
+ assert.equal(await page.locator('.it-studio').evaluate(el=>el.scrollWidth>el.clientWidth+1),false);
+ await page.locator('.it-studio').screenshot({path:out+'/'+width+'-cms.png'});
+ assert.deepEqual(errors,[]);assert.deepEqual(missing,[]);report.push({width,mode,done,controls:true,modeSwitchOneCanvas:true,disposeZeroCanvas:true,cmsSaveOff:true,existingRolesAndWalletUnchanged:true,errors,missing});
+ fs.writeFileSync(out+'/'+width+'-preview-browser.json',JSON.stringify(report.at(-1),null,2)+'\n');await context.close();console.log(JSON.stringify({width,mode,status:'PASS'}));
+}}finally{await browser.close();}
+fs.writeFileSync(out+'/preview-browser.json',JSON.stringify(report,null,2)+'\n');

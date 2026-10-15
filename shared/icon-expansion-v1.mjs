@@ -3,7 +3,7 @@ import {ICON_FUSION_POLICY} from './icon-fusion-policy-v1.mjs';
 // User correction: publish the preparations, keep acquisition/battle OFF and
 // retain the existing two-ICON deck limit. This is not the live card roster.
 export const ICON_EXPANSION_RELEASE_ENABLED=false;
-export const ICON_EXPANSION_VERSION='20261016-joeun-white-v1';
+export const ICON_EXPANSION_VERSION='20261016-bongsoon-icon-v1';
 const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
 export const ICON_EXPANSION_RECIPE=freeze({...ICON_FUSION_POLICY,coinCost:1000000000000});
 export const ICON_EXPANSION_STAT_MULTIPLIER=1.25;
@@ -23,7 +23,13 @@ export const ICON_EXPANSION_CARDS=freeze([
   sourceOriginal:'preview/icon-joeun-white-battle-20261016-v1/sources/joeun-photo-original.png',
   sd:'preview/icon-joeun-white-battle-20261016-v1/assets/joeun-sd.webp',
   preview:'/preview/icon-joeun-white-battle-20261016-v1/',
-  tuning:{firstAction:1,cooldownActions:3,maxCasts:6}}
+  tuning:{firstAction:1,cooldownActions:3,maxCasts:6}},
+ {code:'ICON-NAMUNEUL-BONGSOON-20261016',name:'나무늘봉순',techniqueCode:'RETURN_OATH',techniqueName:'귀환 서약',
+  sourceArt:'preview/icon-bongsoon-battle-20261016-v1/assets/bongsoon-portrait.webp',
+  sourceOriginal:'preview/icon-bongsoon-battle-20261016-v1/sources/bongsoon-photo-original.png',
+  sd:'preview/icon-bongsoon-battle-20261016-v1/assets/bongsoon-sd.webp',
+  preview:'/preview/icon-bongsoon-battle-20261016-v1/',
+  tuning:{firstAction:1,cooldownActions:4,maxCasts:2,reviveHpPercent:35,bossDamagePercent:10,windowActions:5}}
 ].map(card=>({...card,cardId:null,grade:'ICON',basePower:180000,releaseEnabled:false,acquisitionEnabled:false,battleEnabled:false,
  recipe:ICON_EXPANSION_RECIPE,statMultiplier:ICON_EXPANSION_STAT_MULTIPLIER,balanceStatus:'STRONGER_THAN_EXISTING_ICON_PREPARED',focusX:50,focusY:50})));
 export function preparedIconForTechnique(code){return ICON_EXPANSION_CARDS.find(c=>c.techniqueCode===code)||null;}

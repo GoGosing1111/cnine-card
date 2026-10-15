@@ -1,0 +1,41 @@
+import fs from 'node:fs/promises';
+import crypto from 'node:crypto';
+import sharp from 'sharp';
+import {build} from 'esbuild';
+import {fileURLToPath} from 'node:url';
+import {simulateBattleV2Preview,publicFighter,teamSummary} from '../../functions/_battle_v2_preview.js';
+import {iconTechniqueScenarioInput} from '../../tests/helpers/icon-technique-preparation-fixture.mjs';
+import {ICON_TECHNIQUE_PREPARATION} from '../../shared/icon-techniques-v1.mjs';
+import {preparedIconForCode,prepareStrongerIconFighter} from '../../shared/icon-expansion-v1.mjs';
+import {ICON_LIVE_CARDS} from '../../shared/icon-fusion-policy-v1.mjs';
+const base=new URL('./',import.meta.url),path=p=>new URL(p,base),ROOT='/preview/icon-bongsoon-battle-20261016-v1/';
+const hash=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase(),save=async(p,b)=>{await fs.mkdir(new URL('.',path(p)),{recursive:true});await fs.writeFile(path(p),b);};
+const input=JSON.parse(await fs.readFile(path('input.json'),'utf8')),spec=preparedIconForCode(input.code);
+function alpha(data,width,height){let edgeMax=0,nonempty=0,x0=width,y0=height,x1=-1,y1=-1;for(let y=0;y<height;y++)for(let x=0;x<width;x++){const a=data[(y*width+x)*4+3];if(a)nonempty++;if(a>16){x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);}if(x===0||y===0||x===width-1||y===height-1)edgeMax=Math.max(edgeMax,a);}return{edgeMax,transparentFraction:1-nonempty/(width*height),bounds:[x0,y0,x1+1,y1+1]};}
+const measure=async bytes=>{const {data,info}=await sharp(bytes).ensureAlpha().raw().toBuffer({resolveWithObject:true});return alpha(data,info.width,info.height);};
+const files={};for(const key of ['portrait','sd','fx']){files[key]=await fs.readFile(path(input[key]));if(hash(files[key])!==input[key+'Sha256'])throw Error(key+' original changed');}
+const portraitMeta=await sharp(files.portrait).metadata(),portrait=await sharp(files.portrait).resize({width:960,withoutEnlargement:true}).webp({quality:94,effort:6}).toBuffer();await save('assets/bongsoon-portrait.webp',portrait);
+const sm=await sharp(files.sd).metadata(),sa=await measure(files.sd);if(!sm.hasAlpha||sa.edgeMax>12||sa.transparentFraction<.2)throw Error('Invalid SD alpha');
+const rendered=await sharp(files.sd).resize(672,672,{fit:'contain',background:{r:0,g:0,b:0,alpha:0}}).extend({left:48,top:48,right:48,bottom:48,background:{r:0,g:0,b:0,alpha:0}}).webp({lossless:true,effort:6}).toBuffer(),scale=672/Math.max(sm.width,sm.height);await save('assets/bongsoon-sd.webp',rendered);
+const fm=await sharp(files.fx).metadata();if(!fm.hasAlpha||fm.width!==fm.height||fm.width<1024||fm.width>1536)throw Error('Invalid native FX sheet');
+const cellSize=384,pixels=Buffer.alloc(1536*1536*4),frames=[];
+for(let i=0;i<16;i++){const column=i%4,row=Math.floor(i/4),left=Math.round(column*fm.width/4),top=Math.round(row*fm.height/4),width=Math.round((column+1)*fm.width/4)-left,height=Math.round((row+1)*fm.height/4)-top,sourceRect={left,top,width,height};const raw=await sharp(files.fx).extract(sourceRect).ensureAlpha().raw().toBuffer(),qa=alpha(raw,width,height);if(qa.edgeMax>12||qa.transparentFraction>.99)throw Error('Clipped or empty FX '+i);const padX=Math.floor((cellSize-width)/2),padY=Math.floor((cellSize-height)/2);for(let y=0;y<height;y++)raw.copy(pixels,((row*cellSize+padY+y)*1536+column*cellSize+padX)*4,y*width*4,(y+1)*width*4);frames.push({index:i,sourceRect,rawSha256:hash(raw),...qa});}
+if(new Set(frames.map(f=>f.rawSha256)).size!==16)throw Error('Duplicated FX frames');
+const atlas=await sharp(pixels,{raw:{width:1536,height:1536,channels:4}}).webp({lossless:true,effort:6}).toBuffer();await save('assets/return-oath-atlas.webp',atlas);
+const manifest={version:1,date:input.date,id:input.code,name:input.name,cardId:null,techniqueCode:input.techniqueCode,techniqueName:input.techniqueName,techniqueAssignment:input.techniqueAssignment,releaseEnabled:false,acquisitionEnabled:false,battleEnabled:false,visualApproval:input.visualApproval,status:'BUILT_PREPARATION_OFF',tuning:spec.tuning,statMultiplier:spec.statMultiplier,sourceArt:{file:input.portrait,sha256:hash(files.portrait),size:[portraitMeta.width,portraitMeta.height],preserved:true,runtime:'assets/bongsoon-portrait.webp',runtimeSha256:hash(portrait)},character:{source:input.sd,sourceSha256:hash(files.sd),sourceSize:[sm.width,sm.height],sourceAlpha:sa,runtime:'assets/bongsoon-sd.webp',runtimeSha256:hash(rendered),size:[768,768],runtimeAlpha:await measure(rendered),footAnchor:{x:(48+(672-sm.width*scale)/2+input.footAnchorSource.x*scale)/768,y:(48+(672-sm.height*scale)/2+input.footAnchorSource.y*scale)/768}},effect:{id:'return-oath',name:'귀환 서약',kind:'SKILL',source:input.fx,sourceSha256:hash(files.fx),runtime:'assets/return-oath-atlas.webp',runtimeSha256:hash(atlas),columns:4,rows:4,cellSize,frameCount:16,duration:input.duration,collisionFrame:input.collisionFrame,contactAt:input.duration*input.collisionFrame/15,frames}};
+await save('manifest.json',JSON.stringify(manifest,null,2)+'\n');
+const fur=JSON.parse(await fs.readFile(new URL('../../assets/ui/project-v/characters/fur/manifest-v2.json',base),'utf8')).characters,fixtures={};
+for(const key of ['PVP','PVE','FAIL']){
+ const mode=key==='PVE'?'PVE':'PVP';
+ const scenario=iconTechniqueScenarioInput('RETURN_OATH'),casterId=scenario.teamA[0].id;scenario.teamA[0]=prepareStrongerIconFighter(scenario.teamA[0],spec.code);scenario[ICON_TECHNIQUE_PREPARATION].assignments[0].tuning={...spec.tuning};scenario.maxActions=35;
+ if(mode==='PVE'){scenario.teamB=[scenario.teamB[0]];Object.assign(scenario.teamB[0],{isMonster:true,isBoss:true,maxHp:40000,hp:40000,attack:300,speed:110});}
+ if(key==='FAIL')for(const actor of scenario.teamB)Object.assign(actor,{maxHp:120000,hp:120000,attack:50});
+ for(const actor of [...scenario.teamA,...scenario.teamB])actor.battleMode=mode;
+ const teams=Object.fromEntries([['A',scenario.teamA],['B',scenario.teamB]].map(([side,team])=>[side,{cards:team.map(publicFighter),summary:teamSummary(team)}])),result=simulateBattleV2Preview(scenario);
+ const special=result.timeline.filter(e=>e.techniqueCode==='RETURN_OATH');if(!special.some(e=>e.phase==='APPLY')||!special.some(e=>e.phase===(key==='FAIL'?'FAIL':'REVIVE')))throw Error(key+' missing authoritative oath result');
+ for(const side of ['A','B'])for(const actor of teams[side].cards){if(actor.id===casterId){Object.assign(actor,{cardId:'PREVIEW:NAMUNEUL-BONGSOON-20261016',grade:'ICON',name:'나무늘봉순',title:'나무늘봉순 · 귀환 서약',image:ROOT+manifest.sourceArt.runtime,sourceArt:ROOT+manifest.sourceArt.runtime,originalCardArt:ROOT+manifest.sourceArt.runtime,projectVBattleArt:{kind:'ICON_PREVIEW_ONLY',primaryUrl:ROOT+manifest.character.runtime,sourceArtUrl:ROOT+manifest.sourceArt.runtime,scaleMultiplier:1.15}});}else if(mode==='PVE'&&side==='B'){Object.assign(actor,{name:'귀환 서약 수호자',title:'귀환 서약 수호자',image:'/assets/cards/monster/sla2.jfif',sourceArt:'/assets/cards/monster/sla2.jfif'});}else{const icon=ICON_LIVE_CARDS.find(c=>c.cardId===actor.cardId),art=icon||fur[(actor.slot+(side==='B'?1:0))%fur.length];Object.assign(actor,{cardId:art.cardId,grade:icon?'ICON':'FUR',name:art.name||art.member,title:art.name||art.member,image:'/'+art.sourceArt,sourceArt:'/'+art.sourceArt,originalCardArt:'/'+art.sourceArt});}}
+ fixtures[key]={scenario:key,mode,battlefieldMode:mode,previewOnly:true,preparationOnly:true,review:{authority:'REAL_SERVER_SYMBOL_SIMULATION',casterId,seed:scenario.seed,fixtureOpponentStats:true,productionActivation:false,oaths:special.filter(e=>e.phase==='APPLY').length,revivals:special.filter(e=>e.phase==='REVIVE').length,failures:special.filter(e=>e.phase==='FAIL').length},battleV2:{mode,teams,result}};
+}
+await save('fixtures.json',JSON.stringify(fixtures)+'\n');
+const built=await build({entryPoints:[fileURLToPath(path('source/preview.js'))],outfile:fileURLToPath(path('preview.bundle.js')),bundle:true,minify:true,format:'iife',target:['es2022'],legalComments:'none',write:false});await save('preview.bundle.js',built.outputFiles[0].text);
+console.log(JSON.stringify({status:manifest.status,sourceHash:manifest.sourceArt.sha256,sd:manifest.character.runtimeSha256,frames:16,footAnchor:manifest.character.footAnchor,scenarios:Object.fromEntries(Object.entries(fixtures).map(([k,v])=>[k,v.review]))}));
