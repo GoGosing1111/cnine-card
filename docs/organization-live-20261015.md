@@ -48,12 +48,42 @@ built-in image_gen을 사용했다. 기존 합본에서 약 270px 영역을 확�
 
 ## 운영 반영 기록
 
-검수 완료 후 배포 ID, 실제 모집 시작·마감(KST), schema 설치·개방 영수증·스케줄러 확인 결과를 이 문서에 추가한다.
+### 배포 완료
+
+- 배포 소스 커밋: 081f054f72799e2799d31e52a3691da72b83c956.
+- Cloudflare Pages 배포 bb65fa42-bc99-4129-a7c2-0a0bb42d39f7: success. [배포 고정 주소](https://bb65fa42.cnine-card.pages.dev), [운영 조직 본부](https://cnine-card.pages.dev/organization/).
+- 공개 앱 캐시: 20261015-organization-interface-v3.
+- API worker 버전: b290863f-13ce-4053-b1ac-18848c9a64f3. 조직 스케줄러 버전: 23cd4bf4-73b9-4c95-ab95-1fa82622db5b.
+- 전체 release gate와 production guard PASS. 후보·로그·변경 파일 해시를 검증하는 continuation으로 앞서 통과한 구간을 보존했다. 최종 로그는 작업트리 상위의 organization-interface-v2-deploy-resume4-20261015.log이며 종료 코드 0이다.
+
+### 실제 24시간 모집 개방
+
+- 별도 조직 스키마 설치 및 개방 dry run 후 실제 개방을 완료했다.
+- 회차: e5421b84-8888-4027-8a36-f58d7f033ab1 / 조직 입단 1차 모집.
+- 상태: LIVE / SURVEY / revision 1 / auto_assign 1 / assignment_status WAITING.
+- 모집 시작: 2026-10-15 17:36:57.178 KST (2026-10-15T08:36:57.178Z).
+- 모집 마감: 2026-10-16 17:36:57.178 KST (2026-10-16T08:36:57.178Z). 서버 저장 간격은 정확히 86,400,000ms다.
+- 개방 영수증: organization_live_opening_20261015 / replayed false / audit 46517.
+- 세력전 정책은 OFF revision 0에서 ON revision 1로 전환했다. fundsPerRegion은 null, upgradeCosts는 [0,null,null,null,null]로 유지했다. 미입력 자금 적립·승급은 계속 잠겨 있다.
+- 개방 거래는 실제 신청서·조직원·기존 클랜·개인 재화를 변경하지 않았다.
+
+### 운영 확인
+
+- 스케줄러 확인 시각: 2026-10-15T08:37:13.184Z. 모집 처리 버전 20261015-live-24h, waiting true, nextCheckAt은 위 모집 마감 시각이다.
+- 세력전 스케줄러는 enabled true, rounds 0으로 확인됐다.
+- 공개 콘텐츠 현황 API에서 ORGANIZATION / FORMATION / 조직 입단 모집과 7문항·24시간 안내 및 실제 마감 시각을 확인했다.
+- 배포 후 읽기 전용 검사 22개 PASS: 페이지 3개, CSS 5개, WebP 12개, 실제 서울·경기남부 46지역 지도, 콘텐츠 현황 API. 기록은 작업트리 상위의 organization-live-readonly-2026-10-15T08-36-34-261Z.json이다.
+- 개방 후 공개 API 확인 PASS: 작업트리 상위의 organization-live-readonly-2026-10-15T08-37-13-719Z.json. 운영 쓰기를 추가하지 않고 모집 상태와 마감 시각을 확인했다.
+
+- 실제 운영 브라우저에서 https://cnine-card.pages.dev/organization/ 를 다시 불러와 새 UI 이미지, 조직 입단 접수 중, 7문항, 10월 16일 17:36 마감, 4개 탭, 입단 심사 시작 버튼을 직접 확인했다. 실제 신청·답변 제출은 하지 않았다. 라이브 읽기 전용 캡처는 preview/organization-interface-v2/live/organization-live-interface.jpg이며 위 격리 QA 캡처와 구분한다.
 
 ### 배포 검사 호환 보정
 
-82ae90eb4 후보의 전체 검사는 test:v3-joint까지 진행 후 기존 mercenary-combat-v3.test.mjs의 MS-057/PVE/V-056 금지 기대값 한 건에서 멈췄다. 조직 작업 전 커밋 34659440b가 해당 스킬의 PVE·PVP 허용을 확정했고 런타임/seed는 반영했으나 테스트만 과거 금지를 유지했다. 기준 8f6c20774 대비 관련 런타임과 테스트는 변경이 없었음을 확인했다. 검수는 이 조합의 허용·WINDUP을 확인하도록 옮기고 다른 3개 금지 조합은 유지했다. 게임 실행 코드·정책 변경 없음. 기존 resume-release-gate의 후보 SHA/로그 SHA/변경파일 검증을 사용해 완료된 앞 구간을 보존하고 실패한 V3 구간부터 재검사한다.
+82ae90eb4 후보의 전체 검사는 test:v3-joint까지 진행 후 기존 mercenary-combat-v3.test.mjs의 MS-057/PVE/V-056 금지 기대값 한 건에서 멈췄다. 조직 작업 전 커밋 34659440b가 해당 스킬의 PVE·PVP 허용을 확정했고 런타임/seed는 반영했으나 테스트만 과거 금지를 유지했다. 기준 8f6c20774 대비 관련 런타임과 테스트는 변경이 없었음을 확인했다. 검수는 이 조합의 허용·WINDUP을 확인하도록 옮기고 다른 3개 금지 조합은 유지했다. 게임 실행 코드·정책 변경 없음. 기존 resume-release-gate의 후보 SHA/로그 SHA/변경파일 검증을 사용해 완료된 앞 구간을 보존하고 실패한 V3 구간부터 재검사했다.
 
-후속 test:live-connections는 기존 시라누이 재생 어댑터가 테스트 source 집계에서 빠진 점과 과거 번들 캐시 버전 literal 때문에 중단됐다. 관련 실행 코드·번들은 조직 기준 이전 상태와 같았다. 누락된 현재 source를 포함하고 source/bundle/bridge runtime 및 app/bridge fallback 캐시 주소의 일치 계약으로 검수만 보정한다. 기존 전투 동작이나 배포 gate 명령은 변경하지 않는다. 원본 검사 로그와 첫 continuation 로그의 해시·후보 커밋을 모두 보존해 다음 구간을 이어간다.
+후속 test:live-connections는 기존 시라누이 재생 어댑터가 테스트 source 집계에서 빠진 점과 과거 번들 캐시 버전 literal 때문에 중단됐다. 관련 실행 코드·번들은 조직 기준 이전 상태와 같았다. 누락된 현재 source를 포함하고 source/bundle/bridge runtime 및 app/bridge fallback 캐시 주소의 일치 계약으로 검수만 보정했다. 기존 전투 동작이나 배포 gate 명령은 변경하지 않는다. 원본 검사 로그와 첫 continuation 로그의 해시·후보 커밋을 모두 보존해 다음 구간을 이어갔다.
 
 클랜 메뉴 관련 검수는 사용자 지정 명칭인 조직 및 최신 조직 UI 캐시 버전에 맞췄다. 실제 클랜 폐쇄·조직 진입 보호는 유지한다. 이미 통과한 51개 이전 구간은 continuation 로그로 보존한다.
+
+
+후속 test:apocalypse의 boss-sd-v2048.test.mjs도 기존 106-combat-flow 캐시 기대값만 main/recovery loader 캐시 및 실제 source runtime 동등성으로 보정했다. 보스·전투 런타임과 정책은 변경하지 않았다. 뒤 구간의 배틀슈트 검수는 실제 프리뷰 캐시와 일치해 수정 없이 단일 파일 7/7 PASS를 확인했다. 전체 gate와 production guard는 최종 continuation에서 통과했고 위 배포·모집 개방을 완료했다.
