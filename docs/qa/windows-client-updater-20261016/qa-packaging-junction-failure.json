@@ -1,0 +1,7 @@
+{
+  "error": "page.waitForFunction: Target page, context or browser has been closed\n    at C:\\Users\\User\\.codex\\worktrees\\windows-ctrl-wheel-zoom\\cnine-card\\tests\\windows-client-updater-native-20261016.mjs:69:14",
+  "root": "C:\\Users\\User\\AppData\\Local\\Temp\\soop-update-native-k32irW",
+  "mode": "offline",
+  "checks": [],
+  "errors": []
+}

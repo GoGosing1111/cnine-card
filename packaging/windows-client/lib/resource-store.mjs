@@ -28,7 +28,7 @@ export class ResourceStore {
     const chunks=[];let size=0;
     for await(const chunk of response.body){size+=chunk.length;if(size>MAX_MANIFEST_BYTES)throw new Error('업데이트 정보 크기가 올바르지 않습니다.');chunks.push(chunk);}
     const manifest=validateManifest(JSON.parse(Buffer.concat(chunks).toString('utf8')));
-    if(versionLess(CLIENT_VERSION,manifest.minimumClientVersion))throw new Error('새 버전의 런처가 필요합니다. 공식 배포 안내에서 최신 설치 파일을 받아 주세요.');
+    if(versionLess(CLIENT_VERSION,manifest.minimumClientVersion))throw new Error('새 버전의 런처가 필요합니다. 런처 업데이트를 적용한 뒤 다시 확인해 주세요.');
     return manifest;
   }
   async has(entry,{verify=true}={}) {

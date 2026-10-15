@@ -63,6 +63,15 @@ try {
  await game.waitForFunction(()=>window.fixtureReady===true);await game.locator('img').evaluate(img=>img.decode());
  assert.equal(requests.filter(r=>Object.hasOwn(bodies,r.path)).length,firstDownloads,'repeat game launch uses all cached static files');
  assert.equal(requests.filter(r=>r.path==='/api/echo'&&r.method==='POST').length,2,'API is sent online each game session');
+ // A surviving game popup must keep the launcher alive until the game is closed.
+ await game.evaluate(()=>window.open('/popup.html','update-popup'));
+ for(let n=0;n<100&&electron.windows().length<3;n++)await new Promise(r=>setTimeout(r,50));
+ assert.equal(electron.windows().length,3);
+ await electron.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows().find(w=>w.webContents.getURL().includes('?source=windows-client')).close());
+ await electron.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows().find(w=>w.webContents.getURL().startsWith('file:')).close());
+ assert.equal(await electron.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows().filter(w=>w.webContents.getURL().startsWith('file:')).length),1,'launcher close hides it while a game popup survives');
+ await electron.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows().filter(w=>w.webContents.getURL().startsWith('https:')).forEach(w=>w.close()));
+ await page.waitForFunction(()=>document.getElementById('playLabel')?.textContent==='게임 시작');
  assert.deepEqual(errors,[]);
  await writeFile(path.join(output,'report.json'),JSON.stringify({passed:true,profile,staticDownloads:firstDownloads,repeatStaticDownloads:0,apiRequests:2,authorizationBodyAndSessionCookieVerified:true,remoteNodeAndBridgeDisabled:true,serviceWorkers:0,errors},null,2));
  console.log('Windows launcher browser checks passed.');

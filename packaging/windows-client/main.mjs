@@ -5,6 +5,7 @@ import {GAME_ORIGIN,CLIENT_VERSION,manifestEntry,allowedNavigation} from './lib/
 import {ResourceStore,fileResponse} from './lib/resource-store.mjs';
 import {forwardNetworkRequest} from './lib/network-request.mjs';
 import {GameZoom} from './lib/game-zoom.mjs';
+import {ClientUpdater} from './lib/client-updater.mjs';
 
 const here=path.dirname(fileURLToPath(import.meta.url));
 const qa=!app.isPackaged && process.env.SOOPKETMON_QA==='1';
@@ -12,7 +13,8 @@ if(qa&&process.env.SOOPKETMON_QA_ROOT)app.setPath('userData',path.resolve(proces
 app.setAppUserModelId('kr.yakcode.soopketmon');
 const singleton=app.requestSingleInstanceLock();
 if(!singleton)app.quit();
-let launcher,game,store,latest,active,gameManifest,operation,gameSession,gameZoom,quitting=false;
+let launcher,game,store,latest,active,gameManifest,operation,gameSession,gameZoom,clientUpdater,quitting=false;
+const hasGameWindows=()=>Boolean(gameZoom?.contents.size);
 let state={phase:'checking',title:'업데이트 확인 중',description:'게임 파일 정보를 확인하고 있습니다.',clientVersion:CLIENT_VERSION,stats:{bytes:0,count:0},plan:null,progress:null,ready:false};
 const uiUrl=pathToFileURL(path.join(here,'renderer/index.html')).href;
 const emit=patch=>{state={...state,...patch};if(launcher&&!launcher.isDestroyed())launcher.webContents.send('launcher:state',state);};
@@ -22,7 +24,8 @@ function authorize(event){
 }
 async function updateStats(){emit({stats:await store.stats()});}
 async function check(){
-  if(operation||game||quitting)return;
+  if(operation||hasGameWindows()||quitting||clientUpdater?.state.status==='installing')return;
+  void clientUpdater?.check();
   const token=new AbortController();operation=token;emit({phase:'checking',title:'업데이트 확인 중',description:'새 파일과 PC에 저장된 파일을 확인합니다.',ready:false,progress:null});
   try{
     latest=await store.checkForUpdate(token.signal);const plan=await store.plan(latest);active=await store.readActive();
@@ -32,7 +35,7 @@ async function check(){
   }catch(error){failure(error);}finally{if(operation===token)operation=null;}
 }
 async function prepare({repair=false,launch=false}={}){
-  if(operation||game)return;if(!latest){await check();if(!latest)return;}
+  if(operation||hasGameWindows()||quitting||clientUpdater?.state.status==='installing')return;if(!latest){await check();if(!latest)return;}
   const token=new AbortController();operation=token;
   emit({phase:'downloading',title:repair?'게임 파일 검사·복구 중':'게임 파일 준비 중',description:'검증이 끝난 파일부터 저장합니다. 중단해도 완료된 파일은 유지됩니다.',ready:false});
   try{
@@ -44,6 +47,11 @@ async function prepare({repair=false,launch=false}={}){
 }
 function secureGameWindow(win){
   gameZoom.attach(win.webContents);
+  emit({gameOpen:true});
+  win.webContents.once('destroyed',()=>{
+    emit({gameOpen:hasGameWindows()});
+    if(!hasGameWindows()&&!game&&!quitting){launcher?.show();void check();}
+  });
   win.webContents.setWindowOpenHandler(({url})=>{
     if(allowedNavigation(url))return {action:'allow',overrideBrowserWindowOptions:{autoHideMenuBar:true,webPreferences:{session:gameSession,preload:path.join(here,'game-preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true}}};
     return {action:'deny'};
@@ -114,12 +122,13 @@ async function start(){
   launcher=new BrowserWindow({width:1120,height:760,minWidth:950,minHeight:680,show:!qa,title:'숲켓몬 런처',titleBarStyle:'hidden',titleBarOverlay:{color:'#0b101b',symbolColor:'#9caac0',height:38},backgroundColor:'#080c17',icon:path.join(here,'renderer/assets/icon.png'),autoHideMenuBar:true,webPreferences:{preload:path.join(here,'preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true,spellcheck:false}});
   launcher.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   launcher.webContents.on('will-navigate',event=>event.preventDefault());
-  launcher.on('close',event=>{if(game&&!quitting){event.preventDefault();launcher.hide();}else operation?.abort();});
+  launcher.on('close',event=>{if(hasGameWindows()&&!quitting){event.preventDefault();launcher.hide();}else operation?.abort();});
   ipcMain.handle('launcher:state',event=>{authorize(event);return state;});
   ipcMain.handle('launcher:command',async(event,command)=>{
     authorize(event);
     if(command==='cancel'){operation?.abort();return;}
     if(command==='check')return check();
+    if(command==='restart-client')return clientUpdater?.install();
     if(command==='install')return prepare();
     if(command==='repair')return prepare({repair:true});
     if(command==='play'){if(game){game.show();game.focus();return;}return prepare({launch:true});}
@@ -127,9 +136,17 @@ async function start(){
     if(command==='website')return shell.openExternal(GAME_ORIGIN);
     throw new Error('Unknown launcher command');
   });
-  await launcher.loadURL(uiUrl);void check();
+  await launcher.loadURL(uiUrl);
+  if(app.isPackaged){
+    const {default:electronUpdater}=await import('electron-updater');
+    clientUpdater=new ClientUpdater({updater:electronUpdater.autoUpdater,version:app.getVersion(),onState:clientUpdate=>emit({clientUpdate}),canInstall:()=>!hasGameWindows()&&!operation&&!quitting});
+    // Startup, manual checks and return from the game all check the launcher.
+    // Long idle sessions also discover releases without interrupting gameplay.
+    const timer=setInterval(()=>{if(!hasGameWindows()&&!quitting)void clientUpdater.check();},4*60*60*1000);timer.unref();
+  }
+  void check();
 }
 app.on('second-instance',()=>{const win=game||launcher;if(win){win.show();if(win.isMinimized())win.restore();win.focus();}});
-app.on('before-quit',()=>{quitting=true;operation?.abort();});
+app.on('before-quit',()=>{quitting=true;operation?.abort();clientUpdater?.stop();});
 app.on('window-all-closed',()=>app.quit());
 if(singleton)void start().catch(error=>{console.error(error);if(!qa)dialog.showErrorBox('숲켓몬 실행 오류',String(error?.message||error));app.quit();});

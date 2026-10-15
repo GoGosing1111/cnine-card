@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "root": "C:\\Users\\User\\AppData\\Local\\Temp\\soop-update-native-VHBNVm",
+  "versions": [
+    "0.1.5",
+    "0.1.6"
+  ],
+  "checks": [
+    "offline update feed leaves game available",
+    "real updater rejects mismatched SHA-512 without replacing app",
+    "download waits for explicit restart",
+    "game and surviving popup both prevent installation",
+    "real silent NSIS update and automatic restart",
+    "custom Unicode install path preserved",
+    "login cookie, display preference and resource cache preserved"
+  ],
+  "downloadRequests": 2,
+  "oldHash": "056bbc8707eedf5fd7dde5f82138f941053a4e0bbef2aff736ca77066b98d7e5",
+  "newHash": "9439ce73535d63ad26de85c34f94471d437933ce2632044de851554d7355d8bf",
+  "restarted": {
+    "version": "0.1.6",
+    "executable": "C:\\Users\\User\\AppData\\Local\\Temp\\soop-update-native-VHBNVm\\한글 설치 폴더\\SoopketmonUpdateQA\\SoopketmonUpdateQA.exe",
+    "userData": "C:\\Users\\User\\AppData\\Local\\Temp\\soop-update-native-VHBNVm\\profile",
+    "cookies": [
+      {
+        "name": "update-qa-session",
+        "value": "preserved",
+        "domain": "cnine-card.pages.dev",
+        "hostOnly": true,
+        "path": "/",
+        "secure": true,
+        "httpOnly": true,
+        "session": false,
+        "expirationDate": 1792177735.673,
+        "sameSite": "lax"
+      }
+    ]
+  },
+  "productionRegistrationUnchanged": true,
+  "errors": []
+}

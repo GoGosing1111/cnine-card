@@ -1,7 +1,7 @@
 {
   "name": "soopketmon-windows",
   "productName": "숲켓몬",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "description": "숲켓몬 Windows 게임 클라이언트와 리소스 런처",
   "author": "YAKCODE",
@@ -12,6 +12,9 @@
     "test": "node --test ../../tests/windows-client-20261015.test.mjs",
     "dist": "electron-builder --win nsis --x64 --publish never"
   },
+  "dependencies": {
+    "electron-updater": "6.8.9"
+  },
   "devDependencies": {
     "electron": "44.7.2",
     "electron-builder": "26.15.3"
@@ -21,6 +24,7 @@
     "productName": "숲켓몬",
     "artifactName": "Soopketmon-Engine-${version}-${arch}.${ext}",
     "asar": true,
+    "publish": { "provider": "github", "owner": "GoGosing1111", "repo": "cnine-card", "releaseType": "release" },
     "directories": { "output": "release", "buildResources": "build-resources" },
     "files": ["main.mjs", "preload.cjs", "game-preload.cjs", "lib/**", "renderer/**", "package.json"],
     "win": {

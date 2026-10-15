@@ -4,7 +4,7 @@ const bytes=n=>n>=1024**3?(n/1024**3).toFixed(2)+' GB':(n/1024**2).toFixed(n<102
 function render(s){
   current=s;document.body.classList.toggle('error',s.phase==='error');
   $('clientVersion').textContent=s.clientVersion;$('statusTitle').textContent=s.title;$('statusDescription').textContent=s.description;
-  const busy=['checking','downloading'].includes(s.phase),playing=s.phase==='playing';
+  const busy=['checking','downloading'].includes(s.phase)||s.clientUpdate?.status==='installing',playing=s.phase==='playing';
   $('phaseLabel').textContent=({checking:'업데이트',downloading:'리소스 준비',available:'설치 · 업데이트',ready:'준비 완료',playing:'플레이 중',error:'확인 필요'})[s.phase]||'준비';
   const progress=s.progress,percent=progress?.total?Math.min(100,Math.floor(progress.bytes/progress.total*100)):s.ready?100:0;
   $('progressFill').style.width=percent+'%';document.querySelector('[role=progressbar]').setAttribute('aria-valuenow',String(percent));
@@ -16,6 +16,18 @@ function render(s){
   $('playButton').disabled=busy;
   $('playLabel').textContent=({checking:'확인 중',downloading:'준비 중',available:'다운로드',ready:'게임 시작',playing:'게임으로 돌아가기',error:'다시 확인'})[s.phase]||'게임 시작';
   $('notice').hidden=!s.notice;$('notice').textContent=s.notice||'';
+  const update=s.clientUpdate||{},status=update.status;
+  $('clientUpdate').hidden=!['downloading','ready','installing','error'].includes(status);
+  $('clientUpdateTitle').textContent=({downloading:`런처 ${update.version} 다운로드 중`,ready:`새 런처 ${update.version} 준비 완료`,installing:'런처 업데이트 적용 중',error:'런처 업데이트를 확인하지 못했습니다'})[status]||'';
+  $('clientUpdateDescription').textContent=({
+    downloading:update.progress?.total?`${bytes(update.progress.bytes)} / ${bytes(update.progress.total)} · 게임을 계속 이용할 수 있습니다.`:'새 버전을 준비합니다. 게임을 계속 이용할 수 있습니다.',
+    ready:s.gameOpen?'게임 창을 모두 닫으면 업데이트할 수 있습니다.':busy?'게임 파일 준비가 끝나면 다시 시작할 수 있습니다.':'다시 시작하면 적용됩니다. 로그인 정보와 화면 크기는 유지됩니다.',
+    installing:'잠시 후 새 버전으로 다시 열립니다.',
+    error:'게임은 계속 이용할 수 있습니다. 나중에 ‘업데이트 확인’을 눌러 주세요.'
+  })[status]||'';
+  $('clientUpdateProgress').hidden=status!=='downloading';
+  $('clientUpdateProgress').value=update.progress?.total?Math.min(100,update.progress.bytes/update.progress.total*100):0;
+  $('restartClientButton').hidden=status!=='ready';$('restartClientButton').disabled=busy||Boolean(s.gameOpen);
 }
 async function command(name){try{await api.command(name);}catch(error){$('notice').hidden=false;$('notice').textContent=error.message;}}
 document.querySelectorAll('[data-command]').forEach(button=>button.addEventListener('click',()=>command(button.dataset.command)));
