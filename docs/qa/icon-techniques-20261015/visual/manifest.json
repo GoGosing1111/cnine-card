@@ -1,0 +1,150 @@
+{
+  "status": "IMPLEMENTED_SCREEN_REVIEWED",
+  "userApproved": false,
+  "scope": "Eight unassigned preparation techniques; existing approved stand-in images; no production card assignment or activation.",
+  "copiedWithoutModification": true,
+  "sourceDirectory": "C:/Users/User/AppData/Local/Temp/cnine-icon-techniques-20261015",
+  "images": [
+    {
+      "file": "1440-crown_usurp-effect.png",
+      "bytes": 1396936,
+      "sha256": "56acd8bd3a170fa76f1ec9112072bf1283fe6666bfd1e94320c62d8dd4210cd7",
+      "sourceModifiedAt": "2026-10-15T10:15:52.833Z"
+    },
+    {
+      "file": "1440-formation_edit-effect.png",
+      "bytes": 1368514,
+      "sha256": "d3173b2610ddc7f7dccd7d7b9b7bf7d519cd5a26c1477d12241abbe7a0ea2ee6",
+      "sourceModifiedAt": "2026-10-15T10:20:44.485Z"
+    },
+    {
+      "file": "1440-wound_defer-effect.png",
+      "bytes": 1386988,
+      "sha256": "a590c44ec642dd57518429b06441e6c43f2b86377e6e78dc4d7451cfc76fee31",
+      "sourceModifiedAt": "2026-10-15T10:16:03.741Z"
+    },
+    {
+      "file": "1440-skill_advance-effect.png",
+      "bytes": 1395275,
+      "sha256": "ed4b561847971d8a3c76f69e99b71bea449d8c1665036f8197bdb97edf5ef70e",
+      "sourceModifiedAt": "2026-10-15T10:16:07.693Z"
+    },
+    {
+      "file": "1440-pursuit_ban-effect.png",
+      "bytes": 1374580,
+      "sha256": "4e8dbda0665ffad29e22c47fe0692b32d2ab60c707af7b6441700805a2a7c59f",
+      "sourceModifiedAt": "2026-10-15T10:16:13.741Z"
+    },
+    {
+      "file": "1440-skill_censor-effect.png",
+      "bytes": 1386646,
+      "sha256": "16d4a7d7b1ddbd42e25fe4271e7639a7667b2a7f54ea0cb31ae4cd019a296dc9",
+      "sourceModifiedAt": "2026-10-15T10:16:22.641Z"
+    },
+    {
+      "file": "1440-autonomous_weapon-effect.png",
+      "bytes": 1368801,
+      "sha256": "915164810beb763bfc4b1bcea72cfc451adb923d4faf475592ecc5ff492d2b20",
+      "sourceModifiedAt": "2026-10-15T10:22:59.292Z"
+    },
+    {
+      "file": "1440-return_oath-effect.png",
+      "bytes": 1382972,
+      "sha256": "366c032b67f3211398663268eedeb36a138c727e707fc175404b255caefa8581",
+      "sourceModifiedAt": "2026-10-15T10:20:54.685Z"
+    },
+    {
+      "file": "1440-selection.png",
+      "bytes": 609614,
+      "sha256": "520aa88c4e81daded64aeba8d879b78f5c3c476a02b8fe4e173770412e30b466",
+      "sourceModifiedAt": "2026-10-15T10:22:58.128Z"
+    },
+    {
+      "file": "1440-autonomous_weapon-result.png",
+      "bytes": 1353765,
+      "sha256": "8d92ecbf17a9fb35f282498acb291f5a6243205bb6a9fb23c38f3ac571f3c817",
+      "sourceModifiedAt": "2026-10-15T10:23:02.052Z"
+    },
+    {
+      "file": "390-crown_usurp-effect.png",
+      "bytes": 419186,
+      "sha256": "dbef9087a807e823bb74d490e65872747809ed72ae4489d662dafcc7f04326e5",
+      "sourceModifiedAt": "2026-10-15T10:16:37.814Z"
+    },
+    {
+      "file": "390-formation_edit-effect.png",
+      "bytes": 412941,
+      "sha256": "1b2247696f478d7dafae433d73c5c8423a9da8499c9b458eaee18b63d6ca17a0",
+      "sourceModifiedAt": "2026-10-15T10:20:57.966Z"
+    },
+    {
+      "file": "390-wound_defer-effect.png",
+      "bytes": 418333,
+      "sha256": "6398dc9c71cf431368dee9521687220cc624facb39808d0fc134cb86ad2417fc",
+      "sourceModifiedAt": "2026-10-15T10:16:48.649Z"
+    },
+    {
+      "file": "390-skill_advance-effect.png",
+      "bytes": 418366,
+      "sha256": "a26a78f3bde43778c2a5c34116b993953cb211041688f63da9996d182d38935c",
+      "sourceModifiedAt": "2026-10-15T10:16:52.349Z"
+    },
+    {
+      "file": "390-pursuit_ban-effect.png",
+      "bytes": 415473,
+      "sha256": "e8af99821f93290e4c72deedd138eda1c96815fb7be519f39dc7a6a34f5c718c",
+      "sourceModifiedAt": "2026-10-15T10:16:58.254Z"
+    },
+    {
+      "file": "390-skill_censor-effect.png",
+      "bytes": 416850,
+      "sha256": "5a61be455b9802dfb83103f0340baaf7a1c846a06e3341ff3ee8b9f5f0a07dd1",
+      "sourceModifiedAt": "2026-10-15T10:17:06.300Z"
+    },
+    {
+      "file": "390-autonomous_weapon-effect.png",
+      "bytes": 412436,
+      "sha256": "c7572afd13cc78a4951d365884bba8bb7541771ff5bd09acf4a21a234d07a696",
+      "sourceModifiedAt": "2026-10-15T10:23:03.426Z"
+    },
+    {
+      "file": "390-return_oath-effect.png",
+      "bytes": 415857,
+      "sha256": "ef71cd359040bd192d499aa59df5ea412751cd139a5f3a5fe7a1becdb681112b",
+      "sourceModifiedAt": "2026-10-15T10:21:07.890Z"
+    },
+    {
+      "file": "390-selection.png",
+      "bytes": 275202,
+      "sha256": "f9633355d75da745eeb13f3fba206c8e3c4c65b43439ba33bbd5870a9f17ce69",
+      "sourceModifiedAt": "2026-10-15T10:23:02.583Z"
+    },
+    {
+      "file": "390-autonomous_weapon-result.png",
+      "bytes": 407835,
+      "sha256": "d98457b99e15dde1b6ae4f0c3ad8dd63f892bd199a3bd1a495ed8dd39cea44d3",
+      "sourceModifiedAt": "2026-10-15T10:23:06.155Z"
+    }
+  ],
+  "results": [
+    "browser-full-16.summary.json",
+    "browser-targeted-6.summary.json",
+    "browser-weapon-2.raw.json",
+    "browser-weapon-2.summary.json",
+    "state-and-server-6.summary.json"
+  ],
+  "commonSources": [
+    {
+      "file": "preview/project-v-v3/source/battle/IconTechniquePlayback.js",
+      "sha256": "4b8071ffd22eea093772525a6b8bc5f3a40f82997875177879fd1e06ddfcc886"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/BattleEngine.js",
+      "sha256": "b06d1718209d757579a2a48a3dd9fafdfef8a32444a3e77df3e060c413f5ba0b"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+      "sha256": "463c60fa8b6f49a7c6673688bf0bfcc65ae859d671b9269a5f71763992ca7635"
+    }
+  ]
+}

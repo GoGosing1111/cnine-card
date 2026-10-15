@@ -1,0 +1,494 @@
+ICON technique release continuation
+{
+  "head": "0fb6b15cf1c71bcfce7c3500a5beb1378d5292fc",
+  "startedAt": "2026-10-15T10:23:51.716Z",
+  "commands": [
+    "npm run build:v3-grid",
+    "npm run test:v3-grid",
+    "npm run test:v3-joint",
+    "npm run test:live-connections",
+    "npm run test:wish-lamp",
+    "npm run test:golden-axe",
+    "npm run test:chuseok",
+    "npm run test:hyper-pack",
+    "npm run test:new-user-gift",
+    "npm run test:scrapyard-v3",
+    "npm run test:avatar",
+    "npm run test:performance",
+    "npm run test:unique-advancement",
+    "npm run test:soopketland",
+    "npm run test:streamer-lounge",
+    "npm run test:player-card",
+    "npm run test:evolution",
+    "npm run test:inventory",
+    "npm run test:navigation",
+    "npm run test:mercenary-codex",
+    "npm run test:equipment-forge-public",
+    "npm run test:mercenary-cms",
+    "npm run test:cryvern",
+    "npm run test:mercenary-draw",
+    "npm run test:limited-pack",
+    "npm run test:raid-entry",
+    "npm run test:core-raid",
+    "npm run test:lich-raid",
+    "npm run test:madara-raid",
+    "npm run test:black-miracle",
+    "npm run test:seal",
+    "npm run test:message-rewards",
+    "npm run test:workshop",
+    "npm run test:clan",
+    "npm run test:organization",
+    "npm run test:prison",
+    "npm run test:coup",
+    "npm run test:project-v-sd",
+    "npm run test:apocalypse",
+    "npm run test:pve-sweep",
+    "npm run test:battle-suit",
+    "npm run test:skill-chips",
+    "npm run test:territory-reward",
+    "npm run test:alchemy",
+    "npm run test:ranked-reward",
+    "npm run test:coupon",
+    "npm run test:daily-quest",
+    "npm run test:prediction",
+    "npm run test:prime-draw",
+    "npm run test:superstar-pack",
+    "npm run test:fur-enhancement",
+    "npm run test:gamst-retirement",
+    "npm run test:reroll-recovery",
+    "npm run test:targeted-transfer",
+    "npm run test:idle-dungeon",
+    "npm run test:treasury",
+    "npm run test:z-body-effects",
+    "npm run test:legion-hunt"
+  ]
+}
+
+$ npm run build:v3-grid
+
+> build:v3-grid
+> node scripts/build-v3-grid-consumers.mjs
+
+Hunt V2 built with current canonical V3 engine, playback, roster and adapters.
+Built 10 V3 consumers with one shared grid. No deployment performed.
+
+$ npm run test:v3-grid
+
+> test:v3-grid
+> node --test tests/v3-common-grid-v1.test.mjs tests/v3-wide-grid-preview-v1.test.mjs tests/v3-damage-style-cache.test.mjs
+
+✔ movement depth updates keep uniform nameplates anchored to the body on both factions (1.2343ms)
+✔ common floor follows deployment, KO, revival and replacement without trailing cells (4.3762ms)
+✔ floor remains at formation stations while sprites attack or move (1.0054ms)
+✔ one optional mercenary per team never enters regular combat arrays and removes its tile when unequipped (2.0725ms)
+✔ only enabled support and visible escort objective get occupied cells (1.4241ms)
+✔ single boss, ally-center support and escort carrier have separate stations on desktop and mobile (0.227ms)
+✔ repeated layouts give both factions, mercenaries and support the same scale without accumulating old slot/depth factors (3.9682ms)
+✔ all ten served V3 bundles including the account entry and hunt share the current common grid (124.0374ms)
+✔ thousands of pooled hits reuse bounded immutable bitmap font styles without changing active labels (130.9722ms)
+✔ comparison baseline matches the actual live 7x6 projection, not a smaller strawman (2.1033ms)
+✔ desktop: occupied stations fit the scene without an empty rectangular floor (0.8172ms)
+✔ desktop: one mercenary per side and PVE-only support occupy unique, nonoverlapping tiles (0.3197ms)
+✔ desktop: canonical combat slots map to uniform presentation stations (0.3457ms)
+✔ portrait mobile: occupied stations fit the scene without an empty rectangular floor (0.1894ms)
+✔ portrait mobile: one mercenary per side and PVE-only support occupy unique, nonoverlapping tiles (0.1375ms)
+✔ portrait mobile: canonical combat slots map to uniform presentation stations (0.1533ms)
+✔ comparison shares one frozen combat snapshot and cannot alter damage, targets or rewards (44.8283ms)
+✔ compact fitting follows content width; a taller viewport never shrinks or stretches the formation (0.4489ms)
+✔ compact PVP and PVE share stations, tile sizes and row/column pitch (0.8653ms)
+✔ all roles use integer cells and identical pitches, with mirrored factions and a reserved objective column (0.3159ms)
+✔ comparison controls extend the common grid; shared card art, dock and timelines stay intact (9.6503ms)
+✔ zero or one mercenary removes unused stations independently on each side, and a second is rejected (0.7737ms)
+✔ the PVE suit sits inside the allied formation above the existing dock on both screen sizes (0.2024ms)
+✔ occluded rAF cannot exhaust the drain timeout without advancing the shared playback clock (0.3569ms)
+✔ visual drain remains bounded while rendering advances, and cancellation releases a frozen wait (0.4917ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 950.1459
+
+$ npm run test:v3-joint
+
+> test:v3-joint
+> node --test tests/mercenary-police-restraint-20260923.test.mjs tests/mercenary-moon-draw.test.mjs tests/mercenary-guard-balance.test.mjs tests/mercenary-ranged-balance.test.mjs tests/mercenary-account-v3.test.mjs tests/mercenary-combat-v3.test.mjs tests/mercenary-turn-cadence-v2099.test.mjs tests/mercenary-performance-v2100.test.mjs tests/mercenary-strength-v2103.test.mjs tests/mercenary-tier-balance-v2144.test.mjs tests/mercenary-role-assets-v2100.test.mjs tests/equipment-forge-transactions-v3.test.mjs tests/pve-v3-account-routes.test.mjs tests/joint-release-document-v3.test.mjs tests/forge-protection-source-v3.test.mjs tests/mercenary-presentation-v3.test.mjs tests/rank-power-star-cost-v3.test.mjs tests/mercenary-public-deployment-v2097.test.mjs tests/mercenary-skill-balance-v2097.test.mjs tests/hyper-opening-ui-v2097.test.mjs tests/valter-tempo-20261011.test.mjs
+
+✔ approved +10 power and 10% minimum cannot drift (2.194ms)
+✔ joint hold falls through to the existing read-only forge without DB access (44.3962ms)
+✔ SQLite: lost commit acknowledgement and concurrent authenticated requests charge only once (82.5148ms)
+✔ SQLite: superseded pending operations terminate, and draft policy writes include an atomic audit (21.5026ms)
+✔ SQLite: success/maintain receipts are atomic, replayable and invalidate stale quotes (56.7765ms)
+✔ SQLite: destruction removes the exact equipped instance; restore creates one owned instance once (69.3251ms)
+✔ SQLite: protection only consumes under configured policy and preserves level and loadout (35.7713ms)
+✔ SQLite: failed destruction rolls all payment/state back and retries the original roll after CMS changes (30.6706ms)
+✔ SQLite: expiry, missing ownership, unconfigured and invalid policies fail without spending (21.4467ms)
+✔ PostgreSQL: lost commit acknowledgement and concurrent authenticated requests charge only once (6518.8657ms)
+✔ PostgreSQL: superseded pending operations terminate, and draft policy writes include an atomic audit (3991.1857ms)
+✔ PostgreSQL: success/maintain receipts are atomic, replayable and invalidate stale quotes (3986.021ms)
+✔ PostgreSQL: destruction removes the exact equipped instance; restore creates one owned instance once (3020.4317ms)
+✔ PostgreSQL: protection only consumes under configured policy and preserves level and loadout (2574.8575ms)
+✔ PostgreSQL: failed destruction rolls all payment/state back and retries the original roll after CMS changes (3233.9429ms)
+✔ PostgreSQL: expiry, missing ownership, unconfigured and invalid policies fail without spending (2130.4912ms)
+✔ protection sources are explicit gameplay-only drafts, with no default operating rate (3.1032ms)
+✔ protection rare roll boundary, failure/budget exclusion, frozen reward and box denial (0.9655ms)
+✔ ON survives a store rerender; OFF and back navigation refresh the same status and buttons (13.6537ms)
+✔ 10 opens followed by navigation and a 1-open click use separate receipts and exact costs without closing the first result (13.0468ms)
+✔ legacy completed 10-open pending state is cleared before a newly selected single draw (2.3682ms)
+✔ unresolved 10-open request cannot replace a selected single draw; explicit recovery keeps its original id (3.3111ms)
+✔ lost response recovers the completed receipt without paying twice; completed receipt history is read-only (3.9768ms)
+✔ rapid duplicate clicks send one request; an inconsistent receipt never clears a pending transaction (9.8188ms)
+✔ a saved Omega-X JPEG receipt recovers without another debit and unlocks the next opening (3.623ms)
+✔ a stalled presentation releases the transaction lock and its late completion cannot unlock a later request (5.1449ms)
+✔ DOM churn coalesces without account reparsing; account and storage updates refresh the recovery button (5.5335ms)
+✔ hard release hold never reads storage or accepts a CMS ON override (1.0982ms)
+✔ offline schema candidates include acquisition receipts and never seed or alter operating CMS/account rows (1.8166ms)
+✔ SQLite: explicit preparation preserves drafts, all approvals are required, published document is immutable (120.9258ms)
+✔ PostgreSQL: explicit preparation preserves drafts, all approvals are required, published document is immutable (7170.8517ms)
+✔ Hyper pack always shares the inner account lock with mercenary opening (1.426ms)
+✔ mercenary public release hold never touches accounts or DB (40.7834ms)
+✔ SQLite: ten-card receipts use one acquisition query and never fabricate missing acquisition metadata (76.7896ms)
+✔ SQLite: uniform opening counts every duplicate once and replays a durable receipt (50.4306ms)
+✔ SQLite: failure rolls back coin and ownership; frozen draw survives CMS edits (39.7575ms)
+✔ SQLite: item payment and rewards settle together, and empty rank pool cannot charge (28.1375ms)
+✔ SQLite: owned slot uses rank-fixed power; future upgrades never spend or grow (87.5355ms)
+✔ SQLite: route rejects forged deck, cross-origin, non-owner TEST and ON policy (37.9459ms)
+✔ PostgreSQL: ten-card receipts use one acquisition query and never fabricate missing acquisition metadata (6568.6065ms)
+✔ PostgreSQL: uniform opening counts every duplicate once and replays a durable receipt (3763.9928ms)
+✔ PostgreSQL: failure rolls back coin and ownership; frozen draw survives CMS edits (3805.2208ms)
+✔ PostgreSQL: item payment and rewards settle together, and empty rank pool cannot charge (3149.7388ms)
+✔ PostgreSQL: owned slot uses rank-fixed power; future upgrades never spend or grow (2756.1704ms)
+✔ PostgreSQL: route rejects forged deck, cross-origin, non-owner TEST and ON policy (3055.9256ms)
+✔ every catalog mechanic executes a distinct server event path (25.8724ms)
+✔ locked sniper fires in the casting action and never loses the shot to a dying target (0.6409ms)
+✔ parry and approach suppression require a classified melee basic; a front-row gun is still ranged (1.6234ms)
+✔ two-stage rift keeps the original total budget, permits cleanse, and never delays the next basic (0.3984ms)
+✔ undisturbed first shot now fires focused in its casting action and is still once per battle (0.3557ms)
+✔ interception conserves incoming damage and affects only one direct hit (0.3688ms)
+✔ interception records the protecting actor and original damage owner separately (0.3456ms)
+✔ zero ratio cannot become a default full-strength hit, silence cannot start a new skill (0.3551ms)
+✔ area targets share the same authored stage and repeats cannot recharge or add offender marks (3.5946ms)
+✔ orders consume on a basic only, barrier budget is shared and does not stack without bound (1.1124ms)
+✔ cleanse removes poison in the casting action before the separately timed heal and never revives a lost target (3.8584ms)
+✔ PVP mirror and PVE keep exactly five cards, one separate mercenary, one independent suit (54.3051ms)
+✔ duel oath protects only its caster once and a different basic target consumes it (0.6317ms)
+✔ observed shield break cannot transfer its extra budget into HP (0.4636ms)
+✔ moon draw uses a bounded missing-health multiplier and never owes a recovery turn (0.359ms)
+✔ standfast divides a finite budget without adding HP or shield and expires with its source (0.3011ms)
+✔ thorn seal is cleansable, consumes once and never responds to additional attacks (1.5032ms)
+✔ abyss echo caps absorbed-shield bonus and first miss or target loss cancels its follow-up (1.0724ms)
+✔ dancing volley reannounces different living targets and conserves its three-shot budget (0.4921ms)
+✔ platinum suppression requires every hit and does not consume on a basic attack (0.6226ms)
+✔ coral volley keeps original per-target shares after a loss and shoots one boss once (1.3ms)
+✔ guard installs immediately on another ally and shares its action with one 85% basic (5.7796ms)
+✔ a living guard link prevents repeated resource spending and uses protected ally actions for expiry (1.5561ms)
+✔ single skill damage and ordinary attacks each transfer one hit without recursive protection or invented damage (1.5791ms)
+✔ only the damage actually taken by a dying protector is removed from the original hit (0.4286ms)
+✔ misses and zero damage preserve the ward; area, poison and counter paths bypass it (1.7795ms)
+✔ a two-shot sniper spends one protection charge; its second impact hits the original ally (0.3887ms)
+✔ death, stun and silence cannot provide active protection and cannot start a new link (0.7887ms)
+✔ no valid ally means a full basic with no cost; a lost target allows the next ready cast to choose a new ally (0.5046ms)
+✔ guardian cycles do not chain damage transfers or overwrite another source link (0.8534ms)
+✔ canonical PvP keeps 5+1, one actor action and a real basic on the immediate guard turn (33.8006ms)
+✔ public guard rules describe the actual mechanic without changing CMS ranks, assignments or balances (13.5038ms)
+✔ moon draw strikes in the casting action and never loses the cast to a preparation turn (6.1482ms)
+✔ a full-health enemy is struck for the base ratio without waiting for allied damage (0.5926ms)
+✔ a monster boss receives the draw in the casting action without execution or a removed actor (0.5442ms)
+✔ selection ignores untargetable/dead/support entities and uses current HP ratio and stable slot ordering (0.8618ms)
+✔ the weakest living enemy is measured at the moment of the strike (0.5311ms)
+✔ no legal enemy spends nothing; death, stun and silence cannot produce a strike (0.808ms)
+✔ the target can dodge or absorb the strike; it never causes a second target, refund or kill reset (0.7427ms)
+✔ canonical 5+1 PVP reproducer lands the draw in the casting action with no lost-target cancel (32.5752ms)
+✔ codex and owned skill descriptions agree while CMS assignments and numeric balance remain unchanged (99.5848ms)
+✔ optional mercenary leaves the original five-card guard pool and each shield intact (32.6036ms)
+✔ reserved mercenary actions preserve regular-card order, clock, RNG and full action budget (14.8541ms)
+✔ reservation is immediate after five own card actions and a dead mercenary cannot queue (1.2403ms)
+✔ a mercenary-only stalemate has a bounded additional-action budget (2.0158ms)
+✔ exhausting an extreme mercenary speed budget never ends remaining regular-card actions (5.0272ms)
+✔ mercenary fixed power is preserved and overtime cannot turn a weak extra attack into a 55% HP strike (4.6573ms)
+✔ all 43 current CMS mercenaries avoid aggregate PVP regression at the reported mid/high power bands (30846.2462ms)
+✔ police killing shot never marks or weakens a dead enemy in PVE or either PVP team (9.8253ms)
+✔ living targets retain the current mark, restraint duration, damage and one-shot budget (25.9522ms)
+✔ misses add no status; a canonical revival is still a living target (2.1355ms)
+✔ police status records never replay the gunshot, including old receipts with a visible corpse (75.0702ms)
+✔ the actual police HIT still enters the firing path exactly once, not its later status (22.1404ms)
+✔ a restraint target lost during asset loading cannot start the delayed binding effect (35.9285ms)
+✔ canonical five-card PVE/PVP timelines never add police status after lethal HP state (971.7107ms)
+✔ all 43 immutable SDs have hash-bound attachment points and opposing team mirrors (291.4169ms)
+✔ 28 profiles use preserved recordings and align their measured principal peaks at every impact (74.4959ms)
+✔ cancelled rehearsal cannot schedule a hit, and a server second beat does not replay its first beat (15.7981ms)
+✔ SQLite: ordinary user equips exactly one independent mercenary for PVE and both PVP sides with Hyper OFF (486.8703ms)
+✔ PostgreSQL: ordinary user equips exactly one independent mercenary for PVE and both PVP sides with Hyper OFF (7189.2617ms)
+✔ deployment exposes 5+1 independently and both real deck builders link to their own mode (2.2461ms)
+✔ displayed PVP power adds the separately deployed mercenary once without counting it as a card (7.3799ms)
+✔ sniper skills spend one action, cost and cast cap; shots do not create extra turns or energy (7.2813ms)
+✔ slow multi-shot weapons fire once per actor action and retain their distinct two/three-shot sequences (1.9159ms)
+✔ a first-shot miss never cancels later shots or the final calibration bonus (1.591ms)
+✔ remaining shots retarget after either their own kill or an ally kill; empty teams end the volley (1.2982ms)
+✔ sniper shield/HP conditions and slow burst full-hit conditions no longer discard the intended effect (1.007ms)
+✔ death, control, no targets, cooldown and insufficient energy prevent casts; control still interrupts multi-action fire (1.0073ms)
+✔ rank, actual weapon, role and specific mechanic gate upgrades; ordinary guns, crossbows, magic and melee keep their existing behavior (3.1817ms)
+✔ selected sniper and slow-shot loadouts outperform A ranged and their own basic-only PVE contribution across power bands (8508.8979ms)
+✔ PVP mirrored sides keep 5+1 slots and higher ranged grades maintain aggregate advantage over A (1651.3695ms)
+✔ PVP adjusted ranged stays within its same-grade melee range across power, composition and both sides (37291.6464ms)
+✔ SS PVP rebalance scales each chosen skill and its cap, preserving basic attacks, PVE, other ranks and unaffected weapons (1.4545ms)
+✔ public descriptions reflect per-actor rules without changing CMS values, grades, assignments or lower ranks (6.6373ms)
+✔ every SS has a material advantage over S Cheonga, including each power and deck group (5224.6955ms)
+✔ Cheonga cannot defeat any current SS in isolated linked PVP duels on either side (388.7359ms)
+✔ higher-tier opposition scales basics and all three calibration shots once, frozen through enemy KO (0.5844ms)
+✔ tier correction requires S Cheonga with calibration and a living opposing SS/SSS mercenary at entry (0.8398ms)
+✔ the real PVP damage engine applies tier caps to normal attacks and skill impacts (3.564ms)
+✔ S Cheonga restores full same/lower-tier PVP calibration without changing cadence, cost or cooldown (0.3039ms)
+✔ Cheonga upper-tier skill budget cannot leak to PVE, other owners, skills, weapons or grades (0.8873ms)
+✔ Cheonga stays in the upper S tier against every current peer with equal five-card support (4568.0739ms)
+✔ every current A mercenary loses isolated linked PVP duels to Cheonga across all power/deck groups and sides (1552.1059ms)
+✔ PVE skill floors share the actual ratio, inherit apocalypse scaling and obey the existing per-hit cap (11.4127ms)
+✔ PVP groups both instant sniper shots under one cast cap even when remaining shots change targets (1.0727ms)
+✔ bullets and arrows stay readable under mobile scaling and reach the same target from both sides (4.5968ms)
+✔ seven mercenary roles own 112 genuine native frames with preserved original hashes and clean alpha (2056.8184ms)
+✔ user-approved seven-role assets use the shared live V3 renderer and hash-bound approval (13.6811ms)
+✔ explicit balance operation preserves ranks, assignments, rules and notes; rejects catalog drift (10.7626ms)
+✔ all 26 approved balances spend energy once per cast, respect cooldown and resolve real mechanics (20.6769ms)
+✔ authored multihit and area budgets are totals, including target loss and one boss (2.7896ms)
+✔ support balance fields mean healing or finite protection; pure support never deals invented damage (1.6586ms)
+✔ configured skills execute in PVE and PVP without entering the five-card array (44.6356ms)
+✔ linkage uses only five own ordinary cards, is frozen once, and scales real HP while preserving base power (6.2849ms)
+✔ released cadence takes one additional action after every own card action and never feeds itself (1.5886ms)
+✔ HP linkage preserves wounded health ratios and cannot heal again when initialized twice (0.8492ms)
+✔ PVE and both PVP sides publish the authoritative linked starting HP and finite increased damage (97.601ms)
+✔ a large linked ward is depleted in combat instead of becoming invincible behind fixed low HP (13.0667ms)
+✔ CMS tuning preserves all assignments, grades, skill rules and probabilities and refuses mechanic drift (13.3585ms)
+✔ threat-targeted skills recognize an opposing mercenary enhanced by combat linkage (1.0185ms)
+✔ linked support heals and shields from the same effective attack budget and never deals support damage (2.1455ms)
+✔ all current mercenaries retain positive aggregate PVP value, with material S/SS skill contribution at high power (30128.5908ms)
+✔ stronger skills resolve in PVE with finite damage (2.6202ms)
+✔ upper-tier durability is frozen, finite and excludes PVE, equal ranks, absent/dead opponents and ordinary cards (8.1174ms)
+✔ front-row PVP compensation is rank-aware while PVE uses its unchanged sixty-percent bonus (1.5043ms)
+✔ a last-standing PVP mercenary responds to regular enemy turns without recursion, extra regular turns or PVE changes (3.0485ms)
+✔ Mangisa sends the configured per-cast cap through all six bullets and never receives six full caps (6.0424ms)
+✔ PVP suppression scales the actual cap and every contact of one cast, including custom volleys and multi-action bursts (6.7831ms)
+✔ the real PVP damage engine reduces capped offensive damage after Adeline suppression (21.0135ms)
+✔ all current S/SS/SSS pairs preserve grade order with equal five-card support across power, type, side and independent seeds (38318.892ms)
+✔ Ragniel retains a measured 60-65% aggregate advantage over Omega on two disjoint seed sets without an outcome override (8988.3566ms)
+✔ linked isolated upper-rank mercenaries also preserve rank order without regular-card damage (3133.3426ms)
+✔ high-power gauges drain ready actors before advancing time, on both sides without mercenaries (105.6979ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 1000000 power cards (63.8634ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 20000000 power cards (90.145ms)
+✔ rank-fixed mercenary attacks in PVE and both PVP sides with 100000000 power cards (10.0678ms)
+✔ all six ranks without an assigned skill still perform basic attacks at real deck power (67.6447ms)
+✔ mercenary reservation uses allied card turns only, clears on a natural turn and excludes dead actors (1.3316ms)
+✔ dead mercenaries cannot receive reserved basic or skill turns (16.1051ms)
+✔ apocalypse chip clock and continuous monster replacement retain actual mercenary attacks (300.5754ms)
+✔ public joint hold rejects every new account mutation before authentication and database access (103.2207ms)
+✔ bounded same-origin JSON rejects forged fields, origins, arrays and oversized streams (7.6441ms)
+✔ SQLite: OWNER CMS edits are versioned drafts and cannot turn on gameplay (84.724ms)
+✔ SQLite: retired idle blocks status, starts and claims while preserving old records (15.4981ms)
+✔ SQLite: retired idle claims and retries cannot pay even an existing pending balance (46.0902ms)
+✔ SQLite: actual authenticated tower/scrapyard/cow handlers use owned snapshots, lock and durable result (296.8875ms)
+✔ SQLite: cow frozen settlement recovers across midnight, policy and deck changes; never charges twice (120.3253ms)
+✔ SQLite: cow insufficient funds, capped rewards, daily limit and transaction failures cannot mint rewards (141.7311ms)
+✔ PostgreSQL: OWNER CMS edits are versioned drafts and cannot turn on gameplay (5029.865ms)
+✔ PostgreSQL: retired idle blocks status, starts and claims while preserving old records (3727.1233ms)
+✔ PostgreSQL: retired idle claims and retries cannot pay even an existing pending balance (2830.5029ms)
+✔ PostgreSQL: actual authenticated tower/scrapyard/cow handlers use owned snapshots, lock and durable result (3366.18ms)
+✔ PostgreSQL: cow frozen settlement recovers across midnight, policy and deck changes; never charges twice (2772.5807ms)
+✔ PostgreSQL: cow insufficient funds, capped rewards, daily limit and transaction failures cannot mint rewards (2997.2369ms)
+✔ all six ranks use approved fixed power and canonical mode stats, ignoring obsolete growth (6.5808ms)
+✔ future mercenary upgrading cannot touch inventory, balances or growth even with an old request (7.0781ms)
+✔ forge drafts keep unapproved amounts empty but fix the enhancement material to master stars (1.7794ms)
+✔ SQLite: coin plus stars required, failure rolls back both, retry charges once (108.6117ms)
+✔ PostgreSQL: coin plus stars required, failure rolls back both, retry charges once (5141.7073ms)
+✔ Valter receives 50% more natural speed in both modes while personal stats and PVE skill stay intact (12.129ms)
+✔ both sides earn three finite extra turns per allied card, with no enemy, suit, monster or dead-actor credit (8.16ms)
+✔ duo teammate actions remain separate and Valter keeps three last-stand responses (1.7856ms)
+✔ long canonical battles do not cut Valter off at the former two-turn budget (133.0421ms)
+✔ real PVE and PVP payloads publish the faster server fighter and preserve ordinary cards (22.826ms)
+ℹ tests 189
+ℹ suites 0
+ℹ pass 189
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 60325.1583
+
+$ npm run test:live-connections
+
+> test:live-connections
+> node --test tests/mercenary-live-connections-v2091.test.mjs tests/cow-tower-live-on-v2092.test.mjs tests/hyper-opening-cms-v2093.test.mjs tests/mercenary-ss-once-v2104.test.mjs tests/cow-native-v2093.test.mjs tests/pve-combat-only-v2094.test.mjs tests/pve-battlefield-entry-v2117.test.mjs tests/project-v-v3-nonblocking-fx-v2060.test.mjs tests/v3-fluid-combat-v2126.test.mjs tests/project-v-v3-live-payload-v1.mjs tests/mercenary-hi-heeya-v2118.test.mjs tests/mercenary-mangisa-live.test.mjs preview/mercenary-mangisa-v1/qa.test.mjs tests/mercenary-ragniel-live.test.mjs preview/mercenary-ragniel-v1/qa.test.mjs tests/mercenary-bikini-joeun-live.test.mjs tests/mercenary-heukwol-live.test.mjs preview/mercenary-black-moon-swordsman-ss-v1/qa.test.mjs
+
+✔ approved source pixels remain exact and SD is separate transparent artwork (318.4026ms)
+✔ runtime masks include full characters and exclude neighboring sword frames (838.3643ms)
+✔ 16 effect frames are distinct, transparent and have empty crop borders (289.9163ms)
+✔ forward/reverse seeking is deterministic; interruption removes all active effects (69.958ms)
+✔ all three contacts use the authored pose and corresponding effect peak (0.5178ms)
+✔ real Pixi transforms align blades and cleanup retains shared engine/resources (131.7692ms)
+✔ six shots share one cast cost and a bounded SS damage budget (2.1305ms)
+✔ interruption and target loss discard remaining damage without retargeting or refunds (0.488ms)
+✔ seeking backward recomputes a stable offline sample, not cumulative damage (1.4185ms)
+✔ approved name, SS rank, immutable source, separate alpha SD and disabled runtime (38.6697ms)
+✔ six distinct poses and sixteen actual RGBA impact frames with safe atlas padding (354.3438ms)
+✔ backward scrubbing is deterministic and never accumulates gameplay effects (15.0665ms)
+✔ cancellation and target loss stop all future contacts, poses, glow and movement (1.8979ms)
+✔ contact cues select the actual authored sword and ultimate collision frames (0.399ms)
+✔ user-selected source and separate native-alpha SD are immutable (46.8554ms)
+✔ 54 distinct RGBA frames retain original masters and have transparent atlas padding (5412.536ms)
+✔ recorded sound masters match declared license, sources and synchronization points (11.3331ms)
+✔ first audio decode latency uses the current animation clock and speed for contact alignment (3.1757ms)
+✔ cancel during asynchronous audio loading cannot restart stale sound (0.5101ms)
+✔ actual Pixi renderer aligns the blade, fits the mobile corona and clears owned timelines and sprites (282.2421ms)
+✔ PVP, ranked, territory and other modes cannot roll or display a portal, including a stored portal (2.5629ms)
+✔ native Cow entry preserves game shell and shared V3; original Scrapyard entry cannot be intercepted (2.6785ms)
+✔ public release opens cow and legacy tower while new tower economy and other launches stay held (54.1966ms)
+✔ legacy tower completion wins over absent next floor and never offers re-ascent (2.0666ms)
+✔ SQLite: ordinary user scrapyard admission uses one ticket and recovers the same receipt (100.6769ms)
+✔ SQLite: OWNER enables cow, ordinary user enters, exact reward and six-run cap survive replay (313.3245ms)
+✔ PostgreSQL: ordinary user scrapyard admission uses one ticket and recovers the same receipt (6643.4869ms)
+✔ PostgreSQL: OWNER enables cow, ordinary user enters, exact reward and six-run cap survive replay (4602.2569ms)
+✔ SQLite: missing switch is OFF; only OWNER can start a ready pack; revisions, origin and audit are enforced (178.2212ms)
+✔ SQLite: ordinary user opens 1/10 at fixed price; aliases replay once; OFF retains receipts, collection and independent deployment (148.4217ms)
+✔ SQLite: invalid reward readiness cannot start; audit failure cannot enable opening (104.0402ms)
+✔ SQLite: opening guard rejects a stop between readiness and debit without changing wallet (28.4062ms)
+✔ PostgreSQL: missing switch is OFF; only OWNER can start a ready pack; revisions, origin and audit are enforced (7141.2677ms)
+✔ PostgreSQL: ordinary user opens 1/10 at fixed price; aliases replay once; OFF retains receipts, collection and independent deployment (4334.1903ms)
+✔ PostgreSQL: invalid reward readiness cannot start; audit failure cannot enable opening (2311.4776ms)
+✔ PostgreSQL: opening guard rejects a stop between readiness and debit without changing wallet (1772.5936ms)
+✔ previous complete CMS adds only Bikini Joeun while preserving live edits and assignments (138.281ms)
+✔ approved card art stays separate; native six poses and sixteen impact frames have safe alpha borders (766.6287ms)
+✔ both attacks sample real recoil poses; visual plans never own damage (1.2855ms)
+✔ Pixi pose playback preserves scale, HP and anchors, cancels cleanly and keeps shared atlas textures (43.63ms)
+✔ six visual shots spend one server hit budget, one cost and one cooldown, respecting evasion and absent targets (10.7912ms)
+✔ SQLite SS acquisition is repeat-safe and deploys the assigned skill in a separate slot (211.5443ms)
+✔ PostgreSQL SS acquisition is repeat-safe and deploys the assigned skill in a separate slot (6887.7978ms)
+✔ PVE and both PVP sides receive five regular cards plus SS Joeun and immediate skill events (38.1986ms)
+✔ previous complete CMS expands once, preserving every prior operator edit and later unassignment (32.0025ms)
+✔ live originals match approval and card art never becomes the SD (71.7822ms)
+✔ three authoritative contacts share one budget; dodge, knockout and control cannot create spare hits (3.278ms)
+✔ one energy charge and cooldown per combo, no charge without a target (4.3741ms)
+✔ visual stop follows server contacts; evasion has no fabricated impact and no local damage (39.1209ms)
+✔ SQLite SS acquisition is idempotent and equips one mercenary with its skill (282.4202ms)
+✔ PostgreSQL SS acquisition is idempotent and equips one mercenary with its skill (6964.1637ms)
+✔ PVE and both PVP teams use five regular cards plus Heukwol with server combo events (62.6714ms)
+✔ complete previous CMS expands exactly once and retains every saved operator field (41.4771ms)
+✔ approved source art and SD bytes, anchors and full nine-shot timing are preserved (9.3768ms)
+✔ SQLite: SS draw grants Hi Heeya once, duplicate replay cannot charge twice, and loadout carries the approved skill (107.3953ms)
+✔ PostgreSQL: SS draw grants Hi Heeya once, duplicate replay cannot charge twice, and loadout carries the approved skill (6663.5767ms)
+✔ nine tracer visuals consume one damage budget, one energy cost and one cooldown in the casting action (21.683ms)
+✔ real PVE and PVP snapshots use separate optional SS slot and server skill events (167.8395ms)
+✔ production links and all opening aliases are connected while OFF permits only a settings read (66.2214ms)
+✔ presentation accepts only completed server receipts with real card art and reward quantities (91.1963ms)
+✔ every released mercenary source art can be displayed in a completed pack receipt, including Omega-X JPEG (1.2486ms)
+✔ SQLite: shop and account aliases share payment, receipt, art and duplicate accounting (96.7414ms)
+✔ SQLite: S6 and SS8 CMS assignments reach owned cards, separate loadout and real PVE snapshots (394.4617ms)
+✔ PostgreSQL: shop and account aliases share payment, receipt, art and duplicate accounting (7166.521ms)
+✔ PostgreSQL: S6 and SS8 CMS assignments reach owned cards, separate loadout and real PVE snapshots (4432.272ms)
+✔ complete prior CMS appends only Mangisa and preserves saved settings, edits and explicit assignments (65.481ms)
+✔ six shots and two splash outcomes spend one cast, one bounded PVP cap and one cooldown in the first action (75.0711ms)
+✔ first dodge does not cancel followups; a fallen primary hands the remaining bullets to the next enemy (2.9002ms)
+✔ SQLite SS opening, idempotent replay, separate loadout and approved skill (227.387ms)
+✔ PostgreSQL SS opening, idempotent replay, separate loadout and approved skill (6947.8283ms)
+✔ canonical PVE and both PVP teams expose five ordinary cards plus one Mangisa and resolved volley snapshots (49.0737ms)
+✔ authoritative FX follows the shared clock, never changes HP, restores sprite size and releases views on cancel (22.7756ms)
+✔ approved originals and SSS defaults register once while prior CMS edits survive (183.8159ms)
+✔ two contacts share one SSS action/cap/budget, preserve shield results and spend one cooldown (7.7316ms)
+✔ a dodged first strike still cancels its falling sword and never creates a spare strike (0.5575ms)
+✔ a marked target that falls first hands its falling sword to the other marked target within the same budget (0.7232ms)
+✔ server cancellation suppresses the unearned falling sword and releases its visual clock early (32.0977ms)
+✔ SQLite weighted SSS acquisition is repeat-safe and deploys through the separate mercenary slot (158.3301ms)
+✔ PostgreSQL weighted SSS acquisition is repeat-safe and deploys through the separate mercenary slot (6705.0783ms)
+✔ canonical PVE and both PVP sides include five regular cards, separate Ragniel, and server-resolved contacts (52.101ms)
+✔ SQLite: only selected account's next ten-pack receives one SS; count, price and future odds remain unchanged (165.5569ms)
+✔ SQLite: failed payment or grant never consumes the guarantee; saved retry grants exactly once (49.3095ms)
+✔ SQLite: a stale competing pending request cannot consume a second grant or debit (77.9635ms)
+✔ SQLite: public aliases serialize concurrent requests; client fields cannot arm a guarantee (214.56ms)
+✔ SQLite: each SS follows configured weights; duplicate grants use the existing copy accounting (82.9258ms)
+✔ PostgreSQL: only selected account's next ten-pack receives one SS; count, price and future odds remain unchanged (8704.4616ms)
+✔ PostgreSQL: failed payment or grant never consumes the guarantee; saved retry grants exactly once (2986.7506ms)
+✔ PostgreSQL: a stale competing pending request cannot consume a second grant or debit (2056.6083ms)
+✔ PostgreSQL: public aliases serialize concurrent requests; client fields cannot arm a guarantee (1635.691ms)
+✔ PostgreSQL: each SS follows configured weights; duplicate grants use the existing copy accounting (1934.2079ms)
+✔ SQLite: targeted Vespera appears in third slot once, ordered receipt and other accounts remain normal (46.8976ms)
+✔ SQLite: targeted grant rolls back on failure, competing stale request cannot grant or charge twice (28.4474ms)
+✔ SQLite: targeted configuration rejects non-SS card without consuming or charging (15.3111ms)
+✔ SQLite: third completed ten-pack grants once; single opens, other accounts and receipt replays do not advance (44.6626ms)
+✔ SQLite: deferred countdown rolls back with failed rewards and rejects stale saved batches without debit (63.8218ms)
+✔ SQLite: concurrent public ten-pack requests advance the countdown serially and grant only once (42.8367ms)
+✔ PostgreSQL: targeted Vespera appears in third slot once, ordered receipt and other accounts remain normal (1595.5576ms)
+✔ PostgreSQL: targeted grant rolls back on failure, competing stale request cannot grant or charge twice (1480.2226ms)
+✔ PostgreSQL: targeted configuration rejects non-SS card without consuming or charging (1971.5409ms)
+✔ PostgreSQL: third completed ten-pack grants once; single opens, other accounts and receipt replays do not advance (1845.3049ms)
+✔ PostgreSQL: deferred countdown rolls back with failed rewards and rejects stale saved batches without debit (1822.6095ms)
+✔ PostgreSQL: concurrent public ten-pack requests advance the countdown serially and grant only once (1708.8457ms)
+✔ targeted one-time grant requires a complete, bounded card and slot pair (0.5702ms)
+✔ SQLite: targeted SSS Ragniel appears in the second slot once; SS states and odds untouched (31.2321ms)
+✔ SQLite: SSS grant rejects an SS card and unknown ranks (12.5968ms)
+✔ PostgreSQL: targeted SSS Ragniel appears in the second slot once; SS states and odds untouched (1566.9349ms)
+✔ PostgreSQL: SSS grant rejects an SS card and unknown ranks (1280.6254ms)
+project-v-v3 live payload contract: OK
+✔ tests\project-v-v3-live-payload-v1.mjs (430.3197ms)
+✔ 회복·상태 이벤트가 전투 재생을 멈추지 않는다 (4.9813ms)
+✔ 회피 배너가 전투를 멈추지 않는다 (1.7656ms)
+✔ HP 동기화가 이벤트 순서를 지키고, 재생이 끝난 뒤 뒤늦게 되돌아가지 않는다 (340.9507ms)
+✔ 배너 대기열은 최신 2건만 유지한다 (211.4132ms)
+✔ 큰 연출(스킬·궁극기·전직 순간)은 여전히 차단 재생을 유지한다 (102.5887ms)
+✔ 소스 계약: 반복 이벤트는 queue*, 큰 연출은 await 유지 (2.4743ms)
+✖ 번들이 소스와 같은 계약을 담고 있다 (17.0496ms)
+✔ 캐시 태그가 갱신되어 있다 (6.6353ms)
+✔ 숨겨진 전투에 배너를 넣어도 큐가 잠기지 않고 다시 열면 재생된다 (81.8664ms)
+✔ 배너 생성이 동기 예외를 내도 다음 배너를 재생할 수 있다 (110.1497ms)
+✔ 논블로킹 배너와 궁극기 배너가 같은 표시 객체를 덮어쓰지 않는다 (1.423ms)
+✔ 전투가 취소되면 아직 시작하지 않은 배너는 다음 전투에 나타나지 않는다 (0.8494ms)
+✔ 호송차 회복 안내 중에도 다음 공격이 진행된다 (221.0144ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (26.6688ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (13.3187ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (4.5973ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (15.6977ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (37.7887ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (229.446ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (4.1407ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (4.7631ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.2234ms)
+✔ SQLite: actual tower route uses continuous server combat, CMS reward and one-floor progress (227.4859ms)
+✔ SQLite: actual tower defeat does not advance or grant a clear reward (73.6155ms)
+✔ PostgreSQL: actual tower route uses continuous server combat, CMS reward and one-floor progress (3739.6322ms)
+✔ PostgreSQL: actual tower defeat does not advance or grant a clear reward (2079.4221ms)
+✔ live upper floors use their approved Omega, Minato and Ichigo sprites (36.8066ms)
+✔ entry screens remain native while both battle actions use the common continuous overlay (2.7413ms)
+✔ V3 skills keep impacts and cancellation without photo cut-ins, dimming or hit-stop (3.7767ms)
+✔ PVE report preserves large rewards, zero rewards, card fragments and suit contribution (33.727ms)
+✔ PVP report keeps negative score, draw verdict and escaped server labels (0.769ms)
+✔ main PVE and PVP both use the shared report with return buttons (50.1007ms)
+✔ survival details include the separate mercenary slot without changing the five-card roster (0.8837ms)
+ℹ tests 141
+ℹ suites 0
+ℹ pass 140
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 33532.7682
+
+✖ failing tests:
+
+test at tests\project-v-v3-nonblocking-fx-v2060.test.mjs:209:1
+✖ 번들이 소스와 같은 계약을 담고 있다 (17.0496ms)
+  AssertionError [ERR_ASSERTION]: 공용 엔진·용병·아포칼립스·ICON 어댑터의 배너 큐가 번들에 그대로 포함되어야 합니다
+  
+  52 !== 51
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/project-v-v3-nonblocking-fx-v2060.test.mjs:216:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 52,
+    expected: 51,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

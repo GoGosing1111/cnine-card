@@ -60,6 +60,7 @@ import { ensureSkillChipFoundation } from '../_skill_chips.js';
 import {handleMercenaryCms} from '../_mercenary_cms.js';
 import {handleIconCms} from '../_icon_cms.js';
 import {handleIconRoles} from '../_icon_roles.js';
+import {handleIconTechniques} from '../_icon_techniques.js';
 import {handleTrophyBonusCms} from '../_trophy_bonus_cms.js';
 import {collectionRewardCoin} from '../_collection_bonuses.js';
 import {handlePetCompanionCms} from '../_pet_companion_cms.js';
@@ -5156,6 +5157,7 @@ async function handleRequest(context){
     const forgePublicResponse=await handleEquipmentForgePublic({path,request,env,deps:{authenticate,requirePermission,json}});if(forgePublicResponse)return forgePublicResponse;
     const mercenaryCmsResponse=await handleMercenaryCms({path,request,env,deps:{requirePermission,json}});if(mercenaryCmsResponse)return mercenaryCmsResponse;
     const iconRolesResponse=await handleIconRoles({path,request,env,deps:{requirePermission,json}});if(iconRolesResponse)return iconRolesResponse;
+    const iconTechniquesResponse=await handleIconTechniques({path,request,env,deps:{requirePermission,json}});if(iconTechniquesResponse)return iconTechniquesResponse;
     const iconCmsResponse=await handleIconCms({path,request,env,deps:{requirePermission,json}});if(iconCmsResponse)return iconCmsResponse;
     const trophyBonusResponse=await handleTrophyBonusCms({path,request,env,deps:{requirePermission,authenticate,json}});if(trophyBonusResponse)return trophyBonusResponse;
     const petCompanionCmsResponse=await handlePetCompanionCms({path,request,env,deps:{requirePermission,json}});if(petCompanionCmsResponse)return petCompanionCmsResponse;

@@ -1,0 +1,252 @@
+[
+  {
+    "width": 1440,
+    "code": "AUTONOMOUS_WEAPON",
+    "events": 2,
+    "metrics": {
+      "events": 2,
+      "applied": 2,
+      "codes": [
+        "AUTONOMOUS_WEAPON"
+      ],
+      "phases": [
+        "CAST"
+      ],
+      "summons": 1,
+      "summonAttacks": 9,
+      "swaps": 0,
+      "revivals": 0,
+      "missingActors": [],
+      "history": [
+        {
+          "type": "ICON_TECHNIQUE",
+          "code": "AUTONOMOUS_WEAPON",
+          "phase": "CAST",
+          "actorId": "A:0:technique-AUTONOMOUS_WEAPON",
+          "targetId": "A:0:technique-AUTONOMOUS_WEAPON",
+          "motif": "INDEPENDENT_TURRET",
+          "moved": []
+        },
+        {
+          "type": "ICON_SUMMON",
+          "code": "AUTONOMOUS_WEAPON",
+          "phase": "",
+          "actorId": "A:0:technique-AUTONOMOUS_WEAPON",
+          "targetId": "A:0:technique-AUTONOMOUS_WEAPON:ICON_WEAPON",
+          "motif": "INDEPENDENT_TURRET",
+          "moved": []
+        }
+      ]
+    },
+    "actors": [
+      {
+        "id": "A:0:technique-AUTONOMOUS_WEAPON",
+        "slot": 0,
+        "hp": 84.94166666666668,
+        "x": 170,
+        "y": 240,
+        "badges": []
+      },
+      {
+        "id": "A:2:ally",
+        "slot": 2,
+        "hp": 58.333333333333336,
+        "x": 170,
+        "y": 416,
+        "badges": []
+      },
+      {
+        "id": "ALLY-03",
+        "hp": 64.78571428571429,
+        "x": 170,
+        "y": 416,
+        "badges": []
+      },
+      {
+        "id": "ALLY-04",
+        "hp": 0,
+        "x": 590,
+        "y": 416,
+        "badges": []
+      },
+      {
+        "id": "ALLY-05",
+        "hp": 0,
+        "x": 380,
+        "y": 592,
+        "badges": []
+      },
+      {
+        "id": "B:0:enemy-front",
+        "slot": 0,
+        "hp": 5.033333333333333,
+        "x": 1430,
+        "y": 240,
+        "badges": []
+      },
+      {
+        "id": "B:2:enemy-back",
+        "slot": 2,
+        "hp": 100,
+        "x": 1430,
+        "y": 416,
+        "badges": []
+      },
+      {
+        "id": "ENEMY-03",
+        "hp": 0,
+        "x": 1430,
+        "y": 416,
+        "badges": []
+      },
+      {
+        "id": "ENEMY-04",
+        "hp": 0,
+        "x": 1010,
+        "y": 416,
+        "badges": []
+      },
+      {
+        "id": "ENEMY-05",
+        "hp": 0,
+        "x": 1220,
+        "y": 592,
+        "badges": []
+      },
+      {
+        "id": "A:0:technique-AUTONOMOUS_WEAPON:ICON_WEAPON",
+        "hp": 64.78571428571429,
+        "x": 690,
+        "y": 275,
+        "badges": []
+      }
+    ],
+    "errors": [],
+    "missing": []
+  },
+  {
+    "width": 390,
+    "code": "AUTONOMOUS_WEAPON",
+    "events": 2,
+    "metrics": {
+      "events": 2,
+      "applied": 2,
+      "codes": [
+        "AUTONOMOUS_WEAPON"
+      ],
+      "phases": [
+        "CAST"
+      ],
+      "summons": 1,
+      "summonAttacks": 9,
+      "swaps": 0,
+      "revivals": 0,
+      "missingActors": [],
+      "history": [
+        {
+          "type": "ICON_TECHNIQUE",
+          "code": "AUTONOMOUS_WEAPON",
+          "phase": "CAST",
+          "actorId": "A:0:technique-AUTONOMOUS_WEAPON",
+          "targetId": "A:0:technique-AUTONOMOUS_WEAPON",
+          "motif": "INDEPENDENT_TURRET",
+          "moved": []
+        },
+        {
+          "type": "ICON_SUMMON",
+          "code": "AUTONOMOUS_WEAPON",
+          "phase": "",
+          "actorId": "A:0:technique-AUTONOMOUS_WEAPON",
+          "targetId": "A:0:technique-AUTONOMOUS_WEAPON:ICON_WEAPON",
+          "motif": "INDEPENDENT_TURRET",
+          "moved": []
+        }
+      ]
+    },
+    "actors": [
+      {
+        "id": "A:0:technique-AUTONOMOUS_WEAPON",
+        "slot": 0,
+        "hp": 84.94166666666668,
+        "x": 143.40983606557376,
+        "y": 478.8524590163934,
+        "badges": []
+      },
+      {
+        "id": "A:2:ally",
+        "slot": 2,
+        "hp": 58.333333333333336,
+        "x": 143.40983606557376,
+        "y": 1078.8524590163934,
+        "badges": []
+      },
+      {
+        "id": "ALLY-03",
+        "hp": 64.78571428571429,
+        "x": 143.40983606557376,
+        "y": 1078.8524590163934,
+        "badges": []
+      },
+      {
+        "id": "ALLY-04",
+        "hp": 0,
+        "x": 359.40983606557376,
+        "y": 1078.8524590163934,
+        "badges": []
+      },
+      {
+        "id": "ALLY-05",
+        "hp": 0,
+        "x": 143.40983606557376,
+        "y": 1378.8524590163934,
+        "badges": []
+      },
+      {
+        "id": "B:0:enemy-front",
+        "slot": 0,
+        "hp": 5.033333333333333,
+        "x": 1007.4098360655738,
+        "y": 478.8524590163934,
+        "badges": []
+      },
+      {
+        "id": "B:2:enemy-back",
+        "slot": 2,
+        "hp": 100,
+        "x": 1007.4098360655738,
+        "y": 1078.8524590163934,
+        "badges": []
+      },
+      {
+        "id": "ENEMY-03",
+        "hp": 0,
+        "x": 1007.4098360655738,
+        "y": 1078.8524590163934,
+        "badges": []
+      },
+      {
+        "id": "ENEMY-04",
+        "hp": 0,
+        "x": 791.4098360655738,
+        "y": 1078.8524590163934,
+        "badges": []
+      },
+      {
+        "id": "ENEMY-05",
+        "hp": 0,
+        "x": 1007.4098360655738,
+        "y": 1378.8524590163934,
+        "badges": []
+      },
+      {
+        "id": "A:0:technique-AUTONOMOUS_WEAPON:ICON_WEAPON",
+        "hp": 64.78571428571429,
+        "x": 483.4098360655738,
+        "y": 513.8524590163934,
+        "badges": []
+      }
+    ],
+    "errors": [],
+    "missing": []
+  }
+]

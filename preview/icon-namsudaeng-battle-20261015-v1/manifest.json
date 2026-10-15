@@ -1,0 +1,439 @@
+{
+  "version": 1,
+  "date": "2026-10-15",
+  "id": "ICON_NAMSUDAENG_BATTLE_PREPARATION",
+  "name": "남수댕",
+  "cardId": null,
+  "techniqueCode": "CROWN_USURP",
+  "techniqueName": "왕관 찬탈",
+  "techniqueAssignment": "USER_CONFIRMED_PREPARATION_ONLY",
+  "tuning": null,
+  "releaseEnabled": false,
+  "acquisitionEnabled": false,
+  "registrationEnabled": false,
+  "visualApproval": "USER_REVIEW_PENDING",
+  "sourceArt": {
+    "file": "sources/namsudaeng-photo-original.png",
+    "sha256": "312FA57D9C8F5C55F2FCAF8561377909BE9229091ECDEED314F0160193B7EA39",
+    "size": [
+      2048,
+      3071
+    ],
+    "preserved": true
+  },
+  "status": "BUILT_VISUAL_REVIEW_PENDING",
+  "missing": [],
+  "character": {
+    "id": "namsudaeng-preparation",
+    "name": "남수댕",
+    "source": "sources/namsudaeng-sd.png",
+    "sourceSha256": "6FA2B7C0EA6763877091BC726B731C4E08AB382E89B9A3F766CA2B505240D162",
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "sourceAlpha": {
+      "edgeMax": 1,
+      "nonempty": 660285,
+      "transparentFraction": 0.580109200796685,
+      "bounds": [
+        196,
+        94,
+        1113,
+        1207
+      ]
+    },
+    "runtime": "assets/namsudaeng-sd.webp",
+    "runtimeSha256": "32F55F27D7DCB86D5C7C14C1E056BD12A1DE85FD1F2B0007EB978642C39287A9",
+    "size": [
+      768,
+      768
+    ],
+    "runtimeAlpha": {
+      "edgeMax": 0,
+      "nonempty": 188115,
+      "transparentFraction": 0.6810658772786458,
+      "bounds": [
+        153,
+        98,
+        644,
+        695
+      ]
+    },
+    "footAnchor": {
+      "x": 0.5711722488038278,
+      "y": 0.9033094098883573
+    },
+    "releaseEnabled": false
+  },
+  "effect": {
+    "id": "crown-usurp",
+    "name": "왕관 찬탈",
+    "kind": "SKILL",
+    "source": "sources/crown-usurp-fx.png",
+    "sourceSha256": "2F3A0C9255C75BFAB3E1073F4B908AEC323F547737CD591968722EC2F3B2D498",
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "sourceAlpha": {
+      "edgeMax": 2,
+      "nonempty": 1184869,
+      "transparentFraction": 0.24651386694952548,
+      "bounds": [
+        48,
+        67,
+        1223,
+        1188
+      ]
+    },
+    "runtime": "assets/fx/atlas.webp",
+    "runtimeSha256": "A21329336A281EBFB82B2850B320338A2C029DDE0DDFE18193EA6508F9CBC8C8",
+    "columns": 4,
+    "rows": 4,
+    "cellSize": 384,
+    "frameCount": 16,
+    "duration": 2.4,
+    "collisionFrame": 4,
+    "contactAt": 0.64,
+    "frames": [
+      {
+        "index": 0,
+        "file": "assets/fx/frames/00.webp",
+        "sha256": "2C172BE908D621C24736CA673ADF708BAEB2B9884ECF14602C37BC75FBABADA1",
+        "rawSha256": "315F302EF354051D66E527092844A64DFF59B3C69C4E31CD233A2E8F1C3F1BFB",
+        "sourceRect": {
+          "left": 0,
+          "top": 0,
+          "width": 314,
+          "height": 314
+        },
+        "edgeMax": 2,
+        "nonempty": 60705,
+        "transparentFraction": 0.38430565134488215,
+        "bounds": [
+          78,
+          80,
+          239,
+          241
+        ]
+      },
+      {
+        "index": 1,
+        "file": "assets/fx/frames/01.webp",
+        "sha256": "6F8C1B0D9BD94B203AF060F02FAB05A9655BDFE43F533FD67AF4C6D145C1B573",
+        "rawSha256": "3F553E376E4857404395F23A02D02945A58537AF2ED3C2383039E3F556B18292",
+        "sourceRect": {
+          "left": 314,
+          "top": 0,
+          "width": 313,
+          "height": 314
+        },
+        "edgeMax": 2,
+        "nonempty": 73549,
+        "transparentFraction": 0.2516534055066034,
+        "bounds": [
+          57,
+          71,
+          251,
+          264
+        ]
+      },
+      {
+        "index": 2,
+        "file": "assets/fx/frames/02.webp",
+        "sha256": "B639B515783209E2E54DE612FAECC2C9F33CD99E3245F39064F2FFF98879A371",
+        "rawSha256": "25B664313B929196378FCF942944685EC87B5D755C40DEF475D6EE4C9C87126F",
+        "sourceRect": {
+          "left": 627,
+          "top": 0,
+          "width": 314,
+          "height": 314
+        },
+        "edgeMax": 2,
+        "nonempty": 77785,
+        "transparentFraction": 0.21107347154042755,
+        "bounds": [
+          34,
+          71,
+          281,
+          272
+        ]
+      },
+      {
+        "index": 3,
+        "file": "assets/fx/frames/03.webp",
+        "sha256": "827C30E976EF9E8AB01672A229724D2E468905CF9516BBD3861C614B9D4034EA",
+        "rawSha256": "77A2272DCB59985B8609CE69DB79E7B679F2B5C5D84D24BC1EF8E16040D4E343",
+        "sourceRect": {
+          "left": 941,
+          "top": 0,
+          "width": 313,
+          "height": 314
+        },
+        "edgeMax": 2,
+        "nonempty": 71604,
+        "transparentFraction": 0.27144339757025704,
+        "bounds": [
+          33,
+          67,
+          279,
+          274
+        ]
+      },
+      {
+        "index": 4,
+        "file": "assets/fx/frames/04.webp",
+        "sha256": "FD79C22E3E4AD8D2ABBEB73EBD56130EC75C990D0B43FB2F508003748CB593D9",
+        "rawSha256": "93730A25133904BC94A568AD6320797D18685E42A012EBFA4744F6A8E00C9CF0",
+        "sourceRect": {
+          "left": 0,
+          "top": 314,
+          "width": 314,
+          "height": 313
+        },
+        "edgeMax": 2,
+        "nonempty": 87040,
+        "transparentFraction": 0.11438513664760586,
+        "bounds": [
+          48,
+          43,
+          288,
+          263
+        ]
+      },
+      {
+        "index": 5,
+        "file": "assets/fx/frames/05.webp",
+        "sha256": "66BB864F89DF6882F8249A7CACA434493A8E33177C506AD142C97F65248D08A0",
+        "rawSha256": "1988D52B787AA14CE000D9AAFF879742A1555E80CDF3C34A0340110080E6C912",
+        "sourceRect": {
+          "left": 314,
+          "top": 314,
+          "width": 313,
+          "height": 313
+        },
+        "edgeMax": 2,
+        "nonempty": 80111,
+        "transparentFraction": 0.18228215047617102,
+        "bounds": [
+          73,
+          47,
+          250,
+          284
+        ]
+      },
+      {
+        "index": 6,
+        "file": "assets/fx/frames/06.webp",
+        "sha256": "69009DFC01225A9F720F20ED0FD0E59D5BFE7B9E263EA087FE172138DAF8505E",
+        "rawSha256": "A37F32CA78D1933928B9761FB462916C4A3579C52FE3261B21DC54046068FB58",
+        "sourceRect": {
+          "left": 627,
+          "top": 314,
+          "width": 314,
+          "height": 313
+        },
+        "edgeMax": 2,
+        "nonempty": 73944,
+        "transparentFraction": 0.24763435827516733,
+        "bounds": [
+          86,
+          64,
+          256,
+          265
+        ]
+      },
+      {
+        "index": 7,
+        "file": "assets/fx/frames/07.webp",
+        "sha256": "843823992625EEAE13ED6DD269D2B39EC2BEF1F4B065A9FF60906D451C8F669F",
+        "rawSha256": "55D6CCFE651F10AC1293F0ABE8D5C446D7BAC99E4DD30BABC364869F2A7DF7D1",
+        "sourceRect": {
+          "left": 941,
+          "top": 314,
+          "width": 313,
+          "height": 313
+        },
+        "edgeMax": 2,
+        "nonempty": 63294,
+        "transparentFraction": 0.35393849074707306,
+        "bounds": [
+          92,
+          61,
+          256,
+          260
+        ]
+      },
+      {
+        "index": 8,
+        "file": "assets/fx/frames/08.webp",
+        "sha256": "AED39438FF2AD5E45D8839511A029846CA7772051CC2A022C2B0781711EFB89D",
+        "rawSha256": "7478DFCF39A749CA46F1BBAF1C298107DEFCED5310A753A85F02E234C0998DC0",
+        "sourceRect": {
+          "left": 0,
+          "top": 627,
+          "width": 314,
+          "height": 314
+        },
+        "edgeMax": 2,
+        "nonempty": 81188,
+        "transparentFraction": 0.17655888677025433,
+        "bounds": [
+          76,
+          44,
+          261,
+          265
+        ]
+      },
+      {
+        "index": 9,
+        "file": "assets/fx/frames/09.webp",
+        "sha256": "760DAE0AFA6A5312F3C5E9785FADDD0599754755E05B028AAAC3BC29721A296D",
+        "rawSha256": "6AC4E77C063F806BE381FE2A922F4EE5B6375416035180F894442C4B5BF42180",
+        "sourceRect": {
+          "left": 314,
+          "top": 627,
+          "width": 313,
+          "height": 314
+        },
+        "edgeMax": 2,
+        "nonempty": 85858,
+        "transparentFraction": 0.12641175393256143,
+        "bounds": [
+          45,
+          40,
+          262,
+          267
+        ]
+      },
+      {
+        "index": 10,
+        "file": "assets/fx/frames/10.webp",
+        "sha256": "98A91B4E694A4FEAF62B58344117DB078BFB9DADAB8A01B0695A9564B2236831",
+        "rawSha256": "25D8F6DF1E651A0B9EB8AA9917C73437C1426C3EA8E6AA41EE14C4FB8739C744",
+        "sourceRect": {
+          "left": 627,
+          "top": 627,
+          "width": 314,
+          "height": 314
+        },
+        "edgeMax": 2,
+        "nonempty": 87633,
+        "transparentFraction": 0.11119112337214487,
+        "bounds": [
+          30,
+          30,
+          282,
+          273
+        ]
+      },
+      {
+        "index": 11,
+        "file": "assets/fx/frames/11.webp",
+        "sha256": "DFBB53FFC9462525B62A48AFEF079E96AD57A59CA6C0EDC780AB6956CB95386A",
+        "rawSha256": "924E1CD6696A4CE17F9C40B1C7A4413DFF00504C8E582ED9A496308138A77CF9",
+        "sourceRect": {
+          "left": 941,
+          "top": 627,
+          "width": 313,
+          "height": 314
+        },
+        "edgeMax": 2,
+        "nonempty": 78237,
+        "transparentFraction": 0.20395392849148364,
+        "bounds": [
+          26,
+          23,
+          282,
+          281
+        ]
+      },
+      {
+        "index": 12,
+        "file": "assets/fx/frames/12.webp",
+        "sha256": "7C168482894CAE99C72963B1D1F2AE44908F4D6B52B7E2B0A37E09E9FF60B138",
+        "rawSha256": "73D5D7F78DC019CDD2A3D55CD5CF02E4CD2C8F1F8DE1F15B78DFCE0DCAE715EB",
+        "sourceRect": {
+          "left": 0,
+          "top": 941,
+          "width": 314,
+          "height": 313
+        },
+        "edgeMax": 2,
+        "nonempty": 75337,
+        "transparentFraction": 0.23346085753240675,
+        "bounds": [
+          56,
+          32,
+          259,
+          247
+        ]
+      },
+      {
+        "index": 13,
+        "file": "assets/fx/frames/13.webp",
+        "sha256": "4A4F50837A2AF638B614955FA446C25D365280B42ED201029BE03E3B48F7AC05",
+        "rawSha256": "17D90747FCFD6BBF7C2AE1DF467FC2713EF263C26E9D812A9B04677D765D486D",
+        "sourceRect": {
+          "left": 314,
+          "top": 941,
+          "width": 313,
+          "height": 313
+        },
+        "edgeMax": 2,
+        "nonempty": 71617,
+        "transparentFraction": 0.2689830456572998,
+        "bounds": [
+          54,
+          39,
+          264,
+          243
+        ]
+      },
+      {
+        "index": 14,
+        "file": "assets/fx/frames/14.webp",
+        "sha256": "1ADB9CA773D666257F8DFD9608B3A3373DE1DAB79D26A134A527A0537376E07E",
+        "rawSha256": "E4C3B5D1A066256F9C4C956D1A2650695F1B1EBBF43CED66AD144E32482D6C7D",
+        "sourceRect": {
+          "left": 627,
+          "top": 941,
+          "width": 314,
+          "height": 313
+        },
+        "edgeMax": 2,
+        "nonempty": 75669,
+        "transparentFraction": 0.23008282289737692,
+        "bounds": [
+          63,
+          67,
+          257,
+          236
+        ]
+      },
+      {
+        "index": 15,
+        "file": "assets/fx/frames/15.webp",
+        "sha256": "BB9F3785C990DE595AC17BFF81F1A52CFC43F1EF7798914515A5FF3C69D400F3",
+        "rawSha256": "89EB260AEA11807A83E8538162650A487B75615B097920FC8FB7B9F743DEDC78",
+        "sourceRect": {
+          "left": 941,
+          "top": 941,
+          "width": 313,
+          "height": 313
+        },
+        "edgeMax": 2,
+        "nonempty": 41298,
+        "transparentFraction": 0.5784584919719503,
+        "bounds": [
+          69,
+          104,
+          241,
+          215
+        ]
+      }
+    ],
+    "releaseEnabled": false
+  }
+}

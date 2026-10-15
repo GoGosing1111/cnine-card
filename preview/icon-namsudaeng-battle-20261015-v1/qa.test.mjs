@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import crypto from 'node:crypto';
+import sharp from 'sharp';
+import {test} from 'node:test';
+const base=new URL('./',import.meta.url),read=p=>fs.readFile(new URL(p,base)),json=async p=>JSON.parse((await read(p)).toString().replace(/^\uFEFF/,'')),hash=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
+const m=await json('manifest.json');
+test('preserved user portrait and explicit preparation-only CROWN_USURP mapping',async()=>{assert.equal(hash(await read(m.sourceArt.file)),'312FA57D9C8F5C55F2FCAF8561377909BE9229091ECDEED314F0160193B7EA39');assert.equal(m.cardId,null);assert.equal(m.tuning,null);assert.equal(m.techniqueCode,'CROWN_USURP');for(const key of ['releaseEnabled','acquisitionEnabled','registrationEnabled'])assert.equal(m[key],false);});
+test('uniform 768 SD with measured sole anchor and original alpha preserved',async()=>{assert.equal(m.status,'BUILT_VISUAL_REVIEW_PENDING');const c=m.character;assert.equal(hash(await read(c.source)),c.sourceSha256);assert.equal(hash(await read(c.runtime)),c.runtimeSha256);assert.deepEqual(c.size,[768,768]);assert.ok(c.runtimeAlpha.edgeMax<=12);assert.ok(c.runtimeAlpha.transparentFraction>.1);assert.ok(Math.abs(c.footAnchor.x-(48+729*672/1254)/768)<1e-9);assert.ok(Math.abs(c.footAnchor.y-(48+1205*672/1254)/768)<1e-9);});
+test('16 native unique FX cells and lossless atlas/frame identity',async()=>{const e=m.effect;assert.equal(hash(await read(e.source)),e.sourceSha256);assert.equal(e.frameCount,16);assert.equal(new Set(e.frames.map(f=>f.rawSha256)).size,16);const atlas=await read(e.runtime);assert.equal(hash(atlas),e.runtimeSha256);for(const frame of e.frames){assert.ok(frame.edgeMax<=12);const a=await sharp(atlas).extract({left:frame.index%4*384,top:Math.floor(frame.index/4)*384,width:384,height:384}).ensureAlpha().raw().toBuffer(),b=await sharp(await read(frame.file)).ensureAlpha().raw().toBuffer();for(let i=0;i<a.length;i+=4){assert.equal(a[i+3],b[i+3]);if(a[i+3])assert.deepEqual(a.subarray(i,i+3),b.subarray(i,i+3));}}});

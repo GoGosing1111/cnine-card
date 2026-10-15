@@ -1,0 +1,48 @@
+{
+  "kind": "EXECUTION_SUMMARY_NOT_RAW_RUN_REPORT",
+  "script": "tests/icon-techniques-20261015.browser.mjs",
+  "run": "post-header-motif-weapon-layout-adjustment",
+  "result": "PASS",
+  "passed": 6,
+  "total": 6,
+  "evidenceNote": "The browser runner reused report.json. These pass results preserve the completed execution output reported during this task; the original per-case raw report was overwritten by a later targeted run. This summary does not claim raw telemetry that is no longer available. No rerun was performed to create this record.",
+  "cases": [
+    {
+      "width": 1440,
+      "code": "FORMATION_EDIT",
+      "result": "PASS"
+    },
+    {
+      "width": 1440,
+      "code": "AUTONOMOUS_WEAPON",
+      "result": "PASS"
+    },
+    {
+      "width": 1440,
+      "code": "RETURN_OATH",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "code": "FORMATION_EDIT",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "code": "AUTONOMOUS_WEAPON",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "code": "RETURN_OATH",
+      "result": "PASS"
+    }
+  ],
+  "verified": [
+    "clean preview header",
+    "enlarged native technique motifs",
+    "formation swap playback",
+    "independent weapon actor and attacks",
+    "oath revival and cleanup"
+  ]
+}

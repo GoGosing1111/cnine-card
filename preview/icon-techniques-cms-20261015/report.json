@@ -1,0 +1,24 @@
+[
+  {
+    "width": 1440,
+    "techniques": 8,
+    "existingCards": 9,
+    "overflow": 0,
+    "errors": [],
+    "saveRevision": 2,
+    "retryReceiptCount": 1,
+    "allOff": true,
+    "unassigned": 8
+  },
+  {
+    "width": 390,
+    "techniques": 8,
+    "existingCards": 9,
+    "overflow": 0,
+    "errors": [],
+    "saveRevision": 2,
+    "retryReceiptCount": 1,
+    "allOff": true,
+    "unassigned": 8
+  }
+]

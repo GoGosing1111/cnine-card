@@ -31,6 +31,7 @@ import {preloadCooperativeArke,playCooperativeArkeAttack,playCooperativeWatcherA
 import {bindCooperativeEnemy,cooperativeSnapshot,spawnCooperativeEnemy} from './CooperativeEncounter.js';
 import {preloadIconPlayback,playIconEvent,playIconBasic,disposeIconPlayback} from './IconRolePlayback.js';
 import {preparePetSupport,playPetOpening,disposePetSupport,restorePetSupport} from './PetSupportPlayback.js';
+import {playIconTechnique,playIconWeaponAttack,disposeIconTechniques} from './IconTechniquePlayback.js';
 import {iconDefinition} from '../../../../shared/icon-roles-v1.mjs';
 
 const DESKTOP={width:1600,height:820};
@@ -1869,6 +1870,7 @@ export class BaseBattleEngine{
   }
 
   async applyBattlePayload(payload){
+    disposeIconTechniques(this);
     this.battleData=payload;
     this.livePayload=Boolean(payload?.battleV2);
     this.liveDeployed=false;
@@ -3251,6 +3253,8 @@ export class BaseBattleEngine{
       else if(type==='PET_OPENING_BUFF')playPetOpening(this,event);
       else if(type==='APOCALYPSE_SKILL')await playApocalypseLegionSkill(this,event);
       else if(type==='APOCALYPSE_STATUS')showApocalypseStatus(this,event);
+      else if(['ICON_TECHNIQUE','ICON_SUMMON','ICON_SUMMON_END'].includes(type))await playIconTechnique(this,event);
+      else if(['ATTACK','TURN'].includes(type)&&explicitActor?.iconWeapon)await playIconWeaponAttack(this,event);
       else if(type.startsWith('ICON_'))await playIconEvent(this,event);
       else if(type==='COOP_MECHANIC'&&this.coopArkeBattlefield)await playCooperativeArkeMechanic(this,event);
       else if(type==='ESCORT_OBJECTIVE_ATTACK')await this.escortObjectiveAttack(event);
@@ -3699,6 +3703,7 @@ export class BaseBattleEngine{
       layerOrder:this.stage?.children.map(layer=>layer.label)||[],
       backgroundDepth:this.parallaxLayers.map(item=>({layer:item.label,coefficient:item.coefficient})),
       cooperativePlayback:this.lastCoopPlayback||null,
+      iconTechniques:{active:this.iconTechniqueActive||null,last:this.lastIconTechnique||null,metrics:this.iconTechniqueMetrics||null,actors:this.characters.map(a=>({id:a.id,slot:a.iconTechniqueDisplaySlot,hp:a.hp,x:a.baseX,y:a.baseY,badges:[...a.iconTechniqueBadges?.values()||[]].map(t=>t.text)})),weapons:[...this.iconTechniqueWeapons?.values()||[]].map(a=>({id:a.id,hp:a.hp,active:a.battleActive,visible:a.root.visible,slot:a.iconTechniqueServerSlot}))},
       iconRoles:{last:this.lastIconPlayback||null,muzzle:this.lastIconMuzzle||null,metrics:this.iconPlaybackMetrics||null},
       battlefield:{
         mode:this.activeBattlefieldMode,
@@ -3812,6 +3817,7 @@ export class BaseBattleEngine{
     this.onEffectSceneDestroy?.();this.onEffectSceneDestroy=null;
     this.cancelTimelines();
     document.removeEventListener('visibilitychange',this.onVisibility);
+    disposeIconTechniques(this);
     disposeIconPlayback(this);
     disposePetSupport(this);
     if(this.moteTicker)this.app?.ticker.remove(this.moteTicker);

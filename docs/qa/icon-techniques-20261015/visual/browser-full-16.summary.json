@@ -1,0 +1,100 @@
+{
+  "kind": "EXECUTION_SUMMARY_NOT_RAW_RUN_REPORT",
+  "script": "tests/icon-techniques-20261015.browser.mjs",
+  "run": "all-eight-techniques-two-widths",
+  "result": "PASS",
+  "passed": 16,
+  "total": 16,
+  "evidenceNote": "The browser runner reused report.json. These pass results preserve the completed execution output reported during this task; the original per-case raw report was overwritten by a later targeted run. This summary does not claim raw telemetry that is no longer available. No rerun was performed to create this record.",
+  "cases": [
+    {
+      "width": 1440,
+      "code": "CROWN_USURP",
+      "result": "PASS"
+    },
+    {
+      "width": 1440,
+      "code": "FORMATION_EDIT",
+      "result": "PASS"
+    },
+    {
+      "width": 1440,
+      "code": "WOUND_DEFER",
+      "result": "PASS"
+    },
+    {
+      "width": 1440,
+      "code": "SKILL_ADVANCE",
+      "result": "PASS"
+    },
+    {
+      "width": 1440,
+      "code": "PURSUIT_BAN",
+      "result": "PASS"
+    },
+    {
+      "width": 1440,
+      "code": "SKILL_CENSOR",
+      "result": "PASS"
+    },
+    {
+      "width": 1440,
+      "code": "AUTONOMOUS_WEAPON",
+      "result": "PASS"
+    },
+    {
+      "width": 1440,
+      "code": "RETURN_OATH",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "code": "CROWN_USURP",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "code": "FORMATION_EDIT",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "code": "WOUND_DEFER",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "code": "SKILL_ADVANCE",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "code": "PURSUIT_BAN",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "code": "SKILL_CENSOR",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "code": "AUTONOMOUS_WEAPON",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "code": "RETURN_OATH",
+      "result": "PASS"
+    }
+  ],
+  "verified": [
+    "real server timeline playback",
+    "technique event counts match",
+    "no missing actors",
+    "no page errors or missing assets",
+    "no horizontal overflow",
+    "close removes playback canvas"
+  ],
+  "captureNote": "Each archived capture is the latest available image for that technique and width. Formation, weapon, and oath captures were replaced by later targeted verification."
+}

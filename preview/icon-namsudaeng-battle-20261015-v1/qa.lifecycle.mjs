@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import {pathToFileURL} from 'node:url';
+import {iconTechniquePreviewServer} from '../../scripts/serve-icon-technique-preview-20261015.mjs';
+const server=iconTechniquePreviewServer();await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright'),browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']});
+const errors=[];let release;try{
+ const page=await browser.newPage({viewport:{width:390,height:1000},serviceWorkers:'block'});page.on('pageerror',e=>errors.push(e.message));let loaded;const received=new Promise(r=>loaded=r),blocked=new Promise(r=>release=r);
+ await page.route('**/assets/fx/atlas.webp',async route=>{loaded();await blocked;await route.continue();});await page.goto(origin+'/preview/icon-namsudaeng-battle-20261015-v1/');await received;const frame=page.frames().find(f=>f.url().includes('/battle.html'));await frame.evaluate(()=>window.NamsudaengPreview.dispose());release();await page.waitForTimeout(1200);assert.equal(await frame.locator('canvas').count(),0);assert.equal(await frame.evaluate(()=>window.NamsudaengPreview.diagnostics().ready),false);assert.equal(await page.locator('#play').isDisabled(),true);assert.deepEqual(errors,[]);await page.close();
+ const back=await browser.newPage({viewport:{width:390,height:1000},serviceWorkers:'block'});back.on('pageerror',e=>errors.push(e.message));const ready=()=>back.waitForFunction(()=>JSON.parse(document.querySelector('#health')?.dataset.diagnostics||'{}').ready===true,null,{timeout:90000});await back.goto(origin+'/preview/icon-namsudaeng-battle-20261015-v1/');await ready();await back.goto(origin+'/preview/icon-techniques-20261015/');await back.goBack();await ready();const returned=back.frames().find(f=>f.url().includes('/battle.html'));assert.equal(await returned.locator('canvas').count(),1);assert.deepEqual(errors,[]);await back.close();
+ await fs.writeFile(new URL('qa/lifecycle.json',import.meta.url),JSON.stringify({pendingAtlasDispose:true,noLateCanvasOrFx:true,controlsStayDisabled:true,actualHistoryBackRestoresOneCanvas:true,errors},null,2)+'\n');console.log('PASS: pending atlas dispose + actual history back restore');
+}finally{release?.();await browser.close();await new Promise(r=>server.close(r));}

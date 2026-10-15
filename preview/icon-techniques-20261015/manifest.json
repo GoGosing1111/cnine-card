@@ -1,0 +1,95 @@
+{
+  "status": "PREPARATION_ONLY_UNASSIGNED",
+  "authority": "SERVER_SIMULATION_WITH_SYMBOL_CAPABILITY",
+  "releaseEnabled": false,
+  "art": "EXISTING_APPROVED_STAND_INS",
+  "numericValues": "FIXTURE_ONLY_NOT_PRODUCTION_DEFAULTS",
+  "fixtures": [
+    {
+      "code": "CROWN_USURP",
+      "file": "crown_usurp.json",
+      "events": 4,
+      "phases": [
+        "CAST",
+        "APPLY"
+      ],
+      "sha256": "6c0d0a2f88a423c37645d76e24472623ada4d358bf192cf1f9be60234b779be8"
+    },
+    {
+      "code": "FORMATION_EDIT",
+      "file": "formation_edit.json",
+      "events": 4,
+      "phases": [
+        "CAST",
+        "SWAP"
+      ],
+      "sha256": "760366994eb534075996d2b858e865b772d57443fec923835178147fc8f690bd"
+    },
+    {
+      "code": "WOUND_DEFER",
+      "file": "wound_defer.json",
+      "events": 12,
+      "phases": [
+        "CAST",
+        "APPLY",
+        "DEFER",
+        "REPAY"
+      ],
+      "sha256": "3b43fd648884faa4e6b1b5ff800c92d8348f266857f82662e31ab2a225d42088"
+    },
+    {
+      "code": "SKILL_ADVANCE",
+      "file": "skill_advance.json",
+      "events": 5,
+      "phases": [
+        "CAST",
+        "ADVANCE",
+        "REPAY"
+      ],
+      "sha256": "9e64d38f44a874946a5ef32bdcb2aa51b2699324937a29debf2192dfa5fbada0"
+    },
+    {
+      "code": "PURSUIT_BAN",
+      "file": "pursuit_ban.json",
+      "events": 17,
+      "phases": [
+        "CAST",
+        "APPLY",
+        "TRACK",
+        "EXPIRE"
+      ],
+      "sha256": "b0b642a45d77ff42a24346696c0638bc7a6eca701f01d36158d025727fe7a4ea"
+    },
+    {
+      "code": "SKILL_CENSOR",
+      "file": "skill_censor.json",
+      "events": 6,
+      "phases": [
+        "CAST",
+        "APPLY",
+        "CENSOR"
+      ],
+      "sha256": "3f224c9d52ab2148f233ac20ce6c94eed1842119518f7d31a3989029b7a2097a"
+    },
+    {
+      "code": "AUTONOMOUS_WEAPON",
+      "file": "autonomous_weapon.json",
+      "events": 1,
+      "phases": [
+        "CAST"
+      ],
+      "sha256": "5b425b1729d102dbf7f546a145ac6ad27147de4d336335444ec4a7e09a881e50"
+    },
+    {
+      "code": "RETURN_OATH",
+      "file": "return_oath.json",
+      "events": 3,
+      "phases": [
+        "CAST",
+        "APPLY",
+        "REVIVE"
+      ],
+      "sha256": "8e6e436dbd2d974a5eca824d3d512652fe422d81856b75ef3aae8ad4b8521d81"
+    }
+  ]
+}

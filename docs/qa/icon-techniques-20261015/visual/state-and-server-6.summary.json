@@ -1,0 +1,19 @@
+{
+  "kind": "EXECUTION_SUMMARY_NOT_RAW_RUN_REPORT",
+  "result": "PASS",
+  "passed": 6,
+  "total": 6,
+  "tests": [
+    "tests/icon-techniques-visual-20261015.test.mjs",
+    "tests/icon-techniques-preview-server-20261015.test.mjs"
+  ],
+  "verified": [
+    "sparse formation slot movement and reset",
+    "wound protection and debt separation",
+    "oath target marker cleanup and authoritative revive HP",
+    "same-ID weapon resummon and cleanup",
+    "two same-side weapons occupy separate positions",
+    "read-only preview server rejects traversal and mutation"
+  ],
+  "evidenceNote": "Preserves the completed six-test execution result reported during this task. No raw TAP log was retained and no redundant rerun was performed."
+}

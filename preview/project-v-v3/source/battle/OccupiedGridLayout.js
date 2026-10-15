@@ -1,3 +1,4 @@
+import {layoutIconTechniqueWeapons} from './IconTechniquePlayback.js';
 import {Container, Graphics} from 'pixi.js';
 import {GRID, FORMATION_LAYOUT_VERSION, configuration, formationActorScale, stationPoint, DUO_BOARDS, duoStation, COOP_BOARDS, coopStation} from './FormationLayout.mjs';
 import {compactStation, fitCompactViewport, usesCompactViewport} from './ViewportLayout.mjs';
@@ -25,6 +26,7 @@ export const withOccupiedGrid = Base => class extends Base {
     this.formationSingleTarget = Boolean(payload?.monster) && !this.formationEnemySquad;
     for (const actor of this.characters || []) if (Number.isFinite(actor.legacyGridHudY)) actor.hud.y = actor.legacyGridHudY;
     const result = await super.applyBattlePayload(payload);
+    if(payload?.preparationOnly){for(const side of ['A','B'])for(const row of payload.battleV2?.teams?.[side]?.cards||[]){const actor=this.combatantById(row.id);if(actor&&Number.isInteger(row.slot)&&row.slot>=0&&row.slot<5)actor.iconTechniqueDisplaySlot=row.slot;}this.layoutCharacterGrid();}
     for (const actor of this.characters || []) actor.legacyGridHudY = actor.hud.y;
     return result;
   }
@@ -102,7 +104,7 @@ export const withOccupiedGrid = Base => class extends Base {
     const rows = [];
     const add = (kind, index, team, actor) => rows.push({id: `${team}:${kind}:${index}`, kind, index, team, actor, ...this.station(kind, index, team)});
     for (const [team, actors] of [['ALLY', this.allies], ['ENEMY', this.enemies]]) {
-      (actors || []).forEach((actor, index) => {if (actor.battleActive !== false && actor.hp > 0) add('cards', index, team, actor);});
+      (actors || []).forEach((actor, index) => {if (actor.battleActive !== false && actor.hp > 0) add('cards', actor.iconTechniqueDisplaySlot??index, team, actor);});
     }
     for (const item of this.formationMercenaries || []) if (item.root.visible) add('mercenaries', (this.formationDuo||this.formationCoop)?Number(item.squadIndex):0, item.team, item);
     if (this.accountBattleUnitEnabled && this.accountBattleUnit) add('support', 0, 'ALLY', this.accountBattleUnit);
@@ -155,7 +157,7 @@ export const withOccupiedGrid = Base => class extends Base {
     if (this.viewportFit) this.mobile = false;
     try {super.layoutCharacterGrid();} finally {this.baselineLayout = false; this.isoConfig = wide; this.mobile = mobile;}
     for (const [team, actors] of [['ALLY', this.allies], ['ENEMY', this.enemies]]) for (const [index, actor] of actors.entries()) {
-      const scale = this.formationCoop?COOP_BOARDS[this.mobile?'compact':'desktop'].actorScale:this.formationDuo?DUO_BOARDS[mobile?'compact':'desktop'].actorScale:formationActorScale(Boolean(this.viewportFit), mobile), next = this.station('cards', index, team);
+      const scale = this.formationCoop?COOP_BOARDS[this.mobile?'compact':'desktop'].actorScale:this.formationDuo?DUO_BOARDS[mobile?'compact':'desktop'].actorScale:formationActorScale(Boolean(this.viewportFit), mobile), next = this.station('cards', actor.iconTechniqueDisplaySlot??index, team);
       const p = this.screenToGrid(next.x, next.y); actor.gridPosition = {x: p.gridX, y: p.gridY};
       actor.designScale = scale;
       actor.setFormation(next.x, next.y, scale); actor.setCompactHud?.(mobile);
@@ -171,7 +173,7 @@ export const withOccupiedGrid = Base => class extends Base {
       this.accountBattleUnit.setFormation(next.x, next.y, formationActorScale(Boolean(this.viewportFit), mobile));
       this.accountBattleUnit.root.depthSortY = next.y;
     }
-    this.layoutObjective(); this.layoutFormationMercenaries(); this.drawIsometricFloor();
+    this.layoutObjective(); this.layoutFormationMercenaries(); layoutIconTechniqueWeapons(this); this.drawIsometricFloor();
   }
   layoutAccountBattleUnit() {
     if (this.gridMode !== 'wide' || this.baselineLayout) return super.layoutAccountBattleUnit();

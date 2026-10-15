@@ -1,0 +1,484 @@
+{
+  "startedAt": "2026-10-15T10:27:49.296Z",
+  "head": "0fb6b15cf1c71bcfce7c3500a5beb1378d5292fc",
+  "prefix": {
+    "file": "release-gate-prefix.log",
+    "sha256": "604b3f03b4d3c3ded5c98099d8e4d035b31912eb4de0dfd561a1ce635bf1be2b",
+    "previousContinuation": "release-continuation.json",
+    "failedAt": "test:live-connections",
+    "reason": "New IconTechniquePlayback.js omitted from banner-source equality list; only this file is rerun"
+  },
+  "skipped": [
+    "npm run test:release-policy",
+    "npm run test:mercenary-equipment",
+    "npm run test:jokgak-city",
+    "npm run test:api-runtime",
+    "npm run test:account-sync",
+    "npm run test:cooperative",
+    "npm run test:burning",
+    "npm run test:ranked-reform",
+    "npm run test:icon-cms",
+    "npm run test:ranked-duo",
+    "npm run test:magic-workbench",
+    "npm run test:postgres-compat",
+    "npm run test:account-rank",
+    "npm run test:lobby",
+    "npm run test:loot-shop",
+    "npm run test:master-star-mine",
+    "npm run check:worker",
+    "npm run test:pve-reform",
+    "npm run test:pve-overhaul",
+    "npm run test:v3-grid",
+    "npm run test:v3-joint",
+    "npm run test:live-connections"
+  ],
+  "excluded": [
+    "node scripts/verify-production-release.mjs"
+  ],
+  "commands": [
+    "node --test tests/project-v-v3-nonblocking-fx-v2060.test.mjs",
+    "npm run test:wish-lamp",
+    "npm run test:golden-axe",
+    "npm run test:chuseok",
+    "npm run test:hyper-pack",
+    "npm run test:new-user-gift",
+    "npm run test:scrapyard-v3",
+    "npm run test:avatar",
+    "npm run test:performance",
+    "npm run test:unique-advancement",
+    "npm run test:soopketland",
+    "npm run test:streamer-lounge",
+    "npm run test:player-card",
+    "npm run test:evolution",
+    "npm run test:inventory",
+    "npm run test:navigation",
+    "npm run test:mercenary-codex",
+    "npm run test:equipment-forge-public",
+    "npm run test:mercenary-cms",
+    "npm run test:cryvern",
+    "npm run test:mercenary-draw",
+    "npm run test:limited-pack",
+    "npm run test:raid-entry",
+    "npm run test:core-raid",
+    "npm run test:lich-raid",
+    "npm run test:madara-raid",
+    "npm run test:black-miracle",
+    "npm run test:seal",
+    "npm run test:message-rewards",
+    "npm run test:workshop",
+    "npm run test:clan",
+    "npm run test:organization",
+    "npm run test:prison",
+    "npm run test:coup",
+    "npm run test:project-v-sd",
+    "npm run test:apocalypse",
+    "npm run test:pve-sweep",
+    "npm run test:battle-suit",
+    "npm run test:skill-chips",
+    "npm run test:territory-reward",
+    "npm run test:alchemy",
+    "npm run test:ranked-reward",
+    "npm run test:coupon",
+    "npm run test:daily-quest",
+    "npm run test:prediction",
+    "npm run test:prime-draw",
+    "npm run test:superstar-pack",
+    "npm run test:fur-enhancement",
+    "npm run test:gamst-retirement",
+    "npm run test:reroll-recovery",
+    "npm run test:targeted-transfer",
+    "npm run test:idle-dungeon",
+    "npm run test:treasury",
+    "npm run test:z-body-effects",
+    "npm run test:legion-hunt"
+  ],
+  "steps": [
+    {
+      "command": "node --test tests/project-v-v3-nonblocking-fx-v2060.test.mjs",
+      "startedAt": "2026-10-15T10:27:49.354Z",
+      "finishedAt": "2026-10-15T10:27:50.337Z",
+      "durationMs": 981,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:wish-lamp",
+      "startedAt": "2026-10-15T10:27:50.338Z",
+      "finishedAt": "2026-10-15T10:27:51.047Z",
+      "durationMs": 709,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:golden-axe",
+      "startedAt": "2026-10-15T10:27:51.048Z",
+      "finishedAt": "2026-10-15T10:28:10.835Z",
+      "durationMs": 19787,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:chuseok",
+      "startedAt": "2026-10-15T10:28:10.836Z",
+      "finishedAt": "2026-10-15T10:28:14.963Z",
+      "durationMs": 4126,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:hyper-pack",
+      "startedAt": "2026-10-15T10:28:14.964Z",
+      "finishedAt": "2026-10-15T10:28:17.495Z",
+      "durationMs": 2531,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:new-user-gift",
+      "startedAt": "2026-10-15T10:28:17.496Z",
+      "finishedAt": "2026-10-15T10:28:58.056Z",
+      "durationMs": 40560,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:scrapyard-v3",
+      "startedAt": "2026-10-15T10:28:58.057Z",
+      "finishedAt": "2026-10-15T10:29:18.430Z",
+      "durationMs": 20373,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:avatar",
+      "startedAt": "2026-10-15T10:29:18.431Z",
+      "finishedAt": "2026-10-15T10:29:40.950Z",
+      "durationMs": 22519,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:performance",
+      "startedAt": "2026-10-15T10:29:40.951Z",
+      "finishedAt": "2026-10-15T10:29:46.615Z",
+      "durationMs": 5664,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:unique-advancement",
+      "startedAt": "2026-10-15T10:29:46.616Z",
+      "finishedAt": "2026-10-15T10:29:47.545Z",
+      "durationMs": 929,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:soopketland",
+      "startedAt": "2026-10-15T10:29:47.546Z",
+      "finishedAt": "2026-10-15T10:29:50.233Z",
+      "durationMs": 2687,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:streamer-lounge",
+      "startedAt": "2026-10-15T10:29:50.234Z",
+      "finishedAt": "2026-10-15T10:29:50.955Z",
+      "durationMs": 721,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:player-card",
+      "startedAt": "2026-10-15T10:29:50.955Z",
+      "finishedAt": "2026-10-15T10:30:12.646Z",
+      "durationMs": 21690,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:evolution",
+      "startedAt": "2026-10-15T10:30:12.647Z",
+      "finishedAt": "2026-10-15T10:30:13.432Z",
+      "durationMs": 785,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:inventory",
+      "startedAt": "2026-10-15T10:30:13.433Z",
+      "finishedAt": "2026-10-15T10:30:14.160Z",
+      "durationMs": 727,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:navigation",
+      "startedAt": "2026-10-15T10:30:14.161Z",
+      "finishedAt": "2026-10-15T10:30:14.889Z",
+      "durationMs": 727,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:mercenary-codex",
+      "startedAt": "2026-10-15T10:30:14.890Z",
+      "finishedAt": "2026-10-15T10:30:27.852Z",
+      "durationMs": 12962,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:equipment-forge-public",
+      "startedAt": "2026-10-15T10:30:27.852Z",
+      "finishedAt": "2026-10-15T10:31:01.423Z",
+      "durationMs": 33570,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:mercenary-cms",
+      "startedAt": "2026-10-15T10:31:01.424Z",
+      "finishedAt": "2026-10-15T10:31:11.122Z",
+      "durationMs": 9698,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:cryvern",
+      "startedAt": "2026-10-15T10:31:11.122Z",
+      "finishedAt": "2026-10-15T10:31:14.972Z",
+      "durationMs": 3849,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:mercenary-draw",
+      "startedAt": "2026-10-15T10:31:14.972Z",
+      "finishedAt": "2026-10-15T10:31:26.860Z",
+      "durationMs": 11887,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:limited-pack",
+      "startedAt": "2026-10-15T10:31:26.861Z",
+      "finishedAt": "2026-10-15T10:31:42.569Z",
+      "durationMs": 15708,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:raid-entry",
+      "startedAt": "2026-10-15T10:31:42.570Z",
+      "finishedAt": "2026-10-15T10:31:47.768Z",
+      "durationMs": 5198,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:core-raid",
+      "startedAt": "2026-10-15T10:31:47.769Z",
+      "finishedAt": "2026-10-15T10:32:06.872Z",
+      "durationMs": 19102,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:lich-raid",
+      "startedAt": "2026-10-15T10:32:06.873Z",
+      "finishedAt": "2026-10-15T10:32:21.103Z",
+      "durationMs": 14230,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:madara-raid",
+      "startedAt": "2026-10-15T10:32:21.104Z",
+      "finishedAt": "2026-10-15T10:32:29.307Z",
+      "durationMs": 8203,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:black-miracle",
+      "startedAt": "2026-10-15T10:32:29.309Z",
+      "finishedAt": "2026-10-15T10:32:35.050Z",
+      "durationMs": 5741,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:seal",
+      "startedAt": "2026-10-15T10:32:35.051Z",
+      "finishedAt": "2026-10-15T10:32:45.806Z",
+      "durationMs": 10754,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:message-rewards",
+      "startedAt": "2026-10-15T10:32:45.807Z",
+      "finishedAt": "2026-10-15T10:33:07.945Z",
+      "durationMs": 22138,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:workshop",
+      "startedAt": "2026-10-15T10:33:07.946Z",
+      "finishedAt": "2026-10-15T10:33:34.363Z",
+      "durationMs": 26417,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:clan",
+      "startedAt": "2026-10-15T10:33:34.364Z",
+      "finishedAt": "2026-10-15T10:34:32.537Z",
+      "durationMs": 58173,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:organization",
+      "startedAt": "2026-10-15T10:34:32.538Z",
+      "finishedAt": "2026-10-15T10:34:53.484Z",
+      "durationMs": 20946,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:prison",
+      "startedAt": "2026-10-15T10:34:53.485Z",
+      "finishedAt": "2026-10-15T10:35:03.236Z",
+      "durationMs": 9751,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:coup",
+      "startedAt": "2026-10-15T10:35:03.237Z",
+      "finishedAt": "2026-10-15T10:35:40.994Z",
+      "durationMs": 37757,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:project-v-sd",
+      "startedAt": "2026-10-15T10:35:40.995Z",
+      "finishedAt": "2026-10-15T10:35:44.128Z",
+      "durationMs": 3133,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:apocalypse",
+      "startedAt": "2026-10-15T10:35:44.128Z",
+      "finishedAt": "2026-10-15T10:35:47.349Z",
+      "durationMs": 3221,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:pve-sweep",
+      "startedAt": "2026-10-15T10:35:47.350Z",
+      "finishedAt": "2026-10-15T10:35:48.027Z",
+      "durationMs": 677,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:battle-suit",
+      "startedAt": "2026-10-15T10:35:48.028Z",
+      "finishedAt": "2026-10-15T10:35:55.222Z",
+      "durationMs": 7193,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:skill-chips",
+      "startedAt": "2026-10-15T10:35:55.222Z",
+      "finishedAt": "2026-10-15T10:35:58.075Z",
+      "durationMs": 2853,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:territory-reward",
+      "startedAt": "2026-10-15T10:35:58.075Z",
+      "finishedAt": "2026-10-15T10:36:29.073Z",
+      "durationMs": 30997,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:alchemy",
+      "startedAt": "2026-10-15T10:36:29.073Z",
+      "finishedAt": "2026-10-15T10:36:29.936Z",
+      "durationMs": 862,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:ranked-reward",
+      "startedAt": "2026-10-15T10:36:29.936Z",
+      "finishedAt": "2026-10-15T10:36:30.715Z",
+      "durationMs": 779,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:coupon",
+      "startedAt": "2026-10-15T10:36:30.716Z",
+      "finishedAt": "2026-10-15T10:36:38.911Z",
+      "durationMs": 8195,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:daily-quest",
+      "startedAt": "2026-10-15T10:36:38.912Z",
+      "finishedAt": "2026-10-15T10:36:59.747Z",
+      "durationMs": 20835,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:prediction",
+      "startedAt": "2026-10-15T10:36:59.748Z",
+      "finishedAt": "2026-10-15T10:37:01.136Z",
+      "durationMs": 1388,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:prime-draw",
+      "startedAt": "2026-10-15T10:37:01.137Z",
+      "finishedAt": "2026-10-15T10:37:10.836Z",
+      "durationMs": 9699,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:superstar-pack",
+      "startedAt": "2026-10-15T10:37:10.837Z",
+      "finishedAt": "2026-10-15T10:37:25.059Z",
+      "durationMs": 14222,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:fur-enhancement",
+      "startedAt": "2026-10-15T10:37:25.059Z",
+      "finishedAt": "2026-10-15T10:37:40.135Z",
+      "durationMs": 15076,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:gamst-retirement",
+      "startedAt": "2026-10-15T10:37:40.135Z",
+      "finishedAt": "2026-10-15T10:37:44.626Z",
+      "durationMs": 4490,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:reroll-recovery",
+      "startedAt": "2026-10-15T10:37:44.626Z",
+      "finishedAt": "2026-10-15T10:37:48.847Z",
+      "durationMs": 4220,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:targeted-transfer",
+      "startedAt": "2026-10-15T10:37:48.848Z",
+      "finishedAt": "2026-10-15T10:38:04.015Z",
+      "durationMs": 15167,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:idle-dungeon",
+      "startedAt": "2026-10-15T10:38:04.015Z",
+      "finishedAt": "2026-10-15T10:38:06.481Z",
+      "durationMs": 2465,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:treasury",
+      "startedAt": "2026-10-15T10:38:06.481Z",
+      "finishedAt": "2026-10-15T10:38:08.153Z",
+      "durationMs": 1671,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:z-body-effects",
+      "startedAt": "2026-10-15T10:38:08.153Z",
+      "finishedAt": "2026-10-15T10:38:11.605Z",
+      "durationMs": 3451,
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:legion-hunt",
+      "startedAt": "2026-10-15T10:38:11.606Z",
+      "finishedAt": "2026-10-15T10:38:29.985Z",
+      "durationMs": 18379,
+      "exitCode": 0
+    }
+  ],
+  "ok": true,
+  "finishedAt": "2026-10-15T10:38:29.986Z"
+}

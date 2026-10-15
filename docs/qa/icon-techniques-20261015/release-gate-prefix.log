@@ -1,0 +1,1025 @@
+
+> release:gate
+> npm run test:release-policy && npm run test:mercenary-equipment && npm run test:jokgak-city && npm run test:api-runtime && npm run test:account-sync && npm run test:cooperative && npm run test:burning && npm run test:ranked-reform && npm run test:icon-cms && npm run test:ranked-duo && npm run test:magic-workbench && npm run test:postgres-compat && npm run test:account-rank && npm run test:lobby && npm run test:loot-shop && npm run test:master-star-mine && npm run check:worker && npm run test:pve-reform && npm run test:pve-overhaul && npm run test:v3-grid && npm run test:v3-joint && npm run test:live-connections && npm run test:wish-lamp && npm run test:golden-axe && npm run test:chuseok && npm run test:hyper-pack && npm run test:new-user-gift && npm run test:scrapyard-v3 && npm run test:avatar && npm run test:performance && npm run test:unique-advancement && npm run test:soopketland && npm run test:streamer-lounge && npm run test:player-card && npm run test:evolution && npm run test:inventory && npm run test:navigation && npm run test:mercenary-codex && npm run test:equipment-forge-public && npm run test:mercenary-cms && npm run test:cryvern && npm run test:mercenary-draw && npm run test:limited-pack && npm run test:raid-entry && npm run test:core-raid && npm run test:lich-raid && npm run test:madara-raid && npm run test:black-miracle && npm run test:seal && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:organization && npm run test:prison && npm run test:coup && npm run test:project-v-sd && npm run test:apocalypse && npm run test:pve-sweep && npm run test:battle-suit && npm run test:skill-chips && npm run test:territory-reward && npm run test:alchemy && npm run test:ranked-reward && npm run test:coupon && npm run test:daily-quest && npm run test:prediction && npm run test:prime-draw && npm run test:superstar-pack && npm run test:fur-enhancement && npm run test:gamst-retirement && npm run test:reroll-recovery && npm run test:targeted-transfer && npm run test:idle-dungeon && npm run test:treasury && npm run test:z-body-effects && npm run test:legion-hunt && node scripts/verify-production-release.mjs
+
+
+> test:release-policy
+> node --test tests/scoped-release-policy-20260923.test.mjs tests/hyperdrive-cache-deploy-guard.test.mjs && node --test --test-name-pattern="30s defaults, public countdown and scheduled deployment" tests/clan-draft-timeouts-20260915.test.mjs
+
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (1.7158ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (2.4018ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.3837ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (3.039ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (3.3069ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.5397ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.4165ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.5729ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1626ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.4577ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (4.656ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.3382ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 127.17
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+✔ 30s defaults, public countdown and scheduled deployment are included in the release (12.5304ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 332.9027
+
+> test:mercenary-equipment
+> node --test tests/mercenary-equipment-20261011.test.mjs tests/mercenary-equipment-assets-20261011.test.mjs
+
+✔ SQLite: PVE/PVP equipment survives mercenary replacement, shares real copies across modes, and unequips independently (42.8815ms)
+✔ SQLite: ownership, slot, publication, corrupt state and optimistic revision checks fail closed (26.3567ms)
+✔ SQLite: transaction rollback, receipt replay and stale pending requests never overwrite newer equipment (20.2421ms)
+✔ SQLite: enhancement/polish stay on the owned instance; invalid or destroyed copies give no bonus (25.6881ms)
+✔ PostgreSQL: PVE/PVP equipment survives mercenary replacement, shares real copies across modes, and unequips independently (1920.3561ms)
+✔ PostgreSQL: ownership, slot, publication, corrupt state and optimistic revision checks fail closed (1534.1477ms)
+✔ PostgreSQL: transaction rollback, receipt replay and stale pending requests never overwrite newer equipment (1639.3715ms)
+✔ PostgreSQL: enhancement/polish stay on the owned instance; invalid or destroyed copies give no bonus (1292.0793ms)
+✔ actual PVE/PVP fighter power and personal set effects follow the selected mode without buffing normal cards (36.7607ms)
+✔ equipment route authenticates and uses the existing account mutation lock (36.2344ms)
+✔ all thirty regional equipment items have distinct complete transparent art and preserved generated sources (1226.5504ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6953.2142
+
+> test:jokgak-city
+> node --test tests/jokgak-city-conflict-20261012.test.mjs tests/jokgak-city-20261009.test.mjs tests/jokgak-city-cms-20261009.test.mjs tests/jokgak-city-life-20261009.test.mjs tests/jokgak-city-cash-20261009.test.mjs tests/jokgak-city-worker-entry-20261009.test.mjs tests/jokgak-city-theft-20261009.test.mjs tests/jokgak-city-roles-20261009.test.mjs tests/jokgak-city-roles-ops-20261009.test.mjs tests/jokgak-city-expansion-20261009.test.mjs tests/jokgak-city-expansion-ops-20261010.test.mjs tests/jokgak-city-career-20261010.test.mjs tests/jokgak-city-career-ops-20261010.test.mjs tests/jokgak-city-round-rewards-20261012.test.mjs tests/jokgak-city-exploration-20261012.test.mjs
+
+✔ KST role shifts change exactly at 00, 06, 12, 18; health is bounded and reset only across shifts (1.7972ms)
+✔ SQLite: roster pagination is bounded, active-only and public role is stable across refresh/rejoin (400.2044ms)
+✔ SQLite: attack and notification commit once; current-shift receipts are owner-bound and expire on rotation (205.9461ms)
+✔ SQLite: role checks, medical caps, self-heal, police inspection and arrest are server-authoritative (326.1983ms)
+✔ SQLite: moving target and new epoch cancel prepared combat atomically; protected targets reject dogpiles (334.2542ms)
+✔ SQLite: failed notification rolls back health and receipts; lost commit response recovers exact receipt (607.7386ms)
+✔ SQLite: handler rejects cross-site, forged winner/role, stale roles, bad targets and other-user alerts (441.2466ms)
+✔ Postgres: roster pagination is bounded, active-only and public role is stable across refresh/rejoin (9263.1741ms)
+✔ Postgres: attack and notification commit once; current-shift receipts are owner-bound and expire on rotation (4784.7269ms)
+✔ Postgres: role checks, medical caps, self-heal, police inspection and arrest are server-authoritative (5206.0445ms)
+✔ Postgres: moving target and new epoch cancel prepared combat atomically; protected targets reject dogpiles (5043.4206ms)
+✔ Postgres: failed notification rolls back health and receipts; lost commit response recovers exact receipt (4871.5561ms)
+✔ Postgres: handler rejects cross-site, forged winner/role, stale roles, bad targets and other-user alerts (4605.1902ms)
+✔ live routing, preview isolation, notifications, city backdrop and PVP dependencies are connected (51.9558ms)
+✔ career defaults use approved role wages and reject forged, fractional or malformed economic settings (6.3919ms)
+✔ SQLite: automatic income includes outside/offline full hours, never pays twice and CMS wage changes wait for the next shift (267.2367ms)
+✔ SQLite: first activation preserves current assets; a new shift resets cash, weapons, items, employment and merit, separately per mode (187.8631ms)
+✔ SQLite: sleeping across many shifts settles only the current shift, and first-time participation receives no backpay (209.7338ms)
+✔ SQLite: jobs require the right role, place and employment; completed work pays once and advances police rank (254.1688ms)
+✔ SQLite: movement and combat cancel work; first strikes remove own protection while defenders receive the configured shield (622.5761ms)
+✔ SQLite: salary/reset and purchases share CAS rollback; a lost salary commit never double credits (391.5361ms)
+✔ Postgres: automatic income includes outside/offline full hours, never pays twice and CMS wage changes wait for the next shift (8815.7708ms)
+✔ Postgres: first activation preserves current assets; a new shift resets cash, weapons, items, employment and merit, separately per mode (4609.4991ms)
+✔ Postgres: sleeping across many shifts settles only the current shift, and first-time participation receives no backpay (5083.6701ms)
+✔ Postgres: jobs require the right role, place and employment; completed work pays once and advances police rank (5391.5571ms)
+✔ Postgres: movement and combat cancel work; first strikes remove own protection while defenders receive the configured shield (5214.706ms)
+✔ Postgres: salary/reset and purchases share CAS rollback; a lost salary commit never double credits (4678.6866ms)
+✔ a stale in-flight fight cannot overwrite the reset after a parallel shift sync (399.7223ms)
+✔ arrest clears the initiating officer shield and credits merit once; leaving cancels work and a late shift cannot start new work (586.0361ms)
+✔ career activation preserves operator OFF, all unrelated settings and assets; audit failure rolls back and replay is idempotent (3959.8303ms)
+✔ cash settings upgrade legacy policy, reject malformed balances and enforce bounds (10.1325ms)
+✔ SQLite: initial cash is once per mode, survives spend/rejoin/shift and does not refill after CMS edits (382.1184ms)
+✔ SQLite: legacy wallet initialization is persistent, guarded by CMS revision, and zero is not recredited (163.5875ms)
+✔ SQLite: cash-only and mixed rewards are atomic, retry-safe, capped and private in public residents (322.6076ms)
+✔ SQLite: TEST cash rewards stay in TEST across death and cannot be collected into ON by replay (317.892ms)
+✔ Postgres: initial cash is once per mode, survives spend/rejoin/shift and does not refill after CMS edits (8969.5695ms)
+✔ Postgres: legacy wallet initialization is persistent, guarded by CMS revision, and zero is not recredited (4597.9591ms)
+✔ Postgres: cash-only and mixed rewards are atomic, retry-safe, capped and private in public residents (5410.2142ms)
+✔ Postgres: TEST cash rewards stay in TEST across death and cannot be collected into ON by replay (5179.0454ms)
+✔ city policy rejects invalid modes, malformed roles, zero total weights, duplicate/invalid rewards and excessive grants (12.7708ms)
+✔ SQLite: TEST permits only OWNER/listed users, hides other residents, blocks other targets and allows exit/read recovery (365.0482ms)
+✔ SQLite: OWNER CMS uses same-origin JSON, exact account lookup, catalog validation and revision/audit atomicity (234.2019ms)
+✔ SQLite: losing identical CMS save cannot append an audit or overwrite another writer (145.2161ms)
+✔ SQLite: role weights freeze per shift; next shift applies the new distribution and configured start location (167.4761ms)
+✔ SQLite: custom medical, police, health, damage and cooldown settings are enforced by server actions (479.1427ms)
+✔ SQLite: live rewards commit once with action receipt, daily cap and same-target cooldown across roles/events (490.2268ms)
+✔ SQLite: failed later writes roll back rewards/quotas and lost commit responses recover the paid receipt (609.9699ms)
+✔ SQLite: TEST rewards never pay after ON and concurrent policy closure cancels the whole prepared battle (1277.5069ms)
+✔ Postgres: TEST permits only OWNER/listed users, hides other residents, blocks other targets and allows exit/read recovery (8537.0958ms)
+✔ Postgres: OWNER CMS uses same-origin JSON, exact account lookup, catalog validation and revision/audit atomicity (4954.4278ms)
+✔ Postgres: losing identical CMS save cannot append an audit or overwrite another writer (5114.8078ms)
+✔ Postgres: role weights freeze per shift; next shift applies the new distribution and configured start location (4893.7885ms)
+✔ Postgres: custom medical, police, health, damage and cooldown settings are enforced by server actions (5488.0586ms)
+✔ Postgres: live rewards commit once with action receipt, daily cap and same-target cooldown across roles/events (4387.0831ms)
+✔ Postgres: failed later writes roll back rewards/quotas and lost commit responses recover the paid receipt (2542.7238ms)
+✔ Postgres: TEST rewards never pay after ON and concurrent policy closure cancels the whole prepared battle (2680.8556ms)
+✔ OWNER city CMS and current client settings/rewards are wired into shipped pages (7.3669ms)
+✔ conflict defaults, strict OWNER input and independent server selection/amount boundaries (15.0496ms)
+✔ SQLite: qualifying real kills issue a stable bounty; normal wins and arrests never finish it; lethal attack pays exactly once (429.9252ms)
+✔ SQLite: defending killer receives the full bounty; cash, kill count, warrant, notices and journal roll back together and recover a lost response (366.971ms)
+✔ SQLite: two hunters cannot claim one warrant and a full cash wallet cannot leave partial death or payout records (460.9511ms)
+✔ SQLite: riots count only committed fight receipts, include draws/arrests, expire and separate modes; cleanup is atomic (825.5297ms)
+✔ SQLite: current bounty survives exit/rejoin; cooldown, immediate OFF, active-user filtering and stale CMS clients remain safe (716.0232ms)
+✔ Postgres: qualifying real kills issue a stable bounty; normal wins and arrests never finish it; lethal attack pays exactly once (10097.6804ms)
+✔ Postgres: defending killer receives the full bounty; cash, kill count, warrant, notices and journal roll back together and recover a lost response (5743.6698ms)
+✔ Postgres: two hunters cannot claim one warrant and a full cash wallet cannot leave partial death or payout records (6122.6822ms)
+✔ Postgres: riots count only committed fight receipts, include draws/arrests, expire and separate modes; cleanup is atomic (6310.6731ms)
+✔ Postgres: current bounty survives exit/rejoin; cooldown, immediate OFF, active-user filtering and stale CMS clients remain safe (5633.075ms)
+✔ riot and wanted UI stays inert until loaded, escapes names and shows payout provenance without turning arrest into a kill (8.0332ms)
+✔ legacy policies gain approved prices/facilities without changing other saved fields, and invalid weapons are rejected (12.5939ms)
+✔ SQLite: exit/rejoin and CMS weight changes cannot reroll a role before the common shift (313.3634ms)
+✔ SQLite: paid weapons require the market and ownership, equip explicitly, survive rejoin, and keep TEST/ON separate (257.1879ms)
+✔ SQLite: purchase CAS rolls back cash and ownership on failure and recovers a lost response exactly once (241.9779ms)
+✔ SQLite: combat and inspection use server-owned weapons and hide the other inventory (246.9919ms)
+✔ SQLite: motel gives a private untargetable room, blocks outgoing combat and cannot be extended by refresh or re-entry (617.6364ms)
+✔ SQLite: hospital discharges after three minutes without timer resets, while doctor and nurse may remain (270.6321ms)
+✔ SQLite: police HP 150 persists through combat and the three-minute death wait ends with revival and immediate relocation (366.0508ms)
+✔ Postgres: exit/rejoin and CMS weight changes cannot reroll a role before the common shift (8666.542ms)
+✔ Postgres: paid weapons require the market and ownership, equip explicitly, survive rejoin, and keep TEST/ON separate (4959.8557ms)
+✔ Postgres: purchase CAS rolls back cash and ownership on failure and recovers a lost response exactly once (4749.155ms)
+✔ Postgres: combat and inspection use server-owned weapons and hide the other inventory (4899.1288ms)
+✔ Postgres: motel gives a private untargetable room, blocks outgoing combat and cannot be extended by refresh or re-entry (4581.2163ms)
+✔ Postgres: hospital discharges after three minutes without timer resets, while doctor and nurse may remain (5249.9268ms)
+✔ Postgres: police HP 150 persists through combat and the three-minute death wait ends with revival and immediate relocation (3150.1866ms)
+✔ city team normalizes account cards and mercenary growth; the same weapon produces the same whole-team power (21.806ms)
+✔ a weapon determines strength over raw account power in both attack and defense, without changing ordinary PVP (75.9102ms)
+✔ city migration and approved policy are atomic/replayable, preserve operator TEST and wallets, and do not revive dead police (4707.656ms)
+✔ legacy policies gain 7 exploration weapons and 6 armors, while original shop prices and ON mode stay intact (13.5239ms)
+✔ SQLite: exploration is current-area only; rolls, ownership and cooldown persist atomically, including lost responses and duplicates (262.8385ms)
+✔ SQLite: armor adds power once, private inventory stays private, failed/empty/parallel searches cannot multiply loot (301.6454ms)
+✔ SQLite: search restrictions and TEST/ON round inventories cannot be bypassed through leaving, jobs or policy toggles (257.57ms)
+✔ SQLite: minute scheduler moves offline ordinary hospital occupants at 3 minutes, retains medical staff and returns one stable current-round popup (843.3833ms)
+✔ SQLite: police arrests promote once and immediately increase city power, future salary and hourly income; old round snapshots remain unchanged (335.4458ms)
+✔ Postgres: exploration is current-area only; rolls, ownership and cooldown persist atomically, including lost responses and duplicates (8542.9078ms)
+✔ Postgres: armor adds power once, private inventory stays private, failed/empty/parallel searches cannot multiply loot (4625.1058ms)
+✔ Postgres: search restrictions and TEST/ON round inventories cannot be bypassed through leaving, jobs or policy toggles (5519.1862ms)
+✔ Postgres: minute scheduler moves offline ordinary hospital occupants at 3 minutes, retains medical staff and returns one stable current-round popup (5139.3226ms)
+✔ Postgres: police arrests promote once and immediately increase city power, future salary and hourly income; old round snapshots remain unchanged (4667.2479ms)
+✔ existing round without promotion fields keeps zero bonuses; the next round adopts new CMS defaults (1046.8228ms)
+✔ city combat ignores ranked growth, card types and every mercenary identity; equal equipment has equal stats and seed results (550.3716ms)
+✔ life policy validates rates, products, positive recoveries and preserves legacy settings (8.7436ms)
+✔ SQLite: lethal defender loss stores killer and 3-minute deadline; leave, regeneration and shift cannot bypass death (300.5288ms)
+✔ SQLite: attacker death uses defending killer; medical actions cannot revive early; fatal arrest goes to hospital (276.993ms)
+✔ SQLite: hunger and wellness decay by server time, freeze while outside, and critical health relocates to hospital (214.7441ms)
+✔ SQLite: restaurant restores needs once, enforces place/full checks and includes cash charge in receipt (470.4505ms)
+✔ SQLite: purchases and carried use are atomic, bounded and retry-safe including lost commits (479.2768ms)
+✔ SQLite: TEST services never touch real currency and cannot transfer test inventory to ON (593.5481ms)
+✔ SQLite: balance races, policy races and failed death notifications roll back complete actions (1192.4236ms)
+✔ SQLite: notification polling returns death status and completes hospital respawn; forged survival inputs are rejected (2012.9155ms)
+✔ Postgres: lethal defender loss stores killer and 3-minute deadline; leave, regeneration and shift cannot bypass death (8073.9936ms)
+✔ Postgres: attacker death uses defending killer; medical actions cannot revive early; fatal arrest goes to hospital (5360.0315ms)
+✔ Postgres: hunger and wellness decay by server time, freeze while outside, and critical health relocates to hospital (5549.4287ms)
+✔ Postgres: restaurant restores needs once, enforces place/full checks and includes cash charge in receipt (4183.7775ms)
+✔ Postgres: purchases and carried use are atomic, bounded and retry-safe including lost commits (4761.4835ms)
+✔ Postgres: TEST services never touch real currency and cannot transfer test inventory to ON (3736.2301ms)
+✔ Postgres: balance races, policy races and failed death notifications roll back complete actions (2515.5909ms)
+✔ Postgres: notification polling returns death status and completes hospital respawn; forged survival inputs are rejected (2595.7546ms)
+✔ full hunger depletes in exactly two active hours; inactive/dead time stays frozen (5.6793ms)
+✔ old role settings retain values and gain only the new skill defaults; invalid skill policy is rejected (14.1964ms)
+✔ SQLite: both beg skills notify only current residents, share cooldown, and decline/expiry/movement close offers (309.2224ms)
+✔ SQLite: 100 won is donor-funded, accepted once per offer, atomic on failure and recoverable after lost commit (219.0963ms)
+✔ SQLite: insufficient donor balance / simultaneous notification dismissal rolls back donation; fake requests cannot charge (300.1996ms)
+✔ SQLite: TEST offers never leak to non-testers or become ON donations (350.9188ms)
+✔ SQLite: losing attacker loses HP; GANG kill alone raises transfer to 20%/4,000, including defending kill (503.5025ms)
+✔ SQLite: movement neither adds nor renews protection, fights use configured 30 seconds (330.8899ms)
+✔ Postgres: both beg skills notify only current residents, share cooldown, and decline/expiry/movement close offers (9178.7186ms)
+✔ Postgres: 100 won is donor-funded, accepted once per offer, atomic on failure and recoverable after lost commit (4755.9986ms)
+✔ Postgres: insufficient donor balance / simultaneous notification dismissal rolls back donation; fake requests cannot charge (5133.7787ms)
+✔ Postgres: TEST offers never leak to non-testers or become ON donations (5051.3653ms)
+✔ Postgres: losing attacker loses HP; GANG kill alone raises transfer to 20%/4,000, including defending kill (4660.2777ms)
+✔ Postgres: movement neither adds nor renews protection, fights use configured 30 seconds (4423.913ms)
+✔ approved ON settings apply once, settle old hunger before speeding up, cap existing protection and preserve both wallets (6013.9063ms)
+✔ round reward policy safely defaults OFF, validates qualification and all five ranks, and uses competition ties (9.826ms)
+✔ SQLite: OWNER CMS saves thresholds and prizes, preserves existing settings/legacy edits and rejects stale or inactive-item settings (807.193ms)
+✔ SQLite: only completed outgoing ON attacks count, retries/defense/arrest/TEST do not; participation and cash rank stack once (2340.6359ms)
+✔ SQLite: TOP5 includes cutoff ties, ignores attack minimum, excludes TEST/banned users and does not pay rank seven (771.3139ms)
+✔ SQLite: next-round rules freeze; mid-round edits cannot change prizes; OFF prevents unsettled payouts (917.3029ms)
+✔ SQLite: no same-round enabling or historical backfill; participation threshold and rank switches work independently (1426.9799ms)
+✔ SQLite: coin/items/receipt/expiry roll back together, and lost commit responses or stale plans cannot double pay (364.9127ms)
+✔ SQLite: changed balances, new attacks, policy stop or inactive items invalidate a prepared payout atomically (795.4712ms)
+✔ SQLite: final passive income uses frozen career rates for the TOP5 order (379.1899ms)
+✔ Postgres: OWNER CMS saves thresholds and prizes, preserves existing settings/legacy edits and rejects stale or inactive-item settings (5804.4031ms)
+✔ Postgres: only completed outgoing ON attacks count, retries/defense/arrest/TEST do not; participation and cash rank stack once (5918.2808ms)
+✔ Postgres: TOP5 includes cutoff ties, ignores attack minimum, excludes TEST/banned users and does not pay rank seven (5222.2395ms)
+✔ Postgres: next-round rules freeze; mid-round edits cannot change prizes; OFF prevents unsettled payouts (4613.1315ms)
+✔ Postgres: no same-round enabling or historical backfill; participation threshold and rank switches work independently (5256.6368ms)
+✔ Postgres: coin/items/receipt/expiry roll back together, and lost commit responses or stale plans cannot double pay (2259.736ms)
+✔ Postgres: changed balances, new attacks, policy stop or inactive items invalidate a prepared payout atomically (1430.9336ms)
+✔ Postgres: final passive income uses frozen career rates for the TOP5 order (1348.5777ms)
+✔ legacy saved cash settings gain approved 10% / 2,000 won without losing mode or prices; CMS rejects malformed theft (14.6167ms)
+✔ SQLite: attacker victory floors 10%, caps at 2,000, conserves cash including zero and winner limit (423.6698ms)
+✔ SQLite: defender victory transfers in reverse, draw/disabled do not transfer, police combat uses same policy (503.503ms)
+✔ SQLite: failed transaction rolls back BOTH wallets; lost commit and repeated request settle exactly once (564.8399ms)
+✔ SQLite: competing attack commits only once; stale cash and CMS policy changes reject whole battle (277.3704ms)
+✔ SQLite: TEST and ON transfer separate wallets; replay never moves TEST cash into ON; death preserves deduction (391.3908ms)
+✔ SQLite: theft precedes role reward; other residents and defender receipt do not expose opponent wallet (459.9184ms)
+✔ Postgres: attacker victory floors 10%, caps at 2,000, conserves cash including zero and winner limit (7495.0668ms)
+✔ Postgres: defender victory transfers in reverse, draw/disabled do not transfer, police combat uses same policy (5032.643ms)
+✔ Postgres: failed transaction rolls back BOTH wallets; lost commit and repeated request settle exactly once (4931.0318ms)
+✔ Postgres: competing attack commits only once; stale cash and CMS policy changes reject whole battle (4194.186ms)
+✔ Postgres: TEST and ON transfer separate wallets; replay never moves TEST cash into ON; death preserves deduction (2519.4851ms)
+✔ Postgres: theft precedes role reward; other residents and defender receipt do not expose opponent wallet (2517.7776ms)
+✔ Workers runtime: first entry, seed cache and retry retain one receipt, role and wallet (6268.8943ms)
+ℹ tests 163
+ℹ suites 0
+ℹ pass 163
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 47074.284
+
+> test:api-runtime
+> node --test tests/api-runtime-placement-20260929.test.mjs
+
+✔ private forwarding preserves original request, credentials, IP, body, authoritative variables and resource bindings (25.6711ms)
+✔ untrusted, tampered, stale, wrong-key, path and method contexts cannot enter the game handler (6.1366ms)
+✔ binary and streaming request bodies, response status, cookies and performance headers survive one dispatch (3.0211ms)
+API_RUNTIME_UNAVAILABLE
+✔ lost response after a remote commit is never retried or run through the local handler (1.2478ms)
+✔ same game entry runs behind private service with Singapore placement, existing DB/locks and explicit rollback (7.1069ms)
+✔ bootstrap initializes one shared key only before cutover and never logs application secrets (5.9477ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 139.3309
+
+> test:account-sync
+> node --test tests/account-sync-overhaul-20261015.test.mjs tests/account-sync-sockets-20261015.test.mjs tests/image-delivery-20261015.test.mjs
+
+✔ account versions commit with the exact account mutation, roll back with it, and coalesce a batch by account (2240.8785ms)
+✔ account version comparison survives large counters and ignores duplicate/out-of-order packets (0.3483ms)
+✔ battle clock compensates RTT, rejects congestion spikes and never reverses or follows a device clock jump (0.3162ms)
+✔ a lost PVP response reuses the original receipt across reloads and never starts a second match (0.7061ms)
+✔ account connection rejects stale login responses, duplicate packets and recovers on visibility change (2.7581ms)
+✔ PVP retains a receipt through expired login and clears only an authoritative expired match (0.4043ms)
+✔ real account sockets isolate identities, reject ticket reuse/origin spoofing and reconcile a missed notification (6264.285ms)
+✔ overlapping Pages image rules emit one cache lifetime and keep immutable limited to hashed derivatives (12.8891ms)
+✔ all delivery mappings preserve their originals and resolve to verified smaller derivatives (7746.9415ms)
+✔ Pages staging preserves fixture imports and images and generates a desktop resource manifest (42.8453ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7985.6616
+
+> test:cooperative
+> node --test tests/cooperative-battleground.test.mjs tests/cooperative-arke.test.mjs tests/cooperative-websocket.test.mjs tests/cooperative-room-list.test.mjs tests/cooperative-turn-fairness-20261004.test.mjs
+
+✔ new encounter has dedicated boss, separated art and scene; no Lich resources (39.6358ms)
+✔ all normal enemies, then the shielded miniboss, then Arke; party resources carry across both boundaries (41.8334ms)
+✔ three authenticated owners must respond; shared input state and a single rupture after deadline (46.3426ms)
+✔ missing input overloads once; stale and unauthorized commands cannot alter the result (27.3679ms)
+✔ focus assigns guard to the target and jamming to two allies; all three actions reduce damage (45.3439ms)
+✔ leaving during a pattern removes only that squad from the requirement and defeats that owner (63.7257ms)
+✔ past battle payloads survive deployment without acquiring new mechanics (44.3206ms)
+✔ server simulation rejects unbounded or fabricated outcomes (2.4081ms)
+✔ 3 owners each contribute exactly 2 cards and 1 mercenary; IDs and owner link stay independent (49.4477ms)
+✔ different players may use the same owned card/mercenary without actor collisions (12.8384ms)
+✔ selection rejects duplicates, missing mercenary, 5-card contracts, and 2 superstars (1.1092ms)
+✔ 3 ready then 3 loaded starts a single shared timestamp; a late loader holds everyone (47.9892ms)
+✔ changing selection clears ready; fourth player, outsider, and post-start editing are rejected (21.1492ms)
+✔ lobby refresh clears ready, transfers host on leave, and never defeats the player (0.6073ms)
+✔ lobby heartbeat expiry removes absent members and transfers host without defeat (0.5239ms)
+✔ refresh during loading or battle defeats only that owner and removes exactly their 3 actors (110.4866ms)
+✔ same-screen reconnect within grace is accepted; absence after 15 seconds forfeits once (63.4541ms)
+✔ withdrawal keeps the exact authoritative prefix and removes all later actions by the owner (32.1056ms)
+✔ server expiry resolves before victory and cannot award a victory after departure (30.2246ms)
+✔ difficulty is fixed and clearing requires a dead boss, not a higher HP ratio (55.8385ms)
+✔ public summaries expose only lobby details and disappear at start/expiry (4.0136ms)
+✔ real directory: authenticated listing, filters, creation retry, joining, host transfer, full rooms and start removal (1361.4403ms)
+✔ real directory removes an abandoned lobby when its heartbeat expires (16284.7783ms)
+✔ mixed-speed cooperative cards and each owner mercenary act before any allies fall (111.4351ms)
+✔ cooperative basic attacks remain available at 1m, 20m and 100m card power without assigned skills (22.6121ms)
+✔ new rooms snapshot the fixed clock; existing rooms rebuild with their original clock (538.0587ms)
+✔ real Durable Objects: gated/authenticated API, ownership, retry, three WebSockets, shared start and refresh defeat (2064.4337ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18477.3801
+
+> test:burning
+> node --test tests/burning-owner-access-20260927.test.mjs tests/burning-owner-timer-v1902.test.mjs
+
+✔ all authenticated OWNER identities can read and save both burning modes (14.1236ms)
+✔ non-OWNER roles cannot read or save even with the formerly privileged nickname (22.9652ms)
+✔ unauthenticated requests stop before event data access (2.7964ms)
+✔ CMS loads refreshed access script and badge with no nickname restriction (2.741ms)
+✔ 모든 OWNER는 닉네임과 관계없이 버닝을 관리할 수 있다 (1.5784ms)
+✔ 버닝 진행 시간은 30분·1시간·2시간만 허용한다 (2.0861ms)
+✔ 종료 시각은 서버 시작 시각에서 정확히 선택 시간 뒤로 계산된다 (1.8444ms)
+✔ 정확한 종료 경계부터 버닝은 비활성이다 (0.257ms)
+✔ 서버는 OWNER 권한·허용 시간·서버 계산 종료 시각·상호 배제를 강제한다 (11.994ms)
+✔ 족장은 예전 기준의 일반·하이퍼 버닝 권한을 사용한다 (1.5436ms)
+✔ CMS와 게임 HUD는 선택 시간 및 초 단위 카운트다운 계약을 사용한다 (25.1312ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 196.1913
+
+> test:ranked-reform
+> node --test tests/ranked-reform-20261002.test.mjs
+
+✔ rating: equal opponents have no 50% drift; stronger opponents pay more and cost less (1.5563ms)
+✔ match limits are hard, symmetric, and independent of available candidate count (0.199ms)
+✔ SQLite: score, energy, coin, history and receipt are atomic; defense stays unchanged (7.2524ms)
+✔ SQLite: failed write rolls back all changes and permits safe retry (2.967ms)
+✔ SQLite: concurrent attempts using the same stale snapshot commit only once (3.3328ms)
+✔ SQLite: closed season or changed score refuses before any charge (2.6982ms)
+✔ SQLite: recharge reads never overwrite a debit; old burning surplus is capped (1.8243ms)
+✔ SQLite: scheduled reopening is gated by time and rewards, archives once and preserves payouts (3.2077ms)
+✔ PostgreSQL pipeline: score, energy, coin, history and receipt are atomic; defense stays unchanged (2971.3622ms)
+✔ PostgreSQL pipeline: failed write rolls back all changes and permits safe retry (2835.3398ms)
+✔ PostgreSQL pipeline: concurrent attempts using the same stale snapshot commit only once (1851.7431ms)
+✔ PostgreSQL pipeline: closed season or changed score refuses before any charge (2384.877ms)
+✔ PostgreSQL pipeline: recharge reads never overwrite a debit; old burning surplus is capped (2268.4824ms)
+✔ PostgreSQL pipeline: scheduled reopening is gated by time and rewards, archives once and preserves payouts (1692.178ms)
+✔ server wiring excludes burning energy, keeps defense untouched and uses the guarded commit (5.2569ms)
+✔ minute cron opens through the same operation and always closes its database connection (0.6552ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14259.3485
+
+> test:icon-cms
+> node --test tests/icon-fur15-superiority-v1.test.mjs tests/icon-roles-v1.test.mjs tests/icon-cms-v1.test.mjs tests/icon-grade-preparation-v1.test.mjs preview/icon-battle-assets-v1/qa.test.mjs tests/icon-preview-pages-url.test.mjs
+
+✔ all nine source portraits remain separate from SD and playable release stays locked (519.9068ms)
+✔ 9 hits + 9 skills + 4 unique concepts have independent generated sources, not recolors (1.1616ms)
+✔ diim-hit: 16 unique hash-bound frames, real alpha, lossless atlas (2690.6765ms)
+✔ diim-skill: 16 unique hash-bound frames, real alpha, lossless atlas (1686.5097ms)
+✔ hi-heeya-hit: 16 unique hash-bound frames, real alpha, lossless atlas (1504.0164ms)
+✔ hi-heeya-skill: 16 unique hash-bound frames, real alpha, lossless atlas (1531.2887ms)
+✔ namuneul-bongsoon-hit: 16 unique hash-bound frames, real alpha, lossless atlas (1374.8646ms)
+✔ namuneul-bongsoon-skill: 16 unique hash-bound frames, real alpha, lossless atlas (1315.1836ms)
+✔ oh-joeun-hit: 16 unique hash-bound frames, real alpha, lossless atlas (1847.3916ms)
+✔ oh-joeun-skill: 16 unique hash-bound frames, real alpha, lossless atlas (1198.9473ms)
+✔ critical-chance: 16 unique hash-bound frames, real alpha, lossless atlas (1069.4642ms)
+✔ critical-damage: 16 unique hash-bound frames, real alpha, lossless atlas (1242.6586ms)
+✔ penetration: 16 unique hash-bound frames, real alpha, lossless atlas (1331.2239ms)
+✔ lifesteal: 16 unique hash-bound frames, real alpha, lossless atlas (1180.4493ms)
+✔ orikkung-hit: 16 unique hash-bound frames, real alpha, lossless atlas (1128.7298ms)
+✔ orikkung-skill: 16 unique hash-bound frames, real alpha, lossless atlas (1175.2469ms)
+✔ kangguyeol-hit: 16 unique hash-bound frames, real alpha, lossless atlas (1252.1808ms)
+✔ kangguyeol-skill: 16 unique hash-bound frames, real alpha, lossless atlas (1005.1966ms)
+✔ ayoon-hit: 16 unique hash-bound frames, real alpha, lossless atlas (1096.2557ms)
+✔ ayoon-skill: 16 unique hash-bound frames, real alpha, lossless atlas (1278.6481ms)
+✔ zeus-cheolgu-hit: 16 unique hash-bound frames, real alpha, lossless atlas (1122.3529ms)
+✔ zeus-cheolgu-skill: 16 unique hash-bound frames, real alpha, lossless atlas (1324.4669ms)
+✔ gusudaeng-hit: 16 unique hash-bound frames, real alpha, lossless atlas (1083.1825ms)
+✔ gusudaeng-skill: 16 unique hash-bound frames, real alpha, lossless atlas (1115.5869ms)
+✔ every contact frame uses the same clock at 0.25x / 1x / 2x, and seeking backwards is deterministic (0.7487ms)
+✔ play, pause, seek, cancel, restart, destroy leave no registered timeline or effect object (6.3544ms)
+✔ preview reuses shared V3 and photos in the unchanged live card dock, no live registration (13.8021ms)
+✔ OWNER guard rejects unauthorized, unsupported and public routes before any database work (4327.5587ms)
+ICON CMS fixture: 20 indexed GETs in 43.4ms (local PostgreSQL, excludes production auth/network)
+✔ registration is idempotent; steady read costs one indexed query and successful save costs two (2360.2973ms)
+✔ same request retries return one receipt; reused IDs and stale revisions cannot overwrite (1626.424ms)
+✔ concurrent different saves have one winner; concurrent identical retries save exactly once (1650.7344ms)
+[icon-cms] unavailable Error
+✔ write failure preserves document and receipt together; retry succeeds (1655.4898ms)
+✔ public/evolution/acquisition/battle switches, missing cards, unknown cards and oversized input are rejected before reads (1531.7406ms)
+[icon-cms] unavailable Error
+✔ malformed stored ON state fails closed rather than becoming a live policy (2153.2409ms)
+✔ seven original portraits and SDs stay separate; every character has a distinct hit and skill (5.4495ms)
+✔ effect draft CMS remains OWNER-only and separate from the approved live fusion release (9.4195ms)
+✔ reference +15 power matches real server CMS normalization and per-card/Faker rules (8.7205ms)
+✔ reference unique stats and advancement match real fresh server deck preparation (30.0723ms)
+✔ seven roles exceed every current and maximum-growth FUR +15 stat with equal equipment (91.3774ms)
+✔ fresh server reference changes with CMS, does not write, strips forged state and honors disabled scopes (10.3248ms)
+✔ server-prepared role snapshots reach bounded authoritative PVE/PVP timelines and preserve ordinary battles (38.0489ms)
+✔ duo saved formations and automatic strongest selection also enforce two ICONs (18.7629ms)
+✔ captain keeps its existing combat model but receives the same grade hierarchy and aggregate power (7.8494ms)
+✔ every existing unique-advancement-to-engine bridge forwards the authoritative ICON role too (25.3906ms)
+✔ old stored battle snapshots cannot bypass two-card limit and fail before DB work (0.9633ms)
+✔ ICON is a distinct streamer tier above ZENITH, fixed base 180,000 with undecided growth (1.4332ms)
+✔ approved frame is byte-identical and keeps exact transparent portrait dimensions (9.8713ms)
+✔ eight distinct effects are available only for ICON, existing grades retain four (1.2747ms)
+✔ empty draft retains undecided values, not invented zero or live effect balance (0.7508ms)
+✔ draft validation reorders the eight known effects deterministically without mutating input (0.3887ms)
+✔ missing, duplicate, extra and unknown effects cannot be silently saved (0.8559ms)
+✔ reject nonfinite, string, boolean, undefined and out-of-range effect values; preserve null (1.0769ms)
+✔ grade, power, release flags, battle scopes and all acquisition proposals fail closed (0.8607ms)
+✔ unknown client properties cannot leak through the future CMS boundary (2.0243ms)
+✔ card renderer places the name outside the frame and uses member source art, never SD (1.3682ms)
+✔ all nine user-supplied ICON portraits are preserved exactly and stay preview-only (37.2671ms)
+✔ Bongsoon uses the exact replacement JPEG while the previous approved photo is retained (2.5081ms)
+✔ user ICON previews use dedicated captions and bounded CSS crop without rewriting original pixels (1.1194ms)
+✔ preparation has no production route, live loader, DB write, draw registration or battle modification (20.7266ms)
+✔ Pages clean URLs preserve the ICON preview asset root and shared battlefield paths (10.1807ms)
+✔ seven fixed identities replace stat drafts; fusion cost and closed state are untouched (3.1896ms)
+✔ configuration rejects missing/duplicate cards, nonfinite values, extra fields and unbounded procs (1.1922ms)
+✔ attack heat requires same-target landed basics; skill consumes it and has a shared pellet cap (2.9499ms)
+✔ assassin tracks weak living targets, respects knockout and bounds takedown gauge (0.7345ms)
+✔ skill target cap includes vulnerability and the next-attack buff (1.9116ms)
+✔ assault opens with a finite ward and converts boss control into bounded vulnerability (2.5255ms)
+✔ guardian redirects to one living guardian; shield, protection pool and stored retaliation are finite (0.9673ms)
+✔ curse has finite turns, reduces healing once, spreads to one extra enemy and can be cleansed (0.8954ms)
+✔ mage consumes a channel action, hits multiple targets and is interrupted by a seal (2.2732ms)
+✔ support cleanses and heals using a finite personal budget; no revival or overtime healing (0.7649ms)
+✔ every role obeys cooldowns and max activations without recursively creating actions (5.2512ms)
+✔ PVP and PVE share authoritative role events, deterministic replays and ordinary-card compatibility (38.6732ms)
+✔ role database access is one indexed read for all ICON parties and zero for ordinary parties (0.8833ms)
+✔ OWNER settings are atomic, preserve legacy documents, reject other roles and replay safely (4570.8792ms)
+ICON: 40 local simulations / 2514 events / 169 ms; no database in combat.
+✔ common V3 handles ICON events and card details/CMS use the same role catalog (28.9206ms)
+✔ bounded seven-role simulation runs without additional DB work or excessive event growth (170.6845ms)
+ℹ tests 76
+ℹ suites 0
+ℹ pass 76
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 33105.887
+
+> test:ranked-duo
+> node --test tests/ranked-duo-schema-owners-20260925.test.mjs tests/ranked-duo-seasons.test.mjs tests/ranked-duo-battle.test.mjs tests/ranked-duo-direct-entry-20260927.test.mjs tests/ranked-duo-server.test.mjs tests/ranked-duo-batch.test.mjs tests/ranked-duo-weekly.test.mjs tests/ranked-duo-enrollment-summary.test.mjs tests/ranked-duo-live-operation.test.mjs
+
+✔ SQLite batched magic preserves ownership, enhancement and each preset in four queries (37.0113ms)
+✔ Postgres batched magic preserves ownership, enhancement and each preset in four queries (9240.6265ms)
+✔ advancement reads all owners once, keeps ownership and uses current unique stats (11.2595ms)
+✔ missing selected attack preset cannot silently substitute the defense deck (297.8763ms)
+✔ 24 duo stations are distinct, mirrored and bounded without altering normal stations (1.5691ms)
+✔ potential counts owned unequipped mercenary and best gear per slot; actual combat counts equipped gear once (195.678ms)
+✔ odd roster waits the latest applicant regardless of strength (0.6255ms)
+✔ SQLite duo combat and cache follow PVP changes while PVE remains separate (137.6156ms)
+✔ Postgres duo combat and cache follow PVP changes while PVE remains separate (3622.5585ms)
+✔ SQLite duo gear follows PVP saves and never enters ordinary equipment power (87.185ms)
+✔ Postgres duo gear follows PVP saves and never enters ordinary equipment power (2675.592ms)
+✔ all four owners deploy into one deterministic battlefield, including identical cards and mercenaries (55.6366ms)
+✔ each mercenary links to its own five cards and keeps a unique cadence (8.4441ms)
+✔ no mercenary is required, invalid owners/decks are rejected, and equipment is not duplicated (9.8108ms)
+✔ losing one owner does not end the shared battle (3.8655ms)
+✔ legacy five-card combat remains isolated from duo ownership and repeatable (18.9617ms)
+✔ one matching action immediately submits a fight; version contention reuses the same request (9.211ms)
+✔ pending settlement and a lost response recover automatically without new matching or payment requests (1.0473ms)
+✔ a saved paid match resumes on entry, and terminal errors are not retried (2.3534ms)
+✔ retry budget is finite and unmounting never sends a new fight (36.3702ms)
+✔ overlapping profile builds finish without duplicate inventory scans false (405.6638ms)
+ℹ overlap: 43 bounded statements; 2 inventory batches for 3 changed accounts; 1 cache wait; 54.9ms fixture elapsed
+✔ overlapping profile builds finish without duplicate inventory scans pipeline (9455.8545ms)
+ℹ overlap: 19 bounded statements; 2 inventory batches for 3 changed accounts; 1 cache wait; 115.2ms fixture elapsed
+✔ an inventory change during rebuilding is retried and publishes only the current version (140.0848ms)
+✔ automatic entry survives the admission fence with one energy debit and one result (132.8948ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:231:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:275:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:301:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async entryHarness.now (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/ranked-duo-direct-entry-20260927.test.mjs:95:11)
+    at async enterRankedDuo (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/js/ranked-duo-entry-v1.mjs:20:15)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/ranked-duo-direct-entry-20260927.test.mjs:98:15)
+✔ automatic recovery waits out a failed settlement lease and charges only once (162.6966ms)
+✔ the deployed lobby uses automatic entry and has no second fight confirmation (2.2842ms)
+✔ large duplicate equipment inventory can enroll without truncating its strongest gear (896.277ms)
+✔ PostgreSQL enrollment uses ownership counts and sparse enhanced/equipped instances for millions of copies (8953.1317ms)
+✔ SQLite duo board reads only the visible current season and respects deadlines (69.3996ms)
+✔ PostgreSQL duo board reads only the visible current season and respects deadlines (9081.6933ms)
+✔ duo failures do not suppress other content, and the existing cache avoids repeated lookups (33.1846ms)
+✔ duo recruitment has a real countdown and opens the existing duo screen (12.5099ms)
+✔ split production owners install their own triggers; restricted runtime and both inventory writers remain valid (9070.7556ms)
+✔ 24-hour registration uses ranked UTC dates, matching names/tiers and independent timed energy (12.3103ms)
+✔ SQLite automatic recruitment, start, atomic finish and exactly one trophy per partner (472.8416ms)
+✔ true automatic recruitment, start, atomic finish and exactly one trophy per partner (9345.539ms)
+✔ pipeline automatic recruitment, start, atomic finish and exactly one trophy per partner (3246.3361ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:231:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:275:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:301:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/ranked-duo-seasons.test.mjs:60:49)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ an accepted battle is recovered before final positions and trophies are frozen (89.9028ms)
+✔ failed trophy writes roll back the snapshot and safely resume (2396.1369ms)
+✔ concurrent scheduler delivery creates and finishes only one official season (2132.7079ms)
+✔ additional recruitment preserves published teams and cannot cross the ranked end (74.558ms)
+✔ a participant who removed their deck or was suspended cannot block automatic pairing (53.9741ms)
+✔ fewer than two teams never starts or awards a challenger trophy (25.7157ms)
+✔ ranked schedule edits extend the linked season without duplicate enrollment (35.0098ms)
+✔ shortening a ranked season past its recruitment window closes cleanly and cannot reopen the same season (10.7057ms)
+✔ tenth-place ties award both partners once and the eleventh team earns no trophy (37.2885ms)
+✔ scheduler connection and alarm recover after database failure; no player visit required (1.5881ms)
+✔ automatic team publication reads at most forty teams per saved chunk (19.8812ms)
+✔ balanced strong+weak pairs are deterministic and respect an odd waiting participant (95.852ms)
+✔ SQLite recruitment, four-deck battle and exact-once personal energy (510.6482ms)
+✔ Postgres recruitment, four-deck battle and exact-once personal energy (9821.8312ms)
+✔ Postgres pipeline recruitment, four-deck battle and exact-once personal energy (3188.5853ms)
+✔ latest offline teammate upgrades invalidate only that account, not every inventory (73.5268ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:231:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:275:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:301:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/ranked-duo-server.test.mjs:35:63)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ failed settlement keeps one durable paid match and retries without losing team points (102.7324ms)
+✔ unconfigured energy never grants free fights, recruitment respects 24 hours, and owner operations are protected (14.6457ms)
+✔ teammates can attack concurrently and shared team scores accumulate twice (2581.1737ms)
+✔ concurrent duplicate request ids consume one energy and return the same result (2318.8071ms)
+✔ an empty partner energy balance never blocks or pays for the initiator (47.0959ms)
+✔ the inventory-version fence rolls back energy, ticket and receipt together (54.945ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:231:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:275:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:301:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/ranked-duo-server.test.mjs:79:49)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+[ranked-duo simulation cancelled] 2a28b27a-fe9c-4073-a8b6-c96573b4f947 전투 기준이 변경됐습니다.
+✔ an unrecoverable saved engine version refunds energy exactly once (51.707ms)
+✔ profile rebuild leases stop simultaneous inventory scans and always release owned leases (40.8465ms)
+✔ KST daily grants are personal, capped and never multiply by missed days (0.324ms)
+✔ extra recruitment preserves published pairs and can resume after invalid deck repair (86.7931ms)
+✔ global policy revisions rebuild cached data and recent history uses two bounded indexes (38.7793ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:231:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:275:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:301:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/ranked-duo-server.test.mjs:119:16)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ last-energy pending match is discoverable and recoverable from a fresh device (52.3441ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at join (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:64:15)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:298:66)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/ranked-duo-server.test.mjs:132:60)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ lobby never recounts participants; atomic membership counter survives duplicates and rollback false (24.2148ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at Object.query (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:41:177)
+    at PostgresD1Database.batchPipelined (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_postgres_d1_compat.js:882:31)
+    at async file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_postgres_d1_compat.js:905:27
+✔ lobby never recounts participants; atomic membership counter survives duplicates and rollback pipeline (1568.1263ms)
+✔ Postgres no-op catalog writes do not invalidate every participant profile (1606.0878ms)
+✔ SQLite weekly season outlives solo, pays both partners once, and opens the next full recruitment (458.2762ms)
+✔ true weekly season outlives solo, pays both partners once, and opens the next full recruitment (9991.493ms)
+✔ pipeline weekly season outlives solo, pays both partners once, and opens the next full recruitment (3297.9862ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:231:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:275:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_ranked_duo.js:301:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/ranked-duo-weekly.test.mjs:30:47)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ SQLite victory reward is atomic with match scores, frozen on admission and never paid to the partner (137.0533ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at Object.query (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/helpers/ranked-duo-db.mjs:41:177)
+    at PostgresD1Database.batchPipelined (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_postgres_d1_compat.js:882:31)
+    at async file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/functions/_postgres_d1_compat.js:905:27
+✔ pipeline victory reward is atomic with match scores, frozen on admission and never paid to the partner (2562.3481ms)
+✔ CMS authority, revision conflicts, atomic current recruitment save and active-season freeze (2114.6547ms)
+✔ tier payout failure rolls back receipts, all balances, ledgers and cursor; retry safely resumes (1765.8034ms)
+✔ missing tier recipient cannot mark an unpaid batch as complete (37.0961ms)
+✔ pre-deployment recruitment is adopted without changing participants or requested timestamps (26.8579ms)
+✔ top ten rewards follow final team rank, not the solo top twenty; chunks and concurrent retry remain bounded (1746.0567ms)
+✔ additional recruitment keeps a full seven-day battle window and existing teams (41.4136ms)
+✔ first recruitment operation copies actual settings and is idempotent (1264.3445ms)
+✔ a concurrent CMS save cannot create the next season from a stale policy (1208.0586ms)
+✔ no combat produces no rewards; disabling next recruitment does not reopen a closed season (24.3468ms)
+ℹ tests 82
+ℹ suites 0
+ℹ pass 82
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 25859.5721
+
+> test:magic-workbench
+> node --test tests/magic-presets.test.mjs tests/magic-workbench-ui.test.mjs tests/ranked-deck-renewal-v1905.mjs
+
+✔ SQLite: presets, battle, legacy clients and atomic failure (45.5723ms)
+✔ PostgreSQL compatibility: presets, battle, legacy clients and atomic failure (1652.8458ms)
+✔ PostgreSQL pipelined batch: presets, battle, legacy clients and atomic failure (1166.6681ms)
+✔ strict shape validation and empty slots (0.3076ms)
+✔ SQLite: existing enhancement and summon API remain receipt-safe (6.0092ms)
+✔ PostgreSQL: existing enhancement and summon API remain receipt-safe (1189.5032ms)
+✔ new magic workbench is versioned and keeps the existing app cache contract (8.1742ms)
+✔ ranked magic slots are five separate selectors with escaped labels and no duplicate choices (2.1094ms)
+✔ V1907 deck starts with presets, removes the duplicate overview and collapses power details (1.7694ms)
+✔ V1907 match is one centered hero and ranked navigation precedes dynamic content (1.1222ms)
+✔ ranked deck slots follow the server formation instead of a fixed 2/3 split (0.6734ms)
+✔ inactive healer guidance is hidden until a real penalty applies (0.7228ms)
+✔ server presets stay account-scoped and dirty drafts are really discarded on tab exit (0.7124ms)
+✔ preset saving is idempotent, snapshot-based and non-blocking (0.7057ms)
+✔ desktop deck cards cannot escape their grid tracks in runtime or preview CSS (1.4349ms)
+✔ V1907 match CSS uses circular motion with an explicit reduced-motion fallback (0.6312ms)
+✔ V1907 ranked deck CSS keeps a rectangular, responsive command-console contract (0.5213ms)
+✔ ranked assets are versioned and the current app shell shares its cache version (0.2444ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4337.8142
+
+> test:postgres-compat
+> node --test tests/postgres-d1-compat.test.mjs tests/postgres-batch-pipeline-20260920.test.mjs tests/equipment-counts-v1-20260921.test.mjs
+
+✔ marker gate: only postgres, cached per scope, off by default (2.1181ms)
+﹣ real PostgreSQL: triggers keep counts equal to GROUP BY through bulk insert, delete and re-key (0.1442ms) # SKIP
+✔ parameters become unknown-typed quoted literals, never bare numbers (1.7332ms)
+✔ quotes, backslashes and placeholder-like text inside literals are preserved (0.3888ms)
+✔ values that are not plain scalars fall back to the per-statement path (0.2409ms)
+✔ write batches carry the session limits Hyperdrive would otherwise drop (0.2218ms)
+﹣ real PostgreSQL: pipelined batch equals sequential batch, in one round trip (0.1463ms) # SKIP
+﹣ real PostgreSQL: a failing statement rolls back the whole pipelined batch (0.1372ms) # SKIP
+﹣ real PostgreSQL: a pipelined write batch holds row locks only for server time (0.1256ms) # SKIP
+﹣ real PostgreSQL: parallel reads share one message, errors stay per caller, FIFO is kept (0.1237ms) # SKIP
+✔ placeholder binding ignores SQL string literals (1.1459ms)
+✔ SQLite runtime functions and scalar min/max are translated (1.2288ms)
+✔ native PostgreSQL NOW remains a timestamp expression (0.2881ms)
+✔ NOCASE comparisons are translated to ILIKE (0.1661ms)
+✔ V1811 SQLite-only SQL is translated before PostgreSQL execution (0.4543ms)
+✔ json builder parameters receive stable PostgreSQL types (0.4709ms)
+✔ nested SQLite BLOB casts are translated without touching literals (0.2779ms)
+✔ migration freeze blocks mutable API routes before database access (21.4096ms)
+﹣ live PostgreSQL compatibility adapter smoke test (0.2031ms) # SKIP
+﹣ real Pages service routes respond through PostgreSQL (0.2331ms) # SKIP
+ℹ tests 20
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 7
+ℹ todo 0
+ℹ duration_ms 721.3073
+
+> test:account-rank
+> node --test tests/account-rank-live-v1.test.mjs tests/account-rank-preview-v1.test.mjs tests/account-rank-reform-20261008.test.mjs
+
+✔ growth documents and settlement code are private; rank art remains public (35.9297ms)
+✔ all 250 levels have one rank; boundaries, max and defaults are exact (1.2574ms)
+✔ public EXP progress resets at level-up, preserves fractions and ends at MAX (3.1948ms)
+✔ combat applies attack/HP separately, preserves defense/speed and completely excludes PVP (1.4036ms)
+✔ SQLite: Lv.1 baseline, every source payout, replay, failed transaction and cap (22.9092ms)
+✔ SQLite: hunt coin and XP are atomic and replay-safe (7.4191ms)
+✔ SQLite: retired idle never awards XP or changes its historic cursor (7.9252ms)
+✔ SQLite: status authenticates, contains no growth details, locked presets cannot write (15.0142ms)
+✔ SQLite: presets use saved owned cards, revalidate ownership/rules and isolate accounts (17.9059ms)
+✔ SQLite: retired idle internal calls do not even read the database (0.4915ms)
+✔ PostgreSQL: Lv.1 baseline, every source payout, replay, failed transaction and cap (2881.8862ms)
+✔ PostgreSQL: hunt coin and XP are atomic and replay-safe (1249.1645ms)
+✔ PostgreSQL: retired idle never awards XP or changes its historic cursor (1143.127ms)
+✔ PostgreSQL: status authenticates, contains no growth details, locked presets cannot write (1141.6218ms)
+✔ PostgreSQL: presets use saved owned cards, revalidate ownership/rules and isolate accounts (1203.7563ms)
+✔ PostgreSQL: retired idle internal calls do not even read the database (0.2272ms)
+✔ every level 1–250 belongs to exactly one rank with no gaps or overlaps (1.6124ms)
+✔ every XP boundary changes level once; max level has no next requirement (1.7517ms)
+✔ PvP and scored/unknown contexts never receive draft effects (3.2369ms)
+✔ draft benefits are bounded and monotonic; all 21 ranks have distinct art (0.2565ms)
+✔ all listed PvE sources grant XP without a new daily or per-source cap (0.2795ms)
+✔ reduced payouts update duration while seal and siege retain their contribution (0.2076ms)
+✔ all 21 rank PNGs are present, transparent, and match their provenance hashes (2480.0125ms)
+✔ public client has no growth-method UI, source payouts, or growth formula imports (6.8029ms)
+✔ preview server exposes UI and art but denies internal XP policy and authoring files (260.6384ms)
+✔ approved reform keeps old Marshal at Master Sergeant and every next-level cost increases (2.5531ms)
+✔ old capped XP continues with only new receipts, atomically and once per event (17.2875ms)
+✔ rank drop reads once per request, stacks relatively and excludes competitive and guaranteed rewards (9.8505ms)
+✔ rank pool chance gains consume no-drop share, preserving coin odds, quantity and guarantees (19.3482ms)
+✔ PostgreSQL cap migration preserves all XP; notice is atomic, active-only and replay-safe (2644.5091ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8131.788
+
+> test:lobby
+> node scripts/build-adventure-lobby-v2107.mjs --check && node --test tests/adventure-lobby-menu-separation.test.mjs
+
+Live lobby source integrity OK
+✔ desktop sidebar starts at the top without the redundant content label (4.3651ms)
+✔ card and equipment destinations use separate top-level categories (1.3739ms)
+✔ optional tutorial mirrors the same card and equipment split (1.6718ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 88.869
+
+> test:loot-shop
+> node --test tests/loot-shop-ss-pack.test.mjs tests/loot-shop-v1.test.mjs tests/loot-shop-lifecycle-v1.test.mjs tests/loot-shop-mystic-random.test.mjs tests/pig-coin-content-rewards-v2.test.mjs tests/clan-war-pig-rewards.test.mjs
+
+✔ SQLite: each completed regular match pays independent 30/30, excludes defense/errors/late joins (12.9234ms)
+✔ SQLite: duplicate/concurrent retries and lost response cannot pay again; next match earns separately (6.0972ms)
+✔ SQLite: ledger/wallet failure and overflow roll back every recipient and receipt (5.2898ms)
+✔ SQLite: OFF, unreleased, active, pending battles and championships do not pay (4.2012ms)
+✔ SQLite: actual match finalization pays once; failed payout is recovered after match completion (7.0012ms)
+✔ PostgreSQL: each completed regular match pays independent 30/30, excludes defense/errors/late joins (3555.108ms)
+✔ PostgreSQL: duplicate/concurrent retries and lost response cannot pay again; next match earns separately (2529.1262ms)
+✔ PostgreSQL: ledger/wallet failure and overflow roll back every recipient and receipt (2221.7286ms)
+✔ PostgreSQL: OFF, unreleased, active, pending battles and championships do not pay (2041.1699ms)
+✔ PostgreSQL: actual match finalization pays once; failed payout is recovered after match completion (2264.7587ms)
+✔ SQLite: content CMS shares one policy, preserves products and other source rates, rejects stale/invalid/non-OWNER saves (42.0917ms)
+✔ SQLite: first deployment reads OFF without storage; explicit CMS save prepares storage (31.0131ms)
+✔ SQLite: simultaneous different purchase requests cannot exceed lifetime cap (49.7196ms)
+✔ SQLite: last limited card cannot be granted to two pack owners (69.3637ms)
+✔ SQLite: changed product cancels an unpaid prepared purchase; CMS edits preserve purchase counts (54.9624ms)
+✔ PostgreSQL: content CMS shares one policy, preserves products and other source rates, rejects stale/invalid/non-OWNER saves (4231.4445ms)
+✔ PostgreSQL: first deployment reads OFF without storage; explicit CMS save prepares storage (2727.2092ms)
+✔ PostgreSQL: simultaneous different purchase requests cannot exceed lifetime cap (2390.9745ms)
+✔ PostgreSQL: last limited card cannot be granted to two pack owners (2680.7462ms)
+✔ PostgreSQL: changed product cancels an unpaid prepared purchase; CMS edits preserve purchase counts (2348.2493ms)
+✔ Mystic no longer needs a selected equipment; fixed F-body still does (2.9882ms)
+✔ SQLite: all four equal integer outcomes grant exactly one item and disclose 25% (142.953ms)
+✔ SQLite: invalid random values never record or debit a purchase (31.9085ms)
+✔ SQLite: hidden, inactive, missing, wrong rarity or duplicate candidates fail closed; a fifth Mystic never enters (69.9313ms)
+✔ SQLite: a failed grant freezes its roll and the whole pool is checked again inside the debit transaction (35.8116ms)
+✔ SQLite: replacing a frozen catalog identity cannot grant a different item (27.1225ms)
+✔ SQLite: a lost commit acknowledgement succeeds and repeated requests never pay or grant twice (37.8585ms)
+✔ SQLite: same request concurrency freezes one result and last-slot races cannot bypass the cap (63.6966ms)
+✔ SQLite: legacy pending fixed purchases and completed receipts never turn into another random grant (44.9142ms)
+✔ SQLite: pending random purchase honors sales OFF, rejects changed policy and cannot cross accounts (24.8414ms)
+✔ PostgreSQL: all four equal integer outcomes grant exactly one item and disclose 25% (4630.2914ms)
+✔ PostgreSQL: invalid random values never record or debit a purchase (2624.5467ms)
+✔ PostgreSQL: hidden, inactive, missing, wrong rarity or duplicate candidates fail closed; a fifth Mystic never enters (2444.9548ms)
+✔ PostgreSQL: a failed grant freezes its roll and the whole pool is checked again inside the debit transaction (2699.7743ms)
+✔ PostgreSQL: replacing a frozen catalog identity cannot grant a different item (2154.7905ms)
+✔ PostgreSQL: a lost commit acknowledgement succeeds and repeated requests never pay or grant twice (1695.7766ms)
+✔ PostgreSQL: same request concurrency freezes one result and last-slot races cannot bypass the cap (1773.2477ms)
+✔ PostgreSQL: legacy pending fixed purchases and completed receipts never turn into another random grant (1688.8848ms)
+✔ PostgreSQL: pending random purchase honors sales OFF, rejects changed policy and cannot cross accounts (1589.8656ms)
+✔ purchase route rejects client-selected reward and uses server randomness with exact-field validation (38.5523ms)
+✔ SS purchase cap is unset by default and accepts an explicit owner-defined integer beyond three (3.6818ms)
+✔ existing SS product configuration is never reset or duplicated by policy upgrade (0.8003ms)
+✔ SS shop discloses its guaranteed grade and renders large manual caps without unbounded dot allocation (31.4558ms)
+✔ SQLite: an existing saved shop gains only an inactive SS draft and reads do not rewrite live settings (50.4666ms)
+✔ SQLite: CMS offers SS candidates, rejects non-SS selections and leaves the pool explicitly selected (86.5099ms)
+✔ SQLite: manual lifetime cap guards concurrent last purchases, survives edits and replays without a second debit (118.6502ms)
+✔ SQLite: SS pack delivery and opening roll back atomically and reuse frozen awards on retry (67.3601ms)
+✔ SQLite: an SS rank change blocks an unopened pack and further payment without granting another grade (63.7986ms)
+✔ PostgreSQL: an existing saved shop gains only an inactive SS draft and reads do not rewrite live settings (4200.5061ms)
+✔ PostgreSQL: CMS offers SS candidates, rejects non-SS selections and leaves the pool explicitly selected (2747.6947ms)
+✔ PostgreSQL: manual lifetime cap guards concurrent last purchases, survives edits and replays without a second debit (2782.3482ms)
+✔ PostgreSQL: SS pack delivery and opening roll back atomically and reuse frozen awards on retry (2728.7449ms)
+✔ PostgreSQL: an SS rank change blocks an unopened pack and further payment without granting another grade (2188.5168ms)
+✔ unconfigured economy stays OFF; prices, caps and weights must be explicit (3.1591ms)
+✔ all six product types accept owner-configured lifetime caps through 1,000 (7.2574ms)
+✔ choice art resolves trusted repository originals locally and rejects foreign URLs (0.6639ms)
+✔ SQLite: CMS saves 1,000 without resetting history and the final purchase remains atomic (131.7302ms)
+✔ SQLite: CMS lists only the four approved MYTHIC Mystic items and no longer requires a fixed selection (40.608ms)
+✔ SQLite: Mystic purchase grants MYTHIC gear atomically and blocks unavailable gear (60.1106ms)
+✔ SQLite: raising FUR cap from three to ten preserves purchases and atomically guards the last slot (190.9058ms)
+✔ SQLite: lifetime cap, replay and account isolation (50.759ms)
+✔ SQLite: failed delivery rolls back debit, purchase count, and ledger (24.0417ms)
+✔ SQLite: false entitlement predicate grants zero coins; each content pays only once (25.0087ms)
+✔ SQLite: choice pack selects eligible card, preserves pack on failure and never double opens (46.8568ms)
+✔ SQLite: mercenary packs always grant one A/S card and freeze rolls for retry (89.5014ms)
+✔ SQLite: OFF, insufficient balance, inactive equipment, and stale CMS edits reject safely (33.707ms)
+✔ PostgreSQL: CMS saves 1,000 without resetting history and the final purchase remains atomic (4772.5384ms)
+✔ PostgreSQL: CMS lists only the four approved MYTHIC Mystic items and no longer requires a fixed selection (2588.0129ms)
+✔ PostgreSQL: Mystic purchase grants MYTHIC gear atomically and blocks unavailable gear (2520.2744ms)
+✔ PostgreSQL: raising FUR cap from three to ten preserves purchases and atomically guards the last slot (3112.1563ms)
+✔ PostgreSQL: lifetime cap, replay and account isolation (1988.9887ms)
+✔ PostgreSQL: failed delivery rolls back debit, purchase count, and ledger (1688.4297ms)
+✔ PostgreSQL: false entitlement predicate grants zero coins; each content pays only once (1665.7588ms)
+✔ PostgreSQL: choice pack selects eligible card, preserves pack on failure and never double opens (1681.3401ms)
+✔ PostgreSQL: mercenary packs always grant one A/S card and freeze rolls for retry (1473.6665ms)
+✔ PostgreSQL: OFF, insufficient balance, inactive equipment, and stale CMS edits reject safely (1224.815ms)
+✔ route requires login, OWNER for CMS, same-origin JSON and exact fields (30.1639ms)
+✔ approved separate rewards are explicit, additive and legacy flat policies require a CMS save (6.2949ms)
+✔ operator publication is atomic, preserves shop products, rejects stale inspection and never resets later CMS edits (4188.5153ms)
+✔ operator first publication prepares an absent policy with sales OFF and no account grants (2629.0602ms)
+✔ SQLite: late historical claims retain normal rewards but never receive pig coins; current/future rounds pay once (23.9925ms)
+✔ SQLite: missing/corrupt release boundary fails closed and a stale prepared claim cannot bypass a changed boundary (25.8193ms)
+✔ SQLite: territory WIN/LOSE/DRAW and CMS attack threshold pay independent 100+50 once (32.6348ms)
+✔ SQLite: clan 29/30 completed attacks, defeat participation, champion bonus, defense and retries (28.8665ms)
+✔ SQLite: core 30 per clear, independent weekly 90 cap, next-week replay, rollback and account isolation (22.1688ms)
+✔ SQLite: completed content and disabled source cannot issue a new reward (11.868ms)
+✔ PostgreSQL: late historical claims retain normal rewards but never receive pig coins; current/future rounds pay once (2403.1529ms)
+✔ PostgreSQL: missing/corrupt release boundary fails closed and a stale prepared claim cannot bypass a changed boundary (2576.0348ms)
+✔ PostgreSQL: territory WIN/LOSE/DRAW and CMS attack threshold pay independent 100+50 once (2552.2078ms)
+✔ PostgreSQL: clan 29/30 completed attacks, defeat participation, champion bonus, defense and retries (1867.0663ms)
+✔ PostgreSQL: core 30 per clear, independent weekly 90 cap, next-week replay, rollback and account isolation (1774.8689ms)
+✔ PostgreSQL: completed content and disabled source cannot issue a new reward (1627.1358ms)
+ℹ tests 92
+ℹ suites 0
+ℹ pass 92
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24012.5885
+
+> test:master-star-mine
+> node --test tests/master-star-mine.test.mjs
+
+✔ SQLite: 4h boundary, reward snapshot, offline completion, same/new request replay and ownership (18.9943ms)
+✔ SQLite: rollback and delayed start retry cannot accrue before commit (8.0634ms)
+✔ SQLite: CMS owner, readiness, CAS, audited permanent grants and revocation (10.2324ms)
+✔ PostgreSQL: 4h boundary, reward snapshot, offline completion, same/new request replay and ownership (1569.6996ms)
+✔ PostgreSQL: rollback and delayed start retry cannot accrue before commit (1112.3806ms)
+✔ PostgreSQL: CMS owner, readiness, CAS, audited permanent grants and revocation (1268.6606ms)
+✔ authenticated routes serialize simultaneous starts/claims and reject forged requests (35.9343ms)
+✔ lost commit acknowledgement is recovered without duplicate reward (17.033ms)
+✔ approved defaults and invalid rewards remain bounded (0.5029ms)
+✔ release preparation is rollbackable, defaults OFF, grants nothing and preserves later CMS changes (1266.2657ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5643.936
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+
+> test:pve-reform
+> node --test tests/pve-reform-20261008.test.mjs tests/pve-reform-ops-20261008.test.mjs
+
+✔ SQLite: three cow difficulties share attempts; frozen settlement survives a policy edit (93.7671ms)
+✔ SQLite: pending 30億 reward remains frozen after CMS changes and resets (20.2517ms)
+✔ SQLite: five scrapyard tiers settle their full rewards once with shared tickets and attempts (56.268ms)
+✔ PostgreSQL: three cow difficulties share attempts; frozen settlement survives a policy edit (2418.9891ms)
+✔ PostgreSQL: pending 30億 reward remains frozen after CMS changes and resets (1322.3116ms)
+✔ PostgreSQL: five scrapyard tiers settle their full rewards once with shared tickets and attempts (1356.9653ms)
+✔ PostgreSQL: rate migration, atomic reform, exact tower totals and reset replay preserve accounts (2113.2288ms)
+✔ PostgreSQL: stale preview and late database failure leave CMS and OPEN portals intact (1351.6133ms)
+✔ baseline plan preserves early monster identity and creates the approved tiers (0.8392ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5618.4679
+
+> test:pve-overhaul
+> node --test tests/tower-v3-v1.test.mjs tests/pve-overhaul-ready-v1.test.mjs tests/cow-room-v3-v1.test.mjs tests/cow-room-portal-v1.test.mjs tests/cow-room-economy-v2.test.mjs
+
+✔ SQLite: OWNER CMS saves rewards through 10 billion and rejects out-of-range or fractional amounts (43.424ms)
+✔ SQLite: six clears pay 500 million each, persist a 3 billion daily total, and support the 10 billion ceiling (119.6259ms)
+✔ PostgreSQL: OWNER CMS saves rewards through 10 billion and rejects out-of-range or fractional amounts (2362.7406ms)
+✔ PostgreSQL: six clears pay 500 million each, persist a 3 billion daily total, and support the 10 billion ceiling (2076.1031ms)
+✔ closed cow CMS blocks discovery; public portal inspection requires login (26.9553ms)
+✔ SQLite: exact 0.5%/0.5% boundaries, completed losses, individual sweep rolls and replay protection (19.6973ms)
+✔ SQLite: no portal means no entry, atomic admission spends one and replay spends none (45.7999ms)
+✔ SQLite: entry rollback restores portal; saved settlement recovers without a second portal (35.8889ms)
+✔ SQLite: authenticated concurrent entry cannot use one portal twice or another account's portal (32.7529ms)
+✔ PostgreSQL: exact 0.5%/0.5% boundaries, completed losses, individual sweep rolls and replay protection (2379.1326ms)
+✔ PostgreSQL: no portal means no entry, atomic admission spends one and replay spends none (1772.9162ms)
+✔ PostgreSQL: entry rollback restores portal; saved settlement recovers without a second portal (1529.6561ms)
+✔ PostgreSQL: authenticated concurrent entry cannot use one portal twice or another account's portal (1503.3409ms)
+✔ sweep result aggregation retains every unique portal and both real result paths await the prompt (6.8077ms)
+✔ cow room uses five real source cards and a separate support with one canonical battle (49.2401ms)
+✔ twenty seeds preserve all three encounter phases and never exceed three hostile slots (349.2991ms)
+✔ weak accounts can lose and stronger accounts do not cause enemies to scale (128.0333ms)
+✔ server builder rejects invalid parties, unsafe powers and oversized encounters (29.2982ms)
+✔ new sprites have real alpha and keep useful silhouettes inside the canvas (400.2071ms)
+✔ cow combat reuses the V3 renderer and bridge without touching account economy or live navigation (8.3609ms)
+✔ all three release encounters display the same server rules and the six separate SD assets (42.1245ms)
+✔ four generated sprites have real alpha, clear borders and unchanged foreground RGB (413.6214ms)
+✔ tower recovery uses only request ID and selected tier, and does not retry validation errors (3.5519ms)
+✔ tower has 24+3+guardian, fixed enemies and bounded simultaneous slots (163.9902ms)
+✔ strict losses, deterministic official time and overflow rejection (13.4441ms)
+✔ legacy best has no invented time; farming cannot inflate unlocks or claim old first prizes (7.5501ms)
+✔ SQLite: 100 repeats reserve only 10 coin payouts and 2 materials; no old first reward (1372.8161ms)
+✔ SQLite: new first clear paid once across retries and policy versions (34.1453ms)
+✔ SQLite: interrupted settlement rolls back coins/claims, freezes midnight and CMS/deck (14.1566ms)
+✔ Postgres: 100 repeats reserve only 10 coin payouts and 2 materials; no old first reward (5642.9401ms)
+✔ Postgres: new first clear paid once across retries and policy versions (1248.6261ms)
+✔ Postgres: interrupted settlement rolls back coins/claims, freezes midnight and CMS/deck (1117.801ms)
+✔ SQLite: commit response loss, concurrent tabs and zero-row grant destinations (28.7565ms)
+✔ extended tower runs and re-ascent economy remain gated while native single-pass combat is released (21.3456ms)
+✔ CMS draft CAS, owner-only editing and no approval/ON through submitted fields (2.9427ms)
+✔ read-only legacy adapter preserves cross-season best, range priority and existing magic amounts (1.88ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10114.9797
+
+> test:v3-grid
+> node --test tests/v3-common-grid-v1.test.mjs tests/v3-wide-grid-preview-v1.test.mjs tests/v3-damage-style-cache.test.mjs
+
+✔ movement depth updates keep uniform nameplates anchored to the body on both factions (1.3317ms)
+✔ common floor follows deployment, KO, revival and replacement without trailing cells (4.3473ms)
+✔ floor remains at formation stations while sprites attack or move (1.2555ms)
+✔ one optional mercenary per team never enters regular combat arrays and removes its tile when unequipped (2.0944ms)
+✔ only enabled support and visible escort objective get occupied cells (1.7855ms)
+✔ single boss, ally-center support and escort carrier have separate stations on desktop and mobile (0.3132ms)
+✔ repeated layouts give both factions, mercenaries and support the same scale without accumulating old slot/depth factors (3.3171ms)
+✖ all ten served V3 bundles including the account entry and hunt share the current common grid (17.1701ms)
+✔ thousands of pooled hits reuse bounded immutable bitmap font styles without changing active labels (110.1515ms)
+✔ comparison baseline matches the actual live 7x6 projection, not a smaller strawman (2.0537ms)
+✔ desktop: occupied stations fit the scene without an empty rectangular floor (0.6924ms)
+✔ desktop: one mercenary per side and PVE-only support occupy unique, nonoverlapping tiles (0.4604ms)
+✔ desktop: canonical combat slots map to uniform presentation stations (0.4015ms)
+✔ portrait mobile: occupied stations fit the scene without an empty rectangular floor (0.1943ms)
+✔ portrait mobile: one mercenary per side and PVE-only support occupy unique, nonoverlapping tiles (0.136ms)
+✔ portrait mobile: canonical combat slots map to uniform presentation stations (0.1529ms)
+✔ comparison shares one frozen combat snapshot and cannot alter damage, targets or rewards (44.1964ms)
+✔ compact fitting follows content width; a taller viewport never shrinks or stretches the formation (0.6036ms)
+✔ compact PVP and PVE share stations, tile sizes and row/column pitch (0.8688ms)
+✔ all roles use integer cells and identical pitches, with mirrored factions and a reserved objective column (0.3093ms)
+✔ comparison controls extend the common grid; shared card art, dock and timelines stay intact (8.4994ms)
+✔ zero or one mercenary removes unused stations independently on each side, and a second is rejected (0.453ms)
+✔ the PVE suit sits inside the allied formation above the existing dock on both screen sizes (0.1447ms)
+✔ occluded rAF cannot exhaust the drain timeout without advancing the shared playback clock (0.2395ms)
+✔ visual drain remains bounded while rendering advances, and cancellation releases a frozen wait (0.1704ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 24
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 892.4091
+
+✖ failing tests:
+
+test at tests\v3-common-grid-v1.test.mjs:138:1
+✖ all ten served V3 bundles including the account entry and hunt share the current common grid (17.1701ms)
+  AssertionError [ERR_ASSERTION]: stale consumer/source: preview/project-v-v3/source/battle/BattleEngine.js; run npm run build:v3-grid
+  + actual - expected
+  
+  + '021684b695d588ae06f3f7c1d48acc85f3bdeeb6498f33f7c81b96fcd2ced898'
+  - '9c7ce7a0d087f0f020e9014953a0e31827a18792c3b7b24cb3392ddb1191b1d4'
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/organization-system-20261015/cnine-card/tests/v3-common-grid-v1.test.mjs:183:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '021684b695d588ae06f3f7c1d48acc85f3bdeeb6498f33f7c81b96fcd2ced898',
+    expected: '9c7ce7a0d087f0f020e9014953a0e31827a18792c3b7b24cb3392ddb1191b1d4',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

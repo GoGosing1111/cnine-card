@@ -1,0 +1,12 @@
+{
+  "startedAt": "2026-10-15T10:40:21.204Z",
+  "wranglerVersion": "4.125.0",
+  "command": "wrangler deploy --dry-run --config workers/api-runtime/wrangler.jsonc --outdir tmp/icon-techniques-worker-dry-run --log-level error",
+  "productionWrites": false,
+  "finishedAt": "2026-10-15T10:40:22.408Z",
+  "exitCode": 1,
+  "ok": false,
+  "stdoutBytes": 5452,
+  "stderrBytes": 92,
+  "error": "\u001b[31mX \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mUnknown arguments: log-level, logLevel\u001b[0m\n\n\n"
+}

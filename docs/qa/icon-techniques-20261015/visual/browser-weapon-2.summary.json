@@ -1,0 +1,22 @@
+{
+  "kind": "SUMMARY_WITH_PRESERVED_RAW_REPORT",
+  "script": "tests/icon-techniques-20261015.browser.mjs",
+  "run": "final-weapon-size-and-spacing",
+  "result": "PASS",
+  "passed": 2,
+  "total": 2,
+  "cases": [
+    {
+      "width": 1440,
+      "code": "AUTONOMOUS_WEAPON",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "code": "AUTONOMOUS_WEAPON",
+      "result": "PASS"
+    }
+  ],
+  "rawReport": "browser-weapon-2.raw.json",
+  "rawReportSha256": "90e6bf2a6f9948fe0d99dc09ddcb889ed085a240fa93d53a0a3b31bfd7801b78"
+}

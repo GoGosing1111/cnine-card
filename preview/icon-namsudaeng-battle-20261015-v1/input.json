@@ -1,0 +1,15 @@
+{
+  "name": "남수댕",
+  "techniqueCode": "CROWN_USURP",
+  "techniqueName": "왕관 찬탈",
+  "portrait": "sources/namsudaeng-photo-original.png",
+  "sd": "sources/namsudaeng-sd.png",
+  "fx": "sources/crown-usurp-fx.png",
+  "footAnchorSource": {
+    "x": 729,
+    "y": 1205
+  },
+  "duration": 2.4,
+  "collisionFrame": 4,
+  "notes": "duration is visual playback timing only; no combat tuning"
+}

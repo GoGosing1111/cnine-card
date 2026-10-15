@@ -23,6 +23,8 @@ import {createCoopTraitRuntime} from './_cooperative_traits.js';
 import {PVP_SPEED_REFORM,PVP_GUARD_SHIELD_CURVE,isPvpSpeedCard,speedComboPlan,speedComboSnapshots} from '../shared/pvp-speed-reform-v1.mjs';
 import {validatedIconSnapshot,iconDefinition,iconHealingAmount} from '../shared/icon-roles-v1.mjs';
 import {createIconCombatRuntime} from './_icon_combat.js';
+import {ICON_TECHNIQUE_PREPARATION} from '../shared/icon-techniques-v1.mjs';
+import {createIconTechniqueRuntime} from './_icon_technique_combat.js';
 import {ICON_SUPREMACY,iconStatFloor} from '../shared/icon-supremacy-v1.mjs';
 import {valterIncomingDamage,valterActionCredit} from '../shared/mercenary-valter-v1.mjs';
 import {kaironIncomingDamage,kaironActionCredit} from '../shared/mercenary-kairon-v1.mjs';
@@ -408,7 +410,7 @@ function targetableAlive(team) {
 }
 
 function canonicalTeam(team) {
-  return team.filter(card => !isBattleSuitSupport(card));
+  return team.filter(card => !isBattleSuitSupport(card)&&!card.isIconSummon);
 }
 
 function targetPool(team) {
@@ -742,16 +744,17 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, cooperative = null, pets = null, petMode = 'PVE', [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false, [COMPANION_PREPARATION_REVIEW]: companionReview = null } = {}) {
-  let mercenaryRuntime=null,season2Runtime=null,iconRuntime=null,coopRuntime=null;
-  const rawDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);iconRuntime?.onDamage(target,result,options);season2Runtime?.afterDamage(target,result,options);return result;};
-  const applyDamage=(target,incoming,options={})=>{if(target.legionRegion==='coast'&&target.isBoss)target.legionVulnerability=b.some(c=>c.legionBossSupport&&c.hp>0&&c.alive)?.72:1.1;const incomingCoop=coopRuntime?coopRuntime.beforeDamage(target,incoming):incoming;const n=iconRuntime?iconRuntime.beforeDamage(target,incomingCoop,options):incomingCoop;let value=season2Runtime?season2Runtime.beforeDamage(target,n,options):n;if(Number.isFinite(options.iconDamageCap))value=Math.min(value,Math.max(0,options.iconDamageCap));return rawDamage(target,value,season2Runtime?{...options,beforeHpDamage:(t,n)=>season2Runtime.beforeHpDamage(t,n,options)}:options);};
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null, reinforcements = [], encounterCapacity = 5, maxCombatDurationMs = 0, sustainedEncounter = null, cooperative = null, pets = null, petMode = 'PVE', [Z_BODY_AREA_REVIEW]: zAreaReview = false, [X_BODY_AREA_REVIEW]: xAreaReview = false, [MAGIC_SEASON2_REVIEW]: season2Review = false, [COMPANION_PREPARATION_REVIEW]: companionReview = null, [ICON_TECHNIQUE_PREPARATION]: techniquePreparation = null } = {}) {
+  let mercenaryRuntime=null,season2Runtime=null,iconRuntime=null,coopRuntime=null,techniqueRuntime=null;
+  const rawDamage=(target,incoming,options)=>{const result=applyCanonicalDamage(target,incoming,options);mercenaryRuntime?.onDamage(target,result);iconRuntime?.onDamage(target,result,options);season2Runtime?.afterDamage(target,result,options);techniqueRuntime?.onDamage(target,result,options);return result;};
+  const applyDamage=(target,incoming,options={})=>{if(target.legionRegion==='coast'&&target.isBoss)target.legionVulnerability=b.some(c=>c.legionBossSupport&&c.hp>0&&c.alive)?.72:1.1;const incomingCoop=coopRuntime?coopRuntime.beforeDamage(target,incoming):incoming;const n=iconRuntime?iconRuntime.beforeDamage(target,incomingCoop,options):incomingCoop;let value=season2Runtime?season2Runtime.beforeDamage(target,n,options):n;if(Number.isFinite(options.iconDamageCap))value=Math.min(value,Math.max(0,options.iconDamageCap));let deferredHpDamage=0;const result=rawDamage(target,value,season2Runtime||techniqueRuntime?{...options,beforeHpDamage:(t,n)=>{const remaining=season2Runtime?season2Runtime.beforeHpDamage(t,n,options):n;const after=techniqueRuntime?techniqueRuntime.beforeHpDamage(t,remaining,options):remaining;deferredHpDamage=Math.max(0,remaining-after);return after;}}:options);if(deferredHpDamage)result.deferredHpDamage=deferredHpDamage;return result;};
   const cardRandom = seededRandom(seed);
   const mercenaryRandom = {A:seededRandom((Number(seed)^0x4d455243)>>>0),B:seededRandom((Number(seed)^0x534c4f54)>>>0)};
   let actionRandom = cardRandom;
   const random = () => actionRandom();
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
+  for(const actor of [...a,...b])delete actor.isIconSummon;
   // Opt-in 3 x (2 + 1) battlefield. Existing five-card modes retain their contract.
   if(cooperative && (a.length!==9 || new Set(a.map(c=>c.ownerId)).size!==3 ||
     [...new Set(a.map(c=>c.ownerId))].some(id=>!Number.isSafeInteger(id)||id<=0||a.filter(c=>c.ownerId===id&&!c.isMercenary).length!==2||a.filter(c=>c.ownerId===id&&c.isMercenary).length!==1) ||
@@ -786,7 +789,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   }
   const timeline = [];
   const emitTimeline=(list,at,type,data={})=>{pushEvent(list,at,type,data);if(type==='MAGIC_CARD')season2Runtime?.observeMagic(list[list.length-1]);};
-  const settleKnockout=(target,list,at,onBefore)=>resolveKnockout(target,list,at,onBefore);
+  const settleKnockout=(target,list,at,onBefore)=>{const down=resolveKnockout(target,list,at,target.isIconSummon?null:onBefore);if(down)techniqueRuntime?.onKnockout(target);return down;};
   let clock = 0;
   let actionCount = 0;
   let mercenaryActionCount = 0;
@@ -1033,7 +1036,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
   }
   const hasOpeningPets=['A','B'].some(side=>Array.isArray(openingPets?.[side])?openingPets[side].length>0:!!openingPets?.[side]);
-  const openingTeams=companionReview||hasOpeningPets?{A:a.map(f=>structuredClone(publicFighter(f))),B:b.map(f=>structuredClone(publicFighter(f)))}:null;
+  const openingTeams=companionReview||hasOpeningPets||techniquePreparation?{A:a.map(f=>structuredClone(publicFighter(f))),B:b.map(f=>structuredClone(publicFighter(f)))}:null;
   const openingMercenaries={A:a.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f))),B:b.filter(f=>f.isMercenary).map(f=>structuredClone(publicFighter(f)))};
 
   for (const fighter of [...a, ...b]) {
@@ -1131,7 +1134,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   // Nine-player actors must defeat the fixed boss with their own stats/skills;
   // the ordinary hunt's percent-HP floor otherwise defeats every tier equally.
   const hitOptions = { minDamagePercent: escortMode || cooperative ? 0 : MONSTER_MIN_DAMAGE_PERCENT };
-  mercenaryRuntime=[...a,...b].some(actor=>actor.isMercenary)?mercenaryCombat({teams:{A:a,B:b},
+  mercenaryRuntime=[...a,...b].some(actor=>actor.isMercenary)?mercenaryCombat({teams:{A:a,B:b},techniques:()=>techniqueRuntime,
     // Selected sniper/slow-shot casts use the PVE basic floor, scaled by the
     // actual per-impact ratio. A divided volley never repeats the full floor.
     // Escort has no floor; apocalypse scaling and the per-hit cap still apply.
@@ -1143,11 +1146,14 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // A skill replaces a basic action, so it shares that action's PVE floor.
     // multiplier already contains the per-pellet share; never repeat the full
     // floor for every hit. Keep escort/cooperative floors off and retain caps.
-    iconRuntime=createIconCombatRuntime({teams:{A:a,B:b},hit:(actor,target,multiplier,options)=>hitResult(actor,target,iconRandom[actor.side],multiplier,false,{...hitOptions,...season2Runtime?.defenseOptions(target),...options,minDamagePercent:hitOptions.minDamagePercent*multiplier,capMinimumDamage:true}),
+    iconRuntime=createIconCombatRuntime({teams:{A:a,B:b},techniques:()=>techniqueRuntime,hit:(actor,target,multiplier,options)=>hitResult(actor,target,iconRandom[actor.side],multiplier,false,{...hitOptions,...season2Runtime?.defenseOptions(target),...options,minDamagePercent:hitOptions.minDamagePercent*multiplier,capMinimumDamage:true}),
       damage:applyDamage,rawDamage,knockout:target=>settleKnockout(target,timeline,clock+.00001,reviveFromMagic),emit:(type,data)=>emitTimeline(timeline,clock,type,data),
       sealed:actor=>apocalypseSealed(actor)||season2Runtime?.skillBlocked(actor),
       cleanseOne:target=>{const key=apocalypseCursed(target)?'curse':Object.keys(target.apocalypseStatus||{})[0];if(key){delete target.apocalypseStatus[key];emitTimeline(timeline,clock,'APOCALYPSE_STATUS',{targetId:target.id,statuses:{...target.apocalypseStatus},label:'공명 정화'});return true;}for(const field of ['magicSealCharges','doomMarks','timeDistortionStacks'])if(target[field]>0){target[field]=0;return true;}return false;}});
   }
+  if(techniquePreparation)techniqueRuntime=createIconTechniqueRuntime({preparation:techniquePreparation,teams:{A:a,B:b},iconSkills:iconRuntime,
+    emit:(type,data)=>emitTimeline(timeline,clock,type,data),knockout:target=>settleKnockout(target,timeline,clock+.00001,reviveFromMagic),
+    sealed:actor=>apocalypseSealed(actor)||season2Runtime?.skillBlocked(actor),reviveBlocked:target=>consumeReviveSeal(target.side)});
   // V1975: 아포칼립스는 덱 전투력(카드+장비 배분분, 배틀슈트 제외) / 몬스터 기본 전투력 로 하한을 스케일링.
   {
     const apocalypseMonster = b.find(card => card.isMonster && card.isApocalypse);
@@ -1446,7 +1452,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     actor.actions += 1;
     actionActor=actor;
     actionRandom=actor.isMercenary?mercenaryRandom[actor.side]:cardRandom;
-    if(!independentAction)mercenaryTurns.acted(actor);
+    if(!independentAction&&!actor.isIconSummon)mercenaryTurns.acted(actor);
     if(actor.isMercenary){mercenaryActionCount += 1;mercenaryActionsBySide[actor.side] += 1;}
     else if(!independentAction)actionCount += 1;
     const suddenDeath=Number(suddenDeathAfter||0)>0&&actionCount>Number(suddenDeathAfter||0);
@@ -1457,6 +1463,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // Tick/cast once per authoritative action, including normal monsters. An
     // exhausted ICON uses the ordinary attack/overtime path without extra turns.
     if(!independentAction&&iconRuntime?.beforeAction(actor,{healingAllowed:!suddenDeath}))continue;
+    if(!independentAction&&techniqueRuntime?.beforeAction(actor))continue;
     coopRuntime?.beforeAction(actor);
     // V1936: 연장전에서 회복이 완전히 끊겨 생명형은 '연장전 진입 = 패배' 였다. 절반은 남긴다.
     //   대신 회복은 팀 총량에서 차감되므로 무한히 버틸 수는 없다.
@@ -1517,10 +1524,13 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const healerTargets = actor.type === 'SPEED' && actor.battleMode === 'PVP'
       ? targetableAlive(enemyTeam).filter(card => card.type === 'HP') : [];
     const rearMercenaryTargets=ssRearPvePriorityTargets(actor,targetableAlive(enemyTeam));
-    const pool = rearMercenaryTargets.length ? rearMercenaryTargets : healerTargets.length ? healerTargets : targetPool(enemyTeam);
+    const initialPool = rearMercenaryTargets.length ? rearMercenaryTargets : healerTargets.length ? healerTargets : targetPool(enemyTeam);
+    const pool=techniqueRuntime?techniqueRuntime.filterTargets(actor,initialPool,enemyTeam):initialPool;
     if (!pool.length) break;
     const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
-    const target = tauntGuard||iconRuntime?.selectTarget(actor,pool)||lowestRatioTarget(pool, random);
+    const preferredTarget=iconRuntime?.selectTarget(actor,pool);
+    const target = tauntGuard||(!techniqueRuntime?preferredTarget:preferredTarget&&pool.includes(preferredTarget)?preferredTarget:null)||lowestRatioTarget(pool, random);
+    techniqueRuntime?.singleTarget(actor,target);
     const speedCombo=isPvpSpeedCard(actor)&&!apocalypseSealed(actor);
     if(speedCombo)actor.speedBasicAttacks=(actor.speedBasicAttacks||0)+1;
     const s2Attack=!independentAction&&season2Runtime?(!actor.isMercenary&&!actor.isMonster?season2Runtime.beforeAttack(actor,target):season2Runtime.defenseOptions(target)):{};
@@ -1743,7 +1753,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*(target.defenseLineBreached?0.95:0.90)));emitTimeline(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
       }
     }
-    } finally {if(actionActor)season2Runtime?.endAction(actionActor);if(!independentAction)iconRuntime?.endAction(actionActor);refreshSpeedSuppression();const statuses=finishApocalypseAction(actionActor);if(statuses)emitTimeline(timeline,clock+.00009,'APOCALYPSE_STATUS',{targetId:actionActor.id,statuses});actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
+    } finally {if(actionActor)season2Runtime?.endAction(actionActor);if(!independentAction)iconRuntime?.endAction(actionActor);if(!independentAction)techniqueRuntime?.endAction(actionActor);refreshSpeedSuppression();const statuses=finishApocalypseAction(actionActor);if(statuses)emitTimeline(timeline,clock+.00009,'APOCALYPSE_STATUS',{targetId:actionActor.id,statuses});actionRandom=cardRandom;stampCombatGroup(groupFrom,combatMs,!independentAction);}
   }
 
   const aRatio = teamHpRatio(a);
@@ -1773,7 +1783,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   return {
     ...(encounterMode ? {encounter: {spawned: sustained?sustained.instances.length:b.length, remaining: pendingMonsters.length,
       ...(sustained?{instances:sustained.instances,bossCheckpoint:sustainedBossCheckpoint}:{}),
-      defeated: b.filter(card => !card.alive || card.hp <= 0).length+(sustained?.defeated||0),
+      defeated: b.filter(card => !card.isIconSummon&&(!card.alive || card.hp <= 0)).length+(sustained?.defeated||0),
       pendingIds: pendingMonsters.map(card => card.id)}} : {}),
     ...(openingMercenaries.A.length||openingMercenaries.B.length?{openingMercenaries}:{}),
     ...(openingTeams?{openingTeams}:{}),
@@ -1786,6 +1796,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     ...(cooperative?{combatStates}:{}),
     ...(season2Runtime?{magicSeason2:season2Runtime.snapshot()}:{}),
     ...(iconRuntime?{iconRoles:iconRuntime.snapshot()}:{}),
+    ...(techniqueRuntime?{iconTechniques:techniqueRuntime.snapshot()}:{}),
     healerPenalty: healerRules,
     final: {
       A: a.map(publicFighter),
@@ -2108,8 +2119,8 @@ export function estimateApocalypseRecommendedPower(monster = {}, { bossUltimateP
 
 export function resolvePvpOutcome(result, teamA, teamB) {
   if (!result) return result;
-  const finalA = Array.isArray(result.final?.A) ? result.final.A : [];
-  const finalB = Array.isArray(result.final?.B) ? result.final.B : [];
+  const finalA = (Array.isArray(result.final?.A) ? result.final.A : []).filter(card=>!card.isIconSummon);
+  const finalB = (Array.isArray(result.final?.B) ? result.final.B : []).filter(card=>!card.isIconSummon);
   if (!finalA.length && !finalB.length) return result;
   const aliveA = finalA.filter(card => Number(card.hp || 0) > 0).length;
   const aliveB = finalB.filter(card => Number(card.hp || 0) > 0).length;

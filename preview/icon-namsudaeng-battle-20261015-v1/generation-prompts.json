@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-15",
+  "character": "남수댕",
+  "kind": "ICON",
+  "skill": {
+    "code": "CROWN_USURP",
+    "name": "왕관 찬탈",
+    "selection": "USER_CONFIRMED_20261015"
+  },
+  "scope": "STATIC_SD_AND_SKILL_FX_ONLY_NO_BODY_MOTIONS",
+  "method": "BUILT_IN_IMAGEGEN",
+  "sourcePhoto": "sources/namsudaeng-photo-original.png",
+  "inputs": [
+    {
+      "path": "sources/references/style-03-black-crimson-kimono.png",
+      "role": "STYLE_ONLY_NOT_IDENTITY_OR_COSTUME",
+      "sha256": "A43EC7046FE7C2566C04D884E1D340FFAE154A9AFB31C591F197AD7C36665E49"
+    },
+    {
+      "path": "sources/references/diim-sd-proportion-reference.webp",
+      "role": "EXISTING_ICON_PROPORTION_ONLY",
+      "sha256": "563BECD8CCE81A8CA29C2D0784EA798D9E25C32D5A054D3AB9237CCEBE0C8F32"
+    }
+  ],
+  "prompts": [
+    {
+      "id": "sd-v1",
+      "prompt": "Use case: stylized-concept.\nAsset type: ONE transparent full-body static SD battle sprite for the Korean collectible RPG ICON card character 남수댕 (Namsudaeng), whose unique skill is Crown Usurp.\nInput image 1 is ONLY the person's face identity, black long flowing hair with wispy bangs, and white clothing reference. Translate her recognizable facial structure, eye shape/spacing, nose and lips into a coherent 2D anime drawing. Do not paste photo texture. Image 2 is ONLY a rendering/style reference: consistent precise 2D anime linework and delicate painterly shading across face, body, hair, clothing. Do NOT copy its red eyes, kimono, pose or accessories.\nCreate a polished 4.5-head-tall adult-proportioned combat SD, slim natural limbs, modestly stylized head, NOT a baby chibi. Full body including both shoes. New camera/pose: calm upright three-quarter view facing toward screen right, face readily visible, both feet grounded, one hand elegantly reaching to the right with open palm as if claiming an enemy's buff; other hand relaxed beside waist. NOT the source over-shoulder photo pose.\nKeep very long black naturally connected wavy hair and soft wispy straight bangs. Natural fine hair flow and gradual highlights, no plate-like hair layers. Same medium and line/shadow treatment for face and entire body, no realistic face glued to anime body.\nClothing: elegant ivory white long-sleeved combat dress inspired by the source white fabric, fitted waist, softly flowing knee-length overlapping skirt, understated antique gold edging and a small crown-shaped gold clasp at waist, ivory ankle boots. Adult, tasteful, refined, readable silhouette. No physical weapon, no crown worn on head, no cape/wing/halo/background.\nClean isolated sprite, centered inside a square transparent canvas with generous 9 percent empty margins on ALL sides. High-resolution sharp details and good thumbnail readability. No floor plane, no cast ground shadow, no aura, particles, FX, text, signature, border, UI or additional character. True transparent alpha background. Render just ONE character.",
+      "status": "SUPERSEDED_FOR_SD_PROPORTIONS",
+      "source": "sources/history/namsudaeng-sd-v1-tall.png",
+      "sourceSha256": "4C8D0801E6C0AE2D72F058CFB21489235D9A037CADAF52D63C85C7FC28D67608"
+    },
+    {
+      "id": "sd-v2",
+      "prompt": "Use case: identity-preserve. Asset: ONE transparent static SD RPG battle sprite.\nImage 1 is the edit target: keep this same black-haired woman, recognizable face, wispy bangs, long flowing black hair, white-and-gold dress, boots and handcasting pose. Image 2 is ONLY the desired SD body proportion/compact silhouette reference, NOT face/costume/weapon reference.\nCorrect ONLY the character proportion and spacing: the current body is too tall and natural-proportioned for the existing ICON battle SD collection. Redraw as an elegant compact 4.5-head-tall SD like image 2, with moderately enlarged head and shorter compact torso/limbs. It must clearly look like an SD battle sprite, not a full-size fashion illustration. Keep adult feminine design and precise coherent anime line/shading, no photographic face, no baby doll. Preserve image 1 identity and ivory outfit. Do not add swords, armor, teal color or borrow second character face.\nAll body parts, hair and boots fully inside a square canvas, 8 percent clear transparent gutter all sides. Both boots at a common ground line. Natural continuous flowing hair; no stiff stacked hair plates. Remove any floor/shadow/stray sparkles. Same open rightward reaching palm and relaxed other hand. No effects, text, frame, extra figures. Genuine transparent alpha.",
+      "status": "GENERATED_USER_VISUAL_REVIEW_PENDING",
+      "source": "sources/namsudaeng-sd.png",
+      "sourceSha256": "6FA2B7C0EA6763877091BC726B731C4E08AB382E89B9A3F766CA2B505240D162"
+    },
+    {
+      "id": "crown-usurp-fx",
+      "status": "GENERATED_USER_VISUAL_REVIEW_PENDING",
+      "source": "sources/crown-usurp-fx.png",
+      "sourceSha256": "2F3A0C9255C75BFAB3E1073F4B908AEC323F547737CD591968722EC2F3B2D498",
+      "prompt": "Use case: stylized-concept.\nAsset: ONE production-ready sprite sheet animation asset, 4 columns by 4 rows, exactly 16 sequential cells in row-major order. The whole square sheet has genuine transparent alpha. No grid lines, checkerboard, labels, numbers, text, scenery, characters, hands, faces, borders or opaque background.\nSkill: CROWN USURP — extracting an enemy's temporary enhancement, transferring the stolen golden insignia, reassembling it on the caster. Refined white-gold magical crown motif, delicate pale violet underside, matching a black-haired white-clad anime caster. This is a precise buff theft effect, NOT an explosive attack/fireball.\nEach cell has identical dimensions, fixed center and the ENTIRE effect isolated inside its central 66 percent area with a fully TRANSPARENT empty gutter at least 17 percent on each edge. No particles or glow may touch any cell boundary. Never connect neighboring cells.\nFrames 1–4: small delicate antique-gold five-point crown sigil gathers from sparse luminous strokes; a thin white-gold extraction ring opens below it, intensity grows clearly each frame.\nFrames 5–8: crown splits into discrete curved gold fragments, pulls into a compact diagonal stream of gold shards and white filaments; visibly changing shapes and positions frame to frame.\nFrames 9–12: fragments curl into an inward spiral and reconstruct a larger graceful luminous crown with two small orbiting filigree arcs. Brightest at frame 12, preserve readable crown shape.\nFrames 13–16: crown seals with a soft narrow ring, dissolves into separate gold motes, then a few sparse nearly transparent fading sparks. Frame 16 still has a few visible tiny sparks.\nCreate actual hand-authored unique changing animation drawings in all 16 frames, not copies with only scale or opacity edits. Strong smooth animation continuity. Polished 2D anime VFX handpainted luminosity, fine crisp edges and short controlled bloom. Every frame's alpha must fade to fully transparent well before the cell boundary. Square output high resolution, preferably 2048x2048."
+    }
+  ],
+  "liveCardId": null,
+  "releaseEnabled": false,
+  "acquisitionEnabled": false,
+  "visualApproval": "USER_REVIEW_PENDING",
+  "footAnchorEvidence": {
+    "sourcePixels": {
+      "x": 729,
+      "y": 1205
+    },
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "method": "Viewed both sole contact regions; alpha >128 final left sole y1203 and right sole y1206, contact midpoint rounded; verify against V3 ground"
+  }
+}
