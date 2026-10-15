@@ -1,7 +1,7 @@
 // New ICON techniques are preparation-only; this catalog never assigns a live card.
 import {preparedIconForTechnique} from './icon-expansion-v1.mjs';
 export const ICON_TECHNIQUES_KEY='icon_technique_preparation_v1';
-export const ICON_TECHNIQUES_VERSION='20261015-public-off-v1';
+export const ICON_TECHNIQUES_VERSION='20261016-joeun-white-v1';
 export const ICON_TECHNIQUES_RELEASE_ENABLED=false;
 // The battle engine accepts this non-JSON capability only from isolated preparation callers.
 export const ICON_TECHNIQUE_PREPARATION=Symbol('ICON_TECHNIQUE_PREPARATION');

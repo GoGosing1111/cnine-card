@@ -1,0 +1,376 @@
+{
+  "version": 1,
+  "date": "2026-10-16",
+  "id": "ICON-OH-JOEUN-WHITE",
+  "name": "오조은",
+  "cardId": null,
+  "techniqueCode": "SKILL_ADVANCE",
+  "techniqueName": "선불 출격",
+  "techniqueAssignment": "USER_CONFIRMED_PREPARATION_ONLY",
+  "releaseEnabled": false,
+  "acquisitionEnabled": false,
+  "battleEnabled": false,
+  "visualApproval": "CREATED_FOR_USER_REQUEST",
+  "status": "BUILT_PREPARATION_OFF",
+  "tuning": {
+    "firstAction": 1,
+    "cooldownActions": 3,
+    "maxCasts": 6
+  },
+  "statMultiplier": 1.25,
+  "sourceArt": {
+    "file": "sources/joeun-photo-original.png",
+    "sha256": "9DA6986B613413B8F7C2F8F3798B47AE785A6569D29E0F2CD0CBD97109695C08",
+    "size": [
+      3651,
+      5477
+    ],
+    "preserved": true,
+    "runtime": "assets/joeun-portrait.webp",
+    "runtimeSha256": "B6E977157E2AA95B4BFB0D11985FAA9C93EC2E6B1E9B0DCF7FAFA37046433D3A"
+  },
+  "character": {
+    "source": "sources/joeun-sd.png",
+    "sourceSha256": "7F87EC04A3E46EFF721DC96ABFCCAEE06F12F49FFCB3D4B5B6D0D7B52C223549",
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "sourceAlpha": {
+      "edgeMax": 0,
+      "transparentFraction": 0.6755028247725301,
+      "bounds": [
+        264,
+        42,
+        997,
+        1218
+      ]
+    },
+    "runtime": "assets/joeun-sd.webp",
+    "runtimeSha256": "DB351C6A8E4B93B832CBE54FE622D8120B784B4EEBB8EBA952B55B043A2A3116",
+    "size": [
+      768,
+      768
+    ],
+    "runtimeAlpha": {
+      "edgeMax": 0,
+      "transparentFraction": 0.7526991102430556,
+      "bounds": [
+        189,
+        70,
+        582,
+        701
+      ]
+    },
+    "footAnchor": {
+      "x": 0.5746610845295056,
+      "y": 0.9130781499202553
+    }
+  },
+  "effect": {
+    "id": "skill-advance",
+    "name": "선불 출격",
+    "kind": "SKILL",
+    "source": "sources/skill-advance-fx.png",
+    "sourceSha256": "FAF1034E4F4B1B33363359FA78849038C24F36580B0938E47FB63F2D526A1D08",
+    "runtime": "assets/skill-advance-atlas.webp",
+    "runtimeSha256": "3038D1FD5BE7DA302347457F1BD189DDD4E1B539838AD97E6BF4FA21797E5C21",
+    "columns": 4,
+    "rows": 4,
+    "cellSize": 384,
+    "frameCount": 16,
+    "duration": 2.4,
+    "collisionFrame": 9,
+    "contactAt": 1.44,
+    "frames": [
+      {
+        "index": 0,
+        "sourceRect": {
+          "left": 0,
+          "top": 0,
+          "width": 314,
+          "height": 314
+        },
+        "rawSha256": "88A9E49445B6D3E80B6EC6F58BCB2B29634F51BFE37EFE9D84A80308137B7AE4",
+        "edgeMax": 2,
+        "transparentFraction": 0.35611992372915735,
+        "bounds": [
+          82,
+          80,
+          265,
+          258
+        ]
+      },
+      {
+        "index": 1,
+        "sourceRect": {
+          "left": 314,
+          "top": 0,
+          "width": 313,
+          "height": 314
+        },
+        "rawSha256": "8FEDB145553E6D99A32C954FC8789C871FDABB218E2CE2F72DDF0534399E329E",
+        "edgeMax": 2,
+        "transparentFraction": 0.23868053153171487,
+        "bounds": [
+          56,
+          54,
+          263,
+          275
+        ]
+      },
+      {
+        "index": 2,
+        "sourceRect": {
+          "left": 627,
+          "top": 0,
+          "width": 314,
+          "height": 314
+        },
+        "rawSha256": "BA2C5600E846EECB314377076D0638E2F4AA21837ABECA100449707D42714C75",
+        "edgeMax": 2,
+        "transparentFraction": 0.17312061341230878,
+        "bounds": [
+          50,
+          66,
+          258,
+          279
+        ]
+      },
+      {
+        "index": 3,
+        "sourceRect": {
+          "left": 941,
+          "top": 0,
+          "width": 313,
+          "height": 314
+        },
+        "rawSha256": "7F24FA94B1034E940D8B3E9B629050CEB54904026B5AE914E704F4E3E06D70CD",
+        "edgeMax": 2,
+        "transparentFraction": 0.23665574571132053,
+        "bounds": [
+          45,
+          56,
+          266,
+          274
+        ]
+      },
+      {
+        "index": 4,
+        "sourceRect": {
+          "left": 0,
+          "top": 314,
+          "width": 314,
+          "height": 313
+        },
+        "rawSha256": "7C4B22DEE9F78099BB0135E41DE6FE7ACD5963515EAC9D55B0F393786021BA27",
+        "edgeMax": 2,
+        "transparentFraction": 0.0599906391811319,
+        "bounds": [
+          46,
+          42,
+          297,
+          274
+        ]
+      },
+      {
+        "index": 5,
+        "sourceRect": {
+          "left": 314,
+          "top": 314,
+          "width": 313,
+          "height": 313
+        },
+        "rawSha256": "D9953F983AFC6365B7A56F953CBCFC4721F10388A791C75137A7F762B2847C6B",
+        "edgeMax": 2,
+        "transparentFraction": 0.05699762169665912,
+        "bounds": [
+          40,
+          54,
+          297,
+          269
+        ]
+      },
+      {
+        "index": 6,
+        "sourceRect": {
+          "left": 627,
+          "top": 314,
+          "width": 314,
+          "height": 313
+        },
+        "rawSha256": "049EBF261F0749E2DAED9BC3B03D12926F57F4D0C64C79EB860FE27E6C0379CB",
+        "edgeMax": 2,
+        "transparentFraction": 0.040556765226592906,
+        "bounds": [
+          50,
+          40,
+          301,
+          277
+        ]
+      },
+      {
+        "index": 7,
+        "sourceRect": {
+          "left": 941,
+          "top": 314,
+          "width": 313,
+          "height": 313
+        },
+        "rawSha256": "C2A1459392DF465063606E6D60D7B9FEE9A0EC8955883854B3964B57CD1B31A8",
+        "edgeMax": 2,
+        "transparentFraction": 0.06524512856107545,
+        "bounds": [
+          11,
+          63,
+          289,
+          255
+        ]
+      },
+      {
+        "index": 8,
+        "sourceRect": {
+          "left": 0,
+          "top": 627,
+          "width": 314,
+          "height": 314
+        },
+        "rawSha256": "3FBFF497CFC261D8B0307F5B0440BED0C741C6C26BFA9BB931F790F6CAFBE58B",
+        "edgeMax": 2,
+        "transparentFraction": 0.06955657430321716,
+        "bounds": [
+          42,
+          28,
+          295,
+          285
+        ]
+      },
+      {
+        "index": 9,
+        "sourceRect": {
+          "left": 314,
+          "top": 627,
+          "width": 313,
+          "height": 314
+        },
+        "rawSha256": "1C1F4FF315D4CB3B5CF9EB39A5A939000F96C5B1B9AD96AC4FDBEB83E00B0319",
+        "edgeMax": 2,
+        "transparentFraction": 0.04520665025131765,
+        "bounds": [
+          30,
+          49,
+          297,
+          265
+        ]
+      },
+      {
+        "index": 10,
+        "sourceRect": {
+          "left": 627,
+          "top": 627,
+          "width": 314,
+          "height": 314
+        },
+        "rawSha256": "B213AF767BFD93BA1AEC7C38E59D0F7898F34829BA26E33316D318540DA20AF1",
+        "edgeMax": 2,
+        "transparentFraction": 0.0670818288774393,
+        "bounds": [
+          31,
+          47,
+          284,
+          266
+        ]
+      },
+      {
+        "index": 11,
+        "sourceRect": {
+          "left": 941,
+          "top": 627,
+          "width": 313,
+          "height": 314
+        },
+        "rawSha256": "5FCE968A76BB87C666EE603AB185DD7BB450337A225D57C91E19D5C1D45A6446",
+        "edgeMax": 2,
+        "transparentFraction": 0.13463299485154967,
+        "bounds": [
+          54,
+          47,
+          263,
+          262
+        ]
+      },
+      {
+        "index": 12,
+        "sourceRect": {
+          "left": 0,
+          "top": 941,
+          "width": 314,
+          "height": 313
+        },
+        "rawSha256": "C18AC38347F3651087908E3D13AB302E24B6D5423C7D4A7670B2A38A950A6DE4",
+        "edgeMax": 2,
+        "transparentFraction": 0.17870006715370057,
+        "bounds": [
+          81,
+          31,
+          271,
+          258
+        ]
+      },
+      {
+        "index": 13,
+        "sourceRect": {
+          "left": 314,
+          "top": 941,
+          "width": 313,
+          "height": 313
+        },
+        "rawSha256": "50BB74263EEFA14A435F2D1442E4AE0EE6666D8F041B0D626D9685D44F9DA974",
+        "edgeMax": 2,
+        "transparentFraction": 0.18825342710449222,
+        "bounds": [
+          74,
+          37,
+          257,
+          242
+        ]
+      },
+      {
+        "index": 14,
+        "sourceRect": {
+          "left": 627,
+          "top": 941,
+          "width": 314,
+          "height": 313
+        },
+        "rawSha256": "5CC214DD17C862392FED1623F97A78C731D588E64996CE70E3607EBEF3FECC21",
+        "edgeMax": 2,
+        "transparentFraction": 0.2764697503103315,
+        "bounds": [
+          92,
+          39,
+          260,
+          229
+        ]
+      },
+      {
+        "index": 15,
+        "sourceRect": {
+          "left": 941,
+          "top": 941,
+          "width": 313,
+          "height": 313
+        },
+        "rawSha256": "F47F01E110E74C0AD5A2BC834A17280B9C80DF1F6A5ACB60CE81387AC92C7B2A",
+        "edgeMax": 2,
+        "transparentFraction": 0.5910134838571385,
+        "bounds": [
+          82,
+          84,
+          206,
+          215
+        ]
+      }
+    ]
+  }
+}

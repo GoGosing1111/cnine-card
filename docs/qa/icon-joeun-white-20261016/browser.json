@@ -1,0 +1,30 @@
+[
+  {
+    "width": 1440,
+    "selectorChoices": 11,
+    "existingEnabled": 8,
+    "selectableLocked": 3,
+    "separateUpcomingSection": false,
+    "coin": "1조",
+    "masterStars": "500만",
+    "successRate": "10%",
+    "guaranteeOnlyExisting": true,
+    "walletAndMaterialsUnchanged": true,
+    "craftPosts": 0,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "selectorChoices": 11,
+    "existingEnabled": 8,
+    "selectableLocked": 3,
+    "separateUpcomingSection": false,
+    "coin": "1조",
+    "masterStars": "500만",
+    "successRate": "10%",
+    "guaranteeOnlyExisting": true,
+    "walletAndMaterialsUnchanged": true,
+    "craftPosts": 0,
+    "errors": []
+  }
+]

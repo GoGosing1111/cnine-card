@@ -3,7 +3,7 @@ import {ICON_FUSION_POLICY} from './icon-fusion-policy-v1.mjs';
 // User correction: publish the preparations, keep acquisition/battle OFF and
 // retain the existing two-ICON deck limit. This is not the live card roster.
 export const ICON_EXPANSION_RELEASE_ENABLED=false;
-export const ICON_EXPANSION_VERSION='20261015-public-off-v1';
+export const ICON_EXPANSION_VERSION='20261016-joeun-white-v1';
 const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
 export const ICON_EXPANSION_RECIPE=freeze({...ICON_FUSION_POLICY,coinCost:1000000000000});
 export const ICON_EXPANSION_STAT_MULTIPLIER=1.25;
@@ -17,7 +17,13 @@ export const ICON_EXPANSION_CARDS=freeze([
   sourceArt:'preview/icon-diim-redcap-battle-20261015-v1/sources/diim-photo-original.png',
   sd:'preview/icon-diim-redcap-battle-20261015-v1/assets/diim-sd.webp',
   preview:'/preview/icon-diim-redcap-battle-20261015-v1/',
-  tuning:{firstAction:1,cooldownActions:4,maxCasts:3,hpPercent:50,attackPercent:80,speedPercent:110}}
+  tuning:{firstAction:1,cooldownActions:4,maxCasts:3,hpPercent:50,attackPercent:80,speedPercent:110}},
+ {code:'ICON-OH-JOEUN-WHITE',name:'오조은',techniqueCode:'SKILL_ADVANCE',techniqueName:'선불 출격',
+  sourceArt:'preview/icon-joeun-white-battle-20261016-v1/assets/joeun-portrait.webp',
+  sourceOriginal:'preview/icon-joeun-white-battle-20261016-v1/sources/joeun-photo-original.png',
+  sd:'preview/icon-joeun-white-battle-20261016-v1/assets/joeun-sd.webp',
+  preview:'/preview/icon-joeun-white-battle-20261016-v1/',
+  tuning:{firstAction:1,cooldownActions:3,maxCasts:6}}
 ].map(card=>({...card,cardId:null,grade:'ICON',basePower:180000,releaseEnabled:false,acquisitionEnabled:false,battleEnabled:false,
  recipe:ICON_EXPANSION_RECIPE,statMultiplier:ICON_EXPANSION_STAT_MULTIPLIER,balanceStatus:'STRONGER_THAN_EXISTING_ICON_PREPARED',focusX:50,focusY:50})));
 export function preparedIconForTechnique(code){return ICON_EXPANSION_CARDS.find(c=>c.techniqueCode===code)||null;}

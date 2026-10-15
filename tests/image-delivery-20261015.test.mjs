@@ -31,9 +31,9 @@ test('Pages staging preserves fixture imports and images and generates a desktop
  const parent=await mkdtemp(path.join(tmpdir(),'cnine-stage-test-'));let stage;
  try{
   const root=path.join(parent,'source'),deps=path.join(parent,'dependencies');await mkdir(root);await mkdir(deps);
-  const files=['index.html','assets/approved.png','tests/a.test.mjs','tests/b.browser.mjs','tests/fixtures/live.json','tests/helpers/live.mjs','functions/api/test.js','packaging/windows-client/main.mjs'];
+  const files=['index.html','assets/approved.png','tests/a.test.mjs','tests/b.browser.mjs','preview/example/qa.test.mjs','preview/example/qa.browser.mjs','tests/fixtures/live.json','tests/helpers/live.mjs','functions/api/test.js','packaging/windows-client/main.mjs'];
   for(const f of files){await mkdir(path.dirname(path.join(root,f)),{recursive:true});await writeFile(path.join(root,f),'preserved '+f);}
-  stage=await prepareProductionAssets({root,files,tempRoot:parent,dependencies:deps});assert.equal(stage.assetCount,5);assert.equal(stage.excluded,3);
+  stage=await prepareProductionAssets({root,files,tempRoot:parent,dependencies:deps});assert.equal(stage.assetCount,5);assert.equal(stage.excluded,5);
   const desktop=JSON.parse(await readFile(path.join(stage.directory,'client/windows/manifest.json'),'utf8'));
   assert.deepEqual(desktop.files.map(f=>f.path),['/assets/approved.png','/index.html']);
   for(const file of files)if(isProductionFile(file))assert.equal(await readFile(path.join(stage.directory,file),'utf8'),'preserved '+file);else await assert.rejects(access(path.join(stage.directory,file)));

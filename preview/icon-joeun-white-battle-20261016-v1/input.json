@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "date": "2026-10-16",
+  "name": "오조은",
+  "code": "ICON-OH-JOEUN-WHITE",
+  "cardId": null,
+  "techniqueCode": "SKILL_ADVANCE",
+  "techniqueName": "선불 출격",
+  "techniqueAssignment": "USER_CONFIRMED_PREPARATION_ONLY",
+  "releaseEnabled": false,
+  "acquisitionEnabled": false,
+  "battleEnabled": false,
+  "visualApproval": "CREATED_FOR_USER_REQUEST",
+  "method": "BUILT_IN_IMAGEGEN",
+  "portrait": "sources/joeun-photo-original.png",
+  "portraitSha256": "9DA6986B613413B8F7C2F8F3798B47AE785A6569D29E0F2CD0CBD97109695C08",
+  "sd": "sources/joeun-sd.png",
+  "sdSha256": "7F87EC04A3E46EFF721DC96ABFCCAEE06F12F49FFCB3D4B5B6D0D7B52C223549",
+  "fx": "sources/skill-advance-fx.png",
+  "fxSha256": "FAF1034E4F4B1B33363359FA78849038C24F36580B0938E47FB63F2D526A1D08",
+  "footAnchorSource": {
+    "x": 734,
+    "y": 1219
+  },
+  "duration": 2.4,
+  "collisionFrame": 9,
+  "tuning": {
+    "firstAction": 1,
+    "cooldownActions": 3,
+    "maxCasts": 6
+  },
+  "prompts": {
+    "sd": "Use case: style-transfer.\nAsset type: one transparent SD battle character sprite for a Korean collectible RPG, new Oh Joeun ICON / Skill Advance.\nInput images: Image 1 is the user's new portrait and the ONLY face identity, hair and clothing reference. Image 2 is ONLY the intended cute chibi proportions and coherent 2D rendering quality; do NOT copy its armor, medical symbols, equipment or its facial identity.\nPrimary request: Create a NEW full-body, unmistakably cute 2.7-head-tall chibi version of the woman in Image 1. Translate her recognizable eye shape, spacing, brows, cheeks, nose and smile consistently into the same soft 2D anime drawing language as her body. Do not paste a photographic face onto a drawn body.\nDesign: retain long flowing black hair parted as in the photo, white off-shoulder long-sleeve blouse with a visible thin white shoulder strap, small delicate gold cross necklace, gentle confident smile. Complete the unseen lower outfit tastefully with a simple high-waisted pearl-white skirt and small white ankle boots. Use subtle silver/ice-blue fabric shadows so the white silhouette reads on a dark game battlefield. Natural hair flows continuously from roots to tips, with soft fine strands, no rigid blades, stepped layers or repeated thick ribbons. No armor, no medical equipment, no red crosses.\nPose: new standing ready-to-support pose, compact torso and short legs, large expressive head, both boots firmly planted; three-quarter orientation facing viewer's right, one small open hand lifted to cue an ally and the other relaxed near the waist. Full head, hair and boots fully visible. Consistent fine linework and painterly cel shading throughout face, hands, body, fabric and hair. Polished at small game sprite sizes.\nComposition: single centered isolated character, occupies about 84% of a square canvas, generous clear padding on every side. No action sheet, no duplicates.\nOutput: genuinely transparent alpha background, no floor plane, no shadow rectangle, no aura or particles baked into the SD, no words, no logos, no watermark, no border. This is a new character asset, not an edit of the card photograph.",
+    "fx": "Use case: stylized-concept.\nAsset type: transparent RPG skill-effect spritesheet, not a character animation.\nCreate a polished 4 by 4 sprite atlas containing exactly 16 DIFFERENT sequential animation frames, read left to right then top to bottom, for the support skill SKILL ADVANCE: an ally borrows future cooldown time to use a skill early and must repay the borrowed time afterward.\nVisual design: elegant pearl-white and ice-blue light with delicate warm gold highlights, a luminous pocket-watch-like circular time sigil without numerals, two fine clock hands, slender flowing light ribbons and small crystalline sparks. Refined and readable for a white-dressed chibi support character. No character, hands, weapons or environment.\nSequence: frames 1-4 a small pale-blue clock outline forms and its hands draw backward; frames 5-8 the clock opens into a forward curling stream of white-blue light; frames 9-11 a concentrated forward-release flash and two luminous clock hands sweep outward; frames 12-14 a small gold time-debt seal remains within fading blue ribbons; frames 15-16 the gold seal and sparse sparks dissolve. All sixteen frames must depict individually authored evolving silhouettes, not duplicated artwork with only opacity or size changes.\nLayout: perfectly regular square canvas divided into four equal columns and four equal rows. Keep each effect centered in its own cell, same anchor and scale system throughout. Each cell has at least 12 percent completely transparent padding on all four sides; effects may never cross cell boundaries. No grid lines, no frame numbers, no labels, no border.\nOutput: genuinely transparent alpha background, isolated emissive particles and light only, no black/white/checkerboard backdrop, no rectangular glow plate, no text, no watermark. Preserve soft transparent glow and crisp luminous detail. Square atlas."
+  },
+  "references": [
+    {
+      "role": "New face, hair, clothing reference; original preserved",
+      "file": "sources/joeun-photo-original.png"
+    },
+    {
+      "role": "Proportion and rendering only; outfit and identity not copied",
+      "file": "../icon-battle-assets-v1/assets/sd/oh-joeun-medic-chibi-sd-20261015.webp"
+    }
+  ]
+}

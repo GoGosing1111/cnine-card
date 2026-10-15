@@ -1,0 +1,38 @@
+{
+  "width": 390,
+  "mode": "PVE",
+  "done": {
+    "ready": true,
+    "disposed": false,
+    "mode": "PVE",
+    "playing": false,
+    "paused": false,
+    "index": 86,
+    "eventCount": 86,
+    "fxVisible": true,
+    "speed": 2,
+    "techniqueCode": "SKILL_ADVANCE",
+    "cardId": null,
+    "releaseEnabled": false,
+    "authority": "REAL_SERVER_SYMBOL_SIMULATION",
+    "calls": {
+      "advances": 3,
+      "repayments": 2
+    },
+    "loans": [
+      [
+        "A:2:CN-1C000007",
+        3
+      ]
+    ],
+    "canvases": 1,
+    "manualFx": null
+  },
+  "controls": true,
+  "modeSwitchOneCanvas": true,
+  "disposeZeroCanvas": true,
+  "cmsSaveOff": true,
+  "existingRolesAndWalletUnchanged": true,
+  "errors": [],
+  "missing": []
+}

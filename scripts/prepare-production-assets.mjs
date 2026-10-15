@@ -4,9 +4,9 @@ import {mkdtemp,mkdir,link,copyFile,symlink,realpath,rm} from 'node:fs/promises'
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {buildClientManifest} from './build-windows-client-manifest.mjs';
-// Preserve originals, previews and fixture imports. Only executable test runners
-// are omitted from Pages; the repository and release gate keep every test.
-export const isProductionFile=file=>!/^tests\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&!file.startsWith('packaging/windows-client/');
+// Preserve originals, preview pages and fixture imports. Executable test runners
+// in both test locations stay in Git/release checks, but do not consume Pages assets.
+export const isProductionFile=file=>! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&!file.startsWith('packaging/windows-client/');
 export async function prepareProductionAssets({root=process.cwd(),files,tempRoot=tmpdir(),dependencies}={}){
  files||=execFileSync('git',['ls-files','-z'],{cwd:root,maxBuffer:40e6}).toString().split('\0').filter(Boolean);
  const selected=files.filter(isProductionFile),assetCount=selected.filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;
