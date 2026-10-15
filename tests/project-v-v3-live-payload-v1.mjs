@@ -48,8 +48,14 @@ assert.match(engine,/onInterrupt:\(\)=>settle\(false\)/,'interrupted GSAP timeli
 const bundleUrl=app.match(/['"]([^'"\n]*project-v-pixi-battle\.bundle\.js\?[^'"\n]+)['"]/)?.[1];
 const bridgeUrl=app.match(/['"]([^'"\n]*battle-v3-live\.js\?[^'"\n]+)['"]/)?.[1];
 assert.ok(bundleUrl&&bridgeUrl,'main loader must retain both cache-versioned V3 resources');
-assert.equal(new URL(bundleUrl,'https://test.invalid/').searchParams.get('v'),'106-combat-flow');
-assert.equal(new URL(bridgeUrl,'https://test.invalid/').searchParams.get('v'),'3.36.0-combat-flow');
+const bundleCache=new URL(bundleUrl,'https://test.invalid/').searchParams.get('v');
+const recoveryBundleUrl=bridge.match(/['"]([^'"\n]*project-v-pixi-battle\.bundle\.js\?[^'"\n]+)['"]/)?.[1];
+const sourceRuntime=fs.readFileSync(new URL('../preview/project-v-v3/source/project-v-pixi-battle.src.js',import.meta.url),'utf8').match(/runtimeVersion:\s*["']([^"']+)["']/)?.[1];
+assert.ok(bundleCache&&recoveryBundleUrl&&sourceRuntime,'current source and entry resources must retain explicit versions');
+assert.equal(bundleCache,new URL(bridgeUrl,'https://test.invalid/').searchParams.get('v'),'main bundle and bridge must share their current release cache');
+assert.equal(bundleCache,new URL(recoveryBundleUrl,'https://test.invalid/').searchParams.get('v'),'reentry must request the same cached bundle as the main loader');
+assert.equal(bundle.match(/runtimeVersion:\s*["']([^"']+)["']/)?.[1],sourceRuntime,'shipped bundle must match current runtime source');
+assert.equal(bridge.match(/const BATTLE_RUNTIME\s*=\s*['"]([^'"]+)['"]/)?.[1],sourceRuntime,'bridge must request the current source runtime');
 assert.equal(app.match(/battleV2:\{\s*runtimeVersion:\s*['"]([^'"]+)['"]/)?.[1],bundle.match(/runtimeVersion:\s*["']([^"']+)["']/)[1]);
 assert.equal(new URL(bundleUrl,'https://test.invalid/').searchParams.get('overlord'),'20261005-motion-v4');
 assert.equal(app.includes('battle-resource-loader'),false,'the renewed V3 flow must never show the old resource loading battlefield');

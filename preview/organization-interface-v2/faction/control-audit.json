@@ -1,0 +1,712 @@
+[
+  {
+    "label": "1440 map",
+    "controls": [
+      {
+        "text": "전황 지도",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-selected.webp\")"
+      },
+      {
+        "text": "부대 편성",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "조직자금 · 보상",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 기록",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 새로고침",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "종로구 · 무주지중구 · 무주지용산구 · 무주지성동구 · 무주지광진구 · 무주지동대문구 ·",
+        "tag": "SELECT",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "지도 축소",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "지도 확대",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "광역 전체",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-selected.webp\")"
+      },
+      {
+        "text": "서울 25구 확대",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "선택 지역 확대",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "작전 정보 →",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "편성 관리 ↗",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "제1 공격대2 / 5명",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-selected.webp\")"
+      },
+      {
+        "text": "제2 공격대0 / 5명",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "무주지 점령",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-primary.webp\")"
+      }
+    ]
+  },
+  {
+    "label": "1440 formation",
+    "controls": [
+      {
+        "text": "전황 지도",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "부대 편성",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-selected.webp\")"
+      },
+      {
+        "text": "조직자금 · 보상",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 기록",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 새로고침",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "편성·직책 저장",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-primary.webp\")"
+      },
+      {
+        "text": "제1 공격대 행동대장",
+        "tag": "SELECT",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "검수 참가자 001 편성 해제",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "검수 참가자 002 편성 해제",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "제2 공격대 행동대장",
+        "tag": "SELECT",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "검수 참가자 003 편성 해제",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "검수 참가자 004 편성 해제",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "검수 참가자 005 편성 해제",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "제1 공격대제2 공격대제1 방어대제2 방어대",
+        "tag": "SELECT",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "검수 참가자 001제1 공격대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 002제1 공격대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 003제1 방어대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 004제1 방어대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 005제1 방어대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      }
+    ]
+  },
+  {
+    "label": "1440 treasury",
+    "controls": [
+      {
+        "text": "전황 지도",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "부대 편성",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "조직자금 · 보상",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-selected.webp\")"
+      },
+      {
+        "text": "전황 기록",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 새로고침",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "조직 본부에서 아지트 확인 →",
+        "tag": "A",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      }
+    ]
+  },
+  {
+    "label": "1440 no management permission",
+    "controls": [
+      {
+        "text": "전황 지도",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "부대 편성",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-selected.webp\")"
+      },
+      {
+        "text": "조직자금 · 보상",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 기록",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 새로고침",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "라인업 저장",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "편성 권한 없음",
+        "tag": "SELECT",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 001제1 공격대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 002제1 공격대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 003제1 방어대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 004제1 방어대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 005제1 방어대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      }
+    ]
+  },
+  {
+    "label": "1440 invasion alert",
+    "controls": [
+      {
+        "text": "×",
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "공격 전투 입장",
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-primary.webp\")"
+      },
+      {
+        "text": "나중에 참여",
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      }
+    ]
+  },
+  {
+    "label": "390 map",
+    "controls": [
+      {
+        "text": "전황 지도",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-selected.webp\")"
+      },
+      {
+        "text": "부대 편성",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "조직자금 · 보상",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 기록",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 새로고침",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "종로구 · 무주지중구 · 무주지용산구 · 무주지성동구 · 무주지광진구 · 무주지동대문구 ·",
+        "tag": "SELECT",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "지도 축소",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "지도 확대",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "광역 전체",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-selected.webp\")"
+      },
+      {
+        "text": "서울 25구 확대",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "선택 지역 확대",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "작전 정보 →",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "편성 관리 ↗",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "제1 공격대2 / 5명",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-selected.webp\")"
+      },
+      {
+        "text": "제2 공격대0 / 5명",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "무주지 점령",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-primary.webp\")"
+      }
+    ]
+  },
+  {
+    "label": "390 formation",
+    "controls": [
+      {
+        "text": "전황 지도",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "부대 편성",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-selected.webp\")"
+      },
+      {
+        "text": "조직자금 · 보상",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 기록",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 새로고침",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "편성·직책 저장",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-primary.webp\")"
+      },
+      {
+        "text": "제1 공격대 행동대장",
+        "tag": "SELECT",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "검수 참가자 001 편성 해제",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "검수 참가자 002 편성 해제",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "제2 공격대 행동대장",
+        "tag": "SELECT",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "검수 참가자 003 편성 해제",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "검수 참가자 004 편성 해제",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "검수 참가자 005 편성 해제",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "제1 공격대제2 공격대제1 방어대제2 방어대",
+        "tag": "SELECT",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "검수 참가자 001제1 공격대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 002제1 공격대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 003제1 방어대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 004제1 방어대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 005제1 방어대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      }
+    ]
+  },
+  {
+    "label": "390 treasury",
+    "controls": [
+      {
+        "text": "전황 지도",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "부대 편성",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "조직자금 · 보상",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-selected.webp\")"
+      },
+      {
+        "text": "전황 기록",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 새로고침",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "조직 본부에서 아지트 확인 →",
+        "tag": "A",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      }
+    ]
+  },
+  {
+    "label": "390 no management permission",
+    "controls": [
+      {
+        "text": "전황 지도",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "부대 편성",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-selected.webp\")"
+      },
+      {
+        "text": "조직자금 · 보상",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 기록",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/tab-default.webp\")"
+      },
+      {
+        "text": "전황 새로고침",
+        "tag": "BUTTON",
+        "disabled": false,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/icon-default.webp\")"
+      },
+      {
+        "text": "라인업 저장",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "편성 권한 없음",
+        "tag": "SELECT",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 001제1 공격대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 002제1 공격대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 003제1 방어대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 004제1 방어대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      },
+      {
+        "text": "검수 참가자 005제1 방어대배치됨",
+        "tag": "BUTTON",
+        "disabled": true,
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-disabled.webp\")"
+      }
+    ]
+  },
+  {
+    "label": "390 invasion alert",
+    "controls": [
+      {
+        "text": "×",
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      },
+      {
+        "text": "공격 전투 입장",
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-primary.webp\")"
+      },
+      {
+        "text": "나중에 참여",
+        "image": "url(\"http://127.0.0.1:10869/assets/ui/organization/interface-v2/action-default.webp\")"
+      }
+    ]
+  }
+]

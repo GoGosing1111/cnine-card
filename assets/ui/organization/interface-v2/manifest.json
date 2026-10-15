@@ -1,0 +1,447 @@
+{
+  "version": 2,
+  "created": "2026-10-15",
+  "status": "implemented-screen-reviewed",
+  "generator": "built-in image_gen.imagegen",
+  "design": "Modern urban organization neo-noir; graphite/petrol-teal cut metal; restrained ivory and amber; shared master reference",
+  "originalsPreserved": true,
+  "runtimeProcessing": "Original bytes preserved; common alpha-bound crop per state family; Lanczos downscale; WebP quality95 retaining alpha. No recoloring, invented bitmap drawing, or independent CSS-box substitutes.",
+  "uiUsage": {
+    "text": "All actual text, numbers, labels and functional glyphs must be HTML/SVG overlays; generated surfaces contain none.",
+    "state": "default = petrol graphite; selected = amber pilot + sparse line; primary = warm muted action surface; disabled = lights off/desaturated",
+    "nineSlice": "Keep edge/corner images in proportion using border-image slice fill or a dedicated image layer. Values are percentages in top,right,bottom,left order. Icon and insignia should use contain.",
+    "safeLayout": "Visual surface can stretch within the same role; use nine-slice for unusually long or tall content cards. Keep keyboard focus ring and hit target semantics in code.",
+    "insignia": "Optional compact geometric city mark for admission intro; no old ornate seal needed."
+  },
+  "assets": [
+    {
+      "id": "action-default",
+      "source": "action-default-source.png",
+      "sourceSha256": "d39a52aac4f03687536559117fcca90d55bd86456bc37cb94dd0dbb23fc65ca2",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a13e49-d4bb-7c50-a5ab-0957918bdbd2\\exec-686ed04e-4f50-492d-9810-b8ab3aa927a9.png",
+      "cropBox": [
+        23,
+        117,
+        2161,
+        587
+      ],
+      "runtime": "action-default.webp",
+      "runtimeSize": [
+        960,
+        211
+      ],
+      "runtimeSha256": "ebe1e35a3de1947573a256c15fa96fb0dbb8bb98af56880da60aebfe9001c548",
+      "runtimeBytes": 29954,
+      "alpha": true,
+      "slicePercentTRBL": [
+        26,
+        10,
+        26,
+        10
+      ],
+      "contentInsetPercentTRBL": [
+        24,
+        12,
+        24,
+        12
+      ],
+      "promptKey": "action-default"
+    },
+    {
+      "id": "action-primary",
+      "source": "action-primary-source.png",
+      "sourceSha256": "467b19a5f750d996aa57a79ffd9787aec8ab4860bc1e5a02b63f7b5396a14861",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a13e49-d4bb-7c50-a5ab-0957918bdbd2\\exec-d02eec22-5287-463a-83c6-d8ef55dbd757.png",
+      "cropBox": [
+        23,
+        117,
+        2161,
+        587
+      ],
+      "runtime": "action-primary.webp",
+      "runtimeSize": [
+        960,
+        211
+      ],
+      "runtimeSha256": "c403e2a7df9a83dbad6a164dcb8e1f910159e7e3029031c1796b81f585a5352a",
+      "runtimeBytes": 26648,
+      "alpha": true,
+      "slicePercentTRBL": [
+        26,
+        10,
+        26,
+        10
+      ],
+      "contentInsetPercentTRBL": [
+        24,
+        12,
+        24,
+        12
+      ],
+      "promptKey": "action-primary"
+    },
+    {
+      "id": "action-selected",
+      "source": "action-selected-source.png",
+      "sourceSha256": "dfbe60638a8a6bb12c6dc128124848f2ea362291c150974120b90509f104cd21",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a13e49-d4bb-7c50-a5ab-0957918bdbd2\\exec-31e91622-c113-4fa5-909e-28766b15f4d4.png",
+      "cropBox": [
+        23,
+        117,
+        2161,
+        587
+      ],
+      "runtime": "action-selected.webp",
+      "runtimeSize": [
+        960,
+        211
+      ],
+      "runtimeSha256": "b8283b6bc1f9b9f0740b21b5829b1a76b8d208a54fde9ae1db1a3b3cce119325",
+      "runtimeBytes": 21604,
+      "alpha": true,
+      "slicePercentTRBL": [
+        26,
+        10,
+        26,
+        10
+      ],
+      "contentInsetPercentTRBL": [
+        24,
+        12,
+        24,
+        12
+      ],
+      "promptKey": "action-selected"
+    },
+    {
+      "id": "action-disabled",
+      "source": "action-disabled-source.png",
+      "sourceSha256": "ce8df8928c957c7d1d9407b9d888b69b7061a94237483427bb500661d4df4431",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a13e49-d4bb-7c50-a5ab-0957918bdbd2\\exec-802362d6-d7f6-44c0-a373-4a5d34d9f0ca.png",
+      "cropBox": [
+        23,
+        117,
+        2161,
+        587
+      ],
+      "runtime": "action-disabled.webp",
+      "runtimeSize": [
+        960,
+        211
+      ],
+      "runtimeSha256": "df0a10284f3c865a3bdc7fd5e2a1fe3327eb249af91ec70da362fdb2145c331d",
+      "runtimeBytes": 19752,
+      "alpha": true,
+      "slicePercentTRBL": [
+        26,
+        10,
+        26,
+        10
+      ],
+      "contentInsetPercentTRBL": [
+        24,
+        12,
+        24,
+        12
+      ],
+      "promptKey": "action-disabled"
+    },
+    {
+      "id": "choice-default",
+      "source": "choice-default-source.png",
+      "sourceSha256": "d83900571f67cf2bda1d79a410f3764204e82e791dae397619cdb1f4167fcebb",
+      "sourceSize": [
+        1942,
+        809
+      ],
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a13e49-d4bb-7c50-a5ab-0957918bdbd2\\exec-073e75fe-25ab-43f3-998c-d9116254b67d.png",
+      "cropBox": [
+        19,
+        118,
+        1935,
+        689
+      ],
+      "runtime": "choice-default.webp",
+      "runtimeSize": [
+        960,
+        286
+      ],
+      "runtimeSha256": "3859514830cf2cb2a92c3dcf738095c3023eb4f3da9c91f914da8109544232f4",
+      "runtimeBytes": 27626,
+      "alpha": true,
+      "slicePercentTRBL": [
+        26,
+        10,
+        26,
+        10
+      ],
+      "contentInsetPercentTRBL": [
+        19,
+        11,
+        19,
+        11
+      ],
+      "promptKey": "choice-default"
+    },
+    {
+      "id": "choice-selected",
+      "source": "choice-selected-source.png",
+      "sourceSha256": "1b344adb5a3f2bf766a3524e9d7c5ce8c2eeb4b9cbf837e8851a82a571a567f9",
+      "sourceSize": [
+        1945,
+        809
+      ],
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a13e49-d4bb-7c50-a5ab-0957918bdbd2\\exec-5f3f748a-2cd0-4731-9b97-ec86fbbc141a.png",
+      "cropBox": [
+        19,
+        118,
+        1935,
+        689
+      ],
+      "runtime": "choice-selected.webp",
+      "runtimeSize": [
+        960,
+        286
+      ],
+      "runtimeSha256": "34743900831531d3c5a8f60797499b500562d49907608573c41273d60c20d000",
+      "runtimeBytes": 27516,
+      "alpha": true,
+      "slicePercentTRBL": [
+        26,
+        10,
+        26,
+        10
+      ],
+      "contentInsetPercentTRBL": [
+        19,
+        11,
+        19,
+        11
+      ],
+      "promptKey": "choice-selected"
+    },
+    {
+      "id": "tab-default",
+      "source": "tab-default-source.png",
+      "sourceSha256": "ec39260f956e9256256fdc5f6e0d2483d696de28de77c609040b7b79ce4ba353",
+      "sourceSize": [
+        1881,
+        836
+      ],
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a13e49-d4bb-7c50-a5ab-0957918bdbd2\\exec-8392cec2-0cad-444f-bdad-42def6690c6e.png",
+      "cropBox": [
+        22,
+        176,
+        1861,
+        654
+      ],
+      "runtime": "tab-default.webp",
+      "runtimeSize": [
+        640,
+        166
+      ],
+      "runtimeSha256": "26e6e2d17722531ac626f9b1cb408b23a65a59dca080ccddc2658b57d8c28694",
+      "runtimeBytes": 14432,
+      "alpha": true,
+      "slicePercentTRBL": [
+        30,
+        10,
+        30,
+        10
+      ],
+      "contentInsetPercentTRBL": [
+        25,
+        12,
+        25,
+        12
+      ],
+      "promptKey": "tab-default"
+    },
+    {
+      "id": "tab-selected",
+      "source": "tab-selected-source.png",
+      "sourceSha256": "379fa8556c35ae23f9c4355cdfacd54f7398e07294f378018a0980fb80c8cbcb",
+      "sourceSize": [
+        1882,
+        836
+      ],
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a13e49-d4bb-7c50-a5ab-0957918bdbd2\\exec-932a256f-ad52-4b09-8c96-7e57b4eb9c3a.png",
+      "cropBox": [
+        22,
+        176,
+        1861,
+        654
+      ],
+      "runtime": "tab-selected.webp",
+      "runtimeSize": [
+        640,
+        166
+      ],
+      "runtimeSha256": "2b4d891104cf80f5417bc3f1c25a9b76d8cd90daf28ed7da2cf86525b5ef7642",
+      "runtimeBytes": 12374,
+      "alpha": true,
+      "slicePercentTRBL": [
+        30,
+        10,
+        30,
+        10
+      ],
+      "contentInsetPercentTRBL": [
+        25,
+        12,
+        25,
+        12
+      ],
+      "promptKey": "tab-selected"
+    },
+    {
+      "id": "icon-default",
+      "source": "icon-default-source.png",
+      "sourceSha256": "ecf50ba9fe795a6329290a8d5176af555747d55e49d675fde311dfe7ab6c85b6",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a13e49-d4bb-7c50-a5ab-0957918bdbd2\\exec-4c51333b-0fa5-4c1c-9e6e-df214920edc4.png",
+      "cropBox": [
+        111,
+        113,
+        1145,
+        1147
+      ],
+      "runtime": "icon-default.webp",
+      "runtimeSize": [
+        256,
+        256
+      ],
+      "runtimeSha256": "b36fae5b51d0b58fd5c0ca29daedd0fda122782d5e144f76cf983621dcb83468",
+      "runtimeBytes": 11552,
+      "alpha": true,
+      "slicePercentTRBL": null,
+      "contentInsetPercentTRBL": [
+        22,
+        22,
+        22,
+        22
+      ],
+      "promptKey": "icon-default"
+    },
+    {
+      "id": "icon-selected",
+      "source": "icon-selected-source.png",
+      "sourceSha256": "8c6a99c5986f405e55617faa017b0d3cc7cc22e3aad60b9c1fb207433738f8f0",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a13e49-d4bb-7c50-a5ab-0957918bdbd2\\exec-6152bc45-8358-4623-bb09-32d08e1efa3b.png",
+      "cropBox": [
+        111,
+        113,
+        1145,
+        1147
+      ],
+      "runtime": "icon-selected.webp",
+      "runtimeSize": [
+        256,
+        256
+      ],
+      "runtimeSha256": "4dbbfd9576f95f1172bb14f04dc4e21a0a85bc684f85593473f5fdc816deca79",
+      "runtimeBytes": 8020,
+      "alpha": true,
+      "slicePercentTRBL": null,
+      "contentInsetPercentTRBL": [
+        22,
+        22,
+        22,
+        22
+      ],
+      "promptKey": "icon-selected"
+    },
+    {
+      "id": "dossier-panel",
+      "source": "dossier-panel-source.png",
+      "sourceSha256": "c852f559c139b8bf952809439e9755c369b91decdacbe53e13a464038ccf620a",
+      "sourceSize": [
+        1448,
+        1086
+      ],
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a13e49-d4bb-7c50-a5ab-0957918bdbd2\\exec-fe5942e9-e23e-42ba-b107-c748b0fc6ce8.png",
+      "cropBox": [
+        21,
+        63,
+        1427,
+        1020
+      ],
+      "runtime": "dossier-panel.webp",
+      "runtimeSize": [
+        1280,
+        871
+      ],
+      "runtimeSha256": "d80c107e10aeb53741504f344c78f4b438a84bbc1fcdbde67346e4b0c7dd5719",
+      "runtimeBytes": 116236,
+      "alpha": true,
+      "slicePercentTRBL": [
+        12,
+        11,
+        12,
+        11
+      ],
+      "contentInsetPercentTRBL": [
+        11,
+        10,
+        11,
+        10
+      ],
+      "promptKey": "dossier-panel"
+    },
+    {
+      "id": "organization-insignia",
+      "source": "organization-insignia-source.png",
+      "sourceSha256": "a4c0c4083547dd4cf583ad9833ca2476182c9b89ebc06c076ff005a4942f1d91",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a13e49-d4bb-7c50-a5ab-0957918bdbd2\\exec-65ad77dc-aa71-4860-bea4-15798899a8fa.png",
+      "cropBox": [
+        336,
+        155,
+        918,
+        1089
+      ],
+      "runtime": "organization-insignia.webp",
+      "runtimeSize": [
+        384,
+        616
+      ],
+      "runtimeSha256": "4eca18996c4913deed793e070e001c95bddae0cc9c29aeb33a57e5a95a376f0d",
+      "runtimeBytes": 58470,
+      "alpha": true,
+      "slicePercentTRBL": null,
+      "contentInsetPercentTRBL": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "promptKey": "organization-insignia"
+    }
+  ]
+}

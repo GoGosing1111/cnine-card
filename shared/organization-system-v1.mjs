@@ -1,7 +1,8 @@
 import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs';
 
-// Preparation release: changing CMS settings alone cannot open LIVE recruitment.
-export const ORGANIZATION_RELEASE_ENABLED = false;
+// Live release approved 2026-10-15. A round still requires an explicit 24-hour opening.
+export const ORGANIZATION_RELEASE_ENABLED = true;
+export const ORGANIZATION_RECRUITMENT_MS = 24*60*60*1000;
 export const ORGANIZATION_LIMITS = Object.freeze({organizations:15,members:10,participants:150,ratingBatch:12});
 export const ORGANIZATIONS = Object.freeze(ORGANIZATION_PREPARATION.names.map((name,index)=>Object.freeze({id:index+1,name,color:['#d5795f','#79a9e9','#83bc8c','#c78e62','#72bdd6','#ae96cf','#d28b85','#c3cbd3','#d5bb6c','#73b5bf','#b6a2de','#e0bd6e','#b0c9e1','#afb7c1','#db706a'][index]})));
 export const organizationError=(code,message,status=409)=>Object.assign(new Error(message),{code:'ORG_'+code,status});

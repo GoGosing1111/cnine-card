@@ -89,6 +89,8 @@ import { handlePrimeDraw } from '../_prime_draw.js';
 import { handleHighGradeReroll,grantHighGradeRerollDrop,ensureHighGradeRerollFoundation } from '../_high_grade_reroll.js';
 import { handleTerritoryWar } from '../_territory_war.js';
 import { handleClan } from '../_clan.js';
+import {handleOrganization,reconcileOrganizationRecruitment,organizationLiveOperation} from '../_organization.js';
+import {handleOrganizationFaction,tickOrganizationFaction} from '../_organization_faction.js';
 import { handleAuction } from '../_auction.js';
 import { handleSiege } from '../_siege.js';
 import { handleChief } from '../_chief.js';
@@ -4025,7 +4027,7 @@ async function liveOperationAlerts(env){
   // 공개 콘텐츠 상태 다섯 건만 단일 UNION 조회로 읽는다. 남은 시간은 클라이언트가
   // 서버 시각을 기준으로 계산하므로 DB는 상태가 바뀔 때만 다시 확인하면 된다.
   try{
-    const [result,coup,duo]=await Promise.all([env.DB.prepare(`WITH
+    const [result,coup,duo,organization]=await Promise.all([env.DB.prepare(`WITH
     territory AS (
       SELECT 'TERRITORY' kind,
         CASE r.status WHEN 'RECRUITING' THEN 'FORMATION' WHEN 'PREPARING' THEN 'PREPARING' ELSE 'BATTLE' END phase,
@@ -4093,7 +4095,7 @@ async function liveOperationAlerts(env){
       ORDER BY CASE ri.status WHEN 'BATTLE' THEN 0 ELSE 1 END,ri.id DESC LIMIT 1
     )
     SELECT * FROM territory UNION ALL SELECT * FROM siege UNION ALL SELECT * FROM seal
-    UNION ALL SELECT * FROM auction UNION ALL SELECT * FROM raid ORDER BY sort_order`).all(),coupLiveOperation(env,now).catch(error=>{console.error('Coup lobby summary unavailable',error?.message);return null;}),rankedDuoLiveOperation(env,now).catch(error=>{console.error('Duo lobby summary unavailable',error?.message);return null;})]);
+    UNION ALL SELECT * FROM auction UNION ALL SELECT * FROM raid ORDER BY sort_order`).all(),coupLiveOperation(env,now).catch(error=>{console.error('Coup lobby summary unavailable',error?.message);return null;}),rankedDuoLiveOperation(env,now).catch(error=>{console.error('Duo lobby summary unavailable',error?.message);return null;}),organizationLiveOperation(env,now).catch(error=>{console.error('Organization lobby summary unavailable',error?.message);return null;})]);
     const value=(result.results||[]).map(row=>({
       kind:String(row.kind||''),phase:String(row.phase||''),entityId:Number(row.entity_id||0),
       title:String(row.title||''),detail:String(row.detail||''),deadlineAt:row.deadline_at||null,
@@ -4101,6 +4103,7 @@ async function liveOperationAlerts(env){
     }));
     if(coup)value.push(coup);
     if(duo)value.unshift(duo);
+    if(organization)value.unshift(organization);
     liveOperationsCache={value,expiresAt:now+LIVE_OPERATIONS_CACHE_MS};
     return value;
   }catch(error){
@@ -5176,6 +5179,8 @@ async function handleRequest(context){
     const cityResponse=await handleJokgakCity({path,request,env,deps:{authenticate,json,pvpDeckSnapshot,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout,withUserMutationLock:withJointUserMutationLock}});if(cityResponse)return cityResponse;
     const coupResponse=await handleCoup({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(coupResponse)return coupResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(territoryWarResponse)return territoryWarResponse;
+    const organizationFactionResponse=await handleOrganizationFaction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(organizationFactionResponse)return organizationFactionResponse;
+    const organizationResponse=await handleOrganization({path,request,env,deps:{authenticate,readBody,json,readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts}});if(organizationResponse)return organizationResponse;
     const clanResponse=await handleClan({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(clanResponse)return clanResponse;
     const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,writeAdminLog}});if(siegeResponse)return siegeResponse;
     const escortResponse=await handleEscortOperation({path,request,env,deps:{authenticate,readBody,json,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,magicBattleLoadout,writeAdminLog}});if(escortResponse)return escortResponse;
@@ -9383,4 +9388,11 @@ export async function runRankedDuoMaintenance(env,{now=Date.now()}={}){
  const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pvp_settings_v1'").first();
  const settings=row?.value?cleanPvpSettings(JSON.parse(row.value)):defaultPvpSettings();
  return reconcileDuoSeason(env,{now,settings,deps:{readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts}});
+}
+
+// Private cron entry; public organization endpoints cannot trigger automatic jobs.
+export async function runOrganizationMaintenance(env,{now=Date.now()}={}){
+ const recruitment=await reconcileOrganizationRecruitment(env,{readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts},{now});
+ const faction=await tickOrganizationFaction(env,{now:()=>Date.now(),pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout});
+ return {changed:!!recruitment.changed||!!faction?.changed,recruitment,faction};
 }

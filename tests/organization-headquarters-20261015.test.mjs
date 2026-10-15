@@ -50,7 +50,7 @@ test('roster contains only the authenticated member’s organization and never l
  await f.post('admin/organization/policy',{policy:{...(await f.call('admin/organization')).data.policy,testUserIds:[]}});
  assert.equal((await f.call('organization/overview',{user:2})).status,403);
 });
-test('PC/mobile show actual members and current headquarters, label future previews, and keep score reads side effect free',async t=>{
+test('PC/mobile show actual members, separate organization funds and HD headquarters without changing balances or stages',async t=>{
  const {f,id}=await assigned(t),initial=(await f.call('organization/overview',{user:2})).data;
  const policy=(await f.call('admin/organization')).data.policy;
  await f.post('admin/organization/policy',{policy:{...policy,growthMode:'CUMULATIVE',hideoutThresholds:[0,100,500,1000,2000]}});
@@ -71,15 +71,20 @@ test('PC/mobile show actual members and current headquarters, label future previ
  for(const width of [1440,390]){
   const context=await browser.newContext({viewport:{width,height:980},reducedMotion:'reduce',serviceWorkers:'block'});t.after(()=>context.close());
   const page=await context.newPage(),errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.route('**/api/**',async route=>{const req=route.request();if(req.method()!=='GET')writes.push(req.method());const result=await f.call(new URL(req.url()).pathname.slice(5),{user:2});await route.fulfill({status:result.status,json:result.data});});
+  await page.route('**/api/**',async route=>{const req=route.request();if(req.method()!=='GET')writes.push(req.method());const routePath=new URL(req.url()).pathname.slice(5);if(routePath==='organization/faction/overview'){await route.fulfill({status:200,json:{ok:true,treasury:{funds:275,nextCost:500,commanderId:2,canUpgrade:false},policy:{upgradeCosts:[0,100,500,1000,2000]}}});return;}const result=await f.call(routePath,{user:2});await route.fulfill({status:result.status,json:result.data});});
   await f.pg.query('UPDATE users SET nickname=$1 WHERE id=2',[nickname]);await page.goto(origin);await page.locator('.org-member-slot').first().waitFor();await page.evaluate(()=>document.fonts.ready);
   assert.equal(await page.locator('.org-member-slot').count(),10);assert.equal(await page.locator('.is-vacant').count(),8);
   assert.equal(await page.locator('.org-member-slot.is-self b').innerText(),nickname);assert.equal(await page.evaluate(()=>window.orgUnexpected),undefined);
-  assert.match(await page.locator('.org-headquarters-status').innerText(),/골목 사무실[\s\S]*275[\s\S]*225점 남음/);
+  assert.match(await page.locator('.org-headquarters-status').innerText(),/골목 사무실[\s\S]*공동 자금[\s\S]*275[\s\S]*225 부족/);
   assert.equal(await page.locator('[data-stage="1"]').getAttribute('aria-pressed'),'true');
-  assert.equal(await page.locator('[data-stage="1"]').evaluate(el=>getComputedStyle(el).backgroundSize),'100% 122%');
+  assert.match(await page.locator('[data-stage="1"]').evaluate(el=>getComputedStyle(el).backgroundImage),/interface-v2\/choice-selected/);
   assert.equal(await page.locator('[data-stage="1"]').evaluate(el=>getComputedStyle(el).backgroundColor),'rgba(0, 0, 0, 0)');
   assert.equal(await page.locator('.org-stage-status').innerText(),'현재 우리 조직의 아지트');
+  assert.equal(await page.locator('[data-org-upgrade]').isDisabled(),true);
+  assert.match(await page.locator('.org-headquarters-status').innerText(),/개인 코인과 분리/);
+  await page.locator('img.org-building').evaluate(img=>img.decode());
+  assert.match(await page.locator('img.org-building').getAttribute('srcset'),/960w, .*1536w/);
+  assert.ok(await page.locator('img.org-building').evaluate(async img=>{const bitmap=await createImageBitmap(await(await fetch(img.currentSrc)).blob());const width=bitmap.width;bitmap.close();return width>=960;}));
   await f.pg.query('UPDATE users SET nickname=$1 WHERE id=2',['검수 동료']);await page.reload();await page.locator('.org-member-slot').first().waitFor();
   const fits=async()=>assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   await fits();await page.screenshot({path:join(out,width+'-roster.jpg'),fullPage:true,type:'jpeg',quality:85});
@@ -88,7 +93,7 @@ test('PC/mobile show actual members and current headquarters, label future previ
   assert.match(await page.locator('.org-headquarters-status h3').innerText(),/골목 사무실/);
   await page.getByRole('button',{name:'현재 아지트로 돌아가기'}).click();
   assert.equal(await page.locator('[data-stage="1"]').getAttribute('aria-pressed'),'true');
-  assert.equal(await page.locator('[data-stage="1"]').evaluate(el=>getComputedStyle(el).backgroundSize),'100% 122%');
+  assert.match(await page.locator('[data-stage="1"]').evaluate(el=>getComputedStyle(el).backgroundImage),/interface-v2\/choice-selected/);
   assert.equal(await page.locator('[data-stage="1"]').evaluate(el=>getComputedStyle(el).backgroundColor),'rgba(0, 0, 0, 0)');
   await fits();await page.screenshot({path:join(out,width+'-current-hideout.jpg'),fullPage:true,type:'jpeg',quality:85});
   assert.deepEqual(await page.locator('#organization-root button').evaluateAll(bs=>bs.filter(b=>getComputedStyle(b).backgroundImage==='none').map(b=>b.textContent)),[]);

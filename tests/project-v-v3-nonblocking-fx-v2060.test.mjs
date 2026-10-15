@@ -212,7 +212,7 @@ test('번들이 소스와 같은 계약을 담고 있다', () => {
   assert.ok(bundleSrc.includes('this.bannerQueue=[],this.bannerPump=null'), '번들 생성자에 배너 큐 초기화가 없습니다');
   assert.ok(bundleSrc.includes('this.playbackEpoch+=1,this.bannerQueue.length=0'), '번들 cancelTimelines 에 큐 비우기가 없습니다');
   const bannerSources=read('preview/project-v-v3/source/battle/BerkanCombatPlayback.js')+read('preview/project-v-v3/source/battle/NurseHealCombatPlayback.js')+read('preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js')+read('preview/project-v-v3/source/battle/CryvernCombatPlayback.js')+read('preview/project-v-v3/source/battle/HeukwolCombatPlayback.js')+read('preview/project-v-v3/source/battle/BikiniJoeunCombatPlayback.js')+read('preview/project-v-v3/source/battle/RagnielCombatPlayback.js')+read('preview/project-v-v3/source/battle/MangisaCombatPlayback.js')+engineSrc+read('preview/project-v-v3/source/battle/MercenaryCombatPlayback.js')+read('preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js')+read('preview/project-v-v3/source/battle/CooperativeEncounter.js')+read('preview/project-v-v3/source/battle/CooperativeArkePlayback.js')+read('preview/scrapyard-v3-v1/source/ScrapyardBattleEngine.js');
-  const allBannerSources=bannerSources+read('preview/project-v-v3/source/battle/IconRolePlayback.js')+read('preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js')+read('preview/project-v-v3/source/battle/LimitedDuoCombatPlayback.js')+read('preview/project-v-v3/source/battle/PetSupportPlayback.js')+['Azant','Helios','Jinmu','Kairon'].map(name=>read('preview/project-v-v3/source/battle/'+name+'CombatPlayback.js')).join('');
+  const allBannerSources=bannerSources+read('preview/project-v-v3/source/battle/IconRolePlayback.js')+read('preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js')+read('preview/project-v-v3/source/battle/LimitedDuoCombatPlayback.js')+read('preview/project-v-v3/source/battle/PetSupportPlayback.js')+['Azant','Helios','Jinmu','Kairon','Shiranui'].map(name=>read('preview/project-v-v3/source/battle/'+name+'CombatPlayback.js')).join('');
   assert.equal((bundleSrc.match(/queueBanner\(/g) || []).length, (allBannerSources.match(/queueBanner\(/g) || []).length, '공용 엔진·용병·아포칼립스·ICON 어댑터의 배너 큐가 번들에 그대로 포함되어야 합니다');
   assert.equal((bundleSrc.match(/queueSupportEffect\(/g) || []).length, (engineSrc.match(/queueSupportEffect\(/g) || []).length, '번들의 queueSupportEffect 호출 수가 소스와 다릅니다');
   // Only the independent notice pump waits for a previous notice.
@@ -223,7 +223,15 @@ test('캐시 태그가 갱신되어 있다', () => {
   const resource=appSrc.match(/['"]([^'"\n]*project-v-pixi-battle\.bundle\.js\?[^'"\n]+)['"]/)?.[1];
   assert.ok(resource,'main loader must retain the cache-versioned V3 bundle');
   const params=new URL(resource,'https://test.invalid/').searchParams;
-  assert.equal(params.get('v'),'106-combat-flow');
+  const bridge=read('js/battle-v3-live.js');
+  const recoveryResource=bridge.match(/['"]([^'"\n]*project-v-pixi-battle\.bundle\.js\?[^'"\n]+)['"]/)?.[1];
+  const bridgeResource=appSrc.match(/['"]([^'"\n]*battle-v3-live\.js\?[^'"\n]+)['"]/)?.[1];
+  const sourceRuntime=read('preview/project-v-v3/source/project-v-pixi-battle.src.js').match(/runtimeVersion:\s*["']([^"']+)["']/)?.[1];
+  assert.ok(params.get('v')&&recoveryResource&&bridgeResource&&sourceRuntime,'현재 소스와 두 진입점의 버전 계약이 있어야 합니다');
+  assert.equal(params.get('v'),new URL(recoveryResource,'https://test.invalid/').searchParams.get('v'),'앱과 재진입 로더가 같은 번들 캐시를 요청해야 합니다');
+  assert.equal(params.get('v'),new URL(bridgeResource,'https://test.invalid/').searchParams.get('v'),'앱의 전투 번들과 브리지가 같은 출시 캐시를 사용해야 합니다');
+  assert.equal(bundleSrc.match(/runtimeVersion:\s*["']([^"']+)["']/)?.[1],sourceRuntime,'번들이 현재 소스 런타임을 포함해야 합니다');
+  assert.equal(bridge.match(/const BATTLE_RUNTIME\s*=\s*['"]([^'"]+)['"]/)?.[1],sourceRuntime,'브리지가 현재 소스 런타임을 요청해야 합니다');
   assert.equal(appSrc.match(/battleV2:\{\s*runtimeVersion:\s*['"]([^'"]+)['"]/)?.[1],bundleSrc.match(/runtimeVersion:\s*["']([^"']+)["']/)[1]);
   assert.equal(params.get('overlord'),'20261005-motion-v4');
   const shell=read('service-worker.js').match(/const SHELL_CACHE='soop-card-shell-v([^']+)'/)?.[1];

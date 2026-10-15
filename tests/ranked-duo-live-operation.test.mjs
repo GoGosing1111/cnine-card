@@ -25,12 +25,16 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} duo b
 test('duo failures do not suppress other content, and the existing cache avoids repeated lookups',async()=>{
  const api=fs.readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
  const source=api.slice(api.indexOf('async function liveOperationAlerts(env){'),api.indexOf('let cardAcquisitionGradeFxCache'));
- let calls=0;const ctx=vm.createContext({Date,console:{error(){}},liveOperationsCache:null,LIVE_OPERATIONS_CACHE_MS:15000,coupLiveOperation:async()=>null,rankedDuoLiveOperation:async()=>{calls++;throw Error('Missing duo table');}});
+ let calls=0;const ctx=vm.createContext({Date,console:{error(){}},liveOperationsCache:null,LIVE_OPERATIONS_CACHE_MS:15000,organizationLiveOperation:async()=>null,coupLiveOperation:async()=>null,rankedDuoLiveOperation:async()=>{calls++;throw Error('Missing duo table');}});
  vm.runInContext(source,ctx);
  const env={DB:{prepare:()=>({all:async()=>({results:[{kind:'SEAL',phase:'ACTIVE',entity_id:49,title:'봉인전'}]})})}};
  assert.equal((await ctx.liveOperationAlerts(env))[0].kind,'SEAL');await ctx.liveOperationAlerts(env);assert.equal(calls,1);
  ctx.liveOperationsCache=null;ctx.rankedDuoLiveOperation=async()=>({kind:'RANKED_DUO',phase:'RECRUITING',entityId:'weekly-1'});
  const items=await ctx.liveOperationAlerts(env);assert.equal(items[0].kind,'RANKED_DUO');assert.equal(items[1].kind,'SEAL');
+ ctx.liveOperationsCache=null;ctx.organizationLiveOperation=async()=>{throw Error('Missing organization table');};
+ assert.deepEqual(Array.from(await ctx.liveOperationAlerts(env),item=>item.kind),['RANKED_DUO','SEAL']);
+ ctx.liveOperationsCache=null;ctx.organizationLiveOperation=async()=>({kind:'ORGANIZATION',phase:'FORMATION',entityId:'organization-live'});
+ assert.deepEqual(Array.from(await ctx.liveOperationAlerts(env),item=>item.kind),['ORGANIZATION','RANKED_DUO','SEAL']);
 });
 
 test('duo recruitment has a real countdown and opens the existing duo screen',()=>{

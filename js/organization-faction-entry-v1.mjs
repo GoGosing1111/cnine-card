@@ -1,0 +1,46 @@
+import {mount} from './organization-faction-v1.mjs?v=20261015-organization-interface-v3';
+const root=document.getElementById('organizationFactionRoot');
+const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
+const roundId=new URL(location.href).searchParams.get('roundId');
+async function apiRequest(path,options={}){
+ const url='/api/'+path+(roundId&&!options.body?'?roundId='+encodeURIComponent(roundId):'');
+ const response=await fetch(url,{...options,headers:{'Content-Type':'application/json',Authorization:'Bearer '+token(),...options.headers},cache:'no-store'});
+ const data=await response.json();if(!response.ok)throw Object.assign(Error(data.error||'조직 전황을 불러오지 못했습니다.'),{status:response.status,code:data.code});return data;
+}
+let battleLoading;
+async function loadLocalBattle(){
+ if(!battleLoading)battleLoading=(async()=>{
+  const resources=await fetch('/organization/faction/battle-resources.json?v=20261015-boundaries2').then(r=>r.json());
+  for(const href of resources.styles){const link=document.createElement('link');link.rel='stylesheet';link.href='/'+href;document.head.append(link);}
+  for(const src of resources.scripts)await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='/'+src;script.onload=resolve;script.onerror=()=>reject(Error('전투 리소스를 불러오지 못했습니다.'));document.body.append(script);});
+  await window.ProjectVBattleV3Live?.ensureRuntime?.();
+  if(!window.ProjectVBattleV3Live?.ready?.())throw Error('전투 화면 준비가 지연되었습니다.');
+ })().catch(error=>{battleLoading=null;throw error;});
+ return battleLoading;
+}
+function battleHost(){
+ let current=window;
+ for(let i=0;i<4;i++){try{if(current.ensureFeatureResources)return current;if(current.parent===current)break;current=current.parent;}catch{break;}}
+ return window;
+}
+const host=battleHost();
+async function ensureBattle(){if(host.ensureFeatureResources)await host.ensureFeatureResources('battleV2');else await loadLocalBattle();}
+async function playFactionBattle(data){
+ await ensureBattle();
+ const modal=host.document.getElementById('modal');
+ if(!modal||!host.prepareBattleV2LiveLoading||!host.playPvpBattleV2Live)throw Error('전투 재생 화면을 확인하지 못했습니다.');
+ const close=()=>{modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';};
+ try{
+  const live=host.prepareBattleV2LiveLoading({modal,mode:'PVP',playerName:data.player.nickname,opponentName:data.opponent.nickname});
+  live.stage.querySelector('.battle-v3-header strong').textContent='조직 세력전';
+  live.stage.querySelector('.battle-v3-header small').textContent='ORGANIZATION · TERRITORY WAR';
+  await host.playPvpBattleV2Live({...live,modal,data});
+  await new Promise(resolve=>{const button=host.document.createElement('button');button.className='fw-battle-close';button.textContent='조직 전투실로 복귀';Object.assign(button.style,{position:'absolute',right:'20px',bottom:'20px',padding:'16px 26px',zIndex:'1000',background:'transparent url(/assets/ui/organization/interface-v2/action-primary.webp) center/100% 100% no-repeat',color:'#eee5cf',border:'0',fontWeight:'700',minHeight:'52px'});button.onclick=()=>{close();resolve();};modal.append(button);});
+ }catch(error){close();throw error;}
+}
+mount(root,{apiRequest,ensureFeatureResources:ensureBattle,playFactionBattle});
+if(window.parent!==window){
+ let last=0,queued=false;
+ const resize=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;const height=Math.ceil(document.body.scrollHeight);if(height!==last){last=height;parent.postMessage({type:'organization:faction:height',height},location.origin);}});};
+ new ResizeObserver(resize).observe(document.body);resize();
+}

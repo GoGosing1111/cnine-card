@@ -83,7 +83,7 @@ test('equal power respects all feasible wishes; impossible popularity never brea
   const extreme=allocateOrganizations(players(150).map((p,i)=>({...p,power:i===0?1e12:1})));assert.ok(extreme.stats.powerSpreadPercent>100);assert.equal(extreme.stats.maxMembers,10);
 });
 test('economy remains null and configuration alone cannot release or unlock content',()=>{
-  const policy=defaultOrganizationPolicy();assert.equal(ORGANIZATION_RELEASE_ENABLED,false);assert.equal(policy.pointsPerRegion,null);assert.deepEqual(policy.hideoutThresholds,[0,null,null,null,null]);assert.equal(organizationHideout(1000000,policy).stage,1);
+  const policy=defaultOrganizationPolicy();assert.equal(ORGANIZATION_RELEASE_ENABLED,true);assert.equal(policy.pointsPerRegion,null);assert.deepEqual(policy.hideoutThresholds,[0,null,null,null,null]);assert.equal(organizationHideout(1000000,policy).stage,1);
   assert.throws(()=>validateOrganizationPolicy({...policy,hideoutThresholds:[0,200,null,100,null]}),/증가/);
   assert.equal(organizationHideout(1000000,{...policy,growthMode:'SPEND',hideoutThresholds:[0,100,200,300,400]}).stage,1);
 });
@@ -91,7 +91,7 @@ test('survey authorization, closed gate, stale writes, idempotency and privacy',
   const f=await organizationFixture(t),id=await f.prepare({survey:false});
   assert.equal((await f.call('admin/organization',{user:2})).status,403);
   assert.equal((await f.call('organization/overview',{user:999})).status,401);
-  assert.equal((await f.post('admin/organization/create',{scope:'LIVE',name:'실제 모집'})).data.code,'ORG_RELEASE_LOCKED');
+  assert.equal((await f.post('admin/organization/create',{scope:'LIVE',name:'실제 모집'})).status,200);
   const request={requestId:'survey-request-0001',roundId:id,revision:0,preferredOrganizationId:3};
   assert.equal((await f.post('organization/survey',request,{user:2})).data.code,'ORG_SURVEY_CLOSED');
   await f.post('admin/organization/phase',{roundId:id,revision:0,phase:'SURVEY'});

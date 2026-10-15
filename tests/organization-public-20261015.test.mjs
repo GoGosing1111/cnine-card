@@ -9,19 +9,20 @@ import {organizationPublicApi,organizationPublicOverview} from '../shared/organi
 import {ORGANIZATION_INTERVIEW,ORGANIZATION_INTERVIEW_VERSION} from '../shared/organization-interview-v1.mjs';
 const root=fileURLToPath(new URL('..',import.meta.url));
 const output=process.env.ORG_QA_DIR||join(tmpdir(),'cnine-organization-public-20261015');
-test('public preparation never fabricates participants or accepts enrollment, OWNER actions or DB writes',async()=>{
- const s=await organizationPublicApi('organization/overview');
- assert.equal(s.previewOnly,true);assert.equal(s.releaseEnabled,false);assert.equal(s.admissionEnabled,false);assert.equal(s.round,null);
- assert.equal(s.membership,null);assert.equal(s.participantCount,null);assert.equal(s.preparation.registrationOpen,false);
- assert.equal(s.policy.pointsPerRegion,null);assert.equal(s.organizations.length,15);
+test('anonymous public entry requires account login and never fabricates participants or accepts enrollment',async t=>{
+ const beforeLocal=globalThis.localStorage,beforeSession=globalThis.sessionStorage;
+ globalThis.localStorage={getItem:()=>null};globalThis.sessionStorage={getItem:()=>null};
+ t.after(()=>{if(beforeLocal===undefined)delete globalThis.localStorage;else globalThis.localStorage=beforeLocal;if(beforeSession===undefined)delete globalThis.sessionStorage;else globalThis.sessionStorage=beforeSession;});
+ const {organizationApi}=await import('../js/organization-api-v1.mjs');
+ const s=await organizationApi('organization/overview');
+ assert.equal(s.loginRequired,true);assert.equal(s.previewOnly,false);assert.equal(s.releaseEnabled,true);assert.equal(s.admissionEnabled,false);assert.equal(s.round,null);
+ assert.equal(s.membership,null);assert.equal(s.participantCount,null);assert.equal(s.policy.pointsPerRegion,null);assert.equal(s.organizations.length,15);
  for(const path of ['organization/survey','organization/withdraw','admin/organization','admin/organization/create','admin/organization/apply'])
-  for(const method of ['GET','POST'])await assert.rejects(organizationPublicApi(path,{method}),{code:'ORG_RECRUITMENT_CLOSED'});
- s.policy.hideoutThresholds[1]=100;
- assert.equal(organizationPublicOverview().policy.hideoutThresholds[1],null);
- const entry=await readFile(join(root,'functions/api/[[path]].js'),'utf8');
- assert.doesNotMatch(entry,/from ['"].*_organization(?:_schema)?\.js/);
+  for(const method of ['GET','POST'])await assert.rejects(organizationApi(path,{method}),{code:'ORG_AUTH'});
+ s.policy.hideoutThresholds[1]=100;assert.equal(organizationPublicOverview().policy.hideoutThresholds[1],null);
+ const entry=await readFile(join(root,'functions/api/[[path]].js'),'utf8');assert.match(entry,/handleOrganization,reconcileOrganizationRecruitment,organizationLiveOperation/);
 });
-test('public admission stays OFF with old drafts; background clan refresh preserves the document, stage, focus and scroll on PC/mobile',async t=>{
+test('anonymous login gate ignores old drafts; background clan refresh preserves the document, stage, focus and scroll on PC/mobile',async t=>{
  const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
  const browser=await chromium.launch({channel:'chrome',headless:true});t.after(()=>browser.close());
  await mkdir(output,{recursive:true});
@@ -50,20 +51,21 @@ test('public admission stays OFF with old drafts; background clan refresh preser
   page.on('framenavigated',frame=>{if(frame.parentFrame()&&frame.url().includes('/organization/'))documents.push(frame.url());});
   await page.goto(origin);
   const ui=page.frameLocator('.org-live-frame');
-  await ui.locator('[data-admission="start"]').waitFor();
+  await ui.locator('a.admission-button').waitFor();
   await page.waitForFunction(()=>parseInt(document.querySelector('.org-live-frame').style.height)>300);
   const fits=async()=>{assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);assert.equal(await ui.locator('body').evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);};
   const imageButtons=async()=>assert.deepEqual(await ui.locator('button').evaluateAll(bs=>bs.filter(b=>getComputedStyle(b).backgroundImage==='none').map(b=>b.textContent)),[]);
   const closed=async()=>{
-   assert.equal(await ui.locator('[data-admission="start"]').isDisabled(),true);
+   assert.equal(await ui.locator('[data-admission="start"]').count(),0);
    assert.equal(await ui.locator('[data-answer], [data-admission-pick], .admission-dossier').count(),0);
-   assert.match(await ui.locator('.org-public-notice').innerText(),/입단 심사 OFF/);
+   assert.match(await ui.locator('.org-status').innerText(),/로그인 필요/);
+   assert.equal(await ui.locator('a.admission-button').getAttribute('href'),'/');
+   assert.equal(await ui.locator('a.admission-button').getAttribute('target'),'_top');
    assert.equal(await page.evaluate(key=>localStorage.getItem(key),draftKey),draft);
   };
   await closed();
   await fits();await imageButtons();await page.screenshot({path:join(output,width+'-entry.jpg'),fullPage:true,type:'jpeg',quality:85});
-  // Removing disabled cannot restore an old interview or bind start handlers.
-  await ui.locator('[data-admission="start"]').evaluate(el=>{el.disabled=false;el.click();});
+  // An old complete interview draft cannot restore logged-in admission controls.
   assert.equal(await ui.locator('[data-answer], .admission-results').count(),0);
   await ui.locator('[data-tab="mine"]').click();
   assert.equal(await ui.locator('.org-empty [data-tab="survey"]').isDisabled(),true);
@@ -98,13 +100,13 @@ test('public admission stays OFF with old drafts; background clan refresh preser
   await page.locator('[data-clan-tab="champions"]').click();
   assert.equal(await page.locator('.org-live-frame').count(),0);
   await page.locator('[data-clan-tab="organization"]').click();await closed();
-  // Direct links and reloads use the same OFF policy, regardless of old drafts/query flags.
+  // Direct links and reloads require login, regardless of old drafts/query flags.
   await page.goto(origin+'/organization/?view=owner&admission=1');
-  assert.equal(await page.locator('[data-admission="start"]').isDisabled(),true);
-  await page.reload();assert.equal(await page.locator('[data-admission="start"]').isDisabled(),true);
+  await page.locator('a.admission-button').waitFor();assert.match(await page.locator('.org-status').innerText(),/로그인 필요/);
+  await page.reload();await page.locator('a.admission-button').waitFor();assert.match(await page.locator('.org-status').innerText(),/로그인 필요/);
   assert.equal(await page.locator('[data-answer], .admission-results, [data-tab="manage"]').count(),0);
   assert.deepEqual(apiRequests,[]);assert.deepEqual(errors,[]);
   await context.close();
  }
- t.diagnostic('Live preparation visual evidence: '+output);
+ t.diagnostic('Anonymous organization visual evidence: '+output);
 });

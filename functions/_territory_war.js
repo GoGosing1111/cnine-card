@@ -1402,9 +1402,36 @@ async function realtimeState(env,userId,nodeIndex=4){
   const mineFull=mine?.side?{...mine,user_id:userId}:null,pulse=await realtimePulse(env,round);return{round,front,mine,battlefield:await battlefieldState(env,{round,front,mine:mineFull}),truce:truceState(round),comeback:comebackState(round,cfg,front),fatigue:fatigueState(round,front,cfg),lastDefense:front?.last_defense_side?{active:true,side:front.last_defense_side,deadline:front.last_defense_deadline,hpBonusPercent:Number(cfg.lastDefenseHpBonusPercent||35)}:{active:false},counter:await counterState(env,round,mineFull),recentActionPulse:pulse.recentActionPulse,notice:pulse.notice,version:Number(round.version||0),serverNow:iso()};
 }
 
+const TERRITORY_STATE_CHANGED_MESSAGE='전황이 변경되어 공격이 취소되었습니다. 행동력과 전투 보상은 반영되지 않았습니다. 최신 지도를 확인해 주세요.';
+const TERRITORY_CHANGED_MESSAGES=new Set([
+  TERRITORY_STATE_CHANGED_MESSAGE,
+  '현재 전투 가능한 영토전 회차가 아닙니다.',
+  '임시 휴전 중에는 공격할 수 없습니다. PVP 덱과 장비·칭호를 최신화해 주세요.',
+  '현재 교전지가 준비되지 않았습니다.',
+  '현재 교전지가 변경되었습니다. 지도에서 전장을 다시 확인해 주세요.',
+  '현재 회차 참가자가 아닙니다.',
+  '교전지가 이미 변경되었습니다. 행동력은 소모되지 않았습니다.',
+  '거점의 점령 상태 또는 진입 경로가 변경되었습니다. 지도를 다시 확인해 주세요.',
+  '이번 회차에는 전장 시설이 활성화되지 않았습니다.',
+  '전장 시설을 준비 중입니다.',
+  '이 보급열차의 호위 시간이 종료되었습니다.',
+  '이미 보급열차 호위가 완료되었습니다.',
+  '이미 종료된 교전입니다.'
+]);
+function territoryStateChanged(error){
+  const message=String(error?.message||error||'');
+  return error?.code==='TERRITORY_STATE_CHANGED'||error?.constraint==='territory_war_mutation_guards_ok_check'||
+    /check constraint ["']?territory_war_mutation_guards_ok_check/i.test(message)||
+    /CHECK constraint failed:\s*(?:territory_war_mutation_guards(?:_ok_check)?|ok\s*=\s*1)(?:\b|$)/i.test(message)||
+    TERRITORY_CHANGED_MESSAGES.has(message);
+}
+function territoryChangedResponse(deps){
+  return deps.json({error:TERRITORY_STATE_CHANGED_MESSAGE,code:'TERRITORY_STATE_CHANGED',refreshState:true,retryable:false,failed:true},409);
+}
+
 async function reserveAction(env,requestId,userId){
   let row=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();
-  if(row){if(Number(row.user_id)!==Number(userId))return{conflict:true};if(row.status==='COMPLETED')return{completed:true,row};if(row.status==='APPLIED')return{applied:true,row};if(row.status==='PENDING'&&Date.now()-sqlMs(row.updated_at)<30000)return{pending:true,row};await env.DB.prepare("UPDATE territory_war_v3_actions SET status='PENDING',error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status IN ('PENDING','FAILED')").bind(requestId).run();return{ok:true,row}}
+  if(row){if(Number(row.user_id)!==Number(userId))return{conflict:true};if(row.status==='COMPLETED')return{completed:true,row};if(row.status==='APPLIED')return{applied:true,row};if(row.status==='FAILED'&&territoryStateChanged(row.error_message))return{failed:true,row};if(row.status==='PENDING'&&Date.now()-sqlMs(row.updated_at)<30000)return{pending:true,row};await env.DB.prepare("UPDATE territory_war_v3_actions SET status='PENDING',error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status IN ('PENDING','FAILED')").bind(requestId).run();return{ok:true,row}}
   const inserted=await env.DB.prepare("INSERT OR IGNORE INTO territory_war_v3_actions(request_id,user_id,status) VALUES(?,?,'PENDING')").bind(requestId,userId).run();if(Number(inserted?.meta?.changes||0))return{ok:true};row=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();return row&&Number(row.user_id)!==Number(userId)?{conflict:true}:{pending:true,row};
 }
 
@@ -1419,14 +1446,23 @@ async function completeAppliedAction(env,action,cfg){
 }
 
 async function completedBattleResponse(env,deps,user,action,cfg,replayed=true){
-  let row=action;if(row?.status==='APPLIED'){await completeAppliedAction(env,row,cfg);row=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(row.request_id).first()}
-  const compact=safeJson(row?.result_json,{}),result=await hydrateBattleReplay(env,deps,user,row,compact),[state,balance]=await Promise.all([realtimeState(env,user.id,compact.nodeIndex??4),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);return deps.json({ok:true,replayed,result,state,coinAfter:Number(balance?.coin||0)});
+  let row=action,reconciliationPending=false;
+  // APPLIED already committed energy, damage and rewards. A later resolution or
+  // state-read race must never turn that receipt into a failed/unspent attack.
+  if(row?.status==='APPLIED'){
+    try{await completeAppliedAction(env,row,cfg);row=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(row.request_id).first()||row}
+    catch(error){reconciliationPending=true;console.warn('territory confirmed receipt resolution deferred',{requestId:row.request_id,error:String(error?.message||error)})}
+  }
+  const compact={...safeJson(row?.result_json,{}),damage:Number(row?.damage||0)},result=await hydrateBattleReplay(env,deps,user,row,compact);
+  const [stateRead,balanceRead]=await Promise.allSettled([realtimeState(env,user.id,compact.nodeIndex??4),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);
+  if(stateRead.status==='rejected'||balanceRead.status==='rejected')reconciliationPending=true;
+  return deps.json({ok:true,replayed,result,...(stateRead.status==='fulfilled'?{state:stateRead.value}:{}),...(balanceRead.status==='fulfilled'&&balanceRead.value?{coinAfter:Number(balanceRead.value.coin||0)}:{}),...(reconciliationPending?{refreshState:true,reconciliationPending:true}:{})});
 }
 
 async function handleActionStatus(env,deps,user,cfg,request){
   const requestId=validRequestId(new URL(request.url).searchParams.get('requestId'));if(!requestId)return deps.json({error:'전투 요청 ID가 올바르지 않습니다.'},400);
   const row=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();if(!row)return deps.json({ok:true,pending:true,requestId,retryAfterMs:300});if(Number(row.user_id)!==Number(user.id))return deps.json({error:'다른 사용자의 전투 요청입니다.'},403);
-  if(row.status==='PENDING')return deps.json({ok:true,pending:true,requestId,retryAfterMs:300});if(row.status==='FAILED')return deps.json({error:row.error_message||'영토전 전투가 완료되지 않았습니다.',failed:true},409);return completedBattleResponse(env,deps,user,row,cfg,true);
+  if(row.status==='PENDING')return deps.json({ok:true,pending:true,requestId,retryAfterMs:300});if(row.status==='FAILED')return territoryStateChanged(row.error_message)?territoryChangedResponse(deps):deps.json({error:row.error_message||'영토전 전투가 완료되지 않았습니다.',failed:true},409);return completedBattleResponse(env,deps,user,row,cfg,true);
 }
 
 async function handleAttack(env,deps,user,cfg,body){
@@ -1435,6 +1471,7 @@ async function handleAttack(env,deps,user,cfg,body){
   const objective=battlefieldObjectives(body.objective??'SIEGE');if(!objective)return deps.json({error:'전장 목표가 올바르지 않습니다.'},400);
   const reservation=await reserveAction(env,requestId,user.id);
   if(reservation.conflict)return deps.json({error:'다른 사용자의 요청 ID입니다.'},409);
+  if(reservation.failed)return territoryChangedResponse(deps);
   if(reservation.pending)return deps.json({ok:true,pending:true,requestId,retryAfterMs:300});
   if(reservation.completed||reservation.applied)return completedBattleResponse(env,deps,user,reservation.row,cfg,true);
   let attackLock=await acquireLock(env,`attack_user_${user.id}`,180000);
@@ -1459,6 +1496,8 @@ async function handleAttack(env,deps,user,cfg,body){
     const front=isNetworkWar(round)?await networkFront(env,round,{frontId:body.frontId}):await activeFront(env,round);if(!front||front.status!=='ACTIVE')throw new Error('현재 교전지가 준비되지 않았습니다.');
     if(body.frontId!=null&&Number(body.frontId)!==Number(front.id))throw new Error('현재 교전지가 변경되었습니다. 지도에서 전장을 다시 확인해 주세요.');
     const registered=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(!registered||registered.status!=='ACTIVE'||!['A','B'].includes(String(registered.side||'')))throw new Error('현재 회차 참가자가 아닙니다.');
+    if(isNetworkWar(round)&&Number(front[registered.side==='A'?'a_access':'b_access'])!==1)throw Object.assign(new Error(TERRITORY_STATE_CHANGED_MESSAGE),{code:'TERRITORY_STATE_CHANGED'});
+    if(Number(front.a_hp)<=0||Number(front.b_hp)<=0)throw Object.assign(new Error(TERRITORY_STATE_CHANGED_MESSAGE),{code:'TERRITORY_STATE_CHANGED'});
     const battle=await deps.battleSettings(env),mine=await currentTerritoryFormation(env,deps,{...registered,nickname:user.nickname,role:user.role},battle);
     if(!mine)throw new Error('현재 PVP 덱 5장을 저장한 후 다시 공격해 주세요.');
     const energy=rechargeEnergy(mine,cfg,front),cost=clampInt(cfg.attackEnergyCost,1,20,1);if(energy.energy<cost)throw new Error('행동력이 부족합니다.');
@@ -1514,7 +1553,13 @@ async function handleAttack(env,deps,user,cfg,body){
     const actual=Number(action.damage||0),stored={...safeJson(action.result_json,compact),damage:actual,targetHpAfter:Math.max(0,Number(safeJson(action.result_json,compact).targetHpBefore||targetHp)-actual)};await env.DB.prepare("UPDATE territory_war_v3_actions SET result_json=? WHERE request_id=? AND status='APPLIED'").bind(JSON.stringify(stored),requestId).run();action={...action,result_json:JSON.stringify(stored)};
     const completed=await completeAppliedAction(env,action,cfg),result={...completed,battleV2:simulation.battleV2,opponent:simulation.opponent,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,battleEngine:{active:true,version:'V3',renderer:'PIXIJS',mode:'SIEGE'}},[state,balance]=await Promise.all([realtimeState(env,user.id,front.node_index),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);
     return deps.json({ok:true,result,state,coinAfter:Number(balance?.coin||0)});
-  }catch(error){const row=await env.DB.prepare('SELECT status FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();if(row?.status==='PENDING')await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(String(error.message||error).slice(0,300),requestId).run();return deps.json({error:error.message||'영토전 교전 처리에 실패했습니다.',retryable:/변경|처리/.test(String(error.message||''))},409)}finally{await releaseLock(env,attackLock)}
+  }catch(error){
+    const row=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();
+    if(row&&['APPLIED','COMPLETED'].includes(row.status))return completedBattleResponse(env,deps,user,row,cfg,true);
+    const changed=territoryStateChanged(error),message=changed?TERRITORY_STATE_CHANGED_MESSAGE:String(error.message||error);
+    if(row?.status==='PENDING')await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(message.slice(0,300),requestId).run();
+    return changed?territoryChangedResponse(deps):deps.json({error:error.message||'영토전 교전 처리에 실패했습니다.',retryable:/변경|처리/.test(String(error.message||''))},409);
+  }finally{await releaseLock(env,attackLock)}
 }
 
 async function recoverAppliedForUser(env,userId,cfg){
@@ -1792,4 +1837,4 @@ export const __territoryLoadoutTest={currentTerritoryFormation,saveCurrentTerrit
 // Coup shares the live territory combat engine and formation rules.
 export { simulateTerritoryBattle as simulateTerritoryDuel, singleFormationSnapshot as territoryFormationSnapshot, buildFormationSnapshot as territoryFormationFromParts, pickPowerMatchedOpponent as territoryMatchedOpponent, damageFor as territorySiegeDamage };
 
-export const __territoryClanTest={realtimeState,sendCommanderMessage,executeMassAssault,createRound,publicState,resolveFront,balancedSideAssignments,cleanSettings,rechargeEnergy,handleAttack,createFront,formRound,lifecycle,settleRound,activateCommanderOperation,activateVotedTerritorySkill,settlePendingTerritoryVotes,submitTerritoryVote,counterState,DEFAULTS,OPERATIONS,NODES};
+export const __territoryClanTest={realtimeState,sendCommanderMessage,executeMassAssault,createRound,publicState,resolveFront,balancedSideAssignments,cleanSettings,rechargeEnergy,handleAttack,handleActionStatus,createFront,formRound,lifecycle,settleRound,activateCommanderOperation,activateVotedTerritorySkill,settlePendingTerritoryVotes,submitTerritoryVote,counterState,DEFAULTS,OPERATIONS,NODES};

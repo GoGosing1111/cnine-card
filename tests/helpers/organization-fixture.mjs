@@ -34,5 +34,5 @@ export async function organizationFixture(t,{people=30}={}){
   async function close(roundId){const state=await call('admin/organization?roundId='+roundId);return post('admin/organization/phase',{roundId,revision:state.data.round.revision,phase:'CLOSED'});}
   async function rate(roundId){for(let step=0;step<13;step++){const response=await post('admin/organization/ratings',{roundId});if(response.status!==200||response.data.done)return response;}throw Error('Rating batch exceeded');}
   const closeDb=()=>pg.close();t?.after(closeDb);
-  return {env,pg,call,post,prepare,close,rate,queries,errors,advance:ms=>clock+=ms,fail:value=>failAt=value,clock:()=>clock,closeDb};
+  return {env,pg,deps,call,post,prepare,close,rate,queries,errors,advance:ms=>clock+=ms,fail:value=>failAt=value,clock:()=>clock,closeDb};
 }
