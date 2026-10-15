@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "checks": [
+    "Cancel returns false synchronously; no follow-on action",
+    "Confirm executes exactly once",
+    "X, Escape, default Enter and window close cancel",
+    "Alert blocks, acknowledges, and returns undefined",
+    "Prompt preserves default, typed, empty and null results",
+    "Untrusted text is inert; long messages scroll above visible actions",
+    "Wrong senders, frames and operations cannot open or accept dialogs",
+    "First inline script after navigation uses styled confirmation",
+    "Allowed game popups use the same confirmation",
+    "Closing the parent cancels and removes its pending dialog",
+    "Embedded content shares the UI with no Node or IPC exposure",
+    "Untrusted sandbox frames cannot open dialogs or reach Node",
+    "F5 uses shared UI and Cancel preserves the document",
+    "Game display preference scales dialogs within monitor bounds"
+  ],
+  "errors": [],
+  "native": [],
+  "productionRequests": 0,
+  "profile": "C:\\Users\\User\\AppData\\Local\\Temp\\soop-client-dialogs-HKV7Li"
+}

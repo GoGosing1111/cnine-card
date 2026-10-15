@@ -1,14 +1,14 @@
 const $=id=>document.getElementById(id),api=window.soopLauncher;
 let current;
-const bytes=n=>n>=1024**3?(n/1024**3).toFixed(2)+' GB':(n/1024**2).toFixed(n<1024**2?2:1)+' MB';
+const bytes=n=>n>=1024**3?(n/1024**3).toFixed(2)+' GB':n>=1024**2?(n/1024**2).toFixed(1)+' MB':n>=1024?(n/1024).toFixed(1)+' KB':n.toLocaleString()+' B';
 function render(s){
   current=s;document.body.classList.toggle('error',s.phase==='error');
   $('clientVersion').textContent=s.clientVersion;$('statusTitle').textContent=s.title;$('statusDescription').textContent=s.description;
   const busy=['checking','downloading'].includes(s.phase)||s.clientUpdate?.status==='installing',playing=s.phase==='playing';
   $('phaseLabel').textContent=({checking:'업데이트',downloading:'리소스 준비',available:'설치 · 업데이트',ready:'준비 완료',playing:'플레이 중',error:'확인 필요'})[s.phase]||'준비';
-  const progress=s.progress,percent=progress?.total?Math.min(100,Math.floor(progress.bytes/progress.total*100)):s.ready?100:0;
+  const progress=s.progress,ratio=progress?.downloadTotal?progress.transferred/progress.downloadTotal:progress?.files?progress.done/progress.files:s.ready?1:0,percent=Math.min(100,Math.floor(ratio*100));
   $('progressFill').style.width=percent+'%';document.querySelector('[role=progressbar]').setAttribute('aria-valuenow',String(percent));
-  $('progressText').textContent=progress?`${progress.done.toLocaleString()} / ${progress.files.toLocaleString()} 파일 · ${bytes(progress.bytes)} / ${bytes(progress.total)}`:s.plan?.downloadBytes?`필요한 다운로드 ${bytes(s.plan.downloadBytes)}`:s.ready?'필수 파일 준비 완료':'인터넷 연결이 필요합니다.';
+  $('progressText').textContent=progress?`${progress.downloadTotal?`다운로드 ${bytes(progress.transferred)} / ${bytes(progress.downloadTotal)}`:'추가 다운로드 없음'} · 파일 확인 ${progress.done.toLocaleString()} / ${progress.files.toLocaleString()}`:s.ready?'최신 상태 · 추가 다운로드 없음':s.phase==='checking'?'업데이트 정보와 저장된 파일 확인 중':s.plan?.downloadBytes?`필요한 다운로드 ${bytes(s.plan.downloadBytes)}`:s.phase==='playing'?'저장된 리소스로 플레이 중':'인터넷 연결이 필요합니다.';
   $('releaseLabel').textContent=s.releaseId?'리소스 버전 '+s.releaseId:'기존 웹·PWA와 같은 계정으로 이용';
   $('storedBytes').textContent=bytes(s.stats?.bytes||0);$('storedCount').textContent=`저장된 파일 ${(s.stats?.count||0).toLocaleString()}개`;
   $('checkButton').disabled=busy||playing;$('repairButton').disabled=busy||playing||!s.plan;

@@ -8,6 +8,7 @@ const build=process.argv[2],publish=process.argv.includes('--publish');
 if(!build||!path.isAbsolute(build))throw Error('Supply the absolute external finished Windows build directory; add --publish to release.');
 const repo='GoGosing1111/cnine-card',source=path.resolve('packaging/windows-client'),release=path.join(build,'release');
 const config=JSON.parse(await readFile(path.join(source,'package.json'),'utf8')),version=config.version,tag='v'+version;
+const releaseNotes=(await readFile(path.join(source,'release-notes.txt'),'utf8')).trim();
 if(!/^\d+\.\d+\.\d+$/.test(version))throw Error('Only stable launcher versions may be published.');
 const require=createRequire(path.join(build,'package.json')),{load}=require('js-yaml'),asar=require('@electron/asar');
 const metadata=load(await readFile(path.join(release,'latest.yml'),'utf8'));
@@ -58,7 +59,7 @@ async function request(route,{method='GET',body,upload=false,contentType='applic
 const remoteCommit=await request('commits/'+commit);if(remoteCommit?.sha!==commit)throw Error('Push the release commit before publishing.');
 let published=await request('releases/tags/'+tag);
 if(published&&published.target_commitish!==commit)throw Error('Existing version is attached to another commit; publish a new version.');
-if(!published)published=await request('releases',{method:'POST',body:{tag_name:tag,target_commitish:commit,name:`숲켓몬 Windows ${version}`,draft:true,prerelease:false,body:`숲켓몬 Windows 런처 ${version}\n\n설치 파일: **${setup}**\n\n기존 0.1.4 이하 사용자는 게임과 런처를 종료하고 이번 버전을 한 번 설치해 주세요. 이후에는 런처가 새 버전을 자동으로 내려받고, ‘업데이트 후 다시 시작’을 누르면 적용됩니다. 게임 진행 중에는 설치하지 않습니다.\n\n기존 설치 경로·로그인 정보·화면 크기·게임 리소스를 유지합니다. Ctrl + 휠, Ctrl + ＋/－, Ctrl + 0을 지원합니다.\n\nEngine 파일과 latest.yml은 자동 업데이트용입니다.`}});
+if(!published)published=await request('releases',{method:'POST',body:{tag_name:tag,target_commitish:commit,name:`숲켓몬 Windows ${version}`,draft:true,prerelease:false,body:`숲켓몬 Windows 런처 ${version}\n\n설치 파일: **${setup}**\n\n${releaseNotes}\n\nEngine 파일과 latest.yml은 자동 업데이트용입니다.`}});
 for(const artifact of artifacts){
   const existing=published.assets.find(a=>a.name===artifact.name);
   if(existing){if(existing.size!==artifact.bytes||existing.digest!=='sha256:'+artifact.sha256)throw Error('Existing release asset differs: '+artifact.name);continue;}

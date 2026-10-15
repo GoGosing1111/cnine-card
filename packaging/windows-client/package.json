@@ -1,7 +1,7 @@
 {
   "name": "soopketmon-windows",
   "productName": "숲켓몬",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": true,
   "description": "숲켓몬 Windows 게임 클라이언트와 리소스 런처",
   "author": "YAKCODE",

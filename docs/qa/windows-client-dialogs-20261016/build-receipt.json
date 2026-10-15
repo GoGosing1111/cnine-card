@@ -1,0 +1,19 @@
+{
+  "version": "0.1.6",
+  "kind": "custom-wpf-installer",
+  "qa": false,
+  "output": "C:\\Users\\User\\.codex\\tmp\\soopketmon-windows-dialogs-20261016\\release\\Soopketmon-Setup-0.1.6-x64.exe",
+  "bytes": 117390848,
+  "sha256": "d98308fc174d280212d21bc555d0116716c92eab74632dbc00fe42d2314d8a85",
+  "backend": {
+    "path": "C:\\Users\\User\\.codex\\tmp\\soopketmon-windows-dialogs-20261016\\release\\Soopketmon-Engine-0.1.6-x64.exe",
+    "bytes": 113860924,
+    "sha256": "d50b005b1e4228927c005680092bef0565773db16c15492c386c03f7411291d8"
+  },
+  "installed": {
+    "exe": "Soopketmon.exe",
+    "asarSha256": "c794b1cad3815b8781483493624d8a3e17befeb49fe48f9d5c6e5760187ac688",
+    "bytes": 389246953
+  },
+  "registryGuid": "c69fcbf2-955f-5c48-8ff1-55c03889cb40"
+}

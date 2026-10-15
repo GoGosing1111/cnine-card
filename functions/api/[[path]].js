@@ -5064,7 +5064,7 @@ async function handleRequest(context){
     const landResponse=await handleSoopketLand({path,request,env,deps:{authenticate,readBody,json,isRandomDrawExcluded,cleanBurningEventSettings,invalidateBurning:()=>{burningEventCache=null;invalidateEquipmentPromotionCache()}}});if(landResponse)return landResponse;
 
     if(path==='live-operations'&&request.method==='GET'){
-      const items=await liveOperationAlerts(env),payload=JSON.stringify({items,serverNow:new Date().toISOString(),pollSeconds:30});
+      const items=await liveOperationAlerts(env),payload=JSON.stringify(presentOriginalIpResponse(path,{items,serverNow:new Date().toISOString(),pollSeconds:30}));
       return new Response(payload,{headers:{
         'content-type':'application/json; charset=utf-8',
         'cache-control':'public, max-age=10, stale-while-revalidate=20'

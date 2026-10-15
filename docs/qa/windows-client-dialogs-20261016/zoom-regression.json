@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "profile": "C:\\Users\\User\\AppData\\Local\\Temp\\soop-client-zoom-GHcXIK",
+  "checks": [
+    "default 100%",
+    "ordinary wheel scrolls without zoom",
+    "Ctrl+wheel up enlarges one step",
+    "Ctrl+wheel down reduces one step",
+    "untrusted page-generated wheel is ignored",
+    "wrong sender, frame and command are ignored",
+    "Ctrl+plus shortcut",
+    "Ctrl+minus shortcut",
+    "Ctrl+0 reset",
+    "maximum 200%",
+    "wheel respects maximum",
+    "minimum 50%",
+    "wheel respects minimum",
+    "reset from minimum",
+    "150% selection",
+    "navigation keeps zoom",
+    "reload keeps zoom",
+    "allowed child window shares controls and size",
+    "main window stays synchronized",
+    "full application restart restores zoom",
+    "reset after restart"
+  ],
+  "minimumLauncher": {
+    "playVisible": true,
+    "overflow": false,
+    "text": " GETTING STARTED준비는 간단하게.모험은 더 편하게.웹·PWA에서 사용하던 계정으로같은 숲켓몬에 접속합니다.Windows PC 우선 지원안드로이드 · iOS 추후 지원 예정필수 파일 준비첫 실행에 필요한 파일을 다운로드합니다.기존 계정으로 로그인웹·PWA에서 사용하던 계정으로 접속하세요.게임 시작게임을 종료하면 새 업데이트를 확인합니다. 런처는 재시작으로 갱신합니다.게임 화면에서 Ctrl + 휠 또는 Ctrl + ＋/－로 크기를 조절합니다(50~200%). Ctrl + 0은 기본 크기, F11은 전체 화면입니다. 선택한 크기는 재실행 후에도 유지됩니다. 인터넷 연결이 필요합니다."
+  },
+  "errors": [],
+  "productionRequests": 0
+}

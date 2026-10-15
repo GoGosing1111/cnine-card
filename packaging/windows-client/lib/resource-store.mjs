@@ -73,18 +73,28 @@ export class ResourceStore {
     this.inflight.set(entry.sha256,task);return task;
   }
   async plan(manifest) {
-    const needed=manifest.files.filter(f=>f.essential),missing=[];
-    for(const entry of needed)if(!await this.has(entry,{verify:false}))missing.push(entry);
+    const needed=[...new Map(manifest.files.filter(f=>f.essential).map(f=>[f.sha256,f])).values()],missing=[];
+    for(const entry of needed)if(!await this.has(entry))missing.push(entry);
     return {files:needed.length,bytes:needed.reduce((n,f)=>n+f.bytes,0),missingFiles:missing.length,downloadBytes:missing.reduce((n,f)=>n+f.bytes,0)};
   }
+  async activateCached(manifest,{signal}={}) {
+    signal?.throwIfAborted();
+    for(const entry of manifest.files.filter(f=>f.essential)){
+      if(!await this.has(entry))throw new Error('준비되지 않은 게임 파일이 있습니다. 업데이트를 다시 확인해 주세요.');
+      signal?.throwIfAborted();
+    }
+    if((await this.readActive())?.releaseId===manifest.releaseId)return;
+    signal?.throwIfAborted();await atomicJson(path.join(this.root,'active.json'),manifest);
+  }
   async prepare(manifest,{repair=false,signal,onProgress=()=>{}}={}) {
+    signal?.throwIfAborted();
     const unique=new Map();for(const f of manifest.files)if(f.essential||(repair&&await this.has(f,{verify:false})))unique.set(f.sha256,f);
     const entries=[...unique.values()],total=entries.reduce((n,f)=>n+f.bytes,0);
-    let missingBytes=0;for(const entry of entries)if(!await this.has(entry,{verify:false}))missingBytes+=entry.bytes;
+    let missingBytes=0;for(const entry of entries)if(!await this.has(entry))missingBytes+=entry.bytes;
     const disk=await statfs(this.objects);if(Number(disk.bavail)*Number(disk.bsize)<missingBytes+256*1024**2)throw new Error('저장 공간이 부족합니다. PC의 여유 공간을 확보해 주세요.');
     const group=new AbortController(),combined=signal?AbortSignal.any([signal,group.signal]):group.signal;
     let index=0,done=0,bytes=0,transferred=0,last=0,failed;
-    const notify=(current,force=false)=>{const now=Date.now();if(force||now-last>100){last=now;onProgress({files:entries.length,done,bytes,total,transferred,current});}};
+    const notify=(current,force=false)=>{const now=Date.now();if(force||now-last>100){last=now;onProgress({files:entries.length,done,bytes,total,transferred,downloadTotal:missingBytes,current});}};
     notify('',true);
     await Promise.allSettled(Array.from({length:Math.min(6,entries.length)},async()=>{
       try{while(index<entries.length){combined.throwIfAborted();const entry=entries[index++];

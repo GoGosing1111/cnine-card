@@ -45,6 +45,11 @@ export function presentOriginalMonster(unit,entry=originalMonsterPresentation(un
 // This projection is installed only at the selected content response boundary.
 // Old saved rooms/receipts receive current art without mutating their gameplay snapshot.
 export function presentOriginalIpResponse(path,data){
+  if(path==='live-operations'&&Array.isArray(data?.items))return {...data,items:data.items.map(item=>{
+    if(item.kind!=='RAID')return item;
+    const entry=originalRaidPresentation(item.title);
+    return entry?{...item,title:entry.name}:item;
+  })};
   if(!/^(?:(?:battle|tower|rift|raid)(?:\/|$)|admin\/(?:battle|tower|raid)(?:[-/]|$))/.test(path)||!data||typeof data!=='object')return data;
   const special=/^(?:admin\/)?raid\/madara\//.test(path)?codes.get('MADARA'):/^(?:admin\/)?raid\/lich\//.test(path)?codes.get('LICH_KING'):/^(?:admin\/)?raid\/core(?:[-/]|$)/.test(path)?codes.get('CORE_PROTOCOL'):null;
   const raidRoute=/^(?:admin\/)?raid(?:[-/]|$)/.test(path);

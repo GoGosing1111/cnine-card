@@ -15,7 +15,7 @@ Pop-Location
 node scripts/build-windows-client.mjs C:/Users/User/.codex/tmp/soopketmon-windows-build-20261015
 ```
 
-결과: 외부 빌드 디렉터리의 `release/Soopketmon-Setup-0.1.5-x64.exe`. 사용자에게는 `Setup`을 안내한다. `Engine`과 `.blockmap`, `latest.yml`은 자동 업데이트에 필요하며 공개 릴리스에 함께 업로드한다. 현재 코드 서명 인증서는 설정되지 않았다. 일반 사용자 권한으로 설치하며 바로가기와 제거 프로그램을 제공한다. 사용자 범위 선택 화면은 생략하고 현재 사용자로 자동 설정한다. 삭제 시 앱 데이터는 보존한다.
+결과: 외부 빌드 디렉터리의 `release/Soopketmon-Setup-0.1.6-x64.exe`. 사용자에게는 `Setup`을 안내한다. `Engine`과 `.blockmap`, `latest.yml`은 자동 업데이트에 필요하며 공개 릴리스에 함께 업로드한다. 현재 코드 서명 인증서는 설정되지 않았다. 일반 사용자 권한으로 설치하며 바로가기와 제거 프로그램을 제공한다. 사용자 범위 선택 화면은 생략하고 현재 사용자로 자동 설정한다. 삭제 시 앱 데이터는 보존한다.
 
 설치 안내문 원본 `LICENSE.txt`는 UTF-8로 관리한다. 빌드 스크립트가 NSIS에 넣는 `build-resources/LICENSE.txt`를 UTF-8 BOM·CRLF로 생성하므로 반드시 위 스크립트로 스테이징한 뒤 빌드한다. 명시적 `nsis.license` 경로는 electron-builder의 지역별 라이선스 인코딩 보정을 거치지 않는다. 관련 회귀 검사는 `node --test tests/windows-installer-20261015.test.mjs`다.
 
@@ -27,7 +27,7 @@ node scripts/build-windows-client.mjs C:/Users/User/.codex/tmp/soopketmon-window
 
 ## 런처 자동 업데이트 — 0.1.5
 
-0.1.4 이하 사용자는 게임과 런처를 종료한 뒤 0.1.5 설치 파일을 **한 번** 설치한다. 이후 런처 시작·게임 종료·수동 확인·4시간 유휴 확인 때 GitHub Releases의 최신 안정 버전을 확인하고 자동 다운로드한다. 다운로드가 끝나면 ‘업데이트 후 다시 시작’으로 무인 설치 후 다시 열린다. 진행 중인 게임이나 게임 팝업, 리소스 준비가 있으면 설치를 차단한다. 단순 종료·Windows 종료에서는 설치하지 않는다.
+0.1.4 이하 사용자는 게임과 런처를 종료한 뒤 최신 Setup을 **한 번** 설치한다. 0.1.5부터는 런처 시작·게임 종료·수동 확인·4시간 유휴 확인 때 GitHub Releases의 최신 안정 버전을 확인하고 자동 다운로드한다. 다운로드가 끝나면 ‘업데이트 후 다시 시작’으로 무인 설치 후 다시 열린다. 진행 중인 게임이나 게임 팝업, 리소스 준비가 있으면 설치를 차단한다. 단순 종료·Windows 종료에서는 설치하지 않는다.
 
 `electron-updater` 6.8.9와 NSIS를 사용하며 파일 SHA-512를 검증한다. 다운로드 실패·해시 불일치는 현재 설치판을 교체하지 않으며 다시 확인으로 재시도한다. 확인 실패 중에도 게임 이용은 가능하다. 앱 ID·실행 파일명·NSIS GUID·사용자 데이터 경로를 유지하여 기존 경로·로그인·화면 크기·리소스가 보존된다. 원격 게임 페이지에는 업데이트 명령을 노출하지 않는다.
 
@@ -55,10 +55,13 @@ node scripts/publish-windows-client.mjs <빌드폴더> --publish
 - `scripts/prepare-production-assets.mjs`가 실제 배포 파일의 SHA-256·크기·필수 여부를 `client/windows/manifest.json`에 생성한다. 이후 배포도 지정된 공식 배포 명령을 사용해야 한다.
 - 첫 실행 전 HTML/JS/CSS/폰트 등 필수 파일을 검증한다. 이미지·음원은 요청 시 검증해 저장한다. 모든 리소스를 미리 받거나 완전 오프라인 게임으로 만드는 구현이 아니다.
 - 필수 파일을 전부 검증한 뒤 활성 버전을 원자적으로 교체한다. 파일별 SHA-256 저장소로 변경분만 받으며 실패 시 이전 버전을 보존한다.
+- 0.1.6부터 검사한 전체 용량과 실제 다운로드를 구분한다. 필수 파일이 모두 정상이면 게임 시작 때 prepare를 반복하지 않고, 선택 리소스 목록만 바뀌면 검증 후 목록만 교체한다. 동일 버전 목록은 다시 쓰지 않는다. 다운로드 표시에는 변경·누락·손상 파일의 실제 전송 바이트만 사용하며, 검사·복구는 같은 길이의 손상도 SHA-256으로 확인한다.
 - 앱 사용자 데이터의 `resources-v1/`만 관리한다. 약 4GB 정리 기준은 다음 게임 시작 전 적용하며 현재 실행 중인 게임에서는 파일을 정리하거나 리소스 버전을 바꾸지 않는다.
 - API·로그인·서버 판정은 기존 온라인 서비스에 전달한다. 전용 프로필의 서비스워커만 차단하며 일반 브라우저/PWA에는 영향이 없다.
 
 ## 검수
+
+0.1.6의 공통 확인창은 `lib/game-dialogs.mjs`와 `renderer/dialog.*`다. 기본 확인·알림·입력을 sandbox preload에서 교체하고 동기 반환값을 유지한다. 주 게임 창, 허용된 팝업과 콘텐츠 iframe, F5/Ctrl+R 안내에 적용한다. 표시 문구·거래·보상 판정은 변경하지 않는다. 새 릴리스의 사용자 안내는 `release-notes.txt`를 갱신한다. 상세 검수와 배포 기록은 `docs/windows-client-dialogs-20261016.md`를 따른다.
 
 ```powershell
 node --test tests/windows-client-20261015.test.mjs

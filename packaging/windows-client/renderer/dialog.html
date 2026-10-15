@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; frame-src 'none'; form-action 'none'">
+<title>숲켓몬</title><link rel="stylesheet" href="dialog.css"></head>
+<body><main id="dialog" role="alertdialog" aria-modal="true" aria-labelledby="dialogTitle" aria-describedby="dialogMessage">
+  <header class="window-bar"><span class="brand"><img src="assets/icon.png" alt=""><b>숲켓몬</b></span><button id="close" class="close" type="button" aria-label="닫기">×</button></header>
+  <section class="content"><p class="eyebrow" id="dialogLabel">진행 확인</p><h1 id="dialogTitle">확인해 주세요</h1>
+    <div class="message-scroll" tabindex="0" aria-label="안내 내용"><p id="dialogMessage"></p></div>
+    <label id="inputLabel" hidden><span>입력 내용</span><input id="dialogInput" type="text" maxlength="16384" autocomplete="off" spellcheck="false"></label>
+  </section>
+  <footer><button id="cancel" type="button" class="secondary">취소</button><button id="accept" type="button" class="primary">확인</button></footer>
+</main><script src="dialog.js"></script></body></html>

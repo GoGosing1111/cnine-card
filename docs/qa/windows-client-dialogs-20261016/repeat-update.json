@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "case": "unchanged repeat start",
+      "resourceDownloads": 0,
+      "installationPhase": false
+    },
+    {
+      "case": "optional-only release",
+      "resourceDownloads": 0,
+      "installationPhase": false
+    },
+    {
+      "case": "one changed essential file",
+      "resourceDownloads": 1,
+      "downloadBytes": 24,
+      "allCheckedBytes": 156
+    },
+    {
+      "case": "same-length corruption repair",
+      "resourceDownloads": 1,
+      "downloadBytes": 24
+    }
+  ],
+  "staticDownloads": 5,
+  "productionRequests": 0,
+  "errors": []
+}

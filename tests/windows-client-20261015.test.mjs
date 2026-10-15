@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp,mkdir,readFile,writeFile,rm,readdir} from 'node:fs/promises';
+import {mkdtemp,mkdir,readFile,writeFile,rm,readdir,stat,utimes} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
@@ -45,6 +45,34 @@ test('updates fetch changed content only',async t=>{
  const f=await fixture(t,{'/index.html':'page','/js/app.js':'v1'}),m=manifest(Object.entries(f.bodies).map(([p,b])=>row(p,b)));
  await f.store.prepare(m);f.bodies['/js/app.js']='v2';const next=manifest([m.files[0],row('/js/app.js','v2')]);
  await f.store.prepare(next);assert.equal(f.requests.length,3);assert.equal((await f.store.readActive()).releaseId,next.releaseId);
+});
+test('an optional-only release activates cached essentials without downloads or rewriting an unchanged manifest',async t=>{
+ const f=await fixture(t,{'/index.html':'page','/js/app.js':'script'}),m=manifest(Object.entries(f.bodies).map(([p,b])=>row(p,b)));
+ await f.store.prepare(m);const next=manifest([...m.files,row('/assets/new.png','new image',false)]);
+ assert.equal((await f.store.plan(next)).downloadBytes,0);await f.store.activateCached(next);
+ assert.equal((await f.store.readActive()).releaseId,next.releaseId);assert.equal(f.requests.length,2);
+ const activeFile=path.join(f.root,'active.json');await utimes(activeFile,new Date(1000),new Date(1000));
+ await f.store.activateCached(next);assert.equal((await stat(activeFile)).mtimeMs,1000);
+});
+test('cached activation rejects same-size corruption and cancellation without publishing a release',async t=>{
+ const f=await fixture(t,{'/index.html':'good'}),m=manifest([row('/index.html','good')]);await f.store.prepare(m);
+ const next=manifest([...m.files,row('/assets/new.png','image',false)]);
+ await assert.rejects(f.store.activateCached(next,{signal:AbortSignal.abort()}));
+ await writeFile(f.store.objectPath(m.files[0].sha256),'evil');
+ const plan=await f.store.plan(next);assert.equal(plan.missingFiles,1);assert.equal(plan.downloadBytes,4);
+ await assert.rejects(f.store.activateCached(next),/준비되지 않은/);assert.equal((await f.store.readActive()).releaseId,m.releaseId);
+ const progress=[];await f.store.prepare(next,{onProgress:p=>progress.push(p)});
+ assert.equal(progress.at(-1).downloadTotal,4);assert.equal(progress.at(-1).transferred,4);
+ assert.equal(await readFile(f.store.objectPath(m.files[0].sha256),'utf8'),'good');
+});
+test('download totals count only changed unique objects, separate from all checked bytes',async t=>{
+ const f=await fixture(t,{'/index.html':'a long unchanged page','/js/app.js':'old'}),m=manifest(Object.entries(f.bodies).map(([p,b])=>row(p,b)));
+ await f.store.prepare(m);f.bodies['/js/app.js']='new';f.bodies['/js/alias.js']='new';
+ const next=manifest([m.files[0],row('/js/app.js','new'),row('/js/alias.js','new')]),plan=await f.store.plan(next);
+ assert.equal(plan.files,2);assert.equal(plan.missingFiles,1);assert.equal(plan.downloadBytes,3);
+ const progress=[];await f.store.prepare(next,{onProgress:p=>progress.push(p)});
+ assert.equal(f.requests.length,3);assert.equal(progress.at(-1).transferred,3);assert.equal(progress.at(-1).downloadTotal,3);
+ assert.equal(progress.at(-1).total,24);assert.equal(progress.at(-1).done,2);
 });
 test('a broken download cannot replace the working release and partial files are removed',async t=>{
  const f=await fixture(t,{'/index.html':'old'}),old=manifest([row('/index.html','old')]);await f.store.prepare(old);
