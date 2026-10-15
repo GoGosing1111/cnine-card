@@ -1,0 +1,14 @@
+{
+  "base": "6b47d9458baea88b81978ad7581ea7e8986b629a",
+  "source": "3d02d2b5e579e539ad50ea63e2d6e815cf9cba17",
+  "pages": "d032e59d-53ff-42f7-aa78-77e083fcf867",
+  "url": "https://d032e59d.cnine-card.pages.dev",
+  "apiWorkerVersion": "e2752e41-e8db-436f-bf0c-20084d0deb21",
+  "clanWorkerVersion": "dbe5d674-9aca-4473-9a0a-96caf1813c0c",
+  "rewardTests": 15,
+  "legacyEntryTests": 6,
+  "runtimeFilesMatched": 16,
+  "unauthenticatedRoutesBlocked": 3,
+  "newPolicies": "OFF until OWNER explicitly configures",
+  "productionGrants": 0
+}

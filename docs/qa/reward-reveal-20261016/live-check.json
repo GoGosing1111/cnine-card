@@ -1,0 +1,124 @@
+{
+  "checkedAt": "2026-10-15T23:48:38.400Z",
+  "origin": "https://cnine-card.pages.dev",
+  "assets": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "match": true,
+      "sha256": "3b3112bdf89b0724724f706be4ef26f11bc877d031863ca904d30f07bdfad619"
+    },
+    {
+      "file": "admin/reward-reveal-admin-v1.mjs",
+      "status": 200,
+      "match": true,
+      "sha256": "dea1dcc9f44f2b235afdec8f90894d43958ed0501cee28a3fa415df5620680cf"
+    },
+    {
+      "file": "admin/reward-reveal-admin-v1.css",
+      "status": 200,
+      "match": true,
+      "sha256": "49b741d3a7e42fbe2c931586fc2007af325d54376bd3070d89a27917a11ffea6"
+    },
+    {
+      "file": "admin/core-raid-rewards-v1.mjs",
+      "status": 200,
+      "match": true,
+      "sha256": "0b7452895bad51b90a3765bcd770fc744d0dcaac7096b6cb166e4917ca51e8aa"
+    },
+    {
+      "file": "js/content-reward-reveal-v1.mjs",
+      "status": 200,
+      "match": true,
+      "sha256": "758395642666ed6a749bd73fa6fc46b95ec2b108bf0eafd170f276d9cebce501"
+    },
+    {
+      "file": "js/core-raid-reward-picker-v2.mjs",
+      "status": 200,
+      "match": true,
+      "sha256": "26a873697d9a06ae9db9fd19178dc7c4450bca92402743de16a76eb94ecdbab8"
+    },
+    {
+      "file": "js/core-raid-reward-stage-v2.mjs",
+      "status": 200,
+      "match": true,
+      "sha256": "db771683bb7dbb316e9cd2460a94796a0cca41c44ab96e4bd5b4d8ab3adae13d"
+    },
+    {
+      "file": "css/core-raid-reward-picker-v2.css",
+      "status": 200,
+      "match": true,
+      "sha256": "5115e91034b9ceaf42f1afd636f6339b2ce64ccdee3241953457f506c8ca60ef"
+    },
+    {
+      "file": "css/content-reward-reveal-v1.css",
+      "status": 200,
+      "match": true,
+      "sha256": "ba44fa9f43fc013a497e19a9c7ec1970281062a48b95dd7272eaa2211ee665da"
+    },
+    {
+      "file": "shared/reward-reveal-contents-v1.mjs",
+      "status": 200,
+      "match": true,
+      "sha256": "afc5618d5ad41c735bac589ede3aa93ba29865d1674eef7794986012bb18040e"
+    },
+    {
+      "file": "shared/core-raid-reward-policy-v1.mjs",
+      "status": 200,
+      "match": true,
+      "sha256": "c910b1da49879d1506b9a25b6b792736912a82f80d7a59cc8fae05f0294eb41a"
+    },
+    {
+      "file": "raid/cooperative/live.mjs",
+      "status": 200,
+      "match": true,
+      "sha256": "ce072e9a61cb478a53078feb094ed7260b291432f4c0ad1b2caf66111c827159"
+    },
+    {
+      "file": "raid/lich-king/live.mjs",
+      "status": 200,
+      "match": true,
+      "sha256": "e83f250d953c2524f76ea7b916dbbd2c025bcaa4ce15c85707511384c6423ec9"
+    },
+    {
+      "file": "raid/madara/runtime.mjs",
+      "status": 200,
+      "match": true,
+      "sha256": "fda578099c036a5ed575fa86667ebeb48fd5c01b5e1d5c1dd4a1eceee9558bd7"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "match": true,
+      "sha256": "96473c3c9e5b4aef062a7afd5ea4fb45e1187a354fe3ddfb6da3215650ed1331"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "match": true,
+      "sha256": "41e2c81c27d83169ba6fb745ffdb0361ad0c1892e168f66b8b94de4d6238331c",
+      "retry": "Confirmed both production and deployment URLs after initial propagation."
+    }
+  ],
+  "routes": [
+    {
+      "route": "admin/reward-reveal",
+      "status": 401,
+      "authenticated": false,
+      "error": "관리자 로그인이 필요합니다."
+    },
+    {
+      "route": "rewards/reveal/pending",
+      "status": 401,
+      "authenticated": false,
+      "error": "로그인 후 보상을 확인하세요."
+    },
+    {
+      "route": "rewards/reveal/open?offerId=00000000-0000-0000-0000-000000000000",
+      "status": 401,
+      "authenticated": false,
+      "error": "로그인 후 보상을 확인하세요."
+    }
+  ],
+  "ok": true
+}
