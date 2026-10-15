@@ -8,7 +8,7 @@ if(!target||!path.isAbsolute(target))throw new Error('Supply an absolute externa
 const source=path.resolve('packaging/windows-client'),build=path.resolve(target);
 if(build===source||build.startsWith(path.resolve('.')+path.sep))throw new Error('Keep generated installers and dependencies outside the deployment source tree.');
 await mkdir(build,{recursive:true});
-for(const name of ['main.mjs','preload.cjs','lib','renderer','package.json','package-lock.json','build-resources'])await cp(path.join(source,name),path.join(build,name),{recursive:true});
+for(const name of ['main.mjs','preload.cjs','game-preload.cjs','lib','renderer','package.json','package-lock.json','build-resources'])await cp(path.join(source,name),path.join(build,name),{recursive:true});
 await mkdir(path.join(build,'build-resources'),{recursive:true});
 // NSIS detects the license file's encoding independently of the installer script.
 // An explicit nsis.license bypasses electron-builder's localized-license BOM conversion.

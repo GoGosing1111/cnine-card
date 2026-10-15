@@ -1,7 +1,7 @@
 {
   "name": "soopketmon-windows",
   "productName": "숲켓몬",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "description": "숲켓몬 Windows 게임 클라이언트와 리소스 런처",
   "author": "YAKCODE",
@@ -22,7 +22,7 @@
     "artifactName": "Soopketmon-Engine-${version}-${arch}.${ext}",
     "asar": true,
     "directories": { "output": "release", "buildResources": "build-resources" },
-    "files": ["main.mjs", "preload.cjs", "lib/**", "renderer/**", "package.json"],
+    "files": ["main.mjs", "preload.cjs", "game-preload.cjs", "lib/**", "renderer/**", "package.json"],
     "win": {
       "target": ["nsis"],
       "icon": "build-resources/icon.ico",

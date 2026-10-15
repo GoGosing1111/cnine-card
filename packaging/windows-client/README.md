@@ -15,7 +15,7 @@ Pop-Location
 node scripts/build-windows-client.mjs C:/Users/User/.codex/tmp/soopketmon-windows-build-20261015
 ```
 
-결과: 외부 빌드 디렉터리의 `release/Soopketmon-Setup-0.1.3-x64.exe`. `Soopketmon-Engine-*`는 내장 엔진이므로 사용자에게 전달하지 않는다. 현재 코드 서명 인증서는 설정되지 않았다. 일반 사용자 권한으로 설치하며 바로가기와 제거 프로그램을 제공한다. 사용자 범위 선택 화면은 생략하고 현재 사용자로 자동 설정한다. 삭제 시 앱 데이터는 보존한다.
+결과: 외부 빌드 디렉터리의 `release/Soopketmon-Setup-0.1.4-x64.exe`. `Soopketmon-Engine-*`는 내장 엔진이므로 사용자에게 전달하지 않는다. 현재 코드 서명 인증서는 설정되지 않았다. 일반 사용자 권한으로 설치하며 바로가기와 제거 프로그램을 제공한다. 사용자 범위 선택 화면은 생략하고 현재 사용자로 자동 설정한다. 삭제 시 앱 데이터는 보존한다.
 
 설치 안내문 원본 `LICENSE.txt`는 UTF-8로 관리한다. 빌드 스크립트가 NSIS에 넣는 `build-resources/LICENSE.txt`를 UTF-8 BOM·CRLF로 생성하므로 반드시 위 스크립트로 스테이징한 뒤 빌드한다. 명시적 `nsis.license` 경로는 electron-builder의 지역별 라이선스 인코딩 보정을 거치지 않는다. 관련 회귀 검사는 `node --test tests/windows-installer-20261015.test.mjs`다.
 
@@ -24,6 +24,12 @@ node scripts/build-windows-client.mjs C:/Users/User/.codex/tmp/soopketmon-window
 `scripts/build-windows-installer.mjs`가 Windows 기본 .NET Framework 컴파일러로 UI·원화·UTF-8 안내문·설치 엔진을 단일 EXE에 포함한다. WebView2 등의 추가 다운로드는 없다. 설치 엔진 SHA-256과 설치된 app.asar SHA-256을 검사하고, 실행 중인 게임과 잘못된 설치 경로를 차단한다. 임시 파일 추출은 실제 바이트 진행률, NSIS 작업은 진행 중 표시를 사용한다. `--preview`는 설치·게임 실행을 하지 않는 디자인 검수다.
 
 0.1.3은 폐차장 진입의 ‘같은 게임 화면에서 다시 요청하세요’ 오류도 수정한다. `protocol.handle`에서 빠진 Origin을 Electron의 신뢰할 수 있는 `request.initiatorOrigin`으로 전달한다. Referer로 출처를 추측하지 않고 기존 서버 출처 검사는 유지한다. 이전 설치자는 게임을 종료한 뒤 새 설치 파일로 갱신해야 한다.
+
+## 화면 크기 — 0.1.4
+
+게임 화면에서 Ctrl + 마우스 휠로 50~200%를 10%p씩 조절한다. Ctrl + ＋/－도 같은 기능이며 Ctrl + 0은 100% 복원이다. 글씨와 화면 전체에 Chromium 확대 배율을 적용한다. 일반 휠은 스크롤을 유지한다. 게임 창과 허용된 새 창에 적용하며 런처 배율은 바꾸지 않는다. 크기는 앱 사용자 데이터의 `game-display-v1.json`에 저장하고 재실행·페이지 이동·새로고침 후 복원한다.
+
+기존 사용자는 게임과 런처를 종료하고 0.1.4 설치 파일로 갱신한다. 웹/PWA 재배포나 계정 데이터 변경은 없다. 검수 기록은 `docs/windows-client-zoom-20261016.md`를 따른다.
 
 ## 리소스
 

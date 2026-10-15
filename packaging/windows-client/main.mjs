@@ -4,6 +4,7 @@ import path from 'node:path';
 import {GAME_ORIGIN,CLIENT_VERSION,manifestEntry,allowedNavigation} from './lib/policy.mjs';
 import {ResourceStore,fileResponse} from './lib/resource-store.mjs';
 import {forwardNetworkRequest} from './lib/network-request.mjs';
+import {GameZoom} from './lib/game-zoom.mjs';
 
 const here=path.dirname(fileURLToPath(import.meta.url));
 const qa=!app.isPackaged && process.env.SOOPKETMON_QA==='1';
@@ -11,7 +12,7 @@ if(qa&&process.env.SOOPKETMON_QA_ROOT)app.setPath('userData',path.resolve(proces
 app.setAppUserModelId('kr.yakcode.soopketmon');
 const singleton=app.requestSingleInstanceLock();
 if(!singleton)app.quit();
-let launcher,game,store,latest,active,gameManifest,operation,gameSession,quitting=false;
+let launcher,game,store,latest,active,gameManifest,operation,gameSession,gameZoom,quitting=false;
 let state={phase:'checking',title:'업데이트 확인 중',description:'게임 파일 정보를 확인하고 있습니다.',clientVersion:CLIENT_VERSION,stats:{bytes:0,count:0},plan:null,progress:null,ready:false};
 const uiUrl=pathToFileURL(path.join(here,'renderer/index.html')).href;
 const emit=patch=>{state={...state,...patch};if(launcher&&!launcher.isDestroyed())launcher.webContents.send('launcher:state',state);};
@@ -42,8 +43,9 @@ async function prepare({repair=false,launch=false}={}){
   }catch(error){failure(error);}finally{if(operation===token)operation=null;}
 }
 function secureGameWindow(win){
+  gameZoom.attach(win.webContents);
   win.webContents.setWindowOpenHandler(({url})=>{
-    if(allowedNavigation(url))return {action:'allow',overrideBrowserWindowOptions:{autoHideMenuBar:true,webPreferences:{session:gameSession,nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true}}};
+    if(allowedNavigation(url))return {action:'allow',overrideBrowserWindowOptions:{autoHideMenuBar:true,webPreferences:{session:gameSession,preload:path.join(here,'game-preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true}}};
     return {action:'deny'};
   });
   win.webContents.on('will-navigate',(event,url)=>{if(!allowedNavigation(url))event.preventDefault();});
@@ -62,7 +64,7 @@ function secureGameWindow(win){
 async function openGame(){
   if(game){game.focus();return;}if(!active)throw new Error('게임 파일을 먼저 준비해 주세요.');
   gameManifest=active;
-  game=new BrowserWindow({width:1440,height:960,minWidth:900,minHeight:650,show:!qa,title:'숲켓몬',backgroundColor:'#080c17',icon:path.join(here,'renderer/assets/icon.png'),autoHideMenuBar:true,webPreferences:{session:gameSession,nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true,spellcheck:false}});
+  game=new BrowserWindow({width:1440,height:960,minWidth:900,minHeight:650,show:!qa,title:'숲켓몬',backgroundColor:'#080c17',icon:path.join(here,'renderer/assets/icon.png'),autoHideMenuBar:true,webPreferences:{session:gameSession,preload:path.join(here,'game-preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true,spellcheck:false}});
   secureGameWindow(game);
   const current=game;
   game.on('closed',()=>{game=null;gameManifest=null;if(!quitting){launcher?.show();void check();}});
@@ -75,6 +77,11 @@ async function openGame(){
 
 async function start(){
   await app.whenReady();Menu.setApplicationMenu(null);
+  gameZoom=new GameZoom(path.join(app.getPath('userData'),'game-display-v1.json'));
+  ipcMain.on('game:zoom',(event,direction)=>{
+    if(!gameZoom.contents.has(event.sender)||event.senderFrame!==event.sender.mainFrame||!allowedNavigation(event.senderFrame.url))return;
+    if(['in','out','reset'].includes(direction))gameZoom.change(direction);
+  });
   const fixtureOrigin=qa&&process.env.SOOPKETMON_QA_SERVER;
   if(fixtureOrigin && !/^http:\/\/127\.0\.0\.1:\d+$/.test(fixtureOrigin))throw new Error('Invalid QA server');
   // Node fetch exposes same-origin Pages redirects for verified public downloads.

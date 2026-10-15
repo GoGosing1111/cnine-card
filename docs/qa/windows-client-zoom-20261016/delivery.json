@@ -1,0 +1,16 @@
+{
+  "version": "0.1.4",
+  "path": "C:\\Users\\User\\Downloads\\Soopketmon-Windows-0.1.4-20261016\\Soopketmon-Setup-0.1.4-x64.exe",
+  "bytes": 117063680,
+  "sha256": "78b22cf99dee4afb3a13e71aae12cb564435e4304dda4ca85dce8f26fcfb3b94",
+  "packagedFilesMatchSource": [
+    "main.mjs",
+    "preload.cjs",
+    "game-preload.cjs",
+    "lib/game-zoom.mjs",
+    "lib/policy.mjs",
+    "renderer/index.html"
+  ],
+  "pwaDeploymentRequired": false,
+  "productionAccountWrites": 0
+}
