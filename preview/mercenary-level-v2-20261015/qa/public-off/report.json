@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-15",
+  "scope": "public read-only UI with leveling execution OFF",
+  "layouts": [
+    {
+      "width": 1440,
+      "entry": true,
+      "selected": "V-055",
+      "readOnly": true,
+      "productionPreviewQueryIgnored": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "entry": true,
+      "selected": "V-055",
+      "readOnly": true,
+      "productionPreviewQueryIgnored": true,
+      "overflow": false
+    }
+  ],
+  "writes": [],
+  "errors": []
+}
