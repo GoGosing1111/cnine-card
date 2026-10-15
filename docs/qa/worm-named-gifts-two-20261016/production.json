@@ -1,0 +1,372 @@
+{
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:worm-named-gifts-two:20261016:v1",
+    "planHash": "2a888485740d0b59e0bebf7c5e70a2e31a504a38904386305a6dd8433f0c9a23",
+    "authorization": "사용자가 제시한 명단에 지렁이 사은품 2개씩 지급. 딤럼프, 진짜디임은 별도 계정이며 기존 행사분과 별개로 추가 지급.",
+    "itemCode": "WORM_CONTEST_GIFT_BOX",
+    "itemName": "지렁이대회 사은품",
+    "delivery": "DIRECT_INVENTORY",
+    "recipientCount": 21,
+    "totalBoxes": 42,
+    "adminId": "1",
+    "completedAt": "2026-10-15T20:46:41.891Z",
+    "allocations": [
+      {
+        "inputNickname": "굳건창수",
+        "userId": "4908",
+        "nickname": "굳건창수",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454561"
+      },
+      {
+        "inputNickname": "망순이ෆ",
+        "userId": "4628",
+        "nickname": "망순이ෆ",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454562"
+      },
+      {
+        "inputNickname": "점크루지",
+        "userId": "297",
+        "nickname": "점크루지",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454563"
+      },
+      {
+        "inputNickname": "Mild7",
+        "userId": "290",
+        "nickname": "Mild7",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454564"
+      },
+      {
+        "inputNickname": "커피먹는철구",
+        "userId": "22",
+        "nickname": "커피먹는철구",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454565"
+      },
+      {
+        "inputNickname": "전게씹선미아웃",
+        "userId": "1255",
+        "nickname": "전게씹선미아웃",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454566"
+      },
+      {
+        "inputNickname": "학벌",
+        "userId": "4627",
+        "nickname": "학벌",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454567"
+      },
+      {
+        "inputNickname": "베배킹",
+        "userId": "289",
+        "nickname": "베베킹",
+        "boxes": 2,
+        "identityEvidence": "docs/worm-mission-gifts-20261015.md: 베배킹 → 베베킹(ID 289), 기존 확정 지급 기록",
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454568"
+      },
+      {
+        "inputNickname": "더듬이구",
+        "userId": "4391",
+        "nickname": "더듬이구",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454569"
+      },
+      {
+        "inputNickname": "0수표",
+        "userId": "88",
+        "nickname": "0수표",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454570"
+      },
+      {
+        "inputNickname": "다시생각",
+        "userId": "1421",
+        "nickname": "다시생각",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454571"
+      },
+      {
+        "inputNickname": "족단",
+        "userId": "4582",
+        "nickname": "족단",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454572"
+      },
+      {
+        "inputNickname": "도댕",
+        "userId": "4235",
+        "nickname": "도댕",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454573"
+      },
+      {
+        "inputNickname": "음주",
+        "userId": "4817",
+        "nickname": "음주",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454574"
+      },
+      {
+        "inputNickname": "남수단",
+        "userId": "6",
+        "nickname": "남수단",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454575"
+      },
+      {
+        "inputNickname": "옹가망함1",
+        "userId": "2246",
+        "nickname": "옹가망함1",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454576"
+      },
+      {
+        "inputNickname": "나무",
+        "userId": "5008",
+        "nickname": "나무",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454577"
+      },
+      {
+        "inputNickname": "심심이",
+        "userId": "4933",
+        "nickname": "심심이",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454578"
+      },
+      {
+        "inputNickname": "딤럼프",
+        "userId": "4774",
+        "nickname": "딤럼프",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454579"
+      },
+      {
+        "inputNickname": "진짜디임",
+        "userId": "4773",
+        "nickname": "진짜디임",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454580"
+      },
+      {
+        "inputNickname": "zkzk9999",
+        "userId": "3884",
+        "nickname": "zkzk9999",
+        "boxes": 2,
+        "before": {
+          "quantity": "0",
+          "unseenQuantity": "0"
+        },
+        "after": {
+          "quantity": "2",
+          "unseenQuantity": "2"
+        },
+        "logId": "84454581"
+      }
+    ],
+    "auditId": "46697"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "recipients": 21,
+    "totalBoxes": 42,
+    "boxesPerAccount": 2,
+    "ledgerRows": 21,
+    "missing": 0,
+    "duplicates": 0,
+    "auditId": "46697",
+    "completedAt": "2026-10-15T20:46:41.891Z"
+  },
+  "committed": true,
+  "replayed": false,
+  "rollbackVerified": false,
+  "sourceCommit": "56847f8600d0dbbb6d025ffdf40b5b3181fb64cd",
+  "postVerification": {
+    "status": "VERIFIED",
+    "recipients": 21,
+    "totalBoxes": 42,
+    "boxesPerAccount": 2,
+    "ledgerRows": 21,
+    "missing": 0,
+    "duplicates": 0,
+    "auditId": "46697",
+    "completedAt": "2026-10-15T20:46:41.891Z"
+  },
+  "dryRunRolledBack": true,
+  "replayPreventedDuplicate": true,
+  "tests": {
+    "pass": 4,
+    "fail": 0
+  },
+  "additionalRequest": {
+    "inputNickname": "안경!",
+    "boxes": 2,
+    "status": "AWAITING_ACCOUNT_IDENTITY",
+    "reason": "Exact and partial game/secondary-verification nickname queries returned no matching account. User clarification requested."
+  }
+}

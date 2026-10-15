@@ -1,0 +1,12 @@
+✔ 21 exact accounts get two additional boxes each, retaining old stock, prior credits and other balances (1751.978ms)
+✔ dry run and late inventory/ledger/audit/receipt failures roll back the entire grant (1241.2187ms)
+✔ identity/account/item changes, orphan grant logs and missing locks prevent writes (5882.1653ms)
+✔ lost commit response and opening gifts do not cause another grant on retry (1217.3377ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10269.0366
