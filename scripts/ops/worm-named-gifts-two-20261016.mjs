@@ -16,7 +16,7 @@ export async function inspect(db){
  const users=await q(db,'SELECT id::text id,nickname,status FROM users WHERE id=ANY($1::bigint[]) ORDER BY id::bigint',[ids]);
  const items=await q(db,'SELECT code,name,is_active FROM inventory_items WHERE code=$1',[ITEM]);
  const inventory=await q(db,'SELECT user_id::text user_id,quantity::text quantity,unseen_quantity::text unseen_quantity FROM cnine_user_inventory WHERE item_code=$1 AND user_id=ANY($2::bigint[]) ORDER BY user_id::bigint',[ITEM,ids]);
- const logs=await q(db,'SELECT id::text id,user_id::text user_id,change_amount::text change_amount FROM inventory_logs WHERE reference_id=$1 ORDER BY id',[OPERATION_KEY]);
+ const logs=await q(db,'SELECT id::text id,user_id::text user_id,change_amount::text change_amount FROM inventory_logs WHERE reference_id=$1 AND item_code=$2 AND user_id=ANY($3::bigint[]) ORDER BY id',[OPERATION_KEY,ITEM,ids]);
  const [saved]=await q(db,'SELECT value FROM app_meta WHERE key=$1',[OPERATION_KEY]);
  return {checkedAt:new Date().toISOString(),users,items,inventory,logs,receipt:saved?JSON.parse(saved.value):null};
 }
@@ -26,7 +26,7 @@ export async function verify(db,receipt){
  assert.equal(receipt.status,'COMPLETED');assert.equal(receipt.operationKey,OPERATION_KEY);assert.equal(receipt.planHash,PLAN_HASH);
  assert.equal(receipt.itemCode,ITEM);assert.equal(receipt.delivery,'DIRECT_INVENTORY');assert.equal(receipt.recipientCount,21);assert.equal(receipt.totalBoxes,42);
  assert.deepEqual(receipt.allocations.map(({userId,nickname,boxes})=>({userId,nickname,boxes})),TARGETS.map(({userId,nickname,boxes})=>({userId,nickname,boxes})));
- const logs=await q(db,'SELECT id::text id,user_id::text user_id,item_code,change_amount::text change_amount,balance_after::text balance_after,admin_id::text admin_id,reason,reference_type FROM inventory_logs WHERE reference_id=$1 ORDER BY user_id',[OPERATION_KEY]);
+ const logs=await q(db,'SELECT id::text id,user_id::text user_id,item_code,change_amount::text change_amount,balance_after::text balance_after,admin_id::text admin_id,reason,reference_type FROM inventory_logs WHERE reference_id=$1 AND item_code=$2 AND user_id=ANY($3::bigint[]) ORDER BY user_id',[OPERATION_KEY,ITEM,ids]);
  assert.equal(logs.length,21);assert.equal(new Set(logs.map(r=>r.user_id)).size,21);
  for(const row of receipt.allocations){
   const log=logs.find(l=>l.id===row.logId);assert(log,'Missing inventory ledger');assert.equal(log.user_id,row.userId);assert.equal(log.item_code,ITEM);
@@ -55,7 +55,7 @@ export async function grant(db,{expectedPlanHash,commit=false,lockDeadline}={}){
   for(const target of TARGETS){const user=users.find(u=>u.id===target.userId);assert.equal(user?.nickname,target.nickname,'Recipient identity changed');assert.equal(user.status,'ACTIVE');}
   const [owner]=await q(db,"SELECT id::text id FROM users WHERE id=1 AND role='OWNER' AND status='ACTIVE'");assert(owner,'Active owner required');
   const [item]=await q(db,'SELECT name,is_active FROM inventory_items WHERE code=$1 FOR SHARE',[ITEM]);assert.equal(item?.name,PLAN.itemName);assert.equal(Number(item.is_active),1);
-  assert.equal((await q(db,'SELECT id FROM inventory_logs WHERE reference_id=$1',[OPERATION_KEY])).length,0,'Grant logs without receipt');
+  assert.equal((await q(db,'SELECT id FROM inventory_logs WHERE reference_id=$1 AND item_code=$2 AND user_id=ANY($3::bigint[])',[OPERATION_KEY,ITEM,ids])).length,0,'Grant logs without receipt');
   const before=await q(db,'SELECT user_id::text user_id,quantity::text quantity,unseen_quantity::text unseen_quantity FROM cnine_user_inventory WHERE item_code=$1 AND user_id=ANY($2::bigint[]) ORDER BY user_id FOR UPDATE',[ITEM,ids]);
   for(const row of before)for(const value of Object.values(balance(row)))assert.ok(BigInt(value)>=0n&&BigInt(value)<=BigInt(Number.MAX_SAFE_INTEGER)-2n,'Unsupported inventory balance');
   const now=new Date().toISOString(),amounts=TARGETS.map(t=>t.boxes);
