@@ -1,0 +1,491 @@
+{
+  "version": 1,
+  "date": "2026-10-15",
+  "id": "ICON_DIIM_REDCAP_BATTLE_PREPARATION",
+  "name": "디임",
+  "cardId": null,
+  "techniqueCode": "AUTONOMOUS_WEAPON",
+  "techniqueName": "자율 병기",
+  "techniqueAssignment": "USER_CONFIRMED_PREPARATION_ONLY",
+  "tuning": null,
+  "releaseEnabled": false,
+  "acquisitionEnabled": false,
+  "registrationEnabled": false,
+  "visualApproval": "USER_REVIEW_PENDING",
+  "sourceArt": {
+    "file": "sources/diim-photo-original.png",
+    "sha256": "59E79BBB4BB5D40D368DACB63E19D917FB9883ED4E586972211A8C39606687F1",
+    "size": [
+      2048,
+      2730
+    ],
+    "preserved": true
+  },
+  "status": "BUILT_VISUAL_REVIEW_PENDING",
+  "missing": [],
+  "character": {
+    "id": "diim-preparation",
+    "name": "디임",
+    "source": "sources/diim-sd.png",
+    "sourceSha256": "845D8E192486376236DDCE7E50C517A0246AC46C625625CFEE94BC7CE30832F4",
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "sourceAlpha": {
+      "edgeMax": 2,
+      "nonempty": 504189,
+      "transparentFraction": 0.679374327510817,
+      "bounds": [
+        326,
+        7,
+        986,
+        1244
+      ]
+    },
+    "runtime": "assets/diim-sd.webp",
+    "runtimeSha256": "132F08A4B246A39731A9915620BE87FA7A9EA62B151B647B848CF52727A87737",
+    "size": [
+      768,
+      768
+    ],
+    "runtimeAlpha": {
+      "edgeMax": 0,
+      "nonempty": 144846,
+      "transparentFraction": 0.754425048828125,
+      "bounds": [
+        223,
+        51,
+        577,
+        715
+      ]
+    },
+    "footAnchor": {
+      "x": 0.5648923444976076,
+      "y": 0.9277312599681021
+    },
+    "releaseEnabled": false
+  },
+  "weapon": {
+    "id": "diim-autonomous-weapon-preparation",
+    "name": "자율 병기",
+    "visualConcept": "캔디 자동포탑",
+    "source": "sources/autonomous-weapon.png",
+    "sourceSha256": "6D0CE5E1FF1C4989F31C805F6479DC8F8FB3291FFF467F416F91754F34AC30FD",
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "sourceAlpha": {
+      "edgeMax": 1,
+      "nonempty": 517150,
+      "transparentFraction": 0.6711321220261034,
+      "bounds": [
+        46,
+        240,
+        1214,
+        1024
+      ]
+    },
+    "runtime": "assets/autonomous-weapon.webp",
+    "runtimeSha256": "5104691E05E44B3A15FC390D27D4C285FAF407B752C1DB08C024DB53BD9949A7",
+    "size": [
+      768,
+      768
+    ],
+    "runtimeAlpha": {
+      "edgeMax": 0,
+      "nonempty": 148471,
+      "transparentFraction": 0.7482791476779513,
+      "bounds": [
+        72,
+        177,
+        699,
+        597
+      ]
+    },
+    "anchor": {
+      "x": 0.45324960127591707,
+      "y": 0.7763157894736842
+    },
+    "muzzleSource": {
+      "x": 1135,
+      "y": 493
+    },
+    "muzzle": {
+      "x": 0.8544657097288676,
+      "y": 0.40649920255183414
+    },
+    "releaseEnabled": false
+  },
+  "effect": {
+    "id": "autonomous-weapon",
+    "name": "자율 병기",
+    "kind": "SKILL",
+    "source": "sources/autonomous-weapon-fx.png",
+    "sourceSha256": "00E75F29DFB4EC5FC6E45DC90B7D02B7A7072D164AFCF3E61A9972761F987CF2",
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "sourceAlpha": {
+      "edgeMax": 2,
+      "nonempty": 915927,
+      "transparentFraction": 0.4175404256618057,
+      "bounds": [
+        42,
+        38,
+        1221,
+        1209
+      ]
+    },
+    "runtime": "assets/fx/atlas.webp",
+    "runtimeSha256": "0A73F6A904E655CD5D2B51D6F004E2A491D01638430EE0575DEB531E1DC7CC0E",
+    "columns": 4,
+    "rows": 4,
+    "cellSize": 384,
+    "frameCount": 16,
+    "duration": 2.4,
+    "collisionFrame": 11,
+    "contactAt": 1.76,
+    "frames": [
+      {
+        "index": 0,
+        "file": "assets/fx/frames/00.webp",
+        "sha256": "A92B89E8E08A1AAA331F0CCFBABAA2F140104ED1493DAD90BA0BD2FFD2CAB9E8",
+        "rawSha256": "1D57455F96AA4BC7A43CB493D8D3B3EADD20EC72A312FD5B7785557C2AADEC3A",
+        "sourceRect": {
+          "left": 0,
+          "top": 0,
+          "width": 314,
+          "height": 314
+        },
+        "edgeMax": 1,
+        "nonempty": 35109,
+        "transparentFraction": 0.6439105034687005,
+        "bounds": [
+          93,
+          88,
+          221,
+          209
+        ]
+      },
+      {
+        "index": 1,
+        "file": "assets/fx/frames/01.webp",
+        "sha256": "1A920419B601C6615D7B45885E5079AE9A5AA68FD554FEB84CA0DB30EEC94990",
+        "rawSha256": "04A09FB6D4ABC88E97A5AA0D4D252DA0D948B0AFBE42354B91233B71E26B671F",
+        "sourceRect": {
+          "left": 314,
+          "top": 0,
+          "width": 313,
+          "height": 314
+        },
+        "edgeMax": 2,
+        "nonempty": 46934,
+        "transparentFraction": 0.5224557904804542,
+        "bounds": [
+          82,
+          88,
+          240,
+          223
+        ]
+      },
+      {
+        "index": 2,
+        "file": "assets/fx/frames/02.webp",
+        "sha256": "570302BDC4FB44989DA79B223EBA57EC6E9ED20D53F035FEFAD1439AD2B1C3AE",
+        "rawSha256": "3AA923A715E8A3B2F7539514DC411BDA0D17A8A0C1C61EC7417A1A01C8575091",
+        "sourceRect": {
+          "left": 627,
+          "top": 0,
+          "width": 314,
+          "height": 314
+        },
+        "edgeMax": 1,
+        "nonempty": 65190,
+        "transparentFraction": 0.33881699054728387,
+        "bounds": [
+          31,
+          46,
+          273,
+          271
+        ]
+      },
+      {
+        "index": 3,
+        "file": "assets/fx/frames/03.webp",
+        "sha256": "0D4CFE8382F2C9535875862825CE454F4ED539E7E508750C91623EA501D6F0BE",
+        "rawSha256": "D0E76A4F8D03A1C195EB9EA2A0C22AAA500399052B0EC0238DFAE772D40C8547",
+        "sourceRect": {
+          "left": 941,
+          "top": 0,
+          "width": 313,
+          "height": 314
+        },
+        "edgeMax": 1,
+        "nonempty": 57571,
+        "transparentFraction": 0.41422640971897196,
+        "bounds": [
+          41,
+          38,
+          277,
+          285
+        ]
+      },
+      {
+        "index": 4,
+        "file": "assets/fx/frames/04.webp",
+        "sha256": "F73C586777F17DF44AC665369D1AE350E7951B981343B7C07A60516DAAB6F55F",
+        "rawSha256": "45E038549CB89D02E58B41B6DB00DA537D0442189B5DFA4D56A4A55815180F0B",
+        "sourceRect": {
+          "left": 0,
+          "top": 314,
+          "width": 314,
+          "height": 313
+        },
+        "edgeMax": 1,
+        "nonempty": 65581,
+        "transparentFraction": 0.33272623674731894,
+        "bounds": [
+          42,
+          41,
+          275,
+          270
+        ]
+      },
+      {
+        "index": 5,
+        "file": "assets/fx/frames/05.webp",
+        "sha256": "8A259B3D3AD23077F886D696881E48A1C8A21A02B71B5CF6DCC611F2CE039B71",
+        "rawSha256": "D88D9ADB481FFDDEE77DC384402979F71FFAF700B840A224CC12B79799B6DD34",
+        "sourceRect": {
+          "left": 314,
+          "top": 314,
+          "width": 313,
+          "height": 313
+        },
+        "edgeMax": 2,
+        "nonempty": 73725,
+        "transparentFraction": 0.24746603517439192,
+        "bounds": [
+          23,
+          51,
+          291,
+          265
+        ]
+      },
+      {
+        "index": 6,
+        "file": "assets/fx/frames/06.webp",
+        "sha256": "90FC6263DB3C54F93D4F1C862D84A99122D0DE61B371DF53272EB30EE2788DAA",
+        "rawSha256": "D2F9EEB790DEA71B02B2372AD3A48D655CA047A8684C985EBC923C93496E4D01",
+        "sourceRect": {
+          "left": 627,
+          "top": 314,
+          "width": 314,
+          "height": 313
+        },
+        "edgeMax": 2,
+        "nonempty": 67372,
+        "transparentFraction": 0.31450316436376957,
+        "bounds": [
+          49,
+          56,
+          259,
+          261
+        ]
+      },
+      {
+        "index": 7,
+        "file": "assets/fx/frames/07.webp",
+        "sha256": "E737D10F795140DF0C1D060A21784FB950713EC9DA81FFE726B429806A7ED4A9",
+        "rawSha256": "7B5DD41AE4B42B591FDE5152C8D218B07DC56F963CDA024471C3E491B18ADCE7",
+        "sourceRect": {
+          "left": 941,
+          "top": 314,
+          "width": 313,
+          "height": 313
+        },
+        "edgeMax": 2,
+        "nonempty": 47718,
+        "transparentFraction": 0.5129275587175535,
+        "bounds": [
+          59,
+          101,
+          280,
+          231
+        ]
+      },
+      {
+        "index": 8,
+        "file": "assets/fx/frames/08.webp",
+        "sha256": "581FC28C5AD668EB2F2BE3DC910A2A3E2049FC1F1714AFB7F440C95A12241D45",
+        "rawSha256": "E0CC34C47AB65E0DF50F98872B07852C5F6D6DC8D31487536B1A2556D8946870",
+        "sourceRect": {
+          "left": 0,
+          "top": 627,
+          "width": 314,
+          "height": 314
+        },
+        "edgeMax": 2,
+        "nonempty": 58800,
+        "transparentFraction": 0.40362692198466465,
+        "bounds": [
+          47,
+          96,
+          271,
+          201
+        ]
+      },
+      {
+        "index": 9,
+        "file": "assets/fx/frames/09.webp",
+        "sha256": "4FE7735A7D4D7F4C68AF4CADC122A377F6DD08A263897A210AD937F80C64A645",
+        "rawSha256": "2B74C3254A1450835F730DCE9778DC52B41839DF518E17D7FD4C29489C9002EF",
+        "sourceRect": {
+          "left": 314,
+          "top": 627,
+          "width": 313,
+          "height": 314
+        },
+        "edgeMax": 2,
+        "nonempty": 61472,
+        "transparentFraction": 0.37453450275737166,
+        "bounds": [
+          43,
+          97,
+          297,
+          200
+        ]
+      },
+      {
+        "index": 10,
+        "file": "assets/fx/frames/10.webp",
+        "sha256": "93A798B1397B8AF57F3B81059CDC2AEC49948DF3AA60C8C5A3FC03578A8A93D0",
+        "rawSha256": "105209E150E1916BFA9A0F42E0095CC9112E253887C36A1FE77D9662C2797D79",
+        "sourceRect": {
+          "left": 627,
+          "top": 627,
+          "width": 314,
+          "height": 314
+        },
+        "edgeMax": 1,
+        "nonempty": 66607,
+        "transparentFraction": 0.3244452107590572,
+        "bounds": [
+          45,
+          58,
+          279,
+          230
+        ]
+      },
+      {
+        "index": 11,
+        "file": "assets/fx/frames/11.webp",
+        "sha256": "AE57FBAA2B8243B5E321E5902F7553409788483E53731C535040EF9CD8898267",
+        "rawSha256": "3D4A9C52C17F3493BD5ACF9D0BE95FDCCB55ECC815D4DF5FB75F197D4A0931E9",
+        "sourceRect": {
+          "left": 941,
+          "top": 627,
+          "width": 313,
+          "height": 314
+        },
+        "edgeMax": 1,
+        "nonempty": 57795,
+        "transparentFraction": 0.41194725382063857,
+        "bounds": [
+          46,
+          21,
+          278,
+          252
+        ]
+      },
+      {
+        "index": 12,
+        "file": "assets/fx/frames/12.webp",
+        "sha256": "C05942F552D388734AA724291C8DFAFFEFD36DB2276CADA5B5195CC2A65E9C03",
+        "rawSha256": "EF0C6A2BE92596C1D57A41BD6CD94FCE1D70E4C77B3A990C04FFB56A2E6B60F0",
+        "sourceRect": {
+          "left": 0,
+          "top": 941,
+          "width": 314,
+          "height": 313
+        },
+        "edgeMax": 1,
+        "nonempty": 68518,
+        "transparentFraction": 0.3028428399910462,
+        "bounds": [
+          49,
+          18,
+          283,
+          268
+        ]
+      },
+      {
+        "index": 13,
+        "file": "assets/fx/frames/13.webp",
+        "sha256": "ED542762D6DEC1976FAF47ADD158429CED2DA7EC294EB545DDA7F6D4F09F3878",
+        "rawSha256": "97B67E42EA77F1B4B8BB52FB50FDF9B4126022CE3BA8B4FDE46FBF36446AD221",
+        "sourceRect": {
+          "left": 314,
+          "top": 941,
+          "width": 313,
+          "height": 313
+        },
+        "edgeMax": 2,
+        "nonempty": 67798,
+        "transparentFraction": 0.3079647643642377,
+        "bounds": [
+          57,
+          19,
+          271,
+          247
+        ]
+      },
+      {
+        "index": 14,
+        "file": "assets/fx/frames/14.webp",
+        "sha256": "776580E80E30BFB1A57209911D75472ECEEE730A68DB138636702376A655EEC2",
+        "rawSha256": "622DAE6C6A7583924992B8944AF6F72752B4B8C2C92CA16951BBB97599B59C6B",
+        "sourceRect": {
+          "left": 627,
+          "top": 941,
+          "width": 314,
+          "height": 313
+        },
+        "edgeMax": 1,
+        "nonempty": 56516,
+        "transparentFraction": 0.4249608270079974,
+        "bounds": [
+          79,
+          64,
+          247,
+          228
+        ]
+      },
+      {
+        "index": 15,
+        "file": "assets/fx/frames/15.webp",
+        "sha256": "F754953B338D636F3345F5904ED31742FB28028DFDDE960BAB1F9631E863A8B4",
+        "rawSha256": "06F713619FA8B8D766A9D5CFCCA15E4E7999B7F6215A51C94C9981824BC2C4A0",
+        "sourceRect": {
+          "left": 941,
+          "top": 941,
+          "width": 313,
+          "height": 313
+        },
+        "edgeMax": 1,
+        "nonempty": 19221,
+        "transparentFraction": 0.8038052853453643,
+        "bounds": [
+          125,
+          97,
+          232,
+          214
+        ]
+      }
+    ],
+    "releaseEnabled": false
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "디임",
+  "techniqueCode": "AUTONOMOUS_WEAPON",
+  "techniqueName": "자율 병기",
+  "portrait": "sources/diim-photo-original.png",
+  "sd": "sources/diim-sd.png",
+  "weapon": "sources/autonomous-weapon.png",
+  "fx": "sources/autonomous-weapon-fx.png",
+  "footAnchorSource": {
+    "x": 720,
+    "y": 1240
+  },
+  "weaponAnchorSource": {
+    "x": 560,
+    "y": 1023
+  },
+  "weaponMuzzleSource": {
+    "x": 1135,
+    "y": 493
+  },
+  "duration": 2.4,
+  "collisionFrame": 11,
+  "notes": "Visual timings and fixture-only simulations; no production tuning"
+}

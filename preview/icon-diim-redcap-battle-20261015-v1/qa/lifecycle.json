@@ -1,0 +1,105 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "initial": [
+        {
+          "id": "A:0:technique-AUTONOMOUS_WEAPON",
+          "x": 170,
+          "y": 240,
+          "slot": 0,
+          "hp": 100,
+          "scale": 0.5
+        },
+        {
+          "id": "A:2:ally",
+          "x": 170,
+          "y": 416,
+          "slot": 2,
+          "hp": 58.333333333333336,
+          "scale": 0.5
+        },
+        {
+          "id": "B:0:enemy-front",
+          "x": 1430,
+          "y": 240,
+          "slot": 0,
+          "hp": 100,
+          "scale": 0.5
+        },
+        {
+          "id": "B:2:enemy-back",
+          "x": 1430,
+          "y": 416,
+          "slot": 2,
+          "hp": 100,
+          "scale": 0.5
+        }
+      ],
+      "repeatSeekAndResizeStable": true,
+      "initialServerHp": true,
+      "rawFrameHonorsFxOff": true,
+      "resumeClearsRawFrame": true,
+      "status": "킴성태 · 일반 공격 · 치명타",
+      "bounds": {
+        "height": 80.99999999999997,
+        "width": 81,
+        "bodyTop": 92.77467105263159,
+        "hudBottom": 101.31385625
+      }
+    },
+    {
+      "width": 390,
+      "initial": [
+        {
+          "id": "A:0:technique-AUTONOMOUS_WEAPON",
+          "x": 364.2105263157895,
+          "y": 349.6140350877193,
+          "slot": 0,
+          "hp": 100,
+          "scale": 0.65
+        },
+        {
+          "id": "A:2:ally",
+          "x": 364.2105263157895,
+          "y": 949.6140350877193,
+          "slot": 2,
+          "hp": 58.333333333333336,
+          "scale": 0.65
+        },
+        {
+          "id": "B:0:enemy-front",
+          "x": 1228.2105263157896,
+          "y": 349.6140350877193,
+          "slot": 0,
+          "hp": 100,
+          "scale": 0.65
+        },
+        {
+          "id": "B:2:enemy-back",
+          "x": 1228.2105263157896,
+          "y": 949.6140350877193,
+          "slot": 2,
+          "hp": 100,
+          "scale": 0.65
+        }
+      ],
+      "repeatSeekAndResizeStable": true,
+      "initialServerHp": true,
+      "rawFrameHonorsFxOff": true,
+      "resumeClearsRawFrame": true,
+      "status": "킴성태 · 일반 공격 · 치명타",
+      "bounds": {
+        "height": 57.36774193548387,
+        "width": 57.36774193548388,
+        "bodyTop": 43.863709677419344,
+        "hudBottom": 50.38159096774192
+      }
+    }
+  ],
+  "pendingAtlasDispose": true,
+  "noLateCanvasOrFx": true,
+  "controlsStayDisabled": true,
+  "actualHistoryBackRestoresOneCanvas": true,
+  "errors": []
+}

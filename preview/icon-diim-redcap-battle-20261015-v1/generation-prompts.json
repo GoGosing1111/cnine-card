@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-15",
+  "character": "디임",
+  "variant": "빨간 모자·멜빵·콧수염 사진",
+  "kind": "ICON",
+  "skill": {
+    "code": "AUTONOMOUS_WEAPON",
+    "name": "자율 병기",
+    "selection": "USER_CONFIRMED_20261015",
+    "visualConcept": "캔디 포탑"
+  },
+  "scope": "STATIC_SD_SUMMON_UNIT_AND_SKILL_FX_ONLY_NO_BODY_MOTIONS",
+  "method": "BUILT_IN_IMAGEGEN",
+  "sourcePhoto": "sources/diim-photo-original.png",
+  "sourcePhotoSha256": "59E79BBB4BB5D40D368DACB63E19D917FB9883ED4E586972211A8C39606687F1",
+  "inputs": [
+    {
+      "path": "sources/references/diim-sd-proportion-reference.webp",
+      "role": "EXISTING_ICON_SD_PROPORTIONS_ONLY",
+      "sha256": "563BECD8CCE81A8CA29C2D0784EA798D9E25C32D5A054D3AB9237CCEBE0C8F32"
+    },
+    {
+      "path": "sources/references/style-03-black-crimson-kimono.png",
+      "role": "COHERENT_ANIME_RENDERING_ONLY_NOT_CHARACTER_OR_COSTUME",
+      "sha256": "A43EC7046FE7C2566C04D884E1D340FFAE154A9AFB31C591F197AD7C36665E49"
+    }
+  ],
+  "prompts": [
+    {
+      "id": "sd-v1",
+      "source": null,
+      "prompt": "Use case: stylized-concept. Asset: ONE transparent static SD battle sprite, the adult woman 디임 (Diim) in the user's playful red-cap cosplay photo.\nImage 1 is the identity and outfit reference. Preserve her recognizable eye shape and spacing, face outline and nose translated into consistent 2D anime drawing; preserve black hair in two low ponytails with wispy bangs, red rounded cap, large funny flat black costume moustache, red short-sleeve shirt, royal-blue bib overalls with two large yellow buttons, and pink round lollipop. The moustache is deliberately a costume prop. Image 2 is ONLY existing ICON SD body proportions and finish; do not copy its teal costume, weapons, pose or other face. Image 3 is ONLY coherent anime linework and painterly rendering, not kimono, red eyes or costume.\nCreate a compact elegant 4-head-tall SD with an adult character's face and proportions stylized consistently. Full body, both shoes visible. New upright three-quarter battle-ready pose facing screen-right. Face visible, not a selfie viewpoint. Her right hand holds the pink lollipop like a small controller or wand at chest height, away from mouth so the moustache remains visible; left hand on hip. Friendly confident playful expression. Blue overalls are full-length slightly tapered pants with rolled cuffs; brown work boots. Red cap has a plain white round patch, no text or letter. Keep natural black hair flowing continuously with fine strands, not stacked plate-like layers. Bare hands. Face, body, hands, fabric and hair use one crisp 2D anime drawing language with detailed painterly color; no photographic face pasted onto a drawing.\nPolished game-ready silhouette with clear red, blue, yellow, pink colors and soft detailed shading, readable at small size. Single subject on true transparent alpha. Center inside square canvas with at least 8 percent completely empty margin on every edge. Both feet on a common baseline. No summoned turret, background, ground shadow, effects, sparkles, labels, card frame, UI, watermark or extra figures.",
+      "status": "FAILED_OUTPUT_MODERATION_NO_IMAGE_RETURNED",
+      "requestId": "b7b4a6a1-0aab-47d7-ac1d-da850c079739"
+    },
+    {
+      "id": "autonomous-weapon-v1",
+      "source": "sources/autonomous-weapon.png",
+      "prompt": "Use case: stylized-concept. Asset: ONE transparent static summoned autonomous turret sprite for an anime RPG ICON skill.\nDesign a compact charming candy-powered mechanical sentry that belongs to a playful red-cap, blue-overalls, yellow-button, pink-lollipop character. The machine must be a separate independently attackable battle unit, not clothing or a handheld weapon.\nA squat blue enamel rounded armored base on four small sturdy brass mechanical feet; visible golden circular joints like large yellow buttons. Red rounded cap-like upper housing, small plain white circular inset, a single pink luminous lens. One short robust silver-and-red cannon barrel extends screen-right at a gentle three-quarter angle, ending in a round pink spiral crystal muzzle. Barrel, rear receiver, mounting axis and muzzle are one straight rigid structure with coherent perspective; no bending, drooping, separated misaligned barrel or body axis. A small mechanical crank and transparent pink energy chamber make its candy-powered function legible.\nCrisp 2D anime linework with refined painterly metal/enamel shading, same visual density across parts, no photo/3D render. Friendly engineered design, not a creature, no face/moustache drawn on it. Keep entire turret and all feet visible. No ammo firing, smoke, glowing blast, magic ring, cast shadow or background; FX will be separate. Static three-quarter view facing screen-right matching an ally-side RPG battlefield. Centered square canvas, completely transparent alpha, at least 12 percent empty clear margin each edge. No letters, logo, caption, UI, frame or extra objects.",
+      "status": "GENERATED_USER_VISUAL_REVIEW_PENDING",
+      "sourceSha256": "6D0CE5E1FF1C4989F31C805F6479DC8F8FB3291FFF467F416F91754F34AC30FD"
+    },
+    {
+      "id": "autonomous-weapon-fx-v1",
+      "source": "sources/autonomous-weapon-fx.png",
+      "prompt": "Use case: stylized-concept. Asset: ONE actual animation sprite sheet for the candy-powered autonomous weapon skill, 4 columns by 4 rows, exactly 16 sequential frames left-to-right top-to-bottom.\nTrue transparent alpha background. No grid lines, cell borders, text, numbers, characters or turret body. Each frame centered in its cell and isolated by a FULLY TRANSPARENT empty gutter at least 18 percent of the cell width on ALL edges. Entire effect including glow and stray particles must remain within the central 64 percent. No streak crosses between cells.\nVisual theme: precise mechanical golden cog sigil and pink candy-energy, with restrained red/cobalt-blue sparks. Crisp polished handpainted 2D anime VFX.\nFrames 1–4: a small golden cog outline appears and rotates, pink energy gathers in its center, additional separated gold segments click into place around it.\nFrames 5–8: the cog opens into an elliptical deployment ring with a soft pink core; it pulses, then contracts into a compact pink energy orb with a short clean horizontal tail. Every frame has distinctly changed shapes.\nFrames 9–12: the orb stretches into a short fast pink crystalline bolt with gold rim, then hits and breaks into a compact star-shaped candy-glass burst, peak at frame 12. No literal candy wrappers or words.\nFrames 13–16: the burst splits into several distinct pink translucent shards and small gold sparks; they disperse and fade until just a few tiny sparks remain in frame16. Fully transparent empty corners and boundaries throughout.\nThis is 16 real changing authored animation drawings, not duplicated pictures, recolors, or a static ornament merely resized. Sequential motion with clear gather→deploy→fire→impact→fade phases. Short controlled luminosity, no broad cloudy bloom. Square high-resolution sheet.",
+      "status": "GENERATED_USER_VISUAL_REVIEW_PENDING",
+      "sourceSha256": "00E75F29DFB4EC5FC6E45DC90B7D02B7A7072D164AFCF3E61A9972761F987CF2"
+    },
+    {
+      "id": "sd-v2",
+      "source": "sources/diim-sd.png",
+      "prompt": "Create one cheerful, fully clothed 2D anime SD game character based on the supplied cosplay photo of Diim. Keep her recognizable face and eyes stylized as a drawing, black low twin ponytails and wispy bangs, big playful black costume moustache, red cap with a plain white circle, red T-shirt, blue full-length overalls with yellow buttons, and brown closed work boots. She is standing in a confident new three-quarter pose facing right, holding her pink lollipop in one hand away from her mouth and resting the other hand on her hip. Use compact 4-head-tall SD proportions, consistent anime line art and painterly shading on face, hair and clothing, naturally flowing connected hair strands. The outfit covers her torso and legs. Full body including shoes, one figure centered on a square genuinely transparent background with empty margins. No weapons, effects, background, scenery, labels, text, logos, card frame or other characters. This is a friendly nonsexual game sprite.",
+      "inputs": [
+        "sources/diim-photo-original.png"
+      ],
+      "status": "GENERATED_USER_VISUAL_REVIEW_PENDING",
+      "sourceSha256": "845D8E192486376236DDCE7E50C517A0246AC46C625625CFEE94BC7CE30832F4"
+    }
+  ],
+  "liveCardId": null,
+  "tuning": null,
+  "releaseEnabled": false,
+  "acquisitionEnabled": false,
+  "visualApproval": "USER_REVIEW_PENDING",
+  "existingDiimCardModified": false,
+  "contactEvidence": {
+    "sd": {
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "footAnchor": {
+        "x": 720,
+        "y": 1240
+      },
+      "visibleAlpha128Bounds": [
+        327,
+        7,
+        984,
+        1242
+      ],
+      "edgeAlphaMax": 2
+    },
+    "weapon": {
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "footAnchor": {
+        "x": 560,
+        "y": 1023
+      },
+      "muzzle": {
+        "x": 1135,
+        "y": 493
+      },
+      "visibleAlpha128Bounds": [
+        46,
+        241,
+        1212,
+        1023
+      ],
+      "edgeAlphaMax": 1
+    },
+    "fx": {
+      "size": [
+        1254,
+        1254
+      ],
+      "grid": [
+        4,
+        4
+      ],
+      "frameCount": 16,
+      "cellEdgeAlphaMax": 2
+    },
+    "measurement": "Source full-body visual inspection plus alpha measurement; verify on actual V3 floor"
+  }
+}

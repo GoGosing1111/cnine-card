@@ -1,0 +1,158 @@
+[
+  {
+    "width": 1440,
+    "actualIndependentScenario": {
+      "ready": true,
+      "scenario": "independent",
+      "playing": false,
+      "paused": false,
+      "speed": 1,
+      "fxVisible": true,
+      "index": 32,
+      "eventCount": 32,
+      "releaseEnabled": false,
+      "cardId": null,
+      "techniqueCode": "AUTONOMOUS_WEAPON",
+      "canvases": 1,
+      "regularCards": 2,
+      "weapons": [
+        {
+          "id": "A:0:technique-AUTONOMOUS_WEAPON:ICON_WEAPON",
+          "ownerId": "A:0:technique-AUTONOMOUS_WEAPON",
+          "hp": 64.78571428571429,
+          "maxHp": 4200,
+          "visible": true,
+          "active": true,
+          "slot": 10,
+          "raster": true
+        }
+      ],
+      "calls": {
+        "summons": 1,
+        "weaponAttacks": 9,
+        "receivedHits": 3,
+        "ends": 0
+      },
+      "manualFx": null
+    },
+    "actualOwnerDeathScenario": {
+      "ready": true,
+      "scenario": "owner-death",
+      "playing": false,
+      "paused": false,
+      "speed": 1,
+      "fxVisible": true,
+      "index": 20,
+      "eventCount": 20,
+      "releaseEnabled": false,
+      "cardId": null,
+      "techniqueCode": "AUTONOMOUS_WEAPON",
+      "canvases": 1,
+      "regularCards": 2,
+      "weapons": [
+        {
+          "id": "A:0:technique-AUTONOMOUS_WEAPON:ICON_WEAPON",
+          "ownerId": "A:0:technique-AUTONOMOUS_WEAPON",
+          "hp": 0,
+          "maxHp": 4200,
+          "visible": false,
+          "active": false,
+          "slot": 10,
+          "raster": true
+        }
+      ],
+      "calls": {
+        "summons": 1,
+        "weaponAttacks": 1,
+        "receivedHits": 0,
+        "ends": 1
+      },
+      "manualFx": null
+    },
+    "slowPlayback": 0.25,
+    "normalPlayback": 1,
+    "pause": true,
+    "eventScrub": true,
+    "fxOffKeepsWeapon": true,
+    "errors": [],
+    "missing": []
+  },
+  {
+    "width": 390,
+    "actualIndependentScenario": {
+      "ready": true,
+      "scenario": "independent",
+      "playing": false,
+      "paused": false,
+      "speed": 1,
+      "fxVisible": true,
+      "index": 32,
+      "eventCount": 32,
+      "releaseEnabled": false,
+      "cardId": null,
+      "techniqueCode": "AUTONOMOUS_WEAPON",
+      "canvases": 1,
+      "regularCards": 2,
+      "weapons": [
+        {
+          "id": "A:0:technique-AUTONOMOUS_WEAPON:ICON_WEAPON",
+          "ownerId": "A:0:technique-AUTONOMOUS_WEAPON",
+          "hp": 64.78571428571429,
+          "maxHp": 4200,
+          "visible": true,
+          "active": true,
+          "slot": 10,
+          "raster": true
+        }
+      ],
+      "calls": {
+        "summons": 1,
+        "weaponAttacks": 9,
+        "receivedHits": 3,
+        "ends": 0
+      },
+      "manualFx": null
+    },
+    "actualOwnerDeathScenario": {
+      "ready": true,
+      "scenario": "owner-death",
+      "playing": false,
+      "paused": false,
+      "speed": 1,
+      "fxVisible": true,
+      "index": 20,
+      "eventCount": 20,
+      "releaseEnabled": false,
+      "cardId": null,
+      "techniqueCode": "AUTONOMOUS_WEAPON",
+      "canvases": 1,
+      "regularCards": 2,
+      "weapons": [
+        {
+          "id": "A:0:technique-AUTONOMOUS_WEAPON:ICON_WEAPON",
+          "ownerId": "A:0:technique-AUTONOMOUS_WEAPON",
+          "hp": 0,
+          "maxHp": 4200,
+          "visible": false,
+          "active": false,
+          "slot": 10,
+          "raster": true
+        }
+      ],
+      "calls": {
+        "summons": 1,
+        "weaponAttacks": 1,
+        "receivedHits": 0,
+        "ends": 1
+      },
+      "manualFx": null
+    },
+    "slowPlayback": 0.25,
+    "normalPlayback": 1,
+    "pause": true,
+    "eventScrub": true,
+    "fxOffKeepsWeapon": true,
+    "errors": [],
+    "missing": []
+  }
+]
