@@ -15,3 +15,9 @@ PC1440·모바일390에서 공개 진입/보유 V-055 선택 전달/미정 상�
 ## 배포 준비
 
 직전 운영 기준은 95ae9437b93b853d314a790d29d4877b6e892c22. 최신 origin/main 변경을 통합하고 관련 도감·OFF 보호·준비 전투 조건 및 Worker 컴파일을 scoped 배포에서 검사한다. 실행 OFF와 현행 전투 보존이 이번 공개의 경계다. 운영 반영 결과는 배포 후 추가한다.
+
+## 운영 반영 완료
+
+사용자의 main 직접 푸시·운영 배포 명시 승인 후 ef11d8ddd7eda9128d6deb0a77beb6dc93fb719e를 main에 반영하고 지정된 scoped 배포를 완료했다. 관련110개 검사 통과, Worker 문법/릴리스·캐시 확인 통과. Pages https://0d351ad8.cnine-card.pages.dev, API Worker 3081c983-680e-4429-a5e6-d4fefd4ed726, 스케줄러0978713e-427c-40fd-801c-65584e146e8d.
+
+운영 도메인 cnine-card.pages.dev에서 공개 도감·성장실·CSS·공용 OFF 플래그·버튼 이미지9개가 검수 원본 SHA-256과 일치했다. feature GET200/releaseEnabled=false, train·breakthrough·preview POST는 각각423/MERCENARY_LEVEL_PREPARATION, 비로그인 state GET401을 확인했다. 요청은 인증·DB 접근 전 차단되며 운영 계정·보유량·설정 변경을 하지 않았다. 실제 공개 진입은 /mercenary-codex/ 및 /mercenary-codex/leveling/. 결과 JSON은 같은 문서명 .json이다.

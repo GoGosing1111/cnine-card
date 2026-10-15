@@ -1,5 +1,7 @@
 # 용병 성장 UI 공개 · 레벨업 OFF — 2026-10-15 최신
 
+- **라이브 반영 완료:** Pages 0d351ad8, 소스 ef11d8ddd. 도감 진입·성장실만 공개됐고 실제 전수/돌파/preview API423·레벨과 PVP 실행 false를 운영에서 확인했다. 관련110개 검사 통과. 상세 docs/mercenary-growth-public-off-20261015.md 및 .json.
+
 - 사용자 **“반영하고 레벨업만 안되게 OFF해놔”**로 도감 성장 진입·성장실·이미지 UI의 라이브 반영을 승인했다. 아래의 화면 미배포·운영 OFF 시 진입 숨김은 이전 준비 단계다. 도감 상단과 보유 용병 상세의 기존 UI 분위기를 유지하며, 선택 용병을 성장실에 전달한다.
 - **경험치 전수·레벨업·돌파 실행은 계속 OFF**다. `MERCENARY_LEVEL_RELEASE_ENABLED=false`, `PVP_POWER_BALANCE_RELEASED=false`를 유지한다. 서버 train/breakthrough/preview는 인증·DB 접근 전423, CMS ON 저장도 차단한다. 공개는 보유 용병 조회·레벨별 성장 정보 열람 범위이며 실제 소모·지급·전투 성장 적용이 없다.
 - 미정 XP·확률·성장 수치를 검수 후보로 채우거나 CMS 초안을 저장하지 않는다. 운영 화면에 준비 중을 명시하고 재료 수량·전수·돌파를 비활성화한다. 로컬 검수 모드는 loopback에서만 허용하고 운영 도메인의 preview=1은 예시 레벨업을 열지 않는다.
