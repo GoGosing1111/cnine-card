@@ -1,0 +1,136 @@
+{
+  "version": "imagegen-v4-readable-20261015",
+  "scope": "All mercenary leveling local actions; existing shared navigation component excluded",
+  "entries": [
+    {
+      "purpose": "skip",
+      "selector": ".skip",
+      "asset": "primary"
+    },
+    {
+      "purpose": "back",
+      "selector": ".back-link",
+      "asset": "slot"
+    },
+    {
+      "purpose": "codex",
+      "selector": ".top-actions a",
+      "asset": "header-v4 / fixed-corner 9-slice"
+    },
+    {
+      "purpose": "empty codex",
+      "selector": ".empty-state a.primary",
+      "asset": "primary"
+    },
+    {
+      "purpose": "demo",
+      "selector": "#demo-break",
+      "asset": "header-v4 / fixed-corner 9-slice"
+    },
+    {
+      "purpose": "mercenary roster",
+      "selector": ".roster-row",
+      "asset": "slot / border-image fill"
+    },
+    {
+      "purpose": "quantity plus/minus",
+      "selector": "[data-adjust]",
+      "asset": "slot"
+    },
+    {
+      "purpose": "training",
+      "selector": "#train",
+      "asset": "primary"
+    },
+    {
+      "purpose": "breakthrough",
+      "selector": "#breakthrough",
+      "asset": "primary"
+    },
+    {
+      "purpose": "receipt replay",
+      "selector": "#replay-reveal",
+      "asset": "header-v4 / fixed-corner 9-slice"
+    },
+    {
+      "purpose": "receipt recovery",
+      "selector": "#recover",
+      "asset": "header-v4 / fixed-corner 9-slice"
+    },
+    {
+      "purpose": "rules",
+      "selector": "details.rules summary",
+      "asset": "header-v4 / fixed-corner 9-slice"
+    },
+    {
+      "purpose": "review tools",
+      "selector": "details.qa summary",
+      "asset": "header-v4 / fixed-corner 9-slice"
+    },
+    {
+      "purpose": "milestone review",
+      "selector": "[data-jump]",
+      "asset": "header-v4 / fixed-corner 9-slice"
+    },
+    {
+      "purpose": "review reset",
+      "selector": "#reset",
+      "asset": "header-v4 / fixed-corner 9-slice"
+    },
+    {
+      "purpose": "level preview",
+      "selector": "[data-inspect-level]",
+      "asset": "slot"
+    },
+    {
+      "purpose": "skip reveal",
+      "selector": ".break-skip",
+      "asset": "header-v4 / fixed-corner 9-slice"
+    },
+    {
+      "purpose": "seal slider",
+      "selector": ".break-slider / .break-slider-handle",
+      "asset": "slider / slot"
+    },
+    {
+      "purpose": "return / close",
+      "selector": ".break-continue",
+      "asset": "primary"
+    },
+    {
+      "purpose": "sound toggle",
+      "selector": ".break-sound",
+      "asset": "header-v4 / fixed-corner 9-slice"
+    },
+    {
+      "purpose": "review outcome select",
+      "selector": "#qa-result",
+      "asset": "header-v4 / fixed-corner 9-slice"
+    },
+    {
+      "purpose": "overflow consent",
+      "selector": "#overflow",
+      "asset": "slot"
+    }
+  ],
+  "states": "All normal, pressed, disabled and focus states retain generated image surfaces. Labels and behavior remain native HTML. Escape has no separate visible close button.",
+  "typography": {
+    "actionsMinPx": 16,
+    "actionTargetsMinPx": 44,
+    "desktopCopyPx": 16,
+    "mobileCopyPx": 14,
+    "secondaryCopyMinPx": 13,
+    "minorStatusMinPx": 12,
+    "summaryDesktop": {
+      "fontPx": 20,
+      "heightPx": 72
+    },
+    "summaryMobile": {
+      "fontPx": 18,
+      "heightPx": 68
+    },
+    "levelNumberPx": 18,
+    "mobileLevelColumns": 5
+  },
+  "rejectedLayout": "preview/mercenary-level-v2-20261015/qa/rejected-button-layout-v3/"
+}

@@ -1,5 +1,5 @@
 import {SHIRANUI_CODE,shiranuiAccountAllowed} from '../shared/mercenary-shiranui-v1.mjs';
-import {MERCENARY_LEVEL_RELEASE_ENABLED as RELEASE,MERCENARY_LEVEL_RULES as RULES,MERCENARY_LEVEL_KEY as KEY,LEVEL_BONUS_TYPES,mercenaryLevelReadiness,mercenaryLevelState,normalizeLevelMaterials,planMercenaryTraining,planMercenaryBreakthrough,levelError} from '../shared/mercenary-level-v1.mjs';
+import {MERCENARY_LEVEL_RELEASE_ENABLED as RELEASE,MERCENARY_LEVEL_RULES as RULES,MERCENARY_LEVEL_KEY as KEY,LEVEL_BONUS_TYPES,mercenaryGrowthSummary,mercenaryLevelReadiness,mercenaryLevelState,normalizeLevelMaterials,planMercenaryTraining,planMercenaryBreakthrough,levelError} from '../shared/mercenary-level-v1.mjs';
 import {readMercenaryLevelPolicy,saveMercenaryLevelPolicy,readMercenaryLevelState} from './_mercenary_level_policy.js';
 import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED as SEED} from './_mercenary_cms_seed.js';
@@ -13,6 +13,12 @@ import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {readJointBody,jointResponseError} from './_joint_request.js';
 
 const KIND='MERCENARY_LEVEL_V1';
+// Freeze growth effects in the same receipt as the material/XP change. Replaying
+// a completed operation must not recompute effects from a newer CMS policy.
+function captureGrowth(policy,result){
+ if(policy.growth)result.growth={version:policy.growth.version,policyRevision:policy.revision,before:mercenaryGrowthSummary(policy.growth,result.before),after:mercenaryGrowthSummary(policy.growth,result.after)};
+ return result;
+}
 const terminal=message=>Object.assign(levelError('MERCENARY_LEVEL_CONFLICT',message,409),{terminal:true});
 function levelCatalog(document,userId){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE].filter(code=>jinmuAccountAllowed(userId,code)&&shiranuiAccountAllowed(userId,code)).map(limitedDeploymentSnapshot).filter(Boolean)];}
 function normalize(body,action){
@@ -31,13 +37,14 @@ async function context(env,user,input){
  if(!target?.rank)throw levelError('MERCENARY_LEVEL_RANK','성장 대상의 등급이 미정입니다.',409);
  return {policy,raw,cmsRevision,state,target,owned:owned.results,catalog};
 }
-export async function previewMercenaryTraining(env,user,body){const input=normalize(body,'TRAIN'),ctx=await context(env,user,input);return planMercenaryTraining({...ctx,materials:input.materials});}
+export async function previewMercenaryTraining(env,user,body){const input=normalize(body,'TRAIN'),ctx=await context(env,user,input);return captureGrowth(ctx.policy,planMercenaryTraining({...ctx,materials:input.materials}));}
 // Prepared core. Only the release-gated route and isolated transaction tests call it.
 export async function runPreparedMercenaryLevel(env,user,body,action,{randomInt=mercenaryRandomInt}={}){
  const input=normalize(body,action),DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v);
  const op=await runJointOperation(env,user,{requestId:body.requestId,kind:KIND,input,prepare:async()=>{
   const ctx=await context(env,user,input),result=action==='TRAIN'?planMercenaryTraining({...ctx,materials:input.materials}):planMercenaryBreakthrough({...ctx,roll:randomInt(1000000)});
   if(result.overflowXp&&!input.allowOverflow)throw levelError('MERCENARY_LEVEL_OVERFLOW','돌파 구간의 초과 경험치는 저장되지 않습니다. 재료를 줄이거나 초과 경험치 소멸에 동의하세요.',409);
+  captureGrowth(ctx.policy,result);
   return {version:RULES.version,action,mercenaryCode:input.mercenaryCode,name:ctx.target.name,rank:ctx.target.rank,policyRevision:ctx.policy.revision,policyRaw:ctx.raw,cmsRevision:ctx.cmsRevision,result,createdAt:new Date().toISOString()};
  },statements:async plan=>{
   const current=await context(env,user,input);
@@ -80,19 +87,25 @@ export async function handleMercenaryLevel({path,request,env,deps}){
   const user=await authenticate(request,env);if(!user)throw levelError('MERCENARY_LEVEL_AUTH','로그인이 필요합니다.',401);
   if(admin&&user.role!=='OWNER')throw levelError('MERCENARY_LEVEL_PERMISSION','OWNER만 성장 초안을 관리할 수 있습니다.',403);
   if(request.method==='GET'){
-   if(admin){const {policy}=await readMercenaryLevelPolicy(env);return reply({revision:policy.revision,policy,releaseEnabled:RELEASE,rules:RULES,readiness:mercenaryLevelReadiness(policy),bonusTypes:LEVEL_BONUS_TYPES});}
+   if(admin){const {policy}=await readMercenaryLevelPolicy(env);return reply({revision:policy.revision,policy,releaseEnabled:RELEASE,rules:RULES,readiness:mercenaryLevelReadiness(policy,{requireGrowth:true}),bonusTypes:LEVEL_BONUS_TYPES});}
    if(action==='receipt')return reply(await mercenaryLevelReceipt(env,user,new URL(request.url).searchParams.get('requestId')));
    if(action==='state'){
     const [{policy},{document},owned]=await Promise.all([readMercenaryLevelPolicy(env),readMercenaryDocument(env),env.DB.prepare('SELECT mercenary_code,total_copies,duplicate_count FROM user_mercenary_cards_v1 WHERE user_id=?').bind(user.id).all()]);
     const rows=RELEASE?(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=?').bind(user.id).all()).results:[];
     const catalog=levelCatalog(document,user.id);
-    return reply({userId:Number(user.id),enabled:RELEASE&&policy.mode==='ON'&&mercenaryLevelReadiness(policy).ready,policy,rules:RULES,cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>({code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...catalog.find(c=>c.code===r.mercenary_code),growth:mercenaryLevelState(rows.find(s=>s.mercenary_code===r.mercenary_code))}))});
+    return reply({userId:Number(user.id),enabled:RELEASE&&policy.mode==='ON'&&mercenaryLevelReadiness(policy,{requireGrowth:true}).ready,policy,rules:RULES,cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>({code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...catalog.find(c=>c.code===r.mercenary_code),growth:mercenaryLevelState(rows.find(s=>s.mercenary_code===r.mercenary_code))}))});
    }
   }
   if(request.method!==(admin?'PATCH':'POST'))throw levelError('MERCENARY_LEVEL_METHOD','지원하지 않는 요청입니다.',405);
   const fields=admin?['policy']:action==='breakthrough'?['requestId','mercenaryCode','revision']:['requestId','mercenaryCode','revision','materials','allowOverflow'];
   const body=await readJointBody(request,{fields,maxBytes:16384});
   if(admin){const policy=await saveMercenaryLevelPolicy(env,user,body.policy);return reply({revision:policy.revision,policy,releaseEnabled:RELEASE});}
+  // The historical prepared core remains replay-compatible. Only a complete V2
+  // growth policy may enter the future public release route.
+  if(['preview','train','breakthrough'].includes(action)){
+   const {policy}=await readMercenaryLevelPolicy(env);
+   if(!mercenaryLevelReadiness(policy,{requireGrowth:true}).ready)throw levelError('MERCENARY_LEVEL_UNCONFIGURED','레벨별 성장과 돌파 능력 설정을 완료해야 합니다.',409);
+  }
   if(action==='preview')return reply(await previewMercenaryTraining(env,user,body));
   if(!['train','breakthrough'].includes(action))throw levelError('MERCENARY_LEVEL_METHOD','GET 요청이 필요합니다.',405);
   if(typeof withUserMutationLock!=='function')throw levelError('MERCENARY_LEVEL_LOCK','계정 잠금 서비스를 확인하세요.',503);

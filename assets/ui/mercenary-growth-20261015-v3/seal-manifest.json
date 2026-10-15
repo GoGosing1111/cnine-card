@@ -1,0 +1,57 @@
+{
+  "version": "growth-imagegen-v3-20261015",
+  "tool": "built-in image_gen",
+  "skill": "C:/Users/User/.codex/skills/.system/imagegen/SKILL.md",
+  "status": "USER_REVIEW_PENDING",
+  "supersedes": "CSS/SVG seal visual rejected by user 2026-10-15; historical sources preserved",
+  "assets": [
+    {
+      "name": "seal-closed",
+      "source": "sources/seal-closed.png",
+      "prompt": "Use case: stylized-concept\nAsset type: premium fantasy RPG mercenary ascension cinematic, single isolated SEALED RELIQUARY asset for a real game UI, not a UI screenshot.\nPrimary request: paint a magnificent ancient black obsidian and aged gold mechanical reliquary that contains a mercenary soul. Elaborate sculpted gilded metal, overlapping curved armor plates, deep carved filigree, four elegant claw-like buttresses holding an intensely luminous warm ivory-gold crystal at its center, tangible thick metal layers and intricate crafted recesses. The overall shape is an imposing upright oval crest, not a hexagon, not a flat polygon, not simple concentric outline rings. Rich physical material, coherent painterly high-end collectible RPG finish. Intricate but clear silhouette and readable center. A restrained golden energy corona follows its silhouette. Straight-on slightly low camera, perfect center alignment, complete object visible, large transparent padding on every edge, occupies about 78% of canvas. No floor, no background, no person, no typography, no text, no logo, no UI panels. Blackened steel and polished antique champagne gold with subtle ivory light. Sophisticated hand-painted game illustration with dimensional lighting, NOT CSS/vector geometric appearance, not cartoon, not a diagram.\nConstraints: genuinely transparent background, clean alpha silhouette, all ornaments within frame. This is the closed state of an object that later splits open along a central vertical seam; keep that seam and sculpted paired plates apparent. No unrelated weapons or characters.",
+      "role": "generated closed reliquary",
+      "sourceOriginal": "C:/Users/User/.codex/generated_images/01a12f9f-f64c-7201-8cd6-8c2def50dcf5/exec-28fbcde3-38e7-4531-8c01-58c12998356e.png",
+      "file": "seal-closed.webp",
+      "sha256": "e0a32f8519fafef3db8b37afda97f6225fdc73426c67bf7eb56a20366581cc07",
+      "deliverySha256": "e92e0bb171e92abed011f1c60eea42101ec001bfba053161a10a3979c7035e59",
+      "metadata": {
+        "width": 1145,
+        "height": 1374,
+        "hasAlpha": true
+      },
+      "derivation": "Uniform resize for delivery and WebP encoding only; original PNG preserved byte-for-byte."
+    },
+    {
+      "name": "seal-opened",
+      "source": "sources/seal-opened.png",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied black obsidian and antique gold soul reliquary. Create its SUCCESSFUL OPENING state for the same premium RPG ascension cinematic. Preserve the exact material, curved sculpted metal plate designs, camera, vertical alignment and lighting identity of the source. The two major sculpted sides have physically unlocked and swung outward like majestic articulated metal wings, with visible inner mechanical layers and tiny golden fragments. A large intense ivory-gold spherical soul light is released upward from the now open center, with richly painted flowing ribbons of molten gold energy and radiant particles. The opening must be an actual changed object with separated plates and deep 3D gaps, not merely recoloring or overlaying geometric lines. Keep all parts within the canvas with 10% transparent margins. Single isolated object, genuinely transparent background, no floor, no UI layout, no text, no characters. Painterly photoreal material detail, sophisticated heavy sacred metal, no cheap vector geometry. Keep the whole opened object readable and symmetric.",
+      "role": "edited successful opening state; reference seal-closed",
+      "sourceOriginal": "C:/Users/User/.codex/generated_images/01a12f9f-f64c-7201-8cd6-8c2def50dcf5/exec-9b1fd67d-e80a-4fc4-a4af-a12e3ae420ee.png",
+      "file": "seal-opened.webp",
+      "sha256": "c22913311286e7aac63767b9ccf4e95ced099a32cab658f9fe208e99a1a59875",
+      "deliverySha256": "f7a14153b888577f840db1cbb87f43d9a87f166b0ff4497a4473b82e4cecc197",
+      "metadata": {
+        "width": 1145,
+        "height": 1374,
+        "hasAlpha": true
+      },
+      "derivation": "Uniform resize for delivery and WebP encoding only; original PNG preserved byte-for-byte."
+    },
+    {
+      "name": "seal-failed",
+      "source": "sources/seal-failed.png",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied black obsidian and antique gold soul reliquary. Create its FAILED ASCENSION / ENERGY EXHAUSTED state for the same premium RPG cinematic. Preserve the exact overall sculpted object identity, upright frontal camera, obsidian and antique gold metal forms. The crystal at the center has physically fractured into several dark glass pieces, its inner white light has gone out leaving deep subdued amber embers. The front metal plates are slightly displaced with tangible structural fissures and chipped gold edges, small heavy dark-gold fragments falling away below, two dim residual smoky wisps close to the object. The physical crack and dying light must be clear, authored texture detail, not overlaid straight vector lines. Most of the beautiful relic remains intact, strong coherent silhouette; this is failed energy resonance, not a destroyed character. More somber and less radiant than source, readable warm rim light. All pieces fully visible, 10% transparent margins. Single isolated relic, genuinely transparent background, no text, no symbols/UI labels, no floor, no characters, no background.",
+      "role": "edited failed energy state; reference seal-closed",
+      "sourceOriginal": "C:/Users/User/.codex/generated_images/01a12f9f-f64c-7201-8cd6-8c2def50dcf5/exec-5cbab7d4-8c77-41b1-a2b8-8f9873b5475d.png",
+      "file": "seal-failed.webp",
+      "sha256": "5075a80911d88f1bb4ec3c47c58519713443ad22bc19ca5301aa57d3a6556233",
+      "deliverySha256": "4e375119115bf1f9a3dedc42a11b1ee88b55df2e7aa59f96724eb42e875f0a31",
+      "metadata": {
+        "width": 1145,
+        "height": 1374,
+        "hasAlpha": true
+      },
+      "derivation": "Uniform resize for delivery and WebP encoding only; original PNG preserved byte-for-byte."
+    }
+  ]
+}

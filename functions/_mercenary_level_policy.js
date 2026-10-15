@@ -8,13 +8,13 @@ export async function readMercenaryLevelPolicy(env){
  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(KEY).first();let policy=row?JSON.parse(row.value):mercenaryLevelDraft();
  // Upgrade only the unpublished OFF draft in memory; preserve the original bytes
  // for the settings-save guard and never initialize or mutate player growth here.
- if(policy.version==='mercenary-level-20261005'&&policy.mode==='OFF')policy={...policy,version:MERCENARY_LEVEL_RULES.version,sameCardMultiplier:MERCENARY_LEVEL_RULES.sameCardMultiplier};
+ if(['mercenary-level-20261005','mercenary-level-20261014'].includes(policy.version)&&policy.mode==='OFF')policy={...policy,version:MERCENARY_LEVEL_RULES.version,sameCardMultiplier:MERCENARY_LEVEL_RULES.sameCardMultiplier,growth:policy.growth??null};
  return {raw:row?.value??null,policy:validateMercenaryLevelPolicy(policy)};
 }
 export async function saveMercenaryLevelPolicy(env,user,raw){
  if(user.role!=='OWNER')throw levelError('MERCENARY_LEVEL_PERMISSION','OWNER만 성장 초안을 저장할 수 있습니다.',403);
  const current=await readMercenaryLevelPolicy(env),next=validateMercenaryLevelPolicy(raw);
- if(next.mode==='ON'&&(!RELEASE||!mercenaryLevelReadiness(next).ready))throw levelError('MERCENARY_LEVEL_PREPARATION','성장 출시 승인과 전체 수치 설정이 필요합니다. 현재 OFF를 유지합니다.',423);
+ if(next.mode==='ON'&&(!RELEASE||!mercenaryLevelReadiness(next,{requireGrowth:true}).ready))throw levelError('MERCENARY_LEVEL_PREPARATION','성장 출시 승인과 전체 수치 설정이 필요합니다. 현재 OFF를 유지합니다.',423);
  if(next.revision!==current.policy.revision){
   // An acknowledgement may be lost after a successful settings save.
   if(next.revision+1===current.policy.revision&&JSON.stringify({...next,revision:current.policy.revision})===JSON.stringify(current.policy))return current.policy;
@@ -25,13 +25,13 @@ export async function saveMercenaryLevelPolicy(env,user,raw){
 export async function readMercenaryLevelState(env,userId,code){return mercenaryLevelState(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=? AND mercenary_code=?').bind(userId,code).first());}
 export async function releasedMercenaryLevelSummary(env,userId){
  if(!RELEASE)return {enabled:false,rows:[]};
- const {policy}=await readMercenaryLevelPolicy(env);if(policy.mode!=='ON')return {enabled:false,rows:[]};
+ const {policy}=await readMercenaryLevelPolicy(env);if(policy.mode!=='ON'||!mercenaryLevelReadiness(policy,{requireGrowth:true}).ready)return {enabled:false,rows:[]};
  return {enabled:true,rows:(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=?').bind(userId).all()).results.map(r=>({code:r.mercenary_code,...mercenaryLevelState(r)}))};
 }
 // Both switches must open. OFF performs no new table reads and preserves all old snapshots.
 export async function attachReleasedMercenaryLevels(env,snapshots){
  if(!RELEASE||!snapshots.size)return snapshots;
- const {policy}=await readMercenaryLevelPolicy(env);if(policy.mode!=='ON')return snapshots;
+ const {policy}=await readMercenaryLevelPolicy(env);if(policy.mode!=='ON'||!mercenaryLevelReadiness(policy,{requireGrowth:true}).ready)return snapshots;
  const ids=[...snapshots.keys()],rows=(await env.DB.prepare(`SELECT * FROM user_mercenary_levels_v1 WHERE user_id IN (${ids.map(()=>'?').join(',')})`).bind(...ids).all()).results;
  return new Map([...snapshots].map(([id,snapshot])=>[id,attachMercenaryLevel(snapshot,policy,rows.find(r=>Number(r.user_id)===id&&r.mercenary_code===snapshot.code))]));
 }

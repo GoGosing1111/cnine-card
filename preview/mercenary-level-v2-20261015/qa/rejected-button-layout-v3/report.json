@@ -1,0 +1,148 @@
+{
+  "date": "2026-10-15T10:13:58.642Z",
+  "visualVersion": "imagegen-v3-20261015",
+  "previousRejected": "rejected-css-v2/",
+  "candidateProfile": {
+    "version": "mercenary-growth-v2-20261015",
+    "perLevel": {
+      "hpPercent": 25,
+      "attackPercent": 25,
+      "defensePercent": 6,
+      "speedPercent": 1
+    },
+    "milestones": [
+      {
+        "level": 5,
+        "hpPercent": 100,
+        "attackPercent": 125,
+        "defensePercent": 15,
+        "speedPercent": 2,
+        "skillPowerPercent": 5,
+        "mitigationBypassPercent": 12.5,
+        "actionCatchupPercent": 10,
+        "actionCreditPercent": 10
+      },
+      {
+        "level": 10,
+        "hpPercent": 100,
+        "attackPercent": 125,
+        "defensePercent": 15,
+        "speedPercent": 2,
+        "skillPowerPercent": 5,
+        "mitigationBypassPercent": 12.5,
+        "actionCatchupPercent": 15,
+        "actionCreditPercent": 15
+      },
+      {
+        "level": 15,
+        "hpPercent": 100,
+        "attackPercent": 125,
+        "defensePercent": 15,
+        "speedPercent": 2,
+        "skillPowerPercent": 5,
+        "mitigationBypassPercent": 12.5,
+        "actionCatchupPercent": 20,
+        "actionCreditPercent": 20
+      },
+      {
+        "level": 20,
+        "hpPercent": 100,
+        "attackPercent": 125,
+        "defensePercent": 15,
+        "speedPercent": 2,
+        "skillPowerPercent": 5,
+        "mitigationBypassPercent": 12.5,
+        "actionCatchupPercent": 25,
+        "actionCreditPercent": 30
+      }
+    ]
+  },
+  "results": [
+    {
+      "screen": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "statComparison": true,
+      "twentyLevelRoadmap": true,
+      "materialValidation": true,
+      "overflowConsent": true,
+      "partialSlideReset": true,
+      "input": "mouse",
+      "successLedger": true,
+      "failureKeepsStatsAndLevel": true,
+      "replayNoNewGrowth": true,
+      "skipAndEscape": true,
+      "limitedXp5x": true,
+      "noWrites": true,
+      "noOverflow": true,
+      "allLocalButtonsUseGeneratedImages": true,
+      "generatedSealImages": true,
+      "noSvgSeal": true
+    },
+    {
+      "screen": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "statComparison": true,
+      "twentyLevelRoadmap": true,
+      "materialValidation": true,
+      "overflowConsent": true,
+      "partialSlideReset": true,
+      "input": "native touch",
+      "successLedger": true,
+      "failureKeepsStatsAndLevel": true,
+      "replayNoNewGrowth": true,
+      "skipAndEscape": true,
+      "limitedXp5x": true,
+      "noWrites": true,
+      "noOverflow": true,
+      "allLocalButtonsUseGeneratedImages": true,
+      "generatedSealImages": true,
+      "noSvgSeal": true
+    },
+    {
+      "screen": "narrow",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "statComparison": true,
+      "twentyLevelRoadmap": true,
+      "materialValidation": true,
+      "overflowConsent": true,
+      "partialSlideReset": true,
+      "input": "native touch",
+      "successLedger": true,
+      "failureKeepsStatsAndLevel": true,
+      "replayNoNewGrowth": true,
+      "skipAndEscape": true,
+      "limitedXp5x": true,
+      "noWrites": true,
+      "noOverflow": true,
+      "allLocalButtonsUseGeneratedImages": true,
+      "generatedSealImages": true,
+      "noSvgSeal": true
+    },
+    {
+      "screen": "tablet / reduced motion / OFF",
+      "reducedMotion": true,
+      "keyboardEnd": true,
+      "routeCleanup": true,
+      "productionDisabled": true,
+      "productionGrowthUnset": true,
+      "noOverflow": true
+    }
+  ],
+  "finalCopyCheckedAt": "2026-10-15T10:17:25.763Z",
+  "finalCopyChecks": [
+    "PVP-only action credit label",
+    "Partial growth configuration remains unset",
+    "Generated image skip-link sizing",
+    "Slider reset is visible before screenshot",
+    "Slider handle does not overlap text"
+  ]
+}

@@ -1,0 +1,14 @@
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.0)
+───────────────────────────────────────────────
+Total Upload: 7171.81 KiB / gzip: 1557.80 KiB
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+--dry-run: exiting now.

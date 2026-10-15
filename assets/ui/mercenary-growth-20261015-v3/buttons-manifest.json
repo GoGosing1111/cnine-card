@@ -1,0 +1,109 @@
+{
+  "createdAt": "2026-10-15T10:03:24.411Z",
+  "tool": "built-in image_gen",
+  "skill": "C:/Users/User/.codex/skills/.system/imagegen/SKILL.md",
+  "status": "User requested image-based remake; pending visual approval; production OFF",
+  "processing": "Original generated PNG bytes preserved. Runtime crops near-transparent outer fringe (alpha below 8) with 8px padding, resizes to WebP, and preserves alpha. No painted interior or character changes.",
+  "entries": [
+    {
+      "key": "primary",
+      "source": "sources/button-primary.png",
+      "sourceSha256": "a4f6d56be1cc821c15390a4e74629865eddb5b97a169539d042112de6ac9a7e2",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13eeb-95aa-72b3-89d4-f5cacf130787\\exec-8d642926-1ca9-4f36-b8a0-21efc7bc8fc7.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceTransparentPixels": 909854,
+      "alphaBounds": {
+        "left": 16,
+        "top": 112,
+        "width": 2142,
+        "height": 443
+      },
+      "runtime": "button-primary.webp",
+      "runtimeSha256": "c02bf255281bff05bb31bb2c1de4375a9f0f4a98ecdb29cdba08c9f98950596b",
+      "runtimeSize": [
+        1200,
+        248
+      ],
+      "runtimeBytes": 110058,
+      "prompt": "button-primary.prompt.txt"
+    },
+    {
+      "key": "secondary",
+      "source": "sources/button-secondary.png",
+      "sourceSha256": "c4638d16d828e49dd73129d374ffc981d1096eef7b9edc789a685fcea9af3b59",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13eeb-95aa-72b3-89d4-f5cacf130787\\exec-25e69702-68d6-4071-bbde-bdd672b33fa6.png",
+      "sourceSize": [
+        2184,
+        720
+      ],
+      "sourceTransparentPixels": 865062,
+      "alphaBounds": {
+        "left": 6,
+        "top": 152,
+        "width": 2172,
+        "height": 391
+      },
+      "runtime": "button-secondary.webp",
+      "runtimeSha256": "d8841e119d99225bd4f83ccb8769786816348c2f91dbfa7b6c5c4e27efe38409",
+      "runtimeSize": [
+        1200,
+        216
+      ],
+      "runtimeBytes": 89538,
+      "prompt": "button-secondary.prompt.txt"
+    },
+    {
+      "key": "slot",
+      "source": "sources/button-slot.png",
+      "sourceSha256": "a526a3b5bb4fb8a77257065312a0b99b57b41cae31264ad3380d9faeb5978456",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13eeb-95aa-72b3-89d4-f5cacf130787\\exec-501688f2-8c61-4d7c-96e5-890844dcb281.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceTransparentPixels": 556971,
+      "alphaBounds": {
+        "left": 103,
+        "top": 112,
+        "width": 1048,
+        "height": 1008
+      },
+      "runtime": "button-slot.webp",
+      "runtimeSha256": "f067a7d2cb041576dd59f0254159300fde9bda4d155a68b5faa9b5c3fcdff7fc",
+      "runtimeSize": [
+        256,
+        246
+      ],
+      "runtimeBytes": 31392,
+      "prompt": "button-slot.prompt.txt"
+    },
+    {
+      "key": "slider",
+      "source": "sources/button-slider.png",
+      "sourceSha256": "b16cec5ea0a64a91b3128d49526a31d9c39888897d136429c57c26876ea3a939",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a13eeb-95aa-72b3-89d4-f5cacf130787\\exec-9004ee55-c9d5-46ff-9619-b3ed02e540bc.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceTransparentPixels": 1121268,
+      "alphaBounds": {
+        "left": 18,
+        "top": 192,
+        "width": 2137,
+        "height": 318
+      },
+      "runtime": "button-slider.webp",
+      "runtimeSha256": "731e28ebdd7c24cb3f1bfaf23574893f1d9bc915d181b178c646efba467f9f04",
+      "runtimeSize": [
+        1200,
+        179
+      ],
+      "runtimeBytes": 68854,
+      "prompt": "button-slider.prompt.txt"
+    }
+  ]
+}

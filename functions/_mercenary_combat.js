@@ -1,3 +1,4 @@
+import {mercenaryGrowthActionCredit} from '../shared/mercenary-growth-review-v2.mjs';
 import {pvpPowerDamageMultiplier} from '../shared/pvp-power-balance-v1.mjs';
 import {SHIRANUI_CODE,SHIRANUI_COMBAT,SHIRANUI_AREA_SKILL,SHIRANUI_AREA_MECHANIC,isShiranui,shiranuiActionCredit} from '../shared/mercenary-shiranui-v1.mjs';
 import {resolveShiranuiArea} from './_mercenary_shiranui.js';
@@ -42,12 +43,13 @@ const weakest=team=>ordered(team).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-
 // released fighters use their captured cadence without replacing a card,
 // advancing its gauge, or consuming the five-card battle's action budget.
 // Natural mercenary turns clear the debt; suit shots and enemy turns cannot.
+export const mercenaryBaseActionCredit=actors=>Math.max(azantActionCredit(actors),berkanActionCredit(actors),valterActionCredit(actors),heliosActionCredit(actors),jinmuActionCredit(actors),kaironActionCredit(actors),shiranuiActionCredit(actors),ssLimitedActionCredit(actors));
 export function mercenaryTurnCadence(teams){
  if([...teams.A,...teams.B].some(actor=>actor.ownerId))return duoMercenaryTurnCadence(teams);
  const debt={A:0,B:0};
  const interval=side=>mercenaryActionInterval(teams[side]||[]);
- const credit=side=>Math.max(azantActionCredit(teams[side]||[]),berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]),heliosActionCredit(teams[side]||[]),jinmuActionCredit(teams[side]||[]),kaironActionCredit(teams[side]||[]),shiranuiActionCredit(teams[side]||[]),ssLimitedActionCredit(teams[side]||[]));
- const accrue=side=>debt[side]=normalizeHeliosCredit(Math.min(heliosCreditLimit(interval(side),credit(side)),debt[side]+credit(side)),credit(side));
+ const credit=side=>Math.max(azantActionCredit(teams[side]||[]),berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]),heliosActionCredit(teams[side]||[]),jinmuActionCredit(teams[side]||[]),kaironActionCredit(teams[side]||[]),shiranuiActionCredit(teams[side]||[]),ssLimitedActionCredit(teams[side]||[]))+mercenaryGrowthActionCredit(teams[side]||[]);
+ const accrue=side=>{const growth=mercenaryGrowthActionCredit(teams[side]||[]),next=Math.min(growth?interval(side)+credit(side):heliosCreditLimit(interval(side),credit(side)),debt[side]+credit(side));debt[side]=growth?Math.round(next*10000)/10000:normalizeHeliosCredit(next,credit(side));};
  const regular=actor=>living(actor)&&!actor.isMonster&&!actor.isMercenary&&actor.actorKind!=='BATTLE_SUIT';
  return {
   pending(eligible=()=>true){
@@ -85,8 +87,8 @@ function duoMercenaryTurnCadence(teams){
  const groups=['A','B'].flatMap(side=>[...new Set(teams[side].map(a=>a.ownerId))].map(ownerId=>({side,ownerId,actors:teams[side].filter(a=>a.ownerId===ownerId),debt:0})));
  const regular=a=>living(a)&&!a.isMercenary&&!a.isMonster&&!a.isBattleSuit;
  const interval=g=>mercenaryActionInterval(g.actors);
- const credit=g=>Math.max(azantActionCredit(g.actors),berkanActionCredit(g.actors),valterActionCredit(g.actors),heliosActionCredit(g.actors),jinmuActionCredit(g.actors),kaironActionCredit(g.actors),shiranuiActionCredit(g.actors),ssLimitedActionCredit(g.actors));
- const accrue=g=>g.debt=normalizeHeliosCredit(Math.min(heliosCreditLimit(interval(g),credit(g)),g.debt+credit(g)),credit(g));
+ const credit=g=>Math.max(azantActionCredit(g.actors),berkanActionCredit(g.actors),valterActionCredit(g.actors),heliosActionCredit(g.actors),jinmuActionCredit(g.actors),kaironActionCredit(g.actors),shiranuiActionCredit(g.actors),ssLimitedActionCredit(g.actors))+mercenaryGrowthActionCredit(g.actors);
+ const accrue=g=>{const growth=mercenaryGrowthActionCredit(g.actors),next=Math.min(growth?interval(g)+credit(g):heliosCreditLimit(interval(g),credit(g)),g.debt+credit(g));g.debt=growth?Math.round(next*10000)/10000:normalizeHeliosCredit(next,credit(g));};
  const pending=(g,eligible)=>g.debt>=interval(g)?g.actors.find(a=>a.isMercenary&&living(a)&&eligible(a)):null;
  return {
   pending(eligible=()=>true){return groups.map(g=>pending(g,eligible)).find(Boolean)||null;},

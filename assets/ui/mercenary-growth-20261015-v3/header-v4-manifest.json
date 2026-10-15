@@ -1,0 +1,29 @@
+{
+  "version": "imagegen-v4-readable-20261015",
+  "tool": "built-in image_gen",
+  "status": "USER_REVIEW_PENDING",
+  "reason": "User rejected stretched ornament bars and undersized labels in V3. V4 replaces secondary and disclosure surfaces with compact corner-preserving metal frame and increases actual text/control sizes.",
+  "source": "sources/button-header-v4.png",
+  "runtime": "button-header-v4.webp",
+  "originalGeneratedPath": "C:/Users/User/.codex/generated_images/01a12f9f-f64c-7201-8cd6-8c2def50dcf5/exec-50de000b-d548-4db1-beaa-4d952924b615.png",
+  "sourceSha256": "781ffc5e7ae89c6bb282977bcffd51e2cbeb2d0e98d2905dd42cb55d64876b82",
+  "runtimeSha256": "3e8847fd95eb8d3944b2deb044974428ce463831de03dc38b0cce06e8734334c",
+  "sourceSize": [
+    1983,
+    793
+  ],
+  "runtimeSize": [
+    1200,
+    255
+  ],
+  "transparentPixels": 842691,
+  "alphaBounds": {
+    "left": 50,
+    "top": 185,
+    "width": 1885,
+    "height": 400
+  },
+  "prompt": "button-header-v4.prompt.txt",
+  "processing": "Original PNG bytes preserved. Trim near-transparent outside fringe only with 4px margin, uniform resize and WebP encoding; image interior unchanged.",
+  "rendering": "Nine-slice corner-preserving frame; never stretch the ornament across the full row."
+}

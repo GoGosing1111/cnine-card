@@ -1,0 +1,1545 @@
+{
+  "input": {
+    "ordinary": "V-049",
+    "ordinaryLevel": 20,
+    "limited": "V-996",
+    "limitedLevel": 1,
+    "cardPower": 1000000,
+    "deck": "balanced",
+    "seed": 630001,
+    "pvpPowerBonusReview": true
+  },
+  "before": {
+    "source": "Observed canonical trace before action-opportunity correction; superseded runtime hashes are in comparison-superseded-natural-speed-only.json",
+    "winner": "B",
+    "ordinaryOpening": {
+      "hp": 34996435,
+      "shield": 2692033,
+      "attackFloor": 7798447,
+      "speed": 59114
+    },
+    "limitedOpening": {
+      "hp": 14357511,
+      "shield": 8460676,
+      "attackFloor": 5803494,
+      "speed": 85426
+    },
+    "observation": "Cryvern cleared front cards while Valter acted repeatedly, reached Valter directly once, and was killed at timeline 0.009."
+  },
+  "after": {
+    "winner": "A",
+    "actions": 6,
+    "mercenaryActions": 16,
+    "openingMercenaries": {
+      "A": [
+        {
+          "code": "V-049",
+          "name": "크라이베른",
+          "title": "크라이베른",
+          "rank": "SSS",
+          "position": "FRONT",
+          "role": "VANGUARD",
+          "basicTarget": "FRONT_ENEMY",
+          "skillTarget": "FRONT_GROUP",
+          "level": 20,
+          "statMode": "RANK_FIXED",
+          "skills": [
+            {
+              "id": "MS-049",
+              "name": "극빙 왕관",
+              "mechanic": "CRYSTAL_CROWN",
+              "balance": {
+                "damageRatio": 7.056,
+                "cooldownTurns": 5,
+                "cost": 35
+              }
+            }
+          ],
+          "pendingSkillIds": [],
+          "basePower": 180000,
+          "sourceArt": "assets/ui/project-v/mercenaries/cryvern-source-art-v1.png",
+          "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v049-cryvern-sd-v1.png",
+          "actorKind": "MERCENARY",
+          "combat": {
+            "energyMax": 100,
+            "energyPerBasic": 10,
+            "windupTurns": 1,
+            "statusTurns": 2,
+            "armorReductionPercent": 20,
+            "interceptPercent": 40,
+            "parryPercent": 40,
+            "orderPercent": 15,
+            "veilPercent": 25,
+            "finisherHpPercent": 30,
+            "finisherBonusPercent": 50,
+            "focusBonusPercent": 40,
+            "poisonPercent": 40,
+            "restraintHits": 2,
+            "restraintPercent": 25,
+            "suppressGauge": 20,
+            "reloadGauge": 20,
+            "powerGrowthPercentPerLevel": 0
+          },
+          "mercenaryLevel": {
+            "version": 2,
+            "level": 20,
+            "policyRevision": 0,
+            "breakthroughMask": 15,
+            "growth": {
+              "version": "mercenary-growth-v2-20261015",
+              "perLevel": {
+                "hpPercent": 25,
+                "attackPercent": 25,
+                "defensePercent": 6,
+                "speedPercent": 1
+              },
+              "milestones": [
+                {
+                  "level": 5,
+                  "hpPercent": 100,
+                  "attackPercent": 125,
+                  "defensePercent": 15,
+                  "speedPercent": 2,
+                  "skillPowerPercent": 5,
+                  "mitigationBypassPercent": 12.5,
+                  "actionCatchupPercent": 10,
+                  "actionCreditPercent": 10
+                },
+                {
+                  "level": 10,
+                  "hpPercent": 100,
+                  "attackPercent": 125,
+                  "defensePercent": 15,
+                  "speedPercent": 2,
+                  "skillPowerPercent": 5,
+                  "mitigationBypassPercent": 12.5,
+                  "actionCatchupPercent": 15,
+                  "actionCreditPercent": 15
+                },
+                {
+                  "level": 15,
+                  "hpPercent": 100,
+                  "attackPercent": 125,
+                  "defensePercent": 15,
+                  "speedPercent": 2,
+                  "skillPowerPercent": 5,
+                  "mitigationBypassPercent": 12.5,
+                  "actionCatchupPercent": 20,
+                  "actionCreditPercent": 20
+                },
+                {
+                  "level": 20,
+                  "hpPercent": 100,
+                  "attackPercent": 125,
+                  "defensePercent": 15,
+                  "speedPercent": 2,
+                  "skillPowerPercent": 5,
+                  "mitigationBypassPercent": 12.5,
+                  "actionCatchupPercent": 25,
+                  "actionCreditPercent": 30
+                }
+              ]
+            }
+          },
+          "stats": {
+            "hp": 187200,
+            "attack": 52920,
+            "defense": 27540,
+            "speed": 179793
+          },
+          "id": "A:MERCENARY:V-049",
+          "cardId": "V-049",
+          "slot": 5,
+          "side": "A",
+          "battleMode": "PVP",
+          "row": "FRONT",
+          "type": "MERCENARY",
+          "typeLabel": "VANGUARD",
+          "isMercenary": true,
+          "image": "assets/ui/project-v/mercenaries/cryvern-source-art-v1.png",
+          "grade": "SSS",
+          "power": 180000,
+          "equipmentShare": 0,
+          "attackStyle": "MELEE",
+          "maxHp": 34996435,
+          "hp": 34996435,
+          "attack": 654223,
+          "defense": 75459,
+          "speed": 179793,
+          "shield": 2692033,
+          "maxShield": 2692033,
+          "gauge": 0,
+          "uniqueAbility": null,
+          "teamHealerCount": 1,
+          "defenseLineBreached": true,
+          "mercenaryLink": {
+            "version": 2144,
+            "attackFloor": 7798447,
+            "hpFloor": 34996435,
+            "openingShield": 2692033,
+            "tierGuard": 1,
+            "tierOffense": 1
+          },
+          "mercenaryGrowthBaseSpeed": 4750,
+          "mercenaryGrowth": {
+            "version": "mercenary-growth-v2-20261015",
+            "level": 20,
+            "breakthroughMask": 15,
+            "breakthroughCount": 4,
+            "perLevelBonus": {
+              "hpPercent": 475,
+              "attackPercent": 475,
+              "defensePercent": 114,
+              "speedPercent": 19,
+              "skillPowerPercent": 0,
+              "mitigationBypassPercent": 0,
+              "actionCatchupPercent": 0,
+              "actionCreditPercent": 0
+            },
+            "breakthroughBonus": {
+              "hpPercent": 400,
+              "attackPercent": 500,
+              "defensePercent": 60,
+              "speedPercent": 8,
+              "skillPowerPercent": 20,
+              "mitigationBypassPercent": 50,
+              "actionCatchupPercent": 70,
+              "actionCreditPercent": 75
+            },
+            "total": {
+              "hpPercent": 875,
+              "attackPercent": 975,
+              "defensePercent": 174,
+              "speedPercent": 27,
+              "skillPowerPercent": 20,
+              "mitigationBypassPercent": 50,
+              "actionCatchupPercent": 70,
+              "actionCreditPercent": 75
+            },
+            "nextMilestone": null
+          },
+          "mercenaryLevelApplied": true,
+          "mercenaryGrowthMatchup": {
+            "version": "mercenary-growth-v2-20261015",
+            "baseSpeed": 4750,
+            "ownCardClock": 135850,
+            "ownReservedRate": 237737.5,
+            "ownActionRate": 243769.5,
+            "speedBefore": 6032,
+            "speedAfter": 179793,
+            "floor": 179793,
+            "opponents": [
+              {
+                "actorId": "B:MERCENARY:V-996",
+                "ownerId": null,
+                "level": 1,
+                "referenceSpeed": 84450,
+                "referenceCardClock": 135850,
+                "referenceInnateCredit": 3,
+                "referenceActionRate": 492000,
+                "gap": 19,
+                "floor": 179793
+              }
+            ]
+          },
+          "pvpPowerBalance": {
+            "version": "pvp-power-bonus-20261015-v2",
+            "formationPower": 5180000,
+            "opponentPower": 6080000,
+            "ratio": 0.8519736842105263,
+            "damageMultiplier": 1,
+            "tempoMultiplier": 1
+          }
+        }
+      ],
+      "B": [
+        {
+          "code": "V-996",
+          "name": "발테르",
+          "title": "발테르",
+          "rank": "SSS",
+          "edition": "LIMITED",
+          "actorKind": "MERCENARY",
+          "sourceArt": "assets/ui/project-v/mercenaries/limited-20261002/v-996-source-art.png",
+          "battleSprite": "assets/ui/project-v/mercenaries/limited-20261002/valter-approved-sd.png",
+          "level": 1,
+          "statMode": "RANK_FIXED",
+          "basePower": 1080000,
+          "position": "FRONT",
+          "role": "VANGUARD",
+          "attackStyle": "MELEE",
+          "skills": [],
+          "pendingSkillIds": [],
+          "valterPolicyVersion": 2,
+          "deploymentEnabled": true,
+          "deploymentVersion": "20261012-helios-deployment-v1",
+          "combat": {
+            "energyMax": 100,
+            "energyPerBasic": 10,
+            "windupTurns": 1,
+            "statusTurns": 2,
+            "armorReductionPercent": 20,
+            "interceptPercent": 40,
+            "parryPercent": 40,
+            "orderPercent": 15,
+            "veilPercent": 25,
+            "finisherHpPercent": 30,
+            "finisherBonusPercent": 50,
+            "focusBonusPercent": 40,
+            "poisonPercent": 40,
+            "restraintHits": 2,
+            "restraintPercent": 25,
+            "suppressGauge": 20,
+            "reloadGauge": 20,
+            "powerGrowthPercentPerLevel": 0
+          },
+          "mercenaryLevel": {
+            "version": 2,
+            "level": 1,
+            "policyRevision": 0,
+            "breakthroughMask": 0,
+            "growth": {
+              "version": "mercenary-growth-v2-20261015",
+              "perLevel": {
+                "hpPercent": 25,
+                "attackPercent": 25,
+                "defensePercent": 6,
+                "speedPercent": 1
+              },
+              "milestones": [
+                {
+                  "level": 5,
+                  "hpPercent": 100,
+                  "attackPercent": 125,
+                  "defensePercent": 15,
+                  "speedPercent": 2,
+                  "skillPowerPercent": 5,
+                  "mitigationBypassPercent": 12.5,
+                  "actionCatchupPercent": 10,
+                  "actionCreditPercent": 10
+                },
+                {
+                  "level": 10,
+                  "hpPercent": 100,
+                  "attackPercent": 125,
+                  "defensePercent": 15,
+                  "speedPercent": 2,
+                  "skillPowerPercent": 5,
+                  "mitigationBypassPercent": 12.5,
+                  "actionCatchupPercent": 15,
+                  "actionCreditPercent": 15
+                },
+                {
+                  "level": 15,
+                  "hpPercent": 100,
+                  "attackPercent": 125,
+                  "defensePercent": 15,
+                  "speedPercent": 2,
+                  "skillPowerPercent": 5,
+                  "mitigationBypassPercent": 12.5,
+                  "actionCatchupPercent": 20,
+                  "actionCreditPercent": 20
+                },
+                {
+                  "level": 20,
+                  "hpPercent": 100,
+                  "attackPercent": 125,
+                  "defensePercent": 15,
+                  "speedPercent": 2,
+                  "skillPowerPercent": 5,
+                  "mitigationBypassPercent": 12.5,
+                  "actionCatchupPercent": 25,
+                  "actionCreditPercent": 30
+                }
+              ]
+            }
+          },
+          "counterImmune": true,
+          "controlImmune": true,
+          "poisonImmune": true,
+          "stats": {
+            "hp": 1123200,
+            "attack": 317520,
+            "defense": 165240,
+            "speed": 84450
+          },
+          "id": "B:MERCENARY:V-996",
+          "cardId": "V-996",
+          "slot": 5,
+          "side": "B",
+          "battleMode": "PVP",
+          "row": "FRONT",
+          "type": "MERCENARY",
+          "typeLabel": "VANGUARD",
+          "isMercenary": true,
+          "image": "assets/ui/project-v/mercenaries/limited-20261002/v-996-source-art.png",
+          "grade": "SSS",
+          "power": 1080000,
+          "equipmentShare": 0,
+          "maxHp": 14357511,
+          "hp": 14357511,
+          "attack": 365148,
+          "defense": 165240,
+          "speed": 85426,
+          "shield": 8460676,
+          "maxShield": 8460676,
+          "gauge": 0,
+          "uniqueAbility": null,
+          "teamHealerCount": 1,
+          "defenseLineBreached": true,
+          "mercenaryLink": {
+            "version": 2144,
+            "attackFloor": 5803494,
+            "hpFloor": 14357511,
+            "openingShield": 8460676,
+            "tierGuard": 1,
+            "tierOffense": 1
+          },
+          "mercenaryGrowthBaseSpeed": 84450,
+          "mercenaryGrowth": {
+            "version": "mercenary-growth-v2-20261015",
+            "level": 1,
+            "breakthroughMask": 0,
+            "breakthroughCount": 0,
+            "perLevelBonus": {
+              "hpPercent": 0,
+              "attackPercent": 0,
+              "defensePercent": 0,
+              "speedPercent": 0,
+              "skillPowerPercent": 0,
+              "mitigationBypassPercent": 0,
+              "actionCatchupPercent": 0,
+              "actionCreditPercent": 0
+            },
+            "breakthroughBonus": {
+              "hpPercent": 0,
+              "attackPercent": 0,
+              "defensePercent": 0,
+              "speedPercent": 0,
+              "skillPowerPercent": 0,
+              "mitigationBypassPercent": 0,
+              "actionCatchupPercent": 0,
+              "actionCreditPercent": 0
+            },
+            "total": {
+              "hpPercent": 0,
+              "attackPercent": 0,
+              "defensePercent": 0,
+              "speedPercent": 0,
+              "skillPowerPercent": 0,
+              "mitigationBypassPercent": 0,
+              "actionCatchupPercent": 0,
+              "actionCreditPercent": 0
+            },
+            "nextMilestone": 5
+          },
+          "mercenaryLevelApplied": true,
+          "mercenaryGrowthMatchup": {
+            "version": "mercenary-growth-v2-20261015",
+            "baseSpeed": 84450,
+            "ownCardClock": 135850,
+            "ownReservedRate": 407550,
+            "ownActionRate": 492000,
+            "speedBefore": 84450,
+            "speedAfter": 84450,
+            "floor": 84450,
+            "opponents": [
+              {
+                "actorId": "A:MERCENARY:V-049",
+                "ownerId": null,
+                "level": 20,
+                "referenceSpeed": 4750,
+                "referenceCardClock": 135850,
+                "referenceInnateCredit": 1,
+                "referenceActionRate": 140600,
+                "gap": 0,
+                "floor": 84450
+              }
+            ]
+          },
+          "pvpPowerBalance": {
+            "version": "pvp-power-bonus-20261015-v2",
+            "formationPower": 6080000,
+            "opponentPower": 5180000,
+            "ratio": 1.1737451737451738,
+            "damageMultiplier": 1.0346678838635548,
+            "tempoMultiplier": 1.0115559612878515
+          }
+        }
+      ]
+    },
+    "timeline": [
+      {
+        "seq": 1,
+        "at": 0,
+        "type": "GUARD_PROTECT",
+        "side": "A",
+        "amount": 83200,
+        "guards": 1,
+        "label": "수호형 · 방벽 전개"
+      },
+      {
+        "seq": 2,
+        "at": 0,
+        "type": "GUARD_PROTECT",
+        "side": "B",
+        "amount": 83200,
+        "guards": 1,
+        "label": "수호형 · 방벽 전개"
+      },
+      {
+        "seq": 3,
+        "at": 0,
+        "type": "DEPLOY",
+        "side": "A",
+        "typeVariety": 4,
+        "bonusPercent": 15,
+        "label": "편성 다양성 4계열 · +15%"
+      },
+      {
+        "seq": 4,
+        "at": 0,
+        "type": "DEPLOY",
+        "side": "B",
+        "typeVariety": 4,
+        "bonusPercent": 15,
+        "label": "편성 다양성 4계열 · +15%"
+      },
+      {
+        "seq": 5,
+        "at": 0,
+        "type": "SINGLE_HEALER_AURA",
+        "actorId": "A:3:QA-3",
+        "side": "A",
+        "teamHpPercent": 8,
+        "targets": [
+          {
+            "targetId": "A:0:QA-0",
+            "amount": 66976,
+            "hpAfter": 1262976,
+            "maxHp": 1262976
+          },
+          {
+            "targetId": "A:1:QA-1",
+            "amount": 66976,
+            "hpAfter": 1262976,
+            "maxHp": 1262976
+          },
+          {
+            "targetId": "A:2:QA-2",
+            "amount": 66976,
+            "hpAfter": 1262976,
+            "maxHp": 1262976
+          },
+          {
+            "targetId": "A:3:QA-3",
+            "amount": 71999,
+            "hpAfter": 1357699,
+            "maxHp": 1357699
+          },
+          {
+            "targetId": "A:4:QA-4",
+            "amount": 66976,
+            "hpAfter": 1262976,
+            "maxHp": 1262976
+          },
+          {
+            "targetId": "A:MERCENARY:V-049",
+            "amount": 12056,
+            "hpAfter": 227336,
+            "maxHp": 227336
+          }
+        ],
+        "label": "단일 힐러 · 생명 연결"
+      },
+      {
+        "seq": 6,
+        "at": 0,
+        "type": "SINGLE_HEALER_AURA",
+        "actorId": "B:3:QA-3",
+        "side": "B",
+        "teamHpPercent": 8,
+        "targets": [
+          {
+            "targetId": "B:0:QA-0",
+            "amount": 66976,
+            "hpAfter": 1262976,
+            "maxHp": 1262976
+          },
+          {
+            "targetId": "B:1:QA-1",
+            "amount": 66976,
+            "hpAfter": 1262976,
+            "maxHp": 1262976
+          },
+          {
+            "targetId": "B:2:QA-2",
+            "amount": 66976,
+            "hpAfter": 1262976,
+            "maxHp": 1262976
+          },
+          {
+            "targetId": "B:3:QA-3",
+            "amount": 71999,
+            "hpAfter": 1357699,
+            "maxHp": 1357699
+          },
+          {
+            "targetId": "B:4:QA-4",
+            "amount": 66976,
+            "hpAfter": 1262976,
+            "maxHp": 1262976
+          },
+          {
+            "targetId": "B:MERCENARY:V-996",
+            "amount": 72334,
+            "hpAfter": 1364014,
+            "maxHp": 1364014
+          }
+        ],
+        "label": "단일 힐러 · 생명 연결"
+      },
+      {
+        "seq": 7,
+        "at": 0,
+        "type": "DEFENSE_LINE_BREACHED",
+        "actorSide": "A",
+        "targetSide": "B",
+        "defenseCount": 1,
+        "shieldReductionPercent": 45,
+        "label": "공격형 연계 · 공성 돌파"
+      },
+      {
+        "seq": 8,
+        "at": 0,
+        "type": "DEFENSE_LINE_BREACHED",
+        "actorSide": "B",
+        "targetSide": "A",
+        "defenseCount": 1,
+        "shieldReductionPercent": 45,
+        "label": "공격형 연계 · 공성 돌파"
+      },
+      {
+        "seq": 9,
+        "at": 0,
+        "type": "START_EFFECT",
+        "targetId": "A:0:QA-0",
+        "effect": "SHIELD",
+        "amount": 45760,
+        "shieldAfter": 45760,
+        "label": "방어형 · 선봉 방벽"
+      },
+      {
+        "seq": 10,
+        "at": 0,
+        "type": "START_EFFECT",
+        "targetId": "A:1:QA-1",
+        "effect": "SHIELD",
+        "amount": 148720,
+        "shieldAfter": 148720,
+        "label": "방어형 · 선봉 방벽"
+      },
+      {
+        "seq": 11,
+        "at": 0,
+        "type": "START_EFFECT",
+        "targetId": "A:2:QA-2",
+        "effect": "SHIELD",
+        "amount": 45760,
+        "shieldAfter": 45760,
+        "label": "방어형 · 선봉 방벽"
+      },
+      {
+        "seq": 12,
+        "at": 0,
+        "type": "START_EFFECT",
+        "targetId": "A:3:QA-3",
+        "effect": "SHIELD",
+        "amount": 45760,
+        "shieldAfter": 45760,
+        "label": "방어형 · 선봉 방벽"
+      },
+      {
+        "seq": 13,
+        "at": 0,
+        "type": "START_EFFECT",
+        "targetId": "A:4:QA-4",
+        "effect": "SHIELD",
+        "amount": 45760,
+        "shieldAfter": 45760,
+        "label": "방어형 · 선봉 방벽"
+      },
+      {
+        "seq": 14,
+        "at": 0,
+        "type": "START_EFFECT",
+        "targetId": "A:MERCENARY:V-049",
+        "effect": "SHIELD",
+        "amount": 2692033,
+        "shieldAfter": 2692033,
+        "label": "용병 · 전력 연계 방벽"
+      },
+      {
+        "seq": 15,
+        "at": 0,
+        "type": "START_EFFECT",
+        "targetId": "B:0:QA-0",
+        "effect": "SHIELD",
+        "amount": 45760,
+        "shieldAfter": 45760,
+        "label": "방어형 · 선봉 방벽"
+      },
+      {
+        "seq": 16,
+        "at": 0,
+        "type": "START_EFFECT",
+        "targetId": "B:1:QA-1",
+        "effect": "SHIELD",
+        "amount": 148720,
+        "shieldAfter": 148720,
+        "label": "방어형 · 선봉 방벽"
+      },
+      {
+        "seq": 17,
+        "at": 0,
+        "type": "START_EFFECT",
+        "targetId": "B:2:QA-2",
+        "effect": "SHIELD",
+        "amount": 45760,
+        "shieldAfter": 45760,
+        "label": "방어형 · 선봉 방벽"
+      },
+      {
+        "seq": 18,
+        "at": 0,
+        "type": "START_EFFECT",
+        "targetId": "B:3:QA-3",
+        "effect": "SHIELD",
+        "amount": 45760,
+        "shieldAfter": 45760,
+        "label": "방어형 · 선봉 방벽"
+      },
+      {
+        "seq": 19,
+        "at": 0,
+        "type": "START_EFFECT",
+        "targetId": "B:4:QA-4",
+        "effect": "SHIELD",
+        "amount": 45760,
+        "shieldAfter": 45760,
+        "label": "방어형 · 선봉 방벽"
+      },
+      {
+        "seq": 20,
+        "at": 0,
+        "type": "START_EFFECT",
+        "targetId": "B:MERCENARY:V-996",
+        "effect": "SHIELD",
+        "amount": 8460676,
+        "shieldAfter": 8460676,
+        "label": "용병 · 전력 연계 방벽"
+      },
+      {
+        "seq": 21,
+        "at": 0.001,
+        "type": "MERCENARY_WINDUP",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "skillId": "MS-049",
+        "skillName": "극빙 왕관",
+        "mechanic": "CRYSTAL_CROWN",
+        "skillPhaseIndex": 0,
+        "targetId": "B:0:QA-0",
+        "targetIds": [
+          "B:0:QA-0",
+          "B:1:QA-1"
+        ],
+        "energyAfter": 65,
+        "label": "극빙 왕관"
+      },
+      {
+        "seq": 22,
+        "at": 0.001,
+        "type": "MERCENARY_CRYSTAL_CROWN",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "skillId": "MS-049",
+        "skillName": "극빙 왕관",
+        "mechanic": "CRYSTAL_CROWN",
+        "targetId": "B:0:QA-0",
+        "targetIds": [
+          "B:0:QA-0",
+          "B:1:QA-1"
+        ],
+        "battleMode": "PVP",
+        "impacts": [
+          {
+            "targetId": "B:0:QA-0",
+            "phaseIndex": 0,
+            "at": 1.3,
+            "damage": 439223,
+            "absorbed": 45760,
+            "dodge": false,
+            "targetHpAfter": 823753,
+            "targetMaxHp": 1262976,
+            "targetShieldAfter": 0,
+            "targetMaxShield": 45760
+          },
+          {
+            "targetId": "B:1:QA-1",
+            "phaseIndex": 0,
+            "at": 1.3,
+            "damage": 336263,
+            "absorbed": 148720,
+            "dodge": false,
+            "targetHpAfter": 926713,
+            "targetMaxHp": 1262976,
+            "targetShieldAfter": 0,
+            "targetMaxShield": 148720
+          },
+          {
+            "targetId": "B:0:QA-0",
+            "phaseIndex": 1,
+            "at": 2.62,
+            "damage": 727474,
+            "absorbed": 0,
+            "dodge": false,
+            "targetHpAfter": 96279,
+            "targetMaxHp": 1262976,
+            "targetShieldAfter": 0,
+            "targetMaxShield": 45760
+          },
+          {
+            "targetId": "B:1:QA-1",
+            "phaseIndex": 1,
+            "at": 2.62,
+            "damage": 727474,
+            "absorbed": 0,
+            "dodge": false,
+            "targetHpAfter": 199239,
+            "targetMaxHp": 1262976,
+            "targetShieldAfter": 0,
+            "targetMaxShield": 148720
+          }
+        ],
+        "label": "극빙 왕관"
+      },
+      {
+        "seq": 23,
+        "at": 0.001,
+        "type": "MERCENARY_END",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "skillId": "MS-049",
+        "skillName": "극빙 왕관",
+        "mechanic": "CRYSTAL_CROWN",
+        "skillPhaseIndex": 0,
+        "label": "극빙 왕관"
+      },
+      {
+        "seq": 24,
+        "at": 0.001,
+        "type": "TURN",
+        "actorId": "A:2:QA-2",
+        "actionClock": "SPEED_GAUGE",
+        "targetId": "B:3:QA-3",
+        "damage": 481428,
+        "absorbed": 45760,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "speedCombo": true,
+        "hitCount": 3,
+        "hits": [
+          {
+            "damage": 240714,
+            "absorbed": 22880,
+            "targetHpAfter": 1116985,
+            "targetShieldAfter": 22880
+          },
+          {
+            "damage": 120357,
+            "absorbed": 11440,
+            "targetHpAfter": 996628,
+            "targetShieldAfter": 11440
+          },
+          {
+            "damage": 120357,
+            "absorbed": 11440,
+            "targetHpAfter": 876271,
+            "targetShieldAfter": 0
+          }
+        ],
+        "basicAttack": 1,
+        "targetHpAfter": 876271,
+        "targetMaxHp": 1357699,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 14.343580776124611
+      },
+      {
+        "seq": 25,
+        "at": 0.001,
+        "type": "TURN",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "B:0:QA-0",
+        "damage": 96279,
+        "absorbed": 0,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 0,
+        "targetMaxHp": 1262976,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 35.13029593670698
+      },
+      {
+        "seq": 26,
+        "at": 0.001,
+        "type": "KO",
+        "targetId": "B:0:QA-0"
+      },
+      {
+        "seq": 27,
+        "at": 0.001,
+        "type": "TURN",
+        "actorId": "B:2:QA-2",
+        "actionClock": "SPEED_GAUGE",
+        "targetId": "A:3:QA-3",
+        "damage": 482741,
+        "absorbed": 45760,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "speedCombo": true,
+        "hitCount": 3,
+        "hits": [
+          {
+            "damage": 241371,
+            "absorbed": 22880,
+            "targetHpAfter": 1116328,
+            "targetShieldAfter": 22880
+          },
+          {
+            "damage": 120685,
+            "absorbed": 11440,
+            "targetHpAfter": 995643,
+            "targetShieldAfter": 11440
+          },
+          {
+            "damage": 120685,
+            "absorbed": 11440,
+            "targetHpAfter": 874958,
+            "targetShieldAfter": 0
+          }
+        ],
+        "basicAttack": 1,
+        "targetHpAfter": 874958,
+        "targetMaxHp": 1357699,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 10.523888679102274
+      },
+      {
+        "seq": 28,
+        "at": 0.001,
+        "type": "TURN",
+        "actorId": "B:MERCENARY:V-996",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "A:1:QA-1",
+        "damage": 1262976,
+        "absorbed": 148720,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 0,
+        "targetMaxHp": 1262976,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 29.525754330680947
+      },
+      {
+        "seq": 29,
+        "at": 0.001,
+        "type": "KO",
+        "targetId": "A:1:QA-1"
+      },
+      {
+        "seq": 30,
+        "at": 0.001,
+        "type": "TURN",
+        "actorId": "B:MERCENARY:V-996",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "A:MERCENARY:V-049",
+        "dodge": true,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 4.4548084890787765,
+        "advancementClass": null,
+        "label": "속도형 · 회피"
+      },
+      {
+        "seq": 31,
+        "at": 0.001,
+        "type": "TURN",
+        "actorId": "B:MERCENARY:V-996",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "A:0:QA-0",
+        "damage": 1262976,
+        "absorbed": 45760,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 0,
+        "targetMaxHp": 1262976,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 31.819661978633388
+      },
+      {
+        "seq": 32,
+        "at": 0.001,
+        "type": "KO",
+        "targetId": "A:0:QA-0"
+      },
+      {
+        "seq": 33,
+        "at": 0.002,
+        "type": "TURN",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "B:1:QA-1",
+        "damage": 199239,
+        "absorbed": 0,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 0,
+        "targetMaxHp": 1262976,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 2.842170943040401e-14,
+        "targetGaugeAfter": 44.54066285774395
+      },
+      {
+        "seq": 34,
+        "at": 0.002,
+        "type": "KO",
+        "targetId": "B:1:QA-1"
+      },
+      {
+        "seq": 35,
+        "at": 0.002,
+        "type": "TURN",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "B:MERCENARY:V-996",
+        "damage": 1274330,
+        "absorbed": 8460676,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 13083181,
+        "targetMaxHp": 14357511,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 92.91042215220813
+      },
+      {
+        "seq": 36,
+        "at": 0.002,
+        "type": "TURN",
+        "actorId": "B:MERCENARY:V-996",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "A:MERCENARY:V-049",
+        "damage": 7946619,
+        "absorbed": 2692033,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 27049816,
+        "targetMaxHp": 34996435,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 14.921177041978382
+      },
+      {
+        "seq": 37,
+        "at": 0.003,
+        "type": "TURN",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "B:MERCENARY:V-996",
+        "damage": 9218959,
+        "absorbed": 0,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 3864222,
+        "targetMaxHp": 14357511,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 2.842170943040401e-14,
+        "targetGaugeAfter": 40.42395159996194
+      },
+      {
+        "seq": 38,
+        "at": 0.003,
+        "type": "MERCENARY_WINDUP",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "skillId": "MS-049",
+        "skillName": "극빙 왕관",
+        "mechanic": "CRYSTAL_CROWN",
+        "skillPhaseIndex": 0,
+        "targetId": "B:MERCENARY:V-996",
+        "targetIds": [
+          "B:MERCENARY:V-996"
+        ],
+        "energyAfter": 65,
+        "label": "극빙 왕관"
+      },
+      {
+        "seq": 39,
+        "at": 0.003,
+        "type": "MERCENARY_CRYSTAL_CROWN",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "skillId": "MS-049",
+        "skillName": "극빙 왕관",
+        "mechanic": "CRYSTAL_CROWN",
+        "targetId": "B:MERCENARY:V-996",
+        "targetIds": [
+          "B:MERCENARY:V-996"
+        ],
+        "battleMode": "PVP",
+        "impacts": [
+          {
+            "targetId": "B:MERCENARY:V-996",
+            "phaseIndex": 0,
+            "at": 1.3,
+            "damage": 3864222,
+            "absorbed": 0,
+            "dodge": false,
+            "targetHpAfter": 0,
+            "targetMaxHp": 14357511,
+            "targetShieldAfter": 0,
+            "targetMaxShield": 8460676
+          }
+        ],
+        "label": "극빙 왕관"
+      },
+      {
+        "seq": 40,
+        "at": 0.003,
+        "type": "KO",
+        "targetId": "B:MERCENARY:V-996"
+      },
+      {
+        "seq": 41,
+        "at": 0.003,
+        "type": "MERCENARY_END",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "skillId": "MS-049",
+        "skillName": "극빙 왕관",
+        "mechanic": "CRYSTAL_CROWN",
+        "skillPhaseIndex": 0,
+        "label": "극빙 왕관"
+      },
+      {
+        "seq": 42,
+        "at": 0.004,
+        "type": "TURN",
+        "actorId": "B:4:QA-4",
+        "actionClock": "SPEED_GAUGE",
+        "targetId": "A:MERCENARY:V-049",
+        "damage": 672457,
+        "absorbed": 0,
+        "critical": false,
+        "penetration": 15,
+        "execute": false,
+        "openingPressure": true,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 26377359,
+        "targetMaxHp": 34996435,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 41.547975297905616
+      },
+      {
+        "seq": 43,
+        "at": 0.004,
+        "type": "TURN",
+        "actorId": "A:4:QA-4",
+        "actionClock": "SPEED_GAUGE",
+        "targetId": "B:3:QA-3",
+        "damage": 537751,
+        "absorbed": 0,
+        "critical": false,
+        "penetration": 15,
+        "execute": false,
+        "openingPressure": true,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 338520,
+        "targetMaxHp": 1357699,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 76.12082563852708
+      },
+      {
+        "seq": 44,
+        "at": 0.004,
+        "type": "EMERGENCY_HEAL",
+        "targetId": "B:3:QA-3",
+        "amount": 407310,
+        "hpAfter": 745830,
+        "maxHp": 1357699,
+        "label": "생명형 · 긴급 회복"
+      },
+      {
+        "seq": 45,
+        "at": 0.004,
+        "type": "FRONTLINE_BREAK",
+        "side": "B",
+        "label": "적군 전열 붕괴"
+      },
+      {
+        "seq": 46,
+        "at": 0.004,
+        "type": "TURN",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "B:2:QA-2",
+        "damage": 837060,
+        "absorbed": 45760,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 425916,
+        "targetMaxHp": 1262976,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 91.70280326247325
+      },
+      {
+        "seq": 47,
+        "at": 0.004,
+        "type": "TURN",
+        "actorId": "B:2:QA-2",
+        "actionClock": "SPEED_GAUGE",
+        "targetId": "A:3:QA-3",
+        "damage": 385731,
+        "absorbed": 0,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "speedCombo": true,
+        "hitCount": 2,
+        "hits": [
+          {
+            "damage": 257154,
+            "absorbed": 0,
+            "targetHpAfter": 617804,
+            "targetShieldAfter": 0
+          },
+          {
+            "damage": 128577,
+            "absorbed": 0,
+            "targetHpAfter": 489227,
+            "targetShieldAfter": 0
+          }
+        ],
+        "basicAttack": 2,
+        "targetHpAfter": 489227,
+        "targetMaxHp": 1357699,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 58.4966073728024
+      },
+      {
+        "seq": 48,
+        "at": 0.004,
+        "type": "TURN",
+        "actorId": "A:2:QA-2",
+        "actionClock": "SPEED_GAUGE",
+        "targetId": "B:3:QA-3",
+        "damage": 373868,
+        "absorbed": 0,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "speedCombo": true,
+        "hitCount": 2,
+        "hits": [
+          {
+            "damage": 249245,
+            "absorbed": 0,
+            "targetHpAfter": 496585,
+            "targetShieldAfter": 0
+          },
+          {
+            "damage": 124623,
+            "absorbed": 0,
+            "targetHpAfter": 371962,
+            "targetShieldAfter": 0
+          }
+        ],
+        "basicAttack": 2,
+        "targetHpAfter": 371962,
+        "targetMaxHp": 1357699,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 63.85008930953509
+      },
+      {
+        "seq": 49,
+        "at": 0.004,
+        "type": "TURN",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "B:3:QA-3",
+        "damage": 371962,
+        "absorbed": 0,
+        "critical": false,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 0,
+        "targetMaxHp": 1357699,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 63.85008930953509
+      },
+      {
+        "seq": 50,
+        "at": 0.004,
+        "type": "KO",
+        "targetId": "B:3:QA-3"
+      },
+      {
+        "seq": 51,
+        "at": 0.004,
+        "type": "TURN",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "B:2:QA-2",
+        "dodge": true,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 0.2877379717965989,
+        "advancementClass": null,
+        "label": "속도형 · 회피"
+      },
+      {
+        "seq": 52,
+        "at": 0.004,
+        "type": "TURN",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "B:2:QA-2",
+        "damage": 425916,
+        "absorbed": 0,
+        "critical": true,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 0,
+        "targetMaxHp": 1262976,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 19.737327221656148
+      },
+      {
+        "seq": 53,
+        "at": 0.004,
+        "type": "KO",
+        "targetId": "B:2:QA-2"
+      },
+      {
+        "seq": 54,
+        "at": 0.005,
+        "type": "MERCENARY_WINDUP",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "skillId": "MS-049",
+        "skillName": "극빙 왕관",
+        "mechanic": "CRYSTAL_CROWN",
+        "skillPhaseIndex": 0,
+        "targetId": "B:4:QA-4",
+        "targetIds": [
+          "B:4:QA-4"
+        ],
+        "energyAfter": 60,
+        "label": "극빙 왕관"
+      },
+      {
+        "seq": 55,
+        "at": 0.005,
+        "type": "MERCENARY_CRYSTAL_CROWN",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "skillId": "MS-049",
+        "skillName": "극빙 왕관",
+        "mechanic": "CRYSTAL_CROWN",
+        "targetId": "B:4:QA-4",
+        "targetIds": [
+          "B:4:QA-4"
+        ],
+        "battleMode": "PVP",
+        "impacts": [
+          {
+            "targetId": "B:4:QA-4",
+            "phaseIndex": 0,
+            "at": 1.3,
+            "damage": 439223,
+            "absorbed": 45760,
+            "dodge": false,
+            "targetHpAfter": 823753,
+            "targetMaxHp": 1262976,
+            "targetShieldAfter": 0,
+            "targetMaxShield": 45760
+          },
+          {
+            "targetId": "B:4:QA-4",
+            "phaseIndex": 1,
+            "at": 2.62,
+            "damage": 727474,
+            "absorbed": 0,
+            "dodge": false,
+            "targetHpAfter": 96279,
+            "targetMaxHp": 1262976,
+            "targetShieldAfter": 0,
+            "targetMaxShield": 45760
+          }
+        ],
+        "label": "극빙 왕관"
+      },
+      {
+        "seq": 56,
+        "at": 0.005,
+        "type": "MERCENARY_END",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "skillId": "MS-049",
+        "skillName": "극빙 왕관",
+        "mechanic": "CRYSTAL_CROWN",
+        "skillPhaseIndex": 0,
+        "label": "극빙 왕관"
+      },
+      {
+        "seq": 57,
+        "at": 0.006,
+        "type": "TURN",
+        "actorId": "A:MERCENARY:V-049",
+        "actorKind": "MERCENARY",
+        "actionClock": "MERCENARY_ADDITIONAL",
+        "targetId": "B:4:QA-4",
+        "damage": 96279,
+        "absorbed": 0,
+        "critical": true,
+        "penetration": 3,
+        "execute": false,
+        "openingPressure": false,
+        "shieldBreaker": false,
+        "advancementClass": null,
+        "suddenDeath": false,
+        "targetHpAfter": 0,
+        "targetMaxHp": 1262976,
+        "targetShieldAfter": 0,
+        "actorGaugeAfter": 0,
+        "targetGaugeAfter": 55.52146383698055
+      },
+      {
+        "seq": 58,
+        "at": 0.006,
+        "type": "KO",
+        "targetId": "B:4:QA-4"
+      },
+      {
+        "seq": 59,
+        "at": 0.016,
+        "type": "RESULT",
+        "winner": "A",
+        "reason": "ELIMINATION",
+        "actions": 6,
+        "mercenaryActions": 16,
+        "duration": 0.006,
+        "teamAHpPercent": 66.4,
+        "teamBHpPercent": 0,
+        "originalReason": "ELIMINATION",
+        "survivorCountA": 4,
+        "survivorCountB": 0
+      }
+    ]
+  },
+  "formula": "ownNaturalSpeed + max(0, opponentPreGrowthNaturalSpeed + opponentOwnerCardClock * opponentInnateCredit - ownNaturalSpeed - ownOwnerCardClock * (ownInnateCredit + ownGrowthCredit)) * learnedCatchup * min(1, positiveLevelGap / 10)"
+}

@@ -1,3 +1,4 @@
+import {mercenaryGrowthIncomingDamage,applyMercenaryGrowthMatchups,mercenaryGrowthActionCredit} from '../shared/mercenary-growth-review-v2.mjs';
 import {shiranuiIncomingDamage,shiranuiActionCredit} from '../shared/mercenary-shiranui-v1.mjs';
 import {PVP_POWER_BALANCE,pvpPowerEnabled,PVP_POWER_BALANCE_REVIEW,applyPvpPowerBalance,pvpPowerDamageMultiplier} from '../shared/pvp-power-balance-v1.mjs';
 import {Z_BODY_AREA_RELEASE_ENABLED,Z_BODY_AREA_REVIEW,isZBodyAreaActor,createBattleSuitCombatSchedule} from '../shared/z-body-area-skill.mjs';
@@ -7,7 +8,7 @@ import {SX_RELEASE_ENABLED,SX_ATTACK_SPEED,isSxSuit,isSxAreaActor} from '../shar
 import {battleSuitIntrinsicDamage} from '../shared/z-body-area-skill.mjs';
 import {buildApocalypseLegion,castApocalypseAction,apocalypseSealed,apocalypseCursed,clearApocalypseStatus,finishApocalypseAction} from './_apocalypse_legion.js';
 import {SKILL_CHIP_RUNTIME_ENABLED,SKILL_CHIP_CLOCK,normalizeSkillChipCodes,skillChipDamage,splitSkillChipDamage,skillChipCombatEventMs} from '../shared/battle-suit-skill-chips.mjs';
-import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from './_mercenary_combat.js';
+import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence,mercenaryBaseActionCredit} from './_mercenary_combat.js';
 import {MAGIC_SEASON2_REVIEW} from '../shared/magic-season2-v1.mjs';
 import {COMPANION_PREPARATION_REVIEW} from '../shared/companion-loadout-v2.mjs';
 import {applyPetOpeningBuff,preparedMercenaryCadence} from '../shared/companion-opening-v1.mjs';
@@ -571,11 +572,13 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   if (options.shieldBonus > 0 && target.shield > 0) {
     incoming = incoming + Math.min(target.shield, incoming * options.shieldBonus);
   }
+  const beforeMercenaryMitigation=incoming;
   incoming = valterIncomingDamage(target,incoming,options.actor);
   incoming = heliosIncomingDamage(target,incoming,options.actor);
   incoming = jinmuIncomingDamage(target,incoming,options.actor);
   incoming = kaironIncomingDamage(target,incoming,options.actor);
   incoming = shiranuiIncomingDamage(target,incoming,options.actor);
+  incoming = mercenaryGrowthIncomingDamage(target,beforeMercenaryMitigation,incoming,options.actor);
   // A shield-only removal may not spill its additional power budget into HP.
   if(options.shieldOnly&&options.actor?.pvpPowerBalance)incoming=Math.min(incoming,Math.max(0,target.shield));
   let remaining = Math.max(0, Number(incoming || 0));
@@ -1035,6 +1038,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   };
   breachDefenseLine(a,b);breachDefenseLine(b,a);
   applyMercenaryCombatLink([a,b],{regularCardsPerOwner:cooperative?2:5});
+  applyMercenaryGrowthMatchups([a,b],{baseActionCredit:mercenaryBaseActionCredit});
+  // The old finite action guard remains, with room for newly earned reserved turns.
+  for(const [side,team]of [['A',a],['B',b]]){const growthCredit=mercenaryGrowthActionCredit(team);if(growthCredit>0)mercenaryActionLimits[side]+=maxActions*Math.ceil(growthCredit);}
   const openingPets=companionReview?.pets||pets;
   if(openingPets)for(const [side,team]of [['A',a],['B',b]]){
     const entries=Array.isArray(openingPets[side])?openingPets[side]:[openingPets[side]];
