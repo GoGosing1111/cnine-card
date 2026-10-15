@@ -1,0 +1,2451 @@
+{
+  "operationKey": "ops:territory:73:finish-attacks100-win-shards-coins:20261015:v1",
+  "inspectedAtKst": "2026-10-15 20:46:09",
+  "round": {
+    "id": "73",
+    "status": "FINISHED",
+    "battle_name": "라면",
+    "winner_side": "B",
+    "starts_at": "2026-10-15T08:31:24.059Z",
+    "ends_at": "2026-10-16T04:31:24.059Z",
+    "settled_at": "2026-10-15 11:39:13",
+    "clan_season_id": null
+  },
+  "authorization": {
+    "request": "방금 종료된 영토전 보상지급해. 100회이상 공격 SSS 조각 1개 + 3천억. 승리팀 SSS조각 1개 + 5천억.",
+    "stackingConfirmation": "두 보상 합산",
+    "winnerPolicy": "승리 진영 전체 참가자. 추가 공격 최소 조건 없음.",
+    "delivery": "MESSAGE",
+    "recurring": false
+  },
+  "item": {
+    "code": "MERCENARY_SSS_CARD_SHARD",
+    "name": "SSS 용병 카드 조각"
+  },
+  "rules": {
+    "minimumAttacks": 100,
+    "attack": {
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    "winner": {
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    "stack": true
+  },
+  "totals": {
+    "participants": 138,
+    "attackQualified": 63,
+    "winners": 69,
+    "overlap": 34,
+    "recipients": 98,
+    "messages": 196,
+    "totalShards": "132",
+    "totalCoin": "53400000000000"
+  },
+  "participants": [
+    {
+      "userId": "3",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 100,
+      "actionAttacks": 100,
+      "rewardAttacks": 100,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "10",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 3,
+      "actionAttacks": 3,
+      "rewardAttacks": 3,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "13",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 70,
+      "actionAttacks": 70,
+      "rewardAttacks": 70,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "16",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 113,
+      "actionAttacks": 113,
+      "rewardAttacks": 113,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "19",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 60,
+      "actionAttacks": 60,
+      "rewardAttacks": 60,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "22",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 60,
+      "actionAttacks": 60,
+      "rewardAttacks": 60,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "25",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 95,
+      "actionAttacks": 95,
+      "rewardAttacks": 95,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "29",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 137,
+      "actionAttacks": 137,
+      "rewardAttacks": 137,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "32",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 110,
+      "actionAttacks": 110,
+      "rewardAttacks": 110,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "34",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 117,
+      "actionAttacks": 117,
+      "rewardAttacks": 117,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "45",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 119,
+      "actionAttacks": 119,
+      "rewardAttacks": 119,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "52",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 119,
+      "actionAttacks": 119,
+      "rewardAttacks": 119,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "62",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 77,
+      "actionAttacks": 77,
+      "rewardAttacks": 77,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "65",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 105,
+      "actionAttacks": 105,
+      "rewardAttacks": 105,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "71",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 16,
+      "actionAttacks": 16,
+      "rewardAttacks": 16,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "73",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 124,
+      "actionAttacks": 124,
+      "rewardAttacks": 124,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "76",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 67,
+      "actionAttacks": 67,
+      "rewardAttacks": 67,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "81",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 31,
+      "actionAttacks": 31,
+      "rewardAttacks": 31,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "85",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 68,
+      "actionAttacks": 68,
+      "rewardAttacks": 68,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "88",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 117,
+      "actionAttacks": 117,
+      "rewardAttacks": 117,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "91",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 62,
+      "actionAttacks": 62,
+      "rewardAttacks": 62,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "92",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 98,
+      "actionAttacks": 98,
+      "rewardAttacks": 98,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "130",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "148",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 112,
+      "actionAttacks": 112,
+      "rewardAttacks": 112,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "162",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 70,
+      "actionAttacks": 70,
+      "rewardAttacks": 70,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "164",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 114,
+      "actionAttacks": 114,
+      "rewardAttacks": 114,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "176",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 21,
+      "actionAttacks": 21,
+      "rewardAttacks": 21,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "183",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "187",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 35,
+      "actionAttacks": 35,
+      "rewardAttacks": 35,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "197",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 109,
+      "actionAttacks": 109,
+      "rewardAttacks": 109,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "202",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 16,
+      "actionAttacks": 16,
+      "rewardAttacks": 16,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "216",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 73,
+      "actionAttacks": 73,
+      "rewardAttacks": 73,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "218",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 98,
+      "actionAttacks": 98,
+      "rewardAttacks": 98,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "220",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 97,
+      "actionAttacks": 97,
+      "rewardAttacks": 97,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "226",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 116,
+      "actionAttacks": 116,
+      "rewardAttacks": 116,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "233",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 50,
+      "actionAttacks": 50,
+      "rewardAttacks": 50,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "236",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 115,
+      "actionAttacks": 115,
+      "rewardAttacks": 115,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "277",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 41,
+      "actionAttacks": 41,
+      "rewardAttacks": 41,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "289",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 116,
+      "actionAttacks": 116,
+      "rewardAttacks": 116,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "290",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 95,
+      "actionAttacks": 95,
+      "rewardAttacks": 95,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "295",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 116,
+      "actionAttacks": 116,
+      "rewardAttacks": 116,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "297",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 30,
+      "actionAttacks": 30,
+      "rewardAttacks": 30,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "303",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 102,
+      "actionAttacks": 102,
+      "rewardAttacks": 102,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "360",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 116,
+      "actionAttacks": 116,
+      "rewardAttacks": 116,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "364",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 46,
+      "actionAttacks": 46,
+      "rewardAttacks": 46,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "493",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 116,
+      "actionAttacks": 116,
+      "rewardAttacks": 116,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "521",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 109,
+      "actionAttacks": 109,
+      "rewardAttacks": 109,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "525",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 108,
+      "actionAttacks": 108,
+      "rewardAttacks": 108,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "660",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 104,
+      "actionAttacks": 104,
+      "rewardAttacks": 104,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "681",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 105,
+      "actionAttacks": 105,
+      "rewardAttacks": 105,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "750",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 127,
+      "actionAttacks": 127,
+      "rewardAttacks": 127,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "787",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 117,
+      "actionAttacks": 117,
+      "rewardAttacks": 117,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "792",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 116,
+      "actionAttacks": 116,
+      "rewardAttacks": 116,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "1195",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 118,
+      "actionAttacks": 118,
+      "rewardAttacks": 118,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "1255",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 16,
+      "actionAttacks": 16,
+      "rewardAttacks": 16,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "1301",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 21,
+      "actionAttacks": 21,
+      "rewardAttacks": 21,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "1421",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 39,
+      "actionAttacks": 39,
+      "rewardAttacks": 39,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "1545",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "1768",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 53,
+      "actionAttacks": 53,
+      "rewardAttacks": 53,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "2246",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 115,
+      "actionAttacks": 115,
+      "rewardAttacks": 115,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "2300",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 80,
+      "actionAttacks": 80,
+      "rewardAttacks": 80,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "2333",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 117,
+      "actionAttacks": 117,
+      "rewardAttacks": 117,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "2420",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 122,
+      "actionAttacks": 122,
+      "rewardAttacks": 122,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "2505",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 106,
+      "actionAttacks": 106,
+      "rewardAttacks": 106,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "2734",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 40,
+      "actionAttacks": 40,
+      "rewardAttacks": 40,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "3011",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 23,
+      "actionAttacks": 23,
+      "rewardAttacks": 23,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "3480",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 97,
+      "actionAttacks": 97,
+      "rewardAttacks": 97,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "3674",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 151,
+      "actionAttacks": 151,
+      "rewardAttacks": 151,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "3867",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 75,
+      "actionAttacks": 75,
+      "rewardAttacks": 75,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "3884",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 82,
+      "actionAttacks": 82,
+      "rewardAttacks": 82,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "3974",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 110,
+      "actionAttacks": 110,
+      "rewardAttacks": 110,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4010",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 101,
+      "actionAttacks": 101,
+      "rewardAttacks": 101,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4084",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 104,
+      "actionAttacks": 104,
+      "rewardAttacks": 104,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4111",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 115,
+      "actionAttacks": 115,
+      "rewardAttacks": 115,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4199",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 105,
+      "actionAttacks": 105,
+      "rewardAttacks": 105,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4222",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 84,
+      "actionAttacks": 84,
+      "rewardAttacks": 84,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4389",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 108,
+      "actionAttacks": 108,
+      "rewardAttacks": 108,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4391",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 114,
+      "actionAttacks": 114,
+      "rewardAttacks": 114,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4408",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 78,
+      "actionAttacks": 78,
+      "rewardAttacks": 78,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4415",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 120,
+      "actionAttacks": 120,
+      "rewardAttacks": 120,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4479",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 119,
+      "actionAttacks": 119,
+      "rewardAttacks": 119,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4501",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 93,
+      "actionAttacks": 93,
+      "rewardAttacks": 93,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4540",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 125,
+      "actionAttacks": 125,
+      "rewardAttacks": 125,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4562",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 90,
+      "actionAttacks": 90,
+      "rewardAttacks": 90,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4570",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 88,
+      "actionAttacks": 88,
+      "rewardAttacks": 88,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4572",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 113,
+      "actionAttacks": 113,
+      "rewardAttacks": 113,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4580",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 80,
+      "actionAttacks": 80,
+      "rewardAttacks": 80,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4581",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 51,
+      "actionAttacks": 51,
+      "rewardAttacks": 51,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4582",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 129,
+      "actionAttacks": 129,
+      "rewardAttacks": 129,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4595",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 77,
+      "actionAttacks": 77,
+      "rewardAttacks": 77,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4597",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 67,
+      "actionAttacks": 67,
+      "rewardAttacks": 67,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4598",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 106,
+      "actionAttacks": 106,
+      "rewardAttacks": 106,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4610",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 115,
+      "actionAttacks": 115,
+      "rewardAttacks": 115,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4614",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 102,
+      "actionAttacks": 102,
+      "rewardAttacks": 102,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4615",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 116,
+      "actionAttacks": 116,
+      "rewardAttacks": 116,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4621",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 106,
+      "actionAttacks": 106,
+      "rewardAttacks": 106,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4625",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 127,
+      "actionAttacks": 127,
+      "rewardAttacks": 127,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4627",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 114,
+      "actionAttacks": 114,
+      "rewardAttacks": 114,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4628",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 114,
+      "actionAttacks": 114,
+      "rewardAttacks": 114,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4629",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 121,
+      "actionAttacks": 121,
+      "rewardAttacks": 121,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4641",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 68,
+      "actionAttacks": 68,
+      "rewardAttacks": 68,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4647",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 73,
+      "actionAttacks": 73,
+      "rewardAttacks": 73,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4651",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 16,
+      "actionAttacks": 16,
+      "rewardAttacks": 16,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4652",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 27,
+      "actionAttacks": 27,
+      "rewardAttacks": 27,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4668",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 17,
+      "actionAttacks": 17,
+      "rewardAttacks": 17,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4675",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 60,
+      "actionAttacks": 60,
+      "rewardAttacks": 60,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4693",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4705",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 112,
+      "actionAttacks": 112,
+      "rewardAttacks": 112,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4754",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4757",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 73,
+      "actionAttacks": 73,
+      "rewardAttacks": 73,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4760",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 77,
+      "actionAttacks": 77,
+      "rewardAttacks": 77,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4772",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 110,
+      "actionAttacks": 110,
+      "rewardAttacks": 110,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4773",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 60,
+      "actionAttacks": 60,
+      "rewardAttacks": 60,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4774",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 61,
+      "actionAttacks": 61,
+      "rewardAttacks": 61,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4836",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 111,
+      "actionAttacks": 111,
+      "rewardAttacks": 111,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4866",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 94,
+      "actionAttacks": 94,
+      "rewardAttacks": 94,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4870",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4908",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 144,
+      "actionAttacks": 144,
+      "rewardAttacks": 144,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4910",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 103,
+      "actionAttacks": 103,
+      "rewardAttacks": 103,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4917",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4933",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 81,
+      "actionAttacks": 81,
+      "rewardAttacks": 81,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4954",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 16,
+      "actionAttacks": 16,
+      "rewardAttacks": 16,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4958",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "4965",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 115,
+      "actionAttacks": 115,
+      "rewardAttacks": 115,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4978",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 100,
+      "actionAttacks": 100,
+      "rewardAttacks": 100,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4981",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 39,
+      "actionAttacks": 39,
+      "rewardAttacks": 39,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "4996",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "5008",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 24,
+      "actionAttacks": 24,
+      "rewardAttacks": 24,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "5148",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 107,
+      "actionAttacks": 107,
+      "rewardAttacks": 107,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "5404",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 6,
+      "actionAttacks": 6,
+      "rewardAttacks": 6,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "5504",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 89,
+      "actionAttacks": 89,
+      "rewardAttacks": 89,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "5514",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "5529",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 121,
+      "actionAttacks": 121,
+      "rewardAttacks": 121,
+      "result": "LOSE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "5598",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "A"
+    },
+    {
+      "userId": "5690",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "5773",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 77,
+      "actionAttacks": 77,
+      "rewardAttacks": 77,
+      "result": "WIN",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "5877",
+      "accountStatus": "ACTIVE",
+      "side": "B",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 0,
+      "actionAttacks": 0,
+      "rewardAttacks": 0,
+      "result": "INELIGIBLE",
+      "rewardSide": "B"
+    },
+    {
+      "userId": "5972",
+      "accountStatus": "ACTIVE",
+      "side": "A",
+      "participantStatus": "ACTIVE",
+      "storedAttacks": 93,
+      "actionAttacks": 93,
+      "rewardAttacks": 93,
+      "result": "LOSE",
+      "rewardSide": "A"
+    }
+  ],
+  "recipients": [
+    {
+      "userId": "3",
+      "side": "B",
+      "attacks": 100,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "10",
+      "side": "B",
+      "attacks": 3,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "16",
+      "side": "A",
+      "attacks": 113,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "19",
+      "side": "B",
+      "attacks": 60,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "25",
+      "side": "B",
+      "attacks": 95,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "29",
+      "side": "A",
+      "attacks": 137,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "32",
+      "side": "B",
+      "attacks": 110,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "34",
+      "side": "B",
+      "attacks": 117,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "45",
+      "side": "B",
+      "attacks": 119,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "52",
+      "side": "B",
+      "attacks": 119,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "65",
+      "side": "A",
+      "attacks": 105,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "73",
+      "side": "A",
+      "attacks": 124,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "88",
+      "side": "A",
+      "attacks": 117,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "148",
+      "side": "B",
+      "attacks": 112,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "162",
+      "side": "B",
+      "attacks": 70,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "164",
+      "side": "A",
+      "attacks": 114,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "183",
+      "side": "B",
+      "attacks": 0,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "197",
+      "side": "B",
+      "attacks": 109,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "202",
+      "side": "B",
+      "attacks": 16,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "218",
+      "side": "B",
+      "attacks": 98,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "226",
+      "side": "B",
+      "attacks": 116,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "236",
+      "side": "A",
+      "attacks": 115,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "289",
+      "side": "A",
+      "attacks": 116,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "290",
+      "side": "B",
+      "attacks": 95,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "295",
+      "side": "A",
+      "attacks": 116,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "303",
+      "side": "A",
+      "attacks": 102,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "360",
+      "side": "B",
+      "attacks": 116,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "364",
+      "side": "B",
+      "attacks": 46,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "493",
+      "side": "A",
+      "attacks": 116,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "521",
+      "side": "B",
+      "attacks": 109,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "525",
+      "side": "B",
+      "attacks": 108,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "660",
+      "side": "B",
+      "attacks": 104,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "681",
+      "side": "A",
+      "attacks": 105,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "750",
+      "side": "B",
+      "attacks": 127,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "787",
+      "side": "A",
+      "attacks": 117,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "792",
+      "side": "B",
+      "attacks": 116,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "1195",
+      "side": "A",
+      "attacks": 118,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "1301",
+      "side": "B",
+      "attacks": 21,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "1421",
+      "side": "B",
+      "attacks": 39,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "1768",
+      "side": "B",
+      "attacks": 53,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "2246",
+      "side": "B",
+      "attacks": 115,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "2333",
+      "side": "B",
+      "attacks": 117,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "2420",
+      "side": "B",
+      "attacks": 122,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "2505",
+      "side": "B",
+      "attacks": 106,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "3011",
+      "side": "B",
+      "attacks": 23,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "3480",
+      "side": "B",
+      "attacks": 97,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "3674",
+      "side": "A",
+      "attacks": 151,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "3974",
+      "side": "B",
+      "attacks": 110,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4010",
+      "side": "B",
+      "attacks": 101,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4084",
+      "side": "A",
+      "attacks": 104,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4111",
+      "side": "A",
+      "attacks": 115,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4199",
+      "side": "B",
+      "attacks": 105,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4222",
+      "side": "B",
+      "attacks": 84,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4389",
+      "side": "B",
+      "attacks": 108,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4391",
+      "side": "B",
+      "attacks": 114,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4408",
+      "side": "B",
+      "attacks": 78,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4415",
+      "side": "B",
+      "attacks": 120,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4479",
+      "side": "A",
+      "attacks": 119,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4540",
+      "side": "A",
+      "attacks": 125,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4572",
+      "side": "A",
+      "attacks": 113,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4581",
+      "side": "B",
+      "attacks": 51,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4582",
+      "side": "A",
+      "attacks": 129,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4595",
+      "side": "B",
+      "attacks": 77,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4597",
+      "side": "B",
+      "attacks": 67,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4598",
+      "side": "B",
+      "attacks": 106,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4610",
+      "side": "A",
+      "attacks": 115,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4614",
+      "side": "A",
+      "attacks": 102,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4615",
+      "side": "B",
+      "attacks": 116,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4621",
+      "side": "B",
+      "attacks": 106,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4625",
+      "side": "B",
+      "attacks": 127,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4627",
+      "side": "A",
+      "attacks": 114,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4628",
+      "side": "A",
+      "attacks": 114,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4629",
+      "side": "A",
+      "attacks": 121,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4641",
+      "side": "B",
+      "attacks": 68,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4651",
+      "side": "B",
+      "attacks": 16,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4668",
+      "side": "B",
+      "attacks": 17,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4675",
+      "side": "B",
+      "attacks": 60,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4705",
+      "side": "B",
+      "attacks": 112,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4754",
+      "side": "B",
+      "attacks": 0,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4757",
+      "side": "B",
+      "attacks": 73,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4760",
+      "side": "B",
+      "attacks": 77,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4772",
+      "side": "B",
+      "attacks": 110,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4836",
+      "side": "A",
+      "attacks": 111,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4908",
+      "side": "B",
+      "attacks": 144,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4910",
+      "side": "B",
+      "attacks": 103,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4933",
+      "side": "B",
+      "attacks": 81,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "4965",
+      "side": "B",
+      "attacks": 115,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4978",
+      "side": "B",
+      "attacks": 100,
+      "attackQualified": true,
+      "winner": true,
+      "coin": "800000000000",
+      "shards": "2"
+    },
+    {
+      "userId": "4981",
+      "side": "B",
+      "attacks": 39,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "5008",
+      "side": "B",
+      "attacks": 24,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "5148",
+      "side": "A",
+      "attacks": 107,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "5404",
+      "side": "B",
+      "attacks": 6,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "5504",
+      "side": "B",
+      "attacks": 89,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "5514",
+      "side": "B",
+      "attacks": 0,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "5529",
+      "side": "A",
+      "attacks": 121,
+      "attackQualified": true,
+      "winner": false,
+      "coin": "300000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "5690",
+      "side": "B",
+      "attacks": 0,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "5773",
+      "side": "B",
+      "attacks": 77,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    },
+    {
+      "userId": "5877",
+      "side": "B",
+      "attacks": 0,
+      "attackQualified": false,
+      "winner": true,
+      "coin": "500000000000",
+      "shards": "1"
+    }
+  ]
+}
