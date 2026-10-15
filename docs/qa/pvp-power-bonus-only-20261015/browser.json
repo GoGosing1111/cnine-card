@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "environment": "LOCAL_MOCK_ONLY",
+  "checks": [
+    {
+      "label": "desktop",
+      "modeDisplay": {
+        "PVP": 1080000,
+        "PVE": 1080000
+      },
+      "overflow": false
+    },
+    {
+      "label": "desktop",
+      "v3ServerHit": {
+        "actorId": "A:2:CN-25F931CE393D474E",
+        "targetId": "B:3:CN-23EB4B19986D4818",
+        "damage": 14999117,
+        "hpAfter": 12154867
+      },
+      "hpMatched": true
+    },
+    {
+      "label": "mobile",
+      "modeDisplay": {
+        "PVP": 1080000,
+        "PVE": 1080000
+      },
+      "overflow": false
+    },
+    {
+      "label": "mobile",
+      "v3ServerHit": {
+        "actorId": "A:2:CN-25F931CE393D474E",
+        "targetId": "B:3:CN-23EB4B19986D4818",
+        "damage": 14999117,
+        "hpAfter": 12154867
+      },
+      "hpMatched": true
+    }
+  ],
+  "errors": []
+}

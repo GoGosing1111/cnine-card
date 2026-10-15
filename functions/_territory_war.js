@@ -1,4 +1,4 @@
-import {pvpPowerEnabled,pvpPolicySnapshot,pvpReplayInput} from '../shared/pvp-power-balance-v1.mjs';
+import {pvpPolicySnapshot,pvpReplayInput} from '../shared/pvp-power-balance-v1.mjs';
 import {NETWORK_NODES,isNetworkWar,hasTerritorySkills} from '../shared/territory-network-v6.mjs';
 import {pickDiverseTerritoryOpponent,TERRITORY_RECENT_MATCHES} from '../shared/territory-matchmaking-20261013.mjs';
 import {ensureNetworkSchema,mutateNetworkRecruitment,networkFormationStatements,networkView,networkFront,frontRound,networkActionGuards,networkActionCleanup,resolveNetworkNode,networkWinner,freezeNetworkWinner} from './_territory_network_v6.js';
@@ -831,7 +831,7 @@ async function simulateTerritoryBattle(env,deps,attackerUser,mine,opponent,reque
   const synergyB=typeof deps.evaluateDeckSynergies==='function'?deps.evaluateDeckSynergies(env,defenderUser,idsB,'PVP',{forceOwnerTest:String(defenderUser.role||'').toUpperCase()==='OWNER'}):Promise.resolve({totals:{attackPercent:0}});
   const [uniqueStates,aBonus,bBonus,aSynergy,bSynergy,aMagic,bMagic]=await Promise.all([uniquePromise,bonusA,bonusB,synergyA,synergyB,magicA,magicB]);
   const [aUnique,dUnique]=uniqueStates,aMap=new Map((aUnique?.cards||[]).map(card=>[String(card.id),card])),dMap=new Map((dUnique?.cards||[]).map(card=>[String(card.id),card]));
-  const aMultiplier=1+Number(aSynergy?.totals?.attackPercent||0)/100,dMultiplier=1+Number(bSynergy?.totals?.attackPercent||0)/100,matchBalance=pvpPowerEnabled()?{active:false,attackerScale:1,defenderScale:1,policyVersion:pvpPolicySnapshot().pvpBalanceVersion}:matchPowerScale(Number(mine.formation_power||mine.deck_power||0),Number(opponent.formation_power||opponent.deck_power||0),15);
+  const aMultiplier=1+Number(aSynergy?.totals?.attackPercent||0)/100,dMultiplier=1+Number(bSynergy?.totals?.attackPercent||0)/100,matchBalance=matchPowerScale(Number(mine.formation_power||mine.deck_power||0),Number(opponent.formation_power||opponent.deck_power||0),15);
   const attackerEngineCards=attackerCards.map(card=>{const uniqueCard=aMap.get(String(card.id));return {...card,power:Math.max(1,Math.floor(Number(card.power||0)*aMultiplier*matchBalance.attackerScale)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
   const defenderEngineCards=defenderCards.map(card=>{const uniqueCard=dMap.get(String(card.id));return {...card,power:Math.max(1,Math.floor(Number(card.power||0)*dMultiplier*matchBalance.defenderScale)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
   const battleSeed=seedOverride==null?seedOf(`${mine.round_id}:${requestId}:TWV3_BATTLE_V2`):Number(seedOverride)>>>0;

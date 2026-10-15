@@ -1,5 +1,5 @@
-// Isolated local GET-only fixtures. The review flag is changed in an HTTP
-// response for this browser only; production files and accounts remain untouched.
+// Isolated local GET-only fixtures. Only the server simulation imports the
+// review symbol. Existing codex UI, production flags and accounts stay unchanged.
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
@@ -9,7 +9,7 @@ import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 import {createPvpBattleV2} from '../functions/_battle_v2_preview.js';
 import {snapshot,reviewOptions} from './helpers/pvp-power-reform-20261015.mjs';
-const root=path.resolve(import.meta.dirname,'..'),out=path.join(root,'docs/qa/pvp-power-reform-20261015');
+const root=path.resolve(import.meta.dirname,'..'),out=path.join(root,'docs/qa/pvp-power-bonus-only-20261015');
 fs.mkdirSync(out,{recursive:true});
 const codex=mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1});
 const valter=codex.cards.find(c=>c.code==='V-996');
@@ -21,7 +21,7 @@ const battle=createPvpBattleV2({attackerCards:deck.map(c=>({...c,power:4e7})),de
 const event=battle.result.timeline.find(e=>e.type==='TURN'&&e.actorId.startsWith('A:')&&!e.actorId.includes('MERCENARY'));
 assert.ok(event?.damage>0);const payload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:structuredClone(battle)};payload.battleV2.result.timeline=[];
 const template=fs.readFileSync(path.join(root,'preview/mercenary-limited-ayoon-heeya-v3-20261008/index.html'),'utf8');
-const html=template.replace('<script defer src="preview.bundle.js"></script>','<script defer src="/preview/project-v-v3/project-v-pixi-battle.bundle.js"></script><script defer src="/qa-boot.js"></script>').replace(/<body>[\s\S]*<\/body>/,'<body><header><h1>PVP 전투력 개편 · 로컬 검수</h1><p>라이브 미반영 · 서버 판정 피해 연결</p></header><main id="lab-modal"></main></body>');
+const html=template.replace('<script defer src="preview.bundle.js"></script>','<script defer src="/preview/project-v-v3/project-v-pixi-battle.bundle.js"></script><script defer src="/qa-boot.js"></script>').replace(/<body>[\s\S]*<\/body>/,'<body><header><h1>PVP 전투력 보너스만 조정 · 로컬 검수</h1><p>라이브 미반영 · 서버 판정 피해 연결</p></header><main id="lab-modal"></main></body>');
 const boot=`document.addEventListener('DOMContentLoaded',async()=>{try{
  const data=await fetch('/qa-data').then(r=>r.json());window.cnineCardCatalog=()=>data.deck;
  const api=window.ProjectVPixiBattle,mount=api.mountForBattle;let engine;api.mountForBattle=async(...args)=>(engine=await mount(...args));
@@ -51,23 +51,16 @@ const base='http://127.0.0.1:'+server.address().port,browser=await chromium.laun
 try{
  for(const [label,viewport] of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
   const page=await browser.newPage({viewport,serviceWorkers:'block'});page.on('pageerror',e=>errors.push(label+': '+e.message));
-  await page.route('**/shared/pvp-power-balance-v1.mjs',async route=>{
-   const source=fs.readFileSync(path.join(root,'shared/pvp-power-balance-v1.mjs'),'utf8');assert.ok(source.includes('PVP_POWER_BALANCE_RELEASED=false'));
-   await route.fulfill({contentType:'text/javascript',body:source.replace('PVP_POWER_BALANCE_RELEASED=false','PVP_POWER_BALANCE_RELEASED=true')});
-  });
   await page.goto(base+'/mercenary-codex/?mode=PVP#V-996');
   await page.locator('.deployment-card').filter({hasText:'내 용병'}).waitFor();
-  assert.ok((await page.locator('.deployment-card').innerText()).includes('180,000'));
-  assert.ok((await page.locator('.limited-combat-note').innerText()).includes('PVP 개편 기준'));
+  assert.ok((await page.locator('.deployment-card').innerText()).includes('1,080,000'));
+  assert.ok(!(await page.locator('.combat-panel').innerText()).includes('PVP 개편 기준'));
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
   await page.locator('.combat-panel').screenshot({path:path.join(out,label+'-pvp-codex.png')});
-  await page.locator('.limited-combat-note').evaluate(el=>el.scrollIntoView({block:'center',behavior:'instant'}));
-  assert.ok(await page.locator('.limited-combat-note').evaluate(el=>el.getBoundingClientRect().bottom<innerHeight-80),'description can be read above the bottom navigation');
-  await page.locator('.limited-combat-note').screenshot({path:path.join(out,label+'-pvp-description.png')});
   await page.locator('[data-loadout-mode="PVE"]').click();
   assert.ok((await page.locator('.deployment-card').innerText()).includes('1,080,000'));
   assert.ok(!(await page.locator('.combat-panel').innerText()).includes('PVP 개편 기준'));
-  checks.push({label,modeDisplay:{PVP:180000,PVE:1080000},overflow:false});
+  checks.push({label,modeDisplay:{PVP:1080000,PVE:1080000},overflow:false});
   await page.goto(base+'/qa-battle.html');await page.waitForFunction(()=>window.PowerQA?.ready||window.qaError,null,{timeout:60000});
   assert.equal(await page.evaluate(()=>window.qaError),undefined);
   const played=await page.evaluate(async()=>{const q=window.PowerQA,calls=[],original=q.engine.syncTargetHp.bind(q.engine);q.engine.syncTargetHp=(t,h)=>{calls.push({id:t.id,hp:h});return original(t,h);};await q.engine.playEvents([q.event],{timedInternal:true});return {calls,event:q.event,overflow:document.documentElement.scrollWidth>innerWidth+1};});

@@ -1,5 +1,4 @@
 import {jointAccountRequest as api} from '/js/joint-account-transport.mjs';
-import {mercenaryModePresentation} from '/shared/mercenary-pvp-balance-v1.mjs';
 import {withMercenaryDeadline} from '/shared/mercenary-loading-v1.mjs?v=20260925';
 import {FRAME,POSITIONS,escapeHtml as esc,asset,thumb,validateCatalog,filterCatalog} from './model.mjs?v=20261014-halloween-art';
 
@@ -11,8 +10,8 @@ try{const saved=JSON.parse(localStorage.getItem(storageKey)||'[]');if(Array.isAr
 
 const catalogCards=()=>[...(catalog?.cards||[]),...(account?.cards||[]).filter(c=>c.exclusiveGrant&&!catalog?.cards.some(a=>a.code===c.code))];
 const countedLimited=c=>c.edition==='LIMITED'&&!c.excludedFromLimitedCount;
-const current=()=>mercenaryModePresentation(catalogCards().find(c=>c.code===selected),loadoutMode);
-const ownedCard=code=>mercenaryModePresentation(account?.cards?.find(c=>c.code===code)||null,loadoutMode);
+const current=()=>catalogCards().find(c=>c.code===selected);
+const ownedCard=code=>account?.cards?.find(c=>c.code===code)||null;
 let loadoutMode=params.get('mode')==='PVP'?'PVP':'PVE';
 const activeLoadout=(mode=loadoutMode)=>account?.loadouts?.[mode]||account?.loadout||{mercenaryCode:null,revision:0};
 const activeCode=()=>activeLoadout().mercenaryCode||null;

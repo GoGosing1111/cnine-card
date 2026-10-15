@@ -1,3 +1,5 @@
+// 2026-10-15 correction: bonus only. Mercenary base stats, links, immunity,
+// action credit and prepared level/XP policy keep their existing values.
 // Frozen from authoritative opening fighters. Never read a client power claim,
 // live HP, winner, rating or mercenary name to award a power advantage.
 // User requested validation/report before release. JSON requests cannot supply
@@ -5,8 +7,8 @@
 export const PVP_POWER_BALANCE_RELEASED=false;
 export const PVP_POWER_BALANCE_REVIEW=Symbol('PVP_POWER_BALANCE_REVIEW');
 export const PVP_POWER_BALANCE=Object.freeze({
- version:'pvp-deck-growth-20261015-v1',damagePerDoubling:.30,maxDamageBonus:.35,
- tempoPerDoubling:.15,maxTempoBonus:.18,
+ version:'pvp-power-bonus-20261015-v2',damagePerDoubling:.15,maxDamageBonus:.20,
+ tempoPerDoubling:.05,maxTempoBonus:.08,
 });
 export function pvpPowerEnabled(options={}){
  const version=options.pvpBalanceVersion;

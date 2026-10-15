@@ -1,5 +1,3 @@
-import {pvpPolicySnapshot} from '../shared/pvp-power-balance-v1.mjs';
-import {mercenaryModeSnapshot} from '../shared/mercenary-pvp-balance-v1.mjs';
 import {readMercenaryModes} from './_mercenary_loadout_modes.js';
 import {mercenaryEquipmentRuntimes} from './_mercenary_equipment.js';
 import {strongestDuoCards,validateDuoDeck,duoError,DUO_LIMITS} from '../shared/ranked-duo-v1.mjs';
@@ -20,7 +18,6 @@ export async function duoVersions(env,ids){
  return (await env.DB.prepare(`SELECT a.user_id,a.source_version,v.revision AS policy_revision,u.nickname,u.role,u.status,u.banned_until,p.source_version AS cached_version,p.policy_revision AS cached_policy,p.config_hash,p.payload_json,p.expires_at FROM ranked_duo_accounts_v1 a JOIN users u ON u.id=a.user_id CROSS JOIN ranked_duo_policy_version_v1 v LEFT JOIN ranked_duo_profiles_v1 p ON p.user_id=a.user_id WHERE v.id=1 AND a.user_id IN (${marks(ids)})`).bind(...ids).all()).results;
 }
 export function duoMercenaryRating(snapshot,cards,equipment,weight=1){
- snapshot=mercenaryModeSnapshot(snapshot,'PVP');
  const m=buildMercenaryFighter(snapshot,'A','PVP',buildFighter);if(!m)return 0;
  const baseHp=m.maxHp,baseAttack=m.attack;
  const fighters=distributeEquipment(cards,equipment).map((c,i)=>buildFighter(c,i,'A',null,'PVP'));
@@ -82,7 +79,7 @@ const validateAccounts=(versions,count,now,allowOwner=false)=>{
 export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait,allowOwner=false}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
  const advanced=await readForgeAdvancedPolicy(env.DB);
- const hash=await jointHash({...pvpPolicySnapshot(),weights:config.mercenaryWeights,mercenaryLoadoutMode:'PVP-v1',mercenaryEquipment:'20261011',advancedForgeRevision:advanced.revision}),started=Date.now();
+ const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:'PVP-v1',mercenaryEquipment:'20261011',advancedForgeRevision:advanced.revision}),started=Date.now();
  for(let attempt=0;attempt<=profileRetryDelays.length;attempt++){
   const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
   validateAccounts(versions,ids.length,at,allowOwner);

@@ -1,6 +1,5 @@
 import {shiranuiIncomingDamage,shiranuiActionCredit} from '../shared/mercenary-shiranui-v1.mjs';
 import {PVP_POWER_BALANCE,pvpPowerEnabled,PVP_POWER_BALANCE_REVIEW,applyPvpPowerBalance,pvpPowerDamageMultiplier} from '../shared/pvp-power-balance-v1.mjs';
-import {MERCENARY_PVP_BALANCE,mercenaryPvpIncomingDamage} from '../shared/mercenary-pvp-balance-v1.mjs';
 import {Z_BODY_AREA_RELEASE_ENABLED,Z_BODY_AREA_REVIEW,isZBodyAreaActor,createBattleSuitCombatSchedule} from '../shared/z-body-area-skill.mjs';
 import {X_BODY_AREA_RELEASE_ENABLED,X_BODY_AREA_REVIEW,isXBodyAreaActor} from '../shared/x-body-area-skill.mjs';
 import {OVERLORD_RELEASE_ENABLED,isOverlordAreaActor} from '../shared/overlord-suit-v1.mjs';
@@ -572,15 +571,11 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   if (options.shieldBonus > 0 && target.shield > 0) {
     incoming = incoming + Math.min(target.shield, incoming * options.shieldBonus);
   }
-  const pvpIncoming=mercenaryPvpIncomingDamage(target,incoming,options.actor);
-  if(pvpIncoming!==null)incoming=pvpIncoming;
-  else{
-    incoming = valterIncomingDamage(target,incoming,options.actor);
-    incoming = heliosIncomingDamage(target,incoming,options.actor);
-    incoming = jinmuIncomingDamage(target,incoming,options.actor);
-    incoming = kaironIncomingDamage(target,incoming,options.actor);
-    incoming = shiranuiIncomingDamage(target,incoming,options.actor);
-  }
+  incoming = valterIncomingDamage(target,incoming,options.actor);
+  incoming = heliosIncomingDamage(target,incoming,options.actor);
+  incoming = jinmuIncomingDamage(target,incoming,options.actor);
+  incoming = kaironIncomingDamage(target,incoming,options.actor);
+  incoming = shiranuiIncomingDamage(target,incoming,options.actor);
   // A shield-only removal may not spill its additional power budget into HP.
   if(options.shieldOnly&&options.actor?.pvpPowerBalance)incoming=Math.min(incoming,Math.max(0,target.shield));
   let remaining = Math.max(0, Number(incoming || 0));
@@ -756,7 +751,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const applyDamage=(target,incoming,options={})=>{
     // Scale once after the attack's hit cap, before guard redirection. A guard
     // receives an already scaled share through rawDamage, without another boost.
-    const powerMultiplier=pvpPowerDamageMultiplier(options.actor);
+    const powerMultiplier=pvpPowerDamageMultiplier(options.actor||options.pvpPowerSource);
     if(powerMultiplier!==1){incoming=Math.round(incoming*powerMultiplier);if(Number.isFinite(options.iconDamageCap))options={...options,iconDamageCap:Math.round(options.iconDamageCap*powerMultiplier)};}
     if(target.legionRegion==='coast'&&target.isBoss)target.legionVulnerability=b.some(c=>c.legionBossSupport&&c.hp>0&&c.alive)?.72:1.1;
     const incomingCoop=coopRuntime?coopRuntime.beforeDamage(target,incoming):incoming,n=iconRuntime?iconRuntime.beforeDamage(target,incomingCoop,options):incomingCoop;
@@ -1741,7 +1736,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if(suddenDeath){counter.dodge=false;counter.damage=Math.max(Number(counter.damage||0),Math.round(actor.maxHp*.34+Math.max(0,actor.shield)));}
       if (!counter.dodge) {
         const counterGuard = capHasteRetaliation(counter.damage);
-        const counterState = applyDamage(actor, counterGuard.amount, target.pvpPowerBalance?{actor:target}:{});
+        const counterState = applyDamage(actor, counterGuard.amount, target.pvpPowerBalance?{pvpPowerSource:target}:{});
         target.damageDealt += counterState.hpDamage + counterState.absorbed;
         emitTimeline(timeline, clock + 0.001, 'COUNTER', {
           actorId: target.id,
@@ -2178,7 +2173,7 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
   const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVP'));
   const teamB = defenderWithEquipment.map((card, index) => buildFighter(card, index, 'B', card.uniqueAbility || null, 'PVP'));
   if((attackerMercenary&&(attackerCards.length!==5||new Set(attackerCards.map(c=>String(c.id))).size!==5))||(defenderMercenary&&(defenderCards.length!==5||new Set(defenderCards.map(c=>String(c.id))).size!==5)))throw Error('INVALID_MERCENARY_PARTY');
-  const mercA=buildMercenaryFighter(attackerMercenary,'A','PVP',buildFighter,{[PVP_POWER_BALANCE_REVIEW]:powerEnabled}),mercB=buildMercenaryFighter(defenderMercenary,'B','PVP',buildFighter,{[PVP_POWER_BALANCE_REVIEW]:powerEnabled}),simulationA=mercA?[...teamA,mercA]:teamA,simulationB=mercB?[...teamB,mercB]:teamB;
+  const mercA=buildMercenaryFighter(attackerMercenary,'A','PVP',buildFighter),mercB=buildMercenaryFighter(defenderMercenary,'B','PVP',buildFighter),simulationA=mercA?[...teamA,mercA]:teamA,simulationB=mercB?[...teamB,mercB]:teamB;
   // Normal combat keeps the established 100-action balance. If both teams
   // still have survivors, a short no-heal, escalating-damage overtime runs
   // instead of ending on a visually ambiguous 2:2 HP-ratio judgment.
@@ -2194,7 +2189,7 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
       hpMode: 'POWER_DISTRIBUTED',
       formation: 'FRONT_2_BACK_3',
       actionMode: 'SPEED_GAUGE',
-      ...(simulated.pvpPowerBalance?{pvpPowerBalance:PVP_POWER_BALANCE,mercenaryBalance:MERCENARY_PVP_BALANCE}:{}),
+      ...(simulated.pvpPowerBalance?{pvpPowerBalance:PVP_POWER_BALANCE}:{}),
       damageCapPercent: 46,
       maxActions: 83,
       suddenDeathAfter: 64,
@@ -2233,7 +2228,7 @@ export function createDuoBattleV2({attackerSquads=[],defenderSquads=[],seed=1,si
         id:`${side}:OWNER:${ownerId}:CARD:${card.id}`,ownerId,ownerName,squadIndex,localSlot,slot:squadIndex*5+localSlot
       }));
       cards.push(...ownCards);
-      const merc=buildMercenaryFighter(squad.mercenary,side,'PVP',buildFighter,{[PVP_POWER_BALANCE_REVIEW]:powerEnabled});
+      const merc=buildMercenaryFighter(squad.mercenary,side,'PVP',buildFighter);
       if(merc)mercenaries.push({...merc,id:`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:5,slot:10+squadIndex});
       for(const item of squad.magicCards||[]){if(Number.isInteger(item.slotNo)&&item.slotNo>=1&&item.slotNo<=5)magic.push({...item,slotNo:squadIndex*5+item.slotNo});}
       members.push({ownerId,ownerName,squadIndex,cardIds:ownCards.map(c=>c.id),mercenaryId:merc?`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`:null});
@@ -2245,7 +2240,7 @@ export function createDuoBattleV2({attackerSquads=[],defenderSquads=[],seed=1,si
   const result=resolvePvpOutcome(simulated,a.simulation,b.simulation);
   result.final={...result.final,mercenaries:{A:result.final.A.filter(c=>c.isMercenary),B:result.final.B.filter(c=>c.isMercenary)},A:result.final.A.filter(c=>!c.isMercenary),B:result.final.B.filter(c=>!c.isMercenary)};
   return {schemaVersion:2,engine:'BATTLE_ENGINE_V2_DUO',mode:'PVP',playbackSpeed:1.3,seed:Number(seed)>>>0,
-    rules:{...(simulated.pvpPowerBalance?{pvpPowerBalance:PVP_POWER_BALANCE,mercenaryBalance:MERCENARY_PVP_BALANCE}:{}),formation:'DUO_TWO_SQUADS',ownersPerSide:2,cardsPerOwner:5,mercenariesPerOwner:1,maxActions:166,suddenDeathAfter:128,
+    rules:{...(simulated.pvpPowerBalance?{pvpPowerBalance:PVP_POWER_BALANCE}:{}),formation:'DUO_TWO_SQUADS',ownersPerSide:2,cardsPerOwner:5,mercenariesPerOwner:1,maxActions:166,suddenDeathAfter:128,
       timeoutRule:'SURVIVOR_COUNT_THEN_HP_RATIO_THEN_POWER',drawRule:'POWER_THEN_ATTACKER',mercenaryLinkScope:'OWNER',supportScope:'TEAM',dbTimelineWrites:0},
     teams:Object.fromEntries([['A',a],['B',b]].map(([side,team])=>[side,{members:team.members,pets:(side==='A'?attackerSquads:defenderSquads).filter(s=>s.pet).map(s=>({...s.pet,ownerId:s.ownerId})),cards:simulated.openingTeams?.[side].filter(c=>!c.isMercenary)||team.cards.map(publicFighter),mercenaries:simulated.openingMercenaries?.[side]||[],summary:teamSummary([...team.cards,...(simulated.openingMercenaries?.[side]||[])])}])),result};
 }

@@ -11,7 +11,8 @@ import {createCityBattle} from '../functions/_jokgak_city_battle.js';
 import {applyMercenaryCombatLink} from '../shared/mercenary-combat-link-v2103.mjs';
 import {PVP_POWER_BALANCE,PVP_POWER_BALANCE_RELEASED,pvpPowerBonuses,applyPvpPowerBalance,pvpPolicySnapshot,pvpReplayInput,pvpPowerEnabled,pvpPowerDamageMultiplier} from '../shared/pvp-power-balance-v1.mjs';
 import {__territoryLoadoutTest} from '../functions/_territory_war.js';
-import {mercenaryModeSnapshot,mercenaryModePresentation,mercenaryPvpIncomingDamage} from '../shared/mercenary-pvp-balance-v1.mjs';
+import legacyHashes from '../docs/qa/pvp-power-bonus-only-20261015/legacy-pvp-hashes.json' with {type:'json'};
+import {MERCENARY_LEVEL_RELEASE_ENABLED,MERCENARY_LEVEL_RULES,mercenaryLevelDraft,attachMercenaryLevel} from '../shared/mercenary-level-v1.mjs';
 import {snapshot,tierCards,reviewOptions,matchup} from './helpers/pvp-power-reform-20261015.mjs';
 
 const digest=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
@@ -27,7 +28,7 @@ test('release stays OFF; JSON flags, forged card power effects and mercenary fla
   attackerCards:tierCards(2e7).map(c=>({...c,pvpPowerBalance:{version:PVP_POWER_BALANCE.version,damageMultiplier:100}}))});
  assert.deepEqual(forged,baseline);assert.equal(baseline.result.pvpPowerBalance,undefined);
  assert.equal(baseline.teams.A.mercenaries[0].power,1080000);
- assert.equal(pvp(reviewOptions).teams.A.mercenaries[0].power,180000);
+ assert.equal(pvp(reviewOptions).teams.A.mercenaries[0].power,1080000);
 });
 
 test('saved battles retain their own version through release/rollback; ordinary JSON cannot select the review policy',async()=>{
@@ -52,15 +53,15 @@ test('saved battles retain their own version through release/rollback; ordinary 
 
 test('bonus is continuous, symmetric by swapping sides, scale independent, monotonic and capped',()=>{
  assert.deepEqual(pvpPowerBonuses(1,1),{ratio:1,damageMultiplier:1,tempoMultiplier:1});
- assert.equal(pvpPowerBonuses(2,1).damageMultiplier,1.3);
- assert.equal(pvpPowerBonuses(2,1).tempoMultiplier,1.15);
+ assert.equal(pvpPowerBonuses(2,1).damageMultiplier,1.15);
+ assert.equal(pvpPowerBonuses(2,1).tempoMultiplier,1.05);
  for(const n of [1,5,100,1e6,1e9]){
   let previous=pvpPowerBonuses(n,n);
   for(let bp=1;bp<=30000;bp++){
    const next=pvpPowerBonuses(n*(1+bp/10000),n);
    assert.ok(next.damageMultiplier>=previous.damageMultiplier&&next.tempoMultiplier>=previous.tempoMultiplier);
    assert.ok(next.damageMultiplier-previous.damageMultiplier<.00005&&next.tempoMultiplier-previous.tempoMultiplier<.000025);
-   assert.ok(next.damageMultiplier<=1.35&&next.tempoMultiplier<=1.18);
+   assert.ok(next.damageMultiplier<=1.2&&next.tempoMultiplier<=1.08);
    previous=next;
   }
  }
@@ -74,10 +75,10 @@ test('bonus is continuous, symmetric by swapping sides, scale independent, monot
 
 test('power boost reaches actual capped damage once and still consumes shields before HP',()=>{
  assert.equal(oneHit().damage,60000);
- assert.equal(oneHit(reviewOptions).damage,78000);
+ assert.equal(oneHit(reviewOptions).damage,69000);
  const enemy=rawTeam('B');enemy[0].shield=20000;enemy[0].maxShield=20000;
  const hit=oneHit({...reviewOptions,teamB:enemy});
- assert.equal(hit.absorbed,20000);assert.equal(hit.damage,58000);assert.equal(hit.targetHpAfter,42000);
+ assert.equal(hit.absorbed,20000);assert.equal(hit.damage,49000);assert.equal(hit.targetHpAfter,51000);
  assert.equal(hit.targetShieldAfter,0);
  const defend=rawTeam('B',1000,100,1e8);for(const c of defend)c.defense=1e7;
  const unarmored=rawTeam('B',1000,100,1e8);
@@ -89,13 +90,13 @@ test('mercenary protection preserves the scaled damage budget including overflow
  for(const guardHp of [10000,100]){
   const skill={...MERCENARY_CMS_SEED.document.skills.find(s=>s.mechanic==='INTERCEPT_ONE_HIT'),balance:{damageRatio:0,cost:15,cooldownTurns:3}};
   const guard=buildMercenaryFighter({code:'V-003',rank:'S',role:'GUARDIAN',position:'FRONT',basePower:70000,level:1,stats:{hp:10000,attack:1000,defense:100,speed:100},combat:snapshot('V-049').combat,skills:[skill]},'A','PVP');
-  const ally={...rawTeam('A')[0],id:'ally',hp:5000,maxHp:10000,row:'BACK'},enemy={...rawTeam('B')[0],id:'enemy',damageDealt:0,pvpPowerBalance:{version:PVP_POWER_BALANCE.version,damageMultiplier:1.3}};
+  const ally={...rawTeam('A')[0],id:'ally',hp:5000,maxHp:10000,row:'BACK'},enemy={...rawTeam('B')[0],id:'enemy',damageDealt:0,pvpPowerBalance:{version:PVP_POWER_BALANCE.version,damageMultiplier:1.15}};
   guard.hp=guardHp;const events=[];
   const damage=(target,n,options={})=>{const amount=Math.round(n*pvpPowerDamageMultiplier(options.actor)),hpDamage=Math.min(target.hp,amount);target.hp-=hpDamage;return {hpDamage,absorbed:0};};
   const rt=mercenaryCombat({teams:{A:[guard,ally],B:[enemy]},hit:()=>({damage:1000,dodge:false}),damage,knockout:t=>{if(!t.hp)t.alive=false;},emit:(type,data)=>events.push({type,...data}),clock:()=>0});
   guard.actions++;rt.beforeAction(guard);
   const rest=rt.beforeBasicDamage(enemy,ally,1000);damage(ally,rest,{actor:enemy});
-  assert.equal((guardHp-guard.hp)+(5000-ally.hp),1300);
+  assert.equal((guardHp-guard.hp)+(5000-ally.hp),1150);
   assert.equal(events.filter(e=>e.type==='MERCENARY_INTERCEPT').length,1);
  }
 });
@@ -113,7 +114,7 @@ test('ICON multihit damage scales the whole cast once instead of spending a boos
   actor.actions=actor.iconRole.tuning.firstAction;assert.equal(rt.beforeAction(actor),true);
   const cast=events.find(e=>e.type==='ICON_SKILL');assert.equal(cast.hits.length,3);return cast.hits.reduce((n,h)=>n+h.damage+h.absorbed,0);
  };
- assert.equal(run(1),100000);assert.equal(run(1.3),130000);
+ assert.equal(run(1),100000);assert.equal(run(1.15),115000);
 });
 
 test('the real ICON guard receives part of the already boosted hit without a second multiplier',()=>{
@@ -126,7 +127,19 @@ test('the real ICON guard receives part of the already boosted hit without a sec
   const hit=r.timeline.find(e=>e.type==='TURN'),redirect=r.timeline.find(e=>e.type==='ICON_GUARD');assert.ok(redirect);
   return hit.damage+hit.absorbed+redirect.damage+redirect.absorbed;
  };
- assert.ok(Math.abs(run(true)-Math.round(run(false)*1.3))<=1);
+ assert.ok(Math.abs(run(true)-Math.round(run(false)*1.15))<=1);
+});
+
+test('counter power bonuses preserve the historical indirect-hit path',()=>{
+ const run=review=>{
+  const a=rawTeam('A',1000,10000,1e8),b=rawTeam('B',2000,10000,1e8);
+  a[0].speed=1e6;a[0].gauge=95;for(const c of a.slice(1))c.speed=1;
+  for(const c of b)c.speed=1;
+  Object.assign(b[0],{type:'DEFENSE',shield:1,maxShield:1});
+  const r=simulateBattleV2Preview({teamA:a,teamB:b,maxActions:1,seed:8,...(review?reviewOptions:{})});
+  const counter=r.timeline.find(e=>e.type==='COUNTER');assert.ok(counter);return counter.damage+counter.absorbed;
+ };
+ assert.ok(Math.abs(run(true)-Math.round(run(false)*1.15))<=1);
 });
 
 test('tempo improves real action opportunities with equal stats and does not grant an automatic action',()=>{
@@ -135,82 +148,33 @@ test('tempo improves real action opportunities with equal stats and does not gra
  assert.deepEqual(counts(simulateBattleV2Preview(options)),[100,100]);
  const result=simulateBattleV2Preview({...options,...reviewOptions}),[a,b]=counts(result);
  assert.ok(a>100&&b<100&&a+b===200);
- assert.equal(result.openingTeams.A[0].speed,115);assert.equal(result.openingTeams.B[0].speed,100);
+ assert.equal(result.openingTeams.A[0].speed,105);assert.equal(result.openingTeams.B[0].speed,100);
  assert.equal(result.actions,200);
 });
 
 test('formation power is frozen, excludes derived combat link, and includes each piece of equipment once',()=>{
  const battle=pvp({...reviewOptions,attackerEquipmentBonus:300000,attackerMercenary:{...snapshot('V-996'),equipment:{schemaVersion:1,mode:'PVP',power:700000}}});
- assert.equal(battle.result.pvpPowerBalance.A[0].formationPower,5*2e7+300000+180000+700000);
- assert.equal(battle.teams.A.mercenaries[0].power,880000);
+ assert.equal(battle.result.pvpPowerBalance.A[0].formationPower,5*2e7+300000+1080000+700000);
+ assert.equal(battle.teams.A.mercenaries[0].power,1780000);
  const first=battle.result.pvpPowerBalance.A[0];
  assert.ok(battle.result.final.A.some(c=>c.hp<c.maxHp));
  assert.ok(battle.result.final.A.every(c=>c.pvpPowerBalance.formationPower===first.formationPower));
- assert.ok(battle.teams.A.mercenaries[0].mercenaryLink.hpFloor>880000,'derived link is not added to displayed power a second time');
+ assert.ok(battle.teams.A.mercenaries[0].mercenaryLink.hpFloor>1780000,'derived link is not added to displayed power a second time');
  const armed=merc('V-996',reviewOptions,700000),bare=merc();
  for(const actor of [armed,bare])applyMercenaryCombatLink([rawTeam('A',2e7,2e7,1e8).concat(actor),rawTeam('B',2e7,2e7,1e8)]);
  assert.equal(armed.mercenaryLink.hpFloor-bare.mercenaryLink.hpFloor,armed.equipmentStats.hp);
  assert.equal(armed.mercenaryLink.attackFloor-bare.mercenaryLink.attackFloor,armed.equipmentStats.attack);
 });
 
-test('upper limited premium is retained without million-power bases or immunity to a named mercenary',()=>{
- const valter=merc(),helios=merc('V-999'),jinmu=merc('V-989'),kairon=merc('V-988'),shiranui=merc('V-987');
- for(const m of [valter,helios,jinmu,kairon,shiranui]){
-  assert.equal(m.power,180000);assert.equal(m.controlImmune,false);assert.equal(m.counterImmune,false);assert.equal(m.poisonImmune,false);
-  assert.equal(mercenaryPvpIncomingDamage(m,10000,merc('V-055')),8000);
-  assert.equal(mercenaryPvpIncomingDamage(m,10000,merc('V-056')),8000);
- }
- assert.equal(helios.stats.attack,Math.round(valter.stats.attack*1.04));
- assert.ok(Math.abs(jinmu.stats.attack/helios.stats.attack-1.2)<.00001);
- assert.deepEqual(kairon.stats,jinmu.stats);assert.deepEqual(shiranui.stats,jinmu.stats);
- const old=merc('V-996',{});assert.equal(old.controlImmune,true);assert.equal(old.power,1080000);
- const lastStand=tierCards(2e7).map(c=>({...c,startingHpPercent:0}));
- const b=pvp({...reviewOptions,attackerCards:lastStand,defenderCards:lastStand}),hits=b.result.timeline.filter(e=>e.actorId==='B:MERCENARY:V-055').flatMap(e=>e.impacts||[e]).filter(e=>e.targetId==='A:MERCENARY:V-996');
- assert.ok(hits.some(e=>e.damage+e.absorbed>0),'Berkan can actually damage Valter');
-});
-
-test('PVP display/account totals follow the normalized base; PVE and locked release display are preserved',()=>{
- for(const code of ['V-049','V-055','V-056','V-990','V-996','V-999','V-989','V-988','V-987']){
-  const source=snapshot(code),pvpSnapshot=mercenaryModeSnapshot(source,'PVP',reviewOptions);
-  assert.equal(mercenarySnapshotPower(pvpSnapshot,reviewOptions),merc(code).power);
-  assert.equal(mercenaryModePresentation(source,'PVP',reviewOptions).basePower,merc(code).power);
-  assert.equal(mercenaryModeSnapshot(source,'PVE',reviewOptions),source);
-  assert.equal(mercenaryModeSnapshot(source,'PVP'),source);
-  assert.equal(mercenaryModePresentation(source,'PVP'),source);
-  assert.equal(mercenaryModePresentation(source,'PVE',reviewOptions),source);
-  const gear={...pvpSnapshot,equipment:{schemaVersion:1,mode:'PVP',power:700000}};
-  assert.equal(mercenarySnapshotPower(gear,reviewOptions),merc(code).power+700000);
- }
- const hidden={code:'V-980',rank:'SS',artOnly:true,basePower:null};
- assert.equal(mercenaryModePresentation(hidden,'PVP',reviewOptions),hidden,'unreleased art-only cards are not assigned combat stats');
-});
-
 test('duo power and linked stats are owner scoped; a stronger teammate cannot lend a power bonus',()=>{
  const squad=(ownerId,power)=>({ownerId,cards:tierCards(power),equipmentBonus:12345,mercenary:snapshot('V-996')});
  const battle=createDuoBattleV2({attackerSquads:[squad(1,4e7),squad(2,1e7)],defenderSquads:[squad(3,2e7),squad(4,2e7)],seed:7919,...reviewOptions});
  const [strong,weak]=battle.result.pvpPowerBalance.A;
- assert.equal(strong.formationPower,5*4e7+12345+180000);assert.equal(weak.formationPower,5*1e7+12345+180000);
- assert.equal(strong.opponentPower,5*2e7+12345+180000);
+ assert.equal(strong.formationPower,5*4e7+12345+1080000);assert.equal(weak.formationPower,5*1e7+12345+1080000);
+ assert.equal(strong.opponentPower,5*2e7+12345+1080000);
  assert.ok(strong.damageMultiplier>1);assert.equal(weak.damageMultiplier,1);assert.equal(weak.tempoMultiplier,1);
  for(const actor of [...battle.teams.A.cards,...battle.teams.A.mercenaries])assert.equal(actor.pvpPowerBalance.formationPower,actor.ownerId===1?strong.formationPower:weak.formationPower);
  assert.ok(battle.teams.A.mercenaries[0].mercenaryLink.attackFloor>battle.teams.A.mercenaries[1].mercenaryLink.attackFloor*3.9);
-});
-
-test('reserved actions are earned by own cards, not an ally or enemy, and last stands have natural speed',()=>{
- const r=(id,side='A')=>({id:String(id),ownerId:id,side,hp:10,alive:true});
- const a=r(1),ally=r(2),b=r(3,'B'),ma={...merc(),ownerId:1},mb={...merc(),id:'ally-merc',ownerId:2};
- const cadence=mercenaryTurnCadence({A:[a,ally,ma,mb],B:[b]});
- for(let i=0;i<20;i++)cadence.acted(b);assert.equal(cadence.pending(),null);
- cadence.acted(a);assert.equal(cadence.pending(),null);cadence.acted(a);assert.equal(cadence.pending(),ma);
- cadence.acted(ma);assert.equal(cadence.pending(),null);
- cadence.acted(ally);cadence.acted(ally);assert.equal(cadence.pending(),mb);
- cadence.acted(mb);a.hp=0;ally.hp=0;
- for(let i=0;i<20;i++)cadence.acted(b);assert.equal(cadence.pending(),null);
- const opened=pvp(reviewOptions);assert.ok(opened.teams.A.mercenaries[0].speed>=opened.teams.A.cards.reduce((s,c)=>s+c.speed,0)/5*.6*1.5-1);
- const normal=rawTeam('A',2e7,2e7,1e8),last=merc();applyMercenaryCombatLink([normal.concat(last),rawTeam('B')]);
- for(const c of normal){c.hp=0;c.alive=false;}
- const result=simulateBattleV2Preview({teamA:normal.concat(last),teamB:rawTeam('B',2e7,1,1e12),seed:7,maxActions:30,...reviewOptions});
- assert.ok(result.timeline.some(e=>e.actorId===last.id&&e.type==='TURN'),'last mercenary continues through its own speed gauge');
 });
 
 test('derived power rejects malformed/duplicate application and never applies to PVE or suits',()=>{
@@ -223,14 +187,33 @@ test('derived power rejects malformed/duplicate application and never applies to
  assert.equal(city.result.pvpPowerBalance,undefined);assert.equal(city.rules.accountGrowthApplied,false);
 });
 
-test('growth helps a normal SSS overcome a limited, while a lower-power counter formation can still win',()=>{
- const base=matchup({code:'V-049',opponent:'V-996',ratio:1,seeds:48});
- const grown=matchup({code:'V-049',opponent:'V-996',ratio:1.25,seeds:48});
- assert.ok(grown.winRate>base.winRate+.5);
- const upset=matchup({code:'V-055',opponent:'V-996',ratio:.9,deck:'speed',enemyDeck:'attack',seeds:48});
- assert.ok(upset.wins>0,'a weaker normal SSS formation can counter the opposing deck');
- const limited=matchup({code:'V-989',opponent:'V-055',ratio:1,seeds:48});
- assert.ok(limited.winRate>.5,'new limited keeps an advantage at equal growth');
+const stripBonus=value=>Array.isArray(value)?value.map(stripBonus):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).filter(([k])=>k!=='pvpPowerBalance').map(([k,v])=>[k,stripBonus(v)])):value;
+for(const [code,expected] of Object.entries(legacyHashes.hashes))test(code+': release-OFF payload and equal-power combat preserve existing mercenary policy',()=>{
+ const input={attackerCards:tierCards(2e7),defenderCards:tierCards(2e7),attackerMercenary:snapshot(code),defenderMercenary:snapshot(code),seed:7919};
+ const legacy=createPvpBattleV2(input),bonus=createPvpBattleV2({...input,...reviewOptions});
+ assert.equal(digest(legacy),expected);
+ assert.deepEqual(stripBonus(bonus.result.timeline),legacy.result.timeline);
+ assert.deepEqual(stripBonus(bonus.result.final),legacy.result.final);
+ assert.deepEqual(stripBonus(bonus.result.openingMercenaries),legacy.result.openingMercenaries);
+ assert.equal(bonus.rules.mercenaryBalance,undefined);
+});
+
+test('base power, blanket immunity and existing prepared XP rules are retained',()=>{
+ for(const [code,power]of [['V-996',1080000],['V-999',1123200],['V-989',1347840],['V-988',1347840],['V-987',1347840]]){
+  const actor=merc(code);assert.equal(actor.power,power);assert.equal(actor.controlImmune,true);assert.equal(actor.counterImmune,true);assert.equal(actor.poisonImmune,true);
+ }
+ assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED,false);assert.equal(MERCENARY_LEVEL_RULES.sameCardMultiplier,3);assert.equal(MERCENARY_LEVEL_RULES.limitedRequiredXpMultiplier,5);
+ const draft=mercenaryLevelDraft();assert.equal(draft.mode,'OFF');assert.ok(draft.milestones.every(m=>m.bonus.value===null));
+});
+
+test('prepared level growth is applied once before the independent bounded power bonus',()=>{
+ const policy=mercenaryLevelDraft();policy.xpPerCard=Object.fromEntries(Object.keys(policy.xpPerCard).map(r=>[r,100]));policy.levels.forEach(l=>l.requiredXp=1000);policy.milestones.forEach(m=>Object.assign(m,{successChancePpm:1000000,bonus:{type:'COMBAT_STATS_PERCENT',value:25}}));
+ const grown=attachMercenaryLevel(snapshot('V-049'),policy,{level:11,experience:0,breakthroughMask:3,revision:1});
+ const input={attackerCards:tierCards(4e7),defenderCards:tierCards(2e7),attackerMercenary:grown,defenderMercenary:snapshot('V-049'),seed:7919};
+ const base=createPvpBattleV2(input).teams.A.mercenaries[0],bonus=createPvpBattleV2({...input,...reviewOptions}).teams.A.mercenaries[0];
+ for(const key of ['power','level','attack','defense','maxHp','shield','mercenaryLink','mercenaryLevel'])assert.deepEqual(bonus[key],base[key],key);
+ assert.equal(bonus.level,11);assert.equal(bonus.mercenaryLevelApplied,true);assert.equal(bonus.speed,Math.round(base.speed*bonus.pvpPowerBalance.tempoMultiplier));
+ assert.equal(bonus.pvpPowerBalance.formationPower,5*4e7+180000,'level stat bonuses are not counted as an invented extra power value');
 });
 
 // Captured from the unmodified HEAD before implementing the gated reform.
