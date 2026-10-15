@@ -1,0 +1,21 @@
+{
+  "completed": true,
+  "verifiedAt": "2026-10-15T20:31:19.676Z",
+  "sourceCommit": "f843e6358855b7332b92332facd2fb47002824ea",
+  "pagesUrl": "https://56298f70.cnine-card.pages.dev",
+  "apiWorkerVersion": "c0c2eba7-85f1-44d9-81cd-37ebfb63b03c",
+  "schedulerVersion": "0a217a90-2dd3-443e-a44b-107e936a228d",
+  "assetCount": 19278,
+  "uploadedFiles": 112,
+  "checks": {
+    "selectedTests": 41,
+    "pass": 41,
+    "fail": 0,
+    "workerSyntax": "PASS",
+    "productionGuard": "PASS",
+    "hyperdriveCache": "DISABLED"
+  },
+  "command": "npm run deploy:production -- --scoped",
+  "firstAttempt": "Stopped before upload because Pages asset count was 20033; excluded Git-preserved docs/qa artifacts and retried successfully",
+  "logSha256": "adc20a1b2feabf6db3e26ef2034bacc211a22075811fd2bc0ec22150fc6d0963"
+}

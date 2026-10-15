@@ -1,0 +1,222 @@
+{
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:mercenary-growth-launch:20261016:v1",
+    "launchVersion": "mercenary-growth-launch-20261016",
+    "authorization": "용병 레벨과 전투력 보너스 함께 적용; 검수 경험치 필요량 3배; 돌파 10%; 레벨마다 필요량 증가",
+    "stateHashBefore": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "revisionBefore": 0,
+    "revisionAfter": 1,
+    "policyBefore": null,
+    "policyAfter": {
+      "version": "mercenary-level-20261015-v2",
+      "revision": 1,
+      "mode": "ON",
+      "growth": {
+        "version": "mercenary-growth-v2-20261015",
+        "perLevel": {
+          "hpPercent": 25,
+          "attackPercent": 25,
+          "defensePercent": 6,
+          "speedPercent": 1
+        },
+        "milestones": [
+          {
+            "level": 5,
+            "hpPercent": 100,
+            "attackPercent": 125,
+            "defensePercent": 15,
+            "speedPercent": 2,
+            "skillPowerPercent": 5,
+            "mitigationBypassPercent": 12.5,
+            "actionCatchupPercent": 10,
+            "actionCreditPercent": 10
+          },
+          {
+            "level": 10,
+            "hpPercent": 100,
+            "attackPercent": 125,
+            "defensePercent": 15,
+            "speedPercent": 2,
+            "skillPowerPercent": 5,
+            "mitigationBypassPercent": 12.5,
+            "actionCatchupPercent": 15,
+            "actionCreditPercent": 15
+          },
+          {
+            "level": 15,
+            "hpPercent": 100,
+            "attackPercent": 125,
+            "defensePercent": 15,
+            "speedPercent": 2,
+            "skillPowerPercent": 5,
+            "mitigationBypassPercent": 12.5,
+            "actionCatchupPercent": 20,
+            "actionCreditPercent": 20
+          },
+          {
+            "level": 20,
+            "hpPercent": 100,
+            "attackPercent": 125,
+            "defensePercent": 15,
+            "speedPercent": 2,
+            "skillPowerPercent": 5,
+            "mitigationBypassPercent": 12.5,
+            "actionCatchupPercent": 25,
+            "actionCreditPercent": 30
+          }
+        ]
+      },
+      "sameCardMultiplier": 3,
+      "xpPerCard": {
+        "C": 100,
+        "B": 100,
+        "A": 100,
+        "S": 100,
+        "SS": 100,
+        "SSS": 100
+      },
+      "levels": [
+        {
+          "level": 1,
+          "requiredXp": 750
+        },
+        {
+          "level": 2,
+          "requiredXp": 900
+        },
+        {
+          "level": 3,
+          "requiredXp": 1050
+        },
+        {
+          "level": 4,
+          "requiredXp": 1200
+        },
+        {
+          "level": 5,
+          "requiredXp": 1350
+        },
+        {
+          "level": 6,
+          "requiredXp": 1500
+        },
+        {
+          "level": 7,
+          "requiredXp": 1650
+        },
+        {
+          "level": 8,
+          "requiredXp": 1800
+        },
+        {
+          "level": 9,
+          "requiredXp": 1950
+        },
+        {
+          "level": 10,
+          "requiredXp": 2100
+        },
+        {
+          "level": 11,
+          "requiredXp": 2250
+        },
+        {
+          "level": 12,
+          "requiredXp": 2400
+        },
+        {
+          "level": 13,
+          "requiredXp": 2550
+        },
+        {
+          "level": 14,
+          "requiredXp": 2700
+        },
+        {
+          "level": 15,
+          "requiredXp": 2850
+        },
+        {
+          "level": 16,
+          "requiredXp": 3000
+        },
+        {
+          "level": 17,
+          "requiredXp": 3150
+        },
+        {
+          "level": 18,
+          "requiredXp": 3300
+        },
+        {
+          "level": 19,
+          "requiredXp": 3450
+        },
+        {
+          "level": 20,
+          "requiredXp": 3600
+        }
+      ],
+      "milestones": [
+        {
+          "level": 5,
+          "successChancePpm": 100000,
+          "bonus": {
+            "type": null,
+            "value": null
+          }
+        },
+        {
+          "level": 10,
+          "successChancePpm": 100000,
+          "bonus": {
+            "type": null,
+            "value": null
+          }
+        },
+        {
+          "level": 15,
+          "successChancePpm": 100000,
+          "bonus": {
+            "type": null,
+            "value": null
+          }
+        },
+        {
+          "level": 20,
+          "successChancePpm": 100000,
+          "bonus": {
+            "type": null,
+            "value": null
+          }
+        }
+      ]
+    },
+    "powerPolicy": {
+      "version": "pvp-power-bonus-20261016-v3",
+      "damagePerDoubling": 0.3,
+      "maxDamageBonus": 0.6,
+      "tempoPerDoubling": 0.1,
+      "maxTempoBonus": 0.2
+    },
+    "schemaCreated": true,
+    "growthRowsBefore": 0,
+    "playerRecordsChanged": false,
+    "completedAt": "2026-10-15T20:24:20.784Z",
+    "adminLogId": "46695"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "revision": 1,
+    "mode": "ON",
+    "growthRows": 0,
+    "powerVersion": "pvp-power-bonus-20261016-v3"
+  },
+  "replayed": false,
+  "dryRun": false,
+  "sourceCommit": "7fcc393632ac711b7ccdd0f775c8ae1cd0f62f56",
+  "deploymentPending": false,
+  "deployedSourceCommit": "f843e6358855b7332b92332facd2fb47002824ea",
+  "liveVerifiedAt": "2026-10-15T20:31:19.676Z"
+}

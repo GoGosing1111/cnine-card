@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-15T20:19:21.371Z",
+  "checkedAt": "2026-10-15T20:31:19.676Z",
   "checks": [
     {
       "path": "related-regressions.tap",
@@ -37,6 +37,15 @@
       "sha256": "5bf4a6350903c247b8ff64c83ea7216e5316146b49c61cf06bfe8a4f3b323d3f"
     }
   ],
-  "databaseOperation": "isolated PostgreSQL tests passed; production operation not executed yet",
-  "noticePosted": false
+  "databaseOperation": {
+    "status": "COMPLETED_AND_VERIFIED",
+    "mode": "ON",
+    "revision": 1,
+    "adminLogId": "46695",
+    "receipt": "production-operation.json",
+    "isolatedTransactionTests": "PASS"
+  },
+  "noticePosted": false,
+  "deployment": "deployment.json",
+  "liveVerification": "live-verification.json"
 }

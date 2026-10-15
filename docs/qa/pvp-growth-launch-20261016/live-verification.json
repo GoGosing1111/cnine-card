@@ -1,0 +1,252 @@
+{
+  "checkedAt": "2026-10-15T20:31:19.676Z",
+  "sourceCommit": "f843e6358855b7332b92332facd2fb47002824ea",
+  "base": "https://cnine-card.pages.dev",
+  "noticePosted": false,
+  "feature": {
+    "releaseEnabled": true,
+    "rules": {
+      "version": "mercenary-level-20261015-v2",
+      "maxLevel": 20,
+      "milestones": [
+        5,
+        10,
+        15,
+        20
+      ],
+      "materialKind": "MERCENARY",
+      "materialRank": "SAME_RANK",
+      "sameCardMultiplier": 3,
+      "limitedRequiredXpMultiplier": 5,
+      "preserveOriginal": true,
+      "coinCost": 0,
+      "masterStarCost": 0,
+      "maxMaterials": 100,
+      "failure": "CURRENT_LEVEL_EXP_ZERO"
+    }
+  },
+  "resources": [
+    {
+      "path": "shared/pvp-power-balance-v1.mjs",
+      "status": 200,
+      "bytes": 4085,
+      "localSha256": "1ac5e4fac1ebd5b9d45c3a445661a33034e8c8b18d10bbef72917fd987f6c0be",
+      "liveSha256": "1ac5e4fac1ebd5b9d45c3a445661a33034e8c8b18d10bbef72917fd987f6c0be"
+    },
+    {
+      "path": "shared/mercenary-level-v1.mjs",
+      "status": 200,
+      "bytes": 16043,
+      "localSha256": "d05c17067264b129e78763296ea59b952699dd69ce9aca50f724e23ef707ee0a",
+      "liveSha256": "d05c17067264b129e78763296ea59b952699dd69ce9aca50f724e23ef707ee0a"
+    },
+    {
+      "path": "shared/mercenary-growth-launch-20261016.mjs",
+      "status": 200,
+      "bytes": 1576,
+      "localSha256": "cd6bc8fd73955dfe96be7d3c1c5a3197ce9babed6562a3c6fa79dbd296bc3354",
+      "liveSha256": "cd6bc8fd73955dfe96be7d3c1c5a3197ce9babed6562a3c6fa79dbd296bc3354"
+    },
+    {
+      "path": "admin/mercenary-level-admin-v1.mjs",
+      "status": 200,
+      "bytes": 12213,
+      "localSha256": "9022147cbfb2c2ce3d655f1361ce1dfad91546f70cbc2160c0f76a3e5918f532",
+      "liveSha256": "9022147cbfb2c2ce3d655f1361ce1dfad91546f70cbc2160c0f76a3e5918f532"
+    },
+    {
+      "path": "mercenary-codex/leveling/index.html",
+      "status": 200,
+      "bytes": 2867,
+      "localSha256": "afa86f75e2b1b7ab50a3541a1f153fea20138973d9298f420288140a62a058d2",
+      "liveSha256": "afa86f75e2b1b7ab50a3541a1f153fea20138973d9298f420288140a62a058d2"
+    },
+    {
+      "path": "mercenary-codex/leveling/app.mjs",
+      "status": 200,
+      "bytes": 22569,
+      "localSha256": "c72eeb669499a65a706120cbe428f56fc906f7b97a84002a59a30de577f4059f",
+      "liveSha256": "c72eeb669499a65a706120cbe428f56fc906f7b97a84002a59a30de577f4059f"
+    }
+  ],
+  "unauthenticated": [
+    {
+      "action": "preview",
+      "status": 401,
+      "body": {
+        "ok": false,
+        "code": "MERCENARY_LEVEL_AUTH",
+        "error": "로그인이 필요합니다.",
+        "retryable": false
+      }
+    },
+    {
+      "action": "train",
+      "status": 401,
+      "body": {
+        "ok": false,
+        "code": "MERCENARY_LEVEL_AUTH",
+        "error": "로그인이 필요합니다.",
+        "retryable": false
+      }
+    },
+    {
+      "action": "breakthrough",
+      "status": 401,
+      "body": {
+        "ok": false,
+        "code": "MERCENARY_LEVEL_AUTH",
+        "error": "로그인이 필요합니다.",
+        "retryable": false
+      }
+    }
+  ],
+  "database": {
+    "status": "VERIFIED",
+    "revision": 1,
+    "mode": "ON",
+    "growthRows": 0,
+    "powerVersion": "pvp-power-bonus-20261016-v3"
+  },
+  "audit": {
+    "id": "46695",
+    "action_type": "OPS_MERCENARY_GROWTH_LAUNCH",
+    "target_type": "APP_META",
+    "target_id": "ops:mercenary-growth-launch:20261016:v1"
+  },
+  "policy": {
+    "revision": 1,
+    "mode": "ON",
+    "xpPerCard": {
+      "C": 100,
+      "B": 100,
+      "A": 100,
+      "S": 100,
+      "SS": 100,
+      "SSS": 100
+    },
+    "levels": [
+      {
+        "level": 1,
+        "requiredXp": 750
+      },
+      {
+        "level": 2,
+        "requiredXp": 900
+      },
+      {
+        "level": 3,
+        "requiredXp": 1050
+      },
+      {
+        "level": 4,
+        "requiredXp": 1200
+      },
+      {
+        "level": 5,
+        "requiredXp": 1350
+      },
+      {
+        "level": 6,
+        "requiredXp": 1500
+      },
+      {
+        "level": 7,
+        "requiredXp": 1650
+      },
+      {
+        "level": 8,
+        "requiredXp": 1800
+      },
+      {
+        "level": 9,
+        "requiredXp": 1950
+      },
+      {
+        "level": 10,
+        "requiredXp": 2100
+      },
+      {
+        "level": 11,
+        "requiredXp": 2250
+      },
+      {
+        "level": 12,
+        "requiredXp": 2400
+      },
+      {
+        "level": 13,
+        "requiredXp": 2550
+      },
+      {
+        "level": 14,
+        "requiredXp": 2700
+      },
+      {
+        "level": 15,
+        "requiredXp": 2850
+      },
+      {
+        "level": 16,
+        "requiredXp": 3000
+      },
+      {
+        "level": 17,
+        "requiredXp": 3150
+      },
+      {
+        "level": 18,
+        "requiredXp": 3300
+      },
+      {
+        "level": 19,
+        "requiredXp": 3450
+      },
+      {
+        "level": 20,
+        "requiredXp": 3600
+      }
+    ],
+    "milestones": [
+      {
+        "level": 5,
+        "successChancePpm": 100000,
+        "bonus": {
+          "type": null,
+          "value": null
+        }
+      },
+      {
+        "level": 10,
+        "successChancePpm": 100000,
+        "bonus": {
+          "type": null,
+          "value": null
+        }
+      },
+      {
+        "level": 15,
+        "successChancePpm": 100000,
+        "bonus": {
+          "type": null,
+          "value": null
+        }
+      },
+      {
+        "level": 20,
+        "successChancePpm": 100000,
+        "bonus": {
+          "type": null,
+          "value": null
+        }
+      }
+    ],
+    "power": {
+      "version": "pvp-power-bonus-20261016-v3",
+      "damagePerDoubling": 0.3,
+      "maxDamageBonus": 0.6,
+      "tempoPerDoubling": 0.1,
+      "maxTempoBonus": 0.2
+    }
+  }
+}
