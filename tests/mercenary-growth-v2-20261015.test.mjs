@@ -12,7 +12,7 @@ import {tierCards,tierDecks} from './helpers/mercenary-operating-roster-v2144.mj
 const actor=(level=20,mask=15)=>({isMercenary:true,isMonster:false,statMode:'RANK_FIXED',battleMode:'PVP',id:'A:MERCENARY:V-049',code:'V-049',side:'A',rank:'SSS',hp:500,maxHp:1000,attack:100,defense:50,speed:100,shield:200,maxShield:200,skills:[],mercenaryLink:{attackFloor:200,hpFloor:1000,openingShield:200},mercenaryLevel:{version:2,level,breakthroughMask:mask,growth:structuredClone(MERCENARY_GROWTH_REVIEW)}});
 
 test('unconfigured and partial V2 policies stay OFF and cannot enter battle',()=>{
- assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED,false);assert.equal(PVP_POWER_BALANCE_RELEASED,false);
+ assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED,true);assert.equal(PVP_POWER_BALANCE_RELEASED,true);
  const p=mercenaryLevelDraft();assert.equal(p.growth,null);assert.equal(mercenaryLevelReadiness(p,{requireGrowth:true}).ready,false);
  const draft=mercenaryGrowthDraft();assert.deepEqual(validateMercenaryGrowth(draft),draft);assert.equal(mercenaryGrowthReadiness(draft).ready,false);
  assert.throws(()=>mercenaryGrowthSummary(draft,growthState(1)));

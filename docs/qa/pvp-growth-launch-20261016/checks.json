@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-10-15T20:19:21.371Z",
+  "checks": [
+    {
+      "path": "related-regressions.tap",
+      "tests": 138,
+      "pass": 138,
+      "fail": 0,
+      "sha256": "6220348ab63a685da928bf89874848c50b602c584baae8e6ffa109d5c1c6a391"
+    },
+    {
+      "path": "final-combat-regressions.tap",
+      "tests": 104,
+      "pass": 104,
+      "fail": 0,
+      "sha256": "3a419e4f36ecdae933ad9d9dd87064fac5c8079f0422c4235561569947855b06"
+    },
+    {
+      "path": "off-state-regressions.tap",
+      "tests": 26,
+      "pass": 26,
+      "fail": 0,
+      "sha256": "30c9aa819114f0941e7ae2b8ec2eb9387525f19316cb31bf2a7798a2d05729e8"
+    },
+    {
+      "path": "compatibility-regressions.tap",
+      "tests": 68,
+      "pass": 68,
+      "fail": 0,
+      "sha256": "6f5a637d50d7c7521bd82654c49d780117a0797d83b67a66f3e8d74a0165f684"
+    },
+    {
+      "path": "legacy-hunt-regression.tap",
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "sha256": "5bf4a6350903c247b8ff64c83ea7216e5316146b49c61cf06bfe8a4f3b323d3f"
+    }
+  ],
+  "databaseOperation": "isolated PostgreSQL tests passed; production operation not executed yet",
+  "noticePosted": false
+}

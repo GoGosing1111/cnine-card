@@ -1,0 +1,433 @@
+TAP version 13
+# Subtest: neutral defaults, strict percentages, decimal sums, relative drop cap and exact safe-integer coin math
+ok 1 - neutral defaults, strict percentages, decimal sums, relative drop cap and exact safe-integer coin math
+  ---
+  duration_ms: 2.7842
+  type: 'test'
+  ...
+# Subtest: SQLite: only owned equipped live pet + earned distinct trophies; request scope refreshes on next request
+ok 2 - SQLite: only owned equipped live pet + earned distinct trophies; request scope refreshes on next request
+  ---
+  duration_ms: 23.123
+  type: 'test'
+  ...
+# Subtest: SQLite: account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive
+ok 3 - SQLite: account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive
+  ---
+  duration_ms: 11.6971
+  type: 'test'
+  ...
+# Subtest: SQLite: OWNER CMS validates all three values, saves once, rejects stale/forged requests and reads do not grant
+ok 4 - SQLite: OWNER CMS validates all three values, saves once, rejects stale/forged requests and reads do not grant
+  ---
+  duration_ms: 47.5639
+  type: 'test'
+  ...
+# Subtest: SQLite: portal bonus freezes rate on first roll; no retry reroll after unequip
+ok 5 - SQLite: portal bonus freezes rate on first roll; no retry reroll after unequip
+  ---
+  duration_ms: 6.7713
+  type: 'test'
+  ...
+# Subtest: SQLite: boosted coin drops roll back with logs, replay unchanged and stop at the daily limit
+ok 6 - SQLite: boosted coin drops roll back with logs, replay unchanged and stop at the daily limit
+  ---
+  duration_ms: 13.9805
+  type: 'test'
+  ...
+# Subtest: SQLite: core reward seals freeze boosted choices and minimum without repricing old offers
+ok 7 - SQLite: core reward seals freeze boosted choices and minimum without repricing old offers
+  ---
+  duration_ms: 10.1845
+  type: 'test'
+  ...
+# Subtest: Postgres: only owned equipped live pet + earned distinct trophies; request scope refreshes on next request
+ok 8 - Postgres: only owned equipped live pet + earned distinct trophies; request scope refreshes on next request
+  ---
+  duration_ms: 1699.2709
+  type: 'test'
+  ...
+# Subtest: Postgres: account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive
+ok 9 - Postgres: account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive
+  ---
+  duration_ms: 1347.9609
+  type: 'test'
+  ...
+# Subtest: Postgres: OWNER CMS validates all three values, saves once, rejects stale/forged requests and reads do not grant
+ok 10 - Postgres: OWNER CMS validates all three values, saves once, rejects stale/forged requests and reads do not grant
+  ---
+  duration_ms: 1467.8125
+  type: 'test'
+  ...
+# Subtest: Postgres: portal bonus freezes rate on first roll; no retry reroll after unequip
+ok 11 - Postgres: portal bonus freezes rate on first roll; no retry reroll after unequip
+  ---
+  duration_ms: 1309.308
+  type: 'test'
+  ...
+# Subtest: Postgres: boosted coin drops roll back with logs, replay unchanged and stop at the daily limit
+ok 12 - Postgres: boosted coin drops roll back with logs, replay unchanged and stop at the daily limit
+  ---
+  duration_ms: 5370.1272
+  type: 'test'
+  ...
+# Subtest: Postgres: core reward seals freeze boosted choices and minimum without repricing old offers
+ok 13 - Postgres: core reward seals freeze boosted choices and minimum without repricing old offers
+  ---
+  duration_ms: 4096.9672
+  type: 'test'
+  ...
+# [ranked-duo] Error: INJECTED_DUO_FAILURE
+#     at execute (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+#     at Array.map (<anonymous>)
+#     at Object.batch (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+#     at settle (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:232:19)
+#     at fight (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:276:9)
+#     at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:302:67)
+#     at async Object.call (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+#     at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/collection-bonuses-20261014.test.mjs:118:49)
+#     at async Test.run (node:internal/test_runner/test:1332:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+# Subtest: SQLite: duo bonus freezes on admission and survives failed settlement, unequip and retry
+ok 14 - SQLite: duo bonus freezes on admission and survives failed settlement, unequip and retry
+  ---
+  duration_ms: 207.562
+  type: 'test'
+  ...
+# [ranked-duo] Error: INJECTED_DUO_FAILURE
+#     at Object.query (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:41:177)
+#     at PostgresD1Database.batchPipelined (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_postgres_d1_compat.js:882:31)
+#     at async file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_postgres_d1_compat.js:905:27
+# Subtest: pipeline: duo bonus freezes on admission and survives failed settlement, unequip and retry
+ok 15 - pipeline: duo bonus freezes on admission and survives failed settlement, unequip and retry
+  ---
+  duration_ms: 2876.9061
+  type: 'test'
+  ...
+# Subtest: weighted item odds consume only empty outcomes, preserve coin odds and one reward; quantities/daily budgets remain separate
+ok 16 - weighted item odds consume only empty outcomes, preserve coin odds and one reward; quantities/daily budgets remain separate
+  ---
+  duration_ms: 2.7995
+  type: 'test'
+  ...
+# Subtest: fixed raid plan applies owned bonuses without a second roll; independent of the joint mercenary growth release
+ok 17 - fixed raid plan applies owned bonuses without a second roll; independent of the joint mercenary growth release
+  ---
+  duration_ms: 2.303
+  type: 'test'
+  ...
+# Subtest: reference +15 power matches real server CMS normalization and per-card/Faker rules
+ok 18 - reference +15 power matches real server CMS normalization and per-card/Faker rules
+  ---
+  duration_ms: 7.2374
+  type: 'test'
+  ...
+# Subtest: reference unique stats and advancement match real fresh server deck preparation
+ok 19 - reference unique stats and advancement match real fresh server deck preparation
+  ---
+  duration_ms: 18.5649
+  type: 'test'
+  ...
+# Subtest: seven roles exceed every current and maximum-growth FUR +15 stat with equal equipment
+ok 20 - seven roles exceed every current and maximum-growth FUR +15 stat with equal equipment
+  ---
+  duration_ms: 42.8202
+  type: 'test'
+  ...
+# Subtest: fresh server reference changes with CMS, does not write, strips forged state and honors disabled scopes
+ok 21 - fresh server reference changes with CMS, does not write, strips forged state and honors disabled scopes
+  ---
+  duration_ms: 6.2104
+  type: 'test'
+  ...
+# Subtest: server-prepared role snapshots reach bounded authoritative PVE/PVP timelines and preserve ordinary battles
+ok 22 - server-prepared role snapshots reach bounded authoritative PVE/PVP timelines and preserve ordinary battles
+  ---
+  duration_ms: 27.5328
+  type: 'test'
+  ...
+# Subtest: duo saved formations and automatic strongest selection also enforce two ICONs
+ok 23 - duo saved formations and automatic strongest selection also enforce two ICONs
+  ---
+  duration_ms: 9.02
+  type: 'test'
+  ...
+# Subtest: captain keeps its existing combat model but receives the same grade hierarchy and aggregate power
+ok 24 - captain keeps its existing combat model but receives the same grade hierarchy and aggregate power
+  ---
+  duration_ms: 4.9891
+  type: 'test'
+  ...
+# Subtest: every existing unique-advancement-to-engine bridge forwards the authoritative ICON role too
+ok 25 - every existing unique-advancement-to-engine bridge forwards the authoritative ICON role too
+  ---
+  duration_ms: 19.1332
+  type: 'test'
+  ...
+# Subtest: old stored battle snapshots cannot bypass two-card limit and fail before DB work
+ok 26 - old stored battle snapshots cannot bypass two-card limit and fail before DB work
+  ---
+  duration_ms: 0.6897
+  type: 'test'
+  ...
+# Subtest: joint release uses the approved bonus; forged card and mercenary effects cannot change it
+ok 27 - joint release uses the approved bonus; forged card and mercenary effects cannot change it
+  ---
+  duration_ms: 24.3055
+  type: 'test'
+  ...
+# Subtest: saved battles retain their own version through release/rollback; ordinary JSON cannot select the review policy
+ok 28 - saved battles retain their own version through release/rollback; ordinary JSON cannot select the review policy
+  ---
+  duration_ms: 43.4323
+  type: 'test'
+  ...
+# Subtest: bonus is continuous, symmetric by swapping sides, scale independent, monotonic and capped
+ok 29 - bonus is continuous, symmetric by swapping sides, scale independent, monotonic and capped
+  ---
+  duration_ms: 20.2276
+  type: 'test'
+  ...
+# Subtest: power boost reaches actual capped damage once and still consumes shields before HP
+ok 30 - power boost reaches actual capped damage once and still consumes shields before HP
+  ---
+  duration_ms: 5.118
+  type: 'test'
+  ...
+# Subtest: mercenary protection preserves the scaled damage budget including overflow from a dying guard
+ok 31 - mercenary protection preserves the scaled damage budget including overflow from a dying guard
+  ---
+  duration_ms: 2.1998
+  type: 'test'
+  ...
+# Subtest: ICON multihit damage scales the whole cast once instead of spending a boosted hit against an unboosted budget
+ok 32 - ICON multihit damage scales the whole cast once instead of spending a boosted hit against an unboosted budget
+  ---
+  duration_ms: 3.3126
+  type: 'test'
+  ...
+# Subtest: the real ICON guard receives part of the already boosted hit without a second multiplier
+ok 33 - the real ICON guard receives part of the already boosted hit without a second multiplier
+  ---
+  duration_ms: 3.1181
+  type: 'test'
+  ...
+# Subtest: counter power bonuses preserve the historical indirect-hit path
+ok 34 - counter power bonuses preserve the historical indirect-hit path
+  ---
+  duration_ms: 1.636
+  type: 'test'
+  ...
+# Subtest: tempo improves real action opportunities with equal stats and does not grant an automatic action
+ok 35 - tempo improves real action opportunities with equal stats and does not grant an automatic action
+  ---
+  duration_ms: 11.9414
+  type: 'test'
+  ...
+# Subtest: formation power is frozen, excludes derived combat link, and includes each piece of equipment once
+ok 36 - formation power is frozen, excludes derived combat link, and includes each piece of equipment once
+  ---
+  duration_ms: 2.0774
+  type: 'test'
+  ...
+# Subtest: duo power and linked stats are owner scoped; a stronger teammate cannot lend a power bonus
+ok 37 - duo power and linked stats are owner scoped; a stronger teammate cannot lend a power bonus
+  ---
+  duration_ms: 3.592
+  type: 'test'
+  ...
+# Subtest: derived power rejects malformed/duplicate application and never applies to PVE or suits
+ok 38 - derived power rejects malformed/duplicate application and never applies to PVE or suits
+  ---
+  duration_ms: 2.79
+  type: 'test'
+  ...
+# Subtest: V-049: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 39 - V-049: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 8.9535
+  type: 'test'
+  ...
+# Subtest: V-055: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 40 - V-055: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 5.7637
+  type: 'test'
+  ...
+# Subtest: V-056: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 41 - V-056: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 6.5931
+  type: 'test'
+  ...
+# Subtest: V-990: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 42 - V-990: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 5.1713
+  type: 'test'
+  ...
+# Subtest: V-991: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 43 - V-991: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 3.1789
+  type: 'test'
+  ...
+# Subtest: V-992: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 44 - V-992: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 5.9016
+  type: 'test'
+  ...
+# Subtest: V-993: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 45 - V-993: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 5.0435
+  type: 'test'
+  ...
+# Subtest: V-994: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 46 - V-994: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 4.0542
+  type: 'test'
+  ...
+# Subtest: V-997: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 47 - V-997: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 5.8387
+  type: 'test'
+  ...
+# Subtest: V-998: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 48 - V-998: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 4.3225
+  type: 'test'
+  ...
+# Subtest: V-996: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 49 - V-996: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 5.7033
+  type: 'test'
+  ...
+# Subtest: V-999: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 50 - V-999: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 5.5705
+  type: 'test'
+  ...
+# Subtest: V-989: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 51 - V-989: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 4.6619
+  type: 'test'
+  ...
+# Subtest: V-988: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 52 - V-988: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 4.7101
+  type: 'test'
+  ...
+# Subtest: V-987: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 53 - V-987: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 5.7818
+  type: 'test'
+  ...
+# Subtest: base power, blanket immunity and existing prepared XP rules are retained
+ok 54 - base power, blanket immunity and existing prepared XP rules are retained
+  ---
+  duration_ms: 0.4983
+  type: 'test'
+  ...
+# Subtest: prepared level growth is applied once before the independent bounded power bonus
+ok 55 - prepared level growth is applied once before the independent bounded power bonus
+  ---
+  duration_ms: 3.9857
+  type: 'test'
+  ...
+# Subtest: V-049: PVE full result/timeline is byte-for-byte unchanged
+ok 56 - V-049: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 5.0107
+  type: 'test'
+  ...
+# Subtest: V-055: PVE full result/timeline is byte-for-byte unchanged
+ok 57 - V-055: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 2.9022
+  type: 'test'
+  ...
+# Subtest: V-990: PVE full result/timeline is byte-for-byte unchanged
+ok 58 - V-990: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 1.5042
+  type: 'test'
+  ...
+# Subtest: V-996: PVE full result/timeline is byte-for-byte unchanged
+ok 59 - V-996: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 1.4209
+  type: 'test'
+  ...
+# Subtest: V-999: PVE full result/timeline is byte-for-byte unchanged
+ok 60 - V-999: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 1.3941
+  type: 'test'
+  ...
+# Subtest: V-989: PVE full result/timeline is byte-for-byte unchanged
+ok 61 - V-989: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 1.3322
+  type: 'test'
+  ...
+# Subtest: V-988: PVE full result/timeline is byte-for-byte unchanged
+ok 62 - V-988: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 1.6817
+  type: 'test'
+  ...
+# Subtest: V-987: PVE full result/timeline is byte-for-byte unchanged
+ok 63 - V-987: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 1.8313
+  type: 'test'
+  ...
+# Subtest: Valter receives 50% more natural speed in both modes while personal stats and PVE skill stay intact
+ok 64 - Valter receives 50% more natural speed in both modes while personal stats and PVE skill stay intact
+  ---
+  duration_ms: 3.5473
+  type: 'test'
+  ...
+# Subtest: both sides earn three finite extra turns per allied card, with no enemy, suit, monster or dead-actor credit
+ok 65 - both sides earn three finite extra turns per allied card, with no enemy, suit, monster or dead-actor credit
+  ---
+  duration_ms: 6.9788
+  type: 'test'
+  ...
+# Subtest: duo teammate actions remain separate and Valter keeps three last-stand responses
+ok 66 - duo teammate actions remain separate and Valter keeps three last-stand responses
+  ---
+  duration_ms: 1.295
+  type: 'test'
+  ...
+# Subtest: long canonical battles do not cut Valter off at the former two-turn budget
+ok 67 - long canonical battles do not cut Valter off at the former two-turn budget
+  ---
+  duration_ms: 40.7776
+  type: 'test'
+  ...
+# Subtest: real PVE and PVP payloads publish the faster server fighter and preserve ordinary cards
+ok 68 - real PVE and PVP payloads publish the faster server fighter and preserve ordinary cards
+  ---
+  duration_ms: 14.5836
+  type: 'test'
+  ...
+1..68
+# tests 68
+# suites 0
+# pass 68
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 18954.0865

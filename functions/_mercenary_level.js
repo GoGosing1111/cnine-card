@@ -91,9 +91,10 @@ export async function handleMercenaryLevel({path,request,env,deps}){
    if(action==='receipt')return reply(await mercenaryLevelReceipt(env,user,new URL(request.url).searchParams.get('requestId')));
    if(action==='state'){
     const [{policy},{document},owned]=await Promise.all([readMercenaryLevelPolicy(env),readMercenaryDocument(env),env.DB.prepare('SELECT mercenary_code,total_copies,duplicate_count FROM user_mercenary_cards_v1 WHERE user_id=?').bind(user.id).all()]);
-    const rows=RELEASE?(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=?').bind(user.id).all()).results:[];
+    const configured=RELEASE&&mercenaryLevelReadiness(policy,{requireGrowth:true}).ready,enabled=configured&&policy.mode==='ON';
+    const rows=configured?(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=?').bind(user.id).all()).results:[];
     const catalog=levelCatalog(document,user.id);
-    return reply({userId:Number(user.id),enabled:RELEASE&&policy.mode==='ON'&&mercenaryLevelReadiness(policy,{requireGrowth:true}).ready,policy,rules:RULES,cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>({code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...catalog.find(c=>c.code===r.mercenary_code),growth:mercenaryLevelState(rows.find(s=>s.mercenary_code===r.mercenary_code))}))});
+    return reply({userId:Number(user.id),enabled,policy,rules:RULES,cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>({code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...catalog.find(c=>c.code===r.mercenary_code),growth:mercenaryLevelState(rows.find(s=>s.mercenary_code===r.mercenary_code))}))});
    }
   }
   if(request.method!==(admin?'PATCH':'POST'))throw levelError('MERCENARY_LEVEL_METHOD','지원하지 않는 요청입니다.',405);

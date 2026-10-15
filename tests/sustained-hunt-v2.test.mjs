@@ -130,7 +130,7 @@ test('legacy PVE and PVP combat preserves the operation base with current defaul
       expected.teams.B.cards=expected.teams.B.cards.map(currentDefaults);
       expected.result.final.B=expected.result.final.B.map(currentDefaults);
       assert.deepEqual(createPveBattleV2(pve),expected);
-      const pvp={attackerCards:cards,defenderCards:cards.map(c=>({...c,id:c.id+10,power:c.power+4000})),seed};
+      const pvp={attackerCards:cards,defenderCards:cards.map(c=>({...c,id:c.id+10,power:c.power+4000})),seed,pvpBalanceVersion:'LEGACY'};
       assert.deepEqual(createPvpBattleV2(pvp),baseline.createPvpBattleV2(pvp));
     }
   }finally{fs.unlinkSync(file);}

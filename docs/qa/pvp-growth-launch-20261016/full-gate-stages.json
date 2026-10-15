@@ -1,0 +1,379 @@
+{
+  "checkedAt": "2026-10-15T20:22:26.109Z",
+  "fullGateStarted": true,
+  "totalNpmStages": 76,
+  "completedRemainingStages": 67,
+  "remainingStages": [
+    {
+      "name": "test:ranked-duo",
+      "status": 0,
+      "durationMs": 19302
+    },
+    {
+      "name": "test:magic-workbench",
+      "status": 0,
+      "durationMs": 4635
+    },
+    {
+      "name": "test:postgres-compat",
+      "status": 0,
+      "durationMs": 1142
+    },
+    {
+      "name": "test:account-rank",
+      "status": 0,
+      "durationMs": 7969
+    },
+    {
+      "name": "test:lobby",
+      "status": 0,
+      "durationMs": 795
+    },
+    {
+      "name": "test:loot-shop",
+      "status": 0,
+      "durationMs": 23808
+    },
+    {
+      "name": "test:master-star-mine",
+      "status": 0,
+      "durationMs": 6848
+    },
+    {
+      "name": "check:worker",
+      "status": 0,
+      "durationMs": 563
+    },
+    {
+      "name": "test:pve-reform",
+      "status": 0,
+      "durationMs": 6896
+    },
+    {
+      "name": "test:pve-overhaul",
+      "status": 0,
+      "durationMs": 10999
+    },
+    {
+      "name": "test:v3-grid",
+      "status": 0,
+      "durationMs": 14429
+    },
+    {
+      "name": "test:v3-joint",
+      "status": 1,
+      "durationMs": 61125
+    },
+    {
+      "name": "test:live-connections",
+      "status": 0,
+      "durationMs": 29322
+    },
+    {
+      "name": "test:wish-lamp",
+      "status": 0,
+      "durationMs": 692
+    },
+    {
+      "name": "test:golden-axe",
+      "status": 0,
+      "durationMs": 17440
+    },
+    {
+      "name": "test:chuseok",
+      "status": 0,
+      "durationMs": 4999
+    },
+    {
+      "name": "test:hyper-pack",
+      "status": 0,
+      "durationMs": 3027
+    },
+    {
+      "name": "test:new-user-gift",
+      "status": 0,
+      "durationMs": 33585
+    },
+    {
+      "name": "test:scrapyard-v3",
+      "status": 0,
+      "durationMs": 16737
+    },
+    {
+      "name": "test:avatar",
+      "status": 0,
+      "durationMs": 18540
+    },
+    {
+      "name": "test:performance",
+      "status": 0,
+      "durationMs": 4626
+    },
+    {
+      "name": "test:unique-advancement",
+      "status": 0,
+      "durationMs": 849
+    },
+    {
+      "name": "test:soopketland",
+      "status": 0,
+      "durationMs": 2407
+    },
+    {
+      "name": "test:streamer-lounge",
+      "status": 0,
+      "durationMs": 674
+    },
+    {
+      "name": "test:player-card",
+      "status": 0,
+      "durationMs": 19221
+    },
+    {
+      "name": "test:evolution",
+      "status": 0,
+      "durationMs": 713
+    },
+    {
+      "name": "test:inventory",
+      "status": 0,
+      "durationMs": 667
+    },
+    {
+      "name": "test:navigation",
+      "status": 0,
+      "durationMs": 650
+    },
+    {
+      "name": "test:mercenary-codex",
+      "status": 0,
+      "durationMs": 11064
+    },
+    {
+      "name": "test:equipment-forge-public",
+      "status": 0,
+      "durationMs": 28284
+    },
+    {
+      "name": "test:mercenary-cms",
+      "status": 0,
+      "durationMs": 7474
+    },
+    {
+      "name": "test:cryvern",
+      "status": 0,
+      "durationMs": 2921
+    },
+    {
+      "name": "test:mercenary-draw",
+      "status": 0,
+      "durationMs": 10633
+    },
+    {
+      "name": "test:limited-pack",
+      "status": 0,
+      "durationMs": 14077
+    },
+    {
+      "name": "test:raid-entry",
+      "status": 0,
+      "durationMs": 4454
+    },
+    {
+      "name": "test:core-raid",
+      "status": 0,
+      "durationMs": 17148
+    },
+    {
+      "name": "test:lich-raid",
+      "status": 0,
+      "durationMs": 15575
+    },
+    {
+      "name": "test:madara-raid",
+      "status": 0,
+      "durationMs": 6514
+    },
+    {
+      "name": "test:black-miracle",
+      "status": 0,
+      "durationMs": 4157
+    },
+    {
+      "name": "test:seal",
+      "status": 0,
+      "durationMs": 6708
+    },
+    {
+      "name": "test:message-rewards",
+      "status": 0,
+      "durationMs": 14222
+    },
+    {
+      "name": "test:workshop",
+      "status": 0,
+      "durationMs": 24136
+    },
+    {
+      "name": "test:clan",
+      "status": 0,
+      "durationMs": 41383
+    },
+    {
+      "name": "test:organization",
+      "status": 0,
+      "durationMs": 22225
+    },
+    {
+      "name": "test:prison",
+      "status": 0,
+      "durationMs": 14753
+    },
+    {
+      "name": "test:coup",
+      "status": 0,
+      "durationMs": 42614
+    },
+    {
+      "name": "test:project-v-sd",
+      "status": 0,
+      "durationMs": 6776
+    },
+    {
+      "name": "test:apocalypse",
+      "status": 0,
+      "durationMs": 3489
+    },
+    {
+      "name": "test:pve-sweep",
+      "status": 0,
+      "durationMs": 743
+    },
+    {
+      "name": "test:battle-suit",
+      "status": 0,
+      "durationMs": 9235
+    },
+    {
+      "name": "test:skill-chips",
+      "status": 0,
+      "durationMs": 3266
+    },
+    {
+      "name": "test:territory-reward",
+      "status": 0,
+      "durationMs": 31782
+    },
+    {
+      "name": "test:alchemy",
+      "status": 0,
+      "durationMs": 909
+    },
+    {
+      "name": "test:ranked-reward",
+      "status": 0,
+      "durationMs": 817
+    },
+    {
+      "name": "test:coupon",
+      "status": 0,
+      "durationMs": 8761
+    },
+    {
+      "name": "test:daily-quest",
+      "status": 0,
+      "durationMs": 17810
+    },
+    {
+      "name": "test:prediction",
+      "status": 0,
+      "durationMs": 1511
+    },
+    {
+      "name": "test:prime-draw",
+      "status": 0,
+      "durationMs": 13660
+    },
+    {
+      "name": "test:superstar-pack",
+      "status": 0,
+      "durationMs": 17599
+    },
+    {
+      "name": "test:fur-enhancement",
+      "status": 0,
+      "durationMs": 17126
+    },
+    {
+      "name": "test:gamst-retirement",
+      "status": 0,
+      "durationMs": 5062
+    },
+    {
+      "name": "test:reroll-recovery",
+      "status": 0,
+      "durationMs": 4659
+    },
+    {
+      "name": "test:targeted-transfer",
+      "status": 0,
+      "durationMs": 14597
+    },
+    {
+      "name": "test:idle-dungeon",
+      "status": 0,
+      "durationMs": 2102
+    },
+    {
+      "name": "test:treasury",
+      "status": 0,
+      "durationMs": 1407
+    },
+    {
+      "name": "test:z-body-effects",
+      "status": 0,
+      "durationMs": 2392
+    },
+    {
+      "name": "test:legion-hunt",
+      "status": 1,
+      "durationMs": 15782
+    }
+  ],
+  "unrelatedExistingFailures": [
+    {
+      "file": "tests/icon-cms-v1.test.mjs",
+      "line": 72,
+      "reason": "Hard-coded 20261013-gusudaeng cache query differs from already deployed 20261016-joeun-white-v1",
+      "baseHtmlUnchanged": true,
+      "baseTestUnchanged": true
+    }
+  ],
+  "resolvedRelatedFailures": [
+    {
+      "files": [
+        "tests/icon-fur15-superiority-v1.test.mjs",
+        "tests/icon-techniques-combat-20261015.test.mjs"
+      ],
+      "fix": "Preserve existing non-five-card PVP without formation bonus",
+      "proof": "final-combat-regressions.tap"
+    },
+    {
+      "file": "tests/valter-tempo-20261011.test.mjs",
+      "fix": "Assert approved formation tempo bonus on mercenary and ordinary-card payloads; displayed speed matches combat clock",
+      "proof": "final-combat-regressions.tap"
+    },
+    {
+      "file": "tests/sustained-hunt-v2.test.mjs",
+      "fix": "Historical operation-base parity explicitly selects LEGACY rather than the new released default",
+      "proof": "legacy-hunt-regression.tap"
+    }
+  ],
+  "logHashes": {
+    "prefix": "dcb7965ac924e8359b4c245dc18ac10bc69a4f29e376e91d87fed27f90fe8737",
+    "remaining": "48a45a97c698bc1de4c813c0f36a440451014bb84102e957a0a6bef43e27eb15"
+  },
+  "wholeGateAllGreen": false,
+  "allRegisteredNpmStagesExecuted": true,
+  "unresolvedRelatedFailures": []
+}

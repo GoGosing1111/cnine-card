@@ -193,23 +193,21 @@ test('both previous OFF policy versions adapt in memory without writing or filli
   }
 });
 
-test('public leveling mutations and preview stay closed before authentication or database access', async () => {
-  assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED, false);
+test('released leveling mutations and preview require authentication before database access', async () => {
+  assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED, true);
   assert.equal(MERCENARY_LEVEL_RULES.version, 'mercenary-level-20261015-v2');
   let touched = 0;
   const env = {DB:new Proxy({}, {get() {touched++;throw Error('release OFF must not access DB');}})};
-  const deps = {json:(data, status = 200) => ({data, status}), authenticate:async () => assert.fail('closed mutation must not need authentication')};
+  const deps = {json:(data, status = 200) => ({data, status}), authenticate:async () => null};
   for (const action of ['train','breakthrough','preview']) {
     const path = 'mercenaries/v3/leveling/' + action;
     const request = new Request('https://qa.test/api/' + path, {method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify(body())});
     const response = await handleMercenaryLevel({path, request, env, deps});
-    assert.equal(response.status, 423);
-    assert.equal(response.data.code, 'MERCENARY_LEVEL_PREPARATION');
+    assert.equal(response.status, 401);
+    assert.equal(response.data.code, 'MERCENARY_LEVEL_AUTH');
   }
   const path = 'mercenaries/v3/leveling/feature';
   const feature = await handleMercenaryLevel({path, request:new Request('https://qa.test/api/' + path), env, deps});
-  assert.equal(feature.data.releaseEnabled, false);
-  const snapshots = new Map([[7, {code:'V-049', level:1}]]);
-  assert.equal(await attachReleasedMercenaryLevels(env, snapshots), snapshots);
+  assert.equal(feature.data.releaseEnabled, true);
   assert.equal(touched, 0);
 });

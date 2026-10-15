@@ -1,0 +1,26 @@
+{
+  "source": "isolated public state and CMS fixture using approved launch policy",
+  "results": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "regularXp": 750,
+      "limitedXp": 3750,
+      "level5Xp": 1350,
+      "breakthroughChancePercent": 10,
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "regularXp": 750,
+      "limitedXp": 3750,
+      "level5Xp": 1350,
+      "breakthroughChancePercent": 10,
+      "errors": []
+    }
+  ],
+  "posts": 0
+}

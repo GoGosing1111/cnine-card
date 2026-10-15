@@ -1,0 +1,634 @@
+TAP version 13
+# Subtest: reference +15 power matches real server CMS normalization and per-card/Faker rules
+ok 1 - reference +15 power matches real server CMS normalization and per-card/Faker rules
+  ---
+  duration_ms: 37.3156
+  type: 'test'
+  ...
+# Subtest: reference unique stats and advancement match real fresh server deck preparation
+ok 2 - reference unique stats and advancement match real fresh server deck preparation
+  ---
+  duration_ms: 65.0939
+  type: 'test'
+  ...
+# Subtest: seven roles exceed every current and maximum-growth FUR +15 stat with equal equipment
+ok 3 - seven roles exceed every current and maximum-growth FUR +15 stat with equal equipment
+  ---
+  duration_ms: 435.2914
+  type: 'test'
+  ...
+# Subtest: fresh server reference changes with CMS, does not write, strips forged state and honors disabled scopes
+ok 4 - fresh server reference changes with CMS, does not write, strips forged state and honors disabled scopes
+  ---
+  duration_ms: 53.9691
+  type: 'test'
+  ...
+# Subtest: server-prepared role snapshots reach bounded authoritative PVE/PVP timelines and preserve ordinary battles
+ok 5 - server-prepared role snapshots reach bounded authoritative PVE/PVP timelines and preserve ordinary battles
+  ---
+  duration_ms: 158.33
+  type: 'test'
+  ...
+# Subtest: duo saved formations and automatic strongest selection also enforce two ICONs
+ok 6 - duo saved formations and automatic strongest selection also enforce two ICONs
+  ---
+  duration_ms: 26.2883
+  type: 'test'
+  ...
+# Subtest: captain keeps its existing combat model but receives the same grade hierarchy and aggregate power
+ok 7 - captain keeps its existing combat model but receives the same grade hierarchy and aggregate power
+  ---
+  duration_ms: 10.0618
+  type: 'test'
+  ...
+# Subtest: every existing unique-advancement-to-engine bridge forwards the authoritative ICON role too
+ok 8 - every existing unique-advancement-to-engine bridge forwards the authoritative ICON role too
+  ---
+  duration_ms: 109.418
+  type: 'test'
+  ...
+# Subtest: old stored battle snapshots cannot bypass two-card limit and fail before DB work
+ok 9 - old stored battle snapshots cannot bypass two-card limit and fail before DB work
+  ---
+  duration_ms: 1.0134
+  type: 'test'
+  ...
+# Subtest: release remains false and non-Symbol, card-field and JSON capability forgeries never activate
+ok 10 - release remains false and non-Symbol, card-field and JSON capability forgeries never activate
+  ---
+  duration_ms: 80.6892
+  type: 'test'
+  ...
+# Subtest: CROWN_USURP: deterministic real-engine skill changes the authoritative timeline
+ok 11 - CROWN_USURP: deterministic real-engine skill changes the authoritative timeline
+  ---
+  duration_ms: 67.2682
+  type: 'test'
+  ...
+# Subtest: FORMATION_EDIT: deterministic real-engine skill changes the authoritative timeline
+ok 12 - FORMATION_EDIT: deterministic real-engine skill changes the authoritative timeline
+  ---
+  duration_ms: 9.879
+  type: 'test'
+  ...
+# Subtest: WOUND_DEFER: deterministic real-engine skill changes the authoritative timeline
+ok 13 - WOUND_DEFER: deterministic real-engine skill changes the authoritative timeline
+  ---
+  duration_ms: 12.0102
+  type: 'test'
+  ...
+# Subtest: SKILL_ADVANCE: deterministic real-engine skill changes the authoritative timeline
+ok 14 - SKILL_ADVANCE: deterministic real-engine skill changes the authoritative timeline
+  ---
+  duration_ms: 66.065
+  type: 'test'
+  ...
+# Subtest: PURSUIT_BAN: deterministic real-engine skill changes the authoritative timeline
+ok 15 - PURSUIT_BAN: deterministic real-engine skill changes the authoritative timeline
+  ---
+  duration_ms: 51.1818
+  type: 'test'
+  ...
+# Subtest: SKILL_CENSOR: deterministic real-engine skill changes the authoritative timeline
+ok 16 - SKILL_CENSOR: deterministic real-engine skill changes the authoritative timeline
+  ---
+  duration_ms: 43.253
+  type: 'test'
+  ...
+# Subtest: AUTONOMOUS_WEAPON: deterministic real-engine skill changes the authoritative timeline
+ok 17 - AUTONOMOUS_WEAPON: deterministic real-engine skill changes the authoritative timeline
+  ---
+  duration_ms: 6.1773
+  type: 'test'
+  ...
+# Subtest: RETURN_OATH: deterministic real-engine skill changes the authoritative timeline
+ok 18 - RETURN_OATH: deterministic real-engine skill changes the authoritative timeline
+  ---
+  duration_ms: 3.5758
+  type: 'test'
+  ...
+# Subtest: crown transfers the real support empower without cloning or shortening its remaining duration
+ok 19 - crown transfers the real support empower without cloning or shortening its remaining duration
+  ---
+  duration_ms: 1.7698
+  type: 'test'
+  ...
+# Subtest: formation exchanges real slots/rows, preserves actor IDs and redirects later basic targets
+ok 20 - formation exchanges real slots/rows, preserves actor IDs and redirects later basic targets
+  ---
+  duration_ms: 2.7369
+  type: 'test'
+  ...
+# Subtest: deferred multi-hit HP damage preserves every debt, bypasses shields on repayment, and never recursively procs
+ok 21 - deferred multi-hit HP damage preserves every debt, bypasses shields on repayment, and never recursively procs
+  ---
+  duration_ms: 1.1434
+  type: 'test'
+  ...
+# Subtest: a lethal deferred debt performs a real KO and dead actors never receive ghost repayments
+ok 22 - a lethal deferred debt performs a real KO and dead actors never receive ghost repayments
+  ---
+  duration_ms: 0.7759
+  type: 'test'
+  ...
+# Subtest: advance borrows the whole cooldown, adds no action, preserves seals and repays exactly once
+ok 23 - advance borrows the whole cooldown, adds no action, preserves seals and repays exactly once
+  ---
+  duration_ms: 0.8985
+  type: 'test'
+  ...
+# Subtest: pursuit redirects a lone front to a living rear, clears on another target, and permits the last survivor
+ok 24 - pursuit redirects a lone front to a living rear, clears on another target, and permits the last survivor
+  ---
+  duration_ms: 0.3952
+  type: 'test'
+  ...
+# Subtest: censor keeps the exact offensive hit while suppressing new shield and delay effects
+ok 25 - censor keeps the exact offensive hit while suppressing new shield and delay effects
+  ---
+  duration_ms: 1.8795
+  type: 'test'
+  ...
+# Subtest: autonomous weapon has an independent actor, attacks and HP; owner death immediately removes it
+ok 26 - autonomous weapon has an independent actor, attacks and HP; owner death immediately removes it
+  ---
+  duration_ms: 40.0386
+  type: 'test'
+  ...
+# Subtest: return oath revives only after the target is defeated and once per ally
+ok 27 - return oath revives only after the target is defeated and once per ally
+  ---
+  duration_ms: 0.4943
+  type: 'test'
+  ...
+# Subtest: single-boss rescue counts actual HP damage only, ignores shields, and expires without free revival
+ok 28 - single-boss rescue counts actual HP damage only, ignores shields, and expires without free revival
+  ---
+  duration_ms: 1.9715
+  type: 'test'
+  ...
+# Subtest: duplicate assignments, unknown actors, recursive summon owners and incomplete tuning are rejected
+ok 29 - duplicate assignments, unknown actors, recursive summon owners and incomplete tuning are rejected
+  ---
+  duration_ms: 1.2349
+  type: 'test'
+  ...
+# Subtest: advanced charged ICON prepares without an action and releases on its next unsealed regular turn
+ok 30 - advanced charged ICON prepares without an action and releases on its next unsealed regular turn
+  ---
+  duration_ms: 0.7834
+  type: 'test'
+  ...
+# Subtest: deferred ICON multi-hit damage consumes the original per-cast cap including debt
+ok 31 - deferred ICON multi-hit damage consumes the original per-cast cap including debt
+  ---
+  duration_ms: 1.2252
+  type: 'test'
+  ...
+# Subtest: multiple pursuit protections always leave a legal target and do not deadlock the engine
+ok 32 - multiple pursuit protections always leave a legal target and do not deadlock the engine
+  ---
+  duration_ms: 0.3733
+  type: 'test'
+  ...
+# Subtest: censored curse consumes its old stacks and creates no replacement or spread
+ok 33 - censored curse consumes its old stacks and creates no replacement or spread
+  ---
+  duration_ms: 0.9654
+  type: 'test'
+  ...
+# Subtest: censor never refreshes an existing link budget or duration while its prior passive remains separate
+ok 34 - censor never refreshes an existing link budget or duration while its prior passive remains separate
+  ---
+  duration_ms: 1.6135
+  type: 'test'
+  ...
+# Subtest: summons do not extend last-owner survival or contaminate PVP survivor/HP outcome
+ok 35 - summons do not extend last-owner survival or contaminate PVP survivor/HP outcome
+  ---
+  duration_ms: 1.0546
+  type: 'test'
+  ...
+# Subtest: return oath does not overwrite an ally already revived by another system, and a dead caster cannot rescue
+ok 36 - return oath does not overwrite an ally already revived by another system, and a dead caster cannot rescue
+  ---
+  duration_ms: 0.6786
+  type: 'test'
+  ...
+# Subtest: new single-target mercenary skills obey pursuit while their existing action schedule remains intact
+ok 37 - new single-target mercenary skills obey pursuit while their existing action schedule remains intact
+  ---
+  duration_ms: 6.8285
+  type: 'test'
+  ...
+# Subtest: return oath can rescue a real dead mercenary without changing its cooldown or adding an action
+ok 38 - return oath can rescue a real dead mercenary without changing its cooldown or adding an action
+  ---
+  duration_ms: 0.6466
+  type: 'test'
+  ...
+# Subtest: approved launch triples rising required XP only; both combat flags open and empty CMS stays empty
+ok 39 - approved launch triples rising required XP only; both combat flags open and empty CMS stays empty
+  ---
+  duration_ms: 13.6863
+  type: 'test'
+  ...
+# Subtest: all four breakthroughs use exact 10% boundaries, preserve earned growth on failure, and finish at 20
+ok 40 - all four breakthroughs use exact 10% boundaries, preserve earned growth on failure, and finish at 20
+  ---
+  duration_ms: 13.0841
+  type: 'test'
+  ...
+# Subtest: released authenticated state, training, receipt replay and server battle snapshot use the saved launch policy
+ok 41 - released authenticated state, training, receipt replay and server battle snapshot use the saved launch policy
+  ---
+  duration_ms: 470.6425
+  type: 'test'
+  ...
+# Subtest: launch installs only its empty table and audited policy once; dry-run/conflict roll back and replay never resets CMS
+ok 42 - launch installs only its empty table and audited policy once; dry-run/conflict roll back and replay never resets CMS
+  ---
+  duration_ms: 6041.2181
+  type: 'test'
+  ...
+# Subtest: unconfigured and partial V2 policies stay OFF and cannot enter battle
+ok 43 - unconfigured and partial V2 policies stay OFF and cannot enter battle
+  ---
+  duration_ms: 6.6919
+  type: 'test'
+  ...
+# Subtest: all 20 levels and four breakthroughs have explicit additive, monotonic totals
+ok 44 - all 20 levels and four breakthroughs have explicit additive, monotonic totals
+  ---
+  duration_ms: 53.9534
+  type: 'test'
+  ...
+# Subtest: growth scales effective stats once, keeps wounds, original shield and power
+ok 45 - growth scales effective stats once, keeps wounds, original shield and power
+  ---
+  duration_ms: 2.0173
+  type: 'test'
+  ...
+# Subtest: failure preserves all earned growth; successful final breakthrough grants the last package only
+ok 46 - failure preserves all earned growth; successful final breakthrough grants the last package only
+  ---
+  duration_ms: 40.6826
+  type: 'test'
+  ...
+# Subtest: conditional speed floor uses frozen pre-growth opponent speed and never compounds
+ok 47 - conditional speed floor uses frozen pre-growth opponent speed and never compounds
+  ---
+  duration_ms: 2.8497
+  type: 'test'
+  ...
+# Subtest: gap mastery restores bounded lost damage, including Berkan immunity, without globally changing it
+ok 48 - gap mastery restores bounded lost damage, including Berkan immunity, without globally changing it
+  ---
+  duration_ms: 0.9613
+  type: 'test'
+  ...
+# Subtest: PVP mastery adds 0.75 credit instead of multiplying innate cadence; PVE and legacy unchanged
+ok 49 - PVP mastery adds 0.75 credit instead of multiplying innate cadence; PVE and legacy unchanged
+  ---
+  duration_ms: 2.2797
+  type: 'test'
+  ...
+# Subtest: level-1 V2 and legacy battle paths are identical; high-level formation can overturn a low-level limited
+ok 50 - level-1 V2 and legacy battle paths are identical; high-level formation can overturn a low-level limited
+  ---
+  duration_ms: 136.3059
+  type: 'test'
+  ...
+# Subtest: 0.01 percent action credit accumulates exactly and duo owners earn only their own credit
+ok 51 - 0.01 percent action credit accumulates exactly and duo owners earn only their own credit
+  ---
+  duration_ms: 186.485
+  type: 'test'
+  ...
+# Subtest: action response closes only the frozen opportunity gap and subtracts own innate plus growth credit
+ok 52 - action response closes only the frozen opportunity gap and subtracts own innate plus growth credit
+  ---
+  duration_ms: 3.723
+  type: 'test'
+  ...
+# Subtest: SQLite: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x
+ok 53 - SQLite: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x
+  ---
+  duration_ms: 356.0032
+  type: 'test'
+  ...
+# Subtest: SQLite: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once
+ok 54 - SQLite: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once
+  ---
+  duration_ms: 282.7181
+  type: 'test'
+  ...
+# Subtest: SQLite: committed V2 growth summaries survive policy replacement, OFF and receipt recovery
+ok 55 - SQLite: committed V2 growth summaries survive policy replacement, OFF and receipt recovery
+  ---
+  duration_ms: 68.1914
+  type: 'test'
+  ...
+# Subtest: SQLite: partially configured growth can be saved OFF but cannot consume cards or grow
+ok 56 - SQLite: partially configured growth can be saved OFF but cannot consume cards or grow
+  ---
+  duration_ms: 30.2879
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x
+ok 57 - PostgreSQL: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x
+  ---
+  duration_ms: 5999.8881
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once
+ok 58 - PostgreSQL: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once
+  ---
+  duration_ms: 3633.6526
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: committed V2 growth summaries survive policy replacement, OFF and receipt recovery
+ok 59 - PostgreSQL: committed V2 growth summaries survive policy replacement, OFF and receipt recovery
+  ---
+  duration_ms: 2694.7168
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: partially configured growth can be saved OFF but cannot consume cards or grow
+ok 60 - PostgreSQL: partially configured growth can be saved OFF but cannot consume cards or grow
+  ---
+  duration_ms: 2599.0645
+  type: 'test'
+  ...
+# Subtest: both previous OFF policy versions adapt in memory without writing or filling a growth profile
+ok 61 - both previous OFF policy versions adapt in memory without writing or filling a growth profile
+  ---
+  duration_ms: 1.3169
+  type: 'test'
+  ...
+# Subtest: released leveling mutations and preview require authentication before database access
+ok 62 - released leveling mutations and preview require authentication before database access
+  ---
+  duration_ms: 40.3026
+  type: 'test'
+  ...
+# Subtest: joint release uses the approved bonus; forged card and mercenary effects cannot change it
+ok 63 - joint release uses the approved bonus; forged card and mercenary effects cannot change it
+  ---
+  duration_ms: 177.6105
+  type: 'test'
+  ...
+# Subtest: saved battles retain their own version through release/rollback; ordinary JSON cannot select the review policy
+ok 64 - saved battles retain their own version through release/rollback; ordinary JSON cannot select the review policy
+  ---
+  duration_ms: 221.2617
+  type: 'test'
+  ...
+# Subtest: bonus is continuous, symmetric by swapping sides, scale independent, monotonic and capped
+ok 65 - bonus is continuous, symmetric by swapping sides, scale independent, monotonic and capped
+  ---
+  duration_ms: 157.4839
+  type: 'test'
+  ...
+# Subtest: power boost reaches actual capped damage once and still consumes shields before HP
+ok 66 - power boost reaches actual capped damage once and still consumes shields before HP
+  ---
+  duration_ms: 4.1401
+  type: 'test'
+  ...
+# Subtest: mercenary protection preserves the scaled damage budget including overflow from a dying guard
+ok 67 - mercenary protection preserves the scaled damage budget including overflow from a dying guard
+  ---
+  duration_ms: 1.8934
+  type: 'test'
+  ...
+# Subtest: ICON multihit damage scales the whole cast once instead of spending a boosted hit against an unboosted budget
+ok 68 - ICON multihit damage scales the whole cast once instead of spending a boosted hit against an unboosted budget
+  ---
+  duration_ms: 3.1013
+  type: 'test'
+  ...
+# Subtest: the real ICON guard receives part of the already boosted hit without a second multiplier
+ok 69 - the real ICON guard receives part of the already boosted hit without a second multiplier
+  ---
+  duration_ms: 3.0439
+  type: 'test'
+  ...
+# Subtest: counter power bonuses preserve the historical indirect-hit path
+ok 70 - counter power bonuses preserve the historical indirect-hit path
+  ---
+  duration_ms: 1.6065
+  type: 'test'
+  ...
+# Subtest: tempo improves real action opportunities with equal stats and does not grant an automatic action
+ok 71 - tempo improves real action opportunities with equal stats and does not grant an automatic action
+  ---
+  duration_ms: 67.8768
+  type: 'test'
+  ...
+# Subtest: formation power is frozen, excludes derived combat link, and includes each piece of equipment once
+ok 72 - formation power is frozen, excludes derived combat link, and includes each piece of equipment once
+  ---
+  duration_ms: 9.2369
+  type: 'test'
+  ...
+# Subtest: duo power and linked stats are owner scoped; a stronger teammate cannot lend a power bonus
+ok 73 - duo power and linked stats are owner scoped; a stronger teammate cannot lend a power bonus
+  ---
+  duration_ms: 11.113
+  type: 'test'
+  ...
+# Subtest: derived power rejects malformed/duplicate application and never applies to PVE or suits
+ok 74 - derived power rejects malformed/duplicate application and never applies to PVE or suits
+  ---
+  duration_ms: 5.0127
+  type: 'test'
+  ...
+# Subtest: V-049: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 75 - V-049: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 14.9884
+  type: 'test'
+  ...
+# Subtest: V-055: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 76 - V-055: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 12.1447
+  type: 'test'
+  ...
+# Subtest: V-056: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 77 - V-056: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 10.1182
+  type: 'test'
+  ...
+# Subtest: V-990: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 78 - V-990: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 64.8145
+  type: 'test'
+  ...
+# Subtest: V-991: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 79 - V-991: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 19.187
+  type: 'test'
+  ...
+# Subtest: V-992: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 80 - V-992: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 66.8102
+  type: 'test'
+  ...
+# Subtest: V-993: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 81 - V-993: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 17.8503
+  type: 'test'
+  ...
+# Subtest: V-994: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 82 - V-994: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 15.4052
+  type: 'test'
+  ...
+# Subtest: V-997: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 83 - V-997: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 52.2845
+  type: 'test'
+  ...
+# Subtest: V-998: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 84 - V-998: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 32.7059
+  type: 'test'
+  ...
+# Subtest: V-996: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 85 - V-996: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 92.8584
+  type: 'test'
+  ...
+# Subtest: V-999: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 86 - V-999: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 18.5581
+  type: 'test'
+  ...
+# Subtest: V-989: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 87 - V-989: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 46.1877
+  type: 'test'
+  ...
+# Subtest: V-988: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 88 - V-988: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 11.8125
+  type: 'test'
+  ...
+# Subtest: V-987: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 89 - V-987: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 65.8458
+  type: 'test'
+  ...
+# Subtest: base power, blanket immunity and existing prepared XP rules are retained
+ok 90 - base power, blanket immunity and existing prepared XP rules are retained
+  ---
+  duration_ms: 2.3211
+  type: 'test'
+  ...
+# Subtest: prepared level growth is applied once before the independent bounded power bonus
+ok 91 - prepared level growth is applied once before the independent bounded power bonus
+  ---
+  duration_ms: 15.7413
+  type: 'test'
+  ...
+# Subtest: V-049: PVE full result/timeline is byte-for-byte unchanged
+ok 92 - V-049: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 12.5081
+  type: 'test'
+  ...
+# Subtest: V-055: PVE full result/timeline is byte-for-byte unchanged
+ok 93 - V-055: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 27.2499
+  type: 'test'
+  ...
+# Subtest: V-990: PVE full result/timeline is byte-for-byte unchanged
+ok 94 - V-990: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 7.0148
+  type: 'test'
+  ...
+# Subtest: V-996: PVE full result/timeline is byte-for-byte unchanged
+ok 95 - V-996: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 8.8239
+  type: 'test'
+  ...
+# Subtest: V-999: PVE full result/timeline is byte-for-byte unchanged
+ok 96 - V-999: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 21.9305
+  type: 'test'
+  ...
+# Subtest: V-989: PVE full result/timeline is byte-for-byte unchanged
+ok 97 - V-989: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 5.9155
+  type: 'test'
+  ...
+# Subtest: V-988: PVE full result/timeline is byte-for-byte unchanged
+ok 98 - V-988: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 7.6798
+  type: 'test'
+  ...
+# Subtest: V-987: PVE full result/timeline is byte-for-byte unchanged
+ok 99 - V-987: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 10.9372
+  type: 'test'
+  ...
+# Subtest: Valter receives 50% more natural speed in both modes while personal stats and PVE skill stay intact
+ok 100 - Valter receives 50% more natural speed in both modes while personal stats and PVE skill stay intact
+  ---
+  duration_ms: 27.6427
+  type: 'test'
+  ...
+# Subtest: both sides earn three finite extra turns per allied card, with no enemy, suit, monster or dead-actor credit
+ok 101 - both sides earn three finite extra turns per allied card, with no enemy, suit, monster or dead-actor credit
+  ---
+  duration_ms: 45.1559
+  type: 'test'
+  ...
+# Subtest: duo teammate actions remain separate and Valter keeps three last-stand responses
+ok 102 - duo teammate actions remain separate and Valter keeps three last-stand responses
+  ---
+  duration_ms: 46.2762
+  type: 'test'
+  ...
+# Subtest: long canonical battles do not cut Valter off at the former two-turn budget
+ok 103 - long canonical battles do not cut Valter off at the former two-turn budget
+  ---
+  duration_ms: 220.7368
+  type: 'test'
+  ...
+# Subtest: real PVE and PVP payloads publish the faster server fighter and preserve ordinary cards
+ok 104 - real PVE and PVP payloads publish the faster server fighter and preserve ordinary cards
+  ---
+  duration_ms: 247.2315
+  type: 'test'
+  ...
+1..104
+# tests 104
+# suites 0
+# pass 104
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 17346.1773

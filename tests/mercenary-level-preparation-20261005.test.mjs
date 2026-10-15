@@ -18,7 +18,7 @@ const cards=[{code:'V-004',name:'대상',rank:'SS',totalCopies:31,duplicates:30}
 const train=(overrides={})=>planMercenaryTraining({policy:policy(),state:initialMercenaryLevel(),target:cards[0],owned:cards,catalog:cards,materials:[{code:'V-004',quantity:1}],...overrides});
 
 test('live draft fixes the approved multiplier and leaves remaining economy values unset',()=>{
- assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED,false);const p=mercenaryLevelDraft();assert.equal(p.mode,'OFF');assert.equal(mercenaryLevelReadiness(p).missing.length,34);assert.equal(mercenaryLevelReadiness(p).ready,false);
+ assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED,true);const p=mercenaryLevelDraft();assert.equal(p.mode,'OFF');assert.equal(mercenaryLevelReadiness(p).missing.length,34);assert.equal(mercenaryLevelReadiness(p).ready,false);
  assert.throws(()=>train({policy:p}),{code:'MERCENARY_LEVEL_UNCONFIGURED'});
  for(const change of [p=>p.sameCardMultiplier=1,p=>p.levels[0].requiredXp=-1,p=>p.milestones[0].successChancePpm=1000001,p=>p.xpPerCard.NORMAL=100,p=>p.milestones[3].bonus={type:'SKILL_COOLDOWN_TURNS',value:1.5}]){const p=policy();change(p);assert.throws(()=>validateMercenaryLevelPolicy(p));}
 });
@@ -98,10 +98,10 @@ test('batch predicate rejects inventory or policy changes after the preparation 
  await assert.rejects(()=>runPreparedMercenaryLevel(f.env,f.user,body(),'TRAIN'),/CHECK/);assert.equal((await inventory(f))[0].total_copies,30);assert.deepEqual(await readMercenaryLevelState(f.env,7,'V-004'),initialMercenaryLevel());
 });
 const request=(path,{method='GET',data,origin='https://qa.test',auth=true}={})=>new Request('https://qa.test/api/'+path,{method,headers:{origin,'content-type':'application/json',...(auth?{authorization:'Bearer local-account-7'}:{})},...(data?{body:JSON.stringify(data)}:{})});
-test('live gate rejects all growth writes before DB access, including OWNER',async()=>{
- let touches=0;const env={DB:new Proxy({},{get(){touches++;throw Error('DB touched');}})},deps={json:(data,status=200)=>({data,status}),authenticate:async()=>({id:7,role:'OWNER'})};
- for(const action of ['train','breakthrough','preview']){const path='mercenaries/v3/leveling/'+action,r=await handleMercenaryAccount({path,request:request(path,{method:'POST',data:body()}),env,deps});assert.equal(r.status,423);assert.equal(r.data.code,'MERCENARY_LEVEL_PREPARATION');}
- const path='mercenaries/v3/leveling/feature',r=await handleMercenaryAccount({path,request:request(path),env,deps});assert.equal(r.data.releaseEnabled,false);assert.equal(touches,0);const map=new Map([[7,{code:'V-004',level:1}]]);assert.equal(await attachReleasedMercenaryLevels(env,map),map);
+test('released routes require authentication before any growth database access',async()=>{
+ let touches=0;const env={DB:new Proxy({},{get(){touches++;throw Error('DB touched');}})},deps={json:(data,status=200)=>({data,status}),authenticate:async()=>null};
+ for(const action of ['train','breakthrough','preview']){const path='mercenaries/v3/leveling/'+action,r=await handleMercenaryAccount({path,request:request(path,{method:'POST',data:body()}),env,deps});assert.equal(r.status,401);assert.equal(r.data.code,'MERCENARY_LEVEL_AUTH');}
+ const path='mercenaries/v3/leveling/feature',r=await handleMercenaryAccount({path,request:request(path),env,deps});assert.equal(r.data.releaseEnabled,true);assert.equal(touches,0);
 });
 test('OFF needs no new schema, ignores legacy growth, and CMS saves cannot activate it',async t=>{
  const f=await fixture(t,false,{schema:false});await f.p('DELETE FROM app_meta WHERE key=?',MERCENARY_LEVEL_KEY).run();

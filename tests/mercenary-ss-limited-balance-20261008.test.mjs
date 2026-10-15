@@ -17,7 +17,7 @@ import {matchupPolicyFingerprint,measureSSLimitedMatchups} from '../scripts/meas
 const codes=Object.keys(SS_LIMITED_COMBAT);
 const fighter=(snapshot,side='A',mode='PVP')=>buildMercenaryFighter(snapshot,side,mode,buildFighter);
 test('all seven SS limited identities use a distinct server policy without altering rank, growth or release flags',()=>{
- const limited=LIMITED_MERCENARIES.filter(c=>c.rank==='SS');assert.deepEqual(codes,[...limited.map(c=>c.code)]);assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED,false);
+ const limited=LIMITED_MERCENARIES.filter(c=>c.rank==='SS');assert.deepEqual(codes,[...limited.map(c=>c.code)]);assert.equal(MERCENARY_LEVEL_RELEASE_ENABLED,true);
  for(const c of limited){
   const input=ssLimitedSnapshot(c.code),before=structuredClone(input),actor=fighter({...input,rank:'C',basePower:1,position:'FRONT',skills:[]});
   assert.deepEqual(input,before);assert.equal(actor.rank,'SS');assert.equal(actor.grade,'SS');assert.equal(mercenaryCombatRank(actor),'SSS');assert.equal(actor.basePower,180000);

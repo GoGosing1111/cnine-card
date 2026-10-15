@@ -132,9 +132,9 @@ test('weighted item odds consume only empty outcomes, preserve coin odds and one
   assert.equal(__avatarDropPoolTest.rollPool(independent,rows,{collectionBonuses:{dropPercent:100,coinPercent:50}},()=>.15)[0].rewardType,'INVENTORY_ITEM');
 });
 
-test('fixed raid plan applies owned bonuses without a second roll; mercenary growth remains unreleased',()=>{
+test('fixed raid plan applies owned bonuses without a second roll; independent of the joint mercenary growth release',()=>{
   const args={instanceId:1,userId:7,totalDamage:100,finalRank:1,cleared:true,cfg:{rewards:{participation:[{type:'COIN',amount:100}],clear:[],minionClear:[],damageMilestones:[],rankRewards:[],rareDrops:[]},clearMysticEnergy:0}};
   assert.equal(raidRewardPlanV1293(args).coin,100);assert.equal(raidRewardPlanV1293({...args,collectionBonuses:{coinPercent:50}}).coin,150);
   const rare=raidRewardPlanV1293({...args,cfg:{...args.cfg,rewards:{...args.cfg.rewards,rareDrops:[{type:'MASTER_STAR',amount:1,chance:10}]}},collectionBonuses:{dropPercent:20}});assert.equal(rare.rareDrops[0].chance,12);
-  assert.match(readFileSync(new URL('../shared/mercenary-level-v1.mjs',import.meta.url),'utf8'),/MERCENARY_LEVEL_RELEASE_ENABLED\s*=\s*false/);
+  assert.match(readFileSync(new URL('../shared/mercenary-level-v1.mjs',import.meta.url),'utf8'),/MERCENARY_LEVEL_RELEASE_ENABLED\s*=\s*true/);
 });

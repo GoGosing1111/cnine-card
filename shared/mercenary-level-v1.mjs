@@ -6,8 +6,9 @@ import {LIMITED_MERCENARIES} from './mercenary-limited-catalog-v1.mjs';
 import {KAIRON_CODE} from './mercenary-kairon-v1.mjs';
 import {JINMU_CODE} from './mercenary-jinmu-v1.mjs';
 
-// Preparation only. A future user-approved release must explicitly open this gate.
-export const MERCENARY_LEVEL_RELEASE_ENABLED=false;
+// 2026-10-16 joint release approved. A complete, explicitly saved ON policy is
+// still required; missing configuration never inherits a sample/default profile.
+export const MERCENARY_LEVEL_RELEASE_ENABLED=true;
 export const MERCENARY_LEVEL_KEY='mercenary_level_policy_v1';
 export const MERCENARY_LEVEL_RULES=Object.freeze({version:'mercenary-level-20261015-v2',maxLevel:20,milestones:Object.freeze([5,10,15,20]),materialKind:'MERCENARY',materialRank:'SAME_RANK',sameCardMultiplier:3,limitedRequiredXpMultiplier:5,preserveOriginal:true,coinCost:0,masterStarCost:0,maxMaterials:100,failure:'CURRENT_LEVEL_EXP_ZERO'});
 export const LEVEL_BONUS_TYPES=Object.freeze({HP_PERCENT:'최대 체력 증가',ATTACK_PERCENT:'공격력 증가',DEFENSE_PERCENT:'방어력 증가',SPEED_PERCENT:'행동 속도 증가',COMBAT_STATS_PERCENT:'체력·공격·방어·속도 증가',SKILL_POWER_PERCENT:'배정 스킬 계수 증가',SKILL_COOLDOWN_TURNS:'배정 스킬 재사용 감소'});

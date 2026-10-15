@@ -1,10 +1,10 @@
-import {MERCENARY_LEVEL_RULES as RULES, LEVEL_BONUS_TYPES, mercenaryLevelRequiredXp, levelProgress, planMercenaryTraining, planMercenaryBreakthrough} from '../../shared/mercenary-level-v1.mjs?v=20261015-growth-v2';
+import {MERCENARY_LEVEL_RULES as RULES, LEVEL_BONUS_TYPES, mercenaryLevelRequiredXp, levelProgress, planMercenaryTraining, planMercenaryBreakthrough} from '../../shared/mercenary-level-v1.mjs?v=20261016-growth-live-v1';
 import {jointAccountRequest} from '../../js/joint-account-transport.mjs';
 import {createLevelClient} from './client.mjs?v=20261005';
-import {levelDemo} from './demo.mjs?v=20261015-growth-v2';
+import {levelDemo} from './demo.mjs?v=20261016-growth-live-v1';
 import {showBreakthrough} from './breakthrough.mjs?v=20261015-v4-no-shape';
-import {presentLevelReceipt} from './receipt-presentation.mjs?v=20261015-growth-v2';
-import {renderGrowthAnalysis, growthSummary, growthLabel, resultBonusLabel} from './growth-view.mjs?v=20261015-public-off-v2';
+import {presentLevelReceipt} from './receipt-presentation.mjs?v=20261016-growth-live-v1';
+import {renderGrowthAnalysis, growthSummary, growthLabel, resultBonusLabel} from './growth-view.mjs?v=20261016-growth-live-v1';
 
 const entryParams = new URL(location.href).searchParams;
 const localReview = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);

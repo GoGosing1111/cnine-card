@@ -64,9 +64,14 @@ test('real PVE and PVP payloads publish the faster server fighter and preserve o
  const cards=tierCards(2e7),mercenary=snapshot();
  for(const mode of ['PVE','PVP']){
   const battle=mode==='PVE'?createPveBattleV2({cards,mercenary,monster:{id:1,battle_power:6e8},seed:7919}):createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:mercenary,seed:7919});
-  const v=battle.teams.A.mercenaries[0];assert.equal(v.valterPolicyVersion,2);assert.equal(v.stats.speed,fighter('A',mode).speed);
+  const v=battle.teams.A.mercenaries[0];assert.equal(v.valterPolicyVersion,2);assert.equal(v.stats.speed,Math.round(fighter('A',mode).speed*(v.pvpPowerBalance?.tempoMultiplier??1)));assert.equal(v.stats.speed,v.speed);
   assert.ok(battle.result.timeline.some(event=>event.actorId===v.id&&(event.damage>0||event.absorbed>0)));
   const without=mode==='PVE'?createPveBattleV2({cards,monster:{id:1,battle_power:6e8},seed:7919}):createPvpBattleV2({attackerCards:cards,defenderCards:cards,seed:7919});
-  assert.deepEqual(battle.teams.A.cards,without.teams.A.cards);
+  if(mode==='PVE')assert.deepEqual(battle.teams.A.cards,without.teams.A.cards);
+  else for(const [i,card]of battle.teams.A.cards.entries()){
+   const baseline=without.teams.A.cards[i],effect=card.pvpPowerBalance;
+   assert.equal(effect.formationPower,5*2e7+mercenary.basePower);
+   assert.deepEqual(card,{...baseline,speed:Math.round(baseline.speed*effect.tempoMultiplier),pvpPowerBalance:effect},'ordinary cards receive only the independently approved formation bonus');
+  }
  }
 });

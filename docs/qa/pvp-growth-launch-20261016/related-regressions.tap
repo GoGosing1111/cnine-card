@@ -1,0 +1,886 @@
+TAP version 13
+# Subtest: approved launch triples rising required XP only; both combat flags open and empty CMS stays empty
+ok 1 - approved launch triples rising required XP only; both combat flags open and empty CMS stays empty
+  ---
+  duration_ms: 22.6643
+  type: 'test'
+  ...
+# Subtest: all four breakthroughs use exact 10% boundaries, preserve earned growth on failure, and finish at 20
+ok 2 - all four breakthroughs use exact 10% boundaries, preserve earned growth on failure, and finish at 20
+  ---
+  duration_ms: 7.0316
+  type: 'test'
+  ...
+# Subtest: released authenticated state, training, receipt replay and server battle snapshot use the saved launch policy
+ok 3 - released authenticated state, training, receipt replay and server battle snapshot use the saved launch policy
+  ---
+  duration_ms: 362.7332
+  type: 'test'
+  ...
+# Subtest: launch installs only its empty table and audited policy once; dry-run/conflict roll back and replay never resets CMS
+ok 4 - launch installs only its empty table and audited policy once; dry-run/conflict roll back and replay never resets CMS
+  ---
+  duration_ms: 8132.105
+  type: 'test'
+  ...
+# Subtest: unconfigured and partial V2 policies stay OFF and cannot enter battle
+ok 5 - unconfigured and partial V2 policies stay OFF and cannot enter battle
+  ---
+  duration_ms: 5.0661
+  type: 'test'
+  ...
+# Subtest: all 20 levels and four breakthroughs have explicit additive, monotonic totals
+ok 6 - all 20 levels and four breakthroughs have explicit additive, monotonic totals
+  ---
+  duration_ms: 3.9803
+  type: 'test'
+  ...
+# Subtest: growth scales effective stats once, keeps wounds, original shield and power
+ok 7 - growth scales effective stats once, keeps wounds, original shield and power
+  ---
+  duration_ms: 1.5798
+  type: 'test'
+  ...
+# Subtest: failure preserves all earned growth; successful final breakthrough grants the last package only
+ok 8 - failure preserves all earned growth; successful final breakthrough grants the last package only
+  ---
+  duration_ms: 1.5736
+  type: 'test'
+  ...
+# Subtest: conditional speed floor uses frozen pre-growth opponent speed and never compounds
+ok 9 - conditional speed floor uses frozen pre-growth opponent speed and never compounds
+  ---
+  duration_ms: 3.6856
+  type: 'test'
+  ...
+# Subtest: gap mastery restores bounded lost damage, including Berkan immunity, without globally changing it
+ok 10 - gap mastery restores bounded lost damage, including Berkan immunity, without globally changing it
+  ---
+  duration_ms: 0.6447
+  type: 'test'
+  ...
+# Subtest: PVP mastery adds 0.75 credit instead of multiplying innate cadence; PVE and legacy unchanged
+ok 11 - PVP mastery adds 0.75 credit instead of multiplying innate cadence; PVE and legacy unchanged
+  ---
+  duration_ms: 2.7181
+  type: 'test'
+  ...
+# Subtest: level-1 V2 and legacy battle paths are identical; high-level formation can overturn a low-level limited
+ok 12 - level-1 V2 and legacy battle paths are identical; high-level formation can overturn a low-level limited
+  ---
+  duration_ms: 232.6475
+  type: 'test'
+  ...
+# Subtest: 0.01 percent action credit accumulates exactly and duo owners earn only their own credit
+ok 13 - 0.01 percent action credit accumulates exactly and duo owners earn only their own credit
+  ---
+  duration_ms: 125.4982
+  type: 'test'
+  ...
+# Subtest: action response closes only the frozen opportunity gap and subtracts own innate plus growth credit
+ok 14 - action response closes only the frozen opportunity gap and subtracts own innate plus growth credit
+  ---
+  duration_ms: 2.7883
+  type: 'test'
+  ...
+# Subtest: live draft fixes the approved multiplier and leaves remaining economy values unset
+ok 15 - live draft fixes the approved multiplier and leaves remaining economy values unset
+  ---
+  duration_ms: 5.6794
+  type: 'test'
+  ...
+# Subtest: same mercenary earns the multiplier; only same-rank mercenary extras are accepted
+ok 16 - same mercenary earns the multiplier; only same-rank mercenary extras are accepted
+  ---
+  duration_ms: 3.1345
+  type: 'test'
+  ...
+# Subtest: ordinary levels carry XP but every milestone caps XP and reports exact overflow
+ok 17 - ordinary levels carry XP but every milestone caps XP and reports exact overflow
+  ---
+  duration_ms: 51.7974
+  type: 'test'
+  ...
+# Subtest: all four failures retain level and earlier effects; success is once, exact odds, max 20
+ok 18 - all four failures retain level and earlier effects; success is once, exact odds, max 20
+  ---
+  duration_ms: 2.7264
+  type: 'test'
+  ...
+# Subtest: invalid persisted states cannot skip gates, retain EXP after final completion, or exceed new XP policy
+ok 19 - invalid persisted states cannot skip gates, retain EXP after final completion, or exceed new XP policy
+  ---
+  duration_ms: 0.6025
+  type: 'test'
+  ...
+# Subtest: SQLite: atomic consumption, replay, account isolation, no wallet/loadout change
+ok 20 - SQLite: atomic consumption, replay, account isolation, no wallet/loadout change
+  ---
+  duration_ms: 140.0789
+  type: 'test'
+  ...
+# Subtest: SQLite: failed writes roll back materials and XP; stale other request is cancelled
+ok 21 - SQLite: failed writes roll back materials and XP; stale other request is cancelled
+  ---
+  duration_ms: 146.7884
+  type: 'test'
+  ...
+# Subtest: SQLite: overflow requires explicit consent; failed breakthrough retry keeps its first random draw
+ok 22 - SQLite: overflow requires explicit consent; failed breakthrough retry keeps its first random draw
+  ---
+  duration_ms: 118.6076
+  type: 'test'
+  ...
+# Subtest: SQLite: policy revision and CMS revision races cannot spend stale materials
+ok 23 - SQLite: policy revision and CMS revision races cannot spend stale materials
+  ---
+  duration_ms: 48.1531
+  type: 'test'
+  ...
+# Subtest: SQLite: final success persists level 20 and its bonus exactly once without spending more cards
+ok 24 - SQLite: final success persists level 20 and its bonus exactly once without spending more cards
+  ---
+  duration_ms: 102.0183
+  type: 'test'
+  ...
+# Subtest: Postgres: atomic consumption, replay, account isolation, no wallet/loadout change
+ok 25 - Postgres: atomic consumption, replay, account isolation, no wallet/loadout change
+  ---
+  duration_ms: 8439.461
+  type: 'test'
+  ...
+# Subtest: Postgres: failed writes roll back materials and XP; stale other request is cancelled
+ok 26 - Postgres: failed writes roll back materials and XP; stale other request is cancelled
+  ---
+  duration_ms: 4841.0144
+  type: 'test'
+  ...
+# Subtest: Postgres: overflow requires explicit consent; failed breakthrough retry keeps its first random draw
+ok 27 - Postgres: overflow requires explicit consent; failed breakthrough retry keeps its first random draw
+  ---
+  duration_ms: 5193.2087
+  type: 'test'
+  ...
+# Subtest: Postgres: policy revision and CMS revision races cannot spend stale materials
+ok 28 - Postgres: policy revision and CMS revision races cannot spend stale materials
+  ---
+  duration_ms: 4258.2849
+  type: 'test'
+  ...
+# Subtest: Postgres: final success persists level 20 and its bonus exactly once without spending more cards
+ok 29 - Postgres: final success persists level 20 and its bonus exactly once without spending more cards
+  ---
+  duration_ms: 3047.7432
+  type: 'test'
+  ...
+# Subtest: lost commit acknowledgement and serialized concurrent requests never double consume
+ok 30 - lost commit acknowledgement and serialized concurrent requests never double consume
+  ---
+  duration_ms: 29.679
+  type: 'test'
+  ...
+# Subtest: batch predicate rejects inventory or policy changes after the preparation reads
+ok 31 - batch predicate rejects inventory or policy changes after the preparation reads
+  ---
+  duration_ms: 34.4499
+  type: 'test'
+  ...
+# Subtest: released routes require authentication before any growth database access
+ok 32 - released routes require authentication before any growth database access
+  ---
+  duration_ms: 33.2819
+  type: 'test'
+  ...
+# Subtest: OFF needs no new schema, ignores legacy growth, and CMS saves cannot activate it
+ok 33 - OFF needs no new schema, ignores legacy growth, and CMS saves cannot activate it
+  ---
+  duration_ms: 53.0007
+  type: 'test'
+  ...
+# Subtest: battle bonuses apply once after linkage, preserve wounds and base rank power, and freeze skill effects
+ok 34 - battle bonuses apply once after linkage, preserve wounds and base rank power, and freeze skill effects
+  ---
+  duration_ms: 16.5157
+  type: 'test'
+  ...
+# Subtest: PVE, PVP and two-card co-op linkage carry server-frozen growth without changing historical snapshots
+ok 35 - PVE, PVP and two-card co-op linkage carry server-frozen growth without changing historical snapshots
+  ---
+  duration_ms: 68.3172
+  type: 'test'
+  ...
+# Subtest: client retains request through timeout and reload; receipt recovery sends no new POST
+ok 36 - client retains request through timeout and reload; receipt recovery sends no new POST
+  ---
+  duration_ms: 4.5961
+  type: 'test'
+  ...
+# Subtest: same code gives exactly 3x XP; other SSS gives 1x regardless of limited edition
+ok 37 - same code gives exactly 3x XP; other SSS gives 1x regardless of limited edition
+  ---
+  duration_ms: 47.2653
+  type: 'test'
+  ...
+# Subtest: all required XP and cumulative XP are exactly 5x, determined from canonical identity
+ok 38 - all required XP and cumulative XP are exactly 5x, determined from canonical identity
+  ---
+  duration_ms: 0.5984
+  type: 'test'
+  ...
+# Subtest: limited checkpoints, overflow and failures use the 5x threshold through final level 20
+ok 39 - limited checkpoints, overflow and failures use the 5x threshold through final level 20
+  ---
+  duration_ms: 3.8088
+  type: 'test'
+  ...
+# Subtest: older OFF draft adapts without writes, preserving unsettled values and raw concurrency guard
+ok 40 - older OFF draft adapts without writes, preserving unsettled values and raw concurrency guard
+  ---
+  duration_ms: 0.682
+  type: 'test'
+  ...
+# Subtest: SQLite: limited training rolls back, replays once and remains unavailable through live routes
+ok 41 - SQLite: limited training rolls back, replays once and remains unavailable through live routes
+  ---
+  duration_ms: 254.6407
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: limited training rolls back, replays once and remains unavailable through live routes
+ok 42 - PostgreSQL: limited training rolls back, replays once and remains unavailable through live routes
+  ---
+  duration_ms: 9322.2258
+  type: 'test'
+  ...
+# Subtest: prepared combat stat growth applies once and preserves wounds and pre-growth actors
+ok 43 - prepared combat stat growth applies once and preserves wounds and pre-growth actors
+  ---
+  duration_ms: 2.0812
+  type: 'test'
+  ...
+# Subtest: isolated level-20 Cryvern can defeat level-1 limited SSS with unchanged cards and real battle rules
+ok 44 - isolated level-20 Cryvern can defeat level-1 limited SSS with unchanged cards and real battle rules
+  ---
+  duration_ms: 105.4216
+  type: 'test'
+  ...
+# Subtest: skip/close acknowledged only after the completed server result is shown, without another mutation
+ok 45 - skip/close acknowledged only after the completed server result is shown, without another mutation
+  ---
+  duration_ms: 83.321
+  type: 'test'
+  ...
+# Subtest: leaving the reveal keeps its receipt and restores the exact failure after a lost POST response
+ok 46 - leaving the reveal keeps its receipt and restores the exact failure after a lost POST response
+  ---
+  duration_ms: 4.0735
+  type: 'test'
+  ...
+# Subtest: failed state refresh or reveal retains pending request for recovery
+ok 47 - failed state refresh or reveal retains pending request for recovery
+  ---
+  duration_ms: 29.8348
+  type: 'test'
+  ...
+# Subtest: account switch during animation cannot acknowledge another session
+ok 48 - account switch during animation cannot acknowledge another session
+  ---
+  duration_ms: 3.5444
+  type: 'test'
+  ...
+# Subtest: pending receipt does not reveal or acknowledge; final level remains 20
+ok 49 - pending receipt does not reveal or acknowledge; final level remains 20
+  ---
+  duration_ms: 23.044
+  type: 'test'
+  ...
+# Subtest: SQLite: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x
+ok 50 - SQLite: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x
+  ---
+  duration_ms: 220.651
+  type: 'test'
+  ...
+# Subtest: SQLite: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once
+ok 51 - SQLite: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once
+  ---
+  duration_ms: 211.4041
+  type: 'test'
+  ...
+# Subtest: SQLite: committed V2 growth summaries survive policy replacement, OFF and receipt recovery
+ok 52 - SQLite: committed V2 growth summaries survive policy replacement, OFF and receipt recovery
+  ---
+  duration_ms: 139.3671
+  type: 'test'
+  ...
+# Subtest: SQLite: partially configured growth can be saved OFF but cannot consume cards or grow
+ok 53 - SQLite: partially configured growth can be saved OFF but cannot consume cards or grow
+  ---
+  duration_ms: 114.3477
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x
+ok 54 - PostgreSQL: V2 training freezes exact stat changes with same-card 3x and limited required XP 5x
+  ---
+  duration_ms: 8442.8409
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once
+ok 55 - PostgreSQL: every V2 breakthrough preserves earned stats on failure and grants the exact success delta once
+  ---
+  duration_ms: 5140.3713
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: committed V2 growth summaries survive policy replacement, OFF and receipt recovery
+ok 56 - PostgreSQL: committed V2 growth summaries survive policy replacement, OFF and receipt recovery
+  ---
+  duration_ms: 5072.2163
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: partially configured growth can be saved OFF but cannot consume cards or grow
+ok 57 - PostgreSQL: partially configured growth can be saved OFF but cannot consume cards or grow
+  ---
+  duration_ms: 4150.5897
+  type: 'test'
+  ...
+# Subtest: both previous OFF policy versions adapt in memory without writing or filling a growth profile
+ok 58 - both previous OFF policy versions adapt in memory without writing or filling a growth profile
+  ---
+  duration_ms: 2.1669
+  type: 'test'
+  ...
+# Subtest: released leveling mutations and preview require authentication before database access
+ok 59 - released leveling mutations and preview require authentication before database access
+  ---
+  duration_ms: 79.6935
+  type: 'test'
+  ...
+# Subtest: all seven SS limited identities use a distinct server policy without altering rank, growth or release flags
+ok 60 - all seven SS limited identities use a distinct server policy without altering rank, growth or release flags
+  ---
+  duration_ms: 9.9825
+  type: 'test'
+  ...
+# Subtest: SS limited and ordinary SSS have no grade handicap in either direction, including duo owners
+ok 61 - SS limited and ordinary SSS have no grade handicap in either direction, including duo owners
+  ---
+  duration_ms: 5.1106
+  type: 'test'
+  ...
+# Subtest: SS limited linkage remains owner-local, finite and idempotent; ordinary SS sniper rules are preserved
+ok 62 - SS limited linkage remains owner-local, finite and idempotent; ordinary SS sniper rules are preserved
+  ---
+  duration_ms: 7.3867
+  type: 'test'
+  ...
+# Subtest: prepared skills use actual server events, one resource charge, and bounded PVE and PVP damage
+ok 63 - prepared skills use actual server events, one resource charge, and bounded PVE and PVP damage
+  ---
+  duration_ms: 138.4254
+  type: 'test'
+  ...
+# Subtest: duo owner snapshots remain unique, deterministic and in the SSS combat tier
+ok 64 - duo owner snapshots remain unique, deterministic and in the SSS combat tier
+  ---
+  duration_ms: 162.1956
+  type: 'test'
+  ...
+# Subtest: Valter retains supremacy over all seven SS limited fighters on either side
+ok 65 - Valter retains supremacy over all seven SS limited fighters on either side
+  ---
+  duration_ms: 1676.9573
+  type: 'test'
+  ...
+# Subtest: the independent full report meets the requested tier band and retains matchup/sides/formation denominators
+ok 66 - the independent full report meets the requested tier band and retains matchup/sides/formation denominators
+  ---
+  duration_ms: 128.384
+  type: 'test'
+  ...
+# Subtest: a small canonical replay reproduces saved holdout formation results exactly
+ok 67 - a small canonical replay reproduces saved holdout formation results exactly
+  ---
+  duration_ms: 13936.5642
+  type: 'test'
+  ...
+# Subtest: joint release uses the approved bonus; forged card and mercenary effects cannot change it
+ok 68 - joint release uses the approved bonus; forged card and mercenary effects cannot change it
+  ---
+  duration_ms: 114.0503
+  type: 'test'
+  ...
+# Subtest: saved battles retain their own version through release/rollback; ordinary JSON cannot select the review policy
+ok 69 - saved battles retain their own version through release/rollback; ordinary JSON cannot select the review policy
+  ---
+  duration_ms: 159.5388
+  type: 'test'
+  ...
+# Subtest: bonus is continuous, symmetric by swapping sides, scale independent, monotonic and capped
+ok 70 - bonus is continuous, symmetric by swapping sides, scale independent, monotonic and capped
+  ---
+  duration_ms: 89.9635
+  type: 'test'
+  ...
+# Subtest: power boost reaches actual capped damage once and still consumes shields before HP
+ok 71 - power boost reaches actual capped damage once and still consumes shields before HP
+  ---
+  duration_ms: 6.0272
+  type: 'test'
+  ...
+# Subtest: mercenary protection preserves the scaled damage budget including overflow from a dying guard
+ok 72 - mercenary protection preserves the scaled damage budget including overflow from a dying guard
+  ---
+  duration_ms: 7.0439
+  type: 'test'
+  ...
+# Subtest: ICON multihit damage scales the whole cast once instead of spending a boosted hit against an unboosted budget
+ok 73 - ICON multihit damage scales the whole cast once instead of spending a boosted hit against an unboosted budget
+  ---
+  duration_ms: 3.4564
+  type: 'test'
+  ...
+# Subtest: the real ICON guard receives part of the already boosted hit without a second multiplier
+ok 74 - the real ICON guard receives part of the already boosted hit without a second multiplier
+  ---
+  duration_ms: 3.0328
+  type: 'test'
+  ...
+# Subtest: counter power bonuses preserve the historical indirect-hit path
+ok 75 - counter power bonuses preserve the historical indirect-hit path
+  ---
+  duration_ms: 1.7759
+  type: 'test'
+  ...
+# Subtest: tempo improves real action opportunities with equal stats and does not grant an automatic action
+ok 76 - tempo improves real action opportunities with equal stats and does not grant an automatic action
+  ---
+  duration_ms: 75.4501
+  type: 'test'
+  ...
+# Subtest: formation power is frozen, excludes derived combat link, and includes each piece of equipment once
+ok 77 - formation power is frozen, excludes derived combat link, and includes each piece of equipment once
+  ---
+  duration_ms: 5.2608
+  type: 'test'
+  ...
+# Subtest: duo power and linked stats are owner scoped; a stronger teammate cannot lend a power bonus
+ok 78 - duo power and linked stats are owner scoped; a stronger teammate cannot lend a power bonus
+  ---
+  duration_ms: 6.1358
+  type: 'test'
+  ...
+# Subtest: derived power rejects malformed/duplicate application and never applies to PVE or suits
+ok 79 - derived power rejects malformed/duplicate application and never applies to PVE or suits
+  ---
+  duration_ms: 4.3449
+  type: 'test'
+  ...
+# Subtest: V-049: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 80 - V-049: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 12.0388
+  type: 'test'
+  ...
+# Subtest: V-055: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 81 - V-055: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 37.0805
+  type: 'test'
+  ...
+# Subtest: V-056: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 82 - V-056: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 12.649
+  type: 'test'
+  ...
+# Subtest: V-990: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 83 - V-990: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 9.3021
+  type: 'test'
+  ...
+# Subtest: V-991: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 84 - V-991: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 23.1175
+  type: 'test'
+  ...
+# Subtest: V-992: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 85 - V-992: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 36.8118
+  type: 'test'
+  ...
+# Subtest: V-993: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 86 - V-993: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 67.5941
+  type: 'test'
+  ...
+# Subtest: V-994: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 87 - V-994: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 29.0612
+  type: 'test'
+  ...
+# Subtest: V-997: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 88 - V-997: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 15.3094
+  type: 'test'
+  ...
+# Subtest: V-998: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 89 - V-998: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 15.6488
+  type: 'test'
+  ...
+# Subtest: V-996: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 90 - V-996: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 32.3925
+  type: 'test'
+  ...
+# Subtest: V-999: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 91 - V-999: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 10.2358
+  type: 'test'
+  ...
+# Subtest: V-989: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 92 - V-989: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 9.4131
+  type: 'test'
+  ...
+# Subtest: V-988: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 93 - V-988: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 11.1667
+  type: 'test'
+  ...
+# Subtest: V-987: legacy replay payload and equal-power combat preserve existing mercenary policy
+ok 94 - V-987: legacy replay payload and equal-power combat preserve existing mercenary policy
+  ---
+  duration_ms: 16.3526
+  type: 'test'
+  ...
+# Subtest: base power, blanket immunity and existing prepared XP rules are retained
+ok 95 - base power, blanket immunity and existing prepared XP rules are retained
+  ---
+  duration_ms: 0.8932
+  type: 'test'
+  ...
+# Subtest: prepared level growth is applied once before the independent bounded power bonus
+ok 96 - prepared level growth is applied once before the independent bounded power bonus
+  ---
+  duration_ms: 10.1774
+  type: 'test'
+  ...
+# Subtest: V-049: PVE full result/timeline is byte-for-byte unchanged
+ok 97 - V-049: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 8.3746
+  type: 'test'
+  ...
+# Subtest: V-055: PVE full result/timeline is byte-for-byte unchanged
+ok 98 - V-055: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 4.8709
+  type: 'test'
+  ...
+# Subtest: V-990: PVE full result/timeline is byte-for-byte unchanged
+ok 99 - V-990: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 3.2538
+  type: 'test'
+  ...
+# Subtest: V-996: PVE full result/timeline is byte-for-byte unchanged
+ok 100 - V-996: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 20.7505
+  type: 'test'
+  ...
+# Subtest: V-999: PVE full result/timeline is byte-for-byte unchanged
+ok 101 - V-999: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 8.3252
+  type: 'test'
+  ...
+# Subtest: V-989: PVE full result/timeline is byte-for-byte unchanged
+ok 102 - V-989: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 3.9
+  type: 'test'
+  ...
+# Subtest: V-988: PVE full result/timeline is byte-for-byte unchanged
+ok 103 - V-988: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 4.11
+  type: 'test'
+  ...
+# Subtest: V-987: PVE full result/timeline is byte-for-byte unchanged
+ok 104 - V-987: PVE full result/timeline is byte-for-byte unchanged
+  ---
+  duration_ms: 11.0624
+  type: 'test'
+  ...
+# Subtest: all four owners deploy into one deterministic battlefield, including identical cards and mercenaries
+ok 105 - all four owners deploy into one deterministic battlefield, including identical cards and mercenaries
+  ---
+  duration_ms: 191.5961
+  type: 'test'
+  ...
+# Subtest: each mercenary links to its own five cards and keeps a unique cadence
+ok 106 - each mercenary links to its own five cards and keeps a unique cadence
+  ---
+  duration_ms: 8.939
+  type: 'test'
+  ...
+# Subtest: no mercenary is required, invalid owners/decks are rejected, and equipment is not duplicated
+ok 107 - no mercenary is required, invalid owners/decks are rejected, and equipment is not duplicated
+  ---
+  duration_ms: 10.4614
+  type: 'test'
+  ...
+# Subtest: losing one owner does not end the shared battle
+ok 108 - losing one owner does not end the shared battle
+  ---
+  duration_ms: 4.2015
+  type: 'test'
+  ...
+# Subtest: legacy five-card combat remains isolated from duo ownership and repeatable
+ok 109 - legacy five-card combat remains isolated from duo ownership and repeatable
+  ---
+  duration_ms: 63.2123
+  type: 'test'
+  ...
+# Subtest: balanced strong+weak pairs are deterministic and respect an odd waiting participant
+ok 110 - balanced strong+weak pairs are deterministic and respect an odd waiting participant
+  ---
+  duration_ms: 22.551
+  type: 'test'
+  ...
+# Subtest: SQLite recruitment, four-deck battle and exact-once personal energy
+ok 111 - SQLite recruitment, four-deck battle and exact-once personal energy
+  ---
+  duration_ms: 341.9626
+  type: 'test'
+  ...
+# Subtest: Postgres recruitment, four-deck battle and exact-once personal energy
+ok 112 - Postgres recruitment, four-deck battle and exact-once personal energy
+  ---
+  duration_ms: 10940.1783
+  type: 'test'
+  ...
+# Subtest: Postgres pipeline recruitment, four-deck battle and exact-once personal energy
+ok 113 - Postgres pipeline recruitment, four-deck battle and exact-once personal energy
+  ---
+  duration_ms: 4526.1241
+  type: 'test'
+  ...
+# Subtest: latest offline teammate upgrades invalidate only that account, not every inventory
+ok 114 - latest offline teammate upgrades invalidate only that account, not every inventory
+  ---
+  duration_ms: 179.7681
+  type: 'test'
+  ...
+# [ranked-duo] Error: INJECTED_DUO_FAILURE
+#     at execute (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+#     at Array.map (<anonymous>)
+#     at Object.batch (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+#     at settle (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:232:19)
+#     at fight (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:276:9)
+#     at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:302:67)
+#     at async Object.call (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+#     at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/ranked-duo-server.test.mjs:35:63)
+#     at async Test.run (node:internal/test_runner/test:1332:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+# Subtest: failed settlement keeps one durable paid match and retries without losing team points
+ok 115 - failed settlement keeps one durable paid match and retries without losing team points
+  ---
+  duration_ms: 183.5357
+  type: 'test'
+  ...
+# Subtest: unconfigured energy never grants free fights, recruitment respects 24 hours, and owner operations are protected
+ok 116 - unconfigured energy never grants free fights, recruitment respects 24 hours, and owner operations are protected
+  ---
+  duration_ms: 29.0271
+  type: 'test'
+  ...
+# Subtest: teammates can attack concurrently and shared team scores accumulate twice
+ok 117 - teammates can attack concurrently and shared team scores accumulate twice
+  ---
+  duration_ms: 5266.5099
+  type: 'test'
+  ...
+# Subtest: concurrent duplicate request ids consume one energy and return the same result
+ok 118 - concurrent duplicate request ids consume one energy and return the same result
+  ---
+  duration_ms: 4006.2192
+  type: 'test'
+  ...
+# Subtest: an empty partner energy balance never blocks or pays for the initiator
+ok 119 - an empty partner energy balance never blocks or pays for the initiator
+  ---
+  duration_ms: 100.8426
+  type: 'test'
+  ...
+# Subtest: the inventory-version fence rolls back energy, ticket and receipt together
+ok 120 - the inventory-version fence rolls back energy, ticket and receipt together
+  ---
+  duration_ms: 66.884
+  type: 'test'
+  ...
+# [ranked-duo] Error: INJECTED_DUO_FAILURE
+#     at execute (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+#     at Array.map (<anonymous>)
+#     at Object.batch (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+#     at settle (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:232:19)
+#     at fight (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:276:9)
+#     at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:302:67)
+#     at async Object.call (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+#     at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/ranked-duo-server.test.mjs:79:49)
+#     at async Test.run (node:internal/test_runner/test:1332:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+# [ranked-duo simulation cancelled] 8c9ec835-b111-4183-b04c-977ad502768e 전투 기준이 변경됐습니다.
+# Subtest: an unrecoverable saved engine version refunds energy exactly once
+ok 121 - an unrecoverable saved engine version refunds energy exactly once
+  ---
+  duration_ms: 83.2603
+  type: 'test'
+  ...
+# Subtest: profile rebuild leases stop simultaneous inventory scans and always release owned leases
+ok 122 - profile rebuild leases stop simultaneous inventory scans and always release owned leases
+  ---
+  duration_ms: 83.0138
+  type: 'test'
+  ...
+# Subtest: KST daily grants are personal, capped and never multiply by missed days
+ok 123 - KST daily grants are personal, capped and never multiply by missed days
+  ---
+  duration_ms: 0.3795
+  type: 'test'
+  ...
+# Subtest: extra recruitment preserves published pairs and can resume after invalid deck repair
+ok 124 - extra recruitment preserves published pairs and can resume after invalid deck repair
+  ---
+  duration_ms: 108.1861
+  type: 'test'
+  ...
+# Subtest: global policy revisions rebuild cached data and recent history uses two bounded indexes
+ok 125 - global policy revisions rebuild cached data and recent history uses two bounded indexes
+  ---
+  duration_ms: 105.436
+  type: 'test'
+  ...
+# [ranked-duo] Error: INJECTED_DUO_FAILURE
+#     at execute (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+#     at Array.map (<anonymous>)
+#     at Object.batch (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+#     at settle (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:232:19)
+#     at fight (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:276:9)
+#     at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:302:67)
+#     at async Object.call (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+#     at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/ranked-duo-server.test.mjs:119:16)
+#     at async Test.run (node:internal/test_runner/test:1332:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+# Subtest: last-energy pending match is discoverable and recoverable from a fresh device
+ok 126 - last-energy pending match is discoverable and recoverable from a fresh device
+  ---
+  duration_ms: 92.0508
+  type: 'test'
+  ...
+# [ranked-duo] Error: INJECTED_DUO_FAILURE
+#     at execute (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+#     at Array.map (<anonymous>)
+#     at Object.batch (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+#     at join (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:65:15)
+#     at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_ranked_duo.js:299:66)
+#     at async Object.call (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+#     at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/ranked-duo-server.test.mjs:132:60)
+#     at async Test.run (node:internal/test_runner/test:1332:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+# Subtest: lobby never recounts participants; atomic membership counter survives duplicates and rollback false
+ok 127 - lobby never recounts participants; atomic membership counter survives duplicates and rollback false
+  ---
+  duration_ms: 39.9645
+  type: 'test'
+  ...
+# [ranked-duo] Error: INJECTED_DUO_FAILURE
+#     at Object.query (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/tests/helpers/ranked-duo-db.mjs:41:177)
+#     at PostgresD1Database.batchPipelined (file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_postgres_d1_compat.js:882:31)
+#     at async file:///C:/Users/User/.codex/worktrees/windows-ctrl-wheel-zoom/cnine-card/functions/_postgres_d1_compat.js:905:27
+# Subtest: lobby never recounts participants; atomic membership counter survives duplicates and rollback pipeline
+ok 128 - lobby never recounts participants; atomic membership counter survives duplicates and rollback pipeline
+  ---
+  duration_ms: 2390.0825
+  type: 'test'
+  ...
+# Subtest: Postgres no-op catalog writes do not invalidate every participant profile
+ok 129 - Postgres no-op catalog writes do not invalidate every participant profile
+  ---
+  duration_ms: 1729.7159
+  type: 'test'
+  ...
+# Subtest: comparable opponents diversify beyond the old 5% band and nearest twelve
+ok 130 - comparable opponents diversify beyond the old 5% band and nearest twelve
+  ---
+  duration_ms: 4.0446
+  type: 'test'
+  ...
+# Subtest: small pools rotate oldest opponent; far outliers never displace comparable alternatives
+ok 131 - small pools rotate oldest opponent; far outliers never displace comparable alternatives
+  ---
+  duration_ms: 0.9496
+  type: 'test'
+  ...
+# Subtest: matching rechecks changed current powers and skips an invalid current deck
+ok 132 - matching rechecks changed current powers and skips an invalid current deck
+  ---
+  duration_ms: 18.1833
+  type: 'test'
+  ...
+# Subtest: carried complete registrations refresh cards and mercenaries before team allocation
+ok 133 - carried complete registrations refresh cards and mercenaries before team allocation
+  ---
+  duration_ms: 167.3657
+  type: 'test'
+  ...
+# Subtest: SQLite: current cards and mercenaries, replay isolation, invalid decks and atomic reward retry
+ok 134 - SQLite: current cards and mercenaries, replay isolation, invalid decks and atomic reward retry
+  ---
+  duration_ms: 107.0523
+  type: 'test'
+  ...
+# Subtest: PostgreSQL: current cards and mercenaries, replay isolation, invalid decks and atomic reward retry
+ok 135 - PostgreSQL: current cards and mercenaries, replay isolation, invalid decks and atomic reward retry
+  ---
+  duration_ms: 9984.0198
+  type: 'test'
+  ...
+# Subtest: fresh real V3 combat includes the selected limited mercenary on both teams
+ok 136 - fresh real V3 combat includes the selected limited mercenary on both teams
+  ---
+  duration_ms: 90.6188
+  type: 'test'
+  ...
+# Subtest: legacy receipts never get resimulated with a different current deck
+ok 137 - legacy receipts never get resimulated with a different current deck
+  ---
+  duration_ms: 1.8524
+  type: 'test'
+  ...
+# Subtest: participant diagnostic compares registered/current selections without changing either
+ok 138 - participant diagnostic compares registered/current selections without changing either
+  ---
+  duration_ms: 57.2435
+  type: 'test'
+  ...
+1..138
+# tests 138
+# suites 0
+# pass 138
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 32586.527
