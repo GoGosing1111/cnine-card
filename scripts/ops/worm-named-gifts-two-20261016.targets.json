@@ -1,0 +1,137 @@
+{
+  "operationKey": "ops:worm-named-gifts-two:20261016:v1",
+  "itemCode": "WORM_CONTEST_GIFT_BOX",
+  "itemName": "지렁이대회 사은품",
+  "authorization": "사용자가 제시한 명단에 지렁이 사은품 2개씩 지급. 딤럼프, 진짜디임은 별도 계정이며 기존 행사분과 별개로 추가 지급.",
+  "sourceType": "CURRENT_USER_MESSAGE",
+  "delivery": "DIRECT_INVENTORY",
+  "targets": [
+    {
+      "inputNickname": "굳건창수",
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "망순이ෆ",
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "점크루지",
+      "userId": "297",
+      "nickname": "점크루지",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "Mild7",
+      "userId": "290",
+      "nickname": "Mild7",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "커피먹는철구",
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "전게씹선미아웃",
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "학벌",
+      "userId": "4627",
+      "nickname": "학벌",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "베배킹",
+      "userId": "289",
+      "nickname": "베베킹",
+      "boxes": 2,
+      "identityEvidence": "docs/worm-mission-gifts-20261015.md: 베배킹 → 베베킹(ID 289), 기존 확정 지급 기록"
+    },
+    {
+      "inputNickname": "더듬이구",
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "0수표",
+      "userId": "88",
+      "nickname": "0수표",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "다시생각",
+      "userId": "1421",
+      "nickname": "다시생각",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "족단",
+      "userId": "4582",
+      "nickname": "족단",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "도댕",
+      "userId": "4235",
+      "nickname": "도댕",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "음주",
+      "userId": "4817",
+      "nickname": "음주",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "남수단",
+      "userId": "6",
+      "nickname": "남수단",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "옹가망함1",
+      "userId": "2246",
+      "nickname": "옹가망함1",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "나무",
+      "userId": "5008",
+      "nickname": "나무",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "심심이",
+      "userId": "4933",
+      "nickname": "심심이",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "딤럼프",
+      "userId": "4774",
+      "nickname": "딤럼프",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "진짜디임",
+      "userId": "4773",
+      "nickname": "진짜디임",
+      "boxes": 2
+    },
+    {
+      "inputNickname": "zkzk9999",
+      "userId": "3884",
+      "nickname": "zkzk9999",
+      "boxes": 2
+    }
+  ]
+}
