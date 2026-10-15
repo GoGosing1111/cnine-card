@@ -5,8 +5,9 @@ import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {buildClientManifest} from './build-windows-client-manifest.mjs';
 // Preserve originals, preview pages and fixture imports. Executable test runners
-// in both test locations stay in Git/release checks, but do not consume Pages assets.
-export const isProductionFile=file=>! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&!file.startsWith('packaging/windows-client/');
+// and QA audit reports stay in Git/release checks without consuming Pages assets.
+// Game/preview code has no docs/qa imports; approved assets and previews stay intact.
+export const isProductionFile=file=>! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/');
 export async function prepareProductionAssets({root=process.cwd(),files,tempRoot=tmpdir(),dependencies}={}){
  files||=execFileSync('git',['ls-files','-z'],{cwd:root,maxBuffer:40e6}).toString().split('\0').filter(Boolean);
  const selected=files.filter(isProductionFile),assetCount=selected.filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;
