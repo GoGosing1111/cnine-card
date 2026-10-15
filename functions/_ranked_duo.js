@@ -1,3 +1,4 @@
+import {pvpPolicySnapshot,pvpReplayInput} from '../shared/pvp-power-balance-v1.mjs';
 import {collectionRewardCoin} from './_collection_bonuses.js';
 import {loadPetBattleSnapshot} from './_pet_account.js';
 import {DUO_DEFAULTS,DUO_LIMITS,DUO_VERSION,DUO_ADDITIONAL_RECRUIT_HOURS,duoError,duoEnergy,validateDuoConfig,pairDuoParticipants} from '../shared/ranked-duo-v1.mjs';
@@ -214,7 +215,7 @@ async function refundFailedMatch(env,row,lease,now){
 }
 async function settle(env,row,lease,deps,now){
  const p=statement(env);let input,battleV2;
- try{input=JSON.parse(row.input_json);if(input.version!==DUO_VERSION)throw duoError('VERSION','전투 기준이 변경됐습니다.');battleV2=createDuoBattleV2(input.battle);if(new TextEncoder().encode(JSON.stringify(battleV2)).length>DUO_LIMITS.logBytes-10000)throw duoError('LOG_SIZE','전투 기록의 크기 제한을 초과했습니다.');}
+ try{input=JSON.parse(row.input_json);if(input.version!==DUO_VERSION)throw duoError('VERSION','전투 기준이 변경됐습니다.');battleV2=createDuoBattleV2(pvpReplayInput(input.battle));if(new TextEncoder().encode(JSON.stringify(battleV2)).length>DUO_LIMITS.logBytes-10000)throw duoError('LOG_SIZE','전투 기록의 크기 제한을 초과했습니다.');}
  catch(error){await refundFailedMatch(env,row,lease,now);console.error('[ranked-duo simulation cancelled]',row.id,error.message);throw duoError('CANCELLED','전투를 완료하지 못해 행동력을 돌려드렸습니다. 다시 매칭하세요.',503);}
  const win=battleV2.result.winner==='A';
  const aDelta=win?input.score.win:-input.score.loss,dDelta=win?-input.score.loss:input.score.win;
@@ -256,7 +257,7 @@ async function fight(env,user,s,body,deps,now){
  const pets=await Promise.all(profiles.map(p=>loadPetBattleSnapshot(env,p.userId,'PVP')));
  profiles.forEach((p,i)=>{p.attack={...p.attack,pet:pets[i]};p.defense={...p.defense,pet:pets[i]};});
  const rewards=s.config.rewards?{...s.config.rewards,winCoin:await collectionRewardCoin(env,user.id,Number(s.config.rewards.winCoin||0),'RANKED_DUO')}:null;
- const seed=crypto.getRandomValues(new Uint32Array(1))[0],input={version:DUO_VERSION,score:s.config.score,rewards,battle:{seed,singleHealerBonus:profiles[0].singleHealerBonus,attackerSquads:profiles.slice(0,2).map(p=>p.attack),defenderSquads:profiles.slice(2).map(p=>p.defense)}},id=crypto.randomUUID(),lease=crypto.randomUUID(),energy=duoEnergy(mine,s.config,now);
+ const seed=crypto.getRandomValues(new Uint32Array(1))[0],input={version:DUO_VERSION,score:s.config.score,rewards,battle:{...pvpPolicySnapshot(),seed,singleHealerBonus:profiles[0].singleHealerBonus,attackerSquads:profiles.slice(0,2).map(p=>p.attack),defenderSquads:profiles.slice(2).map(p=>p.defense)}},id=crypto.randomUUID(),lease=crypto.randomUUID(),energy=duoEnergy(mine,s.config,now);
  if(energy.current<energy.cost)throw duoError('ENERGY','듀오 행동력이 부족합니다.');
  const ids=profiles.map(p=>p.userId).sort((a,b)=>a-b),inputJson=JSON.stringify(input),conds=profiles.map(()=>'(user_id=? AND source_version=?)').join(' OR '),args=profiles.flatMap(p=>[p.userId,p.sourceVersion]);
  const newEnergy=Math.max(0,energy.current-energy.cost);

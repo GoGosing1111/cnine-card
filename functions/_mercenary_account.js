@@ -3,6 +3,7 @@ const exclusiveAccountAllowed=(userId,code)=>jinmuAccountAllowed(userId,code)&&s
 import {mercenaryMode,readMercenaryModes,mercenaryModeGuard,mercenaryModeStatements} from './_mercenary_loadout_modes.js';
 import {attachMercenaryEquipment,mercenaryEquipmentRuntimes,readMercenaryEquipmentRecords} from './_mercenary_equipment.js';
 import {mercenaryEquipmentPower} from '../shared/mercenary-equipment-v1.mjs';
+import {mercenaryPvpEnabled,mercenaryPvpBasePower} from '../shared/mercenary-pvp-balance-v1.mjs';
 import {KAIRON_CODE,KAIRON_ART} from '../shared/mercenary-kairon-v1.mjs';
 import {JINMU_CODE,JINMU_ART,jinmuAccountAllowed} from '../shared/mercenary-jinmu-v1.mjs';
 import {ALL_LIMITED_MERCENARIES as LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
@@ -40,7 +41,7 @@ export async function releasedMercenarySnapshots(env,userIds,mode='PVE'){
   if(!rows.length)return new Map();const [{document,revision},runtime]=await Promise.all([readMercenaryDocument(env),readMercenaryRuntime(env)]);
   return attachMercenaryEquipment(env,await attachReleasedMercenaryLevels(env,new Map(rows.filter(r=>exclusiveAccountAllowed(r.user_id,r.mercenary_code)).map(r=>[Number(r.user_id),{...battleConfig(document,r.mercenary_code,Number(r.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}]))),mode);
 }
-export const mercenarySnapshotPower=m=>m?(m.statMode==='RANK_FIXED'?(limitedDeploymentSnapshot(m.code)?.basePower??mercenaryBasePower(m.rank)):Math.round(m.basePower*(1+(m.combat?.powerGrowthPercentPerLevel||0)*(m.level-1)/100)))+mercenaryEquipmentPower(m):0;
+export const mercenarySnapshotPower=(m,options={})=>m?(m.statMode==='RANK_FIXED'?(mercenaryPvpEnabled(m.battleMode||m.equipment?.mode,options)?mercenaryPvpBasePower(m):(limitedDeploymentSnapshot(m.code)?.basePower??mercenaryBasePower(m.rank))):Math.round(m.basePower*(1+(m.combat?.powerGrowthPercentPerLevel||0)*(m.level-1)/100)))+mercenaryEquipmentPower(m):0;
 const mercenaryBasePower=rank=>MERCENARY_POWER_STANDARD.basePowerByRank[rank];
 export const MERCENARY_RUNTIME_DRAFT=Object.freeze({revision:0,version:'mercenary-runtime-draft-20260913',mode:'OFF',approved:false,
   opening:{paymentKind:'UNSET',coinPerOpen:null,itemCode:null,itemsPerOpen:null,maxBatch:10},training:{itemCode:null,experiencePerItem:null},statMode:'RANK_FIXED',upgrade:MERCENARY_UPGRADE_PLAN,combat:MERCENARY_COMBAT_DRAFT});

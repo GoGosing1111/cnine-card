@@ -8,6 +8,7 @@ import {isHelios,HELIOS_COMBAT} from './mercenary-helios-v1.mjs';
 import {mercenaryCombatRank,ssLimitedProfile,ssLimitedPvpLinkScale} from './mercenary-ss-limited-v1.mjs';
 import {rearPveCurrentPolicy} from './mercenary-ss-rear-pve-v1.mjs';
 import {mercenaryEquipmentPower} from './mercenary-equipment-v1.mjs';
+import {MERCENARY_PVP_BALANCE,mercenaryPvpProfile,isMercenaryPvpReform} from './mercenary-pvp-balance-v1.mjs';
 // Ordinary rank base power stays fixed; limited fighters have explicit policies.
 // Combat linkage is an explicit additional
 // ability, frozen from this side's five ordinary fighters at battle start.
@@ -42,7 +43,7 @@ export function mercenaryPvpTierGuard(actor,teams){
  if(opponents.length!==1&&!actor.ownerId)return 1;
  if(!opponents.length)return 1;
  const gap=Math.max(0,rank-Math.max(...opponents.map(other=>ranks.indexOf(mercenaryCombatRank(other)))));
- return 1+gap*MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
+ return 1+gap*(isMercenaryPvpReform(actor)?MERCENARY_PVP_BALANCE.tierGuardPerStep:MERCENARY_COMBAT_LINK.pvpTierGuardPerStep);
 }
 
 export const mercenaryEffectiveAttack=actor=>Math.max(Number(actor.attack)||0,actor.isMercenary?Number(actor.mercenaryLink?.attackFloor)||0:0);
@@ -59,9 +60,10 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
   const averageAttack=cards.reduce((sum,c)=>sum+c.attack,0)/cards.length,averageHp=cards.reduce((sum,c)=>sum+c.maxHp,0)/cards.length;
   if(!Number.isFinite(averageAttack)||!Number.isFinite(averageHp)||averageAttack<=0||averageHp<=0)continue;
   for(const m of team.filter(c=>c.isMercenary&&c.statMode==='RANK_FIXED')){
-   const rule=isValter(m)?VALTER_COMBAT.link:isHelios(m)?HELIOS_COMBAT.link:isJinmu(m)?JINMU_COMBAT.link:isKairon(m)?KAIRON_COMBAT.link:isShiranui(m)?SHIRANUI_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank];if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
-   const healthRatio=Math.max(0,Math.min(1,m.hp/m.maxHp)),tierGuard=mercenaryPvpTierGuard(m,teams),tierOffense=1+(tierGuard-1)/MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
-   const matchupScale=ssLimitedPvpLinkScale(m,teams);
+   const pvp=isMercenaryPvpReform(m),profile=pvp?mercenaryPvpProfile(m.code):null;
+   const rule=profile?.link||(isValter(m)?VALTER_COMBAT.link:isHelios(m)?HELIOS_COMBAT.link:isJinmu(m)?JINMU_COMBAT.link:isKairon(m)?KAIRON_COMBAT.link:isShiranui(m)?SHIRANUI_COMBAT.link:ssLimitedProfile(m)?.link||MERCENARY_COMBAT_LINK.ranks[m.rank]);if(!rule||m.alive===false||m.hp<=0||m.mercenaryLink?.version===MERCENARY_COMBAT_LINK.version)continue;
+   const healthRatio=Math.max(0,Math.min(1,m.hp/m.maxHp)),tierGuard=mercenaryPvpTierGuard(m,teams),tierOffense=pvp?1+(tierGuard-1)/MERCENARY_PVP_BALANCE.tierGuardPerStep*MERCENARY_PVP_BALANCE.tierOffensePerStep:1+(tierGuard-1)/MERCENARY_COMBAT_LINK.pvpTierGuardPerStep;
+   const matchupScale=pvp?1:ssLimitedPvpLinkScale(m,teams);
    let attackFloor=Math.round(averageAttack*rule.attackPercent/100*tierOffense*matchupScale);
    let hpFloor=Math.round(averageHp*rule.hpPercent/100*tierGuard*matchupScale);
    const personalGear=mercenaryEquipmentPower(m,m.battleMode)>0&&m.equipmentStats?.version===1;
@@ -85,6 +87,11 @@ export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
    }
    m.mercenaryLink={version:MERCENARY_COMBAT_LINK.version,attackFloor,hpFloor,openingShield,tierGuard,tierOffense,...(ssLimitedProfile(m)?{ssLimitedMatchupScale:matchupScale}:{})};
    m.shield+=openingShield;m.maxShield=Math.max(m.maxShield,m.shield);
+   if(pvp){
+    const averageSpeed=cards.reduce((sum,c)=>sum+c.speed,0)/cards.length;
+    const speedScale=profile?.speedScale??(['V-055','V-056'].includes(m.code)?1.25:1);
+    m.speed=Math.max(m.speed,Math.round(averageSpeed*MERCENARY_PVP_BALANCE.naturalSpeedFloor*speedScale));
+   }
   }
  }
  for(const actor of teams.flat())applyMercenaryLevelStats(actor);

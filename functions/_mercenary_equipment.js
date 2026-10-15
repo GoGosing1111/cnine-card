@@ -1,5 +1,6 @@
 import {MERCENARY_EQUIPMENT_SLOTS as SLOTS,MERCENARY_EQUIPMENT_CODES as CODES,MERCENARY_EQUIPMENT_SQL_CODES as SQL_CODES,mercenaryEquipmentImage} from '../shared/mercenary-equipment-v1.mjs';
 import {regionalEquipment,REGION_EQUIPMENT,LEGION_REGIONS} from '../shared/legion-regions-v1.mjs';
+import {mercenaryModeSnapshot} from '../shared/mercenary-pvp-balance-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {readForgeAdvancedForLevels} from './_equipment_forge_advanced.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
@@ -54,10 +55,10 @@ export async function mercenaryEquipmentRuntimes(env,userIds,mode='PVE',{records
       effects:mode==='PVE'?growth.effects:{},sets:growth.sets,uniques:growth.uniques,summary:mode==='PVE'?growth.summary:[],effectsMode:'PVE'}];
   }));
 }
-export async function attachMercenaryEquipment(env,snapshots,mode){
+export async function attachMercenaryEquipment(env,snapshots,mode,options={}){
   if(!snapshots.size)return snapshots;
   const equipment=await mercenaryEquipmentRuntimes(env,[...snapshots.keys()],mode);
-  return new Map([...snapshots].map(([id,snapshot])=>[id,equipment.get(id)?.items.length?{...snapshot,equipment:equipment.get(id)}:snapshot]));
+  return new Map([...snapshots].map(([id,snapshot])=>[id,mercenaryModeSnapshot(equipment.get(id)?.items.length?{...snapshot,equipment:equipment.get(id)}:snapshot,mode,options)]));
 }
 export async function mercenaryEquipmentState(env,user){
   const records=await readMercenaryEquipmentRecords(env,[user.id]);
