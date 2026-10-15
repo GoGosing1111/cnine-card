@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "checkedAt": "2026-10-15T23:40:00.127Z",
+  "commit": "8cf7b0e0d144a5118a8d57d10eabebeaa1435ccc",
+  "file": {
+    "path": "shared/monster-original-ip-presentation-v1.mjs",
+    "sha256": "39e3e0eb818c2ac7fc4c435acac34f334a158c79b07406e6e426730383ead518"
+  },
+  "liveOperations": {
+    "status": 200,
+    "cacheControl": "public, max-age=10, stale-while-revalidate=20",
+    "pollSeconds": 30,
+    "items": [
+      {
+        "kind": "ORGANIZATION",
+        "title": "조직 입단 모집"
+      },
+      {
+        "kind": "RANKED_DUO",
+        "title": "랭크 듀오 시즌 3"
+      },
+      {
+        "kind": "TERRITORY",
+        "title": "라면"
+      },
+      {
+        "kind": "SEAL",
+        "title": "봉인전"
+      }
+    ],
+    "activeRaids": 0
+  },
+  "limitation": "No active world raid at check time. Name conversions were verified by scoped regression fixtures.",
+  "productionWrites": 0
+}

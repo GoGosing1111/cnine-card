@@ -1,0 +1,34 @@
+{
+  "published": true,
+  "version": "0.1.6",
+  "commit": "8cf7b0e0d144a5118a8d57d10eabebeaa1435ccc",
+  "url": "https://github.com/GoGosing1111/cnine-card/releases/tag/v0.1.6",
+  "installer": "https://github.com/GoGosing1111/cnine-card/releases/download/v0.1.6/Soopketmon-Setup-0.1.6-x64.exe",
+  "artifacts": [
+    {
+      "name": "Soopketmon-Engine-0.1.6-x64.exe",
+      "bytes": 113860924,
+      "sha256": "d50b005b1e4228927c005680092bef0565773db16c15492c386c03f7411291d8"
+    },
+    {
+      "name": "Soopketmon-Engine-0.1.6-x64.exe.blockmap",
+      "bytes": 120234,
+      "sha256": "9aba8c0970e27db773330ef1ac19f7c9ebd92210a4be2128e635831cebe9ac76"
+    },
+    {
+      "name": "Soopketmon-Setup-0.1.6-x64.exe",
+      "bytes": 117390848,
+      "sha256": "d98308fc174d280212d21bc555d0116716c92eab74632dbc00fe42d2314d8a85"
+    },
+    {
+      "name": "latest.yml",
+      "bytes": 359,
+      "sha256": "b2b91215bfe47155ea69ca2d8360580e9a4fa181c7a25762a46a4901f072fd71"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 379,
+      "sha256": "3bc0dd175b565c038f32dcbce7c4b770a8d35648345fc7e6bf74b4699f202bd4"
+    }
+  ]
+}

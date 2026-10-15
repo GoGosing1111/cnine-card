@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "available": false,
+  "info": {
+    "tag": "v0.1.6",
+    "version": "0.1.6",
+    "files": [
+      {
+        "url": "Soopketmon-Engine-0.1.6-x64.exe",
+        "sha512": "5MslqqGfZnUWOBtMVnhv9QUxX87YSLD1uh4mgwb6a0DqwCpmKDSM7EPs6IYGAKMVXqCCxz7NXCe3R1vBjR5GWg==",
+        "size": 113860924
+      }
+    ],
+    "path": "Soopketmon-Engine-0.1.6-x64.exe",
+    "sha512": "5MslqqGfZnUWOBtMVnhv9QUxX87YSLD1uh4mgwb6a0DqwCpmKDSM7EPs6IYGAKMVXqCCxz7NXCe3R1vBjR5GWg==",
+    "releaseDate": "2026-10-15T23:34:10.236Z",
+    "releaseName": "숲켓몬 Windows 0.1.6",
+    "releaseNotes": "<p>숲켓몬 Windows 런처 0.1.6</p>\n<p>설치 파일: <strong>Soopketmon-Setup-0.1.6-x64.exe</strong></p>\n<p>게임의 확인·취소, 알림, 입력창과 새로고침 안내를 숲켓몬 공통 디자인으로 통일했습니다. 팝업과 콘텐츠 내부 화면에도 적용되며, 긴 안내는 스크롤로 확인할 수 있습니다. Ctrl + 휠로 설정한 화면 크기를 반영합니다.</p>\n<p>변경된 게임 파일이 없으면 추가 다운로드 없이 바로 시작합니다. 파일 확인 용량을 다운로드처럼 표시하던 부분을 고치고, 실제로 필요한 다운로드 용량만 표시합니다. 선택 이미지·음원 목록만 바뀐 경우에도 별도 설치 단계 없이 이용할 수 있습니다.</p>\n<p>0.1.5 사용자는 런처의 ‘업데이트 후 다시 시작’을 누르면 적용됩니다. 0.1.4 이하 사용자는 게임과 런처를 종료하고 최신 Setup을 한 번 설치해 주세요. 기존 설치 경로·로그인 정보·화면 크기·게임 리소스를 유지하며 게임 진행 중에는 설치하지 않습니다.</p>\n<p>Engine 파일과 latest.yml은 자동 업데이트용입니다.</p>"
+  },
+  "rangeDownload": true,
+  "installerUrl": "https://github.com/GoGosing1111/cnine-card/releases/download/v0.1.6/Soopketmon-Engine-0.1.6-x64.exe",
+  "checkedAt": "2026-10-15T23:36:50.620Z"
+}

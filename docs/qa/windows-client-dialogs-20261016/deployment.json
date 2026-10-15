@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "8cf7b0e0d144a5118a8d57d10eabebeaa1435ccc",
+  "previousDeploymentCommit": "b130287412789eeb28888ae443a21e6be6d8d041",
+  "command": "npm run deploy:production -- --scoped",
+  "tests": ["tests/live-operations-raid-name-20261016.test.mjs"],
+  "checks": ["check:worker"],
+  "exitCode": 0,
+  "pages": "https://a0917760.cnine-card.pages.dev",
+  "apiRuntimeVersion": "678e98ef-1574-445f-bb62-16c24f980953",
+  "clanDraftVersion": "ba64d34f-2768-4d02-a53f-256bb6344743",
+  "hyperdriveQueryCacheDisabled": true,
+  "windowsRelease": "https://github.com/GoGosing1111/cnine-card/releases/tag/v0.1.6",
+  "productionQaWrites": 0
+}

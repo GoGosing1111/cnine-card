@@ -48,4 +48,10 @@ RAID 항목의 title만 변환한다. 알려지지 않은 이름·다른 종류�
 - Setup: 117,390,848 bytes, SHA-256 `d98308fc174d280212d21bc555d0116716c92eab74632dbc00fe42d2314d8a85`.
 - Engine: 113,860,924 bytes, SHA-256 `d50b005b1e4228927c005680092bef0565773db16c15492c386c03f7411291d8`.
 
-운영 반영 결과는 배포 후 아래에 기록한다. 0.1.5 사용자는 런처의 **업데이트 후 다시 시작**으로 적용하며, 그 이전 버전은 최신 Setup을 한 번 설치한다.
+## 운영 반영
+
+- 소스 `8cf7b0e0d144a5118a8d57d10eabebeaa1435ccc`를 main에 반영하고 [Windows v0.1.6](https://github.com/GoGosing1111/cnine-card/releases/tag/v0.1.6)을 공개했다. Engine·blockmap·Setup·latest.yml·SHA256SUMS 업로드 뒤 GitHub SHA-256 일치를 확인했다. 실제 Electron 공개 공급처가 0.1.6을 반환하며 현재 0.1.6에는 업데이트 불필요, 설치 엔진 Range 206/MZ 및 SHA-512 일치를 확인했다.
+- `SCOPED_DEPLOY_BASE=b130287412789eeb28888ae443a21e6be6d8d041`, 관련 레이드 이름 검사 2개 + check:worker, 기존 출시·캐시·Hyperdrive 보호를 통과하고 지정 scoped 경로로 한 번 배포했다. 인증·DB·경제·의존성 변경이 없어 전체 게임 검사는 반복하지 않았다.
+- Pages [a0917760](https://a0917760.cnine-card.pages.dev), API runtime `678e98ef-1574-445f-bb62-16c24f980953`, clan-draft `ba64d34f-2768-4d02-a53f-256bb6344743`. 운영 정적 이름 변환 모듈은 원본 SHA-256과 일치하고 `live-operations`는 HTTP 200·기존 캐시/폴링 계약을 유지한다. 확인 시점에 진행 중 월드레이드는 0개여서 실제 보스 행의 이름 표시는 관찰하지 못했으며, 이전 이름 4종과 기존 raid/status의 일치는 회귀 fixture로 확인했다. 검수 목적의 운영 API 쓰기는 없었다.
+- 0.1.5 사용자는 런처의 **업데이트 후 다시 시작**으로 적용하며, 0.1.4 이하는 최신 Setup을 한 번 설치한다. 별도 보관본: `C:/Users/User/Downloads/Soopketmon-Windows-0.1.6-20261016/Soopketmon-Setup-0.1.6-x64.exe`. 설치기를 사용자의 실제 설치 경로에서 실행하거나 게임을 강제로 종료하지 않았다.
+- 발행·공개 피드·운영 확인 결과는 같은 QA 폴더의 `publish-receipt.json`, `public-feed.json`, `live-check.json`, `deployment.json`이다. 운영 반영 기록만 추가한 후속 커밋은 재배포하지 않는다.
