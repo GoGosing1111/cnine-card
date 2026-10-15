@@ -2,7 +2,9 @@
   "version": "20261015-joeun-medic-v2",
   "tests": {
     "focused": 13,
-    "passed": 13
+    "scopedRelease": 25,
+    "passed": 38,
+    "failed": 0
   },
   "browser": [
     {
@@ -136,5 +138,134 @@
     "fullBodyAndFootAnchor": true,
     "consistent2dStyle": true,
     "oldPortraitPreserved": true
+  },
+  "production": {
+    "checkedAt": "2026-10-15T12:42:00.608Z",
+    "pages": "https://b5ce4cc1.cnine-card.pages.dev",
+    "runtimeCommit": "33e927ffe",
+    "apiWorker": "acbf5a8d-781d-478c-9daa-6171ad994e31",
+    "scheduler": "e9539166-7347-4763-b97b-36f1e8910d9a",
+    "pagesAssetCount": 19997,
+    "scopedTests": {
+      "passed": 25,
+      "failed": 0,
+      "workerSyntax": true
+    },
+    "publicApi": {
+      "status": 200,
+      "version": "20261015-joeun-medic-v2",
+      "revision": 3,
+      "joeun": {
+        "code": "ICON-OH-JOEUN",
+        "enabled": true,
+        "tuning": {
+          "firstAction": 1,
+          "cooldownActions": 3,
+          "maxCasts": 8,
+          "pveScale": 125,
+          "pvpScale": 150,
+          "healPercent": 30,
+          "resonancePercent": 3,
+          "maxStacks": 8,
+          "healBudgetPercent": 225,
+          "nextAttackPercent": 35,
+          "durationActions": 3
+        }
+      },
+      "allOtherRolesPreserved": true
+    },
+    "sprite": {
+      "url": "https://cnine-card.pages.dev/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-chibi-sd-20261015.webp",
+      "sha256": "F8047B2598E5CBB1E6AF902EAB7E084BC4D4CFA4FADD596EFFDD3E3C11005036",
+      "status": 200
+    },
+    "portraitPreserved": true,
+    "shellCacheUpdated": true,
+    "cmsLimitsUpdated": true,
+    "operation": {
+      "key": "ops:icon-joeun-healing-buff:20261015:v1",
+      "revisionBefore": 2,
+      "revisionAfter": 3,
+      "adminLogId": "46563",
+      "completedAt": "2026-10-15T12:41:59.740Z",
+      "replayed": false,
+      "verification": {
+        "status": "VERIFIED",
+        "revision": 3,
+        "changedCodes": [
+          "ICON-OH-JOEUN"
+        ],
+        "otherRolesPreserved": true,
+        "scopesAndFlagsPreserved": true
+      }
+    }
+  },
+  "liveAssetEntry": {
+    "assetOrigin": "https://cnine-card.pages.dev",
+    "apiOrigin": "isolated local QA server",
+    "productionGameMutation": false,
+    "browser": [
+      {
+        "width": 390,
+        "mode": "PVE",
+        "mainLoader": true,
+        "actualLiveWrapper": true,
+        "result": true,
+        "return": true,
+        "deckIcons": 1,
+        "seed": 29,
+        "serverHeals": 4,
+        "totalHealing": 137206,
+        "serverTimelineSha256": "5eb9523bdd7c50b2bdd9501f4ee8b568cc0af11692b01a0b9510aec3c259ab35",
+        "tuning": {
+          "firstAction": 1,
+          "cooldownActions": 3,
+          "maxCasts": 8,
+          "pveScale": 125,
+          "pvpScale": 150,
+          "healPercent": 30,
+          "resonancePercent": 3,
+          "maxStacks": 8,
+          "healBudgetPercent": 225,
+          "nextAttackPercent": 35,
+          "durationActions": 3
+        },
+        "diagnostics": {
+          "last": {
+            "code": "ICON-OH-JOEUN",
+            "role": "SUPPORT",
+            "eventType": "ICON_SKILL",
+            "serverRows": 1,
+            "appliedRows": 1,
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "damageAuthority": "SERVER_ONLY"
+          },
+          "muzzle": null,
+          "metrics": {
+            "skills": 4,
+            "basics": 9,
+            "serverRows": 13,
+            "appliedRows": 13,
+            "roles": [
+              "SUPPORT"
+            ]
+          }
+        },
+        "assets": [
+          {
+            "url": "http://127.0.0.1:8979/preview/icon-battle-assets-v1/assets/sd/oh-joeun-medic-chibi-sd-20261015.webp?v=F8047B2598E5CBB1",
+            "status": 200
+          }
+        ],
+        "errors": []
+      }
+    ],
+    "cleanup": {
+      "initialIssue": "Post-assertion proxy callback during page disposal; application assertions and saved report passed.",
+      "fix": "Ignore callbacks still in flight after routes are removed during teardown.",
+      "smokePassed": true,
+      "applicationRetest": false
+    },
+    "visualReview": true
   }
 }
