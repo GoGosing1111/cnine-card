@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-10-16T21:35:04.789Z",
+  "verification": {
+    "status": "VERIFIED",
+    "revision": 4,
+    "changedCodes": [
+      "ICON-ZEUS-CHEOLGU"
+    ],
+    "otherRolesPreserved": true,
+    "scopesAndFlagsPreserved": true
+  },
+  "replayed": true,
+  "unchangedAfterReplay": true,
+  "publicRevision": 4,
+  "publicVersion": "20261017-cheolgu-balance-v1",
+  "publicMatchesDb": true,
+  "adminLogId": "46996"
+}

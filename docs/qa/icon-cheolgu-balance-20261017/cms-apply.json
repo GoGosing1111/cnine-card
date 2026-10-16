@@ -1,0 +1,361 @@
+{
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:icon-cheolgu-balance:20261017:v1",
+    "actor": "SYSTEM_OPS",
+    "authorization": "아이콘 철구 성능 체크해보고 상향 필요하면 상향, 너무 사기는 말고 최상위 느낌",
+    "stateHashBefore": "818c4ce6e641f154acbb27b538bac5ac9f2ac778eb388959e9632f26b6c9c600",
+    "revisionBefore": 3,
+    "revisionAfter": 4,
+    "documentBefore": {
+      "version": 1,
+      "enabled": true,
+      "scopes": {
+        "pve": true,
+        "pvp": true,
+        "captain": true
+      },
+      "cards": [
+        {
+          "code": "ICON-DIIM",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "executePercent": 60,
+            "takedownGauge": 25,
+            "maxTakedowns": 2
+          }
+        },
+        {
+          "code": "ICON-HI-HEEYA",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 3,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "stackPercent": 10,
+            "maxStacks": 3,
+            "shieldBreakPercent": 40
+          }
+        },
+        {
+          "code": "ICON-NAMUNEUL-BONGSOON",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "maxTargets": 3,
+            "focusPercent": 20,
+            "penetrationPercent": 25
+          }
+        },
+        {
+          "code": "ICON-OH-JOEUN",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 1,
+            "cooldownActions": 3,
+            "maxCasts": 8,
+            "pveScale": 125,
+            "pvpScale": 150,
+            "healPercent": 30,
+            "resonancePercent": 3,
+            "maxStacks": 8,
+            "healBudgetPercent": 225,
+            "nextAttackPercent": 35,
+            "durationActions": 3
+          }
+        },
+        {
+          "code": "ICON-ORIKKUNG",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 3,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "maxStacks": 3,
+            "dotPercent": 9,
+            "healReductionPercent": 10,
+            "stackPercent": 15,
+            "durationActions": 3,
+            "bossVulnerabilityPercent": 6
+          }
+        },
+        {
+          "code": "ICON-KANGGUYEOL",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 1,
+            "cooldownActions": 3,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 100,
+            "damagePercent": 210,
+            "damageCapPercent": 46,
+            "guardThresholdPercent": 70,
+            "guardSharePercent": 40,
+            "guardBudgetPercent": 160,
+            "shieldPercent": 35,
+            "storedDamagePercent": 70,
+            "storedCapPercent": 100,
+            "durationActions": 3
+          }
+        },
+        {
+          "code": "ICON-AYOON",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 1,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 140,
+            "damageCapPercent": 46,
+            "shieldPercent": 18,
+            "shieldBreakPercent": 65,
+            "gaugeDelay": 12,
+            "bossVulnerabilityPercent": 8,
+            "durationActions": 2
+          }
+        },
+        {
+          "code": "ICON-ZEUS-CHEOLGU",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "maxTargets": 3,
+            "focusPercent": 20,
+            "penetrationPercent": 25
+          }
+        },
+        {
+          "code": "ICON-GUSUDAENG",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 105,
+            "pvpScale": 90,
+            "damagePercent": 170,
+            "damageCapPercent": 46,
+            "maxTargets": 3,
+            "durationActions": 3,
+            "echoPercent": 30,
+            "soloPercent": 45,
+            "echoCapPercent": 6,
+            "echoBudgetPercent": 600
+          }
+        }
+      ]
+    },
+    "documentAfter": {
+      "version": 1,
+      "enabled": true,
+      "scopes": {
+        "pve": true,
+        "pvp": true,
+        "captain": true
+      },
+      "cards": [
+        {
+          "code": "ICON-DIIM",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "executePercent": 60,
+            "takedownGauge": 25,
+            "maxTakedowns": 2
+          }
+        },
+        {
+          "code": "ICON-HI-HEEYA",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 3,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "stackPercent": 10,
+            "maxStacks": 3,
+            "shieldBreakPercent": 40
+          }
+        },
+        {
+          "code": "ICON-NAMUNEUL-BONGSOON",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "maxTargets": 3,
+            "focusPercent": 20,
+            "penetrationPercent": 25
+          }
+        },
+        {
+          "code": "ICON-OH-JOEUN",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 1,
+            "cooldownActions": 3,
+            "maxCasts": 8,
+            "pveScale": 125,
+            "pvpScale": 150,
+            "healPercent": 30,
+            "resonancePercent": 3,
+            "maxStacks": 8,
+            "healBudgetPercent": 225,
+            "nextAttackPercent": 35,
+            "durationActions": 3
+          }
+        },
+        {
+          "code": "ICON-ORIKKUNG",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 3,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "maxStacks": 3,
+            "dotPercent": 9,
+            "healReductionPercent": 10,
+            "stackPercent": 15,
+            "durationActions": 3,
+            "bossVulnerabilityPercent": 6
+          }
+        },
+        {
+          "code": "ICON-KANGGUYEOL",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 1,
+            "cooldownActions": 3,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 100,
+            "damagePercent": 210,
+            "damageCapPercent": 46,
+            "guardThresholdPercent": 70,
+            "guardSharePercent": 40,
+            "guardBudgetPercent": 160,
+            "shieldPercent": 35,
+            "storedDamagePercent": 70,
+            "storedCapPercent": 100,
+            "durationActions": 3
+          }
+        },
+        {
+          "code": "ICON-AYOON",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 1,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 140,
+            "damageCapPercent": 46,
+            "shieldPercent": 18,
+            "shieldBreakPercent": 65,
+            "gaugeDelay": 12,
+            "bossVulnerabilityPercent": 8,
+            "durationActions": 2
+          }
+        },
+        {
+          "code": "ICON-ZEUS-CHEOLGU",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 1,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 220,
+            "damageCapPercent": 46,
+            "maxTargets": 3,
+            "focusPercent": 25,
+            "penetrationPercent": 30
+          }
+        },
+        {
+          "code": "ICON-GUSUDAENG",
+          "enabled": true,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 105,
+            "pvpScale": 90,
+            "damagePercent": 170,
+            "damageCapPercent": 46,
+            "maxTargets": 3,
+            "durationActions": 3,
+            "echoPercent": 30,
+            "soloPercent": 45,
+            "echoCapPercent": 6,
+            "echoBudgetPercent": 600
+          }
+        }
+      ]
+    },
+    "payloadHash": "040082f2cb7229377cc51d7f716eb081a155897f943753c37ff6ab9b31a0217b",
+    "completedAt": "2026-10-16T21:34:44.062Z",
+    "adminLogId": "46996"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "revision": 4,
+    "changedCodes": [
+      "ICON-ZEUS-CHEOLGU"
+    ],
+    "otherRolesPreserved": true,
+    "scopesAndFlagsPreserved": true
+  },
+  "dryRun": false,
+  "replayed": false
+}

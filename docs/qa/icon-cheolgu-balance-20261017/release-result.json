@@ -1,0 +1,20 @@
+{
+  "status": "DEPLOYED_VERIFIED",
+  "checkedAt": "2026-10-16T21:35:17.498Z",
+  "codeCommit": "95903079ece6cd98ac31e4ecfbc3ad68d763f813",
+  "baseCommit": "59ad7a332f9e3a2a927776b998da78f72ac0e8a7",
+  "pagesUrl": "https://7e80a1cb.cnine-card.pages.dev",
+  "apiRuntimeVersion": "0d3d2449-e59c-4856-91ab-212b36bf5984",
+  "clanDraftVersion": "d842f584-74cc-472c-86e6-2f8427a4cdfd",
+  "newRegressionTestsPassed": 9,
+  "releaseTestsPassed": 35,
+  "workerSyntax": "PASS",
+  "releaseControls": "PASS",
+  "hyperdriveQueryCache": "DISABLED",
+  "cmsRevision": 4,
+  "adminLogId": "46996",
+  "otherIconSettingsPreserved": true,
+  "publicApiMatchesDb": true,
+  "operationReplayWithoutWrites": true,
+  "assetHashesMatched": 5
+}

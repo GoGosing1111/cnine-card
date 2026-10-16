@@ -41,8 +41,16 @@
 - 배포에서는 기존 ICON 회귀·행동 주기·철구·실제 배포 번들/PVE/PVP 로더 연결, Worker 문법과 필수 출시 보호만 확인한다. 전체 검사를 추가하지 않는다.
 - 지정 scoped 배포 후 CMS를 expectedStateHash 비교·단일 트랜잭션·영수증·감사로 갱신한다. 키: ops:icon-cheolgu-balance:20261017:v1. 기존 8종과 ON/OFF는 보존한다. dry run과 재실행 검증을 분리한다.
 
-현재 이 문서 생성 시점은 배포 전이다. 최종 배포·운영 검증 결과는 같은 QA 폴더 release-result.json에 기록한다. 신규 이미지·화면 배치를 제작하지 않았으므로 시각 승인이나 새 아트 제작으로 기록하지 않는다.
+운영 배포와 CMS revision 4 반영을 완료했다. 최종 결과는 같은 QA 폴더 release-result.json에 기록했다. 신규 이미지·화면 배치를 제작하지 않았으므로 시각 승인이나 새 아트 제작으로 기록하지 않는다.
 
 ## 재현
 
 최종 구현은 scripts/benchmark-icon-cheolgu-20261017.mjs에 운영 입력 JSON, 출력 경로, 마지막 인자로 {"firstAction":1,"damagePercent":220,"focusPercent":25,"penetrationPercent":30} 또는 @JSON파일을 전달한다. ICON_BALANCE_SEEDS=24, ICON_BALANCE_SEED_OFFSET=0 또는 1000이다. 변경 전 엔진은 기준 커밋 6bd6c5ec365e7fd63fc5db54281f8ba2e4560278에서 동일 함수를 묶은 번들로 실행했고, 입력·전후 결과·해시는 docs/qa/icon-cheolgu-balance-20261017/에 보존한다.
+
+## 운영 반영 완료
+
+- 소스: 95903079ece6cd98ac31e4ecfbc3ad68d763f813; Pages: https://7e80a1cb.cnine-card.pages.dev.
+- API Runtime: 0d3d2449-e59c-4856-91ab-212b36bf5984; clan-draft: d842f584-74cc-472c-86e6-2f8427a4cdfd.
+- 새 검사 9개와 범위 배포 검사 35개, Worker 문법·출시 보호·Hyperdrive 캐시 OFF 확인.
+- 운영 CMS revision 3 → 4, 감사 46996. 다른 8종 설정과 스코프·활성화 상태 보존. 실제 공개 API와 DB 일치, 같은 영수증 재실행은 쓰기 없이 확인.
+- 실제 도메인의 앱·V3 엔진·전투 래퍼·ICON 번들·진입 HTML 5개 파일 해시 일치. 공개 카드 설명도 새 충전 동작을 안내. 새 전투부터 적용하며 기존 확정 전투 결과를 다시 판정하지 않는다.

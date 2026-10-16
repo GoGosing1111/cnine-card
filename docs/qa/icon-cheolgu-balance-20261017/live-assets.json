@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-10-16T21:35:00.532Z",
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "444b93d645682932d77946f2947e8a8ca840a98e031c90ac66706eeea33425d3",
+      "bytes": 25563
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "8abcd015bddcca72edd783c3c702ac7bea47980ac49b8981de69a71a29986326",
+      "bytes": 758183
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "e0bf2ec7e57daf599f2b76969e632af4a90636d5cd69a567c79e9bb1df36af9f",
+      "bytes": 80949
+    },
+    {
+      "file": "js/icon-fusion-v1.bundle.js",
+      "status": 200,
+      "sha256": "b412280d1ab025cf0affa9acec0d1ca00ea9051edb45a7b6d62cb37257a07550",
+      "bytes": 48844
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "12dbc1f7dd9d321b7ce4d0e6f67ad91a0f88976a909a6a1dec07b62801fe5dfd",
+      "bytes": 1963747
+    }
+  ],
+  "publicRoleVersion": "20261017-cheolgu-balance-v1",
+  "publicRoleRevision": 4,
+  "liveDescriptionMatches": true
+}
