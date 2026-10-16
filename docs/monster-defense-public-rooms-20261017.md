@@ -27,3 +27,10 @@
 - `tests/monster-defense-loadout.browser.mjs`의 참가 경로를 방 목록으로 바꿔 보유 선택/교체/준비 해제/실제 6기 전투를 회귀 확인했다. 운영 계정에 방을 만들거나 참가하는 검수는 하지 않는다.
 
 증빙은 `docs/qa/monster-defense-public-rooms-20261017/`에 보존한다. 관련 검사와 Worker 컴파일을 지정한 scoped 배포로 반영한다.
+
+## 운영 반영 · 2026-10-17
+
+- 소스 `01ed68694effc0cf3bfadc96b0761a63a1353978`을 scoped 배포했다. 목록 검사 3개·Worker 구문·기존 출시 플래그·Hyperdrive 검사를 통과했다.
+- Pages: `https://8fdf29b2.cnine-card.pages.dev`. API: `d094e47a-6233-4a54-8219-4f63c7c0cb51`. 스케줄러: `ad9ecaf0-42f5-4383-b41d-32d786c54492`.
+- 공개 `https://cnine-card.pages.dev/defense/?v=20261017-defense-rooms1`의 운영/프리뷰 HTML, 전투 번들, 방 목록 CSS, 서비스워커 5개 모두 HTTP 200 및 로컬 SHA-256 일치를 확인했다. 초대 UI 제거 및 비로그인 `/api/defense/rooms` HTTP 401을 확인했다.
+- 운영 확인은 읽기 전용이며 실제 이용자 방/계정/보상을 검수로 변경하지 않았다. 상세 결과는 같은 QA 폴더의 `production-report.json`에 보존한다.

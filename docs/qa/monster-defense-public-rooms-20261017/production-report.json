@@ -1,0 +1,60 @@
+{
+  "checkedAt": "2026-10-16T19:06:16.889Z",
+  "sourceCommit": "01ed68694effc0cf3bfadc96b0761a63a1353978",
+  "publicBase": "https://cnine-card.pages.dev",
+  "deploymentUrl": "https://8fdf29b2.cnine-card.pages.dev",
+  "apiVersion": "d094e47a-6233-4a54-8219-4f63c7c0cb51",
+  "schedulerVersion": "ad9ecaf0-42f5-4383-b41d-32d786c54492",
+  "files": [
+    {
+      "path": "defense/index.html",
+      "status": 200,
+      "bytes": 11852,
+      "sha256": "b638890fa363a8dd76fd6d2e2e15485d79bbdb2b7dae10f0601aba9e33d62c83",
+      "localSha256": "b638890fa363a8dd76fd6d2e2e15485d79bbdb2b7dae10f0601aba9e33d62c83",
+      "matches": true
+    },
+    {
+      "path": "preview/coop-defense-v1/index.html",
+      "status": 200,
+      "bytes": 11484,
+      "sha256": "6f60ae2bb0cc758eb3d3bb239dc1627e5f4dab94c20cb12449904b4b1a83d791",
+      "localSha256": "6f60ae2bb0cc758eb3d3bb239dc1627e5f4dab94c20cb12449904b4b1a83d791",
+      "matches": true
+    },
+    {
+      "path": "preview/coop-defense-v1/defense.bundle.js",
+      "status": 200,
+      "bytes": 2062967,
+      "sha256": "5f6c62a46919eaa4575ecb163e0069aec0c613f5ace83b4ce664ba12f8b97655",
+      "localSha256": "5f6c62a46919eaa4575ecb163e0069aec0c613f5ace83b4ce664ba12f8b97655",
+      "matches": true
+    },
+    {
+      "path": "preview/coop-defense-v1/rooms.css",
+      "status": 200,
+      "bytes": 7206,
+      "sha256": "91c80ab464d1b7cd6aeaa27d3c53f678c6d47b51d2ca46f0eeff941db34430ae",
+      "localSha256": "91c80ab464d1b7cd6aeaa27d3c53f678c6d47b51d2ca46f0eeff941db34430ae",
+      "matches": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "bytes": 14144,
+      "sha256": "08781964af9a7f669ec23c48653f268f3dee253f68e77adc8100d85406e60ddc",
+      "localSha256": "08781964af9a7f669ec23c48653f268f3dee253f68e77adc8100d85406e60ddc",
+      "matches": true
+    }
+  ],
+  "anonymousRooms": {
+    "status": 401,
+    "body": {
+      "ok": false,
+      "error": "로그인 후 디펜스에 입장하세요.",
+      "code": "DEFENSE_REQUEST"
+    }
+  },
+  "noInviteControls": true,
+  "passed": true
+}
