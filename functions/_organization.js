@@ -47,6 +47,13 @@ async function participants(q,r){
   orgAssert(rows.length<=150,'OVERFLOW','150석을 초과했습니다. 초과 신청자 처리 정책을 정한 뒤 배정하세요.');return rows;
 }
 function validRatings(rows,r,now){return rows.length>0&&rows.every(row=>row.rating_json&&Number(row.round_revision)===Number(r.revision)&&Number(row.expires_at)>now);}
+async function ratingProgress(q,rows,r,deps,now){
+  const eligible=rows.filter(row=>row.rating_json&&Number(row.round_revision)===Number(r.revision));
+  const inspect=deps.staleOrganizationRatingIds||(await import('./_organization_ratings.js')).staleOrganizationRatingIds;
+  const stale=new Set(await inspect(q,eligible.map(row=>parse(row.rating_json)),{now,minimumValidityMs:30000}));
+  const pending=rows.filter(row=>!row.rating_json||Number(row.round_revision)!==Number(r.revision)||Number(row.expires_at)<=now+30000||stale.has(Number(row.user_id)));
+  return {ids:pending.map(row=>Number(row.user_id)),ratedCount:rows.length-pending.length,total:rows.length};
+}
 async function inputFor(q,r,now){
   const rows=await participants(q,r);orgAssert(validRatings(rows,r,now),'RATING_PENDING','참가자 전력을 최신화한 뒤 배정안을 만드세요.');
   orgAssert(rows.every(row=>row.status==='ACTIVE'&&(!row.banned_until||Date.parse(row.banned_until)<=now)),'ACCOUNT_CHANGED','참가 계정 상태가 변경되었습니다. 설문 명단을 확인하세요.');
@@ -79,12 +86,12 @@ async function refreshRatings(env,user,body,deps,now){
   if(replay){orgAssert(replay.fingerprint===await jointHash(canonical({path:'admin/organization/ratings',body})),'REQUEST_CONFLICT','같은 요청 식별자에 다른 내용을 사용할 수 없습니다.');return parse(replay.response_json);}
   if(body.restart===true)return mutation(env,user,'admin/organization/ratings',body,async q=>{const {r}=await lockedContext(q,user,body);orgAssert(r.phase==='CLOSED','PHASE','설문을 마감한 뒤 전력을 평가하세요.');await q('DELETE FROM organization_ratings_v1 WHERE round_id=$1',[r.id]);await q('UPDATE organization_rounds_v1 SET revision=revision+1 WHERE id=$1',[r.id]);return {ok:true,ratedCount:0,done:false};},now);
   // Expensive account evaluation runs outside all organization transactions.
-  const state=await env.DB.enqueue(async()=>{const q=qFor(env.DB),p=await policy(q),r=await round(q,body.roundId);access(p,user,r,{write:true});orgAssert(r.phase==='CLOSED','PHASE','설문을 마감한 뒤 전력을 평가하세요.');const rows=await participants(q,r);return {r,rows,ids:rows.filter(row=>!row.rating_json||Number(row.round_revision)!==Number(r.revision)||Number(row.expires_at)<=now).slice(0,12).map(row=>Number(row.user_id))};});
+  const state=await env.DB.enqueue(async()=>{const q=qFor(env.DB),p=await policy(q),r=await round(q,body.roundId);access(p,user,r,{write:true});orgAssert(r.phase==='CLOSED','PHASE','설문을 마감한 뒤 전력을 평가하세요.');const rows=await participants(q,r),progress=await ratingProgress(q,rows,r,deps,(deps.now||Date.now)());return {r,rows,ids:progress.ids.slice(0,12)};});
   orgAssert(state.rows.length,'EMPTY','설문 참가자가 없습니다.');
   const loader=deps.loadOrganizationRatings||(await import('./_organization_ratings.js')).loadOrganizationRatings;
   const ratings=state.ids.length?await loader(env,state.ids,deps,{now}):[];
   orgAssert(ratings.length===state.ids.length&&new Set(ratings.map(r=>r.userId)).size===ratings.length&&ratings.every(r=>state.ids.includes(r.userId)&&Number.isSafeInteger(r.power)&&r.power>0&&r.power<=1e12&&Number.isSafeInteger(r.expiresAt)&&r.expiresAt>now),'RATING_INVALID','전력 평가 결과를 확인하지 못했습니다.',503);
-  return mutation(env,user,'admin/organization/ratings',body,async q=>{const {r}=await lockedContext(q,user,body);orgAssert(r.phase==='CLOSED'&&r.revision===state.r.revision,'STALE','설문 상태가 변경되었습니다. 다시 확인하세요.');for(const rating of ratings)await q('INSERT INTO organization_ratings_v1 VALUES($1,$2,$3,$4,$5) ON CONFLICT(round_id,user_id) DO UPDATE SET round_revision=excluded.round_revision,rating_json=excluded.rating_json,expires_at=excluded.expires_at',[r.id,rating.userId,r.revision,JSON.stringify(rating),rating.expiresAt]);const [{n}]=await q('SELECT COUNT(*)::integer AS n FROM organization_ratings_v1 WHERE round_id=$1 AND round_revision=$2 AND expires_at>$3',[r.id,r.revision,now]);return {ok:true,ratedCount:n,total:state.rows.length,done:n===state.rows.length};},now);
+  return mutation(env,user,'admin/organization/ratings',body,async q=>{const {r}=await lockedContext(q,user,body);orgAssert(r.phase==='CLOSED'&&r.revision===state.r.revision,'STALE','설문 상태가 변경되었습니다. 다시 확인하세요.');for(const rating of ratings)await q('INSERT INTO organization_ratings_v1 VALUES($1,$2,$3,$4,$5) ON CONFLICT(round_id,user_id) DO UPDATE SET round_revision=excluded.round_revision,rating_json=excluded.rating_json,expires_at=excluded.expires_at',[r.id,rating.userId,r.revision,JSON.stringify(rating),rating.expiresAt]);const progress=await ratingProgress(q,await participants(q,r),r,deps,(deps.now||Date.now)());return {ok:true,ratedCount:progress.ratedCount,total:progress.total,done:progress.total>0&&progress.ids.length===0};},now);
 }
 export async function handleOrganization({path,request,env,deps}){
   const admin=path==='admin/organization'||path.startsWith('admin/organization/');
@@ -212,9 +219,8 @@ export async function reconcileOrganizationRecruitment(env,deps={}, {now=Date.no
   const known=/^(ORG_|DUO_)/.test(error.code||'');
   await transaction(env.DB,async q=>{
    const [active]=await q('SELECT assignment_token FROM organization_rounds_v1 WHERE id=$1 FOR UPDATE',[r.id]);if(active?.assignment_token!==token)return;
-   // Source/policy changes can invalidate an unexpired rating. Rebuild instead
-   // of replaying that stale snapshot until its five-minute TTL runs out.
-   if(error.code==='ORG_RATING_CHANGED')await q('DELETE FROM organization_ratings_v1 WHERE round_id=$1',[r.id]);
+   // The next batch checks current versions and refreshes only changed or
+   // expiring accounts. Keep valid snapshots when one active player changes.
    await q("UPDATE organization_rounds_v1 SET assignment_status='RETRY',assignment_error=$2,assignment_token=NULL,assignment_lease_until=NULL WHERE id=$1",[r.id,known?error.message:'자동 배정을 다시 시도하고 있습니다.']);
   });
   if(!known)throw error;
