@@ -11,6 +11,7 @@ import {RANKED_REFORM_SCHEMA,readRankedEnergy,rankedFightReceipt,commitRankedFig
 import {reopenRankedIfDue} from '../_ranked_reopen.js';
 import {retiredContentResponse} from '../_retired_content.js';
 import {handleCooperative,cooperativeStream} from '../_cooperative_live.js';
+import {handleMonsterDefense,monsterDefenseLive} from '../_monster_defense.js';
 import {handleRewardReveal} from '../_reward_reveal.js';
 import {handleAccountSync,accountSyncStream,publishAccountSync} from '../_account_sync.js';
 import {coupLiveOperation} from '../_coup_live_operation.js';
@@ -5143,6 +5144,7 @@ async function handleRequest(context){
     const captainResponse=await handleCaptain({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,cardUniqueSettings,userEquipmentBonuses,grantEquipmentDrop,rollBlackMiracleDrop,publicEquippedTitleMap}});if(captainResponse)return captainResponse;
     const blackMiracleAdminResponse=await handleBlackMiracleAdmin({path,request,env,deps:{authenticate,readBody,json}});if(blackMiracleAdminResponse)return blackMiracleAdminResponse;
     const revealResponse=await handleRewardReveal({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(revealResponse)return revealResponse;
+    const defenseResponse=await handleMonsterDefense({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(defenseResponse)return defenseResponse;
     const cooperativeResponse=await handleCooperative({path,request,env,deps:{authenticate,json,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,userEquipmentBonuses,withUserMutationLock:withJointUserMutationLock}});if(cooperativeResponse)return cooperativeResponse;
     const madaraRaidResponse=await handleMadaraRaid({path,request,env,deps:{authenticate,json,raidDeckPower,withUserMutationLock:withJointUserMutationLock}});if(madaraRaidResponse)return madaraRaidResponse;
     const lichRaidResponse=await handleLichRaid({path,request,env,deps:{authenticate,json,raidDeckPower,withUserMutationLock:withJointUserMutationLock}});if(lichRaidResponse)return lichRaidResponse;
@@ -9342,6 +9344,7 @@ export async function onRequest(context){
   const requestUrl=new URL(context.request.url);
   const requestPath=requestUrl.pathname.replace(/^\/api\/?/,'');
   if(requestPath==='coop/stream'&&context.env?.DB_MIGRATION_FREEZE!=='1')return cooperativeStream(context.request,context.env);
+  if(requestPath.startsWith('defense/live/')&&context.env?.DB_MIGRATION_FREEZE!=='1')return monsterDefenseLive(context.request,context.env);
   if(requestPath==='sync/stream'&&context.env?.DB_MIGRATION_FREEZE!=='1')return accountSyncStream(context.request,context.env);
   const migrationFrozen=String(context.env?.DB_MIGRATION_FREEZE||'').trim()==='1';
   const freezeExempt=context.request.method==='OPTIONS'||requestPath==='service/status'||requestPath==='health';

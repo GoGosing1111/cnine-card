@@ -53,6 +53,7 @@
     evolution: { shell: 'evolution' },
     iconfusion: { shell: 'iconfusion' },
     battle: { shell: 'battle' },
+    defense: Object.freeze({href:'/defense/'}),
     pvp: { shell: 'pvp' },
     jokgakCity: { shell: 'jokgakCity' },
     duo: { shell: 'duo' },

@@ -10,9 +10,9 @@ import {fixture} from './cooperative-fixture.mjs';
 const root=fileURLToPath(new URL('../../',import.meta.url));
 const {Miniflare,Log,LogLevel}=miniflare,convertV4MiniflareOptions=miniflare.convertV4MiniflareOptions||((x)=>x);
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.json':'application/json','.css':'text/css','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.svg':'image/svg+xml','.woff2':'font/woff2','.mp3':'audio/mpeg','.ogg':'audio/ogg'};
-export async function cooperativeMiniflare(){
+export async function cooperativeMiniflare({worker='tests/helpers/cooperative-worker.mjs'}={}){
  const temp=await fs.mkdtemp(path.join(os.tmpdir(),'cooperative-qa-'));
- const compiled=await build({entryPoints:[path.join(root,'tests/helpers/cooperative-worker.mjs')],bundle:true,format:'esm',platform:'browser',external:['cloudflare:workers'],write:false,
+ const compiled=await build({entryPoints:[path.join(root,worker)],bundle:true,format:'esm',platform:'browser',external:['cloudflare:workers'],write:false,
   plugins:[{name:'isolated-d1-fixture',setup(b){b.onResolve({filter:/_postgres_d1_compat\.js$/},()=>({path:'postgres-not-bound',namespace:'coop-qa'}));b.onLoad({filter:/.*/,namespace:'coop-qa'},()=>({contents:"export function createPostgresD1Compat(){throw Error('PostgreSQL is not bound in the isolated D1 fixture')}"}));}}]});
  const mf=new Miniflare(convertV4MiniflareOptions({script:compiled.outputFiles[0].text,modules:true,compatibilityDate:'2026-07-01',compatibilityFlags:['nodejs_compat'],cf:false,log:new Log(LogLevel.WARN),host:'127.0.0.1',port:0,
   bindings:{API_RUNTIME_KEY:Buffer.alloc(32,73).toString('base64')},d1Databases:{DB:'qa-cooperative'},d1Persist:path.join(temp,'db'),durableObjectsPersist:path.join(temp,'rooms'),

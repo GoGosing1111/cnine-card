@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "date": "2026-10-16",
+  "status": "REVIEW_ONLY",
+  "generator": "built-in image_gen",
+  "promptSet": "prompts-v2.json",
+  "transparentBackground": true,
+  "sourcePreservation": "Copied original PNG bytes into this project; generated originals retained. No pixel edits or recompression.",
+  "assets": [
+    {
+      "id": "fortress-causeway",
+      "file": "fortress-causeway-v2.png",
+      "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-85b11ee9-e5d5-4d57-b842-ab0f7e538301.png",
+      "sha256": "6d9cb42d0b1cd201c2acc7322f86ae3a529bb642ba51f84570d10fc400815c44",
+      "width": 2172,
+      "height": 724,
+      "mode": "RGBA",
+      "zeroAlphaPixels": 826664,
+      "contentBoundsAlphaOver32": [3, 175, 2170, 549],
+      "usage": "Pixi floor sprites for straight lanes and angled shared approach; original texture reused for both."
+    },
+    {
+      "id": "guardian-crystal",
+      "file": "guardian-crystal-v2.png",
+      "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-08e4204b-84d1-4c8c-ba18-d233b1a03432.png",
+      "sha256": "e4e926d65883cdbf066d80b829f81aa8471561febe7eb1526a6d8bc8d7a3d92f",
+      "width": 1145,
+      "height": 1374,
+      "mode": "RGBA",
+      "zeroAlphaPixels": 896879,
+      "contentBoundsAlphaOver32": [84, 11, 1078, 1356],
+      "usage": "Shared objective sprite in the full battlefield and image marker in the minimap."
+    }
+  ],
+  "visualChecks": ["Entire object and pedestal retained", "Real alpha transparency", "Existing character and background art unchanged", "No procedural route or crystal fallback"]
+}

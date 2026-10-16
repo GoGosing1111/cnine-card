@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "PC PVE menu → defense",
+    "Mobile PVE menu → defense",
+    "Three real clients share nine units; mobile defaults to own lane",
+    "Five boss sprites, HP bar, warning and enraged state rendered",
+    "Reload reconnect restores room and one renderer",
+    "Ordinary accounts see TEST restriction",
+    "Desktop/mobile OWNER CMS saves and reloads five difficulty policies"
+  ],
+  "errors": [],
+  "failed": []
+}

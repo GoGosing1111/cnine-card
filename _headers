@@ -39,6 +39,10 @@
   Cache-Control: no-cache, must-revalidate, max-age=0
 /pet-codex/*
   Cache-Control: no-cache, must-revalidate, max-age=0
+/defense
+  Cache-Control: no-cache, must-revalidate, max-age=0
+/defense/*
+  Cache-Control: no-cache, must-revalidate, max-age=0
 /raid/lich-king
   Cache-Control: no-cache, must-revalidate, max-age=0
 /raid/lich-king/*

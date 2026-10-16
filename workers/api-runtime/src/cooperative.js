@@ -1,4 +1,5 @@
 import {DurableObject} from 'cloudflare:workers';
+import {MonsterDefenseHost} from './monster-defense.js';
 import {createCoopRoom,coopCommand,advanceCoopRoom,coopView,coopTerminal} from '../../../functions/_cooperative_room.js';
 import {COOP_RULES,validCoopRoom,coopDifficulty} from '../../../shared/cooperative-battleground-v1.mjs';
 import {COOP_DIRECTORY,COOP_LIST_LIMIT,COOP_LIST_LEASE_MS,coopRoomListing} from '../../../shared/cooperative-room-list-v1.mjs';
@@ -43,6 +44,9 @@ export class CooperativePlayer extends DurableObject{
  }
 }
 export class CooperativeRoom extends DurableObject{
+ defenseHost(){return this.monsterDefenseHost??=new MonsterDefenseHost(this.ctx);}
+ defenseRpc(action,input){return this.defenseHost().rpc(action,input);}
+ defenseLeave(user){return this.defenseHost().leave(user);}
  constructor(ctx,env){super(ctx,env);ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS room (id INTEGER PRIMARY KEY,json TEXT NOT NULL)');ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS tickets(token TEXT PRIMARY KEY,user_id INTEGER,client TEXT,expires INTEGER)');}
  read(){const raw=this.ctx.storage.sql.exec('SELECT json FROM room WHERE id=1').toArray()[0]?.json;return raw?JSON.parse(raw):null;}
  save(room){this.ctx.storage.sql.exec('INSERT INTO room(id,json) VALUES(1,?) ON CONFLICT(id) DO UPDATE SET json=excluded.json',JSON.stringify(room));}
@@ -132,6 +136,7 @@ export class CooperativeRoom extends DurableObject{
   return {...result,ticket:token};
  }
  async fetch(request){
+  if(new URL(request.url).pathname.includes('/defense/live/'))return this.defenseHost().live(request,new URL(request.url).pathname.split('/').at(-1));
   if(request.headers.get('upgrade')?.toLowerCase()!=='websocket')return new Response('Upgrade required',{status:426});
   // Only the authenticated API route can reach this private namespace.
   const token=new URL(request.url).searchParams.get('ticket');
@@ -162,6 +167,7 @@ export class CooperativeRoom extends DurableObject{
  async webSocketError(ws){try{ws.close(1011,'연결 오류');}catch{}}
  async alarm(){
   const room=this.read();if(!room)return;
+  if(room.kind==='MONSTER_DEFENSE_V1')return this.defenseHost().alarm();
   if(coopTerminal(room)&&room.clearRewards&&Date.now()>(room.finishedAt||room.expiresAt)+3600000){for(const ws of this.ctx.getWebSockets())try{ws.close(1000,'대기방 종료');}catch{}await this.ctx.storage.deleteAll();return;}
   advanceCoopRoom(room,Date.now());this.save(room);await this.schedule(room);this.broadcast(room);
  }

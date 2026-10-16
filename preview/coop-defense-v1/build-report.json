@@ -1,0 +1,232 @@
+{
+  "date": "2026-10-16",
+  "status": "TEST",
+  "dependencies": {
+    "pixi.js": "8.20.0",
+    "gsap": "3.13.0"
+  },
+  "bundleBytes": 2013790,
+  "commonV3": [
+    "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
+    "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
+    "preview/project-v-v3/source/battle/CameraController.js",
+    "preview/project-v-v3/source/battle/BattleAnimation.js",
+    "preview/project-v-v3/source/battle/HumanoidRig.js",
+    "preview/project-v-v3/source/battle/BattleCharacter.js",
+    "preview/project-v-v3/source/battle/DamageCriticalFont.mjs",
+    "preview/project-v-v3/source/battle/ObjectPool.js",
+    "preview/project-v-v3/source/battle/SkillEffectFX.js",
+    "preview/project-v-v3/source/battle/SkillTimeline.js",
+    "preview/project-v-v3/source/battle/RoleAudioSpriteManifest.js",
+    "preview/project-v-v3/source/battle/AdvancementAudioManifest.js",
+    "preview/project-v-v3/source/battle/BattleAudioMixer.js",
+    "preview/project-v-v3/source/battle/AdvancementEffectFX.js",
+    "preview/project-v-v3/source/battle/BallisticVFX.js",
+    "preview/project-v-v3/source/battle/AccountBattleUnit.js",
+    "preview/project-v-v3/source/battle/AccountBattleSuitHBodyCatalog.js",
+    "preview/project-v-v3/source/battle/AccountBattleSuitSzBodyCatalog.js",
+    "preview/project-v-v3/source/battle/AccountBattleSuitAnimationCatalog.js",
+    "preview/project-v-v3/source/battle/ApocalypseBossUltimateFX.js",
+    "preview/project-v-v3/source/battle/ApocalypseSignatureSkillFX.js",
+    "preview/project-v-v3/source/battle/BattleSuitSkillChipPlayback.js",
+    "preview/project-v-v3/source/battle/ZBodyDashProfile.mjs",
+    "preview/project-v-v3/source/battle/ZBodySwordModel.mjs",
+    "preview/project-v-v3/source/battle/ZBodyDashFX.mjs",
+    "preview/project-v-v3/source/battle/ZBodyNormalFX.js",
+    "preview/project-v-v3/source/battle/ZBodyThunderFX.js",
+    "preview/project-v-v3/source/battle/ZBodySwordAnimation.js",
+    "preview/project-v-v3/source/battle/XBodySwordModel.mjs",
+    "preview/project-v-v3/source/battle/XBodySwordAnimation.js",
+    "preview/project-v-v3/source/battle/OverlordSuitModel.mjs",
+    "preview/project-v-v3/source/battle/OverlordSuitAnimation.js",
+    "preview/project-v-v3/source/battle/SXSuitModel.mjs",
+    "preview/project-v-v3/source/battle/SXSuitCamera.js",
+    "preview/project-v-v3/source/battle/SXSuitAnimation.js",
+    "preview/project-v-v3/source/battle/IconTechniquePlayback.js",
+    "preview/project-v-v3/source/battle/FormationLayout.mjs",
+    "preview/project-v-v3/source/battle/ViewportLayout.mjs",
+    "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "preview/project-v-v3/source/battle/ShiranuiCombatPlayback.js",
+    "preview/project-v-v3/source/battle/LimitedDuoCombatPlayback.js",
+    "preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js",
+    "preview/project-v-v3/source/battle/NurseHealCombatPlayback.js",
+    "preview/project-v-v3/source/battle/BerkanCombatPlayback.js",
+    "preview/project-v-v3/source/battle/CryvernCombatPlayback.js",
+    "preview/project-v-v3/source/battle/HeukwolCombatPlayback.js",
+    "preview/project-v-v3/source/battle/BikiniJoeunCombatPlayback.js",
+    "preview/project-v-v3/source/battle/ProjectileTrail.mjs",
+    "preview/project-v-v3/source/battle/MercenaryRoleAttackFX.js",
+    "preview/project-v-v3/source/battle/MangisaCombatPlayback.js",
+    "preview/project-v-v3/source/battle/RagnielCombatPlayback.js",
+    "preview/project-v-v3/source/battle/KaironCombatPlayback.js",
+    "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
+    "preview/project-v-v3/source/battle/JinmuDialogue.js",
+    "preview/project-v-v3/source/battle/JinmuCombatPlayback.js",
+    "preview/project-v-v3/source/battle/HeliosSurroundingAura.js",
+    "preview/project-v-v3/source/battle/HeliosCombatPlayback.js",
+    "preview/project-v-v3/source/battle/AzantCombatPlayback.js",
+    "preview/project-v-v3/source/battle/LimitedMercenaryPlayback.js",
+    "preview/project-v-v3/source/battle/MercenaryCombatPlayback.js",
+    "preview/project-v-v3/source/battle/CooperativeArkePlayback.js",
+    "preview/project-v-v3/source/battle/CooperativeEncounter.js",
+    "preview/project-v-v3/source/battle/IconRolePlayback.js",
+    "preview/project-v-v3/source/battle/PetSupportLayout.mjs",
+    "preview/project-v-v3/source/battle/PetSupportPresentation.mjs",
+    "preview/project-v-v3/source/battle/PetSupportHud.js",
+    "preview/project-v-v3/source/battle/PetOpeningFX.js",
+    "preview/project-v-v3/source/battle/PetSupportPlayback.js",
+    "preview/project-v-v3/source/battle/BattleEngine.js"
+  ],
+  "assets": [
+    {
+      "path": "/assets/ui/project-v/battlefields/v3-siege-fortress-courtyard-v1.png",
+      "bytes": 618934,
+      "sha256": "08c29adf6206fc34b574f7f2e3fbefb63618e10552d1b63157ef4ce2078ead7f"
+    },
+    {
+      "path": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png",
+      "bytes": 1451240,
+      "sha256": "6d9cb42d0b1cd201c2acc7322f86ae3a529bb642ba51f84570d10fc400815c44"
+    },
+    {
+      "path": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+      "bytes": 1755475,
+      "sha256": "e4e926d65883cdbf066d80b829f81aa8471561febe7eb1526a6d8bc8d7a3d92f"
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/golden-sword-shield-knight-v1.png",
+      "bytes": 2841920,
+      "sha256": "2b08df11bf57ba00e0805371c691ca82119cbfd46658dc9389b92b67e861314f"
+    },
+    {
+      "path": "/assets/ui/project-v/characters/mercenary/mercenary-v003-solvain-sd-v1.png",
+      "bytes": 1751235,
+      "sha256": "2d99e191e18675f52700a47e68de1ecc6278239dbc8038ceb4d943180c861534"
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/female-mercenary-m4-v4-knight-style.png",
+      "bytes": 2873959,
+      "sha256": "bfe0f525630ceed27ede9c6d0f1abf3e974e6c0c2dcf8e0aba7a325d0aee9d2c"
+    },
+    {
+      "path": "/assets/ui/project-v/characters/mercenary/mercenary-v002-licia-sd-v1.png",
+      "bytes": 1407311,
+      "sha256": "37f5b830fca85ef83b8a3a8c9b61eb6b1dbad5509be43317dc9890e28ea41074"
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/holy-knight-greatsword-v2-collectible.png",
+      "bytes": 2678338,
+      "sha256": "d85161ecede0e85afea04ec8fc82d8f1101337945361bb15e11849528fc47fd0"
+    },
+    {
+      "path": "/assets/ui/project-v/characters/mercenary/mercenary-v001-auren-sd-v1.png",
+      "bytes": 1828299,
+      "sha256": "9831816c80f23bc11d395e41b89b18d8695420e93d8c8268ffc57f0280a00755"
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png",
+      "bytes": 2482424,
+      "sha256": "629564d768a4bcefcd0be746e744da49a64f1cf2be7d048e7485fc6cb14ff874"
+    },
+    {
+      "path": "/assets/ui/project-v/characters/mercenary/mercenary-v004-vespera-sd-v1.png",
+      "bytes": 1303229,
+      "sha256": "2cd6d3dc86c8fdcfe070a7674d09779a02af12b01d543fd6b87bdbbe03ff6f67"
+    },
+    {
+      "path": "/assets/cards/7777777.jpg",
+      "bytes": 32371,
+      "sha256": "2dbf6857a2c9dc33347812bd58aa1680fcb701c8873f7143f1746f2c5a061a35"
+    },
+    {
+      "path": "/assets/ui/project-v/characters/deck-faker-sd-v1.png",
+      "bytes": 1441403,
+      "sha256": "9cb0eb7fe0c016ebaab75cd16358d98ae046f046ff06a804778d06cda6b2708e"
+    },
+    {
+      "path": "/assets/NEWCARD/8.jpg",
+      "bytes": 55570,
+      "sha256": "81985b35e58490f17979fd62015537fdc476a781f0830f7c286c77f802b32a43"
+    },
+    {
+      "path": "/assets/ui/project-v/characters/deck-bongjun-sd-v1.png",
+      "bytes": 1965559,
+      "sha256": "b67f7c8267b56bd1dab9a46ae5f808576dfa4a39c24a013cdc773fc172c48954"
+    },
+    {
+      "path": "/assets/pre/8.jpg",
+      "bytes": 81815,
+      "sha256": "5ecc563518dc219570b0388c51681d3ef713483a8414d7f4a9bb9265fd2ba137"
+    },
+    {
+      "path": "/assets/ui/project-v/characters/deck-kimtaekyong-sd-v1.png",
+      "bytes": 1417690,
+      "sha256": "43adf7792a0428a5df57a2dc7264c5879a23ee9b740ed82f02f4695b20a99640"
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/hunt-tower/hunt-001-cute-slime-sd-v1.png",
+      "bytes": 832523,
+      "sha256": "c5514aed7da3236920b46fecb82518ee8e7be584ccd88abaa48e3ab807d5a4fa"
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/hunt-tower/hunt-005-kyokasuigetsu-frog-sd-v1.png",
+      "bytes": 1038927,
+      "sha256": "1368fa3e9805c88902cc338aa3d6e2ed99e0749c4698318c0156d0fd8993253f"
+    },
+    {
+      "path": "/assets/ui/cooperative-arke-v1/forge-stalker-v1.png",
+      "bytes": 1202666,
+      "sha256": "270e315ce9ab15bae98f2dab91830095d26c1c090351da0d278423c9a42f0975"
+    },
+    {
+      "path": "/assets/ui/cooperative-arke-v1/ember-watcher-v1.png",
+      "bytes": 1174846,
+      "sha256": "c2b637b833385a74dcb7ca30957aacedbe978f2fdd38bee9938ce8bc4b480261"
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/hunt-tower/tower-024-blood-crow-sd-v1.png",
+      "bytes": 2097216,
+      "sha256": "e08a1bf90f5d54c6a8f44c254562e7c2a519e4046e704cb92aafdf7fcc355b96"
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png",
+      "bytes": 2201971,
+      "sha256": "a3cc49c8a7ae21b0e34a1cd6a6ab09e78aad6f60f38df07098c023ad3b48c7dd"
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/hunt-tower/hunt-068-omega-09-sd-v1.png",
+      "bytes": 1872234,
+      "sha256": "e2a673bdfc47b2d847aac1434c6bae4eefcbee95b77ba245ea42174a571bf333"
+    },
+    {
+      "path": "/assets/ui/cooperative-arke-v1/core-warden-v1.png",
+      "bytes": 2566572,
+      "sha256": "7053288ab46a3882eb64610afb1c8bb690e13c0c6be5ab95151545d1ac949ded"
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/hunt-tower/hunt-008-big-seal-boss-sd-v1.png",
+      "bytes": 1910912,
+      "sha256": "359d8194afa4e2cc9f8efb38e1406c05da929b95c1ce4254eba763029c9b1356"
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/hunt-tower/tower-064-commander-krieg-sd-v1.png",
+      "bytes": 1910013,
+      "sha256": "031720c5c18f9c4ed2d57b345dc9b2cfe2a16b235186a533e85649f628056873"
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png",
+      "bytes": 1283148,
+      "sha256": "618d8755bdb3e192ff0c1db4d88d8f90b90d81ac1748a3c9fdc8b275bee0c962"
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png",
+      "bytes": 1866605,
+      "sha256": "b40107be887a41a68751e485659cc564a48e02a9116fa94cea67b30ca1b76f33"
+    },
+    {
+      "path": "/assets/ui/cooperative-arke-v1/arke-battle-sprite-v1.png",
+      "bytes": 2861937,
+      "sha256": "bafcdae8c7077acf45ee618848e3a48887461e24786a66163cb74e3d1a76034f"
+    }
+  ]
+}

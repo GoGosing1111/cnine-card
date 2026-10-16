@@ -1,0 +1,443 @@
+import { DefenseBattleEngine } from './DefenseBattleEngine.js';
+import { MERCENARIES, CARDS, LANES, WORLD, RULES, laneY, defaultLoadout, validateLoadout } from './defense-model.mjs';
+import {DEFENSE_DIFFICULTIES,DEFENSE_ENEMIES,defenseDifficulty,defenseEnemy} from '../../../shared/monster-defense-v1.mjs';
+
+const $ = id => document.getElementById(id);
+const colors = ['#70e4cf', '#e7bb76', '#bda5f5'];
+const LIVE=document.documentElement.dataset.defenseLive==='true';
+const SESSION_KEY = LIVE?'cnine_monster_defense_test_session_v1':'cnine_coop_defense_review_session_v1';
+const FOCUS_QUERY = '(max-width:760px), (max-height:540px) and (pointer:coarse)';
+const state = { capacity: 3, difficulty:'NORMAL',access:!LIVE,loadout: defaultLoadout(), session: null, snapshot: null, catalog: null,
+  engine: null, mount: null, selected: null, focus: null, poll: null, pollAbort: null, stopped: false, failures: 0, screen: 'lobby', pending: false, epoch: 0 };
+let toastTimer, bannerTimer, refreshingSession;
+const safeName = value => String(value || '').slice(0, 40);
+function toast(message) {
+  $('toast').textContent = message; $('toast').hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { $('toast').hidden = true; }, 4000);
+}
+function showScreen(screen) {
+  state.screen = screen;
+  for (const id of ['lobby', 'waiting-room', 'battle']) $(id).hidden = id !== screen;
+  $('resume-battle').hidden = screen !== 'lobby' || !state.session;
+}
+async function request(path, { method = 'GET', body, signal } = {}) {
+  if(LIVE){
+    const live=path.startsWith('state')||path==='command';
+    if(live&&state.session&&Date.now()>state.session.expires-20000){
+      if(!refreshingSession)refreshingSession=(async()=>{const roomId=state.session.roomId,fresh=await request('session',{method:'POST',body:{roomId}});if(state.session?.roomId===roomId){state.session={token:fresh.token,expires:fresh.expires,roomId:fresh.roomId,playerId:fresh.playerId};rememberSession();}})().finally(()=>{refreshingSession=null;});
+      await refreshingSession;
+    }
+    const token=live?state.session?.token:localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
+    const url=live?new URL('/api/defense/live/'+path,location.origin):new URL('/api/defense/'+path,location.origin);
+    if(live)url.searchParams.set('room',state.session?.roomId||'');
+    if(body&&['create','join'].includes(path)){const {name,...rest}=body;body={...rest,difficulty:state.difficulty,requestId:crypto.randomUUID()};}
+    const response=await fetch(url,{method,headers:{authorization:'Bearer '+token,...(body?{'content-type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,signal:signal||AbortSignal.timeout(10000),cache:'no-store'});
+    let data;try{data=await response.json();}catch{throw Error('디펜스 서버 응답을 확인하지 못했습니다.');}
+    if(!response.ok)throw Object.assign(Error(data.error||'요청을 처리하지 못했습니다.'),{status:response.status});return data;
+  }
+  const headers = {};
+  if (body) headers['Content-Type'] = 'application/json';
+  if (state.session?.token) headers.Authorization = `Bearer ${state.session.token}`;
+  const response = await fetch(`/__coop-defense/v1/${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined,
+    signal: signal || AbortSignal.timeout(8000), cache: 'no-store', credentials: 'omit' });
+  let data;
+  try { data = await response.json(); } catch { throw new Error('협동 검수 서버에 연결할 수 없습니다.'); }
+  if (!response.ok) throw Object.assign(new Error(data.error || '요청을 처리하지 못했습니다.'), { status: response.status });
+  return data;
+}
+function rememberSession() {
+  try { if (state.session) sessionStorage.setItem(SESSION_KEY, JSON.stringify(state.session)); else sessionStorage.removeItem(SESSION_KEY); } catch { /* Storage may be disabled. */ }
+}
+function buildLoadout() {
+  $('loadout-grid').replaceChildren();
+  for (let slot = 0; slot < 3; slot++) {
+    const wrap = document.createElement('div'); wrap.className = 'loadout-slot';
+    const art = document.createElement('div'); art.className = 'slot-art';
+    const img = document.createElement('img'); img.alt = ''; const kind = document.createElement('span'); kind.textContent = slot < 2 ? `용병 ${slot + 1}` : '카드 1';
+    art.append(img, kind);
+    const label = document.createElement('label'); label.htmlFor = `loadout-${slot}`; label.textContent = slot < 2 ? '용병 선택' : '카드 선택';
+    const select = document.createElement('select'); select.id = label.htmlFor;
+    for (const entry of slot < 2 ? MERCENARIES : CARDS) {
+      const option = document.createElement('option'); option.value = entry.code; option.textContent = entry.name; select.append(option);
+    }
+    select.value = slot < 2 ? state.loadout.mercenaries[slot] : state.loadout.card;
+    const refresh = () => { const entry = state.catalog.units[select.value]; img.src = entry.sourceArt; img.alt = `${entry.name} 원화`; };
+    select.addEventListener('change', () => { if (slot < 2) state.loadout.mercenaries[slot] = select.value; else state.loadout.card = select.value; refresh(); });
+    refresh(); wrap.append(art, label, select); $('loadout-grid').append(wrap);
+  }
+}
+async function joinOrCreate(kind) {
+  if (state.pending||!state.access) return;
+  try {
+    validateLoadout(state.loadout);
+    const name = $('nickname').value.trim(); if (!name) { $('nickname').focus(); return toast('대원 이름을 입력하세요.'); }
+    state.pending = true;
+    for (const id of ['create-room', 'practice']) $(id).disabled = true;
+    const session = await request(kind === 'join' ? 'join' : 'create', { method: 'POST', body: { name, loadout: state.loadout,
+      capacity: state.capacity, difficulty:state.difficulty,roomId: $('room-code').value.trim(), practice: kind === 'practice' } });
+    if (state.session) await teardown(false);
+    state.session = { token: session.token, expires:session.expires,roomId: session.roomId, playerId: session.playerId };
+    state.stopped = false; state.failures = 0; rememberSession();
+    receive(session.snapshot); schedulePoll(0);
+  } catch (error) { toast(error.message); }
+  finally { state.pending = false; for (const id of ['create-room', 'practice']) $(id).disabled = false; }
+}
+async function sendCommand(command) {
+  if (!state.session) return;
+  const requestId = crypto.randomUUID?.() || Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, '0')).join('');
+  try {
+    // A lost response can be retried with the exact same identifier, without applying twice.
+    const payload = { requestId, command };
+    try { await request('command', { method: 'POST', body: payload }); }
+    catch (error) {
+      if (error.status) throw error;
+      await request('command', { method: 'POST', body: payload });
+    }
+    schedulePoll(0);
+  } catch (error) { toast(error.message); }
+}
+function schedulePoll(delay = 300) {
+  clearTimeout(state.poll);
+  if (!state.stopped && state.session) state.poll = setTimeout(poll, delay);
+}
+async function poll() {
+  if (state.pollAbort || state.stopped || !state.session) return schedulePoll();
+  const controller = new AbortController(); state.pollAbort = controller;
+  const timeout = setTimeout(() => controller.abort(), 7000), epoch = state.epoch;
+  try {
+    const snapshot = await request(`state?after=${state.snapshot?.seq || 0}`, { signal: controller.signal });
+    if (epoch !== state.epoch) return;
+    state.failures = 0; $('connection').hidden = true; $('sync-state').textContent = '서버 연결됨'; receive(snapshot);
+  } catch (error) {
+    if (epoch !== state.epoch || state.stopped) return;
+    if ([401,403,404].includes(error.status)) { await teardown(true); showScreen('lobby'); toast(error.message); return; }
+    state.failures++; $('connection').hidden = false; $('sync-state').textContent = '연결 복구 중';
+  } finally {
+    clearTimeout(timeout); if (state.pollAbort === controller) state.pollAbort = null;
+    if (epoch === state.epoch) schedulePoll(Math.min(2000, state.failures ? 400 * state.failures : 300));
+  }
+}
+function receive(snapshot) {
+  const previous = state.snapshot;
+  state.snapshot = snapshot;
+  if (snapshot.phase === 'LOBBY') { showScreen('waiting-room'); renderWaiting(snapshot); return; }
+  if (state.screen !== 'battle') {
+    showScreen('battle');
+    const mine = snapshot.players.find(p => p.id === state.session.playerId);
+    state.focus = matchMedia(FOCUS_QUERY).matches ? mine?.lane ?? 0 : null;
+    state.selected = snapshot.units.find(u => u.ownerId === state.session.playerId)?.id;
+    buildControls(snapshot); void ensureEngine();
+  }
+  renderBattle(snapshot);
+  state.engine?.applySnapshot(snapshot, state.session.playerId);
+  const beforeMine = previous?.players.find(p => p.id === state.session.playerId);
+  const nowMine = snapshot.players.find(p => p.id === state.session.playerId);
+  if (beforeMine?.reviveAt && !nowMine.reviveAt && ['PREP', 'WAVE'].includes(snapshot.phase))
+    toast(`분대가 체력 ${Math.round(RULES.reviveHpRatio * 100)}%로 ${LANES[nowMine.lane]} 방어선에 복귀했습니다.`);
+  if (previous?.phase !== snapshot.phase || previous?.wave !== snapshot.wave) showPhase(snapshot);
+  if (['VICTORY', 'DEFEAT'].includes(snapshot.phase)) renderResult(snapshot);
+}
+function renderWaiting(snapshot) {
+  $('invite-code').textContent = snapshot.id;
+  $('copy-invite').hidden = snapshot.practice;
+  $('waiting-description').textContent = `${snapshot.difficultyName} · ${snapshot.totalWaves}웨이브 · `+(snapshot.practice ? '자동 대원과 함께 방어합니다.' : '초대 코드를 공유하세요. 각자 용병 2명과 카드 1장을 편성합니다.');
+  const signature = JSON.stringify(snapshot.players.map(p => [p.id, p.ready, p.connected, p.loadout]));
+  if ($('party-list').dataset.signature !== signature) {
+    $('party-list').dataset.signature = signature;
+    $('party-list').style.gridTemplateColumns = matchMedia('(max-width:760px)').matches ? '1fr' : `repeat(${snapshot.capacity}, minmax(0,1fr))`;
+    $('party-list').replaceChildren();
+    for (let lane = 0; lane < snapshot.capacity; lane++) {
+      const player = snapshot.players.find(p => p.lane === lane);
+      const item = document.createElement('article'); item.className = 'party-member'; item.style.setProperty('--lane-color', colors[lane]);
+      const tag = document.createElement('span'); tag.className = 'party-lane'; tag.textContent = `DEFENSE ${LANES[lane]}`;
+      const name = document.createElement('h3'); name.textContent = player ? safeName(player.name) : '대원 기다리는 중';
+      const detail = document.createElement('p'); detail.textContent = player ? (player.id === snapshot.hostId ? '방장 · ' : '') + (player.bot ? '자동 대원' : player.id === state.session.playerId ? '내 분대' : '협동 대원') : '초대 코드로 입장할 수 있습니다';
+      const ready = document.createElement('span'); ready.className = `party-ready${player?.ready ? ' is-ready' : ''}`;
+      ready.textContent = !player ? '빈자리' : !player.connected ? '연결 대기' : player.ready ? '준비 완료' : '편성 확인 중';
+      item.append(tag, name, detail, ready);
+      if (player) {
+        const art = document.createElement('div'); art.className = 'party-portraits';
+        for (const code of [...player.loadout.mercenaries, player.loadout.card]) {
+          const image = document.createElement('img'); image.src = state.catalog.units[code].sourceArt; image.alt = state.catalog.units[code].name; art.append(image);
+        }
+        item.append(art);
+      }
+      $('party-list').append(item);
+    }
+  }
+  const mine = snapshot.players.find(p => p.id === state.session.playerId), isHost = snapshot.hostId === state.session.playerId;
+  $('ready').textContent = mine.ready ? '준비 취소' : '준비 완료'; $('ready').setAttribute('aria-pressed', String(mine.ready));
+  $('start').hidden = !isHost;
+  $('start').disabled = snapshot.players.length < snapshot.capacity || snapshot.players.some(p => !p.ready || !p.connected);
+  $('start-hint').textContent = !isHost ? '모두 준비하면 방장이 출발할 수 있습니다.' : $('start').disabled ? '모든 대원이 준비를 마치면 출발할 수 있습니다.' : '모든 대원이 준비됐습니다.';
+}
+function buildControls(snapshot) {
+  $('lane-tabs').replaceChildren(); $('move-buttons').replaceChildren(); $('unit-controls').replaceChildren();
+  for (let lane = 0; lane < snapshot.capacity; lane++) {
+    const player = snapshot.players.find(p => p.lane === lane);
+    const tab = document.createElement('button'); tab.type = 'button'; tab.className = 'lane-tab'; tab.dataset.view = lane;
+    tab.style.setProperty('--lane-color', colors[lane]);
+    const id = document.createElement('span'); id.className = 'lane-id'; id.textContent = LANES[lane];
+    const detail = document.createElement('span'), name = document.createElement('b'), status = document.createElement('small');
+    name.textContent = player.name; status.dataset.laneStatus = lane; detail.append(name, status);
+    const pressure = document.createElement('span'); pressure.className = 'pressure'; pressure.dataset.lanePressure = lane;
+    tab.append(id, detail, pressure); tab.addEventListener('click', () => setFocus(lane)); $('lane-tabs').append(tab);
+    const move = document.createElement('button'); move.type = 'button'; move.className = 'move-button'; move.dataset.lane = lane; move.textContent = LANES[lane];
+    move.setAttribute('aria-label', `${LANES[lane]} 방어선으로 지원 이동`);
+    move.addEventListener('click', () => void sendCommand({ type: 'MOVE', unitId: state.selected, lane })); $('move-buttons').append(move);
+  }
+  for (const unit of snapshot.units.filter(u => u.ownerId === state.session.playerId)) {
+    const button = document.createElement('button'); button.className = 'unit-button'; button.type = 'button'; button.dataset.unitId = unit.id;
+    const image = document.createElement('img'); image.src = state.catalog.units[unit.code].sourceArt; image.alt = ''; image.className = 'unit-portrait';
+    const info = document.createElement('span'), name = document.createElement('strong'), status = document.createElement('small');
+    name.textContent = unit.name; status.className = 'unit-location';
+    const hp = document.createElement('span'); hp.className = 'unit-hp'; const fill = document.createElement('i'); hp.append(fill);
+    info.append(name, status, hp); button.append(image, info);
+    button.addEventListener('click', () => { state.selected = unit.id; state.engine?.selectUnit(unit.id); renderBattle(state.snapshot); });
+    $('unit-controls').append(button);
+  }
+  $('minimap').innerHTML = '<span class="minimap-label">전체 전장 · 눌러서 보기</span><button type="button" aria-label="전체 전장 보기"><svg viewBox="0 0 192 108" role="img" aria-label="방어선별 아군과 적 위치"></svg></button>';
+  $('minimap').querySelector('button').addEventListener('click', () => setFocus(null));
+  updateViewButtons();
+}
+function setFocus(lane) {
+  state.focus = lane;
+  state.engine?.setView(lane); updateViewButtons();
+}
+function updateViewButtons() {
+  document.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === (state.focus === null ? 'all' : String(state.focus)))));
+  $('view-label').textContent = state.focus === null ? '전체 전장' : `${LANES[state.focus]} 방어선`;
+  $('field-subtitle').textContent = state.focus === null ? '긴 진입로를 지나 공동 수호석으로 향합니다' : '좌우로 드래그하여 전장을 살펴보세요';
+  $('field-pan').hidden = state.focus === null;
+  $('minimap').hidden = state.focus === null;
+}
+async function ensureEngine() {
+  if (state.engine || state.mount) return;
+  const epoch = state.epoch; $('loading').hidden = false;
+  const engine = new DefenseBattleEngine({ host: $('battle-canvas'), catalog: state.catalog });
+  state.mount = engine.mount();
+  try {
+    await state.mount;
+    if (epoch !== state.epoch) { engine.destroy(); return; }
+    state.engine = engine;
+    engine.applySnapshot(state.snapshot, state.session.playerId); engine.setView(state.focus); engine.selectUnit(state.selected);
+    $('loading').hidden = true;
+  } catch (error) {
+    engine.destroy(); $('loading').querySelector('b').textContent = '전장 로딩 실패 · 새로고침하면 같은 방으로 복구합니다';
+    console.error('[Cooperative defense]', error); toast('전장 리소스를 불러오지 못했습니다. 새로고침해 다시 연결하세요.');
+  } finally { state.mount = null; }
+}
+function renderBattle(snapshot) {
+  const boss=snapshot.enemies.find(e=>e.type==='BOSS'),warning=snapshot.enemies.find(e=>e.cast?.endsAt>snapshot.time);
+  $('boss-status').hidden=!boss;
+  if(boss){$('wave-banner').hidden=true;$('boss-name').textContent=boss.name+(boss.enraged?' · 격노':'');$('boss-health').value=boss.hp;$('boss-health').max=boss.maxHp;$('boss-instruction').textContent=warning?`${LANES[warning.cast.lane]} 전선 위험 · ${Math.ceil((warning.cast.endsAt-snapshot.time)/1000)}초 후 공격`:defenseEnemy(boss.archetype)?.hint||'보스의 진격을 막으세요.';}
+  const mine = snapshot.players.find(p => p.id === state.session.playerId);
+  const active = ['PREP', 'WAVE'].includes(snapshot.phase);
+  const recovering = active && mine.reviveAt > snapshot.time;
+  const reviveSeconds = Math.max(0, Math.ceil((mine.reviveAt - snapshot.time) / 1000));
+  $('field-pan').hidden = state.focus === null || recovering;
+  $('revive-panel').hidden = !recovering;
+  if (recovering) {
+    $('revive-kicker').textContent = `${mine.wipeCount}번째 전멸 · 이번 대기 ${mine.reviveDelayMs / 1000}초`;
+    $('revive-seconds').textContent = reviveSeconds;
+    $('revive-detail').textContent = `체력 ${Math.round(RULES.reviveHpRatio * 100)}%로 ${LANES[mine.lane]} 방어선에 복귀합니다.`;
+    $('revive-progress').style.width = `${Math.max(0, Math.min(100, (1 - (mine.reviveAt - snapshot.time) / mine.reviveDelayMs) * 100))}%`;
+    $('revive-next').textContent = `다음 전멸 ${Math.min(RULES.reviveMaxMs, (mine.wipeCount + 1) * RULES.reviveStepMs) / 1000}초 · 수호석 방어는 계속됩니다`;
+    $('wave-banner').hidden = true;
+  }
+  $('my-squad-label').textContent = `${LANES[mine.lane]} · 내 분대`;
+  $('core-value').textContent = `${snapshot.coreHp.toLocaleString()} / ${snapshot.coreMaxHp.toLocaleString()}`;
+  $('core-fill').style.width = `${snapshot.coreHp / snapshot.coreMaxHp * 100}%`;
+  $('core-fill').style.background = snapshot.coreHp < snapshot.coreMaxHp * .3 ? 'var(--red)' : 'var(--mint)';
+  document.querySelector('.core-track').setAttribute('aria-valuenow', String(snapshot.coreHp));
+  document.querySelector('.core-track').setAttribute('aria-valuemax',String(snapshot.coreMaxHp));
+  $('wave-label').textContent = snapshot.phase === 'PREP' ? `정비 ${Math.max(0, Math.ceil((snapshot.phaseUntil - snapshot.time) / 1000))}초` : snapshot.phase === 'WAVE' ? '교전 중' : '전투 종료';
+  $('wave-value').innerHTML = `${String(snapshot.wave).padStart(2, '0')} <small>/ ${snapshot.totalWaves}</small>`;
+  $('credit-value').textContent = mine.credits;
+  const upgradeCost = 100 + mine.upgrades * 50;
+  $('upgrade').textContent = mine.upgrades >= 5 ? '강화 완료' : `강화 ${upgradeCost}`;
+  $('upgrade').disabled = recovering || snapshot.phase !== 'PREP' || mine.credits < upgradeCost || mine.upgrades >= 5;
+  $('upgrade').setAttribute('aria-label', `분대 강화 ${mine.upgrades}단계, 정비 자원 ${upgradeCost} 필요`);
+  for (let lane = 0; lane < snapshot.capacity; lane++) {
+    const enemies = snapshot.enemies.filter(e => e.lane === lane), danger = enemies.some(e => e.x < WORLD.breachWarningX) || enemies.filter(e => e.x < WORLD.pressureX).length >= 5;
+    const player = snapshot.players.find(p => p.lane === lane), tab = $('lane-tabs').querySelector(`[data-view="${lane}"]`);
+    const downSeconds = active && player.reviveAt > snapshot.time ? Math.ceil((player.reviveAt - snapshot.time) / 1000) : 0;
+    tab.classList.toggle('is-danger', danger || downSeconds > 0);
+    tab.classList.toggle('is-reviving', downSeconds > 0);
+    tab.querySelector('small').textContent = downSeconds ? `전멸 · ${downSeconds}초` : !player.connected ? '자동 방어 중' : danger ? `위험 · 적 ${enemies.length}` : enemies.length ? `교전 · 적 ${enemies.length}` : '방어 대기';
+    tab.querySelector('.pressure').textContent = `적 ${enemies.length}`;
+    tab.setAttribute('aria-label', `${LANES[lane]} 방어선, ${player.name}, ${downSeconds ? `분대 전멸, ${downSeconds}초 후 부활, ` : danger ? '위험, ' : ''}적 ${enemies.length}기, 카메라 이동`);
+  }
+  for (const button of $('unit-controls').children) {
+    const unit = snapshot.units.find(u => u.id === button.dataset.unitId);
+    button.setAttribute('aria-pressed', String(unit.id === state.selected)); button.classList.toggle('is-down', unit.hp <= 0);
+    button.querySelector('.unit-location').textContent = recovering ? `${reviveSeconds}초 후 부활` : unit.hp <= 0 ? '다음 정비에 복귀' : unit.move ? `${LANES[unit.move.lane]}로 이동 중` : `${LANES[unit.lane]} 방어선 · ${Math.ceil(unit.hp / unit.maxHp * 100)}%`;
+    button.querySelector('.unit-hp>i').style.width = `${unit.hp / unit.maxHp * 100}%`;
+    button.setAttribute('aria-label', `${unit.name}, 체력 ${Math.ceil(unit.hp / unit.maxHp * 100)}%, ${unit.move ? '이동 중' : LANES[unit.lane] + ' 방어선'}`);
+  }
+  const selected = snapshot.units.find(u => u.id === state.selected);
+  if (selected) {
+    $('selected-name').textContent = `${selected.name} · 지원 이동`;
+    for (const button of $('move-buttons').children) {
+      const lane = Number(button.dataset.lane); button.setAttribute('aria-pressed', String(selected.lane === lane && !selected.move));
+      button.disabled = !active || selected.hp <= 0 || Boolean(selected.move) || lane === selected.lane || selected.moveReadyAt > snapshot.time;
+    }
+    const cooldown = Math.max(0, Math.ceil((selected.skillReadyAt - snapshot.time) / 1000));
+    $('skill-name').textContent = selected.skillName;
+    $('skill-state').textContent = recovering ? `${reviveSeconds}초 후 부활` : selected.hp <= 0 ? '전투불능' : selected.move ? '이동 중' : snapshot.phase !== 'WAVE' ? '교전 중 사용' : cooldown ? `${cooldown}초 후 사용` : '사용 가능';
+    $('skill').disabled = snapshot.phase !== 'WAVE' || selected.hp <= 0 || Boolean(selected.move) || cooldown > 0;
+  }
+  renderMinimap(snapshot);
+}
+function renderMinimap(snapshot) {
+  const svg = $('minimap').querySelector('svg'); if (!svg) return;
+  const ns = 'http://www.w3.org/2000/svg'; svg.replaceChildren();
+  const make = (tag, attributes) => { const node = document.createElementNS(ns, tag); for (const [k, v] of Object.entries(attributes)) node.setAttribute(k, v); svg.append(node); return node; };
+  const mapX = x => 8 + x / WORLD.width * 174, mapY = y => 8 + y / WORLD.height * 92;
+  for (let lane = 0; lane < snapshot.capacity; lane++) {
+    const y = mapY(laneY(lane, snapshot.capacity));
+    make('path', { d: `M${mapX(WORLD.spawnX)} ${y}H${mapX(WORLD.mergeX)}L${mapX(WORLD.coreX)} ${mapY(WORLD.coreY)}`, fill: 'none', stroke: colors[lane], 'stroke-width': state.focus === lane ? 3 : 1, opacity: .6 });
+    const text = make('text', { x: 184, y: y + 3, fill: colors[lane], 'font-size': 10 }); text.textContent = LANES[lane];
+  }
+  make('image', { href: state.catalog.environment.core, x: mapX(WORLD.coreX) - 12, y: mapY(WORLD.coreY) - 29, width: 24, height: 37 });
+  if (state.focus !== null && state.engine) {
+    const { focusX, viewWidth } = state.engine;
+    const left = Math.max(0, focusX - viewWidth / 2), right = Math.min(WORLD.width, focusX + viewWidth / 2);
+    make('rect', { x: mapX(left), y: mapY(laneY(state.focus, snapshot.capacity)) - 9, width: mapX(right) - mapX(left), height: 18,
+      fill: colors[state.focus], 'fill-opacity': .1, stroke: colors[state.focus], 'stroke-width': .6 });
+  }
+  for (const unit of snapshot.units.filter(u => u.hp > 0)) make('circle', { cx: mapX(unit.x), cy: mapY(unit.y), r: 3, fill: colors[unit.ownerLane] });
+  for (const enemy of snapshot.enemies) make('rect', { x: mapX(enemy.x) - 2, y: mapY(enemy.y) - 2, width: enemy.type === 'BOSS' ? 7 : 4, height: enemy.type === 'BOSS' ? 7 : 4, fill: '#f49b8d' });
+}
+function showPhase(snapshot) {
+  const banner = $('wave-banner'); clearTimeout(bannerTimer);
+  if (!['PREP', 'WAVE'].includes(snapshot.phase) || snapshot.enemies.some(e=>e.type==='BOSS'&&e.hp>0) || snapshot.players.find(p => p.id === state.session.playerId)?.reviveAt) { banner.hidden = true; return; }
+  banner.hidden = false;
+  banner.querySelector('span').textContent = snapshot.phase === 'PREP' ? '재배치 · 회복 · 강화' : `WAVE ${String(snapshot.wave).padStart(2, '0')}`;
+  banner.querySelector('b').textContent = snapshot.phase === 'PREP' ? snapshot.wave ? '다음 공세에 대비하세요' : '첫 공세가 다가옵니다' : snapshot.wave === snapshot.totalWaves ? '최종 보스 · 함께 거점을 지키세요' : snapshot.wave === Math.floor(snapshot.totalWaves/2) ? '중간 보스 진격' : '적이 방어선에 진입합니다';
+  bannerTimer = setTimeout(() => { banner.hidden = true; }, 2800);
+}
+function renderResult(snapshot) {
+  const won = snapshot.phase === 'VICTORY'; $('result').hidden = false;
+  $('result-eyebrow').textContent = won ? 'MISSION COMPLETE' : 'DEFENSE FAILED';
+  $('result-title').textContent = won ? '수호석을 지켜냈습니다' : '방어선이 무너졌습니다';
+  $('result-summary').textContent = `${snapshot.wave}웨이브 · 거점 체력 ${snapshot.coreHp} · ${Math.floor(snapshot.time / 60000)}분 ${Math.floor(snapshot.time / 1000 % 60)}초`;
+  $('result-stats').replaceChildren();
+  for (const player of snapshot.players) {
+    const row = document.createElement('div'); row.className = 'result-stat';
+    const name = document.createElement('strong'); name.textContent = player.name;
+    const wipes = document.createElement('small'); wipes.className = 'result-wipes'; wipes.textContent = `전멸 ${player.wipeCount || 0}회`; name.append(wipes); row.append(name);
+    for (const [label, value] of [['피해', player.stats.damage], ['회복·방어', player.stats.heal + player.stats.blocked], ['지원 이동', player.stats.supportMoves]]) {
+      const cell = document.createElement('span'); cell.textContent = label; const number = document.createElement('b'); number.textContent = value.toLocaleString(); cell.append(number); row.append(cell);
+    }
+    $('result-stats').append(row);
+  }
+}
+async function teardown(forget) {
+  state.stopped = true; state.epoch++; clearTimeout(state.poll); clearTimeout(bannerTimer);
+  state.pollAbort?.abort(); state.pollAbort = null;
+  const pending = state.mount;
+  state.engine?.destroy(); state.engine = null;
+  if (pending) await pending.catch(() => {});
+  state.snapshot = null; $('battle-canvas').replaceChildren(); $('result').hidden = true;
+  if (forget) { state.session = null; rememberSession(); }
+}
+async function leaveLobby() {
+  try { if (state.session) await request('leave', { method: 'POST', body: {} }); } catch { /* The local room may already have expired. */ }
+  await teardown(true); showScreen('lobby');
+}
+async function resumeBattle() {
+  if (!state.session || state.pending) return;
+  state.pending = true; $('resume-battle').disabled = true;
+  try {
+    const snapshot = await request('state');
+    state.stopped = false; state.failures = 0;
+    receive(snapshot); schedulePoll(0);
+  } catch (error) {
+    if (error.status === 401) await teardown(true);
+    showScreen('lobby'); toast(error.message);
+  } finally { state.pending = false; $('resume-battle').disabled = false; }
+}
+function bind() {
+  document.querySelectorAll('[data-capacity]').forEach(button => button.addEventListener('click', () => {
+    state.capacity = Number(button.dataset.capacity);
+    document.querySelectorAll('[data-capacity]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+  }));
+  $('create-room').addEventListener('click', () => void joinOrCreate('create'));
+  $('practice').addEventListener('click', () => void joinOrCreate('practice'));
+  $('resume-battle').addEventListener('click', () => void resumeBattle());
+  $('join-form').addEventListener('submit', event => { event.preventDefault(); void joinOrCreate('join'); });
+  $('ready').addEventListener('click', () => { const mine = state.snapshot.players.find(p => p.id === state.session.playerId); void sendCommand({ type: 'READY', ready: !mine.ready }); });
+  $('start').addEventListener('click', () => void sendCommand({ type: 'START' }));
+  $('skill').addEventListener('click', () => void sendCommand({ type: 'SKILL', unitId: state.selected }));
+  $('upgrade').addEventListener('click', () => void sendCommand({ type: 'UPGRADE' }));
+  $('leave-waiting').addEventListener('click', () => void leaveLobby());
+  $('return-lobby').addEventListener('click', () => void leaveLobby());
+  document.querySelector('.overview-tab').addEventListener('click', () => setFocus(null));
+  $('pan-left').addEventListener('click', () => state.engine?.panBy(-1));
+  $('pan-right').addEventListener('click', () => state.engine?.panBy(1));
+  $('pan-squad').addEventListener('click', () => state.engine?.centerSquad());
+  $('copy-invite').addEventListener('click', async () => {
+    const url = new URL(location.href); url.search = ''; url.searchParams.set('room', state.session.roomId);
+    try { await navigator.clipboard.writeText(url.href); toast('초대 링크를 복사했습니다.'); } catch { toast(`초대 코드: ${state.session.roomId}`); }
+  });
+  $('exit-battle').addEventListener('click', () => $('leave-dialog').showModal());
+  $('leave-dialog').addEventListener('close', async () => {
+    if ($('leave-dialog').returnValue !== 'leave') return;
+    // Retain the reconnect token; navigation does not delete an active member.
+    await teardown(false); showScreen('lobby'); toast('진행 중인 전투로 돌아가기를 누르면 이어서 조작할 수 있습니다.');
+  });
+  addEventListener('pagehide', () => { state.stopped = true; clearTimeout(state.poll); state.pollAbort?.abort(); state.engine?.destroy(); });
+  addEventListener('pageshow', event => { if (event.persisted) location.reload(); });
+  const media = matchMedia(FOCUS_QUERY);
+  media.addEventListener('change', () => {
+    if (state.screen === 'battle') setFocus(media.matches ? state.snapshot.players.find(p => p.id === state.session.playerId)?.lane ?? 0 : null);
+    if (state.screen === 'waiting-room') { $('party-list').dataset.signature = ''; renderWaiting(state.snapshot); }
+  });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && state.session && !state.stopped) schedulePoll(0); });
+}
+async function main() {
+  bind();
+  const response = await fetch('./asset-catalog.json'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
+  state.catalog = await response.json(); buildLoadout();buildDifficulties();
+  const invited = new URLSearchParams(location.search).get('room'); if (invited && /^[A-Fa-f0-9]{6,12}$/.test(invited)) $('room-code').value = invited.toUpperCase();
+  if(LIVE){
+    try{const feature=await request('feature');state.access=feature.accessible;state.feature=feature;$('nickname').value=feature.user.nickname;$('nickname').readOnly=true;
+      $('access-status').textContent=feature.accessible?'TEST · 제공된 편성으로 플레이합니다. 계정 보상은 지급되지 않습니다.':feature.mode==='OFF'?'현재 디펜스 테스트가 중지돼 있습니다.':'OWNER와 지정 테스트 계정만 입장할 수 있습니다.';buildDifficulties();
+    }catch(e){state.access=false;$('access-status').textContent=e.message;}
+    for(const id of ['create-room','practice'])$(id).disabled=!state.access;$('join-form').querySelector('button').disabled=!state.access;
+    if(!state.access)return;
+  }
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null');
+    if (saved?.token && saved?.playerId && saved?.roomId) {
+      state.session = saved;
+      const snapshot = await request('state'); receive(snapshot); schedulePoll();
+    }
+    else if(LIVE){try{const session=await request('session',{method:'POST',body:{}});state.session={token:session.token,expires:session.expires,roomId:session.roomId,playerId:session.playerId};rememberSession();receive(session.snapshot);schedulePoll();}catch(e){if(e.status!==404)throw e;}}
+  } catch (error) {
+    if (error.status === 401 || !state.session) { state.session = null; rememberSession(); }
+    else { state.stopped = true; toast('서버 연결을 확인한 뒤 진행 중인 전투로 돌아가기를 눌러 주세요.'); }
+    showScreen('lobby');
+  }
+  window.CoopDefenseReview = { diagnostics: () => ({ screen: state.screen, roomId: state.session?.roomId, playerId: state.session?.playerId,
+    phase: state.snapshot?.phase, wave: state.snapshot?.wave, units: state.snapshot?.units.length, capacity: state.snapshot?.capacity,
+    focus: state.focus, selected: state.selected, engine: state.engine?.diagnostics(), connected: state.failures === 0 }),
+    snapshot: () => state.snapshot ? structuredClone(state.snapshot) : null };
+}
+main().catch(error => { console.error(error); toast(error.message); });
+
+function buildDifficulties(){
+ const list=$('difficulty-list');list.replaceChildren();
+ for(const d of DEFENSE_DIFFICULTIES){
+  const button=document.createElement('button');button.type='button';button.dataset.difficulty=d.id;button.className='difficulty-option';button.style.setProperty('--difficulty-color',d.accent);
+  button.setAttribute('aria-pressed',String(state.difficulty===d.id));button.textContent=`${d.name} · ${d.waves}W`;button.disabled=state.feature?.difficulties.find(x=>x.id===d.id)?.enabled===false;
+  button.onclick=()=>{state.difficulty=d.id;buildDifficulties();};list.append(button);
+ }
+ const selected=defenseDifficulty(state.difficulty),boss=defenseEnemy(selected.boss),mid=defenseEnemy(selected.midBoss);
+ $('mission-waves').textContent=selected.waves;$('difficulty-title').textContent=selected.subtitle;
+ $('boss-preview').src='/'+boss.asset;$('boss-preview').alt=boss.name;$('boss-preview-name').textContent=boss.name;$('boss-preview-hint').textContent=boss.hint;
+ $('mid-boss-name').textContent=`중간 보스 ${mid.name} · ${Math.floor(selected.waves/2)}W / 최종 ${selected.waves}W`;
+ $('enemy-lineup').replaceChildren();
+ for(const id of [...selected.pool,selected.elite]){const e=defenseEnemy(id),item=document.createElement('figure'),img=document.createElement('img'),caption=document.createElement('figcaption');img.src='/'+e.asset;img.alt=e.name;img.loading='lazy';caption.textContent=e.name;item.append(img,caption);$('enemy-lineup').append(item);}
+}

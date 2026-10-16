@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#0b1717">
+  <title>디펜스 · 리버스콜</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./defense.css">
+  <script defer src="./defense.bundle.js"></script>
+</head>
+<body>
+  <main id="defense-app">
+    <section id="lobby" class="lobby" aria-labelledby="lobby-title">
+      <header class="brand"><img class="defense-logo" src="/assets/ui/brand/reverse-call-20261016/favicon-48.png" alt=""><span>리버스콜 <small>MONSTER DEFENSE</small></span><span class="review-tag">TEST</span><a class="defense-back" href="/?screen=battle">PVE로 돌아가기 ↗</a></header>
+      <div class="lobby-layout">
+        <div class="lobby-story">
+          <p class="eyebrow">함께 지키는 하나의 거점</p>
+          <h1 id="lobby-title">최후의<br><em>방어선</em></h1>
+          <p class="intro">용병 둘, 카드 하나.<br>위험한 전선에 힘을 보태고<br>마지막 수호석을 지켜내세요.</p>
+          <div class="mission-meta"><span><b>2–3</b> 협동 인원</span><span><b id="mission-waves">10</b> 웨이브</span><span><b>1</b> 공동 거점</span></div>
+          <section class="encounter-preview" aria-label="난이도별 적과 보스"><p class="eyebrow" id="difficulty-title"></p><div class="boss-preview"><img id="boss-preview" alt=""><div><span>FINAL BOSS</span><h2 id="boss-preview-name"></h2><p id="boss-preview-hint"></p></div></div><p id="mid-boss-name"></p><div id="enemy-lineup" class="enemy-lineup"></div></section>
+          <p class="review-note">검수용 편성과 전술입니다.<br>계정 보유분·재화·실제 보상에는 영향을 주지 않습니다.</p>
+        </div>
+        <div class="lobby-console">
+          <p id="access-status" class="access-status" role="status">TEST · 제공된 편성으로 플레이합니다. 계정 보상은 지급되지 않습니다.</p>
+          <fieldset class="difficulty-field"><legend>방어 난이도</legend><div id="difficulty-list" class="difficulty-list"></div></fieldset>
+          <div class="console-heading"><span class="eyebrow">YOUR SQUAD</span><h2>출전 편성</h2><span>용병 2명 · 카드 1장</span></div>
+          <div class="loadout-grid" id="loadout-grid"></div>
+          <label class="field-label" for="nickname">대원 이름<input id="nickname" maxlength="16" autocomplete="nickname" placeholder="사용할 이름" value="원정대장"></label>
+          <fieldset class="capacity-field"><legend>참가 인원</legend><button type="button" class="capacity-option" data-capacity="2" aria-pressed="false">2인 협동 <small>6기 출전</small></button><button type="button" class="capacity-option" data-capacity="3" aria-pressed="true">3인 협동 <small>9기 출전</small></button></fieldset>
+          <div class="lobby-actions"><button id="create-room" class="primary" type="button">협동 방 만들기 <span aria-hidden="true">→</span></button><button id="practice" class="secondary" type="button">혼자 연습하기</button></div>
+          <button id="resume-battle" class="secondary resume-battle" type="button" hidden>진행 중인 전투로 돌아가기</button>
+          <form id="join-form" class="join-form"><label class="field-label" for="room-code">초대받은 코드<input id="room-code" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="6자리 코드" pattern="[a-fA-F0-9]{6}" required></label><button type="submit" class="secondary">참가</button></form>
+          <p class="console-note">연습 모드에서는 자동 대원이 함께 방어합니다.</p>
+          <p class="console-note">분대 전멸 시 15→30→45→60초 후 체력 50%로 부활합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="waiting-room" class="waiting-room" hidden aria-labelledby="waiting-title">
+      <header class="brand"><span class="brand-mark" aria-hidden="true">R</span><span>몬스터 디펜스 · TEST</span><button class="quiet" id="leave-waiting" type="button">대기실 나가기</button></header>
+      <div class="waiting-content">
+        <p class="eyebrow">READY TO DEFEND</p><h1 id="waiting-title">대원이 모이면 출발합니다.</h1>
+        <div class="invite"><span>초대 코드</span><strong id="invite-code"></strong><button class="secondary" type="button" id="copy-invite">초대 링크 복사</button></div>
+        <p id="waiting-description" class="muted"></p>
+        <div id="party-list" class="party-list"></div>
+        <div class="waiting-actions"><button id="ready" class="secondary" type="button">준비 완료</button><button id="start" class="primary" type="button">방어 시작</button></div>
+        <p id="start-hint" class="muted" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="battle" class="battle" hidden aria-label="협동 디펜스 전투">
+      <header class="battle-header">
+        <div class="battle-title"><span class="eyebrow">리버스콜 · 디펜스 TEST</span><strong>최후의 방어선</strong></div>
+        <div class="core-status"><div><span>공동 수호석</span><b id="core-value">1,000 / 1,000</b></div><div class="core-track" role="progressbar" aria-label="공동 수호석 체력" aria-valuemin="0" aria-valuemax="1000" aria-valuenow="1000"><span id="core-fill"></span></div></div>
+        <div class="wave-status"><span id="wave-label">전투 준비</span><b id="wave-value">00 <small>/ 10</small></b></div>
+        <button id="exit-battle" class="quiet" type="button" aria-label="전투 나가기">나가기</button>
+      </header>
+      <nav class="lane-navigation" aria-label="방어선 카메라">
+        <button class="lane-tab overview-tab" type="button" data-view="all" aria-pressed="true"><span class="lane-symbol" aria-hidden="true">▤</span><b>전체</b></button>
+        <div id="lane-tabs" class="lane-tabs"></div>
+      </nav>
+      <div class="battlefield">
+        <section id="boss-status" class="boss-status" hidden aria-label="보스 전황"><strong id="boss-name"></strong><progress id="boss-health" value="1" max="1"></progress><span id="boss-instruction" role="status"></span></section>
+        <div id="battle-canvas" class="battle-canvas" role="img" tabindex="0" aria-label="적이 진입하는 방어선과 아군 배치. 확대 화면에서 드래그 또는 좌우 방향키로 전장을 살펴봅니다."></div>
+        <div class="field-caption"><span id="view-label">전체 전장</span><small id="field-subtitle">위급한 방어선에 지원을 보내세요</small></div>
+        <div id="wave-banner" class="wave-banner" role="status"><span>방어 준비</span><b>첫 공세가 다가옵니다</b></div>
+        <div id="loading" class="loading"><span class="loading-ring"></span><b>전장을 준비하는 중</b></div>
+        <div class="minimap" id="minimap" aria-label="전체 전장 축소 지도"></div>
+        <div id="field-pan" class="field-pan" hidden aria-label="확대 전장 이동">
+          <button id="pan-left" type="button" aria-label="수호석 방향으로 전장 보기">←</button>
+          <button id="pan-squad" type="button">분대 위치</button>
+          <button id="pan-right" type="button" aria-label="적 진입 방향으로 전장 보기">→</button>
+        </div>
+        <div id="connection" class="connection" hidden role="status">연결 복구 중 · 자동 방어는 계속됩니다</div>
+        <section id="revive-panel" class="revive-panel" hidden aria-label="내 분대 부활 대기">
+          <div><span class="revive-kicker" id="revive-kicker">분대 전멸</span><strong>분대 재집결 중</strong><p id="revive-detail">체력 50%로 담당 방어선에 복귀합니다.</p></div>
+          <div class="revive-clock"><b id="revive-seconds" aria-live="off">15</b><span>초 후 부활</span></div>
+          <div class="revive-track" aria-hidden="true"><i id="revive-progress"></i></div>
+          <small id="revive-next">전멸할수록 부활 대기가 늘어납니다.</small>
+        </section>
+      </div>
+      <footer class="command-dock">
+        <div class="dock-heading"><span><b id="my-squad-label">내 분대</b><small>용병 2 · 카드 1</small></span><span class="supply"><span>정비 자원 <b id="credit-value">0</b></span><button id="upgrade" class="quiet" type="button">분대 강화</button></span></div>
+        <div id="unit-controls" class="unit-controls"></div>
+        <div class="tactical-controls"><div class="move-controls"><span id="selected-name">지원 이동</span><div id="move-buttons"></div></div><button id="skill" class="skill-button" type="button"><span id="skill-name">전술 선택</span><small id="skill-state">유닛을 선택하세요</small></button></div>
+        <div class="dock-tip"><span id="control-hint">유닛 선택 → 방어선 선택으로 지원 이동</span><span id="sync-state">서버 연결됨</span></div>
+      </footer>
+      <div id="result" class="result-overlay" hidden>
+        <div class="result-panel"><p class="eyebrow" id="result-eyebrow">MISSION COMPLETE</p><h1 id="result-title">수호석을 지켜냈습니다</h1><p id="result-summary"></p><div id="result-stats" class="result-stats"></div><p class="muted">검수 전투 · 계정 보상 없음</p><button class="primary" id="return-lobby" type="button">대기실로</button></div>
+      </div>
+    </section>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <dialog id="leave-dialog"><form method="dialog"><h2>전투에서 나가시겠습니까?</h2><p>내 분대는 자동 방어를 계속합니다.<br>다시 접속하면 조작을 이어갈 수 있습니다.</p><div><button class="secondary" value="cancel">계속 방어</button><button class="primary" value="leave">나가기</button></div></form></dialog>
+  </main>
+</body>
+</html>
