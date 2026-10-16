@@ -1,0 +1,481 @@
+{
+  "verifiedAt": "2026-10-16T06:18:18.679Z",
+  "routeSha256": "1704b73351f31289e0877e3c74e94374d1bcf8e29f2276c824900ea19bd2016b",
+  "finalized": 40,
+  "pending": {
+    "cards": "0",
+    "batches": "0"
+  },
+  "refund": {
+    "grants": "2648",
+    "users": "501",
+    "amount": "22095500"
+  },
+  "tickets": [
+    {
+      "item_code": "LIMITED_REROLL_TICKET",
+      "grants": "2860",
+      "users": "644",
+      "amount": "2860"
+    },
+    {
+      "item_code": "MA_REROLL_TICKET",
+      "grants": "2969",
+      "users": "860",
+      "amount": "2969"
+    },
+    {
+      "item_code": "PRESTIGE_REROLL_TICKET",
+      "grants": "602",
+      "users": "339",
+      "amount": "602"
+    }
+  ],
+  "duplicateTicketGrants": 0,
+  "audits": {
+    "n": "40",
+    "cards": "40"
+  },
+  "cards": [
+    {
+      "id": "CN-1D979C34DD464247",
+      "title": "해변의 유별",
+      "rarity": "MA",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유별",
+      "batch_id": "155",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:33"
+    },
+    {
+      "id": "CN-A272D91E5C5446E2",
+      "title": "유별",
+      "rarity": "LIMITED",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유별",
+      "batch_id": "156",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:29"
+    },
+    {
+      "id": "CN-A8A8700D38704DD5",
+      "title": "유별",
+      "rarity": "FUR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유별",
+      "batch_id": "157",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:40"
+    },
+    {
+      "id": "CN-F1B73D4097F14D47",
+      "title": "꽃보다 유별",
+      "rarity": "MA",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유별",
+      "batch_id": "158",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:37"
+    },
+    {
+      "id": "CN-9F67D5944A8140A8",
+      "title": "유소나",
+      "rarity": "FUR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유소나",
+      "batch_id": "159",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:56"
+    },
+    {
+      "id": "card-0193",
+      "title": "꽃보다 유별",
+      "rarity": "U",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유별",
+      "batch_id": "160",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:51"
+    },
+    {
+      "id": "card-0194",
+      "title": "사죄하는 유별",
+      "rarity": "SSR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유별",
+      "batch_id": "161",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:49"
+    },
+    {
+      "id": "card-0195",
+      "title": "물고기와 유별",
+      "rarity": "HR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유별",
+      "batch_id": "162",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:27"
+    },
+    {
+      "id": "card-0196",
+      "title": "얼빡 유별",
+      "rarity": "SR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유별",
+      "batch_id": "163",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:42"
+    },
+    {
+      "id": "card-0197",
+      "title": "멍때리는 유별",
+      "rarity": "U",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유별",
+      "batch_id": "164",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:54"
+    },
+    {
+      "id": "card-0198",
+      "title": "셀카찍는 유별",
+      "rarity": "SR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유별",
+      "batch_id": "165",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:45"
+    },
+    {
+      "id": "card-0199",
+      "title": "비방의 유별",
+      "rarity": "SR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유별",
+      "batch_id": "166",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:47"
+    },
+    {
+      "id": "CN-4CEE939DB0C24D47",
+      "title": "유주현",
+      "rarity": "MA",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유주현",
+      "batch_id": "167",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:01"
+    },
+    {
+      "id": "CN-C01065BF031B4588",
+      "title": "뉴 주현",
+      "rarity": "SSR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유주현",
+      "batch_id": "168",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:11"
+    },
+    {
+      "id": "CN-C3ACA77DE1174EB3",
+      "title": "메이드 주현",
+      "rarity": "MA",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유주현",
+      "batch_id": "169",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:04"
+    },
+    {
+      "id": "card-0207",
+      "title": "빛나는 유주현",
+      "rarity": "C",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유주현",
+      "batch_id": "170",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:16:59"
+    },
+    {
+      "id": "card-0209",
+      "title": "비서 유주현",
+      "rarity": "R",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유주현",
+      "batch_id": "171",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:06"
+    },
+    {
+      "id": "card-0212",
+      "title": "진지한 유주현",
+      "rarity": "R",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "유주현",
+      "batch_id": "172",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:09"
+    },
+    {
+      "id": "CN-1B8FFCE381C4411F",
+      "title": "졸린 졈니",
+      "rarity": "LIMITED",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "173",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:22"
+    },
+    {
+      "id": "CN-58D889151FA84185",
+      "title": "졈니",
+      "rarity": "FUR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "174",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:36"
+    },
+    {
+      "id": "CN-7A56E331AB5642D7",
+      "title": "토끼 졈니",
+      "rarity": "SSR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "175",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:52"
+    },
+    {
+      "id": "CN-7A834F5D65DA40F6",
+      "title": "프로필 졈니",
+      "rarity": "LIMITED",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "176",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:25"
+    },
+    {
+      "id": "CN-A63DB8598A394263",
+      "title": "경찰복 졈니",
+      "rarity": "LIMITED",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "177",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:28"
+    },
+    {
+      "id": "CN-BA51755F72C0475E",
+      "title": "졈니",
+      "rarity": "FUR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "178",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:18:02"
+    },
+    {
+      "id": "CN-DC305DD461F14F56",
+      "title": "졈즈코",
+      "rarity": "LIMITED",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "179",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:31"
+    },
+    {
+      "id": "CN-FD0AAE1B32434319",
+      "title": "아이돌 졈니",
+      "rarity": "SSR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "180",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:54"
+    },
+    {
+      "id": "card-0261",
+      "title": "프로필 졈니",
+      "rarity": "R",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "181",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:38"
+    },
+    {
+      "id": "card-0262",
+      "title": "방종후 졈니",
+      "rarity": "HR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "182",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:18"
+    },
+    {
+      "id": "card-0263",
+      "title": "여유로운 졈니",
+      "rarity": "R",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "183",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:41"
+    },
+    {
+      "id": "card-0264",
+      "title": "사탕먹는 졈니",
+      "rarity": "HR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "184",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:20"
+    },
+    {
+      "id": "card-0265",
+      "title": "교복 졈니",
+      "rarity": "SR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "185",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:47"
+    },
+    {
+      "id": "card-0266",
+      "title": "귀여운 졈니",
+      "rarity": "U",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "187",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:57"
+    },
+    {
+      "id": "card-0267",
+      "title": "채팅창보는 졈니",
+      "rarity": "U",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "190",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:59"
+    },
+    {
+      "id": "card-0268",
+      "title": "여친모드 졈니",
+      "rarity": "SR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "192",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:50"
+    },
+    {
+      "id": "card-0269",
+      "title": "멍때리는 졈니",
+      "rarity": "R",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "194",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:43"
+    },
+    {
+      "id": "card-0271",
+      "title": "비방의 졈니",
+      "rarity": "R",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "196",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:45"
+    },
+    {
+      "id": "card-0272",
+      "title": "셀카찍는 졈니",
+      "rarity": "C",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "198",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:13"
+    },
+    {
+      "id": "card-0273",
+      "title": "야방하는 졈니",
+      "rarity": "C",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "200",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:15"
+    },
+    {
+      "id": "card-0431",
+      "title": "한정판 졈니",
+      "rarity": "LIMITED",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "졈니",
+      "batch_id": "202",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:17:33"
+    },
+    {
+      "id": "CN-F4C52E065FCC441D",
+      "title": "히댕",
+      "rarity": "FUR",
+      "card_status": "RETIRED",
+      "is_active": "0",
+      "member": "히댕",
+      "batch_id": "215",
+      "batch_status": "FINALIZED",
+      "finalized_at": "2026-10-16 06:18:04"
+    }
+  ]
+}
