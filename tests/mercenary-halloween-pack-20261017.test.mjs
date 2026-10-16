@@ -7,7 +7,7 @@ import {createHalloweenPackService} from '../functions/_mercenary_halloween_open
 import {HalloweenOpeningSession} from '../shared/mercenary-halloween-session-v2.mjs';
 import {halloweenBatchCinematic} from '../js/mercenary-halloween-pack-live.mjs';
 import {halloweenFixture} from './helpers/halloween-pack-fixture.mjs';
-const stock=d=>Object.keys(d.stockLimits).map(code=>({code,stock_limit:5,issued:0}));
+const stock=d=>Object.keys(d.stockLimits).map(code=>({code,stock_limit:d.stockLimits[code]??7,issued:0}));
 const normals=HALLOWEEN_NORMAL_RANKS.map((rank,i)=>({code:'V-00'+i,name:rank+' 일반',rank,weight:1,sourceArt:'fixture.png'}));
 function plan(){const s=halloweenPackDraft();s.prices={single:100,ten:900};s.normalRankRatesPpm={C:100000,B:100000,A:100000,S:100000,SS:200000,SSS:300000};s.missRatePpm=100000;s.cardRatesPpm=Object.fromEntries(Object.keys(s.cardRatesPpm).map(code=>[code,code==='V-980'?200000:0]));s.normalSssRatePpm=800000;return halloweenPackState(s,stock(s),normals);}
 const rng=(values)=>max=>{assert.ok(values.length,'Unexpected extra lottery');const n=values.shift();assert.ok(n<max);return n;};
@@ -16,7 +16,7 @@ test('two independent rate totals, exact effective odds, null drafts and old abs
  const draft=halloweenPackDraft();assert.equal(draft.mode,'OFF');assert.ok(Object.values(draft.normalRankRatesPpm).every(n=>n===null));assert.equal(draft.normalSssRatePpm,null);
  assert.equal(halloweenEffectivePercent(300000,200000),'6');assert.equal(halloweenEffectivePercent(0.0001,0.0001),'0.000000000000000001');assert.equal(halloweenEffectivePercent(null,0),null);
  const s=plan().settings;assert.doesNotThrow(()=>validateHalloweenPack(s));const over=structuredClone(s);over.normalSssRatePpm=800000.0001;assert.throws(()=>validateHalloweenPack(over),/합계/);
- const old={...draft,format:'MERCENARY_HALLOWEEN_SS_PACK_V1'};delete old.normalRankRatesPpm;delete old.normalSssRatePpm;old.cardRatesPpm['V-980']=200;old.prices.single=123;
+ const old={...draft,format:'MERCENARY_HALLOWEEN_SS_PACK_V1'};delete old.normalRankRatesPpm;delete old.normalSssRatePpm;for(const code of ['V-989','V-999']){delete old.cardRatesPpm[code];delete old.stockLimits[code];}old.cardRatesPpm['V-980']=200;old.prices.single=123;
  const read=readHalloweenPackSettings(old);assert.equal(read.cardRatesPpm['V-980'],null);assert.equal(read.prices.single,123);assert.equal(old.cardRatesPpm['V-980'],200);
  const row=halloweenPackCatalogRow();assert.equal(row.drawEnabled,false);assert.equal(row.ownerDrawEnabled,false);assert.equal(row.price,null);assert.ok(fs.existsSync(row.imageUrl));
 });

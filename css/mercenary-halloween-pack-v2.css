@@ -78,3 +78,13 @@
 @media(max-width:600px){.halloween-cms .mc-savebar{flex-wrap:wrap;gap:5px;padding:8px}.halloween-cms .mc-savebar>div{display:flex;width:100%;gap:5px}.halloween-cms .mc-savebar button{width:50%;min-width:0;font-size:12px}.halloween-cms .mc-fields{grid-template-columns:1fr 1fr}}
 .hwp-dialog{scroll-padding-block:95px 135px}
 .mc-admin [data-halloween-root] .mc-savebar{position:static;inset:auto;width:auto;margin-top:20px;z-index:auto}
+
+/* The SSS collection has its own illuminated gallery beneath the seasonal seven. */
+.hwp-legend-collection{margin-top:25px;padding-top:22px;border-top:1px solid #9f78ba66;background:radial-gradient(ellipse at 50% 70%,#7c4ea31a,transparent 70%)}
+.hwp-legend-collection .hwp-section-heading h3{color:#ecd3ff}.hwp-sss-roster{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:880px;margin:auto}
+.hwp-sss-roster .hwp-portrait{display:grid;grid-template-columns:minmax(110px,190px) 1fr;align-items:center;gap:12px;text-align:left}
+.hwp-sss-roster .hwp-art-frame{filter:drop-shadow(0 0 16px #bd83ff55)}.hwp-sss-roster figcaption em{font:700 11px/1.5 'Barlow Condensed',sans-serif;letter-spacing:.14em;color:#d7a9f8;font-style:normal}
+.hwp-sss-roster .hwp-portrait strong{white-space:normal;font-size:18px;margin:7px 0;color:#ffe7b9}.hwp-sss-roster .hwp-portrait small{font-size:12px;color:#ffdc9e;line-height:1.8}.hwp-sss-roster .hwp-portrait .hwp-stock-note{font-size:10px;color:#bfaecb}
+.hwp-cms-group-title{color:#f1d4a4;font-size:16px;margin-top:26px}.halloween-cms [data-hwp-cms-rank=SSS]{grid-template-columns:repeat(2,minmax(0,1fr))}.halloween-cms [data-hwp-cms-rank=SSS] article{border-color:#8963a2}
+@media(max-width:900px){.hwp-sss-roster{gap:14px}.hwp-sss-roster .hwp-portrait{grid-template-columns:1fr;text-align:center;gap:0;max-width:220px;margin:auto}.hwp-sss-roster .hwp-portrait strong{font-size:16px}.hwp-sss-roster .hwp-art-frame{width:100%}}
+@media(max-width:600px){.hwp-legend-collection{margin-top:17px;padding-top:16px}.hwp-sss-roster{gap:8px}.hwp-sss-roster .hwp-portrait{width:100%;max-width:175px}.hwp-sss-roster .hwp-portrait strong{font-size:14px;margin:3px 0}.hwp-sss-roster .hwp-portrait small{font-size:11px}.hwp-sss-roster figcaption em{font-size:10px}.halloween-cms [data-hwp-cms-rank=SSS]{grid-template-columns:1fr}}

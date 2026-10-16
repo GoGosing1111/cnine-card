@@ -1,12 +1,12 @@
-import {HALLOWEEN_MERCENARIES} from '../shared/mercenary-halloween-catalog-v1.mjs';
-import {HALLOWEEN_PACK,HALLOWEEN_PACK_KEY,HALLOWEEN_OPEN_KIND,HALLOWEEN_PACK_RELEASE_ENABLED,HALLOWEEN_SERVER_LIMIT,halloweenPackPrice,validateHalloweenOpeningBody,pickHalloweenBatch} from '../shared/mercenary-halloween-pack-v1.mjs';
+import {HALLOWEEN_PACK_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
+import {HALLOWEEN_PACK,HALLOWEEN_PACK_KEY,HALLOWEEN_OPEN_KIND,HALLOWEEN_PACK_RELEASE_ENABLED,halloweenPackPrice,validateHalloweenOpeningBody,pickHalloweenBatch} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {limitedPackRandomInt} from './_mercenary_limited_pack.js';
 import {mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.js';
 import {runJointOperation,readJointOperation,jointCoinDebit} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError} from './_joint_request.js';
 
-const halloween=code=>HALLOWEEN_MERCENARIES.some(c=>c.code===code);
+const halloween=code=>HALLOWEEN_PACK_CARDS.some(c=>c.code===code);
 const terminal=(code,message)=>Object.assign(jointError('MERCENARY_HALLOWEEN_'+code,message,409),{terminal:true});
 // No HTTP release override. Tests use this factory against isolated databases.
 export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED,randomInt=limitedPackRandomInt}={}){
@@ -33,13 +33,13 @@ export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_P
      if(halloween(r.mercenaryCode)){if(!grouped.has(r.mercenaryCode))grouped.set(r.mercenaryCode,[]);grouped.get(r.mercenaryCode).push(i);}
      else if(r.mercenaryCode&&!state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
     });
-    for(const [code,indices] of grouped)if((state.stock.find(s=>s.code===code)?.remaining??0)<indices.length)throw terminal('SOLD_OUT','다른 이용자가 한정 수량을 획득했습니다. 코인은 차감되지 않았습니다.');
+    for(const [code,indices] of grouped)if(state.stock.find(s=>s.code===code)?.limit!==plan.draws[indices[0]].stockLimit||(state.stock.find(s=>s.code===code)?.remaining??0)<indices.length)throw terminal('SOLD_OUT','다른 이용자가 한정 수량을 획득했습니다. 코인은 차감되지 않았습니다.');
     const list=[];
     if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key=? FOR SHARE',HALLOWEEN_PACK_KEY),p("SELECT doc_key FROM mercenary_cms_documents_v1 WHERE doc_key='config' FOR SHARE"),p('SELECT id FROM mercenary_draw_config_v1 WHERE id=1 FOR SHARE'));
     list.push(jointGuard(DB,token,"EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM mercenary_cms_documents_v1 WHERE doc_key='config' AND revision=?) AND EXISTS(SELECT 1 FROM mercenary_draw_config_v1 WHERE id=1 AND revision=?)",[HALLOWEEN_PACK_KEY,plan.rawPack,plan.normalCmsRevision,plan.normalDrawRevision]));
     for(const [code,indices] of [...grouped].sort(([a],[b])=>a.localeCompare(b))){
      const size=indices.length,claim=crypto.randomUUID();
-     list.push(p('UPDATE mercenary_limited_stock_v1 SET issued=issued+?,revision=revision+1,last_token=? WHERE code=? AND stock_limit=? AND issued+?<=stock_limit',size,claim,code,HALLOWEEN_SERVER_LIMIT,size),
+     list.push(p('UPDATE mercenary_limited_stock_v1 SET issued=issued+?,revision=revision+1,last_token=? WHERE code=? AND stock_limit=? AND issued+?<=stock_limit',size,claim,code,plan.draws[indices[0]].stockLimit,size),
       jointGuard(DB,claim,'EXISTS(SELECT 1 FROM mercenary_limited_stock_v1 WHERE code=? AND last_token=?)',[code,claim]),
       p('INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count,first_obtained_at,last_obtained_at) VALUES(?,?,?,?,?,?) ON CONFLICT(user_id,mercenary_code) DO UPDATE SET total_copies=user_mercenary_cards_v1.total_copies+excluded.total_copies,duplicate_count=user_mercenary_cards_v1.duplicate_count+excluded.total_copies,last_obtained_at=excluded.last_obtained_at',user.id,code,size,size-1,timestamp,timestamp));
      indices.forEach((index,j)=>{const aid=requestId+':'+index,offset=size-j-1;

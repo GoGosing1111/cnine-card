@@ -1,7 +1,8 @@
 import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
 
-// The 2026-10-15 Heeya grant was recalled; only the original owner remains allowed.
-// Keep this identity out of LIMITED_MERCENARIES and every acquisition pool.
+// The recalled Heeya grant remains invalid. In addition to the original owner,
+// authenticated Halloween pack recipients may use one of three new public copies.
+// Keep this identity out of the ordinary and old limited acquisition pools.
 export const JINMU_CODE='V-989';
 export const JINMU_OWNER_ID=1;
 export const JINMU_AREA_EVENT='MERCENARY_JINMU_AREA';
@@ -18,14 +19,14 @@ export const JINMU_COMBAT=Object.freeze({
  basicCapScale:2.4,damageTakenScale:.25,hardCounter:BERKAN_CODE
 });
 export const isJinmu=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===JINMU_CODE;
-export const jinmuAccountAllowed=(userId,code)=>code!==JINMU_CODE||Number(userId)===JINMU_OWNER_ID;
+export const jinmuAccountAllowed=(userId,code,hasPackIssue=false)=>code!==JINMU_CODE||Number(userId)===JINMU_OWNER_ID||hasPackIssue===true;
 export const jinmuActionCredit=actors=>actors.some(a=>isJinmu(a)&&a.alive!==false&&a.hp>0)?JINMU_COMBAT.actionCredit:1;
 export function jinmuIncomingDamage(target,incoming,source){
  if(!isJinmu(target))return incoming;
  if(source?.isMercenary===true&&(source.code||source.cardId)===JINMU_COMBAT.hardCounter)return 0;
  return Math.floor(Math.max(0,Number(incoming)||0)*JINMU_COMBAT.damageTakenScale);
 }
-export const JINMU_COMBAT_DESCRIPTION='천룡검황 진무 · 기본 전투력 1,347,840. 같은 편성 기준 헬리오스보다 연계 공격력·체력·전용 방벽이 20% 높으며 공격속도·추가 행동·모션 속도는 동일합니다. 개인 피해 75% 경감과 상태이상·반격 대응, 베르칸 피해 면역을 지닙니다. PVE 천룡강림은 적 전체에 총 560% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 지정 계정 전용 지급이며 일반 획득과 리미티드 발행 수량에서 제외됩니다.';
+export const JINMU_COMBAT_DESCRIPTION='천룡검황 진무 · 기본 전투력 1,347,840. 같은 편성 기준 헬리오스보다 연계 공격력·체력·전용 방벽이 20% 높으며 공격속도·추가 행동·모션 속도는 동일합니다. 개인 피해 75% 경감과 상태이상·반격 대응, 베르칸 피해 면역을 지닙니다. PVE 천룡강림은 적 전체에 총 560% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 할로윈팩에서 서버 3장 한정으로 준비 중입니다. 기존 지정 계정 전용 1장은 팩 발행 수량에서 제외됩니다.';
 export const JINMU_ART=Object.freeze({
  code:JINMU_CODE,name:'천룡검황 진무',title:'SSS 리미티드 · 천룡의 주인',rank:'SSS',edition:'LIMITED',
  role:'LIMITED',position:null,artOnly:true,releaseStatus:'EXCLUSIVE_RELEASED',exclusiveGrant:true,excludedFromLimitedCount:true,

@@ -6,6 +6,7 @@ import {MERCENARY_CMS_SEED as SEED} from './_mercenary_cms_seed.js';
 import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {KAIRON_CODE} from '../shared/mercenary-kairon-v1.mjs';
+import {readJinmuPackOwners} from './_mercenary_jinmu_access.js';
 import {JINMU_CODE,jinmuAccountAllowed} from '../shared/mercenary-jinmu-v1.mjs';
 import {mercenaryRandomInt} from './_mercenary_draw_accounting.js';
 import {runJointOperation,readJointOperation} from './_joint_transactions.js';
@@ -20,7 +21,7 @@ function captureGrowth(policy,result){
  return result;
 }
 const terminal=message=>Object.assign(levelError('MERCENARY_LEVEL_CONFLICT',message,409),{terminal:true});
-function levelCatalog(document,userId){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE].filter(code=>jinmuAccountAllowed(userId,code)&&shiranuiAccountAllowed(userId,code)).map(limitedDeploymentSnapshot).filter(Boolean)];}
+function levelCatalog(document,userId,hasJinmuPackIssue){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE].filter(code=>jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&shiranuiAccountAllowed(userId,code)).map(limitedDeploymentSnapshot).filter(Boolean)];}
 function normalize(body,action){
  if(!['TRAIN','BREAKTHROUGH'].includes(action)||!SEED.catalog.cards.some(c=>c.code===body.mercenaryCode)&&!limitedDeploymentSnapshot(body.mercenaryCode))throw levelError('MERCENARY_LEVEL_TARGET','성장 대상 용병을 확인하세요.');
  if(!Number.isSafeInteger(body.revision)||body.revision<0)throw levelError('MERCENARY_LEVEL_REVISION','최신 성장 상태를 불러오세요.');
@@ -32,8 +33,9 @@ async function context(env,user,input){
  if(policy.mode!=='ON')throw levelError('MERCENARY_LEVEL_CLOSED','용병 성장이 현재 OFF입니다.',423);
  if(!mercenaryLevelReadiness(policy).ready)throw levelError('MERCENARY_LEVEL_UNCONFIGURED','용병 성장 수치가 미정입니다.',409);
  if(state.revision!==input.revision)throw terminal('성장 상태가 변경되었습니다. 다시 불러오세요.');
- if(!(jinmuAccountAllowed(user.id,input.mercenaryCode)&&shiranuiAccountAllowed(user.id,input.mercenaryCode))||!owned.results.some(r=>r.mercenary_code===input.mercenaryCode&&Number(r.total_copies)>0))throw levelError('MERCENARY_LEVEL_NOT_OWNED','보유한 용병만 성장시킬 수 있습니다.',403);
- const catalog=levelCatalog(document,user.id),target=catalog.find(c=>c.code===input.mercenaryCode);
+ const hasJinmuPackIssue=(await readJinmuPackOwners(env,owned.results.some(r=>r.mercenary_code===JINMU_CODE)?[user.id]:[])).has(Number(user.id));
+ if(!(jinmuAccountAllowed(user.id,input.mercenaryCode,hasJinmuPackIssue)&&shiranuiAccountAllowed(user.id,input.mercenaryCode))||!owned.results.some(r=>r.mercenary_code===input.mercenaryCode&&Number(r.total_copies)>0))throw levelError('MERCENARY_LEVEL_NOT_OWNED','보유한 용병만 성장시킬 수 있습니다.',403);
+ const catalog=levelCatalog(document,user.id,hasJinmuPackIssue),target=catalog.find(c=>c.code===input.mercenaryCode);
  if(!target?.rank)throw levelError('MERCENARY_LEVEL_RANK','성장 대상의 등급이 미정입니다.',409);
  return {policy,raw,cmsRevision,state,target,owned:owned.results,catalog};
 }
@@ -93,7 +95,8 @@ export async function handleMercenaryLevel({path,request,env,deps}){
     const [{policy},{document},owned]=await Promise.all([readMercenaryLevelPolicy(env),readMercenaryDocument(env),env.DB.prepare('SELECT mercenary_code,total_copies,duplicate_count FROM user_mercenary_cards_v1 WHERE user_id=?').bind(user.id).all()]);
     const configured=RELEASE&&mercenaryLevelReadiness(policy,{requireGrowth:true}).ready,enabled=configured&&policy.mode==='ON';
     const rows=configured?(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=?').bind(user.id).all()).results:[];
-    const catalog=levelCatalog(document,user.id);
+    const packOwners=await readJinmuPackOwners(env,owned.results.some(r=>r.mercenary_code===JINMU_CODE)?[user.id]:[]);
+    const catalog=levelCatalog(document,user.id,packOwners.has(Number(user.id)));
     return reply({userId:Number(user.id),enabled,policy,rules:RULES,cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>({code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...catalog.find(c=>c.code===r.mercenary_code),growth:mercenaryLevelState(rows.find(s=>s.mercenary_code===r.mercenary_code))}))});
    }
   }

@@ -43,7 +43,7 @@ test('Halloween identities cannot enter ordinary grants, ordinary limited packs 
 
 test('unconfigured price and probability stay null; opening and per-character cap cannot be overridden',()=>{
  const draft=halloweenPackDraft(),state=halloweenPackState();assert.equal(state.userOpeningEnabled,false);assert.equal(state.releaseEnabled,false);
- assert.deepEqual(draft.prices,{single:null,ten:null});assert.equal(draft.missRatePpm,null);assert.ok(Object.values(draft.cardRatesPpm).every(v=>v===null));assert.ok(state.stock.every(s=>s.limit===5&&s.remaining===5));
+ assert.deepEqual(draft.prices,{single:null,ten:null});assert.equal(draft.missRatePpm,null);assert.ok(Object.values(draft.cardRatesPpm).every(v=>v===null));assert.ok(state.stock.filter(s=>/^V-98[0-6]$/.test(s.code)).every(s=>s.limit===5&&s.remaining===null));assert.equal(state.stock.find(s=>s.code==='V-989').limit,3);assert.equal(state.stock.find(s=>s.code==='V-999').limit,null);
  for(const mutate of [s=>s.mode='ON',s=>s.stockLimits['V-980']=6,s=>s.stockLimits['V-980']=4,s=>s.cardRatesPpm['V-990']=1,s=>s.prices.single=0,s=>s.cardRatesPpm['V-980']=NaN,s=>{s.cardRatesPpm['V-980']=1000000;s.normalSssRatePpm=1;}]){const s=halloweenPackDraft();mutate(s);assert.throws(()=>validateHalloweenPack(s));}
  const precise=halloweenPackDraft();precise.cardRatesPpm['V-980']=0.0001;assert.equal(validateHalloweenPack(precise).cardRatesPpm['V-980'],0.0001);
  assert.throws(()=>halloweenPackState(draft,[{code:'V-980',stock_limit:6,issued:0}]));assert.throws(()=>halloweenPackState(draft,[{code:'V-980',stock_limit:5,issued:6}]));
@@ -57,7 +57,7 @@ test('public state is read-only, opening has zero database effects, and only OWN
  assert.equal((await call(f,HALLOWEEN_PACK.openPath,'POST',{mode:'ON',count:1})).status,423);assert.equal(f.stats.queries,beforeQueries);
  for(const role of ['USER','ADMIN'])assert.equal((await call(f,HALLOWEEN_PACK.adminPath,'PATCH',body(),role)).status,403);
  assert.equal(f.stats.queries,beforeQueries);
- const batches=f.stats.batches;const state=await call(f,HALLOWEEN_PACK.featurePath);assert.equal(state.status,200);assert.equal(state.body.cards.length,7);assert.equal(f.stats.batches,batches);
+ const batches=f.stats.batches;const state=await call(f,HALLOWEEN_PACK.featurePath);assert.equal(state.status,200);assert.equal(state.body.cards.length,9);assert.equal(f.stats.batches,batches);
  assert.equal((await call(f,HALLOWEEN_PACK.adminPath,'PATCH',body(),'OWNER','https://evil.test')).status,403);
  const on=body();on.settings.mode='ON';assert.equal((await call(f,HALLOWEEN_PACK.adminPath,'PATCH',on)).status,400);
  assert.equal(await f.coin(),1000000);assert.equal((await f.pg.query('SELECT * FROM user_mercenary_cards_v1')).rows.length,0);

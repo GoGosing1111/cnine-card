@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {PGlite} from '@electric-sql/pglite';
+import {ensureLimitedPackSchema} from '../functions/_mercenary_limited_pack.js';
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {mercenaryAccountState,saveMercenaryLoadout,loadMercenaryBattleSnapshot,releasedMercenarySnapshots} from '../functions/_mercenary_account.js';
 import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
@@ -12,6 +13,7 @@ import {grantJinmuOwner,inspectJinmuGrant,OPERATION_KEY} from '../scripts/ops/ji
 const rid=()=>crypto.randomUUID();
 test('after the Heeya recall only the original owner may load or deploy Jinmu; public pools and LIMITED counts exclude him',async t=>{
  const f=await mercenaryFixture(t,{postgres:true}),allowed=[{id:1,role:'OWNER'}],blocked=[{...f.user,role:'OWNER'},{id:4977,role:'USER'},{id:4824,role:'USER'}];
+ await ensureLimitedPackSchema(f.env);
  for(const [id,name]of [[1,'핑크빛유두'],[4977,'하이희야♡'],[4824,'헬로희야']])await f.p('INSERT INTO users(id,nickname) VALUES(?,?)',id,name).run();
  assert(!LIMITED_MERCENARIES.some(c=>c.code===JINMU_CODE));
  assert(!MERCENARY_CMS_SEED.catalog.cards.some(c=>c.code===JINMU_CODE));

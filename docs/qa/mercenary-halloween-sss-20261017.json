@@ -1,0 +1,45 @@
+{
+  "status": "PASSED",
+  "checkedAt": "2026-10-16T16:54:14.526Z",
+  "productionTransactions": 0,
+  "fixtureOnly": true,
+  "reports": [
+    {
+      "width": 1440,
+      "shopImageOnlyOff": true,
+      "cmsConditionalSaveReload": true,
+      "effectivePercent": "0.02%",
+      "tenResultsTogether": true,
+      "gridLatencyMs": 107,
+      "oneVideoPerBatch": true,
+      "ssVideo": true,
+      "sssVideo": true,
+      "muted": true,
+      "skipNoPurchase": true,
+      "recoverNoPurchase": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 390,
+      "shopImageOnlyOff": true,
+      "cmsConditionalSaveReload": true,
+      "effectivePercent": "0.02%",
+      "tenResultsTogether": true,
+      "gridLatencyMs": 94,
+      "oneVideoPerBatch": true,
+      "ssVideo": true,
+      "sssVideo": true,
+      "muted": true,
+      "skipNoPurchase": true,
+      "recoverNoPurchase": true,
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "sssCollection": {
+    "helios": "existing shared stock; 7 total, 6 issued at inspection",
+    "jinmu": "3 new pack copies, exclusive owner copy excluded",
+    "count": 2
+  }
+}

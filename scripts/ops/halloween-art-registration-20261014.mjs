@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {HALLOWEEN_MERCENARIES} from '../../shared/mercenary-halloween-catalog-v1.mjs';
-import {HALLOWEEN_PACK_KEY,halloweenPackDraft,validateHalloweenPack} from '../../shared/mercenary-halloween-pack-v1.mjs';
+import {HALLOWEEN_PACK_KEY,halloweenPackDraft,readHalloweenPackSettings} from '../../shared/mercenary-halloween-pack-v1.mjs';
 export const HALLOWEEN_REGISTRATION_KEY='ops:halloween-art-registration:20261014:v1';
 const codes=HALLOWEEN_MERCENARIES.map(c=>c.code);
 export async function prepareHalloweenRegistration(db,{dryRun=false}={}){
@@ -21,7 +21,7 @@ export async function prepareHalloweenRegistration(db,{dryRun=false}={}){
    await db.query('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(1,$1,$2,$3,$4,$5)',['MERCENARY_HALLOWEEN_ART_REGISTER','SETTING',HALLOWEEN_PACK_KEY,'null',JSON.stringify(receipt)]);
    await db.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[HALLOWEEN_REGISTRATION_KEY,JSON.stringify(receipt)]);
   }
-  const saved=JSON.parse((await db.query('SELECT value FROM app_meta WHERE key=$1',[HALLOWEEN_PACK_KEY])).rows[0].value);validateHalloweenPack(saved.settings);
+  const saved=JSON.parse((await db.query('SELECT value FROM app_meta WHERE key=$1',[HALLOWEEN_PACK_KEY])).rows[0].value);readHalloweenPackSettings(saved.settings);
   const stock=(await db.query('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code',[codes])).rows;
   assert.deepEqual(stock.map(s=>s.code),codes);for(const row of stock){assert.equal(Number(row.stock_limit),5);assert.equal(Number(row.issued),0);}
   await db.query(dryRun?'ROLLBACK':'COMMIT');

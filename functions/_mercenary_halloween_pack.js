@@ -1,4 +1,4 @@
-import {HALLOWEEN_MERCENARIES} from '../shared/mercenary-halloween-catalog-v1.mjs';
+import {HALLOWEEN_PACK_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
 import {HALLOWEEN_PACK,HALLOWEEN_PACK_KEY,HALLOWEEN_PACK_RELEASE_ENABLED,halloweenPackDraft,validateHalloweenPack,halloweenPackState,halloweenPackCatalogRow,halloweenPackReadiness} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
@@ -13,7 +13,7 @@ const initial=()=>({revision:1,settings:halloweenPackDraft(),updatedAt:null});
 export async function readHalloweenPackState(env,{releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED}={}){
  const [row,stock,cms,normalDraw]=await Promise.all([
   env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(HALLOWEEN_PACK_KEY).first(),
-  env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code IN ('+HALLOWEEN_MERCENARIES.map(()=>'?').join(',')+') ORDER BY code').bind(...HALLOWEEN_MERCENARIES.map(c=>c.code)).all(),
+  env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code IN ('+HALLOWEEN_PACK_CARDS.map(()=>'?').join(',')+') ORDER BY code').bind(...HALLOWEEN_PACK_CARDS.map(c=>c.code)).all(),
   readMercenaryDocument(env),env.DB.prepare('SELECT payload_json,revision FROM mercenary_draw_config_v1 WHERE id=1').first()
  ]);
  const saved=row?JSON.parse(row.value):initial();
@@ -23,8 +23,8 @@ export async function readHalloweenPackState(env,{releaseEnabled=HALLOWEEN_PACK_
 }
 const publicState=state=>{const {rawPack,...safe}=state;return safe;};
 export async function halloweenPackShopRow(env){
- const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(HALLOWEEN_PACK_KEY).first();
- return halloweenPackCatalogRow(row?JSON.parse(row.value).settings:halloweenPackDraft());
+ const [row,stock]=await Promise.all([env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(HALLOWEEN_PACK_KEY).first(),env.DB.prepare('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code IN ('+HALLOWEEN_PACK_CARDS.map(()=>'?').join(',')+')').bind(...HALLOWEEN_PACK_CARDS.map(c=>c.code)).all()]);
+ return halloweenPackCatalogRow(row?JSON.parse(row.value).settings:halloweenPackDraft(),stock.results);
 }
 export async function saveHalloweenPack(env,actor,body){
  if(!body||Object.keys(body).sort().join(',')!=='expectedRevision,reason,requestId,settings'||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<1||body.expectedRevision>=2147483646||typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId)||typeof body.reason!=='string'||body.reason.trim().length<4||body.reason.length>500||/[\u0000-\u001f]/.test(body.reason))throw jointError('MERCENARY_HALLOWEEN_CONFIG','현재 버전·요청 번호·저장 사유를 확인하세요.');
