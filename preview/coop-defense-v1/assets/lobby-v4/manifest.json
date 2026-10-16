@@ -13,6 +13,16 @@
   },
   "characters": "Existing catalog battleSprite originals, not cropped source-art cards; runtime sizing only.",
   "button": "preview/defense-roguelike-v2/assets/ui-v3/command-button.png",
+  "readyButton": {
+    "path": "preview/coop-defense-v1/assets/lobby-v4/ready-command-button.png",
+    "sha256": "5455c52ea3dc2389d821ee3fcf1b0efea7c3be9e31cd506f25988617dded7eed",
+    "bytes": 2072880,
+    "generator": "built-in image_gen",
+    "originalPreserved": true,
+    "transparentBackground": true,
+    "prompt": "prompt-ready-button.json",
+    "direction": "Dedicated dark metal ready/cancel companion; no flat green state."
+  },
   "font": "preview/defense-roguelike-v2/assets/ui-v3/SUIT-Variable.woff2",
   "runtime": "preview/coop-defense-v1/staging.css"
 }

@@ -1,0 +1,254 @@
+/* Authored ImageGen skin for every Monster Defense surface.
+ * Layout, live values, focus, and real progress stay in CSS/DOM; decoration comes from the dedicated art set. */
+:root{
+ --defense-plate:url('/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png');
+ --defense-panel:url('/preview/coop-defense-v1/assets/ui-v5/guardian-panel.png');
+ --defense-crest:url('/preview/coop-defense-v1/assets/ui-v5/guardian-crest.png');
+ --defense-command:url('/preview/coop-defense-v1/assets/lobby-v4/ready-command-button.png');
+ --defense-primary:url('/preview/defense-roguelike-v2/assets/ui-v3/command-button.png');
+}
+#defense-app{--text:#eaf1f5;--muted:#aebfce;--mint:#9ce6f0;--gold:#e8e7d7;--line:#6b8292;font-family:"Defense SUIT","Malgun Gothic",sans-serif}
+#defense-app button,.dw button{position:relative}
+#defense-app :is(button,input,select),.dw button{border-radius:0}
+#defense-app :is(button,a,input,select,summary):focus-visible,.dw button:focus-visible{outline:2px solid #d8feff;outline-offset:3px}
+#defense-app button:not(:disabled),.dw button:not(:disabled){transition:filter .15s,transform .15s}
+#defense-app button:hover:enabled,.dw button:hover:enabled{filter:brightness(1.15)}
+#defense-app button:active:enabled,.dw button:active:enabled{filter:brightness(.92)}
+/* Cut metal nameplates, never a color-filled substitute. */
+#defense-app .defense-staging :is(.review-tag,.slot-art>span,.slot-role,.party-lane,.party-ready,.party-portraits figcaption),
+#defense-app :is(.field-caption,.wave-banner,.connection,.toast),
+.dw :is(.dw-owned b,.dw-party>span,.dw-notice,.dw-effect){
+ border:0;border-radius:0;background:transparent var(--defense-plate) center/100% 150% no-repeat;box-shadow:none;color:#dfeef5;text-shadow:0 1px 3px #000c;
+}
+#defense-app .defense-staging :is(.review-tag,.party-lane,.party-ready){padding:7px 15px}
+#defense-app .defense-staging .review-tag{min-width:49px;text-align:center;font-size:8px;padding:7px 11px}
+#defense-app .defense-staging .slot-art>span{padding:7px 15px}
+#defense-app .defense-staging .slot-role{padding:6px 16px}
+#defense-app .defense-staging .party-ready.is-ready{color:#b9f5f7;filter:brightness(1.18)}
+#defense-app .defense-staging .party-portraits figcaption{padding:7px 9px}
+#defense-app .defense-staging :is(input,select,.party-roster-tab,.difficulty-option,.capacity-option,.mission-tools summary),
+#defense-app :is(.lane-tab,.unit-button,.move-button,[id="pan-squad"]),
+.dw .dw-tabs>button{
+ border:0;border-radius:0;background:transparent var(--defense-plate) center/100% 150% no-repeat;box-shadow:none;color:#dceaf3;
+}
+#defense-app .defense-staging :is(input,select){padding-inline:19px}
+#defense-app .defense-staging input{padding-inline:30px}
+#defense-app .defense-staging .loadout-slot select{padding-inline:15px;background-size:100% 152%}
+#defense-app .defense-staging .party-roster-tab{padding-inline:15px;font-size:11px;min-height:47px}
+#defense-app .defense-staging .difficulty-option{min-height:52px;padding:9px 8px}
+#defense-app .defense-staging .capacity-option{padding:8px 12px}
+#defense-app .defense-staging .mission-tools summary{padding:10px 23px;min-height:46px}
+#defense-app .defense-staging :is(.party-roster-tab,.difficulty-option,.capacity-option)[aria-pressed=true],
+#defense-app :is(.lane-tab,.unit-button,.move-button)[aria-pressed=true],
+.dw .dw-tabs>button[aria-current=true]{background-color:transparent;color:#fff;box-shadow:none;filter:brightness(1.35) drop-shadow(0 0 3px #83e3ef80)}
+#defense-app .defense-staging :is(.party-roster-tab,.difficulty-option,.capacity-option):hover:enabled,
+#defense-app :is(.lane-tab,.unit-button,.move-button):hover:enabled{background-color:transparent}
+#defense-app .defense-staging .difficulty-option[aria-pressed=true] .is-lit{background:#e5ffff}
+#defense-app .defense-staging .party-empty-slots>span{border:0;background:transparent var(--defense-crest) center/contain no-repeat;opacity:.65;padding:20px 8px 27px}
+/* Dedicated secondary command art, including both ready states. */
+#defense-app .defense-staging :is(button.secondary,#ready),
+#defense-app :is(.supply button,#exit-battle,[id="leave-dialog"] button.secondary),
+.dw .dw-secondary{
+ border:0;border-radius:0;background:transparent var(--defense-command) center/100% 140% no-repeat;color:#e8f1f5;box-shadow:none;text-shadow:0 2px 3px #000b;
+}
+#defense-app .defense-staging :is(button.secondary,#ready):hover:enabled,
+#defense-app :is(.supply button,#exit-battle,[id="leave-dialog"] button.secondary):hover:enabled,
+.dw .dw-secondary:hover:enabled{background-color:transparent}
+#defense-app .defense-staging #ready[aria-pressed=true]{color:#d8edf5;background-color:transparent}
+#defense-app .defense-staging :is(#practice,#copy-invite,.join-form button){padding-inline:17px}
+#defense-app .defense-staging #copy-invite{min-height:48px}
+#defense-app :is(.primary,.skill-button),.dw .dw-primary{
+ border:0;border-radius:0;background:transparent var(--defense-primary) center/100% 138% no-repeat;color:#162b3b;text-shadow:none;box-shadow:none;
+}
+#defense-app :is(.primary,.skill-button):hover:enabled,.dw .dw-primary:hover:enabled{background:transparent var(--defense-primary) center/100% 138% no-repeat}
+#defense-app .skill-button small{color:#344e60}
+/* Crest art gives wave/difficulty/status a recognizable silhouette. */
+#defense-app .defense-staging .waiting-mission{
+ display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;flex:0 0 100px;width:100px;min-width:0;height:122px;padding:24px 13px 25px;margin:0;border:0;border-radius:0;background:transparent var(--defense-crest) center/contain no-repeat;text-shadow:0 1px 4px #000;
+}
+#defense-app .defense-staging .waiting-mission>span{font-size:11px}
+#defense-app .defense-staging .waiting-mission>span:last-child{display:none}
+#defense-app .defense-staging .waiting-mission strong{display:block;font-size:26px;margin:0;line-height:1.1}
+#defense-app .defense-staging .waiting-mission strong small{display:block;font-size:9px;line-height:1.5}
+#defense-app :is(.wave-status,.revive-clock,.lane-id),
+.dw :is(.dw-close,.dw-trait-number,.dw-tabs [data-trait-count]:not(:empty)){
+ border:0;border-radius:0;background:transparent var(--defense-crest) center/100% 100% no-repeat;color:#dff7ff;
+}
+#defense-app .lane-tab .lane-id{font-weight:800;background-color:transparent;border:0}
+#defense-app .wave-status{padding:9px 9px 10px;min-width:66px;height:59px;align-self:center}
+#defense-app .wave-status>span{font-size:8px}
+#defense-app .wave-status>b{font-size:19px;line-height:1.1}
+#defense-app .wave-status small{font-size:9px}
+#defense-app .revive-clock{padding:17px 12px 23px;min-width:80px}
+#defense-app .revive-clock b{font-size:30px}
+#defense-app .revive-clock span{font-size:9px}
+/* Nine-slice panels retain painted corner geometry at every size. */
+#defense-app :is(.mission-popover,.invite-code-wrap,.battle-header,.lane-navigation,.command-dock,.result-panel,[id="leave-dialog"],.unit-button),
+.dw :is(.dw-header,.dw-footer,.dw-tabs,.dw-branch,.dw-trait,.dw-effect){position:relative}
+#defense-app :is(.mission-popover,.invite-code-wrap,.deployment-dock,.waiting-launch,.battle-header,.lane-navigation,.command-dock,.minimap,.field-pan,.boss-status,.revive-panel,.result-panel,[id="leave-dialog"]),
+.dw,.dw :is(.dw-header,.dw-footer,.dw-tabs,.dw-branch,.dw-trait){
+ isolation:isolate;border:0;border-radius:0;background:transparent;box-shadow:none;
+}
+#defense-app :is(.mission-popover,.invite-code-wrap,.deployment-dock,.waiting-launch,.battle-header,.lane-navigation,.command-dock,.minimap,.field-pan,.boss-status,.revive-panel,.result-panel,[id="leave-dialog"])::before,
+.dw::before,.dw :is(.dw-header,.dw-footer,.dw-tabs,.dw-branch,.dw-trait)::before{
+ content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;border-style:solid;border-color:transparent;border-width:0;border-image:var(--defense-panel) 220 fill / var(--defense-frame-size,24px) / 0 stretch;
+}
+#defense-app .defense-staging .deployment-dock{position:relative}
+#defense-app .defense-staging .waiting-launch{position:relative;backdrop-filter:none}
+#defense-app .defense-staging .mission-popover{position:absolute;backdrop-filter:none;padding:24px}
+#defense-app .defense-staging .invite-code-wrap{--defense-frame-size:19px;padding:14px 25px;min-height:62px;gap:16px}
+#defense-app :is(.battle-header,.lane-navigation,.minimap,.field-pan,.boss-status){--defense-frame-size:15px}
+#defense-app .field-caption{padding:9px 20px;border:0}
+#defense-app .wave-banner{padding:14px 30px;border:0}
+#defense-app .connection{padding:13px 25px;white-space:normal;text-align:center}
+#defense-app .boss-status{padding:13px 22px 16px;word-break:keep-all}
+#defense-app .toast{padding:18px 30px;color:#f0f6f8;min-width:220px;text-align:center}
+#defense-app .result-panel{padding:45px 30px}
+#defense-app [id="leave-dialog"]{padding:30px}
+#defense-app .result-overlay{background:#06101de6}
+#defense-app .battle{background:#08121e}
+#defense-app .battle-header{padding-inline:20px}
+#defense-app .lane-navigation{padding-inline:16px}
+#defense-app .lane-tab{padding-inline:14px}
+#defense-app .lane-tab.is-danger{filter:sepia(.3) saturate(1.8);border:0}
+#defense-app .lane-tab.is-danger small{color:#ffc1b4}
+#defense-app .unit-button{padding-left:8px;padding-right:13px}
+#defense-app .unit-portrait{border:0;border-radius:3px}
+#defense-app .move-button{background-color:transparent}
+#defense-app .field-pan{padding:7px 10px}
+#defense-app .field-pan :is(#pan-left,#pan-right){border:0;background:transparent var(--defense-crest) center/82% 100% no-repeat;color:#e1f3fc}
+#defense-app .minimap>button{border:0;background:transparent}
+#defense-app .core-track,#defense-app .unit-hp{background:#344856}
+#defense-app #core-fill,#defense-app .unit-hp>i{background:#91dbe7}
+#defense-app .dock-tip{color:#aabfcb}
+/* Workshop: every selectable card, badge and command uses the same dedicated set. */
+.dw{--dw-paper:#eff2ed;--dw-cyan:#9ce6f0;background:#091522}
+.dw::before{z-index:3;pointer-events:none;border-image-slice:220}
+.dw .dw-header{--defense-frame-size:24px}
+.dw .dw-tabs{gap:14px;padding-block:6px;--defense-frame-size:16px}
+.dw .dw-tabs>button{flex:1;justify-content:center;padding:0 18px;min-height:52px;font-size:15px}
+.dw .dw-tabs>button:hover:enabled{background:transparent var(--defense-plate) center/100% 150% no-repeat}
+.dw .dw-tabs>button[aria-current=true]::after{content:none}
+.dw .dw-close{background-color:transparent;flex-basis:44px;min-width:44px;height:48px;padding-bottom:2px}
+.dw .dw-close:hover:enabled{background:transparent var(--defense-crest) center/100% 100% no-repeat}
+.dw .dw-tabs [data-trait-count]:not(:empty){min-width:23px;height:27px;padding:1px 5px 2px;font-size:11px}
+.dw .dw-secondary[aria-pressed=true]{background-color:transparent;color:#c8f8ff;border:0}
+.dw .dw-branch{--defense-frame-size:22px;padding:18px 20px;box-shadow:none}
+.dw .dw-branch[aria-pressed=true]{background:transparent;box-shadow:none;color:#e8ffff}
+.dw .dw-branch[aria-pressed=true]::before{filter:brightness(1.3) drop-shadow(0 0 3px #8be6f080)}
+.dw .dw-branch:hover:enabled,.dw .dw-trait:hover:enabled{background:transparent}
+.dw .dw-trait{--defense-frame-size:27px;padding:27px}
+.dw .dw-trait-number{display:grid;place-items:center;width:36px;height:43px;top:17px;right:18px;font-size:16px;padding-bottom:3px}
+.dw .dw-trait .dw-kicker{padding-right:32px}
+.dw div.dw-effect{isolation:isolate;position:relative;padding:17px 23px;--defense-frame-size:19px;background:transparent}
+.dw .dw-effect::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;border:0 solid transparent;border-image:var(--defense-panel) 220 fill / 19px / 0 stretch}
+.dw .dw-owned b{padding:10px 20px}
+.dw .dw-party>span{padding:7px 14px;font-size:11px}
+.dw .dw-party small{font-size:10px}
+.dw .dw-party{gap:5px}
+.dw .dw-party i{background:transparent var(--defense-crest) center/contain no-repeat;width:13px;height:17px;border-radius:0}
+.dw .dw-is-ready i{background-color:transparent;filter:brightness(1.3)}
+.dw .dw-notice{padding:12px 32px;background-size:100% 170%}
+.dw .dw-footer{--defense-frame-size:23px}
+.dw .dw-ready{min-width:170px}
+@media(max-width:1100px){
+ #defense-app .defense-staging .waiting-actions{grid-template-columns:150px 240px}
+}
+@media(min-width:761px){
+ #defense-app .party-list:has(>.party-member:nth-child(2):last-child) .party-portraits img{width:130%;margin-left:-15%}
+}
+@media(max-width:760px){
+ #defense-app .defense-staging .waiting-launch{position:sticky;bottom:0}
+ #defense-app .defense-staging .review-tag{min-width:41px;font-size:7px;padding:7px 9px}
+ #defense-app .defense-staging .waiting-mission{flex-basis:80px;width:80px;height:100px;padding:22px 10px 23px;gap:1px}
+ #defense-app .defense-staging .waiting-mission>span{font-size:10px}
+ #defense-app .defense-staging .waiting-mission strong{font-size:24px}
+ #defense-app .defense-staging .waiting-mission strong small{font-size:8px!important}
+ #defense-app .defense-staging .invite{gap:6px}
+ #defense-app .defense-staging .invite-code-wrap{padding:14px 23px;min-height:62px}
+ #defense-app .defense-staging .invite strong{font-size:17px}
+ #defense-app .defense-staging #copy-invite{padding:11px 16px;gap:6px;font-size:10px;min-height:56px}
+ #defense-app .defense-staging .party-roster-tab{min-height:46px;padding-inline:13px;font-size:10px}
+ #defense-app .defense-staging .party-member-head{gap:6px}
+ #defense-app .defense-staging :is(.party-lane,.party-ready){padding:6px 14px;font-size:9px}
+ #defense-app .defense-staging .party-portraits figcaption{font-size:10px;padding:7px 8px}
+ #defense-app .defense-staging .slot-art>span{font-size:8px;padding:5px 13px}
+ #defense-app .defense-staging .slot-role{font-size:9px;padding:5px 14px}
+ #defense-app .defense-staging .mission-tools summary{min-height:42px;padding:8px 19px}
+ #defense-app .defense-staging .difficulty-option{min-height:48px;font-size:11px}
+ #defense-app .defense-staging .waiting-actions{grid-template-columns:112px minmax(0,1fr)}
+ #defense-app .defense-staging .waiting-actions:has(#start[hidden]){grid-template-columns:minmax(0,220px);justify-content:end}
+ #defense-app .defense-staging .loadout-slot select{font-size:15px;padding-inline:10px}
+ #defense-app .defense-staging :is(.deployment-dock,.waiting-launch){--defense-frame-size:21px}
+ #defense-app .battle-header{padding-inline:12px}
+ #defense-app .wave-status{height:52px;min-width:57px;padding:8px}
+ #defense-app .wave-status>b{font-size:17px}
+ #defense-app .wave-status>span{font-size:7px}
+ #defense-app .lane-navigation{padding-inline:7px}
+ #defense-app .lane-tab{padding-inline:8px;gap:4px}
+ #defense-app .lane-tab .lane-id{width:22px;flex-basis:22px;height:27px}
+ #defense-app .unit-button{padding-left:6px;padding-right:10px;gap:4px}
+ #defense-app .unit-portrait{width:25px;flex-basis:25px}
+ #defense-app .unit-button strong{font-size:10px}
+ #defense-app .field-caption{padding:8px 17px}
+ #defense-app .wave-banner{padding:11px 23px;bottom:76px}
+ #defense-app .minimap{padding:10px 9px 8px}
+ #defense-app .command-dock{padding:12px 13px max(10px,env(safe-area-inset-bottom))}
+ #defense-app .revive-clock{padding:14px 10px 20px;min-width:68px}
+ #defense-app .revive-clock b{font-size:26px}
+ #defense-app .result-panel{padding:36px 23px}
+}
+@media(max-width:600px){
+ .dw::before{border-image-width:12px}
+ .dw .dw-tabs{padding-inline:10px;gap:3px}
+ .dw .dw-tabs>button{font-size:12px;padding:0 13px;min-height:49px;gap:3px}
+ .dw .dw-tabs [data-trait-count]:not(:empty){min-width:20px;height:25px}
+ .dw .dw-header{padding-inline:17px}
+ .dw .dw-branch{padding:14px 7px;--defense-frame-size:19px}
+ .dw .dw-branch b{font-size:17px}
+ .dw .dw-trait{padding:24px 20px;--defense-frame-size:24px;gap:3px 12px}
+ .dw .dw-trait-number{width:27px;height:33px;top:15px;right:15px;font-size:12px}
+ .dw .dw-trait h4{font-size:21px}
+ .dw .dw-effect{padding:14px 21px}
+ .dw .dw-party>span{font-size:10px;padding:7px 12px;gap:4px}
+ .dw .dw-party small{font-size:9px}
+ .dw .dw-party i{display:none}
+ .dw .dw-footer{padding:14px 17px calc(15px + env(safe-area-inset-bottom));gap:8px}
+ .dw .dw-ready{min-height:52px}
+}
+@media(max-width:360px){
+ #defense-app .defense-staging .waiting-mission{flex-basis:66px;width:66px;height:90px;padding:21px 7px}
+ #defense-app .defense-staging .waiting-mission strong{font-size:22px}
+ #defense-app .defense-staging .invite-code-wrap{padding-inline:22px}
+ #defense-app .defense-staging .invite strong{font-size:15px;letter-spacing:.2px}
+ #defense-app .defense-staging #copy-invite{font-size:9px;padding-inline:13px}
+ #defense-app .defense-staging .party-roster-tab{font-size:9px;padding-inline:12px}
+ #defense-app .defense-staging .waiting-actions{grid-template-columns:100px minmax(0,1fr)}
+ #defense-app .defense-staging .loadout-slot select{font-size:14px}
+ #defense-app .lane-tab{gap:2px;padding-inline:6px}
+ #defense-app .lane-tab .lane-id{width:18px;flex-basis:18px;height:23px}
+ #defense-app .lane-tab b{font-size:9px}
+ #defense-app .unit-portrait{width:21px;flex-basis:21px}
+ #defense-app .unit-button strong{font-size:9px}
+ .dw .dw-tabs>button{font-size:11px;padding-inline:12px}
+ .dw .dw-header{gap:7px;padding-inline:14px}
+ .dw .dw-branch b{font-size:15px}
+}
+@media(max-width:760px) and (max-height:780px) and (orientation:portrait){
+ #defense-app .defense-staging .waiting-content{grid-template-rows:auto auto auto auto minmax(225px,1fr) auto}
+ #defense-app .defense-staging .party-list{min-height:225px;padding-bottom:18px}
+ #defense-app .defense-staging :is(.party-portraits,.party-empty-slots){height:145px}
+}
+@media(max-height:540px) and (orientation:landscape){
+ #defense-app .boss-status{padding:8px 20px 10px}
+ #defense-app .command-dock{padding:6px 12px}
+ #defense-app .wave-banner{top:8px;bottom:auto}
+ #defense-app .defense-staging .waiting-launch{position:relative}
+ #defense-app .wave-status{height:43px;padding:5px 10px}
+ #defense-app .wave-status>span{font-size:7px}
+ #defense-app .wave-status>b{font-size:16px}
+ #defense-app .lane-tab{padding-inline:10px}
+ #defense-app .unit-button{padding-inline:7px}
+ #defense-app .field-pan{padding:4px 8px}
+}
+@media(prefers-reduced-motion:reduce){#defense-app button,.dw button{transition:none}}

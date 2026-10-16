@@ -1,0 +1,20 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-17",
+  "reference": "preview/coop-defense-v1/assets/lobby-v4/ready-command-button.png",
+  "transparent_background": true,
+  "assets": [
+    {
+      "id": "squad-nameplate",
+      "prompt": "Use case: stylized-concept. Asset: premium cooperative defense RPG squad nameplate and selector frame. Reference image establishes only the graphite titanium and cold cyan mechanical material style. Create ONE horizontally long sculpted military nameplate, width-to-height about 4:1, with projecting swept chevron winglets at both ends, layered gunmetal edges, narrow brushed silver inlay, recessed small cyan indicator crystals at the end caps, a modest angular center notch on the lower rim. Silhouette must be distinctive and irregular, not a plain rectangular panel or rounded web button. Dark slate-blue softly textured blank inset occupies middle 80% width and 65% height for actual Korean text overlay. Very clean, subtle mechanical detail, no ornate gold and no excessive bloom. Front-facing perfectly aligned UI illustration, no perspective. Single isolated asset, truly transparent background outside plate, tightly crop with small even transparent margins, no external shadow, NO TEXT or letters or numbers or icons or logo. Make the nameplate suitable for high-quality 9-slice scaling, with detailed corners and a quiet flat stretchable middle, no object or emblem in the center."
+    },
+    {
+      "id": "guardian-panel",
+      "prompt": "Use case: stylized-concept. Asset: final premium defense-game tactical information panel frame, a sculpted fortress command device. Reference establishes graphite titanium, silver rims, icy cyan accents. Create ONE broad 3:2 landscape panel, front-on orthographic game UI art. Distinctive deeply chamfered tiered silhouette, engineered corner clasps, small asymmetrical hinge details at side edges, tiny polished cyan guardian crystal in the top-left outer clasp, slender layered silver and dark graphite perimeter. Calm dark navy charcoal opaque brushed center, very subtle mottled metal texture, 88% of interior completely empty for readable live text, character thumbnails, or card content. Not a generic simple box or rounded rectangle: the silhouette and physically rendered corner assemblies must be visibly authored game art. Keep accents restrained and borders relatively thin, fine hard surface craft, matte surfaces, not glowy cyberpunk clutter. Designed for 9-slice resizing: all ornaments confined to corners and edge ends, straight quiet stretchable edge middles. One complete object isolated on truly transparent background, minimal even margin, no drop shadow outside, NO TEXT, letters, numbers, logos, symbols in center, no additional objects."
+    },
+    {
+      "id": "guardian-crest",
+      "prompt": "Use case: stylized-concept. Asset: premium tactical-defense game difficulty/wave/rank emblem, blank crest for dynamic text. Reference sets graphite titanium metal, muted silver, precise icy cyan accents. Create ONE upright shield-shaped mechanical badge, approximately 4:5 width:height, faceted top shoulder corners, tapering sides and prominent short spear point at bottom, small cyan guardian crystal embedded at top crown with two narrow silver winglets. Finely modelled matte black-blue inset center with abundant unobstructed blank space for a big white number and small Korean captions. The whole shape should look like a collectible fortress garrison insignia, not a plain rectangular UI box. Restrained slim multilayer silver outline, physical depth and tiny fasteners only near perimeter, no ornate gold, no noisy details, no heavy bloom. Front-facing orthographic 2D game UI cutout with professional polished material painting. One single badge isolated on truly transparent background, tightly cropped with small transparent margins, no external cast shadow, NO TEXT, no letters, no numbers, no symbols in the center, no logos, no background."
+    }
+  ]
+}

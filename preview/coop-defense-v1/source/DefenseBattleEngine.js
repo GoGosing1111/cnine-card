@@ -7,7 +7,7 @@ import { WORLD, laneY, LANES } from './defense-model.mjs';
 
 const OWNER_COLORS = [0x70e4cf, 0xe7bb76, 0xbda5f5];
 const DIGIT_FONT = 'CoopDefenseDigitsV1';
-const textStyle = { fontFamily: 'Pretendard, Malgun Gothic, sans-serif', fontSize: 25, fontWeight: '700', fill: 0xc4d6d3 };
+const textStyle = { fontFamily: 'Defense SUIT, Malgun Gothic, sans-serif', fontSize: 25, fontWeight: '700', fill: 0xc4d6d3 };
 export class DefenseBattleEngine extends BattleEngine {
   constructor({ host, catalog }) {
     super({ host, battleData: { mode: 'PVE', battleV2: {} } });
@@ -17,7 +17,7 @@ export class DefenseBattleEngine extends BattleEngine {
     this.disposed = false; this.soundEnabled = false;
   }
   async loadBattlefieldTexture() {
-    const [background] = await Promise.all([this.catalog.background, this.catalog.environment.causeway, this.catalog.environment.core].map(path => Assets.load(path)));
+    const [background] = await Promise.all([this.catalog.background, this.catalog.environment.causeway, this.catalog.environment.core, this.catalog.uiSkin.nameplate].map(path => Assets.load(path)));
     return background;
   }
   createBackground() {
@@ -144,7 +144,10 @@ export class DefenseBattleEngine extends BattleEngine {
     actor.root.rotation = -(this.fieldTilt || 0);
     actor.hud.scale.set(actor.enemy ? .65 : .85);
     actor.nameLabel.style.fontSize = Math.max(20, 10 / (scale * actor.hud.scale.x));
-    actor.namePlate.visible = !actor.enemy;
+    actor.namePlate.width = Math.max(250, actor.nameLabel.width + 75);
+    actor.namePlate.height = Math.max(74, actor.nameLabel.style.fontSize * 2.1);
+    actor.namePlate.position.set(110 - actor.namePlate.width / 2, 20 - actor.namePlate.height / 2);
+    actor.namePlate.visible = !actor.enemy || actor.unitData.type === 'BOSS';
     actor.nameLabel.visible = !actor.enemy || actor.unitData.type === 'BOSS';
   }
   drawRoutes() {
@@ -193,6 +196,11 @@ export class DefenseBattleEngine extends BattleEngine {
       x: unit.x, y: unit.y, scale: 1, accent: enemy ? 0xe97c72 : OWNER_COLORS[unit.ownerLane], hp: 100 });
     actor.artFacing = enemy ? art.artFacing || 1 : 1;
     actor.applyFacing(); // Also updates the neutral pose used by move/attack/hit resets.
+    // The defense HUD consumes authored art without changing the shared V3 character implementation.
+    actor.namePlate.removeFromParent(); actor.namePlate.destroy();
+    actor.namePlate = new Sprite(Assets.get(this.catalog.uiSkin.nameplate));
+    actor.namePlate.label = 'DefenseAuthoredNameplate'; actor.hud.addChildAt(actor.namePlate, 0);
+    actor.nameLabel.style.fontFamily = 'Defense SUIT, Malgun Gothic, sans-serif';
     if (art.footAnchor) actor.mainSprite.anchor.set(art.footAnchor.x, art.footAnchor.y);
     actor.hud.y = -(actor.fullBodyHeight + 40);
     actor.hud.scale.set(enemy ? .65 : .75);
@@ -297,6 +305,7 @@ export class DefenseBattleEngine extends BattleEngine {
       environment: { renderer: 'painted-sprites', routeSprites: this.routeArt.children.length, coreTexture: this.catalog.environment.core,
         causewayTexture: this.catalog.environment.causeway },
       capacity: this.capacity, allies: this.allies.length, enemies: this.enemies.length, focusLane: this.focusLane,
+      hudNameplates: this.allies.map(actor => ({ id: actor.id, image: this.catalog.uiSkin.nameplate, sprite: actor.namePlate instanceof Sprite })),
       enemySprites: this.enemies.map(actor => ({ id: actor.id, archetype: actor.unitData.archetype, state: actor.state,
         sourceFacing: actor.artFacing, viewScaleX: actor.view.scale.x, neutralScaleX: actor.neutralAvatarPose.scaleX, hudScaleX: actor.hud.scale.x })),
       phase: this.state?.phase, activeEffects: this.activeEffects.size, timelines: this.fxRuns.size,

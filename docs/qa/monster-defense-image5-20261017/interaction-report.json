@@ -1,0 +1,95 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Ready/cancel use authored secondary art, equal button heights; click, Enter and Space update server start gate at 1440/390/320",
+    "Joined member has accessible standalone ready/cancel command on mobile",
+    "Battle HUD, units, lane commands, camera controls, exit dialog and revival panel use artwork and remain usable",
+    "Actual server draw reveal, branch selection, trait choice and forge receipt work; all workshop menus fit 1440/390/320/844 with authored cards and badges",
+    "Result panel and all generated resources load without JS or asset errors"
+  ],
+  "measurements": [
+    {
+      "width": 1440,
+      "buttons": [
+        {
+          "id": "ready",
+          "x": 888,
+          "y": 900,
+          "width": 180,
+          "height": 76,
+          "top": 900,
+          "right": 1068,
+          "bottom": 976,
+          "left": 888
+        },
+        {
+          "id": "start",
+          "x": 1082,
+          "y": 900,
+          "width": 320,
+          "height": 76,
+          "top": 900,
+          "right": 1402,
+          "bottom": 976,
+          "left": 1082
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "buttons": [
+        {
+          "id": "ready",
+          "x": 17,
+          "y": 766,
+          "width": 112,
+          "height": 63,
+          "top": 766,
+          "right": 129,
+          "bottom": 829,
+          "left": 17
+        },
+        {
+          "id": "start",
+          "x": 139,
+          "y": 766,
+          "width": 234,
+          "height": 63,
+          "top": 766,
+          "right": 373,
+          "bottom": 829,
+          "left": 139
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "buttons": [
+        {
+          "id": "ready",
+          "x": 13,
+          "y": 645,
+          "width": 100,
+          "height": 63,
+          "top": 645,
+          "right": 113,
+          "bottom": 708,
+          "left": 13
+        },
+        {
+          "id": "start",
+          "x": 123,
+          "y": 645,
+          "width": 184,
+          "height": 63,
+          "top": 645,
+          "right": 307,
+          "bottom": 708,
+          "left": 123
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "failures": []
+}

@@ -5,7 +5,7 @@
     "pixi.js": "8.20.0",
     "gsap": "3.13.0"
   },
-  "bundleBytes": 2040804,
+  "bundleBytes": 2041423,
   "commonV3": [
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
@@ -109,6 +109,21 @@
       "sha256": "5e3e64c8fa99acfa0f36b5db201aa3ca6c183e3357baff344a857aeea7c5d1e0"
     },
     {
+      "path": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+      "bytes": 1634688,
+      "sha256": "bfc290fe03b6e1f346e9f7ece1cb561e0dbc586a7ab49f8f92be84203e06831f"
+    },
+    {
+      "path": "/preview/coop-defense-v1/assets/ui-v5/guardian-panel.png",
+      "bytes": 2219996,
+      "sha256": "aa641421a892b638dbff12a166b75d9498bf09b1ac0932b1ddf7151f5b431c13"
+    },
+    {
+      "path": "/preview/coop-defense-v1/assets/ui-v5/guardian-crest.png",
+      "bytes": 2216886,
+      "sha256": "aa3d86e9778588332f28cd4edd8e09e83e62d96b60d4f041e918db0bf61730cc"
+    },
+    {
       "path": "/assets/ui/project-v/battlefields/v3-siege-fortress-courtyard-v1.png",
       "bytes": 618934,
       "sha256": "08c29adf6206fc34b574f7f2e3fbefb63618e10552d1b63157ef4ce2078ead7f"
@@ -117,6 +132,11 @@
       "path": "/preview/coop-defense-v1/assets/lobby-v4/fortress-assembly-court.png",
       "bytes": 2528852,
       "sha256": "37186bddcd96900342506d2c71164b8c4a13f31a4fe9c6a8e2cc2c93fbbe5c42"
+    },
+    {
+      "path": "/preview/coop-defense-v1/assets/lobby-v4/ready-command-button.png",
+      "bytes": 2072880,
+      "sha256": "5455c52ea3dc2389d821ee3fcf1b0efea7c3be9e31cd506f25988617dded7eed"
     },
     {
       "path": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png",

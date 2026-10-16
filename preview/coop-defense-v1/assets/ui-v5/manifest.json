@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-17",
+  "tool": "built-in image_gen",
+  "status": "IMPLEMENTED_TEST",
+  "promptSet": "prompts.json",
+  "assets": [
+    {
+      "path": "preview/coop-defense-v1/assets/ui-v5/guardian-crest.png",
+      "sha256": "aa3d86e9778588332f28cd4edd8e09e83e62d96b60d4f041e918db0bf61730cc",
+      "bytes": 2216886,
+      "size": [
+        1122,
+        1402
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "originalPreserved": true
+    },
+    {
+      "path": "preview/coop-defense-v1/assets/ui-v5/guardian-panel.png",
+      "sha256": "aa641421a892b638dbff12a166b75d9498bf09b1ac0932b1ddf7151f5b431c13",
+      "bytes": 2219996,
+      "size": [
+        1536,
+        1024
+      ],
+      "alphaRange": [
+        0,
+        254
+      ],
+      "originalPreserved": true
+    },
+    {
+      "path": "preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+      "sha256": "bfc290fe03b6e1f346e9f7ece1cb561e0dbc586a7ab49f8f92be84203e06831f",
+      "bytes": 1634688,
+      "size": [
+        2172,
+        724
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "originalPreserved": true
+    }
+  ],
+  "consumers": [
+    "preview/coop-defense-v1/image-skin.css",
+    "preview/coop-defense-v1/source/DefenseBattleEngine.js"
+  ],
+  "scope": "All Monster Defense lobby, waiting, battle HUD, workshop and result surfaces. Dynamic text, input, progress and accessibility remain in DOM/Pixi."
+}

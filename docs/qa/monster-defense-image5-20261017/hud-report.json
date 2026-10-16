@@ -1,0 +1,73 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Nine ally nameplates use authored Pixi sprites; seven enemy appearances preserve forward art and unmirrored HUD; resize and reconnect retain a single renderer",
+    "Numeric enhancement plate uses only the painted panel and no overlapping background; workshop frame clears mobile text"
+  ],
+  "errors": [],
+  "enemySprites": [
+    {
+      "id": "enemy-1",
+      "archetype": "RIVET",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    },
+    {
+      "id": "enemy-2",
+      "archetype": "HOUND",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    },
+    {
+      "id": "enemy-3",
+      "archetype": "BASTION",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    },
+    {
+      "id": "enemy-4",
+      "archetype": "VEIL",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    },
+    {
+      "id": "enemy-5",
+      "archetype": "CRAWLER",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    },
+    {
+      "id": "enemy-6",
+      "archetype": "WEAVER",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    },
+    {
+      "id": "enemy-7",
+      "archetype": "NOX",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    }
+  ]
+}

@@ -488,6 +488,7 @@
   "environment": {
     "renderer": "painted-sprites",
     "staging": "/preview/coop-defense-v1/assets/lobby-v4/fortress-assembly-court.png",
+    "readyButton": "/preview/coop-defense-v1/assets/lobby-v4/ready-command-button.png",
     "causeway": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png",
     "core": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png"
   },
@@ -498,5 +499,10 @@
     "font": "/preview/defense-roguelike-v2/assets/ui-v3/SUIT-Variable.woff2",
     "capsule": "/preview/defense-roguelike-v2/assets/supply-capsule-opening.png",
     "reactor": "/preview/defense-roguelike-v2/assets/enhancement-reactor-cycle.png"
+  },
+  "uiSkin": {
+    "nameplate": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+    "panel": "/preview/coop-defense-v1/assets/ui-v5/guardian-panel.png",
+    "crest": "/preview/coop-defense-v1/assets/ui-v5/guardian-crest.png"
   }
 }

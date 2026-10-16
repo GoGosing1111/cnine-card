@@ -1,0 +1,9 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-17",
+  "userDirection": "준비취소 다시만들어라",
+  "reference": "preview/defense-roguelike-v2/assets/ui-v3/command-button.png",
+  "prompt": "Use case: game UI asset / companion button. Use the reference image only for its mechanical construction and premium material style. Create ONE new secondary command button to sit next to that ivory primary command button in a Korean cooperative defense game lobby. The new button is compact and horizontal, outer metal frame ratio approximately 2.3:1, front-on orthographic flat UI perspective. Graphite charcoal brushed-metal center with a very spacious calm flat dark surface for a Korean label to be added in HTML. A clean narrow bevelled silver titanium rim, angular chamfered four corners, four small recessed fasteners, restrained icy cyan status light on each short side. Subtle realistic material texture, precise immaculate edges, elegant premium tactical sci-fi equipment design. Clearly subordinate to the pale ivory primary button, but equally finished. Center must stay dark and visually uncluttered, with no art crossing the future text area. Not a green button; not a glowing neon rectangle; not bulky gold fantasy trim. Deliver exactly ONE button isolated on a truly transparent background, tightly composed with only a small transparent margin around the complete object, landscape canvas. Do not add a shadow outside the object. NO TEXT, no letters, no numbers, no symbols, no logos, no watermark, no additional buttons or panels. Preserve reference style but create the new dark compact companion asset, not a full scene.",
+  "transparent_background": true,
+  "output": "ready-command-button.png"
+}

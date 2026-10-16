@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Mobile squad tabs select all three squads",
+    "All nine character labels remain above footer at 390 and 320",
+    "One mission info panel at a time; six enemy portraits",
+    "390/320/844/1440 layouts fit viewport; practice ready enables deployment"
+  ],
+  "measurements": [
+    {
+      "width": 390,
+      "squad": 0,
+      "footer": 698.5,
+      "captionBottom": 688.5,
+      "panelBottom": 699.5
+    },
+    {
+      "width": 390,
+      "squad": 1,
+      "footer": 698.5,
+      "captionBottom": 688.5,
+      "panelBottom": 699.5
+    },
+    {
+      "width": 390,
+      "squad": 2,
+      "footer": 698.5,
+      "captionBottom": 688.5,
+      "panelBottom": 699.5
+    },
+    {
+      "width": 320,
+      "squad": 0,
+      "footer": 580.5,
+      "captionBottom": 572.5,
+      "panelBottom": 580.5
+    },
+    {
+      "width": 320,
+      "squad": 1,
+      "footer": 580.5,
+      "captionBottom": 572.5,
+      "panelBottom": 580.5
+    },
+    {
+      "width": 320,
+      "squad": 2,
+      "footer": 580.5,
+      "captionBottom": 572.5,
+      "panelBottom": 580.5
+    }
+  ]
+}
