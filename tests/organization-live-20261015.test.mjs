@@ -69,13 +69,13 @@ test('deadline is checked after request body parsing and row locks, not when req
  const response=await handleOrganization({path:'organization/survey',request,env:f.env,deps:f.deps});assert.equal(response.status,409);assert.equal((await response.json()).code,'ORG_SURVEY_CLOSED');
  assert.equal((await f.pg.query('SELECT COUNT(*)::int n FROM organization_surveys_v1')).rows[0].n,0);
 });
-test('a changed account is refreshed on retry without discarding the other applicants',async t=>{
+test('a changed rating policy refreshes all affected snapshots on retry',async t=>{
  const f=await organizationFixture(t),id=await live(f,{enroll:15});f.advance(ORGANIZATION_RECRUITMENT_MS);
  const validator=f.deps.validateOrganizationRatingsLocked,loader=f.deps.loadOrganizationRatings;const batches=[];let changed=false;
  f.deps.loadOrganizationRatings=async(...args)=>{batches.push(args[1]);return loader(...args);};
  f.deps.validateOrganizationRatingsLocked=async(q,ratings,options)=>{if(!changed){changed=true;return false;}return validator(q,ratings,options);};
  assert.equal((await tick(f)).code,'ORG_RATING_CHANGED');
  assert.equal((await f.pg.query('SELECT COUNT(*)::int n FROM organization_ratings_v1 WHERE round_id=$1',[id])).rows[0].n,15);
- await f.pg.query('UPDATE qa_ratings SET version=version+1 WHERE user_id=2');
- f.advance(60000);assert.equal((await tick(f)).status,'ASSIGNED');assert.deepEqual(batches.at(-1),[2]);assert.equal(batches.length,3);
+ f.bumpRatingPolicy();
+ f.advance(60000);assert.equal((await tick(f)).status,'ASSIGNED');assert.deepEqual(batches.at(-1),[14,15,16]);assert.equal(batches.length,4);
 });

@@ -468,7 +468,9 @@
   },
   "workshop": {
     "modules": "/preview/defense-roguelike-v2/assets/trait-modules.png",
-    "chamber": "/preview/defense-roguelike-v2/assets/recalibration-chamber.png",
+    "chamber": "/preview/defense-roguelike-v2/assets/ui-v3/field-service-bay.png",
+    "button": "/preview/defense-roguelike-v2/assets/ui-v3/command-button.png",
+    "font": "/preview/defense-roguelike-v2/assets/ui-v3/SUIT-Variable.woff2",
     "capsule": "/preview/defense-roguelike-v2/assets/supply-capsule-opening.png",
     "reactor": "/preview/defense-roguelike-v2/assets/enhancement-reactor-cycle.png"
   }

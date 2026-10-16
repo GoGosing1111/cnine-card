@@ -407,7 +407,7 @@ function bind() {
 }
 async function main() {
   bind();
-  const response = await fetch('./asset-catalog.json?v=20261016-rogue2'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
+  const response = await fetch('./asset-catalog.json?v=20261017-defense-ui3'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
   state.catalog = await response.json(); buildLoadout();buildDifficulties();
   const invited = new URLSearchParams(location.search).get('room'); if (invited && /^[A-Fa-f0-9]{6,12}$/.test(invited)) $('room-code').value = invited.toUpperCase();
   if(LIVE){

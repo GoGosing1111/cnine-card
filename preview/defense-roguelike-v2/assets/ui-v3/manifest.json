@@ -1,0 +1,61 @@
+{
+  "revision": 3,
+  "date": "2026-10-17",
+  "status": "implemented-for-review",
+  "request": "Dedicated defense buttons; no reused other-content UI; remove slide unlock; replace typography and palette.",
+  "generation": {
+    "mode": "built-in image_gen",
+    "promptFile": "prompts.json",
+    "originals": {
+      "command-button.png": "exec-a445894f-5891-4edc-917e-26c14fb346f1.png",
+      "field-service-bay.png": "exec-12d7f555-f4ca-47f6-a612-4848cecf6059.png"
+    },
+    "preservation": "PNG bytes and generated alpha preserved; no image preprocessing."
+  },
+  "font": {
+    "family": "SUIT Variable",
+    "upstream": "https://github.com/sun-typeface/SUIT",
+    "commit": "55118d981336d8fce005eb62888c12c0568ef7b0",
+    "license": "SIL Open Font License 1.1",
+    "localLicense": "SUIT-LICENSE.txt"
+  },
+  "assets": [
+    {
+      "file": "command-button.png",
+      "bytes": 1779311,
+      "sha256": "e06d459a8ff5dfcbba84ff2c6eb097e2124dad7b3dddd56f6bb2d664ad9d0b1c",
+      "width": 2172,
+      "height": 724,
+      "colorType": 6
+    },
+    {
+      "file": "field-service-bay.png",
+      "bytes": 1937548,
+      "sha256": "63f1036ef30304e49704ddc215b50adfe8664eb71efdd92a13045e032778e895",
+      "width": 1672,
+      "height": 941,
+      "colorType": 2
+    },
+    {
+      "file": "SUIT-Variable.woff2",
+      "bytes": 624536,
+      "sha256": "aa894a204d5a6fbae259dac6868d350cbd373a390caee0313f92946af741df23"
+    },
+    {
+      "file": "SUIT-LICENSE.txt",
+      "sourceBytes": 4380,
+      "sourceSha256": "30d101ee3c35ef629d622d933d261a27b2f60223e0a3b0f36791e569c2b9daa9",
+      "hashNormalization": "Upstream LF text; Git may check out the license with CRLF on Windows."
+    }
+  ],
+  "consumers": [
+    "/preview/defense-roguelike-v2/",
+    "/defense/"
+  ],
+  "behavior": {
+    "draw": "one click, tap or Enter; reveal the existing server receipt",
+    "upgrade": "server receipt and cost rules unchanged",
+    "mobile": "scrolling content, persistent footer; reactor appears during/result reveal",
+    "rulesChanged": false
+  }
+}

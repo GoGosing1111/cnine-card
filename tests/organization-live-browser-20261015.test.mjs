@@ -6,7 +6,7 @@ import {resolve,relative,isAbsolute,extname,join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {organizationFixture} from './helpers/organization-fixture.mjs';
-import {handleOrganization} from '../functions/_organization.js';
+import {handleOrganization,reconcileOrganizationRecruitment} from '../functions/_organization.js';
 import {ORGANIZATION_INTERVIEW,reviewOrganizationAnswers} from '../shared/organization-interview-v1.mjs';
 import {ORGANIZATION_RECRUITMENT_MS} from '../shared/organization-system-v1.mjs';
 
@@ -17,11 +17,17 @@ test('PC/mobile complete all seven LIVE questions, persist the real application 
  const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
  const browser=await chromium.launch({channel:'chrome',headless:true});t.after(()=>browser.close());
  const verification=[];
- for(const width of [1440,390]){
+ for(const [width,additional] of [[1440,false],[390,false],[1440,true],[390,true]]){
   const f=await organizationFixture(t),serverErrors=[],apiCalls=[],errors=[];
   const created=await f.post('admin/organization/create',{scope:'LIVE',name:'격리된 브라우저 접수 검수'}),roundId=created.data.roundId;
   assert.equal(created.status,200);
   assert.equal((await f.post('admin/organization/phase',{roundId,revision:0,phase:'SURVEY',autoAssign:true})).status,200);
+  if(additional){
+   for(let user=3;user<18;user++)assert.equal((await f.post('organization/survey',{roundId,revision:0,preferredOrganizationId:user%15+1},{user})).status,200);
+   f.advance(ORGANIZATION_RECRUITMENT_MS);assert.equal((await reconcileOrganizationRecruitment(f.env,f.deps,{now:f.clock()})).status,'ASSIGNED');
+   const r=(await f.call('admin/organization')).data.round;assert.equal((await f.post('admin/organization/additional-recruitment',{roundId,revision:r.revision,action:'open'})).status,200);
+  }
+  const originalMembers=(await f.pg.query('SELECT * FROM organization_members_v1 ORDER BY user_id')).rows;
   const token='isolated-organization-applicant-'+width;
   const deps={...f.deps,authenticate:async request=>request.headers.get('Authorization')==='Bearer '+token?(await f.pg.query('SELECT * FROM users WHERE id=2')).rows[0]:null};
   const server=createServer(async(req,res)=>{try{
@@ -48,10 +54,10 @@ test('PC/mobile complete all seven LIVE questions, persist the real application 
   const fits=async()=>assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'No horizontal overflow at '+width+'px');
   const settled=async()=>page.waitForFunction(()=>document.querySelector('#organization-root')?.getAttribute('aria-busy')==='false');
   await page.goto(origin+'/organization/');await page.locator('[data-admission="start"]').waitFor();await settled();
-  assert.match(await page.locator('.org-recruitment').innerText(),/조직 입단 접수 중/);
+  assert.match(await page.locator('.org-recruitment').innerText(),additional?/조직 추가 모집 중/:/조직 입단 접수 중/);
   assert.match(await page.locator('[data-org-countdown]').innerText(),/^(24:00:00|23:59:\d{2})$/);
   assert.equal(await page.locator('[data-tab="manage"]').count(),0);
-  await fits();await page.screenshot({path:join(out,width+'-invitation.jpg'),fullPage:true,type:'jpeg',quality:88});
+  await fits();await page.screenshot({path:join(out,(additional?'additional-':'initial-')+width+'-invitation.jpg'),fullPage:true,type:'jpeg',quality:88});
   await page.locator('[data-admission="start"]').click();
   const answers={};
   for(let index=0;index<ORGANIZATION_INTERVIEW.length;index++){
@@ -63,7 +69,7 @@ test('PC/mobile complete all seven LIVE questions, persist the real application 
    assert.equal(await page.locator('[data-answer="'+option.id+'"]').getAttribute('aria-checked'),'true');
    assert.equal(await page.locator('[data-admission="next"]').isDisabled(),false);
    await fits();
-   if(index===3)await page.screenshot({path:join(out,width+'-question.jpg'),fullPage:true,type:'jpeg',quality:88});
+   if(index===3)await page.screenshot({path:join(out,(additional?'additional-':'initial-')+width+'-question.jpg'),fullPage:true,type:'jpeg',quality:88});
    await page.locator('[data-admission="next"]').click();
   }
   await page.locator('.admission-results').waitFor();
@@ -71,7 +77,7 @@ test('PC/mobile complete all seven LIVE questions, persist the real application 
   assert.equal(await page.locator('.admission-dossier').count(),3);
   assert.equal(await page.locator('.admission-dossier.selected [data-admission-pick]').getAttribute('data-admission-pick'),String(preferred));
   assert.equal(apiCalls.filter(call=>call.method==='POST').length,0,'Answering and recommendations remain local until submit');
-  await fits();await page.screenshot({path:join(out,width+'-recommendations.jpg'),fullPage:true,type:'jpeg',quality:88});
+  await fits();await page.screenshot({path:join(out,(additional?'additional-':'initial-')+width+'-recommendations.jpg'),fullPage:true,type:'jpeg',quality:88});
   await page.locator('[data-admission="submit"]').click();
   await page.locator('.admission-submitted').waitFor();await settled();
   const submitted=apiCalls.filter(call=>call.path==='organization/survey'&&call.method==='POST');
@@ -81,7 +87,7 @@ test('PC/mobile complete all seven LIVE questions, persist the real application 
   await page.reload();await page.locator('.admission-submitted').waitFor();
   await page.locator('.admission-answer-record summary').click();assert.equal(await page.locator('.admission-answer-record li').count(),7);
   for(let i=0;i<7;i++)assert.equal(await page.locator('.admission-answer-record li p').nth(i).innerText(),ORGANIZATION_INTERVIEW[i].options.find(o=>o.id===answers[ORGANIZATION_INTERVIEW[i].id]).label);
-  await fits();await page.screenshot({path:join(out,width+'-submitted.jpg'),fullPage:true,type:'jpeg',quality:88});
+  await fits();await page.screenshot({path:join(out,(additional?'additional-':'initial-')+width+'-submitted.jpg'),fullPage:true,type:'jpeg',quality:88});
   await page.locator('[data-tab="hideout"]').click();
   for(const stage of [0,1,2,3,4]){
    await page.locator('[data-stage="'+stage+'"]').click();await page.locator('img.org-building').evaluate(img=>img.decode());
@@ -89,7 +95,7 @@ test('PC/mobile complete all seven LIVE questions, persist the real application 
    assert.match(image.source,new RegExp('hideout-stage-'+(stage+1)+'-(960|1536)\\.webp'));assert.ok(image.width>=960);assert.ok(image.width>=image.displayWidth);
    await fits();
   }
-  await page.screenshot({path:join(out,width+'-hideout-hd.jpg'),fullPage:true,type:'jpeg',quality:90});
+  await page.screenshot({path:join(out,(additional?'additional-':'initial-')+width+'-hideout-hd.jpg'),fullPage:true,type:'jpeg',quality:90});
   await page.locator('[data-tab="survey"]').click();await page.locator('.admission-submitted').waitFor();
   f.advance(ORGANIZATION_RECRUITMENT_MS-5000);
   await page.reload();await page.locator('.admission-submitted').waitFor();assert.match(await page.locator('[data-org-countdown]').innerText(),/00:00:0[45]/);
@@ -106,9 +112,11 @@ test('PC/mobile complete all seven LIVE questions, persist the real application 
   await page.reload();await page.locator('.admission-submitted').waitFor();assert.equal(await page.locator('[data-admission="edit"]').isDisabled(),true);
   rows=(await f.pg.query('SELECT * FROM organization_surveys_v1 WHERE round_id=$1 AND user_id=2',[roundId])).rows;
   assert.equal(rows.length,1);assert.equal(Number(rows[0].revision),1);assert.deepEqual(JSON.parse(rows[0].answers_json),answers);
-  await fits();await page.screenshot({path:join(out,width+'-closed.jpg'),fullPage:true,type:'jpeg',quality:88});
+  await fits();await page.screenshot({path:join(out,(additional?'additional-':'initial-')+width+'-closed.jpg'),fullPage:true,type:'jpeg',quality:88});
   assert.deepEqual(errors,[]);assert.deepEqual(serverErrors,[]);
-  verification.push({width,questions:7,submitted:true,persistedAfterReload:true,lateRequestBlocked:true,hideoutStages:5,minimumImageWidth:960,pageErrors:errors,serverErrors});
+  assert.deepEqual((await f.pg.query('SELECT * FROM organization_members_v1 ORDER BY user_id')).rows,originalMembers);
+  if(additional){assert.equal((await f.call('admin/organization')).data.round.auto_assign,0);assert.match(await page.locator('.admission-submitted').innerText(),/접수만 진행/);}
+  verification.push({width,additional,questions:7,submitted:true,persistedAfterReload:true,lateRequestBlocked:true,hideoutStages:5,minimumImageWidth:960,pageErrors:errors,serverErrors});
   await context.close();
  }
  await writeFile(join(out,'verification.json'),JSON.stringify({scope:'Isolated PostgreSQL-compatible fixture, real organization HTTP handlers and production UI; no live account or production writes',checks:verification},null,2)+'\n');

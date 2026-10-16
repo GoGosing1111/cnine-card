@@ -8,8 +8,10 @@ import {jointHash} from './_joint_transactions.js';
 const parse=JSON.parse;
 const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])])):value;
 const owner=user=>user?.role==='OWNER';
-const roundView=(r,now)=>r?Object.fromEntries(Object.entries({...r,phase:r.phase==='SURVEY'&&r.closes_at!==null&&Number(r.closes_at)<=now?'CLOSED':r.phase}).filter(([key])=>!['assignment_token','assignment_lease_until'].includes(key))):null;
-const surveyOpen=(r,now)=>r?.phase==='SURVEY'&&r.opened_at!==null&&r.closes_at!==null&&Number(r.opened_at)<=now&&now<Number(r.closes_at);
+const additionalRecruitment=r=>r?.phase==='ASSIGNED'&&['RECRUITING','RECRUITMENT_CLOSED'].includes(r.assignment_status);
+const surveyOpen=(r,now)=>(r?.phase==='SURVEY'||additionalRecruitment(r)&&r.assignment_status==='RECRUITING')&&r.opened_at!==null&&r.closes_at!==null&&Number(r.opened_at)<=now&&now<Number(r.closes_at);
+const recruitmentView=(r,now)=>({kind:additionalRecruitment(r)?'ADDITIONAL':'INITIAL',open:surveyOpen(r,now),openedAt:r.opened_at===null?null:Number(r.opened_at),closesAt:r.closes_at===null?null:Number(r.closes_at),autoAssign:additionalRecruitment(r)?false:!!Number(r.auto_assign)});
+const roundView=(r,now)=>r?Object.fromEntries(Object.entries({...r,phase:r.phase==='SURVEY'&&r.closes_at!==null&&Number(r.closes_at)<=now?'CLOSED':r.phase,assignment_status:additionalRecruitment(r)&&!surveyOpen(r,now)?'RECRUITMENT_CLOSED':r.assignment_status,recruitment:recruitmentView(r,now)}).filter(([key])=>!['assignment_token','assignment_lease_until'].includes(key))):null;
 const qFor=DB=>async(text,values=[]) => (await DB.client.query({text,values})).rows;
 async function transaction(DB,work){
   orgAssert(DB?.dialect==='postgres'&&DB.client&&DB.enqueue,'DATABASE','조직 준비 DB를 확인하세요.',503);
@@ -50,7 +52,7 @@ function validRatings(rows,r,now){return rows.length>0&&rows.every(row=>row.rati
 async function ratingProgress(q,rows,r,deps,now){
   const eligible=rows.filter(row=>row.rating_json&&Number(row.round_revision)===Number(r.revision));
   const inspect=deps.staleOrganizationRatingIds||(await import('./_organization_ratings.js')).staleOrganizationRatingIds;
-  const stale=new Set(await inspect(q,eligible.map(row=>parse(row.rating_json)),{now,minimumValidityMs:30000}));
+  const stale=new Set(await inspect(q,eligible.map(row=>parse(row.rating_json)),{now,minimumValidityMs:30000,requireCurrentSource:false}));
   const pending=rows.filter(row=>!row.rating_json||Number(row.round_revision)!==Number(r.revision)||Number(row.expires_at)<=now+30000||stale.has(Number(row.user_id)));
   return {ids:pending.map(row=>Number(row.user_id)),ratedCount:rows.length-pending.length,total:rows.length};
 }
@@ -67,7 +69,7 @@ export async function organizationOverview(env,user,{roundId,admin=false,now=Dat
     if(admin)orgAssert(owner(user),'PERMISSION','조직 운영은 OWNER 전용입니다.',403);
     if(r)access(p,user,r);
     const [counts,survey,membership,ratingCount,proposal,progress]=r?await Promise.all([
-      q('SELECT preferred_id,COUNT(*)::integer AS n FROM organization_surveys_v1 WHERE round_id=$1 AND active=1 GROUP BY preferred_id',[r.id]),
+      q('SELECT s.preferred_id,COUNT(*)::integer AS n,COUNT(*) FILTER(WHERE m.user_id IS NULL)::integer AS pending FROM organization_surveys_v1 s LEFT JOIN organization_members_v1 m ON m.round_id=s.round_id AND m.user_id=s.user_id WHERE s.round_id=$1 AND s.active=1 GROUP BY s.preferred_id',[r.id]),
       q('SELECT preferred_id,revision,updated_at,active,answers_json FROM organization_surveys_v1 WHERE round_id=$1 AND user_id=$2',[r.id,user.id]),
       q('SELECT organization_id,slot FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2',[r.id,user.id]),
       q('SELECT COUNT(*)::integer AS n FROM organization_ratings_v1 WHERE round_id=$1 AND round_revision=$2 AND expires_at>$3',[r.id,r.revision,now]),
@@ -78,7 +80,7 @@ export async function organizationOverview(env,user,{roundId,admin=false,now=Dat
     const latest=proposal[0];
     const applicants=admin&&r?await q('SELECT s.user_id,u.nickname,s.preferred_id,s.updated_at,s.revision,s.active,x.expires_at,x.round_revision FROM organization_surveys_v1 s JOIN users u ON u.id=s.user_id LEFT JOIN organization_ratings_v1 x ON x.round_id=s.round_id AND x.user_id=s.user_id WHERE s.round_id=$1 ORDER BY s.active DESC,s.updated_at,s.user_id',[r.id]):[];
     const allMembers=admin&&r?await q('SELECT m.user_id,m.organization_id,m.slot,m.seed_power,u.nickname FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 ORDER BY m.organization_id,m.slot',[r.id]):[];
-    return {ok:true,viewerId:Number(user.id),releaseEnabled:ORGANIZATION_RELEASE_ENABLED,admissionEnabled:!!r&&(surveyOpen(r,now)||survey[0]?.active===1),serverNow:now,capacity:150,preparation:{...ORGANIZATION_PREPARATION,status:r?.phase||'PREPARATION',registrationOpen:surveyOpen(r,now)},round:roundView(r,now),policy:admin?p:{pointsPerRegion:p.pointsPerRegion,settlementMinutes:p.settlementMinutes,growthMode:p.growthMode,hideoutThresholds:p.hideoutThresholds,unlocks:p.unlocks},...(admin?{rounds:rounds.map(row=>roundView(row,now)),participants:applicants.map(a=>({userId:Number(a.user_id),nickname:a.nickname,preferredOrganizationId:Number(a.preferred_id),submittedAt:Number(a.updated_at),surveyRevision:Number(a.revision),active:a.active===1,rated:Number(a.expires_at)>now&&Number(a.round_revision)===Number(r.revision)}))}:{}),survey:survey[0]?{answers:parse(survey[0].answers_json),submitted:survey[0].active===1,preferredOrganizationId:Number(survey[0].preferred_id),revision:Number(survey[0].revision)}:null,membership:membership[0]?{organizationId:Number(membership[0].organization_id),slot:Number(membership[0].slot)}:null,roster:roster.map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),joinedAt:Number(m.joined_at),isSelf:Number(m.user_id)===Number(user.id)})),participantCount:counts.reduce((n,c)=>n+c.n,0),ratedCount:ratingCount[0]?.n||0,organizations:ORGANIZATIONS.map(o=>{const s=progress.find(p=>Number(p.organization_id)===o.id);return {...o,...(admin?{roster:allMembers.filter(m=>Number(m.organization_id)===o.id).map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),power:Number(m.seed_power)}))}:{}),applicants:counts.find(c=>Number(c.preferred_id)===o.id)?.n||0,memberCount:s?.member_count||0,power:Number(s?.power||0),hideout:organizationHeadquartersState(s,p)};}),proposal:latest?{id:latest.id,expiresAt:Number(latest.expires_at),appliedAt:latest.applied_at?Number(latest.applied_at):null,...parse(latest.result_json)}:null};
+    return {ok:true,viewerId:Number(user.id),releaseEnabled:ORGANIZATION_RELEASE_ENABLED,admissionEnabled:!!r&&(surveyOpen(r,now)||survey[0]?.active===1),serverNow:now,capacity:150,preparation:{...ORGANIZATION_PREPARATION,status:r?.phase||'PREPARATION',registrationOpen:surveyOpen(r,now)&&!membership[0]},round:roundView(r,now),policy:admin?p:{pointsPerRegion:p.pointsPerRegion,settlementMinutes:p.settlementMinutes,growthMode:p.growthMode,hideoutThresholds:p.hideoutThresholds,unlocks:p.unlocks},...(admin?{rounds:rounds.map(row=>roundView(row,now)),participants:applicants.map(a=>({userId:Number(a.user_id),nickname:a.nickname,preferredOrganizationId:Number(a.preferred_id),submittedAt:Number(a.updated_at),surveyRevision:Number(a.revision),assignedOrganizationId:Number(allMembers.find(m=>Number(m.user_id)===Number(a.user_id))?.organization_id)||null,active:a.active===1,rated:Number(a.expires_at)>now&&Number(a.round_revision)===Number(r.revision)}))}:{}),survey:survey[0]?{answers:parse(survey[0].answers_json),submitted:survey[0].active===1,preferredOrganizationId:Number(survey[0].preferred_id),revision:Number(survey[0].revision)}:null,membership:membership[0]?{organizationId:Number(membership[0].organization_id),slot:Number(membership[0].slot)}:null,roster:roster.map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),joinedAt:Number(m.joined_at),isSelf:Number(m.user_id)===Number(user.id)})),participantCount:counts.reduce((n,c)=>n+c.n,0),pendingApplicantCount:counts.reduce((n,c)=>n+c.pending,0),memberCount:progress.reduce((n,p)=>n+Number(p.member_count),0),ratedCount:ratingCount[0]?.n||0,organizations:ORGANIZATIONS.map(o=>{const s=progress.find(p=>Number(p.organization_id)===o.id);return {...o,...(admin?{roster:allMembers.filter(m=>Number(m.organization_id)===o.id).map(m=>({userId:Number(m.user_id),nickname:m.nickname,slot:Number(m.slot),power:Number(m.seed_power)}))}:{}),applicants:counts.find(c=>Number(c.preferred_id)===o.id)?.n||0,memberCount:s?.member_count||0,power:Number(s?.power||0),hideout:organizationHeadquartersState(s,p)};}),proposal:latest?{id:latest.id,expiresAt:Number(latest.expires_at),appliedAt:latest.applied_at?Number(latest.applied_at):null,...parse(latest.result_json)}:null};
   });
 }
 async function refreshRatings(env,user,body,deps,now){
@@ -106,6 +108,7 @@ export async function handleOrganization({path,request,env,deps}){
       'admin/organization/policy':['requestId','policy'],
       'admin/organization/create':['requestId','scope','name'],
       'admin/organization/phase':['requestId','roundId','revision','phase','autoAssign'],
+      'admin/organization/additional-recruitment':['requestId','roundId','revision','action'],
       'organization/survey':['requestId','roundId','revision','preferredOrganizationId','answers'],
       'organization/withdraw':['requestId','roundId','revision'],
       'admin/organization/ratings':['requestId','roundId','restart'],
@@ -136,6 +139,18 @@ async function organizationCommand(env,user,path,body,deps,now){
       const {p,r}=await lockedContext(q,user,body);
       // Admission deadlines are checked after body parsing and all row locks.
       now=(deps.now||Date.now)();
+      if(path==='admin/organization/additional-recruitment'){
+        const [actor]=await q('SELECT role,status,banned_until FROM users WHERE id=$1 FOR SHARE',[user.id]);
+        orgAssert(actor?.role==='OWNER'&&actor.status==='ACTIVE'&&(!actor.banned_until||Date.parse(actor.banned_until)<=now),'PERMISSION','조직 추가 모집은 활성 OWNER 전용입니다.',403);
+        orgAssert(body.revision===Number(r.revision),'STALE','모집 상태가 변경되었습니다. 다시 불러오세요.');
+        orgAssert(r.phase==='ASSIGNED','PHASE','기존 조직 배정이 완료된 뒤 추가 모집할 수 있습니다.');
+        orgAssert(['open','close'].includes(body.action),'INPUT','추가 모집 동작을 확인하세요.',400);
+        if(body.action==='open')orgAssert(!surveyOpen(r,now),'RECRUITMENT_OPEN','이미 추가 모집 중입니다. 기존 마감 시각은 연장하지 않습니다.');
+        else orgAssert(additionalRecruitment(r),'PHASE','진행한 추가 모집이 없습니다.');
+        const opened=body.action==='open'?now:Number(r.opened_at),closes=body.action==='open'?now+ORGANIZATION_RECRUITMENT_MS:Math.min(Number(r.closes_at),now),status=body.action==='open'?'RECRUITING':'RECRUITMENT_CLOSED';
+        const [updated]=await q("UPDATE organization_rounds_v1 SET revision=revision+1,opened_at=$2,closes_at=$3,auto_assign=0,assignment_status=$4,assignment_error=NULL,assignment_token=NULL,assignment_lease_until=NULL WHERE id=$1 RETURNING *",[r.id,opened,closes,status]);
+        return {ok:true,round:roundView(updated,now),previousRecruitment:{openedAt:Number(r.opened_at),closesAt:Number(r.closes_at),autoAssign:!!Number(r.auto_assign)},membershipWrites:0,autoAssign:false};
+      }
       if(path==='admin/organization/phase'){
         orgAssert(body.revision===Number(r.revision),'STALE','모집 상태가 변경되었습니다. 다시 불러오세요.');
         orgAssert((body.phase==='SURVEY'&&['PREPARATION','CLOSED'].includes(r.phase))||(body.phase==='CLOSED'&&r.phase==='SURVEY'),'PHASE','현재 단계에서 변경할 수 없습니다.');
@@ -146,6 +161,8 @@ async function organizationCommand(env,user,path,body,deps,now){
       }
       if(path==='organization/survey'||path==='organization/withdraw'){
         orgAssert(surveyOpen(r,now),'SURVEY_CLOSED','조직 입단 접수가 마감되었거나 아직 시작되지 않았습니다.');
+        const [member]=await q('SELECT user_id FROM organization_members_v1 WHERE round_id=$1 AND user_id=$2',[r.id,user.id]);
+        orgAssert(!member,'ALREADY_ASSIGNED','이미 조직 배정이 완료됐습니다. 추가 모집은 미배정 계정만 신청할 수 있습니다.');
         const [prior]=await q('SELECT revision,active FROM organization_surveys_v1 WHERE round_id=$1 AND user_id=$2',[r.id,user.id]);orgAssert(body.revision===Number(prior?.revision||0),'STALE','다른 창에서 설문이 변경되었습니다. 다시 불러오세요.');
         if(path.endsWith('/withdraw')){orgAssert(prior?.active===1,'SURVEY_MISSING','제출한 설문이 없습니다.');await q('UPDATE organization_surveys_v1 SET active=0,revision=revision+1 WHERE round_id=$1 AND user_id=$2',[r.id,user.id]);}
         else{orgInteger(body.preferredOrganizationId,1,15,'희망 조직');const interview=reviewOrganizationAnswers(body.answers);await q('INSERT INTO organization_surveys_v1(round_id,user_id,preferred_id,revision,updated_at,answers_json) VALUES($1,$2,$3,1,$4,$5) ON CONFLICT(round_id,user_id) DO UPDATE SET preferred_id=excluded.preferred_id,revision=organization_surveys_v1.revision+1,updated_at=excluded.updated_at,answers_json=excluded.answers_json,active=1',[r.id,user.id,body.preferredOrganizationId,now,JSON.stringify(interview.answers)]);}
@@ -162,7 +179,9 @@ async function organizationCommand(env,user,path,body,deps,now){
       const [proposal]=await q('SELECT * FROM organization_proposals_v1 WHERE id=$1 AND round_id=$2 FOR UPDATE',[body.proposalId,r.id]);
       orgAssert(proposal&&Number(proposal.round_revision)===Number(r.revision)&&Number(proposal.expires_at)>now&&proposal.input_hash===input.hash,'STALE_PROPOSAL','배정안 또는 전력 정보가 변경되었습니다. 다시 평가하세요.');
       const validate=deps.validateOrganizationRatingsLocked||(await import('./_organization_ratings.js')).validateOrganizationRatingsLocked;
-      orgAssert(await validate(q,input.ratings,{now}),'RATING_CHANGED','계정 전력이 변경되었습니다. 전력 재평가 후 배정안을 다시 만드세요.');
+      // Server-verified power is a five-minute allocation snapshot. Ongoing play
+      // cannot revoke it; account status, policy versions and real expiry still can.
+      orgAssert(await validate(q,input.ratings,{now,requireCurrentSource:false}),'RATING_CHANGED','전력 평가 기준이 변경되었습니다. 전력 재평가 후 배정안을 다시 만드세요.');
       const result=parse(proposal.result_json),expected=allocateOrganizations(input.players,{seed:r.id});orgAssert(await jointHash(result)===await jointHash(expected),'PROPOSAL_INVALID','배정안 검증에 실패했습니다.',503);
       const entries=result.organizations.flatMap(o=>o.members.map(m=>({user_id:m.userId,organization_id:o.id,slot:m.slot,seed_power:m.power})));
       await q('INSERT INTO organization_members_v1(round_id,user_id,organization_id,slot,seed_power,joined_at) SELECT $1,x.user_id,x.organization_id,x.slot,x.seed_power,$3 FROM json_to_recordset($2::json) AS x(user_id bigint,organization_id int,slot int,seed_power bigint)',[r.id,JSON.stringify(entries),now]);
@@ -172,11 +191,24 @@ async function organizationCommand(env,user,path,body,deps,now){
     },now);
 }
 
+// Explicit local operation uses the same OWNER checks, row locks and receipt
+// path as CMS. It does not create a session or alter membership.
+export async function runOrganizationAdditionalRecruitment(env,{ownerId,...body},deps={}){
+ const user=await env.DB.prepare('SELECT id,role,status,banned_until FROM users WHERE id=?').bind(ownerId).first();
+ orgAssert(owner(user)&&user.status==='ACTIVE','PERMISSION','활성 OWNER 계정을 확인하세요.',403);
+ return organizationCommand(env,user,'admin/organization/additional-recruitment',body,deps,(deps.now||Date.now)());
+}
+
 // Public content status contains no applicant identity, wish, answers or ratings.
 export async function organizationLiveOperation(env,now=Date.now()){
- const r=await env.DB.prepare("SELECT id,phase,closes_at,assignment_status FROM organization_rounds_v1 WHERE scope='LIVE' LIMIT 1").first();
+ const r=await env.DB.prepare("SELECT id,phase,opened_at,closes_at,auto_assign,assignment_status FROM organization_rounds_v1 WHERE scope='LIVE' LIMIT 1").first();
  if(!r||r.phase==='PREPARATION')return null;
- const open=r.phase==='SURVEY'&&Number(r.closes_at)>now;
+ const open=surveyOpen(r,now);
+ if(additionalRecruitment(r)&&open)return {kind:'ORGANIZATION',phase:'FORMATION',entityId:r.id,title:'조직 추가 모집',detail:'24시간 추가 접수 · 자동 배정 OFF · 시즌 시작 전',deadlineAt:new Date(Number(r.closes_at)).toISOString(),sortOrder:0};
+ if(r.phase==='ASSIGNED'){
+  const faction=await env.DB.prepare('SELECT policy_json FROM organization_faction_policy_v1 WHERE id=1').first();
+  if(!faction||parse(faction.policy_json).mode==='OFF')return null;
+ }
  return {kind:'ORGANIZATION',phase:open?'FORMATION':r.phase==='ASSIGNED'?'ACTIVE':'PREPARING',entityId:r.id,title:open?'조직 입단 모집':r.phase==='ASSIGNED'?'조직 · 세력전':'조직 균등 배정',detail:open?'7문항 설문 접수 · 24시간 모집':r.phase==='ASSIGNED'?'내 조직과 아지트 · 서울·경기남부 세력전':r.assignment_status==='BLOCKED'?'배정 보류 · 운영 확인 중':'설문 마감 · 인원·전력 균등 배정 중',deadlineAt:open?new Date(Number(r.closes_at)).toISOString():null,sortOrder:0};
 }
 
@@ -187,7 +219,11 @@ export async function reconcileOrganizationRecruitment(env,deps={}, {now=Date.no
  const token=crypto.randomUUID(),clock=()=>deps.now?deps.now():Date.now();
  const job=await transaction(env.DB,async q=>{
   const [r]=await q("SELECT * FROM organization_rounds_v1 WHERE scope='LIVE' FOR UPDATE");
-  if(!r||r.phase==='PREPARATION'||r.phase==='ASSIGNED')return null;
+  if(!r||r.phase==='PREPARATION')return null;
+  if(r.phase==='ASSIGNED'){
+   if(r.assignment_status==='RECRUITING'&&Number(r.closes_at)<=now){await q("UPDATE organization_rounds_v1 SET assignment_status='RECRUITMENT_CLOSED',auto_assign=0,revision=revision+1 WHERE id=$1",[r.id]);return {waiting:true,status:'MANUAL',additionalRecruitment:true};}
+   return null;
+  }
   if(r.phase==='SURVEY'&&Number(r.closes_at)>now)return {waiting:true,nextCheckAt:new Date(Number(r.closes_at)).toISOString()};
   if(r.phase==='SURVEY'){await q("UPDATE organization_rounds_v1 SET phase='CLOSED',revision=revision+1 WHERE id=$1",[r.id]);r.revision=Number(r.revision)+1;r.phase='CLOSED';}
   if(!Number(r.auto_assign))return {waiting:true,status:'MANUAL'};
@@ -219,8 +255,8 @@ export async function reconcileOrganizationRecruitment(env,deps={}, {now=Date.no
   const known=/^(ORG_|DUO_)/.test(error.code||'');
   await transaction(env.DB,async q=>{
    const [active]=await q('SELECT assignment_token FROM organization_rounds_v1 WHERE id=$1 FOR UPDATE',[r.id]);if(active?.assignment_token!==token)return;
-   // The next batch checks current versions and refreshes only changed or
-   // expiring accounts. Keep valid snapshots when one active player changes.
+   // The next batch checks policy versions and refreshes only invalid or
+   // expiring snapshots. Ongoing play does not revoke a completed evaluation.
    await q("UPDATE organization_rounds_v1 SET assignment_status='RETRY',assignment_error=$2,assignment_token=NULL,assignment_lease_until=NULL WHERE id=$1",[r.id,known?error.message:'자동 배정을 다시 시도하고 있습니다.']);
   });
   if(!known)throw error;

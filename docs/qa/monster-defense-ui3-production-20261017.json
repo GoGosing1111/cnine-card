@@ -1,0 +1,106 @@
+{
+  "date": "2026-10-16T15:54:00.569Z",
+  "url": "https://cnine-card.pages.dev/preview/defense-roguelike-v2/",
+  "assets": [
+    {
+      "file": "defense/index.html",
+      "status": 200,
+      "bytes": 10344,
+      "sha256": "892dc9ba218a5e844a2cf6c6106ef537b160f9b056bf0f247746492563c90b4f"
+    },
+    {
+      "file": "defense/asset-catalog.json",
+      "status": 200,
+      "bytes": 15856,
+      "sha256": "ca55e15f6b32b23c53fc199929cfb26651aa680a6eca29009585e42bbce02998"
+    },
+    {
+      "file": "preview/coop-defense-v1/asset-catalog.json",
+      "status": 200,
+      "bytes": 15856,
+      "sha256": "ca55e15f6b32b23c53fc199929cfb26651aa680a6eca29009585e42bbce02998"
+    },
+    {
+      "file": "preview/coop-defense-v1/workshop.css",
+      "status": 200,
+      "bytes": 18426,
+      "sha256": "130a6214022d60ec00906e39f15291f09a2176ac47994ad7488f24bc0b73e954"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "status": 200,
+      "bytes": 2039011,
+      "sha256": "5ab5c5e8f9e0a8768643dd1cc63724238e181fedb8aa55bb003cc09f702ecb6e"
+    },
+    {
+      "file": "preview/defense-roguelike-v2/index.html",
+      "status": 200,
+      "bytes": 3002,
+      "sha256": "73a0539cffd052ea89a349c5682db2c60b50698649f5c3f6b5465abda940a5f3"
+    },
+    {
+      "file": "preview/defense-roguelike-v2/preview.bundle.js",
+      "status": 200,
+      "bytes": 113618,
+      "sha256": "dd0d731180933c557970435f6889dffd4208420a38a7ff267774137865d97286"
+    },
+    {
+      "file": "preview/defense-roguelike-v2/assets/ui-v3/command-button.png",
+      "status": 200,
+      "bytes": 1779311,
+      "sha256": "e06d459a8ff5dfcbba84ff2c6eb097e2124dad7b3dddd56f6bb2d664ad9d0b1c"
+    },
+    {
+      "file": "preview/defense-roguelike-v2/assets/ui-v3/field-service-bay.png",
+      "status": 200,
+      "bytes": 1937548,
+      "sha256": "63f1036ef30304e49704ddc215b50adfe8664eb71efdd92a13045e032778e895"
+    },
+    {
+      "file": "preview/defense-roguelike-v2/assets/ui-v3/SUIT-Variable.woff2",
+      "status": 200,
+      "bytes": 624536,
+      "sha256": "aa894a204d5a6fbae259dac6868d350cbd373a390caee0313f92946af741df23"
+    },
+    {
+      "file": "preview/defense-roguelike-v2/assets/ui-v3/SUIT-LICENSE.txt",
+      "status": 200,
+      "bytes": 4473,
+      "sha256": "6d13f474c0732e3e2269bd2cc66df5ce0cbaba0b0e8836b0acfaf85309af72e9"
+    },
+    {
+      "file": "preview/defense-roguelike-v2/assets/ui-v3/manifest.json",
+      "status": 200,
+      "bytes": 2100,
+      "sha256": "c7afae2c9d1418a97cb8dff7382e210964684c766ee0bf5f40fa062eadd87413"
+    },
+    {
+      "file": "preview/defense-roguelike-v2/assets/ui-v3/prompts.json",
+      "status": 200,
+      "bytes": 2915,
+      "sha256": "a79814f0e99391c7a3f74e58e04547dd43afaad6f7faecd0e879db9418c60ac7"
+    }
+  ],
+  "checks": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "oneClickDraw": 100,
+      "forgeResult": "ATTACK +1",
+      "remainingPoints": 0,
+      "sliders": 0,
+      "fontLoaded": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "oneClickDraw": 100,
+      "forgeResult": "ATTACK +1",
+      "remainingPoints": 0,
+      "sliders": 0,
+      "fontLoaded": true
+    }
+  ],
+  "errors": [],
+  "failed": []
+}

@@ -51,3 +51,22 @@ test('CMS explains missing, expired, completed and overflow assignments using se
  assert.match(organizationAssignmentAvailability({...state,participantCount:151},now).reason,/정원을 초과/);
  assert.match(organizationAssignmentAvailability({...state,round:{phase:'ASSIGNED'}},now).reason,/이미 조직 배정/);
 });
+
+test('ongoing play preserves the reviewed five-minute allocation snapshot without changing its power or roster',async t=>{
+ const f=await organizationFixture(t,{people:15}),id=await f.prepare({enroll:15});await f.close(id);await f.rate(id);
+ const proposal=(await f.post('admin/organization/propose',{roundId:id})).data.proposal;
+ const evaluated=proposal.organizations.flatMap(o=>o.members).find(m=>m.userId===2).power;
+ await f.pg.query('UPDATE qa_ratings SET power=power*100,version=version+1 WHERE user_id=2');
+ let evaluations=0;const loader=f.deps.loadOrganizationRatings;f.deps.loadOrganizationRatings=async(...args)=>{evaluations++;return loader(...args);};
+ const progress=await f.post('admin/organization/ratings',{roundId:id});assert.equal(progress.data.done,true);assert.equal(evaluations,0);
+ const applied=await f.post('admin/organization/apply',{roundId:id,proposalId:proposal.id});assert.equal(applied.status,200);assert.equal(applied.data.assigned,15);
+ assert.equal(Number((await f.pg.query('SELECT seed_power FROM organization_members_v1 WHERE round_id=$1 AND user_id=2',[id])).rows[0].seed_power),evaluated);
+});
+
+test('the allocation snapshot still rejects changed account status',async t=>{
+ const f=await organizationFixture(t,{people:15}),id=await f.prepare({enroll:15});await f.close(id);await f.rate(id);
+ const proposal=(await f.post('admin/organization/propose',{roundId:id})).data.proposal;
+ await f.pg.query("UPDATE users SET status='SUSPENDED' WHERE id=2");
+ const result=await f.post('admin/organization/apply',{roundId:id,proposalId:proposal.id});assert.equal(result.data.code,'ORG_ACCOUNT_CHANGED');
+ assert.equal((await f.pg.query('SELECT COUNT(*)::int n FROM organization_members_v1')).rows[0].n,0);
+});

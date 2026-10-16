@@ -1,0 +1,147 @@
+{
+  "date": "2026-10-17",
+  "checks": [
+    {
+      "name": "PC draw",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    "Enter opens once, repeated Enter cannot award again",
+    {
+      "name": "PC forge",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    {
+      "name": "PC trait",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    {
+      "name": "390 draw",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    {
+      "name": "390 draw result",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    {
+      "name": "390 forge",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    {
+      "name": "390 forge result",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    {
+      "name": "390 trait",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    {
+      "name": "320 trait",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    {
+      "name": "320 draw",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    {
+      "name": "landscape draw",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    {
+      "name": "landscape forge",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    {
+      "name": "actual TEST forge result",
+      "documentOverflow": false,
+      "dialogOverflow": false,
+      "contentOverflow": false,
+      "footerVisible": true,
+      "fontLoaded": true,
+      "sliders": 0
+    },
+    "Actual TEST single-click draw + forge consumes 100P once; reload preserves receipt",
+    "No reused mercenary button requests; no JS or asset errors"
+  ],
+  "shots": [
+    "01-pc-draw",
+    "02-pc-draw-result",
+    "03-pc-forge",
+    "04-pc-forge-result",
+    "05-pc-forge-miss",
+    "06-pc-trait",
+    "07-mobile-draw",
+    "08-mobile-draw-result",
+    "09-mobile-forge-top",
+    "10-mobile-forge-button",
+    "11-mobile-forge-result",
+    "12-mobile-draw-miss",
+    "13-mobile-trait",
+    "14-320-trait",
+    "15-320-draw",
+    "16-landscape-draw",
+    "17-landscape-forge",
+    "18-actual-test-forge"
+  ],
+  "errors": [],
+  "failed": []
+}

@@ -131,7 +131,7 @@ async function overview(q,user,r,policy,row,roster,sessions,now,{admin=false,ale
  }
  const clans=all.map(o=>({clanId:o.id,name:o.name,color:o.color,masterUserId:o.commanderId,markKey:'ORGANIZATION_'+o.id}));
  return {ok:true,serverNow:now,roundId:r?.id,revision:row.revision,organizationMode:true,policy,round:publicRound(r),
-  season:{id:r?.id,seasonNo:1,phase:r?.phase==='ASSIGNED'?'ACTIVE':'PREPARATION',active:r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST'),endsAt:null},
+  season:{id:r?.id,seasonNo:1,phase:r?.phase==='ASSIGNED'&&policy.mode!=='OFF'?'ACTIVE':'PREPARATION',active:r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST'),endsAt:null},
   userId,mine:id?{clanId:id,isMaster,canManageFormation:isMaster||Object.values(captains).includes(userId),canManageGarrison:isMaster||Object.values(captains).includes(userId)}:null,
   clans,organizations:all.map(({roster,...o})=>o),roster:roster.filter(m=>m.clanId===id),formation,captains,
   districts:s.districts.map(d=>({...d,defenders:d.owner?(formationOf(s,roster,d.owner)[d.defense]||[]).map(userId=>roster.find(m=>m.userId===userId)).filter(Boolean):[]})),
