@@ -1,0 +1,60 @@
+{
+  "operationKey": "ops:bini-valter-grant:20261017:v1",
+  "completedAtKst": "2026-10-17 00:29:50",
+  "sourceSha256": "d15a69efc278d9afcc8758ce6d387c8ef744d33638621ce9b7d9886742913430",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bini-valter-grant:20261017:v1",
+    "planHash": "a3d7292a97cbc0fd1d89b9f29c5398fdc29f92fe9eeddc55c05854e4ebf9b314",
+    "authorization": "비_니 계정에 발테르 지급해",
+    "target": {
+      "id": 5504,
+      "nickname": "비_니",
+      "code": "V-996",
+      "name": "발테르",
+      "rank": "SSS",
+      "edition": "LIMITED",
+      "quantity": 1
+    },
+    "completedAt": "2026-10-16T15:29:50.312Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "serial": 10,
+    "stockBefore": {
+      "limit": 11,
+      "issued": 9,
+      "remaining": 2
+    },
+    "stockAfter": {
+      "limit": 11,
+      "issued": 10,
+      "remaining": 1
+    },
+    "protectedBefore": "5556996507c9e1e3c33494b257c7b8845ca7b973c9d704a1d2e1a6b107f195d4",
+    "protectedAfter": "5556996507c9e1e3c33494b257c7b8845ca7b973c9d704a1d2e1a6b107f195d4",
+    "permanent": true,
+    "automaticLoadout": false,
+    "cost": 0,
+    "adminLogId": "46948"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "currentCopies": 1,
+    "stock": {
+      "limit": 11,
+      "issued": 10,
+      "remaining": 1
+    },
+    "missing": 0,
+    "duplicateOperationGrants": 0
+  },
+  "checks": {
+    "scopedTransactionTestPassed": true,
+    "liveDryRunRolledBack": true,
+    "replayPerformedNoWrites": true,
+    "independentConnectionVerified": true,
+    "accountLocksReleased": true,
+    "temporaryHelperStopped": true
+  },
+  "runtimeDeployment": false
+}
