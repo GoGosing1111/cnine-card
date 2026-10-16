@@ -190,7 +190,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/IconRolePlayback.js",
-      "sha256": "9403583a59d1d13f8bf4c55851d5b32e38ed14a3e165e17e2fc71c0719f82c8f"
+      "sha256": "2d02f36d4860ed84cbf272ab06dae22f0f3b18a0cc06569d9b0640a86d72c358"
     },
     {
       "file": "preview/project-v-v3/source/battle/IconTechniquePlayback.js",
@@ -198,11 +198,11 @@
     },
     {
       "file": "shared/icon-roles-v1.mjs",
-      "sha256": "0f4feb76547f952919f46362939a40fbd34b55ef113de273fd130aaeca042c3d"
+      "sha256": "435d3fdc1b632691dbb552da1f2883f9072e1313af57738dc10a147f82004dd7"
     },
     {
       "file": "shared/icon-role-visuals-v1.mjs",
-      "sha256": "8e621417be89508fe9c34fdf317baded123d921ca9000c2dcb8c58166f9b8f23"
+      "sha256": "ec598be5bf93165d6928432bbe5397aad53b232586bf8b575404a0ff10593858"
     },
     {
       "file": "shared/mercenary-shiranui-v1.mjs",
@@ -258,7 +258,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/BattleEngine.js",
-      "sha256": "021684b695d588ae06f3f7c1d48acc85f3bdeeb6498f33f7c81b96fcd2ced898"
+      "sha256": "07e443e085a196d40b9ca958b5778fcbf4653b152d84925a037887206bb45c9b"
     },
     {
       "file": "preview/project-v-v3/source/battle/BattleCharacter.js",
@@ -516,59 +516,59 @@
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "71398eb69817fe1b9922131f886af7886bbfbbdf667d8369b55016480c4c5085",
+      "sha256": "12dbc1f7dd9d321b7ce4d0e6f67ad91a0f88976a909a6a1dec07b62801fe5dfd",
       "commonGrid": true
     },
     {
       "file": "preview/scrapyard-v3-v1/battle.bundle.js",
-      "sha256": "d0ac8262278b03a92285c8b85485bb51f09d2dbdf6ef5b02604328efb4aa49a0",
+      "sha256": "bb961b5f77f1f4ab5ca5144227826ef5ba4b7030b3b8d2f45d0cbddc246cccee",
       "commonGrid": true
     },
     {
       "file": "preview/cow-room-v3-v1/battle.bundle.js",
-      "sha256": "f0e8425d66dc93bff1d61774c132bcad3f8f5d160c8e536422165e95ed5afb00",
+      "sha256": "b24c07fcb57559e0826d76e488846260806988177f62622f1fc73f4ba084b9c9",
       "commonGrid": true
     },
     {
       "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
-      "sha256": "c887d5cfa69d07365e0662b04dbe411200ecd58a1c53de3720d45b09e9cd23c0",
+      "sha256": "3fa4de281ffbc3c57e6147138b1ce598850c37a75ad21345bbc5515911ba2c70",
       "commonGrid": true
     },
     {
       "file": "pve-v3/battle.bundle.js",
-      "sha256": "a8b6cb1e6ceb389279e5f471018b4b322666b0513cc0e2aebfa6728cbc196875",
+      "sha256": "e5cb0dc7bf89fd6fa7712c6e7bb15988ffca1854b2d802b2b56b0d49f5593dd5",
       "commonGrid": true
     },
     {
       "file": "preview/v3-wide-grid-v1/battle.bundle.js",
-      "sha256": "99ffd8c93c61911deb4c3eea8575d463b1d291631d4c09b0d1fd969f5dfdd917",
+      "sha256": "129b7a55c217fdabfcad2aa47a62347f4038740cc927a78eb049f822ca4fae9e",
       "commonGrid": true
     },
     {
       "file": "preview/boss-resources-v2048/lab.bundle.js",
-      "sha256": "7066aa5927968acebde9c6a61bf66cafa3183eab22012abb699cf5ffba931e3f",
+      "sha256": "1f02d98421c8e667d5ded3e3aed12c32b1d27df06e17e537526d2eef2ed02a0a",
       "commonGrid": true
     },
     {
       "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
-      "sha256": "a712e432c88bc95e29d26e1743530fcdc0051e8af52e3a1bb040a1037e237609",
+      "sha256": "a3862940553302e22fc2607fb2c9caaaad91f4a49fe9e8317c6056c833c4a1ff",
       "commonGrid": true
     },
     {
       "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
-      "sha256": "24c3add9e1aeffc67b6d6fc51b4c545217f819f0a67d4ebecf013704dca1ce39",
+      "sha256": "bfa7b228ee56b7e022625550dfe68fe9eda13f5d0ba9e32a3cbe35f0743cfd0d",
       "commonGrid": true
     },
     {
       "file": "preview/sustained-hunt-v2/battle.bundle.js",
-      "sha256": "6a8d354de0ad1cb65a4188669799c4f79dc12d743d655b5c48caf4d1f15008c5",
+      "sha256": "99926b01f041785cc19f868a5d7610c752dad645168be53466a8131c99d10fbd",
       "commonGrid": true
     }
   ],
   "layoutClients": [
     {
       "file": "preview/v3-wide-grid-v1/app.bundle.js",
-      "sha256": "1f3afcbfe09cb8b4f21e83773682837b4d4fa6fe55b4f4d8bb986b3a92779f2e"
+      "sha256": "9a4db89fb46ec8de74bd080f5383b48411a9686a2bdec117fd560f89b95ce9cc"
     }
   ]
 }

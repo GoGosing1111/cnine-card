@@ -65,6 +65,9 @@ export async function playIconEvent(engine,event){
  const actor=engine.combatantById(event.actorId),target=engine.combatantById(event.targetId),def=iconDefinition(event.iconCode)||iconDefinition(actor?.cardId),type=event.type;
  if(type!=='ICON_SKILL'){
   sync(engine,event);if(!target||!engine.visible)return true;
+  // Zeus charges within the following basic attack. Show its existing banner
+  // without a separate blocking animation or owner-tail cancellation.
+  if(event.status==='CHANNEL'&&event.continuesBasic===true){engine.queueBanner(def?.passive||event.label,parseInt((def?.color||'#f7d077').slice(1),16),actor?.name||'ICON');return true;}
   const role=event.status==='MARK'?'ASSASSIN':event.status==='CURSE'?'CURSE':event.status==='WARD'?'DEFENSE':def?.role||'SUPPORT';
   if(['EXPIRED','CLEANSED','WARD_END'].includes(event.status))return true;
   // Heat uses the compact announcement lane, never a full-screen cut-in.

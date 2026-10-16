@@ -1,0 +1,32 @@
+{
+  "status": "PREPARED_NOT_YET_DEPLOYED",
+  "checkedAt": "2026-10-16T21:29:16.951Z",
+  "baseCommit": "59ad7a332f9e3a2a927776b998da78f72ac0e8a7",
+  "basePagesDeployment": "9aac36f7-14b8-409c-8c61-879b0d558115",
+  "reason": "Zeus Cheolgu ICON charge continues one ordinary basic action; earlier first cast and bounded damage tuning. Related ICON, cadence and shipped PVE/PVP loader checks only.",
+  "tests": [
+    "tests/icon-roles-v1.test.mjs",
+    "tests/icon-action-cadence-20261006.test.mjs",
+    "tests/icon-zeus-cheolgu-20261010.test.mjs",
+    "tests/pve-battlefield-entry-v2117.test.mjs"
+  ],
+  "previouslyPassed": [
+    "tests/icon-cheolgu-balance-20261017.test.mjs: 9/9"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "inputHashes": {
+    "live-input.json": "38f779150ca8f9f2e02e7d664ece61c40e3cf5685eb2e04a3095d2f062288472",
+    "comparison-before.json": "c2ffd9c81bee90ce24f47d89ffd921d6a77fa440a4e5c2ea09fb3d87c506e5a6",
+    "comparison-after.json": "0e689171767fa13f19975062d9efada4aa3cea25c2bb86e693d8b2e04ee8dbb2",
+    "validation-before.json": "008ce1bd76e66fa286d2d10a209f465fc3f3a34d0f54583ccc6cf9025ef7a2f8",
+    "validation-after.json": "98be024bc8ac4b54b2b0399b0af811d25f17309faaded08ab266a687ac7884ca",
+    "mercenary-before.json": "e605552fdf1f2a09c879f9b3f594885c808d7c2719d57cea7f1de860004a8099",
+    "mercenary-after.json": "d410cf6f4d7801731782acf25b3fd09a9a4796c7411fc06eabe36a08e200c300"
+  },
+  "runtimeBuilds": [
+    "node scripts/build-icon-fusion.mjs",
+    "node scripts/build-v3-grid-consumers.mjs"
+  ]
+}

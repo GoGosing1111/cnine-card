@@ -10,6 +10,8 @@ export function iconEventReleaseSeconds(event){
   const rows=(event.hits?.length||0)+(event.targets?.length||0);
   return .24+Math.max(0,rows-1)*.13+(['ASSASSIN','ASSAULT','DEFENSE'].includes(role)?.30:.12);
  }
+ // A channel notice attached to a basic attack reserves no second action.
+ if(event.type==='ICON_STATUS'&&event.status==='CHANNEL'&&event.continuesBasic===true)return 0;
  if(event.type==='ICON_STATUS')return ['HEAT','EXPIRED','CLEANSED','WARD_END'].includes(event.status)?0:.14;
  return ['ICON_DOT','ICON_GUARD','ICON_ECHO'].includes(event.type)?.14:0;
 }

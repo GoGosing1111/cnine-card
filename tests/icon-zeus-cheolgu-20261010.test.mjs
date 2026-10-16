@@ -46,7 +46,7 @@ test('Zeus channels, respects seals, uses bounded multi-target lightning and fin
   const actor=buildFighter({id,title:def.name,grade:'ICON',power:180000,iconRole:snapshot},0,'A',null,mode);
   const foes=Array.from({length:4},(_,i)=>({...buildFighter({id:'enemy-'+i,grade:'FUR',power:180000},i,'B',null,mode),hp:1e12,maxHp:1e12}));
   const events=[];let blocked=false;
-  const runtime=createIconCombatRuntime({teams:{A:[actor],B:foes},sealed:()=>blocked,hit:(a,t,m,o)=>{assert.equal(o.s2DefenseIgnore,.25);return {damage:Math.round(a.attack*m),dodge:false};},damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},rawDamage:()=>({hpDamage:0,absorbed:0}),knockout:()=>false,emit:(type,e)=>events.push({type,...e})});
+  const runtime=createIconCombatRuntime({teams:{A:[actor],B:foes},sealed:()=>blocked,hit:(a,t,m,o)=>{assert.equal(o.s2DefenseIgnore,.30);return {damage:Math.round(a.attack*m),dodge:false};},damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},rawDamage:()=>({hpDamage:0,absorbed:0}),knockout:()=>false,emit:(type,e)=>events.push({type,...e})});
   actor.actions=2;runtime.beforeAction(actor);assert.ok(events.some(e=>e.status==='CHANNEL'&&e.label==='뇌신의 권능'));assert.equal(events.filter(e=>e.type==='ICON_SKILL').length,0);
   blocked=true;actor.actions=3;runtime.beforeAction(actor);assert.ok(events.some(e=>e.status==='INTERRUPTED'));blocked=false;
   for(let n=4;n<=65;n++){actor.actions=n;runtime.beforeAction(actor);runtime.endAction(actor);}

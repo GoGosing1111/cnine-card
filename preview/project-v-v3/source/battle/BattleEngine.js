@@ -3194,7 +3194,7 @@ export class BaseBattleEngine{
     // acceleration makes their overlapping animations unreadable.
     if(this.formationCoop){this.paceActions=0;this.paceScale=1;return}
     if(type==='DEPLOY'){this.paceActions=0;this.paceScale=1;return}
-    if(type!=='TURN'&&type!=='ATTACK'&&type!=='COUNTER'&&type!=='ESCORT_OBJECTIVE_ATTACK'&&type!=='ICON_SKILL'&&!(type==='ICON_STATUS'&&event?.status==='CHANNEL'))return;
+    if(type!=='TURN'&&type!=='ATTACK'&&type!=='COUNTER'&&type!=='ESCORT_OBJECTIVE_ATTACK'&&type!=='ICON_SKILL'&&!(type==='ICON_STATUS'&&event?.status==='CHANNEL'&&event?.continuesBasic!==true))return;
     this.paceActions+=1;
     this.paceScale=this.paceActions>80?1.82:this.paceActions>40?1.28:1;
   }

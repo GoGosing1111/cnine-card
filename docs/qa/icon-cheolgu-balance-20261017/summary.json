@@ -1,0 +1,176 @@
+{
+  "comparison": {
+    "battlesPerVersion": 5040,
+    "pvpBefore": 33.40277777777778,
+    "pvpAfter": 63.333333333333336,
+    "pveBefore": [
+      {
+        "name": "구수댕",
+        "meanActions": 39.266679999999994
+      },
+      {
+        "name": "오리꿍",
+        "meanActions": 41.99167
+      },
+      {
+        "name": "하이희야",
+        "meanActions": 45.9375
+      },
+      {
+        "name": "강구열",
+        "meanActions": 47.59165
+      },
+      {
+        "name": "디임",
+        "meanActions": 47.74583
+      },
+      {
+        "name": "아윤",
+        "meanActions": 48.775009999999995
+      },
+      {
+        "name": "나무늘봉순",
+        "meanActions": 50.99167
+      },
+      {
+        "name": "제우스 철구",
+        "meanActions": 50.99167
+      },
+      {
+        "name": "오조은",
+        "meanActions": 58.745810000000006
+      }
+    ],
+    "pveAfter": [
+      {
+        "name": "구수댕",
+        "meanActions": 39.266679999999994
+      },
+      {
+        "name": "제우스 철구",
+        "meanActions": 41.591660000000005
+      },
+      {
+        "name": "오리꿍",
+        "meanActions": 41.99167
+      },
+      {
+        "name": "하이희야",
+        "meanActions": 45.9375
+      },
+      {
+        "name": "강구열",
+        "meanActions": 47.59165
+      },
+      {
+        "name": "디임",
+        "meanActions": 47.74583
+      },
+      {
+        "name": "아윤",
+        "meanActions": 48.775009999999995
+      },
+      {
+        "name": "나무늘봉순",
+        "meanActions": 50.99167
+      },
+      {
+        "name": "오조은",
+        "meanActions": 58.745810000000006
+      }
+    ]
+  },
+  "validation": {
+    "battlesPerVersion": 5040,
+    "pvpBefore": 33.36805555555556,
+    "pvpAfter": 63.333333333333336,
+    "pveBefore": [
+      {
+        "name": "구수댕",
+        "meanActions": 38.979169999999996
+      },
+      {
+        "name": "오리꿍",
+        "meanActions": 41.68334
+      },
+      {
+        "name": "하이희야",
+        "meanActions": 45.712509999999995
+      },
+      {
+        "name": "강구열",
+        "meanActions": 47.47919
+      },
+      {
+        "name": "디임",
+        "meanActions": 47.50001999999999
+      },
+      {
+        "name": "아윤",
+        "meanActions": 48.61667
+      },
+      {
+        "name": "나무늘봉순",
+        "meanActions": 50.954170000000005
+      },
+      {
+        "name": "제우스 철구",
+        "meanActions": 50.954170000000005
+      },
+      {
+        "name": "오조은",
+        "meanActions": 58.8875
+      }
+    ],
+    "pveAfter": [
+      {
+        "name": "구수댕",
+        "meanActions": 38.979169999999996
+      },
+      {
+        "name": "제우스 철구",
+        "meanActions": 41.36665000000001
+      },
+      {
+        "name": "오리꿍",
+        "meanActions": 41.68334
+      },
+      {
+        "name": "하이희야",
+        "meanActions": 45.712509999999995
+      },
+      {
+        "name": "강구열",
+        "meanActions": 47.47919
+      },
+      {
+        "name": "디임",
+        "meanActions": 47.50001999999999
+      },
+      {
+        "name": "아윤",
+        "meanActions": 48.61667
+      },
+      {
+        "name": "나무늘봉순",
+        "meanActions": 50.954170000000005
+      },
+      {
+        "name": "오조은",
+        "meanActions": 58.8875
+      }
+    ]
+  },
+  "mercenaries": [
+    {
+      "code": "V-996",
+      "before": 33.072916666666664,
+      "after": 35.416666666666664
+    },
+    {
+      "code": "V-988",
+      "before": 30.989583333333332,
+      "after": 34.114583333333336
+    }
+  ]
+}

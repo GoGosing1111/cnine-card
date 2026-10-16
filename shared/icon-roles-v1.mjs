@@ -2,7 +2,7 @@
 // All durations/cooldowns are actor actions, never animation time or browser clocks.
 export const ICON_ROLES_KEY='icon_role_settings_v1';
 import {validatedIconSupremacy} from './icon-supremacy-v1.mjs';
-export const ICON_ROLES_VERSION='20261015-joeun-medic-v2';
+export const ICON_ROLES_VERSION='20261017-cheolgu-balance-v1';
 const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
 const field=(key,label,min,max,value,unit='%',integer=false)=>({key,label,min,max,value,unit,integer});
 const common=(first,cooldown)=>[
@@ -34,8 +34,8 @@ export const ICON_ROLES=freeze([
   fields:[...common(1,4).map(f=>f.key==='damagePercent'?{...f,value:140}:f),field('shieldPercent','첫 진격 보호막',5,30,18,'시전자 최대 HP %'),field('shieldBreakPercent','방벽 추가 피해',0,100,65),field('gaugeDelay','적 행동 게이지 감소',0,25,12,'게이지'),field('bossVulnerabilityPercent','보스가 받는 피해 증가',0,15,8),field('durationActions','진격 효과 지속',1,4,2,'대상 행동',true)]},
  {code:'ICON-ZEUS-CHEOLGU',cardId:'CN-1C000008',name:'제우스 철구',role:'MAGIC',label:'마법',archetype:'올림포스의 뇌신',color:'#f7d077',glyph:'lightning',attackStyle:'RANGED',
   acquisitionText:'일반 ICON 제작 획득 불가',
-  passive:'뇌신의 권능',skill:'올림포스의 심판',passiveText:'번개의 힘을 모은 뒤 다음 본인 행동에 뇌격을 방출합니다. 집중 중 봉인되면 충전이 해제됩니다.',skillText:'최대 세 적에게 황금 번개를 내려 방어 일부를 무시합니다. 적이 적으면 남은 번개가 집중되며, 대상별 피해 상한을 적용합니다.',
-  fields:[...common(2,4),field('maxTargets','뇌격 최대 대상',1,5,3,'명',true),field('focusPercent','빈 대상당 번개 집중',0,40,20),field('penetrationPercent','뇌격 방어 무시',0,45,25)]},
+  passive:'뇌신의 권능',skill:'올림포스의 심판',passiveText:'기본 공격을 이어가며 번개의 힘을 충전하고, 다음 본인 행동에 뇌격을 방출합니다. 충전은 추가 행동으로 계산되지 않으며 봉인되면 해제됩니다.',skillText:'최대 세 적에게 황금 번개를 내려 방어 일부를 무시합니다. 적이 적으면 남은 번개가 집중되며, 대상별 피해 상한을 적용합니다.',
+  fields:[...common(1,4).map(f=>f.key==='damagePercent'?{...f,value:220}:f),field('maxTargets','뇌격 최대 대상',1,5,3,'명',true),field('focusPercent','빈 대상당 번개 집중',0,40,25),field('penetrationPercent','뇌격 방어 무시',0,45,30)]},
  {code:'ICON-GUSUDAENG',cardId:'CN-1C000009',name:'구수댕',role:'LINK',label:'연계',archetype:'국간장 비법 전수자',color:'#eeb958',glyph:'link',attackStyle:'RANGED',
   passive:'깊은 감칠맛',skill:'비법 배합',passiveText:'배합 표식에 아군이 직접 피해를 주면 다른 표식 대상에게 피해 일부가 전이됩니다. 아군 각자의 행동당 한 번만 발동하며 추가 피해가 다시 전이되지는 않습니다.',skillText:'최대 세 적을 공격하고 배합 표식으로 연결합니다. 적이 하나만 남으면 전이 대신 집중 추가 피해를 줍니다. 표식은 정화할 수 있고 시전자가 쓰러지거나 봉인되면 전이가 멈춥니다.',
   fields:[...common(2,4).map(f=>f.key==='damagePercent'?{...f,value:170}:f.key==='pveScale'?{...f,value:105}:f),field('maxTargets','배합 최대 대상',1,3,3,'명',true),field('durationActions','표식 유지',1,4,3,'시전자 행동',true),field('echoPercent','다른 표식에 전이',5,45,30,'직접 피해 %'),field('soloPercent','적 한 명일 때 추가 피해',5,60,45,'직접 피해 %'),field('echoCapPercent','대상별 1회 전이 상한',1,8,6,'대상 최대 HP %'),field('echoBudgetPercent','시전당 전이 총량',100,800,600,'시전자 공격력 %')]}

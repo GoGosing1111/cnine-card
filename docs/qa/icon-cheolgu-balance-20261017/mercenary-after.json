@@ -1,0 +1,135 @@
+{
+  "checkedAt": "2026-10-16T21:27:46.781Z",
+  "method": "Matched PVP teams, same Valter or Kairon on both sides, existing October 8 mercenary combat fixture, current static deployment profile, production ICON/FUR settings. 12 held-out seeds, front/rear, reversed sides. Controlled regression, not live ranked win rate.",
+  "pvp": [
+    {
+      "mercCode": "V-996",
+      "name": "디임",
+      "wins": 6,
+      "total": 48,
+      "winPercent": 12.5,
+      "averageCasts": 0.5208
+    },
+    {
+      "mercCode": "V-996",
+      "name": "하이희야",
+      "wins": 21,
+      "total": 48,
+      "winPercent": 43.75,
+      "averageCasts": 0.5833
+    },
+    {
+      "mercCode": "V-996",
+      "name": "나무늘봉순",
+      "wins": 24,
+      "total": 48,
+      "winPercent": 50,
+      "averageCasts": 0.5833
+    },
+    {
+      "mercCode": "V-996",
+      "name": "오조은",
+      "wins": 21,
+      "total": 48,
+      "winPercent": 43.75,
+      "averageCasts": 0.5833
+    },
+    {
+      "mercCode": "V-996",
+      "name": "오리꿍",
+      "wins": 10,
+      "total": 48,
+      "winPercent": 20.8333,
+      "averageCasts": 0.5625
+    },
+    {
+      "mercCode": "V-996",
+      "name": "강구열",
+      "wins": 25,
+      "total": 48,
+      "winPercent": 52.0833,
+      "averageCasts": 0.5625
+    },
+    {
+      "mercCode": "V-996",
+      "name": "아윤",
+      "wins": 19,
+      "total": 48,
+      "winPercent": 39.5833,
+      "averageCasts": 0.5625
+    },
+    {
+      "mercCode": "V-996",
+      "name": "구수댕",
+      "wins": 10,
+      "total": 48,
+      "winPercent": 20.8333,
+      "averageCasts": 0.5625
+    },
+    {
+      "mercCode": "V-988",
+      "name": "디임",
+      "wins": 3,
+      "total": 48,
+      "winPercent": 6.25,
+      "averageCasts": 0.5
+    },
+    {
+      "mercCode": "V-988",
+      "name": "하이희야",
+      "wins": 24,
+      "total": 48,
+      "winPercent": 50,
+      "averageCasts": 0.5625
+    },
+    {
+      "mercCode": "V-988",
+      "name": "나무늘봉순",
+      "wins": 24,
+      "total": 48,
+      "winPercent": 50,
+      "averageCasts": 0.5625
+    },
+    {
+      "mercCode": "V-988",
+      "name": "오조은",
+      "wins": 22,
+      "total": 48,
+      "winPercent": 45.8333,
+      "averageCasts": 0.5625
+    },
+    {
+      "mercCode": "V-988",
+      "name": "오리꿍",
+      "wins": 5,
+      "total": 48,
+      "winPercent": 10.4167,
+      "averageCasts": 0.5208
+    },
+    {
+      "mercCode": "V-988",
+      "name": "강구열",
+      "wins": 25,
+      "total": 48,
+      "winPercent": 52.0833,
+      "averageCasts": 0.5417
+    },
+    {
+      "mercCode": "V-988",
+      "name": "아윤",
+      "wins": 22,
+      "total": 48,
+      "winPercent": 45.8333,
+      "averageCasts": 0.5417
+    },
+    {
+      "mercCode": "V-988",
+      "name": "구수댕",
+      "wins": 6,
+      "total": 48,
+      "winPercent": 12.5,
+      "averageCasts": 0.5417
+    }
+  ],
+  "battles": 768
+}

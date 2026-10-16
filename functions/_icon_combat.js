@@ -103,7 +103,14 @@ export function createIconCombatRuntime({teams,hit,damage,rawDamage,knockout,emi
    emit('ICON_STATUS',{...label(s,'봉인의 칙령 · 스킬 1회 차단'),...snapshot(actor),status:'SEAL_BLOCK',remaining:actor.magicSealCharges});
    return false;
   }
-  if(def.role==='MAGIC'&&!s.charging&&!s.advanceDebt){s.charging=true;s.next=actor.actions+1;status(s,actor,'CHANNEL',{remaining:1});return true;}
+  if(def.role==='MAGIC'&&!s.charging&&!s.advanceDebt){
+   // Zeus keeps his ordinary attack while charging. This does not create an
+   // extra action or cast: the existing attack path spends this same turn.
+   const continuesBasic=def.code==='ICON-ZEUS-CHEOLGU';
+   s.charging=true;s.next=actor.actions+1;
+   status(s,actor,'CHANNEL',{remaining:1,...(continuesBasic?{continuesBasic:true}:{})});
+   return !continuesBasic;
+  }
   const censored=def.role!=='SUPPORT'&&techniques()?.consumeCensor(actor);
   if(single)techniques()?.singleTarget(actor,target);
   s.casts++;s.next=actor.actions+c.cooldownActions+(s.advanceDebt?.borrowed||0);if(s.advanceDebt)s.advanceDebt.repaidAt=s.next;s.charging=false;

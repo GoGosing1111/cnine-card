@@ -19,7 +19,7 @@ export function iconActor(def,slot,side,{mode='PVP',gear=500000}={}){
  card.iconRole={...iconRoleSnapshot(card,live.document,mode,live.revision),supremacy:fixture.iconArgs.cards[2].iconRole.supremacy};
  return buildFighter(card,slot,side,null,mode);
 }
-const actions=(result,id)=>result.timeline.filter(e=>e.actorId===id&&(['TURN','ICON_SKILL'].includes(e.type)||e.type==='ICON_STATUS'&&e.status==='CHANNEL'));
+const actions=(result,id)=>result.timeline.filter(e=>e.actorId===id&&(['TURN','ICON_SKILL'].includes(e.type)||e.type==='ICON_STATUS'&&e.status==='CHANNEL'&&e.continuesBasic!==true));
 function durable(actor){actor.hp=actor.maxHp=1e12;actor.attack=1;actor.defense=1e12;actor.shield=actor.maxShield=0;return actor;}
 
 test('all registered ICONs receive proportional turns on both sides below the old speed threshold',()=>{
