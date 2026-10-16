@@ -1,0 +1,86 @@
+{
+  "verifiedAt": "2026-10-16T14:01:23.379Z",
+  "base": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "defense/asset-catalog.json",
+      "sha256": "6a1a7b59741656e379f83f81c56f95ce7953f244827317240a40035ecf8f4e08"
+    },
+    {
+      "file": "shared/monster-defense-v1.mjs",
+      "sha256": "8d42c6b0d0517b78f477a97ac1ffe2890e91744c7795dfd066f909e14f5ee71c"
+    },
+    {
+      "file": "defense/index.html",
+      "sha256": "6e612837837bc9e6b0868ff111439b12139becc617405a121960123647829df6"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.css",
+      "sha256": "405528a770386c54c000d538528d2159d42ccefa6a193bcc33f216e7a8eb919c"
+    },
+    {
+      "file": "preview/coop-defense-v1/assets/fortress-causeway-v2.png",
+      "sha256": "6d9cb42d0b1cd201c2acc7322f86ae3a529bb642ba51f84570d10fc400815c44"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "1fac57c821acd6297e026daf685bcbd6fdc84c762655f9b56010dc5c7295c082"
+    },
+    {
+      "file": "admin/monster-defense.css",
+      "sha256": "c888ddcfc43a79b49a89d153c811a9d18507bf3e3b4c9bd3ea6bff109a3628a4"
+    },
+    {
+      "file": "admin/monster-defense.mjs",
+      "sha256": "c7ea7a406cfadc0e911b9510b583de50f1ffac7462dee024eb0715b02947c0f3"
+    },
+    {
+      "file": "preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+      "sha256": "e4e926d65883cdbf066d80b829f81aa8471561febe7eb1526a6d8bc8d7a3d92f"
+    },
+    {
+      "file": "js/soopketmon-v21-exact-shell-adapter.js",
+      "sha256": "75dd84d850dc508fb30b8b70a64fdfc6a5685da30c2f7fec27b35399597f64ed"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "11a797aeacad400f623278a3edde407fd91140a6e6a683ea8346d939bc05f0a6"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "993dc1293c1afdb18e4917e70597e5d966d46767ea0c3853f8212dbea902d444"
+    },
+    {
+      "file": "js/soopketmon-v21-runtime-router.js",
+      "sha256": "a519d5d85cdd7fc6fae4fdd7936cd198af832f0c034c572b7e5979dc10a0aeaa"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "25563f50df38a49b2dd1a64305e0ce28dd7ba5dc49d62485563c31a4b14eb75b"
+    },
+    {
+      "file": "index.html",
+      "sha256": "f6f15081e3a85a7eaffbaf9e07dd736ac9bd3c4e1699dc6a129cc62143b213b1"
+    }
+  ],
+  "canonicalPage": 200,
+  "unauthenticatedFeature": 401,
+  "invalidRoomTicket": 401,
+  "release": {
+    "source": "0d4943074",
+    "pages": "8a368fce",
+    "apiRuntime": "1eefcb71-54fe-47c5-97a0-16aeed6e30d4"
+  },
+  "operation": {
+    "operationKey": "ops:monster-defense-test:20261016:v1",
+    "revision": 1,
+    "previousRevision": null,
+    "mode": "TEST",
+    "testUserCount": 0,
+    "rewardsEnabled": false,
+    "auditId": "46933",
+    "completedAt": "2026-10-16T14:01:10.974Z",
+    "committed": true,
+    "rollbackVerified": false
+  }
+}
