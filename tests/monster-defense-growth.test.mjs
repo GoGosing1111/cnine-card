@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRoom,joinRoom,startRoom,advanceRoom,commandRoom,publicSnapshot,RULES,WORLD} from '../preview/coop-defense-v1/source/defense-model.mjs';
 import {defaultDefenseGrowth,validateDefenseGrowth,settleWaveGrowth,growthTier,ROGUE_ENEMIES,DEFENSE_TRAITS} from '../shared/monster-defense-growth-v2.mjs';
-import {monsterDefenseFixture} from './helpers/monster-defense-fixture.mjs';
+import {monsterDefenseFixture,defenseOwnedLoadout} from './helpers/monster-defense-fixture.mjs';
 const team=(capacity=3,extra={})=>{const r=createRoom({id:'ROGUE',capacity,seed:17,...extra});for(let i=0;i<capacity;i++){const p=joinRoom(r,{id:'p'+i,name:'대원'+i});p.ready=true;}startRoom(r,'p0');return r;};
 test('approved double chance policy, caps and CMS validation',()=>{
  const g=defaultDefenseGrowth();assert.deepEqual(Object.values(g.drops).map(d=>d.chance),[50,65,80]);assert.deepEqual(g.tiers.map(t=>t.chance),[60,35,15,5]);
@@ -57,9 +57,9 @@ test('new enemy support heals allies, traits affect actual combat and extra cool
 test('real durable transactions: duplicated and simultaneous forge requests, reload and frozen CMS odds',async()=>{
  const h=await monsterDefenseFixture();const id=()=>crypto.randomUUID();
  try{
-  const a=await h.api(1,'defense/create',{capacity:2,practice:true,difficulty:'NORMAL',loadout:{mercenaries:['V-003','V-002'],card:'FAKER'},requestId:id()});
+  const a=await h.api(1,'defense/create',{capacity:2,practice:true,difficulty:'NORMAL',loadout:defenseOwnedLoadout(),requestId:id()});
   assert.equal(a.status,200,JSON.stringify(a));const cmd=(command,requestId=id())=>h.live(a,'command',{requestId,command});
-  await cmd({type:'READY',ready:true});await cmd({type:'START'});let stored=await h.room(a.roomId);stored.players.forEach(p=>p.bot=false);stored.players[0].credits=1000;stored.growthPolicy.tiers[0].chance=0;stored.serverAt=Date.now();await h.room(a.roomId,stored);
+  await h.ready(a);await cmd({type:'START'});let stored=await h.room(a.roomId);stored.players.forEach(p=>p.bot=false);stored.players[0].credits=1000;stored.growthPolicy.tiers[0].chance=0;stored.serverAt=Date.now();await h.room(a.roomId,stored);
   const request=id(),command={type:'FORGE',wave:0,branch:'ATTACK',expectedAttempt:0};const results=await Promise.all([cmd(command,request),cmd(command,request)]);assert.ok(results.every(r=>r.status===200));assert.equal(results.filter(r=>r.duplicate).length,1);
   stored=await h.room(a.roomId);assert.equal(stored.players[0].credits,900);assert.equal(stored.players[0].growth.attemptSeq,1);
   const competing=await Promise.all([cmd({...command,expectedAttempt:1}),cmd({...command,branch:'VITAL',expectedAttempt:1})]);assert.deepEqual(competing.map(r=>r.status).sort(),[200,400]);

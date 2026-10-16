@@ -1,5 +1,6 @@
 // Normalized TEST squads. No account, wallet, live skill assignment or reward writes.
 import {defenseDifficulty,defenseEnemy,LEGACY_DEFENSE_DIFFICULTIES} from '../../../shared/monster-defense-v1.mjs';
+import {DEFENSE_PROFILES as PROFILES} from '../../../shared/monster-defense-loadout-v1.mjs';
 import {defaultDefenseGrowth,validateDefenseGrowth,newPlayerGrowth,settleWaveGrowth,growthTier,growthRandom,hasTrait,DEFENSE_TRAITS,GROWTH_BRANCHES,waveKind} from '../../../shared/monster-defense-growth-v2.mjs';
 export const RULES = Object.freeze({ tickMs: 100, waves: 10, prepMs: 8000, coreHp: 1000,
   moveMs: 1800, moveCooldownMs: 5000, maxEnemies: 42, maxEvents: 240, waveCredit: 100,
@@ -15,13 +16,6 @@ export const CARDS = Object.freeze([
   { code: 'BONGJUN', name: '봉준', role: 'CAPTAIN', sprite: 'deck-bongjun-sd-v1.png' },
   { code: 'TAEK', name: '김택용', role: 'CAPTAIN', sprite: 'deck-kimtaekyong-sd-v1.png' }
 ]);
-const PROFILES = Object.freeze({
-  GUARD: { hp: 850, attack: 23, range: 175, interval: 1200, skill: '방어 태세', cooldown: 18000 },
-  RANGED: { hp: 440, attack: 48, range: 560, interval: 1000, skill: '집중 사격', cooldown: 14000 },
-  STRIKER: { hp: 620, attack: 65, range: 240, interval: 1150, skill: '광역 참격', cooldown: 15000 },
-  HEALER: { hp: 480, attack: 22, range: 480, interval: 1300, skill: '응급 회복', cooldown: 18000 },
-  CAPTAIN: { hp: 580, attack: 36, range: 480, interval: 1100, skill: '합동 지휘', cooldown: 20000 }
-});
 export const LANES = ['A', 'B', 'C'];
 export const laneY = (lane, capacity) => capacity === 2 ? [380, 860][lane] : [280, 620, 960][lane];
 export const WORLD = Object.freeze({ width: 2880, height: 1280, coreX: 220, coreY: 620, mergeX: 600, spawnX: 2780,
@@ -39,37 +33,48 @@ function event(room, type, data = {}) {
   room.events.push({ seq: ++room.seq, at: room.time, type, ...data });
   if (room.events.length > RULES.maxEvents) room.events.splice(0, room.events.length - RULES.maxEvents);
 }
-export function validateLoadout(value) {
+export function validateLoadout(value, roster = null) {
+  const mercenaries=roster?roster.filter(c=>c.kind==='MERCENARY'):MERCENARIES;
+  const cards=roster?roster.filter(c=>c.kind==='CARD'):CARDS;
   if (!value || !Array.isArray(value.mercenaries) || value.mercenaries.length !== 2 || new Set(value.mercenaries).size !== 2 ||
-    value.mercenaries.some(code => !MERCENARIES.some(m => m.code === code)) || !CARDS.some(c => c.code === value.card)) {
+    value.mercenaries.some(code => !mercenaries.some(m => m.code === code&&PROFILES[m.role])) || !cards.some(c => c.code === value.card&&PROFILES[c.role])) {
     fail('서로 다른 용병 2명과 카드 1장을 선택하세요.', 'INVALID_LOADOUT');
   }
   return { mercenaries: [...value.mercenaries], card: value.card };
 }
 export const defaultLoadout = () => ({ mercenaries: ['V-003', 'V-002'], card: 'FAKER' });
-export function createRoom({ id, capacity = 3, seed = 123, now = Date.now(), practice = false, difficulty='NORMAL', combat=null, growth=null, ruleset=3 } = {}) {
+export function createRoom({ id, capacity = 3, seed = 123, now = Date.now(), practice = false, difficulty='NORMAL', combat=null, growth=null, ruleset=3, accountRoster=false } = {}) {
   if (![2, 3].includes(capacity)) fail('2인 또는 3인 방을 선택하세요.');
   const preset=ruleset===2?LEGACY_DEFENSE_DIFFICULTIES.find(d=>d.id===difficulty):defenseDifficulty(difficulty);if(!preset)fail('난이도를 확인하세요.');
   const growthPolicy=ruleset===3?validateDefenseGrowth(growth||defaultDefenseGrowth()):null;
   const encounter={...preset,...combat,id:preset.id,waves:growthPolicy?.waves||preset.waves,pool:preset.pool,elite:preset.elite,midBoss:preset.midBoss,boss:preset.boss};
-  return { version: ruleset, growthPolicy, growthRng:(seed^0x9e3779b9)>>>0, id, capacity, practice, difficulty, encounter, createdAt: now, hostId: null, phase: 'LOBBY', players: [], units: [], enemies: [],
+  return { version: ruleset, accountRoster, growthPolicy, growthRng:(seed^0x9e3779b9)>>>0, id, capacity, practice, difficulty, encounter, createdAt: now, hostId: null, phase: 'LOBBY', players: [], units: [], enemies: [],
     time: 0, wave: 0, phaseUntil: 0, coreHp: encounter.coreHp, coreMaxHp: encounter.coreHp, rng: seed >>> 0 || 1,
     seq: 0, events: [], nextEnemyId: 0, spawnQueue: [], spawnAt: 0, nextBotThink: 0, completedAt: null, rewardsEnabled: false };
 }
-export function joinRoom(room, { id, name, loadout = defaultLoadout(), bot = false }) {
+export function joinRoom(room, { id, name, loadout = defaultLoadout(), bot = false, roster=null }) {
   if (room.players.some(p => p.id === id)) return room.players.find(p => p.id === id);
   if (room.phase !== 'LOBBY') fail('이미 시작한 방입니다.', 'ROOM_STARTED');
   if (room.players.length >= room.capacity) fail('방이 가득 찼습니다.', 'ROOM_FULL');
   const cleanName = String(name || '').replace(/[\p{Cc}\p{Cf}]/gu, '').trim().slice(0, 16);
   if (!cleanName) fail('이름을 입력하세요.');
   const used = new Set(room.players.map(p => p.lane));
-  const player = { id, name: cleanName, lane: LANES.findIndex((_, i) => !used.has(i)), loadout: validateLoadout(loadout),
+  if(room.accountRoster&&!bot&&!roster)fail('보유 편성을 먼저 확인하세요.','INVALID_LOADOUT');
+  const player = { id, name: cleanName, lane: LANES.findIndex((_, i) => !used.has(i)), loadout: validateLoadout(loadout,roster),
+    roster:roster?structuredClone(roster):null,loadoutRevision:0,
     growth:room.version>=3?newPlayerGrowth():null, ready: bot, bot, connected: true, credits: 0, upgrades: 0, wipeCount: 0, reviveAt: 0, reviveDelayMs: 0,
     stats: { damage: 0, heal: 0, blocked: 0, supportMoves: 0 } };
   room.players.push(player);
   room.hostId ??= id;
   event(room, 'JOIN', { playerId: id });
   return player;
+}
+export function selectDefenseLoadout(room,playerId,loadout,roster){
+  const player=room.players.find(p=>p.id===playerId);
+  if(!player||player.bot)fail('내 분대만 편성할 수 있습니다.','NOT_MEMBER');
+  if(room.phase!=='LOBBY')fail('전투 중에는 편성을 바꿀 수 없습니다.','ROOM_STARTED');
+  player.loadout=validateLoadout(loadout,roster);player.roster=structuredClone(roster);
+  player.ready=false;event(room,'LOADOUT',{playerId});
 }
 export function leaveRoom(room, id) {
   const player = room.players.find(p => p.id === id);
@@ -81,8 +86,8 @@ export function leaveRoom(room, id) {
 }
 function createUnits(room) {
   return room.players.flatMap(player => [
-    ...player.loadout.mercenaries.map(code => MERCENARIES.find(m => m.code === code)),
-    CARDS.find(c => c.code === player.loadout.card)
+    ...player.loadout.mercenaries.map(code => (player.roster||MERCENARIES).find(m => m.code === code)),
+    (player.roster||CARDS).find(c => c.code === player.loadout.card)
   ].map((entry, slot) => {
     const profile = PROFILES[entry.role];
     return { id: `${player.id}:${slot}`, ownerId: player.id, ownerLane: player.lane, slot, code: entry.code, name: entry.name,
@@ -96,6 +101,7 @@ export function startRoom(room, playerId) {
   if (room.phase !== 'LOBBY') fail('이미 시작한 전투입니다.', 'ROOM_STARTED');
   if (room.players.length !== room.capacity || room.players.some(p => !p.ready || (!p.bot && !p.connected)))
     fail('모든 대원이 입장하고 준비를 마쳐야 합니다.', 'NOT_READY');
+  if(room.accountRoster&&room.players.some(p=>!p.bot&&!p.roster))fail('모든 대원이 보유 편성을 선택해야 합니다.','INVALID_LOADOUT');
   room.units = createUnits(room);
   room.phase = 'PREP'; room.prepStartedAt=room.time; room.phaseUntil = room.time + (room.growthPolicy?.prepSeconds*1000||RULES.prepMs);
   event(room, 'START');
@@ -180,7 +186,7 @@ export function commandRoom(room, playerId, command) {
   if (command.type === 'READY') {
     if (room.phase !== 'LOBBY') fail('전투 중에는 편성을 바꿀 수 없습니다.');
     if (typeof command.ready !== 'boolean') fail('준비 상태를 확인하세요.');
-    if (command.loadout) player.loadout = validateLoadout(command.loadout);
+    if (command.loadout) {player.loadout = validateLoadout(command.loadout);player.roster=null;}
     player.ready = command.ready; event(room, 'READY', { playerId }); return;
   }
   if (command.type === 'START') return startRoom(room, playerId);
@@ -416,7 +422,7 @@ export function advanceRoom(room, elapsedMs) {
   return room;
 }
 export function publicSnapshot(room, after = 0) {
-  return { version:room.version,growthPolicy:structuredClone(room.growthPolicy||null),id: room.id, capacity: room.capacity, practice: room.practice, hostId: room.hostId, phase: room.phase,
+  return { version:room.version,accountRoster:room.accountRoster===true,growthPolicy:structuredClone(room.growthPolicy||null),id: room.id, capacity: room.capacity, practice: room.practice, hostId: room.hostId, phase: room.phase,
     difficulty:room.difficulty,difficultyName:room.encounter.name,time: room.time, wave: room.wave, totalWaves: room.encounter.waves, phaseUntil: room.phaseUntil,
     coreHp: room.coreHp, coreMaxHp: room.coreMaxHp, units: structuredClone(room.units), enemies: structuredClone(room.enemies),
     players: room.players.map(player=>{const p=structuredClone(player);if(p.growth){p.growth.draws=p.growth.draws.slice(-6);p.growth.attempts=p.growth.attempts.slice(-4);}return p;}), seq: room.seq, events: structuredClone(room.events.filter(e => e.seq > after)),

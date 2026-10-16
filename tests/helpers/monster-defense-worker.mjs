@@ -13,6 +13,8 @@ export default {async fetch(request,env){
  if(path.startsWith('defense/live/'))return monsterDefenseLive(request,{...env,DB:undefined});
  const id=Number(request.headers.get('authorization')?.match(/^Bearer local-qa-([1-4])$/)?.[1]||0),user=id?qaUser(id):null;
  if(path==='admin/dashboard')return Response.json({role:'OWNER',admin:qaUser(1),stats:{users:4,cards:5}});
- if(path.startsWith('defense/')||path.startsWith('admin/defense/'))return handleMonsterDefense({path,request,env,deps:{authenticate:async()=>user,json:(value,status=200,headers={})=>Response.json(value,{status,headers}),withUserMutationLock:async(_env,_user,_path,work)=>work()}});
+ if(path.startsWith('defense/')||path.startsWith('admin/defense/'))return handleMonsterDefense({path,request,env,deps:{authenticate:async()=>user,json:(value,status=200,headers={})=>Response.json(value,{status,headers}),
+  battleSettings:async()=>({}),cardBattlePower:c=>Number(c.base_power||0),cardUniqueDeckState:async(_env,_user,cards)=>({cards}),cardUniqueDeckStates:async(_env,entries)=>entries.map(({cards})=>({cards})),
+  withUserMutationLock:async(_env,_user,_path,work)=>work()}});
  return base.fetch(request,env);
 }};

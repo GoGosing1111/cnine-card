@@ -501,6 +501,7 @@
     "reactor": "/preview/defense-roguelike-v2/assets/enhancement-reactor-cycle.png"
   },
   "uiSkin": {
+    "selectionFrame": "/preview/coop-defense-v1/assets/formation-v1/selection-frame.png",
     "nameplate": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
     "panel": "/preview/coop-defense-v1/assets/ui-v5/guardian-panel.png",
     "crest": "/preview/coop-defense-v1/assets/ui-v5/guardian-crest.png"

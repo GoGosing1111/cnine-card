@@ -1,4 +1,4 @@
-import {createRoom,joinRoom,leaveRoom,commandRoom,advanceRoom,publicSnapshot,defaultLoadout} from '../../../preview/coop-defense-v1/source/defense-model.mjs';
+import {createRoom,joinRoom,leaveRoom,commandRoom,advanceRoom,publicSnapshot,defaultLoadout,selectDefenseLoadout} from '../../../preview/coop-defense-v1/source/defense-model.mjs';
 import {DEFENSE_RULES} from '../../../shared/monster-defense-v1.mjs';
 import {readJointBody} from '../../../functions/_joint_request.js';
 const terminal=room=>['VICTORY','DEFEAT'].includes(room.phase);
@@ -35,7 +35,7 @@ export class MonsterDefenseHost{
    if(action==='create'){
     if(room){if(room.creationRequest!==input.requestId||room.hostId!==String(user.id))fail('이미 사용 중인 방 코드입니다.',409);return await this.ticket(room,user);}
     room=createRoom({...input,now:Date.now()});room.kind='MONSTER_DEFENSE_V1';room.serverAt=Date.now();room.creationRequest=input.requestId;room.receipts=[];room.settingsRevision=input.settingsRevision;
-    joinRoom(room,{id:String(user.id),name:user.nickname,loadout:input.loadout});
+    joinRoom(room,{id:String(user.id),name:user.nickname,loadout:input.loadout,roster:input.roster});
     if(room.practice)for(let i=1;i<room.capacity;i++)joinRoom(room,{id:'bot-'+i,name:'자동 대원 '+i,bot:true,loadout:i===1?{mercenaries:['V-001','V-004'],card:'BONGJUN'}:defaultLoadout()});
     return await this.ticket(room,user);
    }
@@ -43,10 +43,24 @@ export class MonsterDefenseHost{
    this.advance(room);this.save(room);
    if(action==='inspect'){this.member(room,user.id);return {ok:true,roomId:room.id,terminal:terminal(room),phase:room.phase};}
    if(action==='join'){
-    if(!room.players.some(p=>p.id===String(user.id))){if(room.practice)fail('연습 방에는 참가할 수 없습니다.');joinRoom(room,{id:String(user.id),name:user.nickname,loadout:input.loadout});}
+    if(!room.players.some(p=>p.id===String(user.id))){if(room.practice)fail('연습 방에는 참가할 수 없습니다.');joinRoom(room,{id:String(user.id),name:user.nickname,loadout:input.loadout,roster:input.roster});}
     return await this.ticket(room,user);
    }
    if(action==='ticket')return await this.ticket(room,user);
+   if(action==='select'||action==='ready'){
+    const player=this.member(room,user.id),key='roster:'+player.id+':'+input.requestId;
+    const fingerprint=JSON.stringify([action,input.loadout||null,input.ready??null,input.loadoutRevision]);
+    const prior=room.receipts.find(r=>r.key===key);
+    if(prior){if(prior.fingerprint!==fingerprint)fail('같은 요청 ID로 다른 편성을 보낼 수 없습니다.',409);return {ok:true,duplicate:true,snapshot:publicSnapshot(room)};}
+    if(room.phase!=='LOBBY')fail('전투가 시작되어 편성을 바꿀 수 없습니다.',409);
+    if(input.loadoutRevision!==(player.loadoutRevision||0))fail('다른 화면에서 편성이 변경됐습니다. 다시 확인하세요.',409);
+    if(room.receipts.length>=4096)fail('이번 방의 명령 한도에 도달했습니다.',429);
+    if(input.loadout)selectDefenseLoadout(room,player.id,input.loadout,input.roster);
+    commandRoom(room,player.id,{type:'READY',ready:action==='ready'&&input.ready===true});
+    player.loadoutRevision=(player.loadoutRevision||0)+1;player.lastSeen=Date.now();player.connected=true;
+    room.receipts.push({key,fingerprint});this.save(room);await this.schedule(room);
+    return {ok:true,snapshot:publicSnapshot(room)};
+   }
    fail('지원하지 않는 방 요청입니다.');
   }catch(e){return {ok:false,status:e.status||400,error:e.message};}
  }
@@ -71,6 +85,7 @@ export class MonsterDefenseHost{
    if(!/^[a-zA-Z0-9-]{16,100}$/.test(body.requestId||'')||!body.command)fail('명령 ID를 확인하세요.');
    const key=p.id+':'+body.requestId,prior=room.receipts.find(r=>r.key===key);
    if(prior){if(prior.fingerprint!==fingerprint)fail('같은 요청 ID로 다른 명령을 보낼 수 없습니다.',409);return Response.json({ok:true,duplicate:true});}
+   if(body.command.type==='READY'&&(room.accountRoster||p.roster))fail('보유 편성을 확인한 뒤 준비 버튼을 눌러 주세요.',403);
    if(room.receipts.length>=4096)fail('이번 방의 명령 한도에 도달했습니다.',429);
    const now=Date.now();if(now-(p.rateAt||0)>1000){p.rateAt=now;p.requests=0;}p.requests=(p.requests||0)+1;
    this.save(room);if(p.requests>15)fail('명령을 너무 빠르게 보냈습니다.',429);

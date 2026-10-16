@@ -5,7 +5,7 @@
     "pixi.js": "8.20.0",
     "gsap": "3.13.0"
   },
-  "bundleBytes": 2041423,
+  "bundleBytes": 2055547,
   "commonV3": [
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
@@ -107,6 +107,11 @@
       "path": "/preview/defense-roguelike-v2/assets/enhancement-reactor-cycle.png",
       "bytes": 2035354,
       "sha256": "5e3e64c8fa99acfa0f36b5db201aa3ca6c183e3357baff344a857aeea7c5d1e0"
+    },
+    {
+      "path": "/preview/coop-defense-v1/assets/formation-v1/selection-frame.png",
+      "bytes": 697854,
+      "sha256": "12e6af1bbe849e98e9a440e7946fff3f9398fbca15d0e9c80db7865bcba953eb"
     },
     {
       "path": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",

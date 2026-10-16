@@ -1,0 +1,48 @@
+{
+  "ok": true,
+  "checks": [
+    "PC/mobile owned portraits, search/grade, 2+1 limit, click/touch/Space, apply/cancel, waiting edit clears readiness, other squad unchanged, reload and six actual combat actors",
+    "320px layout and Escape close"
+  ],
+  "errors": [],
+  "failed": [],
+  "roomId": "A0822A16B4A5",
+  "units": [
+    {
+      "id": "1:0",
+      "code": "V-051",
+      "name": "디임간호사",
+      "role": "HEALER"
+    },
+    {
+      "id": "1:1",
+      "code": "V-046",
+      "name": "라그니엘",
+      "role": "STRIKER"
+    },
+    {
+      "id": "1:2",
+      "code": "CARD:CN-0505936A0CBB4E59",
+      "name": "구수댕",
+      "role": "CAPTAIN"
+    },
+    {
+      "id": "2:0",
+      "code": "V-010",
+      "name": "월령",
+      "role": "STRIKER"
+    },
+    {
+      "id": "2:1",
+      "code": "V-009",
+      "name": "련화",
+      "role": "RANGED"
+    },
+    {
+      "id": "2:2",
+      "code": "CARD:CN-02D9DC1E8A8A4209",
+      "name": "철와대 킴성태",
+      "role": "CAPTAIN"
+    }
+  ]
+}

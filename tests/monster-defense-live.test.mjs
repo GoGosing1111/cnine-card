@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {monsterDefenseFixture} from './helpers/monster-defense-fixture.mjs';
-import {defaultLoadout,advanceRoom,RULES} from '../preview/coop-defense-v1/source/defense-model.mjs';
+import {monsterDefenseFixture,defenseOwnedLoadout as defaultLoadout} from './helpers/monster-defense-fixture.mjs';
+import {advanceRoom,RULES} from '../preview/coop-defense-v1/source/defense-model.mjs';
 import {DEFENSE_KEY,defaultDefenseSettings} from '../shared/monster-defense-v1.mjs';
 const id=()=>crypto.randomUUID();
 test('defense TEST: real durable room API, tester gate, authority, retry, persistence and bounded tickets',async()=>{
@@ -23,7 +23,7 @@ test('defense TEST: real durable room API, tester gate, authority, retry, persis
   assert.equal((await h.live({...a,token:'0'.repeat(72)},'state')).status,401);
   assert.equal((await h.live(a,'command',{requestId:id(),command:{type:'READY'},junk:'x'.repeat(5000)})).status,413);
   assert.equal((await cmd(a,{type:'START'})).status,400);
-  for(const s of [a,b,c])assert.equal((await cmd(s,{type:'READY',ready:true})).status,200);
+  for(const s of [a,b,c])assert.equal((await h.ready(s)).status,200);
   assert.equal((await cmd(b,{type:'START'})).status,400);
   const startId=id();assert.equal((await cmd(a,{type:'START'},startId)).status,200);assert.equal((await cmd(a,{type:'START'},startId)).duplicate,true);assert.equal((await cmd(a,{type:'READY'},startId)).status,409);
   let snapshot=await h.live(a,'state');assert.equal(snapshot.units.length,9);assert.equal(snapshot.phase,'PREP');assert.ok(snapshot.players.every(p=>p.loadout.mercenaries.length===2));

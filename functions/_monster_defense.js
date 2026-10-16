@@ -1,6 +1,6 @@
 import {assertJointOrigin,readJointBody,jointError} from './_joint_request.js';
 import {DEFENSE_KEY,DEFENSE_DIFFICULTIES,defaultDefenseSettings,validateDefenseSettings,defenseAccess,validDefenseRoom} from '../shared/monster-defense-v1.mjs';
-import {validateLoadout} from '../preview/coop-defense-v1/source/defense-model.mjs';
+import {readDefenseRoster,loadDefenseSelection} from './_monster_defense_roster.js';
 const fail=(message,status=400)=>{throw jointError('DEFENSE_REQUEST',message,status);};
 const stub=(env,id)=>env.COOP_ROOMS.getByName('defense:'+id);
 const pointer=(env,user)=>env.COOP_PLAYERS.getByName('defense:'+user.id);
@@ -46,9 +46,10 @@ export async function handleMonsterDefense({path,request,env,deps}){
   }
   if(action==='feature'&&request.method==='GET')return reply({mode:settings.mode,accessible:defenseAccess(user,settings),owner:user.role==='OWNER',user:{id:Number(user.id),nickname:user.nickname},difficulties:settings.difficulties,growth:settings.growth,rewardsEnabled:false});
   if(!defenseAccess(user,settings))fail(settings.mode==='OFF'?'디펜스 테스트가 중지돼 있습니다.':'OWNER와 지정된 테스트 계정만 입장할 수 있습니다.',403);
+  if(action==='options'&&request.method==='GET')return reply({ok:true,...await readDefenseRoster(env,user,deps),you:Number(user.id)});
   if(!env.COOP_ROOMS||!env.COOP_PLAYERS)fail('디펜스 서버를 준비 중입니다.',503);
   if(request.method!=='POST')fail('지원하지 않는 요청입니다.',405);
-  const body=await readJointBody(request,{maxBytes:4096,fields:['roomId','capacity','difficulty','loadout','practice','requestId']});
+  const body=await readJointBody(request,{maxBytes:4096,fields:['roomId','capacity','difficulty','loadout','practice','requestId','ready','loadoutRevision']});
   return await deps.withUserMutationLock(env,user.id,'defense/entry',async()=>{
    const route=pointer(env,user),active=await route.getRoom();
    if(action==='session'){
@@ -58,16 +59,24 @@ export async function handleMonsterDefense({path,request,env,deps}){
    if(action==='leave'){
     if(!active)return reply({ok:true});const result=await stub(env,active).defenseLeave(user);if(result.ok)await route.setRoom(null);return reply(result,result.ok?200:result.status);
    }
+   if(['select','ready'].includes(action)){
+    if(!validDefenseRoom(body.roomId)||body.roomId!==active)fail('현재 대기방에서 편성을 변경하세요.',409);
+    if(!/^[a-zA-Z0-9-]{16,100}$/.test(body.requestId||'')||!Number.isSafeInteger(body.loadoutRevision)||body.loadoutRevision<0)fail('편성 요청 정보를 다시 확인하세요.');
+    if(action==='ready'&&typeof body.ready!=='boolean')fail('준비 상태를 확인하세요.');
+    const selection=action==='ready'&&body.ready===false?{}:await loadDefenseSelection(env,user,body.loadout,deps);
+    const result=await stub(env,active).defenseRpc(action,{user,...selection,ready:body.ready,requestId:body.requestId,loadoutRevision:body.loadoutRevision});
+    return reply(result,result.ok?200:result.status);
+   }
    if(!['create','join'].includes(action))fail('없는 디펜스 경로입니다.',404);
    if(!/^[a-zA-Z0-9-]{16,100}$/.test(body.requestId||''))fail('입장 요청 ID를 확인하세요.');
    if(active){const state=await stub(env,active).defenseRpc('inspect',{user});if(state.ok&&!state.terminal){if(action==='join'&&body.roomId!==active)fail('진행 중인 방으로 먼저 돌아가 주세요.',409);const result=await stub(env,active).defenseRpc('ticket',{user});return reply(result,result.ok?200:result.status);}await route.setRoom(null);}
-   const loadout=validateLoadout(body.loadout);
-   let id=String(body.roomId||'').trim().toUpperCase(),input={user,loadout};
+   const selection=await loadDefenseSelection(env,user,body.loadout,deps);
+   let id=String(body.roomId||'').trim().toUpperCase(),input={user,...selection};
    if(action==='create'){
     const combat=settings.difficulties.find(d=>d.id===body.difficulty&&d.enabled);if(!combat)fail('이 난이도는 테스트를 사용할 수 없습니다.');
     const hash=new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(user.id+':'+body.requestId)));
     id=Array.from(hash.slice(0,6),n=>n.toString(16).padStart(2,'0')).join('').toUpperCase();
-    input={...input,id,capacity:body.capacity,difficulty:combat.id,combat,growth:settings.growth,practice:body.practice===true,requestId:body.requestId,seed:crypto.getRandomValues(new Uint32Array(1))[0],settingsRevision:settings.revision};
+    input={...input,id,capacity:body.capacity,difficulty:combat.id,combat,growth:settings.growth,practice:body.practice===true,accountRoster:true,requestId:body.requestId,seed:crypto.getRandomValues(new Uint32Array(1))[0],settingsRevision:settings.revision};
    }
    if(!validDefenseRoom(id))fail('초대 코드 12자리를 확인하세요.');
    const result=await stub(env,id).defenseRpc(action,input);if(result.ok)await route.setRoom(id);return reply(result,result.ok?200:result.status);

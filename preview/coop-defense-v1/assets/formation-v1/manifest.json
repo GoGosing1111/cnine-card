@@ -1,0 +1,11 @@
+{
+  "generator": "built-in image_gen",
+  "createdAt": "2026-10-17",
+  "purpose": "Monster Defense owned roster selection frame",
+  "reference": "../ui-v5/guardian-panel.png",
+  "source": "selection-frame.png",
+  "original": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-ea022215-53ea-4cfb-bf1f-00e3a78e51dc.png",
+  "transparent": true,
+  "prompt": "Use case: ui-mockup. Create a production-ready bitmap UI asset, a single portrait-oriented 4:5 character selection card frame for the Monster Defense co-op fortress game. The input is a STYLE REFERENCE only: match its authored brushed black iron, cool silver chamfered armor and very restrained cyan guardian-crystal inlays; do not copy its rectangular panel. Design a distinctive slender segmented armored portrait aperture, tapered sculpted shoulders at the top, two small angular wing-like side accents, and a narrow three-part foot bracket at the bottom. Keep at least 83% of the central aperture completely transparent so existing character illustrations can show through unobstructed. Edges narrow and refined, no giant ornamental crown, no wide label plaque. Straight-on orthographic UI art, crisp premium game craftsmanship, highlights upper-left, fine engraved bevels, not photoreal wall hardware. Entire exterior AND large central interior genuinely transparent alpha. Exactly one isolated frame centered, portrait proportions, no background, no shadow field, no letters, numbers, logo, character, icons, text, fake transparency checkerboard or inset fill. This is a reusable portrait-frame overlay; preserve source image pixels only as reference, generate a fresh dedicated shape.",
+  "sha256": "12e6af1bbe849e98e9a440e7946fff3f9398fbca15d0e9c80db7865bcba953eb"
+}
