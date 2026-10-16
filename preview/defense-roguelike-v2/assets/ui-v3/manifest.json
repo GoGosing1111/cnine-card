@@ -43,8 +43,9 @@
     },
     {
       "file": "SUIT-LICENSE.txt",
-      "bytes": 4380,
-      "sha256": "30d101ee3c35ef629d622d933d261a27b2f60223e0a3b0f36791e569c2b9daa9"
+      "sourceBytes": 4380,
+      "sourceSha256": "30d101ee3c35ef629d622d933d261a27b2f60223e0a3b0f36791e569c2b9daa9",
+      "hashNormalization": "Upstream LF text; Git may check out the license with CRLF on Windows."
     }
   ],
   "consumers": [
