@@ -487,6 +487,7 @@
   ],
   "environment": {
     "renderer": "painted-sprites",
+    "staging": "/preview/coop-defense-v1/assets/lobby-v4/fortress-assembly-court.png",
     "causeway": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png",
     "core": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png"
   },

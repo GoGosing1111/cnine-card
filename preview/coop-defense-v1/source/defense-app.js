@@ -64,7 +64,7 @@ function buildLoadout() {
       const option = document.createElement('option'); option.value = entry.code; option.textContent = entry.name; select.append(option);
     }
     select.value = slot < 2 ? state.loadout.mercenaries[slot] : state.loadout.card;
-    const refresh = () => { const entry = state.catalog.units[select.value],profile=[...MERCENARIES,...CARDS].find(p=>p.code===select.value); img.src = entry.sourceArt; img.alt = `${entry.name} 원화`;role.textContent=profile.label||'분대 지휘'; };
+    const refresh = () => { const entry = state.catalog.units[select.value],profile=[...MERCENARIES,...CARDS].find(p=>p.code===select.value); img.src = entry.battleSprite; img.alt = `${entry.name} 전투 캐릭터`;role.textContent=profile.label||'분대 지휘'; };
     select.addEventListener('change', () => { if (slot < 2) state.loadout.mercenaries[slot] = select.value; else state.loadout.card = select.value; refresh(); });
     refresh(); wrap.append(art, label, select); $('loadout-grid').append(wrap);
   }
@@ -145,6 +145,12 @@ function receive(snapshot) {
   if (previous?.phase !== snapshot.phase || previous?.wave !== snapshot.wave) showPhase(snapshot);
   if (['VICTORY', 'DEFEAT'].includes(snapshot.phase)) renderResult(snapshot);
 }
+function updatePartyViewport() {
+  const list=$('party-list'),padding=parseFloat(getComputedStyle(list).paddingLeft)||0;
+  let nearest=0,distance=Infinity;
+  [...list.children].forEach((item,i)=>{const delta=Math.abs(item.offsetLeft-padding-list.scrollLeft);if(delta<distance){distance=delta;nearest=i;}});
+  [...$('party-roster-tabs').children].forEach((tab,i)=>tab.setAttribute('aria-pressed',String(i===nearest)));
+}
 function renderWaiting(snapshot) {
   $('invite-code').textContent = snapshot.id;
   $('copy-invite').hidden = snapshot.practice;
@@ -160,7 +166,8 @@ function renderWaiting(snapshot) {
   const signature = JSON.stringify([snapshot.hostId,snapshot.capacity,snapshot.players.map(p => [p.id, p.name, p.ready, p.connected, p.loadout])]);
   if ($('party-list').dataset.signature !== signature) {
     $('party-list').dataset.signature = signature;
-    $('party-list').replaceChildren();
+    const previousScroll=$('party-list').scrollLeft;
+    $('party-list').replaceChildren();$('party-roster-tabs').replaceChildren();
     for (let lane = 0; lane < snapshot.capacity; lane++) {
       const player = snapshot.players.find(p => p.lane === lane);
       const item = document.createElement('article'); item.className = 'party-member'+(!player?' is-empty':'')+(player?.id===state.session.playerId?' is-self':'')+(player?.ready&&player.connected?' is-ready':''); item.style.setProperty('--lane-color', colors[lane]);
@@ -175,12 +182,15 @@ function renderWaiting(snapshot) {
         const art = document.createElement('div'); art.className = 'party-portraits';
         for (const code of [...player.loadout.mercenaries, player.loadout.card]) {
           const unit=state.catalog.units[code],figure=document.createElement('figure'),caption=document.createElement('figcaption');
-          const image = document.createElement('img'); image.src = unit.sourceArt; image.alt = '';caption.textContent=unit.name;figure.append(image,caption);art.append(figure);
+          const image = document.createElement('img'); image.src = unit.battleSprite; image.alt = '';caption.textContent=unit.name;figure.append(image,caption);art.append(figure);
         }
         item.append(art);
       } else {const empty=document.createElement('div');empty.className='party-empty-slots';empty.setAttribute('aria-hidden','true');for(let slot=0;slot<3;slot++){const tile=document.createElement('span'),plus=document.createElement('i'),label=document.createElement('small');plus.textContent='+';label.textContent=slot<2?'용병 '+(slot+1):'카드';tile.append(plus,label);empty.append(tile);}item.append(empty);}
       $('party-list').append(item);
+      const tab=document.createElement('button');tab.type='button';tab.className='party-roster-tab';tab.textContent=LANES[lane]+' · '+(player?safeName(player.name):'빈자리')+(player?.id===state.session.playerId?' · 나':'');tab.setAttribute('aria-label',LANES[lane]+' 방어선 분대 보기');tab.addEventListener('click',()=>{const list=$('party-list');list.scrollTo({left:item.offsetLeft-(parseFloat(getComputedStyle(list).paddingLeft)||0),behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});});$('party-roster-tabs').append(tab);
     }
+    const viewKey=snapshot.id+':'+state.session.playerId;
+    requestAnimationFrame(()=>{const list=$('party-list');if(list.dataset.viewKey!==viewKey){list.dataset.viewKey=viewKey;if(matchMedia('(max-width:760px)').matches)list.scrollLeft=(list.querySelector('.is-self')?.offsetLeft||0)-(parseFloat(getComputedStyle(list).paddingLeft)||0);}else list.scrollLeft=previousScroll;updatePartyViewport();});
   }
   const mine = snapshot.players.find(p => p.id === state.session.playerId), isHost = snapshot.hostId === state.session.playerId;
   $('ready').textContent = mine.ready ? '준비 취소' : '준비 완료'; $('ready').setAttribute('aria-pressed', String(mine.ready));
@@ -379,6 +389,8 @@ async function resumeBattle() {
   } finally { state.pending = false; $('resume-battle').disabled = false; }
 }
 function bind() {
+  $('party-list').addEventListener('scroll',updatePartyViewport,{passive:true});
+  for(const detail of document.querySelectorAll('.mission-tools details'))detail.addEventListener('toggle',()=>{if(detail.open)for(const other of document.querySelectorAll('.mission-tools details'))if(other!==detail)other.open=false;});
   document.querySelectorAll('[data-capacity]').forEach(button => button.addEventListener('click', () => {
     state.capacity = Number(button.dataset.capacity);
     document.querySelectorAll('[data-capacity]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
@@ -418,7 +430,7 @@ function bind() {
 }
 async function main() {
   bind();
-  const response = await fetch('./asset-catalog.json?v=20261017-defense-lobby3'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
+  const response = await fetch('./asset-catalog.json?v=20261017-defense-lobby4'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
   state.catalog = await response.json(); buildLoadout();buildDifficulties();
   const invited = new URLSearchParams(location.search).get('room'); if (invited && /^[A-Fa-f0-9]{6,12}$/.test(invited)) $('room-code').value = invited.toUpperCase();
   if(LIVE){

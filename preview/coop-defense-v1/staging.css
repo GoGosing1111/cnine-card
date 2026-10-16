@@ -1,0 +1,158 @@
+/* In-world defense staging: the characters and fortress are the main screen. */
+.defense-staging {
+  --text:#ecf0f2; --muted:#b1c1ce; --line:#62798c; --mint:#9fe8ed;
+  position:relative; isolation:isolate; display:flex; flex-direction:column; min-height:100dvh;
+  padding:0 38px; color:var(--text); font-family:"Defense SUIT","Malgun Gothic",sans-serif;
+  background:linear-gradient(180deg,#06101d9e 0%,#07111e4a 26%,transparent 50%,#07101b40 78%,#07101bd9),url('/preview/coop-defense-v1/assets/lobby-v4/fortress-assembly-court.png') center/cover fixed;
+}
+.defense-staging .brand{height:78px;flex-shrink:0;padding:15px 0;gap:11px;border-bottom:1px solid #c5ddec3d;letter-spacing:.3px;text-shadow:0 2px 6px #000b}
+.defense-staging .defense-logo{width:34px;height:34px;object-fit:contain}
+.defense-staging .brand-copy{font-size:16px}.defense-staging .brand small{font-size:8px;letter-spacing:2px;color:#c2d6e6}
+.defense-staging .review-tag{margin-left:8px;padding:4px 8px;border-color:#7698ab;color:#bce9f0;background:#132c3ca6;font-size:9px}
+.defense-staging .defense-back,.defense-staging .brand .quiet{margin-left:auto;display:flex;align-items:center;gap:18px;min-height:44px;color:#deebf3;font-size:12px;text-decoration:none}
+.defense-staging button{background:#122333de;border:1px solid #7893a6;border-radius:3px;color:#dbeaf3;font-weight:700;min-height:46px;transition:background-color .15s,border-color .15s,filter .15s}
+.defense-staging button:hover:enabled{background-color:#2a4355;border-color:#b9e6ef}
+.defense-staging button:disabled{opacity:.43}
+.defense-staging button.quiet{background:transparent;border-color:transparent}
+.defense-staging button.primary{display:flex;flex-direction:column;justify-content:center;align-items:stretch;gap:4px;min-height:76px;padding:12px 30px;border:0;color:#172c3b;background:transparent url('/preview/defense-roguelike-v2/assets/ui-v3/command-button.png') center/100% 132% no-repeat;filter:drop-shadow(0 5px 9px #0008);border-radius:4px}
+.defense-staging button.primary:hover:enabled{background-color:transparent;filter:brightness(1.08) drop-shadow(0 5px 12px #0009)}
+.defense-staging button.primary:active:enabled{filter:brightness(.9)}
+.defense-staging button.primary small{font-size:9px;letter-spacing:1.8px;font-weight:650;text-align:left;opacity:.7}
+.defense-staging button.primary b{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:23px;letter-spacing:-.5px;white-space:nowrap}
+.defense-staging button.primary b span{font-size:32px;line-height:.7;font-weight:400}
+.defense-staging :is(button,input,select,a,summary):focus-visible{outline:2px solid #a9f3f4;outline-offset:4px}
+.defense-staging input,.defense-staging select{background:#0c1929d9;border:1px solid #7992a5;color:#f0f3f5;border-radius:3px;min-height:46px}
+.defense-staging input::placeholder{color:#91a7b9}
+.defense-staging .eyebrow{font-size:10px;letter-spacing:2px;color:#bdedf2;font-weight:750;text-shadow:0 2px 6px #000}
+.defense-staging .lobby-layout{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto minmax(340px,1fr) auto;align-items:stretch;gap:0 25px;flex:1;min-height:calc(100dvh - 78px);padding:25px 0 0}
+.defense-staging .lobby-story{display:block;grid-column:1;grid-row:1;min-width:0}
+.defense-staging .lobby-story h1{font-size:40px;line-height:1.15;letter-spacing:-1.5px;margin:10px 0 12px;color:#f1f0e9;text-shadow:0 3px 12px #08101dc9;font-weight:850}
+.defense-staging .mission-meta{display:flex;align-items:center;gap:12px;margin:0;color:#cfdfeb;text-shadow:0 2px 4px #000}
+.defense-staging .mission-meta span{display:block;font-size:11px;line-height:1.3;color:#cfdfeb;padding-right:12px;border-right:1px solid #a5c8dd80}
+.defense-staging .mission-meta span:last-child{border:0}.defense-staging .mission-meta b{display:inline;font:inherit;color:inherit}
+.defense-staging .lobby-console{display:contents}
+.defense-staging .difficulty-field{grid-column:1;grid-row:2;margin:23px 0 0;padding:0;border:0;max-width:455px;min-width:0}
+.defense-staging .difficulty-field legend{color:#cbdde8;font-size:10px;letter-spacing:.7px;margin-bottom:8px;text-shadow:0 2px 5px #000}
+.defense-staging .difficulty-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.defense-staging .difficulty-option{position:relative;padding:7px 4px;min-height:46px;font-size:12px;background:#0d1c2bc9;border-color:#668297;border-radius:2px;color:#c8d9e4;box-shadow:none}
+.defense-staging .difficulty-option[aria-pressed=true]{color:#fff;background:#446979d9;border-color:#ccf7f5;box-shadow:inset 0 -2px #aff1ee}
+.defense-staging .difficulty-marks{display:flex;justify-content:center;gap:3px;margin-top:6px}
+.defense-staging .difficulty-marks i{width:6px;height:2px;background:#7b9aac55}.defense-staging .difficulty-marks .is-lit{background:#a0c1d2}.defense-staging .difficulty-option[aria-pressed=true] .is-lit{background:#b9fffb}
+.defense-staging .console-heading{grid-column:2;grid-row:2;align-self:end;display:block;text-align:right;margin:0 0 3px;text-shadow:0 2px 5px #000}
+.defense-staging .console-heading h2{font-size:13px;letter-spacing:0;margin-bottom:6px;color:#f0f3f4}.defense-staging .console-heading>span:last-child{font-size:10px;color:#c9dce9}
+.defense-staging .mission-tools{display:flex;gap:8px;grid-column:2;grid-row:1;align-self:start;position:relative;z-index:10}
+.defense-staging .mission-tools details{margin:0;padding:0;max-width:none;border:0}
+.defense-staging .mission-tools summary{list-style:none;cursor:pointer;display:flex;gap:22px;align-items:center;justify-content:space-between;min-height:44px;padding:8px 14px;font-size:11px;background:#101f31bd;border:1px solid #728fa2;color:#e5eff4;border-radius:3px}
+.defense-staging .mission-tools summary::-webkit-details-marker{display:none}.defense-staging .mission-tools summary>span{color:#b5dce8}
+.defense-staging .mission-popover{position:absolute;right:0;top:54px;width:370px;max-width:calc(100vw - 36px);padding:20px;background:#0d1c2bf5;border:1px solid #8aa5b6;box-shadow:0 12px 50px #0009;border-radius:4px;backdrop-filter:blur(16px)}
+.defense-staging .mission-popover h2{font-size:19px;margin:0 0 14px}.defense-staging .mission-popover p{font-size:12px;line-height:1.8;color:#bdcedc;margin-top:10px;word-break:keep-all}
+.defense-staging #difficulty-title{font-size:11px;color:#bdebf0;margin:0}
+.defense-staging .boss-preview{display:flex;align-items:center;gap:14px;margin-top:10px}.defense-staging .boss-preview>img{height:145px;width:120px;object-fit:contain}
+.defense-staging .boss-preview h2{font-size:21px;margin:8px 0;letter-spacing:-.6px}.defense-staging .boss-preview .boss-label{font-size:10px;color:#e9b6aa;letter-spacing:1px}.defense-staging .boss-preview p{font-size:11px;margin:0}
+.defense-staging #mid-boss-name{border-top:1px solid #587386;padding-top:10px;font-size:11px}
+.defense-staging .enemy-heading{font-size:11px;color:#e1ebf1;margin:16px 0 7px}
+.defense-staging .enemy-lineup{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}.defense-staging .enemy-lineup figure{min-width:0;margin:0}.defense-staging .enemy-lineup img{width:100%;height:55px;object-fit:contain}.defense-staging .enemy-lineup figcaption{font-size:9px;color:#bdcdd8;line-height:1.5}
+.defense-staging .loadout-grid{grid-column:1/-1;grid-row:3;align-self:end;justify-self:center;width:min(100%,1020px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px;margin:0;padding:0 30px 27px;min-height:0}
+.defense-staging .loadout-slot{min-width:0;position:relative;display:flex;flex-direction:column;align-items:stretch;justify-content:end}
+.defense-staging .slot-art{height:clamp(255px,40vh,430px);border:0;background:none;border-radius:0;overflow:visible;position:relative}
+.defense-staging .slot-art::after{content:none}
+.defense-staging .slot-art::before{content:"";position:absolute;bottom:0;left:12%;width:76%;height:13px;border-radius:50%;background:#0b1920c9;filter:blur(5px)}
+.defense-staging .slot-art img{display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 10px 6px #06101a9c);animation:staging-breathe 5s ease-in-out infinite}
+.defense-staging .loadout-slot:nth-child(2) .slot-art img{animation-delay:-2s}.defense-staging .loadout-slot:nth-child(3) .slot-art img{animation-delay:-3.5s}
+.defense-staging .slot-art>span{position:absolute;top:22px;bottom:auto;left:50%;transform:translateX(-50%);z-index:1;padding:4px 13px;border:1px solid #b5d8e85c;background:#0c1c2bb3;border-radius:2px;color:#e2f0f6;font-size:10px;letter-spacing:1px;white-space:nowrap;text-shadow:0 2px 4px #000}
+.defense-staging .slot-role{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:11px;color:#def7fc;text-shadow:0 2px 5px #000,0 0 10px #000;white-space:nowrap;background:#142a3ab3;padding:3px 12px;border-radius:2px}
+.defense-staging .loadout-slot label{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden;margin:0}
+.defense-staging .loadout-slot select{min-height:54px;font-size:18px;font-weight:750;padding:10px 15px;text-align:center;box-shadow:0 4px 18px #0005;border-color:#b5ceddb3;background:linear-gradient(110deg,#162c3de8,#0d1c2be8)}
+.defense-staging .deployment-dock{grid-column:1/-1;grid-row:4;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(360px,1fr);align-items:end;gap:38px;margin:0 -38px;padding:19px 38px 23px;background:linear-gradient(180deg,#091320e8,#070f19f5);border-top:1px solid #809da8a6;box-shadow:0 -5px 24px #07121d66}
+.defense-staging .dock-setup{display:grid;grid-template-columns:1fr 1fr;gap:25px;min-width:0;padding-bottom:2px}
+.defense-staging .squad-settings{display:grid;grid-template-columns:minmax(0,1fr) 105px;align-items:end;gap:15px;min-width:0}
+.defense-staging .field-label{font-size:10px;color:#9fb9cb;letter-spacing:.3px;min-width:0}.defense-staging .field-label input{margin-top:7px;padding:9px 11px;font-size:14px;font-weight:600}
+.defense-staging input[readonly]{color:#d5e4ed;background:#142332}
+.defense-staging .capacity-field{border:0;margin:0;padding:0;display:flex;gap:5px;min-width:0}.defense-staging .capacity-field legend{font-size:10px;color:#9fb9cb;margin-bottom:7px}
+.defense-staging .capacity-option{flex:1;min-width:0;padding:8px;font-size:12px;justify-content:center;background:#101e2d}
+.defense-staging .capacity-option[aria-pressed=true]{background:#35566a;color:#ecfdff;border-color:#b5e0e8}
+.defense-staging .join-form{display:flex;align-items:end;gap:7px;margin:0;padding:0;border:0;min-width:0}.defense-staging .join-form label{flex:1;min-width:0}.defense-staging .join-form input{letter-spacing:1px;font-size:14px;text-transform:uppercase}.defense-staging .join-form button{font-size:12px;padding-inline:16px;background:#243c4e}
+.defense-staging .deploy-actions{min-width:0}.defense-staging .access-status{padding:0;border:0;background:none;margin:0 0 11px;text-align:right;font-size:10px;color:#a8bdcc;line-height:1.5}
+.defense-staging .lobby-actions{display:grid;grid-template-columns:110px 1fr;gap:12px}.defense-staging .lobby-actions .secondary{background:#172b3bb8;font-size:13px}
+.defense-staging .resume-battle{width:100%;margin-top:10px;color:#c9f2f4;background:#263e4b}
+.defense-staging .waiting-content{flex:1;display:grid;grid-template-columns:1fr;grid-template-rows:auto auto auto minmax(350px,1fr) auto;min-height:calc(100dvh - 78px);padding:25px 0 0;text-align:left}
+.defense-staging .waiting-heading{display:flex;justify-content:space-between;align-items:start;gap:25px;text-shadow:0 3px 8px #000b}
+.defense-staging .waiting-heading h1{font-size:38px;font-weight:850;letter-spacing:-1.3px;color:#f1f0e9;margin:10px 0}
+.defense-staging #waiting-description{font-size:12px;color:#d1e2ec;line-height:1.7}
+.defense-staging .waiting-mission{display:flex;align-items:center;gap:20px;margin-top:9px;padding:12px 18px;background:#122538b8;border:1px solid #819eb182;border-radius:3px}
+.defense-staging .waiting-mission>span{font-size:11px;color:#d5e8f2}.defense-staging .waiting-mission strong{font-size:23px;white-space:nowrap}.defense-staging .waiting-mission strong small{font-size:11px;font-weight:500}.defense-staging .waiting-mission b{font-weight:700}
+.defense-staging .invite{display:flex;align-items:center;justify-content:start;gap:15px;flex-wrap:wrap;margin:18px 0 0;padding:0;background:none;border:0}
+.defense-staging .invite-code-wrap{display:flex;align-items:center;gap:13px;padding:8px 14px;min-height:43px;border-left:2px solid #c6f6f5;background:#102235c9}
+.defense-staging .invite-code-wrap>span{font-size:10px;color:#a4c6d9}.defense-staging .invite strong{font-size:19px;color:#ebf6f9;letter-spacing:1.5px;font-weight:650;font-variant-numeric:tabular-nums}
+.defense-staging .invite button{min-height:43px;padding:8px 13px;font-size:11px;display:flex;align-items:center;gap:17px}
+.defense-staging #invite-note{color:#c0d8e8;font-size:10px;text-shadow:0 1px 5px #000}
+.defense-staging .party-heading{display:flex;align-items:center;justify-content:space-between;margin:24px 0 10px;padding-bottom:10px;border-bottom:1px solid #c4dce544;text-shadow:0 2px 5px #000}
+.defense-staging .party-heading h2{font-size:13px;letter-spacing:.3px;font-weight:650}.defense-staging .party-heading>span{font-size:11px;color:#cee4ef}
+.defense-staging .party-roster-tabs{display:none}
+.defense-staging .party-list{position:relative;display:grid;grid-template-columns:repeat(var(--party-capacity,3),minmax(0,1fr));gap:30px;align-items:end;margin:0;min-width:0;padding:0 5px 22px}
+.defense-staging .party-member{position:relative;display:block;min-width:0;border:0;border-radius:0;background:none;padding:12px 10px 0;text-align:center}
+.defense-staging .party-member::after{content:"";position:absolute;bottom:21px;left:8%;width:84%;height:20px;z-index:-1;border-radius:50%;background:#07131b80;filter:blur(8px)}
+.defense-staging .party-member-head{display:flex;justify-content:center;align-items:center;gap:12px;margin-bottom:7px}
+.defense-staging .party-lane{font-size:10px;letter-spacing:1px;color:#bde3ef;background:#142735ba;border:1px solid #8fb2c785;padding:5px 10px;border-radius:2px}
+.defense-staging .party-ready{display:block;margin:0;font-size:10px;color:#d3e2eb;background:#0e2031c9;padding:5px 10px;border:1px solid #a4c1d078;border-radius:2px}
+.defense-staging .party-ready.is-ready{color:#ddffed;background:#244c3fe6;border-color:#9ee4ba}
+.defense-staging .party-member h3{margin:7px 0 4px;font-size:21px;font-weight:800;line-height:1.3;color:#f1f6f9;letter-spacing:-.5px;text-shadow:0 2px 4px #000,0 2px 12px #000;overflow-wrap:anywhere}
+.defense-staging .party-member.is-self h3{color:#cff7f4}.defense-staging .party-member>p{font-size:10px;color:#cfdeea;line-height:1.5;text-shadow:0 2px 5px #000}
+.defense-staging .party-portraits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1fr);align-items:end;gap:0;margin:0;height:clamp(235px,32vh,360px)}
+.defense-staging .party-portraits figure{position:relative;min-width:0;min-height:0;margin:0;height:100%;display:flex;flex-direction:column;justify-content:end;z-index:1}
+.defense-staging .party-portraits figure:nth-child(3){z-index:2;transform:translateY(10px)}
+.defense-staging .party-portraits img{display:block;flex:1 1 0;min-height:0;width:165%;max-width:none;height:calc(100% - 28px);margin-left:-32.5%;object-fit:contain;object-position:center bottom;border:0;border-radius:0;filter:drop-shadow(0 9px 5px #04101eaa);animation:staging-breathe 5s ease-in-out infinite}
+.defense-staging .party-portraits figure:nth-child(2) img{animation-delay:-2s}.defense-staging .party-portraits figure:nth-child(3) img{animation-delay:-3.7s}
+.defense-staging .party-portraits figcaption{position:relative;z-index:2;padding:5px 4px;margin:2px 2px 0;font-size:11px;color:#e1edf4;background:#0c1d2dd9;border-bottom:1px solid #aacbd88f;border-radius:2px;overflow-wrap:anywhere}
+.defense-staging .party-empty-slots{height:clamp(235px,32vh,360px);display:flex;justify-content:center;align-items:center;gap:15px;opacity:.85}
+.defense-staging .party-empty-slots>span{width:26%;height:135px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:linear-gradient(180deg,transparent,#bdddea10);border:0;border-bottom:1px solid #bbdce68c}
+.defense-staging .party-empty-slots i{font-size:30px;font-style:normal;color:#d2eaf3;font-weight:200;text-shadow:0 2px 4px #000}.defense-staging .party-empty-slots small{font-size:10px;color:#c2dce9;text-shadow:0 2px 4px #000}
+.defense-staging .waiting-launch{display:flex;align-items:center;justify-content:space-between;gap:35px;margin:0 -38px;padding:21px 38px 24px;background:linear-gradient(#0a1724e6,#08111df5);border-top:1px solid #90b4c1a8;box-shadow:0 -6px 24px #05101a66}
+.defense-staging .launch-status{min-width:0;width:380px;max-width:45%}.defense-staging .launch-status>div{display:flex;align-items:center;gap:11px}
+.defense-staging #ready-count{font-size:23px;font-weight:700;color:#e7f4f7;font-variant-numeric:tabular-nums}.defense-staging .launch-detail{font-size:12px;color:#a9c7d7}
+.defense-staging #party-ready-progress{appearance:none;display:block;width:100%;height:3px;border:0;border-radius:2px;margin:9px 0;background:#385263;overflow:hidden}.defense-staging #party-ready-progress::-webkit-progress-bar{background:#385263}.defense-staging #party-ready-progress::-webkit-progress-value{background:#a5e8d3}.defense-staging #party-ready-progress::-moz-progress-bar{background:#a5e8d3}
+.defense-staging #start-hint{font-size:11px;line-height:1.6;color:#a9c3d2}
+.defense-staging .waiting-actions{display:grid;grid-template-columns:150px minmax(220px,320px);gap:14px;margin:0}.defense-staging .waiting-actions button{min-width:0}.defense-staging .waiting-actions:has(#start[hidden]){grid-template-columns:minmax(220px,320px)}
+.defense-staging #ready{font-size:15px;background:#172f40c9}.defense-staging #ready[aria-pressed=true]{color:#d0fae6;background:#254d43;border-color:#a1debf}
+@keyframes staging-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@media(min-width:1700px){.defense-staging{padding-inline:60px}.defense-staging .deployment-dock,.defense-staging .waiting-launch{margin-inline:-60px;padding-inline:60px}.defense-staging .loadout-grid{width:1150px;max-width:100%}.defense-staging .slot-art{height:45vh;max-height:530px}.defense-staging .party-portraits,.defense-staging .party-empty-slots{height:40vh;max-height:460px}}
+@media(max-width:1100px){
+ .defense-staging{padding-inline:25px}.defense-staging .deployment-dock{margin-inline:-25px;padding-inline:25px;gap:24px;grid-template-columns:minmax(0,1fr) 310px}.defense-staging .dock-setup{gap:14px;grid-template-columns:1fr}.defense-staging .squad-settings{grid-template-columns:1fr 110px}.defense-staging .join-form{display:grid;grid-template-columns:1fr 70px}.defense-staging .join-form label{display:flex;align-items:center;gap:10px;white-space:nowrap}.defense-staging .join-form input{margin:0;min-width:0}.defense-staging .lobby-actions{grid-template-columns:85px 1fr;gap:8px}.defense-staging button.primary{padding-inline:22px}.defense-staging button.primary b{font-size:20px}.defense-staging .waiting-launch{margin-inline:-25px;padding-inline:25px}.defense-staging .waiting-mission{gap:11px;padding:10px 12px}.defense-staging .waiting-mission>span:last-child{display:none}.defense-staging .party-list{gap:20px;padding-inline:0}.defense-staging .party-member{padding-inline:0}.defense-staging .party-member h3{font-size:19px}.defense-staging .party-portraits img{width:190%;margin-left:-45%}.defense-staging .waiting-actions{grid-template-columns:120px 240px}
+}
+@media(max-width:760px){
+ .defense-staging{padding-inline:17px;background-position:center top;background-attachment:scroll;background-size:auto max(100dvh,850px)}
+ .defense-staging .brand{height:62px;padding:10px 0;gap:8px}.defense-staging .defense-logo{width:28px;height:28px}.defense-staging .brand-copy{font-size:13px}.defense-staging .brand small{font-size:6px;letter-spacing:1.3px}.defense-staging .review-tag{font-size:8px;padding:3px 6px;margin-left:3px}.defense-staging .defense-back,.defense-staging .brand .quiet{font-size:10px;gap:8px;padding-inline:0}
+ .defense-staging .lobby-layout{min-height:calc(100dvh - 62px);padding-top:20px;grid-template-columns:1fr;grid-template-rows:auto auto auto minmax(230px,1fr) auto;gap:0}
+ .defense-staging .lobby-story{grid-column:1;grid-row:1}.defense-staging .eyebrow{font-size:9px;letter-spacing:1.2px}.defense-staging .lobby-story h1{font-size:32px;margin:9px 0 10px;letter-spacing:-1px}.defense-staging .mission-meta{gap:8px}.defense-staging .mission-meta span{font-size:10px;padding-right:8px}
+ .defense-staging .mission-tools{grid-row:2;grid-column:1;justify-self:start;margin-top:14px;gap:7px}.defense-staging .mission-tools summary{min-height:36px;padding:7px 11px;font-size:10px;gap:20px}.defense-staging .mission-popover{left:0;right:auto;top:44px;width:356px;max-height:55dvh;overflow-y:auto}
+ .defense-staging .difficulty-field{grid-row:3;grid-column:1;margin-top:17px;max-width:none}.defense-staging .difficulty-field legend{font-size:9px;margin-bottom:6px}.defense-staging .difficulty-option{min-height:44px;font-size:11px;padding:6px 3px}.defense-staging .difficulty-marks{margin-top:5px}
+ .defense-staging .console-heading{display:none}
+ .defense-staging .loadout-grid{grid-row:4;grid-column:1;gap:6px;width:100%;max-width:none;margin:0;padding:0 0 21px;min-height:240px;align-self:end}
+ .defense-staging .slot-art{height:225px;min-height:0;margin-inline:-13px}.defense-staging .slot-art>span{top:15px;font-size:8px;padding:3px 9px}.defense-staging .slot-art img{width:100%;height:100%;object-position:center bottom;filter:drop-shadow(0 7px 4px #06101aa8)}.defense-staging .slot-role{bottom:7px;font-size:9px;padding:3px 7px}.defense-staging .loadout-slot select{font-size:16px;padding:9px 2px;min-height:47px;text-align:center;border-color:#a9c6d4}
+ .defense-staging .deployment-dock{grid-row:5;grid-column:1;display:grid;grid-template-columns:1fr;gap:17px;margin:0 -17px;padding:17px 17px max(18px,env(safe-area-inset-bottom));background:#091522ed}
+ .defense-staging .dock-setup{grid-template-columns:1fr;gap:11px}.defense-staging .squad-settings{grid-template-columns:minmax(0,1fr) 110px;gap:15px}.defense-staging .field-label{font-size:9px}.defense-staging .field-label input{font-size:16px;min-height:44px}.defense-staging .capacity-field legend{font-size:9px}.defense-staging .capacity-option{font-size:12px;min-height:44px}.defense-staging .join-form{gap:9px}.defense-staging .join-form label{font-size:10px}.defense-staging .join-form input{font-size:16px;letter-spacing:.7px}.defense-staging .join-form button{min-height:44px}
+ .defense-staging .access-status{text-align:left;font-size:9px;margin-bottom:10px;line-height:1.5}.defense-staging .lobby-actions{grid-template-columns:95px 1fr;gap:9px}.defense-staging .lobby-actions .secondary{font-size:12px}.defense-staging button.primary{min-height:68px;padding:11px 24px}.defense-staging button.primary small{font-size:8px;letter-spacing:1.3px}.defense-staging button.primary b{font-size:21px}.defense-staging button.primary b span{font-size:28px}
+ .defense-staging .waiting-content{padding:20px 0 0;min-height:calc(100dvh - 62px);grid-template-rows:auto auto auto auto minmax(310px,1fr) auto}
+ .defense-staging .waiting-heading{gap:12px;align-items:start}.defense-staging .waiting-heading h1{font-size:29px;margin:9px 0;letter-spacing:-1px}.defense-staging #waiting-description{font-size:10px;max-width:250px;word-break:keep-all;line-height:1.7}
+ .defense-staging .waiting-mission{display:block;min-width:70px;text-align:center;margin-top:0;padding:8px;border-color:#8faebb80}.defense-staging .waiting-mission>span{font-size:10px}.defense-staging .waiting-mission strong{display:block;font-size:23px;margin-top:4px}.defense-staging .waiting-mission small{display:block;font-size:9px!important}
+ .defense-staging .invite{margin-top:14px;gap:7px;display:grid;grid-template-columns:minmax(0,1fr) auto}.defense-staging .invite-code-wrap{display:block;min-width:0;padding:7px 11px;min-height:49px}.defense-staging .invite-code-wrap>span{display:block;font-size:8px;margin-bottom:4px}.defense-staging .invite strong{font-size:17px;letter-spacing:.8px}.defense-staging .invite button{min-height:49px;font-size:10px;padding:8px 10px;gap:10px}.defense-staging #invite-note{display:none}
+ .defense-staging .party-heading{margin:18px 0 9px;padding-bottom:9px}.defense-staging .party-heading h2{font-size:11px}.defense-staging .party-heading>span{font-size:10px}
+ .defense-staging .party-roster-tabs{display:flex;gap:5px;margin:0}.defense-staging .party-roster-tab{flex:1;min-width:0;min-height:39px;padding:7px 4px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#0c1d2ac4;border-color:#7792a4}.defense-staging .party-roster-tab[aria-pressed=true]{border-color:#c2f1ed;background:#315668d9;color:#e7fffc}
+ .defense-staging .party-list{display:flex;gap:15px;align-items:end;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -17px;padding:0 17px 21px;scroll-padding-left:17px;min-height:325px}.defense-staging .party-list::-webkit-scrollbar{display:none}
+ .defense-staging .party-member{flex:0 0 100%;width:100%;min-width:0;scroll-snap-align:start;display:block;padding:16px 5px 0;border:0;text-align:center}
+ .defense-staging .party-member-head{gap:9px;margin:0 0 4px}.defense-staging .party-lane,.defense-staging .party-ready{font-size:9px;padding:4px 8px}.defense-staging .party-member h3{font-size:20px;margin:6px 0 3px}.defense-staging .party-member>p{font-size:9px}
+ .defense-staging .party-portraits{height:235px;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0}.defense-staging .party-portraits img{height:calc(100% - 25px);width:175%;margin-left:-37.5%;border:0;border-radius:0}.defense-staging .party-portraits figcaption{font-size:11px;padding:5px 4px;margin:0 2px}.defense-staging .party-empty-slots{height:235px;margin:0;gap:12px}.defense-staging .party-empty-slots>span{height:125px}
+ .defense-staging .waiting-launch{position:sticky;bottom:0;z-index:5;display:block;margin:0 -17px;padding:13px 17px max(15px,env(safe-area-inset-bottom));background:#081522f5;backdrop-filter:blur(10px);border-top-color:#a3c8d3}
+ .defense-staging .launch-status{display:grid;grid-template-columns:auto 1fr;gap:6px 15px;width:100%;max-width:none;margin-bottom:11px}.defense-staging .launch-status>div{gap:6px}.defense-staging #ready-count{font-size:19px}.defense-staging .launch-detail{font-size:10px}.defense-staging #party-ready-progress{align-self:center;margin:0}.defense-staging #start-hint{font-size:9px;grid-column:1/-1;line-height:1.5}
+ .defense-staging .waiting-actions{grid-template-columns:95px minmax(0,1fr);gap:10px;width:100%;margin:0}.defense-staging .waiting-actions:has(#start[hidden]){grid-template-columns:1fr}.defense-staging .waiting-actions:has(#start[hidden]) #ready{min-height:59px}.defense-staging #ready{font-size:13px}.defense-staging .waiting-actions .primary{min-height:63px}
+}
+@media(max-width:360px){
+ .defense-staging{padding-inline:13px}.defense-staging .brand-copy{font-size:12px}.defense-staging .brand small{font-size:6px;letter-spacing:.8px}.defense-staging .defense-logo{width:25px;height:25px}.defense-staging .defense-back,.defense-staging .brand .quiet{font-size:9px;gap:4px}.defense-staging .brand{gap:6px}.defense-staging .review-tag{font-size:7px;padding:3px 5px;margin-left:0}.defense-staging .lobby-story h1{font-size:29px}.defense-staging .slot-art{height:220px;margin-inline:-12px}.defense-staging .slot-art>span{top:12px}.defense-staging .deployment-dock,.defense-staging .waiting-launch{margin-inline:-13px;padding-inline:13px}.defense-staging .waiting-heading h1{font-size:25px}.defense-staging .waiting-mission{min-width:60px;padding:7px 5px}.defense-staging .invite strong{font-size:15px;letter-spacing:.5px}.defense-staging .invite button{font-size:9px;gap:6px}.defense-staging .party-list{margin-inline:-13px;padding-inline:13px;scroll-padding-left:13px}.defense-staging .waiting-actions{grid-template-columns:88px minmax(0,1fr)}.defense-staging button.primary b{font-size:19px}.defense-staging button.primary{padding-inline:20px}
+}
+@media(max-width:760px) and (max-height:780px) and (orientation:portrait){
+ .defense-staging .waiting-content{padding-top:16px;grid-template-rows:auto auto auto auto minmax(250px,1fr) auto}.defense-staging .waiting-heading h1{font-size:25px;margin:7px 0}.defense-staging #waiting-description{display:none}.defense-staging .waiting-mission{padding:6px}.defense-staging .waiting-mission strong{font-size:21px}.defense-staging .invite{margin-top:11px}.defense-staging .party-heading{margin-top:12px}.defense-staging .party-list{min-height:250px;padding-bottom:18px}.defense-staging .party-member{padding-top:10px}.defense-staging .party-portraits,.defense-staging .party-empty-slots{height:165px}.defense-staging .party-empty-slots>span{height:100px}.defense-staging .waiting-launch{padding-top:10px;padding-bottom:max(12px,env(safe-area-inset-bottom))}
+}
+@media(max-height:600px) and (orientation:landscape){
+ .defense-staging{background-attachment:fixed}.defense-staging .brand{height:54px;padding-block:7px}.defense-staging .lobby-layout{padding-top:16px;min-height:calc(100dvh - 54px)}.defense-staging .lobby-story h1{font-size:30px}.defense-staging .difficulty-field{margin-top:15px}.defense-staging .slot-art{height:270px}.defense-staging .waiting-content{padding-top:16px;min-height:calc(100dvh - 54px)}.defense-staging .waiting-launch{position:static}.defense-staging .party-portraits,.defense-staging .party-empty-slots{height:265px}
+}
+@media(prefers-reduced-motion:reduce){.defense-staging .slot-art img,.defense-staging .party-portraits img{animation:none}.defense-staging button{transition:none}}
