@@ -1,0 +1,76 @@
+{
+  "operationKey": "ops:ganjang-iyejun-fur-plus15:20261017:v1",
+  "status": "VERIFIED",
+  "actor": "SYSTEM_OPS",
+  "user": {
+    "id": 4981,
+    "nickname": "간장왕대게찜"
+  },
+  "cards": [
+    {
+      "id": "CN-346F8DB0DEB84D41",
+      "title": "철구",
+      "levelBefore": 13,
+      "levelAfter": 15,
+      "quantityBefore": 8,
+      "quantityAfter": 8,
+      "changed": true
+    },
+    {
+      "id": "CN-47AD4B47B6A7452C",
+      "title": "아이젠 족스케",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 1,
+      "quantityAfter": 1,
+      "changed": true
+    },
+    {
+      "id": "CN-5D0E2E4D58C9416F",
+      "title": "치타구",
+      "levelBefore": 14,
+      "levelAfter": 15,
+      "quantityBefore": 10,
+      "quantityAfter": 10,
+      "changed": true
+    }
+  ],
+  "balancesPreserved": true,
+  "completedAt": "2026-10-16T18:24:54.21Z",
+  "adminLogId": "46963",
+  "current": [
+    {
+      "cardId": "CN-346F8DB0DEB84D41",
+      "level": 15,
+      "quantity": 8
+    },
+    {
+      "cardId": "CN-47AD4B47B6A7452C",
+      "level": 15,
+      "quantity": 1
+    },
+    {
+      "cardId": "CN-5D0E2E4D58C9416F",
+      "level": 15,
+      "quantity": 10
+    }
+  ],
+  "verifiedAt": "2026-10-16T18:25:04.564Z",
+  "allOwnedIyejunFurPlus15": true,
+  "copyCountPreserved": true,
+  "inventoryPreserved": true,
+  "otherCardsPreserved": true,
+  "newCardsGranted": 0,
+  "request": "간장왕대게찜 이예준 관련 FUR 카드 다 +15강으로 업그레이드",
+  "sourceCommit": "cb3717b0a",
+  "completedAtKst": "2026-10-17 03:24:54 KST",
+  "validation": {
+    "testCommand": "node --test --test-concurrency=1 tests/ganjang-iyejun-fur-plus15-20261017.test.mjs",
+    "passed": 4,
+    "productionDryRunRolledBack": true,
+    "independentReadOnlyVerification": true,
+    "auditAndReceiptInSameTransaction": true
+  },
+  "scope": "기존 보유한 이예준 FUR 3종의 강화 단계만 +15로 변경하고 변경 카드의 실패 누적을 초기화했다. 수량·재화·인벤토리·다른 카드와 CMS 정책을 유지했으며 신규 카드 지급·런타임 수정·사이트 재배포는 하지 않았다. 기존 동기화 트리거가 카드 변경을 처리한다.",
+  "evidenceDirectory": "C:/Users/User/.codex/tmp/ganjang-iyejun-fur-plus15-20261017/"
+}
