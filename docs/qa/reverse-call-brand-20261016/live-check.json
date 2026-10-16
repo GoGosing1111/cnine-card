@@ -1,0 +1,73 @@
+{
+  "passed": true,
+  "checkedAt": "2026-10-16T05:35:41.340Z",
+  "origin": "https://cnine-card.pages.dev",
+  "checks": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "f549e378c1373784ec1426e71b783a85ac1e14b15b64b7394a43fc11af98a1f9"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/favicon-32.png",
+      "status": 200,
+      "sha256": "8ce8c9c18691c5f3d213a0c1b6dce93d901748a158dbc293944b3a1881cdd6f5"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/icon-512.png",
+      "status": 200,
+      "sha256": "0ebe379f58b694564244d35442419f7ae01c3cd367f5e88e7223ee846c8f6e70"
+    },
+    {
+      "file": "favicon.ico",
+      "status": 200,
+      "sha256": "57d9f9b137d85be915891c40d6788bef283017fa6cfee7278f2250de39856781"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "277771048bf33e99b7d3c9961fc1e6dc2000111f7f9870409296f9106e007a85"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "status": 200,
+      "sha256": "63411d20e6717b8df6245f5cb3d9280b9319fa77d7a08a1cb3854d9e2418e47a"
+    },
+    {
+      "file": "js/soopketland-v2039.bundle.js",
+      "status": 200,
+      "sha256": "3ab58b831e521150015ed439c18056b86bfac3e25e12c640ffde97046d47368b"
+    },
+    {
+      "file": "js/soopketmon-v21-login-shop-adapter.js",
+      "status": 200,
+      "sha256": "f8b3be503ca28a0a769fc59f65544d4750fae3e3e30b9a33c2f0ddb8d61a2fd3"
+    },
+    {
+      "file": "js/territory-formation-20261013.js",
+      "status": 200,
+      "sha256": "30f8b639aa66fb8c7a721fc2c6b81791b1bd57f3a8280c6b3e1a703a184eda09"
+    },
+    {
+      "file": "manifest.webmanifest",
+      "status": 200,
+      "sha256": "4e2157555c6c0ddf30f161ee9ea4a9b97ddd5e6878bc7a194ed29b27091b385c"
+    },
+    {
+      "file": "preview/arden-energy-secret-blueprints-v1/index.html",
+      "status": 200,
+      "sha256": "8c731362829d047e93567fe26f2c3c0ab16f62ad9330874ec69067e15d8a6291"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "0ae028b8f29dc207f1cebd508dd836c1b19ba886bdada9b2a986b2f4e7c2a805"
+    }
+  ],
+  "clientManifestRelease": "bde182b594be715c44786862cb45d256bbf44118471bf75f261c49229479ce7e",
+  "clientManifestContainsNewIcon": true,
+  "browserTitle": "리버스콜 카드뽑기",
+  "oldBrandVisible": false,
+  "pageErrors": [],
+  "apiWrites": 0
+}

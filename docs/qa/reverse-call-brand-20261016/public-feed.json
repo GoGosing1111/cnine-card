@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "available": false,
+  "info": {
+    "tag": "v0.1.7",
+    "version": "0.1.7",
+    "files": [
+      {
+        "url": "ReverseCall-Engine-0.1.7-x64.exe",
+        "sha512": "IDyCXdsBm29pHGX0h2ELi/Z4JiMLxUvPr6rfj4dv0oYcBT+b0n1Zq/2/SO8Sgn3WeefIzB6Ieh4nBTtAOaFMyg==",
+        "size": 114403199
+      }
+    ],
+    "path": "ReverseCall-Engine-0.1.7-x64.exe",
+    "sha512": "IDyCXdsBm29pHGX0h2ELi/Z4JiMLxUvPr6rfj4dv0oYcBT+b0n1Zq/2/SO8Sgn3WeefIzB6Ieh4nBTtAOaFMyg==",
+    "releaseDate": "2026-10-16T05:10:06.915Z",
+    "releaseName": "리버스콜 Windows 0.1.7",
+    "releaseNotes": "<p>리버스콜 Windows 런처 0.1.7</p>\n<p>설치 파일: <strong>ReverseCall-Setup-0.1.7-x64.exe</strong></p>\n<p>게임 이름을 리버스콜로, 랜드 콘텐츠 이름을 리버스랜드로 변경했습니다. 웹·모바일·Windows 런처와 설치 화면에 새 공식 아이콘을 적용했습니다. 기존 로그인·화면 크기·저장 리소스는 유지되며 자동 업데이트 후 계속 이용할 수 있습니다.</p>\n<p>Engine 파일과 latest.yml은 자동 업데이트용입니다.</p>"
+  },
+  "rangeDownload": true,
+  "installerUrl": "https://github.com/GoGosing1111/cnine-card/releases/download/v0.1.7/ReverseCall-Engine-0.1.7-x64.exe",
+  "checkedAt": "2026-10-16T05:33:31.965Z"
+}

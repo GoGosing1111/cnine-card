@@ -1,0 +1,24 @@
+{
+  "sourceCommit": "51d574c7dc91166a24fe0dae817f18b16c17c119",
+  "production": {
+    "Id": "e3db4e72-6b19-4334-8cad-2f4a4d3953bc",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "51d574c",
+    "Deployment": "https://e3db4e72.cnine-card.pages.dev",
+    "Status": "36 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/e3db4e72-6b19-4334-8cad-2f4a4d3953bc"
+  },
+  "command": "npm run deploy:production -- --scoped",
+  "scopedTestsPassed": 63,
+  "failed": 0,
+  "workerSyntax": true,
+  "releaseGuard": true,
+  "hyperdriveCacheDisabled": true,
+  "apiRuntimeVersion": "ecceda0c-d4f7-48bc-88bc-f968579160e6",
+  "clanSchedulerVersion": "fc70409c-10f7-4a6b-b557-7bd08e0f2785",
+  "productionFiles": 19343,
+  "uploadedChangedFiles": 306,
+  "windowsVersion": "0.1.7",
+  "verifiedAt": "2026-10-16T05:35:41.340Z"
+}
