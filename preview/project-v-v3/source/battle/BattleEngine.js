@@ -1,3 +1,4 @@
+import {drawBattleGroundStations} from './BattleGroundSigil.js';
 import {apocalypseLegionBoss} from '../../../../shared/apocalypse-legion-v1.mjs';
 import {ApocalypseLegionFX} from './ApocalypseLegionFX.js';
 import {playApocalypseLegionSkill,showApocalypseStatus} from './ApocalypseLegionPlayback.js';
@@ -920,80 +921,11 @@ export class BaseBattleEngine{
   }
 
   drawIsometricFloor(){
-    if(!this.isoFloorLayer||!this.isoConfig)return;
-    this.isoFloorLayer.removeChildren().forEach(child=>child.destroy?.({children:true}));
-    this.isoTiles=[];
-    const {columns,rows}=ISO_GRID;
-    const {tileWidth,tileHeight}=this.isoConfig;
-    const teamTiles={
-      ally:new Set(['0:1','2:1','0:3','2:3','0:5']),
-      enemy:new Set(['6:0','6:2','4:2'])
-    };
-    const accountFormation=this.accountBattleUnitFormation();
-    const accountTileKey=`${accountFormation.gridX}:${accountFormation.gridY}`;
-    this.accountBattleUnitTile=null;
-    for(let row=0;row<rows;row+=1){
-      for(let column=0;column<columns;column+=1){
-        const point=this.gridToScreen(column,row);
-        const key=`${column}:${row}`;
-        const accountSupport=key===accountTileKey;
-        const ally=teamTiles.ally.has(key);
-        const enemy=teamTiles.enemy.has(key);
-        const accent=ally?0x40cfff:enemy?0xff536b:0x6e8aa0;
-        const alpha=(ally||enemy)?0.2:0.095;
-        const tile=new Container({label:accountSupport?`AccountSupportTile:${key}`:`IsoTile:${key}`});
-        tile.position.set(point.x,point.y);
-        const lower=new Graphics()
-          .poly([0,-tileHeight*.42,tileWidth*.49,0,0,tileHeight*.58,-tileWidth*.49,0])
-          .fill({color:0x02060b,alpha:.74});
-        lower.y=7;
-        const face=new Graphics()
-          .poly([0,-tileHeight*.5,tileWidth*.5,0,0,tileHeight*.5,-tileWidth*.5,0])
-          .fill({color:ally?0x0a3346:enemy?0x3a111b:(column+row)%2?0x0e1922:0x101e29,alpha:(ally||enemy)?0.58:0.48})
-          .stroke({width:ally||enemy?2:1,color:accent,alpha:(ally||enemy)?0.72:0.25});
-        const inner=new Graphics()
-          .poly([0,-tileHeight*.38,tileWidth*.38,0,0,tileHeight*.38,-tileWidth*.38,0])
-          .stroke({width:1,color:accent,alpha});
-        tile.addChild(lower,face,inner);
-        tile.depthSortY=-100000;
-        this.isoFloorLayer.addChild(tile);
-        this.isoTiles.push(tile);
-        if(accountSupport){
-          const supportAccent=new Container({label:`AccountSupportAccent:${key}`});
-          const supportFace=new Graphics()
-            .poly([0,-tileHeight*.5,tileWidth*.5,0,0,tileHeight*.5,-tileWidth*.5,0])
-            .fill({color:0x0a3346,alpha:.58})
-            .stroke({width:2,color:0x40cfff,alpha:.72});
-          const supportInner=new Graphics()
-            .poly([0,-tileHeight*.38,tileWidth*.38,0,0,tileHeight*.38,-tileWidth*.38,0])
-            .stroke({width:1,color:0x40cfff,alpha:.2});
-          supportAccent.addChild(supportFace,supportInner);
-          tile.addChild(supportAccent);
-          tile.isAccountBattleUnitTile=true;
-          tile.accountSupportAccent=supportAccent;
-          this.accountBattleUnitTile=tile;
-        }
-      }
-    }
-    const battlefieldOutline=new Graphics();
-    const top=this.gridToScreen(0,0);
-    const right=this.gridToScreen(columns-1,0);
-    const bottom=this.gridToScreen(columns-1,rows-1);
-    const left=this.gridToScreen(0,rows-1);
-    battlefieldOutline
-      .poly([top.x,top.y-tileHeight*.5,right.x+tileWidth*.5,right.y,bottom.x,bottom.y+tileHeight*.5,left.x-tileWidth*.5,left.y])
-      .stroke({width:3,color:0x9bdfff,alpha:.2});
-    battlefieldOutline.depthSortY=-99999;
-    this.isoFloorLayer.addChild(battlefieldOutline);
-    this.syncAccountBattleUnitTile();
+    drawBattleGroundStations(this, this.formationStations?.() || []);
   }
 
   syncAccountBattleUnitTile(){
-    if(!this.accountBattleUnitTile)return;
-    this.accountBattleUnitTile.visible=true;
-    if(this.accountBattleUnitTile.accountSupportAccent){
-      this.accountBattleUnitTile.accountSupportAccent.visible=Boolean(this.accountBattleUnitEnabled);
-    }
+    if(this.accountBattleUnitTile)this.accountBattleUnitTile.visible=Boolean(this.accountBattleUnitEnabled);
   }
 
   depthForY(y){
@@ -1960,7 +1892,7 @@ export class BaseBattleEngine{
       const card=allyCards[index];
       const art=allyArt[index];
       const target=this.allies[index];
-      Object.assign(target,{ownerId:card.ownerId,ownerName:card.ownerName,squadIndex:card.squadIndex});
+      Object.assign(target,{battleCard:card,ownerId:card.ownerId,ownerName:card.ownerName,squadIndex:card.squadIndex});
       assignCombatRole(target,card);
       const shield=openingShieldState(payload,card);
       target.startingShield=shield.current;
@@ -1996,7 +1928,7 @@ export class BaseBattleEngine{
       const card=enemyCards[index];
       const art=enemyArt[index];
       const target=this.enemies[index];
-      Object.assign(target,{ownerId:card.ownerId,ownerName:card.ownerName,squadIndex:card.squadIndex});
+      Object.assign(target,{battleCard:card,ownerId:card.ownerId,ownerName:card.ownerName,squadIndex:card.squadIndex});
       assignCombatRole(target,card);
       const shield=openingShieldState(payload,card);
       target.startingShield=shield.current;
@@ -2040,6 +1972,7 @@ export class BaseBattleEngine{
     target.battleActive=true;
     target.root.visible=true;
     const monsterCard=payload?.battleV2?.teams?.B?.cards?.find?.(card=>/^MONSTER:/i.test(String(card?.cardId||''))||String(card?.grade||'').toUpperCase()==='MONSTER'||String(card?.grade||'').toUpperCase()==='BOSS')||payload?.battleV2?.teams?.B?.cards?.[0];
+    target.battleCard=monsterCard||monster;
     assignCombatRole(target,monsterCard||monster,{boss:isBoss});
     const shield=openingShieldState(payload,monsterCard||monster);
     target.startingShield=shield.current;
@@ -3696,7 +3629,7 @@ export class BaseBattleEngine{
       mounted:this.mounted,
       visible:this.visible,
       playing:this.playing,
-      petSupport:[...(this.petSupports?.values()||[])].map(row=>({side:row.side,ownerId:row.ownerId,petCode:row.snapshot.definition.code,applied:row.applied,restored:!!row.restored,effectActive:!!row.fxCleanup})),
+      petSupport:[...(this.petSupports?.values()||[])].map(row=>({side:row.side,ownerId:row.ownerId,petCode:row.snapshot.definition.code,layoutSize:row.layoutSize,displaySize:row.displaySize,applied:row.applied,restored:!!row.restored,effectActive:!!row.fxCleanup})),
       renderer:this.app?.renderer?.type||'unknown',
       resolution:this.app?.renderer?.resolution||1,
       pools:this.pools?.stats()||[],

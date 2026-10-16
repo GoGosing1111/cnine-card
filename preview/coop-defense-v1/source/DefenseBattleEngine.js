@@ -1,6 +1,7 @@
 import { Assets, BitmapFont, Cache, Container, Graphics, Rectangle, Sprite, Text, Texture, TilingSprite } from 'pixi.js';
 import { gsap } from 'gsap';
 import { BattleEngine } from '../../project-v-v3/source/battle/BattleEngine.js';
+import {createBattleGroundSigil} from '../../project-v-v3/source/battle/BattleGroundSigil.js';
 import { BattleCharacter, TEAM } from '../../project-v-v3/source/battle/BattleCharacter.js';
 import { SkillEffectFX, triggerWhiteFlash } from '../../project-v-v3/source/battle/SkillEffectFX.js';
 import { WORLD, laneY, LANES } from './defense-model.mjs';
@@ -207,7 +208,12 @@ export class DefenseBattleEngine extends BattleEngine {
     if (art.footAnchor) actor.mainSprite.anchor.set(art.footAnchor.x, art.footAnchor.y);
     actor.hud.y = -(actor.fullBodyHeight + 40);
     actor.hud.scale.set(enemy ? .65 : .75);
-    actor.stateHalo.clear().ellipse(0, -3, enemy ? 28 : 44, enemy ? 10 : 15).stroke({ width: 3, color: actor.accent, alpha: .7 });
+    actor.battleCard = {...art, ...unit};
+    actor.stateHalo.removeFromParent(); actor.stateHalo.destroy({children:true});
+    actor.stateHalo=createBattleGroundSigil({actor,team:actor.team,width:enemy?128:180,height:enemy?40:56});
+    actor.stateHalo.y=-3; actor.stateHalo.zIndex=1; actor.root.addChildAt(actor.stateHalo,0);
+    // Keep contact shading inside the rune, rather than painting over its band.
+    actor.shadow.scale.set(enemy ? .46 : .65);
     actor.root.eventMode = 'none'; actor.root.alpha = 1; actor.enemy = enemy; actor.unitData = unit;
     this.layoutActorHud(actor);
     actor.targetX = unit.x; actor.targetY = unit.y; actor.actionUntil = 0;
@@ -268,7 +274,8 @@ export class DefenseBattleEngine extends BattleEngine {
         this.removeSupportPortal(actor.id);
       }
       actor.root.zIndex = Math.round(actor.root.y);
-      actor.stateHalo.alpha = actor.id === this.selectedUnit ? 1 : .35;
+      actor.stateHalo.alpha = actor.id === this.selectedUnit ? 1 : .72;
+      actor.stateHalo.visible = actor.unitData.hp > 0;
       if (actor.unitData.hp <= 0 || this.reducedMotion) continue;
       const moving = !move && actor.enemy && Math.abs(actor.targetX - actor.root.x) > .5;
       const desired = performance.now() < actor.actionUntil ? 'ATTACK' : moving ? 'MOVE' : 'IDLE';
@@ -339,6 +346,7 @@ export class DefenseBattleEngine extends BattleEngine {
         causewayTexture: this.catalog.environment.causeway },
       capacity: this.capacity, allies: this.allies.length, enemies: this.enemies.length, focusLane: this.focusLane,
       hudNameplates: this.allies.map(actor => ({ id: actor.id, image: this.catalog.uiSkin.nameplate, sprite: actor.namePlate instanceof Sprite })),
+      groundRunes: this.characters.map(actor => ({id:actor.id,team:actor.team,style:actor.stateHalo.groundStyle,visible:actor.stateHalo.visible,textureWidth:actor.stateHalo.children.at(-1)?.texture?.width})),
       enemySprites: this.enemies.map(actor => ({ id: actor.id, archetype: actor.unitData.archetype, state: actor.state,
         sourceFacing: actor.artFacing, viewScaleX: actor.view.scale.x, neutralScaleX: actor.neutralAvatarPose.scaleX, hudScaleX: actor.hud.scale.x })),
       phase: this.state?.phase, activeEffects: this.activeEffects.size, timelines: this.fxRuns.size,

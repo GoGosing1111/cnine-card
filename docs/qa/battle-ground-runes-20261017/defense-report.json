@@ -1,0 +1,454 @@
+{
+  "desktop": {
+    "screen": "battle",
+    "roomId": "4836D9EF6BED",
+    "playerId": "1",
+    "phase": "WAVE",
+    "wave": 1,
+    "units": 9,
+    "capacity": 3,
+    "focus": null,
+    "selected": "1:0",
+    "engine": {
+      "engine": "V3 BattleEngine subclass",
+      "rendererCount": 1,
+      "environment": {
+        "renderer": "painted-sprites",
+        "routeSprites": 9,
+        "coreTexture": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+        "causewayTexture": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png"
+      },
+      "capacity": 3,
+      "allies": 9,
+      "enemies": 2,
+      "focusLane": null,
+      "hudNameplates": [
+        {
+          "id": "1:0",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "1:1",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "1:2",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "bot-1:0",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "bot-1:1",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "bot-1:2",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "bot-2:0",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "bot-2:1",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "bot-2:2",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        }
+      ],
+      "groundRunes": [
+        {
+          "id": "1:0",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "1:1",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "1:2",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "bot-1:0",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "bot-1:1",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "bot-1:2",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "bot-2:0",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "bot-2:1",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "bot-2:2",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "enemy-1",
+          "team": "ENEMY",
+          "style": "enemy",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "enemy-2",
+          "team": "ENEMY",
+          "style": "enemy",
+          "visible": true,
+          "textureWidth": 512
+        }
+      ],
+      "enemySprites": [
+        {
+          "id": "enemy-1",
+          "archetype": "RIVET",
+          "state": "MOVE",
+          "sourceFacing": -1,
+          "viewScaleX": 1,
+          "neutralScaleX": 1,
+          "hudScaleX": 0.65
+        },
+        {
+          "id": "enemy-2",
+          "archetype": "RIVET",
+          "state": "IDLE",
+          "sourceFacing": -1,
+          "viewScaleX": 1,
+          "neutralScaleX": 1,
+          "hudScaleX": 0.65
+        }
+      ],
+      "phase": "WAVE",
+      "activeEffects": 0,
+      "timelines": 0,
+      "supportTeleport": {
+        "image": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+        "frames": 6,
+        "active": 0,
+        "positions": []
+      },
+      "camera": {
+        "x": 1440,
+        "scale": 0.49166666666666664,
+        "viewWidth": 2928.813559322034,
+        "tilt": 0
+      },
+      "serverDeterminesDamage": true,
+      "resolution": 1,
+      "world": {
+        "width": 2880,
+        "height": 1280,
+        "coreX": 220,
+        "coreY": 620,
+        "mergeX": 600,
+        "spawnX": 2780,
+        "frontX": 1510,
+        "pressureX": 1600,
+        "breachWarningX": 1030
+      },
+      "roleFx": {
+        "renderer": "atlas-only",
+        "ready": [
+          "ATTACK",
+          "DEFENSE",
+          "SPEED",
+          "HP"
+        ],
+        "failures": [],
+        "proceduralFallback": false
+      }
+    },
+    "connected": true,
+    "roster": {
+      "mercenaries": 21,
+      "cards": 50,
+      "loadout": {
+        "mercenaries": [
+          "V-004",
+          "V-009"
+        ],
+        "card": "CARD:CN-02D9DC1E8A8A4209"
+      }
+    }
+  },
+  "mobile": {
+    "screen": "battle",
+    "roomId": "4836D9EF6BED",
+    "playerId": "1",
+    "phase": "WAVE",
+    "wave": 1,
+    "units": 9,
+    "capacity": 3,
+    "focus": 0,
+    "selected": "1:0",
+    "engine": {
+      "engine": "V3 BattleEngine subclass",
+      "rendererCount": 1,
+      "environment": {
+        "renderer": "painted-sprites",
+        "routeSprites": 3,
+        "coreTexture": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+        "causewayTexture": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png"
+      },
+      "capacity": 3,
+      "allies": 9,
+      "enemies": 2,
+      "focusLane": 0,
+      "hudNameplates": [
+        {
+          "id": "1:0",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "1:1",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "1:2",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "bot-1:0",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "bot-1:1",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "bot-1:2",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "bot-2:0",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "bot-2:1",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        },
+        {
+          "id": "bot-2:2",
+          "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+          "sprite": true
+        }
+      ],
+      "groundRunes": [
+        {
+          "id": "1:0",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "1:1",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "1:2",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "bot-1:0",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "bot-1:1",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "bot-1:2",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "bot-2:0",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "bot-2:1",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "bot-2:2",
+          "team": "ALLY",
+          "style": "ally",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "enemy-1",
+          "team": "ENEMY",
+          "style": "enemy",
+          "visible": true,
+          "textureWidth": 512
+        },
+        {
+          "id": "enemy-2",
+          "team": "ENEMY",
+          "style": "enemy",
+          "visible": true,
+          "textureWidth": 512
+        }
+      ],
+      "enemySprites": [
+        {
+          "id": "enemy-1",
+          "archetype": "RIVET",
+          "state": "MOVE",
+          "sourceFacing": -1,
+          "viewScaleX": 1,
+          "neutralScaleX": 1,
+          "hudScaleX": 0.65
+        },
+        {
+          "id": "enemy-2",
+          "archetype": "RIVET",
+          "state": "IDLE",
+          "sourceFacing": -1,
+          "viewScaleX": 1,
+          "neutralScaleX": 1,
+          "hudScaleX": 0.65
+        }
+      ],
+      "phase": "WAVE",
+      "activeEffects": 0,
+      "timelines": 0,
+      "supportTeleport": {
+        "image": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+        "frames": 6,
+        "active": 0,
+        "positions": []
+      },
+      "camera": {
+        "x": 1340,
+        "scale": 0.39,
+        "viewWidth": 1333.1359054501722,
+        "tilt": -0.7225663103256524
+      },
+      "serverDeterminesDamage": true,
+      "resolution": 1,
+      "world": {
+        "width": 2880,
+        "height": 1280,
+        "coreX": 220,
+        "coreY": 620,
+        "mergeX": 600,
+        "spawnX": 2780,
+        "frontX": 1510,
+        "pressureX": 1600,
+        "breachWarningX": 1030
+      },
+      "roleFx": {
+        "renderer": "atlas-only",
+        "ready": [
+          "ATTACK",
+          "DEFENSE",
+          "SPEED",
+          "HP"
+        ],
+        "failures": [],
+        "proceduralFallback": false
+      }
+    },
+    "connected": true,
+    "roster": {
+      "mercenaries": 21,
+      "cards": 50,
+      "loadout": {
+        "mercenaries": [
+          "V-004",
+          "V-009"
+        ],
+        "card": "CARD:CN-02D9DC1E8A8A4209"
+      }
+    }
+  },
+  "runes": [
+    "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+    "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+    "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+    "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+    "/assets/ui/project-v/battle-ground-runes-v1/icon.webp"
+  ],
+  "errors": []
+}

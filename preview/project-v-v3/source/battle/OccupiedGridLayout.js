@@ -1,5 +1,6 @@
 import {layoutIconTechniqueWeapons} from './IconTechniquePlayback.js';
-import {Container, Graphics} from 'pixi.js';
+import {drawBattleGroundStations} from './BattleGroundSigil.js';
+import {battleGroundSignature} from './BattleGroundStyle.mjs';
 import {GRID, FORMATION_LAYOUT_VERSION, configuration, formationActorScale, stationPoint, DUO_BOARDS, duoStation, COOP_BOARDS, coopStation} from './FormationLayout.mjs';
 import {compactStation, fitCompactViewport, usesCompactViewport} from './ViewportLayout.mjs';
 
@@ -102,7 +103,12 @@ export const withOccupiedGrid = Base => class extends Base {
   }
   formationStations() {
     const rows = [];
-    const add = (kind, index, team, actor) => rows.push({id: `${team}:${kind}:${index}`, kind, index, team, actor, ...this.station(kind, index, team)});
+    const add = (kind, index, team, actor) => {
+      const point = this.gridMode === 'original'
+        ? {x: actor.baseX ?? actor.root?.baseX ?? actor.x, y: actor.baseY ?? actor.root?.baseY ?? actor.y}
+        : this.station(kind, index, team);
+      if (Number.isFinite(point.x) && Number.isFinite(point.y)) rows.push({id: `${team}:${kind}:${index}`, kind, index, team, actor, ...point});
+    };
     for (const [team, actors] of [['ALLY', this.allies], ['ENEMY', this.enemies]]) {
       (actors || []).forEach((actor, index) => {if (actor.battleActive !== false && actor.hp > 0) add('cards', actor.iconTechniqueDisplaySlot??index, team, actor);});
     }
@@ -113,24 +119,7 @@ export const withOccupiedGrid = Base => class extends Base {
   }
   drawIsometricFloor() {
     if (this.gridMode === 'original') return super.drawIsometricFloor();
-    if (!this.isoFloorLayer || !this.isoConfig) return;
-    this.isoFloorLayer.removeChildren().forEach(child => child.destroy({children: true}));
-    this.isoTiles = []; this.accountBattleUnitTile = null;
-    const {tileWidth: w, tileHeight: h} = this.isoConfig;
-    for (const station of this.formationStations()) {
-      const support = station.kind === 'support', mercenary = station.kind === 'mercenaries', objective = station.kind === 'objective', ally = station.team === 'ALLY';
-      const accent = support ? 0xffc16f : mercenary ? 0xc49cff : objective ? 0x9cdfa2 : ally ? 0x40cfff : 0xff536b;
-      const tile = new Container({label: `OccupiedTile:${station.id}`});
-      tile.station = station; tile.position.set(station.x, station.y); tile.depthSortY = -100000;
-      const lower = new Graphics().poly([0, -h * .42, w * .49, 0, 0, h * .58, -w * .49, 0]).fill({color: 0x02060b, alpha: .74}); lower.y = 7;
-      tile.addChild(lower,
-        new Graphics().poly([0, -h / 2, w / 2, 0, 0, h / 2, -w / 2, 0]).fill({color: support ? 0x382610 : mercenary ? 0x241536 : ally ? 0x0a3346 : 0x3a111b, alpha: .48}).stroke({width: 2, color: accent, alpha: .72}),
-        new Graphics().poly([0, -h * .38, w * .38, 0, 0, h * .38, -w * .38, 0]).stroke({width: 1, color: accent, alpha: .2}));
-      if (support) {tile.isAccountBattleUnitTile = true; this.accountBattleUnitTile = tile;}
-      this.isoFloorLayer.addChild(tile); this.isoTiles.push(tile);
-    }
-    this.occupiedTileSignature = this.formationStations().map(s => s.id).join('|');
-    this.syncAccountBattleUnitTile();
+    drawBattleGroundStations(this, this.formationStations());
   }
   syncAccountBattleUnitTile() {
     if (this.gridMode === 'original') return super.syncAccountBattleUnitTile();
@@ -138,10 +127,10 @@ export const withOccupiedGrid = Base => class extends Base {
   }
   sortCombatDepth() {
     super.sortCombatDepth();
-    if (this.gridMode !== 'wide' || !this.isoFloorLayer) return;
+    if (!['wide', 'original'].includes(this.gridMode) || !this.isoFloorLayer) return;
     // Covers KO, revival, a replacement generation, equipment removal and reset.
     // Keep station positions stable during an attack; never follow its moving feet.
-    const signature = this.formationStations().map(s => s.id).join('|');
+    const signature = battleGroundSignature(this.formationStations());
     if (signature !== this.occupiedTileSignature) this.drawIsometricFloor();
   }
   layoutCharacterGrid() {
@@ -150,7 +139,8 @@ export const withOccupiedGrid = Base => class extends Base {
         delete actor.formationHudY;
         if (Number.isFinite(actor.legacyGridHudY)) actor.hud.y = actor.legacyGridHudY;
       }
-      this.layoutFormationMercenaries(); return super.layoutCharacterGrid();
+      this.layoutFormationMercenaries();
+      const result = super.layoutCharacterGrid(); this.drawIsometricFloor(); return result;
     }
     const wide = this.isoConfig, mobile = this.mobile, original = configuration(this.viewportFit ? false : mobile, 'original');
     this.baselineLayout = true; this.isoConfig = original;
@@ -221,7 +211,7 @@ export const withOccupiedGrid = Base => class extends Base {
     }
   }
   gridDiagnostics() {
-    const tiles = (this.isoTiles || []).filter(t => t.visible).map(t => ({id: t.station?.id || t.label, x: t.x, y: t.y, kind: t.station?.kind}));
+    const tiles = (this.isoTiles || []).filter(t => t.visible).map(t => ({id: t.station?.id || t.label, x: t.x, y: t.y, kind: t.station?.kind, style: t.groundStyle, asset: t.groundAsset}));
     const w = this.isoConfig?.tileWidth || 0, h = this.isoConfig?.tileHeight || 0;
     const left = Math.min(...tiles.map(t => t.x - w / 2)), right = Math.max(...tiles.map(t => t.x + w / 2));
     const top = Math.min(...tiles.map(t => t.y - h / 2)), bottom = Math.max(...tiles.map(t => t.y + h / 2));

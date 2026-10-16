@@ -2,6 +2,10 @@
   "engineSource": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
   "pixiCopies": 1,
   "inputs": [
+    "shared/mercenary-halloween-catalog-v1.mjs",
+    "shared/mercenary-limited-catalog-v1.mjs",
+    "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
+    "preview/project-v-v3/source/battle/BattleGroundSigil.js",
     "shared/apocalypse-shanks-shisui-v1.mjs",
     "shared/apocalypse-legion-v1.mjs",
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
@@ -165,8 +169,6 @@
     "preview/project-v-v3/source/battle/JinmuDialogue.js",
     "preview/project-v-v3/source/battle/JinmuCombatPlayback.js",
     "shared/mercenary-helios-v1.mjs",
-    "shared/mercenary-halloween-catalog-v1.mjs",
-    "shared/mercenary-limited-catalog-v1.mjs",
     "preview/mercenary-limited-solar-sword-20261009-v1/motion.mjs",
     "preview/mercenary-limited-solar-sword-20261009-v1/source/SolarFX.js",
     "preview/project-v-v3/source/battle/HeliosSurroundingAura.js",
@@ -195,5 +197,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1965097
+  "outputBytes": 1964768
 }

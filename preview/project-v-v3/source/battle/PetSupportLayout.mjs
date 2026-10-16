@@ -1,5 +1,7 @@
 // Coordinates are resting formation feet in the effect layer, never animated
 // actor positions. Pets stay in the support layer and consume no combat slot.
+export const PET_BATTLE_SIZE_FACTOR = .8;
+export const petBattleDisplaySize = size => size * PET_BATTLE_SIZE_FACTOR;
 export function petSupportPosition({points,side,pvp,suit,width,height,scale,size}){
   const minX=Math.min(...points.map(p=>p.x)),maxX=Math.max(...points.map(p=>p.x)),maxY=Math.max(...points.map(p=>p.y));
   const margin=Math.max(70,38/scale),below=scale<.65?Math.max(68,size+12/scale):68;
