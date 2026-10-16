@@ -12,7 +12,7 @@ export const LIMITED_PACK=Object.freeze({
  id:'mercenary-limited',name:'리미티드 용병팩',maxBatch:10,maxAuto:1000,
  featurePath:'mercenary-limited-pack/config',openPath:'mercenary-limited-pack/open',
  receiptPath:'mercenary-limited-pack/receipt',adminPath:'admin/mercenaries/limited-pack',
- image:'assets/ui/packs/limited-v1/pack-640.webp',frame:'assets/ui/packs/limited-v1/frame-640.webp',
+ image:'assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp',frame:'assets/ui/packs/limited-v1/frame-640.webp',
  backdrop:'assets/ui/packs/limited-v1/chamber.webp'
 });
 export const LIMITED_EXTRA_REWARDS=Object.freeze([

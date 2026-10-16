@@ -8,7 +8,7 @@ export const HYPER_PACK_RELEASE_ENABLED = V3_JOINT_RELEASE_ENABLED;
 export const HYPER_PACK_SETTINGS_KEY = 'hyper_pack_draft_v2076';
 export const HYPER_PACK_REWARDS = Object.freeze(['MISS', 'MASTER_STAR', 'MYSTIC_ENERGY', 'MERCENARY']);
 export const HYPER_PACK_MATERIALS = Object.freeze({ MASTER_STAR: 'MASTER_STAR', MYSTIC_ENERGY: 'STARLIGHT_ARMOR_CORE' });
-export const HYPER_PACK_IMAGE = 'assets/ui/packs/hyper-pack-v2076.png';
+export const HYPER_PACK_IMAGE = 'assets/ui/packs/reverse-call-20261016/hyper-768.webp';
 
 export function hyperPackCatalogRow(openingEnabled=false) {
   return { id: 'hyper', name: '하이퍼팩', subtitle: 'EXTREME HYPER PACK', theme: 'hyper',

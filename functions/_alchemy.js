@@ -200,7 +200,7 @@ async function syncCardRewardPool(env,{replace=false}={}){
 
 async function seedSpecialRewardPool(env){
   const items=[
-    ['BLACK_MIRACLE_PACK','블랙 미라클 팩','MYTHIC JACKPOT','희귀 장비·이동수단과 특별 재화를 획득하는 블랙 미라클 팩입니다.','JACKPOT','MYTHIC','assets/ui/packs/black-miracle-pack-v1485-768.jpg',8],
+    ['BLACK_MIRACLE_PACK','블랙 미라클 팩','MYTHIC JACKPOT','희귀 장비·이동수단과 특별 재화를 획득하는 블랙 미라클 팩입니다.','JACKPOT','MYTHIC','assets/ui/packs/reverse-call-20261016/black-miracle-768.webp',8],
     ['SCRAPYARD_ENTRY_TICKET','폐차장 출입 허가증','SALVAGE ACCESS PASS','망각의 기계 폐차장에 1회 입장할 수 있는 금속 출입 허가증입니다.','ENTRY_TICKET','EPIC','assets/ui/scrapyard/scrapyard-entry-ticket-v1680.png',166700],
     ['MASTER_STAR','마스터의 별','MASTER STAR','상위 카드 강화와 전직에 사용하는 특별 재화입니다.','MATERIAL','MA','',5]
   ];

@@ -19,7 +19,7 @@
     const host=document.querySelector('#view-settings')||document.querySelector('main');
     if(!host||document.querySelector('#blackMiracleAdmin'))return;
     const section=document.createElement('section');section.id='blackMiracleAdmin';section.className='panel';
-    section.innerHTML=`<div style="display:flex;justify-content:space-between;gap:16px;align-items:center"><div><small style="color:#58d9ff;font-weight:900;letter-spacing:.12em">MYTHIC JACKPOT CMS</small><h2>블랙 미라클 팩 관리</h2><p class="muted">전투력 기반 초희귀 보상과 콘텐츠별 팩 드랍을 독립 관리합니다. 개봉 OFF여도 드랍·보유는 유지됩니다.</p></div><img src="../assets/ui/packs/black-miracle-pack-v1485-384.jpg?v=1485" style="width:76px;height:112px;object-fit:cover;border-radius:8px" alt=""></div><div id="blackMiracleBody" class="muted">설정을 불러오는 중입니다.</div>`;
+    section.innerHTML=`<div style="display:flex;justify-content:space-between;gap:16px;align-items:center"><div><small style="color:#58d9ff;font-weight:900;letter-spacing:.12em">MYTHIC JACKPOT CMS</small><h2>블랙 미라클 팩 관리</h2><p class="muted">전투력 기반 초희귀 보상과 콘텐츠별 팩 드랍을 독립 관리합니다. 개봉 OFF여도 드랍·보유는 유지됩니다.</p></div><img src="../assets/ui/packs/reverse-call-20261016/black-miracle-320.webp?v=1485" style="width:76px;height:112px;object-fit:cover;border-radius:8px" alt=""></div><div id="blackMiracleBody" class="muted">설정을 불러오는 중입니다.</div>`;
     host.append(section);load();
   }
 

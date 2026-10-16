@@ -35,7 +35,7 @@
   }
   function heroHtml(){
     const d=state.data,u=user(),title=currentTitle();
-    return `<section class="equip-hero-v1236"><div class="equip-hero-name-v1236"><small>SOOP EQUIPMENT</small><h2>${esc(u?.nickname||'플레이어')}</h2>${titleRibbon(title,{small:true})}</div><div class="equip-hero-stats-v1236"><span><small>PVE</small><b>+${num(d?.bonuses?.pve)}</b></span><span><small>PVP</small><b>+${num(d?.bonuses?.pvp)}</b></span><span><small>칭호</small><b>+${num(d?.bonuses?.titlePve)}</b></span></div></section>`;
+    return `<section class="equip-hero-v1236"><div class="equip-hero-name-v1236"><small>REVERSE CALL EQUIPMENT</small><h2>${esc(u?.nickname||'플레이어')}</h2>${titleRibbon(title,{small:true})}</div><div class="equip-hero-stats-v1236"><span><small>PVE</small><b>+${num(d?.bonuses?.pve)}</b></span><span><small>PVP</small><b>+${num(d?.bonuses?.pvp)}</b></span><span><small>칭호</small><b>+${num(d?.bonuses?.titlePve)}</b></span></div></section>`;
   }
   function slotNode(slotId){
     const slot=(state.data?.slots||[]).find(s=>s.id===slotId)||{id:slotId,label:slotId};

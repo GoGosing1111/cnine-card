@@ -21,7 +21,7 @@ test('슈퍼스타팩 기본 운영값은 공개·일반 개봉 ON·1장 3억·1
     price: 300_000_000,
     successRate: 10,
     drawCount: 1,
-    imageUrl: 'assets/ui/packs/superstar-card-pack-v1.png',
+    imageUrl: 'assets/ui/packs/reverse-call-20261016/superstar-768.webp',
   });
   const row = __superstarPackTest.superstarPackCatalogRow(settings);
   assert.equal(row.maxDrawCount, 10);
@@ -154,11 +154,11 @@ test('전용 서버 경로 우회와 폐기 일반팩 요청을 차단한다', (
 
 test('팩 원본·반응형 리소스와 전용 스타일이 배포 엔트리에 연결된다', () => {
   const files = [
-    'assets/ui/packs/superstar-card-pack-v1.png',
-    'assets/responsive/ui/superstar-card-pack-v1-160.avif',
-    'assets/responsive/ui/superstar-card-pack-v1-160.webp',
-    'assets/responsive/ui/superstar-card-pack-v1-320.avif',
-    'assets/responsive/ui/superstar-card-pack-v1-320.webp',
+    'assets/ui/packs/reverse-call-20261016/superstar-source.png',
+    'assets/ui/packs/reverse-call-20261016/superstar-160.avif',
+    'assets/ui/packs/reverse-call-20261016/superstar-160.webp',
+    'assets/ui/packs/reverse-call-20261016/superstar-320.avif',
+    'assets/ui/packs/reverse-call-20261016/superstar-320.webp',
     'css/superstar-pack-v1894.css',
   ];
   files.forEach((file) => {

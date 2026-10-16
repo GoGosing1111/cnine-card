@@ -91,7 +91,7 @@
       ${uniqueBadgeHtml(card)}
       <div class="card-holo"></div><div class="breakthrough-effect"></div>
       <div class="card-inner">
-        <div class="card-header"><span>${esc(grade)}</span><b>SOOP</b></div>
+        <div class="card-header"><span>${esc(grade)}</span><b class="card-brand-mark"><img class="card-brand-logo" src="/assets/ui/brand/reverse-call-20261016/icon-128.png" alt="리버스콜" width="18" height="18" decoding="async"></b></div>
         <div class="card-art"><img src="${assetUrl(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX ?? 50)}% ${Number(card.focusY ?? 50)}%" onerror="window.battleV2ImageFallback(this)"></div>
         <div class="card-footer"><div><small>${esc(card.memberName || '')}</small><div class="card-title-row"><div class="card-title">${esc(card.title)}</div></div></div><img src="/assets/ui/brand/reverse-call-20261016/icon-512.png" class="card-mini-logo" alt="리버스콜"></div>
       </div>

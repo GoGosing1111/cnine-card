@@ -1,7 +1,7 @@
 import {buildHyperPreview,HYPER_PREVIEW_LABELS} from '/js/hyper-pack-preview-model-v2076.js';
 const $=id=>document.getElementById(id);let results=[],fx=null,ready=false;
 function renderSlots(){
-  $('results').replaceChildren(...results.map((result,index)=>{const li=document.createElement('li');li.dataset.index=String(index+1).padStart(2,'0');const image=new Image();image.src='/assets/ui/packs/hyper-pack-v2076.png';image.alt='미공개';li.append(image);return li;}));$('resultCount').textContent='0';
+  $('results').replaceChildren(...results.map((result,index)=>{const li=document.createElement('li');li.dataset.index=String(index+1).padStart(2,'0');const image=new Image();image.src='/assets/ui/packs/reverse-call-20261016/hyper-768.webp';image.alt='미공개';li.append(image);return li;}));$('resultCount').textContent='0';
 }
 function reveal(index){
   const result=results[index],li=$('results').children[index];if(!li||li.classList.contains('revealed'))return;

@@ -52,7 +52,7 @@
     const d=state.data,u=user(),title=currentTitle();
     return `<section class="character-hero-v1232">
       <div class="character-hero-copy">
-        <small>SOOP CHARACTER LOADOUT</small>
+        <small>REVERSE CALL CHARACTER LOADOUT</small>
         ${titleRibbon(title,{inline:true})}
         <h2>${esc(u?.nickname||'플레이어')}</h2>
         <p>장비는 모든 덱에 공통 적용되며, 칭호는 PVE 전투력만 증가합니다.</p>

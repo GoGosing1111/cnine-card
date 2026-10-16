@@ -1,0 +1,455 @@
+{
+  "checkedAt": "2026-10-16T06:16:13.238Z",
+  "fixtureOnly": true,
+  "productionWrites": 0,
+  "checks": [
+    {
+      "surface": "store",
+      "id": "pickup",
+      "width": 1440,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/advanced-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/limited-768.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/superstar-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/ultimate-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/limited-768.avif",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "surface": "store",
+      "id": "ultimate",
+      "width": 1440,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/advanced-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/limited-768.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/superstar-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/ultimate-768.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/ultimate-768.avif",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "surface": "store",
+      "id": "hyper",
+      "width": 1440,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/advanced-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/limited-768.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/superstar-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/ultimate-768.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "surface": "store",
+      "id": "mercenary-limited",
+      "width": 1440,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/advanced-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/limited-768.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/superstar-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/ultimate-768.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "surface": "store",
+      "id": "superstar",
+      "width": 1440,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/advanced-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/limited-768.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/superstar-768.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/ultimate-768.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/superstar-768.avif",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "surface": "codex",
+      "width": 1440,
+      "cards": 13,
+      "nicknamePreserved": true
+    },
+    {
+      "surface": "card-reveal",
+      "width": 1440
+    },
+    {
+      "surface": "opening",
+      "name": "hyper",
+      "width": 1440,
+      "images": [
+        "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp"
+      ]
+    },
+    {
+      "surface": "opening",
+      "name": "limited",
+      "width": 1440,
+      "images": [
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-996-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-999-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-990-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-991-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-992-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-993-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-994-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-997-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-998-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/chamber.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/frame-640.webp"
+      ]
+    },
+    {
+      "surface": "store",
+      "id": "pickup",
+      "width": 390,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/advanced-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/limited-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/superstar-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/ultimate-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/limited-160.avif",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "surface": "store",
+      "id": "ultimate",
+      "width": 390,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/advanced-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/limited-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/superstar-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/ultimate-320.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/ultimate-320.avif",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "surface": "store",
+      "id": "hyper",
+      "width": 390,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/advanced-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/limited-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/superstar-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/ultimate-320.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "surface": "store",
+      "id": "mercenary-limited",
+      "width": 390,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/advanced-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/limited-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/superstar-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/ultimate-320.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "surface": "store",
+      "id": "superstar",
+      "width": 390,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/advanced-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/limited-160.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/superstar-320.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/ultimate-320.avif",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/superstar-320.avif",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "surface": "codex",
+      "width": 390,
+      "cards": 13,
+      "nicknamePreserved": true
+    },
+    {
+      "surface": "card-reveal",
+      "width": 390
+    },
+    {
+      "surface": "opening",
+      "name": "hyper",
+      "width": 390,
+      "images": [
+        "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/hyper-768.webp"
+      ]
+    },
+    {
+      "surface": "opening",
+      "name": "limited",
+      "width": 390,
+      "images": [
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-996-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-999-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-990-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-991-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-992-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-993-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-994-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-997-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/v-998-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/chamber.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/limited-v1/frame-640.webp",
+        "http://127.0.0.1:10322/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp"
+      ]
+    }
+  ],
+  "errors": [],
+  "badImages": [],
+  "aliasChecks": [
+    {
+      "width": 1440,
+      "images": [
+        "http://127.0.0.1:4724/assets/ui/packs/reverse-call-20261016/magic-season1-768.webp",
+        "http://127.0.0.1:4724/assets/ui/packs/reverse-call-20261016/premium-cube-768.webp",
+        "http://127.0.0.1:4724/assets/ui/packs/reverse-call-20261016/magic-season1-768.webp",
+        "http://127.0.0.1:4724/assets/ui/packs/reverse-call-20261016/premium-cube-768.webp"
+      ]
+    },
+    {
+      "width": 390,
+      "images": [
+        "http://127.0.0.1:4724/assets/ui/packs/reverse-call-20261016/magic-season1-768.webp",
+        "http://127.0.0.1:4724/assets/ui/packs/reverse-call-20261016/premium-cube-768.webp",
+        "http://127.0.0.1:4724/assets/ui/packs/reverse-call-20261016/magic-season1-768.webp",
+        "http://127.0.0.1:4724/assets/ui/packs/reverse-call-20261016/premium-cube-768.webp"
+      ]
+    }
+  ],
+  "supplementCheckedAt": "2026-10-16T06:27:14.826Z",
+  "galleryAssets": 14
+}

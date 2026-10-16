@@ -36,7 +36,7 @@
   function heroHtml(){
     const d=state.data,u=user(),title=d?.bonuses?.title;
     return `<section class="character-hero">
-      <div class="character-identity"><small>SOOP CHARACTER LOADOUT</small><h2>${title?`<em>[${esc(title.name)}]</em> `:''}${esc(u?.nickname||'플레이어')}</h2><p>장비는 모든 덱에 공통 적용되며, 칭호는 PVE 전투력만 증가합니다.</p></div>
+      <div class="character-identity"><small>REVERSE CALL CHARACTER LOADOUT</small><h2>${title?`<em>[${esc(title.name)}]</em> `:''}${esc(u?.nickname||'플레이어')}</h2><p>장비는 모든 덱에 공통 적용되며, 칭호는 PVE 전투력만 증가합니다.</p></div>
       <div class="character-bonus-board">
         <span><small>PVE 증가</small><b>+${num(d?.bonuses?.pve)}</b><em>장비 ${num(d?.bonuses?.equipmentPve)} · 칭호 ${num(d?.bonuses?.titlePve)}</em></span>
         <span><small>PVP 증가</small><b>+${num(d?.bonuses?.pvp)}</b><em>장비 효과 10%</em></span>

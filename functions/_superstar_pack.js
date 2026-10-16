@@ -10,7 +10,7 @@ export const SUPERSTAR_PACK_DEFAULTS = Object.freeze({
   price: 300_000_000,
   successRate: 10,
   drawCount: 1,
-  imageUrl: "assets/ui/packs/superstar-card-pack-v1.png",
+  imageUrl: "assets/ui/packs/reverse-call-20261016/superstar-768.webp",
 });
 
 const superstarPackEarlyAccessNicknames = new Set(SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES);

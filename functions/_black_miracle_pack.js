@@ -2,7 +2,7 @@ import { resolveAvatarDropRate } from './_avatar_drop.js';
 import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
 const ITEM_CODE = 'BLACK_MIRACLE_PACK';
 const SETTINGS_KEY = 'black_miracle_pack_settings_v1485';
-const IMAGE = 'assets/ui/packs/black-miracle-pack-v1485-768.jpg';
+const IMAGE = 'assets/ui/packs/reverse-call-20261016/black-miracle-768.webp';
 const MIN_POWER_RATE_PERCENT = 0.01;
 const MAX_POWER_RATE_PERCENT = 0.1;
 // 2026-08-31 OWNER release instruction: Black Miracle inventory opening is live.

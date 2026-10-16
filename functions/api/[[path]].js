@@ -2483,15 +2483,15 @@ async function ensureUpgrades(env){
     const magicCardPackDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1136_magic_card_pack'").first();
     if(magicCardPackDone?.value!=='1'){
       await env.DB.batch([
-        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('MAGIC_CARD_PACK','마법카드 팩','MAGIC CARD PACK','마법카드 연구소에서 사용하는 마법카드 팩입니다.','PACK','SPECIAL','assets/cards/magic-card-pack-v2-768.jpg',40,1)"),
-        env.DB.prepare("UPDATE inventory_items SET name='마법카드 팩',subtitle='MAGIC CARD PACK',description='마법카드 연구소에서 사용하는 마법카드 팩입니다.',category='PACK',rarity='SPECIAL',image_url='assets/cards/magic-card-pack-v2-768.jpg',sort_order=40,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='MAGIC_CARD_PACK'"),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('MAGIC_CARD_PACK','마법카드 팩','MAGIC CARD PACK','마법카드 연구소에서 사용하는 마법카드 팩입니다.','PACK','SPECIAL','assets/ui/packs/reverse-call-20261016/magic-season1-768.webp',40,1)"),
+        env.DB.prepare("UPDATE inventory_items SET name='마법카드 팩',subtitle='MAGIC CARD PACK',description='마법카드 연구소에서 사용하는 마법카드 팩입니다.',category='PACK',rarity='SPECIAL',image_url='assets/ui/packs/reverse-call-20261016/magic-season1-768.webp',sort_order=40,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='MAGIC_CARD_PACK'"),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1136_magic_card_pack','1',CURRENT_TIMESTAMP)")
       ]);
     }
     const mixedMagicCardPackDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1701_mixed_magic_card_pack'").first();
     if(mixedMagicCardPackDone?.value!=='1'){
       await env.DB.batch([
-        env.DB.prepare("UPDATE inventory_items SET name='마법카드팩',subtitle='ARCANA MIXED PACK',description='마법카드·마법 결정·카드 조각 중 하나를 획득합니다. 동일 마법카드는 강화 재료로 누적됩니다.',category='PACK',rarity='SPECIAL',image_url='assets/cards/magic-card-pack-v2-768.jpg',sort_order=40,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='MAGIC_CARD_PACK'"),
+        env.DB.prepare("UPDATE inventory_items SET name='마법카드팩',subtitle='ARCANA MIXED PACK',description='마법카드·마법 결정·카드 조각 중 하나를 획득합니다. 동일 마법카드는 강화 재료로 누적됩니다.',category='PACK',rarity='SPECIAL',image_url='assets/ui/packs/reverse-call-20261016/magic-season1-768.webp',sort_order=40,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='MAGIC_CARD_PACK'"),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1701_mixed_magic_card_pack','1',CURRENT_TIMESTAMP)")
       ]);
     }
@@ -2499,7 +2499,7 @@ async function ensureUpgrades(env){
     if(retiredStandardCubesDone?.value!=='1'){
       await env.DB.batch([
         env.DB.prepare("UPDATE inventory_items SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE code IN ('NORMAL_CUBE','ADVANCED_CUBE')"),
-        env.DB.prepare("UPDATE inventory_items SET image_url='assets/cards/magic-card-pack-v2-768.jpg',updated_at=CURRENT_TIMESTAMP WHERE code='MAGIC_CARD_PACK'"),
+        env.DB.prepare("UPDATE inventory_items SET image_url='assets/ui/packs/reverse-call-20261016/magic-season1-768.webp',updated_at=CURRENT_TIMESTAMP WHERE code='MAGIC_CARD_PACK'"),
         env.DB.prepare("DELETE FROM cnine_user_inventory WHERE item_code IN ('NORMAL_CUBE','ADVANCED_CUBE')"),
         env.DB.prepare("DELETE FROM inventory_logs WHERE item_code IN ('NORMAL_CUBE','ADVANCED_CUBE')"),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1482_retire_standard_cubes','1',CURRENT_TIMESTAMP)")
@@ -2609,8 +2609,8 @@ async function ensureUpgrades(env){
     const cubeDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1025_inventory_cubes'").first();
     if(cubeDone?.value!=='1'){
       await env.DB.batch([
-        env.DB.prepare("UPDATE inventory_items SET name='리미티드 확정 큐브',subtitle='LEGACY LIMITED CUBE',description='기존 지급분을 보존한 리미티드 확정 보상 큐브입니다.',category='CUBE',image_url='assets/ui/packs/premium-cube.png',sort_order=90 WHERE code='GUARANTEED_LIMITED_PACK'"),
-        env.DB.prepare("UPDATE inventory_items SET name='MA 확정 큐브',subtitle='LEGACY MA CUBE',description='기존 지급분을 보존한 MA 확정 보상 큐브입니다.',category='CUBE',image_url='assets/ui/packs/premium-cube.png',sort_order=91 WHERE code='GUARANTEED_MA_PACK'"),
+        env.DB.prepare("UPDATE inventory_items SET name='리미티드 확정 큐브',subtitle='LEGACY LIMITED CUBE',description='기존 지급분을 보존한 리미티드 확정 보상 큐브입니다.',category='CUBE',image_url='assets/ui/packs/reverse-call-20261016/premium-cube-768.webp',sort_order=90 WHERE code='GUARANTEED_LIMITED_PACK'"),
+        env.DB.prepare("UPDATE inventory_items SET name='MA 확정 큐브',subtitle='LEGACY MA CUBE',description='기존 지급분을 보존한 MA 확정 보상 큐브입니다.',category='CUBE',image_url='assets/ui/packs/reverse-call-20261016/premium-cube-768.webp',sort_order=91 WHERE code='GUARANTEED_MA_PACK'"),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1025_inventory_cubes','1',CURRENT_TIMESTAMP)")
       ]);
     }
@@ -2702,8 +2702,8 @@ async function ensureUpgrades(env){
         `CREATE INDEX IF NOT EXISTS idx_inventory_receipts_user ON inventory_use_receipts(user_id,created_at)`
       ])await env.DB.prepare(q).run();
       await env.DB.batch([
-        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('GUARANTEED_LIMITED_PACK','리미티드 확정 큐브','LEGACY LIMITED CUBE','기존 지급분을 보존한 리미티드 확정 보상 큐브입니다.','CUBE','LIMITED','assets/ui/packs/premium-cube.png',90,1)"),
-        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('GUARANTEED_MA_PACK','MA 확정 큐브','LEGACY MA CUBE','기존 지급분을 보존한 MA 확정 보상 큐브입니다.','CUBE','MA','assets/ui/packs/premium-cube.png',91,1)"),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('GUARANTEED_LIMITED_PACK','리미티드 확정 큐브','LEGACY LIMITED CUBE','기존 지급분을 보존한 리미티드 확정 보상 큐브입니다.','CUBE','LIMITED','assets/ui/packs/reverse-call-20261016/premium-cube-768.webp',90,1)"),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('GUARANTEED_MA_PACK','MA 확정 큐브','LEGACY MA CUBE','기존 지급분을 보존한 MA 확정 보상 큐브입니다.','CUBE','MA','assets/ui/packs/reverse-call-20261016/premium-cube-768.webp',91,1)"),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1023_inventory','1',CURRENT_TIMESTAMP)")
       ]);
     }

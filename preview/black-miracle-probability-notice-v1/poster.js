@@ -47,7 +47,7 @@ async function render() {
     summaryCard({ code: 'MYTHIC EQUIPMENT', label: '신화 장비', detail: `${data.equipmentPool.length}종`, rate: summary.mythicEquipment, accent: 'cyan' }),
     summaryCard({ code: 'MYTHIC VEHICLE', label: '신화 이동수단', detail: `${data.vehiclePool.length}종 · 미보유 기준`, rate: summary.mythicVehicle, accent: 'violet' }),
     summaryCard({ code: 'MASTER STAR', label: '마스터의 별', detail: `${formatPower(data.rewards.masterStar.min)} ~ ${formatPower(data.rewards.masterStar.max)}개`, rate: summary.masterStar, accent: 'gold' }),
-    summaryCard({ code: 'SOOP COIN', label: '코인', detail: `${formatPower(data.rewards.coin.min)} ~ ${formatPower(data.rewards.coin.max)}`, rate: summary.coin, accent: 'warm' }),
+    summaryCard({ code: 'REVERSE CALL COIN', label: '코인', detail: `${formatPower(data.rewards.coin.min)} ~ ${formatPower(data.rewards.coin.max)}`, rate: summary.coin, accent: 'warm' }),
   ].join('');
 
   document.querySelector('#equipmentRows').innerHTML = data.equipmentPool.map(rateRow).join('');

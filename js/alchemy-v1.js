@@ -118,7 +118,7 @@
     function cardVisual(row, compact = false) {
       const rarity = cleanRarity(row.rarity);
       return `<div class="alch-card-shell${compact ? ' is-compact' : ''}"><article class="card-frame grade-${rarity} small">
-        <div class="card-holo"></div><div class="card-inner"><div class="card-header"><span>${escapeHtml(rarity)}</span><b>SOOP</b></div>
+        <div class="card-holo"></div><div class="card-inner"><div class="card-header"><span>${escapeHtml(rarity)}</span><b class="card-brand-mark"><img class="card-brand-logo" src="/assets/ui/brand/reverse-call-20261016/icon-128.png" alt="리버스콜" width="18" height="18" decoding="async"></b></div>
         <div class="card-art"><img src="${escapeHtml(resolveAsset(row.image))}" alt="${escapeHtml(row.name)}" loading="lazy" decoding="async"></div>
         <div class="card-footer"><div><small>${escapeHtml(row.member || TYPE_LABELS.CARD)}</small><div class="card-title">${escapeHtml(row.name)}</div></div></div></div>
       </article></div>`;

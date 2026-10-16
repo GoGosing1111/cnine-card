@@ -299,7 +299,7 @@
         ${rosterUniqueBadgeHtml(card)}
         <div class="breakthrough-effect"></div>
         <div class="card-inner">
-          <div class="card-header"><span>${esc(grade)}</span><b>SOOP</b></div>
+          <div class="card-header"><span>${esc(grade)}</span><b class="card-brand-mark"><img class="card-brand-logo" src="/assets/ui/brand/reverse-call-20261016/icon-128.png" alt="리버스콜" width="18" height="18" decoding="async"></b></div>
           <div class="card-art"><img src="${esc(art.url)}" alt="${esc(title)}" loading="lazy" decoding="async" data-v3-roster-art="1" style="object-position:${art.focusX}% ${art.focusY}%" onerror="this.onerror=null;this.src='${FALLBACK_ART}'"></div>
           <div class="card-footer"><div><small>${esc(owner)}</small><div class="card-title-row"><div class="card-title">${esc(title)}</div></div></div><img src="/assets/ui/brand/reverse-call-20261016/icon-512.png" class="card-mini-logo" alt="리버스콜"></div>
         </div>

@@ -1,7 +1,7 @@
 // Public pack presentation. Season 2 opening remains locked until a separate release.
 export const MAGIC_SEASON2_PACK=Object.freeze({
  season:'S2',code:'MAGIC_CARD_SEASON2_PACK',name:'마법카드 시즌2 팩',
- imageUrl:'assets/cards/magic-season2-pack-768-v2.webp',
+ imageUrl:'assets/ui/packs/reverse-call-20261016/magic-season2-768.webp',
  drawCoinCost:1_000_000_000,drawCost:0,drawEnabled:false,openingEnabled:false,
  visible:true,status:'PREPARING',rewardPolicy:'MIXED_CARD_MASTER_STAR',purchaseEnabled:false,
  rewardTypes:Object.freeze(['MAGIC_CARD','MASTER_STAR']),
@@ -36,7 +36,7 @@ export function magicSeason2PackDraft(raw={}){
 }
 export function magicSummonSeasons(settings={},season2={}){
  return [
-  {season:'S1',code:'MAGIC_CARD_PACK',name:'아르카나 마법카드팩',imageUrl:'assets/cards/magic-card-pack-v2-384.jpg',drawCoinCost:settings.drawCoinCost,drawCost:settings.drawCost,drawEnabled:settings.drawEnabled===true,packRewards:settings.packRewards},
+  {season:'S1',code:'MAGIC_CARD_PACK',name:'아르카나 마법카드팩',imageUrl:'assets/ui/packs/reverse-call-20261016/magic-season1-320.webp',drawCoinCost:settings.drawCoinCost,drawCost:settings.drawCost,drawEnabled:settings.drawEnabled===true,packRewards:settings.packRewards},
   magicSeason2PackDraft(season2)
  ];
 }

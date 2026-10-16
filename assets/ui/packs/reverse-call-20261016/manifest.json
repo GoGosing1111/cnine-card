@@ -1,0 +1,593 @@
+{
+  "version": "20261016-v1",
+  "tool": "built-in image_gen",
+  "purpose": "Replace old branding on card packs and card backs with the user-provided Reverse Call R emblem.",
+  "logo": {
+    "path": "assets/ui/brand/reverse-call-20261016/source.png",
+    "sha256": "67e735ba0ca2ebb715145e414a1598e0087516f74ca7937383582565e9fe714c"
+  },
+  "originalsPreserved": true,
+  "assets": [
+    {
+      "id": "limited",
+      "original": {
+        "path": "assets/ui/packs/limited-pack.png",
+        "sha256": "286cf19837bbc3392a1ccc4cd15dfe6b17076e271f69b1aea93738e978205cea"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/limited-source.png",
+        "sha256": "d9ad2125d4aee38a51c977320fb6d2d7c5515148184ac41e5b25d830d7457bcf",
+        "width": 887,
+        "height": 1774,
+        "hasAlpha": true
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/limited-160.webp",
+          "sha256": "1ce66da89bca4de6fbf3ae30f04d5b40752bb5a22e9326e00923df1707a32d36"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/limited-160.avif",
+          "sha256": "02621415c807f5f9042d3efd8c9af113bf4318766f7e4547d2fd152ef16ce141"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/limited-320.webp",
+          "sha256": "ff331d2e225ca4ca4f33cb5ea1e61327dace2f7f94ef78955c0b3d3628863e5a"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/limited-320.avif",
+          "sha256": "e2caaa9bb8ac60e799a2ca2b0dfee1f9666a644d53072da1982ff53fa2780674"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/limited-768.webp",
+          "sha256": "aaafe67fd82bb75152b418c8c1bf0309281580ae9864679909d1bc1654dd0704"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/limited-768.avif",
+          "sha256": "c93de9ba603a55417f7af1a074077ad2228b00a118fd14e623a073156a6980c2"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "ultimate",
+      "original": {
+        "path": "assets/ui/packs/ultimate-pack.png",
+        "sha256": "287d0ba3512ee4d35223de17012da67a89dfe7dfabfc3363baed6a71b44c9927"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/ultimate-source.png",
+        "sha256": "7057ca436a31b3b01f9f39d8a1ba2fe545c29d0022e702304c34c8bfa31c1568",
+        "width": 887,
+        "height": 1774,
+        "hasAlpha": true
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/ultimate-160.webp",
+          "sha256": "7615c2c9557658bbf179f9b26c44e104e7bfd42c4117bb69d36aad2f6ba01ebd"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/ultimate-160.avif",
+          "sha256": "6c12d170c6026ce395c9c2f8e792145332882fa1259dfbcb97fa0cbf4bb889cd"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/ultimate-320.webp",
+          "sha256": "24b525c08c44be7fe7a7e98b9b1df2c50cdd351e298e01c1413f3cc3a406acc7"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/ultimate-320.avif",
+          "sha256": "a74fd8181769bf4b34dbd1d9af8a4797f7712629712a8161603dc6914c10b35e"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/ultimate-768.webp",
+          "sha256": "d15a79884462f23a39936bb8eba93c79be79ddbdfd7857ee5d774373095564d6"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/ultimate-768.avif",
+          "sha256": "5f0bb036d85cbbedf2536a0cbf2400cd4f9efa72b86c5ae80b0a85472c141700"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "hyper",
+      "original": {
+        "path": "assets/ui/packs/hyper-pack-v2076.png",
+        "sha256": "b23ba9f88b98a17f400a96cb7bcf19c82933c4d66275d6f96c3c6d1bab74a80c"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/hyper-source.png",
+        "sha256": "7c661388bb21727f4fcb7dc4366abad0520ce1c51d4cf4a46bf4113f741c2f14",
+        "width": 941,
+        "height": 1672,
+        "hasAlpha": true
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/hyper-160.webp",
+          "sha256": "785a6d8add3beb52a7a1f9213c7f41087d5d95abd62bf40d354088460bda2122"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/hyper-160.avif",
+          "sha256": "ed5103f726ab9c7b0c3c75367e671d8329b14d518ea51191c37c82102c285ad9"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/hyper-320.webp",
+          "sha256": "dc46adda6b8c2456568525608d48f22fa340d318b3a792519a3ab258a42ab4c6"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/hyper-320.avif",
+          "sha256": "91f9aa1bfd247211e2daf58e016ca772d1a157501fc956f17a380d626d46f4a5"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+          "sha256": "871334757ed88d949e75cca3cf2d07bacdc2550f7d883d26e45948ef2da11668"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/hyper-768.avif",
+          "sha256": "10f80a7dbaa5b38200037dd0d825be01db2c9f21ce4a4ae61ca406f11d9f53bb"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "advanced",
+      "original": {
+        "path": "assets/ui/packs/advanced-pack.png",
+        "sha256": "3c84761a216775f9cbb724c5261dc1975c59b8e62a3de06311afd903e5fef920"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/advanced-source.png",
+        "sha256": "0f56bcd2dae6de2b4f73bdc3ce490169ca339c4da9eadd1a98183275b244dce1",
+        "width": 872,
+        "height": 1804,
+        "hasAlpha": true
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/advanced-160.webp",
+          "sha256": "3b5bae15ada762e543cd1132134d620a585cfb36e682f6fbcc8fdc177f13896d"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/advanced-160.avif",
+          "sha256": "7d0ca23f58c2181896184abdc041022bcd12d17f5a5f074e84fbe7b819ec5dfe"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/advanced-320.webp",
+          "sha256": "3bc74ef32be6255111f084355db852a81baa33d1a7fe5b0f3f646aad712f3486"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/advanced-320.avif",
+          "sha256": "37aa9441aa2d459610ae7a4c65a4674c5258e0fe871fdab88c15317b02f2c968"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/advanced-768.webp",
+          "sha256": "0e9453958ab7b75c0d07321032ba63e04b0c02b59c2909c5d26f75ae5be83cc9"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/advanced-768.avif",
+          "sha256": "cda8bfc18131027e79a1d9c4b13e2856b56551401e5c109bc5cd8d8013f1d5a4"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "mercenary-limited",
+      "original": {
+        "path": "assets/ui/packs/mercenary-limited-edition-pack-20261003-v1.png",
+        "sha256": "f4ce292b186d390df9ad40d0c4854a35158ab7049900fe13417d5948b453c5b6"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/mercenary-limited-source.png",
+        "sha256": "5a8870e142a200a7bacd58d4471029918452e636be2c2a70669e9d383e6e3046",
+        "width": 941,
+        "height": 1672,
+        "hasAlpha": true
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/mercenary-limited-160.webp",
+          "sha256": "c80784b4d6721fc49e0f1d469cf4454ebdb23e848b9a61b90f5c50938c1b26e5"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/mercenary-limited-160.avif",
+          "sha256": "2d63d8ffbd27b737ed84fabf660c35e95021bbef158d20219ed030b795d69829"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/mercenary-limited-320.webp",
+          "sha256": "7be4a79959bac51a355b7c6308131a1d63439815587c4872f2b1a3a60724aaae"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/mercenary-limited-320.avif",
+          "sha256": "03ee1a57876c272bb3c22f2225fa25cba4854a39f8fdeddfae5e9d5e2977e763"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+          "sha256": "1ec22a5d88ee401752e2aab9896d18a5c321219f637e534825247e8118c70396"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/mercenary-limited-768.avif",
+          "sha256": "3e9141a98bf0e64f461f6d3cd1a1e24939db16849330f375d135a7e06908f047"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "halloween",
+      "original": {
+        "path": "assets/ui/packs/halloween-limited-20261011-v2/pack-source.png",
+        "sha256": "ac6e88f72f9ebca14b513d27441e3ff3e2de0cb76a4ca8872f623d8bc9198b88"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/halloween-source.png",
+        "sha256": "909901a5ea89dec371b1c5b4349fae44942b851d6b5740ff31afbba6e76bf96a",
+        "width": 941,
+        "height": 1672,
+        "hasAlpha": true
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/halloween-160.webp",
+          "sha256": "672a9ad92886ad43ea1c65b1d6af95c41b0cef8a9b6576cf7b858fe47e189982"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/halloween-160.avif",
+          "sha256": "52cc64c43ac73aa982d9094be9b8f9000de044079c6df1670be53b8b949cf511"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/halloween-320.webp",
+          "sha256": "d036731898c9aae606008e0e47b1247321c6fd2eed744771c61335760518cdd3"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/halloween-320.avif",
+          "sha256": "8703a2ec6232c55ba3196ba3bc7ef1275cbca3098a525fd249379eb5f45de0c4"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/halloween-768.webp",
+          "sha256": "2179beb7a26e648263f8484a20127ae25fb16056a5344940142ee0b85311b832"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/halloween-768.avif",
+          "sha256": "f1b5d41b1f46886e81fad6d3342ec2d761d9dca8f408ab1bb3f33ea123c223e6"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "magic-season2",
+      "original": {
+        "path": "assets/cards/magic-season2-pack-v2.png",
+        "sha256": "67e6b7a1d33b4492abcfcf1944d1762510f434e33a6e9d4ed9ef2a502ffc01c5"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/magic-season2-source.png",
+        "sha256": "4611f6f0e8655fbbb73b95fc0a45b7f27fc903e29dd3289bd2092090fb233cda",
+        "width": 1024,
+        "height": 1536,
+        "hasAlpha": false
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/magic-season2-160.webp",
+          "sha256": "6e35ba7e6cf10874da42277105582c93636a0f17584de51e46a72e5cd7a019ce"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/magic-season2-160.avif",
+          "sha256": "720d60a7ad0d95d2808c5f59a7646a835bb57dbbc114778fc75e4d9ba74819c5"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/magic-season2-320.webp",
+          "sha256": "925d3b5574b07a277311edbb0ea95fc26ce51f4fd03890230df67cc52e6b7378"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/magic-season2-320.avif",
+          "sha256": "4cac8b28a094a81c7cb784e2c81b66125d33845a1423910d59964a0ae748fac2"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/magic-season2-768.webp",
+          "sha256": "dd3ab9f8e1db5e75f0f65c12afe239dca2edd39b211417fed2b71df49b4c6f77"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/magic-season2-768.avif",
+          "sha256": "14b2d131a4fbb31fd8a8ec3f83937a800fa3e09064a459466e74da76a3e27d7e"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "standard",
+      "original": {
+        "path": "assets/ui/packs/standard-pack.png",
+        "sha256": "a01a54cbfc3da2f2e76c37b706c145fdf4e8168b8621413f9457daf343c60487"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/standard-source.png",
+        "sha256": "0540100d11fa436c37b008c68c4ed457a448cf9e4af0a7e5c85c38bebef41224",
+        "width": 872,
+        "height": 1804,
+        "hasAlpha": true
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/standard-160.webp",
+          "sha256": "3bad152c2983f9dcfca2dcbbc16caecde7588b731e28696413bf84786cc8701b"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/standard-160.avif",
+          "sha256": "fc65e67bdcc54bf6a2a4700b55b0b0e17f812d080a03cb5412540bad800c5d47"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/standard-320.webp",
+          "sha256": "a9fd9fc54754630bd35b68274a070f4fe38b38e96d05c75737bdcc518b744c4d"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/standard-320.avif",
+          "sha256": "58c3a2fd87a7e29cbe52b69ff9fc6e2feee14a85aa32dc5ac51a01ff2aae0397"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/standard-768.webp",
+          "sha256": "57653907f46c97d8cb33c0792f74f0397780bea3d56c9c33394f9fbf18da7125"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/standard-768.avif",
+          "sha256": "54dedef9c911e1582e45c8040ca0fedc5a6b2a445441ba47229d35c824835b3f"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "premium",
+      "original": {
+        "path": "assets/ui/packs/premium-pack.png",
+        "sha256": "b1513e37b2bf044ca526344f7f09701edd8a143fe58049ea71e882ee3704cfb3"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/premium-source.png",
+        "sha256": "fc72104a9642fbd37a6dc7ce38bdc95be82a5eaee0ebd650eb784827730bbc7a",
+        "width": 873,
+        "height": 1801,
+        "hasAlpha": true
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/premium-160.webp",
+          "sha256": "9bc71ee187abbba8d7c94c29a36f37b0b5484108f6267857f730bf46653fde38"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/premium-160.avif",
+          "sha256": "9c23612f656c6bc1c4a2423fbd6000bd204966084875f34caf9180122ae6ac0d"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/premium-320.webp",
+          "sha256": "f5d94bfb1c183e6586c69efef121b4a8387efea5f6f8a8cb30a166bc0df8e9b4"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/premium-320.avif",
+          "sha256": "8aafa32921018f55b9aa2e6bcc08ae437e76cb62ffcad8676cdaec87a9d6a789"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/premium-768.webp",
+          "sha256": "63c5cd291a17d56fce221bed173f848684b0d8da6cbfc0756d91ba87ae630737"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/premium-768.avif",
+          "sha256": "b6e778032f174e87106e72086e80114b5e7ae26dc0982939e21630765cad5c35"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "guaranteed-ma",
+      "original": {
+        "path": "assets/ui/packs/guaranteed-ma-pack.png",
+        "sha256": "79ff196f344aadddd453e49f29ba5054fc985f9cb26f48e8316ab62b2660bdea"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/guaranteed-ma-source.png",
+        "sha256": "08df6da7cdd0b06a37df3d592325a224d96759dbac37196a0c2ec6fd55d14fb0",
+        "width": 874,
+        "height": 1800,
+        "hasAlpha": true
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/guaranteed-ma-160.webp",
+          "sha256": "77343a6affda000b768b5586f22d50ac116f1e2c23f0c23ae1bbc8af6d961d36"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/guaranteed-ma-160.avif",
+          "sha256": "ef68e7291068e39217a5f761bf5780901415b369228d8adc08d4ec10c9f68600"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/guaranteed-ma-320.webp",
+          "sha256": "7fae96042a74cc8e032e11ce5fe43b749300d8bd2d023578198badcc3ea57775"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/guaranteed-ma-320.avif",
+          "sha256": "6fd4f39db69cf6936b450e36703c55a5b34c406b67052913d01f0db07368254e"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/guaranteed-ma-768.webp",
+          "sha256": "bd736d36a3218506e236fb436d7143965cd10ffee4e2be72fe402a21770c4beb"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/guaranteed-ma-768.avif",
+          "sha256": "110e46006a13f843ffdc7a856c5f655f6497d050acd28dc8e05187af66e41add"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "magic-season1",
+      "original": {
+        "path": "assets/cards/magic-card-pack-v2-768.jpg",
+        "sha256": "b452651f55a5645fba2dcc933c966c0c2b81ba415bcffc5e126d25804f8f9bdb"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/magic-season1-source.png",
+        "sha256": "c20fde3e223fe2264a96481e6117456340b524fb26015f079381c850ecccbbf5",
+        "width": 937,
+        "height": 1678,
+        "hasAlpha": false
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/magic-season1-160.webp",
+          "sha256": "929d13e16febd724868ed74e7f38ffb49820b12a93ac3590ec564b49483f30f7"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/magic-season1-160.avif",
+          "sha256": "9f1eee92836b28ab9920e88176c09685a5d5eb1d754a4e1a63accbd111cada7a"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/magic-season1-320.webp",
+          "sha256": "7ce71444ccdc819ecad666d82661fb3b42ef6e0040ec6c42b6a767f9235d9fd1"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/magic-season1-320.avif",
+          "sha256": "cfc392cc88884063ce70039ad782130d056cc0c384b69578b0edcbdddfd76c4f"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/magic-season1-768.webp",
+          "sha256": "c3043d1a25385690ec79524368dc4a3857eed0d15038354851d9ddc0574430da"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/magic-season1-768.avif",
+          "sha256": "1de230ab8b3806ea08cba51cabb59f730a2349e3e1d1a911ccf16150af1830e1"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "black-miracle",
+      "original": {
+        "path": "assets/ui/packs/black-miracle-pack-v1485-768.jpg",
+        "sha256": "e719f7ec90aca1a99d448b32770bb29ddbe9e7ee94a99721befd689bc0db5cd8"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/black-miracle-source.png",
+        "sha256": "a34f4b5ef5db5e42ec41cb5ccd85612ba7ee6c2d991c47704130118f34394b27",
+        "width": 937,
+        "height": 1679,
+        "hasAlpha": false
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/black-miracle-160.webp",
+          "sha256": "2780362fbf78eb3393362b4cbe907ec4ec2c0a5c7e280499b3ca7ef87b11c946"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/black-miracle-160.avif",
+          "sha256": "ca0cb3f4971bde49432b0f5e22f9ca174fd7a2e1fecf94187366d2822090274c"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/black-miracle-320.webp",
+          "sha256": "66cd77172f878ba463b9a29bead73843299f517b171623b39e267b38f8abce9b"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/black-miracle-320.avif",
+          "sha256": "b1d0f0d7c62c5953bcb899943e98792ab788a8e1d6575464f2af7f5a93d0eb48"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/black-miracle-768.webp",
+          "sha256": "3297b6b2828fbf725108a3fd2c8787658f90b06846e6e3c0e36a650b3033c32e"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/black-miracle-768.avif",
+          "sha256": "8c7b3041d4c5654d08e6a365db57d950f11d2fba8d17bb3cc0ae9941167b1318"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "superstar",
+      "original": {
+        "path": "assets/ui/packs/superstar-card-pack-v1.png",
+        "sha256": "06178ebe414614164753ce007c032a282488b8135f1afcf466de00f58c1a0cfb"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/superstar-source.png",
+        "sha256": "c76607415acd8402adaefedb457f27b6d58f05527788e6d5a4d86b492a6311fe",
+        "width": 1024,
+        "height": 1536,
+        "hasAlpha": false
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/superstar-160.webp",
+          "sha256": "a3dc6db448bd8926d858ab39b6502fbe38b7b0c7fccd5a90095743e11abf4553"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/superstar-160.avif",
+          "sha256": "d8405c92b086c635e3d502a2cb088c5c4998e705aa118b50eadf18679c329516"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/superstar-320.webp",
+          "sha256": "1e8dda37a56437f97944b399e3b22132129c67ac1d58503a8c0789e1b4768a6a"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/superstar-320.avif",
+          "sha256": "6022f65c2d55928b3d616422de51da9d5bb8906a2f51435aa61f56c203bf325c"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/superstar-768.webp",
+          "sha256": "21b4ef8ad7a9095486740da9b260a0e76af68ab76263216372cf7d236ddce862"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/superstar-768.avif",
+          "sha256": "e4f28cc7d94f50408c158a5a9f634ac4f52108a5fa52c3af42b57cdd3ec461d6"
+        }
+      ],
+      "visualReview": "Reviewed the full generated pack: old brand removed, title and edition legible, pack artwork and non-brand labels preserved."
+    },
+    {
+      "id": "premium-cube",
+      "original": {
+        "path": "assets/ui/packs/premium-cube.png",
+        "sha256": "0b92178efb66aaeafb681977cfc0d2841375d6cc5c2792decc0a03956a5fd530"
+      },
+      "source": {
+        "path": "assets/ui/packs/reverse-call-20261016/premium-cube-source.png",
+        "sha256": "8a9a79a5997713bb02f53e4140ffa7779bf3aae1b0015355d7700fce56a1a3c8",
+        "width": 1254,
+        "height": 1254,
+        "hasAlpha": false
+      },
+      "outputs": [
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/premium-cube-160.webp",
+          "sha256": "11581b1fe88846c44f5c48187c4ae580c11400e5479c672165dd78dfd71d33ca"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/premium-cube-160.avif",
+          "sha256": "2aed26392363306d7abad152b0baefce6e0567cbf4194a3ada16ba74bb214432"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/premium-cube-320.webp",
+          "sha256": "a637166ab3d221191b33bf83481143dbd5329ef62eb42343f7ab27879cdd21ac"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/premium-cube-320.avif",
+          "sha256": "db3cf10179806e0809fd3e2bcee13cb0d17beb2d5a7abd13f5dc5f027491b9da"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/premium-cube-768.webp",
+          "sha256": "4312d79e3cb5238545a653a61729744ae07b9b2f6053f6643fcedeee9b6c48d4"
+        },
+        {
+          "path": "assets/ui/packs/reverse-call-20261016/premium-cube-768.avif",
+          "sha256": "fa43d2abf4fe7666e4551a3ab83144d210eb9799a0ae1bf6f1d07f58b5ce9bc9"
+        }
+      ],
+      "visualReview": "Front and top SOOP/infinity marks replaced with R. Closed cube, black metal frame, violet lighting and full composition preserved."
+    }
+  ],
+  "legacyDisplayReplacements": [
+    {
+      "path": "assets/cards/magiccard.png",
+      "sha256": "015cb27f5ba74a92153d93f466adbec858616c672c15e4157347a8ea58e833b8",
+      "target": "assets/ui/packs/reverse-call-20261016/magic-season1-768.webp"
+    }
+  ]
+}

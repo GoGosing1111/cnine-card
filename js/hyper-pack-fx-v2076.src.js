@@ -2,7 +2,7 @@ import {Application,Assets,BlurFilter,Container,Graphics,Sprite,Text} from 'pixi
 import {gsap} from 'gsap';
 
 const ART = {
-  pack:'/assets/ui/packs/hyper-pack-v2076.png',
+  pack:'/assets/ui/packs/reverse-call-20261016/hyper-768.webp',
   energy:'/assets/items/starlight-armor-core-v1749.png',
   mercenary:'/assets/ui/project-v/mercenaries/female-office-sniper-red-v1.png',
   frame:'/assets/ui/card-frames/mercenary-contract-frame-premium-v2.png',
@@ -31,7 +31,7 @@ function star(radius,color) {
 class HyperPackPresentation {
   constructor(host,onState,{live=false,cinematic=null,appearance='hyper',fastReveal=false,reducedMotion=false}={}) {
     this.live=live;this.limited=appearance==='limited';this.fastReveal=fastReveal;this.reducedMotion=reducedMotion;this.cinematic=cinematic;
-    this.art=this.limited?{...ART,pack:'/assets/ui/packs/limited-v1/pack-640.webp',frame:'/assets/ui/packs/limited-v1/frame-640.webp'}:ART;
+    this.art=this.limited?{...ART,pack:'/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp',frame:'/assets/ui/packs/limited-v1/frame-640.webp'}:ART;
     this.host=host;this.onState=onState;this.generation=0;this.speed=1;this.running=false;this.cleanupTimers=new Map();this.disposed=false;this.initialized=false;this.artUrl=new Map();
   }
   async init() {

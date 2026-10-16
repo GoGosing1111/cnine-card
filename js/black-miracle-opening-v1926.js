@@ -1,8 +1,8 @@
 (()=>{
   'use strict';
 
-  const PACK_SMALL='/assets/ui/packs/black-miracle-pack-v1485-384.jpg?v=1485';
-  const PACK_LARGE='/assets/ui/packs/black-miracle-pack-v1485-768.jpg?v=1485';
+  const PACK_SMALL='/assets/ui/packs/reverse-call-20261016/black-miracle-320.webp?v=1485';
+  const PACK_LARGE='/assets/ui/packs/reverse-call-20261016/black-miracle-768.webp?v=1485';
   const BLACK_MIRACLE_CHOICE_COUNT=5;
   const PHASES_WITH_SAFE_CLOSE=new Set(['intro','error','revealed']);
   let activeOpening=null;
@@ -47,7 +47,7 @@
 
   function rewardSymbol(reward){
     if(reward.type==='MASTER_STAR')return '★';
-    if(reward.type==='COIN')return '<span>SOOP</span><b>COIN</b>';
+    if(reward.type==='COIN')return '<span>REVERSE CALL</span><b>COIN</b>';
     return '✦';
   }
 

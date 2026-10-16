@@ -52,7 +52,7 @@
     const d=state.data,u=user(),title=currentTitle();
     return `<section class="character-hero-v1234">
       <div class="character-hero-main-v1234">
-        <div class="character-hero-overline-v1234">SOOP LOADOUT</div>
+        <div class="character-hero-overline-v1234">REVERSE CALL LOADOUT</div>
         <h2>${esc(u?.nickname||'플레이어')}</h2>
         ${titleRibbon(title,{inline:true})}
       </div>

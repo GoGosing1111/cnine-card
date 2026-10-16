@@ -16,7 +16,7 @@ export function lootShopAsset(value){
 const asset=lootShopAsset;
 const fmt=v=>Number(v||0).toLocaleString('ko-KR');
 const descriptions={SUPERSTAR_CHOICE:'등록된 SUPERSTAR 카드 중 원하는 카드 1장 선택',FUR_CHOICE:'등록된 FUR 카드 중 원하는 카드 1장 선택',F_BODY:'F바디 장비 1개 확정 지급',MYSTIC_EQUIPMENT:'미스틱 4종 중 각 25%로 장비 1개 랜덤 지급 · 꽝 없음',MERCENARY_PACK:'등록된 A·S등급 용병 중 카드 1장 획득',MERCENARY_SS_PACK:'등록된 SS등급 용병 중 카드 1장 확정 획득'};
-const categoryArt={SUPERSTAR_CHOICE:'assets/ui/packs/superstar-card-pack-v1.png',FUR_CHOICE:'assets/ui/packs/limited-pack.png',F_BODY:'assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png',MYSTIC_EQUIPMENT:'assets/ui/packs/prime-armory-equipment-box-v1.png',MERCENARY_PACK:'assets/ui/packs/hyper-pack-v2076.png',MERCENARY_SS_PACK:'assets/ui/packs/hyper-pack-v2076.png'};
+const categoryArt={SUPERSTAR_CHOICE:'assets/ui/packs/reverse-call-20261016/superstar-768.webp',FUR_CHOICE:'assets/ui/packs/reverse-call-20261016/limited-768.webp',F_BODY:'assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png',MYSTIC_EQUIPMENT:'assets/ui/packs/prime-armory-equipment-box-v1.png',MERCENARY_PACK:'assets/ui/packs/reverse-call-20261016/hyper-768.webp',MERCENARY_SS_PACK:'assets/ui/packs/reverse-call-20261016/hyper-768.webp'};
 const typeLabels={SUPERSTAR_CHOICE:'SUPERSTAR',FUR_CHOICE:'FUR',F_BODY:'F-BODY',MYSTIC_EQUIPMENT:'MYSTIC',MERCENARY_PACK:'MERCENARY · A—S',MERCENARY_SS_PACK:'MERCENARY · SS'};
 const productArt=p=>asset(p.image)||asset(categoryArt[p.type]);
 export function lootProductOptionsMarkup(p){
