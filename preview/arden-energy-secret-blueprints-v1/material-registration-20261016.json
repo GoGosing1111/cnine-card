@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-16",
+  "authorization": "다 라이브에 반영해서 재료아이템으로 등록해",
+  "scope": "Existing four resource designs registered as live MATERIAL catalog entries",
+  "status": "COMPLETED",
+  "operationKey": "ops:arden-blueprint-materials:20261016:v1",
+  "completedAt": "2026-10-15T23:59:49.623Z",
+  "adminLogId": "46722",
+  "items": [
+    {
+      "code": "ARDEN_ENERGY",
+      "name": "아르덴 에너지",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image": "assets/items/arden-energy-v1.webp",
+      "active": true,
+      "directUse": false
+    },
+    {
+      "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+      "name": "비밀무기 설계도 1장",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image": "assets/items/secret-weapon-blueprint-chapter-1-v1.webp",
+      "active": true,
+      "directUse": false
+    },
+    {
+      "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+      "name": "비밀무기 설계도 2장",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image": "assets/items/secret-weapon-blueprint-chapter-2-v1.webp",
+      "active": true,
+      "directUse": false
+    },
+    {
+      "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+      "name": "비밀무기 설계도 3장",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image": "assets/items/secret-weapon-blueprint-chapter-3-v1.webp",
+      "active": true,
+      "directUse": false
+    }
+  ],
+  "originalAssetsPreserved": true,
+  "recipesCreated": 0,
+  "grantedQuantity": 0,
+  "rewardPoolsModified": false,
+  "manifest": "manifest.json"
+}

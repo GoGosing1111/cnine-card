@@ -24,7 +24,7 @@
         "sha256": "406e959495ada5973f751ab73b2117cb829984799dbaf595df69beec30608af4",
         "originalBytesPreserved": true
       },
-      "status": "VISUAL_APPROVED",
+      "status": "LIVE_MATERIAL_REGISTERED",
       "purpose": "아르덴 장비 계열 제작 재료",
       "runtime": {
         "path": "assets/items/arden-energy-v1.webp",
@@ -33,7 +33,8 @@
         "bytes": 59048,
         "sha256": "8d75f48ab37e8f785e1293a00cb1c6d4d4aad818795f43f27ee7f21fe05a4ded",
         "transparent": true
-      }
+      },
+      "itemCode": "ARDEN_ENERGY"
     },
     {
       "key": "secret-weapon-blueprint-chapter-1",
@@ -48,7 +49,7 @@
         "sha256": "52131905ee5ab3305a9773ea4983730249851ac3b1b46cc47d32e0d5bdc17b5b",
         "originalBytesPreserved": true
       },
-      "status": "USER_REVIEW_PENDING",
+      "status": "LIVE_MATERIAL_REGISTERED",
       "purpose": "동방무기 상위 버전용 · 금룡 총기 외형 도안",
       "chapter": 1,
       "runtime": {
@@ -58,7 +59,8 @@
         "bytes": 52062,
         "sha256": "3c10e26bd2383954bf1a302bb0cd34e20401adb3559c640d54c9e73e876dddbf",
         "transparent": true
-      }
+      },
+      "itemCode": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1"
     },
     {
       "key": "secret-weapon-blueprint-chapter-2",
@@ -73,7 +75,7 @@
         "sha256": "955299ac1b773a09871f8164e74b1461dc5f5a868e3b19287c40bcd9f27f5315",
         "originalBytesPreserved": true
       },
-      "status": "USER_REVIEW_PENDING",
+      "status": "LIVE_MATERIAL_REGISTERED",
       "purpose": "동방무기 상위 버전용 · 쌍룡 동력 문양",
       "chapter": 2,
       "runtime": {
@@ -83,7 +85,8 @@
         "bytes": 62460,
         "sha256": "0198d6936d6c5f8c276ce668e91f3c2697c65f05b97d77a44568f4549ef28831",
         "transparent": true
-      }
+      },
+      "itemCode": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2"
     },
     {
       "key": "secret-weapon-blueprint-chapter-3",
@@ -98,7 +101,7 @@
         "sha256": "ee1d59537cbde02f46dee5e2839e32ce4de32bfc6c26ffc6c745ede23fe6a86d",
         "originalBytesPreserved": true
       },
-      "status": "USER_REVIEW_PENDING",
+      "status": "LIVE_MATERIAL_REGISTERED",
       "purpose": "동방무기 상위 버전용 · 금룡 최종 봉인",
       "chapter": 3,
       "runtime": {
@@ -108,7 +111,8 @@
         "bytes": 64498,
         "sha256": "5d808365ecfa0b3140bc51344bcb83267f70c7dea9ce5baa774125c1f7befcb5",
         "transparent": true
-      }
+      },
+      "itemCode": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3"
     }
   ],
   "prompts": "prompts.json",
@@ -121,18 +125,21 @@
     "alphaQuality": 100,
     "effort": 6
   },
-  "catalogRegistered": false,
+  "catalogRegistered": true,
   "recipesAdded": false,
   "rewardPoolsModified": false,
   "technicalQA": "qa/report.json",
   "visualQA": {
     "energyApproved": true,
-    "blueprintsApproved": false,
+    "blueprintsApproved": true,
     "weaponAxis": "Chapter I has a continuous straight rear-body-to-muzzle silhouette",
     "documentNumbers": [
       "I",
       "II",
       "III"
-    ]
-  }
+    ],
+    "blueprintsApprovalScope": "Existing artwork adopted for live MATERIAL registration by user request on 2026-10-16"
+  },
+  "updatedAt": "2026-10-15T23:59:53.399Z",
+  "materialRegistration": "material-registration-20261016.json"
 }

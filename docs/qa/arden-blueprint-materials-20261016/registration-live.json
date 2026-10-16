@@ -1,0 +1,237 @@
+{
+  "action": "register",
+  "alreadyRegistered": false,
+  "verified": true,
+  "checkedAt": "2026-10-15T23:59:53.399Z",
+  "cmsVisible": true,
+  "materialSelectorCodes": [
+    "ARDEN_ENERGY",
+    "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+    "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+    "SECRET_WEAPON_BLUEPRINT_CHAPTER_3"
+  ],
+  "items": [
+    {
+      "code": "ARDEN_ENERGY",
+      "name": "아르덴 에너지",
+      "subtitle": "ARDEN ENERGY",
+      "description": "청록빛 결정과 백금·금세공으로 이루어진 아르덴 장비용 제작 재료입니다. 직접 사용할 수 없습니다.",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/arden-energy-v1.webp",
+      "sort_order": "215003",
+      "is_active": "1",
+      "created_at": "2026-10-15 23:59:48",
+      "updated_at": "2026-10-15 23:59:48"
+    },
+    {
+      "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+      "name": "비밀무기 설계도 1장",
+      "subtitle": "SECRET WEAPON BLUEPRINT I",
+      "description": "동방무기 상위 버전용 첫 번째 설계도. 금룡 총기의 외형 도안이 담긴 제작 재료입니다. 직접 사용할 수 없습니다.",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/secret-weapon-blueprint-chapter-1-v1.webp",
+      "sort_order": "215004",
+      "is_active": "1",
+      "created_at": "2026-10-15 23:59:48",
+      "updated_at": "2026-10-15 23:59:48"
+    },
+    {
+      "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+      "name": "비밀무기 설계도 2장",
+      "subtitle": "SECRET WEAPON BLUEPRINT II",
+      "description": "동방무기 상위 버전용 두 번째 설계도. 쌍룡과 여의주의 동력 문양이 담긴 제작 재료입니다. 직접 사용할 수 없습니다.",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/secret-weapon-blueprint-chapter-2-v1.webp",
+      "sort_order": "215005",
+      "is_active": "1",
+      "created_at": "2026-10-15 23:59:48",
+      "updated_at": "2026-10-15 23:59:48"
+    },
+    {
+      "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+      "name": "비밀무기 설계도 3장",
+      "subtitle": "SECRET WEAPON BLUEPRINT III",
+      "description": "동방무기 상위 버전용 세 번째 설계도. 금룡의 최종 봉인 문양이 담긴 제작 재료입니다. 직접 사용할 수 없습니다.",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image_url": "assets/items/secret-weapon-blueprint-chapter-3-v1.webp",
+      "sort_order": "215006",
+      "is_active": "1",
+      "created_at": "2026-10-15 23:59:48",
+      "updated_at": "2026-10-15 23:59:48"
+    }
+  ],
+  "receipt": {
+    "operationKey": "ops:arden-blueprint-materials:20261016:v1",
+    "status": "COMPLETED",
+    "authorization": "다 라이브에 반영해서 재료아이템으로 등록해",
+    "scope": "LIVE_MATERIAL_CATALOG",
+    "items": [
+      {
+        "code": "ARDEN_ENERGY",
+        "name": "아르덴 에너지",
+        "subtitle": "ARDEN ENERGY",
+        "description": "청록빛 결정과 백금·금세공으로 이루어진 아르덴 장비용 제작 재료입니다. 직접 사용할 수 없습니다.",
+        "category": "MATERIAL",
+        "rarity": "SPECIAL",
+        "image_url": "assets/items/arden-energy-v1.webp",
+        "sort_order": "215003",
+        "is_active": "1",
+        "created_at": "2026-10-15 23:59:48",
+        "updated_at": "2026-10-15 23:59:48"
+      },
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+        "name": "비밀무기 설계도 1장",
+        "subtitle": "SECRET WEAPON BLUEPRINT I",
+        "description": "동방무기 상위 버전용 첫 번째 설계도. 금룡 총기의 외형 도안이 담긴 제작 재료입니다. 직접 사용할 수 없습니다.",
+        "category": "MATERIAL",
+        "rarity": "SPECIAL",
+        "image_url": "assets/items/secret-weapon-blueprint-chapter-1-v1.webp",
+        "sort_order": "215004",
+        "is_active": "1",
+        "created_at": "2026-10-15 23:59:48",
+        "updated_at": "2026-10-15 23:59:48"
+      },
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+        "name": "비밀무기 설계도 2장",
+        "subtitle": "SECRET WEAPON BLUEPRINT II",
+        "description": "동방무기 상위 버전용 두 번째 설계도. 쌍룡과 여의주의 동력 문양이 담긴 제작 재료입니다. 직접 사용할 수 없습니다.",
+        "category": "MATERIAL",
+        "rarity": "SPECIAL",
+        "image_url": "assets/items/secret-weapon-blueprint-chapter-2-v1.webp",
+        "sort_order": "215005",
+        "is_active": "1",
+        "created_at": "2026-10-15 23:59:48",
+        "updated_at": "2026-10-15 23:59:48"
+      },
+      {
+        "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+        "name": "비밀무기 설계도 3장",
+        "subtitle": "SECRET WEAPON BLUEPRINT III",
+        "description": "동방무기 상위 버전용 세 번째 설계도. 금룡의 최종 봉인 문양이 담긴 제작 재료입니다. 직접 사용할 수 없습니다.",
+        "category": "MATERIAL",
+        "rarity": "SPECIAL",
+        "image_url": "assets/items/secret-weapon-blueprint-chapter-3-v1.webp",
+        "sort_order": "215006",
+        "is_active": "1",
+        "created_at": "2026-10-15 23:59:48",
+        "updated_at": "2026-10-15 23:59:48"
+      }
+    ],
+    "assets": [
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/arden-energy-v1.png",
+        "status": 200,
+        "bytes": 1107563,
+        "sha256": "406e959495ada5973f751ab73b2117cb829984799dbaf595df69beec30608af4"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/arden-energy-v1.webp",
+        "status": 200,
+        "bytes": 59048,
+        "sha256": "8d75f48ab37e8f785e1293a00cb1c6d4d4aad818795f43f27ee7f21fe05a4ded"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/secret-weapon-blueprint-chapter-1-v1.png",
+        "status": 200,
+        "bytes": 1335402,
+        "sha256": "52131905ee5ab3305a9773ea4983730249851ac3b1b46cc47d32e0d5bdc17b5b"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/secret-weapon-blueprint-chapter-1-v1.webp",
+        "status": 200,
+        "bytes": 52062,
+        "sha256": "3c10e26bd2383954bf1a302bb0cd34e20401adb3559c640d54c9e73e876dddbf"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/secret-weapon-blueprint-chapter-2-v1.png",
+        "status": 200,
+        "bytes": 1469660,
+        "sha256": "955299ac1b773a09871f8164e74b1461dc5f5a868e3b19287c40bcd9f27f5315"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/secret-weapon-blueprint-chapter-2-v1.webp",
+        "status": 200,
+        "bytes": 62460,
+        "sha256": "0198d6936d6c5f8c276ce668e91f3c2697c65f05b97d77a44568f4549ef28831"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/secret-weapon-blueprint-chapter-3-v1.png",
+        "status": 200,
+        "bytes": 1587815,
+        "sha256": "ee1d59537cbde02f46dee5e2839e32ce4de32bfc6c26ffc6c745ede23fe6a86d"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/assets/items/secret-weapon-blueprint-chapter-3-v1.webp",
+        "status": 200,
+        "bytes": 64498,
+        "sha256": "5d808365ecfa0b3140bc51344bcb83267f70c7dea9ce5baa774125c1f7befcb5"
+      }
+    ],
+    "raritySource": "Existing inventory catalog SPECIAL default; no combat stats",
+    "directUse": false,
+    "grantedQuantity": 0,
+    "recipesCreated": 0,
+    "rewardPoolsModified": false,
+    "preservedCatalogCount": 71,
+    "completedAt": "2026-10-15T23:59:49.623Z",
+    "adminLogId": "46722"
+  },
+  "inventory": [
+    {
+      "code": "ARDEN_ENERGY",
+      "name": "아르덴 에너지",
+      "subtitle": "ARDEN ENERGY",
+      "description": "청록빛 결정과 백금·금세공으로 이루어진 아르덴 장비용 제작 재료입니다. 직접 사용할 수 없습니다.",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image": "assets/items/arden-energy-v1.webp",
+      "quantity": "0",
+      "unseenquantity": "0",
+      "usable": 0
+    },
+    {
+      "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+      "name": "비밀무기 설계도 1장",
+      "subtitle": "SECRET WEAPON BLUEPRINT I",
+      "description": "동방무기 상위 버전용 첫 번째 설계도. 금룡 총기의 외형 도안이 담긴 제작 재료입니다. 직접 사용할 수 없습니다.",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image": "assets/items/secret-weapon-blueprint-chapter-1-v1.webp",
+      "quantity": "0",
+      "unseenquantity": "0",
+      "usable": 0
+    },
+    {
+      "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+      "name": "비밀무기 설계도 2장",
+      "subtitle": "SECRET WEAPON BLUEPRINT II",
+      "description": "동방무기 상위 버전용 두 번째 설계도. 쌍룡과 여의주의 동력 문양이 담긴 제작 재료입니다. 직접 사용할 수 없습니다.",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image": "assets/items/secret-weapon-blueprint-chapter-2-v1.webp",
+      "quantity": "0",
+      "unseenquantity": "0",
+      "usable": 0
+    },
+    {
+      "code": "SECRET_WEAPON_BLUEPRINT_CHAPTER_3",
+      "name": "비밀무기 설계도 3장",
+      "subtitle": "SECRET WEAPON BLUEPRINT III",
+      "description": "동방무기 상위 버전용 세 번째 설계도. 금룡의 최종 봉인 문양이 담긴 제작 재료입니다. 직접 사용할 수 없습니다.",
+      "category": "MATERIAL",
+      "rarity": "SPECIAL",
+      "image": "assets/items/secret-weapon-blueprint-chapter-3-v1.webp",
+      "quantity": "0",
+      "unseenquantity": "0",
+      "usable": 0
+    }
+  ],
+  "holdings": [],
+  "recipes": []
+}

@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-10-16T00:05:02.952Z",
+  "checks": [
+    {
+      "width": 1440,
+      "registeredMaterials": 4,
+      "imagesLoaded": true,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 390,
+      "registeredMaterials": 4,
+      "imagesLoaded": true,
+      "horizontalOverflow": false
+    }
+  ],
+  "errors": []
+}
