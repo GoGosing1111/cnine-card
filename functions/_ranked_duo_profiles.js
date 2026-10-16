@@ -76,7 +76,7 @@ const currentProfile=(v,hash,now)=>v.payload_json&&Number(v.source_version)===Nu
 const validateAccounts=(versions,count,now,allowOwner=false)=>{
  if(versions.length!==count||versions.some(v=>v.status!=='ACTIVE'||!allowOwner&&v.role==='OWNER'||v.banned_until&&Date.parse(v.banned_until)>now))throw duoError('ACCOUNT','참가 계정 상태를 확인하세요.');
 };
-export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait,allowOwner=false}={}){
+export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait,allowOwner=false,minimumValidityMs=0}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
  const advanced=await readForgeAdvancedPolicy(env.DB);
  const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:'PVP-v1',mercenaryEquipment:'20261011',advancedForgeRevision:advanced.revision}),started=Date.now();
@@ -84,7 +84,7 @@ export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wa
   const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
   validateAccounts(versions,ids.length,at,allowOwner);
   const collect=rows=>rows.filter(v=>{
-   if(!currentProfile(v,hash,at))return true;
+   if(!currentProfile(v,hash,at+minimumValidityMs))return true;
    const cached=parsed(v.payload_json,{});profiles.set(Number(v.user_id),{...cached,nickname:v.nickname,attack:{...cached.attack,ownerName:v.nickname},defense:{...cached.defense,ownerName:v.nickname}});return false;
   });
   const miss=collect(versions);
