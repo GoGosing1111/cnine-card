@@ -1,0 +1,118 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:raid-weekly-reset-tickets:20261017:v1",
+  "authorization": "이스겐,바르센 레이드 주간보상 초기화 하고 전체유저에 입장권 5장씩 메세지로 지급해",
+  "weekKey": "2026-10-12",
+  "resetAt": "2026-10-16T20:31:09Z",
+  "actor": "SYSTEM_OPS",
+  "delivery": "MESSAGE",
+  "eligibility": "All ACTIVE accounts, all roles, regardless of secondary verification; weekly counters reset for every account",
+  "totalAccounts": 3846,
+  "count": 3806,
+  "recipientHash": "c2acb80feb7625630513685e4e3a24cdd0a60512c2d9f04da66a8a04ce19d4a7",
+  "settingsDigest": "bb83fe1043ceda05e3a42c6d2f3dea75db6f0e3d800be5cb9136d7518436ace4",
+  "raids": [
+    {
+      "id": "LICH",
+      "name": "이스겐",
+      "campaignKey": "raid-weekly-reset-tickets-20261017-lich-v1",
+      "rewardType": "LICH_KING_ENTRY_TICKET",
+      "rewardAmount": 5,
+      "title": "이스겐 레이드 주간 보상 초기화 · 입장권 5장",
+      "body": "이스겐 레이드의 이번 주 보상 수령 횟수를 초기화했습니다. 입장권 5장을 드립니다. 메시지함에서 보상을 수령해 주세요.",
+      "weeklyRewardLimit": 7,
+      "before": {
+        "counters": 110,
+        "affectedUsers": 110,
+        "used": 635
+      },
+      "usedAfter": 0,
+      "remainingAfter": 7,
+      "invalidatedActivePlans": 0,
+      "messages": 3806,
+      "totalTickets": 19030
+    },
+    {
+      "id": "MADARA",
+      "name": "바르센",
+      "campaignKey": "raid-weekly-reset-tickets-20261017-madara-v1",
+      "rewardType": "MADARA_RAID_ENTRY_TICKET",
+      "rewardAmount": 5,
+      "title": "바르센 레이드 주간 보상 초기화 · 입장권 5장",
+      "body": "바르센 레이드의 이번 주 보상 수령 횟수를 초기화했습니다. 입장권 5장을 드립니다. 메시지함에서 보상을 수령해 주세요.",
+      "weeklyRewardLimit": 5,
+      "before": {
+        "counters": 45,
+        "affectedUsers": 45,
+        "used": 206
+      },
+      "usedAfter": 0,
+      "remainingAfter": 5,
+      "invalidatedActivePlans": 0,
+      "messages": 3806,
+      "totalTickets": 19030
+    }
+  ],
+  "existingRewardsPreserved": true,
+  "completedRoomsPreserved": true,
+  "choiceOffersPreserved": true,
+  "balancesPreserved": true,
+  "inventoryPreserved": true,
+  "cmsUnchanged": true,
+  "auditId": "46988",
+  "verification": {
+    "LICH": {
+      "messages": 3806,
+      "rewards": 3806,
+      "totalTickets": 19030,
+      "claimed": 5,
+      "missing": 0,
+      "duplicates": 0
+    },
+    "MADARA": {
+      "messages": 3806,
+      "rewards": 3806,
+      "totalTickets": 19030,
+      "claimed": 5,
+      "missing": 0,
+      "duplicates": 0
+    }
+  },
+  "currentCounters": {
+    "LICH": {
+      "counters": 110,
+      "affectedUsers": 0,
+      "used": 0
+    },
+    "MADARA": {
+      "counters": 45,
+      "affectedUsers": 0,
+      "used": 0
+    }
+  },
+  "verified": true,
+  "recipients": 3806,
+  "nativeQuota": {
+    "LICH": {
+      "limit": 7,
+      "used": 0,
+      "remaining": 7
+    },
+    "MADARA": {
+      "limit": 5,
+      "used": 0,
+      "remaining": 5
+    }
+  },
+  "verifiedAt": "2026-10-16T20:32:01.662Z",
+  "sourceCommit": "3e8c6359529aee87c4db59b4d80992636c119b85",
+  "validation": {
+    "testCommand": "node --test --test-concurrency=1 tests/raid-weekly-reset-tickets-20261017.test.mjs",
+    "passed": 6,
+    "productionSchemaDryRunRolledBack": true,
+    "independentReadOnlyVerification": true,
+    "transientApplyFailuresRolledBack": 2,
+    "runtimeRedeployed": false
+  },
+  "evidenceDirectory": "C:/Users/User/Downloads/upload/cnine-card/tmp/raid-weekly-reset-tickets-20261017/"
+}
