@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "checks": [
+    "Desktop, 390px and 320px room lists; no invite controls; difficulty/available filters; automatic refresh; full-room block; visible stale-join error and recovery; host transfer; create from list; list join; three ready squads start and disappear from list; Escape/focus restoration"
+  ],
+  "errors": [],
+  "failed": [],
+  "rooms": [
+    "169F33D99C66",
+    "B9AA0CA4022A",
+    "EE2D0AB779AB"
+  ]
+}

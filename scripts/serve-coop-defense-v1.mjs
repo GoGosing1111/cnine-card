@@ -24,6 +24,7 @@ export function createReviewServer({ rooms = new DefenseRooms() } = {}) {
         if (req.headers.origin && req.headers.origin !== `http://${host}`) return send(res, { error: '다른 출처의 요청은 허용하지 않습니다.' }, 403);
         if (req.headers['sec-fetch-site'] === 'cross-site') return send(res, { error: '다른 출처의 요청은 허용하지 않습니다.' }, 403);
         const token = req.headers.authorization?.replace(/^Bearer /, '');
+        if (req.method === 'GET' && url.pathname.endsWith('/rooms')) return send(res,rooms.list(url.searchParams.get('difficulty')||''));
         if (req.method === 'GET' && url.pathname.endsWith('/state')) return send(res, rooms.snapshot(token, Number(url.searchParams.get('after') || 0)));
         if (req.method !== 'POST') return send(res, { error: '지원하지 않는 요청입니다.' }, 405);
         if (!String(req.headers['content-type']).startsWith('application/json')) return send(res, { error: 'JSON 요청만 허용합니다.' }, 415);

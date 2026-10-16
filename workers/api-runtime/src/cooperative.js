@@ -1,5 +1,6 @@
 import {DurableObject} from 'cloudflare:workers';
 import {MonsterDefenseHost} from './monster-defense.js';
+import {MonsterDefenseDirectory} from './monster-defense-directory.js';
 import {createCoopRoom,coopCommand,advanceCoopRoom,coopView,coopTerminal} from '../../../functions/_cooperative_room.js';
 import {COOP_RULES,validCoopRoom,coopDifficulty} from '../../../shared/cooperative-battleground-v1.mjs';
 import {COOP_DIRECTORY,COOP_LIST_LIMIT,COOP_LIST_LEASE_MS,coopRoomListing} from '../../../shared/cooperative-room-list-v1.mjs';
@@ -11,6 +12,9 @@ import {createPostgresD1Compat} from '../../../functions/_postgres_d1_compat.js'
 // Directory writes happen on lobby changes and a coarse lease renewal, never per
 // battle event. Only public summaries are stored, not accounts, decks or tickets.
 export class CooperativePlayer extends DurableObject{
+ defenseDirectory(){return this.monsterDefenseDirectory??=new MonsterDefenseDirectory(this.ctx);}
+ publishDefenseRoom(input){return this.defenseDirectory().publish(input);}
+ defenseRooms(difficulty){return this.defenseDirectory().rooms(difficulty);}
  constructor(ctx,env){super(ctx,env);ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS active (id INTEGER PRIMARY KEY,room TEXT NOT NULL)');}
  getRoom(){return this.ctx.storage.sql.exec('SELECT room FROM active WHERE id=1').toArray()[0]?.room||null;}
  setRoom(room){if(!room)this.ctx.storage.sql.exec('DELETE FROM active WHERE id=1');else this.ctx.storage.sql.exec('INSERT INTO active(id,room) VALUES(1,?) ON CONFLICT(id) DO UPDATE SET room=excluded.room',room);return room;}
@@ -44,7 +48,7 @@ export class CooperativePlayer extends DurableObject{
  }
 }
 export class CooperativeRoom extends DurableObject{
- defenseHost(){return this.monsterDefenseHost??=new MonsterDefenseHost(this.ctx);}
+ defenseHost(){return this.monsterDefenseHost??=new MonsterDefenseHost(this.ctx,this.env);}
  defenseRpc(action,input){return this.defenseHost().rpc(action,input);}
  defenseLeave(user){return this.defenseHost().leave(user);}
  constructor(ctx,env){super(ctx,env);ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS room (id INTEGER PRIMARY KEY,json TEXT NOT NULL)');ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS tickets(token TEXT PRIMARY KEY,user_id INTEGER,client TEXT,expires INTEGER)');}

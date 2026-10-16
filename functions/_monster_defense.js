@@ -1,6 +1,7 @@
 import {assertJointOrigin,readJointBody,jointError} from './_joint_request.js';
 import {DEFENSE_KEY,DEFENSE_DIFFICULTIES,defaultDefenseSettings,validateDefenseSettings,defenseAccess,validDefenseRoom} from '../shared/monster-defense-v1.mjs';
 import {readDefenseRoster,loadDefenseSelection} from './_monster_defense_roster.js';
+import {DEFENSE_DIRECTORY} from '../shared/monster-defense-room-list-v1.mjs';
 const fail=(message,status=400)=>{throw jointError('DEFENSE_REQUEST',message,status);};
 const stub=(env,id)=>env.COOP_ROOMS.getByName('defense:'+id);
 const pointer=(env,user)=>env.COOP_PLAYERS.getByName('defense:'+user.id);
@@ -48,6 +49,11 @@ export async function handleMonsterDefense({path,request,env,deps}){
   if(!defenseAccess(user,settings))fail(settings.mode==='OFF'?'디펜스 테스트가 중지돼 있습니다.':'OWNER와 지정된 테스트 계정만 입장할 수 있습니다.',403);
   if(action==='options'&&request.method==='GET')return reply({ok:true,...await readDefenseRoster(env,user,deps),you:Number(user.id)});
   if(!env.COOP_ROOMS||!env.COOP_PLAYERS)fail('디펜스 서버를 준비 중입니다.',503);
+  if(action==='rooms'&&request.method==='GET'){
+   const difficulty=new URL(request.url).searchParams.get('difficulty')||'';
+   if(difficulty&&!DEFENSE_DIFFICULTIES.some(d=>d.id===difficulty))fail('난이도를 확인하세요.');
+   return reply(await env.COOP_PLAYERS.getByName(DEFENSE_DIRECTORY).defenseRooms(difficulty));
+  }
   if(request.method!=='POST')fail('지원하지 않는 요청입니다.',405);
   const body=await readJointBody(request,{maxBytes:4096,fields:['roomId','capacity','difficulty','loadout','practice','requestId','ready','loadoutRevision']});
   return await deps.withUserMutationLock(env,user.id,'defense/entry',async()=>{
@@ -78,7 +84,7 @@ export async function handleMonsterDefense({path,request,env,deps}){
     id=Array.from(hash.slice(0,6),n=>n.toString(16).padStart(2,'0')).join('').toUpperCase();
     input={...input,id,capacity:body.capacity,difficulty:combat.id,combat,growth:settings.growth,practice:body.practice===true,accountRoster:true,requestId:body.requestId,seed:crypto.getRandomValues(new Uint32Array(1))[0],settingsRevision:settings.revision};
    }
-   if(!validDefenseRoom(id))fail('초대 코드 12자리를 확인하세요.');
+   if(!validDefenseRoom(id))fail('방 목록에서 참가할 대기방을 선택하세요.');
    const result=await stub(env,id).defenseRpc(action,input);if(result.ok)await route.setRoom(id);return reply(result,result.ok?200:result.status);
   });
  }catch(e){return reply({ok:false,error:e.code?e.message:'디펜스 요청을 확인하지 못했습니다.',code:e.code||'DEFENSE_UNAVAILABLE'},e.status||400);}

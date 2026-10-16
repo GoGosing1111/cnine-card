@@ -2,6 +2,7 @@ import base,{qaUser} from './cooperative-worker.mjs';
 import {CooperativeRoom as ProductionRoom} from '../../workers/api-runtime/src/cooperative.js';
 export {CooperativePlayer,UserMutationLock,AccountSync} from './cooperative-worker.mjs';
 import {handleMonsterDefense,monsterDefenseLive} from '../../functions/_monster_defense.js';
+import {DEFENSE_DIRECTORY} from '../../shared/monster-defense-room-list-v1.mjs';
 // Fixture-only storage hooks; never exported by the production worker.
 export class CooperativeRoom extends ProductionRoom{
  qaRead(){return this.read();}
@@ -9,6 +10,7 @@ export class CooperativeRoom extends ProductionRoom{
 }
 export default {async fetch(request,env){
  const path=new URL(request.url).pathname.replace(/^\/api\//,'');
+ if(path==='/__qa/defense-directory'&&request.method==='POST'){await env.COOP_PLAYERS.getByName(DEFENSE_DIRECTORY).publishDefenseRoom(await request.json());return Response.json({ok:true});}
  if(path.startsWith('/__qa/defense-room/')){const room=env.COOP_ROOMS.getByName('defense:'+path.split('/').at(-1));return Response.json(request.method==='POST'?await room.qaSeed(await request.json()):await room.qaRead());}
  if(path.startsWith('defense/live/'))return monsterDefenseLive(request,{...env,DB:undefined});
  const id=Number(request.headers.get('authorization')?.match(/^Bearer local-qa-([1-4])$/)?.[1]||0),user=id?qaUser(id):null;

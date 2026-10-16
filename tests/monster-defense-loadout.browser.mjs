@@ -28,9 +28,9 @@ try{
  await a.locator('[data-grade]').selectOption('SS');assert.ok(await a.locator('[data-choice]').count()>0);await a.locator('[data-grade]').selectOption('');
  await snap(a,'01-picker-desktop');await fit(a);await a.locator('[data-apply]').click();await a.locator('.defense-formation').waitFor({state:'hidden'});
  assert.match(await a.locator('#loadout-0').textContent(),/크라이베른/);assert.match(await a.locator('#loadout-2').textContent(),/구수댕/);await snap(a,'02-selected-lobby-desktop');
- await a.locator('[data-capacity="2"]').click();await a.locator('#create-room').click();await a.locator('#waiting-room').waitFor({state:'visible'});const roomId=await a.locator('#invite-code').textContent();
+ await a.locator('[data-capacity="2"]').click();await a.locator('#create-room').click();await a.locator('#waiting-room').waitFor({state:'visible'});const roomId=await a.evaluate(()=>CoopDefenseReview.diagnostics().roomId);
  const b=await open(2,390,844);await choose(b,['V-010','V-009'],'CARD:CN-02D9DC1E8A8A4209');await snap(b,'03-picker-mobile');await fit(b);await b.locator('[data-apply]').tap();await b.locator('.defense-formation').waitFor({state:'hidden'});
- await b.locator('#room-code').fill(roomId);await b.locator('#join-form button').tap();await b.locator('#waiting-room').waitFor({state:'visible'});
+ await b.locator('#find-rooms').tap();await b.locator(`[data-room-join="${roomId}"]`).tap();await b.locator('#waiting-room').waitFor({state:'visible'});
  await a.locator('#ready').click();await a.waitForFunction(()=>document.querySelector('#ready').getAttribute('aria-pressed')==='true');
  await a.locator('#edit-formation').click();await a.locator('[data-search]:enabled').waitFor();await a.locator('[data-choice="V-049"]').click();await a.locator('[data-formation-cancel]').click();assert.equal(await a.locator('#ready').getAttribute('aria-pressed'),'true');
  await a.locator('#edit-formation').click();await a.locator('[data-search]:enabled').waitFor();await a.locator('[data-choice="V-049"]').click();await a.locator('[data-choice="V-046"]').focus();await a.keyboard.press('Space');await a.locator('[data-apply]').click();await a.waitForFunction(()=>document.querySelector('#ready').getAttribute('aria-pressed')==='false');

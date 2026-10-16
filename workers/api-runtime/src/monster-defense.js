@@ -1,12 +1,13 @@
 import {createRoom,joinRoom,leaveRoom,commandRoom,advanceRoom,publicSnapshot,defaultLoadout,selectDefenseLoadout} from '../../../preview/coop-defense-v1/source/defense-model.mjs';
 import {DEFENSE_RULES} from '../../../shared/monster-defense-v1.mjs';
 import {readJointBody} from '../../../functions/_joint_request.js';
+import {DEFENSE_DIRECTORY,defenseRoomListing} from '../../../shared/monster-defense-room-list-v1.mjs';
 const terminal=room=>['VICTORY','DEFEAT'].includes(room.phase);
 const fail=(message,status=400)=>{throw Object.assign(Error(message),{status});};
 // Only namespaced defense rooms call this host. Existing cooperative rooms and
 // their rewards keep their own implementation and storage records.
 export class MonsterDefenseHost{
- constructor(ctx){this.ctx=ctx;}
+ constructor(ctx,env){this.ctx=ctx;this.env=env;}
  read(){const value=this.ctx.storage.sql.exec('SELECT json FROM room WHERE id=1').toArray()[0]?.json;return value?JSON.parse(value):null;}
  save(room){this.ctx.storage.sql.exec('INSERT INTO room(id,json) VALUES(1,?) ON CONFLICT(id) DO UPDATE SET json=excluded.json',JSON.stringify(room));}
  advance(room,now=Date.now()){
@@ -18,7 +19,20 @@ export class MonsterDefenseHost{
   else if(steps){advanceRoom(room,steps);room.serverAt+=steps;}
   for(const p of room.players)if(!p.bot)p.connected=now-(p.lastSeen||0)<8000;
  }
- async schedule(room){await this.ctx.storage.setAlarm(terminal(room)?Math.max(Date.now()+1000,room.createdAt+DEFENSE_RULES.roomMs):Date.now()+(room.phase==='LOBBY'?6000:1000));}
+ async publishListing(room){
+  if(room.practice)return true;
+  const now=Date.now(),listing=defenseRoomListing(room,now),signature=JSON.stringify(listing);
+  if(signature===this.publishedSignature&&(!listing||now-this.publishedAt<20000))return true;
+  const revision=(room.directoryRevision||0)+1;room.directoryRevision=revision;this.save(room);
+  try{
+   await this.env.COOP_PLAYERS.getByName(DEFENSE_DIRECTORY).publishDefenseRoom({id:room.id,revision,listing,retireAt:room.createdAt+DEFENSE_RULES.roomMs+3600000});
+   if(revision>=(this.publishedRevision||0)){this.publishedRevision=revision;this.publishedSignature=signature;this.publishedAt=now;}return true;
+  }catch{console.warn('Defense room listing will retry');return false;}
+ }
+ async schedule(room){
+  const published=await this.publishListing(room),current=this.read();if(!current)return;
+  await this.ctx.storage.setAlarm(!published?Date.now()+5000:terminal(current)?Math.max(Date.now()+1000,current.createdAt+DEFENSE_RULES.roomMs):Date.now()+(current.phase==='LOBBY'?6000:1000));
+ }
  member(room,id){const p=room.players.find(p=>p.id===String(id));if(!p)fail('이 방의 대원이 아닙니다.',403);return p;}
  async ticket(room,user){
   const player=this.member(room,user.id);player.lastSeen=Date.now();player.connected=true;
@@ -33,7 +47,7 @@ export class MonsterDefenseHost{
   try{
    let room=this.read();const user=input.user;
    if(action==='create'){
-    if(room){if(room.creationRequest!==input.requestId||room.hostId!==String(user.id))fail('이미 사용 중인 방 코드입니다.',409);return await this.ticket(room,user);}
+    if(room){if(room.creationRequest!==input.requestId||room.hostId!==String(user.id))fail('이미 사용 중인 대기방입니다.',409);return await this.ticket(room,user);}
     room=createRoom({...input,now:Date.now()});room.kind='MONSTER_DEFENSE_V1';room.serverAt=Date.now();room.creationRequest=input.requestId;room.receipts=[];room.settingsRevision=input.settingsRevision;
     joinRoom(room,{id:String(user.id),name:user.nickname,loadout:input.loadout,roster:input.roster});
     if(room.practice)for(let i=1;i<room.capacity;i++)joinRoom(room,{id:'bot-'+i,name:'자동 대원 '+i,bot:true,loadout:i===1?{mercenaries:['V-001','V-004'],card:'BONGJUN'}:defaultLoadout()});
@@ -43,6 +57,7 @@ export class MonsterDefenseHost{
    this.advance(room);this.save(room);
    if(action==='inspect'){this.member(room,user.id);return {ok:true,roomId:room.id,terminal:terminal(room),phase:room.phase};}
    if(action==='join'){
+    if(!room.players.some(p=>!p.bot))fail('이 대기방은 해산됐습니다. 방 목록을 새로고침하세요.',404);
     if(!room.players.some(p=>p.id===String(user.id))){if(room.practice)fail('연습 방에는 참가할 수 없습니다.');joinRoom(room,{id:String(user.id),name:user.nickname,loadout:input.loadout,roster:input.roster});}
     return await this.ticket(room,user);
    }
@@ -97,8 +112,8 @@ export class MonsterDefenseHost{
   const room=this.read();if(!room)return {ok:true};this.advance(room);
   if(!terminal(room)&&room.phase!=='LOBBY')return {ok:false,status:409,error:'진행 중에는 화면 나가기를 사용하세요. 전투 종료 후 새 방을 만들 수 있습니다.'};
   leaveRoom(room,String(user.id));this.ctx.storage.sql.exec('DELETE FROM tickets WHERE user_id=?',Number(user.id));
-  if(!room.players.some(p=>!p.bot)){await this.ctx.storage.deleteAll();await this.ctx.storage.deleteAlarm();}
+  if(!room.players.some(p=>!p.bot)){this.save(room);if(await this.publishListing(room)){await this.ctx.storage.deleteAll();await this.ctx.storage.deleteAlarm();}else await this.ctx.storage.setAlarm(Date.now()+5000);}
   else{this.save(room);await this.schedule(room);}return {ok:true};
  }
- async alarm(){const room=this.read();if(!room)return;if(Date.now()-room.createdAt>=DEFENSE_RULES.roomMs){await this.ctx.storage.deleteAll();return;}this.advance(room);this.save(room);await this.schedule(room);}
+ async alarm(){const room=this.read();if(!room)return;this.advance(room);this.save(room);if(Date.now()-room.createdAt>=DEFENSE_RULES.roomMs||!room.players.some(p=>!p.bot)){if(await this.publishListing(room))await this.ctx.storage.deleteAll();else await this.ctx.storage.setAlarm(Date.now()+5000);return;}await this.schedule(room);}
 }

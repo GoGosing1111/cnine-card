@@ -1,5 +1,6 @@
 import { randomBytes, randomUUID } from 'node:crypto';
 import { createRoom, joinRoom, leaveRoom, commandRoom, advanceRoom, publicSnapshot, RULES, defaultLoadout } from './defense-model.mjs';
+import {defenseRoomListing} from '../../../shared/monster-defense-room-list-v1.mjs';
 
 const error = (message, status = 400) => Object.assign(new Error(message), { status });
 export class DefenseRooms {
@@ -7,6 +8,7 @@ export class DefenseRooms {
     this.now = now; this.maxRooms = maxRooms; this.rooms = new Map(); this.sessions = new Map(); this.lastTick = now(); this.remainder = 0;
   }
   session(room, player) {
+    player.lastSeen=this.now();
     const token = randomBytes(32).toString('base64url');
     this.sessions.set(token, { roomId: room.id, playerId: player.id, seen: this.now(), receipts: new Map(), rateAt: this.now(), requests: 0 });
     return { token, playerId: player.id, roomId: room.id, snapshot: publicSnapshot(room) };
@@ -27,7 +29,7 @@ export class DefenseRooms {
   }
   join({ roomId, name, loadout }) {
     const room = this.rooms.get(String(roomId || '').trim().toUpperCase());
-    if (!room) throw error('방을 찾을 수 없습니다. 초대 코드를 확인하세요.', 404);
+    if (!room) throw error('대기방을 찾을 수 없습니다. 방 목록을 새로고침하세요.', 404);
     if (room.practice) throw error('연습 방에는 다른 플레이어가 입장할 수 없습니다.');
     const player = joinRoom(room, { id: randomUUID(), name, loadout });
     return this.session(room, player);
@@ -37,13 +39,17 @@ export class DefenseRooms {
     const room = session ? this.rooms.get(session.roomId) : null;
     const player = room?.players.find(p => p.id === session.playerId);
     if (!room || !player) throw error('접속 정보가 만료되었습니다. 대기실에서 다시 입장하세요.', 401);
-    session.seen = this.now(); player.connected = true;
+    session.seen = this.now(); player.connected = true;player.lastSeen=this.now();
     return { session, room, player };
   }
   snapshot(token, after = 0) {
     const { room } = this.authenticate(token);
     const cursor = Number.isSafeInteger(after) && after >= 0 && after <= room.seq ? after : room.seq;
     return publicSnapshot(room, cursor);
+  }
+  list(difficulty=''){
+    this.cleanup();const rows=[...this.rooms.values()].map(room=>defenseRoomListing(room,this.now())).filter(room=>room&&(!difficulty||room.difficulty===difficulty)).sort((a,b)=>b.createdAt-a.createdAt||b.id.localeCompare(a.id));
+    return {ok:true,rooms:rows.slice(0,50),hasMore:rows.length>50,serverNow:this.now()};
   }
   command(token, { requestId, command }) {
     const { session, room, player } = this.authenticate(token);
