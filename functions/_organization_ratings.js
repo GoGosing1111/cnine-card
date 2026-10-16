@@ -23,13 +23,13 @@ export async function validateOrganizationRatings(env,ratings,{now=Date.now()}={
   const advanced=await readForgeAdvancedPolicy(env.DB);
   return ratings.every(r=>r.expiresAt>now&&r.advancedForgeRevision===advanced.revision&&rows.some(v=>Number(v.user_id)===r.userId&&v.status==='ACTIVE'&&(!v.banned_until||Date.parse(v.banned_until)<=now)&&Number(v.source_version)===r.sourceVersion&&Number(v.policy_revision)===r.policyRevision));
 }
-export async function staleOrganizationRatingIds(q,ratings,{now=Date.now(),minimumValidityMs=0,lock=false}={}){
+export async function staleOrganizationRatingIds(q,ratings,{now=Date.now(),minimumValidityMs=0,lock=false,requireCurrentSource=true}={}){
   if(!ratings.length)return [];
   const [advanced]=await q('SELECT value FROM app_meta WHERE key=$1'+(lock?' FOR SHARE':''),[FORGE_ADVANCED_KEY]);
   const advancedForgeRevision=advanced?JSON.parse(advanced.value).revision:0;
   const rows=await q(`SELECT a.user_id,a.source_version,v.revision AS policy_revision,u.status,u.role,u.banned_until FROM ranked_duo_accounts_v1 a JOIN users u ON u.id=a.user_id CROSS JOIN ranked_duo_policy_version_v1 v WHERE v.id=1 AND a.user_id=ANY($1::bigint[]) ORDER BY a.user_id${lock?' FOR SHARE OF a,u,v':''}`,[ratings.map(r=>r.userId)]);
-  return ratings.filter(r=>!(r.expiresAt>now+minimumValidityMs&&r.advancedForgeRevision===advancedForgeRevision&&rows.some(v=>Number(v.user_id)===r.userId&&v.status==='ACTIVE'&&(!v.banned_until||Date.parse(v.banned_until)<=now)&&Number(v.source_version)===r.sourceVersion&&Number(v.policy_revision)===r.policyRevision))).map(r=>r.userId);
+  return ratings.filter(r=>!(r.expiresAt>now+minimumValidityMs&&r.advancedForgeRevision===advancedForgeRevision&&rows.some(v=>Number(v.user_id)===r.userId&&v.status==='ACTIVE'&&(!v.banned_until||Date.parse(v.banned_until)<=now)&&(!requireCurrentSource||Number(v.source_version)===r.sourceVersion)&&Number(v.policy_revision)===r.policyRevision))).map(r=>r.userId);
 }
-export async function validateOrganizationRatingsLocked(q,ratings,{now=Date.now()}={}){
-  return (await staleOrganizationRatingIds(q,ratings,{now,lock:true})).length===0;
+export async function validateOrganizationRatingsLocked(q,ratings,{now=Date.now(),requireCurrentSource=true}={}){
+  return (await staleOrganizationRatingIds(q,ratings,{now,lock:true,requireCurrentSource})).length===0;
 }

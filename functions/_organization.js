@@ -50,7 +50,7 @@ function validRatings(rows,r,now){return rows.length>0&&rows.every(row=>row.rati
 async function ratingProgress(q,rows,r,deps,now){
   const eligible=rows.filter(row=>row.rating_json&&Number(row.round_revision)===Number(r.revision));
   const inspect=deps.staleOrganizationRatingIds||(await import('./_organization_ratings.js')).staleOrganizationRatingIds;
-  const stale=new Set(await inspect(q,eligible.map(row=>parse(row.rating_json)),{now,minimumValidityMs:30000}));
+  const stale=new Set(await inspect(q,eligible.map(row=>parse(row.rating_json)),{now,minimumValidityMs:30000,requireCurrentSource:false}));
   const pending=rows.filter(row=>!row.rating_json||Number(row.round_revision)!==Number(r.revision)||Number(row.expires_at)<=now+30000||stale.has(Number(row.user_id)));
   return {ids:pending.map(row=>Number(row.user_id)),ratedCount:rows.length-pending.length,total:rows.length};
 }
@@ -162,7 +162,9 @@ async function organizationCommand(env,user,path,body,deps,now){
       const [proposal]=await q('SELECT * FROM organization_proposals_v1 WHERE id=$1 AND round_id=$2 FOR UPDATE',[body.proposalId,r.id]);
       orgAssert(proposal&&Number(proposal.round_revision)===Number(r.revision)&&Number(proposal.expires_at)>now&&proposal.input_hash===input.hash,'STALE_PROPOSAL','배정안 또는 전력 정보가 변경되었습니다. 다시 평가하세요.');
       const validate=deps.validateOrganizationRatingsLocked||(await import('./_organization_ratings.js')).validateOrganizationRatingsLocked;
-      orgAssert(await validate(q,input.ratings,{now}),'RATING_CHANGED','계정 전력이 변경되었습니다. 전력 재평가 후 배정안을 다시 만드세요.');
+      // Server-verified power is a five-minute allocation snapshot. Ongoing play
+      // cannot revoke it; account status, policy versions and real expiry still can.
+      orgAssert(await validate(q,input.ratings,{now,requireCurrentSource:false}),'RATING_CHANGED','전력 평가 기준이 변경되었습니다. 전력 재평가 후 배정안을 다시 만드세요.');
       const result=parse(proposal.result_json),expected=allocateOrganizations(input.players,{seed:r.id});orgAssert(await jointHash(result)===await jointHash(expected),'PROPOSAL_INVALID','배정안 검증에 실패했습니다.',503);
       const entries=result.organizations.flatMap(o=>o.members.map(m=>({user_id:m.userId,organization_id:o.id,slot:m.slot,seed_power:m.power})));
       await q('INSERT INTO organization_members_v1(round_id,user_id,organization_id,slot,seed_power,joined_at) SELECT $1,x.user_id,x.organization_id,x.slot,x.seed_power,$3 FROM json_to_recordset($2::json) AS x(user_id bigint,organization_id int,slot int,seed_power bigint)',[r.id,JSON.stringify(entries),now]);
@@ -219,8 +221,8 @@ export async function reconcileOrganizationRecruitment(env,deps={}, {now=Date.no
   const known=/^(ORG_|DUO_)/.test(error.code||'');
   await transaction(env.DB,async q=>{
    const [active]=await q('SELECT assignment_token FROM organization_rounds_v1 WHERE id=$1 FOR UPDATE',[r.id]);if(active?.assignment_token!==token)return;
-   // The next batch checks current versions and refreshes only changed or
-   // expiring accounts. Keep valid snapshots when one active player changes.
+   // The next batch checks policy versions and refreshes only invalid or
+   // expiring snapshots. Ongoing play does not revoke a completed evaluation.
    await q("UPDATE organization_rounds_v1 SET assignment_status='RETRY',assignment_error=$2,assignment_token=NULL,assignment_lease_until=NULL WHERE id=$1",[r.id,known?error.message:'자동 배정을 다시 시도하고 있습니다.']);
   });
   if(!known)throw error;

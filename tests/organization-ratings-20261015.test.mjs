@@ -25,7 +25,10 @@ test('organization account rating consumes real profile cache, permits OWNER onl
  assert.equal(await validateOrganizationRatingsLocked(q,ratings,{now:now+300000}),false);
  await f.pg.query('UPDATE ranked_duo_accounts_v1 SET source_version=2 WHERE user_id=2');
  assert.equal(await validateOrganizationRatingsLocked(q,ratings,{now}),false);
+ assert.equal(await validateOrganizationRatingsLocked(q,ratings,{now,requireCurrentSource:false}),true);
+ assert.equal(await validateOrganizationRatingsLocked(q,ratings,{now:now+300000,requireCurrentSource:false}),false);
  await f.pg.query('UPDATE ranked_duo_accounts_v1 SET source_version=1 WHERE user_id=2');
  await f.pg.query('INSERT INTO app_meta VALUES($1,$2)',[FORGE_ADVANCED_KEY,JSON.stringify({...forgeAdvancedDraft(),revision:1})]);
  assert.equal(await validateOrganizationRatingsLocked(q,ratings,{now}),false);
+ assert.equal(await validateOrganizationRatingsLocked(q,ratings,{now,requireCurrentSource:false}),false);
 });

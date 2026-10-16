@@ -117,10 +117,10 @@ test('allocation proposal and apply are atomic, replayable and start fresh',asyn
   await assert.rejects(f.pg.query('UPDATE organization_members_v1 SET slot=11 WHERE user_id=2'));
   assert.equal((await f.post('admin/organization/phase',{roundId:id,revision:33,phase:'SURVEY'})).status,409);
 });
-test('changed account power, reopened survey, expiry and removed test access block old proposals',async t=>{
+test('changed rating policy, reopened survey, expiry and removed test access block old proposals',async t=>{
   const f=await organizationFixture(t,{people:16}),id=await f.prepare({enroll:16});await f.close(id);await f.rate(id);
   let proposal=(await f.post('admin/organization/propose',{roundId:id})).data.proposal;
-  await f.pg.query('UPDATE qa_ratings SET power=power+100,version=version+1 WHERE user_id=2');
+  f.bumpRatingPolicy();
   assert.equal((await f.post('admin/organization/apply',{roundId:id,proposalId:proposal.id})).data.code,'ORG_RATING_CHANGED');
   await f.post('admin/organization/ratings',{roundId:id,restart:true});await f.rate(id);proposal=(await f.post('admin/organization/propose',{roundId:id})).data.proposal;
   const state=(await f.call('admin/organization')).data;await f.post('admin/organization/phase',{roundId:id,revision:state.round.revision,phase:'SURVEY'});await f.close(id);
