@@ -1,0 +1,26 @@
+{
+  "tool": "built-in image_gen",
+  "purpose": "Halloween-themed shop, confirmation, opening and results UI; user requested all UI surfaces on 2026-10-17",
+  "assets": [
+    {
+      "id": "moonlit-courtyard",
+      "transparent_background": false,
+      "prompt": "Use case: stylized-concept. Asset type: finished 2D collectible RPG Halloween shop environment artwork, landscape 1536x1024. An immersive moonlit gothic manor courtyard, hand painted AAA game concept art. Deep midnight indigo and blackened stone, restrained violet moonlight, warm ember-orange jack-o-lanterns and tall melting candles around the lower corners. Elegant wrought iron fencing, bare branches, a few distant bats, a large veiled full moon high center-right behind a distant manor, mist close to the floor. A low old stone altar in the right half is EMPTY, ready for the real game card-pack image to be layered on top. Left half is very dark softly detailed negative space for readable Korean product information, no important objects there. Keep center lower area quiet for result cards. Beautiful material detail, strong depth, atmospheric but crisp, tasteful premium fantasy Halloween event. Edge details frame rather than crowd the play area. No characters, no card packs, no text, no letters, no logos, no UI, no watermark. This is production environment art, not a screenshot or website mockup."
+    },
+    {
+      "id": "button-ember",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: one usable premium Halloween RPG action button surface, isolated on genuine transparent background. Wide horizontal 4.5:1 proportion, front-facing orthographic. Black obsidian and aged copper plaque with delicately carved bat-wing tips, tiny ember-orange pumpkin ornaments at far left and far right corners, warm luminous inner bevel. Broad dark amber-black empty center covering at least 70% width for live Korean text. Controlled thin metal frame, elegant textured tangible game UI, sharp detailed finish. Image should contain exactly ONE compact button, centered and nearly filling the image width, no huge surrounding ornament, no shadows cut off, no text, no letters, no numbers, no logos, no symbols in center. Straight horizontal surface with subtle antique material, not a rounded CSS rectangle. Transparent outside the silhouette."
+    },
+    {
+      "id": "button-night",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: one usable premium Halloween RPG secondary button surface, isolated on genuine transparent background. Wide horizontal 4.5:1 proportion, front-facing orthographic. Midnight obsidian and aged gunmetal plaque, fine engraved bat-wing ends, subtle amethyst accents at far corners, delicate silver-violet inner bevel. Broad nearly black empty center covering at least 70% width for live Korean text. Thin elegant sculpted metal frame, understated texture, very detailed game UI finish. Same dark gothic manor Halloween family as copper pumpkin buttons. Image contains exactly ONE compact button, centered and nearly filling width. No text, letters, numbers, logos, center symbols, no huge ornament. Transparent outside silhouette, no clipped glow. Real rendered material, not a flat CSS rectangle."
+    },
+    {
+      "id": "card-frame",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: ONE empty Halloween collectible RPG card border, vertical 2:3 aspect ratio, genuine alpha transparency outside AND throughout the entire inner window. Finely sculpted dark iron and antiqued copper frame, small bat-wing crest at the top, tiny glowing orange jack-o-lantern at bottom center, delicate thorn and ivy engravings. Narrow left and right rails no more than 5% of width, thin top and bottom decorative corners. Premium detailed restrained dark fantasy material, warm pumpkin ember glow balanced with very faint violet moonlight. Card illustration must remain maximally visible through the large EMPTY transparent inner opening. No artwork, no background behind opening, no parchment, no central icon, no text, no letters, no logo, no UI mockup, no other objects. Front-on symmetric single full frame centered, no cut-off edges."
+    }
+  ]
+}

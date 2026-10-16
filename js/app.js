@@ -99,6 +99,7 @@ function applyServerPacks(rows = []) {
       successRate: Number(row.successRate || row.success_rate || 0),
       missRate: Number(row.missRate || row.miss_rate || 0),
       imageUrl: row.imageUrl || row.image_url || '',
+      previewCards: Array.isArray(row.previewCards) ? row.previewCards : [],
       revealMode: row.revealMode || row.reveal_mode || 'STANDARD'
     };
   });
@@ -1572,7 +1573,7 @@ async function loadLiveOperations(fresh=false){
 function packImagePath(pack) {
   if (pack?.id === 'hyper') return 'assets/ui/packs/reverse-call-20261016/hyper-768.webp';
   if (pack?.imageUrl) return globalThis.CNineImageDelivery?.url(pack.imageUrl)||pack.imageUrl;
-  const names={basic:'standard',advanced:'advanced',premium:'premium',pickup:'limited',ultimate:'ultimate',superstar:'superstar','mercenary-limited':'mercenary-limited'};
+  const names={basic:'standard',advanced:'advanced',premium:'premium',pickup:'limited',ultimate:'ultimate',superstar:'superstar','mercenary-limited':'mercenary-limited','mercenary-halloween-ss-limited':'halloween',halloween:'halloween'};
   return `assets/ui/packs/reverse-call-20261016/${names[pack.id]||names[pack.theme]||names.basic}-768.webp`;
 }
 function responsiveLogoImage(classes='',loading='eager'){
@@ -1580,6 +1581,7 @@ function responsiveLogoImage(classes='',loading='eager'){
   return `<picture class="responsive-game-picture"><source type="image/avif" srcset="${base}-240.avif 240w, ${base}-480.avif 480w" sizes="240px"><source type="image/webp" srcset="${base}-240.webp 240w, ${base}-480.webp 480w" sizes="240px"><img src="assets/ui/brand/reverse-call-20261016/icon-512.png" class="${classes}" alt="리버스콜" loading="${loading}" decoding="async" fetchpriority="${loading==='eager'?'high':'auto'}"></picture>`;
 }
 function packResponsiveImage(pack,{classes='',hero=false}={}){
+  if(pack?.id==='mercenary-halloween-ss-limited')return `<picture class="responsive-game-picture"><source type="image/avif" srcset="/assets/ui/packs/reverse-call-20261016/halloween-320.avif 320w, /assets/ui/packs/reverse-call-20261016/halloween-768.avif 768w" sizes="${hero?'390px':'150px'}"><img src="/assets/ui/packs/reverse-call-20261016/halloween-768.webp" class="${classes}" alt="할로윈 리미티드 용병팩" loading="${hero?'eager':'lazy'}" decoding="async"></picture>`;
   if(pack?.id==='mercenary-limited')return `<img src="assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp" class="${classes}" alt="리미티드 용병팩" loading="${hero?'eager':'lazy'}" decoding="async">`;
   if (pack?.id === 'hyper') return `<img src="assets/ui/packs/reverse-call-20261016/hyper-768.webp" class="${classes}" alt="하이퍼팩" loading="${hero?'eager':'lazy'}" decoding="async">`;
   const names={basic:'standard',advanced:'advanced',premium:'premium',pickup:'limited',ultimate:'ultimate',superstar:'superstar'},name=names[pack.id]||names[pack.theme]||names.basic,base=`/assets/ui/packs/reverse-call-20261016/${name}`,sizes=hero?'(max-width:760px) 72vw, 390px':'(max-width:760px) 34vw, 150px',loading=hero?'eager':'lazy',priority=hero?'high':'low';
@@ -1596,7 +1598,7 @@ function superstarPackAccess(user=loadUser()){
 
 function packSelector() {
   const access=superstarPackAccess();
-  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => {const superstar=pack.drawMode==='SUPERSTAR_CHANCE',ownerAccess=superstar&&access.owner&&pack.ownerDrawEnabled===true,earlyAccess=superstar&&access.early,exceptionAccess=ownerAccess||earlyAccess,off=superstar&&pack.drawEnabled!==true&&!exceptionAccess;return `<button class="pack-choice pack-choice-${pack.theme} ${pack.id===selectedPackId?'active':''} ${off?'opening-off':''} ${ownerAccess?'owner-access':earlyAccess?'early-access':''}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId?'true':'false'}"><span class="mini-pack ${pack.theme}">${packResponsiveImage(pack)}<i></i>${off?'<b class="pack-opening-off-badge">OPENING OFF</b>':ownerAccess?'<b class="pack-owner-access-badge">OWNER OPEN</b>':earlyAccess?'<b class="pack-owner-access-badge">EARLY OPEN</b>':''}</span><strong>${escapeHtml(pack.name)}</strong><small>${escapeHtml(pack.description)}</small><em>${escapeHtml(pack.range)} · ${['hyper','mercenary-limited'].includes(pack.id)?'1회':'1장'} ${pack.id==='mercenary-limited'&&pack.prices?.single==null?'출시 준비 중':pack.originalPrice>pack.price?`<s>${Number(pack.originalPrice).toLocaleString()}</s> <b>${Number(pack.price).toLocaleString()}코인</b>`:`${Number(pack.price).toLocaleString()}코인`}</em></button>`}).join('')}</div></section>`;
+  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => {if(pack.id==='mercenary-halloween-ss-limited')return `<button class="pack-choice pack-choice-halloween ${pack.id===selectedPackId?'active':''} opening-off" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId}"><span class="mini-pack halloween">${packResponsiveImage(pack)}<b class="pack-opening-off-badge">출시 예정</b></span><strong>할로윈 리미티드 용병팩</strong><small>할로윈 SS 7종 · 캐릭터별 서버 5장</small><em>판매 OFF · 출시 준비 중</em></button>`;const superstar=pack.drawMode==='SUPERSTAR_CHANCE',ownerAccess=superstar&&access.owner&&pack.ownerDrawEnabled===true,earlyAccess=superstar&&access.early,exceptionAccess=ownerAccess||earlyAccess,off=superstar&&pack.drawEnabled!==true&&!exceptionAccess;return `<button class="pack-choice pack-choice-${pack.theme} ${pack.id===selectedPackId?'active':''} ${off?'opening-off':''} ${ownerAccess?'owner-access':earlyAccess?'early-access':''}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId?'true':'false'}"><span class="mini-pack ${pack.theme}">${packResponsiveImage(pack)}<i></i>${off?'<b class="pack-opening-off-badge">OPENING OFF</b>':ownerAccess?'<b class="pack-owner-access-badge">OWNER OPEN</b>':earlyAccess?'<b class="pack-owner-access-badge">EARLY OPEN</b>':''}</span><strong>${escapeHtml(pack.name)}</strong><small>${escapeHtml(pack.description)}</small><em>${escapeHtml(pack.range)} · ${['hyper','mercenary-limited'].includes(pack.id)?'1회':'1장'} ${pack.id==='mercenary-limited'&&pack.prices?.single==null?'출시 준비 중':pack.originalPrice>pack.price?`<s>${Number(pack.originalPrice).toLocaleString()}</s> <b>${Number(pack.price).toLocaleString()}코인</b>`:`${Number(pack.price).toLocaleString()}코인`}</em></button>`}).join('')}</div></section>`;
 }
 
 function supplyBoxShopMarkup(config=null){
@@ -1699,7 +1701,17 @@ document.addEventListener('click',event=>{
  button.disabled=true;
  import('/js/mercenary-limited-pack-live.mjs?v=20261010-precision').then(module=>module.openLimitedPack()).catch(error=>alert(error.message)).finally(()=>{button.disabled=false;});
 });
+document.addEventListener('click',event=>{
+ const button=event.target.closest?.('[data-halloween-pack-enter]');if(!button||button.disabled)return;
+ button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=20261017-staged').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+});
+function halloweenPackHero(pack) {
+ const collection=(pack.previewCards||[]).map(c=>'<figure class="hwp-portrait"><div class="hwp-art-frame"><img src="/'+escapeHtml(c.thumbnailArt)+'" alt="'+escapeHtml(c.name)+' 할로윈 원화" loading="lazy"><span>SS</span></div><figcaption><strong>'+escapeHtml(c.name)+'</strong></figcaption></figure>').join('');
+ return '<section class="halloween-shop-hero"><div class="halloween-shop-main"><div class="halloween-shop-copy"><p class="halloween-eyebrow">REVERSE CALL · HALLOWEEN</p><h2>할로윈<br><em>리미티드 용병팩</em></h2><p class="halloween-shop-description">달빛이 머무는 밤,<br>일곱 명의 특별한 용병을 만나다.</p><div class="halloween-shop-facts"><span>할로윈 <b>SS 7종</b></span><span>캐릭터별 <b>서버 5장</b></span></div>'+(pack.drawEnabled?'<button class="hwp-button hwp-primary halloween-shop-action" data-halloween-pack-enter>할로윈 계약실 입장</button>':'<div class="hwp-button halloween-shop-action halloween-shop-status" role="status">출시 예정 · 개봉 OFF</div>')+'<p class="halloween-shop-note">판매 일정과 가격은 추후 공개됩니다.</p></div><div class="halloween-shop-art">'+packResponsiveImage(pack,{hero:true})+'</div></div><section class="halloween-shop-collection"><div class="hwp-section-heading"><h3>할로윈 한정 컬렉션</h3><span>SS LIMITED · 7</span></div><div class="hwp-roster">'+collection+'</div></section></section>';
+}
+
 function standardPackHero(pack) {
+  if (pack.id === 'mercenary-halloween-ss-limited') return halloweenPackHero(pack);
   if (pack.id === 'mercenary-limited') return limitedMercenaryPackHero(pack);
   if (pack.id === 'hyper') return hyperPackHero();
   return `<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>100연속은 10장마다 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${Number(pack.price).toLocaleString()}코인</button><button class="btn draw hot hundred-draw" data-pack-id="${pack.id}" data-count="100" data-cost="${pack.price*100}"><small>100 CARDS · 10장마다 ${pack.guarantee10}+</small>${(pack.price*100).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>`;

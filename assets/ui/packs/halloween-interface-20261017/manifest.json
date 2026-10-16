@@ -1,0 +1,53 @@
+{
+  "version": "20261017-v2",
+  "tool": "built-in image_gen",
+  "originalsPreserved": true,
+  "prompts": "prompts.json",
+  "userVisualApproval": false,
+  "assets": [
+    {
+      "id": "moonlit-courtyard",
+      "source": "assets/ui/packs/halloween-interface-20261017/moonlit-courtyard-source.png",
+      "sha256": "7dd5f903903fa499bd107858ce07d3f5a9edc8073b6ea886de1c134f967a450c",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": false,
+      "runtime": "assets/ui/packs/halloween-interface-20261017/moonlit-courtyard.webp",
+      "runtimeBytes": 351860,
+      "runtimeSha256": "6f690827b407c82e18319cf0d5cb964e0be0675a7c4eb4f87082fff845978b43"
+    },
+    {
+      "id": "button-ember",
+      "source": "assets/ui/packs/halloween-interface-20261017/button-ember-source.png",
+      "sha256": "e12ba885e06a9b9ec03ed8aeb931e5e814181a7e5bf9de2e92db8107a119947d",
+      "width": 2172,
+      "height": 724,
+      "hasAlpha": true,
+      "runtime": "assets/ui/packs/halloween-interface-20261017/button-ember.webp",
+      "runtimeBytes": 63782,
+      "runtimeSha256": "7cc77e82271c20bf5519ebb798784e54e42121bd129f36c681819e4214ed9019"
+    },
+    {
+      "id": "button-night",
+      "source": "assets/ui/packs/halloween-interface-20261017/button-night-source.png",
+      "sha256": "af56fad23db46fab609730fcfcd067c4c1022844a1969ab3478531f3257d27c0",
+      "width": 2172,
+      "height": 724,
+      "hasAlpha": true,
+      "runtime": "assets/ui/packs/halloween-interface-20261017/button-night.webp",
+      "runtimeBytes": 52372,
+      "runtimeSha256": "4e0455c9bdba9479973286920456c6def4974ae4836c0f05b1a307d67cfed1c6"
+    },
+    {
+      "id": "card-frame",
+      "source": "assets/ui/packs/halloween-interface-20261017/card-frame-source.png",
+      "sha256": "1fbb3aec806426f722b3b336c039618160ad9a71c01c17e286ca28e9d93faced",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "runtime": "assets/ui/packs/halloween-interface-20261017/card-frame.webp",
+      "runtimeBytes": 85694,
+      "runtimeSha256": "865855edfea4b6437e4e7a5fe4cbd2ef3b695b366196faeaf0540727237f2ba5"
+    }
+  ]
+}

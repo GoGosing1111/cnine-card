@@ -20,7 +20,7 @@ import {prepareHalloweenRegistration,HALLOWEEN_REGISTRATION_KEY} from '../script
 test('seven approved sources publish independently with Namsudaeng identity, SS rank and intact PNGs',()=>{
  const expected=['나무늘봉순','조은','하이희야','오리꿍','디임','아윤','남수댕'];assert.deepEqual(cards.map(c=>c.name),expected);
  const catalog=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1,updated_at:'2026-10-14'}));
- assert.equal(catalog.cards.filter(c=>c.season==='HALLOWEEN').length,7);assert.equal(catalog.cards.filter(c=>c.edition==='LIMITED').length,16);
+ assert.equal(catalog.cards.filter(c=>c.season==='HALLOWEEN').length,7);for(const c of [...LIMITED_MERCENARIES,...cards])assert.ok(catalog.cards.some(row=>row.code===c.code&&row.edition==='LIMITED'));
  for(const c of cards){
   assert.equal(c.rank,'SS');assert.equal(c.acquisitionPackId,HALLOWEEN_PACK.id);assert.equal(c.serverLimit,5);
   assert.equal(createHash('sha256').update(fs.readFileSync(c.sourceArt)).digest('hex').toUpperCase(),c.sourceArtSha256);
@@ -44,7 +44,7 @@ test('Halloween identities cannot enter ordinary grants, ordinary limited packs 
 test('unconfigured price and probability stay null; opening and per-character cap cannot be overridden',()=>{
  const draft=halloweenPackDraft(),state=halloweenPackState();assert.equal(state.userOpeningEnabled,false);assert.equal(state.releaseEnabled,false);
  assert.deepEqual(draft.prices,{single:null,ten:null});assert.equal(draft.missRatePpm,null);assert.ok(Object.values(draft.cardRatesPpm).every(v=>v===null));assert.ok(state.stock.every(s=>s.limit===5&&s.remaining===5));
- for(const mutate of [s=>s.mode='ON',s=>s.stockLimits['V-980']=6,s=>s.stockLimits['V-980']=4,s=>s.cardRatesPpm['V-990']=1,s=>s.prices.single=0,s=>s.cardRatesPpm['V-980']=NaN,s=>{s.cardRatesPpm['V-980']=1000000;s.missRatePpm=1;}]){const s=halloweenPackDraft();mutate(s);assert.throws(()=>validateHalloweenPack(s));}
+ for(const mutate of [s=>s.mode='ON',s=>s.stockLimits['V-980']=6,s=>s.stockLimits['V-980']=4,s=>s.cardRatesPpm['V-990']=1,s=>s.prices.single=0,s=>s.cardRatesPpm['V-980']=NaN,s=>{s.cardRatesPpm['V-980']=1000000;s.normalSssRatePpm=1;}]){const s=halloweenPackDraft();mutate(s);assert.throws(()=>validateHalloweenPack(s));}
  const precise=halloweenPackDraft();precise.cardRatesPpm['V-980']=0.0001;assert.equal(validateHalloweenPack(precise).cardRatesPpm['V-980'],0.0001);
  assert.throws(()=>halloweenPackState(draft,[{code:'V-980',stock_limit:6,issued:0}]));assert.throws(()=>halloweenPackState(draft,[{code:'V-980',stock_limit:5,issued:6}]));
 });

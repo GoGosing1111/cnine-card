@@ -1,0 +1,40 @@
+{
+  "status": "PASSED",
+  "checkedAt": "2026-10-16T16:26:09.581Z",
+  "productionTransactions": 0,
+  "fixtureOnly": true,
+  "reports": [
+    {
+      "width": 1440,
+      "shopImageOnlyOff": true,
+      "cmsConditionalSaveReload": true,
+      "effectivePercent": "0.02%",
+      "tenResultsTogether": true,
+      "gridLatencyMs": 149,
+      "oneVideoPerBatch": true,
+      "ssVideo": true,
+      "sssVideo": true,
+      "muted": true,
+      "skipNoPurchase": true,
+      "recoverNoPurchase": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 390,
+      "shopImageOnlyOff": true,
+      "cmsConditionalSaveReload": true,
+      "effectivePercent": "0.02%",
+      "tenResultsTogether": true,
+      "gridLatencyMs": 110,
+      "oneVideoPerBatch": true,
+      "ssVideo": true,
+      "sssVideo": true,
+      "muted": true,
+      "skipNoPurchase": true,
+      "recoverNoPurchase": true,
+      "errors": [],
+      "failed": []
+    }
+  ]
+}

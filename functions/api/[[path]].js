@@ -1,5 +1,5 @@
 import {presentBrandedSystemMessage} from '../../shared/brand-presentation-20261016.mjs';
-import {handleHalloweenPack} from '../_mercenary_halloween_pack.js';
+import {handleHalloweenPack,halloweenPackShopRow} from '../_mercenary_halloween_pack.js';
 import {WORM_CONTEST_GIFT,ensureWormContestGiftCatalog,openWormContestGift,grantWormContestGift} from '../_worm_contest_gift.js';
 import {ensureMercenarySssShardCatalog} from '../_mercenary_sss_shard.js';
 import {MERCENARY_EQUIPMENT_SQL_CODES} from '../../shared/mercenary-equipment-v1.mjs';
@@ -5091,7 +5091,7 @@ async function handleRequest(context){
     const sssRerollResponse=await handleSssReroll({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(sssRerollResponse)return sssRerollResponse;
     const miracleCubeResponse=await handleMiracleCube({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(miracleCubeResponse)return miracleCubeResponse;
     const mineResponse=await handleMasterStarMine({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mineResponse)return mineResponse;
-    const halloweenPackResponse=await handleHalloweenPack({path,request,env,deps:{json,requirePermission}});if(halloweenPackResponse)return halloweenPackResponse;
+    const halloweenPackResponse=await handleHalloweenPack({path,request,env,deps:{json,requirePermission,authenticate,withUserMutationLock:withJointUserMutationLock}});if(halloweenPackResponse)return halloweenPackResponse;
     const limitedPackResponse=await handleLimitedPack({path,request,env,deps:{authenticate,json,requirePermission,withUserMutationLock:withJointUserMutationLock}});if(limitedPackResponse)return limitedPackResponse;
     const mercenaryAccountResponse=await handleMercenaryAccount({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mercenaryAccountResponse)return mercenaryAccountResponse;
     const hyperPackResponse=await handleHyperPack({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(hyperPackResponse)return hyperPackResponse;
@@ -5290,10 +5290,10 @@ async function handleRequest(context){
       return json({cards:rows.map(({memberSortOrder,...card})=>({...card,id:String(card.id),uniqueAbility:uniqueVisible?(uniqueMap.has(String(card.id))?{...uniqueMap.get(String(card.id)),ownerTest:uniqueCfg.enabled!==true}:null):null})),uniqueAbilitySystem:{enabled:uniqueCfg.enabled===true,ownerTest:uniqueVisible&&uniqueCfg.enabled!==true,visible:uniqueVisible}});
     }
     if(path==='packs'){
-      const [rows,burning,superstarSettings,hyperOpening,limitedPack]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env),hyperOpeningFeature(env),limitedPackShopRow(env)]);
+      const [rows,burning,superstarSettings,hyperOpening,limitedPack,halloweenPack]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env),hyperOpeningFeature(env),limitedPackShopRow(env),halloweenPackShopRow(env)]);
       const packs=rows.filter(row=>String(row.id)!=='basic').map(row=>{const originalPrice=Number(row.price||0);return {...row,price:originalPrice,originalPrice,burningDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}});
       if(superstarSettings.visible)packs.push(superstarPackCatalogRow(superstarSettings));
-      return json({packs:[...arrangeHyperPackCatalog(packs,hyperOpening.userOpeningEnabled),...(limitedPack?[limitedPack]:[])],burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
+      return json({packs:[...arrangeHyperPackCatalog(packs,hyperOpening.userOpeningEnabled),...(limitedPack?[limitedPack]:[]),halloweenPack],burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
     }
     if(path==='superstar-pack/draw'&&request.method==='POST'){
       return handleSuperstarPackDraw({request,env,deps:{authenticate,json,readBody}});
