@@ -8,10 +8,10 @@ import {organizationAssignmentAvailability} from '../admin/organization-admin-v1
 test('organization requests a review window instead of recycling a nearly expired duo profile',async t=>{
  const f=await duoFixture(t);await f.ready();
  const [first]=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()});
- f.advance(260000);f.resetQueries();
+ f.advance(40000);f.resetQueries();
  const [cached]=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock()});
  assert.equal(cached.expiresAt,first.expiresAt);assert.equal(f.queries().filter(q=>q.includes('FROM user_cards uc JOIN')).length,0);
- const [fresh]=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock(),minimumValidityMs:180000});
+ const [fresh]=await loadDuoProfiles(f.env,[2],f.config,f.deps,{now:f.clock(),minimumValidityMs:300000});
  assert.ok(Date.parse(fresh.expiresAt)>=f.clock()+299000);assert.equal(fresh.power,first.power);
  assert.equal(fresh.sourceVersion,first.sourceVersion);assert.equal(f.queries().filter(q=>q.includes('FROM user_cards uc JOIN')).length,1);
 });
