@@ -72,7 +72,8 @@ export async function resetRaidAndSendTickets(client,{expectedRecipientHash,expe
  assert.match(String(expectedRecipientHash||''),/^[a-f0-9]{64}$/,'Reviewed recipient hash required');
  assert.match(String(expectedSettingsDigest||''),/^[a-f0-9]{64}$/,'Reviewed settings hash required');
  const q=qFor(client),week=pigCoinRewardWeek(at);
- await q('BEGIN');
+ // A stable read snapshot distinguishes our writes from concurrent normal play.
+ await q('BEGIN ISOLATION LEVEL REPEATABLE READ');
  try{
   await q("SET LOCAL lock_timeout='5s'");await q("SET LOCAL statement_timeout='30s'");
   await q('SELECT pg_advisory_xact_lock(hashtext($1))',[OPERATION_KEY]);
