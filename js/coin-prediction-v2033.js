@@ -55,7 +55,7 @@
     const nextAccount=Number(user?.id||0);
     if(accountId!==nextAccount){accountId=nextAccount;retryPayload=null;state=null;selectedOptions.clear();drafts.clear();acceptedVersion='';selectedEventId=0;}
     return `<section id="coinPredictionRoot" class="cp3-shell" aria-label="코인 승부예측">
-      <header class="cp3-hero"><div class="cp3-wordmark"><span class="cp3-logo" aria-hidden="true">M<span>↗</span></span><div><p class="cp3-overline">SOOPKETMON / MATCHDAY</p><h1>승부예측<span>.</span></h1><p class="cp3-hero-copy">당신의 선택, 다음 승부의 주인공.</p></div></div>
+      <header class="cp3-hero"><div class="cp3-wordmark"><span class="cp3-logo" aria-hidden="true">M<span>↗</span></span><div><p class="cp3-overline">REVERSE CALL / MATCHDAY</p><h1>승부예측<span>.</span></h1><p class="cp3-hero-copy">당신의 선택, 다음 승부의 주인공.</p></div></div>
         <div class="cp3-hero-side"><div class="cp3-wallet"><span>내 보유 코인</span><strong id="cpWallet">—</strong><small>GAME COIN</small></div><div class="cp3-champion" id="cpDailyChampion">${icon('crown')}<div><span>오늘의 적중왕</span><b>정산 대기</b></div></div></div>
       </header>
       <nav class="cp3-categories" aria-label="경기 카테고리">${categoriesMarkup()}</nav>
@@ -65,7 +65,7 @@
       <div id="cpRecovery" class="cp3-recovery" hidden><span>응답이 끊긴 배팅은 같은 요청 번호로 확인합니다. 경기가 마감돼도 확인할 수 있습니다.</span><button type="button" data-cp-retry>이전 요청 다시 확인 ${icon('refresh')}</button></div>
       <div class="cp3-workspace"><aside class="cp3-rail" aria-label="경기 목록"><header><div><p class="cp3-overline">MATCH LIST</p><h2 id="cpRailTitle">전체 경기</h2></div><span id="cpRailCount">—</span></header><div id="cpMatchList" class="cp3-match-list">${loading('경기를 불러오는 중')}</div><nav id="cpPagination" class="cp3-pagination" aria-label="경기 목록 페이지"></nav></aside>
         <div id="cpBoardHost" class="cp3-board-host">${loading('승부예측을 준비합니다')}</div></div>
-      <footer class="cp3-footer"><div><b>PLAY FAIR. PLAY FOR FUN.</b><p>숲켓몬 코인은 현금·환전 가치가 없는 게임 내 가상 재화입니다.</p></div><button type="button" data-cp-terms>이용 규정 ${icon('arrow')}</button></footer>
+      <footer class="cp3-footer"><div><b>PLAY FAIR. PLAY FOR FUN.</b><p>리버스콜 코인은 현금·환전 가치가 없는 게임 내 가상 재화입니다.</p></div><button type="button" data-cp-terms>이용 규정 ${icon('arrow')}</button></footer>
     </section>`;
   }
   function loading(text) { return `<div class="cp3-empty cp3-loading" role="status"><span class="cp3-loader"></span><b>${esc(text)}</b></div>`; }
@@ -106,7 +106,7 @@
       ${canBet?`<div class="cp3-amount-control"><label for="cpBetAmount">${mine?'추가 배팅 금액':'배팅 금액'} <span>최소 10만</span></label><div class="cp3-amount-field"><input id="cpBetAmount" type="text" inputmode="numeric" autocomplete="off" maxlength="16" pattern="[0-9]*" aria-describedby="cpAmountHint" value="${esc(draft.raw)}" placeholder="금액 입력" ${retryPayload?'disabled':''}><span>코인</span></div><div class="cp3-quick">${[[100000,'10만'],[1000000,'100만'],[10000000,'1,000만'],[max,'최대']].map(([n,label])=>`<button type="button" data-cp-quick="${n}" ${retryPayload?'disabled':''}>${label}</button>`).join('')}</div><p id="cpAmountHint" class="cp3-amount-hint">추가 가능 <b>${fmt(max)} 코인</b> · ${unlimited?'OWNER 보유액 내 제한 없음':'경기당 최대 500억'}</p></div>`:`<p class="cp3-muted">${result?.final?'수령액은 실제 정산된 금액입니다.':!open(event)?'신규 참여가 마감되었습니다. 결과를 기다려 주세요.':'보유 코인 또는 경기별 참여 한도에 도달했습니다.'}</p>`}
       <div id="cpEstimate" class="cp3-estimate" aria-live="polite">${estimateMarkup(event,selectedId)}</div>
       ${canBet||hasRetry?`<button type="button" class="cp3-submit" data-cp-submit="${event.id}" ${(hasRetry||selectedId&&draft.valid)&&!busy?'':'disabled'}>${hasRetry?'이전 요청 다시 확인':mine?'추가 배팅 확인':'배팅 확인'}${icon('arrow')}</button>`:''}
-      <p class="cp3-ticket-disclaimer">${result?.final?'정산 코인은 자동 지급됩니다.':'예상 수령액은 적중을 가정한 값입니다. 마감 전 참여 금액과 지원금에 따라 달라집니다.'}</p></div><footer>SOOPKETMON · GAME COIN ONLY</footer></aside>`;
+      <p class="cp3-ticket-disclaimer">${result?.final?'정산 코인은 자동 지급됩니다.':'예상 수령액은 적중을 가정한 값입니다. 마감 전 참여 금액과 지원금에 따라 달라집니다.'}</p></div><footer>REVERSE CALL · GAME COIN ONLY</footer></aside>`;
   }
   function estimateMarkup(event, selectedId) {
     const result=model.outcome(event),draft=readDraft(event),extra=open(event)&&draft.valid?draft.amount:0;

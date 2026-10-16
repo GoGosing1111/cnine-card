@@ -10,7 +10,7 @@ export async function startChickenEvent({preview=false}={}){
  const root=document.getElementById('chickenApp');let state=null,choice=null,busy=false,lastResult=null,timeline=null,finishPlay=null,leaving=false;
  let muted=true;try{muted=localStorage.getItem('cnine.chicken.sound')!=='on';}catch{}
  root.className='ck-app';
- root.innerHTML=`<header class="ck-top"><a href="/?screen=home" class="ck-back" aria-label="로비로 돌아가기">← <span>숲켓몬</span></a><a href="#chickenHistory" class="ck-record-link">주문 내역 ↗</a><div class="ck-ticket"><img src="${A}ticket.svg" alt=""><span>핑두의 배민권 <b id="ckBalance">—</b></span></div></header>
+ root.innerHTML=`<header class="ck-top"><a href="/?screen=home" class="ck-back" aria-label="로비로 돌아가기">← <span>리버스콜</span></a><a href="#chickenHistory" class="ck-record-link">주문 내역 ↗</a><div class="ck-ticket"><img src="${A}ticket.svg" alt=""><span>핑두의 배민권 <b id="ckBalance">—</b></span></div></header>
  ${preview?'<aside class="ck-preview"><span>연출 검수 · 실제 소모·지급 없음</span><label>사은품 <select id="ckPreviewReward"><option value="SSS">SSS 리미티드</option><option value="SS">SS 리미티드</option><option value="COIN">코인</option></select></label></aside>':''}
  <section class="ck-store"><div class="ck-awning" aria-hidden="true"></div><div class="ck-sign"><span class="ck-sign-sub">오늘의 야식, 오늘의 행운</span><h1>철구네 <span>치킨</span></h1><div class="ck-sign-rule"><i></i><span>CHICKEN & A LITTLE SURPRISE</span><i></i></div></div><div class="ck-open"><i></i><span id="ckPhase">영업 정보를 확인하고 있어요</span></div><p class="ck-period" id="ckPeriod">기간은 오픈 시 안내됩니다</p>
  <div class="ck-menu-title"><span>01 / CHOOSE YOUR CHICKEN</span><h2>오늘은 <em>뭘 먹을까?</em></h2><p>바삭한 후라이드? 달콤한 양념?<br class="ck-mobile"> 어느 쪽이든, 사은품의 행운은 똑같아요.</p></div>

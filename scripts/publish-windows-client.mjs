@@ -13,8 +13,8 @@ if(!/^\d+\.\d+\.\d+$/.test(version))throw Error('Only stable launcher versions m
 const require=createRequire(path.join(build,'package.json')),{load}=require('js-yaml'),asar=require('@electron/asar');
 const metadata=load(await readFile(path.join(release,'latest.yml'),'utf8'));
 const receipt=JSON.parse(await readFile(path.join(build,'installer-build/receipt.json'),'utf8'));
-if(config.build.appId!=='kr.yakcode.soopketmon'||receipt.registryGuid!=='c69fcbf2-955f-5c48-8ff1-55c03889cb40'||receipt.installed.exe!=='Soopketmon.exe')throw Error('The existing installation identity must be preserved.');
-const engine=`Soopketmon-Engine-${version}-x64.exe`,setup=`Soopketmon-Setup-${version}-x64.exe`;
+if(config.build.appId!=='kr.yakcode.soopketmon'||receipt.registryGuid!=='c69fcbf2-955f-5c48-8ff1-55c03889cb40'||receipt.installed.exe!=='ReverseCall.exe')throw Error('The existing installation identity must be preserved.');
+const engine=`ReverseCall-Engine-${version}-x64.exe`,setup=`ReverseCall-Setup-${version}-x64.exe`;
 const bytes=await readFile(path.join(release,engine));
 const digest=(data,algorithm='sha256',encoding='hex')=>createHash(algorithm).update(data).digest(encoding);
 if(metadata.version!==version||metadata.files.length!==1||metadata.files[0].url!==engine||metadata.files[0].size!==bytes.length||metadata.files[0].sha512!==digest(bytes,'sha512','base64'))throw Error('Update metadata does not match the built NSIS installer.');
@@ -59,7 +59,7 @@ async function request(route,{method='GET',body,upload=false,contentType='applic
 const remoteCommit=await request('commits/'+commit);if(remoteCommit?.sha!==commit)throw Error('Push the release commit before publishing.');
 let published=await request('releases/tags/'+tag);
 if(published&&published.target_commitish!==commit)throw Error('Existing version is attached to another commit; publish a new version.');
-if(!published)published=await request('releases',{method:'POST',body:{tag_name:tag,target_commitish:commit,name:`숲켓몬 Windows ${version}`,draft:true,prerelease:false,body:`숲켓몬 Windows 런처 ${version}\n\n설치 파일: **${setup}**\n\n${releaseNotes}\n\nEngine 파일과 latest.yml은 자동 업데이트용입니다.`}});
+if(!published)published=await request('releases',{method:'POST',body:{tag_name:tag,target_commitish:commit,name:`리버스콜 Windows ${version}`,draft:true,prerelease:false,body:`리버스콜 Windows 런처 ${version}\n\n설치 파일: **${setup}**\n\n${releaseNotes}\n\nEngine 파일과 latest.yml은 자동 업데이트용입니다.`}});
 for(const artifact of artifacts){
   const existing=published.assets.find(a=>a.name===artifact.name);
   if(existing){if(existing.size!==artifact.bytes||existing.digest!=='sha256:'+artifact.sha256)throw Error('Existing release asset differs: '+artifact.name);continue;}

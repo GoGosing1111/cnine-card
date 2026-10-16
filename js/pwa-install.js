@@ -9,7 +9,7 @@
   const showAppleGuide=()=>{
     closeGuide();
     const guide=document.createElement('div');guide.id='pwaInstallGuide';guide.className='pwa-install-guide';
-    guide.innerHTML='<section role="dialog" aria-modal="true" aria-labelledby="pwaGuideTitle"><button type="button" class="pwa-guide-close" aria-label="닫기">×</button><small>IOS INSTALL GUIDE</small><h2 id="pwaGuideTitle">홈 화면에 숲켓몬 설치</h2><ol><li>Safari 하단의 <b>공유 버튼</b>을 누릅니다.</li><li><b>홈 화면에 추가</b>를 선택합니다.</li><li>오른쪽 위의 <b>추가</b>를 누릅니다.</li></ol><button type="button" class="pwa-guide-done">확인</button></section>';
+    guide.innerHTML='<section role="dialog" aria-modal="true" aria-labelledby="pwaGuideTitle"><button type="button" class="pwa-guide-close" aria-label="닫기">×</button><small>IOS INSTALL GUIDE</small><h2 id="pwaGuideTitle">홈 화면에 리버스콜 설치</h2><ol><li>Safari 하단의 <b>공유 버튼</b>을 누릅니다.</li><li><b>홈 화면에 추가</b>를 선택합니다.</li><li>오른쪽 위의 <b>추가</b>를 누릅니다.</li></ol><button type="button" class="pwa-guide-done">확인</button></section>';
     guide.querySelectorAll('.pwa-guide-close,.pwa-guide-done').forEach(button=>button.onclick=closeGuide);
     guide.onclick=event=>{if(event.target===guide)closeGuide()};
     document.body.appendChild(guide);

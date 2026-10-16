@@ -13,6 +13,7 @@ const qaRoot=await mkdtemp(path.join(os.tmpdir(),'soop-installer-native-'));
 function inside(file){const absolute=path.resolve(file);assert(absolute.startsWith(path.resolve(qaRoot)+path.sep),'QA operations must stay inside the fresh isolated directory');return absolute;}
 async function run(file,args,cwd=qaRoot){await new Promise((resolve,reject)=>{const child=spawn(file,args,{cwd,windowsHide:true,stdio:'inherit'});child.once('error',reject);child.once('exit',code=>code===0?resolve():reject(Error(file+' exit '+code)));});}
 const config=JSON.parse(await readFile(path.join(sourceBuild,'package.json'),'utf8'));
+const sourceExe=config.build.win.executableName+'.exe';
 const productionReceipt=JSON.parse(await readFile(path.join(sourceBuild,'installer-build/receipt.json'),'utf8'));
 function registry(guid){return spawnSync('reg.exe',['query','HKCU\\Software\\'+guid],{windowsHide:true,encoding:'utf8'});}
 const productionBefore=registry(productionReceipt.registryGuid);
@@ -25,7 +26,7 @@ await cp(path.join(sourceBuild,'build-resources'),inside(path.join(qaRoot,'build
 await symlink(path.join(sourceBuild,'node_modules'),inside(path.join(qaRoot,'node_modules')),'junction');
 const unpacked=inside(path.join(qaRoot,'release/win-unpacked'));
 await cp(path.join(sourceBuild,'release/win-unpacked'),unpacked,{recursive:true});
-await rename(inside(path.join(unpacked,'Soopketmon.exe')),inside(path.join(unpacked,'SoopketmonInstallerQA.exe')));
+await rename(inside(path.join(unpacked,sourceExe)),inside(path.join(unpacked,'SoopketmonInstallerQA.exe')));
 await run(process.execPath,[path.join(sourceBuild,'node_modules/electron-builder/out/cli/cli.js'),'--win','nsis','--x64','--publish','never','--prepackaged',unpacked]);
 const receipt=await buildInstaller({source:path.resolve('packaging/windows-client'),build:qaRoot,qa:true});
 const target=inside(path.join(qaRoot,'한글 설치 폴더','SoopketmonInstallerQA'));
@@ -37,7 +38,7 @@ await writeFile(consoleSource,`using System;using System.IO;using System.Reflect
 class PathQA {
  static MethodInfo method;
  static bool Rejected(string p) {try{method.Invoke(null,new object[]{p,null});return false;}catch(TargetInvocationException e){return e.InnerException is IOException;}}
- static int Main(string[] a){method=Assembly.LoadFrom(a[0]).GetType("Soopketmon.Setup.Installer").GetMethod("ValidateTarget",BindingFlags.Static|BindingFlags.NonPublic);
+ static int Main(string[] a){method=Assembly.LoadFrom(a[0]).GetType("ReverseCall.Setup.Installer").GetMethod("ValidateTarget",BindingFlags.Static|BindingFlags.NonPublic);
  foreach(string p in new[]{"C:","C:relative",@"\\relative",@"\\\\server\\share",@"C:\\",Environment.GetFolderPath(Environment.SpecialFolder.Windows),Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),a[1]})if(!Rejected(p))throw new Exception("Accepted unsafe path: "+p);
  var actual=(string)method.Invoke(null,new object[]{a[2],null});if(actual!=a[2])throw new Exception("Unicode path changed");
  Console.WriteLine("Compiled installer path validation PASS");return 0;}}

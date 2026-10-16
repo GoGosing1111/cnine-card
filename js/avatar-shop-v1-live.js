@@ -1,4 +1,4 @@
-/* SOOPKETMON AVATAR SHOP V1 — production mount adapter.
+/* REVERSE CALL AVATAR SHOP V1 — production mount adapter.
  * The approved preview and live game use avatar-shop-v1.js verbatim. This
  * adapter only connects it to the authenticated app request and shell routes.
  */

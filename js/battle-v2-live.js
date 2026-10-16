@@ -36,7 +36,7 @@
 
   function assetUrl(value) {
     let raw = String(value || '').trim();
-    if (!raw) return '/assets/ui/cninelogo.png';
+    if (!raw) return '/assets/ui/brand/reverse-call-20261016/icon-512.png';
     if (/^(?:data:|blob:)/i.test(raw)) return raw;
     // V1803: 카드 원본(평균 334KB)을 전투에서 그대로 받던 것을 도감과 같은 384px 변형(약 13KB)으로 돌린다.
     // 전투 카드는 화면에서 58~112px 이라 화질 손실이 없고, 도감을 본 적 있으면 캐시에서 바로 나온다.
@@ -61,7 +61,7 @@
     if (!image || image.dataset.fallbackApplied === '1') return;
     image.dataset.fallbackApplied = '1';
     image.classList.add('is-fallback');
-    image.src = '/assets/ui/cninelogo.png';
+    image.src = '/assets/ui/brand/reverse-call-20261016/icon-512.png';
   };
 
   function uniqueFxMarkup(type) {
@@ -93,7 +93,7 @@
       <div class="card-inner">
         <div class="card-header"><span>${esc(grade)}</span><b>SOOP</b></div>
         <div class="card-art"><img src="${assetUrl(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX ?? 50)}% ${Number(card.focusY ?? 50)}%" onerror="window.battleV2ImageFallback(this)"></div>
-        <div class="card-footer"><div><small>${esc(card.memberName || '')}</small><div class="card-title-row"><div class="card-title">${esc(card.title)}</div></div></div><img src="/assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div>
+        <div class="card-footer"><div><small>${esc(card.memberName || '')}</small><div class="card-title-row"><div class="card-title">${esc(card.title)}</div></div></div><img src="/assets/ui/brand/reverse-call-20261016/icon-512.png" class="card-mini-logo" alt="리버스콜"></div>
       </div>
       ${isFakerChampionship ? '<img class="faker-championship-frame" src="/assets/ui/card-frames/faker-t1-championship-frame-v2.png" alt="" aria-hidden="true"><img class="faker-t1-mark" src="/assets/ui/brands/t1-logo-red-official-cropped.png" alt="T1"><img class="faker-signature-mark" src="/assets/ui/card-frames/faker-wordmark-clear-v2.svg" alt="FAKER"><span class="faker-t1-subtitle">THE UNKILLABLE DEMON KING</span>' : ''}
     </div>`;
@@ -431,7 +431,7 @@
       ? window.ProjectVBattleV3Live.resultHtml({data,mode:'PVE',win,playerPower,opponentPower:monsterPower,battleSuit:battleSuitResult})
       : `<div class="pvp-v2-result pve-v2-result ${win?'is-win':'is-loss'}">
       <div class="pvp-result-glow" aria-hidden="true"></div>
-      <div class="pvp-result-kicker">SOOPKETMON · PVE RESULT</div>
+      <div class="pvp-result-kicker">REVERSE CALL · PVE RESULT</div>
       <strong class="pvp-result-title">${win?'VICTORY':'DEFEAT'}</strong>
       <div class="pvp-result-power"><b>${number(playerPower)}</b><i>VS</i><b>${number(monsterPower)}</b></div>
       <div class="pvp-result-meta"><span>PROJECT V V3 · PIXIJS</span>${actionMeta}${survivedMeta}</div>

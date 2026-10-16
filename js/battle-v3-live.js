@@ -107,7 +107,7 @@
   // 판별하려면 연출된 화면이 아니라 서버가 확정한 값을 보여줘야 한다.
   // ---------------------------------------------------------------------
   const ROSTER_MAX = 5;
-  const FALLBACK_ART = '/assets/ui/cninelogo.png';
+  const FALLBACK_ART = '/assets/ui/brand/reverse-call-20261016/icon-512.png';
   const VERDICT_REASON_TEXT = {
     ELIMINATION: '전멸 판정',
     SURVIVOR_COUNT: '시간 종료 · 생존 수 우세',
@@ -301,7 +301,7 @@
         <div class="card-inner">
           <div class="card-header"><span>${esc(grade)}</span><b>SOOP</b></div>
           <div class="card-art"><img src="${esc(art.url)}" alt="${esc(title)}" loading="lazy" decoding="async" data-v3-roster-art="1" style="object-position:${art.focusX}% ${art.focusY}%" onerror="this.onerror=null;this.src='${FALLBACK_ART}'"></div>
-          <div class="card-footer"><div><small>${esc(owner)}</small><div class="card-title-row"><div class="card-title">${esc(title)}</div></div></div><img src="/assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div>
+          <div class="card-footer"><div><small>${esc(owner)}</small><div class="card-title-row"><div class="card-title">${esc(title)}</div></div></div><img src="/assets/ui/brand/reverse-call-20261016/icon-512.png" class="card-mini-logo" alt="리버스콜"></div>
         </div>
         ${superstarFrame}${zenithFrame}${isFaker ? '<img class="faker-championship-frame" src="/assets/ui/card-frames/faker-t1-championship-frame-v2.png" alt="" aria-hidden="true"><img class="faker-t1-mark" src="/assets/ui/brands/t1-logo-red-official-cropped.png" alt="T1"><img class="faker-signature-mark" src="/assets/ui/card-frames/faker-wordmark-clear-v2.svg" alt="FAKER"><span class="faker-t1-subtitle">THE UNKILLABLE DEMON KING</span>' : ''}
       </div>

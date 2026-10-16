@@ -2,7 +2,7 @@ import { ensureEquipmentFoundation } from './_equipment.js';
 import { readRuntimeData, cacheRuntimeData, invalidateRuntimeData } from './_runtime_data_cache.js';
 import { equipmentCountsReady, EQUIPMENT_COUNTS_TABLE } from './_equipment_counts_v1.js';
 
-/* SOOPKETMON ALCHEMY V3
+/* REVERSE CALL ALCHEMY V3
  *
  * Inputs are deliberately limited to unequipped equipment and duplicate
  * LIMITED/PRESTIGE/FUR/ZENITH cards. Reward quality is selected from the real

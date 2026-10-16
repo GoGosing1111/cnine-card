@@ -1,6 +1,10 @@
-# 숲켓몬 Windows 클라이언트
+# 리버스콜 Windows 클라이언트
 
 독립 Electron 런처와 전용 WPF 화면의 Windows x64 설치 파일. 실제 파일 설치·제거는 내장 NSIS 엔진이 무인으로 수행한다. 게임의 기존 HTTPS 원점과 계정을 사용하며 웹/PWA 소스·계정·서비스워커 저장소를 변경하지 않는다. 0.1.5부터 게임 파일과 런처 실행 파일 모두 업데이트한다.
+
+## 리버스콜 전환 — 0.1.7
+
+사용자 첨부 R 심벌을 웹·PWA·Windows 공통 아이콘으로 적용하고 모든 화면의 서비스명을 리버스콜로 변경했다. 실행 파일은 `ReverseCall.exe`이며 기존 0.1.5/0.1.6 자동 업데이트 공급처와 설치 GUID는 유지한다. 기존 `%APPDATA%/숲켓몬` 프로필을 명시적으로 사용하여 이름 변경으로 로그인과 리소스 캐시가 초기화되지 않는다. 새 설치 및 업데이트 바로가기는 리버스콜로 표시한다.
 
 ## 빌드
 
@@ -15,11 +19,11 @@ Pop-Location
 node scripts/build-windows-client.mjs C:/Users/User/.codex/tmp/soopketmon-windows-build-20261015
 ```
 
-결과: 외부 빌드 디렉터리의 `release/Soopketmon-Setup-0.1.6-x64.exe`. 사용자에게는 `Setup`을 안내한다. `Engine`과 `.blockmap`, `latest.yml`은 자동 업데이트에 필요하며 공개 릴리스에 함께 업로드한다. 현재 코드 서명 인증서는 설정되지 않았다. 일반 사용자 권한으로 설치하며 바로가기와 제거 프로그램을 제공한다. 사용자 범위 선택 화면은 생략하고 현재 사용자로 자동 설정한다. 삭제 시 앱 데이터는 보존한다.
+결과: 외부 빌드 디렉터리의 `release/ReverseCall-Setup-0.1.7-x64.exe`. 사용자에게는 `Setup`을 안내한다. `Engine`과 `.blockmap`, `latest.yml`은 자동 업데이트에 필요하며 공개 릴리스에 함께 업로드한다. 현재 코드 서명 인증서는 설정되지 않았다. 일반 사용자 권한으로 설치하며 바로가기와 제거 프로그램을 제공한다. 사용자 범위 선택 화면은 생략하고 현재 사용자로 자동 설정한다. 삭제 시 앱 데이터는 보존한다.
 
 설치 안내문 원본 `LICENSE.txt`는 UTF-8로 관리한다. 빌드 스크립트가 NSIS에 넣는 `build-resources/LICENSE.txt`를 UTF-8 BOM·CRLF로 생성하므로 반드시 위 스크립트로 스테이징한 뒤 빌드한다. 명시적 `nsis.license` 경로는 electron-builder의 지역별 라이선스 인코딩 보정을 거치지 않는다. 관련 회귀 검사는 `node --test tests/windows-installer-20261015.test.mjs`다.
 
-설치기는 `installer/window.xaml`과 `installer/Setup.cs`의 전용 창·버튼·입력창·진행·완료 화면을 사용한다. 승인 로고와 새 성채 포털 원화를 네이비·라임 디자인으로 표시한다. 회색 NSIS 페이지는 표시하지 않는다. 완료 시 사용자가 ‘숲켓몬 실행’을 눌러 실행한다. `art/prompt-installer-gateway-v1.json`에 built-in image_gen 프롬프트와 원본을 보존한다.
+설치기는 `installer/window.xaml`과 `installer/Setup.cs`의 전용 창·버튼·입력창·진행·완료 화면을 사용한다. 승인 로고와 새 성채 포털 원화를 네이비·라임 디자인으로 표시한다. 회색 NSIS 페이지는 표시하지 않는다. 완료 시 사용자가 ‘리버스콜 실행’을 눌러 실행한다. `art/prompt-installer-gateway-v1.json`에 built-in image_gen 프롬프트와 원본을 보존한다.
 
 `scripts/build-windows-installer.mjs`가 Windows 기본 .NET Framework 컴파일러로 UI·원화·UTF-8 안내문·설치 엔진을 단일 EXE에 포함한다. WebView2 등의 추가 다운로드는 없다. 설치 엔진 SHA-256과 설치된 app.asar SHA-256을 검사하고, 실행 중인 게임과 잘못된 설치 경로를 차단한다. 임시 파일 추출은 실제 바이트 진행률, NSIS 작업은 진행 중 표시를 사용한다. `--preview`는 설치·게임 실행을 하지 않는 디자인 검수다.
 
@@ -29,7 +33,7 @@ node scripts/build-windows-client.mjs C:/Users/User/.codex/tmp/soopketmon-window
 
 0.1.4 이하 사용자는 게임과 런처를 종료한 뒤 최신 Setup을 **한 번** 설치한다. 0.1.5부터는 런처 시작·게임 종료·수동 확인·4시간 유휴 확인 때 GitHub Releases의 최신 안정 버전을 확인하고 자동 다운로드한다. 다운로드가 끝나면 ‘업데이트 후 다시 시작’으로 무인 설치 후 다시 열린다. 진행 중인 게임이나 게임 팝업, 리소스 준비가 있으면 설치를 차단한다. 단순 종료·Windows 종료에서는 설치하지 않는다.
 
-`electron-updater` 6.8.9와 NSIS를 사용하며 파일 SHA-512를 검증한다. 다운로드 실패·해시 불일치는 현재 설치판을 교체하지 않으며 다시 확인으로 재시도한다. 확인 실패 중에도 게임 이용은 가능하다. 앱 ID·실행 파일명·NSIS GUID·사용자 데이터 경로를 유지하여 기존 경로·로그인·화면 크기·리소스가 보존된다. 원격 게임 페이지에는 업데이트 명령을 노출하지 않는다.
+`electron-updater` 6.8.9와 NSIS를 사용하며 파일 SHA-512를 검증한다. 다운로드 실패·해시 불일치는 현재 설치판을 교체하지 않으며 다시 확인으로 재시도한다. 확인 실패 중에도 게임 이용은 가능하다. 앱 ID·NSIS GUID·사용자 데이터 경로를 유지하여 기존 경로·로그인·화면 크기·리소스가 보존된다. 원격 게임 페이지에는 업데이트 명령을 노출하지 않는다.
 
 업데이트 공급처는 공개 저장소 `GoGosing1111/cnine-card`의 GitHub Releases다. 이 저장소의 **최신 안정 릴리스는 Windows 클라이언트용 `vX.Y.Z`**로 유지하고 게임 웹 배포 태그를 최신 릴리스로 지정하지 않는다. 패키지에 GitHub 자격 증명은 넣지 않는다. 아래 발행 스크립트는 운영자의 Git credential 또는 `GH_TOKEN`을 발행 프로세스에서만 사용한다.
 
@@ -81,6 +85,6 @@ QA 환경변수는 패키징되지 않은 개발 앱에서만 사용한다. 원�
 
 ## 디자인 원본
 
-`art/prompt-launcher-citadel-v1.json`이 built-in image_gen 프롬프트·원본·파생 파일 색인이다. 환경 그림만 새로 제작했고 기존 숲켓몬 승인 로고·지휘관 원화·앱 아이콘을 복사해 사용한다. 게임 시작, 실제 다운로드 상태, 리소스 복구, 안내를 네이비·라임 기준으로 통합했다.
+`art/prompt-launcher-citadel-v1.json`이 built-in image_gen 프롬프트·원본·파생 파일 색인이다. 환경 그림만 새로 제작했고 기존 리버스콜 승인 로고·지휘관 원화·앱 아이콘을 복사해 사용한다. 게임 시작, 실제 다운로드 상태, 리소스 복구, 안내를 네이비·라임 기준으로 통합했다.
 
 자세한 검수·배포 기록은 `docs/windows-client-20261015.md`를 따른다.

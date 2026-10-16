@@ -144,7 +144,7 @@
     prediction: Object.freeze({ title: '승부예측', group: 'market', icon: 'auction', home: Object.freeze({ title: '승부·경매', meta: '승부예측 · 경매장' }) }),
     auction: Object.freeze({ title: '경매장', group: 'market', icon: 'auction' }),
     inventory: Object.freeze({ title: '인벤토리', group: 'inventory', icon: 'inventory' }),
-    soopketland: Object.freeze({ title: '숲켓랜드', group: 'administration', icon: 'gift' }),
+    soopketland: Object.freeze({ title: '리버스랜드', group: 'administration', icon: 'gift' }),
     prison: Object.freeze({ title: '감옥', group: 'administration', icon: 'prison' }),
     prisoncamp: Object.freeze({ title: '포로수용소', group: 'administration', icon: 'prison' })
   });
@@ -161,7 +161,7 @@
   // All values are derived from the shared route metadata above.
   const ROUTES = Object.freeze(Object.fromEntries(Object.entries(ROUTE_META).map(([id, item]) => [
     id,
-    Object.freeze([item.title, MENU_GROUPS[item.group]?.title || 'SOOPKETMON', item.icon])
+    Object.freeze([item.title, MENU_GROUPS[item.group]?.title || 'REVERSE CALL', item.icon])
   ])));
 
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
@@ -315,12 +315,12 @@
     const chiefPicture = chiefPictureMarkup(chief, true, true);
     const pcOperations = typeof global.liveOperationsHtml === 'function' ? global.liveOperationsHtml('lobby-pc') : '';
     const mobileOperations = typeof global.liveOperationsHtml === 'function' ? global.liveOperationsHtml('lobby-mobile') : '';
-    return `<section class="pc-lobby-scene" aria-label="숲켓몬 PC 메인 로비">
+    return `<section class="pc-lobby-scene" aria-label="리버스콜 PC 메인 로비">
         <div class="pc-lobby-grid" aria-hidden="true"></div>
-        <div class="pc-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></div>
+        <div class="pc-lobby-brand"><img src="/assets/ui/brand/reverse-call-20261016/icon-512.png" alt="리버스콜"><span>CARD COLLECTION RPG</span><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></div>
         <div class="pc-main-character pc-chief-commander" aria-label="로비 아바타 일러스트">${chiefPicture}</div>
         <section class="pc-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}" data-chief-state="${chief.state}" aria-label="${chief.label} 임기 현황">
-          <div class="pc-readout-index"><span>SOOPKETMON / ${chief.reignStyle==='GENERAL'?'GENERAL REGIME':'QUEEN REIGN'}</span><b>${esc(chief.ordinal)}</b></div>
+          <div class="pc-readout-index"><span>REVERSE CALL / ${chief.reignStyle==='GENERAL'?'GENERAL REGIME':'QUEEN REIGN'}</span><b>${esc(chief.ordinal)}</b></div>
           <p>${chief.reignStyle==='GENERAL'?'최고사령부 · 장군 집권':'THE REIGNING QUEEN'}</p><h1><small>${esc(chief.title)}</small><strong>${esc(chief.nickname)}</strong></h1>
           <div class="pc-guide-line"><i></i><span></span></div><div class="pc-term-timer"><span>임기 종료까지</span><strong>${esc(chief.remaining)}</strong><small>${chief.label} 권한 · KST</small></div>
           <button class="pc-chief-action" type="button" data-v21-chief-info>${chief.label} 임기 현황 <i>LIVE</i></button>
@@ -334,7 +334,7 @@
         <aside data-streamer-lounge-host hidden aria-label="스트리머 라운지 입구"></aside>
         ${pcOperations}
       </section>
-      <section class="mobile-command-lobby" aria-label="숲켓몬 모바일 메인 로비"><div class="mobile-lobby-grid" aria-hidden="true"></div><div class="mobile-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span></div>
+      <section class="mobile-command-lobby" aria-label="리버스콜 모바일 메인 로비"><div class="mobile-lobby-grid" aria-hidden="true"></div><div class="mobile-lobby-brand"><img src="/assets/ui/brand/reverse-call-20261016/icon-512.png" alt="리버스콜"><span>CARD COLLECTION RPG</span></div>
         <div class="mobile-chief-visual" aria-label="로비 아바타 일러스트">${chiefPicture}</div>
         <section class="mobile-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}"><small>${chief.reignStyle==='GENERAL'?'최고사령부 · 장군 집권':'THE REIGNING QUEEN'}</small><h1><span>${esc(chief.title)}</span><strong>${esc(chief.nickname)}</strong></h1><div><i></i><b>${esc(chief.remaining)}</b></div><button class="mobile-chief-status" type="button" data-v21-chief-info>${chief.label} 임기 현황 <em>LIVE</em></button></section>
         <nav class="mobile-command-nav" aria-label="모바일 주요 메뉴"><header><span>MAIN COMMAND</span><b>01 / LOBBY</b><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></header>${mobileCommand('buy', '카드 상점', '20·100·1000회')}${mobileCommand('dex', '도감', '수집·진화')}${mobileCommand('battle', '전투', 'PVE·특수전', true)}${clanFeatureVisible()?mobileCommand('clan', '조직', '조직 본부 · 아지트', true):''}${mobileCommand('character', '제작소', '장비·칭호·차고·공방', false, 'growth')}${mobileCommand('attendance', '보상', '출석·임무')}${mobileCommand('rank', '랭킹', '시즌·점수')}${mobileCommand('prediction', '승부·경매', '예측·거래')}</nav><div class="mobile-lobby-status"><span><i></i> LIVE SERVER</span><b>CH. 01</b></div>${mobileOperations}
@@ -485,7 +485,7 @@
        binders and future feature injection instead of being destroyed. */
     if (!frame.screen.querySelector('.v21-live-route')) {
       const wrapper = document.createElement('section'); wrapper.className = 'v21-live-route'; wrapper.dataset.liveRoute = route;
-      const info = ROUTES[route] || ['게임 화면', 'SOOPKETMON', 'menu'];
+      const info = ROUTES[route] || ['게임 화면', 'REVERSE CALL', 'menu'];
       wrapper.innerHTML = `<header class="v21-route-command-head"><button type="button" data-v21-home aria-label="로비로 돌아가기">${svg('home')}</button><div><small>${esc(info[1])} / LIVE SERVICE</small><h1>${esc(info[0])}</h1></div><button type="button" data-v21-all>전체 메뉴</button></header><div class="v21-route-body"></div>`;
       const body = wrapper.querySelector('.v21-route-body');
       let node = frame.start.nextSibling;
@@ -589,7 +589,7 @@
     const modal = modalRoot(); if (!modal) return;
     if(routes.includes('goldenAxe'))void refreshGoldenAxe().then(changed=>{if(changed&&modal.querySelector('.v21-command-grid')&&modal.querySelector('h2')?.textContent===title)openRouteOverlay(title,routes)});
     modal.className = 'modal v21-command-overlay open';
-    modal.innerHTML = `<section class="v21-command-dialog" role="dialog" aria-modal="true" aria-label="${esc(title)}"><header><div><small>SOOPKETMON / COMMAND</small><h2>${esc(title)}</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-command-grid">${routes.map(routeButton).join('')}</div></section>`;
+    modal.innerHTML = `<section class="v21-command-dialog" role="dialog" aria-modal="true" aria-label="${esc(title)}"><header><div><small>REVERSE CALL / COMMAND</small><h2>${esc(title)}</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-command-grid">${routes.map(routeButton).join('')}</div></section>`;
   }
 
   function openAllOverlay() {
@@ -598,7 +598,7 @@
     const modal = modalRoot(); if (!modal) return;
     void refreshGoldenAxe().then(changed=>{if(changed&&modal.querySelector('.v21-command-dialog-all'))openAllOverlay()});
     modal.className = 'modal v21-command-overlay open';
-    modal.innerHTML = `<section class="v21-command-dialog v21-command-dialog-all" role="dialog" aria-modal="true" aria-label="전체 메뉴"><header><div><small>SOOPKETMON / ALL CONTENTS</small><h2>전체 메뉴</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-command-groups">${MENU_GROUP_ORDER.map(id => MENU_GROUPS[id]).map(group => `<section><h3>${esc(group.title)}</h3><div>${group.routes.map(routeButton).join('')}</div></section>`).join('')}</div></section>`;
+    modal.innerHTML = `<section class="v21-command-dialog v21-command-dialog-all" role="dialog" aria-modal="true" aria-label="전체 메뉴"><header><div><small>REVERSE CALL / ALL CONTENTS</small><h2>전체 메뉴</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-command-groups">${MENU_GROUP_ORDER.map(id => MENU_GROUPS[id]).map(group => `<section><h3>${esc(group.title)}</h3><div>${group.routes.map(routeButton).join('')}</div></section>`).join('')}</div></section>`;
   }
 
   function openChiefOverlay() {
@@ -607,7 +607,7 @@
     const general=chief.reignStyle==='GENERAL';
     const queenPicture = `<picture><img src="${general?'/assets/ui/chief/general-command-v1.png':'/assets/ui/chief/queen-coronation-v1-1536.webp'}" width="${general?1024:1536}" height="${general?1536:1024}" alt="${general?'철의 요새를 지배하는 여성 장군':'숲 왕좌의 여왕'} 일러스트" decoding="async"></picture>`;
     modal.className = 'modal v21-command-overlay open';
-    modal.innerHTML = `<section class="v21-command-dialog v21-chief-dialog${general?' general-command-dialog':''}" role="dialog" aria-modal="true" aria-label="${chief.label} ${chief.term} 및 권한"><header><div><small>${general?'최고사령부 · GENERAL REGIME':'SOOPKETMON / THE QUEEN'}</small><h2>${esc(chief.title)} · ${esc(chief.nickname)}</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-chief-dialog-body">${queenPicture}<div>${general?'<img class="general-detail-insignia" src="/assets/ui/chief/general-insignia-v1.svg" width="48" height="56" alt="최고사령부 휘장">':''}<small>현재 상태</small><b>${chief.state === 'active' ? chief.term+' 중' : esc(chief.nickname)}</b><small>남은 ${chief.term} 기간</small><b>${esc(chief.remaining)}</b><p>${general?'최고사령부의 집권 현황과 장군의 특별 권한을 확인하세요.':'숲의 뜻을 이어가는 여왕의 재위와 특별 권한을 확인하세요.'}</p>${chief.state==='active'?`<button type="button" data-v21-queen-coronation>${chief.label} ${chief.ceremony} 다시 보기</button>`:''}<button type="button" data-v21-chief-system>${chief.label} 권한 열기</button><p class="queen-replay-status" role="status" aria-live="polite"></p></div></div></section>`;
+    modal.innerHTML = `<section class="v21-command-dialog v21-chief-dialog${general?' general-command-dialog':''}" role="dialog" aria-modal="true" aria-label="${chief.label} ${chief.term} 및 권한"><header><div><small>${general?'최고사령부 · GENERAL REGIME':'REVERSE CALL / THE QUEEN'}</small><h2>${esc(chief.title)} · ${esc(chief.nickname)}</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-chief-dialog-body">${queenPicture}<div>${general?'<img class="general-detail-insignia" src="/assets/ui/chief/general-insignia-v1.svg" width="48" height="56" alt="최고사령부 휘장">':''}<small>현재 상태</small><b>${chief.state === 'active' ? chief.term+' 중' : esc(chief.nickname)}</b><small>남은 ${chief.term} 기간</small><b>${esc(chief.remaining)}</b><p>${general?'최고사령부의 집권 현황과 장군의 특별 권한을 확인하세요.':'숲의 뜻을 이어가는 여왕의 재위와 특별 권한을 확인하세요.'}</p>${chief.state==='active'?`<button type="button" data-v21-queen-coronation>${chief.label} ${chief.ceremony} 다시 보기</button>`:''}<button type="button" data-v21-chief-system>${chief.label} 권한 열기</button><p class="queen-replay-status" role="status" aria-live="polite"></p></div></div></section>`;
   }
 
   function navigate(route) {

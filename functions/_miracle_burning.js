@@ -12,7 +12,7 @@ export function canManageMiracleBurning(user) {
 export function defaultMiracleBurningSettings() {
   return {
     mode:'MIRACLE',theme:'SKY',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,
-    durationMinutes:BURNING_EVENT_DEFAULT_DURATION_MINUTES,title:'숲켓몬 미라클 버닝이 발동되었습니다',
+    durationMinutes:BURNING_EVENT_DEFAULT_DURATION_MINUTES,title:'리버스콜 미라클 버닝이 발동되었습니다',
     pveMaxEnergy:30,pvpMaxEnergy:30,rechargeMinutes:1,apocalypseMaxEnergy:10,apocalypseRechargeMinutes:5,
     dropIncreasePercent:MIRACLE_BURNING_DROP_PERCENT,battleRewardMultiplier:100,
     duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0

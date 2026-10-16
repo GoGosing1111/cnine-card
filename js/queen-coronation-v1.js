@@ -24,11 +24,11 @@
       <picture class="queen-coronation-art"><img src="${view.general?'/assets/ui/chief/general-command-v1.png':view.coup?'/assets/ui/coup/coup-succession-v2123-20261002.png':'/assets/ui/chief/queen-coronation-v1-1536.webp'}" width="${view.general?1024:1536}" height="${view.general?1536:1024}" alt="${view.general?'붉은 깃발과 철의 요새를 지배하는 냉엄한 여성 장군':view.coup?'어두운 황궁을 장악한 근엄한 여성 지휘관':'숲의 왕궁에서 루비 왕관과 아이보리 예복을 갖추고 즉위하는 여왕'}" decoding="async" fetchpriority="high"></picture>
       <div class="queen-coronation-shade" aria-hidden="true"></div><div class="queen-coronation-rays" aria-hidden="true"></div>
       <div class="queen-coronation-motes" aria-hidden="true">${Array.from({length:12},(_,i)=>`<i style="--x:${7+i*7.8}%;--delay:${(i%5)*.21}s;--rise:${60+(i%4)*24}px"></i>`).join('')}</div>
-      <header class="queen-coronation-header"><span>SOOPKETMON <b>${view.general?'GENERAL REGIME':view.coup?'THE FALL OF THE PALACE':'THE CORONATION'}</b></span><div><button type="button" class="queen-skip">연출 건너뛰기</button><button type="button" class="queen-close" aria-label="${view.general?'장군 집권식':view.coup?'쿠데타 결과':'즉위식'} 닫기">×</button></div></header>
+      <header class="queen-coronation-header"><span>REVERSE CALL <b>${view.general?'GENERAL REGIME':view.coup?'THE FALL OF THE PALACE':'THE CORONATION'}</b></span><div><button type="button" class="queen-skip">연출 건너뛰기</button><button type="button" class="queen-close" aria-label="${view.general?'장군 집권식':view.coup?'쿠데타 결과':'즉위식'} 닫기">×</button></div></header>
       <div class="queen-coronation-copy">${view.general?`<img class="general-inauguration-insignia" src="/assets/ui/chief/general-insignia-v1.svg" width="80" height="94" alt="최고사령부 휘장">
         <p class="queen-coronation-eyebrow">${view.coup?'쿠데타 성공 · 정권 교체':'최고사령부 · 집권 선포'}</p>
         <h2 id="chiefElectionTitle"><span class="queen-gold-word">장군</span><span class="queen-coronation-subtitle">집권</span></h2>
-        <div class="queen-coronation-name"><small>${view.ordinal?`제 ${view.ordinal}대 장군`:'숲켓몬의 장군'}</small><strong>${esc(chief.nickname)}</strong></div>
+        <div class="queen-coronation-name"><small>${view.ordinal?`제 ${view.ordinal}대 장군`:'리버스콜의 장군'}</small><strong>${esc(chief.nickname)}</strong></div>
         ${view.coup?`<p class="general-previous-rule">이전 집권자 <span>${esc(chief.coupSuccession.previousNickname)}</span></p>`:''}
         <p id="queenCoronationDescription">철의 명령 아래, 새로운 통치가 시작됩니다.</p><p class="queen-coronation-term">${esc(termEnd.replace('재위','집권').replace('왕실 명패','집권 명패'))} · KST</p>
         <footer><label><input type="checkbox" id="chiefHideToday"> 오늘 하루 보지 않기</label><button type="button" id="chiefPopupClose">최고사령부 확인 <span aria-hidden="true">→</span></button></footer>`:view.coup?`<p class="queen-coronation-eyebrow">THE OLD REGIME HAS FALLEN</p>
@@ -38,7 +38,7 @@
         <footer><label><input type="checkbox" id="chiefHideToday"> 오늘 하루 보지 않기</label><button type="button" id="chiefPopupClose">새로운 통치의 시작 <span aria-hidden="true">→</span></button></footer>`:`<img class="queen-coronation-crown" src="/assets/ui/chief/queen-crown-v1.svg" width="80" height="56" alt="">
         <p class="queen-coronation-eyebrow">THE FOREST WELCOMES HER QUEEN</p>
         <h2 id="chiefElectionTitle"><span class="queen-gold-word">여왕</span><span class="queen-coronation-subtitle">즉위</span></h2>
-        <div class="queen-coronation-name"><small>${view.ordinal?`제 ${view.ordinal}대 여왕`:'숲켓몬의 여왕'}</small><strong>${esc(chief.nickname)}</strong></div>
+        <div class="queen-coronation-name"><small>${view.ordinal?`제 ${view.ordinal}대 여왕`:'리버스콜의 여왕'}</small><strong>${esc(chief.nickname)}</strong></div>
         <p id="queenCoronationDescription">숲의 뜻을 이어, 새로운 시대를 열다.</p><p class="queen-coronation-term">${esc(termEnd)} · KST</p>
         <footer><label><input type="checkbox" id="chiefHideToday"> 오늘 하루 보지 않기</label><button type="button" id="chiefPopupClose">여왕의 시대를 맞이합니다 <span aria-hidden="true">→</span></button></footer>`}
       </div>

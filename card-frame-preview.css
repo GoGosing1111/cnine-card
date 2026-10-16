@@ -302,7 +302,7 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
   width:20px;
   height:20px;
   transform:translateX(-50%);
-  background:center/contain no-repeat url('../assets/ui/cninelogo.png');
+  background:center/contain no-repeat url('../assets/ui/brand/reverse-call-20261016/icon-512.png');
   filter:drop-shadow(0 0 5px rgba(255,196,117,.18));
 }
 .crimson-dominion .fur-emblem-mini{
@@ -315,7 +315,7 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
 }
 .crimson-dominion .fur-emblem-mini::before{
   inset:7px 6px 6px;
-  background:center/contain no-repeat url('../assets/ui/cninelogo.png');
+  background:center/contain no-repeat url('../assets/ui/brand/reverse-call-20261016/icon-512.png');
   filter:drop-shadow(0 0 4px rgba(255,196,117,.15));
 }
 .crimson-dominion .fur-emblem-mini::after{
@@ -362,7 +362,7 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
   position:absolute;
   inset:0;
   margin:auto;
-  background:center/contain no-repeat url('../assets/ui/cninelogo.png');
+  background:center/contain no-repeat url('../assets/ui/brand/reverse-call-20261016/icon-512.png');
   filter:drop-shadow(0 0 4px rgba(255,196,117,.16));
 }
 .crimson-dominion .fur-logo-badge::before{

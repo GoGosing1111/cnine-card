@@ -1,0 +1,117 @@
+{
+  "date": "2026-10-16",
+  "brand": "리버스콜",
+  "land": "리버스랜드",
+  "source": "User attachment codex-clipboard-066c2ee7-c814-423d-8449-4de5d9fc3374.png",
+  "processing": "Original preserved; proportional size exports only; maskable icon has safe-area padding.",
+  "files": [
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/source.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2506951,
+      "sha256": "67e735ba0ca2ebb715145e414a1598e0087516f74ca7937383582565e9fe714c",
+      "originalBytesPreserved": true
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/icon-192.png",
+      "width": 192,
+      "height": 192,
+      "bytes": 81980,
+      "sha256": "7e783a38526bb46063e9f0bfa37a85babaa13ac07af0459453a709c554f36430"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/icon-512.png",
+      "width": 512,
+      "height": 512,
+      "bytes": 549034,
+      "sha256": "0ebe379f58b694564244d35442419f7ae01c3cd367f5e88e7223ee846c8f6e70"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png",
+      "width": 180,
+      "height": 180,
+      "bytes": 72850,
+      "sha256": "f76dea5f5f8b5d7f998c7a67af9771afa8bb0a2021abaf1de7f0dccbc7e77c36"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/favicon-16.png",
+      "width": 16,
+      "height": 16,
+      "bytes": 843,
+      "sha256": "22e5f31d8d6494879e2fc84a412b699927855675ab5b10175719f8a7e0de51a4"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/favicon-32.png",
+      "width": 32,
+      "height": 32,
+      "bytes": 2844,
+      "sha256": "8ce8c9c18691c5f3d213a0c1b6dce93d901748a158dbc293944b3a1881cdd6f5"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/favicon-48.png",
+      "width": 48,
+      "height": 48,
+      "bytes": 6073,
+      "sha256": "3036a351b5b23b562c1e740b14a8f81304b3bf52961d15986796bd4ed988ef25"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/icon-128.png",
+      "width": 128,
+      "height": 128,
+      "bytes": 38292,
+      "sha256": "9df9d894cc46260a103ff38ed49aa74d774b42e44d9aa8710fb69a164db05a1a"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/maskable-512.png",
+      "width": 512,
+      "height": 512,
+      "bytes": 260901,
+      "sha256": "44344ec1e213c88aedb197e329738098cd4f1a657851541a45440bda8578738d",
+      "purpose": "maskable",
+      "padding": 84
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/logo-240.webp",
+      "width": 240,
+      "height": 240,
+      "bytes": 17434,
+      "sha256": "7a9eb4192308578afc26392d9f3a83194367326928e03979575302636681dc8c"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/logo-240.avif",
+      "width": 240,
+      "height": 240,
+      "bytes": 14610,
+      "sha256": "e36b0d4cd8bf0a49edce479b5568ecf1b8e485d4896a56ecfe669c5298f30e07"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/logo-480.webp",
+      "width": 480,
+      "height": 480,
+      "bytes": 55802,
+      "sha256": "41176a06da378dc5a5ec5b3720a792999b9d0b2aa0c691964536b497fe2420d0"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/logo-480.avif",
+      "width": 480,
+      "height": 480,
+      "bytes": 42721,
+      "sha256": "e6d367d426de640092e41bee2b6b95bc05ba2f8b27e4db87599b047dc4237033"
+    },
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/favicon.ico",
+      "sizes": [
+        16,
+        24,
+        32,
+        48,
+        64,
+        128,
+        256
+      ],
+      "bytes": 203156,
+      "sha256": "57d9f9b137d85be915891c40d6788bef283017fa6cfee7278f2250de39856781"
+    }
+  ]
+}

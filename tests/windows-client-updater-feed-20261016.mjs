@@ -22,10 +22,10 @@ app.whenReady().then(async()=>{
   catch(error){console.error(error.message);app.exit(1);}
 });
 `);
-await new Promise((resolve,reject)=>{const p=spawn(path.join(build,'node_modules/electron/dist/electron.exe'),[root],{windowsHide:true,stdio:'inherit'});p.on('error',reject);p.on('exit',code=>code===0?resolve():reject(Error('Public update feed failed: '+code)));});
+await new Promise((resolve,reject)=>{const p=spawn(process.env.ELECTRON_PATH||path.join(build,'node_modules/electron/dist/electron.exe'),[root],{windowsHide:true,stdio:'inherit'});p.on('error',reject);p.on('exit',code=>code===0?resolve():reject(Error('Public update feed failed: '+code)));});
 const result=JSON.parse(await readFile(report,'utf8'));
 assert.equal(result.passed,true);assert.equal(result.available,false);assert.equal(result.info.version,config.version);
-const name=`Soopketmon-Engine-${config.version}-x64.exe`,file=result.info.files.find(f=>f.url===name);assert(file);
+const name=config.build.artifactName.replace('${version}',config.version).replace('${arch}','x64').replace('${ext}','exe'),file=result.info.files.find(f=>f.url===name);assert(file);
 const url=`https://github.com/GoGosing1111/cnine-card/releases/download/v${config.version}/${name}`;
 const response=await fetch(url,{headers:{Range:'bytes=0-63'}});assert.equal(response.status,206);
 const prefix=Buffer.from(await response.arrayBuffer());assert.equal(prefix.subarray(0,2).toString(),'MZ');

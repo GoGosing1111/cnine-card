@@ -32,7 +32,7 @@
     selectionRound = null; selectedInmates.clear(); selectionDirty = false;
   }
   function deathStatus(data) {
-    return { incarcerated:true, facility:'DEATH_GAME', reason:'사망하였습니다. 숲켓몬 전체 플레이가 5분간 제한됩니다.',
+    return { incarcerated:true, facility:'DEATH_GAME', reason:'사망하였습니다. 리버스콜 전체 플레이가 5분간 제한됩니다.',
       jailedAt:new Date(data.me.diedAt).toISOString(), jailedUntil:new Date(data.me.blockedUntil).toISOString(),
       remainingSeconds:Math.max(0, Math.ceil((data.me.blockedUntil - data.serverNow) / 1000)) };
   }
@@ -227,7 +227,7 @@
         <div class="death-countdown" data-death-countdown hidden></div>
         <div class="death-phase"><i></i><strong data-death-heading>서버 연결 중</strong></div>
       </div><div class="death-control"><div class="death-progress-label"><span>내 식사 진행</span><b data-death-progress>0 / 24</b></div><div class="death-progress"><i data-death-fill></i></div>
-        <p class="death-forced-notice">운영자 지정 강제 참가 · 사망하면 숲켓몬 전체 플레이가 5분간 제한됩니다.</p>
+        <p class="death-forced-notice">운영자 지정 강제 참가 · 사망하면 리버스콜 전체 플레이가 5분간 제한됩니다.</p>
         <button type="button" class="death-eat" data-death-eat disabled><span aria-hidden="true">SPACE</span><b>한 입 먹기</b><small>화면 클릭 · 터치</small></button>
         <p class="death-help" data-death-help>운영자가 시작할 때만 진행됩니다.</p></div></main>
       <aside class="death-roster"><header><h3>참가자</h3><span data-death-count>0명</span></header><ol data-death-roster></ol><div class="death-rules"><b>감시자의 눈을 피하세요.</b><p>신문을 읽는 동안 한 입씩 먹고,<br>시선을 들면 클릭·스페이스를 멈추세요.</p><p>한 식탁 최대 4명. 먼저 식사를 마친 순서로 순위가 정해집니다. 사망자는 탈락합니다.</p><strong>사망 → 전체 플레이 5분 제한</strong></div></aside></div>
@@ -278,7 +278,7 @@
   }
 
   function lockView() {
-    return `<section class="death-game-lock" aria-labelledby="deathLockTitle"><div class="death-lock-grain" aria-hidden="true"></div><div class="death-lock-copy"><span class="death-lock-eyebrow">죽음의 눈치게임 · 탈락</span><span class="death-lock-line" aria-hidden="true"></span><h1 id="deathLockTitle">사망하였습니다</h1><p>숲켓몬 전체 플레이가 일시 제한됩니다.</p><div class="death-lock-count"><small>플레이 재개까지</small><strong data-death-lock-timer>05:00</strong></div><p class="death-lock-note">새로고침·재접속해도 남은 제한 시간은 유지됩니다.<br>기존 수용소 형기는 별도로 유지됩니다.</p><p data-death-lock-notice role="status">제한 종료 후 서버에서 자동으로 다시 확인합니다.</p><div class="death-lock-actions"><button type="button" data-death-lock-refresh>상태 다시 확인</button><button type="button" data-death-lock-logout>로그아웃</button></div></div></section>`;
+    return `<section class="death-game-lock" aria-labelledby="deathLockTitle"><div class="death-lock-grain" aria-hidden="true"></div><div class="death-lock-copy"><span class="death-lock-eyebrow">죽음의 눈치게임 · 탈락</span><span class="death-lock-line" aria-hidden="true"></span><h1 id="deathLockTitle">사망하였습니다</h1><p>리버스콜 전체 플레이가 일시 제한됩니다.</p><div class="death-lock-count"><small>플레이 재개까지</small><strong data-death-lock-timer>05:00</strong></div><p class="death-lock-note">새로고침·재접속해도 남은 제한 시간은 유지됩니다.<br>기존 수용소 형기는 별도로 유지됩니다.</p><p data-death-lock-notice role="status">제한 종료 후 서버에서 자동으로 다시 확인합니다.</p><div class="death-lock-actions"><button type="button" data-death-lock-refresh>상태 다시 확인</button><button type="button" data-death-lock-logout>로그아웃</button></div></div></section>`;
   }
   function bindLock(prison) {
     stop(); root = document.querySelector('.death-game-lock'); if (!root) return;

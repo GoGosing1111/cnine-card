@@ -90,7 +90,7 @@
       insignia.src=general?'/assets/ui/chief/general-insignia-v1.svg':'/assets/ui/chief/queen-crown-v1.svg';
       insignia.width=general?62:72;insignia.height=general?72:52;
       const ordinal=Number(chief.ordinal),hasOrdinal=Number.isInteger(ordinal)&&ordinal>0&&ordinal<=9999;
-      root.getElementById('chief-ordinal').textContent=chief.state==='active'?(hasOrdinal?`제 ${ordinal}대 · ${general?'최고사령부':'SOOPKETMON'}`:`현임 · ${general?'최고사령부':'SOOPKETMON'}`):general?'숲켓몬 최고사령부':'숲켓몬 왕실';
+      root.getElementById('chief-ordinal').textContent=chief.state==='active'?(hasOrdinal?`제 ${ordinal}대 · ${general?'최고사령부':'REVERSE CALL'}`:`현임 · ${general?'최고사령부':'REVERSE CALL'}`):general?'리버스콜 최고사령부':'리버스콜 왕실';
       root.getElementById('chief-term').textContent=chief.state==='active'?`${term} ${chief.remaining}`:chief.state==='suspended'?'직무정지 · 국민 재판 진행 중':chief.state==='removed'?`파면 · ${term} 종료`:chief.remaining||'집권 정보를 불러옵니다';
       const started=Date.parse(chief.startsAt),now=Date.now();
       root.getElementById('chief-new-reign').hidden=!(chief.state==='active'&&Number.isFinite(started)&&now>=started&&now-started<86400000);

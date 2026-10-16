@@ -6,7 +6,7 @@
 localStorage.setItem('cnine_battle_sound','OFF');
 window.__SOOP_CMS_IDENTITY__={role:'OWNER',nickname:'핑크빛유두'};
 window.__miraclePreviewRequests=[];
-let previewSettings={mode:'MIRACLE',enabled:false,durationMinutes:60,battleRewardMultiplier:100,title:'숲켓몬 미라클 버닝이 발동되었습니다',generation:0};
+let previewSettings={mode:'MIRACLE',enabled:false,durationMinutes:60,battleRewardMultiplier:100,title:'리버스콜 미라클 버닝이 발동되었습니다',generation:0};
 const originalFetch=window.fetch.bind(window);
 window.fetch=async(url,options={})=>{
   if(!String(url).includes('api/admin/miracle-burning-event'))return originalFetch(url,options);

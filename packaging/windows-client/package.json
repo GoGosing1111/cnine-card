@@ -1,9 +1,9 @@
 {
   "name": "soopketmon-windows",
-  "productName": "숲켓몬",
-  "version": "0.1.6",
+  "productName": "리버스콜",
+  "version": "0.1.7",
   "private": true,
-  "description": "숲켓몬 Windows 게임 클라이언트와 리소스 런처",
+  "description": "리버스콜 Windows 게임 클라이언트와 리소스 런처",
   "author": "YAKCODE",
   "main": "main.mjs",
   "type": "module",
@@ -21,16 +21,33 @@
   },
   "build": {
     "appId": "kr.yakcode.soopketmon",
-    "productName": "숲켓몬",
-    "artifactName": "Soopketmon-Engine-${version}-${arch}.${ext}",
+    "productName": "리버스콜",
+    "artifactName": "ReverseCall-Engine-${version}-${arch}.${ext}",
     "asar": true,
-    "publish": { "provider": "github", "owner": "GoGosing1111", "repo": "cnine-card", "releaseType": "release" },
-    "directories": { "output": "release", "buildResources": "build-resources" },
-    "files": ["main.mjs", "preload.cjs", "game-preload.cjs", "lib/**", "renderer/**", "package.json"],
+    "publish": {
+      "provider": "github",
+      "owner": "GoGosing1111",
+      "repo": "cnine-card",
+      "releaseType": "release"
+    },
+    "directories": {
+      "output": "release",
+      "buildResources": "build-resources"
+    },
+    "files": [
+      "main.mjs",
+      "preload.cjs",
+      "game-preload.cjs",
+      "lib/**",
+      "renderer/**",
+      "package.json"
+    ],
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "build-resources/icon.ico",
-      "executableName": "Soopketmon",
+      "executableName": "ReverseCall",
       "requestedExecutionLevel": "asInvoker",
       "signExecutable": false
     },
@@ -41,13 +58,17 @@
       "allowToChangeInstallationDirectory": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "숲켓몬",
+      "shortcutName": "리버스콜",
       "deleteAppDataOnUninstall": false,
       "runAfterFinish": false,
-      "installerLanguages": ["ko_KR", "en_US"],
+      "installerLanguages": [
+        "ko_KR",
+        "en_US"
+      ],
       "language": "1042",
       "license": "build-resources/LICENSE.txt",
-      "include": "build-resources/installer.nsh"
+      "include": "build-resources/installer.nsh",
+      "guid": "c69fcbf2-955f-5c48-8ff1-55c03889cb40"
     }
   }
 }

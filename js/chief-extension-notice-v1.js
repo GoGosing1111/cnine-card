@@ -13,16 +13,16 @@
     dialog.id='chiefExtensionNotice';dialog.className='chief-extension-notice';
     dialog.setAttribute('aria-labelledby','chiefExtensionTitle');dialog.setAttribute('aria-describedby','chiefExtensionLead');
     dialog.innerHTML=`<div class="chief-extension-layout">
-      <figure class="chief-extension-art"><img src="${ART}" width="1024" height="1536" alt="검은 군복 차림으로 붉은 사령부에서 특별 담화를 발표하는 진짜디임 장군"><figcaption><span>SUPREME COMMAND</span><strong>진짜디임</strong><small>제${esc(notice.ordinal||10)}대 장군 · 숲켓몬 최고사령부</small></figcaption></figure>
+      <figure class="chief-extension-art"><img src="${ART}" width="1024" height="1536" alt="검은 군복 차림으로 붉은 사령부에서 특별 담화를 발표하는 진짜디임 장군"><figcaption><span>SUPREME COMMAND</span><strong>진짜디임</strong><small>제${esc(notice.ordinal||10)}대 장군 · 리버스콜 최고사령부</small></figcaption></figure>
       <section class="chief-extension-copy"><header><span class="chief-extension-bulletin">최고사령부 특별 담화</span><button type="button" class="chief-extension-close" aria-label="특별 담화 닫기">×</button></header>
-        <p class="chief-extension-overline">SOOPKETMON · EMERGENCY DECLARATION</p>
+        <p class="chief-extension-overline">REVERSE CALL · EMERGENCY DECLARATION</p>
         <h2 id="chiefExtensionTitle">끝나지 않은 통치.<br><em>독재정권 연장</em></h2>
         <p id="chiefExtensionLead"><strong>진짜디임 장군</strong>이 현 정국이 혼란하다는 이유로<br class="chief-extension-desktop"> <strong>장군(족장) 임기를 7일 연장</strong>한다고 밝혔습니다.</p>
         <blockquote>“지금은 권력을 내려놓을 때가 아니다.<br>숲의 질서는 내가 바로잡겠다.”</blockquote>
-        <p class="chief-extension-story">최고사령부는 잇따른 정국 불안과 민심의 동요를 수습하기 위해 강력한 통치가 더 필요하다고 발표했습니다. 장군은 남은 혼란을 정리하고 숲켓몬의 질서를 지키겠다는 뜻을 거듭 강조했습니다.</p>
+        <p class="chief-extension-story">최고사령부는 잇따른 정국 불안과 민심의 동요를 수습하기 위해 강력한 통치가 더 필요하다고 발표했습니다. 장군은 남은 혼란을 정리하고 리버스콜의 질서를 지키겠다는 뜻을 거듭 강조했습니다.</p>
         <p class="chief-extension-story">이에 따라 예정됐던 권력 이양은 뒤로 미뤄졌습니다. 사령부의 붉은 깃발은 다시 올랐고, 진짜디임의 통치는 앞으로도 계속됩니다.</p>
         <div class="chief-extension-term"><span><small>임기 연장</small><b>+7<em>일</em></b></span><div><small>연장된 임기 종료 · 한국 시간</small><strong>${esc(date(notice.endsAt))}</strong><del>기존 ${esc(date(notice.previousEndsAt))}</del></div></div>
-        <footer><small>숲켓몬 세계관 소식</small><button type="button" class="chief-extension-confirm">담화 확인 <span aria-hidden="true">→</span></button></footer>
+        <footer><small>리버스콜 세계관 소식</small><button type="button" class="chief-extension-confirm">담화 확인 <span aria-hidden="true">→</span></button></footer>
       </section></div>`;
     return dialog;
   }

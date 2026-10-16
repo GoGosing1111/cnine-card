@@ -1,4 +1,4 @@
-/* SOOPKETMON ALCHEMY LAB V1
+/* REVERSE CALL ALCHEMY LAB V1
  * Production renderer. Preview pages may inject a request adapter, but the
  * screen, selection rules and result presentation are shared with live.
  */
@@ -207,7 +207,7 @@
       const slotsReady = state.selected.length >= rule.minSlots;
       root.innerHTML = `<section class="alchemy-v1-shell${state.busy ? ' is-busy' : ''}" style="--alchemy-tone:${escapeHtml(tier.color || '#76eaff')}">
         <header class="alch-command-header">
-          <div class="alch-brand"><span>${svgIcon('alchemy')}</span><div><small>SOOPKETMON / FORBIDDEN LAB</small><strong>연금 공방</strong></div></div>
+          <div class="alch-brand"><span>${svgIcon('alchemy')}</span><div><small>REVERSE CALL / FORBIDDEN LAB</small><strong>연금 공방</strong></div></div>
           <div class="alch-account"><span><small>${state.data.access?.ownerTest ? 'OWNER TEST' : '연금 기록'}</small><b>${formatNumber(state.data.totalRuns || 0)}회</b></span><span><small>사용자</small><b>${escapeHtml(state.data.profile?.nickname || profile.nickname || '플레이어')}</b></span></div>
         </header>
 

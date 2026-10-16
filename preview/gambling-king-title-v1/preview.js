@@ -9,7 +9,7 @@
   const link = document.getElementById('viewMode');
   if (locked) { link.href='?';link.textContent='획득 후 보기'; }
   window.titlePreview = window.SoopketmonCharacterLoadoutV2.create(document.getElementById('achievementTitles'), {
-    initialTab:'title',assetBase:'../../',profile:{nickname:'숲켓몬'},
+    initialTab:'title',assetBase:'../../',profile:{nickname:'리버스콜'},
     async request(path) {
       if(path==='character/loadout')return structuredClone(data);
       if(/^character\/title\/(equip|unequip)$/.test(path))return {ok:true};
@@ -19,6 +19,6 @@
   });
   document.getElementById('callingCard').addEventListener('click', () => {
     const current = window.titlePreview.getState();
-    window.PlayerCallingCard.open({previewData:{player:{nickname:'숲켓몬',title:current.titles.find(t=>t.id===current.equippedTitleId)||null},ranked:{state:'UNRANKED',season:'미리보기',history:[]},clanHistory:[],trophies:[],frame:{name:'옵시디언',level:0}}});
+    window.PlayerCallingCard.open({previewData:{player:{nickname:'리버스콜',title:current.titles.find(t=>t.id===current.equippedTitleId)||null},ranked:{state:'UNRANKED',season:'미리보기',history:[]},clanHistory:[],trophies:[],frame:{name:'옵시디언',level:0}}});
   });
 })();

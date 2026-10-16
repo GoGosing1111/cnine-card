@@ -17,7 +17,7 @@ const $=id=>document.getElementById(id),text=(id,value)=>{$(id).textContent=Stri
 let state,session,bridge,disposed=false,presenting=false,displayed='',repeatLeft=0,paused=false,speed=1,refreshing=false,idleSession='',idleKey='',idleTimer,heartbeatTimer;
 const storage=localStorage;
 const soundEnabled=storage.getItem('cnine_battle_sound')!=='OFF';$('sound').setAttribute('aria-pressed',String(soundEnabled));text('sound',soundEnabled?'소리 끄기':'소리 켜기');
-document.body.dataset.content=content;text('title',labels[content][0]);text('eyebrow',labels[content][1]);text('description',labels[content][2]);document.title=`숲켓몬 · ${labels[content][0]}`;
+document.body.dataset.content=content;text('title',labels[content][0]);text('eyebrow',labels[content][1]);text('description',labels[content][2]);document.title=`리버스콜 · ${labels[content][0]}`;
 document.querySelector(`[data-content-link="${content}"]`).setAttribute('aria-current','page');
 $('tier-control').hidden=!isTower;$('difficulty').hidden=isTower;$('repeat-control').hidden=isIdle||isCow;$('idle-stop').hidden=!isIdle;$('claim').hidden=!isIdle;
 $('battle-frame').src=`./battle.html?content=${content}`;

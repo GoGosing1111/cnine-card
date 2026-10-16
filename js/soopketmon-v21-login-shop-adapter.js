@@ -118,7 +118,7 @@
       const input = box.querySelector(type === 'register' ? '#nickname' : '#key');
       const value = String(input?.value || '').trim();
       if (!value) {
-        setAuthStatus(box, 'error', type === 'register' ? 'PLAY DK 닉네임을 입력해 주세요.' : '숲켓몬 개인키를 입력해 주세요.');
+        setAuthStatus(box, 'error', type === 'register' ? 'PLAY DK 닉네임을 입력해 주세요.' : '리버스콜 개인키를 입력해 주세요.');
         input?.focus();
         return;
       }
@@ -172,8 +172,8 @@
     const eyebrow = box.querySelector(':scope > .eyebrow');
     const heading = box.querySelector(':scope > h1');
     if (eyebrow) eyebrow.textContent = 'SECURE PLAYER GATEWAY';
-    if (heading) heading.textContent = '숲켓몬 접속';
-    logo?.setAttribute('alt', 'SOOP 카드 컬렉션 RPG');
+    if (heading) heading.textContent = '리버스콜 접속';
+    logo?.setAttribute('alt', '리버스콜 카드 컬렉션 RPG');
 
     const brand = document.createElement('header');
     brand.className = 'v21-auth-brand';
@@ -181,7 +181,7 @@
     const brandCopy = document.createElement('div');
     if (eyebrow) brandCopy.append(eyebrow);
     if (heading) brandCopy.append(heading);
-    brandCopy.insertAdjacentHTML('beforeend', '<p>PLAY DK 이용자를 위한 숲켓몬 접속 화면입니다.</p>');
+    brandCopy.insertAdjacentHTML('beforeend', '<p>PLAY DK 이용자를 위한 리버스콜 접속 화면입니다.</p>');
     brand.append(brandCopy);
 
     const modeTabs = document.createElement('div');
@@ -207,7 +207,7 @@
     notice?.remove();
     divider?.remove();
 
-    keyField.querySelector('label')?.replaceChildren(document.createTextNode('숲켓몬 개인키'));
+    keyField.querySelector('label')?.replaceChildren(document.createTextNode('리버스콜 개인키'));
     const keyInput = keyField.querySelector('#key');
     if (keyInput) {
       keyInput.placeholder = 'CN-XXXX-XXXX-XXXX';
@@ -243,7 +243,7 @@
     startButton.textContent = '닉네임으로 새 계정 만들기';
     startButton.classList.remove('secondary');
     startButton.classList.add('v21-auth-submit');
-    nicknamePanel.insertAdjacentHTML('afterbegin', '<div class="v21-auth-panel-head"><small>NEW PLAYER REGISTRATION</small><h2>PLAY DK 닉네임 등록</h2><p>PLAY DK 닉네임으로 새 숲켓몬 계정을 만들고 개인키를 발급받습니다.</p></div>');
+    nicknamePanel.insertAdjacentHTML('afterbegin', '<div class="v21-auth-panel-head"><small>NEW PLAYER REGISTRATION</small><h2>PLAY DK 닉네임 등록</h2><p>PLAY DK 닉네임으로 새 리버스콜 계정을 만들고 개인키를 발급받습니다.</p></div>');
     nicknamePanel.append(nicknameField, startButton);
     nicknamePanel.insertAdjacentHTML('beforeend', '<p class="v21-auth-contract-note">닉네임은 신규 계정 생성에 사용됩니다. 기존 이용자는 서비스 구분 없이 개인키 로그인을 이용해 주세요.</p>');
 
@@ -256,7 +256,7 @@
     status.hidden = true;
     const footer = document.createElement('footer');
     footer.className = 'v21-auth-footer';
-    footer.innerHTML = '<span><i></i> SECURE SESSION</span><small>SOOPKETMON PROJECT V</small>';
+    footer.innerHTML = '<span><i></i> SECURE SESSION</span><small>REVERSE CALL PROJECT V</small>';
 
     box.replaceChildren(brand, modeTabs, panels, status, footer);
     modeTabs.querySelectorAll('[data-v21-auth-mode]').forEach(button => button.addEventListener('click', () => setAuthMode(box, button.dataset.v21AuthMode, true)));
@@ -281,9 +281,9 @@
     const heading = box.querySelector('h1');
     if (eyebrow) eyebrow.textContent = 'PLAYER IDENTITY ISSUED';
     if (heading) heading.textContent = '계정 생성 완료';
-    keyInput.setAttribute('aria-label', '숲켓몬 개인키');
-    keyInput.closest('.field')?.querySelector('label')?.replaceChildren(document.createTextNode('숲켓몬 개인키'));
-    copyButton.textContent = '숲켓몬 개인키 복사';
+    keyInput.setAttribute('aria-label', '리버스콜 개인키');
+    keyInput.closest('.field')?.querySelector('label')?.replaceChildren(document.createTextNode('리버스콜 개인키'));
+    copyButton.textContent = '리버스콜 개인키 복사';
     gameButton.textContent = '게임 로비 입장';
     box.insertAdjacentHTML('afterbegin', '<div class="v21-created-signal" aria-hidden="true"><i></i><span>IDENTITY VERIFIED</span></div>');
     box.insertAdjacentHTML('beforeend', '<p class="v21-created-warning"><b>중요</b> 개인키는 계정 복구에 필요합니다. 안전한 곳에 보관한 뒤 게임을 시작하세요.</p>');

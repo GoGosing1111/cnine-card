@@ -36,7 +36,7 @@ export function mountSupportScreenGuard(dialog,{getUser=()=>({}),now=Date.now}={
     }
     const user=getUser(),id=Number(user?.serverUserId||user?.id),viewer=Number.isSafeInteger(id)&&id>0?'#'+id:'VIEWER';
     const stamp=new Date(now()).toLocaleString('sv-SE',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
-    const svg='<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180"><g transform="rotate(-18 160 90)" fill="#dbe8f3" opacity=".12" font-family="Arial,sans-serif" font-size="12" text-anchor="middle"><text x="160" y="82">SOOPKETMON · '+viewer+'</text><text x="160" y="101">'+stamp+' KST</text></g></svg>';
+    const svg='<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180"><g transform="rotate(-18 160 90)" fill="#dbe8f3" opacity=".12" font-family="Arial,sans-serif" font-size="12" text-anchor="middle"><text x="160" y="82">REVERSE CALL · '+viewer+'</text><text x="160" y="101">'+stamp+' KST</text></g></svg>';
     dialog.style.setProperty('--ss-viewer-watermark',`url("data:image/svg+xml,${encodeURIComponent(svg)}")`);
     dialog.toggleAttribute('data-ss-covered',covered);
     if(active()&&(doc.hidden||!doc.hasFocus()))conceal();

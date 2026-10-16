@@ -1,4 +1,4 @@
-/* SOOPKETMON CHARACTER LOADOUT V2
+/* REVERSE CALL CHARACTER LOADOUT V2
  * Production candidate: consumes the live character/loadout contract and the
  * existing equip/unequip endpoints. Preview pages inject only a fixture request
  * adapter; the renderer and interaction code are shared with production.
@@ -387,7 +387,7 @@
         ? `<button type="button" class="${state.tab === 'skillChips' ? 'is-active' : ''}" data-tab="skillChips" aria-selected="${state.tab === 'skillChips'}">${icon('skillChips')}<span>스킬칩</span></button>` : '';
       return `<div class="clv2-shell" data-active-tab="${state.tab}">
         <header class="clv2-command-header">
-          <div class="clv2-brand-block"><span class="clv2-brand-mark">S</span><div><small>SOOPKETMON / GROWTH SYSTEM</small><strong>장비 시스템</strong></div></div>
+          <div class="clv2-brand-block"><span class="clv2-brand-mark">S</span><div><small>REVERSE CALL / GROWTH SYSTEM</small><strong>장비 시스템</strong></div></div>
           <nav class="clv2-tabs${avatarEntry ? ' has-avatar-entry' : ''}${chipEntry ? ' has-skill-chip-entry' : ''}" aria-label="캐릭터 성장 메뉴">${Object.entries(TAB_LABELS).filter(([tab]) => tab !== 'skillChips').map(([tab, label]) => `<button type="button" class="${state.tab === tab ? 'is-active' : ''}" data-tab="${tab}" aria-selected="${state.tab === tab}">${icon(tab)}<span>${label}</span></button>`).join('')}${avatarEntry}${chipEntry}</nav>
           <div class="clv2-live-status"><span><i></i> LIVE DATA</span><b>${escapeHtml(profile.nickname || '플레이어')}</b><small>${titleBadge(activeTitle)}</small></div>
         </header>

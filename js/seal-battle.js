@@ -253,7 +253,7 @@
     modal.className = `modal show battle-modal seal-combat-modal role-${roleKey.toLowerCase()}`;
     modal.innerHTML = `<div class="modal-panel battle-stage seal-battle-stage intro">
       <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>
-      <div class="battle-topline"><span>SOOPKETMON SEAL BATTLE</span><b id="battlePhase">SEAL ENCOUNTER</b></div>
+      <div class="battle-topline"><span>REVERSE CALL SEAL BATTLE</span><b id="battlePhase">SEAL ENCOUNTER</b></div>
       <div class="seal-combat-role-chip"><span>${meta.icon}</span><b>${meta.label}</b><small>승리 100% · 패배 ${Number(event.defeatContributionPercent ?? 10)}% 공헌 · 궁극기 사용 불가</small></div>
       <div class="battle-hud">
         <div class="battle-hp battle-hp-team"><div class="battle-hp-head"><b>PVE SEAL TEAM</b><span data-hp-text="team">100 / 100 · 100%</span></div><div class="battle-hp-track"><u data-hp-trail="team"></u><i data-hp-fill="team"></i><em>K.O.</em></div><small>전투력 ${number(latest?.deck?.power)}</small></div>

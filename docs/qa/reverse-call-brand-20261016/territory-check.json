@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-10-16T05:31:23.531Z",
+  "checks": [
+    {
+      "name": "territory",
+      "width": 1440,
+      "title": "리버스콜 · 영토전 모집신청",
+      "oldBrandVisible": false,
+      "horizontalOverflow": false,
+      "icons": [
+        {
+          "src": "/assets/ui/brand/reverse-call-20261016/icon-192.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "territory",
+      "width": 390,
+      "title": "리버스콜 · 영토전 모집신청",
+      "oldBrandVisible": false,
+      "horizontalOverflow": false,
+      "icons": [
+        {
+          "src": "/assets/ui/brand/reverse-call-20261016/icon-192.png",
+          "loaded": true
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "apiWrites": 0
+}

@@ -20,7 +20,7 @@
       <header class="camp-header"><div class="camp-authority"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V3h16v18M8 3v18m4-18v18m4-18v18M4 8h16M4 17h16"/></svg><span>행정부 <i>/</i> 포로 관리국</span><b>외부 출입 통제</b></div>
         <div class="camp-actions">${isLocked ? '' : '<button type="button" data-camp-exit><span aria-hidden="true">←</span> 로비로 돌아가기</button>'}<button type="button" data-camp-trial>족장 재판 투표</button><button type="button" data-camp-logout>로그아웃</button></div></header>
       <div class="camp-layout"><div class="camp-main">
-        <section class="camp-death-entry"><div><small>운영자가 수감자를 지정하는 강제 경기</small><h2>죽음의 눈치게임</h2><p>지정된 수감자 최대 4명이 함께 식사합니다.<br>사망 시 숲켓몬 전체 플레이 5분 제한</p></div><button type="button" data-camp-death-game>운영 / 관전 ↗</button></section>
+        <section class="camp-death-entry"><div><small>운영자가 수감자를 지정하는 강제 경기</small><h2>죽음의 눈치게임</h2><p>지정된 수감자 최대 4명이 함께 식사합니다.<br>사망 시 리버스콜 전체 플레이 5분 제한</p></div><button type="button" data-camp-death-game>운영 / 관전 ↗</button></section>
         <section class="camp-scene" aria-label="철창으로 봉쇄된 수용동">
           <div class="camp-scene-top"><span><i></i> DETENTION CAMP</span><span class="camp-seal">격리 시설</span></div>
           <div class="camp-title"><span class="camp-eyebrow">패전의 끝. 철문이 닫힌다.</span><h1>포로수용소</h1><p>패전 인원 격리 구역</p></div>
@@ -38,7 +38,7 @@
         <div class="camp-chat-base" aria-hidden="true"><i></i><span>행정부 감시 채널</span><i></i></div>
       </aside></div>
       <div class="camp-status" role="status"><span id="campConnection">수용소에 연결하고 있습니다.</span><button type="button" data-camp-refresh>다시 확인</button></div>
-      <footer class="camp-footer"><span>SOOPKETMON <i>/</i> ADMINISTRATION</span><p>형기 종료 시 자동 석방 · 운영자 조기 석방 가능</p></footer>
+      <footer class="camp-footer"><span>REVERSE CALL <i>/</i> ADMINISTRATION</span><p>형기 종료 시 자동 석방 · 운영자 조기 석방 가능</p></footer>
     </section>`;
   }
 

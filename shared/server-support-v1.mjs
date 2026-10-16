@@ -1,5 +1,5 @@
 export const SUPPORT_PLAN=Object.freeze({version:1,priceWon:29800,durationDays:30,minimumAccountDays:3,extraLegionEntries:3,magnetSuccessPercent:100});
-export const SUPPORT_NOTICE='후원금은 숲켓몬의 서버 운영비와 서비스 유지·보수, 새로운 콘텐츠 및 기능 개발에 사용됩니다.';
+export const SUPPORT_NOTICE='후원금은 리버스콜의 서버 운영비와 서비스 유지·보수, 새로운 콘텐츠 및 기능 개발에 사용됩니다.';
 export const SUPPORT_DURATION_MS=SUPPORT_PLAN.durationDays*86400000;
 export const supportKey=userId=>'server_support_v1:'+Number(userId);
 // Verified operating account. A matching nickname alone never grants access.

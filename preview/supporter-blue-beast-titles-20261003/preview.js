@@ -8,7 +8,7 @@
   const data={slots:[],instances:[],loadout:{},titles,vehicles:[],equippedTitleId:locked?null:1,bonuses:{}};
   if(locked){document.getElementById('viewMode').href='?';document.getElementById('viewMode').textContent='획득 후 보기';}
   window.titlePreview=window.SoopketmonCharacterLoadoutV2.create(document.getElementById('achievementTitles'),{
-    initialTab:'title',assetBase:'../../',profile:{nickname:'숲켓몬'},
+    initialTab:'title',assetBase:'../../',profile:{nickname:'리버스콜'},
     async request(path,init={}){
       if(path==='character/loadout')return structuredClone(data);
       if(path==='character/title/equip'){

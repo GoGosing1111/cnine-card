@@ -133,7 +133,7 @@ export async function ensureLand(db,env={DB:db}){
   await db.batch([
     stmt(db,"INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING",SETTINGS,JSON.stringify(defaults())),
     ...[
-      [LAND_TICKET,'숲켓랜드 이용권','STREAMER EVENT PASS','OWNER가 지급하는 방송 이벤트 전용 이용권. 숲켓랜드에서 1개를 사용합니다.','assets/ui/soopketland/event-ticket-v1.svg'],
+      [LAND_TICKET,'리버스랜드 이용권','STREAMER EVENT PASS','OWNER가 지급하는 방송 이벤트 전용 이용권. 리버스랜드에서 1개를 사용합니다.','assets/ui/soopketland/event-ticket-v1.svg'],
       [HYPER_TICKET,'하이퍼버닝 발동권 ×15','SERVER HYPER BURNING','스트리머가 사용하면 서버 전체에 ×15 하이퍼버닝이 60분간 적용됩니다. 기존 버닝 진행 중에는 사용할 수 없습니다.','assets/ui/soopketland/hyper-ticket-v1.svg'],
       [SUPERSTAR_TICKET,'슈퍼스타팩 확정권','GUARANTEED SUPERSTAR','사용 시 활성·공개 슈퍼스타 카드 중 1장을 100% 획득합니다. 중복도 카드 1장으로 지급됩니다.','assets/ui/soopketland/superstar-guaranteed-v2065.svg']
     ].map(([code,name,subtitle,description,image])=>stmt(db,"INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,'ENTRY_TICKET','SPECIAL',?,125,1) ON CONFLICT(code) DO NOTHING",code,name,subtitle,description,image)),
@@ -250,7 +250,7 @@ async function grant(db,user,body){
   guardUser(db,list,user.id,true);guardUser(db,list,plan.userId);
   list.push(stmt(db,'INSERT INTO soopketland_ticket_lots(id,user_id,issued_by,quantity,remaining,coupon_uses,plan_json,created_at) VALUES(?,?,?,?,?,?,?,?)',body.requestId,plan.userId,user.id,plan.quantity,plan.quantity,plan.couponUses,JSON.stringify(plan),now()));
   inventoryGrant(db,list,plan.userId,LAND_TICKET,plan.quantity,body.requestId);
-  message(db,list,plan.userId,'숲켓랜드 이용권 도착',`OWNER가 이용권 ${plan.quantity}개를 지급했습니다. 당첨 쿠폰은 각 ${plan.couponUses}명이 사용할 수 있습니다. 행정부 → 숲켓랜드에서 이용하세요.`,null,body.requestId);
+  message(db,list,plan.userId,'리버스랜드 이용권 도착',`OWNER가 이용권 ${plan.quantity}개를 지급했습니다. 당첨 쿠폰은 각 ${plan.couponUses}명이 사용할 수 있습니다. 행정부 → 리버스랜드에서 이용하세요.`,null,body.requestId);
   actionReceipt(db,list,user,body.requestId,'GRANT',plan,response);
   return await commit(db,list,()=>replayAction(db,user,body.requestId,'GRANT',plan))||response;
 }
@@ -282,7 +282,7 @@ export async function redeemLandCoupon({env,user,body,deps}){
     const finish=async result=>{const fresh=await one(db,'SELECT * FROM users WHERE id=?',user.id);return deps.json({...result,user:await deps.profile(env,fresh)})};
     const prior=await read();if(prior)return finish(prior);
     const coupon=await one(db,'SELECT * FROM soopketland_coupons WHERE code=?',code);
-    if(!coupon||!Number(coupon.is_active))throw fail('존재하지 않거나 중지된 숲켓랜드 쿠폰입니다.',404);
+    if(!coupon||!Number(coupon.is_active))throw fail('존재하지 않거나 중지된 리버스랜드 쿠폰입니다.',404);
     if(Number(coupon.used_count)>=Number(coupon.max_uses))throw fail('쿠폰 사용 인원이 모두 마감되었습니다.',409,'LAND_COUPON_EXHAUSTED');
     const prize=parse(coupon.reward_json),spec=REDEEM_PRIZES.find(p=>p.key===prize?.key);
     if(!spec||prize.key===HYPER_TICKET||!safeInt(prize.amount,spec.min*spec.unit,spec.max*spec.unit)||prize.amount%spec.unit)throw fail('쿠폰 보상 설정을 확인해야 합니다.',409);

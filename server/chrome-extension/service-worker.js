@@ -4,7 +4,7 @@ const setStore=data=>chrome.storage.local.set(data);
 
 async function api(path,options={}){
   const {adminToken,apiBase=DEFAULT_API}=await getStore(['adminToken','apiBase']);
-  if(!adminToken) throw new Error('숲켓몬 관리자 인증을 먼저 가져오세요.');
+  if(!adminToken) throw new Error('리버스콜 관리자 인증을 먼저 가져오세요.');
   let response;
   try{
     response=await fetch(`${String(apiBase).replace(/\/$/,'')}/${path}`,{
@@ -12,7 +12,7 @@ async function api(path,options={}){
       headers:{'content-type':'application/json','authorization':`Bearer ${adminToken}`,...(options.headers||{})}
     });
   }catch(error){
-    throw new Error(`숲켓몬 서버 연결 실패: ${error?.message||'네트워크 또는 CORS 오류'}`);
+    throw new Error(`리버스콜 서버 연결 실패: ${error?.message||'네트워크 또는 CORS 오류'}`);
   }
   const data=await response.json().catch(()=>({error:'서버 응답을 읽지 못했습니다.'}));
   if(!response.ok) {const e=new Error(data.error||`요청 실패 (${response.status})`);e.data=data;throw e;}
@@ -41,7 +41,7 @@ async function syncAdminTokenFromTabs(){
       lastError=error?.message||'CMS 탭에서 인증 정보를 읽지 못했습니다.';
     }
   }
-  if(!tabs.length) lastError='열려 있는 숲켓몬 CMS 탭을 찾지 못했습니다.';
+  if(!tabs.length) lastError='열려 있는 리버스콜 CMS 탭을 찾지 못했습니다.';
   return {connected:false,error:lastError};
 }
 

@@ -117,7 +117,7 @@ function reviewEditor(){
 }
 function render(){
   if(!section)return;
-  section.innerHTML=`<div class="mc-console"><header class="mc-header"><div><small>SOOPKETMON / PROJECT V</small><h2>용병 운영실<span>CMS</span></h2><p>캐릭터, 스킬, 성장 설계를 한곳에서 관리합니다.</p></div><div class="mc-header-counts"><span><b>${data?.document?.mercenaries?.length??0}</b> MERCENARIES</span><span><b>${data?.document?.skills?.length??0}</b> SKILLS</span><em>CMS LIVE</em></div></header>
+  section.innerHTML=`<div class="mc-console"><header class="mc-header"><div><small>REVERSE CALL / PROJECT V</small><h2>용병 운영실<span>CMS</span></h2><p>캐릭터, 스킬, 성장 설계를 한곳에서 관리합니다.</p></div><div class="mc-header-counts"><span><b>${data?.document?.mercenaries?.length??0}</b> MERCENARIES</span><span><b>${data?.document?.skills?.length??0}</b> SKILLS</span><em>CMS LIVE</em></div></header>
     <div class="mc-status"><span class="mc-status-dot"></span><p>${data?.deployment?.enabled?'PVE·PVP 용병 1장 편성 ON · 스킬은 수치·검수 완료 후 적용':'용병 운영 상태 확인 중'}</p>${data?`<small>r${data.revision} · ${date(data.updatedAt)}</small>`:''}</div>
     <div class="mc-tabs" role="tablist" aria-label="용병 관리 분류">${Object.entries(tabs).map(([k,v])=>`<button role="tab" aria-selected="${tab===k}" data-tab="${k}">${v}</button>`).join('')}</div>
     <p class="mc-notice ${error?'is-error':''}" role="status" aria-live="polite">${esc(notice||'초안 저장 후 다른 기기에서도 이어서 관리할 수 있습니다.')}</p>

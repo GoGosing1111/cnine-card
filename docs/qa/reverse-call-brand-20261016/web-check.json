@@ -1,0 +1,107 @@
+{
+  "checkedAt": "2026-10-16T05:26:19.754Z",
+  "checks": [
+    {
+      "name": "login",
+      "width": 1440,
+      "title": "리버스콜 카드뽑기",
+      "oldBrandVisible": false,
+      "horizontalOverflow": false,
+      "icons": [
+        {
+          "src": "assets/ui/brand/reverse-call-20261016/icon-512.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "lobby",
+      "width": 1440,
+      "title": "리버스콜 · 로비 개편 시안",
+      "oldBrandVisible": false,
+      "horizontalOverflow": false,
+      "icons": [
+        {
+          "src": "/assets/ui/brand/reverse-call-20261016/icon-192.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "land",
+      "width": 1440,
+      "title": "리버스랜드 · 빠찡코 연출 프리뷰",
+      "oldBrandVisible": false,
+      "horizontalOverflow": false,
+      "icons": []
+    },
+    {
+      "name": "cms",
+      "width": 1440,
+      "title": "REVERSE CALL CARD GM CMS",
+      "oldBrandVisible": false,
+      "horizontalOverflow": false,
+      "icons": []
+    },
+    {
+      "name": "materials",
+      "width": 1440,
+      "title": "아르덴 에너지 · 비밀무기 설계도",
+      "oldBrandVisible": false,
+      "horizontalOverflow": false,
+      "icons": []
+    },
+    {
+      "name": "login",
+      "width": 390,
+      "title": "리버스콜 카드뽑기",
+      "oldBrandVisible": false,
+      "horizontalOverflow": false,
+      "icons": [
+        {
+          "src": "assets/ui/brand/reverse-call-20261016/icon-512.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "lobby",
+      "width": 390,
+      "title": "리버스콜 · 로비 개편 시안",
+      "oldBrandVisible": false,
+      "horizontalOverflow": false,
+      "icons": [
+        {
+          "src": "/assets/ui/brand/reverse-call-20261016/icon-192.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "land",
+      "width": 390,
+      "title": "리버스랜드 · 빠찡코 연출 프리뷰",
+      "oldBrandVisible": false,
+      "horizontalOverflow": false,
+      "icons": []
+    },
+    {
+      "name": "cms",
+      "width": 390,
+      "title": "REVERSE CALL CARD GM CMS",
+      "oldBrandVisible": false,
+      "horizontalOverflow": false,
+      "icons": []
+    },
+    {
+      "name": "materials",
+      "width": 390,
+      "title": "아르덴 에너지 · 비밀무기 설계도",
+      "oldBrandVisible": false,
+      "horizontalOverflow": false,
+      "icons": []
+    }
+  ],
+  "errors": [],
+  "apiWrites": 0
+}

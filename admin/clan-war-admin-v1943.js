@@ -15,7 +15,7 @@
   function shell(){
     const target=root();if(!target||q('clanWarAdminV1943'))return;
     target.innerHTML=`<section id="clanWarAdminV1943" class="cwadmin-shell">
-      <header class="cwadmin-hero"><div><small>SOOPKETMON · CLAN WAR CMS</small><h2>클랜전 통합 운영실</h2><p>7라운드 2시간 클랜전, 10 행동력·5분 회복, 서버 랜덤 매칭과 최신 랭크전 덱을 한 화면에서 관리합니다.</p></div><div class="cwadmin-hero-state"><span id="cwModeBadge">LOADING</span><b id="cwSeasonBadge">시즌 확인 중</b><small id="cwServerNow">SERVER SYNC</small></div></header>
+      <header class="cwadmin-hero"><div><small>REVERSE CALL · CLAN WAR CMS</small><h2>클랜전 통합 운영실</h2><p>7라운드 2시간 클랜전, 10 행동력·5분 회복, 서버 랜덤 매칭과 최신 랭크전 덱을 한 화면에서 관리합니다.</p></div><div class="cwadmin-hero-state"><span id="cwModeBadge">LOADING</span><b id="cwSeasonBadge">시즌 확인 중</b><small id="cwServerNow">SERVER SYNC</small></div></header>
       <section class="cwadmin-metrics" id="cwMetrics"><article><small>시즌 참가</small><b>-</b></article><article><small>편성 클랜</small><b>-</b></article><article><small>진행 대진</small><b>-</b></article><article><small>전투 영수증</small><b>-</b></article></section>
       <section class="cwadmin-gates"><header><div><small>RELEASE GATE</small><h3>라이브 연결 상태</h3></div><span>SERVER ENFORCED CONTRACT</span></header><div id="cwReleaseGates"></div></section>
       <form id="cwSettingsForm" class="cwadmin-form">

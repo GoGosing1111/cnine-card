@@ -86,7 +86,7 @@
     stateByPrefix[prefix]={...settings,durationMinutes:ALLOWED_DURATIONS.includes(duration)?duration:60};activeMode=nextActiveMode||'NONE';
     $(`#${prefix}Enabled`).value=enabled?'1':'0';
     $(`#${prefix}DurationMinutes`).value=String(stateByPrefix[prefix].durationMinutes);
-    $(`#${prefix}Title`).value=String(settings.title||(hyper?'숲켓몬 하이퍼 버닝이 발동 되었습니다':'숲켓몬 버닝이 발동 되었습니다')).replaceAll('\uC528\uCF13\uBAAC','숲켓몬');
+    $(`#${prefix}Title`).value=String(settings.title||(hyper?'리버스콜 하이퍼 버닝이 발동 되었습니다':'리버스콜 버닝이 발동 되었습니다')).replaceAll('\uC528\uCF13\uBAAC','리버스콜');
     $(`#${prefix}PveMax`).value=Number(settings.pveMaxEnergy??(hyper?30:15));
     $(`#${prefix}PvpMax`).value=Number(settings.pvpMaxEnergy??(hyper?30:15));
     $(`#${prefix}Recharge`).value=Number(settings.rechargeMinutes??(hyper?1:2));
@@ -96,7 +96,7 @@
 
   function draft(prefix){
     const hyper=prefix==='hyperBurning';
-    return {enabled:$(`#${prefix}Enabled`).value==='1',durationMinutes:value(`#${prefix}DurationMinutes`,60),title:String($(`#${prefix}Title`).value||'').trim().replaceAll('\uC528\uCF13\uBAAC','숲켓몬'),pveMaxEnergy:value(`#${prefix}PveMax`,hyper?30:15),pvpMaxEnergy:value(`#${prefix}PvpMax`,hyper?30:15),rechargeMinutes:value(`#${prefix}Recharge`,hyper?1:2),duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:value(`#${prefix}RewardMultiplier`,hyper?2.5:1.5)};
+    return {enabled:$(`#${prefix}Enabled`).value==='1',durationMinutes:value(`#${prefix}DurationMinutes`,60),title:String($(`#${prefix}Title`).value||'').trim().replaceAll('\uC528\uCF13\uBAAC','리버스콜'),pveMaxEnergy:value(`#${prefix}PveMax`,hyper?30:15),pvpMaxEnergy:value(`#${prefix}PvpMax`,hyper?30:15),rechargeMinutes:value(`#${prefix}Recharge`,hyper?1:2),duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:value(`#${prefix}RewardMultiplier`,hyper?2.5:1.5)};
   }
 
   function validate(settings,hyper=false){

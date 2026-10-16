@@ -100,7 +100,7 @@
     for (const item of list) {
       const url = String(item?.url || '').trim();
       if (!url || tracks.length >= 20) continue;
-      tracks.push({ title: String(item?.title || '').trim() || `숲켓몬 OST${tracks.length + 1}`, url });
+      tracks.push({ title: String(item?.title || '').trim() || `리버스콜 OST${tracks.length + 1}`, url });
     }
     return {
       enabled: raw?.enabled === true && tracks.length > 0,
@@ -409,8 +409,8 @@
     dialog.className = 'bgm-player';
     dialog.setAttribute('aria-labelledby', 'bgmPlayerHeading');
     const arrow = reverse => `<svg viewBox="0 0 24 24" aria-hidden="true"${reverse ? ' style="transform:rotate(180deg)"' : ''}><path d="M5 5v14l10-7zM17 5h2v14h-2z"/></svg>`;
-    dialog.innerHTML = `<header class="bgm-player-head"><div><h2 id="bgmPlayerHeading">플레이리스트</h2><p>숲켓몬 오리지널 사운드트랙</p></div><button type="button" class="bgm-player-close" aria-label="플레이리스트 닫기">×</button></header>
-      <section class="bgm-now"><div class="bgm-cover" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="bgm-now-copy"><small>SOOPKETMON OST</small><h3 data-bgm-now-title></h3><p data-bgm-status role="status"></p></div></section>
+    dialog.innerHTML = `<header class="bgm-player-head"><div><h2 id="bgmPlayerHeading">플레이리스트</h2><p>리버스콜 오리지널 사운드트랙</p></div><button type="button" class="bgm-player-close" aria-label="플레이리스트 닫기">×</button></header>
+      <section class="bgm-now"><div class="bgm-cover" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="bgm-now-copy"><small>REVERSE CALL OST</small><h3 data-bgm-now-title></h3><p data-bgm-status role="status"></p></div></section>
       <div class="bgm-progress"><progress max="1" value="0" aria-label="현재 곡 재생 진행"></progress><div class="bgm-time"><span data-bgm-elapsed>0:00</span><span data-bgm-duration>0:00</span></div></div>
       <div class="bgm-transport"><button type="button" class="bgm-step" data-bgm-prev aria-label="이전 곡">${arrow(true)}</button><button type="button" class="bgm-power" data-bgm-power></button><button type="button" class="bgm-step" data-bgm-next aria-label="다음 곡">${arrow(false)}</button></div>
       <div class="bgm-volume"><label for="bgmPlayerVolume">음량</label><input id="bgmPlayerVolume" type="range" min="0" max="100" step="1" aria-label="BGM 음량"><output for="bgmPlayerVolume"></output><button type="button" data-bgm-volume-reset aria-label="기본 음량으로 되돌리기">기본</button></div>

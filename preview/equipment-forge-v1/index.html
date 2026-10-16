@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark"><meta name="theme-color" content="#080c17">
-  <title>장비 강화 V2 · 숲켓몬</title>
+  <title>장비 강화 V2 · 리버스콜</title>
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
   <div class="preview-ribbon"><span class="ribbon-dot"></span><strong>PLAYTEST / V2</strong><span>체험 장비 · 확률과 소모량은 시연 수치입니다.</span></div>
   <div class="app-shell">
     <header class="topbar">
-      <a href="#forge" class="brand" aria-label="숲켓몬 강화소"><svg><use href="#i-core"/></svg><span>숲켓몬<small>ARMORY DIVISION</small></span></a>
+      <a href="#forge" class="brand" aria-label="리버스콜 강화소"><svg><use href="#i-core"/></svg><span>리버스콜<small>ARMORY DIVISION</small></span></a>
       <div class="breadcrumb">장비 <span>/</span> <strong>강화 센터</strong></div>
       <div class="top-actions"><span class="wallet"><svg><use href="#i-coin"/></svg><b id="wallet-coins">12,840,000</b></span><button id="sound-button" class="icon-button" aria-pressed="false" aria-label="효과음 켜기" title="효과음 켜기"><svg><use href="#i-sound"/></svg><i></i></button><button id="settings-button" class="icon-button" aria-label="시연 설정" title="시연 설정"><svg><use href="#i-settings"/></svg></button></div>
     </header>
@@ -78,7 +78,7 @@
       </section>
       <section class="aftercare"><div class="aftercare-symbol"><svg><use href="#i-recover"/></svg></div><div><span>RECOVERY ARCHIVE</span><h2>장비 복구 센터</h2><p>파괴 이력을 확인하고, 복구 쿠폰으로 장비를 되찾으세요.</p></div><button id="archive-button" class="text-button">파괴 기록 보기<svg><use href="#i-arrow"/></svg></button></section>
       <section class="history-section"><div class="history-heading"><h2>최근 시도</h2><span>이번 체험의 기록</span></div><div id="history-list" class="history-list"><p class="empty-history">아직 강화 기록이 없습니다. 첫 번째 강화를 시작해 보세요.</p></div></section>
-      <footer class="page-footer"><span>SOOPKETMON <i>/</i> UPGRADE LAB <b>V2.0</b></span><button id="showcase-button" class="text-button">모든 결과 연출<svg><use href="#i-arrow"/></svg></button></footer>
+      <footer class="page-footer"><span>REVERSE CALL <i>/</i> UPGRADE LAB <b>V2.0</b></span><button id="showcase-button" class="text-button">모든 결과 연출<svg><use href="#i-arrow"/></svg></button></footer>
     </main>
   </div>
   <dialog id="settings-dialog" class="modal settings-modal" aria-labelledby="settings-title"><header><div><p class="eyebrow">PREVIEW SETTINGS</p><h2 id="settings-title">시연 설정</h2></div><button class="icon-button" data-close aria-label="닫기"><svg><use href="#i-close"/></svg></button></header><div class="modal-body"><div class="demo-warning">성공률은 최소 10%. 모든 단계의 세 확률 합은 100%입니다.<br>아래 값은 운영 확률표가 아닌 화면 검수용입니다.</div><form id="rates-form"><div class="table-scroll"><table class="rates-table"><thead><tr><th>강화 단계</th><th>성공 %</th><th>유지 %</th><th>파괴 %</th></tr></thead><tbody id="rates-tbody"></tbody></table></div><p id="rates-error" role="alert" class="form-error"></p><button class="primary-button" type="submit">시연 확률 적용</button></form><div class="settings-row"><label for="motion-toggle">동작 줄이기 <small>점멸·흔들림 없이 결과 표시</small></label><input type="checkbox" id="motion-toggle"></div><div class="settings-row"><label for="speed-select">연출 속도</label><select id="speed-select"><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></div><button id="reset-button" class="secondary-button">체험 장비·재료·기록 초기화</button></div></dialog>

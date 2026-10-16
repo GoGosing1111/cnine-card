@@ -50,7 +50,7 @@ function paintEntrances() {
     if (host.dataset.profileKey === key) return;
     host.dataset.profileKey = key;
     host.innerHTML = `<button class="sl36-entrance" type="button" aria-haspopup="dialog" aria-label="스트리머 라운지, ${rows.length}명 스트리머 방송국 바로가기" data-streamer-lounge-open>
-      <span class="sl36-dock-spine" aria-hidden="true">LOUNGE</span><span class="sl36-entrance-content"><span class="sl36-entrance-heading"><small>SOOPKETMON · THE LOUNGE</small><span aria-hidden="true">${arrow}</span></span>
+      <span class="sl36-dock-spine" aria-hidden="true">LOUNGE</span><span class="sl36-entrance-content"><span class="sl36-entrance-heading"><small>REVERSE CALL · THE LOUNGE</small><span aria-hidden="true">${arrow}</span></span>
       <strong>스트리머 라운지</strong><span class="sl36-entrance-bottom"><span class="sl36-face-stack" aria-hidden="true">${rows.slice(0, 3).map(row => avatar(row)).join('')}</span><span>${rows.length}명의 스트리머</span><b>입장하기</b></span>
       </span>
     </button>`;
@@ -91,11 +91,11 @@ function paintHero() {
     <defs><linearGradient id="sl40HeroShade"><stop stop-color="#080808" stop-opacity=".68"/><stop offset=".66" stop-color="#080808" stop-opacity="0"/></linearGradient></defs>
     <image href="${art}lounge-interior.png" width="${width}" height="${height}" preserveAspectRatio="${mobile ? 'xMinYMid' : 'xMidYMid'} slice"/>
     <rect width="${width}" height="${height}" fill="url(#sl40HeroShade)"/>
-    <text x="${left}" y="${mobile ? 42 : 55}" fill="#c3aa85" font-family="Arial, sans-serif" font-size="${mobile ? 8 : 10}" letter-spacing="3">SOOPKETMON COMMUNITY</text>
+    <text x="${left}" y="${mobile ? 42 : 55}" fill="#c3aa85" font-family="Arial, sans-serif" font-size="${mobile ? 8 : 10}" letter-spacing="3">REVERSE CALL COMMUNITY</text>
     <text x="${left-2}" y="${mobile ? 103 : 138}" fill="#f0e9dc" font-family="Georgia, Times New Roman, serif" font-size="${mobile ? 43 : 75}" letter-spacing="-1.5">The Lounge</text>
     <text id="sl36Title" role="heading" aria-level="1" x="${left}" y="${mobile ? 139 : 180}" fill="#eee5d6" font-family="${sans}" font-size="${mobile ? 20 : 26}" font-weight="500" letter-spacing="-1">스트리머 라운지</text>
     <text x="${left}" y="${mobile ? 179 : 221}" fill="#c1b6a4" font-family="${sans}" font-size="${mobile ? 11 : 13}">같은 게임에서 만난, 각자의 이야기.</text>
-    <text x="${left}" y="${mobile ? 199 : 245}" fill="#c1b6a4" font-family="${sans}" font-size="${mobile ? 11 : 13}">숲켓몬과 함께하는 스트리머를 만나보세요.</text>
+    <text x="${left}" y="${mobile ? 199 : 245}" fill="#c1b6a4" font-family="${sans}" font-size="${mobile ? 11 : 13}">리버스콜과 함께하는 스트리머를 만나보세요.</text>
     <line x1="${left}" x2="${left+31}" y1="${height-34}" y2="${height-34}" stroke="#b49c77"/>
     <text x="${left+44}" y="${height-31}" fill="#cbbba2" font-family="Arial, sans-serif" font-size="8" letter-spacing="2">OUR GAME. OUR PEOPLE.</text>
   </svg>`;
@@ -181,11 +181,11 @@ function paintGrid() {
 function paintDialog() {
   if (!dialog) return;
   const focusedSearch = document.activeElement?.matches('.sl36-search input'), scrollTop = dialog.scrollTop;
-  dialog.innerHTML = `<section class="sl36-space"><header class="sl36-topbar"><button type="button" class="sl36-back" data-sl36-close aria-label="라운지를 닫고 로비로 돌아가기">← <span>로비로</span></button><span>SOOPKETMON <i>/</i> THE LOUNGE</span><b>STREAMER LOUNGE</b></header>
+  dialog.innerHTML = `<section class="sl36-space"><header class="sl36-topbar"><button type="button" class="sl36-back" data-sl36-close aria-label="라운지를 닫고 로비로 돌아가기">← <span>로비로</span></button><span>REVERSE CALL <i>/</i> THE LOUNGE</span><b>STREAMER LOUNGE</b></header>
     <div data-sl40-hero></div><div class="sl36-content">
     ${errorMessage ? `<div class="sl36-notice" role="status">${esc(errorMessage)} <button type="button" data-sl36-retry>다시 확인</button></div>` : ''}
     <div class="sl36-list-head"><div><small>THE PEOPLE BEHIND THE PLAY</small><h2>함께하는 스트리머 <span data-sl36-count aria-live="polite">${String(profiles().length).padStart(2,'0')}</span></h2></div><label class="sl36-search"><span>이름 검색</span><input type="search" aria-label="스트리머 이름 검색" placeholder="이름 검색" maxlength="30" value="${esc(query)}"></label></div><div data-sl36-grid></div>
-    <footer class="sl36-footer"><span>SOOPKETMON · THE LOUNGE</span><span>방송국은 새 탭으로 열립니다 ${arrow}</span></footer></div></section>`;
+    <footer class="sl36-footer"><span>REVERSE CALL · THE LOUNGE</span><span>방송국은 새 탭으로 열립니다 ${arrow}</span></footer></div></section>`;
   dialog.querySelector('[data-sl36-close]').addEventListener('click', closeLounge);
   dialog.querySelector('[data-sl36-retry]')?.addEventListener('click', () => { void refreshDialog(); });
   dialog.querySelector('input[type="search"]').addEventListener('input', event => { query = event.target.value; paintGrid(); });

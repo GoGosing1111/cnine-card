@@ -95,7 +95,7 @@
 
   function cardImage(card){
     try{if(typeof responsiveCardImageMarkup==='function')return responsiveCardImageMarkup(card,{enabled:true,loading:'lazy',fetchPriority:'auto'})}catch(_){}
-    const src=String(card?.image||card?.imageUrl||'assets/ui/cninelogo.png');
+    const src=String(card?.image||card?.imageUrl||'assets/ui/brand/reverse-call-20261016/icon-512.png');
     return `<img src="${esc(src)}" alt="${esc(card?.title||card?.name||'카드')}" loading="lazy" decoding="async">`;
   }
 
@@ -111,7 +111,7 @@
     return `<button type="button" class="bulk-card-tile grade-${esc(grade)}${selected?' is-selected':''}${disabled?' is-disabled':''}${state.currentCardId===id?' is-current':''}" data-bulk-card="${esc(id)}" aria-pressed="${selected?'true':'false'}" ${disabled?'disabled':''}>
       <span class="bulk-card-check" aria-hidden="true">${selected?'✓':''}</span>
       <span class="bulk-card-art">${cardImage(card)}</span>
-      <span class="bulk-card-copy"><span class="bulk-card-grade">${esc(grade)}</span><strong>${esc(card.title||card.name||id)}</strong><small>${esc(card.name||'SOOPKETMON')}</small>${outcomeText(card,info)}${manualNote}</span>
+      <span class="bulk-card-copy"><span class="bulk-card-grade">${esc(grade)}</span><strong>${esc(card.title||card.name||id)}</strong><small>${esc(card.name||'REVERSE CALL')}</small>${outcomeText(card,info)}${manualNote}</span>
       <span class="bulk-card-step"><small>CURRENT</small><b>+${info.level}</b><i aria-hidden="true">→</i><em>+${info.goal}</em><span>${esc(rule.material)} ${number(rule.cost)} · ${number(rule.rate)}%</span></span>
     </button>`;
   }

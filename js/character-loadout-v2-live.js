@@ -1,4 +1,4 @@
-/* SOOPKETMON CHARACTER LOADOUT V2 — production mount adapter.
+/* REVERSE CALL CHARACTER LOADOUT V2 — production mount adapter.
  * The preview and live game share character-loadout-v2.js verbatim. This file
  * only connects that renderer to the existing shell and apiRequest contract.
  */

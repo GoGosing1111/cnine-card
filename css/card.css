@@ -132,7 +132,7 @@
   border-radius:50%;
   border:1px solid rgba(255,237,177,.92);
   background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.28),transparent 35%),linear-gradient(145deg,#18254c,#080d1d 68%);
-  background-image:url('../assets/ui/cninelogo.png'),radial-gradient(circle at 35% 28%,rgba(255,255,255,.28),transparent 35%),linear-gradient(145deg,#18254c,#080d1d 68%);
+  background-image:url('../assets/ui/brand/reverse-call-20261016/icon-512.png'),radial-gradient(circle at 35% 28%,rgba(255,255,255,.28),transparent 35%),linear-gradient(145deg,#18254c,#080d1d 68%);
   background-repeat:no-repeat;
   background-position:center,center,center;
   background-size:76%,100%,100%;

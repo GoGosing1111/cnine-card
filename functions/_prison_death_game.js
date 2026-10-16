@@ -200,7 +200,7 @@ export async function biteDeathGame(env, user, body, now = Date.now()) {
   const statements = [roundLock(env, round.id), updated];
   if (dead) statements.push(
     env.DB.prepare(`INSERT OR IGNORE INTO event_prison_camps(event_id,source_type,title,reason,jailed_at,jailed_until)
-      SELECT ?,'DEATH_GAME','죽음의 눈치게임','사망하였습니다. 숲켓몬 전체 플레이가 5분간 제한됩니다.',?,?
+      SELECT ?,'DEATH_GAME','죽음의 눈치게임','사망하였습니다. 리버스콜 전체 플레이가 5분간 제한됩니다.',?,?
       WHERE EXISTS(SELECT 1 FROM ${PLAYER} WHERE round_id=? AND user_id=? AND status='DEAD' AND last_seq=?)`)
       .bind(eventId, sqlTime(now), sqlTime(now + DEATH_GAME_RULES.deathLockMs), round.id, user.id, body.seq),
     env.DB.prepare(`INSERT OR IGNORE INTO event_prison_captives(event_id,user_id,member_role)

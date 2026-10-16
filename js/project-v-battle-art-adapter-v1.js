@@ -358,7 +358,7 @@
         const fallback = image => {
           if (tryNextCandidate(image)) return;
           if (typeof previousFallback === 'function') return previousFallback(image);
-          if (image) image.src = '/assets/ui/cninelogo.png';
+          if (image) image.src = '/assets/ui/brand/reverse-call-20261016/icon-512.png';
         };
         Object.defineProperty(fallback, '__projectVZenithBattleWrapped', { value: true });
         target.battleV2ImageFallback = fallback;

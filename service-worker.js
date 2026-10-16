@@ -5,7 +5,7 @@
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
 importScripts('/js/image-delivery-map-20261015.js');
-const SHELL_CACHE='soop-card-shell-v20261016-reward-reveal-v1';
+const SHELL_CACHE='soop-card-shell-v20261016-reverse-call-v1';
 const CONTENT_CACHE='soop-card-content-v4-lossless-media';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -43,12 +43,12 @@ const SHELL_CORE=[
   OFFLINE_URL,
   APP_SHELL_URL,
   '/manifest.webmanifest',
-  '/assets/ui/pwa/soop-20261010/icon-192.png',
-  '/assets/ui/pwa/soop-20261010/icon-512.png',
-  '/assets/ui/pwa/soop-20261010/maskable-512.png',
-  '/assets/ui/pwa/soop-20261010/apple-touch-icon-180.png',
-  '/assets/ui/pwa/soop-20261010/favicon-32.png',
-  '/assets/ui/pwa/soop-20261010/favicon-48.png'
+  '/assets/ui/brand/reverse-call-20261016/icon-192.png',
+  '/assets/ui/brand/reverse-call-20261016/icon-512.png',
+  '/assets/ui/brand/reverse-call-20261016/maskable-512.png',
+  '/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png',
+  '/assets/ui/brand/reverse-call-20261016/favicon-32.png',
+  '/assets/ui/brand/reverse-call-20261016/favicon-48.png'
 ];
 const CONTENT_CACHE_LIMIT=320;
 let contentWritesUntilTrim=24;

@@ -51,7 +51,7 @@
 
   function assetUrl(value) {
     let raw = String(value || '').trim();
-    if (!raw) return '/assets/ui/cninelogo.png';
+    if (!raw) return '/assets/ui/brand/reverse-call-20261016/icon-512.png';
     if (/^(?:data:|blob:)/i.test(raw)) return raw;
     raw = raw.replace(/\\/g, '/').replace(/#/g, '%23');
     if (/^https?:\/\//i.test(raw)) {
@@ -72,7 +72,7 @@
     if (!image || image.dataset.fallbackApplied === '1') return;
     image.dataset.fallbackApplied = '1';
     image.classList.add('is-fallback');
-    image.src = '/assets/ui/cninelogo.png';
+    image.src = '/assets/ui/brand/reverse-call-20261016/icon-512.png';
   };
 
   function setStatus(text, error = false) {
@@ -149,7 +149,7 @@
       <div class="card-inner">
         <div class="card-header"><span>${escapeHtml(grade)}</span><b>SOOP</b></div>
         <div class="card-art"><img src="${assetUrl(card.image)}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%" onerror="window.battleV2ImageFallback(this)"></div>
-        <div class="card-footer"><div><small>${escapeHtml(card.memberName || '')}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div></div></div><img src="/assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div>
+        <div class="card-footer"><div><small>${escapeHtml(card.memberName || '')}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div></div></div><img src="/assets/ui/brand/reverse-call-20261016/icon-512.png" class="card-mini-logo" alt="리버스콜"></div>
       </div>
     </div>`;
   }
@@ -582,7 +582,7 @@
   async function loadBattle() {
     const token = localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY) || '';
     if (!token) {
-      setStatus('숲켓몬 메인 화면에서 먼저 로그인한 뒤 이 프리뷰를 다시 열어주세요.', true);
+      setStatus('리버스콜 메인 화면에서 먼저 로그인한 뒤 이 프리뷰를 다시 열어주세요.', true);
       playButton.disabled = true;
       replayButton.disabled = true;
       rerollButton.disabled = true;

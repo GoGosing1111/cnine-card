@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "version": "0.1.7",
+  "launcherTitle": "리버스콜 런처",
+  "dialogBrand": "리버스콜",
+  "dialogCancelPreserved": true,
+  "isolatedProfile": true,
+  "errors": []
+}

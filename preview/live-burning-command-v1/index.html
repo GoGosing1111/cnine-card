@@ -15,7 +15,7 @@
 </head>
 <body>
   <main class="fixture-shell game-frame" data-v21-shell="preview" data-route="home">
-    <header class="fixture-header"><b>SOOPKETMON</b><span class="fixture-resources"><span>COIN 3.73B</span><span>CRYSTAL 95,295</span></span></header>
+    <header class="fixture-header"><b>REVERSE CALL</b><span class="fixture-resources"><span>COIN 3.73B</span><span>CRYSTAL 95,295</span></span></header>
     <section id="burningEventHud" class="burning-event-hud is-burning" aria-label="BURNING 이벤트 진행 중">
       <button type="button" class="burning-event-hud-trigger" data-open aria-haspopup="dialog">
         <span class="burning-event-hud-ident"><i aria-hidden="true">B</i><span><small>LIVE EVENT</small><strong>BURNING</strong></span></span>
@@ -28,7 +28,7 @@
   </main>
   <script>
     const state={mode:'burning'};
-    const copy={burning:{label:'BURNING',mark:'B',headline:'전장 가속 프로토콜 발동',protocol:'COMBAT ACCELERATION',support:'숲켓몬 버닝이 발동 되었습니다',coin:'5',pve:'15',pvp:'15',minutes:'2'},hyper:{label:'HYPER BURNING',mark:'HB',headline:'하이퍼 드라이브 전면 개방',protocol:'OVERDRIVE PROTOCOL',support:'숲켓몬 하이퍼 버닝 진행 중',coin:'5',pve:'20',pvp:'30',minutes:'2'}};
+    const copy={burning:{label:'BURNING',mark:'B',headline:'전장 가속 프로토콜 발동',protocol:'COMBAT ACCELERATION',support:'리버스콜 버닝이 발동 되었습니다',coin:'5',pve:'15',pvp:'15',minutes:'2'},hyper:{label:'HYPER BURNING',mark:'HB',headline:'하이퍼 드라이브 전면 개방',protocol:'OVERDRIVE PROTOCOL',support:'리버스콜 하이퍼 버닝 진행 중',coin:'5',pve:'20',pvp:'30',minutes:'2'}};
     const hud=document.getElementById('burningEventHud');
     const fixtureHeader=document.querySelector('.fixture-header'),fixtureResources=document.querySelector('.fixture-resources');
     fixtureHeader.classList.add('top-hud');fixtureResources.classList.add('resource-rail');fixtureHeader.insertBefore(hud,fixtureResources);fixtureHeader.insertAdjacentHTML('beforeend','<button type="button" class="fixture-mail hud-mail" aria-label="메시지함">✉</button>');

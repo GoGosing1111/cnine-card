@@ -6,7 +6,7 @@
   const requestId=()=>globalThis.crypto?.randomUUID?.()||`escort-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   const number=value=>Math.max(0,Number(value)||0);
   const percent=value=>Math.max(0,Math.min(100,Number(value)||0));
-  const imageUrl=value=>{const raw=String(value||'').trim().replace(/\\/g,'/');if(!raw)return '/assets/ui/cninelogo.png';if(/^(?:data:|blob:|https?:\/\/|\/)/i.test(raw))return raw;return `/${raw.replace(/^\.\//,'')}`};
+  const imageUrl=value=>{const raw=String(value||'').trim().replace(/\\/g,'/');if(!raw)return '/assets/ui/brand/reverse-call-20261016/icon-512.png';if(/^(?:data:|blob:|https?:\/\/|\/)/i.test(raw))return raw;return `/${raw.replace(/^\.\//,'')}`};
   const TACTIC_ICONS=Object.freeze({
     REPAIR:'/assets/ui/escort/tactics/tactic-field-repair-v1835.webp',
     BARRIER:'/assets/ui/escort/tactics/tactic-aegis-barrier-v1835.webp',
@@ -89,7 +89,7 @@
     const settings=data.settings||{},run=data.run,weekly=data.weekly||{},sector=run?.sector||settings.sectors?.[0]||{},vehiclePercent=run?percent(run.vehiclePercent):100;
     root.innerHTML=`<main class="escort-operation" data-version="${VERSION}">
       <section class="escort-hero">
-        <div class="escort-hero-copy"><span class="escort-test-flag">${data.ownerTest?'OWNER TEST':'LIVE OPERATION'}</span><small>SOOPKETMON / PVE ESCORT</small><h2>${esc(settings.title||'철벽 호송작전')}</h2><p>${esc(settings.description||'')}</p><div class="escort-rule-strip"><span>5 SECTORS</span><span>PERSISTENT HP</span><span>V3 PIXIJS</span><span>4–6 MIN MISSION</span></div></div>
+        <div class="escort-hero-copy"><span class="escort-test-flag">${data.ownerTest?'OWNER TEST':'LIVE OPERATION'}</span><small>REVERSE CALL / PVE ESCORT</small><h2>${esc(settings.title||'철벽 호송작전')}</h2><p>${esc(settings.description||'')}</p><div class="escort-rule-strip"><span>5 SECTORS</span><span>PERSISTENT HP</span><span>V3 PIXIJS</span><span>4–6 MIN MISSION</span></div></div>
         <div class="escort-carrier-stage"><div class="escort-carrier-aura"></div><img src="/assets/ui/escort/escort-armored-carrier-v1.webp?v=1830" alt="장갑 수송차"><div class="escort-vehicle-hud"><div><small>ARMORED CARRIER</small><b>${run?`${number(run.vehicleHp).toLocaleString()} / ${number(run.vehicleMaxHp).toLocaleString()}`:'STANDBY'}</b></div><span>${run?`${Math.round(vehiclePercent)}%`:'100%'}</span><i><u style="width:${vehiclePercent}%"></u></i></div></div>
       </section>
       <ol class="escort-route-map">${routeMarkup(settings,run)}</ol>

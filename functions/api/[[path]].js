@@ -1,3 +1,4 @@
+import {presentBrandedSystemMessage} from '../../shared/brand-presentation-20261016.mjs';
 import {handleHalloweenPack} from '../_mercenary_halloween_pack.js';
 import {WORM_CONTEST_GIFT,ensureWormContestGiftCatalog,openWormContestGift,grantWormContestGift} from '../_worm_contest_gift.js';
 import {ensureMercenarySssShardCatalog} from '../_mercenary_sss_shard.js';
@@ -784,14 +785,14 @@ const BURNING_EVENT_META_KEY='burning_event_settings_v1';
 const HYPER_BURNING_EVENT_META_KEY='hyper_burning_event_settings_v1310';
 const BURNING_EVENT_CACHE_MS=1000;
 let burningEventCache=null;
-function defaultBurningEventSettings(){return {mode:'BURNING',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,durationMinutes:BURNING_EVENT_DEFAULT_DURATION_MINUTES,title:'숲켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:1.5};}
-function defaultHyperBurningEventSettings(){return {mode:'HYPER',theme:'HYPER',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,durationMinutes:BURNING_EVENT_DEFAULT_DURATION_MINUTES,title:'숲켓몬 하이퍼 버닝이 발동 되었습니다',pveMaxEnergy:30,pvpMaxEnergy:30,rechargeMinutes:1,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:2.5};}
+function defaultBurningEventSettings(){return {mode:'BURNING',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,durationMinutes:BURNING_EVENT_DEFAULT_DURATION_MINUTES,title:'리버스콜 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:1.5};}
+function defaultHyperBurningEventSettings(){return {mode:'HYPER',theme:'HYPER',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,durationMinutes:BURNING_EVENT_DEFAULT_DURATION_MINUTES,title:'리버스콜 하이퍼 버닝이 발동 되었습니다',pveMaxEnergy:30,pvpMaxEnergy:30,rechargeMinutes:1,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:2.5};}
 function runtimeBurningDurationMinutes(value,fallback=BURNING_EVENT_DEFAULT_DURATION_MINUTES){const number=Number(value);return Number.isInteger(number)&&number>=1&&number<=1440?number:normalizeBurningEventDurationMinutes(fallback);}
 function cleanBurningEventSettings(raw={},mode='BURNING'){
   const miracle=String(mode).toUpperCase()==='MIRACLE',hyper=String(mode||raw.mode||'BURNING').toUpperCase()==='HYPER',b=miracle?defaultMiracleBurningSettings():hyper?defaultHyperBurningEventSettings():defaultBurningEventSettings();
   const num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));
   let title=String(raw.title||b.title).trim().slice(0,80)||b.title;
-  if(title.includes('\uC528\uCF13\uBAAC'))title=title.replaceAll('\uC528\uCF13\uBAAC','숲켓몬');
+  if(title.includes('\uC528\uCF13\uBAAC'))title=title.replaceAll('\uC528\uCF13\uBAAC','리버스콜');
   const endsAtMs=Date.parse(String(raw.endsAt||'')),endsAt=Number.isFinite(endsAtMs)?new Date(endsAtMs).toISOString():null;
   return {...b,enabled:burningEventIsLive({...raw,endsAt}),generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,updatedAt:raw.updatedAt||null,endsAt,durationMinutes:runtimeBurningDurationMinutes(raw.durationMinutes,b.durationMinutes),title,pveMaxEnergy:miracle?30:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:miracle?30:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:miracle?1:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,miracle?100:hyper?30:10)};
 }
@@ -882,7 +883,7 @@ async function activateChiefBurningEvent(env,{type='BURNING',chiefUserId,appoint
   return{mode,source:'CHIEF',chiefUserId:Number(chiefUserId)||0,appointmentId:String(appointmentId||''),startsAt:verified.activatedAt,endsAt:verified.endsAt,durationMinutes:verified.durationMinutes,generation:Number(verified.generation||0)};
 }
 
-function defaultPvpSettings(){return {enabled:true,status:'진행 중',competitionName:'랭크전',seasonTitle:'SOOPKETMON RANKED',seasonName:'시즌 9',seasonDescription:'티어와 편성 전투력을 기준으로 상대가 자동 배정되는 랭크전입니다.',startsAt:null,endsAt:null,automaticSeasons:true,seasonDurationDays:5,matchingMode:'AUTO',initialScore:1000,winScore:24,loseScore:24,matchCardRange:15,matchSeasonRange:300,historyLimit:100,winCoin:50,loseCoin:25,scoreBalance:{enabled:true,equalRange:10,weakerWinMid:80,weakerWinHigh:60,weakerWinExtreme:40,strongerWinMid:110,strongerWinHigh:125,strongerWinExtreme:140,strongerLossMid:90,strongerLossHigh:75,strongerLossExtreme:60,weakerLossMid:110,weakerLossHigh:125,weakerLossExtreme:140,minChange:1,maxChange:999},energy:{enabled:true,maxEnergy:5,rechargeMinutes:2.5,costPerBattle:1,adminUnlimited:true,testUnlimited:true},rewardClaimMode:'SEASON_END',tierRewardsEnabled:true,rankRewardsEnabled:true,tiers:[{id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false,rewardCoin:500,rewardShards:0},{id:'silver',name:'실버',min:1100,color:'#c9d4e3',aura:false,rewardCoin:1000,rewardShards:20},{id:'gold',name:'골드',min:1250,color:'#ffd15c',aura:false,rewardCoin:2000,rewardShards:50},{id:'platinum',name:'플래티넘',min:1450,color:'#5ff0df',aura:true,rewardCoin:4000,rewardShards:100},{id:'diamond',name:'다이아',min:1700,color:'#69cfff',aura:true,rewardCoin:7000,rewardShards:180},{id:'master',name:'마스터',min:2050,color:'#bd7cff',aura:true,rewardCoin:12000,rewardShards:300},{id:'grandmaster',name:'그랜드마스터',min:2500,color:'#ff6f91',aura:true,rewardCoin:20000,rewardShards:500}],challengerTier:{id:'challenger',name:'챌린저',rankingBased:true,rankLimit:20,color:'#79c8ef',aura:true,rewardCoin:20000,rewardShards:500},rankRewards:[{from:1,to:1,rewardCoin:30000,rewardShards:700},{from:2,to:3,rewardCoin:20000,rewardShards:500},{from:4,to:10,rewardCoin:12000,rewardShards:300},{from:11,to:50,rewardCoin:5000,rewardShards:120}]};}
+function defaultPvpSettings(){return {enabled:true,status:'진행 중',competitionName:'랭크전',seasonTitle:'REVERSE CALL RANKED',seasonName:'시즌 9',seasonDescription:'티어와 편성 전투력을 기준으로 상대가 자동 배정되는 랭크전입니다.',startsAt:null,endsAt:null,automaticSeasons:true,seasonDurationDays:5,matchingMode:'AUTO',initialScore:1000,winScore:24,loseScore:24,matchCardRange:15,matchSeasonRange:300,historyLimit:100,winCoin:50,loseCoin:25,scoreBalance:{enabled:true,equalRange:10,weakerWinMid:80,weakerWinHigh:60,weakerWinExtreme:40,strongerWinMid:110,strongerWinHigh:125,strongerWinExtreme:140,strongerLossMid:90,strongerLossHigh:75,strongerLossExtreme:60,weakerLossMid:110,weakerLossHigh:125,weakerLossExtreme:140,minChange:1,maxChange:999},energy:{enabled:true,maxEnergy:5,rechargeMinutes:2.5,costPerBattle:1,adminUnlimited:true,testUnlimited:true},rewardClaimMode:'SEASON_END',tierRewardsEnabled:true,rankRewardsEnabled:true,tiers:[{id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false,rewardCoin:500,rewardShards:0},{id:'silver',name:'실버',min:1100,color:'#c9d4e3',aura:false,rewardCoin:1000,rewardShards:20},{id:'gold',name:'골드',min:1250,color:'#ffd15c',aura:false,rewardCoin:2000,rewardShards:50},{id:'platinum',name:'플래티넘',min:1450,color:'#5ff0df',aura:true,rewardCoin:4000,rewardShards:100},{id:'diamond',name:'다이아',min:1700,color:'#69cfff',aura:true,rewardCoin:7000,rewardShards:180},{id:'master',name:'마스터',min:2050,color:'#bd7cff',aura:true,rewardCoin:12000,rewardShards:300},{id:'grandmaster',name:'그랜드마스터',min:2500,color:'#ff6f91',aura:true,rewardCoin:20000,rewardShards:500}],challengerTier:{id:'challenger',name:'챌린저',rankingBased:true,rankLimit:20,color:'#79c8ef',aura:true,rewardCoin:20000,rewardShards:500},rankRewards:[{from:1,to:1,rewardCoin:30000,rewardShards:700},{from:2,to:3,rewardCoin:20000,rewardShards:500},{from:4,to:10,rewardCoin:12000,rewardShards:300},{from:11,to:50,rewardCoin:5000,rewardShards:120}]};}
 function cleanPvpRewardCoin(value,fallback=0){const parsed=Number(value),base=Number(fallback);return Math.min(Number.MAX_SAFE_INTEGER,Math.max(0,Math.floor(Number.isFinite(parsed)?parsed:(Number.isFinite(base)?base:0))))}
 function cleanPvpSettings(raw={}){const base=defaultPvpSettings(),num=(v,d,min=0,max=100000000)=>Math.min(max,Math.max(min,Number.isFinite(Number(v))?Math.floor(Number(v)):d));const scoreTiers=(Array.isArray(raw.tiers)?raw.tiers:base.tiers).filter(t=>String(t?.id||'').toLowerCase()!=='challenger');const tiers=(scoreTiers.length?scoreTiers:base.tiers).map((t,i)=>({id:String(t.id||base.tiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||base.tiers[i]?.name||'티어').slice(0,20),min:num(t.min,base.tiers[i]?.min||0),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):base.tiers[i]?.color||'#7ceeff',aura:t.aura!==false,rewardCoin:cleanPvpRewardCoin(t.rewardCoin,base.tiers[i]?.rewardCoin||0),rewardShards:num(t.rewardShards,base.tiers[i]?.rewardShards||0)})).sort((a,b)=>a.min-b.min);const rankRewards=(Array.isArray(raw.rankRewards)?raw.rankRewards:base.rankRewards).slice(0,20).map((r,i)=>{const from=num(r.from,base.rankRewards[i]?.from||1,1,100000),to=num(r.to,base.rankRewards[i]?.to||from,1,100000);return {from:Math.min(from,to),to:Math.max(from,to),rewardCoin:cleanPvpRewardCoin(r.rewardCoin,base.rankRewards[i]?.rewardCoin||0),rewardShards:num(r.rewardShards,base.rankRewards[i]?.rewardShards||0)}}).sort((a,b)=>a.from-b.from);return {...base,scheduledReopenAt:raw.scheduledReopenAt||null,rankedReformVersion:String(raw.rankedReformVersion||''),enabled:raw.enabled!==false,status:String(raw.status||base.status).slice(0,60),competitionName:String(raw.competitionName||base.competitionName).slice(0,30),seasonTitle:String(raw.seasonTitle||base.seasonTitle).slice(0,80),seasonName:String(raw.seasonName||base.seasonName).slice(0,40),seasonDescription:String(raw.seasonDescription||base.seasonDescription).slice(0,240),startsAt:raw.startsAt||null,endsAt:raw.endsAt||null,automaticSeasons:raw.automaticSeasons!==false,seasonDurationDays:num(raw.seasonDurationDays,base.seasonDurationDays,1,30),matchingMode:'AUTO',initialScore:num(raw.initialScore,base.initialScore,0,1000000),winScore:num(raw.winScore,base.winScore,0,100000),loseScore:num(raw.loseScore,base.loseScore,0,100000),matchCardRange:num(raw.matchCardRange,base.matchCardRange,1,100),matchSeasonRange:num(raw.matchSeasonRange,base.matchSeasonRange,0,100000),historyLimit:num(raw.historyLimit,base.historyLimit,10,500),winCoin:num(raw.winCoin,base.winCoin,0,10000000),loseCoin:num(raw.loseCoin,base.loseCoin,0,10000000),scoreBalance:{enabled:raw.scoreBalance?.enabled!==false,equalRange:num(raw.scoreBalance?.equalRange,base.scoreBalance.equalRange,0,100),weakerWinMid:num(raw.scoreBalance?.weakerWinMid,base.scoreBalance.weakerWinMid,0,500),weakerWinHigh:num(raw.scoreBalance?.weakerWinHigh,base.scoreBalance.weakerWinHigh,0,500),weakerWinExtreme:num(raw.scoreBalance?.weakerWinExtreme,base.scoreBalance.weakerWinExtreme,0,500),strongerWinMid:num(raw.scoreBalance?.strongerWinMid,base.scoreBalance.strongerWinMid,0,500),strongerWinHigh:num(raw.scoreBalance?.strongerWinHigh,base.scoreBalance.strongerWinHigh,0,500),strongerWinExtreme:num(raw.scoreBalance?.strongerWinExtreme,base.scoreBalance.strongerWinExtreme,0,500),strongerLossMid:num(raw.scoreBalance?.strongerLossMid,base.scoreBalance.strongerLossMid,0,500),strongerLossHigh:num(raw.scoreBalance?.strongerLossHigh,base.scoreBalance.strongerLossHigh,0,500),strongerLossExtreme:num(raw.scoreBalance?.strongerLossExtreme,base.scoreBalance.strongerLossExtreme,0,500),weakerLossMid:num(raw.scoreBalance?.weakerLossMid,base.scoreBalance.weakerLossMid,0,500),weakerLossHigh:num(raw.scoreBalance?.weakerLossHigh,base.scoreBalance.weakerLossHigh,0,500),weakerLossExtreme:num(raw.scoreBalance?.weakerLossExtreme,base.scoreBalance.weakerLossExtreme,0,500),minChange:num(raw.scoreBalance?.minChange,base.scoreBalance.minChange,0,100000),maxChange:num(raw.scoreBalance?.maxChange,base.scoreBalance.maxChange,1,100000)},energy:{enabled:raw.energy?.enabled!==false,maxEnergy:num(raw.energy?.maxEnergy,base.energy.maxEnergy,1,999),rechargeMinutes:normalizeRankedRechargeMinutes(raw.energy?.rechargeMinutes,base.energy.rechargeMinutes),costPerBattle:num(raw.energy?.costPerBattle,base.energy.costPerBattle,1,99),adminUnlimited:raw.energy?.adminUnlimited!==false,testUnlimited:raw.energy?.testUnlimited!==false},rewardClaimMode:['IMMEDIATE','SEASON_END'].includes(raw.rewardClaimMode)?raw.rewardClaimMode:base.rewardClaimMode,tierRewardsEnabled:raw.tierRewardsEnabled!==false,rankRewardsEnabled:raw.rankRewardsEnabled!==false,tiers,rankRewards,challengerTier:{...base.challengerTier,rewardCoin:cleanPvpRewardCoin(raw.challengerTier?.rewardCoin,tiers.at(-1)?.rewardCoin||0),rewardShards:num(raw.challengerTier?.rewardShards,tiers.at(-1)?.rewardShards||0)}};}
 // Rank is authoritative: no score threshold or historical peak can grant Challenger.
@@ -1001,7 +1002,7 @@ function pvpSqlUtc(ms){return new Date(ms).toISOString().replace('T',' ').slice(
 // OWNER는 비경쟁 운영 계정으로 계속 제외한다. ADMIN은 CMS 권한만 제한하며
 // 일반 플레이에서는 다른 유저와 동일하게 매칭·랭킹·시즌 정산 대상이다.
 const PVP_RANKED_ROLE_SQL="UPPER(TRIM(COALESCE(u.role,'USER'))) <> 'OWNER'";
-function nextPvpSeasonSettings(settings){const now=Date.now(),durationDays=Number(settings.seasonDurationDays||5),nextNo=Math.max(9,pvpSeasonNumber(settings.seasonName)+1);return cleanPvpSettings({...settings,enabled:true,status:'진행 중',competitionName:'랭크전',seasonTitle:'SOOPKETMON RANKED',seasonName:`시즌 ${nextNo}`,seasonDescription:'티어와 편성 전투력을 기준으로 상대가 자동 배정되는 랭크전입니다.',startsAt:pvpSqlUtc(now),endsAt:pvpSqlUtc(now+durationDays*86400000),automaticSeasons:true,seasonDurationDays:durationDays,matchingMode:'AUTO'})}
+function nextPvpSeasonSettings(settings){const now=Date.now(),durationDays=Number(settings.seasonDurationDays||5),nextNo=Math.max(9,pvpSeasonNumber(settings.seasonName)+1);return cleanPvpSettings({...settings,enabled:true,status:'진행 중',competitionName:'랭크전',seasonTitle:'REVERSE CALL RANKED',seasonName:`시즌 ${nextNo}`,seasonDescription:'티어와 편성 전투력을 기준으로 상대가 자동 배정되는 랭크전입니다.',startsAt:pvpSqlUtc(now),endsAt:pvpSqlUtc(now+durationDays*86400000),automaticSeasons:true,seasonDurationDays:durationDays,matchingMode:'AUTO'})}
 async function persistPvpSettings(env,settings){await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('pvp_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(settings)).run();invalidateMetaSnapshot();runtimeSettingsCache.delete('pvp')}
 async function acquirePvpLifecycleLock(env){const token=crypto.randomUUID(),now=Date.now(),result=await env.DB.prepare(`INSERT INTO pvp_season_lifecycle_lock_v1671(lock_key,token,lease_until_ms,updated_at)
   VALUES('GLOBAL',?,?,CURRENT_TIMESTAMP) ON CONFLICT(lock_key) DO UPDATE SET token=excluded.token,lease_until_ms=excluded.lease_until_ms,updated_at=CURRENT_TIMESTAMP
@@ -4359,7 +4360,7 @@ async function maintenanceSettings(env,{fresh=false}={}){
     const values=Object.fromEntries([...snapshot.entries()]);
     const value={
       active:String(values.maintenance_mode||'0')==='1',
-      title:values.maintenance_title||'숲켓몬 서버 점검 중',
+      title:values.maintenance_title||'리버스콜 서버 점검 중',
       message:values.maintenance_message||'안정적인 서비스 제공을 위해 점검을 진행하고 있습니다.',
       startAt:values.maintenance_start_at||'',
       endAt:values.maintenance_end_at||'',
@@ -5233,7 +5234,7 @@ async function handleRequest(context){
       const ipHash=await requestIpHash(request,env);
       const existingIp=await env.DB.prepare('SELECT user_id FROM account_ip_registrations WHERE ip_hash=?').bind(ipHash).first();
       const ipException=await env.DB.prepare("SELECT ip_hash FROM account_ip_exceptions WHERE ip_hash=? AND (expires_at IS NULL OR expires_at>datetime('now'))").bind(ipHash).first();
-      if(existingIp&&!ipException)return json({error:'해당 네트워크에서는 이미 숲켓몬 계정이 생성되었습니다. 계정 복구가 필요한 경우 관리자에게 문의해 주세요.',code:'IP_ACCOUNT_LIMIT'},409);
+      if(existingIp&&!ipException)return json({error:'해당 네트워크에서는 이미 리버스콜 계정이 생성되었습니다. 계정 복구가 필요한 경우 관리자에게 문의해 주세요.',code:'IP_ACCOUNT_LIMIT'},409);
       try{
         const coinSetting=await metaValue(env,'new_user_coin');
         const newUserCoin=Math.max(0,Number(coinSetting?.value||5000)||5000);
@@ -7120,7 +7121,7 @@ async function handleRequest(context){
         return json({ok:true,verified:true,status:'ALREADY_VERIFIED',newlyVerified:false,verification:{provider:'PLAYDK',providerName:identity.name,verifiedAt:existing.verified_at},duplicate:true});
       }
       const linked=await env.DB.prepare("SELECT user_id FROM user_second_verifications WHERE provider='PLAYDK' AND provider_user_id=?").bind(identity.uuid).first();
-      if(linked&&Number(linked.user_id)!==Number(user.id))return json({error:'이 PLAY DK 계정은 이미 다른 숲켓몬 계정에 인증되어 있습니다.',code:'PLAYDK_ALREADY_LINKED'},409);
+      if(linked&&Number(linked.user_id)!==Number(user.id))return json({error:'이 PLAY DK 계정은 이미 다른 리버스콜 계정에 인증되어 있습니다.',code:'PLAYDK_ALREADY_LINKED'},409);
       let verificationResult;
       try{
         await ensureVerifiedRewardMessageV1276(env);
@@ -7158,7 +7159,7 @@ async function handleRequest(context){
       const inspected=await inspectWagoComment(settings,v);
       await env.DB.prepare("UPDATE wago_verifications SET comment_url=?,profile_url=NULL,last_checked_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(settings.postUrl,inspected.ok?inspected.notice:inspected.error,user.id).run();
       if(!inspected.ok)return json({error:inspected.error},409);
-      const duplicate=await env.DB.prepare("SELECT user_id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND user_id<>?").bind(inspected.memberNo,user.id).first();if(duplicate)return json({error:'이미 다른 숲켓몬 계정에 인증된 회원번호입니다.'},409);
+      const duplicate=await env.DB.prepare("SELECT user_id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND user_id<>?").bind(inspected.memberNo,user.id).first();if(duplicate)return json({error:'이미 다른 리버스콜 계정에 인증된 회원번호입니다.'},409);
       try{await env.DB.prepare("UPDATE wago_verifications SET status='VERIFIED',wago_member_no=?,comment_url=?,profile_url=NULL,verified_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(inspected.memberNo,inspected.commentUrl,inspected.notice,user.id).run()}
       catch(error){if(isSecondaryProviderConflict(error))return json({error:'다른 2차 인증이 먼저 연결되었습니다. 상태를 새로 확인해주세요.',code:'SECONDARY_VERIFICATION_RACE'},409);throw error}
       return json({ok:true,verified:true,message:`댓글 작성자 회원번호 ${inspected.memberNo}번을 확인하여 자동 인증되었습니다.`});
@@ -7226,12 +7227,12 @@ async function handleRequest(context){
       await ensureMessageRewardClaimV1222(env);
       await deleteExpiredSupportMessages(env,Date.now(),user.id);
       if(request.method==='GET'){
-        const rows=await env.DB.prepare(`SELECT m.id,m.title,m.body,m.message_type,m.coupon_code,m.is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,0 AS needs_recovery
+        const rows=await env.DB.prepare(`SELECT m.id,m.sender_type,m.title,m.body,m.message_type,m.coupon_code,m.is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,0 AS needs_recovery
           FROM user_messages m LEFT JOIN user_message_rewards r ON r.message_id=m.id AND r.user_id=m.user_id
           WHERE m.user_id=? AND m.hidden_at IS NULL AND ${liveSupportMessageSql('m.')} ORDER BY m.id DESC LIMIT 100`).bind(user.id,supportMessageCutoff()).all();
         let recoveryRows=[];
         try{
-          const recovery=await env.DB.prepare(`SELECT m.id,m.title,m.body,m.message_type,m.coupon_code,1 AS is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,1 AS needs_recovery
+          const recovery=await env.DB.prepare(`SELECT m.id,m.sender_type,m.title,m.body,m.message_type,m.coupon_code,1 AS is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,1 AS needs_recovery
             FROM user_messages m
             JOIN user_message_rewards r ON r.message_id=m.id AND r.user_id=m.user_id
             JOIN wago_extension_reward_receipts w ON w.message_id=m.id AND w.user_id=m.user_id
@@ -7244,7 +7245,7 @@ async function handleRequest(context){
             ORDER BY m.id DESC LIMIT 5`).bind(user.id).all();
           recoveryRows=recovery.results||[];
         }catch{}
-        const serverNow=Date.now(),messages=[...recoveryRows,...(rows.results||[])].map(presentMessageReward).map(presentSupportMessage).filter(m=>!m.expiresAt||m.expiresAt>serverNow);
+        const serverNow=Date.now(),messages=[...recoveryRows,...(rows.results||[])].map(presentMessageReward).map(presentSupportMessage).map(presentBrandedSystemMessage).filter(m=>!m.expiresAt||m.expiresAt>serverNow);
         return json({messages,unread:messages.filter(x=>!x.is_read).length,recoveryCount:recoveryRows.length,serverNow},200,{'Cache-Control':'private, no-store','Vary':'Authorization'});
       }
       if(request.method==='PATCH'){
@@ -7429,7 +7430,7 @@ async function handleRequest(context){
       if(!matches.length)return json({error:'2단계 인증 연결 기록이 없습니다.',code:'WAGO_NOT_VERIFIED',wagoNickname},404);
       if(matches.length>1)return json({error:'동일 PLAY DK 닉네임에 인증 완료 계정이 여러 개 연결되어 있습니다. CMS에서 연결 기록을 정리하세요.',code:'WAGO_DUPLICATE_LINK',wagoNickname,matches:matches.map(x=>({gameNickname:x.nickname,wagoMemberNo:x.wago_member_no}))},409);
       const user=matches[0];
-      if(String(user.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'연결된 숲켓몬 계정이 이용 정지 상태입니다.',code:'TARGET_INACTIVE'},409);
+      if(String(user.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'연결된 리버스콜 계정이 이용 정지 상태입니다.',code:'TARGET_INACTIVE'},409);
       return json({ok:true,wagoNickname:user.wago_nickname,wagoMemberNo:user.wago_member_no,gameUser:{id:user.id,nickname:user.nickname,coin:Number(user.coin||0)},verifiedAt:user.verified_at});
     }
 
@@ -7447,7 +7448,7 @@ async function handleRequest(context){
       if(String(linked.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'정지되거나 비활성화된 계정에는 지급할 수 없습니다.'},409);
       if(sourceKey){const duplicateSource=await env.DB.prepare('SELECT id,request_id,amount,created_at FROM wago_extension_reward_receipts WHERE source_key=? AND user_id=? AND reason=? ORDER BY id DESC LIMIT 1').bind(sourceKey,userId,reason).first();if(duplicateSource&&!body.allowDuplicate)return json({error:'같은 게시글 또는 댓글에 동일 사유로 이미 지급된 기록이 있습니다.',code:'SOURCE_ALREADY_REWARDED',previous:duplicateSource},409);}
       const beforeCoin=Number(linked.coin||0);
-      const title=String(body.title||'숲켓몬 이벤트 코인 지급').trim().slice(0,100);
+      const title=String(body.title||'리버스콜 이벤트 코인 지급').trim().slice(0,100);
       const messageBody=String(body.messageBody||`${reason} 보상으로 ${amount.toLocaleString()}코인이 도착했습니다. 메시지에서 수령해 주세요.`).trim().slice(0,1000);
       const messageResult=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'ADMIN',?,?,'COIN_REWARD')").bind(userId,title,messageBody).run();
       const messageId=Number(messageResult?.meta?.last_row_id||0);if(!messageId)throw new Error('코인 보상 메시지 저장 ID 확인 실패');
@@ -8006,9 +8007,9 @@ async function handleRequest(context){
       if(!spec)return json({error:'선택한 쿠폰 보상 종류가 올바르지 않습니다.'},400);
       if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>spec.max)return json({error:`${spec.label} 지급 수량을 확인하세요.`},400);
       if(!Number.isInteger(maxUses)||maxUses<1||maxUses>1000000)return json({error:'전체 최대 사용 횟수를 확인하세요.'},400);
-      if(rewardType==='MIRACLE_CUBE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureMiracleCubeCatalog(env)}
-      if(rewardType==='PINGDU_BAEMIN_TICKET'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);const ticket=await env.DB.prepare('SELECT is_active FROM inventory_items WHERE code=?').bind('PINGDU_BAEMIN_TICKET').first();if(Number(ticket?.is_active)!==1)return json({error:'핑두의 배민권 지급이 준비되지 않았거나 중지되어 있습니다.'},409)}
-      if(rewardType==='PINGDU_OLD_AXE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureGoldenAxe(env)}
+      if(rewardType==='MIRACLE_CUBE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureMiracleCubeCatalog(env)}
+      if(rewardType==='PINGDU_BAEMIN_TICKET'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);const ticket=await env.DB.prepare('SELECT is_active FROM inventory_items WHERE code=?').bind('PINGDU_BAEMIN_TICKET').first();if(Number(ticket?.is_active)!==1)return json({error:'핑두의 배민권 지급이 준비되지 않았거나 중지되어 있습니다.'},409)}
+      if(rewardType==='PINGDU_OLD_AXE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureGoldenAxe(env)}
       await releaseDeletedCouponCode(env,code,admin.id);
       const exists=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
       if(exists)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
@@ -8040,9 +8041,9 @@ async function handleRequest(context){
         if(!spec||!['COIN','MASTER_STAR','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET','PINGDU_OLD_AXE','PINGDU_BAEMIN_TICKET','MIRACLE_CUBE'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
         if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>Number(spec.max||10000000))return json({error:'쿠폰 보상 수량을 확인하세요.'},400);
         if(!Number.isInteger(max)||max<1||max>1000000)return json({error:'총 사용 한도를 확인하세요.'},400);
-        if(rewardType==='MIRACLE_CUBE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureMiracleCubeCatalog(env)}
-        if(rewardType==='PINGDU_BAEMIN_TICKET'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);const ticket=await env.DB.prepare('SELECT is_active FROM inventory_items WHERE code=?').bind('PINGDU_BAEMIN_TICKET').first();if(Number(ticket?.is_active)!==1)return json({error:'핑두의 배민권 지급이 준비되지 않았거나 중지되어 있습니다.'},409)}
-      if(rewardType==='PINGDU_OLD_AXE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 숲켓랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureGoldenAxe(env)}
+        if(rewardType==='MIRACLE_CUBE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureMiracleCubeCatalog(env)}
+        if(rewardType==='PINGDU_BAEMIN_TICKET'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);const ticket=await env.DB.prepare('SELECT is_active FROM inventory_items WHERE code=?').bind('PINGDU_BAEMIN_TICKET').first();if(Number(ticket?.is_active)!==1)return json({error:'핑두의 배민권 지급이 준비되지 않았거나 중지되어 있습니다.'},409)}
+      if(rewardType==='PINGDU_OLD_AXE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureGoldenAxe(env)}
         await releaseDeletedCouponCode(env,code,admin.id);
         const before=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
         if(before)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
@@ -9294,7 +9295,7 @@ async function handleRequestWithDatabase(context){
     if(raw){
       try{
         const tokenHash=await hash(raw),revoked=await context.env.DB.prepare("SELECT reason FROM revoked_player_sessions_v1533 WHERE token_hash=? AND reason='MULTI_CLIENT_REPLACED'").bind(tokenHash).first();
-        if(revoked)response=json({error:'다른 클라이언트에서 로그인되어 현재 접속이 종료되었습니다. 숲켓몬은 계정당 1개의 클라이언트만 이용할 수 있습니다.',code:'MULTI_CLIENT_BLOCKED',sessionEnded:true},401);
+        if(revoked)response=json({error:'다른 클라이언트에서 로그인되어 현재 접속이 종료되었습니다. 리버스콜은 계정당 1개의 클라이언트만 이용할 수 있습니다.',code:'MULTI_CLIENT_BLOCKED',sessionEnded:true},401);
       }catch(_){}
     }
   }

@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../../',import.meta.url)),port=Number(process.env.RANK_PREVIEW_PORT||8936);
-const shared=new Set(['/assets/ui/cninelogo.png','/css/player-card-v2052.css','/js/player-card-v2052.js','/js/soopketmon-v21-exact-shell-adapter.js']);
+const shared=new Set(['/assets/ui/brand/reverse-call-20261016/icon-512.png','/css/player-card-v2052.css','/js/player-card-v2052.js','/js/soopketmon-v21-exact-shell-adapter.js']);
 const previewFiles=new Set(['','index.html','mobile-review.html','app.mjs','model.mjs','style.css']);
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.png':'image/png','.json':'application/json'};
 const server=http.createServer((req,res)=>{

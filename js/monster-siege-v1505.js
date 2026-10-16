@@ -9,7 +9,7 @@
     Math.max(0, Math.min(100, (Number(value || 0) / Math.max(1, Number(max || 1))) * 100));
   const clamp = (value, min, max) => Math.max(min, Math.min(max, Number(value || 0)));
   const MAP_FALLBACK = [
-    { index: 0, key: "ALLIANCE_BASE", name: "숲켓몬 연합 본진", code: "ALLIANCE HQ", x: 7, y: 60 },
+    { index: 0, key: "ALLIANCE_BASE", name: "리버스콜 연합 본진", code: "ALLIANCE HQ", x: 7, y: 60 },
     { index: 1, key: "OUTER", name: "검은 습지 초소", code: "OUTER POST", x: 24, y: 58 },
     { index: 2, key: "GATE", name: "철혈 관문", code: "IRON GATE", x: 40, y: 49 },
     { index: 3, key: "INNER", name: "잿불 시가지", code: "EMBER CITY", x: 56, y: 53 },
@@ -167,7 +167,7 @@
       },
       factions: {
         alliance: {
-          name: "숲켓몬 연합",
+          name: "리버스콜 연합",
           hp: allianceHp,
           maxHp: allianceMaxHp,
           percent: percent(allianceHp, allianceMaxHp),
@@ -358,7 +358,7 @@
     requestAnimationFrame(() => briefing.classList.add("show"));
   }
   function renderEmpty() {
-    overlay.innerHTML = `<main class="ms4-shell ms4-empty"><header class="ms4-header"><div class="ms4-title"><small>SOOPKETMON ALLIANCE COMMAND</small><h1>몬스터 공성전</h1><p>지도형 진영전 작전 대기</p></div><button class="ms4-close" data-ms-close aria-label="닫기">×</button></header><section class="ms4-empty-state"><b>현재 진행 중인 공성전이 없습니다.</b><span>다음 몬스터 군단의 전선 침공을 기다리고 있습니다.</span>${reward()}</section></main>`;
+    overlay.innerHTML = `<main class="ms4-shell ms4-empty"><header class="ms4-header"><div class="ms4-title"><small>REVERSE CALL ALLIANCE COMMAND</small><h1>몬스터 공성전</h1><p>지도형 진영전 작전 대기</p></div><button class="ms4-close" data-ms-close aria-label="닫기">×</button></header><section class="ms4-empty-state"><b>현재 진행 중인 공성전이 없습니다.</b><span>다음 몬스터 군단의 전선 침공을 기다리고 있습니다.</span>${reward()}</section></main>`;
     bind();
   }
   function userCommand(mine, rallyOpen) {
@@ -391,7 +391,7 @@
     const rallyOpen = event.rallyOpen === true;
     const alliancePercent = percent(alliance.hp, alliance.maxHp);
     const monsterPercent = percent(monster.hp, monster.maxHp);
-    overlay.innerHTML = `<main class="ms4-shell phase-${String(current.key || "outer").toLowerCase()}"><header class="ms4-header"><div class="ms4-title"><small>SOOPKETMON · MONSTER TERRITORY SIEGE</small><h1>${esc(event.name)}</h1><p>영토전형 전황 지도 · 몬스터 돌격대와 방어대가 독립 작전 중</p></div><div class="ms4-live"><span><i></i>${rallyOpen ? "MUSTER" : "LIVE FRONT"}</span><small>${rallyOpen ? "집결 종료까지" : "공성 종료까지"}</small><b data-ms-clock>${clock(rallyOpen ? event.rallyEndsAt : event.endsAt)}</b></div><button class="ms4-close" data-ms-close aria-label="공성전 닫기">×</button></header><section class="ms4-scoreboard" aria-label="현재 전선 양 진영 체력"><article class="ms4-faction is-alliance"><div><small>숲켓몬 연합 진영 체력</small><strong>${fmt(alliance.hp)} / ${fmt(alliance.maxHp)}</strong></div><em><i style="width:${alliancePercent}%"></i></em><span>현재 전선 유지율 ${alliancePercent.toFixed(1)}%</span></article><div class="ms4-front-title"><small>CURRENT CONTESTED FRONT</small><b>${esc(current.name || current.operationName)}</b><span>${fmt(Number(current.capturedFronts || 0))} / ${fmt(Number(current.totalFronts || 5))} 거점 확보</span></div><article class="ms4-faction is-monster"><div><small>몬스터 군단 진영 체력</small><strong>${fmt(monster.hp)} / ${fmt(monster.maxHp)}</strong></div><em><i style="width:${monsterPercent}%"></i></em><span>현재 전선 유지율 ${monsterPercent.toFixed(1)}%</span></article></section>${reward()}<section class="ms4-war-grid">${mapHtml(campaign, rallyOpen)}<aside class="ms4-front-column"><section class="ms4-commander"><img src="${esc(current.commanderArt || data.phase?.monsterImage || "")}" alt=""><div><small>FRONT COMMANDER · BACKGROUND ART</small><h2>${esc(current.commanderName || "몬스터 전선 지휘관")}</h2><p>${esc(current.subtitle || "방어대가 거점을 지키고 돌격대가 연합 점령지를 공격합니다.")}</p></div></section>${formationPanel(campaign.formations?.defense, "DEFENSE")}${formationPanel(campaign.formations?.assault, "ASSAULT")}</aside></section><section class="ms4-console"><div class="ms4-command-stack">${operationPanel(campaign)}${userCommand(mine, rallyOpen)}</div><aside class="ms4-intel-stack">${aiFeed()}${ranking()}</aside></section></main>`;
+    overlay.innerHTML = `<main class="ms4-shell phase-${String(current.key || "outer").toLowerCase()}"><header class="ms4-header"><div class="ms4-title"><small>REVERSE CALL · MONSTER TERRITORY SIEGE</small><h1>${esc(event.name)}</h1><p>영토전형 전황 지도 · 몬스터 돌격대와 방어대가 독립 작전 중</p></div><div class="ms4-live"><span><i></i>${rallyOpen ? "MUSTER" : "LIVE FRONT"}</span><small>${rallyOpen ? "집결 종료까지" : "공성 종료까지"}</small><b data-ms-clock>${clock(rallyOpen ? event.rallyEndsAt : event.endsAt)}</b></div><button class="ms4-close" data-ms-close aria-label="공성전 닫기">×</button></header><section class="ms4-scoreboard" aria-label="현재 전선 양 진영 체력"><article class="ms4-faction is-alliance"><div><small>리버스콜 연합 진영 체력</small><strong>${fmt(alliance.hp)} / ${fmt(alliance.maxHp)}</strong></div><em><i style="width:${alliancePercent}%"></i></em><span>현재 전선 유지율 ${alliancePercent.toFixed(1)}%</span></article><div class="ms4-front-title"><small>CURRENT CONTESTED FRONT</small><b>${esc(current.name || current.operationName)}</b><span>${fmt(Number(current.capturedFronts || 0))} / ${fmt(Number(current.totalFronts || 5))} 거점 확보</span></div><article class="ms4-faction is-monster"><div><small>몬스터 군단 진영 체력</small><strong>${fmt(monster.hp)} / ${fmt(monster.maxHp)}</strong></div><em><i style="width:${monsterPercent}%"></i></em><span>현재 전선 유지율 ${monsterPercent.toFixed(1)}%</span></article></section>${reward()}<section class="ms4-war-grid">${mapHtml(campaign, rallyOpen)}<aside class="ms4-front-column"><section class="ms4-commander"><img src="${esc(current.commanderArt || data.phase?.monsterImage || "")}" alt=""><div><small>FRONT COMMANDER · BACKGROUND ART</small><h2>${esc(current.commanderName || "몬스터 전선 지휘관")}</h2><p>${esc(current.subtitle || "방어대가 거점을 지키고 돌격대가 연합 점령지를 공격합니다.")}</p></div></section>${formationPanel(campaign.formations?.defense, "DEFENSE")}${formationPanel(campaign.formations?.assault, "ASSAULT")}</aside></section><section class="ms4-console"><div class="ms4-command-stack">${operationPanel(campaign)}${userCommand(mine, rallyOpen)}</div><aside class="ms4-intel-stack">${aiFeed()}${ranking()}</aside></section></main>`;
     const actionButton = overlay.querySelector(".ms4-attack");
     const energy = Math.max(0, Number(mine?.energy || 0));
     if (actionButton && rallyOpen && mine) {
@@ -530,7 +530,7 @@
       if (out.phaseCleared)
         alert(
           out.eventCleared
-            ? "심연 성채를 점령했습니다. 숲켓몬 연합의 공성 승리!"
+            ? "심연 성채를 점령했습니다. 리버스콜 연합의 공성 승리!"
             : "몬스터 진영 체력이 붕괴했습니다. 다음 거점으로 전선이 전진합니다.",
         );
     } catch (error) {

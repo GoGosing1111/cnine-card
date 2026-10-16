@@ -5,7 +5,7 @@ export const kstDay=ms=>Math.floor((ms+9*3600000)/DAY_MS);
 export const dayDate=day=>new Date(day*DAY_MS).toISOString().slice(0,10);
 export const claimKey=(userId,cycle,day)=>`supporter_pass_claim_v1:${Number(userId)}:${cycle}:${day}`;
 export const dailyKey=(userId,date)=>`supporter_pass_daily_v1:${Number(userId)}:${date}`;
-export function emptyPass(){return {version:1,revision:0,title:'숲켓몬 시즌패스',enabled:false,days:Array.from({length:PASS_DAYS},(_,i)=>({day:i+1,rewards:[]}))};}
+export function emptyPass(){return {version:1,revision:0,title:'리버스콜 시즌패스',enabled:false,days:Array.from({length:PASS_DAYS},(_,i)=>({day:i+1,rewards:[]}))};}
 // Calendar days follow KST. A single paid term never creates a day-31 claim
 // merely because its exact 720-hour expiry falls after midnight.
 export function passCycle(subscription,now){

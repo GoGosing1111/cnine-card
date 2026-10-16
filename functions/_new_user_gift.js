@@ -65,8 +65,8 @@ export function giftEligibility(user, verification, now, receipt = null) {
   let code = 'ELIGIBLE', message = '가입 14일 이내 첫 2차 인증 완료 시 메시지 자동 지급 · 계정·인증 계정당 1회';
   if (receipt) { code = 'ALREADY_ISSUED'; message = receipt.status === 'OPENED' ? '이미 개봉한 계정입니다. 재지급할 수 없습니다.' : '이미 박스를 지급한 계정입니다. 재지급할 수 없습니다.'; }
   else if (!user || user.status !== 'ACTIVE') { code = 'INACTIVE_USER'; message = '활성 계정에만 지급할 수 있습니다.'; }
-  else if (!Number.isFinite(joined) || !Number.isFinite(current) || joined > current) { code = 'JOIN_DATE_INVALID'; message = '숲켓몬 가입일을 검증할 수 없어 지급을 차단했습니다.'; }
-  else if (current - joined > NEW_USER_GIFT_DAYS * 86400000) { code = 'EXPIRED'; message = '숲켓몬 가입 후 14일이 지나 지급할 수 없습니다.'; }
+  else if (!Number.isFinite(joined) || !Number.isFinite(current) || joined > current) { code = 'JOIN_DATE_INVALID'; message = '리버스콜 가입일을 검증할 수 없어 지급을 차단했습니다.'; }
+  else if (current - joined > NEW_USER_GIFT_DAYS * 86400000) { code = 'EXPIRED'; message = '리버스콜 가입 후 14일이 지나 지급할 수 없습니다.'; }
   else if (!verified) { code = 'SECOND_VERIFICATION_REQUIRED'; message = 'PLAY DK 2차 인증을 완료해야 지급할 수 있습니다.'; }
   return { eligible: code === 'ELIGIBLE', code, message, joinedAt: Number.isFinite(joined) ? new Date(joined).toISOString() : null,
     deadline: Number.isFinite(joined) ? new Date(joined + NEW_USER_GIFT_DAYS * 86400000).toISOString() : null,

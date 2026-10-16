@@ -76,7 +76,7 @@
     box.innerHTML = `<div class="maintenanceHead"><div><small>MAIN LOBBY BGM</small><h2>메인 로비 배경음</h2>
         <p>로비와 카드상점에서 이어 재생됩니다. 유저는 곡 선택에서 플레이리스트와 개인 음량을 조절하며, 곡·음량·음소거 선택은 기기에 기억됩니다.</p>
         <p style="opacity:.75">저장하면 재배포 없이 최대 45초 안에 접속자 전원에게 반영됩니다. 음원 주소는 <b>/assets/...</b> 상대경로 또는 <b>https://</b> 만 허용합니다.</p>
-        <p style="opacity:.75">음원 파일은 배포 후 재생됩니다. 제목과 파일명은 <b>숲켓몬 OST1, 숲켓몬 OST2…</b>로 통일합니다. 공백·한글 경로는 자동 인코딩되며 MP3 원본을 사용합니다.</p>${warn}</div></div>
+        <p style="opacity:.75">음원 파일은 배포 후 재생됩니다. 제목과 파일명은 <b>리버스콜 OST1, 리버스콜 OST2…</b>로 통일합니다. 공백·한글 경로는 자동 인코딩되며 MP3 원본을 사용합니다.</p>${warn}</div></div>
       <div class="enhancementRows" style="margin-top:0">
         <div class="enhancementRow" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end">
           <div><small>운영 상태</small>
@@ -116,7 +116,7 @@
     box.querySelector('#lobbyBgmAdd')?.addEventListener('click', () => {
       readInputs();
       if (state.tracks.length >= 20) return;
-      state.tracks.push({ title: `숲켓몬 OST${state.tracks.length + 1}`, url: '' });
+      state.tracks.push({ title: `리버스콜 OST${state.tracks.length + 1}`, url: '' });
       render();
     });
     box.querySelector('#lobbyBgmReload')?.addEventListener('click', () => { void load() });

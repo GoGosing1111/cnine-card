@@ -44,7 +44,7 @@ let active=null;
 export function openLegionHunt(button){
   if(active)return;
   const dialog=document.createElement('dialog');dialog.className='legion-hunt-portal';dialog.setAttribute('aria-label','군단토벌 입장');
-  dialog.innerHTML=`<header class="legion-portal-bar"><div class="legion-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V3h5m8 0h5v5M3 16v5h5m8 0h5v-5M8 6v12l8-6Z"/></svg><span>숲켓몬<small>SOOPKETMON</small></span></div><nav class="legion-breadcrumb" aria-label="현재 위치"><span>모험</span><i aria-hidden="true">/</i><b>군단토벌</b></nav><button type="button" data-hunt-close><span aria-hidden="true">←</span> PVE로 돌아가기</button></header>
+  dialog.innerHTML=`<header class="legion-portal-bar"><div class="legion-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8V3h5m8 0h5v5M3 16v5h5m8 0h5v-5M8 6v12l8-6Z"/></svg><span>리버스콜<small>REVERSE CALL</small></span></div><nav class="legion-breadcrumb" aria-label="현재 위치"><span>모험</span><i aria-hidden="true">/</i><b>군단토벌</b></nav><button type="button" data-hunt-close><span aria-hidden="true">←</span> PVE로 돌아가기</button></header>
     <div class="legion-lobby"><div class="legion-lobby-layout">
       <nav class="legion-regions" aria-label="토벌 지역 선택" hidden></nav>
       <section class="legion-intro" aria-labelledby="legion-island-title">
@@ -113,7 +113,7 @@ export function openLegionHunt(button){
     find('.legion-entry-status').classList.toggle('error',!!state.error);
     find('[data-hunt-reward-mode]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?'클리어·패배·철수 정산 시 획득 전리품 지급':data?.access?.mode==='TEST'||region&&expansion.mode==='TEST'?'TEST · 지정 참여자 검수 · 계정 보상 미지급':'';
     find('.legion-account').textContent=loadout?loadout.accountNickname+' · 편성 전투력 '+power(Object.values(loadout.power).reduce((a,b)=>a+Number(b||0),0)):'';
-    find('.legion-cards').innerHTML=(loadout?.cards||[]).map((card,i)=>`<figure data-card-id="${escape(card.id)}" data-grade="${escape(card.rarity||card.grade)}"><span class="legion-card-slot">0${i+1}</span><img src="${escape(imagePath(card.originalCardArt||card.sourceArt||card.image_url||card.image||'/assets/ui/cninelogo.png'))}" alt="${escape(card.title||card.name)}"><figcaption><small>${escape(card.rarity||card.grade)}</small><strong>${escape(card.title||card.name)}</strong></figcaption></figure>`).join('');
+    find('.legion-cards').innerHTML=(loadout?.cards||[]).map((card,i)=>`<figure data-card-id="${escape(card.id)}" data-grade="${escape(card.rarity||card.grade)}"><span class="legion-card-slot">0${i+1}</span><img src="${escape(imagePath(card.originalCardArt||card.sourceArt||card.image_url||card.image||'/assets/ui/brand/reverse-call-20261016/icon-512.png'))}" alt="${escape(card.title||card.name)}"><figcaption><small>${escape(card.rarity||card.grade)}</small><strong>${escape(card.title||card.name)}</strong></figcaption></figure>`).join('');
     const merc=loadout?.mercenary;
     find('.legion-mercenary').innerHTML=merc?`<img src="${escape(imagePath(merc.sourceArt))}" alt="${escape(merc.name)}"><b class="legion-merc-rank">${escape(merc.rank)}</b><div><small>용병 전용 슬롯</small><strong>${escape(merc.name)}</strong><span>${escape((merc.skills||[]).map(s=>s.name).join(' · ')||merc.role||'편성된 용병')}</span></div>`:'<div><small>용병 전용 슬롯</small><strong>용병 미편성</strong><span>편성한 용병 1명이<br>원정대에 합류합니다.</span></div>';
     const eq=loadout?.characterBonus;

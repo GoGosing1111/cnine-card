@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "root": "C:\\Users\\User\\AppData\\Local\\Temp\\reverse-brand-update-SgrvBO",
+  "versions": [
+    "0.1.6",
+    "0.1.7"
+  ],
+  "checks": [
+    "download waits for explicit restart",
+    "running game prevents installation",
+    "executable renamed and old executable removed",
+    "real silent NSIS update and automatic restart",
+    "custom Unicode install path preserved",
+    "login cookie, display preference and resource cache preserved"
+  ],
+  "downloadRequests": 0,
+  "oldHash": "3dbc5e6b0dd7ca15574cd125f89167c52937a951535406feed0f9b51155c8ebb",
+  "newHash": "b63e3060b151fb49ea944439556b3855c5c2768943ae322e1eae1fabbd0a5eb7",
+  "restarted": {
+    "version": "0.1.7",
+    "executable": "C:\\Users\\User\\AppData\\Local\\Temp\\reverse-brand-update-SgrvBO\\한글 설치 폴더\\SoopketmonBrandQA-6df3ab50\\ReverseCallBrandQA-6df3ab50.exe",
+    "userData": "C:\\Users\\User\\AppData\\Local\\Temp\\reverse-brand-update-SgrvBO\\profile",
+    "cookies": [
+      {
+        "name": "update-qa-session",
+        "value": "preserved",
+        "domain": "cnine-card.pages.dev",
+        "hostOnly": true,
+        "path": "/",
+        "secure": true,
+        "httpOnly": true,
+        "session": false,
+        "expirationDate": 1792214705.697,
+        "sameSite": "lax"
+      }
+    ]
+  },
+  "productionRegistrationUnchanged": true,
+  "errors": []
+}

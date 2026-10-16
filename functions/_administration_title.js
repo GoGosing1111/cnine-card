@@ -1,6 +1,6 @@
 export const ADMINISTRATION_TITLE_KEY='administration_title_20261012_v1';
 export const ADMINISTRATION_TITLE=Object.freeze({
- code:'ADMINISTRATION',name:'행정부',description:'숲켓몬을 위해 헌신하는 행정부 직원',
+ code:'ADMINISTRATION',name:'행정부',description:'리버스콜을 위해 헌신하는 행정부 직원',
  image:'/assets/ui/titles/administration-command-v2.webp',style:'ADMINISTRATION',type:'MANUAL',
  config:{fontPreset:'DEFAULT'},power:100000,order:909
 });

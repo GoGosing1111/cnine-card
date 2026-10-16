@@ -57,7 +57,7 @@
     const title = p.title?.badgeText || p.title?.name;
     return `<article class="pc-card" aria-label="${esc(p.nickname)} 명함">
       <div class="pc-metal-rule"></div><div class="pc-fx" aria-hidden="true"></div>
-      <header class="pc-topbar"><span class="pc-wordmark">SOOPKETMON <i>/</i> PLAYER CARD</span><span class="pc-top-caption">${demo ? '디자인 검수 · 예시 기록' : '플레이어 명함'}</span><button type="button" class="pc-close" data-pc-close aria-label="명함 닫기">×</button></header>
+      <header class="pc-topbar"><span class="pc-wordmark">REVERSE CALL <i>/</i> PLAYER CARD</span><span class="pc-top-caption">${demo ? '디자인 검수 · 예시 기록' : '플레이어 명함'}</span><button type="button" class="pc-close" data-pc-close aria-label="명함 닫기">×</button></header>
       <div class="pc-layout">
         <aside class="pc-identity ${avatar ? '' : 'pc-no-avatar'}">
           ${avatar ? `<img class="pc-portrait" src="${esc(avatar)}" alt="장착 아바타 ${esc(p.avatar.name)}" decoding="async">` : `<div class="pc-monogram" aria-hidden="true">${esc(p.nickname.slice(0, 1))}</div>`}
@@ -130,7 +130,7 @@
     modal.addEventListener('error', e => { if (e.target.tagName === 'IMG') { e.target.hidden = true; e.target.closest('.pc-identity')?.classList.add('pc-no-avatar'); } }, true);
   }
   function statusHtml(message, failed) {
-    return `<section class="pc-status"><span class="pc-kicker">SOOPKETMON / PLAYER CARD</span><button type="button" class="pc-close" data-pc-close aria-label="명함 닫기">×</button><h2>${failed ? '기록을 불러오지 못했습니다' : '명함을 불러오는 중'}</h2><p role="status">${esc(message)}</p>${failed ? '<button type="button" class="pc-retry" data-pc-retry>다시 확인</button>' : ''}</section>`;
+    return `<section class="pc-status"><span class="pc-kicker">REVERSE CALL / PLAYER CARD</span><button type="button" class="pc-close" data-pc-close aria-label="명함 닫기">×</button><h2>${failed ? '기록을 불러오지 못했습니다' : '명함을 불러오는 중'}</h2><p role="status">${esc(message)}</p>${failed ? '<button type="button" class="pc-retry" data-pc-retry>다시 확인</button>' : ''}</section>`;
   }
   function requestProfile(target, requestController) {
     // Bound the whole request, including the shared read queue and body read.

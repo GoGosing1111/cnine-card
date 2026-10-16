@@ -1,7 +1,7 @@
 import {handleAvatarAdminGrant} from './_avatar_admin_grant.js';
 import {ensureRuntimeFoundation} from './_runtime_foundation.js';
 
-/* SOOPKETMON AVATAR CATALOG V1
+/* REVERSE CALL AVATAR CATALOG V1
  *
  * The live catalog is deployed dark. Operators explicitly configure prices,
  * acquisition sources and visibility in CMS before moving OFF -> TEST -> ON.

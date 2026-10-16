@@ -17,7 +17,7 @@ function update(){
   $('stage-group').textContent=`${r.group} / ${String(r.index+1).padStart(2,'0')}`;$('stage-range').textContent=range(r);$('rank-stage').dataset.tone=r.tone;
   $('large-art').innerHTML=badge(r,224);
   $('stage-code').textContent=r.code.replaceAll('_',' ');$('stage-name').textContent=r.name;
-  $('stage-caption').textContent=`숲켓몬 ${r.group} 계급장`;
+  $('stage-caption').textContent=`리버스콜 ${r.group} 계급장`;
   $('attack').textContent=`+${percent(r.attackBp)}`;$('hp').textContent=`+${percent(r.hpBp)}`;$('coins').textContent=`+${percent(r.coinBp)}`;$('presets').textContent=`${r.presetSlots}칸`;
   $('cosmetic').textContent=`${r.name} 계급 외형`;$('next-rank').textContent=next?`${next.name} · Lv.${next.min}`:'최고 계급 · 원수';$('next-rule').textContent=next?`진급까지 ${next.min-level}레벨`:'250레벨 달성';
   $('header-rank').innerHTML=badge(r,36);$('header-level').textContent=`${r.name} · Lv.${level}`;

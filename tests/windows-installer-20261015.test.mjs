@@ -20,8 +20,8 @@ test('installer staging preserves Korean as BOM-marked UTF-8 across repeated bui
     assert.equal(bytes.subarray(0,3).toString('hex'),'efbbbf');
     const text=new TextDecoder('utf-8',{fatal:true}).decode(bytes).replace(/\r\n/g,'\n');
     assert.equal(text,expected);
-    assert.ok(text.startsWith('숲켓몬 Windows 클라이언트'));
-    assert.ok(text.includes('인터넷 연결과 기존 숲켓몬 계정'));
+    assert.ok(text.startsWith('리버스콜 Windows 클라이언트'));
+    assert.ok(text.includes('인터넷 연결과 기존 리버스콜 계정'));
     assert.ok(!text.includes('\uFFFD'));
     assert.equal((await readFile(path.join(build,config.build.nsis.include))).length>0,true);
   }

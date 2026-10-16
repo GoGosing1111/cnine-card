@@ -96,7 +96,7 @@
         <div class="msa-grid four">
           ${textField({ id: `msaPhaseName${phaseIndex}`, label: "전선 이름", value: phase.name })}
           ${textField({ id: `msaPhaseSubtitle${phaseIndex}`, label: "작전 설명", value: phase.subtitle })}
-          ${numberField({ id: `msaPhaseAllianceHp${phaseIndex}`, label: "숲켓몬 연합 진영 HP", value: phase.allianceHp, min: 100000, step: 10000, hint: "이 전선 진입·후퇴 시 적용" })}
+          ${numberField({ id: `msaPhaseAllianceHp${phaseIndex}`, label: "리버스콜 연합 진영 HP", value: phase.allianceHp, min: 100000, step: 10000, hint: "이 전선 진입·후퇴 시 적용" })}
           ${numberField({ id: `msaPhaseMonsterHp${phaseIndex}`, label: "몬스터 군단 진영 HP", value: phase.hp, min: 1000, step: 1000, hint: "방어대 개인 HP가 아닌 전선 HP" })}
           ${numberField({ id: `msaPhaseBasePower${phaseIndex}`, label: "전선 기준 전투력", value: phase.battlePower, min: 1, step: 1, hint: "돌격대 피해 환산 기준" })}
           ${numberField({ id: `msaPhaseDamageMultiplier${phaseIndex}`, label: "유저 공성 피해 보정 (%)", value: phase.damageMultiplierPercent, min: 10, max: 500, hint: "전선별 난이도 보정" })}

@@ -34,7 +34,7 @@
     ],
     loadout: { WEAPON: 101, ACCESSORY: 105, TOP: 102, BOTTOM: 103, SHOES: 104 },
     titles: [
-      { id: 1, code: 'GOAT', name: 'GOAT', badgeText: 'GOAT', description: '전설의 숲켓몬', pvePower: 75000, unlockType: 'MANUAL', unlockConfig: {}, stylePreset: 'GOLD', fontPreset: 'SERIF', owned: true, equipped: true },
+      { id: 1, code: 'GOAT', name: 'GOAT', badgeText: 'GOAT', description: '전설의 리버스콜', pvePower: 75000, unlockType: 'MANUAL', unlockConfig: {}, stylePreset: 'GOLD', fontPreset: 'SERIF', owned: true, equipped: true },
       { id: 2, code: 'TERRITORY_COMMANDER', name: '공대장', badgeText: '★★★★ 공대장', description: '영토전의 영웅', pvePower: 52000, unlockType: 'MANUAL', unlockConfig: {}, stylePreset: 'CRIMSON', fontPreset: 'DISPLAY', owned: true, equipped: false },
       { id: 3, code: 'MATCHMAKER', name: '승부사', badgeText: '★★ 승부사', description: '승부의 흐름을 지배한 자', pvePower: 41000, unlockType: 'CONTENT_CLEAR', unlockConfig: {}, stylePreset: 'CRIMSON', fontPreset: 'SCIFI', owned: true, equipped: false },
       { id: 4, code: 'VOID_WALKER', name: '심연의 개척자', badgeText: '심연의 개척자', description: '미공개 칭호', pvePower: 60000, unlockType: 'CONTENT_CLEAR', unlockConfig: {}, stylePreset: 'VOID', fontPreset: 'SERIF', owned: false, equipped: false }

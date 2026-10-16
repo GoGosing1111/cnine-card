@@ -7,11 +7,14 @@ import {forwardNetworkRequest} from './lib/network-request.mjs';
 import {GameZoom} from './lib/game-zoom.mjs';
 import {ClientUpdater} from './lib/client-updater.mjs';
 import {GameDialogs} from './lib/game-dialogs.mjs';
+import {APP_ID,LEGACY_PROFILE_DIRECTORY} from './lib/app-identity.mjs';
+import {mkdirSync} from 'node:fs';
 
 const here=path.dirname(fileURLToPath(import.meta.url));
 const qa=!app.isPackaged && process.env.SOOPKETMON_QA==='1';
 if(qa&&process.env.SOOPKETMON_QA_ROOT)app.setPath('userData',path.resolve(process.env.SOOPKETMON_QA_ROOT));
-app.setAppUserModelId('kr.yakcode.soopketmon');
+else{const profile=path.join(app.getPath('appData'),LEGACY_PROFILE_DIRECTORY);mkdirSync(profile,{recursive:true});app.setPath('userData',profile);}
+app.setAppUserModelId(APP_ID);
 const singleton=app.requestSingleInstanceLock();
 if(!singleton)app.quit();
 let launcher,game,store,latest,active,gameManifest,operation,gameSession,gameZoom,gameDialogs,clientUpdater,quitting=false;
@@ -79,7 +82,7 @@ async function openGame(){
   gameManifest=active;
   // Subframes run the same isolated preload for embedded game screens. sandbox
   // remains enabled, so neither the page nor its frames receive a Node runtime.
-  game=new BrowserWindow({width:1440,height:960,minWidth:900,minHeight:650,show:!qa,title:'숲켓몬',backgroundColor:'#080c17',icon:path.join(here,'renderer/assets/icon.png'),autoHideMenuBar:true,webPreferences:{session:gameSession,preload:path.join(here,'game-preload.cjs'),nodeIntegration:false,nodeIntegrationInSubFrames:true,contextIsolation:true,sandbox:true,webSecurity:true,spellcheck:false}});
+  game=new BrowserWindow({width:1440,height:960,minWidth:900,minHeight:650,show:!qa,title:'리버스콜',backgroundColor:'#080c17',icon:path.join(here,'renderer/assets/icon.png'),autoHideMenuBar:true,webPreferences:{session:gameSession,preload:path.join(here,'game-preload.cjs'),nodeIntegration:false,nodeIntegrationInSubFrames:true,contextIsolation:true,sandbox:true,webSecurity:true,spellcheck:false}});
   secureGameWindow(game);
   const current=game;
   game.on('closed',()=>{game=null;gameManifest=null;if(!quitting){launcher?.show();void check();}});
@@ -127,7 +130,7 @@ async function start(){
     // original HTTPS service. They are never written to the resource store.
     return forwardNetworkRequest(gameSession,request,fixtureOrigin);
   });
-  launcher=new BrowserWindow({width:1120,height:760,minWidth:950,minHeight:680,show:!qa,title:'숲켓몬 런처',titleBarStyle:'hidden',titleBarOverlay:{color:'#0b101b',symbolColor:'#9caac0',height:38},backgroundColor:'#080c17',icon:path.join(here,'renderer/assets/icon.png'),autoHideMenuBar:true,webPreferences:{preload:path.join(here,'preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true,spellcheck:false}});
+  launcher=new BrowserWindow({width:1120,height:760,minWidth:950,minHeight:680,show:!qa,title:'리버스콜 런처',titleBarStyle:'hidden',titleBarOverlay:{color:'#0b101b',symbolColor:'#9caac0',height:38},backgroundColor:'#080c17',icon:path.join(here,'renderer/assets/icon.png'),autoHideMenuBar:true,webPreferences:{preload:path.join(here,'preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true,spellcheck:false}});
   launcher.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   launcher.webContents.on('will-navigate',event=>event.preventDefault());
   launcher.on('close',event=>{if(hasGameWindows()&&!quitting){event.preventDefault();launcher.hide();}else operation?.abort();});
@@ -157,4 +160,4 @@ async function start(){
 app.on('second-instance',()=>{const win=game||launcher;if(win){win.show();if(win.isMinimized())win.restore();win.focus();}});
 app.on('before-quit',()=>{quitting=true;operation?.abort();clientUpdater?.stop();gameDialogs?.dispose();});
 app.on('window-all-closed',()=>app.quit());
-if(singleton)void start().catch(async error=>{console.error(error);if(!qa&&gameDialogs)await gameDialogs.show(launcher||null,{kind:'alert',title:'숲켓몬 실행 오류',message:String(error?.message||error)});app.quit();});
+if(singleton)void start().catch(async error=>{console.error(error);if(!qa&&gameDialogs)await gameDialogs.show(launcher||null,{kind:'alert',title:'리버스콜 실행 오류',message:String(error?.message||error)});app.quit();});

@@ -17,7 +17,7 @@ export async function mountQuestHub({root,api,onUser=()=>{},navigate=()=>{}}){
   const list=tasks(),quest=list.find(q=>q.id===selected)||list[0],pct=Math.min(100,Math.floor(quest.count/quest.target*100)),weekly=tab==='weekly',unknown=weekly&&quest.id==='POST'&&!quest.checkedAt;
   const done=list.filter(q=>q.claimed).length,period=weekly?`${data.period.weekKey.replaceAll('-','.')} — ${data.period.lastDate.replaceAll('-','.')}`:data.period.today.replaceAll('-','.');
   root.innerHTML=`<section class="qh-hub" aria-label="일일·주간 퀘스트">
-   <header class="qh-heading"><div><span class="qh-kicker">숲켓몬 · 활동 기록</span><h2>퀘스트</h2><p>하루의 기록을 쌓아, 이번 주 목표까지.</p></div><div class="qh-reset"><span>한국 시간 기준</span><b>${weekly?'매주 월요일':'매일'} 00:00</b><small>진행도와 수령 기회 초기화</small></div></header>
+   <header class="qh-heading"><div><span class="qh-kicker">리버스콜 · 활동 기록</span><h2>퀘스트</h2><p>하루의 기록을 쌓아, 이번 주 목표까지.</p></div><div class="qh-reset"><span>한국 시간 기준</span><b>${weekly?'매주 월요일':'매일'} 00:00</b><small>진행도와 수령 기회 초기화</small></div></header>
    <div class="qh-toolbar"><div class="qh-tabs" role="tablist" aria-label="퀘스트 기간"><button role="tab" aria-selected="${!weekly}" data-qh-tab="daily">일일 퀘스트 <span>01</span></button><button role="tab" aria-selected="${weekly}" data-qh-tab="weekly">주간 퀘스트 <span>04</span></button></div><span class="qh-period">${period}</span></div>
    <div class="qh-notice ${error?'is-error':''}" role="status" ${notice?'':'hidden'}>${escape(notice)}</div>
    ${!data.verified?'<div class="qh-verify">PLAY DK 2차 인증 후 게시글 확인과 보상 수령을 이용할 수 있습니다.<button data-qh-nav="messages">인증하러 가기 →</button></div>':''}

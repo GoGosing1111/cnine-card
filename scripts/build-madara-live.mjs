@@ -7,7 +7,7 @@ let html=read('preview/madara-raid-v1/index.html').match(/<body[^>]*>([\s\S]*)<\
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
 html=html.replace(/\bid="([^"]+)"/g,(_,id)=>`id="madara-${id}" data-madara-id="${id}"`)
  .replaceAll('src="assets/','src="/preview/madara-raid-v1/assets/').replaceAll('href="assets/','href="/preview/madara-raid-v1/assets/')
- .replace(/<a href="\.\/" class="mr-brand">[\s\S]*?<\/a>/,'<span class="mr-brand">숲켓몬 <span>레이드 작전실</span></span>')
+ .replace(/<a href="\.\/" class="mr-brand">[\s\S]*?<\/a>/,'<span class="mr-brand">리버스콜 <span>레이드 작전실</span></span>')
  .replace('개발 준비 · 비공개','운영 상태 확인 중').replace('검수용 입장권','공대 생성 입장권')
  .replace(/<option value="COMMAND">[\s\S]*?<\/option>/,'').replace('다른 브라우저 또는 시크릿 창에서 참가하세요.','각자의 계정으로 참가하세요.')
  .replace(/<p class="mr-review-note">[\s\S]*?<\/p>/,'<p class="mr-review-note" data-entry-policy>설정을 불러오는 중입니다.</p><p class="mr-review-note" data-reward-policy></p>')

@@ -18,7 +18,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using Forms = System.Windows.Forms;
 
-namespace Soopketmon.Setup {
+namespace ReverseCall.Setup {
   internal sealed class Installer {
     private readonly Window window;
     private readonly string preview;
@@ -88,7 +88,7 @@ namespace Soopketmon.Setup {
     }
 
     private T C<T>(string name) where T : class { return (T)window.FindName(name); }
-    private static Stream Resource(string name) { return Assembly.GetManifestResourceStream("Soop.Setup." + name); }
+    private static Stream Resource(string name) { return Assembly.GetManifestResourceStream("ReverseCall.Setup." + name); }
     private static BitmapImage LoadImage(string name) {
       using (var stream = Resource(name)) { var image = new BitmapImage(); image.BeginInit(); image.CacheOption = BitmapCacheOption.OnLoad; image.StreamSource = stream; image.EndInit(); image.Freeze(); return image; }
     }
@@ -98,7 +98,7 @@ namespace Soopketmon.Setup {
     }
     private void Browse() {
       using (var dialog = new Forms.FolderBrowserDialog()) {
-        dialog.Description = "숲켓몬을 설치할 상위 폴더를 선택하세요.";
+        dialog.Description = "리버스콜을 설치할 상위 폴더를 선택하세요.";
         dialog.SelectedPath = Directory.Exists(C<TextBox>("InstallPath").Text) ? C<TextBox>("InstallPath").Text : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         if (dialog.ShowDialog() == Forms.DialogResult.OK) {
           string selected = dialog.SelectedPath;
@@ -143,7 +143,7 @@ namespace Soopketmon.Setup {
       bool shortcut = C<CheckBox>("ShortcutCheck").IsChecked == true;
       try {
         target = ValidateTarget(C<TextBox>("InstallPath").Text, ExistingInstallPath());
-        if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(BuildConfig.ClientExe)).Length > 0) throw new IOException("실행 중인 숲켓몬을 종료한 뒤 다시 설치해 주세요.");
+        if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(BuildConfig.ClientExe)).Length > 0 || (BuildConfig.LegacyClientExe.Length > 0 && Process.GetProcessesByName(Path.GetFileNameWithoutExtension(BuildConfig.LegacyClientExe)).Length > 0)) throw new IOException("실행 중인 리버스콜을 종료한 뒤 다시 설치해 주세요.");
         var drive = new DriveInfo(Path.GetPathRoot(target));
         if (!drive.IsReady || drive.DriveType == DriveType.Network) throw new IOException("사용 가능한 로컬 드라이브를 선택해 주세요.");
         long required = BuildConfig.UnpackedBytes + Reserve;
@@ -157,7 +157,7 @@ namespace Soopketmon.Setup {
         await Task.Run(delegate {
           Directory.CreateDirectory(target);
           using (var probe = new FileStream(Path.Combine(target, ".setup-write-" + Guid.NewGuid().ToString("N")), FileMode.CreateNew, FileAccess.Write, FileShare.None, 1, FileOptions.DeleteOnClose)) {}
-          staging = Path.Combine(Path.GetTempPath(), "SoopketmonSetup", Guid.NewGuid().ToString("N"));
+          staging = Path.Combine(Path.GetTempPath(), "ReverseCallSetup", Guid.NewGuid().ToString("N"));
           Directory.CreateDirectory(staging);
           string payload = Path.Combine(staging, "install-engine.exe");
           using (var input = Resource("payload.exe"))
@@ -170,7 +170,7 @@ namespace Soopketmon.Setup {
             }
           }
           if (!Hash(payload).Equals(BuildConfig.PayloadHash, StringComparison.OrdinalIgnoreCase)) throw new IOException("설치 파일이 손상되었습니다. 새 설치 파일을 받아 다시 실행해 주세요.");
-          window.Dispatcher.Invoke(new Action(delegate { C<TextBlock>("ProgressHeading").Text = "숲켓몬을 설치하고 있습니다"; C<TextBlock>("ProgressDetail").Text = "프로그램 파일과 바로가기를 준비합니다. 잠시만 기다려 주세요."; Pulse(); }));
+          window.Dispatcher.Invoke(new Action(delegate { C<TextBlock>("ProgressHeading").Text = "리버스콜을 설치하고 있습니다"; C<TextBlock>("ProgressDetail").Text = "프로그램 파일과 바로가기를 준비합니다. 잠시만 기다려 주세요."; Pulse(); }));
           // NSIS /D must be the last argument and consumes the remaining unquoted path.
           var info = new ProcessStartInfo(payload, "/S --currentuser " + (shortcut ? "" : "--no-desktop-shortcut ") + "/D=" + target) { UseShellExecute = false, CreateNoWindow = true, WindowStyle = ProcessWindowStyle.Hidden, WorkingDirectory = staging };
           using (var process = Process.Start(info)) { process.WaitForExit(); if (process.ExitCode != 0) throw new IOException("설치가 완료되지 않았습니다. 오류 코드 " + process.ExitCode + ". 실행 중인 게임을 닫고 다시 시도해 주세요."); }
@@ -202,13 +202,13 @@ namespace Soopketmon.Setup {
       C<StackPanel>("SetupPanel").Visibility = Visibility.Collapsed; C<StackPanel>("ProgressPanel").Visibility = Visibility.Collapsed; C<StackPanel>("CompletePanel").Visibility = Visibility.Visible;
       C<TextBlock>("Notice").Visibility = Visibility.Collapsed; C<TextBlock>("StepLabel").Text = "READY TO PLAY";
       C<TextBlock>("Headline").Text = "설치 완료.\n이제, 모험의 시간."; C<TextBlock>("Description").Text = "당신의 카드와 용병들이 기다립니다.\n런처에서 게임 시작을 눌러 접속하세요.";
-      C<TextBlock>("ActionLabel").Text = "숲켓몬 실행"; C<Button>("InfoButton").Content = "닫기"; SetWorking(false);
+      C<TextBlock>("ActionLabel").Text = "리버스콜 실행"; C<Button>("InfoButton").Content = "닫기"; SetWorking(false);
     }
     private void ShowError(string text) { C<TextBlock>("Notice").Text = text; C<TextBlock>("Notice").Visibility = Visibility.Visible; }
     private void Launch() {
       if (preview.Length > 0) { ShowError("디자인 미리보기에서는 게임을 실행하지 않습니다."); return; }
       try { Process.Start(new ProcessStartInfo(Path.Combine(installedPath, BuildConfig.ClientExe)) { UseShellExecute = true, WorkingDirectory = installedPath }); window.Close(); }
-      catch { ShowError("게임 실행에 실패했습니다. 바탕화면의 숲켓몬 바로가기로 실행해 주세요."); }
+      catch { ShowError("게임 실행에 실패했습니다. 바탕화면의 리버스콜 바로가기로 실행해 주세요."); }
     }
   }
 }

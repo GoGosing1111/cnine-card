@@ -273,7 +273,7 @@ class PrimeDrawOpeningPreview{
   drawHeader(){
     const mobile=this.design.mobile;
     const x=mobile?32:42;
-    const eyebrow=label('SOOPKETMON · PREMIUM ACQUISITION LAB',mobile?15:14,COLORS.cyan,'800');
+    const eyebrow=label('REVERSE CALL · PREMIUM ACQUISITION LAB',mobile?15:14,COLORS.cyan,'800');
     eyebrow.position.set(x,mobile?25:30);
     const title=label('프라임 봉인 해제',mobile?37:34,COLORS.white,'900');
     title.position.set(x,mobile?49:54);

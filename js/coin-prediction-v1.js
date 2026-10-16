@@ -231,7 +231,7 @@
   function view() {
     return `<section class="cp2-shell">
       <header class="cp2-commandbar">
-        <div class="cp2-brand"><i class="cp2-brand-mark" aria-hidden="true"></i><div class="cp2-brand-copy"><small class="cp2-eyebrow">SOOPKETMON / PREDICTION EXCHANGE</small><h1>코인 승부예측</h1><p>진행 중인 경기를 선택하고 결과를 예측하세요.</p></div></div>
+        <div class="cp2-brand"><i class="cp2-brand-mark" aria-hidden="true"></i><div class="cp2-brand-copy"><small class="cp2-eyebrow">REVERSE CALL / PREDICTION EXCHANGE</small><h1>코인 승부예측</h1><p>진행 중인 경기를 선택하고 결과를 예측하세요.</p></div></div>
         <nav class="cp2-view-tabs" aria-label="승부예측 경기 분류">
           <button type="button" class="is-active" data-cp-view="active" aria-pressed="true"><span>진행 중</span><small>LIVE MATCH</small><b id="cpActiveCount">0</b></button>
           <button type="button" data-cp-view="history" aria-pressed="false"><span>종료된 경기</span><small>24H ARCHIVE</small><b id="cpHistoryCount">0</b></button>
@@ -246,7 +246,7 @@
           <div id="cpBoardHost" class="cp2-board-host"><div class="cp2-loading">승부예측 현황을 불러오는 중...</div></div>
         </section>
         <nav id="cpPagination" class="cp2-pagination" aria-label="승부예측 페이지"></nav>
-        <footer class="cp2-notice"><span>숲켓몬 코인은 현금·환전 가치가 없는 게임 내 가상 재화입니다.</span><button type="button" data-cp-terms>이용 규정</button></footer>
+        <footer class="cp2-notice"><span>리버스콜 코인은 현금·환전 가치가 없는 게임 내 가상 재화입니다.</span><button type="button" data-cp-terms>이용 규정</button></footer>
       </div>
     </section>`;
   }
@@ -431,7 +431,7 @@
       const modal = document.getElementById('modal');
       if (!modal) return resolve(false);
       modal.className = 'modal show cp-terms-modal';
-      modal.innerHTML = `<section><button class="cp-terms-x">×</button><small>SOOPKETMON POLICY</small><h2>${esc(state?.terms?.title || '코인 승부예측 이용 규정')}</h2><div>${(state?.terms?.items || []).map((item, index) => `<p><b>${String(index + 1).padStart(2, '0')}</b><span>${esc(item)}</span></p>`).join('')}</div><label><input type="checkbox"> 위 내용을 확인했으며 숲켓몬 코인에 현금·환전 가치가 없음을 이해했습니다.</label><button class="cp-terms-ok" ${confirmMode ? 'disabled' : ''}>${confirmMode ? '동의하고 계속' : '확인'}</button></section>`;
+      modal.innerHTML = `<section><button class="cp-terms-x">×</button><small>REVERSE CALL POLICY</small><h2>${esc(state?.terms?.title || '코인 승부예측 이용 규정')}</h2><div>${(state?.terms?.items || []).map((item, index) => `<p><b>${String(index + 1).padStart(2, '0')}</b><span>${esc(item)}</span></p>`).join('')}</div><label><input type="checkbox"> 위 내용을 확인했으며 리버스콜 코인에 현금·환전 가치가 없음을 이해했습니다.</label><button class="cp-terms-ok" ${confirmMode ? 'disabled' : ''}>${confirmMode ? '동의하고 계속' : '확인'}</button></section>`;
       const close = value => {
         modal.className = 'modal';
         modal.innerHTML = '';

@@ -1,4 +1,4 @@
-/* SOOPKETMON AVATAR ARCHIVE V1
+/* REVERSE CALL AVATAR ARCHIVE V1
  * Shared production renderer. The live screen and preview use the same DOM,
  * state transitions, request paths and responsive image contract.
  */
@@ -240,7 +240,7 @@
       return `<div class="avs1-shell">
         <header class="avs1-command-header">
           <button type="button" class="avs1-back" data-avatar-back aria-label="장비 화면으로 돌아가기">${icon('back')}</button>
-          <div class="avs1-brand"><span>${icon('wardrobe')}</span><div><small>SOOPKETMON / APPEARANCE SYSTEM</small><strong>아바타 아카이브</strong></div></div>
+          <div class="avs1-brand"><span>${icon('wardrobe')}</span><div><small>REVERSE CALL / APPEARANCE SYSTEM</small><strong>아바타 아카이브</strong></div></div>
           <div class="avs1-wallet"><small>${escapeHtml(profile.nickname || '플레이어')}</small><span>MY COIN</span><b>${formatNumber(state.data?.coin)} <em>COIN</em></b></div>
         </header>
         <main class="avs1-workspace">

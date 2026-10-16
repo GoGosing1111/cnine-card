@@ -13,19 +13,33 @@
       "sha256": "e5c3744926a65c7e1c5677fb28b9e2d860c0b9871396e3eb09e72999102d36e4"
     },
     {
-      "file": "renderer/assets/soopketmon-logo-approved.png",
-      "bytes": 3295,
-      "sha256": "01486fb0ceeb822f654e0aae5a3e4e9ce0a05318574e6dfde2a2717b093f7a97"
-    },
-    {
       "file": "renderer/assets/hero.avif",
       "bytes": 78437,
       "sha256": "332dfe702987f8337bf6301af379767f2d4b545845bcb7934886880c89c8bdd6"
     },
     {
       "file": "renderer/assets/icon.png",
+      "bytes": 549034,
+      "sha256": "0ebe379f58b694564244d35442419f7ae01c3cd367f5e88e7223ee846c8f6e70"
+    },
+    {
+      "file": "renderer/assets/reverse-call-logo.png",
+      "bytes": 549034,
+      "sha256": "0ebe379f58b694564244d35442419f7ae01c3cd367f5e88e7223ee846c8f6e70"
+    }
+  ],
+  "previousBrandAssets": [
+    {
+      "file": "renderer/assets/soopketmon-logo-approved.png",
+      "bytes": 3295,
+      "sha256": "01486fb0ceeb822f654e0aae5a3e4e9ce0a05318574e6dfde2a2717b093f7a97"
+    },
+    {
+      "file": "renderer/assets/icon.png",
       "bytes": 506057,
       "sha256": "df8f8562d4e4806ff90297fddc7d573ac3fefd782632bb0a2388980c99b55f04"
     }
-  ]
+  ],
+  "currentBrand": "리버스콜",
+  "brandSource": "assets/ui/brand/reverse-call-20261016/manifest.json"
 }

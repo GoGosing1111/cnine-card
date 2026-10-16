@@ -11,7 +11,7 @@
     return `<section class="at-shell" data-administration-treasury>
       <header class="at-command">
         <div class="at-command-mark" aria-hidden="true"><span></span><i></i></div>
-        <div><small>SOOPKETMON / PUBLIC FINANCE OFFICE</small><h1>행정부 재정금고</h1><p>상점의 실제 코인 판매액을 투명하게 집계하고 승인된 예산만 집행합니다.</p></div>
+        <div><small>REVERSE CALL / PUBLIC FINANCE OFFICE</small><h1>행정부 재정금고</h1><p>상점의 실제 코인 판매액을 투명하게 집계하고 승인된 예산만 집행합니다.</p></div>
         <button type="button" class="at-refresh" data-at-refresh aria-label="재정 현황 새로고침">새로고침</button>
       </header>
       <main class="at-stage" id="atStage"><div class="at-loading"><span></span><b>재정 원장을 확인하는 중입니다</b></div></main>

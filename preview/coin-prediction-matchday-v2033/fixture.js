@@ -10,7 +10,7 @@
   for(const [i,status,payout]of [[17,'SETTLED',135000000],[18,'VOID',50000000],[19,'SETTLED',0],[20,'CLOSED',0]]){
     const e=structuredClone(events[(i-17)%events.length]);e.id=i;e.title=`${e.title} · 종료 경기`;e.status=status;e.options=e.options.map((o,j)=>({...o,id:i*10+j+1}));e.result_option_id=status==='SETTLED'?e.options[payout?0:1].id:null;e.myBet={event_id:i,option_id:e.options[0].id,amount:50000000,payout,status:status==='VOID'?'REFUNDED':status==='SETTLED'?'SETTLED':'ACTIVE'};e.closes_at=new Date(Date.now()-3600000).toISOString();events.push(e);
   }
-  const terms={version:'preview-2033',title:'숲켓몬 코인 승부예측 이용 규정',items:['숲켓몬 코인은 현금·환전 가치가 없는 게임 내 가상 재화입니다.','1회 최소 10만, 경기당 누적 최대 5억 코인입니다. OWNER는 보유 코인 내에서 자유롭게 참여합니다.','최초 선택 항목은 변경하거나 취소할 수 없습니다. 같은 항목으로만 추가 배팅할 수 있습니다.','수수료 10% 차감 후 행정부 지원금을 합산하고 적중자의 참여 비율에 따라 배분합니다. 예상값은 마감 전까지 변동됩니다.','무효 처리 시 배팅 원금을 전액 환불합니다.']};
+  const terms={version:'preview-2033',title:'리버스콜 코인 승부예측 이용 규정',items:['리버스콜 코인은 현금·환전 가치가 없는 게임 내 가상 재화입니다.','1회 최소 10만, 경기당 누적 최대 5억 코인입니다. OWNER는 보유 코인 내에서 자유롭게 참여합니다.','최초 선택 항목은 변경하거나 취소할 수 없습니다. 같은 항목으로만 추가 배팅할 수 있습니다.','수수료 10% 차감 후 행정부 지원금을 합산하고 적중자의 참여 비율에 따라 배분합니다. 예상값은 마감 전까지 변동됩니다.','무효 처리 시 배팅 원금을 전액 환불합니다.']};
   function snapshot(path){
     const url=new URL(path,'https://preview.test/'),view=url.searchParams.get('view')==='history'?'history':'active',category=url.searchParams.get('category')||'ALL',mine=url.searchParams.get('mine')==='1',size=path.startsWith('admin/')?30:12;
     const available=query.has('empty')?[]:events.filter(e=>!mine||e.myBet),matches=e=>(category==='ALL'||e.category===category),active=e=>e.status==='OPEN';

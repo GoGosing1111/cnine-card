@@ -109,7 +109,7 @@ async function refresh({quiet=false}={}){
     render();status('장착 시 바로 저장 · 같은 장비를 PVE와 PVP에 각각 사용할 수 있습니다.');
   }).catch(error=>{
     status(error.status===401?'로비에서 로그인하면 장비를 확인할 수 있습니다.':error.message,true);
-    if(!state){$('#inventory').setAttribute('aria-busy','false');$('#operatorName').textContent='편성 확인 대기';$('#itemCount').textContent='확인 필요';$('#inventory').innerHTML=`<div class="empty-state"><div class="empty-art">${icon('search')}${icon('box')}${icon('refresh')}</div><h3>${error.status===401?'로그인이 필요합니다':'장비를 불러오지 못했습니다'}</h3><p>${error.status===401?'상단의 숲켓몬 로고나 로비 버튼으로 돌아가 로그인해 주세요.':'연결을 확인하고 다시 시도해 주세요.'}</p><button data-retry>다시 불러오기${icon('refresh')}</button></div>`;}
+    if(!state){$('#inventory').setAttribute('aria-busy','false');$('#operatorName').textContent='편성 확인 대기';$('#itemCount').textContent='확인 필요';$('#inventory').innerHTML=`<div class="empty-state"><div class="empty-art">${icon('search')}${icon('box')}${icon('refresh')}</div><h3>${error.status===401?'로그인이 필요합니다':'장비를 불러오지 못했습니다'}</h3><p>${error.status===401?'상단의 리버스콜 로고나 로비 버튼으로 돌아가 로그인해 주세요.':'연결을 확인하고 다시 시도해 주세요.'}</p><button data-retry>다시 불러오기${icon('refresh')}</button></div>`;}
     throw error;
   }).finally(()=>{flight=null;$('#refresh').disabled=false;});return flight;
 }

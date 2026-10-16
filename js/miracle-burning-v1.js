@@ -10,8 +10,8 @@
     el.innerHTML=`<article class="miracle-palace" role="dialog" aria-modal="true" aria-labelledby="miracleBurningTitle" aria-describedby="miracleBurningCopy" tabindex="-1">
       <div class="miracle-celestial-art" aria-hidden="true"></div><div class="miracle-rays" aria-hidden="true"></div><div class="miracle-dust" aria-hidden="true">${Array.from({length:18},(_,i)=>`<i style="--i:${i};--x:${(i*37)%100}%"></i>`).join('')}</div>
       <button class="miracle-close" type="button" aria-label="미라클 버닝 안내 닫기" data-miracle-close>×</button>
-      <div class="miracle-masthead"><span>SOOPKETMON</span><i></i><span>CELESTIAL AWAKENING</span></div>
-      <header class="miracle-title"><p class="miracle-announcement">전 서버에 기적이 펼쳐집니다</p><h2 id="miracleBurningTitle"><span>MIRACLE</span><em>BURNING</em></h2><p id="miracleBurningCopy">${escape(state.title||'숲켓몬 미라클 버닝이 발동되었습니다')}</p></header>
+      <div class="miracle-masthead"><span>REVERSE CALL</span><i></i><span>CELESTIAL AWAKENING</span></div>
+      <header class="miracle-title"><p class="miracle-announcement">전 서버에 기적이 펼쳐집니다</p><h2 id="miracleBurningTitle"><span>MIRACLE</span><em>BURNING</em></h2><p id="miracleBurningCopy">${escape(state.title||'리버스콜 미라클 버닝이 발동되었습니다')}</p></header>
       <section class="miracle-benefits" aria-label="미라클 버닝 혜택">
         <div class="miracle-coin"><span>COIN REWARD</span><strong><small>×</small>${multiplier}</strong><b>전투 코인 보상</b></div>
         <div class="miracle-drop"><span>ITEM DROP</span><strong>+30<small>%</small></strong><b>기존 드랍 확률 ×1.3</b></div>

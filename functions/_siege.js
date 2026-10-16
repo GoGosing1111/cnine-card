@@ -78,7 +78,7 @@ const MONSTER_AI_PROFILES = Object.freeze({
   },
 });
 const SIEGE_MAP_NODES = Object.freeze([
-  { index: 0, key: "ALLIANCE_BASE", name: "숲켓몬 연합 본진", code: "ALLIANCE HQ", x: 7, y: 60 },
+  { index: 0, key: "ALLIANCE_BASE", name: "리버스콜 연합 본진", code: "ALLIANCE HQ", x: 7, y: 60 },
   { index: 1, key: "OUTER", name: "검은 습지 초소", code: "OUTER POST", x: 24, y: 58 },
   { index: 2, key: "GATE", name: "철혈 관문", code: "IRON GATE", x: 40, y: 49 },
   { index: 3, key: "INNER", name: "잿불 시가지", code: "EMBER CITY", x: 56, y: 53 },
@@ -1226,7 +1226,7 @@ function publicCampaign(cfg, event) {
     factions: {
       alliance: {
         code: "ALLIANCE",
-        name: "숲켓몬 연합",
+        name: "리버스콜 연합",
         hp: allianceHp,
         maxHp: allianceMaxHp,
         percent: Math.max(0, Math.min(100, (allianceHp / allianceMaxHp) * 100)),

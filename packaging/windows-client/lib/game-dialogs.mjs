@@ -82,7 +82,7 @@ export class GameDialogs {
         const width=Math.min(area.width-24,Math.round(520*scale)),minHeight=Math.min(area.height-24,Math.round(300*scale));
         win=new this.BrowserWindow({parent:parent||undefined,modal:Boolean(parent),width,height:minHeight,
           show:false,frame:false,resizable:false,minimizable:false,maximizable:false,fullscreenable:false,
-          skipTaskbar:Boolean(parent),title:request.title||'숲켓몬',backgroundColor:'#101827',
+          skipTaskbar:Boolean(parent),title:request.title||'리버스콜',backgroundColor:'#101827',
           icon:path.join(this.basePath,'renderer/assets/icon.png'),autoHideMenuBar:true,
           webPreferences:{preload:path.join(this.basePath,'lib/dialog-preload.cjs'),sandbox:true,contextIsolation:true,nodeIntegration:false,webSecurity:true,spellcheck:false,zoomMode:'isolated',zoomFactor:scale}});
         entry={window:win,contents:win.webContents,parent,request,finish,area,scale,width,minHeight,ready:false};

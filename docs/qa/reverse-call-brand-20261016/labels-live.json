@@ -1,0 +1,59 @@
+{
+  "operationKey": "ops:reverse-call-brand:20261016:v1",
+  "status": "COMPLETED",
+  "authorization": "숲켓몬이라는 이름을 모두 리버스콜로 변경; 숲켓랜드도 리버스랜드로 변경",
+  "completedAt": "2026-10-16T05:13:47.092Z",
+  "changes": [
+    {
+      "table": "app_meta",
+      "key": "lobby_bgm_settings_v1803"
+    },
+    {
+      "table": "app_meta",
+      "key": "miracle_burning_event_settings_v1"
+    },
+    {
+      "table": "app_meta",
+      "key": "pvp_settings_v1"
+    },
+    {
+      "table": "app_meta",
+      "key": "supporter_season_pass_v1"
+    },
+    {
+      "table": "inventory_items",
+      "code": "SOOPKETLAND_TICKET",
+      "before": {
+        "name": "숲켓랜드 이용권",
+        "description": "OWNER가 지급하는 방송 이벤트 전용 이용권. 숲켓랜드에서 1개를 사용합니다."
+      },
+      "after": {
+        "name": "리버스랜드 이용권",
+        "description": "OWNER가 지급하는 방송 이벤트 전용 이용권. 리버스랜드에서 1개를 사용합니다."
+      }
+    }
+  ],
+  "accountChanges": 0,
+  "grants": 0,
+  "policyValuesChanged": 0,
+  "adminLogId": "46729",
+  "verified": true,
+  "checkedAt": "2026-10-16T05:13:51.159Z",
+  "verifiedSettingKeys": [
+    "miracle_burning_event_settings_v1",
+    "burning_event_settings_v1",
+    "maintenance_title",
+    "maintenance_message",
+    "hyper_burning_event_settings_v1310",
+    "lobby_bgm_settings_v1803",
+    "pvp_settings_v1",
+    "supporter_season_pass_v1"
+  ],
+  "ticket": {
+    "code": "SOOPKETLAND_TICKET",
+    "name": "리버스랜드 이용권",
+    "description": "OWNER가 지급하는 방송 이벤트 전용 이용권. 리버스랜드에서 1개를 사용합니다.",
+    "category": "ENTRY_TICKET",
+    "is_active": "1"
+  }
+}

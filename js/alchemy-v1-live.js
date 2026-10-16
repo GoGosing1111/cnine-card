@@ -1,4 +1,4 @@
-/* SOOPKETMON ALCHEMY V1 — production mount adapter.
+/* REVERSE CALL ALCHEMY V1 — production mount adapter.
  * The standalone review page and authenticated client share alchemy-v1.js.
  * This adapter only supplies the live API, current player and route cleanup.
  */
