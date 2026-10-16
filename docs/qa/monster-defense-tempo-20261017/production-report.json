@@ -1,0 +1,85 @@
+{
+  "checkedAt": "2026-10-16T23:08:37.930Z",
+  "sourceCommit": "688ba6a7bc675c208e46646e68ed44289a2f6126",
+  "cacheRevision": "20261017-defense-tempo1",
+  "checks": [
+    {
+      "file": "defense/index.html",
+      "url": "https://cnine-card.pages.dev/defense/",
+      "status": 200,
+      "bytes": 11945,
+      "expectedSha256": "19a6d203cfa3b0a771650ff1a326aae58402c1053c5de88ff9258ef3538a9414",
+      "actualSha256": "19a6d203cfa3b0a771650ff1a326aae58402c1053c5de88ff9258ef3538a9414",
+      "matches": true,
+      "lobbyLabel": true,
+      "lobbyDestination": true,
+      "cacheRevision": true
+    },
+    {
+      "file": "defense/asset-catalog.json",
+      "url": "https://cnine-card.pages.dev/defense/asset-catalog.json",
+      "status": 200,
+      "bytes": 16523,
+      "expectedSha256": "35dfc5530c7753f2b07d67036ceef7643283401e81a781ad6ab9d6d6c63aee80",
+      "actualSha256": "35dfc5530c7753f2b07d67036ceef7643283401e81a781ad6ab9d6d6c63aee80",
+      "matches": true
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/coop-defense-v1/defense.bundle.js",
+      "status": 200,
+      "bytes": 2066849,
+      "expectedSha256": "ec3958eeae3eb10d138f89ce3437af6d9613343287f8b2aa1af40ff8f618f0d1",
+      "actualSha256": "ec3958eeae3eb10d138f89ce3437af6d9613343287f8b2aa1af40ff8f618f0d1",
+      "matches": true
+    },
+    {
+      "file": "preview/coop-defense-v1/image-skin.css",
+      "url": "https://cnine-card.pages.dev/preview/coop-defense-v1/image-skin.css",
+      "status": 200,
+      "bytes": 23599,
+      "expectedSha256": "be4b77a5d50c9d06311c6dae6f22432ecf37e9f635fdf706a7e0737c7a95123e",
+      "actualSha256": "be4b77a5d50c9d06311c6dae6f22432ecf37e9f635fdf706a7e0737c7a95123e",
+      "matches": true
+    },
+    {
+      "file": "preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+      "url": "https://cnine-card.pages.dev/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+      "status": 200,
+      "bytes": 303494,
+      "expectedSha256": "e894c7c7b31ba7d6f926aa60a37c36047d5a1b78c8fce4c999ff9c92267251e0",
+      "actualSha256": "e894c7c7b31ba7d6f926aa60a37c36047d5a1b78c8fce4c999ff9c92267251e0",
+      "matches": true
+    },
+    {
+      "file": "admin/monster-defense.mjs",
+      "url": "https://cnine-card.pages.dev/admin/monster-defense.mjs",
+      "status": 200,
+      "bytes": 9863,
+      "expectedSha256": "b25eef0507f1e54c39eed15b30bdaf79b6ae0d4ab41f7a0fccab7cca2dda89ce",
+      "actualSha256": "b25eef0507f1e54c39eed15b30bdaf79b6ae0d4ab41f7a0fccab7cca2dda89ce",
+      "matches": true
+    }
+  ],
+  "policy": {
+    "unchanged": true,
+    "mode": "OFF",
+    "revision": 7,
+    "rewardsEnabled": false,
+    "testUserCount": 5
+  },
+  "passed": true,
+  "deployment": {
+    "releaseCommand": "npm run deploy:production -- --scoped",
+    "pagesDeploymentUrl": "https://afaf2178.cnine-card.pages.dev",
+    "apiRuntimeVersion": "de4c8e1a-349b-4fe1-8987-d73106ee97a2",
+    "apiRuntimeTrafficPercent": 100,
+    "apiRuntimeDeploymentCreatedAt": "2026-10-16T23:04:10.427Z",
+    "clanDraftVersion": "fc89fb15-84a4-4bf1-8537-aa773852b876",
+    "hyperdriveQueryCacheDisabled": true,
+    "relatedTestsPassed": 17,
+    "workerSyntaxPassed": true,
+    "browserEvidence": "report.json",
+    "visualApproval": "Not inferred from technical checks or deployment approval."
+  }
+}
