@@ -425,5 +425,11 @@
     "rows": 2,
     "frames": 8
   },
-  "preservation": "Generated PNG originals copied byte-for-byte; runtime uses the original 4x2 atlas without resampling or slicing."
+  "preservation": "Generated PNG originals copied byte-for-byte; runtime uses the original 4x2 atlas without resampling or slicing.",
+  "currentUI": {
+    "revision": 3,
+    "manifest": "assets/ui-v3/manifest.json",
+    "replacedBackground": "assets/recalibration-chamber.png",
+    "history": "Original background and prior assets preserved. Current UI no longer uses any mercenary-growth button or slide interaction."
+  }
 }

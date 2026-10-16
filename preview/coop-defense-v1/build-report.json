@@ -1,11 +1,11 @@
 {
-  "date": "2026-10-16",
+  "date": "2026-10-17",
   "status": "TEST",
   "dependencies": {
     "pixi.js": "8.20.0",
     "gsap": "3.13.0"
   },
-  "bundleBytes": 2037252,
+  "bundleBytes": 2037364,
   "commonV3": [
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
@@ -84,9 +84,19 @@
       "sha256": "3d03ba0b048a7849d76760c184246ed35ccc6ab13232b2c035c3d2be8a70105e"
     },
     {
-      "path": "/preview/defense-roguelike-v2/assets/recalibration-chamber.png",
-      "bytes": 2379772,
-      "sha256": "6e5398084dddfd2ec248b9b50b456943375f3a66439c1f0e0e5dd95731fe2279"
+      "path": "/preview/defense-roguelike-v2/assets/ui-v3/field-service-bay.png",
+      "bytes": 1937548,
+      "sha256": "63f1036ef30304e49704ddc215b50adfe8664eb71efdd92a13045e032778e895"
+    },
+    {
+      "path": "/preview/defense-roguelike-v2/assets/ui-v3/command-button.png",
+      "bytes": 1779311,
+      "sha256": "e06d459a8ff5dfcbba84ff2c6eb097e2124dad7b3dddd56f6bb2d664ad9d0b1c"
+    },
+    {
+      "path": "/preview/defense-roguelike-v2/assets/ui-v3/SUIT-Variable.woff2",
+      "bytes": 624536,
+      "sha256": "aa894a204d5a6fbae259dac6868d350cbd373a390caee0313f92946af741df23"
     },
     {
       "path": "/preview/defense-roguelike-v2/assets/supply-capsule-opening.png",
