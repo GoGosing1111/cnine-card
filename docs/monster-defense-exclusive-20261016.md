@@ -26,4 +26,11 @@
 ## 배포 범위
 정적 리소스와 독립 확인 갤러리를 자산 전용 경로로 배포한다. 게임 런타임·공통 전투·DB·계정 지급·CMS 설정은 변경하지 않는다. 기존 디펜스 TEST와 13종 적 구성은 유지한다.
 
-직전 운영 구현 커밋 `0d4943074bad05b85c67fcdb5d43a60f137d8223`을 자산 전용 배포 기준으로 사용한다. 실제 배포 식별자와 운영 파일 확인 결과는 배포 후 이 문서에 기록한다.
+직전 운영 구현 커밋 `0d4943074bad05b85c67fcdb5d43a60f137d8223`을 기준으로 `npm run deploy:production -- --assets-only` 배포를 완료했다. Hyperdrive 캐시 OFF와 바인딩 일치 검사를 통과했고 변경 없는 게임 워커는 재배포하지 않았다.
+
+- 소스 커밋: `6b5ab34aec5b7c4f72de77e59fa91b093400867e`.
+- Pages: `e501259c` · https://e501259c.cnine-card.pages.dev.
+- 확인 페이지: https://cnine-card.pages.dev/preview/monster-defense-exclusive-20261016-v1/.
+- 운영 페이지·갤러리 코드·색인·프롬프트·전체 비교 캡처·선택 PNG 7종의 총 14개 파일 HTTP 200 및 로컬 SHA-256 일치 확인.
+- 운영 확인 기록: `docs/qa/monster-defense-exclusive-production-20261016.json`.
+- 후속 배포 기록만 문서 커밋하며 게임 검사와 운영 배포를 반복하지 않는다.

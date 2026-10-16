@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-16",
+  "sourceCommit": "6b5ab34aec5b7c4f72de77e59fa91b093400867e",
+  "pagesDeployment": "e501259c",
+  "deploymentUrl": "https://e501259c.cnine-card.pages.dev",
+  "galleryUrl": "https://cnine-card.pages.dev/preview/monster-defense-exclusive-20261016-v1/",
+  "mode": "assets-only",
+  "productionBattleBinding": false,
+  "pass": true,
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 8023,
+      "sha256": "a1a3ad807cbbcdbc5e5222ffc7e225b4b2f85786a58b2f2f271cdb7419482eb5",
+      "matchesLocal": true
+    },
+    {
+      "file": "gallery.css",
+      "status": 200,
+      "bytes": 7883,
+      "sha256": "52caea50de1aacdf781a518406516a245058bd1676c9eebb8518defb7e51d3b2",
+      "matchesLocal": true
+    },
+    {
+      "file": "gallery.js",
+      "status": 200,
+      "bytes": 2473,
+      "sha256": "c9f59a1cc97c863ed463d226233303e52a4ce52d312d4574850656a211db7e84",
+      "matchesLocal": true
+    },
+    {
+      "file": "manifest.json",
+      "status": 200,
+      "bytes": 8493,
+      "sha256": "5ec8bd669df2d3e82ef7fa62bc381c16824a73d74da981cf7607b0c52dbbebb6",
+      "matchesLocal": true
+    },
+    {
+      "file": "prompts.json",
+      "status": 200,
+      "bytes": 28195,
+      "sha256": "05dc9160e5736e1cbccc15d8cacf7b6cf89e541499b9983d3c1d6fabb2dafa59",
+      "matchesLocal": true
+    },
+    {
+      "file": "prompt-pulse-weaver-v2.json",
+      "status": 200,
+      "bytes": 1297,
+      "sha256": "f7cbe3f6e416e52ce6771d6c309e7265fc4126a3c1c770c3e569b229e7ab3a29",
+      "matchesLocal": true
+    },
+    {
+      "file": "overview.png",
+      "status": 200,
+      "bytes": 467342,
+      "sha256": "ebfd45c178b0b4d8ec6bd00750a9d1345317cce76b2835bb4755a2a72e5871cd",
+      "matchesLocal": true
+    },
+    {
+      "file": "assets/01-rivet-vanguard-v1.png",
+      "status": 200,
+      "bytes": 1111800,
+      "sha256": "20c65ea6f74cf88279b8b796d31444134a52dd202c0d8cbee3c268454df14666",
+      "matchesLocal": true
+    },
+    {
+      "file": "assets/02-razor-hound-v1.png",
+      "status": 200,
+      "bytes": 1296854,
+      "sha256": "d8cd4f7f30b6a9c3d3200dec22bc1520ec0173cc1e27308b27929f40c6bef4e2",
+      "matchesLocal": true
+    },
+    {
+      "file": "assets/03-bastion-guard-v1.png",
+      "status": 200,
+      "bytes": 1702857,
+      "sha256": "b754f48a3327e55a40f0d399c533c6fa3b7382badce1d3da3e35b93dc9c52354",
+      "matchesLocal": true
+    },
+    {
+      "file": "assets/04-veil-sniper-v1.png",
+      "status": 200,
+      "bytes": 1047355,
+      "sha256": "091b8cb13e6d7da3024cab1d4527f3124ad2c378ba32b8c117473857972679d3",
+      "matchesLocal": true
+    },
+    {
+      "file": "assets/05-siege-crawler-v1.png",
+      "status": 200,
+      "bytes": 1463091,
+      "sha256": "41da4f769ae3c8245a0fad72cde981c87ecf02df1656db62c1d793c9dc16134c",
+      "matchesLocal": true
+    },
+    {
+      "file": "assets/06-pulse-weaver-v2.png",
+      "status": 200,
+      "bytes": 1014431,
+      "sha256": "5a0eadc86cf1b7516f29ef19a83e74d12f7f3430990112ed04b68cbf1ef9e5f3",
+      "matchesLocal": true
+    },
+    {
+      "file": "assets/07-nox-executor-v1.png",
+      "status": 200,
+      "bytes": 1706815,
+      "sha256": "4005ca0324c368be057f6ec42e694e897f9a20964b09f8be3ad9fcf990396823",
+      "matchesLocal": true
+    }
+  ]
+}
