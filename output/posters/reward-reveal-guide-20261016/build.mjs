@@ -38,7 +38,7 @@ async function icon(file,x,y,size){
 }
 await icon('assets/ui/brand/reverse-call-20261016/icon-192.png',120,92,100);
 await text('REVERSE CALL',244,119,44,{font:'latin',color:'#e9e1ff',maxWidth:700});
-await text('연출 보상 안내',122,256,116,{font:'display',color:'#f8efdb',maxWidth:1150});
+await text('컨텐츠별 선택보상',122,256,116,{font:'display',color:'#f8efdb',maxWidth:1150});
 await text('지금 만날 수 있는 콘텐츠별 보상',128,420,39,{font:'body',color:'#c5c9d6',maxWidth:1000});
 await text('현재 개방된 콘텐츠',128,514,34,{color:'#d1e7ac',maxWidth:700});
 

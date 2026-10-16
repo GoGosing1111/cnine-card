@@ -250,11 +250,11 @@
       "size": 44
     },
     {
-      "text": "연출 보상 안내",
+      "text": "컨텐츠별 선택보상",
       "x": 122,
       "y": 256,
-      "width": 640,
-      "height": 93,
+      "width": 803,
+      "height": 91,
       "size": 116
     },
     {
@@ -686,6 +686,6 @@
     "reward-reveal-guide-20261016.png",
     "reward-reveal-guide-20261016.jpg"
   ],
-  "sha256": "de9b67da7b142e6eaabe46c3bd0e1994750849ccf196dc0be516ed37c48df197",
+  "sha256": "311c0b19ca83422a651954ba94f189fa747fc0819b185458245e5cd4a5e603cf",
   "publication": "Created for user review; no external publication"
 }

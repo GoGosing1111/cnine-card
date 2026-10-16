@@ -8,5 +8,10 @@
     "preview-1024.png",
     "qa-core-text.png"
   ],
-  "issues": []
+  "issues": [],
+  "titleCorrection": {
+    "requested": "컨텐츠별 선택보상",
+    "rendered": "컨텐츠별 선택보상",
+    "previewReviewed": true
+  }
 }
