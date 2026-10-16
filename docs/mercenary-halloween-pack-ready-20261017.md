@@ -46,4 +46,10 @@
 
 ## 운영 반영
 
-배포 후 실제 소스·Pages ID와 운영 확인 결과를 아래에 기록한다.
+- 소스 3e7d364e46c9620ee85597f42c0eb33b315f53cf, Pages 73493089.cnine-card.pages.dev. 기존 Production cd6c1158f를 기준으로 scoped 배포했다.
+- 관련 29개 검사와 Worker 코드 검사·출시 보호·Hyperdrive 캐시 OFF 확인을 통과했다. API runtime 593cc406-26b3-4ec3-96d5-73d90a152d60, clan-draft 9c5f9d93-089f-4328-8aca-e31ad18d8aa6.
+- 2026-10-17 01:34:54 KST 운영 재확인: 상점 할로윈 이미지/원화 7종, OFF, 가격 null, 새 조건부 확률 null, 7종 각각 한도5/발행0. 실제 개봉 POST는 423으로 차단된다. 운영 추첨·차감·지급은 0건이다.
+- 기존 할로윈 V1 저장 문서와 기존 리미티드 OFF/하이퍼 ON 원문 해시가 배포 전후 일치했다. 배포가 운영 설정을 덮어쓰지 않았다.
+- 운영 HTML·JS·CSS·생성 런타임 자산 등 15개 파일의 HTTP 200/로컬 SHA-256 일치. 실제 운영 파일을 사용한 PC 1440px·모바일 390px 상점과 시연의 결과/확인/SS·SSS 영상, 가로 넘침 없음, 오류0을 확인했다. 시연에서 API 호출은0이다.
+- 공개 시연: https://cnine-card.pages.dev/preview/halloween-pack-interface-20261017/. 계정과 무관한 화면 시연이며 실제 영수증으로 오인하지 않도록 표시한다.
+- 공개 가능한 확인 JSON은 docs/qa/mercenary-halloween-pack-production-20261017.json, 실제 화면은 외부 증빙 폴더 production-shop-1440.png / production-shop-390.png다. 이 운영 결과 기록만을 위한 재배포는 하지 않는다.
