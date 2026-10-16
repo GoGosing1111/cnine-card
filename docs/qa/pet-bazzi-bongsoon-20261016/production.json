@@ -1,0 +1,115 @@
+{
+  "sourceCommit": "ef7b2a79b",
+  "productionBase": "2bff0728a8669a22bb09420f4bfc3ce45516f9d0",
+  "deployment": "https://3d365952.cnine-card.pages.dev",
+  "productionOrigin": "https://cnine-card.pages.dev",
+  "apiWorkerVersion": "a31cd6d7-09fa-4442-a3ae-6b8e76543dbf",
+  "registration": {
+    "receipt": {
+      "operationKey": "ops:pet-bazzi-bongsoon-live:20261016:v1",
+      "revision": 29,
+      "previousRevision": 28,
+      "addedCode": "PET-BAZZI-BONGSOON",
+      "preservedRows": 19,
+      "auditId": "46915",
+      "completedAt": "2026-10-16T13:18:38.665Z",
+      "accountGrant": false,
+      "openingPoolChanged": false
+    },
+    "pet": {
+      "code": "PET-BAZZI-BONGSOON",
+      "name": "배찌 나무늘봉순",
+      "sourceArt": "assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png",
+      "battleSprite": "assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png",
+      "enabled": true,
+      "liveEnabled": true,
+      "modes": [
+        "PVE",
+        "PVP"
+      ],
+      "target": "ALL_ALLIES",
+      "buffs": [
+        {
+          "type": "ATTACK_PERCENT",
+          "percent": 10
+        }
+      ],
+      "notes": "2026-10-16 사용자 배찌 나무늘봉순 별도 펫 라이브 반영 / V3 원본 보존"
+    },
+    "oldPetCount": 19,
+    "totalPets": 20,
+    "pveReady": true,
+    "pvpReady": true,
+    "oldDefinitionsPreserved": true
+  },
+  "settingsPreserved": {
+    "opening": true,
+    "potential": true
+  },
+  "dryRunRolledBack": true,
+  "idempotentReplay": true,
+  "assetVerification": {
+    "checkedAt": "2026-10-16T13:18:26.804Z",
+    "origin": "https://cnine-card.pages.dev/",
+    "files": [
+      {
+        "path": "assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png",
+        "status": 200,
+        "bytes": 1500688,
+        "sha256": "39c5e3451d9b6bac5fe5bb30419fb11856e6eef187c84405dfdb51bef9e47702",
+        "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+      },
+      {
+        "path": "assets/ui/pets/bazzi-bongsoon-20261016/approval-20261016.json",
+        "status": 200,
+        "bytes": 1521,
+        "sha256": "05119112ef1c4dc2f7859d60d07be82888a9b4852df89493aedf93979ace008d",
+        "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+      },
+      {
+        "path": "shared/pet-art-catalog-v1.mjs",
+        "status": 200,
+        "bytes": 5343,
+        "sha256": "b2afd8ca2886febbdb6e17f318553f42877e17a0b0429a5dc77baf5f23a875c9",
+        "cacheControl": "public, max-age=0, must-revalidate"
+      }
+    ],
+    "codexStatus": 200
+  },
+  "tests": {
+    "focusedPassed": 2,
+    "releasePassed": 16,
+    "workerCheck": true
+  },
+  "browser": {
+    "pageErrors": [],
+    "screens": [
+      "desktop-codex",
+      "mobile-codex",
+      "desktop-cms",
+      "desktop-pve",
+      "mobile-pvp"
+    ],
+    "battles": [
+      {
+        "viewport": "desktop",
+        "mode": "pve",
+        "petCount": 1,
+        "textureWidths": [
+          1152
+        ],
+        "fallbacks": 0
+      },
+      {
+        "viewport": "mobile",
+        "mode": "pvp",
+        "petCount": 2,
+        "textureWidths": [
+          1152,
+          1152
+        ],
+        "fallbacks": 0
+      }
+    ]
+  }
+}

@@ -25,6 +25,15 @@
 - 관련 회귀: `tests/pet-bazzi-bongsoon-live-20261016.test.mjs` — 원본 해시, 미보유 장착 차단, 보유 장착, PVE/PVP 지원 이벤트, 기존 정의/설정 보존, revision 충돌, 롤백, 감사 실패와 중복 재시도.
 - 화면: 실제 도감 PC/모바일 및 메인 V3 PVE/PVP에서 원본 표시를 확인한다. 검수 계정/보유권은 로컬 fixture만 사용하고 음소거한다.
 - 배포 게이트: `tests/pet-equipment-20261002.test.mjs`, `tests/pet-live-magnet-20261006.test.mjs`, `check:worker`. 이미 통과한 신규 회귀는 중복 실행하지 않는다.
-- 배포·운영 완료 결과는 아래에 추가한다.
+- 운영 결과: 아래 기록 및 `docs/qa/pet-bazzi-bongsoon-20261016/production.json`.
 
 사전 검수 결과: 신규 회귀 2개 통과. 도감 1440×1050/390×844와 OWNER CMS에서 기존 나무늘보·펭귄이 유지되고 새 원본이 정상 표시됐다. 메인 V3의 PC PVE는 슈트 왼쪽, 모바일 PVP는 양 진영 중앙 아래에 표시되며 시작 버프 1회, 원본 텍스처 폭 1152, fallback 0, 페이지 오류 0을 확인했다. 자료는 작업 폴더 외부 `C:/Users/User/.codex/worktrees/cooperative-reward-reveal/pet-bazzi-qa/`의 `browser-report.json`과 `desktop-codex.png`, `mobile-codex.png`, `desktop-cms.png`, `desktop-pve.png`, `mobile-pvp.png`에 보존한다. 시즌패스·잠재력 설정 API는 이번 화면 fixture의 검수 범위 밖이며 운영 설정을 수정하지 않았다.
+
+
+## 운영 반영 완료
+
+- 소스 `ef7b2a79b`, 실제 직전 운영 기준 `2bff0728a8669a22bb09420f4bfc3ce45516f9d0`. 지정 scoped 배포 완료, Pages `3d365952`, API Worker `a31cd6d7-09fa-4442-a3ae-6b8e76543dbf`. 펫 장착/실전 회귀 16개와 `check:worker`, 출시·캐시·Hyperdrive 검사를 통과했다.
+- 2026-10-16 22:18:38 KST, CMS revision **28→29**, 정의 **19→20종**, 감사 로그 **46915**. 운영에서 롤백 검수 후 한 번 저장했고 재시도는 같은 영수증을 반환했다.
+- 기존 19종 정의 전체, 개봉 설정, 잠재력 설정이 저장 전과 동일하다. 새 펫은 `enabled/liveEnabled=true`, 카드+용병 공격력 10%, PVE/PVP readiness 모두 통과다. 기존 계정 지급은 수행하지 않았다.
+- 운영 원본 PNG·승인 색인·카탈로그 모두 HTTP 200 및 로컬 바이트 일치, `/pet-codex/` HTTP 200을 확인했다. 임시 운영 도구는 종료했으며 인증 토큰을 파일이나 기록에 남기지 않았다.
+- 배포 완료 기록만 추가하는 후속 커밋에는 게임 재검사나 재배포를 하지 않는다.
