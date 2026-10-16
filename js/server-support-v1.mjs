@@ -4,8 +4,8 @@ import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261010-pass-ar
 import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
-// 2026-10-12: temporarily hide the server/support entry; keep season-pass access.
-const SERVER_SUPPORT_ENTRY_VISIBLE=false;
+// 2026-10-17: reopen server/support navigation with the existing server eligibility rules.
+const SERVER_SUPPORT_ENTRY_VISIBLE=true;
 const petImage=value=>{try{const u=new URL('/'+String(value||'').replace(/^\//,''),location.origin);return /^\/(assets|preview)\//.test(u.pathname)?u.href:'';}catch{return '';}};
 const icon=name=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${{
   leaf:'<path d="M20 4C11 3 4 7 5 14c1 6 8 7 12 2 3-4 3-8 3-12Z"/><path d="m4 21 11-12M9 16v-5m0 5h5"/>',
