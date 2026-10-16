@@ -384,7 +384,11 @@ function tick(room) {
         event(room, 'ENEMY_HIT', { actorId: enemy.id, targetId: blocker.id, amount: damage });
         if (blocker.hp <= 0) event(room, 'UNIT_DOWN', { targetId: blocker.id });
       }
-      continue;
+      // Keep firing while closing a range gap. A healer can sustain this target
+      // indefinitely, so only a living damage dealer able to retaliate holds us.
+      const canRetaliate = room.units.some(u => u.hp > 0 && !u.move && u.role !== 'HEALER' &&
+        u.lane === enemy.lane && distance(u, enemy) <= u.range);
+      if (canRetaliate) continue;
     }
     const speed = enemy.speed * (room.version>=3&&enemy.x<WORLD.mergeX&&room.players.some(p=>hasTrait(p,'BARRICADE'))?.8:1) * (enemy.slowUntil > room.time ? .45 : 1) * RULES.tickMs / 1000;
     enemy.x -= speed;

@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "loadout": {
+    "mercenaries": [
+      "V-010",
+      "V-004"
+    ],
+    "card": "CARD:CN-02D9DC1E8A8A4209"
+  },
+  "checks": [
+    "Saved 10-minute wave resumes without skills",
+    "Sniper fires while approaching melee range",
+    "Desktop and 390px combat render",
+    "Natural kill opens wave 2 point draw",
+    "Reveal and reload retain exactly one draw per squad"
+  ],
+  "before": {
+    "time": 600200,
+    "x": 2033.5279999999998
+  },
+  "moving": {
+    "time": 600900,
+    "x": 2014.375999999999
+  },
+  "cleared": {
+    "time": 611000,
+    "phase": "PREP",
+    "coreHp": 1200
+  },
+  "errors": [],
+  "failed": []
+}

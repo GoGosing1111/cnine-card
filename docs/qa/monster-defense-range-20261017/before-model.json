@@ -1,0 +1,107 @@
+[
+  {
+    "time": 60000,
+    "phase": "WAVE",
+    "wave": 2,
+    "enemies": [
+      {
+        "id": "enemy-1",
+        "archetype": "VEIL",
+        "x": 2039.1682028272262,
+        "hp": 54,
+        "range": 530
+      }
+    ],
+    "squad": [
+      {
+        "role": "STRIKER",
+        "hp": 610,
+        "x": 1510,
+        "range": 240
+      },
+      {
+        "role": "HEALER",
+        "hp": 480,
+        "x": 1220,
+        "range": 480
+      },
+      {
+        "role": "CAPTAIN",
+        "hp": 580,
+        "x": 930,
+        "range": 480
+      }
+    ],
+    "coreHp": 1200
+  },
+  {
+    "time": 300000,
+    "phase": "WAVE",
+    "wave": 2,
+    "enemies": [
+      {
+        "id": "enemy-1",
+        "archetype": "VEIL",
+        "x": 2039.1682028272262,
+        "hp": 54,
+        "range": 530
+      }
+    ],
+    "squad": [
+      {
+        "role": "STRIKER",
+        "hp": 620,
+        "x": 1510,
+        "range": 240
+      },
+      {
+        "role": "HEALER",
+        "hp": 480,
+        "x": 1220,
+        "range": 480
+      },
+      {
+        "role": "CAPTAIN",
+        "hp": 580,
+        "x": 930,
+        "range": 480
+      }
+    ],
+    "coreHp": 1200
+  },
+  {
+    "time": 600000,
+    "phase": "WAVE",
+    "wave": 2,
+    "enemies": [
+      {
+        "id": "enemy-1",
+        "archetype": "VEIL",
+        "x": 2039.1682028272262,
+        "hp": 54,
+        "range": 530
+      }
+    ],
+    "squad": [
+      {
+        "role": "STRIKER",
+        "hp": 620,
+        "x": 1510,
+        "range": 240
+      },
+      {
+        "role": "HEALER",
+        "hp": 480,
+        "x": 1220,
+        "range": 480
+      },
+      {
+        "role": "CAPTAIN",
+        "hp": 580,
+        "x": 930,
+        "range": 480
+      }
+    ],
+    "coreHp": 1200
+  }
+]
