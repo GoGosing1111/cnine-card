@@ -1,0 +1,45 @@
+{
+  "action": "read",
+  "verifiedAt": "2026-10-16T12:01:54.969Z",
+  "currentMode": "OFF",
+  "policyRevision": 39,
+  "enabled": false,
+  "schedule": {
+    "revision": 2,
+    "pending": null,
+    "lastRun": {
+      "id": "1:city-off-20261016-noon-v1",
+      "offAt": 1792119600000,
+      "completedAt": 1792119603068,
+      "status": "COMPLETED",
+      "outcome": "TURNED_OFF",
+      "mode": "OFF",
+      "policyRevisionBefore": 38,
+      "policyRevisionAfter": 39,
+      "settledThroughEpoch": 82970
+    }
+  },
+  "authorizedId": "1:city-off-20261016-noon-v1",
+  "receipt": {
+    "id": "1:city-off-20261016-noon-v1",
+    "offAt": 1792119600000,
+    "completedAt": 1792119603068,
+    "status": "COMPLETED",
+    "outcome": "TURNED_OFF",
+    "mode": "OFF",
+    "policyRevisionBefore": 38,
+    "policyRevisionAfter": 39,
+    "settledThroughEpoch": 82970
+  },
+  "cursors": [
+    {
+      "key": "jokgak_city_rotation_cleanup_v1",
+      "value": "82971"
+    },
+    {
+      "key": "jokgak_city_top_next_epoch_v1",
+      "value": "82971"
+    }
+  ],
+  "result": null
+}
