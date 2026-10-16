@@ -32,3 +32,11 @@
 - 참고로 추가로 실행한 기존 펫 검사에는 현재 카탈로그 19종을 과거 7종으로 기대하는 실패와 브라우저 절대 경로 `/shared/server-clock-v1.mjs`를 Node에서 직접 읽는 기존 import 오류가 있었다. 이 변경은 해당 카탈로그·경로·지급 로직을 수정하지 않으며 이번 배포는 변경된 렌더링의 지정 검사로 한정한다. 기존 디펜스 HTTP 검사도 제한된 셸의 로컬 연결 EACCES로 실패하여, 허용된 로컬 브라우저 환경에서 실제 전투를 확인했다.
 
 운영 배포 및 최종 화면 증빙은 `docs/qa/battle-ground-runes-20261017/`에 보존한다.
+
+## 운영 반영 완료
+
+- 소스 커밋: `00c0b1c6dd79be095b077658a080e0bbcc557338`.
+- 직전 운영 커밋 `688ba6a7bc675c208e46646e68ed44289a2f6126`을 기준으로 `npm run deploy:production -- --scoped` 완료. 지정 검사 23개, 깨끗한 소스·로더/서비스워커 캐시·Hyperdrive 검사 통과.
+- Pages 배포: `https://e8cbbe23.cnine-card.pages.dev`. API runtime과 clan-draft 배포도 지정 스크립트에서 정상 완료했다.
+- 운영 `https://cnine-card.pages.dev`에서 로비/로더/공통 전투/디펜스 6개 파일과 신규 WebP 5종 모두 HTTP 200 및 검수본 해시 일치. 결과는 같은 증빙 폴더의 `production-report.json`에 기록했다. 텍스트 파일 해시는 CRLF/LF를 정규화하고 이미지 해시는 원본 바이트로 비교했다.
+- 이 후속 변경은 검수·배포 기록만 보존하며 게임 검사 및 운영 배포를 반복하지 않는다.
