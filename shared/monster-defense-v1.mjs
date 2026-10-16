@@ -1,9 +1,10 @@
+import {ROGUE_ENEMIES,defaultDefenseGrowth,validateDefenseGrowth} from './monster-defense-growth-v2.mjs';
 export const DEFENSE_KEY='monster_defense_settings_v1';
-export const DEFENSE_RULES=Object.freeze({sessionMs:120000,roomMs:3600000,battleMs:1800000,pollMs:300,maxCatchupMs:5000});
+export const DEFENSE_RULES=Object.freeze({sessionMs:120000,roomMs:7200000,battleMs:5400000,pollMs:300,maxCatchupMs:5000});
 // Existing approved originals: no recolouring or replacement of source art.
 const hunt='assets/ui/project-v/monsters/hunt-tower/';
 const forge='assets/ui/cooperative-arke-v1/';
-export const DEFENSE_ENEMIES=Object.freeze([
+export const LEGACY_DEFENSE_ENEMIES=Object.freeze([
  {id:'SLIME',name:'점액 선봉',kind:'NORMAL',asset:hunt+'hunt-001-cute-slime-sd-v1.png',hp:1,speed:1,attack:1,height:160},
  {id:'FROG',name:'독안개 개구리',kind:'RUNNER',asset:hunt+'hunt-005-kyokasuigetsu-frog-sd-v1.png',hp:.65,speed:1.85,attack:.8,height:170},
  {id:'STALKER',name:'용철 추적자',kind:'NORMAL',asset:forge+'forge-stalker-v1.png',hp:1.3,speed:1.1,attack:1.2,height:200},
@@ -18,16 +19,18 @@ export const DEFENSE_ENEMIES=Object.freeze([
  {id:'VAMPIRE',name:'핏빛 군주',kind:'BOSS',asset:hunt+'tower-019-vampire-sd-v1.png',hp:20,speed:.6,attack:3.3,pattern:'DRAIN',hint:'피해를 준 만큼 체력을 흡수합니다. 예고된 전선에서 이탈하세요.',height:330},
  {id:'ARKE',name:'삼핵 거신 아르케',kind:'BOSS',asset:forge+'arke-battle-sprite-v1.png',hp:23,speed:.45,attack:3.5,armor:10,pattern:'TRIAD',hint:'세 전선을 순서대로 강타합니다. 표적 전선과 다음 전선을 확인하세요.',height:390}
 ]);
-export const DEFENSE_DIFFICULTIES=Object.freeze([
+export const LEGACY_DEFENSE_DIFFICULTIES=Object.freeze([
  {id:'GUIDE',name:'입문',subtitle:'초록빛 성문',waves:8,hpPercent:65,attackPercent:65,speedPercent:85,spawnPercent:75,coreHp:1300,pool:['SLIME','FROG','STALKER','WATCHER'],elite:'WARDEN',midBoss:'WARDEN',boss:'SEAL_KING',accent:'#79d9a8'},
  {id:'NORMAL',name:'보통',subtitle:'용철의 행군',waves:10,hpPercent:90,attackPercent:85,speedPercent:100,spawnPercent:90,coreHp:1200,pool:['SLIME','FROG','STALKER','WATCHER','CROW'],elite:'OMEGA',midBoss:'SEAL_KING',boss:'KRIEG',accent:'#75cde9'},
  {id:'HARD',name:'어려움',subtitle:'타락한 공성군',waves:12,hpPercent:110,attackPercent:105,speedPercent:108,spawnPercent:100,coreHp:1100,pool:['STALKER','WATCHER','CROW','WRAITH'],elite:'WARDEN',midBoss:'KRIEG',boss:'FALLEN_LORD',accent:'#edbd73'},
  {id:'NIGHTMARE',name:'악몽',subtitle:'핏빛 달의 침공',waves:14,hpPercent:135,attackPercent:125,speedPercent:115,spawnPercent:110,coreHp:1000,pool:['CROW','WRAITH','WATCHER','STALKER','FROG'],elite:'OMEGA',midBoss:'FALLEN_LORD',boss:'VAMPIRE',accent:'#c39ae9'},
  {id:'CATACLYSM',name:'재앙',subtitle:'삼핵 거신의 진격',waves:16,hpPercent:160,attackPercent:145,speedPercent:120,spawnPercent:120,coreHp:1000,pool:['STALKER','WATCHER','CROW','WRAITH','FROG'],elite:'WARDEN',midBoss:'VAMPIRE',boss:'ARKE',accent:'#ee8185'}
 ]);
-export const defenseEnemy=id=>DEFENSE_ENEMIES.find(e=>e.id===id);
+export const DEFENSE_ENEMIES=ROGUE_ENEMIES;
+export const DEFENSE_DIFFICULTIES=Object.freeze(LEGACY_DEFENSE_DIFFICULTIES.map(d=>({...d,waves:30,subtitle:{GUIDE:'흑철 병단의 전초전',NORMAL:'기계 병단의 행군',HARD:'장갑 전선 돌파',NIGHTMARE:'침묵한 코어',CATACLYSM:'노크스의 최후 명령'}[d.id],pool:['RIVET','HOUND','VEIL','WEAVER'],elite:'BASTION',midBoss:'NOX',boss:'NOX'})));
+export const defenseEnemy=id=>DEFENSE_ENEMIES.find(e=>e.id===id)||LEGACY_DEFENSE_ENEMIES.find(e=>e.id===id);
 export const defenseDifficulty=id=>DEFENSE_DIFFICULTIES.find(d=>d.id===id);
-export const defaultDefenseSettings=()=>({mode:'TEST',revision:0,testUserIds:[],rewardsEnabled:false,difficulties:DEFENSE_DIFFICULTIES.map(d=>({id:d.id,enabled:true,hpPercent:d.hpPercent,attackPercent:d.attackPercent,speedPercent:d.speedPercent,spawnPercent:d.spawnPercent,coreHp:d.coreHp}))});
+export const defaultDefenseSettings=()=>({mode:'TEST',revision:0,testUserIds:[],rewardsEnabled:false,growth:defaultDefenseGrowth(),difficulties:DEFENSE_DIFFICULTIES.map(d=>({id:d.id,enabled:true,hpPercent:d.hpPercent,attackPercent:d.attackPercent,speedPercent:d.speedPercent,spawnPercent:d.spawnPercent,coreHp:d.coreHp}))});
 export function validateDefenseSettings(raw){
  const bad=message=>{throw Object.assign(Error(message),{status:400,code:'DEFENSE_SETTINGS'});};
  if(!raw||!['OFF','TEST'].includes(raw.mode)||!Number.isSafeInteger(raw.revision)||raw.revision<0||raw.revision>2147483640||raw.rewardsEnabled!==false)bad('디펜스는 OFF 또는 TEST로 설정하며 계정 보상은 비활성입니다.');
@@ -40,7 +43,7 @@ export function validateDefenseSettings(raw){
    if(!Number.isSafeInteger(d[key])||d[key]<min||d[key]>max)bad(`${d.id} ${key}: ${min}~${max} 정수를 입력하세요.`);out[key]=d[key];
   }return out;
  });
- return {mode:raw.mode,revision:raw.revision,testUserIds:[...raw.testUserIds],rewardsEnabled:false,difficulties};
+ return {mode:raw.mode,revision:raw.revision,testUserIds:[...raw.testUserIds],rewardsEnabled:false,difficulties,growth:validateDefenseGrowth(raw.growth)};
 }
 export const defenseAccess=(user,settings)=>Boolean(user)&&settings.mode==='TEST'&&(user.role==='OWNER'||settings.testUserIds.includes(Number(user.id)));
 export const validDefenseRoom=id=>typeof id==='string'&&/^[A-F0-9]{12}$/.test(id);

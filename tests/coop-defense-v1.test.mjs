@@ -5,7 +5,7 @@ import { DefenseRooms } from '../preview/coop-defense-v1/source/room-service.mjs
 import { createReviewServer } from '../scripts/serve-coop-defense-v1.mjs';
 
 function team(capacity = 3, bots = false) {
-  const room = createRoom({ id: 'ABC123', capacity, seed: 531 });
+  const room = createRoom({ ruleset:2, id: 'ABC123', capacity, seed: 531 });
   for (let i = 0; i < capacity; i++) {
     joinRoom(room, { id: `p${i}`, name: `대원 ${i}`, bot: bots, loadout: defaultLoadout() });
     commandRoom(room, `p${i}`, { type: 'READY', ready: true });
@@ -23,13 +23,13 @@ test('each player has exactly two distinct mercenaries and one card; two-player 
     }
     assert.throws(() => commandRoom(room, 'p0', { type: 'MOVE', unitId: 'p0:0', lane: capacity }), /방어선/);
   }
-  const room = createRoom({ id: 'LOAD', capacity: 2 });
+  const room = createRoom({ ruleset:2, id: 'LOAD', capacity: 2 });
   assert.throws(() => joinRoom(room, { id: 'bad', name: 'bad', loadout: { card: 'FAKER', mercenaries: ['V-003', 'V-003'] } }), /서로 다른/);
   assert.throws(() => joinRoom(room, { id: 'locked', name: 'bad', loadout: { card: 'FAKER', mercenaries: ['V-980', 'V-003'] } }), /서로 다른/);
   assert.equal(room.players.length, 0);
 });
 test('only a full ready party can start, only host can start, late joins and repeated starts fail', () => {
-  const room = createRoom({ id: 'READY', capacity: 2 });
+  const room = createRoom({ ruleset:2, id: 'READY', capacity: 2 });
   joinRoom(room, { id: 'a', name: 'A' });
   assert.throws(() => startRoom(room, 'a'), /준비/);
   joinRoom(room, { id: 'b', name: 'B' });
@@ -118,6 +118,7 @@ test('wave clear and upgrades cannot bypass a wipe timer; partial casualties ret
 test('reconnection preserves the wipe penalty, while total team wipe keeps combat running until the core is destroyed', () => {
   let now = 1000; const service = new DefenseRooms({ now: () => now });
   const owner = service.create({ name: 'A', capacity: 2, practice: true });
+  Object.assign(service.rooms.get(owner.roomId), {version:2,growthPolicy:null});
   service.command(owner.token, { requestId: 'ready_001', command: { type: 'READY', ready: true } });
   service.command(owner.token, { requestId: 'start_001', command: { type: 'START' } });
   const room = service.rooms.get(owner.roomId); room.players.forEach(p => { p.bot = false; });
@@ -157,6 +158,7 @@ test('skills enforce cooldown and server-owned health; no client damage input is
 test('server receipts prevent double spending and reject conflicting reuse; reconnection preserves player and units', () => {
   let now = 1000; const service = new DefenseRooms({ now: () => now });
   const a = service.create({ name: 'A', capacity: 2, loadout: defaultLoadout(), practice: true });
+  Object.assign(service.rooms.get(a.roomId), {version:2,growthPolicy:null});
   service.command(a.token, { requestId: 'ready_001', command: { type: 'READY', ready: true } });
   service.command(a.token, { requestId: 'start_001', command: { type: 'START' } });
   const room = service.rooms.get(a.roomId), player = room.players[0]; player.credits = 100;

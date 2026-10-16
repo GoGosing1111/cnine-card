@@ -1,4 +1,5 @@
 import { DefenseBattleEngine } from './DefenseBattleEngine.js';
+import { DefenseWorkshop } from './DefenseWorkshop.js';
 import { MERCENARIES, CARDS, LANES, WORLD, RULES, laneY, defaultLoadout, validateLoadout } from './defense-model.mjs';
 import {DEFENSE_DIFFICULTIES,DEFENSE_ENEMIES,defenseDifficulty,defenseEnemy} from '../../../shared/monster-defense-v1.mjs';
 
@@ -10,6 +11,7 @@ const FOCUS_QUERY = '(max-width:760px), (max-height:540px) and (pointer:coarse)'
 const state = { capacity: 3, difficulty:'NORMAL',access:!LIVE,loadout: defaultLoadout(), session: null, snapshot: null, catalog: null,
   engine: null, mount: null, selected: null, focus: null, poll: null, pollAbort: null, stopped: false, failures: 0, screen: 'lobby', pending: false, epoch: 0 };
 let toastTimer, bannerTimer, refreshingSession;
+let workshop;
 const safeName = value => String(value || '').slice(0, 40);
 function toast(message) {
   $('toast').textContent = message; $('toast').hidden = false;
@@ -83,7 +85,8 @@ async function joinOrCreate(kind) {
   finally { state.pending = false; for (const id of ['create-room', 'practice']) $(id).disabled = false; }
 }
 async function sendCommand(command) {
-  if (!state.session) return;
+  if (!state.session) return false;
+  const epoch=state.epoch;
   const requestId = crypto.randomUUID?.() || Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, '0')).join('');
   try {
     // A lost response can be retried with the exact same identifier, without applying twice.
@@ -93,8 +96,10 @@ async function sendCommand(command) {
       if (error.status) throw error;
       await request('command', { method: 'POST', body: payload });
     }
-    schedulePoll(0);
-  } catch (error) { toast(error.message); }
+    if(epoch!==state.epoch)return false;
+    if(['FORGE','TRAIT','READY_WAVE'].includes(command.type))receive(await request('state'));
+    schedulePoll(0);return true;
+  } catch (error) { toast(error.message);return false; }
 }
 function schedulePoll(delay = 300) {
   clearTimeout(state.poll);
@@ -119,6 +124,7 @@ async function poll() {
 }
 function receive(snapshot) {
   const previous = state.snapshot;
+  if(previous?.id===snapshot.id&&(snapshot.seq<previous.seq||snapshot.time<previous.time))return;
   state.snapshot = snapshot;
   if (snapshot.phase === 'LOBBY') { showScreen('waiting-room'); renderWaiting(snapshot); return; }
   if (state.screen !== 'battle') {
@@ -129,6 +135,7 @@ function receive(snapshot) {
     buildControls(snapshot); void ensureEngine();
   }
   renderBattle(snapshot);
+  if(snapshot.version>=3){workshop??=new DefenseWorkshop(sendCommand,toast);workshop.receive(snapshot,state.session.playerId);}
   state.engine?.applySnapshot(snapshot, state.session.playerId);
   const beforeMine = previous?.players.find(p => p.id === state.session.playerId);
   const nowMine = snapshot.players.find(p => p.id === state.session.playerId);
@@ -258,6 +265,7 @@ function renderBattle(snapshot) {
   $('upgrade').textContent = mine.upgrades >= 5 ? '강화 완료' : `강화 ${upgradeCost}`;
   $('upgrade').disabled = recovering || snapshot.phase !== 'PREP' || mine.credits < upgradeCost || mine.upgrades >= 5;
   $('upgrade').setAttribute('aria-label', `분대 강화 ${mine.upgrades}단계, 정비 자원 ${upgradeCost} 필요`);
+  if(snapshot.version>=3){$('upgrade').textContent=snapshot.phase==='PREP'?'정비실 열기':'강화 · 정비 대기';$('upgrade').disabled=snapshot.phase!=='PREP';$('upgrade').setAttribute('aria-label','포인트 추첨, 분대 강화, 특성 선택 정비실 열기');}
   for (let lane = 0; lane < snapshot.capacity; lane++) {
     const enemies = snapshot.enemies.filter(e => e.lane === lane), danger = enemies.some(e => e.x < WORLD.breachWarningX) || enemies.filter(e => e.x < WORLD.pressureX).length >= 5;
     const player = snapshot.players.find(p => p.lane === lane), tab = $('lane-tabs').querySelector(`[data-view="${lane}"]`);
@@ -334,6 +342,7 @@ function renderResult(snapshot) {
   }
 }
 async function teardown(forget) {
+  workshop?.dispose();workshop=null;
   state.stopped = true; state.epoch++; clearTimeout(state.poll); clearTimeout(bannerTimer);
   state.pollAbort?.abort(); state.pollAbort = null;
   const pending = state.mount;
@@ -370,7 +379,7 @@ function bind() {
   $('ready').addEventListener('click', () => { const mine = state.snapshot.players.find(p => p.id === state.session.playerId); void sendCommand({ type: 'READY', ready: !mine.ready }); });
   $('start').addEventListener('click', () => void sendCommand({ type: 'START' }));
   $('skill').addEventListener('click', () => void sendCommand({ type: 'SKILL', unitId: state.selected }));
-  $('upgrade').addEventListener('click', () => void sendCommand({ type: 'UPGRADE' }));
+  $('upgrade').addEventListener('click', () => state.snapshot?.version>=3?workshop?.open():void sendCommand({ type: 'UPGRADE' }));
   $('leave-waiting').addEventListener('click', () => void leaveLobby());
   $('return-lobby').addEventListener('click', () => void leaveLobby());
   document.querySelector('.overview-tab').addEventListener('click', () => setFocus(null));
@@ -398,7 +407,7 @@ function bind() {
 }
 async function main() {
   bind();
-  const response = await fetch('./asset-catalog.json'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
+  const response = await fetch('./asset-catalog.json?v=20261016-rogue2'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
   state.catalog = await response.json(); buildLoadout();buildDifficulties();
   const invited = new URLSearchParams(location.search).get('room'); if (invited && /^[A-Fa-f0-9]{6,12}$/.test(invited)) $('room-code').value = invited.toUpperCase();
   if(LIVE){
@@ -431,13 +440,13 @@ function buildDifficulties(){
  const list=$('difficulty-list');list.replaceChildren();
  for(const d of DEFENSE_DIFFICULTIES){
   const button=document.createElement('button');button.type='button';button.dataset.difficulty=d.id;button.className='difficulty-option';button.style.setProperty('--difficulty-color',d.accent);
-  button.setAttribute('aria-pressed',String(state.difficulty===d.id));button.textContent=`${d.name} · ${d.waves}W`;button.disabled=state.feature?.difficulties.find(x=>x.id===d.id)?.enabled===false;
+  button.setAttribute('aria-pressed',String(state.difficulty===d.id));button.textContent=`${d.name} · ${state.feature?.growth?.waves||d.waves}W`;button.disabled=state.feature?.difficulties.find(x=>x.id===d.id)?.enabled===false;
   button.onclick=()=>{state.difficulty=d.id;buildDifficulties();};list.append(button);
  }
  const selected=defenseDifficulty(state.difficulty),boss=defenseEnemy(selected.boss),mid=defenseEnemy(selected.midBoss);
- $('mission-waves').textContent=selected.waves;$('difficulty-title').textContent=selected.subtitle;
+ $('mission-waves').textContent=state.feature?.growth?.waves||selected.waves;$('difficulty-title').textContent=selected.subtitle;
  $('boss-preview').src='/'+boss.asset;$('boss-preview').alt=boss.name;$('boss-preview-name').textContent=boss.name;$('boss-preview-hint').textContent=boss.hint;
- $('mid-boss-name').textContent=`중간 보스 ${mid.name} · ${Math.floor(selected.waves/2)}W / 최종 ${selected.waves}W`;
+ $('mid-boss-name').textContent=`10W마다 ${mid.name} · 최종 ${state.feature?.growth?.waves||selected.waves}W`;
  $('enemy-lineup').replaceChildren();
- for(const id of [...selected.pool,selected.elite]){const e=defenseEnemy(id),item=document.createElement('figure'),img=document.createElement('img'),caption=document.createElement('figcaption');img.src='/'+e.asset;img.alt=e.name;img.loading='lazy';caption.textContent=e.name;item.append(img,caption);$('enemy-lineup').append(item);}
+ for(const id of [...selected.pool,selected.elite,'CRAWLER']){const e=defenseEnemy(id),item=document.createElement('figure'),img=document.createElement('img'),caption=document.createElement('figcaption');img.src='/'+e.asset;img.alt=e.name;img.loading='lazy';caption.textContent=e.name;item.append(img,caption);$('enemy-lineup').append(item);}
 }

@@ -32,7 +32,7 @@ test('defense TEST: real durable room API, tester gate, authority, retry, persis
   snapshot=await h.live(c,'state');assert.equal(snapshot.units.filter(u=>u.ownerId==='1'&&u.move).length,2,'simultaneous commands preserve both writes');
   const renewed=await h.api(1,'defense/session',{roomId:a.roomId});assert.equal(renewed.roomId,a.roomId);assert.equal((await h.live(a,'state')).status,200,'overlapping old lease remains valid');assert.equal((await h.live(renewed,'state')).status,200);
   assert.equal((await h.api(1,'defense/leave',{})).status,409);
-  let stored=await h.room(a.roomId);advanceRoom(stored,RULES.prepMs+RULES.moveMs);stored.units.filter(u=>u.ownerId==='1').forEach(u=>u.hp=0);advanceRoom(stored,100);stored.serverAt=Date.now();await h.room(a.roomId,stored);
+  let stored=await h.room(a.roomId);advanceRoom(stored,15000+RULES.moveMs);stored.units.filter(u=>u.ownerId==='1').forEach(u=>u.hp=0);advanceRoom(stored,100);stored.serverAt=Date.now();await h.room(a.roomId,stored);
   const restored=await h.api(1,'defense/session',{});assert.equal(restored.snapshot.players[0].wipeCount,1);assert.equal(restored.snapshot.players[0].reviveDelayMs,15000);assert.equal(restored.snapshot.units.filter(u=>u.ownerId==='1'&&u.hp===0).length,3);
   // Advancing a saved snapshot through the alarm path must not reset deaths.
   stored=await h.room(a.roomId);stored.serverAt=Date.now()-1500;await h.room(a.roomId,stored);await new Promise(r=>setTimeout(r,1200));const advanced=await h.room(a.roomId);assert.ok(advanced.time>stored.time);assert.equal(advanced.players[0].wipeCount,1);
@@ -40,7 +40,7 @@ test('defense TEST: real durable room API, tester gate, authority, retry, persis
   stored=await h.room(a.roomId);stored.phase='DEFEAT';stored.completedAt=stored.time;await h.room(a.roomId,stored);
   const back=await h.api(1,'admin/defense/settings');assert.equal((await h.api(1,'admin/defense/settings',{settings:{...back.settings,mode:'TEST'},requestId:id()})).status,200);
   assert.equal((await h.api(1,'defense/leave',{})).status,200);assert.equal((await h.live(restored,'state')).status,401);
-  const practice=await h.api(1,'defense/create',create(2,{practice:true,difficulty:'GUIDE'}));assert.equal(practice.status,200);assert.equal(practice.snapshot.players.length,2);assert.equal(practice.snapshot.players[1].bot,true);assert.equal(practice.snapshot.totalWaves,8);assert.equal((await h.api(1,'defense/leave',{})).status,200);
+  const practice=await h.api(1,'defense/create',create(2,{practice:true,difficulty:'GUIDE'}));assert.equal(practice.status,200);assert.equal(practice.snapshot.players.length,2);assert.equal(practice.snapshot.players[1].bot,true);assert.equal(practice.snapshot.totalWaves,30);assert.equal((await h.api(1,'defense/leave',{})).status,200);
   const balances=await h.db.batch([{sql:'SELECT coin FROM users'},{sql:'SELECT COUNT(*) AS n FROM coin_logs'},{sql:'SELECT COUNT(*) AS n FROM inventory_logs'}]);assert.ok(balances[0].results.every(x=>x.coin===12345678));assert.equal(balances[1].results[0].n,0);assert.equal(balances[2].results[0].n,0);
  }finally{await h.dispose();}
 });

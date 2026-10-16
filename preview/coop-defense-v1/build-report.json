@@ -5,7 +5,7 @@
     "pixi.js": "8.20.0",
     "gsap": "3.13.0"
   },
-  "bundleBytes": 2013790,
+  "bundleBytes": 2037252,
   "commonV3": [
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
@@ -78,6 +78,26 @@
     "preview/project-v-v3/source/battle/BattleEngine.js"
   ],
   "assets": [
+    {
+      "path": "/preview/defense-roguelike-v2/assets/trait-modules.png",
+      "bytes": 1821903,
+      "sha256": "3d03ba0b048a7849d76760c184246ed35ccc6ab13232b2c035c3d2be8a70105e"
+    },
+    {
+      "path": "/preview/defense-roguelike-v2/assets/recalibration-chamber.png",
+      "bytes": 2379772,
+      "sha256": "6e5398084dddfd2ec248b9b50b456943375f3a66439c1f0e0e5dd95731fe2279"
+    },
+    {
+      "path": "/preview/defense-roguelike-v2/assets/supply-capsule-opening.png",
+      "bytes": 2171316,
+      "sha256": "9a93d992be90c683575bce09e955c821b3a646b99d1fd0017477fa1fd824ba07"
+    },
+    {
+      "path": "/preview/defense-roguelike-v2/assets/enhancement-reactor-cycle.png",
+      "bytes": 2035354,
+      "sha256": "5e3e64c8fa99acfa0f36b5db201aa3ca6c183e3357baff344a857aeea7c5d1e0"
+    },
     {
       "path": "/assets/ui/project-v/battlefields/v3-siege-fortress-courtyard-v1.png",
       "bytes": 618934,
@@ -164,69 +184,39 @@
       "sha256": "43adf7792a0428a5df57a2dc7264c5879a23ee9b740ed82f02f4695b20a99640"
     },
     {
-      "path": "/assets/ui/project-v/monsters/hunt-tower/hunt-001-cute-slime-sd-v1.png",
-      "bytes": 832523,
-      "sha256": "c5514aed7da3236920b46fecb82518ee8e7be584ccd88abaa48e3ab807d5a4fa"
+      "path": "/preview/monster-defense-exclusive-20261016-v1/assets/01-rivet-vanguard-v1.png",
+      "bytes": 1111800,
+      "sha256": "20c65ea6f74cf88279b8b796d31444134a52dd202c0d8cbee3c268454df14666"
     },
     {
-      "path": "/assets/ui/project-v/monsters/hunt-tower/hunt-005-kyokasuigetsu-frog-sd-v1.png",
-      "bytes": 1038927,
-      "sha256": "1368fa3e9805c88902cc338aa3d6e2ed99e0749c4698318c0156d0fd8993253f"
+      "path": "/preview/monster-defense-exclusive-20261016-v1/assets/02-razor-hound-v1.png",
+      "bytes": 1296854,
+      "sha256": "d8cd4f7f30b6a9c3d3200dec22bc1520ec0173cc1e27308b27929f40c6bef4e2"
     },
     {
-      "path": "/assets/ui/cooperative-arke-v1/forge-stalker-v1.png",
-      "bytes": 1202666,
-      "sha256": "270e315ce9ab15bae98f2dab91830095d26c1c090351da0d278423c9a42f0975"
+      "path": "/preview/monster-defense-exclusive-20261016-v1/assets/03-bastion-guard-v1.png",
+      "bytes": 1702857,
+      "sha256": "b754f48a3327e55a40f0d399c533c6fa3b7382badce1d3da3e35b93dc9c52354"
     },
     {
-      "path": "/assets/ui/cooperative-arke-v1/ember-watcher-v1.png",
-      "bytes": 1174846,
-      "sha256": "c2b637b833385a74dcb7ca30957aacedbe978f2fdd38bee9938ce8bc4b480261"
+      "path": "/preview/monster-defense-exclusive-20261016-v1/assets/04-veil-sniper-v1.png",
+      "bytes": 1047355,
+      "sha256": "091b8cb13e6d7da3024cab1d4527f3124ad2c378ba32b8c117473857972679d3"
     },
     {
-      "path": "/assets/ui/project-v/monsters/hunt-tower/tower-024-blood-crow-sd-v1.png",
-      "bytes": 2097216,
-      "sha256": "e08a1bf90f5d54c6a8f44c254562e7c2a519e4046e704cb92aafdf7fcc355b96"
+      "path": "/preview/monster-defense-exclusive-20261016-v1/assets/05-siege-crawler-v1.png",
+      "bytes": 1463091,
+      "sha256": "41da4f769ae3c8245a0fad72cde981c87ecf02df1656db62c1d793c9dc16134c"
     },
     {
-      "path": "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png",
-      "bytes": 2201971,
-      "sha256": "a3cc49c8a7ae21b0e34a1cd6a6ab09e78aad6f60f38df07098c023ad3b48c7dd"
+      "path": "/preview/monster-defense-exclusive-20261016-v1/assets/06-pulse-weaver-v2.png",
+      "bytes": 1014431,
+      "sha256": "5a0eadc86cf1b7516f29ef19a83e74d12f7f3430990112ed04b68cbf1ef9e5f3"
     },
     {
-      "path": "/assets/ui/project-v/monsters/hunt-tower/hunt-068-omega-09-sd-v1.png",
-      "bytes": 1872234,
-      "sha256": "e2a673bdfc47b2d847aac1434c6bae4eefcbee95b77ba245ea42174a571bf333"
-    },
-    {
-      "path": "/assets/ui/cooperative-arke-v1/core-warden-v1.png",
-      "bytes": 2566572,
-      "sha256": "7053288ab46a3882eb64610afb1c8bb690e13c0c6be5ab95151545d1ac949ded"
-    },
-    {
-      "path": "/assets/ui/project-v/monsters/hunt-tower/hunt-008-big-seal-boss-sd-v1.png",
-      "bytes": 1910912,
-      "sha256": "359d8194afa4e2cc9f8efb38e1406c05da929b95c1ce4254eba763029c9b1356"
-    },
-    {
-      "path": "/assets/ui/project-v/monsters/hunt-tower/tower-064-commander-krieg-sd-v1.png",
-      "bytes": 1910013,
-      "sha256": "031720c5c18f9c4ed2d57b345dc9b2cfe2a16b235186a533e85649f628056873"
-    },
-    {
-      "path": "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png",
-      "bytes": 1283148,
-      "sha256": "618d8755bdb3e192ff0c1db4d88d8f90b90d81ac1748a3c9fdc8b275bee0c962"
-    },
-    {
-      "path": "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png",
-      "bytes": 1866605,
-      "sha256": "b40107be887a41a68751e485659cc564a48e02a9116fa94cea67b30ca1b76f33"
-    },
-    {
-      "path": "/assets/ui/cooperative-arke-v1/arke-battle-sprite-v1.png",
-      "bytes": 2861937,
-      "sha256": "bafcdae8c7077acf45ee618848e3a48887461e24786a66163cb74e3d1a76034f"
+      "path": "/preview/monster-defense-exclusive-20261016-v1/assets/07-nox-executor-v1.png",
+      "bytes": 1706815,
+      "sha256": "4005ca0324c368be057f6ec42e694e897f9a20964b09f8be3ad9fcf990396823"
     }
   ]
 }

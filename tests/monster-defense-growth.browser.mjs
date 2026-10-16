@@ -1,0 +1,42 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {monsterDefenseFixture} from './helpers/monster-defense-fixture.mjs';
+import {settleWaveGrowth} from '../shared/monster-defense-growth-v2.mjs';
+import {advanceRoom} from '../preview/coop-defense-v1/source/defense-model.mjs';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
+const h=await monsterDefenseFixture(),out=path.resolve('../monster-defense-growth-qa');await fs.mkdir(out,{recursive:true});
+const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']});
+const errors=[],failed=[],checks=[],clients=[];
+async function open(id,w,height,reducedMotion='no-preference'){
+ const context=await browser.newContext({viewport:{width:w,height},isMobile:w<700,hasTouch:w<700,reducedMotion,serviceWorkers:'block'});
+ await context.addInitScript(id=>{localStorage.setItem('cnine_card_api_token','local-qa-'+id);localStorage.setItem('cnine_admin_token','local-qa-'+id);},id);
+ await context.route('**/*',r=>new URL(r.request().url()).origin===h.origin?r.continue():r.abort());
+ const p=await context.newPage();p.on('pageerror',e=>errors.push({url:p.url(),stack:e.stack}));p.on('response',r=>{if(r.status()>=400&&!r.url().includes('/api/'))failed.push({url:r.url(),status:r.status()});});clients.push(p);return p;
+}
+async function snap(p,name){await p.evaluate(async()=>{await Promise.all([...document.images].map(i=>i.decode().catch(()=>{})));});await p.screenshot({path:path.join(out,name+'.png')});}
+async function fit(p){assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,'document overflow');assert.equal(await p.locator('.dw').evaluate(d=>d.scrollWidth>d.clientWidth+1),false,'dialog overflow');}
+let roomId;
+async function wave(w,seed=0){let r=await h.room(roomId);r.players.forEach(p=>{p.bot=false;p.growth.readyWave=-1;});r.wave=w;r.phase='PREP';r.growthPolicy.prepSeconds=60;r.phaseUntil=r.time+60000;r.prepStartedAt=r.time;r.spawnQueue=[];r.enemies=[];r.growthRng=seed;settleWaveGrowth(r);r.seq++;r.serverAt=Date.now();await h.room(roomId,r);}
+async function odds(seed){const r=await h.room(roomId);r.growthRng=seed;r.players[0].credits=1000;r.phaseUntil=r.time+60000;r.seq++;r.serverAt=Date.now();await h.room(roomId,r);}
+try{
+ const a=await open(1,1440,1000);await a.goto(h.origin+'/defense/');await a.locator('#practice:enabled').click();await a.locator('#waiting-room').waitFor({state:'visible'});roomId=await a.locator('#invite-code').textContent();
+ await a.locator('#ready').click();await a.locator('#start:enabled').click();await a.waitForFunction(()=>window.CoopDefenseReview?.diagnostics().engine?.rendererCount===1,null,{timeout:60000});
+ await wave(1);await a.locator('.dw[open]').waitFor();await snap(a,'01-desktop-draw-sealed');await fit(a);
+ await a.locator('[data-action=reveal]').click();await a.locator('[data-action=continue]').waitFor();assert.match(await a.locator('.dw-reveal-result').textContent(),/100/);await snap(a,'02-desktop-draw-win');checks.push('server point win + actual 8 frame opening');
+ await a.locator('[data-action=continue]').click();await odds(0);await a.waitForFunction(()=>CoopDefenseReview.snapshot().players[0].credits===1000);await snap(a,'03-desktop-forge-selection');await a.locator('[data-action=forge]').click();await a.waitForFunction(()=>document.querySelector('.dw-forge-result')?.textContent.includes('성공'));await snap(a,'04-desktop-forge-success');
+ const one=(await h.room(roomId)).players[0].growth.attemptSeq;await a.reload();await a.waitForFunction(()=>window.CoopDefenseReview?.diagnostics().engine?.rendererCount===1,null,{timeout:60000});await a.locator('#upgrade').click();assert.equal((await h.room(roomId)).players[0].growth.attemptSeq,one);checks.push('forge success and reload without reroll or extra spending');
+ await odds(1000);await a.waitForFunction(()=>CoopDefenseReview.snapshot().players[0].credits===1000);await a.locator('[data-action=forge]').click();await a.waitForFunction(()=>document.querySelector('.dw-forge-result')?.textContent.includes('실패'));await snap(a,'05-desktop-forge-failure');assert.equal((await h.room(roomId)).players[0].growth.levels.ATTACK,1);checks.push('forge failure keeps level and costs points');
+ await a.locator('[data-action=close]').click();await wave(5);await a.locator('.dw[open]').waitFor();await a.locator('[data-action=reveal]').click();await a.locator('[data-action=continue]').waitFor();await a.locator('[data-action=continue]').click();await a.locator('[data-trait]').first().waitFor();await snap(a,'06-desktop-traits');await a.locator('[data-trait]').first().click();await a.waitForFunction(()=>CoopDefenseReview.snapshot().players[0].growth.traits.length===1);checks.push('three offered traits, free authoritative choice');
+ const mobile=await open(1,390,844,'reduce');await mobile.goto(h.origin+'/defense/');await mobile.waitForFunction(()=>window.CoopDefenseReview?.diagnostics().engine?.rendererCount===1,null,{timeout:60000});await wave(6,1000);await mobile.locator('.dw[open]').waitFor();await snap(mobile,'07-mobile-draw-sealed');await mobile.locator('[data-action=reveal]').click();assert.match(await mobile.locator('.dw-reveal-result').textContent(),/미당첨/);await snap(mobile,'08-mobile-draw-miss');await fit(mobile);
+ await mobile.locator('[data-action=continue]').click();await snap(mobile,'09-mobile-forge-selection');await fit(mobile);await mobile.locator('[data-branch=VITAL]').click();await odds(0);await mobile.waitForFunction(()=>CoopDefenseReview.snapshot().players[0].credits===1000);await mobile.locator('[data-action=forge]').click();await mobile.waitForFunction(()=>document.querySelector('.dw-forge-result')?.textContent.includes('성공'));await snap(mobile,'10-mobile-forge-result');checks.push('390px touch + reduced motion, missed draw and selected vital enhancement');
+ await mobile.locator('[data-action=close]').click();await wave(10);await mobile.locator('.dw[open]').waitFor();await mobile.locator('[data-action=reveal]').click();await mobile.locator('[data-action=continue]').click();await snap(mobile,'11-mobile-traits');await fit(mobile);
+ await mobile.setViewportSize({width:844,height:390});await snap(mobile,'12-landscape-traits');await fit(mobile);
+ // Deadline closes the workshop, no auto-spend or automatic trait selection.
+ let r=await h.room(roomId);const balances=r.players.map(p=>p.credits),owned=r.players.map(p=>p.growth.traits.length);r.phaseUntil=r.time+100;r.serverAt=Date.now();await h.room(roomId,r);await mobile.locator('.dw').waitFor({state:'hidden'});r=await h.room(roomId);assert.deepEqual(r.players.map(p=>p.credits),balances);assert.deepEqual(r.players.map(p=>p.growth.traits.length),owned);checks.push('deadline returns to combat without auto-spend or choosing a trait');
+ await mobile.setViewportSize({width:390,height:844});await snap(mobile,'13-mobile-new-enemies');
+ // OWNER controls persist exact rates in isolated data.
+ const cms=await open(1,1440,1000);await cms.route('**/api/admin/mercenaries/opening',r=>r.fulfill({json:{mode:'OFF',ready:false,rankCounts:{},blockers:[]}}));await cms.goto(h.origin+'/admin/');await cms.locator('#nav [data-view=monster-defense]').click();const root=cms.locator('#view-monster-defense');await root.locator('[data-save]:enabled').waitFor();await root.locator('[data-growth-key="drops.NORMAL.chance"]').fill('48');await root.locator('[data-growth-key="tiers.0.chance"]').fill('58');await root.locator('[data-save]').click();await cms.waitForFunction(()=>document.querySelector('#view-monster-defense [data-status]')?.textContent.startsWith('저장 완료'));await root.locator('[data-reload]').click();await root.locator('[data-save]:enabled').waitFor();assert.equal(await root.locator('[data-growth-key="drops.NORMAL.chance"]').inputValue(),'48');assert.equal(await root.locator('[data-growth-key="tiers.0.chance"]').inputValue(),'58');await snap(cms,'14-cms-growth');checks.push('OWNER CMS persists separate draw/forge chances');
+ assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);await fs.writeFile(path.join(out,'report.json'),JSON.stringify({checks,errors,failed},null,2));console.log(JSON.stringify({out,checks,errors,failed}));
+}catch(e){for(let i=0;i<clients.length;i++)await snap(clients[i],'failure-'+i).catch(()=>{});console.log({errors,failed});throw e;}
+finally{await browser.close();await h.dispose();}

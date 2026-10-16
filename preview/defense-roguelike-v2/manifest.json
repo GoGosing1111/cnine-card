@@ -1,0 +1,429 @@
+{
+  "source": "built-in imagegen",
+  "assets": [
+    {
+      "file": "assets/enhancement-reactor-cycle.png",
+      "bytes": 2035354,
+      "sha256": "5e3e64c8fa99acfa0f36b5db201aa3ca6c183e3357baff344a857aeea7c5d1e0",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "cells": [
+        {
+          "cell": 0,
+          "rect": [
+            0,
+            0,
+            444,
+            444
+          ],
+          "alphaBounds": [
+            33,
+            7,
+            410,
+            435
+          ]
+        },
+        {
+          "cell": 1,
+          "rect": [
+            444,
+            0,
+            887,
+            444
+          ],
+          "alphaBounds": [
+            60,
+            8,
+            382,
+            435
+          ]
+        },
+        {
+          "cell": 2,
+          "rect": [
+            887,
+            0,
+            1330,
+            444
+          ],
+          "alphaBounds": [
+            67,
+            18,
+            377,
+            435
+          ]
+        },
+        {
+          "cell": 3,
+          "rect": [
+            1330,
+            0,
+            1774,
+            444
+          ],
+          "alphaBounds": [
+            64,
+            18,
+            379,
+            435
+          ]
+        },
+        {
+          "cell": 4,
+          "rect": [
+            0,
+            444,
+            444,
+            887
+          ],
+          "alphaBounds": [
+            65,
+            16,
+            379,
+            433
+          ]
+        },
+        {
+          "cell": 5,
+          "rect": [
+            444,
+            444,
+            887,
+            887
+          ],
+          "alphaBounds": [
+            14,
+            3,
+            428,
+            433
+          ]
+        },
+        {
+          "cell": 6,
+          "rect": [
+            887,
+            444,
+            1330,
+            887
+          ],
+          "alphaBounds": [
+            15,
+            3,
+            429,
+            433
+          ]
+        },
+        {
+          "cell": 7,
+          "rect": [
+            1330,
+            444,
+            1774,
+            887
+          ],
+          "alphaBounds": [
+            34,
+            6,
+            410,
+            433
+          ]
+        }
+      ]
+    },
+    {
+      "file": "assets/recalibration-chamber.png",
+      "bytes": 2379772,
+      "sha256": "6e5398084dddfd2ec248b9b50b456943375f3a66439c1f0e0e5dd95731fe2279",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "assets/supply-capsule-opening.png",
+      "bytes": 2171316,
+      "sha256": "9a93d992be90c683575bce09e955c821b3a646b99d1fd0017477fa1fd824ba07",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "cells": [
+        {
+          "cell": 0,
+          "rect": [
+            0,
+            0,
+            444,
+            444
+          ],
+          "alphaBounds": [
+            58,
+            32,
+            387,
+            415
+          ]
+        },
+        {
+          "cell": 1,
+          "rect": [
+            444,
+            0,
+            887,
+            444
+          ],
+          "alphaBounds": [
+            52,
+            32,
+            391,
+            415
+          ]
+        },
+        {
+          "cell": 2,
+          "rect": [
+            887,
+            0,
+            1330,
+            444
+          ],
+          "alphaBounds": [
+            49,
+            32,
+            395,
+            415
+          ]
+        },
+        {
+          "cell": 3,
+          "rect": [
+            1330,
+            0,
+            1774,
+            444
+          ],
+          "alphaBounds": [
+            48,
+            32,
+            398,
+            416
+          ]
+        },
+        {
+          "cell": 4,
+          "rect": [
+            0,
+            444,
+            444,
+            887
+          ],
+          "alphaBounds": [
+            19,
+            23,
+            427,
+            407
+          ]
+        },
+        {
+          "cell": 5,
+          "rect": [
+            444,
+            444,
+            887,
+            887
+          ],
+          "alphaBounds": [
+            30,
+            23,
+            414,
+            408
+          ]
+        },
+        {
+          "cell": 6,
+          "rect": [
+            887,
+            444,
+            1330,
+            887
+          ],
+          "alphaBounds": [
+            31,
+            23,
+            415,
+            407
+          ]
+        },
+        {
+          "cell": 7,
+          "rect": [
+            1330,
+            444,
+            1774,
+            887
+          ],
+          "alphaBounds": [
+            32,
+            23,
+            415,
+            407
+          ]
+        }
+      ]
+    },
+    {
+      "file": "assets/trait-modules.png",
+      "bytes": 1821903,
+      "sha256": "3d03ba0b048a7849d76760c184246ed35ccc6ab13232b2c035c3d2be8a70105e",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "cells": [
+        {
+          "cell": 0,
+          "rect": [
+            0,
+            0,
+            444,
+            444
+          ],
+          "alphaBounds": [
+            74,
+            31,
+            388,
+            406
+          ]
+        },
+        {
+          "cell": 1,
+          "rect": [
+            444,
+            0,
+            887,
+            444
+          ],
+          "alphaBounds": [
+            53,
+            31,
+            400,
+            424
+          ]
+        },
+        {
+          "cell": 2,
+          "rect": [
+            887,
+            0,
+            1330,
+            444
+          ],
+          "alphaBounds": [
+            50,
+            47,
+            393,
+            385
+          ]
+        },
+        {
+          "cell": 3,
+          "rect": [
+            1330,
+            0,
+            1774,
+            444
+          ],
+          "alphaBounds": [
+            9,
+            28,
+            421,
+            417
+          ]
+        },
+        {
+          "cell": 4,
+          "rect": [
+            0,
+            444,
+            444,
+            887
+          ],
+          "alphaBounds": [
+            102,
+            14,
+            343,
+            399
+          ]
+        },
+        {
+          "cell": 5,
+          "rect": [
+            444,
+            444,
+            887,
+            887
+          ],
+          "alphaBounds": [
+            12,
+            28,
+            423,
+            383
+          ]
+        },
+        {
+          "cell": 6,
+          "rect": [
+            887,
+            444,
+            1330,
+            887
+          ],
+          "alphaBounds": [
+            31,
+            19,
+            396,
+            379
+          ]
+        },
+        {
+          "cell": 7,
+          "rect": [
+            1330,
+            444,
+            1774,
+            887
+          ],
+          "alphaBounds": [
+            13,
+            43,
+            418,
+            354
+          ]
+        }
+      ]
+    }
+  ],
+  "atlas": {
+    "columns": 4,
+    "rows": 2,
+    "frames": 8
+  },
+  "preservation": "Generated PNG originals copied byte-for-byte; runtime uses the original 4x2 atlas without resampling or slicing."
+}

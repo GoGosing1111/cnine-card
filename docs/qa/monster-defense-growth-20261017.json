@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "server point win + actual 8 frame opening",
+    "forge success and reload without reroll or extra spending",
+    "forge failure keeps level and costs points",
+    "three offered traits, free authoritative choice",
+    "390px touch + reduced motion, missed draw and selected vital enhancement",
+    "deadline returns to combat without auto-spend or choosing a trait",
+    "OWNER CMS persists separate draw/forge chances"
+  ],
+  "errors": [],
+  "failed": []
+}

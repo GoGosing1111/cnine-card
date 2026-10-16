@@ -1,0 +1,1160 @@
+{
+  "scope": "30 seeds/configurations with ideal automatic skill use, original per-difficulty CMS defaults and default loadout; indicative pacing, not human clear-rate evidence",
+  "rows": [
+    {
+      "capacity": 2,
+      "difficulty": "GUIDE",
+      "seed": 17,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 940.4,
+      "coreHp": 1300,
+      "players": [
+        {
+          "earned": 2100,
+          "spent": 2000,
+          "remaining": 100,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1800,
+          "spent": 1750,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "GUIDE",
+      "seed": 31,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 916.3,
+      "coreHp": 1300,
+      "players": [
+        {
+          "earned": 2500,
+          "spent": 2500,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 6,
+            "VITAL": 4,
+            "TACTIC": 2
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1550,
+          "spent": 1550,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "GUIDE",
+      "seed": 99,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 908.1,
+      "coreHp": 1300,
+      "players": [
+        {
+          "earned": 2100,
+          "spent": 2050,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 2250,
+          "spent": 2200,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 3,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "NORMAL",
+      "seed": 17,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1167.6,
+      "coreHp": 1200,
+      "players": [
+        {
+          "earned": 2100,
+          "spent": 2000,
+          "remaining": 100,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1800,
+          "spent": 1750,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "NORMAL",
+      "seed": 31,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1200.3,
+      "coreHp": 1200,
+      "players": [
+        {
+          "earned": 2500,
+          "spent": 2500,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 6,
+            "VITAL": 4,
+            "TACTIC": 2
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1550,
+          "spent": 1550,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "NORMAL",
+      "seed": 99,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1217.6,
+      "coreHp": 1200,
+      "players": [
+        {
+          "earned": 2100,
+          "spent": 2050,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 2250,
+          "spent": 2200,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 3,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "HARD",
+      "seed": 17,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1186.2,
+      "coreHp": 1100,
+      "players": [
+        {
+          "earned": 2100,
+          "spent": 2000,
+          "remaining": 100,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1800,
+          "spent": 1750,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "HARD",
+      "seed": 31,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1202.9,
+      "coreHp": 1100,
+      "players": [
+        {
+          "earned": 2500,
+          "spent": 2500,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 6,
+            "VITAL": 4,
+            "TACTIC": 2
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1550,
+          "spent": 1550,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "HARD",
+      "seed": 99,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1230.4,
+      "coreHp": 1100,
+      "players": [
+        {
+          "earned": 2100,
+          "spent": 2050,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 2250,
+          "spent": 2200,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 3,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "NIGHTMARE",
+      "seed": 17,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1342.9,
+      "coreHp": 1000,
+      "players": [
+        {
+          "earned": 2100,
+          "spent": 2000,
+          "remaining": 100,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1800,
+          "spent": 1750,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "NIGHTMARE",
+      "seed": 31,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1423.2,
+      "coreHp": 1000,
+      "players": [
+        {
+          "earned": 2500,
+          "spent": 2500,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 6,
+            "VITAL": 4,
+            "TACTIC": 2
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1550,
+          "spent": 1550,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "NIGHTMARE",
+      "seed": 99,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1349.2,
+      "coreHp": 1000,
+      "players": [
+        {
+          "earned": 2100,
+          "spent": 2050,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 2250,
+          "spent": 2200,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 3,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "CATACLYSM",
+      "seed": 17,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1372.6,
+      "coreHp": 1000,
+      "players": [
+        {
+          "earned": 2100,
+          "spent": 2000,
+          "remaining": 100,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1800,
+          "spent": 1750,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "CATACLYSM",
+      "seed": 31,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1372.2,
+      "coreHp": 1000,
+      "players": [
+        {
+          "earned": 2500,
+          "spent": 2500,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 6,
+            "VITAL": 4,
+            "TACTIC": 2
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1550,
+          "spent": 1550,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 1
+        }
+      ]
+    },
+    {
+      "capacity": 2,
+      "difficulty": "CATACLYSM",
+      "seed": 99,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1399.3,
+      "coreHp": 1000,
+      "players": [
+        {
+          "earned": 2100,
+          "spent": 2050,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 2250,
+          "spent": 2200,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 3,
+            "TACTIC": 1
+          },
+          "wipes": 1
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "GUIDE",
+      "seed": 17,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 999.9,
+      "coreHp": 1300,
+      "players": [
+        {
+          "earned": 1800,
+          "spent": 1800,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1800,
+          "spent": 1700,
+          "remaining": 100,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1750,
+          "spent": 1750,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "GUIDE",
+      "seed": 31,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1028.1,
+      "coreHp": 1300,
+      "players": [
+        {
+          "earned": 1350,
+          "spent": 1350,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 3,
+            "VITAL": 1,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 2350,
+          "spent": 2300,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1450,
+          "spent": 1400,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "GUIDE",
+      "seed": 99,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1039.1,
+      "coreHp": 1300,
+      "players": [
+        {
+          "earned": 1400,
+          "spent": 1350,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 1,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1750,
+          "spent": 1700,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 3,
+            "TACTIC": 2
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1850,
+          "spent": 1850,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "NORMAL",
+      "seed": 17,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1222.5,
+      "coreHp": 1200,
+      "players": [
+        {
+          "earned": 1800,
+          "spent": 1800,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1800,
+          "spent": 1700,
+          "remaining": 100,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1750,
+          "spent": 1750,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "NORMAL",
+      "seed": 31,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1227.3,
+      "coreHp": 1200,
+      "players": [
+        {
+          "earned": 1350,
+          "spent": 1350,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 3,
+            "VITAL": 1,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 2350,
+          "spent": 2300,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1450,
+          "spent": 1400,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "NORMAL",
+      "seed": 99,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1259.4,
+      "coreHp": 1200,
+      "players": [
+        {
+          "earned": 1400,
+          "spent": 1350,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 1,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1750,
+          "spent": 1700,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 3,
+            "TACTIC": 2
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1850,
+          "spent": 1850,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "HARD",
+      "seed": 17,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1249.1,
+      "coreHp": 1100,
+      "players": [
+        {
+          "earned": 1800,
+          "spent": 1800,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1800,
+          "spent": 1700,
+          "remaining": 100,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1750,
+          "spent": 1750,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "HARD",
+      "seed": 31,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1233.5,
+      "coreHp": 1100,
+      "players": [
+        {
+          "earned": 1350,
+          "spent": 1350,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 3,
+            "VITAL": 1,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 2350,
+          "spent": 2300,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1450,
+          "spent": 1400,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "HARD",
+      "seed": 99,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1276.1,
+      "coreHp": 1100,
+      "players": [
+        {
+          "earned": 1400,
+          "spent": 1350,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 1,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1750,
+          "spent": 1700,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 3,
+            "TACTIC": 2
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1850,
+          "spent": 1850,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "NIGHTMARE",
+      "seed": 17,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1563.5,
+      "coreHp": 760,
+      "players": [
+        {
+          "earned": 1800,
+          "spent": 1800,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1800,
+          "spent": 1700,
+          "remaining": 100,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1750,
+          "spent": 1750,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "NIGHTMARE",
+      "seed": 31,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1351.3,
+      "coreHp": 1000,
+      "players": [
+        {
+          "earned": 1350,
+          "spent": 1350,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 3,
+            "VITAL": 1,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 2350,
+          "spent": 2300,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1450,
+          "spent": 1400,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "NIGHTMARE",
+      "seed": 99,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1634.4,
+      "coreHp": 1000,
+      "players": [
+        {
+          "earned": 1400,
+          "spent": 1350,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 1,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1750,
+          "spent": 1700,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 3,
+            "TACTIC": 2
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1850,
+          "spent": 1850,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 1
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "CATACLYSM",
+      "seed": 17,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1409.1,
+      "coreHp": 1000,
+      "players": [
+        {
+          "earned": 1800,
+          "spent": 1800,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1800,
+          "spent": 1700,
+          "remaining": 100,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1750,
+          "spent": 1750,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "CATACLYSM",
+      "seed": 31,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1599.9,
+      "coreHp": 760,
+      "players": [
+        {
+          "earned": 1350,
+          "spent": 1350,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 3,
+            "VITAL": 1,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 2350,
+          "spent": 2300,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1450,
+          "spent": 1400,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 0
+        }
+      ]
+    },
+    {
+      "capacity": 3,
+      "difficulty": "CATACLYSM",
+      "seed": 99,
+      "phase": "VICTORY",
+      "wave": 30,
+      "seconds": 1528.2,
+      "coreHp": 760,
+      "players": [
+        {
+          "earned": 1400,
+          "spent": 1350,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 1,
+            "TACTIC": 0
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1750,
+          "spent": 1700,
+          "remaining": 50,
+          "levels": {
+            "ATTACK": 5,
+            "VITAL": 3,
+            "TACTIC": 2
+          },
+          "wipes": 0
+        },
+        {
+          "earned": 1850,
+          "spent": 1850,
+          "remaining": 0,
+          "levels": {
+            "ATTACK": 4,
+            "VITAL": 2,
+            "TACTIC": 1
+          },
+          "wipes": 1
+        }
+      ]
+    }
+  ]
+}

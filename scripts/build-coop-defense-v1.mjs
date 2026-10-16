@@ -6,7 +6,7 @@ import {DEFENSE_ENEMIES,DEFENSE_DIFFICULTIES} from '../shared/monster-defense-v1
 
 const dir = 'preview/coop-defense-v1';
 const roster = JSON.parse(await readFile('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json', 'utf8'));
-const monsters = JSON.parse(await readFile('assets/ui/project-v/monsters/hunt-tower/manifest-v1.json', 'utf8'));
+
 const catalog = { schemaVersion: 2, status: 'TEST', background: '/assets/ui/project-v/battlefields/v3-siege-fortress-courtyard-v1.png', units: {}, enemies: {},difficulties:DEFENSE_DIFFICULTIES };
 catalog.environment = { renderer: 'painted-sprites',
   causeway: '/preview/coop-defense-v1/assets/fortress-causeway-v2.png',
@@ -20,8 +20,9 @@ for (const entry of MERCENARIES) {
 const cardArt = { FAKER: '/assets/cards/7777777.jpg', BONGJUN: '/assets/NEWCARD/8.jpg', TAEK: '/assets/pre/8.jpg' };
 for (const entry of CARDS) catalog.units[entry.code] = { code: entry.code, name: entry.name, sourceArt: cardArt[entry.code], battleSprite: `/assets/ui/project-v/characters/${entry.sprite}` };
 for(const e of DEFENSE_ENEMIES)catalog.enemies[e.id]={...e,battleSprite:'/'+e.asset};
-for(const [legacy,id]of Object.entries({NORMAL:'SLIME',RUNNER:'FROG',ELITE:'OMEGA',BOSS:'KRIEG'}))catalog.enemies[legacy]=catalog.enemies[id];
-const assetPaths = [...new Set([catalog.background, catalog.environment.causeway, catalog.environment.core,
+for(const [legacy,id]of Object.entries({NORMAL:'RIVET',RUNNER:'HOUND',ELITE:'BASTION',BOSS:'NOX',SLIME:'RIVET',FROG:'HOUND',STALKER:'RIVET',WATCHER:'VEIL',CROW:'HOUND',WRAITH:'WEAVER',OMEGA:'BASTION',WARDEN:'BASTION',SEAL_KING:'NOX',KRIEG:'NOX',FALLEN_LORD:'NOX',VAMPIRE:'NOX',ARKE:'NOX'}))catalog.enemies[legacy]=catalog.enemies[id];
+catalog.workshop={modules:'/preview/defense-roguelike-v2/assets/trait-modules.png',chamber:'/preview/defense-roguelike-v2/assets/recalibration-chamber.png',capsule:'/preview/defense-roguelike-v2/assets/supply-capsule-opening.png',reactor:'/preview/defense-roguelike-v2/assets/enhancement-reactor-cycle.png'};
+const assetPaths = [...new Set([...Object.values(catalog.workshop),catalog.background, catalog.environment.causeway, catalog.environment.core,
   ...Object.values(catalog.units).flatMap(a => [a.sourceArt, a.battleSprite]), ...Object.values(catalog.enemies).map(a => a.battleSprite)])];
 const assets = [];
 for (const file of assetPaths) {
@@ -39,6 +40,8 @@ await writeFile(`${dir}/build-report.json`, JSON.stringify({ date: '2026-10-16',
   dependencies: Object.fromEntries(['pixi.js', 'gsap'].map(p => [p, lock.packages[`node_modules/${p}`].version])),
   bundleBytes: (await stat(`${dir}/defense.bundle.js`)).size, commonV3: inputs.filter(p => p.startsWith('preview/project-v-v3/')), assets }, null, 2) + '\n');
 await mkdir('defense',{recursive:true});
-const html=(await readFile(`${dir}/index.html`,'utf8')).replace('<html lang="ko">','<html lang="ko" data-defense-live="true">').replace('./defense.css','/'+dir+'/defense.css?v=20261016-test1').replace('./defense.bundle.js','/'+dir+'/defense.bundle.js?v=20261016-test1').replace('maxlength="6"','maxlength="12"').replace('6자리 코드','12자리 코드').replace('[a-fA-F0-9]{6}','[a-fA-F0-9]{12}');
+const html=(await readFile(`${dir}/index.html`,'utf8')).replace('<html lang="ko">','<html lang="ko" data-defense-live="true">').replace('./defense.css','/'+dir+'/defense.css?v=20261016-rogue2').replace('./workshop.css','/'+dir+'/workshop.css?v=20261016-rogue2').replace('./defense.bundle.js','/'+dir+'/defense.bundle.js?v=20261016-rogue2').replace('maxlength="6"','maxlength="12"').replace('6자리 코드','12자리 코드').replace('[a-fA-F0-9]{6}','[a-fA-F0-9]{12}');
 await writeFile('defense/index.html',html);await writeFile('defense/asset-catalog.json',JSON.stringify(catalog,null,2)+'\n');
 console.log(`Built TEST defense: ${DEFENSE_DIFFICULTIES.length} difficulties, ${DEFENSE_ENEMIES.length} enemy resources, ${assets.length} original assets; one V3/PixiJS renderer.`);
+
+await build({entryPoints:['preview/defense-roguelike-v2/preview.js'],outfile:'preview/defense-roguelike-v2/preview.bundle.js',bundle:true,minify:true,format:'iife',target:['es2022'],legalComments:'none'});

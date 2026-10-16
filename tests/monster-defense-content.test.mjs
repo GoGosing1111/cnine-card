@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createRoom,joinRoom,startRoom,advanceRoom,commandRoom,RULES,WORLD} from '../preview/coop-defense-v1/source/defense-model.mjs';
-import {DEFENSE_DIFFICULTIES,DEFENSE_ENEMIES,defenseEnemy} from '../shared/monster-defense-v1.mjs';
-const team=(difficulty='NORMAL',capacity=3)=>{const r=createRoom({id:'CONTENT',capacity,difficulty});for(let i=0;i<capacity;i++){const p=joinRoom(r,{id:'p'+i,name:'대원 '+i});p.ready=true;}startRoom(r,'p0');return r;};
+import {LEGACY_DEFENSE_DIFFICULTIES as DEFENSE_DIFFICULTIES,LEGACY_DEFENSE_ENEMIES as DEFENSE_ENEMIES,defenseEnemy} from '../shared/monster-defense-v1.mjs';
+const team=(difficulty='NORMAL',capacity=3)=>{const r=createRoom({ruleset:2,id:'CONTENT',capacity,difficulty});for(let i=0;i<capacity;i++){const p=joinRoom(r,{id:'p'+i,name:'대원 '+i});p.ready=true;}startRoom(r,'p0');return r;};
 test('five different encounters have existing originals, progressive pools, mid bosses and final bosses',()=>{
  assert.equal(DEFENSE_ENEMIES.length,13);assert.equal(new Set(DEFENSE_DIFFICULTIES.map(d=>d.boss)).size,5);
  for(const e of DEFENSE_ENEMIES)assert.ok(fs.statSync(e.asset).size>10000,e.asset);
@@ -26,7 +26,7 @@ test('all five boss patterns telegraph, resolve, enrage and remain identical aft
 });
 test('two and three squad defaults finish entry/normal and high difficulties retain pressure without runaway state',()=>{
  for(const capacity of [2,3])for(const d of DEFENSE_DIFFICULTIES){
-  const r=createRoom({id:'SIM',capacity,difficulty:d.id,seed:17});for(let i=0;i<capacity;i++)joinRoom(r,{id:'p'+i,name:'대원 '+i,bot:true});startRoom(r,'p0');
+  const r=createRoom({ruleset:2,id:'SIM',capacity,difficulty:d.id,seed:17});for(let i=0;i<capacity;i++)joinRoom(r,{id:'p'+i,name:'대원 '+i,bot:true});startRoom(r,'p0');
   while(['PREP','WAVE'].includes(r.phase)&&r.time<1800000){advanceRoom(r,1000);assert.ok(r.enemies.length<=RULES.maxEnemies);assert.ok(r.events.length<=RULES.maxEvents);}
   assert.ok(['VICTORY','DEFEAT'].includes(r.phase));if(['GUIDE','NORMAL'].includes(d.id))assert.equal(r.phase,'VICTORY');
   if(['NIGHTMARE','CATACLYSM'].includes(d.id))assert.ok(r.players.some(p=>p.wipeCount>0));assert.equal(r.rewardsEnabled,false);

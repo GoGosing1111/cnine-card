@@ -8,6 +8,7 @@
   <title>디펜스 · 리버스콜</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./defense.css">
+  <link rel="stylesheet" href="./workshop.css">
   <script defer src="./defense.bundle.js"></script>
 </head>
 <body>
@@ -19,7 +20,7 @@
           <p class="eyebrow">함께 지키는 하나의 거점</p>
           <h1 id="lobby-title">최후의<br><em>방어선</em></h1>
           <p class="intro">용병 둘, 카드 하나.<br>위험한 전선에 힘을 보태고<br>마지막 수호석을 지켜내세요.</p>
-          <div class="mission-meta"><span><b>2–3</b> 협동 인원</span><span><b id="mission-waves">10</b> 웨이브</span><span><b>1</b> 공동 거점</span></div>
+          <div class="mission-meta"><span><b>2–3</b> 협동 인원</span><span><b id="mission-waves">30</b> 웨이브</span><span><b>1</b> 공동 거점</span></div>
           <section class="encounter-preview" aria-label="난이도별 적과 보스"><p class="eyebrow" id="difficulty-title"></p><div class="boss-preview"><img id="boss-preview" alt=""><div><span>FINAL BOSS</span><h2 id="boss-preview-name"></h2><p id="boss-preview-hint"></p></div></div><p id="mid-boss-name"></p><div id="enemy-lineup" class="enemy-lineup"></div></section>
           <p class="review-note">검수용 편성과 전술입니다.<br>계정 보유분·재화·실제 보상에는 영향을 주지 않습니다.</p>
         </div>
@@ -55,7 +56,7 @@
       <header class="battle-header">
         <div class="battle-title"><span class="eyebrow">리버스콜 · 디펜스 TEST</span><strong>최후의 방어선</strong></div>
         <div class="core-status"><div><span>공동 수호석</span><b id="core-value">1,000 / 1,000</b></div><div class="core-track" role="progressbar" aria-label="공동 수호석 체력" aria-valuemin="0" aria-valuemax="1000" aria-valuenow="1000"><span id="core-fill"></span></div></div>
-        <div class="wave-status"><span id="wave-label">전투 준비</span><b id="wave-value">00 <small>/ 10</small></b></div>
+        <div class="wave-status"><span id="wave-label">전투 준비</span><b id="wave-value">00 <small>/ 30</small></b></div>
         <button id="exit-battle" class="quiet" type="button" aria-label="전투 나가기">나가기</button>
       </header>
       <nav class="lane-navigation" aria-label="방어선 카메라">
@@ -83,7 +84,7 @@
         </section>
       </div>
       <footer class="command-dock">
-        <div class="dock-heading"><span><b id="my-squad-label">내 분대</b><small>용병 2 · 카드 1</small></span><span class="supply"><span>정비 자원 <b id="credit-value">0</b></span><button id="upgrade" class="quiet" type="button">분대 강화</button></span></div>
+        <div class="dock-heading"><span><b id="my-squad-label">내 분대</b><small>용병 2 · 카드 1</small></span><span class="supply"><span>강화 포인트 <b id="credit-value">0</b></span><button id="upgrade" class="quiet" type="button">분대 강화</button></span></div>
         <div id="unit-controls" class="unit-controls"></div>
         <div class="tactical-controls"><div class="move-controls"><span id="selected-name">지원 이동</span><div id="move-buttons"></div></div><button id="skill" class="skill-button" type="button"><span id="skill-name">전술 선택</span><small id="skill-state">유닛을 선택하세요</small></button></div>
         <div class="dock-tip"><span id="control-hint">유닛 선택 → 방어선 선택으로 지원 이동</span><span id="sync-state">서버 연결됨</span></div>

@@ -44,7 +44,7 @@ export async function handleMonsterDefense({path,request,env,deps}){
     return reply({ok:true,settings:validateDefenseSettings(saved)});
    });
   }
-  if(action==='feature'&&request.method==='GET')return reply({mode:settings.mode,accessible:defenseAccess(user,settings),owner:user.role==='OWNER',user:{id:Number(user.id),nickname:user.nickname},difficulties:settings.difficulties,rewardsEnabled:false});
+  if(action==='feature'&&request.method==='GET')return reply({mode:settings.mode,accessible:defenseAccess(user,settings),owner:user.role==='OWNER',user:{id:Number(user.id),nickname:user.nickname},difficulties:settings.difficulties,growth:settings.growth,rewardsEnabled:false});
   if(!defenseAccess(user,settings))fail(settings.mode==='OFF'?'디펜스 테스트가 중지돼 있습니다.':'OWNER와 지정된 테스트 계정만 입장할 수 있습니다.',403);
   if(!env.COOP_ROOMS||!env.COOP_PLAYERS)fail('디펜스 서버를 준비 중입니다.',503);
   if(request.method!=='POST')fail('지원하지 않는 요청입니다.',405);
@@ -67,7 +67,7 @@ export async function handleMonsterDefense({path,request,env,deps}){
     const combat=settings.difficulties.find(d=>d.id===body.difficulty&&d.enabled);if(!combat)fail('이 난이도는 테스트를 사용할 수 없습니다.');
     const hash=new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(user.id+':'+body.requestId)));
     id=Array.from(hash.slice(0,6),n=>n.toString(16).padStart(2,'0')).join('').toUpperCase();
-    input={...input,id,capacity:body.capacity,difficulty:combat.id,combat,practice:body.practice===true,requestId:body.requestId,seed:crypto.getRandomValues(new Uint32Array(1))[0],settingsRevision:settings.revision};
+    input={...input,id,capacity:body.capacity,difficulty:combat.id,combat,growth:settings.growth,practice:body.practice===true,requestId:body.requestId,seed:crypto.getRandomValues(new Uint32Array(1))[0],settingsRevision:settings.revision};
    }
    if(!validDefenseRoom(id))fail('초대 코드 12자리를 확인하세요.');
    const result=await stub(env,id).defenseRpc(action,input);if(result.ok)await route.setRoom(id);return reply(result,result.ok?200:result.status);
