@@ -77,7 +77,7 @@ export async function resetRaidAndSendTickets(client,{expectedRecipientHash,expe
   const [prior]=await q('SELECT value FROM app_meta WHERE key=$1 FOR UPDATE',[OPERATION_KEY]);
   if(prior){const saved=await verifyRaidResetTickets(client);await q('ROLLBACK');return {...saved,replayed:true,committed:false};}
   assert.equal(week.weekKey,AUTHORIZED_WEEK,'Only the authorized week can be reset');
-  // Room writers serialize both quota settlements. Wallets are read, not locked:
+  // Room writers serialize both quota settlements. Account balances are not locked:
   // this operation only changes quotas/messages and must not freeze every player.
   await q('LOCK TABLE raid_lich_rooms_v1,raid_madara_rooms_v1 IN SHARE ROW EXCLUSIVE MODE');
   const [accounts]=await q('SELECT COUNT(*)::int count FROM users');
