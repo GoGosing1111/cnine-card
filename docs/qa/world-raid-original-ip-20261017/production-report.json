@@ -1,0 +1,61 @@
+{
+  "checkedAt": "2026-10-16T20:35:00.351Z",
+  "sourceCommit": "59ad7a332f9e3a2a927776b998da78f72ac0e8a7",
+  "deployedCommit": "59ad7a332f9e3a2a927776b998da78f72ac0e8a7",
+  "deploymentUrl": "https://9aac36f7.cnine-card.pages.dev",
+  "apiVersion": "31a1f790-627f-49aa-bbdb-4bd796252584",
+  "apiTrafficPercent": 100,
+  "apiProjectionVerified": true,
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 25509,
+      "sha256": "0ca0bb5418e2748eec5eb101f950dd21fa9ac223410cb70e734f0f96f0fdc6c2",
+      "matches": true
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "bytes": 752225,
+      "sha256": "18a1524fd07a1b8130da9981141ded5499f31b5b9203811e4672c3ed01f88842",
+      "matches": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "bytes": 14153,
+      "sha256": "5b4262041abb02ece2c229619cc42c7c89b26478c8a5e6be3476f8a1666a389d",
+      "matches": true
+    },
+    {
+      "path": "shared/monster-original-ip-presentation-v1.mjs",
+      "status": 200,
+      "bytes": 7938,
+      "sha256": "82bb6c528ed1ce3e74b2c99674e55a0013c4eb673c072ba2c2d5f732a5422d66",
+      "matches": true
+    },
+    {
+      "path": "assets/optimized/20261015-v1/1b60d5041492f5a2121fe85c.webp",
+      "status": 200,
+      "bytes": 1023860,
+      "sha256": "6ed7e83d0a6fa31bfc3d00207487b8ff278958b45141e84091c39e25c991187b",
+      "matches": true
+    },
+    {
+      "path": "assets/optimized/20261015-v1/0fb216935c43f01732d622ae.webp",
+      "status": 200,
+      "bytes": 1083528,
+      "sha256": "33b6d00f30a1116dd1b9edeeb6f3c210df9629f27955faf2d3a0a5384bdac759",
+      "matches": true
+    },
+    {
+      "path": "assets/optimized/20261015-v1/7515f47f715c3d521df5e3ce.webp",
+      "status": 200,
+      "bytes": 669870,
+      "sha256": "d1b774885ce5027994ffd9b297430de619def5e63040976e864caf62ec05b8c1",
+      "matches": true
+    }
+  ],
+  "passed": true
+}

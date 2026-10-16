@@ -20,4 +20,10 @@
 
 ## 운영 반영
 
-배포 및 공개 파일 확인 결과는 완료 후 이 절에 추가한다.
+- 2026-10-17 **05:35 KST** 운영 확인 완료. 소스 `59ad7a332f9e3a2a927776b998da78f72ac0e8a7`를 지정 scoped 경로로 배포했다. 수정 자체는 `fdd990dc0694b3a5d044fc05c65172fc94b57464`이며 동시 진행된 운영 스크립트 변경도 보존했다.
+- 관련 회귀 **11개**, Worker 구문, 출시 상태·캐시 태그·Hyperdrive 검사를 통과했다.
+- Pages: https://9aac36f7.cnine-card.pages.dev
+- API runtime: `31a1f790-627f-49aa-bbdb-4bd796252584`, 스케줄러: `1a3df5ea-669f-44c0-a0dc-07774f0d4a61`.
+- Cloudflare 읽기 전용 확인에서 새 API의 트래픽 100%와 실제 배포 코드의 `availableBosses` 표시 변환을 확인했다.
+- 운영 HTML·앱·서비스 워커·변환 모듈 및 세 보스의 실제 최적화 이미지 총 **7개**가 HTTP 200이고 검수한 로컬 파일 SHA-256과 일치한다.
+- 상세 결과는 `qa/world-raid-original-ip-20261017/production-report.json`에 보존한다. 이 완료 기록 추가는 문서 전용이며 운영을 다시 배포하지 않는다.
