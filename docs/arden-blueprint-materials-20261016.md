@@ -30,3 +30,10 @@
 ## 정적 상태 표시 배포
 
 기존 프리뷰의 검수 대기 문구와 색인을 등록 완료로 갱신한다. 이 정적 배포와 별개로 위 카탈로그 등록은 이미 운영 DB에 반영됐다. 일회 운영 도구와 관련 검사를 함께 기록하므로 지정된 `npm run deploy:production -- --scoped`를 사용한다. 실제 운영 배포 목록에서 직전 Pages `d032e59d-53ff-42f7-aa78-77e083fcf867`, 소스 `3d02d2b5e579e539ad50ea63e2d6e815cf9cba17`을 확인했다. scoped 검사 대상은 `tests/arden-blueprint-materials-20261016.test.mjs`이며 기존 출시·캐시·Hyperdrive 검사를 유지한다. 최종 Pages 결과는 배포 확인 후 기록한다. 운영 코드 변경이 없는 상태 기록 때문에 무관한 전체 검사를 반복하지 않는다.
+
+### 배포 완료
+
+- 소스 `2d8198a889c76a576f075d681e50593f7828192e`, Pages `152d2636-a0b5-4ff2-9893-804758db4580`으로 운영 반영했다. API Worker `23042207-34cf-4aae-8465-5b2bee1a89f6`, clan scheduler `56132601-c99a-4061-a97d-1fba73541d05`다.
+- scoped 관련 7개 검사·출시/캐시 검사 통과, Hyperdrive query cache OFF와 양쪽 바인딩 일치를 확인했다. 기존 19,306개 정적 파일을 재사용하고 변경된 9개만 전송했다.
+- **2026-10-16 09:08:23 KST** 운영 갤러리 HTML·색인·등록 메타데이터 3개 HTTP 200 및 로컬 소스 일치를 확인했다. 4종의 현재 등록 상태와 과거 DESIGN REVIEW 표시 제거를 확인했다.
+- `docs/qa/arden-blueprint-materials-20261016/deployment.json`, `live-check.json`에 증빙을 보존한다. 이 완료 기록 추가는 문서 변경이므로 재배포하지 않는다.

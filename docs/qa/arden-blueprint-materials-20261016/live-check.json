@@ -1,0 +1,24 @@
+{
+  "checkedAt": "2026-10-16T00:08:23.875Z",
+  "registeredMaterials": 4,
+  "checks": [
+    {
+      "path": "preview/arden-energy-secret-blueprints-v1/index.html",
+      "status": 200,
+      "sourceMatches": true,
+      "sha256": "62e8d0e61680fd23d20056c41347977eeb23eca6cb9b4440602339258a8af20f"
+    },
+    {
+      "path": "preview/arden-energy-secret-blueprints-v1/manifest.json",
+      "status": 200,
+      "sourceMatches": true,
+      "sha256": "4dafddb010d4b97726f6d1ca483972b6b1ecb1c9a1ce83b1d2c70617488934c3"
+    },
+    {
+      "path": "preview/arden-energy-secret-blueprints-v1/material-registration-20261016.json",
+      "status": 200,
+      "sourceMatches": true,
+      "sha256": "f11a688f5af35f837af3a3cc6ead09307a55f8aa167c5d05f7824c2676e8c0af"
+    }
+  ]
+}

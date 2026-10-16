@@ -1,0 +1,17 @@
+{
+  "base": "3d02d2b5e579e539ad50ea63e2d6e815cf9cba17",
+  "source": "2d8198a889c76a576f075d681e50593f7828192e",
+  "mode": "scoped",
+  "pages": "152d2636-a0b5-4ff2-9893-804758db4580",
+  "url": "https://152d2636.cnine-card.pages.dev",
+  "apiWorkerVersion": "23042207-34cf-4aae-8465-5b2bee1a89f6",
+  "clanWorkerVersion": "56132601-c99a-4061-a97d-1fba73541d05",
+  "scopedTestsPassed": 7,
+  "uploadedFiles": 9,
+  "reusedFiles": 19306,
+  "productionFilesMatched": 3,
+  "liveCatalogRegistration": "ops:arden-blueprint-materials:20261016:v1",
+  "adminLogId": "46722",
+  "registeredMaterials": 4,
+  "productionGrants": 0
+}
