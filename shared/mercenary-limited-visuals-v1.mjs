@@ -1,4 +1,6 @@
-import {LIMITED_BATTLE_VISUALS as catalog} from './mercenary-limited-visual-catalog-v1.mjs';
+import {LIMITED_BATTLE_VISUALS as approvedCatalog} from './mercenary-limited-visual-catalog-v1.mjs';
+import {HARLEQUIN_VISUAL} from './mercenary-harlequin-visual-v1.mjs';
+const catalog={...approvedCatalog,version:'20261017-harlequin-v1',characters:[...approvedCatalog.characters,HARLEQUIN_VISUAL]};
 
 export {catalog as LIMITED_VISUALS};
 export const limitedVisual=code=>catalog.characters.find(c=>c.code===code)||null;

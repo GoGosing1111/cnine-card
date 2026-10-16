@@ -1,0 +1,35 @@
+import {gsap} from 'gsap';
+import {mountForBattle} from '../../project-v-v3/source/project-v-pixi-battle.src.js';
+import {renderHarlequinFrames} from '../../project-v-v3/source/battle/LimitedMercenaryPlayback.js';
+import {HARLEQUIN_CODE,HARLEQUIN_SKILL,sampleHarlequinSkill} from '../../../shared/mercenary-harlequin-skill-v1.mjs';
+const doc=window.parent.document,$=id=>doc.getElementById(id),clock={time:0};
+let engine,renderer,actor,target,state,timeline,registration,disposed=false,ready=false,fxVisible=true,speed=1;
+const get=async url=>{const r=await fetch(url);if(!r.ok)throw Error('리소스 오류 '+r.status);return r.json();};
+function diagnostics(){return{ready,disposed,time:clock.time,playing:Boolean(timeline&&!timeline.paused()),speed,fxVisible,frame:state?.effectSample?.frame??null,stage:state?.effectSample?.stage??'idle',contactDistance:state?.lastContactDistance??null,visibleEffects:state?.sprites.filter(s=>s.visible&&state.layer.visible).length??0,code:actor?.cardId,bodyTexture:actor?.fullBodySprite?.texture?.source?.label,bodyMotion:'STATIC_SD_USER_SELECTED',canvasCount:document.querySelectorAll('canvas').length,registered:registration?engine?.simpleTimelines.has(registration):false};}
+function render(time){if(!ready||disposed)return;clock.time=Math.max(0,Math.min(HARLEQUIN_SKILL.duration,Number(time)||0));renderHarlequinFrames(state,clock.time,target);state.layer.visible=fxVisible;const d=diagnostics();$('play').textContent=d.playing?'일시정지':'스킬 재생';$('scrub').value=clock.time;$('time').textContent=clock.time.toFixed(2)+' / 2.60초';$('cue').textContent=({idle:clock.time>=2.6?'잔광 소멸':'대기',charge:'홍청 에너지 응축',travel:'타격 궤적',impact:clock.time<1.6?'파열 · 충격파':'파편 · 잔광'})[d.stage];$('health').dataset.diagnostics=JSON.stringify(d);}
+function dropTimeline(){if(registration)engine?.simpleTimelines.delete(registration);registration=null;timeline?.kill();timeline=null;}
+function cancel(){dropTimeline();if(ready&&!disposed)render(0);}
+function makeTimeline(){dropTimeline();timeline=gsap.timeline({paused:true,onUpdate:()=>render(clock.time),onComplete:()=>{timeline.pause();render(2.6);engine.simpleTimelines.delete(registration);}}).fromTo(clock,{time:0},{time:2.6,duration:2.6,ease:'none'}).timeScale(speed);registration={instance:timeline,settle:cancel};}
+function seek(value){if(!ready)return;if(!timeline)makeTimeline();timeline.pause().time(Math.max(0,Math.min(2.6,Number(value)||0)),true);render(value);}
+function play(){if(!ready||disposed)return;if(!timeline)makeTimeline();if(!timeline.paused()){timeline.pause();render(clock.time);return;}if(clock.time>=2.6)seek(0);engine.simpleTimelines.add(registration);timeline.play();render(clock.time);}
+function setSpeed(value){speed=Math.max(.25,Math.min(2,Number(value)||1));timeline?.timeScale(speed);render(clock.time);}
+async function verifyBinding(){cancel();engine.setVisible(true);const hp=target.hp;await engine.playEvents([{type:'MERCENARY_HIT',actorId:actor.id,targetId:target.id,skillId:'MS-980',skillName:HARLEQUIN_SKILL.name,damage:37,targetHpAfter:963,targetMaxHp:1000}]);return{playback:engine.lastMercenaryPlayback,beforeHp:hp,afterHp:target.hp};}
+function dispose(){if(disposed)return;cancel();disposed=true;ready=false;renderer?.destroy();window.ProjectVPixiBattle?.destroy();}
+async function boot(){try{
+ const ids=['CN-02D9DC1E8A8A4209','CN-0505936A0CBB4E59','CN-25F931CE393D474E','CN-23EB4B19986D4818','CN-519C181C18DF4B8E'];
+ const catalogs=await Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>get('/assets/ui/project-v/characters/'+p)));
+ const rows=catalogs.flatMap(m=>m.characters.map(c=>({...c,grade:m.rarity}))),deck=ids.map((id,i)=>{const c=rows.find(r=>r.cardId===id);if(!c)throw Error('기준 카드 누락');return{...c,id,cardId:id,name:c.member,image:'/'+c.sourceArt,sourceArt:'/'+c.sourceArt,originalCardArt:'/'+c.sourceArt,power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],hp:1000,maxHp:1000};});
+ const merc={id:'harlequin-v980-preview',code:HARLEQUIN_CODE,cardId:HARLEQUIN_CODE,name:'할리퀸 나무늘봉순',rank:'SS',role:'VANGUARD',hp:1000,maxHp:1000,skills:[]};
+ const payload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{mode:'PVP',teams:{A:{cards:deck,mercenaries:[merc]},B:{cards:deck.map((c,i)=>({...c,id:'target-'+i})),mercenaries:[]}},result:{timeline:[]}}};
+ window.cnineCardCatalog=()=>deck;
+ const api=window.ProjectVPixiBattle;api.mountForBattle=async(data,host)=>{engine=await mountForBattle(data,host);return engine;};
+ try{const modal=document.getElementById('lab-modal'),shell=window.ProjectVBattleV3Live.prepareLoading({modal,mode:'PVP',playerName:'할리퀸 나무늘봉순',opponentName:'카니발 브레이크'});renderer=await window.ProjectVBattleV3Live.createRenderer({...shell,modal,data:payload,mode:'PVP',playerName:'할리퀸 나무늘봉순'});}finally{api.mountForBattle=mountForBattle;}
+ await engine.deployCards({instant:true,force:true});actor=engine.mercenaries.find(a=>a.cardId===HARLEQUIN_CODE);target=engine.enemies.slice().sort((a,b)=>b.baseY-a.baseY)[0];if(!actor||!target)throw Error('할리퀸 전투 연결 누락');state=engine.limitedStates.get(actor);engine.cancelTimelines();actor.animationController.kill();
+ await Promise.all([...document.querySelectorAll('.battle-v3-dock img')].map(async img=>{img.loading='eager';try{await img.decode();}catch{}}));ready=true;
+ $('play').onclick=play;$('restart').onclick=()=>{seek(0);play();};$('impact').onclick=()=>seek(HARLEQUIN_SKILL.contact+.18);$('cancel').onclick=cancel;$('scrub').oninput=()=>seek($('scrub').value);$('speed').onchange=()=>setSpeed($('speed').value);$('fx-toggle').onclick=()=>{fxVisible=!fxVisible;$('fx-toggle').textContent=fxVisible?'효과 ON':'효과 OFF';$('fx-toggle').setAttribute('aria-pressed',String(fxVisible));render(clock.time);};
+ doc.querySelectorAll('.controls button,.controls select,#scrub').forEach(e=>e.disabled=false);$('health').textContent='카니발 브레이크 · 홍청 에너지 → 타격 파열 → 잔광';
+ document.querySelector('.battle-v3-header strong').textContent='카니발 브레이크';document.querySelector('.battle-v3-header small').textContent='REVERSE CALL · HALLOWEEN';document.getElementById('battlePhase').textContent='SS LIMITED';document.getElementById('pvBattleStatus').textContent='나무늘봉순 · 카니발 브레이크';
+ engine.app.renderer.on('resize',()=>{timeline?.pause();render(clock.time);});window.parent.HarlequinPreview=window.HarlequinPreview={play,seek,cancel,setSpeed,dispose,diagnostics,verifyBinding,get engine(){return engine;},get actor(){return actor;},get target(){return target;},get state(){return state;}};render(0);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){timeline?.pause();render(clock.time);}});engine.app.canvas.addEventListener('webglcontextlost',()=>{cancel();$('health').textContent='그래픽 연결이 끊겼습니다. 새로고침해 주세요.';});
+}catch(e){$('health').textContent='전장 준비 실패: '+e.message;console.error(e);}}
+window.addEventListener('pagehide',dispose,{once:true});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else void boot();

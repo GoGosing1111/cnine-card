@@ -1,0 +1,40 @@
+{
+  "name": "나무늘봉순 · 할리퀸 콘셉트",
+  "status": "USER_REVIEW_PENDING",
+  "generationMode": "built-in image_gen.imagegen",
+  "latestVersion": "v2",
+  "userDirections": [
+    "할리퀸 나무늘봉순으로 용병일러스트 만들어봐 무기는 징박힌 몽둥이",
+    "얼굴만 살려서 머리는 할리퀸처럼해",
+    "키좀 크게만들어",
+    "다리가 왤케 짧아보이노"
+  ],
+  "versions": [
+    {
+      "version": "v1",
+      "file": "bongsoon-harlequin-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a13fb5-dd61-71c0-8f3c-f8ec10417dfc/exec-36074f68-ffaa-4998-8cb8-3a6b386a2a8d.png",
+      "prompt": "Create ONE premium collectible RPG mercenary source illustration: 나무늘봉순 in a Harley Quinn costume concept, holding a metal-studded wooden club. Single complete finished artwork, vertical 2:3 composition, head to toe, no typography or card frame.\n\nREFERENCE ROLES — follow precisely:\nImages 1, 2, 3 show the SAME adult woman and are facial-identity references ONLY. Preserve her recognizable soft oval face, natural jaw and cheek contour, dark almond-shaped eyes and distinctive eyelids/spacing, small softly shaped nose and full lips. Image 2 is the clearest frontal face reference. Translate these recognizable features into the SAME drawn 2D character language as the body. Do not transplant photographic pixels, skin, lighting or a photo face. Do not substitute a generic anime face, a different woman, or a movie actress. Do not copy the seated pose, chair, bare-shoulder clothing, camera angle, or original black hairstyle.\nImages 4 and 5 are RENDERING STYLE references ONLY: crisp elegant 2D animation character construction with delicate, richly finished painterly colors, consistent face/body linework, controlled shadow boundaries, sophisticated colored illumination and depth. Do not copy their faces, hairstyles, hair colors, clothes, poses, creatures, ears, weapons, or other identifying content.\n\nLATEST USER DIRECTION: Keep ONLY the facial identity from the photos; CHANGE THE HAIR TO HARLEY QUINN HAIR. Beautiful platinum-blonde HIGH TWIN PONYTAILS, one ponytail fading into vivid red/pink ends and the other into blue/cyan ends, with loose blonde face-framing strands. Hair flows continuously and naturally from roots to tips with fine soft strands; no stiff layered plates, ribbons or blade-like chunks. Keep the face clearly visible and recognizably the woman in references 1–3. Subtle red and blue eye makeup is fine, without masking her facial features.\n\nCHARACTER AND COSTUME: One adult female mercenary with natural graceful adult proportions and long legs, dressed in a stylish Harley Quinn red/blue/white/black combat costume. Cropped red-and-blue satin bomber jacket over an opaque fitted white top, fitted black shorts with subtle red/blue panels, dark tights, sturdy mismatched red/blue accented lace-up combat boots and fingerless gloves. Small polished metal details and restrained diamond motifs make the outfit premium and coherent. Dynamic but tasteful and nonsexual character pose. No chest emphasis. Every face, neck, hand, body, hair and costume surface must have the same 2D illustration treatment and lighting. No photorealistic face or realistic skin pores.\n\nWEAPON IS ESSENTIAL: ONE substantial wooden club with clearly visible METAL STUDS and short conical spikes along the heavy striking end — a studded cudgel/baseball-bat-like club, NOT a mallet, hammer, gun or sword. Show the complete weapon with a sturdy continuous straight axis, dark wooden grain, reinforced metal bands and a leather-wrapped handle. She grips the handle naturally in one anatomically correct gloved hand and rests the club diagonally across/behind one shoulder. Keep the spiked end clearly separated from her face and ponytails so the silhouette is readable. Coherent five-finger hand and wrist, no extra hands, no floating grip, no bent weapon or disconnected parts. The other hand rests casually on her hip.\n\nPOSE AND COMPOSITION: A newly designed confident full-body three-quarter standing pose, weight on one leg, the other stepped forward, playful self-assured small smile and engaging forward gaze. Eye-level or only slightly low camera, no exaggerated foreshortening. Her body occupies most of the vertical frame while the entire ponytails, club, boots and feet remain within the canvas with breathing room. Her face must remain clear and large enough to recognize at card size. Strong character silhouette and balanced diagonals.\n\nSETTING AND FINISH: Atmospheric Halloween carnival at night, distant dim amusement lights, a few softly blurred jack-o-lanterns, subtle mist and sparse floating sparks. Dark purple/navy background with restrained red and cyan accents that complement the hair and outfit. Keep background subordinate and avoid clutter. Cinematic red/cyan rim lighting, a soft neutral key light on the face, beautiful material rendering without a plastic/3D look. Excellent clean line art, exquisite painterly color, polished collectible RPG key art. Face and body must feel drawn together from scratch by the same artist. No text, logos, signatures, watermarks, rarity badges, borders, extra characters, montage or inset panels.",
+      "referenceRoles": [
+        "Three user photos: facial identity only",
+        "Style reset 20261014 refs 03 and 04: rendering style only"
+      ],
+      "sha256": "cbf9b99929347a0bbbe5877edecdece3f0ba8092c143a952a25cf2632eff5718",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "version": "v2",
+      "file": "bongsoon-harlequin-v2-taller.png",
+      "source": "C:/Users/User/.codex/generated_images/01a13fb5-dd61-71c0-8f3c-f8ec10417dfc/exec-6af78679-4fa2-4afc-9107-af3018a63dce.png",
+      "prompt": "Create a faithful proportion correction of this existing adult fantasy game character illustration. The requested edit is only to make the adult character taller with naturally longer legs.\n\nPreserve the exact same face, expression, blonde twin ponytails with red and blue ends, outfit, opaque top and tights, colors, wooden studded club, hands, pose, lighting and Halloween carnival scene. Keep all clothing coverage intact.\n\nLengthen both thighs and lower legs by about 18 percent relative to the torso, producing a higher-waisted, tall and elegant adult figure with anatomically correct knees and ankles. Keep the torso and head shape consistent with the original. Avoid making the boots larger, stretching the entire picture, or changing the character's face. Recompose and extend the lower background as needed. The viewer should clearly notice longer legs and greater height.\n\nSingle vertical 2:3 polished illustration, same coherent 2D character art and painterly finish. Show the complete figure from ponytails to both boot soles, with modest margins above and below. No text, frame or extra characters.",
+      "referenceRoles": [
+        "v1 illustration: preserve character design; lengthen leg proportions"
+      ],
+      "sha256": "c82230fb51db845f9b337083d144700542ec898e8f27a041c2904348ea66a207",
+      "width": 1024,
+      "height": 1536
+    }
+  ],
+  "savedAt": "2026-10-16T18:25:08.637Z"
+}
