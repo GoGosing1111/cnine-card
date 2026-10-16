@@ -92,6 +92,22 @@ test('lost COMMIT response recovers the same reset and both messages without res
  assert.equal((await apply(db,options(plan))).replayed,true);assert.deepEqual(await snapshot(db),committed);
 });
 
+test('interleaved unrelated game activity is preserved without blocking the raid-only operation',async t=>{
+ const {db}=await fixture(t),plan=await inspect(db,{at});let interleaved=false;
+ const live={async query(sql,args){
+  if(!interleaved&&sql.startsWith('INSERT INTO user_messages')){
+   interleaved=true;
+   await db.exec("UPDATE users SET coin=coin+11 WHERE id=5; UPDATE cnine_user_inventory SET quantity=quantity+2 WHERE user_id=3 AND item_code='LICH_KING_ENTRY_TICKET'; UPDATE app_meta SET value='{\"status\":\"CLAIMED\"}' WHERE key='reward_reveal_offer_v1:3:offer'");
+  }
+  return db.query(sql,args);
+ }};
+ assert.equal((await apply(live,options(plan))).committed,true);
+ assert.equal(Number((await db.query('SELECT coin FROM users WHERE id=5')).rows[0].coin),134);
+ assert.equal(Number((await db.query("SELECT quantity FROM cnine_user_inventory WHERE user_id=3 AND item_code='LICH_KING_ENTRY_TICKET'")).rows[0].quantity),9);
+ assert.equal(JSON.parse((await db.query("SELECT value FROM app_meta WHERE key='reward_reveal_offer_v1:3:offer'")).rows[0].value).status,'CLAIMED');
+ assert.equal((await verify(db)).verification.MADARA.messages,4);
+});
+
 const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const specs=api.slice(api.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),api.indexOf('const COUPON_REWARD_MAX='));
 const claimSource=api.slice(api.indexOf('async function claimMessageRewardDirectV1222('),api.indexOf('async function canSafelyRecoverFailedMessageRewardV1222('));
