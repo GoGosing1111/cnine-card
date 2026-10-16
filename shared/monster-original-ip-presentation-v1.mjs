@@ -58,7 +58,7 @@ export function presentOriginalIpResponse(path,data){
     if(!value||typeof value!=='object')return value;
     if(Array.isArray(value))return value.map(row=>visit(row,key,parentEntry));
     const monsterKind=['monster','monsters','operatingFloor'].includes(key)?'monster':'';
-    const raidKind=raidRoute&&['bosses','weeklyBosses','todayBoss','current','rooms','bossProfile'].includes(key)?'raid':'';
+    const raidKind=raidRoute&&['bosses','availableBosses','weeklyBosses','todayBoss','current','rooms','bossProfile'].includes(key)?'raid':'';
     let entry=originalMonsterPresentation(value,monsterKind||raidKind);
     if(!entry&&special&&/^MONSTER:CORE_(?:RAID_)?BOSS$/.test(String(value.cardId||'')))entry=special;
     const isUnit=Boolean(entry&&(monsterKind||value.isMonster||/MONSTER:/.test(String(value.cardId||''))));

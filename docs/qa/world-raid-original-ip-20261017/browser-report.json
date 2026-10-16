@@ -1,0 +1,57 @@
+{
+  "scope": "Actual index.html/app.js with loopback-only API fixtures; no production account actions",
+  "checks": [
+    {
+      "width": 1440,
+      "boss": "제노",
+      "text": "WEEKLY BOSS ROTATION\n요일별 레이드 작전표\n오르제 · 렌조 · 제노 3종 로테이션\n일요일\n오르제\n5,000,000 전투력\n월요일\n오르제\n5,000,000 전투력\n화요일\n렌조\n5,000,000 전투력\n수요일\n제노\n5,000,000 전투력\n목요일\n오르제\n5,000,000 전투력\n금요일\n렌조\n5,000,000 전투력\n토요일\n제노\n5,000,000 전투력\nTODAY\n\nUSER OPEN RAID\n\n월드 레이드\n\n오늘 합계 0 / 2회 · 2회 남음\n\n검은 월아\n제노\n\n권장 전투력 5,000,000\n\n개방 비용 0 코인\n\n입장 시 1회 차감 · 오늘 최대 2회\n\n레이드 개방",
+      "caption": "오르제 · 렌조 · 제노 3종 로테이션",
+      "image": "/assets/optimized/20261015-v1/7515f47f715c3d521df5e3ce.webp",
+      "sourceImage": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-008-noaren-sd-v1.png",
+      "imageLoaded": true,
+      "buttonBossId": "8",
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "boss": "오르제",
+      "text": "WEEKLY BOSS ROTATION\n요일별 레이드 작전표\n오르제 · 렌조 · 제노 3종 로테이션\n일요일\n오르제\n5,000,000 전투력\n월요일\n오르제\n5,000,000 전투력\nTODAY\n화요일\n렌조\n5,000,000 전투력\n수요일\n제노\n5,000,000 전투력\n목요일\n오르제\n5,000,000 전투력\n금요일\n렌조\n5,000,000 전투력\n토요일\n제노\n5,000,000 전투력\n\nUSER OPEN RAID\n\n월드 레이드\n\n오늘 합계 0 / 2회 · 2회 남음\n\n천도의 지배자\n오르제\n\n권장 전투력 5,000,000\n\n개방 비용 0 코인\n\n입장 시 1회 차감 · 오늘 최대 2회\n\n레이드 개방",
+      "caption": "오르제 · 렌조 · 제노 3종 로테이션",
+      "image": "/assets/optimized/20261015-v1/1b60d5041492f5a2121fe85c.webp",
+      "sourceImage": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-004-orthen-sd-v1.png",
+      "imageLoaded": true,
+      "buttonBossId": "4",
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "boss": "렌조",
+      "text": "WEEKLY BOSS ROTATION\n요일별 레이드 작전표\n오르제 · 렌조 · 제노 3종 로테이션\n일요일\n오르제\n5,000,000 전투력\n월요일\n오르제\n5,000,000 전투력\n화요일\n렌조\n5,000,000 전투력\nTODAY\n수요일\n제노\n5,000,000 전투력\n목요일\n오르제\n5,000,000 전투력\n금요일\n렌조\n5,000,000 전투력\n토요일\n제노\n5,000,000 전투력\n\nUSER OPEN RAID\n\n월드 레이드\n\n오늘 합계 0 / 2회 · 2회 남음\n\n태양의 검성\n렌조\n\n권장 전투력 5,000,000\n\n개방 비용 0 코인\n\n입장 시 1회 차감 · 오늘 최대 2회\n\n레이드 개방",
+      "caption": "오르제 · 렌조 · 제노 3종 로테이션",
+      "image": "/assets/optimized/20261015-v1/0fb216935c43f01732d622ae.webp",
+      "sourceImage": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-006-haeryun-sd-v1.png",
+      "imageLoaded": true,
+      "buttonBossId": "6",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "boss": "제노",
+      "text": "WEEKLY BOSS ROTATION\n요일별 레이드 작전표\n일요일\n오르제\n5,000,000 전투력\n월요일\n오르제\n5,000,000 전투력\n화요일\n렌조\n5,000,000 전투력\n수요일\n제노\n5,000,000 전투력\n목요일\n오르제\n5,000,000 전투력\n금요일\n렌조\n5,000,000 전투력\n토요일\n제노\n5,000,000 전투력\nTODAY\n\nUSER OPEN RAID\n\n월드 레이드\n\n오늘 합계 0 / 2회 · 2회 남음\n\n검은 월아\n제노\n\n권장 전투력 5,000,000\n\n개방 비용 0 코인\n\n입장 시 1회 차감 · 오늘 최대 2회\n\n레이드 개방",
+      "caption": "오르제 · 렌조 · 제노 3종 로테이션",
+      "image": "/assets/optimized/20261015-v1/7515f47f715c3d521df5e3ce.webp",
+      "sourceImage": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-008-noaren-sd-v1.png",
+      "imageLoaded": true,
+      "buttonBossId": "8",
+      "overflow": false
+    }
+  ],
+  "screens": [
+    "world-raid-1440.png",
+    "world-raid-1440-boss.png",
+    "world-raid-390.png",
+    "world-raid-390-boss.png"
+  ],
+  "errors": [],
+  "passed": true
+}

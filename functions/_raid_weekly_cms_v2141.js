@@ -32,7 +32,7 @@ function rewardSettings(raw){
 export function normalizeWeeklyRaidConfig(raw={}){
   if(!raw||typeof raw!=='object'||Array.isArray(raw))fail('주간 레이드 설정이 올바르지 않습니다.');
   const rotation=raw.rotation===undefined?[...WEEKLY_RAID_ROTATION_V1]:raw.rotation;
-  if(!Array.isArray(rotation)||rotation.length!==7||rotation.some(code=>!codes.includes(code))||new Set(rotation).size!==3)fail('7일 로테이션에는 나가토·요리이치·이치고 3종만 모두 배치해야 합니다.');
+  if(!Array.isArray(rotation)||rotation.length!==7||rotation.some(code=>!codes.includes(code))||new Set(rotation).size!==3)fail('7일 로테이션에는 오르제·렌조·제노 3종만 모두 배치해야 합니다.');
   if(raw.bosses&&Object.keys(raw.bosses).some(code=>!codes.includes(code)))fail('허용되지 않은 레이드 보스입니다.');
   const bosses={};
   for(const base of WEEKLY_RAID_BOSSES_V1){
