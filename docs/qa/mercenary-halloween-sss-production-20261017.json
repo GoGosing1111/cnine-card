@@ -1,0 +1,206 @@
+{
+  "status": "PASSED",
+  "checkedAt": "2026-10-16T17:02:17.841Z",
+  "source": "394bbf24c07f838bf7b7777b524a88e38eb37198",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 25288,
+      "sha256": "623ac527a054528e88eb156c4ea76ea4f08d2a1646cca896749d7cb62b1170a3"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "bytes": 13801,
+      "sha256": "2a75a5c72426c92004c030c76eb9c4b6d0e1b8de07724258e160dad82642fadb"
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "bytes": 752146,
+      "sha256": "34d1e5b079aa9b666b01fadf6b51e957644c7e86677d7dbb60f47de1d590fdf5"
+    },
+    {
+      "path": "css/mercenary-halloween-pack-v2.css",
+      "status": 200,
+      "bytes": 19315,
+      "sha256": "65958032669c2f097b217556c5d19f58a14a54e445a0badf0dcee0d646195420"
+    },
+    {
+      "path": "js/mercenary-halloween-pack-live.mjs",
+      "status": 200,
+      "bytes": 7389,
+      "sha256": "ae2cba31e5b26d893b61ceecfc7caf51faf2e13afb39c5be993e0248785f8bcb"
+    },
+    {
+      "path": "js/mercenary-halloween-presentation-v2.mjs",
+      "status": 200,
+      "bytes": 5695,
+      "sha256": "71dbf9bfe994099713f501b8a4e51e9f71050993282cd7c5a1b0844dddb9944a"
+    },
+    {
+      "path": "shared/mercenary-halloween-pack-v1.mjs",
+      "status": 200,
+      "bytes": 13980,
+      "sha256": "de81b68c48ddf01ec53e7fa31bd367fb9326f565837492b16b160e0ebfb71807"
+    },
+    {
+      "path": "shared/mercenary-halloween-pool-v3.mjs",
+      "status": 200,
+      "bytes": 1049,
+      "sha256": "d926697c3ac9a5d6ac113e4e22335e196491aacb7d242a8a132df1111a049774"
+    },
+    {
+      "path": "shared/mercenary-jinmu-v1.mjs",
+      "status": 200,
+      "bytes": 3726,
+      "sha256": "c50da11831bb0751273297e5561244e2290b9d53ef551947d967788d0ca0339c"
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "bytes": 88436,
+      "sha256": "fe07f66fe7f8bebe94eef650c7b6a25339e1e817c4ee39cac432475226c5a114"
+    },
+    {
+      "path": "shared/mercenary-halloween-session-v2.mjs",
+      "status": 200,
+      "bytes": 4169,
+      "sha256": "4180973370617412b2e2d872360bde90575c921d8847e569beb9956703ac09d0"
+    },
+    {
+      "path": "admin/mercenary-halloween-admin-v1.mjs",
+      "status": 200,
+      "bytes": 8376,
+      "sha256": "cae8009e3ac153f8d34e8dd87504f29d5891e3a97d37a621b2528fed73c2ab05"
+    },
+    {
+      "path": "admin/mercenary-admin-v1.js",
+      "status": 200,
+      "bytes": 27249,
+      "sha256": "db37c131c739fc189ec71223e9d75b0c43574d14a67f2dca107d0704bbb52922"
+    },
+    {
+      "path": "preview/halloween-pack-interface-20261017/index.html",
+      "status": 200,
+      "bytes": 5555,
+      "sha256": "b6b79d9f58d389afc113ed6b88e7ea57f35c38a551297f895fc890f344810580"
+    },
+    {
+      "path": "assets/ui/packs/halloween-interface-20261017/moonlit-courtyard.webp",
+      "status": 200,
+      "bytes": 351860,
+      "sha256": "6f690827b407c82e18319cf0d5cb964e0be0675a7c4eb4f87082fff845978b43"
+    },
+    {
+      "path": "assets/ui/packs/halloween-interface-20261017/button-ember.webp",
+      "status": 200,
+      "bytes": 63782,
+      "sha256": "7cc77e82271c20bf5519ebb798784e54e42121bd129f36c681819e4214ed9019"
+    },
+    {
+      "path": "assets/ui/packs/halloween-interface-20261017/button-night.webp",
+      "status": 200,
+      "bytes": 52372,
+      "sha256": "4e0455c9bdba9479973286920456c6def4974ae4836c0f05b1a307d67cfed1c6"
+    },
+    {
+      "path": "assets/ui/packs/halloween-interface-20261017/card-frame.webp",
+      "status": 200,
+      "bytes": 85694,
+      "sha256": "865855edfea4b6437e4e7a5fe4cbd2ef3b695b366196faeaf0540727237f2ba5"
+    }
+  ],
+  "settingsPreserved": true,
+  "pricesAndRates": null,
+  "stock": {
+    "ss": "7 × 5, issued 0",
+    "helios": {
+      "limit": 7,
+      "issued": 6,
+      "remaining": 1
+    },
+    "jinmu": {
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "exclusiveCopiesExcluded": 1
+    }
+  },
+  "newOpeningStatus": 423,
+  "oldLimitedOff": true,
+  "hyperOn": true,
+  "productionDraws": 0,
+  "views": [
+    {
+      "width": 1440,
+      "offShop": true,
+      "sevenSsAndTwoSss": true,
+      "reviewOnly": true,
+      "bothVideos": true,
+      "reviewReadOnlyStock": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "offShop": true,
+      "sevenSsAndTwoSss": true,
+      "reviewOnly": true,
+      "bothVideos": true,
+      "reviewReadOnlyStock": true,
+      "errors": []
+    }
+  ],
+  "deployment": {
+    "pages": "https://28a00412.cnine-card.pages.dev",
+    "apiRuntime": "21f390f6-dbda-49be-8613-4a01c2318e60",
+    "scheduler": "887405c8-d066-4cd0-ac87-402cb5e460ea",
+    "regressionsPassed": 34
+  },
+  "stockRegistration": {
+    "checkedAt": "2026-10-16T16:58:23.099Z",
+    "source": "394bbf24c07f838bf7b7777b524a88e38eb37198",
+    "dryRun": "DRY_RUN_PASSED",
+    "applied": {
+      "status": "VERIFIED",
+      "replayed": false,
+      "stock": [
+        {
+          "code": "V-989",
+          "limit": 3,
+          "issued": 0,
+          "remaining": 3
+        },
+        {
+          "code": "V-999",
+          "limit": 7,
+          "issued": 6,
+          "remaining": 1
+        }
+      ],
+      "receipt": {
+        "status": "COMPLETED",
+        "operationKey": "ops:halloween-sss-stock:20261017:v1",
+        "createdAt": "2026-10-16T16:58:21.701Z",
+        "jinmu": {
+          "limit": 3,
+          "issued": 0,
+          "exclusiveCopiesExcluded": 1
+        },
+        "helios": {
+          "limit": 7,
+          "issued": 6,
+          "remaining": 1,
+          "sharedExistingCounter": true
+        },
+        "grants": 0,
+        "settingsChanged": false
+      }
+    },
+    "replayed": true,
+    "protectedStateBefore": "08c129f6d58eab07de6e5007376ba9017762a34c6a67d41a15e35557eee31460",
+    "protectedStateAfter": "08c129f6d58eab07de6e5007376ba9017762a34c6a67d41a15e35557eee31460",
+    "grants": 0
+  }
+}
