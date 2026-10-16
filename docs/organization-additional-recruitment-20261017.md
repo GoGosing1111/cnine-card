@@ -28,4 +28,13 @@
 
 2026-10-17 01:14:17 KST에 사용자 후속 지시를 즉시 적용했다. 세력전 정책 revision 2 / OFF, 기존 LIVE 회차 revision 198 / auto_assign 0이다. 명부 115명 및 아지트 해시가 전후 동일하며 교전·정산·자금 원장 모두 0건이다. 감사 로그와 `organization_season_hold_20261017_v1` 영수증을 같은 거래로 저장했다. 소속을 취소하거나 기존 기록을 삭제하지 않았다.
 
-추가 모집 개방 시각과 최종 배포 결과는 운영 확인 후 기록한다.
+## 배포와 실제 추가 모집
+
+- 소스 `cd6c1158f37d1622eec7b26c40b95e5cf8abf949`. 직전 Production `5d83cb388`을 기준으로 scoped 배포했다. 관련 32개 검사, Worker 컴파일, 기존 출시 보호·Hyperdrive 검사를 통과했다.
+- Pages `ee63af24.cnine-card.pages.dev`, API runtime `7cad7a73-a9c3-42fb-89f4-15972914f39d`, 자동 처리 Worker `b76bb6f1-8315-487b-999d-b4550aed64bb`.
+- **개방 2026-10-17 01:26:21.505 KST → 마감 2026-10-18 01:26:21.505 KST**, 정확히 86,400,000ms다.
+- 기존 LIVE 회차 `e5421b84-8888-4027-8a36-f58d7f033ab1`, revision 199, 소속 phase ASSIGNED / 추가 접수 RECRUITING / auto_assign 0이다. 소속 ASSIGNED는 기존 115명의 배정 상태이며 시즌 시작이나 추가 배정 완료를 뜻하지 않는다.
+- 같은 CMS 서버 경로와 활성 OWNER 검증·회차 잠금·영수증을 사용하는 명시적 로컬 실행기로 개방했다. 요청 영수증은 `organization-additional-20261017-v1`. 기존 영수증이 있으면 재개방·마감 연장하지 않는다.
+- 01:26:42 KST 별도 DB·운영 API 조회에서 기존 조직원 115명·아지트 해시 불변, 자동 확정 false, 세력전 정책 OFF, 시즌 스케줄러 enabled false, 자금 원장·정산 0건을 확인했다.
+- 실제 콘텐츠 현황은 `조직 추가 모집 / 24시간 추가 접수 · 자동 배정 OFF · 시즌 시작 전`과 같은 마감 시각을 반환했다. 운영 HTML·모듈 9개의 HTTP 200 및 로컬 해시 일치를 확인했다.
+- 상세 증빙은 외부 임시 경로의 `season-hold.json`, `opening.json`, `production.json`, `deployment.log`와 PC·모바일 캡처에 보존한다.
