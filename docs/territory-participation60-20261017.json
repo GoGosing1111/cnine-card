@@ -1,0 +1,121 @@
+{
+  "operationKey": "ops:territory:74:participation60-shards-coins:20261017:v1",
+  "planHash": "89495aeed52d945e9fc57504cc7a0980c4aebf8d12c9789534c576adb759f491",
+  "sourceHash": "ef94d87052249b3f2c90940e17ae6975fffe417be6d4724e54a0549a5cb7db29",
+  "status": "COMPLETED",
+  "mode": "apply",
+  "round": {
+    "id": "74",
+    "status": "FINISHED",
+    "battle_name": "라면",
+    "winner_side": "B",
+    "starts_at": "2026-10-16T11:42:32.782Z",
+    "ends_at": "2026-10-17T07:42:32.782Z",
+    "settled_at": "2026-10-16 13:30:41",
+    "clan_season_id": null
+  },
+  "replayed": false,
+  "completedAt": "2026-10-16T15:41:50.324Z",
+  "auditId": "46952",
+  "verification": {
+    "participants": 135,
+    "participationQualified": 67,
+    "winnerOverlap": 36,
+    "recipients": 67,
+    "messages": 134,
+    "totalShards": "67",
+    "totalCoin": "20100000000000",
+    "rewards": 134,
+    "claimed": 0,
+    "pending": 134,
+    "missing": 0,
+    "duplicates": 0,
+    "combined": {
+      "participants": 135,
+      "participationQualified": 67,
+      "winners": 67,
+      "overlap": 36,
+      "recipients": 98,
+      "messages": 268,
+      "totalShards": "134",
+      "totalCoin": "53600000000000"
+    }
+  },
+  "checks": {
+    "wrongPlanRejected": true,
+    "partialFailureRolledBack": true,
+    "onlyMessageAuditReceiptWrites": true,
+    "summedAmountsCorrect": true,
+    "sameKeyReplayNoDuplicates": true,
+    "rollbackLeavesNoDelivery": true
+  },
+  "checkedAt": "2026-10-16T15:41:51.050Z",
+  "sourceCommit": "7cb7d41f4011a1aafe0b8ef784df5af5cb078f7c",
+  "completedAtKst": "2026-10-17 00:41:50",
+  "independentReadOnlyVerification": {
+    "operationKey": "ops:territory:74:participation60-shards-coins:20261017:v1",
+    "planHash": "89495aeed52d945e9fc57504cc7a0980c4aebf8d12c9789534c576adb759f491",
+    "sourceHash": "ef94d87052249b3f2c90940e17ae6975fffe417be6d4724e54a0549a5cb7db29",
+    "status": "COMPLETED",
+    "mode": "verify",
+    "round": {
+      "id": "74",
+      "status": "FINISHED",
+      "battle_name": "라면",
+      "winner_side": "B",
+      "starts_at": "2026-10-16T11:42:32.782Z",
+      "ends_at": "2026-10-17T07:42:32.782Z",
+      "settled_at": "2026-10-16 13:30:41",
+      "clan_season_id": null
+    },
+    "replayed": true,
+    "completedAt": "2026-10-16T15:41:50.324Z",
+    "auditId": "46952",
+    "verification": {
+      "participants": 135,
+      "participationQualified": 67,
+      "winnerOverlap": 36,
+      "recipients": 67,
+      "messages": 134,
+      "totalShards": "67",
+      "totalCoin": "20100000000000",
+      "rewards": 134,
+      "claimed": 10,
+      "pending": 124,
+      "missing": 0,
+      "duplicates": 0,
+      "combined": {
+        "participants": 135,
+        "participationQualified": 67,
+        "winners": 67,
+        "overlap": 36,
+        "recipients": 98,
+        "messages": 268,
+        "totalShards": "134",
+        "totalCoin": "53600000000000"
+      }
+    },
+    "checks": {},
+    "checkedAt": "2026-10-16T15:42:05.444Z"
+  },
+  "groups": [
+    {
+      "condition": "participation>=60; A",
+      "recipients": 31,
+      "perUserShards": "1",
+      "perUserCoin": "300000000000"
+    },
+    {
+      "condition": "participation<60; B winner",
+      "recipients": 31,
+      "perUserShards": "1",
+      "perUserCoin": "500000000000"
+    },
+    {
+      "condition": "participation>=60; B winner",
+      "recipients": 36,
+      "perUserShards": "2",
+      "perUserCoin": "800000000000"
+    }
+  ]
+}
