@@ -1,0 +1,144 @@
+{
+  "verifiedAt": "2026-10-16T12:48:43.227Z",
+  "source": "LICH",
+  "destination": "COOP_HARD",
+  "sourceUnchanged": true,
+  "otherPoliciesUnchanged": true,
+  "sourceHash": "ed6e83ab420f06c99a82fad59ce2d4414bf06ee2e2ab726635f9da7c0b76b874",
+  "beforeTarget": {
+    "version": 1,
+    "revision": 0,
+    "enabled": false,
+    "minimum": {
+      "rewardType": "MASTER_STAR",
+      "quantity": null,
+      "weight": 100
+    },
+    "entries": []
+  },
+  "afterTarget": {
+    "version": 1,
+    "revision": 1,
+    "enabled": true,
+    "minimum": {
+      "rewardType": "COIN",
+      "quantity": 30000000000,
+      "weight": 100
+    },
+    "entries": [
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SUIT_CORE_5",
+        "quantity": 1,
+        "weight": 5,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SUIT_CORE_4",
+        "quantity": 1,
+        "weight": 30,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "EMPEROR_ENERGY",
+        "quantity": 1,
+        "weight": 10,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "MAYBACH_VISION6_BLUEPRINT",
+        "quantity": 1,
+        "weight": 2,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "rewardType": "INVENTORY_ITEM",
+        "rewardRef": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+        "quantity": 1,
+        "weight": 1,
+        "enabled": true
+      }
+    ]
+  },
+  "receiptKey": "reward_reveal_config_receipt_v1:5f714fe9-1833-4e5c-bfc1-3ac93a54db42",
+  "receiptAt": "2026-10-16 12:48:39",
+  "receipt": {
+    "userId": 1,
+    "payload": "{\"content\":\"COOP_HARD\",\"policy\":{\"version\":1,\"revision\":0,\"enabled\":true,\"minimum\":{\"rewardType\":\"COIN\",\"quantity\":30000000000,\"weight\":100},\"entries\":[{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"SUIT_CORE_5\",\"quantity\":1,\"weight\":5,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"SUIT_CORE_4\",\"quantity\":1,\"weight\":30,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"EMPEROR_ENERGY\",\"quantity\":1,\"weight\":10,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"MAYBACH_VISION6_BLUEPRINT\",\"quantity\":1,\"weight\":2,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"EASTERN_ARMS_WEAPON_BLUEPRINT\",\"quantity\":1,\"weight\":1,\"enabled\":true},{\"rewardType\":\"INVENTORY_ITEM\",\"rewardRef\":\"SECRET_WEAPON_BLUEPRINT_CHAPTER_1\",\"quantity\":1,\"weight\":1,\"enabled\":true}]}}",
+    "before": {
+      "version": 1,
+      "revision": 0,
+      "enabled": false,
+      "minimum": {
+        "rewardType": "MASTER_STAR",
+        "quantity": null,
+        "weight": 100
+      },
+      "entries": []
+    },
+    "after": {
+      "version": 1,
+      "revision": 1,
+      "enabled": true,
+      "minimum": {
+        "rewardType": "COIN",
+        "quantity": 30000000000,
+        "weight": 100
+      },
+      "entries": [
+        {
+          "rewardType": "INVENTORY_ITEM",
+          "rewardRef": "SUIT_CORE_5",
+          "quantity": 1,
+          "weight": 5,
+          "enabled": true
+        },
+        {
+          "rewardType": "INVENTORY_ITEM",
+          "rewardRef": "SUIT_CORE_4",
+          "quantity": 1,
+          "weight": 30,
+          "enabled": true
+        },
+        {
+          "rewardType": "INVENTORY_ITEM",
+          "rewardRef": "EMPEROR_ENERGY",
+          "quantity": 1,
+          "weight": 10,
+          "enabled": true
+        },
+        {
+          "rewardType": "INVENTORY_ITEM",
+          "rewardRef": "MAYBACH_VISION6_BLUEPRINT",
+          "quantity": 1,
+          "weight": 2,
+          "enabled": true
+        },
+        {
+          "rewardType": "INVENTORY_ITEM",
+          "rewardRef": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+          "quantity": 1,
+          "weight": 1,
+          "enabled": true
+        },
+        {
+          "rewardType": "INVENTORY_ITEM",
+          "rewardRef": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+          "quantity": 1,
+          "weight": 1,
+          "enabled": true
+        }
+      ]
+    }
+  }
+}

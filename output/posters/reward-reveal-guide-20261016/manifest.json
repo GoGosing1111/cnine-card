@@ -1,0 +1,691 @@
+{
+  "date": "2026-10-16",
+  "brand": "리버스콜",
+  "readAt": "2026-10-16T12:48:43.227Z",
+  "dimensions": [
+    2048,
+    3072
+  ],
+  "activeContents": [
+    {
+      "id": "CORE",
+      "name": "붕괴코어 레이드",
+      "revision": 3
+    },
+    {
+      "id": "LICH",
+      "name": "이스겐 레이드",
+      "revision": 3
+    },
+    {
+      "id": "MADARA",
+      "name": "바르센 레이드",
+      "revision": 2
+    },
+    {
+      "id": "COOP_HARD",
+      "name": "격전지 · 격전",
+      "revision": 1
+    }
+  ],
+  "rewardRows": [
+    {
+      "contents": [
+        "CORE"
+      ],
+      "rows": [
+        {
+          "type": "MASTER_STAR",
+          "name": "마스터의 별",
+          "quantity": 50000,
+          "image": "assets/ui/icon-fusion-20261004/master-star.webp"
+        },
+        {
+          "type": "COIN",
+          "ref": "",
+          "name": "코인",
+          "quantity": 2000000000,
+          "image": "assets/ui/icon-fusion-20261004/coin.webp"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "STARLIGHT_ARMOR_CORE",
+          "name": "미스틱 에너지",
+          "quantity": 500,
+          "image": "assets/items/starlight-armor-core-v1749.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+          "name": "동방무기상 무기설계도",
+          "quantity": 1,
+          "image": "assets/items/eastern-arms-weapon-blueprint-v1.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "MAYBACH_VISION6_BLUEPRINT",
+          "name": "마이바흐 비전 6 차량설계도",
+          "quantity": 1,
+          "image": "assets/items/maybach-vision6-blueprint-v1.png"
+        }
+      ]
+    },
+    {
+      "contents": [
+        "LICH",
+        "COOP_HARD"
+      ],
+      "rows": [
+        {
+          "type": "COIN",
+          "name": "코인",
+          "quantity": 30000000000,
+          "image": "assets/ui/icon-fusion-20261004/coin.webp"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 1,
+          "image": "assets/items/emperor-energy-v1.webp"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SUIT_CORE_4",
+          "name": "슈트 코어 4",
+          "quantity": 1,
+          "image": "assets/items/suit-core-4-v2066.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SUIT_CORE_5",
+          "name": "슈트 코어 5",
+          "quantity": 1,
+          "image": "assets/items/suit-core-5-v2124.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+          "name": "동방무기상 무기설계도",
+          "quantity": 1,
+          "image": "assets/items/eastern-arms-weapon-blueprint-v1.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "MAYBACH_VISION6_BLUEPRINT",
+          "name": "마이바흐 비전 6 차량설계도",
+          "quantity": 1,
+          "image": "assets/items/maybach-vision6-blueprint-v1.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+          "name": "비밀무기 설계도 1장",
+          "quantity": 1,
+          "image": "assets/items/secret-weapon-blueprint-chapter-1-v1.webp"
+        }
+      ]
+    },
+    {
+      "contents": [
+        "MADARA"
+      ],
+      "rows": [
+        {
+          "type": "COIN",
+          "name": "코인",
+          "quantity": 30000000000,
+          "image": "assets/ui/icon-fusion-20261004/coin.webp"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 2,
+          "image": "assets/items/emperor-energy-v1.webp"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SUIT_CORE_5",
+          "name": "슈트 코어 5",
+          "quantity": 1,
+          "image": "assets/items/suit-core-5-v2124.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SUIT_CORE_6",
+          "name": "슈트 코어 6",
+          "quantity": 1,
+          "image": "assets/items/suit-core-6-v2124.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+          "name": "동방무기상 무기설계도",
+          "quantity": 1,
+          "image": "assets/items/eastern-arms-weapon-blueprint-v1.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+          "name": "비밀무기 설계도 1장",
+          "quantity": 1,
+          "image": "assets/items/secret-weapon-blueprint-chapter-1-v1.webp"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+          "name": "비밀무기 설계도 2장",
+          "quantity": 1,
+          "image": "assets/items/secret-weapon-blueprint-chapter-2-v1.webp"
+        }
+      ]
+    }
+  ],
+  "probabilitiesDisplayed": false,
+  "artGeneration": "Built-in image_gen; text-free background; prompt.txt",
+  "typography": "Separate verified font layer; no AI-drawn lettering",
+  "fonts": {
+    "body": "Windows Malgun Gothic; raster export only; font not redistributed",
+    "display": "Black Han Sans (existing project font)",
+    "latin": "Russo One (existing project font)"
+  },
+  "assets": [
+    {
+      "file": "assets/ui/brand/reverse-call-20261016/icon-192.png",
+      "sha256": "7e783a38526bb46063e9f0bfa37a85babaa13ac07af0459453a709c554f36430"
+    },
+    {
+      "file": "assets/ui/icon-fusion-20261004/master-star.webp",
+      "sha256": "ae551542256d9b0056a9f0046b638cd9eaa5bb8ad4ea5be51b1feeeee07a6044"
+    },
+    {
+      "file": "assets/ui/icon-fusion-20261004/coin.webp",
+      "sha256": "d9f89b969bcb6aebe890016bb1f2e0cbcc9caff241959aae4dd1dd6b9d3244ea"
+    },
+    {
+      "file": "assets/items/starlight-armor-core-v1749.png",
+      "sha256": "8e127379f681a6cc62239dad52ab608b5e0614171ce99131db5249f647725922"
+    },
+    {
+      "file": "assets/items/eastern-arms-weapon-blueprint-v1.png",
+      "sha256": "50314a072978d1135474b03fb3ddfb2543b55df0008ac3bf2fad526c696b2921"
+    },
+    {
+      "file": "assets/items/maybach-vision6-blueprint-v1.png",
+      "sha256": "9fe96ab46585d8b9113ae05a40fd2c213cc6391d1871e1c1239453302d319aa8"
+    },
+    {
+      "file": "assets/items/emperor-energy-v1.webp",
+      "sha256": "3054e7c2db08e637eabbc1b4049cfe2bbd57f4fc6b1a26b8c41d3f00c6e78658"
+    },
+    {
+      "file": "assets/items/suit-core-4-v2066.png",
+      "sha256": "e6cd1d5b668116f1b088a8c5a6fdec005209b4220029493b91beee484ba39140"
+    },
+    {
+      "file": "assets/items/suit-core-5-v2124.png",
+      "sha256": "1649422d587ba8a6229b1a7d1638c8c140ed607c8fef16724d26846b214b573a"
+    },
+    {
+      "file": "assets/items/secret-weapon-blueprint-chapter-1-v1.webp",
+      "sha256": "3c10e26bd2383954bf1a302bb0cd34e20401adb3559c640d54c9e73e876dddbf"
+    },
+    {
+      "file": "assets/items/suit-core-6-v2124.png",
+      "sha256": "931cc30e72b37a78bc4d0c39e90c5687f89f378c8ecbc27461d79299d26f123a"
+    },
+    {
+      "file": "assets/items/secret-weapon-blueprint-chapter-2-v1.webp",
+      "sha256": "0198d6936d6c5f8c276ce668e91f3c2697c65f05b97d77a44568f4549ef28831"
+    }
+  ],
+  "text": [
+    {
+      "text": "REVERSE CALL",
+      "x": 244,
+      "y": 119,
+      "width": 330,
+      "height": 30,
+      "size": 44
+    },
+    {
+      "text": "연출 보상 안내",
+      "x": 122,
+      "y": 256,
+      "width": 640,
+      "height": 93,
+      "size": 116
+    },
+    {
+      "text": "지금 만날 수 있는 콘텐츠별 보상",
+      "x": 128,
+      "y": 420,
+      "width": 572,
+      "height": 36,
+      "size": 39
+    },
+    {
+      "text": "현재 개방된 콘텐츠",
+      "x": 128,
+      "y": 514,
+      "width": 292,
+      "height": 32,
+      "size": 34
+    },
+    {
+      "text": "01",
+      "x": 130,
+      "y": 633,
+      "width": 42,
+      "height": 30,
+      "size": 44
+    },
+    {
+      "text": "붕괴코어 레이드",
+      "x": 232,
+      "y": 620,
+      "width": 492,
+      "height": 64,
+      "size": 68
+    },
+    {
+      "text": "ON",
+      "x": 1833,
+      "y": 640,
+      "width": 44,
+      "height": 22,
+      "size": 32
+    },
+    {
+      "text": "마스터의 별",
+      "x": 288,
+      "y": 769,
+      "width": 195,
+      "height": 35,
+      "size": 38
+    },
+    {
+      "text": "5만 개",
+      "x": 288,
+      "y": 819,
+      "width": 88,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "코인",
+      "x": 1230,
+      "y": 769,
+      "width": 70,
+      "height": 35,
+      "size": 38
+    },
+    {
+      "text": "20억 코인",
+      "x": 1230,
+      "y": 819,
+      "width": 141,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "미스틱 에너지",
+      "x": 288,
+      "y": 923,
+      "width": 232,
+      "height": 37,
+      "size": 38
+    },
+    {
+      "text": "500개",
+      "x": 288,
+      "y": 973,
+      "width": 79,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "동방무기상 무기설계도",
+      "x": 1230,
+      "y": 923,
+      "width": 389,
+      "height": 37,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 1230,
+      "y": 973,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "마이바흐 비전 6",
+      "x": 288,
+      "y": 1077,
+      "width": 271,
+      "height": 37,
+      "size": 38
+    },
+    {
+      "text": "차량설계도",
+      "x": 288,
+      "y": 1120,
+      "width": 187,
+      "height": 36,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 288,
+      "y": 1170,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "02",
+      "x": 130,
+      "y": 1293,
+      "width": 52,
+      "height": 30,
+      "size": 44
+    },
+    {
+      "text": "이스겐 레이드 · 격전지 격전",
+      "x": 232,
+      "y": 1280,
+      "width": 784,
+      "height": 60,
+      "size": 63
+    },
+    {
+      "text": "ON",
+      "x": 1833,
+      "y": 1300,
+      "width": 44,
+      "height": 22,
+      "size": 32
+    },
+    {
+      "text": "코인",
+      "x": 288,
+      "y": 1429,
+      "width": 70,
+      "height": 35,
+      "size": 38
+    },
+    {
+      "text": "300억 코인",
+      "x": 288,
+      "y": 1479,
+      "width": 158,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "엠퍼러 에너지",
+      "x": 1230,
+      "y": 1429,
+      "width": 234,
+      "height": 37,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 1230,
+      "y": 1479,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "슈트 코어 4",
+      "x": 288,
+      "y": 1583,
+      "width": 197,
+      "height": 36,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 288,
+      "y": 1633,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "슈트 코어 5",
+      "x": 1230,
+      "y": 1583,
+      "width": 195,
+      "height": 36,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 1230,
+      "y": 1633,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "동방무기상 무기설계도",
+      "x": 288,
+      "y": 1737,
+      "width": 389,
+      "height": 37,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 288,
+      "y": 1787,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "마이바흐 비전 6",
+      "x": 1230,
+      "y": 1737,
+      "width": 271,
+      "height": 37,
+      "size": 38
+    },
+    {
+      "text": "차량설계도",
+      "x": 1230,
+      "y": 1780,
+      "width": 187,
+      "height": 36,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 1230,
+      "y": 1830,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "비밀무기 설계도 1장",
+      "x": 288,
+      "y": 1891,
+      "width": 347,
+      "height": 36,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 288,
+      "y": 1941,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "03",
+      "x": 130,
+      "y": 2113,
+      "width": 53,
+      "height": 30,
+      "size": 44
+    },
+    {
+      "text": "바르센 레이드",
+      "x": 232,
+      "y": 2100,
+      "width": 421,
+      "height": 64,
+      "size": 68
+    },
+    {
+      "text": "ON",
+      "x": 1833,
+      "y": 2120,
+      "width": 44,
+      "height": 22,
+      "size": 32
+    },
+    {
+      "text": "코인",
+      "x": 288,
+      "y": 2249,
+      "width": 70,
+      "height": 35,
+      "size": 38
+    },
+    {
+      "text": "300억 코인",
+      "x": 288,
+      "y": 2299,
+      "width": 158,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "엠퍼러 에너지",
+      "x": 1230,
+      "y": 2249,
+      "width": 234,
+      "height": 37,
+      "size": 38
+    },
+    {
+      "text": "2개",
+      "x": 1230,
+      "y": 2299,
+      "width": 44,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "슈트 코어 5",
+      "x": 288,
+      "y": 2403,
+      "width": 195,
+      "height": 36,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 288,
+      "y": 2453,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "슈트 코어 6",
+      "x": 1230,
+      "y": 2403,
+      "width": 197,
+      "height": 36,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 1230,
+      "y": 2453,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "동방무기상 무기설계도",
+      "x": 288,
+      "y": 2557,
+      "width": 389,
+      "height": 37,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 288,
+      "y": 2607,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "비밀무기 설계도 1장",
+      "x": 1230,
+      "y": 2557,
+      "width": 347,
+      "height": 36,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 1230,
+      "y": 2607,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "비밀무기 설계도 2장",
+      "x": 288,
+      "y": 2711,
+      "width": 347,
+      "height": 36,
+      "size": 38
+    },
+    {
+      "text": "1개",
+      "x": 288,
+      "y": 2761,
+      "width": 42,
+      "height": 31,
+      "size": 33
+    },
+    {
+      "text": "봉인 선택 후 보상 목록 중 1종 획득",
+      "x": 128,
+      "y": 2930,
+      "width": 508,
+      "height": 31,
+      "size": 32
+    },
+    {
+      "text": "2026.10.16 기준 · 콘텐츠별 수령 조건 및 한도 적용",
+      "x": 128,
+      "y": 2990,
+      "width": 634,
+      "height": 26,
+      "size": 28
+    }
+  ],
+  "files": [
+    "reward-reveal-guide-20261016.png",
+    "reward-reveal-guide-20261016.jpg"
+  ],
+  "sha256": "de9b67da7b142e6eaabe46c3bd0e1994750849ccf196dc0be516ed37c48df197",
+  "publication": "Created for user review; no external publication"
+}

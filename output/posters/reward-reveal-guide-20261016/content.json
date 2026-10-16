@@ -1,0 +1,212 @@
+{
+  "asOf": "2026-10-16T12:48:43.227Z",
+  "brand": "리버스콜",
+  "contents": [
+    {
+      "id": "CORE",
+      "name": "붕괴코어 레이드",
+      "revision": 3,
+      "minimum": {
+        "type": "MASTER_STAR",
+        "name": "마스터의 별",
+        "quantity": 50000,
+        "image": "assets/ui/icon-fusion-20261004/master-star.webp"
+      },
+      "rewards": [
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+          "name": "동방무기상 무기설계도",
+          "quantity": 1,
+          "image": "assets/items/eastern-arms-weapon-blueprint-v1.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "MAYBACH_VISION6_BLUEPRINT",
+          "name": "마이바흐 비전 6 차량설계도",
+          "quantity": 1,
+          "image": "assets/items/maybach-vision6-blueprint-v1.png"
+        },
+        {
+          "type": "COIN",
+          "ref": "",
+          "name": "코인",
+          "quantity": 2000000000,
+          "image": "assets/ui/icon-fusion-20261004/coin.webp"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "STARLIGHT_ARMOR_CORE",
+          "name": "미스틱 에너지",
+          "quantity": 500,
+          "image": "assets/items/starlight-armor-core-v1749.png"
+        }
+      ]
+    },
+    {
+      "id": "LICH",
+      "name": "이스겐 레이드",
+      "revision": 3,
+      "minimum": {
+        "type": "COIN",
+        "name": "코인",
+        "quantity": 30000000000,
+        "image": "assets/ui/icon-fusion-20261004/coin.webp"
+      },
+      "rewards": [
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SUIT_CORE_5",
+          "name": "슈트 코어 5",
+          "quantity": 1,
+          "image": "assets/items/suit-core-5-v2124.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SUIT_CORE_4",
+          "name": "슈트 코어 4",
+          "quantity": 1,
+          "image": "assets/items/suit-core-4-v2066.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 1,
+          "image": "assets/items/emperor-energy-v1.webp"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "MAYBACH_VISION6_BLUEPRINT",
+          "name": "마이바흐 비전 6 차량설계도",
+          "quantity": 1,
+          "image": "assets/items/maybach-vision6-blueprint-v1.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+          "name": "동방무기상 무기설계도",
+          "quantity": 1,
+          "image": "assets/items/eastern-arms-weapon-blueprint-v1.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+          "name": "비밀무기 설계도 1장",
+          "quantity": 1,
+          "image": "assets/items/secret-weapon-blueprint-chapter-1-v1.webp"
+        }
+      ]
+    },
+    {
+      "id": "MADARA",
+      "name": "바르센 레이드",
+      "revision": 2,
+      "minimum": {
+        "type": "COIN",
+        "name": "코인",
+        "quantity": 30000000000,
+        "image": "assets/ui/icon-fusion-20261004/coin.webp"
+      },
+      "rewards": [
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SUIT_CORE_5",
+          "name": "슈트 코어 5",
+          "quantity": 1,
+          "image": "assets/items/suit-core-5-v2124.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SUIT_CORE_6",
+          "name": "슈트 코어 6",
+          "quantity": 1,
+          "image": "assets/items/suit-core-6-v2124.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+          "name": "동방무기상 무기설계도",
+          "quantity": 1,
+          "image": "assets/items/eastern-arms-weapon-blueprint-v1.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+          "name": "비밀무기 설계도 1장",
+          "quantity": 1,
+          "image": "assets/items/secret-weapon-blueprint-chapter-1-v1.webp"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SECRET_WEAPON_BLUEPRINT_CHAPTER_2",
+          "name": "비밀무기 설계도 2장",
+          "quantity": 1,
+          "image": "assets/items/secret-weapon-blueprint-chapter-2-v1.webp"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 2,
+          "image": "assets/items/emperor-energy-v1.webp"
+        }
+      ]
+    },
+    {
+      "id": "COOP_HARD",
+      "name": "격전지 · 격전",
+      "revision": 1,
+      "minimum": {
+        "type": "COIN",
+        "name": "코인",
+        "quantity": 30000000000,
+        "image": "assets/ui/icon-fusion-20261004/coin.webp"
+      },
+      "rewards": [
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SUIT_CORE_5",
+          "name": "슈트 코어 5",
+          "quantity": 1,
+          "image": "assets/items/suit-core-5-v2124.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SUIT_CORE_4",
+          "name": "슈트 코어 4",
+          "quantity": 1,
+          "image": "assets/items/suit-core-4-v2066.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "EMPEROR_ENERGY",
+          "name": "엠퍼러 에너지",
+          "quantity": 1,
+          "image": "assets/items/emperor-energy-v1.webp"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "MAYBACH_VISION6_BLUEPRINT",
+          "name": "마이바흐 비전 6 차량설계도",
+          "quantity": 1,
+          "image": "assets/items/maybach-vision6-blueprint-v1.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+          "name": "동방무기상 무기설계도",
+          "quantity": 1,
+          "image": "assets/items/eastern-arms-weapon-blueprint-v1.png"
+        },
+        {
+          "type": "INVENTORY_ITEM",
+          "ref": "SECRET_WEAPON_BLUEPRINT_CHAPTER_1",
+          "name": "비밀무기 설계도 1장",
+          "quantity": 1,
+          "image": "assets/items/secret-weapon-blueprint-chapter-1-v1.webp"
+        }
+      ]
+    }
+  ]
+}
