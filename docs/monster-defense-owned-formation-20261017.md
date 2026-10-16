@@ -26,3 +26,10 @@
 - 증빙은 `docs/qa/monster-defense-owned-formation-20261017/`에 보존한다. 이미지 제작/검사 통과를 사용자 시각 승인으로 기록하지 않는다.
 
 단일 디펜스 편성 경로의 변경이며 공통 인증·DB 기반·경제 정책 변경이 없다. 관련 보유 편성 회귀 및 Worker 컴파일로 scoped 배포한다.
+
+## 운영 반영 · 2026-10-17
+
+- 소스 `dc1063013dd72b77bc9223c3f5aa3cd1c2908b07`을 `npm run deploy:production -- --scoped`로 배포했다. 관련 보유 편성 검사 2개·Worker 구문·출시 플래그·Hyperdrive 검사를 통과했다.
+- Pages: `https://a8965732.cnine-card.pages.dev`. API: `1630bb1c-2c9f-4a50-81ae-c10722e7930f`. 스케줄러: `6865fcd1-dbf7-4ce8-be0c-b3752b1df6b7`.
+- 공개 주소 `https://cnine-card.pages.dev/defense/?v=20261017-defense-roster1`의 HTML·목록·전투 번들·편성 CSS·생성 프레임·서비스워커·로그라이크 프리뷰 7개 파일 모두 HTTP 200 및 로컬 SHA-256 일치를 확인했다. 비로그인 `/api/defense/options`는 HTTP 401로 차단된다.
+- 운영 확인은 읽기 전용으로 진행했다. 계정의 실제 편성·방·보상은 검수 때문에 변경하지 않았다. 결과는 `docs/qa/monster-defense-owned-formation-20261017/production-report.json`에 기록했다.

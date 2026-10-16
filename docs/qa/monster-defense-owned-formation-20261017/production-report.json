@@ -1,0 +1,76 @@
+{
+  "checkedAt": "2026-10-16T18:40:02.066Z",
+  "publicBase": "https://cnine-card.pages.dev",
+  "deploymentUrl": "https://a8965732.cnine-card.pages.dev",
+  "sourceCommit": "dc1063013dd72b77bc9223c3f5aa3cd1c2908b07",
+  "apiVersion": "1630bb1c-2c9f-4a50-81ae-c10722e7930f",
+  "schedulerVersion": "6865fcd1-dbf7-4ce8-be0c-b3752b1df6b7",
+  "files": [
+    {
+      "path": "defense/index.html",
+      "status": 200,
+      "bytes": 11994,
+      "localSha256": "fe8d3ca742ed3f4d6fb3399cfcee02c0e4942cd904c71cd4bd04435b6800020b",
+      "liveSha256": "fe8d3ca742ed3f4d6fb3399cfcee02c0e4942cd904c71cd4bd04435b6800020b",
+      "matches": true
+    },
+    {
+      "path": "defense/asset-catalog.json",
+      "status": 200,
+      "bytes": 16947,
+      "localSha256": "15b962ddc717b3a22b8e9a3832cc199ae2a1d2141ae40cb3c9020b5b32862e5a",
+      "liveSha256": "15b962ddc717b3a22b8e9a3832cc199ae2a1d2141ae40cb3c9020b5b32862e5a",
+      "matches": true
+    },
+    {
+      "path": "preview/coop-defense-v1/defense.bundle.js",
+      "status": 200,
+      "bytes": 2057197,
+      "localSha256": "3988b117204668649956615f4a6890c61e2e26b226fe9a008ce64daa0fd63e61",
+      "liveSha256": "3988b117204668649956615f4a6890c61e2e26b226fe9a008ce64daa0fd63e61",
+      "matches": true
+    },
+    {
+      "path": "preview/coop-defense-v1/formation.css",
+      "status": 200,
+      "bytes": 10489,
+      "localSha256": "41069ffd3436884475da8f0a15d2b6bde29a1aebbb2ef53daa0d7f0d504ea546",
+      "liveSha256": "41069ffd3436884475da8f0a15d2b6bde29a1aebbb2ef53daa0d7f0d504ea546",
+      "matches": true
+    },
+    {
+      "path": "preview/coop-defense-v1/assets/formation-v1/selection-frame.png",
+      "status": 200,
+      "bytes": 697854,
+      "localSha256": "12e6af1bbe849e98e9a440e7946fff3f9398fbca15d0e9c80db7865bcba953eb",
+      "liveSha256": "12e6af1bbe849e98e9a440e7946fff3f9398fbca15d0e9c80db7865bcba953eb",
+      "matches": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "bytes": 14106,
+      "localSha256": "55d86dedce277c958e5da803835a81d17db07f6e00f2e8d1221fde6d50e8d9a1",
+      "liveSha256": "55d86dedce277c958e5da803835a81d17db07f6e00f2e8d1221fde6d50e8d9a1",
+      "matches": true
+    },
+    {
+      "path": "preview/defense-roguelike-v2/preview.bundle.js",
+      "status": 200,
+      "bytes": 114354,
+      "localSha256": "f24953f726c9003d84c5373b3c8bc97fd27d139d54c0528db0f1a796984c4f4b",
+      "liveSha256": "f24953f726c9003d84c5373b3c8bc97fd27d139d54c0528db0f1a796984c4f4b",
+      "matches": true
+    }
+  ],
+  "anonymousOptions": {
+    "path": "/api/defense/options",
+    "status": 401,
+    "body": {
+      "ok": false,
+      "error": "로그인 후 디펜스에 입장하세요.",
+      "code": "DEFENSE_REQUEST"
+    }
+  },
+  "passed": true
+}
