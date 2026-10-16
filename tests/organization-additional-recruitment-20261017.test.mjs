@@ -1,0 +1,65 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {organizationFixture} from './helpers/organization-fixture.mjs';
+import {organizationFactionFixture} from './helpers/organization-faction-fixture.mjs';
+import {reconcileOrganizationRecruitment,organizationLiveOperation,runOrganizationAdditionalRecruitment} from '../functions/_organization.js';
+import {installOrganizationFactionSchema,tickOrganizationFaction} from '../functions/_organization_faction.js';
+import {organizationAssignmentAvailability} from '../admin/organization-admin-v1.mjs';
+const day=86400000;
+async function assigned(f){
+ const id=(await f.post('admin/organization/create',{scope:'LIVE',name:'기존 소속 유지 검수'})).data.roundId;
+ await f.post('admin/organization/phase',{roundId:id,revision:0,phase:'SURVEY',autoAssign:true});
+ for(let user=2;user<17;user++)assert.equal((await f.post('organization/survey',{roundId:id,revision:0,preferredOrganizationId:user%15+1},{user})).status,200);
+ f.advance(day);assert.equal((await reconcileOrganizationRecruitment(f.env,f.deps,{now:f.clock()})).status,'ASSIGNED');
+ await installOrganizationFactionSchema(f.env.DB);return id;
+}
+test('additional recruitment preserves every member, accepts only unassigned applicants for exactly 24h and never confirms',async t=>{
+ const f=await organizationFixture(t,{people:17}),id=await assigned(f);
+ const before=(await f.pg.query('SELECT * FROM organization_members_v1 ORDER BY user_id')).rows,progress=(await f.pg.query('SELECT * FROM organization_progress_v1 ORDER BY organization_id')).rows;
+ let state=(await f.call('admin/organization')).data;
+ const body={requestId:'additional-recruitment-20261017',roundId:id,revision:state.round.revision,action:'open'};
+ const opened=await f.post('admin/organization/additional-recruitment',body);assert.equal(opened.status,200,JSON.stringify(opened));
+ assert.equal(Number(opened.data.round.closes_at)-Number(opened.data.round.opened_at),day);assert.equal(opened.data.round.auto_assign,0);assert.equal(opened.data.round.phase,'ASSIGNED');
+ assert.equal((await f.post('admin/organization/additional-recruitment',{...body,requestId:crypto.randomUUID(),revision:opened.data.round.revision})).data.code,'ORG_RECRUITMENT_OPEN');
+ f.advance(1000);assert.deepEqual((await f.post('admin/organization/additional-recruitment',body)).data,opened.data);
+ assert.equal((await f.post('organization/survey',{roundId:id,revision:1,preferredOrganizationId:3},{user:2})).data.code,'ORG_ALREADY_ASSIGNED');
+ assert.equal((await f.post('organization/withdraw',{roundId:id,revision:1},{user:2})).data.code,'ORG_ALREADY_ASSIGNED');
+ const request={requestId:'additional-applicant-001',roundId:id,revision:0,preferredOrganizationId:3};
+ assert.equal((await f.post('organization/survey',request,{user:17})).status,200);
+ state=(await f.call('admin/organization')).data;assert.equal(state.memberCount,15);assert.equal(state.pendingApplicantCount,1);assert.equal(state.participantCount,16);assert.equal(state.proposal.stats.participants,15);
+ assert.equal(state.participants.filter(p=>p.assignedOrganizationId).length,15);assert.equal(organizationAssignmentAvailability(state).canApply,false);
+ const publicState=(await f.call('organization/overview',{user:17})).data;assert.equal(publicState.round.recruitment.open,true);assert.equal(publicState.membership,null);assert.equal(publicState.preparation.registrationOpen,true);
+ assert.equal((await f.call('organization/overview',{user:2})).data.preparation.registrationOpen,false);
+ assert.match((await organizationLiveOperation(f.env,f.clock())).title,/추가 모집/);
+ for(const action of ['ratings','propose','apply'])assert.equal((await f.post('admin/organization/'+action,{roundId:id,...(action==='apply'?{proposalId:state.proposal.id}:{})})).data.code,'ORG_PHASE');
+ f.advance(day-1000);assert.equal((await f.post('organization/survey',{roundId:id,revision:0,preferredOrganizationId:1},{user:18})).data.code,'ORG_SURVEY_CLOSED');
+ assert.equal((await f.post('organization/withdraw',{roundId:id,revision:1},{user:17})).data.code,'ORG_SURVEY_CLOSED');
+ assert.equal((await f.post('organization/survey',request,{user:17})).status,200,'accepted receipt survives the deadline');
+ assert.equal((await reconcileOrganizationRecruitment(f.env,f.deps,{now:f.clock()})).status,'MANUAL');
+ f.advance(day);assert.equal((await reconcileOrganizationRecruitment(f.env,f.deps,{now:f.clock()})).status,'IDLE');
+ state=(await f.call('admin/organization')).data;assert.equal(state.round.assignment_status,'RECRUITMENT_CLOSED');assert.equal(state.round.auto_assign,0);assert.equal(state.round.phase,'ASSIGNED');assert.equal(state.pendingApplicantCount,1);
+ assert.equal(await organizationLiveOperation(f.env,f.clock()),null,'a locked season is not advertised as active war');
+ assert.deepEqual((await f.pg.query('SELECT * FROM organization_members_v1 ORDER BY user_id')).rows,before);assert.deepEqual((await f.pg.query('SELECT * FROM organization_progress_v1 ORDER BY organization_id')).rows,progress);
+ assert.equal((await f.pg.query('SELECT COUNT(*)::int n FROM organization_proposals_v1 WHERE applied_at IS NOT NULL')).rows[0].n,1);
+});
+test('additional opening checks OWNER and revision, rolls back on receipt failure, and early close cannot enable assignment',async t=>{
+ const f=await organizationFixture(t,{people:16}),id=await assigned(f),initial=(await f.call('admin/organization')).data.round;
+ const body={requestId:'additional-atomic-opening-001',roundId:id,revision:initial.revision,action:'open'};
+ assert.equal((await f.post('admin/organization/additional-recruitment',body,{user:2})).status,403);
+ await assert.rejects(runOrganizationAdditionalRecruitment(f.env,{ownerId:2,...body},f.deps),{code:'ORG_PERMISSION'});
+ assert.equal((await f.post('admin/organization/additional-recruitment',{...body,revision:0})).data.code,'ORG_STALE');
+ f.fail('INSERT INTO organization_receipts_v1');assert.equal((await f.post('admin/organization/additional-recruitment',body)).status,503);f.fail('');
+ assert.deepEqual((await f.call('admin/organization')).data.round,initial);
+ const opened=await runOrganizationAdditionalRecruitment(f.env,{ownerId:1,...body},f.deps);assert.equal(opened.round.recruitment.open,true);
+ f.advance(1000);const closed=await f.post('admin/organization/additional-recruitment',{roundId:id,revision:opened.round.revision,action:'close'});assert.equal(closed.status,200);assert.equal(closed.data.round.recruitment.open,false);assert.equal(closed.data.round.auto_assign,0);
+ assert.equal((await f.post('admin/organization/phase',{roundId:id,revision:closed.data.round.revision,phase:'SURVEY',autoAssign:true})).data.code,'ORG_PHASE');
+});
+test('season OFF blocks every faction action and upgrade, and its scheduler issues no reward or fund',async t=>{
+ const f=await organizationFactionFixture(t,{live:true,funds:500}),policy=(await f.admin()).data.policy;
+ assert.equal((await f.call('admin/organization/faction/policy',{user:1,body:{requestId:crypto.randomUUID(),policy:{...policy,mode:'OFF'}}})).status,200);
+ const before=(await f.pg.query('SELECT * FROM organization_faction_state_v1')).rows;
+ const state=(await f.overview()).data;assert.equal(state.season.active,false);assert.equal(state.season.phase,'PREPARATION');assert.equal(state.sessions.enabled,false);assert.equal(state.treasury.canUpgrade,false);
+ for(const action of ['formation','captains','garrison','launch','enter','strike','upgrade'])assert.equal((await f.post('organization/faction/'+action)).data.code,'ORG_FACTION_OFF',action);
+ f.advance(day);assert.deepEqual(await tickOrganizationFaction(f.env,f.deps),{enabled:false});assert.deepEqual((await f.pg.query('SELECT * FROM organization_faction_state_v1')).rows,before);
+ for(const table of ['organization_faction_ledger_v1','organization_faction_settlements_v1','user_messages','user_message_rewards'])assert.equal((await f.pg.query('SELECT COUNT(*)::int n FROM '+table)).rows[0].n,0,table);
+});

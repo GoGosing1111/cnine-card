@@ -1,4 +1,4 @@
-import {mountOrganization} from './organization-system-v1.mjs?v=20261015-organization-live-v2';
+import {mountOrganization} from './organization-system-v1.mjs?v=20261017-additional-recruitment-v1';
 import {organizationApi,organizationToken} from './organization-api-v1.mjs?v=20261015-organization-live-v2';
 
 const embedded=window.parent!==window;
