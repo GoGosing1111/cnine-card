@@ -1,0 +1,11 @@
+{
+  "assetId": "pulse-weaver",
+  "revision": 2,
+  "reason": "Provide safe transparent top/bottom margin around the staff and boots.",
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "input": "assets/06-pulse-weaver-v1.png",
+  "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-0eba8839-8156-49e9-9329-b703517a38a9.png",
+  "file": "assets/06-pulse-weaver-v2.png",
+  "prompt": "Use case: precise-object-edit.\nInput image 1 is the edit target: the existing Pulse Weaver monster sprite. Change ONLY the framing by proportionally reducing and centering the COMPLETE unchanged character, staff and halo together within a square transparent canvas. Keep exactly the same design, pose, straight rigid staff, green lights, proportions, face, armor, colors, fabric, linework and all structural details. The original staff tip almost touches the top edge: add clearly visible empty transparent safety margins of at least 9% on ALL four sides, especially above the staff tip and below the boots. The complete subject including every tip should occupy approximately 80% of canvas height. Do not crop, remove, replace or redesign anything. Genuine transparent RGBA background, no checkerboard, no shadow, no environment, no labels. A single full-body sprite."
+}

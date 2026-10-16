@@ -1,0 +1,261 @@
+{
+  "version": 1,
+  "date": "2026-10-16",
+  "title": "디펜스 전용 몬스터 7종",
+  "status": "VISUAL_REVIEW",
+  "generator": "built-in image_gen",
+  "usage": "Defense-only still full-body battle sprites; proposed names and visual roles.",
+  "productionBinding": false,
+  "visualApproval": false,
+  "promptSet": "prompts.json",
+  "references": [
+    {
+      "image": 1,
+      "path": "assets/ui/project-v/monsters/hunt-tower/tower-064-commander-krieg-sd-v1.png",
+      "role": "style-and-material-reference-only",
+      "sha256": "031720c5c18f9c4ed2d57b345dc9b2cfe2a16b235186a533e85649f628056873"
+    },
+    {
+      "image": 2,
+      "path": "assets/ui/project-v/monsters/hunt-tower/hunt-068-omega-09-sd-v1.png",
+      "role": "style-and-material-reference-only",
+      "sha256": "e2a673bdfc47b2d847aac1434c6bae4eefcbee95b77ba245ea42174a571bf333"
+    }
+  ],
+  "sourcePreservation": "Every selected PNG is copied byte-for-byte; no pixel editing, cropping or recompression. Initial Pulse Weaver V1 retained as an earlier framing variant.",
+  "assets": [
+    {
+      "id": "rivet-vanguard",
+      "name": "리벳 보병",
+      "role": "일반 보병",
+      "tier": "NORMAL",
+      "description": "단안 센서와 짧은 카빈을 든 정규 보병",
+      "accent": "#d36662",
+      "file": "assets/01-rivet-vanguard-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-72c5702d-9988-426d-a57a-29f23425da58.png",
+      "prompt": "prompts.json#/assets/0",
+      "sha256": "20c65ea6f74cf88279b8b796d31444134a52dd202c0d8cbee3c268454df14666",
+      "bytes": 1111800,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "zeroAlphaPixels": 1077879,
+      "contentBoundsAlphaOver32": [
+        264,
+        73,
+        1010,
+        1204
+      ],
+      "transparentMarginsAlphaOver32": [
+        264,
+        73,
+        244,
+        50
+      ],
+      "technicalPass": true,
+      "visualApproval": false
+    },
+    {
+      "id": "razor-hound",
+      "name": "레이저 하운드",
+      "role": "고속 돌파",
+      "tier": "NORMAL",
+      "description": "낮고 긴 실루엣의 사족 돌파견",
+      "accent": "#dc786a",
+      "file": "assets/02-razor-hound-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-4045a9bd-3cc7-4ff2-ad8f-3379c2d1c6ad.png",
+      "prompt": "prompts.json#/assets/1",
+      "sha256": "d8cd4f7f30b6a9c3d3200dec22bc1520ec0173cc1e27308b27929f40c6bef4e2",
+      "bytes": 1296854,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "zeroAlphaPixels": 1051238,
+      "contentBoundsAlphaOver32": [
+        66,
+        211,
+        1211,
+        1120
+      ],
+      "transparentMarginsAlphaOver32": [
+        66,
+        211,
+        43,
+        134
+      ],
+      "technicalPass": true,
+      "visualApproval": false
+    },
+    {
+      "id": "bastion-guard",
+      "name": "바스티온 가드",
+      "role": "중갑 방어",
+      "tier": "NORMAL",
+      "description": "넓은 방패와 육중한 파일벙커로 버티는 중갑병",
+      "accent": "#deb66a",
+      "file": "assets/03-bastion-guard-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-1dcfd52f-94c0-4991-889f-90629b565c14.png",
+      "prompt": "prompts.json#/assets/2",
+      "sha256": "b754f48a3327e55a40f0d399c533c6fa3b7382badce1d3da3e35b93dc9c52354",
+      "bytes": 1702857,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "zeroAlphaPixels": 735137,
+      "contentBoundsAlphaOver32": [
+        55,
+        130,
+        1217,
+        1174
+      ],
+      "transparentMarginsAlphaOver32": [
+        55,
+        130,
+        37,
+        80
+      ],
+      "technicalPass": true,
+      "visualApproval": false
+    },
+    {
+      "id": "veil-sniper",
+      "name": "베일 스나이퍼",
+      "role": "장거리 저격",
+      "tier": "NORMAL",
+      "description": "아이보리 후드와 일직선 레일건의 저격수",
+      "accent": "#7dbacb",
+      "file": "assets/04-veil-sniper-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-68967f9c-1de8-4a69-b62a-840f4b33c321.png",
+      "prompt": "prompts.json#/assets/3",
+      "sha256": "091b8cb13e6d7da3024cab1d4527f3124ad2c378ba32b8c117473857972679d3",
+      "bytes": 1047355,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "zeroAlphaPixels": 1111228,
+      "contentBoundsAlphaOver32": [
+        35,
+        157,
+        1215,
+        1146
+      ],
+      "transparentMarginsAlphaOver32": [
+        35,
+        157,
+        39,
+        108
+      ],
+      "technicalPass": true,
+      "visualApproval": false
+    },
+    {
+      "id": "siege-crawler",
+      "name": "시즈 크롤러",
+      "role": "공성 포격",
+      "tier": "ELITE",
+      "description": "네 다리로 지탱하는 저중심 공성 포대",
+      "accent": "#da965d",
+      "file": "assets/05-siege-crawler-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-33c6ddb9-5ef9-4742-83e6-32f0dabe1e87.png",
+      "prompt": "prompts.json#/assets/4",
+      "sha256": "41da4f769ae3c8245a0fad72cde981c87ecf02df1656db62c1d793c9dc16134c",
+      "bytes": 1463091,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "zeroAlphaPixels": 939755,
+      "contentBoundsAlphaOver32": [
+        45,
+        144,
+        1220,
+        1135
+      ],
+      "transparentMarginsAlphaOver32": [
+        45,
+        144,
+        34,
+        119
+      ],
+      "technicalPass": true,
+      "visualApproval": false
+    },
+    {
+      "id": "pulse-weaver",
+      "name": "펄스 위버",
+      "role": "회복 지원",
+      "tier": "NORMAL",
+      "description": "분할된 광륜과 코어 지팡이를 가진 정비 사제",
+      "accent": "#83c4b1",
+      "file": "assets/06-pulse-weaver-v2.png",
+      "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-0eba8839-8156-49e9-9329-b703517a38a9.png",
+      "prompt": "prompt-pulse-weaver-v2.json",
+      "sha256": "5a0eadc86cf1b7516f29ef19a83e74d12f7f3430990112ed04b68cbf1ef9e5f3",
+      "bytes": 1014431,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "zeroAlphaPixels": 1181300,
+      "contentBoundsAlphaOver32": [
+        292,
+        99,
+        1009,
+        1149
+      ],
+      "transparentMarginsAlphaOver32": [
+        292,
+        99,
+        245,
+        105
+      ],
+      "technicalPass": true,
+      "visualApproval": false
+    },
+    {
+      "id": "nox-executor",
+      "name": "노크스 집행관",
+      "role": "지휘관 보스",
+      "tier": "BOSS",
+      "description": "대검과 기계 날개로 식별되는 디펜스 지휘관",
+      "accent": "#bd6574",
+      "file": "assets/07-nox-executor-v1.png",
+      "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-40866fe0-e3a8-4b2d-8722-a7c62402c57f.png",
+      "prompt": "prompts.json#/assets/6",
+      "sha256": "4005ca0324c368be057f6ec42e694e897f9a20964b09f8be3ad9fcf990396823",
+      "bytes": 1706815,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "zeroAlphaPixels": 865700,
+      "contentBoundsAlphaOver32": [
+        172,
+        32,
+        1207,
+        1211
+      ],
+      "transparentMarginsAlphaOver32": [
+        172,
+        32,
+        47,
+        43
+      ],
+      "technicalPass": true,
+      "visualApproval": false
+    }
+  ],
+  "retainedVersions": [
+    {
+      "index": 5,
+      "id": "pulse-weaver",
+      "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-c56f2c6b-c1d8-4055-81e3-53b2bd24c19b.png",
+      "file": "assets/06-pulse-weaver-v1.png"
+    }
+  ],
+  "visualChecks": [
+    "Seven distinct connected full-body silhouettes",
+    "Straight continuous carbine, rail rifle and siege barrel axes",
+    "Real RGBA transparency; no baked ground shadows or checkerboard",
+    "Minimum 24px content margin at alpha >32",
+    "White cloth/graphite armor/silver metal consistency",
+    "Design review separate from gameplay/animation implementation"
+  ]
+}

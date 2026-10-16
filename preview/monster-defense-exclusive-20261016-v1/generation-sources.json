@@ -1,0 +1,44 @@
+[
+  {
+    "index": 0,
+    "id": "rivet-vanguard",
+    "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-72c5702d-9988-426d-a57a-29f23425da58.png",
+    "file": "assets/01-rivet-vanguard-v1.png"
+  },
+  {
+    "index": 1,
+    "id": "razor-hound",
+    "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-4045a9bd-3cc7-4ff2-ad8f-3379c2d1c6ad.png",
+    "file": "assets/02-razor-hound-v1.png"
+  },
+  {
+    "index": 2,
+    "id": "bastion-guard",
+    "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-1dcfd52f-94c0-4991-889f-90629b565c14.png",
+    "file": "assets/03-bastion-guard-v1.png"
+  },
+  {
+    "index": 3,
+    "id": "veil-sniper",
+    "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-68967f9c-1de8-4a69-b62a-840f4b33c321.png",
+    "file": "assets/04-veil-sniper-v1.png"
+  },
+  {
+    "index": 4,
+    "id": "siege-crawler",
+    "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-33c6ddb9-5ef9-4742-83e6-32f0dabe1e87.png",
+    "file": "assets/05-siege-crawler-v1.png"
+  },
+  {
+    "index": 5,
+    "id": "pulse-weaver",
+    "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-c56f2c6b-c1d8-4055-81e3-53b2bd24c19b.png",
+    "file": "assets/06-pulse-weaver-v1.png"
+  },
+  {
+    "index": 6,
+    "id": "nox-executor",
+    "source": "C:/Users/User/.codex/generated_images/01a14118-3bf8-7e11-bdc4-0e72dafc99e2/exec-40866fe0-e3a8-4b2d-8722-a7c62402c57f.png",
+    "file": "assets/07-nox-executor-v1.png"
+  }
+]

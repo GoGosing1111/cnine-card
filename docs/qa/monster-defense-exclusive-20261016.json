@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-16",
+  "scope": "Seven new sprite assets and standalone gallery only",
+  "checks": [
+    {
+      "name": "desktop-seven-images",
+      "pass": true,
+      "viewport": [
+        1440,
+        1080
+      ]
+    },
+    {
+      "name": "background-switch-and-keyboard-detail-navigation",
+      "pass": true
+    },
+    {
+      "name": "battle-scale-160-boss-200",
+      "pass": true,
+      "sizes": [
+        {
+          "w": 160,
+          "h": 160
+        },
+        {
+          "w": 160,
+          "h": 160
+        },
+        {
+          "w": 160,
+          "h": 160
+        },
+        {
+          "w": 160,
+          "h": 160
+        },
+        {
+          "w": 160,
+          "h": 160
+        },
+        {
+          "w": 160,
+          "h": 160
+        },
+        {
+          "w": 200,
+          "h": 200
+        }
+      ]
+    },
+    {
+      "name": "mobile-390-gallery-detail-close-download-and-scale",
+      "pass": true,
+      "modal": {
+        "x": 19,
+        "y": 169.703125,
+        "width": 352,
+        "height": 504.578125
+      }
+    },
+    {
+      "name": "mobile-word-wrapping-after-final-css",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "qaNotes": [
+    "Desktop images, background switching and keyboard modal navigation passed in preceding run. Scale assertions now await CSS transition completion for all seven sprites."
+  ],
+  "pass": true
+}
