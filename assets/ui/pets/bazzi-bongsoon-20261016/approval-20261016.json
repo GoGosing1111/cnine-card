@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-16",
+  "timezone": "Asia/Seoul",
+  "userRequest": "나무늘봉순 배찌 캐릭터로 펫 리소스 준비한거 찾아보고 라이브 반영해",
+  "userPlacementDecision": "‘배찌 나무늘봉순’ 별도 펫으로 추가",
+  "approvalScope": "Release the existing Bazzi/Pucca-hair V3 resource as a separate live pet.",
+  "code": "PET-BAZZI-BONGSOON",
+  "name": "배찌 나무늘봉순",
+  "approvedAsset": "assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png",
+  "sourceAsset": "preview/pet-bazzi-pucca-20261014-v1/assets/pet-bazzi-pucca-v3.png",
+  "sourceManifest": "preview/pet-bazzi-pucca-20261014-v1/manifest.json",
+  "sha256": "39c5e3451d9b6bac5fe5bb30419fb11856e6eef187c84405dfdb51bef9e47702",
+  "width": 1152,
+  "height": 1366,
+  "format": "RGBA PNG",
+  "preservation": "Byte-for-byte source copy; no regeneration, recompression, face or alpha modification.",
+  "runtime": {
+    "sourceArt": "assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png",
+    "battleSprite": "assets/ui/pets/bazzi-bongsoon-20261016/pet-bazzi-bongsoon-v3.png",
+    "modes": ["PVE", "PVP"],
+    "target": "ALL_ALLIES",
+    "buffs": [{"type": "ATTACK_PERCENT", "percent": 10}],
+    "buffBasis": "Existing new-pet registration default; owner-adjustable.",
+    "preservedExistingCodes": ["PET-NAMUNEUL-BONGSOON", "PET-BONGSOON"],
+    "accountGrant": false,
+    "openingPoolOrWeightsChanged": false
+  },
+  "verification": "docs/pet-bazzi-bongsoon-live-20261016.md"
+}
