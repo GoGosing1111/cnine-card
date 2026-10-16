@@ -1,0 +1,171 @@
+{
+  "passed": true,
+  "checkedAt": "2026-10-16T06:32:16.498Z",
+  "origin": "https://cnine-card.pages.dev",
+  "sourceCommit": "2bff0728a8669a22bb09420f4bfc3ce45516f9d0",
+  "checks": [
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/ultimate-768.webp",
+      "status": 200,
+      "sha256": "d15a79884462f23a39936bb8eba93c79be79ddbdfd7857ee5d774373095564d6"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/advanced-768.webp",
+      "status": 200,
+      "sha256": "0e9453958ab7b75c0d07321032ba63e04b0c02b59c2909c5d26f75ae5be83cc9"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+      "status": 200,
+      "sha256": "871334757ed88d949e75cca3cf2d07bacdc2550f7d883d26e45948ef2da11668"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/limited-768.webp",
+      "status": 200,
+      "sha256": "aaafe67fd82bb75152b418c8c1bf0309281580ae9864679909d1bc1654dd0704"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/halloween-768.webp",
+      "status": 200,
+      "sha256": "2179beb7a26e648263f8484a20127ae25fb16056a5344940142ee0b85311b832"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/standard-768.webp",
+      "status": 200,
+      "sha256": "57653907f46c97d8cb33c0792f74f0397780bea3d56c9c33394f9fbf18da7125"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp",
+      "status": 200,
+      "sha256": "1ec22a5d88ee401752e2aab9896d18a5c321219f637e534825247e8118c70396"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/premium-768.webp",
+      "status": 200,
+      "sha256": "63c5cd291a17d56fce221bed173f848684b0d8da6cbfc0756d91ba87ae630737"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/magic-season1-768.webp",
+      "status": 200,
+      "sha256": "c3043d1a25385690ec79524368dc4a3857eed0d15038354851d9ddc0574430da"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/guaranteed-ma-768.webp",
+      "status": 200,
+      "sha256": "bd736d36a3218506e236fb436d7143965cd10ffee4e2be72fe402a21770c4beb"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/black-miracle-768.webp",
+      "status": 200,
+      "sha256": "3297b6b2828fbf725108a3fd2c8787658f90b06846e6e3c0e36a650b3033c32e"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/magic-season2-768.webp",
+      "status": 200,
+      "sha256": "dd3ab9f8e1db5e75f0f65c12afe239dca2edd39b211417fed2b71df49b4c6f77"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/superstar-768.webp",
+      "status": 200,
+      "sha256": "21b4ef8ad7a9095486740da9b260a0e76af68ab76263216372cf7d236ddce862"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/limited-160.avif",
+      "status": 200,
+      "sha256": "02621415c807f5f9042d3efd8c9af113bf4318766f7e4547d2fd152ef16ce141"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/premium-cube-768.webp",
+      "status": 200,
+      "sha256": "4312d79e3cb5238545a653a61729744ae07b9b2f6053f6643fcedeee9b6c48d4"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/hyper-160.avif",
+      "status": 200,
+      "sha256": "ed5103f726ab9c7b0c3c75367e671d8329b14d518ea51191c37c82102c285ad9"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/ultimate-160.avif",
+      "status": 200,
+      "sha256": "6c12d170c6026ce395c9c2f8e792145332882fa1259dfbcb97fa0cbf4bb889cd"
+    },
+    {
+      "file": "css/card.css",
+      "status": 200,
+      "sha256": "18a7481925fc26d2d1e29d8b41e93158627caca2396f1d45b63e00abae058aad"
+    },
+    {
+      "file": "js/image-delivery-map-20261015.js",
+      "status": 200,
+      "sha256": "e3cbaad434161668cf69b24be6b35fe5b440d30f2e5737bbec8cc5649523ff08"
+    },
+    {
+      "file": "js/hyper-pack-fx-v2076.bundle.js",
+      "status": 200,
+      "sha256": "006353696e5ef16f0e8d025ed587b73a7ca6cf5f2379d8f97129cbf8ebd93ba8"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "111b68fa1fe73afeaa8aba200cb96e115f47aac7dade6f1a7506776f612f919c"
+    },
+    {
+      "file": "assets/ui/packs/reverse-call-20261016/manifest.json",
+      "status": 200,
+      "sha256": "ad14b5056aca3b16d6fea06cbf5365e849e56e9883bb864e462c6905488da83f"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "1d97bc2cb78fb4d66b225e675eed58013ea9f1a9e8eef7f32d52f815dac4e638"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "a2b82c0205b1fe6569469cb4096bc020450770134a80e43bcd5b325902e16b9e"
+    }
+  ],
+  "clientManifestRelease": "456421b9aacda15eeaab957ad87b4325128bf0d580300efdb237ad5a8975a3ae",
+  "clientManifestMatches": true,
+  "packApiStatus": 200,
+  "packImages": [
+    {
+      "id": "pickup",
+      "imageUrl": null,
+      "resolved": null
+    },
+    {
+      "id": "ultimate",
+      "imageUrl": null,
+      "resolved": null
+    },
+    {
+      "id": "superstar",
+      "imageUrl": "assets/ui/packs/reverse-call-20261016/superstar-768.webp",
+      "resolved": "assets/ui/packs/reverse-call-20261016/superstar-768.webp"
+    },
+    {
+      "id": "hyper",
+      "imageUrl": "assets/ui/packs/reverse-call-20261016/hyper-768.webp",
+      "resolved": "assets/ui/packs/reverse-call-20261016/hyper-768.webp"
+    }
+  ],
+  "browserChecks": [
+    {
+      "name": "hyper",
+      "width": 1440,
+      "images": [
+        "https://cnine-card.pages.dev/assets/ui/packs/reverse-call-20261016/hyper-768.webp"
+      ]
+    },
+    {
+      "name": "limited",
+      "width": 390,
+      "images": [
+        "https://cnine-card.pages.dev/assets/ui/packs/reverse-call-20261016/mercenary-limited-768.webp"
+      ]
+    }
+  ],
+  "pageErrors": [],
+  "apiWrites": 0
+}

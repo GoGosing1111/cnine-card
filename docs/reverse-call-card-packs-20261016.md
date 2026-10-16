@@ -24,4 +24,10 @@
 
 ## 배포
 
-코드 커밋·원격 반영 후 `npm run deploy:production -- --scoped`를 실행하고 운영 파일 해시 및 Windows 리소스 목록을 확인한다. 결과는 완료 후 이 절과 `docs/qa/reverse-call-card-packs-20261016/deployment.json`에 기록한다.
+- 소스 `2bff0728a8669a22bb09420f4bfc3ce45516f9d0`를 origin/main에 반영하고 `npm run deploy:production -- --scoped`로 배포했다. 관련 **33개 검사 통과**, worker 구문·출시 잠금·캐시 및 Hyperdrive query cache OFF 검증 통과.
+- Pages: [168228c9](https://168228c9.cnine-card.pages.dev), 배포 파일 19,446개 중 변경 166개 업로드.
+- API runtime: `1d3a1869-d33b-4609-a8b6-015a6c79f153`, clan scheduler: `33907dee-e3db-4c6e-87ef-1a983430888d`.
+- 2026-10-16 15:32 KST 운영 확인: **24개 파일 SHA-256 일치**, Windows 리소스 목록의 해당 파일 해시 일치. 클라이언트 releaseId는 `456421b9aacda15eeaab957ad87b4325128bf0d580300efdb237ad5a8975a3ae`다. Windows 실행 파일은 기존 0.1.7을 유지한다. 웹 전용 service worker는 원래 Windows 리소스 목록 대상이 아니다.
+- `/api/packs` 200 및 공개 팩 4개를 확인했다. 하이퍼·슈퍼스타 응답은 새 이미지 주소이며 일반 리미티드·얼티메이트는 클라이언트의 검수한 팩별 기본 이미지 경로를 사용한다.
+- 운영 도메인의 하이퍼(1440px)·용병 리미티드(390px) Pixi 화면에서 실제 새 텍스처를 확인했다. 페이지 오류 0, 게임 API 쓰기 0. 로컬 18개 시나리오와 추가 주소 호환 검수 2개 결과도 보존한다.
+- [배포 기록](qa/reverse-call-card-packs-20261016/deployment.json), [운영 파일·클라이언트·화면 확인](qa/reverse-call-card-packs-20261016/live-check.json), [라이브 하이퍼](qa/reverse-call-card-packs-20261016/live-opening-hyper.png), [라이브 리미티드](qa/reverse-call-card-packs-20261016/live-opening-limited.png).
