@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "sourceCommit": "1619c5d6271a0ff6a6e9a5381ee8e7e806cd354f",
+  "verified": {
+    "operationKey": "ops:namsudaeng-o-reverse-land-registration:20261016:v1",
+    "status": "COMPLETED",
+    "userId": 5950,
+    "nickname": "남수댕ㅗ",
+    "registered": true,
+    "registeredAt": "2026-10-16T12:53:01.741Z",
+    "accountsBefore": 8,
+    "accountsAfter": 9,
+    "otherStreamersPreserved": true,
+    "accountAndInventoryPreserved": true,
+    "historyPreserved": true,
+    "ticketsGranted": 0,
+    "completedAt": "2026-10-16T12:53:02.353Z",
+    "auditId": "46910",
+    "access": {
+      "allowed": true,
+      "isOwner": false
+    }
+  },
+  "receiptCount": 1,
+  "auditCount": 1,
+  "replayUnchanged": true,
+  "otherNicknameAccountRegistered": false,
+  "checkedAt": "2026-10-16T12:53:08.763Z"
+}
