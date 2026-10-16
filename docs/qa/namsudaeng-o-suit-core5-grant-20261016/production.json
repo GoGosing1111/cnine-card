@@ -1,0 +1,43 @@
+{
+  "source": "36f48373bd15a7681e1885d2114b28a153a4fb49",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:namsudaeng-o-suit-core5:20261016:20:v1",
+    "user": {
+      "id": 5950,
+      "nickname": "남수댕ㅗ"
+    },
+    "itemCode": "SUIT_CORE_5",
+    "itemName": "슈트 코어 5",
+    "quantity": 20,
+    "reason": "사용자 지시: 남수댕ㅗ 계정에 슈트코어5 20개 지급",
+    "before": {
+      "quantity": "0",
+      "unseenQuantity": "0"
+    },
+    "after": {
+      "quantity": "20",
+      "unseenQuantity": "20"
+    },
+    "logId": "84735094",
+    "adminId": "1",
+    "completedAt": "2026-10-16T12:58:12.883Z",
+    "auditId": "46912"
+  },
+  "verification": {
+    "verified": true,
+    "grantLogs": 1,
+    "inventory": [
+      {
+        "quantity": "20",
+        "unseen_quantity": "20"
+      }
+    ],
+    "verifiedAt": "2026-10-16T12:58:15.009Z"
+  },
+  "dryRunRollbackVerified": true,
+  "replayWithoutDuplicate": true,
+  "focusedTestsPassed": 2,
+  "runtimeChanged": false,
+  "deploymentRequired": false
+}
