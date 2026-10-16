@@ -1,0 +1,58 @@
+{
+  "operationKey": "ops:territory:74:finish-attacks100-win-shards-coins:20261017:v1",
+  "planHash": "ca092ff38946d71b37a57896d0d7d419b787c4cad43cee6e94f238c6f2d6a9bf",
+  "status": "COMPLETED",
+  "delivery": "MESSAGE",
+  "authorization": {
+    "request": "영토전 종료회차 확인해서 이전 보상지급과 똑같이 메세지로 지급해",
+    "previousOperationKey": "ops:territory:73:finish-attacks100-win-shards-coins:20261015:v1",
+    "previousPlanHash": "5398942c0607ed8c73e41328bc6ff1f8262c046489e4d1575f59edfb3f2ac6a5",
+    "stackingConfirmation": "두 보상 합산",
+    "stackingSource": "이전 73회차 지급에서 확정한 합산 기준을 동일하게 적용",
+    "winnerPolicy": "승리 진영 전체 참가자. 추가 공격 최소 조건 없음.",
+    "delivery": "MESSAGE",
+    "recurring": false
+  },
+  "round": {
+    "id": "74",
+    "status": "FINISHED",
+    "battle_name": "라면",
+    "winner_side": "B",
+    "starts_at": "2026-10-16T11:42:32.782Z",
+    "ends_at": "2026-10-17T07:42:32.782Z",
+    "settled_at": "2026-10-16 13:30:41",
+    "clan_season_id": null
+  },
+  "completedAt": "2026-10-16T15:28:10.211Z",
+  "verifiedAt": "2026-10-16T15:28:23.684Z",
+  "auditId": "46946",
+  "tests": {
+    "wrongPlanRejected": true,
+    "partialFailureRolledBack": true,
+    "onlyMessageAuditReceiptWrites": true,
+    "summedAmountsCorrect": true,
+    "sameKeyReplayNoDuplicates": true,
+    "rollbackLeavesNoDelivery": true
+  },
+  "verification": {
+    "participants": 135,
+    "attackQualified": 0,
+    "winners": 67,
+    "overlap": 0,
+    "recipients": 67,
+    "messages": 134,
+    "totalShards": "67",
+    "totalCoin": "33500000000000",
+    "rewards": 134,
+    "claimed": 4,
+    "pending": 130,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "sourceCommit": "a856ba581bef7b25f1240a0b53d2aaaa8d5b13bb",
+  "sourceFiles": [
+    "scripts/ops/territory-finish-rewards-20261017.mjs",
+    "scripts/ops/territory-finish-rewards-20261017.json"
+  ],
+  "runtimeDeployment": false
+}
