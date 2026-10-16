@@ -16,3 +16,10 @@
 - `tests/monster-defense-range.test.mjs`: 저장된 10분 정체 방의 자연 진행, 저격/공성/지원 적의 접근, 기존 정상 교전의 위치와 공격 주기, 회복 역할만 남은 전선, 실제 Durable Object의 저장·폴링·재접속·포인트 추첨 1회 처리를 확인했다. 실제 서버 검사는 보유 목록에서 돌격/회복 역할을 선택한다.
 - `tests/monster-defense-range.browser.mjs`: 실제 격리 서버와 승인 리소스로 PC/390px 전투, 접근 중 적 공격, 자동 처치 후 정비실/포인트 추첨 표시, 결과 공개와 새로고침 복원을 확인했다. 재현 배치에서는 수정된 판정 적용 후 약 11초에 마지막 적이 처치됐으며 수호석은 1,200/1,200이었다. 이 시간은 검수 편성 기준이다.
 - 브라우저 예외와 실패 자산은 0건이다. 캡처와 수치는 `qa/monster-defense-range-20261017/`에 보존한다. 관련 회귀 및 Worker 컴파일을 지정한 scoped 배포만 수행한다.
+
+## 운영 반영 · 2026-10-17
+
+- 소스 `caf4147669ffaf24f95a756f8f702cb696f01bec`을 scoped 배포했다. 지정 회귀 5개, Worker 구문, 출시 플래그·기능 잠금·Hyperdrive 검사를 통과했다.
+- Pages: `https://77072aa5.cnine-card.pages.dev`. API: `38fcca52-90be-46df-9bbc-d00e025d1f27`. 스케줄러: `11723bf3-5e9c-47ad-845c-4e288497c166`.
+- Cloudflare 읽기 전용 조회로 새 API 버전의 트래픽 100%와 **실제 배포된 Worker의 반격 거리 판정 코드**를 확인했다. 공개 `/defense/` HTML 및 전투 모델 원본도 HTTP 200 / 로컬 SHA-256 일치다.
+- 운영 이용자 계정·방·포인트는 검수로 변경하지 않았다. 상세 확인 결과는 `qa/monster-defense-range-20261017/production-report.json`에 보존한다.

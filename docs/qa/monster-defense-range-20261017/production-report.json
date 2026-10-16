@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-16T19:22:11.545Z",
+  "sourceCommit": "caf4147669ffaf24f95a756f8f702cb696f01bec",
+  "publicBase": "https://cnine-card.pages.dev",
+  "deploymentUrl": "https://77072aa5.cnine-card.pages.dev",
+  "schedulerVersion": "11723bf3-5e9c-47ad-845c-4e288497c166",
+  "apiVersion": "38fcca52-90be-46df-9bbc-d00e025d1f27",
+  "apiTrafficPercent": 100,
+  "apiCounterattackRuleVerified": true,
+  "files": [
+    {
+      "path": "defense/index.html",
+      "status": 200,
+      "bytes": 11852,
+      "sha256": "b638890fa363a8dd76fd6d2e2e15485d79bbdb2b7dae10f0601aba9e33d62c83",
+      "localSha256": "b638890fa363a8dd76fd6d2e2e15485d79bbdb2b7dae10f0601aba9e33d62c83",
+      "matches": true
+    },
+    {
+      "path": "preview/coop-defense-v1/source/defense-model.mjs",
+      "status": 200,
+      "bytes": 32098,
+      "sha256": "43898ee58e4e3ba238449233c50edc3539ca4f19efecd9a803335c08ecdd03dc",
+      "localSha256": "43898ee58e4e3ba238449233c50edc3539ca4f19efecd9a803335c08ecdd03dc",
+      "matches": true
+    }
+  ],
+  "passed": true
+}
