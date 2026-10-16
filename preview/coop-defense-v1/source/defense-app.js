@@ -276,7 +276,7 @@ function setFocus(lane) {
 function updateViewButtons() {
   document.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === (state.focus === null ? 'all' : String(state.focus)))));
   $('view-label').textContent = state.focus === null ? '전체 전장' : `${LANES[state.focus]} 방어선`;
-  $('field-subtitle').textContent = state.focus === null ? '긴 진입로를 지나 공동 수호석으로 향합니다' : '좌우로 드래그하여 전장을 살펴보세요';
+  $('field-subtitle').textContent = state.focus === null ? '공세 예고를 보고 지원할 방어선을 정하세요' : '좌우로 드래그하여 전장을 살펴보세요';
   $('field-pan').hidden = state.focus === null;
   $('minimap').hidden = state.focus === null;
 }
@@ -299,10 +299,16 @@ async function ensureEngine() {
 }
 function renderBattle(snapshot) {
   const boss=snapshot.enemies.find(e=>e.type==='BOSS'),warning=snapshot.enemies.find(e=>e.cast?.endsAt>snapshot.time);
-  $('boss-status').hidden=!boss;
-  if(boss){$('wave-banner').hidden=true;$('boss-name').textContent=boss.name+(boss.enraged?' · 격노':'');$('boss-health').value=boss.hp;$('boss-health').max=boss.maxHp;$('boss-instruction').textContent=warning?`${LANES[warning.cast.lane]} 전선 위험 · ${Math.ceil((warning.cast.endsAt-snapshot.time)/1000)}초 후 공격`:defenseEnemy(boss.archetype)?.hint||'보스의 진격을 막으세요.';}
+  const threat=boss||warning;
+  $('boss-status').hidden=!threat;
+  if(threat){$('wave-banner').hidden=true;$('boss-name').textContent=threat.name+(threat.enraged?' · 격노':'');$('boss-health').value=threat.hp;$('boss-health').max=threat.maxHp;$('boss-instruction').textContent=warning?`${LANES[warning.cast.lane]} 전선 위험 · ${Math.ceil((warning.cast.endsAt-snapshot.time)/1000)}초 후 포격 · 방어 태세 / 지원 이동`:defenseEnemy(threat.archetype)?.hint||'보스의 진격을 막으세요.';}
   const mine = snapshot.players.find(p => p.id === state.session.playerId);
   const active = ['PREP', 'WAVE'].includes(snapshot.phase);
+  if(snapshot.waveBrief){
+    const brief=snapshot.waveBrief;
+    $('field-subtitle').textContent=`${snapshot.phase==='PREP'?'다음 ':''}${brief.wave}W · ${brief.kind==='NORMAL'?'전 전선':LANES[brief.focus]+' 전선'} ${brief.name}`;
+    $('field-subtitle').title=brief.hint;
+  }
   const recovering = active && mine.reviveAt > snapshot.time;
   const reviveSeconds = Math.max(0, Math.ceil((mine.reviveAt - snapshot.time) / 1000));
   $('field-pan').hidden = state.focus === null || recovering;
@@ -335,7 +341,8 @@ function renderBattle(snapshot) {
     const downSeconds = active && player.reviveAt > snapshot.time ? Math.ceil((player.reviveAt - snapshot.time) / 1000) : 0;
     tab.classList.toggle('is-danger', danger || downSeconds > 0);
     tab.classList.toggle('is-reviving', downSeconds > 0);
-    tab.querySelector('small').textContent = downSeconds ? `전멸 · ${downSeconds}초` : !player.connected ? '자동 방어 중' : danger ? `위험 · 적 ${enemies.length}` : enemies.length ? `교전 · 적 ${enemies.length}` : '방어 대기';
+    const forecast=snapshot.waveBrief?.kind!=='NORMAL'&&snapshot.waveBrief?.focus===lane;
+    tab.querySelector('small').textContent = downSeconds ? `전멸 · ${downSeconds}초` : !player.connected ? '자동 방어 중' : danger ? `위험 · 적 ${enemies.length}` : forecast ? `${snapshot.phase==='PREP'?'예고 · ':''}${snapshot.waveBrief.name}` : enemies.length ? `교전 · 적 ${enemies.length}` : '방어 대기';
     tab.querySelector('.pressure').textContent = `적 ${enemies.length}`;
     tab.setAttribute('aria-label', `${LANES[lane]} 방어선, ${player.name}, ${downSeconds ? `분대 전멸, ${downSeconds}초 후 부활, ` : danger ? '위험, ' : ''}적 ${enemies.length}기, 카메라 이동`);
   }
@@ -348,15 +355,16 @@ function renderBattle(snapshot) {
   }
   const selected = snapshot.units.find(u => u.id === state.selected);
   if (selected) {
-    $('selected-name').textContent = `${selected.name} · 지원 이동`;
+    $('selected-name').textContent = `${selected.name} · 지원 텔레포트`;
     for (const button of $('move-buttons').children) {
       const lane = Number(button.dataset.lane); button.setAttribute('aria-pressed', String(selected.lane === lane && !selected.move));
       button.disabled = !active || selected.hp <= 0 || Boolean(selected.move) || lane === selected.lane || selected.moveReadyAt > snapshot.time;
     }
     const cooldown = Math.max(0, Math.ceil((selected.skillReadyAt - snapshot.time) / 1000));
     $('skill-name').textContent = selected.skillName;
-    $('skill-state').textContent = recovering ? `${reviveSeconds}초 후 부활` : selected.hp <= 0 ? '전투불능' : selected.move ? '이동 중' : snapshot.phase !== 'WAVE' ? '교전 중 사용' : cooldown ? `${cooldown}초 후 사용` : '사용 가능';
-    $('skill').disabled = snapshot.phase !== 'WAVE' || selected.hp <= 0 || Boolean(selected.move) || cooldown > 0;
+    const outOfRange=snapshot.tempoRevision===1&&['RANGED','STRIKER'].includes(selected.role)&&!snapshot.enemies.some(e=>e.hp>0&&e.lane===selected.lane&&Math.hypot(e.x-selected.x,e.y-selected.y)<=selected.range+(selected.role==='RANGED'?300:240));
+    $('skill-state').textContent = recovering ? `${reviveSeconds}초 후 부활` : selected.hp <= 0 ? '전투불능' : selected.move ? '전송 중' : snapshot.phase !== 'WAVE' ? '교전 중 사용' : cooldown ? `${cooldown}초 후 사용` : outOfRange ? '사거리 내 적 대기' : '사용 가능';
+    $('skill').disabled = snapshot.phase !== 'WAVE' || selected.hp <= 0 || Boolean(selected.move) || cooldown > 0 || outOfRange;
   }
   renderMinimap(snapshot);
 }
@@ -386,6 +394,7 @@ function showPhase(snapshot) {
   banner.hidden = false;
   banner.querySelector('span').textContent = snapshot.phase === 'PREP' ? '재배치 · 회복 · 강화' : `WAVE ${String(snapshot.wave).padStart(2, '0')}`;
   banner.querySelector('b').textContent = snapshot.phase === 'PREP' ? snapshot.wave ? '다음 공세에 대비하세요' : '첫 공세가 다가옵니다' : snapshot.wave === snapshot.totalWaves ? '최종 보스 · 함께 거점을 지키세요' : snapshot.wave === Math.floor(snapshot.totalWaves/2) ? '중간 보스 진격' : '적이 방어선에 진입합니다';
+  if(snapshot.waveBrief){const b=snapshot.waveBrief;banner.querySelector('b').textContent=`${b.kind==='NORMAL'?'전 전선':LANES[b.focus]+' 전선'} · ${b.name}`;banner.querySelector('span').textContent=b.hint;}
   bannerTimer = setTimeout(() => { banner.hidden = true; }, 2800);
 }
 function renderResult(snapshot) {
@@ -469,7 +478,7 @@ function bind() {
 }
 async function main() {
   bind();
-  const response = await fetch('./asset-catalog.json?v=20261017-defense-rooms1'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
+  const response = await fetch('./asset-catalog.json?v=20261017-defense-tempo1'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
   state.catalog = await response.json(); buildLoadout();buildDifficulties();
   formation=new DefenseFormation({getLoadout:()=>state.loadout,getOptions:rosterOptions,refresh:refreshRoster,onApply:applyFormation,onToast:toast});
   roomBrowser=new DefenseRoomBrowser({request,canEnter:()=>state.access&&!state.pending&&completeLoadout(),onJoin:id=>joinOrCreate('join',id),onCreate:()=>void joinOrCreate('create'),onFormation:()=>openFormation()});

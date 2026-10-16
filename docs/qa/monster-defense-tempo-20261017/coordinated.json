@@ -1,0 +1,122 @@
+[
+  {
+    "capacity": 2,
+    "seed": 17,
+    "strategy": "focus",
+    "result": "DEFEAT",
+    "wave": 29,
+    "minutes": 14.6,
+    "core": 0,
+    "wipes": 6
+  },
+  {
+    "capacity": 2,
+    "seed": 17,
+    "strategy": "healer",
+    "result": "DEFEAT",
+    "wave": 20,
+    "minutes": 14.19,
+    "core": 0,
+    "wipes": 6
+  },
+  {
+    "capacity": 2,
+    "seed": 531,
+    "strategy": "focus",
+    "result": "VICTORY",
+    "wave": 30,
+    "minutes": 14.53,
+    "core": 633,
+    "wipes": 2
+  },
+  {
+    "capacity": 2,
+    "seed": 531,
+    "strategy": "healer",
+    "result": "DEFEAT",
+    "wave": 26,
+    "minutes": 18.32,
+    "core": 0,
+    "wipes": 7
+  },
+  {
+    "capacity": 2,
+    "seed": 977,
+    "strategy": "focus",
+    "result": "VICTORY",
+    "wave": 30,
+    "minutes": 14.86,
+    "core": 266,
+    "wipes": 3
+  },
+  {
+    "capacity": 2,
+    "seed": 977,
+    "strategy": "healer",
+    "result": "DEFEAT",
+    "wave": 25,
+    "minutes": 17.55,
+    "core": 0,
+    "wipes": 8
+  },
+  {
+    "capacity": 3,
+    "seed": 17,
+    "strategy": "focus",
+    "result": "VICTORY",
+    "wave": 30,
+    "minutes": 14.5,
+    "core": 687,
+    "wipes": 4
+  },
+  {
+    "capacity": 3,
+    "seed": 17,
+    "strategy": "healer",
+    "result": "DEFEAT",
+    "wave": 29,
+    "minutes": 19.88,
+    "core": 0,
+    "wipes": 11
+  },
+  {
+    "capacity": 3,
+    "seed": 531,
+    "strategy": "focus",
+    "result": "VICTORY",
+    "wave": 30,
+    "minutes": 13.84,
+    "core": 910,
+    "wipes": 2
+  },
+  {
+    "capacity": 3,
+    "seed": 531,
+    "strategy": "healer",
+    "result": "DEFEAT",
+    "wave": 27,
+    "minutes": 19,
+    "core": 0,
+    "wipes": 7
+  },
+  {
+    "capacity": 3,
+    "seed": 977,
+    "strategy": "focus",
+    "result": "VICTORY",
+    "wave": 30,
+    "minutes": 14.09,
+    "core": 927,
+    "wipes": 1
+  },
+  {
+    "capacity": 3,
+    "seed": 977,
+    "strategy": "healer",
+    "result": "DEFEAT",
+    "wave": 29,
+    "minutes": 19.17,
+    "core": 0,
+    "wipes": 9
+  }
+]

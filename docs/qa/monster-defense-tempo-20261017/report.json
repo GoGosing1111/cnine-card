@@ -1,0 +1,158 @@
+{
+  "ok": true,
+  "checks": [
+    "server support command; departure/arrival portals anchored to exact stations; one 1.8s transfer; automatic cleanup",
+    "1750px / 390px / 320px centered readable controls and home lobby link; pressure forecast visible in battle and workshop; reduced motion transfer and cleanup"
+  ],
+  "metrics": [
+    {
+      "width": 1750,
+      "buttons": [
+        {
+          "id": "create-room",
+          "width": 315,
+          "height": 64,
+          "font": 22,
+          "align": "center",
+          "justify": "center"
+        },
+        {
+          "id": "practice",
+          "width": 140,
+          "height": 64,
+          "font": 18,
+          "align": "center",
+          "justify": "center"
+        },
+        {
+          "id": "find-rooms",
+          "width": 230,
+          "height": 64,
+          "font": 18,
+          "align": "center",
+          "justify": "center"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "buttons": [
+        {
+          "id": "create-room",
+          "width": 208.8125,
+          "height": 56,
+          "font": 18,
+          "align": "center",
+          "justify": "center"
+        },
+        {
+          "id": "practice",
+          "width": 139.1875,
+          "height": 56,
+          "font": 16,
+          "align": "center",
+          "justify": "center"
+        },
+        {
+          "id": "find-rooms",
+          "width": 356,
+          "height": 56,
+          "font": 16,
+          "align": "center",
+          "justify": "center"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "buttons": [
+        {
+          "id": "create-room",
+          "width": 171.609375,
+          "height": 56,
+          "font": 18,
+          "align": "center",
+          "justify": "center"
+        },
+        {
+          "id": "practice",
+          "width": 114.390625,
+          "height": 56,
+          "font": 16,
+          "align": "center",
+          "justify": "center"
+        },
+        {
+          "id": "find-rooms",
+          "width": 294,
+          "height": 56,
+          "font": 16,
+          "align": "center",
+          "justify": "center"
+        }
+      ]
+    }
+  ],
+  "teleport": {
+    "fx": {
+      "image": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+      "frames": 6,
+      "active": 1,
+      "positions": [
+        {
+          "id": "1:0",
+          "portals": [
+            {
+              "x": 1510,
+              "y": 276,
+              "visible": true,
+              "alpha": 0.9
+            },
+            {
+              "x": 1380,
+              "y": 736,
+              "visible": true,
+              "alpha": 0.9
+            }
+          ]
+        }
+      ]
+    },
+    "unit": {
+      "id": "1:0",
+      "ownerId": "1",
+      "ownerLane": 0,
+      "slot": 0,
+      "code": "V-004",
+      "name": "베스페라",
+      "role": "HEALER",
+      "x": 1459.4444444444443,
+      "y": 454.8888888888889,
+      "lane": 0,
+      "maxHp": 480,
+      "hp": 480,
+      "attack": 22,
+      "range": 480,
+      "interval": 1300,
+      "skillName": "응급 회복",
+      "skillCooldown": 18000,
+      "nextAttack": 0,
+      "skillReadyAt": 0,
+      "moveReadyAt": 5900,
+      "move": {
+        "fromX": 1510,
+        "fromY": 276,
+        "x": 1380,
+        "y": 736,
+        "lane": 1,
+        "startedAt": 900,
+        "endsAt": 2700
+      },
+      "shieldUntil": 0,
+      "buffUntil": 0,
+      "kills": 0
+    }
+  },
+  "errors": [],
+  "failed": []
+}

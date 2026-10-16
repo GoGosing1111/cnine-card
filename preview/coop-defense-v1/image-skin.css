@@ -252,3 +252,63 @@
  #defense-app .field-pan{padding:4px 8px}
 }
 @media(prefers-reduced-motion:reduce){#defense-app button,.dw button{transition:none}}
+
+/* Pace revision: keep the authored metal controls proportional and the live labels centered. */
+#defense-app .defense-staging .deployment-dock{grid-template-columns:minmax(0,1fr) minmax(330px,470px);gap:26px;padding-block:22px;align-items:end}
+#defense-app .defense-staging .dock-setup{grid-template-columns:minmax(220px,340px) minmax(170px,230px);gap:22px;padding:0}
+#defense-app .defense-staging .squad-settings{grid-template-columns:minmax(0,1fr) 120px;gap:15px}
+#defense-app .defense-staging :is(.field-label,.capacity-field legend){font-size:13px;line-height:1.4}
+#defense-app .defense-staging :is(.field-label input,.capacity-option){min-height:64px;font-size:17px;text-align:center;line-height:1.2}
+#defense-app .defense-staging .field-label input{width:100%;padding-inline:23px}
+#defense-app .defense-staging .lobby-actions{grid-template-columns:140px minmax(0,1fr);gap:15px}
+#defense-app .defense-staging :is(#practice,#find-rooms,#create-room,#start,#ready,#edit-formation){display:flex;align-items:center;justify-content:center;min-height:64px;padding:13px 28px;font-size:18px;line-height:1.25;text-align:center;gap:8px}
+#defense-app .defense-staging :is(#create-room,#start) b{display:block;font-size:22px;line-height:1.25;text-align:center;letter-spacing:-.5px}
+#defense-app .defense-staging :is(#create-room,#start) b span{display:none}
+#defense-app .room-discovery{gap:7px}
+#defense-app .room-discovery small{order:-1;font-size:13px;text-align:center;line-height:1.4}
+#defense-app .defense-staging .access-status{font-size:13px;text-align:center;margin-bottom:7px;color:#d3e5ed}
+#defense-app .defense-staging .defense-back{justify-content:center;gap:12px;min-width:205px;min-height:56px;padding:12px 24px;background:transparent var(--defense-command) center/100% 140% no-repeat;font-size:16px;font-weight:800;text-align:center;color:#f0faff;text-shadow:0 1px 3px #000}
+#defense-app .defense-staging .defense-back:hover{filter:brightness(1.2)}
+#defense-app .defense-staging button:disabled{opacity:.72}
+#defense-app .field-caption{min-width:240px;padding:12px 30px}
+#defense-app .field-caption small{font-size:13px;line-height:1.5;color:#e0f3fa;white-space:normal}
+#defense-app .wave-banner{width:min(570px,90%);max-width:90%;text-align:center;padding:17px 46px}
+#defense-app .wave-banner b{font-size:18px}
+#defense-app .wave-banner span{white-space:normal;line-height:1.55;font-size:13px}
+.dw .dw-footer [data-footer-note]{display:block;font-size:13px;line-height:1.6;color:#d5e8ef;max-width:650px}
+@media(min-width:761px) and (min-height:541px){
+ #defense-app .command-dock{padding-block:12px}
+ #defense-app .unit-button strong,#defense-app .lane-tab b{font-size:14px}
+ #defense-app .unit-button small,#defense-app .lane-tab small{font-size:11px}
+ #defense-app .unit-button{min-height:66px}
+ #defense-app .move-button,#defense-app .skill-button{font-size:16px;min-height:52px}
+ #defense-app .skill-button small{font-size:11px}
+ #defense-app .supply button{font-size:14px;min-height:42px;padding-inline:20px}
+}
+@media(max-width:1100px){
+ #defense-app .defense-staging .deployment-dock{grid-template-columns:1fr;gap:18px}
+ #defense-app .defense-staging .dock-setup{grid-template-columns:minmax(0,1fr) minmax(170px,230px)}
+ #defense-app .defense-staging .deploy-actions{display:grid;grid-template-columns:1fr minmax(330px,470px);gap:12px;align-items:center}
+ #defense-app .defense-staging .access-status{text-align:left;margin:0}
+ #defense-app .defense-staging .resume-battle{grid-column:1/-1}
+}
+@media(max-width:760px){
+ #defense-app .defense-staging .brand{height:auto;min-height:112px;display:flex;flex-wrap:wrap;gap:7px;padding-block:12px}
+ #defense-app .defense-staging .defense-back{flex:0 0 100%;min-width:0;min-height:50px;padding:10px 22px;font-size:16px;background-size:100% 140%}
+ #defense-app .defense-staging .deployment-dock{gap:15px;padding-block:18px}
+ #defense-app .defense-staging .dock-setup{grid-template-columns:minmax(0,1fr);gap:14px}
+ #defense-app .defense-staging .squad-settings{grid-template-columns:minmax(0,1fr) 110px;gap:12px}
+ #defense-app .defense-staging :is(.field-label input,.capacity-option){min-height:54px;font-size:16px}
+ #defense-app .defense-staging .deploy-actions{display:block}
+ #defense-app .defense-staging .access-status{text-align:center;margin-bottom:9px;font-size:12px}
+ #defense-app .defense-staging .lobby-actions{grid-template-columns:minmax(100px,.8fr) minmax(0,1.2fr);gap:8px}
+ #defense-app .defense-staging :is(#practice,#find-rooms,#create-room,#start,#ready,#edit-formation){min-height:56px;padding:11px 18px;font-size:16px;gap:5px}
+ #defense-app .defense-staging :is(#create-room,#start) b{font-size:18px}
+ #defense-app .room-discovery small{display:none}
+ #defense-app .field-caption{min-width:0;max-width:calc(100% - 125px);padding:12px 24px}
+ #defense-app .field-caption small{font-size:11px}
+ #defense-app .wave-banner{padding:16px 30px}
+ #defense-app .wave-banner b{font-size:15px}
+ #defense-app .wave-banner span{font-size:11px}
+ .dw .dw-footer [data-footer-note]{font-size:11px;line-height:1.5}
+}

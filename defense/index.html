@@ -7,29 +7,29 @@
   <meta name="theme-color" content="#151b22">
   <title>디펜스 · 리버스콜</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="/preview/coop-defense-v1/defense.css?v=20261017-defense-rooms1">
-  <link rel="stylesheet" href="/preview/coop-defense-v1/workshop.css?v=20261017-defense-rooms1">
-  <link rel="stylesheet" href="/preview/coop-defense-v1/staging.css?v=20261017-defense-rooms1">
-  <link rel="stylesheet" href="/preview/coop-defense-v1/image-skin.css?v=20261017-defense-rooms1">
-  <link rel="stylesheet" href="/preview/coop-defense-v1/formation.css?v=20261017-defense-rooms1">
-  <link rel="stylesheet" href="/preview/coop-defense-v1/rooms.css?v=20261017-defense-rooms1">
-  <script defer src="/preview/coop-defense-v1/defense.bundle.js?v=20261017-defense-rooms1"></script>
+  <link rel="stylesheet" href="/preview/coop-defense-v1/defense.css?v=20261017-defense-tempo1">
+  <link rel="stylesheet" href="/preview/coop-defense-v1/workshop.css?v=20261017-defense-tempo1">
+  <link rel="stylesheet" href="/preview/coop-defense-v1/staging.css?v=20261017-defense-tempo1">
+  <link rel="stylesheet" href="/preview/coop-defense-v1/image-skin.css?v=20261017-defense-tempo1">
+  <link rel="stylesheet" href="/preview/coop-defense-v1/formation.css?v=20261017-defense-tempo1">
+  <link rel="stylesheet" href="/preview/coop-defense-v1/rooms.css?v=20261017-defense-tempo1">
+  <script defer src="/preview/coop-defense-v1/defense.bundle.js?v=20261017-defense-tempo1"></script>
 </head>
 <body>
   <main id="defense-app">
     <section id="lobby" class="lobby defense-staging" aria-labelledby="lobby-title">
-      <header class="brand"><img class="defense-logo" src="/assets/ui/brand/reverse-call-20261016/favicon-48.png" alt=""><span class="brand-copy">리버스콜 <small>MONSTER DEFENSE</small></span><span class="review-tag">TEST</span><a class="defense-back" href="/?screen=battle">PVE로 돌아가기 <span aria-hidden="true">↗</span></a></header>
+      <header class="brand"><img class="defense-logo" src="/assets/ui/brand/reverse-call-20261016/favicon-48.png" alt=""><span class="brand-copy">리버스콜 <small>MONSTER DEFENSE</small></span><span class="review-tag">TEST</span><a class="defense-back" href="/?screen=home">로비로 돌아가기 <span aria-hidden="true">↗</span></a></header>
       <div class="lobby-layout">
         <div class="lobby-story">
           <p class="eyebrow">협동 디펜스 · 출전 준비</p><h1 id="lobby-title">최후의 방어선</h1>
           <div class="mission-meta"><span>2–3인 협동</span><span><b id="mission-waves">30</b> 웨이브</span><span>수호석 공동 방어</span></div>
         </div>
-        <div class="mission-tools"><details class="encounter-preview"><summary>출현 적 정보 <span aria-hidden="true">＋</span></summary><div class="mission-popover"><p id="difficulty-title"></p><div class="boss-preview"><img id="boss-preview" alt=""><div><span class="boss-label">최종 보스</span><h2 id="boss-preview-name"></h2><p id="boss-preview-hint"></p></div></div><p id="mid-boss-name"></p><div class="enemy-heading">출현 병단</div><div id="enemy-lineup" class="enemy-lineup"></div></div></details><details class="mission-guide"><summary>방어 규칙 <span aria-hidden="true">＋</span></summary><div class="mission-popover"><h2>끝까지 함께 지켜내세요</h2><p>용병 2명과 카드 1장으로 나만의 분대를 편성합니다.</p><p>공세 통과 후 확률로 강화 포인트를 얻습니다. 강화 실패 시 단계는 유지되고 포인트는 소모됩니다.</p><p>전멸할수록 15 → 30 → 45 → 60초로 복귀 대기가 늘어납니다. 체력 50%로 복귀합니다.</p></div></details></div>
+        <div class="mission-tools"><details class="encounter-preview"><summary>출현 적 정보 <span aria-hidden="true">＋</span></summary><div class="mission-popover"><p id="difficulty-title"></p><div class="boss-preview"><img id="boss-preview" alt=""><div><span class="boss-label">최종 보스</span><h2 id="boss-preview-name"></h2><p id="boss-preview-hint"></p></div></div><p id="mid-boss-name"></p><div class="enemy-heading">출현 병단</div><div id="enemy-lineup" class="enemy-lineup"></div></div></details><details class="mission-guide"><summary>방어 규칙 <span aria-hidden="true">＋</span></summary><div class="mission-popover"><h2>끝까지 함께 지켜내세요</h2><p>용병 2명과 카드 1장으로 나만의 분대를 편성합니다.</p><p>공세 통과 후 확률로 강화 포인트를 얻습니다. 강화 실패 시 단계는 유지되고 포인트는 소모됩니다.</p><p>일반 정비는 8초, 5웨이브마다 특성 정비 시간을 제공합니다. 공세 예고를 확인하고 전술 사거리 안에서 스킬을 사용하세요.</p><p>전멸할수록 15 → 30 → 45 → 60초로 복귀 대기가 늘어납니다. 체력 50%로 복귀합니다.</p></div></details></div>
         <div class="lobby-console">
           <fieldset class="difficulty-field"><legend>작전 난이도</legend><div id="difficulty-list" class="difficulty-list"></div></fieldset>
           <div class="console-heading"><h2>나의 출전 분대</h2><span>용병 2명 · 카드 1장</span></div>
           <div class="loadout-grid" id="loadout-grid"></div>
-          <footer class="deployment-dock"><div class="dock-setup"><div class="squad-settings"><label class="field-label" for="nickname">대장<input id="nickname" maxlength="16" autocomplete="nickname" placeholder="사용할 이름" value="원정대장"></label><fieldset class="capacity-field"><legend>분대 인원</legend><button type="button" class="capacity-option" data-capacity="2" aria-pressed="false">2인</button><button type="button" class="capacity-option" data-capacity="3" aria-pressed="true">3인</button></fieldset></div><div class="room-discovery"><button type="button" id="find-rooms">방 찾아 참가 <span aria-hidden="true">↗</span></button><small>방 목록에서 함께할 대원을 찾으세요</small></div></div><div class="deploy-actions"><p id="access-status" class="access-status" role="status">보유 용병 2명과 카드 1장을 선택해 주세요. · TEST 보상 없음</p><div class="lobby-actions"><button id="practice" class="secondary" type="button">혼자 연습</button><button id="create-room" class="primary" type="button"><small>CO-OP DEFENSE</small><b>대기실 만들기 <span aria-hidden="true">›</span></b></button></div><button id="resume-battle" class="secondary resume-battle" type="button" hidden>진행 중인 전투로 돌아가기</button></div></footer>
+          <footer class="deployment-dock"><div class="dock-setup"><div class="squad-settings"><label class="field-label" for="nickname">대장<input id="nickname" maxlength="16" autocomplete="nickname" placeholder="사용할 이름" value="원정대장"></label><fieldset class="capacity-field"><legend>분대 인원</legend><button type="button" class="capacity-option" data-capacity="2" aria-pressed="false">2인</button><button type="button" class="capacity-option" data-capacity="3" aria-pressed="true">3인</button></fieldset></div><div class="room-discovery"><button type="button" id="find-rooms">방 찾아 참가 <span aria-hidden="true">↗</span></button><small>함께할 대원 찾기</small></div></div><div class="deploy-actions"><p id="access-status" class="access-status" role="status">보유 용병 2명과 카드 1장을 선택해 주세요. · TEST 보상 없음</p><div class="lobby-actions"><button id="practice" class="secondary" type="button">혼자 연습</button><button id="create-room" class="primary" type="button"><b>대기실 만들기 <span aria-hidden="true">›</span></b></button></div><button id="resume-battle" class="secondary resume-battle" type="button" hidden>진행 중인 전투로 돌아가기</button></div></footer>
         </div>
       </div>
     </section>
@@ -41,7 +41,7 @@
         <div class="invite room-presence"><div class="invite-code-wrap"><span id="room-visibility">공개 대기방</span><strong id="room-host"></strong></div><span id="room-note">방 목록에서 참가할 수 있습니다.</span></div>
         <div class="party-heading"><h2>출전 분대</h2><span id="party-count" aria-live="polite"></span></div><nav id="party-roster-tabs" class="party-roster-tabs" aria-label="집결한 분대 보기"></nav>
         <div id="party-list" class="party-list"></div>
-        <footer class="waiting-launch"><div class="launch-status"><div><span id="ready-count"></span><span class="launch-detail">준비 완료</span></div><progress id="party-ready-progress" max="3" value="0" aria-label="준비된 대원 수"></progress><p id="start-hint" class="muted" aria-live="polite"></p></div><div class="waiting-actions"><button id="edit-formation" class="secondary" type="button">내 분대 편성</button><button id="ready" class="secondary" type="button">준비 완료</button><button id="start" class="primary" type="button"><small>DEPLOY SQUAD</small><b>방어 시작 <span aria-hidden="true">›</span></b></button></div></footer>
+        <footer class="waiting-launch"><div class="launch-status"><div><span id="ready-count"></span><span class="launch-detail">준비 완료</span></div><progress id="party-ready-progress" max="3" value="0" aria-label="준비된 대원 수"></progress><p id="start-hint" class="muted" aria-live="polite"></p></div><div class="waiting-actions"><button id="edit-formation" class="secondary" type="button">내 분대 편성</button><button id="ready" class="secondary" type="button">준비 완료</button><button id="start" class="primary" type="button"><b>방어 시작 <span aria-hidden="true">›</span></b></button></div></footer>
       </div>
     </section>
 

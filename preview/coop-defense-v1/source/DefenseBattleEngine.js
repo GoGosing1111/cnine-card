@@ -14,10 +14,13 @@ export class DefenseBattleEngine extends BattleEngine {
     this.gridMode = 'defense'; this.catalog = catalog; this.actors = new Map(); this.capacity = 3;
     this.focusLane = null; this.focusX = WORLD.frontX - 170; this.selectedUnit = null; this.myLane = 0; this.state = null;
     this.fxRuns = new Set(); this.activeEffects = new Set(); this.visualNow = 0; this.lastEvent = 0;
+    this.supportPortals = new Map(); this.portalFrames = [];
     this.disposed = false; this.soundEnabled = false;
   }
   async loadBattlefieldTexture() {
-    const [background] = await Promise.all([this.catalog.background, this.catalog.environment.causeway, this.catalog.environment.core, this.catalog.uiSkin.nameplate].map(path => Assets.load(path)));
+    const [background] = await Promise.all([this.catalog.background, this.catalog.environment.causeway, this.catalog.environment.core, this.catalog.environment.teleport, this.catalog.uiSkin.nameplate].map(path => Assets.load(path)));
+    const atlas = Assets.get(this.catalog.environment.teleport);
+    this.portalFrames = Array.from({length:6}, (_,i) => new Texture({source:atlas.source, frame:new Rectangle(i%3*384,Math.floor(i/3)*384,384,384)}));
     return background;
   }
   createBackground() {
@@ -249,18 +252,47 @@ export class DefenseBattleEngine extends BattleEngine {
   }
   updateActors(delta) {
     const blend = Math.min(1, delta / 85);
+    const now = this.state ? this.state.time + Math.min(1000,performance.now() - this.receivedAt) : 0;
     for (const actor of this.actors.values()) {
-      actor.root.x += (actor.targetX - actor.root.x) * blend;
-      actor.root.y += (actor.targetY - actor.root.y) * blend;
+      const move=['PREP','WAVE'].includes(this.state?.phase)?actor.unitData.move:null;
+      if(move){
+        const progress=Math.max(0,Math.min(1,(now-move.startedAt)/(move.endsAt-move.startedAt)));
+        actor.root.position.set(progress<.55?move.fromX:move.x,progress<.55?move.fromY:move.y);
+        actor.root.alpha=this.reducedMotion?1:progress<.55?Math.max(0,1-progress/.32):Math.min(1,(progress-.55)/.45);
+        actor.teleporting=true;this.updateSupportPortal(actor,progress);
+      }else{
+        if(actor.teleporting){actor.root.position.set(actor.targetX,actor.targetY);actor.teleporting=false;}
+        actor.root.x += (actor.targetX - actor.root.x) * blend;
+        actor.root.y += (actor.targetY - actor.root.y) * blend;
+        actor.root.alpha=actor.unitData.hp>0?1:.32;
+        this.removeSupportPortal(actor.id);
+      }
       actor.root.zIndex = Math.round(actor.root.y);
       actor.stateHalo.alpha = actor.id === this.selectedUnit ? 1 : .35;
       if (actor.unitData.hp <= 0 || this.reducedMotion) continue;
-      const moving = Boolean(actor.unitData.move) || (actor.enemy && Math.abs(actor.targetX - actor.root.x) > .5);
+      const moving = !move && actor.enemy && Math.abs(actor.targetX - actor.root.x) > .5;
       const desired = performance.now() < actor.actionUntil ? 'ATTACK' : moving ? 'MOVE' : 'IDLE';
       if (actor.state !== desired) actor.setState(desired);
     }
+    for(const id of this.supportPortals.keys())if(!this.actors.has(id))this.removeSupportPortal(id);
     this.combatLayer.sortChildren();
   }
+  updateSupportPortal(actor,progress){
+    const move=actor.unitData.move;
+    let pair=this.supportPortals.get(actor.id);
+    if(!pair){
+      pair=[0,1].map(()=>{const sprite=new Sprite(this.portalFrames[0]);sprite.anchor.set(.5,.91);sprite.width=350;sprite.height=350;sprite.eventMode='none';sprite.label='DefenseSupportTeleport';this.combatLayer.addChild(sprite);return sprite;});
+      this.supportPortals.set(actor.id,pair);
+    }
+    const phases=[progress/.62,(progress-.32)/.68],lanes=[actor.unitData.lane,move.lane];
+    for(let i=0;i<2;i++){
+      const portal=pair[i],t=phases[i];portal.position.set(i?move.x:move.fromX,i?move.y:move.fromY);portal.zIndex=Math.round(portal.y)-1;
+      portal.visible=this.visible&&t>=0&&t<1&&(this.focusLane===null||this.focusLane===lanes[i]);
+      portal.texture=this.portalFrames[this.reducedMotion?2:Math.min(5,Math.floor(Math.max(0,t)*6))];
+      portal.alpha=this.reducedMotion?.32:Math.min(1,t*6,(1-t)*6)*.9;
+    }
+  }
+  removeSupportPortal(id){const pair=this.supportPortals.get(id);if(!pair)return;for(const sprite of pair){sprite.removeFromParent();sprite.destroy();}this.supportPortals.delete(id);}
   trackTimeline(timeline, cleanup = () => {}) {
     const entry = { timeline, cleanup }; this.fxRuns.add(entry);
     timeline.eventCallback('onComplete', () => { cleanup(); this.fxRuns.delete(entry); });
@@ -296,6 +328,7 @@ export class DefenseBattleEngine extends BattleEngine {
     }
   }
   clearEffects() {
+    for(const id of this.supportPortals.keys())this.removeSupportPortal(id);
     for (const entry of this.fxRuns) { entry.timeline.kill(); entry.cleanup(); }
     this.fxRuns.clear();
     for (const effect of this.activeEffects) effect.release(); this.activeEffects.clear();
@@ -309,6 +342,7 @@ export class DefenseBattleEngine extends BattleEngine {
       enemySprites: this.enemies.map(actor => ({ id: actor.id, archetype: actor.unitData.archetype, state: actor.state,
         sourceFacing: actor.artFacing, viewScaleX: actor.view.scale.x, neutralScaleX: actor.neutralAvatarPose.scaleX, hudScaleX: actor.hud.scale.x })),
       phase: this.state?.phase, activeEffects: this.activeEffects.size, timelines: this.fxRuns.size,
+      supportTeleport:{image:this.catalog.environment.teleport,frames:this.portalFrames.length,active:this.supportPortals.size,positions:[...this.supportPortals].map(([id,pair])=>({id,portals:pair.map(p=>({x:p.x,y:p.y,visible:p.visible,alpha:p.alpha}))}))},
       camera: { x: this.focusLane === null ? WORLD.width / 2 : this.focusX, scale: this.root.scale.x, viewWidth: this.viewWidth, tilt: this.fieldTilt },
       serverDeterminesDamage: true, resolution: this.app?.renderer.resolution, world: WORLD, roleFx: SkillEffectFX.diagnostics() };
   }
@@ -317,6 +351,6 @@ export class DefenseBattleEngine extends BattleEngine {
     this.disposed = true; this.clearEffects(); this.cameraControls?.abort(); this.panDrag = null;
     if (this.renderTick) this.app?.ticker.remove(this.renderTick);
     for (const actor of this.actors.values()) actor.animationController?.kill();
-    this.actors.clear(); super.destroy(); this.routeJoinTexture?.destroy(false);
+    this.actors.clear(); super.destroy(); this.routeJoinTexture?.destroy(false);for(const frame of this.portalFrames)frame.destroy(false);this.portalFrames=[];
   }
 }

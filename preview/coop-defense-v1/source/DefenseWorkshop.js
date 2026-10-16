@@ -44,13 +44,16 @@ export class DefenseWorkshop {
   const s=this.snapshot,p=this.mine,prep=s.phase==='PREP',seconds=prep?Math.max(0,Math.ceil((s.phaseUntil-s.time)/1000)):0;
   this.$('[data-wave]').textContent=String(s.wave).padStart(2,'0')+' / '+s.totalWaves+' 공세';
   this.$('[data-time]').textContent=seconds;this.$('.dw-timer').classList.toggle('dw-urgent',seconds<=5);
-  this.$('.dw-time-track i').style.width=(prep?100*seconds/s.growthPolicy.prepSeconds:0)+'%';
+  const duration=Math.max(1,(s.phaseUntil-(s.prepStartedAt??s.phaseUntil-s.growthPolicy.prepSeconds*1000))/1000);
+  this.$('.dw-time-track i').style.width=(prep?Math.min(100,100*seconds/duration):0)+'%';
   this.$('[data-wallet]').textContent=fmt(this.mode==='draw'&&this.draw&&!this.viewed(this.draw.id)?Math.max(0,p.credits-this.draw.amount):p.credits);
   const offers=p.growth.offers.filter(o=>!o.selected&&o.choices.length).length;
   this.$('[data-trait-count]').textContent=offers||'';
   this.$('.dw-party').innerHTML=s.players.map(m=>'<span class="'+(m.growth.readyWave===s.wave?'dw-is-ready':'')+'"><i></i>'+esc(m.name)+(m.id===p.id?' · 나':'')+'<small>'+(m.growth.readyWave===s.wave?'준비 완료':'정비 중')+'</small></span>').join('');
   const ready=this.$('[data-action="ready"]');ready.disabled=!prep||this.busy;ready.textContent=p.growth.readyWave===s.wave?'준비 취소':'정비 완료';ready.setAttribute('aria-pressed',String(p.growth.readyWave===s.wave));
-  this.$('[data-footer-note]').textContent=prep?'시간 종료 시 자동 출발 · 포인트와 미선택 특성은 다음 정비로 이월':'공세 진행 중 · 다음 정비에서 계속';
+  this.$('[data-footer-note]').textContent=prep&&s.waveBrief
+   ? `${s.waveBrief.wave}W · ${s.waveBrief.kind==='NORMAL'?'전 전선':String.fromCharCode(65+s.waveBrief.focus)+' 전선'} ${s.waveBrief.name} — ${s.waveBrief.hint} 포인트·미선택 특성 이월`
+   :prep?'시간 종료 시 자동 출발 · 포인트와 미선택 특성은 다음 정비로 이월':'공세 진행 중 · 다음 정비에서 계속';
   this.root.querySelectorAll('[data-tab]').forEach(el=>{el.disabled=this.busy;el.setAttribute('aria-current',String(el.dataset.tab===this.mode));});
   const forge=this.$('[data-action="forge"]');if(forge){const level=p.growth.levels[this.branch],tier=growthTier(s.growthPolicy,level+1);forge.disabled=this.busy||!prep||!tier||p.credits<tier.cost;forge.textContent=this.busy?'결과 확인 중…':!tier?'최대 강화 완료':p.credits<tier.cost?fmt(tier.cost-p.credits)+'P 부족':fmt(tier.cost)+'P · 강화 시도';}
   this.root.querySelectorAll('[data-trait]').forEach(el=>el.disabled=this.busy||!prep);

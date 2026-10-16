@@ -1,0 +1,48 @@
+{
+  "content": "MONSTER_DEFENSE",
+  "created": "2026-10-17",
+  "status": "IMPLEMENTED_VISUAL_REVIEW_PENDING",
+  "tool": "image_gen.imagegen",
+  "prompt": "prompt.json",
+  "source": {
+    "path": "support-teleport-source.png",
+    "sha256": "8942212874be633272e45eb66daadb7ab9f80d628a690d3b8eeff4a3ca4347e1",
+    "width": 1774,
+    "height": 887
+  },
+  "runtime": {
+    "path": "support-teleport.webp",
+    "sha256": "e894c7c7b31ba7d6f926aa60a37c36047d5a1b78c8fce4c999ff9c92267251e0",
+    "width": 1152,
+    "height": 768,
+    "columns": 3,
+    "rows": 2,
+    "frames": 6,
+    "frameSize": 384,
+    "footAnchor": {
+      "x": 0.5,
+      "y": 0.91
+    },
+    "sourceCells": [
+      0,
+      1,
+      2,
+      5,
+      6,
+      7
+    ],
+    "alpha": {
+      "zero": 408150,
+      "partial": 476572,
+      "opaque": 14
+    }
+  },
+  "derivation": "Crop and resample six complete source cells. Omit cells 4 and 5 with clipped peak plumes; preserve source unchanged. Sprite playback, no CSS ornament.",
+  "timing": {
+    "moveMs": 1800,
+    "departureEnd": 0.62,
+    "arrivalStart": 0.32,
+    "arrivalEnd": 1
+  },
+  "approval": "Generation and technical QA are not user visual approval."
+}

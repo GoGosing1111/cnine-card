@@ -20,6 +20,28 @@ export const LANES = ['A', 'B', 'C'];
 export const laneY = (lane, capacity) => capacity === 2 ? [380, 860][lane] : [280, 620, 960][lane];
 export const WORLD = Object.freeze({ width: 2880, height: 1280, coreX: 220, coreY: 620, mergeX: 600, spawnX: 2780,
   frontX: 1510, pressureX: 1600, breachWarningX: 1030 });
+// Captured on new rooms only: saved battles retain their original pacing and damage.
+export const DEFENSE_TEMPO = Object.freeze({ revision: 1, spawnMs: 850, firstSpawnMs: 300,
+  spawnInset: 400, speed: 2, attack: 1.7, ordinaryPrepMs: 8000, openingPrepMs: 8000 });
+const fastRoom = room => room.tempoRevision === DEFENSE_TEMPO.revision;
+export function defenseWaveBrief(room, wave = room.phase === 'PREP' ? room.wave + 1 : room.wave) {
+  if (!fastRoom(room) || wave > room.encounter.waves) return null;
+  const kind = wave % 10 === 0 || wave === room.encounter.waves ? 'BOSS' : wave % 5 === 0 ? 'SIEGE' : wave % 3 === 0 ? 'RUSH' : 'NORMAL';
+  const cycle=kind==='BOSS'?Math.floor(wave/10)-1:kind==='SIEGE'?Math.floor(wave/5)-1:kind==='RUSH'?Math.floor(wave/3)-1:wave-1;
+  const focus=Math.max(0,cycle)%room.capacity;
+  const descriptions = {
+    BOSS: ['보스 공세', '위험 전선 표시를 보고 방어 태세 또는 지원 이동으로 포격에 대응하세요.'],
+    SIEGE: ['공성 병단', '장갑병과 공성포가 함께 진격합니다. 화력 지원과 정예 처형 특성이 유리합니다.'],
+    RUSH: ['집중 돌파', '빠른 추격병이 몰려옵니다. 광역 참격·방어 태세와 다른 분대의 지원을 준비하세요.'],
+    NORMAL: ['분산 공세', '각 방어선을 지키며 다음 집중 공세에 쓸 전술을 준비하세요.']
+  };
+  return { wave, kind, focus, name: descriptions[kind][0], hint: descriptions[kind][1] };
+}
+function prepDuration(room) {
+  const configured = room.growthPolicy?.prepSeconds * 1000 || RULES.prepMs;
+  if (!fastRoom(room)) return configured;
+  return room.wave === 0 ? Math.min(configured, DEFENSE_TEMPO.openingPrepMs) : room.wave % 5 === 0 ? configured : Math.min(configured, DEFENSE_TEMPO.ordinaryPrepMs);
+}
 export function unitPosition(slot, lane, capacity, ownerLane = lane) {
   const supportRow = (ownerLane - lane + capacity) % capacity;
   return { x: [WORLD.frontX, 1220, 930][slot] - supportRow * 65,
@@ -48,7 +70,7 @@ export function createRoom({ id, capacity = 3, seed = 123, now = Date.now(), pra
   const preset=ruleset===2?LEGACY_DEFENSE_DIFFICULTIES.find(d=>d.id===difficulty):defenseDifficulty(difficulty);if(!preset)fail('난이도를 확인하세요.');
   const growthPolicy=ruleset===3?validateDefenseGrowth(growth||defaultDefenseGrowth()):null;
   const encounter={...preset,...combat,id:preset.id,waves:growthPolicy?.waves||preset.waves,pool:preset.pool,elite:preset.elite,midBoss:preset.midBoss,boss:preset.boss};
-  return { version: ruleset, accountRoster, growthPolicy, growthRng:(seed^0x9e3779b9)>>>0, id, capacity, practice, difficulty, encounter, createdAt: now, hostId: null, phase: 'LOBBY', players: [], units: [], enemies: [],
+  return { version: ruleset, tempoRevision: ruleset >= 3 ? DEFENSE_TEMPO.revision : 0, accountRoster, growthPolicy, growthRng:(seed^0x9e3779b9)>>>0, id, capacity, practice, difficulty, encounter, createdAt: now, hostId: null, phase: 'LOBBY', players: [], units: [], enemies: [],
     time: 0, wave: 0, phaseUntil: 0, coreHp: encounter.coreHp, coreMaxHp: encounter.coreHp, rng: seed >>> 0 || 1,
     seq: 0, events: [], nextEnemyId: 0, spawnQueue: [], spawnAt: 0, nextBotThink: 0, completedAt: null, rewardsEnabled: false };
 }
@@ -103,7 +125,7 @@ export function startRoom(room, playerId) {
     fail('모든 대원이 입장하고 준비를 마쳐야 합니다.', 'NOT_READY');
   if(room.accountRoster&&room.players.some(p=>!p.bot&&!p.roster))fail('모든 대원이 보유 편성을 선택해야 합니다.','INVALID_LOADOUT');
   room.units = createUnits(room);
-  room.phase = 'PREP'; room.prepStartedAt=room.time; room.phaseUntil = room.time + (room.growthPolicy?.prepSeconds*1000||RULES.prepMs);
+  room.phase = 'PREP'; room.prepStartedAt=room.time; room.phaseUntil = room.time + prepDuration(room);
   event(room, 'START');
 }
 function finish(room, won) {
@@ -160,9 +182,12 @@ function useSkill(room, unit) {
   if (room.phase !== 'WAVE') fail('교전 중에 전술을 사용할 수 있습니다.');
   if (unit.hp <= 0 || unit.move) fail('전투불능이거나 이동 중입니다.');
   if (room.time < unit.skillReadyAt) fail('전술이 충전 중입니다.', 'COOLDOWN');
-  const foes = room.enemies.filter(e => e.hp > 0 && e.lane === unit.lane);
+  const skillRange = unit.role === 'RANGED' ? unit.range + 300 : unit.range + 240;
+  const foes = room.enemies.filter(e => e.hp > 0 && e.lane === unit.lane &&
+    (!fastRoom(room) || !['RANGED', 'STRIKER'].includes(unit.role) || distance(e, unit) <= skillRange));
   const friends = room.units.filter(u => u.hp > 0 && !u.move && u.lane === unit.lane);
-  if (!foes.length && !['HEALER', 'CAPTAIN'].includes(unit.role)) fail('이 방어선에 적이 없습니다.');
+  const warnedLane=fastRoom(room)&&unit.role==='GUARD'&&room.enemies.some(e=>e.hp>0&&e.cast?.lane===unit.lane&&e.cast.endsAt>room.time);
+  if (!foes.length && !warnedLane && !['HEALER', 'CAPTAIN'].includes(unit.role)) fail('전술 사거리 안에 적이 없습니다.', 'NO_TARGET');
   if (unit.role === 'HEALER' && !friends.some(u => u.hp < u.maxHp)) fail('회복이 필요한 아군이 없습니다.');
   unit.skillReadyAt = room.time + unit.skillCooldown;
   if (unit.role === 'GUARD') {
@@ -222,7 +247,8 @@ export function commandRoom(room, playerId, command) {
       startedAt: room.time, endsAt: room.time + RULES.moveMs };
     unit.moveReadyAt = room.time + RULES.moveCooldownMs;
     player.stats.supportMoves++;
-    event(room, 'MOVE', { actorId: unit.id, lane: command.lane }); return;
+    event(room, 'MOVE', { actorId: unit.id, lane: command.lane, fromLane: unit.lane,
+      fromX: unit.x, fromY: unit.y, x: destination.x, y: destination.y, endsAt: unit.move.endsAt }); return;
   }
   fail('지원하지 않는 명령입니다.');
 }
@@ -268,10 +294,11 @@ function growthCommand(room,player,command){
  event(room,'FORGE_RESULT',{playerId:player.id,receipt});
 }
 function beginWave(room) {
-  room.wave++; room.phase = 'WAVE'; room.spawnQueue = []; room.spawnAt = room.time + 800;
+  room.wave++; room.phase = 'WAVE'; room.spawnQueue = []; room.spawnAt = room.time + (fastRoom(room) ? DEFENSE_TEMPO.firstSpawnMs : 800);
   const plan=room.encounter;
   const count = Math.max(3,Math.ceil((room.version>=3?3+Math.floor((room.wave-1)/8):4+Math.ceil(room.wave*.55))*plan.spawnPercent/100));
-  const focus = (room.wave - 1) % room.capacity;
+  const brief = defenseWaveBrief(room);
+  const focus = brief?.focus ?? (room.wave - 1) % room.capacity;
   for (let round = 0; round < count; round++) for (let lane = 0; lane < room.capacity; lane++) {
     const available=plan.pool.slice(0,Math.min(plan.pool.length,2+Math.floor(room.wave/2)));
     const archetype=available[Math.floor(random(room)*available.length)];
@@ -279,16 +306,22 @@ function beginWave(room) {
     if (room.wave > (room.version>=3?6:2) && lane === focus && round === 2) room.spawnQueue.push({ lane, archetype:plan.elite,type:'ELITE' });
   }
   if(room.version>=3&&waveKind(room.wave)==='ELITE')room.spawnQueue.push({lane:focus,archetype:'CRAWLER',type:'ELITE'});
+  if (brief?.kind === 'RUSH') {
+    // Consecutive spawns produce a real pressure window rather than extending the tail of the wave.
+    const extra = room.difficulty === 'GUIDE' ? 2 : room.difficulty === 'NORMAL' ? 3 : 4;
+    room.spawnQueue.splice(room.capacity, 0, ...Array.from({length:extra}, () => ({lane:focus,archetype:'HOUND',type:'RUNNER'})));
+  }
+  if (brief?.kind === 'SIEGE') room.spawnQueue.splice(room.capacity, 0, {lane:focus,archetype:'BASTION',type:'ELITE'});
   const bossId=room.version>=3?(room.wave%10===0||room.wave===plan.waves?'NOX':null):room.wave===plan.waves?plan.boss:room.wave===Math.floor(plan.waves/2)?plan.midBoss:null;
   if(bossId)room.spawnQueue.push({lane:focus,archetype:bossId,type:'BOSS'});
-  event(room, 'WAVE', { wave: room.wave, focus, bossId });
+  event(room, 'WAVE', { wave: room.wave, focus, bossId, brief });
 }
 function spawn(room, spec) {
   const art=defenseEnemy(spec.archetype),plan=room.encounter;
   const hp = Math.round((room.version>=3?68+room.wave*3.6:80+room.wave*16) * art.hp * plan.hpPercent/100 * (spec.type === 'BOSS' ? room.capacity / 2 : 1));
   const enemy = { id: `enemy-${++room.nextEnemyId}`, type: spec.type, archetype:art.id,name:art.name,lane: spec.lane, hp, maxHp: hp,
-    x: WORLD.spawnX + random(room) * 70, y: laneY(spec.lane, room.capacity) + (random(room) - .5) * 60,
-    speed: (33 + room.wave * (room.version>=3?.6:1.8)) * art.speed * plan.speedPercent/100, attack: Math.round((room.version>=3?9+room.wave*.7:12+room.wave*2.5) * art.attack * plan.attackPercent/100),
+    x: WORLD.spawnX - (fastRoom(room) ? DEFENSE_TEMPO.spawnInset : 0) + random(room) * 70, y: laneY(spec.lane, room.capacity) + (random(room) - .5) * 60,
+    speed: (33 + room.wave * (room.version>=3?.6:1.8)) * art.speed * plan.speedPercent/100 * (fastRoom(room) ? DEFENSE_TEMPO.speed : 1), attack: Math.round((room.version>=3?9+room.wave*.7:12+room.wave*2.5) * art.attack * plan.attackPercent/100 * (fastRoom(room) ? DEFENSE_TEMPO.attack : 1)),
     range:art.range||145,armor:art.armor||0,pattern:room.version>=3?(spec.type==='BOSS'?(room.wave===plan.waves?'TRIAD':room.wave%30===10?'BARRAGE':'RALLY'):art.id==='CRAWLER'?'BARRAGE':null):spec.type==='BOSS'?(art.pattern||'RUPTURE'):null,healAt:room.time+7000,patternAt:room.time+14000,cast:null,enraged:false,
     nextAttack: 0, slowUntil: 0, coreDamage: spec.type === 'BOSS' ? 240 : spec.type === 'ELITE' ? 55 : 18 };
   room.enemies.push(enemy); event(room, 'SPAWN', { targetId: enemy.id, lane: enemy.lane });
@@ -303,7 +336,9 @@ function bossPattern(room,enemy){
    for(let i=0;i<3&&room.enemies.length<RULES.maxEnemies;i++)spawn(room,{archetype:room.version>=3?(i===2?'WEAVER':'HOUND'):'FROG',type:i===2&&room.version>=3?'SUPPORT':'RUNNER',lane});
   }else{
    let drained=0;for(const unit of room.units.filter(u=>u.hp>0&&!u.move&&u.lane===lane)){
-    const damage=Math.min(unit.hp,Math.round(enemy.attack*(unit.shieldUntil>room.time?.4:1)*1.5));unit.hp-=damage;drained+=damage;
+    const threat = {GUIDE:.28,NORMAL:.4,HARD:.5,NIGHTMARE:.6,CATACLYSM:.7}[room.difficulty] || .4;
+    const raw = fastRoom(room) ? Math.max(enemy.attack * 1.5, unit.maxHp * threat) : enemy.attack * 1.5;
+    const damage=Math.min(unit.hp,Math.round(raw*(unit.shieldUntil>room.time?.4:1)));unit.hp-=damage;drained+=damage;
     event(room,'ENEMY_HIT',{actorId:enemy.id,targetId:unit.id,amount:damage});if(unit.hp<=0)event(room,'UNIT_DOWN',{targetId:unit.id});
    }
    if(enemy.pattern==='DRAIN')enemy.hp=Math.min(enemy.maxHp,enemy.hp+drained);
@@ -333,7 +368,10 @@ function botThink(room) {
     }
     if (room.phase !== 'WAVE') continue;
     for (const unit of room.units.filter(u => u.ownerId === player.id && u.hp > 0 && !u.move)) {
-      if (unit.skillReadyAt <= room.time) try { useSkill(room, unit); } catch { /* No eligible target. */ }
+      const near = room.enemies.some(e => e.hp > 0 && e.lane === unit.lane && distance(e,unit) < 720);
+      const incoming = room.enemies.some(e => e.cast?.lane === unit.lane && e.cast.endsAt > room.time);
+      const useful = !fastRoom(room) || !['GUARD','CAPTAIN'].includes(unit.role) || near || incoming;
+      if (useful && unit.skillReadyAt <= room.time) try { useSkill(room, unit); } catch { /* No eligible target. */ }
       const pressure = LANES.slice(0, room.capacity).map((_, lane) => room.enemies.filter(e => e.hp > 0 && e.lane === lane && e.x < WORLD.pressureX).length);
       const urgent = pressure.indexOf(Math.max(...pressure));
       if (unit.slot === 1 && unit.moveReadyAt <= room.time && urgent !== unit.lane && pressure[urgent] >= pressure[unit.lane] + 3)
@@ -355,7 +393,7 @@ function tick(room) {
   if (room.time >= room.nextBotThink) { room.nextBotThink = room.time + 1000; botThink(room); }
   if (room.phase === 'PREP') { if(room.version>=3&&room.time-room.prepStartedAt>=3000&&room.players.every(p=>p.growth.readyWave===room.wave))room.phaseUntil=room.time; if (room.time >= room.phaseUntil) beginWave(room); return; }
   if (room.spawnQueue.length && room.time >= room.spawnAt && room.enemies.length < RULES.maxEnemies) {
-    spawn(room, room.spawnQueue.shift()); room.spawnAt = room.time + Math.round(1450 / room.capacity);
+    spawn(room, room.spawnQueue.shift()); room.spawnAt = room.time + Math.round((fastRoom(room) ? DEFENSE_TEMPO.spawnMs : 1450) / room.capacity);
   }
   for (const unit of room.units) {
     if (unit.hp <= 0 || unit.move || room.time < unit.nextAttack) continue;
@@ -413,7 +451,7 @@ function tick(room) {
     if(room.version>=3)settleWaveGrowth(room);else room.players.forEach(p => { p.credits += RULES.waveCredit; });
     event(room, 'WAVE_CLEAR', { wave: room.wave, credits: room.version>=3?null:RULES.waveCredit });
     if (room.wave >= room.encounter.waves) return finish(room, true);
-    room.phase = 'PREP'; room.prepStartedAt=room.time; room.phaseUntil = room.time + (room.growthPolicy?.prepSeconds*1000||RULES.prepMs);
+    room.phase = 'PREP'; room.prepStartedAt=room.time; room.phaseUntil = room.time + prepDuration(room);
     room.units.forEach(u => {
       if (room.players.find(p => p.id === u.ownerId).reviveAt) return;
       u.hp = u.hp <= 0 ? Math.round(u.maxHp * .7) : Math.min(u.maxHp, u.hp + Math.round(u.maxHp * (hasTrait(room.players.find(p=>p.id===u.ownerId),'RECOVERY')?.4:.25)));
@@ -426,8 +464,8 @@ export function advanceRoom(room, elapsedMs) {
   return room;
 }
 export function publicSnapshot(room, after = 0) {
-  return { version:room.version,accountRoster:room.accountRoster===true,growthPolicy:structuredClone(room.growthPolicy||null),id: room.id, capacity: room.capacity, practice: room.practice, hostId: room.hostId, phase: room.phase,
-    difficulty:room.difficulty,difficultyName:room.encounter.name,time: room.time, wave: room.wave, totalWaves: room.encounter.waves, phaseUntil: room.phaseUntil,
+  return { version:room.version,tempoRevision:room.tempoRevision||0,waveBrief:defenseWaveBrief(room),accountRoster:room.accountRoster===true,growthPolicy:structuredClone(room.growthPolicy||null),id: room.id, capacity: room.capacity, practice: room.practice, hostId: room.hostId, phase: room.phase,
+    difficulty:room.difficulty,difficultyName:room.encounter.name,time: room.time, wave: room.wave, totalWaves: room.encounter.waves, phaseUntil: room.phaseUntil, prepStartedAt:room.prepStartedAt,
     coreHp: room.coreHp, coreMaxHp: room.coreMaxHp, units: structuredClone(room.units), enemies: structuredClone(room.enemies),
     players: room.players.map(player=>{const p=structuredClone(player);if(p.growth){p.growth.draws=p.growth.draws.slice(-6);p.growth.attempts=p.growth.attempts.slice(-4);}return p;}), seq: room.seq, events: structuredClone(room.events.filter(e => e.seq > after)),
     waitingEnemies: room.spawnQueue.length, rewardsEnabled: false, completedAt: room.completedAt };
