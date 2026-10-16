@@ -9,3 +9,5 @@
 작은 메뉴 복구이므로 기존 `tests/supporter-season-pass-menu-20261011.test.mjs`의 SQLite/PostgreSQL 접근 조건 검사, 실제 로비의 PC·모바일 진입/닫기 확인과 번들 일치 검사만 수행한다. 운영 배포는 `npm run deploy:production -- --scoped`로 진행하고 완료 기록을 아래에 추가한다.
 
 로컬 확인 완료: 실제 공용 로비와 후원 API의 격리 fixture로 1440px·390px에서 전체 메뉴 → 서버 안내 → 후원 안내 → 뒤로 → 닫기 및 포커스 복구를 통과했다. 가입 72시간 미만·미인증·정지 계정은 계속 숨기며, 미인증 ID 1 OWNER는 안내 미리보기만 제공하고 시즌패스 링크를 노출하지 않는다. 가로 넘침과 브라우저 예외가 없고 생성 번들/소스가 일치한다. 증빙은 배포 트리 밖 `../server-guide-reopen-qa/report.json`에 둔다.
+
+운영 반영 완료: 소스 `edde0558c`, Pages `5fac1180`, API runtime `17454cea-b7d2-4975-a656-46568b39ab1d`, scheduler `ada88398-daee-4a88-8a7b-9691f7fd3dd8`. SQLite/PostgreSQL 관련 검사 2건, 출시 상태·캐시 호환·Hyperdrive 캐시 OFF 검사를 통과했다. 2026-10-17 03:14 KST 운영 별칭의 메인·로비 번들·서버 안내 모듈 3개 SHA-256이 배포 원본과 일치하고 안내 표시 ON, 미로그인 status 401을 확인했다. `../server-guide-reopen-qa/production-report.json`에 검증 결과를 보존한다. 이 배포 기록만 추가하는 문서 커밋에는 재배포하지 않는다.
