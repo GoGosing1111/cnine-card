@@ -9,6 +9,7 @@ const roster = JSON.parse(await readFile('assets/ui/project-v/mercenaries/mercen
 
 const catalog = { schemaVersion: 2, status: 'TEST', background: '/assets/ui/project-v/battlefields/v3-siege-fortress-courtyard-v1.png', units: {}, enemies: {},difficulties:DEFENSE_DIFFICULTIES };
 catalog.environment = { renderer: 'painted-sprites',
+  staging: '/preview/coop-defense-v1/assets/lobby-v4/fortress-assembly-court.png',
   causeway: '/preview/coop-defense-v1/assets/fortress-causeway-v2.png',
   core: '/preview/coop-defense-v1/assets/guardian-crystal-v2.png' };
 for (const entry of MERCENARIES) {
@@ -19,10 +20,11 @@ for (const entry of MERCENARIES) {
 }
 const cardArt = { FAKER: '/assets/cards/7777777.jpg', BONGJUN: '/assets/NEWCARD/8.jpg', TAEK: '/assets/pre/8.jpg' };
 for (const entry of CARDS) catalog.units[entry.code] = { code: entry.code, name: entry.name, sourceArt: cardArt[entry.code], battleSprite: `/assets/ui/project-v/characters/${entry.sprite}` };
-for(const e of DEFENSE_ENEMIES)catalog.enemies[e.id]={...e,battleSprite:'/'+e.asset};
+// Dedicated defense source art already faces left, toward the guardian stone.
+for(const e of DEFENSE_ENEMIES)catalog.enemies[e.id]={...e,battleSprite:'/'+e.asset,artFacing:-1};
 for(const [legacy,id]of Object.entries({NORMAL:'RIVET',RUNNER:'HOUND',ELITE:'BASTION',BOSS:'NOX',SLIME:'RIVET',FROG:'HOUND',STALKER:'RIVET',WATCHER:'VEIL',CROW:'HOUND',WRAITH:'WEAVER',OMEGA:'BASTION',WARDEN:'BASTION',SEAL_KING:'NOX',KRIEG:'NOX',FALLEN_LORD:'NOX',VAMPIRE:'NOX',ARKE:'NOX'}))catalog.enemies[legacy]=catalog.enemies[id];
 catalog.workshop={modules:'/preview/defense-roguelike-v2/assets/trait-modules.png',chamber:'/preview/defense-roguelike-v2/assets/ui-v3/field-service-bay.png',button:'/preview/defense-roguelike-v2/assets/ui-v3/command-button.png',font:'/preview/defense-roguelike-v2/assets/ui-v3/SUIT-Variable.woff2',capsule:'/preview/defense-roguelike-v2/assets/supply-capsule-opening.png',reactor:'/preview/defense-roguelike-v2/assets/enhancement-reactor-cycle.png'};
-const assetPaths = [...new Set([...Object.values(catalog.workshop),catalog.background, catalog.environment.causeway, catalog.environment.core,
+const assetPaths = [...new Set([...Object.values(catalog.workshop),catalog.background, catalog.environment.staging, catalog.environment.causeway, catalog.environment.core,
   ...Object.values(catalog.units).flatMap(a => [a.sourceArt, a.battleSprite]), ...Object.values(catalog.enemies).map(a => a.battleSprite)])];
 const assets = [];
 for (const file of assetPaths) {
@@ -40,7 +42,7 @@ await writeFile(`${dir}/build-report.json`, JSON.stringify({ date: '2026-10-17',
   dependencies: Object.fromEntries(['pixi.js', 'gsap'].map(p => [p, lock.packages[`node_modules/${p}`].version])),
   bundleBytes: (await stat(`${dir}/defense.bundle.js`)).size, commonV3: inputs.filter(p => p.startsWith('preview/project-v-v3/')), assets }, null, 2) + '\n');
 await mkdir('defense',{recursive:true});
-const html=(await readFile(`${dir}/index.html`,'utf8')).replace('<html lang="ko">','<html lang="ko" data-defense-live="true">').replace('./defense.css','/'+dir+'/defense.css?v=20261017-defense-ui3').replace('./workshop.css','/'+dir+'/workshop.css?v=20261017-defense-ui3').replace('./defense.bundle.js','/'+dir+'/defense.bundle.js?v=20261017-defense-ui3').replace('maxlength="6"','maxlength="12"').replace('6자리 코드','12자리 코드').replace('[a-fA-F0-9]{6}','[a-fA-F0-9]{12}');
+const html=(await readFile(`${dir}/index.html`,'utf8')).replace('<html lang="ko">','<html lang="ko" data-defense-live="true">').replace('./defense.css','/'+dir+'/defense.css?v=20261017-defense-lobby4').replace('./workshop.css','/'+dir+'/workshop.css?v=20261017-defense-lobby4').replace('./staging.css','/'+dir+'/staging.css?v=20261017-defense-lobby4').replace('./defense.bundle.js','/'+dir+'/defense.bundle.js?v=20261017-defense-lobby4').replace('maxlength="6"','maxlength="12"').replace('6자리 코드','12자리 코드').replace('[a-fA-F0-9]{6}','[a-fA-F0-9]{12}');
 await writeFile('defense/index.html',html);await writeFile('defense/asset-catalog.json',JSON.stringify(catalog,null,2)+'\n');
 console.log(`Built TEST defense: ${DEFENSE_DIFFICULTIES.length} difficulties, ${DEFENSE_ENEMIES.length} enemy resources, ${assets.length} original assets; one V3/PixiJS renderer.`);
 

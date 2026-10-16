@@ -56,14 +56,15 @@ function buildLoadout() {
     const wrap = document.createElement('div'); wrap.className = 'loadout-slot';
     const art = document.createElement('div'); art.className = 'slot-art';
     const img = document.createElement('img'); img.alt = ''; const kind = document.createElement('span'); kind.textContent = slot < 2 ? `용병 ${slot + 1}` : '카드 1';
-    art.append(img, kind);
+    const role = document.createElement('small'); role.className = 'slot-role';
+    art.append(img, kind, role);
     const label = document.createElement('label'); label.htmlFor = `loadout-${slot}`; label.textContent = slot < 2 ? '용병 선택' : '카드 선택';
     const select = document.createElement('select'); select.id = label.htmlFor;
     for (const entry of slot < 2 ? MERCENARIES : CARDS) {
       const option = document.createElement('option'); option.value = entry.code; option.textContent = entry.name; select.append(option);
     }
     select.value = slot < 2 ? state.loadout.mercenaries[slot] : state.loadout.card;
-    const refresh = () => { const entry = state.catalog.units[select.value]; img.src = entry.sourceArt; img.alt = `${entry.name} 원화`; };
+    const refresh = () => { const entry = state.catalog.units[select.value],profile=[...MERCENARIES,...CARDS].find(p=>p.code===select.value); img.src = entry.battleSprite; img.alt = `${entry.name} 전투 캐릭터`;role.textContent=profile.label||'분대 지휘'; };
     select.addEventListener('change', () => { if (slot < 2) state.loadout.mercenaries[slot] = select.value; else state.loadout.card = select.value; refresh(); });
     refresh(); wrap.append(art, label, select); $('loadout-grid').append(wrap);
   }
@@ -144,38 +145,58 @@ function receive(snapshot) {
   if (previous?.phase !== snapshot.phase || previous?.wave !== snapshot.wave) showPhase(snapshot);
   if (['VICTORY', 'DEFEAT'].includes(snapshot.phase)) renderResult(snapshot);
 }
+function updatePartyViewport() {
+  const list=$('party-list'),padding=parseFloat(getComputedStyle(list).paddingLeft)||0;
+  let nearest=0,distance=Infinity;
+  [...list.children].forEach((item,i)=>{const delta=Math.abs(item.offsetLeft-padding-list.scrollLeft);if(delta<distance){distance=delta;nearest=i;}});
+  [...$('party-roster-tabs').children].forEach((tab,i)=>tab.setAttribute('aria-pressed',String(i===nearest)));
+}
 function renderWaiting(snapshot) {
   $('invite-code').textContent = snapshot.id;
   $('copy-invite').hidden = snapshot.practice;
-  $('waiting-description').textContent = `${snapshot.difficultyName} · ${snapshot.totalWaves}웨이브 · `+(snapshot.practice ? '자동 대원과 함께 방어합니다.' : '초대 코드를 공유하세요. 각자 용병 2명과 카드 1장을 편성합니다.');
-  const signature = JSON.stringify(snapshot.players.map(p => [p.id, p.ready, p.connected, p.loadout]));
+  $('waiting-description').textContent = snapshot.practice ? '자동 대원이 준비를 마쳤습니다. 내 분대를 확인하고 출발하세요.' : '각자 용병 2명과 카드 1장. 준비가 끝나면 함께 출발합니다.';
+  $('waiting-difficulty').textContent=snapshot.difficultyName;
+  $('waiting-wave-count').textContent=snapshot.totalWaves;
+  $('invite-note').textContent=snapshot.practice?'자동 대원과 함께하는 연습 원정입니다.':'코드를 공유해 같은 방에 합류하세요.';
+  $('party-count').textContent=snapshot.players.length+' / '+snapshot.capacity+'명 집결';
+  const readyCount=snapshot.players.filter(p=>p.ready&&p.connected).length;
+  $('ready-count').textContent=readyCount+' / '+snapshot.capacity;
+  $('party-ready-progress').max=snapshot.capacity;$('party-ready-progress').value=readyCount;
+  $('party-list').style.setProperty('--party-capacity',snapshot.capacity);
+  const signature = JSON.stringify([snapshot.hostId,snapshot.capacity,snapshot.players.map(p => [p.id, p.name, p.ready, p.connected, p.loadout])]);
   if ($('party-list').dataset.signature !== signature) {
     $('party-list').dataset.signature = signature;
-    $('party-list').style.gridTemplateColumns = matchMedia('(max-width:760px)').matches ? '1fr' : `repeat(${snapshot.capacity}, minmax(0,1fr))`;
-    $('party-list').replaceChildren();
+    const previousScroll=$('party-list').scrollLeft;
+    $('party-list').replaceChildren();$('party-roster-tabs').replaceChildren();
     for (let lane = 0; lane < snapshot.capacity; lane++) {
       const player = snapshot.players.find(p => p.lane === lane);
-      const item = document.createElement('article'); item.className = 'party-member'; item.style.setProperty('--lane-color', colors[lane]);
-      const tag = document.createElement('span'); tag.className = 'party-lane'; tag.textContent = `DEFENSE ${LANES[lane]}`;
+      const item = document.createElement('article'); item.className = 'party-member'+(!player?' is-empty':'')+(player?.id===state.session.playerId?' is-self':'')+(player?.ready&&player.connected?' is-ready':''); item.style.setProperty('--lane-color', colors[lane]);
+      const tag = document.createElement('span'); tag.className = 'party-lane'; tag.textContent = `방어선 ${LANES[lane]}`;
       const name = document.createElement('h3'); name.textContent = player ? safeName(player.name) : '대원 기다리는 중';
       const detail = document.createElement('p'); detail.textContent = player ? (player.id === snapshot.hostId ? '방장 · ' : '') + (player.bot ? '자동 대원' : player.id === state.session.playerId ? '내 분대' : '협동 대원') : '초대 코드로 입장할 수 있습니다';
-      const ready = document.createElement('span'); ready.className = `party-ready${player?.ready ? ' is-ready' : ''}`;
+      const ready = document.createElement('span'); ready.className = `party-ready${player?.ready&&player.connected ? ' is-ready' : ''}`;
       ready.textContent = !player ? '빈자리' : !player.connected ? '연결 대기' : player.ready ? '준비 완료' : '편성 확인 중';
-      item.append(tag, name, detail, ready);
+      const head=document.createElement('div');head.className='party-member-head';head.append(tag,ready);
+      item.append(head, name, detail);
       if (player) {
         const art = document.createElement('div'); art.className = 'party-portraits';
         for (const code of [...player.loadout.mercenaries, player.loadout.card]) {
-          const image = document.createElement('img'); image.src = state.catalog.units[code].sourceArt; image.alt = state.catalog.units[code].name; art.append(image);
+          const unit=state.catalog.units[code],figure=document.createElement('figure'),caption=document.createElement('figcaption');
+          const image = document.createElement('img'); image.src = unit.battleSprite; image.alt = '';caption.textContent=unit.name;figure.append(image,caption);art.append(figure);
         }
         item.append(art);
-      }
+      } else {const empty=document.createElement('div');empty.className='party-empty-slots';empty.setAttribute('aria-hidden','true');for(let slot=0;slot<3;slot++){const tile=document.createElement('span'),plus=document.createElement('i'),label=document.createElement('small');plus.textContent='+';label.textContent=slot<2?'용병 '+(slot+1):'카드';tile.append(plus,label);empty.append(tile);}item.append(empty);}
       $('party-list').append(item);
+      const tab=document.createElement('button');tab.type='button';tab.className='party-roster-tab';tab.textContent=LANES[lane]+' · '+(player?safeName(player.name):'빈자리')+(player?.id===state.session.playerId?' · 나':'');tab.setAttribute('aria-label',LANES[lane]+' 방어선 분대 보기');tab.addEventListener('click',()=>{const list=$('party-list');list.scrollTo({left:item.offsetLeft-(parseFloat(getComputedStyle(list).paddingLeft)||0),behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});});$('party-roster-tabs').append(tab);
     }
+    const viewKey=snapshot.id+':'+state.session.playerId;
+    requestAnimationFrame(()=>{const list=$('party-list');if(list.dataset.viewKey!==viewKey){list.dataset.viewKey=viewKey;if(matchMedia('(max-width:760px)').matches)list.scrollLeft=(list.querySelector('.is-self')?.offsetLeft||0)-(parseFloat(getComputedStyle(list).paddingLeft)||0);}else list.scrollLeft=previousScroll;updatePartyViewport();});
   }
   const mine = snapshot.players.find(p => p.id === state.session.playerId), isHost = snapshot.hostId === state.session.playerId;
   $('ready').textContent = mine.ready ? '준비 취소' : '준비 완료'; $('ready').setAttribute('aria-pressed', String(mine.ready));
   $('start').hidden = !isHost;
   $('start').disabled = snapshot.players.length < snapshot.capacity || snapshot.players.some(p => !p.ready || !p.connected);
+  $('waiting-room').classList.toggle('is-deploy-ready',!$('start').disabled);
   $('start-hint').textContent = !isHost ? '모두 준비하면 방장이 출발할 수 있습니다.' : $('start').disabled ? '모든 대원이 준비를 마치면 출발할 수 있습니다.' : '모든 대원이 준비됐습니다.';
 }
 function buildControls(snapshot) {
@@ -368,6 +389,8 @@ async function resumeBattle() {
   } finally { state.pending = false; $('resume-battle').disabled = false; }
 }
 function bind() {
+  $('party-list').addEventListener('scroll',updatePartyViewport,{passive:true});
+  for(const detail of document.querySelectorAll('.mission-tools details'))detail.addEventListener('toggle',()=>{if(detail.open)for(const other of document.querySelectorAll('.mission-tools details'))if(other!==detail)other.open=false;});
   document.querySelectorAll('[data-capacity]').forEach(button => button.addEventListener('click', () => {
     state.capacity = Number(button.dataset.capacity);
     document.querySelectorAll('[data-capacity]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
@@ -407,7 +430,7 @@ function bind() {
 }
 async function main() {
   bind();
-  const response = await fetch('./asset-catalog.json?v=20261017-defense-ui3'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
+  const response = await fetch('./asset-catalog.json?v=20261017-defense-lobby4'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
   state.catalog = await response.json(); buildLoadout();buildDifficulties();
   const invited = new URLSearchParams(location.search).get('room'); if (invited && /^[A-Fa-f0-9]{6,12}$/.test(invited)) $('room-code').value = invited.toUpperCase();
   if(LIVE){
@@ -440,7 +463,8 @@ function buildDifficulties(){
  const list=$('difficulty-list');list.replaceChildren();
  for(const d of DEFENSE_DIFFICULTIES){
   const button=document.createElement('button');button.type='button';button.dataset.difficulty=d.id;button.className='difficulty-option';button.style.setProperty('--difficulty-color',d.accent);
-  button.setAttribute('aria-pressed',String(state.difficulty===d.id));button.textContent=`${d.name} · ${state.feature?.growth?.waves||d.waves}W`;button.disabled=state.feature?.difficulties.find(x=>x.id===d.id)?.enabled===false;
+  button.setAttribute('aria-pressed',String(state.difficulty===d.id));button.setAttribute('aria-label',d.name+' 난이도');
+  const name=document.createElement('b'),risk=document.createElement('span');name.textContent=d.name;risk.className='difficulty-marks';risk.setAttribute('aria-hidden','true');for(let i=0;i<5;i++){const mark=document.createElement('i');mark.className=i<=DEFENSE_DIFFICULTIES.indexOf(d)?'is-lit':'';risk.append(mark);}button.append(name,risk);button.disabled=state.feature?.difficulties.find(x=>x.id===d.id)?.enabled===false;
   button.onclick=()=>{state.difficulty=d.id;buildDifficulties();};list.append(button);
  }
  const selected=defenseDifficulty(state.difficulty),boss=defenseEnemy(selected.boss),mid=defenseEnemy(selected.midBoss);

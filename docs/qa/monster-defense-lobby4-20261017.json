@@ -1,0 +1,76 @@
+{
+  "checks": [
+    "Five difficulties retain 30 waves; loadout names, art and role labels update",
+    "2/3-person create, 12-character invite copy/join, nine portraits, ready/undo and host start gate",
+    "Seven dedicated enemies move toward decreasing x with preserved left-facing art; attack and reduced-motion reconnect preserve facing and unmirrored HUD",
+    "TEST outsider gate preserved"
+  ],
+  "errors": [],
+  "failed": [],
+  "initialFacing": [
+    {
+      "id": "enemy-1",
+      "archetype": "RIVET",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    },
+    {
+      "id": "enemy-2",
+      "archetype": "HOUND",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    },
+    {
+      "id": "enemy-3",
+      "archetype": "BASTION",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    },
+    {
+      "id": "enemy-4",
+      "archetype": "VEIL",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    },
+    {
+      "id": "enemy-5",
+      "archetype": "CRAWLER",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    },
+    {
+      "id": "enemy-6",
+      "archetype": "WEAVER",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    },
+    {
+      "id": "enemy-7",
+      "archetype": "NOX",
+      "state": "IDLE",
+      "sourceFacing": -1,
+      "viewScaleX": 1,
+      "neutralScaleX": 1,
+      "hudScaleX": 0.65
+    }
+  ],
+  "status": "PASS"
+}

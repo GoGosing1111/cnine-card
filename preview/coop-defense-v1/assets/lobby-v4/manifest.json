@@ -1,0 +1,18 @@
+{
+  "version": 4,
+  "date": "2026-10-17",
+  "status": "IMPLEMENTED_TEST",
+  "direction": "Game lobby with full-body squads in a visible fortress assembly court; the previous settings-panel composition was rejected.",
+  "background": {
+    "path": "preview/coop-defense-v1/assets/lobby-v4/fortress-assembly-court.png",
+    "sha256": "37186bddcd96900342506d2c71164b8c4a13f31a4fe9c6a8e2cc2c93fbbe5c42",
+    "bytes": 2528852,
+    "generator": "built-in image_gen",
+    "originalPreserved": true,
+    "prompt": "prompt.json"
+  },
+  "characters": "Existing catalog battleSprite originals, not cropped source-art cards; runtime sizing only.",
+  "button": "preview/defense-roguelike-v2/assets/ui-v3/command-button.png",
+  "font": "preview/defense-roguelike-v2/assets/ui-v3/SUIT-Variable.woff2",
+  "runtime": "preview/coop-defense-v1/staging.css"
+}
