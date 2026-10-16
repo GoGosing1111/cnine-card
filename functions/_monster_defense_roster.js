@@ -12,9 +12,6 @@ const artByCard=new Map([zenith,fur,prestige,superstar,icon].flatMap(m=>m.charac
 const url=value=>typeof value==='string'&&value?(/^(https?:)?\/\//.test(value)?value:'/'+value.replace(/^\/+/,'')):'';
 function anchor(art){const p=art.footAnchor||art.placement?.footAnchor;return Array.isArray(p)?{x:p[0],y:p[1]}:p||{x:.5,y:.98};}
 function mercenaryRole(merc){
- // Retain the original four defense archetypes for existing test parties.
- const legacy={'V-003':'GUARD','V-002':'RANGED','V-001':'STRIKER','V-004':'HEALER'};
- if(legacy[merc.code])return legacy[merc.code];
  if(merc.role==='SUPPORT'||merc.skills?.some(s=>/HEAL|NURSE/.test(s.mechanic||'')))return 'HEALER';
  if(merc.role==='GUARDIAN')return 'GUARD';
  return ['RANGED','CAST'].includes(mercenaryAttackStyle(merc))?'RANGED':'STRIKER';
@@ -24,11 +21,12 @@ export async function readDefenseRoster(env,user,deps,{cardIds=null}={}){
  const [cards,owned,config]=await Promise.all([loadCoopOwnedCards(env,user,deps,cardIds),mercenaryAccountState(env,user),readMercenaryDocument(env)]);
  const mercenaries=owned.cards.filter(c=>c.canDeploy&&owned.available).map(c=>{
   const battle=battleConfig(config.document,c.code,c.level);
-  return profile({code:c.code,name:c.name,kind:'MERCENARY',rank:c.rank,level:c.level||1,sourceArt:url(c.sourceArt),battleSprite:url(c.battleSprite),footAnchor:anchor(c)},mercenaryRole(battle));
+  return profile({code:c.code,name:c.name,kind:'MERCENARY',rank:c.rank,level:c.level||1,sourceArt:url(c.sourceArt),battleSprite:url(c.battleSprite),footAnchor:anchor(c),
+   mercenary:{code:c.code,role:battle.role,position:battle.position,attackStyle:mercenaryAttackStyle(battle),skills:structuredClone(battle.skills||[]),combat:structuredClone(owned.policy.combat)}},mercenaryRole(battle));
  });
  return {mercenaries,cards:cards.map(c=>{
   const art=artByCard.get(c.id)||fallback.fallbacks.CARD;
-  return profile({code:'CARD:'+c.id,cardId:c.id,name:c.title,kind:'CARD',rank:c.grade,level:c.breakthroughLevel||0,sourceArt:url(c.image||art.sourceArt||art.battleSprite),battleSprite:url(art.battleSprite),footAnchor:anchor(art),fallbackSprite:!artByCard.has(c.id)},'CAPTAIN');
+  return profile({code:'CARD:'+c.id,cardId:c.id,name:c.title,kind:'CARD',rank:c.grade,level:c.breakthroughLevel||0,sourceArt:url(c.image||art.sourceArt||art.battleSprite),battleSprite:url(art.battleSprite),footAnchor:anchor(art),fullBodyHeight:260*Math.min(2,Math.max(.5,Number(art.scaleMultiplier)||1)),fallbackSprite:!artByCard.has(c.id)},'CAPTAIN');
  }),statMode:'DEFENSE_ROLE',rules:{mercenaries:2,cards:1}};
 }
 export async function loadDefenseSelection(env,user,value,deps){

@@ -4,6 +4,9 @@ import { BattleEngine } from '../../project-v-v3/source/battle/BattleEngine.js';
 import { BattleCharacter, TEAM } from '../../project-v-v3/source/battle/BattleCharacter.js';
 import { SkillEffectFX, triggerWhiteFlash } from '../../project-v-v3/source/battle/SkillEffectFX.js';
 import { WORLD, laneY, LANES } from './defense-model.mjs';
+import {resolveV3MercenaryArt,v3MercenaryHeight} from '../../project-v-v3/source/battle/MercenaryCombatPlayback.js';
+import {attachMercenaryArt} from '../../project-v-mercenary-system-v1/source/MercenaryAttachmentPoints.js';
+import {defenseMercenaryPresentation} from './DefenseMercenaryPresentation.js';
 
 const OWNER_COLORS = [0x70e4cf, 0xe7bb76, 0xbda5f5];
 const DIGIT_FONT = 'CoopDefenseDigitsV1';
@@ -15,6 +18,7 @@ export class DefenseBattleEngine extends BattleEngine {
     this.focusLane = null; this.focusX = WORLD.frontX - 170; this.selectedUnit = null; this.myLane = 0; this.state = null;
     this.fxRuns = new Set(); this.activeEffects = new Set(); this.visualNow = 0; this.lastEvent = 0;
     this.supportPortals = new Map(); this.portalFrames = [];
+    this.presentationErrors=[];this.v3Art=new Map();this.actorSetups=[];
     this.disposed = false; this.soundEnabled = false;
   }
   async loadBattlefieldTexture() {
@@ -42,10 +46,15 @@ export class DefenseBattleEngine extends BattleEngine {
   }
   createCard() { const card = new Container(); card.visible = false; return card; }
   async createCharacters() {
+    await Promise.all(Object.values(this.catalog.units).filter(u=>/^V-\d+$/.test(u.code)).map(async u=>{
+      const art=await resolveV3MercenaryArt(u.code);if(!art)throw Error('MERCENARY_SD_NOT_READY:'+u.code);
+      this.v3Art.set(u.code,art);await Assets.load(art.spriteUrl);
+    }));
     const paths = [...Object.values(this.catalog.units).map(x => x.battleSprite), ...Object.values(this.catalog.enemies).map(x => x.battleSprite)];
     await Promise.all([...new Set(paths)].map(p => Assets.load(p)));
     this.characters = []; this.allies = []; this.enemies = [];
   }
+  async prepareActors(){await Promise.all(this.actorSetups);}
   createUi() { /* Fixed command controls are accessible HTML outside the combat camera. */ }
   bindControls() {
     this.cameraControls = new AbortController();
@@ -102,6 +111,7 @@ export class DefenseBattleEngine extends BattleEngine {
       this.app.stop(); this.clearEffects();
       for (const actor of this.actors.values()) actor.animationController?.timeline?.pause();
     }
+    for(const actor of this.actors.values())actor.presentation?.update();
     return Promise.resolve(this);
   }
   setView(lane) {
@@ -193,9 +203,9 @@ export class DefenseBattleEngine extends BattleEngine {
   }
   makeActor(unit, enemy = false) {
     const art = enemy ? this.catalog.enemies[unit.archetype||unit.type] : this.catalog.units[unit.code];
-    const texture = Assets.get(art.battleSprite);
+    const mercArt=!enemy&&this.v3Art.get(unit.code),texture = Assets.get(mercArt?.spriteUrl||art.battleSprite);
     const actor = new BattleCharacter({ id: unit.id, name: enemy ? art.name : `${LANES[unit.ownerLane]} · ${unit.name}`,
-      team: enemy ? TEAM.ENEMY : TEAM.ALLY, texture, fullBodyTexture: texture, fullBodyHeight: enemy ? (art.height||180) : 245,
+      team: enemy ? TEAM.ENEMY : TEAM.ALLY, texture, fullBodyTexture: texture, fullBodyHeight: enemy ? (art.height||180) : mercArt?v3MercenaryHeight(unit.code,mercArt):art.fullBodyHeight||260,
       x: unit.x, y: unit.y, scale: 1, accent: enemy ? 0xe97c72 : OWNER_COLORS[unit.ownerLane], hp: 100 });
     actor.artFacing = enemy ? art.artFacing || 1 : 1;
     actor.applyFacing(); // Also updates the neutral pose used by move/attack/hit resets.
@@ -205,14 +215,20 @@ export class DefenseBattleEngine extends BattleEngine {
     actor.namePlate.label = 'DefenseAuthoredNameplate'; actor.hud.addChildAt(actor.namePlate, 0);
     actor.nameLabel.style.fontFamily = 'Defense SUIT, Malgun Gothic, sans-serif';
     if (art.footAnchor) actor.mainSprite.anchor.set(art.footAnchor.x, art.footAnchor.y);
-    actor.hud.y = -(actor.fullBodyHeight + 40);
+    if(mercArt){Object.assign(actor,{cardId:unit.code,isMercenary:true,actorKind:'MERCENARY',role:unit.mercenary?.role||art.mercenary?.role||mercArt.role,
+      mercenaryRow:unit.mercenary||art.mercenary,serverMaxHp:unit.maxHp,battleActive:true,enabled:true});
+      actor.fullBodySprite.anchor.set(mercArt.footAnchor.x,mercArt.footAnchor.y);attachMercenaryArt(actor,mercArt);}
+    actor.bodyHeight=mercArt?.bodyHeight||actor.fullBodyHeight;
+    actor.hud.y = -(actor.bodyHeight + 60);
     actor.hud.scale.set(enemy ? .65 : .75);
     actor.stateHalo.clear().ellipse(0, -3, enemy ? 28 : 44, enemy ? 10 : 15).stroke({ width: 3, color: actor.accent, alpha: .7 });
     actor.root.eventMode = 'none'; actor.root.alpha = 1; actor.enemy = enemy; actor.unitData = unit;
+    actor.skillLabel=new Text({text:'',style:{...textStyle,fontSize:19,fill:0xffe0a1}});actor.skillLabel.anchor.set(.5);actor.skillLabel.position.set(110,83);actor.hud.addChild(actor.skillLabel);
     this.layoutActorHud(actor);
     actor.targetX = unit.x; actor.targetY = unit.y; actor.actionUntil = 0;
     if (this.reducedMotion) actor.animationController.kill();
     this.combatLayer.addChild(actor.root); this.actors.set(unit.id, actor);
+    if(mercArt){actor.presentation=defenseMercenaryPresentation(this,actor);this.actorSetups.push(actor.presentation.ready);}
     return actor;
   }
   applySnapshot(state, playerId) {
@@ -225,13 +241,18 @@ export class DefenseBattleEngine extends BattleEngine {
       next.add(row.id);
       const actor = this.actors.get(row.id) || this.makeActor(row, enemy);
       actor.unitData = row; actor.targetX = row.x; actor.targetY = row.y;
+      actor.serverMaxHp=row.maxHp;actor.removedAt=null;
       if (actor.hp !== row.hp / row.maxHp * 100) actor.setHp(row.hp / row.maxHp * 100);
       if (this.reducedMotion) actor.animationController.kill();
       actor.root.alpha = row.hp > 0 ? 1 : .32;
+      actor.setShield(row.shield||0,row.maxShield||0);
       actor.nameLabel.text = enemy ? this.catalog.enemies[row.archetype||row.type].name : `${LANES[row.ownerLane]} · ${row.name}`;
     }
     for (const [id, actor] of this.actors) if (!next.has(id)) {
-      actor.animationController?.kill(); actor.root.removeFromParent(); actor.root.destroy({ children: true }); this.actors.delete(id);
+      // Keep a lethal-hit target through its short V3 impact, not indefinitely.
+      actor.unitData.hp=0;actor.removedAt??=performance.now();
+      if(performance.now()-actor.removedAt<4000)continue;
+      actor.presentation?.dispose();actor.animationController?.kill();actor.destroy();this.actors.delete(id);
     }
     this.characters = [...this.actors.values()]; this.allies = this.characters.filter(a => !a.enemy); this.enemies = this.characters.filter(a => a.enemy);
     this.refreshVisibility();
@@ -248,6 +269,7 @@ export class DefenseBattleEngine extends BattleEngine {
     for (const actor of this.actors.values()) {
       const unit = actor.unitData;
       actor.root.visible = this.focusLane === null || unit.lane === this.focusLane || unit.move?.lane === this.focusLane;
+      actor.presentation?.update();
     }
   }
   updateActors(delta) {
@@ -262,14 +284,16 @@ export class DefenseBattleEngine extends BattleEngine {
         actor.teleporting=true;this.updateSupportPortal(actor,progress);
       }else{
         if(actor.teleporting){actor.root.position.set(actor.targetX,actor.targetY);actor.teleporting=false;}
-        actor.root.x += (actor.targetX - actor.root.x) * blend;
-        actor.root.y += (actor.targetY - actor.root.y) * blend;
+        if(!actor.presentation?.busy){actor.root.x += (actor.targetX - actor.root.x) * blend;actor.root.y += (actor.targetY - actor.root.y) * blend;}
         actor.root.alpha=actor.unitData.hp>0?1:.32;
         this.removeSupportPortal(actor.id);
       }
+      actor.baseX=move?actor.root.x:actor.targetX;actor.baseY=move?actor.root.y:actor.targetY;
+      actor.root.baseX=actor.baseX;actor.root.baseY=actor.baseY;actor.presentation?.update();
+      actor.skillLabel.visible=performance.now()<(actor.skillLabelUntil||0);
       actor.root.zIndex = Math.round(actor.root.y);
       actor.stateHalo.alpha = actor.id === this.selectedUnit ? 1 : .35;
-      if (actor.unitData.hp <= 0 || this.reducedMotion) continue;
+      if (actor.unitData.hp <= 0 || this.reducedMotion || actor.presentation?.busy) continue;
       const moving = !move && actor.enemy && Math.abs(actor.targetX - actor.root.x) > .5;
       const desired = performance.now() < actor.actionUntil ? 'ATTACK' : moving ? 'MOVE' : 'IDLE';
       if (actor.state !== desired) actor.setState(desired);
@@ -300,24 +324,22 @@ export class DefenseBattleEngine extends BattleEngine {
   }
   playDefenseEvent(event) {
     const actor = this.actors.get(event.actorId), target = this.actors.get(event.targetId);
+    if(event.type.startsWith('MERCENARY_')){
+      if(actor&&event.type==='MERCENARY_WINDUP'){actor.skillLabel.text=event.skillName||'';actor.skillLabelUntil=performance.now()+2000;}
+      const rows=event.heals||event.hits||event.impacts||(event.targetId?[event]:[]),healing=event.type.includes('HEAL');
+      const amounts=new Map();for(const row of rows){const amount=healing?row.amount:row.damage;if(amount>0)amounts.set(row.targetId,(amounts.get(row.targetId)||0)+amount);}
+      for(const [id,amount]of amounts)this.showDefenseAmount(this.actors.get(id),amount,healing);
+    }
+    if(actor?.presentation&&actor.root.visible){
+      if(event.type==='HIT')void actor.presentation.play(event,true);
+      else if(event.type.startsWith('MERCENARY_')&&!['MERCENARY_WINDUP','MERCENARY_END','MERCENARY_CANCEL','MERCENARY_FOCUS'].includes(event.type))void actor.presentation.play(event);
+    }
     if (actor?.root.visible && ['HIT', 'ENEMY_HIT', 'SKILL'].includes(event.type)) {
       actor.actionUntil = performance.now() + 280;
-      if (!this.reducedMotion && actor.unitData.hp > 0) actor.setState('ATTACK');
+      if (!actor.presentation && !this.reducedMotion && actor.unitData.hp > 0) actor.setState('ATTACK');
     }
     if (target?.root.visible && ['HIT', 'ENEMY_HIT', 'HEAL'].includes(event.type)) {
-      const damage = this.pools.damage.acquire();
-      // Reuse V3's pool, but keep one installed font instead of creating styled atlases on every hit.
-      for (const child of damage.children) child.visible = child === damage.numberLabel;
-      damage.numberLabel.style.fontFamily = DIGIT_FONT; damage.numberLabel.style.fontSize = 76;
-      damage.numberLabel.text = `${event.type === 'HEAL' ? '+' : ''}${event.amount.toLocaleString('ko-KR')}`;
-      damage.numberLabel.tint = event.type === 'HEAL' ? 0x75ffbd : 0xffc553;
-      damage.scale.set(.54);
-      damage.rotation = -this.fieldTilt;
-      damage.position.set(target.root.x, target.root.y - target.fullBodyHeight * .65); damage.alpha = 1;
-      this.effectLayer.addChild(damage);
-      const timeline = gsap.timeline().to(damage, { y: damage.y - 55, alpha: 0, duration: this.reducedMotion ? .25 : .65, ease: 'power1.out' });
-      this.trackTimeline(timeline, () => { damage.removeFromParent(); this.pools.damage.release(damage); });
-      if (event.type !== 'HEAL' && !this.reducedMotion) triggerWhiteFlash(target);
+      this.showDefenseAmount(target,event.amount,event.type==='HEAL');
     }
     if (['SKILL','BOSS_CAST'].includes(event.type) && actor?.root.visible && !this.reducedMotion) {
       const kind = ['HEALER', 'CAPTAIN'].includes(event.role) ? 'HP' : event.role === 'GUARD' ? 'DEFENSE' : 'ATTACK';
@@ -326,6 +348,23 @@ export class DefenseBattleEngine extends BattleEngine {
       const timeline = gsap.timeline(); effect.play(timeline, { at: .18 });
       this.trackTimeline(timeline, () => { effect.release(); this.activeEffects.delete(effect); });
     }
+  }
+  showDefenseAmount(target,amount,healing=false){
+      if(!target?.root.visible||target.root.destroyed||!Number.isFinite(amount)||amount<=0)return;
+      const damage = this.pools.damage.acquire();
+      // Reuse V3's pool, but keep one installed font instead of creating styled atlases on every hit.
+      for (const child of damage.children) child.visible = child === damage.numberLabel;
+      damage.numberLabel.style.fontFamily = DIGIT_FONT; damage.numberLabel.style.fontSize = 76;
+      damage.numberLabel.text = `${healing ? '+' : ''}${Math.round(amount).toLocaleString('ko-KR')}`;
+      damage.numberLabel.tint = healing ? 0x75ffbd : 0xffc553;
+      damage.scale.set(.54);
+      damage.rotation = -this.fieldTilt;
+      const point=this.effectLayer.toLocal(target.root.toGlobal({x:0,y:-(target.bodyHeight||target.fullBodyHeight)*.65}));
+      damage.position.copyFrom(point); damage.alpha = 1;
+      this.effectLayer.addChild(damage);
+      const timeline = gsap.timeline().to(damage, { y: damage.y - 55, alpha: 0, duration: this.reducedMotion ? .25 : .65, ease: 'power1.out' });
+      this.trackTimeline(timeline, () => { damage.removeFromParent(); this.pools.damage.release(damage); });
+      if (!healing && !this.reducedMotion) triggerWhiteFlash(target);
   }
   clearEffects() {
     for(const id of this.supportPortals.keys())this.removeSupportPortal(id);
@@ -342,6 +381,7 @@ export class DefenseBattleEngine extends BattleEngine {
       enemySprites: this.enemies.map(actor => ({ id: actor.id, archetype: actor.unitData.archetype, state: actor.state,
         sourceFacing: actor.artFacing, viewScaleX: actor.view.scale.x, neutralScaleX: actor.neutralAvatarPose.scaleX, hudScaleX: actor.hud.scale.x })),
       phase: this.state?.phase, activeEffects: this.activeEffects.size, timelines: this.fxRuns.size,
+      mercenaries:this.allies.filter(a=>a.isMercenary).map(a=>({id:a.id,code:a.cardId,bodyHeight:a.bodyHeight,fullBodyHeight:a.fullBodyHeight,footAnchor:{x:a.fullBodySprite.anchor.x,y:a.fullBodySprite.anchor.y},prepared:!!a.presentation?.prepared,played:a.presentation?.played||0,last:a.presentation?.lastPlayed||null,busy:!!a.presentation?.busy,visible:!!a.presentation?.effectLayer.visible,paused:!!a.presentation?.paused,queued:a.presentation?.queue.length||0,activeTimelines:a.presentation?.activeTimelines.size||0,fxChildren:a.presentation?.effectLayer.children.length||0})),presentationErrors:this.presentationErrors,
       supportTeleport:{image:this.catalog.environment.teleport,frames:this.portalFrames.length,active:this.supportPortals.size,positions:[...this.supportPortals].map(([id,pair])=>({id,portals:pair.map(p=>({x:p.x,y:p.y,visible:p.visible,alpha:p.alpha}))}))},
       camera: { x: this.focusLane === null ? WORLD.width / 2 : this.focusX, scale: this.root.scale.x, viewWidth: this.viewWidth, tilt: this.fieldTilt },
       serverDeterminesDamage: true, resolution: this.app?.renderer.resolution, world: WORLD, roleFx: SkillEffectFX.diagnostics() };
@@ -349,6 +389,7 @@ export class DefenseBattleEngine extends BattleEngine {
   destroy() {
     if (this.disposed) return;
     this.disposed = true; this.clearEffects(); this.cameraControls?.abort(); this.panDrag = null;
+    for(const actor of this.actors.values())actor.presentation?.dispose();
     if (this.renderTick) this.app?.ticker.remove(this.renderTick);
     for (const actor of this.actors.values()) actor.animationController?.kill();
     this.actors.clear(); super.destroy(); this.routeJoinTexture?.destroy(false);for(const frame of this.portalFrames)frame.destroy(false);this.portalFrames=[];

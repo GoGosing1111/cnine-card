@@ -291,9 +291,11 @@ async function ensureEngine() {
     if (epoch !== state.epoch) { engine.destroy(); return; }
     state.engine = engine;
     engine.applySnapshot(state.snapshot, state.session.playerId); engine.setView(state.focus); engine.selectUnit(state.selected);
+    await engine.prepareActors();
+    if(epoch!==state.epoch)return;
     $('loading').hidden = true;
   } catch (error) {
-    engine.destroy(); $('loading').querySelector('b').textContent = '전장 로딩 실패 · 새로고침하면 같은 방으로 복구합니다';
+    engine.destroy();if(state.engine===engine)state.engine=null; $('loading').querySelector('b').textContent = '전장 로딩 실패 · 새로고침하면 같은 방으로 복구합니다';
     console.error('[Cooperative defense]', error); toast('전장 리소스를 불러오지 못했습니다. 새로고침해 다시 연결하세요.');
   } finally { state.mount = null; }
 }
@@ -478,7 +480,7 @@ function bind() {
 }
 async function main() {
   bind();
-  const response = await fetch('./asset-catalog.json?v=20261017-defense-tempo1'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
+  const response = await fetch('./asset-catalog.json?v=20261017-defense-v3-merc1'); if (!response.ok) throw new Error('전투 리소스 색인을 불러오지 못했습니다.');
   state.catalog = await response.json(); buildLoadout();buildDifficulties();
   formation=new DefenseFormation({getLoadout:()=>state.loadout,getOptions:rosterOptions,refresh:refreshRoster,onApply:applyFormation,onToast:toast});
   roomBrowser=new DefenseRoomBrowser({request,canEnter:()=>state.access&&!state.pending&&completeLoadout(),onJoin:id=>joinOrCreate('join',id),onCreate:()=>void joinOrCreate('create'),onFormation:()=>openFormation()});

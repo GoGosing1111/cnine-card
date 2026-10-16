@@ -63,6 +63,9 @@ test('the real saved room resumes through server polling and reconnection withou
   const session=await h.api(1,'defense/create',{capacity:3,practice:true,difficulty:'NORMAL',loadout,requestId:crypto.randomUUID()});
   assert.equal(session.status,200);await h.ready(session);assert.equal((await h.live(session,'command',{requestId:crypto.randomUUID(),command:{type:'START'}})).status,200);
   let room=await h.room(session.roomId);assert.deepEqual(room.units.filter(u=>u.ownerId===session.playerId).map(u=>u.role),['STRIKER','HEALER','CAPTAIN']);
+  // This fixture represents a room saved before automatic V3 skills existed.
+  // New rooms can kill this last enemy during the first poll's skill cast.
+  delete room.mercenarySkillRevision;delete room.mercenaryRuntime;
   lastEnemy(room);room.time=600000;room.serverAt=Date.now()-5000;await h.room(session.roomId,room);
   const startX=room.enemies[0].x;let snapshot=await h.live(session,'state');assert.equal(snapshot.status,200);assert.ok(snapshot.enemies[0].x<startX);
   for(let i=0;i<12&&snapshot.phase==='WAVE';i++){room=await h.room(session.roomId);room.serverAt=Date.now()-5000;await h.room(session.roomId,room);snapshot=await h.live(session,'state');}

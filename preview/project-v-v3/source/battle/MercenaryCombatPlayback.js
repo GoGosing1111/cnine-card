@@ -35,6 +35,30 @@ import {azantBattleArt,setupAzantActor,clearAzantActors,cancelAzantPlayback,resu
 import {setupLimitedActor,clearLimitedActors,cancelLimitedPlayback,resumeLimitedPlayback,playLimitedBasic,playLimitedSkill,limitedDiagnostics} from './LimitedMercenaryPlayback.js';
 const json=async url=>{const r=await fetch(url);if(!r.ok)throw Error(`MERCENARY_ASSET:${r.status}`);return r.json();};
 let rosterPromise,atlasPromise;
+// Shared construction contract: alternate battlefields must not size a transparent
+// canvas as if it were the character's body, or omit the approved idle adapters.
+export async function resolveV3MercenaryArt(code){
+ const roster=await (rosterPromise||=json('/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json?azant=20261014-live-v1&nurseHealers=20260927&berkan=20260927'));
+ return shiranuiBattleArt(code)||kaironBattleArt(code)||azantBattleArt(code)||jinmuBattleArt(code)||heliosBattleArt(code)||limitedDuoBattleArt(code)||limitedBattleArt(code)||createMercenaryBattleArtAdapter(roster).resolveForConsumer('BATTLE_FIELD',code);
+}
+export function v3MercenaryHeight(code,art){return art.fullBodyHeight??(code==='V-048'?300:['V-046',CRYVERN_CODE].includes(code)?380:code==='V-047'?320:260);}
+export async function setupV3MercenaryActor(engine,a){
+ if(a.cardId===CRYVERN_CODE)return setupCryvernActor(engine,a);
+ if(a.cardId===BERKAN_CODE)return setupBerkanActor(engine,a);
+ if(limitedVisual(a.cardId))return setupLimitedActor(engine,a);
+ if(a.cardId===SHIRANUI_CODE)return setupShiranuiActor(engine,a);
+ if(a.cardId===KAIRON_CODE)return setupKaironActor(engine,a);
+ if(a.cardId===JINMU_CODE)return setupJinmuActor(engine,a);
+ if(a.cardId===AZANT_CODE)return setupAzantActor(engine,a);
+ if(a.cardId===HELIOS_CODE)return setupHeliosActor(engine,a);
+ if(MERCENARY_ROLE_ATTACKS[a.role])await preloadMercenaryRole(a.role);
+}
+export function disposeV3MercenaryPresentation(engine){
+ clearCryvernActors(engine);clearBerkanActors(engine);clearLimitedActors(engine);clearHeliosActors(engine);clearJinmuActors(engine);clearKaironActors(engine);clearShiranuiActors(engine);clearAzantActors(engine);
+ engine.mercenaryFx?.destroy();engine.mercenaryFx=null;
+ for(const sequence of engine.mercenarySequences?.values()||[])releaseFrameViews(sequence);
+ engine.mercenarySequences?.clear();void engine.mercenaryAudio?.destroy();
+}
 export const withMercenaryBattle=Base=>class extends Base{
  constructor(options){super(options);this.mercenaries=[];this.mercenarySequences=new Map();this.mercenaryLoads=new Map();this.mercenaryHitIndices=new Map();this.mercenaryFx=null;}
  async setVisible(next){const out=await super.setVisible(next);if(this.visible){resumeLimitedPlayback(this);resumeJinmuPlayback(this);resumeKaironPlayback(this);resumeShiranuiPlayback(this);resumeHeliosPlayback(this);resumeAzantPlayback(this);}return out;}

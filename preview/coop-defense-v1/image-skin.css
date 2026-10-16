@@ -275,6 +275,10 @@
 #defense-app .wave-banner{width:min(570px,90%);max-width:90%;text-align:center;padding:17px 46px}
 #defense-app .wave-banner b{font-size:18px}
 #defense-app .wave-banner span{white-space:normal;line-height:1.55;font-size:13px}
+/* Keep the prepared-wave panel clear of tall V3 mercenaries in the first lane. */
+@media(min-width:761px) and (min-height:541px){
+ #defense-app .wave-banner{left:auto;right:18px;transform:none;width:min(460px,38%)}
+}
 .dw .dw-footer [data-footer-note]{display:block;font-size:13px;line-height:1.6;color:#d5e8ef;max-width:650px}
 @media(min-width:761px) and (min-height:541px){
  #defense-app .command-dock{padding-block:12px}
