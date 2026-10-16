@@ -12,7 +12,7 @@ export async function loadOrganizationRatings(env,userIds,deps,{now=Date.now()}=
   const before=await readForgeAdvancedPolicy(env.DB);
   // A nearly expired duo cache cannot serve as a new, reviewable assignment
   // snapshot. Rebuild it; never extend a cached title/equipment expiry.
-  const profiles=await loadDuoProfiles(env,userIds,{mercenaryWeights:{}},deps,{now,allowOwner:true,minimumValidityMs:300000});
+  const profiles=await loadDuoProfiles(env,userIds,{mercenaryWeights:{}},deps,{now,allowOwner:true,minimumValidityMs:299000});
   const after=await readForgeAdvancedPolicy(env.DB);
   orgAssert(before.revision===after.revision,'RATING_CHANGED','강화 설정이 변경되었습니다. 전력을 다시 평가하세요.');
   return profiles.map(p=>({userId:p.userId,power:p.power,sourceVersion:p.sourceVersion,policyRevision:p.policyRevision,advancedForgeRevision:after.revision,expiresAt:Date.parse(p.expiresAt),breakdown:p.breakdown,source:'ACCOUNT_POTENTIAL_V1'}));
