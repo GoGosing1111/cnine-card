@@ -45,3 +45,15 @@
 `scripts/ops/monster-defense-growth-20261017.mjs`는 기존 설정을 잠그고 revision CAS로 신규 growth만 한 번 추가한다. 운영 상태·테스트 계정·기존 난이도·후속 OWNER 성장값은 보존한다. 설정·감사·완료 영수증을 한 거래로 기록하며 dry-run은 전부 rollback한다. 재시도는 기존 영수증을 반환한다.
 
 범위는 단일 디펜스 콘텐츠다. 공통 인증·DB 기반·의존성·인프라를 바꾸지 않았으므로 관련 회귀 + worker 컴파일을 지정한 scoped 배포를 사용한다. 현재 라이브 반영 결과는 아래에 후속 기록한다.
+
+
+## 운영 반영 완료
+- 소스: `98efced3e837f01f5e8f89b34bf20ffed27fc675` (구현 `5b2678a52`). Pages `9b12bfea` · https://9b12bfea.cnine-card.pages.dev.
+- API runtime `1e826df0-0d22-4765-96b5-6f960772048a`, scheduler `2ef38727-3c64-4fe4-a113-4fc32bdd8f3d`.
+- 관련 26개 회귀 및 worker 문법 검사 통과. 첫 출시 검사는 신규 SW shell tag와 기존 app tag 불일치를 차단했다. 공통 캐시 태그를 보존하고 디펜스 새 파일의 network-first 목록만 추가했다. 코드 로직 변경 없이 신규 성장8개·worker·기존 승인/캐시 게이트를 확인하고 scoped 배포 완료. 전체 검사는 실행하지 않았다.
+- Hyperdrive query cache OFF 및 기존 바인딩 일치. 배포 파일19525개, 새 업로드33개.
+- CMS growth 일회 등록: revision1→2, TEST 유지, 지정 계정0명 유지, 계정 보상false, 감사46944. 실제 dry-run rollback 전후 동일, 적용 후 동일 요청 replay 확인. 기존 운영 상태·지정 계정·보상·난이도 전 필드 비교 일치.
+- 운영25개 파일 HTTP200 및 로컬 SHA256 일치. 비로그인 feature401, 잘못된 방 티켓401 확인.
+- 운영 미리보기에서 PC 추첨/강화와 모바일 특성/고정 준비 버튼을 직접 확인. 콘솔 오류0, 리소스 실패0.
+- 확인 기록: `docs/qa/monster-defense-growth-production-20261017.json`. 실행 중이던 임시 운영 helper는 종료했고 token은 메모리에서 폐기했다.
+- 기록만 후속 커밋하며 검사/배포를 반복하지 않는다.

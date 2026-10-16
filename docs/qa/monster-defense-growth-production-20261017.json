@@ -1,0 +1,170 @@
+{
+  "source": "98efced3e837f01f5e8f89b34bf20ffed27fc675",
+  "pages": "9b12bfea",
+  "apiRuntime": "1e826df0-0d22-4765-96b5-6f960772048a",
+  "scheduler": "2ef38727-3c64-4fe4-a113-4fc32bdd8f3d",
+  "production": {
+    "verifiedAt": "2026-10-16T15:24:50.058Z",
+    "base": "https://cnine-card.pages.dev",
+    "source": "98efced3e",
+    "files": [
+      {
+        "file": "defense/asset-catalog.json",
+        "sha256": "5af803dfeb3df126570fce16e058d6be66e77a1671bfd0ffa2c7ccfdf81099e2"
+      },
+      {
+        "file": "defense/index.html",
+        "sha256": "0cb2226c756a3a53032f9a3751a84b36f2a6ddf194f906e3bac22fd0be2b4833"
+      },
+      {
+        "file": "shared/monster-defense-v1.mjs",
+        "sha256": "e42d43fae6f6ee331a4fad73ca42553af5fa1f58c7e27ffac60b2733c1c88be5"
+      },
+      {
+        "file": "shared/monster-defense-growth-v2.mjs",
+        "sha256": "89db90813375d9397e8f7c9e2d83293985203581e3b5157bbced1d3cc563098f"
+      },
+      {
+        "file": "preview/coop-defense-v1/workshop.css",
+        "sha256": "dedadd3c7285b772d3b185f8f91616f713f8afdebb1ec038d60786037861e732"
+      },
+      {
+        "file": "preview/coop-defense-v1/defense.bundle.js",
+        "sha256": "db62ae7b1d4efb3c8f4075a6668e7ecc78b689e53934eeb97447d74df8d7cfb2"
+      },
+      {
+        "file": "admin/monster-defense.mjs",
+        "sha256": "75b1f1e9c83ed5e452a6bbf3eb0f145084f106410dd124832a586cfa3e7e92f2"
+      },
+      {
+        "file": "admin/index.html",
+        "sha256": "6cf5c0efbc829d7b78304280f5f5b270b9baeec8cad7acfc0bf807671e974eba"
+      },
+      {
+        "file": "service-worker.js",
+        "sha256": "fd3471e2a29c4bdd305370e70bcf7526b0c791605a984ae851b2ab6a073edabb"
+      },
+      {
+        "file": "preview/defense-roguelike-v2/preview.bundle.js",
+        "sha256": "4c1944bfdccb6810185a6b50be1bfb12500a3b31b49c727904e9bb7433fe04dd"
+      },
+      {
+        "file": "preview/defense-roguelike-v2/index.html",
+        "sha256": "c9a4e43a9bf7cfee940dbf1250fa768215aafe8f5596915c7a1bd5a7e8db8597"
+      },
+      {
+        "file": "admin/monster-defense.css",
+        "sha256": "af61095ae388ff123f8fc7993f21699107b3205c3b657625a4953008cba00984"
+      },
+      {
+        "file": "preview/defense-roguelike-v2/manifest.json",
+        "sha256": "f4121ea82615f113f653a8f5df7fdc2406d2a736042c5aceee58046e67ab16d2"
+      },
+      {
+        "file": "preview/monster-defense-exclusive-20261016-v1/index.html",
+        "sha256": "5b38c8329268ee9648d1bfcc64c1c8fceaf23f0fa9c27d2fdf8e8ff5b66e303a"
+      },
+      {
+        "file": "preview/defense-roguelike-v2/assets/recalibration-chamber.png",
+        "sha256": "6e5398084dddfd2ec248b9b50b456943375f3a66439c1f0e0e5dd95731fe2279"
+      },
+      {
+        "file": "preview/defense-roguelike-v2/assets/trait-modules.png",
+        "sha256": "3d03ba0b048a7849d76760c184246ed35ccc6ab13232b2c035c3d2be8a70105e"
+      },
+      {
+        "file": "preview/monster-defense-exclusive-20261016-v1/assets/02-razor-hound-v1.png",
+        "sha256": "d8cd4f7f30b6a9c3d3200dec22bc1520ec0173cc1e27308b27929f40c6bef4e2"
+      },
+      {
+        "file": "preview/monster-defense-exclusive-20261016-v1/assets/01-rivet-vanguard-v1.png",
+        "sha256": "20c65ea6f74cf88279b8b796d31444134a52dd202c0d8cbee3c268454df14666"
+      },
+      {
+        "file": "preview/defense-roguelike-v2/assets/enhancement-reactor-cycle.png",
+        "sha256": "5e3e64c8fa99acfa0f36b5db201aa3ca6c183e3357baff344a857aeea7c5d1e0"
+      },
+      {
+        "file": "preview/defense-roguelike-v2/assets/supply-capsule-opening.png",
+        "sha256": "9a93d992be90c683575bce09e955c821b3a646b99d1fd0017477fa1fd824ba07"
+      },
+      {
+        "file": "preview/monster-defense-exclusive-20261016-v1/assets/05-siege-crawler-v1.png",
+        "sha256": "41da4f769ae3c8245a0fad72cde981c87ecf02df1656db62c1d793c9dc16134c"
+      },
+      {
+        "file": "preview/monster-defense-exclusive-20261016-v1/assets/04-veil-sniper-v1.png",
+        "sha256": "091b8cb13e6d7da3024cab1d4527f3124ad2c378ba32b8c117473857972679d3"
+      },
+      {
+        "file": "preview/monster-defense-exclusive-20261016-v1/assets/06-pulse-weaver-v2.png",
+        "sha256": "5a0eadc86cf1b7516f29ef19a83e74d12f7f3430990112ed04b68cbf1ef9e5f3"
+      },
+      {
+        "file": "preview/monster-defense-exclusive-20261016-v1/assets/03-bastion-guard-v1.png",
+        "sha256": "b754f48a3327e55a40f0d399c533c6fa3b7382badce1d3da3e35b93dc9c52354"
+      },
+      {
+        "file": "preview/monster-defense-exclusive-20261016-v1/assets/07-nox-executor-v1.png",
+        "sha256": "4005ca0324c368be057f6ec42e694e897f9a20964b09f8be3ad9fcf990396823"
+      }
+    ],
+    "unauthenticatedFeature": 401,
+    "invalidRoomTicket": 401
+  },
+  "browser": {
+    "url": "https://cnine-card.pages.dev/preview/defense-roguelike-v2/",
+    "desktopDraw": true,
+    "desktopForge": true,
+    "mobileTraits": true,
+    "mobileReadyVisible": true,
+    "errors": [],
+    "failed": []
+  },
+  "apply": {
+    "operationKey": "ops:monster-defense-growth:20261017:v2",
+    "revision": 2,
+    "previousRevision": 1,
+    "mode": "TEST",
+    "testUserCount": 0,
+    "rewardsEnabled": false,
+    "preservedOwnerGrowth": false,
+    "auditId": "46944",
+    "completedAt": "2026-10-16T15:24:43.000Z",
+    "committed": true,
+    "rollbackVerified": false
+  },
+  "dryRun": {
+    "operationKey": "ops:monster-defense-growth:20261017:v2",
+    "revision": 2,
+    "previousRevision": 1,
+    "mode": "TEST",
+    "testUserCount": 0,
+    "rewardsEnabled": false,
+    "preservedOwnerGrowth": false,
+    "auditId": "46943",
+    "completedAt": "2026-10-16T15:24:42.251Z",
+    "committed": false,
+    "rollbackVerified": true
+  },
+  "replay": {
+    "operationKey": "ops:monster-defense-growth:20261017:v2",
+    "revision": 2,
+    "previousRevision": 1,
+    "mode": "TEST",
+    "testUserCount": 0,
+    "rewardsEnabled": false,
+    "preservedOwnerGrowth": false,
+    "auditId": "46944",
+    "completedAt": "2026-10-16T15:24:43.000Z",
+    "committed": true,
+    "replayed": true,
+    "rollbackVerified": false
+  },
+  "previousSettingsPreserved": [
+    "mode",
+    "testUserIds",
+    "rewardsEnabled",
+    "difficulties"
+  ]
+}
