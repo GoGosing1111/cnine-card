@@ -24,4 +24,11 @@
 
 ## 운영
 
-캐시 태그는 `20261017-defense-image5`다. 신규 스타일을 network-first 목록에 추가하고 메인 셸 캐시 버전은 유지한다. 배포 식별자와 공개 경로 검증은 배포 후 기록한다.
+캐시 태그는 `20261017-defense-image5`다. 신규 스타일을 network-first 목록에 추가하고 병행 반영된 메인 셸 `20261017-halloween-sss-v3`를 유지했다.
+
+- 소스: `41f2cc79e543b6bdd3787cd507ea626c0e99ddf1`. 기존 운영 소스 `394bbf24c07f838bf7b7777b524a88e38eb37198`와 이후 문서 기록을 포함해 통합했다.
+- Pages: `13a1f500` · `https://13a1f500.cnine-card.pages.dev`.
+- API runtime: `727bc8ff-0504-426e-b4aa-03e6a5d079b9`. 스케줄러: `af4208ec-35d1-48ad-bd8e-dcc61d40389a`.
+- 관련 서버 검사 2건 PASS, 출시 플래그/캐시/Hyperdrive 검사 PASS, 57개 파일 업로드 완료.
+- 공개 `https://cnine-card.pages.dev/defense/`의 17개 파일을 로컬 SHA-256과 대조했다. PC·390px·320px의 로비, 비로그인 TEST 차단과 공개 정비 미리보기의 생성 이미지·3종 특성 카드를 확인했다. 자산/JS 오류 0건. 결과는 `docs/qa/monster-defense-image5-20261017/production-report.json`이다.
+- 이 운영 검수 기록을 추가한 문서 전용 후속 커밋 때문에 게임 검사나 재배포를 반복하지 않는다.

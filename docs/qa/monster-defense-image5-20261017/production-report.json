@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "origin": "https://cnine-card.pages.dev",
+  "tag": "20261017-defense-image5",
+  "verified": [
+    {
+      "file": "defense/index.html",
+      "bytes": 11818,
+      "sha256": "d0a6b460e21b14593b165f314f92a6d1cf956ca29dbcc89100d6dcf33632297f"
+    },
+    {
+      "file": "defense/asset-catalog.json",
+      "bytes": 16856,
+      "sha256": "4fe28544806346819cedcbe16ff008c36c0dccd233905f5310f9501224f9e413"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "bytes": 2043070,
+      "sha256": "ab7d08dd539c83c6997fe2de5678dff64cb9893e7b4d3ae7d425eeecdaa315ad"
+    },
+    {
+      "file": "preview/coop-defense-v1/staging.css",
+      "bytes": 30575,
+      "sha256": "3de4e93311b8c8a0c7700b4fce3a139e026745aef03c4dcbaa9635c9fb08880d"
+    },
+    {
+      "file": "preview/coop-defense-v1/image-skin.css",
+      "bytes": 18461,
+      "sha256": "226fdb9dfb10206218f035063912c8689172e21bf3e4496f07f7bd427cc83e9c"
+    },
+    {
+      "file": "preview/coop-defense-v1/asset-catalog.json",
+      "bytes": 16856,
+      "sha256": "4fe28544806346819cedcbe16ff008c36c0dccd233905f5310f9501224f9e413"
+    },
+    {
+      "file": "preview/coop-defense-v1/assets/lobby-v4/fortress-assembly-court.png",
+      "bytes": 2528852,
+      "sha256": "37186bddcd96900342506d2c71164b8c4a13f31a4fe9c6a8e2cc2c93fbbe5c42"
+    },
+    {
+      "file": "preview/coop-defense-v1/assets/lobby-v4/ready-command-button.png",
+      "bytes": 2072880,
+      "sha256": "5455c52ea3dc2389d821ee3fcf1b0efea7c3be9e31cd506f25988617dded7eed"
+    },
+    {
+      "file": "preview/coop-defense-v1/assets/lobby-v4/manifest.json",
+      "bytes": 1308,
+      "sha256": "96752af10161013c1e8da29428b57844e497f54ccb77b5e21730cd92719b24b3"
+    },
+    {
+      "file": "preview/coop-defense-v1/assets/lobby-v4/prompt-ready-button.json",
+      "bytes": 1732,
+      "sha256": "e9c1d66cc2fefe9e2a0c6d9f2208e493a7ac724a90e5830ec1340575b7d04412"
+    },
+    {
+      "file": "preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+      "bytes": 1634688,
+      "sha256": "bfc290fe03b6e1f346e9f7ece1cb561e0dbc586a7ab49f8f92be84203e06831f"
+    },
+    {
+      "file": "preview/coop-defense-v1/assets/ui-v5/guardian-panel.png",
+      "bytes": 2219996,
+      "sha256": "aa641421a892b638dbff12a166b75d9498bf09b1ac0932b1ddf7151f5b431c13"
+    },
+    {
+      "file": "preview/coop-defense-v1/assets/ui-v5/guardian-crest.png",
+      "bytes": 2216886,
+      "sha256": "aa3d86e9778588332f28cd4edd8e09e83e62d96b60d4f041e918db0bf61730cc"
+    },
+    {
+      "file": "preview/coop-defense-v1/assets/ui-v5/manifest.json",
+      "bytes": 1479,
+      "sha256": "b2e1eb763890395343a1e8a4956b2957613fb1467aac1e79b92db0e89d00fcae"
+    },
+    {
+      "file": "preview/coop-defense-v1/assets/ui-v5/prompts.json",
+      "bytes": 4004,
+      "sha256": "766056bab436d80841ca5094f85bde484548fa7160417465f3e5057d7f2d4238"
+    },
+    {
+      "file": "preview/defense-roguelike-v2/index.html",
+      "bytes": 3454,
+      "sha256": "fca7bef97afbe3e6e933e09a680ced85bc50a8cf3430e418b99c8ecfb35c635a"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 14065,
+      "sha256": "4e93fa059b1e3609e9e5d6ec3f80f783251b44d484606337adedc2566e3558b7"
+    }
+  ],
+  "checks": [
+    "Public lobby and all generated control art loaded; anonymous TEST gate intact; PC/390/320 fit",
+    "Public workshop uses image tabs, cards, badges, effect panel and commands at mobile sizes"
+  ],
+  "errors": [],
+  "assetFailures": []
+}
