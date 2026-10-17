@@ -1,0 +1,140 @@
+{
+  "status": "PASS",
+  "verifiedAt": "2026-10-17T20:32:28.824Z",
+  "releaseCommit": "5c09f9a2b5581c9ff4c6894d9660797da2bea5ab",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "3ef967264a2e48f0a6129f28ea9ef6819e5a7e56a2f5f9a27003effbec6f09de",
+      "matches": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "e018a54ba8296cda28eef73333b990fd05848ec4e453bb508787ea27fd7d301b",
+      "matches": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "d7e5e3a68ad7c08621bff5ba59ad62d16247eb7f62633d2f6b61dfe7b4e13892",
+      "matches": true
+    },
+    {
+      "file": "js/mercenary-halloween-pack-live.mjs",
+      "status": 200,
+      "sha256": "31d33d0954c242a8f447936119e26af888c5e0846616f1c4bdc0405f5c2ba002",
+      "matches": true
+    },
+    {
+      "file": "js/mercenary-halloween-presentation-v2.mjs",
+      "status": 200,
+      "sha256": "844855bda78dce9cae5f84a727a4f7491129e7bc478b08cf495f7138f19158d1",
+      "matches": true
+    },
+    {
+      "file": "preview/halloween-pack-interface-20261017/index.html",
+      "status": 200,
+      "sha256": "4083955edfe069754255b24bde675ac4dda87083df024b9638ab217f94f75895",
+      "matches": true
+    }
+  ],
+  "stock": [
+    {
+      "code": "V-980",
+      "limit": 10,
+      "issued": 10,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-981",
+      "limit": 10,
+      "issued": 9,
+      "remaining": 1,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-982",
+      "limit": 10,
+      "issued": 10,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-983",
+      "limit": 10,
+      "issued": 10,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-984",
+      "limit": 10,
+      "issued": 10,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-985",
+      "limit": 10,
+      "issued": 10,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-986",
+      "limit": 10,
+      "issued": 10,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-999",
+      "limit": 7,
+      "issued": 6,
+      "remaining": 1,
+      "prepared": true,
+      "scope": "EXISTING_SHARED"
+    },
+    {
+      "code": "V-989",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-996",
+      "limit": 12,
+      "issued": 11,
+      "remaining": 1,
+      "prepared": true,
+      "scope": "EXISTING_SHARED"
+    }
+  ],
+  "revision": 13,
+  "settingsUnchanged": true,
+  "browser": {
+    "width": 390,
+    "stockLabels": 10,
+    "errors": [],
+    "liveWrites": 0,
+    "source": "Live public preview and actual stock API; no overrides"
+  },
+  "deployment": {
+    "pages": "https://72706b93.cnine-card.pages.dev",
+    "apiVersion": "beff523f-c476-496d-a2a4-86171a349c64",
+    "schedulerVersion": "da813d5d-80d3-498b-87f8-e8400e208ee6"
+  },
+  "scopedTests": 6
+}
