@@ -48,10 +48,10 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: 시�
     assert.equal((await f.pass()).days[0].status,'CLAIMED');assert.equal((await f.pass()).cycle,before.cycle);
     f.receiptBody=body;
   });
-  await t.test('KST 자정 변경·지난 보상 차단·설정 변경 후에도 이전 수령 내역 보존',async()=>{
+  await t.test('KST 자정 변경·지난 보상 누적·설정 변경 후에도 이전 수령 내역 보존',async()=>{
     f.clock.now=Date.parse('2026-10-11T00:00:00+09:00');assert.equal((await f.pass()).currentDay,2);
-    f.clock.now=Date.parse('2026-10-12T00:00:00+09:00');const state=await f.pass();assert.equal(state.days[1].status,'MISSED');assert.equal(state.days[2].status,'AVAILABLE');
-    assert.equal((await f.claim({cycle:state.cycle,day:2,expectedRevision:state.revision})).status,409);
+    f.clock.now=Date.parse('2026-10-12T00:00:00+09:00');const state=await f.pass();assert.equal(state.days[1].status,'AVAILABLE');assert.equal(state.days[2].status,'AVAILABLE');
+    assert.equal((await f.claim({cycle:state.cycle,day:2,expectedRevision:state.revision})).status,200);
     assert.equal((await f.save()).status,200);assert.equal((await f.pass()).days[0].rewards.length,8);assert.equal((await f.pass()).days[2].rewards.length,1);
     const off=f.document();off.enabled=false;assert.equal((await f.save(off)).status,200);assert.equal((await f.claim()).status,409);assert.equal((await f.save()).status,200);
   });

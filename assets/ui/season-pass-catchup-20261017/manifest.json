@@ -1,0 +1,29 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "prompt": "prompt.json",
+  "source": "claim-button-source.png",
+  "sourceSha256": "50d9a09d6448edde22e5ebbad31c8b6418e59ffb19b945fc86ecb5c5e814a263",
+  "runtime": "claim-button.webp",
+  "runtimeSha256": "413b80cdde4b45a8c6a0d9e0ff643e4b654aefa5c80db258e86811b4cbd40bf4",
+  "metadata": {
+    "format": "webp",
+    "mediaType": "image/webp",
+    "width": 1000,
+    "height": 400,
+    "space": "srgb",
+    "channels": 4,
+    "depth": "uchar",
+    "isProgressive": false,
+    "isPalette": false,
+    "hasProfile": false,
+    "hasAlpha": true,
+    "autoOrient": {
+      "width": 1000,
+      "height": 400
+    }
+  },
+  "consumer": "css/supporter-season-pass-v1.css",
+  "userVisualApproval": false,
+  "notes": "Original preserved byte for byte; WebP size conversion preserves alpha. Existing season-pass reward-frame is reused for panel 9-slice."
+}

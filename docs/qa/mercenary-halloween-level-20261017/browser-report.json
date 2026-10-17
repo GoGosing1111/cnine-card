@@ -1,0 +1,22 @@
+[
+  {
+    "width": 1440,
+    "allSevenSelectable": true,
+    "limitedXp3750": true,
+    "regularSsTraining": true,
+    "levelUp": 2,
+    "overflow": false,
+    "errors": [],
+    "broken": []
+  },
+  {
+    "width": 390,
+    "allSevenSelectable": true,
+    "limitedXp3750": true,
+    "regularSsTraining": true,
+    "levelUp": 2,
+    "overflow": false,
+    "errors": [],
+    "broken": []
+  }
+]

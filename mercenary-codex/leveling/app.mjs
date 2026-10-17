@@ -1,4 +1,4 @@
-import {MERCENARY_LEVEL_RULES as RULES, LEVEL_BONUS_TYPES, mercenaryLevelRequiredXp, levelProgress, planMercenaryTraining, planMercenaryBreakthrough} from '../../shared/mercenary-level-v1.mjs?v=20261016-growth-live-v1';
+import {MERCENARY_LEVEL_RULES as RULES, LEVEL_BONUS_TYPES, mercenaryLevelRequiredXp, levelProgress, planMercenaryTraining, planMercenaryBreakthrough} from '../../shared/mercenary-level-v1.mjs?v=20261017-halloween-growth-v1';
 import {jointAccountRequest} from '../../js/joint-account-transport.mjs';
 import {createLevelClient} from './client.mjs?v=20261005';
 import {levelDemo} from './demo.mjs?v=20261016-growth-live-v1';
