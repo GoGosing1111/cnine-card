@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-17T15:54:14.443Z",
+  "checks": [
+    {
+      "viewport": 1440,
+      "splitAndCleanup": "PASS",
+      "dialogueBounds": {
+        "inside": true,
+        "height": 100
+      }
+    },
+    {
+      "viewport": 390,
+      "splitAndCleanup": "PASS",
+      "dialogueBounds": {
+        "inside": true,
+        "height": 116
+      }
+    },
+    {
+      "oldUltimateWithoutCutIn": "PASS"
+    },
+    {
+      "persistentDialogueCycle": "PASS",
+      "lines": 5
+    },
+    {
+      "interruptAndTargetLoss": "PASS"
+    },
+    {
+      "motionOnlyAndReducedMotion": "PASS"
+    },
+    {
+      "resizeAndPausedClock": "PASS"
+    },
+    {
+      "dispose": "PASS"
+    }
+  ],
+  "errors": [],
+  "status": "PASS"
+}

@@ -2,16 +2,17 @@ import {Container,Sprite,Graphics,Assets,Texture,Rectangle} from 'pixi.js';
 import {gsap} from 'gsap';
 import {sample,clamp,track} from '../skill.mjs';
 import {CueAudio} from '../../mercenary-crimson-silver-knight-battle-v1/source/CueAudio.js';
+import {JokroAwakeningFX} from './JokroAwakeningFX.js';
 const ROOT='/preview/mercenary-jokro-iaido-20261017-v1/';
 const mix=(a,b,t)=>a+(b-a)*t;
 export async function loadJokroAssets(manifest){
  const result={motion:{},effects:{}};
  await Promise.all(['motion','effects'].flatMap(kind=>Object.entries(manifest[kind]).map(async([key,spec])=>{
   const atlas=await Assets.load(ROOT+spec.atlas);
-  result[kind][key]=Array.from({length:spec.frameCount},(_,i)=>new Texture({source:atlas.source,frame:new Rectangle(i%spec.columns*spec.cellSize,Math.floor(i/spec.columns)*spec.cellSize,spec.cellSize,spec.cellSize)}));
+  const w=spec.cellWidth||spec.cellSize,h=spec.cellHeight||spec.cellSize;
+  result[kind][key]=Array.from({length:spec.frameCount},(_,i)=>new Texture({source:atlas.source,frame:new Rectangle(i%spec.columns*w,Math.floor(i/spec.columns)*h,w,h)}));
  })));
  result.flash=await Assets.load('/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp');
- result.cutin=await Assets.load(ROOT+'assets/source-art-preview.webp');
  return result;
 }
 export class JokroFX{
@@ -23,6 +24,7 @@ export class JokroFX{
   this.ground=new Graphics();this.layer.addChild(this.ground);
   this.pool=Array.from({length:140},()=>{const s=new Sprite();s.anchor.set(.5);s.visible=false;this.layer.addChild(s);return s;});
   this.targetsBase=targets.map(a=>({x:a.view.x,tint:a.fullBodySprite.tint}));
+  this.awakening=new JokroAwakeningFX(engine,assets,manifest);
   this.makeAura();this.captureFormation();this.makeTimeline();this.render(0);
  }
  makeAura(){
@@ -51,7 +53,7 @@ export class JokroFX{
   this.registration={instance:this.timeline,settle:()=>this.cancel()};
   if(!this.reducedMotion&&!this.motionOnly)for(const at of this.plan.contacts){
    if(this.plan.stop!==null&&this.plan.stop<=at)continue;
-   this.engine.camera?.addShake(this.timeline,{at,intensity:this.plan.mode==='ultimate'?23:9,duration:.20,rotation:.002});
+   this.engine.camera?.addShake(this.timeline,{at,intensity:this.plan.mode==='ultimate'||this.plan.mode==='awakening'?23:9,duration:.20,rotation:.002});
   }
  }
  removeTimeline(){if(this.registration)this.engine.simpleTimelines.delete(this.registration);this.timeline?.kill();this.timeline=null;this.registration=null}
@@ -105,6 +107,7 @@ export class JokroFX{
   const s=sample(this.plan,t);this.sample=s;this.applyPose(s.pose);const p=this.positionAt(s);this.merc.root.position.set(p.x,p.y);this.updateAura(s);
   this.targets.forEach((a,i)=>{a.view.x=this.targetsBase[i].x;a.fullBodySprite.tint=this.targetsBase[i].tint;});
   this.engine.sortCombatDepth();
+  this.awakening.render(this.plan,s,this);
   if(s.cancelled||s.done||this.motionOnly){if(s.cancelled)this.audio.stop();this.onUpdate(this);return;}
   const scene=this.engine.scene,foot=this.ownPoint(),chest=this.ownPoint(0,-this.bodyHeight*.57),own=this.ownPoint(0,-this.bodyHeight);
   const unit=Math.max(65,Math.hypot(own.x-foot.x,own.y-foot.y)),target=this.point(this.targets[0],.40),floor=this.point(this.targets[0]);
@@ -138,10 +141,9 @@ export class JokroFX{
    this.ground.ellipse(origin.x,origin.y+2,radius*.71,radius*.18).stroke({color:0x32ba85,width:1.4,alpha:fade*.55});
    for(let i=0;i<(isUlt?22:12);i++){const a=i*2.3999,v=unit*(.3+i%6*.11),life=hit.age;const point={x:origin.x+Math.cos(a)*v*life,y:origin.y-unit*.08-Math.abs(Math.sin(a))*v*life+unit*.43*life*life};if(point.y>origin.y+8)continue;this.draw(this.assets.flash,point,3+i%2,{height:7+i%4,rotation:a,alpha:fade*.8,tint:i%3?0x6bffc0:0xdefff1,blend:'add'});}
   }
-  if(s.cutin&&!this.reducedMotion){const h=scene.height*.65;this.draw(this.assets.cutin,{x:scene.width*.11,y:scene.height*.44},h*2/3,{height:h,alpha:s.cutin*.88});}
   if(s.flash)for(let i=0;i<this.targets.length;i++){if(this.plan.mode==='attack'&&i>0)break;this.targets[i].fullBodySprite.tint=0x9dffd0;this.targets[i].view.x+=Math.sin(s.flash*25)*2;}
   this.onUpdate(this);
  }
- diagnostics(){return {ready:!this.destroyed,mode:this.plan.mode,time:this.time,playing:this.playing,speed:this.speed,pose:this.sample.pose,cancelled:this.sample.cancelled,visibleSprites:this.pool.filter(s=>s.visible).length,activeFrames:this.activeFrames,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,regularAllies:this.engine.allies.length,regularEnemies:this.engine.enemies.length,mercenaryInRegularArray:this.engine.allies.includes(this.merc),effectLayers:this.engine.effectLayer.children.filter(c=>c.label==='JokroFX').length,auraVisible:this.auraBack.visible,auraEnabled:this.auraEnabled,motionOnly:this.motionOnly,reducedMotion:this.reducedMotion,audio:{enabled:this.audio.enabled,scheduled:this.audio.scheduled,error:this.audio.error||null},unit:this.currentUnit,clockOwner:'V3_REGISTERED_GSAP',damageAuthority:'NONE_VISUAL_PREVIEW',counts:this.manifest.counts}}
- destroy(){if(this.destroyed)return;this.cancel();this.audio.destroy();this.auraBack.destroy({children:true});this.auraFront.destroy({children:true});this.layer.destroy({children:true});for(const frames of [...Object.values(this.assets.motion),...Object.values(this.assets.effects)])for(const texture of frames)texture.destroy(false);this.destroyed=true;this.pool=[];}
+ diagnostics(){return {ready:!this.destroyed,mode:this.plan.mode,time:this.time,playing:this.playing,speed:this.speed,pose:this.sample.pose,cancelled:this.sample.cancelled,visibleSprites:this.pool.filter(s=>s.visible).length,activeFrames:this.activeFrames,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,regularAllies:this.engine.allies.length,regularEnemies:this.engine.enemies.length,mercenaryInRegularArray:this.engine.allies.includes(this.merc),effectLayers:this.engine.effectLayer.children.filter(c=>c.label==='JokroFX').length,auraVisible:this.auraBack.visible,auraEnabled:this.auraEnabled,motionOnly:this.motionOnly,reducedMotion:this.reducedMotion,audio:{enabled:this.audio.enabled,scheduled:this.audio.scheduled,error:this.audio.error||null},unit:this.currentUnit,clockOwner:'V3_REGISTERED_GSAP',damageAuthority:'NONE_VISUAL_PREVIEW',motionRate:2,effectRate:1,illustrationCutIn:false,awakening:this.awakening.diagnostics(),counts:this.manifest.counts}}
+ destroy(){if(this.destroyed)return;this.cancel();this.audio.destroy();this.awakening.destroy();this.auraBack.destroy({children:true});this.auraFront.destroy({children:true});this.layer.destroy({children:true});for(const frames of [...Object.values(this.assets.motion),...Object.values(this.assets.effects)])for(const texture of frames)texture.destroy(false);this.destroyed=true;this.pool=[];}
 }

@@ -1,0 +1,33 @@
+{
+  "source": "origin/main:shared/mercenary-jinmu-v1.mjs",
+  "sourceCommit": "394bbf24c07f838bf7b7777b524a88e38eb37198",
+  "sourceSha256": "C50DA11831BB0751273297E5561244E2290B9D53EF551947D967788D0CA0339C",
+  "code": "V-989",
+  "name": "천룡검황 진무",
+  "basePower": 1347840,
+  "statsReferencePower": 1123200,
+  "statScale": 1.2,
+  "speedReferencePower": 1080000,
+  "speedScale": 3.12,
+  "actionCredit": 3.12,
+  "motionPlaybackRate": 2.6,
+  "link": {
+    "attackPercent": 2196.48,
+    "hpPercent": 1397.76,
+    "shieldPercent": 763.68
+  },
+  "basicCapScale": 2.4,
+  "damageTakenScale": 0.25,
+  "hardCounter": "V-055",
+  "counterImmune": true,
+  "controlImmune": true,
+  "poisonImmune": true,
+  "area": {
+    "damageRatio": 5.6,
+    "cooldownTurns": 5,
+    "cost": 35,
+    "pveOnly": true,
+    "target": "ALL_ENEMIES",
+    "distribution": "TOTAL_SPLIT_ONCE_PER_LIVING_TARGET"
+  }
+}

@@ -16,11 +16,12 @@ try{
   const duration=MODES[m].duration,count=Math.ceil(duration*fps);
   for(let i=0;i<count;i++){
    await page.evaluate(async t=>{const p=window.JokroPreview;p.fx.seek(t);p.engine.app.renderer.render(p.engine.app.stage);await new Promise(requestAnimationFrame);},Math.min(duration,i/fps));
-   const png=await page.locator('.battle-viewport').screenshot(),raw=await sharp(png).resize({width}).ensureAlpha().raw().toBuffer({resolveWithObject:true});info=raw.info;buffers.push(raw.data);
+   const bounds=await page.locator('.battle-viewport').boundingBox(),rail=await page.locator('#limited-dialogue').boundingBox();
+   const png=await page.screenshot({clip:{x:bounds.x,y:bounds.y,width:bounds.width,height:rail.y+rail.height-bounds.y}}),raw=await sharp(png).resize({width}).ensureAlpha().raw().toBuffer({resolveWithObject:true});info=raw.info;buffers.push(raw.data);
   }
  }
- const output=root+'qa/'+(mode==='all'?'full-showcase.webp':'ultimate-preview.webp'),count=buffers.length;
+ const output=root+'qa/'+(mode==='all'?'full-showcase.webp':mode+'-preview.webp'),count=buffers.length;
  await sharp(Buffer.concat(buffers),{limitInputPixels:false,raw:{width:info.width,height:info.height*count,channels:4,pageHeight:info.height}}).webp({quality:82,effort:0,loop:0,delay:Array.from({length:count},(_,i)=>i===count-1?750:Math.round((i+1)*1000/fps)-Math.round(i*1000/fps))}).toFile(output);
- await fs.writeFile(root+'qa/recording-'+mode+'.json',JSON.stringify({output:output.slice(root.length),modes,fps,frames:count,width,height:info.height,source:'REAL_V3_BATTLE_CANVAS',errors},null,2)+'\n');
+ await fs.writeFile(root+'qa/recording-'+mode+'.json',JSON.stringify({output:output.slice(root.length),modes,fps,frames:count,width,height:info.height,source:'REAL_V3_BATTLE_CANVAS_WITH_PERSISTENT_DOM_DIALOGUE',errors},null,2)+'\n');
  await page.evaluate(()=>window.JokroPreview.dispose());if(errors.length)throw Error(errors.join('\n'));console.log(JSON.stringify({output,frames:count,errors}));
 }finally{await browser.close();}

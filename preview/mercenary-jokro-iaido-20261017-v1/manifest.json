@@ -1618,6 +1618,276 @@
         "width": 362,
         "height": 362
       }
+    },
+    "cleave": {
+      "atlas": "assets/atlases/cleave.png",
+      "sha256": "0E23F69DF3B1D80ED19B0FA8B34496C7FA209B09128A166B6D08459866442C5C",
+      "columns": 2,
+      "rows": 6,
+      "cellSize": 1024,
+      "cellWidth": 1024,
+      "cellHeight": 384,
+      "frameCount": 12,
+      "visibleBounds": {
+        "left": 177,
+        "top": 94,
+        "right": 848,
+        "bottom": 300
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/cleave-00.png",
+          "sha256": "B3E494538CB16A0C52E69EAC5B374F1F01040A0EAF41B39A3F21B883FE5213DA",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/cleave-01.png",
+          "sha256": "814311C87AD4EE1488AEA793AE32858170D8C0F23DC7B79144BA85EAC891B437",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/cleave-02.png",
+          "sha256": "23CEFA95092C9189CF21BFAE90A02633697E13295C523E34351C265B70102140",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/cleave-03.png",
+          "sha256": "446D1E8A547C0F165002F12A4AE0AEA1A42EB9CECC1D83D139332132D1F37515",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/cleave-04.png",
+          "sha256": "1AC445C3AE0218BF442A3DCD5A752D6EAB39B8EBD3BC92D32B7B310C0349057D",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/cleave-05.png",
+          "sha256": "D3AB51C636F961599315DD4D0D4FEEA45518B8D65E724C17375102534E120BC3",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/cleave-06.png",
+          "sha256": "30CF93D3FA4673644F4FD3213038BC07429FA86D8055133E870BB4EDA588FD07",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/cleave-07.png",
+          "sha256": "17CD98B1552D53D8B0F6D9BFE192965CE11B07ED980D6C851532FEAFE8EF2FE6",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/cleave-08.png",
+          "sha256": "AA56B19A231CDDA6D6153F9B71D9F6A55C326F86E7BFFC7E1BC4E3A7A07A1B75",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/cleave-09.png",
+          "sha256": "F29C1C0E38B7662A54D6F310FD246BB2411760AFDD8DA917E24811F535E3F333",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/cleave-10.png",
+          "sha256": "9815DC8CCEAAB54544F09DD48DEF910717989E5B8A438600B41224692AA67EC0",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/cleave-11.png",
+          "sha256": "94377F75144F9264673B22BE0224030084259C4EA064B136CD85378299F49E4B",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "source": {
+        "file": "assets/sources/cleave-awakening-v1.png",
+        "sha256": "61F4FA1635A4EE9230F550FE076AC3915ED66D5FEBD8E1F65F9535C9987DB73F",
+        "hasNativeAlpha": true
+      },
+      "sourceCell": {
+        "width": 724,
+        "height": 181
+      }
+    },
+    "shatter": {
+      "atlas": "assets/atlases/shatter.png",
+      "sha256": "FAF4628A79D4EC8CE2C4643776E5062A27E29BE677365E702667414FD59277CF",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 512,
+      "cellWidth": 512,
+      "cellHeight": 512,
+      "frameCount": 12,
+      "visibleBounds": {
+        "left": 70,
+        "top": 104,
+        "right": 472,
+        "bottom": 416
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/shatter-00.png",
+          "sha256": "42360079C3963783E8CDCEB9ED6435E69B5EF00B6BADCEAF3DC00461BDCAA18C",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/frames/shatter-01.png",
+          "sha256": "93101848154A50571EA5455F7A77BD9186CA01CDD0B8F5DA5EA8D5C978B62A6C",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/frames/shatter-02.png",
+          "sha256": "13AE8917B77B0C99B35085112F5F820307074AC817A3A068C6949DF644556398",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/shatter-03.png",
+          "sha256": "9CDB0F93ADEA8FBBF49CEE86B4F9F66BBD99027B0D0A429927AAE5800450FB9D",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/frames/shatter-04.png",
+          "sha256": "9594B8539EE7A04B4D3D66A62063DA90DAA182A912C5944916DF70C4EB2355F1",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/frames/shatter-05.png",
+          "sha256": "0D073C27A80EAF892B184CB2B15011C190117F4EA1B7A5FA6C94D1FCA8EF1426",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/frames/shatter-06.png",
+          "sha256": "ED591C0F123CF439F7E21A5076F938BFE945DF18A5C83E6861CBC4708299D183",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/frames/shatter-07.png",
+          "sha256": "264421CCF761C9EA00F469805EE427E5E8DBBABA2698AA173A9476CA378C7704",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/frames/shatter-08.png",
+          "sha256": "A27FBDBAC3C2E807D54FAA01DB1050769C11FA1C8BFAB402AB1F7D5C1F4E3B35",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/frames/shatter-09.png",
+          "sha256": "A4334416926494095E03AF2A4921FF8D1A0860A7F245BE8E4D1BEA26CCD64945",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/frames/shatter-10.png",
+          "sha256": "3CEA6983BB4E5E89BE1F3FFA27DA5EA5743BC2D004DDB3211FE35D2074187B02",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/frames/shatter-11.png",
+          "sha256": "F091E74AB40FDDF21C424F9DEE2583894A41F12029D66DCDD2CFA37F1754E1A8",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ],
+      "source": {
+        "file": "assets/sources/shatter-awakening-v1.png",
+        "sha256": "2F265D90C0E960F81B6A87E59E6FF6C899DD8EF60EC27B7D88398C813D35B7B2",
+        "hasNativeAlpha": true
+      },
+      "sourceCell": {
+        "width": 362,
+        "height": 362
+      }
     }
   },
   "displaySizing": {
@@ -1646,7 +1916,7 @@
   "bodyPixels": 609,
   "counts": {
     "motion": 24,
-    "effects": 84
+    "effects": 108
   },
   "exclusions": [
     {
@@ -1663,7 +1933,7 @@
       "reason": "Original VFX has cropped silhouettes; replaced with complete padded eruption-v2 source."
     }
   ],
-  "packaging": "Native alpha preserved; complete figure components separated without rigid grid cropping. Only whole-image translation and uniform scale for fixed foot anchor. No weapon bending, warping, mesh deformation, or limb tweening. Standing physical height preserved across crouching frames. Idle is one locked master frame, not a claimed breathing animation. FX are seven authored twelve-frame sequences with transparent padding and recorded alpha envelopes.",
+  "packaging": "Native alpha preserved; complete figure components separated without rigid grid cropping. Only whole-image translation and uniform scale for fixed foot anchor. No weapon bending, warping, mesh deformation, or limb tweening. Standing physical height preserved across crouching frames. Idle is one locked master frame, not a claimed breathing animation. FX are nine authored twelve-frame sequences with transparent padding and recorded alpha envelopes.",
   "ui": [
     {
       "source": "assets/sources/ui-frame.png",
@@ -1680,17 +1950,19 @@
       "processing": "Transparent outer padding trim and lossless encoding only"
     }
   ],
-  "rankStatus": "SSS_LIMITED_QUALITY_TARGET_PREVIEW_ONLY",
+  "rankStatus": "SSS_LIMITED_USER_REQUESTED_PREVIEW_ONLY",
   "prompts": [
     "prompts/approved-source-blade-lift.json",
     "prompts/fx-aura-v1.json",
     "prompts/fx-blade-v1.json",
     "prompts/fx-charge-v1.json",
+    "prompts/fx-cleave-awakening-v1.json",
     "prompts/fx-dashfx-v1.json",
     "prompts/fx-dragon-original.json",
     "prompts/fx-eruption-v1.json",
     "prompts/fx-eruption-v2.json",
     "prompts/fx-impact-v1.json",
+    "prompts/fx-shatter-awakening-v1.json",
     "prompts/master-approved-art-v1.json",
     "prompts/master-grip-fix-v2.json",
     "prompts/master-v3-grip-face-gaze-reset.json",
@@ -1731,7 +2003,9 @@
       "dragon": "prompts/fx-dragon-original.json",
       "charge": "prompts/fx-charge-v1.json",
       "eruption": "prompts/fx-eruption-v2.json",
-      "impact": "prompts/fx-impact-v1.json"
+      "impact": "prompts/fx-impact-v1.json",
+      "cleave": "prompts/fx-cleave-awakening-v1.json",
+      "shatter": "prompts/fx-shatter-awakening-v1.json"
     },
     "ui": [
       "prompts/ui-frame-original.json",
@@ -1743,6 +2017,45 @@
     "runtimeReport": "qa/runtime-report.json",
     "finalVisualReview": "qa/final-review.json",
     "technicalStatus": "PASS",
-    "userVisualApproval": false
+    "userVisualApproval": false,
+    "awakeningTests": "qa/awakening.test.mjs",
+    "awakeningRuntimeReport": "qa/awakening-runtime-report.json",
+    "awakeningRecording": "qa/awakening-preview.webp",
+    "priorAssetAndRuntimeReports": "Initial 108-frame / seven-mode version; retained as history."
+  },
+  "animation": {
+    "motionRate": 2,
+    "effectRate": 1,
+    "contactSynchronization": "Motion clock compressed around first contact; effect seconds and authored frame timing remain unchanged.",
+    "illustrationCutIn": false
+  },
+  "dialogue": {
+    "display": "PERSISTENT_RESERVED_RAIL",
+    "portrait": false,
+    "rankLabel": "SSS 리미티드",
+    "lines": 5,
+    "cycle": "Advance on skill cast; retain last line between casts."
+  },
+  "awakening": {
+    "mode": "awakening",
+    "name": "청룡단천",
+    "status": "USER_REVIEW_PENDING",
+    "effectSources": [
+      "cleave",
+      "shatter"
+    ],
+    "screenSplit": "Actual V3 battlefield snapshot, two rigid masked halves, no portrait, HUD preserved.",
+    "duration": 5.6,
+    "visualContacts": [
+      2.12,
+      2.72
+    ],
+    "serverApplicationsPerCastPerTarget": 1
+  },
+  "balance": {
+    "module": "balance.mjs",
+    "baseline": "references/jinmu-operating-baseline-20261018.json",
+    "status": "IMPLEMENTED_FOR_REVIEW_NOT_LIVE",
+    "productionEnabled": false
   }
 }

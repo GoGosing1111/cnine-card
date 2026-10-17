@@ -1,0 +1,11 @@
+{
+  "toolMode": "built-in image_gen",
+  "kind": "effect",
+  "frames": 12,
+  "grid": [
+    2,
+    6
+  ],
+  "prompt": "Use case: stylized-concept. Production 2D RPG ANIMATION SPRITE SHEET for an emerald Japanese iaido sword master. True transparent RGBA. EXACTLY TWO COLUMNS by SIX ROWS, 12 separate WIDE HORIZONTAL cells. Landscape canvas2048x1536; EACH cell is1024x256, FOUR TIMES wider than tall. Each frame contains ONE narrow horizontal screen-cleaving sword-energy slash. Empty transparent margins at least12% on every cell side. No panels, grid, labels, character, sword object, letters, backdrop, UI, or black rectangles. Strong fine mint-white incision core, emerald jade scales and sharp hand-painted black-green shards, bright coherent narrow edge, no hazy fog. Across the12 cells in chronological reading order:1 tiny spark;2 sharp thin line emerges left-to-right;3 full very long razor line;4 long slit with emerald edge;5 slit opens into jagged black-jade fracture edged in mint;6 peak long emerald dragon-scale incision with sharp shards shooting above and below;7 smaller broken fissure;8 lengthwise fragments;9 thin afterglow and drifting glass scales;10 sparse shards;11 fewer specks;12 nearly dissipated trace. GENUINELY redraw evolving material each frame. Fixed horizon y50% and centerx50%, full tips always inside cell. Each slash maximum70% cellwidth and40%cellheight, SMALL within its wide cell. Not flame balls, not loops, not curved boomerangs. This is the single ultra-fast decisive cut that visually divides a battlefield in half.",
+  "transparent_background": true
+}

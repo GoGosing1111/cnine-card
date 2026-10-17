@@ -1,0 +1,11 @@
+{
+  "toolMode": "built-in image_gen",
+  "kind": "effect",
+  "frames": 12,
+  "grid": [
+    4,
+    3
+  ],
+  "prompt": "Use case: stylized-concept. Create one premium emerald dragon sword-finisher VFX animation sprite sheet on TRUE transparent RGBA. Exactly4 columns by3 rows of12 SQUARE cells, landscape4:3 canvas. Every complete object SMALL inside central60% ofitscell; generous20%emptytransparentguttereachside. No human, clothes, literalweapon, text, UI, grid, backdrop, opaque fog, black rectangle. Colors deep jade, emerald scales, brightmint edges and dark crystalline fragments. Painted 2D anime RPG effects with rich dark material cores. Sequence12 authentic evolving frames:1 thin horizontal green crack;2 crack branches sharply;3 compressed split-ring with dragon scales;4 emerald Eastern dragon head silhouette briefly forms from broken glasslike scales;5-6 violent wide directional eruption of scales and shards with a fierce antlered Eastern dragon head outlined within the shockwave, long whiskers tucked safely inside;7 dragon form disperses as pointed shards;8-9 jagged broad fragments travel apart;10 small luminous scales;11 sparse flecks;12 justthree dim sparks. One physical evolution rather than copied scaling. Keep the very center reasonably open, directional diagonal flow from lowerleft towardupperright. No repeated solid green discs or full-cell glow. This is the delayed impact AFTER a sword has already sliced across the entire screen, with no giant full-body dragon hiding the battle. No cropping, complete tips and particles inside central60%ofcell.",
+  "transparent_background": true
+}

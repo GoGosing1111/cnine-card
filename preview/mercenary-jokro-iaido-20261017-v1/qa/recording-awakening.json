@@ -1,0 +1,12 @@
+{
+  "output": "qa/awakening-preview.webp",
+  "modes": [
+    "awakening"
+  ],
+  "fps": 15,
+  "frames": 84,
+  "width": 800,
+  "height": 481,
+  "source": "REAL_V3_BATTLE_CANVAS_WITH_PERSISTENT_DOM_DIALOGUE",
+  "errors": []
+}
