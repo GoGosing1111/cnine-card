@@ -5,7 +5,7 @@
     "pixi.js": "8.20.0",
     "gsap": "3.13.0"
   },
-  "bundleBytes": 2156433,
+  "bundleBytes": 2191619,
   "commonV3": [
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",
@@ -49,6 +49,9 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
+    "preview/project-v-v3/source/battle/JinmuDialogue.js",
+    "preview/project-v-v3/source/battle/JokroCombatPlayback.js",
     "preview/project-v-v3/source/battle/ShiranuiCombatPlayback.js",
     "preview/project-v-v3/source/battle/LimitedDuoCombatPlayback.js",
     "preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js",
@@ -62,8 +65,6 @@
     "preview/project-v-v3/source/battle/MangisaCombatPlayback.js",
     "preview/project-v-v3/source/battle/RagnielCombatPlayback.js",
     "preview/project-v-v3/source/battle/KaironCombatPlayback.js",
-    "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
-    "preview/project-v-v3/source/battle/JinmuDialogue.js",
     "preview/project-v-v3/source/battle/JinmuCombatPlayback.js",
     "preview/project-v-v3/source/battle/HeliosSurroundingAura.js",
     "preview/project-v-v3/source/battle/HeliosCombatPlayback.js",

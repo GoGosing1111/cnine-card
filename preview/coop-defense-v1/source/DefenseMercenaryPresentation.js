@@ -5,6 +5,7 @@ import {resumeLimitedPlayback} from '../../project-v-v3/source/battle/LimitedMer
 import {resumeShiranuiPlayback} from '../../project-v-v3/source/battle/ShiranuiCombatPlayback.js';
 import {resumeKaironPlayback} from '../../project-v-v3/source/battle/KaironCombatPlayback.js';
 import {resumeJinmuPlayback} from '../../project-v-v3/source/battle/JinmuCombatPlayback.js';
+import {resumeJokroPlayback} from '../../project-v-v3/source/battle/JokroCombatPlayback.js';
 import {resumeHeliosPlayback} from '../../project-v-v3/source/battle/HeliosCombatPlayback.js';
 import {resumeAzantPlayback} from '../../project-v-v3/source/battle/AzantCombatPlayback.js';
 
@@ -44,7 +45,7 @@ export function defenseMercenaryPresentation(engine,actor){
   const speed=ctx.basic?Math.max(Number(fixedTimeScale)||1,instance.duration()/Math.max(.4,(actor.unitData.interval||1200)/1000*.88)):Number(fixedTimeScale)||1.3;
   instance.timeScale(engine.reducedMotion?Math.max(speed,8):speed);instance.play(0);
  });
- const states=()=>['cryvernStates','berkanStates','limitedStates','heliosStates','jinmuStates','kaironStates','shiranuiStates','azantStates'].flatMap(k=>[...(ctx[k]?.values()||[])]);
+ const states=()=>['cryvernStates','berkanStates','limitedStates','heliosStates','jinmuStates','jokroStates','kaironStates','shiranuiStates','azantStates'].flatMap(k=>[...(ctx[k]?.values()||[])]);
  const timelinePause=paused=>{
   for(const entry of ctx.simpleTimelines)paused?entry.instance.pause():entry.instance.resume();
   for(const state of states()){const timeline=state.fx?.timeline||state.knight?.timeline;if(timeline)(paused?timeline.pause():timeline.resume());}
@@ -78,7 +79,7 @@ export function defenseMercenaryPresentation(engine,actor){
   const pause=!ctx.visible;
   if(ctx.paused!==pause){ctx.paused=pause;
    if(pause)ctx.cancelActive();
-   else if(ctx.prepared){for(const resume of [resumeLimitedPlayback,resumeShiranuiPlayback,resumeKaironPlayback,resumeJinmuPlayback,resumeHeliosPlayback,resumeAzantPlayback])resume(ctx);
+   else if(ctx.prepared){for(const resume of [resumeLimitedPlayback,resumeShiranuiPlayback,resumeKaironPlayback,resumeJinmuPlayback,resumeJokroPlayback,resumeHeliosPlayback,resumeAzantPlayback])resume(ctx);
     if(!ctx.busy&&actor.hp>0)actor.setState('IDLE');}
    timelinePause(pause);
   }

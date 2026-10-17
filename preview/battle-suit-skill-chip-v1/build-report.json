@@ -98,6 +98,15 @@
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
     "shared/mercenary-cryvern-v1.mjs",
     "shared/mercenary-berkan-v1.mjs",
+    "shared/mercenary-jokro-v1.mjs",
+    "preview/mercenary-jokro-iaido-20261017-v1/skill.mjs",
+    "preview/mercenary-crimson-silver-knight-battle-v1/source/CueAudio.js",
+    "preview/mercenary-jokro-iaido-20261017-v1/source/JokroAwakeningFX.js",
+    "preview/mercenary-jokro-iaido-20261017-v1/source/JokroNeonRim.js",
+    "preview/mercenary-jokro-iaido-20261017-v1/source/JokroFX.js",
+    "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
+    "preview/project-v-v3/source/battle/JinmuDialogue.js",
+    "preview/project-v-v3/source/battle/JokroCombatPlayback.js",
     "shared/mercenary-jinmu-v1.mjs",
     "shared/mercenary-kairon-v1.mjs",
     "shared/mercenary-shiranui-v1.mjs",
@@ -168,10 +177,7 @@
     "preview/mercenary-black-uniform-dual-uzi-v1/source/UziBarrageFX.js",
     "preview/project-v-v3/source/battle/KaironCombatPlayback.js",
     "preview/mercenary-golden-dragon-battle-v1/skill.mjs",
-    "preview/mercenary-crimson-silver-knight-battle-v1/source/CueAudio.js",
     "preview/mercenary-golden-dragon-battle-v1/source/GoldenDragonFX.js",
-    "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
-    "preview/project-v-v3/source/battle/JinmuDialogue.js",
     "preview/project-v-v3/source/battle/JinmuCombatPlayback.js",
     "shared/mercenary-helios-v1.mjs",
     "preview/mercenary-limited-solar-sword-20261009-v1/motion.mjs",
@@ -202,5 +208,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2027463
+  "outputBytes": 2062620
 }

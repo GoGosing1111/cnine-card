@@ -52,6 +52,11 @@ const CSS=`
 .jinmu-dialogue-rail:not([data-theme='jinmu']) .jinmu-dialogue-crest{display:block;width:27px;height:23px;margin:0 auto 3px;color:inherit;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
 .jinmu-dialogue-rail:not([data-theme='jinmu']) .jinmu-dialogue-seal b{font-size:20px}
 .jinmu-dialogue-rail[data-theme='valter'] [data-crest='sun'],.jinmu-dialogue-rail[data-theme='helios'] [data-crest='swords']{display:none}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame{border:14px solid transparent;border-image:url('/preview/mercenary-jokro-iaido-20261017-v1/assets/ui/frame.webp') 270 fill /14px stretch;background:none;clip-path:none;padding:0}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame:before,.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame:after,.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-crest{display:none}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-inner{background:none;clip-path:none;min-height:58px;padding:0 5px;box-shadow:none}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name b{color:#a2f5c9}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-copy p{color:#dcffed}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-face{border-color:#96f5c7;box-shadow:0 0 0 3px #204d3b,0 0 0 4px #6ba98e}
 .battle-v3-live-shell.is-result-visible .jinmu-dialogue-rail{visibility:hidden}
 .battle-v3-live-shell.has-jinmu-dialogue .nightmare-battle-mark{translate:0 var(--jinmu-dialogue-height,0px)}
 body[data-jinmu-dialogue='true'][data-legion-live] .boss-hud,body[data-jinmu-dialogue='true'][data-legion-live] #hunt-pickup-toast{translate:0 var(--jinmu-dialogue-height,0px)}

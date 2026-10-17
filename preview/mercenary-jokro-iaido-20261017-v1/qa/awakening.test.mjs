@@ -41,8 +41,8 @@ test('Jokro exceeds Jinmu power and mitigation without losing action credit or i
  assert.ok(now.skills.ultimate.damageRatio>old.area.damageRatio);assert.ok(now.skills.ultimate.cooldownTurns<old.area.cooldownTurns);assert.ok(now.skills.ultimate.cost<old.area.cost);
  assert.ok(now.skills.awakening.damageRatio>old.area.damageRatio);assert.equal(jokroIncomingDamage(1000,'V-055'),0);assert.equal(jokroIncomingDamage(1000,'V-989'),200);
 });
-test('840% is one total pool split once per living target; repeat cast is idempotent',()=>{
+test('1260% is one total pool split once per living target; repeat cast is idempotent',()=>{
  const receipts=new Map(),args={skillKey:'awakening',attack:100,castId:'cast-1',receipts,targets:[{id:'a',hp:10},{id:'b',hp:10},{id:'b',hp:10},{id:'dead',hp:0},{id:'suit',hp:10,isBattleSuit:true},{id:'hidden',hp:10,untargetable:true}]};
- const r=resolveJokroPreviewCast(args);assert.deepEqual(r.hits,[{targetId:'a',damage:420},{targetId:'b',damage:420}]);assert.equal(r.totalDamage,840);assert.equal(resolveJokroPreviewCast(args),r);assert.equal(receipts.size,1);
+ const r=resolveJokroPreviewCast(args);assert.deepEqual(r.hits,[{targetId:'a',damage:630},{targetId:'b',damage:630}]);assert.equal(r.totalDamage,1260);assert.equal(resolveJokroPreviewCast(args),r);assert.equal(receipts.size,1);
  assert.equal(resolveJokroPreviewCast({...args,mode:'PVP'}),null);assert.equal(resolveJokroPreviewCast({...args,castId:'empty',targets:[]}),null);assert.equal(receipts.size,1);
 });

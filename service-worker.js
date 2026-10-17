@@ -5,7 +5,7 @@
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
 importScripts('/js/image-delivery-map-20261015.js');
-const SHELL_CACHE='soop-card-shell-v20261017-pass-catchup-halloween-growth-v1';
+const SHELL_CACHE='soop-card-shell-v20261018-jokro-live-v1';
 const CONTENT_CACHE='soop-card-content-v4-lossless-media';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';

@@ -6,14 +6,14 @@
   "nameStatus": "USER_SPECIFIED",
   "rank": "SSS",
   "edition": "LIMITED",
-  "code": "V-992",
-  "codeStatus": "PREVIEW_LOCAL_ONLY",
-  "runtimeEnabled": false,
-  "status": "USER_REVIEW_PENDING",
+  "code": "V-979",
+  "codeStatus": "LIVE_REGISTERED",
+  "runtimeEnabled": true,
+  "status": "USER_LIVE_RELEASE_AUTHORIZED",
   "sourceArt": "preview/mercenary-jokro-iaido-20261017-v1/assets/sources/jokro-source-art-approved-20261017.png",
   "sourceArtSha256": "82297D41E879DAB7DF179345875EBF329A3E825BB20BD76C68BFBE91667DFBDB",
   "sourceArtApproval": "USER_APPROVED",
-  "battleSpriteStatus": "PENDING_USER_VISUAL_REVIEW",
+  "battleSpriteStatus": "USER_LIVE_RELEASE_AUTHORIZED",
   "motion": {
     "idle": {
       "atlas": "assets/atlases/idle.png",
@@ -2076,5 +2076,6 @@
     "sourcePixelsChanged": false,
     "reducedMotion": "FIXED_STRENGTH",
     "motionOnly": "DISABLED"
-  }
+  },
+  "liveApproval": "live-approval-20261018.json"
 }

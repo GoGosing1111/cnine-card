@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-18",
+  "authorization": "기존 리미티드 프레임으로 라이브 반영, 획득 차단, 핑크빛유두만 지급, 청룡단천 강한 광역기",
+  "identity": {
+    "code": "V-979",
+    "name": "족로",
+    "rank": "SSS",
+    "edition": "LIMITED"
+  },
+  "acquisition": {
+    "public": false,
+    "accountId": 1,
+    "nickname": "핑크빛유두",
+    "quantity": 1,
+    "automaticLoadout": false
+  },
+  "art": {
+    "source": "assets/ui/project-v/mercenaries/jokro-20261018/source-art.png",
+    "sha256": "82297D41E879DAB7DF179345875EBF329A3E825BB20BD76C68BFBE91667DFBDB",
+    "battleSprite": "assets/ui/project-v/mercenaries/jokro-20261018/idle.png",
+    "battleSha256": "A1ECEAED8C5C5C427B6F3FB374E6B03EF0B10BEFAC64207CA24A26070DFB127D",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "frameSha256": "F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA"
+  },
+  "combat": {
+    "damageRatio": 12.6,
+    "cooldownTurns": 5,
+    "cost": 35,
+    "scope": "PVE_ALL_LIVING_ENEMIES",
+    "motionRate": 2,
+    "effectRate": 1,
+    "illustrationCutIn": false
+  },
+  "previewControls": "Existing controls retained. Future mercenary preview buttons do not require ImageGen decoration."
+}

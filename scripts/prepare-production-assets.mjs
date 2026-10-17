@@ -7,7 +7,9 @@ import {buildClientManifest} from './build-windows-client-manifest.mjs';
 // Preserve originals, preview pages and fixture imports. Executable test runners
 // and QA audit reports stay in Git/release checks without consuming Pages assets.
 // Game/preview code has no docs/qa imports; approved assets and previews stay intact.
-export const isProductionFile=file=>! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/');
+// Jokro reads packed atlases in both preview and live play. The 132 individual
+// extraction frames remain in Git for QA; approved source sheets and atlases ship.
+export const isProductionFile=file=>! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/')&&!file.startsWith('preview/mercenary-jokro-iaido-20261017-v1/assets/frames/');
 export async function prepareProductionAssets({root=process.cwd(),files,tempRoot=tmpdir(),dependencies}={}){
  files||=execFileSync('git',['ls-files','-z'],{cwd:root,maxBuffer:40e6}).toString().split('\0').filter(Boolean);
  const selected=files.filter(isProductionFile),assetCount=selected.filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;

@@ -1,3 +1,4 @@
+import {JOKRO_CODE,jokroAccountAllowed} from '../shared/mercenary-jokro-v1.mjs';
 import {SHIRANUI_CODE,shiranuiAccountAllowed} from '../shared/mercenary-shiranui-v1.mjs';
 import {MERCENARY_LEVEL_RELEASE_ENABLED as RELEASE,MERCENARY_LEVEL_RULES as RULES,MERCENARY_LEVEL_KEY as KEY,LEVEL_BONUS_TYPES,mercenaryGrowthSummary,mercenaryLevelReadiness,mercenaryLevelState,normalizeLevelMaterials,planMercenaryTraining,planMercenaryBreakthrough,levelError} from '../shared/mercenary-level-v1.mjs';
 import {readMercenaryLevelPolicy,saveMercenaryLevelPolicy,readMercenaryLevelState} from './_mercenary_level_policy.js';
@@ -21,7 +22,7 @@ function captureGrowth(policy,result){
  return result;
 }
 const terminal=message=>Object.assign(levelError('MERCENARY_LEVEL_CONFLICT',message,409),{terminal:true});
-function levelCatalog(document,userId,hasJinmuPackIssue){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE].filter(code=>jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&shiranuiAccountAllowed(userId,code)).map(limitedDeploymentSnapshot).filter(Boolean)];}
+function levelCatalog(document,userId,hasJinmuPackIssue){return [...document.mercenaries.map(c=>({...c,sourceArt:SEED.catalog.cards.find(art=>art.code===c.code)?.sourceArt})),...[...LIMITED_MERCENARIES.map(c=>c.code),JINMU_CODE,KAIRON_CODE,SHIRANUI_CODE,JOKRO_CODE].filter(code=>jinmuAccountAllowed(userId,code,hasJinmuPackIssue)&&jokroAccountAllowed(userId,code)&&shiranuiAccountAllowed(userId,code)).map(limitedDeploymentSnapshot).filter(Boolean)];}
 function normalize(body,action){
  if(!['TRAIN','BREAKTHROUGH'].includes(action)||!SEED.catalog.cards.some(c=>c.code===body.mercenaryCode)&&!limitedDeploymentSnapshot(body.mercenaryCode))throw levelError('MERCENARY_LEVEL_TARGET','성장 대상 용병을 확인하세요.');
  if(!Number.isSafeInteger(body.revision)||body.revision<0)throw levelError('MERCENARY_LEVEL_REVISION','최신 성장 상태를 불러오세요.');
@@ -34,7 +35,7 @@ async function context(env,user,input){
  if(!mercenaryLevelReadiness(policy).ready)throw levelError('MERCENARY_LEVEL_UNCONFIGURED','용병 성장 수치가 미정입니다.',409);
  if(state.revision!==input.revision)throw terminal('성장 상태가 변경되었습니다. 다시 불러오세요.');
  const hasJinmuPackIssue=(await readJinmuPackOwners(env,owned.results.some(r=>r.mercenary_code===JINMU_CODE)?[user.id]:[])).has(Number(user.id));
- if(!(jinmuAccountAllowed(user.id,input.mercenaryCode,hasJinmuPackIssue)&&shiranuiAccountAllowed(user.id,input.mercenaryCode))||!owned.results.some(r=>r.mercenary_code===input.mercenaryCode&&Number(r.total_copies)>0))throw levelError('MERCENARY_LEVEL_NOT_OWNED','보유한 용병만 성장시킬 수 있습니다.',403);
+ if(!(jinmuAccountAllowed(user.id,input.mercenaryCode,hasJinmuPackIssue)&&jokroAccountAllowed(user.id,input.mercenaryCode)&&shiranuiAccountAllowed(user.id,input.mercenaryCode))||!owned.results.some(r=>r.mercenary_code===input.mercenaryCode&&Number(r.total_copies)>0))throw levelError('MERCENARY_LEVEL_NOT_OWNED','보유한 용병만 성장시킬 수 있습니다.',403);
  const catalog=levelCatalog(document,user.id,hasJinmuPackIssue),target=catalog.find(c=>c.code===input.mercenaryCode);
  if(!target?.rank)throw levelError('MERCENARY_LEVEL_RANK','성장 대상의 등급이 미정입니다.',409);
  return {policy,raw,cmsRevision,state,target,owned:owned.results,catalog};
