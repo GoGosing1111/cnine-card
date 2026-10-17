@@ -21,7 +21,9 @@ test('new SS limits are ten; the prior five-copy state stays readable during rol
  const rows=codes.map(code=>({code,stock_limit:5,issued:2}));assert.equal(halloweenPackState(old,rows).stock[0].remaining,3);
  assert.throws(()=>halloweenPackState(current,rows));
  const mixed=structuredClone(current);mixed.stockLimits['V-980']=5;assert.throws(()=>readHalloweenPackSettings(mixed));
- assert.equal(halloweenStockText({code:'V-980'},{prepared:true,limit:10,remaining:8}),'서버 한정');
+ assert.equal(halloweenStockText({code:'V-980'},{prepared:true,limit:10,remaining:8}),'남은 8장');
+ assert.equal(halloweenStockText({code:'V-980'},{prepared:true,limit:10,remaining:0}),'남은 0장 · 소진');
+ for(const row of [undefined,{prepared:false,remaining:null},{prepared:true,remaining:-1}])assert.equal(halloweenStockText({code:'V-980'},row),'수량 확인 중');
  assert.match(halloweenCollectionMarkup(HALLOWEEN_MERCENARIES,codes.map(code=>({code,prepared:true,limit:10,remaining:8}))),/SS LIMITED · 7/);
  assert.equal(current.stockLimits['V-989'],3);assert.equal(current.stockLimits['V-999'],null);
 });

@@ -26,7 +26,7 @@ test('existing ON document is readable with Valter zero; equal Helios odds move 
   for(const ticket of [start,start+size-1]){const samples=[0,ticket];assert.equal(pickHalloweenBatch(state,1,()=>samples.shift())[0].mercenaryCode,code);}
  }
  const markup=halloweenCollectionMarkup(state.cards,state.stock)+halloweenRoomMarkup(state.pack);
- assert.match(markup,/발테르/);assert.doesNotMatch(markup,/잔여|남은|발행|\d+\s*장/);assert.equal((markup.match(/data-code="V-996"/g)||[]).length,1);
+ assert.match(markup,/발테르/);assert.equal((markup.match(/data-hwp-stock-code=/g)||[]).length,10);assert.match(markup,/남은 \d+장/);assert.equal((markup.match(/data-code="V-996"/g)||[]).length,1);
 });
 
 test('settings operation rolls back every write, preserves inventory/stock, and replays without writes',async t=>{

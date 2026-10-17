@@ -1,0 +1,30 @@
+{
+  "status": "PASSED",
+  "checkedAt": "2026-10-17T20:27:30.107Z",
+  "productionTransactions": 0,
+  "fixtureOnly": true,
+  "reports": [
+    {
+      "width": 1440,
+      "selectorOff": true,
+      "selectorOn": true,
+      "openingButton": true,
+      "actualPrices": true,
+      "stockLabels": 10,
+      "posts": 0,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 390,
+      "selectorOff": true,
+      "selectorOn": true,
+      "openingButton": true,
+      "actualPrices": true,
+      "stockLabels": 10,
+      "posts": 0,
+      "errors": [],
+      "failed": []
+    }
+  ]
+}

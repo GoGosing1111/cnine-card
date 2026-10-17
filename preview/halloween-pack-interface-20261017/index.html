@@ -4,7 +4,7 @@ body{margin:0;background:#060915;color:#eee3d3;font-family:'Noto Sans KR',sans-s
 </style></head><body><header class="review-head"><h1>할로윈팩 · 화면 시연</h1><p>판매 OFF · 계정 연결 없음 · 실제 추첨·차감·지급 없음</p><a class="review-link" href="/?screen=buy">라이브 카드상점으로</a></header><nav class="review-nav" aria-label="시연 화면"><button class="hwp-button" data-view="room">계약실</button><button class="hwp-button" data-view="auto">자동뽑기</button><button class="hwp-button" data-view="confirm">구매 확인</button><button class="hwp-button" data-view="results">10회 결과</button><button class="hwp-button" data-view="ss">SS 영상</button><button class="hwp-button" data-view="sss">SSS 영상</button></nav><section id="room" class="hwp-dialog hwp-preview" aria-label="할로윈팩 화면 시연"></section><script type="module">
 import {HALLOWEEN_PACK} from '/shared/mercenary-halloween-pack-v1.mjs';
 import {HALLOWEEN_PACK_CARDS} from '/shared/mercenary-halloween-pool-v3.mjs?v=20261018-valter-v1';
-import {halloweenRoomMarkup,halloweenCollectionMarkup,halloweenResultsMarkup} from '/js/mercenary-halloween-presentation-v2.mjs?v=20261018-valter-v1';
+import {halloweenRoomMarkup,halloweenCollectionMarkup,halloweenResultsMarkup} from '/js/mercenary-halloween-presentation-v2.mjs?v=20261018-stock-visible-v1';
 import {MERCENARY_CINEMATICS} from '/js/mercenary-acquisition-video.mjs?v=2145';
 const host=document.querySelector('#room'),$=s=>host.querySelector(s);let liveStock=[];
 function render(mode){

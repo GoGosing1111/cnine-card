@@ -6,9 +6,10 @@ import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primar
 import {halloweenFixture} from './helpers/halloween-pack-fixture.mjs';
 import {HALLOWEEN_PACK,halloweenPackCatalogRow} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {readHalloweenPackState,handleHalloweenPack} from '../functions/_mercenary_halloween_pack.js';
-const root=process.cwd(),stockOnly=process.env.QA_STOCK_ONLY==='1',shopOnly=process.env.QA_SHOP_ONLY==='1'||stockOnly,out=stockOnly?'C:/Users/User/.codex/tmp/halloween-ss-stock-20261017/qa':shopOnly?'C:/Users/User/.codex/tmp/halloween-auto-20261017/shop-qa':'C:/Users/User/.codex/tmp/halloween-sss-20261017/qa';fs.mkdirSync(out,{recursive:true});
+const root=process.cwd(),stockOnly=process.env.QA_STOCK_ONLY==='1',shopOnly=process.env.QA_SHOP_ONLY==='1'||stockOnly,out=process.env.QA_OUT||(stockOnly?'C:/Users/User/.codex/tmp/halloween-ss-stock-20261017/qa':shopOnly?'C:/Users/User/.codex/tmp/halloween-auto-20261017/shop-qa':'C:/Users/User/.codex/tmp/halloween-sss-20261017/qa');fs.mkdirSync(out,{recursive:true});
 const cleanup=[];let randomValues=[],posts=0,phase='off';
 const f=await halloweenFixture({after:fn=>cleanup.push(fn)},{randomInt:max=>{const n=randomValues.shift()??0;assert.ok(n<max);return n;}});
+const shopRow=async settings=>halloweenPackCatalogRow(settings,(await f.pg.query('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1')).rows);
 const mime={'.html':'text/html; charset=utf-8','.mjs':'text/javascript','.js':'text/javascript','.css':'text/css','.json':'application/json','.webp':'image/webp','.avif':'image/avif','.png':'image/png','.svg':'image/svg+xml','.mp4':'video/mp4','.woff2':'font/woff2','.jpg':'image/jpeg'};
 const server=http.createServer(async(req,res)=>{
  try{
@@ -31,33 +32,37 @@ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const base='htt
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']}),reports=[];
 try{
  for(const width of [1440,390]){
+  if(stockOnly){await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=2 WHERE code BETWEEN 'V-980' AND 'V-986'; UPDATE mercenary_limited_stock_v1 SET issued=10 WHERE code='V-986'; UPDATE mercenary_limited_stock_v1 SET issued=0 WHERE code='V-989'");}
   phase='off';f.settings.mode='OFF';f.settings.prices={single:null,ten:null};f.settings.normalRankRatesPpm=Object.fromEntries(HALLOWEEN_PACK.maxBatch?Object.keys(f.settings.normalRankRatesPpm).map(rank=>[rank,null]):[]);f.settings.cardRatesPpm=Object.fromEntries(Object.keys(f.settings.cardRatesPpm).map(code=>[code,null]));f.settings.normalSssRatePpm=null;f.settings.missRatePpm=null;await f.configure(1);
   const context=await browser.newContext({viewport:{width,height:width<600?844:1050},serviceWorkers:'block'}),errors=[],failed=[];
   await context.addInitScript(()=>{localStorage.setItem('cnine_battle_sound','OFF');});
   await context.route('**/*',route=>new URL(route.request().url()).origin===base?route.continue():route.abort());
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400&&/halloween|ss-contract|sss-contract/.test(r.url()))failed.push({url:r.url(),status:r.status()});});
   await page.goto(base+'/?screen=buy');await page.waitForFunction(()=>typeof renderShell==='function');await page.waitForSelector('#key');
-  await page.evaluate(row=>{document.querySelector('[data-miracle-close]')?.click();API_MODE=false;API_TOKEN='';localStorage.setItem(STORAGE_KEY,JSON.stringify({nickname:'할로윈 검수',role:'USER',coin:0,cardShards:0,owned:[],quantities:{},breakthroughs:{},testCoinGrantedV13:true}));applyServerPacks([row]);selectedPackId=row.id;renderShell('buy');},halloweenPackCatalogRow(undefined,[{code:'V-999',stock_limit:7,issued:6},{code:'V-989',stock_limit:3,issued:0}]));
+  await page.evaluate(row=>{document.querySelector('[data-miracle-close]')?.click();API_MODE=false;API_TOKEN='';localStorage.setItem(STORAGE_KEY,JSON.stringify({nickname:'할로윈 검수',role:'USER',coin:0,cardShards:0,owned:[],quantities:{},breakthroughs:{},testCoinGrantedV13:true}));applyServerPacks([row]);selectedPackId=row.id;renderShell('buy');},await shopRow());
   await page.locator('.halloween-shop-art img').evaluate(i=>i.decode());assert.equal(await page.locator('.halloween-shop-collection img').count(),10);assert.equal(await page.locator('[data-halloween-pack-enter]').count(),0);assert.equal(await page.locator('.halloween-shop-hero .draw').count(),0);assert.match(await page.locator('.halloween-shop-hero').innerText(),/개봉 OFF/);assert.ok(!(await page.locator('.pack-choice-halloween').innerText()).includes('0코인'));assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
   await page.locator('.halloween-shop-hero').screenshot({path:path.join(out,'shop-'+width+'.png')});
   if(shopOnly){
    assert.match(await page.locator('.pack-choice-halloween').innerText(),/판매 OFF/);
    f.settings.mode='ON';f.settings.prices={single:1000000000,ten:10000000000};f.settings.normalRankRatesPpm=Object.fromEntries(Object.keys(f.settings.normalRankRatesPpm).map(rank=>[rank,rank==='SSS'?1000000:0]));f.settings.missRatePpm=0;f.settings.cardRatesPpm=Object.fromEntries(Object.keys(f.settings.cardRatesPpm).map(code=>[code,code==='V-980'?1000000:0]));f.settings.normalSssRatePpm=0;
-   await page.evaluate(row=>{applyServerPacks([row]);selectedPackId=row.id;renderShell('buy');},halloweenPackCatalogRow(f.settings,[{code:'V-999',stock_limit:7,issued:6},{code:'V-989',stock_limit:3,issued:0}]));
+   await page.evaluate(row=>{applyServerPacks([row]);selectedPackId=row.id;renderShell('buy');},await shopRow(f.settings));
    assert.match(await page.locator('.pack-choice-halloween').innerText(),/판매 ON · 1회 1,000,000,000 코인/);assert.ok(!(await page.locator('.pack-choice-halloween').getAttribute('class')).includes('opening-off'));assert.equal(await page.locator('[data-halloween-pack-enter]').count(),1);assert.match(await page.locator('.halloween-shop-note').innerText(),/10,000,000,000 코인/);
    await page.locator('.pack-choice-halloween').screenshot({path:path.join(out,'selector-on-'+width+'.png')});await page.locator('.halloween-shop-hero').screenshot({path:path.join(out,'hero-on-'+width+'.png')});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.equal(posts,0);if(stockOnly){
-    assert.equal(await page.locator('.halloween-shop-hero .hwp-portrait[data-rank="SS"]').count(),7);
-    for(const text of await page.locator('.halloween-shop-hero .hwp-portrait[data-rank="SS"] figcaption').allTextContents())assert.doesNotMatch(text,/잔여|남은|\d+\s*장/);
+    const checkStock=async scope=>{const state=await f.state();assert.equal(await page.locator(scope+' [data-hwp-stock-code]').count(),10);for(const row of state.stock){const expected='남은 '+row.remaining+'장'+(row.remaining===0?' · 소진':'');assert.equal(await page.locator(scope+' [data-hwp-stock-code="'+row.code+'"]').textContent(),expected);}};
+    await checkStock('.halloween-shop-hero');
     f.settings.missRatePpm=0;phase='opening';await f.configure(3);
-    await page.goto(base+'/halloween-cms-qa');await page.locator('[data-halloween-rate="V-980"]').waitFor();
-    for(const text of await page.locator('[data-hwp-cms-rank="SS"] article').allTextContents())assert.match(text,/서버 한도 10장/);
-    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
-    await page.screenshot({path:path.join(out,'cms-stock-'+width+'.png'),fullPage:true});
-    await page.goto(base+'/halloween-qa');await page.waitForFunction(()=>document.querySelector('[data-hwp-buy="1"]')?.disabled===false);
-    assert.equal(await page.locator('[data-hwp-ss-limit]').count(),0);
-    for(const text of await page.locator('.hwp-seasonal-collection figcaption').allTextContents())assert.doesNotMatch(text,/잔여|남은|\d+\s*장/);
-    await page.locator('.hwp-welcome-art img').evaluate(i=>i.decode());await page.locator('.hwp-dialog').screenshot({path:path.join(out,'room-stock-'+width+'.png')});
+    await page.evaluate(async()=>{const {mountHalloweenPack}=await import('/js/mercenary-halloween-pack-live.mjs');await mountHalloweenPack({accountId:1,getAccountId:()=>1,lock:async(_key,work)=>work(),api:async(path,options={})=>{const r=await fetch('/api/'+path,{...options,headers:{'content-type':'application/json'},...(options.body?{body:JSON.stringify(options.body)}:{})});const value=await r.json();if(!r.ok)throw Object.assign(Error(value.error),value,{status:r.status});return value;}});});
+    await page.locator('[data-hwp-buy="1"]:not([disabled])').waitFor();await checkStock('.hwp-dialog');
+    await page.locator('.hwp-collection img').evaluateAll(images=>Promise.all(images.map(img=>img.decode())));
+    await page.locator('.hwp-collection').screenshot({path:path.join(out,'room-stock-'+width+'.png')});
+    await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=3 WHERE code IN ('V-980','V-989')");
+    await page.locator('[data-hwp-recover]').click();
+    await page.waitForFunction(()=>document.querySelector('.hwp-dialog [data-hwp-stock-code="V-980"]')?.textContent==='남은 7장');
+    await checkStock('.hwp-dialog');await checkStock('.halloween-shop-hero');
     assert.equal(await page.locator('.hwp-dialog').evaluate(el=>el.scrollWidth>el.clientWidth+1),false);
+    await page.locator('[data-hwp-close]').click();await page.evaluate(()=>renderShell('buy'));await checkStock('.halloween-shop-hero');
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+    await page.locator('.halloween-shop-collection').screenshot({path:path.join(out,'updated-stock-'+width+'.png')});
    }
    assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.equal(posts,0);reports.push({width,selectorOff:true,selectorOn:true,openingButton:true,actualPrices:true,stockLabels:stockOnly?10:null,posts,errors,failed});await context.close();continue;
   }

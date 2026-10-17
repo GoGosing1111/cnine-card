@@ -2,10 +2,13 @@
 export const halloweenUiAssets='/assets/ui/packs/halloween-interface-20261017/';
 export const halloweenEscape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const esc=halloweenEscape;
-// Player-facing collection cards intentionally omit issuance and remaining counts.
-export function halloweenStockText(){return '서버 한정';}
+// Use authoritative pack stock; unprepared or missing stock is never shown as zero.
+export function halloweenStockText(_card,stock){
+ if(!stock?.prepared||!Number.isSafeInteger(stock.remaining)||stock.remaining<0)return '수량 확인 중';
+ return '남은 '+stock.remaining.toLocaleString('ko-KR')+'장'+(stock.remaining===0?' · 소진':'');
+}
 export function halloweenCollectionMarkup(cards,stock=[]){
- const portrait=c=>{const s=stock.find(row=>row.code===c.code);return `<figure class="hwp-portrait" data-rank="${esc(c.rank)}" data-code="${esc(c.code)}"><div class="hwp-art-frame"><img src="/${esc(c.thumbnailArt||c.displayArt)}" alt="${esc(c.name)} ${esc(c.rank)} 리미티드 원화" loading="lazy"><span>${esc(c.rank)}</span></div><figcaption>${c.rank==='SSS'?'<em>SSS LIMITED</em>':''}<strong>${esc(c.name)}</strong><small>${halloweenStockText(c,s)}</small></figcaption></figure>`;};
+ const portrait=c=>{const s=stock.find(row=>row.code===c.code);return `<figure class="hwp-portrait" data-rank="${esc(c.rank)}" data-code="${esc(c.code)}"><div class="hwp-art-frame"><img src="/${esc(c.thumbnailArt||c.displayArt)}" alt="${esc(c.name)} ${esc(c.rank)} 리미티드 원화" loading="lazy"><span>${esc(c.rank)}</span></div><figcaption>${c.rank==='SSS'?'<em>SSS LIMITED</em>':''}<strong>${esc(c.name)}</strong><small data-hwp-stock-code="${esc(c.code)}">${halloweenStockText(c,s)}</small></figcaption></figure>`;};
  return '<section class="hwp-seasonal-collection"><div class="hwp-section-heading"><h3>일곱 명의 할로윈 리미티드</h3><span>SS LIMITED · 7</span></div><div class="hwp-roster">'+cards.filter(c=>c.rank==='SS').map(portrait).join('')+'</div></section><section class="hwp-legend-collection"><div class="hwp-section-heading"><h3>세 명의 SSS 리미티드</h3><span>SSS LIMITED · 3</span></div><div class="hwp-sss-roster">'+cards.filter(c=>c.rank==='SSS').map(portrait).join('')+'</div></section>';
 }
 export function halloweenResultsMarkup(results,packImage){

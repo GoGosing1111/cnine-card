@@ -1703,10 +1703,19 @@ document.addEventListener('click',event=>{
 });
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-halloween-pack-enter]');if(!button||button.disabled)return;
- button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=20261018-valter-v1').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+ button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=20261018-stock-visible-v1').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+});
+function halloweenShopStockText(stock){
+ if(!stock?.prepared||!Number.isSafeInteger(stock.remaining)||stock.remaining<0)return '수량 확인 중';
+ return '남은 '+stock.remaining.toLocaleString('ko-KR')+'장'+(stock.remaining===0?' · 소진':'');
+}
+window.addEventListener('halloween-pack:stock',event=>{
+ const stock=event.detail?.stock,pack=PACKS.find(row=>row.id==='mercenary-halloween-ss-limited');if(!Array.isArray(stock)||!pack)return;
+ pack.previewCards=(pack.previewCards||[]).map(card=>({...card,...stock.find(row=>row.code===card.code)}));
+ for(const label of document.querySelectorAll('.halloween-shop-hero [data-hwp-stock-code]'))label.textContent=halloweenShopStockText(stock.find(row=>row.code===label.dataset.hwpStockCode));
 });
 function halloweenPackHero(pack) {
- const portrait=c=>'<figure class="hwp-portrait" data-rank="'+escapeHtml(c.rank)+'" data-code="'+escapeHtml(c.code)+'"><div class="hwp-art-frame"><img src="/'+escapeHtml(c.thumbnailArt)+'" alt="'+escapeHtml(c.name)+' 리미티드 원화" loading="lazy"><span>'+escapeHtml(c.rank)+'</span></div><figcaption>'+(c.rank==='SSS'?'<em>SSS LIMITED</em>':'')+'<strong>'+escapeHtml(c.name)+'</strong><small>서버 한정</small></figcaption></figure>';
+ const portrait=c=>'<figure class="hwp-portrait" data-rank="'+escapeHtml(c.rank)+'" data-code="'+escapeHtml(c.code)+'"><div class="hwp-art-frame"><img src="/'+escapeHtml(c.thumbnailArt)+'" alt="'+escapeHtml(c.name)+' 리미티드 원화" loading="lazy"><span>'+escapeHtml(c.rank)+'</span></div><figcaption>'+(c.rank==='SSS'?'<em>SSS LIMITED</em>':'')+'<strong>'+escapeHtml(c.name)+'</strong><small data-hwp-stock-code="'+escapeHtml(c.code)+'">'+halloweenShopStockText(c)+'</small></figcaption></figure>';
  const collection=(pack.previewCards||[]).filter(c=>c.rank==='SS').map(portrait).join(''),legends=(pack.previewCards||[]).filter(c=>c.rank==='SSS').map(portrait).join('');
  return '<section class="halloween-shop-hero"><div class="halloween-shop-main"><div class="halloween-shop-copy"><p class="halloween-eyebrow">REVERSE CALL · HALLOWEEN</p><h2>할로윈<br><em>리미티드 용병팩</em></h2><p class="halloween-shop-description">일곱 개의 계약,<br>세 개의 전설이 깨어나는 밤.</p><div class="halloween-shop-facts"><span>할로윈 <b>SS 7종</b></span><span>SSS 리미티드 <b>3종</b></span></div>'+(pack.drawEnabled?'<button class="hwp-button hwp-primary halloween-shop-action" data-halloween-pack-enter>할로윈 계약실 입장</button>':'<div class="hwp-button halloween-shop-action halloween-shop-status" role="status">출시 예정 · 개봉 OFF</div>')+(pack.drawEnabled?'<p class="halloween-shop-note"><span>1회 '+Number(pack.prices?.single??pack.price).toLocaleString()+' 코인</span><span>10회 '+Number(pack.prices?.ten).toLocaleString()+' 코인</span></p>':'')+'</div><div class="halloween-shop-art">'+packResponsiveImage(pack,{hero:true})+'</div></div><section class="halloween-shop-collection"><div class="hwp-section-heading"><h3>할로윈 한정 컬렉션</h3><span>SS LIMITED · 7</span></div><div class="hwp-roster">'+collection+'</div><section class="hwp-legend-collection"><div class="hwp-section-heading"><h3>세 명의 SSS 리미티드</h3><span>SSS LIMITED · 3</span></div><div class="hwp-sss-roster">'+legends+'</div></section></section></section>';
 }
