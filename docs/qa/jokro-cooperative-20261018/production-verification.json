@@ -1,0 +1,121 @@
+{
+  "verifiedAt": "2026-10-17T18:38:26.361Z",
+  "source": "3f8f9b3c384d4223c45ea2eb07033b8008cfa3c6",
+  "verifiedFiles": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "53c2ca04eaa2fb0162aab6896e2a10dbaf0ae699f532c31b8c43d29f6c063d1d"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "d146301018eaeedd8f2d29075dfa69dafe1cd5bb533b8a0680991f90be32e48e"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "72cab0e06c6b2e007eb46befaabd2a5ebcdf6479ea59c1ead4c8073967244c4f"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "bc4295b5bc29b6bab75e6ebbfa7b232b00afa0dc5f54b6725ad1515e1bb61a68"
+    },
+    {
+      "file": "js/cooperative-battleground-entry.js",
+      "status": 200,
+      "sha256": "c1bff7da1adfca4114fcfbf801725a8600c656446ec042c3cfe9f2927bd11918"
+    },
+    {
+      "file": "raid/cooperative/live.mjs",
+      "status": 200,
+      "sha256": "db35a64f638dc8b50f6caba3f68f5608585a929129d001182de81b912f1667dc"
+    },
+    {
+      "file": "raid/cooperative/battle.mjs",
+      "status": 200,
+      "sha256": "5ad990492efd6c3423df1028755e54e97d98aa49be1e28cf15f30eaba2805dca"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "98479f11c24b45e697dabf92d8dddc8a9951a6a53e462cf6fed0c4edc82c4c90"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "49d185fa38f9d1cbc985e2abad0196a96e4a69b1edf5c778d43b9814a81a2e0d"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "0ed8b9092412ce12e39d61966a2e689de543eee27d13942b5a156d0a514d25b7"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "b447c0a1aa858268be0af0c5887b38d9f3eef3b6515b8b845864a9f620fdafc6"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "status": 200,
+      "sha256": "281dfb9331a63401df58f38394cd9fbc0d9b83a73238d012a227c52ffb07ca85"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "67eedd61ddc5b1a2622f577b54d96cbf8e8243333b73f72ee6d06436c186636c"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "status": 200,
+      "sha256": "bb6c6743a2c23b976d6b9f793e3cf93f22decd00a9b6d505accb5b1477cd8802"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "status": 200,
+      "sha256": "8c915ecc4fa011be586951150b85b8ede1ee936f57cbdf160db99cb64682c391"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "status": 200,
+      "sha256": "8c845b2023674367a049c6d0fe7c798e120b70ceaf39874e76c1f41aee933c14"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "sha256": "0579ef06bab1b64f83f7dabbd5ec134533facf9d2c4f29f88b12d7b6f9f3d54e"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jokro-dialogue-20261018/frame.webp",
+      "status": 200,
+      "sha256": "5ba48a5f23a36f23d13f1d3fb10d7a89be21cd4732b6be885f24b55d62ed2e5c"
+    }
+  ],
+  "visual": {
+    "width": 390,
+    "runtime": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1",
+    "speaker": "V-979",
+    "frame": "url(\"https://cnine-card.pages.dev/assets/ui/project-v/mercenaries/jokro-dialogue-20261018/frame.webp\")",
+    "screenCleave": true,
+    "overflow": false,
+    "canvasTop": 236,
+    "railBottom": 236
+  },
+  "playback": {
+    "code": "V-979",
+    "eventType": "MERCENARY_JOKRO_AREA",
+    "mode": "awakening",
+    "clockOwner": "V3_REGISTERED_GSAP",
+    "authoritative": true,
+    "damageApplications": 3,
+    "playbackRate": 1,
+    "contactSeconds": 0.2,
+    "durationSeconds": 3.1999999999999997,
+    "cooperativeDraw": true
+  },
+  "errors": [],
+  "fixtureOnly": true,
+  "productionTransactions": 0
+}
