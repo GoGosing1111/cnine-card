@@ -1,0 +1,48 @@
+{
+  "type": "BROWSER_LAYOUT_AND_DISK_RESOURCE_INTEGRATION_NOT_ANDROID_DEVICE",
+  "launcher": [
+    {
+      "name": "small",
+      "width": 320,
+      "height": 568,
+      "documentWidth": 320,
+      "images": [
+        true
+      ]
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "documentWidth": 390,
+      "images": [
+        true
+      ]
+    },
+    {
+      "name": "tablet",
+      "width": 800,
+      "height": 1200,
+      "documentWidth": 800,
+      "images": [
+        true
+      ]
+    },
+    {
+      "name": "desktop-reference",
+      "width": 1100,
+      "height": 760,
+      "documentWidth": 1100,
+      "images": [
+        true
+      ]
+    }
+  ],
+  "game": {
+    "diskResponses": 238,
+    "networkResponses": 10,
+    "errors": [],
+    "releaseId": "ab72fc6a9d11b1e2a71f523b3ae70146f13d1339f9f7a7dfd8e5d9f0c3dbbcfb"
+  },
+  "androidDevice": "NOT_CONNECTED"
+}

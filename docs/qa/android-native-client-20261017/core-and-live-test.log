@@ -1,0 +1,28 @@
+warning: [options] bootstrap class path not set in conjunction with -source 8
+1 warning
+PASS initial preparation downloads only essential files
+PASS complete manifest activated
+PASS second launch reuses verified files with zero network downloads
+PASS optional image persists and is reused
+PASS same-length and same-time corruption is repaired
+PASS new release downloads only the changed file
+PASS wrong remote bytes rejected
+PASS failed update preserves previous complete version
+PASS API response excluded from persistent files
+PASS path traversal rejected
+PASS duplicate manifest path rejected
+PASS API and POST bypass resource storage
+PASS foreign and encoded traversal requests rejected
+PASS cached audio/video ranges bounded correctly
+PASS only newer APK versions can update
+PASS untrusted APK URL rejected
+PASS different APK signing identity rejected
+PASS different APK package rejected
+PASS APK redirect downgrade and host confusion rejected
+LIVE 0/1579 downloaded=0 needed=103193657
+LIVE 753/1579 downloaded=34999309 needed=103193657
+LIVE 1395/1579 downloaded=102148267 needed=103193657
+LIVE 1579/1579 downloaded=103193657 needed=103193657
+PASS actual production release second preparation makes zero downloads
+LIVE_RESULT {"milliseconds":77159,"releaseId":"ab72fc6a9d11b1e2a71f523b3ae70146f13d1339f9f7a7dfd8e5d9f0c3dbbcfb","downloadedFiles":1579,"cacheHits":1579}
+RESULT {"passed":true,"assertions":20}

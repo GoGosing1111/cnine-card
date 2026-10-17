@@ -1,4 +1,12 @@
-## 안드로이드 APK · DK 직접 배포 준비 — 2026-10-17 최신
+## 안드로이드 전용 리소스 저장 · 앱 업데이트 — 2026-10-17 최신
+
+- 사용자 `추가 구현 해`와 **`전용 리소스 저장 방식으로 전환 (권장)`** 선택에 따라 Android **1.1.0 / versionCode 3**부터 자체 WebView와 앱 전용 영구 파일 저장소를 사용한다. 아래 1.0.1 TWA·수동 업데이트 설명은 이전 버전 이력이다. 패키지 `dev.pages.cnine_card.twa`와 원래 서명은 호환성을 위해 유지한다.
+- 운영 정적 리소스 목록을 검사하고 필수 파일을 SHA-256/크기로 검증하여 저장·재사용한다. 이미지·음원은 사용할 때 저장하며 변경·누락·손상 파일만 받는다. API·계정 응답·POST·실시간 통신은 리소스 저장 대상이 아니다. 게임 실행 중 목록은 고정하고 다음 런처 준비에서 갱신한다. Chrome/PWA와 프로필이 분리되어 최초 재로그인이 필요할 수 있다.
+- Android 전용 `packaging/android-direct/latest.json` 피드로 새 APK를 자동 확인·다운로드한다. 파일·패키지·버전·설치된 앱과 원래 인증서를 검증하고 **사용자가 Android 설치 화면에서 최종 확인**한다. 전투 중 설치하지 않는다. 기존 1.0.1 이용자는 이번 1.1.0을 한 번 직접 설치해야 한다.
+- APK는 `android-v<version>` GitHub prerelease/비최신 릴리스로 배포하고 Windows 최신 릴리스·`latest.yml`을 변경하지 않는다. 공개 APK 검증 후 Android 피드를 커밋·푸시한다. DK 게시 대상은 기존 지정 주소이며 자동 게시 완료로 기록하지 않는다.
+- 전용 ImageGen 런처 배경·버튼은 `packaging/android-direct/art/manifest.json`으로 보존한다. 브라우저 레이아웃·JVM 저장소·빌드 검증을 Android 실기기 설치·전투·설치 확인 검수로 대신하지 않는다. 재현·검수·배포 기록은 `docs/android-native-client-20261017.md`, `packaging/android-direct/README.txt`를 따른다.
+
+## 안드로이드 APK · DK 직접 배포 준비 — 2026-10-17 이전 1.0.1 이력
 
 - 사용자 `안드로이드 APK 준비해봐 마켓없이 DK사이트에 올려서 배포하게`와 지정 게시글 `https://www.playdk.kr/board/skm/1336497`을 따른다. `packaging/android-direct/distribution.json`의 **리버스콜 1.0.1 / versionCode 2**는 운영자 업로드용 준비본이며 DK 게시 완료·실기기 검수 완료로 표시하지 않는다.
 - 기존 Android 패키지 `dev.pages.cnine_card.twa`와 원래 서명 키를 유지한다. 다음 APK/Play 빌드는 같은 앱의 증가하는 versionCode를 사용한다. 키가 없거나 인증서가 다르면 중단하며 대체 키를 만들지 않는다. 개인 키·암호·APK·Android 빌드 폴더는 웹 저장소 밖에 둔다.

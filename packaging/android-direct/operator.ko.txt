@@ -1,0 +1,15 @@
+배포 대상: {{BOARD}}
+파일: {{FILENAME}}
+SHA-256: {{HASH}}
+공개 다운로드: {{DOWNLOAD_URL}}
+
+Android 전용 GitHub 릴리스에서 APK를 제공하고, 저장소 main의 packaging/android-direct/latest.json으로 새 버전을 알립니다. 공개 릴리스와 피드가 모두 확인된 후 이 링크를 DK에 연결합니다. DK 게시글은 자동 편집하지 않았습니다.
+
+실기기에서 처음 설치 / 1.0.1 위에 업데이트 / 파일 준비 후 로그인 / 실제 전투와 복귀 / OS 뒤로가기 / 재실행 / 다음 버전 설치 허용·취소를 확인해 주세요. 빌드·서명·JVM 캐시 회귀·운영 리소스 다운로드 검사를 Android 실기기 검사로 간주하지 않습니다.
+
+DK에는 APK를 직접 첨부하거나 위의 실제 다운로드 링크와 DK-게시글-본문.txt를 넣습니다. 첨부가 제한되면 파일 확장자를 위장하지 말고 링크를 사용합니다.
+
+다음 앱 버전은 같은 packageId·원래 서명과 증가하는 versionCode를 사용합니다.
+build-apk.ps1 → 검수 → 범위 커밋/푸시 → publish-apk.mjs <전달 폴더> --publish → 생성된 latest.json 커밋/푸시 → 공개 피드·APK 확인.
+배포 스크립트는 Android 태그와 prerelease/비최신 릴리스를 사용하므로 Windows 최신 안정 릴리스와 latest.yml을 변경하지 않습니다. Android 클라이언트는 전용 JSON 피드만 사용합니다.
+서명 키·암호는 이 폴더에 포함하지 않았습니다. Play 마켓 등록은 하지 않습니다.

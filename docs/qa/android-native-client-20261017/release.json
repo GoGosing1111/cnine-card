@@ -1,0 +1,57 @@
+{
+  "createdAt": "2026-10-17T01:08:44.970Z",
+  "channel": "DK_DIRECT_APK",
+  "publication": "PREPARED_FOR_OPERATOR_UPLOAD",
+  "boardUrl": "https://www.playdk.kr/board/skm/1336497",
+  "file": "ReverseCall-Android-1.1.0.apk",
+  "bytes": 3664063,
+  "sha256": "28dee54f29a7abae49156c6f8e1d5eebd2dd8c91a72e1596a47975be7d3797cd",
+  "appName": "리버스콜",
+  "packageId": "dev.pages.cnine_card.twa",
+  "version": "1.1.0",
+  "versionCode": 3,
+  "minSdk": 24,
+  "targetSdk": 36,
+  "universal": true,
+  "debuggable": false,
+  "startUrl": "https://cnine-card.pages.dev/?source=android&distribution=dk",
+  "signerSha256": "1A:16:4D:EA:3A:2B:E5:F9:FA:53:AE:10:7E:D0:B7:5E:5E:A5:65:86:23:7B:DD:F2:73:E4:76:28:6C:24:1E:15",
+  "checks": {
+    "apkSignature": true,
+    "zipAlignment": true,
+    "compiledManifest": true,
+    "nativeSources": {
+      "native/AndroidManifest.xml": "17206842e6ef4d3dc2317390d1829dba5199681d2829903d417c1753d0802b7a",
+      "native/Application.java": "62cc587b0ca68c458cd81b753747228ea615173f4546df0a1f2ba29f96932ebf",
+      "native/AppUpdater.java": "4d323e97a8cc046f1e0ce779704888fdf61dde01f50b73454be6500c53930e21",
+      "native/ClientHttp.java": "9c70bb0e5cd65ba57f704a93b8b758a7f59bfa1b0a893aa0dbb2555049d9ce3c",
+      "native/ClientPolicy.java": "ac3d87ec643846adacc96d02b2ac2c980896ce92c8f0f8163161139cf664ebe6",
+      "native/GameActivity.java": "e43d30b6ccf30d41b9cd7c58af139cbe2ad8813b0b9c2aad7dbdada80e20e655",
+      "native/LauncherActivity.java": "bbcee44a0c6b77ac293c0f71b86884b276fbdf423430c46098a12c284b35100c",
+      "native/LauncherUi.java": "de5646eec7fec6b55ae610fbd8326a6393652ca398360a8ce87a174e78b861f7",
+      "native/ResourceStore.java": "e4774e3d8daf1474c8a54f85cb3933ee9294b096ccf224e68c86509134b5e9ee",
+      "native/UpdateFileProvider.java": "d27fed5eeefa8f0d10afe85ff89d9db3bd370b1b1fc84a93b854e40524247ded",
+      "art/background.webp": "9e4dc1ae781342a9deaba89347680288938d4f6ec9a7635a07b18dd31145dd15",
+      "art/button.webp": "7a154814c007169b8a83adeaaecfd23cbf40dcd2254796253f067ba6f7771cbd"
+    },
+    "lintErrors": 0,
+    "lintWarnings": 63,
+    "liveDigitalAssetLinks": true,
+    "approvedLiveIcons": [
+      {
+        "url": "https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png",
+        "sha256": "0ebe379f58b694564244d35442419f7ae01c3cd367f5e88e7223ee846c8f6e70"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/maskable-512.png",
+        "sha256": "44344ec1e213c88aedb197e329738098cd4f1a657851541a45440bda8578738d"
+      }
+    ]
+  },
+  "deviceTesting": "PENDING_PHYSICAL_ANDROID_DEVICE",
+  "gameSource": "NATIVE_WEBVIEW_VERIFIED_RESOURCE_STORE",
+  "updates": "AUTO_CHECK_DOWNLOAD_VERIFY_USER_CONFIRMS_INSTALL",
+  "updateFeed": "https://raw.githubusercontent.com/GoGosing1111/cnine-card/main/packaging/android-direct/latest.json",
+  "resourceManifest": "https://cnine-card.pages.dev/client/windows/manifest.json",
+  "resourceCacheBudgetBytes": 805306368
+}

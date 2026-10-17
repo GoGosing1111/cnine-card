@@ -1,0 +1,8 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-17",
+  "prompts": [
+    "Use case: ui-mockup. Asset type: production background bitmap for a portrait Android fantasy game launcher and verified resource downloader for REVERSE CALL. Create a beautiful restrained premium dark obsidian sci-fantasy gate, violet crystal edge lighting, silver architectural details at the outer top corners and lower edges, no characters. Portrait 2:3 composition. Central 75% is very dark calm and clean with subtle material, open space for live native UI title, three lines of text, progress and two buttons. Main gate light at top 20%, bottom foreground gently textured. No panels inside the image, no UI widgets, NO text, letters, numbers or logos. Understated game launcher artwork, not a dashboard, not a busy illustration. Crisp refined lighting, deep navy/black, small restrained amethyst highlights. Background fully opaque.",
+    "Use case: ui-mockup. Asset type: single transparent horizontal button skin for a native Android game launcher update/download controls. One very wide low-height silver and dark obsidian beveled plaque with softly cut angled corners, restrained tiny amethyst light at far left and right ends, subtle brushed dark metal blank center. The visible plaque must be about 6:1 aspect ratio, centered and occupy most width with little transparent border. Thin silver edging and subtle depth, clean readable shape at 320x52 screen pixels, NO text, letters, logos, pictograms, gems, crown, wings, large protrusions or background. True transparent exterior. Must look elegant and compact, medium restraint, not ornate. Interior very dark so white live text is readable."
+  ]
+}

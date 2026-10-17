@@ -1,0 +1,41 @@
+{
+  "tool": "built-in image_gen",
+  "promptSet": "prompts.json",
+  "processing": "Resize, format conversion, transparent margin trim only",
+  "approval": "TECHNICAL_REVIEW_ONLY",
+  "consumer": "LauncherUi.java",
+  "files": [
+    {
+      "file": "originals/background.png",
+      "bytes": 2246745,
+      "sha256": "a20e0bc11552bead0010eef0f070abdeaac66342fbb9416d1f402dff05b28214",
+      "width": 1024,
+      "height": 1536,
+      "alpha": false
+    },
+    {
+      "file": "originals/button.png",
+      "bytes": 1125771,
+      "sha256": "29b773d1734ffa1c7da8b8bab0e6084b555c5113060458234a8e729dc0ee3ac1",
+      "width": 2172,
+      "height": 724,
+      "alpha": true
+    },
+    {
+      "file": "background.webp",
+      "bytes": 104392,
+      "sha256": "9e4dc1ae781342a9deaba89347680288938d4f6ec9a7635a07b18dd31145dd15",
+      "width": 768,
+      "height": 1152,
+      "alpha": false
+    },
+    {
+      "file": "button.webp",
+      "bytes": 105018,
+      "sha256": "7a154814c007169b8a83adeaaecfd23cbf40dcd2254796253f067ba6f7771cbd",
+      "width": 900,
+      "height": 134,
+      "alpha": true
+    }
+  ]
+}

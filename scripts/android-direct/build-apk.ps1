@@ -37,6 +37,8 @@ try {
   $env:PLAY_TOOLS_ROOT=$toolsPath
   & node (Join-Path $repoPath 'scripts/play-store/generate-android.mjs') $projectPath $manifestPath
   if($LASTEXITCODE -ne 0){throw 'Android project generation failed.'}
+  & node (Join-Path $PSScriptRoot 'prepare-native.mjs') $projectPath
+  if($LASTEXITCODE -ne 0){throw 'Native Android resource client preparation failed.'}
   & (Join-Path $repoPath 'scripts/play-store/build-android.ps1') -ProjectDirectory $projectPath -ToolsDirectory $toolsPath -SigningDirectory $signingPath -ApkOnly -RequireExistingKey -ExpectedCertificateSha256 $distribution.certificateSha256
   & node (Join-Path $PSScriptRoot 'prepare-delivery.mjs') $projectPath $outputPath $toolsPath
   if($LASTEXITCODE -ne 0){throw 'APK verification or delivery failed.'}
