@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-17T16:09:05.487Z",
+  "checks": [
+    {
+      "viewport": 1440,
+      "headerBottom": 72,
+      "railTop": 72,
+      "railBottom": 174,
+      "canvasTop": 174,
+      "canvasHeight": 406,
+      "quoteInside": true,
+      "portraitOpacity": "1",
+      "portrait": "url(\"http://127.0.0.1:8893/preview/mercenary-jokro-iaido-20261017-v1/assets/source-art-preview.webp\")",
+      "sealVisible": true,
+      "measured": 5,
+      "rails": 1,
+      "outerRails": 0,
+      "filterAttached": true,
+      "rimStrength": 0.9904246556654213,
+      "texts": 5,
+      "heights": [
+        102
+      ],
+      "top": [
+        174
+      ],
+      "motionOnlyDisabled": true,
+      "reducedFixed": true
+    },
+    {
+      "viewport": 390,
+      "headerBottom": 60,
+      "railTop": 60,
+      "railBottom": 162,
+      "canvasTop": 162,
+      "canvasHeight": 577,
+      "quoteInside": true,
+      "portraitOpacity": "1",
+      "portrait": "url(\"http://127.0.0.1:8893/preview/mercenary-jokro-iaido-20261017-v1/assets/source-art-preview.webp\")",
+      "sealVisible": false,
+      "measured": 5,
+      "rails": 1,
+      "outerRails": 0,
+      "filterAttached": true,
+      "rimStrength": 0.9904246556654213,
+      "texts": 5,
+      "heights": [
+        102
+      ],
+      "top": [
+        162
+      ],
+      "motionOnlyDisabled": true,
+      "reducedFixed": true
+    },
+    {
+      "railCleanup": "PASS"
+    }
+  ],
+  "errors": [],
+  "status": "PASS"
+}

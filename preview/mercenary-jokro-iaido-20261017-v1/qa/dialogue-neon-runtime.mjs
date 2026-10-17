@@ -1,0 +1,24 @@
+import fs from 'node:fs/promises';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+import assert from 'node:assert/strict';
+const require=createRequire(import.meta.url),{chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const root=fileURLToPath(new URL('./',import.meta.url)),browser=await chromium.launch({channel:'chrome',headless:true}),report={date:new Date().toISOString(),checks:[],errors:[]};
+try{
+ const page=await browser.newPage({viewport:{width:1440,height:1080},deviceScaleFactor:1});page.on('pageerror',e=>report.errors.push(e.message));page.on('console',m=>{if(m.type()==='error')report.errors.push(m.text());});
+ await page.goto('http://127.0.0.1:8893/preview/mercenary-jokro-iaido-20261017-v1/',{waitUntil:'networkidle'});await page.waitForFunction(()=>window.JokroPreview?.diagnostics().ready,null,{timeout:25000});
+ for(const viewport of [{width:1440,height:1080},{width:390,height:844}]){
+  await page.setViewportSize(viewport);await page.waitForTimeout(250);
+  await page.locator('[data-mode="aura"]').click();await page.evaluate(()=>window.JokroPreview.fx.seek(1));
+  const info=await page.evaluate(()=>{const {dialogue:d,engine:e,fx,merc}=window.JokroPreview,h=d.header.getBoundingClientRect(),r=d.root.getBoundingClientRect(),c=e.host.getBoundingClientRect(),q=d.quote.getBoundingClientRect(),image=d.root.querySelector('.jokro-dialogue-face>i');return {headerBottom:h.bottom,railTop:r.top,railBottom:r.bottom,canvasTop:c.top,canvasHeight:c.height,quoteInside:q.left>=r.left&&q.right<=r.right&&q.bottom<=r.bottom,portraitOpacity:getComputedStyle(image).opacity,portrait:getComputedStyle(image).backgroundImage,sealVisible:getComputedStyle(d.root.querySelector('.jokro-dialogue-seal')).display!=='none',measured:d.diagnostics().measuredLines,rails:d.shell.querySelectorAll('#limited-dialogue').length,outerRails:document.querySelectorAll('#limited-dialogue').length,filterAttached:merc.fullBodySprite.filters.includes(fx.neonRim),rimStrength:fx.neonRim.strength};});
+  assert.ok(Math.abs(info.headerBottom-info.railTop)<1);assert.ok(Math.abs(info.railBottom-info.canvasTop)<1);assert.ok(info.canvasHeight>250&&info.quoteInside);assert.equal(info.rails,1);assert.equal(info.outerRails,0);assert.equal(info.measured,5);assert.equal(info.portraitOpacity,'1');assert.ok(info.portrait.includes('assets/source-art-preview.webp'));assert.equal(info.sealVisible,viewport.width>760);assert.ok(info.filterAttached&&info.rimStrength>.8);
+  await page.locator('.battle-viewport').screenshot({path:root+(viewport.width>500?'desktop':'mobile')+'-dialogue-neon.png'});
+  await page.evaluate(()=>window.JokroPreview.fx.setAura(false));await page.locator('.battle-viewport').screenshot({path:root+(viewport.width>500?'desktop':'mobile')+'-neon-outline.png'});await page.evaluate(()=>window.JokroPreview.fx.setAura(true));
+  const variants=await page.evaluate(()=>{const {dialogue:d,fx}=window.JokroPreview,texts=[],heights=[],top=[];for(let i=0;i<6;i++){d.begin('awakening','청룡단천');texts.push(d.quote.textContent);heights.push(d.root.getBoundingClientRect().height);top.push(d.host.getBoundingClientRect().top);d.end();if(d.quote.textContent!==texts.at(-1))throw Error('Quote disappeared');}const before=d.index;d.begin('attack','녹린일섬');if(before!==d.index)throw Error('Normal attack consumed a skill quote');fx.setMotionOnly(true);const motionOnlyDisabled=!fx.neonRim.enabled;fx.setMotionOnly(false);fx.setReducedMotion(true);const reducedFixed=fx.neonRim.strength===1;fx.setReducedMotion(false);return {texts:[...new Set(texts)].length,heights:[...new Set(heights)],top:[...new Set(top)],motionOnlyDisabled,reducedFixed};});
+  assert.equal(variants.texts,5);assert.equal(variants.heights.length,1);assert.equal(variants.top.length,1);assert.ok(variants.motionOnlyDisabled&&variants.reducedFixed);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth),0);
+  report.checks.push({viewport:viewport.width,...info,...variants});
+ }
+ const cleanup=await page.evaluate(()=>{const {dialogue:d,engine:e}=window.JokroPreview,old=d.previousTop.value;d.destroy();return {connected:d.root.isConnected,top:e.host.style.getPropertyValue('top'),old,styles:!!d.style.isConnected};});assert.equal(cleanup.connected,false);assert.equal(cleanup.styles,false);assert.equal(cleanup.top,cleanup.old);report.checks.push({railCleanup:'PASS'});
+ await page.evaluate(()=>window.JokroPreview.dispose());assert.equal(report.errors.length,0,report.errors.join('\n'));report.status='PASS';
+}catch(e){report.status='FAIL';report.failure=e.stack;throw e;}finally{await fs.writeFile(root+'dialogue-neon-report.json',JSON.stringify(report,null,2)+'\n');await browser.close();}
+console.log(JSON.stringify(report));

@@ -39,7 +39,8 @@ async function boot(){
   merc=new BattleCharacter({id:'JOKRO_RESOURCE_PREVIEW',name:'족로',team:TEAM.ALLY,fullBodyTexture:sd,cutInTexture:null,fullBodyHeight:manifest.displaySizing.fullBodyHeight,accent:0x49eaa8});
   merc.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);engine.combatLayer.addChild(merc.root);engine.setFormationMercenaries([merc]);merc.root.alpha=1;merc.root.visible=true;
   const targets=engine.enemies.slice().sort((a,b)=>b.baseY-a.baseY);fx=new JokroFX(engine,merc,targets,assets,manifest,plan(),update);
-  dialogue=new JokroDialogue(parentDoc);
+  dialogue=new JokroDialogue(engine);engine.setFormationMercenaries([merc]);fx.captureFormation();
+  engine.host.closest('.battle-v3-live-shell').querySelector('.battle-v3-header strong').textContent='족로 전투 시연';
   fx.onCancel=()=>{stopQueue();dialogue.end();};fx.onComplete=()=>{dialogue.end();if(!queue.active)return;queue.index++;if(queue.index<SHOWCASE.length)playQueue();else{queue.completed=true;stopQueue();$('cue').textContent='전체 시연 완료';}};
   $('showcase').onclick=startQueue;$('play').onclick=()=>{if(fx.playing)fx.pause();else{if(fx.time>=fx.plan.duration)beginDialogue(fx.plan.mode);fx.play();}};$('restart').onclick=()=>{if(queue.active)startQueue();else{beginDialogue(fx.plan.mode);fx.seek(0);fx.play();}};$('cancel').onclick=()=>fx.cancel();
   $('impact').onclick=()=>fx.seek(fx.plan.contacts[0]??.35);$('scrub').oninput=()=>{stopQueue();fx.seek(Number($('scrub').value));};$('speed').onchange=()=>fx.setSpeed(Number($('speed').value));

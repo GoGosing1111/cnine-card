@@ -2021,7 +2021,8 @@
     "awakeningTests": "qa/awakening.test.mjs",
     "awakeningRuntimeReport": "qa/awakening-runtime-report.json",
     "awakeningRecording": "qa/awakening-preview.webp",
-    "priorAssetAndRuntimeReports": "Initial 108-frame / seven-mode version; retained as history."
+    "priorAssetAndRuntimeReports": "Initial 108-frame / seven-mode version; retained as history.",
+    "dialogueNeonReport": "qa/dialogue-neon-report.json"
   },
   "animation": {
     "motionRate": 2,
@@ -2031,10 +2032,18 @@
   },
   "dialogue": {
     "display": "PERSISTENT_RESERVED_RAIL",
-    "portrait": false,
+    "placement": "BELOW_BATTLE_HEADER_ABOVE_CANVAS",
+    "portrait": true,
+    "portraitSource": "assets/source-art-preview.webp",
+    "portraitCrop": {
+      "position": "50% 14%",
+      "size": "500% auto"
+    },
     "rankLabel": "SSS 리미티드",
     "lines": 5,
-    "cycle": "Advance on skill cast; retain last line between casts."
+    "cycle": "Advance on skill cast only; retain last line between casts.",
+    "heightPolicy": "Premeasure all five quotes in the same CSS grid; reserve host top below rail.",
+    "standardReference": "references/limited-dialogue-standard-20261018.json"
   },
   "awakening": {
     "mode": "awakening",
@@ -2057,5 +2066,15 @@
     "baseline": "references/jinmu-operating-baseline-20261018.json",
     "status": "IMPLEMENTED_FOR_REVIEW_NOT_LIVE",
     "productionEnabled": false
+  },
+  "neonRim": {
+    "implementation": "source/JokroNeonRim.js",
+    "scope": "CHARACTER_ALPHA_SILHOUETTE_ONLY",
+    "color": "MINT_CORE_EMERALD_HALO",
+    "coreRadiusScreenPixels": 1.25,
+    "haloRadiusScreenPixels": 7,
+    "sourcePixelsChanged": false,
+    "reducedMotion": "FIXED_STRENGTH",
+    "motionOnly": "DISABLED"
   }
 }

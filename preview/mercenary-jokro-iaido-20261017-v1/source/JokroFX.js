@@ -3,6 +3,7 @@ import {gsap} from 'gsap';
 import {sample,clamp,track} from '../skill.mjs';
 import {CueAudio} from '../../mercenary-crimson-silver-knight-battle-v1/source/CueAudio.js';
 import {JokroAwakeningFX} from './JokroAwakeningFX.js';
+import {JokroNeonRim} from './JokroNeonRim.js';
 const ROOT='/preview/mercenary-jokro-iaido-20261017-v1/';
 const mix=(a,b,t)=>a+(b-a)*t;
 export async function loadJokroAssets(manifest){
@@ -24,6 +25,7 @@ export class JokroFX{
   this.ground=new Graphics();this.layer.addChild(this.ground);
   this.pool=Array.from({length:140},()=>{const s=new Sprite();s.anchor.set(.5);s.visible=false;this.layer.addChild(s);return s;});
   this.targetsBase=targets.map(a=>({x:a.view.x,tint:a.fullBodySprite.tint}));
+  this.previousBodyFilters=merc.fullBodySprite.filters;this.neonRim=new JokroNeonRim();merc.fullBodySprite.filters=[...(this.previousBodyFilters||[]),this.neonRim];
   this.awakening=new JokroAwakeningFX(engine,assets,manifest);
   this.makeAura();this.captureFormation();this.makeTimeline();this.render(0);
  }
@@ -105,6 +107,7 @@ export class JokroFX{
  render(t){
   if(this.destroyed)return;this.pool.forEach(s=>s.visible=false);this.used=0;this.activeFrames=[];this.ground.clear();
   const s=sample(this.plan,t);this.sample=s;this.applyPose(s.pose);const p=this.positionAt(s);this.merc.root.position.set(p.x,p.y);this.updateAura(s);
+  this.neonRim.enabled=!this.motionOnly;this.neonRim.strength=this.reducedMotion?1:.93+Math.sin(t*2.1)*.07;
   this.targets.forEach((a,i)=>{a.view.x=this.targetsBase[i].x;a.fullBodySprite.tint=this.targetsBase[i].tint;});
   this.engine.sortCombatDepth();
   this.awakening.render(this.plan,s,this);
@@ -145,5 +148,5 @@ export class JokroFX{
   this.onUpdate(this);
  }
  diagnostics(){return {ready:!this.destroyed,mode:this.plan.mode,time:this.time,playing:this.playing,speed:this.speed,pose:this.sample.pose,cancelled:this.sample.cancelled,visibleSprites:this.pool.filter(s=>s.visible).length,activeFrames:this.activeFrames,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,regularAllies:this.engine.allies.length,regularEnemies:this.engine.enemies.length,mercenaryInRegularArray:this.engine.allies.includes(this.merc),effectLayers:this.engine.effectLayer.children.filter(c=>c.label==='JokroFX').length,auraVisible:this.auraBack.visible,auraEnabled:this.auraEnabled,motionOnly:this.motionOnly,reducedMotion:this.reducedMotion,audio:{enabled:this.audio.enabled,scheduled:this.audio.scheduled,error:this.audio.error||null},unit:this.currentUnit,clockOwner:'V3_REGISTERED_GSAP',damageAuthority:'NONE_VISUAL_PREVIEW',motionRate:2,effectRate:1,illustrationCutIn:false,awakening:this.awakening.diagnostics(),counts:this.manifest.counts}}
- destroy(){if(this.destroyed)return;this.cancel();this.audio.destroy();this.awakening.destroy();this.auraBack.destroy({children:true});this.auraFront.destroy({children:true});this.layer.destroy({children:true});for(const frames of [...Object.values(this.assets.motion),...Object.values(this.assets.effects)])for(const texture of frames)texture.destroy(false);this.destroyed=true;this.pool=[];}
+ destroy(){if(this.destroyed)return;this.cancel();this.audio.destroy();this.awakening.destroy();this.merc.fullBodySprite.filters=this.previousBodyFilters;this.neonRim.destroy();this.auraBack.destroy({children:true});this.auraFront.destroy({children:true});this.layer.destroy({children:true});for(const frames of [...Object.values(this.assets.motion),...Object.values(this.assets.effects)])for(const texture of frames)texture.destroy(false);this.destroyed=true;this.pool=[];}
 }

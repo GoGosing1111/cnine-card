@@ -1,0 +1,40 @@
+{
+  "reviewedDate": "2026-10-18",
+  "sourceWorktree": "C:/Users/User/.codex/worktrees/jinmu-live-owner-grant/cnine-card/",
+  "sourceHead": "c223f12321942ddd56445cac7841e3c513419034",
+  "sources": [
+    {
+      "file": "preview/project-v-v3/source/battle/JinmuDialogue.js",
+      "sha256": "CFC0C2FD77B5A14568AB7E2E6F63FAC5C3BA485638682689DAF0FA21F9566A72"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
+      "sha256": "1ED5FB939C896E605A9811D67E95E668FBF7837EBD7B892A05C2CA74CCDD5CFC"
+    },
+    {
+      "file": "docs/limited-dialogue-20261013.md",
+      "sha256": "3289A672F28E19B7DBA182067360155EF0AB16DD53234530FA42FFEB49BEB15B"
+    }
+  ],
+  "screenshots": [
+    {
+      "source": "docs/qa/limited-dialogue-20261013/1440-V-996-line-1.png",
+      "saved": "existing-valter-dialogue-desktop.png",
+      "sha256": "54E240EFD8069CEC9DAFF97C610A76FA62E6906F82E4CC15858308E3EEC56116"
+    },
+    {
+      "source": "docs/qa/limited-dialogue-20261013/390-V-999-battle.png",
+      "saved": "existing-helios-dialogue-mobile.png",
+      "sha256": "3F26FE729F73B5B501287348A3575009CAD5C7E8209523A237D012126F665232"
+    }
+  ],
+  "verified": {
+    "placement": "Below battle header, above canvas",
+    "portrait": "Small CSS crop of approved illustration at full opacity",
+    "desktop": "Portrait, name and skill, centered quote, right SSS LIMITED seal",
+    "mobile": "Right seal hidden; portrait and quote remain",
+    "lifecycle": "Premeasure all quotes; retain after casting; restore reserved space on destroy",
+    "productionGates": "PVE and cooperative battleground only; PVP and actual raids excluded"
+  },
+  "correction": "Removed parent-page bottom rail; restored portrait and matching header-reserved layout inside V3 battle shell."
+}

@@ -1,12 +1,12 @@
 {
-  "date": "2026-10-17T15:54:14.443Z",
+  "date": "2026-10-17T16:09:05.490Z",
   "checks": [
     {
       "viewport": 1440,
       "splitAndCleanup": "PASS",
       "dialogueBounds": {
         "inside": true,
-        "height": 100
+        "height": 102
       }
     },
     {
@@ -14,7 +14,7 @@
       "splitAndCleanup": "PASS",
       "dialogueBounds": {
         "inside": true,
-        "height": 116
+        "height": 102
       }
     },
     {

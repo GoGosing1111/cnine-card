@@ -16,8 +16,7 @@ try{
   const duration=MODES[m].duration,count=Math.ceil(duration*fps);
   for(let i=0;i<count;i++){
    await page.evaluate(async t=>{const p=window.JokroPreview;p.fx.seek(t);p.engine.app.renderer.render(p.engine.app.stage);await new Promise(requestAnimationFrame);},Math.min(duration,i/fps));
-   const bounds=await page.locator('.battle-viewport').boundingBox(),rail=await page.locator('#limited-dialogue').boundingBox();
-   const png=await page.screenshot({clip:{x:bounds.x,y:bounds.y,width:bounds.width,height:rail.y+rail.height-bounds.y}}),raw=await sharp(png).resize({width}).ensureAlpha().raw().toBuffer({resolveWithObject:true});info=raw.info;buffers.push(raw.data);
+   const png=await page.locator('.battle-viewport').screenshot(),raw=await sharp(png).resize({width}).ensureAlpha().raw().toBuffer({resolveWithObject:true});info=raw.info;buffers.push(raw.data);
   }
  }
  const output=root+'qa/'+(mode==='all'?'full-showcase.webp':mode+'-preview.webp'),count=buffers.length;
