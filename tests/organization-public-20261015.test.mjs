@@ -33,7 +33,7 @@ test('anonymous login gate ignores old drafts; background clan refresh preserves
   // Only legacy feature modules are stubbed. The shipped ClanV1 polling/render path is real.
   if(/^\/js\/clan-(war-reform|faction)-v1\.mjs$/.test(requested)){res.writeHead(200,{'Content-Type':'text/javascript'}).end('export function connect(){}');return;}
   const file=resolve(root,'.'+(requested==='/organization/'?'/organization/index.html':requested)),rel=relative(root,file);
-  if(rel.startsWith('..')||isAbsolute(rel)||!/^\/(organization\/|js\/(?:organization-|clan-v1.js)|css\/organization-|shared\/organization-|assets\/ui\/organization\/|assets\/fonts\/)/.test(requested)){res.writeHead(404).end();return;}
+  if(rel.startsWith('..')||isAbsolute(rel)||!/^\/(organization\/|js\/(?:organization-|clan-v1.js)|css\/organization-|shared\/(?:organization-|clan-faction-)|assets\/ui\/organization\/|assets\/fonts\/)/.test(requested)){res.writeHead(404).end();return;}
   res.setHeader('Content-Type',({'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.webp':'image/webp','.ttf':'font/ttf'})[extname(file)]||'application/octet-stream');
   res.end(await readFile(file));
  }catch{res.writeHead(404).end();}});

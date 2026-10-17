@@ -1,4 +1,5 @@
-import {mount} from './organization-faction-v1.mjs?v=20261018-season-open';
+import {mount} from './organization-faction-v1.mjs?v=20261018-map-stable';
+import {observeOrganizationHeight} from './organization-embed-size-v1.mjs?v=20261018-map-stable';
 const root=document.getElementById('organizationFactionRoot');
 const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const roundId=new URL(location.href).searchParams.get('roundId');
@@ -39,8 +40,4 @@ async function playFactionBattle(data){
  }catch(error){close();throw error;}
 }
 mount(root,{apiRequest,ensureFeatureResources:ensureBattle,playFactionBattle});
-if(window.parent!==window){
- let last=0,queued=false;
- const resize=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;const height=Math.ceil(document.body.scrollHeight);if(height!==last){last=height;parent.postMessage({type:'organization:faction:height',height},location.origin);}});};
- new ResizeObserver(resize).observe(document.body);resize();
-}
+observeOrganizationHeight(root,'organization:faction:height');

@@ -65,7 +65,7 @@ test('organization faction desktop and mobile map, formation, fund ledger and st
   await page.locator('[data-fw-focus=all]').first().click();assert.equal(await page.locator('.fw-seoul-map').getAttribute('viewBox'),fullBox);
   if(width===390)await page.locator('[data-fw-district-select]').selectOption('41110');else await page.locator('[data-fw-zone="41110"]').click();
   assert.equal(await page.locator('.fw-detail h2').innerText(),'수원시');
-  assert.ok(Number((await page.locator('.fw-seoul-map').getAttribute('viewBox')).split(' ')[2])<300,'region selection centers and zooms to its true boundary');
+  assert.equal(await page.locator('.fw-seoul-map').getAttribute('viewBox'),fullBox,'region selection preserves map position and scale');
   await page.screenshot({path:join(out,width+'-selected.png'),fullPage:true});
   await page.locator('[data-fw-launch]').click();await page.waitForFunction(()=>document.querySelector('.fw-detail .fw-owner strong')?.textContent==='도끼파');
   const replayNode=await page.locator('.fw-seoul-map').elementHandle();

@@ -13,7 +13,7 @@ test('PC and mobile admission complete seven questions, restore drafts, submit, 
  const browser=await chromium.launch({channel:'chrome',headless:true});t.after(()=>browser.close());await mkdir(out,{recursive:true});
  const server=createServer(async(req,res)=>{try{
   const pathname=new URL(req.url,'http://127.0.0.1').pathname,requested=pathname==='/'?'/preview/organization-system-v1/index.html':decodeURIComponent(pathname),file=resolve(root,'.'+requested),rel=relative(root,file);
-  if(rel.startsWith('..')||isAbsolute(rel)||!/^\/(preview\/organization-system-v1\/|js\/organization-|css\/organization-|shared\/organization-|assets\/ui\/organization\/|assets\/fonts\/)/.test(requested)){res.writeHead(404).end();return;}
+  if(rel.startsWith('..')||isAbsolute(rel)||!/^\/(preview\/organization-system-v1\/|js\/organization-|css\/organization-|shared\/(?:organization-|clan-faction-)|assets\/ui\/organization\/|assets\/fonts\/)/.test(requested)){res.writeHead(404).end();return;}
   res.setHeader('Content-Type',({'.html':'text/html; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.webp':'image/webp','.ttf':'font/ttf'})[extname(file)]||'application/octet-stream');
   res.end(await readFile(file));
  }catch{res.writeHead(404).end();}});
@@ -46,7 +46,7 @@ test('PC and mobile admission complete seven questions, restore drafts, submit, 
   await page.locator('[data-action="propose"]').click();await page.waitForFunction(()=>!document.querySelector('[data-action="apply"]').disabled);
   await fits();await images();await page.locator('[data-action="apply"]').click();await page.waitForFunction(()=>document.querySelector('[data-action="apply"]').textContent==='배정 확정 완료');
   assert.equal((await f.call('admin/organization')).data.round.phase,'ASSIGNED');
-  await page.goto(origin);await page.locator('.org-my-head').waitFor();await fits();await images();
+  await page.goto(origin);await page.locator('.org-directory').waitFor();await page.locator('.org-nav [data-tab=mine]').click();await page.locator('.org-my-head').waitFor();await fits();await images();
   await page.locator('[data-tab="hideout"]').click();await page.locator('[data-stage="4"]').click();await fits();await images();await shot('hideout');
   assert.deepEqual(errors,[]);await page.close();
  }

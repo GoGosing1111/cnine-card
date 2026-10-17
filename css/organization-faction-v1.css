@@ -50,3 +50,5 @@ body{margin:0;background:#080e11;color:#e4ece9;font-family:'Noto Sans KR','Malgu
 
 /* The generated dossier surface supplies panel material and precision cut corners. */
 .fw-map-panel,.fw-detail,.fw-session-strip,.fw-squad-card,.fw-roster-pool,.fw-org-funds,.fw-vault,.fw-revenue-list,.fw-battle-room,.fw-invasion-alert{border:1px solid transparent;border-image-source:url('/assets/ui/organization/interface-v2/dossier-panel.webp');border-image-slice:12% 11% 12% 11% fill;border-image-width:14px;border-image-repeat:stretch}
+
+.fw-seoul-caption{pointer-events:none;cursor:inherit}

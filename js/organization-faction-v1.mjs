@@ -77,7 +77,7 @@ function mapView(){
     <g class="fw-map-context" aria-hidden="true">${svg.context.map(f=>`<path d="${f.path}" fill-rule="evenodd"/>`).join('')}</g>
     ${svg.features.map(f=>{const zone=d.districts.find(z=>z.id===f.id),picked=zone.id===state.selected,battle=battleAt(zone.id),own=zone.owner===mine(),color=own?'#c8ff6b':team(zone.owner)?.color||'#52657e';return `<g class="fw-zone ${picked?'selected':''} ${battle?'contested':''} ${own?'owned':''}" data-fw-zone="${f.id}" data-area="${f.area}" role="button" tabindex="0" aria-label="${f.name} · ${esc(team(zone.owner)?.name||'무주지')} · ${status(zone)}" aria-pressed="${picked}" style="--zone:${esc(color)}"><path d="${f.path}" fill-rule="evenodd"/><path class="fw-zone-hatch" d="${f.path}" fill-rule="evenodd" fill="${battle?'url(#fw-conflict)':'none'}"/></g>`;}).join('')}
     <g class="fw-map-labels" style="--label-size:${font}px;--owner-size:${font*.64}px" aria-hidden="true">${svg.features.filter(f=>detail||f.area!=='SEOUL'||f.id===state.selected).filter(f=>!mobile||detail||f.labelRadius>=25||f.id===state.selected).map(f=>{const zone=d.districts.find(z=>z.id===f.id),picked=f.id===state.selected,battle=battleAt(f.id),owner=team(zone.owner)?.name||'무주지';return `<text class="${picked?'selected':''}" x="${f.x}" y="${f.y}">${f.name.length>2?f.name.replace(/[시구]$/,''):f.name}${(detail||picked)&&(!mobile||picked)?`<tspan x="${f.x}" dy="${labelHeight}">${battle?'⚔ 교전 중':esc(owner)}</tspan>`:''}</text>`;}).join('')}</g>
-    ${!detail?`<g class="fw-seoul-caption" data-fw-focus="seoul" role="button" tabindex="0" aria-label="서울 25구 확대" transform="translate(${(seoul[0]+seoul[2])/2} ${seoul[1]-22})"><text style="font-size:${font*1.05}px">서울 · 25구 ↗</text><path d="M0 8V20"/></g>`:''}
+    ${!detail?`<g class="fw-seoul-caption" aria-hidden="true" transform="translate(${(seoul[0]+seoul[2])/2} ${seoul[1]-22})"><text style="font-size:${font*1.05}px">서울 · 25구</text><path d="M0 8V20"/></g>`:''}
     ${svg.features.filter(f=>battleAt(f.id)).map(f=>`<g class="fw-map-battle-pin" data-fw-pick="${f.id}" role="button" tabindex="0" aria-label="${f.name} 교전 중" transform="translate(${f.x} ${f.y}) scale(${font/23})"><circle r="14"/><g transform="translate(-10 -10) scale(.83)">${crossedSwords}</g></g>`).join('')}
     </svg><div class="fw-map-north" aria-hidden="true">N<span>↑</span></div><span class="fw-map-area-label">${state.mapFocus==='seoul'?'서울 확대':state.mapFocus==='selected'?selected.name+' 확대':state.mapFocus==='custom'?'상세 지도':'서울 · 경기남부'}</span></div>
     <div class="fw-map-selection"><span><small>선택 지역</small><b>${selected.name}</b><em>${esc(team(selectedZone.owner)?.name||'무주지')}</em></span><button data-fw-show-detail>작전 정보 →</button></div>
@@ -147,13 +147,13 @@ function draw(){
   state.root.querySelectorAll('button,select').forEach(b=>{if(state.busy)b.disabled=true;});
   if(!factionCombatOpen(d))state.root.querySelectorAll('[data-fw-launch],[data-fw-enter]').forEach(b=>{b.disabled=true;});
 }
-function selectDistrict(id,scroll=false){state.selected=id;state.tab='map';if(scroll)focusMap('selected');else draw();}
+function selectDistrict(id){if(state.selected!==id&&state.mapFocus==='selected')state.mapFocus='custom';state.selected=id;state.tab='map';draw();}
 function bind(){
   const root=state.root;if(!root)return;
   bindMapDrag(root.querySelector('.fw-seoul-map'));
   root.querySelectorAll('[data-fw-tab]').forEach(b=>b.onclick=()=>{state.tab=b.dataset.fwTab;state.notice='';draw();});
-  root.querySelectorAll('[data-fw-zone],[data-fw-pick]').forEach(b=>{b.onclick=()=>selectDistrict(b.dataset.fwZone||b.dataset.fwPick,true);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();b.onclick();}};});
-  root.querySelector('[data-fw-district-select]')?.addEventListener('change',e=>selectDistrict(e.target.value,true));
+  root.querySelectorAll('[data-fw-zone],[data-fw-pick]').forEach(b=>{b.onclick=()=>selectDistrict(b.dataset.fwZone||b.dataset.fwPick);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();b.onclick();}};});
+  root.querySelector('[data-fw-district-select]')?.addEventListener('change',e=>selectDistrict(e.target.value));
   root.querySelectorAll('[data-fw-zoom]').forEach(b=>b.onclick=()=>zoomMap(b.dataset.fwZoom));
   root.querySelectorAll('[data-fw-focus]').forEach(b=>{b.onclick=()=>focusMap(b.dataset.fwFocus);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();b.onclick();}};});
   root.querySelector('[data-fw-show-detail]')?.addEventListener('click',()=>root.querySelector('.fw-detail')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'}));

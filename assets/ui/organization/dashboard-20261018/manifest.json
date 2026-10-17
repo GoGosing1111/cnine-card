@@ -1,0 +1,26 @@
+{
+  "createdAt": "2026-10-18",
+  "tool": "built-in image_gen",
+  "prompt": "prompt.json",
+  "status": "TECHNICAL_QA_COMPLETE_USER_VISUAL_REVIEW_PENDING",
+  "sourcePreserved": true,
+  "derivative": "Uniform resize and WebP encoding only",
+  "consumer": "css/organization-system-v1.css .org-live-hero",
+  "assets": [
+    {
+      "file": "headquarters-status-source-v1.png",
+      "sha256": "4a9069cf8b5a296135501bce2c9a94ebade0f43584dca43c03230c16c805eba9",
+      "width": 2172,
+      "height": 724,
+      "bytes": 2477130
+    },
+    {
+      "file": "headquarters-status-v1.webp",
+      "sha256": "2e6435d41fd0ee88da715cb1cc927015be21eb6f03f86d28fc8a77dc0d1ef442",
+      "width": 1600,
+      "height": 533,
+      "bytes": 178692
+    }
+  ],
+  "reusedOrganizationKit": "assets/ui/organization/interface-v2/manifest.json"
+}
