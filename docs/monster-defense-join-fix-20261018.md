@@ -22,3 +22,12 @@
 ## 배포
 
 직전 운영 배포는 Cloudflare Pages 목록에서 확인한 `ad955088-2bce-4371-8980-d660f1c4cd7a`, 소스 `a42bd1509fb2d995d32898b245b890af04940e8c`다. 범위 커밋·원격 반영 후 `npm run deploy:production -- --scoped`로 배포한다. 배포 완료 식별자와 공개 파일 검증 결과는 후속 기록한다.
+
+2026-10-18 01:12 KST 운영 반영 확인:
+
+- 소스 `2c235f063b33522a82df450f3a258c1dd641d4d0`, Pages [633c6e14](https://633c6e14.cnine-card.pages.dev).
+- PC·모바일 브라우저 검사와 V3 전투 진입 통과, 브라우저 오류 및 자산 실패 0. 배포 시 보유·편성 서버 회귀 2/2, 출시 보호 및 Hyperdrive 캐시 OFF 검사 통과.
+- API runtime `f43f4daf-ec7d-43eb-b2c5-18b2774cb575`, scheduler `96af0622-1934-4f59-88bc-a43124d6de0e`.
+- 실제 운영 `/defense/` HTML과 번들이 HTTP 200이며 로컬 배포 소스와 SHA-256 일치. HTML은 새 `20261018-defense-join1` 번들을 참조한다.
+- 앱 리소스 목록의 디펜스 번들 해시·크기·필수 다운로드 등록이 일치한다. `/defense/index.html`은 기존 앱 영구 저장 허용 경로 밖이며 네트워크 문서로 검증했다. 초기 검증 스크립트의 HTML 캐시 포함 가정을 실제 정책에 맞게 수정했으며 제품 정책은 바꾸지 않았다.
+- 운영 계정·방에 검수용 쓰기 없음. 확인 결과는 `docs/qa/monster-defense-join-20261018/production-report.json`이다. 결과 기록 커밋 때문에 동일 실행 코드를 다시 검사하거나 재배포하지 않는다.

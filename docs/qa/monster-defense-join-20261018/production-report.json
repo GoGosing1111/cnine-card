@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-17T16:12:37.138Z",
+  "source": "2c235f063b33522a82df450f3a258c1dd641d4d0",
+  "origin": "https://cnine-card.pages.dev",
+  "checks": [
+    {
+      "file": "defense/index.html",
+      "sha256": "fa2de10ada5721f48e946c592a299864a41d2b0ab028d0221c79f31bbe8ef015",
+      "bytes": 11973,
+      "status": 200
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "cb2c37f2abf4fabf7d723caad9ec5e1a29e1f72cbdabb010c7ef082a8e644099",
+      "bytes": 2156433,
+      "status": 200
+    }
+  ],
+  "clientManifest": {
+    "releaseId": "1159625e84b2d6d36f8c3ca3376bac33450cffb83b7d25ca36b25cf4676ed18e",
+    "essentialFilesVerified": 1,
+    "networkDocuments": [
+      "defense/index.html"
+    ]
+  },
+  "liveWrites": 0
+}
