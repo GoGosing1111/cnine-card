@@ -28,4 +28,11 @@ SS 등급, V-980 코드, 캐릭터별 서버 5장, 기존 발행 카운터와 �
 - 증빙: `preview/halloween-bongsoon-harlequin-20261017/qa/`의 PC·모바일 화면, `browser-report.json`, `skill-preview.webm`.
 - 배포 지정 검사: `tests/halloween-harlequin-20261017.test.mjs`, `tests/mercenary-halloween-art-20261014.test.mjs`, `tests/valter-attack-motion-speed-20261009.test.mjs`, 정책상 추가되는 `tests/pve-battlefield-entry-v2117.test.mjs`, `check:worker`.
 
-운영 반영 결과는 배포 후 이 문서에 기록한다. 사용자 원본·프롬프트·해시·재현 빌더는 모두 저장소에 보존한다.
+## 운영 반영 완료
+
+- 소스 커밋 `e7f9ee737e1b731a73d79bac54d2c0e0a6ca6683`, Pages `https://8b4a037b.cnine-card.pages.dev`. 지정된 `npm run deploy:production -- --scoped`를 완료했다. 관련 검사 **24/24**, Worker 문법, 출시 보호 조건, Hyperdrive 캐시 OFF 검사를 통과했다. 최초 캐시 태그 불일치는 배포 전 바로잡았다.
+- API Runtime `6788a2fa-2538-401a-a2d4-f07af29b4232` 100% 활성 확인. Clan Draft `fbb22be2-ffc6-4d1a-918d-d572b5b7d232` 배포 완료.
+- 2026-10-17 09:01 KST 운영 도감 API의 V-980 원화·SD·`HALLOWEEN_CARNIVAL_BREAK` 연결을 확인했다. 운영 파일 15개가 HTTP 200이고 로컬 검수본 해시와 일치한다. 텍스트는 CRLF/LF를 정규화하고 PNG/WebP는 원본 바이트로 비교했다.
+- 공개 팩 API를 배포 전후 읽기 전용으로 비교했다. revision, settings, stock, releaseEnabled, userOpeningEnabled가 모두 동일하며 **OFF / 서버 5장 / 획득·편성 비활성**을 유지한다. CMS 설정·발행 카운터 쓰기는 수행하지 않았다.
+- 실제 운영 프리뷰에서 0.25배 재생·정지·적중을 추가 확인했다. 0.6초에서 약 600ms 재생 후 0.754초, 정지 후 시각 고정, 적중 위치 오차 0, SD 정상 크기, 브라우저 오류 0. `qa/production-report.json`, `qa/production-browser.json`, `qa/production-preview.png`에 보존했다.
+- 배포 전 잠시 분리한 기존 원화 제작 출력 폴더는 원래 위치로 복구하고 V2 원본 해시 일치를 확인했다. 사용자 원본·프롬프트·해시·재현 빌더는 모두 보존한다. 이 후속 기록만 추가하는 커밋은 운영 재배포나 통과한 게임 검사를 반복하지 않는다.

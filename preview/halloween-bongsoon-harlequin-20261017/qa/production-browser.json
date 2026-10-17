@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "checkedAt": "2026-10-17T00:01:48.272Z",
+  "slowPlayback": {
+    "ready": true,
+    "disposed": false,
+    "time": 0.754,
+    "playing": false,
+    "speed": 0.25,
+    "fxVisible": true,
+    "frame": 5,
+    "stage": "travel",
+    "contactDistance": null,
+    "visibleEffects": 1,
+    "code": "V-980",
+    "bodyTexture": "https://cnine-card.pages.dev/assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd.webp?v=170600EE6FAF94E9",
+    "bodyMotion": "STATIC_SD_USER_SELECTED",
+    "canvasCount": 1,
+    "registered": true
+  },
+  "impact": {
+    "ready": true,
+    "disposed": false,
+    "time": 1.38,
+    "playing": false,
+    "speed": 0.25,
+    "fxVisible": true,
+    "frame": 9,
+    "stage": "impact",
+    "contactDistance": 0,
+    "visibleEffects": 1,
+    "code": "V-980",
+    "bodyTexture": "https://cnine-card.pages.dev/assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd.webp?v=170600EE6FAF94E9",
+    "bodyMotion": "STATIC_SD_USER_SELECTED",
+    "canvasCount": 1,
+    "registered": true,
+    "sdWidth": 146.02711439265016,
+    "sdHeight": 146.0271143926502
+  },
+  "errors": []
+}
