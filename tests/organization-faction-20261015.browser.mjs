@@ -5,7 +5,7 @@ import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {resolve,extname,join,relative,isAbsolute} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {organizationFactionFixture} from './helpers/organization-faction-fixture.mjs';
-const root=fileURLToPath(new URL('..',import.meta.url)),out=join(root,'preview/organization-interface-v2/faction');
+const root=fileURLToPath(new URL('..',import.meta.url)),out=process.env.ORGANIZATION_FACTION_QA_DIR||join(root,'preview/organization-interface-v2/faction');
 test('organization faction desktop and mobile map, formation, fund ledger and stable refresh use isolated accounts',async t=>{
  const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
  const controlAudit=[];
@@ -46,6 +46,21 @@ test('organization faction desktop and mobile map, formation, fund ledger and st
   assert.ok(Number(seoulBox.split(' ')[2])<450,'Seoul focus uses same coordinates at a closer view');
   assert.equal(await page.locator('[data-fw-zone]').count(),46);
   assert.equal(await page.locator('.fw-map-labels text').count(),46);
+  await page.locator('.fw-seoul-map').scrollIntoViewIfNeeded();
+  const point=await page.locator('.fw-seoul-map').evaluate(async svg=>{const map=await fetch('/organization/faction/districts-v1.json').then(r=>r.json()),f=map.features.find(f=>f.id==='11710'),p=new DOMPoint(f.x,f.y).matrixTransform(svg.getScreenCTM());return {x:p.x,y:p.y};});
+  const selectedBefore=await page.locator('.fw-map-selection b').innerText();
+  await page.mouse.move(point.x,point.y);await page.mouse.down();await page.mouse.move(point.x+70,point.y+35,{steps:8});
+  const draggedBox=await page.locator('.fw-seoul-map').getAttribute('viewBox');assert.notEqual(draggedBox,seoulBox);assert.equal(await page.locator('.fw-map-selection b').innerText(),selectedBefore);assert.equal(await page.locator('.fw-seoul-map').evaluate(n=>getComputedStyle(n).cursor),'grabbing');
+  await page.mouse.up();assert.equal(await page.locator('.fw-map-selection b').innerText(),selectedBefore,'dragging across a region never selects it');
+  await page.locator('[data-fw-reload]').first().click();await page.waitForTimeout(250);assert.equal(await page.locator('.fw-seoul-map').getAttribute('viewBox'),draggedBox,'refresh preserves camera position');
+  await page.locator('.fw-seoul-map').scrollIntoViewIfNeeded();const dragRect=await page.locator('.fw-seoul-map').boundingBox();
+  await page.mouse.move(dragRect.x+dragRect.width/2,dragRect.y+dragRect.height/2);await page.mouse.down();await page.mouse.move(2,2,{steps:5});await page.mouse.up();assert.equal(await page.locator('.fw-seoul-map.is-dragging').count(),0,'release outside the map ends pointer capture');
+  await page.locator('[data-fw-focus=seoul]').first().click();assert.equal(await page.locator('.fw-seoul-map').getAttribute('viewBox'),seoulBox);
+  await page.locator('.fw-seoul-map').scrollIntoViewIfNeeded();
+  const clickPoint=await page.locator('.fw-seoul-map').evaluate(async svg=>{const map=await fetch('/organization/faction/districts-v1.json').then(r=>r.json()),f=map.features.find(f=>f.id==='11710'),p=new DOMPoint(f.x,f.y).matrixTransform(svg.getScreenCTM());return {x:p.x,y:p.y};});
+  if(width===390)await page.touchscreen.tap(clickPoint.x,clickPoint.y);else{await page.mouse.move(clickPoint.x,clickPoint.y);await page.mouse.down();await page.mouse.move(clickPoint.x+2,clickPoint.y+1);await page.mouse.up();}
+  assert.equal(await page.locator('.fw-map-selection b').innerText(),'송파구','a tap or a short click with tiny motion still selects the region');
+  await page.locator('[data-fw-focus=seoul]').first().click();
   await page.screenshot({path:join(out,width+'-seoul.png'),fullPage:true});
   await page.locator('[data-fw-focus=all]').first().click();assert.equal(await page.locator('.fw-seoul-map').getAttribute('viewBox'),fullBox);
   if(width===390)await page.locator('[data-fw-district-select]').selectOption('41110');else await page.locator('[data-fw-zone="41110"]').click();
@@ -62,6 +77,7 @@ test('organization faction desktop and mobile map, formation, fund ledger and st
   await page.locator('[data-fw-tab="treasury"]').first().click();await page.locator('.fw-org-funds').waitFor();
   assert.match(await page.locator('.fw-org-funds').innerText(),/CMS 설정 대기/);
   assert.match(await page.locator('.fw-treasury').innerText(),/46개/);
+  assert.match(await page.locator('.fw-treasury').innerText(),/6개 이상/);assert.match(await page.locator('.fw-vault').innerText(),/3,000억/);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   await page.screenshot({path:join(out,width+'-treasury.png'),fullPage:true});
   await inspectControls(page,width+' treasury');

@@ -27,6 +27,36 @@ function myBattles(){
 function status(d){return battleAt(d.id)?'교전 중':d.protectedUntil>now()?'점령 보호':d.owner===mine()?'우리 지역':d.owner?'공격 가능':'무주지';}
 function hp(label,value,side){return `<div class="fw-hp ${side}"><div><span>${label}</span><b>${num(value)} <small>/ ${compact(R.sharedHp)}</small></b></div><progress max="${R.sharedHp}" value="${value}" aria-label="${esc(label.replace(/<[^>]+>/g,''))} 공유 HP"></progress></div>`;}
 function currentCamera(){return state.camera||[0,0,state.map.width,state.map.height];}
+function bindMapDrag(svg){
+ if(!svg)return;let drag=null,suppressClick=false;
+ svg.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='touch'||e.button!==0||!e.isPrimary||drag)return;
+  const box=[...currentCamera()],rect=svg.getBoundingClientRect(),scale=Math.min(rect.width/box[2],rect.height/box[3]);
+  if(!(scale>0))return;
+  suppressClick=false;drag={id:e.pointerId,x:e.clientX,y:e.clientY,box,scale,target:e.target,moved:false};state.mapDragging=true;
+  e.target.setPointerCapture(e.pointerId);
+ });
+ svg.addEventListener('pointermove',e=>{
+  if(!drag||drag.id!==e.pointerId)return;
+  const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(!drag.moved&&Math.hypot(dx,dy)<6)return;
+  drag.moved=true;suppressClick=true;e.preventDefault();svg.classList.add('is-dragging');
+  const [x,y,w,h]=drag.box,clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+  state.camera=[clamp(x-dx/drag.scale,-w*.85,state.map.width-w*.15),clamp(y-dy/drag.scale,-h*.85,state.map.height-h*.15),w,h];state.mapFocus='custom';
+  svg.setAttribute('viewBox',state.camera.join(' '));
+  state.root.querySelectorAll('[data-fw-focus]').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
+  const label=state.root.querySelector('.fw-map-area-label');if(label)label.textContent='상세 지도';
+ });
+ const finish=e=>{
+  if(!drag||drag.id!==e.pointerId)return;
+  const ended=drag;drag=null;state.mapDragging=false;svg.classList.remove('is-dragging');
+  if(ended.target.hasPointerCapture?.(e.pointerId))ended.target.releasePointerCapture(e.pointerId);
+  if(state.mapDrawPending)requestAnimationFrame(()=>{if(!state.mapDragging)draw();});
+ };
+ for(const event of ['pointerup','pointercancel','lostpointercapture'])svg.addEventListener(event,finish);
+ svg.addEventListener('click',e=>{if(suppressClick&&e.detail!==0){suppressClick=false;e.preventDefault();e.stopImmediatePropagation();}},true);
+ svg.addEventListener('dragstart',e=>e.preventDefault());
+}
 function focusMap(mode){
   const f=state.map.features.find(f=>f.id===state.selected),b=mode==='selected'?f.bounds:state.map.focusBounds[mode];
   if(mode==='all'){state.camera=null;state.mapFocus='all';draw();return;}
@@ -43,7 +73,7 @@ function mapView(){
   const selected=svg.features.find(f=>f.id===state.selected),selectedZone=d.districts.find(f=>f.id===state.selected),seoul=svg.focusBounds.seoul;
   return `<section class="fw-map-panel" aria-label="서울 · 경기남부 세력전 지도"><header><div><span class="fw-eyebrow">METROPOLITAN / ORGANIZATION CONTROL</span><h3>수도권 전황도 <small>서울 25구 · 경기남부 21시군</small></h3></div><div class="fw-map-controls"><button data-fw-zoom="-" aria-label="지도 축소">−</button><button data-fw-zoom="+" aria-label="지도 확대">+</button></div></header>
     <nav class="fw-map-focus" aria-label="지도 확대 범위"><button data-fw-focus="all" class="${state.mapFocus==='all'?'active':''}" aria-pressed="${state.mapFocus==='all'}">광역 전체</button><button data-fw-focus="seoul" class="${state.mapFocus==='seoul'?'active':''}" aria-pressed="${state.mapFocus==='seoul'}">서울 25구 확대</button><button data-fw-focus="selected" class="${state.mapFocus==='selected'?'active':''}" aria-pressed="${state.mapFocus==='selected'}">선택 지역 확대</button></nav>
-    <div class="fw-map-scroll"><svg class="fw-seoul-map" viewBox="${box.join(' ')}" role="group" aria-label="실제 행정경계 지도. 서울 확대 또는 지역 선택으로 상세하게 볼 수 있습니다."><defs><pattern id="fw-conflict" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="3" height="10" fill="#ff7860" opacity=".2"/></pattern></defs><image href="/assets/ui/organization/war-v1/metropolitan-operations-map-1254.webp" x="-600" y="-600" width="2300" height="2200" preserveAspectRatio="xMidYMid slice"/><rect x="-600" y="-600" width="2300" height="2200" fill="#06101b" opacity=".42"/>
+    <div class="fw-map-scroll"><svg class="fw-seoul-map" viewBox="${box.join(' ')}" role="group" aria-label="실제 행정경계 지도. 마우스로 끌어 이동하고 클릭하면 지역을 선택합니다."><defs><pattern id="fw-conflict" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="3" height="10" fill="#ff7860" opacity=".2"/></pattern></defs><image href="/assets/ui/organization/war-v1/metropolitan-operations-map-1254.webp" x="-600" y="-600" width="2300" height="2200" preserveAspectRatio="xMidYMid slice"/><rect x="-600" y="-600" width="2300" height="2200" fill="#06101b" opacity=".42"/>
     <g class="fw-map-context" aria-hidden="true">${svg.context.map(f=>`<path d="${f.path}" fill-rule="evenodd"/>`).join('')}</g>
     ${svg.features.map(f=>{const zone=d.districts.find(z=>z.id===f.id),picked=zone.id===state.selected,battle=battleAt(zone.id),own=zone.owner===mine(),color=own?'#c8ff6b':team(zone.owner)?.color||'#52657e';return `<g class="fw-zone ${picked?'selected':''} ${battle?'contested':''} ${own?'owned':''}" data-fw-zone="${f.id}" data-area="${f.area}" role="button" tabindex="0" aria-label="${f.name} · ${esc(team(zone.owner)?.name||'무주지')} · ${status(zone)}" aria-pressed="${picked}" style="--zone:${esc(color)}"><path d="${f.path}" fill-rule="evenodd"/><path class="fw-zone-hatch" d="${f.path}" fill-rule="evenodd" fill="${battle?'url(#fw-conflict)':'none'}"/></g>`;}).join('')}
     <g class="fw-map-labels" style="--label-size:${font}px;--owner-size:${font*.64}px" aria-hidden="true">${svg.features.filter(f=>detail||f.area!=='SEOUL'||f.id===state.selected).filter(f=>!mobile||detail||f.labelRadius>=25||f.id===state.selected).map(f=>{const zone=d.districts.find(z=>z.id===f.id),picked=f.id===state.selected,battle=battleAt(f.id),owner=team(zone.owner)?.name||'무주지';return `<text class="${picked?'selected':''}" x="${f.x}" y="${f.y}">${f.name.length>2?f.name.replace(/[시구]$/,''):f.name}${(detail||picked)&&(!mobile||picked)?`<tspan x="${f.x}" dy="${labelHeight}">${battle?'⚔ 교전 중':esc(owner)}</tspan>`:''}</text>`;}).join('')}</g>
@@ -52,7 +82,7 @@ function mapView(){
     </svg><div class="fw-map-north" aria-hidden="true">N<span>↑</span></div><span class="fw-map-area-label">${state.mapFocus==='seoul'?'서울 확대':state.mapFocus==='selected'?selected.name+' 확대':state.mapFocus==='custom'?'상세 지도':'서울 · 경기남부'}</span></div>
     <div class="fw-map-selection"><span><small>선택 지역</small><b>${selected.name}</b><em>${esc(team(selectedZone.owner)?.name||'무주지')}</em></span><button data-fw-show-detail>작전 정보 →</button></div>
     <div class="fw-map-key"><span><i class="ours"></i>우리 지역</span><span><i class="others"></i>다른 조직</span><span class="fw-clash-key"><svg viewBox="0 0 24 24" aria-hidden="true">${crossedSwords}</svg>격돌 중</span><span><i></i>무주지</span></div>
-    <footer><span>같은 축척의 행정경계 · 작은 지역은 확대해서 선택</span><a href="https://github.com/southkorea/southkorea-maps/tree/master/kostat/2013" target="_blank" rel="noreferrer">통계청 통계지리정보서비스 제공 · 2013 경계</a></footer></section>`;
+    <footer><span>마우스로 끌어 이동 · 클릭해 지역 선택 · 광역 전체로 복귀</span><a href="https://github.com/southkorea/southkorea-maps/tree/master/kostat/2013" target="_blank" rel="noreferrer">통계청 통계지리정보서비스 제공 · 2013 경계</a></footer></section>`;
 }
 function detailView(){
   const data=state.data,z=data.districts.find(d=>d.id===state.selected)||data.districts[0],meta=districtById(z.id),b=battleAt(z.id),own=z.owner===mine(),protectedNow=z.protectedUntil>now();
@@ -105,6 +135,7 @@ function logView(){return `<section class="fw-log"><header class="fw-page-headin
 function draw(){
   drawRoom();
   if(!state.root?.isConnected)return;
+  if(state.mapDragging){state.mapDrawPending=true;return;}state.mapDrawPending=false;
   if(!state.data||!state.map){state.root.innerHTML=`<div class="fw-loading">${state.error?esc(state.error):'수도권 전황을 불러오는 중입니다.'}<button data-fw-reload>다시 불러오기</button></div>`;bind();return;}
   const d=state.data,active=d.battles.filter(b=>b.status==='ACTIVE');
   state.root.innerHTML=`<section class="faction-war"><header class="fw-heading"><div><span class="fw-eyebrow">ORGANIZATION FACTION WAR</span><h2>세력전 <span>서울 · 경기남부</span></h2><p>상권을 점령하고, 우리 조직의 영역을 넓히세요.</p></div><span class="fw-season ${d.season.active?'active':''}"><i></i>${d.season.active?'조직 배정 완료':'시즌 시작 전 · 잠금'}<small>조직 배정 후 별도 운영</small></span></header>
@@ -119,6 +150,7 @@ function draw(){
 function selectDistrict(id,scroll=false){state.selected=id;state.tab='map';if(scroll)focusMap('selected');else draw();}
 function bind(){
   const root=state.root;if(!root)return;
+  bindMapDrag(root.querySelector('.fw-seoul-map'));
   root.querySelectorAll('[data-fw-tab]').forEach(b=>b.onclick=()=>{state.tab=b.dataset.fwTab;state.notice='';draw();});
   root.querySelectorAll('[data-fw-zone],[data-fw-pick]').forEach(b=>{b.onclick=()=>selectDistrict(b.dataset.fwZone||b.dataset.fwPick,true);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();b.onclick();}};});
   root.querySelector('[data-fw-district-select]')?.addEventListener('change',e=>selectDistrict(e.target.value,true));
@@ -239,7 +271,7 @@ export function connect(ctx){
   if(!state.alertTimer){state.alertTimer=setInterval(()=>poll(),8000);void poll();}
 }
 async function poll(){
-  if(document.hidden||state.alertBusy||state.busy||!state.ctx)return;state.alertBusy=true;
+  if(document.hidden||state.alertBusy||state.busy||state.mapDragging||!state.ctx)return;state.alertBusy=true;
   try{
     let data;
     if(state.room||(state.root?.isConnected&&state.tab!=='formation')){
