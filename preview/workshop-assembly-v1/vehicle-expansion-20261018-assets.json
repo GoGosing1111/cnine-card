@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-18",
+  "tool": "built-in image_gen",
+  "prompts": "vehicle-expansion-20261018-prompts.json",
+  "catalogue": [
+    {
+      "path": "assets/tire/crimson-aura-gullwing-v4.webp",
+      "sha256": "66c058c34bd5e45452f86c61c267a1f64453bc0b707ce15e4ae7db6ba1bdd3f9"
+    },
+    {
+      "path": "assets/tire/silver-cyan-hypercar-aura-v2.png",
+      "sha256": "698185bb958959552f4c012ecdd6e00cb2f1a0bbb2df791412723ee8c9ea6733"
+    }
+  ],
+  "assets": [
+    {
+      "path": "assets/vehicles-20261018/maybach-cutout.webp",
+      "width": 1672,
+      "height": 941,
+      "sha256": "5e02f1ff688806b48939ab99a711ad40a41f2fb1c1e3d56c5204e808be937e8c",
+      "source": "assets/vehicles-20261018/maybach-source.png",
+      "sourceSha256": "2a0902301227e25b5e5a5b3de1305c742311ba34ed16155c8e1f7c917cfc18ee",
+      "method": "ImageGen alpha preserved; lossless WebP encoding and atlas slicing only"
+    },
+    {
+      "path": "assets/vehicles-20261018/astra-cutout.webp",
+      "width": 1672,
+      "height": 941,
+      "sha256": "bd77514286109652f88f168faa46197afd5c84bc7deb05a717e8472c05c89d2f",
+      "source": "assets/vehicles-20261018/astra-source.png",
+      "sourceSha256": "ac2769cc062d564f784229b98271a20f45c653c45662b008f3bf4ea78a90ca36",
+      "method": "ImageGen alpha preserved; lossless WebP encoding and atlas slicing only"
+    },
+    {
+      "path": "assets/vehicles-20261018/frame.webp",
+      "rect": {
+        "left": 38,
+        "top": 50,
+        "width": 1180,
+        "height": 824
+      },
+      "width": 1180,
+      "height": 824,
+      "sha256": "17f4a572d5936cc7be518bb2be740342202296ba5cb7f1dfde89ff2e9cdc9321",
+      "source": "assets/vehicles-20261018/ui-source.png",
+      "sourceSha256": "83bfeb42a784c3e6e1e3cdb89ad1787c6e788d876166ec65baf3413339414465",
+      "method": "ImageGen alpha preserved; lossless WebP encoding and atlas slicing only"
+    },
+    {
+      "path": "assets/vehicles-20261018/button.webp",
+      "rect": {
+        "left": 124,
+        "top": 962,
+        "width": 1005,
+        "height": 180
+      },
+      "width": 1005,
+      "height": 180,
+      "sha256": "bc448ceb2a96a9e8e768c941889b8cea37a87ebdec84ae38d910da0c3cf2e4d2",
+      "source": "assets/vehicles-20261018/ui-source.png",
+      "sourceSha256": "83bfeb42a784c3e6e1e3cdb89ad1787c6e788d876166ec65baf3413339414465",
+      "method": "ImageGen alpha preserved; lossless WebP encoding and atlas slicing only"
+    }
+  ]
+}

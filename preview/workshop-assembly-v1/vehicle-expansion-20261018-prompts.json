@@ -1,0 +1,37 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-18",
+  "purpose": "Non-destructive assembly sprites and automotive UI; existing catalogue artwork preserved",
+  "jobs": [
+    {
+      "key": "maybach",
+      "args": {
+        "prompt": "Use case: background-extraction. Asset type: transparent vehicle sprite for a game manufacturing animation. Image 1 is the edit target, the approved Vision Maybach 6 illustration. Extract ONLY this exact entire red long-nose gullwing luxury coupe onto genuinely transparent alpha. Keep the same left-facing front three-quarter camera, both raised gullwing doors, long hood, grille, single front grille emblem, wheels, body silhouette, red metallic paint, carbon skirts, rear wing and all vehicle proportions. Remove only the showroom, circular platform, floor/reflections, background lights, and free-floating red electrical aura outside the car. Keep the existing red reflections on the body. Do not restyle or redesign, close the doors, add parts, mirror or crop. Preserve the image's wide 16:9 composition and the vehicle's scale and location; leave transparent space around the car. The whole vehicle must be intact including all tires, opened doors and rear wing. Output true transparent background, not checkerboard pixels.",
+        "referenced_image_paths": [
+          "C:/Users/User/.codex/worktrees/jokro-live/cnine-card/assets/tire/crimson-aura-gullwing-v4.webp"
+        ],
+        "transparent_background": true
+      },
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a14a4a-33e9-7f71-a052-6a9645d68aae\\exec-5218207d-a6b2-4191-bae7-45bb51ade1a0.png"
+    },
+    {
+      "key": "astra",
+      "args": {
+        "prompt": "Use case: background-extraction. Asset type: transparent vehicle sprite for a game manufacturing animation. Image 1 is the edit target, the approved Astra - Volt illustration. Extract ONLY this exact entire silver and black angular armored hypercar with cyan core and wheel lighting onto genuinely transparent alpha. Keep the same left-facing front three-quarter camera, all visible wheels including far-side front wheel, all pointed silver armor panels and fins, twin roof reactor pods, large circular cyan side cores, sharp front splitter, body proportions and detailed surface. Remove only the showroom, circular display platform, floor/reflections, and the free-floating cyan electrical aura around the car. Preserve the cyan lighting attached to vehicle surfaces. Do not invent any vehicle geometry, restyle, mirror, crop, or change angle. Preserve the wide 16:9 image composition and the vehicle's scale and location. Entire vehicle intact with transparent space around it, including tires and tallest fins. True transparent background, no opaque floor or checkerboard pixels.",
+        "referenced_image_paths": [
+          "C:/Users/User/.codex/worktrees/jokro-live/cnine-card/assets/tire/silver-cyan-hypercar-aura-v2.png"
+        ],
+        "transparent_background": true
+      },
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a14a4a-33e9-7f71-a052-6a9645d68aae\\exec-e2ea3d89-17f6-47d3-8bf0-a155289b4cf7.png"
+    },
+    {
+      "key": "ui",
+      "args": {
+        "prompt": "Use case: ui-mockup. Asset type: ONE transparent game automotive manufacturing UI texture atlas, no text. Design a coherent machined precision factory interface in dark gunmetal, satin titanium, subtle bronze connectors, tiny warm white status lights, restrained high-end automotive engineering detail. Exactly TWO isolated assets stacked vertically on a square 1024x1024 transparent canvas with clear empty padding: TOP asset at x32..992 y32..680 is a large rectangular landscape frame with a completely transparent empty center, thin strong metallic 18px rim and precisely milled corner joinery, tiny bolted corner plates, no big ornament, designed for 9-slice scaling around an existing animated vehicle workshop. BOTTOM asset at x128..896 y800..944 is a wide empty unlabelled machined metal control button, softly chamfered ends, recessed charcoal center kept quiet for white live DOM text, finely brushed steel bevels and small amber indicator details at the two ends. No text, numerals, emblems, logos, symbols, vehicles, mockup screen, shadows outside assets, extra items, or colored background. Pixel-clean straight front-on UI, no perspective. True transparency around the assets and inside the top frame. This is production UI artwork not a screenshot.",
+        "transparent_background": true
+      },
+      "generatedFile": "C:\\Users\\User\\.codex\\generated_images\\01a14a4a-33e9-7f71-a052-6a9645d68aae\\exec-341a4979-78ab-44d3-97de-dda380982559.png"
+    }
+  ]
+}

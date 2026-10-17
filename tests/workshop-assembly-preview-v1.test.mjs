@@ -68,6 +68,13 @@ test('real GSAP timelines seek, skip, restart and cancel without altering outcom
     assert.equal(film.diagnostics().model,key);assert.equal(film.diagnostics().modelName,model.name);
     const head=film.renderedParts?.find(p=>p.name==='head');
     film.seek(5.3);assert.equal(film.diagnostics().time,5.3);assert.equal(film.diagnostics().playing,false);
+    if(['maybach','astra'].includes(key)){
+      assert.equal(film.turbineParts.length,2);
+      film.seek(7.3);assert.ok(film.turbineParts[0].alpha>0);assert.equal(film.turbineParts[1].alpha,0);
+      film.seek(8.5);for(const part of film.turbineParts){assert.equal(part.y,0);assert.equal(part.alpha,1);}
+      assert.equal(phaseAt('vehicle',7.4,true,key)[1],key==='maybach'?'GULLWING LOCK':'VOLT REACTOR LOCK');
+      assert.equal(phaseAt('vehicle',11,true,key)[1],key==='maybach'?'CRIMSON IGNITION':'VOLT IGNITION');
+    }
     if(head){assert.equal(head.sprite.x,head.target.x);assert.equal(head.sprite.y,head.target.y);}
     if(key==='s'){
       const helmet=film.renderedParts.find(p=>p.name==='helmet'),backpack=film.renderedParts.find(p=>p.name==='backpack');
@@ -96,7 +103,7 @@ test('real GSAP timelines seek, skip, restart and cancel without altering outcom
   delete globalThis.location;delete globalThis.document;
 });
 test('E/F/G and Ignis-X map to verified CMS identities with model-specific geometry',()=>{
-  assert.deepEqual(MODEL_ORDER.suit,['e','f','g','h','s','z']);assert.deepEqual(MODEL_ORDER.vehicle,['solaris','ignis','veneno']);
+  assert.deepEqual(MODEL_ORDER.suit,['e','f','g','h','s','z']);assert.deepEqual(MODEL_ORDER.vehicle,['solaris','maybach','astra','ignis','veneno']);
   assert.equal(MODELS.e.code,'BATTLE_SUIT_01');assert.equal(MODELS.f.code,'BATTLE_SUIT_02');assert.equal(MODELS.g.code,'BATTLE_SUIT_03');assert.equal(MODELS.ignis.code,'GARAGE_1787232065012');
   for(const key of ['e','f','g']){const m=modelFor('suit',key),p=suitPlacement(m);assert.equal(p.scale*(m.box[3]-m.box[1]),650);assert.equal(modelPhases('suit',key,MODES.suit.phases)[4][2].includes('INTERFACE'),true);}
   assert.throws(()=>modelFor('suit','ignis'));assert.throws(()=>modelFor('vehicle','e'));assert.equal(resolveModel('suit','unknown'),'h');
@@ -144,4 +151,20 @@ test('Solaris authored cutout has real alpha and source catalogue remains untouc
   assert.notEqual(MODELS.solaris.turbines[0].at,MODELS.solaris.turbines[1].at);
   assert.equal(phaseAt('vehicle',7.4,true,'solaris')[1],'TWIN TURBINE LOCK');
   assert.equal(phaseAt('vehicle',11,true,'solaris')[1],'SOLAR IGNITION');
+});
+
+test('new vehicle sprites preserve actual alpha and catalogue originals remain intact',async()=>{
+  const manifest=JSON.parse(await read('vehicle-expansion-20261018-assets.json'));
+  for(const item of manifest.catalogue){
+    const data=await readFile(new URL('../'+item.path,import.meta.url));
+    assert.equal(createHash('sha256').update(data).digest('hex'),item.sha256);
+  }
+  for(const item of manifest.assets){
+    const bytes=await readFile(new URL(item.path,folder));
+    assert.equal(createHash('sha256').update(bytes).digest('hex'),item.sha256);
+    const {data,info}=await sharp(bytes).raw().toBuffer({resolveWithObject:true});
+    assert.equal(info.channels,4);
+    let empty=0,visible=0;for(let i=3;i<data.length;i+=4){if(data[i]===0)empty++;if(data[i]>100)visible++;}
+    assert.ok(empty>data.length/4*.03,item.path);assert.ok(visible>1000,item.path);
+  }
 });

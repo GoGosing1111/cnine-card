@@ -54,7 +54,7 @@ test('live bridge awaits animation only after receipt clear, state/balance sync;
 // DOM I/O is stubbed, not the presenter: it executes the actual timers,
 // result branching, asynchronous load guards, callbacks and teardown.
 class NodeStub{
-  constructor(doc){this.doc=doc;this.dataset={};this.style={setProperty(){}};this.nodes=new Map();this.children=[];this.isConnected=false;this.attrs={};this.classList={toggle(){}};}
+  constructor(doc){this.doc=doc;this.dataset={};this.style={setProperty(){}};this.nodes=new Map();this.children=[];this.isConnected=false;this.attrs={};this.classList={toggle(){},add(){}};}
   append(node){node.parent=this;node.isConnected=true;this.children.push(node);}
   remove(){this.isConnected=false;if(this.parent)this.parent.children=this.parent.children.filter(n=>n!==this);}
   querySelector(selector){if(!this.nodes.has(selector)){const node=new NodeStub(this.doc);node.parent=this;node.isConnected=true;this.nodes.set(selector,node);}return this.nodes.get(selector);}
@@ -134,6 +134,26 @@ test('Solaris binds exact CMS art on success and failure, never a name-only look
   }
 });
 
+test('Maybach and Astra bind their own approved art for both receipts without changing CMS settings',()=>{
+  for(const key of ['maybach','astra'])for(const success of [true,false]){
+    const {data,recipe}=fixture(key,success);
+    recipe.output_ref='cms-edited-id';recipe.output_name='운영자가 수정한 이름';
+    recipe.is_active=0;recipe.success_rate=7;recipe.coin_cost=123456;
+    if(data.output)data.output.ref=recipe.output_ref;
+    const saved=structuredClone(recipe);
+    assert.equal(liveAssemblyReceipt(data,recipe).model,key);
+    assert.deepEqual(recipe,saved);
+    for(const image of ['assets/tire/unprepared-car.png',MODELS[key].source]){
+      recipe.output_image=image;recipe.output_name=MODELS[key].name;
+      assert.equal(liveAssemblyReceipt(data,recipe).model,null);
+    }
+    if(key==='maybach'){
+      recipe.output_image='assets/tire/crimson-aura-gullwing-v4.png';
+      assert.equal(liveAssemblyReceipt(data,recipe).model,'maybach');
+    }
+  }
+});
+
 test('S-BODY uses approved item art on success and failure, including renamed CMS entries',()=>{
   for(const success of [true,false]){
     const {data,recipe}=fixture('s',success);
@@ -165,7 +185,7 @@ test('Z-BODY uses the current sword artwork for both saved outcomes while CMS la
     }
   }
   const app=read('js/app.js'),index=read('index.html');
-  assert.match(app,/workshop-assembly-live-v2073\.bundle\.js\?v=20261006-z-body/);
-  assert.match(app,/workshop-assembly-fx-v2073\.bundle\.js\?v=20261006-z-body/);
+  assert.match(app,/workshop-assembly-live-v2073\.bundle\.js\?v=20261018-vehicle-assembly-v1/);
+  assert.match(app,/workshop-assembly-fx-v2073\.bundle\.js\?v=20261018-vehicle-assembly-v1/);
   assert.match(index,/zBodyAssembly=20261006/);
 });

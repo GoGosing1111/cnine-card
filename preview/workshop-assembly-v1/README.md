@@ -1,5 +1,13 @@
 # WORKSHOP / 완성의 순간
 
+## 2026-10-18 비전 마이바흐 6·아스트라 - 볼트
+
+솔라리스의 13.4초 단일 PixiJS/GSAP 공정에 `maybach`, `astra`를 추가했다. 차체·엔진·휠·외장 결합 뒤 각각 걸윙 도어와 볼트 반응로를 7초/7.35초에 순차 결합한다. 용접·검사 뒤 성공에서만 붉은 아우라/청색 코어가 점화되고 출고 이동한다. 제작식과 운영 수치는 변경하지 않는다.
+
+ImageGen으로 만든 투명 파생본과 자동차 제작창 전용 프레임/버튼은 `vehicle-expansion-20261018-assets.json`, 원본 입력과 프롬프트는 `vehicle-expansion-20261018-prompts.json`에 보존한다. 차고 원화는 수정하지 않았다. 파생 파일 인코딩/아틀라스 분리 재현은 `node preview/workshop-assembly-v1/prepare-vehicle-expansion-20261018.mjs`, 코드 빌드는 기존 `npm run build:workshop-assembly`다.
+
+검수 링크는 `?mode=vehicle&item=maybach&play=1`, `?mode=vehicle&item=astra&play=1`이며, 실제 제작 클라이언트의 모의 영수증 검수는 `live.html`이다. 연출은 서버 영수증만 공개하며 재추첨·추가 차감하지 않는다. 관련 검사/PC·모바일 확인과 scoped 배포 기록은 `docs/workshop-vehicle-expansion-20261018.md`를 따른다. 과거 README의 전체 게임 검사 지시는 이번 국소 변경에 적용하지 않는다.
+
 ## 2026-10-06 Z-BODY 제작 연출
 
 - 사용자 정정대로 **S-BODY와 동일한 배틀슈트 부품 조립 공정**에 Z를 추가한다. 일반 고급 장비의 봉인·슬라이드 연출과 구분한다. 원본은 현재 운영 대검 외형 `/assets/ui/project-v/account-battle-suits/z-sword-v1/z-body.png`, SHA-256 `214d3dee28359192f824246c5bf6c369f16c16df4c7392e2321ff93441920890`다.

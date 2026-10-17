@@ -2,6 +2,8 @@
 // catalog, not a recipe, grant, combat skin replacement or balance setting.
 const suitRoot='/assets/ui/project-v/account-battle-suits/suits/';
 export const MODELS=Object.freeze({
+  maybach:{mode:'vehicle',name:'비전 마이바흐 6',code:'VISION_MAYBACH_6',catalogSource:'/assets/tire/crimson-aura-gullwing-v4.webp',catalogAliases:['assets/tire/crimson-aura-gullwing-v4.png'],description:'크림슨 차체 · 걸윙 도어 순차 체결 · 붉은 아우라',source:'assets/vehicles-20261018/maybach-cutout.webp',color:0xff4d58,css:'#ff9d9f',line:'AUTOMOTIVE / VISION MAYBACH 6',imageUi:true,box:[0,0,1672,941],art:{x:162,y:180,scale:.67},wheels:[{cx:823,cy:607,rx:128,ry:163,dx:-290,dy:80,at:3.7},{cx:1550,cy:542,rx:84,ry:135,dx:235,dy:-60,at:4.25}],modules:[{name:'far-gullwing',polygon:[621,155,730,88,847,100,985,133,1065,190,1091,252,1019,252,949,209,881,200,722,201,646,180],at:7,duration:1.05,joint:[1052,248]},{name:'near-gullwing',polygon:[1108,162,1172,87,1204,49,1261,57,1279,80,1456,116,1510,158,1480,193,1291,199,1270,248,1197,280,1125,263,1105,220],at:7.35,duration:1.1,joint:[1182,266]}],engine:[650,350],lights:[[245,515],[547,517]],weld:[[485,650],[1100,552]],aura:{center:[720,540],radius:[555,170],cores:[]}},
+  astra:{mode:'vehicle',name:'아스트라 - 볼트',code:'ASTRA_VOLT',catalogSource:'/assets/tire/silver-cyan-hypercar-aura-v2.png',description:'은빛 장갑 · 트윈 볼트 반응로 · 청색 전력 동기화',source:'assets/vehicles-20261018/astra-cutout.webp',color:0x42cfff,css:'#8edfff',line:'AUTOMOTIVE / ASTRA VOLT REACTOR',imageUi:true,box:[0,0,1672,941],art:{x:162,y:180,scale:.67},wheels:[{cx:379,cy:500,rx:133,ry:78,polygon:[240,550,260,488,297,450,355,432,422,435,475,455,490,482,444,506,341,525],dx:-210,dy:-60,at:3.7},{cx:960,cy:628,rx:133,ry:151,dx:-290,dy:80,at:3.9},{cx:1509,cy:494,rx:85,ry:122,dx:235,dy:-60,at:4.25}],modules:[{name:'roof-reactor',polygon:[1009,265,1069,253,1144,275,1165,310,1120,330,1042,321,1026,297],at:7,duration:1.05,joint:[1092,300]},{name:'side-reactor',polygon:[1233,438,1292,420,1375,436,1403,467,1397,505,1358,544,1296,533,1241,511,1221,481],at:7.35,duration:1.1,joint:[1307,480]}],engine:[740,324],lights:[[360,642],[627,676]],weld:[[537,662],[1075,551]],aura:{center:[740,530],radius:[505,170],cores:[[871,381],[911,384],[1027,503],[1082,493]]}},
   z:{mode:'suit',name:'Z-BODY',code:'BATTLE_SUIT_Z_BODY',catalogSource:'/assets/ui/project-v/account-battle-suits/z-sword-v1/z-body.png',description:'진홍·백금 장갑 · 청광 대검 · 황금 반응로',source:'/assets/ui/project-v/account-battle-suits/z-sword-v1/z-body.png',sha256:'214d3dee28359192f824246c5bf6c369f16c16df4c7392e2321ff93441920890',color:0xffc567,css:'#f0c77a',line:'EXOSUIT / ASSEMBLY BAY 06',box:[20,20,453,719],core:[258,258],joints:{legL:[192,405],legR:[281,405],hips:[233,353],torso:[232,270],coat:[191,282],shoulderL:[171,244],shoulderR:[287,239],armL:[181,290],armR:[278,287],helmet:[246,214],core:[258,258],sword:[301,304]}},
   s:{mode:'suit',name:'S-BODY',code:'BATTLE_SUIT_S_BODY',catalogSource:'/assets/items/s-body-v2124.png',description:'화이트·블루 장갑 · 트윈 추진기 · 청색 코어',source:'/assets/items/s-body-v2124.png',sha256:'6d789c0a1cd2e4681dc56297ae85ee7c747e141d9e573eae64d9d00787c041da',color:0x69baff,css:'#8ecbff',line:'EXOSUIT / ASSEMBLY BAY 05',box:[180,51,587,973],core:[435,277],joints:{legL:[329,541],legR:[467,563],hips:[405,381],torso:[405,245],backpack:[342,158],shoulderL:[294,208],shoulderR:[494,214],armL:[239,320],armR:[484,357],helmet:[393,166],core:[435,277]}},
   solaris:{mode:'vehicle',name:'솔라리스 - Ω',code:'SOLARIS_OMEGA',catalogSource:'/assets/tire/solaris-omega-v1.png',description:'백금 차체 · 황금 휠 · 독립 트윈 터빈 조립',source:'assets/solaris-omega-cutout-v1.png',color:0xffce65,css:'#f1cc83',line:'AUTOMOTIVE / SOLARIS Ω TWIN REACTOR',box:[0,0,1672,941],art:{x:162,y:180,scale:.67},wheels:[{cx:886,cy:617,rx:122,ry:167,dx:-290,dy:80,at:3.7},{cx:1529,cy:480,rx:86,ry:131,dx:235,dy:-60,at:4.25}],turbines:[{polygon:[954,270,962,240,983,218,1008,211,1064,213,1105,225,1130,253,1127,283,1061,285,1004,278],at:7.0,duration:1.15,joint:[1040,270]},{polygon:[1129,282,1139,251,1161,230,1191,219,1221,219,1267,227,1310,239,1344,250,1399,254,1411,269,1405,286,1371,292,1356,315,1304,331,1245,341,1190,336,1153,317],at:7.35,duration:1.15,joint:[1236,332]}],engine:[740,324],lights:[[268,497],[559,560]],cores:[[835,359],[959,371]],nozzles:[[943,336],[1103,365]],weld:[[580,605],[1090,530]]},
@@ -13,7 +15,7 @@ export const MODELS=Object.freeze({
   ignis:{mode:'vehicle',name:'이그니스 - X',code:'GARAGE_1787232065012',catalogId:27,description:'크림슨 차체 · 상부 터빈 · 독립 부스터 점화',catalogSource:'/assets/tire/1321312.jpg',source:'assets/ignis-x-cutout.png',color:0xff7051,css:'#ed9a7c',line:'AUTOMOTIVE / TURBINE LINE X',box:[0,0,1679,937],art:{x:162,y:180,scale:.67},wheels:[{cx:856,cy:626,rx:112,ry:140,dx:-290,dy:75,at:3.7},{cx:1453,cy:550,rx:78,ry:106,dx:250,dy:-55,at:4.25}],turbine:[881,136,403,145],engine:[740,324],lights:[[212,540],[458,570]],nozzle:[1005,330],weld:[[454,644],[1087,536]]}
 });
 export const DEFAULT_MODEL=Object.freeze({suit:'h',vehicle:'veneno'});
-export const MODEL_ORDER=Object.freeze({suit:['e','f','g','h','s','z'],vehicle:['solaris','ignis','veneno']});
+export const MODEL_ORDER=Object.freeze({suit:['e','f','g','h','s','z'],vehicle:['solaris','maybach','astra','ignis','veneno']});
 export function modelFor(mode,key=DEFAULT_MODEL[mode]){
   const model=MODELS[key];if(!model||model.mode!==mode)throw new TypeError('제작 라인에 맞는 모델이 필요합니다.');return model;
 }
@@ -36,6 +38,14 @@ export function modelPhases(mode,key,base){
   if(key==='solaris'){
     phases[5]=[7,'트윈 터빈 순차 결합 · 용접','TWIN TURBINE LOCK'];
     phases[7]=[10.3,'태양 코어 동기화 · 황금 점화','SOLAR IGNITION'];
+  }
+  if(key==='maybach'){
+    phases[5]=[7,'걸윙 도어 순차 체결 · 차체 용접','GULLWING LOCK'];
+    phases[7]=[10.3,'크림슨 드라이브 시동 · 아우라 개방','CRIMSON IGNITION'];
+  }
+  if(key==='astra'){
+    phases[5]=[7,'트윈 볼트 반응로 결합 · 전력 연결','VOLT REACTOR LOCK'];
+    phases[7]=[10.3,'청색 코어 동기화 · 볼트 점화','VOLT IGNITION'];
   }
   return phases;
 }

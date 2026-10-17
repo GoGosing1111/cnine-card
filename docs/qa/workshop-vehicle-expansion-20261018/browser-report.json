@@ -1,0 +1,61 @@
+{
+  "passed": true,
+  "reports": [
+    {
+      "key": "maybach",
+      "width": 1440,
+      "height": 1000,
+      "success": true,
+      "keyboardOrTouch": true,
+      "pauseResume": true,
+      "skip": false,
+      "naturalCompletion": true,
+      "mockCraftRequests": 1,
+      "realApiMutations": 0,
+      "assetFailures": [],
+      "pageErrors": []
+    },
+    {
+      "key": "maybach",
+      "width": 390,
+      "height": 844,
+      "success": false,
+      "keyboardOrTouch": true,
+      "pauseResume": true,
+      "skip": true,
+      "naturalCompletion": false,
+      "mockCraftRequests": 1,
+      "realApiMutations": 0,
+      "assetFailures": [],
+      "pageErrors": []
+    },
+    {
+      "key": "astra",
+      "width": 1440,
+      "height": 1000,
+      "success": true,
+      "keyboardOrTouch": true,
+      "pauseResume": true,
+      "skip": false,
+      "naturalCompletion": true,
+      "mockCraftRequests": 1,
+      "realApiMutations": 0,
+      "assetFailures": [],
+      "pageErrors": []
+    },
+    {
+      "key": "astra",
+      "width": 390,
+      "height": 844,
+      "success": false,
+      "keyboardOrTouch": true,
+      "pauseResume": true,
+      "skip": true,
+      "naturalCompletion": false,
+      "mockCraftRequests": 1,
+      "realApiMutations": 0,
+      "assetFailures": [],
+      "pageErrors": []
+    }
+  ]
+}

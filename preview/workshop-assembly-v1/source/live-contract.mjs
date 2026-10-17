@@ -20,6 +20,10 @@ export function liveAssemblyReceipt(data,recipe){
   // Solaris is a CMS-defined vehicle: bind only its exact registered art,
   // including failure receipts without output. Names are editable, not identity.
   if(mode==='vehicle'&&!model&&image==='assets/tire/solaris-omega-v1.png')model='solaris';
+  // New vehicle films follow their approved CMS artwork, including a saved
+  // failure without output. Display names and guessed IDs cannot select them.
+  if(mode==='vehicle'&&!model)model=['maybach','astra'].find(key=>
+    [MODELS[key].catalogSource.slice(1),...(MODELS[key].catalogAliases||[])].includes(image))||null;
   // Match the approved S-BODY item on both success and failure. CMS names
   // can change; an unprepared suit must not borrow this assembly film.
   if(mode==='suit'&&!model&&image==='assets/items/s-body-v2124.png')model='s';

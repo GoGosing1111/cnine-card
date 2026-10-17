@@ -26,6 +26,7 @@ export function createWorkshopAssemblyPresenter({loadFilm=async()=>{
       const model=MODELS[receipt.model],previousFocus=document.activeElement;
       const root=document.createElement('div');root.className='ws-assembly-overlay';
       root.dataset.model=receipt.model;root.style.setProperty('--assembly-accent',model.css);
+      if(model.imageUi)root.classList.add('ws-assembly-vehicle-art');
       root.innerHTML=`<section class="ws-assembly-panel" role="dialog" aria-modal="true" aria-labelledby="ws-assembly-title" tabindex="-1">
         <header class="ws-assembly-header"><div><small>MASTER WORKS / ${receipt.mode==='suit'?'EXOSUIT':'AUTOMOTIVE'}</small><h2 id="ws-assembly-title">${receipt.mode==='suit'?'배틀슈트 조립':'차량 제작'}</h2></div><button type="button" data-action="close" aria-label="제작 연출 닫기">닫기 <span aria-hidden="true">×</span></button></header>
         <div class="ws-assembly-stage">

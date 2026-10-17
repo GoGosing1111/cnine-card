@@ -959,12 +959,12 @@ const FEATURE_RESOURCE_MANIFEST={
   workshop:{
     parallelStyles:true,
     prepare:()=>{if(runtimeCommandContext==='workshop'&&!workshopEntryRead)prepareWorkshopEntryRead()},
-    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?kairon=20261014-craft-v1&v=2009-material-label&sBodyPayment=20260930','css/workshop-workbench-v1.css?v=20260922&loading=20260927&batch=20260928&equipmentCraft=20260928','css/workshop-assembly-live-v2073.css?v=2073.1','css/equipment-craft-reveal-v1.css?v=20261004-repair'],
-    scripts:['js/workshop-thumbnails-v1.js?v=20260926','js/workshop-recipes-v1.js?kairon=20261014-craft-v1&v=20260926&batch=20260928&equipmentCraft=20260928&amounts=20261007','js/workshop-assembly-live-v2073.bundle.js?v=20261006-z-body&amounts=20261007','js/equipment-craft-reveal-v1.js?v=20261004-repair','js/workshop-v1881.js?kairon=20261014-craft-v1&v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927&batch=20260928&equipmentCraft=20261004-repair&sBodyPayment=20260930&amounts=20261007&pveReform=20261008&suitCoreBatch=20261013'],
+    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?kairon=20261014-craft-v1&v=2009-material-label&sBodyPayment=20260930','css/workshop-workbench-v1.css?v=20260922&loading=20260927&batch=20260928&equipmentCraft=20260928','css/workshop-assembly-live-v2073.css?v=20261018-vehicle-assembly-v1','css/equipment-craft-reveal-v1.css?v=20261004-repair'],
+    scripts:['js/workshop-thumbnails-v1.js?v=20260926','js/workshop-recipes-v1.js?kairon=20261014-craft-v1&v=20260926&batch=20260928&equipmentCraft=20260928&amounts=20261007','js/workshop-assembly-live-v2073.bundle.js?v=20261018-vehicle-assembly-v1&amounts=20261007','js/equipment-craft-reveal-v1.js?v=20261004-repair','js/workshop-v1881.js?kairon=20261014-craft-v1&v=2098-hyper-codex&joint=2090&workbench=20260922&scrapRecovery=20260923&workshopLoading=20260927&batch=20260928&equipmentCraft=20261004-repair&sBodyPayment=20260930&amounts=20261007&pveReform=20261008&suitCoreBatch=20261013'],
     ready:()=>Boolean(window.SoopketmonWorkshopThumbnails)&&Boolean(window.WorkshopRecipes)&&Boolean(window.WorkshopAssemblyLive)&&Boolean(window.EquipmentCraftReveal)&&typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   workshopAssemblyFx:{
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/workshop-assembly-fx-v2073.bundle.js?v=20261006-z-body'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/workshop-assembly-fx-v2073.bundle.js?v=20261018-vehicle-assembly-v1'],
     ready:()=>typeof window.WorkshopAssemblyFilm==='function'
   },
   alchemy:{

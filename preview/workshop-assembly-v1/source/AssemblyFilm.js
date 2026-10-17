@@ -13,6 +13,8 @@ const parts=['helmet','torso','hips','shoulderL','shoulderR','armL','armR','legL
 const resources={suitBackground:base+'suit-bay.png',vehicleBackground:base+'vehicle-bay.png',car:base+'car-cutout.png',suit:root+'/assets/items/h-body-v2066.png',frame:root+'/assets/ui/workshop/vehicle-part-frame-v1668.png',engine:root+'/assets/ui/workshop/vehicle-part-engine-v1668.png',...Object.fromEntries(parts.map(n=>[n,base+`parts/${n}.png`])),...Object.fromEntries(['upper','lower','grip'].map(n=>['robot-'+n,base+`parts/robot-${n}.png`]))};
 resources.ignis=new URL(MODELS.ignis.source,assetRoot).href;
 resources.solaris=new URL(MODELS.solaris.source,assetRoot).href;
+resources.maybach=new URL(MODELS.maybach.source,assetRoot).href;
+resources.astra=new URL(MODELS.astra.source,assetRoot).href;
 for(const [key,v]of Object.entries(variantParts)){
   resources[key]=root+v.source;
   for(const p of v.parts)resources[`${key}:${p.name}`]=new URL(p.path,assetRoot).href;
@@ -81,7 +83,7 @@ export class AssemblyFilm {
       if(this.disposed)return;
       // Preserve source artwork while filtering detailed new parts cleanly
       // at mobile scale. Configure before the first GPU texture upload.
-      if(key==='ignis'||key==='solaris'||/^[efgsz](?::|$)/.test(key)){
+      if(MODELS[key]?.art||/^[efgsz](?::|$)/.test(key)){
         texture.source.autoGenerateMipmaps=true;texture.source.scaleMode='linear';
       }
       this.buffers[key]=texture;
@@ -196,7 +198,7 @@ export class AssemblyFilm {
   }
   buildIgnis(){
     const m=this.model,a=m.art,key=this.modelKey;
-    const turbines=m.turbines||[{box:m.turbine,at:7.2,duration:1.3,joint:[1060,263]}];
+    const turbines=m.modules||m.turbines||[{box:m.turbine,at:7.2,duration:1.3,joint:[1060,263]}];
     this.carGroup=new Container();this.object.addChild(this.carGroup);
     const chassis=this.sprite('frame',this.carGroup,{x:590,y:250,alpha:0});chassis.scale.set(.93);
     const engine=this.sprite('engine',this.carGroup,{x:m.engine[0],y:-80,alpha:0});engine.scale.set(.29);
@@ -205,13 +207,13 @@ export class AssemblyFilm {
     this.carArt=new Container();this.carArt.position.set(a.x,a.y);this.carArt.scale.set(a.scale);this.carGroup.addChild(this.carArt);
     const body=new Container();this.carArt.addChild(body);this.sprite(key,body);
     const bodyMask=new Graphics().rect(...m.box).fill(0xffffff);
-    for(const w of m.wheels)bodyMask.ellipse(w.cx,w.cy,w.rx,w.ry).cut();
+    for(const w of m.wheels){if(w.polygon)bodyMask.poly(w.polygon).cut();else bodyMask.ellipse(w.cx,w.cy,w.rx,w.ry).cut();}
     for(const t of turbines){if(t.polygon)bodyMask.poly(t.polygon).cut();else bodyMask.rect(...t.box).cut();}
     body.addChild(bodyMask);body.mask=bodyMask;body.alpha=0;body.y=-390;
     this.timeline.to(body,{alpha:1,duration:.45},5.4).to(body,{y:0,duration:1.45,ease:'power3.inOut'},5.4);
     for(const w of m.wheels){
       const c=new Container();this.carArt.addChild(c);this.sprite(key,c);c.position.set(w.dx,w.dy);c.alpha=0;
-      const mask=new Graphics().ellipse(w.cx,w.cy,w.rx+1,w.ry+1).fill(0xffffff);c.addChild(mask);c.mask=mask;
+      const mask=new Graphics();if(w.polygon)mask.poly(w.polygon).fill(0xffffff);else mask.ellipse(w.cx,w.cy,w.rx+1,w.ry+1).fill(0xffffff);c.addChild(mask);c.mask=mask;
       this.timeline.to(c,{alpha:1,duration:.25},w.at).to(c,{x:0,y:0,duration:1.2,ease:'power3.inOut'},w.at);
     }
     this.turbineParts=turbines.map(t=>{
@@ -327,6 +329,24 @@ export class AssemblyFilm {
           this.glow.ellipse(x+len*.42,y,len*.65,19).fill({color:0xff592f,alpha:.22*q});
           g.moveTo(x,y-8).bezierCurveTo(x+len*.4,y-18,x+len*.7,y+7,x+len,y).bezierCurveTo(x+len*.65,y+14,x+len*.3,y+16,x,y+8).closePath().fill({color:0xff7944,alpha:.6*q});
           g.moveTo(x,y-4).lineTo(x+len*.65,y).lineTo(x,y+4).closePath().fill({color:0xffefd0,alpha:.78*q});
+        }else if(success&&this.model.aura){
+          // Model-specific ignition follows the existing deterministic playhead.
+          // No aura is emitted for a failed inspection or before the saved reveal.
+          const aura=this.model.aura,[cx,cy]=aura.center,[rx,ry]=aura.radius;
+          for(const [x,y]of aura.cores){
+            this.glow.circle(x+dx,y+dy,24*q).fill({color:c,alpha:.4*q});
+            g.circle(x+dx,y+dy,6*q).fill({color:0xe4faff,alpha:.85*q});
+          }
+          for(let band=0;band<3;band++){
+            const offset=band*.8+t*.48,stretch=1+band*.035;
+            for(let step=0;step<=48;step++){
+              const angle=offset+step/48*Math.PI*1.45;
+              const x=cx+Math.cos(angle)*rx*stretch+dx,y=cy+Math.sin(angle)*ry*.45-Math.cos(angle)*70+band*12+dy;
+              if(step===0)g.moveTo(x,y);else g.lineTo(x,y);
+            }
+            g.stroke({width:band===0?2.4:1.2,color:c,alpha:q*(.42-band*.08)});
+          }
+          this.glow.ellipse(cx+dx,cy+100+dy,rx*.8,25).fill({color:c,alpha:q*.12});
         }else if(success)g.poly([347+dx,565+dy,70+dx,650+dy,80+dx,718+dy,355+dx,593+dy]).fill({color:0xc5e6df,alpha:q*.065});
       }
     }
