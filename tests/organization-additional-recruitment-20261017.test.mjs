@@ -26,12 +26,12 @@ test('additional recruitment preserves every member, accepts only unassigned app
  assert.equal((await f.post('organization/withdraw',{roundId:id,revision:1},{user:2})).data.code,'ORG_ALREADY_ASSIGNED');
  const request={requestId:'additional-applicant-001',roundId:id,revision:0,preferredOrganizationId:3};
  assert.equal((await f.post('organization/survey',request,{user:17})).status,200);
- state=(await f.call('admin/organization')).data;assert.equal(state.memberCount,15);assert.equal(state.pendingApplicantCount,1);assert.equal(state.participantCount,16);assert.equal(state.proposal.stats.participants,15);
+ state=(await f.call('admin/organization')).data;assert.equal(state.memberCount,15);assert.equal(state.pendingApplicantCount,1);assert.equal(state.participantCount,16);assert.equal(state.proposal,null);
  assert.equal(state.participants.filter(p=>p.assignedOrganizationId).length,15);assert.equal(organizationAssignmentAvailability(state).canApply,false);
  const publicState=(await f.call('organization/overview',{user:17})).data;assert.equal(publicState.round.recruitment.open,true);assert.equal(publicState.membership,null);assert.equal(publicState.preparation.registrationOpen,true);
  assert.equal((await f.call('organization/overview',{user:2})).data.preparation.registrationOpen,false);
  assert.match((await organizationLiveOperation(f.env,f.clock())).title,/추가 모집/);
- for(const action of ['ratings','propose','apply'])assert.equal((await f.post('admin/organization/'+action,{roundId:id,...(action==='apply'?{proposalId:state.proposal.id}:{})})).data.code,'ORG_PHASE');
+ for(const action of ['ratings','propose','apply'])assert.equal((await f.post('admin/organization/'+action,{roundId:id,...(action==='apply'?{proposalId:'old-applied-proposal'}:{})})).data.code,'ORG_PHASE');
  f.advance(day-1000);assert.equal((await f.post('organization/survey',{roundId:id,revision:0,preferredOrganizationId:1},{user:18})).data.code,'ORG_SURVEY_CLOSED');
  assert.equal((await f.post('organization/withdraw',{roundId:id,revision:1},{user:17})).data.code,'ORG_SURVEY_CLOSED');
  assert.equal((await f.post('organization/survey',request,{user:17})).status,200,'accepted receipt survives the deadline');
@@ -42,7 +42,7 @@ test('additional recruitment preserves every member, accepts only unassigned app
  assert.deepEqual((await f.pg.query('SELECT * FROM organization_members_v1 ORDER BY user_id')).rows,before);assert.deepEqual((await f.pg.query('SELECT * FROM organization_progress_v1 ORDER BY organization_id')).rows,progress);
  assert.equal((await f.pg.query('SELECT COUNT(*)::int n FROM organization_proposals_v1 WHERE applied_at IS NOT NULL')).rows[0].n,1);
 });
-test('additional opening checks OWNER and revision, rolls back on receipt failure, and early close cannot enable assignment',async t=>{
+test('additional opening checks OWNER and revision, rolls back on receipt failure, and early close cannot reopen initial recruitment',async t=>{
  const f=await organizationFixture(t,{people:16}),id=await assigned(f),initial=(await f.call('admin/organization')).data.round;
  const body={requestId:'additional-atomic-opening-001',roundId:id,revision:initial.revision,action:'open'};
  assert.equal((await f.post('admin/organization/additional-recruitment',body,{user:2})).status,403);

@@ -1,5 +1,7 @@
 import {DISTRICTS as SEOUL_DISTRICTS,FACTION_RULES,SQUADS} from './clan-faction-rules-v1.mjs';
+import {FACTION_SESSION_RULES} from './clan-faction-sessions-v1.mjs';
 export {FACTION_RULES,SQUADS};
+export const ORGANIZATION_SESSION_RULES=Object.freeze({...FACTION_SESSION_RULES,version:'20261018-organization-season',requiredTerritories:6,coinPerRecipient:300000000000});
 export const ORGANIZATION_DISTRICTS=Object.freeze([
  ...SEOUL_DISTRICTS.map(d=>({...d,area:'SEOUL'})),
  ...[

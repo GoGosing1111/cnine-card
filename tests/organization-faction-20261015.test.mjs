@@ -36,28 +36,28 @@ test('shared HP, real server damage, entry guard, replay and member cooldown rem
  const failed=await f.post('organization/faction/strike',{battleId});assert.equal(failed.status,503);f.fail('');
  assert.equal(JSON.stringify((await f.overview()).data.battles),before,'receipt failure rolls HP and cooldown back');
 });
-test('session rewards retain old amounts, treasury snapshot is separate, duplicate tick is harmless and upgrade is atomic',async t=>{
+test('session rewards pay 300 billion at six territories, treasury snapshot is separate, duplicate tick is harmless and upgrade is atomic',async t=>{
  const f=await fixture(t,{live:true,funds:500});
- await f.mutateState(s=>{s.districts.slice(0,4).forEach(d=>d.owner=1);s.session.participants=[2,3];s.session.participantClans={2:1,3:1};});
+ await f.mutateState(s=>{s.districts.slice(0,6).forEach(d=>d.owner=1);s.session.participants=[2,3];s.session.participantClans={2:1,3:1};});
  const settings=(await f.admin()).data.policy;
- const changed=await f.call('admin/organization/faction/policy',{user:1,body:{requestId:crypto.randomUUID(),policy:{...settings,fundsPerRegion:900}}});assert.equal(changed.status,200);
+ const changed=await f.call('admin/organization/faction/policy',{user:1,body:{requestId:crypto.randomUUID(),policy:{...settings,fundsPerRegion:900,upgradeCosts:[0,1000,2500,3000,4000]}}});assert.equal(changed.status,200);
  f.advance(3*3600000);
  await tickOrganizationFaction(f.env,f.deps);await tickOrganizationFaction(f.env,f.deps);
- const state=(await f.overview()).data;assert.equal(state.treasury.funds,2000,'session-start amount is immutable');assert.equal(state.holdings,4);
+ const state=(await f.overview()).data;assert.equal(state.treasury.funds,3000,'session-start amount is immutable');assert.equal(state.holdings,6);
  const rewards=(await f.pg.query('SELECT reward_type,reward_amount,user_id FROM user_message_rewards ORDER BY user_id,reward_type')).rows;
- assert.equal(rewards.length,6);assert.equal(Number(rewards.find(r=>r.reward_type==='COIN').reward_amount),30000000000);assert.equal(Number(rewards.find(r=>r.reward_type==='MASTER_STAR').reward_amount),300000);assert.equal(Number(rewards.find(r=>r.reward_type==='STARLIGHT_ARMOR_CORE').reward_amount),300);
+ assert.equal(rewards.length,6);assert.equal(Number(rewards.find(r=>r.reward_type==='COIN').reward_amount),300000000000);assert.equal(Number(rewards.find(r=>r.reward_type==='MASTER_STAR').reward_amount),300000);assert.equal(Number(rewards.find(r=>r.reward_type==='STARLIGHT_ARMOR_CORE').reward_amount),300);
  assert.equal((await f.post('organization/faction/upgrade',{},3)).status,403);
  const requestId=crypto.randomUUID();assert.equal((await f.post('organization/faction/upgrade',{expectedStage:1,policyRevision:1})).status,409,'stale CMS price cannot be charged');f.fail('INSERT INTO organization_faction_ledger_v1');
  assert.equal((await f.post('organization/faction/upgrade',{requestId,expectedStage:1,policyRevision:2})).status,503);f.fail('');
- assert.equal((await f.overview()).data.treasury.funds,2000);assert.equal((await f.overview()).data.treasury.stage,1);
- const upgrade=await f.post('organization/faction/upgrade',{requestId,expectedStage:1,policyRevision:2});assert.equal(upgrade.status,200,JSON.stringify(upgrade));assert.equal(upgrade.data.stage,2);assert.equal(upgrade.data.funds,1000);
+ assert.equal((await f.overview()).data.treasury.funds,3000);assert.equal((await f.overview()).data.treasury.stage,1);
+ const upgrade=await f.post('organization/faction/upgrade',{requestId,expectedStage:1,policyRevision:2});assert.equal(upgrade.status,200,JSON.stringify(upgrade));assert.equal(upgrade.data.stage,2);assert.equal(upgrade.data.funds,2000);
  assert.equal((await f.post('organization/faction/upgrade',{requestId,expectedStage:1,policyRevision:2})).data.replayed,true);
  assert.equal((await f.overview()).data.treasury.stage,2);assert.equal((await f.post('organization/faction/upgrade',{expectedStage:2,policyRevision:2})).status,409);
  assert.equal((await f.pg.query('SELECT COUNT(*)::int AS n FROM user_message_rewards')).rows[0].n,6);
 });
 test('TEST does not award live accounts and null treasury rate does not mint funds',async t=>{
  const f=await fixture(t);
- await f.mutateState(s=>{s.districts.slice(0,4).forEach(d=>d.owner=1);s.session.participants=[2];s.session.participantClans={2:1};});
+ await f.mutateState(s=>{s.districts.slice(0,6).forEach(d=>d.owner=1);s.session.participants=[2];s.session.participantClans={2:1};});
  f.advance(3*3600000);await tickOrganizationFaction(f.env,f.deps);
  assert.equal((await f.overview()).data.treasury.funds,0);
  assert.equal((await f.pg.query('SELECT COUNT(*)::int AS n FROM user_message_rewards')).rows[0].n,0);

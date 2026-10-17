@@ -52,9 +52,10 @@ export function createFactionDay(key, random = randomInteger) {
   }));
 }
 export function factionSessionRewards(districts, roster, participants, policy, participantClans) {
+  const rules = policy.rewardRules || FACTION_SESSION_RULES;
   const holdings = {};
   for (const district of districts) if (district.owner) holdings[district.owner] = (holdings[district.owner] || 0) + 1;
-  const eligible = Object.entries(holdings).filter(([, count]) => count >= FACTION_SESSION_RULES.requiredTerritories);
+  const eligible = Object.entries(holdings).filter(([, count]) => count >= rules.requiredTerritories);
   const recipients = [], seen = new Set();
   for (const [clan, territories] of eligible) {
     const members = roster.filter(m => Number(m.clanId) === Number(clan)
@@ -64,10 +65,10 @@ export function factionSessionRewards(districts, roster, participants, policy, p
       const userId = Number(member.userId);
       if (!Number.isSafeInteger(userId) || userId <= 0 || seen.has(userId)) throw Error('INVALID_FACTION_RECIPIENT');
       seen.add(userId);
-      const coin = FACTION_SESSION_RULES.coinPerRecipient;
+      const coin = rules.coinPerRecipient;
       const share = amount => policy.recipients === 'CLAN_TOTAL' ? Math.floor(amount / members.length) + (i < amount % members.length ? 1 : 0) : amount;
       recipients.push({userId, clanId: Number(clan), territories,
-        amount: share(coin), masterStars: share(FACTION_SESSION_RULES.masterStarsPerRecipient), mysticEnergy: share(FACTION_SESSION_RULES.mysticEnergyPerRecipient)});
+        amount: share(coin), masterStars: share(rules.masterStarsPerRecipient), mysticEnergy: share(rules.mysticEnergyPerRecipient)});
     });
   }
   return {holdings, recipients};

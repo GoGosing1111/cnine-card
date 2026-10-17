@@ -1,4 +1,4 @@
-import {mount} from './organization-faction-v1.mjs?v=20261017-season-hold-v1';
+import {mount} from './organization-faction-v1.mjs?v=20261018-season-open';
 const root=document.getElementById('organizationFactionRoot');
 const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const roundId=new URL(location.href).searchParams.get('roundId');

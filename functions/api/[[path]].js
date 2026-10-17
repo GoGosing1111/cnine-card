@@ -94,7 +94,7 @@ import { handlePrimeDraw } from '../_prime_draw.js';
 import { handleHighGradeReroll,grantHighGradeRerollDrop,ensureHighGradeRerollFoundation } from '../_high_grade_reroll.js';
 import { handleTerritoryWar } from '../_territory_war.js';
 import { handleClan } from '../_clan.js';
-import {handleOrganization,reconcileOrganizationRecruitment,organizationLiveOperation} from '../_organization.js';
+import {handleOrganization,reconcileOrganizationRecruitment,organizationLiveOperation,runOrganizationAllocation} from '../_organization.js';
 import {handleOrganizationFaction,tickOrganizationFaction} from '../_organization_faction.js';
 import { handleAuction } from '../_auction.js';
 import { handleSiege } from '../_siege.js';
@@ -9397,6 +9397,9 @@ export async function runRankedDuoMaintenance(env,{now=Date.now()}={}){
 }
 
 // Private cron entry; public organization endpoints cannot trigger automatic jobs.
+export async function runOrganizationOwnerAllocation(env,body){
+ return runOrganizationAllocation(env,body,{readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts});
+}
 export async function runOrganizationMaintenance(env,{now=Date.now()}={}){
  const recruitment=await reconcileOrganizationRecruitment(env,{readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts},{now});
  const faction=await tickOrganizationFaction(env,{now:()=>Date.now(),pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout});

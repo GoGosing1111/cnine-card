@@ -1,0 +1,4754 @@
+{
+  "inventory": [
+    {
+      "width": 1440,
+      "label": "recruitment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 모집 준비",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "checkbox",
+          "action": "",
+          "name": "",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/icon-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "open",
+          "name": "24시간 입단 모집 개방",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "예: 7, 12",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "TEST 참여자 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 6
+    },
+    {
+      "width": 1440,
+      "label": "recruitment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 입단 모집 중",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "checkbox",
+          "action": "",
+          "name": "",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/icon-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "close",
+          "name": "지금 모집 마감",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "예: 7, 12",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "TEST 참여자 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 6
+    },
+    {
+      "width": 1440,
+      "label": "assignment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 모집 마감 · 배정 대기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "rate",
+          "name": "현재 전력 다시 평가",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "propose",
+          "name": "균등 배정안 만들기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "apply",
+          "name": "확인한 배정안 확정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-selected.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 21
+    },
+    {
+      "width": 1440,
+      "label": "assignment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 모집 마감 · 배정 대기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "rate",
+          "name": "현재 전력 다시 평가",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "propose",
+          "name": "균등 배정안 만들기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "apply",
+          "name": "확인한 배정안 확정",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-selected.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 21
+    },
+    {
+      "width": 1440,
+      "label": "recruitment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 추가 모집 중 · 확정 보류",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "additional-close",
+          "name": "추가 모집 지금 마감",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "예: 7, 12",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "TEST 참여자 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 6
+    },
+    {
+      "width": 1440,
+      "label": "assignment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 추가 모집 마감 · 배정 대기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "rate",
+          "name": "현재 전력 다시 평가",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "propose",
+          "name": "균등 배정안 만들기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "apply",
+          "name": "추가 배정 확정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 3명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 21
+    },
+    {
+      "width": 1440,
+      "label": "additional-allocation",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 추가 모집 마감 · 배정 대기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "rate",
+          "name": "현재 전력 다시 평가",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "propose",
+          "name": "균등 배정안 만들기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "apply",
+          "name": "추가 배정 확정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 3명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 21
+    },
+    {
+      "width": 1440,
+      "label": "hideout",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 배정 완료",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "number",
+          "action": "fundsPerRegion",
+          "name": "미입력",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "조직 자금 수입 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "number",
+          "action": "upgradeCosts.1",
+          "name": "미입력",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "number",
+          "action": "upgradeCosts.2",
+          "name": "미입력",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "number",
+          "action": "upgradeCosts.3",
+          "name": "미입력",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "number",
+          "action": "upgradeCosts.4",
+          "name": "미입력",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "아지트 승급 비용 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        }
+      ],
+      "cards": 10
+    },
+    {
+      "width": 1440,
+      "label": "faction",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 배정 완료",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "mode",
+          "name": "OFF · 신규 행동 중지TEST · 검수 운영ON · 조직원 공개",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "세력전 운영 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        }
+      ],
+      "cards": 27
+    },
+    {
+      "width": 1440,
+      "label": "organizations",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 배정 완료",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "도끼파쌍칼파독사파불곰파백상어파까마귀파들개파철권파쇠망치파흑표파검은손파황금니파밤안개파무쇠파야차파",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "미지정 · 해제검수 조직원 3 · #3검수 조직원 4 · #4",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "지휘관 지정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 6
+    },
+    {
+      "width": 1440,
+      "label": "assignment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 모집 마감 · 배정 대기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "rate",
+          "name": "현재 전력 다시 평가",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "propose",
+          "name": "균등 배정안 만들기",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "apply",
+          "name": "확인한 배정안 확정",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 3명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 21
+    },
+    {
+      "width": 1440,
+      "label": "overflow-disabled",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 모집 마감 · 배정 대기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "rate",
+          "name": "현재 전력 다시 평가",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "propose",
+          "name": "균등 배정안 만들기",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "apply",
+          "name": "확인한 배정안 확정",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 3명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 21
+    },
+    {
+      "width": 1440,
+      "label": "recruitment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "회차 없음",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "create-live",
+          "name": "LIVE 회차 준비",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "예: 7, 12",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "TEST 참여자 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 6
+    },
+    {
+      "width": 1440,
+      "label": "create-live",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "회차 없음",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "create-live",
+          "name": "LIVE 회차 준비",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "예: 7, 12",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "TEST 참여자 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 6
+    },
+    {
+      "width": 390,
+      "label": "recruitment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 모집 준비",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "checkbox",
+          "action": "",
+          "name": "",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/icon-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "open",
+          "name": "24시간 입단 모집 개방",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "예: 7, 12",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "TEST 참여자 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 6
+    },
+    {
+      "width": 390,
+      "label": "recruitment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 입단 모집 중",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "checkbox",
+          "action": "",
+          "name": "",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/icon-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "close",
+          "name": "지금 모집 마감",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "예: 7, 12",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "TEST 참여자 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 6
+    },
+    {
+      "width": 390,
+      "label": "assignment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 모집 마감 · 배정 대기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "rate",
+          "name": "현재 전력 다시 평가",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "propose",
+          "name": "균등 배정안 만들기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "apply",
+          "name": "확인한 배정안 확정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-selected.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 21
+    },
+    {
+      "width": 390,
+      "label": "assignment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 모집 마감 · 배정 대기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "rate",
+          "name": "현재 전력 다시 평가",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "propose",
+          "name": "균등 배정안 만들기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "apply",
+          "name": "확인한 배정안 확정",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-selected.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 21
+    },
+    {
+      "width": 390,
+      "label": "recruitment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 추가 모집 중 · 확정 보류",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "additional-close",
+          "name": "추가 모집 지금 마감",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "예: 7, 12",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "TEST 참여자 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 6
+    },
+    {
+      "width": 390,
+      "label": "assignment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 추가 모집 마감 · 배정 대기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "rate",
+          "name": "현재 전력 다시 평가",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "propose",
+          "name": "균등 배정안 만들기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "apply",
+          "name": "추가 배정 확정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 3명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 21
+    },
+    {
+      "width": 390,
+      "label": "additional-allocation",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 추가 모집 마감 · 배정 대기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "rate",
+          "name": "현재 전력 다시 평가",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "propose",
+          "name": "균등 배정안 만들기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "apply",
+          "name": "추가 배정 확정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 3명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 21
+    },
+    {
+      "width": 390,
+      "label": "hideout",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 배정 완료",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "number",
+          "action": "fundsPerRegion",
+          "name": "미입력",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "조직 자금 수입 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "number",
+          "action": "upgradeCosts.1",
+          "name": "미입력",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "number",
+          "action": "upgradeCosts.2",
+          "name": "미입력",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "number",
+          "action": "upgradeCosts.3",
+          "name": "미입력",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "number",
+          "action": "upgradeCosts.4",
+          "name": "미입력",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "아지트 승급 비용 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        }
+      ],
+      "cards": 10
+    },
+    {
+      "width": 390,
+      "label": "faction",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 배정 완료",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "mode",
+          "name": "OFF · 신규 행동 중지TEST · 검수 운영ON · 조직원 공개",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "세력전 운영 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-primary.webp\")"
+        }
+      ],
+      "cards": 27
+    },
+    {
+      "width": 390,
+      "label": "organizations",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 배정 완료",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "도끼파쌍칼파독사파불곰파백상어파까마귀파들개파철권파쇠망치파흑표파검은손파황금니파밤안개파무쇠파야차파",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "미지정 · 해제검수 조직원 3 · #3검수 조직원 4 · #4",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "지휘관 지정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 6
+    },
+    {
+      "width": 390,
+      "label": "assignment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 모집 마감 · 배정 대기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "rate",
+          "name": "현재 전력 다시 평가",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "propose",
+          "name": "균등 배정안 만들기",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "apply",
+          "name": "확인한 배정안 확정",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 3명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 21
+    },
+    {
+      "width": 390,
+      "label": "overflow-disabled",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "LIVE · 격리 CMS 검수 회차 · 모집 마감 · 배정 대기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "rate",
+          "name": "현재 전력 다시 평가",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "propose",
+          "name": "균등 배정안 만들기",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "apply",
+          "name": "확인한 배정안 확정",
+          "disabled": true,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-disabled.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 3명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SUMMARY",
+          "type": "",
+          "action": "",
+          "name": "배정 명단 2명",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 21
+    },
+    {
+      "width": 390,
+      "label": "recruitment",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "회차 없음",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "create-live",
+          "name": "LIVE 회차 준비",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "예: 7, 12",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "TEST 참여자 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 6
+    },
+    {
+      "width": 390,
+      "label": "create-live",
+      "controls": [
+        {
+          "tag": "A",
+          "type": "",
+          "action": "",
+          "name": "조직 본부 열기 ↗",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "SELECT",
+          "type": "select-one",
+          "action": "",
+          "name": "회차 없음",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "refresh",
+          "name": "새로 불러오기",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "recruitment",
+          "name": "모집·신청자",
+          "disabled": false,
+          "selected": true,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-selected.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "assignment",
+          "name": "전력·균등 배정",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "faction",
+          "name": "세력전 운영",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "hideout",
+          "name": "조직 자금·아지트",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "organizations",
+          "name": "명부·자금 원장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/tab-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "button",
+          "action": "create-live",
+          "name": "LIVE 회차 준비",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        },
+        {
+          "tag": "INPUT",
+          "type": "text",
+          "action": "",
+          "name": "예: 7, 12",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/choice-default.webp\")"
+        },
+        {
+          "tag": "BUTTON",
+          "type": "submit",
+          "action": "",
+          "name": "TEST 참여자 설정 저장",
+          "disabled": false,
+          "selected": false,
+          "image": "url(\"http://127.0.0.1:4563/assets/ui/organization/interface-v2/action-default.webp\")"
+        }
+      ],
+      "cards": 6
+    }
+  ]
+}

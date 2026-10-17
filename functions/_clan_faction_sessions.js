@@ -139,7 +139,7 @@ function closeSession(state, session, at, reason, roster, policy) {
   const result = factionSessionRewards(state.districts, roster, session.participants || [], policy,session.participantClans);
   const snapshot = {...session, status:payable ? 'SETTLED' : 'CANCELLED', closedAt:at, reason,
     holdings:result.holdings, recipients:payable ? result.recipients : [],
-    districts:state.districts.map(d => ({id:d.id,owner:d.owner})), recipientPolicy:policy.recipients,rewardVersion:R.version};
+    districts:state.districts.map(d => ({id:d.id,owner:d.owner})), recipientPolicy:policy.recipients,rewardVersion:(policy.rewardRules||R).version};
   state.session = {...snapshot};
   state.sessionHistory = [snapshot, ...(state.sessionHistory || [])].slice(0, 8);
   const slot = state.sessionPlan?.find(s => s.key === session.key); if (slot) slot.status = snapshot.status;

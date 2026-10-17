@@ -1,6 +1,6 @@
 import {ORGANIZATIONS,orgAssert} from '../shared/organization-system-v1.mjs';
-import {ORGANIZATION_DISTRICTS,organizationDistrictById,defaultOrganizationFactionPolicy,validateOrganizationFactionPolicy,FACTION_RULES as R,SQUADS} from '../shared/organization-faction-v1.mjs';
-import {createFactionDay,factionDayKey,FACTION_SESSION_RULES} from '../shared/clan-faction-sessions-v1.mjs';
+import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES,organizationDistrictById,defaultOrganizationFactionPolicy,validateOrganizationFactionPolicy,FACTION_RULES as R,SQUADS} from '../shared/organization-faction-v1.mjs';
+import {createFactionDay,factionDayKey} from '../shared/clan-faction-sessions-v1.mjs';
 import {validateFormation,factionCaptains,validateFactionCaptains,factionEvent,finishFactionBattle,factionStrikeDamage} from './_clan_faction_model.js';
 import {newOrganizationFactionState,advanceOrganizationFaction} from './_organization_faction_model.js';
 import {buildClanBattle} from './_clan.js';
