@@ -1,0 +1,128 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:halloween-valter-addition:20261018:v1",
+    "authorization": "그럼 할로윈팩에 헬리오스랑 동일 확률로 추가해 / 남은 장수 표시하지말고 그냥 올려",
+    "completedAt": "2026-10-17T18:05:35.684Z",
+    "before": {
+      "revision": 12,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 100,
+          "V-989": 50
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 10,
+          "V-981": 10,
+          "V-982": 10,
+          "V-983": 10,
+          "V-984": 10,
+          "V-985": 10,
+          "V-986": 10,
+          "V-999": null,
+          "V-989": 3
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 929850
+      },
+      "updatedAt": "2026-10-17T02:49:32.850Z",
+      "updatedBy": 1,
+      "lastRequestId": "halloween-ss-plus5-20261017-v1"
+    },
+    "after": {
+      "revision": 13,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 100,
+          "V-989": 50,
+          "V-996": 100
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 10,
+          "V-981": 10,
+          "V-982": 10,
+          "V-983": 10,
+          "V-984": 10,
+          "V-985": 10,
+          "V-986": 10,
+          "V-999": null,
+          "V-989": 3,
+          "V-996": null
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 929750
+      },
+      "updatedAt": "2026-10-17T18:05:35.684Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:halloween-valter-addition:20261018:v1"
+    },
+    "stock": [
+      {
+        "code": "V-996",
+        "stock_limit": "12",
+        "issued": "11",
+        "revision": "21",
+        "last_token": "ops:hakbeol-valter-grant:20261018:v1"
+      },
+      {
+        "code": "V-999",
+        "stock_limit": "7",
+        "issued": "6",
+        "revision": "11",
+        "last_token": "ops:playdk-1322742-raffle:20261015:v1"
+      }
+    ],
+    "stockChanged": false,
+    "grants": 0,
+    "conditionalRatePpm": 100,
+    "effectivePercent": "0.000005",
+    "playerRemainingCountsDisplayed": false,
+    "adminLogId": "47752"
+  },
+  "currentRevision": 13,
+  "independentConnection": true,
+  "verifiedAt": "2026-10-17T18:05:40.421Z"
+}

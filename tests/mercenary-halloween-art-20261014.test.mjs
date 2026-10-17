@@ -57,7 +57,7 @@ test('public state is read-only, opening has zero database effects, and only OWN
  assert.equal((await call(f,HALLOWEEN_PACK.openPath,'POST',{mode:'ON',count:1})).status,401);assert.equal(f.stats.queries,beforeQueries);
  for(const role of ['USER','ADMIN'])assert.equal((await call(f,HALLOWEEN_PACK.adminPath,'PATCH',body(),role)).status,403);
  assert.equal(f.stats.queries,beforeQueries);
- const batches=f.stats.batches;const state=await call(f,HALLOWEEN_PACK.featurePath);assert.equal(state.status,200);assert.equal(state.body.cards.length,9);assert.equal(f.stats.batches,batches);
+ const batches=f.stats.batches;const state=await call(f,HALLOWEEN_PACK.featurePath);assert.equal(state.status,200);assert.equal(state.body.cards.length,10);assert.ok(state.body.cards.some(c=>c.code==='V-996'));assert.equal(f.stats.batches,batches);
  assert.equal((await call(f,HALLOWEEN_PACK.adminPath,'PATCH',body(),'OWNER','https://evil.test')).status,403);
  const on=body();on.settings.mode='ON';assert.equal((await call(f,HALLOWEEN_PACK.adminPath,'PATCH',on)).status,400);
  assert.equal(await f.coin(),1000000);assert.equal((await f.pg.query('SELECT * FROM user_mercenary_cards_v1')).rows.length,0);

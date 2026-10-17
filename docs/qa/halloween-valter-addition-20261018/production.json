@@ -1,0 +1,92 @@
+{
+  "verifiedAt": "2026-10-17T18:06:54.744Z",
+  "source": "0e9816e630f3a592238e9a8ef22bfa6fc8d9486c",
+  "verifiedFiles": [
+    {
+      "file": "index.html",
+      "sha256": "fb418f5b60b5a47dbc3f69d938753156ad035ddbbf5d048824a9740cdc12af2e",
+      "status": 200
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "9be761732c2905029da2b4eac934700376e32333428aeecdb14f3e1475cb490e",
+      "status": 200
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "44149727fff27d62177d0ec6d49d22117942ae4bf1081cc796d48d3c4fc5c0a1",
+      "status": 200
+    },
+    {
+      "file": "js/mercenary-halloween-pack-live.mjs",
+      "sha256": "e1f16d2bbe0e3371da29759f84c572156d9b8f011737137556db5be964694a11",
+      "status": 200
+    },
+    {
+      "file": "js/mercenary-halloween-presentation-v2.mjs",
+      "sha256": "82bc69ca956170454bbafab88ef6a573c8d3dbb5bafb3ce101b99ce710b8e2cb",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-halloween-pack-v1.mjs",
+      "sha256": "ec5f523d77b2f41b504e0f5b5dca4b76404b6f15f8f40c348bb696fa0efb7d55",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-halloween-pool-v3.mjs",
+      "sha256": "04615410aa9008eef93a3661d6d816780bebaccc25c2e21d07b8c7a2fc5b9976",
+      "status": 200
+    },
+    {
+      "file": "css/mercenary-halloween-pack-v2.css",
+      "sha256": "e49ca9c0dc28d85768f88bb3eddea2ffd93d3896a434063eaf85c0ce076e2bd0",
+      "status": 200
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "456e05a1c2f976693e1ef8e7a50fbeb319c5f4410f04067096535299322a63cc",
+      "status": 200
+    },
+    {
+      "file": "admin/mercenary-admin-v1.js",
+      "sha256": "ae7a515c4484d597a7949efebcdccc369457e86d0438580a30cc781d642275da",
+      "status": 200
+    },
+    {
+      "file": "admin/mercenary-halloween-admin-v1.mjs",
+      "sha256": "6400d91d35e7b4d69ae863386207a9c52422a93d481d31ec6ea4d059cee902e5",
+      "status": 200
+    },
+    {
+      "file": "preview/halloween-pack-interface-20261017/index.html",
+      "sha256": "e24822d93388dcceac21a7ba667d0e0d2bb1feffeb11c775f062207a9efadfd4",
+      "status": 200
+    }
+  ],
+  "pack": {
+    "revision": 13,
+    "mode": "ON",
+    "conditionalRatesPpm": {
+      "valter": 100,
+      "helios": 100
+    },
+    "effectivePercent": "0.000005",
+    "normalSssRatePpm": 929750,
+    "stock": {
+      "code": "V-996",
+      "limit": 12,
+      "issued": 11,
+      "remaining": 1,
+      "prepared": true,
+      "scope": "EXISTING_SHARED"
+    },
+    "userOpeningEnabled": true
+  },
+  "mobile": {
+    "width": 390,
+    "valterVisible": true,
+    "remainingCountsDisplayed": false,
+    "errors": []
+  },
+  "productionPurchases": 0
+}

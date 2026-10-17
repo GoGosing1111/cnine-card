@@ -20,10 +20,10 @@ import {saveHalloweenPack} from '../functions/_mercenary_halloween_pack.js';
 import {saveMercenaryLoadout,loadMercenaryBattleSnapshot} from '../functions/_mercenary_account.js';
 
 const hash=p=>createHash('sha256').update(fs.readFileSync(p.replace(/^\//,''))).digest('hex').toUpperCase();
-test('all nine pack identities have exact source/SD resources and one public codex entry',()=>{
+test('all pack identities have exact source/SD resources and one public codex entry',()=>{
  const doc=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}));
  for(const c of HALLOWEEN_PACK_CARDS){
-  assert.equal(hash(c.sourceArt),c.sourceArtSha256);assert.equal(hash(c.battleSprite),c.battleSpriteSha256);
+  assert.equal(hash(c.sourceArt),c.sourceArtSha256);assert.equal(hash(c.battleSprite),c.battleSpriteSha256??limitedVisual(c.code)?.spriteSha256);
   const rows=doc.cards.filter(r=>r.code===c.code);assert.equal(rows.length,1);assert.equal(rows[0].deploymentEnabled,true);assert.equal(rows[0].battleSprite,c.battleSprite);
   if(c.season==='HALLOWEEN'){
    assert.equal(rows[0].basePower,216000);assert.equal(rows[0].skills.length,1);
