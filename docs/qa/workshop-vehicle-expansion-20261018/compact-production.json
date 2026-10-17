@@ -1,0 +1,48 @@
+{
+  "verifiedAt": "2026-10-17T23:43:12.431Z",
+  "deployment": "https://cab3aaea.cnine-card.pages.dev",
+  "source": "f40bae072",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "70db110f5141a8657eb55f77034d9f8f4953d7a0338ad1c63220e1214628acd8"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "c529ae0f04d6695aefd525831be5aaf32b7267ae8064d9933b13da768656f727"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "2929bdb08029451196cc2cc28a605d12fc8fdcd6707a9226f629859857ae0054"
+    },
+    {
+      "file": "css/workshop-assembly-live-v2073.css",
+      "status": 200,
+      "sha256": "d6fff93c59c8e5f196e962aa6a5780d50e8d9cfd8746bb3ea8bd34b02c6a8c18"
+    },
+    {
+      "file": "preview/workshop-assembly-v1/live.html",
+      "status": 200,
+      "sha256": "bb731bdd18ca3d087f6e2b75e49144822f319292141b1914660ad97e744d3c2e"
+    }
+  ],
+  "screen": {
+    "result": {
+      "x": 440,
+      "y": 725.5,
+      "width": 560,
+      "height": 115
+    },
+    "close": {
+      "width": 84,
+      "height": 44,
+      "font": "15px"
+    },
+    "errors": [],
+    "mockReceipt": true,
+    "realApiMutations": 0
+  }
+}

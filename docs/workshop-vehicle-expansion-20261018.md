@@ -53,4 +53,9 @@
 - 이미지 프레임은 그대로 사용한다. 성공/실패 두 결과 모두 동일한 폭·높이 정책을 적용하고 차량 영역과 겹치지 않는다.
 - 로컬 PC 아스트라 성공·모바일 마이바흐 실패에서 글자 크기/실제 경계, 화면 밖 버튼 없음, 닫기, 결과/차량 분리를 확인했다. 결과는 같은 QA 폴더의 `compact-report.json`, `compact-1440-result.png`, `compact-390-result.png`에 보존한다.
 
-후속 캐시 태그는 `20261018-vehicle-compact-v2`이며 조립 번들과 판정 코드는 바꾸지 않는다. 후속 배포 전 상태다.
+후속 캐시 태그는 `20261018-vehicle-compact-v2`이며 조립 번들과 판정 코드는 바꾸지 않았다. 소스 `f40bae072`를 `npm run deploy:production -- --scoped`로 배포 완료했다. 기존 라이브 연출 관련 9개 검사와 출시/캐시/Hyperdrive 검사를 통과했다.
+
+- 후속 Pages: `https://cab3aaea.cnine-card.pages.dev`
+- API Runtime: `5ea5075d-e087-4250-97bc-6542d0624eed`
+- Scheduler: `ebf932f0-dc4d-4fe8-bd86-096d137e0635`
+- 운영 변경 파일 5개 HTTP 200·내용 해시 일치. 운영 PC 아스트라 모의 성공 결과에서 닫기 84×44px/글씨 15px와 결과창 560×115px, 닫기 동작, 브라우저 오류 0건을 확인했다. 실제 재화 소모는 없다. 기록: `docs/qa/workshop-vehicle-expansion-20261018/compact-production.json`.
