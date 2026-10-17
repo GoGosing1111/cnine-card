@@ -1,0 +1,91 @@
+{
+  "status": "VERIFIED",
+  "checkedAt": "2026-10-17T02:49:33.554Z",
+  "deployment": "https://26b64618.cnine-card.pages.dev",
+  "commit": "7570fdfbcc5e87d7a28c369f4bff32df8d0221df",
+  "auditId": 47402,
+  "revision": 12,
+  "totalAdded": 35,
+  "mode": "ON",
+  "sssEntryPpm": 500,
+  "prices": {
+    "single": 1000000000,
+    "ten": 10000000000
+  },
+  "settingsExceptStockUnchanged": true,
+  "openingEnabled": true,
+  "stock": [
+    {
+      "code": "V-980",
+      "limit": 10,
+      "issued": 1,
+      "remaining": 9,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-981",
+      "limit": 10,
+      "issued": 1,
+      "remaining": 9,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-982",
+      "limit": 10,
+      "issued": 2,
+      "remaining": 8,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-983",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-984",
+      "limit": 10,
+      "issued": 2,
+      "remaining": 8,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-985",
+      "limit": 10,
+      "issued": 0,
+      "remaining": 10,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-986",
+      "limit": 10,
+      "issued": 2,
+      "remaining": 8,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-999",
+      "limit": 7,
+      "issued": 6,
+      "remaining": 1,
+      "prepared": true,
+      "scope": "EXISTING_SHARED"
+    },
+    {
+      "code": "V-989",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    }
+  ]
+}
