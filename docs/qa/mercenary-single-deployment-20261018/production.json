@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "verifiedAt": "2026-10-17T16:55:31.899Z",
+  "releaseCommit": "be7ca2a8827ee32e20da82946c5f0de18ddbdac2",
+  "checks": [
+    {
+      "file": "mercenary-codex/index.html",
+      "status": 200,
+      "sha256": "65c9bfe048851e7c0ddd6e08b4b266a7f8f423a6990fb6aad45c7ed6f8e74852",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "status": 200,
+      "sha256": "25afdaf672785f077f1418eccc785a0f3706c29db630a6e2a4ae83e76af94859",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/shell.mjs",
+      "status": 200,
+      "sha256": "cd1b843afd07e8b86a9271b68f6c1f986ea4e65a438e9b021ca2ae5f0f353c58",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/style.css",
+      "status": 200,
+      "sha256": "d6ea58a9095b0c47a0b896f10ef2e80a457e0ee212ca6339d54846f215e03a0a",
+      "matches": true
+    }
+  ],
+  "duplicateStripRemoved": true,
+  "existingDeploymentPanelRetained": true,
+  "liveAccountWrites": 0,
+  "deployment": {
+    "pages": "https://b138ac23.cnine-card.pages.dev",
+    "apiVersion": "2d8f9df2-fc04-4ccc-9e44-6830b5e0b466",
+    "schedulerVersion": "ff6bf0ef-34f8-40fd-98f4-fef08af092e7"
+  },
+  "regressions": 10,
+  "browserViewports": [
+    1440,
+    390
+  ],
+  "browserErrors": 0
+}
