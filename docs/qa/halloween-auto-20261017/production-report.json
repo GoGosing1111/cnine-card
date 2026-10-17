@@ -1,0 +1,34 @@
+{
+  "checkedAt": "2026-10-17T02:06:48.328Z",
+  "revision": 9,
+  "mode": "ON",
+  "readiness": {
+    "ready": true,
+    "blockers": []
+  },
+  "sssPercent": 0.005,
+  "cPercent": 10.495,
+  "missPercent": 80,
+  "normalSssPercent": 92.985,
+  "reports": [
+    {
+      "width": 1440,
+      "saleOn": true,
+      "autoEnabled": true,
+      "productionPurchases": 0,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "saleOn": true,
+      "autoEnabled": true,
+      "productionPurchases": 0,
+      "errors": []
+    }
+  ],
+  "deployment": {
+    "id": "c3d18604-e513-4a83-9278-c0958b9beab5",
+    "url": "https://c3d18604.cnine-card.pages.dev",
+    "commit": "91245a512517d0e55d2516944c855fb75b0540e0"
+  }
+}

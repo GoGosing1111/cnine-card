@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-10-17T02:08:36.143Z",
+  "revision": 10,
+  "mode": "ON",
+  "readiness": {
+    "ready": true,
+    "blockers": []
+  },
+  "sssPercent": 0.0025,
+  "cPercent": 10.4975,
+  "missPercent": 80,
+  "normalSssPercent": 92.985,
+  "cssOverride": true,
+  "reports": [
+    {
+      "width": 1440,
+      "saleOn": true,
+      "autoEnabled": true,
+      "productionPurchases": 0,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "saleOn": true,
+      "autoEnabled": true,
+      "productionPurchases": 0,
+      "errors": []
+    }
+  ]
+}
