@@ -1,8 +1,9 @@
-import {Assets,Container,Graphics,Sprite,Text,Texture,Rectangle} from 'pixi.js';
+import {Assets,Container,Sprite,Text,Texture,Rectangle} from 'pixi.js';
 import {petBuffVisual} from '../../../../shared/pet-buff-visuals-v1.mjs';
-import {petSupportPosition} from './PetSupportLayout.mjs';
+import {petSupportPosition,petBattleDisplaySize} from './PetSupportLayout.mjs';
+import {createBattleGroundSigil} from './BattleGroundSigil.js';
 import {PetSupportHud} from './PetSupportHud.js';
-import {petEffectRows,petSupportKey,petOpeningMatches,skippedPetOpenings} from './PetSupportPresentation.mjs';
+import {petSupportKey,petOpeningMatches,skippedPetOpenings} from './PetSupportPresentation.mjs';
 import {playPetOpeningFX} from './PetOpeningFX.js';
 
 export function disposePetSupport(engine){
@@ -20,9 +21,8 @@ export async function preparePetSupport(engine,payload){
     if(!/^\/?assets\/[a-zA-Z0-9_./-]+\.(png|webp)$/.test(pet.battleSprite)||pet.battleSprite.includes('..'))return;
     let texture;try{texture=await Assets.load('/'+pet.battleSprite.replace(/^\//,''));}catch(error){console.warn('[pet] portrait load failed',pet.code);return;}
     if(engine.disposed||engine.petSupports!==rows)return;
-    const color=petEffectRows(pet.buffs)[0]?.tint||0xc4f588;
-    const root=new Container({label:'PET_SUPPORT_'+key}),halo=new Graphics().ellipse(0,0,48,15).fill({color,alpha:.16}).ellipse(0,0,41,11).stroke({color,width:1.5,alpha:.65});
-    const sprite=new Sprite(texture);sprite.anchor.set(.5,1);sprite.scale.set(126/Math.max(texture.width,texture.height));sprite.y=-3;
+    const root=new Container({label:'PET_SUPPORT_'+key}),halo=createBattleGroundSigil({team:side,width:96,height:30});
+    const sprite=new Sprite(texture);sprite.anchor.set(.5,1);sprite.scale.set(petBattleDisplaySize(126)/Math.max(texture.width,texture.height));sprite.y=-3;
     const name=new Text({text:pet.name,style:{fontFamily:'Noto Sans KR, sans-serif',fontSize:15,fontWeight:'700',fill:0xf1ffe1,stroke:{color:0x081020,width:4}}});name.anchor.set(.5,0);name.y=9;
     root.addChild(halo,sprite,name);
     let badge=null;if(snapshot.magnet){badge=new Text({text:'자석',style:{fontFamily:'Noto Sans KR, sans-serif',fontSize:13,fontWeight:'700',fill:0xcbf687,stroke:{color:0x081020,width:4}}});badge.anchor.set(.5,0);badge.y=29;root.addChild(badge);}
@@ -62,7 +62,9 @@ export async function preparePetSupport(engine,payload){
         suit={x:p.x,y:p.y,halfWidth:Math.abs(edge.x-p.x)};
       }
       const position=petSupportPosition({points:feet,side,pvp,suit,width,height,scale,size});
-      row.sprite.scale.set(position.size/Math.max(row.sprite.texture.width,row.sprite.texture.height));row.halo.scale.set(position.size/126);
+      // Apply after mobile minimums and neighbor fitting, for both factions.
+      row.layoutSize=position.size;row.displaySize=petBattleDisplaySize(position.size);
+      row.sprite.scale.set(row.displaySize/Math.max(row.sprite.texture.width,row.sprite.texture.height));row.halo.scale.set(row.displaySize/126);
       const labelMargin=row.name.width/2+8/scale;
       row.root.position.set(Math.max(labelMargin,Math.min(width-labelMargin,position.x)),position.y);
       row.root.visible=engine.visible!==false;

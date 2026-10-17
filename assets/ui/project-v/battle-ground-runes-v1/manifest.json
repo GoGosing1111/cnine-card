@@ -1,0 +1,129 @@
+{
+  "version": "BATTLE_GROUND_RUNES_V1",
+  "created": "2026-10-17",
+  "status": "implemented-from-user-approved-concept",
+  "concept": {
+    "file": "approved-battle-concept.png",
+    "approval": "User approved the proposed image and requested all battle screens and both factions. Grade cutoff: ICON cards and mercenaries SSS or above; SSS LIMITED distinct.",
+    "sha256": "351669ea7dcdd5998c88e4e12d4a1558e5d36adce88c1c4846e462658c332878"
+  },
+  "generator": "image_gen.imagegen",
+  "transparentBackground": true,
+  "assets": [
+    {
+      "name": "ally",
+      "generatedFile": "exec-049b584e-8eb9-4ea3-b519-b8b44bb57ccd.png",
+      "source": "originals/ally.png",
+      "runtime": "ally.webp",
+      "prompt": "Use case: stylized-concept. Production game asset, single transparent battle ground sigil. Supporting style reference is the approved screenshot: use ONLY the silver-blue circular runic engravings under the LEFT allied combatants as inspiration, not the screenshot itself.\nCreate one perfectly overhead, unforeshortened circular weathered silver-cyan rune engraving as a transparent PNG, centered on a square canvas. The renderer will flatten it into an ellipse. Thin two concentric engraved arcs, broken in a few small places, with 24–32 handcrafted occult glyph marks between them. Subtle moon-silver metal, aged chiselled edges, faint cyan illumination, a few tiny dust specks closely along outer edge. Premium gothic RPG painterly surface detail. Total sigil diameter about 84% of canvas; broad completely TRANSPARENT center occupying 66% of diameter, thin rune band, fully TRANSPARENT outside. No opaque black or colored disk, no stone ground or square image background, no contact shadow filling the center, no checkerboard pixels. Calm silver engraving with restrained blue glints; maintain clear readable silhouette when rendered 150 pixels wide. NO characters, names, letters, readable words, UI, square, diamond, platform slab, pedestal, border, central symbol, panel, spikes or floating object. True alpha cutout. No perspective at generation.",
+      "sha256": "1418b2f9b63b6abe27f098e1cff8b65fbaa63d2a9110bec039299ea2ea625e08",
+      "runtimeSha256": "b72cba1d953392cd5bac9be66e314d3bd05da05e8bdec4e1dee694bd91c4a5e3",
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "export": {
+        "width": 512,
+        "height": 512,
+        "quality": 90,
+        "alphaQuality": 100
+      },
+      "alphaCheck": {
+        "center": 0,
+        "corner": 0
+      }
+    },
+    {
+      "name": "enemy",
+      "generatedFile": "exec-886adced-74c1-48c3-9dfa-c93adeb016e9.png",
+      "source": "originals/enemy.png",
+      "runtime": "enemy.webp",
+      "prompt": "Use case: stylized-concept. Production single transparent game battle ground sigil.\nStyle reference: approved screenshot, ONLY the red-brown rune circles under RIGHT enemy combatants.\nCreate one perfectly overhead unforeshortened circular worn dark-bronze and crimson ritual engraving, centered on a square transparent canvas. Two narrow concentric engraved arcs, small irregular gaps, 28 chiseled gothic glyphs between them; thin hairline fissures along the outer arc contain dim red embers. Painterly oxidized bronze grain and rubbed copper edge, no heavy slab. Same elegant narrow silhouette as the reference circles. Outer diameter 84% of canvas; rune band is narrow and broad center entirely TRANSPARENT (inner diameter 69% of canvas). Outside entirely TRANSPARENT. A few tiny red sparks hugging the circumference; restrained dim red illumination. It will render flattened to an ellipse about 150px wide below an enemy; preserve a quiet clean ring silhouette.\nNO opaque center, filled disk, floor, background, checkerboard pattern, raised platform, characters, text, labels, readable letters, square/diamond shapes, large spikes or center symbol. True alpha cutout; exact overhead view so code can project to floor perspective.",
+      "sha256": "e8cb18428fe1c1e9418445b8782ab8b4e5c955d20909fade7f2d0e59f3e67f6c",
+      "runtimeSha256": "0336185c0a993bc4fac742bd1416aef1e9361867ab9b2179eedf3209012ec6da",
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "export": {
+        "width": 512,
+        "height": 512,
+        "quality": 90,
+        "alphaQuality": 100
+      },
+      "alphaCheck": {
+        "center": 0,
+        "corner": 0
+      }
+    },
+    {
+      "name": "icon",
+      "generatedFile": "exec-65155165-66d0-46d5-96d6-2a7cabe7e718.png",
+      "source": "originals/icon.png",
+      "runtime": "icon.webp",
+      "prompt": "Use case: stylized-concept. One transparent RPG ground rune for ICON grade cards. Reference is the approved gameplay screenshot ONLY its small golden rune circle under the foremost allied hero. Make a production asset, perfectly overhead circle, will be flattened to an ellipse by the renderer. A narrow engraved antique-gold annulus with two fine gold arcs, carefully spaced 28 small magical glyphs, four small elegant sun-ray flourishes hugging its perimeter and a few tiny amber motes. Metallic etched gold, brushed pale-gold highlights, slight irregular wear, restrained warm amber emission. Premium and stately, no crown or large radial emblem. Outer artwork diameter 86% of square canvas, inner 66% of canvas completely TRANSPARENT. Fully TRANSPARENT outer margins. All details in the flat plane, no raised sides. Clear at 160px wide. No characters, no words or rank labels, no scene, no stone floor, no disk center, no black backdrop, no checkerboard, no square or diamond plate. This is a hollow alpha texture with a broad empty center, not a medal or product photograph. Match the ring-based visual language of the approved screenshot.",
+      "sha256": "771f6f9067c7a9ead6318f0e117decaf650690076d36235d0b5bfc37d47b6747",
+      "runtimeSha256": "6cf46ec14c3748e9419876fe17fdaa3f979843a71ccf18a4f875f40eb5c23e29",
+      "originalSize": [
+        1254,
+        1254
+      ],
+      "export": {
+        "width": 512,
+        "height": 512,
+        "quality": 90,
+        "alphaQuality": 100
+      },
+      "alphaCheck": {
+        "center": 0,
+        "corner": 0
+      }
+    },
+    {
+      "name": "mercenary-sss",
+      "generatedFile": "exec-8102ebeb-4b59-4bf3-b136-2037dd565486.png",
+      "source": "originals/mercenary-sss.png",
+      "runtime": "mercenary-sss.webp",
+      "prompt": "Use case: stylized-concept. Create ONE production transparent battle ground rune texture for normal SSS mercenaries in a gothic collectible RPG. Supporting reference is the approved game screenshot, ONLY the small engraved circular ground sigils. This should be visibly distinct from ICON's simple solar gold rune. A perfectly overhead unforeshortened circle, no perspective, narrow antique GOLD interlaced annulus with three equally spaced small heraldic blade flourishes integrated tangentially into the perimeter. Two fine gold arcs, 24 etched angular magical glyphs, a braided gold filigree inner band. Warm lustrous gold, tiny warm white highlights, very restrained amber light. Noble warrior seal, flat engravings, no raised pedestal or medal. All details must remain within a diameter of 86% of a square transparent canvas; center hole diameter at least 62% of canvas, ENTIRELY TRANSPARENT, outer margins transparent. Thin ornament readable when flattened to ellipse 180px x60px. No massive spikes, no large rays, no central symbol, no readable words or rank label, no characters, no stone slab, no floor, no black disk, no opaque background, no checkerboard. Painterly detailed metal with worn edges, true alpha cutout.",
+      "sha256": "d96778087a261c922106467fb152320f08f0580711f6d298896dbf6ba3acd6c9",
+      "runtimeSha256": "a4b523c790de2d4783823986dec5549607a07ecc2252bccb864af45a67856207",
+      "originalSize": [
+        1261,
+        1247
+      ],
+      "export": {
+        "width": 512,
+        "height": 512,
+        "quality": 90,
+        "alphaQuality": 100
+      },
+      "alphaCheck": {
+        "center": 0,
+        "corner": 0
+      }
+    },
+    {
+      "name": "mercenary-sss-limited",
+      "generatedFile": "exec-27e34aee-a266-471f-b03c-3bd607965cb0.png",
+      "source": "originals/mercenary-sss-limited.png",
+      "runtime": "mercenary-sss-limited.webp",
+      "prompt": "Use case: stylized-concept. Create ONE premium transparent RPG ground rune texture for SSS LIMITED mercenaries. Supporting reference is only the circular floor engravings of approved gameplay screenshot. It will lie flat under a character in dark gothic battlefield, projected into an ellipse by renderer. Perfectly OVERHEAD unforeshortened circle, narrow elegant metallic GOLD and PLATINUM interlaced annulus. A continuous fine gold outer arc and a fine platinum inner arc, 24 tiny intricate engraved glyphs. Six delicate feather-shaped filigree knots at equal intervals woven into the gold band, one small low heraldic crown silhouette at the top within the band. Visibly more refined and intricate than normal SSS warrior seal. GOLD dominant with pale platinum accents and tiny opalescent highlights, not blue or purple. Etched painterly metal, luminous white-gold edges, a few tiny gold motes close to perimeter. Transparent inner hole at least 62% of square canvas, total artwork diameter 86%, TRANSPARENT outside. Thin filigree detail must read at 180px width when flattened into floor ellipse. No raised rim or pedestal, no solid disk or medal, no central symbol, no character, no text or rank labels, no big floating crown, no huge spikes, no floor or background, no checkerboard. True alpha cutout, broad hollow center. Premium and restrained.",
+      "sha256": "08049bf8fe84edc3450d1d4b00a857c57ec8559b8704cf91623f390a5f524a2b",
+      "runtimeSha256": "bb9f1837085b520a1fc5984947396c1063e3cea55353a67d37354d1760603363",
+      "originalSize": [
+        1261,
+        1247
+      ],
+      "export": {
+        "width": 512,
+        "height": 512,
+        "quality": 90,
+        "alphaQuality": 100
+      },
+      "alphaCheck": {
+        "center": 0,
+        "corner": 0
+      }
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import {Assets, Container, Graphics, Sprite, Text, Texture} from 'pixi.js';
 import {BattleAnimation} from './BattleAnimation.js';
+import {createBattleGroundSigil} from './BattleGroundSigil.js';
 import {
   HUMANOID_BONE_ORDER,
   HUMANOID_RIG_ID,
@@ -109,9 +110,8 @@ export class BattleCharacter{
     this.buildHumanoidRig();
     if(fullBodyTexture)this.useFullBodySprite(fullBodyTexture,this.fullBodyHeight);
 
-    this.stateHalo=new Graphics()
-      .ellipse(0,-7,105,25)
-      .stroke({width:3,color:accent,alpha:.74});
+    this.stateHalo=createBattleGroundSigil({team,width:210,height:58});
+    this.stateHalo.y=-7;
     this.stateHalo.zIndex=1;
     this.root.addChildAt(this.stateHalo,0);
 

@@ -1,0 +1,106 @@
+{
+  "checkedAt": "2026-10-16T23:38:27.265Z",
+  "sourceCommit": "00c0b1c6dd79be095b077658a080e0bbcc557338",
+  "runtimeSuffix": "ground-runes-pets-20261017-v1",
+  "checks": [
+    {
+      "file": "index.html",
+      "url": "https://cnine-card.pages.dev/?groundRunes=20261017-v1",
+      "status": 200,
+      "bytes": 25587,
+      "expectedSha256": "c53aa70c3de18b416bf4f9e8ab0c20f27c45b88aa83de7a5078483c60175cc9e",
+      "actualSha256": "c53aa70c3de18b416bf4f9e8ab0c20f27c45b88aa83de7a5078483c60175cc9e",
+      "matches": true
+    },
+    {
+      "file": "js/app.js",
+      "url": "https://cnine-card.pages.dev/js/app.js?groundRunes=20261017-v1",
+      "status": 200,
+      "bytes": 758261,
+      "expectedSha256": "f738d0639de7169f217c5f71af21d13516d61c419cba092dfd152864927e0c2d",
+      "actualSha256": "f738d0639de7169f217c5f71af21d13516d61c419cba092dfd152864927e0c2d",
+      "matches": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "url": "https://cnine-card.pages.dev/js/battle-v3-live.js?groundRunes=20261017-v1",
+      "status": 200,
+      "bytes": 80979,
+      "expectedSha256": "d4ee1908a3bc675fc385812fdf1ed768f8661881de2663124833961b1c39f91c",
+      "actualSha256": "d4ee1908a3bc675fc385812fdf1ed768f8661881de2663124833961b1c39f91c",
+      "matches": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/project-v-v3/project-v-pixi-battle.bundle.js?groundRunes=20261017-v1",
+      "status": 200,
+      "bytes": 1964998,
+      "expectedSha256": "bc354847efe7727412f5fe0c34b308426f696c38b552548d74e92d012b3f63ef",
+      "actualSha256": "bc354847efe7727412f5fe0c34b308426f696c38b552548d74e92d012b3f63ef",
+      "matches": true
+    },
+    {
+      "file": "defense/index.html",
+      "url": "https://cnine-card.pages.dev/defense/?groundRunes=20261017-v1",
+      "status": 200,
+      "bytes": 11944,
+      "expectedSha256": "9aa2510c1ed5da9eabad158bc3381c12f331c2f2ebe93feb5deead132f494ea0",
+      "actualSha256": "9aa2510c1ed5da9eabad158bc3381c12f331c2f2ebe93feb5deead132f494ea0",
+      "matches": true
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/coop-defense-v1/defense.bundle.js?groundRunes=20261017-v1",
+      "status": 200,
+      "bytes": 2068523,
+      "expectedSha256": "336c0f4b4229958830003965dc043800a028a4f8a72ef94fcac22bfc76499e7d",
+      "actualSha256": "336c0f4b4229958830003965dc043800a028a4f8a72ef94fcac22bfc76499e7d",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+      "url": "https://cnine-card.pages.dev/assets/ui/project-v/battle-ground-runes-v1/ally.webp?groundRunes=20261017-v1",
+      "status": 200,
+      "bytes": 126178,
+      "expectedSha256": "b72cba1d953392cd5bac9be66e314d3bd05da05e8bdec4e1dee694bd91c4a5e3",
+      "actualSha256": "b72cba1d953392cd5bac9be66e314d3bd05da05e8bdec4e1dee694bd91c4a5e3",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+      "url": "https://cnine-card.pages.dev/assets/ui/project-v/battle-ground-runes-v1/enemy.webp?groundRunes=20261017-v1",
+      "status": 200,
+      "bytes": 67584,
+      "expectedSha256": "0336185c0a993bc4fac742bd1416aef1e9361867ab9b2179eedf3209012ec6da",
+      "actualSha256": "0336185c0a993bc4fac742bd1416aef1e9361867ab9b2179eedf3209012ec6da",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+      "url": "https://cnine-card.pages.dev/assets/ui/project-v/battle-ground-runes-v1/icon.webp?groundRunes=20261017-v1",
+      "status": 200,
+      "bytes": 119866,
+      "expectedSha256": "6cf46ec14c3748e9419876fe17fdaa3f979843a71ccf18a4f875f40eb5c23e29",
+      "actualSha256": "6cf46ec14c3748e9419876fe17fdaa3f979843a71ccf18a4f875f40eb5c23e29",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+      "url": "https://cnine-card.pages.dev/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp?groundRunes=20261017-v1",
+      "status": 200,
+      "bytes": 120280,
+      "expectedSha256": "a4b523c790de2d4783823986dec5549607a07ecc2252bccb864af45a67856207",
+      "actualSha256": "a4b523c790de2d4783823986dec5549607a07ecc2252bccb864af45a67856207",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+      "url": "https://cnine-card.pages.dev/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp?groundRunes=20261017-v1",
+      "status": 200,
+      "bytes": 111066,
+      "expectedSha256": "bb9f1837085b520a1fc5984947396c1063e3cea55353a67d37354d1760603363",
+      "actualSha256": "bb9f1837085b520a1fc5984947396c1063e3cea55353a67d37354d1760603363",
+      "matches": true
+    }
+  ]
+}

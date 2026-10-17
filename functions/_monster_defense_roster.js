@@ -21,7 +21,7 @@ export async function readDefenseRoster(env,user,deps,{cardIds=null}={}){
  const [cards,owned,config]=await Promise.all([loadCoopOwnedCards(env,user,deps,cardIds),mercenaryAccountState(env,user),readMercenaryDocument(env)]);
  const mercenaries=owned.cards.filter(c=>c.canDeploy&&owned.available).map(c=>{
   const battle=battleConfig(config.document,c.code,c.level);
-  return profile({code:c.code,name:c.name,kind:'MERCENARY',rank:c.rank,level:c.level||1,sourceArt:url(c.sourceArt),battleSprite:url(c.battleSprite),footAnchor:anchor(c),
+  return profile({code:c.code,name:c.name,kind:'MERCENARY',rank:c.rank,edition:c.edition||null,level:c.level||1,sourceArt:url(c.sourceArt),battleSprite:url(c.battleSprite),footAnchor:anchor(c),
    mercenary:{code:c.code,role:battle.role,position:battle.position,attackStyle:mercenaryAttackStyle(battle),skills:structuredClone(battle.skills||[]),combat:structuredClone(owned.policy.combat)}},mercenaryRole(battle));
  });
  return {mercenaries,cards:cards.map(c=>{

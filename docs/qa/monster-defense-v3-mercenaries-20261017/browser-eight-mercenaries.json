@@ -1,0 +1,2755 @@
+{
+  "ok": true,
+  "cases": [
+    {
+      "codes": [
+        "V-996",
+        "V-987"
+      ],
+      "before": {
+        "engine": "V3 BattleEngine subclass",
+        "rendererCount": 1,
+        "environment": {
+          "renderer": "painted-sprites",
+          "routeSprites": 9,
+          "coreTexture": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+          "causewayTexture": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png"
+        },
+        "capacity": 3,
+        "allies": 9,
+        "enemies": 0,
+        "focusLane": null,
+        "hudNameplates": [
+          {
+            "id": "1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          }
+        ],
+        "groundRunes": [
+          {
+            "id": "1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          }
+        ],
+        "enemySprites": [],
+        "phase": "PREP",
+        "activeEffects": 0,
+        "timelines": 0,
+        "mercenaries": [
+          {
+            "id": "1:0",
+            "code": "V-996",
+            "bodyHeight": 312.3894230769231,
+            "fullBodyHeight": 358,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 0.859375
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 2
+          },
+          {
+            "id": "1:1",
+            "code": "V-987",
+            "bodyHeight": 300,
+            "fullBodyHeight": 640,
+            "footAnchor": {
+              "x": 0.390625,
+              "y": 0.8463541666666666
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 1
+          },
+          {
+            "id": "bot-1:0",
+            "code": "V-001",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-1:1",
+            "code": "V-004",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:0",
+            "code": "V-003",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:1",
+            "code": "V-002",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          }
+        ],
+        "presentationErrors": [],
+        "supportTeleport": {
+          "image": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+          "frames": 6,
+          "active": 0,
+          "positions": []
+        },
+        "camera": {
+          "x": 1440,
+          "scale": 0.49166666666666664,
+          "viewWidth": 2928.813559322034,
+          "tilt": 0
+        },
+        "serverDeterminesDamage": true,
+        "resolution": 1,
+        "world": {
+          "width": 2880,
+          "height": 1280,
+          "coreX": 220,
+          "coreY": 620,
+          "mergeX": 600,
+          "spawnX": 2780,
+          "frontX": 1510,
+          "pressureX": 1600,
+          "breachWarningX": 1030
+        },
+        "roleFx": {
+          "renderer": "atlas-only",
+          "ready": [
+            "ATTACK",
+            "DEFENSE",
+            "SPEED",
+            "HP"
+          ],
+          "failures": [],
+          "proceduralFallback": false
+        }
+      },
+      "after": {
+        "engine": "V3 BattleEngine subclass",
+        "rendererCount": 1,
+        "environment": {
+          "renderer": "painted-sprites",
+          "routeSprites": 3,
+          "coreTexture": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+          "causewayTexture": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png"
+        },
+        "capacity": 3,
+        "allies": 9,
+        "enemies": 6,
+        "focusLane": 0,
+        "hudNameplates": [
+          {
+            "id": "1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          }
+        ],
+        "groundRunes": [
+          {
+            "id": "1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-0",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-1",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-2",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-3",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-4",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-5",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          }
+        ],
+        "enemySprites": [
+          {
+            "id": "qa-target-0",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-1",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-2",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-3",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-4",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-5",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          }
+        ],
+        "phase": "WAVE",
+        "activeEffects": 0,
+        "timelines": 2,
+        "mercenaries": [
+          {
+            "id": "1:0",
+            "code": "V-996",
+            "bodyHeight": 312.3894230769231,
+            "fullBodyHeight": 358,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 0.859375
+            },
+            "prepared": true,
+            "played": 2,
+            "last": {
+              "type": "HIT",
+              "skillId": null,
+              "code": "V-996"
+            },
+            "busy": true,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 1,
+            "fxChildren": 2
+          },
+          {
+            "id": "1:1",
+            "code": "V-987",
+            "bodyHeight": 300,
+            "fullBodyHeight": 640,
+            "footAnchor": {
+              "x": 0.390625,
+              "y": 0.8463541666666666
+            },
+            "prepared": true,
+            "played": 2,
+            "last": {
+              "type": "HIT",
+              "skillId": null,
+              "code": "V-987"
+            },
+            "busy": true,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 1,
+            "fxChildren": 1
+          },
+          {
+            "id": "bot-1:0",
+            "code": "V-001",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 3,
+            "last": {
+              "type": "HIT",
+              "skillId": null,
+              "code": "V-001"
+            },
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-1:1",
+            "code": "V-004",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:0",
+            "code": "V-003",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:1",
+            "code": "V-002",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          }
+        ],
+        "presentationErrors": [],
+        "supportTeleport": {
+          "image": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+          "frames": 6,
+          "active": 0,
+          "positions": []
+        },
+        "camera": {
+          "x": 1340,
+          "scale": 0.39,
+          "viewWidth": 1333.1359054501722,
+          "tilt": -0.7225663103256524
+        },
+        "serverDeterminesDamage": true,
+        "resolution": 1,
+        "world": {
+          "width": 2880,
+          "height": 1280,
+          "coreX": 220,
+          "coreY": 620,
+          "mergeX": 600,
+          "spawnX": 2780,
+          "frontX": 1510,
+          "pressureX": 1600,
+          "breachWarningX": 1030
+        },
+        "roleFx": {
+          "renderer": "atlas-only",
+          "ready": [
+            "ATTACK",
+            "DEFENSE",
+            "SPEED",
+            "HP"
+          ],
+          "failures": [],
+          "proceduralFallback": false
+        }
+      },
+      "skillEvents": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_VALTER_AREA",
+        "MERCENARY_END",
+        "MERCENARY_SHIRANUI_AREA"
+      ]
+    },
+    {
+      "codes": [
+        "V-055",
+        "V-049"
+      ],
+      "before": {
+        "engine": "V3 BattleEngine subclass",
+        "rendererCount": 1,
+        "environment": {
+          "renderer": "painted-sprites",
+          "routeSprites": 9,
+          "coreTexture": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+          "causewayTexture": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png"
+        },
+        "capacity": 3,
+        "allies": 9,
+        "enemies": 0,
+        "focusLane": null,
+        "hudNameplates": [
+          {
+            "id": "1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          }
+        ],
+        "groundRunes": [
+          {
+            "id": "1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          }
+        ],
+        "enemySprites": [],
+        "phase": "PREP",
+        "activeEffects": 0,
+        "timelines": 0,
+        "mercenaries": [
+          {
+            "id": "1:0",
+            "code": "V-055",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 0.92
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 1
+          },
+          {
+            "id": "1:1",
+            "code": "V-049",
+            "bodyHeight": 380,
+            "fullBodyHeight": 380,
+            "footAnchor": {
+              "x": 0.5334928229665071,
+              "y": 0.9170653907496013
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 1
+          },
+          {
+            "id": "bot-1:0",
+            "code": "V-001",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-1:1",
+            "code": "V-004",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:0",
+            "code": "V-003",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:1",
+            "code": "V-002",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          }
+        ],
+        "presentationErrors": [],
+        "supportTeleport": {
+          "image": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+          "frames": 6,
+          "active": 0,
+          "positions": []
+        },
+        "camera": {
+          "x": 1440,
+          "scale": 0.49166666666666664,
+          "viewWidth": 2928.813559322034,
+          "tilt": 0
+        },
+        "serverDeterminesDamage": true,
+        "resolution": 1,
+        "world": {
+          "width": 2880,
+          "height": 1280,
+          "coreX": 220,
+          "coreY": 620,
+          "mergeX": 600,
+          "spawnX": 2780,
+          "frontX": 1510,
+          "pressureX": 1600,
+          "breachWarningX": 1030
+        },
+        "roleFx": {
+          "renderer": "atlas-only",
+          "ready": [
+            "ATTACK",
+            "DEFENSE",
+            "SPEED",
+            "HP"
+          ],
+          "failures": [],
+          "proceduralFallback": false
+        }
+      },
+      "after": {
+        "engine": "V3 BattleEngine subclass",
+        "rendererCount": 1,
+        "environment": {
+          "renderer": "painted-sprites",
+          "routeSprites": 3,
+          "coreTexture": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+          "causewayTexture": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png"
+        },
+        "capacity": 3,
+        "allies": 9,
+        "enemies": 6,
+        "focusLane": 0,
+        "hudNameplates": [
+          {
+            "id": "1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          }
+        ],
+        "groundRunes": [
+          {
+            "id": "1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-0",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-1",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-2",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-3",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-4",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-5",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          }
+        ],
+        "enemySprites": [
+          {
+            "id": "qa-target-0",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-1",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-2",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-3",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-4",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-5",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          }
+        ],
+        "phase": "WAVE",
+        "activeEffects": 0,
+        "timelines": 2,
+        "mercenaries": [
+          {
+            "id": "1:0",
+            "code": "V-055",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 0.92
+            },
+            "prepared": true,
+            "played": 2,
+            "last": {
+              "type": "MERCENARY_STARFALL",
+              "skillId": "MS-056",
+              "code": "V-055"
+            },
+            "busy": true,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 1,
+            "fxChildren": 1
+          },
+          {
+            "id": "1:1",
+            "code": "V-049",
+            "bodyHeight": 380,
+            "fullBodyHeight": 380,
+            "footAnchor": {
+              "x": 0.5334928229665071,
+              "y": 0.9170653907496013
+            },
+            "prepared": true,
+            "played": 1,
+            "last": {
+              "type": "MERCENARY_CRYSTAL_CROWN",
+              "skillId": "MS-049",
+              "code": "V-049"
+            },
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 1
+          },
+          {
+            "id": "bot-1:0",
+            "code": "V-001",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 4,
+            "last": {
+              "type": "HIT",
+              "skillId": null,
+              "code": "V-001"
+            },
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-1:1",
+            "code": "V-004",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:0",
+            "code": "V-003",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:1",
+            "code": "V-002",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          }
+        ],
+        "presentationErrors": [],
+        "supportTeleport": {
+          "image": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+          "frames": 6,
+          "active": 0,
+          "positions": []
+        },
+        "camera": {
+          "x": 1340,
+          "scale": 0.39,
+          "viewWidth": 1333.1359054501722,
+          "tilt": -0.7225663103256524
+        },
+        "serverDeterminesDamage": true,
+        "resolution": 1,
+        "world": {
+          "width": 2880,
+          "height": 1280,
+          "coreX": 220,
+          "coreY": 620,
+          "mergeX": 600,
+          "spawnX": 2780,
+          "frontX": 1510,
+          "pressureX": 1600,
+          "breachWarningX": 1030
+        },
+        "roleFx": {
+          "renderer": "atlas-only",
+          "ready": [
+            "ATTACK",
+            "DEFENSE",
+            "SPEED",
+            "HP"
+          ],
+          "failures": [],
+          "proceduralFallback": false
+        }
+      },
+      "skillEvents": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_STARFALL",
+        "MERCENARY_END",
+        "MERCENARY_CRYSTAL_CROWN"
+      ]
+    },
+    {
+      "codes": [
+        "V-989",
+        "V-999"
+      ],
+      "before": {
+        "engine": "V3 BattleEngine subclass",
+        "rendererCount": 1,
+        "environment": {
+          "renderer": "painted-sprites",
+          "routeSprites": 9,
+          "coreTexture": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+          "causewayTexture": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png"
+        },
+        "capacity": 3,
+        "allies": 9,
+        "enemies": 0,
+        "focusLane": null,
+        "hudNameplates": [
+          {
+            "id": "1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          }
+        ],
+        "groundRunes": [
+          {
+            "id": "1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          }
+        ],
+        "enemySprites": [],
+        "phase": "PREP",
+        "activeEffects": 0,
+        "timelines": 0,
+        "mercenaries": [
+          {
+            "id": "1:0",
+            "code": "V-989",
+            "bodyHeight": 285,
+            "fullBodyHeight": 441.2903225806452,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 0.859375
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 1
+          },
+          {
+            "id": "1:1",
+            "code": "V-999",
+            "bodyHeight": 312.3894230769231,
+            "fullBodyHeight": 370.13413461538465,
+            "footAnchor": {
+              "x": 0.4336065573770492,
+              "y": 0.9207161125319693
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 1
+          },
+          {
+            "id": "bot-1:0",
+            "code": "V-001",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-1:1",
+            "code": "V-004",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:0",
+            "code": "V-003",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:1",
+            "code": "V-002",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          }
+        ],
+        "presentationErrors": [],
+        "supportTeleport": {
+          "image": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+          "frames": 6,
+          "active": 0,
+          "positions": []
+        },
+        "camera": {
+          "x": 1440,
+          "scale": 0.49166666666666664,
+          "viewWidth": 2928.813559322034,
+          "tilt": 0
+        },
+        "serverDeterminesDamage": true,
+        "resolution": 1,
+        "world": {
+          "width": 2880,
+          "height": 1280,
+          "coreX": 220,
+          "coreY": 620,
+          "mergeX": 600,
+          "spawnX": 2780,
+          "frontX": 1510,
+          "pressureX": 1600,
+          "breachWarningX": 1030
+        },
+        "roleFx": {
+          "renderer": "atlas-only",
+          "ready": [
+            "ATTACK",
+            "DEFENSE",
+            "SPEED",
+            "HP"
+          ],
+          "failures": [],
+          "proceduralFallback": false
+        }
+      },
+      "after": {
+        "engine": "V3 BattleEngine subclass",
+        "rendererCount": 1,
+        "environment": {
+          "renderer": "painted-sprites",
+          "routeSprites": 3,
+          "coreTexture": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+          "causewayTexture": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png"
+        },
+        "capacity": 3,
+        "allies": 9,
+        "enemies": 6,
+        "focusLane": 0,
+        "hudNameplates": [
+          {
+            "id": "1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          }
+        ],
+        "groundRunes": [
+          {
+            "id": "1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-0",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-1",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-2",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-3",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-4",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-5",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          }
+        ],
+        "enemySprites": [
+          {
+            "id": "qa-target-0",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-1",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-2",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-3",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-4",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-5",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          }
+        ],
+        "phase": "WAVE",
+        "activeEffects": 0,
+        "timelines": 0,
+        "mercenaries": [
+          {
+            "id": "1:0",
+            "code": "V-989",
+            "bodyHeight": 285,
+            "fullBodyHeight": 441.2903225806452,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 0.859375
+            },
+            "prepared": true,
+            "played": 1,
+            "last": {
+              "type": "MERCENARY_JINMU_AREA",
+              "skillId": "MS-989",
+              "code": "V-989"
+            },
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 1
+          },
+          {
+            "id": "1:1",
+            "code": "V-999",
+            "bodyHeight": 312.3894230769231,
+            "fullBodyHeight": 370.13413461538465,
+            "footAnchor": {
+              "x": 0.4336065573770492,
+              "y": 0.9207161125319693
+            },
+            "prepared": true,
+            "played": 1,
+            "last": {
+              "type": "MERCENARY_HELIOS_AREA",
+              "skillId": "MS-999",
+              "code": "V-999"
+            },
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 1
+          },
+          {
+            "id": "bot-1:0",
+            "code": "V-001",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 4,
+            "last": {
+              "type": "HIT",
+              "skillId": null,
+              "code": "V-001"
+            },
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-1:1",
+            "code": "V-004",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:0",
+            "code": "V-003",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:1",
+            "code": "V-002",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          }
+        ],
+        "presentationErrors": [],
+        "supportTeleport": {
+          "image": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+          "frames": 6,
+          "active": 0,
+          "positions": []
+        },
+        "camera": {
+          "x": 1340,
+          "scale": 0.39,
+          "viewWidth": 1333.1359054501722,
+          "tilt": -0.7225663103256524
+        },
+        "serverDeterminesDamage": true,
+        "resolution": 1,
+        "world": {
+          "width": 2880,
+          "height": 1280,
+          "coreX": 220,
+          "coreY": 620,
+          "mergeX": 600,
+          "spawnX": 2780,
+          "frontX": 1510,
+          "pressureX": 1600,
+          "breachWarningX": 1030
+        },
+        "roleFx": {
+          "renderer": "atlas-only",
+          "ready": [
+            "ATTACK",
+            "DEFENSE",
+            "SPEED",
+            "HP"
+          ],
+          "failures": [],
+          "proceduralFallback": false
+        }
+      },
+      "skillEvents": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_JINMU_AREA",
+        "MERCENARY_END",
+        "MERCENARY_HELIOS_AREA"
+      ]
+    },
+    {
+      "codes": [
+        "V-004",
+        "V-051"
+      ],
+      "before": {
+        "engine": "V3 BattleEngine subclass",
+        "rendererCount": 1,
+        "environment": {
+          "renderer": "painted-sprites",
+          "routeSprites": 9,
+          "coreTexture": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+          "causewayTexture": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png"
+        },
+        "capacity": 3,
+        "allies": 9,
+        "enemies": 0,
+        "focusLane": null,
+        "hudNameplates": [
+          {
+            "id": "1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          }
+        ],
+        "groundRunes": [
+          {
+            "id": "1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          }
+        ],
+        "enemySprites": [],
+        "phase": "PREP",
+        "activeEffects": 0,
+        "timelines": 0,
+        "mercenaries": [
+          {
+            "id": "1:0",
+            "code": "V-004",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "1:1",
+            "code": "V-051",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.57763671875,
+              "y": 0.982421875
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-1:0",
+            "code": "V-001",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-1:1",
+            "code": "V-004",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:0",
+            "code": "V-003",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:1",
+            "code": "V-002",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          }
+        ],
+        "presentationErrors": [],
+        "supportTeleport": {
+          "image": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+          "frames": 6,
+          "active": 0,
+          "positions": []
+        },
+        "camera": {
+          "x": 1440,
+          "scale": 0.49166666666666664,
+          "viewWidth": 2928.813559322034,
+          "tilt": 0
+        },
+        "serverDeterminesDamage": true,
+        "resolution": 1,
+        "world": {
+          "width": 2880,
+          "height": 1280,
+          "coreX": 220,
+          "coreY": 620,
+          "mergeX": 600,
+          "spawnX": 2780,
+          "frontX": 1510,
+          "pressureX": 1600,
+          "breachWarningX": 1030
+        },
+        "roleFx": {
+          "renderer": "atlas-only",
+          "ready": [
+            "ATTACK",
+            "DEFENSE",
+            "SPEED",
+            "HP"
+          ],
+          "failures": [],
+          "proceduralFallback": false
+        }
+      },
+      "after": {
+        "engine": "V3 BattleEngine subclass",
+        "rendererCount": 1,
+        "environment": {
+          "renderer": "painted-sprites",
+          "routeSprites": 3,
+          "coreTexture": "/preview/coop-defense-v1/assets/guardian-crystal-v2.png",
+          "causewayTexture": "/preview/coop-defense-v1/assets/fortress-causeway-v2.png"
+        },
+        "capacity": 3,
+        "allies": 9,
+        "enemies": 6,
+        "focusLane": 0,
+        "hudNameplates": [
+          {
+            "id": "1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-1:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:0",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:1",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          },
+          {
+            "id": "bot-2:2",
+            "image": "/preview/coop-defense-v1/assets/ui-v5/squad-nameplate.png",
+            "sprite": true
+          }
+        ],
+        "groundRunes": [
+          {
+            "id": "1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-1:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:0",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:1",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "bot-2:2",
+            "team": "ALLY",
+            "style": "ally",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-0",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-1",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-2",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-3",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-4",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          },
+          {
+            "id": "qa-target-5",
+            "team": "ENEMY",
+            "style": "enemy",
+            "visible": true,
+            "textureWidth": 512
+          }
+        ],
+        "enemySprites": [
+          {
+            "id": "qa-target-0",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-1",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-2",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-3",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-4",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          },
+          {
+            "id": "qa-target-5",
+            "archetype": "RIVET",
+            "state": "IDLE",
+            "sourceFacing": -1,
+            "viewScaleX": 1,
+            "neutralScaleX": 1,
+            "hudScaleX": 0.65
+          }
+        ],
+        "phase": "WAVE",
+        "activeEffects": 0,
+        "timelines": 0,
+        "mercenaries": [
+          {
+            "id": "1:0",
+            "code": "V-004",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 2,
+            "last": {
+              "type": "HIT",
+              "skillId": null,
+              "code": "V-004"
+            },
+            "busy": true,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 1,
+            "fxChildren": 1
+          },
+          {
+            "id": "1:1",
+            "code": "V-051",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.57763671875,
+              "y": 0.982421875
+            },
+            "prepared": true,
+            "played": 1,
+            "last": {
+              "type": "MERCENARY_GROUP_HEAL",
+              "skillId": "MS-051",
+              "code": "V-051"
+            },
+            "busy": false,
+            "visible": true,
+            "paused": false,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-1:0",
+            "code": "V-001",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 2,
+            "last": {
+              "type": "HIT",
+              "skillId": null,
+              "code": "V-001"
+            },
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-1:1",
+            "code": "V-004",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:0",
+            "code": "V-003",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          },
+          {
+            "id": "bot-2:1",
+            "code": "V-002",
+            "bodyHeight": 260,
+            "fullBodyHeight": 260,
+            "footAnchor": {
+              "x": 0.5,
+              "y": 1
+            },
+            "prepared": true,
+            "played": 0,
+            "last": null,
+            "busy": false,
+            "visible": false,
+            "paused": true,
+            "queued": 0,
+            "activeTimelines": 0,
+            "fxChildren": 0
+          }
+        ],
+        "presentationErrors": [],
+        "supportTeleport": {
+          "image": "/preview/coop-defense-v1/assets/teleport-v1/support-teleport.webp",
+          "frames": 6,
+          "active": 0,
+          "positions": []
+        },
+        "camera": {
+          "x": 1340,
+          "scale": 0.39,
+          "viewWidth": 1333.1359054501722,
+          "tilt": -0.7225663103256524
+        },
+        "serverDeterminesDamage": true,
+        "resolution": 1,
+        "world": {
+          "width": 2880,
+          "height": 1280,
+          "coreX": 220,
+          "coreY": 620,
+          "mergeX": 600,
+          "spawnX": 2780,
+          "frontX": 1510,
+          "pressureX": 1600,
+          "breachWarningX": 1030
+        },
+        "roleFx": {
+          "renderer": "atlas-only",
+          "ready": [
+            "ATTACK",
+            "DEFENSE",
+            "SPEED",
+            "HP"
+          ],
+          "failures": [],
+          "proceduralFallback": false
+        }
+      },
+      "skillEvents": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END",
+        "MERCENARY_GROUP_HEAL"
+      ]
+    }
+  ],
+  "errors": [],
+  "failed": []
+}

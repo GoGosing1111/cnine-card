@@ -1,0 +1,79 @@
+{
+  "result": "PASS",
+  "reports": [
+    {
+      "width": 1440,
+      "errors": [],
+      "failed": [],
+      "binding": {
+        "playback": {
+          "code": "V-980",
+          "eventType": "MERCENARY_HIT",
+          "visualVersion": "20261017-harlequin-v1",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 1,
+          "contactSeconds": 1.2,
+          "durationSeconds": 2.6
+        },
+        "beforeHp": 100,
+        "afterHp": 96.3
+      },
+      "diagnostics": {
+        "ready": true,
+        "disposed": false,
+        "time": 2.6,
+        "playing": false,
+        "speed": 1,
+        "fxVisible": true,
+        "frame": null,
+        "stage": "idle",
+        "contactDistance": 0,
+        "visibleEffects": 0,
+        "code": "V-980",
+        "bodyTexture": "http://127.0.0.1:3635/assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd.webp?v=170600EE6FAF94E9",
+        "bodyMotion": "STATIC_SD_USER_SELECTED",
+        "canvasCount": 1,
+        "registered": false
+      }
+    },
+    {
+      "width": 390,
+      "errors": [],
+      "failed": [],
+      "binding": {
+        "playback": {
+          "code": "V-980",
+          "eventType": "MERCENARY_HIT",
+          "visualVersion": "20261017-harlequin-v1",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 1,
+          "contactSeconds": 1.2,
+          "durationSeconds": 2.6
+        },
+        "beforeHp": 100,
+        "afterHp": 96.3
+      },
+      "diagnostics": {
+        "ready": true,
+        "disposed": false,
+        "time": 0,
+        "playing": false,
+        "speed": 2,
+        "fxVisible": true,
+        "frame": null,
+        "stage": "idle",
+        "contactDistance": 0,
+        "visibleEffects": 0,
+        "code": "V-980",
+        "bodyTexture": "http://127.0.0.1:3635/assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd.webp?v=170600EE6FAF94E9",
+        "bodyMotion": "STATIC_SD_USER_SELECTED",
+        "canvasCount": 1,
+        "registered": false
+      }
+    }
+  ]
+}

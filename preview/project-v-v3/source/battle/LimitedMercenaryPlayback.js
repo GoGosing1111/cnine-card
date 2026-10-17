@@ -6,6 +6,7 @@ import {makePlan as valterPlan,OVERHEAD} from '../../../mercenary-crimson-silver
 import {VALTER_CODE,VALTER_AREA_EVENT} from '../../../../shared/mercenary-valter-v1.mjs';
 import {JinmuDialogue} from './JinmuDialogue.js';
 import {MERCENARY_DIALOGUE_PROFILES} from './MercenaryDialogueProfiles.js';
+import {sampleHarlequinSkill,HARLEQUIN_SKILL} from '../../../../shared/mercenary-harlequin-skill-v1.mjs';
 
 const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
 export const VALTER_ATTACK_PLAYBACK_RATE=2.5;
@@ -21,20 +22,21 @@ export async function setupLimitedActor(engine,actor){
  if(engine.limitedLoads.has(actor))return engine.limitedLoads.get(actor);
  const epoch=engine.mercenaryEpoch;
  const pending=(async()=>{
-  const [auraTexture,effectTexture,manifest]=await Promise.all([Assets.load(LIMITED_VISUALS.aura.url),spec.effects?Assets.load(spec.effects.url):null,spec.id==='valter'?valterManifest():null]);
+  const auraSpec=spec.aura||LIMITED_VISUALS.aura;
+  const [auraTexture,effectTexture,manifest]=await Promise.all([Assets.load(auraSpec.url),spec.effects?Assets.load(spec.effects.url):null,spec.id==='valter'?valterManifest():null]);
   const knightAssets=manifest?await loadKnightAssets(manifest):null;
   if(actor.root.destroyed||engine.mercenaryDisposed||epoch!==engine.mercenaryEpoch){
    if(knightAssets)for(const group of [knightAssets.motion,knightAssets.effects])for(const row of Object.values(group))for(const texture of row)texture.destroy(false);
    return null;
   }
   const art=limitedBattleArt(actor.cardId),scale=art.bodyHeight/spec.bodyHeight;
-  const back=new Container({label:'ApprovedLimitedRearAura',zIndex:5}),auraFrames=frames(auraTexture,LIMITED_VISUALS.aura.frames),aura=new Sprite(auraFrames[0]);
+  const back=new Container({label:'ApprovedLimitedRearAura',zIndex:5}),auraFrames=frames(auraTexture,auraSpec.frames),aura=new Sprite(auraFrames[0]);
   aura.anchor.set(.5);aura.tint=parseInt(spec.auraTint.slice(1),16);aura.blendMode='add';
   aura.position.set((spec.auraCenter.x-spec.feet.x)*scale,(spec.auraCenter.y-spec.feet.y)*scale);
   aura.scale.set(art.bodyHeight*spec.auraScale*1.65/auraFrames[0].width);back.addChild(aura);actor.view.addChild(back);actor.view.sortChildren();
   const layer=new Container({label:'ApprovedLimitedSkillFX'});layer.eventMode='none';engine.effectLayer.addChild(layer);
-  const effectFrames=effectTexture?frames(effectTexture,spec.effects.frames):[],sprites=Array.from({length:3},()=>{const s=new Sprite();s.visible=false;s.blendMode='add';layer.addChild(s);return s;});
-  const state={engine,actor,spec,art,back,aura,auraFrames,effectFrames,layer,sprites,time:0,busy:false,stopped:false,ambient:null,knight:null};
+  const effectFrames=effectTexture?frames(effectTexture,spec.effects.frames):[],sprites=Array.from({length:3},()=>{const s=new Sprite();s.visible=false;s.blendMode=spec.type==='harlequin'?'normal':'add';layer.addChild(s);return s;});
+  const state={engine,actor,spec,art,back,aura,auraSpec,auraFrames,effectFrames,layer,sprites,time:0,busy:false,stopped:false,ambient:null,knight:null};
   if(manifest){
    const target=(actor.team==='ALLY'?engine.enemies:engine.allies).find(a=>!a.root.destroyed)||actor;
    state.knight=new KnightFX(engine,actor,[target],knightAssets,manifest,valterPlan({mode:'aura'}));
@@ -50,10 +52,10 @@ export async function setupLimitedActor(engine,actor){
 function stopAmbient(s){
  if(!s.ambient)return;const entry=s.ambient;s.ambient=null;s.engine.simpleTimelines.delete(entry);entry.instance.kill();
 }
-function rear(s,t){s.aura.texture=s.auraFrames[Math.floor((t%LIMITED_VISUALS.aura.loopSeconds)/LIMITED_VISUALS.aura.loopSeconds*s.auraFrames.length)];}
+function rear(s,t){s.aura.texture=s.auraFrames[Math.floor((t%s.auraSpec.loopSeconds)/s.auraSpec.loopSeconds*s.auraFrames.length)];}
 function startAmbient(s){
  if(s.destroyed||s.stopped||s.actor.root.destroyed||s.actor.hp<=0)return;
- stopAmbient(s);s.busy=false;s.back.visible=true;s.layer.visible=true;
+ stopAmbient(s);s.busy=false;s.back.visible=s.spec.ambientVisible!==false;s.layer.visible=true;
  if(s.knight){s.knight.plan=valterPlan({mode:'aura'});s.knight.captureFormation();s.knight.aura.visible=true;s.knight.layer.visible=true;}
  const clock={time:.08};
  const instance=gsap.timeline({repeat:-1,onUpdate(){
@@ -79,6 +81,20 @@ function place(s,slot,index,p,width,angle=0){
  const sprite=s.sprites[slot],f=s.spec.effects.frames[index],texture=s.effectFrames[index];sprite.texture=texture;
  sprite.anchor.set(f.origin.x/texture.width,f.origin.y/texture.height);sprite.position.set(p.x,p.y);sprite.scale.set(width/texture.width);sprite.rotation=angle;sprite.visible=true;
 }
+export function renderHarlequinFrames(s,t,target,{basic=false}={}){
+ s.sprites.forEach(a=>a.visible=false);
+ const sample=sampleHarlequinSkill(t,{basic}),p=limitedEmission(s.actor,s.engine.effectLayer);
+ s.effectSample=sample;s.effectTime=t;if(!p||sample.frame===null)return sample;
+ const hit=s.engine.effectLayer.toLocal(target.root.toGlobal({x:0,y:-target.fullBodyHeight*.5}));
+ let at=p.emission,width=p.height*.72;
+ if(sample.stage==='travel'){const q=sample.progress;at={x:p.emission.x+(hit.x-p.emission.x)*q,y:p.emission.y+(hit.y-p.emission.y)*q};width=p.height*(basic?.95:1.3);}
+ if(sample.stage==='impact'){at=hit;width=p.height*(basic?1.05:1.65);}
+ place(s,0,sample.frame,at,width);s.sprites[0].alpha=1;
+ // Mirror only the directional travelling arc; impact is centered on the real target.
+ if(sample.stage==='travel'&&hit.x<p.emission.x)s.sprites[0].scale.x*=-1;
+ s.emission=p;s.contact={x:hit.x,y:hit.y};s.lastContactDistance=sample.stage==='impact'?Math.hypot(at.x-hit.x,at.y-hit.y):null;
+ return sample;
+}
 function renderImages(s,t,target){
  s.sprites.forEach(a=>a.visible=false);rear(s,t);
  const p=limitedEmission(s.actor,s.engine.effectLayer);if(!p)return;
@@ -96,7 +112,8 @@ async function playback(engine,actor,targets,{basic=false,area=false,apply}){
  if(!valid()||!targets.length)return false;
  const s=await setupLimitedActor(engine,actor);if(!s||!valid())return false;
  engine.settlePendingTails?.([actor,...targets]);stopAmbient(s);s.stopped=false;s.busy=true;actor.animationController.kill();
- let duration=3.6,contact=1.68;
+ const harlequin=s.spec?.type==='harlequin';
+ let duration=harlequin?(basic?1:HARLEQUIN_SKILL.duration):3.6,contact=harlequin?(basic?.38:HARLEQUIN_SKILL.contact):1.68;
  if(s.knight){
   const k=s.knight;k.targets=targets;k.targetDefaults=targets.map(a=>({viewX:a.view.x,tint:a.fullBodySprite.tint}));k.plan={...valterPlan({mode:basic?'attack':area?'ultimate':'skill'}),damageAuthority:'SERVER_ONLY'};
   k.captureFormation();duration=k.plan.duration;contact=OVERHEAD.contact;
@@ -106,7 +123,7 @@ async function playback(engine,actor,targets,{basic=false,area=false,apply}){
  // The global playback speed still applies; idle aura and server turns do not change.
  const rate=s.knight?VALTER_ATTACK_PLAYBACK_RATE:1,clock={time:0};let applied=false;
  const result=await engine.timeline(t=>{
-  t.to(clock,{time:duration,duration:duration/rate,ease:'none',onUpdate(){if(!valid()||s.destroyed)return;rear(s,clock.time);if(s.knight)s.knight.render(clock.time);else renderImages(s,clock.time,targets[0]);}});
+  t.to(clock,{time:duration,duration:duration/rate,ease:'none',onUpdate(){if(!valid()||s.destroyed)return;rear(s,clock.time);if(s.knight)s.knight.render(clock.time);else if(harlequin)renderHarlequinFrames(s,clock.time,targets[0],{basic});else renderImages(s,clock.time,targets[0]);}});
   t.call(()=>{if(valid()&&!applied){applied=true;apply();}},[],contact/rate);
  },()=>{
   if(s.destroyed)return;s.busy=false;s.dialogue?.end();s.sprites.forEach(a=>a.visible=false);

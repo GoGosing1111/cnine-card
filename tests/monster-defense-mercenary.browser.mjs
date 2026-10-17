@@ -9,7 +9,7 @@ const errors=[],failed=[],cases=[];
 try{
  for(const code of ['V-996','V-987','V-999','V-989'])await h.db.batch([{sql:'INSERT INTO user_mercenary_cards_v1(user_id,mercenary_code,total_copies,duplicate_count) VALUES(1,?,1,0)',args:[code]}]);
  const options=await h.api(1,'defense/options');assert.equal(options.status,200);
- for(const codes of [['V-996','V-987'],['V-055','V-049'],['V-989','V-999'],['V-004','V-051']]){
+ for(const codes of (process.env.DEFENSE_MERCENARY_QA_CASES?JSON.parse(process.env.DEFENSE_MERCENARY_QA_CASES):[['V-996','V-987'],['V-055','V-049'],['V-989','V-999'],['V-004','V-051']])){
   assert.ok(codes.every(code=>options.mercenaries.some(c=>c.code===code)),JSON.stringify(options));
   const context=await browser.newContext({viewport:{width:1440,height:1000},serviceWorkers:'block'});
   await context.addInitScript(loadout=>{localStorage.setItem('cnine_card_api_token','local-qa-1');localStorage.setItem('cnine_defense_loadout_v1:1',JSON.stringify(loadout));localStorage.setItem('cnine_battle_sound','OFF');},{mercenaries:codes,card:options.cards[0].code});
@@ -23,6 +23,7 @@ try{
   await p.waitForFunction(()=>window.CoopDefenseReview?.diagnostics().engine?.mercenaries?.every(a=>a.prepared),null,{timeout:120000});await p.locator('#loading').waitFor({state:'hidden'});
   await p.waitForTimeout(700);await p.screenshot({path:path.join(out,codes.join('-')+'-idle-desktop.png'),fullPage:true});
   const before=await p.evaluate(()=>CoopDefenseReview.diagnostics().engine);assert.equal(before.rendererCount,1);assert.deepEqual(before.presentationErrors,[]);
+  for(const [slot,code]of codes.entries())if(['V-996','V-987','V-055','V-049','V-989','V-999'].includes(code))assert.equal(before.groundRunes.find(a=>a.id==='1:'+slot).style,['V-055','V-049'].includes(code)?'mercenary-sss':'mercenary-sss-limited');
   for(const a of before.mercenaries.filter(a=>a.id.startsWith('1:')))assert.ok(a.fullBodyHeight!==245&&a.bodyHeight>=260);
   r=await h.room(roomId);r.phase='WAVE';r.wave=1;r.spawnQueue=['RIVET'];r.spawnAt=r.time+120000;r.serverAt=Date.now();r.units.forEach(u=>{u.nextAttack=0;u.hp=Math.round(u.maxHp*.65);});
   r.enemies=Array.from({length:6},(_,i)=>({id:'qa-target-'+i,lane:i%2,x:1650+i*20,y:r.units.find(u=>u.lane===i%2).y,hp:100000,maxHp:100000,attack:0,speed:0,armor:0,type:'NORMAL',archetype:'RIVET',range:150,nextAttack:r.time+120000}));

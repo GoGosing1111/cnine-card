@@ -1,0 +1,7 @@
+{
+  "mode": "BUILT_IN_IMAGEGEN",
+  "prompt": "Edit this game VFX sprite atlas. Keep the same red/cyan energy, diamond sparks, purple shock ring and debris style and the sixteen sequential stages.\nFix ONLY packing: sixteen completely separate effects in a STRICT 4 by 4 equal-cell grid. SHRINK EVERY effect substantially: each must fit within the central HALF (50%) of its own cell. Leave a FULLY EMPTY transparent margin of at least ONE QUARTER of each cell width on all sides of EVERY effect, including the wide crescents on row 2 and the ring on row 3. No two effects can overlap or connect; every column and row separator must be a broad empty transparent lane. Wide crescents must remain fully contained without touching their cell edges. All sixteen complete silhouettes must be visible. Do not add cell borders or draw the grid. Actual RGBA transparent background. No text, labels, floor or characters. Same frame order: row1 four charging stages; row2 four crescent swing stages; row3 contact flash, impact burst, two shock-ring stages; row4 four fading debris stages. Square canvas.",
+  "source": "skill-fx-source.png",
+  "input": "exec-0bf78fa5-600a-46f2-b783-0cf6059d5f03.png",
+  "rejectedFirstOutput": "overlapping frames; replaced with individually padded cells"
+}

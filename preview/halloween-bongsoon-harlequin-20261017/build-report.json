@@ -1,0 +1,7 @@
+{
+  "sharedRenderer": "V3 BattleEngine",
+  "staticSd": true,
+  "skillRenderer": "LimitedMercenaryPlayback.renderHarlequinFrames",
+  "pixiCopies": 1,
+  "gsapCopies": 1
+}

@@ -1,0 +1,1159 @@
+{
+  "version": 1,
+  "date": "2026-10-17",
+  "code": "V-980",
+  "name": "할로윈 SS 리미티드 나무늘봉순",
+  "replacementOnly": true,
+  "retiredSource": "assets/ui/project-v/mercenaries/halloween-approved-20261014/bongsoon-halloween-source-art-v1.png",
+  "retiredSourceSha256": "1A42AE8E93BEE0BE9ECABE0693CE2178BB9EE55FA7BB52460631E9CA25BC9314",
+  "sourceArt": {
+    "path": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/source-art.png",
+    "sha256": "C82230FB51DB845F9B337083D144700542EC898E8F27A041C2904348EA66A207"
+  },
+  "sd": {
+    "path": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd-approved.png",
+    "sha256": "C51F275D8DFB5F2E5ACC5C3299B9B6C60114F862367E4750F33A5F730E08A067",
+    "alpha": {
+      "edgeMax": 1,
+      "transparentFraction": 0.6608333396925691,
+      "bounds": [
+        94,
+        30,
+        1233,
+        1232
+      ]
+    },
+    "runtime": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd.webp",
+    "runtimeSha256": "170600EE6FAF94E937FB4B324E0BC2E7714F5744004A713937D07B4908FA42B5"
+  },
+  "effects": {
+    "source": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/skill-fx-source.png",
+    "sha256": "714BFD7840197ECF66CF0C31BABBE6AD50F1C16C4D26B3D68A5F2F76D689C738",
+    "runtime": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/skill-fx.webp",
+    "runtimeSha256": "46D9A8B7A72AD65541BE968ACDF4AAF22B8205B0AEFFAE24BB387742F4F3D494",
+    "frames": [
+      {
+        "index": 0,
+        "role": "charge",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 0,
+          "top": 0,
+          "width": 314,
+          "height": 314
+        },
+        "rawSha256": "B870FC5937D985D1FC9C7856065E8DD60622901627E1BADCF69B7AE043E3CD82",
+        "edgeMax": 1,
+        "transparentFraction": 0.7339344395310154,
+        "bounds": [
+          97,
+          132,
+          222,
+          258
+        ]
+      },
+      {
+        "index": 1,
+        "role": "charge",
+        "rect": {
+          "x": 384,
+          "y": 0,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 314,
+          "top": 0,
+          "width": 313,
+          "height": 314
+        },
+        "rawSha256": "2F16FDB1AFB28777F42F47D51456D7352AAFDFCCB6FB0AD1B9B489BFFEC66FA5",
+        "edgeMax": 1,
+        "transparentFraction": 0.7149020166459779,
+        "bounds": [
+          81,
+          120,
+          238,
+          269
+        ]
+      },
+      {
+        "index": 2,
+        "role": "charge",
+        "rect": {
+          "x": 768,
+          "y": 0,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 627,
+          "top": 0,
+          "width": 314,
+          "height": 314
+        },
+        "rawSha256": "AC3F4041C13829B0FC503AC5E20CC5EC1EE64D1CA4B4CD9CEEA1DFFA10E9649E",
+        "edgeMax": 1,
+        "transparentFraction": 0.683607854274007,
+        "bounds": [
+          71,
+          100,
+          239,
+          273
+        ]
+      },
+      {
+        "index": 3,
+        "role": "charge",
+        "rect": {
+          "x": 1152,
+          "y": 0,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 941,
+          "top": 0,
+          "width": 313,
+          "height": 314
+        },
+        "rawSha256": "0851A0E0B5DA926AAA4A14839EE0BF2B06ED9F32EA703FBFD8FDBAE0CD4AD591",
+        "edgeMax": 1,
+        "transparentFraction": 0.6703669034004192,
+        "bounds": [
+          74,
+          91,
+          229,
+          280
+        ]
+      },
+      {
+        "index": 4,
+        "role": "travel",
+        "rect": {
+          "x": 0,
+          "y": 384,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 0,
+          "top": 314,
+          "width": 314,
+          "height": 313
+        },
+        "rawSha256": "878301952DF503197E4594E28C0206A0012325356C625F10ADF9B5F94B844B12",
+        "edgeMax": 1,
+        "transparentFraction": 0.722411021346737,
+        "bounds": [
+          73,
+          90,
+          245,
+          246
+        ]
+      },
+      {
+        "index": 5,
+        "role": "travel",
+        "rect": {
+          "x": 384,
+          "y": 384,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 314,
+          "top": 314,
+          "width": 313,
+          "height": 313
+        },
+        "rawSha256": "F497992327AD152AF97F1FCA48B0CAA99A9EDED9A612B015944F86BBDEB5FD10",
+        "edgeMax": 1,
+        "transparentFraction": 0.6275658626708449,
+        "bounds": [
+          57,
+          79,
+          283,
+          257
+        ]
+      },
+      {
+        "index": 6,
+        "role": "travel",
+        "rect": {
+          "x": 768,
+          "y": 384,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 627,
+          "top": 314,
+          "width": 314,
+          "height": 313
+        },
+        "rawSha256": "C7A6A4EBD8ED8752D6C974B14AB2E4BB95702D0DDD5F3266676F3C0547604A02",
+        "edgeMax": 1,
+        "transparentFraction": 0.5486457337050528,
+        "bounds": [
+          47,
+          78,
+          295,
+          262
+        ]
+      },
+      {
+        "index": 7,
+        "role": "travel",
+        "rect": {
+          "x": 1152,
+          "y": 384,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 941,
+          "top": 314,
+          "width": 313,
+          "height": 313
+        },
+        "rawSha256": "ACA0550FDC85FACEAB5F6E002E81C4FEF0DCC695FFFDCB8AD2DC0EDA169FEC97",
+        "edgeMax": 1,
+        "transparentFraction": 0.6758260266002512,
+        "bounds": [
+          43,
+          113,
+          269,
+          254
+        ]
+      },
+      {
+        "index": 8,
+        "role": "impact-fade",
+        "rect": {
+          "x": 0,
+          "y": 768,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 0,
+          "top": 627,
+          "width": 314,
+          "height": 314
+        },
+        "rawSha256": "2EFDD326D13127C6C96376FFF07654E875B81299B6CD1ED855CA04D4359AD87A",
+        "edgeMax": 1,
+        "transparentFraction": 0.7246541441843483,
+        "bounds": [
+          84,
+          77,
+          233,
+          230
+        ]
+      },
+      {
+        "index": 9,
+        "role": "impact-fade",
+        "rect": {
+          "x": 384,
+          "y": 768,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 314,
+          "top": 627,
+          "width": 313,
+          "height": 314
+        },
+        "rawSha256": "2AB679557D5D9897F7C4272EA0EE8B82110CF31AF7EB65F44AD6020000914BD0",
+        "edgeMax": 1,
+        "transparentFraction": 0.5374534502757372,
+        "bounds": [
+          47,
+          55,
+          270,
+          248
+        ]
+      },
+      {
+        "index": 10,
+        "role": "impact-fade",
+        "rect": {
+          "x": 768,
+          "y": 768,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 627,
+          "top": 627,
+          "width": 314,
+          "height": 314
+        },
+        "rawSha256": "25FF17DDB74B6ED9AF8F5F8D4F7469EEA90ED7698292486429183E9197789BDA",
+        "edgeMax": 1,
+        "transparentFraction": 0.4195403464643596,
+        "bounds": [
+          52,
+          67,
+          262,
+          245
+        ]
+      },
+      {
+        "index": 11,
+        "role": "impact-fade",
+        "rect": {
+          "x": 1152,
+          "y": 768,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 941,
+          "top": 627,
+          "width": 313,
+          "height": 314
+        },
+        "rawSha256": "49C5887BB0769015DC75247C796CEA2F599F23B6AFED64D992E4BA4200EDB64F",
+        "edgeMax": 1,
+        "transparentFraction": 0.5030422661321503,
+        "bounds": [
+          53,
+          63,
+          276,
+          249
+        ]
+      },
+      {
+        "index": 12,
+        "role": "impact-fade",
+        "rect": {
+          "x": 0,
+          "y": 1152,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 0,
+          "top": 941,
+          "width": 314,
+          "height": 313
+        },
+        "rawSha256": "7611F0B2D313D0C53FE1245943F01C819732727AD37A9419A591ABE717488A96",
+        "edgeMax": 1,
+        "transparentFraction": 0.5727803666999044,
+        "bounds": [
+          59,
+          57,
+          254,
+          226
+        ]
+      },
+      {
+        "index": 13,
+        "role": "impact-fade",
+        "rect": {
+          "x": 384,
+          "y": 1152,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 314,
+          "top": 941,
+          "width": 313,
+          "height": 313
+        },
+        "rawSha256": "A75C57D1AB549E0DFAC764D9C8CAA7670C814DBB82A5B3B1CD5723105727FE36",
+        "edgeMax": 1,
+        "transparentFraction": 0.6457348753177026,
+        "bounds": [
+          72,
+          60,
+          258,
+          217
+        ]
+      },
+      {
+        "index": 14,
+        "role": "impact-fade",
+        "rect": {
+          "x": 768,
+          "y": 1152,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 627,
+          "top": 941,
+          "width": 314,
+          "height": 313
+        },
+        "rawSha256": "67471636E75201CC87DAAC94A9EFAB41B10F6D7CDA4FA9AB91A7FB520863317A",
+        "edgeMax": 2,
+        "transparentFraction": 0.660711015241855,
+        "bounds": [
+          82,
+          66,
+          239,
+          223
+        ]
+      },
+      {
+        "index": 15,
+        "role": "impact-fade",
+        "rect": {
+          "x": 1152,
+          "y": 1152,
+          "width": 384,
+          "height": 384
+        },
+        "origin": {
+          "x": 192,
+          "y": 192
+        },
+        "sourceRect": {
+          "left": 941,
+          "top": 941,
+          "width": 313,
+          "height": 313
+        },
+        "rawSha256": "9FEB5BEDB518515B3FFFD3594C58750B31E48C1D91369FFE90E05E0CBCE0DB6B",
+        "edgeMax": 2,
+        "transparentFraction": 0.8162377895048434,
+        "bounds": [
+          87,
+          77,
+          248,
+          205
+        ]
+      }
+    ]
+  },
+  "visual": {
+    "id": "halloween-bongsoon-harlequin",
+    "code": "V-980",
+    "name": "나무늘봉순",
+    "rank": "SS",
+    "source": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/source-art.png",
+    "sourceHash": "C82230FB51DB845F9B337083D144700542EC898E8F27A041C2904348EA66A207",
+    "sprite": "/assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd.webp",
+    "spriteSha256": "170600EE6FAF94E937FB4B324E0BC2E7714F5744004A713937D07B4908FA42B5",
+    "spriteWidth": 768,
+    "spriteHeight": 768,
+    "feet": {
+      "x": 342.7368421052632,
+      "y": 708.2105263157895
+    },
+    "headTop": 79.08133971291866,
+    "bodyHeight": 629.1291866028708,
+    "emission": {
+      "x": 637.4736842105264,
+      "y": 165.89473684210526
+    },
+    "axisBack": {
+      "x": 544.7655502392345,
+      "y": 280.0382775119617
+    },
+    "auraCenter": {
+      "x": 342.7368421052632,
+      "y": 369.5311004784689
+    },
+    "auraTint": "#ffffff",
+    "auraScale": 0.58,
+    "ambientVisible": false,
+    "skill": "카니발 브레이크",
+    "type": "harlequin",
+    "bodyMotion": "STATIC_SD_USER_SELECTED",
+    "sdApproval": "USER_APPROVED_20261017",
+    "fxApproval": "PENDING_USER_VISUAL_REVIEW",
+    "originalSprite": {
+      "url": "/assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd-approved.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "C51F275D8DFB5F2E5ACC5C3299B9B6C60114F862367E4750F33A5F730E08A067"
+    },
+    "effects": {
+      "url": "/assets/ui/project-v/mercenaries/halloween-harlequin-20261017/skill-fx.webp",
+      "columns": 4,
+      "rows": 4,
+      "width": 1536,
+      "height": 1536,
+      "sha256": "46D9A8B7A72AD65541BE968ACDF4AAF22B8205B0AEFFAE24BB387742F4F3D494",
+      "frames": [
+        {
+          "index": 0,
+          "role": "charge",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 314,
+            "height": 314
+          },
+          "rawSha256": "B870FC5937D985D1FC9C7856065E8DD60622901627E1BADCF69B7AE043E3CD82",
+          "edgeMax": 1,
+          "transparentFraction": 0.7339344395310154,
+          "bounds": [
+            97,
+            132,
+            222,
+            258
+          ]
+        },
+        {
+          "index": 1,
+          "role": "charge",
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 314,
+            "top": 0,
+            "width": 313,
+            "height": 314
+          },
+          "rawSha256": "2F16FDB1AFB28777F42F47D51456D7352AAFDFCCB6FB0AD1B9B489BFFEC66FA5",
+          "edgeMax": 1,
+          "transparentFraction": 0.7149020166459779,
+          "bounds": [
+            81,
+            120,
+            238,
+            269
+          ]
+        },
+        {
+          "index": 2,
+          "role": "charge",
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 314,
+            "height": 314
+          },
+          "rawSha256": "AC3F4041C13829B0FC503AC5E20CC5EC1EE64D1CA4B4CD9CEEA1DFFA10E9649E",
+          "edgeMax": 1,
+          "transparentFraction": 0.683607854274007,
+          "bounds": [
+            71,
+            100,
+            239,
+            273
+          ]
+        },
+        {
+          "index": 3,
+          "role": "charge",
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 941,
+            "top": 0,
+            "width": 313,
+            "height": 314
+          },
+          "rawSha256": "0851A0E0B5DA926AAA4A14839EE0BF2B06ED9F32EA703FBFD8FDBAE0CD4AD591",
+          "edgeMax": 1,
+          "transparentFraction": 0.6703669034004192,
+          "bounds": [
+            74,
+            91,
+            229,
+            280
+          ]
+        },
+        {
+          "index": 4,
+          "role": "travel",
+          "rect": {
+            "x": 0,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 314,
+            "width": 314,
+            "height": 313
+          },
+          "rawSha256": "878301952DF503197E4594E28C0206A0012325356C625F10ADF9B5F94B844B12",
+          "edgeMax": 1,
+          "transparentFraction": 0.722411021346737,
+          "bounds": [
+            73,
+            90,
+            245,
+            246
+          ]
+        },
+        {
+          "index": 5,
+          "role": "travel",
+          "rect": {
+            "x": 384,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 314,
+            "top": 314,
+            "width": 313,
+            "height": 313
+          },
+          "rawSha256": "F497992327AD152AF97F1FCA48B0CAA99A9EDED9A612B015944F86BBDEB5FD10",
+          "edgeMax": 1,
+          "transparentFraction": 0.6275658626708449,
+          "bounds": [
+            57,
+            79,
+            283,
+            257
+          ]
+        },
+        {
+          "index": 6,
+          "role": "travel",
+          "rect": {
+            "x": 768,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 314,
+            "width": 314,
+            "height": 313
+          },
+          "rawSha256": "C7A6A4EBD8ED8752D6C974B14AB2E4BB95702D0DDD5F3266676F3C0547604A02",
+          "edgeMax": 1,
+          "transparentFraction": 0.5486457337050528,
+          "bounds": [
+            47,
+            78,
+            295,
+            262
+          ]
+        },
+        {
+          "index": 7,
+          "role": "travel",
+          "rect": {
+            "x": 1152,
+            "y": 384,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 941,
+            "top": 314,
+            "width": 313,
+            "height": 313
+          },
+          "rawSha256": "ACA0550FDC85FACEAB5F6E002E81C4FEF0DCC695FFFDCB8AD2DC0EDA169FEC97",
+          "edgeMax": 1,
+          "transparentFraction": 0.6758260266002512,
+          "bounds": [
+            43,
+            113,
+            269,
+            254
+          ]
+        },
+        {
+          "index": 8,
+          "role": "impact-fade",
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 627,
+            "width": 314,
+            "height": 314
+          },
+          "rawSha256": "2EFDD326D13127C6C96376FFF07654E875B81299B6CD1ED855CA04D4359AD87A",
+          "edgeMax": 1,
+          "transparentFraction": 0.7246541441843483,
+          "bounds": [
+            84,
+            77,
+            233,
+            230
+          ]
+        },
+        {
+          "index": 9,
+          "role": "impact-fade",
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 314,
+            "top": 627,
+            "width": 313,
+            "height": 314
+          },
+          "rawSha256": "2AB679557D5D9897F7C4272EA0EE8B82110CF31AF7EB65F44AD6020000914BD0",
+          "edgeMax": 1,
+          "transparentFraction": 0.5374534502757372,
+          "bounds": [
+            47,
+            55,
+            270,
+            248
+          ]
+        },
+        {
+          "index": 10,
+          "role": "impact-fade",
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 627,
+            "width": 314,
+            "height": 314
+          },
+          "rawSha256": "25FF17DDB74B6ED9AF8F5F8D4F7469EEA90ED7698292486429183E9197789BDA",
+          "edgeMax": 1,
+          "transparentFraction": 0.4195403464643596,
+          "bounds": [
+            52,
+            67,
+            262,
+            245
+          ]
+        },
+        {
+          "index": 11,
+          "role": "impact-fade",
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 941,
+            "top": 627,
+            "width": 313,
+            "height": 314
+          },
+          "rawSha256": "49C5887BB0769015DC75247C796CEA2F599F23B6AFED64D992E4BA4200EDB64F",
+          "edgeMax": 1,
+          "transparentFraction": 0.5030422661321503,
+          "bounds": [
+            53,
+            63,
+            276,
+            249
+          ]
+        },
+        {
+          "index": 12,
+          "role": "impact-fade",
+          "rect": {
+            "x": 0,
+            "y": 1152,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 941,
+            "width": 314,
+            "height": 313
+          },
+          "rawSha256": "7611F0B2D313D0C53FE1245943F01C819732727AD37A9419A591ABE717488A96",
+          "edgeMax": 1,
+          "transparentFraction": 0.5727803666999044,
+          "bounds": [
+            59,
+            57,
+            254,
+            226
+          ]
+        },
+        {
+          "index": 13,
+          "role": "impact-fade",
+          "rect": {
+            "x": 384,
+            "y": 1152,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 314,
+            "top": 941,
+            "width": 313,
+            "height": 313
+          },
+          "rawSha256": "A75C57D1AB549E0DFAC764D9C8CAA7670C814DBB82A5B3B1CD5723105727FE36",
+          "edgeMax": 1,
+          "transparentFraction": 0.6457348753177026,
+          "bounds": [
+            72,
+            60,
+            258,
+            217
+          ]
+        },
+        {
+          "index": 14,
+          "role": "impact-fade",
+          "rect": {
+            "x": 768,
+            "y": 1152,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 941,
+            "width": 314,
+            "height": 313
+          },
+          "rawSha256": "67471636E75201CC87DAAC94A9EFAB41B10F6D7CDA4FA9AB91A7FB520863317A",
+          "edgeMax": 2,
+          "transparentFraction": 0.660711015241855,
+          "bounds": [
+            82,
+            66,
+            239,
+            223
+          ]
+        },
+        {
+          "index": 15,
+          "role": "impact-fade",
+          "rect": {
+            "x": 1152,
+            "y": 1152,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 941,
+            "top": 941,
+            "width": 313,
+            "height": 313
+          },
+          "rawSha256": "9FEB5BEDB518515B3FFFD3594C58750B31E48C1D91369FFE90E05E0CBCE0DB6B",
+          "edgeMax": 2,
+          "transparentFraction": 0.8162377895048434,
+          "bounds": [
+            87,
+            77,
+            248,
+            205
+          ]
+        }
+      ]
+    },
+    "aura": {
+      "url": "/assets/ui/project-v/mercenaries/halloween-harlequin-20261017/skill-fx.webp",
+      "loopSeconds": 2.4,
+      "frames": [
+        {
+          "index": 0,
+          "role": "charge",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 314,
+            "height": 314
+          },
+          "rawSha256": "B870FC5937D985D1FC9C7856065E8DD60622901627E1BADCF69B7AE043E3CD82",
+          "edgeMax": 1,
+          "transparentFraction": 0.7339344395310154,
+          "bounds": [
+            97,
+            132,
+            222,
+            258
+          ]
+        },
+        {
+          "index": 1,
+          "role": "charge",
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 314,
+            "top": 0,
+            "width": 313,
+            "height": 314
+          },
+          "rawSha256": "2F16FDB1AFB28777F42F47D51456D7352AAFDFCCB6FB0AD1B9B489BFFEC66FA5",
+          "edgeMax": 1,
+          "transparentFraction": 0.7149020166459779,
+          "bounds": [
+            81,
+            120,
+            238,
+            269
+          ]
+        },
+        {
+          "index": 2,
+          "role": "charge",
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 627,
+            "top": 0,
+            "width": 314,
+            "height": 314
+          },
+          "rawSha256": "AC3F4041C13829B0FC503AC5E20CC5EC1EE64D1CA4B4CD9CEEA1DFFA10E9649E",
+          "edgeMax": 1,
+          "transparentFraction": 0.683607854274007,
+          "bounds": [
+            71,
+            100,
+            239,
+            273
+          ]
+        },
+        {
+          "index": 3,
+          "role": "charge",
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 384
+          },
+          "origin": {
+            "x": 192,
+            "y": 192
+          },
+          "sourceRect": {
+            "left": 941,
+            "top": 0,
+            "width": 313,
+            "height": 314
+          },
+          "rawSha256": "0851A0E0B5DA926AAA4A14839EE0BF2B06ED9F32EA703FBFD8FDBAE0CD4AD591",
+          "edgeMax": 1,
+          "transparentFraction": 0.6703669034004192,
+          "bounds": [
+            74,
+            91,
+            229,
+            280
+          ]
+        }
+      ]
+    }
+  },
+  "bodyMotionRequired": false,
+  "bodyMotionInstruction": "굳이 모션 필요없음 SS리미티드급은 이거로 쓰고 스킬이나 잘만들고 연결반영해",
+  "stockLimit": 5,
+  "packMode": "OFF",
+  "acquisitionEnabled": false,
+  "deploymentEnabled": false,
+  "skillMechanics": {
+    "damage": null,
+    "cooldown": null,
+    "targets": null
+  },
+  "generation": "BUILT_IN_IMAGEGEN",
+  "technicalProcessing": "Uniform display scaling and alpha-preserving texture packing only",
+  "approval": {
+    "sd": "USER_SELECTED_EXACT_ATTACHMENT",
+    "sourceArt": "USER_REQUESTED_REPLACEMENT_WITH_LATEST_HARLEQUIN",
+    "fx": "PENDING_USER_VISUAL_REVIEW"
+  }
+}

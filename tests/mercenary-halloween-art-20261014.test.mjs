@@ -25,7 +25,7 @@ test('seven approved sources publish independently with Namsudaeng identity, SS 
   assert.equal(c.rank,'SS');assert.equal(c.acquisitionPackId,HALLOWEEN_PACK.id);assert.equal(c.serverLimit,5);
   assert.equal(createHash('sha256').update(fs.readFileSync(c.sourceArt)).digest('hex').toUpperCase(),c.sourceArtSha256);
   for(const p of [c.displayArt,c.thumbnailArt,c.frame])assert.ok(fs.statSync(p).size>0,p);
-  assert.equal(c.battleSprite,null);assert.deepEqual(c.skills,[]);assert.equal(c.deploymentEnabled,false);assert.equal(limitedDeploymentSnapshot(c.code),null);
+  if(c.code==='V-980')assert.ok(c.battleSprite.includes('halloween-harlequin-20261017'));else assert.equal(c.battleSprite,null);assert.deepEqual(c.skills,[]);assert.equal(c.deploymentEnabled,false);assert.equal(limitedDeploymentSnapshot(c.code),null);
   assert.equal(seed.catalog.cards.some(r=>r.code===c.code),false);
  }
  assert.equal(LIMITED_MERCENARIES.length,9);assert.equal(LIMITED_MERCENARIES.find(c=>c.code==='V-990').sourceArtSha256,'EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120');

@@ -1,3 +1,4 @@
+import {HARLEQUIN_SKILL} from './mercenary-harlequin-skill-v1.mjs';
 // Approved PNG originals are preserved; WebP derivatives are for display only.
 export const HALLOWEEN_MERCENARIES=Object.freeze([
   {
@@ -12,9 +13,11 @@ export const HALLOWEEN_MERCENARIES=Object.freeze([
     "position": null,
     "artOnly": true,
     "releaseStatus": "LIMITED_PREVIEW",
-    "sourceArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/bongsoon-halloween-source-art-v1.png",
-    "sourceArtSha256": "1A42AE8E93BEE0BE9ECABE0693CE2178BB9EE55FA7BB52460631E9CA25BC9314",
-    "battleSprite": null,
+    "sourceArt": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/source-art.png",
+    "sourceArtSha256": "C82230FB51DB845F9B337083D144700542EC898E8F27A041C2904348EA66A207",
+    "battleSprite": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd.webp",
+    "battleSpriteSha256": "170600EE6FAF94E937FB4B324E0BC2E7714F5744004A713937D07B4908FA42B5",
+    "visualSkill": HARLEQUIN_SKILL,
     "accent": "#e6b87a",
     "basePower": null,
     "skills": [],
@@ -28,13 +31,13 @@ export const HALLOWEEN_MERCENARIES=Object.freeze([
       "width": 88.086,
       "height": 88.086
     },
-    "resourceStatus": "APPROVED_ART_LIVE_BATTLE_REVIEW_PENDING",
+    "resourceStatus": "HARLEQUIN_SD_APPROVED_SKILL_VISUAL_CONNECTED",
     "acquisitionPackId": "mercenary-halloween-ss-limited",
     "acquisitionPackName": "SS 할로윈 리미티드 팩",
     "serverLimit": 5,
     "sourceApprovalRecord": "assets/ui/project-v/mercenaries/mercenary-halloween-art-approvals-20261014.json",
-    "thumbnailArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-980-320.webp",
-    "displayArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-980-640.webp"
+    "thumbnailArt": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/art-320.webp",
+    "displayArt": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/art-640.webp"
   },
   {
     "code": "V-981",

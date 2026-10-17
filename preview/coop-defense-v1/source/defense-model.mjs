@@ -1,4 +1,4 @@
-// Normalized TEST squads. No account, wallet, live skill assignment or reward writes.
+// Defense role stats with server-validated skill snapshots; no wallet or reward writes.
 import {defenseDifficulty,defenseEnemy,LEGACY_DEFENSE_DIFFICULTIES} from '../../../shared/monster-defense-v1.mjs';
 import {DEFENSE_PROFILES as PROFILES} from '../../../shared/monster-defense-loadout-v1.mjs';
 import {defenseMercenaryRuntime} from '../../../shared/monster-defense-mercenary-v1.mjs';

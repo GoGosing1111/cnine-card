@@ -5,7 +5,7 @@
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
 importScripts('/js/image-delivery-map-20261015.js');
-const SHELL_CACHE='soop-card-shell-v20261017-world-raid-original-ip-v1';
+const SHELL_CACHE='soop-card-shell-v20261017-harlequin-v980-v1';
 const CONTENT_CACHE='soop-card-content-v4-lossless-media';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -220,3 +220,6 @@ self.addEventListener('fetch',event=>{
     event.respondWith(staleWhileRevalidate(event,request,CONTENT_CACHE));
   }
 });
+
+// V-980 selected Halloween art and static SD refresh through the existing network-first path.
+for(const path of ['/shared/mercenary-halloween-catalog-v1.mjs','/shared/mercenary-harlequin-skill-v1.mjs','/shared/mercenary-halloween-pool-v3.mjs','/mercenary-codex/app.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
