@@ -91,7 +91,9 @@ export class BattleHud extends Container {
   }
 
   setCompact(compact) {
-    this.compact = Boolean(compact);
+    const next = Boolean(compact);
+    if (this.compact === next) {this.layoutName(); return;}
+    this.compact = next;
     this.layout();
   }
 
@@ -104,6 +106,9 @@ export class BattleHud extends Container {
   layoutName() {
     const size = BATTLE_HUD_SIZE[this.compact ? 'compact' : 'desktop'];
     this.nameLabel.style.fontSize = this.fontSizeOverride || size.fontSize;
+    const key = JSON.stringify([this.fullName,this.nameLabel.style.fontSize,size.width,this.nameLabel.style.fontFamily,this.showName]);
+    if (key === this.nameLayoutKey) return;
+    this.nameLayoutKey = key;
     // Use the loaded font's actual glyph widths in the game. The estimate is only
     // for non-browser layout checks, so narrow Latin names are not cut needlessly.
     const measure = typeof document === 'undefined' ? null : text => {

@@ -1,0 +1,3788 @@
+{
+  "reports": [
+    {
+      "label": "desktop",
+      "mode": "PVP",
+      "huds": [
+        {
+          "id": "A:0:CN-1C000003",
+          "team": "ALLY",
+          "name": "나무늘봉순",
+          "shown": "나무늘봉순",
+          "frame": {
+            "minX": 99,
+            "minY": 136.74,
+            "maxX": 207,
+            "maxY": 160.14000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 133.55419921875,
+            "minY": 137.30700000000002,
+            "maxX": 172.44580078125,
+            "maxY": 148.10700000000003,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 107.6484375,
+            "minY": 150.65351351351353,
+            "maxX": 200.8828125,
+            "maxY": 156.72486486486488,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "team": "ALLY",
+          "name": "구수댕",
+          "shown": "구수댕",
+          "frame": {
+            "minX": 477,
+            "minY": 136.74,
+            "maxX": 585,
+            "maxY": 160.14000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 519.1716796875,
+            "minY": 137.30700000000002,
+            "maxX": 542.8283203125,
+            "maxY": 148.10700000000003,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 485.6484375,
+            "minY": 150.65351351351353,
+            "maxX": 578.8828125,
+            "maxY": 156.72486486486488,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:2:CN-25F931CE393D474E",
+          "team": "ALLY",
+          "name": "딤우스",
+          "shown": "딤우스",
+          "frame": {
+            "minX": 99,
+            "minY": 295.14000000000004,
+            "maxX": 207,
+            "maxY": 318.54,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 141.33251953125,
+            "minY": 295.70700000000005,
+            "maxX": 164.66748046875,
+            "maxY": 306.507,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 107.6484375,
+            "minY": 309.05351351351356,
+            "maxX": 200.8828125,
+            "maxY": 315.1248648648649,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "team": "ALLY",
+          "name": "Lionel Messi",
+          "shown": "Lionel Messi",
+          "frame": {
+            "minX": 477,
+            "minY": 295.14000000000004,
+            "maxX": 585,
+            "maxY": 318.54,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 505.177734375,
+            "minY": 295.70700000000005,
+            "maxX": 556.822265625,
+            "maxY": 306.507,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 485.6484375,
+            "minY": 309.05351351351356,
+            "maxX": 578.8828125,
+            "maxY": 315.1248648648649,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "team": "ALLY",
+          "name": "토마토",
+          "shown": "토마토",
+          "frame": {
+            "minX": 288,
+            "minY": 453.5400000000001,
+            "maxX": 396,
+            "maxY": 476.94000000000005,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 330.1716796875,
+            "minY": 454.1070000000001,
+            "maxX": 353.8283203125,
+            "maxY": 464.90700000000004,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 296.6484375,
+            "minY": 467.4535135135136,
+            "maxX": 389.8828125,
+            "maxY": 473.5248648648649,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:0:CN-1C000004",
+          "team": "ENEMY",
+          "name": "오조은",
+          "shown": "오조은",
+          "frame": {
+            "minX": 1233,
+            "minY": 136.74,
+            "maxX": 1341,
+            "maxY": 160.14000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 1275.1716796875,
+            "minY": 137.30700000000002,
+            "maxX": 1298.8283203125,
+            "maxY": 148.10700000000003,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 1241.6484375,
+            "minY": 150.65351351351353,
+            "maxX": 1334.8828125,
+            "maxY": 156.72486486486488,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:1:CN-0505936A0CBB4E59",
+          "team": "ENEMY",
+          "name": "구수댕",
+          "shown": "구수댕",
+          "frame": {
+            "minX": 855,
+            "minY": 136.74,
+            "maxX": 963,
+            "maxY": 160.14000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 897.1716796875,
+            "minY": 137.30700000000002,
+            "maxX": 920.8283203125,
+            "maxY": 148.10700000000003,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 863.6484375,
+            "minY": 150.65351351351353,
+            "maxX": 930.7771875,
+            "maxY": 156.72486486486488,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 72,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:2:CN-25F931CE393D474E",
+          "team": "ENEMY",
+          "name": "딤우스",
+          "shown": "딤우스",
+          "frame": {
+            "minX": 1233,
+            "minY": 295.14000000000004,
+            "maxX": 1341,
+            "maxY": 318.54,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 1275.33251953125,
+            "minY": 295.70700000000005,
+            "maxX": 1298.66748046875,
+            "maxY": 306.507,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 1241.6484375,
+            "minY": 309.05351351351356,
+            "maxX": 1334.8828125,
+            "maxY": 315.1248648648649,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:3:CN-23EB4B19986D4818",
+          "team": "ENEMY",
+          "name": "Lionel Messi",
+          "shown": "Lionel Messi",
+          "frame": {
+            "minX": 855,
+            "minY": 295.14000000000004,
+            "maxX": 963,
+            "maxY": 318.54,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 883.177734375,
+            "minY": 295.70700000000005,
+            "maxX": 934.822265625,
+            "maxY": 306.507,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 863.6484375,
+            "minY": 309.05351351351356,
+            "maxX": 956.8828125,
+            "maxY": 315.1248648648649,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:4:CN-519C181C18DF4B8E",
+          "team": "ENEMY",
+          "name": "토마토",
+          "shown": "토마토",
+          "frame": {
+            "minX": 1044,
+            "minY": 453.5400000000001,
+            "maxX": 1152,
+            "maxY": 476.94000000000005,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 1086.1716796875,
+            "minY": 454.1070000000001,
+            "maxX": 1109.8283203125,
+            "maxY": 464.90700000000004,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 1052.6484375,
+            "minY": 467.4535135135136,
+            "maxX": 1145.8828125,
+            "maxY": 473.5248648648649,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:MERC:V-055",
+          "team": "ALLY",
+          "name": "베르칸",
+          "shown": "베르칸",
+          "frame": {
+            "minX": 288,
+            "minY": 136.74,
+            "maxX": 396,
+            "maxY": 160.14000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 330.1716796875,
+            "minY": 137.30700000000002,
+            "maxX": 353.8283203125,
+            "maxY": 148.10700000000003,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 296.6484375,
+            "minY": 150.65351351351353,
+            "maxX": 389.8828125,
+            "maxY": 156.72486486486488,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:MERC:V-996",
+          "team": "ENEMY",
+          "name": "발테르",
+          "shown": "발테르",
+          "frame": {
+            "minX": 1044,
+            "minY": 97.32475961538461,
+            "maxX": 1152,
+            "maxY": 120.72475961538461,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 1086.33251953125,
+            "minY": 97.8917596153846,
+            "maxX": 1109.66748046875,
+            "maxY": 108.69175961538461,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 1052.6484375,
+            "minY": 111.23827312889813,
+            "maxX": 1145.8828125,
+            "maxY": 117.30962448024948,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        }
+      ],
+      "formation": {
+        "version": "OCCUPIED_GRID_V1",
+        "layoutVersion": "UNIFORM_LATTICE_V2",
+        "mode": "wide",
+        "scenario": "PVP",
+        "mobile": false,
+        "grid": {
+          "kind": "OCCUPIED_STATIONS",
+          "mercenariesPerTeam": 1
+        },
+        "tiles": [
+          {
+            "id": "ALLY:cards:0",
+            "x": 170,
+            "y": 240,
+            "kind": "cards",
+            "style": "icon",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp"
+          },
+          {
+            "id": "ALLY:cards:1",
+            "x": 590,
+            "y": 240,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ALLY:cards:2",
+            "x": 170,
+            "y": 416,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ALLY:cards:3",
+            "x": 590,
+            "y": 416,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ALLY:cards:4",
+            "x": 380,
+            "y": 592,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ENEMY:cards:0",
+            "x": 1430,
+            "y": 240,
+            "kind": "cards",
+            "style": "icon",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp"
+          },
+          {
+            "id": "ENEMY:cards:1",
+            "x": 1010,
+            "y": 240,
+            "kind": "cards",
+            "style": "enemy",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp"
+          },
+          {
+            "id": "ENEMY:cards:2",
+            "x": 1430,
+            "y": 416,
+            "kind": "cards",
+            "style": "enemy",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp"
+          },
+          {
+            "id": "ENEMY:cards:3",
+            "x": 1010,
+            "y": 416,
+            "kind": "cards",
+            "style": "enemy",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp"
+          },
+          {
+            "id": "ENEMY:cards:4",
+            "x": 1220,
+            "y": 592,
+            "kind": "cards",
+            "style": "enemy",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp"
+          },
+          {
+            "id": "ALLY:mercenaries:0",
+            "x": 380,
+            "y": 240,
+            "kind": "mercenaries",
+            "style": "mercenary-sss",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp"
+          },
+          {
+            "id": "ENEMY:mercenaries:0",
+            "x": 1220,
+            "y": 240,
+            "kind": "mercenaries",
+            "style": "mercenary-sss-limited",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp"
+          }
+        ],
+        "floor": {
+          "left": 75,
+          "right": 1525,
+          "top": 208,
+          "bottom": 624,
+          "width": 1450,
+          "height": 416
+        },
+        "mercenaries": [
+          {
+            "code": "V-055",
+            "team": "ALLY",
+            "index": 0,
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          },
+          {
+            "code": "V-996",
+            "team": "ENEMY",
+            "index": 0,
+            "x": 1220,
+            "y": 240,
+            "scale": 0.5
+          }
+        ],
+        "rootScale": 0.9,
+        "scene": {
+          "width": 1600,
+          "height": 820
+        },
+        "viewportFit": null,
+        "actors": [
+          {
+            "id": "A:0:CN-1C000003",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": -4.128289473684211,
+              "y": 2.5032894736842106
+            },
+            "x": 170,
+            "y": 240,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "A:1:CN-0505936A0CBB4E59",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": -1.917763157894737,
+              "y": 0.29276315789473695
+            },
+            "x": 590,
+            "y": 240,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "A:2:CN-25F931CE393D474E",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": -1.3782894736842106,
+              "y": 5.253289473684211
+            },
+            "x": 170,
+            "y": 416,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "A:3:CN-23EB4B19986D4818",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": 0.832236842105263,
+              "y": 3.042763157894737
+            },
+            "x": 590,
+            "y": 416,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": 2.476973684210526,
+              "y": 6.898026315789474
+            },
+            "x": 380,
+            "y": 592,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "B:0:CN-1C000004",
+            "team": "ENEMY",
+            "active": true,
+            "grid": {
+              "x": 2.5032894736842106,
+              "y": -4.128289473684211
+            },
+            "x": 1430,
+            "y": 240,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "B:1:CN-0505936A0CBB4E59",
+            "team": "ENEMY",
+            "active": true,
+            "grid": {
+              "x": 0.29276315789473695,
+              "y": -1.917763157894737
+            },
+            "x": 1010,
+            "y": 240,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "B:2:CN-25F931CE393D474E",
+            "team": "ENEMY",
+            "active": true,
+            "grid": {
+              "x": 5.253289473684211,
+              "y": -1.3782894736842106
+            },
+            "x": 1430,
+            "y": 416,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "B:3:CN-23EB4B19986D4818",
+            "team": "ENEMY",
+            "active": true,
+            "grid": {
+              "x": 3.042763157894737,
+              "y": 0.832236842105263
+            },
+            "x": 1010,
+            "y": 416,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "B:4:CN-519C181C18DF4B8E",
+            "team": "ENEMY",
+            "active": true,
+            "grid": {
+              "x": 6.898026315789474,
+              "y": 2.476973684210526
+            },
+            "x": 1220,
+            "y": 592,
+            "scale": 0.5,
+            "depth": 0.5
+          }
+        ],
+        "support": null,
+        "objective": null
+      },
+      "pets": [
+        {
+          "side": "B",
+          "petCode": "PET-HEADSET-SHIBA",
+          "layoutSize": 126,
+          "displaySize": 100.80000000000001,
+          "applied": false,
+          "restored": false,
+          "effectActive": false
+        },
+        {
+          "side": "A",
+          "petCode": "PET-GUSUDAENG",
+          "layoutSize": 126,
+          "displaySize": 100.80000000000001,
+          "applied": false,
+          "restored": false,
+          "effectActive": false
+        }
+      ],
+      "petBoxes": [
+        {
+          "side": "B",
+          "width": 100.80000000000001,
+          "height": 100.80000000000001,
+          "body": {
+            "minX": 1052.64,
+            "minY": 575.58,
+            "maxX": 1143.36,
+            "maxY": 666.3000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "name": {
+            "minX": 1056.8677780151368,
+            "minY": 677.1000000000001,
+            "maxX": 1139.1322219848632,
+            "maxY": 699.6000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          }
+        },
+        {
+          "side": "A",
+          "width": 100.80000000000001,
+          "height": 100.80000000000001,
+          "body": {
+            "minX": 296.64,
+            "minY": 575.58,
+            "maxX": 387.36,
+            "maxY": 666.3000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          },
+          "name": {
+            "minX": 307.07777252197263,
+            "minY": 677.1000000000001,
+            "maxX": 376.92222747802737,
+            "maxY": 699.6000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 342,
+              "ty": 677.1000000000001
+            }
+          }
+        }
+      ],
+      "halos": [
+        {
+          "id": "A:0:CN-1C000003",
+          "visible": false
+        },
+        {
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "visible": false
+        },
+        {
+          "id": "A:2:CN-25F931CE393D474E",
+          "visible": false
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "visible": false
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "visible": false
+        },
+        {
+          "id": "B:0:CN-1C000004",
+          "visible": false
+        },
+        {
+          "id": "B:1:CN-0505936A0CBB4E59",
+          "visible": false
+        },
+        {
+          "id": "B:2:CN-25F931CE393D474E",
+          "visible": false
+        },
+        {
+          "id": "B:3:CN-23EB4B19986D4818",
+          "visible": false
+        },
+        {
+          "id": "B:4:CN-519C181C18DF4B8E",
+          "visible": false
+        },
+        {
+          "id": "A:MERC:V-055",
+          "visible": false
+        },
+        {
+          "id": "B:MERC:V-996",
+          "visible": false
+        }
+      ],
+      "canvas": 1,
+      "overflow": false,
+      "state": {
+        "damaged": {
+          "hp": 45,
+          "ratio": 0.45,
+          "shieldRatio": 0.25
+        },
+        "dead": {
+          "state": "DEAD",
+          "visible": false
+        },
+        "revived": {
+          "state": "IDLE",
+          "hp": 80
+        },
+        "longName": {
+          "text": "아주아주긴닉…",
+          "width": 240
+        }
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "PVE",
+      "huds": [
+        {
+          "id": "A:0:CN-1C000003",
+          "team": "ALLY",
+          "name": "나무늘봉순",
+          "shown": "나무늘봉순",
+          "frame": {
+            "minX": 99,
+            "minY": 136.74,
+            "maxX": 207,
+            "maxY": 160.14000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 133.55419921875,
+            "minY": 137.30700000000002,
+            "maxX": 172.44580078125,
+            "maxY": 148.10700000000003,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 107.6484375,
+            "minY": 150.65351351351353,
+            "maxX": 200.8828125,
+            "maxY": 156.72486486486488,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "team": "ALLY",
+          "name": "구수댕",
+          "shown": "구수댕",
+          "frame": {
+            "minX": 477,
+            "minY": 136.74,
+            "maxX": 585,
+            "maxY": 160.14000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 519.1716796875,
+            "minY": 137.30700000000002,
+            "maxX": 542.8283203125,
+            "maxY": 148.10700000000003,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 485.6484375,
+            "minY": 150.65351351351353,
+            "maxX": 578.8828125,
+            "maxY": 156.72486486486488,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:2:CN-25F931CE393D474E",
+          "team": "ALLY",
+          "name": "딤우스",
+          "shown": "딤우스",
+          "frame": {
+            "minX": 99,
+            "minY": 295.14000000000004,
+            "maxX": 207,
+            "maxY": 318.54,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 141.33251953125,
+            "minY": 295.70700000000005,
+            "maxX": 164.66748046875,
+            "maxY": 306.507,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 107.6484375,
+            "minY": 309.05351351351356,
+            "maxX": 200.8828125,
+            "maxY": 315.1248648648649,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "team": "ALLY",
+          "name": "Lionel Messi",
+          "shown": "Lionel Messi",
+          "frame": {
+            "minX": 477,
+            "minY": 295.14000000000004,
+            "maxX": 585,
+            "maxY": 318.54,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 505.177734375,
+            "minY": 295.70700000000005,
+            "maxX": 556.822265625,
+            "maxY": 306.507,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 485.6484375,
+            "minY": 309.05351351351356,
+            "maxX": 578.8828125,
+            "maxY": 315.1248648648649,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "team": "ALLY",
+          "name": "토마토",
+          "shown": "토마토",
+          "frame": {
+            "minX": 288,
+            "minY": 453.5400000000001,
+            "maxX": 396,
+            "maxY": 476.94000000000005,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 330.1716796875,
+            "minY": 454.1070000000001,
+            "maxX": 353.8283203125,
+            "maxY": 464.90700000000004,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 296.6484375,
+            "minY": 467.4535135135136,
+            "maxX": 389.8828125,
+            "maxY": 473.5248648648649,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:0:MONSTER:1",
+          "team": "ENEMY",
+          "name": "슬라임",
+          "shown": "슬라임",
+          "frame": {
+            "minX": 855,
+            "minY": 284.115,
+            "maxX": 963,
+            "maxY": 307.515,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 897.1716796875,
+            "minY": 284.682,
+            "maxX": 920.8283203125,
+            "maxY": 295.48199999999997,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 863.6484375,
+            "minY": 298.02851351351353,
+            "maxX": 930.7771875,
+            "maxY": 304.09986486486486,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 72,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:MERC:V-055",
+          "team": "ALLY",
+          "name": "베르칸",
+          "shown": "베르칸",
+          "frame": {
+            "minX": 288,
+            "minY": 136.74,
+            "maxX": 396,
+            "maxY": 160.14000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "text": {
+            "minX": 330.1716796875,
+            "minY": 137.30700000000002,
+            "maxX": 353.8283203125,
+            "maxY": 148.10700000000003,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "fill": {
+            "minX": 296.6484375,
+            "minY": 150.65351351351353,
+            "maxX": 389.8828125,
+            "maxY": 156.72486486486488,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 240,
+          "height": 52,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        }
+      ],
+      "formation": {
+        "version": "OCCUPIED_GRID_V1",
+        "layoutVersion": "UNIFORM_LATTICE_V2",
+        "mode": "wide",
+        "scenario": "PVE",
+        "mobile": false,
+        "grid": {
+          "kind": "OCCUPIED_STATIONS",
+          "mercenariesPerTeam": 1
+        },
+        "tiles": [
+          {
+            "id": "ALLY:cards:0",
+            "x": 170,
+            "y": 240,
+            "kind": "cards",
+            "style": "icon",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp"
+          },
+          {
+            "id": "ALLY:cards:1",
+            "x": 590,
+            "y": 240,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ALLY:cards:2",
+            "x": 170,
+            "y": 416,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ALLY:cards:3",
+            "x": 590,
+            "y": 416,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ALLY:cards:4",
+            "x": 380,
+            "y": 592,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ENEMY:cards:0",
+            "x": 1010,
+            "y": 416,
+            "kind": "cards",
+            "style": "enemy",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp"
+          },
+          {
+            "id": "ALLY:mercenaries:0",
+            "x": 380,
+            "y": 240,
+            "kind": "mercenaries",
+            "style": "mercenary-sss",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp"
+          }
+        ],
+        "floor": {
+          "left": 75,
+          "right": 1105,
+          "top": 208,
+          "bottom": 624,
+          "width": 1030,
+          "height": 416
+        },
+        "mercenaries": [
+          {
+            "code": "V-055",
+            "team": "ALLY",
+            "index": 0,
+            "x": 380,
+            "y": 240,
+            "scale": 0.5
+          }
+        ],
+        "rootScale": 0.9,
+        "scene": {
+          "width": 1600,
+          "height": 820
+        },
+        "viewportFit": null,
+        "actors": [
+          {
+            "id": "A:0:CN-1C000003",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": -4.128289473684211,
+              "y": 2.5032894736842106
+            },
+            "x": 170,
+            "y": 240,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "A:1:CN-0505936A0CBB4E59",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": -1.917763157894737,
+              "y": 0.29276315789473695
+            },
+            "x": 590,
+            "y": 240,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "A:2:CN-25F931CE393D474E",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": -1.3782894736842106,
+              "y": 5.253289473684211
+            },
+            "x": 170,
+            "y": 416,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "A:3:CN-23EB4B19986D4818",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": 0.832236842105263,
+              "y": 3.042763157894737
+            },
+            "x": 590,
+            "y": 416,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": 2.476973684210526,
+              "y": 6.898026315789474
+            },
+            "x": 380,
+            "y": 592,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "ENEMY-01",
+            "team": "ENEMY",
+            "active": false,
+            "grid": {
+              "x": 3.042763157894737,
+              "y": 0.832236842105263
+            },
+            "x": 1010,
+            "y": 416,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "B:0:MONSTER:1",
+            "team": "ENEMY",
+            "active": true,
+            "grid": {
+              "x": 3.042763157894737,
+              "y": 0.832236842105263
+            },
+            "x": 1010,
+            "y": 416,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "ENEMY-03",
+            "team": "ENEMY",
+            "active": false,
+            "grid": {
+              "x": 3.042763157894737,
+              "y": 0.832236842105263
+            },
+            "x": 1010,
+            "y": 416,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "ENEMY-04",
+            "team": "ENEMY",
+            "active": false,
+            "grid": {
+              "x": 3.042763157894737,
+              "y": 0.832236842105263
+            },
+            "x": 1010,
+            "y": 416,
+            "scale": 0.5,
+            "depth": 0.5
+          },
+          {
+            "id": "ENEMY-05",
+            "team": "ENEMY",
+            "active": false,
+            "grid": {
+              "x": 3.042763157894737,
+              "y": 0.832236842105263
+            },
+            "x": 1010,
+            "y": 416,
+            "scale": 0.5,
+            "depth": 0.5
+          }
+        ],
+        "support": null,
+        "objective": null
+      },
+      "pets": [
+        {
+          "side": "A",
+          "petCode": "PET-GUSUDAENG",
+          "layoutSize": 126,
+          "displaySize": 100.80000000000001,
+          "applied": false,
+          "restored": false,
+          "effectActive": false
+        }
+      ],
+      "petBoxes": [
+        {
+          "side": "A",
+          "width": 100.80000000000001,
+          "height": 100.80000000000001,
+          "body": {
+            "minX": 58.13999999999999,
+            "minY": 575.58,
+            "maxX": 148.86,
+            "maxY": 666.3000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          },
+          "name": {
+            "minX": 69.11777801513671,
+            "minY": 677.1000000000001,
+            "maxX": 137.8822219848633,
+            "maxY": 699.6000000000001,
+            "matrix": {
+              "array": null,
+              "a": 0.9,
+              "b": 0,
+              "c": 0,
+              "d": 0.9,
+              "tx": 103.5,
+              "ty": 677.1000000000001
+            }
+          }
+        }
+      ],
+      "halos": [
+        {
+          "id": "A:0:CN-1C000003",
+          "visible": false
+        },
+        {
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "visible": false
+        },
+        {
+          "id": "A:2:CN-25F931CE393D474E",
+          "visible": false
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "visible": false
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "visible": false
+        },
+        {
+          "id": "ENEMY-01",
+          "visible": false
+        },
+        {
+          "id": "B:0:MONSTER:1",
+          "visible": false
+        },
+        {
+          "id": "ENEMY-03",
+          "visible": false
+        },
+        {
+          "id": "ENEMY-04",
+          "visible": false
+        },
+        {
+          "id": "ENEMY-05",
+          "visible": false
+        },
+        {
+          "id": "A:MERC:V-055",
+          "visible": false
+        }
+      ],
+      "canvas": 1,
+      "overflow": false,
+      "state": {
+        "damaged": {
+          "hp": 45,
+          "ratio": 0.45,
+          "shieldRatio": 0.25
+        },
+        "dead": {
+          "state": "DEAD",
+          "visible": false
+        },
+        "revived": {
+          "state": "IDLE",
+          "hp": 80
+        },
+        "longName": {
+          "text": "아주아주긴닉…",
+          "width": 240
+        }
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "PVP",
+      "huds": [
+        {
+          "id": "A:0:CN-1C000003",
+          "team": "ALLY",
+          "name": "나무늘봉순",
+          "shown": "나무늘봉순",
+          "frame": {
+            "minX": 32.10669102822582,
+            "minY": 33.59063155241937,
+            "maxX": 92.09572832661291,
+            "maxY": 47.58807358870969,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "text": {
+            "minX": 48.27561123755671,
+            "minY": 33.36067357610889,
+            "maxX": 75.92680811728201,
+            "maxY": 40.95928496723791,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "fill": {
+            "minX": 36.91050065563572,
+            "minY": 41.913434925348746,
+            "maxX": 88.69791176088395,
+            "maxY": 45.54520366989975,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "team": "ALLY",
+          "name": "구수댕",
+          "shown": "구수댕",
+          "frame": {
+            "minX": 32.10669102822582,
+            "minY": 125.88145816532258,
+            "maxX": 92.09572832661291,
+            "maxY": 139.8789002016129,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "text": {
+            "minX": 53.805850613501775,
+            "minY": 125.65150018901211,
+            "maxX": 70.39656874133695,
+            "maxY": 133.25011158014115,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "fill": {
+            "minX": 36.91050065563572,
+            "minY": 134.20426153825196,
+            "maxX": 88.69791176088395,
+            "maxY": 137.83603028280297,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:2:CN-25F931CE393D474E",
+          "team": "ALLY",
+          "name": "딤우스",
+          "shown": "딤우스",
+          "frame": {
+            "minX": 32.10669102822582,
+            "minY": 218.1722847782258,
+            "maxX": 92.09572832661291,
+            "maxY": 232.1697268145161,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "text": {
+            "minX": 53.805850613501775,
+            "minY": 217.9423268019153,
+            "maxX": 70.39656874133695,
+            "maxY": 225.54093819304435,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "fill": {
+            "minX": 36.91050065563572,
+            "minY": 226.49508815115516,
+            "maxX": 88.69791176088395,
+            "maxY": 230.12685689570617,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "team": "ALLY",
+          "name": "Lionel Messi",
+          "shown": "Lionel M…",
+          "frame": {
+            "minX": 98.55608618951615,
+            "minY": 218.1722847782258,
+            "maxX": 158.54512348790325,
+            "maxY": 232.1697268145161,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "text": {
+            "minX": 113.547096656061,
+            "minY": 217.9423268019153,
+            "maxX": 143.55411302135838,
+            "maxY": 225.54093819304435,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "fill": {
+            "minX": 103.35989581692606,
+            "minY": 226.49508815115516,
+            "maxX": 155.14730692217427,
+            "maxY": 230.12685689570617,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "team": "ALLY",
+          "name": "토마토",
+          "shown": "토마토",
+          "frame": {
+            "minX": 32.10669102822582,
+            "minY": 310.463111391129,
+            "maxX": 92.09572832661291,
+            "maxY": 324.4605534274193,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "text": {
+            "minX": 53.77148189421624,
+            "minY": 310.23315341481856,
+            "maxX": 70.43093746062249,
+            "maxY": 317.83176480594756,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "fill": {
+            "minX": 36.91050065563572,
+            "minY": 318.7859147640584,
+            "maxX": 88.69791176088395,
+            "maxY": 322.4176835086094,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:0:CN-1C000004",
+          "team": "ENEMY",
+          "name": "오조은",
+          "shown": "오조은",
+          "frame": {
+            "minX": 297.9042716733871,
+            "minY": 33.59063155241937,
+            "maxX": 357.89330897177416,
+            "maxY": 47.58807358870969,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "text": {
+            "minX": 319.603431258663,
+            "minY": 33.36067357610889,
+            "maxX": 336.1941493864982,
+            "maxY": 40.95928496723791,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "fill": {
+            "minX": 302.708081300797,
+            "minY": 41.913434925348746,
+            "maxX": 354.49549240604523,
+            "maxY": 45.54520366989975,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:1:CN-0505936A0CBB4E59",
+          "team": "ENEMY",
+          "name": "구수댕",
+          "shown": "구수댕",
+          "frame": {
+            "minX": 297.9042716733871,
+            "minY": 125.88145816532258,
+            "maxX": 357.89330897177416,
+            "maxY": 139.8789002016129,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "text": {
+            "minX": 319.603431258663,
+            "minY": 125.65150018901211,
+            "maxX": 336.1941493864982,
+            "maxY": 133.25011158014115,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "fill": {
+            "minX": 302.708081300797,
+            "minY": 134.20426153825196,
+            "maxX": 339.9950172965757,
+            "maxY": 137.83603028280297,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 72,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:2:CN-25F931CE393D474E",
+          "team": "ENEMY",
+          "name": "딤우스",
+          "shown": "딤우스",
+          "frame": {
+            "minX": 297.9042716733871,
+            "minY": 218.1722847782258,
+            "maxX": 357.89330897177416,
+            "maxY": 232.1697268145161,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "text": {
+            "minX": 319.603431258663,
+            "minY": 217.9423268019153,
+            "maxX": 336.1941493864982,
+            "maxY": 225.54093819304435,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "fill": {
+            "minX": 302.708081300797,
+            "minY": 226.49508815115516,
+            "maxX": 354.49549240604523,
+            "maxY": 230.12685689570617,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:3:CN-23EB4B19986D4818",
+          "team": "ENEMY",
+          "name": "Lionel Messi",
+          "shown": "Lionel M…",
+          "frame": {
+            "minX": 231.45487651209677,
+            "minY": 218.1722847782258,
+            "maxX": 291.4439138104839,
+            "maxY": 232.1697268145161,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "text": {
+            "minX": 246.44588697864165,
+            "minY": 217.9423268019153,
+            "maxX": 276.45290334393906,
+            "maxY": 225.54093819304435,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "fill": {
+            "minX": 236.2586861395067,
+            "minY": 226.49508815115516,
+            "maxX": 288.04609724475495,
+            "maxY": 230.12685689570617,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:4:CN-519C181C18DF4B8E",
+          "team": "ENEMY",
+          "name": "토마토",
+          "shown": "토마토",
+          "frame": {
+            "minX": 297.9042716733871,
+            "minY": 310.463111391129,
+            "maxX": 357.89330897177416,
+            "maxY": 324.4605534274193,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "text": {
+            "minX": 319.5690625393775,
+            "minY": 310.23315341481856,
+            "maxX": 336.22851810578373,
+            "maxY": 317.83176480594756,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "fill": {
+            "minX": 302.708081300797,
+            "minY": 318.7859147640584,
+            "maxX": 354.49549240604523,
+            "maxY": 322.4176835086094,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:MERC:V-055",
+          "team": "ALLY",
+          "name": "베르칸",
+          "shown": "베르칸",
+          "frame": {
+            "minX": 98.55608618951615,
+            "minY": 33.59063155241937,
+            "maxX": 158.54512348790325,
+            "maxY": 47.58807358870969,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "text": {
+            "minX": 120.2552457747921,
+            "minY": 33.36067357610889,
+            "maxX": 136.8459639026273,
+            "maxY": 40.95928496723791,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "fill": {
+            "minX": 103.35989581692606,
+            "minY": 41.913434925348746,
+            "maxX": 155.14730692217427,
+            "maxY": 45.54520366989975,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:MERC:V-996",
+          "team": "ENEMY",
+          "name": "발테르",
+          "shown": "발테르",
+          "frame": {
+            "minX": 231.45487651209677,
+            "minY": 16.0759476594002,
+            "maxX": 291.4439138104839,
+            "maxY": 30.073389695690523,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "text": {
+            "minX": 253.15403609737274,
+            "minY": 15.845989683089716,
+            "maxX": 269.74475422520794,
+            "maxY": 23.44460107421875,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "fill": {
+            "minX": 236.2586861395067,
+            "minY": 24.398751032329578,
+            "maxX": 288.04609724475495,
+            "maxY": 28.03051977688058,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        }
+      ],
+      "formation": {
+        "version": "OCCUPIED_GRID_V1",
+        "layoutVersion": "UNIFORM_LATTICE_V2",
+        "mode": "wide",
+        "scenario": "PVP",
+        "mobile": true,
+        "grid": {
+          "kind": "OCCUPIED_STATIONS",
+          "mercenariesPerTeam": 1
+        },
+        "tiles": [
+          {
+            "id": "ALLY:cards:0",
+            "x": 201.86581469648567,
+            "y": 332.00950274432705,
+            "kind": "cards",
+            "style": "icon",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp"
+          },
+          {
+            "id": "ALLY:cards:1",
+            "x": 201.86581469648567,
+            "y": 632.009502744327,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ALLY:cards:2",
+            "x": 201.86581469648567,
+            "y": 932.009502744327,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ALLY:cards:3",
+            "x": 417.8658146964857,
+            "y": 932.009502744327,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ALLY:cards:4",
+            "x": 201.86581469648567,
+            "y": 1232.009502744327,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ENEMY:cards:0",
+            "x": 1065.8658146964856,
+            "y": 332.00950274432705,
+            "kind": "cards",
+            "style": "icon",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp"
+          },
+          {
+            "id": "ENEMY:cards:1",
+            "x": 1065.8658146964856,
+            "y": 632.009502744327,
+            "kind": "cards",
+            "style": "enemy",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp"
+          },
+          {
+            "id": "ENEMY:cards:2",
+            "x": 1065.8658146964856,
+            "y": 932.009502744327,
+            "kind": "cards",
+            "style": "enemy",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp"
+          },
+          {
+            "id": "ENEMY:cards:3",
+            "x": 849.8658146964857,
+            "y": 932.009502744327,
+            "kind": "cards",
+            "style": "enemy",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp"
+          },
+          {
+            "id": "ENEMY:cards:4",
+            "x": 1065.8658146964856,
+            "y": 1232.009502744327,
+            "kind": "cards",
+            "style": "enemy",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp"
+          },
+          {
+            "id": "ALLY:mercenaries:0",
+            "x": 417.8658146964857,
+            "y": 332.00950274432705,
+            "kind": "mercenaries",
+            "style": "mercenary-sss",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp"
+          },
+          {
+            "id": "ENEMY:mercenaries:0",
+            "x": 849.8658146964857,
+            "y": 332.00950274432705,
+            "kind": "mercenaries",
+            "style": "mercenary-sss-limited",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp"
+          }
+        ],
+        "floor": {
+          "left": 106.86581469648567,
+          "right": 1160.8658146964856,
+          "top": 300.00950274432705,
+          "bottom": 1264.009502744327,
+          "width": 1054,
+          "height": 963.9999999999999
+        },
+        "mercenaries": [
+          {
+            "code": "V-055",
+            "team": "ALLY",
+            "index": 0,
+            "x": 417.8658146964857,
+            "y": 332.00950274432705,
+            "scale": 0.65
+          },
+          {
+            "code": "V-996",
+            "team": "ENEMY",
+            "index": 0,
+            "x": 849.8658146964857,
+            "y": 332.00950274432705,
+            "scale": 0.65
+          }
+        ],
+        "rootScale": 0.3076360887096774,
+        "scene": {
+          "width": 1267.7316293929714,
+          "height": 2548.4656344720242
+        },
+        "viewportFit": {
+          "scale": 0.3076360887096774,
+          "available": {
+            "left": 12,
+            "top": 16,
+            "width": 366,
+            "height": 381.46875
+          },
+          "offsetX": 93.86581469648567,
+          "offsetY": 52.00950274432703,
+          "scene": {
+            "width": 1267.7316293929714,
+            "height": 2548.4656344720242
+          },
+          "actorScale": 1.3,
+          "objectiveHud": null
+        },
+        "actors": [
+          {
+            "id": "A:0:CN-1C000003",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": -2.5229261791120705,
+              "y": 3.773223139872291
+            },
+            "x": 201.86581469648567,
+            "y": 332.00950274432705,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "A:1:CN-0505936A0CBB4E59",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": 2.1645738208879295,
+              "y": 8.460723139872291
+            },
+            "x": 201.86581469648567,
+            "y": 632.009502744327,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "A:2:CN-25F931CE393D474E",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": 6.852073820887929,
+              "y": 13.148223139872291
+            },
+            "x": 201.86581469648567,
+            "y": 932.009502744327,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "A:3:CN-23EB4B19986D4818",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": 7.988915926151087,
+              "y": 12.011381034609133
+            },
+            "x": 417.8658146964857,
+            "y": 932.009502744327,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": 11.539573820887927,
+              "y": 17.83572313987229
+            },
+            "x": 201.86581469648567,
+            "y": 1232.009502744327,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "B:0:CN-1C000004",
+            "team": "ENEMY",
+            "active": true,
+            "grid": {
+              "x": 2.0244422419405605,
+              "y": -0.7741452811803402
+            },
+            "x": 1065.8658146964856,
+            "y": 332.00950274432705,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "B:1:CN-0505936A0CBB4E59",
+            "team": "ENEMY",
+            "active": true,
+            "grid": {
+              "x": 6.7119422419405605,
+              "y": 3.91335471881966
+            },
+            "x": 1065.8658146964856,
+            "y": 632.009502744327,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "B:2:CN-25F931CE393D474E",
+            "team": "ENEMY",
+            "active": true,
+            "grid": {
+              "x": 11.39944224194056,
+              "y": 8.60085471881966
+            },
+            "x": 1065.8658146964856,
+            "y": 932.009502744327,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "B:3:CN-23EB4B19986D4818",
+            "team": "ENEMY",
+            "active": true,
+            "grid": {
+              "x": 10.262600136677403,
+              "y": 9.737696824082818
+            },
+            "x": 849.8658146964857,
+            "y": 932.009502744327,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "B:4:CN-519C181C18DF4B8E",
+            "team": "ENEMY",
+            "active": true,
+            "grid": {
+              "x": 16.08694224194056,
+              "y": 13.288354718819658
+            },
+            "x": 1065.8658146964856,
+            "y": 1232.009502744327,
+            "scale": 0.65,
+            "depth": 0.5
+          }
+        ],
+        "support": null,
+        "objective": null
+      },
+      "pets": [
+        {
+          "side": "A",
+          "petCode": "PET-GUSUDAENG",
+          "layoutSize": 182.0332596051446,
+          "displaySize": 145.62660768411567,
+          "applied": false,
+          "restored": false,
+          "effectActive": false
+        },
+        {
+          "side": "B",
+          "petCode": "PET-HEADSET-SHIBA",
+          "layoutSize": 182.0332596051446,
+          "displaySize": 145.62660768411567,
+          "applied": false,
+          "restored": false,
+          "effectActive": false
+        }
+      ],
+      "petBoxes": [
+        {
+          "side": "A",
+          "width": 145.62660768411567,
+          "height": 145.62660768411567,
+          "body": {
+            "minX": 72.92590725806454,
+            "minY": 401.2876764112903,
+            "maxX": 117.72590725806452,
+            "maxY": 446.0876764112903,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "name": {
+            "minX": 68.16698632778662,
+            "minY": 449.77930947580643,
+            "maxX": 122.48482818834245,
+            "maxY": 465.77638608870967,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          }
+        },
+        {
+          "side": "B",
+          "width": 145.62660768411567,
+          "height": 145.62660768411567,
+          "body": {
+            "minX": 272.2740927419355,
+            "minY": 401.2876764112903,
+            "maxX": 317.07409274193543,
+            "maxY": 446.0876764112903,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          },
+          "name": {
+            "minX": 262.45609642670996,
+            "minY": 449.77930947580643,
+            "maxX": 326.89208905716094,
+            "maxY": 465.77638608870967,
+            "matrix": {
+              "array": null,
+              "a": 0.3076360887096774,
+              "b": 0,
+              "c": 0,
+              "d": 0.3076360887096774,
+              "tx": 294.67409274193545,
+              "ty": 449.77930947580643
+            }
+          }
+        }
+      ],
+      "halos": [
+        {
+          "id": "A:0:CN-1C000003",
+          "visible": false
+        },
+        {
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "visible": false
+        },
+        {
+          "id": "A:2:CN-25F931CE393D474E",
+          "visible": false
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "visible": false
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "visible": false
+        },
+        {
+          "id": "B:0:CN-1C000004",
+          "visible": false
+        },
+        {
+          "id": "B:1:CN-0505936A0CBB4E59",
+          "visible": false
+        },
+        {
+          "id": "B:2:CN-25F931CE393D474E",
+          "visible": false
+        },
+        {
+          "id": "B:3:CN-23EB4B19986D4818",
+          "visible": false
+        },
+        {
+          "id": "B:4:CN-519C181C18DF4B8E",
+          "visible": false
+        },
+        {
+          "id": "A:MERC:V-055",
+          "visible": false
+        },
+        {
+          "id": "B:MERC:V-996",
+          "visible": false
+        }
+      ],
+      "canvas": 1,
+      "overflow": false,
+      "state": {
+        "damaged": {
+          "hp": 45,
+          "ratio": 0.45,
+          "shieldRatio": 0.25
+        },
+        "dead": {
+          "state": "DEAD",
+          "visible": false
+        },
+        "revived": {
+          "state": "IDLE",
+          "hp": 80
+        },
+        "longName": {
+          "text": "아주아주…",
+          "width": 300
+        }
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "PVE",
+      "huds": [
+        {
+          "id": "A:0:CN-1C000003",
+          "team": "ALLY",
+          "name": "나무늘봉순",
+          "shown": "나무늘봉순",
+          "frame": {
+            "minX": 15.558333333333325,
+            "minY": 55.493118055555556,
+            "maxX": 81.64166666666667,
+            "maxY": 70.9125625,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "text": {
+            "minX": 33.36985677083332,
+            "minY": 55.23979861111111,
+            "maxX": 63.830143229166666,
+            "maxY": 63.61035416666667,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "fill": {
+            "minX": 20.85016276041666,
+            "minY": 64.66143637387387,
+            "maxX": 77.89866536458332,
+            "maxY": 68.66215709459459,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "team": "ALLY",
+          "name": "구수댕",
+          "shown": "구수댕",
+          "frame": {
+            "minX": 15.558333333333325,
+            "minY": 157.15978472222224,
+            "maxX": 81.64166666666667,
+            "maxY": 172.5792291666667,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "text": {
+            "minX": 39.46191406249999,
+            "minY": 156.9064652777778,
+            "maxX": 57.738085937499996,
+            "maxY": 165.27702083333335,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "fill": {
+            "minX": 20.85016276041666,
+            "minY": 166.32810304054055,
+            "maxX": 77.89866536458332,
+            "maxY": 170.32882376126128,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:2:CN-25F931CE393D474E",
+          "team": "ALLY",
+          "name": "딤우스",
+          "shown": "딤우스",
+          "frame": {
+            "minX": 15.558333333333325,
+            "minY": 258.8264513888889,
+            "maxX": 81.64166666666667,
+            "maxY": 274.24589583333335,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "text": {
+            "minX": 39.46191406249999,
+            "minY": 258.57313194444447,
+            "maxX": 57.738085937499996,
+            "maxY": 266.94368750000007,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "fill": {
+            "minX": 20.85016276041666,
+            "minY": 267.99476970720724,
+            "maxX": 77.89866536458332,
+            "maxY": 271.99549042792796,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "team": "ALLY",
+          "name": "Lionel Messi",
+          "shown": "Lionel M…",
+          "frame": {
+            "minX": 88.75833333333333,
+            "minY": 258.8264513888889,
+            "maxX": 154.84166666666667,
+            "maxY": 274.24589583333335,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "text": {
+            "minX": 105.27228298611111,
+            "minY": 258.57313194444447,
+            "maxX": 138.3277170138889,
+            "maxY": 266.94368750000007,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "fill": {
+            "minX": 94.05016276041667,
+            "minY": 267.99476970720724,
+            "maxX": 151.09866536458333,
+            "maxY": 271.99549042792796,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "team": "ALLY",
+          "name": "토마토",
+          "shown": "토마토",
+          "frame": {
+            "minX": 15.558333333333325,
+            "minY": 360.49311805555556,
+            "maxX": 81.64166666666667,
+            "maxY": 375.9125625,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "text": {
+            "minX": 39.42405381944444,
+            "minY": 360.2397986111111,
+            "maxX": 57.77594618055555,
+            "maxY": 368.6103541666667,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "fill": {
+            "minX": 20.85016276041666,
+            "minY": 369.66143637387387,
+            "maxX": 77.89866536458332,
+            "maxY": 373.6621570945946,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "B:0:MONSTER:1",
+          "team": "ENEMY",
+          "name": "슬라임",
+          "shown": "슬라임",
+          "frame": {
+            "minX": 235.1583333333334,
+            "minY": 151.76297916666667,
+            "maxX": 301.24166666666673,
+            "maxY": 167.18242361111112,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "text": {
+            "minX": 259.0619140625,
+            "minY": 151.50965972222224,
+            "maxX": 277.33808593750007,
+            "maxY": 159.88021527777778,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "fill": {
+            "minX": 240.4501627604167,
+            "minY": 160.93129748498498,
+            "maxX": 281.5250846354167,
+            "maxY": 164.9320182057057,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 72,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        },
+        {
+          "id": "A:MERC:V-055",
+          "team": "ALLY",
+          "name": "베르칸",
+          "shown": "베르칸",
+          "frame": {
+            "minX": 88.75833333333333,
+            "minY": 55.493118055555556,
+            "maxX": 154.84166666666667,
+            "maxY": 70.9125625,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "text": {
+            "minX": 112.66191406249999,
+            "minY": 55.23979861111111,
+            "maxX": 130.9380859375,
+            "maxY": 63.61035416666667,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "fill": {
+            "minX": 94.05016276041667,
+            "minY": 64.66143637387387,
+            "maxX": 151.09866536458333,
+            "maxY": 68.66215709459459,
+            "matrix": {
+              "array": null,
+              "a": 1,
+              "b": 0,
+              "c": 0,
+              "d": 1,
+              "tx": 0,
+              "ty": 0
+            }
+          },
+          "hp": 100,
+          "width": 300,
+          "height": 70,
+          "frameTexture": 1024,
+          "fillTexture": 512,
+          "mirrored": false
+        }
+      ],
+      "formation": {
+        "version": "OCCUPIED_GRID_V1",
+        "layoutVersion": "UNIFORM_LATTICE_V2",
+        "mode": "wide",
+        "scenario": "PVE",
+        "mobile": true,
+        "grid": {
+          "kind": "OCCUPIED_STATIONS",
+          "mercenariesPerTeam": 1
+        },
+        "tiles": [
+          {
+            "id": "ALLY:cards:0",
+            "x": 143.40983606557376,
+            "y": 386.5701844262295,
+            "kind": "cards",
+            "style": "icon",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp"
+          },
+          {
+            "id": "ALLY:cards:1",
+            "x": 143.40983606557376,
+            "y": 686.5701844262295,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ALLY:cards:2",
+            "x": 143.40983606557376,
+            "y": 986.5701844262295,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ALLY:cards:3",
+            "x": 359.40983606557376,
+            "y": 986.5701844262295,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ALLY:cards:4",
+            "x": 143.40983606557376,
+            "y": 1286.5701844262294,
+            "kind": "cards",
+            "style": "ally",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp"
+          },
+          {
+            "id": "ENEMY:cards:0",
+            "x": 791.4098360655738,
+            "y": 686.5701844262295,
+            "kind": "cards",
+            "style": "enemy",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp"
+          },
+          {
+            "id": "ALLY:mercenaries:0",
+            "x": 359.40983606557376,
+            "y": 386.5701844262295,
+            "kind": "mercenaries",
+            "style": "mercenary-sss",
+            "asset": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp"
+          }
+        ],
+        "floor": {
+          "left": 48.40983606557376,
+          "right": 886.4098360655738,
+          "top": 354.5701844262295,
+          "bottom": 1318.5701844262294,
+          "width": 838,
+          "height": 963.9999999999999
+        },
+        "mercenaries": [
+          {
+            "code": "V-055",
+            "team": "ALLY",
+            "index": 0,
+            "x": 359.40983606557376,
+            "y": 386.5701844262295,
+            "scale": 0.65
+          }
+        ],
+        "rootScale": 0.3388888888888889,
+        "scene": {
+          "width": 1150.8196721311474,
+          "height": 2313.4426229508194
+        },
+        "viewportFit": {
+          "scale": 0.3388888888888889,
+          "available": {
+            "left": 12,
+            "top": 16,
+            "width": 366,
+            "height": 460.453125
+          },
+          "offsetX": 35.40983606557377,
+          "offsetY": 106.57018442622949,
+          "scene": {
+            "width": 1150.8196721311474,
+            "height": 2313.4426229508194
+          },
+          "actorScale": 1.3,
+          "objectiveHud": null
+        },
+        "actors": [
+          {
+            "id": "A:0:CN-1C000003",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": -1.9780785732581974,
+              "y": 4.933396836577869
+            },
+            "x": 143.40983606557376,
+            "y": 386.5701844262295,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "A:1:CN-0505936A0CBB4E59",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": 2.7094214267418026,
+              "y": 9.62089683657787
+            },
+            "x": 143.40983606557376,
+            "y": 686.5701844262295,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "A:2:CN-25F931CE393D474E",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": 7.396921426741803,
+              "y": 14.30839683657787
+            },
+            "x": 143.40983606557376,
+            "y": 986.5701844262295,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "A:3:CN-23EB4B19986D4818",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": 8.533763532004961,
+              "y": 13.17155473131471
+            },
+            "x": 359.40983606557376,
+            "y": 986.5701844262295,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "team": "ALLY",
+            "active": true,
+            "grid": {
+              "x": 12.084421426741802,
+              "y": 18.995896836577867
+            },
+            "x": 143.40983606557376,
+            "y": 1286.5701844262294,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "ENEMY-01",
+            "team": "ENEMY",
+            "active": false,
+            "grid": {
+              "x": 6.119947742531277,
+              "y": 6.210370520788395
+            },
+            "x": 791.4098360655738,
+            "y": 686.5701844262295,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "B:0:MONSTER:1",
+            "team": "ENEMY",
+            "active": true,
+            "grid": {
+              "x": 6.119947742531277,
+              "y": 6.210370520788395
+            },
+            "x": 791.4098360655738,
+            "y": 686.5701844262295,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "ENEMY-03",
+            "team": "ENEMY",
+            "active": false,
+            "grid": {
+              "x": 6.119947742531277,
+              "y": 6.210370520788395
+            },
+            "x": 791.4098360655738,
+            "y": 686.5701844262295,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "ENEMY-04",
+            "team": "ENEMY",
+            "active": false,
+            "grid": {
+              "x": 6.119947742531277,
+              "y": 6.210370520788395
+            },
+            "x": 791.4098360655738,
+            "y": 686.5701844262295,
+            "scale": 0.65,
+            "depth": 0.5
+          },
+          {
+            "id": "ENEMY-05",
+            "team": "ENEMY",
+            "active": false,
+            "grid": {
+              "x": 6.119947742531277,
+              "y": 6.210370520788395
+            },
+            "x": 791.4098360655738,
+            "y": 686.5701844262295,
+            "scale": 0.65,
+            "depth": 0.5
+          }
+        ],
+        "support": null,
+        "objective": null
+      },
+      "pets": [
+        {
+          "side": "A",
+          "petCode": "PET-GUSUDAENG",
+          "layoutSize": 165.24590163934423,
+          "displaySize": 132.1967213114754,
+          "applied": false,
+          "restored": false,
+          "effectActive": false
+        }
+      ],
+      "petBoxes": [
+        {
+          "side": "A",
+          "width": 132.1967213114754,
+          "height": 132.1967213114754,
+          "body": {
+            "minX": 15.599999999999994,
+            "minY": 458.1876736111111,
+            "maxX": 60.39999999999999,
+            "maxY": 502.9876736111111,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          },
+          "name": {
+            "minX": 10.781106440226228,
+            "minY": 507.0543402777778,
+            "maxX": 65.21889355977376,
+            "maxY": 522.9821180555556,
+            "matrix": {
+              "array": null,
+              "a": 0.3388888888888889,
+              "b": 0,
+              "c": 0,
+              "d": 0.3388888888888889,
+              "tx": 37.99999999999999,
+              "ty": 507.0543402777778
+            }
+          }
+        }
+      ],
+      "halos": [
+        {
+          "id": "A:0:CN-1C000003",
+          "visible": false
+        },
+        {
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "visible": false
+        },
+        {
+          "id": "A:2:CN-25F931CE393D474E",
+          "visible": false
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "visible": false
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "visible": false
+        },
+        {
+          "id": "ENEMY-01",
+          "visible": false
+        },
+        {
+          "id": "B:0:MONSTER:1",
+          "visible": false
+        },
+        {
+          "id": "ENEMY-03",
+          "visible": false
+        },
+        {
+          "id": "ENEMY-04",
+          "visible": false
+        },
+        {
+          "id": "ENEMY-05",
+          "visible": false
+        },
+        {
+          "id": "A:MERC:V-055",
+          "visible": false
+        }
+      ],
+      "canvas": 1,
+      "overflow": false,
+      "state": {
+        "damaged": {
+          "hp": 45,
+          "ratio": 0.45,
+          "shieldRatio": 0.25
+        },
+        "dead": {
+          "state": "DEAD",
+          "visible": false
+        },
+        "revived": {
+          "state": "IDLE",
+          "hp": 80
+        },
+        "longName": {
+          "text": "아주아주…",
+          "width": 300
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "missing": []
+}
