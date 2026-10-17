@@ -56,4 +56,14 @@
 
 ## 배포
 
-관련 검사 통과 후 범위 배포를 사용한다. 배포 완료와 운영 OFF/개방 조건 충족은 아래에 별도로 기록한다.
+2026-10-17 10:14 KST 운영 확인 완료. 관련 회귀 44개, worker 검사, 출시 검증을 통과한 후 `npm run deploy:production -- --scoped`로 배포했다. Hyperdrive 쿼리 캐시 비활성도 확인했다.
+
+- 운영 코드: `a2d14c0bbac418a1b18ced51cc26ac5ff3d69595`.
+- Pages 배포: `8b4f65c0-0171-4189-bee6-d43065702add`, https://8b4f65c0.cnine-card.pages.dev.
+- API Worker: `512e3f2c-4aa0-4562-b786-dd8907c6f67e`. Scheduler Worker: `376ab220-7836-4599-993e-625c356b6704`.
+- 운영 설정 r5: `mode: OFF`, `releaseEnabled: true`, `userOpeningEnabled: false`, `readiness.ready: true`, 차단 사유 없음. 운영 ON 변경이나 팩 개봉은 수행하지 않았다.
+- 실제 운영 도감 9종의 원화·SD 18경로와 신규 스킬 FX 6경로가 모두 HTTP 200이다. 할로윈 SS 7종의 전투력 216,000, 배정 기술, 편성 가능 메타데이터를 확인했다.
+- 라이브 도감 1440px / 390px에서 원화·SD 전환, 전투력과 월하 화접 표시를 확인했다. 브라우저 오류와 가로 넘침 없음.
+- 운영 확인 원본: `docs/qa/halloween-owner-ready-20261017/production-report.json`, `production-browser-report.json`, `production-codex-1440.png`, `production-codex-390.png`.
+
+이후 개방은 사용자가 **OWNER CMS → 용병 관리 → 할로윈 SS팩 → 판매 상태 ON → 설정 저장**으로 수행한다. 위 운영 확인 기록만 추가한 문서 커밋은 재배포하지 않는다.

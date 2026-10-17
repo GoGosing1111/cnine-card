@@ -1,0 +1,327 @@
+{
+  "checkedAt": "2026-10-17T01:14:08.284Z",
+  "deployment": {
+    "id": "8b4f65c0-0171-4189-bee6-d43065702add",
+    "url": "https://8b4f65c0.cnine-card.pages.dev",
+    "commit": "a2d14c0bbac418a1b18ced51cc26ac5ff3d69595"
+  },
+  "mode": "OFF",
+  "revision": 5,
+  "releaseEnabled": true,
+  "userOpeningEnabled": false,
+  "readiness": {
+    "ready": true,
+    "blockers": []
+  },
+  "settings": {
+    "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+    "mode": "OFF",
+    "prices": {
+      "single": 1000000000,
+      "ten": 10000000000
+    },
+    "cardRatesPpm": {
+      "V-980": 15000,
+      "V-981": 15000,
+      "V-982": 15000,
+      "V-983": 15000,
+      "V-984": 15000,
+      "V-985": 15000,
+      "V-986": 15000,
+      "V-999": 7500,
+      "V-989": 100
+    },
+    "missRatePpm": 800000,
+    "stockLimits": {
+      "V-980": 5,
+      "V-981": 5,
+      "V-982": 5,
+      "V-983": 5,
+      "V-984": 5,
+      "V-985": 5,
+      "V-986": 5,
+      "V-999": null,
+      "V-989": 3
+    },
+    "normalRankRatesPpm": {
+      "C": 100000,
+      "B": 30000,
+      "A": 30000,
+      "S": 30000,
+      "SS": 5000,
+      "SSS": 5000
+    },
+    "normalSssRatePpm": 887400
+  },
+  "stock": [
+    {
+      "code": "V-980",
+      "limit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-981",
+      "limit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-982",
+      "limit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-983",
+      "limit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-984",
+      "limit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-985",
+      "limit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-986",
+      "limit": 5,
+      "issued": 0,
+      "remaining": 5,
+      "prepared": true,
+      "scope": "SEASONAL"
+    },
+    {
+      "code": "V-999",
+      "limit": 7,
+      "issued": 6,
+      "remaining": 1,
+      "prepared": true,
+      "scope": "EXISTING_SHARED"
+    },
+    {
+      "code": "V-989",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    }
+  ],
+  "cards": [
+    {
+      "code": "V-980",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "basePower": 216000,
+      "skills": [
+        "카니발 브레이크"
+      ],
+      "sourceArt": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/source-art.png",
+      "battleSprite": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd.webp"
+    },
+    {
+      "code": "V-981",
+      "name": "조은",
+      "rank": "SS",
+      "basePower": 216000,
+      "skills": [
+        "유령 탄막"
+      ],
+      "sourceArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/joeun-halloween-new-pose-v3.png",
+      "battleSprite": "assets/ui/project-v/mercenaries/halloween-battle-20261017/joeun/sd.png"
+    },
+    {
+      "code": "V-982",
+      "name": "하이희야",
+      "rank": "SS",
+      "basePower": 216000,
+      "skills": [
+        "잭오랜턴 행진"
+      ],
+      "sourceArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/hi-heeya-halloween-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/mercenaries/halloween-battle-20261017/hi-heeya/sd.png"
+    },
+    {
+      "code": "V-983",
+      "name": "오리꿍",
+      "rank": "SS",
+      "basePower": 216000,
+      "skills": [
+        "호박 유령서"
+      ],
+      "sourceArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/orikkung-halloween-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/mercenaries/halloween-battle-20261017/orikkung/sd.png"
+    },
+    {
+      "code": "V-984",
+      "name": "디임",
+      "rank": "SS",
+      "basePower": 216000,
+      "skills": [
+        "성야의 방패"
+      ],
+      "sourceArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/diim-halloween-new-pose-v3.png",
+      "battleSprite": "assets/ui/project-v/mercenaries/halloween-battle-20261017/diim/sd.png"
+    },
+    {
+      "code": "V-985",
+      "name": "아윤",
+      "rank": "SS",
+      "basePower": 216000,
+      "skills": [
+        "박쥐 별무리"
+      ],
+      "sourceArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/ayoon-halloween-source-art-v1.png",
+      "battleSprite": "assets/ui/project-v/mercenaries/halloween-battle-20261017/ayoon/sd.png"
+    },
+    {
+      "code": "V-986",
+      "name": "남수댕",
+      "rank": "SS",
+      "basePower": 216000,
+      "skills": [
+        "월하 화접"
+      ],
+      "sourceArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/halloween-kimono-ss-source-art-v4-proportions.png",
+      "battleSprite": "assets/ui/project-v/mercenaries/halloween-battle-20261017/kimono/sd.png"
+    },
+    {
+      "code": "V-999",
+      "name": "헬리오스",
+      "rank": "SSS",
+      "basePower": null,
+      "skills": [],
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+      "battleSprite": "assets/ui/project-v/mercenaries/limited-20261009/helios-sd.png"
+    },
+    {
+      "code": "V-989",
+      "name": "천룡검황 진무",
+      "rank": "SSS",
+      "basePower": 1347840,
+      "skills": [
+        "천룡강림"
+      ],
+      "sourceArt": "assets/ui/project-v/mercenaries/jinmu-20261012/source-art.png",
+      "battleSprite": "assets/ui/project-v/mercenaries/jinmu-20261012/idle.png"
+    }
+  ],
+  "resources": [
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/source-art.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd.webp",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-approved-20261014/joeun-halloween-new-pose-v3.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-battle-20261017/joeun/sd.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-approved-20261014/hi-heeya-halloween-source-art-v1.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-battle-20261017/hi-heeya/sd.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-approved-20261014/orikkung-halloween-source-art-v1.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-battle-20261017/orikkung/sd.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-approved-20261014/diim-halloween-new-pose-v3.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-battle-20261017/diim/sd.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-approved-20261014/ayoon-halloween-source-art-v1.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-battle-20261017/ayoon/sd.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-approved-20261014/halloween-kimono-ss-source-art-v4-proportions.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/halloween-battle-20261017/kimono/sd.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/approved-20261009/solar-sword-sss-limited-source-art.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/limited-20261009/helios-sd.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/jinmu-20261012/source-art.png",
+      "status": 200,
+      "bytes": null
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/jinmu-20261012/idle.png",
+      "status": 200,
+      "bytes": null
+    }
+  ],
+  "checks": {
+    "cmsModeSelector": true,
+    "codexClientVersion": true,
+    "codexModel": true,
+    "noProductionOpeningPerformed": true
+  }
+}

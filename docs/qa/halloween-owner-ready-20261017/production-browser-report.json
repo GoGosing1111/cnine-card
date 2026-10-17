@@ -1,0 +1,51 @@
+{
+  "checkedAt": "2026-10-17T01:14:32.194Z",
+  "reports": [
+    {
+      "width": 1440,
+      "errors": [],
+      "basePower": 216000,
+      "skill": "월하 화접",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "errors": [],
+      "basePower": 216000,
+      "skill": "월하 화접",
+      "overflow": false
+    }
+  ],
+  "effects": [
+    {
+      "code": "V-981",
+      "url": "/assets/ui/project-v/mercenaries/halloween-battle-20261017/joeun/skill-fx.png",
+      "status": 200
+    },
+    {
+      "code": "V-982",
+      "url": "/assets/ui/project-v/mercenaries/halloween-battle-20261017/hi-heeya/skill-fx.png",
+      "status": 200
+    },
+    {
+      "code": "V-983",
+      "url": "/assets/ui/project-v/mercenaries/halloween-battle-20261017/orikkung/skill-fx.png",
+      "status": 200
+    },
+    {
+      "code": "V-984",
+      "url": "/assets/ui/project-v/mercenaries/halloween-battle-20261017/diim/skill-fx.png",
+      "status": 200
+    },
+    {
+      "code": "V-985",
+      "url": "/assets/ui/project-v/mercenaries/halloween-battle-20261017/ayoon/skill-fx.png",
+      "status": 200
+    },
+    {
+      "code": "V-986",
+      "url": "/assets/ui/project-v/mercenaries/halloween-battle-20261017/kimono/skill-fx.png",
+      "status": 200
+    }
+  ]
+}
