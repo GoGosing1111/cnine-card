@@ -1,0 +1,66 @@
+{
+  "checkedAt": "2026-10-17T00:11:25.130Z",
+  "sourceCommit": "3e9daefe9ae4cd597f566f32ae89c49edeae8f6b",
+  "checks": [
+    {
+      "file": "defense/index.html",
+      "url": "https://cnine-card.pages.dev/defense/?revision=20261017-defense-v3-merc1",
+      "status": 200,
+      "bytes": 11959,
+      "expectedSha256": "8a0072cd45235932c0e34135499c2163b154a1e1b6991fd05e298405025dd7a7",
+      "actualSha256": "8a0072cd45235932c0e34135499c2163b154a1e1b6991fd05e298405025dd7a7",
+      "matches": true
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/coop-defense-v1/defense.bundle.js?revision=20261017-defense-v3-merc1",
+      "status": 200,
+      "bytes": 2103101,
+      "expectedSha256": "e2356c8afe4c11cff3e0db0b6eed77bb5c9c96a0a0981241cecaffeed59e89dd",
+      "actualSha256": "e2356c8afe4c11cff3e0db0b6eed77bb5c9c96a0a0981241cecaffeed59e89dd",
+      "matches": true
+    },
+    {
+      "file": "preview/coop-defense-v1/image-skin.css",
+      "url": "https://cnine-card.pages.dev/preview/coop-defense-v1/image-skin.css?revision=20261017-defense-v3-merc1",
+      "status": 200,
+      "bytes": 23821,
+      "expectedSha256": "f0325ba306cd6b3a6eb61d086ad06c9003d27fdbb52ec404bc5f6f8922210f3d",
+      "actualSha256": "f0325ba306cd6b3a6eb61d086ad06c9003d27fdbb52ec404bc5f6f8922210f3d",
+      "matches": true
+    },
+    {
+      "file": "preview/coop-defense-v1/asset-catalog.json",
+      "url": "https://cnine-card.pages.dev/preview/coop-defense-v1/asset-catalog.json?revision=20261017-defense-v3-merc1",
+      "status": 200,
+      "bytes": 16523,
+      "expectedSha256": "35dfc5530c7753f2b07d67036ceef7643283401e81a781ad6ab9d6d6c63aee80",
+      "actualSha256": "35dfc5530c7753f2b07d67036ceef7643283401e81a781ad6ab9d6d6c63aee80",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+      "url": "https://cnine-card.pages.dev/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp?revision=20261017-defense-v3-merc1",
+      "status": 200,
+      "bytes": 111066,
+      "expectedSha256": "bb9f1837085b520a1fc5984947396c1063e3cea55353a67d37354d1760603363",
+      "actualSha256": "bb9f1837085b520a1fc5984947396c1063e3cea55353a67d37354d1760603363",
+      "matches": true
+    }
+  ],
+  "policy": {
+    "before": {
+      "mode": "OFF",
+      "revision": 9,
+      "testUserCount": 5,
+      "rewardsEnabled": false
+    },
+    "after": {
+      "mode": "OFF",
+      "revision": 9,
+      "testUserCount": 5,
+      "rewardsEnabled": false
+    },
+    "unchanged": true
+  }
+}
