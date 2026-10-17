@@ -34,12 +34,12 @@ try{
   const context=await browser.newContext({viewport:{width,height:width<600?844:1050},serviceWorkers:'block'}),page=await context.newPage(),errors=[],failed=[];
   await context.route('**/*',route=>new URL(route.request().url()).origin===base?route.continue():route.abort());
   page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400&&/\.(png|webp|mp4|mjs|css)(\?|$)/.test(r.url()))failed.push(r.url());});
-  f.settings.mode='OFF';f.settings.cardRatesPpm=Object.fromEntries(Object.keys(f.settings.cardRatesPpm).map(code=>[code,code==='V-999'?100:code==='V-989'?50:10000]));f.settings.normalSssRatePpm=887400;await f.configure(7);
+  f.settings.mode='OFF';f.settings.cardRatesPpm=Object.fromEntries(Object.keys(f.settings.cardRatesPpm).map(code=>[code,['V-999','V-996'].includes(code)?100:code==='V-989'?50:10000]));f.settings.normalSssRatePpm=887400;await f.configure(7);
   await page.goto(base+'/cms');await page.locator('[data-halloween-mode]').waitFor();await page.locator('[data-halloween-mode]').selectOption('ON');assert.match(await page.locator('[data-halloween-draft]').innerText(),/미저장 선택: ON/);assert.match(await page.locator('.mlc-hero b').innerText(),/OFF/);
   await page.locator('[data-halloween-save]').click();await page.waitForFunction(()=>document.querySelector('[data-halloween-notice]')?.textContent.includes('합계'));assert.equal((await f.state()).settings.mode,'OFF');
-  await page.locator('[data-halloween-remainder]').click();assert.equal(await page.locator('[data-halloween-fallback]').inputValue(),'92.985');await page.locator('[data-halloween-save]').click();await page.waitForFunction(()=>document.querySelector('[data-halloween-notice]')?.textContent.includes('저장 완료 · 판매 상태 ON'));assert.equal((await f.state()).settings.mode,'ON');assert.equal((await f.state()).readiness.ready,true);
+  await page.locator('[data-halloween-remainder]').click();assert.equal(await page.locator('[data-halloween-fallback]').inputValue(),'92.975');await page.locator('[data-halloween-save]').click();await page.waitForFunction(()=>document.querySelector('[data-halloween-notice]')?.textContent.includes('저장 완료 · 판매 상태 ON'));assert.equal((await f.state()).settings.mode,'ON');assert.equal((await f.state()).readiness.ready,true);
   await page.locator('[data-halloween-mode]').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'cms-'+width+'.png')});
-  f.settings.mode='ON';f.settings.normalSssRatePpm=929850;f.settings.normalRankRatesPpm={C:0,B:0,A:0,S:0,SS:500000,SSS:400000};f.settings.missRatePpm=100000;await f.configure(10);
+  f.settings.mode='ON';f.settings.normalSssRatePpm=929750;f.settings.normalRankRatesPpm={C:0,B:0,A:0,S:0,SS:500000,SSS:400000};f.settings.missRatePpm=100000;await f.configure(10);
   // Reproduce the live global lockout: Namsudaeng is sold out, other cards remain.
   await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=10 WHERE code='V-986'");
   assert.equal((await f.state()).userOpeningEnabled,true);
@@ -77,7 +77,7 @@ try{
   await page.waitForFunction(()=>document.querySelector('.hwp-result')&&localStorage.getItem('cnine.halloween-pack.pending:1')===null);
   assert.equal(posts,beforeReload+1);assert.equal((await f.pg.query('SELECT status FROM joint_operations_v1 WHERE request_id=$1',[missingId])).rows[0].status,'COMPLETED');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1||document.querySelector('.hwp-dialog').scrollWidth>document.querySelector('.hwp-dialog').clientWidth+1),false);assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
-  reports.push({width,partialStockKeepsOpeningEnabled:true,cancelledRequestClearedWithoutPost:true,completedRequestRecoveredWithoutPost:true,unknownRequestRequiresExplicitRecovery:true,cmsIncompleteOnBlocked:true,cmsRemainder:'92.985',cmsOwnerOnSavedInIsolatedDatabase:true,confirmationCancelNoPurchase:true,ssThenSssVideo:true,noPurchaseDuringVideo:true,stopAfterCurrentBatch:true,ssNaturalEndResumes:true,completedSingleDraws:2,errors,failed});await context.close();
+  reports.push({width,partialStockKeepsOpeningEnabled:true,cancelledRequestClearedWithoutPost:true,completedRequestRecoveredWithoutPost:true,unknownRequestRequiresExplicitRecovery:true,cmsIncompleteOnBlocked:true,cmsRemainder:'92.975',cmsOwnerOnSavedInIsolatedDatabase:true,confirmationCancelNoPurchase:true,ssThenSssVideo:true,noPurchaseDuringVideo:true,stopAfterCurrentBatch:true,ssNaturalEndResumes:true,completedSingleDraws:2,errors,failed});await context.close();
  }
  fs.writeFileSync(path.join(out,'browser-report.json'),JSON.stringify(reports,null,2)+'\n');console.log(JSON.stringify(reports));
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));for(const fn of cleanup)await fn();}

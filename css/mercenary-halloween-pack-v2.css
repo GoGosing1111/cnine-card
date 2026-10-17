@@ -81,8 +81,8 @@
 
 /* The SSS collection has its own illuminated gallery beneath the seasonal seven. */
 .hwp-legend-collection{margin-top:25px;padding-top:22px;border-top:1px solid #9f78ba66;background:radial-gradient(ellipse at 50% 70%,#7c4ea31a,transparent 70%)}
-.hwp-legend-collection .hwp-section-heading h3{color:#ecd3ff}.hwp-sss-roster{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:880px;margin:auto}
-.hwp-sss-roster .hwp-portrait{display:grid;grid-template-columns:minmax(110px,190px) 1fr;align-items:center;gap:12px;text-align:left}
+.hwp-legend-collection .hwp-section-heading h3{color:#ecd3ff}.hwp-sss-roster{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;max-width:880px;margin:auto}
+.hwp-sss-roster .hwp-portrait{display:grid;grid-template-columns:1fr;align-items:start;gap:12px;text-align:center;width:100%;max-width:240px;margin:auto}
 .hwp-sss-roster .hwp-art-frame{filter:drop-shadow(0 0 16px #bd83ff55)}.hwp-sss-roster figcaption em{font:700 11px/1.5 'Barlow Condensed',sans-serif;letter-spacing:.14em;color:#d7a9f8;font-style:normal}
 .hwp-sss-roster .hwp-portrait strong{white-space:normal;font-size:18px;margin:7px 0;color:#ffe7b9}.hwp-sss-roster .hwp-portrait small{font-size:12px;color:#ffdc9e;line-height:1.8}.hwp-sss-roster .hwp-portrait .hwp-stock-note{font-size:10px;color:#bfaecb}
 .hwp-cms-group-title{color:#f1d4a4;font-size:16px;margin-top:26px}.halloween-cms [data-hwp-cms-rank=SSS]{grid-template-columns:repeat(2,minmax(0,1fr))}.halloween-cms [data-hwp-cms-rank=SSS] article{border-color:#8963a2}

@@ -16,7 +16,7 @@ test('two independent rate totals, exact effective odds, null drafts and old abs
  const draft=halloweenPackDraft();assert.equal(draft.mode,'OFF');assert.ok(Object.values(draft.normalRankRatesPpm).every(n=>n===null));assert.equal(draft.normalSssRatePpm,null);
  assert.equal(halloweenEffectivePercent(300000,200000),'6');assert.equal(halloweenEffectivePercent(0.0001,0.0001),'0.000000000000000001');assert.equal(halloweenEffectivePercent(null,0),null);
  const s=plan().settings;assert.doesNotThrow(()=>validateHalloweenPack(s));const over=structuredClone(s);over.normalSssRatePpm=800000.0001;assert.throws(()=>validateHalloweenPack(over),/합계/);
- const old={...draft,format:'MERCENARY_HALLOWEEN_SS_PACK_V1'};delete old.normalRankRatesPpm;delete old.normalSssRatePpm;for(const code of ['V-989','V-999']){delete old.cardRatesPpm[code];delete old.stockLimits[code];}old.stockLimits=Object.fromEntries(Object.keys(old.stockLimits).map(code=>[code,5]));old.cardRatesPpm['V-980']=200;old.prices.single=123;
+ const old={...draft,format:'MERCENARY_HALLOWEEN_SS_PACK_V1'};delete old.normalRankRatesPpm;delete old.normalSssRatePpm;for(const code of ['V-989','V-999','V-996']){delete old.cardRatesPpm[code];delete old.stockLimits[code];}old.stockLimits=Object.fromEntries(Object.keys(old.stockLimits).map(code=>[code,5]));old.cardRatesPpm['V-980']=200;old.prices.single=123;
  const read=readHalloweenPackSettings(old);assert.equal(read.cardRatesPpm['V-980'],null);assert.equal(read.prices.single,123);assert.equal(old.cardRatesPpm['V-980'],200);
  const row=halloweenPackCatalogRow();assert.equal(row.drawEnabled,false);assert.equal(row.ownerDrawEnabled,false);assert.equal(row.price,null);assert.ok(fs.existsSync(row.imageUrl));
 });

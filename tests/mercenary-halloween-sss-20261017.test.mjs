@@ -15,8 +15,8 @@ import {mercenaryLevelDraft,mercenaryGrowthDraft,MERCENARY_LEVEL_KEY} from '../s
 import {registerHalloweenSssStock,HALLOWEEN_SSS_STOCK_KEY} from '../scripts/ops/halloween-sss-stock-20261017.mjs';
 const only=(settings,code)=>{settings.cardRatesPpm=Object.fromEntries(Object.keys(settings.cardRatesPpm).map(c=>[c,c===code?1000000:0]));};
 
-test('V2 draft keeps existing conditional odds and adds two unset SSS targets with fixed stock policies',()=>{
- const old=halloweenPackDraft();old.format='MERCENARY_HALLOWEEN_SS_PACK_V2';for(const c of ['V-999','V-989']){delete old.cardRatesPpm[c];delete old.stockLimits[c];}old.stockLimits=Object.fromEntries(Object.keys(old.stockLimits).map(code=>[code,5]));old.cardRatesPpm['V-980']=200;old.normalRankRatesPpm.SSS=10000;
+test('V2 draft keeps existing conditional odds and adds three unset SSS targets with fixed stock policies',()=>{
+ const old=halloweenPackDraft();old.format='MERCENARY_HALLOWEEN_SS_PACK_V2';for(const c of ['V-999','V-989','V-996']){delete old.cardRatesPpm[c];delete old.stockLimits[c];}old.stockLimits=Object.fromEntries(Object.keys(old.stockLimits).map(code=>[code,5]));old.cardRatesPpm['V-980']=200;old.normalRankRatesPpm.SSS=10000;
  const upgraded=readHalloweenPackSettings(old);assert.equal(upgraded.cardRatesPpm['V-980'],200);assert.equal(upgraded.normalRankRatesPpm.SSS,10000);assert.equal(upgraded.cardRatesPpm['V-989'],null);assert.equal(upgraded.cardRatesPpm['V-999'],null);assert.equal(upgraded.stockLimits['V-999'],null);assert.equal(upgraded.stockLimits['V-989'],3);assert.equal(Object.keys(old.cardRatesPpm).length,7);
  for(const [c,n] of [['V-989',4],['V-999',7]]){const changed=structuredClone(upgraded);changed.stockLimits[c]=n;assert.throws(()=>validateHalloweenPack(changed));}
 });

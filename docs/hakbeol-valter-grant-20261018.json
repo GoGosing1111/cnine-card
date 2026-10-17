@@ -1,0 +1,93 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:hakbeol-valter-grant:20261018:v1",
+    "planHash": "b017097b38dc2d47cecb98eafa67681cc4a6885dc50cb6f7dc4961f67027e0ee",
+    "plan": {
+      "operationKey": "ops:hakbeol-valter-grant:20261018:v1",
+      "target": {
+        "id": 4627,
+        "nickname": "학벌"
+      },
+      "identity": {
+        "provider": "PLAYDK",
+        "providerUserId": "6da5a7a7"
+      },
+      "cards": [
+        {
+          "code": "V-996",
+          "name": "발테르",
+          "rank": "SSS",
+          "edition": "LIMITED",
+          "quantity": 1
+        }
+      ],
+      "addedCapacity": 1,
+      "expectedLimit": 11,
+      "authorization": "학벌 계정에 SSS 발테르 한장 차감하지말고 그냥 지급해",
+      "delivery": "DIRECT",
+      "permanent": true,
+      "cost": 0,
+      "remainingStockDeduction": 0
+    },
+    "actor": "CODEX_OPERATIONS",
+    "completedAt": "2026-10-17T17:51:13.174Z",
+    "grants": [
+      {
+        "userId": 4627,
+        "nickname": "학벌",
+        "code": "V-996",
+        "name": "발테르",
+        "rank": "SSS",
+        "edition": "LIMITED",
+        "quantity": 1,
+        "acquisitionId": "ops:hakbeol-valter-grant:20261018:v1:V-996",
+        "copiesBefore": 0,
+        "copiesAfter": 1,
+        "serial": 11
+      }
+    ],
+    "before": {
+      "limit": 11,
+      "issued": 10,
+      "remaining": 1
+    },
+    "after": {
+      "limit": 12,
+      "issued": 11,
+      "remaining": 1
+    },
+    "packMode": "OFF",
+    "preserved": {
+      "balances": true,
+      "inventory": true,
+      "loadout": true,
+      "growth": true,
+      "otherCards": true,
+      "dailyUsage": true,
+      "otherSettings": true
+    },
+    "adminLogIds": [
+      "47742",
+      "47743"
+    ]
+  },
+  "current": {
+    "limit": 12,
+    "issued": 11,
+    "remaining": 1
+  },
+  "holdings": [
+    {
+      "code": "V-996",
+      "copies": 1
+    }
+  ],
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "sourceSha256": "18462f4d1adbbb6c827327f1c82f0d81b192f524a42c09a047ec0577785f50ee",
+  "commit": "a34b4e9c69b64ddcb63159227809111873f468df",
+  "independentConnection": true,
+  "verifiedAt": "2026-10-17T17:51:22.367Z"
+}
