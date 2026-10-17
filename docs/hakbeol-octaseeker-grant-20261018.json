@@ -1,0 +1,33 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:hakbeol-octaseeker-chip:20261018:v1",
+    "actor": "SYSTEM_OPS",
+    "user": {
+      "id": 4627,
+      "nickname": "학벌"
+    },
+    "itemCode": "SKILL_CHIP_OCTA_SEEKER",
+    "itemName": "8방향 유도탄 스킬칩",
+    "amount": 1,
+    "before": {
+      "quantity": "0",
+      "unseenQuantity": "0"
+    },
+    "after": {
+      "quantity": "1",
+      "unseenQuantity": "1"
+    },
+    "inventoryLogId": "85017263",
+    "completedAt": "2026-10-17T18:00:32.360Z",
+    "adminLogId": "47748"
+  },
+  "currentQuantity": "1",
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "sourceSha256": "153392f5c01ac920a2b7fe974ccdad4068b8912d8bcef7aa63430e03363fa107",
+  "commit": "3784595c37fad316a35a22c9342056aabc698ae4",
+  "independentConnection": true,
+  "verifiedAt": "2026-10-17T18:00:37.260Z"
+}
