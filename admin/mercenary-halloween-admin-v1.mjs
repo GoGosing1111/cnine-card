@@ -1,4 +1,4 @@
-import {HALLOWEEN_PACK,HALLOWEEN_NORMAL_RANKS,validateHalloweenPack,halloweenPackReadiness,halloweenEffectivePercent} from '../shared/mercenary-halloween-pack-v1.mjs?v=20261017-halloween-ss-stock-v1';
+import {HALLOWEEN_PACK,HALLOWEEN_NORMAL_RANKS,validateHalloweenPack,halloweenPackReadiness,halloweenEffectivePercent} from '../shared/mercenary-halloween-pack-v1.mjs?v=20261017-stock-recovery-v1';
 import {parseLimitedPercent,formatLimitedPercent,LIMITED_RATE_STEP,limitedRateUnits,LIMITED_RATE_SCALE,LIMITED_RATE_TOTAL} from '../shared/mercenary-limited-rates-v1.mjs';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const field=(label,attrs,value)=>'<label class="mc-field"><span>'+label+'</span><input '+attrs+' value="'+(value??'')+'" placeholder="미정"></label>';

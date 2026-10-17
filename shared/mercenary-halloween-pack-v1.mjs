@@ -64,7 +64,11 @@ export function halloweenPackReadiness(settings,stock=[],normalCards=[]){
   if(needed&&!normalCards.some(c=>c.rank===rank&&c.weight>0))blockers.push(rank+' 일반 용병 획득 대상을 확인하세요.');
  }
  if(!(settings.normalRankRatesPpm.SSS>0)||!Object.values(settings.cardRatesPpm).some(n=>n>0))blockers.push('SSS 진입 확률과 내부 리미티드 확률을 설정하세요.');
- for(const code of codes)if(settings.cardRatesPpm[code]>0){const row=stock.find(s=>s.code===code);if(!row?.prepared||row.remaining<1)blockers.push(code+'의 한정 수량을 확인하세요.');}
+ const selected=codes.filter(code=>settings.cardRatesPpm[code]>0);
+ for(const code of selected)if(!stock.find(s=>s.code===code)?.prepared)blockers.push(code+'의 한정 수량을 확인하세요.');
+ // One sold-out card must not close the entire pack. Its approved probability
+ // interval stays unchanged; selecting it still aborts before any coin debit.
+ if(selected.length&&!selected.some(code=>{const row=stock.find(s=>s.code===code);return row?.prepared&&row.remaining>0;}))blockers.push('획득 가능한 리미티드 잔여 수량이 없습니다.');
  return {ready:!blockers.length,blockers};
 }
 export function halloweenEffectivePercent(sssRate,conditionalRate){

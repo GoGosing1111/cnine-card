@@ -1,6 +1,6 @@
 import {jointAccountRequest} from './joint-account-transport.mjs?v=20260924-response';
-import {HALLOWEEN_PACK,halloweenReceiptResults,halloweenPackPrice} from '../shared/mercenary-halloween-pack-v1.mjs?v=20261017-halloween-ss-stock-v1';
-import {HalloweenOpeningSession} from '../shared/mercenary-halloween-session-v2.mjs?v=20261017-auto-v1';
+import {HALLOWEEN_PACK,halloweenReceiptResults,halloweenPackPrice} from '../shared/mercenary-halloween-pack-v1.mjs?v=20261017-stock-recovery-v1';
+import {HalloweenOpeningSession} from '../shared/mercenary-halloween-session-v2.mjs?v=20261017-stock-recovery-v1';
 import {HalloweenAutoOpening,halloweenAutoQuote} from '../shared/mercenary-halloween-auto-v1.mjs?v=20261017-auto-v1';
 import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=2145';
 import {halloweenCollectionMarkup,halloweenResultsMarkup,halloweenRoomMarkup} from './mercenary-halloween-presentation-v2.mjs?v=20261017-halloween-ss-stock-v1';
@@ -73,6 +73,11 @@ export async function mountHalloweenPack({api=jointAccountRequest,accountId=curr
   say(config.userOpeningEnabled?'개봉할 수량을 선택하세요.':config.settings.mode==='ON'?'현재 개봉 불가 · '+config.readiness.blockers.join(' '):'출시 준비 중 · 개봉 OFF');sync();
  }
  async function run(work){if(busy||disposed)return;busy=true;sync();try{await work();}catch(e){say(e.message,true);}finally{busy=false;if(!disposed){sync();try{const next=await api(HALLOWEEN_PACK.featurePath);if(!disposed){config=next;sync();}}catch{}}}}
+ async function recover(readOnly=false){
+  const result=await (readOnly?session.reconcilePending():session.recover());
+  if(result?.status==='CANCELLED')say('취소된 이전 요청을 정리했습니다. 새로 개봉할 수 있습니다.');
+  else if(result&&result.status!=='COMPLETED')say('이전 개봉이 아직 확인되지 않았습니다. 이전 결과 확인을 눌러 복구해 주세요.',true);
+ }
  function dismissConfirm(){const saved=quote;quote=null;$('[data-hwp-confirm]').hidden=true;$('[data-hwp-shell]').inert=false;if(saved)(saved.auto?$('[data-hwp-auto-start]'):$('[data-hwp-buy="'+saved.count+'"]')).focus();}
  const close=()=>{if(disposed)return;auto.stop('계약실을 닫아 자동뽑기를 중지했습니다.');disposed=true;cinematic.destroy();document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',close);dialog.close();dialog.remove();if(active===dialog)active=null;previous?.focus();};
  const visibility=()=>{if(document.hidden){auto.stop('화면을 벗어나 자동뽑기를 중지했습니다.');if(cinematic.active){paused=true;cinematic.setPaused(true);$('[data-hwp-pause]').textContent='계속 재생';}}};
@@ -95,6 +100,6 @@ export async function mountHalloweenPack({api=jointAccountRequest,accountId=curr
  });
  $('[data-hwp-confirm-cancel]').onclick=dismissConfirm;
  $('[data-hwp-confirm-start]').onclick=()=>{if(!quote||busy)return;const saved=quote;dismissConfirm();say('계약 결과를 확인하고 있습니다.');void run(async()=>{if(!saved.auto)return session.start(saved.config,saved.count);$('[data-hwp-auto-panel]').hidden=true;$('[data-hwp-auto-toggle]').setAttribute('aria-expanded','false');const s=await auto.start(saved.config,saved.count,saved.repeats);say(s.reason+' · 총 '+s.totalDraws+'회 · '+fmt(s.spent)+' 코인 사용',s.error);});};
- $('[data-hwp-recover]').onclick=()=>{void run(()=>session.recover());};
- document.body.append(dialog);dialog.showModal();try{await load();}catch(e){say(e.message,true);}return dialog;
+ $('[data-hwp-recover]').onclick=()=>{void run(()=>recover());};
+ document.body.append(dialog);dialog.showModal();try{await load();if(!disposed&&session.read(session.pendingKey))await run(()=>recover(true));}catch(e){say(e.message,true);}return dialog;
 }

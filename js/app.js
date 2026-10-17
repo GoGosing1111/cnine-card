@@ -1703,7 +1703,7 @@ document.addEventListener('click',event=>{
 });
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-halloween-pack-enter]');if(!button||button.disabled)return;
- button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=20261017-halloween-ss-stock-v1').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+ button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=20261017-stock-recovery-v1').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
 });
 function halloweenPackHero(pack) {
  const portrait=c=>'<figure class="hwp-portrait" data-rank="'+escapeHtml(c.rank)+'" data-code="'+escapeHtml(c.code)+'"><div class="hwp-art-frame"><img src="/'+escapeHtml(c.thumbnailArt)+'" alt="'+escapeHtml(c.name)+' 리미티드 원화" loading="lazy"><span>'+escapeHtml(c.rank)+'</span></div><figcaption>'+(c.rank==='SSS'?'<em>SSS LIMITED</em>':'')+'<strong>'+escapeHtml(c.name)+'</strong><small>'+escapeHtml(c.code==='V-999'?(c.remaining==null?'기존 잔여 수량 확인 중':'기존 잔여 '+c.remaining+'장'):c.code==='V-989'?(c.remaining==null?'팩 발행 3장 한정':'팩 잔여 '+c.remaining+' / 3장'):(c.remaining==null?'서버 '+c.limit+'장 한정':'잔여 '+c.remaining+' / '+c.limit+'장'))+'</small>'+(c.code==='V-989'?'<small class="hwp-stock-note">기존 전용 1장 별도</small>':'')+'</figcaption></figure>';

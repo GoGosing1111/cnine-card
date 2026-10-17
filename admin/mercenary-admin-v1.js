@@ -1,4 +1,4 @@
-import {createHalloweenMercenaryEditor} from './mercenary-halloween-admin-v1.mjs?v=20261017-halloween-ss-stock-v1';
+import {createHalloweenMercenaryEditor} from './mercenary-halloween-admin-v1.mjs?v=20261017-stock-recovery-v1';
 import {createMercenaryLevelEditor} from './mercenary-level-admin-v1.mjs?v=20261015-growth-v2';
 import {validateMercenaryCms,ACQUISITIONS,REVIEWS} from '../shared/mercenary-cms-model-v1.mjs?v=20261014-azant';
 import {createMercenaryDrawEditor} from './mercenary-draw-admin-v1.js?v=20260927-berkan-off';

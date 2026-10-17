@@ -36,12 +36,21 @@ export class HalloweenOpeningSession{
   const body=validateHalloweenOpeningBody({requestId:this.makeId(),count,expectedRevision:config.revision});
   this.storage.setItem(this.pendingKey,JSON.stringify({accountId:this.accountId,body}));return this.accept(await this.submit(body),onReceipt);
  }
- recover(){return this.exclusive(async()=>{
-  const pending=this.read(this.pendingKey),saved=this.read(this.receiptKey),requestId=pending?.body.requestId??saved?.requestId;
+ // On entry, reconcile only the saved request. Never POST or resume automation
+ // without the player's explicit recovery/opening action.
+ reconcilePending(){return this.exclusive(()=>this.#recover(true));}
+ recover(){return this.exclusive(()=>this.#recover(false));}
+ async #recover(readOnly){
+  const pending=this.read(this.pendingKey);if(readOnly&&!pending)return null;
+  const saved=pending?null:this.read(this.receiptKey),requestId=pending?.body.requestId??saved?.requestId;
   if(!requestId)throw fail('이 계정의 이전 개봉 기록이 없습니다.','HALLOWEEN_NO_RECEIPT');
   if(pending&&pending.accountId!==this.accountId)throw fail('저장된 요청의 계정이 다릅니다.','HALLOWEEN_ACCOUNT_CHANGED');
-  let receipt;try{receipt=await this.api(HALLOWEEN_PACK.receiptPath+'?requestId='+encodeURIComponent(requestId));}catch(error){if(error.code!=='JOINT_NOT_FOUND'||!pending)throw error;}
+  let receipt;try{receipt=await this.api(HALLOWEEN_PACK.receiptPath+'?requestId='+encodeURIComponent(requestId));}catch(error){
+   if(error.code==='JOINT_OPERATION_SUPERSEDED'&&pending){this.assertAccount();this.storage.removeItem(this.pendingKey);return {requestId,status:'CANCELLED'};}
+   if(error.code!=='JOINT_NOT_FOUND'||!pending)throw error;
+  }
+  if(readOnly&&receipt?.status!=='COMPLETED')return {requestId,status:receipt?.status||'UNCONFIRMED',retryable:true};
   if(receipt?.status!=='COMPLETED'){if(!pending)throw fail('결과 확인이 필요합니다.','HALLOWEEN_RECOVERY_REQUIRED');receipt=await this.submit(pending.body);}
   return this.accept(receipt);
- });}
+ }
 }

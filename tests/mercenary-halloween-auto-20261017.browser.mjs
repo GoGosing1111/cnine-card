@@ -7,7 +7,7 @@ import {halloweenFixture} from './helpers/halloween-pack-fixture.mjs';
 import {HALLOWEEN_PACK} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {handleHalloweenPack} from '../functions/_mercenary_halloween_pack.js';
 
-const root=process.cwd(),out='C:/Users/User/.codex/tmp/halloween-auto-20261017/qa';fs.mkdirSync(out,{recursive:true});
+const root=process.cwd(),out=process.env.QA_OUT||'C:/Users/User/.codex/tmp/halloween-auto-20261017/qa';fs.mkdirSync(out,{recursive:true});
 const cleanup=[];let samples=[],posts=0;
 const f=await halloweenFixture({after:fn=>cleanup.push(fn)},{randomInt:()=>samples.shift()??0});
 const mime={'.html':'text/html; charset=utf-8','.mjs':'text/javascript','.js':'text/javascript','.css':'text/css','.json':'application/json','.webp':'image/webp','.png':'image/png','.mp4':'video/mp4'};
@@ -40,7 +40,16 @@ try{
   await page.locator('[data-halloween-remainder]').click();assert.equal(await page.locator('[data-halloween-fallback]').inputValue(),'92.985');await page.locator('[data-halloween-save]').click();await page.waitForFunction(()=>document.querySelector('[data-halloween-notice]')?.textContent.includes('저장 완료 · 판매 상태 ON'));assert.equal((await f.state()).settings.mode,'ON');assert.equal((await f.state()).readiness.ready,true);
   await page.locator('[data-halloween-mode]').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'cms-'+width+'.png')});
   f.settings.mode='ON';f.settings.normalSssRatePpm=929850;f.settings.normalRankRatesPpm={C:0,B:0,A:0,S:0,SS:500000,SSS:400000};f.settings.missRatePpm=100000;await f.configure(10);
+  // Reproduce the live global lockout: Namsudaeng is sold out, other cards remain.
+  await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=10 WHERE code='V-986'");
+  assert.equal((await f.state()).userOpeningEnabled,true);
+  const cancelledId=crypto.randomUUID();
+  await f.pg.query("INSERT INTO joint_operations_v1(request_id,user_id,kind,input_hash,plan_json,status,created_at) VALUES($1,1,'MERCENARY_HALLOWEEN_OPEN','qa','{}','CANCELLED','2026-10-17')",[cancelledId]);
+  await page.evaluate(body=>localStorage.setItem('cnine.halloween-pack.pending:1',JSON.stringify({accountId:1,body})),{requestId:cancelledId,count:1,expectedRevision:10});
+  const beforeRecovery=posts;
   await page.goto(base+'/qa');await page.locator('[data-hwp-buy="10"]:not([disabled])').waitFor();
+  await page.waitForFunction(()=>document.querySelector('[data-hwp-status]')?.textContent.includes('취소된 이전 요청을 정리'));
+  assert.equal(posts,beforeRecovery);assert.equal(await page.evaluate(()=>localStorage.getItem('cnine.halloween-pack.pending:1')),null);
   await page.locator('[data-hwp-auto-toggle]').click();await page.locator('[data-hwp-auto-repeats]').fill('2');assert.match(await page.locator('[data-hwp-auto-quote]').innerText(),/총 20회 · 최대 1,800 코인/);
   await page.locator('.hwp-dialog').screenshot({path:path.join(out,'auto-settings-'+width+'.png')});
   const before=posts;await page.locator('[data-hwp-auto-start]').click();assert.match(await page.locator('[data-hwp-confirm-text]').innerText(),/10회씩 2회 반복/);await page.locator('.hwp-confirm-inner').screenshot({path:path.join(out,'auto-confirm-'+width+'.png')});await page.keyboard.press('Escape');assert.equal(posts,before);
@@ -54,8 +63,21 @@ try{
   samples=[0,0,9900000000];const second=posts;
   await page.locator('[data-hwp-auto-toggle]').click();await page.locator('[data-hwp-auto-count]').selectOption('1');await page.locator('[data-hwp-auto-repeats]').fill('2');await page.locator('[data-hwp-auto-start]').click();await page.locator('[data-hwp-confirm-start]').click();await page.waitForFunction(()=>document.querySelector('.hwp-video')?.dataset.cinematic==='SS'&&document.querySelector('video')?.currentTime>0);assert.equal(posts,second+1);
   await page.waitForFunction(()=>document.querySelector('[data-hwp-status]')?.textContent.includes('설정한 자동뽑기를 완료했습니다.'),{},{timeout:25000});assert.equal(posts,second+2);assert.match(await page.locator('[data-hwp-status]').innerText(),/총 2회 · 200 코인/);
+  // A completed but locally pending result restores on entry without a POST.
+  await page.evaluate(()=>{const r=JSON.parse(localStorage.getItem('cnine.halloween-pack.receipt:1'));localStorage.setItem('cnine.halloween-pack.pending:1',JSON.stringify({accountId:1,body:{requestId:r.requestId,count:r.count,expectedRevision:r.revision}}));});
+  const beforeReload=posts;await page.reload();await page.locator('[data-hwp-auto-toggle]:not([disabled])').waitFor();
+  await page.waitForFunction(()=>document.querySelector('.hwp-result')&&localStorage.getItem('cnine.halloween-pack.pending:1')===null);
+  assert.equal(posts,beforeReload);assert.equal(await page.locator('[data-hwp-auto-running]').isVisible(),false);
+  await page.locator('[data-hwp-auto-toggle]').click();assert.equal(await page.locator('[data-hwp-auto-start]').isEnabled(),true);
+  await page.locator('.hwp-dialog').screenshot({path:path.join(out,'recovered-auto-'+width+'.png')});
+  // Missing/unsubmitted requests stay pending until the player explicitly recovers.
+  const missingId=crypto.randomUUID();await page.evaluate(body=>localStorage.setItem('cnine.halloween-pack.pending:1',JSON.stringify({accountId:1,body})),{requestId:missingId,count:1,expectedRevision:10});
+  await page.reload();await page.waitForFunction(()=>document.querySelector('[data-hwp-status]')?.textContent.includes('이전 개봉이 아직 확인되지'));
+  assert.equal(posts,beforeReload);samples=[9900000000];await page.locator('[data-hwp-recover]').click();
+  await page.waitForFunction(()=>document.querySelector('.hwp-result')&&localStorage.getItem('cnine.halloween-pack.pending:1')===null);
+  assert.equal(posts,beforeReload+1);assert.equal((await f.pg.query('SELECT status FROM joint_operations_v1 WHERE request_id=$1',[missingId])).rows[0].status,'COMPLETED');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1||document.querySelector('.hwp-dialog').scrollWidth>document.querySelector('.hwp-dialog').clientWidth+1),false);assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
-  reports.push({width,cmsIncompleteOnBlocked:true,cmsRemainder:'92.985',cmsOwnerOnSavedInIsolatedDatabase:true,confirmationCancelNoPurchase:true,ssThenSssVideo:true,noPurchaseDuringVideo:true,stopAfterCurrentBatch:true,ssNaturalEndResumes:true,completedSingleDraws:2,errors,failed});await context.close();
+  reports.push({width,partialStockKeepsOpeningEnabled:true,cancelledRequestClearedWithoutPost:true,completedRequestRecoveredWithoutPost:true,unknownRequestRequiresExplicitRecovery:true,cmsIncompleteOnBlocked:true,cmsRemainder:'92.985',cmsOwnerOnSavedInIsolatedDatabase:true,confirmationCancelNoPurchase:true,ssThenSssVideo:true,noPurchaseDuringVideo:true,stopAfterCurrentBatch:true,ssNaturalEndResumes:true,completedSingleDraws:2,errors,failed});await context.close();
  }
  fs.writeFileSync(path.join(out,'browser-report.json'),JSON.stringify(reports,null,2)+'\n');console.log(JSON.stringify(reports));
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));for(const fn of cleanup)await fn();}

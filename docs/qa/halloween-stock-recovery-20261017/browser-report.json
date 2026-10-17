@@ -1,0 +1,38 @@
+[
+  {
+    "width": 1440,
+    "partialStockKeepsOpeningEnabled": true,
+    "cancelledRequestClearedWithoutPost": true,
+    "completedRequestRecoveredWithoutPost": true,
+    "unknownRequestRequiresExplicitRecovery": true,
+    "cmsIncompleteOnBlocked": true,
+    "cmsRemainder": "92.985",
+    "cmsOwnerOnSavedInIsolatedDatabase": true,
+    "confirmationCancelNoPurchase": true,
+    "ssThenSssVideo": true,
+    "noPurchaseDuringVideo": true,
+    "stopAfterCurrentBatch": true,
+    "ssNaturalEndResumes": true,
+    "completedSingleDraws": 2,
+    "errors": [],
+    "failed": []
+  },
+  {
+    "width": 390,
+    "partialStockKeepsOpeningEnabled": true,
+    "cancelledRequestClearedWithoutPost": true,
+    "completedRequestRecoveredWithoutPost": true,
+    "unknownRequestRequiresExplicitRecovery": true,
+    "cmsIncompleteOnBlocked": true,
+    "cmsRemainder": "92.985",
+    "cmsOwnerOnSavedInIsolatedDatabase": true,
+    "confirmationCancelNoPurchase": true,
+    "ssThenSssVideo": true,
+    "noPurchaseDuringVideo": true,
+    "stopAfterCurrentBatch": true,
+    "ssNaturalEndResumes": true,
+    "completedSingleDraws": 2,
+    "errors": [],
+    "failed": []
+  }
+]
