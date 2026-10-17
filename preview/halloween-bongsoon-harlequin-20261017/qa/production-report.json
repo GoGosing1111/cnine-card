@@ -1,0 +1,129 @@
+{
+  "passed": true,
+  "checkedAt": "2026-10-17T00:01:47.441Z",
+  "sourceCommit": "e7f9ee737e1b731a73d79bac54d2c0e0a6ca6683",
+  "deployedCommit": "e7f9ee737e1b731a73d79bac54d2c0e0a6ca6683",
+  "deploymentUrl": "https://8b4a037b.cnine-card.pages.dev",
+  "apiVersions": [
+    {
+      "version_id": "6788a2fa-2538-401a-a2d4-f07af29b4232",
+      "percentage": 100
+    }
+  ],
+  "apiVisualBinding": true,
+  "packStateUnchanged": true,
+  "mode": "OFF",
+  "releaseEnabled": false,
+  "code": "V-980",
+  "rank": "SS",
+  "serverLimit": 5,
+  "acquisitionEnabled": false,
+  "deploymentEnabled": false,
+  "files": [
+    {
+      "file": "mercenary-codex/app.mjs",
+      "status": 200,
+      "bytes": 27755,
+      "sha256": "07ad9b6bef25e3165c3159e38f18201234fb0302d95aa4b9b09dd42638b6bb89",
+      "matches": true
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "status": 200,
+      "bytes": 8820,
+      "sha256": "2e3220282d6e4fb15367915e4e610f8409514fc91e16734771c0a551ff98257f",
+      "matches": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "bytes": 14454,
+      "sha256": "9435940ecc0f4734d7ff9da96ac3e885cf0283853542bfb4565ae6bfebbfb759",
+      "matches": true
+    },
+    {
+      "file": "shared/mercenary-halloween-catalog-v1.mjs",
+      "status": 200,
+      "bytes": 11179,
+      "sha256": "172198d4e4218ea0a08ccc2fa95d70839df7ae888f4e8f3925ea681f97ffc7f1",
+      "matches": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "bytes": 81003,
+      "sha256": "4b992a91da3862482b7c590312b9ff418443f75b0586c12433e3f8899de14861",
+      "matches": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "bytes": 1972866,
+      "sha256": "b6c17b2c892fbf4f05ff613879992d35f01392921756fc3c7c1b405862dfcc8e",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/source-art.png",
+      "status": 200,
+      "bytes": 2577117,
+      "sha256": "c82230fb51db845f9b337083d144700542ec898e8f27a041c2904348ea66a207",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd-approved.png",
+      "status": 200,
+      "bytes": 1515414,
+      "sha256": "c51f275d8dfb5f2e5acc5c3299b9b6c60114f862367e4750f33a5f730e08a067",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/sd.webp",
+      "status": 200,
+      "bytes": 315438,
+      "sha256": "170600ee6faf94e937fb4b324e0bc2e7714f5744004a713937d07b4908fa42b5",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/skill-fx.webp",
+      "status": 200,
+      "bytes": 984976,
+      "sha256": "46d9a8b7a72ad65541be968acdf4aaf22b8205b0aeffae24bb387742f4f3d494",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/manifest.json",
+      "status": 200,
+      "bytes": 27847,
+      "sha256": "9cfd93ea455d74043767d31ed00fe1dd42f4009f17e9a0780799d00932175403",
+      "matches": true
+    },
+    {
+      "file": "preview/halloween-bongsoon-harlequin-20261017/index.html",
+      "status": 200,
+      "bytes": 3500,
+      "sha256": "afcb14d7139119ba0a19d5cbfd0d2a7b03b719f7c7e792c291e3cc76a90a645e",
+      "matches": true
+    },
+    {
+      "file": "preview/halloween-bongsoon-harlequin-20261017/battle.html",
+      "status": 200,
+      "bytes": 1626,
+      "sha256": "0f298dd52273723794450d8ad64366a685de9a636a28dae3ec893b2e26961cd1",
+      "matches": true
+    },
+    {
+      "file": "preview/halloween-bongsoon-harlequin-20261017/preview.css",
+      "status": 200,
+      "bytes": 4639,
+      "sha256": "c175ea1249b933f641e777451f1c99c9d2601aec04ce9b1e5e8eb05bf39f9661",
+      "matches": true
+    },
+    {
+      "file": "preview/halloween-bongsoon-harlequin-20261017/preview.bundle.js",
+      "status": 200,
+      "bytes": 1972233,
+      "sha256": "8a7d1a11f1d0d7a380d7fdce54135b3bffcf864cb11d657792ea34d8da276e84",
+      "matches": true
+    }
+  ]
+}
