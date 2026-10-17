@@ -25,11 +25,12 @@ export class DefenseFormation{
   $('[data-search]').addEventListener('input',e=>{this.query=e.target.value.trim().toLocaleLowerCase();this.limit=24;this.renderInventory();});
   $('[data-grade]').addEventListener('change',e=>{this.grade=e.target.value;this.limit=24;this.renderInventory();});
  }
- async open(kind='MERCENARY'){
-  if(this.dialog.open)return;this.opener=document.activeElement;this.kind=kind;this.draft=structuredClone(this.getLoadout());this.query='';this.grade='';this.limit=24;this.detail=null;
-  this.$('[data-search]').value='';this.dialog.showModal();this.render();await this.reload();
+ open(kind='MERCENARY'){
+  if(this.dialog.open)return this.completion;this.opener=document.activeElement;this.kind=kind;this.draft=structuredClone(this.getLoadout());this.query='';this.grade='';this.limit=24;this.detail=null;
+  this.completion=new Promise(resolve=>{this.finish=resolve;});
+  this.$('[data-search]').value='';this.dialog.showModal();this.render();void this.reload();return this.completion;
  }
- close(){if(this.busy)return;this.generation++;this.dialog.close();if(this.opener?.isConnected)this.opener.focus({preventScroll:true});}
+ close(applied=false){if(this.busy)return;this.generation++;this.dialog.close();if(this.opener?.isConnected)this.opener.focus({preventScroll:true});this.finish?.(applied);this.finish=null;}
  async reload(){
   if(this.busy)return;const generation=++this.generation;this.busy=true;this.setStatus('보유 목록을 불러오는 중입니다.');this.lock();
   try{await this.refresh();if(!this.dialog.open||generation!==this.generation)return;
@@ -72,7 +73,7 @@ export class DefenseFormation{
  setStatus(text){this.$('[data-status]').textContent=text;}
  async apply(){
   if(this.busy||this.draft.mercenaries.length!==2||!this.draft.card)return;this.busy=true;this.lock();this.setStatus('분대를 배치하고 있습니다.');
-  try{await this.onApply(structuredClone(this.draft));this.busy=false;this.close();this.onToast('분대를 배치했습니다. 준비를 완료해 주세요.');}
+  try{await this.onApply(structuredClone(this.draft));this.busy=false;this.close(true);this.onToast('분대를 배치했습니다. 준비를 완료해 주세요.');}
   catch(e){this.setStatus(e.message);}
   finally{this.busy=false;this.lock();}
  }

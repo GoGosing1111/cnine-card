@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "checks": [
+    "1440px: empty selection enables Join; cancel/Escape discard draft with no request; Enter works; apply joins the selected room once; saved formation joins directly; later formation edits do not repeat the join",
+    "390px touch: Join opens formation, apply retains server-error feedback, retry joins; 320px full-room entry stays disabled; all dialogs fit horizontally",
+    "Rebuilt production bundle: three ready squads enter the shared V3 battle on desktop/mobile with one renderer and nine selected units"
+  ],
+  "errors": [],
+  "failed": [],
+  "liveWrites": 0
+}

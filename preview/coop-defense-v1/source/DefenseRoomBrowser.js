@@ -39,7 +39,7 @@ export class DefenseRoomBrowser{
  render(){
   const rows=this.rows.filter(room=>this.q('[data-rooms-available]').getAttribute('aria-pressed')!=='true'||room.joinable),canEnter=this.canEnter();
   this.q('[data-rooms-count]').textContent=`${rows.length}개 대기방${this.more?' · 최신 50개 표시':''}`;
-  this.q('[data-rooms-hint]').textContent=canEnter?'선택한 용병 2명과 카드 1장으로 참가합니다.':'내 분대에서 용병 2명과 카드 1장을 먼저 선택하세요.';
+  this.q('[data-rooms-hint]').textContent=canEnter?'선택한 용병 2명과 카드 1장으로 참가합니다.':'참가하기를 누르면 용병 2명과 카드 1장을 편성한 뒤 해당 방에 참가합니다.';
   this.q('[data-rooms-create]').disabled=!canEnter||this.joining;
   const list=this.q('[data-rooms-list]'),signature=JSON.stringify([rows,canEnter,!!this.joining]);if(list.dataset.signature===signature)return;list.dataset.signature=signature;
   const focused=document.activeElement?.dataset.roomJoin;list.replaceChildren();
@@ -48,13 +48,19 @@ export class DefenseRoomBrowser{
    const row=document.createElement('article');row.className='rooms-entry';row.dataset.roomId=room.id;
    const count=document.createElement('div');count.className='rooms-capacity';const number=document.createElement('strong');number.textContent=room.members+' / '+room.maxMembers;const label=document.createElement('span');label.textContent='대원';count.append(number,label);
    const info=document.createElement('div');info.className='rooms-info';const title=document.createElement('h3');title.textContent=room.hostName+'의 방어대';const meta=document.createElement('p');meta.textContent=room.difficultyName+' · '+room.totalWaves+' 웨이브';const status=document.createElement('span');status.textContent='준비 '+room.ready+' / '+room.members+'명 · '+(room.joinable?'대원 모집 중':'인원 마감');info.append(title,meta,status);
-   const join=document.createElement('button');join.type='button';join.className='rooms-join';join.dataset.roomJoin=room.id;join.textContent=room.joinable?'참가하기':'인원 마감';join.setAttribute('aria-label',room.hostName+'의 방어대 '+(room.joinable?'참가':'인원 마감'));join.disabled=this.joining||!room.joinable||!canEnter;
+   const join=document.createElement('button');join.type='button';join.className='rooms-join';join.dataset.roomJoin=room.id;join.textContent=room.joinable?'참가하기':'인원 마감';join.setAttribute('aria-label',room.hostName+'의 방어대 '+(room.joinable?'참가':'인원 마감'));join.disabled=this.joining||!room.joinable;
    join.onclick=async()=>{
     if(this.joining)return;this.joining=true;clearTimeout(this.timer);this.controller?.abort();this.serial++;this.render();
     this.q('[data-rooms-close]').disabled=true;this.q('[data-rooms-formation]').disabled=true;let errorMessage='';
-    try{const result=await this.onJoin(room.id);this.joining=false;if(result===true){this.dialog.close();document.getElementById('ready')?.focus();}else errorMessage=result?.error||'대기방에 참가하지 못했습니다. 갱신된 목록에서 다시 선택하세요.';}
+    try{
+     if(!this.canEnter()){
+      if(!await this.onFormation())return;
+      if(!this.canEnter())throw new Error('출전 가능한 용병 2명과 카드 1장을 다시 선택해 주세요.');
+     }
+     const result=await this.onJoin(room.id);this.joining=false;if(result===true){this.dialog.close();document.getElementById('ready')?.focus();}else errorMessage=result?.error||'대기방에 참가하지 못했습니다. 갱신된 목록에서 다시 선택하세요.';
+    }
     catch(error){errorMessage=error.message;}
-    finally{this.joining=false;this.q('[data-rooms-close]').disabled=false;this.q('[data-rooms-formation]').disabled=false;if(this.dialog.open){await this.refresh();if(errorMessage){this.q('[data-rooms-message]').textContent=errorMessage;this.q('[data-rooms-message]').hidden=false;this.q('.rooms-content').scrollTop=0;}}}
+    finally{this.joining=false;this.q('[data-rooms-close]').disabled=false;this.q('[data-rooms-formation]').disabled=false;if(this.dialog.open){await this.refresh();if(errorMessage){this.q('[data-rooms-message]').textContent=errorMessage;this.q('[data-rooms-message]').hidden=false;this.q('.rooms-content').scrollTop=0;}[...this.dialog.querySelectorAll('[data-room-join]')].find(button=>button.dataset.roomJoin===room.id)?.focus({preventScroll:true});}}
    };
    row.append(count,info,join);list.append(row);
   }

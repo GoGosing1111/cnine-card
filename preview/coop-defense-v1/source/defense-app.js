@@ -65,7 +65,7 @@ async function refreshRoster(){
   else state.options={mercenaries:MERCENARIES.map(c=>({...state.catalog.units[c.code],...c,kind:'MERCENARY',rank:'TEST',roleName:DEFENSE_ROLE_NAMES[c.role],defense:DEFENSE_PROFILES[c.role]})),cards:CARDS.map(c=>({...state.catalog.units[c.code],...c,kind:'CARD',rank:'TEST',roleName:DEFENSE_ROLE_NAMES[c.role],defense:DEFENSE_PROFILES[c.role]}))};
   mergeRoster([...state.options.mercenaries,...state.options.cards]);buildLoadout();updateEntryButtons();
 }
-function openFormation(slot=0){if(!state.access||state.pending)return;void formation.open(slot<2?'MERCENARY':'CARD');}
+function openFormation(slot=0){if(!state.access||state.pending)return Promise.resolve(false);return formation.open(slot<2?'MERCENARY':'CARD');}
 function buildLoadout() {
   $('loadout-grid').replaceChildren();
   for (let slot = 0; slot < 3; slot++) {
