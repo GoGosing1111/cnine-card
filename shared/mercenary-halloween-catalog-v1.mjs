@@ -1,6 +1,7 @@
 import {HALLOWEEN_COMBAT} from './mercenary-halloween-combat-v1.mjs';
 import {HALLOWEEN_VISUALS} from './mercenary-halloween-visual-v1.mjs';
 import {HARLEQUIN_SKILL} from './mercenary-harlequin-skill-v1.mjs';
+export const HALLOWEEN_SERVER_LIMIT=10;
 // Approved PNG originals are preserved; WebP derivatives are for display only.
 export const HALLOWEEN_MERCENARIES=Object.freeze([
   {
@@ -36,7 +37,7 @@ export const HALLOWEEN_MERCENARIES=Object.freeze([
     "resourceStatus": "HARLEQUIN_SD_APPROVED_SKILL_VISUAL_CONNECTED",
     "acquisitionPackId": "mercenary-halloween-ss-limited",
     "acquisitionPackName": "SS 할로윈 리미티드 팩",
-    "serverLimit": 5,
+    "serverLimit": HALLOWEEN_SERVER_LIMIT,
     "sourceApprovalRecord": "assets/ui/project-v/mercenaries/mercenary-halloween-art-approvals-20261014.json",
     "thumbnailArt": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/art-320.webp",
     "displayArt": "assets/ui/project-v/mercenaries/halloween-harlequin-20261017/art-640.webp"
@@ -72,7 +73,7 @@ export const HALLOWEEN_MERCENARIES=Object.freeze([
     "resourceStatus": "APPROVED_ART_LIVE_BATTLE_REVIEW_PENDING",
     "acquisitionPackId": "mercenary-halloween-ss-limited",
     "acquisitionPackName": "SS 할로윈 리미티드 팩",
-    "serverLimit": 5,
+    "serverLimit": HALLOWEEN_SERVER_LIMIT,
     "sourceApprovalRecord": "assets/ui/project-v/mercenaries/mercenary-halloween-art-approvals-20261014.json",
     "thumbnailArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-981-320.webp",
     "displayArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-981-640.webp"
@@ -108,7 +109,7 @@ export const HALLOWEEN_MERCENARIES=Object.freeze([
     "resourceStatus": "APPROVED_ART_LIVE_BATTLE_REVIEW_PENDING",
     "acquisitionPackId": "mercenary-halloween-ss-limited",
     "acquisitionPackName": "SS 할로윈 리미티드 팩",
-    "serverLimit": 5,
+    "serverLimit": HALLOWEEN_SERVER_LIMIT,
     "sourceApprovalRecord": "assets/ui/project-v/mercenaries/mercenary-halloween-art-approvals-20261014.json",
     "thumbnailArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-982-320.webp",
     "displayArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-982-640.webp"
@@ -144,7 +145,7 @@ export const HALLOWEEN_MERCENARIES=Object.freeze([
     "resourceStatus": "APPROVED_ART_LIVE_BATTLE_REVIEW_PENDING",
     "acquisitionPackId": "mercenary-halloween-ss-limited",
     "acquisitionPackName": "SS 할로윈 리미티드 팩",
-    "serverLimit": 5,
+    "serverLimit": HALLOWEEN_SERVER_LIMIT,
     "sourceApprovalRecord": "assets/ui/project-v/mercenaries/mercenary-halloween-art-approvals-20261014.json",
     "thumbnailArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-983-320.webp",
     "displayArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-983-640.webp"
@@ -180,7 +181,7 @@ export const HALLOWEEN_MERCENARIES=Object.freeze([
     "resourceStatus": "APPROVED_ART_LIVE_BATTLE_REVIEW_PENDING",
     "acquisitionPackId": "mercenary-halloween-ss-limited",
     "acquisitionPackName": "SS 할로윈 리미티드 팩",
-    "serverLimit": 5,
+    "serverLimit": HALLOWEEN_SERVER_LIMIT,
     "sourceApprovalRecord": "assets/ui/project-v/mercenaries/mercenary-halloween-art-approvals-20261014.json",
     "thumbnailArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-984-320.webp",
     "displayArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-984-640.webp"
@@ -216,7 +217,7 @@ export const HALLOWEEN_MERCENARIES=Object.freeze([
     "resourceStatus": "APPROVED_ART_LIVE_BATTLE_REVIEW_PENDING",
     "acquisitionPackId": "mercenary-halloween-ss-limited",
     "acquisitionPackName": "SS 할로윈 리미티드 팩",
-    "serverLimit": 5,
+    "serverLimit": HALLOWEEN_SERVER_LIMIT,
     "sourceApprovalRecord": "assets/ui/project-v/mercenaries/mercenary-halloween-art-approvals-20261014.json",
     "thumbnailArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-985-320.webp",
     "displayArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-985-640.webp"
@@ -252,7 +253,7 @@ export const HALLOWEEN_MERCENARIES=Object.freeze([
     "resourceStatus": "APPROVED_ART_LIVE_BATTLE_REVIEW_PENDING",
     "acquisitionPackId": "mercenary-halloween-ss-limited",
     "acquisitionPackName": "SS 할로윈 리미티드 팩",
-    "serverLimit": 5,
+    "serverLimit": HALLOWEEN_SERVER_LIMIT,
     "sourceApprovalRecord": "assets/ui/project-v/mercenaries/mercenary-halloween-art-approvals-20261014.json",
     "thumbnailArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-986-320.webp",
     "displayArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-986-640.webp"

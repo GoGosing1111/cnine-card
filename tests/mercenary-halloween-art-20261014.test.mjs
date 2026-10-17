@@ -22,7 +22,7 @@ test('seven approved sources publish independently with Namsudaeng identity, SS 
  const catalog=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1,updated_at:'2026-10-14'}));
  assert.equal(catalog.cards.filter(c=>c.season==='HALLOWEEN').length,7);for(const c of [...LIMITED_MERCENARIES,...cards])assert.ok(catalog.cards.some(row=>row.code===c.code&&row.edition==='LIMITED'));
  for(const c of cards){
-  assert.equal(c.rank,'SS');assert.equal(c.acquisitionPackId,HALLOWEEN_PACK.id);assert.equal(c.serverLimit,5);
+  assert.equal(c.rank,'SS');assert.equal(c.acquisitionPackId,HALLOWEEN_PACK.id);assert.equal(c.serverLimit,10);
   assert.equal(createHash('sha256').update(fs.readFileSync(c.sourceArt)).digest('hex').toUpperCase(),c.sourceArtSha256);
   for(const p of [c.displayArt,c.thumbnailArt,c.frame])assert.ok(fs.statSync(p).size>0,p);
   if(c.code==='V-980')assert.ok(c.battleSprite.includes('halloween-harlequin-20261017'));else assert.ok(c.battleSprite.includes('halloween-battle-20261017'));assert.equal(c.skills.length,1);assert.equal(c.deploymentEnabled,true);assert.equal(limitedDeploymentSnapshot(c.code).basePower,216000);
@@ -43,10 +43,10 @@ test('Halloween identities cannot enter ordinary grants, ordinary limited packs 
 
 test('unconfigured price and probability stay null; opening and per-character cap cannot be overridden',()=>{
  const draft=halloweenPackDraft(),state=halloweenPackState();assert.equal(state.userOpeningEnabled,false);assert.equal(state.releaseEnabled,true);
- assert.deepEqual(draft.prices,{single:null,ten:null});assert.equal(draft.missRatePpm,null);assert.ok(Object.values(draft.cardRatesPpm).every(v=>v===null));assert.ok(state.stock.filter(s=>/^V-98[0-6]$/.test(s.code)).every(s=>s.limit===5&&s.remaining===null));assert.equal(state.stock.find(s=>s.code==='V-989').limit,3);assert.equal(state.stock.find(s=>s.code==='V-999').limit,null);
+ assert.deepEqual(draft.prices,{single:null,ten:null});assert.equal(draft.missRatePpm,null);assert.ok(Object.values(draft.cardRatesPpm).every(v=>v===null));assert.ok(state.stock.filter(s=>/^V-98[0-6]$/.test(s.code)).every(s=>s.limit===10&&s.remaining===null));assert.equal(state.stock.find(s=>s.code==='V-989').limit,3);assert.equal(state.stock.find(s=>s.code==='V-999').limit,null);
  for(const mutate of [s=>s.stockLimits['V-980']=6,s=>s.stockLimits['V-980']=4,s=>s.cardRatesPpm['V-990']=1,s=>s.prices.single=0,s=>s.cardRatesPpm['V-980']=NaN,s=>{s.cardRatesPpm['V-980']=1000000;s.normalSssRatePpm=1;}]){const s=halloweenPackDraft();mutate(s);assert.throws(()=>validateHalloweenPack(s));}
  const precise=halloweenPackDraft();precise.cardRatesPpm['V-980']=0.0001;assert.equal(validateHalloweenPack(precise).cardRatesPpm['V-980'],0.0001);
- assert.throws(()=>halloweenPackState(draft,[{code:'V-980',stock_limit:6,issued:0}]));assert.throws(()=>halloweenPackState(draft,[{code:'V-980',stock_limit:5,issued:6}]));
+ assert.throws(()=>halloweenPackState(draft,[{code:'V-980',stock_limit:6,issued:0}]));assert.throws(()=>halloweenPackState(draft,[{code:'V-980',stock_limit:10,issued:11}]));
 });
 
 const body=()=>({expectedRevision:1,settings:halloweenPackDraft(),requestId:crypto.randomUUID(),reason:'할로윈 팩 초안 검수'});

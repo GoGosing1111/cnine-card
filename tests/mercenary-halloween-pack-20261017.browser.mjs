@@ -6,7 +6,7 @@ import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primar
 import {halloweenFixture} from './helpers/halloween-pack-fixture.mjs';
 import {HALLOWEEN_PACK,halloweenPackCatalogRow} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {readHalloweenPackState,handleHalloweenPack} from '../functions/_mercenary_halloween_pack.js';
-const root=process.cwd(),shopOnly=process.env.QA_SHOP_ONLY==='1',out=shopOnly?'C:/Users/User/.codex/tmp/halloween-auto-20261017/shop-qa':'C:/Users/User/.codex/tmp/halloween-sss-20261017/qa';fs.mkdirSync(out,{recursive:true});
+const root=process.cwd(),stockOnly=process.env.QA_STOCK_ONLY==='1',shopOnly=process.env.QA_SHOP_ONLY==='1'||stockOnly,out=stockOnly?'C:/Users/User/.codex/tmp/halloween-ss-stock-20261017/qa':shopOnly?'C:/Users/User/.codex/tmp/halloween-auto-20261017/shop-qa':'C:/Users/User/.codex/tmp/halloween-sss-20261017/qa';fs.mkdirSync(out,{recursive:true});
 const cleanup=[];let randomValues=[],posts=0,phase='off';
 const f=await halloweenFixture({after:fn=>cleanup.push(fn)},{randomInt:max=>{const n=randomValues.shift()??0;assert.ok(n<max);return n;}});
 const mime={'.html':'text/html; charset=utf-8','.mjs':'text/javascript','.js':'text/javascript','.css':'text/css','.json':'application/json','.webp':'image/webp','.avif':'image/avif','.png':'image/png','.svg':'image/svg+xml','.mp4':'video/mp4','.woff2':'font/woff2','.jpg':'image/jpeg'};
@@ -45,7 +45,21 @@ try{
    f.settings.mode='ON';f.settings.prices={single:1000000000,ten:10000000000};f.settings.normalRankRatesPpm=Object.fromEntries(Object.keys(f.settings.normalRankRatesPpm).map(rank=>[rank,rank==='SSS'?1000000:0]));f.settings.missRatePpm=0;f.settings.cardRatesPpm=Object.fromEntries(Object.keys(f.settings.cardRatesPpm).map(code=>[code,code==='V-980'?1000000:0]));f.settings.normalSssRatePpm=0;
    await page.evaluate(row=>{applyServerPacks([row]);selectedPackId=row.id;renderShell('buy');},halloweenPackCatalogRow(f.settings,[{code:'V-999',stock_limit:7,issued:6},{code:'V-989',stock_limit:3,issued:0}]));
    assert.match(await page.locator('.pack-choice-halloween').innerText(),/판매 ON · 1회 1,000,000,000 코인/);assert.ok(!(await page.locator('.pack-choice-halloween').getAttribute('class')).includes('opening-off'));assert.equal(await page.locator('[data-halloween-pack-enter]').count(),1);assert.match(await page.locator('.halloween-shop-note').innerText(),/10,000,000,000 코인/);
-   await page.locator('.pack-choice-halloween').screenshot({path:path.join(out,'selector-on-'+width+'.png')});await page.locator('.halloween-shop-hero').screenshot({path:path.join(out,'hero-on-'+width+'.png')});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.equal(posts,0);reports.push({width,selectorOff:true,selectorOn:true,openingButton:true,actualPrices:true,posts,errors,failed});await context.close();continue;
+   await page.locator('.pack-choice-halloween').screenshot({path:path.join(out,'selector-on-'+width+'.png')});await page.locator('.halloween-shop-hero').screenshot({path:path.join(out,'hero-on-'+width+'.png')});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.equal(posts,0);if(stockOnly){
+    assert.equal(await page.locator('.halloween-shop-hero .hwp-portrait[data-rank="SS"]').count(),7);
+    for(const text of await page.locator('.halloween-shop-hero .hwp-portrait[data-rank="SS"] figcaption').allTextContents())assert.match(text,/10장/);
+    f.settings.missRatePpm=0;phase='opening';await f.configure(3);
+    await page.goto(base+'/halloween-cms-qa');await page.locator('[data-halloween-rate="V-980"]').waitFor();
+    for(const text of await page.locator('[data-hwp-cms-rank="SS"] article').allTextContents())assert.match(text,/서버 한도 10장/);
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+    await page.screenshot({path:path.join(out,'cms-stock-'+width+'.png'),fullPage:true});
+    await page.goto(base+'/halloween-qa');await page.waitForFunction(()=>document.querySelector('[data-hwp-buy="1"]')?.disabled===false);
+    assert.equal(await page.locator('[data-hwp-ss-limit]').innerText(),'10장');
+    for(const text of await page.locator('.hwp-seasonal-collection figcaption').allTextContents())assert.match(text,/잔여 10 \/ 10장/);
+    await page.locator('.hwp-welcome-art img').evaluate(i=>i.decode());await page.locator('.hwp-dialog').screenshot({path:path.join(out,'room-stock-'+width+'.png')});
+    assert.equal(await page.locator('.hwp-dialog').evaluate(el=>el.scrollWidth>el.clientWidth+1),false);
+   }
+   assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.equal(posts,0);reports.push({width,selectorOff:true,selectorOn:true,openingButton:true,actualPrices:true,stockLabels:stockOnly?10:null,posts,errors,failed});await context.close();continue;
   }
   await page.goto(base+'/halloween-cms-qa');await page.locator('[data-halloween-normal="SSS"]').waitFor();assert.equal(await page.locator('[data-halloween-rate]').count(),9);assert.equal(await page.locator('[data-halloween-normal]').count(),6);
   await page.locator('[data-halloween-normal="SSS"]').fill('1');await page.locator('[data-halloween-rate="V-980"]').fill('2');assert.equal(await page.locator('[data-halloween-effective="V-980"]').innerText(),'0.02%');await page.locator('[data-halloween-rate="V-989"]').fill('3');assert.equal(await page.locator('[data-halloween-effective="V-989"]').innerText(),'0.03%');await page.locator('[data-halloween-save]').click();await page.waitForFunction(()=>document.querySelector('[data-halloween-root]')?.textContent.includes('저장 완료 · 판매 상태 OFF'));await page.reload();await page.locator('[data-halloween-normal="SSS"]').waitFor();assert.equal(await page.locator('[data-halloween-normal="SSS"]').inputValue(),'1');assert.equal(await page.locator('[data-halloween-rate="V-980"]').inputValue(),'2');assert.match(await page.locator('[data-halloween-root]').innerText(),/판매 상태.*OFF/);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);await page.screenshot({path:path.join(out,'cms-'+width+'.png'),fullPage:true});

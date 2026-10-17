@@ -1,9 +1,9 @@
 import {jointAccountRequest} from './joint-account-transport.mjs?v=20260924-response';
-import {HALLOWEEN_PACK,halloweenReceiptResults,halloweenPackPrice} from '../shared/mercenary-halloween-pack-v1.mjs?v=20261017-owner-ready-v1';
+import {HALLOWEEN_PACK,halloweenReceiptResults,halloweenPackPrice} from '../shared/mercenary-halloween-pack-v1.mjs?v=20261017-halloween-ss-stock-v1';
 import {HalloweenOpeningSession} from '../shared/mercenary-halloween-session-v2.mjs?v=20261017-auto-v1';
 import {HalloweenAutoOpening,halloweenAutoQuote} from '../shared/mercenary-halloween-auto-v1.mjs?v=20261017-auto-v1';
 import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=2145';
-import {halloweenCollectionMarkup,halloweenResultsMarkup,halloweenRoomMarkup} from './mercenary-halloween-presentation-v2.mjs?v=20261017-auto-v1';
+import {halloweenCollectionMarkup,halloweenResultsMarkup,halloweenRoomMarkup} from './mercenary-halloween-presentation-v2.mjs?v=20261017-halloween-ss-stock-v1';
 const fmt=n=>n==null?'미정':BigInt(n).toLocaleString('ko-KR');
 const currentAccount=()=>Number(globalThis.loadUser?.()?.serverUserId)||0;
 const browserLock=(key,work)=>{if(!navigator.locks?.request)throw Error('안전한 개봉을 지원하는 최신 브라우저에서 이용해 주세요.');return navigator.locks.request(key,{ifAvailable:true},lock=>{if(!lock)throw Error('다른 창에서 할로윈팩을 처리 중입니다.');return work();});};
@@ -30,6 +30,7 @@ export async function mountHalloweenPack({api=jointAccountRequest,accountId=curr
   $('.hwp-buy-actions').hidden=running;$('.hwp-secondary-actions').hidden=running;$('[data-hwp-auto-running]').hidden=!running;
   if(running){const s=auto.state;$('[data-hwp-auto-progress]').textContent=s.completed+' / '+s.repeats+'회 반복 · '+s.totalDraws+'회 개봉 · '+fmt(s.spent)+' 코인 사용'+(s.phase==='stopping'?' · 중지 요청됨':'');$('[data-hwp-auto-stop]').disabled=s.phase==='stopping';}
   if(config){
+   $('[data-hwp-ss-limit]').textContent=config.settings.stockLimits['V-980']+'장';
    for(const count of [1,10]){const price=count===10?config.settings.prices.ten:config.settings.prices.single;$('[data-hwp-price="'+count+'"]').textContent=price==null?'가격 미정':fmt(price)+' 코인';}
    $('[data-hwp-availability]').textContent=config.userOpeningEnabled?'개봉 가능 · 수량을 선택하세요':config.settings.mode==='ON'?'현재 개봉 불가 · 운영 설정 확인 필요':'출시 준비 중 · 개봉 OFF';
   }

@@ -1,5 +1,5 @@
 import {HALLOWEEN_PACK_CARDS,halloweenStockLimit} from './mercenary-halloween-pool-v3.mjs';
-import {HALLOWEEN_MERCENARIES} from './mercenary-halloween-catalog-v1.mjs';
+import {HALLOWEEN_MERCENARIES,HALLOWEEN_SERVER_LIMIT} from './mercenary-halloween-catalog-v1.mjs';
 import {isLimitedRate,limitedRateUnits,LIMITED_RATE_TOTAL} from './mercenary-limited-rates-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 
@@ -7,14 +7,14 @@ import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 // OFF remain OFF; enabling this capability never changes the persisted mode.
 export const HALLOWEEN_PACK_RELEASE_ENABLED=true;
 export const HALLOWEEN_PACK_KEY='mercenary_halloween_ss_pack_v1';
-export const HALLOWEEN_SERVER_LIMIT=5;
+export {HALLOWEEN_SERVER_LIMIT};
 export const HALLOWEEN_PACK=Object.freeze({id:'mercenary-halloween-ss-limited',name:'할로윈 리미티드 용병팩',rank:'SSS',edition:'HALLOWEEN_LIMITED',maxBatch:10,featurePath:'mercenary-halloween-pack/config',openPath:'mercenary-halloween-pack/open',receiptPath:'mercenary-halloween-pack/receipt',adminPath:'admin/mercenaries/halloween-pack',image:'assets/ui/packs/reverse-call-20261016/halloween-768.webp'});
 export const HALLOWEEN_NORMAL_RANKS=MERCENARY_RANKS;
 export const HALLOWEEN_OPEN_KIND='MERCENARY_HALLOWEEN_OPEN';
 const legacyCodes=HALLOWEEN_MERCENARIES.map(c=>c.code),codes=HALLOWEEN_PACK_CARDS.map(c=>c.code);
 const exact=(value,keys)=>value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).sort().join(',')===[...keys].sort().join(',');
 function legacyHalloweenPackDraft(){
- return {format:'MERCENARY_HALLOWEEN_SS_PACK_V1',mode:'OFF',prices:{single:null,ten:null},cardRatesPpm:Object.fromEntries(legacyCodes.map(code=>[code,null])),missRatePpm:null,stockLimits:Object.fromEntries(legacyCodes.map(code=>[code,HALLOWEEN_SERVER_LIMIT]))};
+ return {format:'MERCENARY_HALLOWEEN_SS_PACK_V1',mode:'OFF',prices:{single:null,ten:null},cardRatesPpm:Object.fromEntries(legacyCodes.map(code=>[code,null])),missRatePpm:null,stockLimits:Object.fromEntries(legacyCodes.map(code=>[code,5]))};
 }
 function validateLegacyHalloweenPack(raw){
  if(!exact(raw,['format','mode','prices','cardRatesPpm','missRatePpm','stockLimits'])||raw.format!=='MERCENARY_HALLOWEEN_SS_PACK_V1'||raw.mode!=='OFF')throw Error('할로윈 팩은 추후 개방 예정입니다. OFF 초안만 저장할 수 있습니다.');
@@ -22,13 +22,13 @@ function validateLegacyHalloweenPack(raw){
  if(!exact(raw.cardRatesPpm,legacyCodes)||[...Object.values(raw.cardRatesPpm),raw.missRatePpm].some(n=>n!==null&&!isLimitedRate(n)))throw Error('할로윈 7종과 꽝 확률은 미정 또는 0~100%로 입력하세요.');
  const rates=[...Object.values(raw.cardRatesPpm),raw.missRatePpm];
  if(rates.reduce((sum,n)=>sum+(n===null?0:limitedRateUnits(n)),0)>LIMITED_RATE_TOTAL)throw Error('할로윈 팩 확률 합계는 100%를 초과할 수 없습니다.');
- if(!exact(raw.stockLimits,legacyCodes)||Object.values(raw.stockLimits).some(n=>n!==HALLOWEEN_SERVER_LIMIT))throw Error('할로윈 리미티드는 캐릭터별 서버 전체 5장 한정입니다.');
+ if(!exact(raw.stockLimits,legacyCodes)||Object.values(raw.stockLimits).some(n=>n!==5))throw Error('할로윈 리미티드는 캐릭터별 서버 전체 5장 한정입니다.');
  return structuredClone(raw);
 }
 export function halloweenPackDraft(){
  return {...legacyHalloweenPackDraft(),format:'MERCENARY_HALLOWEEN_SS_PACK_V3',normalRankRatesPpm:Object.fromEntries(MERCENARY_RANKS.map(rank=>[rank,null])),normalSssRatePpm:null,cardRatesPpm:Object.fromEntries(codes.map(code=>[code,null])),stockLimits:Object.fromEntries(codes.map(code=>[code,halloweenStockLimit(code)]))};
 }
-export function validateHalloweenPack(raw,{releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED}={}){
+export function validateHalloweenPack(raw,{releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED,allowLegacyStock=false}={}){
  if(!exact(raw,['format','mode','prices','normalRankRatesPpm','cardRatesPpm','normalSssRatePpm','missRatePpm','stockLimits'])||raw.format!=='MERCENARY_HALLOWEEN_SS_PACK_V3'||!['OFF','ON'].includes(raw.mode)||!releaseEnabled&&raw.mode!=='OFF')throw Error('할로윈 팩은 출시 준비 중입니다. OFF 초안만 저장할 수 있습니다.');
  if(!exact(raw.prices,['single','ten'])||Object.values(raw.prices).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<1||n>100000000000000)))throw Error('가격은 미정 또는 1~100조 코인 정수로 입력하세요.');
  if(!exact(raw.normalRankRatesPpm,MERCENARY_RANKS)||!exact(raw.cardRatesPpm,codes))throw Error('일반 6등급·할로윈 SS 7종·SSS 리미티드 2종의 확률을 확인하세요.');
@@ -37,7 +37,10 @@ export function validateHalloweenPack(raw,{releaseEnabled=HALLOWEEN_PACK_RELEASE
   if(rates.some(n=>n!==null&&!isLimitedRate(n)))throw Error('확률은 미정 또는 0~100%, 소수점 8자리까지 입력하세요.');
   if(rates.reduce((sum,n)=>sum+(n===null?0:limitedRateUnits(n)),0)>LIMITED_RATE_TOTAL)throw Error('각 단계 확률 합계는 100%를 초과할 수 없습니다.');
  }
- if(!exact(raw.stockLimits,codes)||codes.some(code=>raw.stockLimits[code]!==halloweenStockLimit(code)))throw Error('할로윈 SS는 각 5장, 진무는 전용 지급분 외 팩 3장, 헬리오스는 기존 공용 잔여 수량을 사용합니다.');
+ // Read the original five-copy document during rollout; new saves require ten.
+ const approvedLimits=exact(raw.stockLimits,codes)&&codes.every(code=>raw.stockLimits[code]===halloweenStockLimit(code));
+ const legacyLimits=allowLegacyStock&&exact(raw.stockLimits,codes)&&codes.every(code=>raw.stockLimits[code]===(legacyCodes.includes(code)?5:halloweenStockLimit(code)));
+ if(!approvedLimits&&!legacyLimits)throw Error('할로윈 SS는 각 10장, 진무는 전용 지급분 외 팩 3장, 헬리오스는 기존 공용 잔여 수량을 사용합니다.');
  return structuredClone(raw);
 }
 export function readHalloweenPackSettings(raw=halloweenPackDraft(),options){
@@ -45,7 +48,7 @@ export function readHalloweenPackSettings(raw=halloweenPackDraft(),options){
   if(!exact(raw.cardRatesPpm,legacyCodes)||!exact(raw.stockLimits,legacyCodes)||Object.values(raw.stockLimits).some(n=>n!==5))throw Error('이전 할로윈 초안의 대상과 수량을 확인하세요.');
   return validateHalloweenPack({...raw,format:'MERCENARY_HALLOWEEN_SS_PACK_V3',cardRatesPpm:{...halloweenPackDraft().cardRatesPpm,...raw.cardRatesPpm},stockLimits:halloweenPackDraft().stockLimits},options);
  }
- if(raw.format!=='MERCENARY_HALLOWEEN_SS_PACK_V1')return validateHalloweenPack(raw,options);
+ if(raw.format!=='MERCENARY_HALLOWEEN_SS_PACK_V1')return validateHalloweenPack(raw,{...options,allowLegacyStock:true});
  const old=validateLegacyHalloweenPack(raw);
  // Old absolute odds must never silently become conditional SSS odds. The
  // original document remains in storage and the save audit retains it.
@@ -73,7 +76,7 @@ export function halloweenPackState(settings=halloweenPackDraft(),stockRows=[],no
  const legacyAbsoluteRates=settings.format==='MERCENARY_HALLOWEEN_SS_PACK_V1'?structuredClone(settings.cardRatesPpm):null;
  settings=readHalloweenPackSettings(settings,{releaseEnabled});
  const stock=HALLOWEEN_PACK_CARDS.map(c=>{
-  const row=stockRows.find(s=>s.code===c.code),expected=halloweenStockLimit(c.code),limit=row?Number(row.stock_limit):expected,issued=Number(row?.issued??0);
+  const row=stockRows.find(s=>s.code===c.code),expected=settings.stockLimits[c.code],limit=row?Number(row.stock_limit):expected,issued=Number(row?.issued??0);
   if(!Number.isSafeInteger(issued)||issued<0||limit!==null&&(!Number.isSafeInteger(limit)||limit<1||issued>limit)||row&&expected!==null&&limit!==expected)throw Error('리미티드 발행 수량을 확인해야 합니다.');
   return {code:c.code,limit,issued,remaining:row?limit-issued:null,prepared:Boolean(row),scope:c.code==='V-999'?'EXISTING_SHARED':c.code==='V-989'?'PACK_ONLY_EXCLUDING_EXCLUSIVE':'SEASONAL'};
  });
