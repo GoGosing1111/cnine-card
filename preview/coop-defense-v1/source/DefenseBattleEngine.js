@@ -2,6 +2,7 @@ import { Assets, BitmapFont, Cache, Container, Graphics, Rectangle, Sprite, Text
 import { gsap } from 'gsap';
 import { BattleEngine } from '../../project-v-v3/source/battle/BattleEngine.js';
 import {createBattleGroundSigil} from '../../project-v-v3/source/battle/BattleGroundSigil.js';
+import {BATTLE_HUD_ASSETS} from '../../project-v-v3/source/battle/BattleHud.js';
 import { BattleCharacter, TEAM } from '../../project-v-v3/source/battle/BattleCharacter.js';
 import { SkillEffectFX, triggerWhiteFlash } from '../../project-v-v3/source/battle/SkillEffectFX.js';
 import { WORLD, laneY, LANES } from './defense-model.mjs';
@@ -157,12 +158,9 @@ export class DefenseBattleEngine extends BattleEngine {
   layoutActorHud(actor, scale = this.root.scale.x) {
     actor.root.rotation = -(this.fieldTilt || 0);
     actor.hud.scale.set(actor.enemy ? .65 : .85);
-    actor.nameLabel.style.fontSize = Math.max(20, 10 / (scale * actor.hud.scale.x));
-    actor.namePlate.width = Math.max(250, actor.nameLabel.width + 75);
-    actor.namePlate.height = Math.max(74, actor.nameLabel.style.fontSize * 2.1);
-    actor.namePlate.position.set(110 - actor.namePlate.width / 2, 20 - actor.namePlate.height / 2);
-    actor.namePlate.visible = !actor.enemy || actor.unitData.type === 'BOSS';
-    actor.nameLabel.visible = !actor.enemy || actor.unitData.type === 'BOSS';
+    actor.hud.fontSizeOverride = Math.min(30, Math.max(20, 9 / (scale * actor.hud.scale.x)));
+    actor.hud.setCompact(false);
+    actor.hud.setNameVisible(!actor.enemy || actor.unitData.type === 'BOSS');
   }
   drawRoutes() {
     if (!this.routeArt) return;
@@ -210,10 +208,7 @@ export class DefenseBattleEngine extends BattleEngine {
       x: unit.x, y: unit.y, scale: 1, accent: enemy ? 0xe97c72 : OWNER_COLORS[unit.ownerLane], hp: 100 });
     actor.artFacing = enemy ? art.artFacing || 1 : 1;
     actor.applyFacing(); // Also updates the neutral pose used by move/attack/hit resets.
-    // The defense HUD consumes authored art without changing the shared V3 character implementation.
-    actor.namePlate.removeFromParent(); actor.namePlate.destroy();
-    actor.namePlate = new Sprite(Assets.get(this.catalog.uiSkin.nameplate));
-    actor.namePlate.label = 'DefenseAuthoredNameplate'; actor.hud.addChildAt(actor.namePlate, 0);
+    // The approved compact B HUD is shared by both factions and battle modes.
     actor.nameLabel.style.fontFamily = 'Defense SUIT, Malgun Gothic, sans-serif';
     if (art.footAnchor) actor.mainSprite.anchor.set(art.footAnchor.x, art.footAnchor.y);
     if(mercArt){Object.assign(actor,{cardId:unit.code,isMercenary:true,actorKind:'MERCENARY',role:unit.mercenary?.role||art.mercenary?.role||mercArt.role,
@@ -252,7 +247,7 @@ export class DefenseBattleEngine extends BattleEngine {
       if (this.reducedMotion) actor.animationController.kill();
       actor.root.alpha = row.hp > 0 ? 1 : .32;
       actor.setShield(row.shield||0,row.maxShield||0);
-      actor.nameLabel.text = enemy ? this.catalog.enemies[row.archetype||row.type].name : `${LANES[row.ownerLane]} · ${row.name}`;
+      actor.setDisplayName(enemy ? this.catalog.enemies[row.archetype||row.type].name : `${LANES[row.ownerLane]} · ${row.name}`);
     }
     for (const [id, actor] of this.actors) if (!next.has(id)) {
       // Keep a lethal-hit target through its short V3 impact, not indefinitely.
@@ -384,7 +379,7 @@ export class DefenseBattleEngine extends BattleEngine {
       environment: { renderer: 'painted-sprites', routeSprites: this.routeArt.children.length, coreTexture: this.catalog.environment.core,
         causewayTexture: this.catalog.environment.causeway },
       capacity: this.capacity, allies: this.allies.length, enemies: this.enemies.length, focusLane: this.focusLane,
-      hudNameplates: this.allies.map(actor => ({ id: actor.id, image: this.catalog.uiSkin.nameplate, sprite: actor.namePlate instanceof Sprite })),
+      hudNameplates: this.allies.map(actor => ({ id: actor.id, image: BATTLE_HUD_ASSETS.frame, sprite: actor.namePlate instanceof Sprite })),
       groundRunes: this.characters.map(actor => ({id:actor.id,team:actor.team,style:actor.stateHalo.groundStyle,visible:actor.stateHalo.visible,textureWidth:actor.stateHalo.children.at(-1)?.texture?.width})),
       enemySprites: this.enemies.map(actor => ({ id: actor.id, archetype: actor.unitData.archetype, state: actor.state,
         sourceFacing: actor.artFacing, viewScaleX: actor.view.scale.x, neutralScaleX: actor.neutralAvatarPose.scaleX, hudScaleX: actor.hud.scale.x })),

@@ -14,7 +14,7 @@ export function bindCooperativeEnemy(engine,row){
  actor.texture=Assets.get(row.battleSprite);if(!actor.texture)throw Error('COOP_ENEMY_TEXTURE_NOT_READY');
  actor.cutInTexture=actor.texture;actor.useFullBodySprite(actor.texture,row.displayHeight||260);actor.applyFacing();
  actor.fullBodySprite.anchor.set(.5,row.projectVMonsterArt?.footAnchor?.y||.9);actor.captureNeutralAvatarPose();
- actor.nameLabel.text=actor.name;actor.formationHudY=-(actor.fullBodyHeight*.98+88);actor.hud.y=actor.formationHudY;
+ actor.setDisplayName(actor.name);actor.formationHudY=-(actor.fullBodyHeight*.98+88);actor.hud.y=actor.formationHudY;
  actor.root.visible=true;actor.root.renderable=true;actor.root.alpha=1;actor.root.rotation=0;
  actor.root.position.set(actor.baseX,actor.baseY);actor.root.scale.set(actor.restScale);actor.setTint(0xffffff);
  actor.setState(CHARACTER_STATE.IDLE);actor.setHp(100);actor.setShield(row.shield||0,actor.serverMaxShield);

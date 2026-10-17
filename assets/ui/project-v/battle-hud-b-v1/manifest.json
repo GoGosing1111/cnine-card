@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-17",
+  "generator": "built-in image_gen",
+  "approval": {
+    "quote": "B타입 좋네 승인",
+    "sizeInstruction": "적당한 크기로 구현해 또 과하게 크게하지말고",
+    "status": "USER_APPROVED_B_CONCEPT",
+    "source": "approved-concept.png",
+    "sha256": "a66881f1f1cb5522a0ee4b881b8e745cc51b60e82a373ffd9583e64bc70d3295"
+  },
+  "prompts": {
+    "frame": "Use case: precise-object-edit. Production game UI sprite extraction from the attached USER-APPROVED B-type HUD concept.\nCreate ONE isolated blank HUD frame matching the TOP-LEFT HUD in the reference image: the SHORT raised center name tab on the WIDER long health channel, identical dark gunmetal end brackets and thin pewter top lips, dark blue-black glass material, same restrained bevels. Preserve the B silhouette faithfully, do NOT redesign it.\n\nRemove the name lettering completely, leaving the empty opaque dark name tab. Remove ALL green health fill and numbers, leaving the dark recessed EMPTY health track. In the tiny vertical indicator slot at the far left, replace cyan with a neutral WHITE luminous strip so the game can color that one strip for each team. White strip must be crisp and confined to its slot, no halo. No blue shield strip, no shield frame extension.\nAll elements are baked decorative frame/track only; the game will overlay live text, HP fill, shield and the colored indicator.\nKeep the name tab centered, roughly 63% of total frame width. Total object about 5:1 width-to-height. Thin rims, little side bracket thickness, no extra wings or corners. Front-facing orthographic UI, no perspective tilt. Fine satin texture and small highlights, matching the approved reference; not flat clip art.\nCenter the ONE frame, filling most of the canvas width with modest fully transparent margins. Actual transparent background alpha around its complete silhouette; opaque charcoal inside the name tab and empty health trough. Output ONLY the isolated frame. NO words anywhere, no chart, no title, no labels, no sample board, no stone background, no characters, no green colored fill, no golden ornament.",
+    "fill": "Use case: ui-mockup. One production GAME HEALTH BAR FILL texture, isolated on a genuinely transparent background. Only a straight very long thin WHITE / neutral-gray satin luminous gauge fill strip, horizontal about 16:1 width-to-height, perfectly rectangular squared ends with no frame and no panel. Top 15% a bright narrow white reflective highlight, middle soft silver-white, lower 20% subtle darker gray shading, smooth continuous understated milled-glass finish like a polished RPG health meter. The whole visible strip is solid opaque, neutral grayscale so the game can tint green/amber/red/cyan and reveal a proportional length. Crisp straight top/bottom edges. No segmented ticks, no sloped end, no text, no number, no icon, no glow cloud, no ornament, no border, no backdrop. One strip only, near-full image width, generous transparent space above and below.",
+    "concept": "Use case: ui-mockup. Create a polished, restrained combat-character HUD concept for a dark fantasy auto-battler. This user rejected BOTH an ornate crown-and-jewel fantasy frame AND a bare white name over a flat generic progress bar. Find the tasteful MIDDLE: recognizably designed GAME HUD with a compact crafted silhouette and slight material depth, extremely clear type, controlled edge lighting, no ornament overload. It must work floating above small battle sprites at roughly 120px wide. It is not a menu, web dashboard, equipment card, boss HUD, sci-fi cockpit or progress widget.\nLandscape 3:2 presentation image, understated dark navy charcoal backdrop with a barely perceptible defocused stone floor texture. Use elegant modern Korean sans-serif typography. Small title in upper left. Keep attention on the actual HUDs, not a poster. Board has two enlarged ally/enemy HUD samples in the upper middle (each about 450px wide at demonstration scale), one shield example and one low-health example beneath at 75% of that scale, and two genuinely small reduced HUD examples along the bottom. No outer presentation frame or cards behind samples. Pair labels in small muted text: \"아군\", \"상대\", \"보호막\", \"피격 직후\", \"축소 미리보기\". Names must be precise: top left \"나무늘봉순\", top right \"오조은\", lower left \"구수댕\", lower right \"토마토\"; reduced pair \"구수댕\" and \"오조은\".\nHealth at 80% or 65%, emerald-jade green with a sophisticated satin-like lit top surface and darker lower lip, NOT flat lime green. Empty track deep charcoal. Green on both teams. Team distinction comes from restrained cyan/red edge accents, not giant emblems. Fine cyan shield strip appears only under shield sample. The hit sample has green HP at 45% and a short amber delayed-damage segment immediately after it. No health percentages, numerical values, labels inside bars, or status icons. Tiny reduced versions must preserve readable names and a crisp bar.\nABSOLUTELY NO crowns, wings, leaf/laurel decorations, gemstones, spikes, flourishes, magical runes, ornamental metal scrollwork, big gold border, circular badge, rank letters, portraits, character sprites, neon haze, glossy rounded app buttons, giant stretched progress bars, fake text or explanatory paragraphs.\nTITLE EXACTLY \"B · 네임탭 결합형\".\nDESIGN B: A compact centered narrow NAME TAB joined to a slightly wider HEALTH METER, a clean distinctive stepped silhouette. The dark translucent name tab is only 72% of the HP width; its upper corners have a short gentle diagonal cut. White centered semibold name, light black text shadow, a hairline desaturated pewter top lip and extremely subtle satin glass lighting. The name tab sits immediately on the top rear edge of the health meter, no gap and no tall backplate. The HP meter extends a little to the left and right, with TWO tiny solid dark gunmetal end brackets. They each have one short angular inward cut, resembling a very restrained sporty combat UI. The left bracket has one small cyan strip for ally or crimson strip for enemy. The HP gauge itself has squared/chamfered ends, a convincing recessed dark channel, one finely lit edge and jade health fill. No vertical segmentation. A tiny recessed seam underneath contributes physical polish without adding ornaments. Total name-tab plus meter width-to-height about 4.8:1. This should feel like a professional tactical RPG floating status plate: readable, light, compact, intentional shaped structure. Lower shield sample adds a short slim blue strip directly below. This B is structurally different from A: a narrow central name tab on a wider base bar, NOT one full-width rectangular name frame."
+  },
+  "rejectedConcepts": [
+    "A ornate crown/filigree HUD",
+    "bare text + flat HP bar",
+    "A slim full-width name frame"
+  ],
+  "processing": "Preserve PNG originals byte-for-byte. Trim transparent padding and resize losslessly for runtime; preserve alpha. Live names, HP, shield and team color are separate runtime overlays.",
+  "assets": [
+    {
+      "id": "frame",
+      "original": "originals/frame.png",
+      "originalSha256": "d557f0934b1dcd3c8a44c0a6dfa7e2a983f52107ba48a8b981518189a805d11a",
+      "runtime": "frame.webp",
+      "sha256": "a773ec581d829bc6f0c72b83c71388391d465a3cdefa3854aedaaddc9e8875b6",
+      "width": 1024,
+      "height": 185,
+      "bytes": 139298,
+      "transparentPixels": 34969,
+      "opaquePixels": 1035
+    },
+    {
+      "id": "fill",
+      "original": "originals/fill.png",
+      "originalSha256": "c18650c2a04cb320e2356f45cb4e192e7f871ffd402a676d2238afcdb9f4c93e",
+      "runtime": "fill.webp",
+      "sha256": "b000f0acb1002dd592ed5bd9e572576974be2fadd3c2b2a5f25095abebf0012b",
+      "width": 512,
+      "height": 22,
+      "bytes": 7814,
+      "transparentPixels": 0,
+      "opaquePixels": 1050
+    }
+  ]
+}

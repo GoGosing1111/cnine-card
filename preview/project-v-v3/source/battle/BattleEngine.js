@@ -1,4 +1,5 @@
 import {drawBattleGroundStations} from './BattleGroundSigil.js';
+import {preloadBattleHud} from './BattleHud.js';
 import {apocalypseLegionBoss} from '../../../../shared/apocalypse-legion-v1.mjs';
 import {ApocalypseLegionFX} from './ApocalypseLegionFX.js';
 import {playApocalypseLegionSkill,showApocalypseStatus} from './ApocalypseLegionPlayback.js';
@@ -584,7 +585,7 @@ export class BaseBattleEngine{
     // Optional recorded audio must not keep a cold first frame behind the
     // renderer watchdog. Its own playback path waits for decode when needed.
     void this.audio.prepare().catch(()=>false);
-    await SkillEffectFX.preloadAll();
+    await Promise.all([SkillEffectFX.preloadAll(),preloadBattleHud()]);
     assertMount();
     this.skillTimeline=new SkillTimeline({
       ...DESKTOP,
@@ -1912,7 +1913,7 @@ export class BaseBattleEngine{
         console.warn(`[Project V V3] ${card?.cardId||target.id} 원본 카드 컷인 로드 실패; 기존 원본을 유지합니다.`,error);
       }
       target.name=card?.name||card?.title||target.name;
-      if(target.nameLabel)target.nameLabel.text=target.name;
+      target.setDisplayName?.(target.name);
       target.root.projectVBattleArt=art;
       if(String(art.kind||'').startsWith('UNASSIGNED_'))this.activeFallbackArt.push(art);
     }
@@ -1948,7 +1949,7 @@ export class BaseBattleEngine{
         console.warn(`[Project V V3] PVP ${target.id} 원본 카드 컷인 로드 실패; 기존 원본을 유지합니다.`,error);
       }
       target.name=card?.name||card?.title||target.name;
-      if(target.nameLabel)target.nameLabel.text=target.name;
+      target.setDisplayName?.(target.name);
       target.root.projectVBattleArt=art;
       target.isBoss=legion&&Boolean(card.isBoss);
       if(legion){target.useFullBodySprite(texture,(target.isBoss?285:235)*(art.scaleMultiplier||1));target.root.projectVMonsterArt=art;}
@@ -1989,7 +1990,7 @@ export class BaseBattleEngine{
     if(this.coopArkeBattlefield)target.fullBodySprite.anchor.set(.5,.94);
     target.setTint(0xffffff);
     target.name=monster?.name||art.name;
-    if(target.nameLabel)target.nameLabel.text=target.name;
+    target.setDisplayName?.(target.name);
     target.root.projectVMonsterArt=art;
     target.isBoss=isBoss;
     this.currentEnemyTarget=target;

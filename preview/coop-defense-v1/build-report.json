@@ -5,10 +5,11 @@
     "pixi.js": "8.20.0",
     "gsap": "3.13.0"
   },
-  "bundleBytes": 2103101,
+  "bundleBytes": 2106169,
   "commonV3": [
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",
+    "preview/project-v-v3/source/battle/BattleHud.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
     "preview/project-v-v3/source/battle/CameraController.js",

@@ -7,6 +7,7 @@
     "shared/mercenary-limited-catalog-v1.mjs",
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",
+    "preview/project-v-v3/source/battle/BattleHud.js",
     "shared/apocalypse-shanks-shisui-v1.mjs",
     "shared/apocalypse-legion-v1.mjs",
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
@@ -199,5 +200,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 1974216
+  "outputBytes": 1977726
 }
