@@ -23,6 +23,10 @@ APK 업데이트
 게임 중 설치하지 않으며, 다운로드/검증 실패나 설치 취소 시 현재 앱을 유지합니다.
 1.0.1에는 업데이트 기능이 없으므로 이번 버전을 한 번 직접 설치해야 합니다.
 
+인게임 뒤로가기 (1.1.1부터)
+열린 메뉴/상세창을 먼저 닫고, 인벤토리/PVP 화면에서는 게임 로비로 돌아갑니다.
+로비에서는 2초 안에 뒤로가기를 두 번 누르면 게임 준비 화면으로 돌아갑니다.
+
 Android 7.0 이상 설치 대상. Android System WebView의 최신 지원 버전을 권장합니다. 기기별 실행/설치는 별도 확인이 필요합니다. iPhone/iPad에는 설치되지 않습니다.
 문의: elspe3821@gmail.com
 공식 설치 안내: https://developer.android.com/distribute/marketing-tools/alternative-distribution

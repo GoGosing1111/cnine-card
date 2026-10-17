@@ -15,9 +15,14 @@ public final class GameActivity extends Activity {
     private Application app;private ResourceStore store;private ClientPolicy.Manifest manifest;
     private FrameLayout root;private final ArrayList<WebView> views=new ArrayList<>();
     private View fullscreen;private WebChromeClient.CustomViewCallback fullscreenCallback;
+    private String gameBackScript;private boolean backPending;private long lastRootBackAt;private Toast backHint;
     @Override public void onCreate(Bundle saved){
         super.onCreate(saved);app=(Application)getApplication();manifest=app.session;
-        try{store=app.store();if(manifest==null){finish();return;}}catch(Exception e){finish();return;}
+        try{store=app.store();if(manifest==null){finish();return;}
+            try(InputStream in=getAssets().open("game-back.js");ByteArrayOutputStream out=new ByteArrayOutputStream()){
+                byte[] bytes=new byte[4096];int count;while((count=in.read(bytes))!=-1)out.write(bytes,0,count);gameBackScript=out.toString("UTF-8");
+            }
+        }catch(Exception e){finish();return;}
         app.playing=true;root=new FrameLayout(this);root.setBackgroundColor(0xff080c17);
         root.setOnApplyWindowInsetsListener((v,i)->{v.setPadding(i.getSystemWindowInsetLeft(),i.getSystemWindowInsetTop(),i.getSystemWindowInsetRight(),i.getSystemWindowInsetBottom());return i.consumeSystemWindowInsets();});setContentView(root);
         // This WebView profile belongs only to this APK; Chrome/PWA storage is untouched.
@@ -57,6 +62,7 @@ public final class GameActivity extends Activity {
         WebView web=new WebView(this);WebSettings s=web.getSettings();s.setJavaScriptEnabled(true);s.setDomStorageEnabled(true);s.setAllowFileAccess(false);s.setAllowContentAccess(false);s.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);s.setCacheMode(WebSettings.LOAD_NO_CACHE);s.setSupportMultipleWindows(true);s.setJavaScriptCanOpenWindowsAutomatically(true);s.setMediaPlaybackRequiresUserGesture(false);s.setUseWideViewPort(true);s.setLoadWithOverviewMode(true);s.setUserAgentString(s.getUserAgentString()+" ReverseCallAndroid/"+NativeConfig.VERSION_NAME);
         CookieManager.getInstance().setAcceptThirdPartyCookies(web,false);
         web.setWebViewClient(new WebViewClient(){
+            @Override public void onPageStarted(WebView w,String url,Bitmap icon){lastRootBackAt=0;}
             @Override public WebResourceResponse shouldInterceptRequest(WebView w,WebResourceRequest r){return intercept(r);}
             @Override public boolean shouldOverrideUrlLoading(WebView w,WebResourceRequest r){boolean blocked=navigate(r);if(blocked&&r.isForMainFrame()&&views.size()>1&&w!=views.get(0))runOnUiThread(()->{if(views.contains(w))removeWebView(w);});return blocked;}
             @Override public void onReceivedError(WebView w,WebResourceRequest r,WebResourceError e){if(r.isForMainFrame())Toast.makeText(GameActivity.this,"연결을 확인해 주세요. 뒤로가기로 런처에 돌아갈 수 있습니다.",Toast.LENGTH_LONG).show();}
@@ -76,7 +82,30 @@ public final class GameActivity extends Activity {
     }
     private void hideFullscreen(){if(fullscreen!=null){root.removeView(fullscreen);fullscreen=null;if(fullscreenCallback!=null)fullscreenCallback.onCustomViewHidden();fullscreenCallback=null;}}
     private void removeWebView(WebView web){root.removeView(web);views.remove(web);web.stopLoading();web.destroy();if(views.isEmpty())finish();else views.get(views.size()-1).setVisibility(View.VISIBLE);}
-    @Override public void onBackPressed(){if(fullscreen!=null){hideFullscreen();return;}if(views.isEmpty()){finish();return;}WebView top=views.get(views.size()-1);if(top.canGoBack())top.goBack();else if(views.size()>1)removeWebView(top);else finish();}
+    private void backAtRoot(){
+        long now=SystemClock.elapsedRealtime();
+        if(lastRootBackAt>0&&now-lastRootBackAt<2000){if(backHint!=null)backHint.cancel();finish();return;}
+        lastRootBackAt=now;backHint=Toast.makeText(this,"한 번 더 누르면 게임 준비 화면으로 돌아갑니다.",Toast.LENGTH_SHORT);backHint.show();
+    }
+    @Override public void onBackPressed(){
+        if(fullscreen!=null){lastRootBackAt=0;hideFullscreen();return;}
+        if(views.isEmpty()){finish();return;}if(backPending)return;
+        WebView top=views.get(views.size()-1);backPending=true;
+        top.evaluateJavascript(gameBackScript,result->{
+            backPending=false;
+            if(isFinishing()||isDestroyed()||views.isEmpty()||views.get(views.size()-1)!=top)return;
+            if("\"handled\"".equals(result)){lastRootBackAt=0;return;}
+            // A script failure must never turn a menu Back press into app exit.
+            if(!"\"home\"".equals(result)&&!"\"page\"".equals(result)){lastRootBackAt=0;return;}
+            if("\"home\"".equals(result)){if(views.size()>1)removeWebView(top);else backAtRoot();return;}
+            if(top.canGoBack()){lastRootBackAt=0;top.goBack();return;}
+            if(views.size()>1){lastRootBackAt=0;removeWebView(top);return;}
+            if(top.getProgress()<100)return;
+            String url=top.getUrl(),path=url==null?"":Uri.parse(url).getPath();
+            if(ClientPolicy.gameUrl(url)&&!"/".equals(path)&&!"/index.html".equals(path)){lastRootBackAt=0;top.loadUrl(getString(R.string.nativeStartUrl));return;}
+            backAtRoot();
+        });
+    }
     @Override protected void onPause(){for(WebView w:views)w.onPause();CookieManager.getInstance().flush();super.onPause();}
     @Override protected void onResume(){super.onResume();for(WebView w:views)w.onResume();}
     @Override protected void onDestroy(){hideFullscreen();for(WebView w:views){w.stopLoading();root.removeView(w);w.destroy();}views.clear();app.playing=false;super.onDestroy();}

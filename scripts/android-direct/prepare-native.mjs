@@ -19,10 +19,17 @@ const gradle=join(project,'app/build.gradle');let app=await readFile(gradle,'utf
 app=app.replace(/\s*implementation 'com\.google\.androidbrowserhelper:androidbrowserhelper:[^']+'/,'');
 app=app.replace(/\s*resValue "string", "nativeStartUrl", "[^"]+"/g,'');
 app=app.replace(/versionName "[^"]+"/,`versionName "${config.appVersion}"\n        resValue "string", "nativeStartUrl", "https://cnine-card.pages.dev${config.startUrl}"`);
+app=app.replace(/versionCode\s+\d+/,`versionCode ${config.appVersionCode}`);
 if(!app.includes("options.encoding = 'UTF-8'"))app+="\ntasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }\n";
 await writeFile(gradle,app);
 await writeFile(join(project,'app/src/main/res/values/native-theme.xml'),`<resources><style name="NativeTheme" parent="android:style/Theme.Material.NoActionBar"><item name="android:fontFamily">sans</item><item name="android:windowLightStatusBar">false</item><item name="android:windowActionModeOverlay">true</item><item name="android:colorAccent">#bb8cfa</item><item name="android:statusBarColor">#080c17</item><item name="android:navigationBarColor">#080c17</item><item name="android:windowBackground">#080c17</item></style></resources>\n`);
 const assets=join(project,'app/src/main/assets/launcher');await mkdir(assets,{recursive:true});
 for(const name of ['background.webp','button.webp']){const file=join(repo,'packaging/android-direct/art',name);const data=await readFile(file);sourceHashes['art/'+name]=createHash('sha256').update(data).digest('hex');await copyFile(file,join(assets,name));}
+const backScript=await readFile(join(repo,'packaging/android-direct/web/game-back.js'));
+sourceHashes['web/game-back.js']=createHash('sha256').update(backScript).digest('hex');
+await writeFile(join(project,'app/src/main/assets/game-back.js'),backScript);
+const manifestFile=join(project,'twa-manifest.json'),manifest=JSON.parse(await readFile(manifestFile,'utf8'));
+Object.assign(manifest,{appVersion:config.appVersion,appVersionCode:config.appVersionCode,startUrl:config.startUrl});
+await writeFile(manifestFile,JSON.stringify(manifest,null,2)+'\n');
 await writeFile(join(project,'native-source-hashes.json'),JSON.stringify(sourceHashes,null,2)+'\n');
 console.log(JSON.stringify({native:true,version:config.appVersion,sourceFiles:Object.keys(sourceHashes).length}));

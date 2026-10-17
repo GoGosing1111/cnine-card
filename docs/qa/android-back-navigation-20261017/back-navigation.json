@@ -1,0 +1,21 @@
+{
+  "type": "REAL_GAME_SHELL_WITH_APK_BACK_SCRIPT_NOT_ANDROID_DEVICE",
+  "passed": 10,
+  "checks": [
+    "real inventory has no browser history entry (original failure)",
+    "inventory Back consumed in game",
+    "lobby is reported distinctly to native double-back handling",
+    "PVP Back consumed in game",
+    "shared shadow-DOM menu closes first",
+    "menu close preserves underlying inventory",
+    "detail Back invokes existing close handler exactly once",
+    "busy modal cannot fall through to launcher exit",
+    "real PVP save-in-progress guard preserved",
+    "no browser JavaScript errors: "
+  ],
+  "errors": [],
+  "interceptedWrites": [
+    "/api/sync/ticket"
+  ],
+  "androidDevice": "NOT_CONNECTED"
+}

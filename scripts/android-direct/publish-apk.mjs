@@ -27,9 +27,10 @@ async function api(route,{method='GET',body,upload=false}={}){
 }
 if((await api('commits/'+commit))?.sha!==commit)throw Error('Push the source commit first.');
 const windowsBefore=await api('releases/latest'),tag='android-v'+config.appVersion;
+const notes=(await readFile(join(root,'packaging/android-direct/release-notes.ko.txt'),'utf8')).replaceAll('{{VERSION}}',config.appVersion);
 let release=await api('releases/tags/'+tag);
 if(release&&(release.target_commitish!==commit||!release.prerelease))throw Error('Existing Android tag belongs to another build; never overwrite published versions.');
-if(!release)release=await api('releases',{method:'POST',body:{tag_name:tag,target_commitish:commit,name:`리버스콜 Android ${config.appVersion}`,draft:true,prerelease:true,make_latest:'false',body:`리버스콜 Android 전용 클라이언트 ${config.appVersion}\n\n앱 전용 리소스 저장·SHA-256 검증·변경 파일 다운로드와 APK 자동 확인·다운로드를 제공합니다. 설치는 Android 확인 화면에서 진행합니다. 이전 1.0.1 이용자는 이번 APK를 한 번 직접 설치해야 합니다.\n\n빌드·서명·저장소 회귀 및 실제 운영 리소스 검사를 완료했습니다. Android 실기기 설치·전투·OS 복귀·업데이트 설치 검수는 별도로 필요합니다. 이 릴리스는 Windows 자동 업데이트 채널과 분리됩니다.`}});
+if(!release)release=await api('releases',{method:'POST',body:{tag_name:tag,target_commitish:commit,name:`리버스콜 Android ${config.appVersion}`,draft:true,prerelease:true,make_latest:'false',body:notes}});
 for(const artifact of artifacts){const existing=release.assets.find(a=>a.name===artifact.name);if(existing){if(existing.size!==artifact.bytes||existing.digest!=='sha256:'+artifact.sha256)throw Error('Existing artifact differs: '+artifact.name);continue;}if(!release.draft)throw Error('Published artifacts are immutable.');const asset=await api(`releases/${release.id}/assets?name=${encodeURIComponent(artifact.name)}`,{method:'POST',upload:true,body:await readFile(join(output,artifact.name))});if(asset.size!==artifact.bytes||asset.digest!=='sha256:'+artifact.sha256)throw Error('Uploaded artifact verification failed.');console.log('Verified '+artifact.name);}
 if(release.draft)release=await api('releases/'+release.id,{method:'PATCH',body:{draft:false,prerelease:true,make_latest:'false'}});
 const windowsAfter=await api('releases/latest');if(windowsBefore?.id!==windowsAfter?.id)throw Error('Latest Windows release changed; inspect before advancing the Android feed.');
