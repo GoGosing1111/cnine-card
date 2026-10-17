@@ -1,0 +1,55 @@
+{
+  "at": "2026-10-17T13:58:14.323Z",
+  "source": "a42bd1509fb2d995d32898b245b890af04940e8c",
+  "checks": [
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "4fe5c303ccc2aa0a427df717634e89c3b8da0ce7a5586af99b3b5b64f42e9763",
+      "bytes": 8969
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "540b4ce0158c377b6b2a4a124a2716e22bb06c7b721c3543e2b58d275202e6c4",
+      "bytes": 29072
+    },
+    {
+      "file": "mercenary-codex/deployment.css",
+      "sha256": "1a04120e893ab0afe1bb3a0554e3b2b5fee45590737048abcb2771273aad958b",
+      "bytes": 5247
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/deployment-20261017/deployment-button.webp",
+      "sha256": "10bb6c547ff301d50dcd7829a1265817fb4a86e8e806c1e8c76e4569820d0507",
+      "bytes": 44688
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/deployment-20261017/deployment-panel.webp",
+      "sha256": "e20ebe73e1f130d89ef0a48a439843e29ed7b06094596171aa750354a86f3af5",
+      "bytes": 52208
+    },
+    {
+      "width": 1440,
+      "textColor": "rgb(36, 23, 10)",
+      "image": "url(\"https://cnine-card.pages.dev/assets/ui/project-v/mercenaries/deployment-20261017/deployment-button.webp\")",
+      "height": 68,
+      "visible": true,
+      "hit": true,
+      "overflow": false,
+      "fixtureAccount": true,
+      "assetOverrides": false
+    },
+    {
+      "width": 390,
+      "textColor": "rgb(36, 23, 10)",
+      "image": "url(\"https://cnine-card.pages.dev/assets/ui/project-v/mercenaries/deployment-20261017/deployment-button.webp\")",
+      "height": 68,
+      "visible": true,
+      "hit": true,
+      "overflow": false,
+      "fixtureAccount": true,
+      "assetOverrides": false
+    }
+  ],
+  "errors": [],
+  "liveWrites": 0
+}

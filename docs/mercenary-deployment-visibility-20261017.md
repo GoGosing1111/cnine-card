@@ -22,3 +22,11 @@ Built-in ImageGen으로 용병도감 전용 금속 버튼과 네이비 편성 �
 ## 배포
 
 직전 Production 소스는 `da9d0594f9a04c4f8991c163a277ecb1b67d83dd` (Pages `0816154d`)이다. 범위 커밋·원격 반영 후 `npm run deploy:production -- --scoped`를 사용한다. 완료 후 실제 배포 식별자와 공개 파일 확인 결과만 추가 기록하며 문서 갱신을 위해 재배포하지 않는다.
+
+2026-10-17 22:58 KST 운영 확인 완료:
+
+- 배포 소스 `a42bd1509fb2d995d32898b245b890af04940e8c`, Pages [ad955088](https://ad955088.cnine-card.pages.dev).
+- 편성 회귀 10/10, 출시 보호 조건과 Hyperdrive 캐시 OFF 검사 통과. API runtime `5b787ad2-36e2-424d-b0b2-9c47b3e57f45`, scheduler `971a95cd-da8d-40b2-8e42-8c228eaa97ad`.
+- 실제 운영 HTML·JS·CSS·WebP 2종이 배포 소스와 SHA-256 일치. 운영 파일을 그대로 사용하는 PC 1440px·모바일 390px에서 버튼 문구·색·높이·클릭 영역·가로 넘침 없음을 확인했다.
+- 운영 화면 확인에서는 보유 계정 응답만 검수 데이터로 대체하고, 정적 파일이나 공개 도감 응답은 대체하지 않았다. 운영 계정에 POST·재화 사용·편성 변경은 없었다. `production-report.json`의 `fixtureAccount:true`, `assetOverrides:false`, `liveWrites:0`으로 구분한다.
+- 결과 기록만 후속 커밋하고 같은 실행 코드를 재검사·재배포하지 않았다.
