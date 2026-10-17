@@ -1,0 +1,11 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "BUILT_IN",
+  "prompt": "Use case: ui-mockup\nAsset type: production game UI dialogue panel frame, one isolated reusable raster asset for an elite emerald dragon swordsman, no text.\nPrimary request: a sophisticated premium emerald green frame for a narrow horizontal character dialogue banner in a high-end Korean collectible RPG.\nComposition: straight-on perfectly orthographic, single wide horizontal panel centered on a 1536 by 512 transparent canvas; outer silhouette occupies almost the entire canvas, with only small transparent margins. A refined stepped bevel and gently tapered chamfered ends. Designed for 9-slice scaling: ALL distinct ornament concentrated in the outer 140 pixels at left and right and outer 64 pixels at top and bottom; the broad center is completely quiet, very dark green-black lacquer for legible overlaid dialogue. Center, top rail and bottom rail extend cleanly horizontally without any central emblem. Leave a very generous flat dark interior.\nMaterials: deep translucent jade inlays, exquisitely engraved blackened steel, restrained warm pale platinum/champagne edge highlights, subtle fine dragon-scale engraving only in the endcaps. Two small sculpted emerald dragon motifs integrated into the left and right endcaps, elegant silhouette rather than massive dragon heads. Precious but understated, disciplined symmetrical metalwork, believable material detail, no bulky fantasy jewelry.\nLighting: subtle emerald rim light only on the metal and jade, crisp readable edges and controlled highlights; no neon bloom washing across the center.\nConstraints: ONE frame, transparent exterior alpha, opaque dark interior panel. NO lettering, NO numbers, NO SSS, NO logo, NO character, NO portrait, NO buttons, NO extra panels, NO checkerboard, NO scene background. Not an interface screenshot. Avoid plain rectangular CSS-like appearance, excessive filigree, gold-dominated palette, bright green center, large floating diamonds, chunky rounded borders. This is the actual polished UI art asset.",
+  "transparentBackground": true,
+  "source": "frame-source.png",
+  "derived": "frame.webp",
+  "derivation": "Lossless WebP conversion only; source pixels and alpha preserved",
+  "consumer": "preview/project-v-v3/source/battle/JinmuDialogue.js",
+  "approval": "USER_REVIEW_PENDING"
+}

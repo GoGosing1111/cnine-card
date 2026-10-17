@@ -101,15 +101,26 @@ async function playback(engine,actor,targets,mode,apply){
  if(mode==='basic')mode=++s.basicCount%3===0?'skill':'attack';
  s.fx.begin(mode,targets);
  const ultimate=mode==='awakening',fullEffect=ultimate||mode==='skill',duration=MODES[mode].duration,contact=MODES[mode].contacts[0],rate=JOKRO_COMBAT.effectPlaybackRate,clock={time:0};let applied=false;
+ // The shared field can advance a defeated wave after 340ms. Compress only
+ // the opening draw/burst here; keep the authored aftermath at its normal rate.
+ // Ordinary PVE retains the complete 5.6s sequence and original contact time.
+ const cooperativeDraw=ultimate&&engine.formationCoop,contactAt=cooperativeDraw ? .20 : contact/rate;
+ const targetIds=targets.map(t=>t.id),sameTargets=()=>targets.every((t,i)=>t.id===targetIds[i]);
  const result=await engine.timeline(t=>{
-  t.to(clock,{time:duration,duration:duration/rate,ease:'none',onUpdate(){if(valid()&&!s.stopped){s.fx.clock.time=clock.time;s.fx.render(clock.time);}}});
-  t.call(()=>{if(valid()&&!s.stopped&&!applied){applied=true;apply();}},[],contact/rate);
+  const update=()=>{if(valid()&&!s.stopped&&sameTargets()){s.fx.clock.time=clock.time;s.fx.render(clock.time);}};
+  if(cooperativeDraw){
+   t.to(clock,{time:1.92,duration:.08,ease:'none',onUpdate:update});
+   t.to(clock,{time:contact,duration:.12,ease:'none',onUpdate:update});
+   t.to(clock,{time:2.72,duration:.12,ease:'none',onUpdate:update});
+   t.to(clock,{time:duration,duration:duration-2.72,ease:'none',onUpdate:update});
+  }else t.to(clock,{time:duration,duration:duration/rate,ease:'none',onUpdate:update});
+  t.call(()=>{if(valid()&&!s.stopped&&!applied&&sameTargets()){applied=true;apply();}},[],contactAt);
  // Finish the ultimate before advancing the receipt queue. Otherwise the next
  // attack settles its shared targets and erases the dragon immediately on impact.
  // Keep the readable sequence out of automatic battle pacing; reduced motion
  // still uses the user's shortened playback. Dialogue is outside the canvas.
  },()=>{s.busy=false;s.fx.cancel();if(valid()&&!s.stopped&&actor.hp>0){actor.animationController.setState('IDLE');startAmbient(s);}},fullEffect?(engine.reducedMotion?8:1):null,{releaseAt:fullEffect?null:(contact+.12)/rate,owners:[actor,...targets]});
- engine.lastMercenaryPlayback={code:JOKRO_CODE,eventType:mode==='awakening'?JOKRO_AREA_EVENT:'ATTACK',mode,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0,playbackRate:rate,contactSeconds:contact/rate,durationSeconds:duration/rate};
+ engine.lastMercenaryPlayback={code:JOKRO_CODE,eventType:mode==='awakening'?JOKRO_AREA_EVENT:'ATTACK',mode,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0,playbackRate:rate,contactSeconds:contactAt,durationSeconds:cooperativeDraw ? .32+duration-2.72 : duration/rate,cooperativeDraw};
  return result&&valid();
 }
 export function playJokroBasic(engine,{attacker:actor,target,damage=0,targetHp=null,targetShield=null,onImpact=()=>{}}={}){

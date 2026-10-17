@@ -52,11 +52,21 @@ const CSS=`
 .jinmu-dialogue-rail:not([data-theme='jinmu']) .jinmu-dialogue-crest{display:block;width:27px;height:23px;margin:0 auto 3px;color:inherit;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
 .jinmu-dialogue-rail:not([data-theme='jinmu']) .jinmu-dialogue-seal b{font-size:20px}
 .jinmu-dialogue-rail[data-theme='valter'] [data-crest='sun'],.jinmu-dialogue-rail[data-theme='helios'] [data-crest='swords']{display:none}
-.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame{border:14px solid transparent;border-image:url('/preview/mercenary-jokro-iaido-20261017-v1/assets/ui/frame.webp') 270 fill /14px stretch;background:none;clip-path:none;padding:0}
+.jinmu-dialogue-rail[data-theme='jokro']{padding:4px 12px 6px;background:#090d13}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame{max-width:1060px;border:0 solid transparent;border-inline-width:72px;border-image:url('/assets/ui/project-v/mercenaries/jokro-dialogue-20261018/frame.webp') 0 480 fill /0 72px stretch;background:none;clip-path:none;padding:0}
 .jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame:before,.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame:after,.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-crest{display:none}
-.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-inner{background:none;clip-path:none;min-height:58px;padding:0 5px;box-shadow:none}
-.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name b{color:#a2f5c9}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-copy p{color:#dcffed}
-.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-face{border-color:#96f5c7;box-shadow:0 0 0 3px #204d3b,0 0 0 4px #6ba98e}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-inner{background:none;clip-path:none;min-height:110px;padding:24px 3px;gap:16px;box-shadow:none}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-copy{text-align:left}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name b{color:#b9ead1;font-size:13px;letter-spacing:.12em}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name span{color:#79a995;font-size:10px;letter-spacing:.1em}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-copy p{color:#e5f4ec;font-size:17px;font-weight:500;line-height:1.55;text-shadow:0 1px 3px #000}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-face{flex-basis:52px;width:52px;height:52px;padding:0;border:0;background:none;box-shadow:none}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-face:after{display:none}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-seal{border:0;color:#a7cfb7;flex-basis:64px;min-height:0}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-seal b{font-size:18px;font-weight:500;letter-spacing:4px;text-shadow:none}
+.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-seal small{font-size:7px;color:#799788}
+.jinmu-dialogue-rail[data-theme='jokro'][data-casting='true'] .jinmu-dialogue-inner{box-shadow:none}
+.jinmu-dialogue-rail[data-theme='jokro'][data-casting='true'] .jinmu-dialogue-name span{color:#b8ffda}
 .battle-v3-live-shell.is-result-visible .jinmu-dialogue-rail{visibility:hidden}
 .battle-v3-live-shell.has-jinmu-dialogue .nightmare-battle-mark{translate:0 var(--jinmu-dialogue-height,0px)}
 body[data-jinmu-dialogue='true'][data-legion-live] .boss-hud,body[data-jinmu-dialogue='true'][data-legion-live] #hunt-pickup-toast{translate:0 var(--jinmu-dialogue-height,0px)}
@@ -64,6 +74,7 @@ body[data-jinmu-dialogue='true'][data-legion-live] .boss-hud,body[data-jinmu-dia
 @media(max-width:760px){.jinmu-dialogue-rail{padding:5px 7px 7px}.jinmu-dialogue-inner{min-height:90px;padding:9px 12px;gap:11px}.jinmu-dialogue-face{flex-basis:48px;width:48px;height:48px;padding:2px}.jinmu-dialogue-name{gap:7px;margin-bottom:3px;flex-wrap:wrap}.jinmu-dialogue-name b{font-size:12px}.jinmu-dialogue-name span{font-size:9px}.jinmu-dialogue-copy p{font-size:14px;line-height:1.65}.jinmu-dialogue-seal{display:none}.jinmu-dialogue-frame:before,.jinmu-dialogue-frame:after{left:78px;right:20px}}
 @media(max-width:760px){.coop-battle-portal.has-jinmu-dialogue>.coop-pattern{top:auto}}
 @media(max-height:620px) and (orientation:landscape){.jinmu-dialogue-rail{padding-block:4px}.jinmu-dialogue-inner{min-height:62px;padding-block:5px}.jinmu-dialogue-face{flex-basis:44px;width:44px;height:44px}.jinmu-dialogue-copy p{font-size:14px}.jinmu-dialogue-name b{font-size:11px}.jinmu-dialogue-seal{min-height:45px}.jinmu-dialogue-seal b{font-size:18px}}
+@media(max-width:760px){.jinmu-dialogue-rail[data-theme='jokro']{padding:2px 5px 4px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame{border-inline-width:44px;border-image-width:0 44px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-inner{min-height:112px;padding:25px 0;gap:9px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-face{flex-basis:38px;width:38px;height:38px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-copy p{font-size:13px;line-height:1.6}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name{gap:7px;flex-wrap:nowrap}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name b{font-size:12px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name span{font-size:9px}}
 `;
 
 const rails=new WeakMap();
@@ -90,6 +101,14 @@ class DialogueRail{
   if(this.body.hasAttribute('data-legion-live'))this.body.dataset.jinmuDialogue='true';
   this.layout=()=>{
    if(this.destroyed||!this.node.isConnected)return;
+   const width=this.node.getBoundingClientRect().width;
+   if(this.measuredWidth!==width&&[...this.members].some(m=>m.profile.theme==='jokro')){
+    // A mixed squad shares this row. Reserve the tallest theme before any
+    // speaker casts, so switching to the new frame cannot resize the board.
+    const theme=this.node.dataset.theme;let height=0;this.node.style.minHeight='';
+    for(const member of this.members){this.node.dataset.theme=member.profile.theme;height=Math.max(height,this.node.getBoundingClientRect().height);}
+    this.node.dataset.theme=theme;this.node.style.minHeight=Math.ceil(height)+'px';this.measuredWidth=width;
+   }
    const shellTop=shell.getBoundingClientRect().top;
    const header=Math.max(this.header?.getBoundingClientRect().height||0,...this.coopHeaders.map(el=>Math.max(0,el.getBoundingClientRect().bottom-shellTop))),height=this.node.getBoundingClientRect().height;
    this.node.style.top=header+'px';shell.style.setProperty('--jinmu-dialogue-height',height+'px');
@@ -105,6 +124,7 @@ class DialogueRail{
  }
  add(member){
   this.members.add(member);
+  this.measuredWidth=null;
   // Measure every possible line before casting, so changing speaker or text
   // never changes the canvas height mid-attack, especially on mobile.
   for(const text of member.profile.lines){const p=this.node.ownerDocument.createElement('p');p.setAttribute('aria-hidden','true');p.textContent='“'+text+'”';this.lines.append(p);}

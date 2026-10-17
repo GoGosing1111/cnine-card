@@ -1,0 +1,137 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "layout": {
+        "before": {
+          "x": 0,
+          "y": 276,
+          "width": 1440,
+          "height": 724,
+          "top": 276,
+          "right": 1440,
+          "bottom": 1000,
+          "left": 0
+        },
+        "heights": [
+          276,
+          276,
+          276,
+          276,
+          276
+        ],
+        "rect": {
+          "x": 0,
+          "y": 156,
+          "width": 1440,
+          "height": 120,
+          "top": 156,
+          "right": 1440,
+          "bottom": 276,
+          "left": 0
+        },
+        "text": {
+          "x": 333,
+          "y": 190.734375,
+          "width": 762,
+          "height": 48.53125,
+          "top": 190.734375,
+          "right": 1095,
+          "bottom": 239.265625,
+          "left": 333
+        },
+        "face": {
+          "x": 265,
+          "y": 189,
+          "width": 52,
+          "height": 52,
+          "top": 189,
+          "right": 317,
+          "bottom": 241,
+          "left": 265
+        },
+        "overflow": false,
+        "frame": "url(\"http://127.0.0.1:8971/assets/ui/project-v/mercenaries/jokro-dialogue-20261018/frame.webp\")"
+      },
+      "mixed": {
+        "top": 276,
+        "positions": [
+          276,
+          276,
+          276,
+          276,
+          276
+        ],
+        "overlap": false
+      }
+    },
+    {
+      "width": 390,
+      "layout": {
+        "before": {
+          "x": 0,
+          "y": 249,
+          "width": 390,
+          "height": 595,
+          "top": 249,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "heights": [
+          249,
+          249,
+          249,
+          249,
+          249
+        ],
+        "rect": {
+          "x": 0,
+          "y": 131,
+          "width": 390,
+          "height": 118,
+          "top": 131,
+          "right": 390,
+          "bottom": 249,
+          "left": 0
+        },
+        "text": {
+          "x": 96,
+          "y": 168.703125,
+          "width": 245,
+          "height": 40.59375,
+          "top": 168.703125,
+          "right": 341,
+          "bottom": 209.296875,
+          "left": 96
+        },
+        "face": {
+          "x": 49,
+          "y": 170,
+          "width": 38,
+          "height": 38,
+          "top": 170,
+          "right": 87,
+          "bottom": 208,
+          "left": 49
+        },
+        "overflow": false,
+        "frame": "url(\"http://127.0.0.1:8971/assets/ui/project-v/mercenaries/jokro-dialogue-20261018/frame.webp\")"
+      },
+      "mixed": {
+        "top": 249,
+        "positions": [
+          249,
+          249,
+          249,
+          249,
+          249
+        ],
+        "overlap": false
+      }
+    }
+  ],
+  "errors": [],
+  "serverAreas": 6,
+  "productionTransactions": 0
+}

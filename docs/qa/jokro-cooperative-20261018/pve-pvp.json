@@ -1,0 +1,476 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "enemy",
+      "hpCalls": [
+        {
+          "id": "CN-02D9DC1E8A8A4209",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "CN-02D9DC1E8A8A4209"
+      ],
+      "fx": {
+        "ready": true,
+        "mode": "attack",
+        "time": 0.793,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "slash",
+          "frame": 2
+        },
+        "cancelled": false,
+        "visibleSprites": 36,
+        "activeFrames": [
+          {
+            "key": "blade",
+            "frame": 4,
+            "alpha": 1,
+            "anchor": {
+              "x": 152.9,
+              "y": 188.00000000000003
+            },
+            "size": 220.875
+          },
+          {
+            "key": "impact",
+            "frame": 4,
+            "alpha": 0.85,
+            "anchor": {
+              "x": 170,
+              "y": 188.00000000000003
+            },
+            "size": 242.25
+          }
+        ],
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "regularEnemies": 5,
+        "mercenaryInRegularArray": false,
+        "effectLayers": 1,
+        "auraVisible": true,
+        "auraEnabled": true,
+        "motionOnly": false,
+        "reducedMotion": false,
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "unit": 142.5,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "motionRate": 2,
+        "effectRate": 1,
+        "illustrationCutIn": false,
+        "awakening": {
+          "splitVisible": false,
+          "snapshotAlive": false,
+          "captures": 0,
+          "visibleSprites": 0,
+          "illustrationCutIn": false
+        },
+        "counts": {
+          "motion": 24,
+          "effects": 108
+        },
+        "dialogue": {
+          "visible": false,
+          "line": "칼끝이 닿기 전에, 승부는 끝났다.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "neonEnabled": true,
+        "auraAlphas": [
+          1,
+          1,
+          1
+        ]
+      },
+      "direction": -1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "hpCalls": 1
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "area",
+      "hpCalls": [
+        {
+          "id": "B:0:ENCOUNTER:INITIAL",
+          "hp": 8.000927643784788
+        },
+        {
+          "id": "B:1:ENCOUNTER:INITIAL",
+          "hp": 53.99962356484096
+        },
+        {
+          "id": "B:2:ENCOUNTER:INITIAL",
+          "hp": 53.99946516493369
+        },
+        {
+          "id": "B:3:ENCOUNTER:INITIAL",
+          "hp": 53.99981962481962
+        },
+        {
+          "id": "B:4:ENCOUNTER:INITIAL",
+          "hp": 53.99940968122786
+        },
+        {
+          "id": "B:5:ENCOUNTER:INITIAL",
+          "hp": 54.00027056277056
+        },
+        {
+          "id": "B:6:ENCOUNTER:INITIAL",
+          "hp": 54.0004831501389
+        },
+        {
+          "id": "B:7:ENCOUNTER:INITIAL",
+          "hp": 54.000463821892396
+        },
+        {
+          "id": "B:8:ENCOUNTER:INITIAL",
+          "hp": 53.99962356484096
+        },
+        {
+          "id": "B:9:ENCOUNTER:INITIAL",
+          "hp": 53.99946516493369
+        },
+        {
+          "id": "B:10:ENCOUNTER:INITIAL",
+          "hp": 53.99981962481962
+        },
+        {
+          "id": "B:11:ENCOUNTER:INITIAL",
+          "hp": 53.99940968122786
+        }
+      ],
+      "damageCalls": [
+        "B:0:ENCOUNTER:INITIAL",
+        "B:1:ENCOUNTER:INITIAL",
+        "B:2:ENCOUNTER:INITIAL",
+        "B:3:ENCOUNTER:INITIAL",
+        "B:4:ENCOUNTER:INITIAL",
+        "B:5:ENCOUNTER:INITIAL",
+        "B:6:ENCOUNTER:INITIAL",
+        "B:7:ENCOUNTER:INITIAL",
+        "B:8:ENCOUNTER:INITIAL",
+        "B:9:ENCOUNTER:INITIAL",
+        "B:10:ENCOUNTER:INITIAL",
+        "B:11:ENCOUNTER:INITIAL"
+      ],
+      "fx": {
+        "ready": true,
+        "mode": "awakening",
+        "time": 2.122,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "slash",
+          "frame": 2
+        },
+        "cancelled": false,
+        "visibleSprites": 35,
+        "activeFrames": [],
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "regularEnemies": 12,
+        "mercenaryInRegularArray": false,
+        "effectLayers": 1,
+        "auraVisible": true,
+        "auraEnabled": true,
+        "motionOnly": false,
+        "reducedMotion": false,
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "unit": 142.5,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "motionRate": 2,
+        "effectRate": 1,
+        "illustrationCutIn": false,
+        "awakening": {
+          "splitVisible": true,
+          "snapshotAlive": true,
+          "captures": 1,
+          "visibleSprites": 1,
+          "illustrationCutIn": false
+        },
+        "counts": {
+          "motion": 24,
+          "effects": 108
+        },
+        "dialogue": {
+          "visible": true,
+          "line": "“칼끝이 닿기 전에, 승부는 끝났다.”",
+          "castIndex": 1,
+          "active": true,
+          "fullIllustration": false,
+          "speaker": "V-979"
+        },
+        "neonEnabled": true,
+        "auraAlphas": [
+          1,
+          1,
+          1
+        ]
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "hpCalls": 12
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "enemy",
+      "hpCalls": [
+        {
+          "id": "CN-02D9DC1E8A8A4209",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "CN-02D9DC1E8A8A4209"
+      ],
+      "fx": {
+        "ready": true,
+        "mode": "attack",
+        "time": 0.793,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "slash",
+          "frame": 2
+        },
+        "cancelled": false,
+        "visibleSprites": 36,
+        "activeFrames": [
+          {
+            "key": "blade",
+            "frame": 4,
+            "alpha": 1,
+            "anchor": {
+              "x": 179.56875,
+              "y": 366.99016393442616
+            },
+            "size": 287.1375
+          },
+          {
+            "key": "impact",
+            "frame": 4,
+            "alpha": 0.85,
+            "anchor": {
+              "x": 197.81229281767958,
+              "y": 366.99016393442616
+            },
+            "size": 314.925
+          }
+        ],
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "regularEnemies": 5,
+        "mercenaryInRegularArray": false,
+        "effectLayers": 1,
+        "auraVisible": true,
+        "auraEnabled": true,
+        "motionOnly": false,
+        "reducedMotion": false,
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "unit": 185.25,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "motionRate": 2,
+        "effectRate": 1,
+        "illustrationCutIn": false,
+        "awakening": {
+          "splitVisible": false,
+          "snapshotAlive": false,
+          "captures": 0,
+          "visibleSprites": 0,
+          "illustrationCutIn": false
+        },
+        "counts": {
+          "motion": 24,
+          "effects": 108
+        },
+        "dialogue": {
+          "visible": false,
+          "line": "칼끝이 닿기 전에, 승부는 끝났다.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "neonEnabled": true,
+        "auraAlphas": [
+          1,
+          1,
+          1
+        ]
+      },
+      "direction": -1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "hpCalls": 1
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "area",
+      "hpCalls": [
+        {
+          "id": "B:0:ENCOUNTER:INITIAL",
+          "hp": 8.000927643784788
+        },
+        {
+          "id": "B:1:ENCOUNTER:INITIAL",
+          "hp": 53.99962356484096
+        },
+        {
+          "id": "B:2:ENCOUNTER:INITIAL",
+          "hp": 53.99946516493369
+        },
+        {
+          "id": "B:3:ENCOUNTER:INITIAL",
+          "hp": 53.99981962481962
+        },
+        {
+          "id": "B:4:ENCOUNTER:INITIAL",
+          "hp": 53.99940968122786
+        },
+        {
+          "id": "B:5:ENCOUNTER:INITIAL",
+          "hp": 54.00027056277056
+        },
+        {
+          "id": "B:6:ENCOUNTER:INITIAL",
+          "hp": 54.0004831501389
+        },
+        {
+          "id": "B:7:ENCOUNTER:INITIAL",
+          "hp": 54.000463821892396
+        },
+        {
+          "id": "B:8:ENCOUNTER:INITIAL",
+          "hp": 53.99962356484096
+        },
+        {
+          "id": "B:9:ENCOUNTER:INITIAL",
+          "hp": 53.99946516493369
+        },
+        {
+          "id": "B:10:ENCOUNTER:INITIAL",
+          "hp": 53.99981962481962
+        },
+        {
+          "id": "B:11:ENCOUNTER:INITIAL",
+          "hp": 53.99940968122786
+        }
+      ],
+      "damageCalls": [
+        "B:0:ENCOUNTER:INITIAL",
+        "B:1:ENCOUNTER:INITIAL",
+        "B:2:ENCOUNTER:INITIAL",
+        "B:3:ENCOUNTER:INITIAL",
+        "B:4:ENCOUNTER:INITIAL",
+        "B:5:ENCOUNTER:INITIAL",
+        "B:6:ENCOUNTER:INITIAL",
+        "B:7:ENCOUNTER:INITIAL",
+        "B:8:ENCOUNTER:INITIAL",
+        "B:9:ENCOUNTER:INITIAL",
+        "B:10:ENCOUNTER:INITIAL",
+        "B:11:ENCOUNTER:INITIAL"
+      ],
+      "fx": {
+        "ready": true,
+        "mode": "awakening",
+        "time": 2.123,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "slash",
+          "frame": 2
+        },
+        "cancelled": false,
+        "visibleSprites": 35,
+        "activeFrames": [],
+        "registeredTimelines": 0,
+        "regularAllies": 5,
+        "regularEnemies": 12,
+        "mercenaryInRegularArray": false,
+        "effectLayers": 1,
+        "auraVisible": true,
+        "auraEnabled": true,
+        "motionOnly": false,
+        "reducedMotion": false,
+        "audio": {
+          "enabled": false,
+          "scheduled": [],
+          "error": null
+        },
+        "unit": 185.25000000000003,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "motionRate": 2,
+        "effectRate": 1,
+        "illustrationCutIn": false,
+        "awakening": {
+          "splitVisible": true,
+          "snapshotAlive": true,
+          "captures": 1,
+          "visibleSprites": 1,
+          "illustrationCutIn": false
+        },
+        "counts": {
+          "motion": 24,
+          "effects": 108
+        },
+        "dialogue": {
+          "visible": true,
+          "line": "“칼끝이 닿기 전에, 승부는 끝났다.”",
+          "castIndex": 1,
+          "active": true,
+          "fullIllustration": false,
+          "speaker": "V-979"
+        },
+        "neonEnabled": true,
+        "auraAlphas": [
+          1,
+          1,
+          1
+        ]
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "hpCalls": 12
+      }
+    }
+  ],
+  "errors": []
+}

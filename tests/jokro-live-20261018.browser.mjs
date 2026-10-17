@@ -12,7 +12,7 @@ import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {mercenaryAccountState,saveMercenaryLoadout} from '../functions/_mercenary_account.js';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {createHuntSession} from '../preview/sustained-hunt-v2/session.mjs';
-const root=fileURLToPath(new URL('..',import.meta.url)),out=path.join(root,'docs/qa/jokro-20261018');fs.mkdirSync(out,{recursive:true});
+const root=fileURLToPath(new URL('..',import.meta.url)),out=process.env.JOKRO_QA_OUTPUT||path.join(root,'docs/qa/jokro-20261018');fs.mkdirSync(out,{recursive:true});
 const cleanup=[],f=await mercenaryFixture({after:cb=>cleanup.push(cb)},{postgres:true}),checks=[],errors=[];
 await f.p('INSERT INTO users(id,nickname) VALUES(1,?)','핑크빛유두').run();
 await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(1,?,1,0,?,?)','V-979','2026-10-15','2026-10-15').run();
@@ -61,7 +61,7 @@ await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']});
 try{
  for(const [label,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
-  for(const mode of (process.argv.includes('--codex-only')?[]:['basic','skill','enemy','area'])){
+  for(const mode of (process.argv.includes('--codex-only')?[]:process.argv.includes('--core-only')?['enemy','area']:['basic','skill','enemy','area'])){
    const p=await browser.newPage({viewport,serviceWorkers:'block'});p.on('pageerror',e=>errors.push(label+' '+mode+': '+e.message));
    await p.goto(base+'/qa/battle?mode='+mode);await p.waitForFunction(()=>window.JokroQA?.ready||window.qaError,null,{timeout:60000});assert.equal(await p.evaluate(()=>window.qaError),undefined);
    await p.evaluate(()=>{
@@ -92,7 +92,7 @@ try{
    const resumed=await p.evaluate(async()=>{const q=window.JokroQA,e=q.engine;await e.setVisible(true);const s=e.jokroStates.get(q.actor);const result={ambient:!!s.ambient,aura:s.fx.auraBack.visible,neon:s.fx.neonRim.enabled};e.clearMercenaryActors();return {...result,cleared:e.jokroStates.size===0,effects:e.effectLayer.children.filter(c=>['JokroFX','JokroAwakeningFX'].includes(c.label)).length};});assert.deepEqual(resumed,{ambient:true,aura:true,neon:true,cleared:true,effects:0});await p.close();
   }
  }
- for(const [label,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
+ for(const [label,viewport]of (process.argv.includes('--core-only')?[]:[['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]])){
   const p=await browser.newPage({viewport,serviceWorkers:'block'});p.on('pageerror',e=>errors.push(label+' codex: '+e.message));
   await p.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','local-test');localStorage.setItem('cnine_card_user_v10',JSON.stringify({id:1,nickname:'핑크빛유두'}));});
   await p.goto(base+'/mercenary-codex/?view=owned#V-979');await p.locator('[data-code="V-979"]').click();

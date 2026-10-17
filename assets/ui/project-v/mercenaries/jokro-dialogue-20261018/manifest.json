@@ -1,0 +1,11 @@
+{
+  "version": "20261018-jokro-dialogue-v1",
+  "generator": "BUILT_IN_IMAGEGEN",
+  "prompt": "prompt.json",
+  "source": {"path": "frame-source.png", "width": 2172, "height": 724, "sha256": "bcc24f2df46fb08d5d2d0e933e5079526e2f776d5708b6202d7c5f6ce9dc81cb"},
+  "runtime": {"path": "frame.webp", "width": 2172, "height": 724, "sha256": "5ba48a5f23a36f23d13f1d3fb10d7a89be21cd4732b6be885f24b55d62ed2e5c", "alpha": true, "conversion": "LOSSLESS_WEBP", "slice": [0,480]},
+  "consumer": "preview/project-v-v3/source/battle/JinmuDialogue.js",
+  "scope": "JOKRO_DIALOGUE_ONLY",
+  "text": "LIVE_DOM",
+  "visualApproval": "PENDING_USER_REVIEW"
+}

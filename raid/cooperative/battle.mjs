@@ -1,6 +1,7 @@
 import {createServerClock} from '/shared/server-clock-v1.mjs?v=20261015-v1';
 // Only the server owns HP/results. One active action plus one latest queued
 // action per actor prevents a delayed tab from accumulating seconds of work.
+// A live Jokro area receipt supersedes that actor's queued basic animation.
 export async function mountCoopBattle(host,payload,{clock:sharedClock}={}){
  const clock=sharedClock||createServerClock(),live=window.ProjectVBattleV3Live;await live.ensureRuntime();
  const prepared=live.prepareLoading({modal:host,mode:'RAID',playerName:'격전지 연합',opponentName:payload.monster.name,autoText:'세 분대가 전장에 집결합니다'});
@@ -14,7 +15,14 @@ export async function mountCoopBattle(host,payload,{clock:sharedClock}={}){
  function play(group){
   const action=group.events.find(e=>['TURN','ATTACK','COUNTER','SKILL','ULTIMATE','PVE_ULTIMATE','BOSS_ULTIMATE','ICON_SKILL'].includes(e.type))||group.events.find(e=>e.type==='MERCENARY_WINDUP')||group.events.find(e=>e.type.startsWith('MERCENARY_'));
   const key=action?.actorId||'group:'+group.id,existing=lanes.get(key);
-  if(existing){if(existing.pending)coalesced++;existing.pending=group;return;}
+  const jokroArea=group.events.some(e=>e.type==='MERCENARY_JOKRO_AREA');
+  if(existing){
+   if(existing.pending)coalesced++;
+   if(!jokroArea){existing.pending=group;return;}
+   // The V3 cast settles only its own actor's prior animation. Retire the old
+   // lane so its resolved promise cannot start a stale basic over the new cast.
+   existing.pending=null;
+  }
   const lane={pending:group,epoch:version};lanes.set(key,lane);
   void (async()=>{
    try{while(lane.pending&&!destroyed&&lane.epoch===version){const next=lane.pending;lane.pending=null;
