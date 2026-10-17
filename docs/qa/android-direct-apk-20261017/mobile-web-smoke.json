@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-17T00:30:06.262Z",
+  "type": "DESKTOP_CHROME_MOBILE_WEB_EMULATION_NOT_ANDROID_DEVICE",
+  "game": {
+    "url": "https://cnine-card.pages.dev/?source=android&distribution=dk",
+    "status": 200,
+    "title": "리버스콜 카드뽑기",
+    "viewport": {
+      "width": 390,
+      "documentWidth": 390,
+      "height": 844
+    },
+    "loginBox": {
+      "x": 20,
+      "y": 431.28125,
+      "width": 350,
+      "height": 50
+    },
+    "pageErrors": []
+  },
+  "dk": {
+    "url": "https://www.playdk.kr/board/skm/1336497",
+    "title": "게시글 | 플디",
+    "bodyExcerpt": "PLAYDK\n\n커뮤니티 준비 중\n\nPLAYDK\n메뉴 검색\n앱 설치 안내\n글쓰기\n전체글\n인기글\n💬\n커뮤니티\n인터넷방송\n리버스콜\n유머/정보\n미스테리\n홈페이지 공지\n1대1문의\n🎯\n게임\n스타크래프트\n🎁\n이벤트\n🏆\n별별랭킹\n포인트\n이모티콘 상점\n아이템샵\n영상 편집실\n로그인하고 함께해요\n내 활동과 포인트를 한눈에\n현재 접속자 189명\nToggle Sidebar\nToggle theme\nLogIn\n리버스콜\n© 2026 playdk.kr . All rights reserved.\n관리자: playdk2026@gmail.com\n서비스이용약관\n개인정보처리방침\n청소년보호정책\n현재 접속자 189명 · UI 2.61.1",
+    "writeActionsPerformed": false
+  },
+  "physicalAndroid": "NOT_CONNECTED",
+  "twaAddressBarAndOsBack": "NOT_TESTED"
+}

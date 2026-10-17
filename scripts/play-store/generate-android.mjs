@@ -13,7 +13,9 @@ if((await readdir(output)).length)throw Error('Output directory must be empty; e
 const require=createRequire(join(resolve(process.env.PLAY_TOOLS_ROOT),'package.json'));
 const {TwaManifest,TwaGenerator,ConsoleLog}=require('@bubblewrap/core');
 if(require('@bubblewrap/core/package.json').version!=='1.27.0')throw Error('Install @bubblewrap/cli@1.27.0 in PLAY_TOOLS_ROOT.');
-const config=JSON.parse(await readFile(join(repo,'packaging/play-store/twa-manifest.json'),'utf8'));
+// Direct APK builds can supply their own version/channel without changing Play preparation.
+const configPath=process.argv[3]?resolve(process.argv[3]):join(repo,'packaging/play-store/twa-manifest.json');
+const config=JSON.parse(await readFile(configPath,'utf8'));
 if(!/^\d+\.\d+\.\d+$/.test(config.appVersion||''))throw Error('appVersion is required by Bubblewrap; appVersionName is not a manifest input.');
 const manifest=new TwaManifest(config);
 await new TwaGenerator().createTwaProject(output,manifest,new ConsoleLog('soopketmon-play'));

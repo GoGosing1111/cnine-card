@@ -1,0 +1,40 @@
+{
+  "createdAt": "2026-10-17T00:28:34.193Z",
+  "channel": "DK_DIRECT_APK",
+  "publication": "PREPARED_FOR_OPERATOR_UPLOAD",
+  "boardUrl": "https://www.playdk.kr/board/skm/1336497",
+  "file": "ReverseCall-Android-1.0.1.apk",
+  "bytes": 4272099,
+  "sha256": "7f2cd240f0ec72c336dbcc42d469c8608958214ef299f25cadac842e6b5332a3",
+  "appName": "리버스콜",
+  "packageId": "dev.pages.cnine_card.twa",
+  "version": "1.0.1",
+  "versionCode": 2,
+  "minSdk": 24,
+  "targetSdk": 36,
+  "universal": true,
+  "debuggable": false,
+  "startUrl": "https://cnine-card.pages.dev/?source=android&distribution=dk",
+  "signerSha256": "1A:16:4D:EA:3A:2B:E5:F9:FA:53:AE:10:7E:D0:B7:5E:5E:A5:65:86:23:7B:DD:F2:73:E4:76:28:6C:24:1E:15",
+  "checks": {
+    "apkSignature": true,
+    "zipAlignment": true,
+    "compiledManifest": true,
+    "lintErrors": 0,
+    "lintWarnings": 18,
+    "liveDigitalAssetLinks": true,
+    "approvedLiveIcons": [
+      {
+        "url": "https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/icon-512.png",
+        "sha256": "0ebe379f58b694564244d35442419f7ae01c3cd367f5e88e7223ee846c8f6e70"
+      },
+      {
+        "url": "https://cnine-card.pages.dev/assets/ui/brand/reverse-call-20261016/maskable-512.png",
+        "sha256": "44344ec1e213c88aedb197e329738098cd4f1a657851541a45440bda8578738d"
+      }
+    ]
+  },
+  "deviceTesting": "PENDING_PHYSICAL_ANDROID_DEVICE",
+  "gameSource": "LIVE_HTTPS_SERVICE",
+  "updates": "MANUAL_APK_SAME_SIGNER_HIGHER_VERSION_CODE"
+}

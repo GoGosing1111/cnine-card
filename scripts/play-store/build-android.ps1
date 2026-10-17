@@ -1,7 +1,10 @@
 param(
   [Parameter(Mandatory=$true)][string]$ProjectDirectory,
   [Parameter(Mandatory=$true)][string]$ToolsDirectory,
-  [Parameter(Mandatory=$true)][string]$SigningDirectory
+  [Parameter(Mandatory=$true)][string]$SigningDirectory,
+  [switch]$ApkOnly,
+  [switch]$RequireExistingKey,
+  [string]$ExpectedCertificateSha256
 )
 $ErrorActionPreference='Stop'
 $projectPath=(Resolve-Path -LiteralPath $ProjectDirectory).Path
@@ -21,6 +24,7 @@ $signingIdentity="$($env:USERDOMAIN)\$($env:USERNAME):(OI)(CI)F"
 if($LASTEXITCODE -ne 0){throw 'Could not protect signing directory.'}
 $keyPath=Join-Path $signingPath 'upload-key.jks'
 $passwordPath=Join-Path $signingPath 'credentials.json'
+if($RequireExistingKey -and (!(Test-Path -LiteralPath $keyPath) -or !(Test-Path -LiteralPath $passwordPath))){throw 'The original signing key and credentials are required; no replacement key will be created.'}
 if((Test-Path -LiteralPath $keyPath) -ne (Test-Path -LiteralPath $passwordPath)){throw 'Incomplete signing backup; do not generate a replacement key.'}
 if(!(Test-Path -LiteralPath $passwordPath)){
   $newPassword=[Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
@@ -37,10 +41,16 @@ try {
   }
   & "$jdkPath/bin/keytool.exe" -exportcert -keystore $keyPath -storepass:env SOOP_STORE_PASSWORD -alias 'soopketmon-upload' -file (Join-Path $projectPath 'upload-certificate.der')
   if($LASTEXITCODE -ne 0){throw 'Certificate export failed.'}
+  if($ExpectedCertificateSha256){
+    $certificateHash=(Get-FileHash -LiteralPath (Join-Path $projectPath 'upload-certificate.der') -Algorithm SHA256).Hash
+    if($certificateHash -ne $ExpectedCertificateSha256.Replace(':','')){throw 'Signing certificate does not match the existing Android application.'}
+  }
   ('sdk.dir='+$env:ANDROID_HOME.Replace('\','/')) | Set-Content -LiteralPath (Join-Path $projectPath 'local.properties') -Encoding ascii
   Push-Location $projectPath
   try {
-    & './gradlew.bat' '--no-daemon' '--console=plain' 'assembleRelease' 'bundleRelease' 'lintRelease'
+    $buildTasks=@('assembleRelease','lintRelease')
+    if(!$ApkOnly){$buildTasks+= 'bundleRelease'}
+    & './gradlew.bat' '--no-daemon' '--console=plain' @buildTasks
     if($LASTEXITCODE -ne 0){throw 'Android build or lint failed.'}
   } finally {Pop-Location}
 } finally {

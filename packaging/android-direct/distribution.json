@@ -1,0 +1,13 @@
+{
+  "appName": "리버스콜",
+  "packageId": "dev.pages.cnine_card.twa",
+  "appVersion": "1.0.1",
+  "appVersionCode": 2,
+  "startUrl": "/?source=android&distribution=dk",
+  "boardUrl": "https://www.playdk.kr/board/skm/1336497",
+  "filename": "ReverseCall-Android-1.0.1.apk",
+  "certificateSha256": "1A:16:4D:EA:3A:2B:E5:F9:FA:53:AE:10:7E:D0:B7:5E:5E:A5:65:86:23:7B:DD:F2:73:E4:76:28:6C:24:1E:15",
+  "channel": "DK_DIRECT_APK",
+  "publication": "PREPARED_FOR_OPERATOR_UPLOAD",
+  "updates": "MANUAL_APK_SAME_SIGNER_HIGHER_VERSION_CODE"
+}

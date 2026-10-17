@@ -30,7 +30,10 @@ test('website association matches the real public signing certificate and packag
 
 test('approved icon and corrected public contact are used',()=>{
   const iconPath=new URL(twa.iconUrl).pathname.slice(1);
-  assert.equal(createHash('sha256').update(read(iconPath)).digest('hex'),'df8f8562d4e4806ff90297fddc7d573ac3fefd782632bb0a2388980c99b55f04');
+  const brand=json('assets/ui/brand/reverse-call-20261016/manifest.json');
+  const approvedIcon=brand.files.find(asset=>asset.file===iconPath);
+  assert.ok(approvedIcon,'Android must use an approved current-brand icon');
+  assert.equal(createHash('sha256').update(read(iconPath)).digest('hex'),approvedIcon.sha256);
   assert.equal(info.supportEmail,'elspe3821@gmail.com');
   for(const file of ['README.txt','store-listing.ko.txt','submission-checklist.ko.txt','data-safety-review.ko.txt']){
     const value=read(`packaging/play-store/${file}`).toString('utf8');
