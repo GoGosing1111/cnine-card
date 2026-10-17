@@ -1,0 +1,6 @@
+{
+  "tool": "built-in image_gen",
+  "useCase": "ui-mockup",
+  "prompt": "Use case: ui-mockup. Asset type: production RPG UI panel surface, Halloween auto-opening controls. Create a single wide horizontal ornate panel, front-facing orthographic, approximately 3:1. Halloween gothic dark silver metal, very fine violet inner edge and restrained amber ember accents, small sculpted bat wings and pumpkins ONLY at the four outer corners; narrow trim around a large empty nearly black subtly textured velvet center. The central 80 percent must remain entirely blank and quiet for DOM control text and progress. Compatible with dark silver bat-wing game buttons, refined collectible-RPG craftsmanship, mature non-cute. Designed for nine-slice scaling: straight repeated border segments, corners isolated, no large ornaments in center or side middles. Fill nearly the full image canvas with only small transparent outer margins. Transparent background outside the panel, opaque dark interior. No letters, no numbers, no words, no controls, no logos, no watermark. One complete continuous panel only.",
+  "userVisualApproval": false
+}

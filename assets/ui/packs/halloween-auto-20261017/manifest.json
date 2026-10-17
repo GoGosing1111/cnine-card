@@ -1,0 +1,14 @@
+{
+  "version": "20261017-v1",
+  "tool": "built-in image_gen",
+  "prompt": "prompt.json",
+  "source": "assets/ui/packs/halloween-auto-20261017/panel-source.png",
+  "sourceSha256": "4b626e3388e2f04c003133572183a8911a8d47265bf662bf8a13b00a6c6b3eeb",
+  "width": 2172,
+  "height": 724,
+  "hasAlpha": true,
+  "runtime": "assets/ui/packs/halloween-auto-20261017/panel.webp",
+  "runtimeSha256": "041c2ad205a76ccb5a9e522897aa4bd6887be22e7a3f3bbc724cc6c1d03e625f",
+  "consumer": "css/mercenary-halloween-pack-v2.css .hwp-auto-panel",
+  "userVisualApproval": false
+}
