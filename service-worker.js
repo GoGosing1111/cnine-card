@@ -5,7 +5,7 @@
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
 importScripts('/js/image-delivery-map-20261015.js');
-const SHELL_CACHE='soop-card-shell-v20261017-halloween-ss-stock-v1';
+const SHELL_CACHE='soop-card-shell-v20261017-pass-catchup-halloween-growth-v1';
 const CONTENT_CACHE='soop-card-content-v4-lossless-media';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -26,6 +26,7 @@ FRESH_ACCOUNT_SCRIPTS.add('/mercenary-codex/equipment/app.mjs');
 for(const path of ['/mercenary-codex/sss-reroll/app.mjs','/mercenary-codex/sss-reroll/client.mjs','/shared/mercenary-sss-reroll-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/equipment-forge/app.mjs','/shared/equipment-forge-policy-v1.mjs','/shared/equipment-forge-resources-v1.mjs','/shared/equipment-forge-advanced-v1.mjs','/admin/equipment-forge-admin-v1.js','/admin/equipment-forge-advanced-editor-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/js/supporter-season-pass-v1.mjs');
+FRESH_ACCOUNT_SCRIPTS.add('/shared/mercenary-level-v1.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/js/clan-faction-sessions-v1.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/js/clan-war-reform-v1.mjs');
 FRESH_ACCOUNT_SCRIPTS.add('/js/magic-workbench-v1.js');

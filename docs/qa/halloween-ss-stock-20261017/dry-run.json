@@ -1,0 +1,126 @@
+{
+  "status": "DRY_RUN_PASSED",
+  "replayed": false,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:halloween-ss-stock:20261017:plus5-v1",
+    "createdAt": "2026-10-17T02:46:49.441Z",
+    "reason": "사용자 요청: 할로윈 리미티드 SS 등급들 5장씩 한도 추가",
+    "addedPerCharacter": 5,
+    "totalAdded": 35,
+    "settingsRevision": 12,
+    "before": [
+      {
+        "code": "V-980",
+        "limit": 5,
+        "issued": 1,
+        "remaining": 4
+      },
+      {
+        "code": "V-981",
+        "limit": 5,
+        "issued": 1,
+        "remaining": 4
+      },
+      {
+        "code": "V-982",
+        "limit": 5,
+        "issued": 2,
+        "remaining": 3
+      },
+      {
+        "code": "V-983",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5
+      },
+      {
+        "code": "V-984",
+        "limit": 5,
+        "issued": 2,
+        "remaining": 3
+      },
+      {
+        "code": "V-985",
+        "limit": 5,
+        "issued": 0,
+        "remaining": 5
+      },
+      {
+        "code": "V-986",
+        "limit": 5,
+        "issued": 2,
+        "remaining": 3
+      },
+      {
+        "code": "V-989",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3
+      },
+      {
+        "code": "V-999",
+        "limit": 7,
+        "issued": 6,
+        "remaining": 1
+      }
+    ],
+    "after": [
+      {
+        "code": "V-980",
+        "limit": 10,
+        "issued": 1,
+        "remaining": 9
+      },
+      {
+        "code": "V-981",
+        "limit": 10,
+        "issued": 1,
+        "remaining": 9
+      },
+      {
+        "code": "V-982",
+        "limit": 10,
+        "issued": 2,
+        "remaining": 8
+      },
+      {
+        "code": "V-983",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10
+      },
+      {
+        "code": "V-984",
+        "limit": 10,
+        "issued": 2,
+        "remaining": 8
+      },
+      {
+        "code": "V-985",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10
+      },
+      {
+        "code": "V-986",
+        "limit": 10,
+        "issued": 2,
+        "remaining": 8
+      },
+      {
+        "code": "V-989",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3
+      },
+      {
+        "code": "V-999",
+        "limit": 7,
+        "issued": 6,
+        "remaining": 1
+      }
+    ],
+    "grants": 0
+  }
+}

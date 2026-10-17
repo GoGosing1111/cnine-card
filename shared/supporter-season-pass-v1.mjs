@@ -16,4 +16,17 @@ export function passCycle(subscription,now){
   const startDay=first+index*PASS_DAYS,currentDay=kstDay(now)-startDay+1;
   return {cycle:`${subscription.startsAt}-${index}`,startDay,currentDay,valid:subscription.active&&terms>index&&currentDay>=1&&currentDay<=PASS_DAYS};
 }
+// Unclaimed rewards remain available throughout the same uninterrupted paid term.
+// Extensions add paid calendar days; they do not discard an earlier 30-day cycle.
+export function passWindow(subscription,now){
+  const terms=Math.max(0,Math.floor((subscription.endsAt-subscription.startsAt)/(PASS_DAYS*DAY_MS)));
+  if(!subscription.endsAt||!terms)return null;
+  const startDay=kstDay(subscription.startsAt),paidEndDay=startDay+terms*PASS_DAYS-1;
+  return {startsAt:subscription.startsAt,startDay,endDay:Math.min(kstDay(now),paidEndDay),paidEndDay};
+}
+export function passEntitlement(window,calendarDay){
+  const offset=calendarDay-window.startDay;
+  if(!Number.isSafeInteger(calendarDay)||offset<0||calendarDay>window.paidEndDay)return null;
+  return {cycle:`${window.startsAt}-${Math.floor(offset/PASS_DAYS)}`,day:offset%PASS_DAYS+1,date:dayDate(calendarDay),calendarDay};
+}
 export const passImage=value=>{const p=String(value||'').replaceAll('\\','/').replace(/^\/+/, '');return p.startsWith('assets/')&&!/[?#\x00-\x1f]/.test(p)&&!p.split('/').includes('..')?'/'+p:'';};

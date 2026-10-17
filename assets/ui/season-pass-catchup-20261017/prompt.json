@@ -1,0 +1,7 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "transparent_background": true,
+  "prompt": "Use case: ui-mockup. Create one production UI asset for a fantasy RPG supporter season pass: a single wide horizontal reward-claim button, around 4.5:1 aspect ratio, isolated on a genuinely transparent background. Match an elegant moonlit navy, polished antique gold and luminous emerald style. Sculpted gold leaf ornaments on the two ends, a tiny restrained emerald jewel centered along the top rim, thin beautifully beveled gold metal edge, deep navy enamel center with subtle painterly material. The middle 65 percent must stay dark, calm, unobstructed for dynamic Korean text rendered separately in HTML. Precise front view, symmetric balanced silhouette, entire object visible with 3 percent transparent padding, clean alpha edges. Rich professional collectible RPG UI craft, no characters, no background scene, no text, letters, numbers, icons, watermark, or extra elements. This is the button itself, not a mockup screenshot. Keep ornament proportion modest so it works at 320 by 72 pixels.",
+  "userVisualApproval": false
+}

@@ -125,7 +125,7 @@ export async function handleServerSupport({path,request,env,deps}){
       const previewOnly=!eligible&&row?.status==='ACTIVE'&&canManageSupport(user),visible=eligible||previewOnly;
       if(path==='server-support/status'&&request.method==='GET')return reply({visible,seasonPassVisible:eligible});
       if(!visible)return reply({error:'페이지를 찾을 수 없습니다.'},404);
-      if(path==='server-support/pass/claim')return reply(await handleSeasonPass({path,request,env,user,deps,now,eligible}));
+      if(['server-support/pass/claim','server-support/pass/claim-all'].includes(path))return reply(await handleSeasonPass({path,request,env,user,deps,now,eligible}));
       if(path==='server-support/info'&&request.method==='GET')return reply({...await supporterPage(env,user,now),previewOnly,seasonPassVisible:eligible});
       if(path==='server-support/apply'&&request.method==='POST'){
         if(!eligible)fail('ELIGIBILITY','가입 3일 경과와 2차 인증 완료 후 신청할 수 있습니다.',403);

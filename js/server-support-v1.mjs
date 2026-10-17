@@ -1,6 +1,6 @@
 import {openSupportApplication} from './supporter-application-v1.mjs?v=20261011-apply2';
 import {jointAccountRequest} from './joint-account-transport.mjs';
-import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261010-pass-art1';
+import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261017-pass-catchup-v1';
 import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
@@ -22,7 +22,7 @@ const crest=`<svg class="ss-crest" viewBox="0 0 160 180" fill="none" aria-hidden
 export function mountServerSupportNavigation({root,getUser,signal,request=jointAccountRequest,onSeasonPassVisibilityChange=()=>{},onOpenMessages=()=>window.SoopketmonV21ExactShell?.navigate('messages')}){
   const menu=root.getElementById('menu-dialog');if(!menu)return {dispose(){}};
   const doc=menu.ownerDocument,link=doc.createElement('link');link.rel='stylesheet';link.href='/css/server-support-v1.css?v=20261011-apply1';root.append(link);
-  const passStyle=doc.createElement('link');passStyle.rel='stylesheet';passStyle.href='/css/supporter-season-pass-v1.css?v=20261010-pass-art1';root.append(passStyle);
+  const passStyle=doc.createElement('link');passStyle.rel='stylesheet';passStyle.href='/css/supporter-season-pass-v1.css?v=20261017-pass-catchup-v1';root.append(passStyle);
   let passView=null,passVisible=false,screenGuard=null,applicationView=null;
   const setPassVisible=value=>{const visible=value===true;if(visible!==passVisible){passVisible=visible;onSeasonPassVisibilityChange(visible);}};
   const footer=doc.createElement('div');footer.className='ss-menu-footer';footer.hidden=true;menu.append(footer);

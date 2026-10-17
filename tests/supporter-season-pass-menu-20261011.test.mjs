@@ -14,6 +14,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: ì‹œì
     assert.deepEqual((await f.call('server-support/status',{user})).body,{visible:false,seasonPassVisible:false});
     assert.equal((await f.call('server-support/info',{user})).status,404);
     assert.equal((await f.call('server-support/pass/claim',{user,body:{}})).status,404);
+    assert.equal((await f.call('server-support/pass/claim-all',{user,body:{}})).status,404);
   }
   // Verified account: 72 hours minus one millisecond remains hidden.
   f.clock.now+=1;
@@ -25,9 +26,11 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: ì‹œì
   const preview=await f.call('server-support/info');
   assert.equal(preview.body.previewOnly,true);assert.equal(preview.body.seasonPassVisible,false);
   assert.equal((await f.call('server-support/pass/claim',{body:{}})).status,403);
+  assert.equal((await f.call('server-support/pass/claim-all',{body:{}})).status,403);
   await f.run('INSERT INTO user_second_verifications VALUES(1,?)','2026-01-02 00:00:00');
   await f.run('UPDATE users SET created_at=? WHERE id=1',new Date(f.clock.now-3*86400000+1).toISOString());
   assert.deepEqual((await f.call('server-support/status')).body,{visible:true,seasonPassVisible:false});
   assert.equal((await f.call('server-support/info')).body.seasonPassVisible,false);
   assert.equal((await f.call('server-support/status',{user:0})).status,401);
+  assert.equal((await f.call('server-support/pass/claim-all',{user:0,body:{}})).status,401);
 });

@@ -1,0 +1,118 @@
+{
+  "checkedAt": "2026-10-17T02:50:35.157Z",
+  "sourceCommit": "803ad5678a56678ac957cba492d58d6f80a86d39",
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "2ac34e5f0a4d2cf9dc69e55eb750bfacc102b3c56e1d7cf1b11984a64af09661"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "f7f39c03e64d94aebed30c49061e44b68f99e2d26984b71b35f29cd6b8ef303c"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "ec9ddb109d5040805b52e17b3699ddb29ab6125d86200517f4e2a550454b2b30"
+    },
+    {
+      "file": "js/server-support-v1.mjs",
+      "sha256": "f0ef4d2c360ac81fb389d538a09c3aafe7d3a28a36f83aa1e9e029d0a1dcbf1a"
+    },
+    {
+      "file": "js/supporter-season-pass-v1.mjs",
+      "sha256": "109058c5c34ac5181f9e7c6c57e125f2eedd67264a0a7a131c065eacf8ae384b"
+    },
+    {
+      "file": "css/supporter-season-pass-v1.css",
+      "sha256": "ce08b845238acbd7bc8f3a246039950cf195c0e3d4aa989eaf460257994a54d1"
+    },
+    {
+      "file": "shared/supporter-season-pass-v1.mjs",
+      "sha256": "9e2ef62e104f630890b78dd1a2a7e850b7b5e6ef35c862e3b79cd8548bd549c1"
+    },
+    {
+      "file": "shared/mercenary-level-v1.mjs",
+      "sha256": "401c37287b3003c98e288bf034420936f84880336c7b93fb19d671d4e2333546"
+    },
+    {
+      "file": "mercenary-codex/leveling/app.mjs",
+      "sha256": "a9f772df4943863c9b977ff3d53b0da5319f3926da92581c345d41b7a1a32ba6"
+    },
+    {
+      "file": "mercenary-codex/leveling/index.html",
+      "sha256": "5547f94402965d5564e629e803ac5a1ddd9bc4401e97c9fedf7fa2b25d520c25"
+    },
+    {
+      "file": "admin/index.html",
+      "sha256": "e4ea4d5b3e09c2ad98e32eafd0bfe35ea2bb8cc44641eed9c5988b67bdc8e191"
+    },
+    {
+      "file": "admin/supporter-season-pass-admin-v1.mjs",
+      "sha256": "d81f64ce2459485f042dbe5e144f93e15396d56bf24e5d05fa5b1210051400e4"
+    },
+    {
+      "file": "assets/ui/season-pass-catchup-20261017/claim-button.webp",
+      "sha256": "413b80cdde4b45a8c6a0d9e0ff643e4b654aefa5c80db258e86811b4cbd40bf4"
+    }
+  ],
+  "api": [
+    {
+      "endpoint": "mercenaries/v3/leveling/feature",
+      "method": "GET",
+      "status": 200,
+      "releaseEnabled": true
+    },
+    {
+      "endpoint": "mercenaries/v3/leveling/train",
+      "method": "POST",
+      "status": 401,
+      "code": "MERCENARY_LEVEL_AUTH"
+    },
+    {
+      "endpoint": "server-support/pass/claim-all",
+      "method": "POST",
+      "status": 401
+    }
+  ],
+  "readOnly": true,
+  "halloween": {
+    "accountId": 4111,
+    "code": "V-980",
+    "totalCopies": 1,
+    "growth": {
+      "level": 1,
+      "experience": 2600,
+      "breakthroughMask": 0,
+      "revision": 1
+    },
+    "enabled": true,
+    "policyRevision": 1,
+    "ssMaterialXp": 100,
+    "level1RequiredXp": 3750
+  },
+  "pass": {
+    "revision": 10,
+    "active": true,
+    "currentDay": 7,
+    "claimableCount": 1,
+    "claimedCount": 6,
+    "claimableFrom": "2026-10-17",
+    "claimableTo": "2026-10-17"
+  },
+  "deployment": {
+    "pagesId": "fad7f01b-804f-4775-8107-8a4c31fa26af",
+    "pagesUrl": "https://fad7f01b.cnine-card.pages.dev",
+    "apiVersion": "99643465-16c2-48f1-828c-10bc8908acf8",
+    "schedulerVersion": "06fda3d6-1626-4493-bbbb-c353fc3363ae",
+    "scopedBase": "fb205410aab293b69dbdf7cd3751e97930738894",
+    "checksPassed": 68,
+    "workerSyntax": true,
+    "hyperdriveCacheDisabled": true,
+    "productionReleaseVerified": true
+  },
+  "notes": [
+    "Authenticated production growth and pass state were evaluated by the deployed source against a REPEATABLE READ READ ONLY production DB transaction; no player credentials were retrieved.",
+    "The only HTTP POST smoke requests were unauthenticated and returned 401. No operating reward claim, training or inventory mutation was submitted.",
+    "Upstream Halloween stock compatibility commit 7570fdfbc was retained; its one-time stock operation is outside this task."
+  ]
+}

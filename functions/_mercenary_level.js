@@ -3,7 +3,7 @@ import {MERCENARY_LEVEL_RELEASE_ENABLED as RELEASE,MERCENARY_LEVEL_RULES as RULE
 import {readMercenaryLevelPolicy,saveMercenaryLevelPolicy,readMercenaryLevelState} from './_mercenary_level_policy.js';
 import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED as SEED} from './_mercenary_cms_seed.js';
-import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
+import {ALL_LIMITED_MERCENARIES as LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {KAIRON_CODE} from '../shared/mercenary-kairon-v1.mjs';
 import {readJinmuPackOwners} from './_mercenary_jinmu_access.js';

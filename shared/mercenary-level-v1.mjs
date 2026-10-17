@@ -2,7 +2,7 @@ export {mercenaryGrowthDraft,mercenaryGrowthSummary,mercenaryGrowthStatPreview,m
 import {validateMercenaryGrowth,mercenaryGrowthSummary,mercenaryGrowthStatPreview,mercenaryGrowthReadiness} from './mercenary-growth-review-v2.mjs';
 import {SHIRANUI_CODE} from './mercenary-shiranui-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
-import {LIMITED_MERCENARIES} from './mercenary-limited-catalog-v1.mjs';
+import {ALL_LIMITED_MERCENARIES as LIMITED_MERCENARIES} from './mercenary-limited-catalog-v1.mjs';
 import {KAIRON_CODE} from './mercenary-kairon-v1.mjs';
 import {JINMU_CODE} from './mercenary-jinmu-v1.mjs';
 
