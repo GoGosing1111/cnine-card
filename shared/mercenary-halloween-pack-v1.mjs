@@ -96,8 +96,9 @@ export function halloweenPackPrice(settings,count){
 export function validateHalloweenOpeningBody(body){
  if(!exact(body,['requestId','count','expectedRevision'])||typeof body.requestId!=='string'||!/^[A-Za-z0-9_-]{16,100}$/.test(body.requestId)||![1,10].includes(body.count)||!Number.isSafeInteger(body.expectedRevision)||body.expectedRevision<1)throw Object.assign(Error('개봉 횟수와 설정 버전을 확인하세요.'),{code:'MERCENARY_HALLOWEEN_INPUT',status:400});return body;
 }
-export function pickHalloweenBatch(state,count,random){
+export function pickHalloweenBatch(state,count,random,{firstLimitedCode=null}={}){
  if(![1,10].includes(count))throw Error('Invalid Halloween batch');
+ if(firstLimitedCode!==null&&(!HALLOWEEN_PACK_CARDS.some(c=>c.code===firstLimitedCode&&c.rank==='SS')||!(state.settings.cardRatesPpm[firstLimitedCode]>0)))throw Error('Invalid one-time Halloween SS card');
  const {settings}=state,used=Object.fromEntries(state.stock.map(s=>[s.code,s.issued]));
  const choose=rows=>{
   const units=rows.map(r=>limitedRateUnits(r.rate));if(units.some(n=>n===null)||units.reduce((s,n)=>s+n,0)!==LIMITED_RATE_TOTAL)throw Error('할로윈 단계별 확률을 확인하세요.');
@@ -106,10 +107,11 @@ export function pickHalloweenBatch(state,count,random){
  };
  const draws=[];
  for(let i=0;i<count;i++){
-  const first=choose([...MERCENARY_RANKS.map(rank=>({id:rank,rate:settings.normalRankRatesPpm[rank]})),{id:'NONE',rate:settings.missRatePpm}]);
+  const forced=i===0&&firstLimitedCode!==null;
+  const first=forced?{id:'SSS'}:choose([...MERCENARY_RANKS.map(rank=>({id:rank,rate:settings.normalRankRatesPpm[rank]})),{id:'NONE',rate:settings.missRatePpm}]);
   if(first.id==='NONE'){draws.push({outcomeId:'NONE',quantity:0});continue;}
   if(first.id==='SSS'){
-   const second=choose([...codes.map(code=>({id:code,rate:settings.cardRatesPpm[code]})),{id:'STANDARD_SSS',rate:settings.normalSssRatePpm}]);
+   const second=forced?{id:firstLimitedCode}:choose([...codes.map(code=>({id:code,rate:settings.cardRatesPpm[code]})),{id:'STANDARD_SSS',rate:settings.normalSssRatePpm}]);
    if(second.id!=='STANDARD_SSS'){
     const card=HALLOWEEN_PACK_CARDS.find(c=>c.code===second.id),stock=state.stock.find(s=>s.code===card.code);
     if(!stock?.prepared||(used[card.code]||0)>=stock.limit)throw Object.assign(Error('해당 리미티드가 소진됐습니다. 코인은 차감되지 않았습니다.'),{code:'MERCENARY_HALLOWEEN_SOLD_OUT',terminal:true,status:409});

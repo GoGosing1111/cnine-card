@@ -5,6 +5,7 @@ import {mercenaryCardAcquisitionStatements} from './_mercenary_draw_accounting.j
 import {runJointOperation,readJointOperation,jointCoinDebit} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {jointError} from './_joint_request.js';
+import {readHalloweenSsOnce,pickHalloweenSsOnceCode,consumeHalloweenSsOnce} from './_mercenary_halloween_once.js';
 
 const halloween=code=>HALLOWEEN_PACK_CARDS.some(c=>c.code===code);
 const terminal=(code,message)=>Object.assign(jointError('MERCENARY_HALLOWEEN_'+code,message,409),{terminal:true});
@@ -23,7 +24,8 @@ export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_P
     if(!state.readiness.ready)throw terminal('NOT_READY',state.readiness.blockers.join(' '));
     const coinCost=halloweenPackPrice(state.settings,count),wallet=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
     if(!wallet||BigInt(wallet.coin)<BigInt(coinCost))throw terminal('FUNDS','코인이 부족합니다.');
-    return {count,coinCost,draws:pickHalloweenBatch(state,count,randomInt),revision:state.revision,rawPack:state.rawPack,normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
+    const once=await readHalloweenSsOnce(env.DB,user.id),firstLimitedCode=once?pickHalloweenSsOnceCode(state,randomInt):null;
+    return {count,coinCost,draws:pickHalloweenBatch(state,count,randomInt,{firstLimitedCode}),...(once?{once}:{}),revision:state.revision,rawPack:state.rawPack,normalCmsRevision:state.normalCmsRevision,normalDrawRevision:state.normalDrawRevision};
    },
    statements:async plan=>{
     const state=await stateFor(env);
@@ -34,7 +36,7 @@ export function createHalloweenPackService({readState,releaseEnabled=HALLOWEEN_P
      else if(r.mercenaryCode&&!state.normalCards.some(c=>c.code===r.mercenaryCode&&c.rank===r.rank&&c.weight>0))throw terminal('NORMAL_POOL','일반 용병 획득 설정이 변경됐습니다.');
     });
     for(const [code,indices] of grouped)if(state.stock.find(s=>s.code===code)?.limit!==plan.draws[indices[0]].stockLimit||(state.stock.find(s=>s.code===code)?.remaining??0)<indices.length)throw terminal('SOLD_OUT','다른 이용자가 한정 수량을 획득했습니다. 코인은 차감되지 않았습니다.');
-    const list=[];
+    const list=await consumeHalloweenSsOnce(DB,user.id,requestId,plan.once,plan.draws[0]);
     if(DB.dialect==='postgres')list.push(p('SELECT key FROM app_meta WHERE key=? FOR SHARE',HALLOWEEN_PACK_KEY),p("SELECT doc_key FROM mercenary_cms_documents_v1 WHERE doc_key='config' FOR SHARE"),p('SELECT id FROM mercenary_draw_config_v1 WHERE id=1 FOR SHARE'));
     list.push(jointGuard(DB,token,"EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM mercenary_cms_documents_v1 WHERE doc_key='config' AND revision=?) AND EXISTS(SELECT 1 FROM mercenary_draw_config_v1 WHERE id=1 AND revision=?)",[HALLOWEEN_PACK_KEY,plan.rawPack,plan.normalCmsRevision,plan.normalDrawRevision]));
     for(const [code,indices] of [...grouped].sort(([a],[b])=>a.localeCompare(b))){
