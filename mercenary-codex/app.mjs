@@ -43,7 +43,7 @@ function renderAccountSummary(){
   $('ownedCount').textContent=account?String(owned):'—';$('totalCount').textContent=catalog?String(catalogCards().length):'—';
   $('limitedCount').textContent=catalog?String(catalogCards().filter(countedLimited).length):'—';
   $('loadoutName').textContent=account?`${loadoutMode} · ${active?.name||activeCode()||'미편성'}`:'—';
-  for(const button of document.querySelectorAll('[data-loadout-mode]')){const mode=button.dataset.loadoutMode,code=activeLoadout(mode).mercenaryCode;button.setAttribute('aria-pressed',String(mode===loadoutMode));button.disabled=loadoutBusy;$(`loadout${mode}`).textContent=account?(ownedCard(code)?.name||code||'미편성'):'확인 중';}
+  for(const button of document.querySelectorAll('[data-loadout-mode]')){button.setAttribute('aria-pressed',String(button.dataset.loadoutMode===loadoutMode));button.disabled=loadoutBusy;}
   $('accountStatusTitle').textContent=account?`내 용병 ${owned}명`:accountError?'내 용병 연결 필요':'내 용병 확인 중';
   $('catalogStatus').textContent=account?(active?`${loadoutMode} · ${active.name} 편성 중 · 목록에서 바로 변경할 수 있습니다.`:`${loadoutMode} 용병을 선택하세요. 같은 용병을 양쪽에 편성할 수 있습니다.`):accountError||'보유 용병과 편성 정보를 불러오고 있습니다.';
   for(const button of document.querySelectorAll('[data-view]'))button.setAttribute('aria-selected',String(button.dataset.view===view));

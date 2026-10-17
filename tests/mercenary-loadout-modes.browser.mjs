@@ -41,15 +41,16 @@ try{
   await equip('V-001');await mode('PVP');await equip('V-996');
   assert.equal((await releasedMercenarySnapshot(f.env,user,'PVE')).code,'V-001');assert.equal((await releasedMercenarySnapshot(f.env,user,'PVP')).code,'V-996');
   await page.reload();await page.locator('[data-unequip]:not(:disabled)').waitFor();assert.equal(new URL(page.url()).searchParams.get('mode'),'PVP');
-  await page.locator('.loadout-modes').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,label+'-separate.png'),fullPage:true});await page.screenshot({path:path.join(out,label+'-mode-controls.png')});
+  assert.equal(await page.locator('.loadout-modes').count(),0);assert.equal(await page.locator('[data-loadout-mode]').count(),2);
+  await page.locator('.deployment-card').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,label+'-separate.png'),fullPage:true});await page.screenshot({path:path.join(out,label+'-mode-controls.png')});
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
-  await equip('V-001');await mode('PVE');await page.locator('[data-unequip]').click();await page.waitForFunction(()=>document.getElementById('loadoutPVE').textContent==='미편성');assert.equal((await releasedMercenarySnapshot(f.env,user,'PVP')).code,'V-001');
+  await equip('V-001');await mode('PVE');await page.locator('[data-unequip]').click();await page.waitForFunction(()=>document.getElementById('loadoutName').textContent==='PVE · 미편성');assert.equal((await releasedMercenarySnapshot(f.env,user,'PVP')).code,'V-001');
   await equip('V-002');await mode('PVP');await page.locator('[data-code="V-996"]').click();loseResponse=true;await page.locator('[data-equip="V-996"]').click();await page.locator('[data-loadout-mode="PVE"]:not(:disabled)').waitFor();
   await page.goto(base+'/mercenary-codex/?view=owned&mode=PVE#V-002');await page.locator('[data-recover-loadout]').click();await page.waitForFunction(()=>!localStorage.getItem('cnine.mercenary.pending:7'));
   assert.equal(writes.at(-1).mode,'PVP');assert.equal(writes.at(-1).requestId,writes.at(-2).requestId);
   assert.equal((await releasedMercenarySnapshot(f.env,user,'PVE')).code,'V-002');assert.equal((await releasedMercenarySnapshot(f.env,user,'PVP')).code,'V-996');
   await page.goto(base+'/deck-test');await page.waitForFunction(()=>globalThis.MercenaryDeckSlot?.power('PVP')>0);
-  const state=await mercenaryAccountState(f.env,user);for(const m of ['PVE','PVP']){const card=state.cards.find(c=>c.code===state.loadouts[m].mercenaryCode),host=page.locator(`[data-mercenary-deck-slot="${m}"]`);assert.ok((await host.textContent()).includes(card.name));assert.equal(await page.evaluate(m=>MercenaryDeckSlot.power(m),m),card.basePower);assert.ok((await host.locator('a').getAttribute('href')).endsWith('mode='+m));}
+  const state=await mercenaryAccountState(f.env,user);for(const m of ['PVE','PVP']){const card=state.cards.find(c=>c.code===state.loadouts[m].mercenaryCode),host=page.locator(`[data-mercenary-deck-slot="${m}"]`);assert.ok((await host.textContent()).includes(card.name));assert.equal(await page.evaluate(m=>MercenaryDeckSlot.power(m),m),card.basePower);assert.ok((await host.getByRole('link',{name:'용병 변경',exact:true}).getAttribute('href')).endsWith('mode='+m));}
   await page.waitForFunction(()=>[...document.querySelectorAll('[data-mercenary-deck-slot] img')].every(img=>img.complete&&img.naturalWidth>0));
   await page.screenshot({path:path.join(out,label+'-deck-slots.png'),fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
   checks.push(label+': independent selection, one-copy reuse, clear isolation, reload, cross-mode receipt recovery, mode-specific deck power and link, no overflow');await page.close();
