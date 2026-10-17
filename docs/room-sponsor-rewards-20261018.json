@@ -1,0 +1,519 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:room-sponsor-rewards:20261018:v1",
+  "completedAt": "2026-10-17T20:38:09.167Z",
+  "verifiedAt": "2026-10-17T20:38:20.522Z",
+  "commit": "4ed5172da316288d9a32c2efe3b36450204f4d5b",
+  "sourceSha256": "21776983392b15e8cece40e55dd28e8ef7d14d91e0db09c9ea90f057375ecab2",
+  "planHash": "89f51e4aa29ddcda4816fc0eac7341a1cf2d2d22dc7fd81bed6d5bdfc31b9be8",
+  "delivery": "DIRECT",
+  "recipientCount": 38,
+  "totalUnits": 70,
+  "totalCoin": "140000000000000",
+  "totalCores": 700,
+  "recipients": [
+    {
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "inputNickname": "커피마시는철구",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813338",
+      "coreLogId": "85044708"
+    },
+    {
+      "userId": "88",
+      "nickname": "0수표",
+      "inputNickname": "0수표",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813339",
+      "coreLogId": "85044709"
+    },
+    {
+      "userId": "162",
+      "nickname": "차단하다",
+      "inputNickname": "차단하다",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813340",
+      "coreLogId": "85044710"
+    },
+    {
+      "userId": "218",
+      "nickname": "현하루",
+      "inputNickname": "현하루",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813341",
+      "coreLogId": "85044711"
+    },
+    {
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "inputNickname": "ShowMaker",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813342",
+      "coreLogId": "85044712"
+    },
+    {
+      "userId": "277",
+      "nickname": "스갤가축",
+      "inputNickname": "스갤가축",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813343",
+      "coreLogId": "85044713"
+    },
+    {
+      "userId": "289",
+      "nickname": "베베킹",
+      "inputNickname": "베베킹",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813344",
+      "coreLogId": "85044714"
+    },
+    {
+      "userId": "290",
+      "nickname": "Mild7",
+      "inputNickname": "Mild7",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813345",
+      "coreLogId": "85044715"
+    },
+    {
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "inputNickname": "[C9]족쪽이",
+      "units": 1,
+      "coinGranted": "2000000000000",
+      "coresGranted": 10,
+      "coinLogId": "92813346",
+      "coreLogId": "85044716"
+    },
+    {
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "inputNickname": "전게씹선미아웃",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813347",
+      "coreLogId": "85044717"
+    },
+    {
+      "userId": "1545",
+      "nickname": "좋은하루",
+      "inputNickname": "좋은하루",
+      "units": 1,
+      "coinGranted": "2000000000000",
+      "coresGranted": 10,
+      "coinLogId": "92813348",
+      "coreLogId": "85044718"
+    },
+    {
+      "userId": "2246",
+      "nickname": "옹가망함1",
+      "inputNickname": "옹가망함1",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813349",
+      "coreLogId": "85044719"
+    },
+    {
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "inputNickname": "오일바른가지",
+      "units": 1,
+      "coinGranted": "2000000000000",
+      "coresGranted": 10,
+      "coinLogId": "92813350",
+      "coreLogId": "85044720"
+    },
+    {
+      "userId": "3884",
+      "nickname": "zkzk9999",
+      "inputNickname": "zkzk9999",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813351",
+      "coreLogId": "85044721"
+    },
+    {
+      "userId": "4235",
+      "nickname": "도댕",
+      "inputNickname": "도댕",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813352",
+      "coreLogId": "85044722"
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "inputNickname": "더듬이구",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813353",
+      "coreLogId": "85044723"
+    },
+    {
+      "userId": "4408",
+      "nickname": "레가파",
+      "inputNickname": "레가파",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813354",
+      "coreLogId": "85044724"
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "inputNickname": "혜정",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813355",
+      "coreLogId": "85044725"
+    },
+    {
+      "userId": "4582",
+      "nickname": "족단",
+      "inputNickname": "족단",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813356",
+      "coreLogId": "85044726"
+    },
+    {
+      "userId": "4595",
+      "nickname": "비니",
+      "inputNickname": "비니",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813357",
+      "coreLogId": "85044727"
+    },
+    {
+      "userId": "4598",
+      "nickname": "암살자..",
+      "inputNickname": "암살자..",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813358",
+      "coreLogId": "85044728"
+    },
+    {
+      "userId": "4615",
+      "nickname": "랭비!",
+      "inputNickname": "랭비!",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813359",
+      "coreLogId": "85044729"
+    },
+    {
+      "userId": "4621",
+      "nickname": "리이렐",
+      "inputNickname": "리이렐",
+      "units": 1,
+      "coinGranted": "2000000000000",
+      "coresGranted": 10,
+      "coinLogId": "92813360",
+      "coreLogId": "85044730"
+    },
+    {
+      "userId": "4627",
+      "nickname": "학벌",
+      "inputNickname": "학벌",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813361",
+      "coreLogId": "85044731"
+    },
+    {
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "inputNickname": "망순이ෆ",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813362",
+      "coreLogId": "85044732"
+    },
+    {
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "inputNickname": "˚쟁이。",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813363",
+      "coreLogId": "85044733"
+    },
+    {
+      "userId": "4773",
+      "nickname": "진짜디임",
+      "inputNickname": "진짜디임",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813364",
+      "coreLogId": "85044734"
+    },
+    {
+      "userId": "4774",
+      "nickname": "딤럼프",
+      "inputNickname": "딤럼프",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813365",
+      "coreLogId": "85044735"
+    },
+    {
+      "userId": "4817",
+      "nickname": "음주",
+      "inputNickname": "음주",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813366",
+      "coreLogId": "85044736"
+    },
+    {
+      "userId": "4837",
+      "nickname": "별도",
+      "inputNickname": "별도",
+      "units": 1,
+      "coinGranted": "2000000000000",
+      "coresGranted": 10,
+      "coinLogId": "92813367",
+      "coreLogId": "85044737"
+    },
+    {
+      "userId": "4866",
+      "nickname": "[C9]가시",
+      "inputNickname": "[C9]가시",
+      "units": 1,
+      "coinGranted": "2000000000000",
+      "coresGranted": 10,
+      "coinLogId": "92813368",
+      "coreLogId": "85044738"
+    },
+    {
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "inputNickname": "굳건창수",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813369",
+      "coreLogId": "85044739"
+    },
+    {
+      "userId": "4933",
+      "nickname": "심심이",
+      "inputNickname": "심심이",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813370",
+      "coreLogId": "85044740"
+    },
+    {
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "inputNickname": "쁴로리",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813371",
+      "coreLogId": "85044741"
+    },
+    {
+      "userId": "4981",
+      "nickname": "간장왕대게찜",
+      "inputNickname": "간장왕대게찜",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813372",
+      "coreLogId": "85044742"
+    },
+    {
+      "userId": "5426",
+      "nickname": "나무늘봉순",
+      "inputNickname": "나무늘봉순",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813373",
+      "coreLogId": "85044743"
+    },
+    {
+      "userId": "5504",
+      "nickname": "비_니",
+      "inputNickname": "비_니",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813374",
+      "coreLogId": "85044744"
+    },
+    {
+      "userId": "5650",
+      "nickname": "예지앙",
+      "inputNickname": "예지앙",
+      "units": 2,
+      "coinGranted": "4000000000000",
+      "coresGranted": 20,
+      "coinLogId": "92813375",
+      "coreLogId": "85044745"
+    }
+  ],
+  "grants": [
+    {
+      "userId": "4965",
+      "code": "V-996",
+      "name": "발테르",
+      "quantity": 1,
+      "nickname": "쁴로리",
+      "acquisitionId": "ops:room-sponsor-rewards:20261018:v1:4965:V-996",
+      "copiesBefore": 1,
+      "copiesAfter": 2,
+      "serial": 12
+    },
+    {
+      "userId": "4817",
+      "code": "V-996",
+      "name": "발테르",
+      "quantity": 1,
+      "nickname": "음주",
+      "acquisitionId": "ops:room-sponsor-rewards:20261018:v1:4817:V-996",
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "serial": 13
+    },
+    {
+      "userId": "4933",
+      "code": "V-996",
+      "name": "발테르",
+      "quantity": 1,
+      "nickname": "심심이",
+      "acquisitionId": "ops:room-sponsor-rewards:20261018:v1:4933:V-996",
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "serial": 14
+    },
+    {
+      "userId": "4774",
+      "code": "V-999",
+      "name": "헬리오스",
+      "quantity": 1,
+      "nickname": "딤럼프",
+      "acquisitionId": "ops:room-sponsor-rewards:20261018:v1:4774:V-999",
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "serial": 7
+    }
+  ],
+  "revocation": {
+    "target": {
+      "userId": "4774",
+      "code": "V-996",
+      "name": "발테르",
+      "quantity": 1,
+      "expectedCopies": 1,
+      "sourceGrantKey": "ops:dimrump-valter-grant:20261013:v1"
+    },
+    "copiesBefore": 1,
+    "copiesAfter": 0,
+    "clearedModes": [
+      "PVE",
+      "PVP"
+    ],
+    "loadoutBefore": {
+      "user_id": "4774",
+      "mercenary_code": "V-996",
+      "revision": 27,
+      "updated_at": "2026-10-12T19:26:29.520Z"
+    },
+    "loadoutAfter": {
+      "user_id": "4774",
+      "mercenary_code": null,
+      "revision": 28,
+      "updated_at": "2026-10-17T20:38:09.167Z"
+    },
+    "pvpBefore": {
+      "mercenaryCode": "V-996",
+      "revision": 31
+    },
+    "pvpAfter": {
+      "mercenaryCode": null,
+      "revision": 32
+    },
+    "growthPreserved": true,
+    "sourceHistoryPreserved": true
+  },
+  "stockBefore": [
+    {
+      "code": "V-996",
+      "limit": 12,
+      "issued": 11,
+      "remaining": 1
+    },
+    {
+      "code": "V-999",
+      "limit": 7,
+      "issued": 6,
+      "remaining": 1
+    }
+  ],
+  "stockAfter": [
+    {
+      "code": "V-996",
+      "limit": 15,
+      "issued": 14,
+      "remaining": 1
+    },
+    {
+      "code": "V-999",
+      "limit": 8,
+      "issued": 7,
+      "remaining": 1
+    }
+  ],
+  "adminLogId": "47771",
+  "rollbackVerified": true,
+  "rollbackProof": "ABSENT_ATTEMPT_LEDGER_IDS_AND_RECEIPT",
+  "replay": {
+    "operationKey": "ops:room-sponsor-rewards:20261018:v1",
+    "replayed": true,
+    "writes": 0
+  },
+  "independentConnection": true,
+  "missing": 0,
+  "duplicates": 0
+}
