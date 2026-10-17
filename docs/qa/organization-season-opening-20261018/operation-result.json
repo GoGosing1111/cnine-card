@@ -1,0 +1,84 @@
+{
+  "at": "2026-10-17T16:51:11.958Z",
+  "requestId": "org-open-20261018-3ceaecca:apply",
+  "result": {
+    "ok": true,
+    "assigned": 14,
+    "stats": {
+      "participants": 129,
+      "existingMembers": 115,
+      "additionalApplicants": 14,
+      "totalPower": 302617,
+      "minMembers": 8,
+      "maxMembers": 9,
+      "minPower": 18197,
+      "maxPower": 24831,
+      "powerSpreadPercent": 32.88,
+      "preferenceMatched": 31,
+      "preferencePercent": 24,
+      "swaps": 10
+    },
+    "scope": "LIVE"
+  },
+  "maintenance": {
+    "changed": false,
+    "recruitment": {
+      "changed": false,
+      "status": "IDLE"
+    },
+    "faction": {
+      "enabled": true,
+      "rounds": 1
+    }
+  },
+  "rules": {
+    "version": "20261018-organization-season",
+    "timeZone": "Asia/Seoul",
+    "dailyCount": 2,
+    "durationMs": 10800000,
+    "requiredTerritories": 6,
+    "coinPerRecipient": 300000000000,
+    "masterStarsPerRecipient": 300000,
+    "mysticEnergyPerRecipient": 300
+  },
+  "mode": "ON",
+  "counts": [
+    8,
+    9,
+    8,
+    8,
+    9,
+    9,
+    9,
+    9,
+    8,
+    9,
+    8,
+    9,
+    9,
+    8,
+    9
+  ],
+  "roundRevision": 222,
+  "currentSession": null,
+  "schedule": [
+    {
+      "key": "2026-10-18:1",
+      "dayKey": "2026-10-18",
+      "ordinal": 1,
+      "startsAt": 1792261140000,
+      "endsAt": 1792271940000,
+      "status": "SCHEDULED"
+    },
+    {
+      "key": "2026-10-18:2",
+      "dayKey": "2026-10-18",
+      "ordinal": 2,
+      "startsAt": 1792312920000,
+      "endsAt": 1792323720000,
+      "status": "SCHEDULED"
+    }
+  ],
+  "existingMembersPreserved": 115,
+  "pendingApplicants": 0
+}
