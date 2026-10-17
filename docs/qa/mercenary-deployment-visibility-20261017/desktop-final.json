@@ -1,0 +1,44 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "geometry": {
+        "button": {
+          "top": 400.453125,
+          "bottom": 468.453125,
+          "height": 68,
+          "width": 435.890625
+        },
+        "panelBottom": 559.125,
+        "artTop": 577.125,
+        "textColor": "rgb(36, 23, 10)",
+        "textFill": "rgb(36, 23, 10)",
+        "opacity": "1",
+        "image": "url(\"http://127.0.0.1:11982/assets/ui/project-v/mercenaries/deployment-20261017/deployment-button.webp\")",
+        "hit": true,
+        "overflow": false
+      },
+      "selection": "all 7 Halloween, standard and older limited",
+      "interactions": "PVE/PVP save, isolated clear, keyboard/touch, readable active/pending"
+    }
+  ],
+  "errors": [],
+  "writes": [
+    {
+      "mode": "PVE",
+      "mercenaryCode": "V-983",
+      "revision": 0
+    },
+    {
+      "mode": "PVP",
+      "mercenaryCode": "V-983",
+      "revision": 0
+    },
+    {
+      "mode": "PVP",
+      "mercenaryCode": null,
+      "revision": 1
+    }
+  ],
+  "liveAccountWrites": 0
+}

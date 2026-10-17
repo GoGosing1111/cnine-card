@@ -1,0 +1,49 @@
+{
+  "createdAt": "2026-10-17",
+  "method": "Built-in image_gen",
+  "purpose": "Mercenary codex deployment action visibility",
+  "approval": "Generated assets technically reviewed; user visual approval not claimed",
+  "assets": [
+    {
+      "source": "deployment-button-source.png",
+      "output": "deployment-button.webp",
+      "prompt": "Use case: stylized-concept. Asset type: production game UI primary deployment button, a single isolated horizontal button, transparent background. Create a premium mercenary command button for a dark navy collectible RPG archive. Straight-on orthographic, one wide low-profile 6:1 beveled plaque with clipped chamfer corners, brushed warm champagne-gold metal, fine engraved parallel military lines only along the very slim rim, tiny restrained teal indicator at each outer end. Large uninterrupted luminous warm ivory-gold central surface occupying the middle 80% for readable dark live HTML text. Material and sculpted edge must be visually clear at 340 x 64 CSS pixels. Bright, approachable and unmistakably clickable, subtle reflected light, no strong bloom. The entire button almost fills a wide canvas with only small transparent margins. No text, no letters, no numbers, no emblems in the middle, no characters, no scenery, no drop shadow outside, no additional buttons, no black central fill, no watermark. Keep the silhouette crisp and fully within the image. Actual transparent alpha outside the button.",
+      "sourceSha256": "40ac3f814a195ee778709f4c90c04c6316e882f9c3cf7edf7dc658d2100f6054",
+      "packaging": {
+        "trimAlphaBounds": {
+          "left": 19,
+          "top": 168,
+          "width": 2134,
+          "height": 384
+        },
+        "maxWidth": 1200,
+        "webpQuality": 92,
+        "alphaQuality": 100,
+        "alphaTrimThreshold": 16,
+        "trimPadding": 4
+      },
+      "outputSha256": "10bb6c547ff301d50dcd7829a1265817fb4a86e8e806c1e8c76e4569820d0507"
+    },
+    {
+      "source": "deployment-panel-source.png",
+      "output": "deployment-panel.webp",
+      "prompt": "Use case: stylized-concept. Asset type: production game UI mercenary deployment console panel. A single clean premium navy command plaque, straight-on orthographic, transparent alpha outside, wide 3:1 format. Dark ink navy blue enamel and faint brushed metal texture throughout the large empty center, slim champagne gold and steel beveled perimeter, cropped/chamfered corner geometry, tiny teal illuminated rivets confined to the four corners, a thin etched double-line border. Restrained military collector RPG archive aesthetic matching a champagne-gold primary action button. Central 88% must remain calm uninterrupted opaque dark navy for white live HTML controls and text. The panel will be nine-slice scaled to a short action console in a responsive game interface; keep all detail within the narrow outer rim, straight uniform edges, no floating objects. Outer frame occupies almost whole canvas, very little transparent margin. No writing, letters, numbers, symbols, icons, buttons, characters, scenery, center decoration, text bars, perspective, watermark, strong glow or external shadow. Real material finish and sculpted thin frame, not a flat CSS box.",
+      "sourceSha256": "448e8cfd630a89d294b669620b91fd7f59cb04ff88a398b2dc74a61273b8dc2c",
+      "packaging": {
+        "trimAlphaBounds": {
+          "left": 13,
+          "top": 43,
+          "width": 2147,
+          "height": 605
+        },
+        "maxWidth": 1200,
+        "webpQuality": 92,
+        "alphaQuality": 100,
+        "alphaTrimThreshold": 16,
+        "trimPadding": 4
+      },
+      "outputSha256": "e20ebe73e1f130d89ef0a48a439843e29ed7b06094596171aa750354a86f3af5"
+    }
+  ],
+  "consumer": "mercenary-codex/deployment.css"
+}
