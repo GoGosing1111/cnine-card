@@ -19,6 +19,7 @@ import {createRequestSettingsCache} from '../_request_settings_cache.js';
 import {forwardApiRuntimeRequest} from '../_api_runtime_transport.js';
 import {rankedDuoLiveOperation} from '../_ranked_duo_live_operation.js';
 import {handleQuestHub} from '../_quest_hub.js';
+import {payDailyQuestReward} from '../_daily_quest_reward.js';
 import {handleServerSupport} from '../_server_support.js';
 import {handleMenuFavorites} from '../_menu_favorites.js';
 import {liveSupportMessageSql,supportMessageCutoff,presentSupportMessage,deleteExpiredSupportMessages} from '../_supporter_message_expiry.js';
@@ -3401,16 +3402,17 @@ async function inspectWagoComment(settings,verification){
 }
 
 
-const DAILY_QUEST_MAX_REWARD_COIN=10_000_000_000;
+const DAILY_QUEST_MAX_REWARD_COIN=100_000_000_000;
 function normalizePlaydkDailyBoardSlugs(value,fallback=['skm']){
   const source=Array.isArray(value)?value:String(value||'').split(',');
   const normalized=[...new Set(source.map(item=>String(item||'').trim().toLowerCase()).filter(slug=>/^[a-z0-9_-]{1,80}$/.test(slug)))].slice(0,10);
   return normalized.length?normalized:[...fallback];
 }
-async function playdkDailyQuestSettings(env){
+async function playdkDailyQuestSettings(env,includeSnapshot=false){
   const configuredSlugs=normalizePlaydkDailyBoardSlugs(env.PLAYDK_DAILY_BOARD_SLUGS||'skm');
   const base={enabled:true,postEnabled:true,commentEnabled:false,requiredPosts:15,postRewardCoin:1200,rewardCoin:1200,checkCooldownSeconds:20,adminTestAllowed:true,boardSlugs:configuredSlugs};
-  const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key IN ('playdk_daily_quest_settings_v1','wago_daily_quest_settings_v1') ORDER BY CASE key WHEN 'playdk_daily_quest_settings_v1' THEN 0 ELSE 1 END LIMIT 1").first();
+  const row=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('playdk_daily_quest_settings_v1','wago_daily_quest_settings_v1') ORDER BY CASE key WHEN 'playdk_daily_quest_settings_v1' THEN 0 ELSE 1 END LIMIT 1").first();
+  const result=value=>includeSnapshot?{settings:value,snapshot:{key:row?.key??null,value:row?.value??null}}:value;
   try{
     const v={...base,...JSON.parse(row?.value||'{}')};
     v.postRewardCoin=Number(v.postRewardCoin??v.rewardCoin??1200);
@@ -3419,8 +3421,8 @@ async function playdkDailyQuestSettings(env){
     v.commentEnabled=false;
     v.boardSlugs=normalizePlaydkDailyBoardSlugs(v.boardSlugs,configuredSlugs);
     delete v.boardUrl;delete v.maxPages;delete v.commentMaxPosts;delete v.requiredComments;delete v.commentRewardCoin;
-    return v;
-  }catch{return base}
+    return result(v);
+  }catch{return result(base)}
 }
 function extractWagoMemberNoFromAuthorRow(block){
   const source=String(block||'');
@@ -7199,7 +7201,7 @@ async function handleRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       await Promise.all([ensureWagoDailyPostProgressTable(env),ensureSecondVerificationFoundation(env)]);
       const body=await readBody(request),questType=String(body.questType||'POST').toUpperCase();
-      const settings=await playdkDailyQuestSettings(env);if(settings.enabled===false)return json({error:'현재 일일퀘스트가 중지되어 있습니다.'},503);
+      const {settings,snapshot}=await playdkDailyQuestSettings(env,true);if(settings.enabled===false)return json({error:'현재 일일퀘스트가 중지되어 있습니다.'},503);
       if(!playdkConfigured(env))return json({error:'PLAY DK 게시글 조회 서버 설정이 아직 완료되지 않았습니다.',code:'PLAYDK_NOT_CONFIGURED'},503);
       if(dailyQuestAdminExcluded(user,settings))return json({error:'운영 계정의 일일퀘스트 테스트가 중지되어 있습니다.'},403);
       const verification=await env.DB.prepare("SELECT provider_user_id,provider_name,verified_at FROM user_second_verifications WHERE user_id=? AND provider='PLAYDK'").bind(user.id).first();
@@ -7214,12 +7216,8 @@ async function handleRequest(context){
       await env.DB.prepare(`INSERT INTO wago_daily_post_progress_v2(user_id,quest_date,post_count,post_ids_json,last_checked_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP)
         ON CONFLICT(user_id,quest_date) DO UPDATE SET post_count=excluded.post_count,post_ids_json=excluded.post_ids_json,last_checked_at=CURRENT_TIMESTAMP`).bind(user.id,today,stablePostCount,JSON.stringify(stablePosts)).run();
       if(stablePostCount<required)return json({error:`오늘 PLAY DK 게시판 작성글이 ${stablePostCount}개입니다. ${required}개 작성 후 수령할 수 있습니다.`,postCount:stablePostCount,requiredPosts:required},409);
-      const inserted=await env.DB.prepare('INSERT OR IGNORE INTO wago_daily_quest_claims(user_id,quest_date,reward_coin,post_count) VALUES(?,?,?,?)').bind(user.id,today,reward,stablePostCount).run();
-      if(!inserted.meta.changes)return json({error:'오늘 게시글 퀘스트 보상은 이미 수령했습니다.'},409);
-      await env.DB.batch([
-        env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id),
-        env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'PLAYDK_DAILY_QUEST' FROM users WHERE id=?").bind(reward,user.id)
-      ]);
+      const payment=await payDailyQuestReward(env.DB,{userId:user.id,date:today,reward,postCount:stablePostCount,snapshot});
+      if(!payment.paid)return json({error:payment.reason==='SETTINGS_CHANGED'?'일일퀘스트 보상이 변경됐습니다. 다시 수령해 주세요.':'오늘 게시글 퀘스트 보상은 이미 수령했습니다.'},409);
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       return json({ok:true,source:'PLAYDK',questType:'POST',rewardCoin:reward,postCount:stablePostCount,postsTruncated:inspected.postsTruncated===true,user:await profile(env,updated)});
     }
@@ -7638,7 +7636,7 @@ async function handleRequest(context){
         if(admin.role!=='OWNER')return json({error:'일일퀘스트 설정 변경은 OWNER만 가능합니다.'},403);
         const body=await readBody(request),before=await playdkDailyQuestSettings(env),v=body.settings||{};
         const postRewardCoin=Number(v.postRewardCoin??v.rewardCoin??before.postRewardCoin);
-        if(!Number.isSafeInteger(postRewardCoin)||postRewardCoin<0||postRewardCoin>DAILY_QUEST_MAX_REWARD_COIN)return json({error:'일일퀘스트 보상 코인은 0~100억 사이의 정수로 입력하세요.'},400);
+        if(!Number.isSafeInteger(postRewardCoin)||postRewardCoin<0||postRewardCoin>DAILY_QUEST_MAX_REWARD_COIN)return json({error:'일일퀘스트 보상 코인은 0~1,000억 사이의 정수로 입력하세요.'},400);
         const next={...before,enabled:v.enabled!==false,postEnabled:v.postEnabled!==false,commentEnabled:false,boardSlugs:normalizePlaydkDailyBoardSlugs(before.boardSlugs),requiredPosts:15,postRewardCoin,checkCooldownSeconds:Math.max(5,Math.min(300,Number(v.checkCooldownSeconds)||20)),adminTestAllowed:v.adminTestAllowed!==false};
         next.rewardCoin=next.postRewardCoin;
         await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('playdk_daily_quest_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(next)).run();

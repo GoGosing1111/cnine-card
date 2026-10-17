@@ -16,7 +16,7 @@ test('new weekly rewards are all OFF, unset; unsafe/zero-enabled values are reje
  for(const value of ['',null,-1,1.5,Number.MAX_SAFE_INTEGER+1]){const next=structuredClone(original);next.quests.POST.rewardAmount=value;assert.throws(()=>validateQuestSettings(next,original))}
  for(const rewardType of ['UNKNOWN','constructor','__proto__']){const next=structuredClone(original);next.quests.POST.rewardType=rewardType;assert.throws(()=>validateQuestSettings(next,original))}
  const zero=structuredClone(original);zero.quests.POST.enabled=true;assert.throws(()=>validateQuestSettings(zero,original),/1개 이상/);
- zero.quests.POST.rewardAmount=100_000_000_000;assert.equal(validateQuestSettings(zero,original).quests.POST.rewardAmount,100_000_000_000);
+ zero.quests.POST.rewardAmount=1_000_000_000_000;assert.equal(validateQuestSettings(zero,original).quests.POST.rewardAmount,1_000_000_000_000);
 });
 
 async function fixture({denyLegacyIndexes=false}={}){
