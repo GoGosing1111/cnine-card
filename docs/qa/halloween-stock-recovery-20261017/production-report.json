@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-10-17T13:07:47.349Z",
+  "revision": 12,
+  "mode": "ON",
+  "userOpeningEnabled": true,
+  "readiness": {
+    "ready": true,
+    "blockers": []
+  },
+  "prices": {
+    "single": 1000000000,
+    "ten": 10000000000
+  },
+  "soldOut": [
+    "V-986"
+  ],
+  "assetsMatch": [
+    "index.html",
+    "js/app.js",
+    "js/mercenary-halloween-pack-live.mjs",
+    "shared/mercenary-halloween-session-v2.mjs",
+    "shared/mercenary-halloween-pack-v1.mjs",
+    "admin/mercenary-halloween-admin-v1.mjs"
+  ],
+  "views": [
+    {
+      "width": 1440,
+      "autoStartEnabled": true,
+      "buyEnabled": true,
+      "label": "개봉 가능 · 수량을 선택하세요",
+      "quote": "총 100회 · 최대 100,000,000,000 코인",
+      "openingPosts": 0
+    },
+    {
+      "width": 390,
+      "autoStartEnabled": true,
+      "buyEnabled": true,
+      "label": "개봉 가능 · 수량을 선택하세요",
+      "quote": "총 100회 · 최대 100,000,000,000 코인",
+      "openingPosts": 0
+    }
+  ]
+}
