@@ -1,0 +1,28 @@
+{
+  "publishedAt": "2026-10-17T01:09:38.810Z",
+  "commit": "c31ba82d1167813836e7d0397c48cf4086549a6b",
+  "version": "1.1.0",
+  "tag": "android-v1.1.0",
+  "url": "https://github.com/GoGosing1111/cnine-card/releases/tag/android-v1.1.0",
+  "downloadUrl": "https://github.com/GoGosing1111/cnine-card/releases/download/android-v1.1.0/ReverseCall-Android-1.1.0.apk",
+  "sha256": "28dee54f29a7abae49156c6f8e1d5eebd2dd8c91a72e1596a47975be7d3797cd",
+  "windowsLatestUnchanged": "v0.1.7",
+  "feed": "COMMIT_AND_PUSH_PREPARED_LATEST_JSON",
+  "artifacts": [
+    {
+      "name": "ReverseCall-Android-1.1.0.apk",
+      "bytes": 3664063,
+      "sha256": "28dee54f29a7abae49156c6f8e1d5eebd2dd8c91a72e1596a47975be7d3797cd"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 96,
+      "sha256": "f0626c4bf8e93fa55466ee0334c7cb2690a3e373710975d456c8a6ad66d5f5f0"
+    },
+    {
+      "name": "android-update.json",
+      "bytes": 438,
+      "sha256": "c829db38073cff1cbf10932281f8798c59e738c9a9645ddcf5ca07dca76da115"
+    }
+  ]
+}

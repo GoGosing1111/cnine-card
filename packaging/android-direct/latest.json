@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "packageId": "dev.pages.cnine_card.twa",
+  "version": "1.1.0",
+  "versionCode": 3,
+  "url": "https://github.com/GoGosing1111/cnine-card/releases/download/android-v1.1.0/ReverseCall-Android-1.1.0.apk",
+  "bytes": 3664063,
+  "sha256": "28dee54f29a7abae49156c6f8e1d5eebd2dd8c91a72e1596a47975be7d3797cd",
+  "signerSha256": "1A:16:4D:EA:3A:2B:E5:F9:FA:53:AE:10:7E:D0:B7:5E:5E:A5:65:86:23:7B:DD:F2:73:E4:76:28:6C:24:1E:15"
+}

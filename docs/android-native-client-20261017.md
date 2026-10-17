@@ -44,4 +44,8 @@
 
 게임 웹/서버 실행 코드를 변경하지 않았으므로 관련 패키징 검사와 범위 커밋·푸시, Android 릴리스/피드 발행으로 끝낸다. Pages/Worker와 무관한 전체 게임 검사·운영 재배포는 하지 않는다.
 
+## Android 채널 발행
+
+2026-10-17 10:09 KST, 소스 커밋 `c31ba82d1167813836e7d0397c48cf4086549a6b`로 `android-v1.1.0` prerelease를 공개했다. APK·체크섬·업데이트 JSON 업로드 해시와 공개 APK 다운로드 해시가 일치했다. Windows 최신 릴리스는 `v0.1.7`로 유지됐다. 발행 영수증은 검수 폴더의 `publish-receipt.json`이며, 이 후속 커밋에서 검증한 바이너리를 가리키는 Android 피드를 공개한다.
+
 플랫폼 동작 근거: [Android 외부 배포](https://developer.android.com/distribute/marketing-tools/alternative-distribution), [설치 요청 허용](https://developer.android.com/reference/android/content/pm/PackageManager#canRequestPackageInstalls()), [설치 Intent](https://developer.android.com/reference/android/content/Intent#ACTION_INSTALL_PACKAGE), [뒤로가기 호환 설정](https://developer.android.com/guide/navigation/custom-back/predictive-back-gesture), [GitHub 릴리스 API](https://docs.github.com/en/rest/releases/releases).
