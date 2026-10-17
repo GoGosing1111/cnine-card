@@ -1,0 +1,38 @@
+[
+  {
+    "key": "astra",
+    "width": 1440,
+    "close": {
+      "width": 84,
+      "height": 44,
+      "font": "15px"
+    },
+    "result": {
+      "x": 440,
+      "y": 725.5,
+      "width": 560,
+      "height": 115
+    },
+    "touchOrClickClose": true,
+    "noOverlap": true,
+    "errors": []
+  },
+  {
+    "key": "maybach",
+    "width": 390,
+    "close": {
+      "width": 84,
+      "height": 44,
+      "font": "15px"
+    },
+    "result": {
+      "x": 31,
+      "y": 578.71875,
+      "width": 328,
+      "height": 109
+    },
+    "touchOrClickClose": true,
+    "noOverlap": true,
+    "errors": []
+  }
+]
