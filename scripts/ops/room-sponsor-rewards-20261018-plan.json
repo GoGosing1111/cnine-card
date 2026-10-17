@@ -1,0 +1,471 @@
+{
+  "operationKey": "ops:room-sponsor-rewards:20261018:v1",
+  "authorization": "방 후원 1당 2조+ 슈트코어6 10개 지급. 닉네임뒤 2 는 2번 지급. 쁴로리,음주,딤럼프,심심이 리미티드 장수 차감없이 발테르 지급. 딤럼프 발테르 회수 후 헬리오스 장수 차감없이 지급.",
+  "delivery": "DIRECT",
+  "coinPerUnit": "2000000000000",
+  "coreCode": "SUIT_CORE_6",
+  "coresPerUnit": 10,
+  "recipientCount": 38,
+  "totalUnits": 70,
+  "totalCoin": "140000000000000",
+  "totalCores": 700,
+  "recipients": [
+    {
+      "order": 1,
+      "inputNickname": "레가파",
+      "userId": "4408",
+      "nickname": "레가파",
+      "role": "USER",
+      "identityHash": "14c85a341992ae21e1a71c8cc46e50490a9df801f7ec82ce646ca3a68d6ceab9",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 2,
+      "inputNickname": "족단",
+      "userId": "4582",
+      "nickname": "족단",
+      "role": "USER",
+      "identityHash": "8ce5816fdce2324c397db47a1d1e8683f3beeefbbe5790484b645da8ed4e04c6",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 3,
+      "inputNickname": "학벌",
+      "userId": "4627",
+      "nickname": "학벌",
+      "role": "USER",
+      "identityHash": "cc225638bec5ef6513c0c0a4365b4df20de606081790e6380e9caafc96a4a563",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 4,
+      "inputNickname": "더듬이구",
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "role": "USER",
+      "identityHash": "e3a5106d954725ea57feb9fc2b29e938fe43aed43dedb1843bcc9fa4c1cfbb89",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 5,
+      "inputNickname": "[C9]가시",
+      "userId": "4866",
+      "nickname": "[C9]가시",
+      "role": "USER",
+      "identityHash": "15442a469503c733a55590ec8f9e295656061780870c4423efa9ff7e953b766b",
+      "units": 1,
+      "coin": "2000000000000",
+      "cores": 10
+    },
+    {
+      "order": 6,
+      "inputNickname": "Mild7",
+      "userId": "290",
+      "nickname": "Mild7",
+      "role": "USER",
+      "identityHash": "b237eda07f0039a7a79ae91d1ecc1e85643c14bd9bf30f71e9ed0a3208c72457",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 7,
+      "inputNickname": "도댕",
+      "userId": "4235",
+      "nickname": "도댕",
+      "role": "USER",
+      "identityHash": "d02f52f25f8a46b8f14a0542e26a1de4ae1ae68ec66dc41766714c17d03e133d",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 8,
+      "inputNickname": "딤럼프",
+      "userId": "4774",
+      "nickname": "딤럼프",
+      "role": "USER",
+      "identityHash": "f1ec6eeb5842016f68656bb0c5bcf0f91c97733fa2ebca2d5bcb0d3ddba9003c",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 9,
+      "inputNickname": "진짜디임",
+      "userId": "4773",
+      "nickname": "진짜디임",
+      "role": "USER",
+      "identityHash": "fceb2e1b65b91bd2ad60cbd2751619fb055286fe004a6816a30648889315dafc",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 10,
+      "inputNickname": "쁴로리",
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "role": "USER",
+      "identityHash": "8224a7fe004070bf9fd16c6e447ec8d55331168d0151a3ba38737e61d7eb6c0e",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 11,
+      "inputNickname": "망순이ෆ",
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "role": "USER",
+      "identityHash": "beb4952f25d842ceed20ff531cf4d51f7c10f9da0f0cbda7b384e25635eafa75",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 12,
+      "inputNickname": "차단하다",
+      "userId": "162",
+      "nickname": "차단하다",
+      "role": "USER",
+      "identityHash": "f5174affaa426f84b5e3c47b6c010966db9c90f5ecd4bb1b21336e151bd018cd",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 13,
+      "inputNickname": "암살자..",
+      "userId": "4598",
+      "nickname": "암살자..",
+      "role": "USER",
+      "identityHash": "8095a5b5e70bf578671288f7683a2db3689f00525085b0f2af8cf686b99ac557",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 14,
+      "inputNickname": "혜정",
+      "userId": "4570",
+      "nickname": "혜정",
+      "role": "USER",
+      "identityHash": "cd1fb88a0043f82c8010dea62ccb8612558c3c1a588db75ec57c34a979fe1e12",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 15,
+      "inputNickname": "˚쟁이。",
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "role": "USER",
+      "identityHash": "8b76be53545ad3227d7d9caf2ff9b9f0f35b1594671eb2c7da05854c41a7afcb",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 16,
+      "inputNickname": "별도",
+      "userId": "4837",
+      "nickname": "별도",
+      "role": "USER",
+      "identityHash": "f7f09d9fc7e3980921352c385559fdfef9a0548f0458b60c0e1541cc5a3d1920",
+      "units": 1,
+      "coin": "2000000000000",
+      "cores": 10
+    },
+    {
+      "order": 17,
+      "inputNickname": "베베킹",
+      "userId": "289",
+      "nickname": "베베킹",
+      "role": "USER",
+      "identityHash": "9074df6c3049570e656a16d7fa3d7060130f48210412cd54f94803b593c02b57",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 18,
+      "inputNickname": "오일바른가지",
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "role": "USER",
+      "identityHash": "5b36f5be3b170f9db10df9f14047b7329625a2fc7922ff96c2c373219baf2fd7",
+      "units": 1,
+      "coin": "2000000000000",
+      "cores": 10
+    },
+    {
+      "order": 19,
+      "inputNickname": "커피마시는철구",
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "role": "USER",
+      "identityHash": "c198201dc5db21d9321fa512ea16392d3c60ba6c12975210ae64f71fcbd0744a",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 20,
+      "inputNickname": "비니",
+      "userId": "4595",
+      "nickname": "비니",
+      "role": "USER",
+      "identityHash": "bf98fb2d8c579087463b82e79a760a614341019cbd4ec72eb0a188d718969ca1",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 21,
+      "inputNickname": "리이렐",
+      "userId": "4621",
+      "nickname": "리이렐",
+      "role": "USER",
+      "identityHash": "a1e7c0826a4f77b058a2aa1d2310df1386b25faea54d7251f4ae7d3b9ef926ea",
+      "units": 1,
+      "coin": "2000000000000",
+      "cores": 10
+    },
+    {
+      "order": 22,
+      "inputNickname": "옹가망함1",
+      "userId": "2246",
+      "nickname": "옹가망함1",
+      "role": "USER",
+      "identityHash": "f147e96ec813c57699b55fa4e862b482ca6af39a29cc6eb56996f041d6d8021a",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 23,
+      "inputNickname": "간장왕대게찜",
+      "userId": "4981",
+      "nickname": "간장왕대게찜",
+      "role": "USER",
+      "identityHash": "192c01214a71494434f0966fb4ce0c9ffb8fc494b184ebc804495b6330e9583e",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 24,
+      "inputNickname": "ShowMaker",
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "role": "USER",
+      "identityHash": "c4aaae633299f43a7eb84670344d80e0be5a96f43127601afb34c2ecd1ab605c",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 25,
+      "inputNickname": "랭비!",
+      "userId": "4615",
+      "nickname": "랭비!",
+      "role": "USER",
+      "identityHash": "1da3174f105eda096867b3ed84d1a6321c1acb0708973ba09df09a95edc20713",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 26,
+      "inputNickname": "0수표",
+      "userId": "88",
+      "nickname": "0수표",
+      "role": "USER",
+      "identityHash": "9e918ae411cf083e3edaf71f1b146099fac6a49ee815783927035a0cfefa466e",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 27,
+      "inputNickname": "음주",
+      "userId": "4817",
+      "nickname": "음주",
+      "role": "USER",
+      "identityHash": "743100b54ae0fec0bf57f025913fb50cd67ec59c7ada076bd5dd61e5b6dd3aa9",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 28,
+      "inputNickname": "나무늘봉순",
+      "userId": "5426",
+      "nickname": "나무늘봉순",
+      "role": "USER",
+      "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 29,
+      "inputNickname": "zkzk9999",
+      "userId": "3884",
+      "nickname": "zkzk9999",
+      "role": "USER",
+      "identityHash": "deccc6002fd7f3cde7c3cee88e94c021fed9cc97413e32422e3212b336bb3705",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 30,
+      "inputNickname": "심심이",
+      "userId": "4933",
+      "nickname": "심심이",
+      "role": "USER",
+      "identityHash": "ae7c825987b8e894d74116a7e201164850e631a7f167bd8d800aee12c7de5b15",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 31,
+      "inputNickname": "굳건창수",
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "role": "USER",
+      "identityHash": "611ca1add2371b50424cf43c62aa1f6c9de9705aec188cbed069ef6d2943cd33",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 32,
+      "inputNickname": "전게씹선미아웃",
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "role": "USER",
+      "identityHash": "c52449af0f0027152625945987b3c4e9b9b068f9e805ef804b77966bfaa6665c",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 33,
+      "inputNickname": "예지앙",
+      "userId": "5650",
+      "nickname": "예지앙",
+      "role": "USER",
+      "identityHash": "8c2ac96c4d1d2eac455afad19a9dd27133516c1499610bb807c8d3fc4db2e541",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 34,
+      "inputNickname": "[C9]족쪽이",
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "role": "USER",
+      "identityHash": "6bb1685a26645b978145e7f952dba13812f9977505cadd60b27057559ce1618f",
+      "units": 1,
+      "coin": "2000000000000",
+      "cores": 10
+    },
+    {
+      "order": 35,
+      "inputNickname": "비_니",
+      "userId": "5504",
+      "nickname": "비_니",
+      "role": "USER",
+      "identityHash": "4448d806814d172c18ae7ec08057b5813cd6e749bbafa651b821a658152d6fd8",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 36,
+      "inputNickname": "좋은하루",
+      "userId": "1545",
+      "nickname": "좋은하루",
+      "role": "USER",
+      "identityHash": "eaab7a2da3272aba932998c760df4132f5eddd13e8132c691316b4263f28ba4b",
+      "units": 1,
+      "coin": "2000000000000",
+      "cores": 10
+    },
+    {
+      "order": 37,
+      "inputNickname": "현하루",
+      "userId": "218",
+      "nickname": "현하루",
+      "role": "USER",
+      "identityHash": "7416a162e1d11e4085ef3d7ce3df1e13e68fa740aa05df7c4ec24dd0a233e285",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    },
+    {
+      "order": 38,
+      "inputNickname": "스갤가축",
+      "userId": "277",
+      "nickname": "스갤가축",
+      "role": "USER",
+      "identityHash": "19528fabfdfeb568d802b9cdb7ab2fdf955cb64af0f006d0ee6638dc82ec5118",
+      "units": 2,
+      "coin": "4000000000000",
+      "cores": 20
+    }
+  ],
+  "aliasEvidence": {
+    "커피마시는철구": "docs/pingdu-thanks-list39-20261003.md; docs/pingdu-thanks-list44-20261004.json"
+  },
+  "grants": [
+    {
+      "userId": "4965",
+      "code": "V-996",
+      "name": "발테르",
+      "quantity": 1
+    },
+    {
+      "userId": "4817",
+      "code": "V-996",
+      "name": "발테르",
+      "quantity": 1
+    },
+    {
+      "userId": "4933",
+      "code": "V-996",
+      "name": "발테르",
+      "quantity": 1
+    },
+    {
+      "userId": "4774",
+      "code": "V-999",
+      "name": "헬리오스",
+      "quantity": 1
+    }
+  ],
+  "revoke": {
+    "userId": "4774",
+    "code": "V-996",
+    "name": "발테르",
+    "quantity": 1,
+    "expectedCopies": 1,
+    "sourceGrantKey": "ops:dimrump-valter-grant:20261013:v1"
+  },
+  "remainingStockDeduction": 0,
+  "automaticLoadout": false
+}
