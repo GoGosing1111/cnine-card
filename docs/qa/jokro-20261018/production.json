@@ -1,0 +1,276 @@
+{
+  "status": "PASS",
+  "releaseCommit": "99585735f934176c59db474e467f0e6f0a0e3e0a",
+  "verifiedAt": "2026-10-17T16:44:07.509Z",
+  "productionOrigin": "https://cnine-card.pages.dev",
+  "deployment": {
+    "pages": "https://b9fc81fc.cnine-card.pages.dev",
+    "apiVersion": "9b52165c-8593-4723-8179-b072ff2df3f1",
+    "schedulerVersion": "86ce5fa1-f04d-4db4-8b52-8ac2a484cc74",
+    "assetCount": 19931
+  },
+  "checks": {
+    "scopedRegressions": 27,
+    "finalCacheAndDeliveryRegressions": 12,
+    "browserScenarios": 10,
+    "browserErrors": 0,
+    "publicAssets": [
+      {
+        "file": "shared/mercenary-jokro-v1.mjs",
+        "status": 200,
+        "sha256": "f866e0159caa04d1fd9f63ed7402567f278ff7826ae8402b341787a007a36d3d",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/manifest.json",
+        "status": 200,
+        "sha256": "ad2a5420dde67ab3b357b41ff5ab179630ccebb28274de417c79f215325ef0c2",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/live-approval-20261018.json",
+        "status": 200,
+        "sha256": "9dd97ffa0590caf3b10193341a55e093e431bef3e6fa82a1e9a3199502677255",
+        "matches": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/jokro-20261018/source-art.png",
+        "status": 200,
+        "sha256": "82297d41e879dab7df179345875ebf329a3e825bb20bd76c68bfbe91667dfbdb",
+        "matches": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/jokro-20261018/idle.png",
+        "status": 200,
+        "sha256": "a1eceaed8c5c5c427b6f3fb374e6b03ef0b10befac64207ca24a26070dfb127d",
+        "matches": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/codex-v1/v-979-art-320.webp",
+        "status": 200,
+        "sha256": "db2aec67d60a32aadbfb67c6b1e4a47df07ae44125c931dccefd61f05e0c9c32",
+        "matches": true
+      },
+      {
+        "file": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+        "status": 200,
+        "sha256": "f5f636cac672a485f19ce4ed484ecb2798217d365a4d31b2c6c7fabb878189ea",
+        "matches": true
+      },
+      {
+        "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+        "status": 200,
+        "sha256": "f98b51cac34d0403e72ef12108d77b6479ad3ed81057f0987f71f5cd0093e5c5",
+        "matches": true
+      },
+      {
+        "file": "preview/sustained-hunt-v2/battle.bundle.js",
+        "status": 200,
+        "sha256": "6d284f7bd2a784f1cbdb822c26ae307d20e638b129cbe5e344a0434a751fe166",
+        "matches": true
+      },
+      {
+        "file": "pve-v3/battle.bundle.js",
+        "status": 200,
+        "sha256": "133d5cb0d432f36527f084ef983f3cb598ab04acac21707b0b31c3cbc1b8d9b7",
+        "matches": true
+      },
+      {
+        "file": "preview/coop-defense-v1/defense.bundle.js",
+        "status": 200,
+        "sha256": "9158a0db7a301d8ed1ce3715d631700a520497fd4a56807ad83a0e07f542560f",
+        "matches": true
+      },
+      {
+        "file": "defense/index.html",
+        "status": 200,
+        "sha256": "da1fea4084081858a903b9ff215eaecfc60b137b9c6689f61569f9715d33fc0c",
+        "matches": true
+      },
+      {
+        "file": "js/app.js",
+        "status": 200,
+        "sha256": "0c4236c0d74c015cff0ab901ea677b76199237a95f2da30d1b61b690c948c785",
+        "matches": true
+      },
+      {
+        "file": "js/battle-v3-live.js",
+        "status": 200,
+        "sha256": "00ba9198861ff9e3e586dee7f974a6293aabaf3601d6adea26cca88962caaca2",
+        "matches": true
+      },
+      {
+        "file": "index.html",
+        "status": 200,
+        "sha256": "08d8fed456bc6550aaec98f184108ece4334f91d3b88f01115604a7f6193feec",
+        "matches": true
+      },
+      {
+        "file": "service-worker.js",
+        "status": 200,
+        "sha256": "18ba19c69822928fbac0623b1e5a96575d1559771cdb0ce4501cadd46478b2a3",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/idle.png",
+        "status": 200,
+        "sha256": "27938ee073d1ffd2c1114fbb0c4137b6dd11fb6192779ca3e313797885f7e372",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/dash.png",
+        "status": 200,
+        "sha256": "c56a3111a02d5ee9a1fac6ce713d4d4ceb8012327d8aaf8d72d6e1eb1dfea987",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/slash.png",
+        "status": 200,
+        "sha256": "851c68e15db7bf19002f646febae383793a101e9aea25ec4f4cae4bbc1fe05d4",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/cast.png",
+        "status": 200,
+        "sha256": "dd9af2ebc002c50dd5870f04e1a8e7610e5242b80b2d7fb7cf159c111a4c1197",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/ultimate.png",
+        "status": 200,
+        "sha256": "833ef127a6adc77e2bb4fa9fda112fcacedc387d7955ea05a6ae72e12813b61e",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/hit.png",
+        "status": 200,
+        "sha256": "3274430b1b5242ea014ffc8a21cbd444429061bae8ad21c58b7481f00a5dac01",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/defeat.png",
+        "status": 200,
+        "sha256": "ad5332780419e6a3b2123f08ba817562b696d5f8a14d1e4fff943981c15e2146",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/aura.png",
+        "status": 200,
+        "sha256": "55c9970865112c1b6905519c9aa35ad8d489625462b8eb4d0672144578f1f013",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/dashfx.png",
+        "status": 200,
+        "sha256": "90009b4763d38ba7fbdddc7353650af17b5161d34fd979892c53d4efced9e585",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/blade.png",
+        "status": 200,
+        "sha256": "aecd213d14a6cb9135ef4ed89c6eeede0f646f76bd93b65317f46a0de9642164",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/dragon.png",
+        "status": 200,
+        "sha256": "cecd7e6e8173e3ce432fa4671c2dffaf68e88c800af3f195cecb48747c6b8310",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/charge.png",
+        "status": 200,
+        "sha256": "e4251bb6f6f6553bd195cd4bb2cde751c59bdcaa771a1129b0b10957e2e60ac8",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/eruption.png",
+        "status": 200,
+        "sha256": "fd94968a92dc5b5a81ce158db71f87630f87dd045a8107b21bc1bbc56b55dffe",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/impact.png",
+        "status": 200,
+        "sha256": "cf2398caeaa47870beab3aa752d4ac28db9f644830175dd03ea3b43f59924f58",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/cleave.png",
+        "status": 200,
+        "sha256": "0e23f69df3b1d80ed19b0fa8b34496c7fa209b09128a166b6d08459866442c5c",
+        "matches": true
+      },
+      {
+        "file": "preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/shatter.png",
+        "status": 200,
+        "sha256": "faf4628a79d4ec8ce2c4643776e5062a27e29be677365e702667414fd59277cf",
+        "matches": true
+      }
+    ],
+    "publicAcquisitionCatalogExcluded": true,
+    "clientManifest": {
+      "releaseId": "32b917da1a2f7397b2ecfd259f5d88a4e66b2f7c1e4331af43a587340d77f4fb",
+      "runtimeAtlasesIncluded": 16
+    }
+  },
+  "grant": {
+    "status": "VERIFIED",
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:pingdu-jokro-grant:20261018:v1",
+      "authorization": "족로 라이브 승인 · 일반 획득 불가 · 핑크빛유두 지급·편성 · SSS 리미티드",
+      "target": {
+        "id": 1,
+        "nickname": "핑크빛유두",
+        "code": "V-979",
+        "quantity": 1
+      },
+      "completedAt": "2026-10-17T16:43:57.097Z",
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "protectedBefore": "60abdf30d2520deaefee19f44d36e02464c22f1ec60e6a0a94dba2e439b907df",
+      "protectedAfter": "60abdf30d2520deaefee19f44d36e02464c22f1ec60e6a0a94dba2e439b907df",
+      "automaticLoadout": false,
+      "cost": 0,
+      "adminLogId": "47701"
+    },
+    "currentCopies": 1,
+    "missing": 0,
+    "duplicateOperationGrants": 0,
+    "holders": [
+      {
+        "user_id": "1",
+        "total_copies": 1
+      }
+    ],
+    "account": {
+      "id": 1,
+      "nickname": "핑크빛유두",
+      "code": "V-979",
+      "name": "족로",
+      "totalCopies": 1,
+      "canDeploy": true,
+      "basePower": 1617408,
+      "excludedFromLimitedCount": true,
+      "loadouts": {
+        "PVE": {
+          "mercenaryCode": "V-987",
+          "revision": 12
+        },
+        "PVP": {
+          "mercenaryCode": "V-989",
+          "revision": 10
+        }
+      },
+      "automaticLoadout": false
+    },
+    "commit": "99585735f934176c59db474e467f0e6f0a0e3e0a",
+    "verifiedAt": "2026-10-17T16:44:07.509Z"
+  },
+  "temporaryHelper": {
+    "stopped": true,
+    "accountLeasesReleased": true
+  },
+  "deliveryNote": "132 individual QA extraction frames remain in Git and are excluded from Pages delivery. All 16 runtime atlases and approved original assets ship."
+}
