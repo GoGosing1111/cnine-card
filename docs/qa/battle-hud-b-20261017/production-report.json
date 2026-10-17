@@ -1,0 +1,79 @@
+{
+  "checkedAt": "2026-10-17T00:17:12.587Z",
+  "sourceCommit": "b9d811069c6a3ff705b08bbe4294d28a4f392e84",
+  "runtimeSuffix": "hud-b-20261017-v1",
+  "checks": [
+    {
+      "file": "index.html",
+      "url": "https://cnine-card.pages.dev/?hudB=20261017-v1",
+      "status": 200,
+      "bytes": 25624,
+      "expectedSha256": "a6a101943485c474eb05d18a3860fbfbd82e9586f95ee5c70d0780fceb8fca8a",
+      "actualSha256": "a6a101943485c474eb05d18a3860fbfbd82e9586f95ee5c70d0780fceb8fca8a",
+      "matches": true
+    },
+    {
+      "file": "js/app.js",
+      "url": "https://cnine-card.pages.dev/js/app.js?hudB=20261017-v1",
+      "status": 200,
+      "bytes": 758347,
+      "expectedSha256": "12b151987c62a6c61ad478157327e54b067be4ef772aa3b3214fb5c20b2da904",
+      "actualSha256": "12b151987c62a6c61ad478157327e54b067be4ef772aa3b3214fb5c20b2da904",
+      "matches": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "url": "https://cnine-card.pages.dev/js/battle-v3-live.js?hudB=20261017-v1",
+      "status": 200,
+      "bytes": 81021,
+      "expectedSha256": "44c0785be881f383e9219b67049963f82f946d7d4bfa34566d5d67d1a3a97497",
+      "actualSha256": "44c0785be881f383e9219b67049963f82f946d7d4bfa34566d5d67d1a3a97497",
+      "matches": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/project-v-v3/project-v-pixi-battle.bundle.js?hudB=20261017-v1",
+      "status": 200,
+      "bytes": 1978186,
+      "expectedSha256": "fb79e0547bd022bc5fdf3bf38c2b369281cc6dbe73ca5ae98cad28c34ec05396",
+      "actualSha256": "fb79e0547bd022bc5fdf3bf38c2b369281cc6dbe73ca5ae98cad28c34ec05396",
+      "matches": true
+    },
+    {
+      "file": "defense/index.html",
+      "url": "https://cnine-card.pages.dev/defense/?hudB=20261017-v1",
+      "status": 200,
+      "bytes": 11976,
+      "expectedSha256": "ebc59f40d6e87ff11d08c00451be16ce4c79bc23125f308e969fb4b6c3b3d110",
+      "actualSha256": "ebc59f40d6e87ff11d08c00451be16ce4c79bc23125f308e969fb4b6c3b3d110",
+      "matches": true
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "url": "https://cnine-card.pages.dev/preview/coop-defense-v1/defense.bundle.js?hudB=20261017-v1",
+      "status": 200,
+      "bytes": 2108053,
+      "expectedSha256": "77f9df1e189b5e4aa24c253e8112ef5d6741faa79b322ee7588a301819e3029f",
+      "actualSha256": "77f9df1e189b5e4aa24c253e8112ef5d6741faa79b322ee7588a301819e3029f",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/battle-hud-b-v1/frame.webp",
+      "url": "https://cnine-card.pages.dev/assets/ui/project-v/battle-hud-b-v1/frame.webp?hudB=20261017-v1",
+      "status": 200,
+      "bytes": 139298,
+      "expectedSha256": "a773ec581d829bc6f0c72b83c71388391d465a3cdefa3854aedaaddc9e8875b6",
+      "actualSha256": "a773ec581d829bc6f0c72b83c71388391d465a3cdefa3854aedaaddc9e8875b6",
+      "matches": true
+    },
+    {
+      "file": "assets/ui/project-v/battle-hud-b-v1/fill.webp",
+      "url": "https://cnine-card.pages.dev/assets/ui/project-v/battle-hud-b-v1/fill.webp?hudB=20261017-v1",
+      "status": 200,
+      "bytes": 7814,
+      "expectedSha256": "b000f0acb1002dd592ed5bd9e572576974be2fadd3c2b2a5f25095abebf0012b",
+      "actualSha256": "b000f0acb1002dd592ed5bd9e572576974be2fadd3c2b2a5f25095abebf0012b",
+      "matches": true
+    }
+  ]
+}

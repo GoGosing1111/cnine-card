@@ -25,3 +25,13 @@
 
 검수한 소스의 범위 커밋·원격 반영 후 `npm run deploy:production -- --scoped`로 지정 검사와 기존 캐시·출시 플래그·Hyperdrive 보호 검사를 수행한다. 운영 URL·커밋·최종 해시 확인 결과는 후속 배포 기록에 남긴다.
 
+## 운영 반영 완료
+
+- 운영 소스: `b9d811069`. 직전 배포 `3e9daefe9ae4cd597f566f32ae89c49edeae8f6b`를 기준으로 지정 scoped 배포 완료.
+- 회귀 **22개 통과**. 출시 플래그·캐시·Hyperdrive 검사 통과, 전체 게임 검사 미실행.
+- Pages: `https://7996efa5.cnine-card.pages.dev`, 운영: `https://cnine-card.pages.dev`.
+- API runtime 버전 `30a33b0d-2bb0-4946-a97a-2a33e64bd9f7`, clan-draft 버전 `bfbd7082-d0d9-4644-b434-1190e9d7d027`.
+- 운영 로비·로더·공통 전투·디펜스 파일과 프레임/채움 WebP **8개 모두 HTTP 200 및 검수본 해시 일치**. `production-report.json`에 기록했다.
+- 운영 origin의 실제 배포 자산으로 PC PVP 렌더링을 다시 확인했다. 계정/API는 로컬 검수 응답으로 격리했으며 실제 유저의 전투·재화 API는 호출하지 않았다. 양 진영 108×23.4px HUD, 실제 이미지, HP/보호막, 단일 캔버스, 페이지 오류 없음 확인. `production-browser-report.json`과 `production-desktop-pvp.png`에 보존했다.
+- 이 후속 변경은 배포·검수 기록만 저장한다. 게임 검사와 운영 배포를 다시 실행하지 않는다.
+
