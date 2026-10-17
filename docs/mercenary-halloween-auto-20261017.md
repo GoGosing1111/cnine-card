@@ -41,9 +41,12 @@
 
 ## 배포
 
-관련 회귀만 선택해 `npm run deploy:production -- --scoped`로 배포한다. 배포 식별자와 짧은 운영 확인 결과는 완료 후 이 문서에 기록한다.
+관련 회귀만 선택해 `npm run deploy:production -- --scoped`로 배포했다.
 
 - 1차 배포: `91245a512517d0e55d2516944c855fb75b0540e0`, Pages `c3d18604-e513-4a83-9278-c0958b9beab5` (https://c3d18604.cnine-card.pages.dev). 관련 회귀 24개·출시 검증·Hyperdrive 캐시 검사 통과. API Worker `759bf4a7-25b0-4fc9-a3b9-623297ec7896`, Scheduler `48cf0f21-f010-423f-90b6-d7ec493c716d`.
 - 운영 PC·모바일 읽기 전용 검수에서 ON·자동뽑기 버튼·실제 최대 비용을 확인했다. 운영 개봉 0건. 하이퍼 버닝의 전역 `input/select` 배경 강제 규칙이 입력칸 이미지를 덮는 것을 발견해 할로윈 자동뽑기 입력칸만 이미지 배경이 유지되도록 범위를 좁혀 보완했다.
+
+- 입력칸 보완 배포: `1c3dcc9efb926dff0bf401838699fa2bd0e33167`, Pages `abc33bc7-7591-4b8d-bb52-965263d79a2c` (https://abc33bc7.cnine-card.pages.dev). 자동뽑기 회귀 10개·출시 검증·Hyperdrive 검사 통과. API Worker `96d3492b-41cc-4b83-b1d9-c241c4b06691`, Scheduler `176ccd6a-4c95-42b9-b718-db54875056b3`.
+- 2026-10-17 11:12:23 KST 운영 최종 확인: r10·판매 ON·개봉 가능, SSS 0.0025% / C 10.4975% / 꽝 80%. 실제 운영 파일만 사용한 1440px·390px에서 ON 표시, 자동뽑기, 최대 비용, 하이퍼 버닝 상태의 입력칸 이미지·넘침 없음과 브라우저 오류 없음을 확인했다. 개봉 POST 0건. `production-report.json`의 `cssOverride:false` 및 배포 커밋 일치를 확인했으며 운영 화면 기록을 같은 검수 폴더에 갱신했다.
 
 - 보완 전 배포 후보 CSS를 운영 페이지에만 대체한 읽기 전용 확인에서 1440px/390px 입력칸 모두 전용 버튼 이미지 적용, 가로 넘침·브라우저 오류 없음, 운영 결제 0건을 확인했다. 해당 기록은 docs/qa/halloween-auto-20261017/hyper-burning-before-deploy/이며 실제 운영 반영 확인과 구분한다.
