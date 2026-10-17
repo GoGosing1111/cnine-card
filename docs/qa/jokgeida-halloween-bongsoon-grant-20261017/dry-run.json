@@ -1,0 +1,53 @@
+{
+  "operationKey": "ops:jokgeida-halloween-bongsoon-grant:20261017:v1",
+  "planHash": "e8ee949be456e4ef0709bc00820315a285cb7a3893cd039969d3fefbd6aa161f",
+  "implementationHash": "9ed9f4c03279ffd1b14e37785075fc97d8b1a13ddc8e673719ce6a9dd8a4f163",
+  "checkedAt": "2026-10-17T02:21:55.982Z",
+  "status": "DRY_RUN_ROLLED_BACK",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:jokgeida-halloween-bongsoon-grant:20261017:v1",
+    "planHash": "e8ee949be456e4ef0709bc00820315a285cb7a3893cd039969d3fefbd6aa161f",
+    "authorization": "족게이다 계정에 할로윈 나무늘봉순 1장 지급해",
+    "target": {
+      "id": 4111,
+      "nickname": "족게이다",
+      "code": "V-980",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "quantity": 1
+    },
+    "completedAt": "2026-10-17T02:21:53.047Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "serial": 1,
+    "stockBefore": {
+      "limit": 5,
+      "issued": 0,
+      "remaining": 5
+    },
+    "stockAfter": {
+      "limit": 5,
+      "issued": 1,
+      "remaining": 4
+    },
+    "protectedBefore": "8722cf7ec2af69543f6d39b1e8c58af111143924880a98344506e46146e4afdb",
+    "protectedAfter": "8722cf7ec2af69543f6d39b1e8c58af111143924880a98344506e46146e4afdb",
+    "permanent": true,
+    "automaticLoadout": false,
+    "cost": 0,
+    "adminLogId": "47391"
+  },
+  "currentCopies": 1,
+  "stock": {
+    "limit": 5,
+    "issued": 1,
+    "remaining": 4
+  },
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "dryRun": true,
+  "replayed": false,
+  "rollbackVerified": true
+}
