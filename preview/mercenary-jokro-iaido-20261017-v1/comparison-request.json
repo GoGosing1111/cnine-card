@@ -1,0 +1,24 @@
+{
+  "dateKST": "2026-10-17",
+  "request": "2가지 갖고와바 니 느낌 내 느낌 1장씩",
+  "status": "TWO_ILLUSTRATION_OPTIONS_IN_PROGRESS",
+  "options": [
+    "option-a-directed-standing",
+    "option-b-reference-standing"
+  ],
+  "latestArtConstraints": [
+    "Stand naturally; no excessively spread legs",
+    "Natural clean non-greasy hair",
+    "C9 logo inside sewn unit patch; no extra C9 lettering",
+    "Preserve three katanas for illustration"
+  ],
+  "battleConstraints": {
+    "oneKatana": true,
+    "iaido": true,
+    "gripReference": "references/user-grip.png",
+    "uprightTorso": true
+  },
+  "battleDerivatives": "WAITING_FOR_ILLUSTRATION_DIRECTION_SELECTION",
+  "visualApproval": false,
+  "productionEnabled": false
+}

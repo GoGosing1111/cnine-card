@@ -1,0 +1,1 @@
+import {build} from 'esbuild';import {fileURLToPath} from 'node:url';const root=fileURLToPath(new URL('.',import.meta.url));await build({entryPoints:[root+'source/preview.js'],bundle:true,minify:true,format:'iife',target:['es2022'],legalComments:'none',outfile:root+'preview.bundle.js'});console.log('Jokro: existing V3 / PixiJS / GSAP bundle ready');

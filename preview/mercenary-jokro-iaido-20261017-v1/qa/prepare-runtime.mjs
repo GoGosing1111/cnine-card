@@ -1,0 +1,20 @@
+// Initial adaptation of the established preview; common V3 files are untouched.
+import fs from 'node:fs/promises';
+const root=new URL('../',import.meta.url),ref=new URL('../../mercenary-golden-dragon-battle-v1/',import.meta.url);
+const read=f=>fs.readFile(new URL(f,ref),'utf8'),write=(f,s)=>fs.writeFile(new URL(f,root),s);
+let fx=await read('source/GoldenDragonFX.js');
+fx=fx.replaceAll('mercenary-golden-dragon-battle-v1','mercenary-jokro-iaido-20261017-v1').replaceAll('GoldenDragon','Jokro').replaceAll('loadDragonAssets','loadJokroAssets');
+fx=fx.replace('// Contact pose 3: complete original straight blade ends at source (587,825).','// Contact uses the complete authored katana tip; weapon pixels are never warped.');
+fx=fx.replace('const f=this.manifest.motion.slash.frames[3],s=this.bodyHeight/f.bodyPixels,dx=(587-f.sourceFoot[0])*s;','const spec=this.manifest.motion.slash,f=spec.frames[2],s=this.bodyHeight/f.bodyPixels,dx=(spec.bladeTip.x-f.sourceFoot[0])*f.uniformScale*s;');
+fx=fx.replace('768*this.bodyHeight/f.bodyPixels','this.manifest.motion[before.pose.key].cellSize*this.bodyHeight/f.bodyPixels');
+for(const [a,b]of [['0xe8bf6c','0x71ffbf'],['0xf4bd5e','0x36eea0'],['0xffedbd','0xd8ffed'],['0xffcd74','0x66ffc2'],['0xf7d795','0x96ffcb'],['0xc68130','0x32ba85'],['0xf5c468','0x6bffc0'],['0xffedc5','0xdefff1'],['0xffdd97','0x9dffd0']])fx=fx.replaceAll(a,b);
+await write('source/JokroFX.js',fx);
+let app=await read('source/preview.js');
+app=app.replaceAll('mercenary-golden-dragon-battle-v1','mercenary-jokro-iaido-20261017-v1').replaceAll('GoldenDragon','Jokro').replaceAll('loadDragonAssets','loadJokroAssets').replaceAll('황금 용 검사','족로').replaceAll('GOLDEN_DRAGON_RESOURCE_PREVIEW','JOKRO_RESOURCE_PREVIEW').replaceAll('0xe8bb60','0x49eaa8').replace('동작 40 / 이펙트 84','동작 24 / 이펙트 84');
+await write('source/preview.js',app);
+await write('battle.html',(await read('battle.html')).replaceAll('황금 용 검사','족로').replaceAll('golden-dragon-v1','jokro-iaido-v1'));
+await write('build.mjs',(await read('build.mjs')).replace('Golden dragon:','Jokro:'));
+await write('serve.mjs',"process.env.CRIMSON_KNIGHT_PREVIEW_PORT=process.env.JOKRO_PREVIEW_PORT||'8893';\nawait import('../mercenary-crimson-silver-knight-battle-v1/serve.mjs');\n");
+let qa=await read('qa-runtime.mjs');
+qa=qa.replaceAll('GoldenDragonPreview','JokroPreview').replaceAll('8876','8893').replaceAll('mercenary-golden-dragon-battle-v1','mercenary-jokro-iaido-20261017-v1');
+await write('qa-runtime.mjs',qa);

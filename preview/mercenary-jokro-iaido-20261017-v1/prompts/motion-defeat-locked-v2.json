@@ -1,0 +1,15 @@
+{
+  "toolMode": "built-in image_gen",
+  "kind": "motion",
+  "grid": [
+    2,
+    2
+  ],
+  "frames": 4,
+  "prompt": "Use case: identity-preserve. Create one premium RPG CHARACTER MOTION SPRITE SHEET, native transparent RGBA. Reference1 is the finalized JOKRO master. Reference2 enlarges its LOCKED KATANA, SCABBARD AND HANDS.\nExactly TWO COLUMNS by TWO ROWS, FOUR square cells in chronological reading order, square canvas2048x2048 preferred. Each cell one complete body, fixed camera and constant natural adult body scale, ALL hair, boots, cloak, blade and sheath safely inside its cell with15% empty margin. No labels/grid, no background or shadows, no dragon/aura or VFX.\nPreserve the exact master identity: handsome angular mature face, forest-green natural flowing hair, focused gaze and head toward SCREEN RIGHT along the attack direction, black modern coat/silver trim and buttons, crowned feline sleeve crest, emerald embroidered lining, black trousers and boots. No look at camera, no chibi or larger head, no excessive bend.\nWEAPON IS LOCKED: ONE ordinary Japanese katana and one rigid black scabbard, with the exact shallow continuous curvature and proportions in reference2. Do not bend/warp/lengthen/reshape it. Treat it as a real unbending solid prop; move hands and arms to it. Preserve normal blade length, about65–70cm on180cm adult. ONE guard only; hilt and blade-root share one continuous rigid axis. Finger/hand on hilt stays on hilt; other hand keeps scabbard throat. Gold fitting design unchanged. The ready pose grip points SCREEN RIGHT and scabbard extends SCREEN LEFT. No duplicated swords, no mouth sword, no floating fingers, no sagging scabbard. Do not deform weapon to fit margins.\nACTION: FOUR-PHASE NON-GRAPHIC FALL TO ONE KNEE.1 upright ready holding the fully sheathed katana.2 shoulders lower and knees begin bending; keep adult physical body size.3 one knee touches ground, hands support the fully sheathed sword across the waist/lap; same rigid katana scabbard.4 stable kneeling rest, head slightly bowed toward screen-right, same handsome adult face. The head-to-feet bounding box becomes shorter from posture, NOT by shrinking the whole character. Sword remains sheathed and one rigid unbent prop throughout. No sword stabbed into ground, no blood, no corpse.",
+  "referenced_image_paths": [
+    "assets/sources/master-v4-facing-right.png",
+    "references/locked-katana-grip-and-scabbard.png"
+  ],
+  "transparent_background": true
+}

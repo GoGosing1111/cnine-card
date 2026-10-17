@@ -1,0 +1,21 @@
+{
+  "dateKST": "2026-10-17",
+  "art": {
+    "hair": "Natural matte coherent flow; reduce greasy clumps",
+    "patch": "Crowned feline C9 emblem within sewn military sleeve patch; no redundant text",
+    "threeSwords": true
+  },
+  "battle": {
+    "swordCount": 1,
+    "mouthSword": false,
+    "stance": "Upright iaido ready",
+    "reference": "references/user-grip.png",
+    "referenceRole": "Hand placement and hilt/scabbard grip ONLY",
+    "constraints": [
+      "No deep waist bend",
+      "Do not copy reference identity, costume, yellow/blue lightning or low crouch",
+      "Right hand grips hilt, left hand scabbard mouth"
+    ]
+  },
+  "visualApproval": false
+}

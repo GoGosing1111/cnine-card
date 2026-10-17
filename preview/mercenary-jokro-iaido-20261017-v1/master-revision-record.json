@@ -1,0 +1,18 @@
+{
+  "dateKST": "2026-10-17",
+  "rejected": [
+    {
+      "source": "assets/sources/master-v1-grip-revision-required.png",
+      "reason": "Both hands on scabbard; face/gaze unsuitable; rejected by user."
+    },
+    {
+      "source": "assets/sources/master-v2-superseded-face-grip.png",
+      "reason": "Partial grip patch arrived before user's face/gaze correction; not used for derivatives."
+    }
+  ],
+  "currentMaster": "assets/sources/master-v4-facing-right.png",
+  "currentMasterDirective": "뒤집어 그대로 / 반대방향으로",
+  "mechanicalMirrorVerified": true,
+  "userVisualApproval": false,
+  "sourceArtApproval": "art-approval-20261017.json"
+}

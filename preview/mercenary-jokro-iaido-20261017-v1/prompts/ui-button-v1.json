@@ -1,0 +1,6 @@
+{
+  "toolMode": "built-in image_gen",
+  "useCase": "stylized-concept",
+  "prompt": "Use case: stylized-concept. Asset type: finished game UI button material for JOKRO, emerald dragon iaido RPG battle preview. One SINGLE long horizontal clickable plate, front orthographic, exactly 4:1 silhouette centered with 10 percent transparent padding. Dark polished black iron inset, subtle engraved jade dragon-scale texture, slender silver and antique gold rim, modest luminous emerald cabochon at each short end, small elegant claw-like endcaps. Rich illustrated material matching a premium 2D anime RPG, crisp handmade ornament. Central 70 percent remains dark, flat and quietly textured for live DOM text. No words, no letters, no numbers, no icons or logos, no mockup, no multiple states. True transparent RGBA outside the full complete plate. No cast shadow or surrounding glow. NOT a plain rectangle: distinguishable forged contour and detailed textured metal.",
+  "transparent_background": true
+}

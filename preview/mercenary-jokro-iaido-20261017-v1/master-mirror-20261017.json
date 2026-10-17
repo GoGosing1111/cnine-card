@@ -1,0 +1,16 @@
+{
+  "dateKST": "2026-10-17",
+  "userDirective": [
+    "뒤집어 그대로",
+    "반대방향으로"
+  ],
+  "operation": "EXACT_HORIZONTAL_MIRROR_ONLY",
+  "source": "assets/sources/master-v3.png",
+  "output": "assets/sources/master-v4-facing-right.png",
+  "sourceSha256": "A3FE8DD5D705BDD78A25AACC0900C6DBE54CCDDF945A8BCE3653C9580A097A6A",
+  "outputSha256": "0C7B37275767E6FC428F3AE484C76B1D1BE7958CDF1E91E3F725A4C2A11DF48C",
+  "width": 1254,
+  "height": 1254,
+  "rgbaMirroredMismatchChannels": 0,
+  "visualApproval": false
+}

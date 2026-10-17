@@ -1,0 +1,12 @@
+{
+  "output": "qa/ultimate-preview.webp",
+  "modes": [
+    "ultimate"
+  ],
+  "fps": 15,
+  "frames": 71,
+  "width": 800,
+  "height": 407,
+  "source": "REAL_V3_BATTLE_CANVAS",
+  "errors": []
+}

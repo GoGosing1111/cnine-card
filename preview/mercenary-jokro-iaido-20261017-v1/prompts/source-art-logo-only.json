@@ -1,0 +1,8 @@
+{
+  "prompt": "Use case: precise-object-edit. Edit ONLY the separate embroidered text \"C9\" directly BELOW the crowned-feline interlocking C9 emblem on the outer upper sleeve at screen left (roughly x=213–309, y=570–627 in this 1024x1536 image). Remove those additional two letter/number characters and restore the natural black sleeve cloth folds and stitching underneath. Keep the entire crowned feline + interlocking metallic C/9 emblem ABOVE intact, unchanged in size, position, appearance and color. The user's request is to keep this LOGO and delete only redundant standalone \"C9\" beneath it.\nABSOLUTE invariants: preserve all other image content: same face and emerald eyes, hair, mouth-held katana, both hand katanas, exact pose, hands and grips, sword blade lengths and geometry, coat, all remaining decoration and silver buttons, legs, boots, dragon scales/head, aura and background, camera and composition. Do not redraw or recompose. Exactly the same 1024x1536 portrait. No new lettering. Do not remove the emblem. Do not change the swords; battle sprite changes are a separate job.",
+  "referenced_image_paths": [
+    "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-jokro-iaido-20261017-v1/references/user-selected-art.png"
+  ],
+  "transparent_background": false,
+  "toolMode": "built-in image_gen"
+}

@@ -1,0 +1,40 @@
+{
+  "dateKST": "2026-10-17",
+  "name": "족로",
+  "qualityTarget": "SSS LIMITED",
+  "rankConfirmed": false,
+  "status": "BATTLE_PREVIEW_READY_USER_REVIEW_PENDING",
+  "latestUserDirective": "C9 이름은 빼 로고랑 겹치잖아 그리고 전투 엔진 리소스는 3도류하지말고 구현하기 힘드니까 발도자세로 구현해",
+  "illustration": {
+    "threeKatana": true,
+    "edit": "Remove redundant C9 text below official logo only"
+  },
+  "battle": {
+    "stance": "IAIDO",
+    "swordCount": 1,
+    "mouthSword": false,
+    "offHand": "scabbard",
+    "qualityReference": "../mercenary-golden-dragon-battle-v1/",
+    "master": "assets/sources/master-v4-facing-right.png",
+    "readyPose": "Exact mirrored master; no new idle redraw",
+    "weaponPolicy": "One Japanese katana and one scabbard. Shallow continuous curve. No runtime bending or separate-part deformation. Ready pose uses the exact mirrored master."
+  },
+  "visualApproval": false,
+  "productionEnabled": false,
+  "sourceArtApproval": "art-approval-20261017.json",
+  "latestSourceArt": "assets/sources/jokro-source-art-approved-20261017.png",
+  "latestUserCorrections": [
+    "칼 또 이상해..좀 제발",
+    "얼굴도 이상하고...",
+    "시선처리 발도술 바라보는곳으로",
+    "뒤집어 그대로",
+    "반대방향으로",
+    "또 칼집 휘어진다 유지하자..일본도 형태잖아"
+  ],
+  "manifest": "manifest.json",
+  "preview": "index.html",
+  "counts": {
+    "motion": 24,
+    "effects": 84
+  }
+}

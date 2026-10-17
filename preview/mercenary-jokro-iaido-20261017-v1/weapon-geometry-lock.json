@@ -1,0 +1,22 @@
+{
+  "dateKST": "2026-10-17",
+  "userDirective": "또 칼집 휘어진다 유지하자..일본도 형태잖아",
+  "referenceMaster": "assets/sources/master-v4-facing-right.png",
+  "referenceSha256": "0C7B37275767E6FC428F3AE484C76B1D1BE7958CDF1E91E3F725A4C2A11DF48C",
+  "constraints": [
+    "Keep the existing authentic katana and scabbard silhouette and gentle single continuous curvature.",
+    "One rigid weapon assembly; do not warp/bend/stretch separate hilt, guard, blade or scabbard parts.",
+    "Shape may move/rotate uniformly with the hand; preserve proportions and axis relationships.",
+    "Keep gaze in the sword-draw/attack direction.",
+    "Never propagate the rejected idle sheet."
+  ],
+  "rejectedMotionSource": "assets/sources/idle-v1-weapon-shape-rejected.png",
+  "playbackStatus": "LOCKED_READY_MASTER_AND_REVIEWED_MOTION_CUTS",
+  "visualApproval": false,
+  "manifest": "manifest.json",
+  "runtimeDeformation": false,
+  "rejectedReturnFrame": {
+    "motion": "slash",
+    "sourceIndex": 3
+  }
+}

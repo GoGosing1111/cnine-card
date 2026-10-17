@@ -1,0 +1,20 @@
+{
+  "dateKST": "2026-10-17",
+  "name": "족로",
+  "status": "APPROVED_SOURCE_ART",
+  "userApproval": "승인 이제 전투 리소스 하던거 진행해...",
+  "sourceArt": "assets/sources/jokro-source-art-approved-20261017.png",
+  "sha256": "82297D41E879DAB7DF179345875EBF329A3E825BB20BD76C68BFBE91667DFBDB",
+  "sourceThread": "01a14a4a-33e9-7f71-a052-6a9645d68aae",
+  "lastCorrection": "Viewer-right blade lifted to align with existing hilt",
+  "sourceArtApproved": true,
+  "battleResourcesApproved": false,
+  "productionEnabled": false,
+  "battle": {
+    "stance": "UPRIGHT_IAIDO",
+    "swordCount": 1,
+    "mouthSword": false,
+    "offHand": "SCABBARD",
+    "qualityReference": "../mercenary-golden-dragon-battle-v1/"
+  }
+}

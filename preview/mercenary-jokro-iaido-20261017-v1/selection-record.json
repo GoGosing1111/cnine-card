@@ -1,0 +1,26 @@
+{
+  "dateKST": "2026-10-17",
+  "selectedDirection": "option-a-directed-standing",
+  "source": "references/user-selected-standing-a.png",
+  "scope": "USER_LIKES_BASE_WITH_TWO_CORRECTIONS_REQUESTED",
+  "corrections": [
+    "Anatomical right katana (screen-left hand) curvature",
+    "Mouth-hilt physical bite contact"
+  ],
+  "locked": [
+    "Pose",
+    "Face identity",
+    "Costume",
+    "Patch",
+    "Dragon",
+    "Aura",
+    "Background"
+  ],
+  "finalVisualApproval": false,
+  "battle": {
+    "swordCount": 1,
+    "mouthSword": false,
+    "stance": "Upright iaido using user grip reference",
+    "status": "MASTER_REWORK_PENDING_FINAL_ART"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-17T15:28:12.576Z",
+  "scope": "Final eruption-v2 and visual review only; previously passed runtime checks retained.",
+  "errors": [],
+  "checks": [
+    {
+      "viewport": 1440,
+      "samples": 7,
+      "source": "assets/sources/eruption-v2.png"
+    },
+    {
+      "viewport": 390,
+      "samples": 7,
+      "source": "assets/sources/eruption-v2.png"
+    }
+  ],
+  "status": "PASS"
+}

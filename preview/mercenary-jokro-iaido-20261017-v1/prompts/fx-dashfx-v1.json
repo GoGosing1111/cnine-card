@@ -1,0 +1,14 @@
+{
+  "toolMode": "built-in image_gen",
+  "kind": "effect",
+  "frames": 12,
+  "grid": [
+    4,
+    3
+  ],
+  "prompt": "Use case: stylized-concept. Create ONE original production 2D RPG VFX ANIMATION SHEET on genuinely transparent RGBA. Attached approved JOKRO artwork is reference only for emerald light and the fierce antlered Eastern dragon design. No human, clothing, physical sword, city, text, watermark, grid lines, black rectangles or backdrop. Opaque dark jade material cores with luminous mint/emerald edges and native soft alpha only at glow edges. No gold recolor, no pale fog covering the full cell.\nEXACTLY 4 columns by 3 rows, 12 SQUARE cells, ordered left-to-right/top-to-bottom, ideal2048x1536. Fixed camera and visual anchor, generous15% EMPTY transparent padding around every frame. All tips, embers and whiskers completely inside their own cell. Each frame must have genuinely evolving shapes; not repeated scaled copies.\nSEQUENCE: Twelve-frame rightward DASH wake.1 tiny dense emerald filament;2-3 ground-skimming curved streak builds;4-6 a refined horizontal crescent of intertwined green light and small jade scale fragments stretches right;7-9 breaks into finer trails;10-12 sparse sparks decay. Direction clearly LEFT to RIGHT, no dragon head or character. Keep a compact wide streak envelope comfortably inside each square; no full rectangular haze. Fine crisp material changing in every frame.",
+  "referenced_image_paths": [
+    "assets/sources/jokro-source-art-approved-20261017.png"
+  ],
+  "transparent_background": true
+}

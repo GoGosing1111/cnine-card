@@ -1,0 +1,15 @@
+{
+  "toolMode": "built-in image_gen",
+  "kind": "effect",
+  "grid": [
+    4,
+    3
+  ],
+  "frames": 12,
+  "prompt": "Use case: stylized-concept. Create a SMALL-SPRITE CONTACT SHEET, native transparent background, EXACTLY twelve separate complete VFX objects in four columns and three rows. Canvas landscape4:3. Every object is SMALL, fitting inside the CENTRAL 55% width and 55% height of its square cell. At least22% empty TRANSPARENT space on EACH SIDE of EACH sprite. Large empty gutters. This is essential: no sprite can touch an adjacent sprite or any edge, no cropping. No panels, tiles, outlines, labels or background. Fixed base anchor at70% of cellheight.\nTheme JOKRO emerald Eastern antlered dragon ultimate attack, same dark jade scales, black antlers, mint-green energy and fierce fanged dragon face as reference. Do not include the human, weapons, clothes or city. Keep strong opaque jade material surrounded by narrow luminous green ribbons. Whole dragon neck/head and COMPLETE elliptical ground shockwave base visible. No flat rectangular chopped base. No opaque green fog disks.\n12 DISTINCT successive animation frames left-to-right/top-to-bottom: 1 small ground spark crescent,2 fissure opening,3 dragon snout emerging,4 short coiling dragon neck rises,5 full compact S-shaped neck and head roar,6 peak compact coil with full elliptical ground ring,7 head breaks to scales,8 neck dissipates,9 curling remnants,10 fragments,11 fewer fragments,12 three sparse dim sparks. SMALL OBJECTS, generous empty space even at peak. ALL horns, whiskers, tails, base and sparks fit inside CENTRAL55% area, never cut. Do not simply scale copies; each phase genuinely changes the shape. Identity reference is ONLY the dragon design.",
+  "referenced_image_paths": [
+    "assets/sources/jokro-source-art-approved-20261017.png"
+  ],
+  "transparent_background": true,
+  "reason": "V1 contains clipped source silhouettes; redraw only this VFX with generous transparent margins."
+}

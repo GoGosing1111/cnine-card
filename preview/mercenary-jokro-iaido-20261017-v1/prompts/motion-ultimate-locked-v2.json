@@ -1,0 +1,15 @@
+{
+  "toolMode": "built-in image_gen",
+  "kind": "motion",
+  "grid": [
+    2,
+    2
+  ],
+  "frames": 4,
+  "prompt": "Use case: identity-preserve. Create one premium RPG CHARACTER MOTION SPRITE SHEET, native transparent RGBA. Reference1 is the finalized JOKRO master. Reference2 enlarges its LOCKED KATANA, SCABBARD AND HANDS.\nExactly TWO COLUMNS by TWO ROWS, FOUR square cells in chronological reading order, square canvas2048x2048 preferred. Each cell one complete body, fixed camera and constant natural adult body scale, ALL hair, boots, cloak, blade and sheath safely inside its cell with15% empty margin. No labels/grid, no background or shadows, no dragon/aura or VFX.\nPreserve the exact master identity: handsome angular mature face, forest-green natural flowing hair, focused gaze and head toward SCREEN RIGHT along the attack direction, black modern coat/silver trim and buttons, crowned feline sleeve crest, emerald embroidered lining, black trousers and boots. No look at camera, no chibi or larger head, no excessive bend.\nWEAPON IS LOCKED: ONE ordinary Japanese katana and one rigid black scabbard, with the exact shallow continuous curvature and proportions in reference2. Do not bend/warp/lengthen/reshape it. Treat it as a real unbending solid prop; move hands and arms to it. Preserve normal blade length, about65–70cm on180cm adult. ONE guard only; hilt and blade-root share one continuous rigid axis. Finger/hand on hilt stays on hilt; other hand keeps scabbard throat. Gold fitting design unchanged. The ready pose grip points SCREEN RIGHT and scabbard extends SCREEN LEFT. No duplicated swords, no mouth sword, no floating fingers, no sagging scabbard. Do not deform weapon to fit margins.\nACTION: FOUR-PHASE POWERFUL GROUNDED IAIDO FINISHER.1 upright planted ready.2 load legs with modest knee flex and an intentional backward shoulder coil, both hands keep hilt and sheath.3 explosive sweeping diagonal cut FORWARD TO SCREEN RIGHT with single normal katana fully drawn, firm arm/hip follow-through and controlled coat motion, empty sheath retained in the other hand.4 return to the EXACT fully sheathed upright master ready stance. Do not invent intermediate resheathing or swap the sheath to the other side. Frame3 is contact peak. No overhead giant sword, no duplicate weapon, no crouching to floor. Large readable pose change without warping the rigid blade/scabbard.",
+  "referenced_image_paths": [
+    "assets/sources/master-v4-facing-right.png",
+    "references/locked-katana-grip-and-scabbard.png"
+  ],
+  "transparent_background": true
+}

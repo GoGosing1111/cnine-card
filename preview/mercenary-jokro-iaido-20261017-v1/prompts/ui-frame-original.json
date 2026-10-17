@@ -1,0 +1,8 @@
+{
+  "prompt": "Use case: stylized-concept. ONE reusable square UI FRAME image for 족로 emerald-dragon three-katana RPG battle resource viewer. Genuine transparent RGBA, 1024x1024. Frame only around a completely empty TRANSPARENT large center. Premium black lacquer forged-steel frame, intricately carved dark jade dragon scales, restrained silver trim, small sculpted emerald dragon heads in four corners, short green luminous inlay. Design material-rich contour with beveled ornamental corners. Inner aperture from x=155 to 869 and y=155 to 869 entirely transparent. Exterior outer 35px transparent margin. Edges should be continuous straight extendable lacquer strips suitable for 9-slice UI scaling, corner detail stays inside 190px corners. No words, icons, runes, letters, badge text or number. No background, no central artwork, no card contents. Color and visual language match user's emerald dragon and C9 warrior. This texture will actually frame the review panel and buttons with live DOM text.",
+  "referenced_image_paths": [
+    "C:/Users/User/Downloads/upload/cnine-card/preview/mercenary-jokro-three-sword-20261017-v1/assets/sources/source-art.png"
+  ],
+  "transparent_background": true,
+  "toolMode": "built-in image_gen"
+}
