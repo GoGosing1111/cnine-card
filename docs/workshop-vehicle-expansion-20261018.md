@@ -30,4 +30,15 @@
 
 ## 배포
 
-현재 배포 전 상태. 직전 운영 Pages `72706b93`, 소스 `5c09f9a2b`를 확인했다. 관련 검사를 포함한 `npm run deploy:production -- --scoped` 후 실제 결과를 이 문서에 기록한다. 최신 브라우저 및 서비스워커 캐시 태그는 `20261018-vehicle-assembly-v1`이다.
+2026-10-18 라이브 반영 완료. 직전 운영 Pages `72706b93`, 소스 `5c09f9a2b`를 확인한 뒤 관련 두 테스트 파일을 선택해 `npm run deploy:production -- --scoped`로 배포했다. **21개 검사 모두 통과**, 출시·캐시 태그와 Hyperdrive 쿼리 캐시 OFF 검사도 통과했다. 전체 게임 검사는 실행하지 않았다.
+
+- 배포 소스: `691cd0797b375a7e37f0f2f8e0751e229d8ae3fe`
+- Pages: `https://22f4efca.cnine-card.pages.dev` / 운영: `https://cnine-card.pages.dev`
+- API Runtime: `e97b405d-2ed4-4e46-ab88-6b994bd23134`
+- Scheduler: `cbb2fda3-2b6c-415b-9fed-1addeceb72de`
+- Pages 자산: 19,975개. 실제 차고 원화와 다른 콘텐츠 자산은 보존했다.
+- 메인 앱·서비스워커 및 조립 로더 태그: `20261018-vehicle-assembly-v1`.
+
+운영 메인 앱/서비스워커, 조립 번들/CSS, 새 WebP 4종 등 11개 파일을 HTTP 200 및 SHA-256으로 확인했다. 운영 주소의 실제 라이브 연출 코드에 모의 영수증을 제공해 마이바흐 1440×1000, 아스트라 390×844의 성공 결과·차량/문구 분리·닫기 후 타임라인 폐기를 짧게 확인했다. 운영 제작 API·계정 재화를 사용한 검수가 아니다. 브라우저 오류와 실제 API 쓰기는 0건이다. 상세 결과는 `docs/qa/workshop-vehicle-expansion-20261018/production.json`에 보존한다.
+
+검수 링크: [비전 마이바흐 6](https://cnine-card.pages.dev/preview/workshop-assembly-v1/?mode=vehicle&item=maybach&play=1), [아스트라 - 볼트](https://cnine-card.pages.dev/preview/workshop-assembly-v1/?mode=vehicle&item=astra&play=1). 이 검수 페이지는 재화 소모가 없다.

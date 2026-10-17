@@ -1,0 +1,93 @@
+{
+  "verifiedAt": "2026-10-17T23:37:22.123Z",
+  "sourceCommit": "691cd0797b375a7e37f0f2f8e0751e229d8ae3fe",
+  "origin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "4b027283d93ab934a836cbeeacf893292c9b86af19d3f7eba2e6ff025c43d3fe",
+      "normalization": "UTF-8 LF"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "a725237cc5eba2871abe1267578eb8d4d1ce400007106ec6471ab1411340096e",
+      "normalization": "UTF-8 LF"
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "990202d02e77d28f6f23fec4d72e5fd867ef17428d77e9e5f66f205ea7ce5921",
+      "normalization": "UTF-8 LF"
+    },
+    {
+      "path": "js/workshop-assembly-live-v2073.bundle.js",
+      "status": 200,
+      "sha256": "11a6d37a58c84289ab26019cf21bc9d7d600b7fc48c7d86af99677a8d8f61f4e",
+      "normalization": "UTF-8 LF"
+    },
+    {
+      "path": "js/workshop-assembly-fx-v2073.bundle.js",
+      "status": 200,
+      "sha256": "97128e2fcd9dc3a97ac8c6abad4acf0ce90f2f758b62f84c0980809031c9425f",
+      "normalization": "UTF-8 LF"
+    },
+    {
+      "path": "css/workshop-assembly-live-v2073.css",
+      "status": 200,
+      "sha256": "2dc68ff183bd8a62ab66c881dd87ab235b9dafcc2f73793a183db73e53e9e73c",
+      "normalization": "UTF-8 LF"
+    },
+    {
+      "path": "preview/workshop-assembly-v1/assembly.bundle.js",
+      "status": 200,
+      "sha256": "1bc88f704aec7b58ec09c5408968cf5094dc501e788f91723aa8ee9af181c347",
+      "normalization": "UTF-8 LF"
+    },
+    {
+      "path": "preview/workshop-assembly-v1/assets/vehicles-20261018/maybach-cutout.webp",
+      "status": 200,
+      "sha256": "5e02f1ff688806b48939ab99a711ad40a41f2fb1c1e3d56c5204e808be937e8c",
+      "normalization": "binary"
+    },
+    {
+      "path": "preview/workshop-assembly-v1/assets/vehicles-20261018/astra-cutout.webp",
+      "status": 200,
+      "sha256": "bd77514286109652f88f168faa46197afd5c84bc7deb05a717e8472c05c89d2f",
+      "normalization": "binary"
+    },
+    {
+      "path": "preview/workshop-assembly-v1/assets/vehicles-20261018/frame.webp",
+      "status": 200,
+      "sha256": "17f4a572d5936cc7be518bb2be740342202296ba5cb7f1dfde89ff2e9cdc9321",
+      "normalization": "binary"
+    },
+    {
+      "path": "preview/workshop-assembly-v1/assets/vehicles-20261018/button.webp",
+      "status": 200,
+      "sha256": "bc448ceb2a96a9e8e768c941889b8cea37a87ebdec84ae38d910da0c3cf2e4d2",
+      "normalization": "binary"
+    }
+  ],
+  "screens": [
+    {
+      "key": "maybach",
+      "width": 1440,
+      "liveAssetPresentation": true,
+      "mockReceipt": true,
+      "realApiMutations": 0,
+      "pageErrors": [],
+      "noOverlap": true
+    },
+    {
+      "key": "astra",
+      "width": 390,
+      "liveAssetPresentation": true,
+      "mockReceipt": true,
+      "realApiMutations": 0,
+      "pageErrors": [],
+      "noOverlap": true
+    }
+  ]
+}
