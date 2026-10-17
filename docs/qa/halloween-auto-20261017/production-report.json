@@ -33,5 +33,10 @@
     "url": "https://abc33bc7.cnine-card.pages.dev",
     "apiWorker": "96d3492b-41cc-4b83-b1d9-c241c4b06691",
     "scheduler": "176ccd6a-4c95-42b9-b718-db54875056b3"
+  },
+  "selectorScreenshots": {
+    "checkedAt": "2026-10-17T02:13:25.164Z",
+    "topLayerReadOnlyHarness": true,
+    "reason": "Keep the deployed pack selector visible above unrelated global overlays while recording the same public ON data."
   }
 }
