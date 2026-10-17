@@ -33,4 +33,11 @@
 
 ## 배포
 
-기능 관련 검사 후 `npm run deploy:production -- --scoped`로 한 번 배포하며 공개 파일 해시를 확인한다. 완료 시 커밋과 배포 ID를 아래에 기록한다.
+2026-10-18 02:31 KST 운영 반영 확인. 관련 검사 6개 통과, 최종 scoped 게이트 4개 통과.
+
+- 운영 소스: `726ea10d8f630349407262d0045066c0810ec5ed`.
+- Pages: `bc37ce70-3bd9-476b-9879-e26123fd25df`, `https://bc37ce70.cnine-card.pages.dev`.
+- API runtime: `48b1c8e9-80f4-4869-8254-36a6b657d5c3`; scheduler: `00424cf8-715f-49c7-ac6e-34441102225f`.
+- 운영 alias의 HTML·JS·CSS·신규 이미지·서비스워커 총 12개 응답이 모두 200이며 배포 소스와 SHA-256이 일치했다. 릴리스 플래그·Hyperdrive 캐시 OFF 확인.
+- `docs/qa/organization-live-dashboard-20261018/verification.json`에 화면 크기 검증과 공개 파일 해시를 보존한다. 이번 UI 변경으로 운영 DB 쓰기를 수행하지 않았다.
+- 완료 기록만 추가하는 후속 커밋으로 게임 검사와 배포를 반복하지 않는다.

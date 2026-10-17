@@ -1,0 +1,205 @@
+{
+  "at": "2026-10-17T17:31:24.402Z",
+  "source": "726ea10d8f630349407262d0045066c0810ec5ed",
+  "pages": {
+    "id": "bc37ce70-3bd9-476b-9879-e26123fd25df",
+    "url": "https://bc37ce70.cnine-card.pages.dev"
+  },
+  "apiVersion": "48b1c8e9-80f4-4869-8254-36a6b657d5c3",
+  "schedulerVersion": "00424cf8-715f-49c7-ac6e-34441102225f",
+  "release": "scoped",
+  "checks": {
+    "relatedTests": 6,
+    "finalScopedTests": 4,
+    "result": "PASS",
+    "productionRelease": "PASS",
+    "hyperdriveQueryCache": "DISABLED",
+    "databaseWritesForThisChange": 0,
+    "userVisualApproval": false
+  },
+  "browser": [
+    {
+      "width": 1440,
+      "controls": 22,
+      "allControlsUseOrganizationImages": true,
+      "sizes": [
+        {
+          "width": 1440,
+          "sample": {
+            "height": 1721,
+            "width": 1298,
+            "viewportWidth": 1298,
+            "content": 1719.46875,
+            "mapWidth": 912,
+            "camera": "0 0 1100 1000"
+          }
+        },
+        {
+          "width": 1280,
+          "sample": {
+            "height": 1620,
+            "width": 1183,
+            "viewportWidth": 1183,
+            "content": 1618.5625,
+            "mapWidth": 801,
+            "camera": "0 0 1100 1000"
+          }
+        },
+        {
+          "width": 1120,
+          "sample": {
+            "height": 1475,
+            "width": 1023,
+            "viewportWidth": 1023,
+            "content": 1473.109375,
+            "mapWidth": 641,
+            "camera": "0 0 1100 1000"
+          }
+        },
+        {
+          "width": 1001,
+          "sample": {
+            "height": 1406,
+            "width": 904,
+            "viewportWidth": 904,
+            "content": 1404.78125,
+            "mapWidth": 522,
+            "camera": "0 0 1100 1000"
+          }
+        },
+        {
+          "width": 1440,
+          "sample": {
+            "height": 1721,
+            "width": 1298,
+            "viewportWidth": 1298,
+            "content": 1719.46875,
+            "mapWidth": 912,
+            "camera": "0 0 1100 1000"
+          }
+        }
+      ],
+      "apiMethods": [
+        "GET"
+      ]
+    },
+    {
+      "width": 390,
+      "controls": 22,
+      "allControlsUseOrganizationImages": true,
+      "sizes": [
+        {
+          "width": 390,
+          "sample": {
+            "height": 2243,
+            "width": 356,
+            "viewportWidth": 356,
+            "content": 2241.125,
+            "mapWidth": 330,
+            "camera": "0 0 1100 1000"
+          }
+        },
+        {
+          "width": 430,
+          "sample": {
+            "height": 2244,
+            "width": 396,
+            "viewportWidth": 396,
+            "content": 2242.796875,
+            "mapWidth": 370,
+            "camera": "0 0 1100 1000"
+          }
+        },
+        {
+          "width": 390,
+          "sample": {
+            "height": 2243,
+            "width": 356,
+            "viewportWidth": 356,
+            "content": 2241.125,
+            "mapWidth": 330,
+            "camera": "0 0 1100 1000"
+          }
+        }
+      ],
+      "apiMethods": [
+        "GET"
+      ]
+    }
+  ],
+  "productionFiles": [
+    {
+      "path": "organization/index.html",
+      "status": 200,
+      "sha256": "c5e05039bee73844b005360a5f33b86efee93bca480ef6c8f8ad47f316ceb67c",
+      "bytes": 873
+    },
+    {
+      "path": "organization/faction/index.html",
+      "status": 200,
+      "sha256": "5bc231ec922fa2c39dde2bfa1079594f2f14c1c0256b145dc1076d5d3bdffef5",
+      "bytes": 684
+    },
+    {
+      "path": "js/organization-public-v1.mjs",
+      "status": 200,
+      "sha256": "3edc2d024ecbb97aa3bae17cb7770ec990aff67e0e0f1b4704e6ec254e77ca8d",
+      "bytes": 906
+    },
+    {
+      "path": "js/organization-system-v1.mjs",
+      "status": 200,
+      "sha256": "123787d8705f69b91b6c4d17404931e5772ebd0090429135254a4b1c0fdeb33b",
+      "bytes": 19614
+    },
+    {
+      "path": "js/organization-dashboard-v1.mjs",
+      "status": 200,
+      "sha256": "709b8e0425abcec6d9248fcfe855e354c52cec26c3a27cb430e04d297021e396",
+      "bytes": 5370
+    },
+    {
+      "path": "js/organization-embed-size-v1.mjs",
+      "status": 200,
+      "sha256": "5516dc35ae947d3d5e612ed65f443ef76bdaab407ee44914def02b4416c26593",
+      "bytes": 1261
+    },
+    {
+      "path": "js/organization-faction-entry-v1.mjs",
+      "status": 200,
+      "sha256": "b36843f64f82ebb72371131ee486beaf2383dce76b1c3837c080cbca7a7c12e7",
+      "bytes": 3700
+    },
+    {
+      "path": "js/organization-faction-v1.mjs",
+      "status": 200,
+      "sha256": "3e2e951ee9f82b8cc0a143dea50b1a8fff06fa37f7b356680c235932727aa40c",
+      "bytes": 47276
+    },
+    {
+      "path": "css/organization-system-v1.css",
+      "status": 200,
+      "sha256": "52771030c8d1820404faca01b82bf36f2fb08852899f5ad07e06ac5b4ce9f89d",
+      "bytes": 22178
+    },
+    {
+      "path": "css/organization-faction-v1.css",
+      "status": 200,
+      "sha256": "8a263d4a5242c756fedf2d3ec34c60932d21af835363676ca47bcd8854c3b583",
+      "bytes": 16878
+    },
+    {
+      "path": "assets/ui/organization/dashboard-20261018/headquarters-status-v1.webp",
+      "status": 200,
+      "sha256": "2e6435d41fd0ee88da715cb1cc927015be21eb6f03f86d28fc8a77dc0d1ef442",
+      "bytes": 178692
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "78d62466805aac5175ee55358b5710c2fa52d55691788a3affcefae711968ba6",
+      "bytes": 14585
+    }
+  ],
+  "localEvidence": "C:/Users/User/.codex/tmp/organization-dashboard-20261018/qa/"
+}
