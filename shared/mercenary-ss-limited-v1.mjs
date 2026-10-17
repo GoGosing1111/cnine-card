@@ -1,3 +1,4 @@
+import {HALLOWEEN_COMBAT,halloweenCombatDescription} from './mercenary-halloween-combat-v1.mjs';
 // SS is the collection/growth rank. These seven limited fighters compete in
 // the ordinary SSS combat tier; release/acquisition flags remain separate.
 export const SS_LIMITED_BALANCE_VERSION=4;
@@ -30,7 +31,7 @@ export const SS_LIMITED_COMBAT=Object.freeze(Object.fromEntries(rows.map(([code,
  link:Object.freeze({attackPercent:220*scale,shieldPercent:150*scale,hpPercent:280*scale}),
  skill:Object.freeze({id:'MS-'+code.slice(2),name,mechanic,balance:Object.freeze({damageRatio:5.6,cooldownTurns:2,cost:20})})
 })])));
-export const ssLimitedProfile=actor=>actor?.isMercenary===true&&Object.hasOwn(SS_LIMITED_COMBAT,actor.code||actor.cardId)?SS_LIMITED_COMBAT[actor.code||actor.cardId]:null;
+export const ssLimitedProfile=actor=>actor?.isMercenary===true?(Object.hasOwn(SS_LIMITED_COMBAT,actor.code||actor.cardId)?SS_LIMITED_COMBAT[actor.code||actor.cardId]:Object.hasOwn(HALLOWEEN_COMBAT,actor.code||actor.cardId)?HALLOWEEN_COMBAT[actor.code||actor.cardId]:null):null;
 export function ssLimitedPvpLinkScale(actor,teams){
  const profile=ssLimitedProfile(actor);
  if(!profile||actor.battleMode!=='PVP'||actor.statMode!=='RANK_FIXED')return 1;
@@ -38,10 +39,10 @@ export function ssLimitedPvpLinkScale(actor,teams){
  if(!opponents.length)return 1;
  // A duo uses the arithmetic mean of its opposing lineup; other mercenaries
  // contribute the unchanged 1x rule. Freeze once before any combat actions.
- const row=SS_LIMITED_PVP_LINK_SCALES[profile.code];
+ const row=SS_LIMITED_PVP_LINK_SCALES[profile.code]||{};
  return opponents.reduce((sum,other)=>sum+(Object.hasOwn(row,other.code)?row[other.code]:1),0)/opponents.length;
 }
-export const ssLimitedActionCredit=actors=>actors.some(a=>ssLimitedProfile(a)&&a.statMode==='RANK_FIXED'&&a.alive!==false&&a.hp>0)?SS_LIMITED_TEMPO.actionCredit:1;
-export const ssLimitedCombatDescription=code=>Object.hasOwn(SS_LIMITED_COMBAT,code)?'표시 등급은 SS이며 전투 등급 보정은 일반 SSS 기준입니다. PVE·PVP 모두 아군 일반 카드 1회 행동당 용병이 2회 추가 행동하며 자연 행동 속도에도 2배를 적용합니다. 자기 행동 시작마다 에너지 10을 회복하고, 스킬 비용은 20·재사용 대기는 자기 2행동입니다. 연속 스킬은 후속타를 마친 뒤 다시 시전하며 추가 비용은 없습니다. PVP 스킬 피해 상한은 기존의 1.5배입니다. 일반 SSS 상대의 연계 공격·체력·방벽은 상대 구성에 따라 보정하며 듀오는 상대 구성의 평균을 적용합니다. SSS 리미티드는 이 비교 기준에서 제외합니다.':'';
+export const ssLimitedActionCredit=actors=>Math.max(1,...actors.filter(a=>ssLimitedProfile(a)&&a.statMode==='RANK_FIXED'&&a.alive!==false&&a.hp>0).map(a=>ssLimitedProfile(a).actionCredit??SS_LIMITED_TEMPO.actionCredit));
+export const ssLimitedCombatDescription=code=>halloweenCombatDescription(code)||(Object.hasOwn(SS_LIMITED_COMBAT,code)?'표시 등급은 SS이며 전투 등급 보정은 일반 SSS 기준입니다. PVE·PVP 모두 아군 일반 카드 1회 행동당 용병이 2회 추가 행동하며 자연 행동 속도에도 2배를 적용합니다. 자기 행동 시작마다 에너지 10을 회복하고, 스킬 비용은 20·재사용 대기는 자기 2행동입니다. 연속 스킬은 후속타를 마친 뒤 다시 시전하며 추가 비용은 없습니다. PVP 스킬 피해 상한은 기존의 1.5배입니다. 일반 SSS 상대의 연계 공격·체력·방벽은 상대 구성에 따라 보정하며 듀오는 상대 구성의 평균을 적용합니다. SSS 리미티드는 이 비교 기준에서 제외합니다.':'');
 // Use exact catalog identities; a client-supplied tier/edition/name cannot opt in.
 export const mercenaryCombatRank=actor=>ssLimitedProfile(actor)?'SSS':actor?.rank;

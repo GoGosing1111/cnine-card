@@ -35,7 +35,7 @@ export async function setupLimitedActor(engine,actor){
   aura.position.set((spec.auraCenter.x-spec.feet.x)*scale,(spec.auraCenter.y-spec.feet.y)*scale);
   aura.scale.set(art.bodyHeight*spec.auraScale*1.65/auraFrames[0].width);back.addChild(aura);actor.view.addChild(back);actor.view.sortChildren();
   const layer=new Container({label:'ApprovedLimitedSkillFX'});layer.eventMode='none';engine.effectLayer.addChild(layer);
-  const effectFrames=effectTexture?frames(effectTexture,spec.effects.frames):[],sprites=Array.from({length:3},()=>{const s=new Sprite();s.visible=false;s.blendMode=spec.type==='harlequin'?'normal':'add';layer.addChild(s);return s;});
+  const effectFrames=effectTexture?frames(effectTexture,spec.effects.frames):[],sprites=Array.from({length:3},()=>{const s=new Sprite();s.visible=false;s.blendMode=['harlequin','halloween'].includes(spec.type)?'normal':'add';layer.addChild(s);return s;});
   const state={engine,actor,spec,art,back,aura,auraSpec,auraFrames,effectFrames,layer,sprites,time:0,busy:false,stopped:false,ambient:null,knight:null};
   if(manifest){
    const target=(actor.team==='ALLY'?engine.enemies:engine.allies).find(a=>!a.root.destroyed)||actor;
@@ -106,13 +106,13 @@ function renderImages(s,t,target){
  if(t>=1.68&&t<2.65)place(s,2,8+Math.min(3,Math.floor((t-1.68)/.97*4)),hit,p.height*(s.spec.type==='cannon'?.84:.65));
  s.emission=p;s.effectTime=t;
 }
-async function playback(engine,actor,targets,{basic=false,area=false,apply}){
+async function playback(engine,actor,targets,{basic=false,area=false,support=false,apply}){
  const epoch=engine.mercenaryEpoch,playbackEpoch=engine.playbackEpoch;
  const valid=()=>!engine.mercenaryDisposed&&epoch===engine.mercenaryEpoch&&playbackEpoch===engine.playbackEpoch&&engine.visible&&!actor.root.destroyed&&targets.every(t=>!t.root.destroyed);
  if(!valid()||!targets.length)return false;
  const s=await setupLimitedActor(engine,actor);if(!s||!valid())return false;
  engine.settlePendingTails?.([actor,...targets]);stopAmbient(s);s.stopped=false;s.busy=true;actor.animationController.kill();
- const harlequin=s.spec?.type==='harlequin';
+ const harlequin=['harlequin','halloween'].includes(s.spec?.type);
  let duration=harlequin?(basic?1:HARLEQUIN_SKILL.duration):3.6,contact=harlequin?(basic?.38:HARLEQUIN_SKILL.contact):1.68;
  if(s.knight){
   const k=s.knight;k.targets=targets;k.targetDefaults=targets.map(a=>({viewX:a.view.x,tint:a.fullBodySprite.tint}));k.plan={...valterPlan({mode:basic?'attack':area?'ultimate':'skill'}),damageAuthority:'SERVER_ONLY'};
@@ -129,7 +129,7 @@ async function playback(engine,actor,targets,{basic=false,area=false,apply}){
   if(s.destroyed)return;s.busy=false;s.dialogue?.end();s.sprites.forEach(a=>a.visible=false);
   if(s.knight)s.knight.cancel();if(valid()&&!s.stopped)startAmbient(s);
  },null,{releaseAt:(contact+.12)/rate,owners:[actor,...targets]});
- engine.lastMercenaryPlayback={code:actor.cardId,eventType:basic?'ATTACK':area?VALTER_AREA_EVENT:'MERCENARY_HIT',visualVersion:LIMITED_VISUALS.version,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0,playbackRate:rate,contactSeconds:contact/rate,durationSeconds:duration/rate};
+ engine.lastMercenaryPlayback={code:actor.cardId,eventType:basic?'ATTACK':support?'MERCENARY_BUFF':area?VALTER_AREA_EVENT:'MERCENARY_HIT',visualVersion:LIMITED_VISUALS.version,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied&&!support?targets.length:0,supportApplications:applied&&support?targets.length:0,playbackRate:rate,contactSeconds:contact/rate,durationSeconds:duration/rate};
  return result&&valid();
 }
 export function playLimitedBasic(engine,{attacker:actor,target,damage=0,targetHp=null,targetShield=null,onImpact=()=>{}}={}){
@@ -157,6 +157,6 @@ export function playLimitedSkill(engine,event){
  const actor=engine.combatantById(event.actorId),target=engine.combatantById(event.targetId);if(!actor||!target)return true;
  const sync=()=>{if(Number.isFinite(event.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,event.targetHpAfter));if(Number.isFinite(event.targetShieldAfter))engine.syncTargetShield(target,event.targetShieldAfter,event.targetMaxShield);};
  if(event.dodge){sync();engine.queueBanner('빗나감',actor.accent,target.name);return true;}
- return playback(engine,actor,[target],{apply(){sync();engine.showAccountBattleUnitDamage(target,{damage:event.damage||0});}});
+ return playback(engine,actor,[target],{support:event.type==='MERCENARY_BUFF',apply(){sync();if(event.type==='MERCENARY_BUFF')engine.queueBanner(event.skillName,actor.accent,'방벽');else engine.showAccountBattleUnitDamage(target,{damage:event.damage||0});}});
 }
 export function limitedDiagnostics(engine){return [...engine.limitedStates?.values()||[]].map(s=>({code:s.actor.cardId,version:LIMITED_VISUALS.version,bodyHeight:s.art.bodyHeight,textureHeight:s.art.originalTextureHeight,foot:{x:s.actor.root.x,y:s.actor.root.y},station:{x:s.actor.baseX,y:s.actor.baseY},scale:s.actor.root.scale.x,auraColor:s.spec.auraTint,rearAura:!!s.back.visible,originalValterFx:s.knight?{silhouetteCopies:18,filters:s.knight.auraFilters.length,risingParticles:s.knight.pool.filter(p=>p.visible).length}:null,emission:s.emission,ownedAmbientClock:!!s.ambient,busy:s.busy}));}

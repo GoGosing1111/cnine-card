@@ -18,7 +18,7 @@ test('V-980 uses the selected exact SD and Harley art while other Bongsoon and H
  assert.equal(hash(card.sourceArt),card.sourceArtSha256);assert.equal(hash(card.battleSprite),card.battleSpriteSha256);
  assert.equal(hash(manifest.retiredSource),manifest.retiredSourceSha256);
  assert.equal(card.visualSkill.id,HARLEQUIN_SKILL.id);assert.equal(card.rank,'SS');assert.equal(card.serverLimit,5);
- for(const c of HALLOWEEN_MERCENARIES.filter(c=>c.code!=='V-980')){assert.ok(c.sourceArt.includes('halloween-approved-20261014/'));assert.equal(hash(c.sourceArt),c.sourceArtSha256);assert.equal(c.battleSprite,null);}
+ for(const c of HALLOWEEN_MERCENARIES.filter(c=>c.code!=='V-980')){assert.ok(c.sourceArt.includes('halloween-approved-20261014/'));assert.equal(hash(c.sourceArt),c.sourceArtSha256);assert.ok(c.battleSprite.includes('halloween-battle-20261017'));}
  assert.equal(LIMITED_MERCENARIES.find(c=>c.code==='V-990').sourceArtSha256,'EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120');
  for(const c of LIMITED_BATTLE_VISUALS.characters)assert.deepEqual(limitedVisual(c.code),c,'existing limited visual '+c.code);
 });
@@ -31,9 +31,9 @@ test('static SD and sixteen authored FX cells are connected with safe alpha, dis
  assert.equal(sampleHarlequinSkill(0).frame,null);assert.equal(sampleHarlequinSkill(.01).frame,0);assert.equal(sampleHarlequinSkill(.6).frame,4);assert.equal(sampleHarlequinSkill(1.2).frame,8);assert.equal(sampleHarlequinSkill(2.59).frame,15);assert.equal(sampleHarlequinSkill(2.6).frame,null);
  assert.equal(sampleHarlequinSkill(.38,{basic:true}).frame,8);assert.equal(sampleHarlequinSkill(1,{basic:true}).frame,null);
 });
-test('visual registration does not open the pack, change stock or invent combat stats',()=>{
+test('reviewed combat registration leaves the pack OFF and preserves stock',()=>{
  const c=HALLOWEEN_MERCENARIES.find(c=>c.code==='V-980'),p=halloweenPackDraft();
- assert.equal(limitedDeploymentSnapshot('V-980'),null);assert.equal(c.deploymentEnabled,false);assert.equal(c.acquisitionEnabled,false);assert.deepEqual(c.skills,[]);assert.equal(c.basePower,null);
+ assert.equal(limitedDeploymentSnapshot('V-980').basePower,216000);assert.equal(c.deploymentEnabled,true);assert.equal(c.acquisitionEnabled,false);assert.equal(c.skills[0].name,'카니발 브레이크');assert.equal(c.basePower,216000);
  assert.equal(p.mode,'OFF');assert.equal(p.prices.single,null);assert.equal(p.cardRatesPpm['V-980'],null);assert.equal(c.acquisitionPackId,HALLOWEEN_PACK.id);
 });
 test('V-980 authoritative playback applies one receipt at contact, honors cancel and keeps basic timing separate',async()=>{

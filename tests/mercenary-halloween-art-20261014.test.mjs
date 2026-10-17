@@ -25,7 +25,7 @@ test('seven approved sources publish independently with Namsudaeng identity, SS 
   assert.equal(c.rank,'SS');assert.equal(c.acquisitionPackId,HALLOWEEN_PACK.id);assert.equal(c.serverLimit,5);
   assert.equal(createHash('sha256').update(fs.readFileSync(c.sourceArt)).digest('hex').toUpperCase(),c.sourceArtSha256);
   for(const p of [c.displayArt,c.thumbnailArt,c.frame])assert.ok(fs.statSync(p).size>0,p);
-  if(c.code==='V-980')assert.ok(c.battleSprite.includes('halloween-harlequin-20261017'));else assert.equal(c.battleSprite,null);assert.deepEqual(c.skills,[]);assert.equal(c.deploymentEnabled,false);assert.equal(limitedDeploymentSnapshot(c.code),null);
+  if(c.code==='V-980')assert.ok(c.battleSprite.includes('halloween-harlequin-20261017'));else assert.ok(c.battleSprite.includes('halloween-battle-20261017'));assert.equal(c.skills.length,1);assert.equal(c.deploymentEnabled,true);assert.equal(limitedDeploymentSnapshot(c.code).basePower,216000);
   assert.equal(seed.catalog.cards.some(r=>r.code===c.code),false);
  }
  assert.equal(LIMITED_MERCENARIES.length,9);assert.equal(LIMITED_MERCENARIES.find(c=>c.code==='V-990').sourceArtSha256,'EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120');
@@ -42,19 +42,19 @@ test('Halloween identities cannot enter ordinary grants, ordinary limited packs 
 });
 
 test('unconfigured price and probability stay null; opening and per-character cap cannot be overridden',()=>{
- const draft=halloweenPackDraft(),state=halloweenPackState();assert.equal(state.userOpeningEnabled,false);assert.equal(state.releaseEnabled,false);
+ const draft=halloweenPackDraft(),state=halloweenPackState();assert.equal(state.userOpeningEnabled,false);assert.equal(state.releaseEnabled,true);
  assert.deepEqual(draft.prices,{single:null,ten:null});assert.equal(draft.missRatePpm,null);assert.ok(Object.values(draft.cardRatesPpm).every(v=>v===null));assert.ok(state.stock.filter(s=>/^V-98[0-6]$/.test(s.code)).every(s=>s.limit===5&&s.remaining===null));assert.equal(state.stock.find(s=>s.code==='V-989').limit,3);assert.equal(state.stock.find(s=>s.code==='V-999').limit,null);
- for(const mutate of [s=>s.mode='ON',s=>s.stockLimits['V-980']=6,s=>s.stockLimits['V-980']=4,s=>s.cardRatesPpm['V-990']=1,s=>s.prices.single=0,s=>s.cardRatesPpm['V-980']=NaN,s=>{s.cardRatesPpm['V-980']=1000000;s.normalSssRatePpm=1;}]){const s=halloweenPackDraft();mutate(s);assert.throws(()=>validateHalloweenPack(s));}
+ for(const mutate of [s=>s.stockLimits['V-980']=6,s=>s.stockLimits['V-980']=4,s=>s.cardRatesPpm['V-990']=1,s=>s.prices.single=0,s=>s.cardRatesPpm['V-980']=NaN,s=>{s.cardRatesPpm['V-980']=1000000;s.normalSssRatePpm=1;}]){const s=halloweenPackDraft();mutate(s);assert.throws(()=>validateHalloweenPack(s));}
  const precise=halloweenPackDraft();precise.cardRatesPpm['V-980']=0.0001;assert.equal(validateHalloweenPack(precise).cardRatesPpm['V-980'],0.0001);
  assert.throws(()=>halloweenPackState(draft,[{code:'V-980',stock_limit:6,issued:0}]));assert.throws(()=>halloweenPackState(draft,[{code:'V-980',stock_limit:5,issued:6}]));
 });
 
 const body=()=>({expectedRevision:1,settings:halloweenPackDraft(),requestId:crypto.randomUUID(),reason:'할로윈 팩 초안 검수'});
-const call=(f,path,method='GET',payload,role='OWNER',origin='https://qa.test')=>handleHalloweenPack({path,request:new Request('https://qa.test/api/'+path,{method,headers:{origin,'content-type':'application/json'},...(payload?{body:JSON.stringify(payload)}:{})}),env:f.env,deps:{requirePermission:async()=>({id:1,role}),json:(value,status=200)=>({body:value,status})}});
+const call=(f,path,method='GET',payload,role='OWNER',origin='https://qa.test')=>handleHalloweenPack({path,request:new Request('https://qa.test/api/'+path,{method,headers:{origin,'content-type':'application/json'},...(payload?{body:JSON.stringify(payload)}:{})}),env:f.env,deps:{authenticate:async()=>null,requirePermission:async()=>({id:1,role}),json:(value,status=200)=>({body:value,status})}});
 
 test('public state is read-only, opening has zero database effects, and only OWNER can save a draft',async t=>{
  const f=await limitedFixture(t);await f.configure();const beforeQueries=f.stats.queries;
- assert.equal((await call(f,HALLOWEEN_PACK.openPath,'POST',{mode:'ON',count:1})).status,423);assert.equal(f.stats.queries,beforeQueries);
+ assert.equal((await call(f,HALLOWEEN_PACK.openPath,'POST',{mode:'ON',count:1})).status,401);assert.equal(f.stats.queries,beforeQueries);
  for(const role of ['USER','ADMIN'])assert.equal((await call(f,HALLOWEEN_PACK.adminPath,'PATCH',body(),role)).status,403);
  assert.equal(f.stats.queries,beforeQueries);
  const batches=f.stats.batches;const state=await call(f,HALLOWEEN_PACK.featurePath);assert.equal(state.status,200);assert.equal(state.body.cards.length,9);assert.equal(f.stats.batches,batches);

@@ -1,6 +1,7 @@
+import {HALLOWEEN_VISUALS} from './mercenary-halloween-visual-v1.mjs';
 import {LIMITED_BATTLE_VISUALS as approvedCatalog} from './mercenary-limited-visual-catalog-v1.mjs';
 import {HARLEQUIN_VISUAL} from './mercenary-harlequin-visual-v1.mjs';
-const catalog={...approvedCatalog,version:'20261017-harlequin-v1',characters:[...approvedCatalog.characters,HARLEQUIN_VISUAL]};
+const catalog={...approvedCatalog,version:'20261017-halloween-ready-v1',characters:[...approvedCatalog.characters,HARLEQUIN_VISUAL,...HALLOWEEN_VISUALS]};
 
 export {catalog as LIMITED_VISUALS};
 export const limitedVisual=code=>catalog.characters.find(c=>c.code===code)||null;

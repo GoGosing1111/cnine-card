@@ -1,3 +1,5 @@
+import {HALLOWEEN_MERCENARIES} from './mercenary-halloween-catalog-v1.mjs';
+import {HALLOWEEN_COMBAT,HALLOWEEN_COMBAT_VERSION} from './mercenary-halloween-combat-v1.mjs';
 import {SHIRANUI_CODE,shiranuiDeploymentSnapshot} from './mercenary-shiranui-v1.mjs';
 import {LIMITED_MERCENARIES} from './mercenary-limited-catalog-v1.mjs';
 import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION} from './mercenary-ss-limited-v1.mjs';
@@ -14,8 +16,8 @@ export function limitedDeploymentSnapshot(code){
  if(code===SHIRANUI_CODE)return shiranuiDeploymentSnapshot();
  if(code===KAIRON_CODE)return kaironDeploymentSnapshot();
  if(code===JINMU_CODE)return jinmuDeploymentSnapshot();
- const art=LIMITED_MERCENARIES.find(c=>c.code===code);if(!art)return null;
- const profile=SS_LIMITED_COMBAT[code],valter=code===VALTER_CODE,helios=code===HELIOS_CODE;
+ const art=[...LIMITED_MERCENARIES,...HALLOWEEN_MERCENARIES].find(c=>c.code===code);if(!art)return null;
+ const profile=SS_LIMITED_COMBAT[code]||HALLOWEEN_COMBAT[code],valter=code===VALTER_CODE,helios=code===HELIOS_CODE;
  if(!valter&&!helios&&!profile)return null;
  return {code,name:art.name,title:art.title,rank:art.rank,edition:'LIMITED',actorKind:'MERCENARY',
   sourceArt:art.sourceArt,battleSprite:art.battleSprite,level:1,statMode:'RANK_FIXED',
@@ -23,6 +25,6 @@ export function limitedDeploymentSnapshot(code){
   position:valter||helios?'FRONT':profile.position,role:valter||helios?'VANGUARD':profile.role,
   attackStyle:valter||helios?'MELEE':profile.attackStyle,
   skills:[structuredClone(helios?HELIOS_AREA_SKILL:profile?profile.skill:VALTER_AREA_SKILL)],pendingSkillIds:[],
-  ...(helios?{heliosPolicyVersion:HELIOS_COMBAT.version}:valter?{valterPolicyVersion:VALTER_COMBAT.version}:{ssLimitedPolicyVersion:SS_LIMITED_BALANCE_VERSION}),
+  ...(helios?{heliosPolicyVersion:HELIOS_COMBAT.version}:valter?{valterPolicyVersion:VALTER_COMBAT.version}:{ssLimitedPolicyVersion:SS_LIMITED_BALANCE_VERSION,...(HALLOWEEN_COMBAT[code]?{halloweenPolicyVersion:HALLOWEEN_COMBAT_VERSION}:{})}),
   deploymentEnabled:true,deploymentVersion:LIMITED_DEPLOYMENT_VERSION};
 }

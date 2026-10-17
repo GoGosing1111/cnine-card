@@ -1,0 +1,1263 @@
+{
+  "date": "2026-10-17",
+  "scope": "CANONICAL_SIMULATION_NOT_LIVE_WIN_RATE",
+  "count": 16,
+  "start": 36101,
+  "formations": [
+    "basic-10000-balanced",
+    "basic-20000000-balanced",
+    "basic-2000000000-balanced",
+    "equipped-F01",
+    "equipped-F23"
+  ],
+  "policySha256": "729b328a17209db56428b1ca0d4349433a06c468bb9e69fe7aa5243852f0d7cb",
+  "existingPolicySha256": "2f177b93377342a31bb43169653be0bc52a727fa7e0ccb1f6281877a8bda917e",
+  "rows": [
+    {
+      "code": "V-980",
+      "wins": 856,
+      "total": 1120,
+      "winRate": 0.7642857142857142,
+      "opponents": [
+        {
+          "code": "V-990",
+          "wins": 127,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.79375,
+          "sides": {
+            "A": {
+              "wins": 71,
+              "total": 80
+            },
+            "B": {
+              "wins": 56,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-991",
+          "wins": 97,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.60625,
+          "sides": {
+            "A": {
+              "wins": 63,
+              "total": 80
+            },
+            "B": {
+              "wins": 34,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-992",
+          "wins": 124,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.775,
+          "sides": {
+            "A": {
+              "wins": 68,
+              "total": 80
+            },
+            "B": {
+              "wins": 56,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-993",
+          "wins": 131,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.81875,
+          "sides": {
+            "A": {
+              "wins": 72,
+              "total": 80
+            },
+            "B": {
+              "wins": 59,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-994",
+          "wins": 108,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.675,
+          "sides": {
+            "A": {
+              "wins": 67,
+              "total": 80
+            },
+            "B": {
+              "wins": 41,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-997",
+          "wins": 148,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.925,
+          "sides": {
+            "A": {
+              "wins": 80,
+              "total": 80
+            },
+            "B": {
+              "wins": 68,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-998",
+          "wins": 121,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.75625,
+          "sides": {
+            "A": {
+              "wins": 69,
+              "total": 80
+            },
+            "B": {
+              "wins": 52,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-996",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-999",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-989",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-981",
+      "wins": 910,
+      "total": 1120,
+      "winRate": 0.8125,
+      "opponents": [
+        {
+          "code": "V-990",
+          "wins": 27,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.16875,
+          "sides": {
+            "A": {
+              "wins": 18,
+              "total": 80
+            },
+            "B": {
+              "wins": 9,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-991",
+          "wins": 147,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.91875,
+          "sides": {
+            "A": {
+              "wins": 74,
+              "total": 80
+            },
+            "B": {
+              "wins": 73,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-992",
+          "wins": 156,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.975,
+          "sides": {
+            "A": {
+              "wins": 78,
+              "total": 80
+            },
+            "B": {
+              "wins": 78,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-993",
+          "wins": 144,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.9,
+          "sides": {
+            "A": {
+              "wins": 73,
+              "total": 80
+            },
+            "B": {
+              "wins": 71,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-994",
+          "wins": 148,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.925,
+          "sides": {
+            "A": {
+              "wins": 74,
+              "total": 80
+            },
+            "B": {
+              "wins": 74,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-997",
+          "wins": 148,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.925,
+          "sides": {
+            "A": {
+              "wins": 79,
+              "total": 80
+            },
+            "B": {
+              "wins": 69,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-998",
+          "wins": 140,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.875,
+          "sides": {
+            "A": {
+              "wins": 75,
+              "total": 80
+            },
+            "B": {
+              "wins": 65,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-996",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-999",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-989",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-982",
+      "wins": 800,
+      "total": 1120,
+      "winRate": 0.7142857142857143,
+      "opponents": [
+        {
+          "code": "V-990",
+          "wins": 16,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.1,
+          "sides": {
+            "A": {
+              "wins": 10,
+              "total": 80
+            },
+            "B": {
+              "wins": 6,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-991",
+          "wins": 125,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.78125,
+          "sides": {
+            "A": {
+              "wins": 67,
+              "total": 80
+            },
+            "B": {
+              "wins": 58,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-992",
+          "wins": 126,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.7875,
+          "sides": {
+            "A": {
+              "wins": 76,
+              "total": 80
+            },
+            "B": {
+              "wins": 50,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-993",
+          "wins": 123,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.76875,
+          "sides": {
+            "A": {
+              "wins": 68,
+              "total": 80
+            },
+            "B": {
+              "wins": 55,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-994",
+          "wins": 129,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.80625,
+          "sides": {
+            "A": {
+              "wins": 67,
+              "total": 80
+            },
+            "B": {
+              "wins": 62,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-997",
+          "wins": 150,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.9375,
+          "sides": {
+            "A": {
+              "wins": 80,
+              "total": 80
+            },
+            "B": {
+              "wins": 70,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-998",
+          "wins": 131,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.81875,
+          "sides": {
+            "A": {
+              "wins": 68,
+              "total": 80
+            },
+            "B": {
+              "wins": 63,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-996",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-999",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-989",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-983",
+      "wins": 950,
+      "total": 1120,
+      "winRate": 0.8482142857142857,
+      "opponents": [
+        {
+          "code": "V-990",
+          "wins": 34,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.2125,
+          "sides": {
+            "A": {
+              "wins": 28,
+              "total": 80
+            },
+            "B": {
+              "wins": 6,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-991",
+          "wins": 149,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.93125,
+          "sides": {
+            "A": {
+              "wins": 72,
+              "total": 80
+            },
+            "B": {
+              "wins": 77,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-992",
+          "wins": 155,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.96875,
+          "sides": {
+            "A": {
+              "wins": 79,
+              "total": 80
+            },
+            "B": {
+              "wins": 76,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-993",
+          "wins": 147,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.91875,
+          "sides": {
+            "A": {
+              "wins": 75,
+              "total": 80
+            },
+            "B": {
+              "wins": 72,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-994",
+          "wins": 152,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.95,
+          "sides": {
+            "A": {
+              "wins": 74,
+              "total": 80
+            },
+            "B": {
+              "wins": 78,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-997",
+          "wins": 160,
+          "draws": 0,
+          "total": 160,
+          "winRate": 1,
+          "sides": {
+            "A": {
+              "wins": 80,
+              "total": 80
+            },
+            "B": {
+              "wins": 80,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-998",
+          "wins": 153,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.95625,
+          "sides": {
+            "A": {
+              "wins": 77,
+              "total": 80
+            },
+            "B": {
+              "wins": 76,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-996",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-999",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-989",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-984",
+      "wins": 1112,
+      "total": 1120,
+      "winRate": 0.9928571428571429,
+      "opponents": [
+        {
+          "code": "V-990",
+          "wins": 152,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.95,
+          "sides": {
+            "A": {
+              "wins": 77,
+              "total": 80
+            },
+            "B": {
+              "wins": 75,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-991",
+          "wins": 160,
+          "draws": 0,
+          "total": 160,
+          "winRate": 1,
+          "sides": {
+            "A": {
+              "wins": 80,
+              "total": 80
+            },
+            "B": {
+              "wins": 80,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-992",
+          "wins": 160,
+          "draws": 0,
+          "total": 160,
+          "winRate": 1,
+          "sides": {
+            "A": {
+              "wins": 80,
+              "total": 80
+            },
+            "B": {
+              "wins": 80,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-993",
+          "wins": 160,
+          "draws": 0,
+          "total": 160,
+          "winRate": 1,
+          "sides": {
+            "A": {
+              "wins": 80,
+              "total": 80
+            },
+            "B": {
+              "wins": 80,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-994",
+          "wins": 160,
+          "draws": 0,
+          "total": 160,
+          "winRate": 1,
+          "sides": {
+            "A": {
+              "wins": 80,
+              "total": 80
+            },
+            "B": {
+              "wins": 80,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-997",
+          "wins": 160,
+          "draws": 0,
+          "total": 160,
+          "winRate": 1,
+          "sides": {
+            "A": {
+              "wins": 80,
+              "total": 80
+            },
+            "B": {
+              "wins": 80,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-998",
+          "wins": 160,
+          "draws": 0,
+          "total": 160,
+          "winRate": 1,
+          "sides": {
+            "A": {
+              "wins": 80,
+              "total": 80
+            },
+            "B": {
+              "wins": 80,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-996",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-999",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-989",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-985",
+      "wins": 932,
+      "total": 1120,
+      "winRate": 0.8321428571428572,
+      "opponents": [
+        {
+          "code": "V-990",
+          "wins": 28,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.175,
+          "sides": {
+            "A": {
+              "wins": 19,
+              "total": 80
+            },
+            "B": {
+              "wins": 9,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-991",
+          "wins": 145,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.90625,
+          "sides": {
+            "A": {
+              "wins": 74,
+              "total": 80
+            },
+            "B": {
+              "wins": 71,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-992",
+          "wins": 158,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.9875,
+          "sides": {
+            "A": {
+              "wins": 78,
+              "total": 80
+            },
+            "B": {
+              "wins": 80,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-993",
+          "wins": 145,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.90625,
+          "sides": {
+            "A": {
+              "wins": 72,
+              "total": 80
+            },
+            "B": {
+              "wins": 73,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-994",
+          "wins": 147,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.91875,
+          "sides": {
+            "A": {
+              "wins": 74,
+              "total": 80
+            },
+            "B": {
+              "wins": 73,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-997",
+          "wins": 158,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.9875,
+          "sides": {
+            "A": {
+              "wins": 80,
+              "total": 80
+            },
+            "B": {
+              "wins": 78,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-998",
+          "wins": 151,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.94375,
+          "sides": {
+            "A": {
+              "wins": 77,
+              "total": 80
+            },
+            "B": {
+              "wins": 74,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-996",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-999",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-989",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        }
+      ]
+    },
+    {
+      "code": "V-986",
+      "wins": 856,
+      "total": 1120,
+      "winRate": 0.7642857142857142,
+      "opponents": [
+        {
+          "code": "V-990",
+          "wins": 127,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.79375,
+          "sides": {
+            "A": {
+              "wins": 71,
+              "total": 80
+            },
+            "B": {
+              "wins": 56,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-991",
+          "wins": 97,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.60625,
+          "sides": {
+            "A": {
+              "wins": 63,
+              "total": 80
+            },
+            "B": {
+              "wins": 34,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-992",
+          "wins": 124,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.775,
+          "sides": {
+            "A": {
+              "wins": 68,
+              "total": 80
+            },
+            "B": {
+              "wins": 56,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-993",
+          "wins": 131,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.81875,
+          "sides": {
+            "A": {
+              "wins": 72,
+              "total": 80
+            },
+            "B": {
+              "wins": 59,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-994",
+          "wins": 108,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.675,
+          "sides": {
+            "A": {
+              "wins": 67,
+              "total": 80
+            },
+            "B": {
+              "wins": 41,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-997",
+          "wins": 148,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.925,
+          "sides": {
+            "A": {
+              "wins": 80,
+              "total": 80
+            },
+            "B": {
+              "wins": 68,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-998",
+          "wins": 121,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0.75625,
+          "sides": {
+            "A": {
+              "wins": 69,
+              "total": 80
+            },
+            "B": {
+              "wins": 52,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-996",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-999",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        },
+        {
+          "code": "V-989",
+          "wins": 0,
+          "draws": 0,
+          "total": 160,
+          "winRate": 0,
+          "sides": {
+            "A": {
+              "wins": 0,
+              "total": 80
+            },
+            "B": {
+              "wins": 0,
+              "total": 80
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

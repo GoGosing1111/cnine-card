@@ -3,9 +3,9 @@ import {HALLOWEEN_MERCENARIES} from './mercenary-halloween-catalog-v1.mjs';
 import {isLimitedRate,limitedRateUnits,LIMITED_RATE_TOTAL} from './mercenary-limited-rates-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 
-// 2026-10-14: publish the seven approved illustrations first. The OWNER sets
-// prices and probabilities later; saving a draft must never open acquisition.
-export const HALLOWEEN_PACK_RELEASE_ENABLED=false;
+// 2026-10-17: OWNER can open only after readiness validation. Default and saved
+// OFF remain OFF; enabling this capability never changes the persisted mode.
+export const HALLOWEEN_PACK_RELEASE_ENABLED=true;
 export const HALLOWEEN_PACK_KEY='mercenary_halloween_ss_pack_v1';
 export const HALLOWEEN_SERVER_LIMIT=5;
 export const HALLOWEEN_PACK=Object.freeze({id:'mercenary-halloween-ss-limited',name:'할로윈 리미티드 용병팩',rank:'SSS',edition:'HALLOWEEN_LIMITED',maxBatch:10,featurePath:'mercenary-halloween-pack/config',openPath:'mercenary-halloween-pack/open',receiptPath:'mercenary-halloween-pack/receipt',adminPath:'admin/mercenaries/halloween-pack',image:'assets/ui/packs/reverse-call-20261016/halloween-768.webp'});

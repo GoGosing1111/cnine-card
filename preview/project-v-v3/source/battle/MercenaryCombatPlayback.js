@@ -150,7 +150,7 @@ export const withMercenaryBattle=Base=>class extends Base{
   }
   if(limitedVisual(limitedActor?.cardId)){
    if(event.type==='MERCENARY_WINDUP')return true;
-   if(event.type==='MERCENARY_HIT'||event.type===VALTER_AREA_EVENT)return playLimitedSkill(this,event);
+   if(event.type==='MERCENARY_HIT'||event.type===VALTER_AREA_EVENT||(limitedActor.cardId==='V-984'&&event.type==='MERCENARY_BUFF'&&event.effect==='SHIELD'))return playLimitedSkill(this,event);
   }
   if(event.type==='MERCENARY_GROUP_HEAL'&&event.mechanic==='WHITE_OATH_GROUP_HEAL')return playNurseHeal(this,event);
   if(event.type==='MERCENARY_WINDUP'&&event.mechanic==='WHITE_OATH_GROUP_HEAL')return true;
