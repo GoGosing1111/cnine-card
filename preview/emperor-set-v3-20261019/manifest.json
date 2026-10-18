@@ -1,0 +1,164 @@
+{
+  "name": "엠퍼러 +10 · 황제의 위광",
+  "version": 1,
+  "date": "2026-10-19",
+  "status": "USER_VISUAL_REVIEW_PENDING",
+  "liveConnected": false,
+  "sourceArtwork": "ImageGen; originals copied byte-for-byte",
+  "assets": [
+    {
+      "path": "assets/crest.png",
+      "sha256": "d4ed106b9b4b7a14ab3e33a28216b2b9c4cf4a533aa83fa16f2ec353c7f7b758",
+      "bytes": 1934044,
+      "width": 1254,
+      "height": 1254,
+      "alpha": true
+    },
+    {
+      "path": "assets/ground.png",
+      "sha256": "6f628a1462d639c858a87031f176c0391ff57fe5759dafb27ebdfa93bfa025a1",
+      "bytes": 1663867,
+      "width": 1254,
+      "height": 1254,
+      "alpha": true
+    },
+    {
+      "path": "assets/impact.png",
+      "sha256": "41f4f7e547cd003e372463b4e0ea9ee99cf584676678ad6280ca0072c166f777",
+      "bytes": 2120466,
+      "width": 1536,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "path": "assets/impact-sequence.png",
+      "sha256": "bb07dd337bd08227d9a7b476f63d906424fe67736bfa9f4cbc330bd60a1a0f5a",
+      "bytes": 2231232,
+      "width": 1448,
+      "height": 1086,
+      "alpha": true
+    }
+  ],
+  "sourceReference": {
+    "path": "assets/items/emperor-suit-v1.png",
+    "sha256": "cee964b970e4bda32cf59591351da0d2cf2ef845d3a7c4962a43e6b9bd5c11e0"
+  },
+  "runtime": {
+    "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+    "sha256": "2b3a8b10506ab9450444b0b556a8b8d848c4c88ab094d136407d8b52e3aa2e59",
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "rendererCount": 1,
+    "timeOwner": "BattleEngine.timeline / GSAP"
+  },
+  "eligibility": [
+    {
+      "slot": "TOP",
+      "code": "EMPEROR_TOP",
+      "level": 10,
+      "equipped": true
+    },
+    {
+      "slot": "BOTTOM",
+      "code": "EMPEROR_BOTTOM",
+      "level": 10,
+      "equipped": true
+    },
+    {
+      "slot": "SHOES",
+      "code": "EMPEROR_SHOES",
+      "level": 10,
+      "equipped": true
+    },
+    {
+      "slot": "ACCESSORY",
+      "code": "EMPEROR_DUAL_DISK",
+      "level": 10,
+      "equipped": true
+    }
+  ],
+  "owner": "A; account formation only; no account avatar",
+  "damageChanges": false,
+  "layers": {
+    "ground": "combatLayer z=-5000; desktop formation seal / portrait formation tiles",
+    "crest": "combatLayer z=-4990; behind ally formation",
+    "impact": "effectLayer z=7; confirmed ally normalAttack onImpact"
+  },
+  "impactAtlas": {
+    "source": "assets/impact-sequence.png",
+    "columns": 4,
+    "rows": 3,
+    "frames": 12,
+    "cell": [
+      362,
+      362
+    ],
+    "durationSeconds": 0.7,
+    "order": "row-major",
+    "pivots": [
+      [
+        0.5,
+        0.59
+      ],
+      [
+        0.5,
+        0.59
+      ],
+      [
+        0.5,
+        0.59
+      ],
+      [
+        0.5,
+        0.59
+      ],
+      [
+        0.5,
+        0.53
+      ],
+      [
+        0.5,
+        0.53
+      ],
+      [
+        0.5,
+        0.53
+      ],
+      [
+        0.5,
+        0.53
+      ],
+      [
+        0.5,
+        0.5
+      ],
+      [
+        0.5,
+        0.5
+      ],
+      [
+        0.5,
+        0.5
+      ],
+      [
+        0.5,
+        0.5
+      ]
+    ],
+    "timeOwner": "same GSAP time as ambient layer"
+  },
+  "fixture": {
+    "path": "fixture.json",
+    "sha256": "aa3f13f74c619fbdd6a3bffae1c704e0864f4ac20f2d304bc25cfc61fa06da24",
+    "generator": "build-fixture.mjs",
+    "seed": 20261019,
+    "events": 65
+  },
+  "prompts": "prompts.json",
+  "verification": {
+    "scope": "equipment eligibility, asset alpha/provenance, existing fixture identities",
+    "passed": true,
+    "liveAccountReads": 0,
+    "liveAccountWrites": 0
+  }
+}

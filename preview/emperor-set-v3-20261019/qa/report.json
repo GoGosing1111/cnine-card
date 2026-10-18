@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-19",
+  "status": "preview-ready-user-visual-review-pending",
+  "scope": "Emperor user equipment set; local V3 visual-only demo",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "touch": false,
+      "overflow": false,
+      "canvas": 1
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "touch": true,
+      "overflow": false,
+      "canvas": 1,
+      "buttonHeight": 44
+    }
+  ],
+  "controls": {
+    "effectOnOff": true,
+    "pauseFreezesFx": true,
+    "halfSpeedTimelineScale": 0.5,
+    "doubleSpeedAvailable": true,
+    "replayRestoresDeadActor": true,
+    "previousFxDestroyed": true,
+    "ownerLayersAfterReplay": 2,
+    "impactLayersAfterReplay": 1
+  },
+  "reducedMotion": {
+    "enabled": true,
+    "motes": 0,
+    "rotation": 0,
+    "additionalFlashes": false
+  },
+  "cleanup": {
+    "remainingTimelines": 0,
+    "remainingCanvases": 0
+  },
+  "checks": {
+    "policyCases": 16,
+    "alphaAssets": 4,
+    "impactFrames": 12,
+    "syntax": "pass",
+    "newAssetHttpErrors": 0,
+    "consoleErrors": 0,
+    "apiRequests": 0,
+    "avatar": false
+  },
+  "knownNotes": [
+    "Existing shared engine warns about unused Apocalypse atlas cache; no missing new assets.",
+    "Native background visibility could not be exercised: DevTools kept document.hidden=false."
+  ],
+  "liveConnected": false
+}
