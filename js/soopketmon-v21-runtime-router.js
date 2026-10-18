@@ -102,7 +102,6 @@
     // before that move lets the entry observer dispose the new lobby.
     coop: { shell: 'battle', actions: [{ selector: '.v21-route-body #pveCoopTab' }] },
     escort: { shell: 'battle', actions: [{ selector: '[data-pve-mode="escort"]' }] },
-    siege: { global: 'openMonsterSiege', fallbackSelector: '[data-monster-siege-entry]' },
     seal: { shell: 'battle', actions: [{ selector: '[data-seal-battle-mode]' }] },
     legion: { shell: 'battle', global: 'openLegionHunt', fallbackSelector: '[data-legion-hunt-entry]' },
     tower: { shell: 'battle', actions: [{ selector: '[data-pve-mode="tower"]' }] },

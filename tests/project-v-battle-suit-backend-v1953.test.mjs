@@ -24,7 +24,6 @@ const migrationUrl=new URL('../database/migrations/0087_v1953_project_v_battle_s
 const femaleRefreshMigrationUrl=new URL('../database/migrations/0088_v1959_battle_suit_01_female.sql',import.meta.url);
 const powerTierMigrationUrl=new URL('../database/migrations/0089_v1969_battle_suit_power_tiers.sql',import.meta.url);
 const assetManifestUrl=new URL('../assets/ui/project-v/account-battle-suits/manifest-v1.json',import.meta.url);
-const siegeUrl=new URL('../functions/_siege.js',import.meta.url);
 const apiUrl=new URL('../functions/api/[[path]].js',import.meta.url);
 const battleEngineUrl=new URL('../functions/_battle_v2_preview.js',import.meta.url);
 
@@ -92,16 +91,8 @@ test('Battle Suit 01 female refresh replaces only the appearance metadata',async
   assert.equal(row.pvp_power,0);
 });
 
-test('competitive and siege server paths hard-exclude Battle Suit power',async()=>{
-  const [siegeSource,apiSource]=await Promise.all([
-    readFile(siegeUrl,'utf8'),
-    readFile(apiUrl,'utf8'),
-  ]);
-  assert.match(
-    siegeSource,
-    /Number\(characterBonus\?\.pve \|\| 0\) -\s*Number\(characterBonus\?\.battleSuitPve \|\| 0\)/,
-  );
-  assert.match(siegeSource,/characterBonus: siegePveBonus/);
+test('competitive server paths hard-exclude Battle Suit power',async()=>{
+  const apiSource=await readFile(apiUrl,'utf8');
   assert.match(apiSource,/AND i\.slot<>'BATTLE_SUIT' AND i\.code NOT IN \(\$\{MERCENARY_EQUIPMENT_SQL_CODES\}\) GROUP BY l\.user_id/);
 });
 

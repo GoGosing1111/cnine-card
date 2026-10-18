@@ -230,3 +230,5 @@ aside{height:100vh;position:sticky;top:0;overflow-y:auto}
 /* User inventory grants: keep ticket names readable on narrow dialogs. */
 #inventoryGrantBlock .two{grid-template-columns:minmax(0,2fr) minmax(80px,1fr)}
 @media(max-width:600px){#inventoryGrantBlock .two{grid-template-columns:minmax(0,1fr)}}
+/* Settings navigation remains compact after the retired event plugins are removed. */
+@media(max-width:800px){body:has(#view-settings:not([hidden])) .layout>aside{height:auto;max-height:160px}}

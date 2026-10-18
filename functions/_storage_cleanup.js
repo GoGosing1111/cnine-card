@@ -651,12 +651,11 @@ async function deleteExpiredSessionsBatch(env,raw={}){
 // One sampled request rotates through one tiny task. Active PENDING/RUNNING/READY rows are protected; only stale terminal rows or oversized completed payloads are touched.
 // Never let request traffic turn maintenance into foreground database load.
 // A sampled job still uses the DB lease below, but it now runs rarely and in
-// small bounded chunks; the OWNER cleanup screen remains available for bulk
-// maintenance when the server is quiet.
+// small bounded chunks. Manual OWNER cleanup was removed on 2026-10-19.
 // At production traffic levels 1/1024 still generated over 100k lease writes a
 // day. General maintenance stays on a ten-minute lease, while append-only audit
 // logs use their own one-minute lease so a slow receipt task cannot block them.
-// The OWNER cleanup endpoint remains available for deliberate bulk work.
+// There is no manual cleanup endpoint.
 // V1795: 정리 처리량 상향.
 //
 // 기존 설정으로는 41개 태스크를 10분 리스로 "1회당 1개" 씩만 돌렸다.
@@ -794,9 +793,6 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
   {key:'equipment_synthesis_receipts',table:'equipment_synthesis_receipts_v1676',sql:`DELETE FROM equipment_synthesis_receipts_v1676 WHERE rowid IN (
     SELECT rowid FROM equipment_synthesis_receipts_v1676 WHERE status IN ('COMPLETED','FAILED','CANCELLED')
       AND updated_at<datetime('now','-1 day') ORDER BY updated_at LIMIT ?)`},
-  {key:'monster_siege_actions',table:'monster_siege_actions',requires:['monster_siege_events'],sql:`DELETE FROM monster_siege_actions WHERE request_id IN (
-    SELECT a.request_id FROM monster_siege_actions a JOIN monster_siege_events e ON e.id=a.event_id
-    WHERE e.status IN ('CLEARED','FAILED') AND a.created_at<datetime('now','-1 day') ORDER BY a.created_at LIMIT ?)`},
   {key:'captain_match_receipts',table:'captain_match_receipts_v3',sql:`DELETE FROM captain_match_receipts_v3 WHERE request_id IN (
     SELECT request_id FROM captain_match_receipts_v3 WHERE status IN ('DONE','FAILED','CANCELLED')
       AND updated_at<datetime('now','-1 day') ORDER BY updated_at LIMIT ?)`},
@@ -963,80 +959,4 @@ export function scheduleBoundedStorageMaintenance(context,env,seed=''){
     try{await runBoundedStorageMaintenance(env)}catch(error){console.warn('bounded storage maintenance failed',error)}
   })();
   if(typeof context?.waitUntil==='function')context.waitUntil(job);
-}
-
-export async function handleStorageCleanup({request,env,path,requirePermission,writeAdminLog,readBody,json}){
-  if(!String(path).startsWith('admin/storage-cleanup'))return null;
-  const admin=await requirePermission(request,env,'USER_MANAGE');
-  if(!admin||String(admin.role).toUpperCase()!=='OWNER')return json({error:'DB 정리 시스템은 OWNER만 사용할 수 있습니다.'},403);
-  if(path==='admin/storage-cleanup/summary'&&request.method==='GET'){
-    const [pages,userRow]=await Promise.all([databasePageInfo(env),env.DB.prepare("SELECT COUNT(*) count FROM users WHERE COALESCE(role,'USER')='USER'").first()]);
-    return json({ok:true,pages,userCount:Number(userRow?.count||0),limits:{preview:MAX_PREVIEW,deleteBatch:MAX_DELETE_BATCH,receiptBatch:MAX_RECEIPT_BATCH,receiptTarget:MAX_RECEIPT_TARGET}});
-  }
-  if(path==='admin/storage-cleanup/preview'&&request.method==='POST'){
-    const body=await readBody(request),criteria=cleanCriteria(body.criteria||body),result=await loadCandidates(env,criteria),candidates=result.candidates;
-    return json({ok:true,criteria,candidates,excluded:result.excluded,estimate:{total:0,tables:{}},truncated:candidates.length>=criteria.limit});
-  }
-  if(path==='admin/storage-cleanup/delete'&&request.method==='POST'){
-    const body=await readBody(request),criteria=cleanCriteria(body.criteria||{}),ids=[...new Set((Array.isArray(body.ids)?body.ids:[]).map(Number).filter(Number.isInteger))].slice(0,MAX_DELETE_BATCH);
-    if(String(body.confirmation||'')!=='휴면계정삭제')return json({error:'확인 문구가 올바르지 않습니다.'},400);
-    if(!ids.length)return json({error:'삭제할 계정을 선택하세요.'},400);
-    criteria.limit=ids.length;const checked=await loadCandidates(env,criteria,ids),valid=checked.candidates,validIds=valid.map(x=>x.id),blocked=ids.filter(id=>!validIds.includes(id));
-    if(blocked.length)return json({error:'미리보기 이후 조건이 달라진 계정이 있어 삭제를 중단했습니다.',blocked},409);
-    const beforePages=await databasePageInfo(env),changes=await deleteUsers(env,validIds),afterPages=await databasePageInfo(env);
-    try{await writeAdminLog(env,admin,'DORMANT_USER_PURGE','USER',validIds.join(','),valid,{criteria,changes,beforePages,afterPages})}catch(e){console.error('storage cleanup admin log failed',e)}
-    return json({ok:true,deletedUsers:Number(changes.users||0),ids:validIds,changes,beforePages,afterPages});
-  }
-  if(path==='admin/storage-cleanup/safe/preview'&&request.method==='POST'){
-    const body=await readBody(request),options=cleanSafeCleanupOptions(body);
-    const [logs,sessions]=await Promise.all([safeLogCleanupBatch(env,options,false),expiredSessionPreview(env,options)]);
-    return json({ok:true,options,logs,sessions,protectedTables:['users','user_cards','cnine_user_inventory','user_pack_pity','pve_decks','pvp_decks','pvp_profiles','pve_rift_runs','user_messages','attendance_logs']});
-  }
-  if(path==='admin/storage-cleanup/safe/run'&&request.method==='POST'){
-    const body=await readBody(request);if(String(body.confirmation||'')!=='안전정리')return json({error:'확인 문구가 올바르지 않습니다.'},400);
-    const options=cleanSafeCleanupOptions(body),bulkRun=bool(body.bulkRun,false);
-    const beforePages=bulkRun?null:await databasePageInfo(env);
-    const logs=await safeLogCleanupBatch(env,options,true),sessions=await deleteExpiredSessionsBatch(env,options);
-    const afterPages=bulkRun?null:await databasePageInfo(env);
-    try{await writeAdminLog(env,admin,'SAFE_LOG_PURGE','TABLE',options.table,null,{options,logs,sessions,bulkRun,runId:String(body.runId||'').slice(0,80),beforePages,afterPages,protectedUserData:true})}catch(e){console.error('safe storage cleanup admin log failed',e)}
-    return json({ok:true,options,logs,sessions,beforePages,afterPages});
-  }
-  if(path==='admin/storage-cleanup/captain/preview'&&request.method==='POST'){
-    const body=await readBody(request),preview=await captainCleanupPreview(env,body);
-    return json({ok:true,...preview});
-  }
-  if(path==='admin/storage-cleanup/captain/run'&&request.method==='POST'){
-    const body=await readBody(request);if(String(body.confirmation||'')!=='대장전정리')return json({error:'확인 문구가 올바르지 않습니다.'},400);
-    const bulkRun=bool(body.bulkRun,false),finalize=bool(body.finalize,false),beforePages=bulkRun?null:await databasePageInfo(env),result=await deleteCaptainCleanupBatch(env,body),afterPages=bulkRun?null:await databasePageInfo(env);
-    // v1281: 5천건 실행은 수십 회의 내부 배치로 나뉜다. 배치마다 admin_logs를 쓰지 않고 완료 시 한 번만 기록한다.
-    if(!bulkRun||finalize){
-      const summary=body.summary&&typeof body.summary==='object'?{
-        historyDeleted:clampInt(body.summary.historyDeleted,0,0,CAPTAIN_CLEANUP_MAX_TARGET+CAPTAIN_CLEANUP_BATCH),
-        receiptsDeleted:clampInt(body.summary.receiptsDeleted,0,0,CAPTAIN_CLEANUP_MAX_TARGET+CAPTAIN_CLEANUP_BATCH),
-        batches:clampInt(body.summary.batches,0,0,1000)
-      }:null;
-      try{await writeAdminLog(env,admin,'CAPTAIN_V3_DETAIL_PURGE','TABLE','captain_match_history_v3,captain_match_receipts_v3',null,{options:result.options,deleted:finalize&&summary?summary:result.deleted,bulkRun,finalize,runId:String(body.runId||'').slice(0,80),beforePages,afterPages,activeRoundsProtected:true,pendingReceiptsProtected:true,cursorScan:true})}catch(e){console.error('captain v3 cleanup admin log failed',e)}
-    }
-    return json({ok:true,...result,beforePages,afterPages});
-  }
-  if(path==='admin/storage-cleanup/receipts/preview'&&request.method==='POST'){
-    const body=await readBody(request),preview=await receiptAggregatePreview(env,body);return json({ok:true,...preview});
-  }
-  if(path==='admin/storage-cleanup/receipts/delete'&&request.method==='POST'){
-    const body=await readBody(request);if(String(body.confirmation||'')!=='영수증정리')return json({error:'확인 문구가 올바르지 않습니다.'},400);
-    const bulkRun=bool(body.bulkRun,false),finalize=bool(body.finalize,false);
-    if(finalize){
-      const summary=body.summary&&typeof body.summary==='object'?{
-        deleted:clampInt(body.summary.deleted,0,0,MAX_RECEIPT_TARGET+MAX_RECEIPT_BATCH),
-        assertionsDeleted:clampInt(body.summary.assertionsDeleted,0,0,MAX_RECEIPT_TARGET*10),
-        batches:clampInt(body.summary.batches,0,0,1000)
-      }:null;
-      if(summary){try{await writeAdminLog(env,admin,'DRAW_RECEIPT_PURGE','TABLE',RECEIPT_TABLES.has(body.table)?body.table:'draw_request_receipts',null,{retentionDays:clampInt(body.retentionDays,14,1,3650),deleted:summary.deleted,assertionsDeleted:summary.assertionsDeleted,batches:summary.batches,bulkRun:true,finalize:true,runId:String(body.runId||'').slice(0,80)})}catch(e){console.error('receipt cleanup final audit failed',e)}}
-      return json({ok:true,finalized:true,summary});
-    }
-    const beforePages=bulkRun?null:await databasePageInfo(env),result=await deleteReceiptBatch(env,body),afterPages=bulkRun?null:await databasePageInfo(env);
-    if(!bulkRun){try{await writeAdminLog(env,admin,'DRAW_RECEIPT_PURGE','TABLE',result.table,null,{retentionDays:result.retentionDays,deleted:result.deleted,assertionsDeleted:result.assertionsDeleted,metrics:result.metrics,bulkRun:false,runId:String(body.runId||'').slice(0,80),beforePages,afterPages})}catch(e){console.error('receipt cleanup admin log failed',e)}}
-    return json({ok:true,...result,beforePages,afterPages});
-  }
-  return json({error:'지원하지 않는 DB 정리 요청입니다.'},404);
 }

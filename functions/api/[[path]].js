@@ -49,7 +49,6 @@ import { handleStreamerLounge } from '../_streamer_lounge.js';
 import { handlePlayerCard } from '../_player_card.js';
 import { handleSoopketLand, redeemLandCoupon } from '../_soopket_land.js';
 import { ensureGoldenAxe, handleGoldenAxe } from '../_golden_axe.js';
-import { handleChickenEvent } from '../_chicken_event.js';
 import { redeemWishTicketCoupon } from '../_wish_lamp_coupon.js';
 import { redeemOldAxeCoupon } from '../_golden_axe_coupon.js';
 import {canIssueChickenTicketCoupon,redeemChickenTicketCoupon} from '../_chicken_coupon.js';
@@ -60,7 +59,7 @@ import { handleSealBattle } from '../_seal_battle.js';
 import { battleSuitLiveRuntime,handleBattleV2Preview,createPveBattleV2,createPvpBattleV2,estimateApocalypseRecommendedPower } from '../_battle_v2_preview.js';
 import { invalidateHighUniqueBoostCache,handleMagic,magicSettings,magicBattleLoadout,magicBattleLoadouts,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor,cardUniqueSettings,cardUniqueVisibleTo,cardUniqueDeckState,cardUniqueDeckStates,resolveUniqueBattleRuntime } from '../_magic.js';
 import { ensurePvpMagicPresets, readPvpMagicPresets, magicPresetNo, savePvpDeckWithMagic } from '../_magic_presets.js';
-import { handleStorageCleanup, scheduleBoundedStorageMaintenance } from '../_storage_cleanup.js';
+import {scheduleBoundedStorageMaintenance} from '../_storage_cleanup.js';
 import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedTitleMap,ensureEquipmentFoundation,invalidateEquipmentPromotionCache } from '../_equipment.js';
 import { ensureSkillChipFoundation } from '../_skill_chips.js';
 import {handleMercenaryCms} from '../_mercenary_cms.js';
@@ -101,7 +100,6 @@ import { handleClan } from '../_clan.js';
 import {handleOrganization,reconcileOrganizationRecruitment,organizationLiveOperation,runOrganizationAllocation} from '../_organization.js';
 import {handleOrganizationFaction,tickOrganizationFaction} from '../_organization_faction.js';
 import { handleAuction } from '../_auction.js';
-import { handleSiege } from '../_siege.js';
 import { handleChief } from '../_chief.js';
 import { closePrisonReleaseCaseStatement,ensurePrisonCommunityFoundation,handlePrisonCommunity,openPrisonReleaseCaseStatement,prisonCommunityRoomState } from '../_prison_community.js';
 import { ensurePrisonHungerFoundation,handlePrisonHunger,prisonHungerRoomState } from '../_prison_hunger.js';
@@ -4043,7 +4041,7 @@ async function liveOperationAlerts(env){
   const now=Date.now();
   if(liveOperationsCache&&liveOperationsCache.expiresAt>now)return liveOperationsCache.value;
   // V1868: 유저별 획득 내역 두 건을 매 화면에서 집계하던 티커를 퇴역하고,
-  // 공개 콘텐츠 상태 다섯 건만 단일 UNION 조회로 읽는다. 남은 시간은 클라이언트가
+  // 공개 콘텐츠 상태만 단일 UNION 조회로 읽는다. 남은 시간은 클라이언트가
   // 서버 시각을 기준으로 계산하므로 DB는 상태가 바뀔 때만 다시 확인하면 된다.
   try{
     const [result,coup,duo,organization]=await Promise.all([env.DB.prepare(`WITH
@@ -4069,16 +4067,6 @@ async function liveOperationAlerts(env){
         AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='territory_war_settings_v3'
           AND json_valid(m.value) AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
       ORDER BY CASE r.status WHEN 'ACTIVE' THEN 0 WHEN 'PREPARING' THEN 1 ELSE 2 END,r.id DESC LIMIT 1
-    ),
-    siege AS (
-      SELECT 'SIEGE' kind,'FORMATION' phase,e.id entity_id,e.name title,
-        '공성대 편성 접수 중' detail,COALESCE(e.rally_ends_at,e.starts_at) deadline_at,2 sort_order
-      FROM monster_siege_events e
-      WHERE e.status='ACTIVE' AND datetime(COALESCE(e.rally_ends_at,e.starts_at))>CURRENT_TIMESTAMP
-        AND datetime(e.ends_at)>CURRENT_TIMESTAMP
-        AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='monster_siege_settings_v1'
-          AND json_valid(m.value) AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
-      ORDER BY e.id DESC LIMIT 1
     ),
     seal AS (
       SELECT 'SEAL' kind,'ACTIVE' phase,e.id entity_id,e.title title,e.boss_name detail,
@@ -4113,7 +4101,7 @@ async function liveOperationAlerts(env){
           AND COALESCE(LOWER(CAST(json_extract(m.value,'$.ownerOnlyTest') AS TEXT)),'false') IN ('0','false'))
       ORDER BY CASE ri.status WHEN 'BATTLE' THEN 0 ELSE 1 END,ri.id DESC LIMIT 1
     )
-    SELECT * FROM territory UNION ALL SELECT * FROM siege UNION ALL SELECT * FROM seal
+    SELECT * FROM territory UNION ALL SELECT * FROM seal
     UNION ALL SELECT * FROM auction UNION ALL SELECT * FROM raid ORDER BY sort_order`).all(),coupLiveOperation(env,now).catch(error=>{console.error('Coup lobby summary unavailable',error?.message);return null;}),rankedDuoLiveOperation(env,now).catch(error=>{console.error('Duo lobby summary unavailable',error?.message);return null;}),organizationLiveOperation(env,now).catch(error=>{console.error('Organization lobby summary unavailable',error?.message);return null;})]);
     const value=(result.results||[]).map(row=>({
       kind:String(row.kind||''),phase:String(row.phase||''),entityId:Number(row.entity_id||0),
@@ -4481,7 +4469,7 @@ const SERIALIZED_GAME_ACTIONS=new Set([
 // 강화 재화와 영치금 납부는 영수증·잔액·대상 상태가 반드시 한 사용자 락 안에서 확정되어야 한다.
 // 이 경로들은 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
 const STRICT_MUTATION_LOCK_ACTIONS=new Set(['card/breakthrough','card/breakthrough/auto','card/unique-advancement','prison/fund','prison/meal','messages/claim-batch']);
-const SERIALIZED_GAME_PREFIXES=['battle/apocalypse-challenge/','quests/','evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/'];
+const SERIALIZED_GAME_PREFIXES=['battle/apocalypse-challenge/','quests/','evolution/','rift/','territory-war/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/'];
 let userMutationLockReadyPromise=null;
 let breakthroughAutoReceiptReadyPromise=null;
 async function ensureBreakthroughAutoReceipts(env){
@@ -4903,11 +4891,6 @@ async function handleRequest(context){
       return json({ok:true,version:'2.8.8',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true,gamstCardRetirement,gamstDeckRepair,targetedCardTransfer,rosterCardRetirementV2056,targetedAvatarGrant,targetedAvatarGrantV2014,targetedAvatarGrantDeodeumiguV1,targetedAvatarGrantSaitamaV1,targetedAvatarGrantRedcloudDcHiHeeyaV1,targetedRewardGrant20260921V1,targetedCardGrantV2015,targetedCardGrantV2016,targetedInventoryGrantV2025,targetedInventoryGrantV2026,targetedInventoryGrantV2027,targetedSkillChipGrantV2055,targetedEquipmentRevokeV2132,battleSuitEbodyPityV2059,iyejunFurRerollRecovery});
     }
 
-    if(path.startsWith('admin/storage-cleanup')){
-      const cleanupResponse=await handleStorageCleanup({request,env,path,requirePermission,writeAdminLog,readBody,json});
-      if(cleanupResponse)return cleanupResponse;
-    }
-
     if(path==='setup/status') return json({initialized:await initialized(env),tables:await tableExists(env,'users')});
     if(path==='setup/init'&&request.method==='POST'){
       if(await initialized(env)) return json({error:'이미 초기화가 완료된 데이터베이스입니다.'},409);
@@ -5110,7 +5093,6 @@ async function handleRequest(context){
     const limitedPackResponse=await handleLimitedPack({path,request,env,deps:{authenticate,json,requirePermission,withUserMutationLock:withJointUserMutationLock}});if(limitedPackResponse)return limitedPackResponse;
     const mercenaryAccountResponse=await handleMercenaryAccount({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mercenaryAccountResponse)return mercenaryAccountResponse;
     const hyperPackResponse=await handleHyperPack({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(hyperPackResponse)return hyperPackResponse;
-    const chickenResponse=await handleChickenEvent({path,request,env,deps:{authenticate,readBody,json,requirePermission,withUserMutationLock:withJointUserMutationLock}});if(chickenResponse)return chickenResponse;
     const goldenAxeResponse=await handleGoldenAxe({path,request,env,deps:{authenticate,readBody,json,requirePermission}});if(goldenAxeResponse)return goldenAxeResponse;
     const chuseokResponse=await handleChuseok({path,request,env,deps:{authenticate,readBody,json,requirePermission}});if(chuseokResponse)return chuseokResponse;
     const wishLampResponse=await handleWishLamp({path,request,env,deps:{authenticate,readBody,json,requirePermission}});if(wishLampResponse)return wishLampResponse;
@@ -5204,7 +5186,6 @@ async function handleRequest(context){
     const organizationFactionResponse=await handleOrganizationFaction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(organizationFactionResponse)return organizationFactionResponse;
     const organizationResponse=await handleOrganization({path,request,env,deps:{authenticate,readBody,json,readBattleSettings,cardBattlePower,battleEngineState,cardUniqueDeckStates,evaluateDeckSynergiesBatch,duoMagicLoadouts}});if(organizationResponse)return organizationResponse;
     const clanResponse=await handleClan({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(clanResponse)return clanResponse;
-    const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,writeAdminLog}});if(siegeResponse)return siegeResponse;
     const escortResponse=await handleEscortOperation({path,request,env,deps:{authenticate,readBody,json,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,magicBattleLoadout,writeAdminLog}});if(escortResponse)return escortResponse;
     const chiefResponse=await handleChief({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,activateBurningEvent:activateChiefBurningEvent,ensurePrisonFoundation,prisonStatusForUser,withUserMutationLock:withJointUserMutationLock}});if(chiefResponse)return chiefResponse;
 
@@ -5338,7 +5319,7 @@ async function handleRequest(context){
         WHERE i.is_active=1 AND i.code NOT IN ('PINGDU_WISH_TICKET','CHUSEOK_COIN') AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
           AND (i.code NOT IN ('MADARA_RAID_ENTRY_TICKET','SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET','NEW_USER_GIFT_BOX','CHUSEOK_COIN','PINGDU_WISH_TICKET','PINGDU_BAEMIN_TICKET','PINGDU_OLD_AXE','SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE') OR COALESCE(ui.quantity,0)>0)
         ORDER BY i.sort_order,i.code`).bind(blackMiracleUseEnabled?1:0,user.id).all();
-      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.code===FORGE_REPAIR_ITEM.code?'장비 강화 센터 → 파괴 기록에서 복구할 장비를 선택하세요.':x.code===FORGE_PROTECTION_ITEM.code?'장비 강화에서 보호권 사용을 선택하세요.':x.code==='PINGDU_BAEMIN_TICKET'?'철구네 치킨에서 주문 시 1개 사용':x.code==='PINGDU_OLD_AXE'?'종료된 금도끼 은도끼 이벤트 참가권':x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code===MADARA_TICKET?'마다라 레이드 공대 생성 시 사용':x.code===LICH_TICKET?'리치왕 정벌 공대 생성 시 사용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
+      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.code===FORGE_REPAIR_ITEM.code?'장비 강화 센터 → 파괴 기록에서 복구할 장비를 선택하세요.':x.code===FORGE_PROTECTION_ITEM.code?'장비 강화에서 보호권 사용을 선택하세요.':x.code==='PINGDU_BAEMIN_TICKET'?'종료된 치킨집 이벤트 참가권':x.code==='PINGDU_OLD_AXE'?'종료된 금도끼 은도끼 이벤트 참가권':x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code===MADARA_TICKET?'마다라 레이드 공대 생성 시 사용':x.code===LICH_TICKET?'리치왕 정벌 공대 생성 시 사용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
       const presented=presentSssRerollInventory(presentMiracleInventory(items));
       return json({items:presented,totalQuantity:presented.reduce((n,x)=>n+x.quantity,0),ownedTypes:presented.filter(x=>x.quantity>0).length,unseenTotal:presented.reduce((n,x)=>n+x.unseenQuantity,0)});
     }

@@ -10,7 +10,7 @@ assert.match(storage,/const AUTO_HIGH_VOLUME_SCAN_BATCH=50000/);
 assert.match(storage,/key:'battle_history'[^\n]*retentionDays:1/);
 assert.match(storage,/key:'pvp_history'[^\n]*retentionDays:1/);
 assert.match(storage,/key:'raid_damage_history'[\s\S]*status='ENDED'/);
-assert.match(storage,/key:'monster_siege_actions'[\s\S]*e\.status IN \('CLEARED','FAILED'\)/);
+assert.doesNotMatch(storage,/monster_siege_actions|handleStorageCleanup/);
 
 for(const task of [
   'inventory_receipts','magic_draw_receipts','magic_enhance_receipts',

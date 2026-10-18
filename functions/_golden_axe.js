@@ -1,3 +1,4 @@
+import {retiredContentResponse} from './_retired_content.js';
 import {AXE_KEY,OLD_AXE,SUPERSTAR_13,PARTS_CHOICE,AXE_ASSETS,AXE_PARTS,AXE_REWARDS,axeRewards,cleanAxeSettings,axeSettingsComplete,axePhase,pickAxeReward,axeMercenaryPool,pickAxeMercenary} from '../js/golden-axe-model-v1.js';
 import {readMercenaryDocument} from './_mercenary_account.js';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
@@ -128,6 +129,7 @@ export async function goldenAxeAdmin(env,admin,body=null){return transaction(env
  return {settings:next,revision,...data,complete:axeSettingsComplete(next)};
 });}
 export async function handleGoldenAxe({path,request,env,deps}){
+ const retired=retiredContentResponse(path,deps.json);if(retired)return retired;
  if(!['events/golden-axe/feature','events/golden-axe/state','events/golden-axe/draw','events/golden-axe/receipt','events/golden-axe/item-options','events/golden-axe/use-item','admin/golden-axe'].includes(path))return null;
  const {authenticate,requirePermission,readBody,json}=deps,admin=path==='admin/golden-axe';try{
   if(path==='events/golden-axe/feature'&&request.method==='GET'){const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(AXE_KEY).first(),s=cleanAxeSettings(row?JSON.parse(row.value):{});return json({visible:s.visible,name:'핑두의 금도끼 은도끼',phase:axePhase(s),startsAt:s.startsAt,endsAt:s.endsAt});}

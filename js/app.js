@@ -1511,7 +1511,6 @@ const LIVE_OPERATION_META=Object.freeze({
   ORGANIZATION:{label:'조직',state:'입단 모집',deadline:'모집 마감'},
   RANKED_DUO:{label:'랭크 듀오',state:'대전중',deadline:'종료까지'},
   TERRITORY:{label:'영토전',state:'작전 진행',deadline:'다음 단계'},
-  SIEGE:{label:'몬스터 공성',state:'편성 대기',deadline:'편성 마감'},
   SEAL:{label:'봉인전',state:'진행 중',deadline:'종료까지'},
   AUCTION:{label:'경매장',state:'입찰 진행',deadline:'종료까지'},
   RAID:{label:'레이드',state:'전투 진행',deadline:'종료까지'},
@@ -1526,7 +1525,6 @@ function liveOperationIcon(kind){return ({
   RANKED_DUO:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6C5 3 2 7 3 12l3 2v5h4V9H6m8-3c5-3 8 1 7 6l-3 2v5h-4V9h4M6 3l4 1m8-1-4 1"/></svg>',
   COUP:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V10h14v11M3 10h18L12 3ZM9 21v-6h6v6M8 10V7m8 3V7"/></svg>',
   TERRITORY:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 20 4M8 4l12 12M5 3l4 1-5 5-1-4Zm14 12 2 2-4 4-2-2Z"/></svg>',
-  SIEGE:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V9l4-3v3l4-3v3l4-3v3l4-3v15ZM8 21v-5h8v5M7 12h2m3 0h2m3 0h2"/></svg>',
   SEAL:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 2.7 8.2 7 10 4.3-1.8 7-5.5 7-10V6Zm-3 8h6m-5-3 4 6m0-6-4 6"/></svg>',
   AUCTION:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 5 5 5m-2-7 7 7-3 3-7-7Zm-5 9 7 7M3 21h10M15 13l5 5"/></svg>',
   RAID:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9l8-6 8 6v10M8 19v-6h8v6M6 21h12M9 8h6"/></svg>'
@@ -1544,7 +1542,7 @@ function openLiveOperation(kind){
   if(key==='COUP'){renderShell('coup');return}
   if(key==='RANKED_DUO'){renderShell('duo');return}
   renderShell('battle');let attempts=0;
-  const enter=()=>{attempts++;if(key==='TERRITORY'&&typeof window.openTerritoryWar==='function'){window.openTerritoryWar();return}if(key==='SIEGE'&&typeof window.openMonsterSiege==='function'){window.openMonsterSiege();return}if(key==='SEAL'){const button=document.querySelector('[data-seal-battle-mode]');if(button){button.click();return}}if(key==='RAID'){const button=document.querySelector('[data-pve-mode="raid"]');if(button){button.click();return}}if(attempts<20)setTimeout(enter,80)};
+  const enter=()=>{attempts++;if(key==='TERRITORY'&&typeof window.openTerritoryWar==='function'){window.openTerritoryWar();return}if(key==='SEAL'){const button=document.querySelector('[data-seal-battle-mode]');if(button){button.click();return}}if(key==='RAID'){const button=document.querySelector('[data-pve-mode="raid"]');if(button){button.click();return}}if(attempts<20)setTimeout(enter,80)};
   setTimeout(enter,60);
 }
 function bindLiveOperationsControls(){
@@ -4337,7 +4335,12 @@ async function openInventoryPack(itemCode,ownedQuantity=0){
   if(itemCode==='PET_SEAL_ORB'){location.assign('/pets/opening/');return;}
   if(itemCode==='MERCENARY_SSS_REROLL_TICKET'){location.assign('/mercenary-codex/sss-reroll/');return;}
   if(itemCode==='MIRACLE_CUBE'){location.assign('/miracle-cube/');return;}
-  if(['SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE'].includes(itemCode)){location.assign('/events/golden-axe/?use='+encodeURIComponent(itemCode));return;}
+  if(['SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE'].includes(itemCode)){
+    const dialog=document.getElementById('inventoryDetailDialog'),body=document.getElementById('inventoryDialogContent');
+    if(!dialog||!body)return renderShell('inventory');
+    try{const {openEventVoucher}=await import('/js/event-vouchers-v1.js?v=inventory-20261019');await openEventVoucher({itemCode,userId:loadUser()?.serverUserId,dialog,body,token:()=>API_TOKEN,inventoryStyle:true,refresh:async()=>{clearApiCache('inventory');clearApiCache('cards');await loadInventory();}});}catch(error){alert(error.message)}
+    return;
+  }
   if(itemCode==='PINGDU_THANKS_GIFT_BOX'){
     try{
       await ensureFeatureResources('pingduThanksGift');

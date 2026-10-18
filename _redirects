@@ -1,6 +1,13 @@
 
-/events/chuseok /events/golden-axe/ 302
-/events/chuseok/ /events/golden-axe/ 302
-/events/chuseok/* /events/golden-axe/ 302
-/preview/chuseok-v1 /events/golden-axe/ 302
-/preview/chuseok-v1/* /events/golden-axe/ 302
+/events/chuseok /?screen=home 302
+/events/chuseok/ /?screen=home 302
+/events/chuseok/* /?screen=home 302
+/preview/chuseok-v1 /?screen=home 302
+/preview/chuseok-v1/* /?screen=home 302
+
+/events/chicken /?screen=home 302
+/events/chicken/* /?screen=home 302
+/events/golden-axe /?screen=home 302
+/events/golden-axe/* /?screen=home 302
+/admin/monster-siege-participation-bonus-v1 /admin/ 302
+/preview/monster-siege-ai-v1883/* /?screen=home 302

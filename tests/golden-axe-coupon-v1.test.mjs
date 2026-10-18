@@ -8,7 +8,7 @@ import {redeemOldAxeCoupon,AXE_COUPON_MAX} from '../functions/_golden_axe_coupon
 import {OLD_AXE} from '../js/golden-axe-model-v1.js';
 
 const read=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
-const api=read('functions/api/[[path]].js'),cms=read('admin/admin-v1276.js'),wishCms=read('admin/golden-axe-v1.js');
+const api=read('functions/api/[[path]].js'),cms=read('admin/admin-v1276.js');
 const specs=api.slice(api.indexOf('const VERIFIED_MESSAGE_REWARD_TYPES='),api.indexOf('let verifiedRewardMessageV1276ReadyPromise'));
 const {couponRewardSpec,verifiedMessageRewardSpec}=Function(specs+';return {couponRewardSpec,verifiedMessageRewardSpec}')();
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
@@ -134,12 +134,8 @@ test('disabled/deleted/exhausted/misconfigured coupons, disabled tickets and ina
  }finally{await f.close()}
 });
 
-test('CMS exposes the old axe coupon shortcut and the dedicated event settings',()=>{
- assert.match(read('admin/index.html'),/<option value="PINGDU_OLD_AXE">낡은도끼/);
- assert.match(wishCms,/select.value='PINGDU_OLD_AXE'/);
- assert.match(wishCms,/amount.value='1'/);
- assert.match(wishCms,/낡은도끼 쿠폰 만들기/);
- assert.match(read('admin/index.html'),/golden-axe-v1.js/);
+test('retired axe event and coupon shortcut are removed from CMS',()=>{
+ assert.doesNotMatch(read('admin/index.html'),/<option value="PINGDU_OLD_AXE">|golden-axe-v1.js/);
 });
 
 test('bulk coupon list renders old axe amount rather than zero coins',()=>{

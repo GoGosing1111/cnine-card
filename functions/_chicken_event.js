@@ -1,3 +1,4 @@
+import {retiredContentResponse} from './_retired_content.js';
 import {CHICKEN_KEY,CHICKEN_TICKET,CHICKEN_NAME,CHICKEN_ASSETS,CHICKEN_CHOICES,chickenDraft,cleanChickenSettings,chickenComplete,chickenPhase,pickChickenReward} from '../shared/chicken-event-v1.mjs';
 import {LIMITED_MERCENARIES,isLimitedMercenary} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {readMercenaryDocument} from './_mercenary_account.js';
@@ -120,6 +121,7 @@ export async function orderChicken(env,userId,body,{randomInt=mercenaryRandomInt
  });
 }
 export async function handleChickenEvent({path,request,env,deps}){
+ const retired=retiredContentResponse(path,deps.json);if(retired)return retired;
  const admin=path==='admin/chicken-event';
  if(!admin&&!['events/chicken/feature','events/chicken/state','events/chicken/order','events/chicken/receipt'].includes(path))return null;
  try{

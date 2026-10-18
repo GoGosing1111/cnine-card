@@ -93,7 +93,7 @@ test('captain keeps its existing combat model but receives the same grade hierar
 });
 test('every existing unique-advancement-to-engine bridge forwards the authoritative ICON role too',async()=>{
  const {readFile}=await import('node:fs/promises');
- for(const file of ['api/[[path]].js','_battle_v2_preview.js','_clan.js','_cooperative_live.js','_escort_operation.js','_ranked_duo_profiles.js','_scrapyard_v3.js','_siege.js','_territory_war.js']){
+ for(const file of ['api/[[path]].js','_battle_v2_preview.js','_clan.js','_cooperative_live.js','_escort_operation.js','_ranked_duo_profiles.js','_scrapyard_v3.js','_territory_war.js']){
   const source=await readFile(new URL('../functions/'+file,import.meta.url),'utf8');
   const bridges=[...source.matchAll(/uniqueAdvancement:\s*([^;\n{}]+?)(\?\.|\.)uniqueAdvancement\s*\|\|\s*null/g)];
   assert.ok(bridges.length,file);

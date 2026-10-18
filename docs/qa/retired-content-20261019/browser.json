@@ -1,0 +1,38 @@
+{
+  "isolatedMockApi": true,
+  "productionWrites": 0,
+  "report": [
+    {
+      "label": "desktop",
+      "settingsWidth": {
+        "viewport": 1440,
+        "document": 1440
+      },
+      "voucherWidth": {
+        "viewport": 1440,
+        "document": 1440,
+        "dialog": 420
+      },
+      "errors": [],
+      "removedPanelsAbsent": true,
+      "activeSettingsAndLogsWork": true,
+      "voucherUsable": true
+    },
+    {
+      "label": "mobile",
+      "settingsWidth": {
+        "viewport": 390,
+        "document": 390
+      },
+      "voucherWidth": {
+        "viewport": 390,
+        "document": 390,
+        "dialog": 390
+      },
+      "errors": [],
+      "removedPanelsAbsent": true,
+      "activeSettingsAndLogsWork": true,
+      "voucherUsable": true
+    }
+  ]
+}

@@ -18,14 +18,14 @@ test('acquisition crawls are retired from the loaded store and lobby surfaces',a
   assert.match(shell,/liveOperationsHtml\('lobby-mobile'\)/);
 });
 
-test('five actionable live operation states share one cached aggregate endpoint',async()=>{
+test('remaining actionable live operation states share one cached aggregate endpoint',async()=>{
   const [api,app]=await Promise.all([load('functions/api/[[path]].js'),load('js/app.js')]);
-  for(const kind of ['TERRITORY','SIEGE','SEAL','AUCTION','RAID']){
+  for(const kind of ['TERRITORY','SEAL','AUCTION','RAID']){
     assert.match(api,new RegExp(`SELECT '${kind}' kind`));
     assert.match(app,new RegExp(`${kind}:\\{label:`));
   }
-  for(const table of ['territory_war_v3_rounds','monster_siege_events','seal_battle_events','auctions_v1553','raid_instances'])assert.match(api,new RegExp(table));
-  assert.match(api,/WITH[\s\S]*SELECT \* FROM territory UNION ALL SELECT \* FROM siege UNION ALL SELECT \* FROM seal[\s\S]*UNION ALL SELECT \* FROM auction UNION ALL SELECT \* FROM raid ORDER BY sort_order/);
+  for(const table of ['territory_war_v3_rounds','seal_battle_events','auctions_v1553','raid_instances'])assert.match(api,new RegExp(table));
+  assert.match(api,/WITH[\s\S]*SELECT \* FROM territory UNION ALL SELECT \* FROM seal[\s\S]*UNION ALL SELECT \* FROM auction UNION ALL SELECT \* FROM raid ORDER BY sort_order/);
   assert.match(api,/LIVE_OPERATIONS_CACHE_MS=15000/);
   assert.doesNotMatch(api,/json_valid\([^)]*\)\s*=\s*1/);
   assert.doesNotMatch(api,/json_extract\([^)]*\)\s*,?\s*0?\)\s*=\s*[01]/);
@@ -41,7 +41,8 @@ test('five actionable live operation states share one cached aggregate endpoint'
   assert.match(app,/loadLiveOperations\(true\)/);
   assert.match(app,/if\(key==='AUCTION'\)\{renderShell\('auction'\);return\}/);
   assert.match(app,/window\.openTerritoryWar/);
-  assert.match(app,/window\.openMonsterSiege/);
+  assert.doesNotMatch(app,/openMonsterSiege/);
+  assert.doesNotMatch(api,/monster_siege_events/);
 });
 
 test('operation board ships desktop and mobile game UI with cache-busted assets',async()=>{

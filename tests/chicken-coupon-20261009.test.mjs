@@ -55,14 +55,14 @@ async function noRedemption(f){
  assert.equal((await f.row('SELECT value FROM app_meta')).value,f.settings);
 }
 
-test('Baemin coupon metadata is wired to CMS and remains separate from message rewards',()=>{
+test('historical Baemin coupon metadata is preserved while its CMS shortcut is removed',()=>{
  const spec=couponRewardSpec(' pingdu_baemin_ticket ');assert.equal(spec.max,CHICKEN_COUPON_MAX);assert.equal(spec.label,'핑두의 배민권');assert.equal(spec.inventory,true);
  assert.equal(verifiedMessageRewardSpec(CHICKEN_TICKET),null);assert.equal(couponRewardSpec('COIN').max,30000000000);
  const meta=Function(cms.slice(cms.indexOf('const COUPON_REWARD_META='),cms.indexOf('function syncCouponRewardForm'))+';return COUPON_REWARD_META')();
- assert.equal(meta[CHICKEN_TICKET].max,spec.max);assert.equal(meta[CHICKEN_TICKET].label,spec.label);
+ assert.equal(meta[CHICKEN_TICKET],undefined);
  assert.doesNotMatch(read('admin/index.html'),/<option value="PINGDU_BAEMIN_TICKET">/);
- assert.match(cms,/function syncChickenTicketCouponAccess/);
- assert.match(read('admin/chicken-event-v1.js'),/select.value='PINGDU_BAEMIN_TICKET'/);
+ assert.doesNotMatch(cms,/function syncChickenTicketCouponAccess/);
+ assert.doesNotMatch(read('admin/index.html'),/chicken-event-v1.js/);
  assert.match(read('admin/admin-v1062-coupon-bulk-delete.js'),/PINGDU_BAEMIN_TICKET:'핑두의 배민권'/);
 });
 
@@ -106,12 +106,8 @@ test('existing ticket coupons cannot bypass the issuer gate through reactivation
  await noRedemption(f);
 });
 
-test('CMS account predicate matches the server policy',()=>{
- const source=cms.slice(cms.indexOf('function canIssueChickenTicketCouponInCms'),cms.indexOf('function syncChickenTicketCouponAccess'));
- const client=Function('state','globalThis',source+';return canIssueChickenTicketCouponInCms()');
- for(const id of [1,'1',99,undefined])for(const role of ['OWNER','ADMIN','USER',undefined]){
-  const user={id,role,nickname:'핑크빛유두'};assert.equal(client({admin:user},{__SOOP_CMS_IDENTITY__:{role}}),canIssueChickenTicketCoupon(user));
- }
+test('retired event cannot inject its coupon option into the CMS',()=>{
+ assert.doesNotMatch(cms,/canIssueChickenTicketCouponInCms|syncChickenTicketCouponAccess/);
 });
 
 test('missing or disabled event ticket blocks issuance without recreating catalogs or settings',async(t)=>{

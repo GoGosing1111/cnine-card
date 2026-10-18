@@ -17,7 +17,6 @@
     raid: ['월드 레이드', 'RAID LIVE', '<path d="M4 20V9h4v11M10 20V4h4v16M16 20V7h4v13M2 20h20"/>'],
     coop: ['격전지(협동)', '3인 공동 전투', '<circle cx="12" cy="6" r="3"/><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="m10 9-3 5m7-5 3 5M8 17h8"/>'],
     escort: ['호송작전', 'ESCORT', '<path d="M3 7h12v10H3zM15 10h4l2 3v4h-6z"/><path d="M6 20v-3m12 3v-3"/>'],
-    siege: ['몬스터 공성전', 'SIEGE', '<path d="M4 20V8h4V4h3v4h3V4h3v4h3v12zM9 20v-6h6v6"/>'],
     seal: ['봉인전', 'SEAL BATTLE', '<rect x="5" y="10" width="14" height="10"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>'],
     tower: ['무한의 탑', 'INFINITE TOWER', '<path d="M6 21V7h12v14M9 7V3h6v4M9 11h2m2 0h2m-6 4h2m2 0h2"/>'],
     'cow-room': ['카우방', 'COW PORTAL', '<path d="M5 21V10a7 7 0 0 1 14 0v11M3 21h18M8 21V11a4 4 0 0 1 8 0v10"/>'],
@@ -26,7 +25,6 @@
 
   function navKey(button) {
     if (button.hasAttribute('data-v3-cow-entry')) return 'cow-room';
-    if (button.dataset.monsterSiegeEntry) return 'siege';
     if (button.dataset.sealBattleMode) return 'seal';
     if (button.dataset.v21Route === 'scrapyard') return 'scrapyard';
     return String(button.dataset.pveMode || '').toLowerCase();

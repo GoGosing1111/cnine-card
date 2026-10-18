@@ -12,7 +12,6 @@ const api = read('functions/api/[[path]].js');
 const clan = read('functions/_clan.js');
 const territory = read('functions/_territory_war.js');
 const escort = read('functions/_escort_operation.js');
-const siege = read('functions/_siege.js');
 const magic = read('functions/_magic.js');
 const preview = read('functions/_battle_v2_preview.js');
 
@@ -37,11 +36,9 @@ test('클랜전과 영토전이 양 팀 DB 전직 상태를 보존한다', () =>
   }
 });
 
-test('호송과 몬스터공성이 DB 전직 상태를 PVE 엔진 카드에 보존한다', () => {
+test('호송이 DB 전직 상태를 PVE 엔진 카드에 보존한다', () => {
   assert.match(escort, /escortUniqueById=new Map\(\(unique\?\.cards\|\|\[\]\)\.map\(card=>\[String\(card\.id\),card\]\)\)/);
-  assert.match(siege, /\(uniqueBattle\?\.cards \|\| \[\]\)\.map\(card => \[String\(card\.id\), card\]\)/);
   assertDbStateForwarded(escort, '호송');
-  assertDbStateForwarded(siege, '몬스터공성');
 });
 
 test('OWNER V2 프리뷰도 라이브와 같은 DB 전직 상태를 buildFighter 입력에 전달한다', () => {

@@ -65,13 +65,13 @@ test('CMS rejects incomplete ON, unknown prizes, unavailable limited stock and s
  await assert.rejects(f.config([{...coin,chancePpm:999999}]),e=>e.code==='SETTINGS_INVALID');
  const before=await chickenAdmin(f.env,{id:99});await f.config();await assert.rejects(chickenAdmin(f.env,{id:99},{revision:before.revision,settings:chickenDraft()}),e=>e.code==='REVISION_CONFLICT');
  }finally{await f.close();}});
-test('HTTP requires authentication, OWNER settings and same origin',async()=>{
+test('retired HTTP cannot reach settings or participation',async()=>{
  const deps={json:(b,status=200)=>new Response(JSON.stringify(b),{status}),authenticate:async()=>null,requirePermission:async()=>({id:1,role:'ADMIN'}),readBody:r=>r.json()};
- for(const path of ['events/chicken/order','admin/chicken-event']){const response=await handleChickenEvent({path,request:new Request('https://game.test/api/'+path,{method:'POST'}),env:{},deps});assert.equal(response.status,path.startsWith('admin')?403:401);}
- const response=await handleChickenEvent({path:'events/chicken/order',request:new Request('https://game.test/api/events/chicken/order',{method:'POST',headers:{origin:'https://other.test'}}),env:{},deps:{...deps,authenticate:async()=>({id:1})}});assert.equal(response.status,403);
+ for(const path of ['events/chicken/order','admin/chicken-event']){const response=await handleChickenEvent({path,request:new Request('https://game.test/api/'+path,{method:'POST'}),env:{},deps});assert.equal(response.status,410);}
+ const response=await handleChickenEvent({path:'events/chicken/order',request:new Request('https://game.test/api/events/chicken/order',{method:'POST',headers:{origin:'https://other.test'}}),env:{},deps:{...deps,authenticate:async()=>({id:1})}});assert.equal(response.status,410);
 });
 test('public and preview share the exact experience; no live preview switch or ticket-cost input',()=>{
- const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');assert.match(read('events/chicken/index.html'),/startChickenEvent\(\)/);assert.match(read('preview/chicken-event-v1/index.html'),/preview:true/);assert.match(read('js/chicken-event-v1.js'),/receipt\?requestId/);assert.match(read('functions/api/[[path]].js'),/handleChickenEvent\(/);assert.match(read('admin/index.html'),/chicken-event-v1.js/);assert.match(read('js/soopketmon-v21-exact-shell-adapter.js'),/events\/chicken\/feature/);
+ const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');assert.match(read('events/chicken/index.html'),/startChickenEvent\(\)/);assert.match(read('preview/chicken-event-v1/index.html'),/preview:true/);assert.match(read('js/chicken-event-v1.js'),/receipt\?requestId/);assert.doesNotMatch(read('functions/api/[[path]].js'),/handleChickenEvent\(/);assert.doesNotMatch(read('admin/index.html'),/chicken-event-v1.js/);assert.doesNotMatch(read('js/soopketmon-v21-exact-shell-adapter.js'),/events\/chicken\/feature/);
 });
 
 async function armOnce(f,userId=1){const state=chickenLimitedOnceState({userId,actorId:99,operationId:'test:chicken-limited-once:1',mercenaryCode:'V-996',reason:'Next valid order only'});await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[chickenLimitedOnceKey(userId),JSON.stringify(state)]);return JSON.stringify(state);}
