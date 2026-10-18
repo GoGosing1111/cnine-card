@@ -1,5 +1,5 @@
 import {upgradeBerkanTwinSkill,BERKAN_AREA_SKILL_ID} from './mercenary-berkan-v1.mjs';
-import {KANGYUN_CODE,KANGYUN_VOLLEY_SKILL,KANGYUN_AREA_SKILL} from './mercenary-kangyun-v1.mjs';
+import {KANGYUN_CODE,KANGYUN_VOLLEY_SKILL,KANGYUN_AREA_SKILL,upgradeKangyunBalance} from './mercenary-kangyun-v1.mjs';
 import {AZANT_CODE,AZANT_VOLLEY_SKILL,AZANT_AREA_SKILL,upgradeAzantBerkanParity} from './mercenary-azant-v1.mjs';
 import {CRYVERN_CODE,CRYVERN_SKILL_ID} from './mercenary-cryvern-v1.mjs';
 import {NURSE_CODES,NURSE_SKILL_ID} from './mercenary-nurse-healers-v1.mjs';
@@ -83,6 +83,7 @@ export function validateMercenaryCms(d, catalog) {
 // without rewriting stored ranks, names, costs, reviews or explicit assignments.
 // Only the exact previous complete catalog is eligible, never a partial draft.
 export function expandMercenarySkillCatalog(document, defaults, catalog) {
+  if(catalog.cards.some(c=>c.code===KANGYUN_CODE))document=upgradeKangyunBalance(document);
   if(catalog.cards.some(c=>c.code===KANGYUN_CODE)&&!document?.mercenaries?.some(c=>c.code===KANGYUN_CODE)){
     const ids=[KANGYUN_VOLLEY_SKILL,KANGYUN_AREA_SKILL];
     const previousCatalog={...catalog,cards:catalog.cards.filter(c=>c.code!==KANGYUN_CODE),skills:catalog.skills.filter(s=>!ids.includes(s.id))};

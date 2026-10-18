@@ -1,0 +1,1384 @@
+[
+  {
+    "iteration": 1,
+    "policies": {
+      "halloween": {
+        "V-980": {
+          "code": "V-980",
+          "position": "FRONT",
+          "role": "VANGUARD",
+          "attackStyle": "MELEE",
+          "basePower": 216000,
+          "scale": 5,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 2.4,
+          "link": {
+            "attackPercent": 1100,
+            "shieldPercent": 750,
+            "hpPercent": 1400
+          },
+          "skill": {
+            "id": "MS-980",
+            "name": "카니발 브레이크",
+            "mechanic": "WOUNDED_MOON_DRAW",
+            "effect": "약해진 적 하나를 몽둥이로 강타합니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 8,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-981": {
+          "code": "V-981",
+          "position": "BACK",
+          "role": "RANGED",
+          "attackStyle": "RANGED",
+          "basePower": 216000,
+          "scale": 3,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.8,
+          "link": {
+            "attackPercent": 660,
+            "shieldPercent": 450,
+            "hpPercent": 840
+          },
+          "skill": {
+            "id": "MS-981",
+            "name": "유령 탄막",
+            "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+            "effect": "적 진형에 세 차례의 유령 탄막을 나누어 발사합니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-982": {
+          "code": "V-982",
+          "position": "BACK",
+          "role": "CASTER",
+          "attackStyle": "CAST",
+          "basePower": 216000,
+          "scale": 3.15,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 2.2,
+          "link": {
+            "attackPercent": 693,
+            "shieldPercent": 472.5,
+            "hpPercent": 882
+          },
+          "skill": {
+            "id": "MS-982",
+            "name": "잭오랜턴 행진",
+            "mechanic": "TIDAL_BARRAGE",
+            "effect": "호박불 행렬을 전방 표적에게 쏟아붓습니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 7.56,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-983": {
+          "code": "V-983",
+          "position": "BACK",
+          "role": "CASTER",
+          "attackStyle": "CAST",
+          "basePower": 216000,
+          "scale": 2.65,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.35,
+          "link": {
+            "attackPercent": 583,
+            "shieldPercent": 397.5,
+            "hpPercent": 742
+          },
+          "skill": {
+            "id": "MS-983",
+            "name": "호박 유령서",
+            "mechanic": "RIFT_MARK_DETONATION",
+            "effect": "유령서의 표식을 새기고 다음 행동에 폭발시킵니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-984": {
+          "code": "V-984",
+          "position": "FRONT",
+          "role": "GUARD",
+          "attackStyle": "MELEE",
+          "basePower": 216000,
+          "scale": 2.2,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.8,
+          "link": {
+            "attackPercent": 484,
+            "shieldPercent": 330,
+            "hpPercent": 616
+          },
+          "skill": {
+            "id": "MS-984",
+            "name": "성야의 방패",
+            "mechanic": "FRONT_SHARED_BARRIER",
+            "effect": "아군 전열에 성야의 방벽을 나누어 부여합니다. 방벽 사용 후 기본 공격을 계속합니다.",
+            "target": "아군 전열",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-985": {
+          "code": "V-985",
+          "position": "BACK",
+          "role": "RANGED",
+          "attackStyle": "RANGED",
+          "basePower": 216000,
+          "scale": 2.8,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.7,
+          "link": {
+            "attackPercent": 616,
+            "shieldPercent": 420,
+            "hpPercent": 784
+          },
+          "skill": {
+            "id": "MS-985",
+            "name": "박쥐 별무리",
+            "mechanic": "TWO_BEAT_FOLLOWUP",
+            "effect": "박쥐 별을 던지고 다음 행동에 후속타를 이어갑니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-986": {
+          "code": "V-986",
+          "position": "FRONT",
+          "role": "VANGUARD",
+          "attackStyle": "MELEE",
+          "basePower": 216000,
+          "scale": 4.7,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 2.15,
+          "link": {
+            "attackPercent": 1034,
+            "shieldPercent": 705,
+            "hpPercent": 1316
+          },
+          "skill": {
+            "id": "MS-986",
+            "name": "월하 화접",
+            "mechanic": "WOUNDED_MOON_DRAW",
+            "effect": "꽃나비 검기로 약해진 적을 벱니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 1,
+              "cost": 20
+            }
+          }
+        }
+      },
+      "diim": {
+        "version": 1,
+        "amountScale": 0.6
+      },
+      "kangyun": {
+        "version": "kangyun-balance-20261019-v2",
+        "status": "RELEASED",
+        "runtimeEnabled": true,
+        "basePower": 324000,
+        "statScale": 5.5,
+        "speedScale": 2.5,
+        "actionCredit": 2.5,
+        "actionEnergy": 10,
+        "pvpBasicDamageScale": 0.9,
+        "pvpSkillCapScale": 2.7,
+        "link": {
+          "attackPercent": 1210,
+          "hpPercent": 1540,
+          "shieldPercent": 825
+        }
+      },
+      "kangyunSkills": [
+        {
+          "id": "MS-059",
+          "name": "연환 파갑",
+          "mechanic": "IMPERIAL_PIERCING_VOLLEY",
+          "target": "BACK_THREAT",
+          "balance": {
+            "damageRatio": 6.8,
+            "cooldownTurns": 4,
+            "cost": 35
+          },
+          "description": "후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 680%의 한 시전 피해 예산을 사용합니다."
+        },
+        {
+          "id": "MS-060",
+          "name": "천궁 멸진",
+          "mechanic": "IMPERIAL_ARROW_RAIN",
+          "target": "ALL_ENEMIES",
+          "pveOnly": true,
+          "balance": {
+            "damageRatio": 7,
+            "cooldownTurns": 5,
+            "cost": 35
+          },
+          "description": "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 700%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다."
+        }
+      ]
+    },
+    "summary": [
+      {
+        "code": "V-057",
+        "winRate": 0.9146825396825397,
+        "draws": 0,
+        "total": 3024
+      },
+      {
+        "code": "V-980",
+        "winRate": 0.3001543209876543,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-981",
+        "winRate": 0.5416666666666666,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-982",
+        "winRate": 0.5131172839506173,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-983",
+        "winRate": 0.6296296296296297,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-984",
+        "winRate": 0.5532407407407407,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-985",
+        "winRate": 0.4521604938271605,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-986",
+        "winRate": 0.5100308641975309,
+        "draws": 0,
+        "total": 1296
+      }
+    ]
+  },
+  {
+    "iteration": 2,
+    "policies": {
+      "halloween": {
+        "V-980": {
+          "code": "V-980",
+          "position": "FRONT",
+          "role": "VANGUARD",
+          "attackStyle": "MELEE",
+          "basePower": 216000,
+          "scale": 5.5,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 3.6,
+          "link": {
+            "attackPercent": 1210,
+            "shieldPercent": 825,
+            "hpPercent": 1540
+          },
+          "skill": {
+            "id": "MS-980",
+            "name": "카니발 브레이크",
+            "mechanic": "WOUNDED_MOON_DRAW",
+            "effect": "약해진 적 하나를 몽둥이로 강타합니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 8.4,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-981": {
+          "code": "V-981",
+          "position": "BACK",
+          "role": "RANGED",
+          "attackStyle": "RANGED",
+          "basePower": 216000,
+          "scale": 3,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.8,
+          "link": {
+            "attackPercent": 660,
+            "shieldPercent": 450,
+            "hpPercent": 840
+          },
+          "skill": {
+            "id": "MS-981",
+            "name": "유령 탄막",
+            "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+            "effect": "적 진형에 세 차례의 유령 탄막을 나누어 발사합니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-982": {
+          "code": "V-982",
+          "position": "BACK",
+          "role": "CASTER",
+          "attackStyle": "CAST",
+          "basePower": 216000,
+          "scale": 3.15,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 2.2,
+          "link": {
+            "attackPercent": 693,
+            "shieldPercent": 472.5,
+            "hpPercent": 882
+          },
+          "skill": {
+            "id": "MS-982",
+            "name": "잭오랜턴 행진",
+            "mechanic": "TIDAL_BARRAGE",
+            "effect": "호박불 행렬을 전방 표적에게 쏟아붓습니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 7.56,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-983": {
+          "code": "V-983",
+          "position": "BACK",
+          "role": "CASTER",
+          "attackStyle": "CAST",
+          "basePower": 216000,
+          "scale": 2.45,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.25,
+          "link": {
+            "attackPercent": 539,
+            "shieldPercent": 367.5,
+            "hpPercent": 686
+          },
+          "skill": {
+            "id": "MS-983",
+            "name": "호박 유령서",
+            "mechanic": "RIFT_MARK_DETONATION",
+            "effect": "유령서의 표식을 새기고 다음 행동에 폭발시킵니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-984": {
+          "code": "V-984",
+          "position": "FRONT",
+          "role": "GUARD",
+          "attackStyle": "MELEE",
+          "basePower": 216000,
+          "scale": 2.2,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.8,
+          "link": {
+            "attackPercent": 484,
+            "shieldPercent": 330,
+            "hpPercent": 616
+          },
+          "skill": {
+            "id": "MS-984",
+            "name": "성야의 방패",
+            "mechanic": "FRONT_SHARED_BARRIER",
+            "effect": "아군 전열에 성야의 방벽을 나누어 부여합니다. 방벽 사용 후 기본 공격을 계속합니다.",
+            "target": "아군 전열",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-985": {
+          "code": "V-985",
+          "position": "BACK",
+          "role": "RANGED",
+          "attackStyle": "RANGED",
+          "basePower": 216000,
+          "scale": 2.8,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.7,
+          "link": {
+            "attackPercent": 616,
+            "shieldPercent": 420,
+            "hpPercent": 784
+          },
+          "skill": {
+            "id": "MS-985",
+            "name": "박쥐 별무리",
+            "mechanic": "TWO_BEAT_FOLLOWUP",
+            "effect": "박쥐 별을 던지고 다음 행동에 후속타를 이어갑니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-986": {
+          "code": "V-986",
+          "position": "FRONT",
+          "role": "VANGUARD",
+          "attackStyle": "MELEE",
+          "basePower": 216000,
+          "scale": 4.7,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 2.15,
+          "link": {
+            "attackPercent": 1034,
+            "shieldPercent": 705,
+            "hpPercent": 1316
+          },
+          "skill": {
+            "id": "MS-986",
+            "name": "월하 화접",
+            "mechanic": "WOUNDED_MOON_DRAW",
+            "effect": "꽃나비 검기로 약해진 적을 벱니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 1,
+              "cost": 20
+            }
+          }
+        }
+      },
+      "diim": {
+        "version": 1,
+        "amountScale": 0.6
+      },
+      "kangyun": {
+        "version": "kangyun-balance-20261019-v2",
+        "status": "RELEASED",
+        "runtimeEnabled": true,
+        "basePower": 324000,
+        "statScale": 5.5,
+        "speedScale": 2.5,
+        "actionCredit": 2.5,
+        "actionEnergy": 10,
+        "pvpBasicDamageScale": 0.9,
+        "pvpSkillCapScale": 2.7,
+        "link": {
+          "attackPercent": 1210,
+          "hpPercent": 1540,
+          "shieldPercent": 825
+        }
+      },
+      "kangyunSkills": [
+        {
+          "id": "MS-059",
+          "name": "연환 파갑",
+          "mechanic": "IMPERIAL_PIERCING_VOLLEY",
+          "target": "BACK_THREAT",
+          "balance": {
+            "damageRatio": 6.8,
+            "cooldownTurns": 4,
+            "cost": 35
+          },
+          "description": "후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 680%의 한 시전 피해 예산을 사용합니다."
+        },
+        {
+          "id": "MS-060",
+          "name": "천궁 멸진",
+          "mechanic": "IMPERIAL_ARROW_RAIN",
+          "target": "ALL_ENEMIES",
+          "pveOnly": true,
+          "balance": {
+            "damageRatio": 7,
+            "cooldownTurns": 5,
+            "cost": 35
+          },
+          "description": "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 700%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다."
+        }
+      ]
+    },
+    "summary": [
+      {
+        "code": "V-980",
+        "winRate": 0.33796296296296297,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-981",
+        "winRate": 0.5401234567901234,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-982",
+        "winRate": 0.5100308641975309,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-983",
+        "winRate": 0.6172839506172839,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-984",
+        "winRate": 0.5324074074074074,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-985",
+        "winRate": 0.44753086419753085,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-986",
+        "winRate": 0.5146604938271605,
+        "draws": 0,
+        "total": 1296
+      }
+    ]
+  },
+  {
+    "iteration": 3,
+    "policies": {
+      "halloween": {
+        "V-980": {
+          "code": "V-980",
+          "position": "FRONT",
+          "role": "VANGUARD",
+          "attackStyle": "MELEE",
+          "basePower": 216000,
+          "scale": 5,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 2.4,
+          "basicCapScale": 1.5,
+          "link": {
+            "attackPercent": 1100,
+            "shieldPercent": 750,
+            "hpPercent": 1400
+          },
+          "skill": {
+            "id": "MS-980",
+            "name": "카니발 브레이크",
+            "mechanic": "WOUNDED_MOON_DRAW",
+            "effect": "약해진 적 하나를 몽둥이로 강타합니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 8.4,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-981": {
+          "code": "V-981",
+          "position": "BACK",
+          "role": "RANGED",
+          "attackStyle": "RANGED",
+          "basePower": 216000,
+          "scale": 3,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.8,
+          "basicCapScale": 1,
+          "link": {
+            "attackPercent": 660,
+            "shieldPercent": 450,
+            "hpPercent": 840
+          },
+          "skill": {
+            "id": "MS-981",
+            "name": "유령 탄막",
+            "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+            "effect": "적 진형에 세 차례의 유령 탄막을 나누어 발사합니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-982": {
+          "code": "V-982",
+          "position": "BACK",
+          "role": "CASTER",
+          "attackStyle": "CAST",
+          "basePower": 216000,
+          "scale": 3.15,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 2.2,
+          "basicCapScale": 1,
+          "link": {
+            "attackPercent": 693,
+            "shieldPercent": 472.5,
+            "hpPercent": 882
+          },
+          "skill": {
+            "id": "MS-982",
+            "name": "잭오랜턴 행진",
+            "mechanic": "TIDAL_BARRAGE",
+            "effect": "호박불 행렬을 전방 표적에게 쏟아붓습니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 7.56,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-983": {
+          "code": "V-983",
+          "position": "BACK",
+          "role": "CASTER",
+          "attackStyle": "CAST",
+          "basePower": 216000,
+          "scale": 2.8,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.6,
+          "basicCapScale": 1,
+          "link": {
+            "attackPercent": 616,
+            "shieldPercent": 420,
+            "hpPercent": 784
+          },
+          "skill": {
+            "id": "MS-983",
+            "name": "호박 유령서",
+            "mechanic": "RIFT_MARK_DETONATION",
+            "effect": "유령서의 표식을 새기고 다음 행동에 폭발시킵니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 3,
+              "cost": 20
+            }
+          }
+        },
+        "V-984": {
+          "code": "V-984",
+          "position": "FRONT",
+          "role": "GUARD",
+          "attackStyle": "MELEE",
+          "basePower": 216000,
+          "scale": 2.2,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.8,
+          "basicCapScale": 1,
+          "link": {
+            "attackPercent": 484,
+            "shieldPercent": 330,
+            "hpPercent": 616
+          },
+          "skill": {
+            "id": "MS-984",
+            "name": "성야의 방패",
+            "mechanic": "FRONT_SHARED_BARRIER",
+            "effect": "아군 전열에 성야의 방벽을 나누어 부여합니다. 방벽 사용 후 기본 공격을 계속합니다.",
+            "target": "아군 전열",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-985": {
+          "code": "V-985",
+          "position": "BACK",
+          "role": "RANGED",
+          "attackStyle": "RANGED",
+          "basePower": 216000,
+          "scale": 2.8,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.7,
+          "basicCapScale": 1,
+          "link": {
+            "attackPercent": 616,
+            "shieldPercent": 420,
+            "hpPercent": 784
+          },
+          "skill": {
+            "id": "MS-985",
+            "name": "박쥐 별무리",
+            "mechanic": "TWO_BEAT_FOLLOWUP",
+            "effect": "박쥐 별을 던지고 다음 행동에 후속타를 이어갑니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-986": {
+          "code": "V-986",
+          "position": "FRONT",
+          "role": "VANGUARD",
+          "attackStyle": "MELEE",
+          "basePower": 216000,
+          "scale": 4.7,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 2.15,
+          "basicCapScale": 1,
+          "link": {
+            "attackPercent": 1034,
+            "shieldPercent": 705,
+            "hpPercent": 1316
+          },
+          "skill": {
+            "id": "MS-986",
+            "name": "월하 화접",
+            "mechanic": "WOUNDED_MOON_DRAW",
+            "effect": "꽃나비 검기로 약해진 적을 벱니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 1,
+              "cost": 20
+            }
+          }
+        }
+      },
+      "diim": {
+        "version": 1,
+        "amountScale": 0.6
+      },
+      "kangyun": {
+        "version": "kangyun-balance-20261019-v2",
+        "status": "RELEASED",
+        "runtimeEnabled": true,
+        "basePower": 324000,
+        "statScale": 5.5,
+        "speedScale": 2.5,
+        "actionCredit": 2.5,
+        "actionEnergy": 10,
+        "pvpBasicDamageScale": 0.9,
+        "basicCapScale": 1.5,
+        "pvpSkillCapScale": 2.7,
+        "link": {
+          "attackPercent": 1210,
+          "hpPercent": 1540,
+          "shieldPercent": 825
+        }
+      },
+      "kangyunSkills": [
+        {
+          "id": "MS-059",
+          "name": "연환 파갑",
+          "mechanic": "IMPERIAL_PIERCING_VOLLEY",
+          "target": "BACK_THREAT",
+          "balance": {
+            "damageRatio": 6.8,
+            "cooldownTurns": 4,
+            "cost": 35
+          },
+          "description": "후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 680%의 한 시전 피해 예산을 사용합니다."
+        },
+        {
+          "id": "MS-060",
+          "name": "천궁 멸진",
+          "mechanic": "IMPERIAL_ARROW_RAIN",
+          "target": "ALL_ENEMIES",
+          "pveOnly": true,
+          "balance": {
+            "damageRatio": 7,
+            "cooldownTurns": 5,
+            "cost": 35
+          },
+          "description": "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 700%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다."
+        }
+      ]
+    },
+    "summary": [
+      {
+        "code": "V-057",
+        "winRate": 0.9229497354497355,
+        "draws": 0,
+        "total": 3024
+      },
+      {
+        "code": "V-980",
+        "winRate": 0.3472222222222222,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-981",
+        "winRate": 0.5316358024691358,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-982",
+        "winRate": 0.5216049382716049,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-983",
+        "winRate": 0.5717592592592593,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-984",
+        "winRate": 0.5486111111111112,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-985",
+        "winRate": 0.4583333333333333,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-986",
+        "winRate": 0.5208333333333334,
+        "draws": 0,
+        "total": 1296
+      }
+    ]
+  },
+  {
+    "iteration": 4,
+    "policies": {
+      "halloween": {
+        "V-980": {
+          "code": "V-980",
+          "position": "FRONT",
+          "role": "VANGUARD",
+          "attackStyle": "MELEE",
+          "basePower": 216000,
+          "scale": 5,
+          "speedScale": 2.5,
+          "actionCredit": 3,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 2.4,
+          "basicCapScale": 1.5,
+          "link": {
+            "attackPercent": 1100,
+            "shieldPercent": 750,
+            "hpPercent": 1400
+          },
+          "skill": {
+            "id": "MS-980",
+            "name": "카니발 브레이크",
+            "mechanic": "WOUNDED_MOON_DRAW",
+            "effect": "약해진 적 하나를 몽둥이로 강타합니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 8.4,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-981": {
+          "code": "V-981",
+          "position": "BACK",
+          "role": "RANGED",
+          "attackStyle": "RANGED",
+          "basePower": 216000,
+          "scale": 3,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.8,
+          "basicCapScale": 1,
+          "link": {
+            "attackPercent": 660,
+            "shieldPercent": 450,
+            "hpPercent": 840
+          },
+          "skill": {
+            "id": "MS-981",
+            "name": "유령 탄막",
+            "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+            "effect": "적 진형에 세 차례의 유령 탄막을 나누어 발사합니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-982": {
+          "code": "V-982",
+          "position": "BACK",
+          "role": "CASTER",
+          "attackStyle": "CAST",
+          "basePower": 216000,
+          "scale": 3.15,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 2.2,
+          "basicCapScale": 1,
+          "link": {
+            "attackPercent": 693,
+            "shieldPercent": 472.5,
+            "hpPercent": 882
+          },
+          "skill": {
+            "id": "MS-982",
+            "name": "잭오랜턴 행진",
+            "mechanic": "TIDAL_BARRAGE",
+            "effect": "호박불 행렬을 전방 표적에게 쏟아붓습니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 7.56,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-983": {
+          "code": "V-983",
+          "position": "BACK",
+          "role": "CASTER",
+          "attackStyle": "CAST",
+          "basePower": 216000,
+          "scale": 2.8,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.6,
+          "basicCapScale": 1,
+          "link": {
+            "attackPercent": 616,
+            "shieldPercent": 420,
+            "hpPercent": 784
+          },
+          "skill": {
+            "id": "MS-983",
+            "name": "호박 유령서",
+            "mechanic": "RIFT_MARK_DETONATION",
+            "effect": "유령서의 표식을 새기고 다음 행동에 폭발시킵니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 3,
+              "cost": 20
+            }
+          }
+        },
+        "V-984": {
+          "code": "V-984",
+          "position": "FRONT",
+          "role": "GUARD",
+          "attackStyle": "MELEE",
+          "basePower": 216000,
+          "scale": 2.2,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.8,
+          "basicCapScale": 1,
+          "link": {
+            "attackPercent": 484,
+            "shieldPercent": 330,
+            "hpPercent": 616
+          },
+          "skill": {
+            "id": "MS-984",
+            "name": "성야의 방패",
+            "mechanic": "FRONT_SHARED_BARRIER",
+            "effect": "아군 전열에 성야의 방벽을 나누어 부여합니다. 방벽 사용 후 기본 공격을 계속합니다.",
+            "target": "아군 전열",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-985": {
+          "code": "V-985",
+          "position": "BACK",
+          "role": "RANGED",
+          "attackStyle": "RANGED",
+          "basePower": 216000,
+          "scale": 2.8,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 1.7,
+          "basicCapScale": 1,
+          "link": {
+            "attackPercent": 616,
+            "shieldPercent": 420,
+            "hpPercent": 784
+          },
+          "skill": {
+            "id": "MS-985",
+            "name": "박쥐 별무리",
+            "mechanic": "TWO_BEAT_FOLLOWUP",
+            "effect": "박쥐 별을 던지고 다음 행동에 후속타를 이어갑니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 2,
+              "cost": 20
+            }
+          }
+        },
+        "V-986": {
+          "code": "V-986",
+          "position": "FRONT",
+          "role": "VANGUARD",
+          "attackStyle": "MELEE",
+          "basePower": 216000,
+          "scale": 4.7,
+          "speedScale": 2.25,
+          "actionCredit": 2.25,
+          "actionEnergy": 10,
+          "pvpSkillCapScale": 2.15,
+          "basicCapScale": 1,
+          "link": {
+            "attackPercent": 1034,
+            "shieldPercent": 705,
+            "hpPercent": 1316
+          },
+          "skill": {
+            "id": "MS-986",
+            "name": "월하 화접",
+            "mechanic": "WOUNDED_MOON_DRAW",
+            "effect": "꽃나비 검기로 약해진 적을 벱니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+            "target": "적 표적",
+            "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+            "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+            "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+            "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+            "ready": true,
+            "balance": {
+              "damageRatio": 6.72,
+              "cooldownTurns": 1,
+              "cost": 20
+            }
+          }
+        }
+      },
+      "diim": {
+        "version": 1,
+        "amountScale": 0.6
+      },
+      "kangyun": {
+        "version": "kangyun-balance-20261019-v2",
+        "status": "RELEASED",
+        "runtimeEnabled": true,
+        "basePower": 324000,
+        "statScale": 5.5,
+        "speedScale": 3,
+        "actionCredit": 3,
+        "actionEnergy": 10,
+        "pvpBasicDamageScale": 0.9,
+        "basicCapScale": 1.5,
+        "pvpSkillCapScale": 2.7,
+        "link": {
+          "attackPercent": 1210,
+          "hpPercent": 1540,
+          "shieldPercent": 825
+        }
+      },
+      "kangyunSkills": [
+        {
+          "id": "MS-059",
+          "name": "연환 파갑",
+          "mechanic": "IMPERIAL_PIERCING_VOLLEY",
+          "target": "BACK_THREAT",
+          "balance": {
+            "damageRatio": 8.4,
+            "cooldownTurns": 2,
+            "cost": 25
+          },
+          "description": "후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 840%의 한 시전 피해 예산을 사용합니다."
+        },
+        {
+          "id": "MS-060",
+          "name": "천궁 멸진",
+          "mechanic": "IMPERIAL_ARROW_RAIN",
+          "target": "ALL_ENEMIES",
+          "pveOnly": true,
+          "balance": {
+            "damageRatio": 12,
+            "cooldownTurns": 4,
+            "cost": 35
+          },
+          "description": "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 1,200%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다."
+        }
+      ]
+    },
+    "summary": [
+      {
+        "code": "V-057",
+        "winRate": 0.9533730158730159,
+        "draws": 0,
+        "total": 3024
+      },
+      {
+        "code": "V-980",
+        "winRate": 0.5671296296296297,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-981",
+        "winRate": 0.5030864197530864,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-982",
+        "winRate": 0.4799382716049383,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-983",
+        "winRate": 0.529320987654321,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-984",
+        "winRate": 0.5123456790123457,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-985",
+        "winRate": 0.4104938271604938,
+        "draws": 0,
+        "total": 1296
+      },
+      {
+        "code": "V-986",
+        "winRate": 0.4976851851851852,
+        "draws": 0,
+        "total": 1296
+      }
+    ]
+  }
+]

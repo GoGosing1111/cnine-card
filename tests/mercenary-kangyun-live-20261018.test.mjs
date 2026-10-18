@@ -28,7 +28,7 @@ test('previous complete CMS adds only Kangyun; existing and later operator edits
 });
 test('public codex exposes approved name, normal SSS power, art and ready localized skills',()=>{
  const card=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1})).cards.find(c=>c.code===KANGYUN_CODE);
- assert.equal(card.name,'신궁 강윤');assert.equal(card.rank,'SSS');assert.equal(card.basePower,216000);assert.equal(card.title,'신궁');assert.deepEqual(card.skills.map(s=>s.id),ids);assert.ok(card.skills.every(s=>s.ready));assert.equal(card.skills[1].target,'적 전체');assert.equal(card.sourceArt,KANGYUN_SOURCE_ART);
+ assert.equal(card.name,'신궁 강윤');assert.equal(card.rank,'SSS');assert.equal(card.basePower,324000);assert.equal(card.title,'신궁');assert.deepEqual(card.skills.map(s=>s.id),ids);assert.ok(card.skills.every(s=>s.ready));assert.equal(card.skills[1].target,'적 전체');assert.equal(card.sourceArt,KANGYUN_SOURCE_ART);
  const m=JSON.parse(fs.readFileSync('preview/mercenary-imperial-archer-sss-v1/manifest.json'));
  for(const [file,hash]of [[KANGYUN_SOURCE_ART,m.sourceArtSha256],[KANGYUN_BATTLE_SPRITE,m.battleSpriteSha256]])assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex').toUpperCase(),hash);
 });
@@ -40,7 +40,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} acqui
  const before=await f.coin(),request={requestId:crypto.randomUUID(),count:2},result=await openMercenaryCards(f.env,f.user,request,{randomInt:()=>0});
  assert.ok(result.draws.every(d=>d.mercenaryCode===KANGYUN_CODE));assert.deepEqual(result.draws.map(d=>d.duplicate),[false,true]);await openMercenaryCards(f.env,f.user,request,{randomInt:()=>{throw Error('REROLL');}});assert.equal(await f.coin(),before-2000);
  for(const mode of ['PVE','PVP']){const body={requestId:crypto.randomUUID(),mode,mercenaryCode:KANGYUN_CODE,revision:0};await saveMercenaryLoadout(f.env,f.user,body);assert.equal((await saveMercenaryLoadout(f.env,f.user,body)).replayed,true);
-  const s=await loadMercenaryBattleSnapshot(f.env,f.user,mode),batch=await releasedMercenarySnapshots(f.env,[7,8],mode);assert.deepEqual(batch.get(7),s);assert.equal(batch.has(8),false);assert.equal(s.basePower,216000);assert.equal(mercenaryAttackStyle(s),'RANGED');assert.deepEqual(s.skills.map(x=>x.id),ids);
+  const s=await loadMercenaryBattleSnapshot(f.env,f.user,mode),batch=await releasedMercenarySnapshots(f.env,[7,8],mode);assert.deepEqual(batch.get(7),s);assert.equal(batch.has(8),false);assert.equal(s.basePower,324000);assert.equal(mercenaryAttackStyle(s),'RANGED');assert.deepEqual(s.skills.map(x=>x.id),ids);
  }
  await saveMercenaryLoadout(f.env,f.user,{requestId:crypto.randomUUID(),mode:'PVE',mercenaryCode:null,revision:1});assert.equal(await loadMercenaryBattleSnapshot(f.env,f.user,'PVE'),null);assert.equal((await loadMercenaryBattleSnapshot(f.env,f.user,'PVP')).code,KANGYUN_CODE);assert.equal((await mercenaryAccountState(f.env,f.user)).cards.find(c=>c.code===KANGYUN_CODE).totalCopies,2);
 });
@@ -51,9 +51,9 @@ test('one cast budget across 1/2/12 targets; no extra hits, illegal modes or con
   const runtime=mercenaryCombat({teams:{A:[actor],B:targets},hit:(_a,_t,ratio)=>{ratios.push(ratio);return {damage:1000*ratio,dodge:control==='dodge'};},damage:(t,n)=>{const absorbed=Math.min(t.shield,n);t.shield-=absorbed;const hpDamage=Math.min(t.hp,n-absorbed);t.hp-=hpDamage;return {hpDamage,absorbed};},knockout:t=>{if(t.hp<=0)t.alive=false;},emit:(type,data)=>events.push({type,...data}),clock:()=>0});
   runtime.state(actor).energy=100;actor.actions++;runtime.beforeAction(actor);
   const active=count>0&&['normal','dodge'].includes(control),expected=active?(spell===KANGYUN_AREA_SKILL?count:Math.min(1,count)):0;
-  assert.equal(ratios.length,expected);assert.equal(runtime.state(actor).energy,active?65:100);
+  assert.equal(ratios.length,expected);assert.equal(runtime.state(actor).energy,active?(spell===KANGYUN_AREA_SKILL?65:75):100);
   const cast=events.filter(e=>e.type==='MERCENARY_IMPERIAL_ARROW_RAIN'||e.type==='MERCENARY_IMPERIAL_ARROW_VOLLEY');assert.equal(cast.length,active?1:0);
-  if(active){assert.ok(Math.abs(ratios.reduce((n,r)=>n+r,0)-(spell===KANGYUN_AREA_SKILL?7:6.8))<1e-9);assert.equal(cast[0].hits.length,expected);assert.equal(cast[0].skillId,spell);assert.equal(new Set(cast[0].targetIds).size,expected);if(control==='dodge')assert.ok(targets.every(t=>t.hp===100000&&t.shield===100));}
+  if(active){assert.ok(Math.abs(ratios.reduce((n,r)=>n+r,0)-(spell===KANGYUN_AREA_SKILL?12:8.4))<1e-9);assert.equal(cast[0].hits.length,expected);assert.equal(cast[0].skillId,spell);assert.equal(new Set(cast[0].targetIds).size,expected);if(control==='dodge')assert.ok(targets.every(t=>t.hp===100000&&t.shield===100));}
  }
 });
 test('real PVE/PVP generators use the intended Kangyun event with five cards plus a separate mercenary',()=>{

@@ -168,8 +168,9 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
   snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(speedBase.speed*(isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.speedScale:supreme?supreme.speedScale:snapshot.code===AZANT_CODE?AZANT_COMBAT.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:limited?(limited.speedScale??SS_LIMITED_TEMPO.speedScale):1))}};
   if(jinmu||kairon||shiranui||jokro||leonel)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*supreme.statScale));
   if(limited)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*limited.scale));
+  if(isImperialArcher(snapshot))for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*IMPERIAL_ARCHER_COMBAT.statScale));
   if(mercenaryEquipmentPower(snapshot,mode)){
-   const unarmed=buildCardFighter({id:snapshot.code,power:jinmu||kairon||shiranui||jokro||leonel?supreme.statsReferencePower:rankPower,type:'NONE'},5,side,null,mode),scale=jinmu||kairon||shiranui||jokro||leonel?supreme.statScale:limited?.scale||1;
+   const unarmed=buildCardFighter({id:snapshot.code,power:jinmu||kairon||shiranui||jokro||leonel?supreme.statsReferencePower:rankPower,type:'NONE'},5,side,null,mode),scale=isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.statScale:jinmu||kairon||shiranui||jokro||leonel?supreme.statScale:limited?.scale||1;
    snapshot.equipmentStats={version:1,attack:Math.max(0,snapshot.stats.attack-Math.max(1,Math.round(unarmed.attack*scale))),hp:Math.max(0,snapshot.stats.hp-Math.max(1,Math.round(unarmed.maxHp*scale)))};
   }
  }
@@ -449,7 +450,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    if(b.parry&&a.actions>=b.parry.expires)delete b.parry;
    if(!a.isMercenary)return false;
    if(!living(a))return true;
-   const limited=ssLimitedProfile(a);
+   const limited=isImperialArcher(a)?IMPERIAL_ARCHER_COMBAT:ssLimitedProfile(a);
    if(limited&&a.statMode==='RANK_FIXED'&&Number.isSafeInteger(a.actions)&&a.actions>0&&st.lastEnergyAction!==a.actions){
     st.lastEnergyAction=a.actions;st.energy=Math.min(a.combat.energyMax,st.energy+limited.actionEnergy);
    }
@@ -472,7 +473,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    }return false;
   },
   basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){if(a.actions<d.restraint.expires)factor*=1-d.restraint.percent/100;else delete d.restraint;}return factor*tierScale(a);},
-  basicDamageCapScale(a){return tierScale(a)*mercenaryPvpTierOffense(a)*(isLeonel(a)?LEONEL_COMBAT.basicCapScale:isJokro(a)?JOKRO_COMBAT.basicCapScale:isValter(a)?VALTER_COMBAT.basicCapScale:isHelios(a)?HELIOS_COMBAT.basicCapScale:isShiranui(a)?SHIRANUI_COMBAT.basicCapScale:isKairon(a)?KAIRON_COMBAT.basicCapScale:isJinmu(a)?JINMU_COMBAT.basicCapScale:1);},
+  basicDamageCapScale(a){return tierScale(a)*mercenaryPvpTierOffense(a)*(isImperialArcher(a)?IMPERIAL_ARCHER_COMBAT.basicCapScale:isLeonel(a)?LEONEL_COMBAT.basicCapScale:isJokro(a)?JOKRO_COMBAT.basicCapScale:isValter(a)?VALTER_COMBAT.basicCapScale:isHelios(a)?HELIOS_COMBAT.basicCapScale:isShiranui(a)?SHIRANUI_COMBAT.basicCapScale:isKairon(a)?KAIRON_COMBAT.basicCapScale:isJinmu(a)?JINMU_COMBAT.basicCapScale:ssLimitedProfile(a)?.basicCapScale??1);},
   beforeBasicDamage(a,t,amount){const buff=table(buffs,t),d=table(debuffs,a);
    const basicScale=imperialArcherBasicScale(a)*azantPvpBasicDamageScale(a)*berkanPvpBasicDamageScale(a)*cryvernPvpBasicDamageScale(a);if(basicScale!==1)amount=Math.floor(amount*basicScale);
    if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}

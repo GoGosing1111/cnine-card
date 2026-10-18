@@ -1,0 +1,7644 @@
+{
+  "date": "2026-10-19",
+  "scope": "CANONICAL_SIMULATION_NOT_LIVE_PLAYER_WIN_RATE",
+  "seedMethod": "SHA256(unordered pair, formation, level, index), mirrored A/B",
+  "count": 32,
+  "start": 890001,
+  "policyFingerprint": "7a531ae87e5502f50d6677ce4008f0a8b7984628cda843b446e39ce71b0b1b32",
+  "policies": {
+    "halloween": {
+      "V-980": {
+        "code": "V-980",
+        "position": "FRONT",
+        "role": "VANGUARD",
+        "attackStyle": "MELEE",
+        "basePower": 216000,
+        "scale": 4.8,
+        "speedScale": 2.5,
+        "actionCredit": 3,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 2.4,
+        "basicCapScale": 1.35,
+        "link": {
+          "attackPercent": 1056,
+          "shieldPercent": 720,
+          "hpPercent": 1344
+        },
+        "skill": {
+          "id": "MS-980",
+          "name": "카니발 브레이크",
+          "mechanic": "WOUNDED_MOON_DRAW",
+          "effect": "약해진 적 하나를 몽둥이로 강타합니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 8.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-981": {
+        "code": "V-981",
+        "position": "BACK",
+        "role": "RANGED",
+        "attackStyle": "RANGED",
+        "basePower": 216000,
+        "scale": 3,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 1.8,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 660,
+          "shieldPercent": 450,
+          "hpPercent": 840
+        },
+        "skill": {
+          "id": "MS-981",
+          "name": "유령 탄막",
+          "mechanic": "DISTRIBUTED_CORAL_VOLLEY",
+          "effect": "적 진형에 세 차례의 유령 탄막을 나누어 발사합니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-982": {
+        "code": "V-982",
+        "position": "BACK",
+        "role": "CASTER",
+        "attackStyle": "CAST",
+        "basePower": 216000,
+        "scale": 3.15,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 2.2,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 693,
+          "shieldPercent": 472.5,
+          "hpPercent": 882
+        },
+        "skill": {
+          "id": "MS-982",
+          "name": "잭오랜턴 행진",
+          "mechanic": "TIDAL_BARRAGE",
+          "effect": "호박불 행렬을 전방 표적에게 쏟아붓습니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 7.56,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-983": {
+        "code": "V-983",
+        "position": "BACK",
+        "role": "CASTER",
+        "attackStyle": "CAST",
+        "basePower": 216000,
+        "scale": 2.8,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 1.6,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 616,
+          "shieldPercent": 420,
+          "hpPercent": 784
+        },
+        "skill": {
+          "id": "MS-983",
+          "name": "호박 유령서",
+          "mechanic": "RIFT_MARK_DETONATION",
+          "effect": "유령서의 표식을 새기고 다음 행동에 폭발시킵니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        }
+      },
+      "V-984": {
+        "code": "V-984",
+        "position": "FRONT",
+        "role": "GUARD",
+        "attackStyle": "MELEE",
+        "basePower": 216000,
+        "scale": 2.2,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 1.8,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 484,
+          "shieldPercent": 330,
+          "hpPercent": 616
+        },
+        "skill": {
+          "id": "MS-984",
+          "name": "성야의 방패",
+          "mechanic": "FRONT_SHARED_BARRIER",
+          "effect": "아군 전열에 성야의 방벽을 나누어 부여합니다. 방벽 사용 후 기본 공격을 계속합니다.",
+          "target": "아군 전열",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-985": {
+        "code": "V-985",
+        "position": "BACK",
+        "role": "RANGED",
+        "attackStyle": "RANGED",
+        "basePower": 216000,
+        "scale": 2.9,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 1.75,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 638,
+          "shieldPercent": 435,
+          "hpPercent": 812
+        },
+        "skill": {
+          "id": "MS-985",
+          "name": "박쥐 별무리",
+          "mechanic": "TWO_BEAT_FOLLOWUP",
+          "effect": "박쥐 별을 던지고 다음 행동에 후속타를 이어갑니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      },
+      "V-986": {
+        "code": "V-986",
+        "position": "FRONT",
+        "role": "VANGUARD",
+        "attackStyle": "MELEE",
+        "basePower": 216000,
+        "scale": 4.7,
+        "speedScale": 2.25,
+        "actionCredit": 2.25,
+        "actionEnergy": 10,
+        "pvpSkillCapScale": 2.15,
+        "basicCapScale": 1,
+        "link": {
+          "attackPercent": 1034,
+          "shieldPercent": 705,
+          "hpPercent": 1316
+        },
+        "skill": {
+          "id": "MS-986",
+          "name": "월하 화접",
+          "mechanic": "WOUNDED_MOON_DRAW",
+          "effect": "꽃나비 검기로 약해진 적을 벱니다. 대상의 잃은 체력에 따라 피해가 증가합니다.",
+          "target": "적 표적",
+          "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+          "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+          "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+          "procRule": "후속타는 새 비용 없이 처리하며 추가 시전을 재귀 발동하지 않습니다.",
+          "ready": true,
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 1,
+            "cost": 20
+          }
+        }
+      }
+    },
+    "diim": {
+      "version": 1,
+      "amountScale": 0.6
+    },
+    "kangyun": {
+      "version": "kangyun-balance-20261019-v2",
+      "status": "RELEASED",
+      "runtimeEnabled": true,
+      "basePower": 324000,
+      "statScale": 5.5,
+      "speedScale": 3,
+      "actionCredit": 3,
+      "actionEnergy": 10,
+      "pvpBasicDamageScale": 0.9,
+      "basicCapScale": 1.5,
+      "pvpSkillCapScale": 2.7,
+      "link": {
+        "attackPercent": 1210,
+        "hpPercent": 1540,
+        "shieldPercent": 825
+      }
+    },
+    "kangyunSkills": [
+      {
+        "id": "MS-059",
+        "name": "연환 파갑",
+        "mechanic": "IMPERIAL_PIERCING_VOLLEY",
+        "target": "BACK_THREAT",
+        "balance": {
+          "damageRatio": 8.4,
+          "cooldownTurns": 2,
+          "cost": 25
+        },
+        "description": "후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 840%의 한 시전 피해 예산을 사용합니다."
+      },
+      {
+        "id": "MS-060",
+        "name": "천궁 멸진",
+        "mechanic": "IMPERIAL_ARROW_RAIN",
+        "target": "ALL_ENEMIES",
+        "pveOnly": true,
+        "balance": {
+          "damageRatio": 12,
+          "cooldownTurns": 4,
+          "cost": 35
+        },
+        "description": "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 1,200%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다."
+      }
+    ]
+  },
+  "conditions": "Identical cards, card equipment, magic and mercenary level on both sides. Nine equally weighted formation/growth scenarios; no account identity or opponent-specific tuning.",
+  "formations": [
+    {
+      "id": "basic-10000-balanced",
+      "group": "BASIC",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-balanced",
+      "group": "BASIC",
+      "level": 1
+    },
+    {
+      "id": "basic-2000000000-balanced",
+      "group": "BASIC",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-attack",
+      "group": "BASIC",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-defense",
+      "group": "BASIC",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-speed",
+      "group": "BASIC",
+      "level": 1
+    },
+    {
+      "id": "equipped-F01",
+      "group": "EQUIPPED",
+      "level": 5
+    },
+    {
+      "id": "equipped-F23",
+      "group": "EQUIPPED",
+      "level": 10
+    },
+    {
+      "id": "level20-balanced-250000",
+      "group": "GROWTH",
+      "level": 20
+    }
+  ],
+  "total": 20160,
+  "summaries": [
+    {
+      "code": "V-057",
+      "name": "신궁 강윤",
+      "wins": 7663,
+      "draws": 0,
+      "total": 8064,
+      "sides": {
+        "A": {
+          "wins": 3875,
+          "draws": 0,
+          "total": 4032,
+          "losses": 157,
+          "winRate": 0.9610615079365079,
+          "wilson95": [
+            0.954638174450988,
+            0.9666070993972224
+          ]
+        },
+        "B": {
+          "wins": 3788,
+          "draws": 0,
+          "total": 4032,
+          "losses": 244,
+          "winRate": 0.939484126984127,
+          "wilson95": [
+            0.9316974582751633,
+            0.9464341314284564
+          ]
+        }
+      },
+      "opponents": {
+        "V-980": {
+          "wins": 422,
+          "draws": 0,
+          "total": 576,
+          "losses": 154,
+          "winRate": 0.7326388888888888,
+          "wilson95": [
+            0.6950403445594305,
+            0.7671548480586913
+          ]
+        },
+        "V-981": {
+          "wins": 559,
+          "draws": 0,
+          "total": 576,
+          "losses": 17,
+          "winRate": 0.9704861111111112,
+          "wilson95": [
+            0.953245198449294,
+            0.9814928403530274
+          ]
+        },
+        "V-982": {
+          "wins": 563,
+          "draws": 0,
+          "total": 576,
+          "losses": 13,
+          "winRate": 0.9774305555555556,
+          "wilson95": [
+            0.9617711029858529,
+            0.9867638072379048
+          ]
+        },
+        "V-983": {
+          "wins": 567,
+          "draws": 0,
+          "total": 576,
+          "losses": 9,
+          "winRate": 0.984375,
+          "wilson95": [
+            0.9705734152832628,
+            0.9917583663619314
+          ]
+        },
+        "V-984": {
+          "wins": 575,
+          "draws": 0,
+          "total": 576,
+          "losses": 1,
+          "winRate": 0.9982638888888888,
+          "wilson95": [
+            0.9902320486098692,
+            0.9996934758781979
+          ]
+        },
+        "V-985": {
+          "wins": 551,
+          "draws": 0,
+          "total": 576,
+          "losses": 25,
+          "winRate": 0.9565972222222222,
+          "wilson95": [
+            0.9367131743402808,
+            0.9704311216191674
+          ]
+        },
+        "V-986": {
+          "wins": 433,
+          "draws": 0,
+          "total": 576,
+          "losses": 143,
+          "winRate": 0.7517361111111112,
+          "wilson95": [
+            0.7148653633567916,
+            0.7852712256702807
+          ]
+        },
+        "V-990": {
+          "wins": 557,
+          "draws": 0,
+          "total": 576,
+          "losses": 19,
+          "winRate": 0.9670138888888888,
+          "wilson95": [
+            0.9490568937558379,
+            0.978782709335765
+          ]
+        },
+        "V-991": {
+          "wins": 576,
+          "draws": 0,
+          "total": 576,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9933747423434263,
+            1
+          ]
+        },
+        "V-992": {
+          "wins": 576,
+          "draws": 0,
+          "total": 576,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9933747423434263,
+            1
+          ]
+        },
+        "V-993": {
+          "wins": 575,
+          "draws": 0,
+          "total": 576,
+          "losses": 1,
+          "winRate": 0.9982638888888888,
+          "wilson95": [
+            0.9902320486098692,
+            0.9996934758781979
+          ]
+        },
+        "V-994": {
+          "wins": 575,
+          "draws": 0,
+          "total": 576,
+          "losses": 1,
+          "winRate": 0.9982638888888888,
+          "wilson95": [
+            0.9902320486098692,
+            0.9996934758781979
+          ]
+        },
+        "V-997": {
+          "wins": 559,
+          "draws": 0,
+          "total": 576,
+          "losses": 17,
+          "winRate": 0.9704861111111112,
+          "wilson95": [
+            0.953245198449294,
+            0.9814928403530274
+          ]
+        },
+        "V-998": {
+          "wins": 575,
+          "draws": 0,
+          "total": 576,
+          "losses": 1,
+          "winRate": 0.9982638888888888,
+          "wilson95": [
+            0.9902320486098692,
+            0.9996934758781979
+          ]
+        }
+      },
+      "formations": {
+        "basic-10000-balanced": {
+          "wins": 896,
+          "draws": 0,
+          "total": 896,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9957308041770908,
+            1
+          ]
+        },
+        "basic-20000000-balanced": {
+          "wins": 845,
+          "draws": 0,
+          "total": 896,
+          "losses": 51,
+          "winRate": 0.9430803571428571,
+          "wilson95": [
+            0.9259326892756191,
+            0.9564448313902402
+          ]
+        },
+        "basic-2000000000-balanced": {
+          "wins": 845,
+          "draws": 0,
+          "total": 896,
+          "losses": 51,
+          "winRate": 0.9430803571428571,
+          "wilson95": [
+            0.9259326892756191,
+            0.9564448313902402
+          ]
+        },
+        "basic-20000000-attack": {
+          "wins": 788,
+          "draws": 0,
+          "total": 896,
+          "losses": 108,
+          "winRate": 0.8794642857142857,
+          "wilson95": [
+            0.8565091324827846,
+            0.8991794242587575
+          ]
+        },
+        "basic-20000000-defense": {
+          "wins": 839,
+          "draws": 0,
+          "total": 896,
+          "losses": 57,
+          "winRate": 0.9363839285714286,
+          "wilson95": [
+            0.9184653039132203,
+            0.9505765363395532
+          ]
+        },
+        "basic-20000000-speed": {
+          "wins": 783,
+          "draws": 0,
+          "total": 896,
+          "losses": 113,
+          "winRate": 0.8738839285714286,
+          "wilson95": [
+            0.850537817890985,
+            0.8940376718396521
+          ]
+        },
+        "equipped-F01": {
+          "wins": 885,
+          "draws": 0,
+          "total": 896,
+          "losses": 11,
+          "winRate": 0.9877232142857143,
+          "wilson95": [
+            0.9781507647276834,
+            0.9931312920254164
+          ]
+        },
+        "equipped-F23": {
+          "wins": 895,
+          "draws": 0,
+          "total": 896,
+          "losses": 1,
+          "winRate": 0.9988839285714286,
+          "wilson95": [
+            0.9937052268930334,
+            0.9998029638818761
+          ]
+        },
+        "level20-balanced-250000": {
+          "wins": 887,
+          "draws": 0,
+          "total": 896,
+          "losses": 9,
+          "winRate": 0.9899553571428571,
+          "wilson95": [
+            0.9810206102414561,
+            0.9947066733160054
+          ]
+        }
+      },
+      "losses": 401,
+      "winRate": 0.9502728174603174,
+      "wilson95": [
+        0.9453100764233955,
+        0.954806752841076
+      ]
+    },
+    {
+      "code": "V-980",
+      "name": "나무늘봉순",
+      "wins": 1912,
+      "draws": 0,
+      "total": 3456,
+      "sides": {
+        "A": {
+          "wins": 1002,
+          "draws": 0,
+          "total": 1728,
+          "losses": 726,
+          "winRate": 0.5798611111111112,
+          "wilson95": [
+            0.5564366345570564,
+            0.6029312891606786
+          ]
+        },
+        "B": {
+          "wins": 910,
+          "draws": 0,
+          "total": 1728,
+          "losses": 818,
+          "winRate": 0.5266203703703703,
+          "wilson95": [
+            0.5030456717539306,
+            0.5500769694853144
+          ]
+        }
+      },
+      "opponents": {
+        "V-981": {
+          "wins": 359,
+          "draws": 0,
+          "total": 576,
+          "losses": 217,
+          "winRate": 0.6232638888888888,
+          "wilson95": [
+            0.582997046724038,
+            0.6618974210064594
+          ]
+        },
+        "V-982": {
+          "wins": 243,
+          "draws": 0,
+          "total": 576,
+          "losses": 333,
+          "winRate": 0.421875,
+          "wilson95": [
+            0.3821912928220103,
+            0.46259390368682934
+          ]
+        },
+        "V-983": {
+          "wins": 226,
+          "draws": 0,
+          "total": 576,
+          "losses": 350,
+          "winRate": 0.3923611111111111,
+          "wilson95": [
+            0.3533242543196859,
+            0.4328242386480487
+          ]
+        },
+        "V-984": {
+          "wins": 498,
+          "draws": 0,
+          "total": 576,
+          "losses": 78,
+          "winRate": 0.8645833333333334,
+          "wilson95": [
+            0.8342123219648361,
+            0.890123427660579
+          ]
+        },
+        "V-985": {
+          "wins": 223,
+          "draws": 0,
+          "total": 576,
+          "losses": 353,
+          "winRate": 0.3871527777777778,
+          "wilson95": [
+            0.348245608285877,
+            0.42755523111578037
+          ]
+        },
+        "V-986": {
+          "wins": 363,
+          "draws": 0,
+          "total": 576,
+          "losses": 213,
+          "winRate": 0.6302083333333334,
+          "wilson95": [
+            0.5900425832744057,
+            0.6686487558775284
+          ]
+        }
+      },
+      "formations": {
+        "basic-10000-balanced": {
+          "wins": 126,
+          "draws": 0,
+          "total": 384,
+          "losses": 258,
+          "winRate": 0.328125,
+          "wilson95": [
+            0.28306675698127914,
+            0.37658811242932566
+          ]
+        },
+        "basic-20000000-balanced": {
+          "wins": 247,
+          "draws": 0,
+          "total": 384,
+          "losses": 137,
+          "winRate": 0.6432291666666666,
+          "wilson95": [
+            0.5941126433229119,
+            0.6895082988349174
+          ]
+        },
+        "basic-2000000000-balanced": {
+          "wins": 235,
+          "draws": 0,
+          "total": 384,
+          "losses": 149,
+          "winRate": 0.6119791666666666,
+          "wilson95": [
+            0.5623592237403757,
+            0.6593807855830182
+          ]
+        },
+        "basic-20000000-attack": {
+          "wins": 229,
+          "draws": 0,
+          "total": 384,
+          "losses": 155,
+          "winRate": 0.5963541666666666,
+          "wilson95": [
+            0.5465610616318134,
+            0.6442384812743628
+          ]
+        },
+        "basic-20000000-defense": {
+          "wins": 222,
+          "draws": 0,
+          "total": 384,
+          "losses": 162,
+          "winRate": 0.578125,
+          "wilson95": [
+            0.5281941553185936,
+            0.6265081767674952
+          ]
+        },
+        "basic-20000000-speed": {
+          "wins": 217,
+          "draws": 0,
+          "total": 384,
+          "losses": 167,
+          "winRate": 0.5651041666666666,
+          "wilson95": [
+            0.5151166122669043,
+            0.6138019978048362
+          ]
+        },
+        "equipped-F01": {
+          "wins": 292,
+          "draws": 0,
+          "total": 384,
+          "losses": 92,
+          "winRate": 0.7604166666666666,
+          "wilson95": [
+            0.7152791264219445,
+            0.8003953138650179
+          ]
+        },
+        "equipped-F23": {
+          "wins": 240,
+          "draws": 0,
+          "total": 384,
+          "losses": 144,
+          "winRate": 0.625,
+          "wilson95": [
+            0.5755639938539372,
+            0.6719597374838049
+          ]
+        },
+        "level20-balanced-250000": {
+          "wins": 104,
+          "draws": 0,
+          "total": 384,
+          "losses": 280,
+          "winRate": 0.2708333333333333,
+          "wilson95": [
+            0.22881743833440588,
+            0.3173890542130671
+          ]
+        }
+      },
+      "losses": 1544,
+      "winRate": 0.5532407407407407,
+      "wilson95": [
+        0.5366153610999769,
+        0.5697478897494261
+      ]
+    },
+    {
+      "code": "V-981",
+      "name": "조은",
+      "wins": 1583,
+      "draws": 0,
+      "total": 3456,
+      "sides": {
+        "A": {
+          "wins": 837,
+          "draws": 0,
+          "total": 1728,
+          "losses": 891,
+          "winRate": 0.484375,
+          "wilson95": [
+            0.46087216135357456,
+            0.5079471579190427
+          ]
+        },
+        "B": {
+          "wins": 746,
+          "draws": 0,
+          "total": 1728,
+          "losses": 982,
+          "winRate": 0.43171296296296297,
+          "wilson95": [
+            0.4085356296914971,
+            0.45519324712957027
+          ]
+        }
+      },
+      "opponents": {
+        "V-980": {
+          "wins": 217,
+          "draws": 0,
+          "total": 576,
+          "losses": 359,
+          "winRate": 0.3767361111111111,
+          "wilson95": [
+            0.3381025789935405,
+            0.417002953275962
+          ]
+        },
+        "V-982": {
+          "wins": 357,
+          "draws": 0,
+          "total": 576,
+          "losses": 219,
+          "winRate": 0.6197916666666666,
+          "wilson95": [
+            0.5794774952569689,
+            0.6585185367628102
+          ]
+        },
+        "V-983": {
+          "wins": 346,
+          "draws": 0,
+          "total": 576,
+          "losses": 230,
+          "winRate": 0.6006944444444444,
+          "wilson95": [
+            0.5601577363452995,
+            0.6398968992655293
+          ]
+        },
+        "V-984": {
+          "wins": 233,
+          "draws": 0,
+          "total": 576,
+          "losses": 343,
+          "winRate": 0.4045138888888889,
+          "wilson95": [
+            0.36519268325046744,
+            0.445100334704781
+          ]
+        },
+        "V-985": {
+          "wins": 270,
+          "draws": 0,
+          "total": 576,
+          "losses": 306,
+          "winRate": 0.46875,
+          "wilson95": [
+            0.42833823452816977,
+            0.509575844075366
+          ]
+        },
+        "V-986": {
+          "wins": 160,
+          "draws": 0,
+          "total": 576,
+          "losses": 416,
+          "winRate": 0.2777777777777778,
+          "wilson95": [
+            0.24276295263908523,
+            0.31573716187494755
+          ]
+        }
+      },
+      "formations": {
+        "basic-10000-balanced": {
+          "wins": 296,
+          "draws": 0,
+          "total": 384,
+          "losses": 88,
+          "winRate": 0.7708333333333334,
+          "wilson95": [
+            0.7262350670978344,
+            0.8100663508006067
+          ]
+        },
+        "basic-20000000-balanced": {
+          "wins": 184,
+          "draws": 0,
+          "total": 384,
+          "losses": 200,
+          "winRate": 0.4791666666666667,
+          "wilson95": [
+            0.4296536884488629,
+            0.5290923563281802
+          ]
+        },
+        "basic-2000000000-balanced": {
+          "wins": 186,
+          "draws": 0,
+          "total": 384,
+          "losses": 198,
+          "winRate": 0.484375,
+          "wilson95": [
+            0.4347917090900472,
+            0.5342678244927352
+          ]
+        },
+        "basic-20000000-attack": {
+          "wins": 196,
+          "draws": 0,
+          "total": 384,
+          "losses": 188,
+          "winRate": 0.5104166666666666,
+          "wilson95": [
+            0.4605620613031608,
+            0.5600649163083177
+          ]
+        },
+        "basic-20000000-defense": {
+          "wins": 78,
+          "draws": 0,
+          "total": 384,
+          "losses": 306,
+          "winRate": 0.203125,
+          "wilson95": [
+            0.1659166689789522,
+            0.24621446909391054
+          ]
+        },
+        "basic-20000000-speed": {
+          "wins": 189,
+          "draws": 0,
+          "total": 384,
+          "losses": 195,
+          "winRate": 0.4921875,
+          "wilson95": [
+            0.4425087773114264,
+            0.5420209894799648
+          ]
+        },
+        "equipped-F01": {
+          "wins": 135,
+          "draws": 0,
+          "total": 384,
+          "losses": 249,
+          "winRate": 0.3515625,
+          "wilson95": [
+            0.30549138108236984,
+            0.40057418795406163
+          ]
+        },
+        "equipped-F23": {
+          "wins": 96,
+          "draws": 0,
+          "total": 384,
+          "losses": 288,
+          "winRate": 0.25,
+          "wilson95": [
+            0.20930992293805784,
+            0.2956426143864582
+          ]
+        },
+        "level20-balanced-250000": {
+          "wins": 223,
+          "draws": 0,
+          "total": 384,
+          "losses": 161,
+          "winRate": 0.5807291666666666,
+          "wilson95": [
+            0.530813810298073,
+            0.6290452661908853
+          ]
+        }
+      },
+      "losses": 1873,
+      "winRate": 0.45804398148148145,
+      "wilson95": [
+        0.4414883805309548,
+        0.4746927533105481
+      ]
+    },
+    {
+      "code": "V-982",
+      "name": "하이희야",
+      "wins": 1538,
+      "draws": 0,
+      "total": 3456,
+      "sides": {
+        "A": {
+          "wins": 803,
+          "draws": 0,
+          "total": 1728,
+          "losses": 925,
+          "winRate": 0.46469907407407407,
+          "wilson95": [
+            0.4412870392501531,
+            0.48826771910650035
+          ]
+        },
+        "B": {
+          "wins": 735,
+          "draws": 0,
+          "total": 1728,
+          "losses": 993,
+          "winRate": 0.4253472222222222,
+          "wilson95": [
+            0.4022272132970709,
+            0.4487984232276552
+          ]
+        }
+      },
+      "opponents": {
+        "V-980": {
+          "wins": 333,
+          "draws": 0,
+          "total": 576,
+          "losses": 243,
+          "winRate": 0.578125,
+          "wilson95": [
+            0.5374060963131707,
+            0.6178087071779897
+          ]
+        },
+        "V-981": {
+          "wins": 219,
+          "draws": 0,
+          "total": 576,
+          "losses": 357,
+          "winRate": 0.3802083333333333,
+          "wilson95": [
+            0.3414814632371897,
+            0.42052250474303104
+          ]
+        },
+        "V-983": {
+          "wins": 285,
+          "draws": 0,
+          "total": 576,
+          "losses": 291,
+          "winRate": 0.4947916666666667,
+          "wilson95": [
+            0.4541305237783623,
+            0.5355218226555604
+          ]
+        },
+        "V-984": {
+          "wins": 170,
+          "draws": 0,
+          "total": 576,
+          "losses": 406,
+          "winRate": 0.2951388888888889,
+          "wilson95": [
+            0.2593463517395584,
+            0.33364594132806563
+          ]
+        },
+        "V-985": {
+          "wins": 204,
+          "draws": 0,
+          "total": 576,
+          "losses": 372,
+          "winRate": 0.3541666666666667,
+          "wilson95": [
+            0.3161925601750547,
+            0.39407313997477933
+          ]
+        },
+        "V-986": {
+          "wins": 327,
+          "draws": 0,
+          "total": 576,
+          "losses": 249,
+          "winRate": 0.5677083333333334,
+          "wilson95": [
+            0.5269342886079152,
+            0.6075852077510905
+          ]
+        }
+      },
+      "formations": {
+        "basic-10000-balanced": {
+          "wins": 184,
+          "draws": 0,
+          "total": 384,
+          "losses": 200,
+          "winRate": 0.4791666666666667,
+          "wilson95": [
+            0.4296536884488629,
+            0.5290923563281802
+          ]
+        },
+        "basic-20000000-balanced": {
+          "wins": 134,
+          "draws": 0,
+          "total": 384,
+          "losses": 250,
+          "winRate": 0.3489583333333333,
+          "wilson95": [
+            0.30299351629218163,
+            0.3979153083413801
+          ]
+        },
+        "basic-2000000000-balanced": {
+          "wins": 130,
+          "draws": 0,
+          "total": 384,
+          "losses": 254,
+          "winRate": 0.3385416666666667,
+          "wilson95": [
+            0.29301754353838305,
+            0.38726430348370033
+          ]
+        },
+        "basic-20000000-attack": {
+          "wins": 139,
+          "draws": 0,
+          "total": 384,
+          "losses": 245,
+          "winRate": 0.3619791666666667,
+          "wilson95": [
+            0.31549809213829316,
+            0.4111944545096168
+          ]
+        },
+        "basic-20000000-defense": {
+          "wins": 205,
+          "draws": 0,
+          "total": 384,
+          "losses": 179,
+          "winRate": 0.5338541666666666,
+          "wilson95": [
+            0.4838697816736078,
+            0.5831678955636974
+          ]
+        },
+        "basic-20000000-speed": {
+          "wins": 156,
+          "draws": 0,
+          "total": 384,
+          "losses": 228,
+          "winRate": 0.40625,
+          "wilson95": [
+            0.3582902111098005,
+            0.456066990386893
+          ]
+        },
+        "equipped-F01": {
+          "wins": 189,
+          "draws": 0,
+          "total": 384,
+          "losses": 195,
+          "winRate": 0.4921875,
+          "wilson95": [
+            0.4425087773114264,
+            0.5420209894799648
+          ]
+        },
+        "equipped-F23": {
+          "wins": 194,
+          "draws": 0,
+          "total": 384,
+          "losses": 190,
+          "winRate": 0.5052083333333334,
+          "wilson95": [
+            0.4553972967438614,
+            0.5549161920618778
+          ]
+        },
+        "level20-balanced-250000": {
+          "wins": 207,
+          "draws": 0,
+          "total": 384,
+          "losses": 177,
+          "winRate": 0.5390625,
+          "wilson95": [
+            0.4890640478453715,
+            0.5882871181976729
+          ]
+        }
+      },
+      "losses": 1918,
+      "winRate": 0.44502314814814814,
+      "wilson95": [
+        0.4285242171902905,
+        0.4616441650847823
+      ]
+    },
+    {
+      "code": "V-983",
+      "name": "오리꿍",
+      "wins": 1718,
+      "draws": 0,
+      "total": 3456,
+      "sides": {
+        "A": {
+          "wins": 911,
+          "draws": 0,
+          "total": 1728,
+          "losses": 817,
+          "winRate": 0.5271990740740741,
+          "wilson95": [
+            0.5036245575230982,
+            0.5506529237430868
+          ]
+        },
+        "B": {
+          "wins": 807,
+          "draws": 0,
+          "total": 1728,
+          "losses": 921,
+          "winRate": 0.4670138888888889,
+          "wilson95": [
+            0.443589273596938,
+            0.490584844867476
+          ]
+        }
+      },
+      "opponents": {
+        "V-980": {
+          "wins": 350,
+          "draws": 0,
+          "total": 576,
+          "losses": 226,
+          "winRate": 0.6076388888888888,
+          "wilson95": [
+            0.5671757613519512,
+            0.646675745680314
+          ]
+        },
+        "V-981": {
+          "wins": 230,
+          "draws": 0,
+          "total": 576,
+          "losses": 346,
+          "winRate": 0.3993055555555556,
+          "wilson95": [
+            0.3601031007344707,
+            0.43984226365470047
+          ]
+        },
+        "V-982": {
+          "wins": 291,
+          "draws": 0,
+          "total": 576,
+          "losses": 285,
+          "winRate": 0.5052083333333334,
+          "wilson95": [
+            0.4644781773444397,
+            0.5458694762216377
+          ]
+        },
+        "V-984": {
+          "wins": 300,
+          "draws": 0,
+          "total": 576,
+          "losses": 276,
+          "winRate": 0.5208333333333334,
+          "wilson95": [
+            0.48003257333918686,
+            0.5613580409251226
+          ]
+        },
+        "V-985": {
+          "wins": 180,
+          "draws": 0,
+          "total": 576,
+          "losses": 396,
+          "winRate": 0.3125,
+          "wilson95": [
+            0.27599388022438787,
+            0.35149059139682726
+          ]
+        },
+        "V-986": {
+          "wins": 367,
+          "draws": 0,
+          "total": 576,
+          "losses": 209,
+          "winRate": 0.6371527777777778,
+          "wilson95": [
+            0.5970967791507162,
+            0.6753914314226541
+          ]
+        }
+      },
+      "formations": {
+        "basic-10000-balanced": {
+          "wins": 136,
+          "draws": 0,
+          "total": 384,
+          "losses": 248,
+          "winRate": 0.3541666666666667,
+          "wilson95": [
+            0.3079907785777491,
+            0.403231534861552
+          ]
+        },
+        "basic-20000000-balanced": {
+          "wins": 190,
+          "draws": 0,
+          "total": 384,
+          "losses": 194,
+          "winRate": 0.4947916666666667,
+          "wilson95": [
+            0.44508380793812224,
+            0.5446027032561386
+          ]
+        },
+        "basic-2000000000-balanced": {
+          "wins": 192,
+          "draws": 0,
+          "total": 384,
+          "losses": 192,
+          "winRate": 0.5,
+          "wilson95": [
+            0.45023787924276143,
+            0.5497621207572386
+          ]
+        },
+        "basic-20000000-attack": {
+          "wins": 186,
+          "draws": 0,
+          "total": 384,
+          "losses": 198,
+          "winRate": 0.484375,
+          "wilson95": [
+            0.4347917090900472,
+            0.5342678244927352
+          ]
+        },
+        "basic-20000000-defense": {
+          "wins": 247,
+          "draws": 0,
+          "total": 384,
+          "losses": 137,
+          "winRate": 0.6432291666666666,
+          "wilson95": [
+            0.5941126433229119,
+            0.6895082988349174
+          ]
+        },
+        "basic-20000000-speed": {
+          "wins": 197,
+          "draws": 0,
+          "total": 384,
+          "losses": 187,
+          "winRate": 0.5130208333333334,
+          "wilson95": [
+            0.4631464494704768,
+            0.5626372725438714
+          ]
+        },
+        "equipped-F01": {
+          "wins": 183,
+          "draws": 0,
+          "total": 384,
+          "losses": 201,
+          "winRate": 0.4765625,
+          "wilson95": [
+            0.42708668768652236,
+            0.5265026126876511
+          ]
+        },
+        "equipped-F23": {
+          "wins": 226,
+          "draws": 0,
+          "total": 384,
+          "losses": 158,
+          "winRate": 0.5885416666666666,
+          "wilson95": [
+            0.5386811298230674,
+            0.6366481798744998
+          ]
+        },
+        "level20-balanced-250000": {
+          "wins": 161,
+          "draws": 0,
+          "total": 384,
+          "losses": 223,
+          "winRate": 0.4192708333333333,
+          "wilson95": [
+            0.3709547338091146,
+            0.46918618970192705
+          ]
+        }
+      },
+      "losses": 1738,
+      "winRate": 0.49710648148148145,
+      "wilson95": [
+        0.4804490917504126,
+        0.5137702967903806
+      ]
+    },
+    {
+      "code": "V-984",
+      "name": "디임",
+      "wins": 1696,
+      "draws": 0,
+      "total": 3456,
+      "sides": {
+        "A": {
+          "wins": 860,
+          "draws": 0,
+          "total": 1728,
+          "losses": 868,
+          "winRate": 0.4976851851851852,
+          "wilson95": [
+            0.47414159766057473,
+            0.521239042231665
+          ]
+        },
+        "B": {
+          "wins": 836,
+          "draws": 0,
+          "total": 1728,
+          "losses": 892,
+          "winRate": 0.4837962962962963,
+          "wilson95": [
+            0.4602956073691377,
+            0.5073688718765392
+          ]
+        }
+      },
+      "opponents": {
+        "V-980": {
+          "wins": 78,
+          "draws": 0,
+          "total": 576,
+          "losses": 498,
+          "winRate": 0.13541666666666666,
+          "wilson95": [
+            0.10987657233942108,
+            0.165787678035164
+          ]
+        },
+        "V-981": {
+          "wins": 343,
+          "draws": 0,
+          "total": 576,
+          "losses": 233,
+          "winRate": 0.5954861111111112,
+          "wilson95": [
+            0.5548996652952191,
+            0.6348073167495326
+          ]
+        },
+        "V-982": {
+          "wins": 406,
+          "draws": 0,
+          "total": 576,
+          "losses": 170,
+          "winRate": 0.7048611111111112,
+          "wilson95": [
+            0.6663540586719344,
+            0.7406536482604417
+          ]
+        },
+        "V-983": {
+          "wins": 276,
+          "draws": 0,
+          "total": 576,
+          "losses": 300,
+          "winRate": 0.4791666666666667,
+          "wilson95": [
+            0.43864195907487746,
+            0.5199674266608132
+          ]
+        },
+        "V-985": {
+          "wins": 360,
+          "draws": 0,
+          "total": 576,
+          "losses": 216,
+          "winRate": 0.625,
+          "wilson95": [
+            0.5847576244495549,
+            0.6635860611363016
+          ]
+        },
+        "V-986": {
+          "wins": 233,
+          "draws": 0,
+          "total": 576,
+          "losses": 343,
+          "winRate": 0.4045138888888889,
+          "wilson95": [
+            0.36519268325046744,
+            0.445100334704781
+          ]
+        }
+      },
+      "formations": {
+        "basic-10000-balanced": {
+          "wins": 251,
+          "draws": 0,
+          "total": 384,
+          "losses": 133,
+          "winRate": 0.6536458333333334,
+          "wilson95": [
+            0.6047451117897333,
+            0.6995028079795746
+          ]
+        },
+        "basic-20000000-balanced": {
+          "wins": 124,
+          "draws": 0,
+          "total": 384,
+          "losses": 260,
+          "winRate": 0.3229166666666667,
+          "wilson95": [
+            0.2781009908294288,
+            0.3712403897754368
+          ]
+        },
+        "basic-2000000000-balanced": {
+          "wins": 122,
+          "draws": 0,
+          "total": 384,
+          "losses": 262,
+          "winRate": 0.3177083333333333,
+          "wilson95": [
+            0.2731417476020378,
+            0.36588614419708854
+          ]
+        },
+        "basic-20000000-attack": {
+          "wins": 166,
+          "draws": 0,
+          "total": 384,
+          "losses": 218,
+          "winRate": 0.4322916666666667,
+          "wilson95": [
+            0.3836540127596617,
+            0.4822706327657281
+          ]
+        },
+        "basic-20000000-defense": {
+          "wins": 119,
+          "draws": 0,
+          "total": 384,
+          "losses": 265,
+          "winRate": 0.3098958333333333,
+          "wilson95": [
+            0.265715297538867,
+            0.35784236105165035
+          ]
+        },
+        "basic-20000000-speed": {
+          "wins": 147,
+          "draws": 0,
+          "total": 384,
+          "losses": 237,
+          "winRate": 0.3828125,
+          "wilson95": [
+            0.3355832674187387,
+            0.4323632344521283
+          ]
+        },
+        "equipped-F01": {
+          "wins": 235,
+          "draws": 0,
+          "total": 384,
+          "losses": 149,
+          "winRate": 0.6119791666666666,
+          "wilson95": [
+            0.5623592237403757,
+            0.6593807855830182
+          ]
+        },
+        "equipped-F23": {
+          "wins": 316,
+          "draws": 0,
+          "total": 384,
+          "losses": 68,
+          "winRate": 0.8229166666666666,
+          "wilson95": [
+            0.7815914461516474,
+            0.857844859804186
+          ]
+        },
+        "level20-balanced-250000": {
+          "wins": 216,
+          "draws": 0,
+          "total": 384,
+          "losses": 168,
+          "winRate": 0.5625,
+          "wilson95": [
+            0.5125052281957603,
+            0.6112566374731108
+          ]
+        }
+      },
+      "losses": 1760,
+      "winRate": 0.49074074074074076,
+      "wilson95": [
+        0.4740929943443984,
+        0.50740904898614
+      ]
+    },
+    {
+      "code": "V-985",
+      "name": "아윤",
+      "wins": 1974,
+      "draws": 0,
+      "total": 3456,
+      "sides": {
+        "A": {
+          "wins": 1021,
+          "draws": 0,
+          "total": 1728,
+          "losses": 707,
+          "winRate": 0.5908564814814815,
+          "wilson95": [
+            0.567497143399978,
+            0.613812740829619
+          ]
+        },
+        "B": {
+          "wins": 953,
+          "draws": 0,
+          "total": 1728,
+          "losses": 775,
+          "winRate": 0.5515046296296297,
+          "wilson95": [
+            0.527966399672913,
+            0.5748143627247567
+          ]
+        }
+      },
+      "opponents": {
+        "V-980": {
+          "wins": 353,
+          "draws": 0,
+          "total": 576,
+          "losses": 223,
+          "winRate": 0.6128472222222222,
+          "wilson95": [
+            0.5724447688842197,
+            0.651754391714123
+          ]
+        },
+        "V-981": {
+          "wins": 306,
+          "draws": 0,
+          "total": 576,
+          "losses": 270,
+          "winRate": 0.53125,
+          "wilson95": [
+            0.49042415592463395,
+            0.5716617654718302
+          ]
+        },
+        "V-982": {
+          "wins": 372,
+          "draws": 0,
+          "total": 576,
+          "losses": 204,
+          "winRate": 0.6458333333333334,
+          "wilson95": [
+            0.6059268600252207,
+            0.6838074398249453
+          ]
+        },
+        "V-983": {
+          "wins": 396,
+          "draws": 0,
+          "total": 576,
+          "losses": 180,
+          "winRate": 0.6875,
+          "wilson95": [
+            0.6485094086031727,
+            0.7240061197756121
+          ]
+        },
+        "V-984": {
+          "wins": 216,
+          "draws": 0,
+          "total": 576,
+          "losses": 360,
+          "winRate": 0.375,
+          "wilson95": [
+            0.3364139388636984,
+            0.4152423755504451
+          ]
+        },
+        "V-986": {
+          "wins": 331,
+          "draws": 0,
+          "total": 576,
+          "losses": 245,
+          "winRate": 0.5746527777777778,
+          "wilson95": [
+            0.5339134795220805,
+            0.6144028882583618
+          ]
+        }
+      },
+      "formations": {
+        "basic-10000-balanced": {
+          "wins": 243,
+          "draws": 0,
+          "total": 384,
+          "losses": 141,
+          "winRate": 0.6328125,
+          "wilson95": [
+            0.5835044614907274,
+            0.6794895030556234
+          ]
+        },
+        "basic-20000000-balanced": {
+          "wins": 235,
+          "draws": 0,
+          "total": 384,
+          "losses": 149,
+          "winRate": 0.6119791666666666,
+          "wilson95": [
+            0.5623592237403757,
+            0.6593807855830182
+          ]
+        },
+        "basic-2000000000-balanced": {
+          "wins": 236,
+          "draws": 0,
+          "total": 384,
+          "losses": 148,
+          "winRate": 0.6145833333333334,
+          "wilson95": [
+            0.5649972706538479,
+            0.6618994830724158
+          ]
+        },
+        "basic-20000000-attack": {
+          "wins": 216,
+          "draws": 0,
+          "total": 384,
+          "losses": 168,
+          "winRate": 0.5625,
+          "wilson95": [
+            0.5125052281957603,
+            0.6112566374731108
+          ]
+        },
+        "basic-20000000-defense": {
+          "wins": 190,
+          "draws": 0,
+          "total": 384,
+          "losses": 194,
+          "winRate": 0.4947916666666667,
+          "wilson95": [
+            0.44508380793812224,
+            0.5446027032561386
+          ]
+        },
+        "basic-20000000-speed": {
+          "wins": 242,
+          "draws": 0,
+          "total": 384,
+          "losses": 142,
+          "winRate": 0.6302083333333334,
+          "wilson95": [
+            0.5808561576582789,
+            0.6769810624852024
+          ]
+        },
+        "equipped-F01": {
+          "wins": 165,
+          "draws": 0,
+          "total": 384,
+          "losses": 219,
+          "winRate": 0.4296875,
+          "wilson95": [
+            0.3811113970902487,
+            0.4796565040322715
+          ]
+        },
+        "equipped-F23": {
+          "wins": 193,
+          "draws": 0,
+          "total": 384,
+          "losses": 191,
+          "winRate": 0.5026041666666666,
+          "wilson95": [
+            0.4528169197052918,
+            0.5523398246975777
+          ]
+        },
+        "level20-balanced-250000": {
+          "wins": 254,
+          "draws": 0,
+          "total": 384,
+          "losses": 130,
+          "winRate": 0.6614583333333334,
+          "wilson95": [
+            0.6127356965162998,
+            0.7069824564616172
+          ]
+        }
+      },
+      "losses": 1482,
+      "winRate": 0.5711805555555556,
+      "wilson95": [
+        0.5546101449752199,
+        0.5875928969212647
+      ]
+    },
+    {
+      "code": "V-986",
+      "name": "남수댕",
+      "wins": 1675,
+      "draws": 0,
+      "total": 3456,
+      "sides": {
+        "A": {
+          "wins": 859,
+          "draws": 0,
+          "total": 1728,
+          "losses": 869,
+          "winRate": 0.49710648148148145,
+          "wilson95": [
+            0.47356431929122167,
+            0.5206614805740778
+          ]
+        },
+        "B": {
+          "wins": 816,
+          "draws": 0,
+          "total": 1728,
+          "losses": 912,
+          "winRate": 0.4722222222222222,
+          "wilson95": [
+            0.448771153615111,
+            0.49579652509176386
+          ]
+        }
+      },
+      "opponents": {
+        "V-980": {
+          "wins": 213,
+          "draws": 0,
+          "total": 576,
+          "losses": 363,
+          "winRate": 0.3697916666666667,
+          "wilson95": [
+            0.33135124412247174,
+            0.4099574167255944
+          ]
+        },
+        "V-981": {
+          "wins": 416,
+          "draws": 0,
+          "total": 576,
+          "losses": 160,
+          "winRate": 0.7222222222222222,
+          "wilson95": [
+            0.6842628381250525,
+            0.7572370473609148
+          ]
+        },
+        "V-982": {
+          "wins": 249,
+          "draws": 0,
+          "total": 576,
+          "losses": 327,
+          "winRate": 0.4322916666666667,
+          "wilson95": [
+            0.3924147922489096,
+            0.47306571139208475
+          ]
+        },
+        "V-983": {
+          "wins": 209,
+          "draws": 0,
+          "total": 576,
+          "losses": 367,
+          "winRate": 0.3628472222222222,
+          "wilson95": [
+            0.3246085685773458,
+            0.4029032208492837
+          ]
+        },
+        "V-984": {
+          "wins": 343,
+          "draws": 0,
+          "total": 576,
+          "losses": 233,
+          "winRate": 0.5954861111111112,
+          "wilson95": [
+            0.5548996652952191,
+            0.6348073167495326
+          ]
+        },
+        "V-985": {
+          "wins": 245,
+          "draws": 0,
+          "total": 576,
+          "losses": 331,
+          "winRate": 0.4253472222222222,
+          "wilson95": [
+            0.3855971117416383,
+            0.4660865204779196
+          ]
+        }
+      },
+      "formations": {
+        "basic-10000-balanced": {
+          "wins": 108,
+          "draws": 0,
+          "total": 384,
+          "losses": 276,
+          "winRate": 0.28125,
+          "wilson95": [
+            0.2386172919520517,
+            0.32821617820689986
+          ]
+        },
+        "basic-20000000-balanced": {
+          "wins": 230,
+          "draws": 0,
+          "total": 384,
+          "losses": 154,
+          "winRate": 0.5989583333333334,
+          "wilson95": [
+            0.5491905274276686,
+            0.6467657598813773
+          ]
+        },
+        "basic-2000000000-balanced": {
+          "wins": 243,
+          "draws": 0,
+          "total": 384,
+          "losses": 141,
+          "winRate": 0.6328125,
+          "wilson95": [
+            0.5835044614907274,
+            0.6794895030556234
+          ]
+        },
+        "basic-20000000-attack": {
+          "wins": 212,
+          "draws": 0,
+          "total": 384,
+          "losses": 172,
+          "winRate": 0.5520833333333334,
+          "wilson95": [
+            0.5020733477199837,
+            0.6010615403374089
+          ]
+        },
+        "basic-20000000-defense": {
+          "wins": 283,
+          "draws": 0,
+          "total": 384,
+          "losses": 101,
+          "winRate": 0.7369791666666666,
+          "wilson95": [
+            0.6907511441207721,
+            0.7785125965403636
+          ]
+        },
+        "basic-20000000-speed": {
+          "wins": 196,
+          "draws": 0,
+          "total": 384,
+          "losses": 188,
+          "winRate": 0.5104166666666666,
+          "wilson95": [
+            0.4605620613031608,
+            0.5600649163083177
+          ]
+        },
+        "equipped-F01": {
+          "wins": 145,
+          "draws": 0,
+          "total": 384,
+          "losses": 239,
+          "winRate": 0.3776041666666667,
+          "wilson95": [
+            0.33055313447839907,
+            0.4270798785867287
+          ]
+        },
+        "equipped-F23": {
+          "wins": 79,
+          "draws": 0,
+          "total": 384,
+          "losses": 305,
+          "winRate": 0.20572916666666666,
+          "wilson95": [
+            0.168307463565501,
+            0.24898041891023134
+          ]
+        },
+        "level20-balanced-250000": {
+          "wins": 179,
+          "draws": 0,
+          "total": 384,
+          "losses": 205,
+          "winRate": 0.4661458333333333,
+          "wilson95": [
+            0.4168321044363027,
+            0.5161302183263923
+          ]
+        }
+      },
+      "losses": 1781,
+      "winRate": 0.48466435185185186,
+      "wilson95": [
+        0.4680283282564193,
+        0.501334431009785
+      ]
+    }
+  ],
+  "matches": [
+    {
+      "a": "V-980",
+      "b": "V-981",
+      "wins": 359,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 7,
+          "draws": 0,
+          "total": 64,
+          "losses": 57,
+          "winRate": 0.109375,
+          "wilson95": [
+            0.054000447526830544,
+            0.20898863291938535
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 41,
+          "draws": 0,
+          "total": 64,
+          "losses": 23,
+          "winRate": 0.640625,
+          "wilson95": [
+            0.5182062363615084,
+            0.7471176946778538
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 44,
+          "draws": 0,
+          "total": 64,
+          "losses": 20,
+          "winRate": 0.6875,
+          "wilson95": [
+            0.5660743364084737,
+            0.7876909049773426
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 38,
+          "draws": 0,
+          "total": 64,
+          "losses": 26,
+          "winRate": 0.59375,
+          "wilson95": [
+            0.471449865045497,
+            0.7054327556474111
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 55,
+          "draws": 0,
+          "total": 64,
+          "losses": 9,
+          "winRate": 0.859375,
+          "wilson95": [
+            0.7538349160536257,
+            0.9242151299358556
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 33,
+          "draws": 0,
+          "total": 64,
+          "losses": 31,
+          "winRate": 0.515625,
+          "wilson95": [
+            0.3958139224399903,
+            0.6336665143421609
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 62,
+          "draws": 0,
+          "total": 64,
+          "losses": 2,
+          "winRate": 0.96875,
+          "wilson95": [
+            0.8930250611770575,
+            0.9913880422874833
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 60,
+          "draws": 0,
+          "total": 64,
+          "losses": 4,
+          "winRate": 0.9375,
+          "wilson95": [
+            0.8500230335750312,
+            0.9754291963252071
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 19,
+          "draws": 0,
+          "total": 64,
+          "losses": 45,
+          "winRate": 0.296875,
+          "wilson95": [
+            0.19904999589075245,
+            0.4177043259412798
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 156701433,
+          "winner": "A",
+          "events": 65,
+          "skills": {
+            "V-980": {
+              "casts": 5,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 252532162
+            },
+            "V-981": {
+              "casts": 2,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 82070105
+            }
+          }
+        }
+      ],
+      "losses": 217,
+      "winRate": 0.6232638888888888,
+      "wilson95": [
+        0.582997046724038,
+        0.6618974210064594
+      ]
+    },
+    {
+      "a": "V-980",
+      "b": "V-982",
+      "wins": 243,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 0,
+          "draws": 0,
+          "total": 64,
+          "losses": 64,
+          "winRate": 0,
+          "wilson95": [
+            0,
+            0.056626022971156334
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 37,
+          "draws": 0,
+          "total": 64,
+          "losses": 27,
+          "winRate": 0.578125,
+          "wilson95": [
+            0.4560981205252726,
+            0.6913040633854843
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 36,
+          "draws": 0,
+          "total": 64,
+          "losses": 28,
+          "winRate": 0.5625,
+          "wilson95": [
+            0.4408599177828787,
+            0.6770618293457267
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 43,
+          "draws": 0,
+          "total": 64,
+          "losses": 21,
+          "winRate": 0.671875,
+          "wilson95": [
+            0.5499887622745426,
+            0.7742960423291224
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 23,
+          "draws": 0,
+          "total": 64,
+          "losses": 41,
+          "winRate": 0.359375,
+          "wilson95": [
+            0.2528823053221461,
+            0.48179376363849163
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 41,
+          "draws": 0,
+          "total": 64,
+          "losses": 23,
+          "winRate": 0.640625,
+          "wilson95": [
+            0.5182062363615084,
+            0.7471176946778538
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 31,
+          "draws": 0,
+          "total": 64,
+          "losses": 33,
+          "winRate": 0.484375,
+          "wilson95": [
+            0.36633348565783896,
+            0.6041860775600096
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 23,
+          "draws": 0,
+          "total": 64,
+          "losses": 41,
+          "winRate": 0.359375,
+          "wilson95": [
+            0.2528823053221461,
+            0.48179376363849163
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 9,
+          "draws": 0,
+          "total": 64,
+          "losses": 55,
+          "winRate": 0.140625,
+          "wilson95": [
+            0.07578487006414436,
+            0.24616508394637426
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 1916896492,
+          "winner": "A",
+          "events": 58,
+          "skills": {
+            "V-980": {
+              "casts": 5,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 279476861
+            },
+            "V-982": {
+              "casts": 1,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 26174720
+            }
+          }
+        }
+      ],
+      "losses": 333,
+      "winRate": 0.421875,
+      "wilson95": [
+        0.3821912928220103,
+        0.46259390368682934
+      ]
+    },
+    {
+      "a": "V-980",
+      "b": "V-983",
+      "wins": 226,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 0,
+          "draws": 0,
+          "total": 64,
+          "losses": 64,
+          "winRate": 0,
+          "wilson95": [
+            0,
+            0.056626022971156334
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 33,
+          "draws": 0,
+          "total": 64,
+          "losses": 31,
+          "winRate": 0.515625,
+          "wilson95": [
+            0.3958139224399903,
+            0.6336665143421609
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 31,
+          "draws": 0,
+          "total": 64,
+          "losses": 33,
+          "winRate": 0.484375,
+          "wilson95": [
+            0.36633348565783896,
+            0.6041860775600096
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 39,
+          "draws": 0,
+          "total": 64,
+          "losses": 25,
+          "winRate": 0.609375,
+          "wilson95": [
+            0.486916942944024,
+            0.7194461145310355
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 23,
+          "draws": 0,
+          "total": 64,
+          "losses": 41,
+          "winRate": 0.359375,
+          "wilson95": [
+            0.2528823053221461,
+            0.48179376363849163
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 33,
+          "draws": 0,
+          "total": 64,
+          "losses": 31,
+          "winRate": 0.515625,
+          "wilson95": [
+            0.3958139224399903,
+            0.6336665143421609
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 41,
+          "draws": 0,
+          "total": 64,
+          "losses": 23,
+          "winRate": 0.640625,
+          "wilson95": [
+            0.5182062363615084,
+            0.7471176946778538
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 15,
+          "draws": 0,
+          "total": 64,
+          "losses": 49,
+          "winRate": 0.234375,
+          "wilson95": [
+            0.1474976721963502,
+            0.35133490250707655
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 11,
+          "draws": 0,
+          "total": 64,
+          "losses": 53,
+          "winRate": 0.171875,
+          "wilson95": [
+            0.0987764126731623,
+            0.2821344149016591
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 1202267832,
+          "winner": "A",
+          "events": 63,
+          "skills": {
+            "V-980": {
+              "casts": 5,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 138190240
+            },
+            "V-983": {
+              "casts": 2,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 399106589
+            }
+          }
+        }
+      ],
+      "losses": 350,
+      "winRate": 0.3923611111111111,
+      "wilson95": [
+        0.3533242543196859,
+        0.4328242386480487
+      ]
+    },
+    {
+      "a": "V-980",
+      "b": "V-984",
+      "wins": 498,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 57,
+          "draws": 0,
+          "total": 64,
+          "losses": 7,
+          "winRate": 0.890625,
+          "wilson95": [
+            0.7910113670806147,
+            0.9459995524731695
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 63,
+          "draws": 0,
+          "total": 64,
+          "losses": 1,
+          "winRate": 0.984375,
+          "wilson95": [
+            0.9166570109970937,
+            0.9972365292495986
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 49,
+          "draws": 0,
+          "total": 64,
+          "losses": 15,
+          "winRate": 0.765625,
+          "wilson95": [
+            0.6486650974929234,
+            0.8525023278036498
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 53,
+          "draws": 0,
+          "total": 64,
+          "losses": 11,
+          "winRate": 0.828125,
+          "wilson95": [
+            0.7178655850983409,
+            0.9012235873268377
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 63,
+          "draws": 0,
+          "total": 64,
+          "losses": 1,
+          "winRate": 0.984375,
+          "wilson95": [
+            0.9166570109970937,
+            0.9972365292495986
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 57,
+          "draws": 0,
+          "total": 64,
+          "losses": 7,
+          "winRate": 0.890625,
+          "wilson95": [
+            0.7910113670806147,
+            0.9459995524731695
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 28,
+          "draws": 0,
+          "total": 64,
+          "losses": 36,
+          "winRate": 0.4375,
+          "wilson95": [
+            0.32293817065427327,
+            0.5591400822171212
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 3562820870,
+          "winner": "A",
+          "events": 115,
+          "skills": {
+            "V-980": {
+              "casts": 8,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 120572774
+            },
+            "V-984": {
+              "casts": 6,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_BUFF",
+                "MERCENARY_END"
+              ],
+              "damage": 0
+            }
+          }
+        }
+      ],
+      "losses": 78,
+      "winRate": 0.8645833333333334,
+      "wilson95": [
+        0.8342123219648361,
+        0.890123427660579
+      ]
+    },
+    {
+      "a": "V-980",
+      "b": "V-985",
+      "wins": 223,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 0,
+          "draws": 0,
+          "total": 64,
+          "losses": 64,
+          "winRate": 0,
+          "wilson95": [
+            0,
+            0.056626022971156334
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 37,
+          "draws": 0,
+          "total": 64,
+          "losses": 27,
+          "winRate": 0.578125,
+          "wilson95": [
+            0.4560981205252726,
+            0.6913040633854843
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 34,
+          "draws": 0,
+          "total": 64,
+          "losses": 30,
+          "winRate": 0.53125,
+          "wilson95": [
+            0.41071875000475133,
+            0.6482421235595515
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 28,
+          "draws": 0,
+          "total": 64,
+          "losses": 36,
+          "winRate": 0.4375,
+          "wilson95": [
+            0.32293817065427327,
+            0.5591400822171212
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 30,
+          "draws": 0,
+          "total": 64,
+          "losses": 34,
+          "winRate": 0.46875,
+          "wilson95": [
+            0.3517578764404486,
+            0.5892812499952487
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 26,
+          "draws": 0,
+          "total": 64,
+          "losses": 38,
+          "winRate": 0.40625,
+          "wilson95": [
+            0.29456724435258885,
+            0.528550134954503
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 36,
+          "draws": 0,
+          "total": 64,
+          "losses": 28,
+          "winRate": 0.5625,
+          "wilson95": [
+            0.4408599177828787,
+            0.6770618293457267
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 21,
+          "draws": 0,
+          "total": 64,
+          "losses": 43,
+          "winRate": 0.328125,
+          "wilson95": [
+            0.2257039576708776,
+            0.45001123772545737
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 11,
+          "draws": 0,
+          "total": 64,
+          "losses": 53,
+          "winRate": 0.171875,
+          "wilson95": [
+            0.0987764126731623,
+            0.2821344149016591
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 1305329083,
+          "winner": "A",
+          "events": 55,
+          "skills": {
+            "V-980": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 371532737
+            },
+            "V-985": {
+              "casts": 1,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 52697216
+            }
+          }
+        }
+      ],
+      "losses": 353,
+      "winRate": 0.3871527777777778,
+      "wilson95": [
+        0.348245608285877,
+        0.42755523111578037
+      ]
+    },
+    {
+      "a": "V-980",
+      "b": "V-986",
+      "wins": 363,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 62,
+          "draws": 0,
+          "total": 64,
+          "losses": 2,
+          "winRate": 0.96875,
+          "wilson95": [
+            0.8930250611770575,
+            0.9913880422874833
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 35,
+          "draws": 0,
+          "total": 64,
+          "losses": 29,
+          "winRate": 0.546875,
+          "wilson95": [
+            0.42573382520679776,
+            0.6627074851396563
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 27,
+          "draws": 0,
+          "total": 64,
+          "losses": 37,
+          "winRate": 0.421875,
+          "wilson95": [
+            0.3086959366145158,
+            0.5439018794747275
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 32,
+          "draws": 0,
+          "total": 64,
+          "losses": 32,
+          "winRate": 0.5,
+          "wilson95": [
+            0.38101888493214947,
+            0.6189811150678505
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 27,
+          "draws": 0,
+          "total": 64,
+          "losses": 37,
+          "winRate": 0.421875,
+          "wilson95": [
+            0.3086959366145158,
+            0.5439018794747275
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 31,
+          "draws": 0,
+          "total": 64,
+          "losses": 33,
+          "winRate": 0.484375,
+          "wilson95": [
+            0.36633348565783896,
+            0.6041860775600096
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 59,
+          "draws": 0,
+          "total": 64,
+          "losses": 5,
+          "winRate": 0.921875,
+          "wilson95": [
+            0.8298024712135222,
+            0.9661693219045645
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 26,
+          "draws": 0,
+          "total": 64,
+          "losses": 38,
+          "winRate": 0.40625,
+          "wilson95": [
+            0.29456724435258885,
+            0.528550134954503
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 3055949843,
+          "winner": "A",
+          "events": 58,
+          "skills": {
+            "V-980": {
+              "casts": 5,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 361514836
+            },
+            "V-986": {
+              "casts": 2,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 43852428
+            }
+          }
+        }
+      ],
+      "losses": 213,
+      "winRate": 0.6302083333333334,
+      "wilson95": [
+        0.5900425832744057,
+        0.6686487558775284
+      ]
+    },
+    {
+      "a": "V-981",
+      "b": "V-982",
+      "wins": 357,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 60,
+          "draws": 0,
+          "total": 64,
+          "losses": 4,
+          "winRate": 0.9375,
+          "wilson95": [
+            0.8500230335750312,
+            0.9754291963252071
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 39,
+          "draws": 0,
+          "total": 64,
+          "losses": 25,
+          "winRate": 0.609375,
+          "wilson95": [
+            0.486916942944024,
+            0.7194461145310355
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 43,
+          "draws": 0,
+          "total": 64,
+          "losses": 21,
+          "winRate": 0.671875,
+          "wilson95": [
+            0.5499887622745426,
+            0.7742960423291224
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 39,
+          "draws": 0,
+          "total": 64,
+          "losses": 25,
+          "winRate": 0.609375,
+          "wilson95": [
+            0.486916942944024,
+            0.7194461145310355
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 24,
+          "draws": 0,
+          "total": 64,
+          "losses": 40,
+          "winRate": 0.375,
+          "wilson95": [
+            0.2666580388810532,
+            0.4974984668617358
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 37,
+          "draws": 0,
+          "total": 64,
+          "losses": 27,
+          "winRate": 0.578125,
+          "wilson95": [
+            0.4560981205252726,
+            0.6913040633854843
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 39,
+          "draws": 0,
+          "total": 64,
+          "losses": 25,
+          "winRate": 0.609375,
+          "wilson95": [
+            0.486916942944024,
+            0.7194461145310355
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 34,
+          "draws": 0,
+          "total": 64,
+          "losses": 30,
+          "winRate": 0.53125,
+          "wilson95": [
+            0.41071875000475133,
+            0.6482421235595515
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 42,
+          "draws": 0,
+          "total": 64,
+          "losses": 22,
+          "winRate": 0.65625,
+          "wilson95": [
+            0.5340341181762038,
+            0.7607702496453097
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 2100310873,
+          "winner": "B",
+          "events": 65,
+          "skills": {
+            "V-981": {
+              "casts": 2,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 85544043
+            },
+            "V-982": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 382915845
+            }
+          }
+        }
+      ],
+      "losses": 219,
+      "winRate": 0.6197916666666666,
+      "wilson95": [
+        0.5794774952569689,
+        0.6585185367628102
+      ]
+    },
+    {
+      "a": "V-981",
+      "b": "V-983",
+      "wins": 346,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 40,
+          "draws": 0,
+          "total": 64,
+          "losses": 24,
+          "winRate": 0.625,
+          "wilson95": [
+            0.5025015331382642,
+            0.7333419611189468
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 38,
+          "draws": 0,
+          "total": 64,
+          "losses": 26,
+          "winRate": 0.59375,
+          "wilson95": [
+            0.471449865045497,
+            0.7054327556474111
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 36,
+          "draws": 0,
+          "total": 64,
+          "losses": 28,
+          "winRate": 0.5625,
+          "wilson95": [
+            0.4408599177828787,
+            0.6770618293457267
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 14,
+          "draws": 0,
+          "total": 64,
+          "losses": 50,
+          "winRate": 0.21875,
+          "wilson95": [
+            0.13502197461349755,
+            0.3343301633077779
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 32,
+          "draws": 0,
+          "total": 64,
+          "losses": 32,
+          "winRate": 0.5,
+          "wilson95": [
+            0.38101888493214947,
+            0.6189811150678505
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 43,
+          "draws": 0,
+          "total": 64,
+          "losses": 21,
+          "winRate": 0.671875,
+          "wilson95": [
+            0.5499887622745426,
+            0.7742960423291224
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 20,
+          "draws": 0,
+          "total": 64,
+          "losses": 44,
+          "winRate": 0.3125,
+          "wilson95": [
+            0.21230909502265743,
+            0.43392566359152623
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 59,
+          "draws": 0,
+          "total": 64,
+          "losses": 5,
+          "winRate": 0.921875,
+          "wilson95": [
+            0.8298024712135222,
+            0.9661693219045645
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 1617844608,
+          "winner": "A",
+          "events": 82,
+          "skills": {
+            "V-981": {
+              "casts": 3,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 421015576
+            },
+            "V-983": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 81928486
+            }
+          }
+        }
+      ],
+      "losses": 230,
+      "winRate": 0.6006944444444444,
+      "wilson95": [
+        0.5601577363452995,
+        0.6398968992655293
+      ]
+    },
+    {
+      "a": "V-981",
+      "b": "V-984",
+      "wins": 233,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 60,
+          "draws": 0,
+          "total": 64,
+          "losses": 4,
+          "winRate": 0.9375,
+          "wilson95": [
+            0.8500230335750312,
+            0.9754291963252071
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 36,
+          "draws": 0,
+          "total": 64,
+          "losses": 28,
+          "winRate": 0.5625,
+          "wilson95": [
+            0.4408599177828787,
+            0.6770618293457267
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 37,
+          "draws": 0,
+          "total": 64,
+          "losses": 27,
+          "winRate": 0.578125,
+          "wilson95": [
+            0.4560981205252726,
+            0.6913040633854843
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 33,
+          "draws": 0,
+          "total": 64,
+          "losses": 31,
+          "winRate": 0.515625,
+          "wilson95": [
+            0.3958139224399903,
+            0.6336665143421609
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 4,
+          "draws": 0,
+          "total": 64,
+          "losses": 60,
+          "winRate": 0.0625,
+          "wilson95": [
+            0.024570803674792932,
+            0.14997696642496888
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 36,
+          "draws": 0,
+          "total": 64,
+          "losses": 28,
+          "winRate": 0.5625,
+          "wilson95": [
+            0.4408599177828787,
+            0.6770618293457267
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 7,
+          "draws": 0,
+          "total": 64,
+          "losses": 57,
+          "winRate": 0.109375,
+          "wilson95": [
+            0.054000447526830544,
+            0.20898863291938535
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 2,
+          "draws": 0,
+          "total": 64,
+          "losses": 62,
+          "winRate": 0.03125,
+          "wilson95": [
+            0.00861195771251659,
+            0.10697493882294247
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 18,
+          "draws": 0,
+          "total": 64,
+          "losses": 46,
+          "winRate": 0.28125,
+          "wilson95": [
+            0.18593226105484584,
+            0.40134162399503504
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 1452565346,
+          "winner": "B",
+          "events": 115,
+          "skills": {
+            "V-981": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 260951060
+            },
+            "V-984": {
+              "casts": 7,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_BUFF",
+                "MERCENARY_END"
+              ],
+              "damage": 0
+            }
+          }
+        }
+      ],
+      "losses": 343,
+      "winRate": 0.4045138888888889,
+      "wilson95": [
+        0.36519268325046744,
+        0.445100334704781
+      ]
+    },
+    {
+      "a": "V-981",
+      "b": "V-985",
+      "wins": 270,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 52,
+          "draws": 0,
+          "total": 64,
+          "losses": 12,
+          "winRate": 0.8125,
+          "wilson95": [
+            0.7002540844522482,
+            0.889354651190779
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 23,
+          "draws": 0,
+          "total": 64,
+          "losses": 41,
+          "winRate": 0.359375,
+          "wilson95": [
+            0.2528823053221461,
+            0.48179376363849163
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 24,
+          "draws": 0,
+          "total": 64,
+          "losses": 40,
+          "winRate": 0.375,
+          "wilson95": [
+            0.2666580388810532,
+            0.4974984668617358
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 32,
+          "draws": 0,
+          "total": 64,
+          "losses": 32,
+          "winRate": 0.5,
+          "wilson95": [
+            0.38101888493214947,
+            0.6189811150678505
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 22,
+          "draws": 0,
+          "total": 64,
+          "losses": 42,
+          "winRate": 0.34375,
+          "wilson95": [
+            0.2392297503546903,
+            0.46596588182379606
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 20,
+          "draws": 0,
+          "total": 64,
+          "losses": 44,
+          "winRate": 0.3125,
+          "wilson95": [
+            0.21230909502265743,
+            0.43392566359152623
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 41,
+          "draws": 0,
+          "total": 64,
+          "losses": 23,
+          "winRate": 0.640625,
+          "wilson95": [
+            0.5182062363615084,
+            0.7471176946778538
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 24,
+          "draws": 0,
+          "total": 64,
+          "losses": 40,
+          "winRate": 0.375,
+          "wilson95": [
+            0.2666580388810532,
+            0.4974984668617358
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 32,
+          "draws": 0,
+          "total": 64,
+          "losses": 32,
+          "winRate": 0.5,
+          "wilson95": [
+            0.38101888493214947,
+            0.6189811150678505
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 2785590390,
+          "winner": "A",
+          "events": 70,
+          "skills": {
+            "V-981": {
+              "casts": 3,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 425372149
+            },
+            "V-985": {
+              "casts": 2,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 96347162
+            }
+          }
+        }
+      ],
+      "losses": 306,
+      "winRate": 0.46875,
+      "wilson95": [
+        0.42833823452816977,
+        0.509575844075366
+      ]
+    },
+    {
+      "a": "V-981",
+      "b": "V-986",
+      "wins": 160,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 3,
+          "draws": 0,
+          "total": 64,
+          "losses": 61,
+          "winRate": 0.046875,
+          "wilson95": [
+            0.016068725432185196,
+            0.12899860788542522
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 23,
+          "draws": 0,
+          "total": 64,
+          "losses": 41,
+          "winRate": 0.359375,
+          "wilson95": [
+            0.2528823053221461,
+            0.48179376363849163
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 24,
+          "draws": 0,
+          "total": 64,
+          "losses": 40,
+          "winRate": 0.375,
+          "wilson95": [
+            0.2666580388810532,
+            0.4974984668617358
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 30,
+          "draws": 0,
+          "total": 64,
+          "losses": 34,
+          "winRate": 0.46875,
+          "wilson95": [
+            0.3517578764404486,
+            0.5892812499952487
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 5,
+          "draws": 0,
+          "total": 64,
+          "losses": 59,
+          "winRate": 0.078125,
+          "wilson95": [
+            0.03383067809543547,
+            0.1701975287864777
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 33,
+          "draws": 0,
+          "total": 64,
+          "losses": 31,
+          "winRate": 0.515625,
+          "wilson95": [
+            0.3958139224399903,
+            0.6336665143421609
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 3,
+          "draws": 0,
+          "total": 64,
+          "losses": 61,
+          "winRate": 0.046875,
+          "wilson95": [
+            0.016068725432185196,
+            0.12899860788542522
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 12,
+          "draws": 0,
+          "total": 64,
+          "losses": 52,
+          "winRate": 0.1875,
+          "wilson95": [
+            0.11064534880922097,
+            0.29974591554775176
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 27,
+          "draws": 0,
+          "total": 64,
+          "losses": 37,
+          "winRate": 0.421875,
+          "wilson95": [
+            0.3086959366145158,
+            0.5439018794747275
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 876943460,
+          "winner": "A",
+          "events": 66,
+          "skills": {
+            "V-981": {
+              "casts": 3,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 631251629
+            },
+            "V-986": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 83042636
+            }
+          }
+        }
+      ],
+      "losses": 416,
+      "winRate": 0.2777777777777778,
+      "wilson95": [
+        0.24276295263908523,
+        0.31573716187494755
+      ]
+    },
+    {
+      "a": "V-982",
+      "b": "V-983",
+      "wins": 285,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 50,
+          "draws": 0,
+          "total": 64,
+          "losses": 14,
+          "winRate": 0.78125,
+          "wilson95": [
+            0.665669836692222,
+            0.8649780253865025
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 16,
+          "draws": 0,
+          "total": 64,
+          "losses": 48,
+          "winRate": 0.25,
+          "wilson95": [
+            0.16014791974174092,
+            0.36816509174383727
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 20,
+          "draws": 0,
+          "total": 64,
+          "losses": 44,
+          "winRate": 0.3125,
+          "wilson95": [
+            0.21230909502265743,
+            0.43392566359152623
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 28,
+          "draws": 0,
+          "total": 64,
+          "losses": 36,
+          "winRate": 0.4375,
+          "wilson95": [
+            0.32293817065427327,
+            0.5591400822171212
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 24,
+          "draws": 0,
+          "total": 64,
+          "losses": 40,
+          "winRate": 0.375,
+          "wilson95": [
+            0.2666580388810532,
+            0.4974984668617358
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 31,
+          "draws": 0,
+          "total": 64,
+          "losses": 33,
+          "winRate": 0.484375,
+          "wilson95": [
+            0.36633348565783896,
+            0.6041860775600096
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 36,
+          "draws": 0,
+          "total": 64,
+          "losses": 28,
+          "winRate": 0.5625,
+          "wilson95": [
+            0.4408599177828787,
+            0.6770618293457267
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 33,
+          "draws": 0,
+          "total": 64,
+          "losses": 31,
+          "winRate": 0.515625,
+          "wilson95": [
+            0.3958139224399903,
+            0.6336665143421609
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 47,
+          "draws": 0,
+          "total": 64,
+          "losses": 17,
+          "winRate": 0.734375,
+          "wilson95": [
+            0.615168937427648,
+            0.8270376143046224
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 4170058288,
+          "winner": "B",
+          "events": 77,
+          "skills": {
+            "V-982": {
+              "casts": 3,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 54832187
+            },
+            "V-983": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 349794339
+            }
+          }
+        }
+      ],
+      "losses": 291,
+      "winRate": 0.4947916666666667,
+      "wilson95": [
+        0.4541305237783623,
+        0.5355218226555604
+      ]
+    },
+    {
+      "a": "V-982",
+      "b": "V-984",
+      "wins": 170,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 0,
+          "draws": 0,
+          "total": 64,
+          "losses": 64,
+          "winRate": 0,
+          "wilson95": [
+            0,
+            0.056626022971156334
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 24,
+          "draws": 0,
+          "total": 64,
+          "losses": 40,
+          "winRate": 0.375,
+          "wilson95": [
+            0.2666580388810532,
+            0.4974984668617358
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 24,
+          "draws": 0,
+          "total": 64,
+          "losses": 40,
+          "winRate": 0.375,
+          "wilson95": [
+            0.2666580388810532,
+            0.4974984668617358
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 21,
+          "draws": 0,
+          "total": 64,
+          "losses": 43,
+          "winRate": 0.328125,
+          "wilson95": [
+            0.2257039576708776,
+            0.45001123772545737
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 41,
+          "draws": 0,
+          "total": 64,
+          "losses": 23,
+          "winRate": 0.640625,
+          "wilson95": [
+            0.5182062363615084,
+            0.7471176946778538
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 28,
+          "draws": 0,
+          "total": 64,
+          "losses": 36,
+          "winRate": 0.4375,
+          "wilson95": [
+            0.32293817065427327,
+            0.5591400822171212
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 2,
+          "draws": 0,
+          "total": 64,
+          "losses": 62,
+          "winRate": 0.03125,
+          "wilson95": [
+            0.00861195771251659,
+            0.10697493882294247
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 0,
+          "draws": 0,
+          "total": 64,
+          "losses": 64,
+          "winRate": 0,
+          "wilson95": [
+            0,
+            0.056626022971156334
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 30,
+          "draws": 0,
+          "total": 64,
+          "losses": 34,
+          "winRate": 0.46875,
+          "wilson95": [
+            0.3517578764404486,
+            0.5892812499952487
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 1668193209,
+          "winner": "B",
+          "events": 111,
+          "skills": {
+            "V-982": {
+              "casts": 6,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 200055396
+            },
+            "V-984": {
+              "casts": 7,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_BUFF",
+                "MERCENARY_END"
+              ],
+              "damage": 0
+            }
+          }
+        }
+      ],
+      "losses": 406,
+      "winRate": 0.2951388888888889,
+      "wilson95": [
+        0.2593463517395584,
+        0.33364594132806563
+      ]
+    },
+    {
+      "a": "V-982",
+      "b": "V-985",
+      "wins": 204,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 5,
+          "draws": 0,
+          "total": 64,
+          "losses": 59,
+          "winRate": 0.078125,
+          "wilson95": [
+            0.03383067809543547,
+            0.1701975287864777
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 14,
+          "draws": 0,
+          "total": 64,
+          "losses": 50,
+          "winRate": 0.21875,
+          "wilson95": [
+            0.13502197461349755,
+            0.3343301633077779
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 11,
+          "draws": 0,
+          "total": 64,
+          "losses": 53,
+          "winRate": 0.171875,
+          "wilson95": [
+            0.0987764126731623,
+            0.2821344149016591
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 22,
+          "draws": 0,
+          "total": 64,
+          "losses": 42,
+          "winRate": 0.34375,
+          "wilson95": [
+            0.2392297503546903,
+            0.46596588182379606
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 35,
+          "draws": 0,
+          "total": 64,
+          "losses": 29,
+          "winRate": 0.546875,
+          "wilson95": [
+            0.42573382520679776,
+            0.6627074851396563
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 20,
+          "draws": 0,
+          "total": 64,
+          "losses": 44,
+          "winRate": 0.3125,
+          "wilson95": [
+            0.21230909502265743,
+            0.43392566359152623
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 42,
+          "draws": 0,
+          "total": 64,
+          "losses": 22,
+          "winRate": 0.65625,
+          "wilson95": [
+            0.5340341181762038,
+            0.7607702496453097
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 34,
+          "draws": 0,
+          "total": 64,
+          "losses": 30,
+          "winRate": 0.53125,
+          "wilson95": [
+            0.41071875000475133,
+            0.6482421235595515
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 21,
+          "draws": 0,
+          "total": 64,
+          "losses": 43,
+          "winRate": 0.328125,
+          "wilson95": [
+            0.2257039576708776,
+            0.45001123772545737
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 3712007606,
+          "winner": "A",
+          "events": 70,
+          "skills": {
+            "V-982": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 376161487
+            },
+            "V-985": {
+              "casts": 2,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 96414090
+            }
+          }
+        }
+      ],
+      "losses": 372,
+      "winRate": 0.3541666666666667,
+      "wilson95": [
+        0.3161925601750547,
+        0.39407313997477933
+      ]
+    },
+    {
+      "a": "V-982",
+      "b": "V-986",
+      "wins": 327,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 61,
+          "draws": 0,
+          "total": 64,
+          "losses": 3,
+          "winRate": 0.953125,
+          "wilson95": [
+            0.8710013921145747,
+            0.9839312745678148
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 28,
+          "draws": 0,
+          "total": 64,
+          "losses": 36,
+          "winRate": 0.4375,
+          "wilson95": [
+            0.32293817065427327,
+            0.5591400822171212
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 26,
+          "draws": 0,
+          "total": 64,
+          "losses": 38,
+          "winRate": 0.40625,
+          "wilson95": [
+            0.29456724435258885,
+            0.528550134954503
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 22,
+          "draws": 0,
+          "total": 64,
+          "losses": 42,
+          "winRate": 0.34375,
+          "wilson95": [
+            0.2392297503546903,
+            0.46596588182379606
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 24,
+          "draws": 0,
+          "total": 64,
+          "losses": 40,
+          "winRate": 0.375,
+          "wilson95": [
+            0.2666580388810532,
+            0.4974984668617358
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 27,
+          "draws": 0,
+          "total": 64,
+          "losses": 37,
+          "winRate": 0.421875,
+          "wilson95": [
+            0.3086959366145158,
+            0.5439018794747275
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 51,
+          "draws": 0,
+          "total": 64,
+          "losses": 13,
+          "winRate": 0.796875,
+          "wilson95": [
+            0.6828613244878341,
+            0.8772669743730419
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 56,
+          "draws": 0,
+          "total": 64,
+          "losses": 8,
+          "winRate": 0.875,
+          "wilson95": [
+            0.7722521366978408,
+            0.9352783460737919
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 32,
+          "draws": 0,
+          "total": 64,
+          "losses": 32,
+          "winRate": 0.5,
+          "wilson95": [
+            0.38101888493214947,
+            0.6189811150678505
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 3867906167,
+          "winner": "A",
+          "events": 60,
+          "skills": {
+            "V-982": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 602836127
+            },
+            "V-986": {
+              "casts": 2,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 43509780
+            }
+          }
+        }
+      ],
+      "losses": 249,
+      "winRate": 0.5677083333333334,
+      "wilson95": [
+        0.5269342886079152,
+        0.6075852077510905
+      ]
+    },
+    {
+      "a": "V-983",
+      "b": "V-984",
+      "wins": 300,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 0,
+          "draws": 0,
+          "total": 64,
+          "losses": 64,
+          "winRate": 0,
+          "wilson95": [
+            0,
+            0.056626022971156334
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 42,
+          "draws": 0,
+          "total": 64,
+          "losses": 22,
+          "winRate": 0.65625,
+          "wilson95": [
+            0.5340341181762038,
+            0.7607702496453097
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 44,
+          "draws": 0,
+          "total": 64,
+          "losses": 20,
+          "winRate": 0.6875,
+          "wilson95": [
+            0.5660743364084737,
+            0.7876909049773426
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 38,
+          "draws": 0,
+          "total": 64,
+          "losses": 26,
+          "winRate": 0.59375,
+          "wilson95": [
+            0.471449865045497,
+            0.7054327556474111
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 52,
+          "draws": 0,
+          "total": 64,
+          "losses": 12,
+          "winRate": 0.8125,
+          "wilson95": [
+            0.7002540844522482,
+            0.889354651190779
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 42,
+          "draws": 0,
+          "total": 64,
+          "losses": 22,
+          "winRate": 0.65625,
+          "wilson95": [
+            0.5340341181762038,
+            0.7607702496453097
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 43,
+          "draws": 0,
+          "total": 64,
+          "losses": 21,
+          "winRate": 0.671875,
+          "wilson95": [
+            0.5499887622745426,
+            0.7742960423291224
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 8,
+          "draws": 0,
+          "total": 64,
+          "losses": 56,
+          "winRate": 0.125,
+          "wilson95": [
+            0.064721653926208,
+            0.22774786330215924
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 31,
+          "draws": 0,
+          "total": 64,
+          "losses": 33,
+          "winRate": 0.484375,
+          "wilson95": [
+            0.36633348565783896,
+            0.6041860775600096
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 1925290826,
+          "winner": "A",
+          "events": 70,
+          "skills": {
+            "V-983": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 367337565
+            },
+            "V-984": {
+              "casts": 2,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_BUFF",
+                "MERCENARY_END"
+              ],
+              "damage": 0
+            }
+          }
+        }
+      ],
+      "losses": 276,
+      "winRate": 0.5208333333333334,
+      "wilson95": [
+        0.48003257333918686,
+        0.5613580409251226
+      ]
+    },
+    {
+      "a": "V-983",
+      "b": "V-985",
+      "wins": 180,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 0,
+          "draws": 0,
+          "total": 64,
+          "losses": 64,
+          "winRate": 0,
+          "wilson95": [
+            0,
+            0.056626022971156334
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 9,
+          "draws": 0,
+          "total": 64,
+          "losses": 55,
+          "winRate": 0.140625,
+          "wilson95": [
+            0.07578487006414436,
+            0.24616508394637426
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 13,
+          "draws": 0,
+          "total": 64,
+          "losses": 51,
+          "winRate": 0.203125,
+          "wilson95": [
+            0.12273302562695812,
+            0.3171386755121659
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 28,
+          "draws": 0,
+          "total": 64,
+          "losses": 36,
+          "winRate": 0.4375,
+          "wilson95": [
+            0.32293817065427327,
+            0.5591400822171212
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 40,
+          "draws": 0,
+          "total": 64,
+          "losses": 24,
+          "winRate": 0.625,
+          "wilson95": [
+            0.5025015331382642,
+            0.7333419611189468
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 26,
+          "draws": 0,
+          "total": 64,
+          "losses": 38,
+          "winRate": 0.40625,
+          "wilson95": [
+            0.29456724435258885,
+            0.528550134954503
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 23,
+          "draws": 0,
+          "total": 64,
+          "losses": 41,
+          "winRate": 0.359375,
+          "wilson95": [
+            0.2528823053221461,
+            0.48179376363849163
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 37,
+          "draws": 0,
+          "total": 64,
+          "losses": 27,
+          "winRate": 0.578125,
+          "wilson95": [
+            0.4560981205252726,
+            0.6913040633854843
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 4,
+          "draws": 0,
+          "total": 64,
+          "losses": 60,
+          "winRate": 0.0625,
+          "wilson95": [
+            0.024570803674792932,
+            0.14997696642496888
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 3302990911,
+          "winner": "B",
+          "events": 72,
+          "skills": {
+            "V-983": {
+              "casts": 2,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 80583360
+            },
+            "V-985": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 405356881
+            }
+          }
+        }
+      ],
+      "losses": 396,
+      "winRate": 0.3125,
+      "wilson95": [
+        0.27599388022438787,
+        0.35149059139682726
+      ]
+    },
+    {
+      "a": "V-983",
+      "b": "V-986",
+      "wins": 367,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 58,
+          "draws": 0,
+          "total": 64,
+          "losses": 6,
+          "winRate": 0.90625,
+          "wilson95": [
+            0.8101690141672233,
+            0.9563223421687121
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 36,
+          "draws": 0,
+          "total": 64,
+          "losses": 28,
+          "winRate": 0.5625,
+          "wilson95": [
+            0.4408599177828787,
+            0.6770618293457267
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 32,
+          "draws": 0,
+          "total": 64,
+          "losses": 32,
+          "winRate": 0.5,
+          "wilson95": [
+            0.38101888493214947,
+            0.6189811150678505
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 31,
+          "draws": 0,
+          "total": 64,
+          "losses": 33,
+          "winRate": 0.484375,
+          "wilson95": [
+            0.36633348565783896,
+            0.6041860775600096
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 24,
+          "draws": 0,
+          "total": 64,
+          "losses": 40,
+          "winRate": 0.375,
+          "wilson95": [
+            0.2666580388810532,
+            0.4974984668617358
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 33,
+          "draws": 0,
+          "total": 64,
+          "losses": 31,
+          "winRate": 0.515625,
+          "wilson95": [
+            0.3958139224399903,
+            0.6336665143421609
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 45,
+          "draws": 0,
+          "total": 64,
+          "losses": 19,
+          "winRate": 0.703125,
+          "wilson95": [
+            0.5822956740587202,
+            0.8009500041092477
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 57,
+          "draws": 0,
+          "total": 64,
+          "losses": 7,
+          "winRate": 0.890625,
+          "wilson95": [
+            0.7910113670806147,
+            0.9459995524731695
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 51,
+          "draws": 0,
+          "total": 64,
+          "losses": 13,
+          "winRate": 0.796875,
+          "wilson95": [
+            0.6828613244878341,
+            0.8772669743730419
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 1109932879,
+          "winner": "B",
+          "events": 62,
+          "skills": {
+            "V-983": {
+              "casts": 2,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 285458293
+            },
+            "V-986": {
+              "casts": 6,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 408426192
+            }
+          }
+        }
+      ],
+      "losses": 209,
+      "winRate": 0.6371527777777778,
+      "wilson95": [
+        0.5970967791507162,
+        0.6753914314226541
+      ]
+    },
+    {
+      "a": "V-984",
+      "b": "V-985",
+      "wins": 360,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 31,
+          "draws": 0,
+          "total": 64,
+          "losses": 33,
+          "winRate": 0.484375,
+          "wilson95": [
+            0.36633348565783896,
+            0.6041860775600096
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 31,
+          "draws": 0,
+          "total": 64,
+          "losses": 33,
+          "winRate": 0.484375,
+          "wilson95": [
+            0.36633348565783896,
+            0.6041860775600096
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 31,
+          "draws": 0,
+          "total": 64,
+          "losses": 33,
+          "winRate": 0.484375,
+          "wilson95": [
+            0.36633348565783896,
+            0.6041860775600096
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 24,
+          "draws": 0,
+          "total": 64,
+          "losses": 40,
+          "winRate": 0.375,
+          "wilson95": [
+            0.2666580388810532,
+            0.4974984668617358
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 25,
+          "draws": 0,
+          "total": 64,
+          "losses": 39,
+          "winRate": 0.390625,
+          "wilson95": [
+            0.28055388546896454,
+            0.5130830570559759
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 56,
+          "draws": 0,
+          "total": 64,
+          "losses": 8,
+          "winRate": 0.875,
+          "wilson95": [
+            0.7722521366978408,
+            0.9352783460737919
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 34,
+          "draws": 0,
+          "total": 64,
+          "losses": 30,
+          "winRate": 0.53125,
+          "wilson95": [
+            0.41071875000475133,
+            0.6482421235595515
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 1523416422,
+          "winner": "A",
+          "events": 96,
+          "skills": {
+            "V-984": {
+              "casts": 7,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_BUFF",
+                "MERCENARY_END"
+              ],
+              "damage": 0
+            },
+            "V-985": {
+              "casts": 3,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 372189240
+            }
+          }
+        }
+      ],
+      "losses": 216,
+      "winRate": 0.625,
+      "wilson95": [
+        0.5847576244495549,
+        0.6635860611363016
+      ]
+    },
+    {
+      "a": "V-984",
+      "b": "V-986",
+      "wins": 233,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 48,
+          "draws": 0,
+          "total": 64,
+          "losses": 16,
+          "winRate": 0.75,
+          "wilson95": [
+            0.6318349082561628,
+            0.8398520802582591
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 3,
+          "draws": 0,
+          "total": 64,
+          "losses": 61,
+          "winRate": 0.046875,
+          "wilson95": [
+            0.016068725432185196,
+            0.12899860788542522
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 3,
+          "draws": 0,
+          "total": 64,
+          "losses": 61,
+          "winRate": 0.046875,
+          "wilson95": [
+            0.016068725432185196,
+            0.12899860788542522
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 20,
+          "draws": 0,
+          "total": 64,
+          "losses": 44,
+          "winRate": 0.3125,
+          "wilson95": [
+            0.21230909502265743,
+            0.43392566359152623
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 0,
+          "draws": 0,
+          "total": 64,
+          "losses": 64,
+          "winRate": 0,
+          "wilson95": [
+            0,
+            0.056626022971156334
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 25,
+          "draws": 0,
+          "total": 64,
+          "losses": 39,
+          "winRate": 0.390625,
+          "wilson95": [
+            0.28055388546896454,
+            0.5130830570559759
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 38,
+          "draws": 0,
+          "total": 64,
+          "losses": 26,
+          "winRate": 0.59375,
+          "wilson95": [
+            0.471449865045497,
+            0.7054327556474111
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 63,
+          "draws": 0,
+          "total": 64,
+          "losses": 1,
+          "winRate": 0.984375,
+          "wilson95": [
+            0.9166570109970937,
+            0.9972365292495986
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 33,
+          "draws": 0,
+          "total": 64,
+          "losses": 31,
+          "winRate": 0.515625,
+          "wilson95": [
+            0.3958139224399903,
+            0.6336665143421609
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 1202986673,
+          "winner": "B",
+          "events": 111,
+          "skills": {
+            "V-984": {
+              "casts": 5,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_BUFF",
+                "MERCENARY_END"
+              ],
+              "damage": 0
+            },
+            "V-986": {
+              "casts": 12,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 442780058
+            }
+          }
+        }
+      ],
+      "losses": 343,
+      "winRate": 0.4045138888888889,
+      "wilson95": [
+        0.36519268325046744,
+        0.445100334704781
+      ]
+    },
+    {
+      "a": "V-985",
+      "b": "V-986",
+      "wins": 331,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 44,
+          "draws": 0,
+          "total": 64,
+          "losses": 20,
+          "winRate": 0.6875,
+          "wilson95": [
+            0.5660743364084737,
+            0.7876909049773426
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 29,
+          "draws": 0,
+          "total": 64,
+          "losses": 35,
+          "winRate": 0.453125,
+          "wilson95": [
+            0.3372925148603437,
+            0.5742661747932022
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 29,
+          "draws": 0,
+          "total": 64,
+          "losses": 35,
+          "winRate": 0.453125,
+          "wilson95": [
+            0.3372925148603437,
+            0.5742661747932022
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 37,
+          "draws": 0,
+          "total": 64,
+          "losses": 27,
+          "winRate": 0.578125,
+          "wilson95": [
+            0.4560981205252726,
+            0.6913040633854843
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 21,
+          "draws": 0,
+          "total": 64,
+          "losses": 43,
+          "winRate": 0.328125,
+          "wilson95": [
+            0.2257039576708776,
+            0.45001123772545737
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 39,
+          "draws": 0,
+          "total": 64,
+          "losses": 25,
+          "winRate": 0.609375,
+          "wilson95": [
+            0.486916942944024,
+            0.7194461145310355
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 43,
+          "draws": 0,
+          "total": 64,
+          "losses": 21,
+          "winRate": 0.671875,
+          "wilson95": [
+            0.5499887622745426,
+            0.7742960423291224
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 53,
+          "draws": 0,
+          "total": 64,
+          "losses": 11,
+          "winRate": 0.828125,
+          "wilson95": [
+            0.7178655850983409,
+            0.9012235873268377
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 36,
+          "draws": 0,
+          "total": 64,
+          "losses": 28,
+          "winRate": 0.5625,
+          "wilson95": [
+            0.4408599177828787,
+            0.6770618293457267
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 2572517575,
+          "winner": "B",
+          "events": 64,
+          "skills": {
+            "V-985": {
+              "casts": 2,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 531787499
+            },
+            "V-986": {
+              "casts": 6,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 422130246
+            }
+          }
+        }
+      ],
+      "losses": 245,
+      "winRate": 0.5746527777777778,
+      "wilson95": [
+        0.5339134795220805,
+        0.6144028882583618
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-980",
+      "wins": 422,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 36,
+          "draws": 0,
+          "total": 64,
+          "losses": 28,
+          "winRate": 0.5625,
+          "wilson95": [
+            0.4408599177828787,
+            0.6770618293457267
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 43,
+          "draws": 0,
+          "total": 64,
+          "losses": 21,
+          "winRate": 0.671875,
+          "wilson95": [
+            0.5499887622745426,
+            0.7742960423291224
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 42,
+          "draws": 0,
+          "total": 64,
+          "losses": 22,
+          "winRate": 0.65625,
+          "wilson95": [
+            0.5340341181762038,
+            0.7607702496453097
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 35,
+          "draws": 0,
+          "total": 64,
+          "losses": 29,
+          "winRate": 0.546875,
+          "wilson95": [
+            0.42573382520679776,
+            0.6627074851396563
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 23,
+          "draws": 0,
+          "total": 64,
+          "losses": 41,
+          "winRate": 0.359375,
+          "wilson95": [
+            0.2528823053221461,
+            0.48179376363849163
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 54,
+          "draws": 0,
+          "total": 64,
+          "losses": 10,
+          "winRate": 0.84375,
+          "wilson95": [
+            0.7357170979769467,
+            0.9128525112303834
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 63,
+          "draws": 0,
+          "total": 64,
+          "losses": 1,
+          "winRate": 0.984375,
+          "wilson95": [
+            0.9166570109970937,
+            0.9972365292495986
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 62,
+          "draws": 0,
+          "total": 64,
+          "losses": 2,
+          "winRate": 0.96875,
+          "wilson95": [
+            0.8930250611770575,
+            0.9913880422874833
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 3685886320,
+          "winner": "A",
+          "events": 66,
+          "skills": {
+            "V-057": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 598793909
+            },
+            "V-980": {
+              "casts": 3,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 51295725
+            }
+          }
+        }
+      ],
+      "losses": 154,
+      "winRate": 0.7326388888888888,
+      "wilson95": [
+        0.6950403445594305,
+        0.7671548480586913
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-981",
+      "wins": 559,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 54,
+          "draws": 0,
+          "total": 64,
+          "losses": 10,
+          "winRate": 0.84375,
+          "wilson95": [
+            0.7357170979769467,
+            0.9128525112303834
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 57,
+          "draws": 0,
+          "total": 64,
+          "losses": 7,
+          "winRate": 0.890625,
+          "wilson95": [
+            0.7910113670806147,
+            0.9459995524731695
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 3920982277,
+          "winner": "A",
+          "events": 49,
+          "skills": {
+            "V-057": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 395470230
+            },
+            "V-981": {
+              "casts": 0,
+              "types": [],
+              "damage": 0
+            }
+          }
+        }
+      ],
+      "losses": 17,
+      "winRate": 0.9704861111111112,
+      "wilson95": [
+        0.953245198449294,
+        0.9814928403530274
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-982",
+      "wins": 563,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 57,
+          "draws": 0,
+          "total": 64,
+          "losses": 7,
+          "winRate": 0.890625,
+          "wilson95": [
+            0.7910113670806147,
+            0.9459995524731695
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 58,
+          "draws": 0,
+          "total": 64,
+          "losses": 6,
+          "winRate": 0.90625,
+          "wilson95": [
+            0.8101690141672233,
+            0.9563223421687121
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 879435027,
+          "winner": "A",
+          "events": 52,
+          "skills": {
+            "V-057": {
+              "casts": 5,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 387834233
+            },
+            "V-982": {
+              "casts": 0,
+              "types": [],
+              "damage": 0
+            }
+          }
+        }
+      ],
+      "losses": 13,
+      "winRate": 0.9774305555555556,
+      "wilson95": [
+        0.9617711029858529,
+        0.9867638072379048
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-983",
+      "wins": 567,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 55,
+          "draws": 0,
+          "total": 64,
+          "losses": 9,
+          "winRate": 0.859375,
+          "wilson95": [
+            0.7538349160536257,
+            0.9242151299358556
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 1039774272,
+          "winner": "A",
+          "events": 60,
+          "skills": {
+            "V-057": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 378824852
+            },
+            "V-983": {
+              "casts": 1,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 54408640
+            }
+          }
+        }
+      ],
+      "losses": 9,
+      "winRate": 0.984375,
+      "wilson95": [
+        0.9705734152832628,
+        0.9917583663619314
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-984",
+      "wins": 575,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 63,
+          "draws": 0,
+          "total": 64,
+          "losses": 1,
+          "winRate": 0.984375,
+          "wilson95": [
+            0.9166570109970937,
+            0.9972365292495986
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 3190374371,
+          "winner": "A",
+          "events": 57,
+          "skills": {
+            "V-057": {
+              "casts": 5,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 401031340
+            },
+            "V-984": {
+              "casts": 1,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_BUFF",
+                "MERCENARY_END"
+              ],
+              "damage": 0
+            }
+          }
+        }
+      ],
+      "losses": 1,
+      "winRate": 0.9982638888888888,
+      "wilson95": [
+        0.9902320486098692,
+        0.9996934758781979
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-985",
+      "wins": 551,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 52,
+          "draws": 0,
+          "total": 64,
+          "losses": 12,
+          "winRate": 0.8125,
+          "wilson95": [
+            0.7002540844522482,
+            0.889354651190779
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 51,
+          "draws": 0,
+          "total": 64,
+          "losses": 13,
+          "winRate": 0.796875,
+          "wilson95": [
+            0.6828613244878341,
+            0.8772669743730419
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 859720166,
+          "winner": "A",
+          "events": 59,
+          "skills": {
+            "V-057": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 378024115
+            },
+            "V-985": {
+              "casts": 1,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 52697216
+            }
+          }
+        }
+      ],
+      "losses": 25,
+      "winRate": 0.9565972222222222,
+      "wilson95": [
+        0.9367131743402808,
+        0.9704311216191674
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-986",
+      "wins": 433,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 41,
+          "draws": 0,
+          "total": 64,
+          "losses": 23,
+          "winRate": 0.640625,
+          "wilson95": [
+            0.5182062363615084,
+            0.7471176946778538
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 37,
+          "draws": 0,
+          "total": 64,
+          "losses": 27,
+          "winRate": 0.578125,
+          "wilson95": [
+            0.4560981205252726,
+            0.6913040633854843
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 44,
+          "draws": 0,
+          "total": 64,
+          "losses": 20,
+          "winRate": 0.6875,
+          "wilson95": [
+            0.5660743364084737,
+            0.7876909049773426
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 36,
+          "draws": 0,
+          "total": 64,
+          "losses": 28,
+          "winRate": 0.5625,
+          "wilson95": [
+            0.4408599177828787,
+            0.6770618293457267
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 27,
+          "draws": 0,
+          "total": 64,
+          "losses": 37,
+          "winRate": 0.421875,
+          "wilson95": [
+            0.3086959366145158,
+            0.5439018794747275
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 63,
+          "draws": 0,
+          "total": 64,
+          "losses": 1,
+          "winRate": 0.984375,
+          "wilson95": [
+            0.9166570109970937,
+            0.9972365292495986
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 57,
+          "draws": 0,
+          "total": 64,
+          "losses": 7,
+          "winRate": 0.890625,
+          "wilson95": [
+            0.7910113670806147,
+            0.9459995524731695
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 2346403824,
+          "winner": "A",
+          "events": 74,
+          "skills": {
+            "V-057": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 392872937
+            },
+            "V-986": {
+              "casts": 6,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 80175350
+            }
+          }
+        }
+      ],
+      "losses": 143,
+      "winRate": 0.7517361111111112,
+      "wilson95": [
+        0.7148653633567916,
+        0.7852712256702807
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-990",
+      "wins": 557,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 49,
+          "draws": 0,
+          "total": 64,
+          "losses": 15,
+          "winRate": 0.765625,
+          "wilson95": [
+            0.6486650974929234,
+            0.8525023278036498
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 60,
+          "draws": 0,
+          "total": 64,
+          "losses": 4,
+          "winRate": 0.9375,
+          "wilson95": [
+            0.8500230335750312,
+            0.9754291963252071
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 3552223415,
+          "winner": "A",
+          "events": 55,
+          "skills": {
+            "V-057": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 291301293
+            },
+            "V-990": {
+              "casts": 1,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 274538499
+            }
+          }
+        }
+      ],
+      "losses": 19,
+      "winRate": 0.9670138888888888,
+      "wilson95": [
+        0.9490568937558379,
+        0.978782709335765
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-991",
+      "wins": 576,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 1461779722,
+          "winner": "A",
+          "events": 51,
+          "skills": {
+            "V-057": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 226835071
+            },
+            "V-991": {
+              "casts": 0,
+              "types": [],
+              "damage": 0
+            }
+          }
+        }
+      ],
+      "losses": 0,
+      "winRate": 1,
+      "wilson95": [
+        0.9933747423434263,
+        1
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-992",
+      "wins": 576,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 3930200758,
+          "winner": "A",
+          "events": 60,
+          "skills": {
+            "V-057": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 192857428
+            },
+            "V-992": {
+              "casts": 1,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 54408640
+            }
+          }
+        }
+      ],
+      "losses": 0,
+      "winRate": 1,
+      "wilson95": [
+        0.9933747423434263,
+        1
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-993",
+      "wins": 575,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 63,
+          "draws": 0,
+          "total": 64,
+          "losses": 1,
+          "winRate": 0.984375,
+          "wilson95": [
+            0.9166570109970937,
+            0.9972365292495986
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 678998839,
+          "winner": "A",
+          "events": 53,
+          "skills": {
+            "V-057": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 270848543
+            },
+            "V-993": {
+              "casts": 1,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_CANCEL"
+              ],
+              "damage": 40778866
+            }
+          }
+        }
+      ],
+      "losses": 1,
+      "winRate": 0.9982638888888888,
+      "wilson95": [
+        0.9902320486098692,
+        0.9996934758781979
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-994",
+      "wins": 575,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 63,
+          "draws": 0,
+          "total": 64,
+          "losses": 1,
+          "winRate": 0.984375,
+          "wilson95": [
+            0.9166570109970937,
+            0.9972365292495986
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 51032912,
+          "winner": "A",
+          "events": 59,
+          "skills": {
+            "V-057": {
+              "casts": 5,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 228719856
+            },
+            "V-994": {
+              "casts": 1,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 22733568
+            }
+          }
+        }
+      ],
+      "losses": 1,
+      "winRate": 0.9982638888888888,
+      "wilson95": [
+        0.9902320486098692,
+        0.9996934758781979
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-997",
+      "wins": 559,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 61,
+          "draws": 0,
+          "total": 64,
+          "losses": 3,
+          "winRate": 0.953125,
+          "wilson95": [
+            0.8710013921145747,
+            0.9839312745678148
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 55,
+          "draws": 0,
+          "total": 64,
+          "losses": 9,
+          "winRate": 0.859375,
+          "wilson95": [
+            0.7538349160536257,
+            0.9242151299358556
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 59,
+          "draws": 0,
+          "total": 64,
+          "losses": 5,
+          "winRate": 0.921875,
+          "wilson95": [
+            0.8298024712135222,
+            0.9661693219045645
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 2951011772,
+          "winner": "A",
+          "events": 65,
+          "skills": {
+            "V-057": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 133646656
+            },
+            "V-997": {
+              "casts": 3,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_HIT",
+                "MERCENARY_END"
+              ],
+              "damage": 25972981
+            }
+          }
+        }
+      ],
+      "losses": 17,
+      "winRate": 0.9704861111111112,
+      "wilson95": [
+        0.953245198449294,
+        0.9814928403530274
+      ]
+    },
+    {
+      "a": "V-057",
+      "b": "V-998",
+      "wins": 575,
+      "draws": 0,
+      "total": 576,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-attack",
+          "level": 1,
+          "wins": 63,
+          "draws": 0,
+          "total": 64,
+          "losses": 1,
+          "winRate": 0.984375,
+          "wilson95": [
+            0.9166570109970937,
+            0.9972365292495986
+          ]
+        },
+        {
+          "id": "basic-20000000-defense",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "basic-20000000-speed",
+          "level": 1,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F01",
+          "level": 5,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "equipped-F23",
+          "level": 10,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        },
+        {
+          "id": "level20-balanced-250000",
+          "level": 20,
+          "wins": 64,
+          "draws": 0,
+          "total": 64,
+          "losses": 0,
+          "winRate": 1,
+          "wilson95": [
+            0.9433739770288436,
+            1
+          ]
+        }
+      ],
+      "samples": [
+        {
+          "seed": 2478754497,
+          "winner": "A",
+          "events": 47,
+          "skills": {
+            "V-057": {
+              "casts": 4,
+              "types": [
+                "MERCENARY_WINDUP",
+                "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+                "MERCENARY_END"
+              ],
+              "damage": 244045758
+            },
+            "V-998": {
+              "casts": 0,
+              "types": [],
+              "damage": 0
+            }
+          }
+        }
+      ],
+      "losses": 1,
+      "winRate": 0.9982638888888888,
+      "wilson95": [
+        0.9902320486098692,
+        0.9996934758781979
+      ]
+    }
+  ]
+}

@@ -63,6 +63,6 @@ test('canonical PvP can break the reduced shield in the reported Ayoon 5 versus 
 test('the public codex explains the PvP-only amount without changing other seasonal skills',()=>{
  const cards=mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}).cards;
  const diim=cards.find(c=>c.code==='V-984');
- assert.match(diim.combatLinkDescription,/PVP에서 부여량이 40% 감소/);assert.match(diim.combatLinkDescription,/403\.2%/);assert.match(diim.combatLinkDescription,/시작 방벽과 PVE의 672% 방벽은 유지/);
+ assert.match(diim.combatLinkDescription,/PVP에서 부여량이 40% 감소/);assert.match(diim.combatLinkDescription,/403\.2%/);assert.match(diim.combatLinkDescription,/시작 방벽에는 이 감소를 적용하지 않으며 PVE는 672% 방벽/);
  for(const code of Object.keys(HALLOWEEN_COMBAT).filter(c=>c!=='V-984'))assert.doesNotMatch(cards.find(c=>c.code===code).combatLinkDescription,/부여량이 40% 감소/);
 });
