@@ -7,9 +7,11 @@ import {buildPvePlayerTeam} from '../functions/_battle_v2_preview.js';
 import {equipmentAfterBasic,applyPveEquipmentGrowth} from '../shared/equipment-combat-growth-v1.mjs';
 test('all five regions expose their actual boss mechanics on the canonical 7-minute timeline',()=>{
   for(const region of LEGION_REGIONS){
-    // Low incoming pressure isolates boss scheduling/mechanics from the
-    // evolving account balance. The tier-survival regression below stays real.
-    const s=createHuntSession({snapshot:legionBalanceSnapshot(profiles.at(-1)),regionId:region.id,difficulty:'calamity',regionDifficulty:{attack:1},seed:7919});
+    // Reduce normal-wave power to isolate boss scheduling/mechanics. Attack
+    // percentages below 100 are clamped; the old attack:1 fixture survived only
+    // because monsters stopped taking guaranteed turns against a lone mercenary.
+    // Boss power and the tier-survival regression below stay unchanged.
+    const s=createHuntSession({snapshot:legionBalanceSnapshot(profiles.at(-1)),regionId:region.id,difficulty:'calamity',regionDifficulty:{power:1000000,attack:100},seed:7919});
     const events=s.payload.battleV2.result.timeline,spawn=events.find(e=>e.finalBoss),patterns=events.filter(e=>e.type==='LEGION_PATTERN');
     assert.equal(spawn.combatAtMs,300000);assert.ok(patterns.length>=3,region.id);assert.ok(events.every(e=>e.combatAtMs<=420000));
     assert.ok(s.payload.continuousEncounter.instances.every(i=>i.battleSprite.includes('/'+region.id+'/')));

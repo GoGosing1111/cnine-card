@@ -1,0 +1,238 @@
+{
+  "at": "2026-10-18T11:30:45.223Z",
+  "beforeCommit": "ad78f8b671b097e7f928fc35a4097c6d658ac2e8",
+  "method": "Isolated canonical engine, actual Valter and H/SX support definitions, 30-second last-stand horizon; high enemy HP isolates action scheduling. No production account mutation.",
+  "cases": [
+    {
+      "region": "island",
+      "suit": "BATTLE_SUIT_H",
+      "before": {
+        "monsterAttacks": 0,
+        "firstMonsterAttackMs": null,
+        "mercenaryDamage": 0,
+        "reason": "TIME_LIMIT",
+        "combatMs": 30000
+      },
+      "after": {
+        "monsterAttacks": 11,
+        "firstMonsterAttackMs": 570,
+        "mercenaryDamage": 1666080,
+        "reason": "ELIMINATION",
+        "combatMs": 16252
+      }
+    },
+    {
+      "region": "island",
+      "suit": "BATTLE_SUIT_SX",
+      "before": {
+        "monsterAttacks": 0,
+        "firstMonsterAttackMs": null,
+        "mercenaryDamage": 0,
+        "reason": "TIME_LIMIT",
+        "combatMs": 30000
+      },
+      "after": {
+        "monsterAttacks": 10,
+        "firstMonsterAttackMs": 570,
+        "mercenaryDamage": 1666080,
+        "reason": "ELIMINATION",
+        "combatMs": 19102
+      }
+    },
+    {
+      "region": "coast",
+      "suit": "BATTLE_SUIT_H",
+      "before": {
+        "monsterAttacks": 0,
+        "firstMonsterAttackMs": null,
+        "mercenaryDamage": 0,
+        "reason": "TIME_LIMIT",
+        "combatMs": 30000
+      },
+      "after": {
+        "monsterAttacks": 10,
+        "firstMonsterAttackMs": 570,
+        "mercenaryDamage": 1666080,
+        "reason": "ELIMINATION",
+        "combatMs": 14966
+      }
+    },
+    {
+      "region": "coast",
+      "suit": "BATTLE_SUIT_SX",
+      "before": {
+        "monsterAttacks": 0,
+        "firstMonsterAttackMs": null,
+        "mercenaryDamage": 0,
+        "reason": "TIME_LIMIT",
+        "combatMs": 30000
+      },
+      "after": {
+        "monsterAttacks": 11,
+        "firstMonsterAttackMs": 570,
+        "mercenaryDamage": 1666080,
+        "reason": "ELIMINATION",
+        "combatMs": 16252
+      }
+    },
+    {
+      "region": "desert",
+      "suit": "BATTLE_SUIT_H",
+      "before": {
+        "monsterAttacks": 0,
+        "firstMonsterAttackMs": null,
+        "mercenaryDamage": 0,
+        "reason": "TIME_LIMIT",
+        "combatMs": 30000
+      },
+      "after": {
+        "monsterAttacks": 10,
+        "firstMonsterAttackMs": 570,
+        "mercenaryDamage": 1666080,
+        "reason": "ELIMINATION",
+        "combatMs": 14966
+      }
+    },
+    {
+      "region": "desert",
+      "suit": "BATTLE_SUIT_SX",
+      "before": {
+        "monsterAttacks": 0,
+        "firstMonsterAttackMs": null,
+        "mercenaryDamage": 0,
+        "reason": "TIME_LIMIT",
+        "combatMs": 30000
+      },
+      "after": {
+        "monsterAttacks": 11,
+        "firstMonsterAttackMs": 570,
+        "mercenaryDamage": 1666080,
+        "reason": "ELIMINATION",
+        "combatMs": 16252
+      }
+    },
+    {
+      "region": "theatre",
+      "suit": "BATTLE_SUIT_H",
+      "before": {
+        "monsterAttacks": 0,
+        "firstMonsterAttackMs": null,
+        "mercenaryDamage": 0,
+        "reason": "TIME_LIMIT",
+        "combatMs": 30000
+      },
+      "after": {
+        "monsterAttacks": 10,
+        "firstMonsterAttackMs": 570,
+        "mercenaryDamage": 1666080,
+        "reason": "ELIMINATION",
+        "combatMs": 14966
+      }
+    },
+    {
+      "region": "theatre",
+      "suit": "BATTLE_SUIT_SX",
+      "before": {
+        "monsterAttacks": 0,
+        "firstMonsterAttackMs": null,
+        "mercenaryDamage": 0,
+        "reason": "TIME_LIMIT",
+        "combatMs": 30000
+      },
+      "after": {
+        "monsterAttacks": 11,
+        "firstMonsterAttackMs": 570,
+        "mercenaryDamage": 1666080,
+        "reason": "ELIMINATION",
+        "combatMs": 16252
+      }
+    },
+    {
+      "region": "viscera",
+      "suit": "BATTLE_SUIT_H",
+      "before": {
+        "monsterAttacks": 0,
+        "firstMonsterAttackMs": null,
+        "mercenaryDamage": 0,
+        "reason": "TIME_LIMIT",
+        "combatMs": 30000
+      },
+      "after": {
+        "monsterAttacks": 10,
+        "firstMonsterAttackMs": 570,
+        "mercenaryDamage": 1666080,
+        "reason": "ELIMINATION",
+        "combatMs": 14966
+      }
+    },
+    {
+      "region": "viscera",
+      "suit": "BATTLE_SUIT_SX",
+      "before": {
+        "monsterAttacks": 0,
+        "firstMonsterAttackMs": null,
+        "mercenaryDamage": 0,
+        "reason": "TIME_LIMIT",
+        "combatMs": 30000
+      },
+      "after": {
+        "monsterAttacks": 11,
+        "firstMonsterAttackMs": 570,
+        "mercenaryDamage": 1666080,
+        "reason": "ELIMINATION",
+        "combatMs": 16252
+      }
+    },
+    {
+      "region": "sky",
+      "suit": "BATTLE_SUIT_H",
+      "before": {
+        "monsterAttacks": 0,
+        "firstMonsterAttackMs": null,
+        "mercenaryDamage": 0,
+        "reason": "TIME_LIMIT",
+        "combatMs": 30000
+      },
+      "after": {
+        "monsterAttacks": 10,
+        "firstMonsterAttackMs": 570,
+        "mercenaryDamage": 1666080,
+        "reason": "ELIMINATION",
+        "combatMs": 14966
+      }
+    },
+    {
+      "region": "sky",
+      "suit": "BATTLE_SUIT_SX",
+      "before": {
+        "monsterAttacks": 0,
+        "firstMonsterAttackMs": null,
+        "mercenaryDamage": 0,
+        "reason": "TIME_LIMIT",
+        "combatMs": 30000
+      },
+      "after": {
+        "monsterAttacks": 11,
+        "firstMonsterAttackMs": 570,
+        "mercenaryDamage": 1666080,
+        "reason": "ELIMINATION",
+        "combatMs": 16252
+      }
+    }
+  ],
+  "controls": [
+    {
+      "options": {
+        "regularAlive": 5
+      },
+      "unchanged": true
+    },
+    {
+      "options": {
+        "hunt": false,
+        "regionId": null
+      },
+      "unchanged": true
+    }
+  ]
+}

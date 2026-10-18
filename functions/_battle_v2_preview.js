@@ -1447,7 +1447,13 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         repeatMonsterActions = 0;
       }
     }
-    if (!independentAction && !actor.isMercenary && !repeatedMonsterAction && forcedMonsterEvery > 0) {
+    // Hunt monsters still need guaranteed turns after the five regular cards
+    // fall. A fast surviving mercenary can otherwise monopolize the gauge for
+    // the remaining hunt. Keep its extra turns free while any card is alive,
+    // and keep untargetable support shots out of the monster action clock.
+    const lastHuntMercenary = sustained && actor.side === 'A' && actor.isMercenary &&
+      !targetableAlive(a).some(card => !card.isMercenary && !card.isIconSummon);
+    if (!independentAction && (!actor.isMercenary || lastHuntMercenary) && !repeatedMonsterAction && forcedMonsterEvery > 0) {
       if (actor.side === 'A') {
         const accelerated = alive(b).filter(card => card.isMonster && card.actionFrequency > 1);
         if (accelerated.length) {
