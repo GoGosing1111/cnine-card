@@ -13,7 +13,10 @@
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",
     "preview/project-v-v3/source/battle/BattleHud.js",
     "shared/apocalypse-shanks-shisui-v1.mjs",
+    "shared/apocalypse-sahyeon-v1.mjs",
     "shared/apocalypse-legion-v1.mjs",
+    "preview/apocalypse-sahyeon-20261019-v1/boss.mjs",
+    "preview/apocalypse-sahyeon-20261019-v1/SahyeonFX.mjs",
     "preview/project-v-v3/source/battle/ApocalypseLegionFX.js",
     "preview/project-v-v3/source/battle/ApocalypseLegionPlayback.js",
     "preview/project-v-v3/source/battle/CameraController.js",
@@ -222,5 +225,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2139004
+  "outputBytes": 2145047
 }

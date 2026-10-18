@@ -51,8 +51,8 @@ test('ultimate damage and shield absorption equal real per-target state loss',()
  }
  assert.equal(targets,5);assert.equal(total,23074573);
 });
-test('review has no production registration, reward decision or visual approval',()=>{
- assert.equal(apocalypseLegionBoss({id:80}),null);
+test('historical review fixture stays isolated after the approved live registration',()=>{
+ assert.equal(apocalypseLegionBoss({id:80}).code,'APOCALYPSE_SAHYEON');
  const draft=generated.registrationDraft;
  assert.equal(draft.registered,false);assert.equal(draft.enabled,false);assert.equal(draft.visualApproval,false);assert.equal(draft.rewardsConfirmed,false);
  assert.equal(generated.payload.battleV2.teams.B.cards[0].projectVMonsterArt.approved,false);
@@ -60,5 +60,5 @@ test('review has no production registration, reward decision or visual approval'
 });
 test('five selected generated originals retain their recorded hashes and prompts',()=>{
  const manifest=read('manifest.json'),prompts=read('prompts.json');assert.equal(manifest.items.length,5);
- for(const item of manifest.items){const bytes=fs.readFileSync(path.join(dir,item.file));assert.equal(createHash('sha256').update(bytes).digest('hex'),item.sha256);assert.equal(bytes.length,item.bytes);assert.equal(item.visualApproval,false);assert(prompts.items.some(p=>p.asset===path.basename(item.file)&&p.status==='selected_for_review'&&p.prompt.length>100));if(['sd','guardian','lens'].includes(item.role))assert(item.hasAlpha&&item.transparentRatio>.2);}
+ for(const item of manifest.items){const bytes=fs.readFileSync(path.join(dir,item.file));assert.equal(createHash('sha256').update(bytes).digest('hex'),item.sha256);assert.equal(bytes.length,item.bytes);assert.equal(item.visualApproval,true);assert(prompts.items.some(p=>p.asset===path.basename(item.file)&&p.status==='selected_for_review'&&p.prompt.length>100));if(['sd','guardian','lens'].includes(item.role))assert(item.hasAlpha&&item.transparentRatio>.2);}
 });

@@ -3,8 +3,7 @@
   "code": "APOCALYPSE_SAHYEON",
   "generator": "built-in image_gen",
   "originalBytesPreserved": true,
-  "visualApproval": false,
-  "liveRegistration": false,
+  "visualApproval": true,
   "items": [
     {
       "file": "assets/sahyeon-source-v1.png",
@@ -16,7 +15,7 @@
       "hasAlpha": false,
       "transparentRatio": 0,
       "selectedForReview": true,
-      "visualApproval": false,
+      "visualApproval": true,
       "prompt": "prompts.json#sahyeon-source-v1.png"
     },
     {
@@ -29,7 +28,7 @@
       "hasAlpha": true,
       "transparentRatio": 0.5324999014229439,
       "selectedForReview": true,
-      "visualApproval": false,
+      "visualApproval": true,
       "prompt": "prompts.json#sahyeon-sd-v3.png"
     },
     {
@@ -42,7 +41,7 @@
       "hasAlpha": true,
       "transparentRatio": 0.29897435506184894,
       "selectedForReview": true,
-      "visualApproval": false,
+      "visualApproval": true,
       "prompt": "prompts.json#sahyeon-guardian-v1.png"
     },
     {
@@ -55,7 +54,7 @@
       "hasAlpha": true,
       "transparentRatio": 0.5451734672334018,
       "selectedForReview": true,
-      "visualApproval": false,
+      "visualApproval": true,
       "prompt": "prompts.json#sahyeon-lens-v1.png"
     },
     {
@@ -68,8 +67,10 @@
       "hasAlpha": false,
       "transparentRatio": 0,
       "selectedForReview": true,
-      "visualApproval": false,
+      "visualApproval": true,
       "prompt": "prompts.json#sahyeon-eyes-v1.png"
     }
-  ]
+  ],
+  "liveApproval": "live-approval-20261019.json",
+  "liveRegistrationApproved": true
 }

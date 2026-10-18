@@ -2,7 +2,7 @@
 import * as live from '../../shared/apocalypse-legion-v1.mjs';
 import {SAHYEON} from './boss.mjs';
 export * from '../../shared/apocalypse-legion-v1.mjs';
-export const APOCALYPSE_LEGION_BOSSES=Object.freeze([...live.APOCALYPSE_LEGION_BOSSES,SAHYEON]);
+export const APOCALYPSE_LEGION_BOSSES=Object.freeze([...live.APOCALYPSE_LEGION_BOSSES.filter(b=>b.monsterId!==SAHYEON.monsterId),SAHYEON]);
 const isDraft=monster=>[monster?.monsterId,monster?.id,monster?.cardId,monster].some(v=>/(?:^|:)80$/.test(String(v??'')));
 export const apocalypseLegionBoss=monster=>isDraft(monster)?SAHYEON:live.apocalypseLegionBoss(monster);
 export const apocalypseLegionSkill=code=>SAHYEON.skills.find(s=>s.code===code)||live.apocalypseLegionSkill(code);

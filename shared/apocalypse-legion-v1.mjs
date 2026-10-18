@@ -1,4 +1,5 @@
 import {APOCALYPSE_SHANKS_SHISUI_BOSSES} from './apocalypse-shanks-shisui-v1.mjs';
+import {SAHYEON} from './apocalypse-sahyeon-v1.mjs';
 // Stable registered monster IDs; client never calculates combat outcomes.
 export const APOCALYPSE_LEGION_BOSSES=Object.freeze([
   {
@@ -149,7 +150,8 @@ export const APOCALYPSE_LEGION_BOSSES=Object.freeze([
     ],
     "monsterId": 76
   },
-  ...APOCALYPSE_SHANKS_SHISUI_BOSSES
+  ...APOCALYPSE_SHANKS_SHISUI_BOSSES,
+  SAHYEON
 ]);
 export const APOCALYPSE_MINIONS=Object.freeze([
   {

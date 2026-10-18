@@ -39,7 +39,7 @@ test('seven positions share existing lattice pitch and never collide with each o
  for(const profile of ['desktop','compact']){const cells=Array.from({length:7},(_,i)=>latticeStation('squad',i,'ENEMY',profile));assert.equal(new Set(cells.map(c=>`${c.x},${c.y}`)).size,7);for(const p of cells)assert(p.x>0&&p.y>0);}
 });
 test('all approved sprites and 12-frame atlases exist and stay separate from source artwork',()=>{
- for(const boss of APOCALYPSE_LEGION_BOSSES){assert.notEqual(boss.sourceArt,boss.battleSprite);assert(fs.existsSync('.'+boss.sourceArt));assert(fs.existsSync('.'+boss.battleSprite));for(const s of boss.skills){const atlas=JSON.parse(fs.readFileSync('.'+s.atlas));assert.equal(Object.keys(atlas.frames).length,12);assert.equal(s.collisionFrame,6);}}
+ for(const boss of APOCALYPSE_LEGION_BOSSES){assert.notEqual(boss.sourceArt,boss.battleSprite);assert(fs.existsSync('.'+boss.sourceArt));assert(fs.existsSync('.'+boss.battleSprite));for(const s of boss.skills){if(s.visual==='HOLLOW_LENS'){assert.equal(boss.code,'APOCALYPSE_SAHYEON');assert(s.duration>s.impactAt);continue;}const atlas=JSON.parse(fs.readFileSync('.'+s.atlas));assert.equal(Object.keys(atlas.frames).length,12);assert.equal(s.collisionFrame,6);}}
  assert.equal(apocalypseLegionBoss({id:74}),null);assert.equal(apocalypseLegionBoss({id:75}).name,'아카드');
 });
 test('live monster adapter resolves escort art from monster ID, never the instance suffix',async()=>{
