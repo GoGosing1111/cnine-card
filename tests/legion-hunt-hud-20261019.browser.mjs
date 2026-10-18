@@ -11,12 +11,15 @@ assert(out);fs.mkdirSync(out,{recursive:true});
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']}),report=[];
 try {
  for(const width of [1440,390])for(const region of LEGION_REGIONS.filter(r=>!process.env.LEGION_HUD_QA_REGIONS||process.env.LEGION_HUD_QA_REGIONS.split(',').includes(r.id))) {
-  const page=await browser.newPage({viewport:{width,height:width===390?844:960},isMobile:width===390,hasTouch:width===390,serviceWorkers:'block'}),errors=[];
-  page.on('pageerror',e=>errors.push(e.message));
+  const page=await browser.newPage({viewport:{width,height:width===390?844:960},isMobile:width===390,hasTouch:width===390,serviceWorkers:'block'}),errors=[],requests=[];
+  page.on('pageerror',e=>errors.push(e.stack));
   await page.route('**/api/**',async route=>{
     const url=new URL(route.request().url());
     if(!url.pathname.startsWith('/api/legion-hunt/'))return route.abort();
-    await route.fulfill({response:await route.fetch({url:fixture+url.pathname+url.search})});
+    // A fresh local request avoids forwarding the public Host or credentials.
+    const response=await fetch(fixture+url.pathname+url.search,{method:route.request().method(),headers:{'content-type':'application/json',origin:new URL(fixture).origin},body:route.request().postData()||undefined});
+    requests.push({path:url.pathname,status:response.status});
+    await route.fulfill({status:response.status,body:await response.text(),contentType:'application/json'});
   });
   await page.addInitScript(()=>localStorage.setItem('cnine_battle_sound','OFF'));
   await page.goto(base+'/pve/legion-hunt/',{waitUntil:'networkidle'});
@@ -25,7 +28,8 @@ try {
     for(const key of ['mountForBattle','resetSession']){const old=api[key];api[key]=async(...args)=>window.qaEngine=await old(...args);}
     window.postMessage({type:'legion-hunt-enter',difficulty:'normal',regionId:id},location.origin);
   },region.id);
-  await page.waitForFunction(()=>window.HuntPreviewV2?.diagnostics().playing,null,{timeout:60000});
+  await page.waitForFunction(()=>window.HuntPreviewV2?.diagnostics().playing||!document.querySelector('#hunt-interruption')?.hidden,null,{timeout:60000});
+  assert(await page.evaluate(()=>HuntPreviewV2.diagnostics().playing),await page.locator('#hunt-message').textContent());
   await page.waitForTimeout(1000);await page.evaluate(()=>qaEngine.setHuntPaused(true));
   const initial=await page.evaluate(()=>qaEngine.enemies.map(a=>({frame:a.hud.frame.visible,name:a.hud.fullName,expected:qaEngine.instances.get(a.id).displayName,showName:a.hud.showName,compact:a.hud.compact,scale:a.hud.scale.x})));
   assert.equal(initial.length,12);
@@ -61,8 +65,9 @@ try {
   });
   for(const a of resized){assert.equal(a.name,a.expected);assert(a.frame);assert.equal(a.compact,a.mobile);assert.equal(a.scale,a.expectedScale);}
   assert.deepEqual(errors,[]);
-  report.push({width,region:region.id,initial,checks,resized,errors});console.log(`${width} ${region.id}: 12 slots + 7 monster variants + resize passed`);
+  const playbackErrors=[...errors];
   await page.close();
+  report.push({width,region:region.id,initial,checks,resized,errors:playbackErrors,closeErrors:errors.slice(playbackErrors.length),requests});console.log(`${width} ${region.id}: 12 slots + 7 monster variants + resize passed`);
  }
 } finally {
  await browser.close();fs.writeFileSync(path.join(out,'browser.json'),JSON.stringify(report,null,2)+'\n');

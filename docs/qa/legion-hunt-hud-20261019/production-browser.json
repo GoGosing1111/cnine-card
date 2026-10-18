@@ -1,0 +1,640 @@
+[
+  {
+    "width": 1440,
+    "region": "desert",
+    "initial": [
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      }
+    ],
+    "checks": [
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 수정 전갈",
+        "expected": "정예 수정 전갈",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 모래 잠복충",
+        "expected": "정예 모래 잠복충",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 유리등 도마뱀",
+        "expected": "정예 유리등 도마뱀",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "태양을 삼킨 전갈",
+        "expected": "태양을 삼킨 전갈",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055325,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      }
+    ],
+    "resized": [
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "태양을 삼킨 전갈",
+        "expected": "태양을 삼킨 전갈",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "정예 유리등 도마뱀",
+        "expected": "정예 유리등 도마뱀",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      }
+    ],
+    "errors": [],
+    "closeErrors": [
+      "TypeError: Cannot read properties of null (reading 'set')\n    at Zm.reset (https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?monsterHud=20261019-v1&petHud=20261018-icons-v1&coinFx=20261018-v2&v=20261012-pet-fx2-jinmu-jokro-v2&petLive=20261006-v1&iconCadence=20261006-v1:1435:174467)\n    at lf.cancelTimelines (https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?monsterHud=20261019-v1&petHud=20261018-icons-v1&coinFx=20261018-v2&v=20261012-pet-fx2-jinmu-jokro-v2&petLive=20261006-v1&iconCadence=20261006-v1:1682:90138)\n    at lf.cancelTimelines (https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?monsterHud=20261019-v1&petHud=20261018-icons-v1&coinFx=20261018-v2&v=20261012-pet-fx2-jinmu-jokro-v2&petLive=20261006-v1&iconCadence=20261006-v1:1668:468963)\n    at lf.cancelTimelines (https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?monsterHud=20261019-v1&petHud=20261018-icons-v1&coinFx=20261018-v2&v=20261012-pet-fx2-jinmu-jokro-v2&petLive=20261006-v1&iconCadence=20261006-v1:1682:162819)\n    at lf.setHuntBackground (https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?monsterHud=20261019-v1&petHud=20261018-icons-v1&coinFx=20261018-v2&v=20261012-pet-fx2-jinmu-jokro-v2&petLive=20261006-v1&iconCadence=20261006-v1:1682:155344)\n    at background (https://cnine-card.pages.dev/preview/sustained-hunt-v2/app.js?v=20261018-coins-paced-v2&petLive=20261006-v1&iconCadence=20261006-v1:230:57)\n    at HTMLDocument.<anonymous> (https://cnine-card.pages.dev/preview/sustained-hunt-v2/app.js?v=20261018-coins-paced-v2&petLive=20261006-v1&iconCadence=20261006-v1:231:52)"
+    ],
+    "requests": [
+      {
+        "path": "/api/legion-hunt/start",
+        "status": 200
+      },
+      {
+        "path": "/api/legion-hunt/begin",
+        "status": 200
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "region": "desert",
+    "initial": [
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      }
+    ],
+    "checks": [
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 수정 전갈",
+        "expected": "정예 수정 전갈",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 모래 잠복충",
+        "expected": "정예 모래 잠복충",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 유리등 도마뱀",
+        "expected": "정예 유리등 도마뱀",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "태양을 삼킨 전갈",
+        "expected": "태양을 삼킨 전갈",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.27527073175591,
+        "centerError": 2.842170943040401e-14,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      }
+    ],
+    "resized": [
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "태양을 삼킨 전갈",
+        "expected": "태양을 삼킨 전갈",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "정예 유리등 도마뱀",
+        "expected": "정예 유리등 도마뱀",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      }
+    ],
+    "errors": [],
+    "closeErrors": [
+      "TypeError: Cannot read properties of null (reading 'set')\n    at Zm.reset (https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?monsterHud=20261019-v1&petHud=20261018-icons-v1&coinFx=20261018-v2&v=20261012-pet-fx2-jinmu-jokro-v2&petLive=20261006-v1&iconCadence=20261006-v1:1435:174467)\n    at lf.cancelTimelines (https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?monsterHud=20261019-v1&petHud=20261018-icons-v1&coinFx=20261018-v2&v=20261012-pet-fx2-jinmu-jokro-v2&petLive=20261006-v1&iconCadence=20261006-v1:1682:90138)\n    at lf.cancelTimelines (https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?monsterHud=20261019-v1&petHud=20261018-icons-v1&coinFx=20261018-v2&v=20261012-pet-fx2-jinmu-jokro-v2&petLive=20261006-v1&iconCadence=20261006-v1:1668:468963)\n    at lf.cancelTimelines (https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?monsterHud=20261019-v1&petHud=20261018-icons-v1&coinFx=20261018-v2&v=20261012-pet-fx2-jinmu-jokro-v2&petLive=20261006-v1&iconCadence=20261006-v1:1682:162819)\n    at lf.setHuntBackground (https://cnine-card.pages.dev/preview/sustained-hunt-v2/battle.bundle.js?monsterHud=20261019-v1&petHud=20261018-icons-v1&coinFx=20261018-v2&v=20261012-pet-fx2-jinmu-jokro-v2&petLive=20261006-v1&iconCadence=20261006-v1:1682:155344)\n    at background (https://cnine-card.pages.dev/preview/sustained-hunt-v2/app.js?v=20261018-coins-paced-v2&petLive=20261006-v1&iconCadence=20261006-v1:230:57)\n    at HTMLDocument.<anonymous> (https://cnine-card.pages.dev/preview/sustained-hunt-v2/app.js?v=20261018-coins-paced-v2&petLive=20261006-v1&iconCadence=20261006-v1:231:52)"
+    ],
+    "requests": [
+      {
+        "path": "/api/legion-hunt/start",
+        "status": 200
+      },
+      {
+        "path": "/api/legion-hunt/begin",
+        "status": 200
+      }
+    ]
+  }
+]
