@@ -1,0 +1,162 @@
+{
+  "origin": "http://127.0.0.1:8988",
+  "production": false,
+  "results": [
+    {
+      "label": "320x568",
+      "geometry": {
+        "width": 320,
+        "height": 568,
+        "title": {
+          "x": 24,
+          "y": 64,
+          "width": 272,
+          "height": 247.84375,
+          "right": 296,
+          "bottom": 311.84375
+        },
+        "footer": {
+          "x": 24,
+          "y": 471,
+          "width": 272,
+          "height": 73,
+          "right": 296,
+          "bottom": 544
+        },
+        "heading": {
+          "x": 24,
+          "y": 123,
+          "width": 272,
+          "height": 124.84375,
+          "right": 296,
+          "bottom": 247.84375
+        },
+        "headingText": {
+          "x": 24,
+          "y": 110,
+          "width": 209.375,
+          "height": 84,
+          "top": 110,
+          "right": 233.375,
+          "bottom": 194,
+          "left": 24
+        },
+        "overflow": false,
+        "scene": "http://127.0.0.1:8988/assets/ui/loading/reverse-call-20261018/scene-mobile.webp",
+        "rail": "url(\"http://127.0.0.1:8988/assets/ui/loading/reverse-call-20261018/rail.webp\")",
+        "animation": "reverseCallBootScan",
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "ready": {
+        "bootDisplay": "none",
+        "appVisibility": "visible",
+        "login": true
+      }
+    },
+    {
+      "label": "320x568-fallback",
+      "geometry": {
+        "width": 320,
+        "height": 568,
+        "title": {
+          "x": 24,
+          "y": 64,
+          "width": 272,
+          "height": 247.84375,
+          "right": 296,
+          "bottom": 311.84375
+        },
+        "footer": {
+          "x": 24,
+          "y": 471,
+          "width": 272,
+          "height": 73,
+          "right": 296,
+          "bottom": 544
+        },
+        "heading": {
+          "x": 24,
+          "y": 123,
+          "width": 272,
+          "height": 124.84375,
+          "right": 296,
+          "bottom": 247.84375
+        },
+        "headingText": {
+          "x": 24,
+          "y": 111,
+          "width": 263.515625,
+          "height": 81,
+          "top": 111,
+          "right": 287.515625,
+          "bottom": 192,
+          "left": 24
+        },
+        "overflow": false,
+        "scene": "http://127.0.0.1:8988/assets/ui/loading/reverse-call-20261018/scene-mobile.webp",
+        "rail": "url(\"http://127.0.0.1:8988/assets/ui/loading/reverse-call-20261018/rail.webp\")",
+        "animation": "reverseCallBootScan",
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "ready": {
+        "bootDisplay": "none",
+        "appVisibility": "visible",
+        "login": true
+      }
+    },
+    {
+      "label": "320x844-fallback",
+      "geometry": {
+        "width": 320,
+        "height": 844,
+        "title": {
+          "x": 24,
+          "y": 64,
+          "width": 272,
+          "height": 315.546875,
+          "right": 296,
+          "bottom": 379.546875
+        },
+        "footer": {
+          "x": 24,
+          "y": 747,
+          "width": 272,
+          "height": 73,
+          "right": 296,
+          "bottom": 820
+        },
+        "heading": {
+          "x": 24,
+          "y": 179.390625,
+          "width": 272,
+          "height": 130.15625,
+          "right": 296,
+          "bottom": 309.546875
+        },
+        "headingText": {
+          "x": 24,
+          "y": 167.390625,
+          "width": 275.484375,
+          "height": 85,
+          "top": 167.390625,
+          "right": 299.484375,
+          "bottom": 252.390625,
+          "left": 24
+        },
+        "overflow": false,
+        "scene": "http://127.0.0.1:8988/assets/ui/loading/reverse-call-20261018/scene-mobile.webp",
+        "rail": "url(\"http://127.0.0.1:8988/assets/ui/loading/reverse-call-20261018/rail.webp\")",
+        "animation": "reverseCallBootScan",
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "ready": {
+        "bootDisplay": "none",
+        "appVisibility": "visible",
+        "login": true
+      }
+    }
+  ]
+}

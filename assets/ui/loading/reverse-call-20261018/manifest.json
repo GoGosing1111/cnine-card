@@ -1,0 +1,69 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-18",
+  "assets": [
+    {
+      "name": "scene",
+      "prompt": "Use case: illustration-story. Asset type: full-screen loading artwork for REVERSE CALL, a Korean collectible RPG with modern mercenaries and supernatural battles. Create an original premium game key visual, landscape 16:9 composition. A majestic ruined futuristic citadel on an island above a dark rain-soaked megacity at blue hour, colossal broken circular gate standing vertically on the RIGHT HALF, a precise luminous turquoise energy core suspended within its metallic stone rings, tiny amber beacon lights along the distant city, intricate gothic industrial architecture and windblown mist, wet dark metal terrace in the foreground. Epic sense of scale, stylish illustrated 2D game concept art with delicate painterly rendering, crisp architectural focal detail and atmospheric depth, rich midnight navy, blackened silver, restrained cyan illumination, tiny warm amber accents. COMPOSITION IS CRITICAL: the left 45 percent remains very dark softly textured fog and shadow, quiet negative space for a large HTML game title; visual focal point at 68 percent horizontal, 44 percent vertical, so it also works for a mobile central crop. Bottom 18 percent nearly black with soft natural fog for a loading status and slender progress bar. Cinematic, elegant, dramatic, a finished commercial game title screen, no UI panels, no lettering or symbols resembling words, no percentages, no border, no logo, no watermark, no people, no copied franchise landmarks. Avoid gaudy neon, cluttered particles, flat generic sci-fi grids. Do not render an interface screenshot, only the atmospheric game-world background.",
+      "source": "scene-source.png"
+    },
+    {
+      "name": "rail",
+      "prompt": "Use case: ui-mockup. Asset type: ONE slim horizontal game loading rail with actual transparent surrounding alpha, a production UI texture, not a screen mockup. Landscape very wide and short canvas, approximately 1536 by 256. The only subject is a single perfectly straight loading bar, centered horizontally and vertically, 90 percent of the width and only 18 percent of the canvas height. Dark brushed gunmetal and fine silver bevel, tiny angular diamond end caps, very thin understated turquoise illuminated inset line running continuously from left to right, sparse delicate engraved tick marks. Premium restrained futuristic fantasy game UI for REVERSE CALL, midnight-blue metal and pale cyan glow, no gold. Slim, compact, beautiful at 12-20 pixels of rendered height; do not create a large rectangular panel or thick frame. Outer area fully transparent, generous clear padding. No text, numbers, icons, percentage, logo, watermark, boxed interface, backdrop, shadows filling the canvas, or pictorial imagery. Flat front-on orthographic orientation, symmetrical rigid straight edges, no perspective. The central illuminated line should be low-intensity cyan so a moving highlight can be applied in CSS.",
+      "source": "rail-source.png"
+    }
+  ],
+  "status": "Implemented and technically reviewed; user visual approval not claimed",
+  "derivation": {
+    "scene": "Original dimensions, WebP quality 84. Mobile proportional 1100px, quality 82.",
+    "rail": "Only transparent outer margin removed at (69,319,2035,85), lossless WebP; no painted or regenerated pixels."
+  },
+  "files": [
+    {
+      "file": "scene-source.png",
+      "bytes": 2363997,
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "sha256": "c18ad7f9a264c3ba2d28cee37071dc41aeab50cef0a0856ed5e1ef858a56b58c"
+    },
+    {
+      "file": "rail-source.png",
+      "bytes": 280420,
+      "width": 2172,
+      "height": 724,
+      "alpha": true,
+      "sha256": "22828315cc266c50b70d65a379bb04ca0f7daefc0a726dce279c65aadc2e3552"
+    },
+    {
+      "file": "scene-wide.webp",
+      "bytes": 183098,
+      "width": 1672,
+      "height": 941,
+      "alpha": false,
+      "sha256": "2d073a0241e4d7f9ceb15b4e32e9cdf36cdcf4d0d473da03faf4e0c8b27f0416"
+    },
+    {
+      "file": "scene-mobile.webp",
+      "bytes": 88668,
+      "width": 1100,
+      "height": 619,
+      "alpha": false,
+      "sha256": "eb54a419289460098e55003ef8611f28e7d0c69f0de35dd8183a635779e6eee8"
+    },
+    {
+      "file": "rail.webp",
+      "bytes": 160854,
+      "width": 2035,
+      "height": 85,
+      "alpha": true,
+      "sha256": "ebb635b94af75f6d0248fc31499a5c90ed9e44781b47501e03019bf555b41a75"
+    }
+  ],
+  "consumers": {
+    "screen": "index.html .v21-renewal-boot",
+    "scene": "picture.boot-scene; wide >640px, mobile <=640px",
+    "rail": ".boot-track and its moving image highlight",
+    "brand": "Existing transparent Reverse Call symbol; assets/ui/brand/reverse-call-20261016/logo-240.webp?v=20261018-transparent"
+  }
+}
