@@ -1,0 +1,35 @@
+{
+  "operationKey": "ops:jokgeida-kangyun-message:20261019:v1",
+  "planHash": "693be45535931adc32391453a3ac365d49231ca65eb88e40c6541f561d03d451",
+  "implementationHash": "1fa048dfc6efd73e2131226ed25ba709cd0b547609b0bc375e1d6f67f7c3a6a9",
+  "checkedAt": "2026-10-18T22:39:51.945Z",
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:jokgeida-kangyun-message:20261019:v1",
+    "planHash": "693be45535931adc32391453a3ac365d49231ca65eb88e40c6541f561d03d451",
+    "authorization": "족게이다 계정에 강윤 지급하고 메세지로 강윤지급완료 보내놔",
+    "target": {
+      "id": 4111,
+      "nickname": "족게이다",
+      "code": "V-057",
+      "name": "신궁 강윤",
+      "rank": "SSS",
+      "quantity": 1
+    },
+    "completedAt": "2026-10-18T22:39:24.057Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "message": "강윤지급완료",
+    "messageId": "245489",
+    "protectedBefore": "dba5291b8f749b8a4b04c47661a3f8f505bf07e0d524ed761df703301a153f79",
+    "protectedAfter": "dba5291b8f749b8a4b04c47661a3f8f505bf07e0d524ed761df703301a153f79",
+    "cost": 0,
+    "permanent": true,
+    "automaticLoadout": false,
+    "adminLogId": "48229"
+  },
+  "currentCopies": 1,
+  "messages": 1,
+  "acquisitions": 1
+}
