@@ -1,0 +1,597 @@
+{
+  "at": "2026-10-18T01:38:43.582Z",
+  "origin": "https://cnine-card.pages.dev",
+  "verification": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "f10b63001ffe6fde4c571601d95e1410ba43004ee0a98f40e59f773eb2056012"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "d5c644fd2baf8009b983b519728f109ce3ff640049bc6b9385c38d1f437a0e69"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "733a0d3b1821ac04ad1b002fec3d0aee79f82d13359c1e05d3c0bbbddd971c10"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "0dce6b26fa7bad7dd3b9c771cdc8c1a0d01c67724ed6f7a71bc19f246050bee3"
+    },
+    {
+      "file": "js/cooperative-battleground-entry.js",
+      "status": 200,
+      "sha256": "a0c3494b83b2096a8130b388f6cfa4e0c31c38275a35f3f463810a3e88c9411e"
+    },
+    {
+      "file": "raid/cooperative/live.mjs",
+      "status": 200,
+      "sha256": "c56c4a590640946ea0f35bdf396a3d0b3dec6349f5b2036a2acdabc9f01e9b07"
+    },
+    {
+      "file": "raid/cooperative/battle.mjs",
+      "status": 200,
+      "sha256": "7a04bdc8813d9e8555c748c9d7b1b15cddead00ba2c981db9fb971953934b1b9"
+    },
+    {
+      "file": "raid/cooperative/style.css",
+      "status": 200,
+      "sha256": "1e7f806259042aece631b5732ac7cfbf9c9f21118c058cbc7a61182ee7ed202a"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "2efcc8bbad726d0bec88d4c1dcb62375621c332d9a77a9d18aaf88afe3d4d69e"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "317c460872be9320b3f3135e4d86ace1e4dd5c81da0a6ae072939650e28df17a"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "ce2a9f574c09a986272acb658ec3db9a1d675086fdfffc984fb8e29c93382153"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "f6a94aec53b0e94ada30a6532d65030af7b19cea05589c41c1040efde976a2dc"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "status": 200,
+      "sha256": "2a8cd8bf4d98091062ee5feb16e79de63181b1c82faf81f562fec4196244e3db"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "cf0a7b33accb44217273188c153b1f9f2b9c65d0af0626c2103c08e6e160554b"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "status": 200,
+      "sha256": "1877f979ae6ca49b71ce24268215969e035fe929f921fef4bc21b05f3fa0e749"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "status": 200,
+      "sha256": "a42b718e82c43c42eb7ef43ca986ee1d173d6c25dbea595fb4b6e06742765e59"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "status": 200,
+      "sha256": "77f4303ec09aef18f228437b0014321b4b56e81a1b07830f4e788b4a7a08314c"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "sha256": "bd8b3ee98c908bb5145f641c4930a867a01ea5392783825f7ce96db21887e570"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/jokro-dialogue-20261018/frame.webp",
+      "status": 200,
+      "sha256": "5ba48a5f23a36f23d13f1d3fb10d7a89be21cd4732b6be885f24b55d62ed2e5c"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/shiranui-fx-20261018/dialogue.webp",
+      "status": 200,
+      "sha256": "c40d037cd1f2622efd6af4c6f018125884d99db2ae47f5817a217f395eb182bf"
+    }
+  ],
+  "assets": [
+    {
+      "path": "/css/card.css",
+      "status": 200
+    },
+    {
+      "path": "/css/style.css",
+      "status": 200
+    },
+    {
+      "path": "/css/zenith-v1.css",
+      "status": 200
+    },
+    {
+      "path": "/css/card-unique-battle-fx-v1174.css",
+      "status": 200
+    },
+    {
+      "path": "/css/superstar-v1.css",
+      "status": 200
+    },
+    {
+      "path": "/css/battle-v3-live.css",
+      "status": 200
+    },
+    {
+      "path": "/css/faker-card-v1.css",
+      "status": 200
+    },
+    {
+      "path": "/css/no-light-beams-v1789.css",
+      "status": 200
+    },
+    {
+      "path": "/raid/cooperative/style.css",
+      "status": 200
+    },
+    {
+      "path": "/css/breakthrough-tier-v1802.css",
+      "status": 200
+    },
+    {
+      "path": "/js/project-v-monster-battle-art-adapter-v1.js",
+      "status": 200
+    },
+    {
+      "path": "/js/project-v-battle-art-adapter-v1.js",
+      "status": 200
+    },
+    {
+      "path": "/js/project-v-unassigned-battle-fallback-v1.js",
+      "status": 200
+    },
+    {
+      "path": "/js/project-v-tier-battle-art-adapter-v1.js",
+      "status": 200
+    },
+    {
+      "path": "/js/battle-v3-live.js",
+      "status": 200
+    },
+    {
+      "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200
+    },
+    {
+      "path": "/assets/fonts/lich-raid/NotoSansKR-lich-v1.woff2",
+      "status": 200
+    },
+    {
+      "path": "/raid/cooperative/battle.mjs",
+      "status": 200
+    },
+    {
+      "path": "/shared/server-clock-v1.mjs",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/card-frames/superstar-championship-frame-v1.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/brand/reverse-call-20261016/icon-128.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/card-frames/zenith-frame-concept-v2.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/brand/reverse-call-20261016/icon-512.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/fonts/battle/RussoOne-Regular.ttf",
+      "status": 200
+    },
+    {
+      "path": "/assets/superstar/2.jpg",
+      "status": 200
+    },
+    {
+      "path": "/assets/cards/special/chulgu-fur.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/cards/new-card-20260919-01.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/cards/ZENITH/19.jpg",
+      "status": 200
+    },
+    {
+      "path": "/assets/cards/ZENITH/11.jpg",
+      "status": 200
+    },
+    {
+      "path": "/assets/cards/6496413.jpg",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/cooperative-arke-v1/forge-arena-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+      "status": 200
+    },
+    {
+      "path": "/assets/sfx/v3-role-impact-v2/defense.mp3",
+      "status": 200
+    },
+    {
+      "path": "/assets/sfx/v3-role-impact-v2/attack.mp3",
+      "status": 200
+    },
+    {
+      "path": "/assets/sfx/v3-role-impact-v2/speed.mp3",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/battle-hud-b-v1/frame.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/battle-hud-b-v1/fill.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/fx/role-impact-v2/attack-impact-atlas-v2.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/fx/role-impact-v2/speed-impact-atlas-v2.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/fx/role-impact-v2/heal-impact-atlas-v2.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/fx/role-impact-v2/defense-impact-atlas-v2.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/characters/prestige/manifest-v1.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/characters/superstar/manifest-v1.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/characters/zenith/manifest-v1.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/characters/fur/manifest-v2.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/characters/icon/manifest-v1.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/battle-ground-runes-v1/ally.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/fallback/manifest-v1.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss-limited.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/battle-ground-runes-v1/enemy.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/battle-ground-runes-v1/icon.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/battle-ground-runes-v1/mercenary-sss.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/responsive/project-v/zenith/zenith-cn-21b307e7279a4f3d-sd-v1-384.avif",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/characters/superstar/superstar-cn-651fac27247a4922-sd-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/characters/fur/fur-cn-346f8db0deb84d41-sd-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/characters/superstar/superstar-cn-a041807b14b54c89-sd-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/responsive/project-v/zenith/zenith-cn-2da48f7e57304017-sd-v1-384.avif",
+      "status": 200
+    },
+    {
+      "path": "/assets/responsive/project-v/zenith/zenith-cn-5330101efdda4222-sd-v1-384.avif",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/cooperative-arke-v1/core-warden-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/cooperative-arke-v1/forge-stalker-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/cooperative-arke-v1/ember-watcher-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/cooperative-arke-v1/arke-battle-sprite-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/cooperative-arke-v1/focus-beam-atlas-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/cooperative-arke-v1/arke-slam-atlas-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/cooperative-arke-v1/core-rupture-atlas-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/manifest.json",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/assets/cast-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/assets/fx-ultimate-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/assets/fx-guard-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/assets/fx-aura-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/assets/cyclone-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/assets/fx-slash-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/assets/dash-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/assets/guard-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/assets/fx-cyclone-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/assets/cross-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/assets/fx-cross-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ice-crystal-dual-sword-v1/assets/attack-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/battle-suit-skill-chip-v1/assets/textures/flash.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/battle-suit-skill-chip-v1/assets/textures/smoke.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ragniel-v1/manifest.json",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ragniel-v1/assets/slash-trail-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ragniel-v1/assets/dash-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ragniel-v1/assets/slash-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ragniel-v1/assets/judgment-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-ragniel-v1/assets/cast-atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/jokro-20261018/idle.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-role-attacks-v2100/assets/vanguard/atlas.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/jokro-20261018/source-art.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-role-attacks-v2100/assets/vanguard/atlas.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/characters/mercenary/mercenary-v049-cryvern-sd-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/cryvern-source-art-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/characters/mercenary/mercenary-v046-ragniel-sd-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/approved-20260919/mercenary-v046-ragniel-source-art-v1.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/manifest.json",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/dash.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/dragon.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/blade.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/charge.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/aura.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/slash.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/idle.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/defeat.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/cast.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/hit.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/dashfx.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/ultimate.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/shatter.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/cleave.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/eruption.png",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/atlases/impact.png",
+      "status": 200
+    },
+    {
+      "path": "/assets/ui/project-v/mercenaries/jokro-dialogue-20261018/frame.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-golden-dragon-battle-v1/assets/source-art-preview.webp",
+      "status": 200
+    },
+    {
+      "path": "/preview/mercenary-jokro-iaido-20261017-v1/assets/source-art-preview.webp",
+      "status": 200
+    },
+    {
+      "path": "/assets/fonts/lich-raid/BarlowCondensed-lich-v1.woff2",
+      "status": 200
+    }
+  ],
+  "productionTransactions": 0
+}
