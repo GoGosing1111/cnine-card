@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-18T04:56:52.660Z",
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "ca9ce94ff6e4c16d55eabb490ad3e9e353e374e91a04ad616c3f3011ccca5b54"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "dc5e58bc458f27869183ce9a06be61e1a23eae47186d9b4c7f390a2d5c0a758a"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "088783236838d2f1eec26bee8890b454b8c523df3748856ee2b6114d8efd1274"
+    },
+    {
+      "file": "world/index.html",
+      "sha256": "8f133df7addcbafcb34da54598ebaa31fe90caf5b3436a1860891f2f5c00530b"
+    }
+  ],
+  "views": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "entry": "pc-sidebar",
+      "defaultGameVisibility": true,
+      "url": "https://cnine-card.pages.dev/world/#scene=rewrite",
+      "errors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "entry": "mobile-all-menu",
+      "defaultGameVisibility": true,
+      "url": "https://cnine-card.pages.dev/world/#scene=rewrite",
+      "errors": []
+    }
+  ]
+}

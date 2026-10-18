@@ -284,3 +284,78 @@
 @media (prefers-reduced-motion: reduce) {
   .live-operation-copy > small > i { animation: none; }
 }
+
+/* The existing status heading opens the complete board without lengthening the lobby rail. */
+.live-operations > header .live-operations-open {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+}
+.live-operations > header .live-operations-open:hover { background: #c8ff6b09; }
+.live-operations > header .live-operations-open:focus-visible { outline: 2px solid #c8ff6b; outline-offset: -3px; }
+.live-operations-dialog {
+  box-sizing: border-box;
+  width: min(680px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #405470;
+  border-radius: 6px;
+  background: #0c1424;
+  color: #eef3ff;
+  box-shadow: 0 24px 80px #02040bb3;
+  font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+}
+.live-operations-dialog[open] { display: flex; flex-direction: column; }
+.live-operations-dialog::backdrop { background: #030814bf; }
+.live-operations-dialog > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex: 0 0 auto; padding: 22px 22px 14px; }
+.live-operations-dialog h2 { margin: 0; color: #f1f5ff; font-size: 21px; line-height: 1.4; }
+.live-operations-dialog header p { margin: 7px 0 0; color: #9cafcb; font-size: 12px; line-height: 1.6; word-break: keep-all; }
+.live-operations-dialog [data-live-operations-close] { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; min-width: 70px; min-height: 44px; margin: -6px -8px 0 0; padding: 8px 10px; border: 0; border-radius: 4px; color: #dbe6f9; background: transparent; font-family: inherit; font-size: 13px; font-weight: 600; line-height: 1.4; cursor: pointer; }
+.live-operations-dialog [data-live-operations-close] span { font-size: 24px; font-weight: 400; line-height: 1; }
+.live-operations-dialog [data-live-operations-close]:hover { background: #9fbdff12; }
+.live-operations-dialog :focus-visible { outline: 2px solid #c8ff6b; outline-offset: -3px; }
+.live-operations-dialog-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex: 0 0 auto; margin: 0 22px; padding: 0 0 14px; border-bottom: 1px solid #35445e; }
+.live-operations-dialog-meta > span { color: #c8ff6b; font-size: 12px; font-weight: 600; }
+.live-operations-dialog-meta > small { color: #8fa6c7; font-size: 10px; }
+.live-operations-dialog .live-operations-list { display: flex; flex-direction: column; grid-auto-flow: unset; min-width: 0; min-height: 0; height: auto; margin: 0; padding: 0 22px 10px; overflow: auto; overscroll-behavior: contain; scroll-snap-type: none; scrollbar-width: thin; scrollbar-color: #4b5d79 transparent; }
+.live-operations-dialog .live-operation-card { flex: 0 0 auto; grid-template-columns: 30px minmax(0, 1fr) auto 10px; width: 100%; min-height: 96px; padding: 16px 0; border: 0; border-bottom: 1px solid #2b3950; border-radius: 0; background: none; box-shadow: none; }
+.live-operations-dialog .live-operation-card:last-child { border-bottom: 0; }
+.live-operations-dialog .live-operation-card::before { display: none; }
+.live-operations-dialog .live-operation-card:hover { background: #9fbdff07; }
+.live-operations-dialog .live-operation-icon { width: 30px; height: 32px; border: 0; border-radius: 0; background: none; box-shadow: none; color: #a9bfff; }
+.live-operations-dialog .live-operation-copy > small { flex-wrap: wrap; color: #92a8ca; letter-spacing: 0; white-space: normal; }
+.live-operations-dialog .live-operation-copy > small > i { display: none; }
+.live-operations-dialog .live-operation-copy > small > em { color: #bedca5; }
+.live-operations-dialog .live-operation-copy > b { margin-top: 5px; color: #eff3fd; font-size: 14px; line-height: 1.5; white-space: normal; overflow-wrap: anywhere; }
+.live-operations-dialog .live-operation-copy > span { color: #9cafcb; font-size: 11px; line-height: 1.6; white-space: normal; overflow-wrap: anywhere; }
+.live-operations-dialog .live-operation-card > strong { min-width: 72px; padding-left: 8px; border: 0; }
+.live-operations-dialog .live-operation-card > strong small { color: #96a9c5; font-size: 10px; }
+.live-operations-dialog .live-operation-card > strong b { color: #dbe6f9; font-size: 14px; }
+.live-operations-dialog .live-operation-empty { box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 160px; padding: 24px 12px; text-align: center; }
+.live-operations-dialog .live-operation-empty > small { line-height: 1.6; }
+@media (max-width: 650px) {
+  .live-operations-dialog { width: calc(100vw - 20px); max-height: calc(100dvh - 24px); }
+  .live-operations-dialog > header { padding: 18px 16px 12px; }
+  .live-operations-dialog h2 { font-size: 19px; }
+  .live-operations-dialog header p { max-width: 230px; font-size: 11px; }
+  .live-operations-dialog-meta { margin: 0 16px; padding-bottom: 12px; }
+  .live-operations-dialog .live-operations-list { padding: 0 16px 8px; }
+  .live-operations-dialog .live-operation-card { grid-template-columns: minmax(0, 1fr) auto 8px; gap: 10px; padding: 14px 0; }
+  .live-operations-dialog .live-operation-icon { display: none; }
+  .live-operations-dialog .live-operation-copy > b { font-size: 13px; }
+  .live-operations-dialog .live-operation-card > strong { min-width: 66px; padding: 0; }
+  .live-operations-dialog .live-operation-card > strong b { font-size: 13px; }
+}

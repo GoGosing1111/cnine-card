@@ -1,10 +1,13 @@
+import {EXPANSION_CHAPTERS, EXPANSION_SCENES, EXPANSION_ART, EXPANSION_CHARACTERS} from './expansion.js?v=20261018-v1';
+
 export const STORY_VERSION = 1;
 export const ASSET_ROOT = '/assets/ui/reverse-call/world-story-v1/';
 
 export const CHAPTERS = Object.freeze([
   { id: 'rewritten-world', label: 'PROLOGUE', title: '수정된 세계', description: '우리가 잃어버렸다는 사실조차 잊은 것들.', start: 'rewrite', art: 'city' },
   { id: 'first-signal', label: 'CHAPTER 01', title: '먼저 도착한 목소리', description: '끊어진 주파수 너머에서 들려온 구조 요청.', start: 'radio', art: 'signal' },
-  { id: 'unmapped-station', label: 'CHAPTER 02', title: '지도에 없는 역', description: '존재하지 않는 장소에서 시작되는 첫 의뢰.', start: 'station', art: 'station' }
+  { id: 'unmapped-station', label: 'CHAPTER 02', title: '지도에 없는 역', description: '존재하지 않는 장소에서 시작되는 첫 의뢰.', start: 'station', art: 'station' },
+  ...EXPANSION_CHAPTERS
 ]);
 
 export const SCENES = Object.freeze([
@@ -55,26 +58,35 @@ export const SCENES = Object.freeze([
     '그의 누나를 기억하는 사람은 없었다. 조금 전까지 함께 있었던 당신만이, 그 얼굴과 목소리를 기억했다.',
     '그때, 카드에서 다시 목소리가 들렸다.',
     '“이번에는, 나를 잊지 말아 주세요.”'
-  ] }
+  ] },
+  ...EXPANSION_SCENES
 ]);
 
 export const STORAGE_KEY = 'reverse-call:world-story:v1';
 export const CHARACTERS = Object.freeze({
   sister: { name: '의뢰인', image: 'sister.webp', alt: '낡은 승차권을 쥔 긴 갈색 머리의 의뢰인, 회색 코트를 입은 성인 여성 상반신' },
-  brother: { name: '실종된 동생', image: 'brother.webp', alt: '안도와 당혹감이 교차하는 표정의 동생, 짙은 여행 재킷을 입은 성인 남성 상반신' }
+  brother: { name: '실종된 동생', image: 'brother.webp', alt: '안도와 당혹감이 교차하는 표정의 동생, 짙은 여행 재킷을 입은 성인 남성 상반신' },
+  ...EXPANSION_CHARACTERS
 });
 export const SCENE_CHARACTERS = Object.freeze({
   request: { character: 'sister', speaker: '의뢰인' },
   train: { character: 'brother', speaker: '실종된 동생' },
   return: { character: 'brother', speaker: '돌아온 동생' },
-  'no-record': { character: 'sister', speaker: '카드 너머의 목소리', echo: true }
+  'no-record': { character: 'sister', speaker: '카드 너머의 목소리', echo: true },
+  ...Object.fromEntries(EXPANSION_SCENES.filter(scene=>scene.character).map(scene=>[scene.id,{character:scene.character,speaker:scene.speaker,echo:scene.echo}]))
 });
+export const readingMinutes = Math.max(1, Math.ceil(SCENES.reduce((sum,scene)=>sum+scene.paragraphs.join('').length,0)/430));
+export const artUrl = art => EXPANSION_ART[art] || `${ASSET_ROOT}${art}.webp`;
+export const portraitUrl = character => character.image.startsWith('/') ? character.image : ASSET_ROOT + character.image;
 export function readBookmark(storage) {
   try {
     const value = JSON.parse(storage.getItem(STORAGE_KEY));
     if (value?.version !== STORY_VERSION || typeof value.sceneId !== 'string') return null;
     const index = SCENES.findIndex(scene => scene.id === value.sceneId);
-    return index < 0 ? null : { index, completed: value.completed === true };
+    if (index < 0) return null;
+    // A previously completed release resumes at the first newly added scene.
+    if (value.completed === true && index < SCENES.length - 1) return {index:index + 1,completed:false};
+    return { index, completed: value.completed === true };
   } catch { return null; }
 }
 export function saveBookmark(storage, index, completed = false) {
@@ -116,12 +128,12 @@ function setAddress(index) {
 
 function warmArt(index) {
   const portrait = CHARACTERS[SCENE_CHARACTERS[SCENES[index]?.id]?.character];
-  if (portrait && !warmed.has(portrait.image)) { warmed.add(portrait.image); const image = new Image(); image.src = ASSET_ROOT + portrait.image; }
+  if (portrait && !warmed.has(portrait.image)) { warmed.add(portrait.image); const image = new Image(); image.src = portraitUrl(portrait); }
   const art = SCENES[index]?.art;
   if (!art || warmed.has(art)) return;
   warmed.add(art);
   const image = new Image();
-  image.src = `${ASSET_ROOT}${art}.webp`;
+  image.src = artUrl(art);
 }
 
 function showArt(art, position = '58% 46%', retry = false) {
@@ -144,7 +156,7 @@ function showArt(art, position = '58% 46%', retry = false) {
   };
   image.onerror = () => { if (request === artRequest) byId('art-error').hidden = false; };
   const suffix = retry ? `?retry=${Date.now()}` : '';
-  image.src = `${ASSET_ROOT}${art}.webp${suffix}`;
+  image.src = artUrl(art) + suffix;
 }
 
 function updateBookmark(index, completed = false) {
@@ -158,7 +170,7 @@ function updateCover() {
   resume.hidden = !bookmark || bookmark.completed;
   if (bookmark) resume.textContent = `이어 읽기 · ${bookmark.index + 1} / ${SCENES.length}`;
   byId('start-story').innerHTML = bookmark?.completed ? '처음부터 다시 읽기 <span aria-hidden="true">↺</span>' : '이야기 시작 <span aria-hidden="true">→</span>';
-  byId('reading-note').textContent = bookmark?.completed ? '서막을 모두 읽었습니다. 남겨진 호출은 계속됩니다.' : `3개의 장 · ${SCENES.length}개의 장면 · 약 4분`;
+  byId('reading-note').textContent = bookmark?.completed ? '공개된 이야기를 모두 읽었습니다. 남겨진 호출은 계속됩니다.' : `${CHAPTERS.length}개의 장 · ${SCENES.length}개의 장면 · 약 ${readingMinutes}분`;
   byId('save-note').textContent = storageAvailable ? '읽던 장면은 이 기기에 저장됩니다.' : '이 브라우저에서는 읽던 장면을 저장할 수 없습니다.';
   updateChapterStates();
 }
@@ -192,7 +204,7 @@ function showScene(index, { address = true, scroll = true } = {}) {
   reader.classList.toggle('has-character', !!character);
   if (character) {
     const portrait = byId('character-art');
-    portrait.src = ASSET_ROOT + character.image;
+    portrait.src = portraitUrl(character);
     portrait.alt = character.alt;
     byId('speaker-label').textContent = appearance.speaker;
     byId('story-portrait').classList.toggle('is-echo', appearance.echo === true);

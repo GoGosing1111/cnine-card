@@ -1,0 +1,86 @@
+{
+  "ok": true,
+  "changed": true,
+  "replayed": false,
+  "receipt": {
+    "operationKey": "ops:coup-sera-commander:20261018:v1",
+    "roundId": "337d1c95-4d88-4045-a81d-4ab359e5f627",
+    "commanderId": 45,
+    "commanderName": "박세라-ㅂ-",
+    "side": "REBEL",
+    "enrolled": true,
+    "enrollmentAlreadyExisted": true,
+    "roundStatus": "RECRUITING",
+    "before": {
+      "enabled": true,
+      "battleMinutes": 180,
+      "trialMinutes": 60,
+      "attackCooldownSeconds": 30,
+      "siegeHp": 10000000
+    },
+    "after": {
+      "enabled": true,
+      "battleMinutes": 180,
+      "trialMinutes": 60,
+      "attackCooldownSeconds": 30,
+      "siegeHp": 10000000,
+      "rebelCommand": {
+        "roundId": "337d1c95-4d88-4045-a81d-4ab359e5f627",
+        "userId": 45
+      }
+    },
+    "beforeRevision": 74,
+    "revision": 75,
+    "participantCount": 74,
+    "participantSnapshotSha256": "4d49f529adc2278915f6bd3fe872911ea587bb13dffe1caeba5bb7c9b2f7e67a",
+    "preserved": {
+      "participants": true,
+      "formation": true,
+      "joinedAt": true,
+      "roundState": true,
+      "globalSettings": true,
+      "chiefAppointment": true,
+      "energy": true,
+      "skillCooldowns": true
+    },
+    "releaseCommit": "a3d7de7ceaa37dd29dca3022670e07e8a2efce2f",
+    "completedAt": "2026-10-18T11:06:51.657Z",
+    "auditId": 47961
+  },
+  "serverVerified": {
+    "roundId": "337d1c95-4d88-4045-a81d-4ab359e5f627",
+    "status": "RECRUITING",
+    "mine": {
+      "userId": 45,
+      "side": "REBEL"
+    },
+    "rebelCommander": {
+      "userId": 45,
+      "nickname": "박세라-ㅂ-",
+      "role": "USER",
+      "temporary": true,
+      "enrolled": true
+    },
+    "commandSide": "REBEL",
+    "canUseCommandSkills": false,
+    "skills": [
+      {
+        "code": "ARTILLERY",
+        "enabled": true,
+        "nextUseAt": 0
+      },
+      {
+        "code": "AIR_SUPPORT",
+        "enabled": true,
+        "nextUseAt": 0
+      },
+      {
+        "code": "RALLY",
+        "enabled": true,
+        "nextUseAt": 0
+      }
+    ]
+  },
+  "mode": "applied",
+  "idempotencyVerified": true
+}

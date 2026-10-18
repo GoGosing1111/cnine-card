@@ -1,0 +1,58 @@
+{
+  "origin": "https://cnine-card.pages.dev",
+  "production": true,
+  "results": [
+    {
+      "label": "1440x900",
+      "geometry": {
+        "width": 1440,
+        "height": 900,
+        "title": {
+          "x": 69.109375,
+          "y": 262.84375,
+          "width": 550,
+          "height": 373.8125,
+          "right": 619.109375,
+          "bottom": 636.65625
+        },
+        "footer": {
+          "x": 69.109375,
+          "y": 790.40625,
+          "width": 1301.78125,
+          "height": 79.59375,
+          "right": 1370.890625,
+          "bottom": 870
+        },
+        "heading": {
+          "x": 69.109375,
+          "y": 300.84375,
+          "width": 550,
+          "height": 251.8125,
+          "right": 619.109375,
+          "bottom": 552.65625
+        },
+        "headingText": {
+          "x": 69.109375,
+          "y": 272.84375,
+          "width": 436.828125,
+          "height": 176,
+          "top": 272.84375,
+          "right": 505.9375,
+          "bottom": 448.84375,
+          "left": 69.109375
+        },
+        "overflow": false,
+        "scene": "https://cnine-card.pages.dev/assets/ui/loading/reverse-call-20261018/scene-wide.webp",
+        "rail": "url(\"https://cnine-card.pages.dev/assets/ui/loading/reverse-call-20261018/rail.webp\")",
+        "animation": "reverseCallBootScan",
+        "appVisibility": "hidden"
+      },
+      "errors": [],
+      "ready": {
+        "bootDisplay": "none",
+        "appVisibility": "visible",
+        "login": true
+      }
+    }
+  ]
+}

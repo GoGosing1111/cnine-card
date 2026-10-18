@@ -19,9 +19,12 @@ for(const postgres of [false,true]){
   });
   test(dialect+': CMS persistent catalog, explicit opt-in, revision conflicts and transactional audit',async()=>{
     const f=await legionFixture({postgres});try{
+      await f.DB.prepare('UPDATE character_equipment_items SET code=? WHERE id=1').bind('HUNT_COAST_WEAPON').run();
       f.resetQueries();let r=await f.call('admin/legion-hunt');assert.equal(r.status,200);assert.deepEqual(r.body.policy.items,[]);assert.equal(r.body.catalog.length,5);
       assert.ok(!f.queries.some(q=>/INSERT|UPDATE|CREATE|DELETE/.test(q)));
       const catalog=r.body.catalog,policy=r.body.policy,item=catalog[0];policy.items=[{...item,enabled:false,weight:5,minQuantity:2,maxQuantity:5}];
+      const equipment=catalog.find(row=>row.type==='EQUIPMENT');assert.equal(equipment.equipmentCode,'HUNT_COAST_WEAPON');
+      assert.equal(validateLegionHuntPolicy({...policy,items:[{...equipment,equipmentCode:'spoofed',enabled:false,weight:1,minQuantity:1,maxQuantity:1}]},catalog).items[0].equipmentCode,'HUNT_COAST_WEAPON');
       const save=p=>f.call('admin/legion-hunt',{policy:p},{method:'PATCH'});
       assert.equal((await save({...policy,publicEnabled:true})).status,400);
       assert.equal((await save({...policy,items:[{...policy.items[0],code:'INVENTORY_ITEM:OFF_ITEM'}]})).status,400);
@@ -98,7 +101,7 @@ test('actual PVE renderer hides the entry until the server mode check and main/C
   vm.createContext(context);vm.runInContext(source,context);
   for(const role of ['OWNER','USER','ADMIN',undefined])assert.match(context.battleView({role}),/data-legion-hunt-entry hidden/);
   assert.match(fs.readFileSync('index.html','utf8'),/legion-hunt-entry-v1\.mjs\?v=\d{8}-[a-z0-9-]+/);
-  assert.match(fs.readFileSync('admin/index.html','utf8'),/legion-hunt-admin-v1.mjs\?v=20261018-map-drafts-v1/);
+  assert.match(fs.readFileSync('admin/index.html','utf8'),/legion-hunt-admin-v1.mjs\?v=20261018-coins-v1/);
   assert.match(fs.readFileSync('functions/api/[[path]].js','utf8'),/await handleLegionHunt/);
 });
 test('OWNER client serializes reveal/pickup/finish and retries account lock contention with the same body',async()=>{

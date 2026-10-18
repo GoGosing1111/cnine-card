@@ -1,0 +1,114 @@
+{
+  "checkedAt": "2026-10-18T10:53:41.263Z",
+  "source": "Actual app.js live-operation functions, live CSS and SoopAdventureLobby; local status fixtures only.",
+  "results": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "layout": {
+        "x": 380,
+        "y": 142.203125,
+        "width": 680,
+        "height": 615.578125,
+        "clientHeight": 490,
+        "scrollHeight": 490,
+        "overflow": false,
+        "close": 44
+      },
+      "errors": [],
+      "checks": [
+        "inline omits organization and duo",
+        "total counts all",
+        "popup includes all",
+        "no extra status request",
+        "viewport bounds",
+        "44px close",
+        "poll preserves focus",
+        "Escape and focus return",
+        "keyboard Enter",
+        "duo and organization navigation",
+        "backdrop close",
+        "burning event",
+        "only hidden entries",
+        "empty",
+        "failure",
+        "loading",
+        "recovery"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "layout": {
+        "x": 10,
+        "y": 121.40625,
+        "width": 370,
+        "height": 601.1875,
+        "clientHeight": 488,
+        "scrollHeight": 488,
+        "overflow": false,
+        "close": 44
+      },
+      "errors": [],
+      "checks": [
+        "inline omits organization and duo",
+        "total counts all",
+        "popup includes all",
+        "no extra status request",
+        "viewport bounds",
+        "44px close",
+        "poll preserves focus",
+        "Escape and focus return",
+        "keyboard Enter",
+        "duo and organization navigation",
+        "backdrop close",
+        "burning event",
+        "only hidden entries",
+        "empty",
+        "failure",
+        "loading",
+        "recovery"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "layout": {
+        "x": 10,
+        "y": 12,
+        "width": 300,
+        "height": 544,
+        "clientHeight": 413,
+        "scrollHeight": 497,
+        "overflow": false,
+        "close": 44
+      },
+      "errors": [],
+      "checks": [
+        "inline omits organization and duo",
+        "total counts all",
+        "popup includes all",
+        "no extra status request",
+        "viewport bounds",
+        "44px close",
+        "poll preserves focus",
+        "Escape and focus return",
+        "keyboard Enter",
+        "duo and organization navigation",
+        "backdrop close",
+        "burning event",
+        "only hidden entries",
+        "empty",
+        "failure",
+        "loading",
+        "recovery"
+      ]
+    }
+  ]
+}

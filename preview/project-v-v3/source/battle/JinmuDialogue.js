@@ -20,7 +20,7 @@ export function jinmuDialogueAllowed(engine){
 
 const STYLE_ID='jinmu-dialogue-style-v3';
 const CSS=`
-.jinmu-dialogue-rail{position:absolute;z-index:13;left:0;right:0;box-sizing:border-box;padding:7px 18px 9px;background:#090d13;pointer-events:none;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;line-height:1.4}
+.jinmu-dialogue-rail{position:absolute;z-index:13;left:0;right:0;box-sizing:border-box;padding:7px 18px 9px;background:transparent;pointer-events:none;font-family:'Noto Sans KR','Malgun Gothic',sans-serif;line-height:1.4}
 .jinmu-dialogue-frame{position:relative;box-sizing:border-box;max-width:1120px;margin:auto;padding:2px;background:linear-gradient(115deg,#79532b,#f5d79a 15%,#a47137 31%,#634326 49%,#dfbc78 73%,#fff0b4 88%,#7b5127);clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px),0 14px)}
 .jinmu-dialogue-frame:before,.jinmu-dialogue-frame:after{content:'';position:absolute;z-index:2;left:94px;right:126px;height:1px;background:linear-gradient(90deg,#f8d99b,transparent 42%,transparent 58%,#f8d99b)}
 .jinmu-dialogue-frame:before{top:6px}.jinmu-dialogue-frame:after{bottom:6px}
@@ -53,7 +53,7 @@ const CSS=`
 .jinmu-dialogue-rail:not([data-theme='jinmu']) .jinmu-dialogue-crest{display:block;width:27px;height:23px;margin:0 auto 3px;color:inherit;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
 .jinmu-dialogue-rail:not([data-theme='jinmu']) .jinmu-dialogue-seal b{font-size:20px}
 .jinmu-dialogue-rail[data-theme='valter'] [data-crest='sun'],.jinmu-dialogue-rail[data-theme='helios'] [data-crest='swords']{display:none}
-.jinmu-dialogue-rail[data-theme='jokro']{padding:4px 12px 6px;background:#090d13}
+.jinmu-dialogue-rail[data-theme='jokro']{padding:4px 12px 6px;background:transparent}
 .jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame{max-width:1060px;border:0 solid transparent;border-inline-width:72px;border-image:url('/assets/ui/project-v/mercenaries/jokro-dialogue-20261018/frame.webp') 0 480 fill /0 72px stretch;background:none;clip-path:none;padding:0}
 .jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame:before,.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame:after,.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-crest{display:none}
 .jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-inner{background:none;clip-path:none;min-height:110px;padding:24px 3px;gap:16px;box-shadow:none}
@@ -111,7 +111,6 @@ class DialogueRail{
   this.node=document.createElement('section');this.node.className='jinmu-dialogue-rail';
   this.node.innerHTML='<div class="jinmu-dialogue-frame"><div class="jinmu-dialogue-inner"><div class="jinmu-dialogue-face" role="img"><i></i></div><div class="jinmu-dialogue-copy"><div class="jinmu-dialogue-name"><b></b><span></span></div><div class="jinmu-dialogue-lines"><p role="status" aria-live="polite" aria-atomic="true"></p></div></div><div class="jinmu-dialogue-seal" aria-label="SSS 리미티드"><svg class="jinmu-dialogue-crest" viewBox="0 0 32 28" aria-hidden="true"><g data-crest="swords"><path d="m7 3 15 17-4-1-13-13 2-3Zm18 0L10 20l4-1L27 6l-2-3ZM7 17l7 7m-10 0 5-5m16-2-7 7m10 0-5-5"/><path d="m16 2 3 4-3 4-3-4Z"/></g><g data-crest="sun"><circle cx="16" cy="14" r="7"/><circle cx="16" cy="14" r="4"/><path d="M16 1v4m0 18v4M3 14h4m18 0h4M7 5l3 3m12 12 3 3M7 23l3-3M22 8l3-3"/></g></svg><b>SSS</b><small>LIMITED</small></div></div></div>';
   this.line=this.node.querySelector('p');this.lines=this.node.querySelector('.jinmu-dialogue-lines');
-  this.previousTop={value:this.host.style.getPropertyValue('top'),priority:this.host.style.getPropertyPriority('top')};
   shell.append(this.node);shell.classList.add('has-jinmu-dialogue');
   this.portal?.classList.add('has-jinmu-dialogue');
   this.body=document.body;
@@ -131,13 +130,13 @@ class DialogueRail{
    this.node.style.top=header+'px';shell.style.setProperty('--jinmu-dialogue-height',height+'px');
    if(this.body.dataset.jinmuDialogue==='true')this.body.style.setProperty('--jinmu-dialogue-height',height+'px');
    this.portal?.style.setProperty('--jinmu-dialogue-bottom',(header+height)+'px');
-   const top=header+height;
+   const top=this.portal?header+height:Math.max(0,this.node.getBoundingClientRect().bottom-this.host.getBoundingClientRect().top);
    // Pixi owns the resize callback. Calling engine.resize during actor loading
    // is too early: its status UI is constructed after the mercenary assets.
    if(top!==this.top){
     this.top=top;
-    if(this.portal){if(engine.uiLayer?.statusPanel)engine.resize();}
-    else{this.host.style.setProperty('top',top+'px','important');engine.app?.resize?.();}
+    if(!this.portal)engine.dialogueTopInset=top;
+    if(engine.uiLayer?.statusPanel)engine.resize();
    }
   };
   this.layout();this.observer=new ResizeObserver(this.layout);this.observer.observe(this.node);if(this.header)this.observer.observe(this.header);
@@ -172,9 +171,9 @@ class DialogueRail{
   rails.delete(this.engine);
   this.shell.classList.remove('has-jinmu-dialogue');this.shell.style.removeProperty('--jinmu-dialogue-height');
   this.portal?.classList.remove('has-jinmu-dialogue');this.portal?.style.removeProperty('--jinmu-dialogue-bottom');
-  if(!this.portal)this.host.style.setProperty('top',this.previousTop.value,this.previousTop.priority);
+  delete this.engine.dialogueTopInset;
   if(this.body.dataset.jinmuDialogue==='true'){delete this.body.dataset.jinmuDialogue;this.body.style.removeProperty('--jinmu-dialogue-height');}
-  if(!this.engine.disposed){if(this.portal&&this.engine.uiLayer?.statusPanel)this.engine.resize();else this.engine.app?.resize?.();}
+  if(!this.engine.disposed&&this.engine.uiLayer?.statusPanel)this.engine.resize();
  }
 }
 

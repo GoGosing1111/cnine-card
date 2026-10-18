@@ -1,0 +1,132 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "scene": "gravity-front",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "position": "50% 0%",
+      "file": "pc-focus-orze.png"
+    },
+    {
+      "scene": "ember-crossing",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "position": "50% 40%",
+      "file": "pc-focus-renzo.png"
+    },
+    {
+      "scene": "black-tide",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "position": "50% 55%",
+      "file": "pc-focus-zeno.png"
+    },
+    {
+      "scene": "throne-offer",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "position": "50% 0%",
+      "file": "pc-focus-isgen.png"
+    },
+    {
+      "scene": "war-repeats",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "position": "50% 45%",
+      "file": "pc-focus-varsen.png"
+    },
+    {
+      "scene": "unbroken-line",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "position": "50% 0%",
+      "file": "pc-focus-valter.png"
+    },
+    {
+      "scene": "light-for-return",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "position": "50% 0%",
+      "file": "pc-focus-helios.png"
+    },
+    {
+      "scene": "gravity-front",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "position": "50% 0%",
+      "file": "mobile-focus-orze.png"
+    },
+    {
+      "scene": "ember-crossing",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "position": "50% 40%",
+      "file": "mobile-focus-renzo.png"
+    },
+    {
+      "scene": "black-tide",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "position": "50% 55%",
+      "file": "mobile-focus-zeno.png"
+    },
+    {
+      "scene": "throne-offer",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "position": "50% 0%",
+      "file": "mobile-focus-isgen.png"
+    },
+    {
+      "scene": "war-repeats",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "position": "50% 45%",
+      "file": "mobile-focus-varsen.png"
+    },
+    {
+      "scene": "unbroken-line",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "position": "50% 0%",
+      "file": "mobile-focus-valter.png"
+    },
+    {
+      "scene": "light-for-return",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "position": "50% 0%",
+      "file": "mobile-focus-helios.png"
+    }
+  ],
+  "errors": []
+}

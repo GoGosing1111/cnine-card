@@ -1,0 +1,299 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "mode": "HUNT",
+      "rail": {
+        "x": 0,
+        "y": 116,
+        "width": 1440,
+        "height": 150,
+        "top": 116,
+        "right": 1440,
+        "bottom": 266,
+        "left": 0
+      },
+      "railColor": "rgba(0, 0, 0, 0)",
+      "canvas": {
+        "x": 0,
+        "y": 116,
+        "width": 1440,
+        "height": 784,
+        "top": 116,
+        "right": 1440,
+        "bottom": 900,
+        "left": 0
+      },
+      "inset": 150,
+      "chip": {
+        "x": 1398,
+        "y": 445.265625,
+        "width": 36,
+        "height": 38,
+        "top": 445.265625,
+        "right": 1434,
+        "bottom": 483.265625,
+        "left": 1398
+      },
+      "chipBackground": "rgba(0, 0, 0, 0)",
+      "tooltipCount": 0,
+      "overflow": false,
+      "backdrop": {
+        "x": -179.2302839116719,
+        "y": -242.0063091482649,
+        "width": 1958.4605678233438,
+        "height": 1110.0063091482648
+      }
+    },
+    {
+      "width": 1440,
+      "mode": "PVE",
+      "railColor": null,
+      "canvas": {
+        "x": 0,
+        "y": 72,
+        "width": 1440,
+        "height": 828,
+        "top": 72,
+        "right": 1440,
+        "bottom": 900,
+        "left": 0
+      },
+      "chip": {
+        "x": 1398,
+        "y": 419.75,
+        "width": 36,
+        "height": 36,
+        "top": 419.75,
+        "right": 1434,
+        "bottom": 455.75,
+        "left": 1398
+      },
+      "chipBackground": "rgba(0, 0, 0, 0)",
+      "tooltipCount": 0,
+      "overflow": false,
+      "backdrop": {
+        "x": -48,
+        "y": -98,
+        "width": 1696,
+        "height": 1016
+      }
+    },
+    {
+      "width": 1440,
+      "mode": "PVP",
+      "railColor": null,
+      "canvas": {
+        "x": 0,
+        "y": 72,
+        "width": 1440,
+        "height": 828,
+        "top": 72,
+        "right": 1440,
+        "bottom": 900,
+        "left": 0
+      },
+      "chip": {
+        "x": 1398,
+        "y": 419.75,
+        "width": 36,
+        "height": 36,
+        "top": 419.75,
+        "right": 1434,
+        "bottom": 455.75,
+        "left": 1398
+      },
+      "chipBackground": "rgba(0, 0, 0, 0)",
+      "tooltipCount": 0,
+      "overflow": false,
+      "backdrop": {
+        "x": -48,
+        "y": -98,
+        "width": 1696,
+        "height": 1016
+      }
+    },
+    {
+      "width": 1440,
+      "mode": "COOP",
+      "railColor": null,
+      "canvas": {
+        "x": 0,
+        "y": 72,
+        "width": 1440,
+        "height": 828,
+        "top": 72,
+        "right": 1440,
+        "bottom": 900,
+        "left": 0
+      },
+      "chip": {
+        "x": 1398,
+        "y": 419.75,
+        "width": 36,
+        "height": 36,
+        "top": 419.75,
+        "right": 1434,
+        "bottom": 455.75,
+        "left": 1398
+      },
+      "chipBackground": "rgba(0, 0, 0, 0)",
+      "tooltipCount": 0,
+      "overflow": false,
+      "backdrop": {
+        "x": -48,
+        "y": -98,
+        "width": 1696,
+        "height": 1016
+      }
+    },
+    {
+      "width": 390,
+      "mode": "HUNT",
+      "rail": {
+        "x": 0,
+        "y": 148,
+        "width": 390,
+        "height": 176,
+        "top": 148,
+        "right": 390,
+        "bottom": 324,
+        "left": 0
+      },
+      "railColor": "rgba(0, 0, 0, 0)",
+      "canvas": {
+        "x": 0,
+        "y": 148,
+        "width": 390,
+        "height": 696,
+        "top": 148,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      },
+      "inset": 176,
+      "chip": {
+        "x": 344,
+        "y": 440.3125,
+        "width": 44,
+        "height": 44,
+        "top": 440.3125,
+        "right": 388,
+        "bottom": 484.3125,
+        "left": 344
+      },
+      "chipBackground": "rgba(0, 0, 0, 0)",
+      "tooltipCount": 0,
+      "overflow": false,
+      "backdrop": {
+        "x": -48,
+        "y": -48.00000000000023,
+        "width": 1805.2113982770047,
+        "height": 3146.284956925116
+      }
+    },
+    {
+      "width": 390,
+      "mode": "PVE",
+      "railColor": null,
+      "canvas": {
+        "x": 0,
+        "y": 60,
+        "width": 390,
+        "height": 784,
+        "top": 60,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      },
+      "chip": {
+        "x": 344,
+        "y": 389.265625,
+        "width": 44,
+        "height": 44,
+        "top": 389.265625,
+        "right": 388,
+        "bottom": 433.265625,
+        "left": 344
+      },
+      "chipBackground": "rgba(0, 0, 0, 0)",
+      "tooltipCount": 0,
+      "overflow": false,
+      "backdrop": {
+        "x": -48,
+        "y": -48,
+        "width": 1246.8196721311474,
+        "height": 2409.4426229508194
+      }
+    },
+    {
+      "width": 390,
+      "mode": "PVP",
+      "railColor": null,
+      "canvas": {
+        "x": 0,
+        "y": 60,
+        "width": 390,
+        "height": 784,
+        "top": 60,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      },
+      "chip": {
+        "x": 344,
+        "y": 389.265625,
+        "width": 44,
+        "height": 44,
+        "top": 389.265625,
+        "right": 388,
+        "bottom": 433.265625,
+        "left": 344
+      },
+      "chipBackground": "rgba(0, 0, 0, 0)",
+      "tooltipCount": 0,
+      "overflow": false,
+      "backdrop": {
+        "x": -48,
+        "y": -48,
+        "width": 1352.1038961038962,
+        "height": 2621.090909090909
+      }
+    },
+    {
+      "width": 390,
+      "mode": "COOP",
+      "railColor": null,
+      "canvas": {
+        "x": 0,
+        "y": 60,
+        "width": 390,
+        "height": 784,
+        "top": 60,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      },
+      "chip": {
+        "x": 344,
+        "y": 389.265625,
+        "width": 44,
+        "height": 44,
+        "top": 389.265625,
+        "right": 388,
+        "bottom": 433.265625,
+        "left": 344
+      },
+      "chipBackground": "rgba(0, 0, 0, 0)",
+      "tooltipCount": 0,
+      "overflow": false,
+      "backdrop": {
+        "x": -48,
+        "y": -48,
+        "width": 1246.8196721311474,
+        "height": 2409.4426229508194
+      }
+    }
+  ],
+  "errors": []
+}

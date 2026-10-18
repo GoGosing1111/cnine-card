@@ -1,0 +1,1274 @@
+{
+  "policies": [
+    {
+      "key": "legion_hunt_regions_v1",
+      "policy": {
+        "schemaVersion": 1,
+        "revision": 4,
+        "mode": "OFF",
+        "difficulties": [
+          {
+            "id": "normal",
+            "power": 650000,
+            "bossPower": 12000000,
+            "attack": 105,
+            "shield": 0,
+            "forced": 7,
+            "loot": {
+              "stonePercent": 0.2,
+              "eliteStonePercent": 15,
+              "eliteSetPercent": 0,
+              "bossSetPercent": 8,
+              "bossUniquePercent": 0.3,
+              "bossStones": 5,
+              "lifetimeSeconds": 12
+            }
+          },
+          {
+            "id": "hard",
+            "power": 2000000,
+            "bossPower": 65000000,
+            "attack": 120,
+            "shield": 8,
+            "forced": 6,
+            "loot": {
+              "stonePercent": 0.3,
+              "eliteStonePercent": 20,
+              "eliteSetPercent": 0,
+              "bossSetPercent": 12,
+              "bossUniquePercent": 0.5,
+              "bossStones": 7,
+              "lifetimeSeconds": 12
+            }
+          },
+          {
+            "id": "nightmare",
+            "power": 5000000,
+            "bossPower": 180000000,
+            "attack": 140,
+            "shield": 16,
+            "forced": 5,
+            "loot": {
+              "stonePercent": 0.4,
+              "eliteStonePercent": 25,
+              "eliteSetPercent": 0,
+              "bossSetPercent": 18,
+              "bossUniquePercent": 0.8,
+              "bossStones": 10,
+              "lifetimeSeconds": 12
+            }
+          },
+          {
+            "id": "inferno",
+            "power": 8500000,
+            "bossPower": 400000000,
+            "attack": 160,
+            "shield": 24,
+            "forced": 4,
+            "loot": {
+              "stonePercent": 0.5,
+              "eliteStonePercent": 30,
+              "eliteSetPercent": 0.001,
+              "bossSetPercent": 0.001,
+              "bossUniquePercent": 1.2,
+              "bossStones": 14,
+              "lifetimeSeconds": 12
+            }
+          },
+          {
+            "id": "calamity",
+            "power": 14000000,
+            "bossPower": 950000000,
+            "attack": 185,
+            "shield": 32,
+            "forced": 3,
+            "loot": {
+              "stonePercent": 0.6,
+              "eliteStonePercent": 40,
+              "eliteSetPercent": 0.001,
+              "bossSetPercent": 0.001,
+              "bossUniquePercent": 1.8,
+              "bossStones": 20,
+              "lifetimeSeconds": 12
+            }
+          }
+        ],
+        "regions": [
+          {
+            "id": "coast",
+            "enabled": true,
+            "fieldDrops": {
+              "difficulties": [
+                {
+                  "id": "normal",
+                  "dropPercent": 2,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 9
+                },
+                {
+                  "id": "hard",
+                  "dropPercent": 4,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 8
+                },
+                {
+                  "id": "nightmare",
+                  "dropPercent": 6,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7.5
+                },
+                {
+                  "id": "inferno",
+                  "dropPercent": 8,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7
+                },
+                {
+                  "id": "calamity",
+                  "dropPercent": 8,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7
+                }
+              ],
+              "items": [
+                {
+                  "code": "INVENTORY_ITEM:MASTER_STAR",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "MASTER_STAR",
+                  "name": "마스터의 별",
+                  "image": "/assets/ui/scrapyard/vehicle-part-frame-v1667.svg",
+                  "rarity": "MA",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 15,
+                  "minQuantity": 2500,
+                  "maxQuantity": 20000
+                },
+                {
+                  "code": "INVENTORY_ITEM:BLACK_MIRACLE_PACK",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "BLACK_MIRACLE_PACK",
+                  "name": "블랙 미라클 팩",
+                  "image": "/assets/ui/packs/reverse-call-20261016/black-miracle-768.webp",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUIT_CORE_4",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUIT_CORE_4",
+                  "name": "슈트 코어 4",
+                  "image": "/assets/items/suit-core-4-v2066.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.25,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_ENGINE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_ENGINE",
+                  "name": "고출력 엔진",
+                  "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+                  "rarity": "LEGENDARY",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:SOOPKETLAND_HYPER_BURNING_TICKET",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SOOPKETLAND_HYPER_BURNING_TICKET",
+                  "name": "하이퍼버닝 발동권 ×15",
+                  "image": "/assets/ui/soopketland/hyper-ticket-v1.svg",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.005,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SKILL_CHIP_OCTA_SEEKER",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SKILL_CHIP_OCTA_SEEKER",
+                  "name": "8방향 유도탄 스킬칩",
+                  "image": "/assets/ui/project-v/skill-chips/octa-seeker-v1.webp",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.003,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_TIRE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_TIRE",
+                  "name": "고성능 타이어",
+                  "image": "/assets/ui/workshop/vehicle-part-tire-v1668.png",
+                  "rarity": "RARE",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:EASTERN_ARMS_WEAPON_BLUEPRINT",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+                  "name": "동방무기상 무기설계도",
+                  "image": "/assets/items/eastern-arms-weapon-blueprint-v1.png",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.001,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:STARLIGHT_ARMOR_CORE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "STARLIGHT_ARMOR_CORE",
+                  "name": "미스틱 에너지",
+                  "image": "/assets/items/starlight-armor-core-v1749.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 5,
+                  "minQuantity": 5,
+                  "maxQuantity": 50
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_FRAME",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_FRAME",
+                  "name": "강화 차체 프레임",
+                  "image": "/assets/ui/workshop/vehicle-part-frame-v1668.png",
+                  "rarity": "EPIC",
+                  "tier": "rare",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUIT_CORE_3",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUIT_CORE_3",
+                  "name": "슈트 코어 3",
+                  "image": "/assets/items/suit-core-3-v2004.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUPERSTAR_UPGRADE_13_TICKET",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUPERSTAR_UPGRADE_13_TICKET",
+                  "name": "슈퍼스타 +13 업그레이드 강화권",
+                  "image": "/assets/ui/events/golden-axe-v1/upgrade-13.svg",
+                  "rarity": "SUPERSTAR",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                }
+              ]
+            }
+          },
+          {
+            "id": "desert",
+            "enabled": true,
+            "fieldDrops": {
+              "difficulties": [
+                {
+                  "id": "normal",
+                  "dropPercent": 2,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 9
+                },
+                {
+                  "id": "hard",
+                  "dropPercent": 4,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 8
+                },
+                {
+                  "id": "nightmare",
+                  "dropPercent": 6,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7.5
+                },
+                {
+                  "id": "inferno",
+                  "dropPercent": 8,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7
+                },
+                {
+                  "id": "calamity",
+                  "dropPercent": 8,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7
+                }
+              ],
+              "items": [
+                {
+                  "code": "INVENTORY_ITEM:MASTER_STAR",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "MASTER_STAR",
+                  "name": "마스터의 별",
+                  "image": "/assets/ui/scrapyard/vehicle-part-frame-v1667.svg",
+                  "rarity": "MA",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 15,
+                  "minQuantity": 2500,
+                  "maxQuantity": 20000
+                },
+                {
+                  "code": "INVENTORY_ITEM:BLACK_MIRACLE_PACK",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "BLACK_MIRACLE_PACK",
+                  "name": "블랙 미라클 팩",
+                  "image": "/assets/ui/packs/reverse-call-20261016/black-miracle-768.webp",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUIT_CORE_4",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUIT_CORE_4",
+                  "name": "슈트 코어 4",
+                  "image": "/assets/items/suit-core-4-v2066.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.25,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_ENGINE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_ENGINE",
+                  "name": "고출력 엔진",
+                  "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+                  "rarity": "LEGENDARY",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:SOOPKETLAND_HYPER_BURNING_TICKET",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SOOPKETLAND_HYPER_BURNING_TICKET",
+                  "name": "하이퍼버닝 발동권 ×15",
+                  "image": "/assets/ui/soopketland/hyper-ticket-v1.svg",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.005,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SKILL_CHIP_OCTA_SEEKER",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SKILL_CHIP_OCTA_SEEKER",
+                  "name": "8방향 유도탄 스킬칩",
+                  "image": "/assets/ui/project-v/skill-chips/octa-seeker-v1.webp",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.003,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_TIRE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_TIRE",
+                  "name": "고성능 타이어",
+                  "image": "/assets/ui/workshop/vehicle-part-tire-v1668.png",
+                  "rarity": "RARE",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:EASTERN_ARMS_WEAPON_BLUEPRINT",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+                  "name": "동방무기상 무기설계도",
+                  "image": "/assets/items/eastern-arms-weapon-blueprint-v1.png",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.001,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:STARLIGHT_ARMOR_CORE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "STARLIGHT_ARMOR_CORE",
+                  "name": "미스틱 에너지",
+                  "image": "/assets/items/starlight-armor-core-v1749.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 5,
+                  "minQuantity": 5,
+                  "maxQuantity": 50
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_FRAME",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_FRAME",
+                  "name": "강화 차체 프레임",
+                  "image": "/assets/ui/workshop/vehicle-part-frame-v1668.png",
+                  "rarity": "EPIC",
+                  "tier": "rare",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUIT_CORE_3",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUIT_CORE_3",
+                  "name": "슈트 코어 3",
+                  "image": "/assets/items/suit-core-3-v2004.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUPERSTAR_UPGRADE_13_TICKET",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUPERSTAR_UPGRADE_13_TICKET",
+                  "name": "슈퍼스타 +13 업그레이드 강화권",
+                  "image": "/assets/ui/events/golden-axe-v1/upgrade-13.svg",
+                  "rarity": "SUPERSTAR",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                }
+              ]
+            }
+          },
+          {
+            "id": "theatre",
+            "enabled": true,
+            "fieldDrops": {
+              "difficulties": [
+                {
+                  "id": "normal",
+                  "dropPercent": 2,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 9
+                },
+                {
+                  "id": "hard",
+                  "dropPercent": 4,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 8
+                },
+                {
+                  "id": "nightmare",
+                  "dropPercent": 6,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7.5
+                },
+                {
+                  "id": "inferno",
+                  "dropPercent": 8,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7
+                },
+                {
+                  "id": "calamity",
+                  "dropPercent": 8,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7
+                }
+              ],
+              "items": [
+                {
+                  "code": "INVENTORY_ITEM:MASTER_STAR",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "MASTER_STAR",
+                  "name": "마스터의 별",
+                  "image": "/assets/ui/scrapyard/vehicle-part-frame-v1667.svg",
+                  "rarity": "MA",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 15,
+                  "minQuantity": 2500,
+                  "maxQuantity": 20000
+                },
+                {
+                  "code": "INVENTORY_ITEM:BLACK_MIRACLE_PACK",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "BLACK_MIRACLE_PACK",
+                  "name": "블랙 미라클 팩",
+                  "image": "/assets/ui/packs/reverse-call-20261016/black-miracle-768.webp",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUIT_CORE_4",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUIT_CORE_4",
+                  "name": "슈트 코어 4",
+                  "image": "/assets/items/suit-core-4-v2066.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.25,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_ENGINE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_ENGINE",
+                  "name": "고출력 엔진",
+                  "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+                  "rarity": "LEGENDARY",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:SOOPKETLAND_HYPER_BURNING_TICKET",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SOOPKETLAND_HYPER_BURNING_TICKET",
+                  "name": "하이퍼버닝 발동권 ×15",
+                  "image": "/assets/ui/soopketland/hyper-ticket-v1.svg",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.005,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SKILL_CHIP_OCTA_SEEKER",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SKILL_CHIP_OCTA_SEEKER",
+                  "name": "8방향 유도탄 스킬칩",
+                  "image": "/assets/ui/project-v/skill-chips/octa-seeker-v1.webp",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.003,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_TIRE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_TIRE",
+                  "name": "고성능 타이어",
+                  "image": "/assets/ui/workshop/vehicle-part-tire-v1668.png",
+                  "rarity": "RARE",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:EASTERN_ARMS_WEAPON_BLUEPRINT",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+                  "name": "동방무기상 무기설계도",
+                  "image": "/assets/items/eastern-arms-weapon-blueprint-v1.png",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.001,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:STARLIGHT_ARMOR_CORE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "STARLIGHT_ARMOR_CORE",
+                  "name": "미스틱 에너지",
+                  "image": "/assets/items/starlight-armor-core-v1749.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 5,
+                  "minQuantity": 5,
+                  "maxQuantity": 50
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_FRAME",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_FRAME",
+                  "name": "강화 차체 프레임",
+                  "image": "/assets/ui/workshop/vehicle-part-frame-v1668.png",
+                  "rarity": "EPIC",
+                  "tier": "rare",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUIT_CORE_3",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUIT_CORE_3",
+                  "name": "슈트 코어 3",
+                  "image": "/assets/items/suit-core-3-v2004.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUPERSTAR_UPGRADE_13_TICKET",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUPERSTAR_UPGRADE_13_TICKET",
+                  "name": "슈퍼스타 +13 업그레이드 강화권",
+                  "image": "/assets/ui/events/golden-axe-v1/upgrade-13.svg",
+                  "rarity": "SUPERSTAR",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                }
+              ]
+            }
+          },
+          {
+            "id": "viscera",
+            "enabled": true,
+            "fieldDrops": {
+              "difficulties": [
+                {
+                  "id": "normal",
+                  "dropPercent": 2,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 9
+                },
+                {
+                  "id": "hard",
+                  "dropPercent": 4,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 8
+                },
+                {
+                  "id": "nightmare",
+                  "dropPercent": 6,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7.5
+                },
+                {
+                  "id": "inferno",
+                  "dropPercent": 8,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7
+                },
+                {
+                  "id": "calamity",
+                  "dropPercent": 8,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7
+                }
+              ],
+              "items": [
+                {
+                  "code": "INVENTORY_ITEM:MASTER_STAR",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "MASTER_STAR",
+                  "name": "마스터의 별",
+                  "image": "/assets/ui/scrapyard/vehicle-part-frame-v1667.svg",
+                  "rarity": "MA",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 15,
+                  "minQuantity": 2500,
+                  "maxQuantity": 20000
+                },
+                {
+                  "code": "INVENTORY_ITEM:BLACK_MIRACLE_PACK",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "BLACK_MIRACLE_PACK",
+                  "name": "블랙 미라클 팩",
+                  "image": "/assets/ui/packs/reverse-call-20261016/black-miracle-768.webp",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUIT_CORE_4",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUIT_CORE_4",
+                  "name": "슈트 코어 4",
+                  "image": "/assets/items/suit-core-4-v2066.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.25,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_ENGINE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_ENGINE",
+                  "name": "고출력 엔진",
+                  "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+                  "rarity": "LEGENDARY",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:SOOPKETLAND_HYPER_BURNING_TICKET",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SOOPKETLAND_HYPER_BURNING_TICKET",
+                  "name": "하이퍼버닝 발동권 ×15",
+                  "image": "/assets/ui/soopketland/hyper-ticket-v1.svg",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.005,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SKILL_CHIP_OCTA_SEEKER",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SKILL_CHIP_OCTA_SEEKER",
+                  "name": "8방향 유도탄 스킬칩",
+                  "image": "/assets/ui/project-v/skill-chips/octa-seeker-v1.webp",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.003,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_TIRE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_TIRE",
+                  "name": "고성능 타이어",
+                  "image": "/assets/ui/workshop/vehicle-part-tire-v1668.png",
+                  "rarity": "RARE",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:EASTERN_ARMS_WEAPON_BLUEPRINT",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+                  "name": "동방무기상 무기설계도",
+                  "image": "/assets/items/eastern-arms-weapon-blueprint-v1.png",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.001,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:STARLIGHT_ARMOR_CORE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "STARLIGHT_ARMOR_CORE",
+                  "name": "미스틱 에너지",
+                  "image": "/assets/items/starlight-armor-core-v1749.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 5,
+                  "minQuantity": 5,
+                  "maxQuantity": 50
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_FRAME",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_FRAME",
+                  "name": "강화 차체 프레임",
+                  "image": "/assets/ui/workshop/vehicle-part-frame-v1668.png",
+                  "rarity": "EPIC",
+                  "tier": "rare",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUIT_CORE_3",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUIT_CORE_3",
+                  "name": "슈트 코어 3",
+                  "image": "/assets/items/suit-core-3-v2004.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUPERSTAR_UPGRADE_13_TICKET",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUPERSTAR_UPGRADE_13_TICKET",
+                  "name": "슈퍼스타 +13 업그레이드 강화권",
+                  "image": "/assets/ui/events/golden-axe-v1/upgrade-13.svg",
+                  "rarity": "SUPERSTAR",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                }
+              ]
+            }
+          },
+          {
+            "id": "sky",
+            "enabled": true,
+            "fieldDrops": {
+              "difficulties": [
+                {
+                  "id": "normal",
+                  "dropPercent": 2,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 9
+                },
+                {
+                  "id": "hard",
+                  "dropPercent": 4,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 8
+                },
+                {
+                  "id": "nightmare",
+                  "dropPercent": 6,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7.5
+                },
+                {
+                  "id": "inferno",
+                  "dropPercent": 8,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7
+                },
+                {
+                  "id": "calamity",
+                  "dropPercent": 8,
+                  "bossDropPercent": 72,
+                  "lifetimeSeconds": 7
+                }
+              ],
+              "items": [
+                {
+                  "code": "INVENTORY_ITEM:MASTER_STAR",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "MASTER_STAR",
+                  "name": "마스터의 별",
+                  "image": "/assets/ui/scrapyard/vehicle-part-frame-v1667.svg",
+                  "rarity": "MA",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 15,
+                  "minQuantity": 2500,
+                  "maxQuantity": 20000
+                },
+                {
+                  "code": "INVENTORY_ITEM:BLACK_MIRACLE_PACK",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "BLACK_MIRACLE_PACK",
+                  "name": "블랙 미라클 팩",
+                  "image": "/assets/ui/packs/reverse-call-20261016/black-miracle-768.webp",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUIT_CORE_4",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUIT_CORE_4",
+                  "name": "슈트 코어 4",
+                  "image": "/assets/items/suit-core-4-v2066.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.25,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_ENGINE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_ENGINE",
+                  "name": "고출력 엔진",
+                  "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+                  "rarity": "LEGENDARY",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:SOOPKETLAND_HYPER_BURNING_TICKET",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SOOPKETLAND_HYPER_BURNING_TICKET",
+                  "name": "하이퍼버닝 발동권 ×15",
+                  "image": "/assets/ui/soopketland/hyper-ticket-v1.svg",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.005,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SKILL_CHIP_OCTA_SEEKER",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SKILL_CHIP_OCTA_SEEKER",
+                  "name": "8방향 유도탄 스킬칩",
+                  "image": "/assets/ui/project-v/skill-chips/octa-seeker-v1.webp",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.003,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_TIRE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_TIRE",
+                  "name": "고성능 타이어",
+                  "image": "/assets/ui/workshop/vehicle-part-tire-v1668.png",
+                  "rarity": "RARE",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:EASTERN_ARMS_WEAPON_BLUEPRINT",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+                  "name": "동방무기상 무기설계도",
+                  "image": "/assets/items/eastern-arms-weapon-blueprint-v1.png",
+                  "rarity": "SPECIAL",
+                  "tier": "normal",
+                  "enabled": true,
+                  "weight": 0.001,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:STARLIGHT_ARMOR_CORE",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "STARLIGHT_ARMOR_CORE",
+                  "name": "미스틱 에너지",
+                  "image": "/assets/items/starlight-armor-core-v1749.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 5,
+                  "minQuantity": 5,
+                  "maxQuantity": 50
+                },
+                {
+                  "code": "INVENTORY_ITEM:VEHICLE_PART_FRAME",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "VEHICLE_PART_FRAME",
+                  "name": "강화 차체 프레임",
+                  "image": "/assets/ui/workshop/vehicle-part-frame-v1668.png",
+                  "rarity": "EPIC",
+                  "tier": "rare",
+                  "enabled": true,
+                  "weight": 10,
+                  "minQuantity": 1,
+                  "maxQuantity": 3
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUIT_CORE_3",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUIT_CORE_3",
+                  "name": "슈트 코어 3",
+                  "image": "/assets/items/suit-core-3-v2004.png",
+                  "rarity": "MYTHIC",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                },
+                {
+                  "code": "INVENTORY_ITEM:SUPERSTAR_UPGRADE_13_TICKET",
+                  "type": "INVENTORY_ITEM",
+                  "ref": "SUPERSTAR_UPGRADE_13_TICKET",
+                  "name": "슈퍼스타 +13 업그레이드 강화권",
+                  "image": "/assets/ui/events/golden-axe-v1/upgrade-13.svg",
+                  "rarity": "SUPERSTAR",
+                  "tier": "epic",
+                  "enabled": true,
+                  "weight": 0.1,
+                  "minQuantity": 1,
+                  "maxQuantity": 1
+                }
+              ]
+            }
+          }
+        ],
+        "testUserIds": []
+      }
+    },
+    {
+      "key": "legion_hunt_settings_v1",
+      "policy": {
+        "revision": 29,
+        "mode": "ON",
+        "testUserIds": [],
+        "difficulties": [
+          {
+            "id": "normal",
+            "dropPercent": 2,
+            "bossDropPercent": 72,
+            "lifetimeSeconds": 9
+          },
+          {
+            "id": "hard",
+            "dropPercent": 4,
+            "bossDropPercent": 72,
+            "lifetimeSeconds": 8
+          },
+          {
+            "id": "nightmare",
+            "dropPercent": 6,
+            "bossDropPercent": 72,
+            "lifetimeSeconds": 7.5
+          },
+          {
+            "id": "inferno",
+            "dropPercent": 8,
+            "bossDropPercent": 72,
+            "lifetimeSeconds": 7
+          }
+        ],
+        "items": [
+          {
+            "code": "INVENTORY_ITEM:MASTER_STAR",
+            "type": "INVENTORY_ITEM",
+            "ref": "MASTER_STAR",
+            "name": "마스터의 별",
+            "image": "/assets/ui/scrapyard/vehicle-part-frame-v1667.svg",
+            "rarity": "MA",
+            "tier": "normal",
+            "enabled": true,
+            "weight": 15,
+            "minQuantity": 2500,
+            "maxQuantity": 20000
+          },
+          {
+            "code": "INVENTORY_ITEM:BLACK_MIRACLE_PACK",
+            "type": "INVENTORY_ITEM",
+            "ref": "BLACK_MIRACLE_PACK",
+            "name": "블랙 미라클 팩",
+            "image": "/assets/ui/packs/black-miracle-pack-v1485-768.jpg",
+            "rarity": "MYTHIC",
+            "tier": "epic",
+            "enabled": true,
+            "weight": 0.1,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          },
+          {
+            "code": "INVENTORY_ITEM:SUIT_CORE_4",
+            "type": "INVENTORY_ITEM",
+            "ref": "SUIT_CORE_4",
+            "name": "슈트 코어 4",
+            "image": "/assets/items/suit-core-4-v2066.png",
+            "rarity": "MYTHIC",
+            "tier": "epic",
+            "enabled": true,
+            "weight": 0.25,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          },
+          {
+            "code": "INVENTORY_ITEM:VEHICLE_PART_ENGINE",
+            "type": "INVENTORY_ITEM",
+            "ref": "VEHICLE_PART_ENGINE",
+            "name": "고출력 엔진",
+            "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+            "rarity": "LEGENDARY",
+            "tier": "epic",
+            "enabled": true,
+            "weight": 10,
+            "minQuantity": 1,
+            "maxQuantity": 3
+          },
+          {
+            "code": "INVENTORY_ITEM:SOOPKETLAND_HYPER_BURNING_TICKET",
+            "type": "INVENTORY_ITEM",
+            "ref": "SOOPKETLAND_HYPER_BURNING_TICKET",
+            "name": "하이퍼버닝 발동권 ×15",
+            "image": "/assets/ui/soopketland/hyper-ticket-v1.svg",
+            "rarity": "SPECIAL",
+            "tier": "normal",
+            "enabled": true,
+            "weight": 0.005,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          },
+          {
+            "code": "INVENTORY_ITEM:SKILL_CHIP_OCTA_SEEKER",
+            "type": "INVENTORY_ITEM",
+            "ref": "SKILL_CHIP_OCTA_SEEKER",
+            "name": "8방향 유도탄 스킬칩",
+            "image": "/assets/ui/project-v/skill-chips/octa-seeker-v1.webp",
+            "rarity": "SPECIAL",
+            "tier": "normal",
+            "enabled": true,
+            "weight": 0.003,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          },
+          {
+            "code": "INVENTORY_ITEM:VEHICLE_PART_TIRE",
+            "type": "INVENTORY_ITEM",
+            "ref": "VEHICLE_PART_TIRE",
+            "name": "고성능 타이어",
+            "image": "/assets/ui/workshop/vehicle-part-tire-v1668.png",
+            "rarity": "RARE",
+            "tier": "normal",
+            "enabled": true,
+            "weight": 10,
+            "minQuantity": 1,
+            "maxQuantity": 3
+          },
+          {
+            "code": "INVENTORY_ITEM:EASTERN_ARMS_WEAPON_BLUEPRINT",
+            "type": "INVENTORY_ITEM",
+            "ref": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+            "name": "동방무기상 무기설계도",
+            "image": "/assets/items/eastern-arms-weapon-blueprint-v1.png",
+            "rarity": "SPECIAL",
+            "tier": "normal",
+            "enabled": true,
+            "weight": 0.001,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          },
+          {
+            "code": "INVENTORY_ITEM:STARLIGHT_ARMOR_CORE",
+            "type": "INVENTORY_ITEM",
+            "ref": "STARLIGHT_ARMOR_CORE",
+            "name": "미스틱 에너지",
+            "image": "/assets/items/starlight-armor-core-v1749.png",
+            "rarity": "MYTHIC",
+            "tier": "epic",
+            "enabled": true,
+            "weight": 5,
+            "minQuantity": 5,
+            "maxQuantity": 50
+          },
+          {
+            "code": "INVENTORY_ITEM:VEHICLE_PART_FRAME",
+            "type": "INVENTORY_ITEM",
+            "ref": "VEHICLE_PART_FRAME",
+            "name": "강화 차체 프레임",
+            "image": "/assets/ui/workshop/vehicle-part-frame-v1668.png",
+            "rarity": "EPIC",
+            "tier": "rare",
+            "enabled": true,
+            "weight": 10,
+            "minQuantity": 1,
+            "maxQuantity": 3
+          },
+          {
+            "code": "INVENTORY_ITEM:SUIT_CORE_3",
+            "type": "INVENTORY_ITEM",
+            "ref": "SUIT_CORE_3",
+            "name": "슈트 코어 3",
+            "image": "/assets/items/suit-core-3-v2004.png",
+            "rarity": "MYTHIC",
+            "tier": "epic",
+            "enabled": true,
+            "weight": 1,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          },
+          {
+            "code": "INVENTORY_ITEM:SUPERSTAR_UPGRADE_13_TICKET",
+            "type": "INVENTORY_ITEM",
+            "ref": "SUPERSTAR_UPGRADE_13_TICKET",
+            "name": "슈퍼스타 +13 업그레이드 강화권",
+            "image": "/assets/ui/events/golden-axe-v1/upgrade-13.svg",
+            "rarity": "SUPERSTAR",
+            "tier": "epic",
+            "enabled": true,
+            "weight": 0.1,
+            "minQuantity": 1,
+            "maxQuantity": 1
+          }
+        ]
+      }
+    }
+  ]
+}

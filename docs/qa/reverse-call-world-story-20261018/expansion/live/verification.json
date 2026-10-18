@@ -1,0 +1,116 @@
+{
+  "passed": true,
+  "checkedAt": "2026-10-18T09:23:54.710Z",
+  "commit": "e802e1c2b5c33c98078f30850ef855b9a27039d0",
+  "files": [
+    {
+      "file": "world/index.html",
+      "sha256": "2c4d7f4e50206c4798fa1619669b4998ff0958b926e3f0c7f6bd7835c8e388cf"
+    },
+    {
+      "file": "world/world.js",
+      "sha256": "8026d2169753f3aa4140569f2af23d943eb285c1eec9066c6efd83c8883171b2"
+    },
+    {
+      "file": "world/expansion.js",
+      "sha256": "951e541ef5ddf2486c13efca5c9eadbb6156c15312eced3dcc63a35d5538c50a"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "5ecb4bfd0117c106f5fec5be61c2c778ecee820059b97ddd8e3f59da0037e93b"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "31484d912b32d3a576647d4bf97f477b3dc102ddf7c8c8298ba645d31c3f389d"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/manifest.json",
+      "sha256": "ed99eb1093908b5909d77c867e32db0aff2872386e8336f2801aca515dd2d6fa"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/outpost.webp",
+      "sha256": "9cd18bacedaf0a2b77e6dbe652434f2abf46bcba3d14268d2f5cfaef0d548da4"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/frontier.webp",
+      "sha256": "81cac6f7ad7afd0ba089738c55f75643b60b6761e13faa3bbcd99480e8f06be6"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/frozen-archive.webp",
+      "sha256": "b6ff400ae828dde27c9357eb8e034819e79ffac6e9d4c0bba31700f598ba26e0"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/core-observatory.webp",
+      "sha256": "c7647bef2ce39c3fc35d3cec19f5297a2b4bb9127c6128f8db2ca517b3ea3c4f"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/vespera-bust.webp",
+      "sha256": "a78f53f9c072684a040c6cf7ca74a77bcfa13642859899e02ef44d7cc4e62048"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/berkan-bust.webp",
+      "sha256": "6d59f12fbf5f33f491d226b6c23beb6aee60158676910fdc2ae15bab5414d6fe"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/azant-bust.webp",
+      "sha256": "67c78d6a2c28cc3f0da44c6444504023641ac9dfee7cca8dd55c1ea23d4a4cac"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/cryvern-bust.webp",
+      "sha256": "529cd470535b7f5297d1f01bccb1f8b143172584584bfc7c1bb4051a385d9d05"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/orze.webp",
+      "sha256": "d42a4944d416e6574d19b0766eff36607446ebcdacdfbae4b57de7e5d9da19c2"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/renzo.webp",
+      "sha256": "98f42d094d8ba783650215c2e6688da8bad07feeaf06007828ac5a3a217ed329"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/zeno.webp",
+      "sha256": "b2bfae2da4d5e133fd90e9f8ef66949ed72566a3c237edd71b3177314650ea3d"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/isgen.webp",
+      "sha256": "6c387d485f0a6c22e3f9d5517ff36f45aee35fc73a4f36e5cf20bc9fe83a9e0f"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/varsen.webp",
+      "sha256": "28578f2705b0887d41a6235e89841b33534be7086ff097f0b1fe83fc919a62eb"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/cedric.webp",
+      "sha256": "211bba563a81a025c7fbaec91fc2da5e1b4cc1c622583f499c75ca6461ee09d1"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/valter.webp",
+      "sha256": "7545b5779032029393e6442fc6d5e1be64bb4a66fff473fe04a36ac50e297891"
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v2/helios.webp",
+      "sha256": "e26615b9b03b24ebecdc15b2f689dce35f8616cf7af35ca5443c76e33ec94896"
+    }
+  ],
+  "screens": [
+    {
+      "file": "pc-live.png",
+      "scene": "outpost-brief",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      }
+    },
+    {
+      "file": "mobile-live.png",
+      "scene": "frozen-names",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    }
+  ],
+  "errors": [],
+  "api": "fixture; no account writes",
+  "completedPrologueUpgrade": true
+}

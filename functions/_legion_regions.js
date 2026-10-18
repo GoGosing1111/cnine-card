@@ -20,7 +20,7 @@ export function validateRegionPolicy(raw,catalog){
   for(const d of raw.difficulties){
     if(!exact(d,['id','power','bossPower','attack','shield','forced','loot'])||!regionalDifficulty(d.id)||!Number.isSafeInteger(d.power)||!bounded(d.power,1000,1e9)||!Number.isSafeInteger(d.bossPower)||!bounded(d.bossPower,d.power,1e9)||!bounded(d.attack,100,500)||!bounded(d.shield,0,100)||!Number.isInteger(d.forced)||!bounded(d.forced,2,12))fail('몬스터 능력치와 행동 간격을 확인하세요.');
     const loot=d.loot,percentKeys=['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'];
-    if(!exact(loot,[...percentKeys,'bossStones','lifetimeSeconds'])||percentKeys.some(k=>!bounded(loot[k],0,100)||Math.abs(loot[k]*1000-Math.round(loot[k]*1000))>1e-7)||!Number.isInteger(loot.bossStones)||!bounded(loot.bossStones,1,100)||!bounded(loot.lifetimeSeconds,3,30))fail('지역 드랍 확률·수량·소멸 시간을 확인하세요.');
+    if(!exact(loot,[...percentKeys,'bossStones','lifetimeSeconds'])||percentKeys.some(k=>{const precision=k.includes('Stone')||k==='stonePercent'?1000:10000;return !bounded(loot[k],0,100)||Math.abs(loot[k]*precision-Math.round(loot[k]*precision))>1e-7;})||!Number.isInteger(loot.bossStones)||!bounded(loot.bossStones,1,100)||!bounded(loot.lifetimeSeconds,3,30))fail('지역 드랍 확률·수량·소멸 시간을 확인하세요.');
   }
   const next=structuredClone(raw);
   for(const region of next.regions)if(Object.hasOwn(region,'fieldDrops'))region.fieldDrops=validateRegionFieldDrops(region.fieldDrops,catalog);

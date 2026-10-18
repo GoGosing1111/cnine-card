@@ -1,0 +1,323 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "name": "pc-cover",
+      "url": "http://127.0.0.1:8899/world/",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v1/city.webp",
+      "portrait": null
+    },
+    {
+      "name": "pc-sister",
+      "url": "http://127.0.0.1:8899/world/#scene=request",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v1/city.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v1/sister.webp"
+    },
+    {
+      "name": "pc-brother",
+      "url": "http://127.0.0.1:8899/world/#scene=train",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v1/arrival.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v1/brother.webp"
+    },
+    {
+      "name": "pc-chapter-3",
+      "url": "http://127.0.0.1:8899/world/#scene=outpost-brief",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/outpost.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v2/vespera-bust.webp"
+    },
+    {
+      "name": "pc-chapter-4",
+      "url": "http://127.0.0.1:8899/world/#scene=gravity-front",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/orze.webp",
+      "portrait": null
+    },
+    {
+      "name": "pc-chapter-5",
+      "url": "http://127.0.0.1:8899/world/#scene=frozen-names",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/frozen-archive.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v2/cryvern-bust.webp"
+    },
+    {
+      "name": "pc-chapter-6",
+      "url": "http://127.0.0.1:8899/world/#scene=war-repeats",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/varsen.webp",
+      "portrait": null
+    },
+    {
+      "name": "pc-chapter-7",
+      "url": "http://127.0.0.1:8899/world/#scene=core-judgment",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/cedric.webp",
+      "portrait": null
+    },
+    {
+      "name": "pc-crystal-record",
+      "url": "http://127.0.0.1:8899/world/#scene=crystal-record",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/outpost.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v2/azant-bust.webp"
+    },
+    {
+      "name": "pc-gilded-anchor",
+      "url": "http://127.0.0.1:8899/world/#scene=gilded-anchor",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/frontier.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v2/berkan-bust.webp"
+    },
+    {
+      "name": "pc-throne-offer",
+      "url": "http://127.0.0.1:8899/world/#scene=throne-offer",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/isgen.webp",
+      "portrait": null
+    },
+    {
+      "name": "pc-unbroken-line",
+      "url": "http://127.0.0.1:8899/world/#scene=unbroken-line",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/valter.webp",
+      "portrait": null
+    },
+    {
+      "name": "pc-light-for-return",
+      "url": "http://127.0.0.1:8899/world/#scene=light-for-return",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/helios.webp",
+      "portrait": null
+    },
+    {
+      "name": "pc-circuit-of-names",
+      "url": "http://127.0.0.1:8899/world/#scene=circuit-of-names",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/core-observatory.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v2/azant-bust.webp"
+    },
+    {
+      "name": "mobile-cover",
+      "url": "http://127.0.0.1:8899/world/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v1/city.webp",
+      "portrait": null
+    },
+    {
+      "name": "mobile-sister",
+      "url": "http://127.0.0.1:8899/world/#scene=request",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v1/city.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v1/sister.webp"
+    },
+    {
+      "name": "mobile-chapters",
+      "url": "http://127.0.0.1:8899/world/#scene=request",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v1/city.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v1/sister.webp"
+    },
+    {
+      "name": "mobile-echo",
+      "url": "http://127.0.0.1:8899/world/#scene=no-record",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v1/signal.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v1/sister.webp"
+    },
+    {
+      "name": "mobile-outpost-brief",
+      "url": "http://127.0.0.1:8899/world/#scene=outpost-brief",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/outpost.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v2/vespera-bust.webp"
+    },
+    {
+      "name": "mobile-crystal-record",
+      "url": "http://127.0.0.1:8899/world/#scene=crystal-record",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/outpost.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v2/azant-bust.webp"
+    },
+    {
+      "name": "mobile-gilded-anchor",
+      "url": "http://127.0.0.1:8899/world/#scene=gilded-anchor",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/frontier.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v2/berkan-bust.webp"
+    },
+    {
+      "name": "mobile-frozen-names",
+      "url": "http://127.0.0.1:8899/world/#scene=frozen-names",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/frozen-archive.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v2/cryvern-bust.webp"
+    },
+    {
+      "name": "mobile-throne-offer",
+      "url": "http://127.0.0.1:8899/world/#scene=throne-offer",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/isgen.webp",
+      "portrait": null
+    },
+    {
+      "name": "mobile-core-judgment",
+      "url": "http://127.0.0.1:8899/world/#scene=core-judgment",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/cedric.webp",
+      "portrait": null
+    },
+    {
+      "name": "mobile-returning-call",
+      "url": "http://127.0.0.1:8899/world/#scene=returning-call",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v1/city.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v1/sister.webp"
+    },
+    {
+      "name": "mobile-expanded-chapters",
+      "url": "http://127.0.0.1:8899/world/#scene=returning-call",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v1/city.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v1/sister.webp"
+    },
+    {
+      "name": "mobile-320",
+      "url": "http://127.0.0.1:8899/world/#scene=third-answer",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v2/core-observatory.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v2/vespera-bust.webp"
+    },
+    {
+      "name": "tablet-sister",
+      "url": "http://127.0.0.1:8899/world/#scene=request",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "overflow": false,
+      "art": "/assets/ui/reverse-call/world-story-v1/city.webp",
+      "portrait": "/assets/ui/reverse-call/world-story-v1/sister.webp"
+    }
+  ],
+  "errors": [],
+  "sharedAccountReads": "local fixture",
+  "keyboard": true,
+  "swipe": true,
+  "resume": true,
+  "completedPrologueUpgrade": true,
+  "chapterDialog": true,
+  "deniedStorage": true,
+  "reducedMotion": true,
+  "sidebarUsesExistingStyle": true
+}

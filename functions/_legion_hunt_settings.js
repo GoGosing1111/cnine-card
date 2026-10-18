@@ -21,13 +21,13 @@ const tier=rarity=>['MYTHIC','LEGENDARY','ZENITH','SUPERSTAR','FUR'].includes(ra
 export async function legionHuntCatalog(env){
   const definitions=[
     ['INVENTORY_ITEM',"SELECT code ref,name,rarity,image_url FROM inventory_items WHERE is_active=1 ORDER BY code LIMIT 1001"],
-    ['EQUIPMENT',"SELECT CAST(id AS TEXT) ref,name,rarity,image_url FROM character_equipment_items WHERE is_active=1 AND is_public=1 ORDER BY id LIMIT 1001"],
+    ['EQUIPMENT',"SELECT CAST(id AS TEXT) ref,code AS equipment_code,name,rarity,image_url FROM character_equipment_items WHERE is_active=1 AND is_public=1 ORDER BY id LIMIT 1001"],
     ['VEHICLE',"SELECT CAST(id AS TEXT) ref,name,rarity,image_url FROM character_garage_items WHERE is_active=1 AND is_public=1 ORDER BY id LIMIT 1001"],
     ['CARD',"SELECT CAST(c.id AS TEXT) ref,c.title name,c.rarity,c.image_url FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE UPPER(c.rarity) IN ('SUPERSTAR','ZENITH','FUR') AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' ORDER BY c.id LIMIT 1001"]
   ];
   const results=await Promise.all(definitions.map(([,sql])=>env.DB.prepare(sql).all()));
   if(results.some(r=>(r.results||[]).length>1000))throw jointError('HUNT_CATALOG_LIMIT','아이템 목록이 조회 한도를 초과했습니다. 목록 분할이 필요합니다.',503);
-  return results.flatMap((r,i)=>(r.results||[]).map(row=>({code:definitions[i][0]+':'+row.ref,type:definitions[i][0],ref:String(row.ref),name:String(row.name),image:imagePath(row.image_url),rarity:row.rarity,tier:tier(row.rarity)})));
+  return results.flatMap((r,i)=>(r.results||[]).map(row=>({code:definitions[i][0]+':'+row.ref,type:definitions[i][0],ref:String(row.ref),name:String(row.name),image:imagePath(row.image_url),rarity:row.rarity,tier:tier(row.rarity),...(row.equipment_code?{equipmentCode:row.equipment_code}:{})})));
 }
 export function defaultLegionHuntPolicy(){
   return {revision:0,mode:'TEST',testUserIds:[],difficulties:DIFFICULTIES.map(d=>({id:d.id,dropPercent:Math.round(d.dropChance*10000)/100,bossDropPercent:72,lifetimeSeconds:d.dropLifeMs/1000})),items:[]};
@@ -63,7 +63,7 @@ export function validateLegionHuntPolicy(value,catalog,{difficultyIds=DIFFICULTI
   });
   const seen=new Set(),items=value.items.map(row=>{
     // Names, images and item identifiers are always resolved from the current catalog.
-    if(!keys(row,['code','type','ref','name','image','rarity','tier','enabled','weight','minQuantity','maxQuantity'])||seen.has(row.code)||typeof row.enabled!=='boolean'||!weight(row.weight)||!integer(row.minQuantity,1,1000000)||!integer(row.maxQuantity,row.minQuantity,1000000)||(row.enabled&&row.weight===0))fail('선택 가중치는 0.001 단위로, 사용 중인 후보는 0보다 크게 입력하세요. 중복 아이템과 수량 범위도 확인하세요.');
+    if(!keys(row,['code','type','ref','name','image','rarity','tier','equipmentCode','enabled','weight','minQuantity','maxQuantity'])||seen.has(row.code)||typeof row.enabled!=='boolean'||!weight(row.weight)||!integer(row.minQuantity,1,1000000)||!integer(row.maxQuantity,row.minQuantity,1000000)||(row.enabled&&row.weight===0))fail('선택 가중치는 0.001 단위로, 사용 중인 후보는 0보다 크게 입력하세요. 중복 아이템과 수량 범위도 확인하세요.');
     const item=byCode.get(row.code);if(!item)fail('현재 사용 가능한 아이템을 다시 선택하세요: '+String(row.code));
     if(item.type==='VEHICLE'&&(row.minQuantity!==1||row.maxQuantity!==1))fail('이동수단은 1개씩 드랍하도록 설정하세요.');
     if(item.type==='EQUIPMENT'&&row.maxQuantity>100)fail('장비 수량은 최대 100개입니다.');

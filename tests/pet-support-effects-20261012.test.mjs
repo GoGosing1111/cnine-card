@@ -3,7 +3,10 @@ import assert from 'node:assert/strict';
 import {petEffectRows,petOpeningMatches,skippedPetOpenings} from '../preview/project-v-v3/source/battle/PetSupportPresentation.mjs';
 import {restorePetSupport,playPetOpening} from '../preview/project-v-v3/source/battle/PetSupportPlayback.js';
 import {petSupportFixture,PET_EFFECT_TYPES,reviewPet} from './helpers/pet-support-fixture.mjs';
-import {mountCoopBattle} from '../raid/cooperative/battle.mjs';
+import {registerHooks} from 'node:module';
+const hooks=registerHooks({resolve(specifier,context,next){return next(specifier.startsWith('/shared/')?new URL('..'+specifier,import.meta.url).href:specifier,context);}});
+const {mountCoopBattle}=await import('../raid/cooperative/battle.mjs');
+hooks.deregister();
 
 test('all five actual buff types have distinct readable motifs and preserve CMS percentages',()=>{
  const rows=petEffectRows(PET_EFFECT_TYPES.map((type,i)=>({type,percent:20+i*.5})));
@@ -43,16 +46,17 @@ test('cooperative activation and late restore stay owner-scoped, idempotent and 
  const single={side:'A',snapshot:reviewPet()};assert(petOpeningMatches(single,{...events[0],petCode:single.snapshot.definition.code,ownerId:1}));
 });
 test('cooperative controller restores skipped openings on late entry and clock catch-up without replaying them',async()=>{
- const previous={window:globalThis.window,raf:globalThis.requestAnimationFrame,caf:globalThis.cancelAnimationFrame,now:Date.now};
+ const previous={window:globalThis.window,document:globalThis.document,raf:globalThis.requestAnimationFrame,caf:globalThis.cancelAnimationFrame,now:Date.now};
  let pump,now=10000;const restored=[],played=[];
  const payload=petSupportFixture({mode:'COOP'}),api={restoreDeployedFormation:async()=>{},cancelActiveAnimations(){},syncFinalState(){},syncCooperativeState(){},restorePetSupport:ms=>restored.push(ms),playEvents:async events=>played.push(...events),diagnostics:()=>({})};
  try{
   Date.now=()=>now;globalThis.requestAnimationFrame=fn=>(pump=fn,1);globalThis.cancelAnimationFrame=()=>{};
   globalThis.window={ProjectVPixiBattle:api,ProjectVBattleV3Live:{ensureRuntime:async()=>{},prepareLoading:()=>({stage:{querySelector:()=>({})}}),createRenderer:async()=>({destroy(){}})}};
-  const controller=await mountCoopBattle({classList:{add(){}}},payload);
+  globalThis.document={hidden:false};
+  const controller=await mountCoopBattle({classList:{add(){}}},payload,{clock:{now:()=>now,diagnostics:()=>({})}});
   controller.update({serverNow:now,state:{status:'ACTIVE',startsAt:5000},payload});
   assert(restored.includes(4700));pump();await new Promise(resolve=>setImmediate(resolve));
   assert(!played.some(e=>e.type==='PET_OPENING_BUFF'));
   now+=8000;pump();assert(restored.includes(12900));controller.destroy();
- }finally{Date.now=previous.now;globalThis.window=previous.window;globalThis.requestAnimationFrame=previous.raf;globalThis.cancelAnimationFrame=previous.caf;}
+ }finally{Date.now=previous.now;globalThis.window=previous.window;globalThis.document=previous.document;globalThis.requestAnimationFrame=previous.raf;globalThis.cancelAnimationFrame=previous.caf;}
 });

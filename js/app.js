@@ -1018,7 +1018,7 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.WeeklyRaidUltimateFxV1?.play)
   },
   battleV2:{
-    runtimeVersion:'20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1',
+    runtimeVersion:'20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1',
     styles:['css/battle-v2-live.css?v=20261007-damage-russo-v2','css/battle-v3-live.css?v=1930-mobile-context-recovery&flow=2126&duo=20260925&coop=20261002-hp-sync-v1&backdrop=20261006-bg-recovery&statusDock=20261007-v2'],
     scripts:[
       'js/battle-v2-live.js?v=1991-sweep-result-front&cowPortal=20260913&joint=2090&furHigh=2114-frames20261002&flow=2126&cubeRemoval=20261003&suggestions=20261005&apocalypseCompletion=20261006-foreground&damageFont=20261007-russo-v1',
@@ -1027,8 +1027,8 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-monster-battle-art-adapter-v1.js?v=20261013-original-ip-v1',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=8-gilded-dragon-battle-suit',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&jokroCoop=20261018-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1&groundRunes=20261017-v1&kairon=20261014-craft-v1&mercenaryFx=20261017-halloween-ready-v1&azant=20261014-live-v1&originalIp=20261013-original-ip-v1&petFx=20261012-v3&jokgakCity=20261009-v1&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261017-cheolgu-balance&icon=20260930&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1&hudB=20261017-v1&shiranuiSilver=20261018-v2&coopView=20261018-v1',
-      'js/battle-v3-live.js?kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&jokroCoop=20261018-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1&groundRunes=20261017-v1&entryRecovery=20261015-v1&kairon=20261014-craft-v1&mercenaryFx=20261017-halloween-ready-v1&azant=20261014-live-v1&coopLoading=20261014-v1&rosterRank=20261014&originalIp=20261013-original-ip-v1&ultimateCooldown=20261013-40s&limitedDialogue=20261013-v1&coopCamera=20261013-v1&playback=20261012-progress1&petFx=20261012-v3&jokgakCity=20261009-v1&worldRaid=20261008-v2&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&territoryFx=20261003-v1&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261017-cheolgu-balance&icon=20260930&suggestions=20261005&apocalypseCompletion=20261005-settlement3&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1&hudB=20261017-v1&shiranuiSilver=20261018-v2&coopView=20261018-v1'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&jokroCoop=20261018-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1&groundRunes=20261017-v1&kairon=20261014-craft-v1&mercenaryFx=20261017-halloween-ready-v1&azant=20261014-live-v1&originalIp=20261013-original-ip-v1&petFx=20261018-icons-v1&jokgakCity=20261009-v1&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=106-combat-flow&joint=2090&mercenary=2100&projectiles=2106&coup=2115&pveEntry=2119&heeya=2118&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20260924&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261017-cheolgu-balance&icon=20260930&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1&hudB=20261017-v1&shiranuiSilver=20261018-v2&coopView=20261018-v1',
+      'js/battle-v3-live.js?kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&jokroCoop=20261018-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1&groundRunes=20261017-v1&entryRecovery=20261015-v1&kairon=20261014-craft-v1&mercenaryFx=20261017-halloween-ready-v1&azant=20261014-live-v1&coopLoading=20261014-v1&rosterRank=20261014&originalIp=20261013-original-ip-v1&ultimateCooldown=20261013-40s&limitedDialogue=20261013-v1&coopCamera=20261013-v1&playback=20261012-progress1&petFx=20261018-icons-v1&jokgakCity=20261009-v1&worldRaid=20261008-v2&petLayout=20261009&limitedVisuals=20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3&territoryFx=20261003-v1&coop=20261005-coop-readable-v4-backdrop&territory=20261003-v5&lichFx=20261001&speedReform=20260930&v=3.36.0-combat-flow&furHigh=2114-frames20261002&battleRuntime=2124&heeya=2118&entry=2121&suits=2124&flow=2126&zSword=20260918&zDash=2&zFx=20260926&combatFx=20260927&huntFix=1&huntDuration=20260926&suitName=20260918&apocalypseLegion=20261003-shanks-shisui&mangisa=20260919&ragniel=20260919&bikiniJoeun=20260921&heukwol=20260922&policeRestraint=20260923&octaseeker=20260928-opening10&resultIdle=20260928-corpse&cryvern=20261004-clean-aura&duo=20260925&sniperOrikkung=20260926&nurseHealers=20260927&berkan=20260930-scale-live&xBody=20260928-skill-order&overlord=20261005-motion-v4&sx=20261007-2x-v1&sxCamera=20261008-v3&backgroundRecovery=20261006&apocalypseFocus=20261006&iconActions=20261017-cheolgu-balance&icon=20260930&suggestions=20261005&apocalypseCompletion=20261005-settlement3&petLive=20261006-v1&iconCadence=20261006-v1&damageFont=20261007-russo-v1&hudB=20261017-v1&shiranuiSilver=20261018-v2&coopView=20261018-v1'
     ],
     initialize:()=>window.ProjectVBattleV3Live?.ensureRuntime?.(),
     // Accept additive releases in an already-open lobby, but never an older pair
@@ -1471,7 +1471,7 @@ function renderShell(tab,routeOptions={}) {
 
 function hallOfFameHtml(){return `<section class="soop-hall-of-fame feed-hall-of-fame" id="soopHallOfFame" aria-label="숲카라 명예의 전당"><span class="soop-hall-cup" aria-hidden="true">🏆</span><small id="soopHallTitle">숲카라 명예의 전당</small><b id="soopHallName">🏆 남수단 🏆</b></section>`}
 function liveOperationsHtml(surface='store'){
-  return `<section class="live-operations live-operations-${escapeHtml(surface)}" aria-label="실시간 콘텐츠 운영 알림" data-live-operations-surface="${escapeHtml(surface)}"><header><i aria-hidden="true"></i><span><small>LIVE OPERATIONS</small><b>작전 진행 알림</b></span><em data-live-operations-count>확인 중</em></header><div class="live-operations-viewport"><div class="live-operations-list" data-live-operations-list><div class="live-operation-empty loading"><span aria-hidden="true"></span><b>콘텐츠 상태 확인 중</b><small>현재 참여 가능한 작전을 불러오고 있습니다.</small></div></div></div><time>KST</time></section>`;
+  return `<section class="live-operations live-operations-${escapeHtml(surface)}" aria-label="실시간 콘텐츠 운영 알림" data-live-operations-surface="${escapeHtml(surface)}"><header><button type="button" class="live-operations-open" data-live-operations-open aria-label="콘텐츠 현황 전체 보기" aria-haspopup="dialog" aria-expanded="false" title="전체 진행 상황 보기"></button><i aria-hidden="true"></i><span><small>LIVE OPERATIONS</small><b>작전 진행 알림</b></span><em data-live-operations-count>확인 중</em></header><div class="live-operations-viewport"><div class="live-operations-list" data-live-operations-list><div class="live-operation-empty loading"><span aria-hidden="true"></span><b>콘텐츠 상태 확인 중</b><small>현재 참여 가능한 작전을 불러오고 있습니다.</small></div></div></div><time>KST</time></section>`;
 }
 function storeOperationsHtml(){return `${hallOfFameHtml()}${liveOperationsHtml('store')}`}
 async function loadHallOfFame(){const hall=document.getElementById('soopHallOfFame');if(!hall)return;if(!API_MODE)return;try{const data=await apiRequest('hall-of-fame',{}, {ttl:30000});if(data.enabled===false){hall.hidden=true;return}hall.hidden=false;const title=document.getElementById('soopHallTitle'),name=document.getElementById('soopHallName');if(title)title.textContent=String(data.title||'숲카라 명예의 전당');if(name)name.textContent=String(data.name||'🏆 남수단 🏆')}catch(error){console.warn('명예의 전당 조회 실패:',error)}}
@@ -1518,7 +1518,7 @@ const LIVE_OPERATION_META=Object.freeze({
   COUP:{label:'쿠데타',state:'전투 진행',deadline:'종료까지'}
 });
 let liveOperationsServerOffset=0,liveOperationsClockTimer=0,liveOperationsRefreshTimer=0;
-let liveOperationsItems=[],liveOperationsFailed=false;
+let liveOperationsItems=[],liveOperationsFailed=false,liveOperationsReady=false;
 function liveOperationTimestamp(value){const raw=String(value||'').trim();if(!raw)return NaN;return Date.parse(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(raw)?`${raw.replace(' ','T')}Z`:raw)}
 function liveOperationClock(value){const ms=liveOperationTimestamp(value)-(Date.now()+liveOperationsServerOffset);if(!Number.isFinite(ms))return '진행 중';if(ms<=0)return '상태 갱신 중';const seconds=Math.ceil(ms/1000),hours=Math.floor(seconds/3600),minutes=Math.floor((seconds%3600)/60),secs=seconds%60;if(hours>=24)return `${Math.floor(hours/24)}일 ${String(hours%24).padStart(2,'0')}:${String(minutes).padStart(2,'0')}`;return `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`}
 function liveOperationIcon(kind){return ({
@@ -1537,6 +1537,7 @@ function liveOperationCardHtml(item){
 }
 function updateLiveOperationClocks(){const nodes=document.querySelectorAll('[data-live-operation-deadline]');if(!nodes.length){if(liveOperationsClockTimer)clearInterval(liveOperationsClockTimer);liveOperationsClockTimer=0;return}nodes.forEach(node=>{node.textContent=liveOperationClock(node.dataset.liveOperationDeadline)})}
 function openLiveOperation(kind){
+  document.getElementById('liveOperationsDialog')?.close();
   const key=String(kind||'').toUpperCase();
   if(key==='ORGANIZATION'){renderShell('clan');return}
   if(key==='AUCTION'){renderShell('auction');return}
@@ -1546,6 +1547,36 @@ function openLiveOperation(kind){
   const enter=()=>{attempts++;if(key==='TERRITORY'&&typeof window.openTerritoryWar==='function'){window.openTerritoryWar();return}if(key==='SIEGE'&&typeof window.openMonsterSiege==='function'){window.openMonsterSiege();return}if(key==='SEAL'){const button=document.querySelector('[data-seal-battle-mode]');if(button){button.click();return}}if(key==='RAID'){const button=document.querySelector('[data-pve-mode="raid"]');if(button){button.click();return}}if(attempts<20)setTimeout(enter,80)};
   setTimeout(enter,60);
 }
+function bindLiveOperationsControls(){
+  document.querySelectorAll('[data-live-operations-open]').forEach(button=>{
+    button.onclick=()=>openLiveOperationsDialog(button);
+  });
+}
+function openLiveOperationsDialog(opener){
+  const existing=document.getElementById('liveOperationsDialog');
+  if(existing){existing.querySelector('[data-live-operations-close]')?.focus();return}
+  const dialog=document.createElement('dialog');
+  dialog.id='liveOperationsDialog';
+  dialog.className='live-operations-dialog';
+  dialog.setAttribute('aria-labelledby','liveOperationsDialogTitle');
+  dialog.setAttribute('aria-describedby','liveOperationsDialogDescription');
+  dialog.innerHTML='<header><div><h2 id="liveOperationsDialogTitle">콘텐츠 현황</h2><p id="liveOperationsDialogDescription">진행 중인 콘텐츠를 선택하면 바로 이동합니다.</p></div><button type="button" data-live-operations-close aria-label="콘텐츠 현황 닫기" autofocus>닫기 <span aria-hidden="true">×</span></button></header><div class="live-operations-dialog-meta"><span data-live-operations-count>확인 중</span><small>실시간 진행 상황 · KST</small></div><div class="live-operations-list" data-live-operations-list="all"></div>';
+  dialog.querySelector('[data-live-operations-close]').onclick=()=>dialog.close();
+  dialog.addEventListener('click',event=>{
+    if(event.target!==dialog)return;
+    const bounds=dialog.getBoundingClientRect();
+    if(event.clientX<bounds.left||event.clientX>bounds.right||event.clientY<bounds.top||event.clientY>bounds.bottom)dialog.close();
+  });
+  dialog.addEventListener('close',()=>{
+    opener?.setAttribute('aria-expanded','false');
+    dialog.remove();
+    if(opener?.isConnected&&opener.getClientRects().length)opener.focus({preventScroll:true});
+  },{once:true});
+  document.body.append(dialog);
+  renderLiveOperations();
+  opener?.setAttribute('aria-expanded','true');
+  dialog.showModal();
+}
 function liveBurningOperationHtml(){
   if(!burningEventIsActive())return '';
   const miracle=burningMode()==='MIRACLE',hyper=burningMode()==='HYPER',title=miracle?'미라클 버닝':hyper?'하이퍼버닝':'버닝',{coins,minutes}=burningEventNumbers();
@@ -1553,22 +1584,36 @@ function liveBurningOperationHtml(){
   return `<article class="live-operation-card live-operation-event kind-${miracle?'miracle-burning':hyper?'hyper-burning':'burning'}" data-live-burning-event="${miracle?'MIRACLE':hyper?'HYPER':'BURNING'}" role="group" aria-label="${title} 진행 중"><span class="live-operation-icon"><svg viewBox="0 0 24 24" aria-hidden="true">${flame}${hyper?'<path d="m13 12-3 5h3l-1 4 4-6h-3Z"/>':''}</svg></span><span class="live-operation-copy"><small><i aria-hidden="true"></i>이벤트<em>진행 중</em></small><b>${title}</b><span>전투 코인 ×${burningMultiplierText(coins)} · ${minutes}분 충전</span></span><strong><small>남은 시간</small><b data-burning-countdown data-burning-countdown-compact>${burningRemainingText().replace(/ 남음$/,'')}</b></strong></article>`;
 }
 function renderLiveOperations(payload=null){
+  bindLiveOperationsControls();
   const lists=[...document.querySelectorAll('[data-live-operations-list]')];if(!lists.length)return;
   if(payload){
     const serverAt=liveOperationTimestamp(payload.serverNow);if(Number.isFinite(serverAt))liveOperationsServerOffset=serverAt-Date.now();
     liveOperationsItems=(Array.isArray(payload.items)?payload.items:[]).filter(item=>LIVE_OPERATION_META[String(item?.kind||'').toUpperCase()]);
-    liveOperationsFailed=false;
+    liveOperationsFailed=false;liveOperationsReady=true;
   }
   const items=liveOperationsFailed?[]:liveOperationsItems,eventHtml=liveBurningOperationHtml(),count=items.length+(eventHtml?1:0);
   const errorHtml='<div class="live-operation-empty error"><span aria-hidden="true"></span><b>운영 상태 갱신 대기</b><small>잠시 후 자동으로 다시 확인합니다.</small></div>';
-  const html=eventHtml+(liveOperationsFailed?errorHtml:items.length?items.map(liveOperationCardHtml).join(''):eventHtml?'':'<div class="live-operation-empty"><span aria-hidden="true"></span><b>현재 진행 중인 주요 콘텐츠 없음</b><small>새 작전이 열리면 자동으로 표시됩니다.</small></div>');
-  lists.forEach(list=>{const left=list.scrollLeft;list.innerHTML=html;list.scrollLeft=left});
-  document.querySelectorAll('[data-live-operations-count]').forEach(node=>{node.textContent=count?`${count}건 진행`:liveOperationsFailed?'갱신 대기':'대기 중'});
+  lists.forEach(list=>{
+    const all=list.dataset.liveOperationsList==='all';
+    const visible=all?items:items.filter(item=>!['RANKED_DUO','ORGANIZATION'].includes(String(item.kind).toUpperCase()));
+    const empty=!all&&items.length?'<div class="live-operation-empty"><b>전체 진행 상황 보기</b><small>콘텐츠 현황을 누르면 모두 확인할 수 있습니다.</small></div>':'<div class="live-operation-empty"><span aria-hidden="true"></span><b>현재 진행 중인 주요 콘텐츠 없음</b><small>새 작전이 열리면 자동으로 표시됩니다.</small></div>';
+    const loading='<div class="live-operation-empty loading"><b>콘텐츠 상태 확인 중</b><small>현재 진행 상황을 불러오고 있습니다.</small></div>';
+    const focused=list.contains(document.activeElement)?document.activeElement.dataset.liveOperationKind:null;
+    const left=list.scrollLeft,top=list.scrollTop;
+    list.innerHTML=eventHtml+(liveOperationsFailed?errorHtml:!liveOperationsReady?loading:visible.length?visible.map(liveOperationCardHtml).join(''):eventHtml?'':empty);
+    list.scrollLeft=left;list.scrollTop=top;
+    if(focused){
+      const next=[...list.querySelectorAll('[data-live-operation-kind]')].find(button=>button.dataset.liveOperationKind===focused);
+      (next||document.querySelector('#liveOperationsDialog [data-live-operations-close]'))?.focus({preventScroll:true});
+    }
+  });
+  document.querySelectorAll('[data-live-operations-count]').forEach(node=>{node.textContent=count?`${count}건 진행`:liveOperationsFailed?'갱신 대기':!liveOperationsReady?'확인 중':'대기 중'});
   document.querySelectorAll('[data-live-operation-kind]').forEach(button=>{button.onclick=()=>openLiveOperation(button.dataset.liveOperationKind)});
   updateLiveOperationClocks();if(!liveOperationsClockTimer)liveOperationsClockTimer=setInterval(updateLiveOperationClocks,1000);
 }
 function scheduleLiveOperationsRefresh(seconds=30){if(liveOperationsRefreshTimer)clearTimeout(liveOperationsRefreshTimer);liveOperationsRefreshTimer=setTimeout(()=>{liveOperationsRefreshTimer=0;if(document.querySelector('[data-live-operations-list]'))loadLiveOperations(true)},Math.max(15,Number(seconds)||30)*1000)}
 async function loadLiveOperations(fresh=false){
+  bindLiveOperationsControls();
   const lists=document.querySelectorAll('[data-live-operations-list]');if(!lists.length)return;
   if(!API_MODE){renderLiveOperations({items:[]});return}
   try{if(fresh)clearApiCache('live-operations');const data=await apiRequest('live-operations',{}, {ttl:fresh?0:15000,timeoutMs:7000});renderLiveOperations(data);scheduleLiveOperationsRefresh(data.pollSeconds)}catch(error){liveOperationsFailed=true;renderLiveOperations();scheduleLiveOperationsRefresh(20)}

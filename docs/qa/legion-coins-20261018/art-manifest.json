@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "content": "군단토벌 몬스터 처치 코인",
+  "tool": "image_gen built-in",
+  "prompt": "Production UI asset for a dark fantasy RPG legion monster hunt: ONE compact horizontal coin-income HUD plaque. Landscape aspect ratio about 5:1, straight orthographic front view, sharp high quality game UI texture. Weathered blackened gunmetal, very slender antique gold rim, small chamfered corners and restrained carved military ornament, a small embossed gold coin medallion integrated at the far left. The large center/right writing area is empty flat dark charcoal with subtle metal texture, spacious for two lines of live numbers and a progress bar added by HTML. No lettering, no numbers, no words, no logos. Keep decorations very slim and modest, no oversized crown or wings, no glow spilling across the writing area. Single isolated plaque centered and tightly framed with 3 percent transparent padding. Real transparent alpha background outside the panel. No mockup, no scene, no multiple panels, no disconnected objects. This will display around 260 by 54 pixels on desktop and mobile.",
+  "source": "docs/qa/legion-coins-20261018/sources/coin-hud.png",
+  "runtime": null,
+  "derivation": "Trim transparent margins; resize to 1000px wide; WebP quality 90, retain alpha.",
+  "consumers": [],
+  "visualApproval": "REJECTED_BY_USER: gold plaque does not match the existing hunt UI; use existing HUD typography and layout. 2026-10-18",
+  "sourceSha256": "fe00c77f629512ffda2f9ca79c5c24ee7cbfbdfba487dc2f227715934323bdb2",
+  "archivedDerivative": "docs/qa/legion-coins-20261018/sources/rejected-gold-coin-hud.webp",
+  "archivedDerivativeSha256": "f83c7d8b2eeddcbbaf1d2e84a5d3e939040c136a75c23b9301d38bb3c4a3a5bf"
+}
