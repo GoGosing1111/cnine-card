@@ -1,0 +1,432 @@
+{
+  "date": "2026-10-18T02:18:51.213Z",
+  "screens": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "checks": [
+        {
+          "mode": "idle",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "dash",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "attack",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "skill",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "ultimate",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "hit",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "defeat",
+          "clips": 0,
+          "groundError": 0
+        }
+      ],
+      "rates": [
+        {
+          "speed": 0.25,
+          "elapsed": 0.12825
+        },
+        {
+          "speed": 0.5,
+          "elapsed": 0.258
+        },
+        {
+          "speed": 2,
+          "elapsed": 1.016
+        }
+      ],
+      "contacts": [
+        {
+          "mode": "attack",
+          "at": 1.18,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 0.98,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.26,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.54,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.82,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.1,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.68,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.35,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.435,
+          "targetId": "CN-25F931CE393D474E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.52,
+          "targetId": "CN-23EB4B19986D4818",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.605,
+          "targetId": "CN-02D9DC1E8A8A4209",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.69,
+          "targetId": "CN-0505936A0CBB4E59",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.7750000000000004,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.8600000000000003,
+          "targetId": "CN-25F931CE393D474E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.9450000000000003,
+          "targetId": "CN-23EB4B19986D4818",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.0300000000000002,
+          "targetId": "CN-02D9DC1E8A8A4209",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.115,
+          "targetId": "CN-0505936A0CBB4E59",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.2,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.285,
+          "targetId": "CN-25F931CE393D474E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.37,
+          "targetId": "CN-23EB4B19986D4818",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.455,
+          "targetId": "CN-02D9DC1E8A8A4209",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.54,
+          "targetId": "CN-0505936A0CBB4E59",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.05,
+          "targetId": "CN-23EB4B19986D4818",
+          "error": 0
+        }
+      ],
+      "pause": "PASS",
+      "cancellation": "PASS",
+      "targetLoss": "PASS",
+      "effectsOff": "PASS",
+      "reducedMotion": "PASS",
+      "fullSpeedShowcase": "PASS",
+      "cleanup": {
+        "timelines": 0,
+        "effectLayers": 1,
+        "visible": 0,
+        "destroyed": true,
+        "pool": 0
+      },
+      "height": 1490
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        {
+          "mode": "idle",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "dash",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "attack",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "skill",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "ultimate",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "hit",
+          "clips": 0,
+          "groundError": 0
+        },
+        {
+          "mode": "defeat",
+          "clips": 0,
+          "groundError": 0
+        }
+      ],
+      "rates": [
+        {
+          "speed": 0.25,
+          "elapsed": 0.127
+        },
+        {
+          "speed": 0.5,
+          "elapsed": 0.256
+        },
+        {
+          "speed": 2,
+          "elapsed": 1.006
+        }
+      ],
+      "contacts": [
+        {
+          "mode": "attack",
+          "at": 1.18,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 0.98,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.26,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.54,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 1.82,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.1,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "skill",
+          "at": 2.68,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.35,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.435,
+          "targetId": "CN-25F931CE393D474E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.52,
+          "targetId": "CN-23EB4B19986D4818",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.605,
+          "targetId": "CN-0505936A0CBB4E59",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.69,
+          "targetId": "CN-02D9DC1E8A8A4209",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.7750000000000004,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.8600000000000003,
+          "targetId": "CN-25F931CE393D474E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 2.9450000000000003,
+          "targetId": "CN-23EB4B19986D4818",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.0300000000000002,
+          "targetId": "CN-0505936A0CBB4E59",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.115,
+          "targetId": "CN-02D9DC1E8A8A4209",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.2,
+          "targetId": "CN-519C181C18DF4B8E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.285,
+          "targetId": "CN-25F931CE393D474E",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.37,
+          "targetId": "CN-23EB4B19986D4818",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.455,
+          "targetId": "CN-0505936A0CBB4E59",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 3.54,
+          "targetId": "CN-02D9DC1E8A8A4209",
+          "error": 0
+        },
+        {
+          "mode": "ultimate",
+          "at": 4.05,
+          "targetId": "CN-23EB4B19986D4818",
+          "error": 0
+        }
+      ],
+      "pause": "PASS",
+      "cancellation": "PASS",
+      "targetLoss": "PASS",
+      "effectsOff": "PASS",
+      "reducedMotion": "PASS",
+      "fullSpeedShowcase": "PASS",
+      "cleanup": {
+        "timelines": 0,
+        "effectLayers": 1,
+        "visible": 0,
+        "destroyed": true,
+        "pool": 0
+      },
+      "height": 1946
+    }
+  ],
+  "errors": [],
+  "status": "PASS",
+  "bundleSha256": "ea5b7c9c6dfc3e4acfbfc888251738ddc8e561730ab674357edb0bb85b20854a"
+}

@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-18",
+  "tool": "built-in image_gen",
+  "records": [
+    {
+      "id": "charge",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a149e5-cd8a-77d3-809d-c143949e3ec4\\exec-87488803-2114-48ec-b9e4-e18148cff38f.png",
+      "source": "assets/arrow-v2/sources/charge.png"
+    },
+    {
+      "id": "bolt",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a149e5-cd8a-77d3-809d-c143949e3ec4\\exec-d4f6f627-e28d-4726-b1f9-7cf961e4a9de.png",
+      "source": "assets/arrow-v2/sources/bolt.png"
+    },
+    {
+      "id": "impact",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a149e5-cd8a-77d3-809d-c143949e3ec4\\exec-8cc05c0a-1e6e-419f-b9b9-fc3e506ef2ff.png",
+      "source": "assets/arrow-v2/sources/impact.png"
+    },
+    {
+      "id": "volley",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a149e5-cd8a-77d3-809d-c143949e3ec4\\exec-0f4ffb47-8487-4d27-a964-4f6b31cf8c3f.png",
+      "source": "assets/arrow-v2/sources/volley.png"
+    },
+    {
+      "id": "rain",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a149e5-cd8a-77d3-809d-c143949e3ec4\\exec-c2cdf71f-78cd-4f9f-bb31-7bc376cb7551.png",
+      "source": "assets/arrow-v2/sources/rain.png"
+    },
+    {
+      "id": "breaker",
+      "generatedPath": "C:\\Users\\User\\.codex\\generated_images\\01a149e5-cd8a-77d3-809d-c143949e3ec4\\exec-15a6d2b6-a058-4540-b0db-381d1e2b7a42.png",
+      "source": "assets/arrow-v2/sources/breaker.png"
+    }
+  ]
+}

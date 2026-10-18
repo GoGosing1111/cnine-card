@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "date": "2026-10-14",
+  "version": 2,
+  "date": "2026-10-18",
   "name": null,
   "nameStatus": "UNDECIDED_BY_USER",
   "rank": "SSS",
@@ -2042,725 +2042,17 @@
     }
   },
   "effects": {
-    "aura": {
-      "atlas": "assets/atlases/fx-aura.png",
-      "sha256": "A63E286B73F877DB576C9872136291443EAA81663EDCE0304AC94DADD7872608",
+    "charge": {
+      "atlas": "assets/arrow-v2/atlases/charge.png",
+      "sha256": "714417BEEFAA2373664A3433BEBF4D1222DA07E6E2E970A306BC754463B9E49F",
       "columns": 4,
       "rows": 3,
-      "cellSize": 675,
+      "cellSize": 426,
       "frameCount": 12,
       "sources": [
         {
-          "path": "assets/sources/aura-red-1.png",
-          "sha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "width": 1254,
-          "height": 1254
-        },
-        {
-          "path": "assets/sources/aura-red-2.png",
-          "sha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "width": 1254,
-          "height": 1254
-        },
-        {
-          "path": "assets/sources/aura-red-3.png",
-          "sha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "width": 1254,
-          "height": 1254
-        }
-      ],
-      "frames": [
-        {
-          "index": 0,
-          "file": "assets/frames/fx-aura-0.png",
-          "sha256": "6F10B6E21EDED84FE1A49D09514E8CEAD433C9574C34E5001D613839F5FE270B",
-          "source": "assets/sources/aura-red-1.png",
-          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "sourceRect": {
-            "left": 0,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 1,
-          "file": "assets/frames/fx-aura-1.png",
-          "sha256": "C0633E76154364C66A0D1F5E351BF6A983F24865EF345467A7CB22C723CAED07",
-          "source": "assets/sources/aura-red-1.png",
-          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "sourceRect": {
-            "left": 627,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 2,
-          "file": "assets/frames/fx-aura-2.png",
-          "sha256": "99720BE0E4DDCA18FCABD2010383C7E4B9D5688D6824BAD6245D93012A01E238",
-          "source": "assets/sources/aura-red-1.png",
-          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "sourceRect": {
-            "left": 0,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 3,
-          "file": "assets/frames/fx-aura-3.png",
-          "sha256": "81722EF59912AB0DD9916BB9DD479C79E1EE49535D9604C71A2815B824686353",
-          "source": "assets/sources/aura-red-1.png",
-          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "sourceRect": {
-            "left": 627,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 4,
-          "file": "assets/frames/fx-aura-4.png",
-          "sha256": "C5F458E3012E7F1C7930D3B1918C84D4D9A256CEFA315ECF6F4278168FFC5A13",
-          "source": "assets/sources/aura-red-2.png",
-          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "sourceRect": {
-            "left": 0,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 5,
-          "file": "assets/frames/fx-aura-5.png",
-          "sha256": "3CD2C56BC9239E54491E0BD943328B72F30F047F8F76F570A240194B910E63E3",
-          "source": "assets/sources/aura-red-2.png",
-          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "sourceRect": {
-            "left": 627,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 6,
-          "file": "assets/frames/fx-aura-6.png",
-          "sha256": "22FFE5CF762667D8080B4198DE91D6D13709D3B73374267C0AE9181BC9C01323",
-          "source": "assets/sources/aura-red-2.png",
-          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "sourceRect": {
-            "left": 0,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 7,
-          "file": "assets/frames/fx-aura-7.png",
-          "sha256": "EC572676779C23A348BC9FB77B77855A1BB44765D6CDECEC728B3E5EADD406C5",
-          "source": "assets/sources/aura-red-2.png",
-          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "sourceRect": {
-            "left": 627,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 8,
-          "file": "assets/frames/fx-aura-8.png",
-          "sha256": "F38FEF0F8D4AE84DFE0A4EBE26439F5D64AE747B5FC6AC76BB5C8C3589651E67",
-          "source": "assets/sources/aura-red-3.png",
-          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "sourceRect": {
-            "left": 0,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 9,
-          "file": "assets/frames/fx-aura-9.png",
-          "sha256": "7F4AB6465407B360B5A58EAF1A48A1C7A6C5A7BC9C61971A69A4E0FFFCCA0C54",
-          "source": "assets/sources/aura-red-3.png",
-          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "sourceRect": {
-            "left": 627,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 10,
-          "file": "assets/frames/fx-aura-10.png",
-          "sha256": "96B3159F8C4D7D70052B3AD494679D5656438847AF4B8939361DDE96ADE85DCF",
-          "source": "assets/sources/aura-red-3.png",
-          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "sourceRect": {
-            "left": 0,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 11,
-          "file": "assets/frames/fx-aura-11.png",
-          "sha256": "6BA7E1F361C3A8E83E7EBD44F2BA12BB0CBCBAD6F819583F3D9601EEEB0D05F0",
-          "source": "assets/sources/aura-red-3.png",
-          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "sourceRect": {
-            "left": 627,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        }
-      ]
-    },
-    "aura-rear": {
-      "atlas": "assets/atlases/fx-aura-rear-v2.png",
-      "sha256": "83D5947397971DA57FA3162C601DF612CF92037520CDBDBDCB94A9BE41A8FBB5",
-      "columns": 4,
-      "rows": 3,
-      "cellSize": 675,
-      "frameCount": 12,
-      "sources": [
-        {
-          "path": "assets/sources/aura-red-1.png",
-          "sha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "width": 1254,
-          "height": 1254
-        },
-        {
-          "path": "assets/sources/aura-red-2.png",
-          "sha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "width": 1254,
-          "height": 1254
-        },
-        {
-          "path": "assets/sources/aura-red-3.png",
-          "sha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "width": 1254,
-          "height": 1254
-        }
-      ],
-      "frames": [
-        {
-          "index": 0,
-          "file": "assets/frames/fx-aura-0.png",
-          "sha256": "6F10B6E21EDED84FE1A49D09514E8CEAD433C9574C34E5001D613839F5FE270B",
-          "source": "assets/sources/aura-red-1.png",
-          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "sourceRect": {
-            "left": 0,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 1,
-          "file": "assets/frames/fx-aura-1.png",
-          "sha256": "C0633E76154364C66A0D1F5E351BF6A983F24865EF345467A7CB22C723CAED07",
-          "source": "assets/sources/aura-red-1.png",
-          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "sourceRect": {
-            "left": 627,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 2,
-          "file": "assets/frames/fx-aura-2.png",
-          "sha256": "99720BE0E4DDCA18FCABD2010383C7E4B9D5688D6824BAD6245D93012A01E238",
-          "source": "assets/sources/aura-red-1.png",
-          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "sourceRect": {
-            "left": 0,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 3,
-          "file": "assets/frames/fx-aura-3.png",
-          "sha256": "81722EF59912AB0DD9916BB9DD479C79E1EE49535D9604C71A2815B824686353",
-          "source": "assets/sources/aura-red-1.png",
-          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "sourceRect": {
-            "left": 627,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 4,
-          "file": "assets/frames/fx-aura-4.png",
-          "sha256": "C5F458E3012E7F1C7930D3B1918C84D4D9A256CEFA315ECF6F4278168FFC5A13",
-          "source": "assets/sources/aura-red-2.png",
-          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "sourceRect": {
-            "left": 0,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 5,
-          "file": "assets/frames/fx-aura-5.png",
-          "sha256": "3CD2C56BC9239E54491E0BD943328B72F30F047F8F76F570A240194B910E63E3",
-          "source": "assets/sources/aura-red-2.png",
-          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "sourceRect": {
-            "left": 627,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 6,
-          "file": "assets/frames/fx-aura-6.png",
-          "sha256": "22FFE5CF762667D8080B4198DE91D6D13709D3B73374267C0AE9181BC9C01323",
-          "source": "assets/sources/aura-red-2.png",
-          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "sourceRect": {
-            "left": 0,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 7,
-          "file": "assets/frames/fx-aura-7.png",
-          "sha256": "EC572676779C23A348BC9FB77B77855A1BB44765D6CDECEC728B3E5EADD406C5",
-          "source": "assets/sources/aura-red-2.png",
-          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "sourceRect": {
-            "left": 627,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 8,
-          "file": "assets/frames/fx-aura-8.png",
-          "sha256": "F38FEF0F8D4AE84DFE0A4EBE26439F5D64AE747B5FC6AC76BB5C8C3589651E67",
-          "source": "assets/sources/aura-red-3.png",
-          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "sourceRect": {
-            "left": 0,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 9,
-          "file": "assets/frames/fx-aura-9.png",
-          "sha256": "7F4AB6465407B360B5A58EAF1A48A1C7A6C5A7BC9C61971A69A4E0FFFCCA0C54",
-          "source": "assets/sources/aura-red-3.png",
-          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "sourceRect": {
-            "left": 627,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 10,
-          "file": "assets/frames/fx-aura-10.png",
-          "sha256": "96B3159F8C4D7D70052B3AD494679D5656438847AF4B8939361DDE96ADE85DCF",
-          "source": "assets/sources/aura-red-3.png",
-          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "sourceRect": {
-            "left": 0,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 11,
-          "file": "assets/frames/fx-aura-11.png",
-          "sha256": "6BA7E1F361C3A8E83E7EBD44F2BA12BB0CBCBAD6F819583F3D9601EEEB0D05F0",
-          "source": "assets/sources/aura-red-3.png",
-          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "sourceRect": {
-            "left": 627,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        }
-      ],
-      "derivedFrom": "aura",
-      "alphaPartition": "rear",
-      "registrationVersion": 2
-    },
-    "aura-front": {
-      "atlas": "assets/atlases/fx-aura-front-v2.png",
-      "sha256": "4748D6F671D29B9016EDF91A9F124560D5031F07B4D2ECF61F0C8946069E6964",
-      "columns": 4,
-      "rows": 3,
-      "cellSize": 675,
-      "frameCount": 12,
-      "sources": [
-        {
-          "path": "assets/sources/aura-red-1.png",
-          "sha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "width": 1254,
-          "height": 1254
-        },
-        {
-          "path": "assets/sources/aura-red-2.png",
-          "sha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "width": 1254,
-          "height": 1254
-        },
-        {
-          "path": "assets/sources/aura-red-3.png",
-          "sha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "width": 1254,
-          "height": 1254
-        }
-      ],
-      "frames": [
-        {
-          "index": 0,
-          "file": "assets/frames/fx-aura-0.png",
-          "sha256": "6F10B6E21EDED84FE1A49D09514E8CEAD433C9574C34E5001D613839F5FE270B",
-          "source": "assets/sources/aura-red-1.png",
-          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "sourceRect": {
-            "left": 0,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 1,
-          "file": "assets/frames/fx-aura-1.png",
-          "sha256": "C0633E76154364C66A0D1F5E351BF6A983F24865EF345467A7CB22C723CAED07",
-          "source": "assets/sources/aura-red-1.png",
-          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "sourceRect": {
-            "left": 627,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 2,
-          "file": "assets/frames/fx-aura-2.png",
-          "sha256": "99720BE0E4DDCA18FCABD2010383C7E4B9D5688D6824BAD6245D93012A01E238",
-          "source": "assets/sources/aura-red-1.png",
-          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "sourceRect": {
-            "left": 0,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 3,
-          "file": "assets/frames/fx-aura-3.png",
-          "sha256": "81722EF59912AB0DD9916BB9DD479C79E1EE49535D9604C71A2815B824686353",
-          "source": "assets/sources/aura-red-1.png",
-          "sourceSha256": "3540E273DBB2B6BD9D32E260BE7351FBCCC2C31D1C9280C8E2C00690D2E39DFC",
-          "sourceRect": {
-            "left": 627,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 4,
-          "file": "assets/frames/fx-aura-4.png",
-          "sha256": "C5F458E3012E7F1C7930D3B1918C84D4D9A256CEFA315ECF6F4278168FFC5A13",
-          "source": "assets/sources/aura-red-2.png",
-          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "sourceRect": {
-            "left": 0,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 5,
-          "file": "assets/frames/fx-aura-5.png",
-          "sha256": "3CD2C56BC9239E54491E0BD943328B72F30F047F8F76F570A240194B910E63E3",
-          "source": "assets/sources/aura-red-2.png",
-          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "sourceRect": {
-            "left": 627,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 6,
-          "file": "assets/frames/fx-aura-6.png",
-          "sha256": "22FFE5CF762667D8080B4198DE91D6D13709D3B73374267C0AE9181BC9C01323",
-          "source": "assets/sources/aura-red-2.png",
-          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "sourceRect": {
-            "left": 0,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 7,
-          "file": "assets/frames/fx-aura-7.png",
-          "sha256": "EC572676779C23A348BC9FB77B77855A1BB44765D6CDECEC728B3E5EADD406C5",
-          "source": "assets/sources/aura-red-2.png",
-          "sourceSha256": "0F75D7E508DB743DA5298104887D0F0290ED18070A3C63E8C9CE7D5E0381834A",
-          "sourceRect": {
-            "left": 627,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 8,
-          "file": "assets/frames/fx-aura-8.png",
-          "sha256": "F38FEF0F8D4AE84DFE0A4EBE26439F5D64AE747B5FC6AC76BB5C8C3589651E67",
-          "source": "assets/sources/aura-red-3.png",
-          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "sourceRect": {
-            "left": 0,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 9,
-          "file": "assets/frames/fx-aura-9.png",
-          "sha256": "7F4AB6465407B360B5A58EAF1A48A1C7A6C5A7BC9C61971A69A4E0FFFCCA0C54",
-          "source": "assets/sources/aura-red-3.png",
-          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "sourceRect": {
-            "left": 627,
-            "top": 0,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 10,
-          "file": "assets/frames/fx-aura-10.png",
-          "sha256": "96B3159F8C4D7D70052B3AD494679D5656438847AF4B8939361DDE96ADE85DCF",
-          "source": "assets/sources/aura-red-3.png",
-          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "sourceRect": {
-            "left": 0,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        },
-        {
-          "index": 11,
-          "file": "assets/frames/fx-aura-11.png",
-          "sha256": "6BA7E1F361C3A8E83E7EBD44F2BA12BB0CBCBAD6F819583F3D9601EEEB0D05F0",
-          "source": "assets/sources/aura-red-3.png",
-          "sourceSha256": "81047673F95E67733DAAE768965E904C7017AC39B0161065983E34DEAFA179D4",
-          "sourceRect": {
-            "left": 627,
-            "top": 627,
-            "width": 627,
-            "height": 627
-          },
-          "anchor": {
-            "x": 0.5,
-            "y": 0.5
-          }
-        }
-      ],
-      "derivedFrom": "aura",
-      "alphaPartition": "front",
-      "registrationVersion": 2
-    },
-    "shot": {
-      "atlas": "assets/atlases/fx-shot.png",
-      "sha256": "FCC3FBA8B2AE28E98AD54DECB3ACB320B76D7AE4BD90F7A6A2F1946E7E132CCA",
-      "columns": 4,
-      "rows": 3,
-      "cellSize": 410,
-      "frameCount": 12,
-      "sources": [
-        {
-          "path": "assets/sources/fx-shot.png",
-          "sha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "path": "assets/arrow-v2/sources/charge.png",
+          "sha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "width": 1448,
           "height": 1086
         }
@@ -2768,10 +2060,10 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/fx-shot-0.png",
-          "sha256": "3759D4C26E69F4CF565C7D956C31396CD9A9618F261FF1CA747C2143119A00A6",
-          "source": "assets/sources/fx-shot.png",
-          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "file": "assets/arrow-v2/frames/charge-0.png",
+          "sha256": "0ABBDE8E020CB226D2A3B51C4059B3EC7BF37DA18A0F2124AB1E33FDBA409DA4",
+          "source": "assets/arrow-v2/sources/charge.png",
+          "sourceSha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "sourceRect": {
             "left": 0,
             "top": 0,
@@ -2779,16 +2071,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
+            "x": 0.5169953051643192,
             "y": 0.5
           }
         },
         {
           "index": 1,
-          "file": "assets/frames/fx-shot-1.png",
-          "sha256": "4A497A69BCCFD852535A30EDD9ED923A1450416BD63F17D8918EFE003F92C165",
-          "source": "assets/sources/fx-shot.png",
-          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "file": "assets/arrow-v2/frames/charge-1.png",
+          "sha256": "90561F5B8B4FA07C2922B88B3B49500C03362FC2F48A56E3F8BFF0EE5AF37952",
+          "source": "assets/arrow-v2/sources/charge.png",
+          "sourceSha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "sourceRect": {
             "left": 362,
             "top": 0,
@@ -2796,16 +2088,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
+            "x": 0.5169953051643192,
             "y": 0.5
           }
         },
         {
           "index": 2,
-          "file": "assets/frames/fx-shot-2.png",
-          "sha256": "F329CC9255E3FA002883AA92E18C4E91909EF69A900985A933C09FEC688A0403",
-          "source": "assets/sources/fx-shot.png",
-          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "file": "assets/arrow-v2/frames/charge-2.png",
+          "sha256": "DBC19CA267BEEB7662BC65B39C94D95C2295447457B491E2C3469B9C28F1D21B",
+          "source": "assets/arrow-v2/sources/charge.png",
+          "sourceSha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "sourceRect": {
             "left": 724,
             "top": 0,
@@ -2813,16 +2105,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
+            "x": 0.5169953051643192,
             "y": 0.5
           }
         },
         {
           "index": 3,
-          "file": "assets/frames/fx-shot-3.png",
-          "sha256": "0E425DD4C04D9DC9791E7B7F3DAB1255769C5C3FE3C409A1843A0BAA632ABC5F",
-          "source": "assets/sources/fx-shot.png",
-          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "file": "assets/arrow-v2/frames/charge-3.png",
+          "sha256": "0B7AB784AC817867025674B8ADEED48F57DBE045F1EDBB15002AE61AE76FDB0D",
+          "source": "assets/arrow-v2/sources/charge.png",
+          "sourceSha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "sourceRect": {
             "left": 1086,
             "top": 0,
@@ -2830,16 +2122,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
+            "x": 0.5169953051643192,
             "y": 0.5
           }
         },
         {
           "index": 4,
-          "file": "assets/frames/fx-shot-4.png",
-          "sha256": "2C124D339EB32F69AED3FD786DD433A69E18CBEB5E6867B32C99AAB953A43B56",
-          "source": "assets/sources/fx-shot.png",
-          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "file": "assets/arrow-v2/frames/charge-4.png",
+          "sha256": "9EC17D85B57127692EB7E64CE77895E3A4A662AF39B82C497F788BC34CBA3740",
+          "source": "assets/arrow-v2/sources/charge.png",
+          "sourceSha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "sourceRect": {
             "left": 0,
             "top": 362,
@@ -2847,16 +2139,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
+            "x": 0.364037558685446,
             "y": 0.5
           }
         },
         {
           "index": 5,
-          "file": "assets/frames/fx-shot-5.png",
-          "sha256": "9FC441A42FE79112F5799C1F5BA63BD8A4955DB3028836C227893CA94569EC1B",
-          "source": "assets/sources/fx-shot.png",
-          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "file": "assets/arrow-v2/frames/charge-5.png",
+          "sha256": "A4E17C25D295184569C0B90E46FF5363BB874BE4C3343B70D4F333B5D2CBD41F",
+          "source": "assets/arrow-v2/sources/charge.png",
+          "sourceSha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "sourceRect": {
             "left": 362,
             "top": 362,
@@ -2864,16 +2156,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
+            "x": 0.364037558685446,
             "y": 0.5
           }
         },
         {
           "index": 6,
-          "file": "assets/frames/fx-shot-6.png",
-          "sha256": "DA20F4482D29248BD1CC33FECAC4C9DEC855A648F6DD02CBC1C2E1F07F55332C",
-          "source": "assets/sources/fx-shot.png",
-          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "file": "assets/arrow-v2/frames/charge-6.png",
+          "sha256": "E622CB0156BAFF8D407F421EB2EF951A153A2C7C45D10EC9E36072384AF630F3",
+          "source": "assets/arrow-v2/sources/charge.png",
+          "sourceSha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "sourceRect": {
             "left": 724,
             "top": 362,
@@ -2881,16 +2173,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
+            "x": 0.364037558685446,
             "y": 0.5
           }
         },
         {
           "index": 7,
-          "file": "assets/frames/fx-shot-7.png",
-          "sha256": "A4A5C891170D9D447431821F48CB1868FECE8B4B751832302A8F054DD941DA08",
-          "source": "assets/sources/fx-shot.png",
-          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "file": "assets/arrow-v2/frames/charge-7.png",
+          "sha256": "D9E5B4B5D4444070AC98EF127D1098147B36869D859CBC58BA97CA92E14EFE5C",
+          "source": "assets/arrow-v2/sources/charge.png",
+          "sourceSha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "sourceRect": {
             "left": 1086,
             "top": 362,
@@ -2898,16 +2190,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
+            "x": 0.364037558685446,
             "y": 0.5
           }
         },
         {
           "index": 8,
-          "file": "assets/frames/fx-shot-8.png",
-          "sha256": "D13D3179ED1D58DACE555A7F362516AABB5CCFB03A899B8B72E3E521333ADF72",
-          "source": "assets/sources/fx-shot.png",
-          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "file": "assets/arrow-v2/frames/charge-8.png",
+          "sha256": "8A5A22C417EB7032450C4167C5043809358FE9949524EACF9955B7C79605A9FF",
+          "source": "assets/arrow-v2/sources/charge.png",
+          "sourceSha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "sourceRect": {
             "left": 0,
             "top": 724,
@@ -2915,16 +2207,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
+            "x": 0.364037558685446,
             "y": 0.5
           }
         },
         {
           "index": 9,
-          "file": "assets/frames/fx-shot-9.png",
-          "sha256": "4B6F19E203C63F7036B217C8149A8015AD7E46B036A0E94F9F72AD896AA62F03",
-          "source": "assets/sources/fx-shot.png",
-          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "file": "assets/arrow-v2/frames/charge-9.png",
+          "sha256": "ADFDF9486732DAC3A2E6DD79C2EB4266D7F196430517DB9AED2154B32C6D0EC7",
+          "source": "assets/arrow-v2/sources/charge.png",
+          "sourceSha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "sourceRect": {
             "left": 362,
             "top": 724,
@@ -2932,16 +2224,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
+            "x": 0.364037558685446,
             "y": 0.5
           }
         },
         {
           "index": 10,
-          "file": "assets/frames/fx-shot-10.png",
-          "sha256": "38E19A27F7A28164B61CE084B7A9E7A22E32BACE886E578ED32B5DC6A27554FC",
-          "source": "assets/sources/fx-shot.png",
-          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "file": "assets/arrow-v2/frames/charge-10.png",
+          "sha256": "A1AC719CCB21B12FB7D53C5C5A587ABDC88749834DF2B22D9A7769EC136DC15A",
+          "source": "assets/arrow-v2/sources/charge.png",
+          "sourceSha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "sourceRect": {
             "left": 724,
             "top": 724,
@@ -2949,16 +2241,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
+            "x": 0.364037558685446,
             "y": 0.5
           }
         },
         {
           "index": 11,
-          "file": "assets/frames/fx-shot-11.png",
-          "sha256": "E425AEADC86B2878DE4C7AF0A75ABE0192F2C4E5512055E20EBFB21B2DD8DDD4",
-          "source": "assets/sources/fx-shot.png",
-          "sourceSha256": "D9CC4EE0B438976B111225BA94E8F160306926641845F4888B45C310D1BAAAFD",
+          "file": "assets/arrow-v2/frames/charge-11.png",
+          "sha256": "879E4CB7A0DF95DB1D6691740F98B5B3397EF3B4D2D6988C50C5EBD885F49041",
+          "source": "assets/arrow-v2/sources/charge.png",
+          "sourceSha256": "B6469D442497835882BC30C98177F7AA12E61F1C06488005C011BCFB109A97B7",
           "sourceRect": {
             "left": 1086,
             "top": 724,
@@ -2966,23 +2258,23 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
+            "x": 0.364037558685446,
             "y": 0.5
           }
         }
       ]
     },
-    "flight": {
-      "atlas": "assets/atlases/fx-flight.png",
-      "sha256": "9181592D0660C11A35BFD2D70A9920F745C086F5841149F212B264B92C84C185",
+    "bolt": {
+      "atlas": "assets/arrow-v2/atlases/bolt.png",
+      "sha256": "B51BE5A3A89505CAF532E418CFF3CD5AC589459D22E1BFBBC477F8F6CB3373BB",
       "columns": 4,
       "rows": 3,
-      "cellSize": 410,
+      "cellSize": 426,
       "frameCount": 12,
       "sources": [
         {
-          "path": "assets/sources/fx-flight.png",
-          "sha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "path": "assets/arrow-v2/sources/bolt.png",
+          "sha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "width": 1448,
           "height": 1086
         }
@@ -2990,10 +2282,10 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/fx-flight-0.png",
-          "sha256": "38544CCD805DE5138B9DE3DFBD8BB00995A7BFD73240BD0177D0AE3233184BA4",
-          "source": "assets/sources/fx-flight.png",
-          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "file": "assets/arrow-v2/frames/bolt-0.png",
+          "sha256": "35C78E80C51F26044BAAF227895818A339B1CAB665B0CF1CB77175C9A6AC3F98",
+          "source": "assets/arrow-v2/sources/bolt.png",
+          "sourceSha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "sourceRect": {
             "left": 0,
             "top": 0,
@@ -3001,16 +2293,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.8229107981220657,
+            "y": 0.5084976525821596
           }
         },
         {
           "index": 1,
-          "file": "assets/frames/fx-flight-1.png",
-          "sha256": "11D895B1DD1AFB0E7C215D91F74C947C6E735BE9E6DE862A75E6D445AF51AFC8",
-          "source": "assets/sources/fx-flight.png",
-          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "file": "assets/arrow-v2/frames/bolt-1.png",
+          "sha256": "667BF4D5CC445F9065ADD1CC83F1C361ED193A8C1B71CA37A120BC9526CC6979",
+          "source": "assets/arrow-v2/sources/bolt.png",
+          "sourceSha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "sourceRect": {
             "left": 362,
             "top": 0,
@@ -3018,16 +2310,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.8229107981220657,
+            "y": 0.5084976525821596
           }
         },
         {
           "index": 2,
-          "file": "assets/frames/fx-flight-2.png",
-          "sha256": "61C9E387C20054CA4ACDB94AD4F4BECA03F8680E0361C746B229145E337118FA",
-          "source": "assets/sources/fx-flight.png",
-          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "file": "assets/arrow-v2/frames/bolt-2.png",
+          "sha256": "523B8256196333A1CEBA734B1B05941346CD95C0FD73A8FFB7B5BD9DA49E5BF2",
+          "source": "assets/arrow-v2/sources/bolt.png",
+          "sourceSha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "sourceRect": {
             "left": 724,
             "top": 0,
@@ -3035,16 +2327,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.8229107981220657,
+            "y": 0.5084976525821596
           }
         },
         {
           "index": 3,
-          "file": "assets/frames/fx-flight-3.png",
-          "sha256": "4BDD27357C944E99E6538AEBC90F343211C97F12D4EA5824E90DFDC37DB0E039",
-          "source": "assets/sources/fx-flight.png",
-          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "file": "assets/arrow-v2/frames/bolt-3.png",
+          "sha256": "F6B10ABEE6806DC707A26A86891DC79174C024B2B3FC7A071E4C1D717DA9941D",
+          "source": "assets/arrow-v2/sources/bolt.png",
+          "sourceSha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "sourceRect": {
             "left": 1086,
             "top": 0,
@@ -3052,16 +2344,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.8229107981220657,
+            "y": 0.5084976525821596
           }
         },
         {
           "index": 4,
-          "file": "assets/frames/fx-flight-4.png",
-          "sha256": "CED7532552BB86B65EEDD561921D97BA0D0033F78BE411F557EEF083E89E4613",
-          "source": "assets/sources/fx-flight.png",
-          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "file": "assets/arrow-v2/frames/bolt-4.png",
+          "sha256": "CEB5911C27121A84BE4350C168F471CA8925848451F73C628C620FBD2F175593",
+          "source": "assets/arrow-v2/sources/bolt.png",
+          "sourceSha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "sourceRect": {
             "left": 0,
             "top": 362,
@@ -3069,16 +2361,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.8229107981220657,
+            "y": 0.5084976525821596
           }
         },
         {
           "index": 5,
-          "file": "assets/frames/fx-flight-5.png",
-          "sha256": "A039F8BE3B30504417DCA054C9F5E0E66E6476B9DAE2D55FE18AE18C441D15C3",
-          "source": "assets/sources/fx-flight.png",
-          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "file": "assets/arrow-v2/frames/bolt-5.png",
+          "sha256": "09376180E84AD6DD97FF1CA0DB928E210FD93C537C4F19AC29FC10EE2E7524FF",
+          "source": "assets/arrow-v2/sources/bolt.png",
+          "sourceSha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "sourceRect": {
             "left": 362,
             "top": 362,
@@ -3086,16 +2378,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.8229107981220657,
+            "y": 0.5084976525821596
           }
         },
         {
           "index": 6,
-          "file": "assets/frames/fx-flight-6.png",
-          "sha256": "DA695AA46C1DCC7F6FC1A40CB5E359F301BB1B56A8089DBAA295029FC998AD73",
-          "source": "assets/sources/fx-flight.png",
-          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "file": "assets/arrow-v2/frames/bolt-6.png",
+          "sha256": "0F23896F95445DD8BF3424CF983008E064B1B9121EFC50E8CCA95DE8A933F852",
+          "source": "assets/arrow-v2/sources/bolt.png",
+          "sourceSha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "sourceRect": {
             "left": 724,
             "top": 362,
@@ -3103,16 +2395,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.8229107981220657,
+            "y": 0.5084976525821596
           }
         },
         {
           "index": 7,
-          "file": "assets/frames/fx-flight-7.png",
-          "sha256": "864C3499D7183B2B0D4A2913EB4C0134EFB35A583B751EE1FDB1F39DCF2CE1E6",
-          "source": "assets/sources/fx-flight.png",
-          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "file": "assets/arrow-v2/frames/bolt-7.png",
+          "sha256": "B0AB785845373C1A4B14CB9380568E31DA96A8E8210A2720DA9163048F07D44A",
+          "source": "assets/arrow-v2/sources/bolt.png",
+          "sourceSha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "sourceRect": {
             "left": 1086,
             "top": 362,
@@ -3120,16 +2412,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.8229107981220657,
+            "y": 0.5084976525821596
           }
         },
         {
           "index": 8,
-          "file": "assets/frames/fx-flight-8.png",
-          "sha256": "2EA6873DBB6E68BE729C087D050E8CB02AF4BB9D610E2E7445FA78554899A985",
-          "source": "assets/sources/fx-flight.png",
-          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "file": "assets/arrow-v2/frames/bolt-8.png",
+          "sha256": "CB10A34D732FAF1CAF32E48B065672C2AD7B5616417866F04636855567C04915",
+          "source": "assets/arrow-v2/sources/bolt.png",
+          "sourceSha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "sourceRect": {
             "left": 0,
             "top": 724,
@@ -3137,16 +2429,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.8229107981220657,
+            "y": 0.5084976525821596
           }
         },
         {
           "index": 9,
-          "file": "assets/frames/fx-flight-9.png",
-          "sha256": "BC92C2DC1FC2A9CD4489B81430E1DC165E30060FDFEF794D89826785DF523625",
-          "source": "assets/sources/fx-flight.png",
-          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "file": "assets/arrow-v2/frames/bolt-9.png",
+          "sha256": "375FFF6A7079ECAC2B70E7AF0473D9FC2BC03457EAB7F886B49A1B37ABE62642",
+          "source": "assets/arrow-v2/sources/bolt.png",
+          "sourceSha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "sourceRect": {
             "left": 362,
             "top": 724,
@@ -3154,16 +2446,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.8229107981220657,
+            "y": 0.5084976525821596
           }
         },
         {
           "index": 10,
-          "file": "assets/frames/fx-flight-10.png",
-          "sha256": "8B53DF81AD9AEBBF1912882FB7306053282462662006914E94D3E900551B1A48",
-          "source": "assets/sources/fx-flight.png",
-          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "file": "assets/arrow-v2/frames/bolt-10.png",
+          "sha256": "7FE429B08E461DAF338421AE0E472D8E6205A45D483734F341764ADF4234B587",
+          "source": "assets/arrow-v2/sources/bolt.png",
+          "sourceSha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "sourceRect": {
             "left": 724,
             "top": 724,
@@ -3171,16 +2463,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.8229107981220657,
+            "y": 0.5084976525821596
           }
         },
         {
           "index": 11,
-          "file": "assets/frames/fx-flight-11.png",
-          "sha256": "7E9CF45DBE34D63F23022288B79D12DDC48B48319012DE2652C4AED06A2C036D",
-          "source": "assets/sources/fx-flight.png",
-          "sourceSha256": "CE328501BB97BC03A998DB56467DF0089FD001B63D9D3BF38F985BE2207B689F",
+          "file": "assets/arrow-v2/frames/bolt-11.png",
+          "sha256": "0581126E9FF663FA313D905784F65559F7B7D99A00268F82EF6ED8BA2D82385E",
+          "source": "assets/arrow-v2/sources/bolt.png",
+          "sourceSha256": "9FC6FCAF231D1D0CBAC4EF93730BFE757808351CA5782D25C537E71870463E69",
           "sourceRect": {
             "left": 1086,
             "top": 724,
@@ -3188,23 +2480,23 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.8229107981220657,
+            "y": 0.5084976525821596
           }
         }
       ]
     },
-    "descent": {
-      "atlas": "assets/atlases/fx-descent.png",
-      "sha256": "BCBD1A0C8975599EFE61BF04B6062BD93DE634498B2742E349CE8D487FF7CFC1",
+    "impact": {
+      "atlas": "assets/arrow-v2/atlases/impact.png",
+      "sha256": "FB7BF2F5C79BA22232EE3642C4F6491E22AA6BC874DA27023069E622B7A566F1",
       "columns": 4,
       "rows": 3,
-      "cellSize": 410,
+      "cellSize": 426,
       "frameCount": 12,
       "sources": [
         {
-          "path": "assets/sources/fx-descent.png",
-          "sha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "path": "assets/arrow-v2/sources/impact.png",
+          "sha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "width": 1448,
           "height": 1086
         }
@@ -3212,10 +2504,10 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/fx-descent-0.png",
-          "sha256": "209E901AE84C33B7D7974B240A7DA372754F5766185F1A45141B40DB76EF4FD7",
-          "source": "assets/sources/fx-descent.png",
-          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "file": "assets/arrow-v2/frames/impact-0.png",
+          "sha256": "97D5F31A5A11BF91866C88D740CF8777C089504F152F196D1FD7A6673CFF3230",
+          "source": "assets/arrow-v2/sources/impact.png",
+          "sourceSha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "sourceRect": {
             "left": 0,
             "top": 0,
@@ -3224,15 +2516,15 @@
           },
           "anchor": {
             "x": 0.5,
-            "y": 0.7825365853658536
+            "y": 0.5254929577464789
           }
         },
         {
           "index": 1,
-          "file": "assets/frames/fx-descent-1.png",
-          "sha256": "E46A5E38BB4700CBAECEB0B94BC590FB43C4F70BA16B3285887CD60DDEC98AD5",
-          "source": "assets/sources/fx-descent.png",
-          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "file": "assets/arrow-v2/frames/impact-1.png",
+          "sha256": "D2C3B319C210EFC429C7A46406401CB4ADAC1494CA97B2A179087F9DADB33B80",
+          "source": "assets/arrow-v2/sources/impact.png",
+          "sourceSha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "sourceRect": {
             "left": 362,
             "top": 0,
@@ -3240,16 +2532,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.364037558685446,
+            "y": 0.5254929577464789
           }
         },
         {
           "index": 2,
-          "file": "assets/frames/fx-descent-2.png",
-          "sha256": "7FB29F971EB76A6DD8E93AE3D799479D68C7E8349DF9584426F5D7BFCF580961",
-          "source": "assets/sources/fx-descent.png",
-          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "file": "assets/arrow-v2/frames/impact-2.png",
+          "sha256": "96DC5EACA082B524D59ACCCA124C616E6EAB3B9C65882AC94FC93AB678228AAD",
+          "source": "assets/arrow-v2/sources/impact.png",
+          "sourceSha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "sourceRect": {
             "left": 724,
             "top": 0,
@@ -3257,16 +2549,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.364037558685446,
+            "y": 0.5254929577464789
           }
         },
         {
           "index": 3,
-          "file": "assets/frames/fx-descent-3.png",
-          "sha256": "E6A3A414D90E104BB6597C055D8D3074EA6397854CD6AE0BA2CFF0103FFE6A9A",
-          "source": "assets/sources/fx-descent.png",
-          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "file": "assets/arrow-v2/frames/impact-3.png",
+          "sha256": "1752BDAD0F62C1E8A14C3FEEBFD36C111F9D24C51ED0E498CDB4BFBB3B89A86B",
+          "source": "assets/arrow-v2/sources/impact.png",
+          "sourceSha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "sourceRect": {
             "left": 1086,
             "top": 0,
@@ -3274,16 +2566,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.364037558685446,
+            "y": 0.5254929577464789
           }
         },
         {
           "index": 4,
-          "file": "assets/frames/fx-descent-4.png",
-          "sha256": "3111AAAFF9F97CEDED3808268D89D8525D9BB8D3EBC6CF6C867B9A1BD7E36A9F",
-          "source": "assets/sources/fx-descent.png",
-          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "file": "assets/arrow-v2/frames/impact-4.png",
+          "sha256": "8EB2FECAF8FBE8E66845170BD0AE739560221F1B6F50DD05315616127430EB6C",
+          "source": "assets/arrow-v2/sources/impact.png",
+          "sourceSha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "sourceRect": {
             "left": 0,
             "top": 362,
@@ -3291,16 +2583,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.3130516431924883,
+            "y": 0.5254929577464789
           }
         },
         {
           "index": 5,
-          "file": "assets/frames/fx-descent-5.png",
-          "sha256": "2A2F73A7DA4B75213A1E07D93E3273FF5F728A0A7AF174370ADA97AD4E7675F9",
-          "source": "assets/sources/fx-descent.png",
-          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "file": "assets/arrow-v2/frames/impact-5.png",
+          "sha256": "4CF0B94EE5A6B9AAE0066058B6F7AE336F0FEDDBC29E41B58E6F5941D7BEDF74",
+          "source": "assets/arrow-v2/sources/impact.png",
+          "sourceSha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "sourceRect": {
             "left": 362,
             "top": 362,
@@ -3308,16 +2600,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.3130516431924883,
+            "y": 0.5254929577464789
           }
         },
         {
           "index": 6,
-          "file": "assets/frames/fx-descent-6.png",
-          "sha256": "B7581A7DABAC1F370092624D79F92DDDD2C753F2079AA772C709744DB365FAA2",
-          "source": "assets/sources/fx-descent.png",
-          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "file": "assets/arrow-v2/frames/impact-6.png",
+          "sha256": "E81018EFC7E6EC6A5594917D4B730C314458DF5542ECFE41C9D0C1BCA04DBDAC",
+          "source": "assets/arrow-v2/sources/impact.png",
+          "sourceSha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "sourceRect": {
             "left": 724,
             "top": 362,
@@ -3325,16 +2617,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.3130516431924883,
+            "y": 0.5254929577464789
           }
         },
         {
           "index": 7,
-          "file": "assets/frames/fx-descent-7.png",
-          "sha256": "F60E89F74897172824050845F50779062595DCAE84B60270D30D5F0957985543",
-          "source": "assets/sources/fx-descent.png",
-          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "file": "assets/arrow-v2/frames/impact-7.png",
+          "sha256": "D60301E39EF4137414A69D0AEC6554C5620021EBD5325665D615D926FA4D115B",
+          "source": "assets/arrow-v2/sources/impact.png",
+          "sourceSha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "sourceRect": {
             "left": 1086,
             "top": 362,
@@ -3342,16 +2634,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.3130516431924883,
+            "y": 0.5254929577464789
           }
         },
         {
           "index": 8,
-          "file": "assets/frames/fx-descent-8.png",
-          "sha256": "F766342FF9EC60F851B1939804299DB233D2D07586E8AE34706CAB9B0CE392A8",
-          "source": "assets/sources/fx-descent.png",
-          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "file": "assets/arrow-v2/frames/impact-8.png",
+          "sha256": "DE95C664B485D43868945BB0011DE47D823552639BBE665C4878D84950F88907",
+          "source": "assets/arrow-v2/sources/impact.png",
+          "sourceSha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "sourceRect": {
             "left": 0,
             "top": 724,
@@ -3359,16 +2651,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.3130516431924883,
+            "y": 0.5254929577464789
           }
         },
         {
           "index": 9,
-          "file": "assets/frames/fx-descent-9.png",
-          "sha256": "3757FB8643EE11C6440C6AFB00BCBC159BB615F8A213CDBFE686F1AFD526DE49",
-          "source": "assets/sources/fx-descent.png",
-          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "file": "assets/arrow-v2/frames/impact-9.png",
+          "sha256": "01129A1605D68263291BA7723F7480D9E152B006124D078C318A63A8F05FAEC8",
+          "source": "assets/arrow-v2/sources/impact.png",
+          "sourceSha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "sourceRect": {
             "left": 362,
             "top": 724,
@@ -3376,16 +2668,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.3130516431924883,
+            "y": 0.5254929577464789
           }
         },
         {
           "index": 10,
-          "file": "assets/frames/fx-descent-10.png",
-          "sha256": "6CB54ECDF4BEB497860CA6A84D3D1B5B2A81AE15ADA8512C48558E3193CC4083",
-          "source": "assets/sources/fx-descent.png",
-          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "file": "assets/arrow-v2/frames/impact-10.png",
+          "sha256": "9EAF087E77444F069532E9AB14C8D7F07685BB9CD4B743AABC5476E51EE341B5",
+          "source": "assets/arrow-v2/sources/impact.png",
+          "sourceSha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "sourceRect": {
             "left": 724,
             "top": 724,
@@ -3393,16 +2685,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.3130516431924883,
+            "y": 0.5254929577464789
           }
         },
         {
           "index": 11,
-          "file": "assets/frames/fx-descent-11.png",
-          "sha256": "DAA5A2E9FA78AD9DB7F2DDA654A2F8CC7D4334E480A84B09C8B071FCC23CDBEA",
-          "source": "assets/sources/fx-descent.png",
-          "sourceSha256": "3B2CCB7F1D7EAECD6066F25372303EE07E7CCAD4E05C3DF996FBBFD6BD778CEE",
+          "file": "assets/arrow-v2/frames/impact-11.png",
+          "sha256": "58418ADD80517800E2AD21E23AD040192FCF98781AC21B7D5D62FC21065E24F6",
+          "source": "assets/arrow-v2/sources/impact.png",
+          "sourceSha256": "B59FA3693AC29FA4DE3B6B94470A5B581CB963EED827344D7B9A6234954031D6",
           "sourceRect": {
             "left": 1086,
             "top": 724,
@@ -3410,23 +2702,23 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.3130516431924883,
+            "y": 0.5254929577464789
           }
         }
       ]
     },
-    "ground": {
-      "atlas": "assets/atlases/fx-ground.png",
-      "sha256": "3E9CE9865E800AC1EB7FA36DA610166D29D4BCAEB4D7E9D391549E962AC52905",
+    "volley": {
+      "atlas": "assets/arrow-v2/atlases/volley.png",
+      "sha256": "A989294F92B2EAFA4901ED0B5F5DC879853A2F2979627296632E534B34B3884E",
       "columns": 4,
       "rows": 3,
-      "cellSize": 410,
+      "cellSize": 426,
       "frameCount": 12,
       "sources": [
         {
-          "path": "assets/sources/fx-ground.png",
-          "sha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "path": "assets/arrow-v2/sources/volley.png",
+          "sha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "width": 1448,
           "height": 1086
         }
@@ -3434,10 +2726,10 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/fx-ground-0.png",
-          "sha256": "39D885A2DE546F24BB583DBA4D92C308D8E98B93C285132514CDFAF47AA3D652",
-          "source": "assets/sources/fx-ground.png",
-          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "file": "assets/arrow-v2/frames/volley-0.png",
+          "sha256": "601295BA215E683CEDD985610F35A999696D76844F5418028F1C1757188795DC",
+          "source": "assets/arrow-v2/sources/volley.png",
+          "sourceSha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "sourceRect": {
             "left": 0,
             "top": 0,
@@ -3445,16 +2737,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.8229107981220657,
+            "y": 0.5
           }
         },
         {
           "index": 1,
-          "file": "assets/frames/fx-ground-1.png",
-          "sha256": "FB1B41C7917CBE08956731DB483D1D66924C0EB58BA6BB8DC8F9CA92168C3A9E",
-          "source": "assets/sources/fx-ground.png",
-          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "file": "assets/arrow-v2/frames/volley-1.png",
+          "sha256": "1198D3A9652A97FE90E774E3D8A3586BDB8E72CB0EB2AC3568DF54446E63DC35",
+          "source": "assets/arrow-v2/sources/volley.png",
+          "sourceSha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "sourceRect": {
             "left": 362,
             "top": 0,
@@ -3462,16 +2754,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.8229107981220657,
+            "y": 0.5
           }
         },
         {
           "index": 2,
-          "file": "assets/frames/fx-ground-2.png",
-          "sha256": "0AB3344D65F13B70C9D3765139DC14AC0457904C4B411D052D05CEFD947E442F",
-          "source": "assets/sources/fx-ground.png",
-          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "file": "assets/arrow-v2/frames/volley-2.png",
+          "sha256": "A2C573F582DCFAB8DB85C047ADC437A28B10B86BD67337B7BBBC86AE64150C42",
+          "source": "assets/arrow-v2/sources/volley.png",
+          "sourceSha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "sourceRect": {
             "left": 724,
             "top": 0,
@@ -3479,16 +2771,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.8229107981220657,
+            "y": 0.5
           }
         },
         {
           "index": 3,
-          "file": "assets/frames/fx-ground-3.png",
-          "sha256": "35DF57A27F4DDBA342F342E3C04376CF3E42B1A525B9AFC956194C6F433B02F8",
-          "source": "assets/sources/fx-ground.png",
-          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "file": "assets/arrow-v2/frames/volley-3.png",
+          "sha256": "4C279E400BE660639BEC83C44DCB04D9167B2B56A25F3299DD6A44346C43BB39",
+          "source": "assets/arrow-v2/sources/volley.png",
+          "sourceSha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "sourceRect": {
             "left": 1086,
             "top": 0,
@@ -3496,16 +2788,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.8229107981220657,
+            "y": 0.5
           }
         },
         {
           "index": 4,
-          "file": "assets/frames/fx-ground-4.png",
-          "sha256": "AABD405CA30C1ABBA3EE1A688CBADA51ADC56840B8830BE5DF71F2DD84325A9F",
-          "source": "assets/sources/fx-ground.png",
-          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "file": "assets/arrow-v2/frames/volley-4.png",
+          "sha256": "FD93B546510C0DF28374AEA4C6BE34E2DB5758B0381E88820F828B897FC67E81",
+          "source": "assets/arrow-v2/sources/volley.png",
+          "sourceSha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "sourceRect": {
             "left": 0,
             "top": 362,
@@ -3513,16 +2805,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.8229107981220657,
+            "y": 0.5
           }
         },
         {
           "index": 5,
-          "file": "assets/frames/fx-ground-5.png",
-          "sha256": "A0AEC357B9B1859B2AD9B67010A1FC43DDB434DCA8B0612256CFF5EE10A61732",
-          "source": "assets/sources/fx-ground.png",
-          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "file": "assets/arrow-v2/frames/volley-5.png",
+          "sha256": "8C46F1D4D392A68B05AD5431723ED86FEE5E484A146A5E79C81A1DD3BE9C9432",
+          "source": "assets/arrow-v2/sources/volley.png",
+          "sourceSha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "sourceRect": {
             "left": 362,
             "top": 362,
@@ -3530,16 +2822,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.8229107981220657,
+            "y": 0.5
           }
         },
         {
           "index": 6,
-          "file": "assets/frames/fx-ground-6.png",
-          "sha256": "53B182ACAC78435CC7350A65A080525C97B8FBDD7DDD3C73BD15D4B033E1C4C3",
-          "source": "assets/sources/fx-ground.png",
-          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "file": "assets/arrow-v2/frames/volley-6.png",
+          "sha256": "8F4472F3C8CA7B3C5E0AE7A77B3783C09A412D574D0A734D16D6F91F61DEDD76",
+          "source": "assets/arrow-v2/sources/volley.png",
+          "sourceSha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "sourceRect": {
             "left": 724,
             "top": 362,
@@ -3547,16 +2839,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.8229107981220657,
+            "y": 0.5
           }
         },
         {
           "index": 7,
-          "file": "assets/frames/fx-ground-7.png",
-          "sha256": "FC38E01E55EDDE2AAD86620B8086C45EFA8F2313E247418E699E755267513CBB",
-          "source": "assets/sources/fx-ground.png",
-          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "file": "assets/arrow-v2/frames/volley-7.png",
+          "sha256": "C3B3165703754081EA53C357F94168A5A9BF1090705F162F4D33D552011AEB26",
+          "source": "assets/arrow-v2/sources/volley.png",
+          "sourceSha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "sourceRect": {
             "left": 1086,
             "top": 362,
@@ -3564,16 +2856,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.8229107981220657,
+            "y": 0.5
           }
         },
         {
           "index": 8,
-          "file": "assets/frames/fx-ground-8.png",
-          "sha256": "F5534C6BBB88E211392DAFD65D11C73F8543F19F519E81473AEAD53AB37429C8",
-          "source": "assets/sources/fx-ground.png",
-          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "file": "assets/arrow-v2/frames/volley-8.png",
+          "sha256": "B467BA4EC314A65B6E49221BDB28312E37A043669A4C305E1021BFA122FF2DD9",
+          "source": "assets/arrow-v2/sources/volley.png",
+          "sourceSha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "sourceRect": {
             "left": 0,
             "top": 724,
@@ -3581,16 +2873,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.8229107981220657,
+            "y": 0.5
           }
         },
         {
           "index": 9,
-          "file": "assets/frames/fx-ground-9.png",
-          "sha256": "409746206F075CD5461BC28A5620E2874575CC5C0F00EA5299BD352EEC14521A",
-          "source": "assets/sources/fx-ground.png",
-          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "file": "assets/arrow-v2/frames/volley-9.png",
+          "sha256": "1D37C8E9EAF804F98E4430C562EC06516DD6EFD5CBD20F9B78E9CB4DBFA93CFB",
+          "source": "assets/arrow-v2/sources/volley.png",
+          "sourceSha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "sourceRect": {
             "left": 362,
             "top": 724,
@@ -3598,16 +2890,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.8229107981220657,
+            "y": 0.5
           }
         },
         {
           "index": 10,
-          "file": "assets/frames/fx-ground-10.png",
-          "sha256": "33740F75285174F971C3689ACA0AC2A80FB0B36E9F666C06E507BC058EF0CE47",
-          "source": "assets/sources/fx-ground.png",
-          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "file": "assets/arrow-v2/frames/volley-10.png",
+          "sha256": "5CF4A16C814891FB4A5B17A50D8751BB6487376E23C703C707F65D3E1B54748C",
+          "source": "assets/arrow-v2/sources/volley.png",
+          "sourceSha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "sourceRect": {
             "left": 724,
             "top": 724,
@@ -3615,16 +2907,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.8229107981220657,
+            "y": 0.5
           }
         },
         {
           "index": 11,
-          "file": "assets/frames/fx-ground-11.png",
-          "sha256": "3E379843AD4B3320F9BBB553C80334B0C6E921DE798B9A1C035DE78BFE89C0A7",
-          "source": "assets/sources/fx-ground.png",
-          "sourceSha256": "D902A8B588F61A3FAC30020EF698567B1E58632EEF646F3850BDFD95ADC2931C",
+          "file": "assets/arrow-v2/frames/volley-11.png",
+          "sha256": "F94E4341A0009FF4B17E8440B1B36B724972EB9A7918CAB9D5E407B17A49EE53",
+          "source": "assets/arrow-v2/sources/volley.png",
+          "sourceSha256": "3F15CC4B1A9F712BB224A1EEBAF19DAFC3EDF52982CCCFFD0703D97577C095AB",
           "sourceRect": {
             "left": 1086,
             "top": 724,
@@ -3632,23 +2924,23 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.7825365853658536
+            "x": 0.8229107981220657,
+            "y": 0.5
           }
         }
       ]
     },
-    "array": {
-      "atlas": "assets/atlases/fx-array.png",
-      "sha256": "4B86F062AFD0315E006E03CCEB671B83CFB0209C47D8CA9105A42E550A39EAB0",
+    "rain": {
+      "atlas": "assets/arrow-v2/atlases/rain.png",
+      "sha256": "8C2BAF052213E9A25AF357204423D5157291139C8B72E17AB99A82BB4C5BB4C4",
       "columns": 4,
       "rows": 3,
-      "cellSize": 410,
+      "cellSize": 426,
       "frameCount": 12,
       "sources": [
         {
-          "path": "assets/sources/fx-array.png",
-          "sha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "path": "assets/arrow-v2/sources/rain.png",
+          "sha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
           "width": 1448,
           "height": 1086
         }
@@ -3656,10 +2948,10 @@
       "frames": [
         {
           "index": 0,
-          "file": "assets/frames/fx-array-0.png",
-          "sha256": "034734844A9B3A022E4AFF2A3780854E3231302E38D2568F90691863CA16C44A",
-          "source": "assets/sources/fx-array.png",
-          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "file": "assets/arrow-v2/frames/rain-0.png",
+          "sha256": "2B6960672A869BD48712CB422B28EF97EA0FA4EDC8940A1107C588E5068E866F",
+          "source": "assets/arrow-v2/sources/rain.png",
+          "sourceSha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
           "sourceRect": {
             "left": 0,
             "top": 0,
@@ -3667,16 +2959,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.5424882629107982,
+            "y": 0.6869483568075117
           }
         },
         {
           "index": 1,
-          "file": "assets/frames/fx-array-1.png",
-          "sha256": "136B8C0595B3573C829049DD10989B7E7C0E49BDFE05EA28B7A6FEA9984EDEF5",
-          "source": "assets/sources/fx-array.png",
-          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "file": "assets/arrow-v2/frames/rain-1.png",
+          "sha256": "2EEDCCB9D0BF1BEA4212BA5ACFAB239D4C36F975C4604E7EEE9C24B595C073C7",
+          "source": "assets/arrow-v2/sources/rain.png",
+          "sourceSha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
           "sourceRect": {
             "left": 362,
             "top": 0,
@@ -3684,16 +2976,16 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.5424882629107982,
+            "y": 0.6869483568075117
           }
         },
         {
           "index": 2,
-          "file": "assets/frames/fx-array-2.png",
-          "sha256": "1A93396697DE20A335D1710C2FD5C99BB942261CA6BCB6BFAF4E286F20B8FC36",
-          "source": "assets/sources/fx-array.png",
-          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "file": "assets/arrow-v2/frames/rain-2.png",
+          "sha256": "28F02E31C5F1C19AB9460E527D75268FEE677C1171054B9EE2CB0BD5EB586CD8",
+          "source": "assets/arrow-v2/sources/rain.png",
+          "sourceSha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
           "sourceRect": {
             "left": 724,
             "top": 0,
@@ -3701,16 +2993,238 @@
             "height": 362
           },
           "anchor": {
-            "x": 0.5,
-            "y": 0.5
+            "x": 0.5424882629107982,
+            "y": 0.6869483568075117
           }
         },
         {
           "index": 3,
-          "file": "assets/frames/fx-array-3.png",
-          "sha256": "B19468DE662C9B31C677F6124B0C285B2E69BF27CE06695984966E4E8BE90AD6",
-          "source": "assets/sources/fx-array.png",
-          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "file": "assets/arrow-v2/frames/rain-3.png",
+          "sha256": "0497DBD86683D3E75D4C395BF086650B30D975FD365C21167354E7A28CBE27D3",
+          "source": "assets/arrow-v2/sources/rain.png",
+          "sourceSha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5424882629107982,
+            "y": 0.7464319248826291
+          }
+        },
+        {
+          "index": 4,
+          "file": "assets/arrow-v2/frames/rain-4.png",
+          "sha256": "569618E0DED2FC6E4148363B79AD6293E285819A8AFD50BCAA387A47485692EC",
+          "source": "assets/arrow-v2/sources/rain.png",
+          "sourceSha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5424882629107982,
+            "y": 0.7464319248826291
+          }
+        },
+        {
+          "index": 5,
+          "file": "assets/arrow-v2/frames/rain-5.png",
+          "sha256": "72CC627F12A266CA27D616E943E0863FFDB91B8DB691FEAC9E5F556DEFB6B8A0",
+          "source": "assets/arrow-v2/sources/rain.png",
+          "sourceSha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5424882629107982,
+            "y": 0.7464319248826291
+          }
+        },
+        {
+          "index": 6,
+          "file": "assets/arrow-v2/frames/rain-6.png",
+          "sha256": "7FE4F4C5ED2A38AA5E68FFA5ABCDF95F37F71A4246DB9BA08CF7BFC919AAAA45",
+          "source": "assets/arrow-v2/sources/rain.png",
+          "sourceSha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5424882629107982,
+            "y": 0.7464319248826291
+          }
+        },
+        {
+          "index": 7,
+          "file": "assets/arrow-v2/frames/rain-7.png",
+          "sha256": "7741D7B7015733F74A17A064BA9DD47C275E974750331B661118D4D6F07AC8EA",
+          "source": "assets/arrow-v2/sources/rain.png",
+          "sourceSha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5424882629107982,
+            "y": 0.7464319248826291
+          }
+        },
+        {
+          "index": 8,
+          "file": "assets/arrow-v2/frames/rain-8.png",
+          "sha256": "904F1FA7B0C53D0B8B0253D8B6C8ADC668004A1E3F4C4EBA1171CF4D78C24A8D",
+          "source": "assets/arrow-v2/sources/rain.png",
+          "sourceSha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5424882629107982,
+            "y": 0.7464319248826291
+          }
+        },
+        {
+          "index": 9,
+          "file": "assets/arrow-v2/frames/rain-9.png",
+          "sha256": "349F3C4EA80FE32FAE6052BEBE1AE9AC092DE34F087410F76FA4BC5200D2C18C",
+          "source": "assets/arrow-v2/sources/rain.png",
+          "sourceSha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5424882629107982,
+            "y": 0.7464319248826291
+          }
+        },
+        {
+          "index": 10,
+          "file": "assets/arrow-v2/frames/rain-10.png",
+          "sha256": "A4AF97B2C0A3319E1B108C24E740E7790A00D5ECA75CE2B77486D38A19FC1D8F",
+          "source": "assets/arrow-v2/sources/rain.png",
+          "sourceSha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5424882629107982,
+            "y": 0.7464319248826291
+          }
+        },
+        {
+          "index": 11,
+          "file": "assets/arrow-v2/frames/rain-11.png",
+          "sha256": "3B7340C26CE4BE30EAD3CEF41702D570B1DC168DA745950E35512DFBCF25F6BB",
+          "source": "assets/arrow-v2/sources/rain.png",
+          "sourceSha256": "3342B13E1D8F3B656B2DFF4BA5DFA8EA44022FB93EE49F0F02A7C9F97BA6CCC4",
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5424882629107982,
+            "y": 0.7464319248826291
+          }
+        }
+      ]
+    },
+    "breaker": {
+      "atlas": "assets/arrow-v2/atlases/breaker.png",
+      "sha256": "DC2B7B58C7DBAD3C2C8E9ACBB103AF229B419F0543253450FF0667DC7AF1A0D2",
+      "columns": 4,
+      "rows": 3,
+      "cellSize": 426,
+      "frameCount": 12,
+      "sources": [
+        {
+          "path": "assets/arrow-v2/sources/breaker.png",
+          "sha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/arrow-v2/frames/breaker-0.png",
+          "sha256": "55481D9F4565B2FF4F1E66715CE18616844BA620A5084B08BA9E4063D243FC2E",
+          "source": "assets/arrow-v2/sources/breaker.png",
+          "sourceSha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7209389671361502
+          }
+        },
+        {
+          "index": 1,
+          "file": "assets/arrow-v2/frames/breaker-1.png",
+          "sha256": "81E1B97DE9C72C27A1627A5E4D2952893EBB7A6C71178E59B0D3D37087B917F6",
+          "source": "assets/arrow-v2/sources/breaker.png",
+          "sourceSha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7209389671361502
+          }
+        },
+        {
+          "index": 2,
+          "file": "assets/arrow-v2/frames/breaker-2.png",
+          "sha256": "7F034FB42C9735D08CFB637B99777FB10410B5D88DD328985750B536BB42C619",
+          "source": "assets/arrow-v2/sources/breaker.png",
+          "sourceSha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "anchor": {
+            "x": 0.5,
+            "y": 0.7209389671361502
+          }
+        },
+        {
+          "index": 3,
+          "file": "assets/arrow-v2/frames/breaker-3.png",
+          "sha256": "2D5A4A0A5679E737A960FE48540C2072F5169F038BA1FC4236924D1526D72668",
+          "source": "assets/arrow-v2/sources/breaker.png",
+          "sourceSha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
           "sourceRect": {
             "left": 1086,
             "top": 0,
@@ -3719,15 +3233,15 @@
           },
           "anchor": {
             "x": 0.5,
-            "y": 0.5
+            "y": 0.771924882629108
           }
         },
         {
           "index": 4,
-          "file": "assets/frames/fx-array-4.png",
-          "sha256": "DEE23FB775E165FFB84B48A881F4EE54512D4AF4C9BB793384C241AE7E43EEAF",
-          "source": "assets/sources/fx-array.png",
-          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "file": "assets/arrow-v2/frames/breaker-4.png",
+          "sha256": "03564774C42DF3867E731A5EEB3806F8385056D3205A1E7CF5F909C85F42A7A9",
+          "source": "assets/arrow-v2/sources/breaker.png",
+          "sourceSha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
           "sourceRect": {
             "left": 0,
             "top": 362,
@@ -3736,15 +3250,15 @@
           },
           "anchor": {
             "x": 0.5,
-            "y": 0.5
+            "y": 0.771924882629108
           }
         },
         {
           "index": 5,
-          "file": "assets/frames/fx-array-5.png",
-          "sha256": "0629D48AB29D3E9572D61AF8B2907C5098481088CEF3E9CB137D1C0E388C29F8",
-          "source": "assets/sources/fx-array.png",
-          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "file": "assets/arrow-v2/frames/breaker-5.png",
+          "sha256": "3610B4D2159B1605B14446425E91B7D091C4B08ECE4B0332980E55E4E67609E7",
+          "source": "assets/arrow-v2/sources/breaker.png",
+          "sourceSha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
           "sourceRect": {
             "left": 362,
             "top": 362,
@@ -3753,15 +3267,15 @@
           },
           "anchor": {
             "x": 0.5,
-            "y": 0.5
+            "y": 0.771924882629108
           }
         },
         {
           "index": 6,
-          "file": "assets/frames/fx-array-6.png",
-          "sha256": "6AE5FC1A186709E357810172450890A983217893BE3C0383671B2FAEDDE7A9DB",
-          "source": "assets/sources/fx-array.png",
-          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "file": "assets/arrow-v2/frames/breaker-6.png",
+          "sha256": "B4D83D1C7467703C9AABF42E13E571849F09E2524F32F35C1246CBFCFDD9CD5D",
+          "source": "assets/arrow-v2/sources/breaker.png",
+          "sourceSha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
           "sourceRect": {
             "left": 724,
             "top": 362,
@@ -3770,15 +3284,15 @@
           },
           "anchor": {
             "x": 0.5,
-            "y": 0.5
+            "y": 0.771924882629108
           }
         },
         {
           "index": 7,
-          "file": "assets/frames/fx-array-7.png",
-          "sha256": "6F7CD4779643BA130AC1E48EAEDF2A8AEB466D76D92A0F40E600FF672384088E",
-          "source": "assets/sources/fx-array.png",
-          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "file": "assets/arrow-v2/frames/breaker-7.png",
+          "sha256": "4DB1EBDF7DC984E0D8C186C9771496EA869E8AE27C670EFBC73B2C47FDF9954A",
+          "source": "assets/arrow-v2/sources/breaker.png",
+          "sourceSha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
           "sourceRect": {
             "left": 1086,
             "top": 362,
@@ -3787,15 +3301,15 @@
           },
           "anchor": {
             "x": 0.5,
-            "y": 0.5
+            "y": 0.771924882629108
           }
         },
         {
           "index": 8,
-          "file": "assets/frames/fx-array-8.png",
-          "sha256": "1BAB292C48A08A8BB27680C3DDDBA1E3396EE887A83641C22D8ADDE05E67830E",
-          "source": "assets/sources/fx-array.png",
-          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "file": "assets/arrow-v2/frames/breaker-8.png",
+          "sha256": "262EF9D9A061CCC50D5D38C1DF7A47B6714FA306094C1C88E08A68B4E736D3B1",
+          "source": "assets/arrow-v2/sources/breaker.png",
+          "sourceSha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
           "sourceRect": {
             "left": 0,
             "top": 724,
@@ -3804,15 +3318,15 @@
           },
           "anchor": {
             "x": 0.5,
-            "y": 0.5
+            "y": 0.771924882629108
           }
         },
         {
           "index": 9,
-          "file": "assets/frames/fx-array-9.png",
-          "sha256": "65A3C28F5CEB93959E96DAF1DFC45C1E0840A44DFE30805129A55255AD0B49E4",
-          "source": "assets/sources/fx-array.png",
-          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "file": "assets/arrow-v2/frames/breaker-9.png",
+          "sha256": "BF26136C8CF7B13A48945181C866A160D9BEC4EAD23B5E408F57F83451770B69",
+          "source": "assets/arrow-v2/sources/breaker.png",
+          "sourceSha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
           "sourceRect": {
             "left": 362,
             "top": 724,
@@ -3821,15 +3335,15 @@
           },
           "anchor": {
             "x": 0.5,
-            "y": 0.5
+            "y": 0.771924882629108
           }
         },
         {
           "index": 10,
-          "file": "assets/frames/fx-array-10.png",
-          "sha256": "FD0C29ABF96ACDD65E886FAFD3F38084A412B923974785BD96F2C2492D4DEDE4",
-          "source": "assets/sources/fx-array.png",
-          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "file": "assets/arrow-v2/frames/breaker-10.png",
+          "sha256": "50979BEE6D14D026407AC42846309C5054BD8E7B09B6A5F58B0690DEDC3D3F87",
+          "source": "assets/arrow-v2/sources/breaker.png",
+          "sourceSha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
           "sourceRect": {
             "left": 724,
             "top": 724,
@@ -3838,15 +3352,15 @@
           },
           "anchor": {
             "x": 0.5,
-            "y": 0.5
+            "y": 0.771924882629108
           }
         },
         {
           "index": 11,
-          "file": "assets/frames/fx-array-11.png",
-          "sha256": "B44DB9BD4A103EC18F3DE26149F573981B5F3D742BC2368FA64FD556896696B2",
-          "source": "assets/sources/fx-array.png",
-          "sourceSha256": "D8FE0C8E3844B1546C42FF1D6D80F73F4CA97D9696815E136CA5946359E6C26C",
+          "file": "assets/arrow-v2/frames/breaker-11.png",
+          "sha256": "629DA555A4B55B790BB06208A7718876D6937C9951DBFA795C041FD0E11B0F1C",
+          "source": "assets/arrow-v2/sources/breaker.png",
+          "sourceSha256": "7B21BF6E15A1F3782E6F06E9096EE708F65948A30198F6256F2BE6382E5D5966",
           "sourceRect": {
             "left": 1086,
             "top": 724,
@@ -3855,7 +3369,7 @@
           },
           "anchor": {
             "x": 0.5,
-            "y": 0.5
+            "y": 0.771924882629108
           }
         }
       ]
@@ -3875,25 +3389,6 @@
     "enabled": false,
     "reason": "Silent visual review; no synthetic audio"
   },
-  "auraConcept": "User correction: deeply saturated emissive red Vermilion Bird wings and long tails wrap the character; alpha 1 rear/front layers, gold limited to tiny accents",
-  "exclusions": [
-    {
-      "source": "assets/sources/fx-aura.png",
-      "reason": "Weak transparent orange bird-ring rejected"
-    },
-    {
-      "source": "assets/sources/fx-aura-v2.png",
-      "reason": "Weak color and presence rejected"
-    },
-    {
-      "source": "assets/sources/fx-aura-v3.png",
-      "reason": "Superseded by user requirement for deeply glowing red"
-    },
-    {
-      "source": "assets/sources/fx-aura-v4.png",
-      "reason": "Strong red color direction retained; atlas re-authored in 2x2 sheets for wider alpha margins"
-    }
-  ],
   "battleSprite": "preview/mercenary-imperial-archer-sss-v1/assets/battle-sprite.png",
   "battleSpriteSha256": "A29250EFE5CA79E057C7E5C9724D9ADE8F2446416586F495EADD09C8C660CFD8",
   "battleSpriteFootAnchor": {
@@ -3903,94 +3398,22 @@
   "battleSpriteStatus": "PREVIEW_PREPARED_AWAITING_APPROVAL",
   "counts": {
     "motion": 24,
-    "effects": 72,
-    "derivedAuraLayers": 2
+    "effects": 72
   },
-  "auraPlayback": {
-    "version": 2,
-    "periodSeconds": 8,
-    "order": [
-      0,
-      1,
-      2,
-      3,
-      2,
-      1
-    ],
-    "sizeInBodyHeights": 2.6,
-    "verticalRatio": 0.78,
-    "beakOffset": {
-      "x": 0.1,
-      "y": -0.83
-    },
-    "frontTailOffsetPixels": 275,
-    "depthFeatherPixels": 36,
-    "depthCurvePixels": 24,
-    "landmark": "VISIBLE_BEAK_TIP",
-    "sourceFrames": [
-      {
-        "index": 0,
-        "beak": {
-          "x": 396,
-          "y": 269
-        },
-        "alphaBounds": {
-          "left": 24,
-          "top": 41,
-          "right": 651,
-          "bottom": 651
-        }
-      },
-      {
-        "index": 1,
-        "beak": {
-          "x": 331,
-          "y": 281
-        },
-        "alphaBounds": {
-          "left": 24,
-          "top": 33,
-          "right": 650,
-          "bottom": 651
-        }
-      },
-      {
-        "index": 2,
-        "beak": {
-          "x": 402,
-          "y": 222
-        },
-        "alphaBounds": {
-          "left": 24,
-          "top": 24,
-          "right": 651,
-          "bottom": 651
-        }
-      },
-      {
-        "index": 3,
-        "beak": {
-          "x": 337,
-          "y": 222
-        },
-        "alphaBounds": {
-          "left": 24,
-          "top": 24,
-          "right": 651,
-          "bottom": 651
-        }
-      }
-    ],
-    "reason": "Align the same anatomical landmark before blending, use only a contiguous authored wing beat and retrace it without a reset jump; source RGB/alpha and scale are preserved.",
-    "envelope": {
-      "left": -0.56,
-      "right": 0.4725925925925926,
-      "top": -0.28657777777777776,
-      "bottom": 0.49573333333333336
-    },
-    "cellSize": 675,
-    "interpolation": "PREMULTIPLIED_LINEAR_IN_ISOLATED_LAYERS",
-    "bodyIdleFrame": 0
+  "revision": "arrow-v2",
+  "concept": "HEAVY_ARROW_PIERCING_VOLLEY_RAIN",
+  "retirement": {
+    "date": "2026-10-18",
+    "instruction": "주작 관련 리소스 다 폐기하고 화살 위주의 강력한 캐릭터로 다시 만들어",
+    "scope": "Previous bird aura and every previous VFX source/atlas/frame removed; approved art, rigid bow and body motions retained",
+    "record": "retired-phoenix-20261018.json"
   },
-  "revision": "idle-stability-v2"
+  "authoring": {
+    "tool": "built-in image_gen",
+    "prompts": [
+      "prompts-arrow-v2.json",
+      "prompts-arrow-v2-extra.json"
+    ],
+    "generation": "generation-arrow-v2.json"
+  }
 }

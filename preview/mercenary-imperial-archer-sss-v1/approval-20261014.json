@@ -11,15 +11,11 @@
   "battleResourceStatus": "BATTLE_VISUAL_REVIEW_PENDING",
   "runtimeEnabled": false,
   "scope": "첨부 원화와 SSS 등급 확정, V3 전투 리소스 제작. 이름·리미티드 여부·성능·획득·운영 연결은 미정.",
-  "latestAuraInstruction": "진한 발광하는 빨강색으로 해야함",
-  "currentAuraSources": [
-    "assets/sources/aura-red-1.png",
-    "assets/sources/aura-red-2.png",
-    "assets/sources/aura-red-3.png"
-  ],
   "reviewManifest": "manifest.json",
-  "technicalReview": "qa/idle-v2/report.json",
-  "currentRevision": "idle-stability-v2",
-  "latestMotionInstruction": "왜 캐릭터 대기상태에 주작 이팩트가 촐싹거리면서 위치도 안맞고 흔들려",
-  "previousTechnicalReview": "qa/runtime-report.json"
+  "currentRevision": "arrow-v2",
+  "supersededBattleConcept": {
+    "date": "2026-10-18",
+    "status": "DISCARDED_BY_USER",
+    "record": "retired-phoenix-20261018.json"
+  }
 }

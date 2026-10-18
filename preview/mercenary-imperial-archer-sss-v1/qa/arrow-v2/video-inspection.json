@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-18T02:19:58.214Z",
+  "source": "REALTIME_CANVAS_RECORDINGS",
+  "screens": [
+    {
+      "name": "desktop",
+      "width": 1362,
+      "height": 508,
+      "duration": 24.500914,
+      "inspectedTimes": [
+        7.85,
+        11.96,
+        16.4,
+        17.75
+      ],
+      "sha256": "d3f07c28c2d6b28dd4f145e6008bf2ece0f47171ba4fb351f11aebe29d8b1334"
+    },
+    {
+      "name": "mobile",
+      "width": 368,
+      "height": 630,
+      "duration": 24.504787,
+      "inspectedTimes": [
+        7.85,
+        11.96,
+        16.4,
+        17.75
+      ],
+      "sha256": "3c762d8e8c701154f9d2cadf9548c6e5edfff4c63627ba2bc1ac517ba4920ca3"
+    }
+  ],
+  "status": "TECHNICAL_VISUAL_REVIEW_COMPLETE_USER_REVIEW_PENDING",
+  "observations": [
+    "Real-time recordings show distinct piercing, seven-arrow volley, rain and heavy-arrow contact frames",
+    "No phoenix/bird effect remains",
+    "Normal V3 zoom retained",
+    "Heavy finisher uses central front target so mobile effect remains legible",
+    "Existing preview UI retained; generated UI assets excluded"
+  ]
+}
