@@ -1,0 +1,17 @@
+{
+  "version": "LEONEL_AMBIENT_GROUND_APPROVAL_20261018",
+  "status": "USER_APPROVED",
+  "recordedAt": "2026-10-18T22:47:08.8436714+09:00",
+  "userStatement": "됐네 이제야",
+  "scope": "AMBIENT_PER_FRAME_GROUND_ALIGNMENT",
+  "reviewedCommit": "c84a24137",
+  "groundReference": "ACTOR_GROUND_PLANE",
+  "registeredFrames": 24,
+  "auraAlpha": 0.78,
+  "pressureAlpha": 0.4,
+  "runtimeBundleSha256": "33839b3d7c7b6b583943761c6324bedccbe6bd85e6f942e66903b19deef78e5e",
+  "assetRegistrationSha256": "3780bc93d41081a32397539d2c713915c16c18302efc26b4c85bd3b5d45d9bd8",
+  "manifestSha256": "1d0cabcfbc13e1ca50ae2ce92c812b6344971ed0549934a13e01145be7317093",
+  "evidence": "qa/ambient-ground-lock-runtime.json",
+  "liveEnabled": false
+}

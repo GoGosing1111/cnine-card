@@ -42,5 +42,6 @@
     "timingsUnchanged": true,
     "qa": "qa/ambient-ground-lock-runtime.json",
     "video": "review-ambient-ground-lock.webm"
-  }
+  },
+  "ambientGroundApproval": "ambient-ground-approval-20261018.json"
 }
