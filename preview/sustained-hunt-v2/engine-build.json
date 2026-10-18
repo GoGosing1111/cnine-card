@@ -1,13 +1,13 @@
 {
   "date": "2026-09-26",
   "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
-  "sourceRevision": "7b23e6fadf687d393afd897ae4b846e83041937d",
+  "sourceRevision": "ec07eae8d5cad2ebdccd31af4bf5d5bcec8cfb88",
   "pixi": "8.20.0",
   "gsap": "3.13.0",
-  "serverHash": "090b392db7b7705c57ee0e49a2b72f14a235a5b8a61142f49578ffaab22f284b",
+  "serverHash": "843527766fd6922a790c4b4cec98c8bf31eddecd75e7267a1ad87dc1a1de02f6",
   "engineHash": "02310bd5e0b13d0f342b44e8f5c476fca1063703b069b68179924020214661ba",
   "playbackHash": "37a65149a34a4361d7a774a1249839b11e1bc6592e141a56819d3691241e0615",
-  "bundleHash": "07b1d1d19424e06ff8db3e86e24a31ea56308ef2c810ae859f7e546568d47003",
+  "bundleHash": "d57706eace3a7de2ffbebb611251d0f284612bd0b8d9b7ad4cdffce90a5b6001",
   "commonInputs": [
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",

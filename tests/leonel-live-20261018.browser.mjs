@@ -22,7 +22,10 @@ const catalog=['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manif
 const deck=ids.map((id,i)=>{const c=catalog.find(c=>c.cardId===id);return {...c,id,cardId:id,name:c.member,title:c.title,image:'/'+c.sourceArt,sourceArt:'/'+c.sourceArt,originalCardArt:'/'+c.sourceArt,power:2e7,power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],hp:100,maxHp:100};});
 const mercenary={...limitedDeploymentSnapshot('V-978'),combat:fixture.combat};
 const hunt=createHuntSession({snapshot:{cards:deck,mercenary,accountNickname:'레오넬'},seed:7919,limitMs:15000});
-const areaEvent=hunt.payload.battleV2.result.timeline.find(e=>e.type==='MERCENARY_LEONEL_AREA'&&e.hits.length===12);assert(areaEvent);
+const areaEvent=structuredClone(hunt.payload.battleV2.result.timeline.find(e=>e.type==='MERCENARY_LEONEL_AREA'&&e.hits.length===12));assert(areaEvent);
+// Give the isolated visual targets enough HP to survive two casts. The copied
+// server damage remains unchanged; no production enemy or reward is changed.
+for(const hit of areaEvent.hits){hit.targetMaxHp=1e15;hit.targetHpAfter=1e15-(hit.damage||0);}
 const areaPayload=structuredClone(hunt.payload);areaPayload.battleV2.result.timeline=[];
 const merc={...mercenary,id:'A:MERCENARY:V-978',cardId:'V-978',hp:100,maxHp:100,shield:0,maxShield:0};
 const pvpPayload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{mode:'PVP',teams:{A:{cards:deck,mercenaries:[merc]},B:{cards:deck}},result:{timeline:[]}}};
@@ -62,7 +65,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mut
 try{
  for(const [label,viewport]of [['desktop',{width:1440,height:1000}],['mobile',{width:390,height:844}]]){
   for(const mode of (process.argv.includes('--codex-only')?[]:['basic','skill','enemy','area'])){
-   const p=await browser.newPage({viewport,serviceWorkers:'block'});p.on('pageerror',e=>errors.push(label+' '+mode+': '+e.message));
+   const p=await browser.newPage({viewport,serviceWorkers:'block'});p.setDefaultTimeout(20000);p.on('pageerror',e=>errors.push(label+' '+mode+': '+e.message));p.on('console',e=>{if(e.type()==='error')errors.push(label+' '+mode+': '+e.text().slice(0,500));});
    await p.goto(base+'/qa/battle?mode='+mode);await p.waitForFunction(()=>window.LeonelQA?.ready||window.qaError,null,{timeout:60000});assert.equal(await p.evaluate(()=>window.qaError),undefined);
    const baseline=await p.evaluate(()=>{
     const q=window.LeonelQA,e=q.engine,a=e.mercenaries[0],s=e.leonelStates.get(a);q.actor=a;q.hpCalls=[];q.damageCalls=[];
@@ -71,10 +74,11 @@ try{
     for(let i=0;i<12;i++){
      const t=(i+.25)/3,ground={x:a.root.x,groundY:a.root.y};s.fx.updateAmbient(t,ground);
      const foot=a.root.parent.toGlobal({x:ground.x,y:ground.groundY});
-     for(const [key,sprite]of [['aura',s.fx.aura],['pressure',s.fx.backgroundAura]]){
+     for(const [key,sprite]of (s.fx.whiteRig?[]:[['aura',s.fx.aura],['pressure',s.fx.backgroundAura]])){
       const f=s.fx.manifest.effects[key].frames[i],pt=sprite.toGlobal({x:f.groundAnchor.x-sprite.anchor.x*sprite.texture.width,y:f.groundAnchor.y-sprite.anchor.y*sprite.texture.height});
       maxError=Math.max(maxError,Math.hypot(pt.x-foot.x,pt.y-foot.y));
      }
+     if(s.fx.whiteRig){const pt=s.fx.aura.toGlobal({x:0,y:0});maxError=Math.max(maxError,Math.hypot(pt.x-foot.x,pt.y-foot.y));}
     }
     s.fx.updateAmbient(0,{x:a.root.x,groundY:a.root.y});s.ambient?.instance.resume();
     const sync=e.syncTargetHp.bind(e);e.syncTargetHp=(t,h)=>{q.hpCalls.push({id:t.id,hp:h});return sync(t,h);};
@@ -96,10 +100,15 @@ try{
    assert.equal(result.error,undefined);assert.equal(result.overflow,false);assert.equal(result.fx.auraVisible,true);assert.equal(result.fx.motionRate,2);assert.equal(result.fx.effectRate,1);assert.equal(result.fx.liveEnabled,true);
    assert.equal(result.hpCalls.length,mode==='area'?12:1);assert.equal(new Set(result.hpCalls.map(r=>r.id)).size,result.hpCalls.length);assert.equal(result.damageCalls.length,mode==='area'?12:1);
    assert.equal(Math.sign(result.direction),mode==='enemy'?-1:1);assert.equal(result.fx.damageAuthority,'SERVER_ONLY');
+   assert.equal(result.fx.continuousWhiteFX,true);assert.equal(result.fx.neonEnabled,true);assert.equal(result.fx.swordAuraVisible,true);
    await p.screenshot({path:path.join(out,label+'-'+mode+'.png'),fullPage:true});
    if(mode==='area'){
     assert.equal(result.fx.dialogue.visible,true);assert(result.fx.activeFrames.some(f=>f.key==='ultimate'));
     await p.evaluate(()=>{window.LeonelQA.timeline.resume();});await p.waitForFunction(()=>window.LeonelQA.engine.lastMercenaryPlayback?.mode==='ultimate');
+    assert.equal(await p.evaluate(()=>window.LeonelQA.hpCalls.length),12);
+    await p.evaluate(()=>{const q=window.LeonelQA;q.hpCalls=[];q.damageCalls=[];q.cinematic=false;q.contact=false;q.engine.lastMercenaryPlayback=null;q.promise=q.engine.playMercenaryEvent(q.event);});
+    await p.waitForFunction(()=>window.LeonelQA.cinematic);assert.equal(await p.evaluate(()=>window.LeonelQA.engine.leonelStates.get(window.LeonelQA.actor).fx.screenLayer.visible),false);
+    await p.evaluate(()=>{window.LeonelQA.timeline.resume();});await p.waitForFunction(()=>window.LeonelQA.contact);
     assert.equal(await p.evaluate(()=>window.LeonelQA.hpCalls.length),12);
    }
    const cancelled=await p.evaluate(()=>{const q=window.LeonelQA;q.engine.cancelTimelines();const s=q.engine.leonelStates.get(q.actor);return {stopped:s.stopped,ambient:!!s.ambient,pool:s.fx.pool.some(p=>p.visible),cinematic:s.fx.screenLayer.visible,hpCalls:q.hpCalls.length};});

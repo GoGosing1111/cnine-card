@@ -1,0 +1,299 @@
+{
+  "userApproval": "좋다 그대로 대기자세랑 스킬,공격 모션까지 안끊기게 만들어",
+  "scope": "V3 concept selected for existing Leonel combat motion; continuous white FX and first-ultimate cut-in policy",
+  "originals": {
+    "sourceArt": "43d4c211ff58bff672e8614aa50fcd8f6c5099c667dd2f4c42c44bde75ab2e00",
+    "weapon": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+    "battleSprite": "ab6d401c93ccbece50912cdaddcfc6f0d099bd720a6149729af275f28ca53683"
+  },
+  "concept": {
+    "file": "approved-20261019/concept-v3.png",
+    "sha256": "4d29a0b4a6cca439e49eacfd8affd1aaabf6c7c733051f12df693724416da912"
+  },
+  "motion": "Original 40 ImageGen body drawings repacked; original weapon raster separately registered; original composed frames preserved",
+  "newAssets": {
+    "crest": {
+      "url": "assets/white-crest-20261019/crest.webp",
+      "source": "assets/white-crest-20261019/crest-source.png",
+      "sourceSha256": "60334062e083612f7c2c6b862311166e89f15803a094f040022095a0fe1e7807",
+      "sha256": "a07a3ced9693704bc337eb131deeaf8f8eb290575b6e15308a912195aeb15e2e",
+      "width": 1086,
+      "height": 1448,
+      "columns": 1,
+      "rows": 1,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1086,
+            "height": 1448
+          }
+        }
+      ]
+    },
+    "ground": {
+      "url": "assets/white-crest-20261019/ground.webp",
+      "source": "assets/white-crest-20261019/ground-source.png",
+      "sourceSha256": "5d7be6913f6d2299d7a6dd1d27ab9c1106173ba7c1189f03dcceabd852ee36b0",
+      "sha256": "b67b66b687e67ff468391485578075e30e58543ab5861fc554fd727c6b4136f3",
+      "width": 2172,
+      "height": 724,
+      "columns": 1,
+      "rows": 1,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 2172,
+            "height": 724
+          }
+        }
+      ]
+    },
+    "sword": {
+      "url": "assets/white-crest-20261019/sword.webp",
+      "source": "assets/white-crest-20261019/sword-source.png",
+      "sourceSha256": "a4d67889a7fca064db89560e1584e21925b35bc955901d6d53ab66fbf2fd60d8",
+      "sha256": "44ee0f1888f07627bad02f8dfdcdcf8bc305deabf25a7ad314e40c29e7971bfe",
+      "width": 1448,
+      "height": 1086,
+      "columns": 4,
+      "rows": 3,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "axis": {
+            "start": {
+              "x": 50.68000000000001,
+              "y": 204.98666666666668
+            },
+            "end": {
+              "x": 318.56,
+              "y": 204.98666666666668
+            }
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "axis": {
+            "start": {
+              "x": 50.68000000000001,
+              "y": 203.52542372881356
+            },
+            "end": {
+              "x": 318.56,
+              "y": 203.52542372881356
+            }
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "axis": {
+            "start": {
+              "x": 50.68000000000001,
+              "y": 203.5
+            },
+            "end": {
+              "x": 318.56,
+              "y": 203.5
+            }
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "axis": {
+            "start": {
+              "x": 50.68000000000001,
+              "y": 205.4863387978142
+            },
+            "end": {
+              "x": 318.56,
+              "y": 205.4863387978142
+            }
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "axis": {
+            "start": {
+              "x": 50.68000000000001,
+              "y": 174
+            },
+            "end": {
+              "x": 318.56,
+              "y": 174
+            }
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "axis": {
+            "start": {
+              "x": 50.68000000000001,
+              "y": 175
+            },
+            "end": {
+              "x": 318.56,
+              "y": 175
+            }
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "axis": {
+            "start": {
+              "x": 50.68000000000001,
+              "y": 173.48039215686273
+            },
+            "end": {
+              "x": 318.56,
+              "y": 173.48039215686273
+            }
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "axis": {
+            "start": {
+              "x": 50.68000000000001,
+              "y": 174
+            },
+            "end": {
+              "x": 318.56,
+              "y": 174
+            }
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "axis": {
+            "start": {
+              "x": 50.68000000000001,
+              "y": 144.9056603773585
+            },
+            "end": {
+              "x": 318.56,
+              "y": 144.9056603773585
+            }
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "axis": {
+            "start": {
+              "x": 50.68000000000001,
+              "y": 143
+            },
+            "end": {
+              "x": 318.56,
+              "y": 143
+            }
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "axis": {
+            "start": {
+              "x": 50.68000000000001,
+              "y": 144
+            },
+            "end": {
+              "x": 318.56,
+              "y": 144
+            }
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "axis": {
+            "start": {
+              "x": 50.68000000000001,
+              "y": 140.66551724137932
+            },
+            "end": {
+              "x": 318.56,
+              "y": 140.66551724137932
+            }
+          }
+        }
+      ]
+    }
+  },
+  "visualReview": "Runtime PC/mobile review recorded separately; not inferred from tests"
+}

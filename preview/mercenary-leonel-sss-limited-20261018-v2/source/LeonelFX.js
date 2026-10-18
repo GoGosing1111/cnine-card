@@ -1,19 +1,22 @@
 import {Assets,Container,Sprite,Texture,Rectangle,Graphics,Text} from 'pixi.js';
 import {gsap} from 'gsap';
 import {MODES,sample,bladeContact,smooth,clamp} from '../motion.mjs';
+import {LeonelWhiteRig} from './LeonelWhiteRig.js';
 const ROOT='/preview/mercenary-leonel-sss-limited-20261018-v2/',mix=(a,b,t)=>a+(b-a)*t;
 export async function loadLeonelAssets(m){
- const out={motion:{},effects:{},cinematics:{}};
- await Promise.all(['motion','effects','cinematics'].flatMap(kind=>Object.entries(m[kind]||{}).map(async([key,s])=>{
+ const out={motion:{},effects:{},cinematics:{},whiteCrest:{}};
+ await Promise.all(['motion','effects','cinematics','whiteCrest'].flatMap(kind=>Object.entries((kind==='motion'?m.motionBody||m.motion:kind==='whiteCrest'?m.whiteCrest?.sprites:m[kind])||{}).map(async([key,s])=>{
   const atlases=await Promise.all((s.pages||[{url:s.url||s.atlas}]).map(p=>Assets.load(ROOT+p.url))),w=s.frameWidth||s.cellWidth||s.cellSize,h=s.frameHeight||s.cellHeight||s.cellSize;
   out[kind][key]=s.frames.map((f,i)=>{const r=f.rect||{x:i%s.columns*w,y:Math.floor(i/s.columns)*h,width:w,height:h};return new Texture({source:atlases[f.page||0].source,frame:new Rectangle(r.x,r.y,r.width,r.height)});});
  })));
+ if(m.motionBody)out.weapon=await Assets.load(ROOT+m.weapon.url);
  return out;
 }
 export class LeonelFX{
  constructor(engine,merc,targets,assets,manifest,onUpdate=()=>{},options={}){
   Object.assign(this,{engine,merc,targets,assets,manifest,onUpdate,mode:'idle',speed:1,effectsEnabled:true,auraEnabled:true,zoom:true,disposed:false,clock:{time:0},...options});
   this.bodyHeight=manifest.displaySizing?.physicalBodyHeight||333;
+  this.phaseBase=0;this.ambientPhase=0;this.cutInEnabled=true;this.cutInState=engine.leonelCutInState||={shown:false};
   merc.animationController.kill();merc.stateHalo.visible=false;merc.hud.visible=false;
   this.back=new Container({label:'LeonelPressureBack'});this.back.eventMode='none';engine.backgroundLayer.addChild(this.back);
   this.front=new Container({label:'LeonelSwordFX'});this.front.eventMode='none';engine.effectLayer.addChild(this.front);
@@ -21,6 +24,7 @@ export class LeonelFX{
   this.aura=new Sprite();this.back.addChild(this.aura);this.backgroundAura=new Sprite();this.back.addChildAt(this.backgroundAura,0);
   this.ghosts=Array.from({length:4},()=>{const s=new Sprite();s.visible=false;this.back.addChild(s);return s;});
   this.pool=Array.from({length:16},()=>{const s=new Sprite();s.visible=false;this.front.addChild(s);return s;});
+  if(manifest.motionBody&&manifest.whiteCrest)this.whiteRig=new LeonelWhiteRig(this);
   this.screenLayer=new Container({label:'LeonelAwakeningCutIn'});this.screenLayer.eventMode='none';engine.app.stage.addChild(this.screenLayer);
   this.cinemaShade=new Graphics();this.cinemaPressure=new Sprite();this.cinemaPortrait=new Sprite();this.screenLayer.addChild(this.cinemaShade,this.cinemaPressure,this.cinemaPortrait);this.cinemaMask=new Graphics();this.cinemaPortrait.mask=this.cinemaMask;this.screenLayer.addChild(this.cinemaMask);this.cinemaTitle=new Text({text:'검극',style:{fontFamily:'Malgun Gothic',fontSize:70,fontWeight:'bold',fill:0xfff3d1,letterSpacing:6}});this.cinemaSubtitle=new Text({text:'전선 단절',style:{fontFamily:'Malgun Gothic',fontSize:26,fontWeight:'bold',fill:0xc9c6ef,letterSpacing:5}});this.screenLayer.addChild(this.cinemaTitle,this.cinemaSubtitle);this.screenLayer.visible=false;
   this.captureFormation();this.makeTimeline();this.render(0);
@@ -39,7 +43,7 @@ export class LeonelFX{
  play(){if(this.disposed)return;if(!this.timeline)this.makeTimeline();if(this.time>=MODES[this.mode].duration)this.seek(0);this.engine.simpleTimelines.add(this.registration);this.timeline.play();this.onUpdate(this);}
  pause(){this.timeline?.pause();this.onUpdate(this);}
  seek(time){if(this.disposed)return;if(!this.timeline)this.makeTimeline();const t=clamp(time,0,MODES[this.mode].duration);this.timeline.pause().time(t,true);this.clock.time=t;this.render(t);}
- setMode(mode){if(!MODES[mode])return;this.cancel();this.mode=mode;this.clock.time=0;this.makeTimeline();this.render(0);}
+ setMode(mode){if(!MODES[mode])return;this.whiteRig?.captureEntry();const entry=this.whiteRig?.entry;this.cancel();this.mode=mode;this.phaseBase=this.ambientPhase;if(this.whiteRig)this.whiteRig.entry=entry;this.cutInEnabled=mode!=='ultimate'||!this.cutInState.shown;this.clock.time=0;this.makeTimeline();this.render(0);}
  setSpeed(n){this.speed=clamp(Number(n)||1,.25,2);this.timeline?.timeScale(this.speed);this.onUpdate(this);}
  setEffects(enabled){this.effectsEnabled=enabled;this.back.visible=this.front.visible=enabled;this.render(this.time);}
  setAura(enabled){this.auraEnabled=enabled;this.render(this.time);}
@@ -56,10 +60,11 @@ export class LeonelFX{
   return{x:mix(a.x,b.x,q),y:groundY-state.lift*this.bodyHeight*this.merc.root.scale.y,groundY};
  }
  applyPose(p){
+  if(this.whiteRig){this.whiteRig.apply(p.bank,0,this.ambientPhase);return;}
   const f=this.pose(p),s=this.merc.fullBodySprite,t=this.assets.motion[p.bank][f.index];s.texture=t;s.anchor.set(f.pivot.x/t.width,f.pivot.y/t.height);s.scale.set(this.scaleFor(f));s.position.set(0,0);this.merc.view.scale.set(p.facing*this.direction,1);this.merc.view.position.set(0,0);
  }
  point(p,layer=this.front){return layer.toLocal(this.merc.root.parent.toGlobal(p));}
-  bladePoints(state,r){const f=this.pose(state.pose),s=this.scaleFor(f)*this.merc.root.scale.x,dir=state.pose.facing*this.direction;const point=p=>({x:r.x+(p.x-f.pivot.x)*s*dir,y:r.y+(p.y-f.pivot.y)*s});return{grip:point(f.grip),start:point(f.bladeStart||f.grip),tip:point(f.tip)};}
+  bladePoints(state,r){if(this.whiteRig){const b=this.whiteRig.blade(),point=p=>({x:r.x+p.x*this.merc.root.scale.x*this.direction,y:r.y+p.y*this.merc.root.scale.y});return{grip:point(b.grip),start:point(b.start),tip:point(b.tip)};}const f=this.pose(state.pose),s=this.scaleFor(f)*this.merc.root.scale.x,dir=state.pose.facing*this.direction;const point=p=>({x:r.x+(p.x-f.pivot.x)*s*dir,y:r.y+(p.y-f.pivot.y)*s});return{grip:point(f.grip),start:point(f.bladeStart||f.grip),tip:point(f.tip)};}
  effectFrameIndex(key,progress){const a=this.assets.effects[key];return Math.min(a.length-1,Math.floor(clamp(progress)*a.length));}
  textureFrame(key,progress){return this.assets.effects[key]?.[this.effectFrameIndex(key,progress)];}
  drawAmbient(sprite,key,progress,p,width,alpha){
@@ -73,24 +78,38 @@ export class LeonelFX{
   sprite.texture=texture;sprite.visible=alpha>0;sprite.position.set(p.x,p.y);sprite.anchor.set(anchorX,anchorY);sprite.scale.set(width/texture.width*facing,width/texture.width);sprite.alpha=alpha;sprite.rotation=angle;sprite.tint=0xffffff;sprite.blendMode=blend;
  }
  updateAmbient(t,r){
+  this.ambientPhase=((t%4)+4)%4;
   const auraOn=this.effectsEnabled&&this.auraEnabled;this.aura.visible=this.backgroundAura.visible=auraOn;
   if(auraOn){
    const phase=(t%4)/4,size=this.bodyHeight*this.merc.root.scale.x,at=this.point({x:r.x,y:r.groundY},this.back);
+   if(this.assets.whiteCrest?.crest){
+    const pulse=Math.sin(t*Math.PI/2),living=this.merc.hp>0&&this.merc.root.visible;
+    this.draw(this.aura,this.assets.whiteCrest.ground[0],at,size*1.12,{alpha:living?.79+.04*pulse:0,anchorY:.49,blend:'add'});
+    this.draw(this.backgroundAura,this.assets.whiteCrest.crest[0],{x:at.x,y:at.y-size*.73},size*.86,{alpha:living?.82+.035*pulse:0,blend:'add'});
+    this.whiteRig?.updateAura(t);return;
+   }
    // Approved per-frame painted bases, independent of animation/body bounds.
    this.drawAmbient(this.aura,'aura',phase,at,size*1.75,.78);
    this.drawAmbient(this.backgroundAura,'pressure',phase,at,size*3.1,.4);
   }
  }
+ updateIdle(t){
+  const phase=this.phaseBase+t;this.mode='idle';this.state=sample('idle',t%4);
+  this.whiteRig?.apply('idle',t%4,phase);this.whiteRig?.setVisible(this.merc.hp>0&&this.merc.root.visible);
+  this.updateAmbient(phase,{x:this.merc.root.x,groundY:this.merc.root.y});
+ }
  render(t){
   if(this.disposed)return;const e=this.engine,m=this.merc,state=this.state=sample(this.mode,t),size=this.bodyHeight*m.root.scale.x;
   this.pool.forEach(s=>s.visible=false);this.ghosts.forEach(s=>s.visible=false);this.shade.clear();
-  const resting=state.done&&this.mode!=='idle',p=resting?{bank:'idle',index:0,facing:1}:state.pose;this.applyPose(p);
+  const resting=state.done&&this.mode!=='idle',p=resting?{bank:'idle',index:0,facing:1}:state.pose,phaseTime=this.phaseBase+t;
+  if(this.whiteRig)this.whiteRig.apply(this.mode,t,phaseTime);else this.applyPose(p);
   const r=resting?{...this.home,groundY:this.home.y}:this.rootFor(state);m.root.position.set(r.x,r.y);m.root.depthSortY=r.groundY;e.sortCombatDepth();
   const torso=this.targetPoint(),feet=this.targetPoint(this.target,0),target=this.point(torso),ground=this.point(feet),own=this.point(r),center=this.targets.reduce((v,a)=>{const p=this.point(this.targetPoint(a));return{x:v.x+p.x/this.targets.length,y:v.y+p.y/this.targets.length};},{x:0,y:0});
-  this.updateAmbient(t,r);
-  if(state.ghosts&&!resting){[.035,.075,.12,.18].forEach((ago,i)=>{if(t<ago)return;const old=sample(this.mode,t-ago),r0=this.rootFor(old),f=this.pose(old.pose),s=this.ghosts[i],texture=this.assets.motion[old.pose.bank][f.index];s.texture=texture;s.anchor.set(f.pivot.x/texture.width,f.pivot.y/texture.height);s.scale.set(this.scaleFor(f)*m.root.scale.x*old.pose.facing*this.direction,this.scaleFor(f)*m.root.scale.y);s.position.copyFrom(this.point(r0,this.back));s.alpha=[.23,.16,.10,.05][i];s.tint=0xc7d9e5;s.blendMode='add';s.visible=true;});}
+  this.updateAmbient(phaseTime,r);
+  if(state.ghosts&&!resting){[.035,.075,.12,.18].forEach((ago,i)=>{if(t<ago)return;const old=sample(this.mode,t-ago),r0=this.rootFor(old),f=this.pose(old.pose),s=this.ghosts[i],texture=this.assets.motion[old.pose.bank][f.index],rigged=!!this.whiteRig;s.texture=texture;s.anchor.set(rigged?.5:f.pivot.x/texture.width,rigged?540/640:f.pivot.y/texture.height);const scale=rigged?this.bodyHeight/305:this.scaleFor(f);s.scale.set(scale*m.root.scale.x*old.pose.facing*this.direction,scale*m.root.scale.y);s.position.copyFrom(this.point(r0,this.back));s.alpha=[.16,.10,.06,.03][i];s.tint=0xe8f5ff;s.blendMode='add';s.visible=true;});}
   this.activeFrames=[];
   state.effects.forEach((fx,i)=>{
+   if(this.whiteRig&&fx.key==='pressure'&&fx.anchor==='actor')return;
    const layer=['ultimate','pressure'].includes(fx.key)?this.back:this.front;if(this.pool[i].parent!==layer)layer.addChild(this.pool[i]);
    let pt=target,width=size*fx.width,anchorY=.5;
    if(fx.anchor==='wake')pt={x:own.x-size*.25*this.direction,y:own.y-size*.45};
@@ -101,8 +120,9 @@ export class LeonelFX{
    const tex=this.textureFrame(fx.key,fx.progress);this.draw(this.pool[i],tex,pt,width,{alpha:fx.alpha,angle:fx.angle*this.direction,facing:this.direction,anchorY,blend:fx.anchor==='wake'?'add':'normal',key:fx.key});this.activeFrames.push({key:fx.key,progress:fx.progress,position:pt,width});
   });
   if(this.mode==='ultimate'&&t>.1&&t<4)this.shade.rect(-2000,-2000,6000,6000).fill({color:0x08071b,alpha:Math.min(.42,smooth((t-.1)/.25)*.42,smooth((4-t)/.4)*.42)});
-  this.screenLayer.visible=Boolean(state.cinematic&&this.effectsEnabled);
+  this.screenLayer.visible=Boolean(state.cinematic&&this.effectsEnabled&&this.cutInEnabled);
   if(this.screenLayer.visible){
+   this.cutInState.shown=true;
    const c=state.cinematic,w=e.app.screen.width,h=e.app.screen.height,a=this.assets.cinematics.awakening,tex=a[Math.min(a.length-1,Math.floor(c.progress*a.length))];
    this.cinemaShade.clear().rect(0,0,w,h).fill({color:0x050713,alpha:.74*c.alpha});
    this.draw(this.cinemaPressure,this.textureFrame('pressure',c.progress),{x:w*.47,y:h*.53},w*1.2,{alpha:.72*c.alpha,key:'pressure'});
@@ -120,12 +140,12 @@ export class LeonelFX{
   for(const a of this.targets){a.view.x=state.impact*Math.sin(t*103)*(this.mode==='ultimate'?6:3);a.view.y=-state.impact*1.8;}
   if(this.zoom&&this.mode==='idle'){
    // Review-only camera close-up: retain native registered sprite/formation scale.
-   const z=Math.min(3.6,e.scene.height*.90/(size*1.18),e.scene.width*.80/(size*2.1));
-   e.camera.focusAt({x:r.x-size*.14,y:r.y-size*.53},z);e.stage.position.set(e.camera.base.x,e.camera.base.y);
+   const z=Math.min(3.6,e.scene.height*.90/(size*1.55),e.scene.width*.80/(size*2.1));
+   e.camera.focusAt({x:r.x-size*.14,y:r.y-size*.63},z);e.stage.position.set(e.camera.base.x,e.camera.base.y);
   }else if(this.zoom){
    const whole=this.mode==='ultimate'?smooth((t-1.75)/.45)*(1-smooth((t-3.65)/.4)):0;
    const group=this.targets.map(a=>this.targetPoint(a,1));
-   const top=mix(Math.min(r.y-size,feet.y-height),Math.min(r.y-size,...group.map(p=>p.y)),whole),bottom=Math.max(r.y,feet.y),spanY=bottom-top+size*.18,spanX=Math.abs(r.x-torso.x)+size*2.1;
+   const top=mix(Math.min(r.y-size*1.3,feet.y-height),Math.min(r.y-size*1.3,...group.map(p=>p.y)),whole),bottom=Math.max(r.y+size*.13,feet.y),spanY=bottom-top+size*.18,spanX=Math.abs(r.x-torso.x)+size*2.1;
    const base=Math.min(3.6,e.scene.width*.88/spanX,e.scene.height*.90/spanY);
    const z=Math.max(.55,base),focus={x:(r.x+torso.x)/2,y:(top+bottom)/2};
    e.camera.focusAt({x:focus.x,y:focus.y+e.scene.height*.04/z},z);
@@ -133,7 +153,7 @@ export class LeonelFX{
   }else e.camera.reset(true);
   this.onUpdate(this);
  }
- cancel(){this.removeTimeline();this.clock.time=0;if(!this.disposed){this.render(0);this.pool.forEach(s=>s.visible=false);this.ghosts.forEach(s=>s.visible=false);this.shade.clear();this.screenLayer.visible=false;this.cinemaShade.clear();}this.onCancel?.();}
+ cancel(){this.removeTimeline();this.phaseBase=this.ambientPhase;this.clock.time=0;if(!this.disposed){this.render(0);this.pool.forEach(s=>s.visible=false);this.ghosts.forEach(s=>s.visible=false);this.shade.clear();this.screenLayer.visible=false;this.cinemaShade.clear();}this.onCancel?.();}
   diagnostics(){return{ready:!this.disposed,mode:this.mode,time:this.time,playing:this.playing,speed:this.speed,motionPlaybackRate:this.state?.motionPlaybackRate,effectPlaybackRate:this.state?.effectPlaybackRate,referenceHeight:610,physicalBodyHeight:this.bodyHeight,cinematicVisible:this.screenLayer.visible,phase:this.state?.phase,pose:this.state?.pose,contactCount:this.state?.contactCount,bladeContact:this.collision,groundError:this.groundError,airborne:this.state?.lift>0,visibleEffects:this.front.visible?this.pool.filter(s=>s.visible).length:0,visibleGhosts:this.back.visible?this.ghosts.filter(s=>s.visible).length:0,auraVisible:this.back.visible&&this.aura.visible,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,activeFrames:this.activeFrames,weaponSha256:this.manifest.weapon?.sha256,regularAllies:this.engine.allies.length,targets:this.targets.length,clock:'V3_REGISTERED_GSAP',liveEnabled:false,actor:{x:this.merc.root.x,y:this.merc.root.y}};}
- destroy(){if(this.disposed)return;this.cancel();this.disposed=true;this.engine.camera.reset(true);for(const a of this.targets)a.view.position.set(0,0);this.front.destroy({children:true});this.back.destroy({children:true});this.screenLayer.destroy({children:true});for(const a of [...Object.values(this.assets.motion),...Object.values(this.assets.effects),...Object.values(this.assets.cinematics)])for(const t of a)t.destroy(false);}
+ destroy(){if(this.disposed)return;this.cancel();this.disposed=true;this.engine.camera.reset(true);for(const a of this.targets)a.view.position.set(0,0);this.whiteRig?.destroy();this.front.destroy({children:true});this.back.destroy({children:true});this.screenLayer.destroy({children:true});for(const a of [...Object.values(this.assets.motion),...Object.values(this.assets.effects),...Object.values(this.assets.cinematics),...Object.values(this.assets.whiteCrest||{})])for(const t of a)t.destroy(false);}
 }

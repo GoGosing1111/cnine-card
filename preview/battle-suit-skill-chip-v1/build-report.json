@@ -98,6 +98,7 @@
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
     "shared/mercenary-leonel-v1.mjs",
     "preview/mercenary-leonel-sss-limited-20261018-v2/motion.mjs",
+    "preview/mercenary-leonel-sss-limited-20261018-v2/source/LeonelWhiteRig.js",
     "preview/mercenary-leonel-sss-limited-20261018-v2/source/LeonelFX.js",
     "preview/project-v-v3/source/battle/LeonelDialogueStyle.js",
     "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
@@ -219,5 +220,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2123852
+  "outputBytes": 2131440
 }

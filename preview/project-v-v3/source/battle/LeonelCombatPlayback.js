@@ -5,7 +5,7 @@ import {MODES} from '../../../mercenary-leonel-sss-limited-20261018-v2/motion.mj
 import {JinmuDialogue} from './JinmuDialogue.js';
 import {MERCENARY_DIALOGUE_PROFILES} from './MercenaryDialogueProfiles.js';
 
-const BODY_HEIGHT=333,MANIFEST='/preview/mercenary-leonel-sss-limited-20261018-v2/manifest.json?leonel=20261018-live-v1';
+const BODY_HEIGHT=333,MANIFEST='/preview/mercenary-leonel-sss-limited-20261018-v2/manifest.json?leonel=20261019-white-crest-v1';
 let manifestPromise;
 const manifest=()=>manifestPromise||=fetch(MANIFEST).then(r=>{if(!r.ok)throw Error('LEONEL_MOTION_ASSETS');return r.json();}).catch(e=>{manifestPromise=null;throw e;});
 export function leonelBattleArt(code){
@@ -13,12 +13,14 @@ export function leonelBattleArt(code){
  return {...LEONEL_ART,spriteUrl:'/'+LEONEL_ART.battleSprite+'?v='+LEONEL_ART.battleSpriteSha256.slice(0,16),
   footAnchor:{x:751/1280,y:949/1280},fullBodyHeight:1280*BODY_HEIGHT/610,bodyHeight:BODY_HEIGHT,originalTextureHeight:1280*BODY_HEIGHT/610};
 }
-const disposeAssets=assets=>{for(const group of [assets.motion,assets.effects,assets.cinematics])for(const frames of Object.values(group))for(const t of frames)t.destroy(false);};
+const disposeAssets=assets=>{for(const group of [assets.motion,assets.effects,assets.cinematics,assets.whiteCrest||{}])for(const frames of Object.values(group))for(const t of frames)t.destroy(false);};
 
 // Live contacts and cancellation belong to V3. The preview's camera, recoil,
 // independent clock and HUD changes must not leak into a concurrent battlefield.
 class LeonelLiveFX extends LeonelFX{
  constructor(engine,actor,targets,assets,m){
+  if(engine.leonelCutInPayload!==engine.battleData){engine.leonelCutInPayload=engine.battleData;engine.leonelCutInState={shown:false};}
+  engine.leonelCutInState||={shown:false};
   const hudVisible=actor.hud.visible,visualEngine=Object.assign(Object.create(engine),{camera:{reset(){}}});
   super(visualEngine,actor,targets,assets,m,()=>{},{zoom:false});
   actor.hud.visible=hudVisible;
@@ -35,34 +37,36 @@ class LeonelLiveFX extends LeonelFX{
   for(const {a,x,y}of before)if(!a.root.destroyed)a.view.position.set(x,y);
  }
  begin(mode,targets){
+  this.whiteRig?.captureEntry();this.phaseBase=this.ambientPhase;this.cutInEnabled=mode!=='ultimate'||!this.cutInState.shown;
   this.targets=targets;this.mode=mode;this.captureFormation();this.clock.time=0;
   if(['skill','ultimate'].includes(mode))this.dialogue.begin();
   this.render(0);
  }
  cancel(){
   if(this.disposed)return;
-  this.removeTimeline();this.clock.time=0;this.mode='idle';
+  this.removeTimeline();this.phaseBase=this.ambientPhase;this.clock.time=0;this.mode='idle';
   this.pool.forEach(s=>s.visible=false);this.ghosts.forEach(s=>s.visible=false);
   this.shade.clear();this.screenLayer.visible=false;this.cinemaShade.clear();this.dialogue?.end();
   const a=this.merc;if(a.root.destroyed)return;
   a.restoreNeutralAvatarPose();this.applyPose({bank:'idle',index:0,facing:1});a.fullBodySprite.alpha=1;
   a.root.position.set(a.baseX,a.baseY);a.root.depthSortY=a.baseY;this.captureFormation();
-  this.updateAmbient(0,{x:a.baseX,groundY:a.baseY});
+  this.updateIdle(0);
   this.aura.visible=this.backgroundAura.visible=a.hp>0;
  }
- diagnostics(){return {...super.diagnostics(),liveEnabled:true,damageAuthority:'SERVER_ONLY',dialogue:this.dialogue?.diagnostics(),motionRate:LEONEL_COMBAT.motionPlaybackRate,effectRate:LEONEL_COMBAT.effectPlaybackRate};}
+ diagnostics(){return {...super.diagnostics(),liveEnabled:true,damageAuthority:'SERVER_ONLY',dialogue:this.dialogue?.diagnostics(),motionRate:LEONEL_COMBAT.motionPlaybackRate,effectRate:LEONEL_COMBAT.effectPlaybackRate,continuousWhiteFX:!!this.whiteRig,ambientPhase:this.ambientPhase,cutInShown:this.cutInState.shown,swordAuraVisible:this.whiteRig?.swordAura.some(s=>s.visible),neonEnabled:this.whiteRig?.glow.enabled};}
  destroy(){
   if(this.disposed)return;this.cancel();this.disposed=true;this.dialogue?.destroy();
-  this.front.destroy({children:true});this.back.destroy({children:true});this.screenLayer.destroy({children:true});disposeAssets(this.assets);
+  this.whiteRig?.destroy();this.front.destroy({children:true});this.back.destroy({children:true});this.screenLayer.destroy({children:true});disposeAssets(this.assets);
  }
 }
 function stopAmbient(s){if(s.ambient){const entry=s.ambient;s.ambient=null;s.engine.simpleTimelines.delete(entry);entry.instance.kill();}}
 function startAmbient(s){
  stopAmbient(s);if(s.stopped||s.fx.disposed||s.actor.root.destroyed||s.actor.hp<=0)return;
+ s.fx.phaseBase=s.fx.ambientPhase;
  const clock={time:0},instance=gsap.timeline({repeat:-1,onUpdate(){
   if(s.busy||s.stopped||s.actor.root.destroyed)return;
   // Do not reset another actor's hit recoil or the formation while idling.
-  s.fx.updateAmbient(clock.time,{x:s.actor.root.x,groundY:s.actor.root.y});
+  s.fx.updateIdle(clock.time);
   s.fx.aura.visible=s.fx.backgroundAura.visible=s.actor.hp>0&&s.actor.root.visible;
  }}).to(clock,{time:4,duration:4,ease:'none'});
  const entry={instance,settle:()=>stopAmbient(s)};s.ambient=entry;s.engine.simpleTimelines.add(entry);

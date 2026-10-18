@@ -14,7 +14,7 @@ export function attachReviewTools(review,doc){
    }
    for(const speed of [.25,.5,1,2]){fx.setMode('ultimate');fx.setSpeed(speed);fx.seek(0);fx.play();await delay(320);fx.pause();const t=fx.time;await delay(100);report.speeds.push({speed,advance:t,pausedStable:t===fx.time});if(t<=0||t!==fx.time)report.errors.push('clock '+speed);}
    fx.setEffects(true);fx.setAura(true);fx.setMode('ultimate');fx.seek(2.65);report.peak=fx.diagnostics();
-   fx.seek(.55);report.cinematic=fx.diagnostics();if(!report.cinematic.cinematicVisible)report.errors.push('awakening cut-in not visible');fx.cancel();report.stopped=fx.diagnostics();if(report.stopped.registeredTimelines||report.stopped.visibleEffects||report.stopped.visibleGhosts||report.stopped.cinematicVisible)report.errors.push('cancel cleanup');
+   fx.cutInState.shown=false;fx.setMode('ultimate');fx.seek(.55);report.cinematic=fx.diagnostics();if(!report.cinematic.cinematicVisible)report.errors.push('first awakening cut-in not visible');fx.setMode('ultimate');fx.seek(.55);report.repeatedCinematic=fx.screenLayer.visible;if(report.repeatedCinematic)report.errors.push('repeated cut-in');fx.cancel();report.stopped=fx.diagnostics();if(report.stopped.registeredTimelines||report.stopped.visibleEffects||report.stopped.visibleGhosts||report.stopped.cinematicVisible)report.errors.push('cancel cleanup');
    report.overflow=doc.documentElement.scrollWidth>doc.documentElement.clientWidth;if(report.overflow)report.errors.push('horizontal overflow');
    report.passed=!report.errors.length;fx.setSpeed(1);fx.setMode('idle');fx.seek(0);
   }catch(e){report.errors.push(e.message);report.passed=false;}
@@ -24,7 +24,7 @@ export function attachReviewTools(review,doc){
   $('record').disabled=true;review.queue.active=false;$('record-status').textContent='실제 전장 재생을 녹화하고 있습니다';
   const previousComplete=fx.onComplete;let stream,recorder;
   try{
-   fx.setEffects(true);fx.setAura(true);fx.setSpeed(1);fx.setMode('idle');fx.play();
+   fx.cutInState.shown=false;fx.setEffects(true);fx.setAura(true);fx.setSpeed(1);fx.setMode('idle');fx.play();
    stream=engine.app.canvas.captureStream(60);const chunks=[],type=MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm';
    recorder=new MediaRecorder(stream,{mimeType:type,videoBitsPerSecond:7000000});recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};const stopped=new Promise(resolve=>recorder.onstop=resolve);recorder.start();await delay(700);
    for(const mode of ['attack','dash','skill','ultimate']){fx.setMode(mode);await new Promise(resolve=>{fx.onComplete=resolve;fx.play();});await delay(180);}
