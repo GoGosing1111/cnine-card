@@ -1,9 +1,12 @@
 {
   "date": "2026-10-16",
+  "updated": "2026-10-18",
   "brand": "리버스콜",
   "land": "리버스랜드",
   "source": "User attachment codex-clipboard-066c2ee7-c814-423d-8449-4de5d9fc3374.png",
-  "processing": "Original preserved; proportional size exports only; maskable icon has safe-area padding.",
+  "processing": "Approved original preserved. Built-in ImageGen background extraction; generated alpha preserved in proportional PNG/WebP/AVIF/ICO exports. All active icons use transparent backgrounds.",
+  "prompt": "docs/qa/reverse-call-world-story-20261018/sources/transparent-prompt-20261018.json",
+  "visualApproval": "USER_REVIEW_PENDING",
   "files": [
     {
       "file": "assets/ui/brand/reverse-call-20261016/source.png",
@@ -14,90 +17,99 @@
       "originalBytesPreserved": true
     },
     {
+      "file": "docs/qa/reverse-call-world-story-20261018/sources/transparent-source-20261018.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1454189,
+      "sha256": "58ef09bdc011c534febaf66c6fa8e31bfa0f623cb8d9efc4a4b83b130c07fc9f",
+      "originalBytesPreserved": true,
+      "hasAlpha": true
+    },
+    {
       "file": "assets/ui/brand/reverse-call-20261016/icon-192.png",
       "width": 192,
       "height": 192,
-      "bytes": 81980,
-      "sha256": "7e783a38526bb46063e9f0bfa37a85babaa13ac07af0459453a709c554f36430"
+      "bytes": 47572,
+      "sha256": "a4f64d51ddce28c23a3509a7c3554a1b6351d5f64833f9c96f24794aaf44bae6"
     },
     {
       "file": "assets/ui/brand/reverse-call-20261016/icon-512.png",
       "width": 512,
       "height": 512,
-      "bytes": 549034,
-      "sha256": "0ebe379f58b694564244d35442419f7ae01c3cd367f5e88e7223ee846c8f6e70"
+      "bytes": 307285,
+      "sha256": "7d18d7ccd347a2cfb46deac38b49ceb540d69c910a4bc1837eeb70abaf1197c9"
     },
     {
       "file": "assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png",
       "width": 180,
       "height": 180,
-      "bytes": 72850,
-      "sha256": "f76dea5f5f8b5d7f998c7a67af9771afa8bb0a2021abaf1de7f0dccbc7e77c36"
+      "bytes": 42212,
+      "sha256": "baf6e67a347f62f4a21baae8b36d3ea0e6cbbdf4857ee58320419f4ae55c853c"
     },
     {
       "file": "assets/ui/brand/reverse-call-20261016/favicon-16.png",
       "width": 16,
       "height": 16,
-      "bytes": 843,
-      "sha256": "22e5f31d8d6494879e2fc84a412b699927855675ab5b10175719f8a7e0de51a4"
+      "bytes": 855,
+      "sha256": "a68233d291d1b910732c3fdce372bbd0985d272c130b0fbb79796f797468a1d9"
     },
     {
       "file": "assets/ui/brand/reverse-call-20261016/favicon-32.png",
       "width": 32,
       "height": 32,
-      "bytes": 2844,
-      "sha256": "8ce8c9c18691c5f3d213a0c1b6dce93d901748a158dbc293944b3a1881cdd6f5"
+      "bytes": 2402,
+      "sha256": "1ef867b3958cbeae7b621f23bf8e2939e119e6de4cdac0ae6f9d61c14fccb373"
     },
     {
       "file": "assets/ui/brand/reverse-call-20261016/favicon-48.png",
       "width": 48,
       "height": 48,
-      "bytes": 6073,
-      "sha256": "3036a351b5b23b562c1e740b14a8f81304b3bf52961d15986796bd4ed988ef25"
+      "bytes": 4473,
+      "sha256": "4d992968958025caf236d2b67baa94234540f4aaedbfb808e821f2004ff72605"
     },
     {
       "file": "assets/ui/brand/reverse-call-20261016/icon-128.png",
       "width": 128,
       "height": 128,
-      "bytes": 38292,
-      "sha256": "9df9d894cc46260a103ff38ed49aa74d774b42e44d9aa8710fb69a164db05a1a"
+      "bytes": 23756,
+      "sha256": "1140f62f917a0f72f16921b0c3f018f1945bc281eafab1b2dd62bc8c84a34979"
     },
     {
       "file": "assets/ui/brand/reverse-call-20261016/maskable-512.png",
       "width": 512,
       "height": 512,
-      "bytes": 260901,
-      "sha256": "44344ec1e213c88aedb197e329738098cd4f1a657851541a45440bda8578738d",
-      "purpose": "maskable",
+      "bytes": 146564,
+      "sha256": "73d4e2dffbc21b030dc464727a5e49a24e92cb434b1da54516759295d4662c05",
+      "purpose": "legacy URL only; PWA now advertises transparent any icons",
       "padding": 84
     },
     {
       "file": "assets/ui/brand/reverse-call-20261016/logo-240.webp",
       "width": 240,
       "height": 240,
-      "bytes": 17434,
-      "sha256": "7a9eb4192308578afc26392d9f3a83194367326928e03979575302636681dc8c"
+      "bytes": 36980,
+      "sha256": "58bb1f07d5675261d046c50fa542e139d66cf16656e701f530576cf37c5bd0d1"
     },
     {
       "file": "assets/ui/brand/reverse-call-20261016/logo-240.avif",
       "width": 240,
       "height": 240,
-      "bytes": 14610,
-      "sha256": "e36b0d4cd8bf0a49edce479b5568ecf1b8e485d4896a56ecfe669c5298f30e07"
+      "bytes": 32428,
+      "sha256": "24ff2b010d76101058b1233e1f93f5ee2412f864fea4304fb6804bd5c092087c"
     },
     {
       "file": "assets/ui/brand/reverse-call-20261016/logo-480.webp",
       "width": 480,
       "height": 480,
-      "bytes": 55802,
-      "sha256": "41176a06da378dc5a5ec5b3720a792999b9d0b2aa0c691964536b497fe2420d0"
+      "bytes": 102342,
+      "sha256": "6d1f68c89dce81883bfc49265986e348ad495884b34d7e01a7e275207f4cb105"
     },
     {
       "file": "assets/ui/brand/reverse-call-20261016/logo-480.avif",
       "width": 480,
       "height": 480,
-      "bytes": 42721,
-      "sha256": "e6d367d426de640092e41bee2b6b95bc05ba2f8b27e4db87599b047dc4237033"
+      "bytes": 79187,
+      "sha256": "6819da7184b04cb6900528ba0db813bd2d3762de81f6c736cf8b1d8289bc634b"
     },
     {
       "file": "assets/ui/brand/reverse-call-20261016/favicon.ico",
@@ -110,8 +122,8 @@
         128,
         256
       ],
-      "bytes": 203156,
-      "sha256": "57d9f9b137d85be915891c40d6788bef283017fa6cfee7278f2250de39856781"
+      "bytes": 123859,
+      "sha256": "8bb1bc2ddf3ce031a99d9cdff033f8029448da6431a8330836b9c2b60bb69188"
     }
   ]
 }

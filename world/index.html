@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080a14">
+  <meta name="description" content="사라진 세계에서 도착한 호출. 일러스트로 읽는 리버스콜 세계관과 프롤로그, 지도에 없는 역.">
+  <title>세계관 · 최초의 호출 | 리버스콜</title>
+  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="/assets/ui/reverse-call/world-story-v1/city.webp">
+  <link rel="stylesheet" href="/css/adventure-navigation-standalone.css?v=2108">
+  <style>
+:root{color-scheme:dark;--ink:#f3f0fa;--muted:#c1bdcf;--violet:#cfb9ff;--asset:url('/assets/ui/reverse-call/world-story-v1/button.webp');--panel:url('/assets/ui/reverse-call/world-story-v1/panel.webp');font-family:'Noto Sans KR',sans-serif;color:var(--ink);background:#080a14;font-synthesis:none}
+*{box-sizing:border-box}
+body{margin:0}
+button,a{-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+button:disabled{cursor:default;opacity:.38}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid #ece0ff;outline-offset:5px}
+.skip-link{position:fixed!important;top:8px;left:16px;z-index:20;transform:translateY(-150%)}
+.skip-link:focus{transform:none}
+.world-art,.world-shade{position:fixed;inset:0;pointer-events:none}
+body[data-adventure-standalone] .world-art,body[data-adventure-standalone] .world-shade{left:var(--adventure-rail-width,205px)}
+.world-art{overflow:hidden;background:#080a14}
+.scene-art{position:absolute;width:100%;height:100%;object-fit:cover;object-position:58% 46%;opacity:0;transition:opacity .65s ease,object-position 1s ease}
+.scene-art.is-visible{opacity:1}
+.world-shade{background:linear-gradient(90deg,rgba(5,7,15,.84) 0%,rgba(6,8,18,.36) 53%,rgba(5,7,14,.1)),linear-gradient(0deg,#080a14 0%,rgba(8,10,20,.66) 18%,transparent 68%,rgba(5,7,15,.63));transition:opacity .4s}
+.world-shell{position:relative;min-height:calc(100svh - var(--adventure-dock-height,0px));display:flex;flex-direction:column;padding:0 clamp(20px,5vw,88px)}
+.world-header{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:102px;padding-top:env(safe-area-inset-top)}
+.wordmark{display:flex;align-items:center;gap:12px;letter-spacing:.17em;font-size:16px;font-weight:700}
+.wordmark img{object-fit:contain;width:42px;height:42px}
+.wordmark small{display:block;color:#c4bed4;font-size:9px;letter-spacing:.2em;font-weight:500;margin-top:6px}
+.header-actions{display:flex;align-items:center;gap:10px}
+.art-button{position:relative;isolation:isolate;display:inline-flex;justify-content:center;align-items:center;gap:16px;border:0;background:transparent;min-width:164px;min-height:58px;padding:14px 28px;font-size:14px;font-weight:600;line-height:1.5;text-align:center;transition:filter .18s,transform .18s}
+.art-button::before{content:'';position:absolute;inset:0;z-index:-1;border:14px solid transparent;border-image:var(--asset) 80 120 fill / 14px 22px / 0 stretch;pointer-events:none}
+.art-button:hover:not(:disabled){filter:brightness(1.27)}
+.art-button:active:not(:disabled){transform:translateY(1px)}
+.art-button.primary{color:#f2eaff}
+.art-button.primary::before{filter:brightness(1.3)}
+.art-button.compact{min-width:100px;min-height:46px;padding:11px 21px;font-size:12px;gap:10px}
+.art-panel{border:22px solid transparent;border-image:var(--panel) 110 100 fill / 24px 28px / 0 stretch;background:transparent}
+main{display:flex;flex:1;flex-direction:column;min-width:0}
+main:focus{outline:none}
+.cover{display:flex;flex:1;flex-direction:column;min-height:calc(100svh - 102px - var(--adventure-dock-height,0px))}
+.cover-copy{padding-top:clamp(45px,9vh,125px);padding-bottom:55px;flex:1}
+.eyebrow{color:var(--violet);font-size:11px;letter-spacing:.22em;font-weight:600;line-height:1.8;margin:0 0 20px}
+.eyebrow span{letter-spacing:.12em;color:#ccc5d8;margin-left:22px}
+h1,h2,p{overflow-wrap:break-word;word-break:keep-all}
+.cover h1{font-family:'Noto Serif KR',serif;font-size:clamp(38px,4.9vw,78px);font-weight:500;letter-spacing:-.055em;line-height:1.36;margin:0 0 25px;text-shadow:0 3px 24px #060712}
+.cover-quote{font-size:clamp(14px,1.1vw,17px);line-height:2;color:#d3cedd;letter-spacing:-.02em;margin-bottom:29px}
+.mobile-break{display:none}
+.cover-actions{display:flex;gap:12px;flex-wrap:wrap}
+.reading-note{font-size:11px;letter-spacing:.08em;color:#bdb6cc;margin:16px 0 0}
+.chapter-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:1180px;width:100%}
+.chapter-card{position:relative;isolation:isolate;min-height:108px;padding:23px 30px 22px;text-align:left;display:flex;flex-direction:column;align-items:flex-start;gap:7px;border:0;background:transparent;color:inherit;font:inherit;transition:filter .2s}
+.chapter-card::before{content:'';position:absolute;inset:0;z-index:-1;border:20px solid transparent;border-image:var(--panel) 110 100 fill / 18px 22px / 0 stretch;pointer-events:none}
+.chapter-card:hover{filter:brightness(1.25)}
+.chapter-card small{font-size:9px;letter-spacing:.18em;color:#c5afd9}
+.chapter-card strong{font-size:17px;font-weight:500}
+.chapter-card .chapter-state{position:absolute;right:26px;top:25px;font-size:10px;color:#e2cfff;letter-spacing:0}
+.chapter-card[aria-current="true"]::before{filter:brightness(1.55)}
+.cover-footer{display:flex;justify-content:space-between;gap:16px;max-width:1180px;padding:22px 0 max(24px,env(safe-area-inset-bottom));font-size:10px;color:#aaa2b8;letter-spacing:.04em}
+.reader{min-height:calc(100svh - 102px - var(--adventure-dock-height,0px));display:flex;flex-direction:column;align-items:center;padding-top:20px}
+body.is-reading .world-shade{background:linear-gradient(180deg,rgba(5,7,15,.8),transparent 24%,transparent 42%,rgba(5,7,15,.25) 57%,#080a14 100%)}
+.scene-location{display:flex;width:100%;justify-content:space-between;color:#ded8ed;font-size:11px;letter-spacing:.12em;text-shadow:0 2px 8px #000}
+.reader-spacer{width:100%;flex:1;min-height:160px;touch-action:pan-y}
+.story-panel{width:min(100%,1000px);padding:16px 30px 8px;margin-top:20px}
+.story-composition{position:relative;width:min(100%,1280px);display:flex;justify-content:center}
+.story-composition.has-character{justify-content:flex-end}
+.story-composition.has-character .story-panel{width:calc(100% - 300px);min-width:0}
+.story-portrait{position:absolute;left:-10px;bottom:0;width:340px;height:min(61svh,570px);margin:0;pointer-events:none}
+.story-portrait img{width:100%;height:100%;object-fit:contain;object-position:center bottom}
+.story-portrait.is-echo{opacity:.72}
+.speaker-label{display:inline-block;position:relative;isolation:isolate;font-size:11px;color:#e1ceff;letter-spacing:.08em;padding:8px 25px;margin:0 0 10px}
+.speaker-label::before{content:'';position:absolute;inset:0;z-index:-1;border:12px solid transparent;border-image:var(--asset) 80 120 fill / 12px 18px / 0 stretch}
+.story-reading{min-height:218px}
+.story-reading .eyebrow{margin-bottom:10px;font-size:10px}
+.story-reading h1{font-family:'Noto Serif KR',serif;font-size:clamp(23px,2.3vw,32px);line-height:1.55;font-weight:500;letter-spacing:-.035em;margin:0 0 17px}
+.narrative p{font-size:clamp(14px,1.1vw,16px);line-height:1.95;margin:0 0 8px;color:#e0dbe9;letter-spacing:-.02em}
+.story-controls{display:flex;align-items:center;gap:24px;justify-content:space-between;padding-top:15px}
+.reading-progress{max-width:220px;flex:1;text-align:center;color:#bfb5cf;font-size:10px;letter-spacing:.13em}
+progress{display:block;width:100%;height:2px;border:0;margin-top:12px;appearance:none;background:rgba(206,182,255,.17)}
+progress::-webkit-progress-bar{background:rgba(206,182,255,.17)}
+progress::-webkit-progress-value{background:#c8afe7}
+progress::-moz-progress-bar{background:#c8afe7}
+.reader-hint{font-size:10px;color:#aca3b9;margin:13px 0 max(22px,env(safe-area-inset-bottom));text-align:center}
+.art-error{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px;padding:12px;color:#f5d8d3;font-size:13px}
+.chapter-dialog{width:min(600px,calc(100% - 28px));max-height:calc(100svh - 40px);color:var(--ink);padding:22px 25px;margin:auto;overflow-y:auto}
+.chapter-dialog::backdrop{background:rgba(3,5,12,.8);backdrop-filter:blur(8px)}
+.dialog-heading{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.dialog-heading .eyebrow{font-size:9px;margin-bottom:6px}
+.dialog-heading h2{font-family:'Noto Serif KR',serif;font-size:27px;font-weight:500;margin:0}
+.dialog-intro{font-size:12px;line-height:1.9;color:var(--muted);margin:20px 0}
+.dialog-chapters{display:grid;gap:10px;margin-bottom:23px}
+.dialog-chapters .chapter-card{min-height:116px;padding:22px 28px}
+.chapter-description{font-size:11px;color:#c8bfd6;line-height:1.7;padding-right:5px}
+.noscript{padding:30px;line-height:2}
+@media(min-width:1600px){.world-shell{padding-left:max(88px,calc((100vw - 1600px)/2));padding-right:max(88px,calc((100vw - 1600px)/2))}.cover-copy{padding-top:9vh}}
+@media(max-width:759px){
+  .world-shell{padding:0 18px}
+  .world-header{min-height:86px;gap:10px}
+  .wordmark{gap:8px;font-size:11px;letter-spacing:.12em}
+  .wordmark img{width:32px;height:32px}
+  .wordmark small{font-size:7px;letter-spacing:.07em;margin-top:5px}
+  .header-actions{gap:4px}
+  .header-actions .art-button{min-width:68px;padding:10px 14px;font-size:10px;min-height:44px}
+  .cover{min-height:calc(100svh - 86px - var(--adventure-dock-height,0px))}
+  .cover-copy{padding-top:clamp(65px,13vh,130px);padding-bottom:35px}
+  .cover h1{font-size:clamp(36px,8.6vw,57px);margin-bottom:22px}
+  .eyebrow{font-size:9px;letter-spacing:.16em;margin-bottom:18px}
+  .eyebrow span{margin-left:10px;letter-spacing:.06em}
+  .cover-quote{font-size:13px;line-height:1.95}
+  .mobile-break{display:block}
+  .cover-actions{gap:6px}
+  .cover-actions .art-button{min-width:144px;font-size:12px;min-height:52px;padding:12px 23px}
+  .reading-note{font-size:10px}
+  .chapter-strip{gap:6px}
+  .chapter-card{padding:18px 14px;min-height:110px;gap:9px}
+  .chapter-card small{font-size:7px;letter-spacing:.09em}
+  .chapter-card strong{font-size:12px;line-height:1.8}
+  .chapter-card .chapter-state{position:static;font-size:8px}
+  .cover-footer{flex-direction:column;gap:8px;font-size:9px;line-height:1.7;padding-top:16px}
+  .world-shade{background:linear-gradient(0deg,#080a14 0%,rgba(8,10,20,.95) 14%,rgba(8,10,20,.6) 50%,rgba(8,10,20,.1) 80%,rgba(8,10,20,.8)),linear-gradient(90deg,rgba(5,7,15,.3),transparent)}
+  body.is-reading .world-art{position:absolute;height:65svh;min-height:430px}
+  body.is-reading .world-shade{position:absolute;height:68svh;min-height:460px;background:linear-gradient(180deg,rgba(5,7,15,.7),transparent 22%,transparent 60%,#080a14 100%)}
+  .reader{min-height:calc(100svh - 86px - var(--adventure-dock-height,0px));padding-top:10px}
+  .scene-location{font-size:9px;letter-spacing:.06em;gap:12px}
+  .reader-spacer{min-height:clamp(210px,32svh,320px);flex:1}
+  .story-panel{padding:8px 10px 4px;margin:0 -5px;width:calc(100% + 10px);border-width:18px}
+  .story-composition{display:flex;flex-direction:column;align-items:center}
+  .story-composition.has-character .story-panel{width:calc(100% + 10px);margin-top:-15px;position:relative}
+  .story-portrait{position:relative;left:auto;bottom:auto;align-self:flex-end;width:260px;max-width:80%;height:300px;margin:-50px 12px 0 0}
+  .reader.has-character .reader-spacer{min-height:130px;flex:0}
+  .speaker-label{font-size:10px;margin-bottom:8px}
+  .story-reading{min-height:0}
+  .story-reading h1{font-size:22px;margin-bottom:15px}
+  .story-reading .eyebrow{font-size:8px;margin-bottom:8px}
+  .narrative p{font-size:13px;line-height:1.95;margin-bottom:10px}
+  .story-controls{gap:7px;padding-top:12px}
+  .story-controls .art-button{min-width:82px;padding:11px 14px;font-size:11px;gap:5px}
+  .reading-progress{font-size:9px;letter-spacing:.02em;min-width:38px}
+  .reader-hint{font-size:9px;line-height:1.8;margin-top:14px;max-width:300px}
+  .reader-hint span{display:block}
+  .chapter-dialog{padding:17px 10px;border-width:18px}
+  .dialog-heading{gap:8px}
+  .dialog-heading h2{font-size:21px}
+  .dialog-heading .art-button{min-width:70px;padding:10px 14px}
+  .dialog-chapters .chapter-card .chapter-state{position:absolute;right:24px;top:23px}
+}
+@media(max-width:359px){.world-shell{padding:0 12px}.wordmark img{display:none}.cover h1{font-size:34px}.story-panel{padding-left:5px;padding-right:5px}.story-controls{gap:5px}.story-controls .art-button{min-width:76px;padding:11px 12px}.chapter-card{padding:18px 12px}.cover-actions .art-button{min-width:135px}}
+@media(prefers-reduced-motion:reduce){*,*::before{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+  <script defer src="/js/soopketmon-v21-exact-shell-adapter.js?v=2108-shared-navigation" data-enabled="false"></script>
+  <script defer src="/js/adventure-lobby-v2107.js?world=20261018-v1"></script>
+  <script defer src="/js/adventure-navigation-standalone.js?v=2108-shared-navigation" data-route="world"></script>
+  <script type="module" src="/world/world.js?v=20261018-v1"></script>
+</head>
+<body data-adventure-standalone="world">
+  <a class="skip-link art-button" href="#story-main">이야기 본문으로</a>
+  <div class="world-art" id="world-art" aria-hidden="true">
+    <img id="art-a" class="scene-art is-visible" src="/assets/ui/reverse-call/world-story-v1/city.webp" alt="" fetchpriority="high" decoding="async">
+    <img id="art-b" class="scene-art" alt="" decoding="async">
+  </div>
+  <div class="world-shade" aria-hidden="true"></div>
+  <div class="world-shell">
+    <header class="world-header">
+      <a class="wordmark" href="/world/" aria-label="리버스콜 세계관 표지">
+        <img src="/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" width="42" height="42" alt="">
+        <span>REVERSE CALL<small>세계관 · WORLD ARCHIVE</small></span>
+      </a>
+      <nav class="header-actions" aria-label="세계관 메뉴">
+        <a class="art-button compact" href="/">게임으로</a>
+        <button class="art-button compact" id="open-chapters" type="button" aria-haspopup="dialog">장 목록</button>
+      </nav>
+    </header>
+
+    <main id="story-main" tabindex="-1">
+      <section class="cover" id="cover" aria-labelledby="cover-title">
+        <div class="cover-copy">
+          <p class="eyebrow">THE FIRST CALL <span>서막 · 최초의 호출</span></p>
+          <h1 id="cover-title">사라진 세계가<br>당신을 부른다.</h1>
+          <p class="cover-quote">우리는 그들을 불러냈다고 생각했다.<br>먼저 우리를 부른 것은,<br class="mobile-break"> 사라진 세계의 사람들이었다.</p>
+          <div class="cover-actions">
+            <button class="art-button primary" id="start-story" type="button">이야기 시작 <span aria-hidden="true">→</span></button>
+            <button class="art-button" id="resume-story" type="button" hidden>이어 읽기</button>
+          </div>
+          <p class="reading-note" id="reading-note">3개의 장 · 10개의 장면 · 약 4분</p>
+        </div>
+        <nav class="chapter-strip" id="cover-chapters" aria-label="이야기 장 선택"></nav>
+        <footer class="cover-footer"><span>잊힌 이름, 남겨진 흔적, 돌아오는 목소리.</span><span id="save-note">읽던 장면은 이 기기에 저장됩니다.</span></footer>
+      </section>
+
+      <section class="reader" id="reader" aria-label="일러스트 스토리" hidden>
+        <div class="scene-location"><span id="scene-location"></span><span id="scene-counter"></span></div>
+        <div class="reader-spacer" id="swipe-surface" aria-label="일러스트 영역. 좌우로 밀어 장면을 넘길 수 있습니다."></div>
+        <div class="story-composition" id="story-composition">
+        <figure class="story-portrait" id="story-portrait" hidden><img id="character-art" alt="" decoding="async"></figure>
+        <article class="story-panel art-panel">
+          <div class="story-reading" id="story-reading" aria-live="polite" aria-atomic="true">
+            <p class="eyebrow" id="chapter-label"></p>
+            <p class="speaker-label" id="speaker-label" hidden></p>
+            <h1 id="scene-title"></h1>
+            <div class="narrative" id="narrative"></div>
+          </div>
+          <div class="story-controls">
+            <button class="art-button compact" id="previous-scene" type="button"><span aria-hidden="true">←</span> 이전</button>
+            <div class="reading-progress"><span id="progress-label"></span><progress id="story-progress" max="10" value="1" aria-label="이야기 진행"></progress></div>
+            <button class="art-button compact primary" id="next-scene" type="button">다음 <span aria-hidden="true">→</span></button>
+          </div>
+        </article>
+        </div>
+        <p class="reader-hint">이전·다음 버튼 또는 방향키로 읽기 <span>· 모바일에서는 그림을 좌우로 밀어보세요</span></p>
+      </section>
+      <div class="art-error" id="art-error" role="status" hidden><span>일러스트를 불러오지 못했습니다.</span><button class="art-button compact" id="retry-art" type="button">다시 불러오기</button></div>
+      <noscript><p class="art-panel noscript">이야기를 넘겨 읽으려면 JavaScript를 켜주세요. <a href="/">게임으로 돌아가기</a></p></noscript>
+    </main>
+  </div>
+
+  <dialog class="chapter-dialog art-panel" id="chapter-dialog" aria-labelledby="chapter-dialog-title">
+    <div class="dialog-heading"><div><p class="eyebrow">WORLD ARCHIVE</p><h2 id="chapter-dialog-title">이야기의 조각들</h2></div><button class="art-button compact" id="close-chapters" type="button" aria-label="장 목록 닫기">닫기</button></div>
+    <p class="dialog-intro">원하는 장부터 읽거나, 남겨둔 장면을 이어가세요.</p>
+    <nav class="dialog-chapters" id="dialog-chapters" aria-label="장 이동"></nav>
+    <button class="art-button" id="back-cover" type="button">표지로 돌아가기</button>
+  </dialog>
+</body>
+</html>

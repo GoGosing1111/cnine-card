@@ -3,19 +3,25 @@ import {createHash} from 'node:crypto';
 import sharp from 'sharp';
 const dir='assets/ui/brand/reverse-call-20261016';
 await mkdir(dir,{recursive:true});
+const archive='docs/qa/reverse-call-world-story-20261018/sources';
+await mkdir(archive,{recursive:true});
 const input=process.argv[2];
-if(input)await copyFile(input,dir+'/source.png');
-const source=await readFile(dir+'/source.png');
-const original=await sharp(source).metadata();
+if(input)await copyFile(input,archive+'/transparent-source-20261018.png');
+const approved=await readFile(dir+'/source.png');
+const source=await readFile(archive+'/transparent-source-20261018.png');
+const original=await sharp(approved).metadata();
+const transparent=await sharp(source).metadata();
 if(original.width!==1254||original.height!==1254)throw Error('Unexpected approved source dimensions');
+if(!transparent.hasAlpha||transparent.width!==transparent.height)throw Error('A square transparent edit is required');
 const files=[];
 async function save(name,bytes,extra={}){
  await writeFile(dir+'/'+name,bytes);const metadata=await sharp(bytes).metadata();
  files.push({file:dir+'/'+name,width:metadata.width,height:metadata.height,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex'),...extra});
 }
-files.push({file:dir+'/source.png',width:original.width,height:original.height,bytes:source.length,sha256:createHash('sha256').update(source).digest('hex'),originalBytesPreserved:true});
+files.push({file:dir+'/source.png',width:original.width,height:original.height,bytes:approved.length,sha256:createHash('sha256').update(approved).digest('hex'),originalBytesPreserved:true});
+files.push({file:archive+'/transparent-source-20261018.png',width:transparent.width,height:transparent.height,bytes:source.length,sha256:createHash('sha256').update(source).digest('hex'),originalBytesPreserved:true,hasAlpha:true});
 for(const [name,size] of [['icon-192',192],['icon-512',512],['apple-touch-icon-180',180],['favicon-16',16],['favicon-32',32],['favicon-48',48],['icon-128',128]])await save(name+'.png',await sharp(source).resize(size,size,{fit:'contain'}).png().toBuffer());
-await save('maskable-512.png',await sharp(source).resize(344,344).extend({top:84,bottom:84,left:84,right:84,background:'#060616'}).png().toBuffer(),{purpose:'maskable',padding:84});
+await save('maskable-512.png',await sharp(source).resize(344,344).extend({top:84,bottom:84,left:84,right:84,background:{r:0,g:0,b:0,alpha:0}}).png().toBuffer(),{purpose:'legacy URL only; PWA now advertises transparent any icons',padding:84});
 for(const width of [240,480]){
  await save('logo-'+width+'.webp',await sharp(source).resize(width,width).webp({quality:94}).toBuffer());
  await save('logo-'+width+'.avif',await sharp(source).resize(width,width).avif({quality:85}).toBuffer());
@@ -35,5 +41,5 @@ for(const extension of ['chrome-extension','server/chrome-extension']){
  await mkdir(extension+'/icons',{recursive:true});
  for(const size of [16,32,48,128])await copyFile(dir+'/'+(size===128?'icon':'favicon')+'-'+size+'.png',extension+'/icons/icon-'+size+'.png');
 }
-await writeFile(dir+'/manifest.json',JSON.stringify({date:'2026-10-16',brand:'리버스콜',land:'리버스랜드',source:'User attachment codex-clipboard-066c2ee7-c814-423d-8449-4de5d9fc3374.png',processing:'Original preserved; proportional size exports only; maskable icon has safe-area padding.',files},null,2)+'\n');
+await writeFile(dir+'/manifest.json',JSON.stringify({date:'2026-10-16',updated:'2026-10-18',brand:'리버스콜',land:'리버스랜드',source:'User attachment codex-clipboard-066c2ee7-c814-423d-8449-4de5d9fc3374.png',processing:'Approved original preserved. Built-in ImageGen background extraction; generated alpha preserved in proportional PNG/WebP/AVIF/ICO exports. All active icons use transparent backgrounds.',prompt:archive+'/transparent-prompt-20261018.json',visualApproval:'USER_REVIEW_PENDING',files},null,2)+'\n');
 console.log(JSON.stringify({files:files.length,sourceSha256:files[0].sha256}));

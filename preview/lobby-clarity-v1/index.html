@@ -4,7 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#080c17"><meta name="color-scheme" content="dark"><meta name="robots" content="noindex">
   <title>리버스콜 · 로비 개편 시안</title>
-  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png">
+  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,800&amp;family=Noto+Sans+KR:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css?v=6">
@@ -19,7 +19,7 @@
   <a href="#main" class="skip-link">본문으로 바로가기</a>
   <div class="review-ribbon"><span><i></i> 로비 개편 시안 <b>·</b> 계정 연결 전</span><a href="/?screen=home">현재 로비 보기 ↗</a></div>
   <header class="topbar">
-    <a href="./" class="brand" aria-label="리버스콜 로비 시안 처음으로"><img class="brand-emblem" src="/assets/ui/brand/reverse-call-20261016/icon-192.png" alt=""><span>리버스콜<small>REVERSE CALL</small></span></a>
+    <a href="./" class="brand" aria-label="리버스콜 로비 시안 처음으로"><img class="brand-emblem" src="/assets/ui/brand/reverse-call-20261016/icon-192.png?v=20261018-transparent" alt=""><span>리버스콜<small>REVERSE CALL</small></span></a>
     <button class="profile-summary" id="account-shortcut"><small>내 계정</small><b id="player-name">계정 연결 전</b></button>
     <div class="wallet" aria-label="보유 재화"><span><i class="coin-dot"></i>코인 <b id="wallet-coin">—</b></span><span>카드 조각 <b id="wallet-shards">—</b></span><span><i class="star-mark">✦</i>마스터의 별 <b id="wallet-stars">—</b></span><a class="wallet-pig" href="/loot-shop/" aria-label="피그 코인 · 고급 전리품 상점"><img src="/assets/items/pig-coin-v1.png" alt=""><span>피그 코인</span><b data-pig-coin-balance>—</b></a></div>
     <button class="header-help" id="start-tutorial" aria-label="처음 오셨나요? 이용 안내"><span class="help-symbol">?</span><span class="help-label">처음 오셨나요?</span></button>
@@ -29,6 +29,7 @@
     <aside class="sidebar">
       <nav id="main-nav" aria-label="주요 메뉴">
         <button class="side-link" data-home aria-current="page"><span data-icon="home"></span><b>로비</b></button>
+        <button class="side-link" data-route="world"><span data-icon="world"></span><b>세계관</b><small>일러스트 · 스토리</small></button>
         <button class="side-link favorites-link" data-category="favorites"><span data-icon="favorites"></span><b>즐겨찾기 <em class="favorite-count" data-favorite-count hidden></em></b><small>내가 자주 쓰는 메뉴</small></button>
         <button class="side-link" data-route="inventory"><span data-icon="inventory"></span><b>인벤토리</b><small>보유 아이템과 카드팩</small></button>
         <button class="side-link" data-category="pve"><span data-icon="hunt"></span><b>모험 <em class="mode-tag">PVE</em></b><small>몬스터 · 레이드 · 원정</small></button>

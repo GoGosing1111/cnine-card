@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "version": "0.1.8",
+  "isolatedProfile": true,
+  "actualElectron": true,
+  "worldRouteNetworkFallback": true,
+  "transparentLogoSource": "/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent",
+  "productionWrites": false
+}

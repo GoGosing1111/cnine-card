@@ -19,13 +19,15 @@
     },
     {
       "file": "renderer/assets/icon.png",
-      "bytes": 549034,
-      "sha256": "0ebe379f58b694564244d35442419f7ae01c3cd367f5e88e7223ee846c8f6e70"
+      "bytes": 307285,
+      "sha256": "7d18d7ccd347a2cfb46deac38b49ceb540d69c910a4bc1837eeb70abaf1197c9",
+      "source": "docs/qa/reverse-call-world-story-20261018/sources/transparent-source-20261018.png"
     },
     {
       "file": "renderer/assets/reverse-call-logo.png",
-      "bytes": 549034,
-      "sha256": "0ebe379f58b694564244d35442419f7ae01c3cd367f5e88e7223ee846c8f6e70"
+      "bytes": 307285,
+      "sha256": "7d18d7ccd347a2cfb46deac38b49ceb540d69c910a4bc1837eeb70abaf1197c9",
+      "source": "docs/qa/reverse-call-world-story-20261018/sources/transparent-source-20261018.png"
     }
   ],
   "previousBrandAssets": [

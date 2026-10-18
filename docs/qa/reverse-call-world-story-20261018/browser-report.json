@@ -1,0 +1,95 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "name": "pc-cover",
+      "url": "http://127.0.0.1:8899/world/",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false
+    },
+    {
+      "name": "pc-sister",
+      "url": "http://127.0.0.1:8899/world/#scene=request",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false
+    },
+    {
+      "name": "pc-brother",
+      "url": "http://127.0.0.1:8899/world/#scene=train",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "overflow": false
+    },
+    {
+      "name": "mobile-cover",
+      "url": "http://127.0.0.1:8899/world/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false
+    },
+    {
+      "name": "mobile-sister",
+      "url": "http://127.0.0.1:8899/world/#scene=request",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false
+    },
+    {
+      "name": "mobile-chapters",
+      "url": "http://127.0.0.1:8899/world/#scene=request",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false
+    },
+    {
+      "name": "mobile-echo",
+      "url": "http://127.0.0.1:8899/world/#scene=no-record",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false
+    },
+    {
+      "name": "mobile-320",
+      "url": "http://127.0.0.1:8899/world/#scene=no-record",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "overflow": false
+    },
+    {
+      "name": "tablet-sister",
+      "url": "http://127.0.0.1:8899/world/#scene=request",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "sharedAccountReads": "local fixture",
+  "keyboard": true,
+  "swipe": true,
+  "resume": true,
+  "chapterDialog": true,
+  "deniedStorage": true,
+  "reducedMotion": true,
+  "sidebarUsesExistingStyle": true
+}

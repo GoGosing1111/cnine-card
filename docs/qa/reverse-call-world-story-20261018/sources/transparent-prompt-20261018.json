@@ -1,0 +1,10 @@
+{
+  "tool": "built-in image_gen",
+  "mode": "background-extraction",
+  "input": "assets/ui/brand/reverse-call-20261016/source.png",
+  "output": "docs/qa/reverse-call-world-story-20261018/sources/transparent-source-20261018.png",
+  "transparent_background": true,
+  "prompt": "Use case: background-extraction.\nAsset type: transparent app icon for Reverse Call, Windows desktop client, PWA and story UI.\nInput image 1 is the exact edit target and identity reference.\nRemove ONLY the dark navy/black square background, cloudy backdrop and broad smoky texture. Keep the existing crystal silver-lavender R monogram, its circular crescent shards, sharp star glints, violet crystalline texture, exact geometry, proportions and original orientation unchanged. Do not redraw or redesign the logo. Retain a very narrow soft violet edge glow only. Make both the outside silhouette and ALL interior negative spaces around and inside the R genuinely transparent, not black. Use real alpha channel, no checkered background, no flat color backing, no square plate. Keep the logo centered, complete, uncropped with a small transparent margin on a square canvas. No new words, ornaments, symbols or shadow.",
+  "userRequest": "클라이언트 PC, PWA 아이콘, 시나리오에 있는 아이콘 전부 투명화",
+  "visualApproval": "USER_REVIEW_PENDING"
+}

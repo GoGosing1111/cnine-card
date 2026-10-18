@@ -5,7 +5,7 @@
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
 importScripts('/js/image-delivery-map-20261015.js');
-const SHELL_CACHE='soop-card-shell-v20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1';
+const SHELL_CACHE='soop-card-shell-v20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1';
 const CONTENT_CACHE='soop-card-content-v4-lossless-media';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -46,12 +46,12 @@ const SHELL_CORE=[
   OFFLINE_URL,
   APP_SHELL_URL,
   '/manifest.webmanifest',
-  '/assets/ui/brand/reverse-call-20261016/icon-192.png',
-  '/assets/ui/brand/reverse-call-20261016/icon-512.png',
-  '/assets/ui/brand/reverse-call-20261016/maskable-512.png',
-  '/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png',
-  '/assets/ui/brand/reverse-call-20261016/favicon-32.png',
-  '/assets/ui/brand/reverse-call-20261016/favicon-48.png'
+  '/assets/ui/brand/reverse-call-20261016/icon-192.png?v=20261018-transparent',
+  '/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent',
+  '/assets/ui/brand/reverse-call-20261016/maskable-512.png?v=20261018-transparent',
+  '/assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png?v=20261018-transparent',
+  '/assets/ui/brand/reverse-call-20261016/favicon-32.png?v=20261018-transparent',
+  '/assets/ui/brand/reverse-call-20261016/favicon-48.png?v=20261018-transparent'
 ];
 const CONTENT_CACHE_LIMIT=320;
 let contentWritesUntilTrim=24;
@@ -70,6 +70,9 @@ self.addEventListener('activate',event=>{
       (name.startsWith('soop-card-content-')&&name!==CONTENT_CACHE)
     ).map(name=>caches.delete(name)));
     const shell=await caches.open(SHELL_CACHE);
+    // A transparent replacement keeps the public URLs; discard only old brand pixels.
+    const media=await caches.open(CONTENT_CACHE);
+    await Promise.all((await media.keys()).filter(request=>new URL(request.url).pathname.startsWith('/assets/ui/brand/reverse-call-20261016/')).map(request=>media.delete(request)));
     await Promise.all((await shell.keys()).filter(request=>FRESH_BATTLE_SCRIPTS.has(new URL(request.url).pathname)||FRESH_ACCOUNT_SCRIPTS.has(new URL(request.url).pathname)).map(request=>shell.delete(request)));
     await self.clients.claim();
   })());

@@ -44,7 +44,7 @@ test('provided icon source, derivative hashes and Windows/PWA identities stay co
  for(const asset of manifest.files)assert.equal(createHash('sha256').update(await readFile(new URL('../'+asset.file,import.meta.url))).digest('hex'),asset.sha256,asset.file);
  assert.equal(manifest.files[0].sha256,'67e735ba0ca2ebb715145e414a1598e0087516f74ca7937383582565e9fe714c');
  const pkg=JSON.parse(await read('packaging/windows-client/package.json')),lock=JSON.parse(await read('packaging/windows-client/package-lock.json'));
- assert.equal(pkg.productName,'리버스콜');assert.equal(pkg.version,'0.1.7');assert.equal(lock.version,pkg.version);assert.equal(lock.packages[''].version,pkg.version);
+ assert.equal(pkg.productName,'리버스콜');assert.equal(pkg.version,'0.1.8');assert.equal(lock.version,pkg.version);assert.equal(lock.packages[''].version,pkg.version);
  assert.equal(pkg.build.win.executableName,'ReverseCall');assert.equal(pkg.build.appId,APP_ID);assert.equal(pkg.build.nsis.guid,'c69fcbf2-955f-5c48-8ff1-55c03889cb40');assert.equal(LEGACY_PROFILE_DIRECTORY,'숲켓몬');
  const pwa=JSON.parse(await read('manifest.webmanifest'));assert.equal(pwa.id,'/');assert.equal(pwa.name,'리버스콜 카드뽑기');assert.equal(pwa.short_name,'리버스콜');assert.ok(pwa.icons.every(icon=>icon.src.includes('reverse-call-20261016')));
  const map=await read('js/image-delivery-map-20261015.js');assert.ok(!map.includes('"/assets/ui/brand/reverse-call-20261016/'),'Official brand originals must not be remapped to older optimized pixels');
