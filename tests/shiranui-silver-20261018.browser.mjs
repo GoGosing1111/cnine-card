@@ -50,6 +50,10 @@ try{
   for(const mode of (process.env.SHIRANUI_QA_MODES||'basic,skill,enemy,area,reduced').split(',')){
    const p=await browser.newPage({viewport,serviceWorkers:'block',recordVideo:{dir:out,size:viewport}});p.on('pageerror',e=>errors.push(label+' '+mode+': '+e.message));
    await p.goto(base+'/qa/battle?mode='+mode);await p.waitForFunction(()=>window.ShiranuiQA?.ready||window.qaError,null,{timeout:60000});assert.equal(await p.evaluate(()=>window.qaError),undefined);
+   if(['skill','area','reduced'].includes(mode))await p.evaluate(async()=>{
+    const image=new Image();image.src='/assets/ui/project-v/mercenaries/shiranui-fx-20261018/dialogue.webp';await image.decode();
+    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+   });
    await p.evaluate(()=>{
     const q=window.ShiranuiQA,e=q.engine,a=e.mercenaries[0],s=e.shiranuiStates.get(a);q.actor=a;q.hpCalls=[];q.damageCalls=[];
     s.fx.updateBodyAura({time:0});q.center0=s.fx.bodyAuraPosition;s.fx.updateBodyAura({time:2});q.center2=s.fx.bodyAuraPosition; if(q.mode==='skill'||q.mode==='reduced')s.basicCount=2;if(q.mode==='reduced'){e.reducedMotion=true;s.fx.reducedMotion=true;}
