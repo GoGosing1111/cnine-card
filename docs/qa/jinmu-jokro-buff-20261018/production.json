@@ -1,0 +1,85 @@
+{
+  "checkedAt": "2026-10-18T14:27:00.928Z",
+  "sourceCommit": "6c29b66975e908cdef6e9b517df3a178ff7e31be",
+  "pages": {
+    "id": "90d5faba-578a-4d35-93d1-0c27f5f6be39",
+    "url": "https://90d5faba.cnine-card.pages.dev",
+    "source": "6c29b66",
+    "environment": "Production"
+  },
+  "apiRuntimeVersion": "75155c99-3c81-4f81-ac87-f36481209ef2",
+  "http": [
+    {
+      "file": "shared/mercenary-jinmu-v1.mjs",
+      "status": 200,
+      "sha256": "5a0a0928cdc8d5c5641a4048661d3b2094f43772d4465b5d53e22e529cb5021c",
+      "matchesLocal": true,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "shared/mercenary-jokro-v1.mjs",
+      "status": 200,
+      "sha256": "b946e28ebe8a4a5913b5963689a819b64d61f6e61f6ea4e2b41f05be01e20fe2",
+      "matchesLocal": true,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "shared/mercenary-shiranui-v1.mjs",
+      "status": 200,
+      "sha256": "dfb08f79c9d28d2041e91f8f7942da5f181610b6d218208494602e6e4ae55d64",
+      "matchesLocal": true,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "shared/mercenary-kairon-v1.mjs",
+      "status": 200,
+      "sha256": "a5045ce6f51ab90eff3475df2fde5f5e54b04a8be02f9723c6ff5c45017a9fc7",
+      "matchesLocal": true,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "159a91c6d8bd2bb7a1ceac48ac14dfa63b0c2eee8a7ae19ab316a34c8b846321",
+      "matchesLocal": true,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "3eb10b63bbf3d84424f4c3be12a210408147817d6298f0be28b96bc6d6fb7cfe",
+      "matchesLocal": true,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "48af2c1db445addc1dc7d68a4295e0ebf5d6ac87a77d5332377d84e57238d430",
+      "matchesLocal": true,
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "4d70d90448b0b941e8e984a3689436f6bb0a1b98765828e704de2aa7f27b94f2",
+      "matchesLocal": true,
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    }
+  ],
+  "publicCodex": {
+    "status": 200,
+    "jinmuPower": 1617408,
+    "jinmuAreaRatio": 6.72,
+    "kaironDescription": "흑탄의 집행관 카이론 · 제작 전용 SSS 리미티드. 팩에서 획득할 수 없습니다. 기본 전투력 1,347,840, 개인 피해 75% 경감과 상태이상·반격 보호, 베르칸 피해 면역을 지닙니다. 쌍우지 일제사격과 PVE 양자 탄도 폭쇄(적 전체에 총 560% 분산 피해 · 에너지 35 · 재사용 5행동)을 사용합니다."
+  },
+  "productionAccountWrites": 0,
+  "tests": {
+    "uniquePassed": 36,
+    "combatRegressionPassed": 16,
+    "initialFinalPasses": 18,
+    "correctedLiveCacheAndEntryPasses": 13,
+    "workerCheck": true
+  },
+  "clanDraftVersion": "6e823e49-a38f-4eba-9a82-3805bfd1aa58",
+  "deploymentExitCode": 0
+}
