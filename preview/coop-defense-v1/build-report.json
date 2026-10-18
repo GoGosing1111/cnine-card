@@ -5,8 +5,9 @@
     "pixi.js": "8.20.0",
     "gsap": "3.13.0"
   },
-  "bundleBytes": 2260731,
+  "bundleBytes": 2274709,
   "commonV3": [
+    "preview/project-v-v3/source/battle/EquipmentSetFX.js",
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",
     "preview/project-v-v3/source/battle/BattleHud.js",

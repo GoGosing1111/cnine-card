@@ -3417,18 +3417,21 @@
     "generation": "generation-arrow-v2.json"
   },
   "balance": {
-    "version": "kangyun-live-20261018-v1",
+    "version": "kangyun-balance-20261019-v2",
     "status": "RELEASED",
     "runtimeEnabled": true,
-    "basePower": 216000,
-    "speedScale": 1.5,
-    "actionCredit": 1.5,
-    "pvpBasicDamageScale": 0.6,
-    "pvpSkillCapScale": 2.15,
+    "basePower": 324000,
+    "statScale": 5.5,
+    "speedScale": 3,
+    "actionCredit": 3,
+    "actionEnergy": 10,
+    "pvpBasicDamageScale": 0.9,
+    "basicCapScale": 1.5,
+    "pvpSkillCapScale": 2.7,
     "link": {
-      "attackPercent": 264,
-      "hpPercent": 308,
-      "shieldPercent": 165
+      "attackPercent": 1210,
+      "hpPercent": 1540,
+      "shieldPercent": 825
     },
     "policyFile": "../../shared/mercenary-kangyun-v1.mjs",
     "skills": [
@@ -3438,11 +3441,11 @@
         "mechanic": "IMPERIAL_PIERCING_VOLLEY",
         "target": "BACK_THREAT",
         "balance": {
-          "damageRatio": 6.8,
-          "cooldownTurns": 4,
-          "cost": 35
+          "damageRatio": 8.4,
+          "cooldownTurns": 2,
+          "cost": 25
         },
-        "description": "후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 680%의 한 시전 피해 예산을 사용합니다."
+        "description": "후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 840%의 한 시전 피해 예산을 사용합니다."
       },
       {
         "id": "MS-060",
@@ -3451,14 +3454,14 @@
         "target": "ALL_ENEMIES",
         "pveOnly": true,
         "balance": {
-          "damageRatio": 7,
-          "cooldownTurns": 5,
+          "damageRatio": 12,
+          "cooldownTurns": 4,
           "cost": 35
         },
-        "description": "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 700%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다."
+        "description": "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 1,200%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다."
       }
     ],
-    "comparison": "qa/kangyun-live/balance-report.json"
+    "comparison": "../../docs/qa/ss-mercenary-balance-20261019/holdout.json"
   },
   "title": "신궁"
 }
