@@ -1,0 +1,159 @@
+{
+  "at": "2026-10-18T03:10:25.488Z",
+  "sourceCommit": "8ddd233452306e4ce6c2cc6586e8f8ca7d0b4106",
+  "previousProductionCommit": "6ca6aa209b00a27f4a3449bdd80a7c5b86b9a9c8",
+  "deployment": "https://59c214d9.cnine-card.pages.dev",
+  "apiVersion": "844a4667-b7ce-4293-a223-92225660b35e",
+  "schedulerVersion": "5011f3a9-7e7e-482a-b76f-6283da2d2c05",
+  "productionAssets": 19959,
+  "tests": {
+    "initialScopedPass": 49,
+    "cacheTagCorrectionPass": 16,
+    "workerSyntax": "PASS",
+    "browserScenarios": 10,
+    "oddsBrowser": "PASS"
+  },
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "d8f93104759a891439884ca280ab16ac8e1e00e26eb24860ae8cdcb56b3cd5ec",
+      "bytes": 25642
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "200e8b746d8679768dbfecda8e5436e4f8333a97640a020bf147a83dba040be3",
+      "bytes": 14453
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "fcbe5b3b2c9e43d08e3d0784af03370981a8bb66ca1e3df08a81bf50ab0e812e",
+      "bytes": 753637
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "d25eeb5562f69d7669f500036237c5c8863ffb49a1740487aa37d03786717184",
+      "bytes": 79954
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "cfd2c6a7e3fbfbcec914ec9b0e5f1dfcbd64091c63a97bfa0a9f8e6443aedae1",
+      "bytes": 2096846
+    },
+    {
+      "file": "shared/mercenary-kangyun-v1.mjs",
+      "status": 200,
+      "sha256": "aec79aa63ace593313a43b5479ac6295ebfee40fc270af9d81e0da5d5435495e",
+      "bytes": 7214
+    },
+    {
+      "file": "shared/mercenary-draw-policy-v1.mjs",
+      "status": 200,
+      "sha256": "2ea61d15960479e95fdc3ebe985f5dd2297205645f41ad6cdf478c5636d4df89",
+      "bytes": 8759
+    },
+    {
+      "file": "shared/mercenary-sss-reroll-v1.mjs",
+      "status": 200,
+      "sha256": "2a8c3b1381ed74062f75c80374074659b807408395e81aafa357f21dac3fe32b",
+      "bytes": 6212
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/approved-20261018/kangyun-source-art.png",
+      "status": 200,
+      "sha256": "211da5c9ad758cc6167fef2bd7c997a9cd8ea427c04b6ad37d6613e62277393b",
+      "bytes": 3262017
+    },
+    {
+      "file": "assets/ui/project-v/characters/mercenary/kangyun-sss-v1/kangyun-battle-sprite.png",
+      "status": 200,
+      "sha256": "a29250efe5ca79e057c7e5c9724d9ade8f2446416586f495eadd09c8c660cfd8",
+      "bytes": 298056
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/codex-v1/v-057-art-320.webp",
+      "status": 200,
+      "sha256": "7b78155f38c52307f835e1d96c142012259bbe21a763e0d5eb9c79e957ae7ffa",
+      "bytes": 65396
+    }
+  ],
+  "codex": {
+    "code": "V-057",
+    "name": "신궁 강윤",
+    "rank": "SSS",
+    "basePower": 216000,
+    "skills": [
+      {
+        "id": "MS-059",
+        "name": "연환 파갑",
+        "ready": true
+      },
+      {
+        "id": "MS-060",
+        "name": "천궁 멸진",
+        "ready": true
+      }
+    ]
+  },
+  "normalSss": [
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "weight": 990,
+      "percent": 58.235294117647065
+    },
+    {
+      "code": "V-046",
+      "name": "라그니엘",
+      "weight": 297,
+      "percent": 17.47058823529412
+    },
+    {
+      "code": "V-049",
+      "name": "크라이베른",
+      "weight": 198,
+      "percent": 11.647058823529411
+    },
+    {
+      "code": "V-055",
+      "name": "베르칸",
+      "weight": 99,
+      "percent": 5.823529411764706
+    },
+    {
+      "code": "V-056",
+      "name": "아잔트",
+      "weight": 99,
+      "percent": 5.823529411764706
+    },
+    {
+      "code": "V-057",
+      "name": "신궁 강윤",
+      "weight": 17,
+      "percent": 1
+    }
+  ],
+  "pack": {
+    "mode": "OFF",
+    "normalCmsRevision": 61,
+    "normalDrawRevision": 31,
+    "packRevision": 20
+  },
+  "rerollUi": {
+    "url": "https://cnine-card.pages.dev/mercenary-codex/sss-reroll/",
+    "sourceCode": "V-021",
+    "kangyunPercent": 1,
+    "displayedOtherPercent": {
+      "V-046": 42.428571,
+      "V-049": 21.214286,
+      "V-055": 21.214286,
+      "V-056": 14.142857
+    },
+    "screenshot": "production-reroll-odds.png",
+    "verification": "Read-only production probability dialog; no ticket used and no cards consumed or granted."
+  }
+}

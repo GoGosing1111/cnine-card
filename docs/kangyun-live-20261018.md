@@ -29,3 +29,9 @@
 관련 검사: mercenary-kangyun-live-20261018, mercenary-kangyun-odds-20261018, 기존 mercenary-sss-reroll-20261014, mercenary-draw-weighted-v1, 화살 원본/밸런스 검사, pve-battlefield-entry-v2117, Worker 컴파일. 기존 9:1 거래 검수는 새 용병을 명시적 0으로 제외해 원래 범위와 티켓 경계를 유지했다.
 
 실제 배포 기준 소스는 6ca6aa209b00a27f4a3449bdd80a7c5b86b9a9c8이다. 관련 검사 후 scoped 배포하고 공개 API와 운영 정적 자산을 짧게 확인한다. 배포 완료 증빙은 별도 production.json으로 기록한다.
+
+## 운영 반영 확인
+
+2026-10-18 소스 `8ddd233452306e4ce6c2cc6586e8f8ca7d0b4106`을 scoped로 배포했다. Pages `59c214d9`, API `844a4667-b7ce-4293-a223-92225660b35e`, 스케줄러 `5011f3a9-7e7e-482a-b76f-6283da2d2c05`. 최초 관련 검사 49개와 Worker 문법 검사는 통과했으며, 배포 전 앱/셸 캐시 표기 불일치를 수정한 뒤 영향받은 등록·입장 16개 검사와 필수 배포 검증을 통과했다. 무관한 전체 검사는 실행하지 않았다.
+
+운영 정적 파일 11개 해시 일치, 공개 도감의 V-057·전력 216,000·스킬 2종 준비 상태, 일반 SSS 내부 1%를 확인했다. 운영 CMS r61 / 일반 확률 r31 / 리미티드팩 r20 및 OFF 상태가 유지됐다. 실제 SSS 재뽑기 확률 창에서 오메가-X를 제외한 뒤에도 강윤 1%를 확인했다. 재뽑기 다른 용병들의 확률은 별도 운영 정책 및 투입 용병 제외에 따라 달라지므로 하이퍼팩 일반 SSS 표와 구분한다. 검수 중 운영 재화를 소모하거나 카드를 지급하지 않았다. 상세 증빙은 `docs/qa/kangyun-live-20261018/production.json`과 `production-reroll-odds.png`다.
