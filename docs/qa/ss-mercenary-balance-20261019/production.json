@@ -1,0 +1,133 @@
+{
+  "verifiedAt": "2026-10-18T21:37:16.013Z",
+  "commit": "d9b6458260833bdaffeaf6b0732f660e32e2468e",
+  "site": "https://cnine-card.pages.dev",
+  "checks": [
+    "PUBLIC_CODEX",
+    "KANGYUN_POWER_AND_SKILLS",
+    "SEVEN_HALLOWEEN_POLICIES",
+    "MATCHING_APP_RUNTIME",
+    "SERVICE_WORKER_CACHE",
+    "ARCHER_MANIFEST"
+  ],
+  "apiCacheControl": "no-store",
+  "runtimeVersion": "20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1-ss-balance-20261019-v2",
+  "kangyun": {
+    "code": "V-057",
+    "basePower": 324000,
+    "skills": [
+      {
+        "id": "MS-059",
+        "name": "연환 파갑",
+        "role": "저격",
+        "target": "적 후열 핵심 위협",
+        "trigger": "PVE·PVP에서 후열 우선, 전투 시작 공격력 순으로 핵심 적 1명을 지정합니다. 자원과 재사용 조건을 충족할 때 발동합니다.",
+        "effect": "후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 840%의 한 시전 피해 예산을 사용합니다.",
+        "counterplay": "회피·방어·방벽·피해 경감을 적용하며 사망·기절·침묵 중에는 발동하지 않습니다. 대상이 없으면 자원을 소모하지 않습니다.",
+        "bossRule": "한 시전의 피해 예산을 지정 대상 수로 나눕니다. 화살 연출은 추가 피해나 행동을 만들지 않으며 회피한 몫은 재분배하지 않습니다.",
+        "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+        "balance": {
+          "damageRatio": 8.4,
+          "cooldownTurns": 2,
+          "cost": 25
+        },
+        "ready": true
+      },
+      {
+        "id": "MS-060",
+        "name": "천궁 멸진",
+        "role": "저격",
+        "target": "적 전체",
+        "trigger": "PVE에서 살아 있는 적 전체를 지정합니다. PVP에서는 사용하지 않습니다. 자원과 재사용 조건을 충족할 때 발동합니다.",
+        "effect": "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 1,200%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다.",
+        "counterplay": "회피·방어·방벽·피해 경감을 적용하며 사망·기절·침묵 중에는 발동하지 않습니다. 대상이 없으면 자원을 소모하지 않습니다.",
+        "bossRule": "한 시전의 피해 예산을 지정 대상 수로 나눕니다. 화살 연출은 추가 피해나 행동을 만들지 않으며 회피한 몫은 재분배하지 않습니다.",
+        "procRule": "추가 타격·반격·지휘 보너스는 스킬 발동 자원이 되지 않는다. 재귀 발동과 처치 초기화는 금지한다.",
+        "balance": {
+          "damageRatio": 12,
+          "cooldownTurns": 4,
+          "cost": 35
+        },
+        "ready": true
+      }
+    ],
+    "description": "아군 일반 카드 5명의 평균 공격력 1210%를 최소 공격력, 평균 최대 체력 1540%를 최소 최대 체력으로 사용합니다. 전투 시작 시 평균 최대 체력 825%의 기본 전용 방벽을 얻습니다. 신궁 강윤은 자연 행동 속도 3배, 아군 카드 행동당 3회 추가 행동하며 자기 행동마다 에너지 10를 회복합니다. PVP 기본 공격 피해는 90%, 기본 공격 피해 상한은 1.5배, 연환 파갑 피해 상한은 2.7배입니다. 후열 핵심 적 한 명을 집중 공격하고 PVE에서는 천궁 멸진으로 적 전체에 화살비를 내립니다. PVP에서 아군 일반 카드가 모두 전투 불능이면 적 일반 카드 행동마다 반격 행동을 이어갑니다. 기본 공격과 피해·회복·보호 스킬 모두 연계 공격력을 사용합니다. PVP에서 S·SS·SSS 상대 용병보다 등급이 높으면 전투 시작 시 등급 차이 1단계마다 연계 공격·피해 상한 100%, 연계 체력·방벽 500%를 추가합니다. 동일 등급과 PVE에는 이 등급 차이 보정을 적용하지 않습니다."
+  },
+  "seasonal": [
+    {
+      "code": "V-980",
+      "name": "나무늘봉순",
+      "balance": {
+        "damageRatio": 8.4,
+        "cooldownTurns": 2,
+        "cost": 20
+      },
+      "description": "할로윈 SS 리미티드 · 기본 전투력 216,000(기존 SS 리미티드 대비 20% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 1056%·체력 1344%·전용 방벽 720%. 자연 행동 속도 2.5배, 아군 카드 4행동마다 용병 12회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 840%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 2.4배입니다. 기본 공격 상한은 1.35배입니다."
+    },
+    {
+      "code": "V-981",
+      "name": "조은",
+      "balance": {
+        "damageRatio": 6.72,
+        "cooldownTurns": 2,
+        "cost": 20
+      },
+      "description": "할로윈 SS 리미티드 · 기본 전투력 216,000(기존 SS 리미티드 대비 20% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 660%·체력 840%·전용 방벽 450%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 672%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 1.8배입니다."
+    },
+    {
+      "code": "V-982",
+      "name": "하이희야",
+      "balance": {
+        "damageRatio": 7.56,
+        "cooldownTurns": 2,
+        "cost": 20
+      },
+      "description": "할로윈 SS 리미티드 · 기본 전투력 216,000(기존 SS 리미티드 대비 20% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 693%·체력 882%·전용 방벽 472.5%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 756%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 2.2배입니다."
+    },
+    {
+      "code": "V-983",
+      "name": "오리꿍",
+      "balance": {
+        "damageRatio": 6.72,
+        "cooldownTurns": 3,
+        "cost": 20
+      },
+      "description": "할로윈 SS 리미티드 · 기본 전투력 216,000(기존 SS 리미티드 대비 20% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 616%·체력 784%·전용 방벽 420%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 672%·비용 20·재사용 3행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 1.6배입니다."
+    },
+    {
+      "code": "V-984",
+      "name": "디임",
+      "balance": {
+        "damageRatio": 6.72,
+        "cooldownTurns": 2,
+        "cost": 20
+      },
+      "description": "할로윈 SS 리미티드 · 기본 전투력 216,000(기존 SS 리미티드 대비 20% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 484%·체력 616%·전용 방벽 330%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 672%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 1.8배입니다. 성야의 방패는 PVP에서 부여량이 40% 감소하여 공격력 403.2%를 전열에 나눠 부여합니다. 시작 방벽에는 이 감소를 적용하지 않으며 PVE는 672% 방벽을 부여합니다."
+    },
+    {
+      "code": "V-985",
+      "name": "아윤",
+      "balance": {
+        "damageRatio": 6.72,
+        "cooldownTurns": 2,
+        "cost": 20
+      },
+      "description": "할로윈 SS 리미티드 · 기본 전투력 216,000(기존 SS 리미티드 대비 20% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 638%·체력 812%·전용 방벽 435%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 672%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 1.75배입니다."
+    },
+    {
+      "code": "V-986",
+      "name": "남수댕",
+      "balance": {
+        "damageRatio": 6.72,
+        "cooldownTurns": 1,
+        "cost": 20
+      },
+      "description": "할로윈 SS 리미티드 · 기본 전투력 216,000(기존 SS 리미티드 대비 20% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 1034%·체력 1316%·전용 방벽 705%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 672%·비용 20·재사용 1행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 2.15배입니다."
+    }
+  ],
+  "deploymentUrl": "https://de5d5857.cnine-card.pages.dev",
+  "apiVersion": "76473343-fd68-495b-9fd2-06d896379eda",
+  "clanDraftVersion": "719a8e42-d9dc-45d8-a7eb-7ac8ccab28d3",
+  "regressionTests": 32,
+  "scopedDeploy": true
+}

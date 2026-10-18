@@ -47,3 +47,9 @@ PVE 별도 **360회**(15종 × 3조건 × 8난수): 모두 8/8 클리어. 강윤
 - 관련 테스트: `tests/mercenary-ss-balance-20261019.test.mjs`, `tests/mercenary-kangyun-live-20261018.test.mjs`, `tests/mercenary-halloween-diim-barrier-20261018.test.mjs`, `preview/mercenary-imperial-archer-sss-v1/balance.test.mjs`.
 - 근거: `docs/qa/ss-mercenary-balance-20261019/{before,holdout,pve,tuning-history}.json`. 중간값과 최종값을 구분한다. 기술 검사는 새 시각 승인으로 기록하지 않는다.
 - 배포: 관련 검사·Worker 컴파일·공통 전장 입장 검사만 포함하는 scoped 배포 후 공개 API의 수치와 버전을 확인한다. 운영 확인 영수증은 같은 QA 폴더의 `production.json`에 기록한다.
+
+## 라이브 완료
+
+- 코드 `d9b645826`, Pages `https://de5d5857.cnine-card.pages.dev`로 scoped 배포 완료. 관련 32개 검사와 Worker 컴파일, 출시·캐시·Hyperdrive 검사 통과. 첫 배포 시도는 앱/서비스워커 캐시 태그 불일치로 업로드 전에 중단됐으며 태그를 일치시킨 뒤 통과했다.
+- API 런타임 `76473343-fd68-495b-9fd2-06d896379eda`, 전장 스케줄러 `719a8e42-d9dc-45d8-a7eb-7ac8ccab28d3` 반영.
+- 운영 공개 API에서 강윤 324,000·840%/1,200%, 할로윈 7종 개별 배율/주기/연계 설명을 확인했다. 앱/전투 런타임 버전, 서비스워커 캐시 및 강윤 프리뷰 manifest도 일치한다. `verify-production.mjs` 읽기 검사 6개 통과, 계정·보유권·재화 변경 없이 확인했다.
