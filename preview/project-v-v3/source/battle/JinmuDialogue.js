@@ -72,16 +72,31 @@ const CSS=`
 .battle-v3-live-shell.has-jinmu-dialogue .nightmare-battle-mark{translate:0 var(--jinmu-dialogue-height,0px)}
 body[data-jinmu-dialogue='true'][data-legion-live] .boss-hud,body[data-jinmu-dialogue='true'][data-legion-live] #hunt-pickup-toast{translate:0 var(--jinmu-dialogue-height,0px)}
 .coop-battle-portal.has-jinmu-dialogue>.coop-pattern{top:calc(var(--jinmu-dialogue-bottom,140px) + 8px)}
+.coop-battle-portal .jinmu-dialogue-rail{background:transparent}
 @media(max-width:760px){.jinmu-dialogue-rail{padding:5px 7px 7px}.jinmu-dialogue-inner{min-height:90px;padding:9px 12px;gap:11px}.jinmu-dialogue-face{flex-basis:48px;width:48px;height:48px;padding:2px}.jinmu-dialogue-name{gap:7px;margin-bottom:3px;flex-wrap:wrap}.jinmu-dialogue-name b{font-size:12px}.jinmu-dialogue-name span{font-size:9px}.jinmu-dialogue-copy p{font-size:14px;line-height:1.65}.jinmu-dialogue-seal{display:none}.jinmu-dialogue-frame:before,.jinmu-dialogue-frame:after{left:78px;right:20px}}
 @media(max-width:760px){.coop-battle-portal.has-jinmu-dialogue>.coop-pattern{top:auto}}
 @media(max-height:620px) and (orientation:landscape){.jinmu-dialogue-rail{padding-block:4px}.jinmu-dialogue-inner{min-height:62px;padding-block:5px}.jinmu-dialogue-face{flex-basis:44px;width:44px;height:44px}.jinmu-dialogue-copy p{font-size:14px}.jinmu-dialogue-name b{font-size:11px}.jinmu-dialogue-seal{min-height:45px}.jinmu-dialogue-seal b{font-size:18px}}
 @media(max-width:760px){.jinmu-dialogue-rail[data-theme='jokro']{padding:2px 5px 4px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame{border-inline-width:44px;border-image-width:0 44px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-inner{min-height:112px;padding:25px 0;gap:9px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-face{flex-basis:38px;width:38px;height:38px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-copy p{font-size:13px;line-height:1.6}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name{gap:7px;flex-wrap:nowrap}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name b{font-size:12px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name span{font-size:9px}}
 `;
 
-const DIALOGUE_CSS=CSS+SHIRANUI_DIALOGUE_CSS;
+const DIALOGUE_CSS=CSS+SHIRANUI_DIALOGUE_CSS+`
+@media(min-width:761px){
+ .coop-battle-portal .jinmu-dialogue-rail{left:auto;right:8px;width:32%;max-width:620px;padding:6px 0}
+ .coop-battle-portal .jinmu-dialogue-seal{display:none}
+ .coop-battle-portal .jinmu-dialogue-inner{gap:9px}
+ .coop-battle-portal .jinmu-dialogue-rail .jinmu-dialogue-copy p{font-size:14px}
+ .coop-battle-portal .jinmu-dialogue-name{gap:7px;flex-wrap:wrap}
+ .coop-battle-portal .jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame{border-inline-width:44px;border-image-width:0 44px}
+ .coop-battle-portal .jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-inner{padding:24px 0;gap:9px}
+ .coop-battle-portal .jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-face{flex-basis:38px;width:38px;height:38px}
+ .coop-battle-portal .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-frame:before{border-inline-width:92px;border-image-width:0 92px}
+ .coop-battle-portal .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-inner{padding:49px 52px 49px 108px}
+ .coop-battle-portal .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-face{left:31px;width:43px;height:43px}
+}
+`;
 const rails=new WeakMap();
 
-// One reserved row per engine, including mixed three-squad formations.
+// One dialogue per engine; cooperative dialogue overlays the battlefield.
 // Each actor keeps its own lines and cast index; only the current speaker draws.
 class DialogueRail{
  constructor(engine,shell){
@@ -115,11 +130,15 @@ class DialogueRail{
    const header=Math.max(this.header?.getBoundingClientRect().height||0,...this.coopHeaders.map(el=>Math.max(0,el.getBoundingClientRect().bottom-shellTop))),height=this.node.getBoundingClientRect().height;
    this.node.style.top=header+'px';shell.style.setProperty('--jinmu-dialogue-height',height+'px');
    if(this.body.dataset.jinmuDialogue==='true')this.body.style.setProperty('--jinmu-dialogue-height',height+'px');
+   this.portal?.style.setProperty('--jinmu-dialogue-bottom',(header+height)+'px');
    const top=header+height;
-   this.portal?.style.setProperty('--jinmu-dialogue-bottom',top+'px');
    // Pixi owns the resize callback. Calling engine.resize during actor loading
    // is too early: its status UI is constructed after the mercenary assets.
-   if(top!==this.top){this.top=top;this.host.style.setProperty('top',top+'px','important');engine.app?.resize?.();}
+   if(top!==this.top){
+    this.top=top;
+    if(this.portal){if(engine.uiLayer?.statusPanel)engine.resize();}
+    else{this.host.style.setProperty('top',top+'px','important');engine.app?.resize?.();}
+   }
   };
   this.layout();this.observer=new ResizeObserver(this.layout);this.observer.observe(this.node);if(this.header)this.observer.observe(this.header);
   for(const header of this.coopHeaders)this.observer.observe(header);
@@ -153,9 +172,9 @@ class DialogueRail{
   rails.delete(this.engine);
   this.shell.classList.remove('has-jinmu-dialogue');this.shell.style.removeProperty('--jinmu-dialogue-height');
   this.portal?.classList.remove('has-jinmu-dialogue');this.portal?.style.removeProperty('--jinmu-dialogue-bottom');
-  this.host.style.setProperty('top',this.previousTop.value,this.previousTop.priority);
+  if(!this.portal)this.host.style.setProperty('top',this.previousTop.value,this.previousTop.priority);
   if(this.body.dataset.jinmuDialogue==='true'){delete this.body.dataset.jinmuDialogue;this.body.style.removeProperty('--jinmu-dialogue-height');}
-  if(!this.engine.disposed)this.engine.app?.resize?.();
+  if(!this.engine.disposed){if(this.portal&&this.engine.uiLayer?.statusPanel)this.engine.resize();else this.engine.app?.resize?.();}
  }
 }
 

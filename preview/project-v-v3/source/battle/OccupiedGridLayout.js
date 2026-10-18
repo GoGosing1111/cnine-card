@@ -55,7 +55,9 @@ export const withOccupiedGrid = Base => class extends Base {
   resize() {
     this.viewportFit = null;
     super.resize();
-    if (!this.root || this.gridMode !== 'wide' || !this.formationDuo&&!this.formationCoop&&!usesCompactViewport(this.app.screen.width)) return;
+    // Desktop cooperative battles use the ordinary 1600 x 820 viewport.
+    // Fitting the board again above the card dock shrinks the entire battle.
+    if (!this.root || this.gridMode !== 'wide' || !this.formationDuo&&!usesCompactViewport(this.app.screen.width)) return;
     const hostRect = this.host.getBoundingClientRect(), shell = this.host.closest('.battle-v3-live-shell');
     const dock = shell?.querySelector('.battle-v3-dock')?.getBoundingClientRect();
     const status = shell?.querySelector('.battle-v3-status');
@@ -69,6 +71,10 @@ export const withOccupiedGrid = Base => class extends Base {
     const bottom = Math.max(dock?.height > 0 ? Math.max(0, hostRect.bottom - dock.top) : 130,
       statusAtDock ? hostRect.bottom - statusRect.top + 8 : 0)+petBottom;
     let top = !statusAtDock && statusRect?.height > 0 ? Math.max(0, statusRect.bottom - hostRect.top) : 8;
+    // Mobile dialogue overlays the background, while occupied stations start
+    // below it. Desktop has an empty right-hand lane for the same frame.
+    const dialogue=this.formationCoop&&shell?.querySelector('.jinmu-dialogue-rail');
+    if(dialogue)top=Math.max(top,dialogue.getBoundingClientRect().bottom-hostRect.top);
     let objectiveHudFit = null;
     if (this.objectiveData && this.objectiveHud?.visible) {
       const b = this.objectiveHud.getLocalBounds(), scale = Math.min(1, (this.app.screen.width - 24) / b.width);

@@ -57,7 +57,7 @@ const server=http.createServer((req,res)=>{
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']}),reports=[],errors=[];
 try{
- for(const viewport of (reproduce?[{width:1440,height:1000}]:[{width:1440,height:1000},{width:390,height:844}])){
+ for(const viewport of (reproduce?[{width:1440,height:1000}]:[{width:1440,height:1000},...(layoutOnly?[{width:1768,height:957},{width:1024,height:768}]:[]),{width:390,height:844}])){
   const page=await browser.newPage({viewport,serviceWorkers:'block'});page.on('pageerror',e=>errors.push(e.stack));
   await page.goto('http://127.0.0.1:'+server.address().port+'/qa.html');await page.waitForFunction(()=>window.JokroCoopQA?.ready||window.qaError,null,{timeout:60000});
   assert.equal(await page.evaluate(()=>window.qaError),undefined);
@@ -67,21 +67,32 @@ try{
    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));const before=box(e.host),heights=[];
    for(let i=0;i<5;i++){d.begin();await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));heights.push(box(e.host).top);d.end();}d.castIndex=0;
    const rect=box(node),p=box(node.querySelector('.jinmu-dialogue-copy')),face=box(node.querySelector('.jinmu-dialogue-face'));
-   return {before,heights,rect,text:p,face,overflow:document.documentElement.scrollWidth>innerWidth+1,frame:getComputedStyle(node.querySelector('.jinmu-dialogue-frame')).borderImageSource};
+   return {before,heights,rect,text:p,face,overflow:document.documentElement.scrollWidth>innerWidth+1,frame:getComputedStyle(node.querySelector('.jinmu-dialogue-frame')).borderImageSource,railBackground:getComputedStyle(node).backgroundColor,rootScale:e.root.scale.x,stageScale:e.stage.scale.x,scene:e.scene,fit:e.viewportFit,geometry:e.viewportGeometry(),dock:box(e.host.closest('.battle-v3-live-shell').querySelector('.battle-v3-dock')),status:box(e.host.closest('.battle-v3-live-shell').querySelector('.battle-v3-status'))};
   });
-  assert.equal(layout.overflow,false);assert(layout.rect.bottom<=layout.before.top+1);for(const top of layout.heights)assert.equal(top,layout.before.top);
+  assert.equal(layout.overflow,false);assert.equal(layout.railBackground,'rgba(0, 0, 0, 0)');assert.equal(layout.rect.top,layout.before.top);for(const top of layout.heights)assert.equal(top,layout.before.top);
+  if(viewport.width>760){assert.equal(layout.fit,null);assert.equal(layout.rootScale,Math.min(layout.before.width/1600,layout.before.height/820));assert.equal(layout.stageScale,1);}
   if(layoutOnly){
    const mixed=await page.evaluate(async()=>{
     const {MERCENARY_DIALOGUE_PROFILES}=await import('/preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js');
     const q=JokroCoopQA,dialogue=q.engine.jokroStates.get(q.actor).fx.dialogue,rail=dialogue.rail;
-    const others=['V-989','V-996','V-999'].map(code=>({profile:MERCENARY_DIALOGUE_PROFILES[code],active:false,lastLine:MERCENARY_DIALOGUE_PROFILES[code].idleLine}));
+    const others=['V-989','V-996','V-999','V-987'].map(code=>({profile:MERCENARY_DIALOGUE_PROFILES[code],active:false,lastLine:MERCENARY_DIALOGUE_PROFILES[code].idleLine}));
     others.forEach(m=>rail.add(m));await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
-    const top=q.engine.host.getBoundingClientRect().top,positions=[];
-    for(const m of [dialogue,...others,dialogue]){rail.show(m);await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));positions.push(q.engine.host.getBoundingClientRect().top);}
+    const top=q.engine.host.getBoundingClientRect().top,positions=[],speakers=[];
+    for(const m of [dialogue,...others,dialogue]){
+     if(m.profile.code==='V-987')m.lastLine=m.profile.lines.toSorted((a,b)=>b.length-a.length)[0];
+     rail.show(m);await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));positions.push(q.engine.host.getBoundingClientRect().top);
+     const rect=rail.node.getBoundingClientRect(),host=q.engine.host.getBoundingClientRect(),geometry=q.engine.viewportGeometry();
+     const overlaps=geometry.actors.filter(a=>[a.body,a.hud].some(b=>b.x<rect.right&&b.x+b.width>rect.left&&b.y+host.top<rect.bottom&&b.y+b.height+host.top>rect.top)).map(a=>a.id);
+     speakers.push({code:m.profile.code,scale:q.engine.root.scale.x,rect:rect.toJSON(),overlaps});
+    }
     const r=rail.node.getBoundingClientRect(),overlap=[...document.querySelectorAll('.coop-battle-top button')].some(b=>{const p=b.getBoundingClientRect();return p.right>r.left&&p.left<r.right&&p.top<r.bottom&&p.bottom>r.top;});
-    others.forEach(m=>rail.remove(m));return {top,positions,overlap};
+    rail.show(others.at(-1));return {top,positions,overlap,speakers};
    });
    for(const top of mixed.positions)assert.equal(top,mixed.top,'switching speakers must not resize the cooperative board');assert.equal(mixed.overlap,false);
+   for(const s of mixed.speakers){assert.deepEqual(s.overlaps,[],JSON.stringify({width:viewport.width,s}));if(viewport.width>760)assert.equal(s.scale,layout.rootScale);}
+   await page.screenshot({path:path.join(out,viewport.width+'-shiranui-dialogue.png')});
+   const removed=await page.evaluate(()=>{const q=JokroCoopQA,d=q.engine.jokroStates.get(q.actor).fx.dialogue;d.rail.destroy();return {top:q.engine.host.getBoundingClientRect().top,scale:q.engine.root.scale.x};});
+   assert.equal(removed.top,layout.before.top);if(viewport.width>760)assert.equal(removed.scale,layout.rootScale);
    reports.push({width:viewport.width,layout,mixed});await page.evaluate(()=>{JokroCoopQA.controller.destroy();ProjectVPixiBattle.destroy();});await page.close();continue;
   }
   await page.evaluate(()=>JokroCoopQA.start());

@@ -68,6 +68,7 @@
 /* Only the raid overlay host is positioned; native V3 actors and card dock retain their geometry. */
 .coop-battle-portal>.coop-battle-mount{position:absolute!important;inset:0!important;z-index:0!important;width:100%!important;height:100%!important;display:block!important;margin:0!important;padding:0!important}
 .coop-battle-portal>.coop-boss-hud{position:absolute;z-index:3;top:72px;left:0;right:0;background:#091424;pointer-events:none}
+.coop-battle-portal .battle-v3-canvas-host{top:var(--coop-hud-bottom,156px)!important}
 @media(max-width:760px){.coop-battle-portal>.coop-battle-top{min-height:62px}.coop-battle-portal>.coop-boss-hud{top:62px}}
 
 /* The foundry entry and mechanic overlay belong to this encounter; V3 owns the battlefield and dock. */

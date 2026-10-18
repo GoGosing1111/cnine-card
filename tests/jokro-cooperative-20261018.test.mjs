@@ -54,5 +54,5 @@ test('the dedicated green dialogue frame preserves source pixels and ships in th
  const source=fs.readFileSync('preview/project-v-v3/source/project-v-pixi-battle.src.js','utf8');assert(source.includes("runtimeVersion:'"+wrapper+"'"));
  const report=JSON.parse(fs.readFileSync('preview/project-v-v3/grid-build-report.json'));
  for(const row of report.outputs){const bundle=fs.readFileSync(row.file,'utf8');assert(bundle.includes('/'+dir+'frame.webp'),row.file);assert(bundle.includes('MERCENARY_JOKRO_AREA'),row.file);}
- assert(fs.readFileSync('raid/cooperative/live.mjs','utf8').includes('battle.mjs?v=20261018-jokro-coop-v1'));
+ assert(fs.readFileSync('raid/cooperative/live.mjs','utf8').includes('battle.mjs?v=20261018-jokro-coop-v1-normal-view-v1'));
 });

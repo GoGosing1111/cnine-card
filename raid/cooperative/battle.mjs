@@ -6,7 +6,21 @@ export async function mountCoopBattle(host,payload,{clock:sharedClock}={}){
  const clock=sharedClock||createServerClock(),live=window.ProjectVBattleV3Live;await live.ensureRuntime();
  const prepared=live.prepareLoading({modal:host,mode:'RAID',playerName:'격전지 연합',opponentName:payload.monster.name,autoText:'세 분대가 전장에 집결합니다'});
  host.classList.add('coop-battle-mount');prepared.stage.querySelector('.battle-v3-header strong').textContent='격전지(협동)';prepared.stage.querySelector('.battle-v3-header small').textContent='3인 공동 전투';
- const renderer=await live.createRenderer({...prepared,modal:host,data:payload,mode:'RAID',playUltimateCinematics:false});
+ // Keep the ordinary viewport below the cooperative HUD regardless of whether
+ // a squad owns a talking mercenary. Dialogue must never resize this canvas.
+ const portal=host.closest?.('.coop-battle-portal');let hudObserver;
+ if(portal){
+  const headers=[...portal.querySelectorAll(':scope>.coop-battle-top,:scope>.coop-boss-hud')];
+  const layoutHud=()=>{
+   const top=prepared.stage.getBoundingClientRect().top,value=Math.max(0,...headers.map(el=>el.getBoundingClientRect().bottom-top))+'px';
+   if(portal.style.getPropertyValue('--coop-hud-bottom')===value)return;
+   portal.style.setProperty('--coop-hud-bottom',value);window.dispatchEvent(new Event('resize'));
+  };
+  layoutHud();hudObserver=new ResizeObserver(layoutHud);headers.forEach(el=>hudObserver.observe(el));
+ }
+ let renderer;
+ try{renderer=await live.createRenderer({...prepared,modal:host,data:payload,mode:'RAID',playUltimateCinematics:false});}
+ catch(error){hudObserver?.disconnect();portal?.style.removeProperty('--coop-hud-bottom');throw error;}
  const api=window.ProjectVPixiBattle;await api.restoreDeployedFormation();
  let groups=[],cursor=0,version=0,startsAt=0,active=false,destroyed=false,frame=null,lastSync=0,lastSnapshot=performance.now(),suspended=false,coalesced=0,skipped=0;
  const lanes=new Map();
@@ -56,5 +70,5 @@ export async function mountCoopBattle(host,payload,{clock:sharedClock}={}){
   raf=requestAnimationFrame(pump);
  }
  let raf=requestAnimationFrame(pump);update({serverNow:Date.now(),state:{status:'LOADING',battleRevision:0},payload});
- return {update,destroy(){destroyed=true;cancelAnimationFrame(raf);cancel();renderer.destroy();},diagnostics:()=>({cursor,groups:groups.length,startsAt,pendingActions:lanes.size,coalesced,skipped,suspended,clock:clock.diagnostics(),engine:api.diagnostics()})};
+ return {update,destroy(){destroyed=true;hudObserver?.disconnect();portal?.style.removeProperty('--coop-hud-bottom');cancelAnimationFrame(raf);cancel();renderer.destroy();},diagnostics:()=>({cursor,groups:groups.length,startsAt,pendingActions:lanes.size,coalesced,skipped,suspended,clock:clock.diagnostics(),engine:api.diagnostics()})};
 }

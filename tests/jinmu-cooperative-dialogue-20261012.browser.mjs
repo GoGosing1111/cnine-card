@@ -65,7 +65,7 @@ try{
    return {width:innerWidth,formation:q.engine.formationCoop,mode:q.engine.activeBattlefieldMode,actors:q.engine.characters.filter(a=>a.team==='ALLY').length,dialogues:document.querySelectorAll('.jinmu-dialogue-rail').length,rect,canvas:box(q.engine.host),faceOpacity:node?getComputedStyle(node.querySelector('.jinmu-dialogue-face>i')).opacity:null,overlaps:[...document.querySelectorAll('button,.coop-battle-top,.coop-boss-hud,.coop-pattern')].filter(overlap).map(e=>e.className||e.textContent),overflow:document.documentElement.scrollWidth>innerWidth+1};
   });
   assert.equal(report.formation,true);assert.equal(report.mode,'RAID');assert.equal(report.actors,9);assert.equal(report.dialogues,1);
-  assert.equal(report.faceOpacity,'1');assert.equal(report.overflow,false);assert.deepEqual(report.overlaps,[]);assert(report.rect.bottom<=report.canvas.top+1);
+  assert.equal(report.faceOpacity,'1');assert.equal(report.overflow,false);assert.deepEqual(report.overlaps,[]);assert.equal(report.rect.top,report.canvas.top);
   // All five ultimate lines must keep the board and canvas at the same scale.
   const framing=await page.evaluate(async()=>{
    const q=JinmuCoopQA,e=q.engine,dialogue=e.jinmuStates.get(q.actor).fx.dialogue;

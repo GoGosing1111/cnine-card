@@ -80,7 +80,7 @@ try{
     return rows;
    },code);
    assert.deepEqual(states.map(s=>s.line),[...profiles[code].lines,profiles[code].lines[0]].map(line=>'“'+line+'”'));
-   for(const state of states){assert.equal(state.count,1);assert.equal(state.speaker,code);assert.equal(state.active,'true');assert.deepEqual(state.overlaps,[]);assert.equal(state.canvas.height,initial.layout.canvas.height,JSON.stringify({code,initial:initial.layout,state}));assert(state.rect.bottom<=state.canvas.top+1);}
+   for(const state of states){assert.equal(state.count,1);assert.equal(state.speaker,code);assert.equal(state.active,'true');assert.deepEqual(state.overlaps,[]);assert.equal(state.canvas.height,initial.layout.canvas.height,JSON.stringify({code,initial:initial.layout,state}));assert.equal(state.rect.top,state.canvas.top);}
    await page.screenshot({path:path.join(out,`${viewport.width}-${code}-mixed.png`),fullPage:true});rotations.push({code,states});
   }
   await page.locator('[data-pattern-action]').click();assert.equal(await page.evaluate(()=>JinmuCoopQA.clicked),true);
