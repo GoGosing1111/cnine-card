@@ -1,0 +1,26 @@
+{
+  "isolatedDatabase": true,
+  "productionWrites": 0,
+  "reports": [
+    {
+      "width": 1440,
+      "stockZeroLabels": 10,
+      "tenOrdinarySss": true,
+      "automaticSingles": 2,
+      "coinDebit": 1100,
+      "posts": 3,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 390,
+      "stockZeroLabels": 10,
+      "tenOrdinarySss": true,
+      "automaticSingles": 2,
+      "coinDebit": 1100,
+      "posts": 3,
+      "errors": [],
+      "failed": []
+    }
+  ]
+}

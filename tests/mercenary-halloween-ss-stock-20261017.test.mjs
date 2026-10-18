@@ -43,11 +43,11 @@ test('adding thirty-five slots is atomic and idempotent; issuance, SSS, settings
  assert.equal(after.meta.filter(r=>r.key===HALLOWEEN_SS_STOCK_PLUS5_KEY).length,1);
 });
 
-test('an exhausted SS receives exactly serials six through ten after expansion; the next request never charges',async t=>{
+test('an exhausted SS receives exactly serials six through ten after expansion, then ordinary SSS',async t=>{
  const f=await original(t);await f.pg.query("UPDATE mercenary_limited_stock_v1 SET issued=5 WHERE code='V-980'");
  await increaseHalloweenSsStock(f.pg);const coin=await f.coin(),serials=[];
  for(let i=0;i<5;i++)serials.push((await f.service.open(f.env,f.user,{...f.body(),expectedRevision:2})).draws[0].serial);
  assert.deepEqual(serials,[6,7,8,9,10]);assert.equal(await f.coin(),coin-500);
- await assert.rejects(f.service.open(f.env,f.user,{...f.body(),expectedRevision:2}),e=>e.code==='MERCENARY_HALLOWEEN_NOT_READY');
- assert.equal(await f.coin(),coin-500);assert.equal((await f.state()).stock.find(s=>s.code==='V-980').remaining,0);
+ assert.equal((await f.service.open(f.env,f.user,{...f.body(),expectedRevision:2})).draws[0].outcomeId,'CARD_SSS');
+ assert.equal(await f.coin(),coin-600);assert.equal((await f.state()).stock.find(s=>s.code==='V-980').remaining,0);
 });

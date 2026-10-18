@@ -27,7 +27,7 @@ test('only the SSS interval enters the second lottery; SS remains ordinary and m
  const limited=pickHalloweenBatch(state,1,rng([6000000000,1999999999]))[0];assert.equal(limited.mercenaryCode,'V-980');assert.equal(limited.rank,'SS');assert.equal(limited.gateRank,'SSS');
  const fallback=pickHalloweenBatch(state,1,rng([8999999999,2000000000,0]))[0];assert.equal(fallback.rank,'SSS');assert.equal(fallback.edition,'STANDARD');
  assert.deepEqual(pickHalloweenBatch(state,1,rng([9000000000])),[{outcomeId:'NONE',quantity:0}]);
- const sold=plan();sold.stock[0].issued=10;sold.stock[0].remaining=0;assert.throws(()=>pickHalloweenBatch(sold,1,rng([6000000000,0])),e=>e.code==='MERCENARY_HALLOWEEN_SOLD_OUT');
+ const sold=plan();sold.stock[0].issued=10;sold.stock[0].remaining=0;assert.equal(pickHalloweenBatch(sold,1,rng([6000000000,0,0]))[0].outcomeId,'CARD_SSS');
 });
 
 test('unauthenticated opening performs no database query; OFF and incomplete ON never charge',async t=>{
@@ -56,12 +56,12 @@ test('failure after stock reservation rolls back stock, coins and cards; retry u
  const calls=randomCalls;const r=await f.service.open(f.env,f.user,b);assert.equal(r.draws[0].serial,1);assert.equal(randomCalls,calls);assert.equal(await f.coin(),999900);
 });
 
-test('last remaining card is granted at most once; a ten-batch shortage never charges',async t=>{
+test('last remaining card is granted once and the other nine slots award ordinary SSS',async t=>{
  const f=await halloweenFixture(t);await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=9 WHERE code='V-980'");
- await assert.rejects(f.service.open(f.env,f.user,f.body(10)),e=>e.code==='MERCENARY_HALLOWEEN_SOLD_OUT');assert.equal(await f.coin(),1000000);
- const results=await Promise.allSettled([f.service.open(f.env,f.user,f.body()),f.service.open(f.env,{id:2},f.body())]);assert.equal(results.filter(r=>r.status==='fulfilled').length,1);
+ const body=f.body(10),result=await f.service.open(f.env,f.user,body);assert.equal(result.draws.filter(r=>r.mercenaryCode==='V-980').length,1);assert.equal(result.draws.filter(r=>r.outcomeId==='CARD_SSS').length,9);
+ assert.deepEqual((await f.service.open(f.env,f.user,body)).draws,result.draws);
  assert.equal(Number((await f.pg.query("SELECT issued FROM mercenary_limited_stock_v1 WHERE code='V-980'")).rows[0].issued),10);
- assert.equal((await f.pg.query('SELECT * FROM mercenary_limited_issues_v1')).rows.length,1);assert.equal(await f.coin()+await f.coin(2),1999900);
+ assert.equal((await f.pg.query('SELECT * FROM mercenary_limited_issues_v1')).rows.length,1);assert.equal(await f.coin(),999100);
 });
 
 test('prepared request cancels on settings change without charging or resampling',async t=>{

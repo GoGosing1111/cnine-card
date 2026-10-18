@@ -1,9 +1,9 @@
 import {jointAccountRequest} from './joint-account-transport.mjs?v=20260924-response';
-import {HALLOWEEN_PACK,halloweenReceiptResults,halloweenPackPrice} from '../shared/mercenary-halloween-pack-v1.mjs?v=20261018-valter-v1';
+import {HALLOWEEN_PACK,halloweenReceiptResults,halloweenPackPrice} from '../shared/mercenary-halloween-pack-v1.mjs?v=20261018-halloween-sss-fallback-v1';
 import {HalloweenOpeningSession} from '../shared/mercenary-halloween-session-v2.mjs?v=20261017-stock-recovery-v1';
 import {HalloweenAutoOpening,halloweenAutoQuote} from '../shared/mercenary-halloween-auto-v1.mjs?v=20261017-auto-v1';
 import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=2145';
-import {halloweenStockText,halloweenCollectionMarkup,halloweenResultsMarkup,halloweenRoomMarkup} from './mercenary-halloween-presentation-v2.mjs?v=20261018-stock-visible-v1';
+import {halloweenStockText,halloweenCollectionMarkup,halloweenResultsMarkup,halloweenRoomMarkup} from './mercenary-halloween-presentation-v2.mjs?v=20261018-halloween-sss-fallback-v1';
 const fmt=n=>n==null?'미정':BigInt(n).toLocaleString('ko-KR');
 const currentAccount=()=>Number(globalThis.loadUser?.()?.serverUserId)||0;
 const browserLock=(key,work)=>{if(!navigator.locks?.request)throw Error('안전한 개봉을 지원하는 최신 브라우저에서 이용해 주세요.');return navigator.locks.request(key,{ifAvailable:true},lock=>{if(!lock)throw Error('다른 창에서 할로윈팩을 처리 중입니다.');return work();});};

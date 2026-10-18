@@ -47,6 +47,6 @@ test('sold out, OFF, mismatched identity and client supplied overrides never con
  const f=await fixture(t);
  await f.arm({userId:2});await assert.rejects(f.service.open(f.env,f.user,f.body()),e=>e.code==='MERCENARY_HALLOWEEN_ONCE_CONFIG');
  await f.arm();await assert.rejects(f.service.open(f.env,f.user,{...f.body(),firstLimitedCode:'V-980'}),e=>e.code==='MERCENARY_HALLOWEEN_INPUT');
- await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=stock_limit WHERE code='V-980'");await assert.rejects(f.service.open(f.env,f.user,f.body()),e=>e.code==='MERCENARY_HALLOWEEN_NOT_READY');
- f.settings.mode='OFF';await f.configure();await assert.rejects(f.service.open(f.env,f.user,f.body()),e=>e.code==='MERCENARY_HALLOWEEN_CLOSED');assert.equal(await f.coin(),1000000);assert.equal((await f.once()).remaining,1);
+ await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=stock_limit WHERE code='V-980'");assert.equal((await f.service.open(f.env,f.user,f.body())).draws[0].outcomeId,'NONE');
+ f.settings.mode='OFF';await f.configure();await assert.rejects(f.service.open(f.env,f.user,f.body()),e=>e.code==='MERCENARY_HALLOWEEN_CLOSED');assert.equal(await f.coin(),999900);assert.equal((await f.once()).remaining,1);
 });

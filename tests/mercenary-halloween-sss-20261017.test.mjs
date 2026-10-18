@@ -24,17 +24,17 @@ test('V2 draft keeps existing conditional odds and adds three unset SSS targets 
 test('Helios shares its existing last copy, serial seven, and concurrent requests cannot overissue',async t=>{
  const f=await halloweenFixture(t);only(f.settings,'V-999');await f.configure();
  const state=await f.state();assert.deepEqual(state.stock.find(s=>s.code==='V-999'),{code:'V-999',limit:7,issued:6,remaining:1,prepared:true,scope:'EXISTING_SHARED'});
- const before=await f.coin();await assert.rejects(f.service.open(f.env,f.user,f.body(10)),e=>e.code==='MERCENARY_HALLOWEEN_SOLD_OUT');assert.equal(await f.coin(),before);
- const results=await Promise.allSettled([f.service.open(f.env,f.user,f.body()),f.service.open(f.env,{id:2},f.body())]);assert.equal(results.filter(r=>r.status==='fulfilled').length,1);
- const receipt=results.find(r=>r.status==='fulfilled').value;assert.equal(receipt.draws[0].serial,7);assert.equal(receipt.draws[0].rank,'SSS');assert.equal(halloweenBatchCinematic(halloweenReceiptResults(receipt)).rank,'SSS');assert.match(halloweenReceiptResults(receipt)[0].artUrl,/v-999-640/);
- assert.equal((await f.state()).stock.find(s=>s.code==='V-999').remaining,0);assert.equal(await f.coin()+await f.coin(2),1999900);
+ const results=await Promise.all([f.service.open(f.env,f.user,f.body()),f.service.open(f.env,{id:2},f.body())]);
+ const receipt=results.find(r=>r.draws[0].mercenaryCode==='V-999');assert.equal(receipt.draws[0].serial,7);assert.equal(receipt.draws[0].rank,'SSS');assert.equal(halloweenBatchCinematic(halloweenReceiptResults(receipt)).rank,'SSS');assert.match(halloweenReceiptResults(receipt)[0].artUrl,/v-999-640/);
+ assert.equal(results.filter(r=>r.draws[0].outcomeId==='CARD_SSS').length,1);
+ assert.equal((await f.state()).stock.find(s=>s.code==='V-999').remaining,0);assert.equal(await f.coin()+await f.coin(2),1999800);
 });
 
 test('three Jinmu pack serials exclude the owner copy; rollback and lost acknowledgement never consume an extra slot',async t=>{
  const f=await halloweenFixture(t);only(f.settings,'V-989');await f.configure();await f.p("INSERT INTO user_mercenary_cards_v1 VALUES(1,'V-989',1,0,?,?)",'original','original').run();
  const b=f.body(),buyer={id:2};f.fail('INSERT INTO mercenary_card_acquisitions_v1');await assert.rejects(f.service.open(f.env,buyer,b),/INJECTED/);f.fail('');assert.equal((await f.state()).stock.find(s=>s.code==='V-989').issued,0);assert.equal(await f.coin(2),1000000);
  const first=await f.service.open(f.env,buyer,b);assert.equal(first.draws[0].serial,1);const calls=f.stats.statements;assert.equal((await f.service.open(f.env,buyer,b)).replayed,true);assert.equal(f.stats.statements,calls);
- for(const id of [3,4])await f.service.open(f.env,{id},f.body());assert.equal((await f.state()).stock.find(s=>s.code==='V-989').issued,3);await assert.rejects(f.service.open(f.env,{id:5},f.body()),e=>e.code==='MERCENARY_HALLOWEEN_NOT_READY');
+ for(const id of [3,4])await f.service.open(f.env,{id},f.body());assert.equal((await f.state()).stock.find(s=>s.code==='V-989').issued,3);assert.equal((await f.service.open(f.env,{id:5},f.body())).draws[0].outcomeId,'CARD_SSS');
  assert.equal(Number((await f.p("SELECT total_copies FROM user_mercenary_cards_v1 WHERE user_id=1 AND mercenary_code='V-989'").first()).total_copies),1);
  assert.deepEqual([...await readJinmuPackOwners(f.env,[1,2,3,4,5])].sort(),[2,3,4]);assert.equal(halloweenBatchCinematic(halloweenReceiptResults(first)).rank,'SSS');assert.match(halloweenReceiptResults(first)[0].artUrl,/jinmu-20261012/);
 });

@@ -14,7 +14,7 @@ function client(api){
 }
 const receipt=body=>({packId:HALLOWEEN_PACK.id,status:'COMPLETED',accountId:1,requestId:body.requestId,count:body.count,coin:'10000',coinCost:100,draws:[{outcomeId:'NONE',quantity:0}]});
 
-test('one sold-out card leaves other Halloween draws open, without redistributing odds or changing limits',async t=>{
+test('sold-out cards leave Halloween draws open without changing configured odds or limits',async t=>{
  const f=await halloweenFixture(t,{randomInt:()=>9900000000});
  f.settings.cardRatesPpm['V-980']=500000;f.settings.cardRatesPpm['V-986']=500000;
  f.settings.normalRankRatesPpm.SSS=100000;f.settings.missRatePpm=900000;
@@ -24,16 +24,16 @@ test('one sold-out card leaves other Halloween draws open, without redistributin
  const result=await f.service.open(f.env,f.user,f.body(10));assert.equal(result.draws.length,10);assert.equal(await f.coin(),999100);
  assert.ok(result.draws.every(r=>r.outcomeId==='NONE'));
  assert.equal((await f.pg.query("SELECT issued FROM mercenary_limited_stock_v1 WHERE code='V-986'")).rows[0].issued,10);
- await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=10 WHERE code='V-980'");assert.equal((await f.state()).userOpeningEnabled,false);
+ await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=10 WHERE code='V-980'");assert.equal((await f.state()).userOpeningEnabled,true);
 });
 
-test('an exhausted probability interval still rejects before payment and does not roll again',async t=>{
- const samples=[0,5000000000];const f=await halloweenFixture(t,{randomInt:()=>samples.shift()});
+test('an exhausted interval awards ordinary SSS without repeating either rank lottery',async t=>{
+ const samples=[0,5000000000,0];const f=await halloweenFixture(t,{randomInt:()=>samples.shift()});
  f.settings.cardRatesPpm['V-980']=500000;f.settings.cardRatesPpm['V-986']=500000;await f.configure();
  await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=10 WHERE code='V-986'");
- await assert.rejects(f.service.open(f.env,f.user,f.body()),e=>e.code==='MERCENARY_HALLOWEEN_SOLD_OUT');
- assert.equal(samples.length,0);assert.equal(await f.coin(),1000000);
- for(const table of ['joint_operations_v1','mercenary_card_acquisitions_v1','coin_logs'])assert.equal((await f.pg.query('SELECT * FROM '+table)).rows.length,0);
+ const result=await f.service.open(f.env,f.user,f.body());assert.equal(result.draws[0].outcomeId,'CARD_SSS');assert.equal(result.draws[0].edition,'STANDARD');
+ assert.equal(samples.length,0);assert.equal(await f.coin(),999900);
+ for(const table of ['joint_operations_v1','mercenary_card_acquisitions_v1','coin_logs'])assert.equal((await f.pg.query('SELECT * FROM '+table)).rows.length,1);
  const state=await f.state(),drawSamples=[0,0];assert.equal(pickHalloweenBatch(state,1,()=>drawSamples.shift())[0].mercenaryCode,'V-980');
 });
 

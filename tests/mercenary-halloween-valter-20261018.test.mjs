@@ -51,10 +51,10 @@ test('Valter uses the existing last serial once; rollback/retry and concurrent b
  f.settings.cardRatesPpm=Object.fromEntries(Object.keys(f.settings.cardRatesPpm).map(c=>[c,c==='V-996'?1000000:0]));await f.configure();
  await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET stock_limit=12,issued=11 WHERE code='V-996'");
  const before=await f.coin(),body=f.body();f.fail('INSERT INTO mercenary_card_acquisitions_v1');await assert.rejects(f.service.open(f.env,f.user,body),/INJECTED/);f.fail('');assert.equal(await f.coin(),before);assert.equal((await f.state()).stock.find(s=>s.code==='V-996').issued,11);
- const results=await Promise.allSettled([f.service.open(f.env,f.user,body),f.service.open(f.env,{id:2},f.body())]);assert.equal(results.filter(r=>r.status==='fulfilled').length,1);
- const result=results.find(r=>r.status==='fulfilled').value;assert.equal(result.draws[0].mercenaryCode,'V-996');assert.equal(result.draws[0].serial,12);assert.equal(result.draws[0].rank,'SSS');assert.match(halloweenReceiptResults(result)[0].artUrl,/v-996-640/);
+ const results=await Promise.all([f.service.open(f.env,f.user,body),f.service.open(f.env,{id:2},f.body())]);
+ const result=results.find(r=>r.draws[0].mercenaryCode==='V-996');assert.equal(result.draws[0].serial,12);assert.equal(result.draws[0].rank,'SSS');assert.match(halloweenReceiptResults(result)[0].artUrl,/v-996-640/);assert.equal(results.filter(r=>r.draws[0].outcomeId==='CARD_SSS').length,1);
  assert.equal((await f.service.receipt(f.env,{id:result.accountId},result.requestId)).replayed,true);
- assert.equal(await f.coin()+await f.coin(2),1999900);assert.equal((await f.state()).stock.find(s=>s.code==='V-996').remaining,0);
+ assert.equal(await f.coin()+await f.coin(2),1999800);assert.equal((await f.state()).stock.find(s=>s.code==='V-996').remaining,0);
  assert.equal((await f.pg.query("SELECT COUNT(*)::int AS count FROM mercenary_limited_issues_v1 WHERE code='V-996'")).rows[0].count,1);
- await assert.rejects(f.service.open(f.env,{id:3},f.body()),{code:'MERCENARY_HALLOWEEN_NOT_READY'});assert.equal(await f.coin(3),1000000);
+ assert.equal((await f.service.open(f.env,{id:3},f.body())).draws[0].outcomeId,'CARD_SSS');assert.equal(await f.coin(3),999900);
 });

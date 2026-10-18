@@ -19,7 +19,10 @@ export async function readHalloweenSsOnce(DB,userId){
 export function pickHalloweenSsOnceCode(state,randomInt){
  const eligible=HALLOWEEN_PACK_CARDS.filter(c=>c.rank==='SS').map(c=>({code:c.code,weight:limitedRateUnits(state.settings.cardRatesPpm[c.code]),stock:state.stock.find(s=>s.code===c.code)})).filter(c=>c.weight>0&&c.stock?.prepared&&c.stock.remaining>0);
  const total=eligible.reduce((sum,c)=>sum+c.weight,0);
- if(!Number.isSafeInteger(total)||total<1)throw jointError('MERCENARY_HALLOWEEN_ONCE_STOCK','확정할 할로윈 SS 리미티드가 없습니다. 코인과 확정 기회는 소모되지 않았습니다.',409);
+ // With no available guarantee target, use ordinary pack odds and leave the
+ // entitlement armed. Exhaustion must not prevent the pack from opening.
+ if(total===0)return null;
+ if(!Number.isSafeInteger(total)||total<0)throw invalid();
  let ticket=randomInt(total);if(!Number.isSafeInteger(ticket)||ticket<0||ticket>=total)throw Error('Invalid random sample');
  return eligible.find(c=>{ticket-=c.weight;return ticket<0;}).code;
 }
