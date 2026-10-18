@@ -21,8 +21,9 @@ test('only martial authoring and isolated fixture are omitted from delivery; eve
  assert.equal(isProductionFile('assets/ui/burning-miracle-v1/celestial-awakening-source-v1.png'),true);
 });
 test('omitted isolated QA fixtures have no deployed JavaScript or preview consumers',()=>{
- const files=execFileSync('git',['ls-files','-z'],{maxBuffer:40e6}).toString().split('\0').filter(f=>isProductionFile(f)&&/\.(?:[cm]?js|html|json)$/.test(f)&&!f.startsWith('tests/')&&!f.startsWith('functions/')&&f!=='scripts/prepare-production-assets.mjs');
- for(const file of files){const source=readFileSync(file,'utf8');for(const excluded of isolatedQaFixtures)assert.equal(source.includes(excluded.split('/').at(-1)),false,file+' imports '+excluded);}
+ const pattern=[...isolatedQaFixtures].map(f=>f.split('/').at(-1).replaceAll('.','\\.')).join('|');
+ let matches='';try{matches=execFileSync('rg',['-l',pattern,'scripts','preview','js','shared','functions','admin','workers','world','--glob','*.mjs','--glob','*.js','--glob','*.html','--glob','*.json'],{encoding:'utf8',maxBuffer:1e6})}catch(error){if(error.status!==1)throw error}
+ assert.equal(matches.trim(),'','isolated test fixtures cannot be referenced by deployed code or previews');
  for(const file of isolatedQaFixtures){assert.ok(readFileSync(file).length);assert.equal(isProductionFile(file),false);}
  assert.equal(isProductionFile('tests/helpers/apocalypse-fixture.mjs'),true,'local preview imports are preserved');
 });
