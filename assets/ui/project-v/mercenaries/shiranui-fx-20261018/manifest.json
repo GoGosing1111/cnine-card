@@ -1,5 +1,5 @@
 {
-  "version": "SHIRANUI_SILVER_FX_20261018_V1",
+  "version": "SHIRANUI_SILVER_FX_20261018_V2",
   "generator": "built-in image_gen",
   "visualStatus": "IMPLEMENTED_TECHNICAL_QA_PENDING_USER_VISUAL_REVIEW",
   "promptSet": "prompts.json",
@@ -7,7 +7,7 @@
     "path": "assets/ui/project-v/mercenaries/shiranui-20261015/source-art.png",
     "sha256": "3b67b37e9e3ab1e017552c6d6864c0469056edc1332c2555c9f4cc6f5e3ffe65"
   },
-  "processing": "Source PNG bytes preserved. Atlas cells extracted unchanged and repacked with 24 transparent pixels to prevent sampling bleed. Lossless WebP. No repainting, palette replacement or silhouette edits.",
+  "processing": "Source PNG bytes preserved. Atlas cells extracted unchanged and repacked with 24 transparent pixels to prevent sampling bleed. Lossless WebP. V2 adds eight separately padded ImageGen bullet/wake cells, preserving the source alpha. Only the authored arm patch and rigid approved rifle translation change in the derived recoil atlas; V1 assets and original motion remain preserved.",
   "assets": {
     "ballistics": {
       "source": {
@@ -46,6 +46,19 @@
         "path": "dialogue.webp",
         "alpha": true,
         "sha256": "c40d037cd1f2622efd6af4c6f018125884d99db2ae47f5817a217f395eb182bf"
+      }
+    },
+    "silver-tracer": {
+      "source": {
+        "path": "silver-tracer-source.png",
+        "sha256": "e8db017845d564f192de682b22ca6868fb320c0d3abc386ae5e582fe5d56e93c",
+        "width": 1774,
+        "height": 887
+      },
+      "runtime": {
+        "path": "silver-tracer.webp",
+        "alpha": true,
+        "sha256": "3120a3b7540512b2135c2ca26418dbf4a77a90c2b43dfc433ff36bf493332a36"
       }
     }
   },
@@ -401,6 +414,292 @@
           }
         }
       ]
+    },
+    "silver-tracer": {
+      "atlas": "../../assets/ui/project-v/mercenaries/shiranui-fx-20261018/silver-tracer.webp",
+      "columns": 4,
+      "cellSize": 492,
+      "frameCount": 8,
+      "frames": [
+        {
+          "index": 0,
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 444,
+            "height": 444
+          },
+          "sha256": "b3acb00f1f4341fcedae75d1483375138c8af8785073ed29d2fea1dad9abb6a7",
+          "anchor": {
+            "x": 0.9004065040650406,
+            "y": 0.6138211382113821
+          }
+        },
+        {
+          "index": 1,
+          "sourceRect": {
+            "left": 444,
+            "top": 0,
+            "width": 443,
+            "height": 444
+          },
+          "sha256": "55eb728301b6d8e0cc29f40f8e86d6442e0b5dd8ff2ffab5837b3950eae624d3",
+          "anchor": {
+            "x": 0.8963414634146342,
+            "y": 0.6138211382113821
+          }
+        },
+        {
+          "index": 2,
+          "sourceRect": {
+            "left": 887,
+            "top": 0,
+            "width": 444,
+            "height": 444
+          },
+          "sha256": "29445ed4ab86c9a99d60c11f45596845b1270ff0e40433341b217baf839d136c",
+          "anchor": {
+            "x": 0.8841463414634146,
+            "y": 0.6138211382113821
+          }
+        },
+        {
+          "index": 3,
+          "sourceRect": {
+            "left": 1331,
+            "top": 0,
+            "width": 443,
+            "height": 444
+          },
+          "sha256": "65ef11598ab5f4ce1ee9c556d798fef0c2c778372f15bf14d6008713eac7d6da",
+          "anchor": {
+            "x": 0.8434959349593496,
+            "y": 0.6138211382113821
+          }
+        },
+        {
+          "index": 4,
+          "sourceRect": {
+            "left": 0,
+            "top": 444,
+            "width": 444,
+            "height": 443
+          },
+          "sha256": "2f9fadbdc14505d3263d07a6b39e71dab557ad87d9b3267591c3e7a48e8676a1",
+          "anchor": {
+            "x": 0.8943089430894309,
+            "y": 0.49390243902439024
+          }
+        },
+        {
+          "index": 5,
+          "sourceRect": {
+            "left": 444,
+            "top": 444,
+            "width": 443,
+            "height": 443
+          },
+          "sha256": "71472d1400dcfe34ceb584faeacd6cfb40360e858674bbc5ac92b02dc6e8cb53",
+          "anchor": {
+            "x": 0.8841463414634146,
+            "y": 0.49390243902439024
+          }
+        },
+        {
+          "index": 6,
+          "sourceRect": {
+            "left": 887,
+            "top": 444,
+            "width": 444,
+            "height": 443
+          },
+          "sha256": "bc017056435d1bdb623c7eeb8092f021bc1b80efe9296c6e97fb17b72beb1d14",
+          "anchor": {
+            "x": 0.8760162601626016,
+            "y": 0.49390243902439024
+          }
+        },
+        {
+          "index": 7,
+          "sourceRect": {
+            "left": 1331,
+            "top": 444,
+            "width": 443,
+            "height": 443
+          },
+          "sha256": "3b2fdd5e8267ede7d0d5140c250b98049c020672dcee83059b58d6a7f83de34f",
+          "anchor": {
+            "x": 0.8414634146341463,
+            "y": 0.49390243902439024
+          }
+        }
+      ]
     }
+  },
+  "motion": {
+    "ar": {
+      "atlas": "../../assets/ui/project-v/mercenaries/shiranui-fx-20261018/ar-recoil-v2.webp",
+      "sha256": "dbf225c38e241602dbd0dc5d739dd7c49397f0548d4592164010d83571fc5b6b",
+      "columns": 2,
+      "rows": 2,
+      "cellSize": 1536,
+      "frameCount": 4,
+      "frames": [
+        {
+          "index": 0,
+          "file": "assets/frames/ar-v3-0.png",
+          "sha256": "07309373c5453d0389238d63a46ffa721dad22a3e43441d6f532fe76a6265057",
+          "source": "assets/sources/ar-micro-recoil-v3.png",
+          "sourceSha256": "4f8c18cc2f8eaa2caef1cce8b30bb65bf5109b17aacd11ef77c348a10dd57939",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 595.943661971831,
+            "y": 726.0281690140845
+          },
+          "head": {
+            "x": 529.6901408450705,
+            "y": 627.3239436619718
+          },
+          "muzzle": {
+            "x": 1007.175825929889,
+            "y": 693.3799831596787
+          },
+          "weaponAxisRadians": 0,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -64.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true,
+          "bodyPatchOnly": true
+        },
+        {
+          "index": 1,
+          "sha256": "f710e68664cd2938f2ae4b9537c89a11ec3df5a8169399ee4a4c82e7bd2d89f9",
+          "source": "assets/sources/ar-micro-recoil-v3.png",
+          "sourceSha256": "4f8c18cc2f8eaa2caef1cce8b30bb65bf5109b17aacd11ef77c348a10dd57939",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 585.1267605633802,
+            "y": 726.0281690140845
+          },
+          "head": {
+            "x": 529.6901408450705,
+            "y": 627.3239436619718
+          },
+          "muzzle": {
+            "x": 996.175825929889,
+            "y": 693.3799831596787
+          },
+          "weaponAxisRadians": 0,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -64.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true,
+          "bodyPatchOnly": true,
+          "microRecoilSourcePixels": -16
+        },
+        {
+          "index": 2,
+          "sha256": "1759b568178428308c8d480be5854af9690578a59eda472f5e51e6c43ffe1896",
+          "source": "assets/sources/ar-micro-recoil-v3.png",
+          "sourceSha256": "4f8c18cc2f8eaa2caef1cce8b30bb65bf5109b17aacd11ef77c348a10dd57939",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 590.5352112676056,
+            "y": 726.0281690140845
+          },
+          "head": {
+            "x": 529.6901408450705,
+            "y": 627.3239436619718
+          },
+          "muzzle": {
+            "x": 1002.175825929889,
+            "y": 693.3799831596787
+          },
+          "weaponAxisRadians": 0,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -64.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true,
+          "bodyPatchOnly": true,
+          "microRecoilSourcePixels": -8
+        },
+        {
+          "index": 3,
+          "file": "assets/frames/ar-v3-3.png",
+          "sha256": "2e28169af64514cce189fe050d0f761b9d956a3fa06fb7e45435673e253495ee",
+          "source": "assets/sources/ar-micro-recoil-v3.png",
+          "sourceSha256": "4f8c18cc2f8eaa2caef1cce8b30bb65bf5109b17aacd11ef77c348a10dd57939",
+          "bodyPixels": 720,
+          "footAnchor": {
+            "x": 0.390625,
+            "y": 0.8463541666666666
+          },
+          "grip": {
+            "x": 595.943661971831,
+            "y": 726.0281690140845
+          },
+          "head": {
+            "x": 529.6901408450705,
+            "y": 627.3239436619718
+          },
+          "muzzle": {
+            "x": 1007.175825929889,
+            "y": 693.3799831596787
+          },
+          "weaponAxisRadians": 0,
+          "weapon": {
+            "sha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+            "uniformScale": 0.68,
+            "rotationDegrees": -64.2,
+            "redrawnPixels": 0
+          },
+          "handOverlay": true,
+          "bodyPatchOnly": true
+        }
+      ]
+    }
+  },
+  "recoil": {
+    "source": "preview/mercenary-monochrome-artillery-battle-v1/pose-registration-ar-v3.json",
+    "sourceOffsets": [
+      0,
+      -16,
+      -8,
+      0
+    ],
+    "previousOffsets": [
+      0,
+      -5,
+      -3,
+      0
+    ],
+    "fixedHead": true,
+    "fixedFeet": true,
+    "fixedCoat": true,
+    "weaponRigid": true,
+    "weaponSha256": "57331f625b12d0c1ea258814d19ae425cb160ff158ddfc7f499680f25fcaf0ff",
+    "weaponRedrawnPixels": 0,
+    "processing": "Reposition the existing arm/shoulder patch and translate the original rigid rifle. Idle/settled frames are copied byte-for-pixel from the existing atlas."
   }
 }

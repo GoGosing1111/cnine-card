@@ -71,7 +71,7 @@ try{
    assert.equal(result.hpCalls.length,mode==='area'?12:1);assert.equal(new Set(result.hpCalls.map(r=>r.id)).size,result.hpCalls.length);assert.equal(result.damageCalls.length,mode==='area'?12:1);
    assert.equal(Math.sign(result.direction),mode==='enemy'?-1:1);assert.equal(result.fx.damageAuthority,'SERVER_ONLY');
    await p.screenshot({path:path.join(out,label+'-'+mode+'.png'),fullPage:true});
-   assert.equal(result.fx.silverVersion,'SHIRANUI_SILVER_FX_20261018_V1');
+   assert.equal(result.fx.silverVersion,'SHIRANUI_SILVER_FX_20261018_V2');
    assert.equal(result.fx.dialogue.visible,['skill','area','reduced'].includes(mode));
    if(['skill','reduced'].includes(mode)){
     const sample=await p.evaluate(()=>{
@@ -80,7 +80,10 @@ try{
      const samples=[.43,1.12,3.83,4.25].map(t=>{fx.clock.time=t;fx.render(t);return fx.diagnostics();});
      return {top,bottom,samples,body:fx.merc.fullBodySprite.texture.width,lines:rail.innerText};
     });
-    assert(Math.abs(sample.top-sample.bottom)<1);assert(sample.samples[0].activeFrames.some(f=>f.key==='ar-ballistics'&&f.frame>=4&&f.frame<=7));
+    assert(Math.abs(sample.top-sample.bottom)<1);assert(sample.samples[0].activeFrames.some(f=>f.key==='silver-tracer'&&f.frame<4&&f.alpha===1));
+    assert(sample.samples[1].activeFrames.some(f=>f.key==='silver-tracer'&&f.frame>=4));
+    const tail=await p.evaluate(()=>{const q=window.ShiranuiQA,fx=q.engine.shiranuiStates.get(q.actor).fx;fx.clock.time=fx.plan.rifleLaunches.at(-1)+.15;fx.render(fx.clock.time);return fx.diagnostics();});
+    assert(tail.activeFrames.some(f=>f.key==='silver-tracer'&&f.frame>=4));assert(!tail.activeFrames.some(f=>f.key==='silver-tracer'&&f.frame<4));
     assert(sample.samples[2].activeFrames.some(f=>f.key==='silver-rupture'&&f.frame>=3));
     assert.equal(sample.samples[2].contacts.filter(c=>c.kind==='RIFLE').length,30);
     await p.evaluate(()=>{const q=window.ShiranuiQA,fx=q.engine.shiranuiStates.get(q.actor).fx;fx.clock.time=3.83;fx.render(3.83);});
@@ -91,10 +94,11 @@ try{
      const fit=await p.evaluate(()=>{
       const q=window.ShiranuiQA,d=q.engine.shiranuiStates.get(q.actor).fx.dialogue,rail=document.querySelector('.jinmu-dialogue-rail'),rect=rail.getBoundingClientRect(),heights=[];
       for(let i=0;i<d.profile.lines.length;i++){d.begin();d.rail.layout();heights.push({rail:rail.getBoundingClientRect().height,host:q.engine.host.getBoundingClientRect().top});}
-      const copy=rail.querySelector('.jinmu-dialogue-copy').getBoundingClientRect();
-      return {heights,overflow:document.documentElement.scrollWidth>innerWidth+1,inside:copy.left>=rect.left&&copy.right<=rect.right};
+      const copy=rail.querySelector('.jinmu-dialogue-copy').getBoundingClientRect(),frame=rail.querySelector('.jinmu-dialogue-frame').getBoundingClientRect();
+      return {heights,overflow:document.documentElement.scrollWidth>innerWidth+1,inside:copy.left>=rect.left&&copy.right<=rect.right,text:{left:copy.left,top:copy.top,bottom:copy.bottom,right:copy.right},frame:{top:frame.top,bottom:frame.bottom},transform:getComputedStyle(rail.querySelector('.jinmu-dialogue-copy')).transform};
      });
      assert.equal(fit.overflow,false);assert(fit.inside);assert(fit.heights.every(h=>h.host===fit.heights[0].host&&h.rail===fit.heights[0].rail));
+     assert.equal(fit.transform,'matrix(1, 0, 0, 1, 0, -5)');
      await p.screenshot({path:path.join(out,label+'-'+mode+'-'+width+'.png'),fullPage:true});
     }
     await p.setViewportSize(viewport);

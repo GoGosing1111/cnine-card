@@ -8,8 +8,8 @@ import {MERCENARY_DIALOGUE_PROFILES} from './MercenaryDialogueProfiles.js';
 
 const BODY_HEIGHT=300,MANIFEST='/preview/mercenary-monochrome-artillery-battle-v1/manifest.json?v=20261015-shiranui-live-v1';
 let manifestPromise;
-const SILVER_MANIFEST='/assets/ui/project-v/mercenaries/shiranui-fx-20261018/manifest.json?v=1';
-const manifest=()=>manifestPromise||=Promise.all([MANIFEST,SILVER_MANIFEST].map(url=>fetch(url).then(r=>{if(!r.ok)throw Error('SHIRANUI_MOTION_ASSETS');return r.json();}))).then(([base,silver])=>({...base,effects:{...base.effects,...silver.effects},silverVersion:silver.version})).catch(e=>{manifestPromise=null;throw e;});
+const SILVER_MANIFEST='/assets/ui/project-v/mercenaries/shiranui-fx-20261018/manifest.json?v=2';
+const manifest=()=>manifestPromise||=Promise.all([MANIFEST,SILVER_MANIFEST].map(url=>fetch(url).then(r=>{if(!r.ok)throw Error('SHIRANUI_MOTION_ASSETS');return r.json();}))).then(([base,silver])=>({...base,motion:{...base.motion,...silver.motion},effects:{...base.effects,...silver.effects},silverVersion:silver.version})).catch(e=>{manifestPromise=null;throw e;});
 export function shiranuiBattleArt(code){
  if(code!==SHIRANUI_CODE)return null;
  return {...SHIRANUI_ART,spriteUrl:'/'+SHIRANUI_ART.battleSprite+'?v='+SHIRANUI_ART.battleSpriteSha256.slice(0,16),
@@ -27,7 +27,15 @@ class ShiranuiLiveFX extends BallisticArtilleryFX{
  }
  makeTimeline(){}
  get direction(){return this.merc.team==='ENEMY'?-1:1;}
- applyPose(p){super.applyPose(p);this.merc.view.scale.x=this.direction*Math.abs(this.merc.view.scale.x||1);}
+ applyPose(p){
+  if(p.key==='ar'){
+   const state=this.sample,last=this.plan.rifleLaunches.findLast(at=>at<=(state?.time??0));
+   const age=this.reducedMotion||state?.cancelled||state?.done||last===undefined?Infinity:state.time-last;
+   // Hold the rigid kick for one display frame at 2.6x; only the arm/weapon atlas changes.
+   p={...p,frame:age<.04?1:age<.078?2:0};if(state)state.pose=p;
+  }
+  super.applyPose(p);this.merc.view.scale.x=this.direction*Math.abs(this.merc.view.scale.x||1);
+ }
  point(actor,f=.43){return this.engine.effectLayer.toLocal(actor.root.toGlobal({x:0,y:-(actor.art?.bodyHeight||actor.fullBodyHeight)*f}));}
  rifle(t,muzzle,axis,unit){
   const a=this.ownPoint(),b=this.ownPoint(Math.cos(axis),Math.sin(axis));

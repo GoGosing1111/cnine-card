@@ -10,15 +10,22 @@ export function renderShiranuiSilverRifle(fx,t,muzzle,axis,unit){
  const end=fx.point(target),skill=mode==='skill',quiet=fx.reducedMotion;
  if(skill&&t<launches[0])fx.draw('ar-ballistics',0,muzzle,unit*.42,{angle:axis,alpha:clamp(t/launches[0])*(quiet?.3:.65),smooth:false});
  for(const [i,launch]of launches.entries()){
-  const hit=launch+RIFLE_FLIGHT,age=t-launch,pose=sample(fx.plan,launch+.001).pose,start=fx.anchorPoint('muzzle',pose);
+  const hit=launch+RIFLE_FLIGHT,age=t-launch,pose=quiet?{key:'ar',frame:0}:sample(fx.plan,launch+.001).pose,start=fx.anchorPoint('muzzle',pose);
   if(age>=0&&age<.055&&(!quiet||i%3===0)){
    const phase=age<.018?0:age<.037?1:2;
    fx.draw('ar-ballistics',phase,muzzle,unit*(skill?.62:.5),{angle:axis,alpha:clamp((.055-age)/.018)*(quiet?.45:1),smooth:false});
    fx.muzzleChecks.push({kind:'RIFLE_FLASH',from:muzzle,to:muzzle,crossAxisError:0});
   }
+  // Short authored wakes outlive the fast bullet, without delaying its actual contact.
+  for(const [j,delay]of [.055,.11].entries()){
+   const wakeAge=age-delay;
+   if(wakeAge<0||wakeAge>=RIFLE_FLIGHT||quiet&&j>0)continue;
+   const q=wakeAge/RIFLE_FLIGHT,p=trajectory(start,end,axis,q,unit*.32);
+   fx.draw('silver-tracer',4+(i+j)%4,p,unit*(skill?1.14:.98),{angle:p.angle,stretch:.65,alpha:(quiet?.26:.72-j*.2)*clamp((RIFLE_FLIGHT-wakeAge)/.035),smooth:false});
+  }
   if(age>=0&&t<hit){
    const q=clamp(age/RIFLE_FLIGHT),p=trajectory(start,end,axis,q,unit*.32);
-   fx.draw('ar-ballistics',4+q*3,p,unit*(skill?1.02:.84)*(quiet?.75:1),{angle:p.angle,smooth:false});
+   fx.draw('silver-tracer',q*3,p,unit*(skill?1.25:1.08)*(quiet?.82:1),{angle:p.angle,smooth:false});
   }
   if(t>=hit&&t<hit+.2&&(!quiet||i%3===0)){
    const q=(t-hit)/.2;

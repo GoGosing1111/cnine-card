@@ -15,10 +15,10 @@ test('Shiranui generated sources remain intact and GPU atlas cells have real tra
   assert((await sharp(file).metadata()).hasAlpha);
  }
  for(const spec of Object.values(m.effects)){
-  assert.equal(spec.frames.length,12);assert.equal(new Set(spec.frames.map(f=>f.sha256)).size,12);
+  assert.equal(spec.frames.length,spec.frameCount);assert.equal(new Set(spec.frames.map(f=>f.sha256)).size,spec.frameCount);
   const file=new URL(spec.atlas,new URL('../preview/mercenary-monochrome-artillery-battle-v1/',import.meta.url));
   const {data,info}=await sharp(fileURLToPath(file)).ensureAlpha().raw().toBuffer({resolveWithObject:true});
-  assert.equal(info.width,spec.cellSize*4);assert.equal(info.height,spec.cellSize*3);
+  assert.equal(info.width,spec.cellSize*spec.columns);assert.equal(info.height,spec.cellSize*Math.ceil(spec.frameCount/spec.columns));
   for(let y=0;y<info.height;y++)for(let x=0;x<info.width;x++){
    const cx=x%spec.cellSize,cy=y%spec.cellSize;
    if(cx<24||cy<24||cx>=spec.cellSize-24||cy>=spec.cellSize-24)assert.equal(data[(y*info.width+x)*4+3],0,'texture filtering must not pick up the neighboring frame');
@@ -26,6 +26,29 @@ test('Shiranui generated sources remain intact and GPU atlas cells have real tra
  }
  for(const [path,expected]of [[SHIRANUI_ART.sourceArt,SHIRANUI_ART.sourceArtSha256],[SHIRANUI_ART.battleSprite,SHIRANUI_ART.battleSpriteSha256]])
   assert.equal(hash(fs.readFileSync(path)).toUpperCase(),expected);
+});
+test('the new bullet has an opaque metal core and recoil preserves the approved head, lower body and rigid rifle',async()=>{
+ const spec=m.effects['silver-tracer'],png=await sharp(dir+m.assets['silver-tracer'].source.path).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+ for(const f of spec.frames.slice(0,4)){
+  const tipX=Math.round(f.anchor.x*spec.cellSize-24)+f.sourceRect.left,tipY=Math.round(f.anchor.y*spec.cellSize-24);
+  let sum=0,count=0;for(let y=tipY-5;y<tipY+5;y++)for(let x=tipX-85;x<tipX-35;x++){sum+=png.data[(y*png.info.width+x)*4+3];count++;}
+  assert(sum/count>245,'metal core must stay opaque against the battlefield');
+ }
+ const base=JSON.parse(fs.readFileSync('preview/mercenary-monochrome-artillery-battle-v1/manifest.json'));
+ const specAr=m.motion.ar,old=await sharp('preview/mercenary-monochrome-artillery-battle-v1/'+base.motion.ar.atlas).ensureAlpha().raw().toBuffer();
+ const bytes=fs.readFileSync(dir+'ar-recoil-v2.webp');assert.equal(hash(bytes),specAr.sha256);
+ const current=await sharp(bytes).ensureAlpha().raw().toBuffer();
+ for(let n=0;n<4;n++){
+  assert.equal(specAr.frames[n].weapon.sha256,base.weapon.sha256);assert.equal(specAr.frames[n].weaponAxisRadians,0);
+  assert.deepEqual(specAr.frames[n].head,base.motion.ar.frames[n].head);assert.deepEqual(specAr.frames[n].footAnchor,base.motion.ar.frames[n].footAnchor);
+  for(let y=0;y<1536;y++)for(let x=0;x<1536;x++){
+   if(n!==0&&n!==3&&y>=660&&y<840)continue;
+   const at=((Math.floor(n/2)*1536+y)*3072+n%2*1536+x)*4;
+   assert.equal(current[at+3],old[at+3]);if(old[at+3])for(let c=0;c<3;c++)assert.equal(current[at+c],old[at+c]);
+  }
+ }
+ assert(specAr.frames[0].muzzle.x-specAr.frames[1].muzzle.x>=10);
+ assert(specAr.frames[0].muzzle.x-specAr.frames[1].muzzle.x<=12);
 });
 test('every actual consumer delivers the new FX, original portrait and five SSS lines under the current runtime version',()=>{
  const profile=MERCENARY_DIALOGUE_PROFILES['V-987'];

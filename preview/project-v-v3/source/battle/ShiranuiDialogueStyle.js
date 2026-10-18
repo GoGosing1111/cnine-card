@@ -9,7 +9,7 @@ export const SHIRANUI_DIALOGUE_CSS=`
 .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-face>i{border-radius:50%}
 .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-name b{color:#edf1f5;font-size:13px;letter-spacing:.12em}
 .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-name span{color:#b7c0cc;font-size:10px}
-.jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-copy{text-align:left}
+.jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-copy{text-align:left;transform:translateY(-5px)}
 .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-copy p{color:#f5f7fa;font-size:17px;line-height:1.5;font-weight:500}
 .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-seal{position:absolute;right:28px;top:50%;transform:translateY(-50%);width:65px;min-height:0;border:0;color:#fff;text-shadow:0 2px 5px #000}
 .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-seal b{font-size:19px;letter-spacing:4px}
@@ -19,7 +19,7 @@ export const SHIRANUI_DIALOGUE_CSS=`
 @media(max-width:760px){
  .jinmu-dialogue-rail[data-theme='shiranui']{padding:0 4px 2px}
  .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-frame:before{border-inline-width:92px;border-image-width:0 92px}
- .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-inner{min-height:174px;padding:49px 46px 49px 112px}
+ .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-inner{min-height:174px;padding:49px 52px 49px 108px}
  .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-face{left:31px;width:43px;height:43px}
  .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-name{gap:5px;flex-wrap:wrap}
  .jinmu-dialogue-rail[data-theme='shiranui'] .jinmu-dialogue-name b{font-size:12px}
