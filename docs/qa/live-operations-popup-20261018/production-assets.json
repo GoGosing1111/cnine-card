@@ -1,0 +1,56 @@
+{
+  "source": "a3d7de7ceaa37dd29dca3022670e07e8a2efce2f",
+  "checkedAt": "2026-10-18T10:59:15.701Z",
+  "assets": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "expected": "899bd1bbf818bf67a754f9a50be1b4ee3aa382a868509190e35f57a7971012ba",
+      "actual": "899bd1bbf818bf67a754f9a50be1b4ee3aa382a868509190e35f57a7971012ba",
+      "match": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "expected": "cc915083ab2ff0d2e338cb9f9dda3c5094816e07c8ab8d12cb8ce1f6241ffe1a",
+      "actual": "cc915083ab2ff0d2e338cb9f9dda3c5094816e07c8ab8d12cb8ce1f6241ffe1a",
+      "match": true
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "expected": "7b7e00f6132ff26d3cb8d86f517f9ad09cf72c3687a1b6ceb9eca50a0884a970",
+      "actual": "7b7e00f6132ff26d3cb8d86f517f9ad09cf72c3687a1b6ceb9eca50a0884a970",
+      "match": true
+    },
+    {
+      "path": "css/live-operations-v1868.css",
+      "status": 200,
+      "expected": "b0d1ea483cc2ab09777247f312838a046b531e852939b995035f6d60b6d76a92",
+      "actual": "b0d1ea483cc2ab09777247f312838a046b531e852939b995035f6d60b6d76a92",
+      "match": true
+    }
+  ],
+  "status": {
+    "status": 200,
+    "pollSeconds": 30,
+    "kinds": [
+      {
+        "kind": "ORGANIZATION",
+        "phase": "ACTIVE"
+      },
+      {
+        "kind": "RANKED_DUO",
+        "phase": "ACTIVE"
+      },
+      {
+        "kind": "TERRITORY",
+        "phase": "BATTLE"
+      },
+      {
+        "kind": "COUP",
+        "phase": "RECRUITING"
+      }
+    ]
+  }
+}

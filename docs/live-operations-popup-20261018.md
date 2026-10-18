@@ -20,3 +20,11 @@
 ## 배포
 
 직전 운영 소스 `d4938f3cc358d18e8f5b92ae3cdc030e3f965c13`에서 이후 선행 변경은 배포 기록뿐이다. 관련 5개 회귀를 지정한 scoped 배포 후 운영 화면과 자산을 확인한다.
+
+### 운영 확인 완료
+
+- 구현 `a3d7de7ceaa37dd29dca3022670e07e8a2efce2f`를 scoped 배포했다. 관련 5개 검사·운영 캐시 정책·Hyperdrive 캐시 OFF 및 바인딩 검사가 통과했다. 배포 자산 19,996개.
+- Pages `https://d1d2c907.cnine-card.pages.dev`, API `f3ff5c84-178c-43ee-8a63-8da8d4b9b429`, scheduler `e6638e2f-bfa2-421d-85fb-fa628cbbdefb`.
+- 운영 도메인의 페이지·서비스워커·앱·알림 CSS 4개 모두 HTTP 200 및 구현 소스 SHA-256 일치. 공용 상태 API는 HTTP 200, 기존 30초 갱신과 조직·듀오·영토전·쿠데타 상태를 유지했다.
+- 로그인한 실제 로비에서 기본 줄은 하이퍼버닝·영토전·쿠데타 3개만 표시하며, 제목은 전체 `5건 진행`을 표시했다. ‘콘텐츠 현황’ 클릭 후 팝업에는 조직 세력전·랭크 듀오 시즌 3을 포함한 5개와 실제 남은 시간이 나타났다. 닫기와 호출 버튼으로 초점 복귀 후 다시 열기도 확인했다.
+- 운영 증빙은 `docs/qa/live-operations-popup-20261018/production-assets.json`, `production-lobby.png`, `production-popup.png`다. 후속 변경은 이 기록뿐이므로 재배포나 검사 반복은 하지 않는다.
