@@ -15,3 +15,10 @@
 ## 배포
 
 직전 운영 Pages 배포 소스는 Cloudflare 조회로 확인한 `ed7f47846deba4d281b5ea56482e66496d28b422`다. `npm run deploy:production -- --scoped`로 신규 방벽 회귀·기존 호위·할로윈 준비 회귀와 `check:worker`를 실행한다. 코드와 설명만 변경하며 운영 DB/CMS/계정·재화 쓰기는 없다. 신규 PVP 계산부터 적용하고 이미 확정된 전투 결과를 다시 계산하지 않는다.
+
+## 운영 반영 완료 — 2026-10-18 23:04 KST
+
+- 소스 `de6eebbc8ccb435456ce1a09c73d38cb65bb6fb0`, scoped 회귀 **22/22** 및 Worker 문법·출시 정책·Hyperdrive 캐시 OFF 검사 통과.
+- Pages `https://32331218.cnine-card.pages.dev`, API 버전 `a49e9e3e-be23-4b6a-b886-3d0b725bac75` 100%, scheduler `a54e8769-8135-4437-9c55-e62d65bc1816`.
+- 운영 API 소스에 0.6 보호막 정책과 실제 계산 연결을 확인했다. 앞선 군단토벌 단독 용병 수정도 보존됐다. 공개 도감 HTTP 200과 PVP 40% 감소·403.2%·PVE 유지 설명, 비용 20·재사용 2행동을 확인했다.
+- 근거: `docs/qa/mercenary-halloween-diim-barrier-20261018/live-verification.json`. 이번 작업의 운영 계정·재화 쓰기 0건. 완료 기록은 문서만 커밋하며 재배포하지 않는다.
