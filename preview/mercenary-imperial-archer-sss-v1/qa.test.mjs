@@ -1,8 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs/promises';import sharp from 'sharp';import {createHash} from 'node:crypto';import {makePlan,sample,MODES} from './skill.mjs';
 
 const read=p=>fs.readFile(new URL(p,import.meta.url)),hash=b=>createHash('sha256').update(b).digest('hex').toUpperCase(),m=JSON.parse(await read('manifest.json'));
-test('approved source and every selected bow pixel preserved; rank confirmed, runtime remains separate',async()=>{
- assert.equal(m.rank,'SSS');assert.equal(m.name,null);assert.equal(m.code,null);assert.equal(m.runtimeEnabled,false);
+test('approved source and every selected bow pixel preserved; user-approved live registration',async()=>{
+ assert.equal(m.rank,'SSS');assert.equal(m.name,'신궁 강윤');assert.equal(m.code,'V-057');assert.equal(m.runtimeEnabled,true);
  const original=await read('assets/sources/source-art-approved.png');assert.equal(hash(original),m.sourceArtSha256);
  const source=await sharp(original).ensureAlpha().raw().toBuffer({resolveWithObject:true}),weapon=await sharp(await read('assets/locked/approved-bow.png')).raw().toBuffer({resolveWithObject:true});let count=0;const b=m.weapon.bounds;
  for(let y=0;y<weapon.info.height;y++)for(let x=0;x<weapon.info.width;x++){const i=(y*weapon.info.width+x)*4,j=((y+b.top)*source.info.width+x+b.left)*4;if(weapon.data[i+3]){assert.deepEqual(weapon.data.subarray(i,i+4),source.data.subarray(j,j+4));count++;}}assert.equal(count,m.weapon.copiedPixels);

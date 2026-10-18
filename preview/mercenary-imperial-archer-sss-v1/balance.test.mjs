@@ -20,11 +20,11 @@ function harness(mode='PVP',count=5){
   knockout(t){if(t.hp<=0)t.alive=false;},emit:(type,data)=>events.push({type,...data}),clock:()=>0});
  return {actor,targets,hits,events,runtime,act(){actor.actions++;return runtime.beforeAction(actor);}};
 }
-test('prepared upper-SSS policy is executable but V-000 is absent from the live CMS and roster',()=>{
- assert.equal(policy.runtimeEnabled,false);
+test('released upper-SSS policy matches live V-057 catalog and measured canonical combat',()=>{
+ assert.equal(policy.runtimeEnabled,true);
  const manifest=JSON.parse(fs.readFileSync(new URL('./manifest.json',import.meta.url)));
  for(const [key,value]of Object.entries(policy))assert.deepEqual(manifest.balance[key],value);
- assert.deepEqual(manifest.balance.skills,skills);assert.equal(manifest.runtimeEnabled,false);
+ assert.deepEqual(manifest.balance.skills,skills);assert.equal(manifest.runtimeEnabled,true);
  for(const rows of [seed.catalog.cards,seed.document.mercenaries])assert.ok(!rows.some(c=>c.code==='V-000'));
  assert.ok(!seed.document.skills.some(s=>s.id.startsWith('PREVIEW-ARCHER')));
  for(const mode of ['PVP','PVE'])for(const gear of [0,1000000]){
@@ -33,12 +33,12 @@ test('prepared upper-SSS policy is executable but V-000 is absent from the live 
   const a=buildMercenaryFighter(prepared,'A',mode,buildFighter),b=buildMercenaryFighter(berkan,'A',mode,buildFighter),c=buildMercenaryFighter(azant,'A',mode,buildFighter);
   assert.equal(a.basePower,216000+gear);assert.ok(a.speed>b.speed);assert.equal(b.speed,c.speed);assert.ok(a.attack>b.attack);assert.ok(a.maxHp>b.maxHp);
  }
- const report=JSON.parse(fs.readFileSync(new URL('./qa/arrow-v2/balance-report.json',import.meta.url)));
+ const report=JSON.parse(fs.readFileSync(new URL('./qa/kangyun-live/balance-report.json',import.meta.url)));
  assert.deepEqual(report.policy,policy);assert.deepEqual(report.skills,skills);
  for(const [path,hash]of Object.entries(report.fileHashes))assert.equal(createHash('sha256').update(fs.readFileSync(new URL(path,import.meta.url))).digest('hex'),hash);
  assert.equal(report.battles,1056);
  for(const row of report.pvp){assert.ok(row.winRate>.65);assert.ok(row.sideWinRates.A>.65);assert.ok(row.sideWinRates.B>.65);}
- for(const row of report.pve){assert.ok(row.damageRatio>1);assert.ok(row.actionRatio<1);assert.ok(row['V-000'].clears>=row['V-055'].clears);assert.deepEqual(row['V-055'],row['V-056']);}
+ for(const row of report.pve){assert.ok(row.damageRatio>1);assert.ok(row.actionRatio<1);assert.ok(row['V-057'].clears>=row['V-055'].clears);assert.deepEqual(row['V-055'],row['V-056']);}
 });
 test('single cast locks one rear threat, spends energy once, shares one cap and respects control, dodge and shield',()=>{
  const h=harness();h.act();

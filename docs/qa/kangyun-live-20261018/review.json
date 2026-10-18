@@ -1,0 +1,2308 @@
+{
+  "source": "canonical production V3/PVE bundles; authoritative server events; isolated account API",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "basic",
+      "contact": {
+        "time": 0.608,
+        "damageCalls": [
+          {
+            "id": "B:4:CN-519C181C18DF4B8E",
+            "damage": 23
+          }
+        ],
+        "hpCalls": [
+          {
+            "id": "B:4:CN-519C181C18DF4B8E",
+            "hp": 77
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "revision": "arrow-v2",
+          "mode": "attack",
+          "time": 1.1856,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "key": "release",
+            "frame": 1
+          },
+          "cancelled": false,
+          "visibleSprites": 2,
+          "activeFrames": [
+            {
+              "key": "bolt",
+              "frame": 11,
+              "point": {
+                "x": 1233.4363090909092,
+                "y": 543.0508303030304
+              },
+              "size": 192,
+              "alpha": 0.9533333333333329,
+              "bounds": {
+                "left": 1049.7432240273404,
+                "right": 1308.495119105428,
+                "top": 383.7387706716302,
+                "bottom": 642.4906657497179
+              }
+            },
+            {
+              "key": "impact",
+              "frame": 0,
+              "point": {
+                "x": 1220,
+                "y": 536.1
+              },
+              "size": 180,
+              "alpha": 1,
+              "bounds": {
+                "left": 1130,
+                "right": 1310,
+                "top": 441.51126760563386,
+                "bottom": 621.5112676056339
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "at": 1.18,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 428.2175,
+                "y": 126.49750000000006
+              },
+              "to": {
+                "x": 1220,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            }
+          ],
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "motionOnly": false,
+          "effectsEnabled": true,
+          "reducedMotion": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_RECEIPT",
+          "unit": 150,
+          "stationary": true
+        },
+        "x": 380,
+        "y": 240,
+        "direction": 1
+      },
+      "idle": [
+        {
+          "x": 380,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 105,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 380,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 105,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 380,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 105,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 380,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 105,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        }
+      ],
+      "after": {
+        "last": {
+          "code": "V-057",
+          "eventType": "ATTACK",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 1.9500000000000002,
+          "contactSeconds": 0.6051282051282051,
+          "durationSeconds": 1.3333333333333333
+        },
+        "count": 1,
+        "atStation": true
+      },
+      "cancelled": {
+        "before": 1,
+        "count": 1,
+        "states": 0,
+        "layers": 0
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "volley",
+      "contact": {
+        "time": 1.377,
+        "damageCalls": [
+          {
+            "id": "B:4:CN-519C181C18DF4B8E",
+            "damage": 26174720,
+            "compactArea": false
+          }
+        ],
+        "hpCalls": [
+          {
+            "id": "B:4:CN-519C181C18DF4B8E",
+            "hp": 0
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "revision": "arrow-v2",
+          "mode": "skill",
+          "time": 2.68515,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "key": "draw",
+            "frame": 3
+          },
+          "cancelled": false,
+          "visibleSprites": 3,
+          "activeFrames": [
+            {
+              "key": "impact",
+              "frame": 10,
+              "point": {
+                "x": 1220,
+                "y": 536.1
+              },
+              "size": 126,
+              "alpha": 0.2810483870967745,
+              "bounds": {
+                "left": 1180.5554929577465,
+                "right": 1306.5554929577465,
+                "top": 469.8878873239437,
+                "bottom": 595.8878873239437
+              }
+            },
+            {
+              "key": "volley",
+              "frame": 11,
+              "point": {
+                "x": 1233.4849745833333,
+                "y": 543.2531068055555
+              },
+              "size": 232.5,
+              "alpha": 0.9570833333333334,
+              "bounds": {
+                "left": 1009.99010307578,
+                "right": 1324.3329789481982,
+                "top": 350.9003935087426,
+                "bottom": 665.2432693811608
+              }
+            },
+            {
+              "key": "impact",
+              "frame": 0,
+              "point": {
+                "x": 1220,
+                "y": 536.1
+              },
+              "size": 240,
+              "alpha": 1,
+              "bounds": {
+                "left": 1100,
+                "right": 1340,
+                "top": 409.9816901408451,
+                "bottom": 649.9816901408451
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "at": 0.98,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 434.4675,
+                "y": 119.41416666666669
+              },
+              "to": {
+                "x": 1220,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 1.26,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 434.4675,
+                "y": 119.41416666666669
+              },
+              "to": {
+                "x": 1220,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 1.54,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 434.4675,
+                "y": 119.41416666666669
+              },
+              "to": {
+                "x": 1220,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 1.82,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 434.4675,
+                "y": 119.41416666666669
+              },
+              "to": {
+                "x": 1220,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 2.1,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 434.4675,
+                "y": 119.41416666666669
+              },
+              "to": {
+                "x": 1220,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 2.68,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 434.4675,
+                "y": 119.41416666666669
+              },
+              "to": {
+                "x": 1220,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            }
+          ],
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "motionOnly": false,
+          "effectsEnabled": true,
+          "reducedMotion": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_RECEIPT",
+          "unit": 150,
+          "stationary": true
+        },
+        "x": 380,
+        "y": 240,
+        "direction": 1
+      },
+      "idle": [
+        {
+          "x": 380,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 109,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 380,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 109,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 380,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 109,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 380,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 109,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        }
+      ],
+      "after": {
+        "last": {
+          "code": "V-057",
+          "eventType": "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 1.9500000000000002,
+          "contactSeconds": 1.3743589743589744,
+          "durationSeconds": 2.102564102564102
+        },
+        "count": 1,
+        "atStation": true
+      },
+      "cancelled": {
+        "before": 1,
+        "count": 1,
+        "states": 0,
+        "layers": 0
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "enemy",
+      "contact": {
+        "time": 1.375,
+        "damageCalls": [
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "damage": 26174720,
+            "compactArea": false
+          }
+        ],
+        "hpCalls": [
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "hp": 0
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "revision": "arrow-v2",
+          "mode": "skill",
+          "time": 2.68125,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "key": "draw",
+            "frame": 3
+          },
+          "cancelled": false,
+          "visibleSprites": 3,
+          "activeFrames": [
+            {
+              "key": "impact",
+              "frame": 10,
+              "point": {
+                "x": 380,
+                "y": 536.1
+              },
+              "size": 126,
+              "alpha": 0.3125000000000022,
+              "bounds": {
+                "left": 340.5554929577465,
+                "right": 466.5554929577465,
+                "top": 469.8878873239437,
+                "bottom": 595.8878873239437
+              }
+            },
+            {
+              "key": "volley",
+              "frame": 11,
+              "point": {
+                "x": 376.7269479166674,
+                "y": 537.8361909722219
+              },
+              "size": 232.5,
+              "alpha": 0.9895833333333354,
+              "bounds": {
+                "left": 285.87894355180254,
+                "right": 600.2218194242207,
+                "top": 345.48347767540895,
+                "bottom": 659.8263535478271
+              }
+            },
+            {
+              "key": "impact",
+              "frame": 0,
+              "point": {
+                "x": 380,
+                "y": 536.1
+              },
+              "size": 240,
+              "alpha": 1,
+              "bounds": {
+                "left": 260,
+                "right": 500,
+                "top": 409.9816901408451,
+                "bottom": 649.9816901408451
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "at": 0.98,
+              "targetId": "A:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 1165.5325000000003,
+                "y": 119.41416666666669
+              },
+              "to": {
+                "x": 380,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 1.26,
+              "targetId": "A:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 1165.5325000000003,
+                "y": 119.41416666666669
+              },
+              "to": {
+                "x": 380,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 1.54,
+              "targetId": "A:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 1165.5325000000003,
+                "y": 119.41416666666669
+              },
+              "to": {
+                "x": 380,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 1.82,
+              "targetId": "A:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 1165.5325000000003,
+                "y": 119.41416666666669
+              },
+              "to": {
+                "x": 380,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 2.1,
+              "targetId": "A:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 1165.5325000000003,
+                "y": 119.41416666666669
+              },
+              "to": {
+                "x": 380,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 2.68,
+              "targetId": "A:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 1165.5325000000003,
+                "y": 119.41416666666669
+              },
+              "to": {
+                "x": 380,
+                "y": 536.1
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            }
+          ],
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "motionOnly": false,
+          "effectsEnabled": true,
+          "reducedMotion": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_RECEIPT",
+          "unit": 150,
+          "stationary": true
+        },
+        "x": 1220,
+        "y": 240,
+        "direction": -1
+      },
+      "idle": [
+        {
+          "x": 1220,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 150,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 1220,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 150,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 1220,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 150,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 1220,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 150,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        }
+      ],
+      "after": {
+        "last": {
+          "code": "V-057",
+          "eventType": "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 1.9500000000000002,
+          "contactSeconds": 1.3743589743589744,
+          "durationSeconds": 2.102564102564102
+        },
+        "count": 1,
+        "atStation": true
+      },
+      "cancelled": {
+        "before": 1,
+        "count": 1,
+        "states": 0,
+        "layers": 0
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "area",
+      "contact": {
+        "time": 2.083,
+        "damageCalls": [
+          {
+            "id": "B:0:ENCOUNTER:INITIAL",
+            "damage": 35703,
+            "compactArea": true
+          },
+          {
+            "id": "B:1:ENCOUNTER:INITIAL",
+            "damage": 6800,
+            "compactArea": true
+          },
+          {
+            "id": "B:2:ENCOUNTER:INITIAL",
+            "damage": 29243,
+            "compactArea": true
+          },
+          {
+            "id": "B:3:ENCOUNTER:INITIAL",
+            "damage": 30603,
+            "compactArea": true
+          },
+          {
+            "id": "B:4:ENCOUNTER:INITIAL",
+            "damage": 37404,
+            "compactArea": true
+          },
+          {
+            "id": "B:5:ENCOUNTER:INITIAL",
+            "damage": 34003,
+            "compactArea": true
+          },
+          {
+            "id": "B:6:ENCOUNTER:INITIAL",
+            "damage": 38083,
+            "compactArea": true
+          },
+          {
+            "id": "B:7:ENCOUNTER:INITIAL",
+            "damage": 35703,
+            "compactArea": true
+          },
+          {
+            "id": "B:8:ENCOUNTER:INITIAL",
+            "damage": 39104,
+            "compactArea": true
+          },
+          {
+            "id": "B:9:ENCOUNTER:INITIAL",
+            "damage": 29243,
+            "compactArea": true
+          },
+          {
+            "id": "B:10:ENCOUNTER:INITIAL",
+            "damage": 30603,
+            "compactArea": true
+          },
+          {
+            "id": "B:11:ENCOUNTER:INITIAL",
+            "damage": 37404,
+            "compactArea": true
+          }
+        ],
+        "hpCalls": [
+          {
+            "id": "B:0:ENCOUNTER:INITIAL",
+            "hp": 8.000927643784788
+          },
+          {
+            "id": "B:1:ENCOUNTER:INITIAL",
+            "hp": 0
+          },
+          {
+            "id": "B:2:ENCOUNTER:INITIAL",
+            "hp": 53.99946516493369
+          },
+          {
+            "id": "B:3:ENCOUNTER:INITIAL",
+            "hp": 53.99981962481962
+          },
+          {
+            "id": "B:4:ENCOUNTER:INITIAL",
+            "hp": 53.99940968122786
+          },
+          {
+            "id": "B:5:ENCOUNTER:INITIAL",
+            "hp": 54.00027056277056
+          },
+          {
+            "id": "B:6:ENCOUNTER:INITIAL",
+            "hp": 54.0004831501389
+          },
+          {
+            "id": "B:7:ENCOUNTER:INITIAL",
+            "hp": 54.000463821892396
+          },
+          {
+            "id": "B:8:ENCOUNTER:INITIAL",
+            "hp": 53.99962356484096
+          },
+          {
+            "id": "B:9:ENCOUNTER:INITIAL",
+            "hp": 53.99946516493369
+          },
+          {
+            "id": "B:10:ENCOUNTER:INITIAL",
+            "hp": 53.99981962481962
+          },
+          {
+            "id": "B:11:ENCOUNTER:INITIAL",
+            "hp": 53.99940968122786
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "revision": "arrow-v2",
+          "mode": "ultimate",
+          "time": 4.06185,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "cancelled": false,
+          "visibleSprites": 3,
+          "activeFrames": [
+            {
+              "key": "rain",
+              "frame": 9,
+              "point": {
+                "x": 1063,
+                "y": 250
+              },
+              "size": 147,
+              "alpha": 0.537867647058824,
+              "bounds": {
+                "left": 983.2542253521127,
+                "right": 1130.2542253521126,
+                "top": 140.2745070422535,
+                "bottom": 287.2745070422535
+              }
+            },
+            {
+              "key": "rain",
+              "frame": 8,
+              "point": {
+                "x": 1260.9999999999998,
+                "y": 250
+              },
+              "size": 147,
+              "alpha": 1,
+              "bounds": {
+                "left": 1181.2542253521124,
+                "right": 1328.2542253521124,
+                "top": 140.2745070422535,
+                "bottom": 287.2745070422535
+              }
+            },
+            {
+              "key": "breaker",
+              "frame": 3,
+              "point": {
+                "x": 1260.9999999999998,
+                "y": 250
+              },
+              "size": 313.5020070551028,
+              "alpha": 1,
+              "bounds": {
+                "left": 1104.2489964724484,
+                "right": 1417.7510035275511,
+                "top": 8,
+                "bottom": 321.5020070551028
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "at": 2.35,
+              "targetId": "B:0:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 802,
+                "y": 96.16
+              },
+              "to": {
+                "x": 865,
+                "y": 250
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.435,
+              "targetId": "B:1:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 1000,
+                "y": 96.16
+              },
+              "to": {
+                "x": 1063,
+                "y": 250
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.52,
+              "targetId": "B:2:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 1197.9999999999998,
+                "y": 96.16
+              },
+              "to": {
+                "x": 1260.9999999999998,
+                "y": 250
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.605,
+              "targetId": "B:3:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 837.64,
+                "y": 96.16
+              },
+              "to": {
+                "x": 900.64,
+                "y": 378
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.69,
+              "targetId": "B:4:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 1035.6399999999999,
+                "y": 96.16
+              },
+              "to": {
+                "x": 1098.6399999999999,
+                "y": 378
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.7750000000000004,
+              "targetId": "B:5:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 1233.64,
+                "y": 96.16
+              },
+              "to": {
+                "x": 1296.64,
+                "y": 378
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.8600000000000003,
+              "targetId": "B:6:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 802,
+                "y": 96.16
+              },
+              "to": {
+                "x": 865,
+                "y": 505.99999999999994
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.9450000000000003,
+              "targetId": "B:7:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 1000,
+                "y": 96.16
+              },
+              "to": {
+                "x": 1063,
+                "y": 505.99999999999994
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.0300000000000002,
+              "targetId": "B:8:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 1197.9999999999998,
+                "y": 96.16
+              },
+              "to": {
+                "x": 1260.9999999999998,
+                "y": 505.99999999999994
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.115,
+              "targetId": "B:9:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 837.64,
+                "y": 96.16
+              },
+              "to": {
+                "x": 900.64,
+                "y": 634
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.2,
+              "targetId": "B:10:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 1035.6399999999999,
+                "y": 96.16
+              },
+              "to": {
+                "x": 1098.6399999999999,
+                "y": 634
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.285,
+              "targetId": "B:11:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 1233.64,
+                "y": 96.16
+              },
+              "to": {
+                "x": 1296.64,
+                "y": 634
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.37,
+              "targetId": "B:0:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 802,
+                "y": 96.16
+              },
+              "to": {
+                "x": 865,
+                "y": 250
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.455,
+              "targetId": "B:1:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 1000,
+                "y": 96.16
+              },
+              "to": {
+                "x": 1063,
+                "y": 250
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.54,
+              "targetId": "B:2:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 1197.9999999999998,
+                "y": 96.16
+              },
+              "to": {
+                "x": 1260.9999999999998,
+                "y": 250
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 4.05,
+              "targetId": "B:2:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 1260.9999999999998,
+                "y": 10
+              },
+              "to": {
+                "x": 1260.9999999999998,
+                "y": 250
+              },
+              "mapping": "HEAVY_ARROW_TO_TARGET_GROUND",
+              "effect": "breaker"
+            }
+          ],
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "motionOnly": false,
+          "effectsEnabled": true,
+          "reducedMotion": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_RECEIPT",
+          "unit": 150,
+          "stationary": true
+        },
+        "x": 380,
+        "y": 240,
+        "direction": 1
+      },
+      "idle": [
+        {
+          "x": 380,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 147,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 380,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 147,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 380,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 147,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 380,
+          "y": 240,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 147,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        }
+      ],
+      "after": {
+        "last": {
+          "code": "V-057",
+          "eventType": "MERCENARY_IMPERIAL_ARROW_RAIN",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 12,
+          "playbackRate": 1.9500000000000002,
+          "contactSeconds": 2.0769230769230766,
+          "durationSeconds": 3.384615384615384
+        },
+        "count": 12,
+        "atStation": true
+      },
+      "cancelled": {
+        "before": 12,
+        "count": 12,
+        "states": 0,
+        "layers": 0
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "basic",
+      "contact": {
+        "time": 0.612,
+        "damageCalls": [
+          {
+            "id": "B:4:CN-519C181C18DF4B8E",
+            "damage": 23
+          }
+        ],
+        "hpCalls": [
+          {
+            "id": "B:4:CN-519C181C18DF4B8E",
+            "hp": 77
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "revision": "arrow-v2",
+          "mode": "attack",
+          "time": 1.1934,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "key": "release",
+            "frame": 1
+          },
+          "cancelled": false,
+          "visibleSprites": 2,
+          "activeFrames": [
+            {
+              "key": "bolt",
+              "frame": 11,
+              "point": {
+                "x": 1031.1772637928466,
+                "y": 1266.0964962021858
+              },
+              "size": 211.79988293211434,
+              "alpha": 0.8883333333333326,
+              "bounds": {
+                "left": 852.2114248829296,
+                "right": 1142.8196721311474,
+                "top": 1061.230152510917,
+                "bottom": 1351.8383997591347
+              }
+            },
+            {
+              "key": "impact",
+              "frame": 0,
+              "point": {
+                "x": 1007.4098360655738,
+                "y": 1226.5103278688523
+              },
+              "size": 234.00000000000003,
+              "alpha": 1,
+              "bounds": {
+                "left": 890.4098360655738,
+                "right": 1124.409836065574,
+                "top": 1103.5449757561762,
+                "bottom": 1337.5449757561762
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "at": 1.18,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 422.0925860655737,
+                "y": 251.62707786885238
+              },
+              "to": {
+                "x": 1007.4098360655738,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            }
+          ],
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "motionOnly": false,
+          "effectsEnabled": true,
+          "reducedMotion": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_RECEIPT",
+          "unit": 195.00000000000003,
+          "stationary": true
+        },
+        "x": 359.40983606557376,
+        "y": 399.18032786885243,
+        "direction": 1
+      },
+      "idle": [
+        {
+          "x": 359.40983606557376,
+          "y": 399.18032786885243,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 119,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 359.40983606557376,
+          "y": 399.18032786885243,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 119,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 359.40983606557376,
+          "y": 399.18032786885243,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 119,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 359.40983606557376,
+          "y": 399.18032786885243,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 119,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        }
+      ],
+      "after": {
+        "last": {
+          "code": "V-057",
+          "eventType": "ATTACK",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 1.9500000000000002,
+          "contactSeconds": 0.6051282051282051,
+          "durationSeconds": 1.3333333333333333
+        },
+        "count": 1,
+        "atStation": true
+      },
+      "cancelled": {
+        "before": 1,
+        "count": 1,
+        "states": 0,
+        "layers": 0
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "volley",
+      "contact": {
+        "time": 1.377,
+        "damageCalls": [
+          {
+            "id": "B:4:CN-519C181C18DF4B8E",
+            "damage": 26174720,
+            "compactArea": false
+          }
+        ],
+        "hpCalls": [
+          {
+            "id": "B:4:CN-519C181C18DF4B8E",
+            "hp": 0
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "revision": "arrow-v2",
+          "mode": "skill",
+          "time": 2.68515,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "key": "draw",
+            "frame": 3
+          },
+          "cancelled": false,
+          "visibleSprites": 3,
+          "activeFrames": [
+            {
+              "key": "impact",
+              "frame": 10,
+              "point": {
+                "x": 1007.4098360655738,
+                "y": 1226.5103278688523
+              },
+              "size": 163.8,
+              "alpha": 0.2810483870967745,
+              "bounds": {
+                "left": 956.1319769106442,
+                "right": 1119.9319769106442,
+                "top": 1140.434581389979,
+                "bottom": 1304.234581389979
+              }
+            },
+            {
+              "key": "volley",
+              "frame": 11,
+              "point": {
+                "x": 1017.3183030239072,
+                "y": 1243.4039000494076
+              },
+              "size": 240.93969991657823,
+              "alpha": 0.9570833333333334,
+              "bounds": {
+                "left": 813.0933611377017,
+                "right": 1142.8196721311474,
+                "top": 1011.4303446974295,
+                "bottom": 1341.1566556908751
+              }
+            },
+            {
+              "key": "impact",
+              "frame": 0,
+              "point": {
+                "x": 1007.4098360655738,
+                "y": 1226.5103278688523
+              },
+              "size": 270.8196721311472,
+              "alpha": 1,
+              "bounds": {
+                "left": 872.0000000000002,
+                "right": 1142.8196721311474,
+                "top": 1084.196497344724,
+                "bottom": 1355.0161694758713
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "at": 0.98,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 430.2175860655738,
+                "y": 242.41874453551912
+              },
+              "to": {
+                "x": 1007.4098360655738,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 1.26,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 430.2175860655738,
+                "y": 242.41874453551912
+              },
+              "to": {
+                "x": 1007.4098360655738,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 1.54,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 430.2175860655738,
+                "y": 242.41874453551912
+              },
+              "to": {
+                "x": 1007.4098360655738,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 1.82,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 430.2175860655738,
+                "y": 242.41874453551912
+              },
+              "to": {
+                "x": 1007.4098360655738,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 2.1,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 430.2175860655738,
+                "y": 242.41874453551912
+              },
+              "to": {
+                "x": 1007.4098360655738,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 2.68,
+              "targetId": "B:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 430.2175860655738,
+                "y": 242.41874453551912
+              },
+              "to": {
+                "x": 1007.4098360655738,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            }
+          ],
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "motionOnly": false,
+          "effectsEnabled": true,
+          "reducedMotion": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_RECEIPT",
+          "unit": 195.00000000000003,
+          "stationary": true
+        },
+        "x": 359.40983606557376,
+        "y": 399.18032786885243,
+        "direction": 1
+      },
+      "idle": [
+        {
+          "x": 359.40983606557376,
+          "y": 399.18032786885243,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 173,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 359.40983606557376,
+          "y": 399.18032786885243,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 173,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 359.40983606557376,
+          "y": 399.18032786885243,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 173,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 359.40983606557376,
+          "y": 399.18032786885243,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 173,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        }
+      ],
+      "after": {
+        "last": {
+          "code": "V-057",
+          "eventType": "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 1.9500000000000002,
+          "contactSeconds": 1.3743589743589744,
+          "durationSeconds": 2.102564102564102
+        },
+        "count": 1,
+        "atStation": true
+      },
+      "cancelled": {
+        "before": 1,
+        "count": 1,
+        "states": 0,
+        "layers": 0
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "enemy",
+      "contact": {
+        "time": 1.376,
+        "damageCalls": [
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "damage": 26174720,
+            "compactArea": false
+          }
+        ],
+        "hpCalls": [
+          {
+            "id": "A:4:CN-519C181C18DF4B8E",
+            "hp": 0
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "revision": "arrow-v2",
+          "mode": "skill",
+          "time": 2.6832,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "key": "draw",
+            "frame": 3
+          },
+          "cancelled": false,
+          "visibleSprites": 3,
+          "activeFrames": [
+            {
+              "key": "impact",
+              "frame": 10,
+              "point": {
+                "x": 143.40983606557373,
+                "y": 1226.5103278688523
+              },
+              "size": 163.8,
+              "alpha": 0.2967741935483903,
+              "bounds": {
+                "left": 92.13197691064414,
+                "right": 255.93197691064415,
+                "top": 1140.434581389979,
+                "bottom": 1304.234581389979
+              }
+            },
+            {
+              "key": "volley",
+              "frame": 11,
+              "point": {
+                "x": 137.2531187322411,
+                "y": 1237.00730475774
+              },
+              "size": 248.1423737618129,
+              "alpha": 0.9733333333333363,
+              "bounds": {
+                "left": 8,
+                "right": 347.5831800652528,
+                "top": 998.099110321799,
+                "bottom": 1337.6822903870518
+              }
+            },
+            {
+              "key": "impact",
+              "frame": 0,
+              "point": {
+                "x": 143.40983606557373,
+                "y": 1226.5103278688523
+              },
+              "size": 270.81967213114746,
+              "alpha": 1,
+              "bounds": {
+                "left": 8,
+                "right": 278.81967213114746,
+                "top": 1084.1964973447239,
+                "bottom": 1355.0161694758715
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "at": 0.98,
+              "targetId": "A:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 720.6020860655739,
+                "y": 242.41874453551912
+              },
+              "to": {
+                "x": 143.40983606557373,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 1.26,
+              "targetId": "A:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 720.6020860655739,
+                "y": 242.41874453551912
+              },
+              "to": {
+                "x": 143.40983606557373,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 1.54,
+              "targetId": "A:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 720.6020860655739,
+                "y": 242.41874453551912
+              },
+              "to": {
+                "x": 143.40983606557373,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 1.82,
+              "targetId": "A:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 720.6020860655739,
+                "y": 242.41874453551912
+              },
+              "to": {
+                "x": 143.40983606557373,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 2.1,
+              "targetId": "A:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 720.6020860655739,
+                "y": 242.41874453551912
+              },
+              "to": {
+                "x": 143.40983606557373,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            },
+            {
+              "at": 2.68,
+              "targetId": "A:4:CN-519C181C18DF4B8E",
+              "from": {
+                "x": 720.6020860655739,
+                "y": 242.41874453551912
+              },
+              "to": {
+                "x": 143.40983606557373,
+                "y": 1226.5103278688523
+              },
+              "mapping": "BOW_ARROW_TO_TARGET_CHEST",
+              "effect": "impact"
+            }
+          ],
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "motionOnly": false,
+          "effectsEnabled": true,
+          "reducedMotion": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_RECEIPT",
+          "unit": 195.00000000000003,
+          "stationary": true
+        },
+        "x": 791.4098360655738,
+        "y": 399.18032786885243,
+        "direction": -1
+      },
+      "idle": [
+        {
+          "x": 791.4098360655738,
+          "y": 399.18032786885243,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 160,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 791.4098360655738,
+          "y": 399.18032786885243,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 160,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 791.4098360655738,
+          "y": 399.18032786885243,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 160,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 791.4098360655738,
+          "y": 399.18032786885243,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 160,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        }
+      ],
+      "after": {
+        "last": {
+          "code": "V-057",
+          "eventType": "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "playbackRate": 1.9500000000000002,
+          "contactSeconds": 1.3743589743589744,
+          "durationSeconds": 2.102564102564102
+        },
+        "count": 1,
+        "atStation": true
+      },
+      "cancelled": {
+        "before": 1,
+        "count": 1,
+        "states": 0,
+        "layers": 0
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "area",
+      "contact": {
+        "time": 2.081,
+        "damageCalls": [
+          {
+            "id": "B:0:ENCOUNTER:INITIAL",
+            "damage": 35703,
+            "compactArea": true
+          },
+          {
+            "id": "B:1:ENCOUNTER:INITIAL",
+            "damage": 6800,
+            "compactArea": true
+          },
+          {
+            "id": "B:2:ENCOUNTER:INITIAL",
+            "damage": 29243,
+            "compactArea": true
+          },
+          {
+            "id": "B:3:ENCOUNTER:INITIAL",
+            "damage": 30603,
+            "compactArea": true
+          },
+          {
+            "id": "B:4:ENCOUNTER:INITIAL",
+            "damage": 37404,
+            "compactArea": true
+          },
+          {
+            "id": "B:5:ENCOUNTER:INITIAL",
+            "damage": 34003,
+            "compactArea": true
+          },
+          {
+            "id": "B:6:ENCOUNTER:INITIAL",
+            "damage": 38083,
+            "compactArea": true
+          },
+          {
+            "id": "B:7:ENCOUNTER:INITIAL",
+            "damage": 35703,
+            "compactArea": true
+          },
+          {
+            "id": "B:8:ENCOUNTER:INITIAL",
+            "damage": 39104,
+            "compactArea": true
+          },
+          {
+            "id": "B:9:ENCOUNTER:INITIAL",
+            "damage": 29243,
+            "compactArea": true
+          },
+          {
+            "id": "B:10:ENCOUNTER:INITIAL",
+            "damage": 30603,
+            "compactArea": true
+          },
+          {
+            "id": "B:11:ENCOUNTER:INITIAL",
+            "damage": 37404,
+            "compactArea": true
+          }
+        ],
+        "hpCalls": [
+          {
+            "id": "B:0:ENCOUNTER:INITIAL",
+            "hp": 8.000927643784788
+          },
+          {
+            "id": "B:1:ENCOUNTER:INITIAL",
+            "hp": 0
+          },
+          {
+            "id": "B:2:ENCOUNTER:INITIAL",
+            "hp": 53.99946516493369
+          },
+          {
+            "id": "B:3:ENCOUNTER:INITIAL",
+            "hp": 53.99981962481962
+          },
+          {
+            "id": "B:4:ENCOUNTER:INITIAL",
+            "hp": 53.99940968122786
+          },
+          {
+            "id": "B:5:ENCOUNTER:INITIAL",
+            "hp": 54.00027056277056
+          },
+          {
+            "id": "B:6:ENCOUNTER:INITIAL",
+            "hp": 54.0004831501389
+          },
+          {
+            "id": "B:7:ENCOUNTER:INITIAL",
+            "hp": 54.000463821892396
+          },
+          {
+            "id": "B:8:ENCOUNTER:INITIAL",
+            "hp": 53.99962356484096
+          },
+          {
+            "id": "B:9:ENCOUNTER:INITIAL",
+            "hp": 53.99946516493369
+          },
+          {
+            "id": "B:10:ENCOUNTER:INITIAL",
+            "hp": 53.99981962481962
+          },
+          {
+            "id": "B:11:ENCOUNTER:INITIAL",
+            "hp": 53.99940968122786
+          }
+        ],
+        "fx": {
+          "ready": true,
+          "revision": "arrow-v2",
+          "mode": "ultimate",
+          "time": 4.05795,
+          "playing": false,
+          "speed": 1,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          },
+          "cancelled": false,
+          "visibleSprites": 3,
+          "activeFrames": [
+            {
+              "key": "rain",
+              "frame": 9,
+              "point": {
+                "x": 767.4098360655738,
+                "y": 605.5737704918033
+              },
+              "size": 191.10000000000005,
+              "alpha": 0.5665441176470581,
+              "bounds": {
+                "left": 663.7403290233202,
+                "right": 854.8403290233202,
+                "top": 462.9306296467329,
+                "bottom": 654.0306296467329
+              }
+            },
+            {
+              "key": "rain",
+              "frame": 8,
+              "point": {
+                "x": 909.4098360655738,
+                "y": 605.5737704918033
+              },
+              "size": 191.10000000000005,
+              "alpha": 1,
+              "bounds": {
+                "left": 805.7403290233202,
+                "right": 996.8403290233202,
+                "top": 462.9306296467329,
+                "bottom": 654.0306296467329
+              }
+            },
+            {
+              "key": "breaker",
+              "frame": 3,
+              "point": {
+                "x": 909.4098360655738,
+                "y": 605.5737704918033
+              },
+              "size": 466.8196721311472,
+              "alpha": 1,
+              "bounds": {
+                "left": 676.0000000000002,
+                "right": 1142.8196721311474,
+                "top": 245.22404987300888,
+                "bottom": 712.043722004156
+              }
+            }
+          ],
+          "contacts": [
+            {
+              "at": 2.35,
+              "targetId": "B:0:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 543.5098360655737,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 625.4098360655737,
+                "y": 605.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.435,
+              "targetId": "B:1:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 685.5098360655738,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 767.4098360655738,
+                "y": 605.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.52,
+              "targetId": "B:2:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 827.5098360655738,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 909.4098360655738,
+                "y": 605.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.605,
+              "targetId": "B:3:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 569.0698360655738,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 650.9698360655738,
+                "y": 819.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.69,
+              "targetId": "B:4:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 711.0698360655738,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 792.9698360655738,
+                "y": 819.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.7750000000000004,
+              "targetId": "B:5:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 853.0698360655738,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 934.9698360655738,
+                "y": 819.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.8600000000000003,
+              "targetId": "B:6:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 543.5098360655737,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 625.4098360655737,
+                "y": 1033.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 2.9450000000000003,
+              "targetId": "B:7:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 685.5098360655738,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 767.4098360655738,
+                "y": 1033.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.0300000000000002,
+              "targetId": "B:8:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 827.5098360655738,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 909.4098360655738,
+                "y": 1033.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.115,
+              "targetId": "B:9:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 569.0698360655738,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 650.9698360655738,
+                "y": 1247.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.2,
+              "targetId": "B:10:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 711.0698360655738,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 792.9698360655738,
+                "y": 1247.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.285,
+              "targetId": "B:11:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 853.0698360655738,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 934.9698360655738,
+                "y": 1247.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.37,
+              "targetId": "B:0:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 543.5098360655737,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 625.4098360655737,
+                "y": 605.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.455,
+              "targetId": "B:1:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 685.5098360655738,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 767.4098360655738,
+                "y": 605.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 3.54,
+              "targetId": "B:2:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 827.5098360655738,
+                "y": 420.05377049180333
+              },
+              "to": {
+                "x": 909.4098360655738,
+                "y": 605.5737704918033
+              },
+              "mapping": "ARROW_RAIN_TO_TARGET_GROUND",
+              "effect": "rain"
+            },
+            {
+              "at": 4.05,
+              "targetId": "B:2:ENCOUNTER:INITIAL",
+              "from": {
+                "x": 909.4098360655738,
+                "y": 215.5737704918032
+              },
+              "to": {
+                "x": 909.4098360655738,
+                "y": 605.5737704918033
+              },
+              "mapping": "HEAVY_ARROW_TO_TARGET_GROUND",
+              "effect": "breaker"
+            }
+          ],
+          "registeredTimelines": 0,
+          "effectLayers": 1,
+          "motionOnly": false,
+          "effectsEnabled": true,
+          "reducedMotion": false,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_RECEIPT",
+          "unit": 195.00000000000006,
+          "stationary": true
+        },
+        "x": 359.40983606557376,
+        "y": 555.5737704918033,
+        "direction": 1
+      },
+      "idle": [
+        {
+          "x": 359.40983606557376,
+          "y": 555.5737704918033,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 160,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 359.40983606557376,
+          "y": 555.5737704918033,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 160,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 359.40983606557376,
+          "y": 555.5737704918033,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 160,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        },
+        {
+          "x": 359.40983606557376,
+          "y": 555.5737704918033,
+          "sx": 0.8333333333333334,
+          "sy": 0.8333333333333334,
+          "texture": 160,
+          "pose": {
+            "key": "idle",
+            "frame": 0
+          }
+        }
+      ],
+      "after": {
+        "last": {
+          "code": "V-057",
+          "eventType": "MERCENARY_IMPERIAL_ARROW_RAIN",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 12,
+          "playbackRate": 1.9500000000000002,
+          "contactSeconds": 2.0769230769230766,
+          "durationSeconds": 3.384615384615384
+        },
+        "count": 12,
+        "atStation": true
+      },
+      "cancelled": {
+        "before": 12,
+        "count": 12,
+        "states": 0,
+        "layers": 0
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "loadout",
+      "pve": true,
+      "pvp": true,
+      "persisted": true
+    },
+    {
+      "label": "mobile",
+      "mode": "loadout",
+      "pve": true,
+      "pvp": true,
+      "persisted": true
+    }
+  ],
+  "errors": []
+}

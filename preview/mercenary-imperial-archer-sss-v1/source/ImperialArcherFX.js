@@ -20,6 +20,7 @@ export class ImperialArcherFX{
   this.targetsBase=targets.map(a=>({x:a.view.x,tint:a.fullBodySprite.tint}));
   this.captureFormation();this.makeTimeline();this.render(0);
  }
+ get facing(){return this.merc.team==='ENEMY'?-1:1}
  get time(){return this.clock.time}
  get playing(){return !!this.timeline&&!this.timeline.paused()&&this.time<this.plan.duration}
  captureFormation(){this.start={x:this.merc.baseX??this.merc.root.x,y:this.merc.baseY??this.merc.root.y};}
@@ -71,7 +72,7 @@ export class ImperialArcherFX{
   const state=sample(this.plan,at),f=this.manifest.motion[state.pose.key].frames[state.pose.frame];
   const origin=this.anchorPoint('tip',f);
   // Recover the release position, independent of follow-through or recoil at the sampled time.
-  const offset=this.engine.effectLayer.toLocal(this.merc.root.parent.toGlobal({x:(this.merc.baseX??this.start.x)+state.travel*60-state.recoil*5,y:(this.merc.baseY??this.start.y)-state.jump*this.bodyHeight}));
+  const offset=this.engine.effectLayer.toLocal(this.merc.root.parent.toGlobal({x:(this.merc.baseX??this.start.x)+this.facing*(state.travel*60-state.recoil*5),y:(this.merc.baseY??this.start.y)-state.jump*this.bodyHeight}));
   const current=this.engine.effectLayer.toLocal(this.merc.root.toGlobal({x:0,y:0}));
   return{x:origin.x+offset.x-current.x,y:origin.y+offset.y-current.y};
  }
@@ -102,15 +103,15 @@ export class ImperialArcherFX{
   if(this.reducedMotion)return;
   for(const age of [.14,.27]){
    if(t<age||this.used>=this.pool.length)continue;
-   const state=sample(this.plan,t-age),f=this.manifest.motion[state.pose.key].frames[state.pose.frame],s=this.pool[this.used++],pos=this.engine.effectLayer.toLocal(this.merc.root.parent.toGlobal({x:(this.merc.baseX??this.start.x)+state.travel*60,y:(this.merc.baseY??this.start.y)-state.jump*this.bodyHeight}));
-   s.texture=this.assets.motion[state.pose.key][state.pose.frame];s.anchor.set(f.footAnchor.x,f.footAnchor.y);s.position.set(pos.x,pos.y);s.scale.set(this.unit/f.bodyPixels);s.rotation=0;s.alpha=age<.2?.22:.11;s.tint=0xc89762;s.blendMode='normal';s.visible=true;
+   const state=sample(this.plan,t-age),f=this.manifest.motion[state.pose.key].frames[state.pose.frame],s=this.pool[this.used++],pos=this.engine.effectLayer.toLocal(this.merc.root.parent.toGlobal({x:(this.merc.baseX??this.start.x)+this.facing*state.travel*60,y:(this.merc.baseY??this.start.y)-state.jump*this.bodyHeight}));
+   s.texture=this.assets.motion[state.pose.key][state.pose.frame];s.anchor.set(f.footAnchor.x,f.footAnchor.y);s.position.set(pos.x,pos.y);s.scale.set(this.facing*this.unit/f.bodyPixels,this.unit/f.bodyPixels);s.rotation=0;s.alpha=age<.2?.22:.11;s.tint=0xc89762;s.blendMode='normal';s.visible=true;
   }
  }
  render(t){
   if(this.destroyed)return;
   this.pool.forEach(s=>s.visible=false);this.bowString.clear();this.used=0;this.activeFrames=[];this.contactChecks=[];
   const state=sample(this.plan,t);this.sample=state;this.applyPose(state.pose);
-  this.merc.root.position.set((this.merc.baseX??this.start.x)+state.travel*60-(this.reducedMotion?0:state.recoil*5),(this.merc.baseY??this.start.y)-state.jump*this.bodyHeight);
+  this.merc.root.position.set((this.merc.baseX??this.start.x)+this.facing*(state.travel*60-(this.reducedMotion?0:state.recoil*5)),(this.merc.baseY??this.start.y)-state.jump*this.bodyHeight);
   this.targets.forEach((a,i)=>{a.view.x=this.targetsBase[i].x;a.fullBodySprite.tint=this.targetsBase[i].tint;});this.engine.sortCombatDepth();
   const foot=this.ownPoint(),head=this.ownPoint(0,-this.bodyHeight),unit=Math.hypot(head.x-foot.x,head.y-foot.y),grip=this.anchorPoint('grip'),hand=this.anchorPoint('hand'),upper=this.anchorPoint('upperTip'),lower=this.anchorPoint('lowerTip'),muzzle=this.anchorPoint('tip'),mode=this.plan.mode;this.unit=unit;
   const resting={x:(upper.x+lower.x)/2,y:grip.y},nock=['draw','ultimate'].includes(state.pose.key)?hand:resting;
@@ -141,14 +142,14 @@ export class ImperialArcherFX{
     this.seq('rain',t,hit,hit+.68,at,unit*.98);
     this.contactChecks.push({at:hit,targetId:target.id,from:origin,to:at,mapping:'ARROW_RAIN_TO_TARGET_GROUND',effect:'rain'});
    }
-   const impact=this.plan.contacts.at(-1),target=this.targets[2],at=feet[2],from={x:at.x,y:Math.max(10,at.y-unit*2)};
+   const impact=this.plan.contacts.at(-1),target=this.targets[Math.min(2,this.targets.length-1)],at=feet[Math.min(2,feet.length-1)],from={x:at.x,y:Math.max(10,at.y-unit*2)};
    this.projectile('bolt',t,impact-.48,impact,from,at,unit*1.9,false);
    // The first three frames are the descending arrow. Frame 3 is the exact ground-contact drawing.
    if(t>=impact&&t<impact+1.75)this.draw('breaker',3+clamp((t-impact)/1.75)*8,at,unit*2.55,{alpha:clamp((impact+1.75-t)/.4)});
    this.contactChecks.push({at:impact,targetId:target.id,from,to:at,mapping:'HEAVY_ARROW_TO_TARGET_GROUND',effect:'breaker'});
   }
   for(const hit of state.contacts){
-   const i=this.plan.contacts.indexOf(hit.at),a=this.targets[mode==='ultimate'?(i===this.plan.contacts.length-1?2:i%this.targets.length):0];
+   const i=this.plan.contacts.indexOf(hit.at),a=this.targets[mode==='ultimate'?(i===this.plan.contacts.length-1?Math.min(2,this.targets.length-1):i%this.targets.length):0];
    a.fullBodySprite.tint=0xffc87e;if(!this.reducedMotion)a.view.x+=Math.sin(hit.age*60)*(mode==='ultimate'?2.5:1.8);
   }
   this.onUpdate(this);

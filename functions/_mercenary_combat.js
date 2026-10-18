@@ -1,3 +1,4 @@
+import {IMPERIAL_ARCHER_COMBAT,isImperialArcher,imperialArcherCredit,imperialArcherBasicScale,imperialArcherCap,imperialArcherTargets,resolveImperialArcherCast,ARCHER_VOLLEY,ARCHER_RAIN} from '../shared/mercenary-kangyun-v1.mjs';
 import {JOKRO_CODE,JOKRO_COMBAT,JOKRO_AREA_SKILL,JOKRO_AREA_MECHANIC,isJokro,jokroActionCredit} from '../shared/mercenary-jokro-v1.mjs';
 import {resolveJokroArea} from './_mercenary_jokro.js';
 import {mercenaryGrowthActionCredit} from '../shared/mercenary-growth-review-v2.mjs';
@@ -45,12 +46,12 @@ const weakest=team=>ordered(team).sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp||a.slot-
 // released fighters use their captured cadence without replacing a card,
 // advancing its gauge, or consuming the five-card battle's action budget.
 // Natural mercenary turns clear the debt; suit shots and enemy turns cannot.
-export const mercenaryBaseActionCredit=actors=>Math.max(azantActionCredit(actors),berkanActionCredit(actors),valterActionCredit(actors),heliosActionCredit(actors),jinmuActionCredit(actors),kaironActionCredit(actors),shiranuiActionCredit(actors),jokroActionCredit(actors),ssLimitedActionCredit(actors));
+export const mercenaryBaseActionCredit=actors=>Math.max(imperialArcherCredit(actors),azantActionCredit(actors),berkanActionCredit(actors),valterActionCredit(actors),heliosActionCredit(actors),jinmuActionCredit(actors),kaironActionCredit(actors),shiranuiActionCredit(actors),jokroActionCredit(actors),ssLimitedActionCredit(actors));
 export function mercenaryTurnCadence(teams){
  if([...teams.A,...teams.B].some(actor=>actor.ownerId))return duoMercenaryTurnCadence(teams);
  const debt={A:0,B:0};
  const interval=side=>mercenaryActionInterval(teams[side]||[]);
- const credit=side=>Math.max(azantActionCredit(teams[side]||[]),berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]),heliosActionCredit(teams[side]||[]),jinmuActionCredit(teams[side]||[]),kaironActionCredit(teams[side]||[]),shiranuiActionCredit(teams[side]||[]),jokroActionCredit(teams[side]||[]),ssLimitedActionCredit(teams[side]||[]))+mercenaryGrowthActionCredit(teams[side]||[]);
+ const credit=side=>Math.max(imperialArcherCredit(teams[side]||[]),azantActionCredit(teams[side]||[]),berkanActionCredit(teams[side]||[]),valterActionCredit(teams[side]||[]),heliosActionCredit(teams[side]||[]),jinmuActionCredit(teams[side]||[]),kaironActionCredit(teams[side]||[]),shiranuiActionCredit(teams[side]||[]),jokroActionCredit(teams[side]||[]),ssLimitedActionCredit(teams[side]||[]))+mercenaryGrowthActionCredit(teams[side]||[]);
  const accrue=side=>{const growth=mercenaryGrowthActionCredit(teams[side]||[]),next=Math.min(growth?interval(side)+credit(side):heliosCreditLimit(interval(side),credit(side)),debt[side]+credit(side));debt[side]=growth?Math.round(next*10000)/10000:normalizeHeliosCredit(next,credit(side));};
  const regular=actor=>living(actor)&&!actor.isMonster&&!actor.isMercenary&&actor.actorKind!=='BATTLE_SUIT';
  return {
@@ -89,7 +90,7 @@ function duoMercenaryTurnCadence(teams){
  const groups=['A','B'].flatMap(side=>[...new Set(teams[side].map(a=>a.ownerId))].map(ownerId=>({side,ownerId,actors:teams[side].filter(a=>a.ownerId===ownerId),debt:0})));
  const regular=a=>living(a)&&!a.isMercenary&&!a.isMonster&&!a.isBattleSuit;
  const interval=g=>mercenaryActionInterval(g.actors);
- const credit=g=>Math.max(azantActionCredit(g.actors),berkanActionCredit(g.actors),valterActionCredit(g.actors),heliosActionCredit(g.actors),jinmuActionCredit(g.actors),kaironActionCredit(g.actors),shiranuiActionCredit(g.actors),jokroActionCredit(g.actors),ssLimitedActionCredit(g.actors))+mercenaryGrowthActionCredit(g.actors);
+ const credit=g=>Math.max(imperialArcherCredit(g.actors),azantActionCredit(g.actors),berkanActionCredit(g.actors),valterActionCredit(g.actors),heliosActionCredit(g.actors),jinmuActionCredit(g.actors),kaironActionCredit(g.actors),shiranuiActionCredit(g.actors),jokroActionCredit(g.actors),ssLimitedActionCredit(g.actors))+mercenaryGrowthActionCredit(g.actors);
  const accrue=g=>{const growth=mercenaryGrowthActionCredit(g.actors),next=Math.min(growth?interval(g)+credit(g):heliosCreditLimit(interval(g),credit(g)),g.debt+credit(g));g.debt=growth?Math.round(next*10000)/10000:normalizeHeliosCredit(next,credit(g));};
  const pending=(g,eligible)=>g.debt>=interval(g)?g.actors.find(a=>a.isMercenary&&living(a)&&eligible(a)):null;
  return {
@@ -123,7 +124,7 @@ export const MERCENARY_SKILL_CAP_SCALE=Object.freeze({
 });
 export function mercenarySkillCapActions(actor,skill,ranged,sequentialCount){
  const actions=ranged?Math.max(1,sequentialCount||1):(MERCENARY_SKILL_RESOLVE_ACTIONS[skill?.mechanic]??1);
- const scale=skill?.id===AZANT_VOLLEY_SKILL?azantVolleyCapScale(actor):skill?.id===BERKAN_SKILL_ID?berkanStarfallCapScale(actor):skill?.id===CRYVERN_SKILL_ID?cryvernCrownCapScale(actor):(MERCENARY_SKILL_CAP_SCALE[skill?.id]??1);
+ const scale=isImperialArcher(actor)&&[ARCHER_VOLLEY,ARCHER_RAIN].includes(skill?.mechanic)?imperialArcherCap(actor,skill):skill?.id===AZANT_VOLLEY_SKILL?azantVolleyCapScale(actor):skill?.id===BERKAN_SKILL_ID?berkanStarfallCapScale(actor):skill?.id===CRYVERN_SKILL_ID?cryvernCrownCapScale(actor):(MERCENARY_SKILL_CAP_SCALE[skill?.id]??1);
  return actions*scale*mercenaryPvpTierOffense(actor)*(actor?.battleMode==='PVP'?(ssLimitedProfile(actor)?.pvpSkillCapScale??1):1);
 }
 // 피해가 없는 보조 스킬은 행동을 잡아먹지 않는다. 용병이 스킬을 쓰느라 공격을 거르면
@@ -151,7 +152,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  const limited=ssLimitedProfile({...snapshot,isMercenary:true});
  if(limited)snapshot={...snapshot,rank:'SS',statMode:'RANK_FIXED',position:limited.position,role:limited.role,attackStyle:limited.attackStyle,skills:[structuredClone(limited.skill)],ssLimitedPolicyVersion:SS_LIMITED_BALANCE_VERSION};
  if(snapshot.statMode==='RANK_FIXED'){
-  const rankPower=supreme?supreme.basePower:limited?limited.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
+  const rankPower=isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.basePower:supreme?supreme.basePower:limited?limited.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[snapshot.rank];
   const power=rankPower?rankPower+mercenaryEquipmentPower(snapshot,mode):0;
   if(!power||typeof buildCardFighter!=='function')throw Error('INVALID_MERCENARY_RANK_POWER');
   const statsPower=jinmu||kairon||shiranui||jokro?supreme.statsReferencePower+mercenaryEquipmentPower(snapshot,mode):power;
@@ -159,7 +160,7 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
   // Compare natural speed with the same equipment on Valter. Higher nominal
   // Helios power must neither compound the +4% nor dilute it under strong gear.
   const speedBase=helios||jinmu||kairon||shiranui||jokro?buildCardFighter({id:snapshot.code,power:supreme.speedReferencePower+mercenaryEquipmentPower(snapshot,mode),type:'NONE'},5,side,null,mode):base;
-  snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(speedBase.speed*(supreme?supreme.speedScale:snapshot.code===AZANT_CODE?AZANT_COMBAT.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:limited?(limited.speedScale??SS_LIMITED_TEMPO.speedScale):1))}};
+  snapshot={...snapshot,basePower:power,level:1,stats:{hp:base.maxHp,attack:base.attack,defense:base.defense,speed:Math.round(speedBase.speed*(isImperialArcher(snapshot)?IMPERIAL_ARCHER_COMBAT.speedScale:supreme?supreme.speedScale:snapshot.code===AZANT_CODE?AZANT_COMBAT.speedScale:snapshot.code===BERKAN_CODE?BERKAN_TEMPO.speedScale:limited?(limited.speedScale??SS_LIMITED_TEMPO.speedScale):1))}};
   if(jinmu||kairon||shiranui||jokro)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*supreme.statScale));
   if(limited)for(const key of ['hp','attack','defense'])snapshot.stats[key]=Math.max(1,Math.round(snapshot.stats[key]*limited.scale));
   if(mercenaryEquipmentPower(snapshot,mode)){
@@ -193,6 +194,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
  const friendly=a=>ordered(teams[a.side]),enemies=a=>ordered(teams[a.side==='A'?'B':'A']);
  const send=(a,s,phase,t,data={})=>emit(`MERCENARY_${phase}`,{actorId:a.id,actorKind:'MERCENARY',skillId:s.id,skillName:s.name,mechanic:s.mechanic,skillPhaseIndex:['DOT','RIPOSTE'].includes(phase)?1:state(a).pending?.step||0,targetId:t?.id,...data,label:s.name});
  function targets(a,s){const en=enemies(a),fr=front(en),friends=friendly(a);
+  if([ARCHER_VOLLEY,ARCHER_RAIN].includes(s.mechanic))return imperialArcherTargets(a,s,en);
   if(s.mechanic===VALTER_AREA_MECHANIC)return isValter(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===JOKRO_AREA_MECHANIC)return isJokro(a)&&a.battleMode==='PVE'?en:[];
   if(s.mechanic===SHIRANUI_AREA_MECHANIC)return isShiranui(a)&&a.battleMode==='PVE'?en:[];
@@ -303,6 +305,12 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   if(!ts.length){cancel(a,'TARGET_LOST');return;}
   const once=(fn)=>{for(const t of ts)fn(t);finish(a,s);};
   switch(s.mechanic){
+   case ARCHER_VOLLEY:case ARCHER_RAIN:{
+    const damageScale=offensiveSkillScale(a,s);
+    resolveImperialArcherCast({actor:a,skill:s,targets:ts,hit,
+     damage:(t,n)=>damage(t,s.mechanic===ARCHER_VOLLEY?interceptDamage(a,t,n):n,{actor:a,direct:true}),knockout,emit,damageScale,
+     capActions:mercenarySkillCapActions(a,s,false)*(a.battleMode==='PVP'?damageScale:1)});
+    finish(a,s);break;}
    case VALTER_AREA_MECHANIC:{
     resolveValterArea({actor:a,skill:s,targets:ts,hit,damage:(t,n)=>damage(t,n,{actor:a,direct:true}),knockout,emit,damageScale:offensiveSkillScale(a,s)});
     finish(a,s);break;}
@@ -444,7 +452,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
     if(s.mechanic==='WHITE_OATH_GROUP_HEAL'&&!healingAllowed)continue;
     if(isMercenaryGuardSkill(s)&&friendly(a).some(t=>activeIntercept(t)?.actor.id===a.id))continue;
     let selected=targets(a,s);if(!selected.length)continue;
-    if(selected.length===1&&selected[0].side!==a.side&&!['PLATINUM_SANCTUARY','CRYSTAL_CROWN','GOLDEN_ORCHID_VOLLEY','DISTRIBUTED_CORAL_VOLLEY','DANCING_TARGET_VOLLEY','RIFT_MARK_DETONATION','ADVANCE_SUPPRESSION','FRONT_OFFENSE_VEIL',VALTER_AREA_MECHANIC,JOKRO_AREA_MECHANIC,SHIRANUI_AREA_MECHANIC,KAIRON_AREA_MECHANIC,JINMU_AREA_MECHANIC,HELIOS_AREA_MECHANIC,AZANT_AREA_MECHANIC,AZANT_VOLLEY_MECHANIC,BERKAN_MECHANIC].includes(s.mechanic)&&!isBerkanAreaSkill(s)&&techniques()){selected=techniques().filterTargets(a,selected,enemies(a)).slice(0,1);if(!selected.length)continue;techniques().singleTarget(a,selected[0]);}
+    if(selected.length===1&&selected[0].side!==a.side&&!['PLATINUM_SANCTUARY','CRYSTAL_CROWN','GOLDEN_ORCHID_VOLLEY','DISTRIBUTED_CORAL_VOLLEY','DANCING_TARGET_VOLLEY','RIFT_MARK_DETONATION','ADVANCE_SUPPRESSION','FRONT_OFFENSE_VEIL',VALTER_AREA_MECHANIC,JOKRO_AREA_MECHANIC,SHIRANUI_AREA_MECHANIC,KAIRON_AREA_MECHANIC,JINMU_AREA_MECHANIC,HELIOS_AREA_MECHANIC,AZANT_AREA_MECHANIC,AZANT_VOLLEY_MECHANIC,BERKAN_MECHANIC,ARCHER_RAIN].includes(s.mechanic)&&!isBerkanAreaSkill(s)&&techniques()){selected=techniques().filterTargets(a,selected,enemies(a)).slice(0,1);if(!selected.length)continue;techniques().singleTarget(a,selected[0]);}
     st.energy-=s.balance.cost;st.cooldown.set(s.id,a.actions+Math.max(1,s.balance.cooldownTurns));st.used.add(s.id);st.nextIndex=(index+1)%skills.length;st.pending={skill:s,targets:selected.map(t=>t.id),due:a.actions+a.combat.windupTurns,hits:st.hits,step:0};
     // v2119: 모든 용병 스킬은 시전한 그 행동에서 해결한다(준비만 하는 행동 없음).
     st.cancelled=false;send(a,s,'WINDUP',selected[0],{targetIds:st.pending.targets,energyAfter:st.energy});
@@ -457,7 +465,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){if(a.actions<d.restraint.expires)factor*=1-d.restraint.percent/100;else delete d.restraint;}return factor*tierScale(a);},
   basicDamageCapScale(a){return tierScale(a)*mercenaryPvpTierOffense(a)*(isJokro(a)?JOKRO_COMBAT.basicCapScale:isValter(a)?VALTER_COMBAT.basicCapScale:isHelios(a)?HELIOS_COMBAT.basicCapScale:isShiranui(a)?SHIRANUI_COMBAT.basicCapScale:isKairon(a)?KAIRON_COMBAT.basicCapScale:isJinmu(a)?JINMU_COMBAT.basicCapScale:1);},
   beforeBasicDamage(a,t,amount){const buff=table(buffs,t),d=table(debuffs,a);
-   const basicScale=azantPvpBasicDamageScale(a)*berkanPvpBasicDamageScale(a)*cryvernPvpBasicDamageScale(a);if(basicScale!==1)amount=Math.floor(amount*basicScale);
+   const basicScale=imperialArcherBasicScale(a)*azantPvpBasicDamageScale(a)*berkanPvpBasicDamageScale(a)*cryvernPvpBasicDamageScale(a);if(basicScale!==1)amount=Math.floor(amount*basicScale);
    if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}
    if(buff.standfast){const ward=buff.standfast;delete buff.standfast;if(living(ward.actor)&&ward.actor.actions<ward.expires){const saved=Math.min(ward.budget,Math.floor(amount*ward.percent/100));amount-=saved;send(ward.actor,ward.skill,'BUFF',t,{effect:'STAND_FAST_CONSUMED',amount:saved});}}
 

@@ -1,4 +1,4 @@
-import {SSS_REROLL,emptySssRerollPolicy,validateSssRerollPolicy,sssRerollReadiness,sssRerollOdds,pickSssReroll} from '../shared/mercenary-sss-reroll-v1.mjs';
+import {SSS_REROLL,withKangyunRerollDefault,emptySssRerollPolicy,validateSssRerollPolicy,sssRerollReadiness,sssRerollOdds,pickSssReroll} from '../shared/mercenary-sss-reroll-v1.mjs';
 import {MERCENARY_CMS_SEED} from './_mercenary_cms_seed.js';
 import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
@@ -34,7 +34,7 @@ export async function sssRerollCatalog(env){
 }
 async function setting(env,catalog){
  const raw=await stored(env),document=raw?JSON.parse(raw):{revision:0,policy:emptySssRerollPolicy(),updatedAt:null};
- return{raw,...document,policy:validateSssRerollPolicy(document.policy,catalog)};
+ return{raw,...document,policy:withKangyunRerollDefault(validateSssRerollPolicy(document.policy,catalog),catalog)};
 }
 const generalSss=card=>card&&card.rank==='SSS'&&!card.limited;
 const equipped=(record,code)=>Object.values(record.loadouts).some(slot=>slot.mercenaryCode===code);

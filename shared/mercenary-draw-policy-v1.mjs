@@ -1,3 +1,4 @@
+import {KANGYUN_CODE} from './mercenary-kangyun-v1.mjs';
 import {sniperOrikkungSelectionWeights} from './mercenary-sniper-orikkung-v1.mjs';
 import {nurseSelectionWeights} from './mercenary-nurse-healers-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
@@ -60,7 +61,18 @@ export function validateMercenaryCardRules(rules,catalogCodes){
   return {...MERCENARY_CARD_RULES,cardWeights};
 }
 export function mercenaryCardChances(chancePpm,codes,rules){
-  const effective=sniperOrikkungSelectionWeights(codes,nurseSelectionWeights(codes,berkanSelectionWeights(codes,rules?.cardWeights||{})));
+  // Register Kangyun at 1% of the ordinary SSS pool, preserving all old ratios.
+  // Explicit later CMS weights (including zero/OFF) continue to take precedence.
+  const addKangyun=codes.includes(KANGYUN_CODE)&&!Object.hasOwn(rules?.cardWeights||{},KANGYUN_CODE);
+  const existing=addKangyun?codes.filter(code=>code!==KANGYUN_CODE):codes;
+  let effective=sniperOrikkungSelectionWeights(existing,nurseSelectionWeights(existing,berkanSelectionWeights(existing,rules?.cardWeights||{})));
+  if(addKangyun){
+    const entries=existing.map(code=>[code,mercenaryAcquisitionEnabled(code,rules)?effective[code]??1:0]);
+    const gcd=(a,b)=>{while(b){const r=a%b;a=b;b=r;}return a;};
+    const divisor=entries.reduce((n,[,w])=>w?gcd(n,w):n,0)||1,total=entries.reduce((n,[,w])=>n+w/divisor,0);
+    if(!Number.isSafeInteger(total)||total*100>0xffffffff)throw Error('KANGYUN_WEIGHTS_REQUIRE_CMS');
+    effective={...effective,...Object.fromEntries(entries.map(([code,w])=>[code,w/divisor*99])),[KANGYUN_CODE]:total?total:1};
+  }
   const weights=codes.map(code=>mercenaryAcquisitionEnabled(code,rules)?effective[code]??1:0),totalWeight=weights.reduce((a,b)=>a+b,0);
   return codes.map((code,i)=>({code,weight:weights[i],totalWeight,withinRankPercent:totalWeight?weights[i]/totalWeight*100:0,
     percent:Number.isSafeInteger(chancePpm)?totalWeight?chancePpm*weights[i]/(10000*totalWeight):0:null}));

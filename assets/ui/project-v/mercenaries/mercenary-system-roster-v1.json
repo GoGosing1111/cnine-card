@@ -1,7 +1,7 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
   "version": 11,
-  "updatedAt": "2026-10-14",
+  "updatedAt": "2026-10-18",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
   "battleAssetStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
   "rankPolicy": {
@@ -44,9 +44,9 @@
     ]
   },
   "summary": {
-    "total": 56,
-    "sourceArtReady": 56,
-    "battleSpriteReady": 56,
+    "total": 57,
+    "sourceArtReady": 57,
+    "battleSpriteReady": 57,
     "battleSpritePending": 0,
     "rankPending": 42
   },
@@ -1247,6 +1247,31 @@
         "y": 0.8463541666666666
       },
       "accent": "#7bdcff"
+    },
+    {
+      "code": "V-057",
+      "rank": "SSS",
+      "rankStatus": "USER_ASSIGNED_RANK",
+      "name": "신궁 강윤",
+      "title": "신궁",
+      "nameStatus": "USER_ASSIGNED_NAME",
+      "role": "후열 신궁",
+      "weapon": "대궁",
+      "outfit": "흑금 갑주와 백홍 장포",
+      "sourceArt": "assets/ui/project-v/mercenaries/approved-20261018/kangyun-source-art.png",
+      "sourceArtSha256": "211DA5C9AD758CC6167FEF2BD7C997A9CD8EA427C04B6AD37D6613E62277393B",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "sourceArtApprovedAt": "2026-10-18",
+      "catalogRelease": "USER_APPROVED_LIVE",
+      "approvalBatch": "2026-10-18-kangyun-live",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/kangyun-sss-v1/kangyun-battle-sprite.png",
+      "battleSpriteSha256": "A29250EFE5CA79E057C7E5C9724D9ADE8F2446416586F495EADD09C8C660CFD8",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REQUESTED_LIVE",
+      "battleSpriteFootAnchor": {
+        "x": 0.4557291666666667,
+        "y": 0.8463541666666666
+      },
+      "accent": "#ffce72"
     }
   ]
 }

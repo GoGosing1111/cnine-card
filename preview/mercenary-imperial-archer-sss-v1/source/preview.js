@@ -29,13 +29,13 @@ async function boot(){
   const deck=IDS.map((id,i)=>{const c=available.find(x=>x.cardId===id);if(!c)throw Error('실제 기준 카드 누락');return {...c,id,cardId:id,name:c.member,title:c.title,image:'/'+c.sourceArt,sourceArt:'/'+c.sourceArt,originalCardArt:'/'+c.sourceArt,power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],hp:100,maxHp:100};});
   window.cnineCardCatalog=()=>deck;const payload={previewOnly:true,mode:'PVP',battlefieldMode:'PVP',battleV2:{mode:'PVP',teams:{A:{cards:deck},B:{cards:deck}},result:{timeline:[]}}};
   const api=window.ProjectVPixiBattle;api.mountForBattle=async(data,host)=>{engine=await mountForBattle(data,host);return engine;};
-  const prepared=window.ProjectVBattleV3Live.prepareLoading({modal:$('lab-modal'),mode:'PVP',playerName:'이름 미정 · SSS',opponentName:'전투 연출',autoText:'화살과 시위를 준비하는 중'});
-  renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal:$('lab-modal'),data:payload,mode:'PVP',playerName:'이름 미정 · SSS'});api.mountForBattle=mountForBattle;
+  const prepared=window.ProjectVBattleV3Live.prepareLoading({modal:$('lab-modal'),mode:'PVP',playerName:'신궁 강윤 · SSS',opponentName:'전투 연출',autoText:'화살과 시위를 준비하는 중'});
+  renderer=await window.ProjectVBattleV3Live.createRenderer({...prepared,modal:$('lab-modal'),data:payload,mode:'PVP',playerName:'신궁 강윤 · SSS'});api.mountForBattle=mountForBattle;
   await engine.deployCards({instant:true,force:true});
   const adapter=createMercenaryBattleArtAdapter({format:'PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1',summary:{battleSpriteReady:1,battleSpritePending:0},cards:[{...manifest,code:manifest.previewAdapterCode}]});
   const art=adapter.resolveForConsumer('BATTLE_FIELD',manifest.previewAdapterCode);
   const [sd,cutin,assets]=await Promise.all([Assets.load(art.spriteUrl),Assets.load(ROOT+'assets/source-art-preview.webp'),loadArcherAssets(manifest)]);
-  merc=new BattleCharacter({id:'IMPERIAL_ARCHER_RESOURCE_PREVIEW',name:'이름 미정 · SSS',team:TEAM.ALLY,fullBodyTexture:sd,cutInTexture:cutin,fullBodyHeight:manifest.displaySizing.fullBodyHeight,accent:0xf3ad51});
+  merc=new BattleCharacter({id:'IMPERIAL_ARCHER_RESOURCE_PREVIEW',name:'신궁 강윤 · SSS',team:TEAM.ALLY,fullBodyTexture:sd,cutInTexture:cutin,fullBodyHeight:manifest.displaySizing.fullBodyHeight,accent:0xf3ad51});
   merc.fullBodySprite.anchor.set(art.footAnchor.x,art.footAnchor.y);engine.combatLayer.addChild(merc.root);engine.setFormationMercenaries([merc]);merc.root.alpha=1;merc.root.visible=true;
   const targets=engine.enemies.slice().sort((a,b)=>b.baseY-a.baseY);fx=new ImperialArcherFX(engine,merc,targets,assets,manifest,plan(),update);
   fx.onCancel=stopQueue;fx.onComplete=()=>{if(!queue.active){if(fx.plan.mode==='idle'&&!fx.reducedMotion){fx.seek(0);fx.play();}return;}queue.index++;if(queue.index<SHOWCASE.length)playQueue();else{queue.completed=true;stopQueue();$('cue').textContent='전체 시연 완료';}};
@@ -46,7 +46,7 @@ async function boot(){
   $('reduced').checked=fx.reducedMotion;
   for(const b of parentDoc.querySelectorAll('[data-mode]'))b.onclick=()=>{$('mode').value=b.dataset.mode;change();fx.play();};
   for(const e of parentDoc.querySelectorAll('button,select,input'))e.disabled=false;$('sound').disabled=true;
-  $('health').textContent='화살 V2 · 동작 24 / 이펙트 72 프레임';prepared.phase.textContent='이름 미정 · SSS';
+  $('health').textContent='화살 V2 · 동작 24 / 이펙트 72 프레임';prepared.phase.textContent='신궁 강윤 · SSS';
   engine.app.renderer.on('resize',resize);
   const review={get fx(){return fx},get engine(){return engine},get merc(){return merc},manifest,balance:IMPERIAL_ARCHER_COMBAT,queue,diagnostics:()=>({...fx.diagnostics(),queue:{...queue}}),dispose};window.ImperialArcherPreview=review;window.parent.ImperialArcherPreview=review;
   if(new URLSearchParams(window.parent.location.search).has('showcase')&&!fx.reducedMotion)startQueue();else{fx.setPlan(makePlan({mode:'idle'}));$('mode').value='idle';if(!fx.reducedMotion)fx.play();}

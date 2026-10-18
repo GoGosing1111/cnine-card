@@ -1,5 +1,5 @@
 import {mountHyperOpening} from './hyper-pack-opening.mjs?v=2097';
-import {DRAW_OUTCOMES,DRAW_TOTAL,formatDrawPercent as percent,parseDrawPercent,validateMercenaryDraw,summarizeMercenaryDraw,mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs?v=20260927-berkan-off';
+import {DRAW_OUTCOMES,DRAW_TOTAL,formatDrawPercent as percent,parseDrawPercent,validateMercenaryDraw,summarizeMercenaryDraw,mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs?v=kangyun-20261018';
 
 import {cryvernSelectionWeights} from '../shared/mercenary-cryvern-v1.mjs?v=20260924-cryvern';
 import {fusionManagementHtml,fusionCardRate,readMercenaryFusionFeature} from './mercenary-fusion-admin-v1.mjs?v=20260925-cms1';
@@ -87,6 +87,9 @@ export function createMercenaryDrawEditor({request,onRender}){
       <details class="md-history"><summary>최근 확률 변경 이력 · ${state.audit.length}건</summary>${state.audit.map(row=>`<p><b>r${row.revision}</b><span>${esc(row.reason)}</span><small>${date(row.created_at)} · 관리자 #${row.actor_id}</small></p>`).join('')}</details>
     </section>`;
   }
+  // Before editing an effective registration weight, preserve every displayed
+  // weight in that rank so changing one input cannot rescale its neighbours.
+  function materializeRankWeights(code){const rank=Object.keys(rankCards).find(rank=>rankCards[rank].some(c=>c.code===code));if(rank)for(const row of chances(rank))state.policy.cardRules.cardWeights[row.code]=row.weight;}
   function markDirty(){dirty=true;pending=null;failure=false;notice=fusion()?'저장하면 합성과 하이퍼팩의 용병별 가중치에 함께 적용됩니다.':'변경한 확률·수량을 저장하면 다음 개봉부터 적용됩니다.';root?.querySelectorAll('[data-draw-message],[data-draw-save-feedback]').forEach(el=>{el.textContent=notice;el.classList.remove('is-error');});if($('[data-draw-save-label]'))$('[data-draw-save-label]').textContent=fusion()?'● 저장하지 않은 가중치 변경':'● 저장하지 않은 확률·수량 변경';if($('[data-fusion-draft]'))$('[data-fusion-draft]').textContent='미저장 변경 포함';const button=$('[data-draw-save]');if(button){button.disabled=saveBlocked();button.textContent=saveLabel();}if($('[data-draw-summary]'))$('[data-draw-summary]').innerHTML=summary();for(const rank of Object.keys(rankCards))for(const row of chances(rank)){const el=root?.querySelector(`[data-draw-weight-rate="${row.code}"]`);if(el)el.textContent=cardRate(row);const toggle=root?.querySelector(`[data-draw-enabled="${row.code}"]`);if(toggle)toggle.checked=row.weight>0;}root?.querySelectorAll('[data-draw-card-chance]').forEach(el=>{el.textContent=cardChance(el.dataset.drawCardChance,Number(el.dataset.cardCount));});}
   async function loadFeature(){
     if(featureBusy)return;const token=generation;featureBusy=true;featureError=false;feature=null;onRender();
@@ -115,8 +118,8 @@ export function createMercenaryDrawEditor({request,onRender}){
     root=element;if(!root)return;
     root.querySelectorAll('input,textarea').forEach(input=>input.disabled=busy);
     if($('[data-fusion-reload]'))$('[data-fusion-reload]').onclick=()=>void loadFeature();
-    root.querySelectorAll('[data-draw-enabled]').forEach(input=>input.onchange=()=>{const code=input.dataset.drawEnabled,weight=root.querySelector(`[data-draw-weight="${code}"]`);if(!input.checked&&Number(weight.value)>0)previousWeights.set(code,Number(weight.value));const next=input.checked?(previousWeights.get(code)||1):0;state.policy.cardRules.cardWeights[code]=next;weight.value=String(next);markDirty();});
-    root.querySelectorAll('[data-draw-weight]').forEach(input=>input.oninput=()=>{state.policy.cardRules.cardWeights[input.dataset.drawWeight]=input.value===''?null:Number(input.value);markDirty();});
+    root.querySelectorAll('[data-draw-enabled]').forEach(input=>input.onchange=()=>{const code=input.dataset.drawEnabled,weight=root.querySelector(`[data-draw-weight="${code}"]`);if(!input.checked&&Number(weight.value)>0)previousWeights.set(code,Number(weight.value));const next=input.checked?(previousWeights.get(code)||1):0;materializeRankWeights(code);state.policy.cardRules.cardWeights[code]=next;weight.value=String(next);markDirty();});
+    root.querySelectorAll('[data-draw-weight]').forEach(input=>input.oninput=()=>{materializeRankWeights(input.dataset.drawWeight);state.policy.cardRules.cardWeights[input.dataset.drawWeight]=input.value===''?null:Number(input.value);markDirty();});
     root.querySelectorAll('[data-draw-chance]').forEach(input=>input.oninput=()=>{outcome(input.dataset.drawChance).chancePpm=parseDrawPercent(input.value);markDirty();});
     root.querySelectorAll('[data-draw-quantity]').forEach(input=>input.oninput=()=>{outcome(input.dataset.drawQuantity).quantity=input.value===''?null:Number(input.value);markDirty();});
     if($('[data-draw-notes]'))$('[data-draw-notes]').oninput=e=>{state.policy.notes=e.target.value;markDirty();};

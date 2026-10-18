@@ -1,5 +1,5 @@
 import {jointAccountRequest} from '../../js/joint-account-transport.mjs';
-import {sssRerollOdds} from '../../shared/mercenary-sss-reroll-v1.mjs';
+import {sssRerollOdds} from '../../shared/mercenary-sss-reroll-v1.mjs?v=kangyun-20261018';
 import {createRerollClient} from './client.mjs?v=20261014-v1';
 const $=id=>document.getElementById(id),esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const preview=new URLSearchParams(location.search).get('preview')==='1',reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;

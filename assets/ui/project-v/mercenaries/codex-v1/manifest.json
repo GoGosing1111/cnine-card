@@ -1850,6 +1850,39 @@
       "source": "assets/ui/project-v/characters/mercenary/azant-sss-v1/azant-sd-v3.png",
       "sourceSha256": "8CAC9E219FA4C8BA0A9800243AD18C3D42269DA9B7D176D64A6D91BB1792016B",
       "sha256": "795928125C6941159827BC6BB447A9886323BD9CDADA917FA0E20C9ED3C860FE"
+    },
+    {
+      "code": "V-057",
+      "kind": "art",
+      "file": "v-057-art-320.webp",
+      "width": 320,
+      "height": 480,
+      "bytes": 65396,
+      "source": "assets/ui/project-v/mercenaries/approved-20261018/kangyun-source-art.png",
+      "sourceSha256": "211DA5C9AD758CC6167FEF2BD7C997A9CD8EA427C04B6AD37D6613E62277393B",
+      "sha256": "7B78155F38C52307F835E1D96C142012259BBE21A763E0D5EB9C79E957AE7FFA"
+    },
+    {
+      "code": "V-057",
+      "kind": "art",
+      "file": "v-057-art-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 216910,
+      "source": "assets/ui/project-v/mercenaries/approved-20261018/kangyun-source-art.png",
+      "sourceSha256": "211DA5C9AD758CC6167FEF2BD7C997A9CD8EA427C04B6AD37D6613E62277393B",
+      "sha256": "F5B3FBAAA02C3419C1C5D9EE17FC29C21DC071C21A63F9D1AF73F5B6229CA690"
+    },
+    {
+      "code": "V-057",
+      "kind": "sd",
+      "file": "v-057-sd-640.webp",
+      "width": 640,
+      "height": 640,
+      "bytes": 58108,
+      "source": "assets/ui/project-v/characters/mercenary/kangyun-sss-v1/kangyun-battle-sprite.png",
+      "sourceSha256": "A29250EFE5CA79E057C7E5C9724D9ADE8F2446416586F495EADD09C8C660CFD8",
+      "sha256": "9A82C356063CB49FB659D0AB1DA00CACB50C91FE8F21783037D1EC590AF08859"
     }
   ]
 }

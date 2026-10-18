@@ -98,6 +98,10 @@
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
     "shared/mercenary-cryvern-v1.mjs",
     "shared/mercenary-berkan-v1.mjs",
+    "shared/mercenary-kangyun-v1.mjs",
+    "preview/mercenary-imperial-archer-sss-v1/skill.mjs",
+    "preview/mercenary-imperial-archer-sss-v1/source/ImperialArcherFX.js",
+    "preview/project-v-v3/source/battle/KangyunCombatPlayback.js",
     "shared/mercenary-jokro-v1.mjs",
     "preview/mercenary-jokro-iaido-20261017-v1/skill.mjs",
     "preview/mercenary-crimson-silver-knight-battle-v1/source/CueAudio.js",
@@ -210,5 +214,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2073248
+  "outputBytes": 2098196
 }

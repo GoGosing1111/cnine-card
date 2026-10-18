@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-10-18T02:57:39.845Z",
+  "source": "https://cnine-card.pages.dev/api/mercenary-limited-pack/config",
+  "normalCmsRevision": 61,
+  "normalDrawRevision": 31,
+  "packMode": "OFF",
+  "normalSss": [
+    {
+      "code": "V-021",
+      "name": "오메가-X",
+      "weight": 100
+    },
+    {
+      "code": "V-046",
+      "name": "라그니엘",
+      "weight": 30
+    },
+    {
+      "code": "V-049",
+      "name": "크라이베른",
+      "weight": 20
+    },
+    {
+      "code": "V-055",
+      "name": "베르칸",
+      "weight": 10
+    },
+    {
+      "code": "V-056",
+      "name": "아잔트",
+      "weight": 10
+    }
+  ],
+  "packRevision": 20
+}

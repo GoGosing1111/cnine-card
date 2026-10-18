@@ -1,14 +1,14 @@
 {
   "version": 2,
   "date": "2026-10-18",
-  "name": null,
-  "nameStatus": "UNDECIDED_BY_USER",
+  "name": "신궁 강윤",
+  "nameStatus": "USER_ASSIGNED_NAME",
   "rank": "SSS",
-  "edition": null,
-  "code": null,
+  "edition": "STANDARD",
+  "code": "V-057",
   "previewAdapterCode": "V-000",
-  "runtimeEnabled": false,
-  "status": "BATTLE_VISUAL_REVIEW_PENDING",
+  "runtimeEnabled": true,
+  "status": "USER_REQUESTED_LIVE",
   "sourceArt": "preview/mercenary-imperial-archer-sss-v1/assets/sources/source-art-approved.png",
   "sourceArtSha256": "211DA5C9AD758CC6167FEF2BD7C997A9CD8EA427C04B6AD37D6613E62277393B",
   "weapon": {
@@ -3395,7 +3395,7 @@
     "x": 0.4557291666666667,
     "y": 0.8463541666666666
   },
-  "battleSpriteStatus": "PREVIEW_PREPARED_AWAITING_APPROVAL",
+  "battleSpriteStatus": "USER_REQUESTED_LIVE",
   "counts": {
     "motion": 24,
     "effects": 72
@@ -3417,9 +3417,9 @@
     "generation": "generation-arrow-v2.json"
   },
   "balance": {
-    "version": "imperial-archer-arrow-v2-20261018",
-    "status": "PREPARED_BALANCE",
-    "runtimeEnabled": false,
+    "version": "kangyun-live-20261018-v1",
+    "status": "RELEASED",
+    "runtimeEnabled": true,
     "basePower": 216000,
     "speedScale": 1.5,
     "actionCredit": 1.5,
@@ -3430,10 +3430,10 @@
       "hpPercent": 308,
       "shieldPercent": 165
     },
-    "policyFile": "balance.mjs",
+    "policyFile": "../../shared/mercenary-kangyun-v1.mjs",
     "skills": [
       {
-        "id": "PREVIEW-ARCHER-SINGLE",
+        "id": "MS-059",
         "name": "연환 파갑",
         "mechanic": "IMPERIAL_PIERCING_VOLLEY",
         "target": "BACK_THREAT",
@@ -3445,7 +3445,7 @@
         "description": "후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 680%의 한 시전 피해 예산을 사용합니다."
       },
       {
-        "id": "PREVIEW-ARCHER-AREA",
+        "id": "MS-060",
         "name": "천궁 멸진",
         "mechanic": "IMPERIAL_ARROW_RAIN",
         "target": "ALL_ENEMIES",
@@ -3458,6 +3458,7 @@
         "description": "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 700%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다."
       }
     ],
-    "comparison": "qa/arrow-v2/balance-report.json"
-  }
+    "comparison": "qa/kangyun-live/balance-report.json"
+  },
+  "title": "신궁"
 }

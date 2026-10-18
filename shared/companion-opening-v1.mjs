@@ -1,5 +1,6 @@
 import {petReadiness} from './pet-cms-v1.mjs';
 import {MERCENARY_COMBAT_LINK,mercenaryEffectiveAttack} from './mercenary-combat-link-v2103.mjs';
+import {imperialArcherCredit} from './mercenary-kangyun-v1.mjs';
 import {berkanActionCredit} from './mercenary-berkan-v1.mjs';
 
 const living=actor=>actor?.alive!==false&&actor?.hp>0&&!actor.isMonster&&!actor.isBattleSuit&&actor.actorKind!=='BATTLE_SUIT';
@@ -34,7 +35,7 @@ export function applyPetOpeningBuff(team,raw,side,mode){
 export function preparedMercenaryCadence(teams){
   let serial=0;
   const states=['A','B'].flatMap(side=>teams[side].filter(actor=>actor.isMercenary).map(actor=>({actor,side,owner:actor.ownerId??null,debt:0,last:-1,
-    interval:actor.statMode==='RANK_FIXED'?MERCENARY_COMBAT_LINK.regularActionsPerTurn:5,credit:berkanActionCredit([actor])})));
+    interval:actor.statMode==='RANK_FIXED'?MERCENARY_COMBAT_LINK.regularActionsPerTurn:5,credit:Math.max(imperialArcherCredit([actor]),berkanActionCredit([actor]))})));
   const regular=actor=>living(actor)&&!actor.isMercenary;
   const accrue=state=>state.debt=Math.min(state.interval+Math.ceil(state.credit)-1,state.debt+state.credit);
   const pending=(eligible,filter=()=>true)=>states.filter(state=>state.debt>=state.interval&&living(state.actor)&&eligible(state.actor)&&filter(state)).sort((a,b)=>a.last-b.last||a.actor.slot-b.actor.slot)[0]?.actor||null;

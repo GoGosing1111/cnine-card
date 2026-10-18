@@ -956,6 +956,23 @@
         "x": 0.5,
         "y": 0.6119791666666666
       }
+    },
+    "V-057": {
+      "battleSpriteSha256": "A29250EFE5CA79E057C7E5C9724D9ADE8F2446416586F495EADD09C8C660CFD8",
+      "weaponKind": "BOW",
+      "authoredFacing": 1,
+      "weapon": {
+        "x": 0.58,
+        "y": 0.57
+      },
+      "cast": {
+        "x": 0.58,
+        "y": 0.57
+      },
+      "contact": {
+        "x": 0.5,
+        "y": 0.61
+      }
     }
   }
 }

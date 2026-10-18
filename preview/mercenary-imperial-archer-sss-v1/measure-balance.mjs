@@ -27,7 +27,7 @@ export function measure({count=16,pveCount=8,start=218001}={}){
     attackerMagicCards:g.magic,defenderMagicCards:g.magic,singleHealerBonus:fixture.singleHealerBonus,seed:n*7919,
     attackerMercenary:side==='A'?candidate():baseline(opponent),defenderMercenary:side==='B'?candidate():baseline(opponent)}).result;
    const win=Number(r.winner===side);row.wins+=win;row.sides[side]+=win;row.draws+=Number(!['A','B'].includes(r.winner));
-   row.damage+=mercenaryDamage(r,'V-000',side);row.opponentDamage+=mercenaryDamage(r,opponent,side==='A'?'B':'A');
+   row.damage+=mercenaryDamage(r,'V-057',side);row.opponentDamage+=mercenaryDamage(r,opponent,side==='A'?'B':'A');
   }
   row.winRate=row.wins/row.total;rows.push(row);
  }
@@ -39,26 +39,26 @@ export function measure({count=16,pveCount=8,start=218001}={}){
  const pve=[];
  for(const power of [1e6,2e9])for(const multiplier of [10,30,100])for(const personalGear of [0,1000000]){
   const row={power,multiplier,personalGear,total:pveCount};
-  for(const code of ['V-000','V-055','V-056']){
+  for(const code of ['V-057','V-055','V-056']){
    const stats={clears:0,actions:0,damage:0};
    for(let n=start;n<start+pveCount;n++){
-    const mercenary=code==='V-000'?candidate():baseline(code);
+    const mercenary=code==='V-057'?candidate():baseline(code);
     if(personalGear)mercenary.equipment={schemaVersion:1,mode:'PVE',power:personalGear};
     const r=createPveBattleV2({cards:tierCards(power),mercenary,monster:{id:1,name:'궁사 밸런스 검수 보스',battle_power:power*multiplier,is_boss:1},seed:n*7919,singleHealerBonus:fixture.singleHealerBonus}).result;
     stats.clears+=Number(r.final.B[0].hp===0);stats.actions+=r.actions;stats.damage+=mercenaryDamage(r,code);
    }
    row[code]={clears:stats.clears,averageActions:stats.actions/pveCount,averageDamage:stats.damage/pveCount};
   }
-  row.damageRatio=row['V-000'].averageDamage/row['V-055'].averageDamage;
-  row.actionRatio=row['V-000'].averageActions/row['V-055'].averageActions;pve.push(row);
+  row.damageRatio=row['V-057'].averageDamage/row['V-055'].averageDamage;
+  row.actionRatio=row['V-057'].averageActions/row['V-055'].averageActions;pve.push(row);
  }
- const policyFiles=['balance.mjs','balance-engine.mjs','skill.mjs'];
- return {scope:'PREPARED_CANONICAL_ENGINE_COMPARISON_NOT_LIVE_WIN_RATE',runtimeEnabled:false,code:null,name:null,
+ const policyFiles=['balance.mjs','balance-engine.mjs','skill.mjs','../../shared/mercenary-kangyun-v1.mjs','../../functions/_mercenary_combat.js','../../shared/mercenary-combat-link-v2103.mjs'];
+ return {scope:'RELEASED_CANONICAL_ENGINE_COMPARISON_NOT_LIVE_WIN_RATE',runtimeEnabled:true,code:'V-057',name:'신궁 강윤',
   policy:IMPERIAL_ARCHER_COMBAT,skills:IMPERIAL_ARCHER_SKILLS,seedStart:start,seedMultiplier:7919,count,pveCount,
   fileHashes:Object.fromEntries(policyFiles.map(p=>[p,createHash('sha256').update(fs.readFileSync(new URL(p,import.meta.url))).digest('hex')])),
   pvp,rows,pve,battles:rows.reduce((n,r)=>n+r.total,0)+pve.length*pveCount*3};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
- const report=measure();fs.writeFileSync(new URL('./qa/arrow-v2/balance-report.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
- console.log(JSON.stringify({battles:report.battles,pvp:report.pvp,pve:report.pve.map(r=>({power:r.power,multiplier:r.multiplier,gear:r.personalGear,damageRatio:r.damageRatio,actionRatio:r.actionRatio,clears:[r['V-000'].clears,r['V-055'].clears,r['V-056'].clears]}))},null,2));
+ const report=measure();fs.writeFileSync(new URL('./qa/kangyun-live/balance-report.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
+ console.log(JSON.stringify({battles:report.battles,pvp:report.pvp,pve:report.pve.map(r=>({power:r.power,multiplier:r.multiplier,gear:r.personalGear,damageRatio:r.damageRatio,actionRatio:r.actionRatio,clears:[r['V-057'].clears,r['V-055'].clears,r['V-056'].clears]}))},null,2));
 }

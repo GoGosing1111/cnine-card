@@ -1,5 +1,5 @@
 import {jointAdminRequest} from '../js/joint-account-transport.mjs';
-import {SSS_REROLL_TOTAL,parseSssRerollPercent,sssRerollPercent,sssRerollReadiness,sssRerollOdds,sssRerollEligible} from '../shared/mercenary-sss-reroll-v1.mjs';
+import {SSS_REROLL_TOTAL,parseSssRerollPercent,sssRerollPercent,sssRerollReadiness,sssRerollOdds,sssRerollEligible} from '../shared/mercenary-sss-reroll-v1.mjs?v=kangyun-20261018';
 const $=id=>document.getElementById(id),esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let state,saving=false,pending=null;
 const message=text=>{$('admin-status').textContent=text;},pct=n=>Number(n.toFixed(6)).toLocaleString('ko-KR',{maximumFractionDigits:6})+'%';

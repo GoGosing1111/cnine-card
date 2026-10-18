@@ -1,3 +1,4 @@
+import {KANGYUN_CODE,IMPERIAL_ARCHER_COMBAT} from '../shared/mercenary-kangyun-v1.mjs';
 import {HALLOWEEN_SSS_CARDS} from '../shared/mercenary-halloween-pool-v3.mjs';
 import {KAIRON_ART} from '../shared/mercenary-kairon-v1.mjs';
 import {MERCENARY_CMS_SEED as seed} from './_mercenary_cms_seed.js';
@@ -29,7 +30,7 @@ export function mercenaryCodexDocument(row){
       const upgraded=document.assignments.find(a=>a.code===card.code).skillIds.some(id=>isRangedMercenarySkill(actor,skills.get(id)));
       return {code:card.code,name:card.name,title:card.title,rank:card.rank,position:card.position,role:card.role,
         sourceArt:art.sourceArt,battleSprite:art.battleSprite,accent:art.accent,
-        basePower:MERCENARY_POWER_STANDARD.basePowerByRank[card.rank]??null,
+        basePower:card.code===KANGYUN_CODE?IMPERIAL_ARCHER_COMBAT.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[card.rank]??null,
         combatLinkDescription:mercenaryCombatLinkText(card.rank,card.position,actor)+(upgraded?' '+MERCENARY_RANGED_SUMMARY:''),
         specialty:card.specialty,weakness:upgraded?'회피·피해 경감에 대응되며 자원 소모와 재사용 대기의 영향을 받습니다.':card.weakness,basicTarget:seed.catalog.targets[card.basicTarget].label,
         skills:document.assignments.find(a=>a.code===card.code).skillIds.map(id=>{

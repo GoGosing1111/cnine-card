@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-18",
+  "code": "V-057",
+  "name": "신궁 강윤",
+  "rank": "SSS",
+  "edition": "STANDARD",
+  "authorization": "신궁 강윤으로 하고 라이브 반영 / 리미티드팩, 하이퍼팩 모두 / SSS 재뽑기권도 포함",
+  "latestRateAnswer": "SSS 내 선택 확률 1% (추천)",
+  "withinOrdinarySssPercent": 1,
+  "sourceArtSha256": "211DA5C9AD758CC6167FEF2BD7C997A9CD8EA427C04B6AD37D6613E62277393B",
+  "battleSpriteSha256": "A29250EFE5CA79E057C7E5C9724D9ADE8F2446416586F495EADD09C8C660CFD8",
+  "preserved": "Approved art, rigid bow, 24 body frames and 72 arrow effects",
+  "policy": "shared/mercenary-kangyun-v1.mjs",
+  "record": "docs/kangyun-live-20261018.md"
+}
