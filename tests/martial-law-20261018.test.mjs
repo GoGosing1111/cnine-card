@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
 import vm from 'node:vm';
 import * as policy from '../shared/martial-law-v1.mjs';
 import {readMartialLaw} from '../functions/_martial_law.js';
@@ -8,7 +9,7 @@ import * as access from '../functions/_burning_event_access.js';
 import * as miracle from '../functions/_miracle_burning.js';
 import {readRankedEnergy,commitRankedFight,rankedFightReceipt} from '../functions/_ranked_reform.js';
 import {martialFixture,martialOwner as owner} from './helpers/martial-law-fixture.mjs';
-import {isProductionFile} from '../scripts/prepare-production-assets.mjs';
+import {isProductionFile,isolatedQaFixtures} from '../scripts/prepare-production-assets.mjs';
 const api=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const draft=(revision=0,enabled=true,durationMinutes=30)=>({revision,enabled,durationMinutes,requestId:crypto.randomUUID()});
 const raw=async f=>JSON.parse((await f.p('SELECT value FROM app_meta WHERE key=?',policy.MARTIAL_LAW_KEY).first())?.value||'{}');
@@ -18,6 +19,12 @@ test('only martial authoring and isolated fixture are omitted from delivery; eve
  for(const file of ['illustration.webp','panel.webp','banner.webp','button.webp','badge.webp','manifest.json'])assert.equal(isProductionFile('assets/ui/martial-law-20261018/'+file),true);
  assert.equal(isProductionFile('tests/helpers/martial-law-fixture.mjs'),false);
  assert.equal(isProductionFile('assets/ui/burning-miracle-v1/celestial-awakening-source-v1.png'),true);
+});
+test('omitted isolated QA fixtures have no deployed JavaScript or preview consumers',()=>{
+ const files=execFileSync('git',['ls-files','-z'],{maxBuffer:40e6}).toString().split('\0').filter(f=>isProductionFile(f)&&/\.(?:[cm]?js|html|json)$/.test(f)&&!f.startsWith('tests/')&&!f.startsWith('functions/')&&f!=='scripts/prepare-production-assets.mjs');
+ for(const file of files){const source=readFileSync(file,'utf8');for(const excluded of isolatedQaFixtures)assert.equal(source.includes(excluded.split('/').at(-1)),false,file+' imports '+excluded);}
+ for(const file of isolatedQaFixtures){assert.ok(readFileSync(file).length);assert.equal(isProductionFile(file),false);}
+ assert.equal(isProductionFile('tests/helpers/apocalypse-fixture.mjs'),true,'local preview imports are preserved');
 });
 function runtime(f){
  const ctx={...access,...miracle,...policy,console,readMartialLaw,
