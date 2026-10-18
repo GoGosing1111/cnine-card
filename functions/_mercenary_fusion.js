@@ -1,4 +1,4 @@
-import { MERCENARY_FUSION_POLICY as POLICY, MERCENARY_FUSION_RELEASE_ENABLED } from '../shared/mercenary-fusion-policy-v1.mjs';
+import { MERCENARY_FUSION_POLICY as POLICY, MERCENARY_FUSION_RELEASE_ENABLED, MERCENARY_FUSION_MAX_BATCH } from '../shared/mercenary-fusion-policy-v1.mjs';
 import { MERCENARY_RANKS } from '../shared/mercenary-ranks-v1.mjs';
 import { mercenaryGradePools, mercenaryCardChances, validateMercenaryCardRules } from '../shared/mercenary-draw-policy-v1.mjs';
 import { MERCENARY_CMS_SEED as SEED } from './_mercenary_cms_seed.js';
@@ -11,9 +11,11 @@ import { readJointBody, jointError, jointResponseError } from './_joint_request.
 const KIND = 'MERCENARY_FUSION';
 const catalogCodes = SEED.catalog.cards.map(c => c.code);
 const fail = (code, message, status = 400) => jointError(code, message, status);
+const planResults = plan => plan.results || [plan.result];
+const acquisitionIds = (requestId, count) => Array.from({length:count},(_,i)=>requestId+':fusion'+(count===1?'':':'+i));
 export function normalizeFusionMaterials(value) {
-  if (!Array.isArray(value) || value.length !== POLICY.materialCount || value.some(code => typeof code !== 'string' || !catalogCodes.includes(code)))
-    throw fail('MERCENARY_FUSION_MATERIALS', '등록된 용병의 중복 카드 8장을 선택하세요.');
+  if (!Array.isArray(value) || !value.length || value.length % POLICY.materialCount || value.length > POLICY.materialCount * MERCENARY_FUSION_MAX_BATCH || value.some(code => typeof code !== 'string' || !catalogCodes.includes(code)))
+    throw fail('MERCENARY_FUSION_MATERIALS', '중복 카드를 8장 단위로 선택하세요. 한 번에 최대 100회 합성할 수 있습니다.');
   const counts = new Map();
   for (const code of value) counts.set(code, (counts.get(code) || 0) + 1);
   return [...counts].sort(([a], [b]) => a.localeCompare(b)).map(([code, quantity]) => ({ code, quantity }));
@@ -45,7 +47,7 @@ export async function runPreparedMercenaryFusion(env, user, body, { randomInt = 
       const pools = mercenaryGradePools(document.mercenaries, catalogCodes);
       const rank = document.mercenaries.find(c => c.code === materials[0].code)?.rank;
       if (!rank || materials.some(m => document.mercenaries.find(c => c.code === m.code)?.rank !== rank))
-        throw fail('MERCENARY_FUSION_RANK', '같은 등급의 중복 카드 8장을 선택하세요.');
+        throw fail('MERCENARY_FUSION_RANK', '같은 등급의 중복 카드만 함께 합성할 수 있습니다.');
       const consumed = materials.map(m => {
         const row = owned.results.find(c => c.mercenary_code === m.code), copies = Number(row?.total_copies), duplicates = Number(row?.duplicate_count);
         if (!row || !Number.isSafeInteger(copies) || !Number.isSafeInteger(duplicates) || copies !== duplicates + 1 || duplicates < m.quantity)
@@ -54,10 +56,15 @@ export async function runPreparedMercenaryFusion(env, user, body, { randomInt = 
       });
       if (!draw) throw fail('MERCENARY_FUSION_CONFIG', '용병 추첨 설정을 확인하세요.', 409);
       const rules = validateMercenaryCardRules(JSON.parse(draw.payload_json).cardRules, catalogCodes);
-      const result = pickFusionResult({ rank, pools, rules, randomInt });
-      const meta = document.mercenaries.find(c => c.code === result.mercenaryCode), art = SEED.catalog.cards.find(c => c.code === result.mercenaryCode);
+      // Every attempt uses the same snapshotted policy and an independent roll.
+      // All selected duplicates are checked before any result is acquired.
+      const results = Array.from({length:body.materials.length / POLICY.materialCount},()=>{
+        const result = pickFusionResult({ rank, pools, rules, randomInt });
+        const meta = document.mercenaries.find(c => c.code === result.mercenaryCode), art = SEED.catalog.cards.find(c => c.code === result.mercenaryCode);
+        return {...result,name:meta.name,title:meta.title,sourceArt:art.sourceArt};
+      });
       return { version:POLICY.version, policy:{...POLICY}, cmsRevision:revision, drawRevision:Number(draw.revision),
-        consumed, result:{...result,name:meta.name,title:meta.title,sourceArt:art.sourceArt}, createdAt:new Date().toISOString() };
+        consumed, result:results[0], ...(results.length>1?{results}:{}), createdAt:new Date().toISOString() };
     },
     statements: async plan => {
       const current = await readMaterials();
@@ -66,14 +73,15 @@ export async function runPreparedMercenaryFusion(env, user, body, { randomInt = 
         if (!row || Number(row.total_copies) !== m.totalBefore || Number(row.duplicate_count) !== m.duplicatesBefore)
           throw Object.assign(fail('MERCENARY_FUSION_INVENTORY_CHANGED', '보유 수량이 변경되었습니다. 최신 목록에서 다시 선택하세요.', 409), {terminal:true});
       }
-      const token = crypto.randomUUID(), list = [];
+      const token = crypto.randomUUID(), list = [], results = planResults(plan), ids = acquisitionIds(requestId,results.length);
       const condition = plan.consumed.map(() => 'EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies=? AND duplicate_count=?)').join(' AND ');
-      list.push(jointGuard(DB, token, condition+' AND NOT EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=?)', [...plan.consumed.flatMap(m => [user.id,m.code,m.totalBefore,m.duplicatesBefore]),requestId+':fusion']));
+      list.push(jointGuard(DB, token, condition+` AND NOT EXISTS(SELECT 1 FROM mercenary_card_acquisitions_v1 WHERE acquisition_id IN (${ids.map(()=>'?').join(',')}))`, [...plan.consumed.flatMap(m => [user.id,m.code,m.totalBefore,m.duplicatesBefore]),...ids]));
       for (const m of plan.consumed) {
         list.push(p('UPDATE user_mercenary_cards_v1 SET total_copies=total_copies-?,duplicate_count=duplicate_count-? WHERE user_id=? AND mercenary_code=? AND total_copies=? AND duplicate_count=?',m.quantity,m.quantity,user.id,m.code,m.totalBefore,m.duplicatesBefore));
         list.push(p('UPDATE joint_atomic_guards_v1 SET verified=CASE WHEN EXISTS(SELECT 1 FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code=? AND total_copies=? AND duplicate_count=?) THEN 1 ELSE 0 END WHERE token=?',user.id,m.code,m.totalBefore-m.quantity,m.duplicatesBefore-m.quantity,token));
       }
-      list.push(...mercenaryCardAcquisitionStatements(DB,{userId:Number(user.id),mercenaryCode:plan.result.mercenaryCode,acquisitionId:requestId+':fusion',createdAt:plan.createdAt}),jointGuardEnd(DB,token));
+      for(const [i,result] of results.entries())list.push(...mercenaryCardAcquisitionStatements(DB,{userId:Number(user.id),mercenaryCode:result.mercenaryCode,acquisitionId:ids[i],createdAt:plan.createdAt}));
+      list.push(jointGuardEnd(DB,token));
       return list;
     },
   });
@@ -88,10 +96,15 @@ export async function fusionReceipt(env, user, requestId, replayed = true) {
 }
 async function completedFusionReceipt(env, user, operation, replayed) {
   const {requestId}=operation;
-  const acquired = await env.DB.prepare('SELECT is_duplicate,total_copies_after,duplicate_count_after FROM mercenary_card_acquisitions_v1 WHERE acquisition_id=? AND user_id=? AND mercenary_code=?').bind(requestId+':fusion',user.id,operation.plan.result.mercenaryCode).first();
-  if (!acquired) throw fail('MERCENARY_FUSION_RECEIPT', '지급 기록을 확인하고 있습니다.', 503);
+  const planned=planResults(operation.plan), ids=acquisitionIds(requestId,planned.length);
+  const acquired = await env.DB.prepare(`SELECT acquisition_id,mercenary_code,is_duplicate,total_copies_after,duplicate_count_after FROM mercenary_card_acquisitions_v1 WHERE user_id=? AND acquisition_id IN (${ids.map(()=>'?').join(',')})`).bind(user.id,...ids).all();
+  const results=planned.map((result,i)=>{
+    const row=acquired.results.find(a=>a.acquisition_id===ids[i]&&a.mercenary_code===result.mercenaryCode);
+    if(!row)throw fail('MERCENARY_FUSION_RECEIPT', '지급 기록을 확인하고 있습니다.', 503);
+    return {...result,isDuplicate:Boolean(row.is_duplicate),totalCopiesAfter:Number(row.total_copies_after),duplicatesAfter:Number(row.duplicate_count_after)};
+  });
   return {requestId,status:'COMPLETED',replayed,policy:operation.plan.policy,consumed:operation.plan.consumed,
-    result:{...operation.plan.result,isDuplicate:Boolean(acquired.is_duplicate),totalCopiesAfter:Number(acquired.total_copies_after),duplicatesAfter:Number(acquired.duplicate_count_after)}};
+    result:results[0],...(results.length>1?{attempts:results.length,results}: {})};
 }
 export async function handleMercenaryFusion({path,request,env,deps}) {
   if (!['mercenaries/v3/fusion','mercenaries/v3/fusion/feature','mercenaries/v3/fusion/receipt'].includes(path)) return null;
@@ -99,7 +112,7 @@ export async function handleMercenaryFusion({path,request,env,deps}) {
   try {
     if (path.endsWith('/feature')) {
       if (request.method !== 'GET') throw fail('MERCENARY_FUSION_METHOD','GET 요청이 필요합니다.',405);
-      return json({enabled:MERCENARY_FUSION_RELEASE_ENABLED,policy:POLICY},200,{'cache-control':'no-store'});
+      return json({enabled:MERCENARY_FUSION_RELEASE_ENABLED,policy:POLICY,maxBatch:MERCENARY_FUSION_MAX_BATCH},200,{'cache-control':'no-store'});
     }
     if (path.endsWith('/receipt')) {
       if (request.method !== 'GET') throw fail('MERCENARY_FUSION_METHOD','GET 요청이 필요합니다.',405);

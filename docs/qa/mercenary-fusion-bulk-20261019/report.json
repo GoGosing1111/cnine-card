@@ -1,0 +1,31 @@
+{
+  "source": "local",
+  "report": [
+    {
+      "width": 1440,
+      "attempts": 100,
+      "posts": 1,
+      "completedMs": 1762,
+      "pageErrors": []
+    },
+    {
+      "width": 900,
+      "attempts": 2,
+      "posts": 1,
+      "completedMs": 384,
+      "pageErrors": []
+    },
+    {
+      "width": 390,
+      "attempts": 10,
+      "posts": 1,
+      "completedMs": 822,
+      "pageErrors": []
+    },
+    {
+      "scenario": "lost response / reopen",
+      "posts": 1,
+      "recovered": 10
+    }
+  ]
+}

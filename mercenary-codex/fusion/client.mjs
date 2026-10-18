@@ -1,29 +1,35 @@
 import {jointAccountRequest} from '../../js/joint-account-transport.mjs';
 import {withMercenaryDeadline} from '../../shared/mercenary-loading-v1.mjs?v=20260925';
-import {MATERIAL_COUNT,RANKS,nextRank} from './model.mjs?v=20260925-on';
+import {MATERIAL_COUNT,MAX_BATCH,RANKS,nextRank} from './model.mjs?v=20261019-bulk';
 
 export const fusionToken=()=>{try{return localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';}catch{return '';}};
 const fail=(code,message)=>Object.assign(Error(message),{code});
 const terminal=new Set(['JOINT_OPERATION_SUPERSEDED','MERCENARY_FUSION_INVENTORY_CHANGED','MERCENARY_FUSION_MATERIALS','MERCENARY_FUSION_RANK','MERCENARY_FUSION_DUPLICATES','MERCENARY_FUSION_MAX_RANK','MERCENARY_FUSION_CONFIG','MERCENARY_FUSION_POOL_EMPTY']);
 export const fusionPendingKey=id=>'cnine.mercenary.fusion.pending:'+id;
-const validMaterials=items=>Array.isArray(items)&&items.length===MATERIAL_COUNT&&items.every(code=>/^V-\d{3}$/.test(code));
+const validMaterials=items=>Array.isArray(items)&&items.length>=MATERIAL_COUNT&&items.length<=MATERIAL_COUNT*MAX_BATCH&&items.length%MATERIAL_COUNT===0&&items.every(code=>/^V-\d{3}$/.test(code));
 export function readFusionPending(storage,key){
   const raw=storage.getItem(key);if(!raw)return null;
   try{const p=JSON.parse(raw);if(/^[A-Za-z0-9_-]{16,100}$/.test(p?.requestId)&&validMaterials(p.materials))return {requestId:p.requestId,materials:p.materials};}catch{}
   throw fail('FUSION_PENDING_INVALID','미확인 합성 요청 정보가 손상됐습니다. 운영자에게 확인을 요청해 주세요.');
 }
-export function validateFusionReceipt(value,requestId){
+export function validateFusionReceipt(value,requestId,materials){
   const invalid=()=>fail('FUSION_RESPONSE_INVALID','합성 결과를 확인하지 못했습니다. 이전 결과 확인을 눌러 주세요.');
   if(value?.requestId!==requestId||!['PENDING','COMPLETED'].includes(value?.status))throw invalid();
   if(value.status==='PENDING')return value;
-  const r=value.result,consumed=value.consumed;
-  if(!r||!/^V-\d{3}$/.test(r.mercenaryCode)||!RANKS.includes(r.inputRank)||!nextRank(r.inputRank)||typeof r.promoted!=='boolean'||
+  const results=value.results===undefined?[value.result]:value.results,consumed=value.consumed;
+  if(!Array.isArray(results)||!results.length||results.length>MAX_BATCH||value.attempts!==undefined&&value.attempts!==results.length)throw invalid();
+  if(results.some(r=>!r||!/^V-\d{3}$/.test(r.mercenaryCode)||!RANKS.includes(r.inputRank)||!nextRank(r.inputRank)||typeof r.promoted!=='boolean'||
     r.resultRank!==(r.promoted?nextRank(r.inputRank):r.inputRank)||r.quantity!==1||typeof r.name!=='string'||
-    !Number.isSafeInteger(r.totalCopiesAfter)||r.totalCopiesAfter<1||r.duplicatesAfter!==r.totalCopiesAfter-1||
+    !Number.isSafeInteger(r.totalCopiesAfter)||r.totalCopiesAfter<1||r.duplicatesAfter!==r.totalCopiesAfter-1||r.inputRank!==results[0].inputRank)||
+    value.result?.mercenaryCode!==results[0].mercenaryCode||value.result?.promoted!==results[0].promoted||
     !Array.isArray(consumed)||new Set(consumed.map(c=>c?.code)).size!==consumed.length||
     consumed.some(c=>!c||!/^V-\d{3}$/.test(c.code)||!Number.isSafeInteger(c.quantity)||c.quantity<1||
       !Number.isSafeInteger(c.totalBefore)||c.duplicatesBefore!==c.totalBefore-1||c.duplicatesBefore<c.quantity)||
-    consumed.reduce((sum,c)=>sum+c.quantity,0)!==MATERIAL_COUNT)throw invalid();
+    consumed.reduce((sum,c)=>sum+c.quantity,0)!==MATERIAL_COUNT*results.length)throw invalid();
+  if(materials){
+    const expected=new Map();for(const code of materials)expected.set(code,(expected.get(code)||0)+1);
+    if(consumed.length!==expected.size||consumed.some(c=>expected.get(c.code)!==c.quantity))throw invalid();
+  }
   return value;
 }
 
@@ -46,7 +52,7 @@ export function createFusionClient({accountId,token=fusionToken(),storage=localS
     }
   }
   async function lookup(p){
-    try{return validateFusionReceipt(await api('mercenaries/v3/fusion/receipt?requestId='+encodeURIComponent(p.requestId)),p.requestId);}
+    try{return validateFusionReceipt(await api('mercenaries/v3/fusion/receipt?requestId='+encodeURIComponent(p.requestId)),p.requestId,p.materials);}
     catch(error){if(error.code==='JOINT_NOT_FOUND')return null;throw error;}
   }
   async function execute(materials,{submit=true}={}){
@@ -54,12 +60,12 @@ export function createFusionClient({accountId,token=fusionToken(),storage=localS
     if(p){const receipt=await lookup(p);if(receipt?.status==='COMPLETED'||!submit)return receipt;}
     else{
       if(!submit)return null;
-      if(!validMaterials(materials))throw fail('FUSION_SELECTION','같은 등급의 중복 카드 8장을 선택하세요.');
+      if(!validMaterials(materials))throw fail('FUSION_SELECTION','같은 등급의 중복 카드를 8장 단위로 선택하세요.');
       p={requestId:crypto.randomUUID(),materials:[...materials]};
       try{storage.setItem(key,JSON.stringify(p));if(pending()?.requestId!==p.requestId)throw Error();}
       catch{throw fail('FUSION_STORAGE','요청 기록을 보관하지 못해 합성을 시작하지 않았습니다. 브라우저 저장 공간을 확인하세요.');}
     }
-    try{return validateFusionReceipt(await api('mercenaries/v3/fusion',{method:'POST',body:p}),p.requestId);}
+    try{return validateFusionReceipt(await api('mercenaries/v3/fusion',{method:'POST',body:p}),p.requestId,p.materials);}
     catch(error){if(terminal.has(error.code))acknowledge(p.requestId);throw error;}
   }
   function run(materials,options){

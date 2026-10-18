@@ -1,6 +1,8 @@
-import {MERCENARY_FUSION_POLICY, MERCENARY_FUSION_RELEASE_ENABLED} from '../../shared/mercenary-fusion-policy-v1.mjs?v=20260925-on';
+import {MERCENARY_FUSION_POLICY, MERCENARY_FUSION_RELEASE_ENABLED, MERCENARY_FUSION_MAX_BATCH} from '../../shared/mercenary-fusion-policy-v1.mjs?v=20261019-bulk';
 // Actual outcomes come from the server receipt; samples are only for the explicit demo.
 export const MATERIAL_COUNT = 8;
+export const MAX_BATCH = MERCENARY_FUSION_MAX_BATCH;
+export const maxFusionAttempts = (rows,rank) => Math.min(MAX_BATCH,Math.floor(rows.filter(c=>c.rank===rank).reduce((n,c)=>n+c.duplicates,0)/MATERIAL_COUNT));
 export const FUSION_PREPARATION = Object.freeze({
   ...MERCENARY_FUSION_POLICY, enabled: MERCENARY_FUSION_RELEASE_ENABLED,
   successChance: MERCENARY_FUSION_POLICY.successChancePpm / 10000,
@@ -20,9 +22,10 @@ export function materialRows(catalog, account) {
   });
 }
 
-export function validateMaterials(selection, rows, { complete = true, sameCard = false } = {}) {
-  if (!Array.isArray(selection) || selection.length > MATERIAL_COUNT || complete && selection.length !== MATERIAL_COUNT)
-    return { ok: false, message: '중복 카드 8장을 선택하세요.' };
+export function validateMaterials(selection, rows, { complete = true, sameCard = false, attempts = 1 } = {}) {
+  const required=MATERIAL_COUNT*attempts;
+  if (!Number.isSafeInteger(attempts)||attempts<1||attempts>MAX_BATCH||!Array.isArray(selection) || selection.length > required || complete && selection.length !== required)
+    return { ok: false, message: `중복 카드 ${required}장을 선택하세요.` };
   const available = new Map(rows.map(c => [c.code, c])), counts = new Map();
   let rank = null;
   for (const code of selection) {
@@ -35,7 +38,7 @@ export function validateMaterials(selection, rows, { complete = true, sameCard =
     if (counts.get(code) > card.duplicates) return { ok: false, message: '보유 중복 수량을 초과했습니다.' };
     if (sameCard && counts.size > 1) return { ok: false, message: '동일한 용병의 중복 카드만 선택하세요.' };
   }
-  return { ok: true, rank, count: selection.length, remaining: MATERIAL_COUNT - selection.length };
+  return { ok: true, rank, count: selection.length, remaining: required - selection.length };
 }
 
 export function addMaterial(selection, code, rows, options = {}) {
@@ -43,11 +46,13 @@ export function addMaterial(selection, code, rows, options = {}) {
   return { ...result, selection: result.ok ? next : selection };
 }
 
-export function autoMaterials(rows, rank) {
+export function autoMaterials(rows, rank, attempts = 1) {
+  if(!Number.isSafeInteger(attempts)||attempts<1||attempts>MAX_BATCH)return [];
+  const required=MATERIAL_COUNT*attempts;
   const selected = [];
   for (const row of rows.filter(c => c.rank === rank).sort((a, b) => b.duplicates - a.duplicates || a.code.localeCompare(b.code))) {
-    for (let n = 0; n < row.duplicates && selected.length < MATERIAL_COUNT; n++) selected.push(row.code);
-    if (selected.length === MATERIAL_COUNT) break;
+    for (let n = 0; n < row.duplicates && selected.length < required; n++) selected.push(row.code);
+    if (selected.length === required) break;
   }
   return selected;
 }

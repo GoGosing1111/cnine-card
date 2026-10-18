@@ -1,6 +1,6 @@
 import { escapeHtml as esc, asset, thumb, FRAME } from '../model.mjs?v=2098&art=20260915';
-import { MATERIAL_COUNT, RANKS, TIMING, nextRank, materialRows, addMaterial, autoMaterials, demoMaterials, demoResult, phaseAt, validateMaterials } from './model.mjs?v=20260925-on';
-import {createFusionClient,fusionToken} from './client.mjs?v=20260925-on';
+import { MATERIAL_COUNT, MAX_BATCH, RANKS, TIMING, nextRank, maxFusionAttempts, materialRows, addMaterial, autoMaterials, demoMaterials, demoResult, phaseAt, validateMaterials } from './model.mjs?v=20261019-bulk';
+import {createFusionClient,fusionToken} from './client.mjs?v=20261019-bulk';
 import {jointAccountRequest as api} from '../../js/joint-account-transport.mjs';
 import { FusionFX } from './fx.mjs?v=20260925-loading';
 import { withMercenaryDeadline } from '../../shared/mercenary-loading-v1.mjs?v=20260925';
@@ -21,7 +21,7 @@ function loadVendor() {
 function loadStyles() {
   if (document.getElementById('mercenaryFusionStyles')) return;
   const link = document.createElement('link'); link.id = 'mercenaryFusionStyles'; link.rel = 'stylesheet';
-  link.href = '/mercenary-codex/fusion/style.css?v=20260925-on'; document.head.append(link);
+  link.href = '/mercenary-codex/fusion/style.css?v=20261019-bulk'; document.head.append(link);
 }
 
 const html = `<header class="fusion-head"><div class="fusion-head-main"><span class="fusion-section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="8" y="5" width="12" height="16" rx="1.5"/><path d="M5 18H4V2h12v1M11 10h6m-6 4h6m-6 4h3"/></svg></span><div><p class="fusion-kicker">용병도감<span>/</span>카드 합성</p><h2 id="fusionTitle">용병 중복 합성</h2></div></div><div class="fusion-head-actions"><span class="fusion-status-tag" data-live-status><i></i>상태 확인 중</span><button type="button" data-action="sound" aria-pressed="false">소리 켜기</button><button type="button" data-action="close" class="fusion-close" aria-label="중복 합성 닫기">×</button></div></header>
@@ -37,49 +37,72 @@ export async function openFusion({ catalog, account, onClose, onAccount, preview
   const dialog = document.createElement('dialog'); dialog.className = 'fusion-dialog';
   dialog.setAttribute('aria-labelledby', 'fusionTitle'); dialog.innerHTML = html; document.body.append(dialog);
   const $ = selector => dialog.querySelector(selector), controller = new AbortController(), signal = controller.signal;
+  const quantity=document.createElement('div');quantity.className='fusion-quantity';
+  quantity.innerHTML='<label>합성 횟수 <input type="number" data-attempts aria-label="합성 횟수" min="1" max="100" step="1" value="1" inputmode="numeric"> 회</label><div><button type="button" data-batch="1">1회</button><button type="button" data-batch="10">10회</button><button type="button" data-batch="max">최대</button></div><small data-batch-available></small>';
+  $('.fusion-filter').after(quantity);
+  const batchResults=document.createElement('section');batchResults.className='fusion-batch-results';batchResults.hidden=true;batchResults.setAttribute('aria-label','전체 합성 결과');
+  $('.fusion-tray').after(batchResults);
+  const skip=document.createElement('button');skip.type='button';skip.dataset.action='skip';skip.textContent='전체 결과 보기';skip.hidden=true;$('.fusion-playback').prepend(skip);
   let mode = preview ? 'demo' : 'owned', selection = [], sampleCards = [], loaded = false, busy = false, closed = false, played = false, refreshId = 0, outcome = 'success';
   let rows = materialRows(catalog, account),feature=null,transactionBusy=false,accountReady=false,receipt=null,receiptCards=[],stateFlight=null,liveFlight=null;
   let client=null;try{if(account?.accountId)client=createFusionClient({accountId:account.accountId,signal});}catch{}
   const auth=fusionToken();
   const pending=()=>{try{return client?.pending()||null;}catch(e){error(e.message);return {invalid:true};}};
   let rank = rows.find(c => c.rank === 'SS')?.rank || rows[0]?.rank || 'SS';
-  let resultRank = nextRank(rank);
+  let resultRank = nextRank(rank),attempts=1;
+  const results=()=>receipt?.results||(receipt?[receipt.result]:[]);
+  const featured=()=>results().find(r=>r.promoted)||results()[0];
+  const required=()=>MATERIAL_COUNT*(mode==='owned'?attempts:1);
+  const availableAttempts=()=>Math.min(maxFusionAttempts(rows,rank),Number(feature?.maxBatch)||1);
   const stage = $('.fusion-stage'), result = $('.fusion-result'), loading = $('.fusion-loading');
   const retry = document.createElement('button'); retry.type = 'button'; retry.dataset.action = 'retry'; retry.textContent = '다시 불러오기'; retry.hidden = true;
   $('.fusion-error').after(retry);
   const error = (message,retryable=false) => { const el = $('.fusion-error'); el.textContent = message || ''; el.hidden = !message; retry.hidden = !message || !retryable; };
   const chosenCards = () => receipt ? receiptCards : mode === 'demo' ? sampleCards : selection.map(code => rows.find(c => c.code === code)).filter(Boolean);
-  const currentResult = () => receipt ? {...catalog.cards.find(c=>c.code===receipt.result.mercenaryCode),...receipt.result,code:receipt.result.mercenaryCode,rank:receipt.result.resultRank} : mode==='demo' ? demoResult(catalog, outcome === 'success' ? resultRank : rank) : null;
+  const currentResult = () => receipt ? {...catalog.cards.find(c=>c.code===featured().mercenaryCode),...featured(),code:featured().mercenaryCode,rank:featured().resultRank} : mode==='demo' ? demoResult(catalog, outcome === 'success' ? resultRank : rank) : null;
   let fx = new FusionFX($('.fusion-renderer'), {
     progress(time) {
       const title = outcome === 'failure' && time >= TIMING.impact ? time < TIMING.reveal ? '봉인의 힘이 잦아듭니다' : '계약이 다시 맺어집니다' : phaseAt(time);
       if ($('[data-stage-title]').textContent !== title) $('[data-stage-title]').textContent = title;
       result.classList.toggle('is-visible', time >= TIMING.reveal + .65); result.setAttribute('aria-hidden', String(time < TIMING.reveal + .65));
       stage.classList.toggle('has-result',time >= TIMING.reveal + .65);
+      batchResults.hidden=results().length<2||time<TIMING.reveal+.65;
       $('.fusion-scrub').value = String(time);
       const pause = $('[data-action="pause"]'); pause.textContent = fx.paused ? '계속' : '일시정지';
       pause.setAttribute('aria-label', fx.paused ? '연출 계속 재생' : '연출 일시정지'); pause.disabled = time >= TIMING.end;
     },
-    complete() { if (closed) return; busy = false; stage.classList.remove('is-playing'); stage.classList.add('has-result'); dialog.classList.remove('is-cinematic'); updateControls(); result.classList.add('is-visible'); result.setAttribute('aria-hidden','false'); },
+    complete() { if (closed) return; busy = false; stage.classList.remove('is-playing'); stage.classList.add('has-result'); dialog.classList.remove('is-cinematic'); updateControls(); result.classList.add('is-visible'); result.setAttribute('aria-hidden','false');batchResults.hidden=results().length<2; },
   });
   function updateControls() {
     const p=pending(),live=mode==='owned',locked=busy||transactionBusy;
     const button=$('[data-action="play"]');
-    button.disabled=locked||(live?receipt?!accountReady:!loaded||!accountReady||feature?.enabled!==true||Boolean(p)||!validateMaterials(selection,rows).ok:!loaded||chosenCards().length!==MATERIAL_COUNT||!currentResult());
-    button.textContent=transactionBusy?'합성 결과 확인 중…':busy?'계약이 깨어나는 중…':live?receipt?'다음 합성 준비':feature?.enabled===false?'합성 운영 중지':'중복 8장 합성':played?'합성 연출 다시 보기':'8장 합성 연출 보기';
+    button.disabled=locked||(live?receipt?!accountReady:!loaded||!accountReady||feature?.enabled!==true||Boolean(p)||attempts>availableAttempts()||!validateMaterials(selection,rows,{attempts}).ok:!loaded||chosenCards().length!==MATERIAL_COUNT||!currentResult());
+    button.textContent=transactionBusy?'합성 결과 확인 중…':busy?'계약이 깨어나는 중…':live?receipt?'다음 합성 준비':feature?.enabled===false?'합성 운영 중지':attempts>1?`${attempts}회 합성 · ${required()}장 소모`:'중복 8장 합성':played?'합성 연출 다시 보기':'8장 합성 연출 보기';
     $('[data-action="recover"]').hidden=!p||Boolean(receipt);$('[data-action="recover"]').disabled=locked||p?.invalid;
     $('[data-action="refresh-owned"]').hidden=!live||!client||(accountReady&&feature!==null);$('[data-action="refresh-owned"]').disabled=locked||Boolean(stateFlight||liveFlight);
     $('[data-action="refresh-owned"]').textContent=accountReady?'상태 다시 확인':'보유 새로고침';
     $('[data-live-status]').textContent=feature?feature.enabled?'합성 ON':'합성 OFF':'상태 확인 필요';
-    $('.fusion-controls-note b').textContent=live?receipt?'합성 완료 · 결과 용병 1장 지급':p?'이전 합성 결과 확인 필요':'선택한 중복 카드 8장 소모 · 추가 비용 없음':'연출 시연 · 카드 소모 없음';
-    for (const b of dialog.querySelectorAll('[data-action="owned"],[data-action="demo"],[data-action="auto"],[data-action="clear"],[data-material],[data-slot]')) b.disabled=locked||Boolean(p&&!receipt);
+    $('.fusion-controls-note b').textContent=live?receipt?`합성 완료 · 결과 용병 ${results().length}장 지급`:p?'이전 합성 결과 확인 필요':`선택한 중복 카드 ${required()}장 소모 · 추가 비용 없음`:'연출 시연 · 카드 소모 없음';
+    for (const b of dialog.querySelectorAll('[data-action="owned"],[data-action="demo"],[data-action="auto"],[data-action="clear"],[data-material],[data-slot],[data-remove-material]')) b.disabled=locked||Boolean(p&&!receipt);
+    quantity.hidden=!live||Boolean(receipt);$('[data-attempts]').value=String(attempts);$('[data-attempts]').max=String(Math.max(1,availableAttempts()));$('[data-attempts]').disabled=locked||Boolean(p)||!accountReady;
+    $('[data-batch-available]').textContent=`현재 재료로 최대 ${availableAttempts()}회 · 한 번에 최대 ${MAX_BATCH}회`;
+    for(const b of quantity.querySelectorAll('[data-batch]'))b.disabled=locked||Boolean(p)||!accountReady||availableAttempts()<(b.dataset.batch==='max'?1:Number(b.dataset.batch));
+    $('[data-action="auto"]').textContent=required()+'장 자동 선택';
+    skip.hidden=results().length<2;
     $('[data-material-rank]').disabled=locked||Boolean(p&&!receipt);
     const rr=$('[data-result-rank]');if(rr)rr.disabled=locked;
     const ro=$('[data-outcome]');if(ro)ro.disabled=locked;
   }
   function renderTray() {
     const cards = chosenCards(); $('[data-selected-count]').textContent = String(cards.length);
-    $('.fusion-slots').innerHTML = Array.from({ length: MATERIAL_COUNT }, (_, i) => {
+    $('.fusion-tray').setAttribute('aria-label','합성 재료 '+(receipt?receiptCards.length:required())+'장');
+    $('.fusion-tray-head em small').textContent=' / '+(receipt?receiptCards.length:required());
+    const grouped=mode==='owned'&&(receipt?results().length:attempts)>1;
+    $('.fusion-slots').classList.toggle('is-batch',grouped);
+    if(grouped){
+      const counts=new Map();for(const card of cards){const row=counts.get(card.code)||{...card,count:0};row.count++;counts.set(card.code,row);}
+      $('.fusion-slots').innerHTML=[...counts.values()].map(c=>`<button type="button" class="fusion-slot is-filled" data-remove-material="${c.code}" aria-label="${esc(c.name)} ${c.count}장 선택 해제"><img class="slot-art" src="${thumb(c.code)}" alt=""><img class="slot-frame" src="${FRAME}" alt=""><span class="slot-number">×${c.count}</span><span class="slot-name">${esc(c.name)}</span></button>`).join('');
+    }else $('.fusion-slots').innerHTML = Array.from({ length: MATERIAL_COUNT }, (_, i) => {
       const c = cards[i]; return `<button type="button" class="fusion-slot ${c ? 'is-filled' : ''}" data-slot="${i}" aria-label="${i + 1}번 합성 재료${c ? ' ' + esc(c.name) + ' 제거' : ' 비어 있음'}">${c ? `<img class="slot-art" src="${thumb(c.code)}" alt=""><img class="slot-frame" src="${FRAME}" alt=""><span class="slot-number">${String(i + 1).padStart(2, '0')}</span><span class="slot-name">${esc(c.name)}</span>` : `<span class="empty">${String(i + 1).padStart(2, '0')}</span>`}</button>`;
     }).join('');
     $('.fusion-tray-note').textContent = mode === 'demo' ? '시연용 카드 8장 · 보유 수량과 무관하며 실제 소모되지 않습니다.' : '기본 보유 1장은 보존하며, 중복 카드만 재료로 선택합니다.';
@@ -113,27 +136,27 @@ export async function openFusion({ catalog, account, onClose, onAccount, preview
     dialog.classList.remove('is-cinematic'); stage.classList.remove('is-playing','has-result'); result.classList.remove('is-visible'); result.setAttribute('aria-hidden','true');
     $('.fusion-playback').hidden = true; loading.hidden = false; error(''); updateControls();
     $('[data-stage-title]').textContent = '봉인 너머, 새로운 운명이 기다립니다';
-    $('[data-stage-subtitle]').textContent = '중복 카드 8장으로 완성하는 하나의 계약';
+    $('[data-stage-subtitle]').textContent = mode==='owned'&&attempts>1?`${attempts}회 합성 · 같은 등급 중복 ${required()}장`:'중복 카드 8장으로 완성하는 하나의 계약';
     try {
       const card = currentResult();
-      await fx.setCards(chosenCards(), card, {promoted:outcome === 'success'});
+      await fx.setCards(chosenCards().slice(0,MATERIAL_COUNT), card, {promoted:outcome === 'success'});
       if (closed || generation !== refreshId) return;
       $('.fusion-result-rank').textContent = (card?.rank || '') + (outcome === 'failure' ? ' · 동일 등급' : '');
       result.classList.toggle('is-same-rank',outcome === 'failure');
       $('.fusion-result h3').textContent = card?.name || '';
       $('.fusion-result p').textContent = card?.title || '';
-      $('.fusion-result small').textContent=receipt?'지급 완료 · '+(receipt.result.isDuplicate?'중복 수량 +1':'새 용병 획득'):'연출 시연 결과 · 실제 지급 없음';
+      $('.fusion-result small').textContent=receipt?results().length>1?`${results().length}회 합성 완료 · 전체 결과는 아래에서 확인`:'지급 완료 · '+(featured().isDuplicate?'중복 수량 +1':'새 용병 획득'):'연출 시연 결과 · 실제 지급 없음';
       loaded = true; loading.hidden = true; updateControls();
       return true;
     } catch { if (closed || generation !== refreshId) return; loading.hidden = true; error('카드 원화를 불러오지 못했습니다. 다시 불러오기를 눌러 주세요.',true); }
   }
-  function acknowledge(){if(receipt){client?.acknowledge(receipt.requestId);receipt=null;receiptCards=[];}}
+  function acknowledge(){if(receipt){client?.acknowledge(receipt.requestId);receipt=null;receiptCards=[];batchResults.hidden=true;batchResults.innerHTML='';}}
   function selectionChanged() { acknowledge();renderPool(); renderTray(); void syncScene(); }
   function play() {
-    if (!loaded || busy || chosenCards().length !== MATERIAL_COUNT) return;
+    if (!loaded || busy || chosenCards().length < MATERIAL_COUNT) return;
     error(''); busy = true; played = true; result.classList.remove('is-visible');
     dialog.classList.add('is-cinematic'); stage.classList.add('is-playing');
-    $('[data-stage-subtitle]').textContent = receipt?'서버 확정 결과 · 용병 1장 지급 완료':'연출 시연 · 카드 소모 없음';
+    $('[data-stage-subtitle]').textContent = receipt?`서버 확정 결과 · 용병 ${results().length}장 지급 완료`:'연출 시연 · 카드 소모 없음';
     $('.fusion-playback').hidden = fx.reduced; $('.fusion-scrub').value = '0'; updateControls();
     $('.fusion-body').scrollTo({top:0,behavior:'instant'});
     if (!fx.play()) { busy = false; dialog.classList.remove('is-cinematic'); stage.classList.remove('is-playing'); error('연출을 준비하고 있습니다. 잠시 후 다시 시도하세요.'); updateControls(); }
@@ -142,15 +165,21 @@ export async function openFusion({ catalog, account, onClose, onAccount, preview
     const card=currentResult();if(!card)return;
     $('.fusion-result-rank').textContent=card.rank+(outcome==='failure'?' · 동일 등급':' · 승급 성공');
     $('.fusion-result h3').textContent=card.name;$('.fusion-result p').textContent=card.title||'';
-    $('.fusion-result small').textContent='지급 완료 · '+(receipt.result.isDuplicate?'중복 수량 +1':'새 용병 획득');
+    $('.fusion-result small').textContent=results().length>1?`${results().length}회 합성 완료 · 전체 결과는 아래에서 확인`:'지급 완료 · '+(featured().isDuplicate?'중복 수량 +1':'새 용병 획득');
     loading.hidden=true;busy=false;stage.classList.remove('is-playing');stage.classList.add('has-result');
     dialog.classList.remove('is-cinematic');result.classList.add('is-visible');result.setAttribute('aria-hidden','false');
-    updateControls();
+    batchResults.hidden=results().length<2;updateControls();
+  }
+  function renderBatchResults(){
+    const list=results(),promoted=list.filter(r=>r.promoted).length,groups=new Map();
+    for(const r of list){const row=groups.get(r.mercenaryCode)||{...r,count:0};row.count++;groups.set(r.mercenaryCode,row);}
+    batchResults.innerHTML=`<header><b>${list.length}회 합성 완료</b><span>승급 ${promoted}장 · 동일 등급 ${list.length-promoted}장</span></header><div class="fusion-batch-cards">${[...groups.values()].sort((a,b)=>Number(b.promoted)-Number(a.promoted)).map(c=>`<article class="fusion-material"><span class="fusion-material-art"><img src="${thumb(c.mercenaryCode)}" alt=""><img src="${FRAME}" alt=""><span class="fusion-material-rank rank-chip" data-rank="${c.resultRank}">${esc(c.resultRank)}</span><span class="fusion-material-count">×${c.count}</span></span><span class="fusion-material-name">${esc(c.name)}</span><small>${c.promoted?'승급 성공':'동일 등급'}</small></article>`).join('')}</div>`;
+    batchResults.hidden=true;
   }
   async function showReceipt(animate){
-    mode='owned';outcome=receipt.result.promoted?'success':'failure';rank=receipt.result.inputRank;resultRank=receipt.result.resultRank;
+    mode='owned';attempts=results().length;outcome=featured().promoted?'success':'failure';rank=featured().inputRank;resultRank=featured().resultRank;
     receiptCards=receipt.consumed.flatMap(m=>Array.from({length:m.quantity},()=>({...catalog.cards.find(c=>c.code===m.code),code:m.code,rank})));
-    selection=[];renderPool();renderTray();
+    selection=[];renderPool();renderTray();renderBatchResults();
     const ready=await syncScene();if(closed)return;
     if(ready&&animate){play();return;}
     if(ready){fx.clock.time=TIMING.end;fx.render();}
@@ -173,7 +202,7 @@ export async function openFusion({ catalog, account, onClose, onAccount, preview
   }
   async function runTransaction(recover=false,submit=true){
     if(transactionBusy||busy||!client||closed)return;
-    if(!recover&&(!accountReady||feature?.enabled!==true||!validateMaterials(selection,rows).ok))return;
+    if(!recover&&(!accountReady||feature?.enabled!==true||attempts>availableAttempts()||!validateMaterials(selection,rows,{attempts}).ok))return;
     transactionBusy=true;error('');loading.hidden=false;loading.textContent='합성 결과를 확인하고 있습니다…';updateControls();
     try{
       const value=await client.run(recover?undefined:selection,{submit});if(closed)return;
@@ -189,6 +218,10 @@ export async function openFusion({ catalog, account, onClose, onAccount, preview
     dialog.close(); dialog.remove(); document.body.style.overflow = previousOverflow;
     opener?.isConnected && opener.focus(); onClose?.();
   }
+  function changeAttempts(value){
+    attempts=Math.min(Math.max(1,availableAttempts()),Math.max(1,Math.trunc(Number(value)||1)));
+    selection=autoMaterials(rows,rank,attempts);selectionChanged();
+  }
   dialog.addEventListener('cancel', event => { event.preventDefault(); close(); }, { signal });
   dialog.addEventListener('click', async event => {
     const b = event.target.closest('button'); if (!b) return;
@@ -202,20 +235,23 @@ export async function openFusion({ catalog, account, onClose, onAccount, preview
       if (enabled && fx.active) fx.sound.schedule(fx.getClock()); return;
     }
     if (b.dataset.action === 'pause') { fx.pause(); return; }
+    if (b.dataset.action === 'skip'&&receipt) {fx.seek(TIMING.end);busy=false;showPlainResult();return;}
     if (b.dataset.action === 'replay') {if(transactionBusy)return;busy = false; play(); return; }
     if (busy||transactionBusy) return;
-    if (b.dataset.action === 'play') {if(mode==='demo')play();else if(receipt){selection=[];selectionChanged();}else void runTransaction();return;}
+    if (b.dataset.action === 'play') {if(mode==='demo')play();else if(receipt){attempts=Math.min(attempts,Math.max(1,availableAttempts()));selection=[];selectionChanged();}else void runTransaction();return;}
     if(pending()&&!receipt)return;
+    if(b.dataset.batch){changeAttempts(b.dataset.batch==='max'?availableAttempts():b.dataset.batch);return;}
     if (b.dataset.action === 'owned' || b.dataset.action === 'demo') {
-      mode = b.dataset.action; selection = []; sampleCards = [];
+      mode = b.dataset.action; selection = []; sampleCards = [];attempts=1;
       if (mode === 'demo') sampleCards = demoMaterials(catalog, rank);
       selectionChanged(); return;
     }
     if (b.dataset.action === 'auto') {
-      if (mode === 'demo') sampleCards = demoMaterials(catalog, rank); else selection = autoMaterials(rows, rank);
-      selectionChanged(); if (chosenCards().length < MATERIAL_COUNT) error('이 등급의 중복 카드가 8장보다 적습니다. 연출 시연은 재료 소모 없이 이용할 수 있습니다.'); return;
+      if (mode === 'demo') sampleCards = demoMaterials(catalog, rank); else selection = autoMaterials(rows, rank,attempts);
+      selectionChanged(); if (chosenCards().length < required()) error(`이 등급의 중복 카드가 ${required()}장보다 적습니다.`); return;
     }
     if (b.dataset.action === 'clear') { selection = []; sampleCards = []; selectionChanged(); return; }
+    if(b.dataset.removeMaterial){selection=selection.filter(code=>code!==b.dataset.removeMaterial);selectionChanged();return;}
     if (b.hasAttribute('data-slot')) {
       const index = Number(b.dataset.slot); mode === 'demo' ? sampleCards.splice(index, 1) : selection.splice(index, 1); selectionChanged(); return;
     }
@@ -225,7 +261,7 @@ export async function openFusion({ catalog, account, onClose, onAccount, preview
         const card = catalog.cards.find(c => c.code === b.dataset.material && c.rank === rank && !c.artOnly);
         if (card) sampleCards.push(card);
       } else {
-        const next = addMaterial(selection, b.dataset.material, rows);
+        const next = addMaterial(selection, b.dataset.material, rows,{attempts});
         if (!next.ok) { error(next.message); return; } selection = next.selection;
       }
       selectionChanged();
@@ -233,7 +269,8 @@ export async function openFusion({ catalog, account, onClose, onAccount, preview
   }, { signal });
   dialog.addEventListener('change', event => {
     if (busy||transactionBusy||pending()&&!receipt) return;
-    if (event.target.hasAttribute('data-material-rank')) { rank = event.target.value; resultRank = nextRank(rank); selection = []; sampleCards = mode === 'demo' ? demoMaterials(catalog, rank) : []; selectionChanged(); }
+    if(event.target.hasAttribute('data-attempts')){changeAttempts(event.target.value);return;}
+    if (event.target.hasAttribute('data-material-rank')) { rank = event.target.value; resultRank = nextRank(rank); attempts=1;selection = []; sampleCards = mode === 'demo' ? demoMaterials(catalog, rank) : []; selectionChanged(); }
     if (event.target.hasAttribute('data-result-rank')) { resultRank = event.target.value; rank = RANKS[RANKS.indexOf(resultRank) - 1]; sampleCards = demoMaterials(catalog, rank); selectionChanged(); }
     if (event.target.hasAttribute('data-outcome')) { outcome = event.target.value; void syncScene(); }
   }, { signal });
