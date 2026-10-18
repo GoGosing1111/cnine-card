@@ -1,0 +1,102 @@
+{
+  "readAt": "2026-10-18T20:13:40.507Z",
+  "referencePower": 110000000,
+  "power": 220000000,
+  "multiplier": 2,
+  "ratios": [
+    {
+      "slot": 0,
+      "powerRatio": 2,
+      "hpRatio": 2,
+      "attackRatio": 2,
+      "defenseRatio": 2,
+      "shieldRatio": 2,
+      "speedRatio": 1
+    },
+    {
+      "slot": 1,
+      "powerRatio": 2,
+      "hpRatio": 2,
+      "attackRatio": 2,
+      "defenseRatio": 2,
+      "shieldRatio": null,
+      "speedRatio": 1
+    },
+    {
+      "slot": 2,
+      "powerRatio": 2,
+      "hpRatio": 2,
+      "attackRatio": 2,
+      "defenseRatio": 2,
+      "shieldRatio": null,
+      "speedRatio": 1
+    },
+    {
+      "slot": 3,
+      "powerRatio": 2,
+      "hpRatio": 2,
+      "attackRatio": 2,
+      "defenseRatio": 2,
+      "shieldRatio": null,
+      "speedRatio": 1
+    },
+    {
+      "slot": 4,
+      "powerRatio": 2,
+      "hpRatio": 2,
+      "attackRatio": 2,
+      "defenseRatio": 2,
+      "shieldRatio": null,
+      "speedRatio": 1
+    },
+    {
+      "slot": 5,
+      "powerRatio": 2,
+      "hpRatio": 2,
+      "attackRatio": 2,
+      "defenseRatio": 2,
+      "shieldRatio": null,
+      "speedRatio": 1
+    },
+    {
+      "slot": 6,
+      "powerRatio": 2,
+      "hpRatio": 2,
+      "attackRatio": 2,
+      "defenseRatio": 2,
+      "shieldRatio": null,
+      "speedRatio": 1
+    }
+  ],
+  "compare": [
+    {
+      "cardPower": 15000000,
+      "azumaWins": 5,
+      "sahyeonWins": 0,
+      "scaledSahyeonWins": 5,
+      "seeds": 5
+    },
+    {
+      "cardPower": 20000000,
+      "azumaWins": 5,
+      "sahyeonWins": 5,
+      "scaledSahyeonWins": 5,
+      "seeds": 5
+    },
+    {
+      "cardPower": 25000000,
+      "azumaWins": 5,
+      "sahyeonWins": 5,
+      "scaledSahyeonWins": 5,
+      "seeds": 5
+    },
+    {
+      "cardPower": 30000000,
+      "azumaWins": 5,
+      "sahyeonWins": 5,
+      "scaledSahyeonWins": 5,
+      "seeds": 5
+    }
+  ],
+  "interpretation": "기본 전투력과 실제 HP·공격·방어·보호막 예산 2배. 승률이나 클리어 시간의 정확한 2배를 뜻하지 않습니다."
+}

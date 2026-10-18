@@ -1,0 +1,75 @@
+{
+  "character": "사현",
+  "code": "APOCALYPSE_SAHYEON",
+  "generator": "built-in image_gen",
+  "originalBytesPreserved": true,
+  "visualApproval": false,
+  "liveRegistration": false,
+  "items": [
+    {
+      "file": "assets/sahyeon-source-v1.png",
+      "role": "source",
+      "sha256": "8da22f20e22227d10d54786fadec902fc8f02c93c7c047522ef2a2ba1a7157e3",
+      "bytes": 3566927,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false,
+      "transparentRatio": 0,
+      "selectedForReview": true,
+      "visualApproval": false,
+      "prompt": "prompts.json#sahyeon-source-v1.png"
+    },
+    {
+      "file": "assets/sahyeon-sd-v3.png",
+      "role": "sd",
+      "sha256": "4ea8d2099ba46642156f78a178635733f72275d84b79f07f5ce40b0ed30cdb81",
+      "bytes": 1964406,
+      "width": 1318,
+      "height": 1193,
+      "hasAlpha": true,
+      "transparentRatio": 0.5324999014229439,
+      "selectedForReview": true,
+      "visualApproval": false,
+      "prompt": "prompts.json#sahyeon-sd-v3.png"
+    },
+    {
+      "file": "assets/sahyeon-guardian-v1.png",
+      "role": "guardian",
+      "sha256": "678e1c19bb071de10c69c759762884b6ea763a9349f193141784bdb95eacf402",
+      "bytes": 3280017,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "transparentRatio": 0.29897435506184894,
+      "selectedForReview": true,
+      "visualApproval": false,
+      "prompt": "prompts.json#sahyeon-guardian-v1.png"
+    },
+    {
+      "file": "assets/sahyeon-lens-v1.png",
+      "role": "lens",
+      "sha256": "b48cf45e121ae21fdeed2ce83d261b8d1ec5107a116cceb8863979c498e6e25c",
+      "bytes": 1985613,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentRatio": 0.5451734672334018,
+      "selectedForReview": true,
+      "visualApproval": false,
+      "prompt": "prompts.json#sahyeon-lens-v1.png"
+    },
+    {
+      "file": "assets/sahyeon-eyes-v1.png",
+      "role": "eyes",
+      "sha256": "63d72772e3e1244633316fc6a4219ddbe57f10c3160d1f9c7e242e0005d798ef",
+      "bytes": 2335550,
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": false,
+      "transparentRatio": 0,
+      "selectedForReview": true,
+      "visualApproval": false,
+      "prompt": "prompts.json#sahyeon-eyes-v1.png"
+    }
+  ]
+}

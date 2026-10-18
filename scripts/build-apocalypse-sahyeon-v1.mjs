@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import {pathToFileURL} from 'node:url';
+import {build} from 'esbuild';
+import {reviewPlugin} from '../preview/apocalypse-sahyeon-20261019-v1/build-plugin.mjs';
+const dir='preview/apocalypse-sahyeon-20261019-v1';
+const server=await build({entryPoints:[dir+'/fixtures.mjs'],bundle:true,write:false,platform:'node',format:'esm',target:'node22',plugins:[reviewPlugin]});
+const serverFile=path.join(os.tmpdir(),'cnine-sahyeon-review-server-20261019.mjs');
+fs.writeFileSync(serverFile,server.outputFiles[0].contents);
+const {generate}=await import(pathToFileURL(serverFile));
+const result=generate(JSON.parse(fs.readFileSync(dir+'/azuma-reference.json','utf8')));
+for(const [name,value]of [['payload.json',result.payload],['balance.json',result.balance],['registration-draft.json',result.registrationDraft]])fs.writeFileSync(dir+'/'+name,JSON.stringify(value,null,2)+'\n');
+if(!process.argv.includes('--fixtures-only'))await build({entryPoints:[dir+'/app.mjs'],outfile:dir+'/app.bundle.js',bundle:true,minify:true,format:'iife',target:'es2022',legalComments:'none',plugins:[reviewPlugin],define:{__CNINE_NATIVE_CONTINUOUS__:'true'}});
+console.log(JSON.stringify({boss:result.registrationDraft.name,power:result.balance.power,reference:result.balance.referencePower,enemies:result.payload.battleV2.teams.B.cards.length,skills:result.events.map(e=>({kind:e.kind,targets:e.hits.length,totalDamage:e.hits.reduce((s,h)=>s+Number(h.damage||0),0)})),compare:result.balance.compare,liveWrites:0}));

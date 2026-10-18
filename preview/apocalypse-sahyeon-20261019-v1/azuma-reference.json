@@ -1,0 +1,127 @@
+{
+  "readAt": "2026-10-18T20:13:40.507Z",
+  "referenceMonsterId": 78,
+  "referenceDisplayName": "아즈마",
+  "settingsEnabled": true,
+  "referenceProfile": {
+    "battlePower": 110000000,
+    "rewardCoin": 25000000,
+    "clearBonus": {
+      "coinPercent": null,
+      "masterStars": 225000,
+      "mysticEnergy": 150
+    },
+    "hpPercent": 350,
+    "attackPercent": 475,
+    "defensePercent": 375,
+    "speedPercent": 375,
+    "rewardPercent": 1000,
+    "shieldPercent": 70,
+    "attackCount": 2,
+    "forcedActionEvery": 4,
+    "skillEnabled": true,
+    "skillName": "별천신 · 환술 봉인 · 까마귀 환술 · 생명 차단 · 스사노오 · 취풍참",
+    "skillDescription": "보스 + 쫄몹 6마리. 첫 3행동에 봉인·회복 차단·궁극기. 배틀슈트 스킬 피해 50% 감소.",
+    "skillDamagePercent": 95,
+    "legionUltimate": {
+      "enabled": true,
+      "attackPercent": 30,
+      "shieldPiercePercent": 65
+    },
+    "battleSuitSkillDefensePercent": 50
+  },
+  "referenceMonster": {
+    "id": "78",
+    "name": "우치하 시스이",
+    "battle_power": "180000000",
+    "reward_coin": "15000000",
+    "pve_tab": "APOCALYPSE",
+    "pve_enabled": "1",
+    "is_active": "1",
+    "is_boss": "1",
+    "image_url": "assets/ui/project-v/monsters/apocalypse-shanks-shisui-v1/shisui-source.jpg"
+  },
+  "availableRows": [
+    {
+      "id": "71",
+      "name": "에드워드 엘릭",
+      "battle_power": "1000",
+      "reward_coin": "100",
+      "pve_tab": "APOCALYPSE",
+      "pve_enabled": "1",
+      "is_active": "1",
+      "is_boss": "1"
+    },
+    {
+      "id": "72",
+      "name": "히무라 켄신",
+      "battle_power": "1000",
+      "reward_coin": "100",
+      "pve_tab": "APOCALYPSE",
+      "pve_enabled": "1",
+      "is_active": "1",
+      "is_boss": "1"
+    },
+    {
+      "id": "73",
+      "name": "마이트 가이",
+      "battle_power": "1000",
+      "reward_coin": "100",
+      "pve_tab": "APOCALYPSE",
+      "pve_enabled": "1",
+      "is_active": "1",
+      "is_boss": "1"
+    },
+    {
+      "id": "74",
+      "name": "센쥬 하시라마",
+      "battle_power": "1000",
+      "reward_coin": "100",
+      "pve_tab": "APOCALYPSE",
+      "pve_enabled": "1",
+      "is_active": "1",
+      "is_boss": "1"
+    },
+    {
+      "id": "75",
+      "name": "아카드",
+      "battle_power": "7500000",
+      "reward_coin": "600000",
+      "pve_tab": "APOCALYPSE",
+      "pve_enabled": "1",
+      "is_active": "1",
+      "is_boss": "1"
+    },
+    {
+      "id": "76",
+      "name": "카네키 켄",
+      "battle_power": "10000000",
+      "reward_coin": "600000",
+      "pve_tab": "APOCALYPSE",
+      "pve_enabled": "1",
+      "is_active": "1",
+      "is_boss": "1"
+    },
+    {
+      "id": "77",
+      "name": "샹크스",
+      "battle_power": "120000000",
+      "reward_coin": "15000000",
+      "pve_tab": "APOCALYPSE",
+      "pve_enabled": "1",
+      "is_active": "1",
+      "is_boss": "1"
+    },
+    {
+      "id": "78",
+      "name": "우치하 시스이",
+      "battle_power": "180000000",
+      "reward_coin": "15000000",
+      "pve_tab": "APOCALYPSE",
+      "pve_enabled": "1",
+      "is_active": "1",
+      "is_boss": "1"
+    }
+  ],
+  "maximumMonsterId": "79"
+}
