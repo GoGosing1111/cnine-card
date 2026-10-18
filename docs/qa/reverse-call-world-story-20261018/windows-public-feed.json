@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "available": false,
+  "info": {
+    "tag": "v0.1.8",
+    "version": "0.1.8",
+    "files": [
+      {
+        "url": "ReverseCall-Engine-0.1.8-x64.exe",
+        "sha512": "3NoJaae2552F+qQByDet+GnPfrfxK6L81FGr5Y4T5aEj5SNwcHEPdtzET4oS1BxQ9QZ54daDXqQwPKPT8sVrqA==",
+        "size": 113541269
+      }
+    ],
+    "path": "ReverseCall-Engine-0.1.8-x64.exe",
+    "sha512": "3NoJaae2552F+qQByDet+GnPfrfxK6L81FGr5Y4T5aEj5SNwcHEPdtzET4oS1BxQ9QZ54daDXqQwPKPT8sVrqA==",
+    "releaseDate": "2026-10-18T04:23:10.669Z",
+    "releaseName": "리버스콜 Windows 0.1.8",
+    "releaseNotes": "<p>리버스콜 Windows 런처 0.1.8</p>\n<p>설치 파일: <strong>ReverseCall-Setup-0.1.8-x64.exe</strong></p>\n<p>리버스콜 심벌의 사각 배경을 제거했습니다. 바탕화면·작업 표시줄·실행 파일·런처·설치 화면에서 같은 투명 아이콘을 사용합니다. 세계관 메뉴에서 배경과 캐릭터 일러스트로 서막을 읽을 수 있습니다.</p>\n<p>Engine 파일과 latest.yml은 자동 업데이트용입니다.</p>"
+  },
+  "rangeDownload": true,
+  "installerUrl": "https://github.com/GoGosing1111/cnine-card/releases/download/v0.1.8/ReverseCall-Engine-0.1.8-x64.exe",
+  "checkedAt": "2026-10-18T04:39:41.847Z"
+}

@@ -1,0 +1,143 @@
+{
+  "source": "1ddc975af6b06e184e0f627bf35e9697a43b78d1",
+  "verifiedAt": "2026-10-18T04:41:12.416Z",
+  "files": [
+    {
+      "path": "world/index.html",
+      "status": 200,
+      "sha256": "5d561af499ce4d402b3198e10212167c4f6e15629339017bd2f7722a8d5d20bf"
+    },
+    {
+      "path": "world/world.js",
+      "status": 200,
+      "sha256": "18b4df07ff433981ef67b3caca98943106d3b15dcabc60cc84422e61a7956f03"
+    },
+    {
+      "path": "js/adventure-lobby-v2107.js",
+      "status": 200,
+      "sha256": "58fdcd136798b0cc1c59cebaee493e9278a0870715e0145d82e4814f1c6e0890"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "status": 200,
+      "sha256": "aa10d4dcf676555e804e643a067023a829aec8af2b86b11f27557388a65c6729"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "666952598d8ed29bb95cd0055c9178e67e96923b33b3fcf3106d26bbd4fdb03e"
+    },
+    {
+      "path": "favicon.ico",
+      "status": 200,
+      "sha256": "8bb1bc2ddf3ce031a99d9cdff033f8029448da6431a8330836b9c2b60bb69188"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/icon-192.png",
+      "status": 200,
+      "sha256": "a4f64d51ddce28c23a3509a7c3554a1b6351d5f64833f9c96f24794aaf44bae6"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/icon-512.png",
+      "status": 200,
+      "sha256": "7d18d7ccd347a2cfb46deac38b49ceb540d69c910a4bc1837eeb70abaf1197c9"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/apple-touch-icon-180.png",
+      "status": 200,
+      "sha256": "baf6e67a347f62f4a21baae8b36d3ea0e6cbbdf4857ee58320419f4ae55c853c"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/favicon-16.png",
+      "status": 200,
+      "sha256": "a68233d291d1b910732c3fdce372bbd0985d272c130b0fbb79796f797468a1d9"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/favicon-32.png",
+      "status": 200,
+      "sha256": "1ef867b3958cbeae7b621f23bf8e2939e119e6de4cdac0ae6f9d61c14fccb373"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/favicon-48.png",
+      "status": 200,
+      "sha256": "4d992968958025caf236d2b67baa94234540f4aaedbfb808e821f2004ff72605"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/icon-128.png",
+      "status": 200,
+      "sha256": "1140f62f917a0f72f16921b0c3f018f1945bc281eafab1b2dd62bc8c84a34979"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/maskable-512.png",
+      "status": 200,
+      "sha256": "73d4e2dffbc21b030dc464727a5e49a24e92cb434b1da54516759295d4662c05"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/logo-240.webp",
+      "status": 200,
+      "sha256": "58bb1f07d5675261d046c50fa542e139d66cf16656e701f530576cf37c5bd0d1"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/logo-240.avif",
+      "status": 200,
+      "sha256": "24ff2b010d76101058b1233e1f93f5ee2412f864fea4304fb6804bd5c092087c"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/logo-480.webp",
+      "status": 200,
+      "sha256": "6d1f68c89dce81883bfc49265986e348ad495884b34d7e01a7e275207f4cb105"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/logo-480.avif",
+      "status": 200,
+      "sha256": "6819da7184b04cb6900528ba0db813bd2d3762de81f6c736cf8b1d8289bc634b"
+    },
+    {
+      "path": "assets/ui/brand/reverse-call-20261016/favicon.ico",
+      "status": 200,
+      "sha256": "8bb1bc2ddf3ce031a99d9cdff033f8029448da6431a8330836b9c2b60bb69188"
+    },
+    {
+      "path": "assets/ui/reverse-call/world-story-v1/city.webp",
+      "status": 200,
+      "sha256": "bf8f8928a4edafb4c69bcee9d6796250ec6004524f471571ea5f79315c6f4c86"
+    },
+    {
+      "path": "assets/ui/reverse-call/world-story-v1/signal.webp",
+      "status": 200,
+      "sha256": "e99ce63ff2fbb49ab127131f1177f8036c1fa44eb3442571696ce259512aafc8"
+    },
+    {
+      "path": "assets/ui/reverse-call/world-story-v1/station.webp",
+      "status": 200,
+      "sha256": "d77b213d49411193c6e23ca72dbd15f5e91d845c99f3950671641403d9357a62"
+    },
+    {
+      "path": "assets/ui/reverse-call/world-story-v1/arrival.webp",
+      "status": 200,
+      "sha256": "d40594af9cab2f6598ffd2b6a9d58696f19e856722e60c7851596b9c964c997a"
+    },
+    {
+      "path": "assets/ui/reverse-call/world-story-v1/panel.webp",
+      "status": 200,
+      "sha256": "f35d0b1e110b48bbd155ef87483d097e8ab2a082f1244151fe51f5a6feff228f"
+    },
+    {
+      "path": "assets/ui/reverse-call/world-story-v1/button.webp",
+      "status": 200,
+      "sha256": "ae5a7c1bfccc079f468c860c5182e9701427b55e1278956977784af916a7b7ac"
+    },
+    {
+      "path": "assets/ui/reverse-call/world-story-v1/sister.webp",
+      "status": 200,
+      "sha256": "6fffb9ec0edfa5e1f5c7f4624b1fe75343cdcf83c7c76722cae7519d928b67a2"
+    },
+    {
+      "path": "assets/ui/reverse-call/world-story-v1/brother.webp",
+      "status": 200,
+      "sha256": "1311b1b9a2101ab88c94ac1534cfacf342db1eedb9720a50fa35cbb7df2a8c0b"
+    }
+  ],
+  "windowsResourceManifest": true,
+  "errors": []
+}
