@@ -1,0 +1,19 @@
+{
+  "url": "https://cnine-card.pages.dev/preview/equipment-sets-v3-20261019/?release=cd5a26f47",
+  "release": "cd5a26f475a3471f8efa0c6cafbfb0ff0e1d86c6",
+  "runtimeSuffix": "equipment-set-fx-20261019-v1",
+  "ready": true,
+  "canvases": 1,
+  "accountAvatarEnabled": false,
+  "horizontalOverflowPixels": 0,
+  "effects": [
+    {"side":"A","set":"ARDEN","minimumLevel":10,"cardUnits":5,"confirmedImpacts":15},
+    {"side":"B","set":"EMPEROR","minimumLevel":10,"cardUnits":5,"confirmedImpacts":12}
+  ],
+  "consoleErrors": 0,
+  "existingWarnings": ["Unused apocalypse boss impact atlas cache cleanup"],
+  "liveAccountWrites": false,
+  "deployment": "https://43a2ee45.cnine-card.pages.dev",
+  "apiRuntimeVersion": "0bffaa96-b160-4fe0-bf99-8386db169e2a",
+  "schedulerVersion": "a22a122e-4520-47c0-94a6-d4603f1f3510"
+}

@@ -1,0 +1,89 @@
+{
+  "revision": "cd5a26f475a3471f8efa0c6cafbfb0ff0e1d86c6",
+  "origin": "https://cnine-card.pages.dev",
+  "verifiedAt": "2026-10-18T21:02:18.688Z",
+  "checks": [
+    {
+      "file": "assets/effects/equipment-sets-20261019/emperor/crest.webp",
+      "status": 200,
+      "bytes": 252238,
+      "sha256": "336a4ea81964b810e47c2549f1fc1311170460dc08b14826d4be528480af0807",
+      "matches": true
+    },
+    {
+      "file": "assets/effects/equipment-sets-20261019/emperor/ground.webp",
+      "status": 200,
+      "bytes": 245972,
+      "sha256": "680646d3d202882f70fc5e4018305fae00258f5aca3cdf0b175060a516488288",
+      "matches": true
+    },
+    {
+      "file": "assets/effects/equipment-sets-20261019/emperor/impact-sequence.webp",
+      "status": 200,
+      "bytes": 569242,
+      "sha256": "2bbc5cd55f20c3b1c21b63f6984b058d3f086118f414c20ec854dd5fc7a190a7",
+      "matches": true
+    },
+    {
+      "file": "assets/effects/equipment-sets-20261019/arden/crest.webp",
+      "status": 200,
+      "bytes": 246850,
+      "sha256": "31657141e4d4c8b6635efbcceca6a0f2820b4481a605bbfee3c92ac5f33cfcda",
+      "matches": true
+    },
+    {
+      "file": "assets/effects/equipment-sets-20261019/arden/ground.webp",
+      "status": 200,
+      "bytes": 308488,
+      "sha256": "a3dd75409ce11719f3e48bebc0875cbf135ca91ea2d663e9dae6379cdeab537e",
+      "matches": true
+    },
+    {
+      "file": "assets/effects/equipment-sets-20261019/arden/impact-sequence.webp",
+      "status": 200,
+      "bytes": 427120,
+      "sha256": "f231c5d2d9c249d385900c0e38ff422536d4428510a101dc797f78b84d20d065",
+      "matches": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "bytes": 2137654,
+      "sha256": "d3051e1240afb25e9b4dede5c5aeb80d3ae4e0196681c82b247399cb3e1b626f",
+      "matches": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "bytes": 80669,
+      "sha256": "ba8afff18593a826c488b2827b7a61314bc366f69d5949275f14d95fead4c7a9",
+      "matches": true
+    },
+    {
+      "file": "shared/equipment-set-visual-v1.mjs",
+      "status": 200,
+      "bytes": 2648,
+      "sha256": "cf112a5bd7bd333f26b327a97994bc9bd34d58ebedf743d23b4af2e567372bd1",
+      "matches": true
+    },
+    {
+      "file": "preview/equipment-sets-v3-20261019/index.html",
+      "status": 200,
+      "bytes": 1486,
+      "sha256": "70ff33b98edb50a80f0ad9b741df16da2f910b92e1e88e87e2dfa36776ab2181",
+      "matches": true
+    },
+    {
+      "file": "preview/equipment-sets-v3-20261019/app.mjs",
+      "status": 200,
+      "bytes": 6849,
+      "sha256": "e62ac857fc915afd1d7fcda2f6e416df5e6c46c5fe1bbd9be1068cd92717257c",
+      "matches": true
+    }
+  ],
+  "mainIndex": {
+    "status": 200,
+    "newLoaderRevision": true
+  },
+  "pass": true
+}
