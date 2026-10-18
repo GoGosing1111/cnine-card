@@ -22,11 +22,15 @@ export const IMPERIAL_ARCHER_SKILLS=Object.freeze([
 export function upgradeKangyunBalance(document){
  if(!Array.isArray(document?.skills))return document;
  const old={ [KANGYUN_VOLLEY_SKILL]:{damageRatio:6.8,cooldownTurns:4,cost:35},[KANGYUN_AREA_SKILL]:{damageRatio:7,cooldownTurns:5,cost:35} };
+ const oldEffects={
+  [KANGYUN_VOLLEY_SKILL]:'후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 680%의 한 시전 피해 예산을 사용합니다.',
+  [KANGYUN_AREA_SKILL]:'PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 700%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다.'
+ };
  let changed=false;
  const skills=document.skills.map(s=>{
   const policy=IMPERIAL_ARCHER_SKILLS.find(p=>p.id===s.id),previous=old[s.id];
   if(!policy||s.mechanic!==policy.mechanic||!Object.entries(previous).every(([k,v])=>s.balance?.[k]===v))return s;
-  changed=true;return {...s,balance:{...policy.balance},effect:policy.description};
+  changed=true;return {...s,balance:{...policy.balance},effect:s.effect===oldEffects[s.id]?policy.description:s.effect};
  });
  return changed?{...document,skills}:document;
 }

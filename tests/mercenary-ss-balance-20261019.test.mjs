@@ -58,9 +58,11 @@ test('seasonal skills retain their distinct targets, one paid budget and continu
 test('Kangyun skill default migration is read-only, idempotent and preserves manual CMS changes and assignments',()=>{
  const old=structuredClone(seed.document);
  for(const [id,balance]of [['MS-059',{damageRatio:6.8,cooldownTurns:4,cost:35}],['MS-060',{damageRatio:7,cooldownTurns:5,cost:35}]])old.skills.find(s=>s.id===id).balance=balance;
+ old.skills.find(s=>s.id==='MS-059').effect='운영자가 편집한 설명';
  const copy=structuredClone(old),next=expandMercenarySkillCatalog(old,seed.document,seed.catalog);
  assert.deepEqual(old,copy);assert.deepEqual(expandMercenarySkillCatalog(next,seed.document,seed.catalog),next);
  for(const s of IMPERIAL_ARCHER_SKILLS)assert.deepEqual(next.skills.find(x=>x.id===s.id).balance,s.balance);
+ assert.equal(next.skills.find(s=>s.id==='MS-059').effect,'운영자가 편집한 설명');
  assert.deepEqual(next.assignments,old.assignments);assert.deepEqual(next.mercenaries,old.mercenaries);assert.deepEqual(next.settings,old.settings);
  assert.deepEqual(next.skills.filter(s=>!s.id.match(/^MS-0(59|60)$/)),old.skills.filter(s=>!s.id.match(/^MS-0(59|60)$/)));
  const codex=mercenaryCodexDocument({payload_json:JSON.stringify(old),revision:1}).cards.find(c=>c.code==='V-057');
