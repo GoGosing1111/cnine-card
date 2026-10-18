@@ -12,6 +12,7 @@ export function buildApocalypseLegion(monster,build){
  const boss=String(monster.pve_difficulty).toUpperCase()==='APOCALYPSE'?apocalypseLegionBoss(monster):null;
  if(!boss)return null;
  const leader=build(monster);leader.monsterId=boss.monsterId;leader.apocalypseBossCode=boss.code;leader.apocalypseSkillsEnabled=monster.pve_apocalypse_skill?.enabled!==false;leader.row='BACK';
+ if(boss.actionCadence)leader.apocalypseActionCadence=boss.actionCadence;
  leader.apocalypseUltimate=apocalypseLegionUltimate(boss.monsterId,monster.pve_apocalypse_skill?.ultimate);
  const suitDefense=apocalypseLegionSuitDefense(boss.monsterId,monster.pve_battle_suit_skill_defense_percent);
  if(suitDefense>0)leader.battleSuitSkillDefensePercent=suitDefense;

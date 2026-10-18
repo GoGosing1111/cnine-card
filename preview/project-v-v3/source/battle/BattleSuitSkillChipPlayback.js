@@ -28,14 +28,16 @@ export class BattleSuitSkillChipPlayback{
     for(const event of events){
       const external=event.combatClock!==SKILL_CHIP_CLOCK;
       const key=event.combatGroup,previous=this.groups.at(-1);
-      // Older saved ICON receipts had a zero presentation budget. They still
-      // own a card action; wait for its impacts before dispatching the next one.
-      const iconAction=event.type==='ICON_SKILL'||event.type==='ICON_STATUS'&&event.status==='CHANNEL';
+      // Saved boss/mercenary cinematics can have zero presentation budgets.
+      // They still own a full action: overlapping their casts hides boss skills
+      // behind the mercenary cutscene. Keep chip fire on its independent clock.
+      const authoredAction=event.type==='ICON_SKILL'||event.type==='ICON_STATUS'&&event.status==='CHANNEL'||
+        event.type==='APOCALYPSE_SKILL'||/^MERCENARY_(?:LEONEL|JINMU|HELIOS|SHIRANUI|KAIRON|JOKRO)_AREA$/.test(event.type);
       if(!external)lastAt=Number(event.combatAtMs)||0;
       // A raid may insert QTE between members of one atomic server action.
       // Contiguous grouping preserves that order; a global Map would move it.
-      if(!external&&previous&&!previous.external&&previous.key===key){previous.events.push(event);previous.blocking||=iconAction;}
-      else this.groups.push({key,at:lastAt,external,blocking:external||iconAction||Number(event.combatGroupDurationMs)>0,events:[event]});
+      if(!external&&previous&&!previous.external&&previous.key===key){previous.events.push(event);previous.blocking||=authoredAction;}
+      else this.groups.push({key,at:lastAt,external,blocking:external||authoredAction||Number(event.combatGroupDurationMs)>0,events:[event]});
     }
     // One area contact is one visual collision. The server writes each target
     // as HIT + KO; serializing those groups made twelve deaths take twelve

@@ -1,0 +1,60 @@
+{
+  "readAt": "2026-10-18T21:35:54.052Z",
+  "enabled": true,
+  "profiles": {
+    "78": {
+      "battlePower": 110000000,
+      "rewardCoin": 25000000,
+      "clearBonus": {
+        "coinPercent": null,
+        "masterStars": 225000,
+        "mysticEnergy": 150
+      },
+      "hpPercent": 350,
+      "attackPercent": 475,
+      "defensePercent": 375,
+      "speedPercent": 375,
+      "rewardPercent": 1000,
+      "shieldPercent": 70,
+      "attackCount": 2,
+      "forcedActionEvery": 4,
+      "skillEnabled": true,
+      "skillName": "별천신 · 환술 봉인 · 까마귀 환술 · 생명 차단 · 스사노오 · 취풍참",
+      "skillDescription": "보스 + 쫄몹 6마리. 첫 3행동에 봉인·회복 차단·궁극기. 배틀슈트 스킬 피해 50% 감소.",
+      "skillDamagePercent": 95,
+      "legionUltimate": {
+        "enabled": true,
+        "attackPercent": 30,
+        "shieldPiercePercent": 65
+      },
+      "battleSuitSkillDefensePercent": 50
+    },
+    "80": {
+      "battlePower": 220000000,
+      "rewardCoin": 50000000,
+      "clearBonus": {
+        "coinPercent": null,
+        "masterStars": 450000,
+        "mysticEnergy": 300
+      },
+      "hpPercent": 350,
+      "attackPercent": 475,
+      "defensePercent": 375,
+      "speedPercent": 375,
+      "rewardPercent": 1000,
+      "shieldPercent": 70,
+      "attackCount": 2,
+      "forcedActionEvery": 4,
+      "skillEnabled": true,
+      "skillName": "현문안 · 정지선 · 현문안 · 공백회랑 · 공허법상 · 천경붕괴",
+      "skillDescription": "현문안 봉인 → 공백회랑 → 공허법상. 보스와 여섯 잔영을 모두 처치해야 합니다.",
+      "skillDamagePercent": 95,
+      "legionUltimate": {
+        "enabled": true,
+        "attackPercent": 30,
+        "shieldPiercePercent": 65
+      },
+      "battleSuitSkillDefensePercent": 50
+    }
+  }
+}

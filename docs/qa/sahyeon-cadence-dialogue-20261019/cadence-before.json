@@ -1,0 +1,554 @@
+[
+  {
+    "power": 1000000,
+    "mercenary": null,
+    "winner": "B",
+    "elapsed": 0.027,
+    "events": 61,
+    "cards": [
+      {
+        "id": "A:0:Q0",
+        "speed": 26070
+      },
+      {
+        "id": "A:1:Q1",
+        "speed": 26070
+      },
+      {
+        "id": "A:2:Q2",
+        "speed": 34570
+      },
+      {
+        "id": "A:3:Q3",
+        "speed": 23070
+      },
+      {
+        "id": "A:4:Q4",
+        "speed": 26070
+      }
+    ],
+    "boss": [
+      {
+        "id": "B:0:MONSTER:80",
+        "speed": 390
+      },
+      {
+        "id": "B:1:ESCORT:80:0",
+        "speed": 92
+      },
+      {
+        "id": "B:2:ESCORT:80:1",
+        "speed": 92
+      },
+      {
+        "id": "B:3:ESCORT:80:2",
+        "speed": 92
+      },
+      {
+        "id": "B:4:ESCORT:80:3",
+        "speed": 92
+      },
+      {
+        "id": "B:5:ESCORT:80:4",
+        "speed": 92
+      },
+      {
+        "id": "B:6:ESCORT:80:5",
+        "speed": 92
+      }
+    ],
+    "bossTurns": [
+      {
+        "seq": 14,
+        "at": 0.006,
+        "code": "SAHYEON_SEAL"
+      },
+      {
+        "seq": 15,
+        "at": 0.007,
+        "code": "SAHYEON_CURSE"
+      },
+      {
+        "seq": 56,
+        "at": 0.027,
+        "code": "SAHYEON_ULTIMATE"
+      }
+    ],
+    "areas": 0
+  },
+  {
+    "power": 1000000,
+    "mercenary": "V-978",
+    "winner": "A",
+    "elapsed": 0.122,
+    "events": 311,
+    "cards": [
+      {
+        "id": "A:0:Q0",
+        "speed": 26070
+      },
+      {
+        "id": "A:1:Q1",
+        "speed": 26070
+      },
+      {
+        "id": "A:2:Q2",
+        "speed": 34570
+      },
+      {
+        "id": "A:3:Q3",
+        "speed": 23070
+      },
+      {
+        "id": "A:4:Q4",
+        "speed": 26070
+      }
+    ],
+    "boss": [
+      {
+        "id": "B:0:MONSTER:80",
+        "speed": 390
+      },
+      {
+        "id": "B:1:ESCORT:80:0",
+        "speed": 92
+      },
+      {
+        "id": "B:2:ESCORT:80:1",
+        "speed": 92
+      },
+      {
+        "id": "B:3:ESCORT:80:2",
+        "speed": 92
+      },
+      {
+        "id": "B:4:ESCORT:80:3",
+        "speed": 92
+      },
+      {
+        "id": "B:5:ESCORT:80:4",
+        "speed": 92
+      },
+      {
+        "id": "B:6:ESCORT:80:5",
+        "speed": 92
+      }
+    ],
+    "bossTurns": [
+      {
+        "seq": 38,
+        "at": 0.006,
+        "code": "SAHYEON_SEAL"
+      },
+      {
+        "seq": 39,
+        "at": 0.007,
+        "code": "SAHYEON_CURSE"
+      },
+      {
+        "seq": 73,
+        "at": 0.012,
+        "code": "SAHYEON_ULTIMATE"
+      },
+      {
+        "seq": 79,
+        "at": 0.013,
+        "code": "TURN"
+      }
+    ],
+    "areas": 24
+  },
+  {
+    "power": 4000000,
+    "mercenary": null,
+    "winner": "B",
+    "elapsed": 0.022,
+    "events": 248,
+    "cards": [
+      {
+        "id": "A:0:Q0",
+        "speed": 104070
+      },
+      {
+        "id": "A:1:Q1",
+        "speed": 104070
+      },
+      {
+        "id": "A:2:Q2",
+        "speed": 138070
+      },
+      {
+        "id": "A:3:Q3",
+        "speed": 92070
+      },
+      {
+        "id": "A:4:Q4",
+        "speed": 104070
+      }
+    ],
+    "boss": [
+      {
+        "id": "B:0:MONSTER:80",
+        "speed": 390
+      },
+      {
+        "id": "B:1:ESCORT:80:0",
+        "speed": 92
+      },
+      {
+        "id": "B:2:ESCORT:80:1",
+        "speed": 92
+      },
+      {
+        "id": "B:3:ESCORT:80:2",
+        "speed": 92
+      },
+      {
+        "id": "B:4:ESCORT:80:3",
+        "speed": 92
+      },
+      {
+        "id": "B:5:ESCORT:80:4",
+        "speed": 92
+      },
+      {
+        "id": "B:6:ESCORT:80:5",
+        "speed": 92
+      }
+    ],
+    "bossTurns": [
+      {
+        "seq": 38,
+        "at": 0.004,
+        "code": "SAHYEON_SEAL"
+      },
+      {
+        "seq": 39,
+        "at": 0.004,
+        "code": "SAHYEON_CURSE"
+      },
+      {
+        "seq": 242,
+        "at": 0.022,
+        "code": "SAHYEON_ULTIMATE"
+      }
+    ],
+    "areas": 0
+  },
+  {
+    "power": 4000000,
+    "mercenary": "V-978",
+    "winner": "A",
+    "elapsed": 0.003,
+    "events": 96,
+    "cards": [
+      {
+        "id": "A:0:Q0",
+        "speed": 104070
+      },
+      {
+        "id": "A:1:Q1",
+        "speed": 104070
+      },
+      {
+        "id": "A:2:Q2",
+        "speed": 138070
+      },
+      {
+        "id": "A:3:Q3",
+        "speed": 92070
+      },
+      {
+        "id": "A:4:Q4",
+        "speed": 104070
+      }
+    ],
+    "boss": [
+      {
+        "id": "B:0:MONSTER:80",
+        "speed": 390
+      },
+      {
+        "id": "B:1:ESCORT:80:0",
+        "speed": 92
+      },
+      {
+        "id": "B:2:ESCORT:80:1",
+        "speed": 92
+      },
+      {
+        "id": "B:3:ESCORT:80:2",
+        "speed": 92
+      },
+      {
+        "id": "B:4:ESCORT:80:3",
+        "speed": 92
+      },
+      {
+        "id": "B:5:ESCORT:80:4",
+        "speed": 92
+      },
+      {
+        "id": "B:6:ESCORT:80:5",
+        "speed": 92
+      }
+    ],
+    "bossTurns": [],
+    "areas": 9
+  },
+  {
+    "power": 20000000,
+    "mercenary": null,
+    "winner": "A",
+    "elapsed": 0.007,
+    "events": 282,
+    "cards": [
+      {
+        "id": "A:0:Q0",
+        "speed": 520070
+      },
+      {
+        "id": "A:1:Q1",
+        "speed": 520070
+      },
+      {
+        "id": "A:2:Q2",
+        "speed": 690070
+      },
+      {
+        "id": "A:3:Q3",
+        "speed": 460070
+      },
+      {
+        "id": "A:4:Q4",
+        "speed": 520070
+      }
+    ],
+    "boss": [
+      {
+        "id": "B:0:MONSTER:80",
+        "speed": 390
+      },
+      {
+        "id": "B:1:ESCORT:80:0",
+        "speed": 92
+      },
+      {
+        "id": "B:2:ESCORT:80:1",
+        "speed": 92
+      },
+      {
+        "id": "B:3:ESCORT:80:2",
+        "speed": 92
+      },
+      {
+        "id": "B:4:ESCORT:80:3",
+        "speed": 92
+      },
+      {
+        "id": "B:5:ESCORT:80:4",
+        "speed": 92
+      },
+      {
+        "id": "B:6:ESCORT:80:5",
+        "speed": 92
+      }
+    ],
+    "bossTurns": [
+      {
+        "seq": 138,
+        "at": 0.004,
+        "code": "SAHYEON_SEAL"
+      },
+      {
+        "seq": 139,
+        "at": 0.004,
+        "code": "SAHYEON_CURSE"
+      }
+    ],
+    "areas": 0
+  },
+  {
+    "power": 20000000,
+    "mercenary": "V-978",
+    "winner": "A",
+    "elapsed": 0,
+    "events": 55,
+    "cards": [
+      {
+        "id": "A:0:Q0",
+        "speed": 520070
+      },
+      {
+        "id": "A:1:Q1",
+        "speed": 520070
+      },
+      {
+        "id": "A:2:Q2",
+        "speed": 690070
+      },
+      {
+        "id": "A:3:Q3",
+        "speed": 460070
+      },
+      {
+        "id": "A:4:Q4",
+        "speed": 520070
+      }
+    ],
+    "boss": [
+      {
+        "id": "B:0:MONSTER:80",
+        "speed": 390
+      },
+      {
+        "id": "B:1:ESCORT:80:0",
+        "speed": 92
+      },
+      {
+        "id": "B:2:ESCORT:80:1",
+        "speed": 92
+      },
+      {
+        "id": "B:3:ESCORT:80:2",
+        "speed": 92
+      },
+      {
+        "id": "B:4:ESCORT:80:3",
+        "speed": 92
+      },
+      {
+        "id": "B:5:ESCORT:80:4",
+        "speed": 92
+      },
+      {
+        "id": "B:6:ESCORT:80:5",
+        "speed": 92
+      }
+    ],
+    "bossTurns": [],
+    "areas": 4
+  },
+  {
+    "power": 100000000,
+    "mercenary": null,
+    "winner": "A",
+    "elapsed": 0,
+    "events": 73,
+    "cards": [
+      {
+        "id": "A:0:Q0",
+        "speed": 2600070
+      },
+      {
+        "id": "A:1:Q1",
+        "speed": 2600070
+      },
+      {
+        "id": "A:2:Q2",
+        "speed": 3450070
+      },
+      {
+        "id": "A:3:Q3",
+        "speed": 2300070
+      },
+      {
+        "id": "A:4:Q4",
+        "speed": 2600070
+      }
+    ],
+    "boss": [
+      {
+        "id": "B:0:MONSTER:80",
+        "speed": 390
+      },
+      {
+        "id": "B:1:ESCORT:80:0",
+        "speed": 92
+      },
+      {
+        "id": "B:2:ESCORT:80:1",
+        "speed": 92
+      },
+      {
+        "id": "B:3:ESCORT:80:2",
+        "speed": 92
+      },
+      {
+        "id": "B:4:ESCORT:80:3",
+        "speed": 92
+      },
+      {
+        "id": "B:5:ESCORT:80:4",
+        "speed": 92
+      },
+      {
+        "id": "B:6:ESCORT:80:5",
+        "speed": 92
+      }
+    ],
+    "bossTurns": [],
+    "areas": 0
+  },
+  {
+    "power": 100000000,
+    "mercenary": "V-978",
+    "winner": "A",
+    "elapsed": 0,
+    "events": 36,
+    "cards": [
+      {
+        "id": "A:0:Q0",
+        "speed": 2600070
+      },
+      {
+        "id": "A:1:Q1",
+        "speed": 2600070
+      },
+      {
+        "id": "A:2:Q2",
+        "speed": 3450070
+      },
+      {
+        "id": "A:3:Q3",
+        "speed": 2300070
+      },
+      {
+        "id": "A:4:Q4",
+        "speed": 2600070
+      }
+    ],
+    "boss": [
+      {
+        "id": "B:0:MONSTER:80",
+        "speed": 390
+      },
+      {
+        "id": "B:1:ESCORT:80:0",
+        "speed": 92
+      },
+      {
+        "id": "B:2:ESCORT:80:1",
+        "speed": 92
+      },
+      {
+        "id": "B:3:ESCORT:80:2",
+        "speed": 92
+      },
+      {
+        "id": "B:4:ESCORT:80:3",
+        "speed": 92
+      },
+      {
+        "id": "B:5:ESCORT:80:4",
+        "speed": 92
+      },
+      {
+        "id": "B:6:ESCORT:80:5",
+        "speed": 92
+      }
+    ],
+    "bossTurns": [],
+    "areas": 2
+  }
+]

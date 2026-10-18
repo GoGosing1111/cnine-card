@@ -1,0 +1,26 @@
+{
+  "beforeFix": true,
+  "actualShippedClock": true,
+  "serverCasts": [
+    "SAHYEON_SEAL",
+    "SAHYEON_CURSE",
+    "SAHYEON_ULTIMATE"
+  ],
+  "completedBrowserCasts": [
+    "seal",
+    "ultimate"
+  ],
+  "assertion": "expected seal, curse, ultimate; curse missing",
+  "unitReproduction": {
+    "combatAtMs": 0,
+    "combatGroupDurationMs": 0,
+    "startedTogether": [
+      "MERCENARY_LEONEL_AREA",
+      "SAHYEON_SEAL",
+      "SAHYEON_CURSE",
+      "SAHYEON_ULTIMATE",
+      "MERCENARY_JINMU_AREA"
+    ]
+  },
+  "accountWrites": 0
+}

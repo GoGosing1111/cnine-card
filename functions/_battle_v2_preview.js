@@ -825,6 +825,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const apocalypseForcedInterval = !cooperative&&!escortObjective&&b.some(c=>c.isApocalypse)
     ? Math.max(0,Number(forcedMonsterEvery)||0)*APOCALYPSE_FORCED_ACTION_MIN_STEP : 0;
   let lastApocalypseMonsterTurnAt = 0;
+  // Sahyeon must respond during long mercenary sequences even when their
+  // reserved actions advance no speed-gauge time. Use completed party actions,
+  // never suit shots or cosmetic hits; retain the CMS interval and attack count.
+  const partyCadenceBoss = !cooperative && !escortObjective && !sustainedEncounter && forcedMonsterEvery > 0
+    ? b.find(card => card.isMonster && card.apocalypseActionCadence === 'PARTY_ACTIONS') : null;
+  let partyActionsSinceBoss = 0;
   // Only an explicitly accelerated monster earns a distributed action budget.
   // Seven completed card actions used to buy one boss turn; Akaza earns five
   // evenly spaced turns instead, without waiting for a whole five-hit burst.
@@ -1449,6 +1455,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         repeatMonsterActions = 0;
       }
     }
+    if (!independentAction && !repeatedMonsterAction && actor.side === 'A' &&
+        partyCadenceBoss?.alive && partyCadenceBoss.hp > 0 && partyActionsSinceBoss >= forcedMonsterEvery) {
+      actor = partyCadenceBoss;
+      actor.gauge = 100;
+    }
     // Hunt monsters still need guaranteed turns after the five regular cards
     // fall. A fast surviving mercenary can otherwise monopolize the gauge for
     // the remaining hunt. Keep its extra turns free while any card is alive,
@@ -1485,6 +1496,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if(!independentAction)actor.gauge = Math.max(0, actor.gauge - 100);
     actor.actions += 1;
     actionActor=actor;
+    if (partyCadenceBoss && !independentAction) {
+      if (actor === partyCadenceBoss) partyActionsSinceBoss = 0;
+      else if (actor.side === 'A' && !actor.isIconSummon) partyActionsSinceBoss += 1;
+    }
     actionRandom=actor.isMercenary?mercenaryRandom[actor.side]:cardRandom;
     if(!independentAction&&!actor.isIconSummon)mercenaryTurns.acted(actor);
     if(actor.isMercenary){mercenaryActionCount += 1;mercenaryActionsBySide[actor.side] += 1;}
