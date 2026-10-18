@@ -88,9 +88,9 @@ export async function handleLegionHunt({path,request,env,deps}){
     if(path==='admin/legion-hunt'||path==='admin/legion-hunt/test-users'||path==='admin/legion-hunt/regions'){
       if(user.role!=='OWNER')throw jointError('JOINT_PERMISSION','운영 설정은 OWNER만 변경할 수 있습니다.',403);
       if(path==='admin/legion-hunt/regions'){
-        if(request.method==='GET'){const {policy}=await readRegionPolicy(env);return json({ok:true,policy,...regionBootstrap({...policy,mode:'TEST'},user),mode:policy.mode});}
+        if(request.method==='GET'){const [{policy},catalog]=await Promise.all([readRegionPolicy(env),legionHuntCatalog(env)]);return json({ok:true,policy,catalog,...regionBootstrap({...policy,mode:'TEST'},user),mode:policy.mode});}
         if(request.method!=='PATCH')return json({error:'지원하지 않는 요청입니다.'},405);
-        const body=await readJointBody(request,{maxBytes:32000,fields:['policy']});
+        const body=await readJointBody(request,{maxBytes:655360,fields:['policy']});
         return json({ok:true,policy:await deps.withUserMutationLock(env,user.id,path,()=>saveRegionPolicy(env,user,body.policy))});
       }
       if(path==='admin/legion-hunt/test-users'){
@@ -147,6 +147,12 @@ export async function handleLegionHunt({path,request,env,deps}){
         const regionLoot=regionDifficulty?{...regionDifficulty.loot}:null;
         if(regionLoot)for(const key of ['stonePercent','eliteStonePercent','eliteSetPercent','bossSetPercent','bossUniquePercent'])regionLoot[key]=rewardDropWithBonus(applyMiracleDropChance(regionLoot[key],miracleDropPercent),collectionPercent);
         const dropPolicy=regionPolicy?{regionLoot,dropLifeMs:regionLoot.lifetimeSeconds*1000,items:await regionRewardCatalog(env,{live:paying})}:{dropChance:rewardDropWithBonus(applyMiracleDropChance(d.dropPercent,miracleDropPercent),collectionPercent)/100,bossDropChance:rewardDropWithBonus(applyMiracleDropChance(d.bossDropPercent,miracleDropPercent),collectionPercent)/100,dropLifeMs:d.lifetimeSeconds*1000,items:policy.items};
+        const fieldDrops=regionPolicy?.regions.find(r=>r.id===body.regionId)?.fieldDrops;
+        if(fieldDrops){
+          const field=fieldDrops.difficulties.find(r=>r.id===body.difficulty);
+          dropPolicy.fieldDrops={items:fieldDrops.items,dropChance:rewardDropWithBonus(applyMiracleDropChance(field.dropPercent,miracleDropPercent),collectionPercent)/100,bossDropChance:rewardDropWithBonus(applyMiracleDropChance(field.bossDropPercent,miracleDropPercent),collectionPercent)/100};
+          dropPolicy.dropLifeMs=field.lifetimeSeconds*1000;
+        }
         const session=(deps.createSession||createHuntSession)({snapshot,...body,regionDifficulty,now,dropPolicy});
         await saveRun(env,key,before.raw,{daily:before.run?.daily||null,expiresAt:now()+TTL,configRevision:policy.revision,regionRevision:regionPolicy?.revision??null,liveRewards:paying,rewardTiming:'FINISH',entry:{charged:false,status:'READY'},state:session.exportState()});
         return {ok:true,id:session.id,payload:session.payload,entries,access:{...access,liveRewards:paying,...(regionPolicy&&!paying?{mode:'TEST'}:{})},recovery,configRevision:policy.revision};

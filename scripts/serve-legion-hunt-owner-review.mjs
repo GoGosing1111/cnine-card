@@ -6,8 +6,20 @@ import {legionFixture} from '../tests/helpers/legion-hunt-fixture.mjs';
 import {handleLegionHunt} from '../functions/_legion_hunt.js';
 import {seedRegionalCatalog} from '../tests/helpers/legion-regions-fixture.mjs';
 import {legionBalanceSnapshot,profiles} from './measure-legion-regions-20261008.mjs';
+import {fillLegionMapDrafts} from './ops/legion-map-drafts-20261018.mjs';
+import {legionRegionDefaults,LEGION_REGIONS_KEY} from '../shared/legion-regions-v1.mjs';
 const root=fs.realpathSync(process.cwd()),port=Number(process.env.LEGION_REVIEW_PORT||8959),fixture=await legionFixture({withMercenary:true,regions:true});
 await seedRegionalCatalog(fixture);
+if(process.env.LEGION_REVIEW_MAP_DRAFT_FILE){
+  const snapshot=JSON.parse(fs.readFileSync(process.env.LEGION_REVIEW_MAP_DRAFT_FILE,'utf8'));
+  const source=snapshot.policies.find(r=>r.key==='legion_hunt_settings_v1').policy;
+  for(const item of source.items){
+    if(item.type!=='INVENTORY_ITEM')throw Error('Review fixture requires inventory candidates');
+    await fixture.DB.prepare('INSERT INTO inventory_items(code,name,rarity,image_url,is_active) VALUES(?,?,?,?,1) ON CONFLICT(code) DO UPDATE SET name=excluded.name,rarity=excluded.rarity,image_url=excluded.image_url').bind(item.ref,item.name,item.rarity,item.image).run();
+  }
+  await fixture.DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').bind('legion_hunt_settings_v1',JSON.stringify(source)).run();
+  await fixture.DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').bind(LEGION_REGIONS_KEY,JSON.stringify(fillLegionMapDrafts(source,legionRegionDefaults()).policy)).run();
+}
 if(process.env.LEGION_REVIEW_REGIONS==='1'){
   const snapshot=legionBalanceSnapshot(profiles.at(-1)),deck=fixture.getDeck();
   deck.cards=snapshot.cards;deck.ids=snapshot.cards.map(c=>c.id);deck.characterBonus={...deck.characterBonus,...snapshot.characterBonus};

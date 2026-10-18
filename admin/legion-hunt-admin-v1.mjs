@@ -1,5 +1,5 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
-import {mountLegionRegionsCms} from './legion-regions-admin-v1.mjs';
+import {mountLegionRegionsCms} from './legion-regions-admin-v1.mjs?v=20261018-map-drafts-v1';
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const names={normal:'보통',hard:'어려움',nightmare:'악몽',inferno:'지옥'},types={INVENTORY_ITEM:'아이템',CARD:'카드',EQUIPMENT:'장비',VEHICLE:'이동수단'};
 export async function mountLegionHuntCms(root){

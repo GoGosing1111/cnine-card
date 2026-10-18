@@ -10,6 +10,14 @@ export function regionKillLoot(policy,event,random){
     if(sets.length&&roll(event.boss?loot.bossSetPercent:loot.eliteSetPercent))result.push({...sets[Math.min(sets.length-1,Math.floor(random()*sets.length))],quantity:1});
   }
   if(event.boss){const unique=items.find(row=>row.regionId===region&&row.kind==='UNIQUE');if(unique&&roll(loot.bossUniquePercent))result.push({...unique,quantity:1});}
+  // Independent editable field pool; the regional set/unique rolls stay intact.
+  const field=policy.fieldDrops,rows=(field?.items||[]).filter(row=>row.enabled&&row.weight>0),total=rows.reduce((sum,row)=>sum+Math.round(row.weight*1000),0);
+  if(total&&random()<(event.boss?field.bossDropChance:field.dropChance)){
+    let pick=random()*total,item=rows.at(-1);
+    for(const row of rows){pick-=Math.round(row.weight*1000);if(pick<0){item=row;break;}}
+    const min=item.minQuantity,max=item.maxQuantity;
+    result.push({...item,quantity:min+Math.floor(random()*(max-min+1))});
+  }
   return result.sort((a,b)=>Number(b.kind==='UNIQUE')-Number(a.kind==='UNIQUE'));
 }
 export function regionBossGuarantee(policy){

@@ -1,0 +1,10 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: ui-mockup. Create ONE production raster game UI panel frame for Legion Hunt expedition settings, not a screenshot or complete interface. Front-on orthographic flat layout, wide landscape rectangle 1536x1024. Outer background genuinely transparent. A single rectangular panel with clipped chamfered corners occupying 96% width and 92% height, thin aged dark bronze metallic rim, subtle engraved expedition compass motifs only in the four corners, restrained emerald green seam lighting. The center must be a perfectly quiet very dark blue-green nearly black opaque inset, with no pictorial decoration, made for many editable DOM text fields on top. Border occupies at most 3% of panel width; no huge ornaments; restrained professional RPG interface for compact admin controls. Nine-slice friendly: long straight edge centers, corners isolated; this same single frame must remain elegant when shrunk into narrow buttons or expanded into a settings panel. No words, no numbers, no letters, no logo, no icons inside the center, no background scene, no shadows outside transparent boundary. Sharp high-quality material detailing, compact silhouette.",
+  "source": "frame-source-20261018.png",
+  "runtime": "frame-20261018.webp",
+  "derivation": "Lossless WebP encoding only. Original preserved.",
+  "status": "Technical review; user visual approval not claimed.",
+  "sourceSha256": "57dbf7009170e2bd78f2a4f185de000718aad12698cebafd333524b97f95f44d",
+  "runtimeSha256": "a8d4158b948ef23855d1adcd7ed22c29733c44f2102863adf080f22f77435fc0"
+}

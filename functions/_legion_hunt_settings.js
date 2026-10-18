@@ -48,8 +48,8 @@ export async function searchLegionHuntTestUsers(env,query){
   const {results=[]}=await statement.all();
   return results.map(row=>({id:Number(row.id),nickname:String(row.nickname||'')}));
 }
-export function validateLegionHuntPolicy(value,catalog){
-  if(!keys(value,['revision','mode','testUserIds','difficulties','items','updatedBy','updatedAt'])||!integer(value.revision,0,1e9)||!Array.isArray(value.difficulties)||value.difficulties.length!==4||!Array.isArray(value.items)||value.items.length>100)fail('난이도 4개와 드랍 후보 최대 100개를 확인하세요.');
+export function validateLegionHuntPolicy(value,catalog,{difficultyIds=DIFFICULTIES.map(d=>d.id)}={}){
+  if(!keys(value,['revision','mode','testUserIds','difficulties','items','updatedBy','updatedAt'])||!integer(value.revision,0,1e9)||!Array.isArray(value.difficulties)||value.difficulties.length!==difficultyIds.length||!Array.isArray(value.items)||value.items.length>100)fail('난이도 '+difficultyIds.length+'개와 드랍 후보 최대 100개를 확인하세요.');
   const mode=value.mode??'TEST';
   if(!LEGION_HUNT_MODES.includes(mode))fail('운영 모드는 OFF, TEST, ON 중에서 선택하세요.');
   const testUserIds=value.testUserIds??[];
@@ -58,7 +58,7 @@ export function validateLegionHuntPolicy(value,catalog){
   const percent=v=>Number.isFinite(v)&&v>=0&&v<=100&&Math.abs(v*100-Math.round(v*100))<.000001;
   const ids=new Set(),byCode=new Map(catalog.map(r=>[r.code,r]));
   const difficulties=value.difficulties.map(d=>{
-    if(!keys(d,['id','dropPercent','bossDropPercent','lifetimeSeconds'])||!DIFFICULTIES.some(p=>p.id===d.id)||ids.has(d.id)||!percent(d.dropPercent)||!percent(d.bossDropPercent)||!Number.isFinite(d.lifetimeSeconds)||d.lifetimeSeconds<3||d.lifetimeSeconds>30||!Number.isInteger(d.lifetimeSeconds*10))fail('난이도별 확률은 0~100%, 소멸 시간은 3~30초로 입력하세요.');
+    if(!keys(d,['id','dropPercent','bossDropPercent','lifetimeSeconds'])||!difficultyIds.includes(d.id)||ids.has(d.id)||!percent(d.dropPercent)||!percent(d.bossDropPercent)||!Number.isFinite(d.lifetimeSeconds)||d.lifetimeSeconds<3||d.lifetimeSeconds>30||!Number.isInteger(d.lifetimeSeconds*10))fail('난이도별 확률은 0~100%, 소멸 시간은 3~30초로 입력하세요.');
     ids.add(d.id);return {...d};
   });
   const seen=new Set(),items=value.items.map(row=>{
