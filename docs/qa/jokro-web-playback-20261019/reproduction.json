@@ -1,0 +1,33 @@
+{
+  "accountWrites": 0,
+  "reports": [
+    {
+      "label": "desktop",
+      "mode": "PVE",
+      "kind": "area",
+      "result": true,
+      "elapsed": 2011.6000000238419,
+      "splitSeen": false,
+      "hpCalls": [],
+      "damageCalls": [],
+      "last": {
+        "code": "V-979",
+        "eventType": "MERCENARY_JOKRO_AREA",
+        "mode": "awakening",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "authoritative": true,
+        "damageApplications": 0,
+        "playbackRate": 1,
+        "contactSeconds": 2.12,
+        "durationSeconds": 5.6,
+        "cooperativeDraw": false
+      },
+      "overflow": false,
+      "status": "전투 연출 완료",
+      "warnings": [
+        "[PROJECT V V3] 청룡단천 연출이 지연되어 다음 행동으로 이동했습니다. Error: 청룡단천 연출이 지연되어 다음 행동으로 이동했습니다.\n    at onDeadline (http://127.0.0.1:11169/js/battle-v3-live.js?limitedDuo=20261008:40:21)"
+      ],
+      "errors": []
+    }
+  ]
+}

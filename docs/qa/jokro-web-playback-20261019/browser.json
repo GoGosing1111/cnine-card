@@ -1,0 +1,189 @@
+{
+  "accountWrites": 0,
+  "reports": [
+    {
+      "label": "desktop",
+      "mode": "PVE",
+      "kind": "area",
+      "result": true,
+      "elapsed": 5598,
+      "splitSeen": true,
+      "hpCalls": [
+        {
+          "id": "B:0:MONSTER:1",
+          "hp": 93.48340095779221
+        }
+      ],
+      "damageCalls": [
+        {
+          "id": "B:0:MONSTER:1",
+          "damage": 1817175006,
+          "compactArea": false
+        }
+      ],
+      "last": {
+        "code": "V-979",
+        "eventType": "MERCENARY_JOKRO_AREA",
+        "mode": "awakening",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "authoritative": true,
+        "damageApplications": 1,
+        "playbackRate": 1,
+        "contactSeconds": 2.12,
+        "durationSeconds": 5.6,
+        "cooperativeDraw": false
+      },
+      "overflow": false,
+      "status": "전투 연출 완료",
+      "warnings": [],
+      "errors": []
+    },
+    {
+      "label": "desktop",
+      "mode": "RAID",
+      "kind": "area",
+      "result": true,
+      "elapsed": 5603.700000047684,
+      "splitSeen": true,
+      "hpCalls": [
+        {
+          "id": "B:0:MONSTER:1",
+          "hp": 93.48340095779221
+        }
+      ],
+      "damageCalls": [
+        {
+          "id": "B:0:MONSTER:1",
+          "damage": 1817175006,
+          "compactArea": false
+        }
+      ],
+      "last": {
+        "code": "V-979",
+        "eventType": "MERCENARY_JOKRO_AREA",
+        "mode": "awakening",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "authoritative": true,
+        "damageApplications": 1,
+        "playbackRate": 1,
+        "contactSeconds": 2.12,
+        "durationSeconds": 5.6,
+        "cooperativeDraw": false
+      },
+      "overflow": false,
+      "status": "전투 연출 완료",
+      "warnings": [],
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "mode": "PVE",
+      "kind": "area",
+      "result": true,
+      "elapsed": 5603.600000023842,
+      "splitSeen": true,
+      "hpCalls": [
+        {
+          "id": "B:0:MONSTER:1",
+          "hp": 93.48340095779221
+        }
+      ],
+      "damageCalls": [
+        {
+          "id": "B:0:MONSTER:1",
+          "damage": 1817175006,
+          "compactArea": false
+        }
+      ],
+      "last": {
+        "code": "V-979",
+        "eventType": "MERCENARY_JOKRO_AREA",
+        "mode": "awakening",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "authoritative": true,
+        "damageApplications": 1,
+        "playbackRate": 1,
+        "contactSeconds": 2.12,
+        "durationSeconds": 5.6,
+        "cooperativeDraw": false
+      },
+      "overflow": false,
+      "status": "전투 연출 완료",
+      "warnings": [],
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "mode": "RAID",
+      "kind": "area",
+      "result": true,
+      "elapsed": 5610,
+      "splitSeen": true,
+      "hpCalls": [
+        {
+          "id": "B:0:MONSTER:1",
+          "hp": 93.48340095779221
+        }
+      ],
+      "damageCalls": [
+        {
+          "id": "B:0:MONSTER:1",
+          "damage": 1817175006,
+          "compactArea": false
+        }
+      ],
+      "last": {
+        "code": "V-979",
+        "eventType": "MERCENARY_JOKRO_AREA",
+        "mode": "awakening",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "authoritative": true,
+        "damageApplications": 1,
+        "playbackRate": 1,
+        "contactSeconds": 2.12,
+        "durationSeconds": 5.6,
+        "cooperativeDraw": false
+      },
+      "overflow": false,
+      "status": "전투 연출 완료",
+      "warnings": [],
+      "errors": []
+    },
+    {
+      "label": "desktop",
+      "mode": "PVE",
+      "kind": "basic",
+      "result": true,
+      "elapsed": 3400,
+      "splitSeen": false,
+      "hpCalls": [
+        {
+          "id": "B:0:MONSTER:1",
+          "hp": 91.8834009577922
+        }
+      ],
+      "damageCalls": [
+        {
+          "id": "B:0:MONSTER:1",
+          "damage": 591360000
+        }
+      ],
+      "last": {
+        "code": "V-979",
+        "eventType": "ATTACK",
+        "mode": "skill",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "authoritative": true,
+        "damageApplications": 1,
+        "playbackRate": 1,
+        "contactSeconds": 1.5,
+        "durationSeconds": 3.4,
+        "cooperativeDraw": false
+      },
+      "overflow": false,
+      "status": "전투 연출 완료",
+      "warnings": [],
+      "errors": []
+    }
+  ]
+}
