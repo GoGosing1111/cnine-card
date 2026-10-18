@@ -35,6 +35,7 @@ import {resolveHeliosArea} from './_mercenary_helios.js';
 import {AZANT_CODE,AZANT_VOLLEY_SKILL,AZANT_VOLLEY_MECHANIC,AZANT_AREA_MECHANIC,AZANT_COMBAT,azantActionCredit,azantPvpBasicDamageScale,azantVolleyCapScale} from '../shared/mercenary-azant-v1.mjs';
 import {resolveAzantCast} from './_mercenary_azant.js';
 import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION,SS_LIMITED_TEMPO,ssLimitedActionCredit,ssLimitedProfile} from '../shared/mercenary-ss-limited-v1.mjs';
+import {halloweenBarrierScale} from '../shared/mercenary-halloween-combat-v1.mjs';
 import {ssRearPveInterval,ssRearPveHealing} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const sovereign=a=>isJokro(a)||isValter(a)||isHelios(a)||isJinmu(a)||isKairon(a)||isShiranui(a);
@@ -394,7 +395,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    case 'INTERCEPT_ONE_HIT':once(t=>{table(buffs,t).intercept={actor:a,skill:s,percent:mercenaryWardPercent(c.interceptPercent),expires:t.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'INTERCEPT_ONE_HIT'});});break;
    case 'MELEE_PARRY_RIPOSTE':once(t=>{b.parry={skill:s,percent:c.parryPercent,expires:a.actions+c.statusTurns};send(a,s,'BUFF',t,{effect:'MELEE_PARRY_RIPOSTE'});});break;
    case 'NEXT_BASIC_ORDER':once(t=>{table(buffs,t).order={percent:c.orderPercent,source:a.id};send(a,s,'BUFF',t,{effect:'NEXT_BASIC_ORDER'});});break;
-   case 'FRONT_SHARED_BARRIER':once(t=>{const buff=table(buffs,t),old=buff.mercBarrier||0,budget=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio/p.targets.length),remaining=Math.min(old,t.shield);t.shield=Math.max(0,t.shield-remaining)+budget;t.maxShield=Math.max(t.maxShield,t.shield);buff.mercBarrier=budget;send(a,s,'BUFF',t,{effect:'SHIELD',amount:budget,targetShieldAfter:t.shield});});break;
+   case 'FRONT_SHARED_BARRIER':once(t=>{const buff=table(buffs,t),old=buff.mercBarrier||0,budget=Math.floor(mercenaryEffectiveAttack(a)*s.balance.damageRatio*halloweenBarrierScale(a)/p.targets.length),remaining=Math.min(old,t.shield);t.shield=Math.max(0,t.shield-remaining)+budget;t.maxShield=Math.max(t.maxShield,t.shield);buff.mercBarrier=budget;send(a,s,'BUFF',t,{effect:'SHIELD',amount:budget,targetShieldAfter:t.shield});});break;
    case 'FRONT_OFFENSE_VEIL':once(t=>{if(sovereign(t))return;table(debuffs,t).veil={percent:c.veilPercent};send(a,s,'DEBUFF',t,{effect:'OFFENSIVE_SKILL_ONLY'});});break;
    case 'CLEANSE_THEN_MEND':
     if(!p.step){const removed=cleanse(ts[0],true);send(a,s,'CLEANSE',ts[0],{removed});p.step=1;p.due=a.actions+1;break;}

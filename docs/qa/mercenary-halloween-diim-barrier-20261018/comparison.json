@@ -1,0 +1,3867 @@
+{
+  "at": "2026-10-18T13:57:04.967Z",
+  "scope": "isolated canonical simulation; actual reported mercenary levels, synthetic ordinary cards; no live battle writes",
+  "barrierScale": 0.6,
+  "rows": [
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 7919,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 145772,
+        "firstBarrier": 1866184,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 3236237
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 145772,
+        "firstBarrier": 1119710,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2489763
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1244122,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2614175
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 125490,
+        "firstBarrier": 746473,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2489763
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1244122,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 3236237
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 746473,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2489763
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1244122,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2614175
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 746473,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2116526
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1244122,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2614175
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 746473,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2116526
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 36101,
+      "before": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 140989,
+        "firstBarrier": 1866184,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 3236237
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 140989,
+        "firstBarrier": 1119710,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2489763
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 36102,
+      "before": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 144065,
+        "firstBarrier": 1866184,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 3236237
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 144065,
+        "firstBarrier": 1119710,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2489763
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 36103,
+      "before": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1866184,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 3236237
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 4729184,
+        "firstBarrier": 1119710,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 7919,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 936505,
+        "hpDamage": 1811612,
+        "absorbed": 5248193,
+        "firstBarrier": 1866184,
+        "final": [
+          {
+            "hp": 936505,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 3755245,
+        "firstBarrier": 1119710,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1244122,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2614175
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 746473,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2116526
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 2276714,
+        "firstBarrier": 1244122,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 337461
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2587929,
+        "hpDamage": 160188,
+        "absorbed": 2116526,
+        "firstBarrier": 746473,
+        "final": [
+          {
+            "hp": 2587929,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1244122,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2614175
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 746473,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2116526
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1244122,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2614175
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 2748117,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 746473,
+        "final": [
+          {
+            "hp": 2748117,
+            "shield": 2116526
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 3377226,
+        "firstBarrier": 1866184,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 2630752,
+        "firstBarrier": 1119710,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 3236237,
+        "firstBarrier": 1866184,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 2489763,
+        "firstBarrier": 1119710,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 3236237,
+        "firstBarrier": 1866184,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 2489763,
+        "firstBarrier": 1119710,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 36101,
+      "before": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 36102,
+      "before": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 36103,
+      "before": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 5102421,
+        "firstBarrier": 3732368,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 3609474,
+        "firstBarrier": 2239421,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 7919,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 2748117,
+        "maxHp": 2748117,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 2748117,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 7919,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 140113,
+        "firstBarrier": 2612658,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3982711
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 140113,
+        "firstBarrier": 1567595,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 2937648
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1741772,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3111825
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1045063,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 2415116
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1741772,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3111825
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1045063,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 2937648
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1741772,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3111825
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1045063,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 2415116
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1741772,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3111825
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1045063,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 2415116
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 36101,
+      "before": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 135516,
+        "firstBarrier": 2612658,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3982711
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 135516,
+        "firstBarrier": 1567595,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 2937648
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 36102,
+      "before": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 138473,
+        "firstBarrier": 2612658,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3982711
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 138473,
+        "firstBarrier": 1567595,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 2937648
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 36103,
+      "before": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 2612658,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3982711
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 4505243,
+        "firstBarrier": 1567595,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 7919,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 140113,
+        "firstBarrier": 2612658,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3982711
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 140113,
+        "firstBarrier": 1567595,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 2937648
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1741772,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3111825
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1045063,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 2415116
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1741772,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3111825
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1045063,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 2415116
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1741772,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3111825
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1045063,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 2415116
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1741772,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 3111825
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 3847364,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 1045063,
+        "final": [
+          {
+            "hp": 3847364,
+            "shield": 2415116
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 4118227,
+        "firstBarrier": 2612658,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 3073164,
+        "firstBarrier": 1567595,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 9208027,
+        "firstBarrier": 2612658,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 4505243,
+        "firstBarrier": 1567595,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 3982711,
+        "firstBarrier": 2612658,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 2937648,
+        "firstBarrier": 1567595,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 36101,
+      "before": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 36102,
+      "before": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 6595370,
+        "firstBarrier": 5225317,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 4505243,
+        "firstBarrier": 3135190,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 36103,
+      "before": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 6595370,
+        "firstBarrier": 5225317,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 4505243,
+        "firstBarrier": 3135190,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 7919,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 250000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 3847364,
+        "maxHp": 3847364,
+        "openingShield": 1370053,
+        "minHp": 0,
+        "hpDamage": 3847364,
+        "absorbed": 1370053,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 7919,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 796075,
+        "firstBarrier": 7464744,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 12944955
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 796075,
+        "firstBarrier": 4478846,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 9959057
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4976496,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 10456707
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 2985897,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 9959057
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4976496,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 12944955
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 2985897,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 9959057
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4976496,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 10456707
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 2985897,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 8466108
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4976496,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 10456707
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 2985897,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 8466108
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 36101,
+      "before": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 7464744,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 12944955
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 12751263,
+        "absorbed": 18916749,
+        "firstBarrier": 4478846,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 36102,
+      "before": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 7464744,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 12944955
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4478846,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 9959057
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 36103,
+      "before": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 7464744,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 12944955
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 12751263,
+        "absorbed": 18916749,
+        "firstBarrier": 4478846,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 13741030,
+        "firstBarrier": 7464744,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 10755132,
+        "firstBarrier": 4478846,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4976496,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 10456707
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 2985897,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 8466108
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 1162549,
+        "hpDamage": 9829919,
+        "absorbed": 20409699,
+        "firstBarrier": 4976496,
+        "final": [
+          {
+            "hp": 1162549,
+            "shield": 4976496
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 9959057,
+        "firstBarrier": 2985897,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4976496,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 10456707
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 2985897,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 8466108
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4976496,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 10456707
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 10992468,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 2985897,
+        "final": [
+          {
+            "hp": 10992468,
+            "shield": 8466108
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 12944955,
+        "firstBarrier": 7464744,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 9959057,
+        "firstBarrier": 4478846,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 13846089,
+        "firstBarrier": 7464744,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 10860191,
+        "firstBarrier": 4478846,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 12944955,
+        "firstBarrier": 7464744,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 9959057,
+        "firstBarrier": 4478846,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 20409699,
+        "firstBarrier": 14929488,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 14437903,
+        "firstBarrier": 8957692,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 36101,
+      "before": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 5480211,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 5480211,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 36102,
+      "before": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 20409699,
+        "firstBarrier": 4976496,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 14437903,
+        "firstBarrier": 2985897,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 36103,
+      "before": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 12944955,
+        "firstBarrier": 4976496,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 9959057,
+        "firstBarrier": 2985897,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 7919,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 20409699,
+        "firstBarrier": 14929488,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 14437903,
+        "firstBarrier": 8957692,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 20409699,
+        "firstBarrier": 14929488,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 14437903,
+        "firstBarrier": 8957692,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 20409699,
+        "firstBarrier": 14929488,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 14437903,
+        "firstBarrier": 8957692,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 2,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 20409699,
+        "firstBarrier": 14929488,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 10992468,
+        "maxHp": 10992468,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 10992468,
+        "absorbed": 14437903,
+        "firstBarrier": 8957692,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 7919,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 785252,
+        "firstBarrier": 10450641,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 15930852
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 785252,
+        "firstBarrier": 6270384,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 11750595
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 6967094,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 12447305
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4180256,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 9660467
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 6967094,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 12447305
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 674575,
+        "firstBarrier": 4180256,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 11750595
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "A",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 6967094,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 12447305
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4180256,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 9660467
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 6967094,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 12447305
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4180256,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 9660467
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 36101,
+      "before": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 10450641,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 15930852
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 6270384,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 11750595
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 36102,
+      "before": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 10450641,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 15930852
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 6270384,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 11750595
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-985",
+      "side": "B",
+      "seed": 36103,
+      "before": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 10450641,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 15930852
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 6270384,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 11750595
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 27166745,
+        "firstBarrier": 10450641,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 12535847,
+        "firstBarrier": 6270384,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 6967094,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 12447305
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4180256,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 9660467
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 14344762,
+        "hpDamage": 1044694,
+        "absorbed": 19414399,
+        "firstBarrier": 6967094,
+        "final": [
+          {
+            "hp": 14344762,
+            "shield": 6967094
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 9257681,
+        "hpDamage": 6131775,
+        "absorbed": 13840723,
+        "firstBarrier": 4180256,
+        "final": [
+          {
+            "hp": 9257681,
+            "shield": 4180256
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "A",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 6967094,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 12447305
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4180256,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 9660467
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 6967094,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 12447305
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 0,
+        "firstBarrier": 4180256,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 9660467
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 15930852,
+        "firstBarrier": 10450641,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 11750595,
+        "firstBarrier": 6270384,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 36102,
+      "before": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 15389456,
+        "hpDamage": 0,
+        "absorbed": 16067064,
+        "firstBarrier": 10450641,
+        "final": [
+          {
+            "hp": 15389456,
+            "shield": 11187681
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 12623847,
+        "firstBarrier": 6270384,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-981",
+      "side": "B",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 26381493,
+        "firstBarrier": 10450641,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 11750595,
+        "firstBarrier": 6270384,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 7919,
+      "before": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 26381494,
+        "firstBarrier": 20901283,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 18020980,
+        "firstBarrier": 12540769,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 36101,
+      "before": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 5480211,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 5480211,
+        "firstBarrier": null,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 36102,
+      "before": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 15930852,
+        "firstBarrier": 6967094,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 18020979,
+        "firstBarrier": 4180256,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "A",
+      "seed": 36103,
+      "before": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 26381493,
+        "firstBarrier": 6967094,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "B",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 18020979,
+        "firstBarrier": 4180256,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 7919,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 26381494,
+        "firstBarrier": 20901283,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 18020980,
+        "firstBarrier": 12540769,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 36101,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 26381494,
+        "firstBarrier": 20901283,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 18020980,
+        "firstBarrier": 12540769,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 36102,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 26381494,
+        "firstBarrier": 20901283,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 18020980,
+        "firstBarrier": 12540769,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    },
+    {
+      "power": 1000000,
+      "level": 4,
+      "opponent": "V-996",
+      "side": "B",
+      "seed": 36103,
+      "before": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 26381494,
+        "firstBarrier": 20901283,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      },
+      "after": {
+        "winner": "A",
+        "hp": 15389456,
+        "maxHp": 15389456,
+        "openingShield": 5480211,
+        "minHp": 0,
+        "hpDamage": 15389456,
+        "absorbed": 18020980,
+        "firstBarrier": 12540769,
+        "final": [
+          {
+            "hp": 0,
+            "shield": 0
+          }
+        ]
+      }
+    }
+  ],
+  "controls": [
+    {
+      "mode": "PVE",
+      "code": "V-984",
+      "level": 2,
+      "seed": 7919,
+      "sha256": "8005074bbf072a429a9a300ecb26f4e439141112cbb9b4e1fb4be68c6a0a0f2f",
+      "unchanged": true
+    },
+    {
+      "mode": "PVP",
+      "codes": [
+        "V-985",
+        "V-983"
+      ],
+      "level": 2,
+      "seed": 7919,
+      "sha256": "a2d3c082d0e500a7871f30ee9d2b1934def1ef98afaf17c802627c05f25eba15",
+      "unchanged": true
+    },
+    {
+      "mode": "PVE",
+      "code": "V-984",
+      "level": 2,
+      "seed": 36101,
+      "sha256": "82494591ea8a15293c4af7d6c3f4d2c14afe9b1c12ba55250c99d53621b25810",
+      "unchanged": true
+    },
+    {
+      "mode": "PVP",
+      "codes": [
+        "V-985",
+        "V-983"
+      ],
+      "level": 2,
+      "seed": 36101,
+      "sha256": "688a3dd0c22cd13e88219e58a05afe0a6c6bd1d847688052351ae40069131a18",
+      "unchanged": true
+    },
+    {
+      "mode": "PVE",
+      "code": "V-984",
+      "level": 4,
+      "seed": 7919,
+      "sha256": "f706a67205d9bffcca5444099c04080335c4a6e89cd84c86c4c735b473a705da",
+      "unchanged": true
+    },
+    {
+      "mode": "PVP",
+      "codes": [
+        "V-985",
+        "V-983"
+      ],
+      "level": 4,
+      "seed": 7919,
+      "sha256": "4cfcc91c22b603e6c4d9d8caba922591b33d5a6cc0ca497e2993ecb9ca79e114",
+      "unchanged": true
+    },
+    {
+      "mode": "PVE",
+      "code": "V-984",
+      "level": 4,
+      "seed": 36101,
+      "sha256": "9208378284141886c9a10e992ad1a3ebbc8f386c44a65f00e9b0d273091c9f36",
+      "unchanged": true
+    },
+    {
+      "mode": "PVP",
+      "codes": [
+        "V-985",
+        "V-983"
+      ],
+      "level": 4,
+      "seed": 36101,
+      "sha256": "79ea70d2b25aba22545dec34d8f44eb2ff759d4ce3cef403fe8cdb58617b5078",
+      "unchanged": true
+    }
+  ],
+  "summary": [
+    {
+      "opponent": "V-985",
+      "battles": 32,
+      "before": {
+        "fullHp": 32,
+        "wins": 32
+      },
+      "after": {
+        "fullHp": 28,
+        "wins": 28
+      }
+    },
+    {
+      "opponent": "V-981",
+      "battles": 32,
+      "before": {
+        "fullHp": 16,
+        "wins": 19
+      },
+      "after": {
+        "fullHp": 14,
+        "wins": 16
+      }
+    },
+    {
+      "opponent": "V-996",
+      "battles": 32,
+      "before": {
+        "fullHp": 0,
+        "wins": 0
+      },
+      "after": {
+        "fullHp": 0,
+        "wins": 0
+      }
+    }
+  ]
+}
