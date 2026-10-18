@@ -108,6 +108,8 @@ for(const pg of [false,true]){
    const f=await cityFixture(t,pg);f.setTime(cityShift(f.now).endsAt-10*60000);f.deps.citySupplyRandom=()=>0;
    await f.join(1,'POLICE');assert.equal((await supply(f)).records.length,0);
    assert.ok(await f.p('SELECT value FROM app_meta WHERE key=?',citySupplyPlanKey(cityShift(f.now).id,'ON')).first());
-   f.setTime(cityShift(f.now).endsAt+1000);assert.ok([2,3].includes((await supply(f)).records.length));
+   f.setTime(cityShift(f.now).endsAt+1000);
+   await cityStatus(f.env,f.users.get(1),'POLICE',0,f.now); // Public entry settles the previous round before scheduling.
+   assert.ok([2,3].includes((await supply(f)).records.length));
  });
 }
