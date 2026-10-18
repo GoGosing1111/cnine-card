@@ -1,0 +1,204 @@
+{
+  "sourceCommit": "0b94b7250830b0e98a71a4bee430fc6d7b6bf384",
+  "pagesDeploymentId": "c3783409-7dc0-4eeb-b9ad-a04782171fcc",
+  "apiWorkerVersion": "2793e9d3-56e7-4194-b50d-6dca894bf25f",
+  "schedulerWorkerVersion": "9908351e-960e-458b-8c1a-8222b7258443",
+  "http": {
+    "at": "2026-10-18T10:18:33.717Z",
+    "base": "https://cnine-card.pages.dev",
+    "files": [
+      {
+        "path": "css/legion-hunt-coins-v1.css",
+        "status": 200,
+        "matches": true,
+        "sha256": "fe54f2ffd856797e3a92903997898a50c7e274c7a3bfef0c732763f1f40cd21c"
+      },
+      {
+        "path": "js/legion-hunt-entry-v1.mjs",
+        "status": 200,
+        "matches": true,
+        "sha256": "a116e85738ed709da77f138962a7a91db9dcf7f246ab9e8a29bef94f25750470"
+      },
+      {
+        "path": "preview/sustained-hunt-v2/app.js",
+        "status": 200,
+        "matches": true,
+        "sha256": "131e92de087c22fa60641a524cff53f2c58886a12d5f6f4ff214968530383c06"
+      },
+      {
+        "path": "pve/legion-hunt/index.html",
+        "status": 200,
+        "matches": true,
+        "sha256": "3141f5189e4b749eb910c2f5c7599b13a5ea28c657cf0ff8b4fae6a47b52df58"
+      },
+      {
+        "path": "preview/sustained-hunt-v2/index.html",
+        "status": 200,
+        "matches": true,
+        "sha256": "88ad1048ba536b2808f484bdf118ab660527bb1506596aa81a7e3a331f4ad570"
+      },
+      {
+        "path": "admin/legion-hunt-admin-v1.mjs",
+        "status": 200,
+        "matches": true,
+        "sha256": "4414b261db53a19f09f4936e51bb5e6f1d0d4563494fe07344eb5bfbd9d10c35"
+      },
+      {
+        "path": "admin/legion-hunt-admin-v1.css",
+        "status": 200,
+        "matches": true,
+        "sha256": "9064880ff0e89af5de624ab0e969e1e75a2dc89fb539fe63ca365ab2beb8c8e8"
+      },
+      {
+        "path": "admin/legion-regions-admin-v1.mjs",
+        "status": 200,
+        "matches": true,
+        "sha256": "bc87ae3002046283367e168cd839df01de7cb7a5ce505df8ed327edefac14894"
+      },
+      {
+        "path": "admin/legion-region-drops-v1.mjs",
+        "status": 200,
+        "matches": true,
+        "sha256": "d579b7f9662fb04d8d3cab053d8d785c1929c97167bf974dbd128ef2faf000ba"
+      },
+      {
+        "path": "shared/legion-hunt-coins-v1.mjs",
+        "status": 200,
+        "matches": true,
+        "sha256": "f0d4ea0dcd8baa626242fd2f64b985fb461f06fecef9a7f21d0de2c2070c325d"
+      },
+      {
+        "path": "index.html",
+        "status": 200,
+        "matches": true,
+        "sha256": "3c2fee340b82bdb8c2b180364cb6e50add3f59e75d7f928a47cf6e7057dc2b7c"
+      },
+      {
+        "path": "admin/index.html",
+        "status": 200,
+        "matches": true,
+        "sha256": "9e7fb6a87fe32932ea3a8eef61f19aeea6c17c2bf0385ae8dd2b78c293b73cf0"
+      }
+    ],
+    "routes": [
+      {
+        "path": "legion-hunt/bootstrap",
+        "status": 401
+      },
+      {
+        "path": "admin/legion-hunt",
+        "status": 401
+      }
+    ]
+  },
+  "productionReadOnly": {
+    "at": "2026-10-18T10:18:36.920Z",
+    "policies": [
+      {
+        "key": "equipment_polish_settings_v1",
+        "revision": 0,
+        "sha256": "88e5de673236a663a47477c3155bd8440c5dcf3f67ff6d69158e78cd135ef8b4"
+      },
+      {
+        "key": "legion_hunt_regions_v1",
+        "mode": "OFF",
+        "revision": 5,
+        "sha256": "3627d2b39e7a8106ca74ef974a39966e9cd8272579727a9c48b2cc8d0184e2e6",
+        "regions": [
+          {
+            "id": "coast",
+            "enabled": true
+          },
+          {
+            "id": "desert",
+            "enabled": true
+          },
+          {
+            "id": "theatre",
+            "enabled": true
+          },
+          {
+            "id": "viscera",
+            "enabled": true
+          },
+          {
+            "id": "sky",
+            "enabled": true
+          }
+        ],
+        "gearOdds": [
+          {
+            "id": "normal",
+            "elite": 0,
+            "bossSet": 0.001,
+            "bossUnique": 0.001
+          },
+          {
+            "id": "hard",
+            "elite": 0,
+            "bossSet": 0.001,
+            "bossUnique": 0.001
+          },
+          {
+            "id": "nightmare",
+            "elite": 0,
+            "bossSet": 0.001,
+            "bossUnique": 0.001
+          },
+          {
+            "id": "inferno",
+            "elite": 0.001,
+            "bossSet": 0.001,
+            "bossUnique": 0.001
+          },
+          {
+            "id": "calamity",
+            "elite": 0.001,
+            "bossSet": 0.001,
+            "bossUnique": 0.001
+          }
+        ]
+      },
+      {
+        "key": "legion_hunt_settings_v1",
+        "mode": "ON",
+        "revision": 29,
+        "sha256": "f4549f4aad5a9605785a04b9bf3addc58e42e5315cc5cee96d813e9c5f723fa1"
+      }
+    ],
+    "gear": {
+      "count": "30",
+      "active": "0",
+      "public": "0",
+      "supply": "0"
+    },
+    "walletSchema": [
+      {
+        "table_name": "coin_logs",
+        "column_name": "balance_after",
+        "data_type": "bigint"
+      },
+      {
+        "table_name": "coin_logs",
+        "column_name": "change_amount",
+        "data_type": "bigint"
+      },
+      {
+        "table_name": "users",
+        "column_name": "coin",
+        "data_type": "bigint"
+      }
+    ],
+    "readonly": true
+  },
+  "policyHashesUnchanged": true,
+  "tests": {
+    "scopedPassed": 23,
+    "previouslyPassedRelated": 33,
+    "totalRelated": 56,
+    "workerCompile": true,
+    "releaseFlags": true,
+    "hyperdriveCacheDisabled": true
+  },
+  "productionPlayerMutationForQa": false
+}

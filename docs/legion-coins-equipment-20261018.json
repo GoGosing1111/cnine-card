@@ -7,7 +7,7 @@
   },
   "coinIncome": {
     "livePayoutImplemented": true,
-    "status": "IMPLEMENTED_AWAITING_DEPLOY",
+    "status": "LIVE",
     "designRevision": 4,
     "authorization": "기본 보상 전부 10배, 재앙은 지옥의 2배; 클리어 보상 대신 플레이 중 몬스터 처치마다 자연스럽게 코인 습득; 판당 표 금액을 초과하지 않게 라이브 반영; CMS 용병장비 별도 명시",
     "baseMultiplier": 10,
@@ -105,6 +105,18 @@
       "cms": "admin/legion-regions-admin-v1.mjs",
       "ui": "Existing hunt HUD and information rows; generated gold plaque rejected and archived.",
       "policyEditing": "Approved hard caps are read-only in CMS; existing operation switches remain authoritative."
+    },
+    "deployment": {
+      "sourceCommit": "0b94b7250830b0e98a71a4bee430fc6d7b6bf384",
+      "pagesDeploymentId": "c3783409-7dc0-4eeb-b9ad-a04782171fcc",
+      "verifiedAt": "2026-10-18T10:18:33.717Z",
+      "url": "https://cnine-card.pages.dev",
+      "scopedTestsPassed": 23,
+      "previousRelatedTestsPassed": 33,
+      "liveFilesVerified": 12,
+      "policyHashesUnchanged": true,
+      "qaRecord": "docs/qa/legion-coins-20261018/live-verification.json",
+      "newRegionsMode": "OFF"
     }
   },
   "application": {
