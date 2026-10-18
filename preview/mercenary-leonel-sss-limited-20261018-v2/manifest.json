@@ -7,7 +7,6 @@
   "status": "USER_APPROVED_LIVE_AUTHORIZED",
   "runtimeEnabled": true,
   "runtimeRegistration": true,
-  "deployed": false,
   "sourceArt": "/preview/mercenary-leonel-sss-limited-20261018-v2/assets/sources/leonel-final-art-v1.png",
   "sourceArtSha256": "43d4c211ff58bff672e8614aa50fcd8f6c5099c667dd2f4c42c44bde75ab2e00",
   "sourceArtLocal": "assets/sources/leonel-final-art-v1.png",
@@ -5655,5 +5654,6 @@
   "liveCode": "V-978",
   "acquisition": "LOCKED",
   "acquisitionEnabled": false,
-  "liveApproval": "live-approval-20261018.json"
+  "liveApproval": "live-approval-20261018.json",
+  "deploymentEvidence": "../../docs/leonel-live-20261018.md"
 }
