@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#080a14">
-  <meta name="description" content="사라진 세계에서 도착한 호출. 일러스트로 읽는 리버스콜 세계관과 프롤로그, 지도에 없는 역.">
-  <title>세계관 · 최초의 호출 | 리버스콜</title>
+  <meta name="description" content="용병들이 응답한 호출, 월드 레이드와 얼음 왕좌, 검은 전장과 코어. 8개 장의 일러스트로 읽는 리버스콜 세계관.">
+  <title>세계관 · 돌아온 자들의 기록 | 리버스콜</title>
   <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,11 +57,11 @@ h1,h2,p{overflow-wrap:break-word;word-break:keep-all}
 .cover-actions{display:flex;gap:12px;flex-wrap:wrap}
 .reading-note{font-size:11px;letter-spacing:.08em;color:#bdb6cc;margin:16px 0 0}
 .chapter-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:1180px;width:100%}
-.chapter-card{position:relative;isolation:isolate;min-height:108px;padding:23px 30px 22px;text-align:left;display:flex;flex-direction:column;align-items:flex-start;gap:7px;border:0;background:transparent;color:inherit;font:inherit;transition:filter .2s}
+.chapter-card{position:relative;isolation:isolate;min-height:108px;padding:23px 30px 22px;text-align:left;display:flex;flex-direction:column;align-items:flex-start;gap:7px;border:0;background:transparent;color:inherit;font:inherit;transition:filter .2s;min-width:0}
 .chapter-card::before{content:'';position:absolute;inset:0;z-index:-1;border:20px solid transparent;border-image:var(--panel) 110 100 fill / 18px 22px / 0 stretch;pointer-events:none}
 .chapter-card:hover{filter:brightness(1.25)}
 .chapter-card small{font-size:9px;letter-spacing:.18em;color:#c5afd9}
-.chapter-card strong{font-size:17px;font-weight:500}
+.chapter-card strong{font-size:17px;font-weight:500;word-break:keep-all;overflow-wrap:break-word;line-height:1.7}
 .chapter-card .chapter-state{position:absolute;right:26px;top:25px;font-size:10px;color:#e2cfff;letter-spacing:0}
 .chapter-card[aria-current="true"]::before{filter:brightness(1.55)}
 .cover-footer{display:flex;justify-content:space-between;gap:16px;max-width:1180px;padding:22px 0 max(24px,env(safe-area-inset-bottom));font-size:10px;color:#aaa2b8;letter-spacing:.04em}
@@ -119,7 +119,7 @@ progress::-moz-progress-bar{background:#c8afe7}
   .cover-actions{gap:6px}
   .cover-actions .art-button{min-width:144px;font-size:12px;min-height:52px;padding:12px 23px}
   .reading-note{font-size:10px}
-  .chapter-strip{gap:6px}
+  .chapter-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
   .chapter-card{padding:18px 14px;min-height:110px;gap:9px}
   .chapter-card small{font-size:7px;letter-spacing:.09em}
   .chapter-card strong{font-size:12px;line-height:1.8}
@@ -156,9 +156,9 @@ progress::-moz-progress-bar{background:#c8afe7}
 @media(prefers-reduced-motion:reduce){*,*::before{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 </style>
   <script defer src="/js/soopketmon-v21-exact-shell-adapter.js?v=2108-shared-navigation" data-enabled="false"></script>
-  <script defer src="/js/adventure-lobby-v2107.js?world=20261018-v2"></script>
+  <script defer src="/js/adventure-lobby-v2107.js?world=20261018-expansion-v1"></script>
   <script defer src="/js/adventure-navigation-standalone.js?v=2108-shared-navigation" data-route="world"></script>
-  <script type="module" src="/world/world.js?v=20261018-v1"></script>
+  <script type="module" src="/world/world.js?v=20261018-expansion-v1"></script>
 </head>
 <body data-adventure-standalone="world">
   <a class="skip-link art-button" href="#story-main">이야기 본문으로</a>
@@ -182,17 +182,17 @@ progress::-moz-progress-bar{background:#c8afe7}
     <main id="story-main" tabindex="-1">
       <section class="cover" id="cover" aria-labelledby="cover-title">
         <div class="cover-copy">
-          <p class="eyebrow">THE FIRST CALL <span>서막 · 최초의 호출</span></p>
+          <p class="eyebrow">THE RETURNING NAMES <span>돌아온 자들의 기록</span></p>
           <h1 id="cover-title">사라진 세계가<br>당신을 부른다.</h1>
           <p class="cover-quote">우리는 그들을 불러냈다고 생각했다.<br>먼저 우리를 부른 것은,<br class="mobile-break"> 사라진 세계의 사람들이었다.</p>
           <div class="cover-actions">
             <button class="art-button primary" id="start-story" type="button">이야기 시작 <span aria-hidden="true">→</span></button>
             <button class="art-button" id="resume-story" type="button" hidden>이어 읽기</button>
           </div>
-          <p class="reading-note" id="reading-note">3개의 장 · 10개의 장면 · 약 4분</p>
+          <p class="reading-note" id="reading-note">8개의 장 · 33개의 장면</p>
         </div>
         <nav class="chapter-strip" id="cover-chapters" aria-label="이야기 장 선택"></nav>
-        <footer class="cover-footer"><span>잊힌 이름, 남겨진 흔적, 돌아오는 목소리.</span><span id="save-note">읽던 장면은 이 기기에 저장됩니다.</span></footer>
+        <footer class="cover-footer"><span>용병들의 계약 · 월드 레이드 · 얼음 왕좌 · 검은 전장 · 코어</span><span id="save-note">읽던 장면은 이 기기에 저장됩니다.</span></footer>
       </section>
 
       <section class="reader" id="reader" aria-label="일러스트 스토리" hidden>
