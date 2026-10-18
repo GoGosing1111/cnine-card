@@ -1,0 +1,32 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:yeobongsang-room-sponsor:20261018:two:v1",
+  "user": {
+    "id": 5598,
+    "nickname": "여봉상"
+  },
+  "units": 2,
+  "rewards": {
+    "coin": "4000000000000",
+    "itemCode": "SUIT_CORE_6",
+    "itemName": "슈트 코어 6",
+    "quantity": 20
+  },
+  "coinLogId": "92854980",
+  "inventoryLogId": "85058852",
+  "auditId": "47854",
+  "completedAt": "2026-10-18T01:00:38.741Z",
+  "sourceCommit": "c28b5125e37a660a1f6fc2ba856b163036d931d1",
+  "sourceSha256": "16d1c18e14eff0e4e0a2404ab349cef0776c4acf8f56f9823cde54c9ca7381fd",
+  "verification": {
+    "verified": true,
+    "coinLogs": 1,
+    "inventoryLogs": 1,
+    "coinGranted": "4000000000000",
+    "coresGranted": 20,
+    "verifiedAt": "2026-10-18T01:00:56.150Z",
+    "independentConnection": true,
+    "dryRunRolledBack": true,
+    "replayedWithoutWrites": true
+  }
+}
