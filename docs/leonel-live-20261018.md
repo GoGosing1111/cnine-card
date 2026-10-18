@@ -37,4 +37,14 @@ PC/모바일은 새 headless Chrome 뷰포트 검수이며 실제 휴대전화 �
 
 ## 배포
 
-구현 검수 완료 후 scoped 배포를 진행한다. 실제 배포 ID·버전·라이브 읽기 확인은 완료 후 이 절에 기록한다.
+`npm run deploy:production -- --scoped` 완료, 종료 코드 0. 직전 실제 운영 소스 `6c29b66975e908cdef6e9b517df3a178ff7e31be`를 기준으로 배포했다. 동시 진행된 진무/족로/시라누이 상향·카이론 제작 한도·디임 보호막 변경을 보존해 병합했다.
+
+- 배포 소스: `d5d6b8d3c14d14b4c7c76729875390dbd2154e36`
+- Pages: https://6dae89a2.cnine-card.pages.dev (19,924개 파일)
+- API Runtime: `5ea94719-493f-4a7d-9b17-7c159f083368`
+- Clan Draft Worker: `0d4c4646-f4a4-44f0-a74b-a51b6f103458`
+- 최종 scoped 회귀 19개, 배포 정책 13개 및 Worker 컴파일 통과. Hyperdrive 쿼리 캐시 OFF 확인.
+- 운영 읽기: 공개 도감 V-978 전투력 **2,300,000**, 획득/팩 획득 **false**, 스킬 준비 **true**. 주요 배포 파일 8개가 실제 배포 체크아웃의 바이트 해시와 일치하며 광역 아틀라스 HTTP 200 확인.
+- 운영 계정 변경 0회. 실제 지급·편성 변경 없음. 증빙: `docs/qa/leonel-20261018/production.json`.
+
+배포 후 이 기록만 추가하며 게임 재검사·재배포는 하지 않는다.

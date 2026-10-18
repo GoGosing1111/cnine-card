@@ -1,0 +1,95 @@
+{
+  "checkedAt": "2026-10-18T14:33:23.530Z",
+  "sourceCommit": "d5d6b8d3c14d14b4c7c76729875390dbd2154e36",
+  "previousProductionCommit": "6c29b66975e908cdef6e9b517df3a178ff7e31be",
+  "pagesUrl": "https://6dae89a2.cnine-card.pages.dev",
+  "apiRuntimeVersion": "5ea94719-493f-4a7d-9b17-7c159f083368",
+  "clanDraftVersion": "0d4c4646-f4a4-44f0-a74b-a51b6f103458",
+  "http": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "626106cd1c6d3c93619ea3a7961f1d83461686cbb452e729ffc44570acad3603",
+      "matchesReleasedBytes": true,
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "df1374f936cb63c4d8017339171fb5652b6182bcd6f077936eec77ee2d545bcf",
+      "matchesReleasedBytes": true,
+      "cacheControl": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "status": 200,
+      "sha256": "ca33b1c4084f36ce544e498e7c86b19f12835106afea3463dbe0daf22f89971b",
+      "matchesReleasedBytes": true,
+      "cacheControl": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "file": "shared/mercenary-leonel-v1.mjs",
+      "status": 200,
+      "sha256": "f4374500741f0e1ea9f91adaef5a9551348dc6515843c9a0e67dcd56d840d0e3",
+      "matchesReleasedBytes": true,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "8037f78f8676c86f34a2e95673376c0a232ea2b07212c8ba117ae5475b6064a5",
+      "matchesReleasedBytes": true,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "preview/mercenary-leonel-sss-limited-20261018-v2/manifest.json",
+      "status": 200,
+      "sha256": "2c0809fb54f29185dfbe71608f68986472ea304958914e4c6a21f035e36e1e0c",
+      "matchesReleasedBytes": true,
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/leonel-20261018/source-art.png",
+      "status": 200,
+      "sha256": "43d4c211ff58bff672e8614aa50fcd8f6c5099c667dd2f4c42c44bde75ab2e00",
+      "matchesReleasedBytes": true,
+      "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/leonel-20261018/idle.png",
+      "status": 200,
+      "sha256": "ab6d401c93ccbece50912cdaddcfc6f0d099bd720a6149729af275f28ca53683",
+      "matchesReleasedBytes": true,
+      "cacheControl": "public, max-age=86400, stale-while-revalidate=604800"
+    }
+  ],
+  "atlas": {
+    "file": "assets/atlases/ultimate.png",
+    "status": 200
+  },
+  "publicCodex": {
+    "status": 200,
+    "code": "V-978",
+    "name": "레오넬",
+    "basePower": 2300000,
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "skills": [
+      {
+        "id": "MS-978",
+        "ready": true,
+        "damageRatio": 15.12
+      }
+    ]
+  },
+  "tests": {
+    "scoped": 19,
+    "releasePolicy": 13,
+    "workerCheck": true,
+    "browserScenarios": 12
+  },
+  "pagesAssets": 19924,
+  "productionAccountWrites": 0,
+  "deploymentExitCode": 0
+}
