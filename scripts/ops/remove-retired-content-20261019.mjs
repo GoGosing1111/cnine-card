@@ -40,7 +40,10 @@ export async function removeRetiredContent(client,{commit=false,release}={}){
   assert.equal(dependencies.length,0,'Unexpected dependent table or trigger; no cascading removal allowed');
   await client.query('SELECT key FROM app_meta WHERE key=ANY($1::text[]) FOR UPDATE',[SETTINGS_KEYS]);
   const before=await removalState(client);
-  await client.query('TRUNCATE TABLE ONLY monster_siege_actions, ONLY monster_siege_ai_actions CONTINUE IDENTITY RESTRICT');
+  await client.query('TRUNCATE TABLE ONLY monster_siege_actions CONTINUE IDENTITY RESTRICT');
+  // AI logs have a different table owner; use existing DELETE rights without
+  // changing grants or taking over that owner's role (3,531 production rows).
+  await client.query('DELETE FROM ONLY monster_siege_ai_actions');
   const removedSettings=await client.query('DELETE FROM app_meta WHERE key=ANY($1::text[]) RETURNING key',[SETTINGS_KEYS]);
   const after=await removalState(client);
   assert.ok(after.logs.every(row=>row.count==='0'),'Logs remain');

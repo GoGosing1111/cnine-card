@@ -46,3 +46,15 @@ test('active siege or foreign-key dependency prevents removal without cascading'
  assert.equal((await f.pg.query('SELECT * FROM monster_siege_actions')).rows.length,1);
  assert.equal((await f.pg.query('SELECT * FROM must_preserve')).rows.length,1);
 });
+test('AI log removal works with DELETE rights and no TRUNCATE privilege',async t=>{
+ const f=await fixture();t.after(()=>f.pg.close());
+ await f.pg.exec(`CREATE ROLE log_cleanup_test;
+ GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA public TO log_cleanup_test;
+ GRANT USAGE,SELECT ON ALL SEQUENCES IN SCHEMA public TO log_cleanup_test;
+ GRANT TRUNCATE ON monster_siege_actions TO log_cleanup_test;
+ SET ROLE log_cleanup_test;`);
+ assert.equal((await f.pg.query("SELECT has_table_privilege(current_user,'monster_siege_ai_actions','TRUNCATE') AS allowed")).rows[0].allowed,false);
+ const result=await removeRetiredContent(f.client,{commit:true,release});assert.deepEqual(result.logs.map(r=>r.deleted),[1,1]);
+ assert.equal((await verifyRetiredContentRemoval(f.client)).protectedRecordsVerified,true);
+ assert.equal((await f.pg.query("SELECT has_table_privilege(current_user,'monster_siege_ai_actions','TRUNCATE') AS allowed")).rows[0].allowed,false);
+});
