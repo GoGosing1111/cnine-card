@@ -1471,7 +1471,7 @@ function renderShell(tab,routeOptions={}) {
 
 function hallOfFameHtml(){return `<section class="soop-hall-of-fame feed-hall-of-fame" id="soopHallOfFame" aria-label="숲카라 명예의 전당"><span class="soop-hall-cup" aria-hidden="true">🏆</span><small id="soopHallTitle">숲카라 명예의 전당</small><b id="soopHallName">🏆 남수단 🏆</b></section>`}
 function liveOperationsHtml(surface='store'){
-  return `<section class="live-operations live-operations-${escapeHtml(surface)}" aria-label="실시간 콘텐츠 운영 알림" data-live-operations-surface="${escapeHtml(surface)}"><header><i aria-hidden="true"></i><span><small>LIVE OPERATIONS</small><b>작전 진행 알림</b></span><em data-live-operations-count>확인 중</em></header><div class="live-operations-viewport"><div class="live-operations-list" data-live-operations-list><div class="live-operation-empty loading"><span aria-hidden="true"></span><b>콘텐츠 상태 확인 중</b><small>현재 참여 가능한 작전을 불러오고 있습니다.</small></div></div></div><time>KST</time></section>`;
+  return `<section class="live-operations live-operations-${escapeHtml(surface)}" aria-label="실시간 콘텐츠 운영 알림" data-live-operations-surface="${escapeHtml(surface)}"><header><button type="button" class="live-operations-open" data-live-operations-open aria-label="콘텐츠 현황 전체 보기" aria-haspopup="dialog" aria-expanded="false" title="전체 진행 상황 보기"></button><i aria-hidden="true"></i><span><small>LIVE OPERATIONS</small><b>작전 진행 알림</b></span><em data-live-operations-count>확인 중</em></header><div class="live-operations-viewport"><div class="live-operations-list" data-live-operations-list><div class="live-operation-empty loading"><span aria-hidden="true"></span><b>콘텐츠 상태 확인 중</b><small>현재 참여 가능한 작전을 불러오고 있습니다.</small></div></div></div><time>KST</time></section>`;
 }
 function storeOperationsHtml(){return `${hallOfFameHtml()}${liveOperationsHtml('store')}`}
 async function loadHallOfFame(){const hall=document.getElementById('soopHallOfFame');if(!hall)return;if(!API_MODE)return;try{const data=await apiRequest('hall-of-fame',{}, {ttl:30000});if(data.enabled===false){hall.hidden=true;return}hall.hidden=false;const title=document.getElementById('soopHallTitle'),name=document.getElementById('soopHallName');if(title)title.textContent=String(data.title||'숲카라 명예의 전당');if(name)name.textContent=String(data.name||'🏆 남수단 🏆')}catch(error){console.warn('명예의 전당 조회 실패:',error)}}
@@ -1518,7 +1518,7 @@ const LIVE_OPERATION_META=Object.freeze({
   COUP:{label:'쿠데타',state:'전투 진행',deadline:'종료까지'}
 });
 let liveOperationsServerOffset=0,liveOperationsClockTimer=0,liveOperationsRefreshTimer=0;
-let liveOperationsItems=[],liveOperationsFailed=false;
+let liveOperationsItems=[],liveOperationsFailed=false,liveOperationsReady=false;
 function liveOperationTimestamp(value){const raw=String(value||'').trim();if(!raw)return NaN;return Date.parse(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(raw)?`${raw.replace(' ','T')}Z`:raw)}
 function liveOperationClock(value){const ms=liveOperationTimestamp(value)-(Date.now()+liveOperationsServerOffset);if(!Number.isFinite(ms))return '진행 중';if(ms<=0)return '상태 갱신 중';const seconds=Math.ceil(ms/1000),hours=Math.floor(seconds/3600),minutes=Math.floor((seconds%3600)/60),secs=seconds%60;if(hours>=24)return `${Math.floor(hours/24)}일 ${String(hours%24).padStart(2,'0')}:${String(minutes).padStart(2,'0')}`;return `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`}
 function liveOperationIcon(kind){return ({
@@ -1537,6 +1537,7 @@ function liveOperationCardHtml(item){
 }
 function updateLiveOperationClocks(){const nodes=document.querySelectorAll('[data-live-operation-deadline]');if(!nodes.length){if(liveOperationsClockTimer)clearInterval(liveOperationsClockTimer);liveOperationsClockTimer=0;return}nodes.forEach(node=>{node.textContent=liveOperationClock(node.dataset.liveOperationDeadline)})}
 function openLiveOperation(kind){
+  document.getElementById('liveOperationsDialog')?.close();
   const key=String(kind||'').toUpperCase();
   if(key==='ORGANIZATION'){renderShell('clan');return}
   if(key==='AUCTION'){renderShell('auction');return}
@@ -1546,6 +1547,36 @@ function openLiveOperation(kind){
   const enter=()=>{attempts++;if(key==='TERRITORY'&&typeof window.openTerritoryWar==='function'){window.openTerritoryWar();return}if(key==='SIEGE'&&typeof window.openMonsterSiege==='function'){window.openMonsterSiege();return}if(key==='SEAL'){const button=document.querySelector('[data-seal-battle-mode]');if(button){button.click();return}}if(key==='RAID'){const button=document.querySelector('[data-pve-mode="raid"]');if(button){button.click();return}}if(attempts<20)setTimeout(enter,80)};
   setTimeout(enter,60);
 }
+function bindLiveOperationsControls(){
+  document.querySelectorAll('[data-live-operations-open]').forEach(button=>{
+    button.onclick=()=>openLiveOperationsDialog(button);
+  });
+}
+function openLiveOperationsDialog(opener){
+  const existing=document.getElementById('liveOperationsDialog');
+  if(existing){existing.querySelector('[data-live-operations-close]')?.focus();return}
+  const dialog=document.createElement('dialog');
+  dialog.id='liveOperationsDialog';
+  dialog.className='live-operations-dialog';
+  dialog.setAttribute('aria-labelledby','liveOperationsDialogTitle');
+  dialog.setAttribute('aria-describedby','liveOperationsDialogDescription');
+  dialog.innerHTML='<header><div><h2 id="liveOperationsDialogTitle">콘텐츠 현황</h2><p id="liveOperationsDialogDescription">진행 중인 콘텐츠를 선택하면 바로 이동합니다.</p></div><button type="button" data-live-operations-close aria-label="콘텐츠 현황 닫기" autofocus>닫기 <span aria-hidden="true">×</span></button></header><div class="live-operations-dialog-meta"><span data-live-operations-count>확인 중</span><small>실시간 진행 상황 · KST</small></div><div class="live-operations-list" data-live-operations-list="all"></div>';
+  dialog.querySelector('[data-live-operations-close]').onclick=()=>dialog.close();
+  dialog.addEventListener('click',event=>{
+    if(event.target!==dialog)return;
+    const bounds=dialog.getBoundingClientRect();
+    if(event.clientX<bounds.left||event.clientX>bounds.right||event.clientY<bounds.top||event.clientY>bounds.bottom)dialog.close();
+  });
+  dialog.addEventListener('close',()=>{
+    opener?.setAttribute('aria-expanded','false');
+    dialog.remove();
+    if(opener?.isConnected&&opener.getClientRects().length)opener.focus({preventScroll:true});
+  },{once:true});
+  document.body.append(dialog);
+  renderLiveOperations();
+  opener?.setAttribute('aria-expanded','true');
+  dialog.showModal();
+}
 function liveBurningOperationHtml(){
   if(!burningEventIsActive())return '';
   const miracle=burningMode()==='MIRACLE',hyper=burningMode()==='HYPER',title=miracle?'미라클 버닝':hyper?'하이퍼버닝':'버닝',{coins,minutes}=burningEventNumbers();
@@ -1553,22 +1584,36 @@ function liveBurningOperationHtml(){
   return `<article class="live-operation-card live-operation-event kind-${miracle?'miracle-burning':hyper?'hyper-burning':'burning'}" data-live-burning-event="${miracle?'MIRACLE':hyper?'HYPER':'BURNING'}" role="group" aria-label="${title} 진행 중"><span class="live-operation-icon"><svg viewBox="0 0 24 24" aria-hidden="true">${flame}${hyper?'<path d="m13 12-3 5h3l-1 4 4-6h-3Z"/>':''}</svg></span><span class="live-operation-copy"><small><i aria-hidden="true"></i>이벤트<em>진행 중</em></small><b>${title}</b><span>전투 코인 ×${burningMultiplierText(coins)} · ${minutes}분 충전</span></span><strong><small>남은 시간</small><b data-burning-countdown data-burning-countdown-compact>${burningRemainingText().replace(/ 남음$/,'')}</b></strong></article>`;
 }
 function renderLiveOperations(payload=null){
+  bindLiveOperationsControls();
   const lists=[...document.querySelectorAll('[data-live-operations-list]')];if(!lists.length)return;
   if(payload){
     const serverAt=liveOperationTimestamp(payload.serverNow);if(Number.isFinite(serverAt))liveOperationsServerOffset=serverAt-Date.now();
     liveOperationsItems=(Array.isArray(payload.items)?payload.items:[]).filter(item=>LIVE_OPERATION_META[String(item?.kind||'').toUpperCase()]);
-    liveOperationsFailed=false;
+    liveOperationsFailed=false;liveOperationsReady=true;
   }
   const items=liveOperationsFailed?[]:liveOperationsItems,eventHtml=liveBurningOperationHtml(),count=items.length+(eventHtml?1:0);
   const errorHtml='<div class="live-operation-empty error"><span aria-hidden="true"></span><b>운영 상태 갱신 대기</b><small>잠시 후 자동으로 다시 확인합니다.</small></div>';
-  const html=eventHtml+(liveOperationsFailed?errorHtml:items.length?items.map(liveOperationCardHtml).join(''):eventHtml?'':'<div class="live-operation-empty"><span aria-hidden="true"></span><b>현재 진행 중인 주요 콘텐츠 없음</b><small>새 작전이 열리면 자동으로 표시됩니다.</small></div>');
-  lists.forEach(list=>{const left=list.scrollLeft;list.innerHTML=html;list.scrollLeft=left});
-  document.querySelectorAll('[data-live-operations-count]').forEach(node=>{node.textContent=count?`${count}건 진행`:liveOperationsFailed?'갱신 대기':'대기 중'});
+  lists.forEach(list=>{
+    const all=list.dataset.liveOperationsList==='all';
+    const visible=all?items:items.filter(item=>!['RANKED_DUO','ORGANIZATION'].includes(String(item.kind).toUpperCase()));
+    const empty=!all&&items.length?'<div class="live-operation-empty"><b>전체 진행 상황 보기</b><small>콘텐츠 현황을 누르면 모두 확인할 수 있습니다.</small></div>':'<div class="live-operation-empty"><span aria-hidden="true"></span><b>현재 진행 중인 주요 콘텐츠 없음</b><small>새 작전이 열리면 자동으로 표시됩니다.</small></div>';
+    const loading='<div class="live-operation-empty loading"><b>콘텐츠 상태 확인 중</b><small>현재 진행 상황을 불러오고 있습니다.</small></div>';
+    const focused=list.contains(document.activeElement)?document.activeElement.dataset.liveOperationKind:null;
+    const left=list.scrollLeft,top=list.scrollTop;
+    list.innerHTML=eventHtml+(liveOperationsFailed?errorHtml:!liveOperationsReady?loading:visible.length?visible.map(liveOperationCardHtml).join(''):eventHtml?'':empty);
+    list.scrollLeft=left;list.scrollTop=top;
+    if(focused){
+      const next=[...list.querySelectorAll('[data-live-operation-kind]')].find(button=>button.dataset.liveOperationKind===focused);
+      (next||document.querySelector('#liveOperationsDialog [data-live-operations-close]'))?.focus({preventScroll:true});
+    }
+  });
+  document.querySelectorAll('[data-live-operations-count]').forEach(node=>{node.textContent=count?`${count}건 진행`:liveOperationsFailed?'갱신 대기':!liveOperationsReady?'확인 중':'대기 중'});
   document.querySelectorAll('[data-live-operation-kind]').forEach(button=>{button.onclick=()=>openLiveOperation(button.dataset.liveOperationKind)});
   updateLiveOperationClocks();if(!liveOperationsClockTimer)liveOperationsClockTimer=setInterval(updateLiveOperationClocks,1000);
 }
 function scheduleLiveOperationsRefresh(seconds=30){if(liveOperationsRefreshTimer)clearTimeout(liveOperationsRefreshTimer);liveOperationsRefreshTimer=setTimeout(()=>{liveOperationsRefreshTimer=0;if(document.querySelector('[data-live-operations-list]'))loadLiveOperations(true)},Math.max(15,Number(seconds)||30)*1000)}
 async function loadLiveOperations(fresh=false){
+  bindLiveOperationsControls();
   const lists=document.querySelectorAll('[data-live-operations-list]');if(!lists.length)return;
   if(!API_MODE){renderLiveOperations({items:[]});return}
   try{if(fresh)clearApiCache('live-operations');const data=await apiRequest('live-operations',{}, {ttl:fresh?0:15000,timeoutMs:7000});renderLiveOperations(data);scheduleLiveOperationsRefresh(data.pollSeconds)}catch(error){liveOperationsFailed=true;renderLiveOperations();scheduleLiveOperationsRefresh(20)}

@@ -59,8 +59,10 @@ test('operation board ships desktop and mobile game UI with cache-busted assets'
   assert.match(css,/grid-auto-columns: minmax\(300px, 1fr\)/);
   assert.match(css,/grid-auto-columns: minmax\(252px, 78vw\)/);
   assert.match(index,/live-operations-v1868\.css\?v=1868-live-operations-r2/);
-  assert.match(index,/app\.js\?v=2108-shared-navigation/);
-  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=2108-shared-navigation/);
-  assert.match(worker,/soop-card-shell-v2108-shared-navigation/);
+  const appUrl=new URL(index.match(/src="(js\/app\.js\?[^\"]+)"/)[1].replaceAll('&amp;','&'),'https://example.test');
+  const shellUrl=new URL(index.match(/src="(js\/soopketmon-v21-exact-shell-adapter\.js\?[^\"]+)"/)[1].replaceAll('&amp;','&'),'https://example.test');
+  assert.ok(appUrl.searchParams.get('v'));
+  assert.ok(worker.includes(`soop-card-shell-v${appUrl.searchParams.get('v')}`));
+  assert.equal(shellUrl.searchParams.get('v'),'2108-shared-navigation');
   assert.match(shell,/const VERSION = '2108-shared-navigation'/);
 });
