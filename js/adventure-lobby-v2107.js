@@ -241,7 +241,7 @@ window.__ADVENTURE_LOBBY_TEMPLATE__="<style>:host{color-scheme:dark;--bg:#080c17
           if(!response.ok)throw Error('즐겨찾기 요청에 실패했습니다.');
           return response.json();
         },
-        isRouteVisible:id=>['equipmentForge','mercenaryEquipment'].includes(id)||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false,
+        isRouteVisible:id=>['world','equipmentForge','mercenaryEquipment'].includes(id)||global.SoopketmonV21ExactShell?.isRouteVisible(id)!==false,
         navigate:async(id,href)=>{if(href){location.assign(href);return;}return global.SoopketmonV21ExactShell.navigate(id);},
         openChief:()=>global.SoopketmonV21ExactShell.openChief(),openAccount:()=>global.showAccountPanel?.(),...settings,
         isSeasonPassVisible:()=>this.seasonPassVisible===true,
