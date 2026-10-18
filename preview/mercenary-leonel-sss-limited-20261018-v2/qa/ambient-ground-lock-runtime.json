@@ -1,0 +1,1299 @@
+{
+  "scope": "24_PAINTED_BASELINES_FULL_LOOP",
+  "runtimeBundle": "33839b3d7c7b6b583943761c6324bedccbe6bd85e6f942e66903b19deef78e5e",
+  "createdAt": "2026-10-18T13:43:21.462Z",
+  "views": [
+    {
+      "name": "desktop",
+      "passed": true,
+      "samples": [
+        {
+          "index": 0,
+          "time": 0.049999999999999996,
+          "point": {
+            "x": 761.1393073170732,
+            "y": 544.7416634146341
+          },
+          "bodyScreenHeight": 293.85219512195124,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 761.1393073170732,
+            "y": 356.74166341463416
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 0,
+              "groundAnchor": {
+                "x": 157,
+                "y": 395.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.78,
+              "scale": 0.9279458598726115,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 0,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 410.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170731,
+                "y": 356.74166341463416
+              },
+              "groundError": 1.1368683772161603e-13,
+              "alpha": 0.4,
+              "scale": 1.681270358306189,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "time": 0.3833333333333333,
+          "point": {
+            "x": 761.1393073170732,
+            "y": 544.7416634146341
+          },
+          "bodyScreenHeight": 293.85219512195124,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 761.1393073170732,
+            "y": 356.74166341463416
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 1,
+              "groundAnchor": {
+                "x": 157,
+                "y": 401.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.78,
+              "scale": 0.9279458598726114,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 1,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 411.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.4,
+              "scale": 1.6812703583061888,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "time": 0.7166666666666667,
+          "point": {
+            "x": 761.1393073170732,
+            "y": 544.7416634146341
+          },
+          "bodyScreenHeight": 293.85219512195124,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 761.1393073170732,
+            "y": 356.74166341463416
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 2,
+              "groundAnchor": {
+                "x": 157,
+                "y": 401.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.78,
+              "scale": 0.9279458598726115,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 2,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 415.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170731,
+                "y": 356.74166341463416
+              },
+              "groundError": 1.1368683772161603e-13,
+              "alpha": 0.4,
+              "scale": 1.681270358306189,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "time": 1.05,
+          "point": {
+            "x": 761.1393073170732,
+            "y": 544.7416634146341
+          },
+          "bodyScreenHeight": 293.85219512195124,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 761.1393073170732,
+            "y": 356.74166341463416
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 3,
+              "groundAnchor": {
+                "x": 157,
+                "y": 403.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.78,
+              "scale": 0.9279458598726114,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 3,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 412.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.4,
+              "scale": 1.6812703583061888,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "time": 1.3833333333333335,
+          "point": {
+            "x": 761.1393073170732,
+            "y": 544.7416634146341
+          },
+          "bodyScreenHeight": 293.85219512195124,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 761.1393073170732,
+            "y": 356.74166341463416
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 4,
+              "groundAnchor": {
+                "x": 157,
+                "y": 385.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.78,
+              "scale": 0.9279458598726115,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 4,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 391.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170731,
+                "y": 356.74166341463416
+              },
+              "groundError": 1.1368683772161603e-13,
+              "alpha": 0.4,
+              "scale": 1.681270358306189,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "time": 1.7166666666666668,
+          "point": {
+            "x": 761.1393073170732,
+            "y": 544.7416634146341
+          },
+          "bodyScreenHeight": 293.85219512195124,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 761.1393073170732,
+            "y": 356.74166341463416
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 5,
+              "groundAnchor": {
+                "x": 157,
+                "y": 386.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.78,
+              "scale": 0.9279458598726114,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 5,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 391.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.4,
+              "scale": 1.6812703583061888,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "time": 2.0500000000000003,
+          "point": {
+            "x": 761.1393073170732,
+            "y": 544.7416634146341
+          },
+          "bodyScreenHeight": 293.85219512195124,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 761.1393073170732,
+            "y": 356.74166341463416
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 6,
+              "groundAnchor": {
+                "x": 157,
+                "y": 390.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.78,
+              "scale": 0.9279458598726115,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 6,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 383.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170731,
+                "y": 356.74166341463416
+              },
+              "groundError": 1.1368683772161603e-13,
+              "alpha": 0.4,
+              "scale": 1.681270358306189,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "time": 2.3833333333333333,
+          "point": {
+            "x": 761.1393073170732,
+            "y": 544.7416634146341
+          },
+          "bodyScreenHeight": 293.85219512195124,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 761.1393073170732,
+            "y": 356.74166341463416
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 7,
+              "groundAnchor": {
+                "x": 157,
+                "y": 388.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.78,
+              "scale": 0.9279458598726114,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 7,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 378.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.4,
+              "scale": 1.6812703583061888,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "time": 2.716666666666667,
+          "point": {
+            "x": 761.1393073170732,
+            "y": 544.7416634146341
+          },
+          "bodyScreenHeight": 293.85219512195124,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 761.1393073170732,
+            "y": 356.74166341463416
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 8,
+              "groundAnchor": {
+                "x": 157,
+                "y": 380.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.78,
+              "scale": 0.9279458598726115,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 8,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 354.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170731,
+                "y": 356.74166341463416
+              },
+              "groundError": 1.1368683772161603e-13,
+              "alpha": 0.4,
+              "scale": 1.681270358306189,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "time": 3.0500000000000003,
+          "point": {
+            "x": 761.1393073170732,
+            "y": 544.7416634146341
+          },
+          "bodyScreenHeight": 293.85219512195124,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 761.1393073170732,
+            "y": 356.74166341463416
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 9,
+              "groundAnchor": {
+                "x": 157,
+                "y": 383.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.78,
+              "scale": 0.9279458598726114,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 9,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 349.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.4,
+              "scale": 1.6812703583061888,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "time": 3.3833333333333333,
+          "point": {
+            "x": 761.1393073170732,
+            "y": 544.7416634146341
+          },
+          "bodyScreenHeight": 293.85219512195124,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 761.1393073170732,
+            "y": 356.74166341463416
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 10,
+              "groundAnchor": {
+                "x": 157,
+                "y": 384.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.78,
+              "scale": 0.9279458598726115,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 10,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 353.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170731,
+                "y": 356.74166341463416
+              },
+              "groundError": 1.1368683772161603e-13,
+              "alpha": 0.4,
+              "scale": 1.681270358306189,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "time": 3.716666666666667,
+          "point": {
+            "x": 761.1393073170732,
+            "y": 544.7416634146341
+          },
+          "bodyScreenHeight": 293.85219512195124,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 761.1393073170732,
+            "y": 356.74166341463416
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 11,
+              "groundAnchor": {
+                "x": 157,
+                "y": 384.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.78,
+              "scale": 0.9279458598726114,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 11,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 350.5
+              },
+              "paintedBaseGlobal": {
+                "x": 761.1393073170732,
+                "y": 356.74166341463416
+              },
+              "groundError": 0,
+              "alpha": 0.4,
+              "scale": 1.6812703583061888,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        }
+      ],
+      "movement": [
+        {
+          "mode": "idle",
+          "time": 3.999,
+          "errors": [
+            0,
+            0
+          ],
+          "motionRate": 1,
+          "effectRate": 1
+        },
+        {
+          "mode": "idle",
+          "time": 0,
+          "errors": [
+            0,
+            1.1368683772161603e-13
+          ],
+          "motionRate": 1,
+          "effectRate": 1
+        },
+        {
+          "mode": "dash",
+          "time": 0.48,
+          "errors": [
+            0,
+            0
+          ],
+          "motionRate": 1,
+          "effectRate": 1
+        },
+        {
+          "mode": "attack",
+          "time": 0.21,
+          "errors": [
+            0,
+            1.1368683772161603e-13
+          ],
+          "motionRate": 2,
+          "effectRate": 1
+        },
+        {
+          "mode": "skill",
+          "time": 0.47,
+          "errors": [
+            7.190186943645084e-13,
+            7.190186943645084e-13
+          ],
+          "motionRate": 2,
+          "effectRate": 1
+        },
+        {
+          "mode": "ultimate",
+          "time": 1.79,
+          "errors": [
+            0,
+            0
+          ],
+          "motionRate": 2,
+          "effectRate": 1
+        }
+      ],
+      "errors": [],
+      "guide": "Green dashed line is the fixed actor ground plane. No output art is resized."
+    },
+    {
+      "name": "mobile",
+      "passed": true,
+      "samples": [
+        {
+          "index": 0,
+          "time": 0.049999999999999996,
+          "point": {
+            "x": 215.79999999999995,
+            "y": 587.7428571428571
+          },
+          "bodyScreenHeight": 148.57142857142856,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 215.79999999999995,
+            "y": 411.74285714285713
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 0,
+              "groundAnchor": {
+                "x": 157,
+                "y": 395.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.78,
+              "scale": 1.206329617834395,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 0,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 410.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.7999999999999,
+                "y": 411.7428571428572
+              },
+              "groundError": 8.038873388460929e-14,
+              "alpha": 0.4,
+              "scale": 2.185651465798046,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "time": 0.3833333333333333,
+          "point": {
+            "x": 215.79999999999995,
+            "y": 587.7428571428571
+          },
+          "bodyScreenHeight": 148.57142857142856,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 215.79999999999995,
+            "y": 411.74285714285713
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 1,
+              "groundAnchor": {
+                "x": 157,
+                "y": 401.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.78,
+              "scale": 1.206329617834395,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 1,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 411.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.4,
+              "scale": 2.185651465798046,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "time": 0.7166666666666667,
+          "point": {
+            "x": 215.79999999999995,
+            "y": 587.7428571428571
+          },
+          "bodyScreenHeight": 148.57142857142856,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 215.79999999999995,
+            "y": 411.74285714285713
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 2,
+              "groundAnchor": {
+                "x": 157,
+                "y": 401.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.78,
+              "scale": 1.206329617834395,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 2,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 415.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.7999999999999,
+                "y": 411.7428571428572
+              },
+              "groundError": 8.038873388460929e-14,
+              "alpha": 0.4,
+              "scale": 2.185651465798046,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "time": 1.05,
+          "point": {
+            "x": 215.79999999999995,
+            "y": 587.7428571428571
+          },
+          "bodyScreenHeight": 148.57142857142856,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 215.79999999999995,
+            "y": 411.74285714285713
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 3,
+              "groundAnchor": {
+                "x": 157,
+                "y": 403.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.78,
+              "scale": 1.206329617834395,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 3,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 412.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.4,
+              "scale": 2.185651465798046,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "time": 1.3833333333333335,
+          "point": {
+            "x": 215.79999999999995,
+            "y": 587.7428571428571
+          },
+          "bodyScreenHeight": 148.57142857142856,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 215.79999999999995,
+            "y": 411.74285714285713
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 4,
+              "groundAnchor": {
+                "x": 157,
+                "y": 385.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.78,
+              "scale": 1.206329617834395,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 4,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 391.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.7999999999999,
+                "y": 411.7428571428572
+              },
+              "groundError": 8.038873388460929e-14,
+              "alpha": 0.4,
+              "scale": 2.185651465798046,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "time": 1.7166666666666668,
+          "point": {
+            "x": 215.79999999999995,
+            "y": 587.7428571428571
+          },
+          "bodyScreenHeight": 148.57142857142856,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 215.79999999999995,
+            "y": 411.74285714285713
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 5,
+              "groundAnchor": {
+                "x": 157,
+                "y": 386.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.78,
+              "scale": 1.206329617834395,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 5,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 391.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.4,
+              "scale": 2.185651465798046,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "time": 2.0500000000000003,
+          "point": {
+            "x": 215.79999999999995,
+            "y": 587.7428571428571
+          },
+          "bodyScreenHeight": 148.57142857142856,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 215.79999999999995,
+            "y": 411.74285714285713
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 6,
+              "groundAnchor": {
+                "x": 157,
+                "y": 390.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.78,
+              "scale": 1.206329617834395,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 6,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 383.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.7999999999999,
+                "y": 411.7428571428572
+              },
+              "groundError": 8.038873388460929e-14,
+              "alpha": 0.4,
+              "scale": 2.185651465798046,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "time": 2.3833333333333333,
+          "point": {
+            "x": 215.79999999999995,
+            "y": 587.7428571428571
+          },
+          "bodyScreenHeight": 148.57142857142856,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 215.79999999999995,
+            "y": 411.74285714285713
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 7,
+              "groundAnchor": {
+                "x": 157,
+                "y": 388.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.78,
+              "scale": 1.206329617834395,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 7,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 378.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.4,
+              "scale": 2.185651465798046,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "time": 2.716666666666667,
+          "point": {
+            "x": 215.79999999999995,
+            "y": 587.7428571428571
+          },
+          "bodyScreenHeight": 148.57142857142856,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 215.79999999999995,
+            "y": 411.74285714285713
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 8,
+              "groundAnchor": {
+                "x": 157,
+                "y": 380.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.78,
+              "scale": 1.206329617834395,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 8,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 354.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.7999999999999,
+                "y": 411.7428571428572
+              },
+              "groundError": 8.038873388460929e-14,
+              "alpha": 0.4,
+              "scale": 2.185651465798046,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "time": 3.0500000000000003,
+          "point": {
+            "x": 215.79999999999995,
+            "y": 587.7428571428571
+          },
+          "bodyScreenHeight": 148.57142857142856,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 215.79999999999995,
+            "y": 411.74285714285713
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 9,
+              "groundAnchor": {
+                "x": 157,
+                "y": 383.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.78,
+              "scale": 1.206329617834395,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 9,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 349.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.4,
+              "scale": 2.185651465798046,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "time": 3.3833333333333333,
+          "point": {
+            "x": 215.79999999999995,
+            "y": 587.7428571428571
+          },
+          "bodyScreenHeight": 148.57142857142856,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 215.79999999999995,
+            "y": 411.74285714285713
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 10,
+              "groundAnchor": {
+                "x": 157,
+                "y": 384.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.78,
+              "scale": 1.206329617834395,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 10,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 353.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.7999999999999,
+                "y": 411.7428571428572
+              },
+              "groundError": 8.038873388460929e-14,
+              "alpha": 0.4,
+              "scale": 2.185651465798046,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "time": 3.716666666666667,
+          "point": {
+            "x": 215.79999999999995,
+            "y": 587.7428571428571
+          },
+          "bodyScreenHeight": 148.57142857142856,
+          "bodyScale": 0.5459016393442623,
+          "ground": {
+            "x": 215.79999999999995,
+            "y": 411.74285714285713
+          },
+          "layers": [
+            {
+              "key": "aura",
+              "index": 11,
+              "groundAnchor": {
+                "x": 157,
+                "y": 384.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.78,
+              "scale": 1.206329617834395,
+              "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019"
+            },
+            {
+              "key": "pressure",
+              "index": 11,
+              "groundAnchor": {
+                "x": 157.5,
+                "y": 350.5
+              },
+              "paintedBaseGlobal": {
+                "x": 215.79999999999995,
+                "y": 411.7428571428572
+              },
+              "groundError": 5.684341886080802e-14,
+              "alpha": 0.4,
+              "scale": 2.185651465798046,
+              "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf"
+            }
+          ]
+        }
+      ],
+      "movement": [
+        {
+          "mode": "idle",
+          "time": 3.999,
+          "errors": [
+            5.684341886080802e-14,
+            5.684341886080802e-14
+          ],
+          "motionRate": 1,
+          "effectRate": 1
+        },
+        {
+          "mode": "idle",
+          "time": 0,
+          "errors": [
+            5.684341886080802e-14,
+            8.038873388460929e-14
+          ],
+          "motionRate": 1,
+          "effectRate": 1
+        },
+        {
+          "mode": "dash",
+          "time": 0.48,
+          "errors": [
+            4.099037227506403e-13,
+            4.099037227506403e-13
+          ],
+          "motionRate": 1,
+          "effectRate": 1
+        },
+        {
+          "mode": "attack",
+          "time": 0.21,
+          "errors": [
+            3.4576501834057003e-13,
+            3.515571301265078e-13
+          ],
+          "motionRate": 2,
+          "effectRate": 1
+        },
+        {
+          "mode": "skill",
+          "time": 0.47,
+          "errors": [
+            1.1368683772161603e-13,
+            1.1368683772161603e-13
+          ],
+          "motionRate": 2,
+          "effectRate": 1
+        },
+        {
+          "mode": "ultimate",
+          "time": 1.79,
+          "errors": [
+            1.1368683772161603e-13,
+            1.1368683772161603e-13
+          ],
+          "motionRate": 2,
+          "effectRate": 1
+        }
+      ],
+      "errors": [],
+      "guide": "Green dashed line is the fixed actor ground plane. No output art is resized."
+    }
+  ]
+}

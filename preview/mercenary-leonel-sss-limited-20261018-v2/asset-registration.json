@@ -1060,7 +1060,65 @@
       "columns": 4,
       "rows": 3,
       "layer": "behind",
-      "blendMode": "add"
+      "blendMode": "add",
+      "groundRegistration": {
+        "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019",
+        "method": "DENSE_BASELINE_PER_FRAME",
+        "alphaThreshold": 96,
+        "minRowCoverage": 0.1,
+        "minConsecutiveRows": 3,
+        "horizontalOrigin": "COMMON_CONTENT_CENTER",
+        "frames": [
+          {
+            "x": 157,
+            "y": 395.5
+          },
+          {
+            "x": 157,
+            "y": 401.5
+          },
+          {
+            "x": 157,
+            "y": 401.5
+          },
+          {
+            "x": 157,
+            "y": 403.5
+          },
+          {
+            "x": 157,
+            "y": 385.5
+          },
+          {
+            "x": 157,
+            "y": 386.5
+          },
+          {
+            "x": 157,
+            "y": 390.5
+          },
+          {
+            "x": 157,
+            "y": 388.5
+          },
+          {
+            "x": 157,
+            "y": 380.5
+          },
+          {
+            "x": 157,
+            "y": 383.5
+          },
+          {
+            "x": 157,
+            "y": 384.5
+          },
+          {
+            "x": 157,
+            "y": 384.5
+          }
+        ]
+      }
     },
     "dash": {
       "source": "assets/sources/fx-dash-v2.png",
@@ -1102,7 +1160,65 @@
       "columns": 4,
       "rows": 3,
       "layer": "background",
-      "blendMode": "add"
+      "blendMode": "add",
+      "groundRegistration": {
+        "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf",
+        "method": "DENSE_BASELINE_PER_FRAME",
+        "alphaThreshold": 96,
+        "minRowCoverage": 0.1,
+        "minConsecutiveRows": 3,
+        "horizontalOrigin": "COMMON_CONTENT_CENTER",
+        "frames": [
+          {
+            "x": 157.5,
+            "y": 410.5
+          },
+          {
+            "x": 157.5,
+            "y": 411.5
+          },
+          {
+            "x": 157.5,
+            "y": 415.5
+          },
+          {
+            "x": 157.5,
+            "y": 412.5
+          },
+          {
+            "x": 157.5,
+            "y": 391.5
+          },
+          {
+            "x": 157.5,
+            "y": 391.5
+          },
+          {
+            "x": 157.5,
+            "y": 383.5
+          },
+          {
+            "x": 157.5,
+            "y": 378.5
+          },
+          {
+            "x": 157.5,
+            "y": 354.5
+          },
+          {
+            "x": 157.5,
+            "y": 349.5
+          },
+          {
+            "x": 157.5,
+            "y": 353.5
+          },
+          {
+            "x": 157.5,
+            "y": 350.5
+          }
+        ]
+      }
     }
   },
   "atlasColumns": 3,

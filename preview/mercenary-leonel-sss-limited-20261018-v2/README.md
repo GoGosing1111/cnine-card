@@ -4,7 +4,9 @@
 
 [실제 전투 프리뷰](http://127.0.0.1:8985/preview/mercenary-leonel-sss-limited-20261018-v2/) · [V2 최초 시연 영상](review-v2.webm) · [전체 자산 목록](manifest.json)
 
-2026-10-18 후속: 기본 검압 두 겹의 기준점을 캐릭터 발밑으로 옮겨 이동 중에도 붙도록 수정했다. 불투명도는 아우라 68%→78%, 배경 검압 30%→40%다. 이미지·캐릭터/효과 크기·모션/효과 속도는 유지했다. [PC·모바일 위치 확인](qa/pressure-attachment-20261018.json), [PC 화면](qa/desktop-pressure-attached.png), [모바일 화면](qa/mobile-pressure-attached.png)에 현재 번들 검수를 기록했다. 아래 최초 V2 종합 검사와 영상은 이 위치 조정 이전 증빙이다.
+2026-10-18 최신 후속: 셀 기준점을 일괄 고정하던 방식은 프레임별 실제 바닥 차이를 놓쳐 교체했다. 기본 검압 2겹 × 12프레임의 단단한 하단을 각각 등록하고, 캐릭터 발밑의 동일 지면 좌표에 고정한다. 고립 입자·옅은 셀 경계 잔여 픽셀은 바닥 판정에서 제외한다. 불투명도는 아우라 78%, 배경 검압 40%로 유지하며 이미지·캐릭터/효과 크기·모션/효과 속도도 유지했다.
+
+[현재 1회차 재생 영상](review-ambient-ground-lock.webm) · [PC 12프레임](qa/desktop-ground-lock-all12.png) · [모바일 12프레임](qa/mobile-ground-lock-all12.png) · [바닥 등록](qa/ambient-ground-registration.json) · [전체 회차·이동 검사](qa/ambient-ground-lock-runtime.json). 녹색 점선은 검수 이미지에만 표시한 고정 지면이다. 앞선 셀 기준 검사와 아래 최초 V2 종합 검사·영상은 현재 바닥 등록 이전 증빙이다.
 
 ## 이번 결과
 
@@ -76,6 +78,7 @@ PC 1440×1000, 모바일 390×844의 실제 브라우저 전장에서 재생했�
 node pack-v2-effects.mjs
 node register-v2.mjs
 node build-assets.mjs
+node register-ambient-anchors.mjs
 node build-qa-previews.mjs
 node qa-assets.mjs
 node qa-motion.mjs

@@ -138,11 +138,16 @@ for(const[kind,key,def]of [...Object.entries(cfg.effects).map(([k,d])=>['effects
   const bytes=await fs.readFile(file(def.source)),meta=await sharp(bytes).metadata();
   if(!meta.hasAlpha)throw new Error(def.source+': transparency is required');
   const spec={url:def.source,columns:def.columns,rows:def.rows,width:meta.width,height:meta.height,frameWidth:meta.width/def.columns,frameHeight:meta.height/def.rows,sha256:hash(bytes),layer:def.layer,blendMode:def.blendMode,frames:[]};
+  if(def.groundRegistration){
+    const {frames,...registration}=def.groundRegistration;
+    if(registration.sourceSha256!==spec.sha256||frames.length!==def.columns*def.rows)throw new Error(key+': stale ground registration');
+    spec.groundRegistration=registration;
+  }
   for(let i=0;i<def.columns*def.rows;i++){
     const col=i%def.columns,row=Math.floor(i/def.columns),x=Math.round(col*meta.width/def.columns),y=Math.round(row*meta.height/def.rows);
     const rect={x,y,width:Math.round((col+1)*meta.width/def.columns)-x,height:Math.round((row+1)*meta.height/def.rows)-y};
     const frame=await sharp(bytes).extract({left:x,top:y,width:rect.width,height:rect.height}).ensureAlpha().raw().toBuffer({resolveWithObject:true});
-    spec.frames.push({index:i,rect,sha256:hash(frame.data),alphaBounds:alphaBounds(frame.data,frame.info.width,frame.info.height,0),visibleBounds:alphaBounds(frame.data,frame.info.width,frame.info.height,16)});
+    spec.frames.push({index:i,rect,sha256:hash(frame.data),alphaBounds:alphaBounds(frame.data,frame.info.width,frame.info.height,0),visibleBounds:alphaBounds(frame.data,frame.info.width,frame.info.height,16),...(def.groundRegistration?{groundAnchor:def.groundRegistration.frames[i]}:{})});
   }
   const visible=spec.frames.map(f=>f.visibleBounds),left=Math.min(...visible.map(b=>b.left)),top=Math.min(...visible.map(b=>b.top));
   spec.contentBounds={left,top,width:Math.max(...visible.map(b=>b.left+b.width))-left,height:Math.max(...visible.map(b=>b.top+b.height))-top};

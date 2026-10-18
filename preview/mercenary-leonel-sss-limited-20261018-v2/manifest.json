@@ -3220,6 +3220,10 @@
             "width": 277,
             "height": 181,
             "pixels": 16925
+          },
+          "groundAnchor": {
+            "x": 157,
+            "y": 395.5
           }
         },
         {
@@ -3244,6 +3248,10 @@
             "width": 277,
             "height": 367,
             "pixels": 30962
+          },
+          "groundAnchor": {
+            "x": 157,
+            "y": 401.5
           }
         },
         {
@@ -3268,6 +3276,10 @@
             "width": 276,
             "height": 407,
             "pixels": 39696
+          },
+          "groundAnchor": {
+            "x": 157,
+            "y": 401.5
           }
         },
         {
@@ -3292,6 +3304,10 @@
             "width": 286,
             "height": 394,
             "pixels": 46912
+          },
+          "groundAnchor": {
+            "x": 157,
+            "y": 403.5
           }
         },
         {
@@ -3316,6 +3332,10 @@
             "width": 288,
             "height": 405,
             "pixels": 47023
+          },
+          "groundAnchor": {
+            "x": 157,
+            "y": 385.5
           }
         },
         {
@@ -3340,6 +3360,10 @@
             "width": 305,
             "height": 418,
             "pixels": 58855
+          },
+          "groundAnchor": {
+            "x": 157,
+            "y": 386.5
           }
         },
         {
@@ -3364,6 +3388,10 @@
             "width": 310,
             "height": 418,
             "pixels": 61219
+          },
+          "groundAnchor": {
+            "x": 157,
+            "y": 390.5
           }
         },
         {
@@ -3388,6 +3416,10 @@
             "width": 306,
             "height": 393,
             "pixels": 49454
+          },
+          "groundAnchor": {
+            "x": 157,
+            "y": 388.5
           }
         },
         {
@@ -3412,6 +3444,10 @@
             "width": 299,
             "height": 390,
             "pixels": 48822
+          },
+          "groundAnchor": {
+            "x": 157,
+            "y": 380.5
           }
         },
         {
@@ -3436,6 +3472,10 @@
             "width": 312,
             "height": 386,
             "pixels": 46408
+          },
+          "groundAnchor": {
+            "x": 157,
+            "y": 383.5
           }
         },
         {
@@ -3460,6 +3500,10 @@
             "width": 295,
             "height": 389,
             "pixels": 38231
+          },
+          "groundAnchor": {
+            "x": 157,
+            "y": 384.5
           }
         },
         {
@@ -3484,6 +3528,10 @@
             "width": 281,
             "height": 164,
             "pixels": 15910
+          },
+          "groundAnchor": {
+            "x": 157,
+            "y": 384.5
           }
         }
       ],
@@ -3493,7 +3541,15 @@
         "width": 314,
         "height": 418
       },
-      "contentBoundsAlphaThreshold": 16
+      "contentBoundsAlphaThreshold": 16,
+      "groundRegistration": {
+        "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019",
+        "method": "DENSE_BASELINE_PER_FRAME",
+        "alphaThreshold": 96,
+        "minRowCoverage": 0.1,
+        "minConsecutiveRows": 3,
+        "horizontalOrigin": "COMMON_CONTENT_CENTER"
+      }
     },
     "dash": {
       "url": "assets/sources/fx-dash-v2.png",
@@ -5074,6 +5130,10 @@
             "width": 266,
             "height": 183,
             "pixels": 13376
+          },
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 410.5
           }
         },
         {
@@ -5098,6 +5158,10 @@
             "width": 278,
             "height": 276,
             "pixels": 22248
+          },
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 411.5
           }
         },
         {
@@ -5122,6 +5186,10 @@
             "width": 268,
             "height": 335,
             "pixels": 31812
+          },
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 415.5
           }
         },
         {
@@ -5146,6 +5214,10 @@
             "width": 272,
             "height": 350,
             "pixels": 33462
+          },
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 412.5
           }
         },
         {
@@ -5170,6 +5242,10 @@
             "width": 276,
             "height": 352,
             "pixels": 33423
+          },
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 391.5
           }
         },
         {
@@ -5194,6 +5270,10 @@
             "width": 296,
             "height": 342,
             "pixels": 35783
+          },
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 391.5
           }
         },
         {
@@ -5218,6 +5298,10 @@
             "width": 301,
             "height": 286,
             "pixels": 29317
+          },
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 383.5
           }
         },
         {
@@ -5242,6 +5326,10 @@
             "width": 272,
             "height": 266,
             "pixels": 23755
+          },
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 378.5
           }
         },
         {
@@ -5266,6 +5354,10 @@
             "width": 275,
             "height": 314,
             "pixels": 21108
+          },
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 354.5
           }
         },
         {
@@ -5290,6 +5382,10 @@
             "width": 270,
             "height": 258,
             "pixels": 21866
+          },
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 349.5
           }
         },
         {
@@ -5314,6 +5410,10 @@
             "width": 275,
             "height": 283,
             "pixels": 24387
+          },
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 353.5
           }
         },
         {
@@ -5338,6 +5438,10 @@
             "width": 266,
             "height": 164,
             "pixels": 14972
+          },
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 350.5
           }
         }
       ],
@@ -5347,7 +5451,15 @@
         "width": 307,
         "height": 374
       },
-      "contentBoundsAlphaThreshold": 16
+      "contentBoundsAlphaThreshold": 16,
+      "groundRegistration": {
+        "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf",
+        "method": "DENSE_BASELINE_PER_FRAME",
+        "alphaThreshold": 96,
+        "minRowCoverage": 0.1,
+        "minConsecutiveRows": 3,
+        "horizontalOrigin": "COMMON_CONTENT_CENTER"
+      }
     }
   },
   "displaySizing": {

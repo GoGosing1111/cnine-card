@@ -59,10 +59,16 @@ export class LeonelFX{
  }
  point(p,layer=this.front){return layer.toLocal(this.merc.root.parent.toGlobal(p));}
   bladePoints(state,r){const f=this.pose(state.pose),s=this.scaleFor(f)*this.merc.root.scale.x,dir=state.pose.facing;const point=p=>({x:r.x+(p.x-f.pivot.x)*s*dir,y:r.y+(p.y-f.pivot.y)*s});return{grip:point(f.grip),start:point(f.bladeStart||f.grip),tip:point(f.tip)};}
- textureFrame(key,progress){const a=this.assets.effects[key];return a?.[Math.min(a.length-1,Math.floor(clamp(progress)*a.length))];}
-  draw(sprite,texture,p,width,{alpha=1,angle=0,anchorX=.5,anchorY=.5,blend='normal',facing=1,key}={}){
+ effectFrameIndex(key,progress){const a=this.assets.effects[key];return Math.min(a.length-1,Math.floor(clamp(progress)*a.length));}
+ textureFrame(key,progress){return this.assets.effects[key]?.[this.effectFrameIndex(key,progress)];}
+ drawAmbient(sprite,key,progress,p,width,alpha){
+  const index=this.effectFrameIndex(key,progress),frame=this.manifest.effects[key].frames[index];
+  this.draw(sprite,this.assets.effects[key][index],p,width,{alpha,key,pivot:frame.groundAnchor});
+ }
+  draw(sprite,texture,p,width,{alpha=1,angle=0,anchorX=.5,anchorY=.5,blend='normal',facing=1,key,pivot}={}){
   if(!texture){sprite.visible=false;return;}const bounds=this.manifest.effects[key]?.contentBounds;
   if(bounds){anchorX=(bounds.left+bounds.width*anchorX)/texture.width;anchorY=(bounds.top+bounds.height*anchorY)/texture.height;width*=texture.width/bounds.width;}
+  if(pivot){anchorX=pivot.x/texture.width;anchorY=pivot.y/texture.height;}
   sprite.texture=texture;sprite.visible=alpha>0;sprite.position.set(p.x,p.y);sprite.anchor.set(anchorX,anchorY);sprite.scale.set(width/texture.width*facing,width/texture.width);sprite.alpha=alpha;sprite.rotation=angle;sprite.tint=0xffffff;sprite.blendMode=blend;
  }
  render(t){
@@ -73,10 +79,10 @@ export class LeonelFX{
   const torso=this.targetPoint(),feet=this.targetPoint(this.target,0),target=this.point(torso),ground=this.point(feet),own=this.point(r),center=this.targets.reduce((v,a)=>{const p=this.point(this.targetPoint(a));return{x:v.x+p.x/this.targets.length,y:v.y+p.y/this.targets.length};},{x:0,y:0});
   const auraOn=this.effectsEnabled&&this.auraEnabled;this.aura.visible=this.backgroundAura.visible=auraOn;
   if(auraOn){
-   const ambientPhase=(t%4)/4,tex=this.textureFrame('aura',ambientPhase),pressure=this.textureFrame('pressure',ambientPhase),at=this.point(r,this.back);
-   // Register both ambient layers at the actor's feet, including during movement.
-   this.draw(this.aura,tex,at,size*1.75,{anchorY:.98,alpha:.78,key:'aura'});
-   this.draw(this.backgroundAura,pressure,at,size*3.1,{anchorY:.98,alpha:.4,key:'pressure'});
+   const ambientPhase=(t%4)/4,at=this.point({x:r.x,y:r.groundY},this.back);
+   // Each drawing has its own painted base. Align that base to one ground plane.
+   this.drawAmbient(this.aura,'aura',ambientPhase,at,size*1.75,.78);
+   this.drawAmbient(this.backgroundAura,'pressure',ambientPhase,at,size*3.1,.4);
   }
   if(state.ghosts&&!resting){[.035,.075,.12,.18].forEach((ago,i)=>{if(t<ago)return;const old=sample(this.mode,t-ago),r0=this.rootFor(old),f=this.pose(old.pose),s=this.ghosts[i],texture=this.assets.motion[old.pose.bank][f.index];s.texture=texture;s.anchor.set(f.pivot.x/texture.width,f.pivot.y/texture.height);s.scale.set(this.scaleFor(f)*m.root.scale.x*old.pose.facing,this.scaleFor(f)*m.root.scale.y);s.position.copyFrom(this.point(r0,this.back));s.alpha=[.23,.16,.10,.05][i];s.tint=0xc7d9e5;s.blendMode='add';s.visible=true;});}
   this.activeFrames=[];

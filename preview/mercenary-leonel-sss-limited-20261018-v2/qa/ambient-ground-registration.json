@@ -1,0 +1,928 @@
+{
+  "method": "DENSE_BASELINE_PER_FRAME",
+  "alphaThreshold": 96,
+  "minRowCoverage": 0.1,
+  "minConsecutiveRows": 3,
+  "layers": {
+    "aura": {
+      "source": "assets/sources/fx-aura-v2.png",
+      "sourceSha256": "c70dda129b9fb48623c43362c5e59a0ccb7ebae6a7ef2bddbdf8c7afd0bcd019",
+      "measurements": [
+        {
+          "index": 0,
+          "groundAnchor": {
+            "x": 157,
+            "y": 395.5
+          },
+          "previousAnchorY": 409.64,
+          "baselineRows": [
+            {
+              "y": 392,
+              "count": 181
+            },
+            {
+              "y": 393,
+              "count": 159
+            },
+            {
+              "y": 394,
+              "count": 96
+            },
+            {
+              "y": 395,
+              "count": 46
+            },
+            {
+              "y": 396,
+              "count": 16
+            },
+            {
+              "y": 397,
+              "count": 0
+            },
+            {
+              "y": 398,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "groundAnchor": {
+            "x": 157,
+            "y": 401.5
+          },
+          "previousAnchorY": 409.64,
+          "baselineRows": [
+            {
+              "y": 398,
+              "count": 174
+            },
+            {
+              "y": 399,
+              "count": 161
+            },
+            {
+              "y": 400,
+              "count": 98
+            },
+            {
+              "y": 401,
+              "count": 49
+            },
+            {
+              "y": 402,
+              "count": 20
+            },
+            {
+              "y": 403,
+              "count": 7
+            },
+            {
+              "y": 404,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "groundAnchor": {
+            "x": 157,
+            "y": 401.5
+          },
+          "previousAnchorY": 409.64,
+          "baselineRows": [
+            {
+              "y": 398,
+              "count": 178
+            },
+            {
+              "y": 399,
+              "count": 179
+            },
+            {
+              "y": 400,
+              "count": 135
+            },
+            {
+              "y": 401,
+              "count": 49
+            },
+            {
+              "y": 402,
+              "count": 17
+            },
+            {
+              "y": 403,
+              "count": 15
+            },
+            {
+              "y": 404,
+              "count": 9
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "groundAnchor": {
+            "x": 157,
+            "y": 403.5
+          },
+          "previousAnchorY": 409.64,
+          "baselineRows": [
+            {
+              "y": 400,
+              "count": 151
+            },
+            {
+              "y": 401,
+              "count": 123
+            },
+            {
+              "y": 402,
+              "count": 109
+            },
+            {
+              "y": 403,
+              "count": 69
+            },
+            {
+              "y": 404,
+              "count": 7
+            },
+            {
+              "y": 405,
+              "count": 0
+            },
+            {
+              "y": 406,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "groundAnchor": {
+            "x": 157,
+            "y": 385.5
+          },
+          "previousAnchorY": 409.64,
+          "baselineRows": [
+            {
+              "y": 382,
+              "count": 128
+            },
+            {
+              "y": 383,
+              "count": 82
+            },
+            {
+              "y": 384,
+              "count": 58
+            },
+            {
+              "y": 385,
+              "count": 33
+            },
+            {
+              "y": 386,
+              "count": 6
+            },
+            {
+              "y": 387,
+              "count": 0
+            },
+            {
+              "y": 388,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "groundAnchor": {
+            "x": 157,
+            "y": 386.5
+          },
+          "previousAnchorY": 409.64,
+          "baselineRows": [
+            {
+              "y": 383,
+              "count": 178
+            },
+            {
+              "y": 384,
+              "count": 142
+            },
+            {
+              "y": 385,
+              "count": 71
+            },
+            {
+              "y": 386,
+              "count": 39
+            },
+            {
+              "y": 387,
+              "count": 21
+            },
+            {
+              "y": 388,
+              "count": 11
+            },
+            {
+              "y": 389,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "groundAnchor": {
+            "x": 157,
+            "y": 390.5
+          },
+          "previousAnchorY": 409.64,
+          "baselineRows": [
+            {
+              "y": 387,
+              "count": 148
+            },
+            {
+              "y": 388,
+              "count": 117
+            },
+            {
+              "y": 389,
+              "count": 80
+            },
+            {
+              "y": 390,
+              "count": 60
+            },
+            {
+              "y": 391,
+              "count": 27
+            },
+            {
+              "y": 392,
+              "count": 12
+            },
+            {
+              "y": 393,
+              "count": 3
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "groundAnchor": {
+            "x": 157,
+            "y": 388.5
+          },
+          "previousAnchorY": 409.64,
+          "baselineRows": [
+            {
+              "y": 385,
+              "count": 107
+            },
+            {
+              "y": 386,
+              "count": 73
+            },
+            {
+              "y": 387,
+              "count": 51
+            },
+            {
+              "y": 388,
+              "count": 40
+            },
+            {
+              "y": 389,
+              "count": 23
+            },
+            {
+              "y": 390,
+              "count": 23
+            },
+            {
+              "y": 391,
+              "count": 24
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "groundAnchor": {
+            "x": 157,
+            "y": 380.5
+          },
+          "previousAnchorY": 409.64,
+          "baselineRows": [
+            {
+              "y": 377,
+              "count": 136
+            },
+            {
+              "y": 378,
+              "count": 111
+            },
+            {
+              "y": 379,
+              "count": 91
+            },
+            {
+              "y": 380,
+              "count": 56
+            },
+            {
+              "y": 381,
+              "count": 20
+            },
+            {
+              "y": 382,
+              "count": 27
+            },
+            {
+              "y": 383,
+              "count": 29
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "groundAnchor": {
+            "x": 157,
+            "y": 383.5
+          },
+          "previousAnchorY": 409.64,
+          "baselineRows": [
+            {
+              "y": 380,
+              "count": 113
+            },
+            {
+              "y": 381,
+              "count": 97
+            },
+            {
+              "y": 382,
+              "count": 79
+            },
+            {
+              "y": 383,
+              "count": 51
+            },
+            {
+              "y": 384,
+              "count": 24
+            },
+            {
+              "y": 385,
+              "count": 1
+            },
+            {
+              "y": 386,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "groundAnchor": {
+            "x": 157,
+            "y": 384.5
+          },
+          "previousAnchorY": 409.64,
+          "baselineRows": [
+            {
+              "y": 381,
+              "count": 94
+            },
+            {
+              "y": 382,
+              "count": 82
+            },
+            {
+              "y": 383,
+              "count": 61
+            },
+            {
+              "y": 384,
+              "count": 32
+            },
+            {
+              "y": 385,
+              "count": 21
+            },
+            {
+              "y": 386,
+              "count": 18
+            },
+            {
+              "y": 387,
+              "count": 12
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "groundAnchor": {
+            "x": 157,
+            "y": 384.5
+          },
+          "previousAnchorY": 409.64,
+          "baselineRows": [
+            {
+              "y": 381,
+              "count": 185
+            },
+            {
+              "y": 382,
+              "count": 164
+            },
+            {
+              "y": 383,
+              "count": 123
+            },
+            {
+              "y": 384,
+              "count": 55
+            },
+            {
+              "y": 385,
+              "count": 0
+            },
+            {
+              "y": 386,
+              "count": 0
+            },
+            {
+              "y": 387,
+              "count": 0
+            }
+          ]
+        }
+      ]
+    },
+    "pressure": {
+      "source": "assets/sources/fx-pressure-retry-v2-candidate1.png",
+      "sourceSha256": "a2c068d08839339340bb4e8a2e605ae4c2a0f4d81edd793f4605e40b446b4adf",
+      "measurements": [
+        {
+          "index": 0,
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 410.5
+          },
+          "previousAnchorY": 410.52,
+          "baselineRows": [
+            {
+              "y": 407,
+              "count": 57
+            },
+            {
+              "y": 408,
+              "count": 57
+            },
+            {
+              "y": 409,
+              "count": 52
+            },
+            {
+              "y": 410,
+              "count": 43
+            },
+            {
+              "y": 411,
+              "count": 30
+            },
+            {
+              "y": 412,
+              "count": 0
+            },
+            {
+              "y": 413,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 411.5
+          },
+          "previousAnchorY": 410.52,
+          "baselineRows": [
+            {
+              "y": 408,
+              "count": 120
+            },
+            {
+              "y": 409,
+              "count": 102
+            },
+            {
+              "y": 410,
+              "count": 83
+            },
+            {
+              "y": 411,
+              "count": 35
+            },
+            {
+              "y": 412,
+              "count": 2
+            },
+            {
+              "y": 413,
+              "count": 0
+            },
+            {
+              "y": 414,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 415.5
+          },
+          "previousAnchorY": 410.52,
+          "baselineRows": [
+            {
+              "y": 412,
+              "count": 112
+            },
+            {
+              "y": 413,
+              "count": 103
+            },
+            {
+              "y": 414,
+              "count": 91
+            },
+            {
+              "y": 415,
+              "count": 84
+            },
+            {
+              "y": 416,
+              "count": 28
+            },
+            {
+              "y": 417,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 412.5
+          },
+          "previousAnchorY": 410.52,
+          "baselineRows": [
+            {
+              "y": 409,
+              "count": 77
+            },
+            {
+              "y": 410,
+              "count": 74
+            },
+            {
+              "y": 411,
+              "count": 68
+            },
+            {
+              "y": 412,
+              "count": 53
+            },
+            {
+              "y": 413,
+              "count": 16
+            },
+            {
+              "y": 414,
+              "count": 0
+            },
+            {
+              "y": 415,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 391.5
+          },
+          "previousAnchorY": 410.52,
+          "baselineRows": [
+            {
+              "y": 388,
+              "count": 94
+            },
+            {
+              "y": 389,
+              "count": 86
+            },
+            {
+              "y": 390,
+              "count": 82
+            },
+            {
+              "y": 391,
+              "count": 78
+            },
+            {
+              "y": 392,
+              "count": 25
+            },
+            {
+              "y": 393,
+              "count": 0
+            },
+            {
+              "y": 394,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 391.5
+          },
+          "previousAnchorY": 410.52,
+          "baselineRows": [
+            {
+              "y": 388,
+              "count": 97
+            },
+            {
+              "y": 389,
+              "count": 86
+            },
+            {
+              "y": 390,
+              "count": 74
+            },
+            {
+              "y": 391,
+              "count": 64
+            },
+            {
+              "y": 392,
+              "count": 28
+            },
+            {
+              "y": 393,
+              "count": 0
+            },
+            {
+              "y": 394,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 383.5
+          },
+          "previousAnchorY": 410.52,
+          "baselineRows": [
+            {
+              "y": 380,
+              "count": 39
+            },
+            {
+              "y": 381,
+              "count": 36
+            },
+            {
+              "y": 382,
+              "count": 34
+            },
+            {
+              "y": 383,
+              "count": 33
+            },
+            {
+              "y": 384,
+              "count": 28
+            },
+            {
+              "y": 385,
+              "count": 23
+            },
+            {
+              "y": 386,
+              "count": 14
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 378.5
+          },
+          "previousAnchorY": 410.52,
+          "baselineRows": [
+            {
+              "y": 375,
+              "count": 37
+            },
+            {
+              "y": 376,
+              "count": 36
+            },
+            {
+              "y": 377,
+              "count": 32
+            },
+            {
+              "y": 378,
+              "count": 32
+            },
+            {
+              "y": 379,
+              "count": 30
+            },
+            {
+              "y": 380,
+              "count": 26
+            },
+            {
+              "y": 381,
+              "count": 24
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 354.5
+          },
+          "previousAnchorY": 410.52,
+          "baselineRows": [
+            {
+              "y": 351,
+              "count": 63
+            },
+            {
+              "y": 352,
+              "count": 53
+            },
+            {
+              "y": 353,
+              "count": 43
+            },
+            {
+              "y": 354,
+              "count": 33
+            },
+            {
+              "y": 355,
+              "count": 27
+            },
+            {
+              "y": 356,
+              "count": 23
+            },
+            {
+              "y": 357,
+              "count": 18
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 349.5
+          },
+          "previousAnchorY": 410.52,
+          "baselineRows": [
+            {
+              "y": 346,
+              "count": 78
+            },
+            {
+              "y": 347,
+              "count": 75
+            },
+            {
+              "y": 348,
+              "count": 68
+            },
+            {
+              "y": 349,
+              "count": 54
+            },
+            {
+              "y": 350,
+              "count": 18
+            },
+            {
+              "y": 351,
+              "count": 0
+            },
+            {
+              "y": 352,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 353.5
+          },
+          "previousAnchorY": 410.52,
+          "baselineRows": [
+            {
+              "y": 350,
+              "count": 121
+            },
+            {
+              "y": 351,
+              "count": 111
+            },
+            {
+              "y": 352,
+              "count": 102
+            },
+            {
+              "y": 353,
+              "count": 63
+            },
+            {
+              "y": 354,
+              "count": 0
+            },
+            {
+              "y": 355,
+              "count": 0
+            },
+            {
+              "y": 356,
+              "count": 0
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "groundAnchor": {
+            "x": 157.5,
+            "y": 350.5
+          },
+          "previousAnchorY": 410.52,
+          "baselineRows": [
+            {
+              "y": 347,
+              "count": 113
+            },
+            {
+              "y": 348,
+              "count": 100
+            },
+            {
+              "y": 349,
+              "count": 90
+            },
+            {
+              "y": 350,
+              "count": 79
+            },
+            {
+              "y": 351,
+              "count": 11
+            },
+            {
+              "y": 352,
+              "count": 0
+            },
+            {
+              "y": 353,
+              "count": 0
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

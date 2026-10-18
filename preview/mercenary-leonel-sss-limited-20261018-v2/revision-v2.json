@@ -30,13 +30,17 @@
   "basePowerConfirmation": "combat-power-confirmation.json",
   "ambientAttachmentRevision": {
     "date": "2026-10-18",
-    "scope": "AMBIENT_POSITION_AND_ALPHA_ONLY",
-    "anchor": "ACTOR_FEET",
-    "contentAnchorY": 0.98,
+    "scope": "PER_FRAME_AMBIENT_GROUND_REGISTRATION",
+    "anchor": "ACTOR_GROUND_PLANE",
+    "registration": "qa/ambient-ground-registration.json",
+    "registeredFrames": 24,
+    "supersedes": "qa/pressure-attachment-20261018.json",
+    "correction": "셀의 같은 지점 대신 각 그림의 실제 바닥을 정렬",
     "auraAlpha": 0.78,
     "pressureAlpha": 0.4,
     "sizesUnchanged": true,
     "timingsUnchanged": true,
-    "qa": "qa/pressure-attachment-20261018.json"
+    "qa": "qa/ambient-ground-lock-runtime.json",
+    "video": "review-ambient-ground-lock.webm"
   }
 }
