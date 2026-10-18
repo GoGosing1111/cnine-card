@@ -1,0 +1,35 @@
+{
+  "scope": "BALANCE_TEXT_AND_POLICY_BINDING_ONLY_VISUAL_TIMELINE_UNCHANGED",
+  "screens": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1080
+      },
+      "descriptions": [
+        "후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 680%의 한 시전 피해 예산을 사용합니다. 에너지 35 · 재사용 4행동.",
+        "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 700%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다. 에너지 35 · 재사용 5행동."
+      ],
+      "overflow": false,
+      "policyVersion": "imperial-archer-arrow-v2-20261018"
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "descriptions": [
+        "후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 680%의 한 시전 피해 예산을 사용합니다. 에너지 35 · 재사용 4행동.",
+        "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 700%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다. 에너지 35 · 재사용 5행동."
+      ],
+      "overflow": false,
+      "policyVersion": "imperial-archer-arrow-v2-20261018"
+    }
+  ],
+  "errors": [],
+  "previousVisualQa": "qa/arrow-v2/runtime-report.json",
+  "bundleSha256": "ea87d2d1a3443e6027806982ee7fcfebb1071145a39cb84eff205db6f5ed0e39",
+  "status": "PASS"
+}

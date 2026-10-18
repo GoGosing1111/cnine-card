@@ -46,4 +46,3 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
  const manifest=await packArrowAssets(JSON.parse(await read('manifest.json')));
  console.log('Arrow V2 packed',manifest.counts);
 }
-

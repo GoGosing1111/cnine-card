@@ -1,0 +1,722 @@
+{
+  "scope": "PREPARED_CANONICAL_ENGINE_COMPARISON_NOT_LIVE_WIN_RATE",
+  "runtimeEnabled": false,
+  "code": null,
+  "name": null,
+  "policy": {
+    "version": "imperial-archer-arrow-v2-20261018",
+    "status": "PREPARED_BALANCE",
+    "runtimeEnabled": false,
+    "basePower": 216000,
+    "speedScale": 1.5,
+    "actionCredit": 1.5,
+    "pvpBasicDamageScale": 0.6,
+    "pvpSkillCapScale": 2.15,
+    "link": {
+      "attackPercent": 264,
+      "hpPercent": 308,
+      "shieldPercent": 165
+    }
+  },
+  "skills": [
+    {
+      "id": "PREVIEW-ARCHER-SINGLE",
+      "name": "연환 파갑",
+      "mechanic": "IMPERIAL_PIERCING_VOLLEY",
+      "target": "BACK_THREAT",
+      "balance": {
+        "damageRatio": 6.8,
+        "cooldownTurns": 4,
+        "cost": 35
+      },
+      "description": "후열 우선 핵심 적 1명에게 관통 화살을 집중합니다. 고속 연사와 일곱 화살은 합계 680%의 한 시전 피해 예산을 사용합니다."
+    },
+    {
+      "id": "PREVIEW-ARCHER-AREA",
+      "name": "천궁 멸진",
+      "mechanic": "IMPERIAL_ARROW_RAIN",
+      "target": "ALL_ENEMIES",
+      "pveOnly": true,
+      "balance": {
+        "damageRatio": 7,
+        "cooldownTurns": 5,
+        "cost": 35
+      },
+      "description": "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 700%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다."
+    }
+  ],
+  "seedStart": 218001,
+  "seedMultiplier": 7919,
+  "count": 16,
+  "pveCount": 8,
+  "fileHashes": {
+    "balance.mjs": "b0a7d7dfadc720e0e5f6a73f30d22255e8af04a5f1c1888a26a3b1f661dbbb8e",
+    "balance-engine.mjs": "f2a773e4d8cc3f165260f91dc6349800693286e63056b90270d7bc057d5bef5d",
+    "skill.mjs": "28da91e1940591e091359bc313bb52c2ae63661fc9c06e79eaefddf9e43afe65"
+  },
+  "pvp": [
+    {
+      "opponent": "V-055",
+      "wins": 377,
+      "total": 384,
+      "winRate": 0.9817708333333334,
+      "draws": 0,
+      "sideWinRates": {
+        "A": 0.9791666666666666,
+        "B": 0.984375
+      }
+    },
+    {
+      "opponent": "V-056",
+      "wins": 377,
+      "total": 384,
+      "winRate": 0.9817708333333334,
+      "draws": 0,
+      "sideWinRates": {
+        "A": 0.9791666666666666,
+        "B": 0.984375
+      }
+    }
+  ],
+  "rows": [
+    {
+      "opponent": "V-055",
+      "formation": "balanced-1000000",
+      "kind": "plain",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 314121540,
+      "opponentDamage": 72621177,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-055",
+      "formation": "balanced-2000000000",
+      "kind": "plain",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 638101170808,
+      "opponentDamage": 160045378854,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-055",
+      "formation": "attack-1000000",
+      "kind": "plain",
+      "wins": 31,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 15
+      },
+      "damage": 257176389,
+      "opponentDamage": 81655298,
+      "winRate": 0.96875
+    },
+    {
+      "opponent": "V-055",
+      "formation": "attack-2000000000",
+      "kind": "plain",
+      "wins": 26,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 12,
+        "B": 14
+      },
+      "damage": 464773694980,
+      "opponentDamage": 189911540231,
+      "winRate": 0.8125
+    },
+    {
+      "opponent": "V-055",
+      "formation": "defense-1000000",
+      "kind": "plain",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 322174357,
+      "opponentDamage": 59953395,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-055",
+      "formation": "defense-2000000000",
+      "kind": "plain",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 633569566180,
+      "opponentDamage": 125620098551,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-055",
+      "formation": "speed-1000000",
+      "kind": "plain",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 299767387,
+      "opponentDamage": 73305567,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-055",
+      "formation": "speed-2000000000",
+      "kind": "plain",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 589299426987,
+      "opponentDamage": 157515460996,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-055",
+      "formation": "F01",
+      "kind": "equipped",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 58458412,
+      "opponentDamage": 12166362,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-055",
+      "formation": "F08",
+      "kind": "equipped",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 46368540,
+      "opponentDamage": 6974965,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-055",
+      "formation": "F15",
+      "kind": "equipped",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 49718974,
+      "opponentDamage": 12914389,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-055",
+      "formation": "F23",
+      "kind": "equipped",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 57533549,
+      "opponentDamage": 10454609,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-056",
+      "formation": "balanced-1000000",
+      "kind": "plain",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 314121540,
+      "opponentDamage": 72621177,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-056",
+      "formation": "balanced-2000000000",
+      "kind": "plain",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 638101170808,
+      "opponentDamage": 160045378854,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-056",
+      "formation": "attack-1000000",
+      "kind": "plain",
+      "wins": 31,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 15
+      },
+      "damage": 257176389,
+      "opponentDamage": 81655298,
+      "winRate": 0.96875
+    },
+    {
+      "opponent": "V-056",
+      "formation": "attack-2000000000",
+      "kind": "plain",
+      "wins": 26,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 12,
+        "B": 14
+      },
+      "damage": 464773694980,
+      "opponentDamage": 189911540231,
+      "winRate": 0.8125
+    },
+    {
+      "opponent": "V-056",
+      "formation": "defense-1000000",
+      "kind": "plain",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 322174357,
+      "opponentDamage": 59953395,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-056",
+      "formation": "defense-2000000000",
+      "kind": "plain",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 633569566180,
+      "opponentDamage": 125620098551,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-056",
+      "formation": "speed-1000000",
+      "kind": "plain",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 299767387,
+      "opponentDamage": 73305567,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-056",
+      "formation": "speed-2000000000",
+      "kind": "plain",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 589299426987,
+      "opponentDamage": 157515460996,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-056",
+      "formation": "F01",
+      "kind": "equipped",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 58458412,
+      "opponentDamage": 12166362,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-056",
+      "formation": "F08",
+      "kind": "equipped",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 46368540,
+      "opponentDamage": 6974965,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-056",
+      "formation": "F15",
+      "kind": "equipped",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 49718974,
+      "opponentDamage": 12914389,
+      "winRate": 1
+    },
+    {
+      "opponent": "V-056",
+      "formation": "F23",
+      "kind": "equipped",
+      "wins": 32,
+      "draws": 0,
+      "total": 32,
+      "sides": {
+        "A": 16,
+        "B": 16
+      },
+      "damage": 57533549,
+      "opponentDamage": 10454609,
+      "winRate": 1
+    }
+  ],
+  "pve": [
+    {
+      "power": 1000000,
+      "multiplier": 10,
+      "personalGear": 0,
+      "total": 8,
+      "V-000": {
+        "clears": 8,
+        "averageActions": 11.625,
+        "averageDamage": 23449251.375
+      },
+      "V-055": {
+        "clears": 8,
+        "averageActions": 18,
+        "averageDamage": 20947862.375
+      },
+      "V-056": {
+        "clears": 8,
+        "averageActions": 18,
+        "averageDamage": 20947862.375
+      },
+      "damageRatio": 1.1194102269349093,
+      "actionRatio": 0.6458333333333334
+    },
+    {
+      "power": 1000000,
+      "multiplier": 10,
+      "personalGear": 1000000,
+      "total": 8,
+      "V-000": {
+        "clears": 8,
+        "averageActions": 8.75,
+        "averageDamage": 24597036.75
+      },
+      "V-055": {
+        "clears": 8,
+        "averageActions": 12.625,
+        "averageDamage": 22915009.5
+      },
+      "V-056": {
+        "clears": 8,
+        "averageActions": 12.625,
+        "averageDamage": 22915009.5
+      },
+      "damageRatio": 1.0734028606883188,
+      "actionRatio": 0.693069306930693
+    },
+    {
+      "power": 1000000,
+      "multiplier": 30,
+      "personalGear": 0,
+      "total": 8,
+      "V-000": {
+        "clears": 8,
+        "averageActions": 22.375,
+        "averageDamage": 57423955
+      },
+      "V-055": {
+        "clears": 8,
+        "averageActions": 28.75,
+        "averageDamage": 50640580.625
+      },
+      "V-056": {
+        "clears": 8,
+        "averageActions": 28.75,
+        "averageDamage": 50640580.625
+      },
+      "damageRatio": 1.1339513546503694,
+      "actionRatio": 0.7782608695652173
+    },
+    {
+      "power": 1000000,
+      "multiplier": 30,
+      "personalGear": 1000000,
+      "total": 8,
+      "V-000": {
+        "clears": 8,
+        "averageActions": 19.875,
+        "averageDamage": 60588216.25
+      },
+      "V-055": {
+        "clears": 8,
+        "averageActions": 26,
+        "averageDamage": 53888550.625
+      },
+      "V-056": {
+        "clears": 8,
+        "averageActions": 26,
+        "averageDamage": 53888550.625
+      },
+      "damageRatio": 1.1243244724027128,
+      "actionRatio": 0.7644230769230769
+    },
+    {
+      "power": 1000000,
+      "multiplier": 100,
+      "personalGear": 0,
+      "total": 8,
+      "V-000": {
+        "clears": 8,
+        "averageActions": 29.625,
+        "averageDamage": 164234401.5
+      },
+      "V-055": {
+        "clears": 8,
+        "averageActions": 35,
+        "averageDamage": 145240761
+      },
+      "V-056": {
+        "clears": 8,
+        "averageActions": 35,
+        "averageDamage": 145240761
+      },
+      "damageRatio": 1.1307734851375504,
+      "actionRatio": 0.8464285714285714
+    },
+    {
+      "power": 1000000,
+      "multiplier": 100,
+      "personalGear": 1000000,
+      "total": 8,
+      "V-000": {
+        "clears": 8,
+        "averageActions": 28.5,
+        "averageDamage": 168683602.625
+      },
+      "V-055": {
+        "clears": 8,
+        "averageActions": 33.875,
+        "averageDamage": 150426203.25
+      },
+      "V-056": {
+        "clears": 8,
+        "averageActions": 33.875,
+        "averageDamage": 150426203.25
+      },
+      "damageRatio": 1.1213711373453814,
+      "actionRatio": 0.8413284132841329
+    },
+    {
+      "power": 2000000000,
+      "multiplier": 10,
+      "personalGear": 0,
+      "total": 8,
+      "V-000": {
+        "clears": 8,
+        "averageActions": 11.5,
+        "averageDamage": 46805604264.375
+      },
+      "V-055": {
+        "clears": 8,
+        "averageActions": 17.875,
+        "averageDamage": 41885009460.875
+      },
+      "V-056": {
+        "clears": 8,
+        "averageActions": 17.875,
+        "averageDamage": 41885009460.875
+      },
+      "damageRatio": 1.1174786604285323,
+      "actionRatio": 0.6433566433566433
+    },
+    {
+      "power": 2000000000,
+      "multiplier": 10,
+      "personalGear": 1000000,
+      "total": 8,
+      "V-000": {
+        "clears": 8,
+        "averageActions": 11.5,
+        "averageDamage": 46807567893.875
+      },
+      "V-055": {
+        "clears": 8,
+        "averageActions": 17.875,
+        "averageDamage": 41887645817.25
+      },
+      "V-056": {
+        "clears": 8,
+        "averageActions": 17.875,
+        "averageDamage": 41887645817.25
+      },
+      "damageRatio": 1.1174552061982652,
+      "actionRatio": 0.6433566433566433
+    },
+    {
+      "power": 2000000000,
+      "multiplier": 30,
+      "personalGear": 0,
+      "total": 8,
+      "V-000": {
+        "clears": 8,
+        "averageActions": 22.25,
+        "averageDamage": 114383337524.75
+      },
+      "V-055": {
+        "clears": 8,
+        "averageActions": 28.5,
+        "averageDamage": 100619151586.125
+      },
+      "V-056": {
+        "clears": 8,
+        "averageActions": 28.5,
+        "averageDamage": 100619151586.125
+      },
+      "damageRatio": 1.1367948916448927,
+      "actionRatio": 0.7807017543859649
+    },
+    {
+      "power": 2000000000,
+      "multiplier": 30,
+      "personalGear": 1000000,
+      "total": 8,
+      "V-000": {
+        "clears": 8,
+        "averageActions": 22.25,
+        "averageDamage": 114385847390
+      },
+      "V-055": {
+        "clears": 8,
+        "averageActions": 28.375,
+        "averageDamage": 100622448700.625
+      },
+      "V-056": {
+        "clears": 8,
+        "averageActions": 28.375,
+        "averageDamage": 100622448700.625
+      },
+      "damageRatio": 1.1367825854678242,
+      "actionRatio": 0.7841409691629956
+    },
+    {
+      "power": 2000000000,
+      "multiplier": 100,
+      "personalGear": 0,
+      "total": 8,
+      "V-000": {
+        "clears": 8,
+        "averageActions": 29.375,
+        "averageDamage": 325691621376.25
+      },
+      "V-055": {
+        "clears": 8,
+        "averageActions": 34.75,
+        "averageDamage": 289344870594.875
+      },
+      "V-056": {
+        "clears": 8,
+        "averageActions": 34.75,
+        "averageDamage": 289344870594.875
+      },
+      "damageRatio": 1.1256174014996303,
+      "actionRatio": 0.8453237410071942
+    },
+    {
+      "power": 2000000000,
+      "multiplier": 100,
+      "personalGear": 1000000,
+      "total": 8,
+      "V-000": {
+        "clears": 8,
+        "averageActions": 29.375,
+        "averageDamage": 325693138823.125
+      },
+      "V-055": {
+        "clears": 8,
+        "averageActions": 34.75,
+        "averageDamage": 289350041162
+      },
+      "V-056": {
+        "clears": 8,
+        "averageActions": 34.75,
+        "averageDamage": 289350041162
+      },
+      "damageRatio": 1.125602531505352,
+      "actionRatio": 0.8453237410071942
+    }
+  ],
+  "battles": 1056
+}

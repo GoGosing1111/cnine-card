@@ -3,6 +3,7 @@ import {Assets} from 'pixi.js';
 import {BattleCharacter,TEAM} from '../../project-v-v3/source/battle/BattleCharacter.js';
 import {createMercenaryBattleArtAdapter} from '../../../js/project-v-mercenary-battle-art-adapter-v1.js';
 import {MODES,SHOWCASE,makePlan} from '../skill.mjs';
+import {IMPERIAL_ARCHER_COMBAT,IMPERIAL_ARCHER_SKILLS} from '../balance.mjs';
 import {ImperialArcherFX,loadArcherAssets} from './ImperialArcherFX.js';
 const ROOT='/preview/mercenary-imperial-archer-sss-v1/',parentDoc=window.parent.document,$=id=>parentDoc.getElementById(id)||document.getElementById(id);
 const IDS=['CN-02D9DC1E8A8A4209','CN-0505936A0CBB4E59','CN-25F931CE393D474E','CN-23EB4B19986D4818','CN-519C181C18DF4B8E'];
@@ -14,7 +15,8 @@ function playQueue(){if(!queue.active)return;const mode=SHOWCASE[queue.index];$(
 function plan(){const mode=$('mode').value,stop=mode==='ultimate'?2.0:mode==='skill'?1.0:.32;return makePlan({mode,cancelAt:$('scenario').value==='interrupt'?stop:null,targetLostAt:$('scenario').value==='lost'?stop:null});}
 function update(f){
  f.applyFocus();
- $('play').textContent=f.playing?'일시정지':'재생';$('scrub').max=f.plan.duration;$('scrub').value=f.time;$('time').textContent=f.time.toFixed(2)+' / '+f.plan.duration.toFixed(2)+'초';$('cue').textContent=f.sample.label;$('description').textContent=MODES[f.plan.mode].description;
+ const combatSkill=f.plan.mode==='skill'?IMPERIAL_ARCHER_SKILLS[0]:f.plan.mode==='ultimate'?IMPERIAL_ARCHER_SKILLS[1]:null;
+ $('play').textContent=f.playing?'일시정지':'재생';$('scrub').max=f.plan.duration;$('scrub').value=f.time;$('time').textContent=f.time.toFixed(2)+' / '+f.plan.duration.toFixed(2)+'초';$('cue').textContent=f.sample.label;$('description').textContent=combatSkill?combatSkill.description+' 에너지 '+combatSkill.balance.cost+' · 재사용 '+combatSkill.balance.cooldownTurns+'행동.':MODES[f.plan.mode].description;
  $('events').innerHTML=f.plan.events.map(([t,label])=>'<li class="'+(t<=f.time?'active':'')+'"><time>'+t.toFixed(2)+'</time><span>'+label+'</span></li>').join('');
  for(const b of parentDoc.querySelectorAll('[data-mode]'))b.setAttribute('aria-pressed',String(b.dataset.mode===f.plan.mode));
 }
@@ -46,7 +48,7 @@ async function boot(){
   for(const e of parentDoc.querySelectorAll('button,select,input'))e.disabled=false;$('sound').disabled=true;
   $('health').textContent='화살 V2 · 동작 24 / 이펙트 72 프레임';prepared.phase.textContent='이름 미정 · SSS';
   engine.app.renderer.on('resize',resize);
-  const review={get fx(){return fx},get engine(){return engine},get merc(){return merc},manifest,queue,diagnostics:()=>({...fx.diagnostics(),queue:{...queue}}),dispose};window.ImperialArcherPreview=review;window.parent.ImperialArcherPreview=review;
+  const review={get fx(){return fx},get engine(){return engine},get merc(){return merc},manifest,balance:IMPERIAL_ARCHER_COMBAT,queue,diagnostics:()=>({...fx.diagnostics(),queue:{...queue}}),dispose};window.ImperialArcherPreview=review;window.parent.ImperialArcherPreview=review;
   if(new URLSearchParams(window.parent.location.search).has('showcase')&&!fx.reducedMotion)startQueue();else{fx.setPlan(makePlan({mode:'idle'}));$('mode').value='idle';if(!fx.reducedMotion)fx.play();}
   window.addEventListener('pagehide',dispose,{once:true});document.addEventListener('visibilitychange',()=>{if(document.hidden)fx.pause();});engine.app.canvas.addEventListener('webglcontextlost',()=>fx.cancel());
  }catch(e){$('health').textContent='시연 준비 실패: '+e.message;console.error('[ImperialArcher]',e);}

@@ -23,4 +23,3 @@ try{
  report.status='CAPTURED_FOR_VISUAL_REVIEW';await fs.writeFile(file('qa/arrow-v2/video-inspection.json'),JSON.stringify(report,null,2));
 }finally{await browser.close();}
 console.log(JSON.stringify(report));
-
