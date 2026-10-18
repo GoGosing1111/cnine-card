@@ -1,0 +1,154 @@
+{
+  "at": "2026-10-18T02:34:52.607Z",
+  "sourceCommit": "6ca6aa209b00a27f4a3449bdd80a7c5b86b9a9c8",
+  "previousProductionCommit": "c3b7e2b47170b639d6e863cb2e74e636acc9ae77",
+  "deployment": "https://6ae339e1.cnine-card.pages.dev",
+  "apiVersion": "13626ba5-8697-4dd0-af2a-af8349950d93",
+  "schedulerVersion": "64ef87fd-6534-4cff-b332-cd652d16eb52",
+  "targetedTests": 10,
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "1694307548d8a23afb2994cbc6b1da4c03ee2ed6127b68042592c3909cc7a81a",
+      "bytes": 4273
+    },
+    {
+      "file": "manifest.json",
+      "status": 200,
+      "sha256": "0e375e5bf25e2a97d92bf4918cc104f302b3b030c0087aff43c422804a4f26f7",
+      "bytes": 94605
+    },
+    {
+      "file": "preview.bundle.js",
+      "status": 200,
+      "sha256": "ea87d2d1a3443e6027806982ee7fcfebb1071145a39cb84eff205db6f5ed0e39",
+      "bytes": 2095303
+    },
+    {
+      "file": "balance.mjs",
+      "status": 200,
+      "sha256": "b0a7d7dfadc720e0e5f6a73f30d22255e8af04a5f1c1888a26a3b1f661dbbb8e",
+      "bytes": 4603
+    },
+    {
+      "file": "assets/arrow-v2/atlases/charge.png",
+      "status": 200,
+      "sha256": "714417beefaa2373664a3433bebf4d1222da07e6e2e970a306bc754463b9e49f",
+      "bytes": 1767041
+    },
+    {
+      "file": "assets/arrow-v2/atlases/bolt.png",
+      "status": 200,
+      "sha256": "b51be5a3a89505caf532e418cff3cd5ac589459d22e1bfbbc477f8f6cb3373bb",
+      "bytes": 1851959
+    },
+    {
+      "file": "assets/arrow-v2/atlases/impact.png",
+      "status": 200,
+      "sha256": "fb7bf2f5c79ba22232ee3642c4f6491e22aa6bc874da27023069e622b7a566f1",
+      "bytes": 2357682
+    },
+    {
+      "file": "assets/arrow-v2/atlases/volley.png",
+      "status": 200,
+      "sha256": "a989294f92b2eafa4901ed0b5f5dc879853a2f2979627296632e534b34b3884e",
+      "bytes": 2754569
+    },
+    {
+      "file": "assets/arrow-v2/atlases/rain.png",
+      "status": 200,
+      "sha256": "8c2baf052213e9a25af357204423d5157291139c8b72e17ab99a82bb4c5bb4c4",
+      "bytes": 2140502
+    },
+    {
+      "file": "assets/arrow-v2/atlases/breaker.png",
+      "status": 200,
+      "sha256": "dc2b7b58c7dbad3c2c8e9acbb103af229b419f0543253450ff0667dc7af1a0d2",
+      "bytes": 2428319
+    }
+  ],
+  "errors": [],
+  "baselines": {
+    "revision": 61,
+    "cards": [
+      {
+        "code": "V-055",
+        "basePower": 180000,
+        "skills": [
+          {
+            "id": "MS-055",
+            "balance": {
+              "damageRatio": 5.6,
+              "cooldownTurns": 5,
+              "cost": 35
+            }
+          },
+          {
+            "id": "MS-056",
+            "balance": {
+              "damageRatio": 5.6,
+              "cooldownTurns": 5,
+              "cost": 35
+            }
+          }
+        ]
+      },
+      {
+        "code": "V-056",
+        "basePower": 180000,
+        "skills": [
+          {
+            "id": "MS-057",
+            "balance": {
+              "damageRatio": 5.6,
+              "cooldownTurns": 5,
+              "cost": 35
+            }
+          },
+          {
+            "id": "MS-058",
+            "balance": {
+              "damageRatio": 5.6,
+              "cooldownTurns": 5,
+              "cost": 35
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "videos": [
+    {
+      "name": "desktop",
+      "status": 200,
+      "contentType": "video/webm",
+      "bytes": 7469511,
+      "sha256": "d3f07c28c2d6b28dd4f145e6008bf2ece0f47171ba4fb351f11aebe29d8b1334"
+    },
+    {
+      "name": "mobile",
+      "status": 200,
+      "contentType": "video/webm",
+      "bytes": 6423816,
+      "sha256": "3c762d8e8c701154f9d2cadf9548c6e5edfff4c63627ba2bc1ac517ba4920ca3"
+    }
+  ],
+  "preview": {
+    "revision": "arrow-v2",
+    "effects": [
+      "charge",
+      "bolt",
+      "impact",
+      "volley",
+      "rain",
+      "breaker"
+    ],
+    "actionCredit": 1.5,
+    "runtimeEnabled": false,
+    "description": "PVE 적 전체에 화살비와 거대 화살을 내립니다. 합계 700%를 지정 대상 수로 나누며 한 대상이면 전체 예산을 적용합니다. 에너지 35 · 재사용 5행동.",
+    "overflow": false,
+    "legacyBirdRequests": 0
+  },
+  "status": "PASS"
+}

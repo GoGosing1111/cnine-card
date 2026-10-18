@@ -48,6 +48,15 @@
 
 현재 원화/SSS 등급은 기존 확정, 새 효과는 사용자 시각 검수 대기다. 이름·코드·리미티드 지정·획득·운영 전투 연결은 미정이다. 기존 정적 프리뷰 주소를 화살 V2로 교체하며 운영 용병·계정·CMS·재화는 변경하지 않는다.
 
-배포 기준은 직전 운영 소스 c3b7e2b47170b639d6e863cb2e74e636acc9ae77이며, preview/mercenary-imperial-archer-sss-v1/qa.test.mjs와 balance.test.mjs를 지정한 scoped 배포를 사용한다. 최종 배포 식별자와 운영 확인 결과는 완료 후 추가한다.
+배포 기준은 직전 운영 소스 c3b7e2b47170b639d6e863cb2e74e636acc9ae77이며, preview/mercenary-imperial-archer-sss-v1/qa.test.mjs와 balance.test.mjs를 지정한 scoped 배포를 사용한다. 최종 배포 식별자와 운영 확인 결과는 아래에 기록한다.
 
 - 최종 PC·모바일 runtime-report PASS, 페이지 오류 0, 모든 일반/단일/광역 접점 오차 0, 지상 원점 오차 0, 효과 경계 잘림 0. 정상 배속 전체 재생 영상은 각각 약 24.5초이며 7.85/11.96/16.4/17.75초를 실제 디코딩해 관통·연사·화살비·대형 화살을 확인했다. 기술 시각 검수 상태와 사용자 시각 승인 대기를 분리했다.
+
+## 배포 완료
+
+- 소스 `6ca6aa209b00a27f4a3449bdd80a7c5b86b9a9c8`, Pages `https://6ae339e1.cnine-card.pages.dev`. 기존 주소의 `revision=arrow-v2`가 현재 프리뷰다.
+- 관련 검사 10개, 출시/캐시 계약, Hyperdrive query cache OFF를 통과한 뒤 scoped 경로로 한 번 배포했다. API `13626ba5-8697-4dd0-af2a-af8349950d93`, 스케줄러 `64ef87fd-6534-4cff-b332-cd652d16eb52`.
+- 공개 페이지·manifest·번들·밸런스 정책·효과 아틀라스 6종, 총 10개 정적 파일이 로컬 SHA-256과 일치한다. PC/모바일 시연 영상도 전체 바이트 SHA-256이 일치한다.
+- 공개 모바일 프리뷰에서 거대 화살·700%/5행동 안내·행동량 1.5를 확인했다. 가로 넘침·페이지 오류 0, 이전 주작 효과 요청 0. 기존 원화·활 원본은 보존한다.
+- 공개 도감 revision 61, 베르칸·아잔트 기본 전력 180,000 및 두 스킬 각각 5.6·35·5행동으로 비교 기준과 일치한다. V-000은 운영 도감에 없으며, 새 궁사의 현재 적용 범위는 준비 정책과 프리뷰다.
+- 증빙: `docs/qa/imperial-archer-arrow-v2-20261018/production.json`, `production-mobile.png`. 사용자 시각 승인을 별도로 기다리는 상태는 유지한다.
