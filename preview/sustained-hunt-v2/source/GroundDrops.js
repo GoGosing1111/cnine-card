@@ -66,6 +66,33 @@ export class GroundDrops{
     const minY=Math.min(...points.map(a=>a.baseY)),maxY=Math.max(...points.map(a=>a.baseY));
     return {x:Math.max(ox+55,minX-40),y:Math.max(oy+100,minY-35),width:Math.max(600,maxX-minX+80),height:Math.max(330,maxY-minY+80)};
   }
+  async collectCoins(positions){
+    // Receipt-only presentation: coins are already credited by the server.
+    // Bound simultaneous particles and skip background catch-up entirely.
+    if(!positions.length||this.engine.huntBackground||(this.coinBursts||0)>=4)return;
+    const revision=this.revision;this.coinBursts=(this.coinBursts||0)+1;
+    try{
+      const texture=await Assets.load('/assets/ui/icon-fusion-20261004/coin.webp');
+      if(revision!==this.revision||this.engine.huntBackground)return;
+      const e=this.engine,root=new Container({label:'HUNT_COIN_PICKUP'});e.effectLayer.addChild(root);
+      const destination=e.petSupports?.get('A')?.root.position||e.allies[0]?.root.position||positions[0];
+      const scale=24/Math.max(texture.width,texture.height)/Math.max(.2,e.root.scale.x);
+      const reduced=e.reducedMotion;
+      await e.timeline(t=>{
+        positions.slice(-3).forEach((p,index)=>{
+          const coin=new Sprite(texture);coin.anchor.set(.5);coin.scale.set(scale);coin.position.set(p.x,p.y-35);root.addChild(coin);
+          const delay=index*.07;
+          if(reduced){t.to(coin,{alpha:0,duration:.3},delay);return;}
+          t.to(coin,{x:p.x+18,y:p.y-70,duration:.18,ease:'power2.out'},delay);
+          t.to(coin,{x:p.x+28,y:p.y-8,duration:.24,ease:'bounce.out'},delay+.18);
+          t.to(coin,{x:destination.x,y:destination.y-40,duration:.45,ease:'power2.in'},delay+.62);
+          t.to(coin.scale,{x:scale*.3,y:scale*.3,duration:.4},delay+.67);
+          t.to(coin,{alpha:0,duration:.12},delay+.98);
+        });
+      },()=>{if(!root.destroyed)root.destroy({children:true});});
+    }catch{/* A missing visual never retries or changes a coin receipt. */}
+    finally{this.coinBursts=Math.max(0,(this.coinBursts||1)-1);}
+  }
   expire(){
     const now=Date.now();
     for(const [id,r] of this.rows)if(r.deadline<=now&&!r.pending){this.remove(id);this.onExpired?.(r.drop);}

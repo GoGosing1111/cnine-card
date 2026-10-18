@@ -1,13 +1,13 @@
 {
   "date": "2026-09-26",
   "engineBase": "0d67ae862a1f9763605ad7323e889acf5d51ad41",
-  "sourceRevision": "b999351163de8ced6782da1e4d935a0a8cfc4e9b",
+  "sourceRevision": "253aa5ae7ca534f4450154c69b381ac724c92205",
   "pixi": "8.20.0",
   "gsap": "3.13.0",
-  "serverHash": "d2baab2ce5e7db2fbc7fe041c6aed003db0c32cf95ddd23d9ecbdb2a2e9c6138",
-  "engineHash": "59fce4b6aabffae7b4d81af06c7a313334597baf8a0bfa5969b0c4bdaabff172",
+  "serverHash": "4913f144fa63f6360e364d31219fdfea4843db1020d21c9a983fba378c74886b",
+  "engineHash": "02310bd5e0b13d0f342b44e8f5c476fca1063703b069b68179924020214661ba",
   "playbackHash": "37a65149a34a4361d7a774a1249839b11e1bc6592e141a56819d3691241e0615",
-  "bundleHash": "b446591dfa8eb3cf3ec891529cfd49b6c3fdffe4d675713f9d9ff9bf15f1dadd",
+  "bundleHash": "6fa18659f7fc1c123f2e530d6ca9b77e70df22bccc8262cb1de74e06c7f10a30",
   "commonInputs": [
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",

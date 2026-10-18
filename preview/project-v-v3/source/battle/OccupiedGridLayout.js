@@ -73,7 +73,7 @@ export const withOccupiedGrid = Base => class extends Base {
     let top = !statusAtDock && statusRect?.height > 0 ? Math.max(0, statusRect.bottom - hostRect.top) : 8;
     // Mobile dialogue overlays the background, while occupied stations start
     // below it. Desktop has an empty right-hand lane for the same frame.
-    const dialogue=this.formationCoop&&shell?.querySelector('.jinmu-dialogue-rail');
+    const dialogue=shell?.querySelector('.jinmu-dialogue-rail');
     if(dialogue)top=Math.max(top,dialogue.getBoundingClientRect().bottom-hostRect.top);
     let objectiveHudFit = null;
     if (this.objectiveData && this.objectiveHud?.visible) {

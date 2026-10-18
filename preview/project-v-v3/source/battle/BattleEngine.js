@@ -866,15 +866,17 @@ export class BaseBattleEngine{
     // Actors keep their fit-to-screen scale. Extend only the backdrop through
     // the root's letterbox margins so the CSS loading image cannot show twice.
     const screen=this.app?.screen||{width,height};
-    const scale=Math.min(screen.width/width,screen.height/height)||1;
+    const inset=this.viewportFit||this.formationCoop?0:Math.min(this.dialogueTopInset||0,screen.height*.65);
+    const scale=Math.min(screen.width/width,(screen.height-inset)/height)||1;
     // Extra edge pixels also cover the authored camera shake/rotation.
     const coverWidth=Math.max(width,screen.width/scale)+96,coverHeight=Math.max(height,screen.height/scale)+96;
-    const x=(width-coverWidth)/2,y=(height-coverHeight)/2;
+    const centerY=height/2-inset/(2*scale);
+    const x=(width-coverWidth)/2,y=centerY-coverHeight/2;
     this.backdropBounds={x,y,width:coverWidth,height:coverHeight};
     if(this.backgroundShade){this.backgroundShade.position.set(x,y);this.backgroundShade.width=coverWidth;this.backgroundShade.height=coverHeight}
     this.parallaxLayers.forEach(({sprite,mask,start,end})=>{
       setCover(sprite,coverWidth,coverHeight);
-      sprite.position.set(width/2,height/2);
+      sprite.position.set(width/2,centerY);
       mask.clear().rect(x-48,y+coverHeight*start-4,coverWidth+96,coverHeight*(end-start)+8).fill(0xffffff);
     });
   }
@@ -2267,7 +2269,6 @@ export class BaseBattleEngine{
 
     const banner=new Container();
     banner.alpha=0;banner.eventMode='none';
-    banner.addChild(rectangle(320,46,0x080c17,.7,3));
     const accent=rectangle(2,30,0xc8ff6b,1,0);accent.position.set(0,8);banner.addChild(accent);
     const type=textNode('전술 스킬 발동',10,0xaebad0,'600');type.position.set(14,7);
     const name=textNode('',16,0xf3f5ff,'800');name.position.set(14,22);
@@ -3506,7 +3507,8 @@ export class BaseBattleEngine{
   resize(){
     if(!this.app||!this.root)return;
     const viewportWidth=this.app.screen.width;
-    const viewportHeight=this.app.screen.height;
+    const dialogueInset=this.formationCoop?0:Math.min(this.dialogueTopInset||0,this.app.screen.height*.65);
+    const viewportHeight=this.app.screen.height-dialogueInset;
     if(this.effectScene){this.scene={width:viewportWidth,height:viewportHeight};this.onEffectResize?.();return;}
     this.mobile=viewportWidth<=760;
     this.scene=this.mobile?{...MOBILE}:{...DESKTOP};
@@ -3532,7 +3534,7 @@ export class BaseBattleEngine{
     const scale=Math.min(viewportWidth/this.scene.width,viewportHeight/this.scene.height);
     this.root.scale.set(scale);
     this.accountBattleUnit?.setNameViewportScale?.(scale);
-    this.root.position.set((viewportWidth-this.scene.width*scale)/2,(viewportHeight-this.scene.height*scale)/2);
+    this.root.position.set((viewportWidth-this.scene.width*scale)/2,dialogueInset+(viewportHeight-this.scene.height*scale)/2);
     // Keep the small notice readable in CSS pixels on both portrait and desktop.
     const banner=this.uiLayer.banner,noticeScale=Math.min(1,(viewportWidth-24)/320)/scale;
     banner.scale.set(noticeScale);

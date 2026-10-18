@@ -1,7 +1,7 @@
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
 import {LEGION_REGIONS,REGION_DIFFICULTIES,REGION_EQUIPMENT} from '../shared/legion-regions-v1.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
-import {renderRegionFieldDrops,fillRegionFieldCatalog,updateRegionFieldOdds} from './legion-region-drops-v1.mjs?v=20261018-coins-v1';
+import {renderRegionFieldDrops,fillRegionFieldCatalog,updateRegionFieldOdds} from './legion-region-drops-v1.mjs?v=20261018-coins-paced-v2';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export async function mountLegionRegionsCms(root){
   let policy,busy=false,catalog=[],selectedRegion=0;
@@ -9,9 +9,9 @@ export async function mountLegionRegionsCms(root){
   const form=root.querySelector('form'),status=root.querySelector('[role=status]');
   const num=(name,label,value,min,max,step=1)=>`<label>${label}<input name="${name}" type="number" min="${min}" max="${max}" step="${step}" value="${value}" required></label>`;
   function equipmentOdds(){
-    return `<section class="legion-cms-mercenary-gear" aria-label="용병장비 드랍 확률"><h3>용병장비</h3><p>신규 5지역의 용병장비 30종 전용 확률입니다. 일반 아이템과 연마석은 아래 별도 항목에서 설정합니다.</p><p><b>0.001% = 해당 몬스터 처치 10만 회당 평균 1회</b><br>세트장비는 성공 시 5부위 중 1개를 선택합니다. 세트 확률이 0.001%면 특정 부위는 0.0002%입니다. 보스 세트장비와 고유장비는 각각 독립 추첨합니다. 보장 횟수는 없으며, 드랍 보너스는 기본 확률에 별도 적용됩니다.</p><div class="legion-cms-gear-odds">${policy.difficulties.map((d,i)=>{
+    return `<section class="legion-cms-mercenary-gear" aria-label="용병장비 드랍 확률"><h3>용병장비</h3><p>신규 5지역의 용병장비 30종 전용 확률입니다. 일반 아이템과 연마석은 아래 별도 항목에서 설정합니다.</p><p><b>예: 0.0015% = 해당 몬스터 처치 약 66,667회당 평균 1회</b><br>세트장비는 성공 시 5부위 중 1개를 선택합니다. 세트 확률이 0.0015%면 특정 부위는 0.0003%입니다. 보스 세트장비와 고유장비는 각각 독립 추첨합니다. 보장 횟수는 없으며, 드랍 보너스는 기본 확률에 별도 적용됩니다.</p><div class="legion-cms-gear-odds">${policy.difficulties.map((d,i)=>{
       const prefix='difficulties.'+i+'.loot.';
-      return `<fieldset><legend>${REGION_DIFFICULTIES.find(x=>x.id===d.id).name}</legend>${num(prefix+'eliteSetPercent','정예 처치 · 용병 세트장비 (%)',d.loot.eliteSetPercent,0,100,.001)}${num(prefix+'bossSetPercent','보스 처치 · 용병 세트장비 (%)',d.loot.bossSetPercent,0,100,.001)}${num(prefix+'bossUniquePercent','보스 처치 · 용병 고유장비 (%)',d.loot.bossUniquePercent,0,100,.001)}</fieldset>`;
+      return `<fieldset><legend>${REGION_DIFFICULTIES.find(x=>x.id===d.id).name}</legend>${num(prefix+'eliteSetPercent','정예 처치 · 용병 세트장비 (%)',d.loot.eliteSetPercent,0,100,.0001)}${num(prefix+'bossSetPercent','보스 처치 · 용병 세트장비 (%)',d.loot.bossSetPercent,0,100,.0001)}${num(prefix+'bossUniquePercent','보스 처치 · 용병 고유장비 (%)',d.loot.bossUniquePercent,0,100,.0001)}</fieldset>`;
     }).join('')}</div></section>`;
   }
   function capture(){

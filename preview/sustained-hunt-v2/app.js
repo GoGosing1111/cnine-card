@@ -70,17 +70,20 @@
     }finally{clearTimeout(timer);}
   }
   const errorText=e=>({DROP_EXPIRED:'아이템이 사라졌습니다.',DROP_CLICK_RATE_LIMIT:'잠시 후 다시 클릭하세요.',DROP_POSITION_MISMATCH:'아이템 위치를 다시 확인해 주세요.'}[e.message]||e.message);
-  function queueDropReveal(seq){
-    const token=epoch,id=session;pendingReveals.push(seq);
+  function queueDropReveal(event,{caughtUp=false}={}){
+    const token=epoch,id=session,slot=engine.instances?.get(event.targetId)?.slot;
+    const position=!caughtUp&&Number.isInteger(slot)?engine.station('cards',slot,'ENEMY'):null;
+    pendingReveals.push({seq:event.seq,position});
     reveals=reveals.then(async()=>{
       if(token!==epoch||!pendingReveals.length)return;
       // Collect one frame of simultaneous deaths into one session read/write.
       // Manual claims enter the same write queue before the next reveal batch.
       await new Promise(resolve=>setTimeout(resolve,16));
       if(token!==epoch)return;
-      const seqs=pendingReveals.splice(0,24),r=await request('reveal',{id,seqs});
+      const batch=pendingReveals.splice(0,24),seqs=batch.map(row=>row.seq),r=await request('reveal',{id,seqs});
       if(token===epoch)showCoins(r);
       if(token!==epoch||!playing||finishing)return;
+      if(r.coinDelta>0)void engine.groundDrops?.collectCoins(batch.map(row=>row.position).filter(Boolean));
       if(r.inventory)inventory(r.inventory);
       const automatic=new Map((r.autoClaims||[]).map(receipt=>[receipt.dropId,{...receipt,inventory:r.inventory,picked:r.picked,pendingRewards:r.pendingRewards===true}]));
       await Promise.all((r.drops||[]).filter(Boolean).map(drop=>engine.groundDrops.add(drop,r.serverNow,automatic.get(drop.id))));
@@ -165,7 +168,7 @@
     if(event.huntKill){
       $('hunt-kills').textContent=++kills;if(event.boss)$('hunt-bosses').textContent=++bosses;
       if(ownerMode&&!payload.huntPolicy.coinCap&&!payload.regionId&&!payload.huntPolicy.items?.some(item=>item.enabled!==false&&item.weight>0)){bossHud();return;}
-      queueDropReveal(event.seq);
+      queueDropReveal(event,{caughtUp});
     }
     if(!caughtUp&&event.type==='ENEMY_SPAWN'&&event.boss)toast(event.name+' 출현');
     if(!caughtUp&&event.type==='SKILL_CHIP_CAST'&&event.chipCode==='BATTLE_SUIT_Z_THUNDER_JUDGMENT')toast('Z-BODY · 뇌검 집행 / 적 전체');

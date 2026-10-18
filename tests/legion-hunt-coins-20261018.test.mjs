@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {legionFixture} from './helpers/legion-hunt-fixture.mjs';
 import {seedRegionalCatalog} from './helpers/legion-regions-fixture.mjs';
 import {restoreHuntSession} from '../preview/sustained-hunt-v2/session.mjs';
-import {LEGION_COIN_CAPS,createLegionCoins,legionCoinTotal} from '../shared/legion-hunt-coins-v1.mjs';
+import {LEGION_COIN_CAPS,createLegionCoins,legionCoinTotal,advanceLegionCoins} from '../shared/legion-hunt-coins-v1.mjs';
 import {legionRegionDefaults} from '../shared/legion-regions-v1.mjs';
 import {emptySupport,supportKey} from '../shared/server-support-v1.mjs';
 
@@ -110,7 +110,7 @@ for(const postgres of [false,true]){
       const regions=legionRegionDefaults();regions.mode='OFF';await put(f,'legion_hunt_regions_v1',regions);
       assert.notEqual((await f.call('legion-hunt/start',{version:5,regionId:'sky',difficulty:'calamity'})).status,200);
       regions.mode='ON';await put(f,'legion_hunt_regions_v1',regions);
-      f.events=Array.from({length:800},(_,i)=>({seq:i+1,combatAtMs:i+1,huntKill:true}));
+      f.events=Array.from({length:800},(_,i)=>({seq:i+1,combatAtMs:i+201,huntKill:true}));
       const id=await start(f,{version:5,regionId:'sky',difficulty:'calamity'});f.clock.now+=1000;
       const run=await read(f);run.coins.multiplier=250000;await write(f,run);
       regions.regions.find(r=>r.id==='sky').enabled=false;await put(f,'legion_hunt_regions_v1',regions);
@@ -138,3 +138,17 @@ for(const postgres of [false,true]){
     }finally{await f.close();}
   });
 }
+
+test('coin bonuses cannot fill the cap early; only kills unlock time budget, never idle or finish',()=>{
+ let coins={...createLegionCoins('sky','calamity',{live:true,bonusPercent:1000}),eligible:true};
+ const state={policy:{huntDurationMs:300000},lastAck:1000,timeline:Array.from({length:1000},(_,i)=>({seq:i+1,combatAtMs:30000,huntKill:true}))};
+ let award=advanceLegionCoins(coins,state);assert.equal(award.coins.paid,3e9);coins=award.coins;
+ state.lastAck=1001;state.timeline.push({seq:1001,combatAtMs:250000,type:'RESULT'});
+ assert.equal(advanceLegionCoins(coins,state).delta,0,'time or result alone pays nothing');
+ state.lastAck=1002;state.timeline.push({seq:1002,combatAtMs:150000,huntKill:true});
+ award=advanceLegionCoins(coins,state);assert.equal(award.coins.paid,15e9);coins=award.coins;
+ assert.equal(advanceLegionCoins(coins,state).delta,0,'replay cannot advance time');
+ state.lastAck=1003;state.timeline.push({seq:1003,combatAtMs:300000,huntKill:true,boss:true});
+ award=advanceLegionCoins(coins,state);assert.equal(award.coins.paid,30e9);
+ assert.equal(advanceLegionCoins({...coins,revision:1},state).coins.paid,30e9,'old saved contract preserved');
+});
