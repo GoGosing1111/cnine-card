@@ -1,0 +1,43 @@
+{
+  "accountWrites": 0,
+  "productionAssets": true,
+  "reports": [
+    {
+      "label": "desktop",
+      "mode": "RAID",
+      "kind": "area",
+      "result": true,
+      "elapsed": 5600.5,
+      "splitSeen": true,
+      "hpCalls": [
+        {
+          "id": "B:0:MONSTER:1",
+          "hp": 93.48340095779221
+        }
+      ],
+      "damageCalls": [
+        {
+          "id": "B:0:MONSTER:1",
+          "damage": 1817175006,
+          "compactArea": false
+        }
+      ],
+      "last": {
+        "code": "V-979",
+        "eventType": "MERCENARY_JOKRO_AREA",
+        "mode": "awakening",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "authoritative": true,
+        "damageApplications": 1,
+        "playbackRate": 1,
+        "contactSeconds": 2.12,
+        "durationSeconds": 5.6,
+        "cooperativeDraw": false
+      },
+      "overflow": false,
+      "status": "전투 연출 완료",
+      "warnings": [],
+      "errors": []
+    }
+  ]
+}

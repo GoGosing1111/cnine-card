@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-10-18T16:11:19.039Z",
+  "source": "2b43b5a7183cec45ba603e5b01bccbfa7a750fec",
+  "deployment": "https://eeee03d9.cnine-card.pages.dev",
+  "records": [
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "localSha256": "7ce6caadf594e929d0e625f86fcdc83e18d0f15e809be88aca2a0f839e8312ee",
+      "productionSha256": "7ce6caadf594e929d0e625f86fcdc83e18d0f15e809be88aca2a0f839e8312ee",
+      "normalizedMatch": true,
+      "bytes": 764028
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "localSha256": "a589dac502c32a921a5dafc61c005abc5f2b7f17f7b06930f5e973500304db2e",
+      "productionSha256": "a589dac502c32a921a5dafc61c005abc5f2b7f17f7b06930f5e973500304db2e",
+      "normalizedMatch": true,
+      "bytes": 81983
+    }
+  ]
+}

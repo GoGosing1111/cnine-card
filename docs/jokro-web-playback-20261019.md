@@ -19,3 +19,9 @@
 - `tests/jokro-web-playback-20261019.test.mjs`는 실제 웹 제한/복구 코드로 첫 타격과 완주, 긴 기본 공격, 실제 정지 시 한 번 복구 및 늦은 완료 무시, 다른 행동 제한 유지를 검증한다. 관련 기존 로더/구버전 복구와 합계 20개 검사가 통과했다.
 - 재현·브라우저 결과와 화면 캡처는 `docs/qa/jokro-web-playback-20261019/`, 재현기는 `tests/jokro-web-playback-20261019.browser.mjs`다. 실제 운영 계정 전투·재화 쓰기는 0건이다.
 - 작은 클라이언트 수정으로 관련 검사만 선택해 `npm run deploy:production -- --scoped`로 배포한다. 운영 결과는 후속 절에 기록한다.
+
+## 운영 반영
+
+- 2026-10-19 01:11 KST 운영 반영 완료. 소스 `2b43b5a7183cec45ba603e5b01bccbfa7a750fec`, Pages `https://eeee03d9.cnine-card.pages.dev`다. 직전 운영 `9c74ff1fbd2e081fcc72245e6b4e3c1b8263fd6d`를 기준으로 관련 20개 검사와 출시·캐시·Hyperdrive 검사를 통과했다. 최신 레오넬 백은 문장 런타임을 그대로 보존했다.
+- 운영 도메인의 `js/app.js`·`js/battle-v3-live.js`는 배포 소스와 SHA-256이 각각 일치한다. `production-hashes.json`에 기록했다.
+- 운영 파일을 받아 실제 웹 래퍼로 RAID 광역기를 한 번 더 재생했다. 5.6005초 정상 완료, 청룡·화면 절단 효과 표시, 피해·HP 반영 각각 1회, 경고·페이지 오류·가로 넘침 0건이다. `production-browser.json`과 `production-desktop-RAID-cleave.png`에 보존했다. 전투 영수증/API는 격리된 검수 자료를 사용하여 운영 계정 쓰기 없이 확인했다.
