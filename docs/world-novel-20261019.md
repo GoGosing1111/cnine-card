@@ -29,3 +29,15 @@ ImageGen 내장 도구로 숙소·보관소 배경과 절제된 버튼·본문 �
 - 증거: `docs/qa/world-novel-20261019/screens/`. 최종 운영 배포는 아래에 별도 기록한다.
 
 작은 정적 콘텐츠·UI 수정으로 scoped 배포한다. 관련 이야기 검사, 기존 세계관 진입 회귀와 로비 소스 일치만 선택하며 공통 게임 전체 검사는 반복하지 않는다.
+
+## 운영 반영 완료
+
+- 운영 소스: `11a4069d8432ebbfbb1abee38358d2e302dc1fdd`, `main` 원격 반영 후 `npm run deploy:production -- --scoped` 정상 종료.
+- 관련 이야기·확장·실제 메뉴 진입 검사 8개 및 `test:lobby` 통과. 기존 출시 스위치·캐시·Hyperdrive 보호 검사를 유지했다.
+- Pages: `c83dffdf-e526-48fe-882e-ea0b6d291c92`, 정적 파일 19,932개. 운영 주소: https://cnine-card.pages.dev/world/ (고정 배포: https://c83dffdf.cnine-card.pages.dev/world/).
+- 공통 배포 절차의 API 런타임 버전 `97631df0-e355-4f39-bae4-1a2d77378780`, 스케줄러 버전 `1ae4eb16-8a41-4440-909c-91068471789e`. 이번 변경에 서버/API 실행 코드 수정은 없다.
+- 실제 운영 주소에서 본문 HTML·JS·메뉴 번들·소재 매니페스트·이미지 4종, 합계 8개 파일의 SHA-256이 배포 소스와 일치했다. PC 1440px·모바일 390px에서 화면을 캡처해 직접 확인했고 페이지 오류·가로 넘침은 없었다. 모바일 외전의 다음 장면과 완독 후 목록 복귀도 확인했다.
+- 운영 화면 검수는 격리된 새 브라우저에서 계정 API를 읽기 전용 검수 응답으로 대체했다. 실제 계정 데이터 쓰기는 0회다. 증거: `docs/qa/world-novel-20261019/live/verification.json` 및 같은 폴더의 화면 캡처.
+- 리소스 매니페스트의 `usage`는 초기 저작 경로다. 배포 빌드에서는 배경 경로를 `source/story-library.js`에서, 버튼·본문 소재를 `source/reader.css`에서 읽어 각각 `world/world.js`·`world/index.html`에 묶는다.
+
+이 기록과 운영 캡처 추가는 문서 변경만으로 마무리하며 추가 배포나 무관한 검사를 반복하지 않는다. 사용자 시각 승인은 별도다.

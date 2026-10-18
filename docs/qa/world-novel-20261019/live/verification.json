@@ -1,0 +1,52 @@
+{
+  "dateKST": "2026-10-19",
+  "origin": "https://cnine-card.pages.dev",
+  "hashes": [
+    {
+      "file": "world/index.html",
+      "sha256": "463dc5bd3753fe88f16d5a1c45387b7be2fd1365c4fcb9a48e979d82fe9d922c",
+      "status": 200
+    },
+    {
+      "file": "world/world.js",
+      "sha256": "9c6c043a9b39416dabb20a36a8cf4c1d112e389934ddba722a14b70380ff5671",
+      "status": 200
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "sha256": "de6a598c3bf767ea846917afe72f021f791b3296e3e97b9cba272a8dff06a26c",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v3/manifest.json",
+      "sha256": "778dc9558f78152b52702ea610c9545c7b5900a1529bd79b7947b6dc0e9a0888",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v3/commonRoom.webp",
+      "sha256": "b9715e9be104e13be168901d4370e4c7525680575c8e4cd0c2121b2c35aef6fd",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v3/archive.webp",
+      "sha256": "911fd52cabc8244aea3430e459c8b5c05a25fcc11824c4e74ed9d872b936ee67",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v3/button.webp",
+      "sha256": "58f0f0584c77bdb009ce31e0017e12b5ca957e17e717fd7980eabc985cd3533e",
+      "status": 200
+    },
+    {
+      "file": "assets/ui/reverse-call/world-story-v3/paper.webp",
+      "sha256": "5c86651bad8cf34da875a6320f928b61a30b900e3b716d4b107259e37edb73b3",
+      "status": 200
+    }
+  ],
+  "viewports": [
+    1440,
+    390
+  ],
+  "accountWrites": 0,
+  "pageErrors": []
+}
