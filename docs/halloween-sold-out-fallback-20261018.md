@@ -11,3 +11,8 @@
 공개 API는 저장된 설정을 보존하고 현재 재고에 따른 `currentRates`, `effectiveNormalSssPercent`, `soldOutPolicy: STANDARD_SSS`를 제공한다. 계약실의 기존 전용 이미지와 수량 표시는 유지하고 추첨 안내만 수정했다. 가격·CMS 설정·발행 한도·보유량을 운영 작업으로 덮어쓰지 않는다.
 
 검증: 관련 단위·격리 PostgreSQL 52개 통과. SS/SSS 10종의 소진 확률 경계, 일반 SSS 가중치, 부분/전체 소진, 묶음 개봉, 마지막 장 경합, 이전 미완료 계획 복구, 실패 롤백·응답 유실, 중복 결제 방지, 판매 OFF·설정 변경·풀 누락·확정권 보존을 확인했다. 1440px·390px 실제 계약실에서 전체 소진 상태의 10연속 SSS 지급, 단일 자동뽑기 2회 계속 진행, SSS 연출·건너뛰기, 수량·안내·모바일 가로 넘침 없음도 확인했다. 두 화면 모두 오류·누락 자산 0건이며 운영 계정 구매는 실행하지 않았다. 결과와 화면은 docs/qa/halloween-sold-out-fallback-20261018/에 보존한다. 운영 배포 결과는 완료 후 기록한다.
+
+
+운영 반영 완료: 소스 `17a6d34562042d8d06b1651d15afeb2a65cb21e5`를 `npm run deploy:production -- --scoped`로 배포했다. 관련 검사 52/52, Worker 구문·출시 캐시·Hyperdrive 조회 캐시 OFF 검사를 통과했다. Pages는 https://be88d3e0.cnine-card.pages.dev, API 버전은 `0d649e03-47f7-4284-ab23-cd5e1eaff7ad`, 스케줄러는 `d489c5b9-800c-4a33-8083-a9369e3b5fd8`이다.
+
+운영 공개 API에서 새 STANDARD_SSS 정책·재고별 유효 확률을 확인했고 설정 r13 전체 JSON·판매 ON·가격은 배포 전과 동일했다. 운영 정적 파일 6개 SHA-256 일치, 모바일 추첨 안내·실제 10종 수량 표시·개봉 버튼·가로 넘침 없음·JS 오류와 누락 자산 0건을 확인했다. 실제 운영 구매 POST는 0건이다. 상세 증빙은 `docs/qa/halloween-sold-out-fallback-20261018/production.json` 및 `production-mobile.png`에 보존한다. 이 완료 기록은 문서 전용 커밋이며 테스트·배포를 반복하지 않는다.

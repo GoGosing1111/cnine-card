@@ -1,0 +1,114 @@
+{
+  "checkedAt": "2026-10-18T00:30:17.106Z",
+  "sourceCommit": "17a6d34562042d8d06b1651d15afeb2a65cb21e5",
+  "origin": "https://cnine-card.pages.dev",
+  "policy": "STANDARD_SSS",
+  "revision": 13,
+  "settingsUnchanged": true,
+  "enabled": true,
+  "currentRates": {
+    "cardRatesPpm": {
+      "V-980": 0,
+      "V-981": 10000,
+      "V-982": 0,
+      "V-983": 0,
+      "V-984": 0,
+      "V-985": 0,
+      "V-986": 0,
+      "V-999": 100,
+      "V-989": 50,
+      "V-996": 100
+    },
+    "normalSssRatePpm": 989750
+  },
+  "effectiveNormalSssPercent": "0.0494875",
+  "stock": [
+    {
+      "code": "V-980",
+      "remaining": 0
+    },
+    {
+      "code": "V-981",
+      "remaining": 1
+    },
+    {
+      "code": "V-982",
+      "remaining": 0
+    },
+    {
+      "code": "V-983",
+      "remaining": 0
+    },
+    {
+      "code": "V-984",
+      "remaining": 0
+    },
+    {
+      "code": "V-985",
+      "remaining": 0
+    },
+    {
+      "code": "V-986",
+      "remaining": 0
+    },
+    {
+      "code": "V-999",
+      "remaining": 1
+    },
+    {
+      "code": "V-989",
+      "remaining": 3
+    },
+    {
+      "code": "V-996",
+      "remaining": 1
+    }
+  ],
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "5fcef09a47a4de426020ae69eff410137debf35691ba18fdd323577e4e67ed75"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "17e13738a563155b86e4e7590a96ed96e0192f20c730231eeaa58b11f87cc108"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "1f1bf86723129e04777070f707c4cee0dae75eb835e8a7e3f28d54902a7012c8"
+    },
+    {
+      "file": "js/mercenary-halloween-pack-live.mjs",
+      "status": 200,
+      "sha256": "a62ac7d351a7b78ad99a4aca286ce8c81a5b1ea50ffa3993c3ced0fba1429087"
+    },
+    {
+      "file": "js/mercenary-halloween-presentation-v2.mjs",
+      "status": 200,
+      "sha256": "2f8735bf66b581598f4fd30e7908491d64ec306011f3f1b39173723527c9f8bb"
+    },
+    {
+      "file": "shared/mercenary-halloween-pack-v1.mjs",
+      "status": 200,
+      "sha256": "fc73dfedc3541c223215f506cf5875736d01b48e5abbb73cc8157300fc11f66c"
+    }
+  ],
+  "browser": {
+    "width": 390,
+    "overflow": false,
+    "errors": [],
+    "failed": [],
+    "productionWrites": 0
+  },
+  "deployment": {
+    "pages": "https://be88d3e0.cnine-card.pages.dev",
+    "apiVersion": "0d649e03-47f7-4284-ab23-cd5e1eaff7ad",
+    "schedulerVersion": "d489c5b9-800c-4a33-8083-a9369e3b5fd8",
+    "assets": 19982,
+    "testsPassed": 52,
+    "hyperdriveQueryCache": "OFF"
+  }
+}
