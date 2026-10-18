@@ -1,0 +1,1255 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "layout": {
+        "before": {
+          "x": 0,
+          "y": 156,
+          "width": 1440,
+          "height": 844,
+          "top": 156,
+          "right": 1440,
+          "bottom": 1000,
+          "left": 0
+        },
+        "heights": [
+          156,
+          156,
+          156,
+          156,
+          156
+        ],
+        "rect": {
+          "x": 971.203125,
+          "y": 156,
+          "width": 460.796875,
+          "height": 122,
+          "top": 156,
+          "right": 1432,
+          "bottom": 278,
+          "left": 971.203125
+        },
+        "text": {
+          "x": 1062.203125,
+          "y": 194.703125,
+          "width": 325.796875,
+          "height": 44.578125,
+          "top": 194.703125,
+          "right": 1388,
+          "bottom": 239.28125,
+          "left": 1062.203125
+        },
+        "face": {
+          "x": 1015.203125,
+          "y": 198,
+          "width": 38,
+          "height": 38,
+          "top": 198,
+          "right": 1053.203125,
+          "bottom": 236,
+          "left": 1015.203125
+        },
+        "overflow": false,
+        "frame": "url(\"http://127.0.0.1:8660/preview/mercenary-leonel-sss-limited-20261018-v2/assets/ui/dialogue-frame.png\")",
+        "railBackground": "rgba(0, 0, 0, 0)",
+        "rootScale": 0.9,
+        "stageScale": 1,
+        "scene": {
+          "width": 1600,
+          "height": 820
+        },
+        "fit": null,
+        "geometry": {
+          "width": 1440,
+          "height": 844,
+          "fit": null,
+          "actors": [
+            {
+              "id": "A:OWNER:1:CARD:CN-651FAC27247A4922",
+              "team": "ALLY",
+              "body": {
+                "x": 102.85714285714286,
+                "y": 153.7873694,
+                "width": 100.28571428571428,
+                "height": 117
+              },
+              "hud": {
+                "x": 99,
+                "y": 114.74000000000001,
+                "width": 108,
+                "height": 24.75
+              },
+              "foot": {
+                "x": 153,
+                "y": 269
+              }
+            },
+            {
+              "id": "A:OWNER:1:CARD:CN-21B307E7279A4F3D",
+              "team": "ALLY",
+              "body": {
+                "x": 472.5,
+                "y": 153.78736940000002,
+                "width": 117,
+                "height": 116.99999999999997
+              },
+              "hud": {
+                "x": 477,
+                "y": 114.74000000000001,
+                "width": 108,
+                "height": 24.75
+              },
+              "foot": {
+                "x": 531,
+                "y": 269
+              }
+            },
+            {
+              "id": "A:OWNER:2:CARD:CN-346F8DB0DEB84D41",
+              "team": "ALLY",
+              "body": {
+                "x": 94.5,
+                "y": 312.1873694,
+                "width": 117,
+                "height": 117
+              },
+              "hud": {
+                "x": 99,
+                "y": 273.14000000000004,
+                "width": 108,
+                "height": 24.75
+              },
+              "foot": {
+                "x": 153,
+                "y": 427.40000000000003
+              }
+            },
+            {
+              "id": "A:OWNER:2:CARD:CN-2DA48F7E57304017",
+              "team": "ALLY",
+              "body": {
+                "x": 472.5,
+                "y": 312.1873694000001,
+                "width": 117,
+                "height": 116.99999999999994
+              },
+              "hud": {
+                "x": 477,
+                "y": 273.14000000000004,
+                "width": 108,
+                "height": 24.75
+              },
+              "foot": {
+                "x": 531,
+                "y": 427.40000000000003
+              }
+            },
+            {
+              "id": "A:OWNER:3:CARD:CN-A041807B14B54C89",
+              "team": "ALLY",
+              "body": {
+                "x": 102.85714285714286,
+                "y": 470.5873694,
+                "width": 100.28571428571428,
+                "height": 117.00000000000006
+              },
+              "hud": {
+                "x": 99,
+                "y": 431.5400000000001,
+                "width": 108,
+                "height": 24.75
+              },
+              "foot": {
+                "x": 153,
+                "y": 585.8000000000001
+              }
+            },
+            {
+              "id": "B:0:COOP:STALKER_A",
+              "team": "ENEMY",
+              "body": {
+                "x": 854.7290118,
+                "y": 172.52737613,
+                "width": 108.54197640000007,
+                "height": 106.9156638
+              },
+              "hud": {
+                "x": 855,
+                "y": 123.56,
+                "width": 108,
+                "height": 23.400000000000006
+              },
+              "foot": {
+                "x": 909,
+                "y": 269
+              }
+            },
+            {
+              "id": "B:1:COOP:STALKER_B",
+              "team": "ENEMY",
+              "body": {
+                "x": 854.7290118,
+                "y": 330.92737613,
+                "width": 108.54197640000007,
+                "height": 106.9156638
+              },
+              "hud": {
+                "x": 855,
+                "y": 281.96000000000004,
+                "width": 108,
+                "height": 23.399999999999977
+              },
+              "foot": {
+                "x": 909,
+                "y": 427.40000000000003
+              }
+            },
+            {
+              "id": "B:2:COOP:WATCHER",
+              "team": "ENEMY",
+              "body": {
+                "x": 859.25159415,
+                "y": 497.34613556000005,
+                "width": 99.49681170000008,
+                "height": 98.00593110000005
+              },
+              "hud": {
+                "x": 855,
+                "y": 449.18000000000006,
+                "width": 108,
+                "height": 23.399999999999977
+              },
+              "foot": {
+                "x": 909,
+                "y": 585.8000000000001
+              }
+            },
+            {
+              "id": "A:OWNER:3:CARD:CN-5330101EFDDA4222",
+              "team": "ALLY",
+              "body": {
+                "x": 472.5,
+                "y": 470.58736940000006,
+                "width": 117,
+                "height": 117
+              },
+              "hud": {
+                "x": 477,
+                "y": 431.5400000000001,
+                "width": 108,
+                "height": 24.75
+              },
+              "foot": {
+                "x": 531,
+                "y": 585.8000000000001
+              }
+            },
+            {
+              "id": "A:OWNER:1:MERCENARY:V-978",
+              "team": "ALLY",
+              "body": {
+                "x": 157.51254098360656,
+                "y": 35.87270491803278,
+                "width": 314.4393442622951,
+                "height": 314.4393442622951
+              },
+              "hud": {
+                "x": 288,
+                "y": 66.04999999999998,
+                "width": 108,
+                "height": 24.75
+              },
+              "foot": {
+                "x": 342,
+                "y": 269
+              }
+            },
+            {
+              "id": "A:OWNER:2:MERCENARY:V-049",
+              "team": "ALLY",
+              "body": {
+                "x": 250.77272727272728,
+                "y": 270.5818181818182,
+                "width": 171.00000000000003,
+                "height": 171
+              },
+              "hud": {
+                "x": 288,
+                "y": 220.22000000000003,
+                "width": 108,
+                "height": 24.75
+              },
+              "foot": {
+                "x": 342,
+                "y": 427.40000000000003
+              }
+            },
+            {
+              "id": "A:OWNER:3:MERCENARY:V-046",
+              "team": "ALLY",
+              "body": {
+                "x": 256.670216307,
+                "y": 422.8021524500001,
+                "width": 174.14241570000002,
+                "height": 164.71521989999997
+              },
+              "hud": {
+                "x": 288,
+                "y": 378.62000000000006,
+                "width": 108,
+                "height": 24.75
+              },
+              "foot": {
+                "x": 342,
+                "y": 585.8000000000001
+              }
+            }
+          ],
+          "mercenaries": [
+            {
+              "team": "ALLY",
+              "body": {
+                "x": 157.51254098360656,
+                "y": 35.87270491803278,
+                "width": 314.4393442622951,
+                "height": 314.4393442622951
+              },
+              "all": {
+                "x": 157.51254098360656,
+                "y": 35.87270491803278,
+                "width": 314.4393442622951,
+                "height": 314.4393442622951
+              }
+            },
+            {
+              "team": "ALLY",
+              "body": {
+                "x": 250.77272727272728,
+                "y": 270.5818181818182,
+                "width": 171.00000000000003,
+                "height": 171
+              },
+              "all": {
+                "x": 212.07954545454544,
+                "y": 217.8017666903409,
+                "width": 259.8409090909091,
+                "height": 259.8409090909091
+              }
+            },
+            {
+              "team": "ALLY",
+              "body": {
+                "x": 256.670216307,
+                "y": 422.8021524500001,
+                "width": 174.14241570000002,
+                "height": 164.71521989999997
+              },
+              "all": {
+                "x": 256.670216307,
+                "y": 378.62000000000006,
+                "width": 174.14241570000002,
+                "height": 213.66000000000003
+              }
+            }
+          ],
+          "support": null,
+          "objective": null
+        },
+        "dock": {
+          "x": 0,
+          "y": 796.09375,
+          "width": 1440,
+          "height": 203.90625,
+          "top": 796.09375,
+          "right": 1440,
+          "bottom": 1000,
+          "left": 0
+        },
+        "status": {
+          "x": 625.40625,
+          "y": 750,
+          "width": 189.1875,
+          "height": 36,
+          "top": 750,
+          "right": 814.59375,
+          "bottom": 786,
+          "left": 625.40625
+        }
+      },
+      "begins": [
+        {
+          "mode": "ultimate",
+          "at": 3692.2000000476837,
+          "ids": [
+            "B:0:COOP:STALKER_A",
+            "B:1:COOP:STALKER_B",
+            "B:2:COOP:WATCHER"
+          ]
+        },
+        {
+          "mode": "attack",
+          "at": 6070.800000011921,
+          "ids": [
+            "B:1:COOP:WARDEN"
+          ]
+        },
+        {
+          "mode": "ultimate",
+          "at": 8793.5,
+          "ids": [
+            "B:1:COOP:WARDEN"
+          ]
+        },
+        {
+          "mode": "attack",
+          "at": 11852,
+          "ids": [
+            "B:1:COOP:ARKE"
+          ]
+        },
+        {
+          "mode": "ultimate",
+          "at": 12193.200000047684,
+          "ids": [
+            "B:1:COOP:ARKE"
+          ]
+        },
+        {
+          "mode": "skill",
+          "at": 16444.80000001192,
+          "ids": [
+            "B:1:COOP:ARKE"
+          ]
+        },
+        {
+          "mode": "ultimate",
+          "at": 17633.200000047684,
+          "ids": [
+            "B:1:COOP:ARKE"
+          ]
+        }
+      ],
+      "results": [
+        {
+          "code": "V-978",
+          "eventType": "MERCENARY_LEONEL_AREA",
+          "mode": "ultimate",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 0,
+          "motionRate": 2,
+          "effectRate": 1,
+          "contactSeconds": 1.79,
+          "durationSeconds": 4.25,
+          "eventAt": 1280,
+          "result": false
+        },
+        {
+          "skillId": null,
+          "eventType": "ATTACK",
+          "impacts": 1,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "motionFrames": 26,
+          "frames": 28,
+          "eventAt": 6380,
+          "result": false
+        },
+        {
+          "code": "V-978",
+          "eventType": "MERCENARY_LEONEL_AREA",
+          "mode": "ultimate",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "motionRate": 2,
+          "effectRate": 1,
+          "contactSeconds": 1.79,
+          "durationSeconds": 4.25,
+          "eventAt": 9780,
+          "result": true
+        }
+      ],
+      "contacts": [
+        {
+          "target": "B:0:COOP:STALKER_A",
+          "damage": 507639
+        },
+        {
+          "target": "B:1:COOP:STALKER_B",
+          "damage": 490232
+        },
+        {
+          "target": "B:1:COOP:WARDEN",
+          "damage": 0
+        },
+        {
+          "target": "B:1:COOP:WARDEN",
+          "damage": 38712643
+        },
+        {
+          "target": "B:1:COOP:WARDEN",
+          "damage": 445882
+        },
+        {
+          "target": "B:1:COOP:WARDEN",
+          "damage": 977080
+        },
+        {
+          "target": "B:1:COOP:ARKE",
+          "damage": 475236
+        },
+        {
+          "target": "B:1:COOP:ARKE",
+          "damage": 232355138
+        },
+        {
+          "target": "B:1:COOP:ARKE",
+          "damage": 1038062
+        }
+      ],
+      "cuts": [
+        {
+          "cast": 2,
+          "time": 2.095
+        },
+        {
+          "cast": 3,
+          "time": 2.094
+        }
+      ],
+      "interrupts": [
+        {
+          "mode": "ultimate",
+          "time": 1.701
+        },
+        {
+          "mode": "ultimate",
+          "time": 3.057
+        },
+        {
+          "mode": "ultimate",
+          "time": 4.25
+        }
+      ],
+      "diagnosticError": "TypeError: Cannot read properties of null (reading 'x')\n    at get x (http://127.0.0.1:8660/preview/project-v-v3/project-v-pixi-battle.bundle.js:4:45622)\n    at http://127.0.0.1:8660/preview/project-v-v3/project-v-pixi-battle.bundle.js:1504:233612\n    at Array.map (<anonymous>)\n    at En.gridDiagnostics (http://127.0.0.1:8660/preview/project-v-v3/project-v-pixi-battle.bundle.js:1504:233573)\n    at En.diagnostics (http://127.0.0.1:8660/preview/project-v-v3/project-v-pixi-battle.bundle.js:1504:235605)\n    at En.diagnostics (http://127.0.0.1:8660/preview/project-v-v3/project-v-pixi-battle.bundle.js:1650:482479)\n    at Object.PY [as diagnostics] (http://127.0.0.1:8660/preview/project-v-v3/project-v-pixi-battle.bundle.js:1664:142270)\n    at Object.diagnostics (http://127.0.0.1:8660/raid/cooperative/battle.mjs:73:320)\n    at eval (eval at evaluate (:311:30), <anonymous>:1:109)\n    at UtilityScript.evaluate (<anonymous>:313:16)",
+      "retiredGridTiles": 10,
+      "actors": [
+        {
+          "id": "A:OWNER:1:CARD:CN-651FAC27247A4922",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:1:CARD:CN-21B307E7279A4F3D",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:2:CARD:CN-346F8DB0DEB84D41",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:2:CARD:CN-2DA48F7E57304017",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:3:CARD:CN-A041807B14B54C89",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "B:0:COOP:STALKER_A",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "B:1:COOP:ARKE",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "B:2:COOP:WATCHER",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "ENEMY-04",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "ENEMY-05",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:3:CARD:CN-5330101EFDDA4222",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:1:MERCENARY:V-978",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:2:MERCENARY:V-049",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:3:MERCENARY:V-046",
+          "destroyed": false,
+          "position": true
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "layout": {
+        "before": {
+          "x": 0,
+          "y": 131,
+          "width": 390,
+          "height": 713,
+          "top": 131,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "heights": [
+          131,
+          131,
+          131,
+          131,
+          131
+        ],
+        "rect": {
+          "x": 0,
+          "y": 131,
+          "width": 390,
+          "height": 116,
+          "top": 131,
+          "right": 390,
+          "bottom": 247,
+          "left": 0
+        },
+        "text": {
+          "x": 101,
+          "y": 167.375,
+          "width": 240,
+          "height": 41.234375,
+          "top": 167.375,
+          "right": 341,
+          "bottom": 208.609375,
+          "left": 101
+        },
+        "face": {
+          "x": 49,
+          "y": 167,
+          "width": 42,
+          "height": 42,
+          "top": 167,
+          "right": 91,
+          "bottom": 209,
+          "left": 49
+        },
+        "overflow": false,
+        "frame": "url(\"http://127.0.0.1:8660/preview/mercenary-leonel-sss-limited-20261018-v2/assets/ui/dialogue-frame.png\")",
+        "railBackground": "rgba(0, 0, 0, 0)",
+        "rootScale": 0.3388888888888889,
+        "stageScale": 1,
+        "scene": {
+          "width": 1150.8196721311474,
+          "height": 2103.934426229508
+        },
+        "fit": {
+          "scale": 0.3388888888888889,
+          "available": {
+            "left": 12,
+            "top": 124,
+            "width": 366,
+            "height": 395
+          },
+          "offsetX": 35.40983606557377,
+          "offsetY": 464.68852459016387,
+          "scene": {
+            "width": 1150.8196721311474,
+            "height": 2103.934426229508
+          },
+          "actorScale": 0.65,
+          "objectiveHud": null
+        },
+        "geometry": {
+          "width": 390,
+          "height": 713,
+          "fit": {
+            "scale": 0.3388888888888889,
+            "available": {
+              "left": 12,
+              "top": 124,
+              "width": 366,
+              "height": 395
+            },
+            "offsetX": 35.40983606557377,
+            "offsetY": 464.68852459016387,
+            "scene": {
+              "width": 1150.8196721311474,
+              "height": 2103.934426229508
+            },
+            "actorScale": 0.65,
+            "objectiveHud": null
+          },
+          "actors": [
+            {
+              "id": "A:OWNER:1:CARD:CN-651FAC27247A4922",
+              "team": "ALLY",
+              "body": {
+                "x": 24.0547619047619,
+                "y": 196.1434537008333,
+                "width": 49.09047619047618,
+                "height": 57.27222222222224
+              },
+              "hud": {
+                "x": 15.558333333333325,
+                "y": 176.602125,
+                "width": 66.08333333333334,
+                "height": 16.774152777777743
+              },
+              "foot": {
+                "x": 48.599999999999994,
+                "y": 252.36666666666665
+              }
+            },
+            {
+              "id": "A:OWNER:1:CARD:CN-21B307E7279A4F3D",
+              "team": "ALLY",
+              "body": {
+                "x": 166.3638888888889,
+                "y": 196.1434537008333,
+                "width": 57.27222222222224,
+                "height": 57.27222222222224
+              },
+              "hud": {
+                "x": 161.95833333333337,
+                "y": 176.602125,
+                "width": 66.08333333333334,
+                "height": 16.774152777777743
+              },
+              "foot": {
+                "x": 195.00000000000003,
+                "y": 252.36666666666665
+              }
+            },
+            {
+              "id": "A:OWNER:2:CARD:CN-346F8DB0DEB84D41",
+              "team": "ALLY",
+              "body": {
+                "x": 19.96388888888888,
+                "y": 297.8101203675,
+                "width": 57.27222222222223,
+                "height": 57.27222222222218
+              },
+              "hud": {
+                "x": 15.558333333333325,
+                "y": 278.2687916666667,
+                "width": 66.08333333333334,
+                "height": 16.774152777777772
+              },
+              "foot": {
+                "x": 48.599999999999994,
+                "y": 354.03333333333336
+              }
+            },
+            {
+              "id": "A:OWNER:2:CARD:CN-2DA48F7E57304017",
+              "team": "ALLY",
+              "body": {
+                "x": 166.3638888888889,
+                "y": 297.8101203675,
+                "width": 57.27222222222224,
+                "height": 57.27222222222218
+              },
+              "hud": {
+                "x": 161.95833333333337,
+                "y": 278.2687916666667,
+                "width": 66.08333333333334,
+                "height": 16.774152777777772
+              },
+              "foot": {
+                "x": 195.00000000000003,
+                "y": 354.03333333333336
+              }
+            },
+            {
+              "id": "A:OWNER:3:CARD:CN-A041807B14B54C89",
+              "team": "ALLY",
+              "body": {
+                "x": 24.0547619047619,
+                "y": 399.4767870341667,
+                "width": 49.09047619047618,
+                "height": 57.27222222222218
+              },
+              "hud": {
+                "x": 15.558333333333325,
+                "y": 379.9354583333334,
+                "width": 66.08333333333334,
+                "height": 16.774152777777772
+              },
+              "foot": {
+                "x": 48.599999999999994,
+                "y": 455.70000000000005
+              }
+            },
+            {
+              "id": "B:0:COOP:STALKER_A",
+              "team": "ENEMY",
+              "body": {
+                "x": 314.7633018166667,
+                "y": 205.3322753818333,
+                "width": 53.2733963666667,
+                "height": 52.05329581833337
+              },
+              "hud": {
+                "x": 308.35833333333335,
+                "y": 180.91956944444442,
+                "width": 66.08333333333337,
+                "height": 15.67276388888888
+              },
+              "foot": {
+                "x": 341.40000000000003,
+                "y": 252.36666666666665
+              }
+            },
+            {
+              "id": "B:1:COOP:STALKER_B",
+              "team": "ENEMY",
+              "body": {
+                "x": 314.7633018166667,
+                "y": 306.9989420485,
+                "width": 53.2733963666667,
+                "height": 52.05329581833337
+              },
+              "hud": {
+                "x": 308.35833333333335,
+                "y": 282.58623611111113,
+                "width": 66.08333333333337,
+                "height": 15.67276388888888
+              },
+              "foot": {
+                "x": 341.40000000000003,
+                "y": 354.03333333333336
+              }
+            },
+            {
+              "id": "B:2:COOP:WATCHER",
+              "team": "ENEMY",
+              "body": {
+                "x": 316.9830727033334,
+                "y": 412.56970948716673,
+                "width": 48.833854593333285,
+                "height": 47.71540607166668
+              },
+              "hud": {
+                "x": 308.35833333333335,
+                "y": 388.5703472222222,
+                "width": 66.08333333333337,
+                "height": 15.67276388888888
+              },
+              "foot": {
+                "x": 341.40000000000003,
+                "y": 455.70000000000005
+              }
+            },
+            {
+              "id": "A:OWNER:3:CARD:CN-5330101EFDDA4222",
+              "team": "ALLY",
+              "body": {
+                "x": 166.3638888888889,
+                "y": 399.35971159805564,
+                "width": 57.27222222222224,
+                "height": 57.27222222222218
+              },
+              "hud": {
+                "x": 161.95833333333337,
+                "y": 379.9354583333334,
+                "width": 66.08333333333334,
+                "height": 16.774152777777772
+              },
+              "foot": {
+                "x": 195.00000000000003,
+                "y": 455.70000000000005
+              }
+            },
+            {
+              "id": "A:OWNER:1:MERCENARY:V-978",
+              "team": "ALLY",
+              "body": {
+                "x": 31.492249999999984,
+                "y": 138.24941666666663,
+                "width": 153.92000000000002,
+                "height": 153.92
+              },
+              "hud": {
+                "x": 88.75833333333333,
+                "y": 152.76806944444442,
+                "width": 66.08333333333334,
+                "height": 16.774152777777743
+              },
+              "foot": {
+                "x": 121.8,
+                "y": 252.36666666666665
+              }
+            },
+            {
+              "id": "A:OWNER:2:MERCENARY:V-049",
+              "team": "ALLY",
+              "body": {
+                "x": 77.14368686868687,
+                "y": 277.26986531986535,
+                "width": 83.70555555555558,
+                "height": 83.70555555555558
+              },
+              "hud": {
+                "x": 88.75833333333333,
+                "y": 252.36412500000003,
+                "width": 66.08333333333334,
+                "height": 16.774152777777743
+              },
+              "foot": {
+                "x": 121.8,
+                "y": 354.03333333333336
+              }
+            },
+            {
+              "id": "A:OWNER:3:MERCENARY:V-046",
+              "team": "ALLY",
+              "body": {
+                "x": 79.99359309106666,
+                "y": 376.03838759444443,
+                "width": 85.31919777333334,
+                "height": 80.47802000333337
+              },
+              "hud": {
+                "x": 88.75833333333333,
+                "y": 354.0307916666667,
+                "width": 66.08333333333334,
+                "height": 16.774152777777772
+              },
+              "foot": {
+                "x": 121.8,
+                "y": 455.70000000000005
+              }
+            }
+          ],
+          "mercenaries": [
+            {
+              "team": "ALLY",
+              "body": {
+                "x": 31.492249999999984,
+                "y": 138.24941666666663,
+                "width": 153.92000000000002,
+                "height": 153.92
+              },
+              "all": {
+                "x": 31.492249999999984,
+                "y": 138.24941666666663,
+                "width": 153.92000000000002,
+                "height": 153.92
+              }
+            },
+            {
+              "team": "ALLY",
+              "body": {
+                "x": 77.14368686868687,
+                "y": 277.26986531986535,
+                "width": 83.70555555555558,
+                "height": 83.70555555555558
+              },
+              "all": {
+                "x": 58.20313552188551,
+                "y": 251.4337043120002,
+                "width": 127.19372895622897,
+                "height": 127.193728956229
+              }
+            },
+            {
+              "team": "ALLY",
+              "body": {
+                "x": 79.99359309106666,
+                "y": 376.03838759444443,
+                "width": 85.31919777333334,
+                "height": 80.47802000333337
+              },
+              "all": {
+                "x": 79.99359309106666,
+                "y": 354.0307916666667,
+                "width": 85.31919777333334,
+                "height": 104.84120833333338
+              }
+            }
+          ],
+          "support": null,
+          "objective": null
+        },
+        "dock": {
+          "x": 0,
+          "y": 712.9375,
+          "width": 390,
+          "height": 131.0625,
+          "top": 712.9375,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "status": {
+          "x": 117.671875,
+          "y": 674,
+          "width": 154.65625,
+          "height": 29,
+          "top": 674,
+          "right": 272.328125,
+          "bottom": 703,
+          "left": 117.671875
+        }
+      },
+      "begins": [
+        {
+          "mode": "ultimate",
+          "at": 3380.099999964237,
+          "ids": [
+            "B:0:COOP:STALKER_A",
+            "B:1:COOP:STALKER_B",
+            "B:2:COOP:WATCHER"
+          ]
+        },
+        {
+          "mode": "attack",
+          "at": 5757.099999964237,
+          "ids": [
+            "B:1:COOP:WARDEN"
+          ]
+        },
+        {
+          "mode": "ultimate",
+          "at": 8477.299999952316,
+          "ids": [
+            "B:1:COOP:WARDEN"
+          ]
+        },
+        {
+          "mode": "attack",
+          "at": 11543.399999976158,
+          "ids": [
+            "B:1:COOP:ARKE"
+          ]
+        },
+        {
+          "mode": "ultimate",
+          "at": 11879.199999988079,
+          "ids": [
+            "B:1:COOP:ARKE"
+          ]
+        },
+        {
+          "mode": "skill",
+          "at": 16131.699999988079,
+          "ids": [
+            "B:1:COOP:ARKE"
+          ]
+        },
+        {
+          "mode": "ultimate",
+          "at": 17319.69999998808,
+          "ids": [
+            "B:1:COOP:ARKE"
+          ]
+        }
+      ],
+      "results": [
+        {
+          "code": "V-978",
+          "eventType": "MERCENARY_LEONEL_AREA",
+          "mode": "ultimate",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 0,
+          "motionRate": 2,
+          "effectRate": 1,
+          "contactSeconds": 1.79,
+          "durationSeconds": 4.25,
+          "eventAt": 1280,
+          "result": false
+        },
+        {
+          "skillId": null,
+          "eventType": "ATTACK",
+          "impacts": 1,
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "motionFrames": 26,
+          "frames": 28,
+          "eventAt": 6380,
+          "result": false
+        },
+        {
+          "code": "V-978",
+          "eventType": "MERCENARY_LEONEL_AREA",
+          "mode": "ultimate",
+          "clockOwner": "V3_REGISTERED_GSAP",
+          "authoritative": true,
+          "damageApplications": 1,
+          "motionRate": 2,
+          "effectRate": 1,
+          "contactSeconds": 1.79,
+          "durationSeconds": 4.25,
+          "eventAt": 9780,
+          "result": true
+        }
+      ],
+      "contacts": [
+        {
+          "target": "B:0:COOP:STALKER_A",
+          "damage": 507639
+        },
+        {
+          "target": "B:1:COOP:STALKER_B",
+          "damage": 490232
+        },
+        {
+          "target": "B:1:COOP:WARDEN",
+          "damage": 0
+        },
+        {
+          "target": "B:1:COOP:WARDEN",
+          "damage": 38712643
+        },
+        {
+          "target": "B:1:COOP:WARDEN",
+          "damage": 445882
+        },
+        {
+          "target": "B:1:COOP:WARDEN",
+          "damage": 977080
+        },
+        {
+          "target": "B:1:COOP:ARKE",
+          "damage": 475236
+        },
+        {
+          "target": "B:1:COOP:ARKE",
+          "damage": 232355138
+        },
+        {
+          "target": "B:1:COOP:ARKE",
+          "damage": 1038062
+        }
+      ],
+      "cuts": [
+        {
+          "cast": 2,
+          "time": 2.094
+        },
+        {
+          "cast": 3,
+          "time": 2.093
+        }
+      ],
+      "interrupts": [
+        {
+          "mode": "ultimate",
+          "time": 1.699
+        },
+        {
+          "mode": "ultimate",
+          "time": 3.063
+        },
+        {
+          "mode": "ultimate",
+          "time": 4.25
+        }
+      ],
+      "diagnosticError": "TypeError: Cannot read properties of null (reading 'x')\n    at get x (http://127.0.0.1:8660/preview/project-v-v3/project-v-pixi-battle.bundle.js:4:45622)\n    at http://127.0.0.1:8660/preview/project-v-v3/project-v-pixi-battle.bundle.js:1504:233612\n    at Array.map (<anonymous>)\n    at En.gridDiagnostics (http://127.0.0.1:8660/preview/project-v-v3/project-v-pixi-battle.bundle.js:1504:233573)\n    at En.diagnostics (http://127.0.0.1:8660/preview/project-v-v3/project-v-pixi-battle.bundle.js:1504:235605)\n    at En.diagnostics (http://127.0.0.1:8660/preview/project-v-v3/project-v-pixi-battle.bundle.js:1650:482479)\n    at Object.PY [as diagnostics] (http://127.0.0.1:8660/preview/project-v-v3/project-v-pixi-battle.bundle.js:1664:142270)\n    at Object.diagnostics (http://127.0.0.1:8660/raid/cooperative/battle.mjs:73:320)\n    at eval (eval at evaluate (:311:30), <anonymous>:1:109)\n    at UtilityScript.evaluate (<anonymous>:313:16)",
+      "retiredGridTiles": 10,
+      "actors": [
+        {
+          "id": "A:OWNER:1:CARD:CN-651FAC27247A4922",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:1:CARD:CN-21B307E7279A4F3D",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:2:CARD:CN-346F8DB0DEB84D41",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:2:CARD:CN-2DA48F7E57304017",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:3:CARD:CN-A041807B14B54C89",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "B:0:COOP:STALKER_A",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "B:1:COOP:ARKE",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "B:2:COOP:WATCHER",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "ENEMY-04",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "ENEMY-05",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:3:CARD:CN-5330101EFDDA4222",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:1:MERCENARY:V-978",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:2:MERCENARY:V-049",
+          "destroyed": false,
+          "position": true
+        },
+        {
+          "id": "A:OWNER:3:MERCENARY:V-046",
+          "destroyed": false,
+          "position": true
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "serverAreas": 4,
+  "productionTransactions": 0
+}

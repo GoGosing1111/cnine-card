@@ -11,8 +11,8 @@ export async function loadLeonelAssets(m){
  return out;
 }
 export class LeonelFX{
- constructor(engine,merc,targets,assets,manifest,onUpdate=()=>{}){
-  Object.assign(this,{engine,merc,targets,assets,manifest,onUpdate,mode:'idle',speed:1,effectsEnabled:true,auraEnabled:true,zoom:true,disposed:false,clock:{time:0}});
+ constructor(engine,merc,targets,assets,manifest,onUpdate=()=>{},options={}){
+  Object.assign(this,{engine,merc,targets,assets,manifest,onUpdate,mode:'idle',speed:1,effectsEnabled:true,auraEnabled:true,zoom:true,disposed:false,clock:{time:0},...options});
   this.bodyHeight=manifest.displaySizing?.physicalBodyHeight||333;
   merc.animationController.kill();merc.stateHalo.visible=false;merc.hud.visible=false;
   this.back=new Container({label:'LeonelPressureBack'});this.back.eventMode='none';engine.backgroundLayer.addChild(this.back);
@@ -25,6 +25,7 @@ export class LeonelFX{
   this.cinemaShade=new Graphics();this.cinemaPressure=new Sprite();this.cinemaPortrait=new Sprite();this.screenLayer.addChild(this.cinemaShade,this.cinemaPressure,this.cinemaPortrait);this.cinemaMask=new Graphics();this.cinemaPortrait.mask=this.cinemaMask;this.screenLayer.addChild(this.cinemaMask);this.cinemaTitle=new Text({text:'검극',style:{fontFamily:'Malgun Gothic',fontSize:70,fontWeight:'bold',fill:0xfff3d1,letterSpacing:6}});this.cinemaSubtitle=new Text({text:'전선 단절',style:{fontFamily:'Malgun Gothic',fontSize:26,fontWeight:'bold',fill:0xc9c6ef,letterSpacing:5}});this.screenLayer.addChild(this.cinemaTitle,this.cinemaSubtitle);this.screenLayer.visible=false;
   this.captureFormation();this.makeTimeline();this.render(0);
  }
+ get direction(){return 1;}
  get target(){return this.targets[0];}
  get time(){return this.clock.time;}
  get playing(){return !!this.timeline&&!this.timeline.paused()&&(this.mode==='idle'||this.time<MODES[this.mode].duration);}
@@ -49,16 +50,16 @@ export class LeonelFX{
   const hitFrame={idle:0,dash:3,attack:3,skill:1,ultimate:5}[this.mode];
   const feet=this.targetPoint(this.target,0),torso=this.targetPoint();
   // Solve lateral reach on the authored blade segment, while keeping ground Y fixed.
-  const reach=index=>{const f=this.pose({bank:this.mode,index,facing:1}),s=this.scaleFor(f)*this.merc.root.scale.x,start=f.bladeStart||f.grip;return(mix(start.x,f.tip.x,.5)-f.pivot.x)*s;};
-  const anchors={home:this.home,left:{x:feet.x-reach(hitFrame),y:feet.y},second:{x:feet.x-reach(this.mode==='skill'?2:hitFrame),y:feet.y},third:{x:feet.x-reach(this.mode==='skill'?5:hitFrame),y:feet.y},right:{x:feet.x+this.bodyHeight*this.merc.root.scale.x*.7,y:feet.y}};
+  const reach=index=>{const f=this.pose({bank:this.mode,index,facing:1}),s=this.scaleFor(f)*this.merc.root.scale.x,start=f.bladeStart||f.grip;return(mix(start.x,f.tip.x,.5)-f.pivot.x)*s*this.direction;};
+  const anchors={home:this.home,left:{x:feet.x-reach(hitFrame),y:feet.y},second:{x:feet.x-reach(this.mode==='skill'?2:hitFrame),y:feet.y},third:{x:feet.x-reach(this.mode==='skill'?5:hitFrame),y:feet.y},right:{x:feet.x+this.bodyHeight*this.merc.root.scale.x*.7*this.direction,y:feet.y}};
   const a=anchors[state.path.from],b=anchors[state.path.to],q=state.path.mix,groundY=mix(a.y,b.y,q);
   return{x:mix(a.x,b.x,q),y:groundY-state.lift*this.bodyHeight*this.merc.root.scale.y,groundY};
  }
  applyPose(p){
-  const f=this.pose(p),s=this.merc.fullBodySprite,t=this.assets.motion[p.bank][f.index];s.texture=t;s.anchor.set(f.pivot.x/t.width,f.pivot.y/t.height);s.scale.set(this.scaleFor(f));s.position.set(0,0);this.merc.view.scale.set(p.facing,1);this.merc.view.position.set(0,0);
+  const f=this.pose(p),s=this.merc.fullBodySprite,t=this.assets.motion[p.bank][f.index];s.texture=t;s.anchor.set(f.pivot.x/t.width,f.pivot.y/t.height);s.scale.set(this.scaleFor(f));s.position.set(0,0);this.merc.view.scale.set(p.facing*this.direction,1);this.merc.view.position.set(0,0);
  }
  point(p,layer=this.front){return layer.toLocal(this.merc.root.parent.toGlobal(p));}
-  bladePoints(state,r){const f=this.pose(state.pose),s=this.scaleFor(f)*this.merc.root.scale.x,dir=state.pose.facing;const point=p=>({x:r.x+(p.x-f.pivot.x)*s*dir,y:r.y+(p.y-f.pivot.y)*s});return{grip:point(f.grip),start:point(f.bladeStart||f.grip),tip:point(f.tip)};}
+  bladePoints(state,r){const f=this.pose(state.pose),s=this.scaleFor(f)*this.merc.root.scale.x,dir=state.pose.facing*this.direction;const point=p=>({x:r.x+(p.x-f.pivot.x)*s*dir,y:r.y+(p.y-f.pivot.y)*s});return{grip:point(f.grip),start:point(f.bladeStart||f.grip),tip:point(f.tip)};}
  effectFrameIndex(key,progress){const a=this.assets.effects[key];return Math.min(a.length-1,Math.floor(clamp(progress)*a.length));}
  textureFrame(key,progress){return this.assets.effects[key]?.[this.effectFrameIndex(key,progress)];}
  drawAmbient(sprite,key,progress,p,width,alpha){
@@ -71,30 +72,33 @@ export class LeonelFX{
   if(pivot){anchorX=pivot.x/texture.width;anchorY=pivot.y/texture.height;}
   sprite.texture=texture;sprite.visible=alpha>0;sprite.position.set(p.x,p.y);sprite.anchor.set(anchorX,anchorY);sprite.scale.set(width/texture.width*facing,width/texture.width);sprite.alpha=alpha;sprite.rotation=angle;sprite.tint=0xffffff;sprite.blendMode=blend;
  }
+ updateAmbient(t,r){
+  const auraOn=this.effectsEnabled&&this.auraEnabled;this.aura.visible=this.backgroundAura.visible=auraOn;
+  if(auraOn){
+   const phase=(t%4)/4,size=this.bodyHeight*this.merc.root.scale.x,at=this.point({x:r.x,y:r.groundY},this.back);
+   // Approved per-frame painted bases, independent of animation/body bounds.
+   this.drawAmbient(this.aura,'aura',phase,at,size*1.75,.78);
+   this.drawAmbient(this.backgroundAura,'pressure',phase,at,size*3.1,.4);
+  }
+ }
  render(t){
   if(this.disposed)return;const e=this.engine,m=this.merc,state=this.state=sample(this.mode,t),size=this.bodyHeight*m.root.scale.x;
   this.pool.forEach(s=>s.visible=false);this.ghosts.forEach(s=>s.visible=false);this.shade.clear();
   const resting=state.done&&this.mode!=='idle',p=resting?{bank:'idle',index:0,facing:1}:state.pose;this.applyPose(p);
   const r=resting?{...this.home,groundY:this.home.y}:this.rootFor(state);m.root.position.set(r.x,r.y);m.root.depthSortY=r.groundY;e.sortCombatDepth();
   const torso=this.targetPoint(),feet=this.targetPoint(this.target,0),target=this.point(torso),ground=this.point(feet),own=this.point(r),center=this.targets.reduce((v,a)=>{const p=this.point(this.targetPoint(a));return{x:v.x+p.x/this.targets.length,y:v.y+p.y/this.targets.length};},{x:0,y:0});
-  const auraOn=this.effectsEnabled&&this.auraEnabled;this.aura.visible=this.backgroundAura.visible=auraOn;
-  if(auraOn){
-   const ambientPhase=(t%4)/4,at=this.point({x:r.x,y:r.groundY},this.back);
-   // Each drawing has its own painted base. Align that base to one ground plane.
-   this.drawAmbient(this.aura,'aura',ambientPhase,at,size*1.75,.78);
-   this.drawAmbient(this.backgroundAura,'pressure',ambientPhase,at,size*3.1,.4);
-  }
-  if(state.ghosts&&!resting){[.035,.075,.12,.18].forEach((ago,i)=>{if(t<ago)return;const old=sample(this.mode,t-ago),r0=this.rootFor(old),f=this.pose(old.pose),s=this.ghosts[i],texture=this.assets.motion[old.pose.bank][f.index];s.texture=texture;s.anchor.set(f.pivot.x/texture.width,f.pivot.y/texture.height);s.scale.set(this.scaleFor(f)*m.root.scale.x*old.pose.facing,this.scaleFor(f)*m.root.scale.y);s.position.copyFrom(this.point(r0,this.back));s.alpha=[.23,.16,.10,.05][i];s.tint=0xc7d9e5;s.blendMode='add';s.visible=true;});}
+  this.updateAmbient(t,r);
+  if(state.ghosts&&!resting){[.035,.075,.12,.18].forEach((ago,i)=>{if(t<ago)return;const old=sample(this.mode,t-ago),r0=this.rootFor(old),f=this.pose(old.pose),s=this.ghosts[i],texture=this.assets.motion[old.pose.bank][f.index];s.texture=texture;s.anchor.set(f.pivot.x/texture.width,f.pivot.y/texture.height);s.scale.set(this.scaleFor(f)*m.root.scale.x*old.pose.facing*this.direction,this.scaleFor(f)*m.root.scale.y);s.position.copyFrom(this.point(r0,this.back));s.alpha=[.23,.16,.10,.05][i];s.tint=0xc7d9e5;s.blendMode='add';s.visible=true;});}
   this.activeFrames=[];
   state.effects.forEach((fx,i)=>{
    const layer=['ultimate','pressure'].includes(fx.key)?this.back:this.front;if(this.pool[i].parent!==layer)layer.addChild(this.pool[i]);
    let pt=target,width=size*fx.width,anchorY=.5;
-   if(fx.anchor==='wake')pt={x:own.x-size*.25,y:own.y-size*.45};
+   if(fx.anchor==='wake')pt={x:own.x-size*.25*this.direction,y:own.y-size*.45};
    if(fx.anchor==='actor')pt={x:own.x,y:own.y-size*.53};
    if(fx.anchor==='ground'){pt=ground;anchorY=.85;}
    if(fx.anchor==='field'){pt=center;width=Math.max(size*3.5,Math.min(size*fx.width,e.scene.width*.9/e.stage.scale.x));}
    if(fx.anchor==='fieldground'){pt={x:center.x,y:ground.y};width=Math.max(size*3.3,Math.min(size*fx.width,e.scene.width*.86/e.stage.scale.x));anchorY=.83;}
-   const tex=this.textureFrame(fx.key,fx.progress);this.draw(this.pool[i],tex,pt,width,{alpha:fx.alpha,angle:fx.angle,anchorY,blend:fx.anchor==='wake'?'add':'normal',key:fx.key});this.activeFrames.push({key:fx.key,progress:fx.progress,position:pt,width});
+   const tex=this.textureFrame(fx.key,fx.progress);this.draw(this.pool[i],tex,pt,width,{alpha:fx.alpha,angle:fx.angle*this.direction,facing:this.direction,anchorY,blend:fx.anchor==='wake'?'add':'normal',key:fx.key});this.activeFrames.push({key:fx.key,progress:fx.progress,position:pt,width});
   });
   if(this.mode==='ultimate'&&t>.1&&t<4)this.shade.rect(-2000,-2000,6000,6000).fill({color:0x08071b,alpha:Math.min(.42,smooth((t-.1)/.25)*.42,smooth((4-t)/.4)*.42)});
   this.screenLayer.visible=Boolean(state.cinematic&&this.effectsEnabled);

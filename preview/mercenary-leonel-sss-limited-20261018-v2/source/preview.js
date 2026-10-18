@@ -3,6 +3,7 @@ import {Assets} from 'pixi.js';
 import {BattleCharacter,TEAM} from '../../project-v-v3/source/battle/BattleCharacter.js';
 import {createMercenaryBattleArtAdapter} from '../../../js/project-v-mercenary-battle-art-adapter-v1.js';
 import {MODES} from '../motion.mjs';
+import {LEONEL_COMBAT} from '../combat-profile.mjs';
 import {LeonelFX,loadLeonelAssets} from './LeonelFX.js';
 import {LeonelDialogue} from './LeonelDialogue.js';
 import {attachReviewTools} from './ReviewTools.js';
@@ -24,7 +25,7 @@ function dispose(){if(disposed)return;disposed=true;queue.active=false;engine?.a
 async function boot(){
  try{
   localStorage.setItem('cnine_battle_sound','OFF');
-  const [manifest,catalogs]=await Promise.all([get(ROOT+'manifest.json?v=ground-lock-per-frame-20261018'),Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>get('/assets/ui/project-v/characters/'+p)))]);
+  const [manifest,catalogs]=await Promise.all([get(ROOT+'manifest.json?v=leonel-live-20261018-v1'),Promise.all(['fur/manifest-v2.json','zenith/manifest-v1.json','superstar/manifest-v1.json'].map(p=>get('/assets/ui/project-v/characters/'+p)))]);
   const available=catalogs.flatMap(m=>m.characters.map(c=>({...c,grade:m.rarity})));
   const deck=IDS.map((id,i)=>{const c=available.find(x=>x.cardId===id);if(!c)throw Error('기준 카드 누락');return{...c,id,cardId:id,name:c.member,title:c.title,image:'/'+c.sourceArt,sourceArt:'/'+c.sourceArt,originalCardArt:'/'+c.sourceArt,power_type:['ATTACK','DEFENSE','SPEED','HP','ATTACK'][i],hp:100,maxHp:100};});
   window.cnineCardCatalog=()=>deck;
@@ -54,7 +55,7 @@ async function boot(){
   $('effects').onchange=()=>fx.setEffects($('effects').checked);$('aura').onchange=()=>fx.setAura($('aura').checked);
   for(const b of doc.querySelectorAll('[data-mode]'))b.onclick=()=>{stopQueue();fx.setMode(b.dataset.mode);gallery(fx.mode);dialogue.set(fx.mode);fx.play();};
   for(const b of doc.querySelectorAll('button,select,input'))b.disabled=false;
-  $('status').textContent='전투력 설계 1,940,890 · 공격 동작 2× · 스킬 효과 1×';gallery('idle');fx.seek(0);
+  $('status').textContent='기본 전투력 '+LEONEL_COMBAT.basePower.toLocaleString('en-US')+' · 공격 동작 2× · 스킬 효과 1× · 획득 잠금';gallery('idle');fx.seek(0);
   $('source-art').href='/'+manifest.sourceArt.replace(/^\//,'');$('locked-sword').href=ROOT+(manifest.weapon?.url||'assets/locked/leonel-sword.png');
   $('battle-original').href='/'+manifest.battleSprite.replace(/^\//,'');
   const review={fx,engine,merc,manifest,queue,dialogue,diagnostics:()=>({...fx.diagnostics(),dialogue:dialogue.diagnostics()}),dispose};window.LeonelPreview=review;parent.LeonelPreview=review;

@@ -1,6 +1,6 @@
 {
   "version": "LEONEL_REVISION_V2_20261018",
-  "status": "RESOURCES_READY_USER_VISUAL_REVIEW_PENDING",
+  "status": "USER_APPROVED_LIVE_AUTHORIZED",
   "previousVersion": "../mercenary-leonel-sss-limited-20261018-v1",
   "userRejection": "공격 리소스 얼굴 차이·위압감 부족, 주변 아우라 교체, 맥락 있는 진 각성 컷신급 기술 요청",
   "locked": {
@@ -12,10 +12,10 @@
   },
   "motionPlaybackRate": 2,
   "effectPlaybackRate": 1,
-  "scope": "새 아우라·공격 및 스킬 몸 작화·각성 컷인·전장 검압을 기존 V3 프리뷰에 연결",
+  "scope": "승인 V2 도감·공용 V3·협동 격전지·디펜스 전투 연결, 획득 잠금",
   "legacyQa": "V1에서 복사된 QA·영상은 재제작 완료 전 V2 증빙으로 사용하지 않음",
-  "liveEnabled": false,
-  "visualApproval": "PENDING",
+  "liveEnabled": true,
+  "visualApproval": "APPROVED",
   "completedAt": "2026-10-18T13:12:21.564Z",
   "userRejectedSource": {
     "file": "assets/sources/user-rejected-attack-20261018.png",
@@ -27,7 +27,7 @@
   },
   "qa": "qa/visual-review-v2.json",
   "combatProfile": "combat-profile.mjs",
-  "basePowerConfirmation": "combat-power-confirmation.json",
+  "basePowerConfirmation": "combat-power-2300000-20261018.json",
   "ambientAttachmentRevision": {
     "date": "2026-10-18",
     "scope": "PER_FRAME_AMBIENT_GROUND_REGISTRATION",
@@ -43,5 +43,6 @@
     "qa": "qa/ambient-ground-lock-runtime.json",
     "video": "review-ambient-ground-lock.webm"
   },
-  "ambientGroundApproval": "ambient-ground-approval-20261018.json"
+  "ambientGroundApproval": "ambient-ground-approval-20261018.json",
+  "liveApproval": "live-approval-20261018.json"
 }

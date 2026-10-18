@@ -1,3 +1,5 @@
+import {LEONEL_CODE} from '../../../shared/mercenary-leonel-v1.mjs';
+import {resumeLeonelPlayback} from '../../project-v-v3/source/battle/LeonelCombatPlayback.js';
 import {Container} from 'pixi.js';
 import {gsap} from 'gsap';
 import {setupV3MercenaryActor,disposeV3MercenaryPresentation} from '../../project-v-v3/source/battle/MercenaryCombatPlayback.js';
@@ -42,10 +44,10 @@ export function defenseMercenaryPresentation(engine,actor){
   let done=false;const finish=value=>{if(done)return;done=true;ctx.simpleTimelines.delete(entry);ctx.activeTimelines.delete(entry);cleanup();resolve(value);};
   const instance=gsap.timeline({paused:true,onComplete:()=>finish(true),onInterrupt:()=>finish(false)}),entry={instance,settle:finish};
   ctx.simpleTimelines.add(entry);ctx.activeTimelines.add(entry);build(instance);
-  const speed=ctx.basic?Math.max(Number(fixedTimeScale)||1,instance.duration()/Math.max(.4,(actor.unitData.interval||1200)/1000*.88)):Number(fixedTimeScale)||1.3;
+  const speed=actor.cardId===LEONEL_CODE?(Number(fixedTimeScale)||1):ctx.basic?Math.max(Number(fixedTimeScale)||1,instance.duration()/Math.max(.4,(actor.unitData.interval||1200)/1000*.88)):Number(fixedTimeScale)||1.3;
   instance.timeScale(engine.reducedMotion?Math.max(speed,8):speed);instance.play(0);
  });
- const states=()=>['cryvernStates','berkanStates','limitedStates','heliosStates','jinmuStates','jokroStates','kaironStates','shiranuiStates','azantStates'].flatMap(k=>[...(ctx[k]?.values()||[])]);
+ const states=()=>['cryvernStates','berkanStates','limitedStates','heliosStates','jinmuStates','jokroStates','leonelStates','kaironStates','shiranuiStates','azantStates'].flatMap(k=>[...(ctx[k]?.values()||[])]);
  const timelinePause=paused=>{
   for(const entry of ctx.simpleTimelines)paused?entry.instance.pause():entry.instance.resume();
   for(const state of states()){const timeline=state.fx?.timeline||state.knight?.timeline;if(timeline)(paused?timeline.pause():timeline.resume());}
@@ -79,7 +81,7 @@ export function defenseMercenaryPresentation(engine,actor){
   const pause=!ctx.visible;
   if(ctx.paused!==pause){ctx.paused=pause;
    if(pause)ctx.cancelActive();
-   else if(ctx.prepared){for(const resume of [resumeLimitedPlayback,resumeShiranuiPlayback,resumeKaironPlayback,resumeJinmuPlayback,resumeJokroPlayback,resumeHeliosPlayback,resumeAzantPlayback])resume(ctx);
+   else if(ctx.prepared){for(const resume of [resumeLimitedPlayback,resumeShiranuiPlayback,resumeKaironPlayback,resumeJinmuPlayback,resumeJokroPlayback,resumeLeonelPlayback,resumeHeliosPlayback,resumeAzantPlayback])resume(ctx);
     if(!ctx.busy&&actor.hp>0)actor.setState('IDLE');}
    timelinePause(pause);
   }

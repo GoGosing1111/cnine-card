@@ -1,0 +1,932 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "basic",
+      "baseline": {
+        "maxError": 5.684341886080802e-14,
+        "bodyHeight": 333,
+        "referenceHeight": 610
+      },
+      "hpCalls": [
+        {
+          "id": "CN-02D9DC1E8A8A4209",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "CN-02D9DC1E8A8A4209"
+      ],
+      "fx": {
+        "ready": true,
+        "mode": "attack",
+        "time": 0.282,
+        "playing": false,
+        "speed": 1,
+        "motionPlaybackRate": 2,
+        "effectPlaybackRate": 1,
+        "referenceHeight": 610,
+        "physicalBodyHeight": 333,
+        "cinematicVisible": false,
+        "phase": "검압 잔향",
+        "pose": {
+          "at": 0.48,
+          "bank": "attack",
+          "index": 4,
+          "facing": 1
+        },
+        "contactCount": 1,
+        "bladeContact": {
+          "u": 0.5629127663613445,
+          "distance": 2.5623233017679654,
+          "intersects": true,
+          "tipDistance": 35.990844480783075,
+          "targetHeightFraction": 0.44225639462951954,
+          "segment": "bladeStart-to-tip"
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "auraVisible": true,
+        "registeredTimelines": 0,
+        "activeFrames": [
+          {
+            "key": "dash",
+            "progress": 0.7571428571428569,
+            "position": {
+              "x": 1281.0268904835268,
+              "y": 165.075
+            },
+            "width": 233.1
+          },
+          {
+            "key": "slash",
+            "progress": 0.4416666666666666,
+            "position": {
+              "x": 1430,
+              "y": 156.79999999999998
+            },
+            "width": 357.97499999999997
+          }
+        ],
+        "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": true,
+        "actor": {
+          "x": 1322.651890483527,
+          "y": 240
+        },
+        "damageAuthority": "SERVER_ONLY",
+        "dialogue": {
+          "visible": false,
+          "line": "검을 들었다면, 끝까지 버텨라.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "motionRate": 2,
+        "effectRate": 1
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "cinematic": false,
+        "hpCalls": 1
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "skill",
+      "baseline": {
+        "maxError": 5.684341886080802e-14,
+        "bodyHeight": 333,
+        "referenceHeight": 610
+      },
+      "hpCalls": [
+        {
+          "id": "CN-02D9DC1E8A8A4209",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "CN-02D9DC1E8A8A4209"
+      ],
+      "fx": {
+        "ready": true,
+        "mode": "skill",
+        "time": 0.801,
+        "playing": false,
+        "speed": 1,
+        "motionPlaybackRate": 2,
+        "effectPlaybackRate": 1,
+        "referenceHeight": 610,
+        "physicalBodyHeight": 333,
+        "cinematicVisible": false,
+        "phase": "세 번째 검격",
+        "pose": {
+          "at": 1.4,
+          "bank": "skill",
+          "index": 5,
+          "facing": 1
+        },
+        "contactCount": 3,
+        "bladeContact": {
+          "u": 0.5,
+          "distance": 0,
+          "intersects": true,
+          "tipDistance": 41.066765557426244,
+          "targetHeightFraction": 0.8046586972079524,
+          "segment": "bladeStart-to-tip"
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 4,
+        "auraVisible": true,
+        "registeredTimelines": 0,
+        "activeFrames": [
+          {
+            "key": "slash",
+            "progress": 0.4423728813559322,
+            "position": {
+              "x": 1430,
+              "y": 156.79999999999998
+            },
+            "width": 466.2
+          },
+          {
+            "key": "fracture",
+            "progress": 0.09594594594594603,
+            "position": {
+              "x": 1430,
+              "y": 240
+            },
+            "width": 349.65000000000003
+          }
+        ],
+        "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": true,
+        "actor": {
+          "x": 1343.3162587150105,
+          "y": 240
+        },
+        "damageAuthority": "SERVER_ONLY",
+        "dialogue": {
+          "visible": false,
+          "line": "검을 들었다면, 끝까지 버텨라.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "motionRate": 2,
+        "effectRate": 1
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "cinematic": false,
+        "hpCalls": 1
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "enemy",
+      "baseline": {
+        "maxError": 0,
+        "bodyHeight": 333,
+        "referenceHeight": 610
+      },
+      "hpCalls": [
+        {
+          "id": "CN-02D9DC1E8A8A4209",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "CN-02D9DC1E8A8A4209"
+      ],
+      "fx": {
+        "ready": true,
+        "mode": "attack",
+        "time": 0.281,
+        "playing": false,
+        "speed": 1,
+        "motionPlaybackRate": 2,
+        "effectPlaybackRate": 1,
+        "referenceHeight": 610,
+        "physicalBodyHeight": 333,
+        "cinematicVisible": false,
+        "phase": "검압 잔향",
+        "pose": {
+          "at": 0.48,
+          "bank": "attack",
+          "index": 4,
+          "facing": 1
+        },
+        "contactCount": 1,
+        "bladeContact": {
+          "u": 0.562912766361345,
+          "distance": 2.562323301768016,
+          "intersects": true,
+          "tipDistance": 35.990844480783004,
+          "targetHeightFraction": 0.44225639462951954,
+          "segment": "bladeStart-to-tip"
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "auraVisible": true,
+        "registeredTimelines": 0,
+        "activeFrames": [
+          {
+            "key": "dash",
+            "progress": 0.7535714285714286,
+            "position": {
+              "x": 318.973109516473,
+              "y": 165.075
+            },
+            "width": 233.1
+          },
+          {
+            "key": "slash",
+            "progress": 0.4395833333333334,
+            "position": {
+              "x": 170,
+              "y": 156.79999999999998
+            },
+            "width": 357.97499999999997
+          }
+        ],
+        "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": true,
+        "actor": {
+          "x": 277.348109516473,
+          "y": 240
+        },
+        "damageAuthority": "SERVER_ONLY",
+        "dialogue": {
+          "visible": false,
+          "line": "검을 들었다면, 끝까지 버텨라.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "motionRate": 2,
+        "effectRate": 1
+      },
+      "direction": -1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "cinematic": false,
+        "hpCalls": 1
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "area",
+      "baseline": {
+        "maxError": 5.684341886080802e-14,
+        "bodyHeight": 333,
+        "referenceHeight": 610
+      },
+      "hpCalls": [
+        {
+          "id": "B:0:ENCOUNTER:INITIAL",
+          "hp": 8.000927643784788
+        },
+        {
+          "id": "B:1:ENCOUNTER:INITIAL",
+          "hp": 53.99962356484096
+        },
+        {
+          "id": "B:2:ENCOUNTER:INITIAL",
+          "hp": 53.99946516493369
+        },
+        {
+          "id": "B:3:ENCOUNTER:INITIAL",
+          "hp": 53.99981962481962
+        },
+        {
+          "id": "B:4:ENCOUNTER:INITIAL",
+          "hp": 53.99940968122786
+        },
+        {
+          "id": "B:5:ENCOUNTER:INITIAL",
+          "hp": 54.00027056277056
+        },
+        {
+          "id": "B:6:ENCOUNTER:INITIAL",
+          "hp": 54.0004831501389
+        },
+        {
+          "id": "B:7:ENCOUNTER:INITIAL",
+          "hp": 54.000463821892396
+        },
+        {
+          "id": "B:8:ENCOUNTER:INITIAL",
+          "hp": 53.99962356484096
+        },
+        {
+          "id": "B:9:ENCOUNTER:INITIAL",
+          "hp": 53.99946516493369
+        },
+        {
+          "id": "B:10:ENCOUNTER:INITIAL",
+          "hp": 53.99981962481962
+        },
+        {
+          "id": "B:11:ENCOUNTER:INITIAL",
+          "hp": 53.99940968122786
+        }
+      ],
+      "damageCalls": [
+        "B:0:ENCOUNTER:INITIAL",
+        "B:1:ENCOUNTER:INITIAL",
+        "B:2:ENCOUNTER:INITIAL",
+        "B:3:ENCOUNTER:INITIAL",
+        "B:4:ENCOUNTER:INITIAL",
+        "B:5:ENCOUNTER:INITIAL",
+        "B:6:ENCOUNTER:INITIAL",
+        "B:7:ENCOUNTER:INITIAL",
+        "B:8:ENCOUNTER:INITIAL",
+        "B:9:ENCOUNTER:INITIAL",
+        "B:10:ENCOUNTER:INITIAL",
+        "B:11:ENCOUNTER:INITIAL"
+      ],
+      "fx": {
+        "ready": true,
+        "mode": "ultimate",
+        "time": 2.553,
+        "playing": false,
+        "speed": 1,
+        "motionPlaybackRate": 2,
+        "effectPlaybackRate": 1,
+        "referenceHeight": 610,
+        "physicalBodyHeight": 333,
+        "cinematicVisible": false,
+        "phase": "지연 파열 · 검압 잔향",
+        "pose": {
+          "at": 2.65,
+          "bank": "ultimate",
+          "index": 9,
+          "facing": 1
+        },
+        "contactCount": 2,
+        "bladeContact": {
+          "u": 0.12598436161784285,
+          "distance": 126.86478408729789,
+          "intersects": false,
+          "tipDistance": 145.7666007432324,
+          "targetHeightFraction": 0.38000000000000006,
+          "segment": "bladeStart-to-tip"
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "auraVisible": true,
+        "registeredTimelines": 0,
+        "activeFrames": [
+          {
+            "key": "ultimate",
+            "progress": 0.31931034482758625,
+            "position": {
+              "x": 1080.8200000000002,
+              "y": 365.42933333333326
+            },
+            "width": 1082.25
+          },
+          {
+            "key": "fracture",
+            "progress": 0.06912751677852333,
+            "position": {
+              "x": 1080.8200000000002,
+              "y": 249.99999999999991
+            },
+            "width": 949.0500000000001
+          }
+        ],
+        "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+        "regularAllies": 5,
+        "targets": 12,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": true,
+        "actor": {
+          "x": 759.4494365824579,
+          "y": 249.99701999999996
+        },
+        "damageAuthority": "SERVER_ONLY",
+        "dialogue": {
+          "visible": true,
+          "line": "“막을 수 있겠나.”",
+          "castIndex": 1,
+          "active": true,
+          "fullIllustration": false,
+          "speaker": "V-978"
+        },
+        "motionRate": 2,
+        "effectRate": 1
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "cinematic": false,
+        "hpCalls": 12
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "basic",
+      "baseline": {
+        "maxError": 1.4210854715202004e-14,
+        "bodyHeight": 333,
+        "referenceHeight": 610
+      },
+      "hpCalls": [
+        {
+          "id": "CN-02D9DC1E8A8A4209",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "CN-02D9DC1E8A8A4209"
+      ],
+      "fx": {
+        "ready": true,
+        "mode": "attack",
+        "time": 0.28,
+        "playing": false,
+        "speed": 1,
+        "motionPlaybackRate": 2,
+        "effectPlaybackRate": 1,
+        "referenceHeight": 610,
+        "physicalBodyHeight": 333,
+        "cinematicVisible": false,
+        "phase": "검압 잔향",
+        "pose": {
+          "at": 0.48,
+          "bank": "attack",
+          "index": 4,
+          "facing": 1
+        },
+        "contactCount": 1,
+        "bladeContact": {
+          "u": 0.562912766361345,
+          "distance": 3.331020292298439,
+          "intersects": true,
+          "tipDistance": 46.7880978250179,
+          "targetHeightFraction": 0.4422563946295197,
+          "segment": "bladeStart-to-tip"
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "auraVisible": true,
+        "registeredTimelines": 0,
+        "activeFrames": [
+          {
+            "key": "dash",
+            "progress": 0.75,
+            "position": {
+              "x": 813.7447936941588,
+              "y": 337.18766393442615
+            },
+            "width": 303.03000000000003
+          },
+          {
+            "key": "slash",
+            "progress": 0.43750000000000006,
+            "position": {
+              "x": 1007.4098360655738,
+              "y": 326.4301639344262
+            },
+            "width": 465.3675
+          }
+        ],
+        "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": true,
+        "actor": {
+          "x": 867.8572936941589,
+          "y": 434.5901639344262
+        },
+        "damageAuthority": "SERVER_ONLY",
+        "dialogue": {
+          "visible": false,
+          "line": "검을 들었다면, 끝까지 버텨라.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "motionRate": 2,
+        "effectRate": 1
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "cinematic": false,
+        "hpCalls": 1
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "skill",
+      "baseline": {
+        "maxError": 1.4210854715202004e-14,
+        "bodyHeight": 333,
+        "referenceHeight": 610
+      },
+      "hpCalls": [
+        {
+          "id": "CN-02D9DC1E8A8A4209",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "CN-02D9DC1E8A8A4209"
+      ],
+      "fx": {
+        "ready": true,
+        "mode": "skill",
+        "time": 0.8,
+        "playing": false,
+        "speed": 1,
+        "motionPlaybackRate": 2,
+        "effectPlaybackRate": 1,
+        "referenceHeight": 610,
+        "physicalBodyHeight": 333,
+        "cinematicVisible": false,
+        "phase": "세 번째 검격",
+        "pose": {
+          "at": 1.4,
+          "bank": "skill",
+          "index": 5,
+          "facing": 1
+        },
+        "contactCount": 3,
+        "bladeContact": {
+          "u": 0.49999999999999944,
+          "distance": 0,
+          "intersects": true,
+          "tipDistance": 53.38679522465423,
+          "targetHeightFraction": 0.8046586972079522,
+          "segment": "bladeStart-to-tip"
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 4,
+        "auraVisible": true,
+        "registeredTimelines": 0,
+        "activeFrames": [
+          {
+            "key": "slash",
+            "progress": 0.44067796610169496,
+            "position": {
+              "x": 1007.4098360655738,
+              "y": 326.4301639344262
+            },
+            "width": 606.0600000000001
+          },
+          {
+            "key": "fracture",
+            "progress": 0.09459459459459468,
+            "position": {
+              "x": 1007.4098360655738,
+              "y": 434.5901639344262
+            },
+            "width": 454.5450000000001
+          }
+        ],
+        "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": true,
+        "actor": {
+          "x": 894.7209723950875,
+          "y": 434.5901639344262
+        },
+        "damageAuthority": "SERVER_ONLY",
+        "dialogue": {
+          "visible": false,
+          "line": "검을 들었다면, 끝까지 버텨라.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "motionRate": 2,
+        "effectRate": 1
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "cinematic": false,
+        "hpCalls": 1
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "enemy",
+      "baseline": {
+        "maxError": 0,
+        "bodyHeight": 333,
+        "referenceHeight": 610
+      },
+      "hpCalls": [
+        {
+          "id": "CN-02D9DC1E8A8A4209",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "CN-02D9DC1E8A8A4209"
+      ],
+      "fx": {
+        "ready": true,
+        "mode": "attack",
+        "time": 0.282,
+        "playing": false,
+        "speed": 1,
+        "motionPlaybackRate": 2,
+        "effectPlaybackRate": 1,
+        "referenceHeight": 610,
+        "physicalBodyHeight": 333,
+        "cinematicVisible": false,
+        "phase": "검압 잔향",
+        "pose": {
+          "at": 0.48,
+          "bank": "attack",
+          "index": 4,
+          "facing": 1
+        },
+        "contactCount": 1,
+        "bladeContact": {
+          "u": 0.5629127663613449,
+          "distance": 3.3310202922983754,
+          "intersects": true,
+          "tipDistance": 46.788097825017914,
+          "targetHeightFraction": 0.4422563946295197,
+          "segment": "bladeStart-to-tip"
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "auraVisible": true,
+        "registeredTimelines": 0,
+        "activeFrames": [
+          {
+            "key": "dash",
+            "progress": 0.7571428571428569,
+            "position": {
+              "x": 337.0748784369886,
+              "y": 337.18766393442615
+            },
+            "width": 303.03000000000003
+          },
+          {
+            "key": "slash",
+            "progress": 0.4416666666666666,
+            "position": {
+              "x": 143.40983606557373,
+              "y": 326.4301639344262
+            },
+            "width": 465.3675
+          }
+        ],
+        "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": true,
+        "actor": {
+          "x": 282.9623784369886,
+          "y": 434.5901639344262
+        },
+        "damageAuthority": "SERVER_ONLY",
+        "dialogue": {
+          "visible": false,
+          "line": "검을 들었다면, 끝까지 버텨라.",
+          "castIndex": 0,
+          "active": false,
+          "fullIllustration": false
+        },
+        "motionRate": 2,
+        "effectRate": 1
+      },
+      "direction": -1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "cinematic": false,
+        "hpCalls": 1
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "area",
+      "baseline": {
+        "maxError": 1.4210854715202004e-14,
+        "bodyHeight": 333,
+        "referenceHeight": 610
+      },
+      "hpCalls": [
+        {
+          "id": "B:0:ENCOUNTER:INITIAL",
+          "hp": 8.000927643784788
+        },
+        {
+          "id": "B:1:ENCOUNTER:INITIAL",
+          "hp": 53.99962356484096
+        },
+        {
+          "id": "B:2:ENCOUNTER:INITIAL",
+          "hp": 53.99946516493369
+        },
+        {
+          "id": "B:3:ENCOUNTER:INITIAL",
+          "hp": 53.99981962481962
+        },
+        {
+          "id": "B:4:ENCOUNTER:INITIAL",
+          "hp": 53.99940968122786
+        },
+        {
+          "id": "B:5:ENCOUNTER:INITIAL",
+          "hp": 54.00027056277056
+        },
+        {
+          "id": "B:6:ENCOUNTER:INITIAL",
+          "hp": 54.0004831501389
+        },
+        {
+          "id": "B:7:ENCOUNTER:INITIAL",
+          "hp": 54.000463821892396
+        },
+        {
+          "id": "B:8:ENCOUNTER:INITIAL",
+          "hp": 53.99962356484096
+        },
+        {
+          "id": "B:9:ENCOUNTER:INITIAL",
+          "hp": 53.99946516493369
+        },
+        {
+          "id": "B:10:ENCOUNTER:INITIAL",
+          "hp": 53.99981962481962
+        },
+        {
+          "id": "B:11:ENCOUNTER:INITIAL",
+          "hp": 53.99940968122786
+        }
+      ],
+      "damageCalls": [
+        "B:0:ENCOUNTER:INITIAL",
+        "B:1:ENCOUNTER:INITIAL",
+        "B:2:ENCOUNTER:INITIAL",
+        "B:3:ENCOUNTER:INITIAL",
+        "B:4:ENCOUNTER:INITIAL",
+        "B:5:ENCOUNTER:INITIAL",
+        "B:6:ENCOUNTER:INITIAL",
+        "B:7:ENCOUNTER:INITIAL",
+        "B:8:ENCOUNTER:INITIAL",
+        "B:9:ENCOUNTER:INITIAL",
+        "B:10:ENCOUNTER:INITIAL",
+        "B:11:ENCOUNTER:INITIAL"
+      ],
+      "fx": {
+        "ready": true,
+        "mode": "ultimate",
+        "time": 2.553,
+        "playing": false,
+        "speed": 1,
+        "motionPlaybackRate": 2,
+        "effectPlaybackRate": 1,
+        "referenceHeight": 610,
+        "physicalBodyHeight": 333,
+        "cinematicVisible": false,
+        "phase": "지연 파열 · 검압 잔향",
+        "pose": {
+          "at": 2.65,
+          "bank": "ultimate",
+          "index": 9,
+          "facing": 1
+        },
+        "contactCount": 2,
+        "bladeContact": {
+          "u": 0.18188876770605192,
+          "distance": 165.48191203417986,
+          "intersects": false,
+          "tipDistance": 187.12229371684194,
+          "targetHeightFraction": 0.37999999999999967,
+          "segment": "bladeStart-to-tip"
+        },
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 2,
+        "visibleGhosts": 0,
+        "auraVisible": true,
+        "registeredTimelines": 0,
+        "activeFrames": [
+          {
+            "key": "ultimate",
+            "progress": 0.31931034482758625,
+            "position": {
+              "x": 780.1898360655738,
+              "y": 996.8460327868853
+            },
+            "width": 1035.7377049180327
+          },
+          {
+            "key": "fracture",
+            "progress": 0.06912751677852333,
+            "position": {
+              "x": 780.1898360655738,
+              "y": 764.9180327868852
+            },
+            "width": 989.7049180327867
+          }
+        ],
+        "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+        "regularAllies": 5,
+        "targets": 12,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": true,
+        "actor": {
+          "x": 488.30272462276906,
+          "y": 764.9031327868852
+        },
+        "damageAuthority": "SERVER_ONLY",
+        "dialogue": {
+          "visible": true,
+          "line": "“막을 수 있겠나.”",
+          "castIndex": 1,
+          "active": true,
+          "fullIllustration": false,
+          "speaker": "V-978"
+        },
+        "motionRate": 2,
+        "effectRate": 1
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "cinematic": false,
+        "hpCalls": 12
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "loadout",
+      "pve": true,
+      "pvp": true,
+      "persisted": true
+    },
+    {
+      "label": "mobile",
+      "mode": "loadout",
+      "pve": true,
+      "pvp": true,
+      "persisted": true
+    }
+  ],
+  "errors": []
+}

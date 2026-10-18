@@ -19,7 +19,11 @@ export const isolatedQaFixtures=new Set(['admin-forge-ticket-fixture','auction-f
 // alongside the other unshipped runners so new game art fits the Pages file cap.
 // One-off scripts/ops tools and receipts also run only from the repository;
 // no game or preview imports them, and they are not desktop resources.
-export const isProductionFile=file=>! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&! /^scripts\/qa-[^/]+\.[cm]?js$/.test(file)&&!file.startsWith('scripts/ops/')&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/')&&!file.startsWith('preview/mercenary-jokro-iaido-20261017-v1/assets/frames/')&&!martialAuthoringOnly.has(file)&&!isolatedQaFixtures.has(file);
+// Leonel V1 is rejected history. V2 uses packed atlases in combat and its forty
+// composed frames in the preview gallery. Uncomposed body frames and QA remain
+// in Git without consuming Pages assets.
+const leonelAuthoringOnly=file=>file.startsWith('preview/mercenary-leonel-sss-limited-20261018-v1/')||['qa/','assets/body-frames/'].some(part=>file.startsWith('preview/mercenary-leonel-sss-limited-20261018-v2/'+part));
+export const isProductionFile=file=>!leonelAuthoringOnly(file)&&! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&! /^scripts\/qa-[^/]+\.[cm]?js$/.test(file)&&!file.startsWith('scripts/ops/')&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/')&&!file.startsWith('preview/mercenary-jokro-iaido-20261017-v1/assets/frames/')&&!martialAuthoringOnly.has(file)&&!isolatedQaFixtures.has(file);
 export async function prepareProductionAssets({root=process.cwd(),files,tempRoot=tmpdir(),dependencies}={}){
  files||=execFileSync('git',['ls-files','-z'],{cwd:root,maxBuffer:40e6}).toString().split('\0').filter(Boolean);
  const selected=files.filter(isProductionFile),assetCount=selected.filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;

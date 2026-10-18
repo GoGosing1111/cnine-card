@@ -1,3 +1,4 @@
+import {LEONEL_DIALOGUE_CSS} from './LeonelDialogueStyle.js';
 import {MERCENARY_DIALOGUE_PROFILES} from './MercenaryDialogueProfiles.js';
 import {SHIRANUI_DIALOGUE_CSS} from './ShiranuiDialogueStyle.js';
 export {JINMU_DIALOGUE_LINES} from './MercenaryDialogueProfiles.js';
@@ -79,7 +80,7 @@ body[data-jinmu-dialogue='true'][data-legion-live] .boss-hud,body[data-jinmu-dia
 @media(max-width:760px){.jinmu-dialogue-rail[data-theme='jokro']{padding:2px 5px 4px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame{border-inline-width:44px;border-image-width:0 44px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-inner{min-height:112px;padding:25px 0;gap:9px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-face{flex-basis:38px;width:38px;height:38px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-copy p{font-size:13px;line-height:1.6}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name{gap:7px;flex-wrap:nowrap}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name b{font-size:12px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name span{font-size:9px}}
 `;
 
-const DIALOGUE_CSS=CSS+SHIRANUI_DIALOGUE_CSS+`
+const DIALOGUE_CSS=CSS+SHIRANUI_DIALOGUE_CSS+LEONEL_DIALOGUE_CSS+`
 @media(min-width:761px){
  .coop-battle-portal .jinmu-dialogue-rail{left:auto;right:8px;width:32%;max-width:620px;padding:6px 0}
  .coop-battle-portal .jinmu-dialogue-seal{display:none}
@@ -118,7 +119,7 @@ class DialogueRail{
   this.layout=()=>{
    if(this.destroyed||!this.node.isConnected)return;
    const width=this.node.getBoundingClientRect().width;
-   if(this.measuredWidth!==width&&[...this.members].some(m=>['jokro','shiranui'].includes(m.profile.theme))){
+   if(this.measuredWidth!==width&&[...this.members].some(m=>['jokro','shiranui','leonel'].includes(m.profile.theme))){
     // A mixed squad shares this row. Reserve the tallest theme before any
     // speaker casts, so switching to the new frame cannot resize the board.
     const theme=this.node.dataset.theme;let height=0;this.node.style.minHeight='';

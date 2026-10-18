@@ -11,7 +11,9 @@ export function validateCatalog(data){
   for(const c of data.cards){const titleDeferred=c.edition==='LIMITED'&&c.titleStatus==='DEFERRED_BY_USER';if(!/^V-\d{3}$/.test(c.code)||!c.name||((c.code===CRYVERN_CODE||titleDeferred)?c.title!=='':c.code===AZANT_CODE?typeof c.title!=='string':!c.title)||(!POSITIONS[c.position]&&!(c.artOnly===true&&c.position===null))||!data.roles?.[c.role]||(c.rank!==null&&!RANKS.includes(c.rank))||!Array.isArray(c.skills))throw Error('용병 설정을 확인하세요.');asset(c.sourceArt);if(c.thumbnailArt)asset(c.thumbnailArt);if(c.displayArt)asset(c.displayArt);if(c.battleSprite)asset(c.battleSprite);
     if(c.edition==='LIMITED'){
       const battleReady=c.releaseStatus==='OWNER_PACK_CONTROLLED'&&(c.season==='HALLOWEEN'||c.code==='V-989')&&c.deploymentEnabled===true&&Number.isSafeInteger(c.basePower)&&c.basePower>0&&c.skills.length>0;
-      if(c.artOnly!==true||(!battleReady&&(c.basePower!==null||c.skills.length||c.releaseStatus!=='LIMITED_PREVIEW'))||c.acquisitionEnabled!==false||typeof c.deploymentEnabled!=='boolean')throw Error('리미티드 획득 정보는 조회만 가능합니다.');
+      const leonelReady=c.code==='V-978'&&c.releaseStatus==='BATTLE_RELEASED_ACQUISITION_LOCKED'&&c.artOnly===false&&c.acquisition==='LOCKED'&&c.deploymentEnabled===true&&Number.isSafeInteger(c.basePower)&&c.basePower>=2300000&&c.skills.length===1;
+      if(!leonelReady&&(c.artOnly!==true||(!battleReady&&(c.basePower!==null||c.skills.length||c.releaseStatus!=='LIMITED_PREVIEW'))||c.acquisitionEnabled!==false||typeof c.deploymentEnabled!=='boolean'))throw Error('리미티드 획득 정보는 조회만 가능합니다.');
+      if(c.acquisitionEnabled!==false)throw Error('리미티드 획득은 잠금 상태입니다.');
       asset(c.frame);if(!c.artWindow||['left','top','width','height'].some(k=>!Number.isFinite(c.artWindow[k])||c.artWindow[k]<0||c.artWindow[k]>100))throw Error('리미티드 프레임 배치를 확인하세요.');
     }else if(c.artOnly===true&&(c.basePower!==null||c.battleSprite!==null||c.skills.length||c.releaseStatus!=='ART_RELEASED'))throw Error('원화 공개 용병의 전투 정보는 아직 제공되지 않습니다.');
     for(const s of c.skills)if(!/^MS-\d{3}$/.test(s.id)||!s.name||!s.balance||typeof s.ready!=='boolean')throw Error('스킬 설정을 확인하세요.');

@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-18",
+  "status": "IMPLEMENTED_LIVE_AUTHORIZED",
+  "visualApproval": {
+    "user": "됐네 이제야",
+    "record": "ambient-ground-approval-20261018.json"
+  },
+  "releaseRequest": "라이브 올려",
+  "acquisitionAnswer": "획득은 잠금 유지, 추후 별도 지정",
+  "powerRequest": "레오넬 전투력 230만이상으로 올려",
+  "code": "V-978",
+  "combat": {
+    "version": 1,
+    "basePower": 2300000,
+    "statsReferencePower": 1123200,
+    "statScale": 2.0477203757039297,
+    "speedReferencePower": 1080000,
+    "speedScale": 3.12,
+    "actionCredit": 3.12,
+    "motionPlaybackRate": 2,
+    "effectPlaybackRate": 1,
+    "link": {
+      "attackPercent": 3748.147375688473,
+      "hpPercent": 2385.184693619937,
+      "shieldPercent": 1345.5552658831775
+    },
+    "basicCapScale": 4.0954407514078595,
+    "damageTakenScale": 0.2
+  },
+  "skill": {
+    "id": "MS-978",
+    "name": "검극 · 전선 단절",
+    "mechanic": "SWORD_APEX_FRONTLINE_SEVER",
+    "target": "ALL_ENEMIES",
+    "pveOnly": true,
+    "balance": {
+      "damageRatio": 15.12,
+      "cooldownTurns": 5,
+      "cost": 35
+    }
+  },
+  "acquisitionEnabled": false,
+  "packAcquisitionEnabled": false,
+  "grants": 0,
+  "sourceArtSha256": "43D4C211FF58BFF672E8614AA50FCD8F6C5099C667DD2F4C42C44BDE75AB2E00",
+  "battleSpriteSha256": "AB6D401C93CCBECE50912CDADDCFC6F0D099BD720A6149729AF275F28CA53683",
+  "manifestSha256": "cfa0774606271f52baf7a3da5b03aee8be9acae9771214dee823cb8d0f5885e5",
+  "sharedPolicySha256": "142e0895cc2ee06fb1467149f62c598a7e1dfd5b3e6171d6aaa3f9da7efdcba9",
+  "releaseEvidence": "../../docs/leonel-live-20261018.md"
+}

@@ -96,6 +96,14 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "shared/mercenary-leonel-v1.mjs",
+    "preview/mercenary-leonel-sss-limited-20261018-v2/motion.mjs",
+    "preview/mercenary-leonel-sss-limited-20261018-v2/source/LeonelFX.js",
+    "preview/project-v-v3/source/battle/LeonelDialogueStyle.js",
+    "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
+    "preview/project-v-v3/source/battle/ShiranuiDialogueStyle.js",
+    "preview/project-v-v3/source/battle/JinmuDialogue.js",
+    "preview/project-v-v3/source/battle/LeonelCombatPlayback.js",
     "shared/mercenary-cryvern-v1.mjs",
     "shared/mercenary-berkan-v1.mjs",
     "shared/mercenary-kangyun-v1.mjs",
@@ -108,9 +116,6 @@
     "preview/mercenary-jokro-iaido-20261017-v1/source/JokroAwakeningFX.js",
     "preview/mercenary-jokro-iaido-20261017-v1/source/JokroNeonRim.js",
     "preview/mercenary-jokro-iaido-20261017-v1/source/JokroFX.js",
-    "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
-    "preview/project-v-v3/source/battle/ShiranuiDialogueStyle.js",
-    "preview/project-v-v3/source/battle/JinmuDialogue.js",
     "preview/project-v-v3/source/battle/JokroCombatPlayback.js",
     "shared/mercenary-jinmu-v1.mjs",
     "shared/mercenary-kairon-v1.mjs",
@@ -214,5 +219,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2092788
+  "outputBytes": 2123135
 }

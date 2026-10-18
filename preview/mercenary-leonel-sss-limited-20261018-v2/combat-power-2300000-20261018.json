@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-18",
+  "userRequest": "레오넬 전투력 230만이상으로 올려",
+  "basePower": 2300000,
+  "supersedes": "combat-power-confirmation.json",
+  "policy": "../../shared/mercenary-leonel-v1.mjs",
+  "motionPlaybackRate": 2,
+  "effectPlaybackRate": 1,
+  "acquisition": "LOCKED"
+}

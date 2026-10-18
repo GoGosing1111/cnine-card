@@ -1,3 +1,4 @@
+import {leonelIncomingDamage,leonelActionCredit} from '../shared/mercenary-leonel-v1.mjs';
 import {jokroIncomingDamage,jokroActionCredit} from '../shared/mercenary-jokro-v1.mjs';
 import {avatarPoweredCard,avatarScaledPower,avatarPowerScale} from '../shared/avatar-power-v1.mjs';
 import {mercenaryGrowthIncomingDamage,applyMercenaryGrowthMatchups,mercenaryGrowthActionCredit} from '../shared/mercenary-growth-review-v2.mjs';
@@ -581,6 +582,7 @@ function applyCanonicalDamage(target, incoming, options = {}) {
   incoming = heliosIncomingDamage(target,incoming,options.actor);
   incoming = jinmuIncomingDamage(target,incoming,options.actor);
   incoming = kaironIncomingDamage(target,incoming,options.actor);
+  incoming = leonelIncomingDamage(target,incoming);
   incoming = jokroIncomingDamage(target,incoming,options.actor);
   incoming = shiranuiIncomingDamage(target,incoming,options.actor);
   incoming = mercenaryGrowthIncomingDamage(target,beforeMercenaryMitigation,incoming,options.actor);
@@ -816,7 +818,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const mercenaryActionsBySide={A:0,B:0};
   // Valter/Helios reserved turns must not exhaust the old two-turn safety
   // budget before the regular-card clock ends. Other teams retain their cap.
-  const mercenaryActionLimits=Object.fromEntries([['A',a],['B',b]].map(([side,team])=>[side,maxActions*Math.max(2,Math.ceil(valterActionCredit(team)),Math.ceil(heliosActionCredit(team)),Math.ceil(jinmuActionCredit(team)),Math.ceil(kaironActionCredit(team)),Math.ceil(shiranuiActionCredit(team)),Math.ceil(jokroActionCredit(team)))]));
+  const mercenaryActionLimits=Object.fromEntries([['A',a],['B',b]].map(([side,team])=>[side,maxActions*Math.max(2,Math.ceil(valterActionCredit(team)),Math.ceil(heliosActionCredit(team)),Math.ceil(jinmuActionCredit(team)),Math.ceil(kaironActionCredit(team)),Math.ceil(shiranuiActionCredit(team)),Math.ceil(leonelActionCredit(team)),Math.ceil(jokroActionCredit(team)))]));
   const mercenaryActionAvailable=actor=>!actor.isMercenary||mercenaryActionsBySide[actor.side]<mercenaryActionLimits[actor.side];
   // V1813: 몬스터 강제 행동까지 남은 플레이어 행동 수를 센다.
   let playerStreak = 0;

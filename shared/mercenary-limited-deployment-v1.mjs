@@ -1,3 +1,4 @@
+import {LEONEL_CODE,leonelDeploymentSnapshot} from './mercenary-leonel-v1.mjs';
 import {JOKRO_CODE,jokroDeploymentSnapshot} from './mercenary-jokro-v1.mjs';
 import {HALLOWEEN_MERCENARIES} from './mercenary-halloween-catalog-v1.mjs';
 import {HALLOWEEN_COMBAT,HALLOWEEN_COMBAT_VERSION} from './mercenary-halloween-combat-v1.mjs';
@@ -14,6 +15,7 @@ import {KAIRON_CODE,kaironDeploymentSnapshot} from './mercenary-kairon-v1.mjs';
 // Artwork provenance, acquisition and pack release remain separate contracts.
 export const LIMITED_DEPLOYMENT_VERSION='20261012-helios-deployment-v1';
 export function limitedDeploymentSnapshot(code){
+ if(code===LEONEL_CODE)return leonelDeploymentSnapshot();
  if(code===JOKRO_CODE)return jokroDeploymentSnapshot();
  if(code===SHIRANUI_CODE)return shiranuiDeploymentSnapshot();
  if(code===KAIRON_CODE)return kaironDeploymentSnapshot();

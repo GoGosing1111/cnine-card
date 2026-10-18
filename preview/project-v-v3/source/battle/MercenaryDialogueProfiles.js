@@ -1,3 +1,4 @@
+export const LEONEL_DIALOGUE_LINES=Object.freeze(['막을 수 있겠나.','이 검격으로, 전부 끝낸다.','힘의 차이를 기억해라.']);
 export const JOKRO_DIALOGUE_LINES=Object.freeze(['칼끝이 닿기 전에, 승부는 끝났다.','흐름을 읽어라. 베이는 것은 한순간이다.','청룡이 지나간 자리엔 고요만 남는다.','검을 뽑는 순간, 물러설 길은 없다.','이 한 칼로, 하늘마저 가른다.']);
 export const SHIRANUI_DIALOGUE_LINES=Object.freeze([
  '망령의 군기가 올랐다. 사격 개시.',
@@ -26,6 +27,7 @@ export const HELIOS_DIALOGUE_LINES=Object.freeze([
 
 // Existing approved portraits, cropped only by the dialogue's CSS viewport.
 export const MERCENARY_DIALOGUE_PROFILES=Object.freeze({
+ 'V-978':Object.freeze({code:'V-978',theme:'leonel',name:'레오넬',skill:'검극 · 전선 단절',lines:LEONEL_DIALOGUE_LINES,idleLine:'검을 들었다면, 끝까지 버텨라.',portrait:'/assets/ui/project-v/mercenaries/leonel-20261018/source-art.png',position:'71% 14%',size:'450% auto'}),
  'V-987':Object.freeze({code:'V-987',theme:'shiranui',name:'시라누이',skill:'백탄 난사 · 망령 포대',lines:SHIRANUI_DIALOGUE_LINES,idleLine:SHIRANUI_DIALOGUE_LINES[0],portrait:'/assets/ui/project-v/mercenaries/shiranui-20261015/source-art.png',position:'50% 10%',size:'420% auto'}),
  'V-979':Object.freeze({code:'V-979',theme:'jokro',name:'족로',skill:'청룡단천',lines:JOKRO_DIALOGUE_LINES,idleLine:JOKRO_DIALOGUE_LINES[0],portrait:'/preview/mercenary-jokro-iaido-20261017-v1/assets/source-art-preview.webp',position:'50% 14%',size:'500% auto'}),
  'V-989':Object.freeze({code:'V-989',theme:'jinmu',name:'천룡검황 진무',skill:'천룡강림',lines:JINMU_DIALOGUE_LINES,idleLine:JINMU_DIALOGUE_LINES[1],portrait:'/preview/mercenary-golden-dragon-battle-v1/assets/source-art-preview.webp',position:'57% 6%',size:'390% auto'}),

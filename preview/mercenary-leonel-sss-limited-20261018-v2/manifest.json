@@ -4,9 +4,9 @@
   "title": "백은의 서약",
   "rarity": "SSS",
   "limited": true,
-  "status": "USER_REVIEW_PENDING",
-  "runtimeEnabled": false,
-  "runtimeRegistration": false,
+  "status": "USER_APPROVED_LIVE_AUTHORIZED",
+  "runtimeEnabled": true,
+  "runtimeRegistration": true,
   "deployed": false,
   "sourceArt": "/preview/mercenary-leonel-sss-limited-20261018-v2/assets/sources/leonel-final-art-v1.png",
   "sourceArtSha256": "43d4c211ff58bff672e8614aa50fcd8f6c5099c667dd2f4c42c44bde75ab2e00",
@@ -5622,27 +5622,27 @@
     "dashMotion": 1
   },
   "combatProfile": {
-    "version": 2,
-    "status": "REVIEW_PROFILE",
-    "reference": "JOKRO_20261018",
-    "referenceBasePower": 1617408,
-    "basePower": 1940890,
+    "version": 1,
+    "basePower": 2300000,
     "statsReferencePower": 1123200,
-    "statScale": 1.728,
+    "statScale": 2.0477203757039297,
     "speedReferencePower": 1080000,
     "speedScale": 3.12,
     "actionCredit": 3.12,
     "motionPlaybackRate": 2,
     "effectPlaybackRate": 1,
     "link": {
-      "attackPercent": 3162.9312,
-      "hpPercent": 2012.7744,
-      "shieldPercent": 1126.0992
+      "attackPercent": 3748.147375688473,
+      "hpPercent": 2385.184693619937,
+      "shieldPercent": 1345.5552658831775
     },
-    "basicCapScale": 3.456,
+    "basicCapScale": 4.0954407514078595,
     "damageTakenScale": 0.2,
+    "status": "USER_APPROVED_LIVE_POLICY",
     "skill": {
+      "id": "MS-978",
       "name": "검극 · 전선 단절",
+      "mechanic": "SWORD_APEX_FRONTLINE_SEVER",
       "target": "ALL_ENEMIES",
       "pveOnly": true,
       "balance": {
@@ -5651,5 +5651,9 @@
         "cost": 35
       }
     }
-  }
+  },
+  "liveCode": "V-978",
+  "acquisition": "LOCKED",
+  "acquisitionEnabled": false,
+  "liveApproval": "live-approval-20261018.json"
 }
