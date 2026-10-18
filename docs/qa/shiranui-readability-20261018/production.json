@@ -1,0 +1,153 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-10-18T01:09:50.208Z",
+  "source": "9cd261ac711ea1b7ff988df7dbe27bd0e2dea543",
+  "publicOrigin": "https://cnine-card.pages.dev",
+  "checks": [
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "3606e6eb38257041aeaa9d87f4211e532ecd67fe73b5752f3631206b4719152c",
+      "localSha256": "3606e6eb38257041aeaa9d87f4211e532ecd67fe73b5752f3631206b4719152c"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "1631f3edccb1822b7d19b26edf2dbb7a15aa25af7385695ab69508058f99f3ee",
+      "localSha256": "1631f3edccb1822b7d19b26edf2dbb7a15aa25af7385695ab69508058f99f3ee"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "80adda0986201f16e0d573f3c723944f91f6ad0f3b6ee11024bdc56a120d0fb5",
+      "localSha256": "80adda0986201f16e0d573f3c723944f91f6ad0f3b6ee11024bdc56a120d0fb5"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "4e6b77bd447688279a73200b33b9a88f4c1da1bf23710774bec5903f0d35ee49",
+      "localSha256": "4e6b77bd447688279a73200b33b9a88f4c1da1bf23710774bec5903f0d35ee49"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "199c8de885ed7b87fa21a6123b14ffe6772893a6ba2bf1f383c36404bf6e35b2",
+      "localSha256": "199c8de885ed7b87fa21a6123b14ffe6772893a6ba2bf1f383c36404bf6e35b2"
+    },
+    {
+      "file": "preview/scrapyard-v3-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "251f924712f153393d47194da67fff9f88ace934716bba06c6514937d615acd5",
+      "localSha256": "251f924712f153393d47194da67fff9f88ace934716bba06c6514937d615acd5"
+    },
+    {
+      "file": "preview/cow-room-v3-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "7126b809314ca87658197be1bd928704a6bc7f213e67f4aa688b1639ef61e20b",
+      "localSha256": "7126b809314ca87658197be1bd928704a6bc7f213e67f4aa688b1639ef61e20b"
+    },
+    {
+      "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "978a9e9c5c565cbbf59c9ece04d2a8c3ad04bf6167f3caf3132c8b7b7f5ea003",
+      "localSha256": "978a9e9c5c565cbbf59c9ece04d2a8c3ad04bf6167f3caf3132c8b7b7f5ea003"
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "status": 200,
+      "sha256": "bdd7568bbdb8b0713b252d0f6233bb8b8b1ada3120feb9972e3598916023a4f1",
+      "localSha256": "bdd7568bbdb8b0713b252d0f6233bb8b8b1ada3120feb9972e3598916023a4f1"
+    },
+    {
+      "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
+      "status": 200,
+      "sha256": "23ef155d4f5d29e55482558000471402e1c177688053205afe2427f39b6ba2e9",
+      "localSha256": "23ef155d4f5d29e55482558000471402e1c177688053205afe2427f39b6ba2e9"
+    },
+    {
+      "file": "preview/v3-wide-grid-v1/battle.bundle.js",
+      "status": 200,
+      "sha256": "a537f6c8b544529447b4a310d8e187b247c984ff44cbd72a1507a467ecc091a7",
+      "localSha256": "a537f6c8b544529447b4a310d8e187b247c984ff44cbd72a1507a467ecc091a7"
+    },
+    {
+      "file": "preview/boss-resources-v2048/lab.bundle.js",
+      "status": 200,
+      "sha256": "5479fa852dee39b1833a58ba261c9c7e2213ca200d62a90daa7b76fc4ed34791",
+      "localSha256": "5479fa852dee39b1833a58ba261c9c7e2213ca200d62a90daa7b76fc4ed34791"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/shiranui-fx-20261018/ballistics.webp",
+      "status": 200,
+      "sha256": "3535ee4e3f479832e9bd28200678038286e4715e4264a170e55a3e16c6ed7911",
+      "localSha256": "3535ee4e3f479832e9bd28200678038286e4715e4264a170e55a3e16c6ed7911"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "sha256": "90afc4761a9182212ca16a3c793f5453ab9b5fa7a022285e3135f44f3c1b50df",
+      "localSha256": "90afc4761a9182212ca16a3c793f5453ab9b5fa7a022285e3135f44f3c1b50df"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/shiranui-fx-20261018/manifest.json",
+      "status": 200,
+      "sha256": "6d7806f6c0d85590ced413e30c2b21801be5219b55989c1e495c9699acf004d6",
+      "localSha256": "6d7806f6c0d85590ced413e30c2b21801be5219b55989c1e495c9699acf004d6"
+    },
+    {
+      "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
+      "status": 200,
+      "sha256": "70c89228cf6c6880425102bb6808aa47e8177249308706b9cc07c73f848a894e",
+      "localSha256": "70c89228cf6c6880425102bb6808aa47e8177249308706b9cc07c73f848a894e"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/shiranui-fx-20261018/dialogue.webp",
+      "status": 200,
+      "sha256": "c40d037cd1f2622efd6af4c6f018125884d99db2ae47f5817a217f395eb182bf",
+      "localSha256": "c40d037cd1f2622efd6af4c6f018125884d99db2ae47f5817a217f395eb182bf"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/shiranui-fx-20261018/rupture.webp",
+      "status": 200,
+      "sha256": "a0ad1c8b0db41614b556b4475086934d8175664950805fab46b9de89fa20035f",
+      "localSha256": "a0ad1c8b0db41614b556b4475086934d8175664950805fab46b9de89fa20035f"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/shiranui-fx-20261018/silver-tracer.webp",
+      "status": 200,
+      "sha256": "3120a3b7540512b2135c2ca26418dbf4a77a90c2b43dfc433ff36bf493332a36",
+      "localSha256": "3120a3b7540512b2135c2ca26418dbf4a77a90c2b43dfc433ff36bf493332a36"
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/shiranui-fx-20261018/ar-recoil-v2.webp",
+      "status": 200,
+      "sha256": "dbf225c38e241602dbd0dc5d739dd7c49397f0548d4592164010d83571fc5b6b",
+      "localSha256": "dbf225c38e241602dbd0dc5d739dd7c49397f0548d4592164010d83571fc5b6b"
+    }
+  ],
+  "deployment": "https://b6c68664.cnine-card.pages.dev",
+  "apiVersion": "95386013-9ea1-4312-9ab9-62707b151cf6",
+  "schedulerVersion": "07363d67-8885-4be4-8ac2-30ebc6f10e77",
+  "browser": {
+    "status": "PASS",
+    "publicAssets": 84,
+    "scenarios": [
+      {
+        "label": "mobile",
+        "mode": "skill",
+        "version": "SHIRANUI_SILVER_FX_20261018_V2",
+        "rifleShots": 30,
+        "damageAuthority": "SERVER_ONLY",
+        "hpCalls": 1,
+        "cancelled": {
+          "stopped": true,
+          "ambient": false,
+          "pool": false,
+          "hpCalls": 2
+        }
+      }
+    ],
+    "errors": [],
+    "method": "Read-only public static assets with isolated API fixtures; no production accounts or database writes."
+  }
+}

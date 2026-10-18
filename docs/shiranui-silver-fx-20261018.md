@@ -12,6 +12,8 @@
 - 전용 색인 `assets/ui/project-v/mercenaries/shiranui-fx-20261018/manifest.json`의 V2 효과·모션을 실제 전투 로더에서 함께 읽는다. 소스 PNG·기존 V1 자산·승인 총기·원화는 덮어쓰지 않는다. 최종 프롬프트는 같은 폴더의 `prompts.json`, 재현은 `node scripts/build-shiranui-silver-assets-20261018.mjs --readability-v2`다.
 - PC/모바일 10개 전투 시나리오, 관련 자산·전투·대사·전장 진입 회귀 18건 통과. 실제 2.6배 재생 녹화도 확인했다. 추가 피해 없이 기존 9/30/25발과 광역 대상별 1회 적용, 취소·재개·자원 해제를 유지한다. 증적은 `docs/qa/shiranui-readability-20261018/`에 보존한다. 사용자 시각 승인으로 기록하지 않는다.
 - 배포는 기존 운영 소스 `fb7a9dba27589a3584377a77cb96f535b273a613`를 기준으로 scoped 경로를 사용한다. 버전·로비 요구 버전·소비 번들·서비스워커를 함께 V2로 갱신한다. 작업 중 추가된 후원 보상 운영 기록은 보존하며 해당 지급 스크립트는 실행하지 않는다.
+- V2 운영 반영 완료: 소스 `9cd261ac711ea1b7ff988df7dbe27bd0e2dea543`, Pages `https://b6c68664.cnine-card.pages.dev`. API `95386013-9ea1-4312-9ab9-62707b151cf6`, scheduler `07363d67-8885-4be4-8ac2-30ebc6f10e77`. 실제 배포 1회, 관련 18건·릴리스/캐시·Hyperdrive 검사 통과.
+- 2026-10-18 10:09 KST 운영 확인: 진입·로더·캐시·10개 소비 번들·FX manifest·이미지 총 20개 HTTP 200 및 로컬 일치. 운영 정적 파일 84개를 GET으로 읽은 격리 모바일 전투에서 새 탄환/잔광/반동과 320/390px 대사, 피해 1회, 중단·재개·정리를 확인했다. 계정·재화·DB 쓰기 0건. `docs/qa/shiranui-readability-20261018/production.json` 및 `production-mobile.png`에 보존한다. 이 완료 기록은 재배포하지 않는다.
 
 ## 반영 범위
 
