@@ -1,0 +1,129 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:halloween-eight:stock-exempt:20261018:v1",
+  "planHash": "db3a06a3699f4fcf7f25c009f7561ad1f731587e3a72c8fa9a9e6af23d6d3b62",
+  "completedAt": "2026-10-18T13:57:11.512Z",
+  "sourceHash": "26935b6d41f49c67016e5b7e555f221807b49bc334610deb4423728b4fa101e0",
+  "auditIds": [
+    "48029",
+    "48030",
+    "48031",
+    "48032",
+    "48033",
+    "48034",
+    "48035",
+    "48036"
+  ],
+  "preserved": {
+    "balances": true,
+    "stockCounters": true,
+    "numberedIssues": true,
+    "packSettings": true,
+    "otherMercenaries": true,
+    "loadout": true,
+    "inventory": true,
+    "levels": true,
+    "growth": true,
+    "drawUsage": true
+  },
+  "independentConnection": true,
+  "verifiedAt": "2026-10-18T13:57:17.078Z",
+  "verification": {
+    "status": "VERIFIED",
+    "recipients": 8,
+    "totalCopies": 8,
+    "grants": [
+      {
+        "userId": "4836",
+        "nickname": "딤키우기",
+        "code": "V-984",
+        "name": "디임",
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      },
+      {
+        "userId": "3884",
+        "nickname": "zkzk9999",
+        "code": "V-984",
+        "name": "디임",
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      },
+      {
+        "userId": "1195",
+        "nickname": "씨나인택갓",
+        "code": "V-984",
+        "name": "디임",
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      },
+      {
+        "userId": "525",
+        "nickname": "족구조아",
+        "code": "V-984",
+        "name": "디임",
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      },
+      {
+        "userId": "233",
+        "nickname": "ShowMaker",
+        "code": "V-984",
+        "name": "디임",
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      },
+      {
+        "userId": "4773",
+        "nickname": "진짜디임",
+        "code": "V-984",
+        "name": "디임",
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      },
+      {
+        "userId": "25",
+        "nickname": "여우",
+        "code": "V-986",
+        "name": "남수댕",
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      },
+      {
+        "userId": "295",
+        "nickname": "모래",
+        "code": "V-986",
+        "name": "남수댕",
+        "quantity": 1,
+        "copiesBefore": 0,
+        "copiesAfter": 1
+      }
+    ],
+    "stockChanged": false,
+    "stock": [
+      {
+        "code": "V-984",
+        "limit": "10",
+        "issued": "10",
+        "remaining": "0"
+      },
+      {
+        "code": "V-986",
+        "limit": "10",
+        "issued": "10",
+        "remaining": "0"
+      }
+    ],
+    "acquisitionRecords": 8,
+    "numberedIssueRecords": 0,
+    "auditRecords": 8,
+    "duplicateOperationGrants": 0
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:namsudaeng-o:halloween-namsudaeng:no-stock:20261018:v1",
+  "planHash": "c059f9512ed2e2d37955f3fc1852a2525c068707b116bd3781aac642bb5feb62",
+  "completedAt": "2026-10-18T13:52:11.286Z",
+  "sourceHash": "243b69dcae3503b9c18ed2d305554309d60e7a5a2c15576d09163861c9c63a65",
+  "auditIds": [
+    "48019"
+  ],
+  "preserved": {
+    "balances": true,
+    "packSettings": true,
+    "stockCounters": true,
+    "numberedIssues": true,
+    "otherMercenaries": true,
+    "loadout": true,
+    "growth": true,
+    "inventory": true,
+    "levels": true,
+    "drawUsage": true
+  },
+  "independentConnection": true,
+  "verifiedAt": "2026-10-18T13:52:16.525Z",
+  "verification": {
+    "status": "VERIFIED",
+    "userId": "5950",
+    "nickname": "남수댕ㅗ",
+    "code": "V-986",
+    "name": "남수댕",
+    "rank": "SS",
+    "edition": "HALLOWEEN_LIMITED",
+    "quantity": 1,
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "currentCopies": 1,
+    "stockChanged": false,
+    "stockLimit": "10",
+    "issued": "10",
+    "remaining": "0",
+    "acquisitionRecords": 1,
+    "numberedIssueRecords": 0,
+    "auditRecords": 1,
+    "duplicateOperationGrants": 0
+  }
+}
