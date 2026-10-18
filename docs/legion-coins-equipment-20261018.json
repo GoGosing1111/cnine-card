@@ -8,11 +8,11 @@
   "coinIncome": {
     "livePayoutImplemented": false,
     "status": "DESIGN_ONLY",
-    "designRevision": 2,
-    "authorization": "기본 보상 전부 10배, 재앙은 지옥의 2배",
+    "designRevision": 3,
+    "authorization": "기본 보상 전부 10배, 재앙은 지옥의 2배; 클리어 보상 대신 플레이 중 몬스터 처치마다 자연스럽게 코인 습득",
     "baseMultiplier": 10,
     "calamityToInfernoRatio": 2,
-    "baseClearCoins": {
+    "targetRunCoins": {
       "island": {
         "normal": 1000000000,
         "hard": 2000000000,
@@ -27,6 +27,34 @@
         "inferno": 15000000000,
         "calamity": 30000000000
       }
+    },
+    "acquisition": {
+      "mode": "PER_KILL_AUTO_COLLECT",
+      "walletTiming": "DURING_PLAY_KILL_BATCH",
+      "dropPercent": 100,
+      "normalUnits": 1,
+      "eliteUnits": 3,
+      "bossUnits": 5,
+      "clearBonusCoins": 0,
+      "preserveEarnedOnDefeat": true,
+      "preserveEarnedOnRetreat": true,
+      "preserveEarnedOnDisconnect": true,
+      "payForDespawn": false,
+      "payForElapsedTimeOnly": false,
+      "requireMagnetPet": false,
+      "failureReductionEnabled": false,
+      "minimumCombatSeconds": 0,
+      "minimumKills": 1,
+      "maxBonusMultiplier": 2,
+      "integerRemainderPolicy": "FLOOR_CUMULATIVE_ENTITLEMENT_MINUS_PAID"
+    },
+    "referenceKillUnits": {
+      "island": {"normal": 653, "hard": 653, "nightmare": 689, "inferno": 725},
+      "coast": {"normal": 663, "hard": 663, "nightmare": 699, "inferno": 735, "calamity": 735},
+      "desert": {"normal": 661, "hard": 661, "nightmare": 697, "inferno": 733, "calamity": 733},
+      "theatre": {"normal": 661, "hard": 661, "nightmare": 697, "inferno": 733, "calamity": 733},
+      "viscera": {"normal": 663, "hard": 663, "nightmare": 699, "inferno": 735, "calamity": 735},
+      "sky": {"normal": 661, "hard": 661, "nightmare": 697, "inferno": 733, "calamity": 733}
     }
   },
   "application": {
