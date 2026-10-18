@@ -1,0 +1,317 @@
+{
+  "status": "PASS",
+  "selectedGuard": "ultimate-09",
+  "userReference": "approved-20261019/forward-guard-reference.png",
+  "results": [
+    {
+      "label": "desktop",
+      "forward": [
+        {
+          "direction": 1,
+          "mode": "idle",
+          "time": 1,
+          "forwardDistance": 117.54401082316144,
+          "pose": 8
+        },
+        {
+          "direction": 1,
+          "mode": "ultimate",
+          "time": 0,
+          "forwardDistance": 48.64895609365175,
+          "pose": 8
+        },
+        {
+          "direction": 1,
+          "mode": "ultimate",
+          "time": 1.1,
+          "forwardDistance": 48.64895609365175,
+          "pose": 8
+        },
+        {
+          "direction": 1,
+          "mode": "ultimate",
+          "time": 2.25,
+          "forwardDistance": 56.848421789468716,
+          "pose": 8
+        },
+        {
+          "direction": 1,
+          "mode": "ultimate",
+          "time": 2.8,
+          "forwardDistance": 50.98070420434709,
+          "pose": 8
+        },
+        {
+          "direction": 1,
+          "mode": "ultimate",
+          "time": 3.7,
+          "forwardDistance": 48.64895609365175,
+          "pose": 8
+        },
+        {
+          "direction": 1,
+          "mode": "ultimate",
+          "time": 4.25,
+          "forwardDistance": 48.64895609365175,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "idle",
+          "time": 1,
+          "forwardDistance": 117.54401082316144,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "ultimate",
+          "time": 0,
+          "forwardDistance": 48.64895609365175,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "ultimate",
+          "time": 1.1,
+          "forwardDistance": 48.64895609365175,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "ultimate",
+          "time": 2.25,
+          "forwardDistance": 56.848421789468716,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "ultimate",
+          "time": 2.8,
+          "forwardDistance": 51.6919623474422,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "ultimate",
+          "time": 3.7,
+          "forwardDistance": 48.64895609365175,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "ultimate",
+          "time": 4.25,
+          "forwardDistance": 48.64895609365175,
+          "pose": 8
+        }
+      ],
+      "contacts": [
+        {
+          "mode": "attack",
+          "time": 0.21,
+          "intersects": true
+        },
+        {
+          "mode": "skill",
+          "time": 0.24,
+          "intersects": true
+        },
+        {
+          "mode": "skill",
+          "time": 0.47,
+          "intersects": true
+        },
+        {
+          "mode": "skill",
+          "time": 0.73,
+          "intersects": true
+        },
+        {
+          "mode": "ultimate",
+          "time": 1.79,
+          "intersects": true
+        }
+      ],
+      "idle": {
+        "oneStableDrawing": true,
+        "gripXRange": 0,
+        "gripYRange": 0.8917329577304258,
+        "angleRange": 0,
+        "swordScaleRange": 0,
+        "headBreathingRange": 1.5983892638563737
+      },
+      "ultimate": {
+        "maxBodyLayers": 1,
+        "wrongPose": 0,
+        "maxGripError": 0,
+        "maxAngleError": 0
+      },
+      "transition": {
+        "entryGripError": 0,
+        "phaseError": 0,
+        "recoveryGripError": 0
+      },
+      "cutIn": {
+        "first": true,
+        "second": false
+      },
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "forward": [
+        {
+          "direction": 1,
+          "mode": "idle",
+          "time": 1,
+          "forwardDistance": 74.81676753018093,
+          "pose": 8
+        },
+        {
+          "direction": 1,
+          "mode": "ultimate",
+          "time": 0,
+          "forwardDistance": 33.92908802516605,
+          "pose": 8
+        },
+        {
+          "direction": 1,
+          "mode": "ultimate",
+          "time": 1.1,
+          "forwardDistance": 33.92908802516605,
+          "pose": 8
+        },
+        {
+          "direction": 1,
+          "mode": "ultimate",
+          "time": 2.25,
+          "forwardDistance": 47.490862998169206,
+          "pose": 8
+        },
+        {
+          "direction": 1,
+          "mode": "ultimate",
+          "time": 2.8,
+          "forwardDistance": 35.1351632619069,
+          "pose": 8
+        },
+        {
+          "direction": 1,
+          "mode": "ultimate",
+          "time": 3.7,
+          "forwardDistance": 33.92908802516605,
+          "pose": 8
+        },
+        {
+          "direction": 1,
+          "mode": "ultimate",
+          "time": 4.25,
+          "forwardDistance": 33.92908802516605,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "idle",
+          "time": 1,
+          "forwardDistance": 74.81676753018095,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "ultimate",
+          "time": 0,
+          "forwardDistance": 33.92908802516605,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "ultimate",
+          "time": 1.1,
+          "forwardDistance": 33.92908802516605,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "ultimate",
+          "time": 2.25,
+          "forwardDistance": 47.490862998169206,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "ultimate",
+          "time": 2.8,
+          "forwardDistance": 35.81830847058187,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "ultimate",
+          "time": 3.7,
+          "forwardDistance": 33.92908802516607,
+          "pose": 8
+        },
+        {
+          "direction": -1,
+          "mode": "ultimate",
+          "time": 4.25,
+          "forwardDistance": 33.92908802516607,
+          "pose": 8
+        }
+      ],
+      "contacts": [
+        {
+          "mode": "attack",
+          "time": 0.21,
+          "intersects": true
+        },
+        {
+          "mode": "skill",
+          "time": 0.24,
+          "intersects": true
+        },
+        {
+          "mode": "skill",
+          "time": 0.47,
+          "intersects": true
+        },
+        {
+          "mode": "skill",
+          "time": 0.73,
+          "intersects": true
+        },
+        {
+          "mode": "ultimate",
+          "time": 1.79,
+          "intersects": true
+        }
+      ],
+      "idle": {
+        "oneStableDrawing": true,
+        "gripXRange": 0,
+        "gripYRange": 0.8917267236315922,
+        "angleRange": 0,
+        "swordScaleRange": 0,
+        "headBreathingRange": 1.598378089528298
+      },
+      "ultimate": {
+        "maxBodyLayers": 1,
+        "wrongPose": 0,
+        "maxGripError": 0,
+        "maxAngleError": 0
+      },
+      "transition": {
+        "entryGripError": 0,
+        "phaseError": 0,
+        "recoveryGripError": 0
+      },
+      "cutIn": {
+        "first": true,
+        "second": false
+      },
+      "overflow": false,
+      "errors": []
+    }
+  ]
+}

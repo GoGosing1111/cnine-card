@@ -4,7 +4,7 @@
   "gsapCopies": 1,
   "pixiVersion": "8.20.0",
   "gsapVersion": "3.13.0",
-  "bundleSha256": "0dfba390438f81e7767c4544e8cdb6980da40a707d3af0c2f8288f6ab184fb5c",
+  "bundleSha256": "aaa335ae4bb5cc646efbcdd7d15d49e978e2fb7c1fa02aacacd9eb57721f7f6b",
   "sharedRuntime": [
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",

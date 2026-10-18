@@ -1,0 +1,23 @@
+{
+  "status": "REAL_PLAYBACK_PASS",
+  "results": [
+    {
+      "label": "desktop",
+      "duration": 9.582409,
+      "time": 9.582409,
+      "ended": true,
+      "width": 1440,
+      "height": 402,
+      "error": null
+    },
+    {
+      "label": "mobile",
+      "duration": 9.585611,
+      "time": 9.585611,
+      "ended": true,
+      "width": 390,
+      "height": 666,
+      "error": null
+    }
+  ]
+}

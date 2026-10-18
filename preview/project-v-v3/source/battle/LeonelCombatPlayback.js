@@ -10,8 +10,9 @@ let manifestPromise;
 const manifest=()=>manifestPromise||=fetch(MANIFEST).then(r=>{if(!r.ok)throw Error('LEONEL_MOTION_ASSETS');return r.json();}).catch(e=>{manifestPromise=null;throw e;});
 export function leonelBattleArt(code){
  if(code!==LEONEL_CODE)return null;
- return {...LEONEL_ART,spriteUrl:'/'+LEONEL_ART.battleSprite+'?v='+LEONEL_ART.battleSpriteSha256.slice(0,16),
-  footAnchor:{x:751/1280,y:949/1280},fullBodyHeight:1280*BODY_HEIGHT/610,bodyHeight:BODY_HEIGHT,originalTextureHeight:1280*BODY_HEIGHT/610};
+ // Match the user-selected forward guard even before FX setup or after teardown.
+ return {...LEONEL_ART,spriteUrl:'/preview/mercenary-leonel-sss-limited-20261018-v2/assets/frames/ultimate-09.png?v=481c51b93e15a1c7',
+  footAnchor:{x:742/1280,y:928/1280},fullBodyHeight:1280*BODY_HEIGHT/610,bodyHeight:BODY_HEIGHT,originalTextureHeight:1280*BODY_HEIGHT/610};
 }
 const disposeAssets=assets=>{for(const group of [assets.motion,assets.effects,assets.cinematics,assets.whiteCrest||{}])for(const frames of Object.values(group))for(const t of frames)t.destroy(false);};
 

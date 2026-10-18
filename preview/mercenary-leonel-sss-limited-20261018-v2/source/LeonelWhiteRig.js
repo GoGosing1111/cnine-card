@@ -2,7 +2,9 @@ import {Container,Sprite,Filter,GlProgram,defaultFilterVert} from 'pixi.js';
 import {MODES,sample,smooth,clamp} from '../motion.mjs';
 const mix=(a,b,t)=>a+(b-a)*t,rad=n=>n*Math.PI/180;
 const angleMix=(a,b,t)=>a+Math.atan2(Math.sin(b-a),Math.cos(b-a))*t;
-const idle={bank:'idle',index:0,facing:1};
+// User-selected screenshot: ultimate-09 holds the complete hand/hilt/blade
+// forward. Reuse that whole registered pose, rather than rotating only the blade.
+const idle={bank:'ultimate',index:8,facing:1,rest:true};
 const knots=new Map();
 // Contact poses remain exact. Recovery reaches the same idle pose before the
 // action clock settles, so cleanup never snaps a last attack frame to idle.
@@ -11,7 +13,8 @@ export function continuousPose(mode,time){
  // them made extra arms while the separately tweened sword left the painted hand.
  if(mode==='idle')return{a:idle,b:idle,mix:0};
  if(mode==='ultimate'){
-  const p=time>=3.94?idle:sample(mode,time).pose;
+  const authored=sample(mode,time).pose;
+  const p=authored.index===0||authored.index>=8?idle:authored;
   return{a:p,b:p,mix:0};
  }
  const m=MODES[mode];let rows=knots.get(mode);
@@ -71,7 +74,7 @@ export class LeonelWhiteRig{
   const blend=continuousPose(mode,time),q=blend.mix;
   // Less than one pixel of breathing at the head, with planted feet. The arm
   // keeps its neutral drawing and angle; its rigid sword follows that same hand.
-  const breathFor=p=>p.bank==='idle'?1+.0024*Math.sin(phaseTime*Math.PI/2):1;
+  const breathFor=p=>p.rest?1+.0024*Math.sin(phaseTime*Math.PI/2):1;
   const ab=breathFor(blend.a),bb=breathFor(blend.b),a=this.descriptor(blend.a,ab),b=this.descriptor(blend.b,bb);
   let current={layers:[{pose:blend.a,weight:1-q,breath:ab},{pose:blend.b,weight:q,breath:bb}],x:mix(a.x,b.x,q),y:mix(a.y,b.y,q),angle:angleMix(a.angle,b.angle,q),scale:mix(a.scale,b.scale,q)};
   if(this.entry&&mode!=='idle'&&mode!=='ultimate'&&time<.045){

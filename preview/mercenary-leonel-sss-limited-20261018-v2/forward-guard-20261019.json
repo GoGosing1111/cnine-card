@@ -1,0 +1,26 @@
+{
+  "userInstruction": "검이 이렇게 자세잡는게 맞는거지",
+  "reference": {
+    "file": "approved-20261019/forward-guard-reference.png",
+    "sha256": "86af592875a89fcccf680890c60d079ce592ee5b0645e901909cc26c8fcf7d4c"
+  },
+  "selectedPose": {
+    "file": "assets/frames/ultimate-09.png",
+    "sha256": "481c51b93e15a1c7a7123a16cfdbe7bf134f535feb5409c6782a1922a3201120",
+    "bank": "ultimate",
+    "index": 8,
+    "grip": {
+      "x": 690.6315789473683,
+      "y": 587.6842105263158
+    },
+    "angleDegrees": 30
+  },
+  "policy": {
+    "idle": "SELECTED_FORWARD_GUARD_WITH_SUBTLE_BREATHING",
+    "ultimateStart": "SAME_FORWARD_GUARD",
+    "ultimateRecovery": "SAME_FORWARD_GUARD_FROM_FRAME_09",
+    "weapon": "ORIGINAL_RIGID_SOURCE_AND_ORIGINAL_SELECTED_HAND_REGISTRATION",
+    "mirroring": "FACE_OPPONENT_FOR_ALLY_AND_ENEMY"
+  },
+  "artworkEdited": false
+}
