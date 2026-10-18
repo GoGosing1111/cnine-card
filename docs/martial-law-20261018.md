@@ -30,5 +30,14 @@
 - 기존 버닝/미라클/아포칼립스 보상/랭크 충전 관련 28개와 랭크전 거래 관련 16개 통과. 운영 전 scoped 게이트에서 해당 범위를 다시 확인한다.
 - Chrome PC 1440px·모바일 390px: CMS OFF/ON/잠금, 미리보기 무변경, 선포·해제·자동 만료, 초점/Escape, 새 로비의 상태 표시·재렌더·해제 확인. 격리 DB와 API fixture만 사용했다.
 - 화면·JSON 기록: `docs/qa/martial-law-20261018/`.
-- 운영 적용 결과는 배포 후 이 문서와 production.json에 기록한다. 실제 계엄령 선포·사용자 전투·보상 지급은 검수에서 실행하지 않는다.
+- 실제 계엄령 선포·사용자 전투·보상 지급은 운영 검수에서 실행하지 않았다.
+
+## 운영 반영 완료
+- 2026-10-18 13:49 KST, 구현 커밋 `f62e75db9aef6bcd27a0ddbf6233e3e6a5dfd3e2`를 `npm run deploy:production -- --scoped`로 배포했다. 선행 아바타·세계관 변경은 유지했다.
+- 관련 검사 **59개 통과**, Worker 컴파일·캐시 버전·운영 정책·Hyperdrive 캐시 OFF/바인딩 확인 통과. Pages 자산 19,999개.
+- Pages: `29a5becd` / https://29a5becd.cnine-card.pages.dev / https://cnine-card.pages.dev
+- API Runtime: `c804396a-db57-4267-86e2-4bd2f0e084ce`, 스케줄러: `96743e9f-75b4-42b8-97d7-05c266887bc4`.
+- 운영 이미지·실행 파일 11개의 SHA-256 일치, 게임/CMS/서비스워커 연결 확인. 비로그인 계엄령 관리 요청은 401.
+- 공개 상태는 **OFF · revision 0 · generation 0**, 선포/해제 운영 기록 **0건**. 기존 버닝 세 종류의 저장 설정은 배포 전과 동일하다.
+- 검증 JSON은 `docs/qa/martial-law-20261018/production.json`이다. 이 운영 기록만 추가하는 후속 커밋은 검사·배포를 반복하지 않는다.
 

@@ -1,0 +1,89 @@
+{
+  "at": "2026-10-18T04:49:49.513Z",
+  "base": "https://cnine-card.pages.dev",
+  "assets": [
+    {
+      "file": "js/martial-law-v1.js",
+      "sha256": "b002ccedbaf884164e70f84e4b4c8c989f639286690ccdb28eb3dcf3f7b6f939",
+      "match": true
+    },
+    {
+      "file": "css/martial-law-v1.css",
+      "sha256": "589964fb8f35912824603434d0cecf1848865a41bd3daa85856bb2ce2f8e4553",
+      "match": true
+    },
+    {
+      "file": "admin/martial-law-admin.js",
+      "sha256": "f8532991bce7dc6e3776e78673a1f2271c83ca362dafe4dcc7ced3a6be60c561",
+      "match": true
+    },
+    {
+      "file": "shared/martial-law-v1.mjs",
+      "sha256": "85ad690a1495ef90022b948d80c3d4afa5e533b9d10c8a2662b4e8466761dde9",
+      "match": true
+    },
+    {
+      "file": "shared/ranked-reform-v1.mjs",
+      "sha256": "41aa8adbe19156532db04e79283613b1aed6082b4c0099c19e87527d7b73aeef",
+      "match": true
+    },
+    {
+      "file": "assets/ui/martial-law-20261018/illustration.webp",
+      "sha256": "b522e05515a26709abe660fe15e310b0358d50f9a18242576e65461486d5f2b3",
+      "match": true
+    },
+    {
+      "file": "assets/ui/martial-law-20261018/panel.webp",
+      "sha256": "9a4fb706a2bf79e169bc37b3fc6e6023c58f566715c867e7c45bd55995a03ea7",
+      "match": true
+    },
+    {
+      "file": "assets/ui/martial-law-20261018/banner.webp",
+      "sha256": "a5370e719472a599f355b570bfe4f001a9262f276ff61df0c13d777dbcbc3b8d",
+      "match": true
+    },
+    {
+      "file": "assets/ui/martial-law-20261018/button.webp",
+      "sha256": "a8012ac0f865bb99770c6df8c16880ecf8e128ffb752ee1cee2ccebf2f737c60",
+      "match": true
+    },
+    {
+      "file": "assets/ui/martial-law-20261018/badge.webp",
+      "sha256": "6c3739d6cdc10e5416f23b282fdbd4149e488011c761a80060b19d5e00270def",
+      "match": true
+    },
+    {
+      "file": "assets/ui/martial-law-20261018/manifest.json",
+      "sha256": "d252b87e264fba278e23865472b1104cb8733a90da0c690dd0517e796820036d",
+      "match": true
+    }
+  ],
+  "publicState": {
+    "version": 1,
+    "enabled": false,
+    "revision": 0,
+    "generation": 0,
+    "activatedAt": null,
+    "endsAt": null,
+    "updatedAt": null,
+    "durationMinutes": 60,
+    "title": "리버스콜 계엄령이 선포되었습니다",
+    "coinMultiplier": 0.9,
+    "rechargeMultiplier": 3
+  },
+  "anonymousStatus": 401,
+  "initialOff": true,
+  "operatorActivations": 0,
+  "existingBurningSettingsUnchanged": true,
+  "operations": "Read-only. No production declaration, battle or grant performed.",
+  "shellReferencesVerified": true,
+  "release": {
+    "commit": "f62e75db9aef6bcd27a0ddbf6233e3e6a5dfd3e2",
+    "base": "1ddc975af6b06e184e0f627bf35e9697a43b78d1",
+    "pages": "29a5becd",
+    "apiRuntime": "c804396a-db57-4267-86e2-4bd2f0e084ce",
+    "scheduler": "96743e9f-75b4-42b8-97d7-05c266887bc4",
+    "assetCount": 19999,
+    "scopedTests": 59
+  }
+}
