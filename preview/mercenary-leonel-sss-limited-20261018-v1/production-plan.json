@@ -1,0 +1,86 @@
+{
+  "character": {
+    "name": "레오넬",
+    "title": "백은의 서약",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "identity": "오메가 이전 인간 시절 · 인간계 최강의 검사"
+  },
+  "userSelectedSource": "assets/sources/user-selected-art-v12.png",
+  "sourceSelectionSha256": "D94D7987C09F84AF92656B53FC88303428089F76DDD9D681819FF0C4662BF6FC",
+  "finalCandidate": "assets/sources/leonel-final-art-v1.png",
+  "finalSha256": "43D4C211FF58BFF672E8614AA50FCD8F6C5099C667DD2F4C42C44BDE75AB2E00",
+  "sourceArtApproval": "Latest attachment selected as base; new background/framing refinement is user review pending",
+  "battleArtApproval": "USER_REVIEW_PENDING",
+  "productionStandard": "docs/project-v-motion-effects-production-standard-20260927.md",
+  "artMode": "built-in image_gen",
+  "bodyFramesPlanned": {
+    "idle": 4,
+    "dash": 8,
+    "attack": 8,
+    "skill": 8,
+    "ultimate": 8
+  },
+  "effectFramesPlanned": {
+    "aura": 12,
+    "pressure": 12,
+    "dash": 12,
+    "slash": 12,
+    "crosscut": 12,
+    "ultimate": 12,
+    "fracture": 12
+  },
+  "motifs": [
+    "검압",
+    "정확한 간격",
+    "순간 가속",
+    "검날 접촉",
+    "지면 균열",
+    "질량 있는 파편"
+  ],
+  "excludedMotifs": [
+    "마법진",
+    "성역",
+    "신벌",
+    "소환검",
+    "신성 후광"
+  ],
+  "scope": {
+    "battleSprites": true,
+    "sourceArtRefinement": true,
+    "dialogueFrame": true,
+    "existingV3Preview": true,
+    "newPreviewButtonArt": false,
+    "liveRegistration": false,
+    "acquisition": false,
+    "balance": false,
+    "sound": false
+  },
+  "actions": [
+    {
+      "id": "attack",
+      "name": "백은일섬",
+      "flow": "간격포착→허리회전→한걸음 횡베기→정지→회복",
+      "quote": "빈틈이다."
+    },
+    {
+      "id": "dash",
+      "name": "섬보",
+      "flow": "발끝 압축→수평 가속→제동→망토 잔향→회복",
+      "quote": "이미 늦었다."
+    },
+    {
+      "id": "skill",
+      "name": "절명삼연",
+      "flow": "사선내려베기→올려베기→수평마무리→회복",
+      "quote": "세 번이면 충분하다."
+    },
+    {
+      "id": "ultimate",
+      "name": "전선 절단",
+      "flow": "중심압축→회전 검격→전장관통 검압→지연 지면파열→회복",
+      "quote": "이 전선은, 내가 끊는다."
+    }
+  ],
+  "visualContactsOnly": true
+}

@@ -1,0 +1,133 @@
+{
+  "character": {
+    "name": "레오넬",
+    "title": "백은의 서약",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "identity": "오메가 이전 인간 시절 · 인간계 최강의 검사"
+  },
+  "userSelectedSource": "assets/sources/user-selected-art-v12.png",
+  "sourceSelectionSha256": "D94D7987C09F84AF92656B53FC88303428089F76DDD9D681819FF0C4662BF6FC",
+  "finalCandidate": "assets/sources/leonel-final-art-v1.png",
+  "finalSha256": "43D4C211FF58BFF672E8614AA50FCD8F6C5099C667DD2F4C42C44BDE75AB2E00",
+  "sourceArtApproval": "Latest attachment selected as base; new background/framing refinement is user review pending",
+  "battleArtApproval": "USER_REVIEW_PENDING",
+  "productionStandard": "docs/project-v-motion-effects-production-standard-20260927.md",
+  "artMode": "built-in image_gen",
+  "bodyFramesPlanned": {
+    "idle": 4,
+    "dash": 8,
+    "attack": 8,
+    "skill": 8,
+    "ultimate": 12
+  },
+  "effectFramesPlanned": {
+    "aura": 12,
+    "pressure": 12,
+    "dash": 12,
+    "slash": 12,
+    "crosscut": 12,
+    "ultimate": 12,
+    "fracture": 12
+  },
+  "motifs": [
+    "흑청·자주 검압",
+    "진주빛 날선과 절제된 금빛",
+    "인간 검술",
+    "얼굴 각성 컷인 → 육신의 일검 → 전선 단절 → 지연 파열"
+  ],
+  "excludedMotifs": [
+    "마법진",
+    "성역",
+    "신벌",
+    "소환검",
+    "신성 후광"
+  ],
+  "scope": {
+    "battleSprites": true,
+    "sourceArtRefinement": false,
+    "dialogueFrame": true,
+    "existingV3Preview": true,
+    "newPreviewButtonArt": false,
+    "liveRegistration": false,
+    "acquisition": false,
+    "balance": true,
+    "sound": false,
+    "balancePolicy": "REVIEW_PROFILE_ONLY"
+  },
+  "actions": [
+    {
+      "id": "attack",
+      "name": "백은일섬",
+      "flow": "간격포착→허리회전→한걸음 횡베기→정지→회복",
+      "quote": "늦었다."
+    },
+    {
+      "id": "dash",
+      "name": "섬보",
+      "flow": "발끝 압축→수평 가속→제동→망토 잔향→회복",
+      "quote": "놓쳤군."
+    },
+    {
+      "id": "skill",
+      "name": "절명삼연",
+      "flow": "사선내려베기→올려베기→수평마무리→회복",
+      "quote": "막을 수 있겠나."
+    },
+    {
+      "id": "ultimate",
+      "name": "검극 · 전선 단절",
+      "flow": "얼굴 각성 컷인→중심 압축→육신의 일검→전선 단절→지연 파열→검 회수",
+      "quote": "이 검격으로, 전부 끝낸다."
+    }
+  ],
+  "visualContactsOnly": true,
+  "version": "LEONEL_PRODUCTION_V2",
+  "cinematicFrames": 4,
+  "playbackRates": {
+    "attackMotion": 2,
+    "skillEffect": 1,
+    "idleMotion": 1,
+    "dashMotion": 1
+  },
+  "combatProfile": {
+    "version": 2,
+    "status": "REVIEW_PROFILE",
+    "reference": "JOKRO_20261018",
+    "referenceBasePower": 1617408,
+    "basePower": 1940890,
+    "statsReferencePower": 1123200,
+    "statScale": 1.728,
+    "speedReferencePower": 1080000,
+    "speedScale": 3.12,
+    "actionCredit": 3.12,
+    "motionPlaybackRate": 2,
+    "effectPlaybackRate": 1,
+    "link": {
+      "attackPercent": 3162.9312,
+      "hpPercent": 2012.7744,
+      "shieldPercent": 1126.0992
+    },
+    "basicCapScale": 3.456,
+    "damageTakenScale": 0.2,
+    "skill": {
+      "name": "검극 · 전선 단절",
+      "target": "ALL_ENEMIES",
+      "pveOnly": true,
+      "balance": {
+        "damageRatio": 15.12,
+        "cooldownTurns": 5,
+        "cost": 35
+      }
+    }
+  },
+  "finalArtChangedInV2": false,
+  "newBodies": [
+    "attack",
+    "skill",
+    "ultimate"
+  ],
+  "cinematicFraming": "Original four drawn portraits, intentionally diagonal masked reveal; no full illustration substitution",
+  "choreography": "motion.mjs",
+  "runtime": "source/LeonelFX.js"
+}

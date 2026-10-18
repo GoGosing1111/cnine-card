@@ -1,0 +1,30 @@
+{
+  "version": "LEONEL_REVISION_V2_20261018",
+  "status": "RESOURCES_READY_USER_VISUAL_REVIEW_PENDING",
+  "previousVersion": "../mercenary-leonel-sss-limited-20261018-v1",
+  "userRejection": "공격 리소스 얼굴 차이·위압감 부족, 주변 아우라 교체, 맥락 있는 진 각성 컷신급 기술 요청",
+  "locked": {
+    "bodyReferenceHeight": 610,
+    "cellSize": 1280,
+    "armor": "유지",
+    "weapon": "같은 원본 래스터",
+    "face": "최종 원화 기준"
+  },
+  "motionPlaybackRate": 2,
+  "effectPlaybackRate": 1,
+  "scope": "새 아우라·공격 및 스킬 몸 작화·각성 컷인·전장 검압을 기존 V3 프리뷰에 연결",
+  "legacyQa": "V1에서 복사된 QA·영상은 재제작 완료 전 V2 증빙으로 사용하지 않음",
+  "liveEnabled": false,
+  "visualApproval": "PENDING",
+  "completedAt": "2026-10-18T13:12:21.564Z",
+  "userRejectedSource": {
+    "file": "assets/sources/user-rejected-attack-20261018.png",
+    "sha256": "4b83d8a2a6452ce5e784109da910d5fff55bdb03fbfee2e4b70156f9b97bf89c"
+  },
+  "video": {
+    "file": "review-v2.webm",
+    "sha256": "1cfdd69deb019c51065b522c0436ab6679b22bd928ecfb26e028996f3c272b45"
+  },
+  "qa": "qa/visual-review-v2.json",
+  "combatProfile": "combat-profile.mjs"
+}

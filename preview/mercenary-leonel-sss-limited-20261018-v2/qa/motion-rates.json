@@ -1,0 +1,106 @@
+{
+  "status": "PASS",
+  "rates": {
+    "attackMotion": 2,
+    "skillEffect": 1,
+    "idleMotion": 1,
+    "dashMotion": 1
+  },
+  "body": [
+    {
+      "mode": "attack",
+      "bodySecondsPerWallSecond": 2,
+      "authoredBodyDuration": 1.1,
+      "actualBodyDuration": 0.55,
+      "intro": 0
+    },
+    {
+      "mode": "skill",
+      "bodySecondsPerWallSecond": 2,
+      "authoredBodyDuration": 2.3,
+      "actualBodyDuration": 1.15,
+      "intro": 0
+    },
+    {
+      "mode": "ultimate",
+      "bodySecondsPerWallSecond": 2,
+      "authoredBodyDuration": 3.5,
+      "actualBodyDuration": 1.75,
+      "intro": 1.1
+    }
+  ],
+  "unchangedFxDurations": [
+    {
+      "key": "dash",
+      "priorDuration": 0.72,
+      "currentDuration": 0.72,
+      "rate": 1
+    },
+    {
+      "key": "dash",
+      "priorDuration": 0.28,
+      "currentDuration": 0.28,
+      "rate": 1
+    },
+    {
+      "key": "slash",
+      "priorDuration": 0.48,
+      "currentDuration": 0.48,
+      "rate": 1
+    },
+    {
+      "key": "dash",
+      "priorDuration": 0.28,
+      "currentDuration": 0.28,
+      "rate": 1
+    },
+    {
+      "key": "slash",
+      "priorDuration": 0.47000000000000003,
+      "currentDuration": 0.47,
+      "rate": 1
+    },
+    {
+      "key": "crosscut",
+      "priorDuration": 0.49,
+      "currentDuration": 0.49,
+      "rate": 1
+    },
+    {
+      "key": "slash",
+      "priorDuration": 0.5900000000000001,
+      "currentDuration": 0.59,
+      "rate": 1
+    },
+    {
+      "key": "fracture",
+      "priorDuration": 0.7400000000000002,
+      "currentDuration": 0.74,
+      "rate": 1
+    },
+    {
+      "key": "dash",
+      "priorDuration": 0.44000000000000006,
+      "currentDuration": 0.44,
+      "rate": 1
+    },
+    {
+      "key": "crosscut",
+      "priorDuration": 0.63,
+      "currentDuration": 0.63,
+      "rate": 1
+    },
+    {
+      "key": "ultimate",
+      "priorDuration": 1.45,
+      "currentDuration": 1.45,
+      "rate": 1
+    },
+    {
+      "key": "fracture",
+      "priorDuration": 1.4899999999999998,
+      "currentDuration": 1.49,
+      "rate": 1
+    }
+  ]
+}

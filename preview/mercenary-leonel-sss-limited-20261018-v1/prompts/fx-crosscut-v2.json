@@ -1,0 +1,10 @@
+{
+  "mode": "built-in image_gen",
+  "transparent_background": true,
+  "key": "crosscut",
+  "version": 2,
+  "input": "C:/Users/User/.codex/worktrees/defense-join-fix-20261018/cnine-card/preview/mercenary-leonel-sss-limited-20261018-v1/assets/sources/fx-crosscut-v1.png",
+  "prompt": "Use case: precise-object-edit. CORRECT THE SPACING of this production SPRITE SHEET. Preserve its12 chronologically painted silver-white sword pressure phases, muted gold sparks and dark fragments, but EVERY effect including fading wisps must be substantially SMALLER within its cell. STRICT4columns×3rows,12 equal SQUARE cells in reading order, overall4:3 landscape canvas. Each complete effect must fit ONLY inside the CENTRAL60%WIDTH AND60%HEIGHT of its cell, leaving a completely empty transparent safety margin of20% on ALL FOUR SIDES of EVERY cell. Especially horizontal slashes in cells5,6,9,10 MUST NOT approach cell edges. Reduce the ENTIRE effect uniformly; do not crop its streaks. Clearly separated 12 miniatures, empty aisles between every row and column. Same center pivot and common scale. Frames1-3 downward diagonal sword pressure with contact sparks;4-6 opposite upward sweep;7-9 final decisive horizontal cut;10-12 fragmented air and sparks fading out. Maintain physical blade pressure, not a supernatural symbol. Exactly12 different evolving frames, all isolated. No body or weapon. Actual clean alpha transparency, no black or white canvas, no painted checkerboard, no visible grid/text/labels. No religious symbols, runes or circles.",
+  "replaces": "fx-crosscut-v1.png",
+  "reason": "V1 horizontally crosses adjacent cell boundaries; V2 reserves20%empty margins."
+}

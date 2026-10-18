@@ -1,0 +1,308 @@
+{
+  "source": "assets/sources/fx-fracture-fixed-v2.png",
+  "sourceSha256": "b867d56df4c502e84855b8ca378b8aee73872c8ea928fcfa85487cc875b032ef",
+  "target": "assets/atlases/fx-fracture-v2.png",
+  "operation": "SOURCE_PIXEL_CROP_AND_TRANSLATION_ONLY_NO_REDRAW_NO_RESCALE",
+  "records": [
+    {
+      "index": 0,
+      "sourceRegion": {
+        "left": 0,
+        "top": 0,
+        "width": 433,
+        "height": 355
+      },
+      "trim": {
+        "left": 15,
+        "top": 17,
+        "width": 418,
+        "height": 338
+      },
+      "targetCell": {
+        "width": 480,
+        "height": 440
+      },
+      "offset": {
+        "left": 38,
+        "top": 78
+      },
+      "scale": 1,
+      "baseline": 365
+    },
+    {
+      "index": 1,
+      "sourceRegion": {
+        "left": 433,
+        "top": 0,
+        "width": 452,
+        "height": 355
+      },
+      "trim": {
+        "left": 0,
+        "top": 19,
+        "width": 452,
+        "height": 328
+      },
+      "targetCell": {
+        "width": 480,
+        "height": 440
+      },
+      "offset": {
+        "left": 14,
+        "top": 80
+      },
+      "scale": 1,
+      "baseline": 365
+    },
+    {
+      "index": 2,
+      "sourceRegion": {
+        "left": 885,
+        "top": 0,
+        "width": 442,
+        "height": 355
+      },
+      "trim": {
+        "left": 4,
+        "top": 21,
+        "width": 438,
+        "height": 332
+      },
+      "targetCell": {
+        "width": 480,
+        "height": 440
+      },
+      "offset": {
+        "left": 23,
+        "top": 82
+      },
+      "scale": 1,
+      "baseline": 365
+    },
+    {
+      "index": 3,
+      "sourceRegion": {
+        "left": 1327,
+        "top": 0,
+        "width": 447,
+        "height": 355
+      },
+      "trim": {
+        "left": 0,
+        "top": 45,
+        "width": 447,
+        "height": 296
+      },
+      "targetCell": {
+        "width": 480,
+        "height": 440
+      },
+      "offset": {
+        "left": 16,
+        "top": 106
+      },
+      "scale": 1,
+      "baseline": 365
+    },
+    {
+      "index": 4,
+      "sourceRegion": {
+        "left": 0,
+        "top": 355,
+        "width": 451,
+        "height": 314
+      },
+      "trim": {
+        "left": 0,
+        "top": 0,
+        "width": 451,
+        "height": 314
+      },
+      "targetCell": {
+        "width": 480,
+        "height": 440
+      },
+      "offset": {
+        "left": 14,
+        "top": 93
+      },
+      "scale": 1,
+      "baseline": 365
+    },
+    {
+      "index": 5,
+      "sourceRegion": {
+        "left": 451,
+        "top": 355,
+        "width": 442,
+        "height": 314
+      },
+      "trim": {
+        "left": 0,
+        "top": 0,
+        "width": 442,
+        "height": 314
+      },
+      "targetCell": {
+        "width": 480,
+        "height": 440
+      },
+      "offset": {
+        "left": 19,
+        "top": 93
+      },
+      "scale": 1,
+      "baseline": 365
+    },
+    {
+      "index": 6,
+      "sourceRegion": {
+        "left": 893,
+        "top": 355,
+        "width": 438,
+        "height": 314
+      },
+      "trim": {
+        "left": 0,
+        "top": 5,
+        "width": 438,
+        "height": 309
+      },
+      "targetCell": {
+        "width": 480,
+        "height": 440
+      },
+      "offset": {
+        "left": 21,
+        "top": 98
+      },
+      "scale": 1,
+      "baseline": 365
+    },
+    {
+      "index": 7,
+      "sourceRegion": {
+        "left": 1331,
+        "top": 355,
+        "width": 443,
+        "height": 314
+      },
+      "trim": {
+        "left": 0,
+        "top": 1,
+        "width": 439,
+        "height": 297
+      },
+      "targetCell": {
+        "width": 480,
+        "height": 440
+      },
+      "offset": {
+        "left": 18,
+        "top": 94
+      },
+      "scale": 1,
+      "baseline": 365
+    },
+    {
+      "index": 8,
+      "sourceRegion": {
+        "left": 0,
+        "top": 669,
+        "width": 441,
+        "height": 218
+      },
+      "trim": {
+        "left": 9,
+        "top": 0,
+        "width": 432,
+        "height": 218
+      },
+      "targetCell": {
+        "width": 480,
+        "height": 440
+      },
+      "offset": {
+        "left": 28,
+        "top": 172
+      },
+      "scale": 1,
+      "baseline": 365
+    },
+    {
+      "index": 9,
+      "sourceRegion": {
+        "left": 441,
+        "top": 669,
+        "width": 447,
+        "height": 218
+      },
+      "trim": {
+        "left": 0,
+        "top": 1,
+        "width": 447,
+        "height": 217
+      },
+      "targetCell": {
+        "width": 480,
+        "height": 440
+      },
+      "offset": {
+        "left": 16,
+        "top": 173
+      },
+      "scale": 1,
+      "baseline": 365
+    },
+    {
+      "index": 10,
+      "sourceRegion": {
+        "left": 888,
+        "top": 669,
+        "width": 440,
+        "height": 218
+      },
+      "trim": {
+        "left": 0,
+        "top": 0,
+        "width": 440,
+        "height": 196
+      },
+      "targetCell": {
+        "width": 480,
+        "height": 440
+      },
+      "offset": {
+        "left": 20,
+        "top": 172
+      },
+      "scale": 1,
+      "baseline": 365
+    },
+    {
+      "index": 11,
+      "sourceRegion": {
+        "left": 1328,
+        "top": 669,
+        "width": 446,
+        "height": 218
+      },
+      "trim": {
+        "left": 0,
+        "top": 7,
+        "width": 445,
+        "height": 187
+      },
+      "targetCell": {
+        "width": 480,
+        "height": 440
+      },
+      "offset": {
+        "left": 17,
+        "top": 179
+      },
+      "scale": 1,
+      "baseline": 365
+    }
+  ]
+}

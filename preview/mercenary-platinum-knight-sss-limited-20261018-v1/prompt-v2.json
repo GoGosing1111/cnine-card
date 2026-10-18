@@ -1,0 +1,8 @@
+{
+  "useCase": "precise-object-edit",
+  "mode": "built-in image_gen",
+  "purpose": "Bring cropped sword tip inside the frame",
+  "input": "platinum-knight-sss-limited-v1.png",
+  "prompt": "Edit this illustration with ONE very localized compositional correction. The sword tip exits the left edge near the bottom. Keep this same full-body silver-haired male knight, same face and expression, same naturally slim armored proportions, same exact white/silver/gold armor details, hair, hands, upright stance, boots, cape, ruined sanctuary, platinum gold aura, lighting, rendering style and vertical canvas ratio.\nMove ONLY the single sword into a slightly more vertical downward angle so the COMPLETE pointed tip is clearly inside the bottom-left region with about 50 pixels of background margin from the left edge and bottom. Pivot the WHOLE sword as a rigid object around the existing grip by roughly 8 degrees toward vertical; preserve the exact ornate black/silver blade, gold thornlike guard and flanges, length, pommel, handle and their straight continuous structural alignment. Adjust the gripping fingers/wrist minimally only if needed for anatomical consistency. Do not deform or bend the weapon, do not add another sword, do not enlarge the guard, do not simplify the gold decoration. The point of the sword must terminate visibly inside the canvas. Keep all other areas and the finished art as unchanged as possible. No text, logo, frame, watermark or UI.",
+  "transparent_background": false
+}

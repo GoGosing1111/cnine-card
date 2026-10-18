@@ -1,0 +1,7 @@
+{
+  "transparent_background": true,
+  "referenced_image_paths": [
+    "C:/Users/User/.codex/worktrees/defense-join-fix-20261018/cnine-card/preview/mercenary-leonel-sss-limited-20261018-v2/assets/sources/fx-crosscut-v2-candidate1.png"
+  ],
+  "prompt": "Edit this production VFX sheet to repair separation and transparency, keeping the same indigo/amethyst/silver cutting-ribbon rendering. Output EXACTLY twelve separate sequential slash sprites in a STRICT4-column x3-row grid of equal cells. In EVERY cell, draw only one complete self-contained stage and make the effect occupy at most60% of the cell's width and65% of its height, with generous invisible padding. Center each effect in its cell; NO strokes touching any boundary or adjacent effect. Complete every curved tapered end rather than truncating. DELETE ALL thin rectangular grid lines and gray/white panels; alpha ZERO background. Stage progression left-to-right: one diagonal descending slash in1-3; opposing rising slash builds behind in4-6; strong horizontal final slash intersects the two in7-9; ribbons separate and dissolve in10-12. All twelve different. No text. Do not create one wide combined effect across multiple cells. The native runtime will size the clean individual frames as needed; this technical sheet must have lots of empty space."
+}

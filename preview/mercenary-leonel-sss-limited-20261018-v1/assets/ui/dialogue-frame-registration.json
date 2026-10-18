@@ -1,0 +1,15 @@
+{
+  "source": "assets/sources/dialogue-frame-v1.png",
+  "operation": "RECTANGULAR_CROP_ONLY_NO_COLOR_OR_ALPHA_CHANGE",
+  "rect": {
+    "left": 0,
+    "top": 173,
+    "width": 2172,
+    "height": 378
+  },
+  "visibleAlphaThreshold": 16,
+  "padding": 12,
+  "sourceSha256": "7b6306dbdd8a3e9b46591eec75979a3b00626f73d0569686ecd2d43eb87e08db",
+  "output": "assets/ui/dialogue-frame.png",
+  "outputSha256": "2d1bc293fee2c7034d1ed9f80e3b5572542a13b765199e513a32932b4f0a20f9"
+}

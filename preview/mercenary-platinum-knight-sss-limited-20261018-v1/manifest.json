@@ -1,0 +1,332 @@
+{
+  "format": "REVERSE_CALL_MERCENARY_ILLUSTRATION_PREVIEW_V1",
+  "dateKST": "2026-10-18",
+  "title": "백은 갑주 기사 — 이름 미정",
+  "grade": "SSS",
+  "edition": "LIMITED",
+  "gradeSpecifiedByUser": true,
+  "status": "PREVIEW_AWAITING_USER_VISUAL_REVIEW",
+  "generationMode": "built-in image_gen",
+  "currentArtwork": {
+    "file": "platinum-knight-sss-limited-v12-slim-reference-pose.png",
+    "width": 1024,
+    "height": 1536,
+    "sha256": "DAD70B7F26DAB757F39919646B1DC02972A840562FA6BF76ADC38B1FDAD99926",
+    "prompt": "prompt-v12-slim-body-armor.json",
+    "promptSequence": [
+      "prompt-v11-reference-pose.json",
+      "prompt-v12-slim-body-armor.json"
+    ],
+    "toolOriginal": "C:/Users/User/.codex/generated_images/01a14a2c-e98a-7293-9d19-fc8f4c4b0c95/exec-236181bb-2092-40c7-850f-71c2d7d825e3.png"
+  },
+  "references": [
+    {
+      "file": "source-reference.png",
+      "role": "사용자 무기·갑주 외형",
+      "sha256": "BAFE61804D150E8576E347CA1A7CD9C53A640B0701BC364E01CD1F7BE6677F49"
+    },
+    {
+      "file": "user-sword-axis-correction.png",
+      "role": "사용자가 지적한 손잡이·검신 연결부 결함",
+      "sha256": "26904E9924E4E3E08CC72FF2A68C5C7C925BFA24B61E317901194CAE356B62C9"
+    },
+    {
+      "file": "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/art-references/style-reset-20261014/style-02-ice-sovereign.png",
+      "role": "일관된 2D 작화·채색·배경 깊이만 참고",
+      "sha256": "3C5FE5C9293032B782016FAA895C5FB3A40F36C079BCF2C4F0EDE30CBC39C5BD"
+    },
+    {
+      "file": "user-diagonal-straight-blade-correction.png",
+      "role": "기존 대각선 파지 유지 및 검신 일직선 교정 부위",
+      "sha256": "DA3955DE8AABF17EB1EA7FD9C4B867DFFF61926E6ACA522CFBC659F13BFF3302"
+    },
+    {
+      "file": "user-offset-handle-root-correction.png",
+      "role": "사용자가 빨간 원으로 지목한 중앙에서 벗어난 손잡이 결합부",
+      "sha256": "B9E95FE47808759BC355AA534CFB7657D89A9692A8CCCCBC805919646D522A98"
+    },
+    {
+      "file": "user-pose-reference-v11.png",
+      "role": "최신 사용자가 지정한 팔·손목·다리·검 각도 기준",
+      "sha256": "BAFE61804D150E8576E347CA1A7CD9C53A640B0701BC364E01CD1F7BE6677F49"
+    },
+    {
+      "file": "user-rejected-hand-v10.png",
+      "role": "반려된 손 형태 기록, 생성 입력으로 사용하지 않음",
+      "sha256": "7718451102E5705E530E642AEE0D48BC00F261B87036E13C26B33DDEDE21EBCA"
+    }
+  ],
+  "history": [
+    {
+      "file": "platinum-knight-sss-limited-v1.png",
+      "prompt": "prompt-v1.json",
+      "sha256": "7F1CEB1661B0918063BF69D35170491DE2A1CA9F4F25F5F480FA2D17EA02D861",
+      "status": "REJECTED_SWORD_AXIS",
+      "reason": "검 끝 잘림 및 손잡이·검신의 꺾인 연결부. 사용자 지적으로 교정."
+    },
+    {
+      "prompt": "prompt-v2.json",
+      "status": "SUPERSEDED_DRAFT_NOT_GENERATED",
+      "reason": "사용자의 수직 축 수정 지시 이전 초안. 이미지 생성 실행하지 않음."
+    },
+    {
+      "file": "platinum-knight-sss-limited-v3-vertical-sword.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "57FBEAC5068CE6C297AA1643FF9BF5BDB4F2936F4DD045AC9E7DA9E94D21EBDB",
+      "prompt": "prompt-v3-user-vertical-axis.json",
+      "toolOriginal": "C:/Users/User/.codex/generated_images/01a14a2c-e98a-7293-9d19-fc8f4c4b0c95/exec-6ed07979-b958-4466-8d56-d82fb38b8776.png",
+      "status": "REJECTED_POSE_CHANGE",
+      "reason": "사용자는 수직으로 세우기를 원한 것이 아니라 기존 대각선 파지를 유지한 검신 일직선 보정을 요청했다."
+    },
+    {
+      "file": "platinum-knight-sss-limited-v4-diagonal.png",
+      "prompt": "prompt-v4-diagonal-straight-blade.json",
+      "sha256": "DCF0430CAB9DAA2533440A510F9FF4548F952CAEB93806624D1D8C649F585661",
+      "status": "SUPERSEDED_BLADE_CURVATURE_REMAINS"
+    },
+    {
+      "file": "platinum-knight-sss-limited-v5-diagonal.png",
+      "prompt": "prompt-v5-diagonal-axis.json",
+      "sha256": "60D42EBAAF399645776FF74FE943EA5B2442389EC0EE5B1C9837FE8C9BE3E0F5",
+      "status": "USER_REJECTED_NARROW_BLADE_AND_CURVED_IMPRESSION",
+      "userFeedback": "칼 폭이 너무 얇아지는거같은데 여전히 굽어져있다는 느낌을 지울수 없음"
+    },
+    {
+      "file": "platinum-knight-sss-limited-v6-broad-straight-blade.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "648449D7E056EB4517E16AF171136B6622F077F768CE8392EF4366C10B183F1A",
+      "prompt": "prompt-v6-broad-straight-blade.json",
+      "toolOriginal": "C:/Users/User/.codex/generated_images/01a14a2c-e98a-7293-9d19-fc8f4c4b0c95/exec-864d56ac-d52a-403a-96d8-aaaa4bd1dd89.png",
+      "status": "USER_REJECTED_CHANGED_SWORD_DESIGN",
+      "reason": "사용자 '칼디자인 바뀜'. 검신 확폭 과정에서 원래 장식과 구조를 변경한 버전은 채택하지 않음."
+    },
+    {
+      "file": "platinum-knight-sss-limited-v7-original-design.png",
+      "prompt": "prompt-v7-original-design-rigid-axis.json",
+      "sha256": "1BA1ED1F6FAF4D9D5CD947F0BBEA7992859633DA73B0E9A1C9BF8C6BE5BEA755",
+      "status": "SUPERSEDED_ALIGNMENT_INSUFFICIENT"
+    },
+    {
+      "file": "sword-detail-v8-axis-repair.png",
+      "prompt": "prompt-v8-detail-axis-repair.json",
+      "sha256": "64133DB2BA442811612425B18980D73C70024A8A2EE70A59F26CFF6175555049",
+      "status": "DETAIL_STUDY_SUPERSEDED_BY_HANDLE_OFFSET_DIAGNOSIS"
+    },
+    {
+      "file": "platinum-knight-sss-limited-v9-offset-handle.png",
+      "prompt": "prompt-v9-center-handle-socket.json",
+      "sha256": "A6DBE16C21F109B856E57353721CE58BA703235E0D2BF5C5AACB6AEDDB25A302",
+      "status": "USER_REJECTED_ALIGNMENT",
+      "reason": "사용자 '그래도 안맞음'."
+    },
+    {
+      "file": "platinum-knight-v10a-clean-grip-plate.png",
+      "prompt": "prompt-v10a-clear-offset-grip.json",
+      "sha256": "4AEF697373B05073F699D3EFE8F8A45B2994DA775AC117C9682AAE7F225E717A",
+      "status": "RESTORATION_INTERMEDIATE_NOT_FINAL",
+      "reason": "기존 오프셋 손잡이·손을 지운 중간판. 이후 중앙 접점에 재구성."
+    },
+    {
+      "file": "platinum-knight-sss-limited-v10-centered-grip.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "E863D34A31AFFEC66CE7065D4E22535818924FAF1109504CF8B41DE0C0BD3FEA",
+      "prompt": "prompt-v10b-rebuild-centered-grip.json",
+      "promptSequence": [
+        "prompt-v10a-clear-offset-grip.json",
+        "prompt-v10b-rebuild-centered-grip.json"
+      ],
+      "toolOriginal": "C:/Users/User/.codex/generated_images/01a14a2c-e98a-7293-9d19-fc8f4c4b0c95/exec-593af254-3cf4-49d3-9b7a-7aa0cc3eb50e.png",
+      "status": "USER_REJECTED_HAND_ANATOMY",
+      "reason": "사용자 '손이 괴물이 되어버렸어' 지적. 기존 포즈 고정 방식을 중단하고 새 첨부 자세로 재구성."
+    },
+    {
+      "file": "platinum-knight-sss-limited-v11-reference-pose.png",
+      "prompt": "prompt-v11-reference-pose.json",
+      "sha256": "7A51C2DB5D0F2894992509675957835C4A30D4A2BBDB7B02D6EDFACE8F9BB14F",
+      "status": "SUPERSEDED_BY_USER_SLIM_REFINEMENT",
+      "reason": "새 자세와 정상적인 소형 파지로 재구성 후, 사용자 '조금 하체랑 몸집이 큰느낌이네'에 따라 몸통·하체 갑주를 추가 보정."
+    }
+  ],
+  "visualReview": {
+    "reviewedAtFullResolution": true,
+    "independentReview": true,
+    "observations": [
+      "V11은 새 사용자 참조에 맞춰 팔·손목·하체 자세를 재구성했고, 과하게 커진 손가락을 작은 정상 크기의 파지로 교체했다.",
+      "V12는 V11보다 허리·옆구리, 허벅지, 무릎·종아리 갑주의 외곽 폭이 감소했다.",
+      "머리 높이와 발 위치, 다리 길이, 3/4 자세와 발 간격이 유지됐다.",
+      "오른손 파지·손목과 손잡이–가드 중앙–검신 연결을 독립 검토했고 새로운 심각한 이상은 관찰되지 않았다.",
+      "얼굴·갑주·검 디자인은 유지됐으며 제작 검토는 사용자 최종 시각 승인과 별개다."
+    ]
+  },
+  "runtimeRegistration": false,
+  "characterName": null,
+  "deployed": false,
+  "latestUserConstraints": [
+    "갑옷·검 디자인을 유지하며 최신 첨부 자세로 변경",
+    "새 참조의 3/4 자세, 내려 든 오른팔, 완만한 검의 대각선 유지",
+    "정상 크기의 손등 위주 장갑 주먹과 자연스러운 파지",
+    "몸통·골반·허벅지·무릎·종아리 갑주 부피를 조금 더 슬림하게 보정",
+    "키·머리 크기·다리 길이 및 개선된 손·검의 중심 연결 유지",
+    "검끝은 화면 밖으로 잘려도 됨"
+  ],
+  "assetInventory": [
+    {
+      "file": "platinum-knight-sss-limited-v1.png",
+      "bytes": 3294257,
+      "sha256": "7F1CEB1661B0918063BF69D35170491DE2A1CA9F4F25F5F480FA2D17EA02D861"
+    },
+    {
+      "file": "platinum-knight-sss-limited-v10-centered-grip.png",
+      "bytes": 3063225,
+      "sha256": "E863D34A31AFFEC66CE7065D4E22535818924FAF1109504CF8B41DE0C0BD3FEA"
+    },
+    {
+      "file": "platinum-knight-sss-limited-v11-reference-pose.png",
+      "bytes": 3135850,
+      "sha256": "7A51C2DB5D0F2894992509675957835C4A30D4A2BBDB7B02D6EDFACE8F9BB14F"
+    },
+    {
+      "file": "platinum-knight-sss-limited-v12-slim-reference-pose.png",
+      "bytes": 2934981,
+      "sha256": "DAD70B7F26DAB757F39919646B1DC02972A840562FA6BF76ADC38B1FDAD99926"
+    },
+    {
+      "file": "platinum-knight-sss-limited-v3-vertical-sword.png",
+      "bytes": 3112004,
+      "sha256": "57FBEAC5068CE6C297AA1643FF9BF5BDB4F2936F4DD045AC9E7DA9E94D21EBDB"
+    },
+    {
+      "file": "platinum-knight-sss-limited-v4-diagonal.png",
+      "bytes": 3129405,
+      "sha256": "DCF0430CAB9DAA2533440A510F9FF4548F952CAEB93806624D1D8C649F585661"
+    },
+    {
+      "file": "platinum-knight-sss-limited-v5-diagonal.png",
+      "bytes": 3048201,
+      "sha256": "60D42EBAAF399645776FF74FE943EA5B2442389EC0EE5B1C9837FE8C9BE3E0F5"
+    },
+    {
+      "file": "platinum-knight-sss-limited-v6-broad-straight-blade.png",
+      "bytes": 3032643,
+      "sha256": "648449D7E056EB4517E16AF171136B6622F077F768CE8392EF4366C10B183F1A"
+    },
+    {
+      "file": "platinum-knight-sss-limited-v7-original-design.png",
+      "bytes": 3132284,
+      "sha256": "1BA1ED1F6FAF4D9D5CD947F0BBEA7992859633DA73B0E9A1C9BF8C6BE5BEA755"
+    },
+    {
+      "file": "platinum-knight-sss-limited-v9-offset-handle.png",
+      "bytes": 3079468,
+      "sha256": "A6DBE16C21F109B856E57353721CE58BA703235E0D2BF5C5AACB6AEDDB25A302"
+    },
+    {
+      "file": "platinum-knight-v10a-clean-grip-plate.png",
+      "bytes": 3126631,
+      "sha256": "4AEF697373B05073F699D3EFE8F8A45B2994DA775AC117C9682AAE7F225E717A"
+    },
+    {
+      "file": "prompt-v1.json",
+      "bytes": 4838,
+      "sha256": "A81FB87BA9885451DB6C109CCB88B688253066AF13BC699342502151AD04A8D7"
+    },
+    {
+      "file": "prompt-v10a-clear-offset-grip.json",
+      "bytes": 1711,
+      "sha256": "2484D83763A6CA89F43828EF7B237C21EC2B80A74EC6E0EB83501DE0B851D267"
+    },
+    {
+      "file": "prompt-v10b-rebuild-centered-grip.json",
+      "bytes": 2816,
+      "sha256": "B51D9A29288086F8DF0D1593E0B060C33000EFC203B954576F2F9F49E5D0D149"
+    },
+    {
+      "file": "prompt-v11-reference-pose.json",
+      "bytes": 4424,
+      "sha256": "11E8A75757F789C36F5EAF76C70737A016125F323FE2554D7AC67AD12713E373"
+    },
+    {
+      "file": "prompt-v12-slim-body-armor.json",
+      "bytes": 2281,
+      "sha256": "A6D4801F448EB6112886647451B2EBD68CC94AE83BB4D63F8BE8008F66CF1A4C"
+    },
+    {
+      "file": "prompt-v2.json",
+      "bytes": 1502,
+      "sha256": "DE7C01FEDD0A703B281FE7213BE1164188C86184DB7C2A93E2C5C34148BDA965"
+    },
+    {
+      "file": "prompt-v3-user-vertical-axis.json",
+      "bytes": 2869,
+      "sha256": "1239083FF1D54B8169D6E2A7AAEEEE5139372F7CEBDE77FABC4F92DD89A6E3C4"
+    },
+    {
+      "file": "prompt-v4-diagonal-straight-blade.json",
+      "bytes": 2946,
+      "sha256": "CB7893B277DCC587BF4AEDF7682F67A3A85B1FF28984D5ED2B1FB3EB41D773A1"
+    },
+    {
+      "file": "prompt-v5-diagonal-axis.json",
+      "bytes": 2750,
+      "sha256": "85295287BFF4BE6B116EC21A3718C17A7FF9A78BD6FFE4D61D241F9D024EDD69"
+    },
+    {
+      "file": "prompt-v6-broad-straight-blade.json",
+      "bytes": 3215,
+      "sha256": "B495588A696F7EB7B2331F38616F0CC32790215DDB3BD9D94A1572D6A26A7F3E"
+    },
+    {
+      "file": "prompt-v7-original-design-rigid-axis.json",
+      "bytes": 3704,
+      "sha256": "02D01DDE08CF2936D86005D5B6A6AFFAE22868C2977E4E8A43E755A61091DF2D"
+    },
+    {
+      "file": "prompt-v8-detail-axis-repair.json",
+      "bytes": 2195,
+      "sha256": "68572458B8DDEC996A87BFCF52238C483E601599400D9081718AF850B8BC07FA"
+    },
+    {
+      "file": "prompt-v9-center-handle-socket.json",
+      "bytes": 2767,
+      "sha256": "AE8A09C696D746A9444CDFFB1A86441BDC583EC21D86A0D4E9A05862CB8A64DE"
+    },
+    {
+      "file": "source-reference.png",
+      "bytes": 1901788,
+      "sha256": "BAFE61804D150E8576E347CA1A7CD9C53A640B0701BC364E01CD1F7BE6677F49"
+    },
+    {
+      "file": "sword-detail-v8-axis-repair.png",
+      "bytes": 2133895,
+      "sha256": "64133DB2BA442811612425B18980D73C70024A8A2EE70A59F26CFF6175555049"
+    },
+    {
+      "file": "user-diagonal-straight-blade-correction.png",
+      "bytes": 1033283,
+      "sha256": "DA3955DE8AABF17EB1EA7FD9C4B867DFFF61926E6ACA522CFBC659F13BFF3302"
+    },
+    {
+      "file": "user-offset-handle-root-correction.png",
+      "bytes": 400015,
+      "sha256": "B9E95FE47808759BC355AA534CFB7657D89A9692A8CCCCBC805919646D522A98"
+    },
+    {
+      "file": "user-pose-reference-v11.png",
+      "bytes": 1901788,
+      "sha256": "BAFE61804D150E8576E347CA1A7CD9C53A640B0701BC364E01CD1F7BE6677F49"
+    },
+    {
+      "file": "user-rejected-hand-v10.png",
+      "bytes": 812693,
+      "sha256": "7718451102E5705E530E642AEE0D48BC00F261B87036E13C26B33DDEDE21EBCA"
+    },
+    {
+      "file": "user-sword-axis-correction.png",
+      "bytes": 384695,
+      "sha256": "26904E9924E4E3E08CC72FF2A68C5C7C925BFA24B61E317901194CAE356B62C9"
+    }
+  ]
+}

@@ -1,0 +1,1006 @@
+{
+  "version": "LEONEL_ASSET_REGISTRATION_V1",
+  "status": "FINAL_CANDIDATE_REGISTERED_USER_VISUAL_REVIEW_PENDING",
+  "sourceArt": "assets/sources/leonel-final-art-v1.png",
+  "sourceArtSha256": "43d4c211ff58bff672e8614aa50fcd8f6c5099c667dd2f4c42c44bde75ab2e00",
+  "referenceHeight": 610,
+  "cellSize": 1280,
+  "weapon": {
+    "source": "assets/sources/leonel-final-art-v1.png",
+    "sourceSha256": "43d4c211ff58bff672e8614aa50fcd8f6c5099c667dd2f4c42c44bde75ab2e00",
+    "standingHeight": 1120,
+    "rect": {
+      "left": 20,
+      "top": 655,
+      "width": 485,
+      "height": 510
+    },
+    "grip": [
+      488,
+      701
+    ],
+    "bladeStart": [
+      427,
+      780
+    ],
+    "tip": [
+      25,
+      1159
+    ],
+    "polygons": [
+      [
+        [
+          25,
+          1159
+        ],
+        [
+          85,
+          1070
+        ],
+        [
+          130,
+          1000
+        ],
+        [
+          139,
+          985
+        ],
+        [
+          189,
+          935
+        ],
+        [
+          218,
+          898
+        ],
+        [
+          226,
+          886
+        ],
+        [
+          202,
+          890
+        ],
+        [
+          250,
+          873
+        ],
+        [
+          270,
+          839
+        ],
+        [
+          280,
+          826
+        ],
+        [
+          282,
+          836
+        ],
+        [
+          292,
+          828
+        ],
+        [
+          283,
+          848
+        ],
+        [
+          302,
+          844
+        ],
+        [
+          319,
+          826
+        ],
+        [
+          325,
+          804
+        ],
+        [
+          329,
+          790
+        ],
+        [
+          320,
+          786
+        ],
+        [
+          315,
+          782
+        ],
+        [
+          336,
+          766
+        ],
+        [
+          333,
+          783
+        ],
+        [
+          347,
+          782
+        ],
+        [
+          366,
+          775
+        ],
+        [
+          381,
+          762
+        ],
+        [
+          386,
+          754
+        ],
+        [
+          394,
+          752
+        ],
+        [
+          398,
+          746
+        ],
+        [
+          392,
+          742
+        ],
+        [
+          394,
+          734
+        ],
+        [
+          385,
+          727
+        ],
+        [
+          367,
+          733
+        ],
+        [
+          379,
+          704
+        ],
+        [
+          388,
+          675
+        ],
+        [
+          388,
+          659
+        ],
+        [
+          403,
+          687
+        ],
+        [
+          402,
+          700
+        ],
+        [
+          432,
+          692
+        ],
+        [
+          423,
+          715
+        ],
+        [
+          429,
+          722
+        ],
+        [
+          445,
+          723
+        ],
+        [
+          448,
+          711
+        ],
+        [
+          461,
+          716
+        ],
+        [
+          468,
+          705
+        ],
+        [
+          477,
+          709
+        ],
+        [
+          482,
+          718
+        ],
+        [
+          472,
+          727
+        ],
+        [
+          467,
+          736
+        ],
+        [
+          476,
+          737
+        ],
+        [
+          481,
+          743
+        ],
+        [
+          486,
+          740
+        ],
+        [
+          482,
+          749
+        ],
+        [
+          493,
+          747
+        ],
+        [
+          486,
+          756
+        ],
+        [
+          498,
+          757
+        ],
+        [
+          484,
+          765
+        ],
+        [
+          480,
+          778
+        ],
+        [
+          476,
+          771
+        ],
+        [
+          469,
+          777
+        ],
+        [
+          485,
+          785
+        ],
+        [
+          469,
+          787
+        ],
+        [
+          453,
+          800
+        ],
+        [
+          455,
+          787
+        ],
+        [
+          448,
+          787
+        ],
+        [
+          435,
+          800
+        ],
+        [
+          422,
+          801
+        ],
+        [
+          418,
+          815
+        ],
+        [
+          408,
+          819
+        ],
+        [
+          406,
+          827
+        ],
+        [
+          398,
+          832
+        ],
+        [
+          401,
+          839
+        ],
+        [
+          421,
+          834
+        ],
+        [
+          406,
+          844
+        ],
+        [
+          383,
+          861
+        ],
+        [
+          388,
+          847
+        ],
+        [
+          379,
+          850
+        ],
+        [
+          363,
+          860
+        ],
+        [
+          351,
+          873
+        ],
+        [
+          362,
+          882
+        ],
+        [
+          345,
+          887
+        ],
+        [
+          324,
+          896
+        ],
+        [
+          315,
+          905
+        ],
+        [
+          311,
+          916
+        ],
+        [
+          319,
+          922
+        ],
+        [
+          306,
+          952
+        ],
+        [
+          304,
+          938
+        ],
+        [
+          299,
+          934
+        ],
+        [
+          279,
+          941
+        ],
+        [
+          267,
+          948
+        ],
+        [
+          259,
+          960
+        ],
+        [
+          249,
+          969
+        ],
+        [
+          241,
+          971
+        ],
+        [
+          188,
+          1034
+        ],
+        [
+          171,
+          1048
+        ],
+        [
+          25,
+          1159
+        ]
+      ]
+    ]
+  },
+  "motions": {
+    "idle": [
+      {
+        "source": "assets/sources/body-idle-a-v1.png",
+        "sha256": "5f6b55321affcd17489516a45fe9885190c996e0f9168babe58dd5c1282c12ec",
+        "standingHeight": 610,
+        "poses": [
+          {
+            "foot": [
+              397,
+              623
+            ],
+            "grip": [
+              275,
+              308
+            ],
+            "angle": 157,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              986,
+              623
+            ],
+            "grip": [
+              880,
+              311
+            ],
+            "angle": 157,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              411,
+              1247
+            ],
+            "grip": [
+              366,
+              884
+            ],
+            "angle": 140,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1000,
+              1246
+            ],
+            "grip": [
+              871,
+              934
+            ],
+            "angle": 151,
+            "weaponInFront": true
+          }
+        ]
+      }
+    ],
+    "dash": [
+      {
+        "source": "assets/sources/body-dash-a-v2.png",
+        "sha256": "f6362d2e240667cee07b8bc21d99a6f7515778096cef00cfd30fff3dafeb6adc",
+        "standingHeight": 430,
+        "poses": [
+          {
+            "foot": [
+              410,
+              578
+            ],
+            "grip": [
+              302,
+              376
+            ],
+            "angle": 151,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              970,
+              578
+            ],
+            "grip": [
+              911,
+              353
+            ],
+            "angle": 162,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              330,
+              1155
+            ],
+            "grip": [
+              332,
+              924
+            ],
+            "angle": 180,
+            "airborne": true,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              990,
+              1164
+            ],
+            "grip": [
+              938,
+              954
+            ],
+            "angle": 186,
+            "airborne": true,
+            "weaponInFront": true
+          }
+        ]
+      },
+      {
+        "source": "assets/sources/body-dash-b-v1.png",
+        "sha256": "0a9a16f9a4f26d41d1e127ae04939d20addfb94660b192626d885876b996564d",
+        "standingHeight": 550,
+        "poses": [
+          {
+            "foot": [
+              350,
+              549
+            ],
+            "grip": [
+              270,
+              316
+            ],
+            "angle": 198,
+            "airborne": true,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1000,
+              568
+            ],
+            "grip": [
+              893,
+              313
+            ],
+            "angle": 199,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              390,
+              1175
+            ],
+            "grip": [
+              383,
+              884
+            ],
+            "angle": 162,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1035,
+              1210
+            ],
+            "grip": [
+              948,
+              940
+            ],
+            "angle": 145,
+            "airborne": false,
+            "weaponInFront": true
+          }
+        ]
+      }
+    ],
+    "attack": [
+      {
+        "source": "assets/sources/body-attack-a-v2.png",
+        "sha256": "dc597582bcb5a1f9f01945dca47d6d046417cea3cab8b4f2f4b3f823484ae1fc",
+        "standingHeight": 430,
+        "poses": [
+          {
+            "foot": [
+              346,
+              581
+            ],
+            "grip": [
+              271,
+              367
+            ],
+            "angle": 180,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1000,
+              579
+            ],
+            "grip": [
+              939,
+              324
+            ],
+            "angle": 155,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              371,
+              1136
+            ],
+            "grip": [
+              433,
+              896
+            ],
+            "angle": -3,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1025,
+              1137
+            ],
+            "grip": [
+              1130,
+              865
+            ],
+            "angle": -2,
+            "airborne": false,
+            "weaponInFront": true
+          }
+        ]
+      },
+      {
+        "source": "assets/sources/body-attack-b-v1.png",
+        "sha256": "4a2446605ba6684680903876e4476f69aa16639c5538df35c87eff1e23b6ae56",
+        "standingHeight": 500,
+        "poses": [
+          {
+            "foot": [
+              421,
+              596
+            ],
+            "grip": [
+              499,
+              224
+            ],
+            "angle": -28,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1025,
+              597
+            ],
+            "grip": [
+              1077,
+              287
+            ],
+            "angle": 12,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              414,
+              1201
+            ],
+            "grip": [
+              467,
+              925
+            ],
+            "angle": 32,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1025,
+              1201
+            ],
+            "grip": [
+              926,
+              969
+            ],
+            "angle": 159,
+            "airborne": false,
+            "weaponInFront": true
+          }
+        ]
+      }
+    ],
+    "skill": [
+      {
+        "source": "assets/sources/body-skill-a-v1.png",
+        "sha256": "22dc8871bb6c9e735971d34cf5a39dcaf0fe2831f102e747e0da1a0f35ac1909",
+        "standingHeight": 500,
+        "poses": [
+          {
+            "foot": [
+              390,
+              597
+            ],
+            "grip": [
+              300,
+              180
+            ],
+            "angle": -36,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1010,
+              597
+            ],
+            "grip": [
+              1152,
+              334
+            ],
+            "angle": 26,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              429,
+              1179
+            ],
+            "grip": [
+              497,
+              937
+            ],
+            "angle": 8,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1017,
+              1185
+            ],
+            "grip": [
+              1151,
+              688
+            ],
+            "angle": -30,
+            "airborne": false,
+            "weaponInFront": true
+          }
+        ]
+      },
+      {
+        "source": "assets/sources/body-skill-b-v2.png",
+        "sha256": "691a12f9fbd8ab5fd6be4a5b1dcf5899eda4ed0ed1a674a13654d90eaec3f998",
+        "standingHeight": 360,
+        "poses": [
+          {
+            "foot": [
+              397,
+              558
+            ],
+            "grip": [
+              363,
+              199
+            ],
+            "angle": -15,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              981,
+              555
+            ],
+            "grip": [
+              956,
+              266
+            ],
+            "angle": 220,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              414,
+              1112
+            ],
+            "grip": [
+              504,
+              912
+            ],
+            "angle": -5,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1005,
+              1128
+            ],
+            "grip": [
+              936,
+              948
+            ],
+            "angle": 145,
+            "airborne": false,
+            "weaponInFront": true
+          }
+        ]
+      }
+    ],
+    "ultimate": [
+      {
+        "source": "assets/sources/body-ultimate-a-v1.png",
+        "sha256": "ea5b2038af1404d88783e98693b8611a4778bb7659e9f52a46c8b24731cb9cab",
+        "standingHeight": 520,
+        "poses": [
+          {
+            "foot": [
+              366,
+              620
+            ],
+            "grip": [
+              279,
+              361
+            ],
+            "angle": 185,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1015,
+              620
+            ],
+            "grip": [
+              868,
+              322
+            ],
+            "angle": 145,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              375,
+              1186
+            ],
+            "grip": [
+              323,
+              786
+            ],
+            "angle": 164,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1025,
+              1186
+            ],
+            "grip": [
+              1178,
+              864
+            ],
+            "angle": -15,
+            "airborne": false,
+            "weaponInFront": true
+          }
+        ]
+      },
+      {
+        "source": "assets/sources/body-ultimate-b-v1.png",
+        "sha256": "9119ef15d6a42855f48eb77d1f9be29efb4bf5f15766efe42465685ce97d837a",
+        "standingHeight": 470,
+        "poses": [
+          {
+            "foot": [
+              419,
+              599
+            ],
+            "grip": [
+              513,
+              299
+            ],
+            "angle": 6,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              989,
+              595
+            ],
+            "grip": [
+              1125,
+              287
+            ],
+            "angle": 4,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              440,
+              1183
+            ],
+            "grip": [
+              336,
+              921
+            ],
+            "angle": 51,
+            "airborne": false,
+            "weaponInFront": true
+          },
+          {
+            "foot": [
+              1032,
+              1185
+            ],
+            "grip": [
+              943,
+              929
+            ],
+            "angle": 176,
+            "airborne": false,
+            "weaponInFront": true
+          }
+        ]
+      }
+    ]
+  },
+  "effects": {
+    "aura": {
+      "source": "assets/sources/fx-aura-v2.png",
+      "columns": 4,
+      "rows": 3,
+      "layer": "behind",
+      "blendMode": "add"
+    },
+    "dash": {
+      "source": "assets/sources/fx-dash-v2.png",
+      "columns": 4,
+      "rows": 3,
+      "layer": "behind",
+      "blendMode": "add"
+    },
+    "slash": {
+      "source": "assets/sources/fx-slash-v1.png",
+      "columns": 4,
+      "rows": 3,
+      "layer": "front",
+      "blendMode": "add"
+    },
+    "crosscut": {
+      "source": "assets/sources/fx-crosscut-v2.png",
+      "columns": 4,
+      "rows": 3,
+      "layer": "front",
+      "blendMode": "add"
+    },
+    "ultimate": {
+      "source": "assets/sources/fx-ultimate-v2.png",
+      "columns": 4,
+      "rows": 3,
+      "layer": "front",
+      "blendMode": "add"
+    },
+    "fracture": {
+      "source": "assets/sources/fx-fracture-v1.png",
+      "columns": 4,
+      "rows": 3,
+      "layer": "ground",
+      "blendMode": "normal"
+    },
+    "pressure": {
+      "source": "assets/sources/fx-pressure-v1.png",
+      "columns": 4,
+      "rows": 3,
+      "layer": "background",
+      "blendMode": "add"
+    }
+  },
+  "atlasColumns": 3
+}

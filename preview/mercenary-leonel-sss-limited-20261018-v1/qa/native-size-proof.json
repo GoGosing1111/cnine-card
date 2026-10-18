@@ -1,0 +1,58 @@
+[
+  {
+    "id": "idle-01",
+    "source": "assets/frames/idle-01.png",
+    "sourceSha256": "ab6d401c93ccbece50912cdaddcfc6f0d099bd720a6149729af275f28ca53683",
+    "target": "qa/idle-01-native-size.png",
+    "rect": {
+      "left": 279,
+      "top": 308,
+      "width": 683,
+      "height": 666
+    },
+    "operation": "CROP_AND_QA_BACKGROUND_ONLY_NO_RESIZE",
+    "bodyReferenceHeight": 610
+  },
+  {
+    "id": "attack-04",
+    "source": "assets/frames/attack-04.png",
+    "sourceSha256": "1d89fcee17c1bd3d3383fb0c804877a15bbf771afa9edd0cba7eac0d6353360c",
+    "target": "qa/attack-04-native-size.png",
+    "rect": {
+      "left": 230,
+      "top": 355,
+      "width": 967,
+      "height": 607
+    },
+    "operation": "CROP_AND_QA_BACKGROUND_ONLY_NO_RESIZE",
+    "bodyReferenceHeight": 610
+  },
+  {
+    "id": "skill-02",
+    "source": "assets/frames/skill-02.png",
+    "sourceSha256": "719041fbc43d2fa035818a4b727e6e9e7a1590c083e0b1fbefe4831eb10def88",
+    "target": "qa/skill-02-native-size.png",
+    "rect": {
+      "left": 182,
+      "top": 409,
+      "width": 960,
+      "height": 588
+    },
+    "operation": "CROP_AND_QA_BACKGROUND_ONLY_NO_RESIZE",
+    "bodyReferenceHeight": 610
+  },
+  {
+    "id": "ultimate-04",
+    "source": "assets/frames/ultimate-04.png",
+    "sourceSha256": "e32fa4a6d06624532d1dbbfddc7382ba3609e6861322e31ffcfd65bc0df48494",
+    "target": "qa/ultimate-04-native-size.png",
+    "rect": {
+      "left": 200,
+      "top": 390,
+      "width": 958,
+      "height": 581
+    },
+    "operation": "CROP_AND_QA_BACKGROUND_ONLY_NO_RESIZE",
+    "bodyReferenceHeight": 610
+  }
+]

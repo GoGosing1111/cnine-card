@@ -1,0 +1,19 @@
+{
+  "useCase": "precise-object-edit",
+  "mode": "built-in image_gen",
+  "input": "platinum-knight-sss-limited-v1.png",
+  "designDetail": "user-diagonal-straight-blade-correction.png",
+  "userDirectives": [
+    "칼디자인 바뀜",
+    "손잡이부터 각도를 바꾸던 캐릭터 디자인,칼디자인 유지하고 근본적인 문제를 해결하길 바람 포즈를 아예 크게 수정해서 바꾸는건 원하지 않음"
+  ],
+  "constraints": [
+    "최초 검의 장식·폭·구조 유지",
+    "기존 검신 하부의 직선 축을 기준으로 검신 상부·가드·손잡이 정렬",
+    "손잡이 각도와 파지·손목 주변의 소폭 조정 허용",
+    "큰 포즈·캐릭터 디자인 변경 금지",
+    "검끝의 화면 밖 잘림 허용"
+  ],
+  "prompt": "Use case: precise-object-edit.\nIMAGE 1 is the ORIGINAL artwork and must be the edit base. IMAGE 2 is an enlarged view of the EXACT ORIGINAL SWORD DESIGN to preserve. Make a careful geometric repair of this same sword, not a new sword.\n\nUSER'S PRIORITIES:\n1. Keep the character design and the sword design exactly recognizable.\n2. Fix the fundamental alignment of the whole sword from pommel to blade, including the handle angle if necessary.\n3. Keep the overall original downward-left diagonal pose. Only a small local wrist/grip adjustment is allowed. No large pose change.\n4. Preserve the ORIGINAL sword width, proportions, ornament density and material treatment. The sword tip may stay cropped offscreen.\n\nLOCK THE DESIGN: retain the same sculpted gold thorn-wing guard, black wrapped handle and gold pommel, layered recessed black blade panels, silver bevels, original successive broad thorn-shaped gold side ornaments and the distinctive long lower blade. Preserve the sizes, spacing and shapes of those features. Do not replace them with a plain wide slab, generic straight-edged sword, new decorative pattern or thin sword. Do not remove the original layered blade architecture. This is the SAME weapon with its manufacturing axis corrected.\n\nGEOMETRIC REPAIR: use the long LOWER blade's existing straight diagonal direction as the alignment anchor. Project that centerline upward through the upper ornamental blade, guard, grip and pommel. Reposition/rotate the existing upper blade sections minutely so their structural centers lie along that single line without a bend at the junction. Preserve each section's width and recognizable details while unbending the overall backbone. The blade, guard and hilt must form one rigid continuous manufactured object, not several parts pointing in different directions. Both left and right sides should have consistent perspective along the common spine.\n\nCrucially, you MAY adjust the handle and pommel angle by a few degrees to line up with that original lower-blade axis, and subtly roll the gripping fingers/wrist to fit the corrected handle. Do not force the blade into the old misaligned handle angle. Keep the hand near its original location and keep the elbow and shoulder where they were. The palm must support the hilt naturally; no detached fingers. The resulting sword should read straight from grip to tip while retaining all the original ornate black-and-gold geometry and original thickness.\n\nEverything else in IMAGE 1 stays unchanged: face, hair, body proportions, all armor, cape, left arm and hand, legs, stance, background, aura, lighting, colors, framing and illustration style. Do not make the sword vertical, fit its tip into the frame, zoom out, or redesign any part of the character. No labels or guide lines. Deliver the complete original composition with this narrowly scoped correction.",
+  "transparent_background": false
+}

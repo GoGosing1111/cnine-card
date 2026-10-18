@@ -1,0 +1,10 @@
+{
+  "mode": "built-in image_gen",
+  "transparent_background": true,
+  "key": "aura",
+  "version": 2,
+  "input": "C:/Users/User/.codex/worktrees/defense-join-fix-20261018/cnine-card/preview/mercenary-leonel-sss-limited-20261018-v1/assets/sources/fx-aura-v1.png",
+  "prompt": "Use case: precise-object-edit. Input image is the EXISTING twelve-frame sword-pressure AURA sprite sheet to correct for layout only. Keep the platinum-silver wind-ribbon/grey dust/muted-gold flecks art direction and chronological evolving loop, no character. Recreate as exactly FOUR COLUMNS and THREE ROWS, twelve equal SQUARE cells, overall canvas4:3. CRITICAL PRODUCTION LAYOUT: Within EACH AND EVERY square cell, shrink the entire aura effect including all wisps, sparks, shadow and dust to fit inside only the central 65% width and central65% height. Leave at least17.5% of each cell completely EMPTY transparent at top, bottom, left, right. No glow can enter that transparent safety margin. Treat each of the12cells as an isolated square postcard: nothing may cross or touch its edges. Especially the tall peak frames in row2 must be much smaller so their tops do not rise into row1. All frames have same center pivot, same uniform scale. Keep actual 12-phase continuous movement of two narrow upright silver air streams and low ground dust: quieter1-3, rising4-6, peak7-8, subsiding9-12. Center stays transparent for fighter. Do not create an opaque white field or checkerboard. Preserve clean real alpha transparency everywhere outside each isolated effect. No written numbers, labels, grid, borders, religious symbols, circles, magic runes. This correction is a SPACING and SCALE fix, not a redesign.",
+  "replaces": "fx-aura-v1.png",
+  "reason": "V1 frame7 crosses into frame3 at cell boundary; V2 must preserve an empty cell margin."
+}

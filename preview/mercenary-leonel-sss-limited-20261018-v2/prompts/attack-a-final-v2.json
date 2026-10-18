@@ -1,0 +1,12 @@
+{
+  "mode": "BUILT_IN_IMAGEGEN",
+  "arguments": {
+    "transparent_background": true,
+    "referenced_image_paths": [
+      "C:/Users/User/.codex/worktrees/defense-join-fix-20261018/cnine-card/preview/mercenary-leonel-sss-limited-20261018-v2/assets/sources/body-attack-a-v2-candidate2.png"
+    ],
+    "prompt": "Precise edit of this FOUR-frame transparent 2x2 battle sprite sheet. Keep the exact mature character face, armor, natural adult proportions, each pose, each gauntlet and short grip, cape design, rendering. ONLY repair packaging: IN EACH quadrant uniformly reduce the drawn figure and cape to 75% of their present size, centering them in that quadrant to add plentiful TRANSPARENT blank space on all sides. Reconstruct the tiny missing tip of the bottom-right boot and any clipped fingertip before placing it. This is source-sheet packing only; final battle assets are restored to the same original size by the packer. Do not invent a blade or guard. 2x2 equal grid, all four whole figures isolated, every hair, hand, cape end and boot entirely within its own quadrant, with at least 40 pixels clear transparent padding on every side. Do not redesign faces or armor or poses. No background, shadows, text, frame or checkerboard."
+  },
+  "output": "assets/sources/body-attack-a-v2.png",
+  "status": "CANDIDATE_REGISTRATION_QA_PENDING"
+}

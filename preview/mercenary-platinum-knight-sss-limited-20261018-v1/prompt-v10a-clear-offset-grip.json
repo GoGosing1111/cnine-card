@@ -1,0 +1,8 @@
+{
+  "mode": "built-in image_gen",
+  "useCase": "precise-object-edit",
+  "input": "platinum-knight-sss-limited-v1.png",
+  "purpose": "기존의 잘못된 손잡이 접점을 제거하는 보정 중간판",
+  "prompt": "LOCAL RESTORATION PREPARATION PASS on this complete illustration.\nRemove ONLY the sword's entire HANDLE + POMMEL and the small RIGHT GLOVED HAND holding it (viewer left), because they will be restored correctly in the next pass. Erase the old off-center grip attachment completely. On this 1024x1536 canvas, the handle is the thin black/gold diagonal object extending from about (338,705) up-right to (415,588), and the gloved hand occupies roughly (293,644) to (371,708). Remove that handle, pommel and gripping fingers/hand. Leave a clean cuff at the end of the existing armored forearm, no injury or gore.\n\nKEEP the ENTIRE SWORD BLADE and GOLD CROSSGUARD absolutely unchanged in design, width, detail and placement. Especially preserve the sculpted gold crossguard at approximately (262,675) to (382,774) and the original elaborate black/gold blade extending down-left. Preserve the guard's true central hub and top edge cleanly, with no remnant of the old offset handle. Fill only the areas exposed by the removed handle/hand with the existing cape/background. The empty central attachment area should be visible, ready for a centered hilt to be added.\n\nDo not move the sword, forearm, elbow, shoulder or body. Preserve ALL other artwork, pose, armor, face, cape, background and light. This is an intermediate restoration plate with only a very small missing hand/hilt, not a redesign. No replacement hand or handle in this pass. No annotations.",
+  "transparent_background": false
+}

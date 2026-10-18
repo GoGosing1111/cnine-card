@@ -1,0 +1,63 @@
+{
+  "createdAt": "2026-10-18T11:48:11.930Z",
+  "status": "PASS_TECHNICAL_ONLY",
+  "results": [
+    {
+      "name": "source-art-and-weapon-original-pixel-provenance",
+      "pass": true,
+      "comparedPixels": 39256,
+      "redrawnPixels": 0
+    },
+    {
+      "name": "motion-atlas-alpha-pivots-and-one-rigid-weapon",
+      "pass": true,
+      "frames": 36,
+      "distinctRasters": 36,
+      "weaponSources": 1,
+      "referenceHeight": 610
+    },
+    {
+      "name": "effects-transparent-with-twelve-distinct-drawn-stages",
+      "pass": true,
+      "frames": 84,
+      "details": {
+        "aura": {
+          "frames": 12,
+          "transparentRatio": 0.7609492485984352
+        },
+        "dash": {
+          "frames": 12,
+          "transparentRatio": 0.7026170599188059
+        },
+        "slash": {
+          "frames": 12,
+          "transparentRatio": 0.825453664418058
+        },
+        "crosscut": {
+          "frames": 12,
+          "transparentRatio": 0.8500026708586429
+        },
+        "ultimate": {
+          "frames": 12,
+          "transparentRatio": 0.7561099071049927
+        },
+        "fracture": {
+          "frames": 12,
+          "transparentRatio": 0.7384199200268612
+        },
+        "pressure": {
+          "frames": 12,
+          "transparentRatio": 0.8562626547826175
+        }
+      }
+    },
+    {
+      "name": "preview-only-no-operations-registration",
+      "pass": true,
+      "operationsEnabled": false,
+      "userApproval": false
+    }
+  ],
+  "visualApproval": "PENDING_USER_REVIEW",
+  "meaning": "Pass confirms provenance, rigid composition, alpha, atlas and registration integrity. It does not approve anatomy, choreography or art quality."
+}

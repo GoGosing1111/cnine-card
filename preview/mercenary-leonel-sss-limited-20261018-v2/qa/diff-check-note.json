@@ -1,0 +1,6 @@
+{
+  "scope": "Leonel V1 history and V2 resource build",
+  "generatedBundleException": "preview.bundle.js contains upstream Pixi shader literal whitespace; the generated shader strings were not rewritten for cosmetic diff cleanup.",
+  "authoredSources": "git diff --cached --check excluding generated preview.bundle.js passed after removing EOF blank lines.",
+  "functionalRetest": "Not repeated for documentation and EOF-only cleanup; existing runtime bundle hash and current PC/mobile evidence remain valid."
+}

@@ -1,0 +1,122 @@
+{
+  "mode": "built-in image_gen",
+  "selectedUserReference": "assets/sources/user-selected-art-v12.png",
+  "originalsPreserved": true,
+  "artworkGeneratedViaPython": false,
+  "technicalCompositing": "Original weapon pixel extraction + uniform transforms + alpha/pivot/atlas packing per project standard",
+  "supplement": {
+    "id": "body-skill-b-v2",
+    "file": "assets/sources/body-skill-b-v2.png",
+    "prompt": "prompts/body-skill-b-v2-margin.json",
+    "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-1cf09281-d92c-45f7-83af-d87298ce0695.png",
+    "status": "TECHNICAL_REVIEW_CANDIDATE",
+    "sha256": "691A12F9FBD8AB5FD6BE4A5B1DCF5899EDA4ED0ED1A674A13654D90EAEC3F998"
+  },
+  "sizePolicy": "Latest user attachment fixes anatomical reference at610px. Atlas canvas enlarged to1280 without reducing anatomy. Layout-source padding is not final asset size.",
+  "sources": [
+    {
+      "id": "final-art-v1",
+      "file": "assets/sources/leonel-final-art-v1.png",
+      "prompt": "prompts/final-art-v1.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-a44c007a-ff59-431d-b3bb-e8ca0f2349ab.png",
+      "status": "TECHNICAL_REVIEW_CANDIDATE",
+      "sha256": "43D4C211FF58BFF672E8614AA50FCD8F6C5099C667DD2F4C42C44BDE75AB2E00"
+    },
+    {
+      "id": "body-base-v1",
+      "file": "assets/sources/body-base-v1.png",
+      "prompt": "prompts/body-base-v1.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-cf23fd23-c399-4e4c-b8b7-0e1d4749d99b.png",
+      "status": "TECHNICAL_REVIEW_CANDIDATE",
+      "sha256": "30E5D93C92D7293FD9E28362B93423B4969F8C3F3D66E41DAE134B464DE40D5F"
+    },
+    {
+      "id": "body-idle-a-v1",
+      "file": "assets/sources/body-idle-a-v1.png",
+      "prompt": "prompts/body-idle-a-v1.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-bc6425fc-3a3d-4e91-baa3-db47b8b9a1f7.png",
+      "status": "TECHNICAL_REVIEW_CANDIDATE",
+      "sha256": "5F6B55321AFFCD17489516A45FE9885190C996E0F9168BABE58DD5C1282C12EC"
+    },
+    {
+      "id": "body-dash-a-v1",
+      "file": "assets/sources/body-dash-a-v1.png",
+      "prompt": "prompts/body-dash-a-v1.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-ff078122-c466-4222-ab29-c34c9511c205.png",
+      "status": "REJECTED_CLIPPED_SOURCE",
+      "sha256": "3FCB3B4C9BB4237623C6DE32C917B807486C7D217E27ECE40323D87AFD93DE7E"
+    },
+    {
+      "id": "body-dash-a-v2",
+      "file": "assets/sources/body-dash-a-v2.png",
+      "prompt": "prompts/body-dash-a-v2-margin.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-25324875-c66d-4eb9-9389-34dbdc063e21.png",
+      "status": "TECHNICAL_REVIEW_CANDIDATE",
+      "sha256": "F6362D2E240667CEE07B8BC21D99A6F7515778096CEF00CFD30FFF3DAFEB6ADC"
+    },
+    {
+      "id": "body-dash-b-v1",
+      "file": "assets/sources/body-dash-b-v1.png",
+      "prompt": "prompts/body-dash-b-exact-call.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-9cfc3d3e-eed7-458e-a47e-aa493a264919.png",
+      "status": "TECHNICAL_REVIEW_CANDIDATE",
+      "sha256": "0A9A16F9A4F26D41D1E127AE04939D20ADDFB94660B192626D885876B996564D"
+    },
+    {
+      "id": "body-attack-a-v1",
+      "file": "assets/sources/body-attack-a-v1.png",
+      "prompt": "prompts/body-attack-a-exact-call.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-a99939da-916c-4ed6-a664-0e007565d88a.png",
+      "status": "REJECTED_CLIPPED_SOURCE",
+      "sha256": "936B06920C2A0DDD572F6A65C47AFB8934F925EE25B956D2ED3EB16254BB1896"
+    },
+    {
+      "id": "body-attack-a-v2",
+      "file": "assets/sources/body-attack-a-v2.png",
+      "prompt": "prompts/body-attack-a-v2-margin.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-c282a05c-705d-4c6a-9295-b1a06dd4a21f.png",
+      "status": "TECHNICAL_REVIEW_CANDIDATE",
+      "sha256": "DC597582BCB5A1F9F01945DCA47D6D046417CEA3CAB8B4F2F4B3F823484AE1FC"
+    },
+    {
+      "id": "body-attack-b-v1",
+      "file": "assets/sources/body-attack-b-v1.png",
+      "prompt": "prompts/body-attack-b-actual-call.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-83cba1b2-73bc-4936-af1c-831676adc77a.png",
+      "status": "TECHNICAL_REVIEW_CANDIDATE",
+      "sha256": "4A2446605BA6684680903876E4476F69AA16639C5538DF35C87EFF1E23B6AE56"
+    },
+    {
+      "id": "body-skill-a-v1",
+      "file": "assets/sources/body-skill-a-v1.png",
+      "prompt": "prompts/body-skill-a-actual-call.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-b05ba944-50f9-44c3-80de-483a32f724cb.png",
+      "status": "TECHNICAL_REVIEW_CANDIDATE",
+      "sha256": "22DC8871BB6C9E735971D34CF5A39DCAF0FE2831F102E747E0DA1A0F35AC1909"
+    },
+    {
+      "id": "body-skill-b-v1",
+      "file": "assets/sources/body-skill-b-v1.png",
+      "prompt": "prompts/body-skill-b-actual-call.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-9099bae6-c73e-43b1-8def-fdad574ba978.png",
+      "status": "REJECTED_CROSS_CELL_FOOT",
+      "sha256": "2492019D04EB5371E6FD6A9BDC5079E5FB9A677FFCC68E816D8ABAAD1ECF4040"
+    },
+    {
+      "id": "body-ultimate-a-v1",
+      "file": "assets/sources/body-ultimate-a-v1.png",
+      "prompt": "prompts/body-ultimate-a-actual-call.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-78ad4196-b7f3-413b-8fe0-38efcbfe4cd5.png",
+      "status": "TECHNICAL_REVIEW_CANDIDATE",
+      "sha256": "EA5B2038AF1404D88783E98693B8611A4778BB7659E9F52A46C8B24731CB9CAB"
+    },
+    {
+      "id": "body-ultimate-b-v1",
+      "file": "assets/sources/body-ultimate-b-v1.png",
+      "prompt": "prompts/body-ultimate-b-actual-call-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-8f7e6641-4aea-4cab-aac9-0da6e8fbe85f.png",
+      "status": "TECHNICAL_REVIEW_CANDIDATE",
+      "sha256": "9119EF15D6A42855F48EB77D1F9BE29EFB4BF5F15766EFE42465685CE97D837A"
+    }
+  ]
+}

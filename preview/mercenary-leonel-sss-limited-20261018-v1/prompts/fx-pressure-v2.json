@@ -1,0 +1,11 @@
+{
+  "mode": "built-in image_gen",
+  "transparent_background": true,
+  "key": "pressure",
+  "version": 2,
+  "input": "C:/Users/User/.codex/worktrees/defense-join-fix-20261018/cnine-card/preview/mercenary-leonel-sss-limited-20261018-v1/assets/sources/fx-pressure-v1.png",
+  "prompt": "Use case: precise-object-edit. LAYOUT RESIZE ONLY. This input is a4column by3row animation sheet. Keep exactly these12 ordered visual effects and their design, colors, evolving silhouettes and transparent appearance. Within each existing equal square cell, make that effect EXACTLY HALF AS WIDE and HALF AS TALL as it is now, centered at the SAME CELL CENTER. Do not enlarge or reinterpret any effect. The output canvas and4by3 grid remain the same. Twelve SMALL separate miniatures with enormous clean transparent gaps. No visible grid lines. Every single faint translucent wisp/spark must also shrink together with its parent effect and end well inside the cell. Nothing may touch any edge. Empty space is intentional and essential for animation packing. Preserve all12 different chronology phases, no added frames. Fully clean genuine transparent alpha background; no painted checkerboard or opaque canvas. No text, numbers or labels.",
+  "replaces": "fx-pressure-v1.png",
+  "reason": "Reduce every complete effect uniformly inside its fixed cell to eliminate all visible and translucent boundary contacts.",
+  "executionStatus": "DRAFT_NOT_EXECUTED_VISUAL_QA_RETAINED_V1"
+}

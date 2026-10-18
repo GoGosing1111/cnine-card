@@ -1,0 +1,635 @@
+{
+  "createdAt": "2026-10-18T12:58:41.847Z",
+  "status": "TECHNICAL_BUILD_COMPLETE_VISUAL_REVIEW_PENDING",
+  "summary": {
+    "bodyFrames": 40,
+    "effectFrames": 84,
+    "weaponSources": 1,
+    "weaponRedraws": 0,
+    "cinematicFrames": 4
+  },
+  "weaponSource": {
+    "source": "assets/sources/leonel-final-art-v1.png",
+    "sourceSha256": "43d4c211ff58bff672e8614aa50fcd8f6c5099c667dd2f4c42c44bde75ab2e00",
+    "rect": {
+      "left": 20,
+      "top": 655,
+      "width": 485,
+      "height": 510
+    },
+    "polygons": [
+      [
+        [
+          25,
+          1159
+        ],
+        [
+          85,
+          1070
+        ],
+        [
+          130,
+          1000
+        ],
+        [
+          139,
+          985
+        ],
+        [
+          189,
+          935
+        ],
+        [
+          218,
+          898
+        ],
+        [
+          226,
+          886
+        ],
+        [
+          202,
+          890
+        ],
+        [
+          250,
+          873
+        ],
+        [
+          270,
+          839
+        ],
+        [
+          280,
+          826
+        ],
+        [
+          282,
+          836
+        ],
+        [
+          292,
+          828
+        ],
+        [
+          283,
+          848
+        ],
+        [
+          302,
+          844
+        ],
+        [
+          319,
+          826
+        ],
+        [
+          325,
+          804
+        ],
+        [
+          329,
+          790
+        ],
+        [
+          320,
+          786
+        ],
+        [
+          315,
+          782
+        ],
+        [
+          336,
+          766
+        ],
+        [
+          333,
+          783
+        ],
+        [
+          347,
+          782
+        ],
+        [
+          366,
+          775
+        ],
+        [
+          381,
+          762
+        ],
+        [
+          386,
+          754
+        ],
+        [
+          394,
+          752
+        ],
+        [
+          398,
+          746
+        ],
+        [
+          392,
+          742
+        ],
+        [
+          394,
+          734
+        ],
+        [
+          385,
+          727
+        ],
+        [
+          367,
+          733
+        ],
+        [
+          379,
+          704
+        ],
+        [
+          388,
+          675
+        ],
+        [
+          388,
+          659
+        ],
+        [
+          403,
+          687
+        ],
+        [
+          402,
+          700
+        ],
+        [
+          432,
+          692
+        ],
+        [
+          423,
+          715
+        ],
+        [
+          429,
+          722
+        ],
+        [
+          445,
+          723
+        ],
+        [
+          448,
+          711
+        ],
+        [
+          461,
+          716
+        ],
+        [
+          468,
+          705
+        ],
+        [
+          477,
+          709
+        ],
+        [
+          482,
+          718
+        ],
+        [
+          472,
+          727
+        ],
+        [
+          467,
+          736
+        ],
+        [
+          476,
+          737
+        ],
+        [
+          481,
+          743
+        ],
+        [
+          486,
+          740
+        ],
+        [
+          482,
+          749
+        ],
+        [
+          493,
+          747
+        ],
+        [
+          486,
+          756
+        ],
+        [
+          498,
+          757
+        ],
+        [
+          484,
+          765
+        ],
+        [
+          480,
+          778
+        ],
+        [
+          476,
+          771
+        ],
+        [
+          469,
+          777
+        ],
+        [
+          485,
+          785
+        ],
+        [
+          469,
+          787
+        ],
+        [
+          453,
+          800
+        ],
+        [
+          455,
+          787
+        ],
+        [
+          448,
+          787
+        ],
+        [
+          435,
+          800
+        ],
+        [
+          422,
+          801
+        ],
+        [
+          418,
+          815
+        ],
+        [
+          408,
+          819
+        ],
+        [
+          406,
+          827
+        ],
+        [
+          398,
+          832
+        ],
+        [
+          401,
+          839
+        ],
+        [
+          421,
+          834
+        ],
+        [
+          406,
+          844
+        ],
+        [
+          383,
+          861
+        ],
+        [
+          388,
+          847
+        ],
+        [
+          379,
+          850
+        ],
+        [
+          363,
+          860
+        ],
+        [
+          351,
+          873
+        ],
+        [
+          362,
+          882
+        ],
+        [
+          345,
+          887
+        ],
+        [
+          324,
+          896
+        ],
+        [
+          315,
+          905
+        ],
+        [
+          311,
+          916
+        ],
+        [
+          319,
+          922
+        ],
+        [
+          306,
+          952
+        ],
+        [
+          304,
+          938
+        ],
+        [
+          299,
+          934
+        ],
+        [
+          279,
+          941
+        ],
+        [
+          267,
+          948
+        ],
+        [
+          259,
+          960
+        ],
+        [
+          249,
+          969
+        ],
+        [
+          241,
+          971
+        ],
+        [
+          188,
+          1034
+        ],
+        [
+          171,
+          1048
+        ],
+        [
+          25,
+          1159
+        ]
+      ]
+    ],
+    "excludePolygons": [],
+    "width": 485,
+    "height": 510,
+    "grip": {
+      "x": 468,
+      "y": 46
+    },
+    "bladeStart": {
+      "x": 407,
+      "y": 125
+    },
+    "tip": {
+      "x": 5,
+      "y": 504
+    },
+    "standingHeight": 1120,
+    "sha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+    "copiedPixels": 39256,
+    "operation": "ORIGINAL_PIXEL_SELECTION_ONLY",
+    "redrawnPixels": 0,
+    "transformsAllowed": [
+      "uniformScale",
+      "rotation",
+      "translation"
+    ],
+    "url": "assets/locked/leonel-sword.png"
+  },
+  "referenceHeight": 610,
+  "cellSize": 1280,
+  "frames": [
+    {
+      "id": "idle-01",
+      "sourceAlphaPixels": 185699,
+      "sha256": "ab6d401c93ccbece50912cdaddcfc6f0d099bd720a6149729af275f28ca53683"
+    },
+    {
+      "id": "idle-02",
+      "sourceAlphaPixels": 193739,
+      "sha256": "05c82d01d1f84b2ffccf55187515ed6851d2374f0d69bed37a04bd8709e80200"
+    },
+    {
+      "id": "idle-03",
+      "sourceAlphaPixels": 177413,
+      "sha256": "5414d2192b37c5d068c5d5ba994ed0ff7094bf3e2a598a0bae63dc6554e4900a"
+    },
+    {
+      "id": "idle-04",
+      "sourceAlphaPixels": 183395,
+      "sha256": "8c52beee40d9649ba581e819b448d86750b09fb1168e802ba3a4c78556ae02cc"
+    },
+    {
+      "id": "dash-01",
+      "sourceAlphaPixels": 109451,
+      "sha256": "f4696dc355d39c257c57e72ca612b15ca9b83c58780215f4def57490bbee420d"
+    },
+    {
+      "id": "dash-02",
+      "sourceAlphaPixels": 103639,
+      "sha256": "c1c9fca855786b8feb8c760da18dbea22495b4bd0dc9a9c3b837d082ac4fa6d3"
+    },
+    {
+      "id": "dash-03",
+      "sourceAlphaPixels": 112428,
+      "sha256": "29b2ffe2bc22f707658ae1777e858506d72678124423d5bcf86dfde57105f310"
+    },
+    {
+      "id": "dash-04",
+      "sourceAlphaPixels": 100136,
+      "sha256": "5f69d2c8da3bf83c242e8ce17efb1e178d701dab03d370bda1827c20e7e50f52"
+    },
+    {
+      "id": "dash-05",
+      "sourceAlphaPixels": 151441,
+      "sha256": "7e96d512af0a214e33d8b1736c31415890f449ea2536d3e538da50e67606dbeb"
+    },
+    {
+      "id": "dash-06",
+      "sourceAlphaPixels": 137467,
+      "sha256": "9d9bdcb8f8686bfad8f0ab86c065ea71ecc08d5c07b2953e18fb5506c3c32268"
+    },
+    {
+      "id": "dash-07",
+      "sourceAlphaPixels": 158141,
+      "sha256": "b85b4a5b26292750404efe35374d8695b71dd3fba193b3290272ed370539f949"
+    },
+    {
+      "id": "dash-08",
+      "sourceAlphaPixels": 143868,
+      "sha256": "22a603a62bd9ed6332e07c36fbdfbc704f91b79949ea0fa9cf2d8b0a66ac5ccb"
+    },
+    {
+      "id": "attack-01",
+      "sourceAlphaPixels": 152552,
+      "sha256": "f429a8213753fd25acf7b5de463fd2c5a4a50b80c9ce3f4fbc985a80796ac676"
+    },
+    {
+      "id": "attack-02",
+      "sourceAlphaPixels": 129272,
+      "sha256": "aa81cf67e0952b0447c36176e032e933b931cbafbbd5c5a2f4843b17d80bc2ca"
+    },
+    {
+      "id": "attack-03",
+      "sourceAlphaPixels": 154167,
+      "sha256": "d04d0f46b1bf9497f845440e59532add06944b0d2249642d22d14de7e7290d69"
+    },
+    {
+      "id": "attack-04",
+      "sourceAlphaPixels": 139140,
+      "sha256": "99ea93400a768f0cf0e4833c83d43a6527a0aefdb05449960d600d55bdbc372d"
+    },
+    {
+      "id": "attack-05",
+      "sourceAlphaPixels": 165768,
+      "sha256": "dd5cb55337f136d0ec00cd491fae499608b8bb73f52594fe760beb96442d58a4"
+    },
+    {
+      "id": "attack-06",
+      "sourceAlphaPixels": 156431,
+      "sha256": "3292e7bda305f12ef582cd53d8920ae6140fa0d6cd622f17a49b38a4d680f11b"
+    },
+    {
+      "id": "attack-07",
+      "sourceAlphaPixels": 139225,
+      "sha256": "81999cc0adf7591d0fa0e3a673daaff5876b725df55b52a5011a9ae09312559b"
+    },
+    {
+      "id": "attack-08",
+      "sourceAlphaPixels": 145535,
+      "sha256": "f24d54ae1e5d4022933911c366f6281a18d059654d38d18af9a860bb2b9e2d5e"
+    },
+    {
+      "id": "skill-01",
+      "sourceAlphaPixels": 136234,
+      "sha256": "e6dae785914f9bfdf0ac30218725be936ae54d0718f164d865cc4700e48b7861"
+    },
+    {
+      "id": "skill-02",
+      "sourceAlphaPixels": 128374,
+      "sha256": "e254a16d8b6d49a674200731459ca68729ed7b896c13a6363e005d0579f0af70"
+    },
+    {
+      "id": "skill-03",
+      "sourceAlphaPixels": 113684,
+      "sha256": "1eb319475a80511df718676375b3dee61ea8f06cb5c8dee57e83da6c62720f22"
+    },
+    {
+      "id": "skill-04",
+      "sourceAlphaPixels": 145792,
+      "sha256": "46a487171a7aa36ad10503dcbda2cf8f4fa435be8ae4306ddda10d0005ef9bf0"
+    },
+    {
+      "id": "skill-05",
+      "sourceAlphaPixels": 170369,
+      "sha256": "476931b91bdb8426307360257b2dc8533101454d42e2bdc0b795363bf7faa644"
+    },
+    {
+      "id": "skill-06",
+      "sourceAlphaPixels": 141358,
+      "sha256": "23f3a42747ff91c6ad138c33b8f404a395d2ff5edf147da81c192b1444e131d1"
+    },
+    {
+      "id": "skill-07",
+      "sourceAlphaPixels": 129097,
+      "sha256": "da4218e049757fd8f5155ff93e0ca29bc1ea28717236472ff7d354ee55f55ddc"
+    },
+    {
+      "id": "skill-08",
+      "sourceAlphaPixels": 128621,
+      "sha256": "c6fde93dffbc3d31a80f46c469a8e922cc9fb9a5a7c193507977f8b2b990f0f6"
+    },
+    {
+      "id": "ultimate-01",
+      "sourceAlphaPixels": 139718,
+      "sha256": "6d70799e49b1ae648c76f3af0d7ff64d3ba02f8e51675c9b0b320549a323958b"
+    },
+    {
+      "id": "ultimate-02",
+      "sourceAlphaPixels": 140946,
+      "sha256": "0454d34db99092fee19f861110d51e123995f6a0e0cc669ca92106eb02b49c1f"
+    },
+    {
+      "id": "ultimate-03",
+      "sourceAlphaPixels": 172423,
+      "sha256": "12202fe19222d2567cf016a7977bc61fd9b7e0be5036674c1549149cd3ad1ec5"
+    },
+    {
+      "id": "ultimate-04",
+      "sourceAlphaPixels": 156612,
+      "sha256": "671f043e78566cbfa74985cbc6248a66c4519a239e6e6cd18d50eecd2a05a53b"
+    },
+    {
+      "id": "ultimate-05",
+      "sourceAlphaPixels": 172116,
+      "sha256": "2c1a253fd6a1e58f2f61ad2f94e4751302ac297da51b9dbd1a9f43ea31a3615a"
+    },
+    {
+      "id": "ultimate-06",
+      "sourceAlphaPixels": 176353,
+      "sha256": "7879b5918e5282b9656bb8d34b1a2078a795cf1f2646f7e32dae8d494b66de28"
+    },
+    {
+      "id": "ultimate-07",
+      "sourceAlphaPixels": 166685,
+      "sha256": "604539d08ef6478cd0a336bc89e96853ff3a0d10e2f17b2c138e9f07f993c569"
+    },
+    {
+      "id": "ultimate-08",
+      "sourceAlphaPixels": 159922,
+      "sha256": "65db21964d6ca4a5c806b86e212994859a1900ab27963beded3d4841c8ca72c1"
+    },
+    {
+      "id": "ultimate-09",
+      "sourceAlphaPixels": 151709,
+      "sha256": "481c51b93e15a1c7a7123a16cfdbe7bf134f535feb5409c6782a1922a3201120"
+    },
+    {
+      "id": "ultimate-10",
+      "sourceAlphaPixels": 138039,
+      "sha256": "894528daf3611f578deb5d56469cf8dd9ba08dd4ca232d420a4129d4959577ac"
+    },
+    {
+      "id": "ultimate-11",
+      "sourceAlphaPixels": 133503,
+      "sha256": "6f78ad5457c7e1b074b812462da05a5159db3a5cbbdae338fde09e6d4349fced"
+    },
+    {
+      "id": "ultimate-12",
+      "sourceAlphaPixels": 130669,
+      "sha256": "65e625cc30c476cabbb6541d2b9456d9309ef2c4699dd962908d878f465ab011"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "mode": "BUILT_IN_IMAGEGEN",
+  "arguments": {
+    "transparent_background": true,
+    "prompt": "Use case: stylized-concept. Production game battle VFX bank: exactly12 chronological hand-drawn transparent RGBA frames, strict4 columns x3 rows. Equal cells, fixed view/origin. Leave a FULL15% transparent moat on all sides INSIDE EACH CELL so no particle crosses gutters or sheet border. Distinct evolving shapes, not repeated icons or one shape resized. High end SSS limited action RPG: razor-sharp negative-space cuts, layered pearl-silver cutting edge, deep ink INDIGO and AMETHYST secondary ribbons, tiny champagne gold steel sparks, crisp refined cinematic rendering. Pure HUMAN sword technique: no holy imagery, halo, crosses, magic runes, summoned swords, angel wings, character, text, labels, numbers, floor tile, UI, grid, checkerboard. No full white screen or opaque smoke. Transparent negative space between cuts, natural tapered ends. THREE INTERLOCKING SWORD CUTS: first an oblique descending arc, second a rising counter arc, finally a clean dominant horizontal cut passes through both. 1-3 first line and crescent develop,4-6 counter-cut crosses behind it without making a religious cross,7-8 horizontal third slash reaches full razor sharp peak,9-10 trails break into curved steel-violet shards,11-12 isolated fine silver glints dissipate. No explosion ball, no full white fill. A trained swordsman's clearly directed combination, wide dynamic flow. ABSOLUTELY no opaque or cloudy background, no gray backdrop, no grid line. Background and all unused areas are transparent alpha ZERO, not painted black or gray."
+  },
+  "output": "assets/sources/fx-crosscut-v2-candidate1.png",
+  "status": "CANDIDATE_QA_PENDING"
+}

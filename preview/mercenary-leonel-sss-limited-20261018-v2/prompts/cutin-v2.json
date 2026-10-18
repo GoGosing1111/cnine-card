@@ -1,0 +1,12 @@
+{
+  "mode": "BUILT_IN_IMAGEGEN",
+  "arguments": {
+    "transparent_background": true,
+    "referenced_image_paths": [
+      "C:/Users/User/.codex/worktrees/defense-join-fix-20261018/cnine-card/preview/mercenary-leonel-sss-limited-20261018-v2/assets/sources/leonel-final-art-v1.png"
+    ],
+    "prompt": "Use case: identity-preserve. Production original cinematic awakening cut-in animation for Leonel, the strongest HUMAN swordsman, same exact man as reference. FOUR chronological close bust/waist-up drawings in an equal 2x2 grid on transparent background. Each drawn character fully isolated, generous 12% transparent padding on all sides of each quadrant, no panel frames. Use the EXACT mature stern adult face of the source: narrow long grey-green eyes under low brows, defined straight nose, fine neutral lips, strong elegant jaw, naturally flowing fine silver hair, no younger redesign or large anime eyes. Keep fitted white silver plate armor with ornate gold sharp ornaments, black undersuit, white cape dark lining gold embroidery. Consistent beautiful 2D/painterly render on face and armor. Sequence: 1 top-left, chin lowered a little, eyes cast down in deadly calm, cape still; 2 top-right eyes lift to look directly toward the enemy offscreen right, slight chin rise, hair stirs; 3 bottom-left intense focused gaze with a very subtle narrow silver reflection in eyes, shoulder/cape load as he begins to turn into a sword stroke; 4 bottom-right head and chest turn 15 degrees into strike, hair and cape sweep left, eyes remain locked on target. Actual head/shoulder/hair/cloth animation changes, not identical art recolored. Do NOT include any weapon (hands may stay below crop), aura, magic symbols, halos, text, UI, background. Keep same face and angular slim adult silhouette in every frame. Intimidating willpower and human mastery, never holy paladin or angry shouting. High-end Korean action RPG awakening cut-in drama, original design, no copied game character."
+  },
+  "output": "assets/sources/cutin-awakening-v2.png",
+  "status": "SELECTED_CINEMATIC_BUST_QA_PENDING"
+}

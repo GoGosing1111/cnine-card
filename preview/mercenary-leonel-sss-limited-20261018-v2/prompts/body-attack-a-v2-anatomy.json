@@ -1,0 +1,7 @@
+{
+  "referenced_image_paths": [
+    "C:/Users/User/.codex/worktrees/defense-join-fix-20261018/cnine-card/preview/mercenary-leonel-sss-limited-20261018-v2/assets/sources/body-attack-a-v2.png"
+  ],
+  "transparent_background": true,
+  "prompt": "Use case: precise-object-edit. This is a production RGBA 2x2 four-pose sprite sheet. Make ONE localized anatomy repair ONLY to the BOTTOM-RIGHT figure. He currently has THREE arms: the sword-grip arm extending to the right, the empty arm bent behind his shoulders, and an erroneous extra small forearm/fist emerging near his right waist underneath the extended arm (around x1095,y900 in the 1254px sheet). DELETE that waist-level extra forearm and fist entirely, reconstruct only the tiny black undersuit/ivory-and-gold flank armor and transparent background that it occluded. RETAIN the real bent-back empty arm and the forward gripping arm, exactly two arms/two hands total. Preserve ALL other pixels/placement/scale: every face, adult slim anatomy, silver hair, armor, cape, grip stub, feet, poses, camera, borders, and the three other figures. No blade, no guard, no new effects, no other changes. Keep the original 2x2 grid and full resolution, same exact isolated RGBA transparency, no background."
+}

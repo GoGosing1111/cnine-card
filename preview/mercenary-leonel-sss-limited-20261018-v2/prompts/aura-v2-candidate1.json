@@ -1,0 +1,9 @@
+{
+  "mode": "BUILT_IN_IMAGEGEN",
+  "arguments": {
+    "transparent_background": true,
+    "prompt": "Use case: stylized-concept. Asset type: elite SSS LIMITED game idle aura animation, 12 real sequential RGBA frames in strict 4 columns x 3 rows, transparent background, no character. Create a completely original beautiful oppressive HUMAN SWORDMASTER aura, not sacred magic and not smoke or fire. Each equal cell shows a tall open-center sculpture of ultra-thin flowing dark MIDNIGHT INDIGO and rich AMETHYST sword-pressure ribbons, edged with delicate pearl-silver glints and a few champagne-gold sparks. Two asymmetric sinuous streams rise from an elegant low oval of sharp metallic dust, curve OUTSIDE an invisible standing warrior, twist around the back at shoulder height, taper to refined needle-thin points. Deep blue/violet body of each ribbon is semi-translucent lacquer-like energy, no flat solid colored slabs, clean luminous edges. Center 45% of every frame stays transparent for the character and face. Air bends like cut silk and polished glass, restrained tiny floating stone chips at base express gravity, no lava/flames/clouds/halos/angel wings/crosses/runes/magic rings/lightning. Menacing calm elegance, visibly different from beige dust tornado or generic yellow glow. 12 frames form one seamless 4-second loop: gathering strands, slow graceful twist, lifted silver splinters, crescent drift, relaxation, return. Distinct ribbon silhouettes and particle positions in EVERY frame, same size, fixed origin and camera. Provide plentiful transparent padding at ALL cell edges and gutters, no effect touches another frame. Recommended large square sheet 2048x2048. No text, labels, UI, grid lines, checkerboard, or background. This is an animation bank, not 12 unrelated aura icons."
+  },
+  "output": "assets/sources/fx-aura-v2.png",
+  "status": "CANDIDATE_QA_PENDING"
+}

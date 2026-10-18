@@ -1,0 +1,109 @@
+{
+  "status": "PASS_DECODE_AND_REAL_PLAYBACK",
+  "ended": {
+    "ended": true,
+    "time": 9.518269,
+    "error": null
+  },
+  "frames": [
+    {
+      "at": 0.4,
+      "time": 0.437284,
+      "width": 1440,
+      "height": 402,
+      "paused": false,
+      "ended": false,
+      "error": null
+    },
+    {
+      "at": 1,
+      "time": 1.232288,
+      "width": 1440,
+      "height": 402,
+      "paused": false,
+      "ended": false,
+      "error": null
+    },
+    {
+      "at": 1.8,
+      "time": 2.165281,
+      "width": 1440,
+      "height": 402,
+      "paused": false,
+      "ended": false,
+      "error": null
+    },
+    {
+      "at": 2.6,
+      "time": 3.097307,
+      "width": 1440,
+      "height": 402,
+      "paused": false,
+      "ended": false,
+      "error": null
+    },
+    {
+      "at": 3.4,
+      "time": 4.050117,
+      "width": 1440,
+      "height": 402,
+      "paused": false,
+      "ended": false,
+      "error": null
+    },
+    {
+      "at": 4.5,
+      "time": 5.27558,
+      "width": 1440,
+      "height": 402,
+      "paused": false,
+      "ended": false,
+      "error": null
+    },
+    {
+      "at": 5.3,
+      "time": 6.194794,
+      "width": 1440,
+      "height": 402,
+      "paused": false,
+      "ended": false,
+      "error": null
+    },
+    {
+      "at": 6.2,
+      "time": 7.223942,
+      "width": 1440,
+      "height": 402,
+      "paused": false,
+      "ended": false,
+      "error": null
+    },
+    {
+      "at": 7.1,
+      "time": 8.253924,
+      "width": 1440,
+      "height": 402,
+      "paused": false,
+      "ended": false,
+      "error": null
+    },
+    {
+      "at": 8.4,
+      "time": 9.518269,
+      "width": 1440,
+      "height": 402,
+      "paused": true,
+      "ended": true,
+      "error": null
+    },
+    {
+      "at": 9.5,
+      "time": 9.518269,
+      "width": 1440,
+      "height": 402,
+      "paused": true,
+      "ended": true,
+      "error": null
+    }
+  ]
+}

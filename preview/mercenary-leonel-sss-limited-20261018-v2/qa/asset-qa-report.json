@@ -1,0 +1,71 @@
+{
+  "createdAt": "2026-10-18T12:59:37.013Z",
+  "status": "PASS_TECHNICAL_ONLY",
+  "results": [
+    {
+      "name": "source-art-and-weapon-original-pixel-provenance",
+      "pass": true,
+      "comparedPixels": 39256,
+      "redrawnPixels": 0
+    },
+    {
+      "name": "motion-atlas-alpha-pivots-and-one-rigid-weapon",
+      "pass": true,
+      "frames": 40,
+      "distinctRasters": 40,
+      "weaponSources": 1,
+      "referenceHeight": 610
+    },
+    {
+      "name": "effects-transparent-with-twelve-distinct-drawn-stages",
+      "pass": true,
+      "frames": 84,
+      "details": {
+        "aura": {
+          "frames": 12,
+          "transparentRatio": 0.6777425476115982
+        },
+        "dash": {
+          "frames": 12,
+          "transparentRatio": 0.7026170599188059
+        },
+        "slash": {
+          "frames": 12,
+          "transparentRatio": 0.864789053040709
+        },
+        "crosscut": {
+          "frames": 12,
+          "transparentRatio": 0.8437058036486472
+        },
+        "ultimate": {
+          "frames": 12,
+          "transparentRatio": 0.7215830485026041
+        },
+        "fracture": {
+          "frames": 12,
+          "transparentRatio": 0.8419160353535353
+        },
+        "pressure": {
+          "frames": 12,
+          "transparentRatio": 0.8018125093798728
+        }
+      }
+    },
+    {
+      "name": "awakening-four-drawings-and-independent-playback-rates",
+      "pass": true,
+      "cinematicFrames": 4,
+      "attackMotionRate": 2,
+      "effectRate": 1,
+      "reviewBasePower": 1940890
+    },
+    {
+      "name": "preview-only-no-operations-registration",
+      "pass": true,
+      "operationsEnabled": false,
+      "userApproval": false
+    }
+  ],
+  "visualApproval": "PENDING_USER_REVIEW",
+  "meaning": "Pass confirms provenance, rigid composition, alpha, atlas and registration integrity. It does not approve anatomy, choreography or art quality."
+}

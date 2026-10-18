@@ -1,0 +1,7 @@
+{
+  "transparent_background": true,
+  "referenced_image_paths": [
+    "C:/Users/User/.codex/worktrees/defense-join-fix-20261018/cnine-card/preview/mercenary-leonel-sss-limited-20261018-v2/assets/sources/fx-fracture-v2-candidate1.png"
+  ],
+  "prompt": "Precise production sprite-sheet repair. Preserve these twelve evolving ground fracture effects and their dark stone, amethyst-indigo cut edges and silver-gold sparks. Re-layout into a PERFECTLY REGULAR4-column by3-row transparent grid. Each complete effect must occupy ONLY60% of its own cell width and stay centered, with a common ground baseline80% down each cell. Put full transparent space around every effect including below the dust. Every stone and line must be complete with natural fading ends, no clipping and no contact between cells. Rows must have equal pixel height. Keep twelve distinct chronological stages of cracking, rocks lifting, outward burst, falling stones, settling dust. No opaque background, no grid lines, no labels, no black or grey painted rectangles. Alpha zero outside individual effects. This is only technical spacing repair, do not change color palette, rendering or effect design."
+}

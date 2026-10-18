@@ -1,0 +1,152 @@
+{
+  "mode": "built-in image_gen",
+  "records": [
+    {
+      "key": "attack-a",
+      "file": "assets/sources/body-attack-a-v2-candidate1.png",
+      "prompt": "prompts/attack-a-v2-candidate1.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-4ae58e5b-6c14-443a-8182-d555acfa09cd.png",
+      "initialStatus": "REJECTED_RIGHT_EDGE_CLIPPING"
+    },
+    {
+      "key": "aura",
+      "file": "assets/sources/fx-aura-v2.png",
+      "prompt": "prompts/aura-v2-candidate1.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-b9489e4d-1dda-4a30-b3cf-2cbe4e547c85.png",
+      "initialStatus": "CANDIDATE_QA_PENDING"
+    },
+    {
+      "key": "attack-a-retry",
+      "file": "assets/sources/body-attack-a-v2-candidate2.png",
+      "prompt": "prompts/attack-a-retry-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-3d2c35c1-16d5-4dac-82e9-ce78570de3b4.png",
+      "initialStatus": "REJECTED_PARTIAL_RIGHT_TOE"
+    },
+    {
+      "key": "cutin",
+      "file": "assets/sources/cutin-awakening-v2.png",
+      "prompt": "prompts/cutin-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-55b26515-ee07-485f-b883-482364a20bc5.png",
+      "initialStatus": "SELECTED_CINEMATIC_BUST_QA_PENDING"
+    },
+    {
+      "key": "attack-a-final",
+      "file": "assets/sources/body-attack-a-v2.png",
+      "prompt": "prompts/attack-a-final-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-986e33d2-b53f-4e44-93f5-609c1b0c120c.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING"
+    },
+    {
+      "key": "attack-b",
+      "file": "assets/sources/body-attack-b-v2.png",
+      "prompt": "prompts/attack-b-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-72ea6b30-bf0c-445d-ba89-04c4301a67fa.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING"
+    },
+    {
+      "key": "skill-a",
+      "file": "assets/sources/body-skill-a-v2.png",
+      "prompt": "prompts/skill-a-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-2508d256-7a68-47f3-87af-1c8d4d165041.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING"
+    },
+    {
+      "key": "skill-b",
+      "file": "assets/sources/body-skill-b-v2.png",
+      "prompt": "prompts/skill-b-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-2de8f8b7-85f9-48fa-9c19-8d14b9acc4c3.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING"
+    },
+    {
+      "key": "ultimate-a",
+      "file": "assets/sources/body-ultimate-a-v2.png",
+      "prompt": "prompts/ultimate-a-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-7e1c01e7-5e05-4abb-80a2-4cad8d801a4d.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING"
+    },
+    {
+      "key": "ultimate-b",
+      "file": "assets/sources/body-ultimate-b-v2.png",
+      "prompt": "prompts/ultimate-b-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-6282c3a2-f077-4a8d-94fd-277967ce354d.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING"
+    },
+    {
+      "key": "ultimate-c",
+      "file": "assets/sources/body-ultimate-c-v2.png",
+      "prompt": "prompts/ultimate-c-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-7ae000db-9b60-4e6e-a315-9c92c4fec87b.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING"
+    },
+    {
+      "key": "pressure",
+      "file": "assets/sources/fx-pressure-v2-candidate1.png",
+      "prompt": "prompts/pressure-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-bfcab00a-813b-46e7-9683-68647b9a55af.png",
+      "initialStatus": "REJECTED_OPAQUE_BACKGROUND_AND_GRID"
+    },
+    {
+      "key": "fx-slash",
+      "file": "assets/sources/fx-slash-v2-candidate1.png",
+      "prompt": "prompts/fx-slash-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-82e0b6cf-acff-49e0-965a-5e7392341d4a.png",
+      "initialStatus": "CANDIDATE_QA_PENDING"
+    },
+    {
+      "key": "fx-crosscut",
+      "file": "assets/sources/fx-crosscut-v2-candidate1.png",
+      "prompt": "prompts/fx-crosscut-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-fd803d8d-320c-4282-a0db-421cd13074b4.png",
+      "initialStatus": "CANDIDATE_QA_PENDING"
+    },
+    {
+      "key": "fx-ultimate",
+      "file": "assets/sources/fx-ultimate-v2-candidate1.png",
+      "prompt": "prompts/fx-ultimate-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-173ed5f3-b576-42c7-855b-fe1ed9d25783.png",
+      "initialStatus": "CANDIDATE_QA_PENDING"
+    },
+    {
+      "key": "fx-fracture",
+      "file": "assets/sources/fx-fracture-v2-candidate1.png",
+      "prompt": "prompts/fx-fracture-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-4dd1f16b-4e34-48f1-8057-72bb97ab6dda.png",
+      "initialStatus": "CANDIDATE_QA_PENDING"
+    },
+    {
+      "key": "fx-pressure-retry",
+      "file": "assets/sources/fx-pressure-retry-v2-candidate1.png",
+      "prompt": "prompts/fx-pressure-retry-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-15bb8f45-f787-4e77-835c-005afc883930.png",
+      "initialStatus": "CANDIDATE_QA_PENDING"
+    },
+    {
+      "key": "crosscut-fixed",
+      "file": "assets/sources/fx-crosscut-fixed-v2.png",
+      "prompt": "prompts/fx-crosscut-fixed-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-6f1e1c62-9f6f-4b1e-bfdc-1b131799d99b.png",
+      "initialStatus": "SELECTED_SPACING_REPAIR_PENDING_VISUAL_QA"
+    },
+    {
+      "key": "fracture-fixed",
+      "file": "assets/sources/fx-fracture-fixed-v2.png",
+      "prompt": "prompts/fx-fracture-fixed-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-1456e8c9-ccc6-42f5-9a70-0303dcb02ad9.png",
+      "initialStatus": "SELECTED_SPACING_REPAIR_PENDING_VISUAL_QA"
+    },
+    {
+      "key": "attack-a-anatomy",
+      "file": "assets/sources/body-attack-a-v2-anatomy.png",
+      "prompt": "prompts/body-attack-a-v2-anatomy.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-41d69ebf-de7f-4886-bd47-ead497a0b7b6.png",
+      "initialStatus": "SELECTED_ANATOMY_REPAIR"
+    },
+    {
+      "key": "cutin-repair",
+      "file": "assets/sources/cutin-awakening-v2-boundary-candidate.png",
+      "prompt": "prompts/cutin-awakening-v2-boundary-candidate.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-c32ffacb-f151-406e-89ea-4b3bb0ab1bb9.png",
+      "initialStatus": "NOT_SELECTED_SIDE_BOUNDARIES_UNRESOLVED"
+    }
+  ]
+}

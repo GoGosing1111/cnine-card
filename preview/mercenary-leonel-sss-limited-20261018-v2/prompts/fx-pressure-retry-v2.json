@@ -1,0 +1,12 @@
+{
+  "mode": "BUILT_IN_IMAGEGEN",
+  "arguments": {
+    "transparent_background": true,
+    "referenced_image_paths": [
+      "C:/Users/User/.codex/worktrees/defense-join-fix-20261018/cnine-card/preview/mercenary-leonel-sss-limited-20261018-v2/assets/sources/fx-aura-v2.png"
+    ],
+    "prompt": "Use case: stylized-concept. Production game battle VFX bank: exactly12 chronological hand-drawn transparent RGBA frames, strict4 columns x3 rows. Equal cells, fixed view/origin. Leave a FULL15% transparent moat on all sides INSIDE EACH CELL so no particle crosses gutters or sheet border. Distinct evolving shapes, not repeated icons or one shape resized. High end SSS limited action RPG: razor-sharp negative-space cuts, layered pearl-silver cutting edge, deep ink INDIGO and AMETHYST secondary ribbons, tiny champagne gold steel sparks, crisp refined cinematic rendering. Pure HUMAN sword technique: no holy imagery, halo, crosses, magic runes, summoned swords, angel wings, character, text, labels, numbers, floor tile, UI, grid, checkerboard. No full white screen or opaque smoke. Transparent negative space between cuts, natural tapered ends. Use attached image ONLY for indigo-violet/pearl-silver material and true transparency style. Create a NEW low-opacity background sword-pressure bank, 4x3 equal cells,12 stages, open-center wide broken arcs and fine airborne steel shards drawn with actual transparency. Transparent alpha0 background, no gray or white panel, NO GRIDLINES. Frames1-3 fine asymmetric strands gently coil outward,4-6 elegant curved blades of wind rise from left/right leaving the middle70% empty,7-9 thin indigo ribbons and silver-glint splinters sweep diagonally outward,10-12 strands settle back to the opening formation for a loop. Similar atmospheric elegance to reference but much finer, wider, sparser. No groundbase/rocks, no recognizable magic circle, no fire, no opaque haze. Keep every frame15% away from cell edges and every long strand naturally tapered at both ends."
+  },
+  "output": "assets/sources/fx-pressure-retry-v2-candidate1.png",
+  "status": "CANDIDATE_QA_PENDING"
+}

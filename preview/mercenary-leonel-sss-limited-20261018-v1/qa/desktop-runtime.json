@@ -1,0 +1,431 @@
+{
+  "version": "LEONEL_RUNTIME_QA_V1",
+  "viewport": {
+    "width": 1425,
+    "height": 1000,
+    "innerWidth": 1440,
+    "mobileMedia": false,
+    "frame": {
+      "width": 1425,
+      "height": 590,
+      "mobileMedia": false,
+      "engineMobile": false
+    },
+    "canvas": {
+      "x": 0,
+      "y": 188,
+      "width": 1424.800048828125,
+      "height": 402.3999938964844,
+      "top": 188,
+      "right": 1424.800048828125,
+      "bottom": 590.3999938964844,
+      "left": 0
+    }
+  },
+  "snapshots": [
+    {
+      "ready": true,
+      "mode": "attack",
+      "time": 0.42,
+      "playing": false,
+      "speed": 1,
+      "phase": "백은일섬",
+      "pose": {
+        "at": 0.37,
+        "bank": "attack",
+        "index": 3,
+        "facing": 1
+      },
+      "contactCount": 1,
+      "bladeContact": {
+        "u": 0.5,
+        "distance": 0,
+        "intersects": true,
+        "tipDistance": 41.066765557426265,
+        "targetHeightFraction": 0.8331457790679845,
+        "segment": "bladeStart-to-tip"
+      },
+      "groundError": 0,
+      "airborne": false,
+      "visibleEffects": 0,
+      "visibleGhosts": 0,
+      "auraVisible": false,
+      "registeredTimelines": 0,
+      "activeFrames": [
+        {
+          "key": "dash",
+          "progress": 0.857142857142857,
+          "position": {
+            "x": 1082.0370509191882,
+            "y": 517.075
+          },
+          "width": 233.1
+        },
+        {
+          "key": "slash",
+          "progress": 0.2916666666666666,
+          "position": {
+            "x": 1220.0000000000002,
+            "y": 508.8000000000002
+          },
+          "width": 324.675
+        }
+      ],
+      "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+      "regularAllies": 5,
+      "targets": 5,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 1123.6620509191882,
+        "y": 592
+      }
+    },
+    {
+      "ready": true,
+      "mode": "skill",
+      "time": 0.48,
+      "playing": false,
+      "speed": 1,
+      "phase": "첫 번째 검격",
+      "pose": {
+        "at": 0.4,
+        "bank": "skill",
+        "index": 1,
+        "facing": 1
+      },
+      "contactCount": 1,
+      "bladeContact": {
+        "u": 0.4999999999999999,
+        "distance": 0,
+        "intersects": true,
+        "tipDistance": 41.06676555742624,
+        "targetHeightFraction": 0.4923379352613578,
+        "segment": "bladeStart-to-tip"
+      },
+      "groundError": 0,
+      "airborne": false,
+      "visibleEffects": 0,
+      "visibleGhosts": 0,
+      "auraVisible": false,
+      "registeredTimelines": 0,
+      "activeFrames": [
+        {
+          "key": "dash",
+          "progress": 0.9285714285714285,
+          "position": {
+            "x": 1080.6524891278384,
+            "y": 517.075
+          },
+          "width": 283.05
+        },
+        {
+          "key": "slash",
+          "progress": 0.34042553191489355,
+          "position": {
+            "x": 1220,
+            "y": 508.7999999999999
+          },
+          "width": 333
+        }
+      ],
+      "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+      "regularAllies": 5,
+      "targets": 5,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 1122.2774891278384,
+        "y": 592
+      }
+    },
+    {
+      "ready": true,
+      "mode": "skill",
+      "time": 0.94,
+      "playing": false,
+      "speed": 1,
+      "phase": "두 번째 검격",
+      "pose": {
+        "at": 0.75,
+        "bank": "skill",
+        "index": 2,
+        "facing": 1
+      },
+      "contactCount": 2,
+      "bladeContact": {
+        "u": 0.49999999999999867,
+        "distance": 0,
+        "intersects": true,
+        "tipDistance": 41.06676555742641,
+        "targetHeightFraction": 0.5686227484032744,
+        "segment": "bladeStart-to-tip"
+      },
+      "groundError": 0,
+      "airborne": false,
+      "visibleEffects": 0,
+      "visibleGhosts": 0,
+      "auraVisible": false,
+      "registeredTimelines": 0,
+      "activeFrames": [
+        {
+          "key": "crosscut",
+          "progress": 0.3265306122448978,
+          "position": {
+            "x": 1220,
+            "y": 508.7999999999999
+          },
+          "width": 357.97499999999997
+        }
+      ],
+      "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+      "regularAllies": 5,
+      "targets": 5,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 1141.8853024339398,
+        "y": 592
+      }
+    },
+    {
+      "ready": true,
+      "mode": "skill",
+      "time": 1.46,
+      "playing": false,
+      "speed": 1,
+      "phase": "세 번째 검격",
+      "pose": {
+        "at": 1.4,
+        "bank": "skill",
+        "index": 6,
+        "facing": 1
+      },
+      "contactCount": 3,
+      "bladeContact": {
+        "u": 0.5000000000000014,
+        "distance": 0,
+        "intersects": true,
+        "tipDistance": 41.06676555742619,
+        "targetHeightFraction": 0.7573358121422232,
+        "segment": "bladeStart-to-tip"
+      },
+      "groundError": 0,
+      "airborne": false,
+      "visibleEffects": 0,
+      "visibleGhosts": 0,
+      "auraVisible": false,
+      "registeredTimelines": 0,
+      "activeFrames": [
+        {
+          "key": "slash",
+          "progress": 0.3220338983050846,
+          "position": {
+            "x": 1220,
+            "y": 508.8
+          },
+          "width": 432.90000000000003
+        },
+        {
+          "key": "fracture",
+          "progress": 0,
+          "position": {
+            "x": 1220,
+            "y": 592
+          },
+          "width": 316.34999999999997
+        }
+      ],
+      "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+      "regularAllies": 5,
+      "targets": 5,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 1123.004078330986,
+        "y": 592
+      }
+    },
+    {
+      "ready": true,
+      "mode": "ultimate",
+      "time": 1.38,
+      "playing": false,
+      "speed": 1,
+      "phase": "전선 절단",
+      "pose": {
+        "at": 1.28,
+        "bank": "ultimate",
+        "index": 3,
+        "facing": 1
+      },
+      "contactCount": 1,
+      "bladeContact": {
+        "u": 0.5000000000000001,
+        "distance": 0,
+        "intersects": true,
+        "tipDistance": 41.06676555742626,
+        "targetHeightFraction": 0.9117456385485297,
+        "segment": "bladeStart-to-tip"
+      },
+      "groundError": 0,
+      "airborne": false,
+      "visibleEffects": 0,
+      "visibleGhosts": 0,
+      "auraVisible": false,
+      "registeredTimelines": 0,
+      "activeFrames": [
+        {
+          "key": "crosscut",
+          "progress": 0.7936507936507935,
+          "position": {
+            "x": 1117.453212884141,
+            "y": 503.755
+          },
+          "width": 449.55
+        },
+        {
+          "key": "ultimate",
+          "progress": 0.1379310344827586,
+          "position": {
+            "x": 1220,
+            "y": 297.5999999999999
+          },
+          "width": 1032.3
+        }
+      ],
+      "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+      "regularAllies": 5,
+      "targets": 5,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 1117.453212884141,
+        "y": 592
+      }
+    }
+  ],
+  "speeds": [
+    {
+      "speed": 0.25,
+      "advance": 0.08225,
+      "pausedStable": true
+    },
+    {
+      "speed": 0.5,
+      "advance": 0.1605,
+      "pausedStable": true
+    },
+    {
+      "speed": 1,
+      "advance": 0.321,
+      "pausedStable": true
+    },
+    {
+      "speed": 2,
+      "advance": 0.65,
+      "pausedStable": true
+    }
+  ],
+  "errors": [],
+  "muted": true,
+  "peak": {
+    "ready": true,
+    "mode": "ultimate",
+    "time": 2.06,
+    "playing": false,
+    "speed": 2,
+    "phase": "지면 파열 · 파편",
+    "pose": {
+      "at": 1.76,
+      "bank": "ultimate",
+      "index": 5,
+      "facing": 1
+    },
+    "contactCount": 2,
+    "bladeContact": {
+      "u": 0.48302448000447573,
+      "distance": 0.1312019700578544,
+      "intersects": true,
+      "tipDistance": 42.461227659717,
+      "targetHeightFraction": 0.8176788905517731,
+      "segment": "bladeStart-to-tip"
+    },
+    "groundError": 0,
+    "airborne": false,
+    "visibleEffects": 2,
+    "visibleGhosts": 0,
+    "auraVisible": true,
+    "registeredTimelines": 0,
+    "activeFrames": [
+      {
+        "key": "ultimate",
+        "progress": 0.606896551724138,
+        "position": {
+          "x": 1220,
+          "y": 297.5999999999999
+        },
+        "width": 1032.3
+      },
+      {
+        "key": "fracture",
+        "progress": 0.15436241610738255,
+        "position": {
+          "x": 1220,
+          "y": 592
+        },
+        "width": 899.1
+      }
+    ],
+    "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+    "regularAllies": 5,
+    "targets": 5,
+    "clock": "V3_REGISTERED_GSAP",
+    "liveEnabled": false,
+    "actor": {
+      "x": 1117.453212884141,
+      "y": 592
+    }
+  },
+  "stopped": {
+    "ready": true,
+    "mode": "ultimate",
+    "time": 0,
+    "playing": false,
+    "speed": 2,
+    "phase": "전선을 읽다",
+    "pose": {
+      "at": 0,
+      "bank": "ultimate",
+      "index": 0,
+      "facing": 1
+    },
+    "contactCount": 0,
+    "bladeContact": {
+      "u": 0,
+      "distance": 936.1966371667639,
+      "intersects": false,
+      "tipDistance": 1016.3666520283979,
+      "targetHeightFraction": 0.94,
+      "segment": "bladeStart-to-tip"
+    },
+    "groundError": 0,
+    "airborne": false,
+    "visibleEffects": 0,
+    "visibleGhosts": 0,
+    "auraVisible": true,
+    "registeredTimelines": 0,
+    "activeFrames": [],
+    "weaponSha256": "c932515485dadcd0a0d3826f37f42f5b29a43311ab0104f390c5347e3ffe2894",
+    "regularAllies": 5,
+    "targets": 5,
+    "clock": "V3_REGISTERED_GSAP",
+    "liveEnabled": false,
+    "actor": {
+      "x": 380,
+      "y": 240
+    }
+  },
+  "overflow": false,
+  "passed": true
+}

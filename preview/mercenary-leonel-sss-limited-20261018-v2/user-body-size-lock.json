@@ -1,0 +1,13 @@
+{
+  "dateKST": "2026-10-18",
+  "instruction": "크기줄어들게하지마라 이대로 유지해서 만들어",
+  "source": "assets/sources/user-body-size-lock-20261018.png",
+  "sourceSha256": "D84ABFFB14FBBABF72BA6C63A38F634683E0E6FCB15F473E7DFF52AF75428128",
+  "referenceBodyHeight": 610,
+  "atlasCellSize": 1280,
+  "atlasLayout": "3x3 maximum,3840px texture dimension; expand canvas instead of shrinking610pxbody",
+  "policy": "Preserve selected idle character anatomical size and proportions. Expand cell canvas for full sword/cape, never shrink anatomy to fit. Normalize each source sheet against its standing anatomical reference, never a crouching bounding-box height.",
+  "weaponPolicy": "One original raster, same ratio to610pxbody in every frame",
+  "runtimePolicy": "Larger working canvas does not shrink displayed character; runtime uses physical body height/reference height. Existing camera focus for clear review.",
+  "newArtApproval": "Size/appearance reference selected; new motion/effects user review still pending"
+}

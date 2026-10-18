@@ -1,0 +1,60 @@
+{
+  "body-idle-a-v1": {
+    "status": "USABLE_NO_OPAQUE_BOUNDARY_PIXELS_PACK_WITH_MARGIN",
+    "cells": [
+      {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      }
+    ]
+  },
+  "body-dash-a-v1": {
+    "status": "REJECTED_CLIPPED_SOURCE_REGEN_PENDING",
+    "cells": [
+      {
+        "top": 0,
+        "bottom": 39,
+        "left": 0,
+        "right": 57
+      },
+      {
+        "top": 0,
+        "bottom": 51,
+        "left": 58,
+        "right": 0
+      },
+      {
+        "top": 35,
+        "bottom": 0,
+        "left": 0,
+        "right": 32
+      },
+      {
+        "top": 47,
+        "bottom": 0,
+        "left": 30,
+        "right": 44
+      }
+    ]
+  }
+}

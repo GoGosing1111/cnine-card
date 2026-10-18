@@ -1,0 +1,9 @@
+{
+  "mode": "BUILT_IN_IMAGEGEN",
+  "arguments": {
+    "transparent_background": true,
+    "prompt": "Use case: stylized-concept. Production game battle VFX bank: exactly12 chronological hand-drawn transparent RGBA frames, strict4 columns x3 rows. Equal cells, fixed view/origin. Leave a FULL15% transparent moat on all sides INSIDE EACH CELL so no particle crosses gutters or sheet border. Distinct evolving shapes, not repeated icons or one shape resized. High end SSS limited action RPG: razor-sharp negative-space cuts, layered pearl-silver cutting edge, deep ink INDIGO and AMETHYST secondary ribbons, tiny champagne gold steel sparks, crisp refined cinematic rendering. Pure HUMAN sword technique: no holy imagery, halo, crosses, magic runes, summoned swords, angel wings, character, text, labels, numbers, floor tile, UI, grid, checkerboard. No full white screen or opaque smoke. Transparent negative space between cuts, natural tapered ends. BACKGROUND PRESSURE / AWAKENING COMPRESSION. A broad wide open-center ellipse of refracted midnight-violet air builds around an invisible swordmaster, but NOT a magic ring: irregular broken brush-fine steel-white slivers bend inward as space is pulled tight. A few obsidian shards and gold sparks hover along the outside, inner70% stays transparent. Frames1-3 thin drifting filaments,4-6 growing diagonal split-pressure lanes,7-9 strands hold tense in converging diagonal perspective,10-12 loosen and dissolve to silver dust. Elegant large-scale atmosphere for a cinematic face cut-in and the body behind it; no brown tornado, flames, storm clouds or luminous circle. Fine graceful dimensional blades of wind, not literal blades."
+  },
+  "output": "assets/sources/fx-pressure-v2-candidate1.png",
+  "status": "REJECTED_OPAQUE_BACKGROUND_AND_GRID"
+}

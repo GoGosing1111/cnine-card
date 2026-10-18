@@ -1,0 +1,208 @@
+{
+  "version": "LEONEL_GENERATION_V2",
+  "mode": "built-in image_gen",
+  "createdAt": "2026-10-18T13:11:16.932Z",
+  "artworkGeneratedViaPython": false,
+  "technicalProcessing": "Rigid original weapon composition, alpha/pivot registration, atlas packing and QA composites only",
+  "referenceHeight": 610,
+  "cellSize": 1280,
+  "userVisualApproval": "PENDING",
+  "liveEnabled": false,
+  "priorVersion": "../mercenary-leonel-sss-limited-20261018-v1",
+  "notes": "Old copied source files not selected by manifest are historical. Do not treat V1 QA or approval as V2 approval.",
+  "carried": [
+    {
+      "file": "assets/sources/body-idle-a-v1.png",
+      "sha256": "5f6b55321affcd17489516a45fe9885190c996e0f9168babe58dd5c1282c12ec",
+      "unchangedFrom": "../mercenary-leonel-sss-limited-20261018-v1/assets/sources/body-idle-a-v1.png",
+      "prompt": "prompts/body-idle-a-v1.json",
+      "selected": true
+    },
+    {
+      "file": "assets/sources/body-dash-a-v2.png",
+      "sha256": "f6362d2e240667cee07b8bc21d99a6f7515778096cef00cfd30fff3dafeb6adc",
+      "unchangedFrom": "../mercenary-leonel-sss-limited-20261018-v1/assets/sources/body-dash-a-v2.png",
+      "prompt": "prompts/body-dash-a-v2-margin.json",
+      "selected": true
+    },
+    {
+      "file": "assets/sources/body-dash-b-v1.png",
+      "sha256": "0a9a16f9a4f26d41d1e127ae04939d20addfb94660b192626d885876b996564d",
+      "unchangedFrom": "../mercenary-leonel-sss-limited-20261018-v1/assets/sources/body-dash-b-v1.png",
+      "prompt": "prompts/body-dash-b-exact-call.json",
+      "selected": true
+    },
+    {
+      "file": "assets/sources/leonel-final-art-v1.png",
+      "sha256": "43d4c211ff58bff672e8614aa50fcd8f6c5099c667dd2f4c42c44bde75ab2e00",
+      "unchangedFrom": "../mercenary-leonel-sss-limited-20261018-v1/assets/sources/leonel-final-art-v1.png",
+      "prompt": "prompts/final-art-v1.json",
+      "selected": true
+    },
+    {
+      "file": "assets/sources/fx-dash-v2.png",
+      "sha256": "f28dfb1e57b5782184fbd9473cdf8fed14a2cb8310e88403a2b0f16c2b073949",
+      "unchangedFrom": "../mercenary-leonel-sss-limited-20261018-v1/assets/sources/fx-dash-v2.png",
+      "prompt": "prompts/fx-dash-v2.json",
+      "selected": true
+    }
+  ],
+  "sources": [
+    {
+      "key": "attack-a",
+      "file": "assets/sources/body-attack-a-v2-candidate1.png",
+      "prompt": "prompts/attack-a-v2-candidate1.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-4ae58e5b-6c14-443a-8182-d555acfa09cd.png",
+      "initialStatus": "REJECTED_RIGHT_EDGE_CLIPPING",
+      "sha256": "cba35a5a95c2ecdb097d42520ac522b75e5ed81b9bc88e63ee629885b27dfc74",
+      "bytes": 2248288,
+      "promptSha256": "d5f3ad92ff722d4c97c4bcff7688c9c3728f4fbdf3522a81a66c2a98d4051d6f",
+      "selected": false,
+      "status": "NOT_SELECTED",
+      "reason": "Right edge clipped"
+    },
+    {
+      "key": "attack-a-retry",
+      "file": "assets/sources/body-attack-a-v2-candidate2.png",
+      "prompt": "prompts/attack-a-retry-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-3d2c35c1-16d5-4dac-82e9-ce78570de3b4.png",
+      "initialStatus": "REJECTED_PARTIAL_RIGHT_TOE",
+      "sha256": "8e1af370a80fc7b14d37d23816704602d6f7308632bf6f0b35e598c204c99bd5",
+      "bytes": 2114689,
+      "promptSha256": "471aa7ca38d1f12a0407308fefa8caadb5dce08f9d90e71a8edd8642dbb6cd9b",
+      "selected": false,
+      "status": "NOT_SELECTED",
+      "reason": "Right toe clipped"
+    },
+    {
+      "key": "cutin",
+      "file": "assets/sources/cutin-awakening-v2.png",
+      "prompt": "prompts/cutin-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-55b26515-ee07-485f-b883-482364a20bc5.png",
+      "initialStatus": "SELECTED_CINEMATIC_BUST_QA_PENDING",
+      "sha256": "de856cfc59e664b8d5dd1f00371dbcb8d73f6ef4dd857140a427efe848fdcf19",
+      "bytes": 3073946,
+      "promptSha256": "b7ac45b850210bd727e292b64f01eb7d6dad0f822d44b8e5a7596be54d3de922",
+      "selected": true,
+      "status": "SELECTED_USER_VISUAL_REVIEW_PENDING",
+      "reason": null
+    },
+    {
+      "key": "attack-a-final",
+      "file": "assets/sources/body-attack-a-v2.png",
+      "prompt": "prompts/attack-a-final-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-986e33d2-b53f-4e44-93f5-609c1b0c120c.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING",
+      "sha256": "33400cce9621f5658d54984ca4b5be48d433658fdf64618051dea1daaab9b782",
+      "bytes": 1464059,
+      "promptSha256": "8340b7edc5c445d25c990a437d4647295b4b7bff954c970f9a3937c50e4a0f0a",
+      "selected": false,
+      "status": "NOT_SELECTED",
+      "reason": "Extra third arm in fourth pose; replaced by localized ImageGen anatomy repair"
+    },
+    {
+      "key": "attack-b",
+      "file": "assets/sources/body-attack-b-v2.png",
+      "prompt": "prompts/attack-b-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-72ea6b30-bf0c-445d-ba89-04c4301a67fa.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING",
+      "sha256": "25816e283d0a352e2bbc29c723780b719d95a8c18c4042274f08b8676f320c6c",
+      "bytes": 1658586,
+      "promptSha256": "dccbd9bd8b9a47ec138af3d00b4dcd0ba9fb78dc5dd65e49527caedd6cbec09b",
+      "selected": true,
+      "status": "SELECTED_USER_VISUAL_REVIEW_PENDING",
+      "reason": null
+    },
+    {
+      "key": "skill-a",
+      "file": "assets/sources/body-skill-a-v2.png",
+      "prompt": "prompts/skill-a-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-2508d256-7a68-47f3-87af-1c8d4d165041.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING",
+      "sha256": "dc10c5e50c04c57506b85af70d26d6a1ad05185a92c634b9ed608d3cf8043f71",
+      "bytes": 1470734,
+      "promptSha256": "a34e3c3312c12810df715674e70b8ef8ec9ffa0ee8e9bd9dc86b24b53428bcd0",
+      "selected": true,
+      "status": "SELECTED_USER_VISUAL_REVIEW_PENDING",
+      "reason": null
+    },
+    {
+      "key": "skill-b",
+      "file": "assets/sources/body-skill-b-v2.png",
+      "prompt": "prompts/skill-b-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-2de8f8b7-85f9-48fa-9c19-8d14b9acc4c3.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING",
+      "sha256": "29ef3a1235ddcfd2fe7905b172cecf3bdc0b31386dfbb5e1e0ff45d21198c565",
+      "bytes": 1579770,
+      "promptSha256": "67c7c087d9e8f764f172ae4a2c1b8b1f16a5eaad655fdad9cbc453ad9ce59186",
+      "selected": true,
+      "status": "SELECTED_USER_VISUAL_REVIEW_PENDING",
+      "reason": null
+    },
+    {
+      "key": "ultimate-a",
+      "file": "assets/sources/body-ultimate-a-v2.png",
+      "prompt": "prompts/ultimate-a-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-7e1c01e7-5e05-4abb-80a2-4cad8d801a4d.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING",
+      "sha256": "5001ee64e92d55425e6c3228926087707dfccc35dcaa94db2a14c558947ac1d1",
+      "bytes": 1584758,
+      "promptSha256": "4519c0b5f9739551b798faf39b6a169534065fc69673aaeac0d4f66c78ec1db6",
+      "selected": true,
+      "status": "SELECTED_USER_VISUAL_REVIEW_PENDING",
+      "reason": null
+    },
+    {
+      "key": "ultimate-b",
+      "file": "assets/sources/body-ultimate-b-v2.png",
+      "prompt": "prompts/ultimate-b-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-6282c3a2-f077-4a8d-94fd-277967ce354d.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING",
+      "sha256": "46c6c4405487f1390cd35ff9bd8cfe7a9e46578b03f70386df6ee64d302f85a7",
+      "bytes": 1750438,
+      "promptSha256": "91ee51ffa706f4c00e1539498f17ca18fe7a0dd93436a899456266f5f513dab8",
+      "selected": true,
+      "status": "SELECTED_USER_VISUAL_REVIEW_PENDING",
+      "reason": null
+    },
+    {
+      "key": "ultimate-c",
+      "file": "assets/sources/body-ultimate-c-v2.png",
+      "prompt": "prompts/ultimate-c-v2.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-7ae000db-9b60-4e6e-a315-9c92c4fec87b.png",
+      "initialStatus": "CANDIDATE_REGISTRATION_QA_PENDING",
+      "sha256": "d58d64796fc610a660338c4aeee49266c959b3675c7d11fb93490b444bf30cee",
+      "bytes": 1489991,
+      "promptSha256": "8899b09d15621f3c13dcfa60b78cdd5e19d74dfcff9731764069f27949aef840",
+      "selected": true,
+      "status": "SELECTED_USER_VISUAL_REVIEW_PENDING",
+      "reason": null
+    },
+    {
+      "key": "attack-a-anatomy",
+      "file": "assets/sources/body-attack-a-v2-anatomy.png",
+      "prompt": "prompts/body-attack-a-v2-anatomy.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-41d69ebf-de7f-4886-bd47-ead497a0b7b6.png",
+      "initialStatus": "SELECTED_ANATOMY_REPAIR",
+      "sha256": "b2977d89092d97031b1219c8120762e6912d2ee7ec6398461f32cd9b24c09286",
+      "bytes": 1459745,
+      "promptSha256": "9194ba49b49f3f6603f47237d1f7621e5e07c6c5cd8ba62a9d8720cb65c36e30",
+      "selected": true,
+      "status": "SELECTED_USER_VISUAL_REVIEW_PENDING",
+      "reason": null
+    },
+    {
+      "key": "cutin-repair",
+      "file": "assets/sources/cutin-awakening-v2-boundary-candidate.png",
+      "prompt": "prompts/cutin-awakening-v2-boundary-candidate.json",
+      "toolOriginal": "C:\\Users\\User\\.codex\\generated_images\\01a14a2c-e98a-7293-9d19-fc8f4c4b0c95\\exec-c32ffacb-f151-406e-89ea-4b3bb0ab1bb9.png",
+      "initialStatus": "NOT_SELECTED_SIDE_BOUNDARIES_UNRESOLVED",
+      "sha256": "8f58d97b2babebac8748515ee0a341d1647edda77a92f614868a8eccfc80b2f5",
+      "bytes": 2814447,
+      "promptSha256": "53f13731388f248848aa22405c2afd87bb77e6c7f2cf716de4fc61f36f859cb0",
+      "selected": false,
+      "status": "NOT_SELECTED",
+      "reason": "Side boundaries still cropped; retained original stronger face and used diagonal runtime cut-in reveal"
+    }
+  ]
+}

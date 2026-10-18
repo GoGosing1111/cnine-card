@@ -1,0 +1,36 @@
+{
+  "version": "LEONEL_V2_VISUAL_REVIEW",
+  "status": "CREATOR_REVIEW_COMPLETE_USER_REVIEW_PENDING",
+  "userApproval": false,
+  "liveEnabled": false,
+  "reviewed": [
+    "canonical armor and original weapon raster",
+    "attack/skill/ultimate contact sheets",
+    "native-size attack-04 skill-02 ultimate-06",
+    "dark-composited crosscut and ground-fracture stages",
+    "PC and mobile V3 footage and FX-off contacts",
+    "PC and mobile awakening cut-in",
+    "actual muted WebM playback and decoded temporal contact sheet"
+  ],
+  "corrections": [
+    "extra third arm corrected with ImageGen",
+    "neighbor toe assigned to correct source cell",
+    "crosscut strokes separated with ImageGen",
+    "ground-fracture original pixels repacked with constant baseline",
+    "cut-in side edges composed as diagonal reveal",
+    "mobile portrait and title placed above existing card dock"
+  ],
+  "evidence": [
+    "qa/asset-qa-report.json",
+    "qa/motion-rates.json",
+    "qa/desktop-runtime.json",
+    "qa/mobile-runtime.json",
+    "qa/video-playback-v2.json",
+    "qa/video-contact-v2.png"
+  ],
+  "limitations": [
+    "Desktop Chrome mobile viewport, not physical mobile device",
+    "Balance is a review policy, not a completed gameplay simulation or live activation",
+    "Shared card dock/DOM dialogue remain in preview; recorded canvas video contains battle and cut-in layers"
+  ]
+}

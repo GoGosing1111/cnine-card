@@ -1,0 +1,479 @@
+{
+  "schemaVersion": 2,
+  "date": "2026-10-18",
+  "character": "레오넬",
+  "edition": "SSS LIMITED",
+  "mode": "built-in image_gen",
+  "userVisualApproval": "PENDING",
+  "operationalActivation": false,
+  "selectedFxSheetCount": 7,
+  "selectedFxFrameCount": 84,
+  "selectedDialogueFrameCount": 1,
+  "totalGeneratedSourceCount": 14,
+  "entries": [
+    {
+      "file": "dialogue-frame-v1.png",
+      "sha256": "7B6306DBDD8A3E9B46591EEC75979A3B00626F73D0569686ECD2D43EB87E08DB",
+      "bytes": 1181550,
+      "mode": "RGBA",
+      "width": 2172,
+      "height": 724,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.6881976028407761,
+      "key": "dialogue",
+      "version": 1,
+      "workspacePath": "assets/sources/dialogue-frame-v1.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-65543265-7d4e-4b20-858d-796322323af1.png",
+      "promptPath": "prompts/dialogue-frame-v1.json",
+      "selected": true,
+      "status": "SOURCE_QA_PASSED_USER_REVIEW_PENDING",
+      "rejectionReason": null,
+      "visualReview": "One continuous platinum/gold/black-steel physical frame; no baked text; clean dark center for live DOM dialogue; only production UI source, no preview-button assets.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": null
+    },
+    {
+      "file": "fx-aura-v1.png",
+      "sha256": "8FCBCEB531131AB4CD5DF6910E7D4730827B5F696C862D648BD86F8EA3563701",
+      "bytes": 2541420,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        252
+      ],
+      "fullyTransparentFraction": 0.22436993172776573,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 139,
+      "boundaryPixelsAlphaGreaterThan128": 30,
+      "key": "aura",
+      "version": 1,
+      "workspacePath": "assets/sources/fx-aura-v1.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-31017a40-613e-4570-b8de-afddf94977a9.png",
+      "promptPath": "prompts/fx-aura-v1.json",
+      "selected": false,
+      "status": "UNSELECTED_RETAINED",
+      "rejectionReason": "V1 peak frame crossed a row boundary.",
+      "visualReview": "Two open silver wind streams and ground dust rise through phases4-8, then subside; ribbon curves and fragments change, body center remains empty.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": null
+    },
+    {
+      "file": "fx-aura-v2.png",
+      "sha256": "6E38476376BE3D0EF6700782BFFD3D2BF914EFC43CE6ED5E0428410049D64750",
+      "bytes": 1373852,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "fullyTransparentFraction": 0.5788876255303562,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 0,
+      "boundaryPixelsAlphaGreaterThan128": 0,
+      "key": "aura",
+      "version": 2,
+      "workspacePath": "assets/sources/fx-aura-v2.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-2a75f47d-a89c-4dab-b85a-ee6b79b47f99.png",
+      "promptPath": "prompts/fx-aura-v2.json",
+      "selected": true,
+      "status": "SOURCE_QA_PASSED_USER_REVIEW_PENDING",
+      "rejectionReason": null,
+      "visualReview": "Two open silver wind streams and ground dust rise through phases4-8, then subside; ribbon curves and fragments change, body center remains empty.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": null
+    },
+    {
+      "file": "fx-crosscut-v1.png",
+      "sha256": "B9E3E0EF02289DCA269AA182D885E449BD96110BA64B3DF9F49A8B7432411963",
+      "bytes": 2075962,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.43958772117253236,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 94,
+      "boundaryPixelsAlphaGreaterThan128": 22,
+      "key": "crosscut",
+      "version": 1,
+      "workspacePath": "assets/sources/fx-crosscut-v1.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-513e25e7-51bb-4e9c-9578-a1481fdf04bb.png",
+      "promptPath": "prompts/fx-crosscut-v1.json",
+      "selected": false,
+      "status": "UNSELECTED_RETAINED",
+      "rejectionReason": "V1 main horizontal strokes crossed neighboring cell boundaries.",
+      "visualReview": "Descending diagonal1-3, reverse rising4-6, horizontal finish7-9, fragmented wake10-12.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": null
+    },
+    {
+      "file": "fx-crosscut-v2.png",
+      "sha256": "4F0D13B0597ACA268E49FC4E6C8B32A6A1A0B85DFE52F466274F6C3F8B73082F",
+      "bytes": 987218,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.7438239573476593,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 0,
+      "boundaryPixelsAlphaGreaterThan128": 0,
+      "key": "crosscut",
+      "version": 2,
+      "workspacePath": "assets/sources/fx-crosscut-v2.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-abf3c1c0-984c-446b-a587-2a3034a2520c.png",
+      "promptPath": "prompts/fx-crosscut-v2.json",
+      "selected": true,
+      "status": "SOURCE_QA_PASSED_USER_REVIEW_PENDING",
+      "rejectionReason": null,
+      "visualReview": "Descending diagonal1-3, reverse rising4-6, horizontal finish7-9, fragmented wake10-12.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": null
+    },
+    {
+      "file": "fx-dash-v1.png",
+      "sha256": "8AC493C21B44D8E57A2829D6A93182B294339D28AE481FC370F55AC3AB631E76",
+      "bytes": 1777853,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        253
+      ],
+      "fullyTransparentFraction": 0.4585724387737452,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 33,
+      "boundaryPixelsAlphaGreaterThan128": 0,
+      "key": "dash",
+      "version": 1,
+      "workspacePath": "assets/sources/fx-dash-v1.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-318f42dc-b812-4b79-8e90-0db312741263.png",
+      "promptPath": "prompts/fx-dash-v1.json",
+      "selected": false,
+      "status": "UNSELECTED_RETAINED",
+      "rejectionReason": "Superseded by complete V2 source after dark-composite comparison.",
+      "visualReview": "Initial heel compression grows into a rightward narrow wake, followed by torn streamlines and settling dust.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": null
+    },
+    {
+      "file": "fx-dash-v2.png",
+      "sha256": "F28DFB1E57B5782184FBD9473CDF8FED14A2CB8310E88403A2B0F16C2B073949",
+      "bytes": 1726754,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "fullyTransparentFraction": 0.4824747158715139,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 38,
+      "boundaryPixelsAlphaGreaterThan128": 0,
+      "key": "dash",
+      "version": 2,
+      "workspacePath": "assets/sources/fx-dash-v2.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-7b4bf59c-b31f-430f-a7a9-8f42a47e4cae.png",
+      "promptPath": "prompts/fx-dash-v2.json",
+      "selected": true,
+      "status": "SOURCE_QA_PASSED_USER_REVIEW_PENDING",
+      "rejectionReason": null,
+      "visualReview": "Initial heel compression grows into a rightward narrow wake, followed by torn streamlines and settling dust.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": {
+        "accepted": true,
+        "reason": "Actual dark-composite stages3-8 reviewed by source-QA and asset agents: complete bright silhouettes and naturally dissipating edges are intact; remaining isolated translucent fringe/dust has no visible straight crop or neighboring primary-frame contamination. Original retained instead of chasing threshold-only noise.",
+        "evidence": "qa/fx-dash-v2-stages3-8.png"
+      }
+    },
+    {
+      "file": "fx-dash-v3.png",
+      "sha256": "3E15D0DE4B7BFB92BF55123F6B8FEB368C1F7E9DEFE90942A9CEADDCA478D936",
+      "bytes": 839445,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "fullyTransparentFraction": 0.7319926894783432,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 0,
+      "boundaryPixelsAlphaGreaterThan128": 0,
+      "key": "dash",
+      "version": 3,
+      "workspacePath": "assets/sources/fx-dash-v3.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-5625c4e1-1edf-482d-a650-525669a9bf40.png",
+      "promptPath": "prompts/fx-dash-v3.json",
+      "selected": false,
+      "status": "UNSELECTED_RETAINED",
+      "rejectionReason": "Extra-large padding candidate retained only. V2 has intact complete silhouettes and higher source detail; selected after dark-composite visual review.",
+      "visualReview": "Initial heel compression grows into a rightward narrow wake, followed by torn streamlines and settling dust.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": null
+    },
+    {
+      "file": "fx-fracture-v1.png",
+      "sha256": "234D0AC30E47B564BA3D24F183C6153EDC897052369358202454A99F382CE33F",
+      "bytes": 2137734,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.46149003388174964,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 0,
+      "boundaryPixelsAlphaGreaterThan128": 0,
+      "key": "fracture",
+      "version": 1,
+      "workspacePath": "assets/sources/fx-fracture-v1.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-135fdee1-b416-47a3-af8f-61ef19bf3f57.png",
+      "promptPath": "prompts/fx-fracture-v1.json",
+      "selected": true,
+      "status": "SOURCE_QA_PASSED_USER_REVIEW_PENDING",
+      "rejectionReason": null,
+      "visualReview": "Hairline split rises into distinct dark stone slabs, ballistic shards lift/fall, low dust settles.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": null
+    },
+    {
+      "file": "fx-pressure-v1.png",
+      "sha256": "480673D7D00B09263C45BCBA0B92AC92FA8492391D3E01FF189C3ABD8E8AB1CE",
+      "bytes": 1838873,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        252
+      ],
+      "fullyTransparentFraction": 0.24733677238179544,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 67,
+      "boundaryPixelsAlphaGreaterThan128": 0,
+      "key": "pressure",
+      "version": 1,
+      "workspacePath": "assets/sources/fx-pressure-v1.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-ea592b81-1513-4de7-a2eb-55b69e106eb0.png",
+      "promptPath": "prompts/fx-pressure-v1.json",
+      "selected": true,
+      "status": "SOURCE_QA_PASSED_USER_REVIEW_PENDING",
+      "rejectionReason": null,
+      "visualReview": "Sparse diagonal corner streaks and dust shift and deform through rise/fall phases while keeping the center empty.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": {
+        "accepted": true,
+        "reason": "Actual dark-composite stages3-8 reviewed by source-QA and asset agents: complete bright silhouettes and naturally dissipating edges are intact; remaining isolated translucent fringe/dust has no visible straight crop or neighboring primary-frame contamination. Original retained instead of chasing threshold-only noise.",
+        "evidence": "qa/fx-pressure-v1-stages3-8.png"
+      }
+    },
+    {
+      "file": "fx-slash-v1.png",
+      "sha256": "F1D62D30B014EF3AB2738902351646FAB47484CEE5CEB6568D0258970312569A",
+      "bytes": 1526560,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        253
+      ],
+      "fullyTransparentFraction": 0.5034543105114822,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 171,
+      "boundaryPixelsAlphaGreaterThan128": 0,
+      "key": "slash",
+      "version": 1,
+      "workspacePath": "assets/sources/fx-slash-v1.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-0da281f7-9de1-4464-b858-ba3d2d058bb5.png",
+      "promptPath": "prompts/fx-slash-v1.json",
+      "selected": true,
+      "status": "SOURCE_QA_PASSED_USER_REVIEW_PENDING",
+      "rejectionReason": null,
+      "visualReview": "Small onset grows into a thin crescent, then right-side contact burst, separated fragments and dissipation.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": {
+        "accepted": true,
+        "reason": "Actual dark-composite stages3-8 reviewed by source-QA and asset agents: complete bright silhouettes and naturally dissipating edges are intact; remaining isolated translucent fringe/dust has no visible straight crop or neighboring primary-frame contamination. Original retained instead of chasing threshold-only noise.",
+        "evidence": "qa/fx-slash-v1-stages3-8.png"
+      }
+    },
+    {
+      "file": "fx-ultimate-v1.png",
+      "sha256": "775EF6B35A409B7D3B96E9546238BCD2805BFD822C4475668733B8C6B55A40A4",
+      "bytes": 1696056,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.49125993305047666,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 0,
+      "boundaryPixelsAlphaGreaterThan128": 0,
+      "key": "ultimate",
+      "version": 1,
+      "workspacePath": "assets/sources/fx-ultimate-v1.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-40fc76ad-e30a-403e-a54c-07cb801721eb.png",
+      "promptPath": "prompts/fx-ultimate-v1.json",
+      "selected": false,
+      "status": "UNSELECTED_RETAINED",
+      "rejectionReason": "V1 artist-drawn flat vertical endpoints visibly truncated the pressure wave.",
+      "visualReview": "Narrow horizontal seam expands into a broad pressure front, intersects at peak, then contracts into thin residual streamlines.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": null
+    },
+    {
+      "file": "fx-ultimate-v2.png",
+      "sha256": "EC5468631E6AC0F80A7D47CC1B833DF18B1847ACF08CA93702C23D75127BA05E",
+      "bytes": 1456860,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.6081844011680555,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 3,
+      "boundaryPixelsAlphaGreaterThan128": 0,
+      "key": "ultimate",
+      "version": 2,
+      "workspacePath": "assets/sources/fx-ultimate-v2.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-5a3f9218-7e40-43ac-81c1-bc0f21475189.png",
+      "promptPath": "prompts/fx-ultimate-v2.json",
+      "selected": true,
+      "status": "SOURCE_QA_PASSED_USER_REVIEW_PENDING",
+      "rejectionReason": null,
+      "visualReview": "Narrow horizontal seam expands into a broad pressure front, intersects at peak, then contracts into thin residual streamlines.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": {
+        "accepted": true,
+        "reason": "Actual dark-composite stages3-8 reviewed by source-QA and asset agents: complete bright silhouettes and naturally dissipating edges are intact; remaining isolated translucent fringe/dust has no visible straight crop or neighboring primary-frame contamination. Original retained instead of chasing threshold-only noise.",
+        "evidence": "qa/fx-ultimate-v2-stages3-8.png"
+      }
+    },
+    {
+      "file": "fx-ultimate-v3.png",
+      "sha256": "0C2DDE9A4887D0A58C7D9F419D3690F3BD7AE0D977EA2429EFE8F1272E546E27",
+      "bytes": 391837,
+      "mode": "RGBA",
+      "width": 1448,
+      "height": 1086,
+      "alphaRange": [
+        0,
+        254
+      ],
+      "fullyTransparentFraction": 0.9200160505886064,
+      "frameSize": [
+        362,
+        362
+      ],
+      "uniqueFrameHashes": 12,
+      "boundaryPixelsAlphaGreaterThan8": 0,
+      "boundaryPixelsAlphaGreaterThan128": 0,
+      "key": "ultimate",
+      "version": 3,
+      "workspacePath": "assets/sources/fx-ultimate-v3.png",
+      "originalGeneratedPath": "C:\\Users\\User\\.codex\\generated_images\\01a14e95-3da3-79b3-bae8-8890b34ac9f0\\exec-8a4d61ab-c510-4571-a404-ad1e42fe4f0f.png",
+      "promptPath": "prompts/fx-ultimate-v3.json",
+      "selected": false,
+      "status": "UNSELECTED_RETAINED",
+      "rejectionReason": "Extra-large padding candidate retained only. V2 has intact complete silhouettes and higher source detail; selected after dark-composite visual review.",
+      "visualReview": "Narrow horizontal seam expands into a broad pressure front, intersects at peak, then contracts into thin residual streamlines.",
+      "sourceHandling": "Copied byte-for-byte from generated output; original retained; no RGB/alpha repaint or recoloring.",
+      "lowAlphaBoundaryWaiver": null
+    }
+  ],
+  "qaMethod": {
+    "visual": "All selected sheets reviewed for12 evolving forms, correct direction, chronological phases and absence of religious icons/characters/text. Actual dark composites reviewed at stages3-8 for slashV1,pressureV1,ultimateV2,dashV2; flat artistic end cutoffs in ultimateV1 corrected in V2.",
+    "technical": "Read-only Pillow metadata/hash/alpha inspection. All selected sheets RGBA1448×1086 with4×3 equal362px cells. Alpha>128 boundary counts zero. Alpha>8 is a diagnostic; isolated visually negligible fringe/dust is waived only with recorded dark-composite evidence. Hash difference alone is not motion-quality approval.",
+    "scope": "Source QA remains separate from integrated runtime playback/ground/contact/mobile QA and user visual approval."
+  },
+  "revision": "final-source-selection-after-dark-composite-review",
+  "selectedVersions": {
+    "aura": 2,
+    "crosscut": 2,
+    "dash": 2,
+    "ultimate": 2,
+    "slash": 1,
+    "pressure": 1,
+    "fracture": 1,
+    "dialogue": 1
+  },
+  "unexecutedPromptDrafts": [
+    "prompts/fx-slash-v2.json",
+    "prompts/fx-pressure-v2.json"
+  ],
+  "runtimeSizing": "Source padding is not display extent. Runtime/packing must normalize the intended visible effect bounds so the battlefield AOE retains its designed width."
+}
