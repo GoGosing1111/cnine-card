@@ -98,4 +98,3 @@ export async function grant(c,expectedHash,{lockDeadline}={}){
  assert.ok(lockDeadline>Date.now()+5000,'Account lease nearing expiration');
  return {replayed:false,receipt,verification};
 }
-
