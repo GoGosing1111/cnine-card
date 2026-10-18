@@ -10,18 +10,19 @@ fs.mkdirSync(out,{recursive:true});
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']}),checks=[],errors=[];
 const check=(value,label)=>{assert.ok(value,label);checks.push(label);};
 const user={id:4242,serverUserId:4242,nickname:'검수 플레이어',role:'USER',coin:1234567890,cardShards:12345,masterStars:2300,owned:[],quantities:{},breakthroughs:{},history:[],attendance:{totalDays:0},testCoinGrantedV13:true,collectionRepairR6:true};
+user.accountRank={level:250,code:'MARSHAL',name:'원수',progress:{percent:100,maxed:true}};
 const avatar={name:'서리의 지휘관',lobbyImage:'/assets/ui/avatars-v1/lobby-v1/avatar-f01-azure-frost-strategist-lobby-v1-640.webp'};
 try{
- for(const viewport of [{width:1440,height:1000},{width:390,height:844},{width:320,height:740}]){
+ for(const viewport of [{width:1920,height:1080},{width:1440,height:1000},{width:1168,height:820},{width:1024,height:768},{width:768,height:1024},{width:390,height:844},{width:320,height:740}]){
   let current={active:true,status:'ACTIVE',reignStyle:'GENERAL',ordinal:10,nickname:'다음 집권자 · 장군',startsAt:new Date(Date.now()-60000).toISOString(),endsAt:new Date(Date.now()+6*86400000).toISOString(),remainingMs:6*86400000,viewerAvatar:null,inaugurationVersion:43};
   const page=await browser.newPage({viewport,deviceScaleFactor:1,serviceWorkers:'block'}),writes=[],size=`${viewport.width}x${viewport.height}`;
   page.on('pageerror',error=>errors.push(error.message));
   await page.addInitScript(user=>{localStorage.setItem('cnine_card_user_v10',JSON.stringify(user));localStorage.setItem('cnine_card_api_token','queen-local-qa');localStorage.setItem('cnine_battle_sound','OFF');localStorage.setItem('soop-lobby-bgm-muted-v1','1');},user);
   await page.route('**/api/**',route=>{
-   const key=new URL(route.request().url()).pathname.slice(5);if(!['GET','HEAD'].includes(route.request().method()))writes.push(key);
+   const key=new URL(route.request().url()).pathname.slice(5);if(!['GET','HEAD'].includes(route.request().method())&&key!=='sync/ticket')writes.push(key);
    const data={
     'service/status':{maintenance:{active:false}},'me/summary':{user,prison:{incarcerated:false}},me:{user},cards:{cards:[]},packs:{packs:[]},messages:{messages:[],unread:0},'loot-shop/balance':{pigCoins:4200},
-    'chief/status':{chief:current},'shell/summary':{inventory:{},messages:{unread:0},avatarFeature:{visible:true},alchemyFeature:{visible:false}},
+    'account-rank/status':{accountRank:user.accountRank},'chief/status':{chief:current},'shell/summary':{inventory:{},messages:{unread:0},avatarFeature:{visible:true},alchemyFeature:{visible:false}},
     'live-operations':{serverNow:new Date().toISOString(),items:[{kind:'AUCTION',title:'장비 경매 진행 중',detail:'검수 콘텐츠 현황',deadlineAt:new Date(Date.now()+5400000).toISOString()}]},
     'burning-event/status':{enabled:false},'magic/status':{visible:true,enabled:true,cards:[],loadouts:[]},'pvp/config':{settings:{enabled:true}},'streamer-profiles':{enabled:false,profiles:[]}
    }[key]||{visible:false,enabled:false,items:[],profiles:[],cards:[],loadouts:[],settings:{}};
@@ -34,15 +35,25 @@ try{
   check(await dialog.evaluate(el=>el.open&&el.matches(':modal')),size+' automatic coronation is an accessible top-layer dialog');
   check(await dialog.locator('.queen-coronation-art img').evaluate(el=>el.complete&&el.naturalWidth>0),size+' dedicated coronation illustration loads');
   check(await dialog.locator('h2').textContent()==='장군집권',size+' actual inauguration title is general');
-  check(await dialog.locator('.queen-coronation-art img').getAttribute('src').then(src=>src.includes('general-command-v1.png')),size+' new military illustration is selected');
+  check(await dialog.locator('.queen-coronation-art img').evaluate(el=>(el.dataset.cnineOriginalSrc||el.getAttribute('src')).includes('general-command-v1.png')),size+' new military illustration is selected');
   check(await dialog.evaluate(el=>el.scrollWidth<=el.clientWidth+1),size+' ceremony has no horizontal overflow');
   await page.screenshot({path:path.join(out,`coronation-${size}.png`)});
   await dialog.locator('#chiefHideToday').check();await dialog.locator('#chiefPopupClose').click();await dialog.waitFor({state:'detached'});
   await page.waitForTimeout(400);
-  check(await lobby.locator('#chief-new-reign').isVisible(),size+' first-day ribbon is visible');
+  check(await lobby.locator('#chief-new-reign').count()===0,size+' first-day ribbon does not crowd the permanent summary');
+  check(await lobby.locator('.queen-plaque-title').textContent()==='현 장군',size+' ruler is distinct from the player account rank');
   check(await lobby.locator('.stage-character').getAttribute('src').then(src=>src.includes('general-command-v1.png')),size+' general replaces the public lobby illustration');
   const plaque=await lobby.locator('#chief-shortcut').boundingBox(),operations=await lobby.locator('.operations-scene').boundingBox();
   check(plaque.x>=0&&plaque.x+plaque.width<=viewport.width&&plaque.y+plaque.height<=operations.y,size+' royal plaque clears the viewport and content controls');
+  const header=await lobby.locator('.topbar').boundingBox(),art=await lobby.locator('.avatar-scene').boundingBox(),rank=await lobby.locator('#account-rank-button').boundingBox(),wallet=await lobby.locator('.wallet').boundingBox(),help=await lobby.locator('.header-help').boundingBox();
+  check(plaque.y>=header.y&&plaque.y+plaque.height<=header.y+header.height&&plaque.y+plaque.height<=art.y,size+' ruler stays in header and never covers lobby artwork');
+  check(plaque.height>=44&&plaque.height<=(viewport.width>980?56:44),size+' ruler summary is compact with a 44px touch target');
+  check(viewport.width>980?plaque.x>=rank.x+rank.width&&plaque.x+plaque.width<=help.x:plaque.y>=wallet.y+wallet.height,size+' ruler sits beside rank on desktop or below wallet on narrow screens');
+  check(await lobby.locator('.topbar').evaluate(el=>el.scrollWidth<=el.clientWidth+1),size+' header has no horizontal overflow');
+  await page.evaluate(()=>{const l=document.querySelector('soop-adventure-lobby');l.update({chief:{...l.model.chief,nickname:'아주아주아주아주긴장군닉네임확인용'.repeat(4)}});});
+  check(await lobby.locator('#chief-name').evaluate(el=>el.scrollWidth>el.clientWidth&&getComputedStyle(el).textOverflow==='ellipsis'),size+' long ruler name truncates without wrapping');
+  check((await lobby.locator('#chief-shortcut').getAttribute('aria-label')).includes('아주아주아주아주긴장군닉네임확인용'),size+' complete ruler name remains accessible');
+  await page.evaluate(()=>{const l=document.querySelector('soop-adventure-lobby');l.update({chief:{...l.model.chief,nickname:'다음 집권자 · 장군'}});});
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),size+' lobby has no horizontal overflow');
   await page.screenshot({path:path.join(out,`lobby-${size}.png`)});
   await lobby.locator('#chief-shortcut').click();await page.locator('[data-v21-queen-coronation]').click();await dialog.waitFor();
@@ -57,16 +68,16 @@ try{
   await lobby.locator('#chief-shortcut').click();await page.locator('[data-v21-queen-coronation]').click();await dialog.waitFor();
   check(await dialog.locator('.queen-gold-word').evaluate(el=>getComputedStyle(el).animationName==='none'),size+' reduced motion disables animation');
   await dialog.locator('.queen-close').click();await dialog.waitFor({state:'detached'});
-  check(writes.length===0,size+' viewing and replay make no account writes');
+  check(writes.length===0,size+' viewing and replay make no account writes: '+JSON.stringify(writes));
   await page.locator('[data-v21-close]').click();
   await page.evaluate(avatar=>{const l=document.querySelector('soop-adventure-lobby');l.update({chief:{...l.model.chief,viewerAvatar:avatar}});},avatar);
   check(await lobby.locator('.stage-character').getAttribute('src').then(src=>src.includes(avatar.lobbyImage)),size+' equipped personal avatar is preserved in general reign');
   current={...current,reignStyle:'QUEEN',ordinal:9,nickname:'하이희야♡',startsAt:'2026-09-28T17:56:36.580Z',endsAt:'2026-10-05T17:56:36.580Z',inaugurationVersion:1790618196580};
   await page.reload({waitUntil:'domcontentloaded'});await lobby.locator('#chief-name').filter({hasText:'하이희야♡'}).waitFor();
-  check(await lobby.locator('.queen-plaque-title').textContent()==='여왕',size+' current ninth reign keeps the queen badge');
+  check(await lobby.locator('.queen-plaque-title').textContent()==='현 여왕',size+' current ninth reign keeps the queen badge');
   check(await lobby.locator('.queen-plaque-crown img').getAttribute('src').then(src=>src.includes('queen-crown-v1.svg')),size+' current ninth reign keeps the crown');
   await lobby.locator('#chief-shortcut').click();
-  check(await page.locator('.v21-chief-dialog-body>picture img').getAttribute('src').then(src=>src.includes('queen-coronation-v1-1536.webp')),size+' current ninth reign keeps its illustration');
+  check(await page.locator('.v21-chief-dialog-body>picture img').evaluate(el=>(el.dataset.cnineOriginalSrc||el.getAttribute('src')).includes('queen-coronation-v1-1536.webp')),size+' current ninth reign keeps its illustration');
   await page.close();
  }
  check(errors.length===0,'no application JavaScript errors: '+errors.join(' | '));

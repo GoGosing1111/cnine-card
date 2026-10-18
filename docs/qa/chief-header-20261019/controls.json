@@ -1,0 +1,28 @@
+{
+  "passed": 22,
+  "checks": [
+    "1168x820 BGM remains clear of header and ruler",
+    "1168x820 remaining term is fully readable",
+    "1168x820 BGM remains muted",
+    "1168x820 keyboard opens ruler detail",
+    "1168x820 ruler remains accessible from shared navigation",
+    "1168x820 route content clears measured header height",
+    "1168x820 ruler detail opens from messages",
+    "390x844 BGM remains clear of header and ruler",
+    "390x844 remaining term is fully readable",
+    "390x844 BGM remains muted",
+    "390x844 keyboard opens ruler detail",
+    "390x844 ruler remains accessible from shared navigation",
+    "390x844 route content clears measured header height",
+    "390x844 ruler detail opens from messages",
+    "320x740 BGM remains clear of header and ruler",
+    "320x740 remaining term is fully readable",
+    "320x740 BGM remains muted",
+    "320x740 keyboard opens ruler detail",
+    "320x740 ruler remains accessible from shared navigation",
+    "320x740 route content clears measured header height",
+    "320x740 ruler detail opens from messages",
+    "no JavaScript errors: "
+  ],
+  "errors": []
+}

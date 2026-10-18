@@ -38,7 +38,7 @@ try{
   await page.screenshot({path:path.join(out,`coronation-${size}.png`)});
   await dialog.locator('#chiefHideToday').check();await dialog.locator('#chiefPopupClose').click();await dialog.waitFor({state:'detached'});
   await page.waitForTimeout(400);
-  check(await lobby.locator('#chief-new-reign').isVisible(),size+' first-day ribbon is visible');
+  check(await lobby.locator('#chief-new-reign').count()===0,size+' first-day ribbon stays out of the compact header');
   check(await lobby.locator('.stage-character').getAttribute('src').then(src=>src.includes(avatar.lobbyImage)),size+' equipped avatar is preserved');
   const plaque=await lobby.locator('#chief-shortcut').boundingBox(),operations=await lobby.locator('.operations-scene').boundingBox();
   check(plaque.x>=0&&plaque.x+plaque.width<=viewport.width&&plaque.y+plaque.height<=operations.y,size+' royal plaque clears the viewport and content controls');
