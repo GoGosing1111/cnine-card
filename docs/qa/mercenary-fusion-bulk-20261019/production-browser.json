@@ -1,0 +1,31 @@
+{
+  "source": "https://cnine-card.pages.dev",
+  "report": [
+    {
+      "width": 1440,
+      "attempts": 100,
+      "posts": 1,
+      "completedMs": 1608,
+      "pageErrors": []
+    },
+    {
+      "width": 900,
+      "attempts": 2,
+      "posts": 1,
+      "completedMs": 364,
+      "pageErrors": []
+    },
+    {
+      "width": 390,
+      "attempts": 10,
+      "posts": 1,
+      "completedMs": 850,
+      "pageErrors": []
+    },
+    {
+      "scenario": "lost response / reopen",
+      "posts": 1,
+      "recovered": 10
+    }
+  ]
+}

@@ -27,3 +27,11 @@
 ## 배포
 
 관련 합성 회귀와 Worker 컴파일을 지정한 `npm run deploy:production -- --scoped`를 사용한다. 실제 운영 배포 결과와 공개 자산 확인은 완료 후 아래에 기록한다.
+
+### 라이브 완료
+
+- 2026-10-19 06:58 KST, scoped 배포 종료 코드 0. 소스 `05f5376fe58f5253d63f0cd59a989ba622622dd3`, Pages `https://9159ae83.cnine-card.pages.dev`. 합성 회귀 37개·Worker 컴파일·출시/캐시/Hyperdrive 검사 통과. 배포 파일 19,998개다.
+- API 런타임 `3f0097f0-f7ea-42a0-b5f2-d9f5f66e743c`, 스케줄러 `91027d5a-a29b-47e3-b82e-1ea8876452eb`.
+- 운영 도메인의 진입 HTML·모듈·스타일·정책 7개 파일이 소스와 SHA-256 일치한다. 실제 공개 feature API에서 ON·최대 100회·8장·10%를 확인했다. 기록: `production-hashes.json`.
+- 공개 도메인의 실제 자산과 격리 Postgres API로 PC 100회·900px 2회·모바일 10회 및 응답 유실 후 복구를 다시 확인했다. 각 합성은 POST 1개이고, 재열기는 이미 확정된 10개 결과를 GET으로 복구했다. 페이지 오류 0건. 운영 계정/API 쓰기는 0건이다. 기록: `production-browser.json`, `production-390.png`.
+- 이 완료 기록은 문서와 검수 자료만 추가하므로 재배포하지 않는다.

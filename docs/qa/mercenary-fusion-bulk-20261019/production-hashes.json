@@ -1,0 +1,59 @@
+{
+  "at": "2026-10-18T21:58:51.599Z",
+  "base": "https://cnine-card.pages.dev",
+  "checks": [
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "6454ea26c4998426cb2c194865db79fc9fe92c228149f014043b9812ed5bc8a4",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "23efbbc8540dccb8c7f3b75c4b1c37d2ecb49712130002b42991e767c15b4a87",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/fusion/app.mjs",
+      "sha256": "120b5be56987026b6555f083b1f431728e607f6acf0aeb8763d11ce5ee4509ec",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/fusion/client.mjs",
+      "sha256": "7b06dfd6a5cf944dc0e5354c913199a00381266b839d5aa031bd9bfd4973ed88",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/fusion/model.mjs",
+      "sha256": "48161cecb66918dfb92040f6b982c8ad63259edf21f81de36e0abb664594c686",
+      "status": 200
+    },
+    {
+      "file": "mercenary-codex/fusion/style.css",
+      "sha256": "890d7953c6e3886a5a1222ebeebf3e13406d9e24d46e65d37b7db7a79c577af5",
+      "status": 200
+    },
+    {
+      "file": "shared/mercenary-fusion-policy-v1.mjs",
+      "sha256": "d01e98458ede7c4afbbc23972d287106ff48f581d8c5630dd76d04943db84f30",
+      "status": 200
+    }
+  ],
+  "feature": {
+    "enabled": true,
+    "policy": {
+      "version": "mercenary-fusion-eight-20260922",
+      "materialCount": 8,
+      "materialRule": "SAME_RANK",
+      "successChancePpm": 100000,
+      "chanceTotal": 1000000,
+      "coinCost": 0,
+      "resultQuantity": 1,
+      "successOutcome": "NEXT_RANK",
+      "failureOutcome": "SAME_RANK_RANDOM",
+      "preserveOriginal": true,
+      "withinRankSelection": "EXISTING_CMS_CARD_WEIGHTS"
+    },
+    "maxBatch": 100
+  },
+  "productionWrites": 0
+}
