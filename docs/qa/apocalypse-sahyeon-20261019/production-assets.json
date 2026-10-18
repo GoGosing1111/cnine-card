@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-10-18T20:42:57.177Z",
+  "source": "d5d8a37d1a3857118614732ca6942030f30be351",
+  "deployment": "https://ca0bbda8.cnine-card.pages.dev",
+  "accountWrites": 0,
+  "productionBossRegistered": false,
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 3972,
+      "sha256": "2c983ca1f9bcc4aa669d43033136502e29a48cebe2def3044007c3784841dfac",
+      "match": true
+    },
+    {
+      "file": "app.bundle.js",
+      "status": 200,
+      "bytes": 2146640,
+      "sha256": "d559d0f16cac81302415e69d76d57ab2163b858f283a0dca803abfce4bc10e1d",
+      "match": true
+    },
+    {
+      "file": "payload.json",
+      "status": 200,
+      "bytes": 172629,
+      "sha256": "18c6c9637418f3d56ed8045f250c160a3e1b76e31a083fbe1a7138e15c4e9077",
+      "match": true
+    },
+    {
+      "file": "manifest.json",
+      "status": 200,
+      "bytes": 2335,
+      "sha256": "17e21cd47f5238333789365197de683ec885bfb2b0c6626e178949c2400f6314",
+      "match": true
+    }
+  ]
+}

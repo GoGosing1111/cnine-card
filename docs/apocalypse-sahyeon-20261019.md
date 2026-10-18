@@ -42,4 +42,10 @@
 
 직전 실제 운영 소스는 `668863a5c35ba548d8ab3d2eddbd5ff7b1764662`, Pages `c7b9ac7d-044e-4e3f-8dbb-8ce26e2593c9`다. 이후 원격의 운영 정리 스크립트/기록 커밋을 포함하되 해당 완료 거래를 다시 실행하지 않는다. 이번 변경은 별도 검수 페이지와 자체 빌드·검사·이미지에 한정하므로 위 관련 회귀 6개와 기존 출시/캐시 보호를 사용해 `npm run deploy:production -- --scoped`로 프리뷰를 게시한다. 보스 운영 개방은 별도다.
 
-실제 배포 식별자와 공개 경로 확인 결과는 완료 후 덧붙인다.
+### 게시 완료
+
+- 게시 소스 `d5d8a37d1a3857118614732ca6942030f30be351`, Pages `https://ca0bbda8.cnine-card.pages.dev`. API 런타임 `ea4ec1b1-e505-4dbc-86d2-f4354101d9a6`, 스케줄러 `0d232684-3e1d-4eee-9d8c-6f74266fc688`.
+- 공개 주소: `https://cnine-card.pages.dev/preview/apocalypse-sahyeon-20261019-v1/`.
+- 2026-10-19 05:42:57 KST 공개 HTML·앱 번들·전투 payload·이미지 manifest의 HTTP 200과 SHA-256 일치를 확인했다. `production-assets.json`에 보존한다.
+- 공개 주소에서 궁극기를 재생해 타격 1회, 대상 5명, 서버 HP 동기화 5명, 총 피해 23,074,573, 화면 넘침/콘솔 오류/404/잔류 FX 0을 확인했다. `production-browser.json` 및 `live-desktop-*.png`에 보존한다.
+- 이 게시로 운영 보스가 개방되거나 보상이 설정되지 않는다. 이후 확인 기록은 문서 커밋만 반영하며 재배포하지 않는다.
