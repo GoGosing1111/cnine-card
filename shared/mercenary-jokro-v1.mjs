@@ -15,7 +15,11 @@ export const JOKRO_COMBAT=Object.freeze({
  basicCapScale:3.456,damageTakenScale:.2,hardCounter:BERKAN_CODE
 });
 export const isJokro=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===JOKRO_CODE;
-export const jokroAccountAllowed=(userId,code)=>code!==JOKRO_CODE||Number(userId)===JOKRO_OWNER_ID;
+// User-authorized loan. The server closes access at 04:00 KST even if the
+// scheduled holding cleanup is delayed; the original owner never expires.
+export const JOKRO_LOAN=Object.freeze({userId:5950,expiresAt:Date.parse('2026-10-19T04:00:00+09:00')});
+export const jokroAccountAllowed=(userId,code,now=Date.now())=>code!==JOKRO_CODE||Number(userId)===JOKRO_OWNER_ID||
+ (Number(userId)===JOKRO_LOAN.userId&&now<JOKRO_LOAN.expiresAt);
 export const jokroActionCredit=actors=>actors.some(a=>isJokro(a)&&a.alive!==false&&a.hp>0)?JOKRO_COMBAT.actionCredit:1;
 export function jokroIncomingDamage(target,incoming,source){
  if(!isJokro(target))return incoming;
