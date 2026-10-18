@@ -1,0 +1,53 @@
+{
+  "schema": "COUP_GENERAL_SUCCESSION_ART_V2",
+  "dateKST": "2026-10-18",
+  "status": "PREPARED_FOR_VISUAL_REVIEW",
+  "builtInTool": "image_gen",
+  "userRequest": "쿠데타 성공 일러스트·연출 추가 준비, 정정: 쿠데타 장군 교체",
+  "source": "C:/Users/User/.codex/generated_images/01a149e5-cd8a-77d3-809d-c143949e3ec4/exec-75d27468-8496-4340-9412-501e81b72df3.png",
+  "asset": "assets/ui/coup/coup-general-succession-v2-20261018.png",
+  "prompt": "Use case: stylized-concept.\nAsset type: full-bleed cinematic illustration for a Korean dark fantasy RPG's victorious coup and new GENERAL succession reveal. Landscape 1536 x 1024, no transparency.\nPrimary request: create a new illustration of one imposing adult female general who has just taken command of the captured imperial fortress; grave, intimidating and triumphant without smiling. Black fitted high-collared military coat and trousers, polished black boots, restrained antique gold officer epaulettes and chains, officer cap, deep crimson cape. Tall elegant natural proportions, dignified stance, one gloved hand resting on a completely straight ceremonial officer sword at her side.\nInput roles: Image 1 (general-command-v1.png) is a mood, clothing and fortress-material reference only, not an edit target; create a different composition. Images 2 and 3 are style references ONLY for unified clean 2D anime character design and fine painterly lighting and shading, not clothing, identities, poses or objects to copy.\nComposition: medium-low viewpoint, character from head to below knees fills the LEFT 45 percent; face near x=29%, y=22%, clearly visible, left hand and sword not cropped. Her cape flows naturally toward the lower-left. Background: immense occupied gothic palace steps and layered battlements, torn crimson war banners, smoldering distant braziers, wet dark stone catching restrained amber light, drifting smoke. Keep RIGHT 50 percent a readable atmospheric continuation of the palace, dark low-detail cool gray smoke with a few subtle warm points; no artificial solid blank panel. Leave the top 10 percent quiet for interface controls. Clear visual separation between beautiful character silhouette and architecture.\nStyle: polished collectible RPG 2D illustration, refined anime face and eyes, same line weight, simplification, shadow edges, painterly finish and lighting across face, neck, body, hands, hair and clothing; not photoreal or a photo face pasted onto an illustrated body. Cold moonlight edges plus warm dim embers, charcoal/crimson/aged gold palette.\nNatural hair: long black hair, softly connected continuous strands from roots to ends, subtle wisps and continuous natural volume, no separated plates, blades, staircase layers or plastic highlight strips. Accurate hands, joints, uniform and rigid straight sword.\nNo text, names, letters, numbers, logos, watermark, border, UI panel, cards or badge. No other foreground people. No crown, phoenix, giant wings, skeletons, gore or corpses. Entire image is one complete illustrated scene, not a montage.",
+  "referenceRoles": [
+    {
+      "file": "assets/ui/chief/general-command-v1.png",
+      "role": "기존 여성 장군의 군복·요새·분위기, 새 구도 제작",
+      "sha256": "c264fb034b5cde5a6e7a2ba15eb61f2ee04ac9db493143ef9aabac26b6a8a131",
+      "sourcePath": "assets/ui/chief/general-command-v1.png"
+    },
+    {
+      "file": "assets/ui/project-v/art-references/style-reset-20261014/style-01-film-blue.png",
+      "role": "얼굴·전신의 동일 2D 작화·색광",
+      "sha256": "93582b64941716bc1042b8a62a5edeb52d2c590fc02e0ca1e8c3d63d7d4a63d2",
+      "sourcePath": "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/art-references/style-reset-20261014/style-01-film-blue.png"
+    },
+    {
+      "file": "assets/ui/project-v/art-references/style-reset-20261014/style-03-black-crimson-kimono.png",
+      "role": "얼굴·몸의 동일 선화·명암, 인물·의상·소품 미복제",
+      "sha256": "a43ec7046fe7c2566c04d884e1d340ffae154a9afb31c591f197ad7c36665e49",
+      "sourcePath": "C:/Users/User/Downloads/upload/cnine-card/assets/ui/project-v/art-references/style-reset-20261014/style-03-black-crimson-kimono.png"
+    }
+  ],
+  "renderedBy": "js/queen-coronation-v1.js",
+  "preview": "preview/coup-general-succession-20261018/",
+  "trigger": "active GENERAL tenure with source COUP and coupSuccession.status APPOINTED",
+  "visualApproval": false,
+  "productionDeployed": false,
+  "originalPreserved": true,
+  "liveText": true,
+  "sha256": "e0406625cd007a36f817e7ecc7e842f880c34269620ddcce8a12eff845c2dd3e",
+  "byteIdenticalToGeneratedSource": true,
+  "dimensions": {
+    "width": 1536,
+    "height": 1024,
+    "format": "png",
+    "bytes": 2601217
+  },
+  "technicalReview": {
+    "unifiedFaceBodyStyle": true,
+    "naturalContinuousHair": true,
+    "straightRigidSword": true,
+    "liveNamesNotBaked": true,
+    "desktopAndMobileVerified": true,
+    "userVisualApproval": false
+  }
+}

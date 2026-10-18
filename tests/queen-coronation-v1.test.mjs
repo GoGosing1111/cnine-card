@@ -59,17 +59,28 @@ test('coup succession shows the new female commander art and escaped chief repla
   assert.equal(r.api.show(coup,{automatic:true}),false);assert.equal(r.api.show(coup),true);
 });
 
-test('general inauguration uses the military art and title for election and coup appointments',()=>{
+test('elected generals and unconfirmed successions keep the existing military inauguration',()=>{
   for(const source of ['PLAY DK 투표','COUP']){
-    const r=runtime(),general={...chief,reignStyle:'GENERAL',source,nickname:'<다음 집권자>',coupSuccession:{status:'APPOINTED',previousNickname:'하이희야♡'}};
+    const r=runtime(),general={...chief,reignStyle:'GENERAL',source,nickname:'<다음 집권자>',coupSuccession:{status:'SUPERSEDED',previousNickname:'하이희야♡'}};
     assert.equal(r.api.describe(general,now).title,'제7대 장군');
     assert.equal(r.api.show(general,{automatic:true}),true);
     assert.equal(r.dialog.className,'queen-coronation general-inauguration');
     for(const text of ['general-command-v1.png','general-insignia-v1.svg','장군','집권','&lt;다음 집권자&gt;'])assert.ok(r.dialog.innerHTML.includes(text),text);
     assert.ok(!r.dialog.innerHTML.includes('queen-crown-v1.svg'));
     assert.ok(!r.dialog.innerHTML.includes('여왕'));
-    if(source==='COUP')assert.ok(r.dialog.innerHTML.includes('쿠데타 성공 · 정권 교체'));
+    assert.ok(!r.dialog.innerHTML.includes('coup-general-succession-v2-20261018.png'));
     r.dialog.querySelector('#chiefHideToday').checked=true;r.dialog.querySelector('.queen-close').onclick();
     assert.equal(r.api.show(general,{automatic:true}),false);assert.equal(r.api.show(general),true);
   }
+});
+
+test('confirmed general coup shows the dedicated replacement scene, escapes both names and preserves replay',()=>{
+  const r=runtime(),general={...chief,reignStyle:'GENERAL',source:'COUP',nickname:'<박세라-ㅂ->',coupSuccession:{status:'APPOINTED',roundId:'current-coup',previousNickname:'<나무늘봉순>'}};
+  assert.equal(r.api.show(general,{automatic:true}),true);
+  assert.equal(r.dialog.className,'queen-coronation general-coup-succession');
+  for(const text of ['coup-general-succession-v2-20261018.png','쿠데타','성공','장군 교체','이전 장군','제 7대 장군','&lt;박세라-ㅂ-&gt;','&lt;나무늘봉순&gt;'])assert.ok(r.dialog.innerHTML.includes(text),text);
+  assert.ok(!r.dialog.innerHTML.includes('general-command-v1.png'));
+  assert.ok(!r.dialog.innerHTML.includes('족장 교체'));
+  r.dialog.querySelector('#chiefHideToday').checked=true;r.dialog.querySelector('.queen-close').onclick();
+  assert.equal(r.focused,true);assert.equal(r.api.show(general,{automatic:true}),false);assert.equal(r.api.show(general),true);
 });

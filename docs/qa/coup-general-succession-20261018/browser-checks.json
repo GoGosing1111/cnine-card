@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-18T11:18:52.971Z",
+  "browser": "Codex IAB",
+  "url": "http://127.0.0.1:3553/preview/coup-general-succession-20261018/",
+  "desktop": {
+    "dialogWidth": 1178,
+    "imageLoaded": true,
+    "names": "이전 장군나무늘봉순→제 12대 장군박세라-ㅂ-",
+    "sceneScrollWidth": 1178,
+    "sceneWidth": 1178,
+    "scrollWidth": 1178,
+    "title": "쿠데타성공"
+  },
+  "mobile390": {
+    "buttonHeight": 48,
+    "sceneScrollWidth": 373,
+    "sceneWidth": 373,
+    "scrollWidth": 373,
+    "width": 373
+  },
+  "mobile320": {
+    "activeFocus": "chiefPopupClose",
+    "artAnimation": "none",
+    "buttonHeight": 48,
+    "prologueDisplay": "none",
+    "sceneScrollWidth": 302,
+    "sceneWidth": 302,
+    "scrollWidth": 302,
+    "skipSettled": true,
+    "width": 302
+  },
+  "escape": {
+    "dialogCount": 0,
+    "focus": "replay"
+  },
+  "errors": [],
+  "accountWrites": 0,
+  "fixtureOnly": true
+}
