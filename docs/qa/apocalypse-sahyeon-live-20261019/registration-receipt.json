@@ -1,0 +1,144 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:apocalypse-sahyeon-live:20261019:v1",
+  "authorization": "라이브 반영해",
+  "rewardAuthorization": "아즈마 보상의 2배로 적용",
+  "registered": {
+    "id": 80,
+    "name": "사현",
+    "battlePower": 220000000,
+    "displayOrder": 43,
+    "profile": {
+      "battlePower": 220000000,
+      "rewardCoin": 50000000,
+      "clearBonus": {
+        "coinPercent": null,
+        "masterStars": 450000,
+        "mysticEnergy": 300
+      },
+      "hpPercent": 350,
+      "attackPercent": 475,
+      "defensePercent": 375,
+      "speedPercent": 375,
+      "rewardPercent": 1000,
+      "shieldPercent": 70,
+      "attackCount": 2,
+      "forcedActionEvery": 4,
+      "skillEnabled": true,
+      "skillName": "현문안 · 정지선 · 현문안 · 공백회랑 · 공허법상 · 천경붕괴",
+      "skillDescription": "현문안 봉인 → 공백회랑 → 공허법상. 보스와 여섯 잔영을 모두 처치해야 합니다.",
+      "skillDamagePercent": 95,
+      "legionUltimate": {
+        "enabled": true,
+        "attackPercent": 30,
+        "shieldPiercePercent": 65
+      },
+      "battleSuitSkillDefensePercent": 50
+    },
+    "effectiveRewardCoin": 500000000,
+    "minions": 6
+  },
+  "reference": {
+    "monsterId": 78,
+    "profile": {
+      "battlePower": 110000000,
+      "rewardCoin": 25000000,
+      "clearBonus": {
+        "coinPercent": null,
+        "masterStars": 225000,
+        "mysticEnergy": 150
+      },
+      "hpPercent": 350,
+      "attackPercent": 475,
+      "defensePercent": 375,
+      "speedPercent": 375,
+      "rewardPercent": 1000,
+      "shieldPercent": 70,
+      "attackCount": 2,
+      "forcedActionEvery": 4,
+      "skillEnabled": true,
+      "skillName": "별천신 · 환술 봉인 · 까마귀 환술 · 생명 차단 · 스사노오 · 취풍참",
+      "skillDescription": "보스 + 쫄몹 6마리. 첫 3행동에 봉인·회복 차단·궁극기. 배틀슈트 스킬 피해 50% 감소.",
+      "skillDamagePercent": 95,
+      "legionUltimate": {
+        "enabled": true,
+        "attackPercent": 30,
+        "shieldPiercePercent": 65
+      },
+      "battleSuitSkillDefensePercent": 50
+    },
+    "effectiveRewardCoin": 250000000
+  },
+  "assets": [
+    {
+      "path": "/preview/apocalypse-sahyeon-20261019-v1/assets/sahyeon-source-v1.png",
+      "sha256": "8da22f20e22227d10d54786fadec902fc8f02c93c7c047522ef2a2ba1a7157e3",
+      "bytes": 3566927,
+      "verified": true
+    },
+    {
+      "path": "/preview/apocalypse-sahyeon-20261019-v1/assets/sahyeon-sd-v3.png",
+      "sha256": "4ea8d2099ba46642156f78a178635733f72275d84b79f07f5ce40b0ed30cdb81",
+      "bytes": 1964406,
+      "verified": true
+    },
+    {
+      "path": "/preview/apocalypse-sahyeon-20261019-v1/assets/sahyeon-guardian-v1.png",
+      "sha256": "678e1c19bb071de10c69c759762884b6ea763a9349f193141784bdb95eacf402",
+      "bytes": 3280017,
+      "verified": true
+    },
+    {
+      "path": "/preview/apocalypse-sahyeon-20261019-v1/assets/sahyeon-lens-v1.png",
+      "sha256": "b48cf45e121ae21fdeed2ce83d261b8d1ec5107a116cceb8863979c498e6e25c",
+      "bytes": 1985613,
+      "verified": true
+    },
+    {
+      "path": "/preview/apocalypse-sahyeon-20261019-v1/assets/sahyeon-eyes-v1.png",
+      "sha256": "63d72772e3e1244633316fc6a4219ddbe57f10c3160d1f9c7e242e0005d798ef",
+      "bytes": 2335550,
+      "verified": true
+    },
+    {
+      "path": "/preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "8f4da8441acca7bb4505607b0a20deccb4bf879837077e8ecf38c3ffa841df4f",
+      "bytes": 2143697,
+      "verified": true
+    },
+    {
+      "path": "/js/battle-v3-live.js",
+      "sha256": "cb3214bee72d44acdf22995b5c95991828a469e799efd3b82759da6581c420cf",
+      "bytes": 81001,
+      "verified": true
+    },
+    {
+      "path": "/js/app.js",
+      "sha256": "5a182bdcc74091b8dc25a2fc7b40285148712fb78358562d1cf8a43112e338a2",
+      "bytes": 758358,
+      "verified": true
+    },
+    {
+      "path": "/index.html",
+      "sha256": "85c958ef533c528b8fd788bafc5e65a5ccb5d2a8c5f8b424dfd2df9c0f3290bb",
+      "bytes": 31388,
+      "verified": true
+    },
+    {
+      "path": "/service-worker.js",
+      "sha256": "147f420671721510a3324c52d34e529698b83b014b000b08227a5d6d021fe959",
+      "bytes": 15823,
+      "verified": true
+    },
+    {
+      "path": "/preview/apocalypse-sahyeon-20261019-v1/manifest.json",
+      "sha256": "8558eb6c1d8a0b568f1458cdc8209538cc61bb3b3cf4e4e1e778fb9dccedccc6",
+      "bytes": 2386,
+      "verified": true
+    }
+  ],
+  "completedAt": "2026-10-18T21:05:58.810Z",
+  "adminLogId": "48214",
+  "committed": true,
+  "replayed": false
+}

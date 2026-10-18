@@ -1,0 +1,66 @@
+{
+  "checkedAt": "2026-10-18T21:06:04.163Z",
+  "row": {
+    "id": "80",
+    "name": "사현",
+    "image_url": "preview/apocalypse-sahyeon-20261019-v1/assets/sahyeon-source-v1.png",
+    "battle_power": "220000000",
+    "reward_coin": "50000000",
+    "is_active": "1",
+    "pve_enabled": "1",
+    "pve_tab": "APOCALYPSE",
+    "tower_enabled": "0",
+    "tower_only": "0",
+    "ultimate_enabled": "0"
+  },
+  "profile": {
+    "battlePower": 220000000,
+    "rewardCoin": 50000000,
+    "clearBonus": {
+      "coinPercent": null,
+      "masterStars": 450000,
+      "mysticEnergy": 300
+    },
+    "hpPercent": 350,
+    "attackPercent": 475,
+    "defensePercent": 375,
+    "speedPercent": 375,
+    "rewardPercent": 1000,
+    "shieldPercent": 70,
+    "attackCount": 2,
+    "forcedActionEvery": 4,
+    "skillEnabled": true,
+    "skillName": "현문안 · 정지선 · 현문안 · 공백회랑 · 공허법상 · 천경붕괴",
+    "skillDescription": "현문안 봉인 → 공백회랑 → 공허법상. 보스와 여섯 잔영을 모두 처치해야 합니다.",
+    "skillDamagePercent": 95,
+    "legionUltimate": {
+      "enabled": true,
+      "attackPercent": 30,
+      "shieldPiercePercent": 65
+    },
+    "battleSuitSkillDefensePercent": 50
+  },
+  "effectiveRewardCoin": 500000000,
+  "enemies": 7,
+  "skills": [
+    {
+      "code": "SAHYEON_SEAL",
+      "targets": 4,
+      "damage": 0
+    },
+    {
+      "code": "SAHYEON_CURSE",
+      "targets": 5,
+      "damage": 0
+    },
+    {
+      "code": "SAHYEON_ULTIMATE",
+      "targets": 5,
+      "damage": 23074573
+    }
+  ],
+  "replayed": true,
+  "auditCount": 1,
+  "operationKey": "ops:apocalypse-sahyeon-live:20261019:v1",
+  "accountWrites": 0
+}
