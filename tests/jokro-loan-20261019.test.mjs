@@ -27,7 +27,7 @@ test('loan ownership, PVE/PVP selection and single/batch snapshots expire togeth
  Date.now=()=>JOKRO_LOAN.expiresAt;
  assert.equal((await mercenaryAccountState(f.env,user)).cards.some(c=>c.code===JOKRO_CODE),false);
  for(const mode of ['PVE','PVP']){
-  assert.equal(await loadMercenaryBattleSnapshot(f.env,user,mode),null);
+  await assert.rejects(loadMercenaryBattleSnapshot(f.env,user,mode),{code:'MERCENARY_NOT_OWNED'});
   assert.equal((await releasedMercenarySnapshots(f.env,[user.id],mode)).has(user.id),false);
   await assert.rejects(saveMercenaryLoadout(f.env,user,{requestId:crypto.randomUUID(),mode,mercenaryCode:JOKRO_CODE,revision:1}),{code:'MERCENARY_NOT_OWNED'});
  }
