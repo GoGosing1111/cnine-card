@@ -24,3 +24,11 @@
 ## 배포 준비
 
 첫 scoped 실행에서 관련 28개 검사·Worker 문법·출시/Hyperdrive 검사가 통과했으나 Pages 파일 한도(20,000개)에 20,005개로 걸려 업로드 전에 중단됐다. 브라우저·서버·프리뷰에서 가져오지 않는 `scripts/ops/`의 일회 운영 도구와 영수증을 Git에 보존하고 Pages 전송 목록에서 제외한다. 게임 이미지·화면·기능은 제외하지 않는다. 기존 스테이징 검사에 운영 스크립트/JSON/SQL 제외와 원본 보존을 추가했다.
+
+## 운영 반영 완료 — 2026-10-18 20:37 KST
+
+- 수정 커밋 `3231f567b`, 배포 소스 `ed7f47846deba4d281b5ea56482e66496d28b422`. 최종 scoped 검사 31/31, Worker 컴파일, 출시 정책 및 Hyperdrive 캐시 OFF 확인을 통과했다.
+- Pages `https://475902bc.cnine-card.pages.dev`, API 버전 `a1f6252c-905f-47c5-86cc-557dd084f23b` 100%, scheduler `21a76889-82b8-4034-a1ba-faef6a216c3b`. Pages 파일 19,638개.
+- Cloudflare 운영 API 소스를 읽어 `lastHuntMercenary` 수정 포함을 확인했다. 운영 Pages 커밋은 배포 소스와 일치하며 메인 HTTP 200, 비로그인 군단토벌 API 401을 유지한다.
+- 운영 지역 정책 r7/ON 전체가 작업 전 값과 동일하다. 운영 계정 전투·보상·지급 쓰기 0건. 신규 원정부터 적용하며 진행 중인 원정 타임라인은 보존한다.
+- 운영 증빙은 `docs/qa/legion-hunt-last-mercenary-20261018/live-verification.json`이다. 이 완료 기록은 문서만 추가하며 재배포하지 않는다.

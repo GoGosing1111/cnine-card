@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-18T11:37:25.989Z",
+  "sourceCommit": "ed7f47846deba4d281b5ea56482e66496d28b422",
+  "worker": {
+    "name": "cnine-card-api-runtime",
+    "deploymentId": "fd23bb1f-77df-448f-8207-38ae1a090b9d",
+    "versions": [
+      {
+        "version_id": "a1f6252c-905f-47c5-86cc-557dd084f23b",
+        "percentage": 100
+      }
+    ],
+    "fixPresent": true,
+    "downloadSha256": "c4b508f74b71c56504dcf7bf2ac5fab0c9e604ab8e90a4b93d97a3c1005ff93c"
+  },
+  "pages": {
+    "id": "475902bc-d3ee-4f01-8139-0595f9a2196d",
+    "url": "https://475902bc.cnine-card.pages.dev",
+    "commit": "ed7f47846deba4d281b5ea56482e66496d28b422"
+  },
+  "http": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/api/legion-hunt/status",
+      "status": 401
+    }
+  ],
+  "regionalPolicy": {
+    "mode": "ON",
+    "revision": 7,
+    "unchanged": true
+  },
+  "productionAccountWrites": 0
+}
