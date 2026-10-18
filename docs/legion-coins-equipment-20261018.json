@@ -7,7 +7,27 @@
   },
   "coinIncome": {
     "livePayoutImplemented": false,
-    "status": "DESIGN_ONLY"
+    "status": "DESIGN_ONLY",
+    "designRevision": 2,
+    "authorization": "기본 보상 전부 10배, 재앙은 지옥의 2배",
+    "baseMultiplier": 10,
+    "calamityToInfernoRatio": 2,
+    "baseClearCoins": {
+      "island": {
+        "normal": 1000000000,
+        "hard": 2000000000,
+        "nightmare": 3000000000,
+        "inferno": 5000000000
+      },
+      "newRegions": {
+        "regionIds": ["coast", "desert", "theatre", "viscera", "sky"],
+        "normal": 5000000000,
+        "hard": 7000000000,
+        "nightmare": 10000000000,
+        "inferno": 15000000000,
+        "calamity": 30000000000
+      }
+    }
   },
   "application": {
     "dryRun": false,
