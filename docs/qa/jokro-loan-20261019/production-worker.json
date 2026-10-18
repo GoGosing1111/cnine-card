@@ -1,0 +1,20 @@
+{
+  "verifiedAt": "2026-10-18T15:06:18.943Z",
+  "worker": {
+    "id": "8c9768e1-61a6-43dc-8680-3ed0577d16f4",
+    "versions": [
+      {
+        "version_id": "0d3c8d47-39d6-4c9c-95c5-1706cb62f741",
+        "percentage": 100
+      }
+    ]
+  },
+  "pages": {
+    "id": "447996a3-f74f-46c5-9f5f-2dc393b277d2",
+    "commit": "dea84aee3aee807b70a36524333c8fa25e646f02",
+    "url": "https://447996a3.cnine-card.pages.dev"
+  },
+  "temporaryAccount": 5950,
+  "expiresAtKst": "2026-10-19T04:00:00+09:00",
+  "deployedExpiryPolicy": true
+}

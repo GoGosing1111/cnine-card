@@ -1,0 +1,27 @@
+{
+  "verifiedAt": "2026-10-18T15:04:14.949Z",
+  "independentConnection": true,
+  "userId": 5950,
+  "nickname": "남수댕ㅗ",
+  "code": "V-979",
+  "currentCopies": 1,
+  "granted": true,
+  "revoked": false,
+  "expiresAt": "2026-10-19T04:00:00+09:00",
+  "grantAuditId": "48066",
+  "revokeAuditId": null,
+  "loadout": [
+    {
+      "user_id": "5950",
+      "mercenary_code": "V-001",
+      "revision": 2,
+      "updated_at": "2026-10-15T16:02:45.575Z"
+    }
+  ],
+  "pvp": [
+    {
+      "key": "mercenary_pvp_loadout_v1:5950",
+      "value": "{\"mercenaryCode\":null,\"revision\":0}"
+    }
+  ]
+}

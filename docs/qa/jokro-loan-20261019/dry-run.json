@@ -1,0 +1,53 @@
+{
+  "sourceHash": "1db13d1cb1febb4840f6915a957f24585d8e93a61e70e969aaf90e1feccee96a",
+  "rollbackVerified": true,
+  "partialFailureRollback": true,
+  "idempotencyVerified": true,
+  "earlyRecallBlocked": true,
+  "grantAndRecallVerified": true,
+  "grant": {
+    "status": "COMPLETED",
+    "operationKey": "ops:namsudaeng-o:jokro:loan:20261019:v1",
+    "planHash": "07e09e825b709410a03943ee8a9250bedfdbd706c501d36e5e0f0ce507c481be",
+    "plan": {
+      "userId": 5950,
+      "nickname": "남수댕ㅗ",
+      "code": "V-979",
+      "name": "족로",
+      "quantity": 1,
+      "expiresAt": "2026-10-19T04:00:00+09:00",
+      "authorization": "남수댕ㅗ 족로 용병 지급하고 4시에 회수해"
+    },
+    "completedAt": "2026-10-18T15:03:28.896Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "acquiredAt": "2026-10-18T15:03:27.984Z",
+    "automaticLoadout": false,
+    "stockChanged": false,
+    "adminLogId": "48064"
+  },
+  "recall": {
+    "status": "COMPLETED",
+    "operationKey": "ops:namsudaeng-o:jokro:revoke:20261019:v1",
+    "planHash": "07e09e825b709410a03943ee8a9250bedfdbd706c501d36e5e0f0ce507c481be",
+    "plan": {
+      "userId": 5950,
+      "nickname": "남수댕ㅗ",
+      "code": "V-979",
+      "name": "족로",
+      "quantity": 1,
+      "expiresAt": "2026-10-19T04:00:00+09:00",
+      "authorization": "남수댕ㅗ 족로 용병 지급하고 4시에 회수해"
+    },
+    "completedAt": "2026-10-18T15:03:32.277Z",
+    "sourceGrantKey": "ops:namsudaeng-o:jokro:loan:20261019:v1",
+    "sourceGrantAuditId": "48064",
+    "copiesBefore": 1,
+    "copiesAfter": 0,
+    "removed": 1,
+    "clearedModes": [],
+    "grantHistoryPreserved": true,
+    "stockChanged": false,
+    "adminLogId": "48065"
+  }
+}
