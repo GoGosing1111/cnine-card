@@ -1,0 +1,166 @@
+{
+  "commit": "668863a5c35ba548d8ab3d2eddbd5ff7b1764662",
+  "verifiedAt": "2026-10-18T20:12:13.100Z",
+  "retiredRoutesVerified": true,
+  "api": [
+    {
+      "route": "siege/state",
+      "method": "GET",
+      "status": 410,
+      "code": "MONSTER_SIEGE_RETIRED"
+    },
+    {
+      "route": "siege/state",
+      "method": "POST",
+      "status": 410,
+      "code": "MONSTER_SIEGE_RETIRED"
+    },
+    {
+      "route": "siege/attack",
+      "method": "GET",
+      "status": 410,
+      "code": "MONSTER_SIEGE_RETIRED"
+    },
+    {
+      "route": "siege/attack",
+      "method": "POST",
+      "status": 410,
+      "code": "MONSTER_SIEGE_RETIRED"
+    },
+    {
+      "route": "admin/siege/settings",
+      "method": "GET",
+      "status": 410,
+      "code": "MONSTER_SIEGE_RETIRED"
+    },
+    {
+      "route": "admin/siege/settings",
+      "method": "POST",
+      "status": 410,
+      "code": "MONSTER_SIEGE_RETIRED"
+    },
+    {
+      "route": "admin/storage-cleanup/summary",
+      "method": "GET",
+      "status": 410,
+      "code": "STORAGE_CLEANUP_RETIRED"
+    },
+    {
+      "route": "admin/storage-cleanup/summary",
+      "method": "POST",
+      "status": 410,
+      "code": "STORAGE_CLEANUP_RETIRED"
+    },
+    {
+      "route": "admin/storage-cleanup/delete",
+      "method": "GET",
+      "status": 410,
+      "code": "STORAGE_CLEANUP_RETIRED"
+    },
+    {
+      "route": "admin/storage-cleanup/delete",
+      "method": "POST",
+      "status": 410,
+      "code": "STORAGE_CLEANUP_RETIRED"
+    },
+    {
+      "route": "admin/chicken-event",
+      "method": "GET",
+      "status": 410,
+      "code": "CHICKEN_EVENT_RETIRED"
+    },
+    {
+      "route": "admin/chicken-event",
+      "method": "POST",
+      "status": 410,
+      "code": "CHICKEN_EVENT_RETIRED"
+    },
+    {
+      "route": "events/chicken/order",
+      "method": "GET",
+      "status": 410,
+      "code": "CHICKEN_EVENT_RETIRED"
+    },
+    {
+      "route": "events/chicken/order",
+      "method": "POST",
+      "status": 410,
+      "code": "CHICKEN_EVENT_RETIRED"
+    },
+    {
+      "route": "admin/golden-axe",
+      "method": "GET",
+      "status": 410,
+      "code": "GOLDEN_AXE_EVENT_RETIRED"
+    },
+    {
+      "route": "admin/golden-axe",
+      "method": "POST",
+      "status": 410,
+      "code": "GOLDEN_AXE_EVENT_RETIRED"
+    },
+    {
+      "route": "events/golden-axe/draw",
+      "method": "GET",
+      "status": 410,
+      "code": "GOLDEN_AXE_EVENT_RETIRED"
+    },
+    {
+      "route": "events/golden-axe/draw",
+      "method": "POST",
+      "status": 410,
+      "code": "GOLDEN_AXE_EVENT_RETIRED"
+    }
+  ],
+  "assets": [
+    {
+      "file": "admin/index.html",
+      "sha256": "dee7894b74908cee00ee6aea26960df595201a20378540625d71bf3d2a9b7ef8"
+    },
+    {
+      "file": "admin/admin-v1276.js",
+      "sha256": "d892f64136fbb5859e1fcfee95234d1e16ded5166cefb0c750d23ca5f853132b"
+    },
+    {
+      "file": "admin/admin-v945.css",
+      "sha256": "586cf71332103c94fb8f9e26bfebee62ffcf48b9684f56602d79745e2ba23a44"
+    },
+    {
+      "file": "js/app.js",
+      "sha256": "b91d6c5f093cce18b320aeec5120d8038290ccb9964fe423dee3cc1e2fe4b902"
+    },
+    {
+      "file": "js/soopketmon-v21-exact-shell-adapter.js",
+      "sha256": "f59208238271a4e8a67843e4061cf7a2e3a7dc93630f1de33df7ae9d2bb63e41"
+    },
+    {
+      "file": "js/adventure-navigation-standalone.js",
+      "sha256": "9a5ec341ca5aa871701e6b1dfdee0047c9dbfa8b8b82e0156b35069e5a69c525"
+    },
+    {
+      "file": "js/event-vouchers-v1.js",
+      "sha256": "0cb4fa8ed251bc170320f1d102021c6b801ec5f25df41363667731b7d08747f0"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "cab53da0df9e67efcebbc607762eb7f94d367c2384a6cc72818231ff70d5a912"
+    }
+  ],
+  "redirects": [
+    {
+      "route": "/events/chicken/",
+      "status": 302,
+      "location": "/?screen=home"
+    },
+    {
+      "route": "/events/golden-axe/",
+      "status": 302,
+      "location": "/?screen=home"
+    },
+    {
+      "route": "/events/chuseok/",
+      "status": 302,
+      "location": "/?screen=home"
+    }
+  ]
+}

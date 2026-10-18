@@ -1,0 +1,78 @@
+{
+  "verifiedAt": "2026-10-18T20:15:14.698Z",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:retired-content-cleanup:20261019:v1",
+    "completedAt": "2026-10-18T20:15:10.008Z",
+    "release": {
+      "commit": "668863a5c35ba548d8ab3d2eddbd5ff7b1764662",
+      "verifiedAt": "2026-10-18T20:12:13.100Z",
+      "retiredRoutesVerified": true
+    },
+    "authorization": "몬스터공성 API,로그 아예 삭제하고 설정에서도 치킨집,금도끼은도끼 이벤트 아예 삭제해 그리고DB정리 하는 설정도 안쓰니까 삭제",
+    "logs": [
+      {
+        "table": "monster_siege_actions",
+        "deleted": 58428,
+        "bytesBefore": 904192000,
+        "bytesAfter": 16384
+      },
+      {
+        "table": "monster_siege_ai_actions",
+        "deleted": 3531,
+        "bytesBefore": 3514368,
+        "bytesAfter": 3514368
+      }
+    ],
+    "removedSettings": [
+      "monster_siege_settings_v1",
+      "pingdu_chicken_event_v1",
+      "pingdu_golden_axe_v1"
+    ],
+    "protectedRecords": [
+      {
+        "table": "monster_siege_events",
+        "count": "18",
+        "digest": "2c022381b0d17bce47e2a425f2acef23"
+      },
+      {
+        "table": "monster_siege_users",
+        "count": "2197",
+        "digest": "c21662b0fb5acc918b54e7187b2653e8"
+      },
+      {
+        "table": "monster_siege_rewards",
+        "count": "2197",
+        "digest": "43d2fad000f00ed962d0eca8b2dcfbe8"
+      },
+      {
+        "table": "monster_siege_participation_bonus_v1",
+        "count": "103",
+        "digest": "c2f778ce52c56711ffc60ad5b009f8cc"
+      },
+      {
+        "table": "monster_siege_ai_state",
+        "count": "9",
+        "digest": "e3b3c865baa80a9678d745e5b5131704"
+      }
+    ],
+    "accountDataChanged": false,
+    "sharedFinancialLogsChanged": false,
+    "auditId": "48202"
+  },
+  "logs": [
+    {
+      "table": "monster_siege_actions",
+      "count": "0",
+      "bytes": "16384"
+    },
+    {
+      "table": "monster_siege_ai_actions",
+      "count": "0",
+      "bytes": "3514368"
+    }
+  ],
+  "retiredSettingsRemaining": 0,
+  "protectedRecordsVerified": true,
+  "operationHash": "1bd819759e77c66961b0493836a4f7cf35d5450fb20df0f3dcd3a00bc178a154"
+}
