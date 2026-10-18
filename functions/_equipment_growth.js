@@ -1,3 +1,4 @@
+import {equipmentSetVisualFromRows} from '../shared/equipment-set-visual-v1.mjs';
 import {regionEquipmentEffects,regionalEquipment,regionById} from '../shared/legion-regions-v1.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
 import {normalizedEquipmentEffects} from '../shared/equipment-combat-growth-v1.mjs';
@@ -13,9 +14,10 @@ export function decodePolishState(raw,instanceId,userId){
 }
 export async function equipmentGrowthRuntime(env,userId){
   // Exactly the equipped five ordinary slots, never the full instance inventory.
-  const {results=[]}=await env.DB.prepare(`SELECT x.id,i.code,p.value FROM user_equipment_loadout l
+  const {results=[]}=await env.DB.prepare(`SELECT x.id,i.code,i.slot,COALESCE(f.level,0) AS level,p.value FROM user_equipment_loadout l
     JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id
     JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1
+    LEFT JOIN equipment_forge_states_v1 f ON f.instance_id=x.id AND f.user_id=x.user_id
     LEFT JOIN app_meta p ON p.key=('equipment_polish_instance_v1:' || CAST(x.user_id AS TEXT) || ':' || CAST(x.id AS TEXT))
     WHERE l.user_id=? AND l.slot=i.slot AND i.slot<>'BATTLE_SUIT' AND i.code NOT IN (${MERCENARY_EQUIPMENT_SQL_CODES}) ORDER BY i.slot LIMIT 5`).bind(userId).all();
   return equipmentGrowthFromRows(results,userId);
@@ -23,6 +25,8 @@ export async function equipmentGrowthRuntime(env,userId){
 export function equipmentGrowthFromRows(results,userId){
   const runtime=regionEquipmentEffects(results.map(row=>row.code));
   const names=['attackPercent','criticalChancePoints','criticalDamagePoints','bossDamagePercent','penetrationPoints'];
+  const visual=equipmentSetVisualFromRows(results,userId);
+  if(visual)runtime.equipmentSetVisual=visual;
   runtime.polished=[];
   for(const row of results){if(!row.value)continue;const state=decodePolishState(row.value,row.id,userId);if(!state.attempts)continue;runtime.polished.push({instanceId:String(row.id),attempts:state.attempts,levels:state.levels,values:state.values});for(let i=0;i<5;i++)runtime.effects[names[i]]=(runtime.effects[names[i]]||0)+state.values[i];}
   runtime.summary=equipmentEffectText(normalizedEquipmentEffects(runtime.effects));

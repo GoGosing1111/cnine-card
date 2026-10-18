@@ -293,6 +293,14 @@
       "sha256": "eab3792746ed4bfe30ce109e24b63a7279dc04ffc6d43e5caea7fbc20d636b74"
     },
     {
+      "file": "shared/equipment-set-visual-v1.mjs",
+      "sha256": "cf112a5bd7bd333f26b327a97994bc9bd34d58ebedf743d23b4af2e567372bd1"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/EquipmentSetFX.js",
+      "sha256": "d28e859dc986c1588cb779db0feedc85f2c057572acf249047efd9fed8f411d9"
+    },
+    {
       "file": "preview/project-v-v3/source/battle/BattleHud.js",
       "sha256": "54da740c9ca5279299ed2aab76b85187e51e9bfa68ef8869a7c5b1283d4d1200"
     },
@@ -342,7 +350,7 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/BattleEngine.js",
-      "sha256": "b2fe30337ce7283c7fd68dc1de8864aec3b738b28cc7b7b547be26c5c23804bd"
+      "sha256": "6f6e6e6ef3d4da3825bc58b1edce136102051477a2b5c7584144d8a3778a179f"
     },
     {
       "file": "preview/project-v-v3/source/battle/BattleCharacter.js",
@@ -600,52 +608,52 @@
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "8008d7499becf8fc993bec9685ad9500af7d466641eccefae8cc2dd92c0add83",
+      "sha256": "d3051e1240afb25e9b4dede5c5aeb80d3ae4e0196681c82b247399cb3e1b626f",
       "commonGrid": true
     },
     {
       "file": "preview/scrapyard-v3-v1/battle.bundle.js",
-      "sha256": "7454b0ef095240211611d2d7cd2931064219d83269ade5469cc7ca9881a594da",
+      "sha256": "4cc0d509e5dd66e884a9d4f8388c9cd318b99fd890d32e4aca3a0d34ec60caa3",
       "commonGrid": true
     },
     {
       "file": "preview/cow-room-v3-v1/battle.bundle.js",
-      "sha256": "4410282ce9d632a3182f3291ff78d8f3ea9b2dc5f7012413fc2bb25f4d3c785e",
+      "sha256": "f187affba1a941560c6c90268f6f703b23411a3cad1923717109786f29a2bcc3",
       "commonGrid": true
     },
     {
       "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
-      "sha256": "1b06774e4b0fcba43cfc261e7e1e79052a457593333e14b284dc8ec24beab9eb",
+      "sha256": "cccee1af6f088af03460b9b662b21e6008d4c6337414e4f123c87d0a62a076bc",
       "commonGrid": true
     },
     {
       "file": "pve-v3/battle.bundle.js",
-      "sha256": "1bf382f781b4a9553418fe43b8026c98ce47d19ee064cf6b55d688ddf55011a0",
+      "sha256": "b0bf8887891b719aef3f9aece34d184e61ff5c4ca3269068b7588ad8a998d712",
       "commonGrid": true
     },
     {
       "file": "preview/v3-wide-grid-v1/battle.bundle.js",
-      "sha256": "65bccee3a38c9b499816cf89a04afb3b065dac48a76b58e3c117685815502bfe",
+      "sha256": "c2ea2cd60ea8bd238201883aeca382b100cdef7ebb027b2f9876b8b2ad1a3c8c",
       "commonGrid": true
     },
     {
       "file": "preview/boss-resources-v2048/lab.bundle.js",
-      "sha256": "a678bff5dd7c6153b6f4c1c28cfb5cef2ee24c9de7c2f790a2a4b27f16d61dc6",
+      "sha256": "465b4f1c66882af438bfc75111e54e905bd9b34470f3747cea3af18a6c3f6a5f",
       "commonGrid": true
     },
     {
       "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
-      "sha256": "5c62992f4ba3f6e1b1f2348fe476a77668e178ede5ca260b0fb6b7c7097a4e1c",
+      "sha256": "696c288045bae4925a1920277ea17db4ac842ec0420e57567cb1f578ad0f934c",
       "commonGrid": true
     },
     {
       "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
-      "sha256": "4ac7e9cbc227f1b065be90f3ec8804c34740a909c463c5633cb3dfc1b31a5e71",
+      "sha256": "a521cd1977b8de58f066f813c8cab607e56d01fc91eabe3941a2708ea019104a",
       "commonGrid": true
     },
     {
       "file": "preview/sustained-hunt-v2/battle.bundle.js",
-      "sha256": "791165aa177b6b9ad4d508b78349022954c13445dba36f819672975eaab83d49",
+      "sha256": "83a27142907d45499427ca9b4ba633ae21a733ab657655db8760384d70b7489c",
       "commonGrid": true
     }
   ],

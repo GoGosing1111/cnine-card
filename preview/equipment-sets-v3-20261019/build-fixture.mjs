@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+import {createPvpBattleV2,createPveBattleV2} from '../../functions/_battle_v2_preview.js';
+import {createCooperativeBattle} from '../../functions/_cooperative_battle.js';
+import {coopSquads} from '../../tests/helpers/cooperative-fixture.mjs';
+import {equipmentSetVisualFromRows,EQUIPMENT_SET_PARTS} from '../../shared/equipment-set-visual-v1.mjs';
+const source=JSON.parse(fs.readFileSync(new URL('../overlord-live-v1/fixtures.json',import.meta.url))).multi;
+const cards=source.cards.map(c=>({...c,power:2000000,base_power:2000000,breakthroughLevel:0}));
+const visual=(set,id)=>equipmentSetVisualFromRows(Object.entries(EQUIPMENT_SET_PARTS[set]).map(([slot,code])=>({slot,code,level:10})),id);
+const battleV2=createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerEquipmentSetVisual:visual('ARDEN',1),defenderEquipmentSetVisual:visual('EMPEROR',2),seed:20261019});
+const review={scope:'LOCAL_DEMONSTRATION',visualOnly:true,liveAccountRead:false,liveAccountWrite:false};
+const pvp={mode:'PVP',cards,attackerCards:cards,defenderCards:cards,enemyCards:cards,battleV2,result:battleV2.result,characterBonus:0,review};
+const monster={...source.monster,battle_power:3500000},pveBattle=createPveBattleV2({cards,monster,pveEquipmentRuntime:{equipmentSetVisual:visual('ARDEN',1)},seed:20261019});
+const pve={mode:'PVE',cards,monster,battleV2:pveBattle,result:pveBattle.result,review};
+const squads=coopSquads();squads[0].equipmentSetVisual=visual('ARDEN',1);squads[1].equipmentSetVisual=visual('EMPEROR',2);
+const coop={...createCooperativeBattle({squads,seed:20261019}).payload,review};
+for(const [key,payload] of Object.entries({pvp,pve,coop}))fs.writeFileSync(new URL(`./fixture-${key}.json`,import.meta.url),JSON.stringify(payload,null,2)+'\n');
+console.log('Built canonical PVP, PVE and three-owner preview fixtures.');

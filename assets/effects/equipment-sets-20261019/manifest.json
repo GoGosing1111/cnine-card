@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "scope": "USER_EQUIPMENT_BATTLE_VISUAL_ONLY",
+  "trigger": "TOP + BOTTOM + SHOES + ACCESSORY, same set, each >=10",
+  "mode": "built-in image_gen",
+  "prompts": "assets/effects/equipment-sets-20261019/prompts.json",
+  "artReview": "Technical checks recorded; not a claim of separate user visual approval",
+  "assets": [
+    {
+      "set": "emperor",
+      "name": "crest",
+      "source": "assets/effects/equipment-sets-20261019/emperor/source/crest.png",
+      "sourceSha256": "d4ed106b9b4b7a14ab3e33a28216b2b9c4cf4a533aa83fa16f2ec353c7f7b758",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtime": "assets/effects/equipment-sets-20261019/emperor/crest.webp",
+      "runtimeSha256": "336a4ea81964b810e47c2549f1fc1311170460dc08b14826d4be528480af0807",
+      "runtimeSize": [
+        768,
+        768
+      ]
+    },
+    {
+      "set": "emperor",
+      "name": "ground",
+      "source": "assets/effects/equipment-sets-20261019/emperor/source/ground.png",
+      "sourceSha256": "6f628a1462d639c858a87031f176c0391ff57fe5759dafb27ebdfa93bfa025a1",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtime": "assets/effects/equipment-sets-20261019/emperor/ground.webp",
+      "runtimeSha256": "680646d3d202882f70fc5e4018305fae00258f5aca3cdf0b175060a516488288",
+      "runtimeSize": [
+        768,
+        768
+      ]
+    },
+    {
+      "set": "emperor",
+      "name": "impact-sequence",
+      "source": "assets/effects/equipment-sets-20261019/emperor/source/impact-sequence.png",
+      "sourceSha256": "bb07dd337bd08227d9a7b476f63d906424fe67736bfa9f4cbc330bd60a1a0f5a",
+      "sourceSize": [
+        1448,
+        1086
+      ],
+      "runtime": "assets/effects/equipment-sets-20261019/emperor/impact-sequence.webp",
+      "runtimeSha256": "2bbc5cd55f20c3b1c21b63f6984b058d3f086118f414c20ec854dd5fc7a190a7",
+      "runtimeSize": [
+        1200,
+        900
+      ],
+      "columns": 4,
+      "rows": 3,
+      "frames": 12,
+      "durationSeconds": 0.7
+    },
+    {
+      "set": "arden",
+      "name": "crest",
+      "source": "assets/effects/equipment-sets-20261019/arden/source/crest.png",
+      "sourceSha256": "c9cf6b1ba58b47100c45b7d9500d58ae6b8b93a252f7eeff032212a00d8bdd4d",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtime": "assets/effects/equipment-sets-20261019/arden/crest.webp",
+      "runtimeSha256": "31657141e4d4c8b6635efbcceca6a0f2820b4481a605bbfee3c92ac5f33cfcda",
+      "runtimeSize": [
+        768,
+        768
+      ]
+    },
+    {
+      "set": "arden",
+      "name": "ground",
+      "source": "assets/effects/equipment-sets-20261019/arden/source/ground.png",
+      "sourceSha256": "3578ef1c4dbabe688b1eec00cada88e519d1ce7565d5af7715d5ef31b1d7d170",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "runtime": "assets/effects/equipment-sets-20261019/arden/ground.webp",
+      "runtimeSha256": "a3dd75409ce11719f3e48bebc0875cbf135ca91ea2d663e9dae6379cdeab537e",
+      "runtimeSize": [
+        768,
+        768
+      ]
+    },
+    {
+      "set": "arden",
+      "name": "impact-sequence",
+      "source": "assets/effects/equipment-sets-20261019/arden/source/impact-sequence.png",
+      "sourceSha256": "77e701a9f96a6b8199d9b2504ffb7eeab8d0a59ff91cbb66aef4ce9f746b2ab4",
+      "sourceSize": [
+        1448,
+        1086
+      ],
+      "runtime": "assets/effects/equipment-sets-20261019/arden/impact-sequence.webp",
+      "runtimeSha256": "f231c5d2d9c249d385900c0e38ff422536d4428510a101dc797f78b84d20d065",
+      "runtimeSize": [
+        1200,
+        900
+      ],
+      "columns": 4,
+      "rows": 3,
+      "frames": 12,
+      "durationSeconds": 0.7
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import {prepareEquipmentSetFX} from './EquipmentSetFX.js';
 import {drawBattleGroundStations} from './BattleGroundSigil.js';
 import {preloadBattleHud} from './BattleHud.js';
 import {apocalypseLegionBoss} from '../../../../shared/apocalypse-legion-v1.mjs';
@@ -645,6 +646,7 @@ export class BaseBattleEngine{
     // WebGL contexts. Everything below the renderer, however, is session data
     // and must be reset before the next server timeline is accepted.
     this.cancelTimelines();
+    if(!preserveTargets){this.equipmentSetFX?.destroy();this.equipmentSetFX=null;}
     this.playing=false;
     this.liveDeployed=false;
     if(!preserveTargets){
@@ -1796,6 +1798,7 @@ export class BaseBattleEngine{
     try{
       const result=await this.applyBattlePayload(payload);
       await preparePetSupport(this,payload);
+      await prepareEquipmentSetFX(this,payload);
       return result;
     }finally{
       try{await this.releaseStaleLiveAssets()}catch(error){
@@ -1806,6 +1809,7 @@ export class BaseBattleEngine{
 
   async applyBattlePayload(payload){
     disposeIconTechniques(this);
+    this.equipmentSetFX?.destroy();this.equipmentSetFX=null;
     this.battleData=payload;
     this.livePayload=Boolean(payload?.battleV2);
     this.liveDeployed=false;
@@ -2731,6 +2735,8 @@ export class BaseBattleEngine{
       this.updateStatus('공격 가능한 생존 대상이 없습니다.');
       return Promise.resolve(false);
     }
+    const originalImpact=onImpact;
+    onImpact=victim=>{this.equipmentSetFX?.impact(actor,victim,{critical});originalImpact(victim);};
     if(iconDefinition(actor.cardId))return playIconBasic(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
     if(this.coopArkeBattlefield&&actor.team===TEAM.ENEMY&&actor.coopFinalBoss)return playCooperativeArkeAttack(this,actor,victim,{damage,targetHp,targetShield,critical,onImpact});
     if(this.coopArkeBattlefield&&actor.team===TEAM.ENEMY&&actor.attackStyle==='RANGED')return playCooperativeWatcherAttack(this,actor,victim,{damage,targetHp,targetShield,onImpact});
@@ -3139,6 +3145,7 @@ export class BaseBattleEngine{
   }
 
   async playEvents(events=[],{forceDeploy=false,timedInternal=false,beforeEvent=null,afterEvent=null,sequential=false,isPaused=()=>false}={}){
+    this.equipmentSetFX?.start();
     if(!timedInternal)this.accountBattleUnitIsPaused=isPaused;
     if(!timedInternal&&isSkillChipTimeline(events)){
       this.skillChipPlayback?.cancel();
@@ -3608,6 +3615,7 @@ export class BaseBattleEngine{
     }
     if(this.visible){
       this.app.start();
+      this.equipmentSetFX?.start();
       for(const character of this.characters){
         for(const animation of new Set([character.animationAdapter,character.animationController]))animation?.timeline?.resume();
       }
@@ -3629,6 +3637,7 @@ export class BaseBattleEngine{
 
   diagnostics(){
     return {
+      equipmentSets:this.equipmentSetFX?.diagnostics()||[],
       mounted:this.mounted,
       visible:this.visible,
       playing:this.playing,
@@ -3749,6 +3758,7 @@ export class BaseBattleEngine{
   }
 
   destroy(){
+    this.equipmentSetFX?.destroy();this.equipmentSetFX=null;
     this.disposed=true;
     this.onEffectSceneDestroy?.();this.onEffectSceneDestroy=null;
     this.cancelTimelines();

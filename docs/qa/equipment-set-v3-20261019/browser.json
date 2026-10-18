@@ -1,0 +1,20 @@
+{
+  "source": "Actual rebuilt common V3 bundle, local canonical battle fixtures",
+  "preview": "/preview/equipment-sets-v3-20261019/",
+  "scenarios": ["PVP desktop", "PVE 390x844", "COOP desktop", "COOP 390x844"],
+  "accountAvatarEnabled": false,
+  "canvasesPerBattle": 1,
+  "horizontalOverflowPixels": 0,
+  "mobileButtonMinimumHeight": 44,
+  "pvp": {"A": "ARDEN", "B": "EMPEROR", "confirmedHitsObserved": true},
+  "coop": {"owner1": "ARDEN", "owner2": "EMPEROR", "owner3": null, "cardUnitsPerEffectOwner": 2},
+  "pauseFreezesEffectClock": true,
+  "replayDisposesPreviousManager": true,
+  "effectToggleFields": {"off": 0, "on": 2},
+  "reducedMotion": {"motes": 0, "extraImpacts": 0, "staticEmblemVisible": true},
+  "dispose": {"canvases": 0, "simpleTimelines": 0},
+  "consoleErrors": 0,
+  "existingWarnings": ["Unused apocalypse boss impact atlas was not found in Pixi cache during cleanup"],
+  "nativeBackgroundVisibilityVerified": false,
+  "visualApproval": "Technical verification only; no separate user visual approval inferred"
+}

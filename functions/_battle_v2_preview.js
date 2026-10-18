@@ -2130,7 +2130,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
       maxActions:encounterPlan.maxActions, maxDuration:encounterPlan.maxDuration, forcedMonsterEvery,
       stateContinuity:['HP','SHIELD','GAUGE','MAGIC_BUDGET','REVIVE_BUDGET','BATTLE_SUIT_CLOCK'], fixedEnemyStats:true}} : {}),
     teams: {
-      A: { summary: teamSummary(simulated.openingTeams?.A.filter(c=>!c.isBattleSuit)||(mercenaryFighter?[...teamA,...simulated.openingMercenaries.A]:teamA)), cards: simulated.openingTeams?.A.filter(c=>!c.isMercenary&&!c.isBattleSuit)||teamA.map(publicFighter),...(mercenaryFighter?{mercenaries:simulated.openingMercenaries.A}:{}),...(pet?{pet}:{}), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
+      A: { ...(pveEquipmentRuntime?.equipmentSetVisual?{equipmentSetVisual:pveEquipmentRuntime.equipmentSetVisual}:{}), summary: teamSummary(simulated.openingTeams?.A.filter(c=>!c.isBattleSuit)||(mercenaryFighter?[...teamA,...simulated.openingMercenaries.A]:teamA)), cards: simulated.openingTeams?.A.filter(c=>!c.isMercenary&&!c.isBattleSuit)||teamA.map(publicFighter),...(mercenaryFighter?{mercenaries:simulated.openingMercenaries.A}:{}),...(pet?{pet}:{}), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
     },
     result
@@ -2206,7 +2206,7 @@ export function resolvePvpOutcome(result, teamA, teamB) {
   return { ...result, winner, reason, originalReason, survivorCount: { A: aliveA, B: aliveB }, timeline: patchedTimeline };
 }
 
-export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
+export function createPvpBattleV2({ attackerEquipmentSetVisual = null, defenderEquipmentSetVisual = null, attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
   const powerEnabled=pvpPowerEnabled({pvpBalanceVersion,[PVP_POWER_BALANCE_REVIEW]:powerReview});
   const attackerWithEquipment = distributeEquipment(applyTypeStacking(attackerCards), Math.max(0, Number(attackerEquipmentBonus || 0)));
   const defenderWithEquipment = distributeEquipment(applyTypeStacking(defenderCards), Math.max(0, Number(defenderEquipmentBonus || 0)));
@@ -2242,8 +2242,8 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
       dbTimelineWrites: 0
     },
     teams: {
-      A: { summary: teamSummary(simulated.openingTeams?.A||(mercA?[...teamA,...simulated.openingMercenaries.A]:teamA)), cards: simulated.openingTeams?.A.filter(c=>!c.isMercenary)||teamA.map(publicFighter),...(mercA?{mercenaries:simulated.openingMercenaries.A}:{}),...(attackerPet?{pet:attackerPet}:{}) },
-      B: { summary: teamSummary(simulated.openingTeams?.B||(mercB?[...teamB,...simulated.openingMercenaries.B]:teamB)), cards: simulated.openingTeams?.B.filter(c=>!c.isMercenary)||teamB.map(publicFighter),...(mercB?{mercenaries:simulated.openingMercenaries.B}:{}),...(defenderPet?{pet:defenderPet}:{}) }
+      A: { ...(attackerEquipmentSetVisual?{equipmentSetVisual:attackerEquipmentSetVisual}:{}), summary: teamSummary(simulated.openingTeams?.A||(mercA?[...teamA,...simulated.openingMercenaries.A]:teamA)), cards: simulated.openingTeams?.A.filter(c=>!c.isMercenary)||teamA.map(publicFighter),...(mercA?{mercenaries:simulated.openingMercenaries.A}:{}),...(attackerPet?{pet:attackerPet}:{}) },
+      B: { ...(defenderEquipmentSetVisual?{equipmentSetVisual:defenderEquipmentSetVisual}:{}), summary: teamSummary(simulated.openingTeams?.B||(mercB?[...teamB,...simulated.openingMercenaries.B]:teamB)), cards: simulated.openingTeams?.B.filter(c=>!c.isMercenary)||teamB.map(publicFighter),...(mercB?{mercenaries:simulated.openingMercenaries.B}:{}),...(defenderPet?{pet:defenderPet}:{}) }
     },
     result
   };
@@ -2271,7 +2271,7 @@ export function createDuoBattleV2({attackerSquads=[],defenderSquads=[],seed=1,si
       const merc=buildAvatarMercenaryFighter(squad.mercenary,side,'PVP',squad.avatarPowerPercent);
       if(merc)mercenaries.push({...merc,id:`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:5,slot:10+squadIndex});
       for(const item of squad.magicCards||[]){if(Number.isInteger(item.slotNo)&&item.slotNo>=1&&item.slotNo<=5)magic.push({...item,slotNo:squadIndex*5+item.slotNo});}
-      members.push({ownerId,ownerName,squadIndex,cardIds:ownCards.map(c=>c.id),mercenaryId:merc?`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`:null});
+      members.push({ownerId,ownerName,squadIndex,...(squad.equipmentSetVisual?{equipmentSetVisual:squad.equipmentSetVisual}:{}),cardIds:ownCards.map(c=>c.id),mercenaryId:merc?`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`:null});
     });
     return {cards,mercenaries,magic,members,simulation:[...cards,...mercenaries]};
   };

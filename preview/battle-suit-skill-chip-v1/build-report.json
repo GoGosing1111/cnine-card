@@ -2,6 +2,8 @@
   "engineSource": "preview/project-v-v3/source/project-v-pixi-battle.src.js",
   "pixiCopies": 1,
   "inputs": [
+    "shared/equipment-set-visual-v1.mjs",
+    "preview/project-v-v3/source/battle/EquipmentSetFX.js",
     "shared/mercenary-halloween-combat-v1.mjs",
     "shared/mercenary-halloween-visual-v1.mjs",
     "shared/mercenary-harlequin-skill-v1.mjs",
@@ -220,5 +222,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2131775
+  "outputBytes": 2139004
 }
