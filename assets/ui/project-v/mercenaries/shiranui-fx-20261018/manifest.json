@@ -1,0 +1,406 @@
+{
+  "version": "SHIRANUI_SILVER_FX_20261018_V1",
+  "generator": "built-in image_gen",
+  "visualStatus": "IMPLEMENTED_TECHNICAL_QA_PENDING_USER_VISUAL_REVIEW",
+  "promptSet": "prompts.json",
+  "reference": {
+    "path": "assets/ui/project-v/mercenaries/shiranui-20261015/source-art.png",
+    "sha256": "3b67b37e9e3ab1e017552c6d6864c0469056edc1332c2555c9f4cc6f5e3ffe65"
+  },
+  "processing": "Source PNG bytes preserved. Atlas cells extracted unchanged and repacked with 24 transparent pixels to prevent sampling bleed. Lossless WebP. No repainting, palette replacement or silhouette edits.",
+  "assets": {
+    "ballistics": {
+      "source": {
+        "path": "ballistics-source.png",
+        "sha256": "9dd3fb83bc294a5b02a35f8979ca33df7a5b8ede1f919c381070355ed2d025fe",
+        "width": 1448,
+        "height": 1086
+      },
+      "runtime": {
+        "path": "ballistics.webp",
+        "alpha": true,
+        "sha256": "3535ee4e3f479832e9bd28200678038286e4715e4264a170e55a3e16c6ed7911"
+      }
+    },
+    "rupture": {
+      "source": {
+        "path": "rupture-source.png",
+        "sha256": "d284fb9ebfe125ef836c1416c6932f3ff90dd6802d3196d48fc0f54a2c058dce",
+        "width": 1448,
+        "height": 1086
+      },
+      "runtime": {
+        "path": "rupture.webp",
+        "alpha": true,
+        "sha256": "a0ad1c8b0db41614b556b4475086934d8175664950805fab46b9de89fa20035f"
+      }
+    },
+    "dialogue": {
+      "source": {
+        "path": "dialogue-source.png",
+        "sha256": "07d61c3c672c228db7b70cbdd1957edaf96c4a236266e0c929addad6983cc5b1",
+        "width": 2172,
+        "height": 724
+      },
+      "runtime": {
+        "path": "dialogue.webp",
+        "alpha": true,
+        "sha256": "c40d037cd1f2622efd6af4c6f018125884d99db2ae47f5817a217f395eb182bf"
+      }
+    }
+  },
+  "effects": {
+    "ar-ballistics": {
+      "atlas": "../../assets/ui/project-v/mercenaries/shiranui-fx-20261018/ballistics.webp",
+      "columns": 4,
+      "cellSize": 410,
+      "frameCount": 12,
+      "frames": [
+        {
+          "index": 0,
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "251bb3fcf8be05d3bae02fea3a99809a898a7d479a8902c029e20c2e2cbb0044",
+          "anchor": {
+            "x": 0.35609756097560974,
+            "y": 0.5707317073170731
+          }
+        },
+        {
+          "index": 1,
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "8831bd0b39182b641a7e098832d2baeb5f154015bea23ff4dcca50c74791e205",
+          "anchor": {
+            "x": 0.3804878048780488,
+            "y": 0.5707317073170731
+          }
+        },
+        {
+          "index": 2,
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "d506c62691d63ee6ce4329ee6b7e6190d0dc4b73696ead2972ce57dea41f94ae",
+          "anchor": {
+            "x": 0.44390243902439025,
+            "y": 0.5707317073170731
+          }
+        },
+        {
+          "index": 3,
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "ca49acb15b97e47d03629dc7d1c618b8d2cbf3ce81737c3b060afeaecc858340",
+          "anchor": {
+            "x": 0.5170731707317073,
+            "y": 0.5707317073170731
+          }
+        },
+        {
+          "index": 4,
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "9952d36a86f9ddc4e1b81230232f420a5796c1afbb0b906ed9aa5dd2921b23e4",
+          "anchor": {
+            "x": 0.9024390243902439,
+            "y": 0.5121951219512195
+          }
+        },
+        {
+          "index": 5,
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "63d99be244b2caa63184aa2b674ca25574e239248632c9cc60a1cded16d97f61",
+          "anchor": {
+            "x": 0.8975609756097561,
+            "y": 0.5121951219512195
+          }
+        },
+        {
+          "index": 6,
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "72ac5b54786e7a65eef052c95483339d88c6a234fb708310dea59187beabf57c",
+          "anchor": {
+            "x": 0.8878048780487805,
+            "y": 0.5121951219512195
+          }
+        },
+        {
+          "index": 7,
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "97b88a6f822e8ee90ecdd514e4f530fb0ad030830f6186af95b7f94596528471",
+          "anchor": {
+            "x": 0.8829268292682927,
+            "y": 0.5121951219512195
+          }
+        },
+        {
+          "index": 8,
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "4e29efaac67fff25cb2cadf6b27976e0ab5e20137273eab3f9bff31752be8e5d",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5219512195121951
+          }
+        },
+        {
+          "index": 9,
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "74b1b3d4540d17380608f7c289c0f587145df041e3f64c7c32d485bce5c8dbf5",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5219512195121951
+          }
+        },
+        {
+          "index": 10,
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "f975f90a674bc46a10e0980e8522ad39a05f5f6c27ac6db96c84479dd8102ce8",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5219512195121951
+          }
+        },
+        {
+          "index": 11,
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "02bf34a740cc4edb203195acc34a6b0995a66e860fec5d43b4dda883c3c87696",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5219512195121951
+          }
+        }
+      ]
+    },
+    "silver-rupture": {
+      "atlas": "../../assets/ui/project-v/mercenaries/shiranui-fx-20261018/rupture.webp",
+      "columns": 4,
+      "cellSize": 410,
+      "frameCount": 12,
+      "frames": [
+        {
+          "index": 0,
+          "sourceRect": {
+            "left": 0,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "72fa38c4e066558fcabd8b498fb82c75f4531a962f41401aa0c12a5311ac89fd",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 1,
+          "sourceRect": {
+            "left": 362,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "759f9eb566cd5d4e6cdee5040df29e792fa888a0f397b1716ef3d994a21efb0d",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 2,
+          "sourceRect": {
+            "left": 724,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "17b665a6185dcb96d29e46397f83ada449336f92b9591b25ee3aeb2c75872982",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 3,
+          "sourceRect": {
+            "left": 1086,
+            "top": 0,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "98cca46b420f55f47626f05ddc1c364350b10fea17a262d56a6ead51aaa50306",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 4,
+          "sourceRect": {
+            "left": 0,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "41a654c2a8ce4342836ac35015788f2a10ea9eced5425311b0b5f4263671d0cf",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 5,
+          "sourceRect": {
+            "left": 362,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "0c9f790bdcff99d030339813cc9849776cbb54e08fa243b3a927749125a47264",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 6,
+          "sourceRect": {
+            "left": 724,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "e5f93683fca1f8645abab6ac44e1f2b7bbda01b226ac741c8d7e2a9f9bb26792",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 7,
+          "sourceRect": {
+            "left": 1086,
+            "top": 362,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "ad84f363dc4924f3c0d20c5dd50f2be32d7ecfbe0ae7133911a178abd841173e",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 8,
+          "sourceRect": {
+            "left": 0,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "cb57152f57f57a66cafa835ae3cd5a819811c87c062f81643bcdc7a956de6fe7",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 9,
+          "sourceRect": {
+            "left": 362,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "1aef08c2aee46291484a793fb191ee109ef1e1c70f52d57a3100b7e42962a625",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 10,
+          "sourceRect": {
+            "left": 724,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "2d73a157eaf6813649f151d2d81d800d5fd56bad34e2ab6c6f88e2700a3fcabe",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        {
+          "index": 11,
+          "sourceRect": {
+            "left": 1086,
+            "top": 724,
+            "width": 362,
+            "height": 362
+          },
+          "sha256": "ae72977a0ef4d97c1a82056d52571f33a71df06b56bfd28407296d63ff192526",
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        }
+      ]
+    }
+  }
+}

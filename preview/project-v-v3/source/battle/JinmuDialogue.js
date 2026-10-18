@@ -1,4 +1,5 @@
 import {MERCENARY_DIALOGUE_PROFILES} from './MercenaryDialogueProfiles.js';
+import {SHIRANUI_DIALOGUE_CSS} from './ShiranuiDialogueStyle.js';
 export {JINMU_DIALOGUE_LINES} from './MercenaryDialogueProfiles.js';
 
 // Raw content metadata takes precedence over a generic HUNT/PVE background.
@@ -77,6 +78,7 @@ body[data-jinmu-dialogue='true'][data-legion-live] .boss-hud,body[data-jinmu-dia
 @media(max-width:760px){.jinmu-dialogue-rail[data-theme='jokro']{padding:2px 5px 4px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-frame{border-inline-width:44px;border-image-width:0 44px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-inner{min-height:112px;padding:25px 0;gap:9px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-face{flex-basis:38px;width:38px;height:38px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-copy p{font-size:13px;line-height:1.6}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name{gap:7px;flex-wrap:nowrap}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name b{font-size:12px}.jinmu-dialogue-rail[data-theme='jokro'] .jinmu-dialogue-name span{font-size:9px}}
 `;
 
+const DIALOGUE_CSS=CSS+SHIRANUI_DIALOGUE_CSS;
 const rails=new WeakMap();
 
 // One reserved row per engine, including mixed three-squad formations.
@@ -90,7 +92,7 @@ class DialogueRail{
   const document=shell.ownerDocument;
   let style=document.getElementById(STYLE_ID);
   if(!style){style=document.createElement('style');style.id=STYLE_ID;document.head.append(style);}
-  if(style.textContent!==CSS)style.textContent=CSS;
+  if(style.textContent!==DIALOGUE_CSS)style.textContent=DIALOGUE_CSS;
   this.node=document.createElement('section');this.node.className='jinmu-dialogue-rail';
   this.node.innerHTML='<div class="jinmu-dialogue-frame"><div class="jinmu-dialogue-inner"><div class="jinmu-dialogue-face" role="img"><i></i></div><div class="jinmu-dialogue-copy"><div class="jinmu-dialogue-name"><b></b><span></span></div><div class="jinmu-dialogue-lines"><p role="status" aria-live="polite" aria-atomic="true"></p></div></div><div class="jinmu-dialogue-seal" aria-label="SSS 리미티드"><svg class="jinmu-dialogue-crest" viewBox="0 0 32 28" aria-hidden="true"><g data-crest="swords"><path d="m7 3 15 17-4-1-13-13 2-3Zm18 0L10 20l4-1L27 6l-2-3ZM7 17l7 7m-10 0 5-5m16-2-7 7m10 0-5-5"/><path d="m16 2 3 4-3 4-3-4Z"/></g><g data-crest="sun"><circle cx="16" cy="14" r="7"/><circle cx="16" cy="14" r="4"/><path d="M16 1v4m0 18v4M3 14h4m18 0h4M7 5l3 3m12 12 3 3M7 23l3-3M22 8l3-3"/></g></svg><b>SSS</b><small>LIMITED</small></div></div></div>';
   this.line=this.node.querySelector('p');this.lines=this.node.querySelector('.jinmu-dialogue-lines');
@@ -102,7 +104,7 @@ class DialogueRail{
   this.layout=()=>{
    if(this.destroyed||!this.node.isConnected)return;
    const width=this.node.getBoundingClientRect().width;
-   if(this.measuredWidth!==width&&[...this.members].some(m=>m.profile.theme==='jokro')){
+   if(this.measuredWidth!==width&&[...this.members].some(m=>['jokro','shiranui'].includes(m.profile.theme))){
     // A mixed squad shares this row. Reserve the tallest theme before any
     // speaker casts, so switching to the new frame cannot resize the board.
     const theme=this.node.dataset.theme;let height=0;this.node.style.minHeight='';

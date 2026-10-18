@@ -105,6 +105,7 @@
     "preview/mercenary-jokro-iaido-20261017-v1/source/JokroNeonRim.js",
     "preview/mercenary-jokro-iaido-20261017-v1/source/JokroFX.js",
     "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
+    "preview/project-v-v3/source/battle/ShiranuiDialogueStyle.js",
     "preview/project-v-v3/source/battle/JinmuDialogue.js",
     "preview/project-v-v3/source/battle/JokroCombatPlayback.js",
     "shared/mercenary-jinmu-v1.mjs",
@@ -112,6 +113,7 @@
     "shared/mercenary-shiranui-v1.mjs",
     "preview/mercenary-monochrome-artillery-battle-v1/skill.mjs",
     "preview/mercenary-monochrome-artillery-battle-v1/source/BallisticArtilleryFX.js",
+    "preview/project-v-v3/source/battle/ShiranuiSilverBallistics.js",
     "preview/project-v-v3/source/battle/ShiranuiCombatPlayback.js",
     "shared/mercenary-limited-duo-20261008.mjs",
     "shared/mercenary-limited-duo-assets-20261008.mjs",
@@ -208,5 +210,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2065283
+  "outputBytes": 2071255
 }

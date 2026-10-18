@@ -1,0 +1,1315 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "skill",
+      "hpCalls": [
+        {
+          "id": "B:0:ENCOUNTER:INITIAL",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "B:0:ENCOUNTER:INITIAL"
+      ],
+      "center0": {
+        "x": -30,
+        "y": -84.00000000000001
+      },
+      "center2": {
+        "x": -30,
+        "y": -84.00000000000001
+      },
+      "fx": {
+        "ready": true,
+        "mode": "skill",
+        "time": 0.5486,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "ar",
+          "frame": 3
+        },
+        "cancelled": false,
+        "visibleSprites": 5,
+        "activeFrames": [
+          {
+            "key": "ar-ballistics",
+            "frame": 8,
+            "point": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "size": 141.00000000000003,
+            "height": 141.00000000000003,
+            "angle": 0,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5219512195121951
+            },
+            "alpha": 0.9
+          },
+          {
+            "key": "ar-ballistics",
+            "frame": 5,
+            "point": {
+              "x": 704.339692329195,
+              "y": 159.31886369863693,
+              "angle": 0.22208314935930307
+            },
+            "size": 153.00000000000003,
+            "height": 153.00000000000003,
+            "angle": 0.22208314935930307,
+            "anchor": {
+              "x": 0.8975609756097561,
+              "y": 0.5121951219512195
+            },
+            "alpha": 1
+          },
+          {
+            "key": "silver-rupture",
+            "frame": 0,
+            "point": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "size": 177.00000000000003,
+            "height": 177.00000000000003,
+            "angle": 0,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "alpha": 0.4
+          },
+          {
+            "key": "skull",
+            "frame": 1,
+            "point": {
+              "x": 865.0000000000001,
+              "y": 141.75900000000004
+            },
+            "size": 141.00000000000003,
+            "height": 141.00000000000003,
+            "angle": 0,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5435096153846154
+            },
+            "alpha": 0.4702545454545455
+          },
+          {
+            "key": "skull",
+            "frame": 2,
+            "point": {
+              "x": 865.0000000000001,
+              "y": 141.75900000000004
+            },
+            "size": 141.00000000000003,
+            "height": 141.00000000000003,
+            "angle": 0,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5435096153846154
+            },
+            "alpha": 0.3777454545454544
+          }
+        ],
+        "contacts": [
+          {
+            "kind": "RIFLE",
+            "shot": 0,
+            "at": 0.485,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 1,
+            "at": 0.5961111111111111,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 2,
+            "at": 0.7072222222222222,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 3,
+            "at": 0.8183333333333334,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 4,
+            "at": 0.9294444444444444,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 5,
+            "at": 1.0405555555555557,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 6,
+            "at": 1.1516666666666666,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 7,
+            "at": 1.2627777777777776,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 8,
+            "at": 1.3738888888888887,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 9,
+            "at": 1.4849999999999999,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 10,
+            "at": 1.596111111111111,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 11,
+            "at": 1.7072222222222222,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 12,
+            "at": 1.8183333333333334,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 13,
+            "at": 1.9294444444444445,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 14,
+            "at": 2.0405555555555552,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 15,
+            "at": 2.1516666666666664,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 16,
+            "at": 2.2627777777777776,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 17,
+            "at": 2.3738888888888887,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 18,
+            "at": 2.485,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 19,
+            "at": 2.596111111111111,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 20,
+            "at": 2.707222222222222,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 21,
+            "at": 2.818333333333333,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 22,
+            "at": 2.929444444444444,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 23,
+            "at": 3.0405555555555552,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 24,
+            "at": 3.1516666666666664,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 25,
+            "at": 3.2627777777777776,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 26,
+            "at": 3.3738888888888887,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 27,
+            "at": 3.485,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 28,
+            "at": 3.5961111111111106,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 29,
+            "at": 3.7072222222222218,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 464.203297068727,
+              "y": 113.62082982493307
+            },
+            "to": {
+              "x": 865.0000000000001,
+              "y": 200.48550000000006
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          }
+        ],
+        "muzzleChecks": [],
+        "registeredTimelines": 0,
+        "effectLayers": 1,
+        "motionOnly": false,
+        "auraEnabled": true,
+        "auraVisible": true,
+        "haloPosition": {
+          "x": -29.29577464788731,
+          "y": -290.78169014084506
+        },
+        "haloFrame": 1.0972,
+        "bodyAuraVisible": true,
+        "bodyAuraPosition": {
+          "x": -30,
+          "y": -84.00000000000001
+        },
+        "bodyAuraFrame": 0.18286666666666682,
+        "reducedMotion": false,
+        "rifleShots": 30,
+        "artilleryGround": null,
+        "formationBlastBounds": null,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "unit": 150.00000000000003,
+        "silverVersion": "SHIRANUI_SILVER_FX_20261018_V1",
+        "dialogue": {
+          "visible": true,
+          "line": "“망령의 군기가 올랐다. 사격 개시.”",
+          "castIndex": 1,
+          "active": true,
+          "fullIllustration": false,
+          "speaker": "V-987"
+        }
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "hpCalls": 2
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "skill",
+      "hpCalls": [
+        {
+          "id": "B:0:ENCOUNTER:INITIAL",
+          "hp": 77
+        }
+      ],
+      "damageCalls": [
+        "B:0:ENCOUNTER:INITIAL"
+      ],
+      "center0": {
+        "x": -30,
+        "y": -84.00000000000001
+      },
+      "center2": {
+        "x": -30,
+        "y": -84.00000000000001
+      },
+      "fx": {
+        "ready": true,
+        "mode": "skill",
+        "time": 0.5408,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "key": "ar",
+          "frame": 2
+        },
+        "cancelled": false,
+        "visibleSprites": 6,
+        "activeFrames": [
+          {
+            "key": "ar-ballistics",
+            "frame": 8,
+            "point": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "size": 183.29999999999998,
+            "height": 183.29999999999998,
+            "angle": 0,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5219512195121951
+            },
+            "alpha": 0.9
+          },
+          {
+            "key": "ar-ballistics",
+            "frame": 2,
+            "point": {
+              "x": 499.7501571166633,
+              "y": 165.4313895493553
+            },
+            "size": 120.9,
+            "height": 120.9,
+            "angle": 0,
+            "anchor": {
+              "x": 0.44390243902439025,
+              "y": 0.5707317073170731
+            },
+            "alpha": 0.2950617283950646
+          },
+          {
+            "key": "ar-ballistics",
+            "frame": 5,
+            "point": {
+              "x": 590.5282960469748,
+              "y": 233.07525487083967,
+              "angle": 0.8943605957033259
+            },
+            "size": 198.9,
+            "height": 198.9,
+            "angle": 0.8943605957033259,
+            "anchor": {
+              "x": 0.8975609756097561,
+              "y": 0.5121951219512195
+            },
+            "alpha": 1
+          },
+          {
+            "key": "silver-rupture",
+            "frame": 0,
+            "point": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "size": 230.1,
+            "height": 230.1,
+            "angle": 0,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "alpha": 0.4
+          },
+          {
+            "key": "skull",
+            "frame": 1,
+            "point": {
+              "x": 656.015037593985,
+              "y": 253.8113107769423
+            },
+            "size": 183.29999999999998,
+            "height": 183.29999999999998,
+            "angle": 0,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5435096153846154
+            },
+            "alpha": 0.5444727272727277
+          },
+          {
+            "key": "skull",
+            "frame": 2,
+            "point": {
+              "x": 656.015037593985,
+              "y": 253.8113107769423
+            },
+            "size": 183.29999999999998,
+            "height": 183.29999999999998,
+            "angle": 0,
+            "anchor": {
+              "x": 0.5,
+              "y": 0.5435096153846154
+            },
+            "alpha": 0.19952727272727186
+          }
+        ],
+        "contacts": [
+          {
+            "kind": "RIFLE",
+            "shot": 0,
+            "at": 0.485,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 1,
+            "at": 0.5961111111111111,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 2,
+            "at": 0.7072222222222222,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 3,
+            "at": 0.8183333333333334,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 4,
+            "at": 0.9294444444444444,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 5,
+            "at": 1.0405555555555557,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 6,
+            "at": 1.1516666666666666,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 7,
+            "at": 1.2627777777777776,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 8,
+            "at": 1.3738888888888887,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 9,
+            "at": 1.4849999999999999,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 10,
+            "at": 1.596111111111111,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 11,
+            "at": 1.7072222222222222,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 12,
+            "at": 1.8183333333333334,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 13,
+            "at": 1.9294444444444445,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 14,
+            "at": 2.0405555555555552,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 15,
+            "at": 2.1516666666666664,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 16,
+            "at": 2.2627777777777776,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 17,
+            "at": 2.3738888888888887,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 18,
+            "at": 2.485,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 19,
+            "at": 2.596111111111111,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 20,
+            "at": 2.707222222222222,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 21,
+            "at": 2.818333333333333,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 22,
+            "at": 2.929444444444444,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 23,
+            "at": 3.0405555555555552,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 24,
+            "at": 3.1516666666666664,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 25,
+            "at": 3.2627777777777776,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 26,
+            "at": 3.3738888888888887,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 27,
+            "at": 3.485,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 28,
+            "at": 3.5961111111111106,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          },
+          {
+            "kind": "RIFLE",
+            "shot": 29,
+            "at": 3.7072222222222218,
+            "targetId": "B:0:ENCOUNTER:INITIAL",
+            "from": {
+              "x": 499.4793237833299,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 656.015037593985,
+              "y": 322.1258107769423
+            },
+            "mapping": "MUZZLE_TO_TARGET_CHEST",
+            "angle": 0
+          }
+        ],
+        "muzzleChecks": [
+          {
+            "kind": "RIFLE_FLASH",
+            "from": {
+              "x": 499.7501571166633,
+              "y": 165.4313895493553
+            },
+            "to": {
+              "x": 499.7501571166633,
+              "y": 165.4313895493553
+            },
+            "crossAxisError": 0
+          }
+        ],
+        "registeredTimelines": 0,
+        "effectLayers": 1,
+        "motionOnly": false,
+        "auraEnabled": true,
+        "auraVisible": true,
+        "haloPosition": {
+          "x": -29.29577464788731,
+          "y": -290.78169014084506
+        },
+        "haloFrame": 1.0816,
+        "bodyAuraVisible": true,
+        "bodyAuraPosition": {
+          "x": -30,
+          "y": -84.00000000000001
+        },
+        "bodyAuraFrame": 0.18026666666666694,
+        "reducedMotion": false,
+        "rifleShots": 30,
+        "artilleryGround": null,
+        "formationBlastBounds": null,
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "unit": 195,
+        "silverVersion": "SHIRANUI_SILVER_FX_20261018_V1",
+        "dialogue": {
+          "visible": true,
+          "line": "“망령의 군기가 올랐다. 사격 개시.”",
+          "castIndex": 1,
+          "active": true,
+          "fullIllustration": false,
+          "speaker": "V-987"
+        }
+      },
+      "direction": 1,
+      "overflow": false,
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "pool": false,
+        "hpCalls": 2
+      }
+    }
+  ],
+  "errors": []
+}

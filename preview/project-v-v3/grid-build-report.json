@@ -18,11 +18,11 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
-      "sha256": "b35180e0b5f2436b775f11be47caa702fa0fa7a38f2d66bd8765bd8c092653f4"
+      "sha256": "fbedf5ca13b7b66d14bf75c215e49efedb4701c82c6bc2be7c3b857643e12119"
     },
     {
       "file": "preview/project-v-v3/source/battle/JinmuDialogue.js",
-      "sha256": "bda18fd4a5cbd8d300be39646d0df22bcd144bf7ab6dec6a3c20f09194ab2aef"
+      "sha256": "294a39827d628ab1a94d79cfcdd523ab96302365f699d1f545cd4fc95efa2aa9"
     },
     {
       "file": "preview/project-v-v3/source/battle/KaironCombatPlayback.js",
@@ -210,7 +210,15 @@
     },
     {
       "file": "preview/project-v-v3/source/battle/ShiranuiCombatPlayback.js",
-      "sha256": "4957b4d195012cf2480200bd3c523ed64bf64dfd1aa133abe0cbf0a96ab53a68"
+      "sha256": "79690f553acbbb9c0613fd75b636e9cbdb6719627dee6eaaeb56ea24b6fae11b"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/ShiranuiSilverBallistics.js",
+      "sha256": "29501e6689fa1b2cd00d4bf358b78fc37a6f4cf62d6adbdc4a0f84ba2a9a7913"
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/ShiranuiDialogueStyle.js",
+      "sha256": "4ed08fde55454d50e4f37cd9cbf66c18ef3ab5123bcea05420937455047578b5"
     },
     {
       "file": "preview/mercenary-monochrome-artillery-battle-v1/source/BallisticArtilleryFX.js",
@@ -552,52 +560,52 @@
   "outputs": [
     {
       "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
-      "sha256": "98479f11c24b45e697dabf92d8dddc8a9951a6a53e462cf6fed0c4edc82c4c90",
+      "sha256": "426f93fb07977b846365e3dfa81dcc1322495a902e2407f50654e189b62cb1b1",
       "commonGrid": true
     },
     {
       "file": "preview/scrapyard-v3-v1/battle.bundle.js",
-      "sha256": "49d185fa38f9d1cbc985e2abad0196a96e4a69b1edf5c778d43b9814a81a2e0d",
+      "sha256": "fa687963b5439fd9dac6c61df33b20e5278237fc998f607fbb2108debaf312a4",
       "commonGrid": true
     },
     {
       "file": "preview/cow-room-v3-v1/battle.bundle.js",
-      "sha256": "0ed8b9092412ce12e39d61966a2e689de543eee27d13942b5a156d0a514d25b7",
+      "sha256": "406b758f7243a6a7f5655cb7dcffd27f3d58eb195fd811a06d37df269419f1c0",
       "commonGrid": true
     },
     {
       "file": "preview/infinite-tower-v3-v1/battle.bundle.js",
-      "sha256": "b447c0a1aa858268be0af0c5887b38d9f3eef3b6515b8b845864a9f620fdafc6",
+      "sha256": "14a209bd8e59cbf7ed106c03ec52e10917d952db379be57c2cdc28b5151ea336",
       "commonGrid": true
     },
     {
       "file": "pve-v3/battle.bundle.js",
-      "sha256": "281dfb9331a63401df58f38394cd9fbc0d9b83a73238d012a227c52ffb07ca85",
+      "sha256": "822c94020896ea046ae12a828629a15810cbc709ec004160d0e5bfda62ead61f",
       "commonGrid": true
     },
     {
       "file": "preview/v3-wide-grid-v1/battle.bundle.js",
-      "sha256": "67eedd61ddc5b1a2622f577b54d96cbf8e8243333b73f72ee6d06436c186636c",
+      "sha256": "02d0a3b5c131165321a8fb72e5f323acc33a502a8c1f04b98061bcd342bd92ab",
       "commonGrid": true
     },
     {
       "file": "preview/boss-resources-v2048/lab.bundle.js",
-      "sha256": "bb6c6743a2c23b976d6b9f793e3cf93f22decd00a9b6d505accb5b1477cd8802",
+      "sha256": "1b41c7ec8c44b544bfb913b4b43b1fad197c9744b9994433784fc0c762f206b4",
       "commonGrid": true
     },
     {
       "file": "preview/battle-suit-skill-chip-v1/skill-chip-lab.bundle.js",
-      "sha256": "8c915ecc4fa011be586951150b85b8ede1ee936f57cbdf160db99cb64682c391",
+      "sha256": "9936e88813443b93b9f0b3c5536df5a6b2f36a8503d202870664876d27600c82",
       "commonGrid": true
     },
     {
       "file": "preview/project-v-mercenary-system-v1/skills.bundle.js",
-      "sha256": "8c845b2023674367a049c6d0fe7c798e120b70ceaf39874e76c1f41aee933c14",
+      "sha256": "4f38bb0207d4c3fd4a0ef7f99f2b7e3d20b71d0277652d4105aed48bdd747e3b",
       "commonGrid": true
     },
     {
       "file": "preview/sustained-hunt-v2/battle.bundle.js",
-      "sha256": "0579ef06bab1b64f83f7dabbd5ec134533facf9d2c4f29f88b12d7b6f9f3d54e",
+      "sha256": "f00a8b11f7b67de5351889744842712a87f971216f9d15db65e2b635effb2675",
       "commonGrid": true
     }
   ],

@@ -400,6 +400,12 @@
 - 기준 문서는 docs/organization-system-20261015.md와 docs/organization-headquarters-20261015.md, 이미지 색인은 assets/ui/organization/admission-v1/manifest.json이다. node scripts/serve-organization-preview.mjs --assigned는 가상 배정 이후 명부 검수이며 운영 계정·운영 DB에 연결하지 않는다.
 
 
+## 시라누이 백은 탄환·단일 연사·SSS 대사 — 2026-10-18
+
+- 사용자 지시로 사격 투사체와 단일 30발 스킬의 시각 효과를 강화하고, 원화의 흑백·백은 탄환·망령 군기에 맞춘 SSS 리미티드 대사 5종을 추가한다. 전용 ImageGen 원본·12프레임 탄도·12프레임 파열·대사 프레임·프롬프트·해시는 `assets/ui/project-v/mercenaries/shiranui-fx-20261018/manifest.json`을 기준으로 한다.
+- 승인 원화·직선 총기·반동 모션·두 군기·머리 광륜·9/30/25발·피해 접점·카이론 동급 수치·획득 잠금·지정 계정은 보존한다. 반려된 백호나 탄환 주변 아우라를 복원하지 않는다.
+- 대사는 기존 SSS 공용 레일과 허용 콘텐츠 정책을 따른다. PC/모바일·혼합 화자·중단/재개 검수와 운영 기록은 `docs/shiranui-silver-fx-20261018.md`다. 기술 검수는 사용자 최종 시각 승인으로 기록하지 않는다.
+
 ## 시라누이 SSS 리미티드 · 지정 계정 전용 라이브 — 2026-10-15
 
 - 사용자 `승인하고 라이브 올려라`, `획득 불가 걸어놓고 핑크빛유두에 지급,편성되게`, 분류 답변 `카이론과 같은 SSS 리미티드`가 이전 미정 기록보다 우선한다. **시라누이(不知火), V-987, SSS LIMITED**로 등록한다.

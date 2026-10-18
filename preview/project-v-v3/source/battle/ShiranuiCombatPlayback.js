@@ -2,10 +2,14 @@ import {gsap} from 'gsap';
 import {SHIRANUI_CODE,SHIRANUI_ART,SHIRANUI_AREA_EVENT,SHIRANUI_COMBAT} from '../../../../shared/mercenary-shiranui-v1.mjs';
 import {BallisticArtilleryFX,loadBallisticAssets} from '../../../mercenary-monochrome-artillery-battle-v1/source/BallisticArtilleryFX.js';
 import {makePlan,MODES} from '../../../mercenary-monochrome-artillery-battle-v1/skill.mjs';
+import {renderShiranuiSilverRifle} from './ShiranuiSilverBallistics.js';
+import {JinmuDialogue} from './JinmuDialogue.js';
+import {MERCENARY_DIALOGUE_PROFILES} from './MercenaryDialogueProfiles.js';
 
 const BODY_HEIGHT=300,MANIFEST='/preview/mercenary-monochrome-artillery-battle-v1/manifest.json?v=20261015-shiranui-live-v1';
 let manifestPromise;
-const manifest=()=>manifestPromise||=fetch(MANIFEST).then(r=>{if(!r.ok)throw Error('SHIRANUI_MOTION_ASSETS');return r.json();}).catch(e=>{manifestPromise=null;throw e;});
+const SILVER_MANIFEST='/assets/ui/project-v/mercenaries/shiranui-fx-20261018/manifest.json?v=1';
+const manifest=()=>manifestPromise||=Promise.all([MANIFEST,SILVER_MANIFEST].map(url=>fetch(url).then(r=>{if(!r.ok)throw Error('SHIRANUI_MOTION_ASSETS');return r.json();}))).then(([base,silver])=>({...base,effects:{...base.effects,...silver.effects},silverVersion:silver.version})).catch(e=>{manifestPromise=null;throw e;});
 export function shiranuiBattleArt(code){
  if(code!==SHIRANUI_CODE)return null;
  return {...SHIRANUI_ART,spriteUrl:'/'+SHIRANUI_ART.battleSprite+'?v='+SHIRANUI_ART.battleSpriteSha256.slice(0,16),
@@ -19,6 +23,7 @@ class ShiranuiLiveFX extends BallisticArtilleryFX{
   const visualEngine=Object.assign(Object.create(engine),{camera:{reset(){},addShake(){}}});
   super(visualEngine,actor,targets,assets,m,{...makePlan({mode:'aura'}),damageAuthority:'SERVER_ONLY'});
   this.cancel();
+  this.dialogue=new JinmuDialogue(engine,MERCENARY_DIALOGUE_PROFILES[SHIRANUI_CODE]);
  }
  makeTimeline(){}
  get direction(){return this.merc.team==='ENEMY'?-1:1;}
@@ -26,7 +31,7 @@ class ShiranuiLiveFX extends BallisticArtilleryFX{
  point(actor,f=.43){return this.engine.effectLayer.toLocal(actor.root.toGlobal({x:0,y:-(actor.art?.bodyHeight||actor.fullBodyHeight)*f}));}
  rifle(t,muzzle,axis,unit){
   const a=this.ownPoint(),b=this.ownPoint(Math.cos(axis),Math.sin(axis));
-  super.rifle(t,muzzle,Math.atan2(b.y-a.y,b.x-a.x),unit);
+  renderShiranuiSilverRifle(this,t,muzzle,Math.atan2(b.y-a.y,b.x-a.x),unit);
  }
  updateHalo(state){super.updateHalo({...state,cancelled:state.cancelled||this.merc.hp<=0});}
  updateBodyAura(state){super.updateBodyAura({...state,cancelled:state.cancelled||this.merc.hp<=0});}
@@ -36,16 +41,17 @@ class ShiranuiLiveFX extends BallisticArtilleryFX{
   this.targetsBase=before.map(({x,tint})=>({x,tint}));super.render(t);
   for(const {a,x,y,tint}of before){a.view.position.set(x,y);a.fullBodySprite.tint=tint;}
  }
- begin(mode,targets){this.targets=[...new Set(targets)];this.plan={...makePlan({mode}),damageAuthority:'SERVER_ONLY'};this.captureFormation();this.clock.time=0;this.render(0);}
+ begin(mode,targets){this.targets=[...new Set(targets)];this.plan={...makePlan({mode}),damageAuthority:'SERVER_ONLY'};if(mode==='skill'||mode==='ultimate')this.dialogue?.begin();this.captureFormation();this.clock.time=0;this.render(0);}
  cancel(){
-  if(this.destroyed)return;this.removeTimeline();this.clock.time=0;
+  if(this.destroyed)return;this.dialogue?.end();this.removeTimeline();this.clock.time=0;
   this.pool?.forEach(s=>s.visible=false);this.haloBack.visible=this.bodyAuraBack.visible=this.bodyAuraFront.visible=false;
   const a=this.merc;if(a.root.destroyed)return;
   this.plan={...makePlan({mode:'aura'}),damageAuthority:'SERVER_ONLY'};
   a.restoreNeutralAvatarPose();this.sample={pose:{key:'ar',frame:0}};this.applyPose(this.sample.pose);
   a.root.position.set(a.baseX,a.baseY);a.root.depthSortY=a.baseY;
  }
- diagnostics(){return {...super.diagnostics(),damageAuthority:'SERVER_ONLY',clockOwner:'V3_REGISTERED_GSAP'};}
+ diagnostics(){return {...super.diagnostics(),damageAuthority:'SERVER_ONLY',clockOwner:'V3_REGISTERED_GSAP',silverVersion:this.manifest.silverVersion,dialogue:this.dialogue?.diagnostics()};}
+ destroy(){this.dialogue?.destroy();super.destroy();}
 }
 function stopAmbient(s){if(!s.ambient)return;const entry=s.ambient;s.ambient=null;s.engine.simpleTimelines.delete(entry);entry.instance.kill();}
 function startAmbient(s){
