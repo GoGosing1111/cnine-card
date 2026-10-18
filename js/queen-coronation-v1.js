@@ -22,18 +22,24 @@
     dialog.id='chiefElectionPopup';dialog.className='queen-coronation'+(coupGeneral?' general-coup-succession':view.general?' general-inauguration':view.coup?' coup-succession':'');
     dialog.setAttribute('aria-labelledby','chiefElectionTitle');dialog.setAttribute('aria-describedby','queenCoronationDescription');
     dialog.innerHTML=`<div class="queen-coronation-scene">
-      <picture class="queen-coronation-art"><img src="${coupGeneral?'/assets/ui/coup/coup-general-succession-v2-20261018.png':view.general?'/assets/ui/chief/general-command-v1.png':view.coup?'/assets/ui/coup/coup-succession-v2123-20261002.png':'/assets/ui/chief/queen-coronation-v1-1536.webp'}" width="${view.general&&!coupGeneral?1024:1536}" height="${view.general&&!coupGeneral?1536:1024}" alt="${coupGeneral?'쿠데타로 황궁을 장악하고 새 통치를 선포하는 검은 군복의 여성 장군':view.general?'붉은 깃발과 철의 요새를 지배하는 냉엄한 여성 장군':view.coup?'어두운 황궁을 장악한 근엄한 여성 지휘관':'숲의 왕궁에서 루비 왕관과 아이보리 예복을 갖추고 즉위하는 여왕'}" decoding="async" fetchpriority="high"></picture>
+      <picture class="queen-coronation-art"><img src="${coupGeneral?'/assets/ui/coup/coup-general-male-v4-20261018.png':view.general?'/assets/ui/chief/general-command-v1.png':view.coup?'/assets/ui/coup/coup-succession-v2123-20261002.png':'/assets/ui/chief/queen-coronation-v1-1536.webp'}" width="${view.general&&!coupGeneral?1024:1536}" height="${view.general&&!coupGeneral?1536:1024}" alt="${coupGeneral?'점령한 지휘실의 작전대를 짚고 선 두꺼운 군용 코트의 남성 장군':view.general?'붉은 깃발과 철의 요새를 지배하는 냉엄한 여성 장군':view.coup?'어두운 황궁을 장악한 근엄한 여성 지휘관':'숲의 왕궁에서 루비 왕관과 아이보리 예복을 갖추고 즉위하는 여왕'}" decoding="async" fetchpriority="high"></picture>
       <div class="queen-coronation-shade" aria-hidden="true"></div><div class="queen-coronation-rays" aria-hidden="true"></div>
       <div class="queen-coronation-motes" aria-hidden="true">${Array.from({length:12},(_,i)=>`<i style="--x:${7+i*7.8}%;--delay:${(i%5)*.21}s;--rise:${60+(i%4)*24}px"></i>`).join('')}</div>
-      <header class="queen-coronation-header"><span>REVERSE CALL <b>${coupGeneral?'COUP · CHANGE OF COMMAND':view.general?'GENERAL REGIME':view.coup?'THE FALL OF THE PALACE':'THE CORONATION'}</b></span><div><button type="button" class="queen-skip">연출 건너뛰기</button><button type="button" class="queen-close" aria-label="${coupGeneral?'쿠데타 장군 교체':view.general?'장군 집권식':view.coup?'쿠데타 결과':'즉위식'} 닫기">×</button></div></header>
-      ${coupGeneral?'<div class="general-coup-prologue" aria-hidden="true"><small>THE PALACE HAS FALLEN</small><b>황궁 함락</b><span>반란군이 승리했습니다</span></div>':''}
+      <header class="queen-coronation-header"><span>REVERSE CALL <b>${coupGeneral?'COUP · CHANGE OF COMMAND':view.general?'GENERAL REGIME':view.coup?'THE FALL OF THE PALACE':'THE CORONATION'}</b></span><div><button type="button" class="queen-skip">연출 건너뛰기</button><button type="button" class="queen-close" aria-label="${coupGeneral?'쿠데타 장군 교체':view.general?'장군 집권식':view.coup?'쿠데타 결과':'즉위식'} 닫기">${coupGeneral?'<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 6L18 18M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>':'×'}</button></div></header>
+      ${coupGeneral?`<div class="coup-removal-sequence" aria-hidden="true">
+        <img class="coup-removal-art" src="/assets/ui/coup/coup-prison-escort-female-v4-20261018.png" width="1536" height="1024" alt="" decoding="async" fetchpriority="high">
+        <img class="coup-removal-searchlight" src="/assets/ui/coup/coup-searchlight-v3-20261018.png" width="1254" height="1254" alt="" decoding="async">
+        <div class="coup-removal-shade"></div>
+        <div class="coup-removal-verdict"><small>최고사령부 지휘권 박탈</small><h3>무능한 장군을<br>내렸다</h3><p>${esc(chief.coupSuccession.previousNickname)}</p></div>
+        <div class="coup-removal-escort"><small>PRISON TRANSFER</small><h3>전임 장군 감옥 이송</h3><p>${esc(chief.coupSuccession.previousNickname)} · 지휘권 박탈</p></div>
+      </div>`:''}
       <div class="queen-coronation-copy">${coupGeneral?`<p class="queen-coronation-eyebrow">반란군 승리 · 새로운 통치의 시작</p>
         <h2 id="chiefElectionTitle"><span class="queen-gold-word">쿠데타</span><span class="queen-coronation-subtitle">성공</span></h2>
         <section class="coup-general-transfer" aria-label="장군 교체">
           <p>장군 교체</p>
           <div class="coup-general-leaders"><div class="coup-general-previous"><small>이전 장군</small><del>${esc(chief.coupSuccession.previousNickname)}</del></div><span class="coup-general-arrow" aria-label="에서">→</span><div class="coup-general-successor"><small>${view.ordinal?`제 ${view.ordinal}대 장군`:'새 장군'}</small><strong>${esc(chief.nickname)}</strong></div></div>
         </section>
-        <p id="queenCoronationDescription">반란군 지휘관이 최고사령부를 장악했습니다.<br>새 장군의 통치가 시작됩니다.</p>
+        <p id="queenCoronationDescription">전임 장군은 지휘권을 박탈당하고 감옥으로 이송됐습니다.<br>새 장군의 통치가 시작됩니다.</p>
         <p class="queen-coronation-term">${esc(termEnd.replace('재위','집권').replace('왕실 명패','집권 명패'))} · KST</p>
         <footer><label><input type="checkbox" id="chiefHideToday"> 오늘 하루 보지 않기</label><button type="button" id="chiefPopupClose">새 장군 확인 <span aria-hidden="true">→</span></button></footer>`:view.general?`<img class="general-inauguration-insignia" src="/assets/ui/chief/general-insignia-v1.svg" width="80" height="94" alt="최고사령부 휘장">
         <p class="queen-coronation-eyebrow">${view.coup?'쿠데타 성공 · 정권 교체':'최고사령부 · 집권 선포'}</p>
@@ -53,6 +59,7 @@
         <footer><label><input type="checkbox" id="chiefHideToday"> 오늘 하루 보지 않기</label><button type="button" id="chiefPopupClose">여왕의 시대를 맞이합니다 <span aria-hidden="true">→</span></button></footer>`}
       </div>
     </div>`;
+    if(coupGeneral)dialog.classList.add('is-coup-loading');
     doc.body.appendChild(dialog);
     const cleanup=()=>{dialog.remove();if(previousFocus?.isConnected)previousFocus.focus({preventScroll:true});};
     const close=()=>{
@@ -64,8 +71,9 @@
     dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
     dialog.addEventListener('keydown',event=>{if(event.key==='Escape')event.stopPropagation();});
     dialog.querySelector('.queen-close').onclick=close;dialog.querySelector('#chiefPopupClose').onclick=close;
-    dialog.querySelector('.queen-skip').onclick=()=>{dialog.classList.add('is-settled');dialog.querySelector('#chiefPopupClose').focus({preventScroll:true});};
+    dialog.querySelector('.queen-skip').onclick=()=>{dialog.classList.add('is-settled');dialog.classList.remove('is-coup-loading');dialog.querySelector('#chiefPopupClose').focus({preventScroll:true});};
     dialog.showModal();dialog.querySelector('.queen-close').focus({preventScroll:true});
+    if(coupGeneral)Promise.all(Array.from(dialog.querySelectorAll('img')).map(img=>img.decode().catch(()=>{}))).then(()=>{if(dialog.isConnected)dialog.classList.remove('is-coup-loading');});
     return true;
   }
   async function open({returnFocus=null}={}){

@@ -5,23 +5,28 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'">
   <title>쿠데타 성공 · 장군 교체 연출 시안</title>
-  <link rel="stylesheet" href="/css/queen-coronation-v1.css?v=20261018-coup-general">
+  <link rel="stylesheet" href="/css/queen-coronation-v1.css?v=20261018-coup-general-v4">
   <style>
-    body{margin:0;min-height:100dvh;display:grid;place-items:center;font-family:'Malgun Gothic',sans-serif;background:#0b0d13 url('/assets/ui/coup/coup-general-succession-v2-20261018.png') center/cover fixed;color:#f6e9d7}
+    body{margin:0;min-height:100dvh;display:grid;place-items:center;font-family:'Malgun Gothic',sans-serif;background:#0b0d13 url('/assets/ui/coup/coup-general-male-v4-20261018.png') center/cover fixed;color:#f6e9d7}
     main{max-width:540px;margin:20px;padding:30px;text-align:center;text-shadow:0 2px 15px #000;background:#090c1499}
     h1{font-size:26px}p{font-size:13px;line-height:1.9}a{color:#ead1ab}button{font:inherit;cursor:pointer;padding:12px 20px;min-height:44px}.preview-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .is-coup-escort-review .coup-removal-sequence,.is-coup-verdict-review .coup-removal-sequence{animation:none;opacity:1;visibility:visible}
+    .is-coup-escort-review .coup-removal-verdict,.is-coup-verdict-review .coup-removal-escort{display:none}
+    .is-coup-escort-review .coup-removal-escort,.is-coup-verdict-review .coup-removal-verdict{animation:none;opacity:1;transform:none}
+    .is-coup-escort-review .coup-removal-searchlight,.is-coup-verdict-review .coup-removal-searchlight{animation-iteration-count:infinite;animation-direction:alternate}
+    .is-coup-escort-review:not(.is-settled) .queen-coronation-copy,.is-coup-verdict-review:not(.is-settled) .queen-coronation-copy{opacity:0;pointer-events:none}
   </style>
-  <script defer src="/js/queen-coronation-v1.js?v=20261018-coup-general"></script>
+  <script defer src="/js/queen-coronation-v1.js?v=20261018-coup-general-v4"></script>
   <script defer src="./preview.js"></script>
 </head>
 <body>
   <main>
     <p>REVERSE CALL · 연출 미리보기</p>
     <h1>쿠데타 성공 · 장군 교체</h1>
-    <p>황궁 함락 → 쿠데타 성공 → 장군 교체<br>나무늘봉순 → 박세라-ㅂ-</p>
+    <p>무능한 장군을 내렸다 → 감옥 이송 → 새 장군 공개<br>나무늘봉순 → 박세라-ㅂ-</p>
     <p>실제 승계 전 연출 시안입니다. 이 화면은 운영 데이터와 연결되지 않습니다.</p>
-    <div class="preview-actions"><button id="replay" type="button">연출 다시 보기</button><button id="settled" type="button">최종 화면 보기</button></div>
-    <p><a href="/assets/ui/coup/coup-general-succession-v2-20261018.png" target="_blank" rel="noopener">일러스트 원본</a></p>
+    <div class="preview-actions"><button id="replay" type="button">전체 연출 다시 보기</button><button id="verdict" type="button">파면 장면</button><button id="escort" type="button">감옥 이송 장면</button><button id="settled" type="button">새 장군 보기</button></div>
+    <p><a href="/assets/ui/coup/coup-general-male-v4-20261018.png" target="_blank" rel="noopener">남성 장군 원본</a> · <a href="/assets/ui/coup/coup-prison-escort-female-v4-20261018.png" target="_blank" rel="noopener">감옥 이송 원본</a></p>
   </main>
 </body>
 </html>

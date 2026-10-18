@@ -8,7 +8,7 @@ function runtime({blockedStorage=false}={}){
   const local=new Map(),session=new Map(),nodes=new Map(),calls=[];
   let focused=false,dialog;
   const window={document:{activeElement:{isConnected:true,focus(){focused=true;}},getElementById:id=>nodes.get(id),body:{appendChild(el){nodes.set(el.id,el);}},createElement(){
-    const events={},controls={};dialog={setAttribute(){},classList:{add(){}},querySelector(s){return controls[s]??=(s==='#chiefHideToday'?{checked:false}:{focus(){}});},addEventListener(type,fn){events[type]=fn;},showModal(){},close(){events.close?.();},remove(){nodes.delete(this.id);}};return dialog;
+    const events={},controls={};dialog={setAttribute(){},classList:{add(){},remove(){}},querySelectorAll(){return [];},querySelector(s){return controls[s]??=(s==='#chiefHideToday'?{checked:false}:{focus(){}});},addEventListener(type,fn){events[type]=fn;},showModal(){},close(){events.close?.();},remove(){nodes.delete(this.id);}};return dialog;
   }}};
   for(const [name,map] of [['localStorage',local],['sessionStorage',session]])window[name]={getItem(key){if(blockedStorage)throw Error('blocked');return map.get(key)||null;},setItem(key,value){if(blockedStorage)throw Error('blocked');map.set(key,value);}};
   window.apiRequest=async(...args)=>{calls.push(args);return {chief};};
@@ -68,7 +68,7 @@ test('elected generals and unconfirmed successions keep the existing military in
     for(const text of ['general-command-v1.png','general-insignia-v1.svg','장군','집권','&lt;다음 집권자&gt;'])assert.ok(r.dialog.innerHTML.includes(text),text);
     assert.ok(!r.dialog.innerHTML.includes('queen-crown-v1.svg'));
     assert.ok(!r.dialog.innerHTML.includes('여왕'));
-    assert.ok(!r.dialog.innerHTML.includes('coup-general-succession-v2-20261018.png'));
+    assert.ok(!r.dialog.innerHTML.includes('coup-general-male-v4-20261018.png'));
     r.dialog.querySelector('#chiefHideToday').checked=true;r.dialog.querySelector('.queen-close').onclick();
     assert.equal(r.api.show(general,{automatic:true}),false);assert.equal(r.api.show(general),true);
   }
@@ -78,7 +78,7 @@ test('confirmed general coup shows the dedicated replacement scene, escapes both
   const r=runtime(),general={...chief,reignStyle:'GENERAL',source:'COUP',nickname:'<박세라-ㅂ->',coupSuccession:{status:'APPOINTED',roundId:'current-coup',previousNickname:'<나무늘봉순>'}};
   assert.equal(r.api.show(general,{automatic:true}),true);
   assert.equal(r.dialog.className,'queen-coronation general-coup-succession');
-  for(const text of ['coup-general-succession-v2-20261018.png','쿠데타','성공','장군 교체','이전 장군','제 7대 장군','&lt;박세라-ㅂ-&gt;','&lt;나무늘봉순&gt;'])assert.ok(r.dialog.innerHTML.includes(text),text);
+  for(const text of ['coup-general-male-v4-20261018.png','coup-prison-escort-female-v4-20261018.png','coup-searchlight-v3-20261018.png','무능한 장군을<br>내렸다','전임 장군 감옥 이송','남성 장군','쿠데타','성공','장군 교체','이전 장군','제 7대 장군','&lt;박세라-ㅂ-&gt;','&lt;나무늘봉순&gt;'])assert.ok(r.dialog.innerHTML.includes(text),text);
   assert.ok(!r.dialog.innerHTML.includes('general-command-v1.png'));
   assert.ok(!r.dialog.innerHTML.includes('족장 교체'));
   r.dialog.querySelector('#chiefHideToday').checked=true;r.dialog.querySelector('.queen-close').onclick();

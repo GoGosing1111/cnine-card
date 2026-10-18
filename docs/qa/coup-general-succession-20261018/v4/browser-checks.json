@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-18",
+  "url": "http://127.0.0.1:3553/preview/coup-general-succession-20261018/",
+  "desktop": {
+    "centerDelta": [
+      0,
+      0
+    ],
+    "closeSize": [
+      44,
+      44
+    ],
+    "footerVisibility": "visible",
+    "images": [
+      {
+        "loaded": true,
+        "src": "/assets/ui/coup/coup-general-male-v4-20261018.png"
+      },
+      {
+        "loaded": true,
+        "src": "/assets/ui/coup/coup-prison-escort-female-v4-20261018.png"
+      },
+      {
+        "loaded": true,
+        "src": "/assets/ui/coup/coup-searchlight-v3-20261018.png"
+      }
+    ],
+    "loading": false,
+    "sceneOverflow": [
+      0,
+      0
+    ],
+    "sequenceVisibility": "hidden",
+    "viewport": [
+      1280,
+      720
+    ]
+  },
+  "mobile": {
+    "centerDelta": [
+      0,
+      -0.0000019073486328125
+    ],
+    "closeSize": [
+      44,
+      44
+    ],
+    "confirmHeight": 48,
+    "description": "전임 장군은 지휘권을 박탈당하고 감옥으로 이송됐습니다.새 장군의 통치가 시작됩니다.",
+    "focused": "chiefPopupClose",
+    "images": [
+      {
+        "loaded": true,
+        "src": "/assets/ui/coup/coup-general-male-v4-20261018.png"
+      },
+      {
+        "loaded": true,
+        "src": "/assets/ui/coup/coup-prison-escort-female-v4-20261018.png"
+      },
+      {
+        "loaded": true,
+        "src": "/assets/ui/coup/coup-searchlight-v3-20261018.png"
+      }
+    ],
+    "sceneOverflow": [
+      0,
+      0
+    ],
+    "viewport": [
+      390,
+      844
+    ]
+  },
+  "small": {
+    "horizontalOverflow": 0,
+    "verticalOverflow": 0,
+    "viewport": [
+      320,
+      740
+    ]
+  },
+  "escape": {
+    "dialogCount": 0,
+    "focused": "escort"
+  },
+  "opening": {
+    "footer": "hidden",
+    "loading": false,
+    "sequenceOpacity": "1",
+    "sequenceVisible": "visible",
+    "verdict": "0.700927"
+  },
+  "searchlightMoved": true,
+  "dayHideAndExplicitReplay": true,
+  "errors": [],
+  "productionDeployed": false,
+  "userVisualApproval": false
+}

@@ -1,0 +1,134 @@
+{
+  "schema": "COUP_GENERAL_SUCCESSION_ART_V4",
+  "dateKST": "2026-10-18",
+  "status": "PREPARED_FOR_VISUAL_REVIEW",
+  "builtInTool": "image_gen",
+  "userCorrections": [
+    "X 버튼 중앙 정렬",
+    "무능한 장군을 내렸다 → 스포트라이트 아래 감옥 이송 → 새 장군 공개",
+    "감옥으로 이송되는 전임 장군은 여성",
+    "새 남성 장군은 구도와 복장 재설계, 몸에 붙지 않는 군용 코트"
+  ],
+  "visualApproval": false,
+  "productionDeployed": false,
+  "originalPreserved": true,
+  "renderedBy": "js/queen-coronation-v1.js",
+  "preview": "preview/coup-general-succession-20261018/",
+  "assets": [
+    {
+      "key": "male-general-v4",
+      "transparent": false,
+      "refs": [
+        "C:/Users/User/.codex/worktrees/mercenary-deploy-visibility/cnine-card/assets/ui/coup/coup-general-male-v3-20261018.png"
+      ],
+      "prompt": "Use case: stylized-concept. Redesign this adult male general illustration because the user rejects the copied female pose/composition and excessively tight clothing. The reference is ONLY for recognizable adult male face and the dark fantasy military world/palette, NOT a pose or clothing-shape template. Make a clearly NEW composition: eye-level three-quarter mid-thigh-up portrait, the male commander occupies the LEFT 42 percent, turned three-quarter toward the right, upright and commanding, one gloved hand resting solidly on a broad stone-and-dark-wood war table along the lower-left foreground, the other hand naturally at his side. His face and shoulders are in the upper-left quadrant, entire head comfortably below top 10 percent, character cannot be cropped at forehead. No extreme low angle, hip-forward stance, flowing cape pose or ornate sword pose. A mature handsome man in his early thirties, short naturally swept-back black hair, broad shoulders, a strong jaw and stern calm gaze. Wears substantial functional military tailoring: heavy charcoal wool double-breasted greatcoat, roomy straight silhouette, a natural waist with NO corset cinching, normal structured shoulders and modest antique gold epaulettes, closed collar, discrete service ribbons, thick fabric with believable slack and folds, dark roomy straight-leg uniform trousers. The coat is not skintight, does not trace chest muscles or hips, no glossy leather catsuit, no feminine fitted waist, no exaggerated jewelry chains, no sensualized body. No cap is necessary; hair neatly groomed. Environment: newly seized gothic fortress COMMAND HALL at night, a stone strategy table, dim red standards and tall vaulted windows showing distant fortress lights. Background continues across the RIGHT 55 percent with quiet architecture and muted darkness to support later DOM text, no other prominent foreground people. Strong cinematic warm lamplight on the general's face and shoulder and cool moonlight from distant windows, charcoal/crimson/antique gold palette. High quality collectible RPG 2D anime design with detailed painterly finish, SAME unified linework/form simplification/shadows across face, hands, hair, body and clothing; no photo face pasted into anime. Naturally flowing continuous hair, no plastic plates or layered chunks. Correct hands, anatomy and scale. 1536x1024 landscape scene. No text, lettering, symbols resembling writing, UI, frames, logos or watermark.",
+      "source": "C:/Users/User/.codex/generated_images/01a149e5-cd8a-77d3-809d-c143949e3ec4/exec-32811a32-8419-4244-9482-4ec847511a25.png",
+      "asset": "assets/ui/coup/coup-general-male-v4-20261018.png",
+      "sha256": "784ac97d42ecc97b196a77bbb2112683806fd976a517554ca894ad619357fdf1",
+      "byteIdenticalToGeneratedSource": true,
+      "dimensions": {
+        "width": 1536,
+        "height": 1024,
+        "format": "png",
+        "bytes": 2479745,
+        "hasAlpha": false
+      },
+      "referenceSnapshots": [
+        {
+          "source": "C:/Users/User/.codex/generated_images/01a149e5-cd8a-77d3-809d-c143949e3ec4/exec-9b3a0b3f-42d9-4d1d-85f0-12ceb67658dc.png",
+          "sha256": "ad33f0d544259ab8591eacfdac302ba9a985e8b7d659d84cb63fcdce4688cefc"
+        }
+      ]
+    },
+    {
+      "key": "prison-escort-female-v4",
+      "transparent": false,
+      "refs": [
+        "C:/Users/User/.codex/worktrees/mercenary-deploy-visibility/cnine-card/assets/ui/coup/coup-prison-escort-v3-20261018.png",
+        "C:/Users/User/.codex/worktrees/mercenary-deploy-visibility/cnine-card/assets/ui/coup/coup-general-succession-v2-20261018.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Correct the FIRST supplied prison-escort illustration. The central defeated former general MUST BE AN ADULT WOMAN, because the user clarified that the outgoing general is female. Use the SECOND supplied illustration as the identity and costume reference for that former female general: reproduce her recognizable face, black hair and black military uniform in the same coherent refined 2D anime/painterly style. She has now lost her officer cap and authority, her head is slightly lowered with a weary dignified uninjured expression, her hands remain restrained in the ordinary chain in front. The two male armored guards firmly escort/pull her by the upper arms; keep natural anatomy and feet in walking positions. This is a calm arrest/transport, no assault, wounds, blood, torture, execution or sexualization. Replace only the CENTRAL gray-haired male prisoner with this adult female former general. Keep both male guards, all their positions, the chain, prison gate, background architecture, searchlights, composition, camera, palette, and original 1536x1024 dimensions. Keep her body appropriate to the original female general, tailored black trousers/boots and military coat, no exposed chest or fetish styling. Faces, bodies, hair and clothes use the same clean linework and painterly shading, no photorealistic pasted face. Natural continuous black hair, no plastic plates or stepped layers. No words, numbers, logos, UI or frames. This is the female predecessor escort asset only; the separate NEW MALE GENERAL illustration is not being changed.",
+      "source": "C:/Users/User/.codex/generated_images/01a149e5-cd8a-77d3-809d-c143949e3ec4/exec-5e8c9a4d-9b7e-4a89-8304-823967e1e1b9.png",
+      "asset": "assets/ui/coup/coup-prison-escort-female-v4-20261018.png",
+      "sha256": "7f5e85d8b9fc6b4adf2256f60737c7b14e93e3430851c34cc9804eb6df4250e5",
+      "byteIdenticalToGeneratedSource": true,
+      "dimensions": {
+        "width": 1536,
+        "height": 1024,
+        "format": "png",
+        "bytes": 2485459,
+        "hasAlpha": false
+      },
+      "referenceSnapshots": [
+        {
+          "source": "C:/Users/User/.codex/generated_images/01a149e5-cd8a-77d3-809d-c143949e3ec4/exec-33399290-dac6-42f4-a818-f7f5eac9456c.png",
+          "sha256": "84dc02c8564f2cb93c8deadb3240cd35fed105c4ccc1d103c8f7545913639c81"
+        },
+        {
+          "source": "C:/Users/User/.codex/worktrees/mercenary-deploy-visibility/cnine-card/assets/ui/coup/coup-general-succession-v2-20261018.png",
+          "sha256": "e0406625cd007a36f817e7ecc7e842f880c34269620ddcce8a12eff845c2dd3e"
+        }
+      ]
+    },
+    {
+      "key": "searchlight",
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Asset type: transparent cinematic spotlight light-and-haze overlay for a dark fortress prison escort animation. Generate a SINGLE realistic soft cold-white searchlight beam, luminous narrow origin just above the top center, spreading downward in a slightly diagonal volumetric cone toward the lower-right. Fine wisps of illuminated smoke and a few sparse suspended dust specks inside the beam. The beam has softly feathered translucent edges and semitransparent interior so the underlying characters and scenery remain visible. A faint elongated light pool at the bottom, no hard solid triangle. White to very pale icy blue only. 1024x1024 square isolated VFX layer on a genuinely transparent alpha background. No black, white or checkerboard background, no scene, no people, no flashlight hardware, no starburst icon, no text, no frame. Preserve partial alpha through the fog; useful as a movable light texture composited over an illustrated night scene.",
+      "source": "C:/Users/User/.codex/generated_images/01a149e5-cd8a-77d3-809d-c143949e3ec4/exec-7927211f-80d2-4113-a7f4-94a322625c8a.png",
+      "asset": "assets/ui/coup/coup-searchlight-v3-20261018.png",
+      "sha256": "b7aee29319b2bc857fbe0fb162fd690aae0ee1003661a5d4cab8dacea08bc198",
+      "byteIdenticalToGeneratedSource": true,
+      "dimensions": {
+        "width": 1254,
+        "height": 1254,
+        "format": "png",
+        "bytes": 1364428,
+        "hasAlpha": true
+      },
+      "referenceSnapshots": [],
+      "alphaVerification": {
+        "clearPixels": 749609,
+        "partialPixels": 822907,
+        "opaquePixels": 0
+      }
+    }
+  ],
+  "rejectedIntermediates": [
+    {
+      "key": "male-general",
+      "transparent": false,
+      "refs": [
+        "C:/Users/User/.codex/worktrees/mercenary-deploy-visibility/cnine-card/assets/ui/coup/coup-general-succession-v2-20261018.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Edit the provided RPG illustration. Replace ONLY the foreground female general with an imposing adult MALE general, early thirties, tall, broad-shouldered and lean athletic, handsome distinctly masculine face, strong natural jaw, stern composed gaze, short swept-back black hair with naturally continuous strands beneath the black officer cap. He wears a tailored black high-collared officer's uniform and trousers, antique gold epaulettes and chains, leather gloves, polished military boots and a flowing dark crimson cape. His posture and LEFT-side placement and straight ceremonial sword should match the existing scene. A clearly male chest and body, no long feminine hair, no beard needed. Preserve the occupied gothic palace, crimson banners, perspective, right-hand space, cool moonlight and warm embers, 1536x1024 landscape composition, and overall charcoal/crimson/gold palette. Keep the clean collectible RPG 2D anime character design with detailed painterly light, identical linework and shadow language for face, neck, body, hands, hair and clothes; never a photo face pasted on. Hair must have organic connected strands, no plated or stepped chunks. The sword remains one straight rigid object. Keep the right half readable for later DOM text. No text, UI, frame, logos, watermark, extra foreground people or new decorations. New sibling revision, original is preserved.",
+      "status": "REJECTED_BY_USER",
+      "reason": "이전 구도를 반복하고 몸에 붙는 복장",
+      "source": "C:/Users/User/.codex/generated_images/01a149e5-cd8a-77d3-809d-c143949e3ec4/exec-9b3a0b3f-42d9-4d1d-85f0-12ceb67658dc.png",
+      "sha256": "ad33f0d544259ab8591eacfdac302ba9a985e8b7d659d84cb63fcdce4688cefc"
+    },
+    {
+      "key": "prison-escort",
+      "transparent": false,
+      "refs": [
+        "C:/Users/User/.codex/worktrees/mercenary-deploy-visibility/cnine-card/assets/ui/coup/coup-general-succession-v2-20261018.png"
+      ],
+      "prompt": "Use case: stylized-concept. Create a complete cinematic 1536x1024 landscape illustration for the next scene of a dark fantasy RPG coup: the incompetent former male general has been removed and is being escorted to prison under searching spotlights. The supplied image is ONLY a reference for this world's gothic architecture, charcoal/crimson/old gold palette and consistent 2D anime-plus-painterly style, not a character identity or composition to copy. Show a defeated adult male former general in his forties, short ash-gray hair, lowered head and weary uninjured face, black high-collared uniform with stripped insignia and no cap, walking reluctantly toward the viewer and slightly right. Hands restrained in front with an ordinary metal chain. Two adult male guards flank and escort him, one hand calmly securing each upper arm; guards in severe dark military coats, steel helmets and gloves, clear anatomy. Exactly these three human figures occupy the central 45 percent, full body with feet visible, heads near y=24 percent. Do not portray assault or pain. The destination is unmistakable: massive iron-bar prison entrance and illuminated stone prison corridor directly behind and to their right, heavy open iron gate, wet stone steps, a fortress watchtower, cold smoke. Powerful cold white spotlight from the high upper-left lights the former general and makes a bright pool on the wet stone, a second distant searchlight high behind. Make the central group readable also when cropped to a narrow phone viewport. Leave lower 20 percent darker atmospheric stone with little detail for DOM subtitles and top 10 percent quiet for close controls. Unified refined 2D anime face/body/hands/clothing with painterly dramatic moonlight and dim amber braziers; no photoreal face or mixed media. Natural continuous hair, accurate limbs and joints. No typography, lettering, names, numbers, logos, watermark, border, panel, UI, blood, wounds, execution, torture, weapons pointed at people, or bodies. Entire image a single coherent scene.",
+      "status": "REJECTED_BY_USER",
+      "reason": "전임 장군은 여성, 남성 호송 대상은 잘못된 해석",
+      "source": "C:/Users/User/.codex/generated_images/01a149e5-cd8a-77d3-809d-c143949e3ec4/exec-33399290-dac6-42f4-a818-f7f5eac9456c.png",
+      "sha256": "84dc02c8564f2cb93c8deadb3240cd35fed105c4ccc1d103c8f7545913639c81"
+    }
+  ],
+  "previousManifest": "art-manifest.json",
+  "technicalReview": {
+    "unifiedFaceBodyStyle": true,
+    "naturalContinuousHair": true,
+    "newGeneralLooseGreatcoatAndNewPose": true,
+    "predecessorFemale": true,
+    "liveNamesNotBaked": true,
+    "transparentSearchlightAlpha": true,
+    "desktopAndMobileVerified": true,
+    "reviewRecord": "docs/qa/coup-general-succession-20261018/v4/browser-checks.json",
+    "userVisualApproval": false
+  }
+}

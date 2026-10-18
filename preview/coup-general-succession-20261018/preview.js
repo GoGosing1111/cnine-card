@@ -6,13 +6,14 @@
     inaugurationVersion:'coup-general-preview-20261018',
     coupSuccession:{status:'APPOINTED',roundId:'preview-only',previousNickname:'나무늘봉순'}
   };
-  function open(settled=false,returnFocus=document.querySelector('#replay')){
+  function open(stage='full',returnFocus=document.querySelector('#replay')){
     if(!window.QueenCoronation.show(chief,{returnFocus}))return;
     const dialog=document.querySelector('#chiefElectionPopup');
     dialog.querySelector('.queen-coronation-header>span').firstChild.textContent='REVERSE CALL · 미리보기';
-    if(settled)dialog.querySelector('.queen-skip').click();
+    if(stage==='settled')dialog.querySelector('.queen-skip').click();
+    if(stage==='escort'||stage==='verdict')dialog.classList.add(`is-coup-${stage}-review`);
   }
-  document.querySelector('#replay').onclick=event=>open(false,event.currentTarget);
-  document.querySelector('#settled').onclick=event=>open(true,event.currentTarget);
+  document.querySelector('#replay').onclick=event=>open('full',event.currentTarget);
+  for(const stage of ['verdict','escort','settled'])document.querySelector('#'+stage).onclick=event=>open(stage,event.currentTarget);
   open();
 })();
