@@ -16,4 +16,9 @@
 - 브라우저 검수의 100% 성공률·소액 비용은 격리 fixture 값이다. 운영 CMS 값은 성공률 2%, 코인 1조, 마스터의 별 100만, SSS 용병 조각 5개이며 이번 변경으로 저장하지 않는다.
 - 배포는 `npm run deploy:production -- --scoped`로 해당 5개 회귀와 Worker·출시·캐시/Hyperdrive 검사를 수행한다. Cloudflare에서 확인한 직전 운영 소스는 `de6eebbc8ccb435456ce1a09c73d38cb65bb6fb0`(Pages `32331218-c841-4914-81f3-03e5180f2aab`). 스키마·인증·공통 DB 기반 변경은 없다.
 
-운영 반영 결과는 아래에 이어 기록한다.
+## 운영 반영 완료 — 2026-10-18 23:17 KST
+
+- 소스 `06b49d3e2088245a553b791ba91b630b963f79b0`, Pages `aebda6cd-70a0-4f06-93f9-76f08506e63d`, API 버전 `0ec4b3c1-38f0-44cc-ac61-f9c4560a2b3c` 100%, scheduler `cce0e8a4-da72-4dee-b38e-9e292b45a175`.
+- scoped 회귀 5/5, Worker 문법·출시 정책·Hyperdrive 캐시 OFF 검사 통과. 운영 API 번들의 한도 5·거래 검사와 라이브 HTML/로더/제작소 JS/CSS 네 파일의 정확한 소스 일치를 확인했다.
+- 운영 읽기 재확인: **제작 성공 1 / 한도 5 / 남은 4**, 별도 직접 예외 지급 1. 성공 원장과 획득 원장의 제작 건수가 일치한다. CMS revision 3·성공률 2%·비용·재료·ON/공개 값은 사전 조회와 동일하다. 운영 계정 쓰기 0건.
+- 증빙: `docs/qa/kairon-craft-stock-20261018/production.json`. 완료 기록은 문서만 커밋하고 재배포하지 않는다.
