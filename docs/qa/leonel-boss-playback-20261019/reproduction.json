@@ -1,0 +1,68 @@
+{
+  "accountWrites": 0,
+  "productionAssets": false,
+  "serverBossSkills": [
+    "SAHYEON_SEAL",
+    "SAHYEON_CURSE",
+    "SAHYEON_ULTIMATE"
+  ],
+  "reports": [
+    {
+      "width": 1440,
+      "interactive": true,
+      "error": "Error: V3 전투 연출을 완료하지 못했습니다: 검극 · 전선 단절 연출이 지연되어 다음 행동으로 이동했습니다.\n    at Object.play (http://127.0.0.1:9789/js/battle-v3-live.js?limitedDuo=20261008:1211:17)",
+      "elapsed": 2006,
+      "pressureSeen": false,
+      "hpCalls": [
+        {
+          "id": "B:0:MONSTER:80",
+          "hp": 100
+        },
+        {
+          "id": "B:1:ESCORT:80:0",
+          "hp": 58.93631444313262
+        },
+        {
+          "id": "B:2:ESCORT:80:1",
+          "hp": 59.361727666273126
+        },
+        {
+          "id": "B:3:ESCORT:80:2",
+          "hp": 59.688097697756795
+        },
+        {
+          "id": "B:4:ESCORT:80:3",
+          "hp": 54
+        },
+        {
+          "id": "B:5:ESCORT:80:4",
+          "hp": 62.27070789059426
+        },
+        {
+          "id": "B:6:ESCORT:80:5",
+          "hp": 54
+        }
+      ],
+      "completed": [],
+      "casts": [],
+      "last": {
+        "code": "V-978",
+        "eventType": "MERCENARY_LEONEL_AREA",
+        "mode": "ultimate",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "authoritative": true,
+        "damageApplications": 7,
+        "motionRate": 2,
+        "effectRate": 1,
+        "contactSeconds": 1.79,
+        "durationSeconds": 4.25
+      },
+      "activeBossFx": false,
+      "overflow": false,
+      "warnings": [
+        "[PROJECT V V3] 검극 · 전선 단절 연출이 지연되어 다음 행동으로 이동했습니다. Error: 검극 · 전선 단절 연출이 지연되어 다음 행동으로 이동했습니다.\n    at onDeadline (http://127.0.0.1:9789/js/battle-v3-live.js?limitedDuo=20261008:40:21)"
+      ],
+      "errors": []
+    }
+  ]
+}

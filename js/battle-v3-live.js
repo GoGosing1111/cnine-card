@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.37.3-sahyeon-live';
+  const VERSION = '3.37.4-cinematic-playback';
   const BATTLE_RUNTIME = '20261005-coop-readable-v4-backdrop-overlord-motion-v3-bg-recovery-apoc-focus-icon-actions-20261006-pet-live-v1-icon-cadence-v1-damage-russo-20261007-v2-sx-2x-v1-ultimate-frame-aura-v3-limited-deployment-20261009-valter-pve-area-2_5x-20261012-helios-deploy-v2-jinmu-dialogue-v4-coop-roster-v3-pet-codex-layout-20261009-jokgak-city-v1-zeus-icon-20261010-pet-fx-20261012-v2-pet-window-v3-coop-camera-20261013-v1-limited-dialogue-20261013-v1-suit-ult-40s-20261013-v1-helios-aura-20261013-v1-original-ip-20261013-v1-gusudaeng-icon-20261013-v1-pve-balance-v1-coop-loading-20261014-v1-azant-live-20261014-v1-balance-v2-kairon-craft-20261014-v1-mercenary-fx-lifecycle-20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-cheolgu-balance-20261017-v1-ground-runes-pets-20261017-v1-harlequin-v980-20261017-hud-b-20261017-v1-halloween-ready-20261017-v1-jokro-live-20261018-v1-jokro-coop-dialogue-20261018-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-pet-icons-clear-dialogue-v1-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-sahyeon-live-20261019-v1';
   let battleRuntimeRefresh = null;
   async function ensureCurrentBattleRuntime({effects=false}={}) {
@@ -927,10 +927,11 @@
       // Approved Sahyeon ultimate owns its complete 4.6s sequence (2.85s hit),
       // plus bounded texture loading. The ordinary 2s guard must not cut it off.
       if (events.some(event => event.type === 'APOCALYPSE_SKILL' && /^SAHYEON_(?:SEAL|CURSE|ULTIMATE)$/.test(String(event.skillCode || '')))) return 9000;
-      // 청룡단천 holds its receipt until the complete 5.6s sequence finishes;
-      // its first contact is at 2.12s. Every third Jokro basic also plays a
-      // full 3.4s dragon sequence. The default 2s guard cancels valid casts.
-      if (events.some(event => event.type === 'MERCENARY_JOKRO_AREA')) return 9000;
+      // These authored area effects exceed 2s at their fixed live playback rates.
+      // Premature recovery cancels the cutscene and aborts interactive Apocalypse
+      // before its queued boss skills. This is a deadline, not an added delay.
+      if (events.some(event => /^MERCENARY_(?:JOKRO|LEONEL|JINMU|HELIOS|SHIRANUI|KAIRON)_AREA$/.test(String(event.type || '')))) return 9000;
+      // Jokro's third basic also holds the complete 3.4s dragon sequence.
       if (events.some(event => event.type === 'TURN' && /(?:^|:)MERCENARY:V-979$/.test(String(event.actorId || '')))) return 6000;
       return events.some(event => event.type === 'MERCENARY_JUDGMENT' && event.mechanic === 'PLATINUM_SANCTUARY' || event.type === 'MERCENARY_CRYSTAL_CROWN' && event.mechanic === 'CRYSTAL_CROWN') ? 9000 :
       events.some(event => ['MERCENARY_AZANT_VOLLEY','MERCENARY_AZANT_AREA','MERCENARY_IMPERIAL_ARROW_VOLLEY','MERCENARY_IMPERIAL_ARROW_RAIN'].includes(event.type) || event.type === 'MERCENARY_STARFALL' && event.mechanic === 'GILDED_STARFALL' || event.type === 'MERCENARY_HIT' && event.skillId === 'MS-055' || event.type === 'MERCENARY_GROUP_HEAL' && event.mechanic === 'WHITE_OATH_GROUP_HEAL' || event.type === 'MERCENARY_COMBO' && event.mechanic === 'BLACK_MOON_TRIPLE_SEVER' || event.type === 'MERCENARY_VOLLEY' && event.mechanic === 'GOLDEN_ORCHID_VOLLEY' || event.type === 'MERCENARY_HIT' && event.mechanic === 'LAVENDER_RICOCHET') ? 6000 : 2000;
