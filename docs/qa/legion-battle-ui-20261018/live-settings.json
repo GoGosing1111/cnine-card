@@ -1,0 +1,100 @@
+{
+  "at": "2026-10-18T10:46:07.404Z",
+  "policies": [
+    {
+      "key": "equipment_polish_settings_v1",
+      "revision": 0,
+      "sha256": "88e5de673236a663a47477c3155bd8440c5dcf3f67ff6d69158e78cd135ef8b4"
+    },
+    {
+      "key": "legion_hunt_regions_v1",
+      "mode": "ON",
+      "revision": 6,
+      "sha256": "8050ff0dff2d933ed983018d39022c831cd01ec18a6debafde6e9c1201f9a3c1",
+      "regions": [
+        {
+          "id": "coast",
+          "enabled": true
+        },
+        {
+          "id": "desert",
+          "enabled": true
+        },
+        {
+          "id": "theatre",
+          "enabled": true
+        },
+        {
+          "id": "viscera",
+          "enabled": true
+        },
+        {
+          "id": "sky",
+          "enabled": true
+        }
+      ],
+      "gearOdds": [
+        {
+          "id": "normal",
+          "elite": 0,
+          "bossSet": 0.0015,
+          "bossUnique": 0.0015
+        },
+        {
+          "id": "hard",
+          "elite": 0,
+          "bossSet": 0.0015,
+          "bossUnique": 0.0015
+        },
+        {
+          "id": "nightmare",
+          "elite": 0,
+          "bossSet": 0.0015,
+          "bossUnique": 0.0015
+        },
+        {
+          "id": "inferno",
+          "elite": 0.0015,
+          "bossSet": 0.0015,
+          "bossUnique": 0.0015
+        },
+        {
+          "id": "calamity",
+          "elite": 0.0015,
+          "bossSet": 0.0015,
+          "bossUnique": 0.0015
+        }
+      ]
+    },
+    {
+      "key": "legion_hunt_settings_v1",
+      "mode": "ON",
+      "revision": 29,
+      "sha256": "f4549f4aad5a9605785a04b9bf3addc58e42e5315cc5cee96d813e9c5f723fa1"
+    }
+  ],
+  "gear": {
+    "count": "30",
+    "active": "30",
+    "public": "30",
+    "supply": "0"
+  },
+  "walletSchema": [
+    {
+      "table_name": "coin_logs",
+      "column_name": "balance_after",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "coin_logs",
+      "column_name": "change_amount",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "users",
+      "column_name": "coin",
+      "data_type": "bigint"
+    }
+  ],
+  "readonly": true
+}

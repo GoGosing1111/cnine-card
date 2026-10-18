@@ -1,0 +1,135 @@
+{
+  "dryRun": false,
+  "replayed": false,
+  "receipt": {
+    "operationKey": "ops:legion-equipment-enable-plus50:20261018:v1",
+    "status": "COMPLETED",
+    "at": "2026-10-18T10:46:02.597Z",
+    "beforeRevision": 5,
+    "revision": 6,
+    "mode": "ON",
+    "equipmentMultiplier": 1.5,
+    "changes": [
+      {
+        "difficulty": "normal",
+        "field": "bossSetPercent",
+        "before": 0.001,
+        "after": 0.0015
+      },
+      {
+        "difficulty": "normal",
+        "field": "bossUniquePercent",
+        "before": 0.001,
+        "after": 0.0015
+      },
+      {
+        "difficulty": "hard",
+        "field": "bossSetPercent",
+        "before": 0.001,
+        "after": 0.0015
+      },
+      {
+        "difficulty": "hard",
+        "field": "bossUniquePercent",
+        "before": 0.001,
+        "after": 0.0015
+      },
+      {
+        "difficulty": "nightmare",
+        "field": "bossSetPercent",
+        "before": 0.001,
+        "after": 0.0015
+      },
+      {
+        "difficulty": "nightmare",
+        "field": "bossUniquePercent",
+        "before": 0.001,
+        "after": 0.0015
+      },
+      {
+        "difficulty": "inferno",
+        "field": "eliteSetPercent",
+        "before": 0.001,
+        "after": 0.0015
+      },
+      {
+        "difficulty": "inferno",
+        "field": "bossSetPercent",
+        "before": 0.001,
+        "after": 0.0015
+      },
+      {
+        "difficulty": "inferno",
+        "field": "bossUniquePercent",
+        "before": 0.001,
+        "after": 0.0015
+      },
+      {
+        "difficulty": "calamity",
+        "field": "eliteSetPercent",
+        "before": 0.001,
+        "after": 0.0015
+      },
+      {
+        "difficulty": "calamity",
+        "field": "bossSetPercent",
+        "before": 0.001,
+        "after": 0.0015
+      },
+      {
+        "difficulty": "calamity",
+        "field": "bossUniquePercent",
+        "before": 0.001,
+        "after": 0.0015
+      }
+    ],
+    "equipmentCount": 30,
+    "regionCount": 5,
+    "difficultyCount": 5,
+    "zeroOddsPreserved": true,
+    "fieldDropsUnchanged": true,
+    "stoneOddsUnchanged": true,
+    "combatUnchanged": true,
+    "regionalEquipmentEnabled": true,
+    "generalSupplyUnchanged": true,
+    "sourceMode": "ON",
+    "sourceRevision": 29,
+    "sourceSha256": "f4549f4aad5a9605785a04b9bf3addc58e42e5315cc5cee96d813e9c5f723fa1",
+    "beforeSha256": "3627d2b39e7a8106ca74ef974a39966e9cd8272579727a9c48b2cc8d0184e2e6",
+    "afterSha256": "8050ff0dff2d933ed983018d39022c831cd01ec18a6debafde6e9c1201f9a3c1",
+    "odds": [
+      {
+        "id": "normal",
+        "eliteSetPercent": 0,
+        "bossSetPercent": 0.0015,
+        "bossUniquePercent": 0.0015
+      },
+      {
+        "id": "hard",
+        "eliteSetPercent": 0,
+        "bossSetPercent": 0.0015,
+        "bossUniquePercent": 0.0015
+      },
+      {
+        "id": "nightmare",
+        "eliteSetPercent": 0,
+        "bossSetPercent": 0.0015,
+        "bossUniquePercent": 0.0015
+      },
+      {
+        "id": "inferno",
+        "eliteSetPercent": 0.0015,
+        "bossSetPercent": 0.0015,
+        "bossUniquePercent": 0.0015
+      },
+      {
+        "id": "calamity",
+        "eliteSetPercent": 0.0015,
+        "bossSetPercent": 0.0015,
+        "bossUniquePercent": 0.0015
+      }
+    ],
+    "accountGrants": 0,
+    "auditId": "47956"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "at": "2026-10-18T10:45:49.769Z",
+  "base": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "matches": true,
+      "sha256": "e8d6a0aa0fd7f864c66f6755ae752eaf19c2e0e51ccb7c2e66598deb733aa710"
+    },
+    {
+      "path": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "matches": true,
+      "sha256": "6fa18659f7fc1c123f2e530d6ca9b77e70df22bccc8262cb1de74e06c7f10a30"
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "status": 200,
+      "matches": true,
+      "sha256": "5942b65873c0238210c871c47175b5110d4cecbe8f4176e9e10632d4abc662e8"
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "matches": true,
+      "sha256": "1ba097fb3dc47923dc8c57a6c369b323b4294cdb8e0ee37b292ce49091e8e6b6"
+    },
+    {
+      "path": "preview/sustained-hunt-v2/app.js",
+      "status": 200,
+      "matches": true,
+      "sha256": "b5ca69885eddf0af87f6f8ad222b8c0b6034e6cee84223b14b2317f24deb0b93"
+    },
+    {
+      "path": "pve/legion-hunt/index.html",
+      "status": 200,
+      "matches": true,
+      "sha256": "336919b9db90923d087bec7f5f5043a0fa0ab06088669d92a27dbd45dee2e669"
+    },
+    {
+      "path": "preview/sustained-hunt-v2/index.html",
+      "status": 200,
+      "matches": true,
+      "sha256": "8826320b8a0b58513e715d3b55c5887d483d32da5be95a400e4d5d08382e4d45"
+    },
+    {
+      "path": "admin/legion-regions-admin-v1.mjs",
+      "status": 200,
+      "matches": true,
+      "sha256": "c070035962729d53cbd584b548cb9f94aa57adb42dd1aeb2c5da507e7adf64fa"
+    },
+    {
+      "path": "shared/legion-hunt-coins-v1.mjs",
+      "status": 200,
+      "matches": true,
+      "sha256": "b1a209ae75e8b8e84b76681ba9d9e4373ef9d7d09bf1ccd2c831935936d67342"
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "matches": true,
+      "sha256": "3c5a2c76a6a642365d2d6f441c8e6f3c4fdd5d7aa17b0973981cf692fa443f68"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "matches": true,
+      "sha256": "21989652a57f7db5828d6044faf03831dc4c0d2905586cc0f62b73cc7b5ace01"
+    }
+  ],
+  "routes": [
+    {
+      "path": "legion-hunt/bootstrap",
+      "status": 401
+    },
+    {
+      "path": "admin/legion-hunt",
+      "status": 401
+    }
+  ]
+}
