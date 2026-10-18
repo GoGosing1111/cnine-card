@@ -1,0 +1,51 @@
+{
+  "at": "2026-10-18T21:11:51.924Z",
+  "commit": "e35f992132fe2154e40c4b6135f2e7fc36ccddce",
+  "pages": {
+    "id": "67aba229-3c6f-45eb-a7d1-7347345f431c",
+    "url": "https://67aba229.cnine-card.pages.dev",
+    "commit": "e35f992132fe2154e40c4b6135f2e7fc36ccddce"
+  },
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "75994391358e59002a0c7bc9e5ac2fc649c708596bfc78c4b8fbbf5fd5e06a65",
+      "matches": true
+    },
+    {
+      "file": "world/index.html",
+      "status": 200,
+      "sha256": "9170fa3ae79a6a47f43075d307294712cf245083d16e226c569b2aba25e99a6b",
+      "matches": true
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "status": 200,
+      "sha256": "5a70d3ba47634e88c0eadc7c555abb356a1294ab7473e81fdd6c2147b928242c",
+      "matches": true
+    }
+  ],
+  "liveBrowser": {
+    "passed": 15,
+    "checks": [
+      "1168x820 BGM remains clear of header and ruler",
+      "1168x820 remaining term is fully readable",
+      "1168x820 BGM remains muted",
+      "1168x820 keyboard opens ruler detail",
+      "1168x820 ruler remains accessible from shared navigation",
+      "1168x820 route content clears measured header height",
+      "1168x820 ruler detail opens from messages",
+      "390x844 BGM remains clear of header and ruler",
+      "390x844 remaining term is fully readable",
+      "390x844 BGM remains muted",
+      "390x844 keyboard opens ruler detail",
+      "390x844 ruler remains accessible from shared navigation",
+      "390x844 route content clears measured header height",
+      "390x844 ruler detail opens from messages",
+      "no JavaScript errors: "
+    ],
+    "errors": []
+  },
+  "productionAccountWrites": 0
+}
