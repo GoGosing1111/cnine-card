@@ -9,14 +9,14 @@ export const JINMU_AREA_EVENT='MERCENARY_JINMU_AREA';
 export const JINMU_AREA_MECHANIC='HEAVENLY_DRAGON_DESCENT';
 export const JINMU_AREA_SKILL=Object.freeze({
  id:'MS-989',name:'천룡강림',mechanic:JINMU_AREA_MECHANIC,target:'ALL_ENEMIES',pveOnly:true,
- balance:Object.freeze({damageRatio:5.6,cooldownTurns:5,cost:35})
+ balance:Object.freeze({damageRatio:6.72,cooldownTurns:5,cost:35})
 });
 export const JINMU_COMBAT=Object.freeze({
- version:1,basePower:1347840,statsReferencePower:1123200,statScale:1.2,speedReferencePower:1080000,speedScale:3.12,actionCredit:3.12,motionPlaybackRate:2.6,
- // +20% linked attack/HP and complete opening shield versus Helios.
+ version:2,basePower:1617408,statsReferencePower:1123200,statScale:1.44,speedReferencePower:1080000,speedScale:3.12,actionCredit:3.12,motionPlaybackRate:2.6,
+ // +20% linked attack/HP and complete opening shield versus unchanged Kairon.
  // The shared 60% front-row shield is included before applying the increase.
- link:Object.freeze({attackPercent:2196.48,hpPercent:1397.76,shieldPercent:763.68}),
- basicCapScale:2.4,damageTakenScale:.25,hardCounter:BERKAN_CODE
+ link:Object.freeze({attackPercent:2635.776,hpPercent:1677.312,shieldPercent:928.416}),
+ basicCapScale:2.88,damageTakenScale:.25,hardCounter:BERKAN_CODE
 });
 export const isJinmu=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===JINMU_CODE;
 export const jinmuAccountAllowed=(userId,code,hasPackIssue=false)=>code!==JINMU_CODE||Number(userId)===JINMU_OWNER_ID||hasPackIssue===true;
@@ -26,7 +26,7 @@ export function jinmuIncomingDamage(target,incoming,source){
  if(source?.isMercenary===true&&(source.code||source.cardId)===JINMU_COMBAT.hardCounter)return 0;
  return Math.floor(Math.max(0,Number(incoming)||0)*JINMU_COMBAT.damageTakenScale);
 }
-export const JINMU_COMBAT_DESCRIPTION='천룡검황 진무 · 기본 전투력 1,347,840. 같은 편성 기준 헬리오스보다 연계 공격력·체력·전용 방벽이 20% 높으며 공격속도·추가 행동·모션 속도는 동일합니다. 개인 피해 75% 경감과 상태이상·반격 대응, 베르칸 피해 면역을 지닙니다. PVE 천룡강림은 적 전체에 총 560% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 할로윈팩에서 서버 3장 한정으로 준비 중입니다. 기존 지정 계정 전용 1장은 팩 발행 수량에서 제외됩니다.';
+export const JINMU_COMBAT_DESCRIPTION='천룡검황 진무 · 기본 전투력 1,617,408. 같은 편성·장비 기준 카이론보다 기본·연계 공격력·체력·전체 방벽과 기본 피해 상한이 20% 높으며 공격속도·추가 행동·모션 속도는 동일합니다. 개인 피해 75% 경감과 상태이상·반격 대응, 베르칸 피해 면역을 지닙니다. PVE 천룡강림은 적 전체에 총 672% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 할로윈팩에서 서버 3장 한정으로 준비 중입니다. 기존 지정 계정 전용 1장은 팩 발행 수량에서 제외됩니다.';
 export const JINMU_ART=Object.freeze({
  code:JINMU_CODE,name:'천룡검황 진무',title:'SSS 리미티드 · 천룡의 주인',rank:'SSS',edition:'LIMITED',
  role:'LIMITED',position:null,artOnly:true,releaseStatus:'EXCLUSIVE_RELEASED',exclusiveGrant:true,excludedFromLimitedCount:true,
@@ -42,5 +42,5 @@ export const JINMU_ART=Object.freeze({
 export function jinmuDeploymentSnapshot(){
  return {...JINMU_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',basePower:JINMU_COMBAT.basePower,
   position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:[structuredClone(JINMU_AREA_SKILL)],pendingSkillIds:[],
-  jinmuPolicyVersion:JINMU_COMBAT.version,deploymentVersion:'20261012-jinmu-live-v1'};
+  jinmuPolicyVersion:JINMU_COMBAT.version,deploymentVersion:'20261018-jinmu-balance-v2'};
 }

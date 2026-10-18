@@ -112,8 +112,8 @@
     "preview/project-v-v3/source/battle/ShiranuiDialogueStyle.js",
     "preview/project-v-v3/source/battle/JinmuDialogue.js",
     "preview/project-v-v3/source/battle/JokroCombatPlayback.js",
-    "shared/mercenary-jinmu-v1.mjs",
     "shared/mercenary-kairon-v1.mjs",
+    "shared/mercenary-jinmu-v1.mjs",
     "shared/mercenary-shiranui-v1.mjs",
     "preview/mercenary-monochrome-artillery-battle-v1/skill.mjs",
     "preview/mercenary-monochrome-artillery-battle-v1/source/BallisticArtilleryFX.js",
@@ -214,5 +214,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2092788
+  "outputBytes": 2093505
 }

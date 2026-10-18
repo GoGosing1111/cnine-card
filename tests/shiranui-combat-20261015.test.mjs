@@ -9,7 +9,7 @@ import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {mercenaryAccountState,saveMercenaryLoadout,loadMercenaryBattleSnapshot} from '../functions/_mercenary_account.js';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {SHIRANUI_CODE,SHIRANUI_ART,SHIRANUI_COMBAT,SHIRANUI_AREA_SKILL,SHIRANUI_AREA_EVENT,shiranuiIncomingDamage} from '../shared/mercenary-shiranui-v1.mjs';
-import {KAIRON_COMBAT as JINMU_COMBAT} from '../shared/mercenary-kairon-v1.mjs';
+import {JINMU_COMBAT} from '../shared/mercenary-jinmu-v1.mjs';
 import {__workshopCraftTest} from '../functions/_workshop.js';
 import {mercenaryAcquisitionEnabled} from '../shared/mercenary-acquisition-release-v1.mjs';
 import {mercenaryGradePools,mercenaryCardChances} from '../shared/mercenary-draw-policy-v1.mjs';
@@ -23,10 +23,10 @@ import {buildFighter,createPveBattleV2,createPvpBattleV2} from '../functions/_ba
 import {tierCards} from './helpers/mercenary-operating-roster-v2144.mjs';
 const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat});
 const fighter=(code=SHIRANUI_CODE,side='A',mode='PVP',power=0)=>buildMercenaryFighter({...snapshot(code),equipment:{schemaVersion:1,mode,power}},side,mode,buildFighter);
-test('Shiranui exactly matches Kairon stats, links, equipment scaling, defenses and cadence',()=>{
+test('Shiranui exactly matches upgraded Jinmu stats, links, equipment scaling, defenses and cadence',()=>{
  assert.equal(SHIRANUI_COMBAT,JINMU_COMBAT);
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8])for(const power of [1e5,2e7,1e9]){
-  const k=fighter(SHIRANUI_CODE,'A',mode,gear),j=fighter('V-988','B',mode,gear);
+  const k=fighter(SHIRANUI_CODE,'A',mode,gear),j=fighter('V-989','B',mode,gear);
   for(const field of ['attack','maxHp','defense','speed','basePower','counterImmune','controlImmune','poisonImmune'])assert.equal(k[field],j[field],field);
   applyMercenaryCombatLink(['A','B'].map((side,i)=>[...tierCards(power).map((c,n)=>buildFighter(c,n,side,null,mode)),[k,j][i]]));
   assert.equal(mercenaryEffectiveAttack(k),mercenaryEffectiveAttack(j));assert.equal(k.maxHp,j.maxHp);assert.equal(k.shield,j.shield);
@@ -53,10 +53,14 @@ test('one artillery cast distributes the Kairon 560% budget and applies one rece
  assert(createPveBattleV2({cards,mercenary:k,monster:{id:1,battle_power:1.6e10},seed:77}).result.timeline.some(e=>e.type===SHIRANUI_AREA_EVENT));
  assert(!createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:k,defenderMercenary:snapshot('V-988'),seed:77}).result.timeline.some(e=>e.type===SHIRANUI_AREA_EVENT));
 });
-test('complete PVE/PVP simulations preserve Kairon damage, cast completion, cooldown and action timing',()=>{
+test('PVP simulation matches upgraded Jinmu while PVE preserves the original 560% artillery budget',()=>{
  const cards=tierCards(2e7);
- const trace=result=>result.timeline.map(e=>({type:e.type.replace('SHIRANUI','KAIRON'),actorId:e.actorId?.replace('V-987','V-988'),targetId:e.targetId?.replace('V-987','V-988'),at:e.at,turn:e.turn,damage:e.damage,absorbed:e.absorbed,targetHpAfter:e.targetHpAfter,hits:e.hits?.map(h=>({...h,targetId:h.targetId?.replace('V-987','V-988')}))}));
+ const trace=result=>result.timeline.map(e=>({type:e.type.replace('SHIRANUI','JINMU'),actorId:e.actorId?.replace('V-987','V-989'),targetId:e.targetId?.replace('V-987','V-989'),at:e.at,turn:e.turn,damage:e.damage,absorbed:e.absorbed,targetHpAfter:e.targetHpAfter,hits:e.hits?.map(h=>({...h,targetId:h.targetId?.replace('V-987','V-989')}))}));
  const pve=code=>createPveBattleV2({cards,mercenary:snapshot(code),monster:{id:1,battle_power:1.6e10},seed:77}).result;
  const pvp=code=>createPvpBattleV2({attackerCards:cards,defenderCards:cards,attackerMercenary:snapshot(code),defenderMercenary:snapshot('V-989'),seed:77}).result;
- for(const run of [pve,pvp])assert.deepEqual(trace(run(SHIRANUI_CODE)),trace(run('V-988')));
+ assert.deepEqual(trace(pvp(SHIRANUI_CODE)),trace(pvp('V-989')));
+ const shiranui=pve(SHIRANUI_CODE).timeline.find(e=>e.type===SHIRANUI_AREA_EVENT);
+ const jinmu=pve('V-989').timeline.find(e=>e.type==='MERCENARY_JINMU_AREA');
+ assert(shiranui&&jinmu);assert.equal(shiranui.at,jinmu.at);assert.equal(shiranui.turn,jinmu.turn);
+ assert(Math.abs(shiranui.damage-jinmu.damage*5.6/6.72)<=2);
 });

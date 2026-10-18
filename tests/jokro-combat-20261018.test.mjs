@@ -38,12 +38,12 @@ test('Jokro stays outside all public acquisition candidates despite contaminated
  assert.deepEqual(limitedNormalCards(cards,cards,rules).map(c=>c.code),['V-001']);
  assert(!ALL_LIMITED_MERCENARIES.some(c=>c.code===JOKRO_CODE));
 });
-test('청룡단천 distributes 1260% once across every living target; repeated visual contacts cannot add damage',()=>{
+test('청룡단천 distributes 1512% once across every living target; repeated visual contacts cannot add damage',()=>{
  const actor=fighter(),targets=Array.from({length:12},(_,i)=>({id:'t'+i,hp:10000,maxHp:10000,alive:true})),ratios=[],events=[];
  const args={actor,skill:JOKRO_AREA_SKILL,targets:[...targets,targets[0],{id:'dead',hp:0},{id:'suit',hp:10,isBattleSuit:true},{id:'hidden',hp:10,untargetable:true}],hit:(a,t,r)=>{ratios.push(r);return {damage:100};},damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},knockout(){},emit:(type,row)=>events.push({type,...row})};
- assert.equal(resolveJokroArea(args).length,12);assert(Math.abs(ratios.reduce((a,b)=>a+b)-12.6)<1e-9);assert.equal(events.length,1);assert.equal(events[0].type,JOKRO_AREA_EVENT);assert(targets.every(t=>t.hp===9900));
+ assert.equal(resolveJokroArea(args).length,12);assert(Math.abs(ratios.reduce((a,b)=>a+b)-15.12)<1e-9);assert.equal(events.length,1);assert.equal(events[0].type,JOKRO_AREA_EVENT);assert(targets.every(t=>t.hp===9900));
  for(const change of [{battleMode:'PVP'},{hp:0},{stunned:true},{silenced:true}])assert.deepEqual(resolveJokroArea({...args,actor:{...actor,...change}}),[]);
- assert.deepEqual(JOKRO_AREA_SKILL.balance,{damageRatio:12.6,cooldownTurns:5,cost:35});
+ assert.deepEqual(JOKRO_AREA_SKILL.balance,{damageRatio:15.12,cooldownTurns:5,cost:35});
 });
 test('actual battle simulator emits stronger area receipts and keeps PVP basics only',()=>{
  const cards=tierCards(2e7),pve=code=>createPveBattleV2({cards,mercenary:snapshot(code),monster:{id:1,battle_power:1.6e10},seed:77}).result;

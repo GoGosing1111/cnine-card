@@ -5,7 +5,7 @@
     "pixi.js": "8.20.0",
     "gsap": "3.13.0"
   },
-  "bundleBytes": 2191619,
+  "bundleBytes": 2222430,
   "commonV3": [
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",
     "preview/project-v-v3/source/battle/BattleGroundSigil.js",
@@ -49,9 +49,12 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "preview/project-v-v3/source/battle/KangyunCombatPlayback.js",
     "preview/project-v-v3/source/battle/MercenaryDialogueProfiles.js",
+    "preview/project-v-v3/source/battle/ShiranuiDialogueStyle.js",
     "preview/project-v-v3/source/battle/JinmuDialogue.js",
     "preview/project-v-v3/source/battle/JokroCombatPlayback.js",
+    "preview/project-v-v3/source/battle/ShiranuiSilverBallistics.js",
     "preview/project-v-v3/source/battle/ShiranuiCombatPlayback.js",
     "preview/project-v-v3/source/battle/LimitedDuoCombatPlayback.js",
     "preview/project-v-v3/source/battle/SniperOrikkungCombatPlayback.js",

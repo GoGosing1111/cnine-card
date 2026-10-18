@@ -146,9 +146,9 @@ export function buildMercenaryFighter(snapshot,side,mode,buildCardFighter){
  const kairon=snapshot.code===KAIRON_CODE;
  if(kairon)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'RANGED',skills:mode==='PVE'?[structuredClone(KAIRON_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,kaironPolicyVersion:1};
  const jokro=snapshot.code===JOKRO_CODE;
- if(jokro)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?[structuredClone(JOKRO_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,jokroPolicyVersion:1};
+ if(jokro)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',skills:mode==='PVE'?[structuredClone(JOKRO_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,jokroPolicyVersion:JOKRO_COMBAT.version};
  const shiranui=snapshot.code===SHIRANUI_CODE;
- if(shiranui)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'RANGED',skills:mode==='PVE'?[structuredClone(SHIRANUI_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,shiranuiPolicyVersion:1};
+ if(shiranui)snapshot={...snapshot,rank:'SSS',statMode:'RANK_FIXED',position:'FRONT',role:'VANGUARD',attackStyle:'RANGED',skills:mode==='PVE'?[structuredClone(SHIRANUI_AREA_SKILL)]:[],counterImmune:true,controlImmune:true,poisonImmune:true,shiranuiPolicyVersion:SHIRANUI_COMBAT.version};
  const supreme=jokro?JOKRO_COMBAT:valter?VALTER_COMBAT:helios?HELIOS_COMBAT:jinmu?JINMU_COMBAT:kairon?KAIRON_COMBAT:shiranui?SHIRANUI_COMBAT:null;
  const limited=ssLimitedProfile({...snapshot,isMercenary:true});
  if(limited)snapshot={...snapshot,rank:'SS',statMode:'RANK_FIXED',position:limited.position,role:limited.role,attackStyle:limited.attackStyle,skills:[structuredClone(limited.skill)],ssLimitedPolicyVersion:SS_LIMITED_BALANCE_VERSION};

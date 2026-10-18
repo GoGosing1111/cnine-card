@@ -1,0 +1,188 @@
+{
+  "dateKST": "2026-10-18",
+  "scope": "CANONICAL_SERVER_EQUAL_DECK_SAMPLES_NOT_LIVE_PLAYER_WIN_RATE",
+  "policies": {
+    "jinmu": {
+      "version": 2,
+      "basePower": 1617408,
+      "statsReferencePower": 1123200,
+      "statScale": 1.44,
+      "speedReferencePower": 1080000,
+      "speedScale": 3.12,
+      "actionCredit": 3.12,
+      "motionPlaybackRate": 2.6,
+      "link": {
+        "attackPercent": 2635.776,
+        "hpPercent": 1677.312,
+        "shieldPercent": 928.416
+      },
+      "basicCapScale": 2.88,
+      "damageTakenScale": 0.25,
+      "hardCounter": "V-055"
+    },
+    "jokro": {
+      "version": 2,
+      "basePower": 1940890,
+      "statsReferencePower": 1123200,
+      "statScale": 1.728,
+      "speedReferencePower": 1080000,
+      "speedScale": 3.12,
+      "actionCredit": 3.12,
+      "motionPlaybackRate": 2,
+      "effectPlaybackRate": 1,
+      "link": {
+        "attackPercent": 3162.9312,
+        "hpPercent": 2012.7744,
+        "shieldPercent": 1126.0992
+      },
+      "basicCapScale": 3.456,
+      "damageTakenScale": 0.2,
+      "hardCounter": "V-055"
+    },
+    "kairon": {
+      "version": 1,
+      "basePower": 1347840,
+      "statsReferencePower": 1123200,
+      "statScale": 1.2,
+      "speedReferencePower": 1080000,
+      "speedScale": 3.12,
+      "actionCredit": 3.12,
+      "motionPlaybackRate": 2.6,
+      "link": {
+        "attackPercent": 2196.48,
+        "hpPercent": 1397.76,
+        "shieldPercent": 763.68
+      },
+      "basicCapScale": 2.4,
+      "damageTakenScale": 0.25,
+      "hardCounter": "V-055"
+    }
+  },
+  "areaSkills": {
+    "jinmu": {
+      "damageRatio": 6.72,
+      "cooldownTurns": 5,
+      "cost": 35
+    },
+    "jokro": {
+      "damageRatio": 15.12,
+      "cooldownTurns": 5,
+      "cost": 35
+    },
+    "kairon": {
+      "damageRatio": 5.6,
+      "cooldownTurns": 5,
+      "cost": 35
+    }
+  },
+  "comparisons": [
+    {
+      "stronger": "V-989",
+      "weaker": "V-988",
+      "wins": 60,
+      "total": 64,
+      "winRate": 0.9375,
+      "rows": [
+        {
+          "power": 20000000,
+          "side": "A",
+          "wins": 15,
+          "losses": 1,
+          "draws": 0,
+          "total": 16
+        },
+        {
+          "power": 20000000,
+          "side": "B",
+          "wins": 15,
+          "losses": 1,
+          "draws": 0,
+          "total": 16
+        },
+        {
+          "power": 1000000000,
+          "side": "A",
+          "wins": 15,
+          "losses": 1,
+          "draws": 0,
+          "total": 16
+        },
+        {
+          "power": 1000000000,
+          "side": "B",
+          "wins": 15,
+          "losses": 1,
+          "draws": 0,
+          "total": 16
+        }
+      ]
+    },
+    {
+      "stronger": "V-979",
+      "weaker": "V-989",
+      "wins": 64,
+      "total": 64,
+      "winRate": 1,
+      "rows": [
+        {
+          "power": 20000000,
+          "side": "A",
+          "wins": 16,
+          "losses": 0,
+          "draws": 0,
+          "total": 16
+        },
+        {
+          "power": 20000000,
+          "side": "B",
+          "wins": 16,
+          "losses": 0,
+          "draws": 0,
+          "total": 16
+        },
+        {
+          "power": 1000000000,
+          "side": "A",
+          "wins": 16,
+          "losses": 0,
+          "draws": 0,
+          "total": 16
+        },
+        {
+          "power": 1000000000,
+          "side": "B",
+          "wins": 16,
+          "losses": 0,
+          "draws": 0,
+          "total": 16
+        }
+      ]
+    }
+  ],
+  "pve": [
+    {
+      "code": "V-988",
+      "firstAreaDamage": 467380403,
+      "skill": "MERCENARY_KAIRON_AREA",
+      "mercenaryDamage": 27498240000,
+      "mercenaryActions": 49
+    },
+    {
+      "code": "V-989",
+      "firstAreaDamage": 673027781,
+      "skill": "MERCENARY_JINMU_AREA",
+      "mercenaryDamage": 28089600000,
+      "mercenaryActions": 46
+    },
+    {
+      "code": "V-979",
+      "firstAreaDamage": 1817175006,
+      "skill": "MERCENARY_JOKRO_AREA",
+      "mercenaryDamage": 29863680000,
+      "mercenaryActions": 36
+    }
+  ],
+  "acquisitionChanged": false,
+  "speedChanged": false,
+  "artChanged": false
+}
