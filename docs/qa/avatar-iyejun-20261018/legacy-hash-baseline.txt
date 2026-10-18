@@ -1,0 +1,58 @@
+✖ V-989: legacy replay payload and equal-power combat preserve existing mercenary policy (24.6057ms)
+✖ V-989: PVE full result/timeline is byte-for-byte unchanged (4.4235ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 301.9025
+
+✖ failing tests:
+
+test at tests\iyejun-baseline-qa.test.mjs:194:66
+✖ V-989: legacy replay payload and equal-power combat preserve existing mercenary policy (24.6057ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '2d4f145f809baf7bddd6300e8d120edc15ca02cf7328e9c5afa4bfd636553e05'
+  - 'a8f3e1fa283837fd9666068fe3b25f75f09efd1f32d83dc34d26d0d90c94c47a'
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/mercenary-deploy-visibility/cnine-card/tests/iyejun-baseline-qa.test.mjs:197:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '2d4f145f809baf7bddd6300e8d120edc15ca02cf7328e9c5afa4bfd636553e05',
+    expected: 'a8f3e1fa283837fd9666068fe3b25f75f09efd1f32d83dc34d26d0d90c94c47a',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\iyejun-baseline-qa.test.mjs:234:52
+✖ V-989: PVE full result/timeline is byte-for-byte unchanged (4.4235ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '6575e2b282f7be9ff09cce08c4dd838e33cb1ab94ee0ac3a41d5fa46d1d4458d'
+  - '7ef9fb0f06aa45f714ee991c655325528fa82eac8dfcca5c0b12ec432265696f'
+  
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/mercenary-deploy-visibility/cnine-card/tests/iyejun-baseline-qa.test.mjs:235:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at node:internal/test_runner/test:1228:31
+      at node:internal/process/task_queues:151:7
+      at AsyncResource.runInAsyncScope (node:async_hooks:227:14)
+      at AsyncResource.runMicrotask (node:internal/process/task_queues:148:8) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '6575e2b282f7be9ff09cce08c4dd838e33cb1ab94ee0ac3a41d5fa46d1d4458d',
+    expected: '7ef9fb0f06aa45f714ee991c655325528fa82eac8dfcca5c0b12ec432265696f',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

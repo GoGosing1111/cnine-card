@@ -15,13 +15,14 @@
   const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
   const formatNumber = (value) => Math.max(0, Number(value) || 0).toLocaleString('ko-KR');
   const formatRemaining = (value) => { const totalMinutes = Math.max(0, Math.ceil((Number(value) || 0) / 60000)), hours = Math.floor(totalMinutes / 60), minutes = totalMinutes % 60; return hours ? `${hours}시간${minutes ? ` ${minutes}분` : ''}` : `${minutes}분`; };
-  const sourceType = (item) => String(item?.acquisitionType || 'DROP').toUpperCase() === 'COIN' ? 'COIN' : 'DROP';
+  const sourceType = (item) => {const type=String(item?.acquisitionType||'DROP').toUpperCase();return ['COIN','UNSET'].includes(type)?type:'DROP';};
   const uid = () => globalThis.crypto?.randomUUID?.() || `avatar-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
   function effectInfo(item) {
     const effect = item?.effect || item || {};
     const type = String(effect.type || 'NONE').toUpperCase();
-    const amount = Math.max(0, Math.floor(Number(effect.value) || 0));
+    const rawAmount = Number(effect.value) || 0;
+    const amount = Math.max(0, type === 'BATTLE_POWER_PERCENT' ? Math.round(rawAmount * 100) / 100 : Math.floor(rawAmount));
     if (type === 'SCRAPYARD_FREE_ENTRY') return {
       type, tone: 'scrapyard', icon: 'scrapyard', label: '폐차장 무료 입장', value: '입장권 소모 0', summary: '폐차장 무료 입장',
       detail: '장착 중에는 폐차장 출입 허가증을 소모하지 않습니다. 일일 입장 횟수 제한은 그대로 적용됩니다.'
@@ -31,7 +32,7 @@
       return { type, tone: 'raid', icon: 'raid', label: '레이드 추가 횟수', value: `+${value}회`, summary: `레이드 입장 +${value}회`, detail: `장착 중에는 레이드 각 운영 슬롯의 입장 가능 횟수가 ${value}회 증가합니다.` };
     }
     if (type === 'COIN_GAIN_PERCENT') {
-      const value = Math.max(1, Math.min(100, amount || 1));
+      const value = Math.max(1, Math.min(item?.code === 'IYEJUN' ? 150 : 100, amount || 1));
       return { type, tone: 'coin', icon: 'coinGain', label: '코인 습득률', value: `+${value}%`, summary: `코인 습득률 +${value}%`, detail: `전투와 콘텐츠에서 직접 획득하는 코인이 ${value}% 증가합니다. 거래·환불·관리자 지급은 제외됩니다.` };
     }
     if (type === 'DROP_RATE_PERCENT') {
@@ -40,14 +41,14 @@
     }
     if (type === 'BATTLE_POWER_PERCENT') {
       const value = Math.max(1, Math.min(100, amount || 1));
-      return { type, tone: 'power', icon: 'power', label: '전투력 상승', value: `+${value}%`, summary: `편성 전투력 +${value}%`, detail: `장착 중에는 모든 전투 콘텐츠의 최종 편성 전투력이 ${value}% 증가합니다.` };
+      return { type, tone: 'power', icon: 'power', label: '전투력 상승', value: `+${value}%`, summary: `편성 전투력 +${value}%`, detail: item?.code==='IYEJUN'?`장착 중에는 편성 전투력이 ${value}% 증가합니다. 고정 능력치 콘텐츠는 해당 규칙을 따릅니다.`:`장착 중에는 모든 전투 콘텐츠의 최종 편성 전투력이 ${value}% 증가합니다.` };
     }
     return { type: 'NONE', tone: 'neutral', icon: 'wardrobe', label: '아바타 효과', value: '미설정', summary: '효과 정보 준비 중', detail: '서버에서 이 아바타의 장착 효과가 아직 설정되지 않았습니다.' };
   }
 
   function effectInfos(item) {
     const effects = Array.isArray(item?.effects) && item.effects.length ? item.effects : [item?.effect || {}];
-    return effects.map(effectInfo).filter((effect) => effect.type !== 'NONE');
+    return effects.map(effect => effectInfo({code:item?.code,effect})).filter((effect) => effect.type !== 'NONE');
   }
 
   const icon = (name) => {
@@ -126,6 +127,7 @@
     }
 
     function sourceBadge(item) {
+      if (sourceType(item) === 'UNSET') return `<span class="avs1-source-badge">${icon('lock')} 획득처 준비 중</span>`;
       if (sourceType(item) === 'COIN') return `<span class="avs1-source-badge is-coin">${icon('coin')} ${coinSaleOpen(item) ? '코인 판매' : '판매 준비 중'}</span>`;
       return `<span class="avs1-source-badge is-drop">${icon('drop')} 드랍 전용</span>`;
     }
@@ -160,13 +162,14 @@
       if (item.equipped) return `<button type="button" class="avs1-primary-action is-equipped" disabled>${icon('check')} 현재 적용 중</button>`;
       if (item.owned && cooldownLocked()) return `<button type="button" class="avs1-primary-action is-cooldown" disabled>${icon('lock')} 교체 대기 · ${escapeHtml(formatRemaining(cooldownRemaining()))}</button>`;
       if (item.owned) return `<button type="button" class="avs1-primary-action" data-avatar-equip="${escapeHtml(item.code)}">이 아바타 적용</button>`;
+      if (sourceType(item) === 'UNSET') return `<button type="button" class="avs1-primary-action is-drop" disabled>${icon('lock')} 획득처 준비 중</button>`;
       if (sourceType(item) === 'COIN' && coinSaleOpen(item)) return `<button type="button" class="avs1-primary-action is-purchase" data-avatar-buy="${escapeHtml(item.code)}"><span>${icon('coin')} 코인 구매</span><b>${formatNumber(item.coinPrice)}</b></button>`;
       if (sourceType(item) === 'COIN') return `<button type="button" class="avs1-primary-action is-drop" disabled>${icon('lock')} 판매 준비 중</button>`;
       return `<button type="button" class="avs1-primary-action is-drop" disabled>${icon('lock')} 콘텐츠에서 획득</button>`;
     }
 
     function hero(item) {
-      return `<section class="avs1-hero" style="--avatar-accent:${escapeHtml(item?.accent || '#82c7d7')}">
+      return `<section class="avs1-hero" data-avatar-code="${escapeHtml(item?.code)}" style="--avatar-accent:${escapeHtml(item?.accent || '#82c7d7')}">
         ${picture(item, 'avs1-hero-picture', true)}
         <div class="avs1-hero-shade" aria-hidden="true"></div>
         <header class="avs1-hero-status"><span>SELECTED AVATAR</span><b>${item?.equipped ? 'ACTIVE' : item?.owned ? 'OWNED' : 'LOCKED'}</b></header>
@@ -190,11 +193,11 @@
           ${effectModule(item)}
         </div>
         <dl class="avs1-acquisition-ledger">
-          <div><dt>획득 방식</dt><dd>${isCoin ? '코인 상점' : '콘텐츠 드랍'}</dd></div>
+          <div><dt>획득 방식</dt><dd>${isCoin ? '코인 상점' : sourceType(item)==='UNSET'?'준비 중':'콘텐츠 드랍'}</dd></div>
           <div><dt>${isCoin ? '판매 가격' : '획득처'}</dt><dd>${isCoin ? `${formatNumber(item?.coinPrice)} COIN` : escapeHtml(item?.sourceLabel || '획득처 준비 중')}</dd></div>
           <div><dt>보유 상태</dt><dd>${item?.owned ? '보유 중' : '미획득'}</dd></div>
         </dl>
-        ${!isCoin ? `<p class="avs1-source-detail">${escapeHtml(item?.sourceDetail || '지정 콘텐츠의 보상 또는 드랍으로만 획득할 수 있습니다.')}</p>` : ''}
+        ${!isCoin ? `<p class="avs1-source-detail">${escapeHtml(item?.sourceDetail || (sourceType(item)==='UNSET'?'획득 방법은 추후 안내됩니다.':'지정 콘텐츠의 보상 또는 드랍으로만 획득할 수 있습니다.'))}</p>` : ''}
         ${actionMarkup(item)}
       </section>`;
     }
@@ -206,7 +209,7 @@
       return `<button type="button" class="avs1-card is-${type}${selected ? ' is-selected' : ''}${item.owned ? ' is-owned' : ''}${item.equipped ? ' is-equipped' : ''}" data-avatar-select="${escapeHtml(item.code)}" style="--avatar-accent:${escapeHtml(item.accent || '#82c7d7')}">
         ${picture(item, 'avs1-card-picture')}
         <span class="avs1-card-seq">${escapeHtml(item.serial || 'A-00')}</span>
-        <span class="avs1-card-state">${item.equipped ? 'ACTIVE' : item.owned ? 'OWNED' : sourceType(item) === 'COIN' ? `${formatNumber(item.coinPrice)} C` : 'DROP'}</span>
+        <span class="avs1-card-state">${item.equipped ? 'ACTIVE' : item.owned ? 'OWNED' : sourceType(item) === 'COIN' ? `${formatNumber(item.coinPrice)} C` : sourceType(item)==='UNSET'?'SOON':'DROP'}</span>
         <span class="avs1-card-copy"><small>${escapeHtml(item.callSign || '')}</small><strong>${escapeHtml(item.name)}</strong><em>${escapeHtml(effectSummary)}${effects.length > 1 ? ` · 외 ${effects.length - 1}` : ''}</em></span>
       </button>`;
     }

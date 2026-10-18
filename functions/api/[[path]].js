@@ -88,6 +88,8 @@ import {handleEquipmentPolish} from '../_equipment_polish.js';
 import {ensureForgeProtectionCatalog,FORGE_PROTECTION_ITEM} from '../_forge_protection_catalog.js';
 import {ensureForgeRepairCatalog,FORGE_REPAIR_ITEM} from '../_forge_repair_catalog.js';
 import {ensureForgeScrollCatalog} from '../_forge_scroll_catalog.js';
+import {avatarScaledPower} from '../../shared/avatar-power-v1.mjs';
+import {avatarBattlePowerPercents} from '../_avatar_power.js';
 import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGain,applyAvatarRaidEntryBonus,ensureAvatarFoundation } from '../_avatar.js';
 import { handleVehicleDraw,ensureVehicleDrawFoundation } from '../_vehicle_draw.js';
 import { handlePrimeDraw } from '../_prime_draw.js';
@@ -1115,7 +1117,7 @@ async function pvpFormationPower(env,userId,battle,{defense=false}={}){
   const [deck,bonus,mercenary]=await Promise.all([pvpDeckSnapshot(env,userId,defense),userEquipmentBonuses(env,userId),releasedMercenarySnapshot(env,{id:userId},'PVP')]);
   if(deck.length!==5)return {power:0,matchPower:0,deckReady:false};
   const mercenaryPower=mercenarySnapshotPower(mercenary),power=Math.max(1,deck.reduce((sum,card)=>sum+cardBattlePower(card,Number(card.breakthrough_level||0),battle),0)+Number(bonus.pvp||0)+mercenaryPower);
-  return {power,matchPower:rankedMatchPower(power,mercenaryPower),deckReady:true};
+  const scaled=avatarScaledPower(power,bonus.avatarPowerPercent);return {power:scaled,matchPower:rankedMatchPower(scaled,avatarScaledPower(mercenaryPower,bonus.avatarPowerPercent)),deckReady:true};
 }
 async function pvpDefenseFormationPowers(env,userIds,battle){
   const ids=[...new Set((userIds||[]).map(Number).filter(Boolean))];if(!ids.length)return new Map();const marks=ids.map(()=>'?').join(',');
@@ -1140,7 +1142,8 @@ async function pvpDefenseFormationPowers(env,userIds,battle){
   ]);
   const result=new Map(ids.map(id=>[id,{power:0,count:0,superstarCount:0,iconCount:0}]));for(const row of cardRows.results||[]){const state=result.get(Number(row.user_id));if(state){state.power+=cardBattlePower(row,Number(row.breakthrough_level||0),battle);state.count++;state.superstarCount+=superstarDeckCount([row]);state.iconCount+=iconDeckCount([row])}}
   for(const rows of [equipmentRows.results||[],garageRows.results||[],titleRows.results||[]])for(const row of rows){const state=result.get(Number(row.user_id));if(state)state.power+=Number(row.power||0)}
-  return new Map([...result].map(([id,state])=>{const mercenaryPower=mercenarySnapshotPower(mercenaries.get(id)),power=Math.max(0,Math.floor(state.power+mercenaryPower+Number(forgeBonuses.get(id)?.pvp||0)));return [id,{power,matchPower:rankedMatchPower(power,mercenaryPower),deckReady:state.count===5&&state.superstarCount<=SUPERSTAR_DECK_LIMIT&&state.iconCount<=ICON_DECK_LIMIT}]}));
+  const avatarPowers=await avatarBattlePowerPercents(env,ids);
+  return new Map([...result].map(([id,state])=>{const rawMercenaryPower=mercenarySnapshotPower(mercenaries.get(id)),mercenaryPower=avatarScaledPower(rawMercenaryPower,avatarPowers.get(id)),power=Math.max(0,avatarScaledPower(Math.floor(state.power+Number(forgeBonuses.get(id)?.pvp||0)+rawMercenaryPower),avatarPowers.get(id)));return [id,{power,matchPower:rankedMatchPower(power,mercenaryPower),deckReady:state.count===5&&state.superstarCount<=SUPERSTAR_DECK_LIMIT&&state.iconCount<=ICON_DECK_LIMIT}]}));
 }
 async function createRankedMatchTicket(env,user,settings){
   await ensureRankedPvpFoundation(env);
@@ -1502,7 +1505,7 @@ async function raidDeckPower(env,userId,cardIds,mode='RAID'){
   const battleCards=unique?.cards?.length?unique.cards:cards;
   const basePower=Number(unique.power||cards.reduce((n,c)=>n+Number(c.power||0),0));
   const cardPower=Math.max(0,Math.floor(basePower*(1+Number(synergy.totals.attackPercent||0)/100+Number(synergy.totals.bossDamagePercent||0)/100)));
-  const mercenary=await releasedMercenarySnapshot(env,deckUser,'PVE'),mercenaryPower=mercenarySnapshotPower(mercenary),power=cardPower+Number(characterBonus.pve||0)+mercenaryPower;
+  const mercenary=await releasedMercenarySnapshot(env,deckUser,'PVE'),mercenaryPower=mercenarySnapshotPower(mercenary),power=avatarScaledPower(cardPower+Number(characterBonus.pve||0)+mercenaryPower,characterBonus.avatarPowerPercent);
   return {ids,power,basePower,cardPower,characterBonus,synergy,unique,pet:await loadPetBattleSnapshot(env,deckUser,'PVE'),cards:battleCards,battleSettings:battleCfg,...(mercenary?{mercenary,mercenaryPower}:{})};
 }
 
@@ -1749,7 +1752,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   const characterBonus=options.characterBonus||await userEquipmentBonuses(env,user.id),synergyMultiplier=Math.max(0,Number(options.synergyMultiplier||1)),cardPower=Math.max(0,Math.floor(Number(uniqueRuntime?.effectivePower||basePlayerPower)*synergyMultiplier));
   const battleSuitDamage=Math.max(0,Number(characterBonus.battleSuitPve||0));
   const nonBattleSuitSupport=Math.max(0,Number(characterBonus.pve||0)-battleSuitDamage);
-  const uniquePlayerPower=cardPower+nonBattleSuitSupport+battleSuitDamage;
+  const uniquePlayerPower=avatarScaledPower(cardPower+nonBattleSuitSupport+battleSuitDamage,characterBonus.avatarPowerPercent);
   const activatedEntry=selectActivatedUltimate(settings,battleCards);
   const ultimateSourceCard=activatedEntry?.matchedCards?.[0]||null;
   const ultimateDamage=activatedEntry&&ultimateSourceCard?Math.max(0,Math.floor(Number(ultimateSourceCard.power||0)*Number(activatedEntry.rule.coefficientPercent||0)/100)):0;
@@ -6598,7 +6601,7 @@ async function handleRequest(context){
       const rankScope=difficulty.isApocalypse?'APOCALYPSE':'HUNT';
       const [synergy,characterBonus,magicLoadout,pveMagicSettings,avatarEffect,mercenarySnapshot,rankBenefits]=await Promise.all([evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),userEquipmentBonuses(env,user.id),magicBattleLoadout(env,user,'PVE'),magicSettings(env),equippedAvatarEffect(env,user.id),releasedMercenarySnapshot(env,user,'PVE'),accountRankBenefits(env,user.id,rankScope)]);
       engineState=pveBattleEngineState(settings,user,characterBonus);
-      const synergyMultiplier=1+Number(synergy.totals.attackPercent||0)/100+(monster.is_boss?Number(synergy.totals.bossDamagePercent||0)/100:0),cardPower=Math.max(0,Math.floor(uniqueEffectivePower*synergyMultiplier)),playerPower=cardPower+Number(characterBonus.pve||0);
+      const synergyMultiplier=1+Number(synergy.totals.attackPercent||0)/100+(monster.is_boss?Number(synergy.totals.bossDamagePercent||0)/100:0),cardPower=Math.max(0,Math.floor(uniqueEffectivePower*synergyMultiplier)),playerPower=avatarScaledPower(cardPower+Number(characterBonus.pve||0),characterBonus.avatarPowerPercent);
       const totalBattleDamage=playerPower+ultimateDamage,preliminaryResult=totalBattleDamage>=monsterPower?'WIN':'LOSE';
       const bossIsBoss=Number(monster.is_boss||0)===1||monster.is_boss===true,bossUltimateEnabled=Number(monster.ultimate_enabled||0)===1||monster.ultimate_enabled===true,bossUltimateConfigured=bossIsBoss&&bossUltimateEnabled;
       const bossTrigger=String(monster.ultimate_trigger||'ON_LOSS').toUpperCase(),bossChance=Math.max(0,Math.min(100,Number(monster.ultimate_chance??100))),bossForceCast=Number(monster.ultimate_force_cast||0)===1||monster.ultimate_force_cast===true,bossChanceHit=bossChance>=100||Math.random()*100<bossChance;
@@ -6986,8 +6989,8 @@ async function handleRequest(context){
       const aBase=Number(aUnique.power||aCards.reduce((s,c)=>s+Number(c.power||0),0)),dBase=Number(dUnique.power||dCards.reduce((s,c)=>s+Number(c.power||0),0));
       const aUniqueRuntime=aUnique.enabled?resolveUniqueBattleRuntime(aUnique,{mode:'PVP',opponentPower:dBase}):null,dUniqueRuntime=dUnique.enabled?resolveUniqueBattleRuntime(dUnique,{mode:'PVP',opponentPower:aBase}):null;
       const aSynergyMultiplier=1+Number(aSyn.totals.attackPercent||0)/100,dSynergyMultiplier=1+Number(dSyn.totals.attackPercent||0)/100;
-      const aCardPower=Math.max(0,Math.floor(Number(aUniqueRuntime?.effectivePower||aBase)*aSynergyMultiplier)),dCardPower=Math.max(0,Math.floor(Number(dUniqueRuntime?.effectivePower||dBase)*dSynergyMultiplier)),legacyAPower=aCardPower+Number(aCharacterBonus.pvp||0),legacyDPower=dCardPower+Number(dCharacterBonus.pvp||0);
-      const currentMatchAPower=Math.max(1,aCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(aCharacterBonus.pvp||0)+mercenarySnapshotPower(aMercenary)),currentMatchDPower=Math.max(1,dCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(dCharacterBonus.pvp||0)+mercenarySnapshotPower(dMercenary));
+      const aCardPower=Math.max(0,Math.floor(Number(aUniqueRuntime?.effectivePower||aBase)*aSynergyMultiplier)),dCardPower=Math.max(0,Math.floor(Number(dUniqueRuntime?.effectivePower||dBase)*dSynergyMultiplier)),legacyAPower=avatarScaledPower(aCardPower+Number(aCharacterBonus.pvp||0),aCharacterBonus.avatarPowerPercent),legacyDPower=avatarScaledPower(dCardPower+Number(dCharacterBonus.pvp||0),dCharacterBonus.avatarPowerPercent);
+      const currentMatchAPower=Math.max(1,avatarScaledPower(aCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(aCharacterBonus.pvp||0)+mercenarySnapshotPower(aMercenary),aCharacterBonus.avatarPowerPercent)),currentMatchDPower=Math.max(1,avatarScaledPower(dCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(dCharacterBonus.pvp||0)+mercenarySnapshotPower(dMercenary),dCharacterBonus.avatarPowerPercent));
       if(currentMatchAPower!==Number(rankedTicket.attacker_power)||currentMatchDPower!==Number(rankedTicket.defender_power))return rejectRankedMatch({error:'매칭 후 덱·장비·칭호 정보가 변경되었습니다. 새로 매칭해주세요.',code:'PVP_MATCH_FORMATION_CHANGED'},409);
       const engineState=battleEngineState(battle,user),aUniqueById=new Map((aUnique.cards||[]).map(card=>[String(card.id),card])),dUniqueById=new Map((dUnique.cards||[]).map(card=>[String(card.id),card]));
       let battleV2=null,battleSeed=0;
@@ -6995,7 +6998,7 @@ async function handleRequest(context){
         const seed=parseInt(drawIntegrityHash(`${user.id}:${defenderId}:${requestId}:PVP_V2`),16)>>>0;battleSeed=seed;
         const attackerEngineCards=aCards.map(card=>{const uniqueCard=aUniqueById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*aSynergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
         const defenderEngineCards=dCards.map(card=>{const uniqueCard=dUniqueById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*dSynergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null, iconRole:uniqueCard?.iconRole||null}});
-        battleV2=createPvpBattleV2({attackerPet:aPet,defenderPet:dPet,attackerMercenary:aMercenary,defenderMercenary:dMercenary,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),seed,singleHealerBonus:engineState.singleHealerBonus});
+        battleV2=createPvpBattleV2({attackerPet:aPet,defenderPet:dPet,attackerMercenary:aMercenary,defenderMercenary:dMercenary,attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),attackerAvatarPowerPercent:aCharacterBonus.avatarPowerPercent,defenderAvatarPowerPercent:dCharacterBonus.avatarPowerPercent,seed,singleHealerBonus:engineState.singleHealerBonus});
       }
       const attackerWin=engineState.active?battleV2.result.winner==='A':legacyAPower>=legacyDPower;
       const aPower=engineState.active?Number(battleV2.teams.A.summary.power||legacyAPower):legacyAPower,dPower=engineState.active?Number(battleV2.teams.B.summary.power||legacyDPower):legacyDPower;

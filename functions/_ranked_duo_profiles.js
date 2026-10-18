@@ -1,4 +1,6 @@
 import {readMercenaryModes} from './_mercenary_loadout_modes.js';
+import {avatarBattlePowerPercents} from './_avatar_power.js';
+import {avatarScaledPower} from '../shared/avatar-power-v1.mjs';
 import {mercenaryEquipmentRuntimes} from './_mercenary_equipment.js';
 import {strongestDuoCards,validateDuoDeck,duoError,DUO_LIMITS} from '../shared/ranked-duo-v1.mjs';
 import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
@@ -104,7 +106,13 @@ export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wa
    }catch(error){if(error.code!=='DUO_PROFILE_CHANGED')throw error;profiles.clear();}
    finally{await env.DB.prepare(`DELETE FROM ranked_duo_profile_leases_v1 WHERE token=? AND user_id IN (${marks(miss)})`).bind(token,...missingIds).run();}
   }
-  if(profiles.size===ids.length)return ids.map(id=>profiles.get(id));
+  if(profiles.size===ids.length){
+   const avatarPowers=await avatarBattlePowerPercents(env,ids);
+   return ids.map(id=>{const profile=profiles.get(id),percent=avatarPowers.get(id)||0;
+    return percent?{...profile,power:avatarScaledPower(profile.power,percent),avatarPowerPercent:percent,
+     attack:{...profile.attack,avatarPowerPercent:percent},defense:{...profile.defense,avatarPowerPercent:percent}}:profile;
+   });
+  }
   // Bounded, user-indexed cache checks outside transactions. Other builders keep
   // their lease and inventory scan; callers consume their completed snapshot.
   if(attempt<profileRetryDelays.length)await wait(profileRetryDelays[attempt]);

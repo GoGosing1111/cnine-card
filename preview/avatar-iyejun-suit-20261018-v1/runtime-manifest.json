@@ -1,0 +1,94 @@
+{
+  "name": "이예준",
+  "code": "IYEJUN",
+  "serial": "A-36",
+  "status": "USER_RELEASE_AUTHORIZED",
+  "generator": "built-in image_gen",
+  "approval": {
+    "date": "2026-10-18",
+    "quote": "이예준 아바타 확정짓고 한복디임에 50% 옵션 더붙여서 반영해",
+    "lobbySha256": "639d7f43789d980ead542d64af0d33de1edc5e0079d1d2d5d638253776b7feed"
+  },
+  "equipmentPrompt": "equipment-prompt-v1.txt",
+  "processing": "Generated native-alpha cutout. Source PNGs preserved. Uniform resize, transparent padding and WebP export only.",
+  "alpha": {
+    "clearRatio": 0.7580966949462891,
+    "solidRatio": 0.22723706563313803,
+    "borderMax": 0,
+    "bounds": {
+      "left": 262,
+      "top": 31,
+      "right": 752,
+      "bottom": 1503
+    },
+    "crop": {
+      "left": 254,
+      "top": 23,
+      "width": 507,
+      "height": 1489
+    }
+  },
+  "runtime": {
+    "width": 640,
+    "height": 1088,
+    "uniformScale": 0.6984553391537945,
+    "bodyWidth": 354,
+    "bodyHeight": 1040
+  },
+  "files": {
+    "avatar-iyejun-approved-source.png": {
+      "sha256": "639d7f43789d980ead542d64af0d33de1edc5e0079d1d2d5d638253776b7feed",
+      "bytes": 2721120,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-iyejun-equipment-source-v1.png": {
+      "sha256": "cff519148c2f4888ad6cc0c9d6cd40035c0c5a2f3342074731dde3890f747f38",
+      "bytes": 1556193,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    "avatar-iyejun-equipment-v1-640.webp": {
+      "sha256": "1f055431c9b1a11cffd86f8b94ed14a6b43befd40425dddbd0e1d0410f2f299a",
+      "bytes": 92434,
+      "width": 640,
+      "height": 1088,
+      "hasAlpha": true
+    },
+    "avatar-iyejun-lobby-v1-1024.webp": {
+      "sha256": "90f055295fc494bcca580333e8c7a49faa67fcc6e9e1461668243a7342a6e233",
+      "bytes": 253944,
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": false
+    },
+    "avatar-iyejun-lobby-v1-640.webp": {
+      "sha256": "1368bdb89e36c88b458e792b9482e666ab37f8086cd1249084dcdee1d3e6df89",
+      "bytes": 109318,
+      "width": 640,
+      "height": 960,
+      "hasAlpha": false
+    }
+  },
+  "effects": [
+    {
+      "type": "DROP_RATE_PERCENT",
+      "value": 45
+    },
+    {
+      "type": "COIN_GAIN_PERCENT",
+      "value": 150
+    },
+    {
+      "type": "RAID_EXTRA_ENTRY",
+      "value": 15
+    },
+    {
+      "type": "BATTLE_POWER_PERCENT",
+      "value": 4.5
+    }
+  ],
+  "equipmentReview": "Technical alpha, full-body and desktop/mobile review; no separate user visual approval asserted."
+}

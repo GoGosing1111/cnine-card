@@ -1,5 +1,5 @@
-import {applyTypeStacking,distributeEquipment,buildFighter,buildMonsterFighter,publicFighter,simulateBattleV2Preview,teamSummary} from './_battle_v2_preview.js';
-import {buildMercenaryFighter} from './_mercenary_combat.js';
+import {applyTypeStacking,distributeEquipment,buildFighter,buildAvatarMercenaryFighter,buildMonsterFighter,publicFighter,simulateBattleV2Preview,teamSummary} from './_battle_v2_preview.js';
+import {avatarPoweredCard} from '../shared/avatar-power-v1.mjs';
 import {cooperativeEnemies} from './_cooperative_enemies.js';
 import {COOP_RULES,COOP_ENCOUNTER,coopDifficulty} from '../shared/cooperative-battleground-v1.mjs';
 
@@ -11,12 +11,12 @@ export function createCooperativeBattle({squads,difficulty='NORMAL',seed=1,withd
   const {ownerId,ownerName}=squad,deck=squad.cards;
   if(!Number.isSafeInteger(ownerId)||ownerId<=0||!Array.isArray(deck)||deck.length!==2||new Set(deck.map(c=>c.id)).size!==2||deck.some(c=>!c.id||c.isMercenary)||deck.filter(c=>(c.rarity||c.grade)==='SUPERSTAR').length>1||!squad.mercenary)throw Error('INVALID_COOPERATIVE_SQUAD');
   const own=distributeEquipment(applyTypeStacking(deck),Math.max(0,Number(squad.equipmentBonus)||0)).map((c,localSlot)=>({
-   ...buildFighter(c,localSlot,'A',c.uniqueAbility||null,'PVE'),id:`A:OWNER:${ownerId}:CARD:${c.id}`,
+   ...buildFighter(avatarPoweredCard(c,squad.avatarPowerPercent),localSlot,'A',c.uniqueAbility||null,'PVE'),id:`A:OWNER:${ownerId}:CARD:${c.id}`,
    ownerId,ownerName,squadIndex,localSlot,slot:squadIndex*2+localSlot,
    row:c.uniqueAbility?.dominantType==='DEFENSE'||c.power_type==='DEFENSE'?'FRONT':'BACK'
   }));
   cards.push(...own);
-  const merc=buildMercenaryFighter(squad.mercenary,'A','PVE',buildFighter);
+  const merc=buildAvatarMercenaryFighter(squad.mercenary,'A','PVE',squad.avatarPowerPercent);
   mercenaries.push({...merc,id:`A:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:2,slot:6+squadIndex});
   members.push({ownerId,ownerName,squadIndex,ownerRankLevel:squad.ownerRankLevel??null});
  });

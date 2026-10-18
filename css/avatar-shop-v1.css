@@ -310,3 +310,7 @@
   .avs1-card-picture img,
   .avs1-notice { transition: none; }
 }
+
+/* Preserve the approved portrait: its face must not sit under the status strip. */
+.avs1-hero[data-avatar-code="IYEJUN"] .avs1-hero-status { left: auto; right: 16px; width: auto; }
+.avs1-hero[data-avatar-code="IYEJUN"] .avs1-hero-status span { display: none; }

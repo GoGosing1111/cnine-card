@@ -1781,7 +1781,7 @@ export async function handleCaptain({ path, request, env, deps }) {
     }));
     const uniqueState = await deps.cardUniqueDeckState(env, user, baseSnapshot, 'CAPTAIN');
     const snapshot = uniqueState.cards?.length ? uniqueState.cards : baseSnapshot;
-    const power = Number(uniqueState.power || snapshot.reduce((sum, card) => sum + Number(card.power || 0), 0)) + Number(characterBonus.pvp || 0);
+    const power = Math.round((Number(uniqueState.power || snapshot.reduce((sum, card) => sum + Number(card.power || 0), 0)) + Number(characterBonus.pvp || 0)) * (1+(characterBonus.avatarPowerPercent||0)/100));
 
     if (current) {
       await env.DB.prepare(`
@@ -1972,7 +1972,7 @@ export async function handleCaptain({ path, request, env, deps }) {
         // 대장전은 신청 당시 저장된 카드 5장을 기준으로 한다. 이후 보유 카드 삭제·퇴사·덱 변경이나
         // 고유 능력 보정 과정이 스냅샷 카드 수를 줄여서는 안 된다.
         member.deckSnapshot=uniqueCards;
-        member.deck_power=Number(state?.power||member.deckSnapshot.reduce((sum,card)=>sum+Number(card.power||0),0))+Number(characterBonus.pvp||0);
+        member.deck_power=Math.round((Number(state?.power||member.deckSnapshot.reduce((sum,card)=>sum+Number(card.power||0),0))+Number(characterBonus.pvp||0))*(1+(characterBonus.avatarPowerPercent||0)/100));
       });
       const match = simulateGauntlet(attackerTeam, defenderTeam);
       const attackerWon = match.result === 'WIN';

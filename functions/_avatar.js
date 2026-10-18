@@ -1,5 +1,6 @@
 import {handleAvatarAdminGrant} from './_avatar_admin_grant.js';
 import {ensureRuntimeFoundation} from './_runtime_foundation.js';
+import {IYEJUN_AVATAR_KEY,ensureIyejunAvatar} from './_avatar_iyejun.js';
 
 /* REVERSE CALL AVATAR CATALOG V1
  *
@@ -28,7 +29,7 @@ const ACQUISITION_TYPES=Object.freeze(['UNSET','COIN','DROP','EVENT']);
 const EFFECT_TYPES=Object.freeze(['BATTLE_POWER_PERCENT','SCRAPYARD_FREE_ENTRY','RAID_EXTRA_ENTRY','COIN_GAIN_PERCENT','DROP_RATE_PERCENT']);
 const MAX_SAFE_COIN=Number.MAX_SAFE_INTEGER;
 const AVATAR_EQUIP_COOLDOWN_MS=24*60*60*1000;
-const FOUNDATION_CACHE=Symbol('avatar-foundation-20260918');
+const FOUNDATION_CACHE=Symbol('avatar-foundation-iyejun-20261018');
 let ownershipExpiryPromise=null;
 let settingsCache=null;
 let settingsCacheAt=0;
@@ -53,7 +54,19 @@ function cleanBool(value,fallback=false){if(value===undefined||value===null)retu
 function cleanMode(value){const mode=String(value||'').trim().toUpperCase();return MODES.includes(mode)?mode:'OFF'}
 function cleanAcquisition(value){const type=String(value||'').trim().toUpperCase();return ACQUISITION_TYPES.includes(type)?type:'UNSET'}
 function cleanEffect(value){const type=String(value||'').trim().toUpperCase();return EFFECT_TYPES.includes(type)?type:''}
-function cleanEffectValue(type,value){const n=Math.floor(Number(value)||0),max=['COIN_GAIN_PERCENT','BATTLE_POWER_PERCENT','DROP_RATE_PERCENT'].includes(type)?100:type==='RAID_EXTRA_ENTRY'?20:1;return Math.max(1,Math.min(max,n))}
+function cleanEffectValue(type,value,code=''){
+  const raw=Number(value)||0,n=type==='BATTLE_POWER_PERCENT'?Math.round(raw*100)/100:Math.floor(raw);
+  const max=type==='COIN_GAIN_PERCENT'&&code==='IYEJUN'?150:['COIN_GAIN_PERCENT','BATTLE_POWER_PERCENT','DROP_RATE_PERCENT'].includes(type)?100:type==='RAID_EXTRA_ENTRY'?20:1;
+  return Math.max(1,Math.min(max,n));
+}
+function storedEffect(effect){
+  return effect.type==='BATTLE_POWER_PERCENT'&&!Number.isInteger(effect.value)
+    ?{type:'BATTLE_POWER_BASIS_POINTS',value:Math.round(effect.value*100)}:effect;
+}
+function readEffect(option,code){
+  const fractional=option?.type==='BATTLE_POWER_BASIS_POINTS',type=fractional?'BATTLE_POWER_PERCENT':cleanEffect(option?.type);
+  return {type,value:cleanEffectValue(type,fractional?Number(option.value)/100:option?.value,code)};
+}
 function cleanPrice(value){if(value===null||value===undefined||String(value).trim()==='')return null;const n=Number(value);return Number.isSafeInteger(n)&&n>=0&&n<=MAX_SAFE_COIN?n:NaN}
 function safeJson(value,fallback={}){try{const parsed=typeof value==='string'?JSON.parse(value):value;return parsed&&typeof parsed==='object'?parsed:fallback}catch{return fallback}}
 function normalizeSettings(raw){const value=raw&&typeof raw==='object'?raw:{};return{mode:cleanMode(value.mode),shopEnabled:cleanBool(value.shopEnabled,false),version:Math.max(1,Math.floor(Number(value.version)||1))}}
@@ -198,7 +211,7 @@ export async function ensureAvatarFoundation(env){
   return ensureRuntimeFoundation(env,FOUNDATION_CACHE,[
     FOUNDATION_KEY,EFFECT_OPTIONS_KEY,EQUIPMENT_ALPHA_V2_KEY,EQUIPMENT_ALPHA_V3_KEY,
     DIMWOOS_AVATAR_KEY,TERRAN_EMPRESS_JOEUN_AVATAR_KEY,HI_HEEYA_AVATAR_KEY,CHEON_AVATAR_KEY,
-    ORIKKUNG_AVATAR_KEY,SAENGBYUWANG_AVATAR_KEY,HANBOK_DIIM_AVATAR_KEY,T1_JOEUN_AVATAR_KEY,OWNERSHIP_EXPIRY_KEY
+    ORIKKUNG_AVATAR_KEY,SAENGBYUWANG_AVATAR_KEY,HANBOK_DIIM_AVATAR_KEY,T1_JOEUN_AVATAR_KEY,OWNERSHIP_EXPIRY_KEY,IYEJUN_AVATAR_KEY
   ],async()=>{
     const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FOUNDATION_KEY).first();
     if(marker?.value!=='1'){
@@ -230,6 +243,7 @@ export async function ensureAvatarFoundation(env){
     await ensureHanbokDiimAvatar(env);
     await ensureT1JoeunAvatar(env);
     await ensureAvatarOwnershipExpiry(env);
+    await ensureIyejunAvatar(env);
   });
 }
 
@@ -363,7 +377,7 @@ export async function avatarFeatureAccess(env,user,{fresh=false}={}){
 function normalizedEffects(row,effects){
   const raw=Array.isArray(effects)&&effects.length?effects:[{type:row?.effect_type,value:row?.effect_value}];
   const seen=new Set();
-  return raw.map(option=>({type:cleanEffect(option?.type),value:cleanEffectValue(cleanEffect(option?.type),option?.value)}))
+  return raw.map(option=>readEffect(option,row?.code))
     .filter(option=>option.type&&!seen.has(option.type)&&seen.add(option.type)).slice(0,EFFECT_TYPES.length);
 }
 
@@ -384,7 +398,7 @@ function publicAvatarsFromRows(input){
   for(const row of rows(input)){
     const code=String(row.code||'');if(!code)continue;
     if(!groups.has(code))groups.set(code,{row,effects:[]});
-    const type=cleanEffect(row.option_effect_type);
+    const type=row.option_effect_type==='BATTLE_POWER_BASIS_POINTS'?row.option_effect_type:cleanEffect(row.option_effect_type);
     if(type)groups.get(code).effects.push({type,value:row.option_effect_value});
   }
   return[...groups.values()].map(group=>publicAvatar(group.row,group.effects));
@@ -505,7 +519,7 @@ export function applyAvatarCoinGain(amount,equippedAvatar){
   const base=Math.max(0,Math.min(MAX_SAFE_COIN,Math.floor(Number(amount)||0)));
   const effects=Array.isArray(equippedAvatar?.effects)?equippedAvatar.effects:equippedAvatar?[{type:equippedAvatar.type,value:equippedAvatar.value}]:[];
   const coinEffect=effects.find(effect=>String(effect?.type||'').toUpperCase()==='COIN_GAIN_PERCENT');
-  const percent=coinEffect?Math.max(0,Math.min(100,Math.floor(Number(coinEffect.value)||0))):0;
+  const percent=coinEffect?Math.max(0,Math.min(equippedAvatar?.code==='IYEJUN'?150:100,Math.floor(Number(coinEffect.value)||0))):0;
   const bonus=Math.min(MAX_SAFE_COIN-base,Math.floor(base*(percent/100)));
   return{base,percent,bonus,total:base+bonus};
 }
@@ -550,7 +564,7 @@ function cleanAdminEffects(body){
   for(const option of source){
     const type=cleanEffect(option?.type);if(!type)return{error:'아바타 효과 유형이 올바르지 않습니다.'};
     if(seen.has(type))return{error:'같은 아바타 효과를 중복으로 등록할 수 없습니다.'};
-    seen.add(type);effects.push({type,value:cleanEffectValue(type,option?.value)});
+    seen.add(type);effects.push({type,value:cleanEffectValue(type,option?.value,cleanText(body.code,80).toUpperCase())});
   }
   return{effects};
 }
@@ -573,7 +587,7 @@ async function saveAdminAvatar(env,admin,body,writeAdminLog){
   const expectedVersion=Math.max(1,Math.floor(Number(body.version)||0));if(expectedVersion!==Number(before.version||1))return{error:'다른 관리자가 먼저 수정했습니다. 새로고침 후 다시 저장해 주세요.',code:'AVATAR_VERSION_CONFLICT',status:409};
   const acquisitionType=cleanAcquisition(body.acquisitionType),coinPrice=cleanPrice(body.coinPrice),sourceLabel=cleanText(body.sourceLabel,80),sourceDetail=cleanText(body.sourceDetail,500),effectResult=cleanAdminEffects(body),isActive=cleanBool(body.active,false),isPublic=cleanBool(body.public,false),saleEnabled=cleanBool(body.saleEnabled,false),sortOrder=Math.max(0,Math.min(9999,Math.floor(Number(body.sortOrder)||0)));
   if(effectResult.error)return{error:effectResult.error,status:400};
-  const effects=effectResult.effects,[firstEffect]=effects;
+  const effects=effectResult.effects.map(storedEffect),[firstEffect]=effects;
   if(Number.isNaN(coinPrice))return{error:'코인 가격은 0 이상 안전한 정수로 입력해 주세요.',status:400};
   if(saleEnabled&&(acquisitionType!=='COIN'||!Number.isSafeInteger(coinPrice)||coinPrice<=0))return{error:'판매 ON은 코인 획득 방식과 1코인 이상의 가격이 필요합니다.',status:400};
   if(isPublic&&!isActive)return{error:'공개하려면 먼저 아바타 사용 상태를 ON으로 설정해 주세요.',status:400};

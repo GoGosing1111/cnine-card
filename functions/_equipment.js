@@ -7,6 +7,7 @@ import { SECRET_POLICE_TITLE_KEY, ensureSecretPoliceTitle } from './_secret_poli
 import { ADMINISTRATION_TITLE_KEY, ensureAdministrationTitle } from './_administration_title.js';
 import { FLAG_BRIGADE_TITLE_KEY, ensureFlagBrigadeTitle, syncFlagBrigadeTitle } from './_flag_brigade_title.js';
 import { avatarFeatureAccess, equippedAvatarEffect } from './_avatar.js';
+import {avatarBattlePowerPercents} from './_avatar_power.js';
 import { resolveAvatarDropRate } from './_avatar_drop.js';
 import { burningEventIsLive } from './_burning_event_access.js';
 import { handleSkillChips,skillChipPayload,equippedSkillChipCodes } from './_skill_chips.js';
@@ -674,12 +675,13 @@ export async function userEquipmentBonuses(env,userId,{skillChips}={}){
     LEFT JOIN equipped_weapon ON 1=1
     LEFT JOIN garage ON 1=1
     LEFT JOIN equipped_title ON 1=1`).bind(userId,userId,userId,userId,userId).first();
-  const [forge,pveEquipmentRuntime]=await Promise.all([FORGE_RUNTIME_RELEASE_ENABLED?forgeEquipmentBonus(env,userId):{pve:0,pvp:0},equipmentGrowthRuntime(env,userId)]);
+  const [forge,growthRuntime,avatarPower]=await Promise.all([FORGE_RUNTIME_RELEASE_ENABLED?forgeEquipmentBonus(env,userId):{pve:0,pvp:0},equipmentGrowthRuntime(env,userId),avatarBattlePowerPercents(env,[userId])]);
+  const avatarPowerPercent=avatarPower.get(Number(userId))||0,pveEquipmentRuntime=avatarPowerPercent?{...growthRuntime,avatarPowerPercent}:growthRuntime;
   const equipmentPve=Number(row?.equipment_pve||0)+forge.pve,equipmentPvp=Number(row?.equipment_pvp||0)+forge.pvp,battleSuitPve=Number(row?.battle_suit_pve||0),garagePve=Number(row?.garage_pve||0),garagePvp=Number(row?.garage_pvp||0),titlePve=Number(row?.title_pve||0),titlePvp=titlePve;
   const titleConfig=parseJson(row?.title_unlock_config_json,{});
   const equippedBattleSuit=publicEquippedItem(row,'battle_suit',{pveOnly:true}),equippedWeapon=publicEquippedItem(row,'weapon');
   if(equippedBattleSuit&&battleSuitPve>0){const chips=skillChips?await skillChips:null;equippedBattleSuit.skillChips=chips?(chips.battleEnabled?chips.loadout.filter(Boolean):[]):await equippedSkillChipCodes(env,userId);}
-  return {equipmentPve,equipmentPvp,battleSuitPve,battleSuitPvp:0,garagePve,garagePvp,titlePve,titlePvp,pveEquipmentRuntime,pve:equipmentPve+battleSuitPve+garagePve+titlePve,pvp:equipmentPvp+garagePvp+titlePvp,battleSuit:equippedBattleSuit,equippedBattleSuit,equippedWeapon,title:row?.title_id?{id:Number(row.title_id),name:row.title_name,pvePower:titlePve,pvpPower:titlePvp,allBattlePower:titlePve,stylePreset:normalizeTitleStylePreset(row.title_style_preset),fontPreset:normalizeTitleFontPreset(titleConfig.fontPreset)}:null,garage:row?.garage_id?{id:Number(row.garage_id),name:row.garage_name,rarity:normalizeGarageRarity(row.garage_rarity),image:row.garage_image||'',pvePower:garagePve,pvpPower:garagePvp}:null};
+  return {...(avatarPowerPercent?{avatarPowerPercent}:{}),equipmentPve,equipmentPvp,battleSuitPve,battleSuitPvp:0,garagePve,garagePvp,titlePve,titlePvp,pveEquipmentRuntime,pve:equipmentPve+battleSuitPve+garagePve+titlePve,pvp:equipmentPvp+garagePvp+titlePvp,battleSuit:equippedBattleSuit,equippedBattleSuit,equippedWeapon,title:row?.title_id?{id:Number(row.title_id),name:row.title_name,pvePower:titlePve,pvpPower:titlePvp,allBattlePower:titlePve,stylePreset:normalizeTitleStylePreset(row.title_style_preset),fontPreset:normalizeTitleFontPreset(titleConfig.fontPreset)}:null,garage:row?.garage_id?{id:Number(row.garage_id),name:row.garage_name,rarity:normalizeGarageRarity(row.garage_rarity),image:row.garage_image||'',pvePower:garagePve,pvpPower:garagePvp}:null};
 }
 
 function weightedPick(rows){const total=rows.reduce((sum,row)=>sum+Math.max(0,Number(row.weight||0)),0);if(total<=0)return null;let roll=Math.random()*total;for(const row of rows){roll-=Math.max(0,Number(row.weight||0));if(roll<0)return row}return rows[rows.length-1]||null}

@@ -55,8 +55,8 @@ export async function loadCoopSelection(env,user,body,deps){
  const mercenary={...battleConfig(document.document,selected.mercenaryCode,1),combat:runtime.combat,cmsRevision:document.revision,policyVersion:runtime.version};
  const equipmentBonus=Math.max(0,Number(bonus.pve||0)-Number(bonus.battleSuitPve||0));
  return {pet:await loadPetBattleSnapshot(env,user,'PVE'),ownerId:Number(user.id),ownerName:user.nickname,ownerRankLevel:accountRank.level,cards:selected.cardIds.map(id=>cards.find(c=>c.id===id)),mercenary,
-  equipmentBonus,singleHealerBonus:battleSettings.engine?.singleHealerBonus||{},
-  power:cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenarySnapshotPower(mercenary)};
+  equipmentBonus,avatarPowerPercent:bonus.avatarPowerPercent||0,singleHealerBonus:battleSettings.engine?.singleHealerBonus||{},
+  power:Math.round((cards.reduce((sum,c)=>sum+c.power,0)+equipmentBonus+mercenarySnapshotPower(mercenary))*(1+(bonus.avatarPowerPercent||0)/100))};
 }
 export async function handleCooperative({path,request,env,deps}){
  if(!path.startsWith('coop/')&&!['admin/coop/settings','admin/coop/test-users','admin/coop/reward-catalog'].includes(path))return null;

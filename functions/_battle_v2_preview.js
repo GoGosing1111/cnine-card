@@ -1,4 +1,5 @@
 import {jokroIncomingDamage,jokroActionCredit} from '../shared/mercenary-jokro-v1.mjs';
+import {avatarPoweredCard,avatarScaledPower,avatarPowerScale} from '../shared/avatar-power-v1.mjs';
 import {mercenaryGrowthIncomingDamage,applyMercenaryGrowthMatchups,mercenaryGrowthActionCredit} from '../shared/mercenary-growth-review-v2.mjs';
 import {shiranuiIncomingDamage,shiranuiActionCredit} from '../shared/mercenary-shiranui-v1.mjs';
 import {PVP_POWER_BALANCE,pvpPowerEnabled,PVP_POWER_BALANCE_REVIEW,applyPvpPowerBalance,pvpPowerDamageMultiplier} from '../shared/pvp-power-balance-v1.mjs';
@@ -2013,12 +2014,22 @@ function preparePveEncounter(encounter) {
   return {initial, pending:fighters.slice(initialCount), maxActions, maxDuration, forcedMonsterEvery};
 }
 
+export function buildAvatarMercenaryFighter(snapshot,side,mode,percent=0){
+  if(!snapshot||avatarPowerScale(percent)===1)return buildMercenaryFighter(snapshot,side,mode,buildFighter);
+  const fixed=snapshot.statMode==='RANK_FIXED';
+  const prepared=fixed?snapshot:{...snapshot,stats:Object.fromEntries(Object.entries(snapshot.stats||{}).map(([key,value])=>[key,avatarScaledPower(value,percent)]))};
+  const fighter=buildMercenaryFighter(prepared,side,mode,(card,...args)=>buildFighter(avatarPoweredCard(card,percent),...args));
+  if(fighter){fighter.power=avatarScaledPower(fighter.power,percent);fighter.basePower=avatarScaledPower(fighter.basePower,percent);}
+  return fighter;
+}
+
 export function buildPvePlayerTeam({cards=[],characterBonus=0,battleSuit=null,mercenary=null,pveEquipmentRuntime=null}={}) {
+  const avatarPowerPercent=pveEquipmentRuntime?.avatarPowerPercent||0;
   const withBonus = distributePveEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
-  const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
-  const battleSuitFighter = battleSuit ? buildBattleSuitFighter(battleSuit, teamA.length) : null;
+  const teamA = withBonus.map((card, index) => buildFighter(avatarPoweredCard(card,avatarPowerPercent), index, 'A', card.uniqueAbility || null, 'PVE'));
+  const battleSuitFighter = battleSuit ? buildBattleSuitFighter(avatarPowerPercent?{...battleSuit,pvePower:avatarScaledPower(battleSuit.pvePower??battleSuit.power,avatarPowerPercent)}:battleSuit, teamA.length) : null;
   if(mercenary&&(cards.length!==5||new Set(cards.map(c=>String(c.id))).size!==5))throw Error('INVALID_MERCENARY_PARTY');
-  const mercenaryFighter=buildMercenaryFighter(mercenary,'A','PVE',buildFighter);
+  const mercenaryFighter=buildAvatarMercenaryFighter(mercenary,'A','PVE',avatarPowerPercent);
   const simulationTeamA = [...teamA,...(battleSuitFighter?[battleSuitFighter]:[]),...(mercenaryFighter?[mercenaryFighter]:[])];
   applyPveEquipmentGrowth(simulationTeamA,pveEquipmentRuntime);
   return {teamA,battleSuitFighter,mercenaryFighter,simulationTeamA};
@@ -2187,14 +2198,14 @@ export function resolvePvpOutcome(result, teamA, teamB) {
   return { ...result, winner, reason, originalReason, survivorCount: { A: aliveA, B: aliveB }, timeline: patchedTimeline };
 }
 
-export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
+export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerMercenary = null, defenderMercenary = null, attackerPet = null, defenderPet = null, attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, attackerAvatarPowerPercent = 0, defenderAvatarPowerPercent = 0, seed = 1, singleHealerBonus = {}, [MAGIC_SEASON2_REVIEW]: season2Review = false, pvpBalanceVersion, [PVP_POWER_BALANCE_REVIEW]: powerReview } = {}) {
   const powerEnabled=pvpPowerEnabled({pvpBalanceVersion,[PVP_POWER_BALANCE_REVIEW]:powerReview});
   const attackerWithEquipment = distributeEquipment(applyTypeStacking(attackerCards), Math.max(0, Number(attackerEquipmentBonus || 0)));
   const defenderWithEquipment = distributeEquipment(applyTypeStacking(defenderCards), Math.max(0, Number(defenderEquipmentBonus || 0)));
-  const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVP'));
-  const teamB = defenderWithEquipment.map((card, index) => buildFighter(card, index, 'B', card.uniqueAbility || null, 'PVP'));
+  const teamA = attackerWithEquipment.map((card, index) => buildFighter(avatarPoweredCard(card,attackerAvatarPowerPercent), index, 'A', card.uniqueAbility || null, 'PVP'));
+  const teamB = defenderWithEquipment.map((card, index) => buildFighter(avatarPoweredCard(card,defenderAvatarPowerPercent), index, 'B', card.uniqueAbility || null, 'PVP'));
   if((attackerMercenary&&(attackerCards.length!==5||new Set(attackerCards.map(c=>String(c.id))).size!==5))||(defenderMercenary&&(defenderCards.length!==5||new Set(defenderCards.map(c=>String(c.id))).size!==5)))throw Error('INVALID_MERCENARY_PARTY');
-  const mercA=buildMercenaryFighter(attackerMercenary,'A','PVP',buildFighter),mercB=buildMercenaryFighter(defenderMercenary,'B','PVP',buildFighter),simulationA=mercA?[...teamA,mercA]:teamA,simulationB=mercB?[...teamB,mercB]:teamB;
+  const mercA=buildAvatarMercenaryFighter(attackerMercenary,'A','PVP',attackerAvatarPowerPercent),mercB=buildAvatarMercenaryFighter(defenderMercenary,'B','PVP',defenderAvatarPowerPercent),simulationA=mercA?[...teamA,mercA]:teamA,simulationB=mercB?[...teamB,mercB]:teamB;
   // Normal combat keeps the established 100-action balance. If both teams
   // still have survivors, a short no-heal, escalating-damage overtime runs
   // instead of ending on a visually ambiguous 2:2 HP-ratio judgment.
@@ -2245,11 +2256,11 @@ export function createDuoBattleV2({attackerSquads=[],defenderSquads=[],seed=1,si
       validateDuoDeck(deck);
       if(!Array.isArray(deck)||deck.length!==5||new Set(deck.map(c=>String(c.id))).size!==5||deck.some(c=>!c.id||c.isMercenary)||deck.filter(c=>String(c.rarity||c.grade).toUpperCase()==='SUPERSTAR').length>1)throw Error('INVALID_DUO_DECK');
       const ownerName=String(squad.ownerName||'').slice(0,80),ownCards=distributeEquipment(applyTypeStacking(deck),Math.max(0,Number(squad.equipmentBonus)||0)).map((card,localSlot)=>({
-        ...buildFighter(card,localSlot,side,card.uniqueAbility||null,'PVP'),
+        ...buildFighter(avatarPoweredCard(card,squad.avatarPowerPercent),localSlot,side,card.uniqueAbility||null,'PVP'),
         id:`${side}:OWNER:${ownerId}:CARD:${card.id}`,ownerId,ownerName,squadIndex,localSlot,slot:squadIndex*5+localSlot
       }));
       cards.push(...ownCards);
-      const merc=buildMercenaryFighter(squad.mercenary,side,'PVP',buildFighter);
+      const merc=buildAvatarMercenaryFighter(squad.mercenary,side,'PVP',squad.avatarPowerPercent);
       if(merc)mercenaries.push({...merc,id:`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`,ownerId,ownerName,squadIndex,localSlot:5,slot:10+squadIndex});
       for(const item of squad.magicCards||[]){if(Number.isInteger(item.slotNo)&&item.slotNo>=1&&item.slotNo<=5)magic.push({...item,slotNo:squadIndex*5+item.slotNo});}
       members.push({ownerId,ownerName,squadIndex,cardIds:ownCards.map(c=>c.id),mercenaryId:merc?`${side}:OWNER:${ownerId}:MERCENARY:${merc.cardId}`:null});
@@ -2338,8 +2349,8 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
   const enemyUniqueMap = new Map((uniqueStates[1]?.cards || []).map(card => [String(card.id), card]));
   const ownWithEquipment = distributeEquipment(ownCards, Number(ownBonus?.pvp || 0));
   const enemyWithEquipment = distributeEquipment(enemyCards, Number(enemyBonus?.pvp || 0));
-  const teamA = ownWithEquipment.map((card, index) => { const uniqueCard = ownUniqueMap.get(String(card.id)); return buildFighter({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null }, index, 'A', uniqueCard?.uniqueAbility || null); });
-  const teamB = enemyWithEquipment.map((card, index) => { const uniqueCard = enemyUniqueMap.get(String(card.id)); return buildFighter({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null }, index, 'B', uniqueCard?.uniqueAbility || null); });
+  const teamA = ownWithEquipment.map((card, index) => { const uniqueCard = ownUniqueMap.get(String(card.id)); return buildFighter(avatarPoweredCard({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null },ownBonus?.avatarPowerPercent), index, 'A', uniqueCard?.uniqueAbility || null); });
+  const teamB = enemyWithEquipment.map((card, index) => { const uniqueCard = enemyUniqueMap.get(String(card.id)); return buildFighter(avatarPoweredCard({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null, iconRole: uniqueCard?.iconRole || null },enemyBonus?.avatarPowerPercent), index, 'B', uniqueCard?.uniqueAbility || null); });
   let magicA = [];
   let magicB = [];
   let registeredExamples = [];
