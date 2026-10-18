@@ -1,0 +1,171 @@
+{
+  "sourceCommit": "009c8682dcef59793d792c8d947e41e3e667830d",
+  "tests": {
+    "passed": 3,
+    "note": "Policy and transaction tests passed; RNG test reran successfully after floating-point tolerance correction",
+    "suite": "tests/legion-equipment-extreme-rare-20261018.test.mjs"
+  },
+  "coinIncome": {
+    "livePayoutImplemented": false,
+    "status": "DESIGN_ONLY"
+  },
+  "application": {
+    "dryRun": false,
+    "replayed": false,
+    "receipt": {
+      "operationKey": "ops:legion-equipment-extreme-rare:20261018:v1",
+      "status": "COMPLETED",
+      "at": "2026-10-18T09:28:03.585Z",
+      "beforeRevision": 4,
+      "revision": 5,
+      "mode": "OFF",
+      "capPercent": 0.001,
+      "changes": [
+        {
+          "difficulty": "normal",
+          "field": "bossSetPercent",
+          "before": 8,
+          "after": 0.001
+        },
+        {
+          "difficulty": "normal",
+          "field": "bossUniquePercent",
+          "before": 0.3,
+          "after": 0.001
+        },
+        {
+          "difficulty": "hard",
+          "field": "bossSetPercent",
+          "before": 12,
+          "after": 0.001
+        },
+        {
+          "difficulty": "hard",
+          "field": "bossUniquePercent",
+          "before": 0.5,
+          "after": 0.001
+        },
+        {
+          "difficulty": "nightmare",
+          "field": "bossSetPercent",
+          "before": 18,
+          "after": 0.001
+        },
+        {
+          "difficulty": "nightmare",
+          "field": "bossUniquePercent",
+          "before": 0.8,
+          "after": 0.001
+        },
+        {
+          "difficulty": "inferno",
+          "field": "bossUniquePercent",
+          "before": 1.2,
+          "after": 0.001
+        },
+        {
+          "difficulty": "calamity",
+          "field": "bossUniquePercent",
+          "before": 1.8,
+          "after": 0.001
+        }
+      ],
+      "equipmentCount": 30,
+      "regionCount": 5,
+      "difficultyCount": 5,
+      "zeroOddsPreserved": true,
+      "fieldDropsUnchanged": true,
+      "stoneOddsUnchanged": true,
+      "combatUnchanged": true,
+      "equipmentLocksUnchanged": true,
+      "sourceMode": "ON",
+      "sourceRevision": 29,
+      "sourceSha256": "f4549f4aad5a9605785a04b9bf3addc58e42e5315cc5cee96d813e9c5f723fa1",
+      "beforeSha256": "e8b466e897661155c674dd66961dc3a75963ef9a9669716e93c3fc22c87c10c6",
+      "afterSha256": "3627d2b39e7a8106ca74ef974a39966e9cd8272579727a9c48b2cc8d0184e2e6",
+      "odds": [
+        {
+          "id": "normal",
+          "eliteSetPercent": 0,
+          "bossSetPercent": 0.001,
+          "bossUniquePercent": 0.001
+        },
+        {
+          "id": "hard",
+          "eliteSetPercent": 0,
+          "bossSetPercent": 0.001,
+          "bossUniquePercent": 0.001
+        },
+        {
+          "id": "nightmare",
+          "eliteSetPercent": 0,
+          "bossSetPercent": 0.001,
+          "bossUniquePercent": 0.001
+        },
+        {
+          "id": "inferno",
+          "eliteSetPercent": 0.001,
+          "bossSetPercent": 0.001,
+          "bossUniquePercent": 0.001
+        },
+        {
+          "id": "calamity",
+          "eliteSetPercent": 0.001,
+          "bossSetPercent": 0.001,
+          "bossUniquePercent": 0.001
+        }
+      ],
+      "accountGrants": 0,
+      "auditId": "47944"
+    }
+  },
+  "verification": {
+    "verifiedAt": "2026-10-18T09:28:24.921Z",
+    "mode": "OFF",
+    "revision": 5,
+    "gear": {
+      "total": "30",
+      "active": "0",
+      "public": "0",
+      "supply": "0"
+    },
+    "sourceUnchanged": true,
+    "accountGrants": 0,
+    "audit": {
+      "action_type": "LEGION_EQUIPMENT_EXTREME_RARE",
+      "target_id": "legion_hunt_regions_v1"
+    },
+    "odds": [
+      {
+        "id": "normal",
+        "eliteSetPercent": 0,
+        "bossSetPercent": 0.001,
+        "bossUniquePercent": 0.001
+      },
+      {
+        "id": "hard",
+        "eliteSetPercent": 0,
+        "bossSetPercent": 0.001,
+        "bossUniquePercent": 0.001
+      },
+      {
+        "id": "nightmare",
+        "eliteSetPercent": 0,
+        "bossSetPercent": 0.001,
+        "bossUniquePercent": 0.001
+      },
+      {
+        "id": "inferno",
+        "eliteSetPercent": 0.001,
+        "bossSetPercent": 0.001,
+        "bossUniquePercent": 0.001
+      },
+      {
+        "id": "calamity",
+        "eliteSetPercent": 0.001,
+        "bossSetPercent": 0.001,
+        "bossUniquePercent": 0.001
+      }
+    ]
+  }
+}
