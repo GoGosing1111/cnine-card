@@ -14,9 +14,9 @@ const read=async file=>readFile(new URL('../'+file.replace(/^\//,''),import.meta
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 
 test('expanded story keeps ordered chapter links, existing scene IDs and actual game identities',async()=>{
-  assert.equal(CHAPTERS.length,8);assert.equal(SCENES.length,33);
+  assert.equal(CHAPTERS.length,18);assert.equal(SCENES.length,74);
   assert.equal(new Set(SCENES.map(s=>s.id)).size,SCENES.length);
-  assert.equal(SCENES[9].id,'no-record');assert.equal(SCENES[10].id,'outpost-brief');
+  assert.equal(SCENES[9].id,'no-record');assert.equal(SCENES[10].id,'empty-chair');assert.equal(SCENES[30].id,'outpost-brief');
   let previous=-1;
   for(const [index,chapter] of CHAPTERS.entries()){
     const start=SCENES.findIndex(scene=>scene.id===chapter.start);

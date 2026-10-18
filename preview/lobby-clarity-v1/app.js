@@ -18,7 +18,7 @@
   function categoryOf(id,group){if(id==='inventory')return 'inventory';if(group==='administration')return 'administration';if(id==='clan')return 'social';if(group==='pve'||group==='pvp')return group;if(['store','market'].includes(group)||id==='mineral')return 'shop';if(group==='rewards')return 'rewards';if(group==='equipment'||group==='crafting'||id==='equipmentForge')return 'equipment';return 'cards';}
   const entries=contract?contract.menuGroupOrder.flatMap(group=>contract.groups[group].routes.map(id=>({id,title:contract.routes[id].title,category:categoryOf(id,group),description:descriptions[id]||contract.routes[id].title}))):[];
   for(const item of [{id:'mercenaryEquipment',title:'용병 장비',category:'equipment'},{id:'equipmentForge',title:'장비 강화',category:'equipment'}])entries.push({...item,description:descriptions[item.id]});
-  entries.push({id:'world',title:'세계관',category:'world',description:'돌아온 자들의 기록 · 용병·보스·레이드로 이어지는 8개의 장'});
+  entries.push({id:'world',title:'세계관',category:'world',description:'돌아올 사람의 자리 · 본편 2부와 용병 이야기 7편'});
   entries.push({id:'seasonPass',title:'시즌패스',category:'rewards',description:'후원 적용일부터 30일 · 당일 보상 수령'});
   const byId=new Map(entries.map(e=>[e.id,e]));
   categories.favorites={title:'즐겨찾기',icon:'favorites',description:'자주 쓰는 메뉴를 모아 바로 열어 보세요. 메뉴 옆 별표로 추가하거나 해제할 수 있어요.'};

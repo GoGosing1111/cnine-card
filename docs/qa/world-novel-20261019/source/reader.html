@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101217">
+  <meta name="description" content="돌아올 사람의 자리. 용병들의 선택과 대화로 이어지는 리버스콜의 이야기, 두 편의 본편과 일곱 편의 용병 이야기.">
+  <title>세계관 · 돌아올 사람의 자리 | 리버스콜</title>
+  <link rel="icon" href="/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="/assets/ui/reverse-call/world-story-v1/city.webp">
+  <link rel="stylesheet" href="/css/adventure-navigation-standalone.css?v=2108">
+  <!-- WORLD_STYLES -->
+  <script defer src="/js/soopketmon-v21-exact-shell-adapter.js?v=2108-shared-navigation" data-enabled="false"></script>
+  <script defer src="/js/adventure-lobby-v2107.js?world=20261019-novel-v3"></script>
+  <script defer src="/js/adventure-navigation-standalone.js?v=2108-shared-navigation" data-route="world"></script>
+  <script type="module" src="/world/world.js?v=20261019-novel-v3"></script>
+</head>
+<body data-adventure-standalone="world">
+  <a class="skip-link reading-button" href="#story-main">이야기 본문으로</a>
+  <div class="world-art" aria-hidden="true">
+    <img id="art-a" class="scene-art is-visible" src="/assets/ui/reverse-call/world-story-v1/city.webp" alt="" fetchpriority="high" decoding="async">
+    <img id="art-b" class="scene-art" alt="" decoding="async">
+  </div>
+  <div class="world-shade" aria-hidden="true"></div>
+  <div class="world-shell">
+    <header class="world-header">
+      <a class="wordmark" href="/world/" aria-label="리버스콜 세계관 표지"><img src="/assets/ui/brand/reverse-call-20261016/icon-512.png?v=20261018-transparent" width="30" height="30" alt=""><span>REVERSE CALL<small>이야기 서고</small></span></a>
+      <nav class="header-actions" aria-label="세계관 메뉴"><a class="quiet-link" href="/">게임으로</a><button class="quiet-button" id="open-chapters" type="button" aria-haspopup="dialog">이야기 목록</button></nav>
+    </header>
+    <main id="story-main" tabindex="-1">
+      <section class="cover" id="cover" aria-labelledby="cover-title">
+        <div class="cover-copy">
+          <p class="eyebrow">RECORDS OF THOSE WHO RETURNED</p>
+          <h1 id="cover-title" tabindex="-1">돌아올 사람의<br>자리를 남겨 두었다.</h1>
+          <p class="cover-quote">“다음에 내가 위험한 쪽을 고르면 말로 막아요.<br>끝까지 듣고. 그래도 안 되면 그때 싸워요.”</p>
+          <p class="quote-credit">리시아, 아우렌에게</p>
+        </div>
+        <section class="library" aria-labelledby="collection-title">
+          <nav class="collection-tabs" id="collection-tabs" aria-label="이야기 모음 선택"></nav>
+          <div class="library-heading"><div><h2 id="collection-title"></h2><p id="collection-description"></p></div><p class="reading-note" id="reading-note"></p></div>
+          <div class="cover-actions"><button class="reading-button primary" id="start-story" type="button">1부 읽기</button><button class="quiet-button resume" id="resume-story" type="button" hidden>이어 읽기</button><button class="quiet-button" id="next-volume" type="button" hidden>2부로 이어가기 →</button></div>
+          <nav class="chapter-list" id="cover-chapters" aria-label="장 선택"></nav>
+        </section>
+        <footer class="cover-footer"><span>잊히지 않도록, 서로의 이야기를 듣는다.</span><span id="save-note"></span></footer>
+      </section>
+      <section class="reader" id="reader" aria-label="일러스트 이야기" hidden>
+        <div class="scene-location"><span id="scene-location"></span><span id="scene-counter"></span></div>
+        <div class="reader-window" id="swipe-surface" aria-label="장면 일러스트. 좌우로 밀어 장면을 넘길 수 있습니다."></div>
+        <article class="story-sheet">
+          <header class="story-heading"><p class="eyebrow" id="chapter-label"></p><h1 id="scene-title" tabindex="-1"></h1><ul class="scene-cast" id="scene-cast" aria-label="이 장면의 인물"></ul></header>
+          <div class="narrative" id="narrative"></div>
+          <p class="book-end-note" id="book-end-note" hidden></p>
+          <nav class="story-controls" aria-label="이야기 읽기 조작"><button class="reading-button" id="previous-scene" type="button">← 이전</button><div class="reading-progress"><span id="progress-label"></span><progress id="story-progress" max="30" value="1" aria-label="이야기 진행"></progress></div><button class="reading-button primary" id="next-scene" type="button">다음 →</button></nav>
+        </article>
+        <footer class="reader-footer"><button class="quiet-button" id="reader-cover" type="button">서고로 돌아가기</button><span>방향키로 넘기기 · 읽던 곳 자동 저장</span></footer>
+      </section>
+      <div class="art-error" id="art-error" role="status" hidden><span>일러스트를 불러오지 못했습니다.</span><button class="quiet-button" id="retry-art" type="button">다시 불러오기</button></div>
+      <noscript><p class="noscript">이야기를 넘겨 읽으려면 JavaScript를 켜주세요. <a href="/">게임으로 돌아가기</a></p></noscript>
+    </main>
+  </div>
+  <dialog class="chapter-dialog" id="chapter-dialog" aria-labelledby="chapter-dialog-title">
+    <div class="dialog-heading"><h2 id="chapter-dialog-title">이야기 목록</h2><button class="quiet-button" id="close-chapters" type="button" aria-label="이야기 목록 닫기">닫기 ×</button></div>
+    <nav class="collection-tabs" id="dialog-tabs" aria-label="목록에서 이야기 모음 선택"></nav>
+    <nav class="dialog-chapters" id="dialog-chapters" aria-label="장 이동"></nav>
+  </dialog>
+</body>
+</html>

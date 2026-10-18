@@ -1,0 +1,62 @@
+{
+  "results": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "passed": [
+        "cover",
+        "scene",
+        "multiple-speakers",
+        "next-and-keyboard",
+        "bookmark-reload",
+        "chapter-dialog",
+        "interlude-boundary",
+        "button-touch-size",
+        "raid-art",
+        "no-overflow"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "passed": [
+        "cover",
+        "scene",
+        "multiple-speakers",
+        "next-and-keyboard",
+        "bookmark-reload",
+        "chapter-dialog",
+        "interlude-boundary",
+        "button-touch-size",
+        "raid-art",
+        "no-overflow",
+        "swipe"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "passed": [
+        "cover",
+        "scene",
+        "multiple-speakers",
+        "next-and-keyboard",
+        "bookmark-reload",
+        "chapter-dialog",
+        "interlude-boundary",
+        "button-touch-size",
+        "raid-art",
+        "no-overflow",
+        "swipe"
+      ]
+    }
+  ],
+  "storageDenied": true,
+  "pageErrors": []
+}

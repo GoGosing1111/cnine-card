@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "date": "2026-10-19",
+  "generator": "built-in image_gen",
+  "visualApproval": "USER_REVIEW_PENDING",
+  "promptSet": "docs/qa/world-novel-20261019/art/prompts.json",
+  "derivation": "Original PNGs preserved byte for byte. Button exterior alpha padding trimmed; WebP runtime encodings only. No redrawing of existing approved character art.",
+  "assets": [
+    {
+      "id": "commonRoom",
+      "original": "docs/qa/world-novel-20261019/art/commonRoom.png",
+      "sourceSha256": "7795740fe6ff6f8f282b7fe0062217a8adea7a4f016a072a7e67d15a0cf67eec",
+      "runtime": "assets/ui/reverse-call/world-story-v3/commonRoom.webp",
+      "sha256": "b9715e9be104e13be168901d4370e4c7525680575c8e4cd0c2121b2c35aef6fd",
+      "width": 1536,
+      "height": 1024,
+      "alpha": false,
+      "usage": "world/story-data.js"
+    },
+    {
+      "id": "archive",
+      "original": "docs/qa/world-novel-20261019/art/archive.png",
+      "sourceSha256": "68526e7bdc3deacffb3c67b32e26e6f85d54a2f0fe4ba1cee14e1e69e35d8917",
+      "runtime": "assets/ui/reverse-call/world-story-v3/archive.webp",
+      "sha256": "911fd52cabc8244aea3430e459c8b5c05a25fcc11824c4e74ed9d872b936ee67",
+      "width": 1536,
+      "height": 1024,
+      "alpha": false,
+      "usage": "world/story-data.js"
+    },
+    {
+      "id": "button",
+      "original": "docs/qa/world-novel-20261019/art/button.png",
+      "sourceSha256": "4be151099d08835911474852f679cac361a73ecff628cf8eb475852f85b86804",
+      "runtime": "assets/ui/reverse-call/world-story-v3/button.webp",
+      "sha256": "58f0f0584c77bdb009ce31e0017e12b5ca957e17e717fd7980eabc985cd3533e",
+      "width": 2143,
+      "height": 397,
+      "alpha": true,
+      "usage": "world/world.css"
+    },
+    {
+      "id": "paper",
+      "original": "docs/qa/world-novel-20261019/art/paper.png",
+      "sourceSha256": "2e65c4aa4022554edca6fc27b8d54c4ae58627aefc42538a8897187d78eca6b1",
+      "runtime": "assets/ui/reverse-call/world-story-v3/paper.webp",
+      "sha256": "5c86651bad8cf34da875a6320f928b61a30b900e3b716d4b107259e37edb73b3",
+      "width": 1536,
+      "height": 1024,
+      "alpha": true,
+      "usage": "world/world.css"
+    }
+  ]
+}
