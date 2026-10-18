@@ -1,0 +1,58 @@
+{
+  "operationKey": "ops:song-contest-rewards:20261019:v1",
+  "dateKST": "2026-10-19",
+  "authorization": [
+    "쁴로리,혜정,씨나인택갓,쑤댕 3조코인 노래대회 참가상 지급",
+    "더듬이구 포함",
+    "나무늘봉순 SSS 헬리오스 지급 차감없이"
+  ],
+  "delivery": "DIRECT",
+  "amountEach": "3000000000000",
+  "totalCoin": "15000000000000",
+  "coinRecipients": [
+    {
+      "userId": "32",
+      "nickname": "쑤댕",
+      "role": "USER",
+      "identityHash": "6f19640848b1f89b32c7a4fd91d387eb0115345b9814aeebc5b3b968ec437eea"
+    },
+    {
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "role": "USER",
+      "identityHash": "17850f115029985e3c4c5a7c59596074414292214549184a92d199ef4acc2c05"
+    },
+    {
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "role": "USER",
+      "identityHash": "e3a5106d954725ea57feb9fc2b29e938fe43aed43dedb1843bcc9fa4c1cfbb89"
+    },
+    {
+      "userId": "4570",
+      "nickname": "혜정",
+      "role": "USER",
+      "identityHash": "cd1fb88a0043f82c8010dea62ccb8612558c3c1a588db75ec57c34a979fe1e12"
+    },
+    {
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "role": "USER",
+      "identityHash": "8224a7fe004070bf9fd16c6e447ec8d55331168d0151a3ba38737e61d7eb6c0e"
+    }
+  ],
+  "mercenary": {
+    "userId": "5426",
+    "nickname": "나무늘봉순",
+    "role": "USER",
+    "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98",
+    "code": "V-999",
+    "name": "헬리오스",
+    "rank": "SSS",
+    "quantity": 1,
+    "permanent": true,
+    "automaticLoadout": false,
+    "cost": 0,
+    "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE"
+  }
+}
