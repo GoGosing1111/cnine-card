@@ -1,0 +1,56 @@
+{
+  "verifiedAt": "2026-10-18T21:50:07.155Z",
+  "sourceCommit": "e6965353b73bc81ec7aa3639ec3d488c79dec5e1",
+  "deployment": "https://78ff378b.cnine-card.pages.dev",
+  "results": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "local": "8c1c7501df3b68f6669384317eb6ae7c5dee77e932b5a738e9d30465a2533a22",
+      "remote": "8c1c7501df3b68f6669384317eb6ae7c5dee77e932b5a738e9d30465a2533a22",
+      "match": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "local": "b09b4226a7f7308e70697e8dd7e975b8e7a2e4548951184febd32d29e39252d7",
+      "remote": "b09b4226a7f7308e70697e8dd7e975b8e7a2e4548951184febd32d29e39252d7",
+      "match": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "local": "706784e633e3a15b4ebf6f027403ae3c9927c1ca0979c69d9aec4d8b5b1aa850",
+      "remote": "706784e633e3a15b4ebf6f027403ae3c9927c1ca0979c69d9aec4d8b5b1aa850",
+      "match": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "local": "4aa38dbca72f620bed3e329cc15b2f75c79f2da9de24c89f303b6e7db399ba08",
+      "remote": "4aa38dbca72f620bed3e329cc15b2f75c79f2da9de24c89f303b6e7db399ba08",
+      "match": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "local": "aa23e1bbcae9b97bfd2fa90e8654f97c73d3125d9de9fa5d4b3072a1ae4c5523",
+      "remote": "aa23e1bbcae9b97bfd2fa90e8654f97c73d3125d9de9fa5d4b3072a1ae4c5523",
+      "match": true
+    },
+    {
+      "file": "preview/project-v-v3/source/battle/LeonelDialogueStyle.js",
+      "status": 200,
+      "local": "dbda6ff96c65d231e277c20b6767a783df7d554937da1480eb8b3ac9d4a376a0",
+      "remote": "dbda6ff96c65d231e277c20b6767a783df7d554937da1480eb8b3ac9d4a376a0",
+      "match": true
+    },
+    {
+      "file": "shared/apocalypse-sahyeon-v1.mjs",
+      "status": 200,
+      "local": "a2dc86de5bef33d7de9fe4a6e6e39965f94f10c55af12ff7e57f5bdd81a6fa19",
+      "remote": "a2dc86de5bef33d7de9fe4a6e6e39965f94f10c55af12ff7e57f5bdd81a6fa19",
+      "match": true
+    }
+  ]
+}
