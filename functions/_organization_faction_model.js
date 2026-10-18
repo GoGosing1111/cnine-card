@@ -6,7 +6,7 @@ export const ORGANIZATION_SESSION_POLICY=Object.freeze({recipients:'PARTICIPANTS
 export function newOrganizationFactionState(now){
  const state=newFactionState(now);
  state.districts=ORGANIZATION_DISTRICTS.map(d=>({id:d.id,owner:0,protectedUntil:0,defense:'',taxAt:now,taxRemainder:0}));
- state.taxDisabledAt=now;state.commanders={};state.sessionQueue=[];state.organizationVersion=1;
+ state.taxDisabledAt=now;state.commanders={};state.elders={};state.sessionQueue=[];state.organizationVersion=1;
  return state;
 }
 export function advanceOrganizationFaction(state,{schedule,wars=[],roster=[],now,assignedAt,policy}){

@@ -1,4 +1,4 @@
-import {currentOrganization,organizationRosterView,organizationHideoutView} from './organization-headquarters-v1.mjs';
+import {currentOrganization,organizationRosterView,organizationHideoutView} from './organization-headquarters-v1.mjs?v=20261019-elders';
 import {createOrganizationAdmission} from './organization-admission-v1.mjs?v=20261017-additional-recruitment-v1';
 import {organizationDashboardHeader,organizationDashboardView} from './organization-dashboard-v1.mjs?v=20261018-dashboard';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

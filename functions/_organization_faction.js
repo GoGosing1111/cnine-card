@@ -6,6 +6,7 @@ import {newOrganizationFactionState,advanceOrganizationFaction} from './_organiz
 import {buildClanBattle} from './_clan.js';
 import {readJointBody} from './_joint_request.js';
 import {jointHash} from './_joint_transactions.js';
+import {organizationElderIds,validateOrganizationElders} from '../shared/organization-faction-v1.mjs';
 
 export const ORGANIZATION_FACTION_SCHEMA=[
  'CREATE TABLE IF NOT EXISTS organization_faction_policy_v1(id INTEGER PRIMARY KEY CHECK(id=1),revision INTEGER NOT NULL DEFAULT 0,policy_json TEXT NOT NULL)',
@@ -118,13 +119,13 @@ function alertsFor(state,id,userId,sessions){return sessions.active?state.battle
 async function treasuryFor(q,r,roster,state,policy){
  const funds=r?(await q('SELECT * FROM organization_faction_treasury_v1 WHERE round_id=$1',[r.id])):[];
  const progress=r?(await q('SELECT * FROM organization_progress_v1 WHERE round_id=$1',[r.id])):[];
- return ORGANIZATIONS.map(o=>({id:o.id,name:o.name,color:o.color,memberCount:roster.filter(m=>m.clanId===o.id).length,roster:roster.filter(m=>m.clanId===o.id).map(({userId,nickname,slot})=>({userId,nickname,slot})),funds:Number(funds.find(f=>Number(f.organization_id)===o.id)?.balance||0),stage:Number(progress.find(p=>Number(p.organization_id)===o.id)?.stage||1),commanderId:state.commanders[o.id]||null,upgradeCosts:policy.upgradeCosts}));
+ return ORGANIZATIONS.map(o=>({id:o.id,name:o.name,color:o.color,memberCount:roster.filter(m=>m.clanId===o.id).length,roster:roster.filter(m=>m.clanId===o.id).map(({userId,nickname,slot})=>({userId,nickname,slot})),funds:Number(funds.find(f=>Number(f.organization_id)===o.id)?.balance||0),stage:Number(progress.find(p=>Number(p.organization_id)===o.id)?.stage||1),elderIds:organizationElderIds(state,roster,o.id),commanderId:organizationElderIds(state,roster,o.id)[0]||null,upgradeCosts:policy.upgradeCosts}));
 }
 async function overview(q,user,r,policy,row,roster,sessions,now,{admin=false,alertsOnly=false}={}){
  const s=row.state,my=roster.find(m=>m.userId===Number(user.id)),id=my?.clanId||0,userId=Number(user.id);
  if(alertsOnly)return {ok:true,roundId:r?.id,userId,serverNow:now,alerts:alertsFor(s,id,userId,sessions)};
- const all=await treasuryFor(q,r,roster,s,policy),own=all.find(o=>o.id===id),isMaster=Boolean(id)&&s.commanders[id]===userId,formation=formationOf(s,roster,id),captains=factionCaptains(s.captains[id],roster.filter(m=>m.clanId===id).map(m=>m.userId));
- const treasury={funds:own?.funds||0,stage:own?.stage||1,nextCost:own&&own.stage<5?policy.upgradeCosts[own.stage]:null,commanderId:own?.commanderId||null,canUpgrade:isMaster&&r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST')&&own.stage<5&&policy.upgradeCosts[own.stage]!==null&&own.funds>=policy.upgradeCosts[own.stage]};
+ const all=await treasuryFor(q,r,roster,s,policy),own=all.find(o=>o.id===id),isMaster=Boolean(id)&&organizationElderIds(s,roster,id).includes(userId),formation=formationOf(s,roster,id),captains=factionCaptains(s.captains[id],roster.filter(m=>m.clanId===id).map(m=>m.userId));
+ const treasury={funds:own?.funds||0,stage:own?.stage||1,nextCost:own&&own.stage<5?policy.upgradeCosts[own.stage]:null,elderIds:own?.elderIds||[],commanderId:own?.commanderId||null,canUpgrade:isMaster&&r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST')&&own.stage<5&&policy.upgradeCosts[own.stage]!==null&&own.funds>=policy.upgradeCosts[own.stage]};
  if(admin){
   const ledger=r?(await q('SELECT * FROM organization_faction_ledger_v1 WHERE round_id=$1 ORDER BY created_at DESC,id DESC LIMIT 100',[r.id])).map(x=>({id:x.id,organizationId:Number(x.organization_id),delta:Number(x.delta),balance:Number(x.balance),reason:x.reason,createdAt:Number(x.created_at)})):[];
   return {ok:true,policy,round:publicRound(r),organizations:all,ledger,state:s,sessions};
@@ -132,7 +133,7 @@ async function overview(q,user,r,policy,row,roster,sessions,now,{admin=false,ale
  const clans=all.map(o=>({clanId:o.id,name:o.name,color:o.color,masterUserId:o.commanderId,markKey:'ORGANIZATION_'+o.id}));
  return {ok:true,serverNow:now,roundId:r?.id,revision:row.revision,organizationMode:true,policy,round:publicRound(r),
   season:{id:r?.id,seasonNo:1,phase:r?.phase==='ASSIGNED'&&policy.mode!=='OFF'?'ACTIVE':'PREPARATION',active:r?.phase==='ASSIGNED'&&(policy.mode==='ON'?r.scope==='LIVE':policy.mode==='TEST'&&r.scope==='TEST'),endsAt:null},
-  userId,mine:id?{clanId:id,isMaster,canManageFormation:isMaster||Object.values(captains).includes(userId),canManageGarrison:isMaster||Object.values(captains).includes(userId)}:null,
+  userId,mine:id?{clanId:id,isElder:isMaster,isMaster,canManageFormation:isMaster||Object.values(captains).includes(userId),canManageGarrison:isMaster||Object.values(captains).includes(userId)}:null,
   clans,organizations:all.map(({roster,...o})=>o),roster:roster.filter(m=>m.clanId===id),formation,captains,
   districts:s.districts.map(d=>({...d,defenders:d.owner?(formationOf(s,roster,d.owner)[d.defense]||[]).map(userId=>roster.find(m=>m.userId===userId)).filter(Boolean):[]})),
   battles:s.battles,events:s.events,alerts:alertsFor(s,id,userId,sessions),holdings:s.districts.filter(d=>d.owner===id&&id).length,sessions:{...sessions,history:(sessions.history||[]).map(h=>{const receipt=s.sessionHistory?.find(x=>x.key===h.key)?.recipients?.find(x=>x.userId===userId);return {...h,myReward:r?.scope==='LIVE'?receipt?.amount||0:0,myMasterStars:r?.scope==='LIVE'?receipt?.masterStars||0:0,myMysticEnergy:r?.scope==='LIVE'?receipt?.mysticEnergy||0:0};})},treasury,
@@ -185,21 +186,25 @@ async function mutation(env,user,action,body,deps){
    await q('UPDATE organization_faction_policy_v1 SET policy_json=$1,revision=$2 WHERE id=1',[JSON.stringify(next),next.revision]);
    result.policy=next;
   }else{
-   const c=await context(q,user,body.roundId,now,deps,{write:action!=='commander'}),{r,policy,roster,row,sessions}=c,s=row.state;
+   const c=await context(q,user,body.roundId,now,deps,{write:!['commander','elders'].includes(action)}),{r,policy,roster,row,sessions}=c,s=row.state;
    orgAssert(r?.phase==='ASSIGNED','ASSIGNMENT','조직 배정이 완료된 뒤 설정할 수 있습니다.');
-   const my=roster.find(m=>m.userId===Number(user.id)),id=my?.clanId||0,userId=Number(user.id),master=id&&s.commanders[id]===userId,memberIds=roster.filter(m=>m.clanId===id).map(m=>m.userId),formation=formationOf(s,roster,id),captains=factionCaptains(s.captains[id],memberIds);
-   if(action!=='commander')orgAssert(id,'MEMBERSHIP','조직에 배정된 구성원만 참여할 수 있습니다.',403);
+   const my=roster.find(m=>m.userId===Number(user.id)),id=my?.clanId||0,userId=Number(user.id),master=Boolean(id)&&organizationElderIds(s,roster,id).includes(userId),memberIds=roster.filter(m=>m.clanId===id).map(m=>m.userId),formation=formationOf(s,roster,id),captains=factionCaptains(s.captains[id],memberIds);
+   if(!['commander','elders'].includes(action))orgAssert(id,'MEMBERSHIP','조직에 배정된 구성원만 참여할 수 있습니다.',403);
    const canManage=master||Object.values(captains).includes(userId);
    if(['launch','enter','strike'].includes(action))orgAssert(sessions.active,'WINDOW',sessions.blockedByTerritory?'영토전 동안 세력전이 일시정지됩니다.':'현재 세력전 개방 시간이 아닙니다.');
    result.roundId=r.id;
-   if(action==='commander'){
+   if(action==='commander'||action==='elders'){
     orgAssert(Number.isInteger(body.organizationId)&&body.organizationId>=1&&body.organizationId<=15,'INPUT','조직을 확인하세요.',400);
-    orgAssert(body.userId===null||roster.some(m=>m.clanId===body.organizationId&&m.userId===body.userId&&m.status==='ACTIVE'),'MEMBERSHIP','해당 조직의 활성 구성원만 지휘관으로 지정할 수 있습니다.');
-    s.commanders[body.organizationId]=body.userId;
-    factionEvent(s,{id:crypto.randomUUID(),kind:'COMMANDER',clanId:body.organizationId,by:user.nickname,at:now});
+    const current=organizationElderIds(s,roster,body.organizationId);
+    if(action==='commander')orgAssert(current.length<=1,'ELDERS','여러 원로가 지정되어 있습니다. 최신 원로 관리 화면에서 변경하세요.');
+    else orgAssert(Array.isArray(body.baseUserIds)&&JSON.stringify(body.baseUserIds)===JSON.stringify(current),'STALE','원로 명단이 변경되었습니다. 새로 불러온 뒤 저장하세요.');
+    const ids=validateOrganizationElders(action==='elders'?body.userIds:body.userId===null?[]:[body.userId],roster,body.organizationId);
+    s.elders||={};s.commanders||={};s.elders[body.organizationId]=ids;s.commanders[body.organizationId]=ids[0]||null;
+    factionEvent(s,{id:crypto.randomUUID(),kind:'ELDERS',clanId:body.organizationId,by:user.nickname,names:ids.map(id=>roster.find(m=>m.userId===id).nickname),at:now});
+    result.elderIds=ids;
    }else if(action==='formation'||action==='captains'){
-    orgAssert(canManage,'PERMISSION','조직 지휘관 또는 행동대장만 부대를 편성할 수 있습니다.',403);
-    if(action==='captains'||body.captains!==undefined)orgAssert(master,'PERMISSION','행동대장 임명은 조직 지휘관만 가능합니다.',403);
+    orgAssert(canManage,'PERMISSION','조직 원로 또는 행동대장만 부대를 편성할 수 있습니다.',403);
+    if(action==='captains'||body.captains!==undefined)orgAssert(master,'PERMISSION','행동대장 임명은 조직 원로만 가능합니다.',403);
     if(action==='formation'){
      orgAssert(!s.battles.some(b=>b.status==='ACTIVE'&&(b.attacker===id||b.defender===id)),'BATTLE','교전이 끝난 뒤 편성을 변경하세요.');
      if(body.baseFormation!==undefined)orgAssert(JSON.stringify(validateFormation(body.baseFormation,memberIds))===JSON.stringify(formation),'STALE','다른 사람이 편성을 변경했습니다. 새로고침하세요.');
@@ -208,7 +213,7 @@ async function mutation(env,user,action,body,deps){
     if(body.captains!==undefined)s.captains[id]=validateFactionCaptains(body.captains,memberIds);
     factionEvent(s,{id:crypto.randomUUID(),kind:action==='formation'?'FORMATION':'CAPTAINS',clanId:id,by:user.nickname,at:now});
    }else if(action==='garrison'){
-    orgAssert(canManage,'PERMISSION','조직 지휘관 또는 행동대장만 주둔할 수 있습니다.',403);
+    orgAssert(canManage,'PERMISSION','조직 원로 또는 행동대장만 주둔할 수 있습니다.',403);
     const d=s.districts.find(d=>d.id===String(body.districtId));
     orgAssert(d?.owner===id&&!s.battles.some(b=>b.districtId===d.id&&b.status==='ACTIVE'),'DISTRICT','교전 중이 아닌 우리 점령지를 선택하세요.');
     orgAssert(SQUADS.some(x=>x.id===body.squad&&x.role==='DEFENSE')&&formation[body.squad]?.length,'FORMATION','방어대를 먼저 편성하세요.');
@@ -216,7 +221,7 @@ async function mutation(env,user,action,body,deps){
    }else if(action==='launch'){
     const d=s.districts.find(d=>d.id===String(body.districtId)),squad=String(body.squad);
     orgAssert(SQUADS.some(x=>x.id===squad&&x.role==='ATTACK')&&formation[squad]?.length,'FORMATION','공격대를 먼저 편성하세요.');
-    orgAssert(master||formation[squad].includes(userId),'PERMISSION','해당 공격대원 또는 지휘관만 출정할 수 있습니다.',403);
+    orgAssert(master||formation[squad].includes(userId),'PERMISSION','해당 공격대원 또는 원로만 출정할 수 있습니다.',403);
     orgAssert(d&&d.owner!==id,'DISTRICT','다른 조직 지역 또는 무주지를 선택하세요.');
     orgAssert(d.protectedUntil<=now&&!s.battles.some(b=>b.status==='ACTIVE'&&b.districtId===d.id),'PROTECTED','점령 보호 또는 교전 중인 지역입니다.');
     orgAssert(!s.battles.some(b=>b.status==='ACTIVE'&&b.attacker===id&&b.squad===squad)&&(s.squadReady[id+':'+squad]||0)<=now&&(s.targetReady[id+':'+d.id]||0)<=now,'COOLDOWN','공격대 재출정 또는 해당 지역 재공격 대기 중입니다.');
@@ -239,7 +244,7 @@ async function mutation(env,user,action,body,deps){
      Object.assign(result,computed,{damage,battleId:b.id,districtId:b.districtId,side,attackerHp:b.attackerHp,defenderHp:b.defenderHp,captured:b.status==='COMPLETED'&&b.winner===b.attacker,battleCompleted:b.status==='COMPLETED',winner:b.winner||0,result:computed.battleV2.result.winner==='A'?'WIN':'LOSE'});
     }
    }else if(action==='upgrade'){
-    orgAssert(master,'PERMISSION','아지트 업그레이드는 조직 지휘관만 실행할 수 있습니다.',403);
+    orgAssert(master,'PERMISSION','아지트 업그레이드는 조직 원로만 실행할 수 있습니다.',403);
     const [progress]=await q('SELECT stage FROM organization_progress_v1 WHERE round_id=$1 AND organization_id=$2 FOR UPDATE',[r.id,id]),stage=Number(progress?.stage||1),cost=policy.upgradeCosts[stage];
     orgAssert(progress,'PROGRESS','아지트 상태를 확인하지 못했습니다.',503);
     orgAssert(body.expectedStage===stage&&body.policyRevision===policy.revision,'STALE','아지트 단계 또는 업그레이드 비용이 변경되었습니다. 최신 상태를 확인한 뒤 다시 실행하세요.');
@@ -267,8 +272,8 @@ export async function handleOrganizationFaction({path,request,env,deps}){
    const url=new URL(request.url),data=await tx(env,async q=>{const now=nowOf(deps),c=await context(q,user,url.searchParams.get('roundId')||undefined,now,deps);return overview(q,user,c.r,c.policy,c.row,c.roster,c.sessions,now,{admin,alertsOnly:action==='alerts'});});return json(data);
   }
   orgAssert(request.method==='POST','METHOD','지원하지 않는 요청 방식입니다.',405);
-  orgAssert(admin?['policy','commander'].includes(action):['formation','captains','garrison','launch','enter','strike','upgrade'].includes(action),'ROUTE','지원하지 않는 요청입니다.',404);
-  const fields={policy:['requestId','policy'],commander:['requestId','roundId','organizationId','userId'],formation:['requestId','roundId','formation','captains','baseFormation'],captains:['requestId','roundId','captains'],garrison:['requestId','roundId','districtId','squad'],launch:['requestId','roundId','districtId','squad'],enter:['requestId','roundId','battleId'],strike:['requestId','roundId','battleId'],upgrade:['requestId','roundId','expectedStage','policyRevision']}[action];
+  orgAssert(admin?['policy','commander','elders'].includes(action):['formation','captains','garrison','launch','enter','strike','upgrade'].includes(action),'ROUTE','지원하지 않는 요청입니다.',404);
+  const fields={policy:['requestId','policy'],commander:['requestId','roundId','organizationId','userId'],elders:['requestId','roundId','organizationId','userIds','baseUserIds'],formation:['requestId','roundId','formation','captains','baseFormation'],captains:['requestId','roundId','captains'],garrison:['requestId','roundId','districtId','squad'],launch:['requestId','roundId','districtId','squad'],enter:['requestId','roundId','battleId'],strike:['requestId','roundId','battleId'],upgrade:['requestId','roundId','expectedStage','policyRevision']}[action];
   const body=await readJointBody(request,{fields,maxBytes:16000});
   return json(await mutation(env,user,action,body,deps));
  }catch(error){deps.onError?.(error);return json({ok:false,error:error.status?error.message:'조직 세력전 처리 중 오류가 발생했습니다. 같은 요청으로 다시 확인하세요.',code:error.code||'ORG_FACTION_ERROR'},error.status||503);}

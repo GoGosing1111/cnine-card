@@ -1,4 +1,4 @@
-import {mount} from './organization-faction-v1.mjs?v=20261018-map-stable';
+import {mount} from './organization-faction-v1.mjs?v=20261019-elders';
 import {observeOrganizationHeight} from './organization-embed-size-v1.mjs?v=20261018-map-stable';
 const root=document.getElementById('organizationFactionRoot');
 const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';

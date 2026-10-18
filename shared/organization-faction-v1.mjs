@@ -15,6 +15,23 @@ export const ORGANIZATION_DISTRICTS=Object.freeze([
  ].map(([id,name,market])=>({id,name,market,area:'GYEONGGI_SOUTH'}))
 ].map(Object.freeze));
 export const organizationDistrictById=id=>ORGANIZATION_DISTRICTS.find(d=>d.id===String(id));
+export const ORGANIZATION_ELDER_LIMIT=3;
+// Explicit lists replace the old single-leader field, including an empty list.
+export function organizationElderIds(state,roster,organizationId){
+ const raw=Object.hasOwn(state.elders||{},organizationId)?state.elders[organizationId]:[state.commanders?.[organizationId]];
+ const members=new Set(roster.filter(m=>m.clanId===organizationId&&m.status==='ACTIVE').map(m=>m.userId));
+ return Array.isArray(raw)?[...new Set(raw.filter(id=>Number.isSafeInteger(id)&&members.has(id)))].slice(0,ORGANIZATION_ELDER_LIMIT):[];
+}
+export function validateOrganizationElders(ids,roster,organizationId){
+ const fail=(message,status=409)=>{throw Object.assign(Error(message),{status,code:'ORG_ELDERS'});};
+ if(!Array.isArray(ids)||ids.length>ORGANIZATION_ELDER_LIMIT||ids.some(id=>!Number.isSafeInteger(id)||id<1)||new Set(ids).size!==ids.length)fail('원로는 서로 다른 조직원 최대 3명까지 지정할 수 있습니다.',400);
+ if(ids.some(id=>!roster.some(m=>m.clanId===organizationId&&m.userId===id&&m.status==='ACTIVE')))fail('해당 조직의 활성 구성원만 원로로 지정할 수 있습니다.');
+ return [...ids];
+}
+export function rankedOrganizationElders(members){
+ return Array.from({length:15},(_,i)=>({organizationId:i+1,userIds:members.filter(m=>m.clanId===i+1&&m.status==='ACTIVE')
+  .sort((a,b)=>b.seedPower-a.seedPower||a.slot-b.slot||a.userId-b.userId).slice(0,ORGANIZATION_ELDER_LIMIT).map(m=>m.userId)}));
+}
 export const defaultOrganizationFactionPolicy=()=>({revision:0,mode:'OFF',fundsPerRegion:null,upgradeCosts:[0,null,null,null,null]});
 export function validateOrganizationFactionPolicy(value){
  const fail=message=>{throw Object.assign(Error(message),{status:400,code:'ORG_FACTION_POLICY'});};
