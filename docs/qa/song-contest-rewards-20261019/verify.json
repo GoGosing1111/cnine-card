@@ -1,0 +1,20 @@
+{
+  "operationKey": "ops:song-contest-rewards:20261019:v1",
+  "planHash": "be11e2a4b4a6022d9d63dbe8ab5449a08e09a2fbb7ba8009e10dcd2e5edba9d1",
+  "implementationHash": "b82b5e781406b8e6abca304fd5406dbc413fa1105f335a30e53b7ec4ca44becf",
+  "checkedAt": "2026-10-18T15:39:30.042Z",
+  "status": "VERIFIED",
+  "replayed": true,
+  "coinRecipients": 5,
+  "coinEach": "3000000000000",
+  "totalCoin": "15000000000000",
+  "coinLogRecords": 5,
+  "mercenaryRecipient": "나무늘봉순",
+  "code": "V-999",
+  "copiesGranted": 1,
+  "currentCopies": 1,
+  "stockChanged": false,
+  "limitedIssueRecords": 0,
+  "auditRecords": 1,
+  "duplicateOperationGrants": 0
+}
