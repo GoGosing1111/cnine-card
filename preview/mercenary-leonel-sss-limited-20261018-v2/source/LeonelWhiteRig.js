@@ -7,6 +7,13 @@ const knots=new Map();
 // Contact poses remain exact. Recovery reaches the same idle pose before the
 // action clock settles, so cleanup never snaps a last attack frame to idle.
 export function continuousPose(mode,time){
+ // These drawings are distinct silhouettes, not skeletal tween keys. Blending
+ // them made extra arms while the separately tweened sword left the painted hand.
+ if(mode==='idle')return{a:idle,b:idle,mix:0};
+ if(mode==='ultimate'){
+  const p=time>=3.94?idle:sample(mode,time).pose;
+  return{a:p,b:p,mix:0};
+ }
  const m=MODES[mode];let rows=knots.get(mode);
  if(!rows){
   rows=m.poses.map(p=>({at:p.at,pose:p}));
@@ -55,15 +62,19 @@ export class LeonelWhiteRig{
   this.swordAura=Array.from({length:2},()=>{const s=new Sprite();s.zIndex=10;s.blendMode='add';s.eventMode='none';this.actor.view.addChild(s);return s;});
   this.current=null;this.entry=null;
  }
- descriptor(p){
+ descriptor(p,breath=1){
   const f=this.m.motion[p.bank].frames[p.index],s=this.height/610;
-  return{pose:p,x:(f.grip.x-f.pivot.x)*s,y:(f.grip.y-f.pivot.y)*s,angle:rad(f.weapon.angleDegrees)-this.originalAngle,scale:f.weapon.uniformScale*s};
+  return{pose:p,x:(f.grip.x-f.pivot.x)*s,y:(f.grip.y-f.pivot.y)*s*breath,angle:rad(f.weapon.angleDegrees)-this.originalAngle,scale:f.weapon.uniformScale*s};
  }
  captureEntry(){this.entry=this.current?structuredClone(this.current):null;}
  apply(mode,time,phaseTime){
-  const blend=continuousPose(mode,time),a=this.descriptor(blend.a),b=this.descriptor(blend.b),q=blend.mix;
-  let current={layers:[{pose:blend.a,weight:1-q},{pose:blend.b,weight:q}],x:mix(a.x,b.x,q),y:mix(a.y,b.y,q),angle:angleMix(a.angle,b.angle,q),scale:mix(a.scale,b.scale,q)};
-  if(this.entry&&mode!=='idle'&&time<.045){
+  const blend=continuousPose(mode,time),q=blend.mix;
+  // Less than one pixel of breathing at the head, with planted feet. The arm
+  // keeps its neutral drawing and angle; its rigid sword follows that same hand.
+  const breathFor=p=>p.bank==='idle'?1+.0024*Math.sin(phaseTime*Math.PI/2):1;
+  const ab=breathFor(blend.a),bb=breathFor(blend.b),a=this.descriptor(blend.a,ab),b=this.descriptor(blend.b,bb);
+  let current={layers:[{pose:blend.a,weight:1-q,breath:ab},{pose:blend.b,weight:q,breath:bb}],x:mix(a.x,b.x,q),y:mix(a.y,b.y,q),angle:angleMix(a.angle,b.angle,q),scale:mix(a.scale,b.scale,q)};
+  if(this.entry&&mode!=='idle'&&mode!=='ultimate'&&time<.045){
    const v=smooth(time/.045),old=this.entry;
    current={layers:[...old.layers.map(l=>({...l,weight:l.weight*(1-v)})),...current.layers.map(l=>({...l,weight:l.weight*v}))],x:mix(old.x,current.x,v),y:mix(old.y,current.y,v),angle:angleMix(old.angle,current.angle,v),scale:mix(old.scale,current.scale,v)};
   }
@@ -71,7 +82,7 @@ export class LeonelWhiteRig{
   current.layers=[...merged.values()].filter(l=>l.weight>1e-5).sort((a,b)=>a.weight-b.weight).slice(-4);
   this.bodies.forEach((s,i)=>{
    const l=current.layers[i];s.visible=!!l;if(!l)return;
-   s.texture=this.fx.assets.motion[l.pose.bank][l.pose.index];s.anchor.set(.5,540/640);s.scale.set(this.height/305);s.position.set(0,0);
+   s.texture=this.fx.assets.motion[l.pose.bank][l.pose.index];s.anchor.set(.5,540/640);s.scale.set(this.height/305,this.height/305*(l.breath||1));s.position.set(0,0);
    // Compensated source-over weights keep the overlap fully opaque during a
    // pose dissolve; the changing outer contours alone are partially covered.
    const before=current.layers.slice(0,i+1).reduce((v,l)=>v+l.weight,0);s.alpha=l.weight/before;

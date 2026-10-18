@@ -1,0 +1,62 @@
+{
+  "status": "PASS",
+  "originalChoreographyCommit": "ec07eae8d",
+  "results": [
+    {
+      "label": "desktop",
+      "idle": {
+        "oneStableDrawing": true,
+        "gripXRange": 0,
+        "gripYRange": 0.8254031655440315,
+        "angleRange": 0,
+        "swordScaleRange": 0,
+        "headBreathingRange": 1.5983997808947747
+      },
+      "ultimate": {
+        "maxBodyLayers": 1,
+        "wrongPose": 0,
+        "maxGripError": 0,
+        "maxAngleError": 0
+      },
+      "transition": {
+        "entryGripError": 0,
+        "phaseError": 0,
+        "recoveryGripError": 0
+      },
+      "cutIn": {
+        "first": true,
+        "second": false
+      },
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "idle": {
+        "oneStableDrawing": true,
+        "gripXRange": 0,
+        "gripYRange": 0.825394114001142,
+        "angleRange": 0,
+        "swordScaleRange": 0,
+        "headBreathingRange": 1.598382252510182
+      },
+      "ultimate": {
+        "maxBodyLayers": 1,
+        "wrongPose": 0,
+        "maxGripError": 0,
+        "maxAngleError": 0
+      },
+      "transition": {
+        "entryGripError": 0,
+        "phaseError": 0,
+        "recoveryGripError": 0
+      },
+      "cutIn": {
+        "first": true,
+        "second": false
+      },
+      "overflow": false,
+      "errors": []
+    }
+  ]
+}
