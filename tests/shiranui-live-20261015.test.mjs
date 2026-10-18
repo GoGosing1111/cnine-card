@@ -17,7 +17,10 @@ test('approved art, thumbnail, shipped bundles and live cache tags are connected
  for(const file of ['preview/project-v-v3/project-v-pixi-battle.bundle.js','preview/sustained-hunt-v2/battle.bundle.js','pve-v3/battle.bundle.js']){
   const s=fs.readFileSync(file,'utf8');assert(s.includes('MERCENARY_SHIRANUI_AREA'),file);assert(s.includes('SHIRANUI_MOTION_ASSETS'),file);
  }
- for(const file of ['index.html','js/app.js','js/battle-v3-live.js','service-worker.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert(fs.readFileSync(file,'utf8').includes('shiranui-live-v1'),file);
+ for(const file of ['index.html','js/app.js','js/battle-v3-live.js','preview/project-v-v3/source/project-v-pixi-battle.src.js'])assert(fs.readFileSync(file,'utf8').includes('shiranui-live-v1'),file);
+ const appVersion=fs.readFileSync('index.html','utf8').match(/js\/app\.js\?v=([^&"]+)/)?.[1];
+ const shellCache=fs.readFileSync('service-worker.js','utf8').match(/const SHELL_CACHE='([^']+)'/)?.[1];
+ assert(appVersion);assert.equal(shellCache,'soop-card-shell-v'+appVersion,'installed shell follows the current app release');
  const approved=JSON.parse(fs.readFileSync('preview/mercenary-monochrome-artillery-battle-v1/live-approval-20261015.json'));
  assert.equal(approved.identity.code,SHIRANUI_CODE);assert.equal(approved.acquisition.public,false);
 });
