@@ -6,13 +6,13 @@ export const JOKRO_OWNER_ID=1;
 export const JOKRO_AREA_EVENT='MERCENARY_JOKRO_AREA';
 export const JOKRO_AREA_MECHANIC='AZURE_DRAGON_SKY_CLEAVE';
 export const JOKRO_AREA_SKILL=Object.freeze({id:'MS-979',name:'청룡단천',mechanic:JOKRO_AREA_MECHANIC,target:'ALL_ENEMIES',pveOnly:true,
- balance:Object.freeze({damageRatio:12.6,cooldownTurns:5,cost:35})});
+ balance:Object.freeze({damageRatio:15.12,cooldownTurns:5,cost:35})});
 export const JOKRO_COMBAT=Object.freeze({
- version:1,basePower:1617408,statsReferencePower:1123200,statScale:1.44,speedReferencePower:1080000,speedScale:3.12,actionCredit:3.12,
+ version:2,basePower:1940890,statsReferencePower:1123200,statScale:1.728,speedReferencePower:1080000,speedScale:3.12,actionCredit:3.12,
  motionPlaybackRate:2,effectPlaybackRate:1,
  // Include the common +60% front shield before increasing the whole shield by 20%.
- link:Object.freeze({attackPercent:2635.776,hpPercent:1677.312,shieldPercent:928.416}),
- basicCapScale:2.88,damageTakenScale:.2,hardCounter:BERKAN_CODE
+ link:Object.freeze({attackPercent:3162.9312,hpPercent:2012.7744,shieldPercent:1126.0992}),
+ basicCapScale:3.456,damageTakenScale:.2,hardCounter:BERKAN_CODE
 });
 export const isJokro=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===JOKRO_CODE;
 export const jokroAccountAllowed=(userId,code)=>code!==JOKRO_CODE||Number(userId)===JOKRO_OWNER_ID;
@@ -32,9 +32,9 @@ export const JOKRO_ART=Object.freeze({
  frame:'assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png',
  artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#66ffc2',
  basePower:JOKRO_COMBAT.basePower,skills:Object.freeze([JOKRO_AREA_SKILL]),acquisitionEnabled:false,packAcquisitionEnabled:false,deploymentEnabled:true,
- combatLinkDescription:'족로 · 지정 계정 전용 SSS 리미티드. 일반 획득 불가. 같은 편성·장비 기준 진무보다 기본·연계 공격력·체력·전용 방벽이 20% 높으며 전투 행동 속도는 동일합니다. 개인 피해 80% 경감, 상태이상·반격 보호, 베르칸 피해 면역. PVE 청룡단천은 생존한 적 전체에 총 1,260% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 발도 동작은 2배속, 이펙트는 원래 길이를 유지합니다.'
+ combatLinkDescription:'족로 · 지정 계정 전용 SSS 리미티드. 일반 획득 불가. 기본 전투력 1,940,890. 같은 편성·장비 기준 상향된 진무보다 기본·연계 공격력·체력·전체 방벽과 기본 피해 상한이 20% 높으며 전투 행동 속도는 동일합니다. 개인 피해 80% 경감, 상태이상·반격 보호, 베르칸 피해 면역. PVE 청룡단천은 생존한 적 전체에 총 1,512% 피해를 나눠 한 번씩 적용합니다(에너지 35 · 재사용 5행동). 발도 동작은 2배속, 이펙트는 원래 길이를 유지합니다.'
 });
 export function jokroDeploymentSnapshot(){
  return {...JOKRO_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',attackStyle:'MELEE',skills:[structuredClone(JOKRO_AREA_SKILL)],pendingSkillIds:[],
-  jokroPolicyVersion:1,deploymentVersion:'20261018-jokro-live-v1'};
+  jokroPolicyVersion:JOKRO_COMBAT.version,deploymentVersion:'20261018-jokro-balance-v2'};
 }

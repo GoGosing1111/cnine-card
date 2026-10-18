@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fixture from './fixtures/mercenary-valter-roster-20261008.json' with {type:'json'};
 import {JINMU_COMBAT,JINMU_AREA_SKILL,JINMU_AREA_EVENT,jinmuIncomingDamage,jinmuActionCredit} from '../shared/mercenary-jinmu-v1.mjs';
-import {HELIOS_COMBAT} from '../shared/mercenary-helios-v1.mjs';
+import {KAIRON_COMBAT} from '../shared/mercenary-kairon-v1.mjs';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack} from '../shared/mercenary-combat-link-v2103.mjs';
 import {buildMercenaryFighter,mercenaryTurnCadence} from '../functions/_mercenary_combat.js';
@@ -12,20 +12,20 @@ import {tierCards} from './helpers/mercenary-operating-roster-v2144.mjs';
 const snapshot=code=>({...limitedDeploymentSnapshot(code),combat:fixture.combat});
 const fighter=(code='V-989',side='A',mode='PVP',power=0)=>buildMercenaryFighter({...snapshot(code),equipment:{schemaVersion:1,mode,power}},side,mode,buildFighter);
 const near20=(a,b)=>assert(Math.abs(a-b*1.2)<=3,`${a} versus ${b}: expected +20% (integer rounding only)`);
-test('Jinmu gains 20% offense and durability with unchanged Helios speed, including strong equipment and low-power decks',()=>{
+test('Jinmu gains 20% offense and durability over Kairon with unchanged speed, including strong equipment and low-power decks',()=>{
  for(const mode of ['PVE','PVP'])for(const gear of [0,1e8])for(const power of [1e5,2e7,1e9]){
-  const j=fighter('V-989','A',mode,gear),h=fighter('V-999','B',mode,gear);
+  const j=fighter('V-989','A',mode,gear),h=fighter('V-988','B',mode,gear);
   assert.equal(j.speed,h.speed);near20(j.attack,h.attack);near20(j.maxHp,h.maxHp);
   const teams=['A','B'].map((side,i)=>[...tierCards(power).map((c,k)=>buildFighter(c,k,side,null,mode)),[j,h][i]]);
   applyMercenaryCombatLink(teams);
   near20(mercenaryEffectiveAttack(j),mercenaryEffectiveAttack(h));near20(j.maxHp,h.maxHp);near20(j.shield,h.shield);
-  assert.equal(j.basePower-gear,1347840);
+  assert.equal(j.basePower-gear,1617408);
   for(const k of ['counterImmune','controlImmune','poisonImmune'])assert.equal(j[k],true);
   assert.deepEqual(j.skills.map(s=>s.id),mode==='PVE'?['MS-989']:[]);
  }
- assert.equal(JINMU_COMBAT.actionCredit,HELIOS_COMBAT.actionCredit);
- assert.equal(JINMU_COMBAT.motionPlaybackRate,HELIOS_COMBAT.motionPlaybackRate);
- assert.equal(JINMU_COMBAT.basicCapScale,HELIOS_COMBAT.basicCapScale*1.2);
+ assert.equal(JINMU_COMBAT.actionCredit,KAIRON_COMBAT.actionCredit);
+ assert.equal(JINMU_COMBAT.motionPlaybackRate,KAIRON_COMBAT.motionPlaybackRate);
+ assert.equal(JINMU_COMBAT.basicCapScale,KAIRON_COMBAT.basicCapScale*1.2);
 });
 test('Jinmu cadence preserves fractions, owner isolation, death, and the canonical long-battle cap',()=>{
  const regular=(side,id)=>({id:side+id,ownerId:id,side,hp:1,alive:true});
@@ -48,7 +48,7 @@ test('personal defenses and the entire dragon cast use one authoritative damage 
  const args={actor:j,skill:JINMU_AREA_SKILL,targets:[...foes,foes[0],{id:'dead',hp:0},{id:'suit',hp:100,isBattleSuit:true}],
   hit:(a,t,ratio)=>{ratios.push(ratio);return {damage:100,dodge:false};},damage:(t,n)=>{t.hp-=n;return {hpDamage:n,absorbed:0};},
   knockout(){},emit:(type,e)=>events.push({type,...e})};
- assert.equal(resolveJinmuArea(args).length,5);assert.equal(ratios.length,5);assert(Math.abs(ratios.reduce((a,b)=>a+b)-5.6)<1e-9);
+ assert.equal(resolveJinmuArea(args).length,5);assert.equal(ratios.length,5);assert(Math.abs(ratios.reduce((a,b)=>a+b)-6.72)<1e-9);
  assert.equal(events.length,1);assert.equal(events[0].type,JINMU_AREA_EVENT);assert(foes.every(t=>t.hp===9900));
  for(const flags of [{battleMode:'PVP'},{stunned:true},{silenced:true}])assert.deepEqual(resolveJinmuArea({...args,actor:{...j,...flags}}),[]);
 });

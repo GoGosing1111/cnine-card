@@ -1,6 +1,15 @@
 import {KAIRON_CODE} from '../shared/mercenary-kairon-v1.mjs';
-import {KAIRON_CRAFT_KEY,KAIRON_RECIPE_CODE,kaironCraftDraft,validateKaironCraft,kaironCraftReady,kaironCraftRecipe,isMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
+import {KAIRON_CRAFT_KEY,KAIRON_RECIPE_CODE,KAIRON_CRAFT_LIMIT,kaironCraftStock,kaironCraftDraft,validateKaironCraft,kaironCraftReady,kaironCraftRecipe,isMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
 import {MERCENARY_ACCOUNTING_SCHEMA} from './_mercenary_draw_accounting.js';
+// Successful, committed workshop outputs are the lifetime craft count. Failures,
+// pending requests and explicit direct gifts do not consume the five craft slots.
+const CRAFTED_SQL="SELECT COALESCE(SUM(output_quantity),0) crafted FROM workshop_craft_logs_v1668 WHERE output_type='MERCENARY' AND output_ref=? AND success=1";
+export async function readKaironCraftStock(env){
+ const row=await env.DB.prepare(CRAFTED_SQL).bind(KAIRON_CODE).first();return kaironCraftStock(row?.crafted);
+}
+export function kaironCraftStockGuard(DB,guardId){
+ return DB.prepare(`UPDATE workshop_craft_guards_v1668 SET verified=0 WHERE guard_id=? AND (${CRAFTED_SQL})>=?`).bind(guardId,KAIRON_CODE,KAIRON_CRAFT_LIMIT);
+}
 export async function readKaironCraft(env){
  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(KAIRON_CRAFT_KEY).first();
  const policy=validateKaironCraft(row?JSON.parse(row.value):kaironCraftDraft());return {policy,value:row?.value??null};
@@ -9,7 +18,7 @@ export async function decorateMercenaryCraft(env,rows,{admin=false}={}){
  const {policy}=await readKaironCraft(env),rest=rows.filter(r=>!isMercenaryCraft(r));
  let stored=rows.find(r=>r.code===KAIRON_RECIPE_CODE);
  if(!stored&&policy.isPublic)stored=await env.DB.prepare('SELECT * FROM workshop_recipes_v1668 WHERE code=?').bind(KAIRON_RECIPE_CODE).first();
- if(admin||policy.isPublic)rest.push(kaironCraftRecipe(policy,stored||{}));return rest;
+ if(admin||policy.isPublic)rest.push(kaironCraftRecipe(policy,stored||{},await readKaironCraftStock(env)));return rest;
 }
 async function ensureAccounting(env){
  if(env.DB.execSchema)await env.DB.execSchema(MERCENARY_ACCOUNTING_SCHEMA);

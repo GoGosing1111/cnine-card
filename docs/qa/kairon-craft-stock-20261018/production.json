@@ -1,0 +1,65 @@
+{
+  "checkedAt": "2026-10-18T14:17:01.033Z",
+  "sourceCommit": "06b49d3e2088245a553b791ba91b630b963f79b0",
+  "pages": {
+    "id": "aebda6cd-70a0-4f06-93f9-76f08506e63d",
+    "url": "https://aebda6cd.cnine-card.pages.dev",
+    "commit": "06b49d3e2088245a553b791ba91b630b963f79b0"
+  },
+  "worker": {
+    "deploymentId": "b2443fc4-8446-4a3b-b9d1-ab9ad08a5937",
+    "versions": [
+      {
+        "version_id": "0ec4b3c1-38f0-44cc-ac61-f9c4560a2b3c",
+        "percentage": 100
+      }
+    ],
+    "limitFive": true,
+    "transactionGuard": true
+  },
+  "http": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "cc443ccd0d834756b62294c84995515094b2bba498ecd9d9cffce4c28ffe7e65"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "3802f29cd8a8ef2b48ec7fb693fd07805d62ded850e798fde77082d9985a3f24"
+    },
+    {
+      "file": "js/workshop-v1881.js",
+      "status": 200,
+      "sha256": "b2c5d50c94286eda71561df92ec9da89e3ec547f13b6101242a87fe5ed1f6b96"
+    },
+    {
+      "file": "css/workshop-v1881.css",
+      "status": 200,
+      "sha256": "a5c4dcf2722585ea9bfb1c8a2978648cd40f930dc413040894a14c0de78d92f4"
+    }
+  ],
+  "stock": {
+    "limit": 5,
+    "crafted": 1,
+    "remaining": 4,
+    "soldOut": false
+  },
+  "exceptionGrants": 1,
+  "cmsUnchanged": true,
+  "policy": {
+    "revision": 3,
+    "coinCost": 1000000000000,
+    "masterStarCost": 1000000,
+    "successRate": 2,
+    "materials": [
+      {
+        "itemCode": "MERCENARY_SSS_CARD_SHARD",
+        "quantity": 5
+      }
+    ],
+    "isActive": true,
+    "isPublic": true
+  },
+  "productionAccountWrites": 0
+}

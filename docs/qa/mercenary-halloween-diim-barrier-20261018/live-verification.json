@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-18T14:04:04.320Z",
+  "sourceCommit": "de6eebbc8ccb435456ce1a09c73d38cb65bb6fb0",
+  "worker": {
+    "name": "cnine-card-api-runtime",
+    "deploymentId": "39e5ccb6-b894-49eb-90e8-8b3da2637023",
+    "versions": [
+      {
+        "version_id": "a49e9e3e-be23-4b6a-b886-3d0b725bac75",
+        "percentage": 100
+      }
+    ],
+    "barrierScale": 0.6,
+    "policyApplied": true,
+    "legionFixPreserved": true
+  },
+  "pages": {
+    "id": "32331218-c841-4914-81f3-03e5180f2aab",
+    "url": "https://32331218.cnine-card.pages.dev",
+    "commit": "de6eebbc8ccb435456ce1a09c73d38cb65bb6fb0"
+  },
+  "http": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/api/mercenary-codex",
+      "status": 200
+    }
+  ],
+  "codex": {
+    "code": "V-984",
+    "description": "할로윈 SS 리미티드 · 기본 전투력 216,000(기존 SS 리미티드 대비 20% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 539%·체력 686%·전용 방벽 367.5%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 672%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 1.8배입니다. 성야의 방패는 PVP에서 부여량이 40% 감소하여 공격력 403.2%를 전열에 나눠 부여합니다. 시작 방벽과 PVE의 672% 방벽은 유지됩니다.",
+    "balance": {
+      "damageRatio": 6.72,
+      "cooldownTurns": 2,
+      "cost": 20
+    }
+  },
+  "productionAccountWrites": 0
+}

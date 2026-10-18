@@ -6,7 +6,7 @@ import {WORKSHOP_EXTENSION_CATEGORIES, validateWorkshopExtension} from '../share
 import {isEquipmentCraft} from '../shared/workshop-equipment-craft.mjs';
 import {decorateEquipmentCraftRecipes,equipmentCraftAccountState,saveEquipmentCraftRecipe,executeEquipmentCraft} from './_workshop_equipment_craft.js';
 import {KAIRON_CRAFT_KEY,isMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
-import {decorateMercenaryCraft,saveKaironCraft,requireKaironCraft,kaironCraftGrantStatements} from './_mercenary_craft.js';
+import {decorateMercenaryCraft,saveKaironCraft,requireKaironCraft,kaironCraftGrantStatements,readKaironCraftStock,kaironCraftStockGuard} from './_mercenary_craft.js';
 import {readJointBody} from './_joint_request.js';
 import {S_BODY_REFUND_KEY,refundSBodyChoiceAttempt} from './_workshop_s_body_refund_20260930.js';
 const forgeSynthesisFilter=FORGE_RUNTIME_RELEASE_ENABLED?' AND NOT EXISTS(SELECT 1 FROM equipment_forge_states_v1 fs WHERE fs.instance_id=x.id AND fs.user_id=x.user_id AND fs.level>0)':'';
@@ -284,6 +284,7 @@ async function craft(env,user,body){
   if(prior?.status==='PENDING')throw new Error('같은 제작 요청을 처리 중입니다. 잠시 후 다시 확인하세요.');
   if(prior?.status==='FAILED')throw new Error(prior.error_message||'이 제작 요청은 취소되었습니다. 새로 시도하세요.');
   const recipe=(await recipeRows(env,{admin:isOwner(user)})).find(row=>Number(row.id)===recipeId);
+  if(isMercenaryCraft(recipe)&&recipe.craftStock?.soldOut)throw new Error(recipe.lockReason);
   if(isEquipmentCraft(recipe))throw new Error('장비제작에서 투입할 +10 장비를 선택하세요.');
   if(!recipe||Number(recipe.is_active)===0||Number(recipe.is_public)===0||Number(recipe.owner_test_only)!==0&&!isOwner(user))throw new Error('현재 제작할 수 없는 레시피입니다.');
   validateWorkshopExtension(recipe);
@@ -308,8 +309,11 @@ async function craft(env,user,body){
     const inventoryCodes=[...new Set([...(payment.stars>0?['MASTER_STAR']:[]),...recipe.materials.map(material=>material.item_code)])];
     if(inventoryCodes.length){const marks=inventoryCodes.map(()=>'?').join(',');statements.push(env.DB.prepare(`SELECT item_code FROM cnine_user_inventory WHERE user_id=? AND item_code IN (${marks}) FOR UPDATE`).bind(user.id,...inventoryCodes))}
   }
-  if(craftPolicy&&env.DB.dialect==='postgres')statements.push(env.DB.prepare('SELECT key FROM app_meta WHERE key=? FOR SHARE').bind(KAIRON_CRAFT_KEY));
+  // Serialize Kairon attempts across accounts, then recheck the last slot inside
+  // the same transaction before any material/currency deduction or grant.
+  if(craftPolicy&&env.DB.dialect==='postgres')statements.push(env.DB.prepare('SELECT key FROM app_meta WHERE key=? FOR UPDATE').bind(KAIRON_CRAFT_KEY));
   statements.push(guard);
+  if(craftPolicy)statements.push(kaironCraftStockGuard(env.DB,guardId));
   if(payment.coin>0||payment.shards>0)statements.push(env.DB.prepare(`UPDATE users SET coin=coin-?,card_shards=card_shards-? WHERE id=? AND coin>=? AND card_shards>=? AND ${verified}`).bind(payment.coin,payment.shards,user.id,payment.coin,payment.shards,guardId));
   if(payment.stars>0)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND ${verified}`).bind(payment.stars,payment.stars,user.id,guardId));
   for(const material of materials)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND ${verified}`).bind(material.quantity,material.quantity,user.id,material.item_code,guardId));
@@ -332,7 +336,11 @@ async function craft(env,user,body){
   }
   const checked=await env.DB.prepare(`SELECT verified FROM ${GUARD_TABLE} WHERE guard_id=?`).bind(guardId).first();
   await env.DB.prepare(`DELETE FROM ${GUARD_TABLE} WHERE guard_id=?`).bind(guardId).run();
-  if(Number(checked?.verified)!==1){await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='FAILED',error_message='재료 또는 재화가 변경되어 제작이 취소되었습니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(requestId,user.id).run();throw new Error('재료 또는 재화가 변경되어 제작이 취소되었습니다. 다시 확인하세요.')}
+  if(Number(checked?.verified)!==1){
+    const soldOut=craftPolicy&&(await readKaironCraftStock(env)).soldOut;
+    const message=soldOut?'카이론 한정 제작 수량이 소진되었습니다. 재료와 재화는 소모되지 않았습니다.':'재료 또는 재화가 변경되어 제작이 취소되었습니다. 다시 확인하세요.';
+    await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(message,requestId,user.id).run();throw new Error(message);
+  }
   return {...result,state:await userWorkshopState(env,user)};
 }
 

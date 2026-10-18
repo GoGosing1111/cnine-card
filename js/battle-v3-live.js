@@ -14,7 +14,7 @@
       root.__V3_PIXI_GENERATION = Number(root.__V3_PIXI_GENERATION || 0) + 1;
       root.__V3_PIXI_MOUNTED = false; root.__V3_PIXI_CANVAS = null; root.__V3_PIXI_INIT_PROMISE = null;
       const script = document.createElement('script');
-      script.src = '/preview/project-v-v3/project-v-pixi-battle.bundle.js?leonel=20261018-live-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&battleRuntime=' + BATTLE_RUNTIME + (effects?'&lichFx=20261001':'');
+      script.src = '/preview/project-v-v3/project-v-pixi-battle.bundle.js?leonel=20261018-live-v1&kangyun=20261018-live-v1&jokro=20261018-jokro-live-v1&v=20261015-shiranui-live-v1-azant-berkan-parity-20261015-v1-jinmu-jokro-v2&kairon=20261014-craft-v1&mercenaryFx=20261015-lifecycle&battleRuntime=' + BATTLE_RUNTIME + (effects?'&lichFx=20261001':'');
       script.async = false;
       const timer = setTimeout(() => { script.remove(); reject(new Error('전투 엔진을 새로 불러오지 못했습니다. 다시 입장해 주세요.')); }, 20000);
       script.onload = () => { clearTimeout(timer); ready() ? resolve() : reject(new Error('전투 엔진 버전 확인에 실패했습니다.')); };

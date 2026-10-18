@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "overflow": 0,
+      "stockOverflow": 0,
+      "artLoaded": true,
+      "remainingVisible": 4,
+      "updatedAfterCraft": 3,
+      "soldOutVisible": 0,
+      "exhaustedReplayRecovered": true,
+      "crafted": 5
+    },
+    {
+      "label": "mobile",
+      "overflow": 0,
+      "stockOverflow": 0,
+      "artLoaded": true,
+      "remainingVisible": 4,
+      "updatedAfterCraft": 3,
+      "soldOutVisible": 0,
+      "exhaustedReplayRecovered": true,
+      "crafted": 5
+    }
+  ],
+  "errors": []
+}
