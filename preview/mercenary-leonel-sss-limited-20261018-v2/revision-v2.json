@@ -26,5 +26,6 @@
     "sha256": "1cfdd69deb019c51065b522c0436ab6679b22bd928ecfb26e028996f3c272b45"
   },
   "qa": "qa/visual-review-v2.json",
-  "combatProfile": "combat-profile.mjs"
+  "combatProfile": "combat-profile.mjs",
+  "basePowerConfirmation": "combat-power-confirmation.json"
 }

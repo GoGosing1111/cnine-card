@@ -10,6 +10,6 @@
 - [생성/선택/반려 기록](source-generation.json), [효과 생성 기록](sources-fx-generation.json), [실제 호출 프롬프트](prompts/).
 - [원본 픽셀 패킹](pack-v2-effects.mjs), [등록 좌표](asset-registration.json), [빌더](build-assets.mjs).
 - 공격 동작 2× / 효과 1×: [motion.mjs](motion.mjs), [실제 비교 검사](qa/motion-rates.json).
-- [검수용 성능 프로필](combat-profile.mjs): 기본 전투력 1,940,890. 운영 등록/지급/출시는 미실행.
+- [검수용 성능 프로필](combat-profile.mjs): 기본 전투력 **1,940,890은 사용자 확정**([기록](combat-power-confirmation.json)). 다른 밸런스 수치는 검수용이며 운영 등록/지급/출시는 미실행.
 
 상세 제작 공정, 시연 영상과 검수 결과는 [README.md](README.md)에 있다.

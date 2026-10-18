@@ -1,0 +1,19 @@
+{
+  "version": "LEONEL_BASE_POWER_CONFIRMATION_20261018",
+  "status": "USER_CONFIRMED",
+  "confirmedOn": "2026-10-18",
+  "userAnswer": "족로보다 20% 높게: 1,940,890",
+  "scope": "BASE_POWER_ONLY",
+  "reference": "JOKRO_20261018",
+  "referenceBasePower": 1617408,
+  "multiplier": 1.2,
+  "rounding": "NEAREST_INTEGER",
+  "basePower": 1940890,
+  "profile": "combat-profile.mjs",
+  "numericalChangeRequired": false,
+  "otherBalanceApproval": "REVIEW_PENDING",
+  "visualApproval": "PENDING",
+  "liveEnabled": false,
+  "runtimeRegistration": false,
+  "acquisitionEnabled": false
+}
