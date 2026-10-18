@@ -1,0 +1,74 @@
+[
+  {
+    "file": "preview/mercenary-leonel-sss-limited-20261018-v2/manifest.json",
+    "status": 200,
+    "sha256": "a0f71986e1f1e415328801c5a06d0d4ebd9e31733a6098986cd5068aa2209ce6",
+    "bytes": 175572
+  },
+  {
+    "file": "preview/mercenary-leonel-sss-limited-20261018-v2/preview.bundle.js",
+    "status": 200,
+    "sha256": "70337e5df60af70f75a50c9290928f296c9edbc0df58f9830ea62ea94e06ae95",
+    "bytes": 2145507
+  },
+  {
+    "file": "preview/mercenary-leonel-sss-limited-20261018-v2/assets/white-crest-20261019/crest.webp",
+    "status": 200,
+    "sha256": "a07a3ced9693704bc337eb131deeaf8f8eb290575b6e15308a912195aeb15e2e",
+    "bytes": 1272984
+  },
+  {
+    "file": "preview/mercenary-leonel-sss-limited-20261018-v2/assets/white-crest-20261019/ground.webp",
+    "status": 200,
+    "sha256": "b67b66b687e67ff468391485578075e30e58543ab5861fc554fd727c6b4136f3",
+    "bytes": 984596
+  },
+  {
+    "file": "preview/mercenary-leonel-sss-limited-20261018-v2/assets/white-crest-20261019/sword.webp",
+    "status": 200,
+    "sha256": "44ee0f1888f07627bad02f8dfdcdcf8bc305deabf25a7ad314e40c29e7971bfe",
+    "bytes": 918918
+  },
+  {
+    "file": "preview/mercenary-leonel-sss-limited-20261018-v2/assets/white-crest-20261019/body-idle-0.webp",
+    "status": 200,
+    "sha256": "9f3c038752bfc636170e4355d53e1075e450e4e33428ae9722f654173ba722d6",
+    "bytes": 407736
+  },
+  {
+    "file": "preview/mercenary-leonel-sss-limited-20261018-v2/assets/white-crest-20261019/body-attack-0.webp",
+    "status": 200,
+    "sha256": "642ee34eb46545552c14b9d15d67c5b06cb7a288430be9d0a6a203dd0bf39ade",
+    "bytes": 801768
+  },
+  {
+    "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+    "status": 200,
+    "sha256": "194a7bbe7f7a54cf0358a2ba68e311777ac04f17f92ccaf5b311af3244680812",
+    "bytes": 2130090
+  },
+  {
+    "file": "preview/sustained-hunt-v2/battle.bundle.js",
+    "status": 200,
+    "sha256": "d57706eace3a7de2ffbebb611251d0f284612bd0b8d9b7ad4cdffce90a5b6001",
+    "bytes": 2153196
+  },
+  {
+    "file": "preview/coop-defense-v1/defense.bundle.js",
+    "status": 200,
+    "sha256": "8ddd69858aad247edf8d4be15ec988f42ef78248cec5ccab6b8850923b82ac21",
+    "bytes": 2260413
+  },
+  {
+    "file": "defense/index.html",
+    "status": 200,
+    "sha256": "001c4d23cfea48eedc6f1e265158622fcd1f9984a8ccfc14aeddf53ede065cb6",
+    "bytes": 11964
+  },
+  {
+    "file": "js/battle-v3-live.js",
+    "status": 200,
+    "sha256": "61588f233ff7a30f2103b1b4156d5556dc7536cca39059641debeafc8952a987",
+    "bytes": 81418
+  }
+]
