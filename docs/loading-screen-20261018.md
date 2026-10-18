@@ -22,4 +22,13 @@
 
 배포 기준은 Pages `29a5becd-7bb9-4100-a218-985e779272ea`, 소스 `f62e75db9aef6bcd27a0ddbf6233e3e6a5dfd3e2`다. 작업 중 확인한 세계관 운영본 `1ddc975af`가 이미 19,999개 파일이므로 새 로딩 자산을 추가하면 Pages의 20,000개 한도를 넘는다. 기존 테스트 실행기 제외 규칙을 `scripts/qa-*.mjs`·`scripts/qa-*.js` 37개에도 적용했다. 이들은 Node/Playwright 검수 실행기이며 게임·프리뷰 실행 코드에서 참조하지 않음을 확인했다. 저장소에는 그대로 보존하고 실제 원화·전투 자산·프리뷰는 제외하지 않는다. 스테이징 회귀에는 실행기 제외와 원본 보존, 일반 빌드 스크립트·이미지 유지 검사를 추가했다.
 
-최신 계엄령 운영본과 병합한 뒤 PC·모바일에서 부트 → 로그인 전환을 다시 확인했다(`integrated/`). 배포 결과와 운영 확인은 완료 후 이 문서에 기록한다.
+최신 계엄령 운영본과 병합한 뒤 PC·모바일에서 부트 → 로그인 전환을 다시 확인했다(`integrated/`). 
+
+## 운영 반영
+
+- 코드 커밋: `24c6865f0`.
+- `npm run deploy:production -- --scoped` 완료. 선택 검사 15개 통과, 기존 출시 플래그·캐시 태그 검사 및 Hyperdrive 쿼리 캐시 OFF 검사 통과.
+- Pages: `https://f0bd5d35.cnine-card.pages.dev`, 운영 주소 `https://cnine-card.pages.dev/`. 최종 전달 파일 19,970개.
+- 운영 `index.html`, 서비스 워커, PC/모바일 배경, 레일, 원본 색인 모두 HTTP 200 및 로컬 SHA-256 일치. Windows 자동 갱신 리소스 색인에 신규 WebP 3개 포함 확인.
+- 운영 주소의 실제 초기 로딩 화면을 캡처하고 정상 로그인 전환, 화면 넘침 없음, JavaScript 예외 없음 확인. 자료는 `production-assets.json`, `production/browser.json`, `production/1440x900.png`에 보존한다.
+- 최종 감사 기록은 문서·QA 파일만 커밋하고 재배포하지 않는다.

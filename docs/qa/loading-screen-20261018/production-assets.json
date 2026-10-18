@@ -1,0 +1,43 @@
+{
+  "origin": "https://cnine-card.pages.dev",
+  "at": "2026-10-18T04:53:16.630Z",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 31417,
+      "sha256": "c98c0d5b26468152f112276e629d7b25a6aa9913437206bd084eca627c32df06"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "bytes": 15802,
+      "sha256": "f0497b5a570f022632fd9bf593388c2c52c772c82a47d989869d5d109672f7f1"
+    },
+    {
+      "file": "assets/ui/loading/reverse-call-20261018/scene-wide.webp",
+      "status": 200,
+      "bytes": 183098,
+      "sha256": "2d073a0241e4d7f9ceb15b4e32e9cdf36cdcf4d0d473da03faf4e0c8b27f0416"
+    },
+    {
+      "file": "assets/ui/loading/reverse-call-20261018/scene-mobile.webp",
+      "status": 200,
+      "bytes": 88668,
+      "sha256": "eb54a419289460098e55003ef8611f28e7d0c69f0de35dd8183a635779e6eee8"
+    },
+    {
+      "file": "assets/ui/loading/reverse-call-20261018/rail.webp",
+      "status": 200,
+      "bytes": 160854,
+      "sha256": "ebb635b94af75f6d0248fc31499a5c90ed9e44781b47501e03019bf555b41a75"
+    },
+    {
+      "file": "assets/ui/loading/reverse-call-20261018/manifest.json",
+      "status": 200,
+      "bytes": 4875,
+      "sha256": "fa6433e17ce0786d12b418f0f0f265de86b06ed53d6bc07f83cb50012a01b9d1"
+    }
+  ],
+  "windowsManifest": true
+}
