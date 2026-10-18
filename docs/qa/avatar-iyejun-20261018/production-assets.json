@@ -1,0 +1,108 @@
+{
+  "source": "35cd9178795baeea7564976643e425a274aab271",
+  "verifiedAt": "2026-10-18T04:33:08.141Z",
+  "assets": [
+    {
+      "path": "preview/avatar-iyejun-suit-20261018-v1/assets/avatar-iyejun-approved-source.png",
+      "status": 200,
+      "expected": "639d7f43789d980ead542d64af0d33de1edc5e0079d1d2d5d638253776b7feed",
+      "actual": "639d7f43789d980ead542d64af0d33de1edc5e0079d1d2d5d638253776b7feed",
+      "match": true
+    },
+    {
+      "path": "preview/avatar-iyejun-suit-20261018-v1/assets/avatar-iyejun-equipment-source-v1.png",
+      "status": 200,
+      "expected": "cff519148c2f4888ad6cc0c9d6cd40035c0c5a2f3342074731dde3890f747f38",
+      "actual": "cff519148c2f4888ad6cc0c9d6cd40035c0c5a2f3342074731dde3890f747f38",
+      "match": true
+    },
+    {
+      "path": "preview/avatar-iyejun-suit-20261018-v1/assets/avatar-iyejun-equipment-v1-640.webp",
+      "status": 200,
+      "expected": "1f055431c9b1a11cffd86f8b94ed14a6b43befd40425dddbd0e1d0410f2f299a",
+      "actual": "1f055431c9b1a11cffd86f8b94ed14a6b43befd40425dddbd0e1d0410f2f299a",
+      "match": true
+    },
+    {
+      "path": "preview/avatar-iyejun-suit-20261018-v1/assets/avatar-iyejun-lobby-v1-1024.webp",
+      "status": 200,
+      "expected": "90f055295fc494bcca580333e8c7a49faa67fcc6e9e1461668243a7342a6e233",
+      "actual": "90f055295fc494bcca580333e8c7a49faa67fcc6e9e1461668243a7342a6e233",
+      "match": true
+    },
+    {
+      "path": "preview/avatar-iyejun-suit-20261018-v1/assets/avatar-iyejun-lobby-v1-640.webp",
+      "status": 200,
+      "expected": "1368bdb89e36c88b458e792b9482e666ab37f8086cd1249084dcdee1d3e6df89",
+      "actual": "1368bdb89e36c88b458e792b9482e666ab37f8086cd1249084dcdee1d3e6df89",
+      "match": true
+    },
+    {
+      "path": "preview/avatar-iyejun-suit-20261018-v1/runtime-manifest.json",
+      "status": 200,
+      "expected": "2706ca93d0c74f439fcb8c6874391869c3991b409ce93e01a342002e479809c7",
+      "actual": "2706ca93d0c74f439fcb8c6874391869c3991b409ce93e01a342002e479809c7",
+      "match": true
+    },
+    {
+      "path": "js/avatar-shop-v1.js",
+      "status": 200,
+      "expected": "83974cc1fe10bdb48b291fe0b264fcaedb73493e11ef1623dc0256650ca73afb",
+      "actual": "83974cc1fe10bdb48b291fe0b264fcaedb73493e11ef1623dc0256650ca73afb",
+      "match": true
+    },
+    {
+      "path": "css/avatar-shop-v1.css",
+      "status": 200,
+      "expected": "5f65093583afb8ebb0a9296c74c4302449482c113ea33e2d0eb420f1643e483e",
+      "actual": "5f65093583afb8ebb0a9296c74c4302449482c113ea33e2d0eb420f1643e483e",
+      "match": true
+    },
+    {
+      "path": "css/character-loadout-v2.css",
+      "status": 200,
+      "expected": "8d0e137199a66b822056b9e9ce255efefd5a296c074875b85d57ce79e7608261",
+      "actual": "8d0e137199a66b822056b9e9ce255efefd5a296c074875b85d57ce79e7608261",
+      "match": true
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "expected": "d3bf45f4e739453203012a3c42da74dd9e9cfb0c4dec99bd1d25ba0f2442b4f1",
+      "actual": "d3bf45f4e739453203012a3c42da74dd9e9cfb0c4dec99bd1d25ba0f2442b4f1",
+      "match": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "expected": "50f25030bf4113403a6efd3ff5485b1e9ade606373d8ad33280462756aa693a1",
+      "actual": "50f25030bf4113403a6efd3ff5485b1e9ade606373d8ad33280462756aa693a1",
+      "match": true
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "expected": "6b562ba904edd918196be5dc630ec39f1a653979d7dbf4a1791989dae1f13c31",
+      "actual": "6b562ba904edd918196be5dc630ec39f1a653979d7dbf4a1791989dae1f13c31",
+      "match": true
+    },
+    {
+      "path": "admin/avatar-admin-v1.js",
+      "status": 200,
+      "expected": "93b6aa473baae6ad1ea74e90a92b03966e26575dd10a6442066b6f5d9a7e0901",
+      "actual": "93b6aa473baae6ad1ea74e90a92b03966e26575dd10a6442066b6f5d9a7e0901",
+      "match": true
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "expected": "bc0f525b98210ab56e2e12e1f0895c65d84e9a2b7b83bc029b28f329928a0625",
+      "actual": "bc0f525b98210ab56e2e12e1f0895c65d84e9a2b7b83bc029b28f329928a0625",
+      "match": true
+    }
+  ],
+  "catalogAnonymousStatus": 401,
+  "catalogAnonymousBody": {
+    "error": "로그인이 필요합니다."
+  }
+}
