@@ -1,0 +1,22 @@
+/* Match the existing hunt readout. The separate gold plaque was rejected. */
+#hunt-coins{display:flex;align-items:baseline;gap:8px;position:relative;min-width:0;color:#90a5c3;font-family:inherit}
+#hunt-coins[hidden]{display:none}
+#hunt-coins>span{font-size:10px;line-height:1.4;white-space:nowrap}
+#hunt-coins>strong{font-family:'Barlow Condensed','Noto Sans KR',sans-serif;font-size:22px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums;color:#e9f0ff}
+#hunt-coins>small{font-size:9px;line-height:1.4;color:#8296b7;white-space:nowrap}
+#hunt-coin-gain{position:absolute;right:14px;bottom:-15px;opacity:0;pointer-events:none;font-style:normal;font-weight:800;font-size:13px;color:#c8ff6b;text-shadow:0 2px 4px #000}
+#hunt-coins.collected #hunt-coin-gain{animation:hunt-coin-collect 1.6s ease-out}
+@keyframes hunt-coin-collect{0%{opacity:0;transform:translateY(8px)}15%,65%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-5px)}}
+.hunt-readout #hunt-coins{order:1}
+.hunt-readout .hunt-metrics{order:2}
+body:not([data-legion-live])>#hunt-coins{position:fixed;right:16px;top:82px;z-index:28}
+.legion-coin-note{font-size:11px;color:#8296b7;line-height:1.6;margin:6px 0 16px}
+@media(max-width:760px){
+ body[data-legion-live]:has(#hunt-coins:not([hidden])){--hunt-hud-height:172px}
+ body[data-legion-live]:has(#hunt-coins:not([hidden])) .hunt-readout{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:28px 30px;gap:0 8px;padding:3px 12px}
+ .hunt-readout #hunt-coins{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:auto 1fr auto;gap:8px;width:100%;align-items:baseline}
+ #hunt-coins>span{font-size:9px}#hunt-coins>strong{font-size:20px;text-align:right}#hunt-coins>small{font-size:9px}
+ .hunt-readout .hunt-metrics{grid-column:2;grid-row:1}
+ .hunt-readout .stage-banner{grid-column:1;grid-row:1}
+}
+@media(prefers-reduced-motion:reduce){#hunt-coins.collected #hunt-coin-gain{animation:none;opacity:1}}

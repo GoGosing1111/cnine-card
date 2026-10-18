@@ -1,6 +1,22 @@
 (() => {
   const $=id=>document.getElementById(id),api=window.ProjectVPixiBattle,originalMount=api.mountForBattle;
   const liveMode=document.body.dataset.legionLive==='true';
+  const coinHud=document.createElement('div');coinHud.id='hunt-coins';coinHud.hidden=true;
+  coinHud.innerHTML='<span>이번 토벌 획득 코인</span><strong id="hunt-coins-total">0</strong><small id="hunt-coins-cap"></small><i id="hunt-coin-gain" aria-hidden="true"></i>';
+  (document.querySelector('.hunt-readout')||document.body).append(coinHud);
+  let coinTotal=0,coinGainTimer=null;
+  const coinText=n=>Number(n||0).toLocaleString('ko-KR');
+  function showCoins(data={}){
+    const total=Number(data.earnedCoins||0),gain=Math.max(0,total-coinTotal);coinTotal=total;
+    coinHud.hidden=!data.coinCap;
+    $('hunt-coins-total').textContent=coinText(total);
+    $('hunt-coins-cap').textContent=data.coinLive===false?'TEST · 미지급':data.coinEligible===false?'수급 대기·횟수 소진':'최대 '+coinText(Number(data.coinCap||0)/100000000)+'억';
+    if(gain){
+      notifyParent('legion-hunt-rewards-changed');clearTimeout(coinGainTimer);
+      $('hunt-coin-gain').textContent='+'+coinText(gain);coinHud.classList.remove('collected');void coinHud.offsetWidth;coinHud.classList.add('collected');
+      coinGainTimer=setTimeout(()=>coinHud.classList.remove('collected'),1600);
+    }
+  }
   const ownerMode=liveMode||new URLSearchParams(location.search).get('owner')==='1'||!['localhost','127.0.0.1'].includes(location.hostname);
   const ownerTransport=ownerMode?import('/js/joint-account-transport.mjs'):null;
   let ownerRequests=Promise.resolve();
@@ -41,7 +57,7 @@
         for(let attempt=0;;attempt++){
           try{return await transport.jointAccountRequest('legion-hunt/'+action,{method:'POST',body});}
           catch(error){
-            const retry=error.code==='JOINT_LOCK_BUSY'||action==='finish'&&(error.retryable||!error.status||error.status>=500||error.code==='HUNT_SESSION_CONFLICT');
+            const retry=error.code==='JOINT_LOCK_BUSY'||['finish','reveal'].includes(action)&&(error.retryable||!error.status||error.status>=500||error.code==='HUNT_SESSION_CONFLICT');
             if(!retry||attempt>=2)throw error;await new Promise(resolve=>setTimeout(resolve,300*(attempt+1)));
           }
         }
@@ -63,6 +79,7 @@
       await new Promise(resolve=>setTimeout(resolve,16));
       if(token!==epoch)return;
       const seqs=pendingReveals.splice(0,24),r=await request('reveal',{id,seqs});
+      if(token===epoch)showCoins(r);
       if(token!==epoch||!playing||finishing)return;
       if(r.inventory)inventory(r.inventory);
       const automatic=new Map((r.autoClaims||[]).map(receipt=>[receipt.dropId,{...receipt,inventory:r.inventory,picked:r.picked,pendingRewards:r.pendingRewards===true}]));
@@ -93,6 +110,7 @@
   async function prepare(reuse=false){
     const token=++epoch,oldSession=session,oldPayload=payload;clearInterval(finishTimer);clearInterval(clockTimer);finishTimer=null;playing=paused=ending=finishing=starting=failed=false;ack=kills=bosses=renderedAt=picked=0;reveals=Promise.resolve();pendingReveals=[];
     interruption(null);areaCasts.clear();clearTimeout(toastTimer);$('hunt-pickup-toast').classList.remove('show');$('hunt-pickup-toast').textContent='';
+    coinTotal=0;clearTimeout(coinGainTimer);coinHud.classList.remove('collected');coinHud.hidden=true;
     engine?.setHuntPaused(false);renderer?.destroy();api.destroy();engine=null;session=null;buttons();
     if(oldSession&&!reuse)await request('cancel',{id:oldSession}).catch(()=>{});
     $('hunt-kills').textContent=$('hunt-bosses').textContent=$('hunt-picked').textContent='0';$('hunt-boss-hud').hidden=true;
@@ -101,6 +119,7 @@
     const data=reuse&&oldSession&&oldPayload?{id:oldSession,payload:oldPayload,entries}:await request('start',{difficulty:liveMode?liveDifficulty:$('hunt-difficulty').value,...(ownerMode?{version:5,...(liveRegion?{regionId:liveRegion}:{})}:{party:$('hunt-party').value})});
     if(token!==epoch){void request('cancel',{id:data.id});return;}
     session=data.id;payload=data.payload;entries=data.entries||null;notifyParent('legion-hunt-session',{id:session});window.cnineCardCatalog=()=>payload.cards;
+    showCoins({...data,coinCap:data.coinCap||payload.huntPolicy.coinCap});
     if($('hunt-difficulty-label'))$('hunt-difficulty-label').textContent=payload.huntPolicy.name;
     if($('hunt-region-label'))$('hunt-region-label').textContent=payload.regionName||'잊혀진 섬';
     document.title=payload.title||'군단토벌';
@@ -145,7 +164,7 @@
     if(event.type==='LEGION_PATTERN'&&!caughtUp){$('hunt-objective').textContent=event.label||'보스 패턴 전개';toast(event.label||'보스 패턴 전개');}
     if(event.huntKill){
       $('hunt-kills').textContent=++kills;if(event.boss)$('hunt-bosses').textContent=++bosses;
-      if(ownerMode&&!payload.regionId&&!payload.huntPolicy.items?.some(item=>item.enabled!==false&&item.weight>0)){bossHud();return;}
+      if(ownerMode&&!payload.huntPolicy.coinCap&&!payload.regionId&&!payload.huntPolicy.items?.some(item=>item.enabled!==false&&item.weight>0)){bossHud();return;}
       queueDropReveal(event.seq);
     }
     if(!caughtUp&&event.type==='ENEMY_SPAWN'&&event.boss)toast(event.name+' 출현');
@@ -158,7 +177,7 @@
   async function start(){
     if(playing||starting||!engine)return;const token=epoch;starting=true;buttons();
     try{
-      const begun=await request('begin',{id:session});entries=begun.entries||entries;starting=false;playing=true;buttons();message(payload.pet?.magnet?'전투 중 · 자석 펫이 드랍 아이템을 자동으로 흡수합니다.':'전투 중 · 드랍 아이템을 놓치지 마세요.');
+      const begun=await request('begin',{id:session});showCoins(begun);entries=begun.entries||entries;starting=false;playing=true;buttons();message('몬스터 처치 코인은 자동 습득합니다. '+(payload.pet?.magnet?'자석 펫이 아이템도 자동으로 흡수합니다.':'아이템은 필드에서 직접 주워 주세요.'));
       await engine.initialArrival();if(token!==epoch||!playing)return;
       if(!engine.huntBackground)engine.startAccountBattleUnitSustainedFire();
       syncClock();
@@ -184,10 +203,13 @@
     message('전투가 종료되었습니다. 전리품을 정산하고 있습니다.');
     try{
       await reveals;const receipt=await request('finish',{id:session,seq:ack});playing=false;ending=false;entries=receipt.entries||entries;
+      showCoins(receipt);
       if(receipt.liveRewards)notifyParent('legion-hunt-rewards-changed');
       const labels={CLEAR:['사냥 클리어','제한 시간 안에 최종 보스를 처치했습니다.'],DEFEAT:['원정 실패','전력이 부족해 끝까지 돌파하지 못했습니다.'],TIME_LIMIT:['시간 초과','제한 시간이 종료되어 토벌을 마쳤습니다.'],RETREAT:['원정 철수','사냥을 중단했습니다. 획득한 전리품을 집계합니다.']};
       const [title,reason]=labels[receipt.reason];$('result-title').textContent=title;$('result-reason').textContent=reason;$('result-eyebrow').textContent=payload.huntPolicy.name+' · 원정 결과';
-      const note=$('hunt-result').querySelector('.review-note');if(note)note.textContent=receipt.liveRewards?'종료가 확정되어 획득한 전리품을 계정에 지급했습니다.':'TEST · 검수용 획득 기록입니다. 계정에는 보상이 지급되지 않습니다.';
+      const note=$('hunt-result').querySelector('.review-note');if(note)note.textContent=receipt.liveRewards?'코인은 사냥 중 이미 지급됐습니다. 주운 아이템은 종료 정산으로 지급했습니다.':'TEST · 검수용 획득 기록입니다. 계정에는 보상이 지급되지 않습니다.';
+      if(!$('result-coins')){const row=document.createElement('div');row.innerHTML='<dt>총 획득 코인</dt><dd id="result-coins"></dd>';$('hunt-result').querySelector('dl').prepend(row);}
+      $('result-coins').textContent=coinText(receipt.earnedCoins);
       $('result-kills').textContent=receipt.kills+'마리 · 보스 '+receipt.bosses+' / 1';
       $('hunt-again').disabled=entries?.remaining===0;$('hunt-again').textContent=entries?.remaining===0?'오늘 입장 횟수 소진':'같은 난이도 재도전';
       $('result-picked').textContent=receipt.picked+'개';$('result-missed').textContent=receipt.missed+'개';$('result-time').textContent=time(receipt.combatMs);
@@ -209,7 +231,7 @@
   window.addEventListener('pageshow',()=>background(document.hidden));
   window.addEventListener('pagehide',event=>{
     if(event.persisted){background(true);return;}
-    ++epoch;clearInterval(finishTimer);clearInterval(clockTimer);clearTimeout(toastTimer);engine?.setHuntPaused(false);api.destroy();
+    ++epoch;clearInterval(finishTimer);clearInterval(clockTimer);clearTimeout(toastTimer);clearTimeout(coinGainTimer);engine?.setHuntPaused(false);api.destroy();
   });
   window.HuntPreviewV2={diagnostics:()=>({playing,paused,ending,ack,kills,bosses,picked,renderedAt,session,canvasCount:document.querySelectorAll('canvas').length,engine:engine?.diagnostics()})};
   if(liveMode){

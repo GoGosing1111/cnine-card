@@ -38,6 +38,14 @@ if(process.env.LEGION_REVIEW_DROPS==='1'){
   const saved=await fixture.call('admin/legion-hunt',{policy:body.policy},{method:'PATCH'});
   if(saved.status!==200)throw Error(JSON.stringify(saved));
 }
+if(process.env.LEGION_REVIEW_COINS==='1'){
+  const {body}=await fixture.call('admin/legion-hunt');body.policy.mode='ON';
+  const saved=await fixture.call('admin/legion-hunt',{policy:body.policy},{method:'PATCH'});if(saved.status!==200)throw Error(JSON.stringify(saved));
+  const row=await fixture.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LEGION_REGIONS_KEY).first();
+  const regions=row?JSON.parse(row.value):legionRegionDefaults();regions.mode='OFF';
+  regions.difficulties.forEach(d=>{d.loot.eliteSetPercent=['inferno','calamity'].includes(d.id)?.001:0;d.loot.bossSetPercent=.001;d.loot.bossUniquePercent=.001;});
+  await fixture.DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind(LEGION_REGIONS_KEY,JSON.stringify(regions)).run();
+}
 fixture.deps.now=Date.now;
 fixture.deps.authenticate=async request=>request.headers.get('cookie')?.includes('hunt_review_role=USER')?fixture.player:fixture.owner;
 fixture.deps.json=(body,status=200)=>Response.json(body,{status});
@@ -60,7 +68,7 @@ const server=http.createServer(async(req,res)=>{
       const role=url.searchParams.get('role')==='USER'?'USER':'OWNER',cms=url.pathname==='/review/cms';
       const banner='<div style="padding:12px;color:#b9d7c7;background:#162724;font-size:13px">로컬 검수 · 실제 운영 API 핸들러 / 테스트 DB · <a href="/review/pve?role=OWNER">OWNER PVE</a> · <a href="/review/pve?role=USER">USER PVE</a> · <a href="/review/cms?role=OWNER">OWNER CMS</a></div>';
       const content=cms?'<link rel="stylesheet" href="/admin/admin-v945.css"><link rel="stylesheet" href="/admin/legion-hunt-admin-v1.css"><div class="layout"><aside><div class="logo">SOOP <b>GM</b></div><nav id="nav"></nav></aside><main><header><h1 id="pageTitle">CMS 검수</h1><b id="roleBadge">'+role+'</b></header><div id="cms"></div></main></div><script type="module" src="/admin/legion-hunt-admin-v1.mjs"></script>':
-        '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/pve-command-v2.css"><link rel="stylesheet" href="/css/legion-hunt-entry-v2.css">'+shell.battleView({role})+'<script type="module" src="/js/legion-hunt-entry-v1.mjs"></script>';
+        '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/pve-command-v2.css"><link rel="stylesheet" href="/css/legion-hunt-entry-v2.css"><link rel="stylesheet" href="/css/legion-hunt-coins-v1.css">'+shell.battleView({role})+'<script type="module" src="/js/legion-hunt-entry-v1.mjs"></script>';
       return send(res,'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>군단토벌 OWNER/CMS 검수</title><script>localStorage.setItem("cnine_battle_sound","OFF");</script></head><body>'+banner+content+'</body></html>',200,{'set-cookie':'hunt_review_role='+role+'; HttpOnly; SameSite=Strict; Path=/'});
     }
     if(!['GET','HEAD'].includes(req.method))return send(res,'Method not allowed',405);

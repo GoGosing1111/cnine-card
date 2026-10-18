@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-18",
+  "environment": "Local review fixture using actual legion API handlers, test database, PVE entry and live hunt renderer; no production player rewards used",
+  "visualApproval": "NOT_REQUESTED_OR_GRANTED; technical layout inspection only; user rejected separate gold plaque",
+  "desktop": {
+    "viewport": "1440x900",
+    "horizontalOverflow": false,
+    "newGoldPanel": false,
+    "coinBackground": "none",
+    "killCount": 92,
+    "earnedCoins": 140888208,
+    "cap": 1000000000,
+    "outcome": "RETREAT",
+    "resultMatchesHud": true
+  },
+  "mobile": {
+    "viewport": "390x844",
+    "lobbyHorizontalOverflow": false,
+    "battleHorizontalOverflow": false,
+    "cmsHorizontalOverflow": false,
+    "coinRow": "Existing readout typography with compact additional row",
+    "coinCapsTable": "Readable 3-column table"
+  },
+  "cms": {
+    "equipmentHeading": "용병장비",
+    "gearProbabilityInputs": 15,
+    "save": "OFF saved successfully in local test database",
+    "unchangedRates": true,
+    "coinCapsReadOnly": true
+  },
+  "evidence": "Browser DOM and native Chrome DevTools screenshot outputs were inspected. Screenshots were not copied into the repository."
+}

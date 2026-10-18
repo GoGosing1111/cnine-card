@@ -30,20 +30,20 @@ const count=async f=>Number((await f.DB.prepare('SELECT COALESCE(SUM(quantity),0
 
 for(const postgres of [false,true]){
   const dialect=postgres?'PostgreSQL':'SQLite';
-  test(dialect+': unfinished pickups never pay; lost recovery replies, repeated cancel and old finish cannot double-refund',async()=>{
+  test(dialect+': unfinished items never pay; already-paid coins consume the entry through recovery and repeated cancel',async()=>{
     const f=await fixture(postgres);try{
       const id=await start(f),claim=await pick(f,id);
       const run=await saved(f);run.daily.used=2;await write(f,run);
       assert.equal(await count(f),0);f.loseReply();assert.equal((await recover(f)).status,503);
-      const r=await recover(f);assert.equal(r.status,200);assert.equal(r.body.entries.used,1);
-      assert.equal((await saved(f)).interruption.refunded,true);assert.equal((await saved(f)).state.receipt,null);
-      assert.equal((await f.call('legion-hunt/cancel',{id})).body.entries.used,1);
+      const r=await recover(f);assert.equal(r.status,200);assert.equal(r.body.entries.used,2);
+      assert.equal((await saved(f)).interruption.refunded,false);assert.equal((await saved(f)).state.receipt,null);
+      assert.equal((await f.call('legion-hunt/cancel',{id})).body.entries.used,2);
       assert.equal((await f.call('legion-hunt/finish',{id,seq:2})).status,409);
       assert.equal((await f.call('legion-hunt/claim',claim)).status,409);assert.equal(await count(f),0);
-      const next=await start(f);assert.equal((await saved(f)).daily.used,2);
-      const replacement=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(replacement.status,200);assert.equal(replacement.body.entries.used,1);
+      const next=await start(f);assert.equal((await saved(f)).daily.used,3);
+      const replacement=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(replacement.status,200);assert.equal(replacement.body.entries.used,2);
       assert.equal((await f.call('legion-hunt/cancel',{id:next})).status,409);
-      assert.equal((await recover(f)).body.entries.used,1,'unbegun run never refunds a completed entry');
+      assert.equal((await recover(f)).body.entries.used,2,'unbegun run never refunds a completed entry');
     }finally{await f.close();}
   });
   test(dialect+': clear, defeat, timeout and explicit retreat pay the exact picked bag and consume one entry',async()=>{

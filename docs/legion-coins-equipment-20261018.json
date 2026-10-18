@@ -6,10 +6,10 @@
     "suite": "tests/legion-equipment-extreme-rare-20261018.test.mjs"
   },
   "coinIncome": {
-    "livePayoutImplemented": false,
-    "status": "DESIGN_ONLY",
-    "designRevision": 3,
-    "authorization": "기본 보상 전부 10배, 재앙은 지옥의 2배; 클리어 보상 대신 플레이 중 몬스터 처치마다 자연스럽게 코인 습득",
+    "livePayoutImplemented": true,
+    "status": "IMPLEMENTED_AWAITING_DEPLOY",
+    "designRevision": 4,
+    "authorization": "기본 보상 전부 10배, 재앙은 지옥의 2배; 클리어 보상 대신 플레이 중 몬스터 처치마다 자연스럽게 코인 습득; 판당 표 금액을 초과하지 않게 라이브 반영; CMS 용병장비 별도 명시",
     "baseMultiplier": 10,
     "calamityToInfernoRatio": 2,
     "targetRunCoins": {
@@ -20,7 +20,13 @@
         "inferno": 5000000000
       },
       "newRegions": {
-        "regionIds": ["coast", "desert", "theatre", "viscera", "sky"],
+        "regionIds": [
+          "coast",
+          "desert",
+          "theatre",
+          "viscera",
+          "sky"
+        ],
         "normal": 5000000000,
         "hard": 7000000000,
         "nightmare": 10000000000,
@@ -45,16 +51,60 @@
       "failureReductionEnabled": false,
       "minimumCombatSeconds": 0,
       "minimumKills": 1,
-      "maxBonusMultiplier": 2,
-      "integerRemainderPolicy": "FLOOR_CUMULATIVE_ENTITLEMENT_MINUS_PAID"
+      "maxBonusMultiplier": 1,
+      "integerRemainderPolicy": "FLOOR_CUMULATIVE_ENTITLEMENT_MINUS_PAID",
+      "capIncludesBonuses": true,
+      "refundEntryAfterPaidCoins": false
     },
     "referenceKillUnits": {
-      "island": {"normal": 653, "hard": 653, "nightmare": 689, "inferno": 725},
-      "coast": {"normal": 663, "hard": 663, "nightmare": 699, "inferno": 735, "calamity": 735},
-      "desert": {"normal": 661, "hard": 661, "nightmare": 697, "inferno": 733, "calamity": 733},
-      "theatre": {"normal": 661, "hard": 661, "nightmare": 697, "inferno": 733, "calamity": 733},
-      "viscera": {"normal": 663, "hard": 663, "nightmare": 699, "inferno": 735, "calamity": 735},
-      "sky": {"normal": 661, "hard": 661, "nightmare": 697, "inferno": 733, "calamity": 733}
+      "island": {
+        "normal": 653,
+        "hard": 653,
+        "nightmare": 689,
+        "inferno": 725
+      },
+      "coast": {
+        "normal": 663,
+        "hard": 663,
+        "nightmare": 699,
+        "inferno": 735,
+        "calamity": 735
+      },
+      "desert": {
+        "normal": 661,
+        "hard": 661,
+        "nightmare": 697,
+        "inferno": 733,
+        "calamity": 733
+      },
+      "theatre": {
+        "normal": 661,
+        "hard": 661,
+        "nightmare": 697,
+        "inferno": 733,
+        "calamity": 733
+      },
+      "viscera": {
+        "normal": 663,
+        "hard": 663,
+        "nightmare": 699,
+        "inferno": 735,
+        "calamity": 735
+      },
+      "sky": {
+        "normal": 661,
+        "hard": 661,
+        "nightmare": 697,
+        "inferno": 733,
+        "calamity": 733
+      }
+    },
+    "implementation": {
+      "policy": "shared/legion-hunt-coins-v1.mjs",
+      "server": "functions/_legion_hunt_coins.js",
+      "cms": "admin/legion-regions-admin-v1.mjs",
+      "ui": "Existing hunt HUD and information rows; generated gold plaque rejected and archived.",
+      "policyEditing": "Approved hard caps are read-only in CMS; existing operation switches remain authoritative."
     }
   },
   "application": {

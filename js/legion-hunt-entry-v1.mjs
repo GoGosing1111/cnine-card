@@ -62,10 +62,11 @@ export function openLegionHunt(button){
       <section class="legion-squad"><div class="legion-section-heading"><div><span>YOUR EXPEDITION</span><h2>출전 원정대</h2></div><button type="button" data-hunt-refresh>편성 새로고침 <span aria-hidden="true">↻</span></button></div>
         <p class="legion-account"></p><div class="legion-loadout"><div class="legion-cards" aria-label="저장된 일반 카드 5장"></div><div class="legion-mercenary" aria-label="용병 전용 슬롯"></div></div><p class="legion-equipment"></p>
       </section>
-      <section class="legion-region-loot" hidden aria-label="지역 전용 전리품"></section>
+      <section class="legion-region-loot" hidden aria-label="용병장비"></section>
       <aside class="legion-select"><div class="legion-section-heading"><div><span>SELECT DIFFICULTY</span><h2>난이도 선택</h2></div></div>
         <div class="legion-difficulties" role="group" aria-label="사냥 난이도"></div>
-        <div class="legion-conditions"><span>토벌 진행 <strong class="legion-limit"></strong></span><span>오늘 입장 <b class="legion-entries"></b></span></div>
+        <div class="legion-conditions"><span>토벌 진행 <strong class="legion-limit"></strong></span><span>오늘 입장 <b class="legion-entries"></b></span><span>판당 최대 코인 <strong data-hunt-coin-cap>—</strong></span></div>
+        <p class="legion-coin-note" data-hunt-coin-note>몬스터를 잡을 때마다 코인을 자동 습득합니다. 보너스를 포함한 상한입니다.</p>
         <div class="legion-drop-guide"><div class="legion-pickup-symbol" aria-hidden="true"><i></i><svg viewBox="0 0 32 40"><path d="M6 2v28l7-7 7 12 5-3-7-12h11z"/></svg></div><div><b>전리품은 직접 눌러 획득</b><p>필드에 나타난 아이템을<br>사라지기 전에 챙기세요.</p></div></div>
         <button class="legion-poster-link" data-hunt-poster type="button"><img src="${art}posters/legion-hunt-forgotten-island-v3.png" alt="군단토벌 공식 포스터"><span><small>군단토벌 · 잊혀진 섬</small><b>콘텐츠 소개 보기</b></span><span aria-hidden="true">↗</span></button>
         <footer class="legion-entry-footer"><p class="legion-entry-status" role="status" aria-live="polite">저장된 편성을 불러오는 중입니다.</p><button type="button" class="legion-enter" data-hunt-enter disabled>편성 불러오는 중</button><small data-hunt-reward-mode></small></footer>
@@ -102,16 +103,16 @@ export function openLegionHunt(button){
     find('.legion-region-loot').hidden=!region;
     if(region){
       const gear=expansion.equipment.filter(i=>i.regionId===region.id),d=choices.find(d=>d.id===state.difficulty),loot=d?.loot;
-      find('.legion-region-loot').innerHTML=`<div class="legion-section-heading"><div><span>REGION EXCLUSIVE</span><h2>${escape(region.setName)} 세트 & 고유 장비</h2></div><span class="legion-pve-tag">PVE 전용 효과</span></div><p class="legion-region-counter">${escape(region.counter)}</p><div class="legion-loot-grid">${gear.map(i=>`<figure class="${i.kind==='UNIQUE'?'unique':''}"><img src="${escape(imagePath(i.image))}" alt="${escape(i.name)}" loading="lazy"><figcaption><small>${i.kind==='UNIQUE'?'고유 장비':'용병 세트 장비'}</small><strong>${escape(i.name)}</strong><span>${escape(i.kind==='UNIQUE'?i.description:'기본 전투력 '+power(i.totalPower))}</span></figcaption></figure>`).join('')}</div><div class="legion-set-effects"><p><b>2세트</b> ${escape(equipmentEffectText(region.two))}</p><p><b>4세트</b> ${escape(equipmentEffectText(region.four))}</p></div><p class="legion-stone-guide">보스 처치 시 연마석 <b>${loot?.bossStones||0}개 확정</b> · 세트 ${loot?.bossSetPercent||0}% · 고유 ${loot?.bossUniquePercent||0}%<br><small>확정 연마석은 원정 가방에 바로 보관됩니다. 필드 장비는 직접 줍거나 자석 펫으로 수집하세요. 표시 확률은 기본값이며 운영 드랍 버프가 별도로 적용됩니다.</small></p>`;
+      find('.legion-region-loot').innerHTML=`<div class="legion-section-heading"><div><span>REGION EXCLUSIVE</span><h2>용병장비 · ${escape(region.setName)}</h2></div><span class="legion-pve-tag">PVE 전용 효과</span></div><p class="legion-region-counter">${escape(region.counter)}</p><div class="legion-loot-grid">${gear.map(i=>`<figure class="${i.kind==='UNIQUE'?'unique':''}"><img src="${escape(imagePath(i.image))}" alt="${escape(i.name)}" loading="lazy"><figcaption><small>${i.kind==='UNIQUE'?'용병 고유장비':'용병 세트장비'}</small><strong>${escape(i.name)}</strong><span>${escape(i.kind==='UNIQUE'?i.description:'기본 전투력 '+power(i.totalPower))}</span></figcaption></figure>`).join('')}</div><div class="legion-set-effects"><p><b>2세트</b> ${escape(equipmentEffectText(region.two))}</p><p><b>4세트</b> ${escape(equipmentEffectText(region.four))}</p></div><p class="legion-stone-guide">보스 처치 시 연마석 <b>${loot?.bossStones||0}개 확정</b> · 용병 세트장비 ${loot?.bossSetPercent||0}% · 용병 고유장비 ${loot?.bossUniquePercent||0}%<br><small>확정 연마석은 원정 가방에 바로 보관됩니다. 용병장비는 직접 줍거나 자석 펫으로 수집하세요. 표시 확률은 기본값이며 운영 드랍 버프가 별도로 적용됩니다.</small></p>`;
     }
     const unlimited=data?.entries?.unlimited===true,exhausted=!unlimited&&data?.entries?.remaining===0;
     find('[data-hunt-enter]').disabled=loading||!loadout||!!state.error||exhausted;
     find('[data-hunt-enter]').textContent=loading?'편성 불러오는 중':exhausted?'오늘 입장 횟수 소진':'토벌 입장';
     find('[data-hunt-refresh]').disabled=loading;
     const recoveryNotice=data?.recovery?.kind==='SETTLED'?'이전 원정의 전리품 정산을 완료했습니다.':data?.recovery?.refunded?'중단된 원정의 입장 1회를 복구했습니다.':'';
-    find('.legion-entry-status').textContent=state.error||recoveryNotice||(loading?'저장된 편성을 불러오는 중입니다.':unlimited?'OWNER 계정 · 입장 횟수 제한 없음':exhausted?'한국시간 자정에 입장 횟수가 초기화됩니다.':'결과 미확정 중단 시 입장 복구 · 매일 한국시간 자정 초기화');
+    find('.legion-entry-status').textContent=state.error||recoveryNotice||(loading?'저장된 편성을 불러오는 중입니다.':unlimited?'OWNER 계정 · 입장 횟수 제한 없음':exhausted?'한국시간 자정에 입장 횟수가 초기화됩니다.':'코인 수급 후 중단 시 횟수 사용 · 매일 한국시간 자정 초기화');
     find('.legion-entry-status').classList.toggle('error',!!state.error);
-    find('[data-hunt-reward-mode]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?'클리어·패배·철수 정산 시 획득 전리품 지급':data?.access?.mode==='TEST'||region&&expansion.mode==='TEST'?'TEST · 지정 참여자 검수 · 계정 보상 미지급':'';
+    find('[data-hunt-reward-mode]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?'코인은 사냥 중 자동 지급 · 아이템은 종료 정산':data?.access?.mode==='TEST'||region&&expansion.mode==='TEST'?'TEST · 지정 참여자 검수 · 계정 보상 미지급':'';
     find('.legion-account').textContent=loadout?loadout.accountNickname+' · 편성 전투력 '+power(Object.values(loadout.power).reduce((a,b)=>a+Number(b||0),0)):'';
     find('.legion-cards').innerHTML=(loadout?.cards||[]).map((card,i)=>`<figure data-card-id="${escape(card.id)}" data-grade="${escape(card.rarity||card.grade)}"><span class="legion-card-slot">0${i+1}</span><img src="${escape(imagePath(card.originalCardArt||card.sourceArt||card.image_url||card.image||'/assets/ui/brand/reverse-call-20261016/icon-512.png'))}" alt="${escape(card.title||card.name)}"><figcaption><small>${escape(card.rarity||card.grade)}</small><strong>${escape(card.title||card.name)}</strong></figcaption></figure>`).join('');
     const merc=loadout?.mercenary;
@@ -121,6 +122,9 @@ export function openLegionHunt(button){
     find('.legion-equipment').textContent=loadout?'장착 슈트 · '+(eq?.equippedBattleSuit?.name||eq?.equippedBattleSuit?.code||'없음')+' / 무기 · '+(eq?.equippedWeapon?.name||eq?.equippedWeapon?.code||'없음'):'';
     find('.legion-difficulties').innerHTML=choices.map((d,i)=>`<button type="button" data-hunt-difficulty="${escape(d.id)}" aria-pressed="${d.id===state.difficulty}"><span class="legion-difficulty-number">0${i+1}</span><span class="legion-difficulty-copy"><strong>${escape(d.name)}</strong><small>${escape(d.recommendation||d.description)}</small></span><span class="legion-threat-bars" aria-hidden="true">${choices.map((_,n)=>`<i class="${n<=i?'lit':''}"></i>`).join('')}</span><span class="legion-selection-dot" aria-hidden="true"></span></button>`).join('');
     const selected=choices.find(d=>d.id===state.difficulty);
+    const coinCap=data?.coinCaps?.[region?'regions':'island']?.[state.difficulty];
+    find('[data-hunt-coin-cap]').textContent=coinCap?power(coinCap)+' 코인':'—';
+    find('[data-hunt-coin-note]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?(data.coinEntries?.remaining===0?'오늘 코인 수급 횟수를 모두 사용했습니다.':'처치 즉시 자동 습득 · 보너스 포함 상한'):'TEST · 실제 코인은 지급되지 않습니다.';
     find('.legion-limit').textContent=selected?'보스전 포함 총 7분':'';
     if(selected)find('[data-hunt-boss-at]').textContent=Math.floor(selected.huntDurationMs/60000)+':'+String(selected.huntDurationMs/1000%60).padStart(2,'0')+' · 최종 보스';
     find('.legion-entries').textContent=unlimited?'무제한':data?.entries?data.entries.remaining+' / '+data.entries.limit+'회 남음':'';
@@ -129,7 +133,7 @@ export function openLegionHunt(button){
   };
   const controller=createHuntEntry({render,enter:()=>{
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
-    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20261013-seven-minutes1';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
+    frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20261018-coins-v1';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
   },dispose:()=>{clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus();}});
   const onMessage=event=>{
     if(event.origin!==location.origin||event.source!==frame?.contentWindow)return;
