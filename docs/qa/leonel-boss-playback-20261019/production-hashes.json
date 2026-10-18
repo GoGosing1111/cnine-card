@@ -1,0 +1,21 @@
+{
+  "verifiedAt": "2026-10-18T21:23:35.297Z",
+  "sourceCommit": "21e8f491136854f29280404e56fb42158fcfe0db",
+  "deployment": "https://8ba3dee7.cnine-card.pages.dev",
+  "records": [
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "localSha256": "02468b2f406498547f7a069483e5a3ca228a4c70259414a3c891a52da668a25c",
+      "productionSha256": "02468b2f406498547f7a069483e5a3ca228a4c70259414a3c891a52da668a25c",
+      "match": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "localSha256": "8074ea7dff2e250903ad9767b7ad983a7a2d9090b78e2eafb6ea8f0fba48af32",
+      "productionSha256": "8074ea7dff2e250903ad9767b7ad983a7a2d9090b78e2eafb6ea8f0fba48af32",
+      "match": true
+    }
+  ]
+}

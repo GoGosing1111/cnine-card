@@ -1,0 +1,163 @@
+{
+  "accountWrites": 0,
+  "productionAssets": true,
+  "serverBossSkills": [
+    "SAHYEON_SEAL",
+    "SAHYEON_CURSE",
+    "SAHYEON_ULTIMATE"
+  ],
+  "reports": [
+    {
+      "width": 390,
+      "interactive": true,
+      "result": true,
+      "elapsed": 13250.900000035763,
+      "pressureSeen": true,
+      "hpCalls": [
+        {
+          "id": "B:0:MONSTER:80",
+          "hp": 100
+        },
+        {
+          "id": "B:1:ESCORT:80:0",
+          "hp": 58.93631444313262
+        },
+        {
+          "id": "B:2:ESCORT:80:1",
+          "hp": 59.361727666273126
+        },
+        {
+          "id": "B:3:ESCORT:80:2",
+          "hp": 59.688097697756795
+        },
+        {
+          "id": "B:4:ESCORT:80:3",
+          "hp": 54
+        },
+        {
+          "id": "B:5:ESCORT:80:4",
+          "hp": 62.27070789059426
+        },
+        {
+          "id": "B:6:ESCORT:80:5",
+          "hp": 54
+        },
+        {
+          "id": "A:MERCENARY:V-978",
+          "hp": 100
+        },
+        {
+          "id": "A:0:CN-02D9DC1E8A8A4209",
+          "hp": 100
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "hp": 100
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "hp": 100
+        },
+        {
+          "id": "A:0:CN-02D9DC1E8A8A4209",
+          "hp": 100
+        },
+        {
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "hp": 100
+        },
+        {
+          "id": "A:2:CN-25F931CE393D474E",
+          "hp": 100
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "hp": 100
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "hp": 100
+        },
+        {
+          "id": "A:MERCENARY:V-978",
+          "hp": 100
+        },
+        {
+          "id": "A:0:CN-02D9DC1E8A8A4209",
+          "hp": 0
+        },
+        {
+          "id": "A:1:CN-0505936A0CBB4E59",
+          "hp": 0
+        },
+        {
+          "id": "A:2:CN-25F931CE393D474E",
+          "hp": 0
+        },
+        {
+          "id": "A:3:CN-23EB4B19986D4818",
+          "hp": 0
+        },
+        {
+          "id": "A:4:CN-519C181C18DF4B8E",
+          "hp": 0
+        },
+        {
+          "id": "A:MERCENARY:V-978",
+          "hp": 86.52288994317578
+        }
+      ],
+      "completed": [
+        "MERCENARY_LEONEL_AREA",
+        "APOCALYPSE_SKILL",
+        "APOCALYPSE_SKILL",
+        "APOCALYPSE_SKILL"
+      ],
+      "casts": [
+        {
+          "code": "SAHYEON_SEAL",
+          "kind": "seal",
+          "impacts": 1,
+          "targets": 4,
+          "damage": 0,
+          "duration": 2.2,
+          "authority": "SERVER_TIMELINE"
+        },
+        {
+          "code": "SAHYEON_CURSE",
+          "kind": "curse",
+          "impacts": 1,
+          "targets": 6,
+          "damage": 0,
+          "duration": 2.2,
+          "authority": "SERVER_TIMELINE"
+        },
+        {
+          "code": "SAHYEON_ULTIMATE",
+          "kind": "ultimate",
+          "impacts": 1,
+          "targets": 6,
+          "damage": 9477346,
+          "duration": 4.6,
+          "authority": "SERVER_TIMELINE"
+        }
+      ],
+      "last": {
+        "code": "V-978",
+        "eventType": "MERCENARY_LEONEL_AREA",
+        "mode": "ultimate",
+        "clockOwner": "V3_REGISTERED_GSAP",
+        "authoritative": true,
+        "damageApplications": 7,
+        "motionRate": 2,
+        "effectRate": 1,
+        "contactSeconds": 1.79,
+        "durationSeconds": 4.25
+      },
+      "activeBossFx": false,
+      "overflow": false,
+      "warnings": [],
+      "errors": []
+    }
+  ]
+}
