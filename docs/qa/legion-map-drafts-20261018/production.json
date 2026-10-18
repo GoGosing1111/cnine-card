@@ -1,0 +1,47 @@
+{
+  "verifiedAt": "2026-10-18T00:18:52.681Z",
+  "sourceCommit": "b57cd8a993b93dcbb418c6fb6a9281c313abff1c",
+  "deployment": "https://ba716ee0.cnine-card.pages.dev",
+  "origin": "https://cnine-card.pages.dev",
+  "apiRuntimeVersion": "02f90194-35ca-419d-9ced-3a85574b4a0f",
+  "schedulerVersion": "30227a9a-c961-4b78-b8c1-94b4cdde84f7",
+  "tests": {
+    "passed": 18,
+    "failed": 0
+  },
+  "health": 200,
+  "unauthenticatedCms": 401,
+  "files": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "e3b4742dfe4bd91f95f32aca5908f05f73f5fc83a70e9398d485dff4320bcd9c"
+    },
+    {
+      "file": "admin/legion-hunt-admin-v1.mjs",
+      "status": 200,
+      "sha256": "59348815d9692b176811aac669a6c3326e19574095d854244a57790a545d10ef"
+    },
+    {
+      "file": "admin/legion-regions-admin-v1.mjs",
+      "status": 200,
+      "sha256": "8c4028ec9338741e615a5d7b58234d79ed34d4ef824766b503ac68a80f161860"
+    },
+    {
+      "file": "admin/legion-region-drops-v1.mjs",
+      "status": 200,
+      "sha256": "265804ac841066b1af1a603c67d6df7f5c9ade0b13a9781a00349f0e3c2d7e73"
+    },
+    {
+      "file": "admin/legion-hunt-admin-v1.css",
+      "status": 200,
+      "sha256": "bad9d0460ffe1f4b26530bc98b0556037cbaa7a1e7405573875b41faa5ccde57"
+    },
+    {
+      "file": "assets/ui/legion-regions-v1/cms/frame-20261018.webp",
+      "status": 200,
+      "sha256": "a8d4158b948ef23855d1adcd7ed22c29733c44f2102863adf080f22f77435fc0"
+    }
+  ],
+  "deployLogSha256": "7475354d810ece7fce78cb93104735e64e8f196661d960ac8f2f0add6c824d6e"
+}
