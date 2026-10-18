@@ -1,0 +1,187 @@
+{
+  "sourceCommit": "6878b5305",
+  "receiptSummary": {
+    "status": "COMPLETED",
+    "operationKey": "ops:song-contest-rewards:20261019:v1",
+    "planHash": "be11e2a4b4a6022d9d63dbe8ab5449a08e09a2fbb7ba8009e10dcd2e5edba9d1",
+    "plan": {
+      "operationKey": "ops:song-contest-rewards:20261019:v1",
+      "dateKST": "2026-10-19",
+      "authorization": [
+        "쁴로리,혜정,씨나인택갓,쑤댕 3조코인 노래대회 참가상 지급",
+        "더듬이구 포함",
+        "나무늘봉순 SSS 헬리오스 지급 차감없이"
+      ],
+      "delivery": "DIRECT",
+      "amountEach": "3000000000000",
+      "totalCoin": "15000000000000",
+      "coinRecipients": [
+        {
+          "userId": "32",
+          "nickname": "쑤댕",
+          "role": "USER",
+          "identityHash": "6f19640848b1f89b32c7a4fd91d387eb0115345b9814aeebc5b3b968ec437eea"
+        },
+        {
+          "userId": "1195",
+          "nickname": "씨나인택갓",
+          "role": "USER",
+          "identityHash": "17850f115029985e3c4c5a7c59596074414292214549184a92d199ef4acc2c05"
+        },
+        {
+          "userId": "4391",
+          "nickname": "더듬이구",
+          "role": "USER",
+          "identityHash": "e3a5106d954725ea57feb9fc2b29e938fe43aed43dedb1843bcc9fa4c1cfbb89"
+        },
+        {
+          "userId": "4570",
+          "nickname": "혜정",
+          "role": "USER",
+          "identityHash": "cd1fb88a0043f82c8010dea62ccb8612558c3c1a588db75ec57c34a979fe1e12"
+        },
+        {
+          "userId": "4965",
+          "nickname": "쁴로리",
+          "role": "USER",
+          "identityHash": "8224a7fe004070bf9fd16c6e447ec8d55331168d0151a3ba38737e61d7eb6c0e"
+        }
+      ],
+      "mercenary": {
+        "userId": "5426",
+        "nickname": "나무늘봉순",
+        "role": "USER",
+        "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98",
+        "code": "V-999",
+        "name": "헬리오스",
+        "rank": "SSS",
+        "quantity": 1,
+        "permanent": true,
+        "automaticLoadout": false,
+        "cost": 0,
+        "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE"
+      }
+    },
+    "completedAt": "2026-10-18T15:39:06.262Z",
+    "adminId": "1",
+    "totalCoin": "15000000000000",
+    "coins": [
+      {
+        "userId": "32",
+        "nickname": "쑤댕",
+        "amount": "3000000000000",
+        "before": "965133623160",
+        "after": "3965133623160",
+        "coinLogId": "93150229"
+      },
+      {
+        "userId": "1195",
+        "nickname": "씨나인택갓",
+        "amount": "3000000000000",
+        "before": "1774422449164",
+        "after": "4774422449164",
+        "coinLogId": "93150230"
+      },
+      {
+        "userId": "4391",
+        "nickname": "더듬이구",
+        "amount": "3000000000000",
+        "before": "879087738598",
+        "after": "3879087738598",
+        "coinLogId": "93150231"
+      },
+      {
+        "userId": "4570",
+        "nickname": "혜정",
+        "amount": "3000000000000",
+        "before": "754994386695",
+        "after": "3754994386695",
+        "coinLogId": "93150232"
+      },
+      {
+        "userId": "4965",
+        "nickname": "쁴로리",
+        "amount": "3000000000000",
+        "before": "14911109397849",
+        "after": "17911109397849",
+        "coinLogId": "93150233"
+      }
+    ],
+    "mercenary": {
+      "userId": "5426",
+      "nickname": "나무늘봉순",
+      "role": "USER",
+      "identityHash": "69c6531bf6abf3c4ab04cfd6595ca6e3ca18c75f24dde6e32ce4ea1eb25cba98",
+      "code": "V-999",
+      "name": "헬리오스",
+      "rank": "SSS",
+      "quantity": 1,
+      "permanent": true,
+      "automaticLoadout": false,
+      "cost": 0,
+      "stockPolicy": "EXEMPT_NO_COUNTER_CHANGE",
+      "acquisitionId": "ops:song-contest-rewards:20261019:v1:5426:V-999",
+      "copiesBefore": 0,
+      "copiesAfter": 1,
+      "holdingBefore": null
+    },
+    "stockBefore": [
+      {
+        "code": "V-999",
+        "issued": 7,
+        "revision": 12,
+        "last_token": "ops:room-sponsor-rewards:20261018:v1",
+        "stock_limit": 8
+      }
+    ],
+    "stockAfter": [
+      {
+        "code": "V-999",
+        "issued": 7,
+        "revision": 12,
+        "last_token": "ops:room-sponsor-rewards:20261018:v1",
+        "stock_limit": 8
+      }
+    ],
+    "preserved": {
+      "nonCoinCurrency": true,
+      "mercenaryRecipientCoin": true,
+      "stockCounters": true,
+      "numberedIssues": true,
+      "packSettings": true,
+      "otherCards": true,
+      "loadout": true,
+      "inventory": true,
+      "levels": true,
+      "growth": true,
+      "accountSettings": true
+    },
+    "auditId": "48082",
+    "issueHistory": {
+      "beforeCount": 7,
+      "afterCount": 7,
+      "beforeSha256": "70f608b1a2a4ab1005121fbb8c3ceea01059260576e074ecf350b39012bb0fcb",
+      "afterSha256": "70f608b1a2a4ab1005121fbb8c3ceea01059260576e074ecf350b39012bb0fcb"
+    }
+  },
+  "verification": {
+    "operationKey": "ops:song-contest-rewards:20261019:v1",
+    "planHash": "be11e2a4b4a6022d9d63dbe8ab5449a08e09a2fbb7ba8009e10dcd2e5edba9d1",
+    "implementationHash": "b82b5e781406b8e6abca304fd5406dbc413fa1105f335a30e53b7ec4ca44becf",
+    "checkedAt": "2026-10-18T15:39:30.042Z",
+    "status": "VERIFIED",
+    "replayed": true,
+    "coinRecipients": 5,
+    "coinEach": "3000000000000",
+    "totalCoin": "15000000000000",
+    "coinLogRecords": 5,
+    "mercenaryRecipient": "나무늘봉순",
+    "code": "V-999",
+    "copiesGranted": 1,
+    "currentCopies": 1,
+    "stockChanged": false,
+    "limitedIssueRecords": 0,
+    "auditRecords": 1,
+    "duplicateOperationGrants": 0
+  }
+}
