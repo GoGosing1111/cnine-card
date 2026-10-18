@@ -1,0 +1,80 @@
+{
+  "results": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "previewNoMutation": true,
+      "declareAndRevoke": true,
+      "expiry": true,
+      "repeatMount": true,
+      "keyboard": true,
+      "overflow": false,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "previewNoMutation": true,
+      "declareAndRevoke": true,
+      "expiry": true,
+      "repeatMount": true,
+      "keyboard": true,
+      "overflow": false,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "actualApp": true,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "defaultBurningOffMartialHud": true,
+      "reRender": true,
+      "revoked": true,
+      "errors": []
+    },
+    {
+      "actualApp": true,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "defaultBurningOffMartialHud": true,
+      "reRender": true,
+      "revoked": true,
+      "errors": []
+    }
+  ],
+  "requests": [
+    {
+      "method": "GET"
+    },
+    {
+      "method": "PATCH"
+    },
+    {
+      "method": "GET"
+    },
+    {
+      "method": "PATCH"
+    },
+    {
+      "method": "GET"
+    },
+    {
+      "method": "PATCH"
+    },
+    {
+      "method": "GET"
+    },
+    {
+      "method": "PATCH"
+    }
+  ]
+}

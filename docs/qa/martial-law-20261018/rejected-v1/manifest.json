@@ -1,0 +1,98 @@
+{
+  "created": "2026-10-18",
+  "generationMode": "built-in image_gen",
+  "visualApproval": "pending user review; technical QA is not visual approval",
+  "promptFile": "prompts.json",
+  "packaging": "Unmodified PNG originals; WebP encoding and alpha-bounds atlas crops only. No repainting.",
+  "cropRegions": {
+    "panel": [
+      0,
+      0,
+      1774,
+      442
+    ],
+    "banner": [
+      0,
+      442,
+      1774,
+      626
+    ],
+    "button": [
+      0,
+      626,
+      1010,
+      887
+    ],
+    "badge": [
+      1040,
+      626,
+      1774,
+      887
+    ]
+  },
+  "assets": [
+    {
+      "file": "badge.webp",
+      "sha256": "320ef602e5d372da79a4ac52427b283bfa41d103dbd36c4ddfdf7433d16a17fb",
+      "size": [
+        658,
+        243
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "file": "banner.webp",
+      "sha256": "74847d7ed9521603fc4527370b308f8f4ff4cc1820ab53ad903c8e1df1edb46d",
+      "size": [
+        1758,
+        184
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "file": "button.webp",
+      "sha256": "b5f5b44e1273b874374efccc530144dfa804ba43726785ce287a356c5f5a4c02",
+      "size": [
+        957,
+        251
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "file": "illustration-source.png",
+      "sha256": "488e7b4eb7a2d4413ea18669fbc9a9ec2ae60fed48897339099b3e5b6a6e2e6b",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "illustration.webp",
+      "sha256": "b522e05515a26709abe660fe15e310b0358d50f9a18242576e65461486d5f2b3",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "panel.webp",
+      "sha256": "c54418e130d02959848c72b0a0ae75f9644f4d7cc1fbbdef81e0effadac0a7c9",
+      "size": [
+        1746,
+        442
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "file": "ui-source.png",
+      "sha256": "66150cded42c66fecea3501ca856f8e53e017d0b83ac4a438d12c5ec96b059d1",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA"
+    }
+  ]
+}

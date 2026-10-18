@@ -40,6 +40,8 @@ import {extendFurHighBreakthrough,furExtendedReady,furExtendedStepAvailable,FUR_
 import {forgeEquipmentBonuses,ensureForgeTransactionSchema} from '../_equipment_forge_transactions.js';
 import { resolveAvatarDropRate,withAvatarDropScope } from '../_avatar_drop.js';
 import { MIRACLE_BURNING_META_KEY,defaultMiracleBurningSettings,canManageMiracleBurning,miracleApocalypseConfig,handleMiracleBurningAdmin } from '../_miracle_burning.js';
+import {readMartialLaw,handleMartialLawAdmin} from '../_martial_law.js';
+import {composeMartialBurning,martialEnergyConfig,martialRecharge,martialSqlUtc} from '../../shared/martial-law-v1.mjs';
 import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 import { handleEvolution } from '../_evolution.js';
@@ -856,18 +858,22 @@ function isDrawCoinGuardError(error){
   const message=String(error?.message||error||'').toLowerCase();
   return message.includes('draw_count')&&(message.includes('not null')||message.includes('null value'));
 }
-async function burningEventSettings(env,{fresh=false}={}){return (await burningEventPair(env,{fresh})).active;}
+async function burningEventSettings(env,{fresh=false}={}){const [pair,martial]=await Promise.all([burningEventPair(env,{fresh}),readMartialLaw(env,{fresh})]);return composeMartialBurning(pair.active,martial);}
 // PERF-0919: 카드뽑기 응답의 burningEvent 는 표시용이며 클라이언트 뽑기 흐름이 읽지 않는다(가격·지급 무관).
 //   이 isolate 에 이미 읽어 둔 값이 있을 때만 싣고, 뽑기 때문에 app_meta 를 다시 읽지 않는다.
 function cachedBurningEventSettings(){
   if(!burningEventCache||Date.now()-burningEventCache.at>=BURNING_EVENT_CACHE_MS)return null;
   return cleanBurningEventPair(burningEventCache.value).active;
 }
-function burningPublicState(settings){return {mode:settings.enabled===true?String(settings.mode||'BURNING').toUpperCase():'NONE',theme:String(settings.theme||'RED').toUpperCase(),enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,updatedAt:settings.updatedAt||null,endsAt:settings.endsAt||null,durationMinutes:runtimeBurningDurationMinutes(settings.durationMinutes),title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},apocalypse:settings.mode==='MIRACLE'?{maxEnergy:10,rechargeMinutes:5}:null,dropIncreasePercent:settings.mode==='MIRACLE'?30:0,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:settings.battleRewardMultiplier};}
-function applyBurningPveSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningRewardMultiplier:Number(burning.battleRewardMultiplier||1),__burningActivatedAt:burning.activatedAt||null,__burningMode:String(burning.mode||'BURNING'),energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pveMaxEnergy,dailyRestore:burning.pveMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
-function applyBurningPvpSettings(settings,burning){return settings;} // Ranked energy never receives burning capacity, recharge or refill bonuses.
+function burningPublicState(settings){return {mode:settings.enabled===true?String(settings.mode||'BURNING').toUpperCase():'NONE',theme:String(settings.theme||'RED').toUpperCase(),enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,updatedAt:settings.updatedAt||null,endsAt:settings.endsAt||null,durationMinutes:runtimeBurningDurationMinutes(settings.durationMinutes),title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},apocalypse:settings.mode==='MIRACLE'?{maxEnergy:10,rechargeMinutes:5}:null,dropIncreasePercent:settings.mode==='MIRACLE'?30:0,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:settings.battleRewardMultiplier,...(settings.martialLaw?{martialLaw:settings.martialLaw,effectiveBattleRewardMultiplier:settings.effectiveBattleRewardMultiplier}:{})};}
+function applyBurningPveSettings(settings,burning){
+  let next=burning?.enabled?{...settings,__burningRewardMultiplier:Number(burning.battleRewardMultiplier||1),__burningActivatedAt:burning.activatedAt||null,__burningMode:String(burning.mode||'BURNING'),energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pveMaxEnergy,dailyRestore:burning.pveMaxEnergy,rechargeMinutes:burning.rechargeMinutes}}:settings;
+  if(burning?.__martialLaw?.windows?.length)next={...next,__burningRewardMultiplier:burning.effectiveBattleRewardMultiplier,energy:martialEnergyConfig(next.energy||defaultBattleSettings().energy,burning.__martialLaw)};
+  return next;
+}
+function applyBurningPvpSettings(settings,burning){return burning?.__martialLaw?.windows?.length?{...settings,energy:martialEnergyConfig(settings.energy||defaultPvpSettings().energy,burning.__martialLaw)}:settings;} // Ranked receives only the martial-law delay, never positive Burning energy bonuses.
 function burningDiscountPrice(price,burning){return Math.max(0,Math.floor(Number(price)||0));}
-function burningRewardAmount(amount,burning){const base=Math.max(0,Math.floor(Number(amount)||0));return burning?.enabled?Math.max(0,Math.floor(base*Number(burning.battleRewardMultiplier||1))):base;}
+function burningRewardAmount(amount,burning){const base=Math.max(0,Math.floor(Number(amount)||0));return Math.max(0,Math.floor(base*Number(burning?.effectiveBattleRewardMultiplier??(burning?.enabled?burning.battleRewardMultiplier||1:1))));}
 function chiefBurningEndsAt(startAt,durationMinutes){const startMs=Date.parse(String(startAt||'')),minutes=Number(durationMinutes);if(!Number.isFinite(startMs)||!Number.isInteger(minutes)||minutes<1||minutes>1440)throw new TypeError('족장 버닝 고정 시간이 올바르지 않습니다.');return new Date(startMs+minutes*60000).toISOString();}
 async function activateChiefBurningEvent(env,{type='BURNING',chiefUserId,appointmentId}={}){
   const mode=String(type||'BURNING').toUpperCase()==='HYPER'?'HYPER':'BURNING',isHyper=mode==='HYPER';
@@ -1637,12 +1643,14 @@ async function battleEnergyState(env,user,settings,maintenanceOverride=null){
   let energy=Math.max(0,Math.min(cfg.maxEnergy,Number(row.energy||0))),last=utcMs(row.last_recharged_at),resetDate=String(row.last_daily_reset_date||'');
   const burningActivated=Date.parse(String(settings.__burningActivatedAt||''));if(Number.isFinite(burningActivated)&&last<burningActivated){energy=cfg.maxEnergy;last=now;resetDate=today;}
   if(resetDate!==today){energy=Math.min(cfg.maxEnergy,cfg.dailyRestore);last=now;resetDate=today;}
-  if(energy<cfg.maxEnergy){const interval=cfg.rechargeMinutes*60000,gained=Math.floor((now-last)/interval);if(gained>0){energy=Math.min(cfg.maxEnergy,energy+gained);last=energy>=cfg.maxEnergy?now:last+gained*interval;}}
-  const nextLastSql=new Date(last).toISOString().replace('T',' ').slice(0,19);
+  const martialCharge=cfg.__martialLaw?martialRecharge(energy,last,cfg,now):null;
+  if(martialCharge){energy=martialCharge.energy;last=martialCharge.last;}
+  else if(energy<cfg.maxEnergy){const interval=cfg.rechargeMinutes*60000,gained=Math.floor((now-last)/interval);if(gained>0){energy=Math.min(cfg.maxEnergy,energy+gained);last=energy>=cfg.maxEnergy?now:last+gained*interval;}}
+  const nextLastSql=martialCharge?martialSqlUtc(last):new Date(last).toISOString().replace('T',' ').slice(0,19);
   if(energy!==Number(row.energy||0)||nextLastSql!==String(row.last_recharged_at||'')||resetDate!==String(row.last_daily_reset_date||'')){
     await env.DB.prepare('UPDATE user_battle_energy SET energy=?,last_recharged_at=?,last_daily_reset_date=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND (energy<>? OR last_recharged_at<>? OR last_daily_reset_date<>?)').bind(energy,nextLastSql,resetDate,user.id,energy,nextLastSql,resetDate).run();
   }
-  const nextRechargeAt=energy>=cfg.maxEnergy?null:new Date(last+cfg.rechargeMinutes*60000).toISOString();
+  const nextRechargeAt=martialCharge?martialCharge.nextRechargeAt:energy>=cfg.maxEnergy?null:new Date(last+cfg.rechargeMinutes*60000).toISOString();
   return {enabled:true,unlimited:false,energy,maxEnergy:cfg.maxEnergy,costPerBattle:cfg.costPerBattle,rechargeMinutes:cfg.rechargeMinutes,nextRechargeAt,dailyResetAt:`${today} 00:00 KST`};
 }
 async function consumeBattleEnergy(env,user,settings){
@@ -1698,7 +1706,7 @@ function ensureApocalypseEnergyFoundation(env){
 function unavailableApocalypseEnergyState(){return {mode:'APOCALYPSE',enabled:true,unlimited:false,unavailable:true,energy:0,maxEnergy:APOCALYPSE_ENERGY_CONFIG.maxEnergy,costPerBattle:APOCALYPSE_ENERGY_CONFIG.costPerBattle,rechargeMinutes:APOCALYPSE_ENERGY_CONFIG.rechargeMinutes,nextRechargeAt:null}}
 async function apocalypseEnergyState(env,user,maintenanceOverride=null){
   await ensureApocalypseEnergyFoundation(env);
-  const cfg=miracleApocalypseConfig(APOCALYPSE_ENERGY_CONFIG,await burningEventSettings(env)),maintenance=maintenanceOverride||await maintenanceSettings(env);
+  const burning=await burningEventSettings(env),baseCfg=miracleApocalypseConfig(APOCALYPSE_ENERGY_CONFIG,burning),cfg=burning?.__martialLaw?.windows?.length?martialEnergyConfig(baseCfg,burning.__martialLaw):baseCfg,maintenance=maintenanceOverride||await maintenanceSettings(env);
   const unlimited=!cfg.enabled||(maintenance?.active===true&&((cfg.adminUnlimited&&isAdminRole(user))||(cfg.testUnlimited&&canUseTestAccess(user,maintenance))));
   if(unlimited)return {mode:'APOCALYPSE',enabled:true,unlimited:true,energy:cfg.maxEnergy,maxEnergy:cfg.maxEnergy,costPerBattle:cfg.costPerBattle,rechargeMinutes:cfg.rechargeMinutes,burningMode:cfg.burningMode,burningEndsAt:cfg.burningEndsAt,nextRechargeAt:null};
   const now=Date.now(),nowSql=sqlUtcNow();
@@ -1706,10 +1714,12 @@ async function apocalypseEnergyState(env,user,maintenanceOverride=null){
   if(!row){await env.DB.prepare('INSERT OR IGNORE INTO user_apocalypse_energy(user_id,energy,last_recharged_at,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP)').bind(user.id,cfg.maxEnergy,nowSql).run();row=await env.DB.prepare('SELECT * FROM user_apocalypse_energy WHERE user_id=?').bind(user.id).first();}
   let energy=Math.max(0,Math.min(cfg.maxEnergy,Number(row?.energy||0))),last=utcMs(row?.last_recharged_at);
   const activated=Math.floor(Date.parse(String(cfg.burningActivatedAt||''))/1000)*1000;if(Number.isFinite(activated)&&last<activated){energy=cfg.maxEnergy;last=now;}
-  if(energy<cfg.maxEnergy){const interval=cfg.rechargeMinutes*60000,gained=Math.floor((now-last)/interval);if(gained>0){energy=Math.min(cfg.maxEnergy,energy+gained);last=energy>=cfg.maxEnergy?now:last+gained*interval;}}
-  const nextLastSql=new Date(last).toISOString().replace('T',' ').slice(0,19);
+  const martialCharge=cfg.__martialLaw?martialRecharge(energy,last,cfg,now):null;
+  if(martialCharge){energy=martialCharge.energy;last=martialCharge.last;}
+  else if(energy<cfg.maxEnergy){const interval=cfg.rechargeMinutes*60000,gained=Math.floor((now-last)/interval);if(gained>0){energy=Math.min(cfg.maxEnergy,energy+gained);last=energy>=cfg.maxEnergy?now:last+gained*interval;}}
+  const nextLastSql=martialCharge?martialSqlUtc(last):new Date(last).toISOString().replace('T',' ').slice(0,19);
   if(energy!==Number(row?.energy||0)||nextLastSql!==String(row?.last_recharged_at||''))await env.DB.prepare('UPDATE user_apocalypse_energy SET energy=?,last_recharged_at=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND (energy<>? OR last_recharged_at<>?)').bind(energy,nextLastSql,user.id,energy,nextLastSql).run();
-  return {mode:'APOCALYPSE',enabled:true,unlimited:false,energy,maxEnergy:cfg.maxEnergy,costPerBattle:cfg.costPerBattle,rechargeMinutes:cfg.rechargeMinutes,burningMode:cfg.burningMode,burningEndsAt:cfg.burningEndsAt,nextRechargeAt:energy>=cfg.maxEnergy?null:new Date(last+cfg.rechargeMinutes*60000).toISOString()};
+  return {mode:'APOCALYPSE',enabled:true,unlimited:false,energy,maxEnergy:cfg.maxEnergy,costPerBattle:cfg.costPerBattle,rechargeMinutes:cfg.rechargeMinutes,burningMode:cfg.burningMode,burningEndsAt:cfg.burningEndsAt,martialLawEndsAt:burning.martialLaw?.enabled?burning.martialLaw.endsAt:null,nextRechargeAt:martialCharge?martialCharge.nextRechargeAt:energy>=cfg.maxEnergy?null:new Date(last+cfg.rechargeMinutes*60000).toISOString()};
 }
 async function consumeApocalypseEnergy(env,user,maintenanceOverride=null){
   const state=await apocalypseEnergyState(env,user,maintenanceOverride);if(state.unlimited)return state;
@@ -8438,9 +8448,10 @@ async function handleRequest(context){
 
     if(path==='burning-event/status'){
       const forceFresh=new URL(request.url).searchParams.get('fresh')==='1';
-      const pair=await burningEventPair(env,{fresh:forceFresh});
-      return json({burningEvent:burningPublicState(pair.active),serverNow:new Date().toISOString()});
+      const active=await burningEventSettings(env,{fresh:forceFresh});
+      return json({burningEvent:burningPublicState(active),serverNow:new Date().toISOString()});
     }
+    if(path==='admin/martial-law')return handleMartialLawAdmin({request,env,deps:{authenticate,json,readBody}});
     if(path==='admin/miracle-burning-event')return handleMiracleBurningAdmin({request,env,deps:{authenticate,json,readBody,burningEventPair,burningPublicState,cleanBurningEventSettings,writeAdminLog,invalidate:()=>{burningEventCache=null;invalidateEquipmentPromotionCache()}}});
     if(path==='admin/burning-event'||path==='admin/hyper-burning-event'){
       const admin=await authenticate(request,env);if(!admin)return json({error:'관리자 로그인이 필요합니다.'},401);

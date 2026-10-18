@@ -1,0 +1,101 @@
+{
+  "created": "2026-10-18",
+  "repositoryOnly": ["illustration-source.png", "ui-source.png", "prompts.json"],
+  "generationMode": "built-in image_gen",
+  "visualApproval": "pending user review; technical QA is not visual approval",
+  "promptFile": "prompts.json",
+  "packaging": "Unmodified PNG originals; WebP encoding and alpha-bounds atlas crops only. No repainting.",
+  "cropRegions": {
+    "panel": [
+      0,
+      0,
+      1774,
+      420
+    ],
+    "banner": [
+      0,
+      420,
+      1774,
+      605
+    ],
+    "button": [
+      0,
+      605,
+      1080,
+      887
+    ],
+    "badge": [
+      1090,
+      605,
+      1774,
+      887
+    ]
+  },
+  "assets": [
+    {
+      "file": "badge.webp",
+      "sha256": "6c3739d6cdc10e5416f23b282fdbd4149e488011c761a80060b19d5e00270def",
+      "size": [
+        656,
+        237
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "file": "banner.webp",
+      "sha256": "a5370e719472a599f355b570bfe4f001a9262f276ff61df0c13d777dbcbc3b8d",
+      "size": [
+        1756,
+        185
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "file": "button.webp",
+      "sha256": "a8012ac0f865bb99770c6df8c16880ecf8e128ffb752ee1cee2ccebf2f737c60",
+      "size": [
+        1071,
+        264
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "file": "illustration-source.png",
+      "sha256": "488e7b4eb7a2d4413ea18669fbc9a9ec2ae60fed48897339099b3e5b6a6e2e6b",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "illustration.webp",
+      "sha256": "b522e05515a26709abe660fe15e310b0358d50f9a18242576e65461486d5f2b3",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "panel.webp",
+      "sha256": "9a4fb706a2bf79e169bc37b3fc6e6023c58f566715c867e7c45bd55995a03ea7",
+      "size": [
+        1760,
+        417
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "file": "ui-source.png",
+      "sha256": "d5acb09b18a8e0f72b40b5d9134d70c4431a5106c23085cc8b295064166e2323",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA"
+    }
+  ],
+  "uiRevision": 2,
+  "rejectedUiV1": "docs/qa/martial-law-20261018/rejected-v1/ui-source.png"
+}

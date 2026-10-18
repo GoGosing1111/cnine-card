@@ -1,3 +1,4 @@
+import {martialRecharge,martialSqlUtc} from './martial-law-v1.mjs';
 export const RANKED_REFORM_VERSION='20261002';
 export const rankedUtcMs=value=>Date.parse(/[zZ]|[+-]\d\d:\d\d$/.test(String(value||''))?value:String(value||'').replace(' ','T')+'Z');
 export const rankedSqlUtc=ms=>new Date(ms).toISOString().replace('T',' ').slice(0,19);
@@ -27,6 +28,7 @@ export function rankedEnergyFromRow(row,cfg,now=Date.now()){
  const maxEnergy=Number(cfg.maxEnergy),costPerBattle=Number(cfg.costPerBattle),interval=Number(cfg.rechargeMinutes)*60000;
  let energy=Math.max(0,Math.min(maxEnergy,Number(row.energy))),last=rankedUtcMs(row.last_recharged_at);
  if(!Number.isFinite(last)||last>now)last=now;
+ if(cfg.__martialLaw){const charge=martialRecharge(energy,last,cfg,now);return {enabled:true,unlimited:false,energy:charge.energy,maxEnergy,costPerBattle,rechargeMinutes:Number(cfg.rechargeMinutes),nextRechargeAt:charge.nextRechargeAt,lastRechargedAt:martialSqlUtc(charge.last)};}
  if(energy<maxEnergy){const gained=Math.max(0,Math.floor((now-last)/interval));if(gained){energy=Math.min(maxEnergy,energy+gained);last=energy===maxEnergy?now:last+gained*interval;}}
  return {enabled:true,unlimited:false,energy,maxEnergy,costPerBattle,rechargeMinutes:Number(cfg.rechargeMinutes),nextRechargeAt:energy>=maxEnergy?null:new Date(last+interval).toISOString(),lastRechargedAt:rankedSqlUtc(last)};
 }

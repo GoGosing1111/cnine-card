@@ -121,7 +121,8 @@ function burningRemainingMs(state=burningEventState){const end=Date.parse(String
 function burningEventIsActive(state=burningEventState){return state?.enabled===true&&Number.isFinite(burningRemainingMs(state))&&burningRemainingMs(state)>0}
 function burningMode(){return burningEventIsActive()?String(burningEventState.mode||'BURNING').toUpperCase():'NONE'}
 function burningEventNumbers(){
-  return{pve:Math.max(0,Number(burningEventState.pve?.maxEnergy||0)),pvp:Math.max(0,Number(burningEventState.pvp?.maxEnergy||0)),minutes:Math.max(0,Number(burningEventState.pve?.rechargeMinutes||0)),coins:Math.max(1,Number(burningEventState.battleRewardMultiplier||1))};
+  const martial=burningEventState.martialLaw?.enabled&&Date.parse(burningEventState.martialLaw.endsAt)>burningClientNow();
+  return{pve:Math.max(0,Number(burningEventState.pve?.maxEnergy||0)),pvp:Math.max(0,Number(burningEventState.pvp?.maxEnergy||0)),minutes:Math.max(0,Number(burningEventState.pve?.rechargeMinutes||0))*(martial?3:1),coins:Math.max(1,Number(burningEventState.battleRewardMultiplier||1))*(martial?0.9:1)};
 }
 function burningMultiplierText(value){const number=Number(value||1);return Number.isInteger(number)?String(number):number.toFixed(2).replace(/0+$/,'').replace(/\.$/,'')}
 function burningRemainingText(){
@@ -146,6 +147,7 @@ function syncBurningCountdownUi(){
 }
 function startBurningCountdownWatch(){stopBurningCountdownWatch();syncBurningCountdownUi();if(burningEventIsActive()&&!document.hidden)burningCountdownTimer=setInterval(syncBurningCountdownUi,1000)}
 function ensureBurningEventHudVisible(){
+  window.CNineMartialLaw?.mount({visible:runtimeCommandContext==='buy'});
   const page=document.querySelector('.page');
   if(!page)return;
   page.querySelectorAll('.burning-event-strip').forEach(node=>node.remove());
@@ -171,6 +173,7 @@ function syncBurningEventVisibleUi(){
   const y=window.scrollY;renderShell('buy');requestAnimationFrame(()=>{window.scrollTo(0,y);ensureBurningEventHudVisible()});
 }
 function applyBurningEventState(next={},options={}){
+  if(next.martialLaw){window.CNineMartialLaw?.apply(next.martialLaw,{announce:options.announce!==false,now:burningClientNow()});window.CNineMartialLaw?.mount({visible:runtimeCommandContext==='buy'});}
   const before=burningEventFingerprint(burningEventState),currentUpdated=Date.parse(String(burningEventState.updatedAt||burningEventState.activatedAt||''))||0,incomingUpdated=Date.parse(String(next.updatedAt||next.activatedAt||''))||0;
   if(currentUpdated&&(!incomingUpdated||incomingUpdated<currentUpdated)){
     PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0);return {...pack,originalPrice:original,price:original,burningDiscountPercent:0}});
@@ -1353,6 +1356,7 @@ function renderShell(tab,routeOptions={}) {
   if(tab!=='prediction'&&typeof window.stopCoinPredictionView==='function')window.stopCoinPredictionView();
   if(tab!=='soopketland')window.stopSoopketLandView?.();
   runtimeCommandContext=tab;
+  queueMicrotask(()=>window.CNineMartialLaw?.mount({visible:tab==='buy'}));
   document.body.dataset.contentScope=['battle','scrapyard'].includes(tab)?'pve':['pvp','duo','rank','clan','jokgakCity'].includes(tab)?'pvp':['dex','upgrade','evolution','iconfusion','magic'].includes(tab)?'collection':['character','workshop','alchemy','avatar'].includes(tab)?'growth':['buy'].includes(tab)?'store':'system';
   const burningPageActive=burningEventState.enabled===true,burningPageMode=burningMode();
   document.documentElement.classList.toggle('burning-event-active',burningPageActive&&burningPageMode==='BURNING');
@@ -1867,7 +1871,7 @@ function requestPveFight(payload,config={}){
 function pveResolvedMonsterTab(monster){const raw=String(monster?.pveTab||monster?.category||(monster?.isBoss?'HELL':'NORMAL')).toUpperCase();return ({GENERAL:'NORMAL',ELITE:'HARD',BOSS:'HELL',EVENT:'HELL'})[raw]||raw}
 function selectedPveMonster(){return (battleState.monsters||[]).find(monster=>Number(monster.id)===Number(battleState.selectedMonster))||null}
 function selectedPveIsApocalypse(){const selected=selectedPveMonster();if(selected)return pveResolvedMonsterTab(selected)==='APOCALYPSE';const saved=pveMonsterFilterState();return String(saved.tab||'').toUpperCase()==='APOCALYPSE'}
-function normalizeApocalypseEnergyClient(state){if(!state||typeof state!=='object')return null;const miracle=state.burningMode==='MIRACLE'&&Date.parse(String(state.burningEndsAt||''))>burningClientNow(),maxEnergy=miracle?10:APOCALYPSE_ENERGY_MAX,rechargeMinutes=miracle?5:APOCALYPSE_ENERGY_RECHARGE_MINUTES,unlimited=state.unlimited===true,raw=Number(state.energy),energy=unlimited?maxEnergy:Math.max(0,Math.min(maxEnergy,Number.isFinite(raw)?Math.floor(raw):0));return {...state,mode:'APOCALYPSE',burningMode:miracle?'MIRACLE':'NONE',energy,maxEnergy,costPerBattle:1,rechargeMinutes}}
+function normalizeApocalypseEnergyClient(state){if(!state||typeof state!=='object')return null;const miracle=state.burningMode==='MIRACLE'&&Date.parse(String(state.burningEndsAt||''))>burningClientNow(),maxEnergy=miracle?10:APOCALYPSE_ENERGY_MAX,rechargeMinutes=(miracle?5:APOCALYPSE_ENERGY_RECHARGE_MINUTES)*(Date.parse(String(state.martialLawEndsAt||''))>burningClientNow()?3:1),unlimited=state.unlimited===true,raw=Number(state.energy),energy=unlimited?maxEnergy:Math.max(0,Math.min(maxEnergy,Number.isFinite(raw)?Math.floor(raw):0));return {...state,mode:'APOCALYPSE',burningMode:miracle?'MIRACLE':'NONE',energy,maxEnergy,costPerBattle:1,rechargeMinutes}}
 function activeBattleEnergy(){return selectedPveIsApocalypse()?(normalizeApocalypseEnergyClient(battleState.apocalypseEnergy)||{mode:'APOCALYPSE',unavailable:true,energy:0,maxEnergy:APOCALYPSE_ENERGY_MAX,costPerBattle:1,rechargeMinutes:APOCALYPSE_ENERGY_RECHARGE_MINUTES,nextRechargeAt:null}):battleState.energy}
 function applyPveEnergyResponse(data={}){if(String(data.energyKind||'').toUpperCase()==='APOCALYPSE')battleState.apocalypseEnergy=normalizeApocalypseEnergyClient(data.energy)||battleState.apocalypseEnergy;else battleState.energy=data.energy||battleState.energy;return activeBattleEnergy()}
 function renderBattleEnergy(){const apocalypse=selectedPveIsApocalypse(),e=activeBattleEnergy(),count=document.getElementById('battleEnergyCount'),fill=document.getElementById('battleEnergyFill'),timer=document.getElementById('battleEnergyTimer'),label=document.getElementById('battleEnergyLabel'),card=document.getElementById('battleEnergyCard');if(label)label.textContent=apocalypse?'아포칼립스 행동력':'⚔ 전투 횟수';if(card){card.classList.toggle('apocalypse-energy',apocalypse);card.dataset.energyKind=apocalypse?'APOCALYPSE':'STANDARD'}if(!e||!count)return;const start=document.getElementById('battleStart');if(e.unavailable){count.textContent='연결 확인 중';if(fill)fill.style.width='0%';if(timer)timer.textContent='아포칼립스 행동력 동기화 대기';if(start){start.disabled=true;start.textContent='아포칼립스 행동력 확인 중'}return}count.textContent=e.unlimited?'∞ 무제한':`${e.energy} / ${e.maxEnergy}`;if(fill)fill.style.width=`${e.unlimited?100:Math.max(0,Math.min(100,e.energy/e.maxEnergy*100))}%`;if(timer){if(e.unlimited)timer.textContent=apocalypse?(e.burningMode==='MIRACLE'?'미라클 버닝 · 무제한 계정':'일반 행동력 · 무제한 계정'):'무제한 적용';else if(e.energy>=e.maxEnergy)timer.textContent=apocalypse?(e.burningMode==='MIRACLE'?'미라클 버닝 · 최대 10회 · 충전 완료':'버닝 미적용 · 최대 5회 · 충전 완료'):'충전 완료';else if(e.nextRechargeAt){const remain=Date.parse(e.nextRechargeAt)-(Date.now()+battleState.serverOffset);timer.textContent=remain<=0?'충전 갱신 중...':`${apocalypse?(e.burningMode==='MIRACLE'?'미라클 버닝 · 5분 충전 · ':'버닝 미적용 · 30분 충전 · '):''}다음 충전 ${battleEnergyText(remain)}`;}else timer.textContent=apocalypse?(e.burningMode==='MIRACLE'?'미라클 버닝 · 충전 대기':'버닝 미적용 · 충전 대기'):'충전 대기';}if(start){const noEnergy=!e.unlimited&&e.energy<e.costPerBattle,autoChecked=!apocalypse&&document.getElementById('battleAuto')?.checked,violation=deckGradeLimitViolation(battleState.deck,battleState.deckRules);start.disabled=deckCardCount(battleState.deck)!==5||!battleState.selectedMonster||noEnergy||Boolean(violation);start.textContent=violation?`${deckGradeRuleLabel(violation.grade)} 편성 제한 확인`:noEnergy?(apocalypse?'아포칼립스 행동력 부족':'전투 횟수 부족'):autoChecked?'1회 전투 후 전체 소탕':'전투 시작';}}
@@ -5894,6 +5898,11 @@ battleScreenObserver.observe(app,{subtree:true,childList:true,attributes:true,at
 syncBattleScreenLock();
 
 window.addEventListener('storage',event=>{if(event.key!==BURNING_EVENT_SYNC_KEY||document.hidden)return;void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch())});
+window.addEventListener('cnine:martial-changed',()=>{
+  clearApiCache('battle/config');clearApiCache('pvp/config');
+  if(document.getElementById('battleEnergyCount'))void loadBattleEnergyOnly();
+  if(document.getElementById('pvpEnergyCount'))void loadPvpEnergyOnly();
+});
 let foregroundRefreshTimer=null,foregroundRefreshBusy=false,foregroundRefreshQueued=false;
 function setBackgroundActivityState(){document.documentElement.classList.toggle('app-backgrounded',document.hidden)}
 function scheduleForegroundRefresh(){

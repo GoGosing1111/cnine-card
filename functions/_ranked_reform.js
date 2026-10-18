@@ -1,5 +1,6 @@
 import {JOINT_ATOMIC_SCHEMA,jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {rankedEnergyFromRow,rankedSqlUtc} from '../shared/ranked-reform-v1.mjs';
+import {martialRecharge} from '../shared/martial-law-v1.mjs';
 
 export const RANKED_REFORM_SCHEMA=[...JOINT_ATOMIC_SCHEMA,
  `CREATE TABLE IF NOT EXISTS ranked_fight_receipts_v1(user_id INTEGER NOT NULL,request_id TEXT NOT NULL,match_token TEXT NOT NULL UNIQUE,response_json TEXT NOT NULL,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,request_id))`,
@@ -38,7 +39,7 @@ export async function commitRankedFight(env,{user,settings,ticket,requestId,ener
  if(energy.row)args.push(user.id,Number(energy.row.energy),energy.row.last_recharged_at);
  if(!energy.state.unlimited&&energy.state.energy<energy.state.costPerBattle)throw Object.assign(Error('랭크전 행동력이 부족합니다.'),{status:409,code:'NO_PVP_ENERGY',energy:energy.state});
  const nextEnergy=energy.state.unlimited?energy.state:{...energy.state,energy:energy.state.energy-energy.state.costPerBattle,lastRechargedAt:energy.state.energy>=energy.state.maxEnergy?rankedSqlUtc(now):energy.state.lastRechargedAt};
- if(!nextEnergy.unlimited)nextEnergy.nextRechargeAt=new Date(Date.parse(nextEnergy.lastRechargedAt.replace(' ','T')+'Z')+nextEnergy.rechargeMinutes*60000).toISOString();
+ if(!nextEnergy.unlimited){const last=Date.parse(nextEnergy.lastRechargedAt.replace(' ','T')+'Z');nextEnergy.nextRechargeAt=settings.energy?.__martialLaw?martialRecharge(nextEnergy.energy,last,settings.energy,now).nextRechargeAt:new Date(last+nextEnergy.rechargeMinutes*60000).toISOString();}
  const receipt={...response,energy:nextEnergy,serverNow:new Date(now).toISOString()};
  await env.DB.batch([
   ...lock(env,"SELECT key FROM app_meta WHERE key='pvp_settings_v1' FOR SHARE"),

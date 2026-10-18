@@ -1,0 +1,16 @@
+{
+  "mode": "built-in image_gen",
+  "created": "2026-10-18",
+  "prompts": [
+    {
+      "id": "martial-law-illustration",
+      "transparent_background": false,
+      "prompt": "Use case: stylized-concept. Asset type: premium game event announcement illustration for the Korean urban collectible RPG REVERSE CALL, a fictional declaration of martial law. Create a richly finished, cinematic 2D anime-and-painterly illustration, landscape 3:2. A monumental urban government command building rises above a dark metropolitan boulevard under emergency control; armored vehicles at a checkpoint, disciplined distant soldier silhouettes, tall loudspeaker towers and sharply defined white searchlights cut through low crimson atmospheric smoke. A red warning beacon is the luminous focal point, with blackened steel, restrained antique brass trim and deep midnight tones. An imposing, authoritative, tense game event atmosphere, fine architectural details and clear depth. Broad lower-center and upper-center areas should stay relatively quiet and dark for real interface typography later, with the interesting scene still visible around them. This is game artwork, no actual political faction, no real politician, no real national flag, no real-world emblems, no Nazi symbolism, no gore. No words, numbers, UI mockup, border, logos, watermarks or baked labels. Clean premium illustration, not a photo, not a flat gradient."
+    },
+    {
+      "id": "martial-law-ui",
+      "transparent_background": true,
+      "prompt": "Use case: ui-mockup. Asset type: original reusable transparent game interface art atlas for REVERSE CALL's martial-law declaration system. A cohesive premium dark militarized command aesthetic: blackened gunmetal, crimson enamel channels, precise antique brass edges, sturdy bolted corner ornaments and engraved warning chevrons. Produce a landscape atlas with FOUR completely separated usable pieces, ample transparent gutters and no overlaps: TOP HALF one large wide 2:1 rectangular command panel with all four corners intact and a dark subtly brushed metal interior suitable for 9-slice; MIDDLE one long slim 7:1 news/status banner with dark quiet center and small restrained warning beacon ornament on the left; BOTTOM LEFT one substantial 3:1 beveled command button with empty dark center; BOTTOM RIGHT one small 3:1 status badge with empty dark center. All pieces fully inside the canvas, orthographic front-on, consistent material and scale, clean solid alpha edges and transparent outside. Ornament strongest at corners and outer edges, plenty of quiet interior for live Korean DOM text; no text, letters, digits, logos, portraits, symbols of any real regime, mock screen, watermark, checkerboard, glow haze outside silhouette. Genuine alpha transparency. A single coherent original UI art atlas, detailed raster rendering, not CSS-style flat rectangles."
+    }
+  ]
+}
