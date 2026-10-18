@@ -1,0 +1,148 @@
+{
+  "at": "2026-10-18T03:59:14.505Z",
+  "base": "https://cnine-card.pages.dev",
+  "commit": "f02a8b997214ca4db3829a1858f68cc49abb5185",
+  "assets": [
+    {
+      "file": "shared/jokgak-city-supply-v1.mjs",
+      "sha256": "c59f01d5ca62a861635857276ab5b7bd1f98951940a37fd21fd0c4790c8e080f",
+      "match": true
+    },
+    {
+      "file": "shared/jokgak-city-expansion-v1.mjs",
+      "sha256": "856bde06252864fd0b3d99218031e96bbc51a370047cd6ca822e37e20b351f91",
+      "match": true
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "sha256": "6355ee9de910b22e8e6065096f501b343929a121f5e4e6416219c1a9191e83be",
+      "match": true
+    },
+    {
+      "file": "js/jokgak-city-supply-ui-v1.mjs",
+      "sha256": "864a9ed3926e267f9301910f22167f34e55840a0d4e66e9aadfb0209e6b23920",
+      "match": true
+    },
+    {
+      "file": "js/jokgak-city-comms-ui-v1.mjs",
+      "sha256": "978964580e08ca5b8192442c90c5953aaf581378904489f6dd8865ca2f0fb1b3",
+      "match": true
+    },
+    {
+      "file": "js/jokgak-city-expansion-ui-v1.mjs",
+      "sha256": "177610538a26ab916b793734446be36a492e4ca23a77fea37b29708f26d1e8b1",
+      "match": true
+    },
+    {
+      "file": "js/jokgak-city-exploration-ui-v2.mjs",
+      "sha256": "c13d57304cc103d3589614aa9ea80f858cf75c2e4e5f2a86fa8e678d2c15ecc9",
+      "match": true
+    },
+    {
+      "file": "css/jokgak-city-v1.css",
+      "sha256": "10622fd49c70082df34c03489d1bd9342a93e1fa6960d38c82917ff10c4443e4",
+      "match": true
+    },
+    {
+      "file": "css/jokgak-city-supply-v1.css",
+      "sha256": "fa7a0152fb2917bcddf26627f017d690e2d9a1c7de7a7802210bc8ef80a87f41",
+      "match": true
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "5589209caa649cc3623116108f3ae0d473e16718f7706709939b0a8f77a46f7d",
+      "match": true
+    },
+    {
+      "file": "assets/ui/jokgak-city/supply-20261018/groza-256.webp",
+      "sha256": "1a528607102098dcb54f15b3c59d2e4c6525b5a23daac3f503bf82ee0509ace9",
+      "match": true
+    },
+    {
+      "file": "assets/ui/jokgak-city/supply-20261018/groza-768.webp",
+      "sha256": "601467f91e83b2c038c0c4da2fbea0622cd3baecfd9dd0b3e12270a1f4467e14",
+      "match": true
+    },
+    {
+      "file": "assets/ui/jokgak-city/supply-20261018/golden-aks-256.webp",
+      "sha256": "5917bea3c5b35401c912899ed224cb10ae5f753cf0c4e7663ded77a027e00817",
+      "match": true
+    },
+    {
+      "file": "assets/ui/jokgak-city/supply-20261018/golden-aks-768.webp",
+      "sha256": "f6f4d4d7c398716bfb27fac6577b28ee349d9ecdef303919ab666fee163a1ec4",
+      "match": true
+    },
+    {
+      "file": "assets/ui/jokgak-city/supply-20261018/supply-crate-256.webp",
+      "sha256": "db90a47626249680d4447908c4fe4d5ddaf20f3b046aef2fb27e1316e048894e",
+      "match": true
+    },
+    {
+      "file": "assets/ui/jokgak-city/supply-20261018/supply-crate-768.webp",
+      "sha256": "9adca8165974092854e72e83438ba2f88701cb94c8dc1af04a30430f50734aff",
+      "match": true
+    },
+    {
+      "file": "assets/ui/jokgak-city/supply-20261018/panel.webp",
+      "sha256": "24879ed3c243addc500680d6c047f9891a09fb7fa3eb1bdbf7fc468e380b24cb",
+      "match": true
+    },
+    {
+      "file": "assets/ui/jokgak-city/supply-20261018/news.webp",
+      "sha256": "ad22a382ccd3fd8eee1a7cc6db559e56445c58d5364226b41aca8ef41fdd962a",
+      "match": true
+    },
+    {
+      "file": "assets/ui/jokgak-city/supply-20261018/button.webp",
+      "sha256": "d369d29b072d2597ea44d8fbb4a2d445261d334c3661db734062fa505d80c483",
+      "match": true
+    },
+    {
+      "file": "assets/ui/jokgak-city/supply-20261018/manifest.json",
+      "sha256": "63911f83dc621b585ae3c7a2217bf2e86320a9c100e10b72317a0a60ae85c3d3",
+      "match": true
+    }
+  ],
+  "shellCacheUpdated": true,
+  "anonymousStatus": 401,
+  "configurationUnchanged": true,
+  "cityMode": "ON",
+  "cityRevision": 46,
+  "schedule": {
+    "epoch": 82978,
+    "mode": "ON",
+    "persisted": true,
+    "count": 2,
+    "createdAt": 1792295822367,
+    "allFutureAtCreation": true,
+    "allTenMinutes": true,
+    "withinRound": true
+  },
+  "checkedAt": "2026-10-18T03:59:19.561Z",
+  "operations": "Read-only verification; no manual player grants, claims, battles or configuration changes.",
+  "deployments": {
+    "pages": "5295ae57",
+    "api": "622ec815-ca88-4144-83df-92754de8716e",
+    "scheduler": "ee346a42-c280-46b5-bf9f-1ab32c9a90aa",
+    "assets": 19979
+  },
+  "regression": {
+    "initial": {
+      "pass": 95,
+      "total": 97,
+      "fail": 2
+    },
+    "finalSupply": {
+      "pass": 20,
+      "total": 20,
+      "fail": 0
+    },
+    "retainedExisting": 77,
+    "uniquePassing": 97,
+    "correction": "Only rollover fixture changed to use public cityStatus path, which settles the prior round before scheduling.",
+    "workerSyntax": "passed",
+    "browser": "8 PC/mobile flows passed, 0 console errors; screenshots visually inspected",
+    "hyperdriveQueryCache": "OFF"
+  }
+}
