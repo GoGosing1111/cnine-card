@@ -1,0 +1,74 @@
+[
+  {
+    "file": "preview/mercenary-leonel-sss-limited-20261018-v2/preview.bundle.js",
+    "status": 200,
+    "sha256": "0dfba390438f81e7767c4544e8cdb6980da40a707d3af0c2f8288f6ab184fb5c",
+    "bytes": 2145789
+  },
+  {
+    "file": "preview/mercenary-leonel-sss-limited-20261018-v2/assets/white-crest-20261019/crest.webp",
+    "status": 200,
+    "sha256": "a07a3ced9693704bc337eb131deeaf8f8eb290575b6e15308a912195aeb15e2e",
+    "bytes": 1272984
+  },
+  {
+    "file": "preview/mercenary-leonel-sss-limited-20261018-v2/assets/white-crest-20261019/ground.webp",
+    "status": 200,
+    "sha256": "b67b66b687e67ff468391485578075e30e58543ab5861fc554fd727c6b4136f3",
+    "bytes": 984596
+  },
+  {
+    "file": "preview/mercenary-leonel-sss-limited-20261018-v2/assets/white-crest-20261019/sword.webp",
+    "status": 200,
+    "sha256": "44ee0f1888f07627bad02f8dfdcdcf8bc305deabf25a7ad314e40c29e7971bfe",
+    "bytes": 918918
+  },
+  {
+    "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+    "status": 200,
+    "sha256": "d8334c446440d29c8ed996e5edbac26ccd7a621a072e5fb5b3196b78adbb5285",
+    "bytes": 2130358
+  },
+  {
+    "file": "preview/sustained-hunt-v2/battle.bundle.js",
+    "status": 200,
+    "sha256": "103c9bf273b0e5390ff803323eac118be0751f0e5501e14fac5ddbf331b90848",
+    "bytes": 2153464
+  },
+  {
+    "file": "preview/coop-defense-v1/defense.bundle.js",
+    "status": 200,
+    "sha256": "e6ac03e356a26cf8ccd47d04fe2a9318b3c90a293160f30f9a6420c2fb0ab26d",
+    "bytes": 2260667
+  },
+  {
+    "file": "defense/index.html",
+    "status": 200,
+    "sha256": "cd665110d9f0c7d9391ea248e259412beaf3818e0e5ec94fc9de604dfa07f63d",
+    "bytes": 11963
+  },
+  {
+    "file": "js/battle-v3-live.js",
+    "status": 200,
+    "sha256": "014235be741f96e1f44dc12cce7a2b7a53a7d3fefe6580dfd9b3bed5f7ddfe21",
+    "bytes": 81997
+  },
+  {
+    "file": "js/app.js",
+    "status": 200,
+    "sha256": "64a9cb8bb5ef61afdc958cbcc6a10ad5ff3d690dd012b90fd4bf36b164337d03",
+    "bytes": 764102
+  },
+  {
+    "file": "service-worker.js",
+    "status": 200,
+    "sha256": "1630c0a669963915ac1eb52c2c4233b465e598fac335084f4de5e286ef15f3e8",
+    "bytes": 15980
+  },
+  {
+    "file": "index.html",
+    "status": 200,
+    "sha256": "497754238127991c3d9e7959b324cbda810ec834868baba1ca91de8ab29ae42b",
+    "bytes": 31722
+  }
+]
