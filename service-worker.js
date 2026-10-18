@@ -5,7 +5,7 @@
 // Inventory UI v2125: shared navy panels and compact item selection.
 // S-BODY / Z-BODY resources v2124; battle scripts keep network-first refresh.
 importScripts('/js/image-delivery-map-20261015.js');
-const SHELL_CACHE='soop-card-shell-v20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1';
+const SHELL_CACHE='soop-card-shell-v20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1';
 const CONTENT_CACHE='soop-card-content-v4-lossless-media';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -18,6 +18,7 @@ for(const path of ['/js/organization-api-v1.mjs','/js/organization-faction-v1.mj
 for(const path of ['/js/organization-headquarters-v1.mjs','/js/organization-dashboard-v1.mjs','/js/organization-embed-size-v1.mjs','/shared/organization-headquarters-v1.mjs','/js/organization-preparation-v1.js','/js/organization-public-v1.mjs','/js/organization-system-v1.mjs','/js/organization-admission-v1.mjs','/shared/organization-public-v1.mjs','/shared/organization-interview-v1.mjs','/shared/organization-system-v1.mjs','/shared/organization-preparation-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/js/mercenary-pack-live.mjs','/js/image-delivery-map-20261015.js','/js/image-delivery-v1.js'])FRESH_ACCOUNT_SCRIPTS.add(path);
 for(const path of ['/js/pet-deck-slot-v1.mjs','/js/pet-equipment-window-v1.mjs','/pet-codex/app.mjs','/shared/pet-cms-v1.mjs','/shared/collection-bonuses-v1.mjs','/shared/trophy-bonuses-v1.mjs','/admin/companion-admin-v2.mjs','/admin/trophy-bonuses-v1.mjs'])FRESH_ACCOUNT_SCRIPTS.add(path);
+for(const path of ['/js/jokgak-city-v1.js','/js/jokgak-city-expansion-ui-v1.mjs','/js/jokgak-city-exploration-ui-v1.mjs','/js/jokgak-city-exploration-ui-v2.mjs','/js/jokgak-city-comms-ui-v1.mjs','/js/jokgak-city-supply-ui-v1.mjs','/shared/jokgak-city-expansion-v1.mjs','/shared/jokgak-city-supply-v1.mjs','/css/jokgak-city-v1.css','/css/jokgak-city-supply-v1.css'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/js/territory-vote-alert-v1.js');
 for(const path of ['/preview/coop-defense-v1/defense.bundle.js','/preview/coop-defense-v1/defense.css','/preview/coop-defense-v1/workshop.css','/preview/coop-defense-v1/staging.css','/preview/coop-defense-v1/image-skin.css','/preview/coop-defense-v1/formation.css', '/preview/coop-defense-v1/rooms.css','/preview/defense-roguelike-v2/preview.bundle.js','/shared/monster-defense-growth-v2.mjs','/defense/asset-catalog.json','/shared/monster-defense-v1.mjs','/admin/monster-defense.mjs','/admin/monster-defense.css'])FRESH_ACCOUNT_SCRIPTS.add(path);
 FRESH_ACCOUNT_SCRIPTS.add('/js/territory-war-v1811.js');

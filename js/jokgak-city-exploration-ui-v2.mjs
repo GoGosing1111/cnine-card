@@ -1,19 +1,21 @@
 import {CITY_FOUND_WEAPONS,CITY_ARMORS,CITY_SEARCH_AREAS,defaultCityExploration,citySearchPool} from '../shared/jokgak-city-exploration-v1.mjs';
+import {CITY_SUPPLY_WEAPONS} from '../shared/jokgak-city-supply-v1.mjs';
+import {citySupplyArt,citySupplyGearDetail} from './jokgak-city-supply-ui-v1.mjs?v=20261018-supply1';
 import {CITY_WEAPONS} from '../shared/jokgak-city-expansion-v1.mjs';
 import {cityPlace} from '../shared/jokgak-city-v1.mjs';
 import {cityItemArt} from './jokgak-city-item-art-v1.mjs?v=20261011-items1';
 import {cityExplorationArt} from './jokgak-city-gear-art-v1.mjs?v=20261012-background-perf1';
 const money=n=>Number(n||0).toLocaleString('ko-KR');
-const metas=[...CITY_WEAPONS,...CITY_FOUND_WEAPONS,...CITY_ARMORS];
-const tierNames=['','일반','고급','희귀','최상급'];
+const metas=[...CITY_WEAPONS,...CITY_FOUND_WEAPONS,...CITY_ARMORS,...CITY_SUPPLY_WEAPONS];
+const tierNames=['','일반','고급','희귀','최상급','보급 전용'];
 const tier=meta=>meta?.tier||({PIPE:1,PISTOL:2,RIFLE:3}[meta?.code])||1;
 const armor=meta=>meta?.kind==='armor';
 const atmosphere={HOME:'먼지 쌓인 다락, 잊힌 장비를 찾는 시간.',POLICE:'불 꺼진 보급실에 남겨진 전술 장비.',POST:'주인 없는 화물 속에서 발견하는 뜻밖의 무장.',MARKET:'낡은 좌판 사이, 아직 쓸 만한 것들이 남아 있습니다.',DEPARTMENT:'굳게 닫혔던 보안실의 흔적을 따라갑니다.',DOCK:'바닷바람이 스치는 컨테이너, 묵직한 보급의 흔적.',ALLEY:'어둠 속 은신처에 누군가 장비를 남겼습니다.',SHOP:'적재함 틈에서 다음 교전을 준비합니다.',RESTAURANT:'지하 보관실, 오래된 물품 사이를 살펴봅니다.'};
-const rules=state=>[...(state?.arsenal?.weapons||[]),...(state?.exploration||defaultCityExploration()).weapons,...(state?.exploration||defaultCityExploration()).armors];
+const rules=state=>[...CITY_SUPPLY_WEAPONS,...(state?.arsenal?.weapons||[]),...(state?.exploration||defaultCityExploration()).weapons,...(state?.exploration||defaultCityExploration()).armors];
 const owned=(mine,meta)=>(armor(meta)?mine?.ownedArmors:mine?.ownedWeapons)?.includes(meta.code);
 const equipped=(mine,meta)=>(armor(meta)?mine?.armor:mine?.weapon)?.code===meta.code;
 const reticle='<span class="jc-search-reticle" aria-hidden="true"><i></i><i></i><i></i></span>';
-export function cityGearArt(code,small=false){return cityItemArt(code,small)||cityExplorationArt(code,small);}
+export function cityGearArt(code,small=false){return citySupplyArt(code,small)||cityItemArt(code,small)||cityExplorationArt(code,small);}
 export function cityExplorePanel(state,selected,now,busy){
  if(!state)return '';
  const cfg=state.exploration||defaultCityExploration(),pool=citySearchPool(state,selected),meta=CITY_SEARCH_AREAS.find(a=>a.location===selected),place=cityPlace(selected),m=state.mine;
@@ -33,7 +35,7 @@ export function cityEquipmentSummary(state){
 }
 export function cityEquipmentCard(state,rule,meta,locked){
  const m=state.mine,isArmor=armor(meta),isEquipped=equipped(m,meta),action=isArmor?'Armor':'Weapon';
- return `<article class="jc-kit-card ${isEquipped?'is-equipped':''}" data-tier="${tier(meta)}"><span class="jc-kit-badge">${isEquipped?'✓ 장착 중':tierNames[tier(meta)]}</span><button class="jc-kit-inspect" data-city-gear="${meta.code}" aria-label="${meta.name} 장비 정보">${cityGearArt(meta.code,true)}</button><b>${meta.name}</b><small>${isArmor?'추가 전투력':'도시 전투력'} <strong>${isArmor?'+':''}${money(rule.power)}</strong></small><button class="jc-kit-equip" data-city-action="${isEquipped?'unequip':'equip'}${action}" ${isEquipped?'':`data-city-product="${meta.code}"`} ${locked||!rule.enabled?'disabled':''}>${isEquipped?'장착 해제':'장착하기'}</button></article>`;
+ return `<article class="jc-kit-card ${meta.supplyOnly?'jc-supply-gear':''} ${isEquipped?'is-equipped':''}" data-tier="${tier(meta)}"><span class="jc-kit-badge">${isEquipped?'✓ 장착 중':tierNames[tier(meta)]}</span><button class="jc-kit-inspect" data-city-gear="${meta.code}" aria-label="${meta.name} 장비 정보">${cityGearArt(meta.code,true)}</button><b>${meta.name}</b><small>${isArmor?'추가 전투력':'도시 전투력'} <strong>${isArmor?'+':''}${money(rule.power)}</strong></small><button class="jc-kit-equip" data-city-action="${isEquipped?'unequip':'equip'}${action}" ${isEquipped?'':`data-city-product="${meta.code}"`} ${locked||!rule.enabled?'disabled':''}>${isEquipped?'장착 해제':'장착하기'}</button></article>`;
 }
 export function cityArmorInventory(state,now,busy){
  const m=state?.mine;if(!m?.active)return '';
@@ -41,6 +43,7 @@ export function cityArmorInventory(state,now,busy){
  return `<section class="jc-mini-inventory jc-kit-inventory jc-armor-inventory" aria-label="도시 방어구"><header><div><small>ARMOR COLLECTION</small><h3>방어구 <b>${list.length} / ${CITY_ARMORS.length}</b></h3></div><span>1개 장착</span></header><p class="jc-gear-help">방어구의 전투력이 무기 전투력에 더해집니다.</p><div class="jc-mini-weapons">${list.map(a=>cityEquipmentCard(state,a,CITY_ARMORS.find(x=>x.code===a.code),locked)).join('')||'<p>아직 방어구가 없습니다.<br>현재 지역을 탐색해 나만의 무장을 완성하세요.</p>'}</div></section>`;
 }
 export function cityGearDetail(state,code){
+ if(citySupplyGearDetail(state,code))return citySupplyGearDetail(state,code);
  const meta=metas.find(m=>m.code===code),rule=rules(state).find(r=>r.code===code);if(!meta||!rule)return '';
  const places=CITY_SEARCH_AREAS.filter(area=>citySearchPool(state,area.location)?.drops.some(d=>d.code===code)).map(area=>cityPlace(area.location).name);
  return `<div class="jc jc-loot-result jc-loot-v2 jc-gear-detail" data-tier="${tier(meta)}"><span class="jc-loot-eyebrow">EQUIPMENT INTEL</span><div class="jc-loot-visual">${cityGearArt(code)}</div><span class="jc-loot-tier">${tierNames[tier(meta)]} · ${armor(meta)?'방어구':'무기'}</span><h3>${meta.name}</h3><strong>${armor(meta)?'+':''}${money(rule.power)}<small>${armor(meta)?'추가 도시 전투력':'도시 전투력'}</small></strong><p>${equipped(state.mine,meta)?'현재 장착 중인 장비입니다.':owned(state.mine,meta)?'보유한 장비입니다. 인벤토리에서 장착할 수 있습니다.':'지역을 탐색해 발견할 수 있는 장비입니다.'}</p><div class="jc-gear-sources"><small>발견 지역</small><span>${places.join(' · ')||'현재 탐색 획득 중지'}</span></div><footer>${armor(meta)?'방어구':'무기'} 1개 장착 · 이번 회차에만 사용</footer></div>`;

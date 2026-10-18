@@ -1,0 +1,140 @@
+{
+  "date": "2026-10-18",
+  "generator": "built-in image_gen",
+  "prompts": "prompts.json",
+  "references": [],
+  "originalsPreserved": true,
+  "derivatives": "Lossy WebP resize and rectangular atlas extraction only; no repaint or shape change.",
+  "atlasCrops": {
+    "panel": [
+      52,
+      20,
+      1484,
+      520
+    ],
+    "news": [
+      72,
+      552,
+      1467,
+      752
+    ],
+    "button": [
+      337,
+      793,
+      1200,
+      1005
+    ]
+  },
+  "usedBy": [
+    "js/jokgak-city-supply-ui-v1.mjs",
+    "js/jokgak-city-exploration-ui-v2.mjs",
+    "css/jokgak-city-supply-v1.css"
+  ],
+  "visualApproval": "Technical QA only; not user visual approval",
+  "assets": [
+    {
+      "file": "button.webp",
+      "sha256": "d369d29b072d2597ea44d8fbb4a2d445261d334c3661db734062fa505d80c483",
+      "width": 863,
+      "height": 212,
+      "mode": "RGBA",
+      "bytes": 53200
+    },
+    {
+      "file": "golden-aks-256.webp",
+      "sha256": "5917bea3c5b35401c912899ed224cb10ae5f753cf0c4e7663ded77a027e00817",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "bytes": 17076
+    },
+    {
+      "file": "golden-aks-768.webp",
+      "sha256": "f6f4d4d7c398716bfb27fac6577b28ee349d9ecdef303919ab666fee163a1ec4",
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "bytes": 100338
+    },
+    {
+      "file": "golden-aks-source.png",
+      "sha256": "cc8dacb9bff03e2ab136889577a76ccde5ded8fe1f7cdb163aac897caee22c0d",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "bytes": 836719
+    },
+    {
+      "file": "groza-256.webp",
+      "sha256": "1a528607102098dcb54f15b3c59d2e4c6525b5a23daac3f503bf82ee0509ace9",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "bytes": 19274
+    },
+    {
+      "file": "groza-768.webp",
+      "sha256": "601467f91e83b2c038c0c4da2fbea0622cd3baecfd9dd0b3e12270a1f4467e14",
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "bytes": 118718
+    },
+    {
+      "file": "groza-source.png",
+      "sha256": "5b29bb6741157762d0de688b37aa50a2f4861cfe7e4929dc1da88926e693f3d4",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "bytes": 1209485
+    },
+    {
+      "file": "news.webp",
+      "sha256": "ad22a382ccd3fd8eee1a7cc6db559e56445c58d5364226b41aca8ef41fdd962a",
+      "width": 1395,
+      "height": 200,
+      "mode": "RGBA",
+      "bytes": 65096
+    },
+    {
+      "file": "panel.webp",
+      "sha256": "24879ed3c243addc500680d6c047f9891a09fb7fa3eb1bdbf7fc468e380b24cb",
+      "width": 1432,
+      "height": 500,
+      "mode": "RGBA",
+      "bytes": 156020
+    },
+    {
+      "file": "supply-crate-256.webp",
+      "sha256": "db90a47626249680d4447908c4fe4d5ddaf20f3b046aef2fb27e1316e048894e",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "bytes": 33162
+    },
+    {
+      "file": "supply-crate-768.webp",
+      "sha256": "9adca8165974092854e72e83438ba2f88701cb94c8dc1af04a30430f50734aff",
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "bytes": 238412
+    },
+    {
+      "file": "supply-crate-source.png",
+      "sha256": "6d47e8ed04c47bf2ded7bf1ddf911cd1ca3c19572cdb8380dbfcf88541d02121",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "bytes": 2351570
+    },
+    {
+      "file": "supply-ui-source.png",
+      "sha256": "a314083ea5f2a9736769db411ad3438603305c7dfc6eaa0b04788d7c050fe5e7",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "bytes": 2084867
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import {cityShift} from '../shared/jokgak-city-v1.mjs';
 import {prepareCityTopSettlement,CITY_TOP_CURSOR} from './_jokgak_city_top.js';
 import {cityConflictCleanup} from './_jokgak_city_conflict.js';
+import {citySupplyCleanup} from './_jokgak_city_supply.js';
 import {cityGuard,cityGuardEnd} from './_jokgak_city_rewards.js';
 const KEY='jokgak_city_rotation_cleanup_v1';
 const LEASE_KEY='jokgak_city_rotation_lease_v1';
@@ -39,6 +40,7 @@ export async function settleCityRound(env,now=Date.now(),{force=false}={}){
   p('DELETE FROM jokgak_city_notifications_v1 WHERE created_at<?',shift.startsAt),
   p('DELETE FROM jokgak_city_actions_v1 WHERE created_at<?',shift.startsAt),
   ...cityConflictCleanup(env,shift.id),
+  ...citySupplyCleanup(env,shift.id),
   p('INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value WHERE CAST(app_meta.value AS BIGINT)<CAST(excluded.value AS BIGINT)',KEY,String(shift.id))
  ]);
  return {changed:true,shift,exited:Number(results[leaseGuard.length+top.statements.length]?.meta?.changes||0),topAwards:top.awards};

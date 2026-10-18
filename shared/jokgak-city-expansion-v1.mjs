@@ -1,4 +1,5 @@
 import {cityShift} from './jokgak-city-v1.mjs';
+import {CITY_SUPPLY_WEAPONS} from './jokgak-city-supply-v1.mjs';
 import {CITY_FOUND_WEAPONS,defaultCityExploration,cityExplorationBag,cityArmor} from './jokgak-city-exploration-v1.mjs';
 export const CITY_HOSPITAL_MAX_STAY_MS=180000;
 export const CITY_WEAPONS=Object.freeze([
@@ -26,11 +27,11 @@ export function cityArmory(life,mode){
 }
 export function cityWeapon(life,policy){
   const bag=cityArmory(life,policy.mode),cfg=policy.arsenal||defaultCityArsenal(),code=bag.owned.includes(bag.equipped)?bag.equipped:null;
-  const w=[...cfg.weapons,...(policy.exploration||defaultCityExploration()).weapons].find(w=>w.code===code&&w.enabled);
-  return w?{...[...CITY_WEAPONS,...CITY_FOUND_WEAPONS].find(x=>x.code===w.code),...w}:{code:null,name:'맨손',power:cfg.basePower,icon:'person'};
+  const w=[...cfg.weapons,...(policy.exploration||defaultCityExploration()).weapons,...CITY_SUPPLY_WEAPONS].find(w=>w.code===code&&w.enabled);
+  return w?{...[...CITY_WEAPONS,...CITY_FOUND_WEAPONS,...CITY_SUPPLY_WEAPONS].find(x=>x.code===w.code),...w}:{code:null,name:'맨손',power:cfg.basePower,icon:'person'};
 }
 export function validateCityFacilitiesState(life){
-  for(const bag of Object.values(life.armory||{}))if(!Array.isArray(bag.owned)||new Set(bag.owned).size!==bag.owned.length||bag.owned.some(code=>![...CITY_WEAPONS,...CITY_FOUND_WEAPONS].some(w=>w.code===code))||bag.equipped!=null&&!bag.owned.includes(bag.equipped))throw Error('CITY_ARMORY');
+  for(const bag of Object.values(life.armory||{}))if(!Array.isArray(bag.owned)||new Set(bag.owned).size!==bag.owned.length||bag.owned.some(code=>![...CITY_WEAPONS,...CITY_FOUND_WEAPONS,...CITY_SUPPLY_WEAPONS].some(w=>w.code===code))||bag.equipped!=null&&!bag.owned.includes(bag.equipped))throw Error('CITY_ARMORY');
   if(life.armory&&(!life.armory.TEST||!life.armory.ON||Object.keys(life.armory).some(m=>!['TEST','ON'].includes(m))))throw Error('CITY_ARMORY_MODE');
   if(life.motel&&!['until','nextAt'].every(k=>integer(life.motel[k],0,Number.MAX_SAFE_INTEGER)))throw Error('CITY_MOTEL');
   if(life.hospital&&!['enteredAt','leaveAt','autoReturnAfter'].every(k=>integer(life.hospital[k],0,Number.MAX_SAFE_INTEGER)))throw Error('CITY_HOSPITAL');

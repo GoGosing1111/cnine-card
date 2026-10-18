@@ -61,7 +61,7 @@ for(const pg of [false,true]){
 }
 test('minute scheduler runs pending OFF before ordinary round settlement and always closes its connection',async()=>{
  const order=[];const openDatabase=async()=>({db:{},close:async()=>order.push('close')});
- await runCityRotationSchedule({},{openDatabase,now:NOON,scheduledOff:async(_e,now)=>{assert.equal(now,NOON);order.push('off');},settle:async()=>order.push('round'),discharge:async()=>order.push('hospital')});
- assert.deepEqual(order,['off','round','hospital','close']);order.length=0;
+ await runCityRotationSchedule({},{openDatabase,now:NOON,scheduledOff:async(_e,now)=>{assert.equal(now,NOON);order.push('off');},settle:async()=>order.push('round'),supply:async()=>order.push('supply'),discharge:async()=>order.push('hospital')});
+ assert.deepEqual(order,['off','round','supply','hospital','close']);order.length=0;
  await assert.rejects(runCityRotationSchedule({},{openDatabase,scheduledOff:async()=>{throw Error('settlement pending');},settle:async()=>assert.fail()}),/settlement pending/);assert.deepEqual(order,['close']);
 });

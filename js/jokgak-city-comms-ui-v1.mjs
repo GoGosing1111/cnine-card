@@ -1,9 +1,10 @@
 import {cityBountyReceipt} from './jokgak-city-conflict-ui-v1.mjs?v=20261012-background-perf1';
+import {citySupplyNews,citySupplyReceipt} from './jokgak-city-supply-ui-v1.mjs?v=20261018-supply1';
 import {CITY_MEGAPHONE} from '../shared/jokgak-city-comms-v1.mjs';
 export {CITY_MEGAPHONE};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const art='/assets/ui/jokgak-city/megaphone-v1/megaphone-256.webp';
-const actions={join:'도시 입장',leave:'도시 퇴장',move:'장소 이동',attack:'교전',arrest:'체포',inspect:'검문',heal:'치료',eat:'식사',treat:'병원 진료',buy:'소지품 구매',use:'소지품 사용',buyWeapon:'무기 구매',equipWeapon:'무기 장착',unequipWeapon:'무기 해제',beg:'구걸',alms:'동냥 요청',donate:'동냥',rest:'모텔 입실',checkout:'모텔 퇴실',employment:'취직',workStart:'근무 시작',workFinish:'근무 완료',workCancel:'근무 취소',buyMegaphone:'확성기 구매',broadcast:'도시 방송',explore:'지역 탐색',equipArmor:'방어구 장착',unequipArmor:'방어구 해제'};
+const actions={claimSupply:'보급상자 확보',attackSupply:'보급 쟁탈',rewardSupply:'보급 최종 보상',join:'도시 입장',leave:'도시 퇴장',move:'장소 이동',attack:'교전',arrest:'체포',inspect:'검문',heal:'치료',eat:'식사',treat:'병원 진료',buy:'소지품 구매',use:'소지품 사용',buyWeapon:'무기 구매',equipWeapon:'무기 장착',unequipWeapon:'무기 해제',beg:'구걸',alms:'동냥 요청',donate:'동냥',rest:'모텔 입실',checkout:'모텔 퇴실',employment:'취직',workStart:'근무 시작',workFinish:'근무 완료',workCancel:'근무 취소',buyMegaphone:'확성기 구매',broadcast:'도시 방송',explore:'지역 탐색',equipArmor:'방어구 장착',unequipArmor:'방어구 해제'};
 export function cityCommsToolbar(state,saving=false){return `<div class="jc-comms-tools"><button data-city-desk="logs">활동 로그 <b>${state?.unreadCount||0}</b></button><button data-city-desk="broadcast"><img src="${art}" alt="">확성기 <b>${state?.mine?.megaphoneCount||0}</b></button><label><input type="checkbox" data-city-hide-popups ${state?.noticePreferences?.hidePopups?'checked':''} ${saving?'disabled':''}>피격·행동 팝업 안 보기</label></div>`;}
 export function cityMegaphoneShop(state,selected,busy){
  if(selected!=='MARKET')return '';
@@ -16,6 +17,7 @@ export function cityBroadcastComposer(state,draft,busy,now){
 }
 export function cityBroadcastMarkup(message,now){
  if(!message)return '';
+ if(message.kind==='SUPPLY')return citySupplyNews(message.supply);
  const elapsed=Math.max(0,now-message.shownAt);
  return `<div class="jc-airwave" data-broadcast-id="${esc(message.id)}" style="--elapsed:-${elapsed}ms"><div class="jc-airwave-signal"><i></i><i></i><i></i><img src="${art}" alt=""></div><div class="jc-airwave-copy"><header><small>도시 방송 <em>ON AIR</em></small><b>${esc(message.senderName)}</b></header><p>${esc(message.message)}</p></div><div class="jc-airwave-time"></div></div>`;
 }
@@ -25,7 +27,7 @@ export function cityActivityPanel(log,busy=false){
  if(!log)return header+'<p class="jc-muted">기록을 불러오고 있습니다…</p>';
  return header+`<ol class="jc-activity-list">${log.items.length?log.items.map(row=>{
   const incoming=row.direction==='received',title=actions[row.action]||'도시 행동',clock=new Date(row.createdAt).toLocaleTimeString('ko-KR',{timeZone:'Asia/Seoul',hour12:false}),who=incoming?row.actorName:row.targetName;
-  const outcome=['attack','arrest'].includes(row.action)?row.winner==='DRAW'?'무승부':row.winner===(incoming?'B':'A')?'승리':'패배':'';
-  return `<li class="${incoming?'is-incoming':''}"><time>${clock}</time><div><header><small>${incoming?'받은 알림':'내 활동'}</small><b>${esc(title)} ${outcome}</b>${incoming&&!row.read?'<em>미확인</em>':''}</header>${who?`<p>${esc(who)}</p>`:''}${row.comms?.message?`<blockquote>${esc(row.comms.message)}</blockquote>`:''}${row.theft?.amount?`<p>현금 ${Number(row.theft.amount).toLocaleString('ko-KR')}원 이동</p>`:''}${row.comms?.price?`<p>${row.comms.price}원 · 확성기 1개 구매</p>`:''}${row.exploration?.kind==='explore'?'<p>'+esc(row.exploration.item?.name||'장비 발견 없음')+(row.exploration.outcome==='DUPLICATE'?' · 이미 보유':'')+'</p>':''}${cityBountyReceipt(row.bounty)}${row.health!=null?`<span>행동 후 체력 ${Number(row.health)}</span>`:''}</div></li>`;
+  const outcome=['attack','arrest','attackSupply'].includes(row.action)?row.winner==='DRAW'?'무승부':row.winner===(incoming?'B':'A')?'승리':'패배':'';
+  return `<li class="${incoming?'is-incoming':''}"><time>${clock}</time><div><header><small>${incoming?'받은 알림':'내 활동'}</small><b>${esc(title)} ${outcome}</b>${incoming&&!row.read?'<em>미확인</em>':''}</header>${who?`<p>${esc(who)}</p>`:''}${row.comms?.message?`<blockquote>${esc(row.comms.message)}</blockquote>`:''}${row.theft?.amount?`<p>현금 ${Number(row.theft.amount).toLocaleString('ko-KR')}원 이동</p>`:''}${row.comms?.price?`<p>${row.comms.price}원 · 확성기 1개 구매</p>`:''}${row.exploration?.kind==='explore'?'<p>'+esc(row.exploration.item?.name||'장비 발견 없음')+(row.exploration.outcome==='DUPLICATE'?' · 이미 보유':'')+'</p>':''}${cityBountyReceipt(row.bounty)}${citySupplyReceipt(row.supply)}${row.health!=null?`<span>행동 후 체력 ${Number(row.health)}</span>`:''}</div></li>`;
  }).join(''):'<li class="jc-log-empty">이번 교대의 활동 기록이 없습니다.</li>'}</ol>${log.next?`<button class="jc-log-more" data-city-log-more ${busy?'disabled':''}>${busy?'불러오는 중…':'이전 기록 더 보기'}</button>`:''}`;
 }

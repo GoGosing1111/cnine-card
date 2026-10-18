@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "1440: map pin, location news, two weapon images and image-backed frame load",
+    "1440: actual city actions claim, lose ownership, fight and take it back with immutable deadline; popup preference respected",
+    "1440: only final holder receives weapon, appears with art in actual inventory, equips at 700k",
+    "1440: seen news not repeated on reload; both exclusive weapon detail panels readable",
+    "390: map pin, location news, two weapon images and image-backed frame load",
+    "390: actual city actions claim, lose ownership, fight and take it back with immutable deadline; popup preference respected",
+    "390: only final holder receives weapon, appears with art in actual inventory, equips at 700k",
+    "390: seen news not repeated on reload; both exclusive weapon detail panels readable"
+  ],
+  "errors": [],
+  "accounts": "isolated fixtures, actual HTTP handler and live city UI; unchanged battle renderer fast-forwarded"
+}
