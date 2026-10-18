@@ -72,7 +72,12 @@ export class LeonelFX{
   const r=resting?{...this.home,groundY:this.home.y}:this.rootFor(state);m.root.position.set(r.x,r.y);m.root.depthSortY=r.groundY;e.sortCombatDepth();
   const torso=this.targetPoint(),feet=this.targetPoint(this.target,0),target=this.point(torso),ground=this.point(feet),own=this.point(r),center=this.targets.reduce((v,a)=>{const p=this.point(this.targetPoint(a));return{x:v.x+p.x/this.targets.length,y:v.y+p.y/this.targets.length};},{x:0,y:0});
   const auraOn=this.effectsEnabled&&this.auraEnabled;this.aura.visible=this.backgroundAura.visible=auraOn;
-  if(auraOn){const ambientPhase=(t%4)/4,tex=this.textureFrame('aura',ambientPhase),pressure=this.textureFrame('pressure',ambientPhase),at=this.point({x:r.x,y:r.y-size*.56},this.back);this.draw(this.aura,tex,at,size*1.75,{alpha:.68,key:'aura'});this.draw(this.backgroundAura,pressure,{x:at.x+size*.16,y:at.y-size*.23},size*3.1,{alpha:.3,key:'pressure'});}
+  if(auraOn){
+   const ambientPhase=(t%4)/4,tex=this.textureFrame('aura',ambientPhase),pressure=this.textureFrame('pressure',ambientPhase),at=this.point(r,this.back);
+   // Register both ambient layers at the actor's feet, including during movement.
+   this.draw(this.aura,tex,at,size*1.75,{anchorY:.98,alpha:.78,key:'aura'});
+   this.draw(this.backgroundAura,pressure,at,size*3.1,{anchorY:.98,alpha:.4,key:'pressure'});
+  }
   if(state.ghosts&&!resting){[.035,.075,.12,.18].forEach((ago,i)=>{if(t<ago)return;const old=sample(this.mode,t-ago),r0=this.rootFor(old),f=this.pose(old.pose),s=this.ghosts[i],texture=this.assets.motion[old.pose.bank][f.index];s.texture=texture;s.anchor.set(f.pivot.x/texture.width,f.pivot.y/texture.height);s.scale.set(this.scaleFor(f)*m.root.scale.x*old.pose.facing,this.scaleFor(f)*m.root.scale.y);s.position.copyFrom(this.point(r0,this.back));s.alpha=[.23,.16,.10,.05][i];s.tint=0xc7d9e5;s.blendMode='add';s.visible=true;});}
   this.activeFrames=[];
   state.effects.forEach((fx,i)=>{

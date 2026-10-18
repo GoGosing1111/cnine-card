@@ -2,7 +2,9 @@
 
 사용자가 지적한 공격 얼굴·위압감과 주변 아우라를 교체한 전투 자산 검수본이다. 흑청·자주색 검압, 진주빛 검날 궤적과 절제된 금빛을 사용한다. 원화의 성인 얼굴·갑옷·검 디자인과 **610px 신체 기준**을 유지했다.
 
-[실제 전투 프리뷰](http://127.0.0.1:8985/preview/mercenary-leonel-sss-limited-20261018-v2/) · [시연 영상](review-v2.webm) · [전체 자산 목록](manifest.json)
+[실제 전투 프리뷰](http://127.0.0.1:8985/preview/mercenary-leonel-sss-limited-20261018-v2/) · [V2 최초 시연 영상](review-v2.webm) · [전체 자산 목록](manifest.json)
+
+2026-10-18 후속: 기본 검압 두 겹의 기준점을 캐릭터 발밑으로 옮겨 이동 중에도 붙도록 수정했다. 불투명도는 아우라 68%→78%, 배경 검압 30%→40%다. 이미지·캐릭터/효과 크기·모션/효과 속도는 유지했다. [PC·모바일 위치 확인](qa/pressure-attachment-20261018.json), [PC 화면](qa/desktop-pressure-attached.png), [모바일 화면](qa/mobile-pressure-attached.png)에 현재 번들 검수를 기록했다. 아래 최초 V2 종합 검사와 영상은 이 위치 조정 이전 증빙이다.
 
 ## 이번 결과
 

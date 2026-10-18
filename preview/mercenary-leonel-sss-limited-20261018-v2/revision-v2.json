@@ -27,5 +27,16 @@
   },
   "qa": "qa/visual-review-v2.json",
   "combatProfile": "combat-profile.mjs",
-  "basePowerConfirmation": "combat-power-confirmation.json"
+  "basePowerConfirmation": "combat-power-confirmation.json",
+  "ambientAttachmentRevision": {
+    "date": "2026-10-18",
+    "scope": "AMBIENT_POSITION_AND_ALPHA_ONLY",
+    "anchor": "ACTOR_FEET",
+    "contentAnchorY": 0.98,
+    "auraAlpha": 0.78,
+    "pressureAlpha": 0.4,
+    "sizesUnchanged": true,
+    "timingsUnchanged": true,
+    "qa": "qa/pressure-attachment-20261018.json"
+  }
 }
