@@ -1,0 +1,25 @@
+{
+  "sourceHash": "0fe7c489ad289455f40aba7c23fe7a55592f3ba4debd486295c2a2a153c09ea4",
+  "rollbackVerified": true,
+  "protectedStateUnchanged": true,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:pingdu-leonel-grant:20261019:v1",
+    "authorization": "핑크빛유두에 레오넬 지급 — 레오넬 V-978 1장 영구 직접 지급",
+    "target": {
+      "id": 1,
+      "nickname": "핑크빛유두",
+      "code": "V-978",
+      "quantity": 1
+    },
+    "completedAt": "2026-10-18T15:10:43.994Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "protectedBefore": "0b2cf0db6b450cdd8f84b029aab10816eb982eb0c59404c634c536bea6c4b342",
+    "protectedAfter": "0b2cf0db6b450cdd8f84b029aab10816eb982eb0c59404c634c536bea6c4b342",
+    "automaticLoadout": false,
+    "cost": 0,
+    "permanent": true,
+    "adminLogId": "48075"
+  }
+}
