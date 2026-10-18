@@ -1,0 +1,342 @@
+{
+  "dateKST": "2026-10-19",
+  "status": "PASS",
+  "origin": "https://cnine-card.pages.dev",
+  "hashes": [
+    {
+      "file": "preview/mercenary-leonel-sss-limited-20261018-v2/preview.bundle.js",
+      "status": 200,
+      "sha256": "aaa335ae4bb5cc646efbcdd7d15d49e978e2fb7c1fa02aacacd9eb57721f7f6b",
+      "bytes": 2145859
+    },
+    {
+      "file": "preview/mercenary-leonel-sss-limited-20261018-v2/assets/frames/ultimate-09.png",
+      "status": 200,
+      "sha256": "481c51b93e15a1c7a7123a16cfdbe7bf134f535feb5409c6782a1922a3201120",
+      "bytes": 571947
+    },
+    {
+      "file": "preview/mercenary-leonel-sss-limited-20261018-v2/assets/white-crest-20261019/crest.webp",
+      "status": 200,
+      "sha256": "a07a3ced9693704bc337eb131deeaf8f8eb290575b6e15308a912195aeb15e2e",
+      "bytes": 1272984
+    },
+    {
+      "file": "preview/mercenary-leonel-sss-limited-20261018-v2/assets/white-crest-20261019/ground.webp",
+      "status": 200,
+      "sha256": "b67b66b687e67ff468391485578075e30e58543ab5861fc554fd727c6b4136f3",
+      "bytes": 984596
+    },
+    {
+      "file": "preview/mercenary-leonel-sss-limited-20261018-v2/assets/white-crest-20261019/sword.webp",
+      "status": 200,
+      "sha256": "44ee0f1888f07627bad02f8dfdcdcf8bc305deabf25a7ad314e40c29e7971bfe",
+      "bytes": 918918
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "8008d7499becf8fc993bec9685ad9500af7d466641eccefae8cc2dd92c0add83",
+      "bytes": 2130425
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "sha256": "791165aa177b6b9ad4d508b78349022954c13445dba36f819672975eaab83d49",
+      "bytes": 2153531
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "status": 200,
+      "sha256": "5f087265fadd999a1d1943e9c1c012c9609f91ffe924ef7c41e0d1eb4f4cf0d6",
+      "bytes": 2260731
+    },
+    {
+      "file": "defense/index.html",
+      "status": 200,
+      "sha256": "9bfd5f034299e4d88420be7864a354f21fb36321aee977ffca3c7fbdcfbf14a5",
+      "bytes": 11966
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "3e902cb6f5cce91d672cb7c2270216ea408f25e0ac294e6c11069704e407951c",
+      "bytes": 82000
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "c37812cf8ef2de262d1f03c1c9477c50afec47c9d2767604fa1a42aa5c06bdc3",
+      "bytes": 764114
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "67e80e89884d207fa2fbccc8fc5d66bc0473cb145c1099f1df517f89a3778f33",
+      "bytes": 15983
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "43e3a2a5d11b61a4e64f17d383507287a47e2da4619533aa45e3836804765247",
+      "bytes": 31725
+    }
+  ],
+  "screens": [
+    {
+      "label": "desktop",
+      "state": {
+        "idle": [
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -185.82299870450584,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -186.123831181143,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -186.22263539773058,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -186.06153318421119,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -185.7348960323362,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -185.43406355569905,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -185.3352593391115,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -185.49636155263087,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -185.82299870450584,
+            "angle": -1.8380245429106679
+          }
+        ],
+        "ultimate": [
+          {
+            "layers": 1,
+            "actual": 8,
+            "original": 8
+          },
+          {
+            "layers": 1,
+            "actual": 1,
+            "original": 1
+          },
+          {
+            "layers": 1,
+            "actual": 2,
+            "original": 2
+          },
+          {
+            "layers": 1,
+            "actual": 4,
+            "original": 4
+          },
+          {
+            "layers": 1,
+            "actual": 5,
+            "original": 5
+          },
+          {
+            "layers": 1,
+            "actual": 8,
+            "original": 8
+          },
+          {
+            "layers": 1,
+            "actual": 8,
+            "original": 8
+          }
+        ],
+        "forward": true,
+        "neon": true,
+        "swordAura": true,
+        "crest": true,
+        "ground": true,
+        "overflow": false
+      },
+      "cut": {
+        "first": true,
+        "second": false
+      },
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "state": {
+        "idle": [
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -185.81183487009824,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -186.1166208546172,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -186.22360229057625,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -186.07011090371273,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -185.74605986674382,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -185.44127388222486,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -185.3342924462658,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -185.48778383312933,
+            "angle": -1.8380245429106679
+          },
+          {
+            "layers": 1,
+            "bank": "ultimate",
+            "index": 8,
+            "x": -28.042105263157946,
+            "y": -185.81183487009824,
+            "angle": -1.8380245429106679
+          }
+        ],
+        "ultimate": [
+          {
+            "layers": 1,
+            "actual": 8,
+            "original": 8
+          },
+          {
+            "layers": 1,
+            "actual": 1,
+            "original": 1
+          },
+          {
+            "layers": 1,
+            "actual": 2,
+            "original": 2
+          },
+          {
+            "layers": 1,
+            "actual": 4,
+            "original": 4
+          },
+          {
+            "layers": 1,
+            "actual": 5,
+            "original": 5
+          },
+          {
+            "layers": 1,
+            "actual": 8,
+            "original": 8
+          },
+          {
+            "layers": 1,
+            "actual": 8,
+            "original": 8
+          }
+        ],
+        "forward": true,
+        "neon": true,
+        "swordAura": true,
+        "crest": true,
+        "ground": true,
+        "overflow": false
+      },
+      "cut": {
+        "first": true,
+        "second": false
+      },
+      "errors": []
+    }
+  ],
+  "productionAccountWrites": 0
+}
