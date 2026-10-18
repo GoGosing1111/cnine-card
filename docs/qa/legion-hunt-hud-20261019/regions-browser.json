@@ -1,0 +1,1982 @@
+[
+  {
+    "width": 1440,
+    "region": "coast",
+    "initial": [
+      {
+        "frame": true,
+        "name": "작살게",
+        "expected": "작살게",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "칼지느러미 어인",
+        "expected": "칼지느러미 어인",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "익사한 해적",
+        "expected": "익사한 해적",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "작살게",
+        "expected": "작살게",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "칼지느러미 어인",
+        "expected": "칼지느러미 어인",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "익사한 해적",
+        "expected": "익사한 해적",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "작살게",
+        "expected": "작살게",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "칼지느러미 어인",
+        "expected": "칼지느러미 어인",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "익사한 해적",
+        "expected": "익사한 해적",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "작살게",
+        "expected": "작살게",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "칼지느러미 어인",
+        "expected": "칼지느러미 어인",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "익사한 해적",
+        "expected": "익사한 해적",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      }
+    ],
+    "checks": [
+      {
+        "name": "작살게",
+        "expected": "작살게",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "칼지느러미 어인",
+        "expected": "칼지느러미 어인",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "익사한 해적",
+        "expected": "익사한 해적",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 작살게",
+        "expected": "정예 작살게",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 칼지느러미 어인",
+        "expected": "정예 칼지느러미 어인",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 익사한 해적",
+        "expected": "정예 익사한 해적",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "난파왕",
+        "expected": "난파왕",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055325,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  },
+  {
+    "width": 1440,
+    "region": "desert",
+    "initial": [
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      }
+    ],
+    "checks": [
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 수정 전갈",
+        "expected": "정예 수정 전갈",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 모래 잠복충",
+        "expected": "정예 모래 잠복충",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 유리등 도마뱀",
+        "expected": "정예 유리등 도마뱀",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "태양을 삼킨 전갈",
+        "expected": "태양을 삼킨 전갈",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055325,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  },
+  {
+    "width": 1440,
+    "region": "theatre",
+    "initial": [
+      {
+        "frame": true,
+        "name": "태엽 무용수",
+        "expected": "태엽 무용수",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "가면 광대",
+        "expected": "가면 광대",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "줄인형 병사",
+        "expected": "줄인형 병사",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "태엽 무용수",
+        "expected": "태엽 무용수",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "가면 광대",
+        "expected": "가면 광대",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "줄인형 병사",
+        "expected": "줄인형 병사",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "태엽 무용수",
+        "expected": "태엽 무용수",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "가면 광대",
+        "expected": "가면 광대",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "줄인형 병사",
+        "expected": "줄인형 병사",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "태엽 무용수",
+        "expected": "태엽 무용수",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "가면 광대",
+        "expected": "가면 광대",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "줄인형 병사",
+        "expected": "줄인형 병사",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      }
+    ],
+    "checks": [
+      {
+        "name": "태엽 무용수",
+        "expected": "태엽 무용수",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "가면 광대",
+        "expected": "가면 광대",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "줄인형 병사",
+        "expected": "줄인형 병사",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 태엽 무용수",
+        "expected": "정예 태엽 무용수",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 가면 광대",
+        "expected": "정예 가면 광대",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 줄인형 병사",
+        "expected": "정예 줄인형 병사",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "얼굴 없는 단장",
+        "expected": "얼굴 없는 단장",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055325,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  },
+  {
+    "width": 1440,
+    "region": "viscera",
+    "initial": [
+      {
+        "frame": true,
+        "name": "흡수충",
+        "expected": "흡수충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "갑각 기생체",
+        "expected": "갑각 기생체",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "산성 포자낭",
+        "expected": "산성 포자낭",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "흡수충",
+        "expected": "흡수충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "갑각 기생체",
+        "expected": "갑각 기생체",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "산성 포자낭",
+        "expected": "산성 포자낭",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "흡수충",
+        "expected": "흡수충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "갑각 기생체",
+        "expected": "갑각 기생체",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "산성 포자낭",
+        "expected": "산성 포자낭",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "흡수충",
+        "expected": "흡수충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "갑각 기생체",
+        "expected": "갑각 기생체",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "산성 포자낭",
+        "expected": "산성 포자낭",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      }
+    ],
+    "checks": [
+      {
+        "name": "흡수충",
+        "expected": "흡수충",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "갑각 기생체",
+        "expected": "갑각 기생체",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "산성 포자낭",
+        "expected": "산성 포자낭",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 흡수충",
+        "expected": "정예 흡수충",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 갑각 기생체",
+        "expected": "정예 갑각 기생체",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 산성 포자낭",
+        "expected": "정예 산성 포자낭",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "기생 여왕",
+        "expected": "기생 여왕",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055325,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  },
+  {
+    "width": 1440,
+    "region": "sky",
+    "initial": [
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      }
+    ],
+    "checks": [
+      {
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 폭풍 맹금",
+        "expected": "정예 폭풍 맹금",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 부유 갑충",
+        "expected": "정예 부유 갑충",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 낙뢰 정령",
+        "expected": "정예 낙뢰 정령",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "천공 포식조",
+        "expected": "천공 포식조",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055325,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  },
+  {
+    "width": 390,
+    "region": "coast",
+    "initial": [
+      {
+        "frame": true,
+        "name": "작살게",
+        "expected": "작살게",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "칼지느러미 어인",
+        "expected": "칼지느러미 어인",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "익사한 해적",
+        "expected": "익사한 해적",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "작살게",
+        "expected": "작살게",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "칼지느러미 어인",
+        "expected": "칼지느러미 어인",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "익사한 해적",
+        "expected": "익사한 해적",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "작살게",
+        "expected": "작살게",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "칼지느러미 어인",
+        "expected": "칼지느러미 어인",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "익사한 해적",
+        "expected": "익사한 해적",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "작살게",
+        "expected": "작살게",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "칼지느러미 어인",
+        "expected": "칼지느러미 어인",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "익사한 해적",
+        "expected": "익사한 해적",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      }
+    ],
+    "checks": [
+      {
+        "name": "작살게",
+        "expected": "작살게",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "칼지느러미 어인",
+        "expected": "칼지느러미 어인",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "익사한 해적",
+        "expected": "익사한 해적",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 작살게",
+        "expected": "정예 작살게",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 칼지느러미 어인",
+        "expected": "정예 칼지느러미 어인",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 익사한 해적",
+        "expected": "정예 익사한 해적",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "난파왕",
+        "expected": "난파왕",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.27527073175591,
+        "centerError": 2.842170943040401e-14,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  },
+  {
+    "width": 390,
+    "region": "desert",
+    "initial": [
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      }
+    ],
+    "checks": [
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 수정 전갈",
+        "expected": "정예 수정 전갈",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 모래 잠복충",
+        "expected": "정예 모래 잠복충",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 유리등 도마뱀",
+        "expected": "정예 유리등 도마뱀",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "태양을 삼킨 전갈",
+        "expected": "태양을 삼킨 전갈",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.27527073175591,
+        "centerError": 2.842170943040401e-14,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  },
+  {
+    "width": 390,
+    "region": "theatre",
+    "initial": [
+      {
+        "frame": true,
+        "name": "태엽 무용수",
+        "expected": "태엽 무용수",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "가면 광대",
+        "expected": "가면 광대",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "줄인형 병사",
+        "expected": "줄인형 병사",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "태엽 무용수",
+        "expected": "태엽 무용수",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "가면 광대",
+        "expected": "가면 광대",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "줄인형 병사",
+        "expected": "줄인형 병사",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "태엽 무용수",
+        "expected": "태엽 무용수",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "가면 광대",
+        "expected": "가면 광대",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "줄인형 병사",
+        "expected": "줄인형 병사",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "태엽 무용수",
+        "expected": "태엽 무용수",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "가면 광대",
+        "expected": "가면 광대",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "줄인형 병사",
+        "expected": "줄인형 병사",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      }
+    ],
+    "checks": [
+      {
+        "name": "태엽 무용수",
+        "expected": "태엽 무용수",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558247,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "가면 광대",
+        "expected": "가면 광대",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "줄인형 병사",
+        "expected": "줄인형 병사",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 태엽 무용수",
+        "expected": "정예 태엽 무용수",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 가면 광대",
+        "expected": "정예 가면 광대",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 줄인형 병사",
+        "expected": "정예 줄인형 병사",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "얼굴 없는 단장",
+        "expected": "얼굴 없는 단장",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  },
+  {
+    "width": 390,
+    "region": "viscera",
+    "initial": [
+      {
+        "frame": true,
+        "name": "흡수충",
+        "expected": "흡수충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "갑각 기생체",
+        "expected": "갑각 기생체",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "산성 포자낭",
+        "expected": "산성 포자낭",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "흡수충",
+        "expected": "흡수충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "갑각 기생체",
+        "expected": "갑각 기생체",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "산성 포자낭",
+        "expected": "산성 포자낭",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "흡수충",
+        "expected": "흡수충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "갑각 기생체",
+        "expected": "갑각 기생체",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "산성 포자낭",
+        "expected": "산성 포자낭",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "흡수충",
+        "expected": "흡수충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "갑각 기생체",
+        "expected": "갑각 기생체",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "산성 포자낭",
+        "expected": "산성 포자낭",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      }
+    ],
+    "checks": [
+      {
+        "name": "흡수충",
+        "expected": "흡수충",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558247,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "갑각 기생체",
+        "expected": "갑각 기생체",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "산성 포자낭",
+        "expected": "산성 포자낭",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 흡수충",
+        "expected": "정예 흡수충",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 갑각 기생체",
+        "expected": "정예 갑각 기생체",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 산성 포자낭",
+        "expected": "정예 산성 포자낭",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "기생 여왕",
+        "expected": "기생 여왕",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  },
+  {
+    "width": 390,
+    "region": "sky",
+    "initial": [
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      }
+    ],
+    "checks": [
+      {
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558247,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 폭풍 맹금",
+        "expected": "정예 폭풍 맹금",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 부유 갑충",
+        "expected": "정예 부유 갑충",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 낙뢰 정령",
+        "expected": "정예 낙뢰 정령",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "천공 포식조",
+        "expected": "천공 포식조",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  }
+]

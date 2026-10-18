@@ -209,6 +209,7 @@ test('binding a boss into a dead enemy slot cannot inherit its transparent, rota
     fullBodySprite: {position: point(), scale: point(), alpha: .3, rotation: 1},
     root: {position: point(), scale: point()}, nameLabel: {}, hud: {}, baseX: 100, baseY: 100, restScale: .64,
     animationAdapter: {kill() {}},
+    setDisplayName(name) {this.name = this.nameLabel.text = name;},
     captureNeutralAvatarPose() {this.neutralAvatarPose = {alpha: this.view.alpha, rotation: this.view.rotation};},
     useFullBodySprite() {this.captureNeutralAvatarPose();}, setTint() {}, setState() {}, setHp() {}, setShield() {}};
   const engine = Object.create(sandbox.Engine.prototype);

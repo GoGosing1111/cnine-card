@@ -59,7 +59,7 @@ export class BattleEngine extends LiveBattleEngine {
     actor.fullBodySprite.position.set(0, 0); actor.fullBodySprite.rotation = 0;
     actor.fullBodySprite.alpha = 1;
     actor.id = row.id; actor.cardId = row.cardId; actor.name = row.name;
-    actor.nameLabel.text = row.displayName || (row.boss ? row.name : `기어죠 ${row.id.split(':').at(-1)}`);
+    actor.setDisplayName(row.displayName || (row.boss ? row.name : `기어죠 ${row.id.split(':').at(-1)}`));
     actor.serverMaxHp = row.maxHp; actor.serverMaxShield = row.maxShield || 0;
     actor.startingShield = row.shield || 0; actor.startingMaxShield = row.maxShield || 0;
     actor.texture = this.spriteTextures.get(row.battleSprite);

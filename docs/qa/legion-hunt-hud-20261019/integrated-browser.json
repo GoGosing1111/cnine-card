@@ -1,0 +1,1234 @@
+[
+  {
+    "width": 1440,
+    "region": "desert",
+    "initial": [
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      }
+    ],
+    "checks": [
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 수정 전갈",
+        "expected": "정예 수정 전갈",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 모래 잠복충",
+        "expected": "정예 모래 잠복충",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 유리등 도마뱀",
+        "expected": "정예 유리등 도마뱀",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "태양을 삼킨 전갈",
+        "expected": "태양을 삼킨 전갈",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055325,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      }
+    ],
+    "resized": [
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "태양을 삼킨 전갈",
+        "expected": "태양을 삼킨 전갈",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "정예 유리등 도마뱀",
+        "expected": "정예 유리등 도마뱀",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  },
+  {
+    "width": 1440,
+    "region": "sky",
+    "initial": [
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": false,
+        "scale": 1
+      }
+    ],
+    "checks": [
+      {
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 폭풍 맹금",
+        "expected": "정예 폭풍 맹금",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055411,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 부유 갑충",
+        "expected": "정예 부유 갑충",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "정예 낙뢰 정령",
+        "expected": "정예 낙뢰 정령",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055297,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      },
+      {
+        "name": "천공 포식조",
+        "expected": "천공 포식조",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 5.436258389055325,
+        "centerError": 0,
+        "scale": 1,
+        "rotation": 0
+      }
+    ],
+    "resized": [
+      {
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "천공 포식조",
+        "expected": "천공 포식조",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      },
+      {
+        "name": "정예 낙뢰 정령",
+        "expected": "정예 낙뢰 정령",
+        "frame": true,
+        "compact": true,
+        "mobile": true,
+        "scale": 0.7251461988304094,
+        "expectedScale": 0.7251461988304094
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  },
+  {
+    "width": 390,
+    "region": "desert",
+    "initial": [
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      }
+    ],
+    "checks": [
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558247,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 수정 전갈",
+        "expected": "정예 수정 전갈",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 모래 잠복충",
+        "expected": "정예 모래 잠복충",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 유리등 도마뱀",
+        "expected": "정예 유리등 도마뱀",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "태양을 삼킨 전갈",
+        "expected": "태양을 삼킨 전갈",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      }
+    ],
+    "resized": [
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "태양을 삼킨 전갈",
+        "expected": "태양을 삼킨 전갈",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "유리등 도마뱀",
+        "expected": "유리등 도마뱀",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "수정 전갈",
+        "expected": "수정 전갈",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "모래 잠복충",
+        "expected": "모래 잠복충",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "정예 유리등 도마뱀",
+        "expected": "정예 유리등 도마뱀",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  },
+  {
+    "width": 390,
+    "region": "sky",
+    "initial": [
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      },
+      {
+        "frame": true,
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "showName": false,
+        "compact": true,
+        "scale": 0.7251461988304094
+      }
+    ],
+    "checks": [
+      {
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558247,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "frame": true,
+        "showName": false,
+        "expectedShow": false,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 폭풍 맹금",
+        "expected": "정예 폭풍 맹금",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 부유 갑충",
+        "expected": "정예 부유 갑충",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "정예 낙뢰 정령",
+        "expected": "정예 낙뢰 정령",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317559384,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      },
+      {
+        "name": "천공 포식조",
+        "expected": "천공 포식조",
+        "frame": true,
+        "showName": true,
+        "expectedShow": true,
+        "hpRatio": 0.25,
+        "shieldRatio": 0.25,
+        "headGap": 3.2752707317558816,
+        "centerError": 0,
+        "scale": 0.7251461988304094,
+        "rotation": 0
+      }
+    ],
+    "resized": [
+      {
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "천공 포식조",
+        "expected": "천공 포식조",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "낙뢰 정령",
+        "expected": "낙뢰 정령",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "폭풍 맹금",
+        "expected": "폭풍 맹금",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "부유 갑충",
+        "expected": "부유 갑충",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      },
+      {
+        "name": "정예 낙뢰 정령",
+        "expected": "정예 낙뢰 정령",
+        "frame": true,
+        "compact": false,
+        "mobile": false,
+        "scale": 1,
+        "expectedScale": 1
+      }
+    ],
+    "errors": [
+      "Cannot read properties of null (reading 'set')"
+    ]
+  }
+]

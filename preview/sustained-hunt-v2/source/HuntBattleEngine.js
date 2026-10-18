@@ -3,6 +3,7 @@ import {gsap} from 'gsap';
 import {BattleEngine as ScrapyardEngine} from '../../scrapyard-v3-v1/source/ScrapyardBattleEngine.js';
 import {BattleCharacter,TEAM} from '../../project-v-v3/source/battle/BattleCharacter.js';
 import {BattleAnimation} from '../../project-v-v3/source/battle/BattleAnimation.js';
+import {BATTLE_HUD_SIZE} from '../../project-v-v3/source/battle/BattleHud.js';
 import {sampleSequence} from '../../project-v-mercenary-system-v1/source/MercenarySpriteSequence.js';
 import {CAPACITY,crowdPosition} from '../hunt-rules.mjs';
 import {GroundDrops} from './GroundDrops.js';
@@ -87,13 +88,32 @@ export class BattleEngine extends ScrapyardEngine{
     return super.station(kind,index,team);
   }
   formationStations(){return super.formationStations().filter(s=>s.team!=='ENEMY');}
+  layoutMonsterHud(actor,row=this.instances?.get(actor.id)){
+    // The B HUD's namePlate is the whole image frame. Crop its name tab
+    // for normal monsters, and refresh every reused slot from its current row.
+    actor.setCompactHud(this.mobile);
+    actor.setDisplayName(row?.displayName||row?.name||actor.name);
+    actor.hud.frame.visible=true;
+    actor.hud.setNameVisible(Boolean(row?row.boss||row.elite:actor.isBoss||actor.huntElite));
+    const size=BATTLE_HUD_SIZE[this.mobile?'compact':'desktop'];
+    const columnWidth=this.viewportFit||this.mobile?142:198;
+    actor.huntHudScale=Math.min(1,(columnWidth-18)/(size.width*actor.designScale));
+    actor.formationHudY=-(actor.fullBodyHeight*.98+size.height*actor.huntHudScale+18);
+    actor.hud.position.set(0,actor.formationHudY);
+    actor.hud.scale.set(actor.huntHudScale);
+  }
+  sortCombatDepth(){
+    super.sortCombatDepth();
+    // Shared depth sorting resets HUD scale; retain the hunt's narrow columns.
+    for(const actor of this.enemies||[])if(Number.isFinite(actor.huntHudScale))actor.hud.scale.set(actor.huntHudScale);
+  }
   layoutCharacterGrid(){
     const enemies=this.enemies;this.enemies=enemies.slice(0,5);
     try{super.layoutCharacterGrid();}finally{this.enemies=enemies;}
     const scale=this.viewportFit?.57:this.mobile?.52:.49;
     for(const [i,a] of enemies.entries()){
       const p=this.station('cards',i,'ENEMY');a.setFormation(p.x,p.y,scale);a.designScale=scale;a.perspectiveResolver=()=>scale;a.root.depthSortY=p.y;
-      a.nameLabel.visible=!!(a.isBoss||a.huntElite);a.namePlate.visible=!!(a.isBoss||a.huntElite);a.hud.y=a.isBoss?-415:-270;a.hud.scale.set(.82);a.formationHudY=a.hud.y;
+      this.layoutMonsterHud(a);
     }
   }
   async applyBattlePayload(payload){
@@ -111,7 +131,7 @@ export class BattleEngine extends ScrapyardEngine{
     const a=super.bindMonster(row);a.animationAdapter.kill();a.huntElite=!!row.elite;a.useFullBodySprite(a.texture,row.battleHeight||(row.boss?395:245));
     a.fullBodySprite.scale.x=(this.huntRegionBackground?1:-1)*Math.abs(a.fullBodySprite.scale.x);a.captureNeutralAvatarPose();
     a.setAnimationAdapter(this.huntRegionBackground?(a.huntUprightAnimation??=new UprightMonsterAnimation(a)):a.animationController);
-    a.nameLabel.visible=!!(row.boss||row.elite);a.namePlate.visible=!!(row.boss||row.elite);a.hud.y=row.boss?-415:-270;
+    this.layoutMonsterHud(a,row);
     return a;
   }
   async arrival(actors){
