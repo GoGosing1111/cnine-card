@@ -1,0 +1,16 @@
+{
+  "generatedBy": "image_gen.imagegen",
+  "sourceSha256": "a67d32552ae4275a57ac4ec404c45ca553855f3bb330a9d7d9bb1690a6fddc6b",
+  "atlasSha256": "f4cd0edbb082fed4d9743db4f3bd4995757267c0237969082be8112e57695fca",
+  "width": 384,
+  "height": 384,
+  "hasAlpha": true,
+  "bytes": 68238,
+  "usage": "Embedded atlas in js/character-loadout-v2.js, +10 equipment aura only",
+  "tiles": [
+    "gold-plume",
+    "branching-plume",
+    "energy-arc",
+    "embers"
+  ]
+}
