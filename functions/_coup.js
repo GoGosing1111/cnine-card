@@ -1,7 +1,7 @@
 import { coupSettings, advanceFront, deadlineWinner, trialVerdict, PALACE_NODES, coupRebelDefeatPolicy, coupMatchedOpponent, COUP_DEFEAT_SIEGE_DAMAGE_PERCENT } from '../shared/coup-palace-v2115.mjs';
 import { currentCoupFormation, currentCoupOpponents } from './_coup_matchmaking.js';
 import { ensureCoupSchema, chiefMetaLock, chiefDuty, chiefAuthorityGuard } from './_coup_schema.js';
-import { coupEnergy, chooseNuclearTargets, COUP_CHIEF_SKILLS, COUP_REBEL_SKILLS, coupRebelCommanderId, coupSkillCooldown, coupRecoveryMs, COUP_REBEL_SUPPORT_PRESET, COUP_NUCLEAR_BLOCK_MS, COUP_ENERGY_MAX, COUP_ENERGY_RECOVERY_MS } from '../shared/coup-chief-skills-v2118.mjs';
+import { coupEnergy, chooseNuclearTargets, COUP_CHIEF_SKILLS, coupCommandSkills, coupNuclearEnabled, coupRebelNuclearEnabled, coupRebelCommanderId, coupSkillCooldown, coupRecoveryMs, COUP_REBEL_SUPPORT_PRESET, COUP_NUCLEAR_BLOCK_MS, COUP_ENERGY_MAX, COUP_ENERGY_RECOVERY_MS } from '../shared/coup-chief-skills-v2118.mjs';
 import { ensureClanCampSchema, CLAN_CAMP_HOURS } from './_clan_prison_camp.js';
 import { simulateTerritoryDuel, territoryFormationSnapshot, territorySiegeDamage } from './_territory_war.js';
 import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
@@ -323,9 +323,9 @@ export async function useCoupChiefSkill(env, user, body, now = Date.now()) {
   } else {
     commander = await rebelCommander(env, round);
     if (!commander?.enrolled || commander.userId !== Number(user.id)) fail('이번 회차에 반란군으로 참가한 지휘관만 사용할 수 있습니다.', 403);
-    if (!COUP_REBEL_SKILLS.some(s => s.code === code)) fail('반란군은 야포단 포격·공중폭격 지원·결사대 결집을 사용할 수 있습니다.', 403);
+    if (!coupCommandSkills(side, id, parse(round.settings_json)).some(s => s.code === code)) fail('이번 회차에 허용되지 않은 반란군 지휘 스킬입니다.', 403);
   }
-  if (code === 'NUCLEAR' && !(await readCoupSkillSettings(env)).nuclearEnabled) fail('원자폭탄은 운영자가 ON으로 전환하기 전까지 잠겨 있습니다.', 403);
+  if (code === 'NUCLEAR' && !coupNuclearEnabled(side, id, parse(round.settings_json), await readCoupSkillSettings(env))) fail('현재 회차와 진영에는 원자폭탄 사용이 허용되지 않습니다.', 403);
   const cooldownKey = side === 'REBEL' ? 'coup-rebel:' + round.id : round.appointment_id;
   const cooldown = await p(env, 'SELECT next_use_at FROM coup_skill_cooldowns_v2118 WHERE appointment_id=? AND skill_code=?', cooldownKey, code).first();
   if (Number(cooldown?.next_use_at || 0) > now) fail('이 스킬은 재사용 대기 중입니다. 화면의 남은 시간을 확인하세요.', 429);
@@ -346,11 +346,14 @@ export async function useCoupChiefSkill(env, user, body, now = Date.now()) {
     ...(side === 'REBEL' ? [guard(env, token + ':commander', `SELECT 1 FROM coup_rounds_v2115 r JOIN coup_participants_v2115 c ON c.round_id=r.id WHERE r.id=? AND r.settings_json=? AND c.user_id=? AND c.side='REBEL'`, id, round.settings_json, user.id)] : []),
     guard(env, token + ':cooldown', `SELECT 1 WHERE NOT EXISTS(SELECT 1 FROM coup_skill_cooldowns_v2118 WHERE appointment_id=? AND skill_code=? AND next_use_at>?)`, cooldownKey, code, now),
     p(env, `INSERT INTO coup_skill_cooldowns_v2118(appointment_id,skill_code,next_use_at) VALUES(?,?,?) ON CONFLICT(appointment_id,skill_code) DO UPDATE SET next_use_at=excluded.next_use_at`, cooldownKey, code, result.nextUseAt)];
-  if (code === 'NUCLEAR') statements.push(p(env, 'UPDATE app_meta SET value=value WHERE key=?', COUP_SKILL_SETTINGS), guard(env, token + ':enabled', "SELECT 1 FROM app_meta WHERE key=? AND CAST(json_extract(value,'$.nuclearEnabled') AS TEXT) IN ('true','1')", COUP_SKILL_SETTINGS));
+  if (code === 'NUCLEAR') {
+    statements.push(guard(env, token + ':nuclear-round', 'SELECT 1 FROM coup_rounds_v2115 WHERE id=? AND settings_json=?', id, round.settings_json));
+    if (!coupRebelNuclearEnabled(id, parse(round.settings_json))) statements.push(p(env, 'UPDATE app_meta SET value=value WHERE key=?', COUP_SKILL_SETTINGS), guard(env, token + ':enabled', "SELECT 1 FROM app_meta WHERE key=? AND CAST(json_extract(value,'$.nuclearEnabled') AS TEXT) IN ('true','1')", COUP_SKILL_SETTINGS));
+  }
   for (const t of targets) statements.push(p(env, `INSERT INTO coup_energy_v2118(round_id,user_id,energy,energy_at,blocked_until) VALUES(?,?,?,?,?) ON CONFLICT(round_id,user_id) DO UPDATE SET energy=excluded.energy,energy_at=excluded.energy_at,blocked_until=excluded.blocked_until`, id, t.user_id, code === 'NUCLEAR' ? 0 : 50, code === 'NUCLEAR' ? result.blockedUntil : now, code === 'NUCLEAR' ? result.blockedUntil : 0));
   if (damage) statements.push(p(env, 'UPDATE coup_rounds_v2115 SET front_index=?,chief_hp=?,rebel_hp=?,front_seq=front_seq+?,status=?,winner=? WHERE id=?', next.front, next.chief, next.rebel, next.moved ? 1 : 0, next.winner ? 'SETTLING' : 'ACTIVE', next.winner, id));
   statements.push(p(env, 'INSERT INTO coup_skills_v2118(request_id,round_id,user_id,skill_code,result_json,created_at) VALUES(?,?,?,?,?,?)', requestId, id, user.id, code, JSON.stringify(result), now),
-    clearGuard(env, token + ':chief'), clearGuard(env, token + ':commander'), clearGuard(env, token + ':cooldown'), clearGuard(env, token + ':enabled'), clearGuard(env, token + ':operating'), clearGuard(env, token), ...authority.after);
+    clearGuard(env, token + ':chief'), clearGuard(env, token + ':commander'), clearGuard(env, token + ':cooldown'), clearGuard(env, token + ':enabled'), clearGuard(env, token + ':nuclear-round'), clearGuard(env, token + ':operating'), clearGuard(env, token), ...authority.after);
   try { await atomic(env, statements); }
   catch (e) {
     const saved = await p(env, 'SELECT result_json FROM coup_skills_v2118 WHERE request_id=? AND round_id=? AND user_id=? AND skill_code=?', requestId, id, user.id, code).first();
@@ -380,8 +383,8 @@ export async function coupStatus(env, user, now = Date.now(), adminView = false)
   const skillSettings = await readCoupSkillSettings(env);
   const rebel = await rebelCommander(env, round);
   const commandSide = (mine?.side === 'REBEL' || rebel?.userId === Number(user.id)) && Number(round?.chief_user_id) !== Number(user.id) ? 'REBEL' : 'CHIEF';
-  const skillsFor = side => (side === 'REBEL' ? COUP_REBEL_SKILLS : COUP_CHIEF_SKILLS).map(s => ({ ...s,
-    enabled: s.code !== 'NUCLEAR' || skillSettings.nuclearEnabled, cooldownMs: coupSkillCooldown(s.code, side, round?.id, parse(round?.settings_json)),
+  const skillsFor = side => coupCommandSkills(side, round?.id, parse(round?.settings_json)).map(s => ({ ...s,
+    enabled: s.code !== 'NUCLEAR' || round?.status === 'ACTIVE' && Number(round.ends_at) > now && coupNuclearEnabled(side, round.id, parse(round.settings_json), skillSettings), cooldownMs: coupSkillCooldown(s.code, side, round?.id, parse(round?.settings_json)),
     nextUseAt: Number(cooldowns.find(c => c.appointment_id === (side === 'REBEL' ? 'coup-rebel:' + round?.id : round?.appointment_id) && c.skill_code === s.code)?.next_use_at || 0) }));
   const chiefSkills = skillsFor('CHIEF'), rebelSkills = skillsFor('REBEL');
   const canUseCommandSkills = settings.enabled && (commandSide === 'REBEL' ? round?.status === 'ACTIVE' && Number(round.ends_at) > now && rebel?.enrolled && rebel.userId === Number(user.id) : canUseChiefSkills);

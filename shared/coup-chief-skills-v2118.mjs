@@ -17,6 +17,14 @@ export const COUP_REBEL_SKILLS = Object.freeze(COUP_CHIEF_SKILLS.filter(s => s.c
   label: s.code !== 'RALLY' ? '현재 전선 · 족장팀' : '반란군 전체',
   detail: s.code !== 'RALLY' ? '현재 전선 족장팀의 최대 HP 30%만큼 피해를 줍니다. HP가 소진되면 기존 전선 돌파 규칙이 적용됩니다. 각 스킬의 재사용 대기는 별도로 적용됩니다.' : '참가한 반란군 전원의 행동력을 50으로 채웁니다. 10 이상에서는 자연 회복이 멈추며, 출격마다 1씩 소모합니다.'
 })));
+export const coupRebelNuclearEnabled = (roundId, settings = {}) => !!roundId && settings.rebelNuclear?.roundId === roundId && settings.rebelNuclear.enabled === true;
+export const coupNuclearEnabled = (side, roundId, settings, globalSettings = {}) => coupRebelNuclearEnabled(roundId, settings)
+  ? side === 'REBEL' : side === 'CHIEF' && globalSettings.nuclearEnabled === true;
+const REBEL_NUCLEAR_SKILL = Object.freeze({ ...COUP_CHIEF_SKILLS[0], label: '이번 회차 · 족장팀 최대 50명',
+  detail: '이번 회차의 반란군 지휘관만 사용합니다. 족장팀 중 최대 50명을 무작위로 선택해 행동력을 0으로 만듭니다. 10분 동안 회복할 수 없으며, 이후 2분마다 1씩 회복합니다. 회차 종료 시 사용 권한도 종료됩니다.' });
+export const coupCommandSkills = (side, roundId, settings) => side === 'REBEL'
+  ? coupRebelNuclearEnabled(roundId, settings) ? [REBEL_NUCLEAR_SKILL, ...COUP_REBEL_SKILLS] : COUP_REBEL_SKILLS
+  : COUP_CHIEF_SKILLS;
 export function coupRebelCommanderId(roundId, settings) {
   const command = settings?.rebelCommand, id = Number(command?.userId);
   return roundId && command?.roundId === roundId && Number.isSafeInteger(id) && id > 0 ? id : null;
