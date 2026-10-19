@@ -1,12 +1,15 @@
 import {readCollectionBonuses} from './_collection_bonuses.js';
 import {rewardAmountWithBonus} from '../shared/collection-bonuses-v1.mjs';
 import {RANKS,rankForLevel} from '../shared/account-ranks-v1.mjs';
+import {SHIRANUI_MIN_ACCOUNT_LEVEL} from '../shared/mercenary-shiranui-v1.mjs';
+import {shiranuiRankRewardStatements,shiranuiRankRewardKey} from './_account_rank_shiranui.js';
 
 // Server-only. Never return the curve, payout rules or receipt ledger to clients.
 const PAYOUT = Object.freeze({HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:160,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30});
 export const LEGACY_MAX_RANK_TICKS=139440*600;
 export const RANK_XP_MULTIPLIER=8;
 export const MAX_RANK_TICKS=LEGACY_MAX_RANK_TICKS*RANK_XP_MULTIPLIER;
+export const SHIRANUI_MIN_RANK_TICKS=(2*(SHIRANUI_MIN_ACCOUNT_LEVEL-1)**2+62*(SHIRANUI_MIN_ACCOUNT_LEVEL-1))*600*RANK_XP_MULTIPLIER;
 const PROGRESS='account_rank_progress_v1',LEDGER='account_rank_receipts_v1';
 export const ACCOUNT_RANK_SCHEMA=[
   `CREATE TABLE IF NOT EXISTS ${PROGRESS}(user_id INTEGER PRIMARY KEY,total_ticks INTEGER NOT NULL DEFAULT 0 CHECK(total_ticks>=0 AND total_ticks<=${MAX_RANK_TICKS}),updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
@@ -56,10 +59,17 @@ export async function accountRankAward(env,userId,source,eventId,{quantity=1,tic
   const statements=[
     env.DB.prepare(`INSERT INTO ${PROGRESS}(user_id) VALUES(?) ON CONFLICT(user_id) DO NOTHING`).bind(userId),
     env.DB.prepare(`INSERT INTO ${LEDGER}(user_id,source,event_id,ticks,token) SELECT ?,?,?,?,? WHERE ${guard} ON CONFLICT(user_id,source,event_id) DO NOTHING`).bind(userId,source,eventId,amount,token,...values),
-    env.DB.prepare(`UPDATE ${PROGRESS} SET total_ticks=MIN(?,total_ticks+?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND EXISTS(SELECT 1 FROM ${LEDGER} WHERE token=?)`).bind(MAX_RANK_TICKS,amount,userId,token)
+    env.DB.prepare(`UPDATE ${PROGRESS} SET total_ticks=MIN(?,total_ticks+?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND EXISTS(SELECT 1 FROM ${LEDGER} WHERE token=?)`).bind(MAX_RANK_TICKS,amount,userId,token),
+    ...shiranuiRankRewardStatements(env.DB,userId,SHIRANUI_MIN_RANK_TICKS,{guard:`EXISTS(SELECT 1 FROM ${LEDGER} WHERE token=?)`,values:[token]})
   ];
   statements.token=token;
   return statements;
+}
+// Catch up already-qualified accounts or rank changes made outside XP settlement.
+export async function ensureShiranuiRankReward(env,userId){
+ await ensureAccountRank(env);
+ const due=await env.DB.prepare(`SELECT user_id FROM ${PROGRESS} WHERE user_id=? AND total_ticks>=? AND NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)`).bind(userId,SHIRANUI_MIN_RANK_TICKS,shiranuiRankRewardKey(userId)).first();
+ if(due)await env.DB.batch(shiranuiRankRewardStatements(env.DB,userId,SHIRANUI_MIN_RANK_TICKS));
 }
 const PERSONAL=new Set(['HUNT','APOCALYPSE','SCRAPYARD','COW_ROOM','ESCORT','IDLE','RIFT']);
 export async function accountRankBenefits(env,userId,scope){

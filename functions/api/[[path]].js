@@ -28,12 +28,12 @@ import {liveSupportMessageSql,supportMessageCutoff,presentSupportMessage,deleteE
 import {handleRankedDuo} from '../_ranked_duo.js';
 import {reconcileDuoSeason,readDuoHonors} from '../_ranked_duo_seasons.js';
 import {duoMagicLoadouts} from '../_magic.js';
-import {accountRankAward,accountRankBenefits,rankCards,rankCoin,readAccountRank,handleAccountRank,settleRankedHunt} from '../_account_rank.js';
+import {accountRankAward,accountRankBenefits,rankCards,rankCoin,readAccountRank,ensureShiranuiRankReward,handleAccountRank,settleRankedHunt} from '../_account_rank.js';
 import {handleLootShop} from '../_loot_shop.js';
 import {handleLegionHunt} from '../_legion_hunt.js';
 import {claimPigCoinMessageReward} from '../_pig_coin_message_reward.js';
 import {claimCityMessageReward} from '../_jokgak_city_message_reward.js';
-import {claimOmegaMercenaryMessageReward} from '../_mercenary_message_reward.js';
+import {claimOmegaMercenaryMessageReward,claimShiranuiMercenaryMessageReward} from '../_mercenary_message_reward.js';
 import { handleCoup, pulseCoup } from '../_coup.js';
 import { chiefAuthorityGuard } from '../_coup_schema.js';
 import {hyperOpeningFeature} from '../_hyper_pack_opening.js';
@@ -566,6 +566,7 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   NEW_USER_GIFT_BOX:{label:'신규유저 기프트 박스',icon:'🎁',inventory:true,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   MADARA_RAID_ENTRY_TICKET:{label:'마다라 레이드 입장권',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   LICH_KING_ENTRY_TICKET:{label:'리치왕 정벌 입장권',icon:'🎟️',inventory:true,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
+  MERCENARY_SHIRANUI:{label:'시라누이 SSS 리미티드',icon:'🃏',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏',inventory:false,messageOnly:true,max:1,messageType:'ITEM_REWARD'},
   PIG_COIN:{label:'피그코인',icon:'🐷',inventory:false,messageOnly:true,max:100000,messageType:'ITEM_REWARD'},
   COIN:{label:'코인',icon:'🪙',inventory:false,max:5000000000,messageType:'COIN_REWARD'},
@@ -623,6 +624,7 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
   if(rewardType==='NEW_USER_GIFT_BOX')return claimNewUserGiftMessage(env,user,reward,messageId);
   if(rewardType==='PIG_COIN')return claimPigCoinMessageReward(env,user,reward,messageId);
   if(rewardType==='JOKGAK_CITY_REWARD')return claimCityMessageReward(env,user,reward,messageId);
+  if(rewardType==='MERCENARY_SHIRANUI')return claimShiranuiMercenaryMessageReward(env,user,reward,messageId);
   if(rewardType==='MERCENARY_OMEGA_X')return claimOmegaMercenaryMessageReward(env,user,reward,messageId);
   const spec=verifiedMessageRewardSpec(rewardType);
   const rewardAmount=Math.max(0,Math.floor(Number(reward?.reward_amount||0)));
@@ -3952,6 +3954,7 @@ async function profile(env,user){
     furMasterStarBreakthroughConfig(env),
     zenithMasterStarBreakthroughConfig(env)
   ]);
+  await ensureShiranuiRankReward(env,user.id);
   return {accountRank:await readAccountRank(env,user.id),profileScope:'FULL',id:user.id,nickname:user.nickname,coin:user.coin,cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
     owned:owned.results.map(row=>String(row.card_id)),
     quantities:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.quantity||0)])),
@@ -7240,6 +7243,7 @@ async function handleRequest(context){
     if(path==='messages'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       await ensureMessageRewardClaimV1222(env);
+      await ensureShiranuiRankReward(env,user.id);
       await deleteExpiredSupportMessages(env,Date.now(),user.id);
       if(request.method==='GET'){
         const rows=await env.DB.prepare(`SELECT m.id,m.sender_type,m.title,m.body,m.message_type,m.coupon_code,m.is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,0 AS needs_recovery
