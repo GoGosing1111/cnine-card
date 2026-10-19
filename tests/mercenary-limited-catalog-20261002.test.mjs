@@ -10,9 +10,9 @@ import {mercenaryAcquisitionEnabled,assertMercenaryAcquisitionEnabled} from '../
 import {mercenaryCardAcquisitionStatements} from '../functions/_mercenary_draw_accounting.js';
 import {validateCatalog,filterCatalog} from '../mercenary-codex/model.mjs';
 const digest=b=>createHash('sha256').update(b).digest('hex').toUpperCase();
-test('read-only codex includes nine catalog limited cards plus craft-only Kairon with preserved artwork',()=>{
+test('read-only codex preserves the nine original limited cards alongside Leonel, Jinmu and craft-only Kairon',()=>{
  const catalog=validateCatalog(mercenaryCodexDocument({payload_json:JSON.stringify(seed.document),revision:1,updated_at:'2026-10-02'}));
- assert.equal(catalog.cards.filter(c=>c.edition==='LIMITED'&&c.season!=='HALLOWEEN').length,10);assert.equal(new Set(catalog.cards.map(c=>c.code)).size,catalog.cards.length);
+ assert.deepEqual(catalog.cards.filter(c=>c.edition==='LIMITED'&&c.season!=='HALLOWEEN').map(c=>c.code).sort(),[...cards.map(c=>c.code),'V-978','V-988','V-989'].sort());assert.equal(new Set(catalog.cards.map(c=>c.code)).size,catalog.cards.length);
  const kairon=catalog.cards.find(c=>c.code==='V-988');assert.equal(kairon.acquisition,'CRAFT_ONLY');assert.equal(kairon.packAcquisitionEnabled,false);
  assert.equal(cards.find(c=>c.name==='나무늘봉순').rank,'SS');assert.equal(cards.find(c=>c.name==='조은').rank,'SS');
  assert.deepEqual(cards.filter(c=>c.rank==='SSS').map(c=>c.name),['발테르','헬리오스']);
@@ -23,7 +23,7 @@ test('read-only codex includes nine catalog limited cards plus craft-only Kairon
  assert.equal(cards.find(c=>c.code==='V-990').sourceArtSha256,'EFC0B6D14A891917D517E8F9850D398165A0F94C11006DD6945BB2D05C627120');
  const canonical=JSON.parse(fs.readFileSync('preview/mercenary-limited-snow-neon-20261001-v1/manifest.json'));for(const card of cards){const entry=canonical.entries.find(e=>e.name===card.name);assert.equal(entry.rank,card.rank);assert.equal(entry.source.sha256,card.sourceArtSha256);assert.equal(entry.frameSha256,card.frameSha256);}assert.deepEqual(JSON.parse(fs.readFileSync('assets/ui/project-v/mercenaries/limited-20261002/catalog.json')).cards,cards);
  assert.equal(filterCatalog(cards,{q:'발테르',rank:'SSS'},new Set()).length,1);
- const broken=structuredClone(catalog);broken.cards.find(c=>c.edition==='LIMITED').acquisitionEnabled=true;assert.throws(()=>validateCatalog(broken),/조회만/);
+ const broken=structuredClone(catalog);broken.cards.find(c=>c.code==='V-990').acquisitionEnabled=true;assert.throws(()=>validateCatalog(broken),/조회만/);
 });
 test('limited grants remain blocked independent of saved weight and never enter general catalog',()=>{
  for(const c of cards){assert.equal(seed.catalog.cards.some(row=>row.code===c.code),false);assert.equal(mercenaryAcquisitionEnabled(c.code,{cardWeights:{[c.code]:1000000}}),false);assert.throws(()=>assertMercenaryAcquisitionEnabled(c.code),e=>e.code==='MERCENARY_ACQUISITION_DISABLED');assert.throws(()=>mercenaryCardAcquisitionStatements({prepare(){throw Error('DB must not be touched');}},{userId:65,mercenaryCode:c.code,acquisitionId:'limited-block-12345'}),/Invalid mercenary acquisition/);}
