@@ -112,8 +112,8 @@ test('production and shared preview invalidate the changed equipment resources',
   for (const path of ['css/character-loadout-v2.css', 'js/character-loadout-v2.js']) {
     const start = app.indexOf("'" + path + '?');
     assert.ok(start >= 0);
-    assert.ok(app.slice(start, app.indexOf("'", start + 1)).includes('&enhanceGlow=20261019-energy-v3'));
+    assert.ok(app.slice(start, app.indexOf("'", start + 1)).includes('&enhanceGlow=20261019-gold-v4'));
   }
-  assert.ok(index.split('\n').find(line => line.includes('src="js/app.js?')).includes('&amp;enhanceGlow=20261019-energy-v3'));
+  assert.ok(index.split('\n').find(line => line.includes('src="js/app.js?')).includes('&amp;enhanceGlow=20261019-gold-v4'));
   assert.match(read('preview/live-character-loadout-v2-v1/preview.js'), /get\('enhancementGlow'\) === '1'/);
 });

@@ -530,7 +530,7 @@
 .clv2-inventory-art .clv2-art-image { padding: 3%; }
 
 /* Equipment-window enhancement light: exactly +8, +9 and +10.
-   +10 uses painted energy plumes; keep the item and its badges readable. */
+   +10 illuminates the original gold ornament and item highlights. */
 @property --clv2-rim-angle { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 .clv2-shell[data-active-tab="equipment"] .clv2-item-art[data-enhancement-glow] {
   --rim: #6eeaff;
@@ -547,8 +547,8 @@
   --rim: #ffe4a2;
   --rim-soft: #ffba5088;
   overflow: visible;
-  border-color: #eebd6580;
-  box-shadow: 0 0 8px #ffae3b55, inset 0 0 7px #ffbf4922;
+  border-color: rgba(133, 171, 197, .12);
+  box-shadow: none;
 }
 .clv2-shell[data-active-tab="equipment"] .clv2-enhancement-light {
   position: absolute;
@@ -576,9 +576,10 @@
   animation: clv2-rim-orbit 5s linear infinite;
 }
 .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="10"] .clv2-enhancement-light {
-  border-color: #ffcf7855;
+  border: 0;
   box-shadow: none;
   animation: none;
+  mix-blend-mode: screen;
 }
 .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="10"] .clv2-enhancement-light::before,
 .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="10"] .clv2-enhancement-light::after {
@@ -588,11 +589,11 @@
 .clv2-shell[data-active-tab="equipment"] .clv2-plus10-fx {
   position: absolute;
   z-index: 1;
-  left: -10%;
-  top: -12%;
+  left: 0;
+  top: 0;
   display: block;
-  width: 120%;
-  height: 114%;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
 }
 .clv2-shell[data-active-tab="equipment"] [data-enhancement-glow="10"] .clv2-enhancement-level {
