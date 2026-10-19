@@ -1,0 +1,243 @@
+{
+  "operationKey": "ops:named-two-trillion:20261019:v1",
+  "authorization": "사용자가 지정한 명단 38명에게 각 2조 코인 지급. 후속 Mild7 추가로 총 39명.",
+  "amountEach": "2000000000000",
+  "recipientCount": 39,
+  "totalCoin": "78000000000000",
+  "recipients": [
+    {
+      "position": 1,
+      "userId": "4391",
+      "nickname": "더듬이구",
+      "role": "USER"
+    },
+    {
+      "position": 2,
+      "userId": "4908",
+      "nickname": "굳건창수",
+      "role": "USER"
+    },
+    {
+      "position": 3,
+      "userId": "4757",
+      "nickname": "음주플레이어",
+      "role": "USER"
+    },
+    {
+      "position": 4,
+      "userId": "88",
+      "nickname": "0수표",
+      "role": "USER"
+    },
+    {
+      "position": 5,
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "role": "USER"
+    },
+    {
+      "position": 6,
+      "userId": "1768",
+      "nickname": "핫시",
+      "role": "USER"
+    },
+    {
+      "position": 7,
+      "userId": "4933",
+      "nickname": "심심이",
+      "role": "USER"
+    },
+    {
+      "position": 8,
+      "userId": "115",
+      "nickname": "쁠리의무사시",
+      "role": "USER"
+    },
+    {
+      "position": 9,
+      "userId": "4627",
+      "nickname": "학벌",
+      "role": "USER"
+    },
+    {
+      "position": 10,
+      "userId": "4817",
+      "nickname": "음주",
+      "role": "USER"
+    },
+    {
+      "position": 11,
+      "userId": "289",
+      "nickname": "베베킹",
+      "role": "USER"
+    },
+    {
+      "position": 12,
+      "userId": "4570",
+      "nickname": "혜정",
+      "role": "USER"
+    },
+    {
+      "position": 13,
+      "userId": "4595",
+      "nickname": "비니",
+      "role": "USER"
+    },
+    {
+      "position": 14,
+      "userId": "1545",
+      "nickname": "좋은하루",
+      "role": "USER"
+    },
+    {
+      "position": 15,
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "role": "USER"
+    },
+    {
+      "position": 16,
+      "userId": "4408",
+      "nickname": "레가파",
+      "role": "USER"
+    },
+    {
+      "position": 17,
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "role": "USER"
+    },
+    {
+      "position": 18,
+      "userId": "2420",
+      "nickname": "블랙캐슬",
+      "role": "USER"
+    },
+    {
+      "position": 19,
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "role": "USER"
+    },
+    {
+      "position": 20,
+      "userId": "164",
+      "nickname": "박사",
+      "role": "USER"
+    },
+    {
+      "position": 21,
+      "userId": "218",
+      "nickname": "현하루",
+      "role": "USER"
+    },
+    {
+      "position": 22,
+      "userId": "2246",
+      "nickname": "옹가망함1",
+      "role": "USER"
+    },
+    {
+      "position": 23,
+      "userId": "4836",
+      "nickname": "딤키우기",
+      "role": "USER"
+    },
+    {
+      "position": 24,
+      "userId": "4572",
+      "nickname": "응맨",
+      "role": "USER"
+    },
+    {
+      "position": 25,
+      "userId": "4479",
+      "nickname": "대지",
+      "role": "USER"
+    },
+    {
+      "position": 26,
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "role": "USER"
+    },
+    {
+      "position": 27,
+      "userId": "277",
+      "nickname": "스갤가축",
+      "role": "USER"
+    },
+    {
+      "position": 28,
+      "userId": "3884",
+      "nickname": "zkzk9999",
+      "role": "USER"
+    },
+    {
+      "position": 29,
+      "userId": "360",
+      "nickname": "라피e",
+      "role": "USER"
+    },
+    {
+      "position": 30,
+      "userId": "5148",
+      "nickname": "타몽",
+      "role": "USER"
+    },
+    {
+      "position": 31,
+      "userId": "5504",
+      "nickname": "비_니",
+      "role": "USER"
+    },
+    {
+      "position": 32,
+      "userId": "525",
+      "nickname": "족구조아",
+      "role": "USER"
+    },
+    {
+      "position": 33,
+      "userId": "4981",
+      "nickname": "간장왕대게찜",
+      "role": "USER"
+    },
+    {
+      "position": 34,
+      "userId": "4199",
+      "nickname": "택신",
+      "role": "USER"
+    },
+    {
+      "position": 35,
+      "userId": "162",
+      "nickname": "차단하다",
+      "role": "USER"
+    },
+    {
+      "position": 36,
+      "userId": "4010",
+      "nickname": "슈라",
+      "role": "USER"
+    },
+    {
+      "position": 37,
+      "userId": "4610",
+      "nickname": "고라니ㅇ",
+      "role": "USER"
+    },
+    {
+      "position": 38,
+      "userId": "62",
+      "nickname": "숭구릭",
+      "role": "USER"
+    },
+    {
+      "position": 39,
+      "userId": "290",
+      "nickname": "Mild7",
+      "role": "USER"
+    }
+  ]
+}
