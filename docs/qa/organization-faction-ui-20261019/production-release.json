@@ -1,0 +1,111 @@
+{
+  "verifiedAt": "2026-10-19T06:16:24.453Z",
+  "releaseCommit": "615cf7ce59e00c0f5cc697129c3c8991e082b45d",
+  "deployment": {
+    "id": "f280cba4-592e-4b9d-a918-5f4d0bf2627d",
+    "url": "https://f280cba4.cnine-card.pages.dev",
+    "createdOn": "2026-10-19T06:13:56.067593Z",
+    "status": "success"
+  },
+  "previousDeployment": {
+    "id": "72df7017-e71c-4677-ad5d-12813c79d83f",
+    "commit": "06e255f0985b53e7199c0e26a852d0f9291fcf2c"
+  },
+  "workerVersions": {
+    "apiRuntime": "51089335-a1f1-4287-a0c0-4b43a680b1f4",
+    "clanDraft": "744d7ee3-9a29-4f7f-bcda-5932684a8ed9"
+  },
+  "scopedTests": [
+    "tests/organization-faction-art-20261019.test.mjs",
+    "tests/organization-faction-map-20261015.test.mjs"
+  ],
+  "scopedTestsPassed": 2,
+  "isolatedBrowserReport": "docs/qa/organization-faction-ui-20261019/report.json",
+  "resourceChecks": [
+    {
+      "path": "organization/index.html",
+      "status": 200,
+      "sha256": "fc8089f1f162defbcba7672f86b01ea6fecf6bd1aed28dee522731767c25260f",
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "organization/faction/index.html",
+      "status": 200,
+      "sha256": "8078652839e2327e4e59c9abe04fa410bff17195294f90354d02f8994e810963",
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "js/organization-public-v1.mjs",
+      "status": 200,
+      "sha256": "06fc065aa1dd0641ddf9777dae7a153965b71a291351bed1fe1ac97ad42ae102",
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "js/organization-system-v1.mjs",
+      "status": 200,
+      "sha256": "a4e9fcae31cf22d7323ddd2ddfd4d5d01be7f8361044d4743fd3908cd0a4639d",
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "js/organization-faction-window-v1.mjs",
+      "status": 200,
+      "sha256": "a285963d6af447a345ed3681a55aa5be4b548f42f0bad39c65989537507c0445",
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "js/organization-faction-entry-v1.mjs",
+      "status": 200,
+      "sha256": "fa6d1813aab1e1f7ad6b02bbac7595284afcb1ef02ed45d9fbb07b06adc6c2d7",
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "js/organization-faction-v1.mjs",
+      "status": 200,
+      "sha256": "2145b008a06dc1bdd7dc53fb7ffcef02f8b4f0bce15b0f7a7fbaddb45db082f9",
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "css/organization-faction-v1.css",
+      "status": 200,
+      "sha256": "b8ad358dc17cc37a3fdf771b1f033b8114d4fb9742610b214551fb242f10ef8c",
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "assets/ui/organization/faction-v3-20261019/emblems.webp",
+      "status": 200,
+      "sha256": "41cf6cee43fcc2bef1f55ee63ddd4620de85c3ca8dadf30fcb77daca4331deda",
+      "lineEndingsNormalized": false
+    },
+    {
+      "path": "assets/ui/organization/faction-v3-20261019/terrain.webp",
+      "status": 200,
+      "sha256": "0477568ddabfd340ffd53265dfd45958cfb95e70d96b354c6fa08983345dc11f",
+      "lineEndingsNormalized": false
+    },
+    {
+      "path": "assets/ui/organization/faction-v3-20261019/clash.webp",
+      "status": 200,
+      "sha256": "69e61fb6c6ecd02a5557f0aa351c5616ef1ed358b2fc4156efbd37afad781607",
+      "lineEndingsNormalized": false
+    },
+    {
+      "path": "assets/ui/organization/faction-v3-20261019/manifest.json",
+      "status": 200,
+      "sha256": "fa5d160c1ae6c7d5c22da25a2c00b591ccebfc76d1d3c56e42ae9f016a2d3692",
+      "lineEndingsNormalized": true
+    }
+  ],
+  "productionSmoke": {
+    "url": "https://cnine-card.pages.dev/organization/",
+    "anonymous": true,
+    "readOnly": true,
+    "viewport": {
+      "width": 1366,
+      "height": 900
+    },
+    "fullWindowOpened": true,
+    "escapeRestoresHeadquarters": true,
+    "errors": []
+  },
+  "visualApproval": "pending-user-review"
+}

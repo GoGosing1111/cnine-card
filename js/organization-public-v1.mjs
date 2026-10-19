@@ -1,4 +1,4 @@
-import {mountOrganization} from './organization-system-v1.mjs?v=20261019-elders';
+import {mountOrganization} from './organization-system-v1.mjs?v=20261019-war-room';
 import {observeOrganizationHeight,isOrganizationEmbedded} from './organization-embed-size-v1.mjs?v=20261018-map-stable';
 import {organizationApi,organizationToken} from './organization-api-v1.mjs?v=20261015-organization-live-v2';
 
