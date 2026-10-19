@@ -149,7 +149,22 @@
     // Decoration belongs only to this equipment view, never rarity/card frames.
     const glowLevel = row => STANDARD_SLOT_ORDER.includes(row?.item?.slot) && [8, 9, 10].includes(Number(row?.enhancement?.level)) ? Number(row.enhancement.level) : 0;
     const glowAttribute = row => glowLevel(row) ? `data-enhancement-glow="${glowLevel(row)}"` : '';
-    const glowArt = row => glowLevel(row) ? `<span class="clv2-enhancement-light" aria-hidden="true"></span><b class="clv2-enhancement-level" aria-hidden="true">+${glowLevel(row)}</b>` : '';
+    // +10 adds light only around the existing rim; the item art and badges stay clear.
+    const plus10Fx = `<svg class="clv2-plus10-fx" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path class="clv2-plus10-corners" d="M2 16V7L7 2H16M84 2H93L98 7V16M98 84V93L93 98H84M16 98H7L2 93V84"/>
+      <g class="clv2-plus10-glints">
+        <path d="M5 .5L6.1 3.9L9.5 5L6.1 6.1L5 9.5L3.9 6.1L.5 5L3.9 3.9ZM95 90.5L96.1 93.9L99.5 95L96.1 96.1L95 99.5L93.9 96.1L90.5 95L93.9 93.9Z"/>
+      </g>
+      <g class="clv2-plus10-glints is-offset">
+        <path d="M95 .5L96.1 3.9L99.5 5L96.1 6.1L95 9.5L93.9 6.1L90.5 5L93.9 3.9ZM5 90.5L6.1 93.9L9.5 95L6.1 96.1L5 99.5L3.9 96.1L.5 95L3.9 93.9Z"/>
+      </g>
+      <g class="clv2-plus10-motes"><circle cx="26" cy="6" r=".7"/><circle cx="94" cy="37" r=".65"/><circle cx="64" cy="94" r=".8"/></g>
+      <g class="clv2-plus10-motes is-offset"><circle cx="72" cy="6" r=".65"/><circle cx="6" cy="56" r=".8"/><circle cx="39" cy="94" r=".6"/></g>
+    </svg>`;
+    const glowArt = row => {
+      const level = glowLevel(row);
+      return level ? `<span class="clv2-enhancement-light" aria-hidden="true">${level === 10 ? plus10Fx : ''}</span><b class="clv2-enhancement-level" aria-hidden="true">+${level}</b>` : '';
+    };
     function slotCard(slot) {
       const row = equippedInstance(slot);
       const item = row?.item;
