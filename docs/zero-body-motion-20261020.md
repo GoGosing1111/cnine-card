@@ -18,3 +18,11 @@
 ## 배포
 
 직전 운영 Pages `1be13de2-93bd-41b4-a351-4f0eed6e0e7a`, 소스 `e3905780a6060fb8bc95dfe69eaba2863adca4c4`를 Wrangler로 확인했다. 지정 경로 `npm run deploy:production -- --scoped`를 사용하며 운영 결과는 배포 완료 후 기록한다.
+
+라이브 반영 완료. 소스 `d37f3e1fb`, Pages https://5a6fc66b.cnine-card.pages.dev, 19,977개 파일 중 35개 업로드. 최초 실행은 Wrangler가 만든 임시 `.wrangler/cache/cf.json` 때문에 배포 전 중단됐으며, 해당 캐시를 작업 폴더 밖으로 보존 이동한 뒤 같은 scoped 명령으로 완료했다. 관련 17개 회귀·출시 검사·Hyperdrive 쿼리 캐시 OFF 확인, 전체 배포 종료 코드 0.
+
+- API Runtime: `adf47b3e-5602-4762-91c0-7237307a8dc8`.
+- Clan Draft Worker: `9b1f2886-4673-4180-a279-73c537e32fc9`.
+- 운영 도메인 파일 13개 SHA-256 일치. 변경하지 않은 효과 시간표 2개·도감 HTML도 포함한다.
+- 운영 프리뷰에서 실제 몸 프레임의 빠른 전환(0.40초 1번 / 0.75초 5번), 몸 2배·효과 1배, 5시각의 고정 대기, 천검 포위 소환검 표시와 JS 오류 0건 확인. `docs/qa/zero-body-motion-20261020/production.json`, `production-preview.png`.
+- 계정·재화·편성 쓰기 0회. 배포 후 기록만 커밋하고 재검사·재배포는 반복하지 않는다.

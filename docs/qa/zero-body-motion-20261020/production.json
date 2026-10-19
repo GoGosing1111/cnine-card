@@ -1,0 +1,440 @@
+{
+  "status": "PASS",
+  "at": "2026-10-19T20:49:57.167Z",
+  "source": "d37f3e1fb646ad8711acb83d7a339da6f353acd0",
+  "deployment": "https://5a6fc66b.cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "5760c6cf258eea6a64faa92b5ea01466ad89e79a73f066394b1b8e18bc6787c0"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "e9288a39fb407e063a5136af371cd593637758a2de1772f3623459a0b2d12056"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "e9ed5aed3104a3c65ec0c5527a205bd8b980f45874396c2ecf635cf38ad3f2ad"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "90b75477daa08091ef1c61f4352ac4acc8266c2f91b28d1e3aa59dc64a267038"
+    },
+    {
+      "file": "js/cooperative-battleground-entry.js",
+      "status": 200,
+      "sha256": "7a2e30d86d13d543ed321b4c52ec89f3ab8891db24b9e731c7c8e01c92b2738e"
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "1e88f5781ce05aa44bbed40628618fbe9713a83cfdb86b3370c0f55322ccc154"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "status": 200,
+      "sha256": "2a49573463276949230d4fdfc4eff8af3764b1ff781198ca3cccbc37cbcc690d"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "status": 200,
+      "sha256": "62a742ff426e59302e8d6f85803959092832de16fe27f26bfead83dcdddebdad"
+    },
+    {
+      "file": "preview/mercenary-cyan-knight-battle-20261020-v1/preview.bundle.js",
+      "status": 200,
+      "sha256": "41b7a72885fe17d4224c542a2c390863083327273c5b08ef83d59ea1d46ee565"
+    },
+    {
+      "file": "preview/mercenary-cyan-knight-battle-20261020-v1/source/BodyMotion.mjs",
+      "status": 200,
+      "sha256": "bdbb75cd05985732255fe56018e0bd1165cd88cf44c3b637669f83573f76c1da"
+    },
+    {
+      "file": "preview/mercenary-cyan-knight-battle-20261020-v1/motion.mjs",
+      "status": 200,
+      "sha256": "6905caa54c87cac94f8dabcea09ebb19cd0b4dfcc0d454425126d4459b017d2c"
+    },
+    {
+      "file": "preview/mercenary-cyan-knight-battle-20261020-v1/array-motion-v4.mjs",
+      "status": 200,
+      "sha256": "8e7434167228a2d5334965c15d650697d765a1b05aa3c46c2d3936eec377cccd"
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "status": 200,
+      "sha256": "aa6524fb973ac9217f4d78fa783202c34d69398e33e5f5c9c644197ff9784c47"
+    }
+  ],
+  "visual": {
+    "idle": [
+      {
+        "t": 0,
+        "pose": {
+          "at": 0,
+          "bank": "idle",
+          "index": 0,
+          "facing": 1
+        },
+        "scale": [
+          1,
+          1
+        ]
+      },
+      {
+        "t": 0.6,
+        "pose": {
+          "at": 0,
+          "bank": "idle",
+          "index": 0,
+          "facing": 1
+        },
+        "scale": [
+          1,
+          1
+        ]
+      },
+      {
+        "t": 1.2,
+        "pose": {
+          "at": 0,
+          "bank": "idle",
+          "index": 0,
+          "facing": 1
+        },
+        "scale": [
+          1,
+          1
+        ]
+      },
+      {
+        "t": 1.8,
+        "pose": {
+          "at": 0,
+          "bank": "idle",
+          "index": 0,
+          "facing": 1
+        },
+        "scale": [
+          1,
+          1
+        ]
+      },
+      {
+        "t": 2.4,
+        "pose": {
+          "at": 0,
+          "bank": "idle",
+          "index": 0,
+          "facing": 1
+        },
+        "scale": [
+          1,
+          1
+        ]
+      }
+    ],
+    "winding": {
+      "ready": true,
+      "appearance": {
+        "enabled": true,
+        "behindBody": true,
+        "capeFrames": 6,
+        "bodyAlpha": 1,
+        "originalTexture": 274,
+        "rimColor": "WHITE",
+        "destroyed": false
+      },
+      "backdrop": {
+        "enabled": true,
+        "behindBody": true,
+        "layer": 8,
+        "id": "ZERO_BLADE_WINGS_V1",
+        "visualApproval": true,
+        "destroyed": false
+      },
+      "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4_MIXED_ROUTES",
+      "summonedArray": {
+        "designs": 5,
+        "heldWeaponReused": false,
+        "routeFit": {
+          "left": 1,
+          "right": 1,
+          "up": 0.7377695293820353,
+          "down": 1
+        },
+        "paintedRailSegments": 0,
+        "activeCorners": 0,
+        "activeSwordEchoes": 0,
+        "visibleEffects": 0
+      },
+      "mode": "horizon",
+      "time": 0.4,
+      "playing": false,
+      "speed": 1,
+      "motionPlaybackRate": 2,
+      "effectPlaybackRate": 1,
+      "bodyTime": 0.25,
+      "pose": {
+        "at": 0.14,
+        "bank": "horizon",
+        "index": 1,
+        "facing": 1
+      },
+      "phase": "준비 · 접근",
+      "contactCount": 0,
+      "bladeContact": {
+        "u": 1,
+        "distance": 497.53217713788456,
+        "intersects": false
+      },
+      "phantomContacts": [],
+      "groundError": 0,
+      "airborne": false,
+      "visibleEffects": 2,
+      "visibleGhosts": 0,
+      "visibleSwords": 0,
+      "registeredTimelines": 0,
+      "bodyFrames": 64,
+      "effectFrames": 180,
+      "weaponSources": 6,
+      "weaponRedraws": 0,
+      "appearanceFrames": 6,
+      "newV3EffectFrames": 48,
+      "summonedWeaponDesigns": 5,
+      "heldWeaponSources": 1,
+      "newV4EffectFrames": 24,
+      "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+      "regularAllies": 5,
+      "targets": 1,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 440.69706433364723,
+        "y": 416,
+        "height": 180
+      },
+      "contact": {
+        "x": 1010,
+        "y": 341.9
+      },
+      "ground": {
+        "x": 1010,
+        "y": 416
+      }
+    },
+    "recovery": {
+      "ready": true,
+      "appearance": {
+        "enabled": true,
+        "behindBody": true,
+        "capeFrames": 6,
+        "bodyAlpha": 1,
+        "originalTexture": 278,
+        "rimColor": "WHITE",
+        "destroyed": false
+      },
+      "backdrop": {
+        "enabled": true,
+        "behindBody": true,
+        "layer": 8,
+        "id": "ZERO_BLADE_WINGS_V1",
+        "visualApproval": true,
+        "destroyed": false
+      },
+      "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4_MIXED_ROUTES",
+      "summonedArray": {
+        "designs": 5,
+        "heldWeaponReused": false,
+        "routeFit": {
+          "left": 1,
+          "right": 1,
+          "up": 0.7377695293820353,
+          "down": 1
+        },
+        "paintedRailSegments": 0,
+        "activeCorners": 0,
+        "activeSwordEchoes": 0,
+        "visibleEffects": 0
+      },
+      "mode": "horizon",
+      "time": 0.75,
+      "playing": false,
+      "speed": 1,
+      "motionPlaybackRate": 2,
+      "effectPlaybackRate": 1,
+      "bodyTime": 0.95,
+      "pose": {
+        "at": 0.8,
+        "bank": "horizon",
+        "index": 5,
+        "facing": 1
+      },
+      "phase": "검격 · 적중",
+      "contactCount": 1,
+      "bladeContact": {
+        "u": 0,
+        "distance": 335.5541290003883,
+        "intersects": false
+      },
+      "phantomContacts": [],
+      "groundError": 0,
+      "airborne": false,
+      "visibleEffects": 3,
+      "visibleGhosts": 0,
+      "visibleSwords": 0,
+      "registeredTimelines": 0,
+      "bodyFrames": 64,
+      "effectFrames": 180,
+      "weaponSources": 6,
+      "weaponRedraws": 0,
+      "appearanceFrames": 6,
+      "newV3EffectFrames": 48,
+      "summonedWeaponDesigns": 5,
+      "heldWeaponSources": 1,
+      "newV4EffectFrames": 24,
+      "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+      "regularAllies": 5,
+      "targets": 1,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 668.581901585562,
+        "y": 416,
+        "height": 180
+      },
+      "contact": {
+        "x": 1010,
+        "y": 341.9
+      },
+      "ground": {
+        "x": 1010,
+        "y": 416
+      }
+    },
+    "array": {
+      "ready": true,
+      "appearance": {
+        "enabled": true,
+        "behindBody": true,
+        "capeFrames": 6,
+        "bodyAlpha": 1,
+        "originalTexture": 323,
+        "rimColor": "WHITE",
+        "destroyed": false
+      },
+      "backdrop": {
+        "enabled": true,
+        "behindBody": true,
+        "layer": 8,
+        "id": "ZERO_BLADE_WINGS_V1",
+        "visualApproval": true,
+        "destroyed": false
+      },
+      "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4_MIXED_ROUTES",
+      "summonedArray": {
+        "designs": 5,
+        "heldWeaponReused": false,
+        "routeFit": {
+          "left": 1,
+          "right": 1,
+          "up": 0.7377695293820353,
+          "down": 1
+        },
+        "paintedRailSegments": 9,
+        "activeCorners": 1,
+        "activeSwordEchoes": 5,
+        "visibleEffects": 19
+      },
+      "mode": "array",
+      "time": 1.8,
+      "playing": false,
+      "speed": 1,
+      "motionPlaybackRate": 2,
+      "effectPlaybackRate": 1,
+      "bodyTime": 1.9749999999999999,
+      "pose": {
+        "at": 1.7,
+        "bank": "array",
+        "index": 6,
+        "facing": 1
+      },
+      "phase": "곡선 재진입 · 사선 관통",
+      "contactCount": 7,
+      "bladeContact": {
+        "u": 0,
+        "distance": 247.6441398458683,
+        "intersects": false
+      },
+      "phantomContacts": [
+        {
+          "index": 1,
+          "targetIndex": 0,
+          "grip": {
+            "x": 1023.9330777065485,
+            "y": 446.5488508863041
+          },
+          "tip": {
+            "x": 1122.99016857629,
+            "y": 253.61095543329793
+          },
+          "u": 0.3999069548921282,
+          "distance": 60.19168807934184,
+          "intersects": false
+        },
+        {
+          "index": 4,
+          "targetIndex": 0,
+          "grip": {
+            "x": 1296.511981926894,
+            "y": 391.3117200721873
+          },
+          "tip": {
+            "x": 1107.6343494316343,
+            "y": 509.8439664349221
+          },
+          "u": 0.9705210447733971,
+          "distance": 194.15053667017045,
+          "intersects": false
+        }
+      ],
+      "groundError": 0,
+      "airborne": false,
+      "visibleEffects": 0,
+      "visibleGhosts": 0,
+      "visibleSwords": 2,
+      "registeredTimelines": 0,
+      "bodyFrames": 64,
+      "effectFrames": 180,
+      "weaponSources": 6,
+      "weaponRedraws": 0,
+      "appearanceFrames": 6,
+      "newV3EffectFrames": 48,
+      "summonedWeaponDesigns": 5,
+      "heldWeaponSources": 1,
+      "newV4EffectFrames": 24,
+      "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+      "regularAllies": 5,
+      "targets": 1,
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 806.6,
+        "y": 416,
+        "height": 180
+      },
+      "contact": {
+        "x": 1010,
+        "y": 341.9
+      },
+      "ground": {
+        "x": 1010,
+        "y": 416
+      }
+    }
+  }
+}
