@@ -19,6 +19,7 @@ import {ensureForgeTransactionSchema} from '../functions/_equipment_forge_transa
 import {ACHIEVEMENT_TITLES_KEY,ACHIEVEMENT_TITLE_POWER_KEY} from '../functions/_achievement_titles.js';
 import {PREDICTION_TITLE_KEY,ASURA_TITLE_KEY} from '../functions/_prediction_title.js';
 import {SUPPORTER_BLUE_BEAST_TITLES_KEY} from '../functions/_supporter_blue_beast_titles.js';
+import {IYEJUN_AVATAR_KEY} from '../functions/_avatar_iyejun.js';
 
 const migrationUrl=new URL('../database/migrations/0087_v1953_project_v_battle_suits.sql',import.meta.url);
 const femaleRefreshMigrationUrl=new URL('../database/migrations/0088_v1959_battle_suit_01_female.sql',import.meta.url);
@@ -348,6 +349,8 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
   createEquipmentSchema(DB.db);
   await ensureForgeTransactionSchema({DB});
   DB.db.exec(`
+    CREATE TABLE users(id INTEGER PRIMARY KEY,role TEXT NOT NULL);
+    INSERT INTO users VALUES(7,'USER');
     CREATE TABLE user_equipment_instances(id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,equipment_id INTEGER NOT NULL,source_type TEXT NOT NULL DEFAULT 'ADMIN',source_id TEXT NOT NULL DEFAULT '',request_id TEXT,acquired_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
     CREATE TABLE user_equipment_loadout(user_id INTEGER NOT NULL,slot TEXT NOT NULL,instance_id INTEGER NOT NULL UNIQUE,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,slot));
     CREATE TABLE character_garage_items(id INTEGER PRIMARY KEY AUTOINCREMENT,code TEXT UNIQUE,name TEXT,rarity TEXT,image_url TEXT,pve_power INTEGER,pvp_power INTEGER,is_active INTEGER,is_public INTEGER,sort_order INTEGER,total_power INTEGER,description TEXT);
@@ -378,6 +381,7 @@ test('loadout reports render-ready suit/weapon metadata and isolates suit power 
     'safe_runtime_upgrade_saengbyuwang_avatar_v1',
     'safe_runtime_upgrade_hanbok_diim_avatar_v1',
     'safe_runtime_upgrade_t1_joeun_avatar_v1',
+    IYEJUN_AVATAR_KEY, // This equipment-only fixture keeps its pre-provisioned avatar catalog empty.
   ];
   const markerInsert=DB.db.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)');
   for(const key of completedMarkers)markerInsert.run(key,'1');
