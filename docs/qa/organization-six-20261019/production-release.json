@@ -1,0 +1,84 @@
+{
+  "verifiedAt": "2026-10-19T10:52:58.011Z",
+  "deployment": {
+    "id": "0d7efdd6-9ba9-4241-b0f5-a91b3082c75d",
+    "url": "https://0d7efdd6.cnine-card.pages.dev",
+    "commit": "3366ec78ddd997bd1421214151740f113f882ba0",
+    "status": "success",
+    "createdOn": "2026-10-19T10:51:06.645958Z"
+  },
+  "resourceChecks": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "5d337a0f9e6c5872037b13d36e6a12217adf5979e76ead2a955bb908798cd509"
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "dfe761c6f4b6f27180f7a53e67979e7f8ab23e881243fad2dbb2a227ff24f433"
+    },
+    {
+      "path": "organization/index.html",
+      "status": 200,
+      "sha256": "9f02a3d90578aa44d44c0d2a10130770cfb4ec27bca452c7269c2660d9e59ec8"
+    },
+    {
+      "path": "organization/faction/index.html",
+      "status": 200,
+      "sha256": "55da813d629b69e95593e52ab0e604157c389fd8612c0e87105887b3c7099a43"
+    },
+    {
+      "path": "shared/organization-preparation-v1.mjs",
+      "status": 200,
+      "sha256": "67bc2a292e1f864f3a20aa83176c504d3eb95eee750d670f09855f212ba4eeba"
+    },
+    {
+      "path": "shared/organization-system-v1.mjs",
+      "status": 200,
+      "sha256": "d13d55e93647873da4d99c8546e58e337876754e7f0193b7c9c5fb621ddf7599"
+    },
+    {
+      "path": "shared/organization-faction-v1.mjs",
+      "status": 200,
+      "sha256": "2b4f94515431cd8be8df86403a31de78c175170634f6d93f9eea97f1597b3dab"
+    },
+    {
+      "path": "js/organization-system-v1.mjs",
+      "status": 200,
+      "sha256": "8bc09a4c155357aebd907a08669f13423a407c42a8e34105cd9456e50ebd2481"
+    },
+    {
+      "path": "js/organization-faction-window-v1.mjs",
+      "status": 200,
+      "sha256": "1737d29178301faba80a690f5778467f188a79bf92abb571eedca070cefb0164"
+    },
+    {
+      "path": "js/organization-faction-entry-v1.mjs",
+      "status": 200,
+      "sha256": "27f40ebf7cc2e7319709794db239541d7f6c932aeb051ec69caa10501dfbcf77"
+    },
+    {
+      "path": "js/organization-faction-v1.mjs",
+      "status": 200,
+      "sha256": "2774822f41880ce509e25edab2b25065f015078865cf616008696e503f275628"
+    },
+    {
+      "path": "css/organization-faction-v1.css",
+      "status": 200,
+      "sha256": "2179a92b38c64474310ef46f31b9ebafcead41d6e0887c64e4087e1cb557fa4a"
+    },
+    {
+      "path": "admin/organization-admin-v1.mjs",
+      "status": 200,
+      "sha256": "2ba6a396fa405957ec6542ab40a391d7d700de3da4e54a9241d0a24dea188ea6"
+    }
+  ],
+  "productionSmoke": {
+    "anonymous": true,
+    "readOnly": true,
+    "fullWindow": true,
+    "escapeReturns": true,
+    "errors": []
+  }
+}

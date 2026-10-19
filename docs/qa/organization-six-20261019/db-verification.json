@@ -1,0 +1,58 @@
+{
+  "verifiedAt": "2026-10-19T10:51:54.083Z",
+  "operationKey": "ops:organization-six:20261019:v1",
+  "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+  "auditId": "48417",
+  "rosterHash": "25b9aabeb38b19f902a5a25750503b9bfc7cb6597e6284190bd09234769e03db",
+  "backupHash": "94511480a83bfe32c41921c0b6c636894bcd500d791dfc253f99f4dbc71fb462",
+  "members": 129,
+  "organizations": [
+    {
+      "id": 1,
+      "name": "도끼파",
+      "members": 22,
+      "power": 50436
+    },
+    {
+      "id": 2,
+      "name": "쌍칼파",
+      "members": 22,
+      "power": 50436
+    },
+    {
+      "id": 3,
+      "name": "독사파",
+      "members": 21,
+      "power": 50436
+    },
+    {
+      "id": 4,
+      "name": "불곰파",
+      "members": 22,
+      "power": 50436
+    },
+    {
+      "id": 5,
+      "name": "백상어파",
+      "members": 21,
+      "power": 50437
+    },
+    {
+      "id": 6,
+      "name": "까마귀파",
+      "members": 21,
+      "power": 50436
+    }
+  ],
+  "elders": 18,
+  "retainedTerritories": 20,
+  "neutralTerritories": 26,
+  "resetAmount": 36000000,
+  "fundsZero": true,
+  "tenEmptySquadsPerOrganization": true,
+  "garrisonsCleared": true,
+  "historyPreserved": true,
+  "progressPreserved": true,
+  "ledgerEntries": 15,
+  "slotConstraint": "CHECK (((slot >= 1) AND (slot <= 25)))"
+}

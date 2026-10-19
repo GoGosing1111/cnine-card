@@ -1,0 +1,99 @@
+{
+  "verifiedAt": "2026-10-19T10:52:26.402Z",
+  "deployedCommit": "3366ec78ddd997bd1421214151740f113f882ba0",
+  "all77StagesPassed": true,
+  "privateLogDirectory": "C:/Users/User/.codex/qa/organization-six-20261019",
+  "logs": [
+    {
+      "file": "deploy-release.log",
+      "candidate": "a2f9fee4c0afa349540ded4d6b8d924ef7cfb6a1",
+      "exitCode": 1,
+      "sha256": "6a56332daa33935869831bc85c73cd0be958c3bf684c3cc5b34f6b954f9e47ae",
+      "resumedCompletedStages": 0
+    },
+    {
+      "file": "deploy-release-resume-1.log",
+      "candidate": "8b92ece3d32835afcd918841ab16a22c6659e35f",
+      "exitCode": 1,
+      "sha256": "23582e48e4339169c5ca9a27e23f14f91e3674968b87d9aeed7373001d9bebc1",
+      "resumedCompletedStages": 38
+    },
+    {
+      "file": "deploy-release-resume-2.log",
+      "candidate": "e97237db6b083f7ededde8bf61e47cadab203f10",
+      "exitCode": 1,
+      "sha256": "69d7997f3888382876e3adbf9491a3dab3a81baa5a141dd896b97e28d4610dec",
+      "resumedCompletedStages": 39
+    },
+    {
+      "file": "deploy-release-resume-3.log",
+      "candidate": "73edd9839b8dfa0f85150bca89cf2c1726775c23",
+      "exitCode": 1,
+      "sha256": "d09398cefe56155773f81dfee9bfc952480229caed330117fce473a4d77656c2",
+      "resumedCompletedStages": 40
+    },
+    {
+      "file": "deploy-release-resume-4.log",
+      "candidate": "bed5eaca6f98778d0e1b5bb97fe402e8bb37d483",
+      "exitCode": 1,
+      "sha256": "d27d792b4fd3ae788c4551213a9a1d9a210928098d31827c85e687651682930d",
+      "resumedCompletedStages": 42
+    },
+    {
+      "file": "deploy-release-resume-5.log",
+      "candidate": "e66b134265cea9925d9dd8a1d0a48a796be1bfc9",
+      "exitCode": 1,
+      "sha256": "b22bab6d65f75146f64b0b810ff039d464ab9eace156505ecefb5fda05d63191",
+      "resumedCompletedStages": 44
+    },
+    {
+      "file": "deploy-release-resume-6.log",
+      "candidate": "d5c3c394c51b3cea5150d6a770f7263a4f571d12",
+      "exitCode": 1,
+      "sha256": "5708b2b8c3491781731b78d921b88043a8cd269189f829b4c3a6a8cd4bb5dbc7",
+      "resumedCompletedStages": 51
+    },
+    {
+      "file": "deploy-release-resume-7.log",
+      "candidate": "cd374bd127d90b8ff5c7ef34c19afad758508c38",
+      "exitCode": 1,
+      "sha256": "6d254768150ebd885b24892cce1f6c646a9544a9cc9d105c97791b14d9a8ac3b",
+      "resumedCompletedStages": 54
+    },
+    {
+      "file": "deploy-release-resume-8.log",
+      "candidate": "c930141db1ff3a93e87fa206b2ff6fc79604873e",
+      "exitCode": 1,
+      "sha256": "dfa057b292dfa833c68bc09eb5939d7a5135202a99590e513db8c4fb856a5b4d",
+      "resumedCompletedStages": 55
+    },
+    {
+      "file": "deploy-release-resume-9.log",
+      "candidate": "dd1e66ab053e2227d4827aa9d4258b3123cea667",
+      "exitCode": 1,
+      "sha256": "e1caf0d314ef4d702c10edf53fd2c620916aec49f34eac3a093498543206cb69",
+      "resumedCompletedStages": 56
+    },
+    {
+      "file": "deploy-release-resume-10.log",
+      "candidate": "be818695118cc286ecfb730c5fe05fa27e43ce81",
+      "exitCode": 1,
+      "sha256": "28979e6075baba6286b153d3910b785db891b05c817232f8069a2dd590d01dd7",
+      "resumedCompletedStages": 58
+    },
+    {
+      "file": "deploy-release-resume-11.log",
+      "candidate": "e27089321d1262867e5937c94e6d6713f1499ff9",
+      "exitCode": 1,
+      "sha256": "4cc9f74d9e786bdeade35994f78c93ef0aa489ac6d13eac9cd8770a855ea3e8b",
+      "resumedCompletedStages": 67
+    },
+    {
+      "file": "deploy-release-resume-12.log",
+      "candidate": "3366ec78ddd997bd1421214151740f113f882ba0",
+      "exitCode": 0,
+      "sha256": "a2c91b41dd6f4656e483bcf8411272024d575a66f0977e2947ddd39268abd301",
+      "resumedCompletedStages": 75
+    }
+  ]
+}
