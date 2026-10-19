@@ -9,8 +9,8 @@ test('retired wish lamp cannot charge, grant, recreate tickets or be turned back
  const result=await handleWishLamp({path:'events/wish-lamp/feature',env,deps});assert.deepEqual(await result.json(),{visible:false,phase:'RETIRED',name:'종료된 이벤트'});
  assert.equal(await handleWishLamp({path:'events/chuseok/state',env,deps}),null);
 });
-test('live menu, CMS and old page links retire wish lamp and point at the new event',()=>{
- const nav=read('js/soopketmon-v21-exact-shell-adapter.js');assert(!nav.includes("wishLamp:"));assert.match(nav,/goldenAxe: Object.freeze/);
+test('live menu and CMS keep wish lamp retired after its successor event also closes',()=>{
+ const nav=read('js/soopketmon-v21-exact-shell-adapter.js');assert(!nav.includes("wishLamp:"));assert.doesNotMatch(nav,/goldenAxe: Object.freeze/);
  assert(!read('admin/index.html').includes('wish-lamp-v2077.js'));assert.match(read('events/wish-lamp/index.html'),/url=\/events\/golden-axe\//);
  assert(!read('functions/_wish_lamp.js').includes('INSERT INTO'));assert(read('functions/api/[[path]].js').includes("i.code NOT IN ('PINGDU_WISH_TICKET','CHUSEOK_COIN')"));
 });
