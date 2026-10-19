@@ -20,7 +20,7 @@ test('organization faction desktop and mobile map, formation, fund ledger and st
  await new Promise(r=>server.listen(0,'127.0.0.1',r));t.after(()=>new Promise(r=>server.close(r)));const origin='http://127.0.0.1:'+server.address().port;
  for(const width of [1440,390]){
   const f=await organizationFactionFixture(t);
-  await f.post('organization/faction/formation',{formation:{attack1:[2,3],attack2:[],defense1:[4,5,6],defense2:[]}});
+  await f.post('organization/faction/formation',{formation:{attack3:[],attack4:[],attack5:[],defense3:[],defense4:[],defense5:[],attack1:[2,3],attack2:[],defense1:[4,5,6],defense2:[]}});
   const page=await browser.newPage({viewport:{width,height:1000},isMobile:width===390,hasTouch:width===390,reducedMotion:'reduce',serviceWorkers:'block'});t.after(()=>page.close());const errors=[],failedAssets=[];
   page.on('response',r=>{if(r.status()>=400&&r.url().includes('/interface-v2/'))failedAssets.push(r.url());});
   page.on('pageerror',error=>errors.push(error.message));let qaUser=2,visualAlert=false;

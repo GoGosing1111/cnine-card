@@ -17,8 +17,8 @@ test('standalone organization faction loads current V3 resources, plays isolated
  for(const width of [1440,390]){
   const f=await organizationFactionFixture(t);let strikes=0;
   f.deps.buildFactionBattle=async()=>{const attackerDeck=factionReviewCards.map(c=>({...c,power:900000})),defenderDeck=factionReviewCards.map(c=>({...c,power:10000})),battleV2=createPvpBattleV2({attackerCards:attackerDeck,defenderCards:defenderDeck,seed:491});return {battleV2,attackerDeck,defenderDeck,attackerPower:battleV2.teams.A.summary.power,defenderPower:battleV2.teams.B.summary.power};};
-  assert.equal((await f.post('organization/faction/formation',{formation:{attack1:[2,3],attack2:[],defense1:[4,5,6],defense2:[]}})).status,200);
-  assert.equal((await f.post('organization/faction/formation',{formation:{attack1:[7,8],attack2:[],defense1:[9,10,11],defense2:[]}},7)).status,200);
+  assert.equal((await f.post('organization/faction/formation',{formation:{attack3:[],attack4:[],attack5:[],defense3:[],defense4:[],defense5:[],attack1:[2,3],attack2:[],defense1:[4,5,6],defense2:[]}})).status,200);
+  assert.equal((await f.post('organization/faction/formation',{formation:{attack3:[],attack4:[],attack5:[],defense3:[],defense4:[],defense5:[],attack1:[7,8],attack2:[],defense1:[9,10,11],defense2:[]}},7)).status,200);
   await f.mutateState(s=>Object.assign(s.districts.find(d=>d.id==='11680'),{owner:2,defense:'defense1',protectedUntil:0}));
   const page=await browser.newPage({viewport:{width,height:width===390?844:1000},isMobile:width===390,hasTouch:width===390,reducedMotion:'reduce',serviceWorkers:'block'});t.after(()=>page.close());const errors=[],failedResources=[];
   page.on('pageerror',error=>errors.push(error.message));page.on('response',r=>{if(r.status()>=400&&!r.url().includes('/api/'))failedResources.push({status:r.status(),url:r.url()});});

@@ -14,10 +14,11 @@ test('headquarters opens a full viewport war room; live map, alpha emblems and c
  const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
  const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio','--enable-unsafe-swiftshader']});t.after(()=>browser.close());await mkdir(out,{recursive:true});
  const f=await organizationFactionFixture(t);
+ for(let id=12;id<=28;id++){await f.pg.query("INSERT INTO users VALUES($1,$2,'USER','ACTIVE',NULL)",[id,'추가 조직원 '+id]);await f.pg.query('INSERT INTO organization_members_v1 VALUES($1,$2,1,$3,1000,$4)',[f.roundId,id,id-6,f.clock()]);}
  f.deps.buildFactionBattle=async()=>{const attackerDeck=factionReviewCards.map(c=>({...c,power:900000})),defenderDeck=factionReviewCards.map(c=>({...c,power:10000})),battleV2=createPvpBattleV2({attackerCards:attackerDeck,defenderCards:defenderDeck,seed:491});return {battleV2,attackerDeck,defenderDeck,attackerPower:battleV2.teams.A.summary.power,defenderPower:battleV2.teams.B.summary.power};};
- assert.equal((await f.post('organization/faction/formation',{formation:{attack1:[2,3],attack2:[4],defense1:[5,6],defense2:[]}})).status,200);
- assert.equal((await f.post('organization/faction/formation',{formation:{attack1:[7,8],attack2:[],defense1:[9],defense2:[10,11]}},7)).status,200);
- await f.mutateState(s=>{s.districts.forEach((d,i)=>Object.assign(d,{owner:i%15+1,protectedUntil:0}));Object.assign(s.districts.find(d=>d.id==='11680'),{owner:2,defense:'defense1'});Object.assign(s.districts.find(d=>d.id==='41610'),{owner:2,defense:'defense2'});});
+ assert.equal((await f.post('organization/faction/formation',{formation:{attack3:[],attack4:[],attack5:[],defense3:[],defense4:[],defense5:[],attack1:[2,3],attack2:[4],defense1:[5,6],defense2:[]}})).status,200);
+ assert.equal((await f.post('organization/faction/formation',{formation:{attack3:[],attack4:[],attack5:[],defense3:[],defense4:[],defense5:[],attack1:[7,8],attack2:[],defense1:[9],defense2:[10,11]}},7)).status,200);
+ await f.mutateState(s=>{s.districts.forEach((d,i)=>Object.assign(d,{owner:i%6+1,protectedUntil:0}));Object.assign(s.districts.find(d=>d.id==='11680'),{owner:2,defense:'defense1'});Object.assign(s.districts.find(d=>d.id==='41610'),{owner:2,defense:'defense2'});});
  for(const [districtId,squad] of [['11680','attack1'],['41610','attack2']]){const r=await f.post('organization/faction/launch',{districtId,squad});assert.equal(r.status,200,JSON.stringify(r));assert.ok(r.data.battleId);}
  const snapshot={...organizationPublicOverview(),previewOnly:false,releaseEnabled:true,round:{id:f.roundId,phase:'ASSIGNED',scope:'TEST'},participantCount:10};
  const server=createServer(async(req,res)=>{try{
@@ -51,6 +52,23 @@ test('headquarters opens a full viewport war room; live map, alpha emblems and c
    await war.locator('.fw-conflict-detail [data-fw-enter]').click();await war.locator('[data-fw-room-strike]').click();
    await war.locator('.battle-v3-live-shell.is-v3-ready').waitFor({timeout:60000});assert.equal(await war.locator('.battle-v3-header strong').innerText(),'조직 세력전');await page.screenshot({path:join(out,'1920-in-window-battle.png')});
    await war.locator('.fw-battle-close').waitFor({timeout:120000});await war.locator('.fw-battle-close').click();await war.locator('[data-fw-room-close]').click();assert.equal(await dialog.count(),1);await war.locator('.fw-map-battle-pin').first().waitFor();
+  }
+  if(width===1920||width===390){
+   let activeBattles;await f.mutateState(s=>{activeBattles=structuredClone(s.battles);s.battles=[];});await war.locator('[data-fw-reload]').click();
+   assert.match(await war.locator('.fw-local-income').innerText(),/9개 이상/);
+   await war.locator('[data-fw-tab="formation"]').first().click();assert.equal(await war.locator('[data-fw-formation-squad]').count(),10);assert.equal(await war.locator('[data-fw-captain]').count(),5);
+   assert.match(await war.locator('.fw-squad-card').first().evaluate(el=>getComputedStyle(el).borderImageSource),/interface-v2/);
+   await war.locator('#fw-assign-squad').selectOption('defense5');await war.locator('[data-fw-add="12"]').click();await war.locator('[data-fw-save]').click();await war.locator('[data-fw-save]').waitFor({state:'visible'});
+   await page.screenshot({path:join(out,width+'-ten-squads.png'),fullPage:true});
+   assert.equal(await war.locator('body').evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+   await war.locator('[data-fw-formation-squad="defense5"]').scrollIntoViewIfNeeded();await page.screenshot({path:join(out,width+'-defense-five.png')});
+   await war.locator('[data-fw-tab="map"]').click();
+   await f.mutateState(s=>s.districts.filter(d=>['41550','41500'].includes(d.id)).forEach(d=>{d.owner=1;d.defense='';}));await war.locator('[data-fw-reload]').click();
+   for(const id of ['41550','41500']){await war.locator('[data-fw-district-select]').evaluate((select,id)=>{select.value=id;select.dispatchEvent(new Event('change'));},id);await war.locator('#fw-defense-select').selectOption('defense5');await war.locator('[data-fw-garrison]').click();await war.locator('.fw-defenders').getByText('추가 조직원 12').waitFor();}
+   const placed=(await f.overview()).data;assert.equal(placed.districts.find(d=>d.id==='41550').defense,'');assert.equal(placed.districts.find(d=>d.id==='41500').defense,'defense5');
+   await war.locator('#fw-defense-select').selectOption('');await war.locator('[data-fw-garrison]').click();await war.locator('.fw-defenders').getByText('배치된 방어대가 없습니다.').waitFor();
+   await war.locator('[data-fw-tab="formation"]').first().click();await war.locator('[data-fw-remove="12"]').click();await war.locator('[data-fw-save]').click();await war.locator('[data-fw-tab="map"]').click();
+   await f.mutateState(s=>{s.battles=activeBattles;});await war.locator('[data-fw-reload]').click();await war.locator('.fw-map-battle-pin').first().waitFor();
   }
   await war.locator('[data-fw-leave]').click();await dialog.waitFor({state:'detached'});assert.equal(await page.evaluate(()=>document.documentElement.style.overflow),'');
   await headquarters.locator('[data-tab="faction"]').first().click();await war.locator('.fw-map-battle-pin').first().waitFor();await war.locator('[data-fw-leave]').click();assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);checks.push({width,height,...dimensions,errors,failed});await page.close();

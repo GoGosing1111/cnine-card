@@ -8,8 +8,9 @@ import {FORGE_ADVANCED_KEY,forgeAdvancedDraft} from '../shared/equipment-forge-a
 
 test('organization account rating consumes real profile cache, permits OWNER only explicitly, and locks source policies',async t=>{
  const f=await organizationFixture(t,{people:2}),now=f.clock();
- await f.pg.exec("CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT);CREATE TABLE ranked_duo_accounts_v1(user_id BIGINT PRIMARY KEY,source_version BIGINT NOT NULL DEFAULT 1);CREATE TABLE ranked_duo_policy_version_v1(id BIGINT PRIMARY KEY,revision BIGINT);INSERT INTO ranked_duo_policy_version_v1 VALUES(1,4);CREATE TABLE ranked_duo_profiles_v1(user_id BIGINT PRIMARY KEY,source_version BIGINT,policy_revision BIGINT,config_hash TEXT,payload_json TEXT,expires_at TEXT);");
- const hash=await jointHash({weights:{},mercenaryLoadoutMode:'PVP-v1',mercenaryEquipment:'20261011',advancedForgeRevision:0});
+ await f.pg.exec("CREATE FUNCTION sqlite_now() RETURNS TEXT LANGUAGE SQL AS 'SELECT CURRENT_TIMESTAMP::text'");
+ await f.pg.exec("CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);CREATE TABLE ranked_duo_accounts_v1(user_id BIGINT PRIMARY KEY,source_version BIGINT NOT NULL DEFAULT 1);CREATE TABLE ranked_duo_policy_version_v1(id BIGINT PRIMARY KEY,revision BIGINT);INSERT INTO ranked_duo_policy_version_v1 VALUES(1,4);CREATE TABLE ranked_duo_profiles_v1(user_id BIGINT PRIMARY KEY,source_version BIGINT,policy_revision BIGINT,config_hash TEXT,payload_json TEXT,expires_at TEXT);");
+ const hash=await jointHash({weights:{},mercenaryLoadoutMode:'PVP-v1',mercenaryEquipment:'20261011',equipmentSetVisualVersion:1,advancedForgeRevision:0});
  for(const userId of [1,2]){
   const profile={userId,power:userId===1?9000:3000,sourceVersion:1,policyRevision:4,expiresAt:new Date(now+300000).toISOString(),breakdown:{cardPower:100,equipmentPower:50},attack:{cards:[]},defense:{cards:[]}};
   await f.pg.query('INSERT INTO ranked_duo_accounts_v1 VALUES($1,1)',[userId]);
@@ -28,7 +29,7 @@ test('organization account rating consumes real profile cache, permits OWNER onl
  assert.equal(await validateOrganizationRatingsLocked(q,ratings,{now,requireCurrentSource:false}),true);
  assert.equal(await validateOrganizationRatingsLocked(q,ratings,{now:now+300000,requireCurrentSource:false}),false);
  await f.pg.query('UPDATE ranked_duo_accounts_v1 SET source_version=1 WHERE user_id=2');
- await f.pg.query('INSERT INTO app_meta VALUES($1,$2)',[FORGE_ADVANCED_KEY,JSON.stringify({...forgeAdvancedDraft(),revision:1})]);
+ await f.pg.query('INSERT INTO app_meta(key,value) VALUES($1,$2)',[FORGE_ADVANCED_KEY,JSON.stringify({...forgeAdvancedDraft(),revision:1})]);
  assert.equal(await validateOrganizationRatingsLocked(q,ratings,{now}),false);
  assert.equal(await validateOrganizationRatingsLocked(q,ratings,{now,requireCurrentSource:false}),false);
 });

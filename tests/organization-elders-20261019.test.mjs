@@ -6,7 +6,7 @@ import {installOrganizationFactionSchema} from '../functions/_organization_facti
 import {newOrganizationFactionState} from '../functions/_organization_faction_model.js';
 import {organizationElderIds,rankedOrganizationElders,validateOrganizationElders} from '../shared/organization-faction-v1.mjs';
 import {appointOrganizationElders,ROUND_ID,OPERATION_KEY} from '../scripts/ops/organization-elders-20261019.mjs';
-const formation={attack1:[5],attack2:[],defense1:[6],defense2:[]};
+const formation={attack3:[],attack4:[],attack5:[],defense3:[],defense4:[],defense5:[],attack1:[5],attack2:[],defense1:[6],defense2:[]};
 const setElders=(f,userIds,baseUserIds=[2],extra={})=>f.post('admin/organization/faction/elders',{organizationId:1,userIds,baseUserIds,...extra},1);
 const ok=result=>assert.equal(result.status,200,JSON.stringify(result));
 
@@ -25,14 +25,14 @@ test('all three elders can manage formation, captains, garrison, launch and upgr
  await f.mutateState(s=>{s.districts.find(d=>d.id==='41110').owner=1;});
  for(const user of [2,3,4]){
   const view=(await f.overview(user)).data;assert.equal(view.mine.isElder,true);assert.equal(view.mine.canManageFormation,true);assert.equal(view.treasury.canUpgrade,true);assert.deepEqual(view.treasury.elderIds,[2,3,4]);
-  ok(await f.post('organization/faction/formation',{formation},user));ok(await f.post('organization/faction/captains',{captains:{attack1:5,attack2:null}},user));
+  ok(await f.post('organization/faction/formation',{formation},user));ok(await f.post('organization/faction/captains',{captains:{attack3:0,attack4:0,attack5:0,attack1:5,attack2:null}},user));
   ok(await f.post('organization/faction/garrison',{districtId:'41110',squad:'defense1'},user));
   ok(await f.post('organization/faction/launch',{districtId:['41570','41190','41210'][user-2],squad:'attack1'},user));
   ok(await f.post('organization/faction/upgrade',{expectedStage:user-1,policyRevision:1},user));
   f.advance(21*60000);
  }
  assert.equal((await f.overview(6)).data.mine.isElder,false);
- for(const [path,body] of [['formation',{formation}],['captains',{captains:{attack1:6,attack2:null}}],['garrison',{districtId:'41110',squad:'defense1'}],['upgrade',{expectedStage:4,policyRevision:1}]])assert.equal((await f.post('organization/faction/'+path,body,6)).status,403,path);
+ for(const [path,body] of [['formation',{formation}],['captains',{captains:{attack3:0,attack4:0,attack5:0,attack1:6,attack2:null}}],['garrison',{districtId:'41110',squad:'defense1'}],['upgrade',{expectedStage:4,policyRevision:1}]])assert.equal((await f.post('organization/faction/'+path,body,6)).status,403,path);
  assert.equal((await setElders(f,[2,3,7],[2,3,4])).status,409);
  await f.pg.query("UPDATE users SET status='BLOCKED' WHERE id=3");assert.equal((await f.overview(3)).status,403);assert.deepEqual((await f.overview(2)).data.treasury.elderIds,[2,4]);
 });

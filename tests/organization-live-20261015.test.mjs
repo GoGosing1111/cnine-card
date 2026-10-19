@@ -7,7 +7,7 @@ import {ORGANIZATION_RECRUITMENT_MS} from '../shared/organization-system-v1.mjs'
 async function live(f,{enroll=0,autoAssign=true}={}){
  const created=await f.post('admin/organization/create',{scope:'LIVE',name:'조직 첫 모집'});assert.equal(created.status,200);
  const id=created.data.roundId,opened=await f.post('admin/organization/phase',{roundId:id,revision:0,phase:'SURVEY',autoAssign});assert.equal(opened.status,200);
- for(let user=2;user<enroll+2;user++){const sent=await f.post('organization/survey',{roundId:id,revision:0,preferredOrganizationId:user%15+1},{user});assert.equal(sent.status,200);}
+ for(let user=2;user<enroll+2;user++){const sent=await f.post('organization/survey',{roundId:id,revision:0,preferredOrganizationId:user%6+1},{user});assert.equal(sent.status,200);}
  return id;
 }
 const tick=f=>reconcileOrganizationRecruitment(f.env,f.deps,{now:f.clock()});
@@ -29,10 +29,10 @@ test('private scheduler closes and fairly assigns 150 applicants atomically with
  assert.equal((await tick(f)).waiting,true);f.advance(ORGANIZATION_RECRUITMENT_MS);
  const outputs=await Promise.all([tick(f),tick(f)]);assert.equal(outputs.filter(r=>r.status==='ASSIGNED').length,1);
  const state=(await f.call('admin/organization')).data;assert.equal(state.round.phase,'ASSIGNED');assert.equal(state.round.assignment_status,'COMPLETED');assert.equal(state.participants.length,150);
- assert.equal(state.organizations.length,15);assert.ok(state.organizations.every(o=>o.memberCount===10));
+ assert.equal(state.organizations.length,6);assert.ok(state.organizations.every(o=>o.memberCount===25));
  const rows=(await f.pg.query('SELECT user_id FROM organization_members_v1 WHERE round_id=$1',[id])).rows;assert.equal(rows.length,150);assert.equal(new Set(rows.map(r=>r.user_id)).size,150);
  assert.equal((await tick(f)).status,'IDLE');assert.equal((await f.pg.query('SELECT COUNT(*)::int n FROM clan_members')).rows[0].n,1);
- const user=(await f.call('organization/overview',{user:2})).data;assert.equal(user.roster.length,10);assert.equal(user.proposal,null);assert.equal(user.participants,undefined);assert.equal(user.round.assignment_token,undefined);
+ const user=(await f.call('organization/overview',{user:2})).data;assert.equal(user.roster.length,25);assert.equal(user.proposal,null);assert.equal(user.participants,undefined);assert.equal(user.round.assignment_token,undefined);
 });
 test('overflow preserves every application and stops without arbitrary removal or clan migration',async t=>{
  const f=await organizationFixture(t,{people:151}),id=await live(f,{enroll:151});f.advance(ORGANIZATION_RECRUITMENT_MS);

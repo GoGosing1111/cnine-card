@@ -23,7 +23,7 @@ test('PC/mobile complete all seven LIVE questions, persist the real application 
   assert.equal(created.status,200);
   assert.equal((await f.post('admin/organization/phase',{roundId,revision:0,phase:'SURVEY',autoAssign:true})).status,200);
   if(additional){
-   for(let user=3;user<18;user++)assert.equal((await f.post('organization/survey',{roundId,revision:0,preferredOrganizationId:user%15+1},{user})).status,200);
+   for(let user=3;user<18;user++)assert.equal((await f.post('organization/survey',{roundId,revision:0,preferredOrganizationId:user%6+1},{user})).status,200);
    f.advance(ORGANIZATION_RECRUITMENT_MS);assert.equal((await reconcileOrganizationRecruitment(f.env,f.deps,{now:f.clock()})).status,'ASSIGNED');
    const r=(await f.call('admin/organization')).data.round;assert.equal((await f.post('admin/organization/additional-recruitment',{roundId,revision:r.revision,action:'open'})).status,200);
   }

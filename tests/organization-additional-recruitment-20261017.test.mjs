@@ -9,7 +9,7 @@ const day=86400000;
 async function assigned(f){
  const id=(await f.post('admin/organization/create',{scope:'LIVE',name:'기존 소속 유지 검수'})).data.roundId;
  await f.post('admin/organization/phase',{roundId:id,revision:0,phase:'SURVEY',autoAssign:true});
- for(let user=2;user<17;user++)assert.equal((await f.post('organization/survey',{roundId:id,revision:0,preferredOrganizationId:user%15+1},{user})).status,200);
+ for(let user=2;user<17;user++)assert.equal((await f.post('organization/survey',{roundId:id,revision:0,preferredOrganizationId:user%6+1},{user})).status,200);
  f.advance(day);assert.equal((await reconcileOrganizationRecruitment(f.env,f.deps,{now:f.clock()})).status,'ASSIGNED');
  await installOrganizationFactionSchema(f.env.DB);return id;
 }

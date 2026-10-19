@@ -16,7 +16,7 @@ test('anonymous public entry requires account login and never fabricates partici
  const {organizationApi}=await import('../js/organization-api-v1.mjs');
  const s=await organizationApi('organization/overview');
  assert.equal(s.loginRequired,true);assert.equal(s.previewOnly,false);assert.equal(s.releaseEnabled,true);assert.equal(s.admissionEnabled,false);assert.equal(s.round,null);
- assert.equal(s.membership,null);assert.equal(s.participantCount,null);assert.equal(s.policy.pointsPerRegion,null);assert.equal(s.organizations.length,15);
+ assert.equal(s.membership,null);assert.equal(s.participantCount,null);assert.equal(s.policy.pointsPerRegion,null);assert.equal(s.organizations.length,6);
  for(const path of ['organization/survey','organization/withdraw','admin/organization','admin/organization/create','admin/organization/apply'])
   for(const method of ['GET','POST'])await assert.rejects(organizationApi(path,{method}),{code:'ORG_AUTH'});
  s.policy.hideoutThresholds[1]=100;assert.equal(organizationPublicOverview().policy.hideoutThresholds[1],null);

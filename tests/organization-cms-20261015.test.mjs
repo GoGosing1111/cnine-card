@@ -33,7 +33,7 @@ test('organization OWNER CMS handles 24h recruitment, balanced assignment, nulla
  }catch{res.writeHead(404).end();}});
  await new Promise(r=>server.listen(0,'127.0.0.1',r));t.after(()=>new Promise(r=>server.close(r)));const origin='http://127.0.0.1:'+server.address().port,inventory=[];
  for(const width of [1440,390]){
-  const now=Date.now(),people=Array.from({length:30},(_,i)=>({userId:i+1,nickname:'검수 조직원 '+(i+1),preferredOrganizationId:i%15+1,power:10000-i*10}));
+  const now=Date.now(),people=Array.from({length:30},(_,i)=>({userId:i+1,nickname:'검수 조직원 '+(i+1),preferredOrganizationId:i%6+1,power:10000-i*10}));
   const round={id:'qa-round-'+width,name:'격리 CMS 검수 회차',scope:'LIVE',phase:'PREPARATION',revision:0,opened_at:null,closes_at:null,auto_assign:true,assignment_status:'PENDING'};
   const state={ok:true,serverNow:now,round,rounds:[round],policy:defaultOrganizationPolicy(),participantCount:30,capacity:150,ratedCount:0,proposal:null,participants:people.map(p=>({...p,submittedAt:now,surveyRevision:1,rated:false})),organizations:ORGANIZATIONS.map(o=>({...o,memberCount:0}))};
   const faction={ok:true,round,policy:defaultOrganizationFactionPolicy(),organizations:ORGANIZATIONS.map((o,i)=>({...o,memberCount:2,funds:0,stage:1,commanderId:null,roster:[people[i*2],people[i*2+1]].map((p,j)=>({...p,slot:j+1}))})),ledger:[],state:{districts:ORGANIZATION_DISTRICTS.map(d=>({...d,owner:0})),battles:[]},sessions:{active:false}};

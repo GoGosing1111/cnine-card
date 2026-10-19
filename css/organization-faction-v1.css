@@ -91,3 +91,8 @@ body{margin:0;background:#080e11;color:#e4ece9;font-family:'Noto Sans KR','Malgu
 }
 @media(min-width:721px) and (max-width:1450px){.fw-map-key{display:none}.fw-map-selection{right:12px}.fw-map-selection button{margin-left:auto}}
 .fw-map-emblem{overflow:hidden}
+
+/* Six organizations: ten existing image-backed squad cards, one garrison per district. */
+.fw-garrison-help,.fw-squad-station{font-size:13px;line-height:1.6;color:#a9c3c8;margin:12px 0}.fw-squad-station{padding:0 16px}.fw-garrison select{min-width:0;width:100%}.fw-garrison{grid-template-columns:minmax(0,1fr) auto}.fw-squad-options{grid-template-columns:repeat(2,minmax(0,1fr))}
+.fw-roster-pool{position:sticky;top:16px;align-self:start;max-height:calc(100dvh - 48px)}
+@media(max-width:720px){.fw-roster-pool{position:static;order:-1;max-height:360px}.fw-roster-pool>label{position:sticky;top:0;z-index:1;background:#10262a url('/assets/ui/organization/interface-v2/dossier-panel.webp') center/cover}}

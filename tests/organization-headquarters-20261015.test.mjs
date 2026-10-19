@@ -32,7 +32,7 @@ async function assigned(t){
 test('roster contains only the authenticated member’s organization and never leaks answers, preferences or seed power',async t=>{
  const {f,id}=await assigned(t);
  const state=(await f.call('organization/overview',{user:2})).data;
- assert.equal(state.roster.length,2);assert.equal(state.roster.filter(m=>m.isSelf).length,1);
+ assert.equal(state.roster.length,5);assert.equal(state.roster.filter(m=>m.isSelf).length,1);
  const expected=(await f.pg.query('SELECT user_id FROM organization_members_v1 WHERE round_id=$1 AND organization_id=$2 ORDER BY slot',[id,state.membership.organizationId])).rows.map(m=>Number(m.user_id));
  assert.deepEqual(state.roster.map(m=>m.userId),expected);
  for(const member of state.roster)assert.deepEqual(Object.keys(member).sort(),['isSelf','joinedAt','nickname','slot','userId']);

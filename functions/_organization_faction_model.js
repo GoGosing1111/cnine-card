@@ -1,14 +1,42 @@
 import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as RULES,FACTION_RULES,SQUADS} from '../shared/organization-faction-v1.mjs';
 import {factionDayKey,factionTime} from '../shared/clan-faction-sessions-v1.mjs';
-import {newFactionState,advanceFactionState,factionEvent,validateFormation} from './_clan_faction_model.js';
+import {newFactionState,advanceFactionState,factionEvent} from './_clan_faction_model.js';
 import {reconcilePauses,closeSession,sessionView} from './_clan_faction_sessions.js';
 export const ORGANIZATION_SESSION_POLICY=Object.freeze({recipients:'PARTICIPANTS',interruption:'PAUSE',overlap:'DEFER',mapPolicy:'KEEP',rewardRules:RULES});
 export function validateOrganizationFormation(formation,memberIds){
+ const allowed=new Set(memberIds),used=new Set(),clean={};
+ if(!formation||Object.keys(formation).some(key=>!SQUADS.some(s=>s.id===key)))throw Object.assign(Error('현재 공격대·방어대 구성을 확인하세요. 새로고침 후 다시 저장하세요.'),{status:400});
  for(const squad of SQUADS){
   const ids=formation?.[squad.id];
-  if(!Array.isArray(ids)||ids.length>FACTION_RULES.squadSize)throw Object.assign(Error(`각 부대는 최대 ${FACTION_RULES.squadSize}명까지 편성할 수 있습니다.`),{status:400});
+  if(!Array.isArray(ids)||ids.length>FACTION_RULES.squadSize)throw Object.assign(Error(`공격대·방어대 각각 5개를 확인하세요. 각 부대는 최대 ${FACTION_RULES.squadSize}명입니다. 새로고침 후 다시 저장하세요.`),{status:400});
+  for(const id of ids){
+   if(!Number.isSafeInteger(id)||!allowed.has(id))throw Object.assign(Error('현재 조직원만 편성할 수 있습니다.'),{status:403});
+   if(used.has(id))throw Object.assign(Error('한 조직원은 하나의 부대에만 편성할 수 있습니다.'),{status:400});
+   used.add(id);
+  }
+  clean[squad.id]=[...ids];
  }
- return validateFormation(formation,memberIds);
+ return clean;
+}
+export function organizationCaptains(captains,memberIds){return Object.fromEntries(SQUADS.filter(s=>s.role==='ATTACK').map(s=>[s.id,Number.isSafeInteger(captains?.[s.id])&&memberIds.includes(captains[s.id])?captains[s.id]:0]));}
+export function validateOrganizationCaptains(captains,memberIds){
+ const ids=SQUADS.filter(s=>s.role==='ATTACK').map(s=>s.id),used=new Set();
+ const fail=(message,status=400)=>{throw Object.assign(Error(message),{status});};
+ if(!captains||Array.isArray(captains)||Object.keys(captains).some(key=>!ids.includes(key))||ids.some(key=>!Object.hasOwn(captains,key)))fail('제1~제5 공격대의 행동대장을 각각 선택하세요. 새로고침 후 다시 저장하세요.');
+ for(const key of ids){const id=captains[key]??0;if(!Number.isSafeInteger(id)||id<0)fail('행동대장 계정을 확인하세요.');if(id&&!memberIds.includes(id))fail('현재 조직원만 행동대장으로 지정할 수 있습니다.',403);if(id&&used.has(id))fail('한 사람은 하나의 공격대 행동대장만 맡을 수 있습니다.');if(id)used.add(id);}
+ return organizationCaptains(captains,memberIds);
+}
+export function assignOrganizationGarrison(state,organizationId,districtId,squad,formation){
+ const fail=message=>{throw Object.assign(Error(message),{status:409,code:'ORG_GARRISON'});};
+ const district=state.districts.find(d=>d.id===String(districtId));
+ if(!district||district.owner!==organizationId)fail('우리 점령지를 선택하세요.');
+ if(state.battles.some(b=>b.status==='ACTIVE'&&b.districtId===district.id))fail('교전 중인 지역의 방어대는 변경할 수 없습니다.');
+ if(squad===''){district.defense='';return;}
+ if(!SQUADS.some(s=>s.id===squad&&s.role==='DEFENSE')||!formation[squad]?.length)fail('방어대를 먼저 편성하세요.');
+ const previous=state.districts.filter(d=>d.owner===organizationId&&d.defense===squad&&d.id!==district.id);
+ if(previous.some(d=>state.battles.some(b=>b.status==='ACTIVE'&&b.districtId===d.id)))fail('교전 중인 방어대는 다른 지역으로 이동할 수 없습니다.');
+ for(const d of previous)d.defense='';
+ district.defense=squad;
 }
 export function newOrganizationFactionState(now){
  const state=newFactionState(now);

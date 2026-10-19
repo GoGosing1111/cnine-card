@@ -1,4 +1,4 @@
-import {ORGANIZATIONS,orgAssert} from './organization-system-v1.mjs';
+import {ORGANIZATIONS,orgAssert} from './organization-system-v1.mjs?v=20261019-six-organizations';
 export const ORGANIZATION_INTERVIEW_VERSION=1;
 const choice=(id,label,detail,traits)=>({id,label,detail,traits});
 export const ORGANIZATION_INTERVIEW=[
@@ -22,7 +22,7 @@ export const ORGANIZATION_INTERVIEW=[
   choice('negotiate','정보가 열어 줄 협상 기회를 찾는다.','직접 움직이는 것보다 관계와 거래가 유리할 수 있다.',{influence:3,wealth:2}),
   choice('wait','바로 쓰지 않고 결정적인 때까지 묵힌다.','상대의 움직임을 더 지켜본 뒤 가장 큰 효과를 노린다.',{patience:3,strategy:2}),
   choice('system','조직 안에서 확인 절차와 대응책을 정한다.','누가 움직여도 같은 판단을 할 수 있도록 준비한다.',{discipline:3,industry:2})]},
- {id:'role',chapter:'내가 맡을 자리',title:'조직이 함께 움직일 때, 가장 자신 있게 맡을 자리는?',context:'조직의 힘은 같은 사람이 열 명 모였을 때보다, 서로의 빈틈을 채울 때 커집니다.',options:[
+ {id:'role',chapter:'내가 맡을 자리',title:'조직이 함께 움직일 때, 가장 자신 있게 맡을 자리는?',context:'조직의 힘은 같은 성향의 사람만 모였을 때보다, 서로의 빈틈을 채울 때 커집니다.',options:[
   choice('vanguard','가장 먼저 길을 여는 선봉.','결단이 필요한 순간에 앞으로 나서 흐름을 만든다.',{assault:3,resolve:2}),
   choice('specialist','필요한 곳을 정확히 짚는 별동대.','빠른 이동과 정교한 실행으로 결정적인 일을 끝낸다.',{precision:3,mobility:2}),
   choice('coordinator','전체를 읽고 사람을 잇는 조율자.','서로 다른 움직임을 하나의 작전으로 연결한다.',{strategy:3,influence:2}),
@@ -54,7 +54,7 @@ export const ORGANIZATION_IDENTITIES=[
  ['서두르지 않고 틈을 찾아드는 조직','기다림과 관찰로 유리한 동선을 찾는 성향.',{patience:3,intel:2,mobility:1}],
  ['오래 버티는 힘을 만드는 조직','기반과 약속을 차곡차곡 쌓는 성향.',{discipline:3,industry:2,loyalty:1}],
  ['물러서지 않는 의지의 조직','강한 결단과 야심으로 어려운 판을 넘는 성향.',{resolve:3,assault:2,ambition:1}]
-].map(([motto,description,traits],i)=>({...ORGANIZATIONS[i],motto,description,traits}));
+].slice(0,ORGANIZATIONS.length).map(([motto,description,traits],i)=>({...ORGANIZATIONS[i],motto,description,traits}));
 export const ORGANIZATION_TRAIT_NAMES={assault:'돌파',resolve:'결단',precision:'정밀',mobility:'기동',strategy:'설계',guard:'수호',loyalty:'신뢰',ambition:'야심',intel:'통찰',patience:'인내',influence:'교섭',wealth:'실리',industry:'기반',discipline:'원칙'};
 export function reviewOrganizationAnswers(answers){
   orgAssert(answers&&typeof answers==='object'&&!Array.isArray(answers)&&Object.keys(answers).length===ORGANIZATION_INTERVIEW.length,'INTERVIEW','입단 심사 7개 질문에 모두 답해주세요.',400);

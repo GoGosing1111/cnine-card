@@ -11,7 +11,7 @@ export const currentOrganization=state=>state.organizations.find(o=>o.id===state
 export function organizationRosterView(state){
  const org=currentOrganization(state);if(!org)return '';
  const members=state.roster||[],elderIds=state.faction?.treasury?.elderIds||[];
- return '<section class="org-member-section" aria-labelledby="org-member-title"><header><div><span class="org-kicker">THE PEOPLE BEHIND OUR NAME</span><h3 id="org-member-title">함께 이름을 걸 동료들</h3></div><p><b>'+members.length+'</b> / 10명</p></header><ol class="org-member-grid">'+Array.from({length:10},(_,index)=>{
+ return '<section class="org-member-section" aria-labelledby="org-member-title"><header><div><span class="org-kicker">THE PEOPLE BEHIND OUR NAME</span><h3 id="org-member-title">함께 이름을 걸 동료들</h3></div><p><b>'+members.length+'</b> / 25명</p></header><ol class="org-member-grid">'+Array.from({length:25},(_,index)=>{
   const member=members.find(m=>m.slot===index+1);
   return '<li class="org-member-slot '+(member?.isSelf?'is-self':member?'':'is-vacant')+'"><span class="org-member-number">'+String(index+1).padStart(2,'0')+'</span><div><b title="'+esc(member?.nickname||'빈 자리')+'">'+esc(member?.nickname||'빈 자리')+'</b><small>'+(member?((member.isSelf?'나 · ':'')+(elderIds.includes(member.userId)?'원로':'조직원')):'추가 배정 대기')+'</small></div>'+(member?.isSelf?'<span class="org-member-self">ME</span>':'')+'</li>';
  }).join('')+'</ol><p class="org-roster-note">현재 조직에 배정된 동료만 표시합니다. 빈 자리는 추가 모집·배정이 열릴 때 채워집니다.</p></section>';

@@ -6,7 +6,7 @@ import {ORGANIZATION_DISTRICTS,validateOrganizationFactionPolicy} from '../share
 import {organizationFactionFixture as fixture} from './helpers/organization-faction-fixture.mjs';
 import {validateFormation as validateClanFormation} from '../functions/_clan_faction_model.js';
 
-const empty={attack1:[],attack2:[],defense1:[],defense2:[]};
+const empty={attack3:[],attack4:[],attack5:[],defense3:[],defense4:[],defense5:[],attack1:[],attack2:[],defense1:[],defense2:[]};
 test('organization attack and defense squads allow three, reject four atomically, and leave clan capacity unchanged',async t=>{
  const f=await fixture(t);assert.equal((await f.overview()).data.rules.squadSize,3);
  assert.equal(validateClanFormation({...empty,attack1:[2,3,4,5,6]},[2,3,4,5,6]).attack1.length,5);
@@ -26,7 +26,7 @@ test('46 districts, policy nulls, own-member authority and no clan data writes',
  assert.equal(ORGANIZATION_DISTRICTS.length,46);assert.equal(new Set(ORGANIZATION_DISTRICTS.map(x=>x.id)).size,46);
  assert.throws(()=>validateOrganizationFactionPolicy({revision:0,mode:'ON',fundsPerRegion:0,upgradeCosts:[0,null,null,null,null]}));
  const f=await fixture(t),v=await f.overview();assert.equal(v.status,200);assert.equal(v.data.sessions.active,true);assert.equal(v.data.treasury.funds,0);
- assert.equal(v.data.districts.length,46);assert.equal(v.data.roster.length,5);assert.equal(v.data.clans.length,15);
+ assert.equal(v.data.districts.length,46);assert.equal(v.data.roster.length,5);assert.equal(v.data.clans.length,6);
  assert.equal((await f.commander(1,7)).status,409);assert.equal((await f.post('organization/faction/formation',{formation:{...empty,attack1:[2,7]}})).status,403);
  assert.equal((await f.post('organization/faction/formation',{formation:{...empty,attack1:[2,3],defense1:[4,5,6]}},3)).status,403);
  assert.equal((await f.post('organization/faction/formation',{formation:{...empty,attack1:[2,3],defense1:[4,5,6]}})).status,200);
@@ -52,28 +52,28 @@ test('shared HP, real server damage, entry guard, replay and member cooldown rem
  const failed=await f.post('organization/faction/strike',{battleId});assert.equal(failed.status,503);f.fail('');
  assert.equal(JSON.stringify((await f.overview()).data.battles),before,'receipt failure rolls HP and cooldown back');
 });
-test('session rewards pay 300 billion at six territories, treasury snapshot is separate, duplicate tick is harmless and upgrade is atomic',async t=>{
+test('session rewards pay 300 billion at nine territories, treasury snapshot is separate, duplicate tick is harmless and upgrade is atomic',async t=>{
  const f=await fixture(t,{live:true,funds:500});
- await f.mutateState(s=>{s.districts.slice(0,6).forEach(d=>d.owner=1);s.session.participants=[2,3];s.session.participantClans={2:1,3:1};});
+ await f.mutateState(s=>{s.districts.slice(0,9).forEach(d=>d.owner=1);s.session.participants=[2,3];s.session.participantClans={2:1,3:1};});
  const settings=(await f.admin()).data.policy;
- const changed=await f.call('admin/organization/faction/policy',{user:1,body:{requestId:crypto.randomUUID(),policy:{...settings,fundsPerRegion:900,upgradeCosts:[0,1000,2500,3000,4000]}}});assert.equal(changed.status,200);
+ const changed=await f.call('admin/organization/faction/policy',{user:1,body:{requestId:crypto.randomUUID(),policy:{...settings,fundsPerRegion:900,upgradeCosts:[0,1000,4000,5000,6000]}}});assert.equal(changed.status,200);
  f.advance(3*3600000);
  await tickOrganizationFaction(f.env,f.deps);await tickOrganizationFaction(f.env,f.deps);
- const state=(await f.overview()).data;assert.equal(state.treasury.funds,3000,'session-start amount is immutable');assert.equal(state.holdings,6);
+ const state=(await f.overview()).data;assert.equal(state.treasury.funds,4500,'session-start amount is immutable');assert.equal(state.holdings,9);
  const rewards=(await f.pg.query('SELECT reward_type,reward_amount,user_id FROM user_message_rewards ORDER BY user_id,reward_type')).rows;
  assert.equal(rewards.length,6);assert.equal(Number(rewards.find(r=>r.reward_type==='COIN').reward_amount),300000000000);assert.equal(Number(rewards.find(r=>r.reward_type==='MASTER_STAR').reward_amount),300000);assert.equal(Number(rewards.find(r=>r.reward_type==='STARLIGHT_ARMOR_CORE').reward_amount),300);
  assert.equal((await f.post('organization/faction/upgrade',{},3)).status,403);
  const requestId=crypto.randomUUID();assert.equal((await f.post('organization/faction/upgrade',{expectedStage:1,policyRevision:1})).status,409,'stale CMS price cannot be charged');f.fail('INSERT INTO organization_faction_ledger_v1');
  assert.equal((await f.post('organization/faction/upgrade',{requestId,expectedStage:1,policyRevision:2})).status,503);f.fail('');
- assert.equal((await f.overview()).data.treasury.funds,3000);assert.equal((await f.overview()).data.treasury.stage,1);
- const upgrade=await f.post('organization/faction/upgrade',{requestId,expectedStage:1,policyRevision:2});assert.equal(upgrade.status,200,JSON.stringify(upgrade));assert.equal(upgrade.data.stage,2);assert.equal(upgrade.data.funds,2000);
+ assert.equal((await f.overview()).data.treasury.funds,4500);assert.equal((await f.overview()).data.treasury.stage,1);
+ const upgrade=await f.post('organization/faction/upgrade',{requestId,expectedStage:1,policyRevision:2});assert.equal(upgrade.status,200,JSON.stringify(upgrade));assert.equal(upgrade.data.stage,2);assert.equal(upgrade.data.funds,3500);
  assert.equal((await f.post('organization/faction/upgrade',{requestId,expectedStage:1,policyRevision:2})).data.replayed,true);
  assert.equal((await f.overview()).data.treasury.stage,2);assert.equal((await f.post('organization/faction/upgrade',{expectedStage:2,policyRevision:2})).status,409);
  assert.equal((await f.pg.query('SELECT COUNT(*)::int AS n FROM user_message_rewards')).rows[0].n,6);
 });
 test('TEST does not award live accounts and null treasury rate does not mint funds',async t=>{
  const f=await fixture(t);
- await f.mutateState(s=>{s.districts.slice(0,6).forEach(d=>d.owner=1);s.session.participants=[2];s.session.participantClans={2:1};});
+ await f.mutateState(s=>{s.districts.slice(0,9).forEach(d=>d.owner=1);s.session.participants=[2];s.session.participantClans={2:1};});
  f.advance(3*3600000);await tickOrganizationFaction(f.env,f.deps);
  assert.equal((await f.overview()).data.treasury.funds,0);
  assert.equal((await f.pg.query('SELECT COUNT(*)::int AS n FROM user_message_rewards')).rows[0].n,0);

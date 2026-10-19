@@ -116,7 +116,7 @@
     "test:mercenary-equipment": "node --test tests/mercenary-equipment-20261011.test.mjs tests/mercenary-equipment-assets-20261011.test.mjs",
     "test:madara-raid": "node --test tests/madara-raid-preparation-20261011.test.mjs tests/madara-raid-lobby-20261011.test.mjs tests/madara-raid-decisions-20261011.test.mjs tests/madara-raid-live-20261011.test.mjs",
     "test:account-sync": "node --test tests/account-sync-overhaul-20261015.test.mjs tests/account-sync-sockets-20261015.test.mjs tests/image-delivery-20261015.test.mjs",
-    "test:organization": "node --test tests/organization-system-20261015.test.mjs tests/organization-ratings-20261015.test.mjs tests/organization-live-20261015.test.mjs tests/organization-faction-20261015.test.mjs tests/organization-opening-20261015.test.mjs tests/organization-faction-map-20261015.test.mjs",
+    "test:organization": "node --test tests/organization-system-20261015.test.mjs tests/organization-ratings-20261015.test.mjs tests/organization-live-20261015.test.mjs tests/organization-faction-20261015.test.mjs tests/organization-opening-20261015.test.mjs tests/organization-faction-map-20261015.test.mjs tests/organization-six-20261019.test.mjs tests/organization-elders-20261019.test.mjs tests/organization-additional-recruitment-20261017.test.mjs tests/organization-season-opening-20261018.test.mjs",
     "test:icon-techniques": "node --test tests/icon-techniques-preparation-v1.test.mjs tests/icon-techniques-combat-20261015.test.mjs",
     "build:icon-techniques": "node scripts/build-icon-technique-preview-20261015.mjs",
     "verify:icon-techniques-parity": "node scripts/verify-icon-technique-parity-20261015.mjs",

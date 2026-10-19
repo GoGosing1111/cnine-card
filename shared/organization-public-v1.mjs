@@ -1,5 +1,5 @@
-import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs';
-import {ORGANIZATIONS,defaultOrganizationPolicy,organizationHideout} from './organization-system-v1.mjs';
+import {ORGANIZATION_PREPARATION} from './organization-preparation-v1.mjs?v=20261019-six-organizations';
+import {ORGANIZATIONS,defaultOrganizationPolicy,organizationHideout} from './organization-system-v1.mjs?v=20261019-six-organizations';
 
 // Public preparation has no accounts, enrollment, fictional participants or DB writes.
 // This adapter is deliberately separate from the authenticated TEST service.

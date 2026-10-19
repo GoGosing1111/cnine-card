@@ -25,7 +25,7 @@ export async function appointOrganizationElders(client,{commit=false,expectedRos
   const [row]=await q('SELECT revision,state_json FROM organization_faction_state_v1 WHERE round_id=$1 FOR UPDATE',[ROUND_ID]);assert(row,'Faction state missing');
   const members=(await q('SELECT m.user_id,m.organization_id,m.slot,m.seed_power,u.nickname,u.status FROM organization_members_v1 m JOIN users u ON u.id=m.user_id WHERE m.round_id=$1 ORDER BY m.organization_id,m.slot FOR SHARE OF m,u',[ROUND_ID])).map(m=>({userId:Number(m.user_id),clanId:Number(m.organization_id),slot:Number(m.slot),seedPower:Number(m.seed_power),nickname:m.nickname,status:m.status}));
   for(const m of members){assert(Number.isSafeInteger(m.userId)&&m.userId>0);assert(Number.isSafeInteger(m.seedPower)&&m.seedPower>0);assert(Number.isInteger(m.clanId)&&m.clanId>=1&&m.clanId<=15);}
-  const rosterHash=hash(members),selection=rankedOrganizationElders(members);
+  const rosterHash=hash(members),selection=rankedOrganizationElders(members,Array.from({length:15},(_,i)=>({id:i+1})));
   if(commit){assert(expectedRosterHash,'Reviewed roster hash required');assert.equal(rosterHash,expectedRosterHash,'Roster or evaluated power changed after review');}
   assert.equal(selection.length,15);
   for(const group of selection){assert.equal(group.userIds.length,3,'Every organization needs three active members');validateOrganizationElders(group.userIds,members,group.organizationId);}

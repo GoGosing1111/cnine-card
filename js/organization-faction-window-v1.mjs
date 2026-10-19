@@ -8,7 +8,7 @@ export function openOrganizationFaction({roundId,onClose}={}){
   const dialog=doc.createElement('dialog');dialog.dataset.organizationWarWindow='';dialog.setAttribute('aria-label','조직 세력전 전용 화면');
   Object.assign(dialog.style,{position:'fixed',inset:'0',width:'100vw',height:'100dvh',maxWidth:'none',maxHeight:'none',margin:'0',padding:'0',border:'0',background:'#080e11',overflow:'hidden'});
   const frame=doc.createElement('iframe');frame.title='조직 세력전 전용 화면';
-  const url=new URL('/organization/faction/',location.origin);url.searchParams.set('window','1');url.searchParams.set('v','20261019-war-room');if(roundId)url.searchParams.set('roundId',String(roundId));frame.src=url.href;
+  const url=new URL('/organization/faction/',location.origin);url.searchParams.set('window','1');url.searchParams.set('v','20261019-six-organizations');if(roundId)url.searchParams.set('roundId',String(roundId));frame.src=url.href;
   Object.assign(frame.style,{width:'100%',height:'100%',display:'block',border:'0'});
   const close=()=>{dialog.close();dialog.remove();doc.documentElement.style.overflow=overflow;host.removeEventListener('message',receive);window.removeEventListener('pagehide',close);previous?.focus({preventScroll:true});onClose?.();};
   const receive=event=>{if(event.origin===location.origin&&event.source===frame.contentWindow&&event.data?.type==='organization:faction:close')close();};

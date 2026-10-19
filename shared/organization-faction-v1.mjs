@@ -1,8 +1,9 @@
-import {DISTRICTS as SEOUL_DISTRICTS,FACTION_RULES as CLAN_FACTION_RULES,SQUADS} from './clan-faction-rules-v1.mjs';
+import {DISTRICTS as SEOUL_DISTRICTS,FACTION_RULES as CLAN_FACTION_RULES} from './clan-faction-rules-v1.mjs';
 import {FACTION_SESSION_RULES} from './clan-faction-sessions-v1.mjs';
-export {SQUADS};
+import {ORGANIZATIONS} from './organization-system-v1.mjs?v=20261019-six-organizations';
+export const SQUADS=Object.freeze(['ATTACK','DEFENSE'].flatMap(role=>Array.from({length:5},(_,i)=>Object.freeze({id:role.toLowerCase()+(i+1),name:'제'+(i+1)+(role==='ATTACK'?' 공격대':' 방어대'),role}))));
 export const FACTION_RULES=Object.freeze({...CLAN_FACTION_RULES,squadSize:3});
-export const ORGANIZATION_SESSION_RULES=Object.freeze({...FACTION_SESSION_RULES,version:'20261018-organization-season',requiredTerritories:6,coinPerRecipient:300000000000});
+export const ORGANIZATION_SESSION_RULES=Object.freeze({...FACTION_SESSION_RULES,version:'20261019-six-organizations',requiredTerritories:9,coinPerRecipient:300000000000});
 export const ORGANIZATION_DISTRICTS=Object.freeze([
  ...SEOUL_DISTRICTS.map(d=>({...d,area:'SEOUL'})),
  ...[
@@ -29,8 +30,8 @@ export function validateOrganizationElders(ids,roster,organizationId){
  if(ids.some(id=>!roster.some(m=>m.clanId===organizationId&&m.userId===id&&m.status==='ACTIVE')))fail('해당 조직의 활성 구성원만 원로로 지정할 수 있습니다.');
  return [...ids];
 }
-export function rankedOrganizationElders(members){
- return Array.from({length:15},(_,i)=>({organizationId:i+1,userIds:members.filter(m=>m.clanId===i+1&&m.status==='ACTIVE')
+export function rankedOrganizationElders(members,organizations=ORGANIZATIONS){
+ return organizations.map(o=>({organizationId:o.id,userIds:members.filter(m=>m.clanId===o.id&&m.status==='ACTIVE')
   .sort((a,b)=>b.seedPower-a.seedPower||a.slot-b.slot||a.userId-b.userId).slice(0,ORGANIZATION_ELDER_LIMIT).map(m=>m.userId)}));
 }
 export const defaultOrganizationFactionPolicy=()=>({revision:0,mode:'OFF',fundsPerRegion:null,upgradeCosts:[0,null,null,null,null]});

@@ -1,8 +1,8 @@
 import {ORGANIZATIONS,orgAssert} from '../shared/organization-system-v1.mjs';
 import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES,organizationDistrictById,defaultOrganizationFactionPolicy,validateOrganizationFactionPolicy,FACTION_RULES as R,SQUADS} from '../shared/organization-faction-v1.mjs';
 import {createFactionDay,factionDayKey} from '../shared/clan-faction-sessions-v1.mjs';
-import {factionCaptains,validateFactionCaptains,factionEvent,finishFactionBattle,factionStrikeDamage} from './_clan_faction_model.js';
-import {newOrganizationFactionState,advanceOrganizationFaction,validateOrganizationFormation as validateFormation} from './_organization_faction_model.js';
+import {factionEvent,finishFactionBattle,factionStrikeDamage} from './_clan_faction_model.js';
+import {newOrganizationFactionState,advanceOrganizationFaction,validateOrganizationFormation as validateFormation,organizationCaptains as factionCaptains,validateOrganizationCaptains as validateFactionCaptains,assignOrganizationGarrison} from './_organization_faction_model.js';
 import {buildClanBattle} from './_clan.js';
 import {readJointBody} from './_joint_request.js';
 import {jointHash} from './_joint_transactions.js';
@@ -194,7 +194,7 @@ async function mutation(env,user,action,body,deps){
    if(['launch','enter','strike'].includes(action))orgAssert(sessions.active,'WINDOW',sessions.blockedByTerritory?'영토전 동안 세력전이 일시정지됩니다.':'현재 세력전 개방 시간이 아닙니다.');
    result.roundId=r.id;
    if(action==='commander'||action==='elders'){
-    orgAssert(Number.isInteger(body.organizationId)&&body.organizationId>=1&&body.organizationId<=15,'INPUT','조직을 확인하세요.',400);
+    orgAssert(Number.isInteger(body.organizationId)&&body.organizationId>=1&&ORGANIZATIONS.some(o=>o.id===body.organizationId),'INPUT','조직을 확인하세요.',400);
     const current=organizationElderIds(s,roster,body.organizationId);
     if(action==='commander')orgAssert(current.length<=1,'ELDERS','여러 원로가 지정되어 있습니다. 최신 원로 관리 화면에서 변경하세요.');
     else orgAssert(Array.isArray(body.baseUserIds)&&JSON.stringify(body.baseUserIds)===JSON.stringify(current),'STALE','원로 명단이 변경되었습니다. 새로 불러온 뒤 저장하세요.');
@@ -209,15 +209,13 @@ async function mutation(env,user,action,body,deps){
      orgAssert(!s.battles.some(b=>b.status==='ACTIVE'&&(b.attacker===id||b.defender===id)),'BATTLE','교전이 끝난 뒤 편성을 변경하세요.');
      if(body.baseFormation!==undefined)orgAssert(JSON.stringify(validateFormation(body.baseFormation,memberIds))===JSON.stringify(formation),'STALE','다른 사람이 편성을 변경했습니다. 새로고침하세요.');
      s.formations[id]=validateFormation(body.formation,memberIds);
+     for(const d of s.districts)if(d.owner===id&&d.defense&&!s.formations[id][d.defense]?.length)d.defense='';
     }
     if(body.captains!==undefined)s.captains[id]=validateFactionCaptains(body.captains,memberIds);
     factionEvent(s,{id:crypto.randomUUID(),kind:action==='formation'?'FORMATION':'CAPTAINS',clanId:id,by:user.nickname,at:now});
    }else if(action==='garrison'){
     orgAssert(canManage,'PERMISSION','조직 원로 또는 행동대장만 주둔할 수 있습니다.',403);
-    const d=s.districts.find(d=>d.id===String(body.districtId));
-    orgAssert(d?.owner===id&&!s.battles.some(b=>b.districtId===d.id&&b.status==='ACTIVE'),'DISTRICT','교전 중이 아닌 우리 점령지를 선택하세요.');
-    orgAssert(SQUADS.some(x=>x.id===body.squad&&x.role==='DEFENSE')&&formation[body.squad]?.length,'FORMATION','방어대를 먼저 편성하세요.');
-    d.defense=body.squad;
+    assignOrganizationGarrison(s,id,body.districtId,body.squad,formation);
    }else if(action==='launch'){
     const d=s.districts.find(d=>d.id===String(body.districtId)),squad=String(body.squad);
     orgAssert(SQUADS.some(x=>x.id===squad&&x.role==='ATTACK')&&formation[squad]?.length,'FORMATION','공격대를 먼저 편성하세요.');
