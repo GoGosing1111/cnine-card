@@ -39,7 +39,6 @@ const fixture = () => ({
 test('exactly +8/+9/+10 decorate equipped and owned equipment, without altering power or quantities', () => {
   const data = fixture(), before = structuredClone(data), { root, app } = render(data);
   assert.deepEqual(levels(root.innerHTML).sort(), [8, 8, 9, 9, 10, 10].sort());
-  assert.equal((root.innerHTML.match(/<canvas class="clv2-plus10-fx"/g) || []).length, 2, '+10 energy renders on its equipped and owned art only');
   for (const level of [8, 9, 10]) {
     assert.match(root.innerHTML, new RegExp('clv2-slot-art" data-enhancement-glow="' + level + '"'));
     assert.match(root.innerHTML, new RegExp('clv2-inventory-art" data-enhancement-glow="' + level + '"'));
@@ -56,7 +55,7 @@ test('other levels, missing enhancement, invalid values and battle suits never g
   instances.push({ instanceId: 99, item: row(99, 'TOP', 0).item }, row(100, 'BATTLE_SUIT', 10));
   const { root } = render({ instances, loadout: { BATTLE_SUIT: 100 } });
   assert.deepEqual(levels(root.innerHTML), []);
-  assert.doesNotMatch(root.innerHTML, /clv2-enhancement-light|clv2-enhancement-level|clv2-plus10-fx/);
+  assert.doesNotMatch(root.innerHTML, /clv2-enhancement-light|clv2-enhancement-level/);
   assert.deepEqual(levels(render({ instances: [row(1, 'WEAPON', '9')] }).root.innerHTML), [9]);
 });
 
@@ -103,8 +102,7 @@ test('glow stays equipment-scoped, click-through, distinct and reduced-motion sa
   assert.match(block, /prefers-reduced-motion: reduce/);
   assert.match(block, /animation: none; opacity: 1/);
   assert.match(block, /clv2-rim-orbit 5s/);
-  assert.doesNotMatch(block, /clv2-rim-orbit 3\.8s|clv2-plus10-glint/);
-  assert.match(source, /mountEquipmentEnergy\(root\)/);
+  assert.match(block, /clv2-rim-orbit 3\.8s/);
 });
 
 test('production and shared preview invalidate the changed equipment resources', () => {
@@ -112,8 +110,8 @@ test('production and shared preview invalidate the changed equipment resources',
   for (const path of ['css/character-loadout-v2.css', 'js/character-loadout-v2.js']) {
     const start = app.indexOf("'" + path + '?');
     assert.ok(start >= 0);
-    assert.ok(app.slice(start, app.indexOf("'", start + 1)).includes('&enhanceGlow=20261019-gold-v4'));
+    assert.ok(app.slice(start, app.indexOf("'", start + 1)).includes('&enhanceGlow=20261019-original-rollback'));
   }
-  assert.ok(index.split('\n').find(line => line.includes('src="js/app.js?')).includes('&amp;enhanceGlow=20261019-gold-v4'));
+  assert.ok(index.split('\n').find(line => line.includes('src="js/app.js?')).includes('&amp;enhanceGlow=20261019-original-rollback'));
   assert.match(read('preview/live-character-loadout-v2-v1/preview.js'), /get\('enhancementGlow'\) === '1'/);
 });

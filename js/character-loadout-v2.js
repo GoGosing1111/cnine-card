@@ -43,154 +43,6 @@
     return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.equipment}</svg>`;
   };
 
-  function mountEquipmentEnergy(root) {
-    const canvases = [...root.querySelectorAll('.clv2-plus10-fx')];
-    if (!canvases.length || !window.requestAnimationFrame || !window.Image) return () => {};
-    const doc = root.ownerDocument, motion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
-    let disposed = false, frameId = 0, previousFrame = 0;
-    const masks = new Map();
-    const rows = canvases.map((canvas, index) => ({ canvas, image: canvas.closest('.clv2-item-art')?.querySelector('.clv2-art-image'), ctx: canvas.getContext('2d'), visible: !window.IntersectionObserver, seed: Number(canvas.dataset.fxSeed || 0) * .731 + index * 1.17 })).filter(row => row.ctx);
-    function makeSurface(width, height) {
-      const surface = doc.createElement('canvas');
-      surface.width = width; surface.height = height;
-      return surface;
-    }
-
-    function prepareLight(row) {
-      const { image, canvas, layout } = row;
-      if (!layout || !image?.complete || !image.naturalWidth) return;
-      const key = image.currentSrc || image.src;
-      const sizeKey = key + ':' + canvas.width + ':' + canvas.height;
-      if (row.lightKey === sizeKey) return;
-      row.lightKey = sizeKey;
-      if (!masks.has(key)) {
-        // Read the existing art once. Its actual bright metal supplies the light shape.
-        const ratio = Math.min(256 / image.naturalWidth, 256 / image.naturalHeight, 1);
-        const width = Math.max(1, Math.round(image.naturalWidth * ratio)), height = Math.max(1, Math.round(image.naturalHeight * ratio));
-        const sample = makeSurface(width, height), sampleCtx = sample.getContext('2d', { willReadFrequently: true });
-        let pixels;
-        try {
-          sampleCtx.drawImage(image, 0, 0, width, height);
-          pixels = sampleCtx.getImageData(0, 0, width, height);
-        } catch {
-          // An external image without CORS keeps its original art instead of a replacement frame.
-          masks.set(key, null); return;
-        }
-        const frame = makeSurface(width, height), item = makeSurface(width, height);
-        const frameCtx = frame.getContext('2d'), itemCtx = item.getContext('2d');
-        const framePixels = frameCtx.createImageData(width, height), itemPixels = itemCtx.createImageData(width, height);
-        for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
-          const i = (y * width + x) * 4, p = pixels.data;
-          const light = (p[i] * .3 + p[i + 1] * .59 + p[i + 2] * .11) / 255;
-          const edge = Math.min(x / width, y / height, (width - 1 - x) / width, (height - 1 - y) / height);
-          const border = Math.max(0, Math.min(1, (.095 - edge) / .035));
-          framePixels.data[i] = 255; framePixels.data[i + 1] = 186; framePixels.data[i + 2] = 66;
-          framePixels.data[i + 3] = p[i + 3] * Math.max(0, (light - .12) / .88) * border;
-          itemPixels.data[i] = 255; itemPixels.data[i + 1] = 210; itemPixels.data[i + 2] = 112;
-          itemPixels.data[i + 3] = p[i + 3] * Math.max(0, (light - .4) / .6) * (1 - border) * .2;
-        }
-        frameCtx.putImageData(framePixels, 0, 0); itemCtx.putImageData(itemPixels, 0, 0);
-        masks.set(key, { frame, item });
-      }
-      const mask = masks.get(key);
-      if (!mask) return;
-      const { width, height, left, top, right, bottom, unit } = layout;
-      const sx = canvas.width / width, sy = canvas.height / height;
-      const artWidth = (right - left) / .96, artHeight = (bottom - top) / .96;
-      const bounds = [(left - artWidth * .02) * sx, (top - artHeight * .02) * sy, artWidth * sx, artHeight * sy];
-      const radiance = makeSurface(canvas.width, canvas.height), glow = radiance.getContext('2d');
-      glow.globalCompositeOperation = 'lighter';
-      // Wide aura + close bloom follow the carved gold, including all four sides.
-      for (const [blur, strength] of [[.035, 2.4], [.012, 1.4], [0, .35]]) {
-        glow.filter = blur ? 'blur(' + (unit * sx * blur).toFixed(2) + 'px)' : 'none';
-        for (let pass = 0; pass < Math.ceil(strength); pass++) {
-          glow.globalAlpha = Math.min(1, strength - pass);
-          glow.drawImage(mask.frame, ...bounds);
-        }
-      }
-      const itemLight = makeSurface(canvas.width, canvas.height), itemGlow = itemLight.getContext('2d');
-      itemGlow.filter = 'blur(' + (unit * sx * .004).toFixed(2) + 'px)';
-      itemGlow.drawImage(mask.item, ...bounds);
-      row.radiance = radiance; row.itemLight = itemLight;
-    }
-
-    function draw(row, time) {
-      const { ctx, canvas, seed, radiance, itemLight } = row;
-      if (!radiance) return;
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.globalCompositeOperation = 'lighter';
-      // The frame stays in place: a slow change in radiance, never an orbiting stripe.
-      ctx.globalAlpha = .84 + Math.sin(time * 1.25 + seed) * .16;
-      ctx.drawImage(radiance, 0, 0);
-      ctx.globalAlpha = .68 + Math.sin(time * .9 + seed + 1.4) * .22;
-      ctx.drawImage(itemLight, 0, 0);
-      ctx.globalAlpha = 1;
-      ctx.globalCompositeOperation = 'source-over';
-    }
-
-    function frame(now) {
-      frameId = 0;
-      if (disposed || doc.hidden) return;
-      if (!root.isConnected) return;
-      if (motion?.matches || now - previousFrame >= 1000 / 30) {
-        previousFrame = now;
-        rows.forEach(row => { if (row.visible) draw(row, motion?.matches ? 1.9 : now / 1000); });
-      }
-      if (!motion?.matches && rows.some(row => row.visible)) frameId = window.requestAnimationFrame(frame);
-    }
-    function restart() {
-      if (frameId) window.cancelAnimationFrame(frameId);
-      frameId = 0; previousFrame = 0;
-      if (disposed || doc.hidden) return;
-      rows.forEach(row => { row.canvas.dataset.energyState = motion?.matches ? 'static' : 'animated'; });
-      frameId = window.requestAnimationFrame(frame);
-    }
-    function resize() {
-      rows.forEach(row => {
-        const { canvas, image } = row, host = canvas.parentElement, hostBox = host.getBoundingClientRect();
-        const imageBox = image?.getBoundingClientRect() || hostBox, style = image ? window.getComputedStyle(image) : null;
-        const paddingLeft = parseFloat(style?.paddingLeft) || 0, paddingRight = parseFloat(style?.paddingRight) || 0;
-        const paddingTop = parseFloat(style?.paddingTop) || 0, paddingBottom = parseFloat(style?.paddingBottom) || 0;
-        const contentWidth = Math.max(1, imageBox.width - paddingLeft - paddingRight), contentHeight = Math.max(1, imageBox.height - paddingTop - paddingBottom);
-        const scale = image?.naturalWidth && image?.naturalHeight ? Math.min(contentWidth / image.naturalWidth, contentHeight / image.naturalHeight) : 1;
-        const artWidth = image?.naturalWidth ? image.naturalWidth * scale : contentWidth, artHeight = image?.naturalHeight ? image.naturalHeight * scale : contentHeight;
-        // Existing item artwork has its ornamental frame 2% inside the bitmap.
-        const frameWidth = artWidth * .96, frameHeight = artHeight * .96, unit = Math.min(frameWidth, frameHeight), halo = unit * .105;
-        const left = imageBox.left + paddingLeft + (contentWidth - artWidth) / 2 + artWidth * .02 - hostBox.left - host.clientLeft;
-        const top = imageBox.top + paddingTop + (contentHeight - artHeight) / 2 + artHeight * .02 - hostBox.top - host.clientTop;
-        const cssWidth = frameWidth + halo * 2, cssHeight = frameHeight + halo * 2, ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-        canvas.style.left = `${left - halo}px`; canvas.style.top = `${top - halo}px`;
-        canvas.style.width = `${cssWidth}px`; canvas.style.height = `${cssHeight}px`;
-        row.layout = { width: cssWidth, height: cssHeight, left: halo, top: halo, right: halo + frameWidth, bottom: halo + frameHeight, unit };
-        const width = Math.min(384, Math.max(64, Math.round(cssWidth * ratio))), height = Math.min(384, Math.max(64, Math.round(cssHeight * ratio)));
-        if (canvas.width !== width) canvas.width = width;
-        if (canvas.height !== height) canvas.height = height;
-        prepareLight(row);
-      });
-      restart();
-    }
-    const observer = window.IntersectionObserver ? new window.IntersectionObserver(entries => {
-      entries.forEach(entry => { const row = rows.find(row => row.canvas === entry.target); if (row) row.visible = entry.isIntersecting; });
-      restart();
-    }, { threshold: 0 }) : null;
-    const resizer = window.ResizeObserver ? new window.ResizeObserver(resize) : null;
-    rows.forEach(({ canvas, image }) => { observer?.observe(canvas); resizer?.observe(canvas.parentElement); image?.addEventListener('load', resize); });
-    doc.addEventListener('visibilitychange', restart);
-    motion?.addEventListener?.('change', restart);
-    window.addEventListener('resize', resize);
-    resize();
-    return () => {
-      disposed = true;
-      if (frameId) window.cancelAnimationFrame(frameId);
-      observer?.disconnect(); resizer?.disconnect();
-      rows.forEach(({ image }) => image?.removeEventListener('load', resize));
-      doc.removeEventListener('visibilitychange', restart);
-      motion?.removeEventListener?.('change', restart);
-      window.removeEventListener('resize', resize);
-    };
-  }
-
   function create(root, options = {}) {
     if (!root) throw new Error('장비 시스템을 표시할 영역이 없습니다.');
 
@@ -212,7 +64,6 @@
     let quantitiesLoading = false;
     let quantitiesFailed = false;
     let quantitiesCursor = 0;
-    let stopEquipmentEnergy = () => {};
     if (!TAB_LABELS[state.tab]) state.tab = 'equipment';
 
     const profile = options.profile || (typeof window.loadUser === 'function' ? window.loadUser() : null) || { nickname: '플레이어' };
@@ -298,10 +149,7 @@
     // Decoration belongs only to this equipment view, never rarity/card frames.
     const glowLevel = row => STANDARD_SLOT_ORDER.includes(row?.item?.slot) && [8, 9, 10].includes(Number(row?.enhancement?.level)) ? Number(row.enhancement.level) : 0;
     const glowAttribute = row => glowLevel(row) ? `data-enhancement-glow="${glowLevel(row)}"` : '';
-    const glowArt = row => {
-      const level = glowLevel(row);
-      return level ? `<span class="clv2-enhancement-light" aria-hidden="true">${level === 10 ? `<canvas class="clv2-plus10-fx" data-fx-seed="${Number(row.instanceId) || 0}" aria-hidden="true"></canvas>` : ''}</span><b class="clv2-enhancement-level" aria-hidden="true">+${level}</b>` : '';
-    };
+    const glowArt = row => glowLevel(row) ? `<span class="clv2-enhancement-light" aria-hidden="true"></span><b class="clv2-enhancement-level" aria-hidden="true">+${glowLevel(row)}</b>` : '';
     function slotCard(slot) {
       const row = equippedInstance(slot);
       const item = row?.item;
@@ -550,10 +398,8 @@
     }
 
     function render() {
-      stopEquipmentEnergy();
       root.innerHTML = shell();
       renderNotice();
-      stopEquipmentEnergy = mountEquipmentEnergy(root);
     }
 
     async function mutate(action, optimistic, rollback, successMessage) {
@@ -695,7 +541,6 @@
 
     async function load() {
       const generation = ++loadGeneration;
-      stopEquipmentEnergy();
       quantitiesLoading = false;
       quantitiesFailed = false;
       quantitiesCursor = 0;
@@ -779,7 +624,6 @@
       getState() { return structuredClone(state.data); },
       destroy() {
         destroyed = true;
-        stopEquipmentEnergy();
         loadGeneration++;
         window.clearTimeout(state.noticeTimer);
         root.removeEventListener('click', onClick);
