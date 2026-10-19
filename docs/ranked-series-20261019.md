@@ -44,3 +44,5 @@
 - 900px 이하의 기존 배치·폭은 유지한다. 선택·출전 순서·저장과 전투·매칭·보상 정책은 변경하지 않는다. CSS URL과 앱/서비스워커 캐시를 함께 갱신한다.
 - 기존 브라우저 검사 `tests/ranked-series-20261019.browser.mjs --layout-only`로 1440px/390px에서 참가 조건 안내·중복 선택 차단·순서 변경·저장을 확인했다. 가로 넘침 없음, PC 확대 프레임과 모바일 글자/버튼 배치를 직접 확인했다.
 - 작은 CSS 수정 배포로 분류한다. 직전 운영 커밋은 `92130e29d935e3d916a8102f2f8118b5d5297c15`이며 배포 게이트에서는 기존 `tests/ranked-series-20261019.test.mjs`와 공통 출시/캐시 검증만 실행한다. 전투 코드가 그대로이므로 전체 게임 검사와 전체 전투 재생은 반복하지 않는다. UI 검수는 사용자 시각 승인 기록과 구분한다.
+- `06e255f0985b53e7199c0e26a852d0f9291fcf2c`를 scoped 배포했다. 관련 5개 검사 통과, Hyperdrive 조회 캐시 OFF, Pages 19,990개 파일. Pages `https://72df7017.cnine-card.pages.dev`, API Worker `efaf264d-6f92-4f74-af19-22159995be8e`, 스케줄러 `333d825e-52ca-4463-acc7-e6db0f7911f0`.
+- 공개 주소의 index·서비스워커·매칭 CSS가 모두 HTTP 200이며 출시 파일과 SHA-256 일치했다. CSS 해시는 `231f57ff94d19f8f3f806b2e9f43b321efed00b7ce0eb88807a3fe7a239baede`. 외부 검수 기록은 `C:/Users/User/Downloads/upload/ranked-series-qa-20261019/wide/`의 `browser-results.json`, `deploy.log`, `live.json`이다.
