@@ -1,0 +1,40 @@
+{
+  "authorization": "제로 핑크빛유두에 지급해",
+  "verifiedAt": "2026-10-19T20:26:53.249Z",
+  "independentConnection": true,
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:pingdu-zero-grant:20261020:v1",
+    "authorization": "제로 핑크빛유두에 지급해 — 제로 V-976 1장 영구 직접 지급",
+    "target": {
+      "id": 1,
+      "nickname": "핑크빛유두",
+      "code": "V-976",
+      "quantity": 1
+    },
+    "completedAt": "2026-10-19T20:26:48.063Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "protectedBefore": "d3e0340b69f415cd16504f54095ca6ba80d80ce1910a074552611638d80817f7",
+    "protectedAfter": "d3e0340b69f415cd16504f54095ca6ba80d80ce1910a074552611638d80817f7",
+    "automaticLoadout": false,
+    "cost": 0,
+    "permanent": true,
+    "adminLogId": "48698"
+  },
+  "currentCopies": 1,
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "checks": {
+    "scopedTransactionRegressionPassed": true,
+    "liveDryRunRolledBack": true,
+    "protectedStateUnchanged": true,
+    "independentReadVerified": true
+  },
+  "cleanup": {
+    "accountLeasesReleased": true,
+    "temporaryHelperStopped": true
+  },
+  "runtimeDeployment": false
+}
