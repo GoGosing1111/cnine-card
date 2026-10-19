@@ -31,12 +31,12 @@ test('coup summary failure cannot suppress existing live operations',async()=>{
 });
 
 test('recruitment has no fake timer, active has countdown and entry uses the coup route',()=>{
- const app=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8'),routes=[];
- const ctx=vm.createContext({Date,escapeHtml:s=>String(s),renderShell:s=>routes.push(s)});
+ const app=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8'),routes=[];let closed=0;
+ const ctx=vm.createContext({Date,document:{getElementById:id=>id==='liveOperationsDialog'?{close:()=>closed++}:null},escapeHtml:s=>String(s),renderShell:s=>routes.push(s)});
  vm.runInContext(app.slice(app.indexOf('const LIVE_OPERATION_META='),app.indexOf('function liveBurningOperationHtml()')),ctx);
  const recruiting=ctx.liveOperationCardHtml({kind:'COUP',phase:'RECRUITING',title:'황궁 쿠데타'});
  assert.match(recruiting,/참가 모집/);assert.match(recruiting,/개전 대기/);assert.doesNotMatch(recruiting,/data-live-operation-deadline/);
  const active=ctx.liveOperationCardHtml({kind:'COUP',phase:'ACTIVE',deadlineAt:new Date(Date.now()+60000).toISOString()});
  assert.match(active,/전투 진행/);assert.match(active,/종료까지/);assert.match(active,/data-live-operation-deadline/);
- ctx.openLiveOperation('COUP');assert.deepEqual(routes,['coup']);
+ ctx.openLiveOperation('COUP');assert.equal(closed,1);assert.deepEqual(routes,['coup']);
 });
