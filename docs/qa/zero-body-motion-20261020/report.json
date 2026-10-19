@@ -1,0 +1,2094 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "horizon",
+      "bodyFramesChecked": 50,
+      "idleFrames": [
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        }
+      ],
+      "baseline": {
+        "height": 360,
+        "backdrop": "ZERO_BLADE_WINGS_V1",
+        "behind": true
+      },
+      "result": {
+        "timelineRate": 1,
+        "mode": "horizon",
+        "hpCalls": 1,
+        "unique": 1,
+        "camera": {
+          "x": 800,
+          "y": 410,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "baseline": {
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "groundError": 0,
+        "bladeContact": {
+          "u": 0.6319483832893854,
+          "distance": 24.98959343536391,
+          "intersects": true
+        },
+        "zoom": false,
+        "backdrop": {
+          "enabled": true,
+          "behindBody": true,
+          "layer": 8,
+          "id": "ZERO_BLADE_WINGS_V1",
+          "visualApproval": true,
+          "destroyed": false
+        }
+      },
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "swords": false,
+        "damage": 1
+      },
+      "cleared": {
+        "ambient": true,
+        "states": 0,
+        "disposed": true,
+        "appearance": true,
+        "backdrop": true
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "flurry",
+      "bodyFramesChecked": 79,
+      "idleFrames": [
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        }
+      ],
+      "baseline": {
+        "height": 360,
+        "backdrop": "ZERO_BLADE_WINGS_V1",
+        "behind": true
+      },
+      "result": {
+        "timelineRate": 1,
+        "mode": "flurry",
+        "hpCalls": 1,
+        "unique": 1,
+        "camera": {
+          "x": 800,
+          "y": 410,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "baseline": {
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "groundError": 0,
+        "bladeContact": {
+          "u": 0.5412049324621033,
+          "distance": 4.060548849745507,
+          "intersects": true
+        },
+        "zoom": false,
+        "backdrop": {
+          "enabled": true,
+          "behindBody": true,
+          "layer": 8,
+          "id": "ZERO_BLADE_WINGS_V1",
+          "visualApproval": true,
+          "destroyed": false
+        }
+      },
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "swords": false,
+        "damage": 1
+      },
+      "cleared": {
+        "ambient": true,
+        "states": 0,
+        "disposed": true,
+        "appearance": true,
+        "backdrop": true
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "meteor",
+      "bodyFramesChecked": 82,
+      "idleFrames": [
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        }
+      ],
+      "baseline": {
+        "height": 360,
+        "backdrop": "ZERO_BLADE_WINGS_V1",
+        "behind": true
+      },
+      "result": {
+        "timelineRate": 1,
+        "mode": "meteor",
+        "hpCalls": 1,
+        "unique": 1,
+        "camera": {
+          "x": 800,
+          "y": 410,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "baseline": {
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "groundError": 0,
+        "bladeContact": {
+          "u": 0.6319483832893854,
+          "distance": 24.98959343536391,
+          "intersects": true
+        },
+        "zoom": false,
+        "backdrop": {
+          "enabled": true,
+          "behindBody": true,
+          "layer": 8,
+          "id": "ZERO_BLADE_WINGS_V1",
+          "visualApproval": true,
+          "destroyed": false
+        }
+      },
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "swords": false,
+        "damage": 1
+      },
+      "cleared": {
+        "ambient": true,
+        "states": 0,
+        "disposed": true,
+        "appearance": true,
+        "backdrop": true
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "enemy",
+      "bodyFramesChecked": 50,
+      "idleFrames": [
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        }
+      ],
+      "baseline": {
+        "height": 360,
+        "backdrop": "ZERO_BLADE_WINGS_V1",
+        "behind": true
+      },
+      "result": {
+        "timelineRate": 1,
+        "mode": "horizon",
+        "hpCalls": 1,
+        "unique": 1,
+        "camera": {
+          "x": 800,
+          "y": 410,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "baseline": {
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "groundError": 0,
+        "bladeContact": {
+          "u": 0.6319483832893853,
+          "distance": 24.98959343536395,
+          "intersects": true
+        },
+        "zoom": false,
+        "backdrop": {
+          "enabled": true,
+          "behindBody": true,
+          "layer": 8,
+          "id": "ZERO_BLADE_WINGS_V1",
+          "visualApproval": true,
+          "destroyed": false
+        }
+      },
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "swords": false,
+        "damage": 1
+      },
+      "cleared": {
+        "ambient": true,
+        "states": 0,
+        "disposed": true,
+        "appearance": true,
+        "backdrop": true
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "array",
+      "bodyFramesChecked": 137,
+      "idleFrames": [
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        }
+      ],
+      "baseline": {
+        "height": 360,
+        "backdrop": "ZERO_BLADE_WINGS_V1",
+        "behind": true
+      },
+      "result": {
+        "timelineRate": 1,
+        "mode": "array",
+        "hpCalls": 12,
+        "unique": 12,
+        "camera": {
+          "x": 800,
+          "y": 410,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "baseline": {
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "groundError": 0,
+        "bladeContact": {
+          "u": 1,
+          "distance": 120.59703326711485,
+          "intersects": false
+        },
+        "zoom": false,
+        "backdrop": {
+          "enabled": true,
+          "behindBody": true,
+          "layer": 8,
+          "id": "ZERO_BLADE_WINGS_V1",
+          "visualApproval": true,
+          "destroyed": false
+        }
+      },
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "swords": false,
+        "damage": 12
+      },
+      "cleared": {
+        "ambient": true,
+        "states": 0,
+        "disposed": true,
+        "appearance": true,
+        "backdrop": true
+      }
+    },
+    {
+      "label": "desktop",
+      "mode": "zenith",
+      "bodyFramesChecked": 121,
+      "idleFrames": [
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        }
+      ],
+      "baseline": {
+        "height": 360,
+        "backdrop": "ZERO_BLADE_WINGS_V1",
+        "behind": true
+      },
+      "result": {
+        "timelineRate": 1,
+        "mode": "zenith",
+        "hpCalls": 12,
+        "unique": 12,
+        "camera": {
+          "x": 800,
+          "y": 410,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "baseline": {
+          "camera": {
+            "x": 800,
+            "y": 410,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.5,
+            "y": 0.5
+          }
+        },
+        "groundError": 0,
+        "bladeContact": {
+          "u": 0.5864673240888273,
+          "distance": 42.86141631037418,
+          "intersects": false
+        },
+        "zoom": false,
+        "backdrop": {
+          "enabled": true,
+          "behindBody": true,
+          "layer": 8,
+          "id": "ZERO_BLADE_WINGS_V1",
+          "visualApproval": true,
+          "destroyed": false
+        }
+      },
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "swords": false,
+        "damage": 12
+      },
+      "cleared": {
+        "ambient": true,
+        "states": 0,
+        "disposed": true,
+        "appearance": true,
+        "backdrop": true
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "horizon",
+      "bodyFramesChecked": 50,
+      "idleFrames": [
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        }
+      ],
+      "baseline": {
+        "height": 360,
+        "backdrop": "ZERO_BLADE_WINGS_V1",
+        "behind": true
+      },
+      "result": {
+        "timelineRate": 1,
+        "mode": "horizon",
+        "hpCalls": 1,
+        "unique": 1,
+        "camera": {
+          "x": 575.4098360655737,
+          "y": 1156.7213114754097,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.65,
+          "y": 0.65
+        },
+        "baseline": {
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        "groundError": 0,
+        "bladeContact": {
+          "u": 0.6319483832893854,
+          "distance": 32.48647146597308,
+          "intersects": true
+        },
+        "zoom": false,
+        "backdrop": {
+          "enabled": true,
+          "behindBody": true,
+          "layer": 8,
+          "id": "ZERO_BLADE_WINGS_V1",
+          "visualApproval": true,
+          "destroyed": false
+        }
+      },
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "swords": false,
+        "damage": 1
+      },
+      "cleared": {
+        "ambient": true,
+        "states": 0,
+        "disposed": true,
+        "appearance": true,
+        "backdrop": true
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "flurry",
+      "bodyFramesChecked": 79,
+      "idleFrames": [
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        }
+      ],
+      "baseline": {
+        "height": 360,
+        "backdrop": "ZERO_BLADE_WINGS_V1",
+        "behind": true
+      },
+      "result": {
+        "timelineRate": 1,
+        "mode": "flurry",
+        "hpCalls": 1,
+        "unique": 1,
+        "camera": {
+          "x": 575.4098360655737,
+          "y": 1156.7213114754097,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.65,
+          "y": 0.65
+        },
+        "baseline": {
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        "groundError": 0,
+        "bladeContact": {
+          "u": 0.5412049324621031,
+          "distance": 5.278713504669171,
+          "intersects": true
+        },
+        "zoom": false,
+        "backdrop": {
+          "enabled": true,
+          "behindBody": true,
+          "layer": 8,
+          "id": "ZERO_BLADE_WINGS_V1",
+          "visualApproval": true,
+          "destroyed": false
+        }
+      },
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "swords": false,
+        "damage": 1
+      },
+      "cleared": {
+        "ambient": true,
+        "states": 0,
+        "disposed": true,
+        "appearance": true,
+        "backdrop": true
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "meteor",
+      "bodyFramesChecked": 82,
+      "idleFrames": [
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        }
+      ],
+      "baseline": {
+        "height": 360,
+        "backdrop": "ZERO_BLADE_WINGS_V1",
+        "behind": true
+      },
+      "result": {
+        "timelineRate": 1,
+        "mode": "meteor",
+        "hpCalls": 1,
+        "unique": 1,
+        "camera": {
+          "x": 575.4098360655737,
+          "y": 1156.7213114754097,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.65,
+          "y": 0.65
+        },
+        "baseline": {
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        "groundError": 0,
+        "bladeContact": {
+          "u": 0.6319483832893854,
+          "distance": 32.48647146597308,
+          "intersects": true
+        },
+        "zoom": false,
+        "backdrop": {
+          "enabled": true,
+          "behindBody": true,
+          "layer": 8,
+          "id": "ZERO_BLADE_WINGS_V1",
+          "visualApproval": true,
+          "destroyed": false
+        }
+      },
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "swords": false,
+        "damage": 1
+      },
+      "cleared": {
+        "ambient": true,
+        "states": 0,
+        "disposed": true,
+        "appearance": true,
+        "backdrop": true
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "enemy",
+      "bodyFramesChecked": 50,
+      "idleFrames": [
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        }
+      ],
+      "baseline": {
+        "height": 360,
+        "backdrop": "ZERO_BLADE_WINGS_V1",
+        "behind": true
+      },
+      "result": {
+        "timelineRate": 1,
+        "mode": "horizon",
+        "hpCalls": 1,
+        "unique": 1,
+        "camera": {
+          "x": 575.4098360655737,
+          "y": 1156.7213114754097,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.65,
+          "y": 0.65
+        },
+        "baseline": {
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        "groundError": 0,
+        "bladeContact": {
+          "u": 0.6319483832893854,
+          "distance": 32.486471465973096,
+          "intersects": true
+        },
+        "zoom": false,
+        "backdrop": {
+          "enabled": true,
+          "behindBody": true,
+          "layer": 8,
+          "id": "ZERO_BLADE_WINGS_V1",
+          "visualApproval": true,
+          "destroyed": false
+        }
+      },
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "swords": false,
+        "damage": 1
+      },
+      "cleared": {
+        "ambient": true,
+        "states": 0,
+        "disposed": true,
+        "appearance": true,
+        "backdrop": true
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "array",
+      "bodyFramesChecked": 137,
+      "idleFrames": [
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        }
+      ],
+      "baseline": {
+        "height": 360,
+        "backdrop": "ZERO_BLADE_WINGS_V1",
+        "behind": true
+      },
+      "result": {
+        "timelineRate": 1,
+        "mode": "array",
+        "hpCalls": 12,
+        "unique": 12,
+        "camera": {
+          "x": 575.4098360655737,
+          "y": 1156.7213114754097,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.65,
+          "y": 0.65
+        },
+        "baseline": {
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        "groundError": 0,
+        "bladeContact": {
+          "u": 1,
+          "distance": 163.93436739579383,
+          "intersects": false
+        },
+        "zoom": false,
+        "backdrop": {
+          "enabled": true,
+          "behindBody": true,
+          "layer": 8,
+          "id": "ZERO_BLADE_WINGS_V1",
+          "visualApproval": true,
+          "destroyed": false
+        }
+      },
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "swords": false,
+        "damage": 12
+      },
+      "cleared": {
+        "ambient": true,
+        "states": 0,
+        "disposed": true,
+        "appearance": true,
+        "backdrop": true
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "zenith",
+      "bodyFramesChecked": 121,
+      "idleFrames": [
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        },
+        {
+          "pose": {
+            "at": 0,
+            "bank": "idle",
+            "index": 0,
+            "facing": 1
+          },
+          "texture": true,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "y": 0,
+          "idleTween": false
+        }
+      ],
+      "baseline": {
+        "height": 360,
+        "backdrop": "ZERO_BLADE_WINGS_V1",
+        "behind": true
+      },
+      "result": {
+        "timelineRate": 1,
+        "mode": "zenith",
+        "hpCalls": 12,
+        "unique": 12,
+        "camera": {
+          "x": 575.4098360655737,
+          "y": 1156.7213114754097,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.65,
+          "y": 0.65
+        },
+        "baseline": {
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        "groundError": 0,
+        "bladeContact": {
+          "u": 0.5917964098779757,
+          "distance": 63.86235841170882,
+          "intersects": false
+        },
+        "zoom": false,
+        "backdrop": {
+          "enabled": true,
+          "behindBody": true,
+          "layer": 8,
+          "id": "ZERO_BLADE_WINGS_V1",
+          "visualApproval": true,
+          "destroyed": false
+        }
+      },
+      "cancelled": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "swords": false,
+        "damage": 12
+      },
+      "cleared": {
+        "ambient": true,
+        "states": 0,
+        "disposed": true,
+        "appearance": true,
+        "backdrop": true
+      }
+    }
+  ],
+  "errors": []
+}

@@ -2,11 +2,12 @@ import {gsap} from 'gsap';
 import {ZERO_CODE,ZERO_ART,ZERO_AREA_EVENT,ZERO_AREA_SKILLS,ZERO_BASIC_FORMS} from '../../../../shared/mercenary-zero-v1.mjs';
 import {KnightFX,loadKnightAssets} from '../../../mercenary-cyan-knight-battle-20261020-v1/source/KnightFX.js';
 import {MODES,sample} from '../../../mercenary-cyan-knight-battle-20261020-v1/motion.mjs';
+import {sampleBody,BODY_PLAYBACK_RATE,EFFECT_PLAYBACK_RATE} from '../../../mercenary-cyan-knight-battle-20261020-v1/source/BodyMotion.mjs';
 const BODY_HEIGHT=360,ROOT='/preview/mercenary-cyan-knight-battle-20261020-v1/';
 let manifestPromise;
 const manifest=()=>manifestPromise||=fetch(ROOT+'manifest.json?zero=20261020-wings-live-v1').then(r=>{if(!r.ok)throw Error('ZERO_MOTION_ASSETS');return r.json();}).then(m=>({...m,backdrop:m.backdropVariants.wings})).catch(e=>{manifestPromise=null;throw e;});
 const disposeAssets=assets=>{for(const frames of [...Object.values(assets.motion),...Object.values(assets.effects),assets.appearance,assets.summoned,assets.backdropEffects])for(const t of frames)t.destroy(false);};
-export function zeroBattleArt(code){return code===ZERO_CODE?{...ZERO_ART,spriteUrl:'/'+ZERO_ART.battleSprite,footAnchor:{x:346.6/768,y:563.2/768},fullBodyHeight:768,bodyHeight:BODY_HEIGHT,originalTextureHeight:768}:null;}
+export function zeroBattleArt(code){return code===ZERO_CODE?{...ZERO_ART,calmIdle:true,spriteUrl:'/'+ZERO_ART.battleSprite,footAnchor:{x:346.6/768,y:563.2/768},fullBodyHeight:768,bodyHeight:BODY_HEIGHT,originalTextureHeight:768}:null;}
 
 // Adapt the approved suit-sized preview to an ordinary mercenary actor. V3 owns
 // the clock and damage; the preview must never reset another actor or camera.
@@ -40,7 +41,8 @@ class ZeroLiveFX extends KnightFX{
  updateIdle(t){
   if(this.disposed||this.unit.root.destroyed)return;
   this.clock.time=t%MODES.idle.duration;this.state=sample('idle',this.clock.time);
-  const p=this.state.pose,x=this.unit.view.x,y=this.unit.view.y;
+  this.bodyState=sampleBody('idle',this.clock.time);
+  const p=this.bodyState.pose,x=this.unit.view.x,y=this.unit.view.y;
   this.applyPose(p);this.unit.view.position.set(x,y);
   this.appearance?.update(t,p,this.pose(p),this.effectsEnabled,this.engine.reducedMotion);
   this.backdrop?.update(t,p,this.pose(p),this.effectsEnabled,this.engine.reducedMotion);
@@ -90,7 +92,7 @@ async function playback(engine,actor,targets,mode,apply){
   t.to(clock,{time:duration,duration,ease:'none',onUpdate(){if(valid()&&!s.stopped){s.fx.clock.time=clock.time;s.fx.render(clock.time);}}});
   t.call(()=>{if(valid()&&!s.stopped&&!applied){applied=true;apply();}},[],contact);
  },()=>{s.busy=false;s.fx.cancel();if(valid()&&!s.stopped&&actor.hp>0){actor.animationController.setState('IDLE');startAmbient(s);}},engine.reducedMotion?8:1,{owners:[actor,...targets]});
- engine.lastMercenaryPlayback={code:ZERO_CODE,eventType:MODES[mode].type==='area'?ZERO_AREA_EVENT:'ATTACK',mode,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0,contactSeconds:contact,durationSeconds:duration,cameraZoom:false};
+ engine.lastMercenaryPlayback={code:ZERO_CODE,eventType:MODES[mode].type==='area'?ZERO_AREA_EVENT:'ATTACK',mode,clockOwner:'V3_REGISTERED_GSAP',authoritative:true,damageApplications:applied?targets.length:0,contactSeconds:contact,durationSeconds:duration,motionPlaybackRate:BODY_PLAYBACK_RATE,effectPlaybackRate:EFFECT_PLAYBACK_RATE,cameraZoom:false};
  return result&&valid();
 }
 export function playZeroBasic(engine,{attacker:actor,target,damage=0,targetHp=null,targetShield=null,onImpact=()=>{}}={}){

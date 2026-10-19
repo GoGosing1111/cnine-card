@@ -5,6 +5,7 @@ import {WhiteAuraAppearance} from './WhiteAuraAppearance.js';
 import {ZeroBladeWings} from './ZeroBladeWings.js';
 import {ZeroGiantSwordEcho} from './ZeroGiantSwordEcho.js';
 import {MODES,sample,bladeContact,smooth} from '../motion.mjs';
+import {sampleBody,BODY_PLAYBACK_RATE,EFFECT_PLAYBACK_RATE} from './BodyMotion.mjs';
 const ROOT='/preview/mercenary-cyan-knight-battle-20261020-v1/',HEIGHT=360,mix=(a,b,t)=>a+(b-a)*t;
 export async function loadKnightAssets(m){
  const out={motion:{},effects:{},appearance:[],summoned:[],backdropEffects:[],blade:await Assets.load(ROOT+m.weapon.url)};
@@ -63,8 +64,8 @@ export class KnightFX{
  bladePoints(state,root){const f=this.pose(state.pose),s=HEIGHT/360*this.unit.root.scale.x,dir=state.pose.facing;const point=p=>({x:root.x+(p.x-f.pivot.x)*s*dir,y:root.y+(p.y-f.pivot.y)*s});return{grip:point(f.grip),tip:point(f.tip)};}
  drawGhosts(state){
   this.ghostPool.forEach(s=>s.visible=false);if(!state.ghosts)return;
-  [.03,.06,.10,.14].forEach((ago,i)=>{if(state.time<ago)return;const past=sample(this.mode,state.time-ago),r=this.rootFor(past),f=this.pose(past.pose),s=this.ghostPool[i];
-   if(Math.hypot(r.x-this.unit.root.x,r.y-this.unit.root.y)<2&&past.pose.index===state.pose.index&&past.pose.bank===state.pose.bank)return;
+  [.03,.06,.10,.14].forEach((ago,i)=>{if(state.time<ago)return;const past=sampleBody(this.mode,state.time-ago),r=this.rootFor(past),f=this.pose(past.pose),s=this.ghostPool[i];
+   if(Math.hypot(r.x-this.unit.root.x,r.y-this.unit.root.y)<2&&past.pose.index===this.bodyState.pose.index&&past.pose.bank===this.bodyState.pose.bank)return;
    s.texture=this.assets.motion[past.pose.bank][past.pose.index];s.anchor.set(f.pivot.x/768,f.pivot.y/768);s.scale.set(HEIGHT/360*this.unit.root.scale.x*past.pose.facing,HEIGHT/360*this.unit.root.scale.y);
    const q=this.layerPoint(r,this.back);s.position.set(q.x,q.y);s.tint=0x8de7ff;s.alpha=[.23,.16,.1,.05][i];s.blendMode='add';s.visible=true;
   });
@@ -72,20 +73,20 @@ export class KnightFX{
  drawSwords(state,size){this.array.draw(state,size);this.phantomContacts=this.array.contacts;}
  render(t){
   if(this.disposed)return;
-  const u=this.unit,e=this.engine,state=this.state=sample(this.mode,t),size=HEIGHT*u.root.scale.x;
+  const u=this.unit,e=this.engine,state=this.state=sample(this.mode,t),body=this.bodyState=sampleBody(this.mode,t),size=HEIGHT*u.root.scale.x;
   this.pool.forEach(s=>s.visible=false);this.shade.clear();
-  const visualPose=state.done&&this.mode!=='defeat'?{bank:'idle',index:0,facing:1}:state.pose;this.applyPose(visualPose);
+  const visualPose=body.pose;this.applyPose(visualPose);
   this.appearance?.update(t,visualPose,this.pose(visualPose),this.effectsEnabled,e.reducedMotion);
-  const r=this.rootFor(state);u.root.position.set(r.x,r.y);u.root.depthSortY=r.groundY;e.sortCombatDepth();
+  const r=this.rootFor(body);u.root.position.set(r.x,r.y);u.root.depthSortY=r.groundY;e.sortCombatDepth();
   this.backdrop?.update(t,visualPose,this.pose(visualPose),this.effectsEnabled,e.reducedMotion);
-  const torso=this.contact(),feet=this.targetFeet(),bp=this.bladePoints(state,r),height=(this.targets[0].fullBodyHeight||300)*this.targets[0].root.scale.y;
-  this.collision=bladeContact(bp.grip,bp.tip,torso,height*.3);this.groundError=Math.abs(r.y+state.lift*size-r.groundY);
+  const torso=this.contact(),feet=this.targetFeet(),bp=this.bladePoints(body,r),height=(this.targets[0].fullBodyHeight||300)*this.targets[0].root.scale.y;
+  this.collision=bladeContact(bp.grip,bp.tip,torso,height*.3);this.groundError=Math.abs(r.y+body.lift*size-r.groundY);
   this.drawGhosts(state);this.drawSwords(state,size);
-  const points={body:this.layerPoint(torso),ground:this.layerPoint(feet),actor:this.layerPoint({x:r.x,y:r.y-size*.56}),actorGround:this.layerPoint(r),wake:this.layerPoint({x:r.x-size*.04*state.pose.facing,y:r.y-size*.46})};
+  const points={body:this.layerPoint(torso),ground:this.layerPoint(feet),actor:this.layerPoint({x:r.x,y:r.y-size*.56}),actorGround:this.layerPoint(r),wake:this.layerPoint({x:r.x-size*.04*body.pose.facing,y:r.y-size*.46})};
   state.effects.forEach((fx,i)=>{const s=this.pool[i],art=this.manifest.effects[fx.key].frames[fx.frame],layer=fx.anchor==='ground'||fx.anchor==='actorGround'?this.back:this.front;if(s.parent!==layer)layer.addChild(s);s.texture=this.assets.effects[fx.key][fx.frame];s.visible=true;s.alpha=fx.alpha;s.blendMode=fx.anchor==='wake'?'add':'normal';s.rotation=fx.angle;s.anchor.set(art.pivot?.x??.5,art.pivot?.y??.5);
    if((fx.anchor==='ground'||fx.anchor==='actorGround')&&!art.pivot)s.anchor.set(.5,fx.key==='ground'?.89:.91);
    if(fx.anchor==='wake')s.anchor.set(.8,.5);
-   s.scale.set(size*fx.width/s.texture.width*(this.manifest.effects[fx.key].displayScale||1));if(fx.anchor==='wake')s.scale.x*=state.pose.facing;if(fx.flip)s.scale.x*=fx.flip;
+   s.scale.set(size*fx.width/s.texture.width*(this.manifest.effects[fx.key].displayScale||1));if(fx.anchor==='wake')s.scale.x*=body.pose.facing;if(fx.flip)s.scale.x*=fx.flip;
    const q=points[fx.anchor],drift=fx.fromX===undefined?0:mix(fx.fromX,fx.toX,smooth(fx.progress)),point=layer.toLocal(this.front.toGlobal({x:q.x+drift*size,y:q.y}));s.position.set(point.x,point.y);
   });
   if(MODES[this.mode].type==='area'&&t>.15&&!state.done){const opacity=Math.min(.31,smooth((t-.15)/.22)*.31,smooth((MODES[this.mode].duration-t)/.45)*.31);this.shade.rect(-2000,-2000,6000,6000).fill({color:0x030b16,alpha:opacity});}
@@ -106,6 +107,6 @@ export class KnightFX{
   this.onUpdate(this);
  }
  cancel(){this.removeTimeline();this.clock.time=0;if(!this.disposed)this.render(0);}
- diagnostics(){return{ready:!this.disposed,appearance:this.appearance?.diagnostics(),backdrop:this.backdrop?.diagnostics(),version:this.manifest.version,summonedArray:this.array.diagnostics(),mode:this.mode,time:this.time,playing:this.playing,speed:this.speed,pose:this.state?.pose,phase:this.state?.phase,contactCount:this.state?.contactCount,bladeContact:this.collision,phantomContacts:this.phantomContacts,groundError:this.groundError,airborne:this.state?.lift>0,visibleEffects:this.effectsEnabled?this.pool.filter(s=>s.visible).length:0,visibleGhosts:this.effectsEnabled?this.ghostPool.filter(s=>s.visible).length:0,visibleSwords:this.swordPool.filter(s=>s.visible).length,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,...this.manifest.summary,weaponSha256:this.manifest.weapon.sha256,regularAllies:this.engine.allies.length,targets:this.targets.length,clock:'V3_REGISTERED_GSAP',liveEnabled:false,actor:{x:this.unit.root.x,y:this.unit.root.y,height:HEIGHT*this.unit.root.scale.y},contact:this.contact(),ground:this.targetFeet()};}
+ diagnostics(){return{ready:!this.disposed,appearance:this.appearance?.diagnostics(),backdrop:this.backdrop?.diagnostics(),version:this.manifest.version,summonedArray:this.array.diagnostics(),mode:this.mode,time:this.time,playing:this.playing,speed:this.speed,motionPlaybackRate:BODY_PLAYBACK_RATE,effectPlaybackRate:EFFECT_PLAYBACK_RATE,bodyTime:this.bodyState?.time,pose:this.bodyState?.pose,phase:this.state?.phase,contactCount:this.state?.contactCount,bladeContact:this.collision,phantomContacts:this.phantomContacts,groundError:this.groundError,airborne:this.bodyState?.lift>0,visibleEffects:this.effectsEnabled?this.pool.filter(s=>s.visible).length:0,visibleGhosts:this.effectsEnabled?this.ghostPool.filter(s=>s.visible).length:0,visibleSwords:this.swordPool.filter(s=>s.visible).length,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,...this.manifest.summary,weaponSha256:this.manifest.weapon.sha256,regularAllies:this.engine.allies.length,targets:this.targets.length,clock:'V3_REGISTERED_GSAP',liveEnabled:false,actor:{x:this.unit.root.x,y:this.unit.root.y,height:HEIGHT*this.unit.root.scale.y},contact:this.contact(),ground:this.targetFeet()};}
  destroy(){if(this.disposed)return;this.cancel();this.disposed=true;this.backdrop?.destroy();this.appearance?.destroy();this.engine.camera.reset(true);this.targets.forEach(t=>t.view.position.set(0,0));this.front.destroy({children:true});this.back.destroy({children:true});this.array.destroy();for(const frames of[...Object.values(this.assets.motion),...Object.values(this.assets.effects),this.assets.appearance,this.assets.summoned,this.assets.backdropEffects])for(const t of frames)t.destroy(false);}
 }

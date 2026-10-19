@@ -5,6 +5,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
 import assert from 'node:assert/strict';
+import {MODES,sample} from '../preview/mercenary-cyan-knight-battle-20261020-v1/motion.mjs';
+import {sampleBody} from '../preview/mercenary-cyan-knight-battle-20261020-v1/source/BodyMotion.mjs';
 import {fileURLToPath} from 'node:url';
 import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
 import fixture from './fixtures/mercenary-valter-roster-20261008.json' with {type:'json'};
@@ -12,6 +14,7 @@ import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {mercenaryAccountState,saveMercenaryLoadout} from '../functions/_mercenary_account.js';
 import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
 import {createHuntSession} from '../preview/sustained-hunt-v2/session.mjs';
+const roundFloats=value=>JSON.parse(JSON.stringify(value,(_key,item)=>typeof item==='number'?Number(item.toFixed(9)):item));
 const root=fileURLToPath(new URL('..',import.meta.url)),out=process.env.ZERO_QA_OUTPUT||path.join(root,'docs/qa/zero-20261020');fs.mkdirSync(out,{recursive:true});
 const cleanup=[],f=await mercenaryFixture({after:cb=>cleanup.push(cb)},{postgres:true}),checks=[],errors=[];
 await f.p('INSERT INTO users(id,nickname) VALUES(1,?)','핑크빛유두').run();
@@ -67,6 +70,28 @@ try{
   for(const mode of (process.argv.includes('--codex-only')||process.argv.includes('--remaining')&&label==='desktop'?[]:['horizon','flurry','meteor','enemy','array','zenith'])){
    const p=await browser.newPage({viewport,serviceWorkers:'block'});p.setDefaultTimeout(30000);p.on('pageerror',e=>errors.push(label+' '+mode+': '+e.message));
    await p.goto(base+'/qa/battle?mode='+mode);await p.waitForFunction(()=>window.ZeroQA?.ready||window.qaError,null,{timeout:60000});assert.equal(await p.evaluate(()=>window.qaError),undefined);
+   const actualMode=mode==='enemy'?'horizon':mode;
+   const bodyChecks=await p.evaluate(({mode,duration})=>{
+    const e=window.ZeroQA.engine,a=e.mercenaries[0],s=e.zeroStates.get(a),fx=s.fx;s.ambient?.instance.pause();
+    a.animationController.setState('IDLE');
+    const idle=[0,.3,.6,1.2,1.8,2.4,4.8].map(t=>{fx.updateIdle(t);return {pose:fx.bodyState.pose,texture:fx.unit.bodySprite.texture===fx.assets.motion.idle[0],scale:{x:a.mainSprite.scale.x,y:a.mainSprite.scale.y},y:a.mainSprite.y,idleTween:!!a.animationController.timeline};});
+    const targets=(a.team==='ALLY'?e.enemies:e.allies).filter(t=>!t.root.destroyed);fx.begin(mode,targets);
+    const samples=[];
+    for(let i=0;i<=Math.floor(duration*30);i++){
+     const t=i/30;fx.clock.time=t;fx.render(t);
+     samples.push({t,pose:fx.bodyState.pose,bodyTime:fx.bodyState.time,effects:fx.state.effects,phantoms:fx.state.phantoms,
+      bodyTexture:fx.unit.bodySprite.texture===fx.assets.motion[fx.bodyState.pose.bank][fx.bodyState.pose.index],
+      effectTextures:fx.state.effects.every((f,i)=>fx.pool[i].texture===fx.assets.effects[f.key][f.frame]),rates:[fx.diagnostics().motionPlaybackRate,fx.diagnostics().effectPlaybackRate]});
+    }
+    fx.cancel();return {idle,samples};
+   },{mode:actualMode,duration:MODES[actualMode].duration});
+   for(const frame of bodyChecks.idle){assert.equal(frame.pose.bank,'idle');assert.equal(frame.pose.index,0);assert.equal(frame.texture,true);assert.equal(frame.idleTween,false);assert.deepEqual(frame.scale,bodyChecks.idle[0].scale);assert.equal(frame.y,bodyChecks.idle[0].y);}
+   for(const frame of bodyChecks.samples){
+    const effects=sample(actualMode,frame.t),body=sampleBody(actualMode,frame.t);
+    assert.deepEqual(frame.effects,effects.effects);assert.deepEqual(roundFloats(frame.phantoms),roundFloats(effects.phantoms));
+    assert.deepEqual(frame.pose,body.pose);assert.equal(frame.bodyTime,body.time);assert.equal(frame.bodyTexture,true);assert.equal(frame.effectTextures,true);assert.deepEqual(frame.rates,[2,1]);
+   }
+   if(mode==='horizon')await p.screenshot({path:path.join(out,label+'-calm-idle.png'),fullPage:true});
    const baseline=await p.evaluate(()=>{
     const q=window.ZeroQA,e=q.engine,a=e.mercenaries[0],s=e.zeroStates.get(a);q.actor=a;q.hpCalls=[];q.damageCalls=[];
     s.ambient?.instance.pause();s.basicCount=Math.max(0,['horizon','flurry','meteor'].indexOf(q.mode));
@@ -75,7 +100,7 @@ try{
     const sync=e.syncTargetHp.bind(e);e.syncTargetHp=(t,h)=>{q.hpCalls.push({id:t.id,hp:h});return sync(t,h);};
     const show=e.showAccountBattleUnitDamage.bind(e);e.showAccountBattleUnitDamage=(t,d)=>{q.damageCalls.push(t.id);return show(t,d);};
     const timeline=e.timeline.bind(e),contact=q.mode==='array'?3.6:q.mode==='zenith'?2.65:q.mode==='flurry'?1.72:q.mode==='meteor'?.64:.55;
-    e.timeline=(build,cleanup,rate,options)=>timeline(t=>{build(t);if(options?.owners?.includes(a)){q.timeline=t;t.call(()=>{q.contact=true;t.pause();},[],contact+.012);}},cleanup,rate,options);
+    e.timeline=(build,cleanup,rate,options)=>timeline(t=>{build(t);if(options?.owners?.includes(a)){q.timeline=t;q.timelineRate=rate;t.call(()=>{q.contact=true;t.pause();},[],contact+.012);}},cleanup,rate,options);
     q.baseline={camera,actorScale};
     return {height:a.art.bodyHeight,backdrop:s.fx.manifest.backdrop.id,behind:s.fx.backdrop.diagnostics().behindBody};
    });
@@ -88,14 +113,15 @@ try{
     }else{const target=(a.team==='ALLY'?e.enemies:e.allies)[0];q.promise=e.normalAttack(0,{attacker:a,target,damage:100,targetHp:99,targetShield:0}).then(v=>q.done=v);}
    });
    await p.waitForFunction(()=>window.ZeroQA.contact,null,{timeout:20000});
-   const result=await p.evaluate(()=>{const q=window.ZeroQA,e=q.engine,a=q.actor,s=e.zeroStates.get(a);return {mode:s.fx.mode,hpCalls:q.hpCalls.length,unique:new Set(q.hpCalls.map(h=>h.id)).size,camera:{x:e.stage.x,y:e.stage.y,sx:e.stage.scale.x,sy:e.stage.scale.y},actorScale:{x:a.root.scale.x,y:a.root.scale.y},baseline:q.baseline,groundError:s.fx.groundError,bladeContact:s.fx.collision,zoom:s.fx.zoom,backdrop:s.fx.backdrop.diagnostics()};});
-   const count=['array','zenith'].includes(mode)?12:1;assert.equal(result.hpCalls,count);assert.equal(result.unique,count);assert.equal(result.zoom,false);assert.deepEqual(result.actorScale,result.baseline.actorScale);assert.deepEqual(result.camera,result.baseline.camera);assert(result.groundError<1e-6);
+   const result=await p.evaluate(()=>{const q=window.ZeroQA,e=q.engine,a=q.actor,s=e.zeroStates.get(a);return {timelineRate:q.timelineRate,mode:s.fx.mode,hpCalls:q.hpCalls.length,unique:new Set(q.hpCalls.map(h=>h.id)).size,camera:{x:e.stage.x,y:e.stage.y,sx:e.stage.scale.x,sy:e.stage.scale.y},actorScale:{x:a.root.scale.x,y:a.root.scale.y},baseline:q.baseline,groundError:s.fx.groundError,bladeContact:s.fx.collision,zoom:s.fx.zoom,backdrop:s.fx.backdrop.diagnostics()};});
+   const count=['array','zenith'].includes(mode)?12:1;assert.equal(result.hpCalls,count);assert.equal(result.unique,count);assert.equal(result.zoom,false);assert.equal(result.timelineRate,1);assert.deepEqual(result.actorScale,result.baseline.actorScale);assert.deepEqual(result.camera,result.baseline.camera);assert(result.groundError<1e-6);
    await p.screenshot({path:path.join(out,label+'-'+mode+'.png'),fullPage:true});
    const cancelled=await p.evaluate(()=>{const q=window.ZeroQA,e=q.engine;e.cancelTimelines();const s=e.zeroStates.get(q.actor);return {stopped:s.stopped,ambient:!!s.ambient,effects:s.fx.pool.some(p=>p.visible),swords:s.fx.swordPool.some(p=>p.visible),damage:q.hpCalls.length};});
    assert.deepEqual(cancelled,{stopped:true,ambient:false,effects:false,swords:false,damage:count});
    const cleared=await p.evaluate(async()=>{const e=window.ZeroQA.engine;await e.setVisible(true);const s=e.zeroStates.get(window.ZeroQA.actor),ambient=!!s.ambient;e.clearMercenaryActors();return {ambient,states:e.zeroStates.size,disposed:s.fx.disposed,appearance:s.fx.appearance.destroyed,backdrop:s.fx.backdrop.destroyed};});assert.deepEqual(cleared,{ambient:true,states:0,disposed:true,appearance:true,backdrop:true});
-   checks.push({label,mode,baseline,result,cancelled,cleared});await p.close();console.log(label+' '+mode+' PASS');
+   checks.push({label,mode,bodyFramesChecked:bodyChecks.samples.length,idleFrames:bodyChecks.idle,baseline,result,cancelled,cleared});await p.close();console.log(label+' '+mode+' PASS');
   }
+  if(process.argv.includes('--battle-only'))continue;
   const p=await browser.newPage({viewport,serviceWorkers:'block'});p.on('pageerror',e=>errors.push(label+' codex: '+e.message));await p.addInitScript(()=>{localStorage.setItem('cnine_card_api_token','local-test');localStorage.setItem('cnine_card_user_v10',JSON.stringify({id:1,nickname:'검수'}));});
   await p.goto(base+'/mercenary-codex/?view=limited&q=제로#V-976');await p.locator('[data-code="V-976"]').click();await p.locator('.combat-panel').waitFor();
   const text=await p.locator('.combat-panel').innerText();assert.match(text,/획득 불가/);assert.match(text,/2,300,000/);assert.equal(await p.locator('.skill-list > *').count(),5);for(const name of ['청광 횡단','섬광 연참','용궤 검격','천검 포위','창천 종단'])assert.match(text,new RegExp(name));

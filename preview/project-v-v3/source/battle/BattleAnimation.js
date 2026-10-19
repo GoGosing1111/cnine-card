@@ -51,6 +51,7 @@ export class BattleAnimation{
   }
 
   playFullSpriteIdleAnimation(){
+    if(this.character.art?.calmIdle)return;
     const {mainSprite:main,neutralAvatarPose:neutral}=this.character;
     const base=neutral.mainSprite;
     this.timeline=gsap.timeline({repeat:-1,yoyo:true,defaults:{ease:'power1.inOut'}})

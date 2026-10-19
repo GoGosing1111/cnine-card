@@ -110,6 +110,7 @@
     "preview/mercenary-cyan-knight-battle-20261020-v1/source/WhiteAuraAppearance.js",
     "preview/mercenary-cyan-knight-battle-20261020-v1/source/ZeroBladeWings.js",
     "preview/mercenary-cyan-knight-battle-20261020-v1/source/ZeroGiantSwordEcho.js",
+    "preview/mercenary-cyan-knight-battle-20261020-v1/source/BodyMotion.mjs",
     "preview/mercenary-cyan-knight-battle-20261020-v1/source/KnightFX.js",
     "preview/project-v-v3/source/battle/ZeroCombatPlayback.js",
     "preview/mercenary-bathory-halloween-20261019-v1/motion.mjs",
@@ -239,5 +240,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2227527
+  "outputBytes": 2228335
 }
