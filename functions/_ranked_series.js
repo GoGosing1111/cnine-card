@@ -1,6 +1,8 @@
 import {rankedOwnedMercenaries,rankedSelectedMercenaries} from './_mercenary_account.js';
 import {rankedSeriesCodes,rankedPublicMercenary,rankedPublicRoster,RANKED_SERIES_VERSION} from '../shared/ranked-series-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
+import {SHIRANUI_CODE} from '../shared/mercenary-shiranui-v1.mjs';
+import {SHIRANUI_MIN_RANK_TICKS} from './_account_rank.js';
 const rosterKey=id=>`ranked_series_roster_v1:${Number(id)}`;
 const ticketKey=id=>`ranked_series_ticket_v1:${Number(id)}`;
 const fail=(message='서로 다른 용병 3종을 편성하고 저장하세요.',status=409)=>Object.assign(Error(message),{status,code:'PVP_SERIES_ROSTER'});
@@ -22,7 +24,9 @@ export function rankedOwnershipGuard(env,selections){
   const predicate=pairs.map(([id,raw])=>{
     const codes=rankedSeriesCodes(raw);values.push(id,...codes);
     if(env.DB.dialect==='postgres')locks.push(env.DB.prepare('SELECT mercenary_code FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code IN (?,?,?) ORDER BY mercenary_code FOR SHARE').bind(id,...codes));
-    return '(SELECT COUNT(*) FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code IN (?,?,?) AND total_copies>0)=3';
+    let predicate='(SELECT COUNT(*) FROM user_mercenary_cards_v1 WHERE user_id=? AND mercenary_code IN (?,?,?) AND total_copies>0)=3';
+    if(codes.includes(SHIRANUI_CODE)){values.push(id,SHIRANUI_MIN_RANK_TICKS);predicate+=' AND EXISTS(SELECT 1 FROM account_rank_progress_v1 WHERE user_id=? AND total_ticks>=?)';if(env.DB.dialect==='postgres')locks.push(env.DB.prepare('SELECT user_id FROM account_rank_progress_v1 WHERE user_id=? FOR SHARE').bind(id));}
+    return '('+predicate+')';
   }).join(' AND ');
   return [...locks,jointGuard(env.DB,token,predicate,values),jointGuardEnd(env.DB,token)];
 }

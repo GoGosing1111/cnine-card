@@ -1,0 +1,94 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "sourceCommit": "1a8eb569329fecbab22a30aaca56f8178e71f11c",
+  "fullGate": {
+    "passed": 3639,
+    "failed": 0,
+    "logSha256": "150023b934a6b48e30071484147bf66ada2312c9688e1d78f5960042777bcb61",
+    "finalGuard": "Generated Wrangler cache moved out of deployment directory; runtime unchanged"
+  },
+  "scopedContinuation": {
+    "relatedTests": 4,
+    "failed": 0,
+    "logSha256": "e33b887d89e2b9f97449490c33ac28fbb6fb12585d4a92371f6129d767a0ad10"
+  },
+  "deployment": {
+    "checkedAt": "2026-10-19T19:07:10.693Z",
+    "pages": [
+      {
+        "id": "72a4d446-269d-49f6-8a01-09afa13451db",
+        "url": "https://72a4d446.cnine-card.pages.dev",
+        "createdOn": "2026-10-19T19:06:50.605013Z",
+        "status": "success",
+        "stage": "deploy",
+        "commit": "1a8eb569329fecbab22a30aaca56f8178e71f11c"
+      },
+      {
+        "id": "c7ee4744-6776-467b-9a0d-0ee881cb6471",
+        "url": "https://c7ee4744.cnine-card.pages.dev",
+        "createdOn": "2026-10-19T13:33:14.440511Z",
+        "status": "success",
+        "stage": "deploy",
+        "commit": "4552318e361e28825e1afdaa8d5b0673ce06a048"
+      },
+      {
+        "id": "3f1dc8eb-5723-40b0-92fd-2ee8e9c2485f",
+        "url": "https://3f1dc8eb.cnine-card.pages.dev",
+        "createdOn": "2026-10-19T10:56:46.651624Z",
+        "status": "success",
+        "stage": "deploy",
+        "commit": "b49720f45f9f42c7743b20a768f81df05d926cba"
+      }
+    ],
+    "runtime": [
+      {
+        "id": "ecb03e4f-e3b9-4a25-be1e-b5632cf507d0",
+        "createdOn": "2026-10-19T19:05:28.807369Z",
+        "versions": [
+          {
+            "version_id": "eea31fdc-5378-470f-a9d9-2dc582d463df",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "id": "5a35d5ff-68e8-44de-8bc5-8fb966003d31",
+        "createdOn": "2026-10-19T13:32:00.491508Z",
+        "versions": [
+          {
+            "version_id": "82333077-68a1-4b66-a795-beff75d5d117",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "liveVerification": {
+    "checkedAt": "2026-10-19T19:07:09.467Z",
+    "status": "VERIFIED",
+    "assets": [
+      {
+        "path": "js/app.js",
+        "sha256": "8e5eb64aea0479e8dd66f2f2b855a8680144a57c2384f9f638248f69fd75be06",
+        "bytes": 764427
+      },
+      {
+        "path": "service-worker.js",
+        "sha256": "2142e68b201705e13fa3be589f9e2e7f5f8e11f5317abc50b8417f5977600778",
+        "bytes": 16194
+      }
+    ],
+    "unauthenticatedRequests": [
+      {
+        "path": "me",
+        "status": 401,
+        "code": null
+      },
+      {
+        "path": "battle/auto/status",
+        "status": 401,
+        "code": "SESSION_EXPIRED"
+      }
+    ]
+  }
+}

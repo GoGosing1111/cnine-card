@@ -1,4 +1,6 @@
 import {equipmentSetVisualFromRows} from '../shared/equipment-set-visual-v1.mjs';
+import {SHIRANUI_CODE} from '../shared/mercenary-shiranui-v1.mjs';
+import {readShiranuiEligibleUsers} from './_mercenary_shiranui_access.js';
 import {readMercenaryModes} from './_mercenary_loadout_modes.js';
 import {avatarBattlePowerPercents} from './_avatar_power.js';
 import {avatarScaledPower} from '../shared/avatar-power-v1.mjs';
@@ -45,6 +47,7 @@ async function rebuild(env,versions,config,deps,hash,now,advanced){
  ]);
  for(const rows of [owned,gear,vehicles,titles])if(rows.results.length>65536)throw duoError('PROFILE_SIZE','전력 평가 자료가 처리 한도를 초과했습니다. 운영자에게 문의하세요.');
  if(mercRows.results.length>2000)throw duoError('PROFILE_SIZE','용병 평가 자료를 확인하세요.');
+ const rankEligible=await readShiranuiEligibleUsers(env,mercRows.results.filter(r=>r.mercenary_code===SHIRANUI_CODE).map(r=>r.user_id));
  const baseline=deps.cardBattlePower({rarity:'FUR'},13,battle),profiles=[];
  const byUser=(rows,id)=>rows.results.filter(r=>Number(r.user_id)===id);
  for(const version of versions){
@@ -54,7 +57,7 @@ async function rebuild(env,versions,config,deps,hash,now,advanced){
   for(const item of byUser(gear,userId)){const power=FORGE_RUNTIME_RELEASE_ENABLED&&Number(item.level)>0?forgePower(Number(item.total_power),Number(item.level),advanced).pvp:Number(item.pvp_power);slotBest.set(item.slot,Math.max(slotBest.get(item.slot)||0,power));equipment+=power*Number(item.equipped_count||0);}
   let potentialEquipment=[...slotBest.values()].reduce((s,n)=>s+n,0),expires=now+300000;
   for(const source of [vehicles,titles]){const list=byUser(source,userId);potentialEquipment+=Math.max(0,...list.map(r=>Number(r.pvp_power)));equipment+=list.filter(r=>r.equipped).reduce((s,r)=>s+Number(r.pvp_power),0);for(const r of list)if(r.expires_at)expires=Math.min(expires,Date.parse(String(r.expires_at).includes('T')?r.expires_at:r.expires_at.replace(' ','T')+'Z'));}
-  const mercs=byUser(mercRows,userId).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),...(mercGear.get(userId)?.items.length?{equipment:mercGear.get(userId)}:{}),combat:mercRuntime.combat,equipped:mercLoadouts.get(userId).loadouts.PVP.mercenaryCode===r.mercenary_code,cmsRevision:mercDocument.revision}));
+  const mercs=byUser(mercRows,userId).filter(r=>r.mercenary_code!==SHIRANUI_CODE||rankEligible.has(userId)).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),...(mercGear.get(userId)?.items.length?{equipment:mercGear.get(userId)}:{}),combat:mercRuntime.combat,equipped:mercLoadouts.get(userId).loadouts.PVP.mercenaryCode===r.mercenary_code,cmsRevision:mercDocument.revision}));
   const mercenary=mercs.find(m=>m.equipped)||null,mercenaryPower=best.length===5?Math.max(0,...mercs.map(m=>duoMercenaryRating(m,best,potentialEquipment,config.mercenaryWeights[m.code]??1))):0;
   const cardPower=best.reduce((s,c)=>s+c.power,0),power=Math.max(1,Math.round(100*(cardPower+potentialEquipment+mercenaryPower)/Math.max(1,baseline)));
   const valid=deck=>{try{validateDuoDeck(deck);return true;}catch{return false;}};
@@ -87,8 +90,9 @@ export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wa
  for(let attempt=0;attempt<=profileRetryDelays.length;attempt++){
   const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
   validateAccounts(versions,ids.length,at,allowOwner);
+  const shiranuiCached=versions.filter(v=>{const p=parsed(v.payload_json,{})||{};return [...(p.breakdown?.mercenaryRanks||[]),p.attack?.mercenary,p.defense?.mercenary].some(m=>m?.code===SHIRANUI_CODE);}),shiranuiCachedIds=new Set(shiranuiCached.map(v=>Number(v.user_id))),rankEligible=await readShiranuiEligibleUsers(env,shiranuiCached.map(v=>v.user_id));
   const collect=rows=>rows.filter(v=>{
-   if(!currentProfile(v,hash,at+minimumValidityMs))return true;
+   if(!currentProfile(v,hash,at+minimumValidityMs)||shiranuiCachedIds.has(Number(v.user_id))&&!rankEligible.has(Number(v.user_id)))return true;
    const cached=parsed(v.payload_json,{});profiles.set(Number(v.user_id),{...cached,nickname:v.nickname,attack:{...cached.attack,ownerName:v.nickname},defense:{...cached.defense,ownerName:v.nickname}});return false;
   });
   const miss=collect(versions);

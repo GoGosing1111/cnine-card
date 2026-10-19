@@ -4004,7 +4004,6 @@ function showAccountPanel() {
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
 const ACCOUNT_RANK_QUIET_MUTATIONS=/^(?:battle\/apocalypse-challenge\/(?:open|answer|pulse|status|abandon)|draw|draw\/ack|superstar-pack\/draw|equipment\/supply-box\/(?:open|purchase)|equipment\/prime-supply-box\/(?:open|purchase)|vehicle-draw\/(?:open|purchase)|vehicle-draw\/prime\/(?:open|purchase))(?:\?|$)/;
-let MULTI_CLIENT_TERMINATING=false,MULTI_CLIENT_LAST_TOKEN='',MULTI_CLIENT_LAST_AT=0,MULTI_CLIENT_STRIKES=0;
 let PLAYER_STATE_MUTATION_EPOCH=0;
 // The Cloudflare account migration creates a brand-new Hyperdrive pool. Letting a
 // lobby render fire dozens of reads at once makes every request wait for a new
@@ -4173,7 +4172,7 @@ function inventoryView(){
   if(inventoryUiState.owner!==owner)Object.assign(inventoryUiState,{owner,items:[],filter:'ALL',query:'',sort:'DEFAULT',ownedOnly:true,newOnly:false,selectedCode:''});
   return `${summaryBar(loadUser())}<section id="inventoryVault" class="iv25-vault" aria-label="아이템 보관함" aria-busy="true">
     <header class="iv25-heading"><div><span class="iv25-heading-icon" aria-hidden="true">${inventoryIcon('box')}</span><div><h2>보유 아이템</h2><p id="inventoryOwnedSummary">보관함을 확인하고 있습니다.</p></div></div><button type="button" class="iv25-refresh" id="inventoryRefresh" aria-label="인벤토리 새로고침">${inventoryIcon('refresh')}<span>새로고침</span></button></header>
-    <section id="inventoryGiftRecovery" class="iv25-gift-recovery" aria-label="이전 사은품 개봉 결과" hidden></section>
+    <section id="inventoryGiftRecovery" class="iv25-gift-recovery" aria-label="이전 아이템 사용 결과" hidden></section>
     <div class="iv25-tools"><label class="iv25-search">${inventoryIcon('search')}<input id="inventorySearch" type="search" placeholder="아이템 이름으로 검색" aria-label="아이템 검색" autocomplete="off" maxlength="100" value="${escapeHtml(inventoryUiState.query)}"></label><label class="iv25-sort"><span>정렬</span><select id="inventorySort" aria-label="아이템 정렬">${[['DEFAULT','기본순'],['QUANTITY','수량 많은 순'],['RARITY','등급순'],['NAME','이름순']].map(([value,label])=>`<option value="${value}" ${value===inventoryUiState.sort?'selected':''}>${label}</option>`).join('')}</select></label><label class="iv25-owned"><input id="inventoryOwnedOnly" type="checkbox" ${inventoryUiState.ownedOnly?'checked':''}><span>보유한 아이템만</span></label></div>
     <nav id="inventoryToolbar" class="iv25-filters" aria-label="아이템 종류">${INVENTORY_GROUPS.map(([key,label])=>`<button type="button" data-inventory-filter="${key}" ${key==='REROLL'?'id="inventoryRerollFilter"':''} aria-pressed="${inventoryUiState.filter===key}"><span>${label}</span><b data-inventory-count="${key}">0</b></button>`).join('')}</nav>
     <div class="iv25-layout"><section class="iv25-collection" aria-label="아이템 목록"><div class="iv25-list-heading"><p id="inventoryResultsSummary" role="status">불러오는 중</p><button id="inventoryNewOnly" type="button" aria-pressed="${inventoryUiState.newOnly}"><i></i>새 아이템 <b id="inventoryNewCount">0</b></button></div><div id="inventoryGrid" class="iv25-grid">${Array.from({length:12},()=>'<div class="iv25-skeleton" aria-hidden="true"><i></i><span></span><b></b></div>').join('')}</div><p class="iv25-list-foot">${inventoryIcon('info')}아이템을 선택하면 상세 정보와 사용 방법을 확인할 수 있습니다.</p></section><aside id="inventoryDetail" class="iv25-detail" aria-label="선택한 아이템 상세">${inventoryEmptyDetail()}</aside></div>
@@ -4188,13 +4187,14 @@ function inventoryPendingGifts(){
     {code:'FUNDING_GIFT_BOX',key:'funding-gift',name:'펀딩 사은품'},
     {code:'RECRUITMENT_GIFT_BOX',key:'recruitment-gift',name:'영입전 사은품'},
     {code:'PINGDU_THANKS_GIFT_BOX',key:'pingdu-thanks-gift',name:'핑두의 감사 선물'},
-    {code:'TOURNAMENT_GIFT_BOX',key:'tournament-gift',name:'대회 사은품'}
-  ].filter(gift=>localStorage.getItem(`cnine:${gift.key}:${owner}:pending`));}catch{return [];}
+    {code:'TOURNAMENT_GIFT_BOX',key:'tournament-gift',name:'대회 사은품'},
+    {code:'ICON_CARD_CHOICE_TICKET',storageKey:`cnine.icon-choice.v1:${owner}`,name:'아이콘 카드 선택권',image:'assets/items/icon-card-choice-20261020/ticket.webp'}
+  ].filter(gift=>localStorage.getItem(gift.storageKey||`cnine:${gift.key}:${owner}:pending`));}catch{return [];}
 }
 function inventoryRenderGiftRecovery(){
   const target=document.getElementById('inventoryGiftRecovery');if(!target)return;
   const pending=inventoryPendingGifts();target.hidden=!pending.length;
-  target.innerHTML=pending.length?`<div><b>사은품 개봉 결과</b><p>이전에 확인하지 못한 결과가 있습니다.</p></div><div class="iv25-gift-recovery-actions">${pending.map(gift=>`<button type="button" data-inventory-recover="${gift.code}">${gift.name} 확인${inventoryIcon('arrow')}</button>`).join('')}</div>`:'';
+  target.innerHTML=pending.length?`<div><b>이전 아이템 사용 결과</b><p>이전에 확인하지 못한 결과가 있습니다.</p></div><div class="iv25-gift-recovery-actions">${pending.map(gift=>`<button type="button" data-inventory-recover="${gift.code}">${gift.image?`<img src="${gift.image}" alt="" width="32" height="32">`:''}${gift.name} 확인${inventoryIcon('arrow')}</button>`).join('')}</div>`:'';
 }
 const INVENTORY_GROUPS=[['ALL','전체'],['PACK','팩·상자'],['MATERIAL','재료'],['ENTRY_TICKET','입장권'],['SKILL_CHIP','스킬칩'],['REROLL','재뽑기권'],['OTHER','기타']];
 const INVENTORY_RARITIES={MAGIC:['마법',.5],HIGH:['고급',1],SPECIAL:['특수',1],PREMIUM:['프리미엄',4],PRIME:['프라임',4],NORMAL:['일반',0],COMMON:['일반',0],RARE:['희귀',1],EPIC:['영웅',2],LEGENDARY:['전설',3],MYTHIC:['신화',4],EMPEROR:['엠퍼러',4.5],MA:['MA',5],LIMITED:['LIMITED',6],PRESTIGE:['PRESTIGE',7],SUPERSTAR:['SUPERSTAR',8],FUR:['FUR',9]};
@@ -4332,6 +4332,12 @@ async function activateLandHyperTicket(){
   }catch(error){if([400,403,409].includes(Number(error.status)))localStorage.removeItem(key);alert(error.message)}finally{landHyperBusy=false}
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
+  if(itemCode==='ICON_CARD_CHOICE_TICKET'){
+    const dialog=document.getElementById('inventoryDetailDialog'),body=document.getElementById('inventoryDialogContent');
+    if(!dialog||!body)return renderShell('inventory');
+    try{const {openIconCardChoice}=await import('/js/icon-card-choice-v1.mjs?v=20261020-v1');await openIconCardChoice({userId:loadUser()?.serverUserId,dialog,body,token:()=>API_TOKEN,onClose:inventoryRenderGiftRecovery,refresh:async()=>{clearApiCache('inventory');clearApiCache('cards');clearApiCache('shell/summary');await loadInventory();}});}catch(error){alert(error.message)}
+    return;
+  }
   if(itemCode==='PET_SEAL_ORB'){location.assign('/pets/opening/');return;}
   if(itemCode==='MERCENARY_SSS_REROLL_TICKET'){location.assign('/mercenary-codex/sss-reroll/');return;}
   if(itemCode==='MIRACLE_CUBE'){location.assign('/miracle-cube/');return;}
@@ -4526,7 +4532,7 @@ async function openPrimeDrawPack(kind,ownedQuantity=null,suppliedConfig=null,aut
 }
 
 function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">REVERSE CALL MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><div class="message-head-actions"><button class="btn message-claim-all" id="claimAllMessages" type="button" disabled aria-live="polite">보상 일괄 수령</button><button class="btn secondary" id="openWagoVerify" type="button">2차 인증</button></div></div><div id="wagoVerifyPanel" class="wago-verify-panel secondary-verification-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
-const MESSAGE_REWARD_META={JOKGAK_CITY_REWARD:{label:'족각도시 보상',icon:'🏙️'},MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️'},LICH_KING_ENTRY_TICKET:{label:'이스겐 정벌 입장권',icon:'🎟️'},PINGDU_THANKS_GIFT_BOX:{label:'핑두의 감사 선물',icon:'🎁'},MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏'},TOURNAMENT_GIFT_BOX:{label:'대회 사은품',icon:'🎁'},RECRUITMENT_GIFT_BOX:{label:'영입전 사은품',icon:'🎁'},FUNDING_GIFT_BOX:{label:'펀딩 사은품',icon:'🎁'},PIG_COIN:{label:'피그코인',icon:'🐷'},COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'},UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️'},STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮'},PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️'}};
+const MESSAGE_REWARD_META={JOKGAK_CITY_REWARD:{label:'족각도시 보상',icon:'🏙️'},MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️'},LICH_KING_ENTRY_TICKET:{label:'이스겐 정벌 입장권',icon:'🎟️'},PINGDU_THANKS_GIFT_BOX:{label:'핑두의 감사 선물',icon:'🎁'},MERCENARY_SHIRANUI:{label:'시라누이 SSS 리미티드',icon:'🃏'},MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏'},TOURNAMENT_GIFT_BOX:{label:'대회 사은품',icon:'🎁'},RECRUITMENT_GIFT_BOX:{label:'영입전 사은품',icon:'🎁'},FUNDING_GIFT_BOX:{label:'펀딩 사은품',icon:'🎁'},PIG_COIN:{label:'피그코인',icon:'🐷'},COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'},UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️'},STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮'},PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️'}};
 function messageRewardMeta(message){
   const type=String(message?.reward_type||'').trim().toUpperCase();
   return MESSAGE_REWARD_META[type]||(message?.reward_supported===true?{label:String(message.reward_label||'보상'),icon:String(message.reward_icon||'🎁')}:null);
@@ -4721,13 +4727,6 @@ async function apiRequest(path, options={}, config={}) {
       if(String(data.code||'').toUpperCase()==='MAINTENANCE'||(response.status===503&&data.maintenance?.active)){
         API_GET_CACHE.clear();API_INFLIGHT.clear();stopRuntimeCommandPoll();
         renderMaintenance(data.maintenance||{},data);
-      }
-      const multiBlocked=String(data.code||'').toUpperCase()==='MULTI_CLIENT_BLOCKED'&&requestToken&&requestToken===API_TOKEN;
-      if(multiBlocked){const elapsed=Date.now()-MULTI_CLIENT_LAST_AT,same=MULTI_CLIENT_LAST_TOKEN===requestToken;if(!same||elapsed>=10000){MULTI_CLIENT_STRIKES=1;MULTI_CLIENT_LAST_TOKEN=requestToken;MULTI_CLIENT_LAST_AT=Date.now()}else if(elapsed>=1000){MULTI_CLIENT_STRIKES++;MULTI_CLIENT_LAST_AT=Date.now()}}
-      if(multiBlocked&&MULTI_CLIENT_STRIKES>=3&&!playerSessionRecoveryPromise&&!MULTI_CLIENT_TERMINATING){
-        MULTI_CLIENT_TERMINATING=true;API_GET_CACHE.clear();API_INFLIGHT.clear();stopRuntimeCommandPoll();
-        alert('다중 클라이언트 접속이 감지되었습니다.\n\n리버스콜은 계정당 1개의 클라이언트만 이용할 수 있습니다.\n다른 클라이언트에서 로그인되어 현재 접속을 종료합니다.');
-        clearPlayerLogin();window.location.replace('/');
       }
       const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;
     }

@@ -1,0 +1,140 @@
+{
+  "production": {
+    "checkedAt": "2026-10-19T19:29:48.598Z",
+    "pages": [
+      {
+        "id": "76584e93-2edd-45fd-94e1-fee49fda31d6",
+        "url": "https://76584e93.cnine-card.pages.dev",
+        "createdOn": "2026-10-19T19:29:20.087364Z",
+        "status": "success",
+        "stage": "deploy",
+        "commit": "6d090fe9382669ede74361f0e0f6d3629d1a80eb"
+      },
+      {
+        "id": "8db71b10-3765-4dd7-85ee-b81b93935eb4",
+        "url": "https://8db71b10.cnine-card.pages.dev",
+        "createdOn": "2026-10-19T19:12:32.087956Z",
+        "status": "success",
+        "stage": "deploy",
+        "commit": "0cc0da0a30670d365cc882926ec0f1d2acd00388"
+      },
+      {
+        "id": "72a4d446-269d-49f6-8a01-09afa13451db",
+        "url": "https://72a4d446.cnine-card.pages.dev",
+        "createdOn": "2026-10-19T19:06:50.605013Z",
+        "status": "success",
+        "stage": "deploy",
+        "commit": "1a8eb569329fecbab22a30aaca56f8178e71f11c"
+      }
+    ],
+    "runtime": [
+      {
+        "id": "2f0e5a81-95c3-417f-94b8-863b60bb4da5",
+        "createdOn": "2026-10-19T19:28:14.688634Z",
+        "versions": [
+          {
+            "version_id": "a0ee1e2e-a3bb-4380-a341-6f1c63762ec9",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "id": "15bffbd8-9257-47ff-ae23-a632944b1c11",
+        "createdOn": "2026-10-19T19:10:48.35882Z",
+        "versions": [
+          {
+            "version_id": "027dcccb-f6ca-4c77-80c7-d44d632384de",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "verification": {
+    "checkedAt": "2026-10-19T19:29:46.987Z",
+    "files": [
+      {
+        "path": "mercenary-codex/app.mjs",
+        "bytes": 29407,
+        "sha256": "699289973d04eb58e696b10a48426d00d465cad2b2cf62ae287872915765f489"
+      },
+      {
+        "path": "mercenary-codex/model.mjs",
+        "bytes": 4519,
+        "sha256": "d466ee1ec1f4f85ba259dddcfd6e5abec9c5ae49ccfd018fa19ded7a71eb42b7"
+      },
+      {
+        "path": "js/app.js",
+        "bytes": 765394,
+        "sha256": "d8c2f9541a2980c8444979bc5cf188a06715c669739c6949958ae6d0a91db5dd"
+      },
+      {
+        "path": "service-worker.js",
+        "bytes": 16220,
+        "sha256": "d7ba9ff32575692c3d9b6ba309d2e2045c3790f45334a3e4f2fa0f35f77a4b2f"
+      }
+    ],
+    "card": {
+      "code": "V-987",
+      "name": "시라누이",
+      "rank": "SSS",
+      "acquisition": "ACCOUNT_RANK_REWARD",
+      "minimumAccountLevel": 235,
+      "packAcquisitionEnabled": false,
+      "description": "중장(Lv.235) 달성 시 계정당 1회 메시지로 시라누이 1장 지급"
+    },
+    "eligible": [
+      {
+        "id": "1",
+        "nickname": "핑크빛유두",
+        "copies": 1,
+        "total_ticks": "669312000",
+        "delivery": null
+      }
+    ],
+    "stock": [],
+    "messages": []
+  },
+  "browser": {
+    "status": "PASS",
+    "checks": [
+      {
+        "width": 1440,
+        "scenario": "unowned",
+        "rankRequirement": true,
+        "overflow": false
+      },
+      {
+        "width": 1440,
+        "scenario": "below",
+        "rankRequirement": true,
+        "overflow": false
+      },
+      {
+        "width": 1440,
+        "scenario": "eligible",
+        "rankRequirement": true,
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "scenario": "unowned",
+        "rankRequirement": true,
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "scenario": "below",
+        "rankRequirement": true,
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "scenario": "eligible",
+        "rankRequirement": true,
+        "overflow": false
+      }
+    ],
+    "errors": []
+  }
+}

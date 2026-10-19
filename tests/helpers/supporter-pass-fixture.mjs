@@ -5,7 +5,7 @@ export async function passFixture(options={}){
   for(const col of ['card_shards','magic_crystals'])await f.exec(`ALTER TABLE users ADD COLUMN ${col} ${integer} DEFAULT 0`);
   const schema=[
     'CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT,rarity TEXT,image_url TEXT,is_active INTEGER)',
-    'CREATE TABLE character_equipment_items(id INTEGER PRIMARY KEY,name TEXT,rarity TEXT,image_url TEXT,is_active INTEGER,is_public INTEGER)',
+    'CREATE TABLE character_equipment_items(id INTEGER PRIMARY KEY,code TEXT,name TEXT,rarity TEXT,image_url TEXT,is_active INTEGER,is_public INTEGER)',
     'CREATE TABLE character_garage_items(id INTEGER PRIMARY KEY,name TEXT,rarity TEXT,image_url TEXT,is_active INTEGER,is_public INTEGER)',
     'CREATE TABLE members(id INTEGER PRIMARY KEY,is_active INTEGER,name TEXT)',
     'CREATE TABLE cards_effective_v1210(id TEXT PRIMARY KEY,title TEXT,rarity TEXT,image_url TEXT,member_id INTEGER,is_active INTEGER,card_status TEXT)',
@@ -24,7 +24,7 @@ export async function passFixture(options={}){
     ['VEHICLE_PART_ENGINE','고출력 엔진','assets/ui/scrapyard/vehicle-part-engine-v1667.svg',1],
     ['EQUIPMENT_PROTECTION_TICKET','장비보호권','',1],['PREMIUM_CUBE','종료된 큐브','',1],['OFF_ITEM','비활성 아이템','',0]
   ])await f.run('INSERT INTO inventory_items VALUES(?,?,?,?,?)',code,name,'EPIC',image,active);
-  await f.run("INSERT INTO character_equipment_items VALUES(1,'검수 장비','MYTHIC','assets/ui/scrapyard/vehicle-part-frame-v1667.svg',1,1)");
+  await f.run("INSERT INTO character_equipment_items VALUES(1,'QA_EQUIPMENT','검수 장비','MYTHIC','assets/ui/scrapyard/vehicle-part-frame-v1667.svg',1,1)");
   await f.run("INSERT INTO character_garage_items VALUES(1,'검수 이동수단','MYTHIC','assets/ui/scrapyard/vehicle-part-engine-v1667.svg',1,1)");
   await f.run("INSERT INTO members VALUES(1,1,'검수 멤버')");
   await f.run("INSERT INTO cards_effective_v1210 VALUES('CN-TEST','검수 카드','FUR','assets/ui/scrapyard/vehicle-part-frame-v1667.svg',1,1,'PUBLIC')");

@@ -8,6 +8,7 @@ import {mercenaryAccountState,saveMercenaryLoadout,loadMercenaryBattleSnapshot,r
 import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {SHIRANUI_CODE,SHIRANUI_ART,SHIRANUI_COMBAT,SHIRANUI_AREA_SKILL} from '../shared/mercenary-shiranui-v1.mjs';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
+import {ensureAccountRank,SHIRANUI_MIN_RANK_TICKS} from '../functions/_account_rank.js';
 const rid=()=>crypto.randomUUID();
 test('approved art, thumbnail, shipped bundles and live cache tags are connected',()=>{
  for(const [file,expected]of [[SHIRANUI_ART.sourceArt,SHIRANUI_ART.sourceArtSha256],[SHIRANUI_ART.battleSprite,SHIRANUI_ART.battleSpriteSha256]])assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex').toUpperCase(),expected);
@@ -24,7 +25,7 @@ test('approved art, thumbnail, shipped bundles and live cache tags are connected
  const approved=JSON.parse(fs.readFileSync('preview/mercenary-monochrome-artillery-battle-v1/live-approval-20261015.json'));
  assert.equal(approved.identity.code,SHIRANUI_CODE);assert.equal(approved.acquisition.public,false);
 });
-test('only the designated owner may load or deploy Shiranui; public pools and LIMITED counts exclude him',async t=>{
+test('Shiranui deployment requires lieutenant general for every account; random acquisition pools stay closed',async t=>{
  const f=await mercenaryFixture(t,{postgres:true}),allowed=[{id:1,role:'OWNER'}],blocked=[{...f.user,role:'OWNER'},{id:4977,role:'USER'},{id:4824,role:'USER'}];
  for(const [id,name]of [[1,'핑크빛유두'],[4977,'하이희야♡'],[4824,'헬로희야']])await f.p('INSERT INTO users(id,nickname) VALUES(?,?)',id,name).run();
  assert(!LIMITED_MERCENARIES.some(c=>c.code===SHIRANUI_CODE));
@@ -32,8 +33,9 @@ test('only the designated owner may load or deploy Shiranui; public pools and LI
  assert(!MERCENARY_CMS_SEED.document.mercenaries.some(c=>c.code===SHIRANUI_CODE));
  for(const u of [...allowed,...blocked])await assert.rejects(saveMercenaryLoadout(f.env,u,{requestId:rid(),mode:'PVE',mercenaryCode:SHIRANUI_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
  for(const id of [1,4977,7,4824])await f.p('INSERT INTO user_mercenary_cards_v1 VALUES(?,?,1,0,?,?)',id,SHIRANUI_CODE,'2026-10-12','2026-10-12').run();
+ await ensureAccountRank(f.env);await f.p('INSERT INTO account_rank_progress_v1(user_id,total_ticks) VALUES(1,?)',SHIRANUI_MIN_RANK_TICKS).run();
  for(const mode of ['PVE','PVP']){
-  for(const user of blocked)await assert.rejects(saveMercenaryLoadout(f.env,user,{requestId:rid(),mode,mercenaryCode:SHIRANUI_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
+  for(const user of blocked)await assert.rejects(saveMercenaryLoadout(f.env,user,{requestId:rid(),mode,mercenaryCode:SHIRANUI_CODE,revision:0}),{code:'MERCENARY_ACCOUNT_RANK'});
   for(const user of allowed){
    const body={requestId:rid(),mode,mercenaryCode:SHIRANUI_CODE,revision:0};
    await saveMercenaryLoadout(f.env,user,body);
@@ -43,10 +45,10 @@ test('only the designated owner may load or deploy Shiranui; public pools and LI
    assert.deepEqual(batch.get(user.id),one);for(const rejected of blocked)assert.equal(batch.has(rejected.id),false);
   }
  }
- for(const user of blocked)assert.equal((await mercenaryAccountState(f.env,user)).cards.length,0);
+ for(const user of blocked){const cards=(await mercenaryAccountState(f.env,user)).cards;assert.equal(cards.length,1);assert.equal(cards[0].canDeploy,false);}
  for(const user of allowed){
   const state=await mercenaryAccountState(f.env,user);
-  assert.equal(state.cards[0].canDeploy,true);assert.equal(state.cards[0].exclusiveGrant,true);assert.equal(state.cards[0].excludedFromLimitedCount,true);
+  assert.equal(state.cards[0].canDeploy,true);assert.equal(state.cards[0].exclusiveGrant,false);assert.equal(state.cards[0].excludedFromLimitedCount,false);
   await saveMercenaryLoadout(f.env,user,{requestId:rid(),mode:'PVE',mercenaryCode:null,revision:1});
   assert.equal(await loadMercenaryBattleSnapshot(f.env,user,'PVE'),null);assert.equal((await loadMercenaryBattleSnapshot(f.env,user,'PVP')).code,SHIRANUI_CODE);
  }
