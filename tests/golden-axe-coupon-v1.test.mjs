@@ -61,11 +61,11 @@ async function noRedemption(f){
  assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin),5000000000);
 }
 
-test('old axe is a coupon-only reward and keeps all existing coin/item limits',()=>{
+test('legacy old-axe coupons retain their limits while the retired event is absent from CMS choices',()=>{
  const spec=couponRewardSpec(' pingdu_old_axe ');assert.equal(spec.label,'낡은도끼');assert.equal(spec.inventory,true);assert.equal(spec.max,AXE_COUPON_MAX);
  assert.equal(verifiedMessageRewardSpec(OLD_AXE),null);assert.equal(couponRewardSpec('COIN').max,30000000000);
  const meta=Function(cms.slice(cms.indexOf('const COUPON_REWARD_META='),cms.indexOf('function syncCouponRewardForm'))+';return COUPON_REWARD_META')();
- assert.equal(meta[OLD_AXE].max,spec.max);assert.equal(meta[OLD_AXE].label,spec.label);
+ assert.equal(meta[OLD_AXE],undefined);assert.doesNotMatch(cms,/option value="PINGDU_OLD_AXE"/);
 });
 
 test('both real CMS create routes register ticket, preserve settings, and never issue items on creation',async()=>{
