@@ -1,0 +1,18 @@
+{
+  "operationKey": "ops:coup:337d1c95-4d88-4045-a81d-4ab359e5f627:victory-allowance:20261019:v1",
+  "recipientHash": "0b32f28cf356d2bc4eac215ed5eeedcb21ad99efcb91470d6c168424cf94b530",
+  "implementationHash": "95a43c17ed4911a87d5d6360a13c94aa68ca656a71ccfc387533913f3b652c68",
+  "checkedAt": "2026-10-19T03:41:40.458Z",
+  "status": "VERIFIED",
+  "replayed": true,
+  "recipientCount": 62,
+  "coinPerUser": "300000000000",
+  "totalCoin": "18600000000000",
+  "coinLogs": 62,
+  "auditRecords": 1,
+  "completionReceipts": 1,
+  "duplicates": 0,
+  "missing": 0,
+  "auditId": "48319",
+  "completedAt": "2026-10-19T03:41:24.667Z"
+}
