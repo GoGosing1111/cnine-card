@@ -1,7 +1,7 @@
 {
   "date": "2026-10-20",
-  "status": "USER_REVIEW_PENDING",
-  "visualApproval": false,
+  "status": "APPROVED",
+  "visualApproval": true,
   "userRequest": "존나 별로임, 다른 구상안 갖고와 그리고 저런이미지말고 화면에 적용한 프리뷰를 갖고와야함",
   "concept": "백금 검익 — 좌측 3개·우측 2개의 긴 검날을 등 뒤에서 비대칭으로 펼친다.",
   "replaces": "Rejected standalone ring concept; concepts/rejected-ring-v1.json",
@@ -14,12 +14,14 @@
   "recording": "review-zero-blade-wings-v1.webm",
   "checks": "qa/zero-blade-wings-v1/checks.json",
   "preservation": "appearance-approval-20261020.json and array-v4-scope.json hashes verified unchanged",
-  "runtimeEnabled": false,
+  "runtimeEnabled": true,
   "notes": [
     "Rendered below the approved mantle and body in the real V3 unit view.",
     "Low amplitude float and glow follow the registered skill clock; reduced motion freezes them.",
     "Only the detached ornament drifts inward at viewport edges; actor scale and camera remain fixed.",
     "All 20 array contacts remain visual intersections with the existing target. No server damage or skill balance changes.",
     "Technical checks do not constitute user visual approval."
-  ]
+  ],
+  "finalApproval": "live-approval-20261020.json",
+  "finalUserQuote": "백금 검익으로 승인"
 }

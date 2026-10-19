@@ -102,10 +102,19 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "shared/mercenary-leonel-v1.mjs",
+    "shared/mercenary-zero-v1.mjs",
+    "preview/mercenary-cyan-knight-battle-20261020-v1/array-motion-v4.mjs",
+    "preview/mercenary-cyan-knight-battle-20261020-v1/motion.mjs",
+    "preview/mercenary-cyan-knight-battle-20261020-v1/source/SummonedSwordArray.js",
+    "preview/mercenary-cyan-knight-battle-20261020-v1/source/WhiteAuraAppearance.js",
+    "preview/mercenary-cyan-knight-battle-20261020-v1/source/ZeroBladeWings.js",
+    "preview/mercenary-cyan-knight-battle-20261020-v1/source/ZeroGiantSwordEcho.js",
+    "preview/mercenary-cyan-knight-battle-20261020-v1/source/KnightFX.js",
+    "preview/project-v-v3/source/battle/ZeroCombatPlayback.js",
     "preview/mercenary-bathory-halloween-20261019-v1/motion.mjs",
     "preview/mercenary-bathory-halloween-20261019-v1/source/BathoryFX.js",
     "preview/project-v-v3/source/battle/BathoryCombatPlayback.js",
-    "shared/mercenary-leonel-v1.mjs",
     "preview/mercenary-leonel-sss-limited-20261018-v2/motion.mjs",
     "preview/mercenary-leonel-sss-limited-20261018-v2/source/LeonelWhiteRig.js",
     "preview/mercenary-leonel-sss-limited-20261018-v2/source/LeonelFX.js",
@@ -129,6 +138,7 @@
     "preview/project-v-v3/source/battle/JokroCombatPlayback.js",
     "shared/mercenary-kairon-v1.mjs",
     "shared/mercenary-jinmu-v1.mjs",
+    "shared/account-ranks-v1.mjs",
     "shared/mercenary-shiranui-v1.mjs",
     "preview/mercenary-monochrome-artillery-battle-v1/skill.mjs",
     "preview/mercenary-monochrome-artillery-battle-v1/source/BallisticArtilleryFX.js",
@@ -229,5 +239,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2166057
+  "outputBytes": 2227527
 }

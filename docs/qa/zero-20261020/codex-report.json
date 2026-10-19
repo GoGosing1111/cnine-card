@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "codex",
+      "unowned": true,
+      "locked": true,
+      "overflow": false
+    },
+    {
+      "label": "mobile",
+      "mode": "codex",
+      "unowned": true,
+      "locked": true,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

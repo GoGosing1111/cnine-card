@@ -31,6 +31,6 @@ export class ZeroBladeWings{
   const p=this.root.getGlobalPosition();
   this.root.position.copyFrom(this.root.parent.toLocal({x:p.x+dx,y:p.y+dy}));
  }
- diagnostics(){return{enabled:this.root.visible,behindBody:this.root.zIndex<this.unit.bodySprite.zIndex,layer:this.root.zIndex,id:this.spec.id,visualApproval:false,destroyed:this.destroyed};}
+ diagnostics(){return{enabled:this.root.visible,behindBody:this.root.zIndex<this.unit.bodySprite.zIndex,layer:this.root.zIndex,id:this.spec.id,visualApproval:this.spec.visualApproval===true,destroyed:this.destroyed};}
  destroy(){if(this.destroyed)return;this.destroyed=true;this.root.destroy({children:true});}
 }

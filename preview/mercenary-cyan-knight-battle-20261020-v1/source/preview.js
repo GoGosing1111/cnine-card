@@ -7,7 +7,7 @@ function update(f){
  $('health').textContent=JSON.stringify(f.diagnostics(),null,2);
  for(const b of doc.querySelectorAll('[data-mode]'))b.setAttribute('aria-pressed',String(b.dataset.mode===f.mode));
 }
-function gallery(mode){$('frames').innerHTML=MODES[mode].poses.map((p,i)=>'<button class="frame-card" data-frame="'+i+'"><img loading="lazy" src="assets/thumbs/'+p.bank+'-'+String(p.index+1).padStart(2,'0')+'.png" alt="'+(i+1)+'번 동작"'+(p.facing<0?' style="transform:scaleX(-1)"':'')+'><span>'+p.at.toFixed(2)+'s</span></button>').join('');for(const b of doc.querySelectorAll('[data-frame]'))b.onclick=()=>fx.seek(MODES[mode].steps[Number(b.dataset.frame)]);}
+function gallery(mode){$('frames').innerHTML=MODES[mode].poses.map((p,i)=>{const bank=fx.manifest.motion[p.bank],col=p.index%bank.columns,row=Math.floor(p.index/bank.columns);return '<button class="frame-card" data-frame="'+i+'"><i class="frame-sprite" role="img" aria-label="'+(i+1)+'번 동작" style="background-image:url('+bank.url+');background-size:'+bank.columns*100+'% '+bank.rows*100+'%;background-position:'+(bank.columns>1?col/(bank.columns-1)*100:0)+'% '+(bank.rows>1?row/(bank.rows-1)*100:0)+'%;'+(p.facing<0?'transform:scaleX(-1)':'')+'"></i><span>'+p.at.toFixed(2)+'s</span></button>';}).join('');for(const b of doc.querySelectorAll('[data-frame]'))b.onclick=()=>fx.seek(MODES[mode].steps[Number(b.dataset.frame)]);}
 async function boot(){
  const [manifest,payload]=await Promise.all([fetch(ROOT+'manifest.json').then(r=>r.json()),fetch('/preview/z-body-live-v1/fixture.json').then(r=>r.json())]);window.cnineCardCatalog=()=>payload.cards;
  const variant=new URLSearchParams(parent.location.search).get('backdrop');if(variant&&Object.hasOwn(manifest.backdropVariants||{},variant))manifest.backdrop=manifest.backdropVariants[variant];
@@ -24,7 +24,7 @@ async function boot(){
  $('effects').onchange=()=>fx.setEffects($('effects').checked);
  for(const b of doc.querySelectorAll('[data-mode]'))b.onclick=()=>{fx.setMode(b.dataset.mode);gallery(fx.mode);fx.play();};
  for(const b of doc.querySelectorAll('button,select,input'))b.disabled=false;
- $('status').textContent=(manifest.backdrop?.label||'백금 검익')+' 시안 · 일반 기술 3개 · 광역기 2개';fx.setMode('idle');gallery('idle');fx.seek(.3);
+ $('status').textContent=(manifest.backdrop?.label||'백금 검익')+' · 일반 기술 3개 · 광역기 2개';fx.setMode('idle');gallery('idle');fx.seek(.3);
  const review={fx,engine,manifest,modes:MODES,diagnostics:()=>fx.diagnostics(),dispose:()=>{fx.destroy();engine.destroy();}};window.CyanKnightPreview=review;parent.CyanKnightPreview=review;
  engine.app.renderer.on('resize',()=>{fx.pause();fx.capture();fx.render(fx.time);});
  window.addEventListener('pagehide',()=>review.dispose(),{once:true});document.addEventListener('visibilitychange',()=>{if(document.hidden)fx.cancel();});

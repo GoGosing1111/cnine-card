@@ -32,7 +32,7 @@ export class BattleSuitSkillChipPlayback{
       // They still own a full action: overlapping their casts hides boss skills
       // behind the mercenary cutscene. Keep chip fire on its independent clock.
       const authoredAction=event.type==='ICON_SKILL'||event.type==='ICON_STATUS'&&event.status==='CHANNEL'||
-        event.type==='APOCALYPSE_SKILL'||/^MERCENARY_(?:LEONEL|JINMU|HELIOS|SHIRANUI|KAIRON|JOKRO)_AREA$/.test(event.type);
+        event.type==='APOCALYPSE_SKILL'||/^MERCENARY_(?:ZERO|LEONEL|JINMU|HELIOS|SHIRANUI|KAIRON|JOKRO)_AREA$/.test(event.type);
       if(!external)lastAt=Number(event.combatAtMs)||0;
       // A raid may insert QTE between members of one atomic server action.
       // Contiguous grouping preserves that order; a global Map would move it.

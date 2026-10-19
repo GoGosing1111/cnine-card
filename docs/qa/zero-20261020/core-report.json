@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "basis": "Actual shipped V3 browser fixtures; 12 battle scenarios passed in console, with per-scenario screenshots. First run desktop scenes passed; its subsequent codex test assertion was corrected from disabled equip button to absent button. Remaining run passed mobile scenes and both codex views.",
+  "desktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "modes": [
+      "horizon",
+      "flurry",
+      "meteor",
+      "enemy",
+      "array",
+      "zenith"
+    ],
+    "status": "PASS"
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "modes": [
+      "horizon",
+      "flurry",
+      "meteor",
+      "enemy",
+      "array",
+      "zenith"
+    ],
+    "status": "PASS"
+  },
+  "assertions": [
+    "Approved ZERO_BLADE_WINGS_V1 is behind unchanged 360-unit body",
+    "Actor scale and camera equal pre-skill baseline",
+    "Five regular cards plus one mercenary; 12 hunt enemies",
+    "One HP application per target, no duplicate visual damage",
+    "Zero ground error",
+    "Cancel removes swords and transient effects; ambient resumes",
+    "Actor teardown destroys mantle, wings and state"
+  ],
+  "productionWrites": 0,
+  "realMobileHardware": false
+}
