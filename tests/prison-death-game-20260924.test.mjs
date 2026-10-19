@@ -122,7 +122,7 @@ test('HTTP auth and death gates: spectator cannot eat, ordinary user cannot oper
 
 test('UI links, exact death wording, touch/keyboard release, cleanup, escaped names and production assets',()=>{
   const client=read('js/prison-death-game-20260924.js'),app=read('js/app.js'),index=read('index.html');
-  assert.match(client,/사망하였습니다/);assert.match(client,/숲켓몬 전체 플레이가 일시 제한/);
+  assert.match(client,/사망하였습니다/);assert.match(client,/리버스콜 전체 플레이가 일시 제한/);
   for(const event of ['pointerup','pointercancel','lostpointercapture','blur','visibilitychange','keyup'])assert.ok(client.includes(`'${event}'`));
   assert.match(client,/esc\(p.nickname\)/);assert.match(client,/lastSeq \+ 1/);assert.match(client,/if \(version !== generation\) return/);
   assert.match(app,/prisonUiState.facility==='DEATH_GAME'/);assert.match(app,/PrisonDeathGame.bindLock\(prisonUiState\)/);

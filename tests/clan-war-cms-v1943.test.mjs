@@ -21,7 +21,7 @@ test('CMS 사이드바와 독립 클랜전 운영 화면을 로드한다',()=>{
   assert.match(html,/clan-war-admin-v1943\.css\?v=1943-clan-war-cms/);
   assert.match(html,/clan-war-admin-v1943\.js\?v=20261005-reform/);
   assert.match(baseAdmin,/clanwar:'클랜전 관리'/);
-  assert.match(cms,/SOOPKETMON · CLAN WAR CMS/);
+  assert.match(cms,/REVERSE CALL · CLAN WAR CMS/);
   assert.match(cms,/observe\(viewNode,\{attributes:true,attributeFilter:\['hidden'\]\}\)/);
   assert.doesNotMatch(cms,/childList:true/);
 });
