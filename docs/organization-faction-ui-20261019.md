@@ -25,4 +25,7 @@
 
 - 조회한 직전 운영 배포: `72df7017-e71c-4677-ad5d-12813c79d83f`, SHA `06e255f0985b53e7199c0e26a852d0f9291fcf2c`.
 - 프런트엔드 한 콘텐츠 범위의 scoped 배포. 이미 통과한 브라우저 검사를 전체 게임 검사로 확대하지 않는다. 배포에서는 원화/atlas 계약과 기존 행정경계 회귀, 기본 운영 보호 검사를 실행한다.
-- 배포 명령: `npm run deploy:production -- --scoped`. 운영 결과는 후속 영수증에 기록한다.
+- 배포 명령: `npm run deploy:production -- --scoped`. 관련 검사 2개와 운영 보호/Hyperdrive 검사를 통과하고 Pages 및 API runtime·clan-draft 배포를 완료했다.
+- 운영 배포: `f280cba4-592e-4b9d-a918-5f4d0bf2627d`, SHA `615cf7ce59e00c0f5cc697129c3c8991e082b45d`, 2026-10-19 15:13:56 KST 생성, 상태 `success`.
+- 운영 주소에서 변경 파일 12개의 HTTP 200 및 내용 해시 일치를 확인했다. 새 비로그인 브라우저로 조직 본부의 세력전 버튼 → 1366×900 전체 창 → Escape 본부 복귀도 확인했다. 운영 계정으로 전투나 재화 변경을 실행하지 않았으며 전투 검증은 위의 분리된 TEST 환경 결과다.
+- 배포 영수증: `docs/qa/organization-faction-ui-20261019/production-release.json`. 이 결과 기록만의 후속 커밋은 재배포·게임 재검사하지 않는다.
