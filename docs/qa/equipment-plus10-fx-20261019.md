@@ -35,3 +35,9 @@
 - PC에서 +10 캔버스 15개를 배치한 검수: 루프 1개, 그리기 표본 22회, 95백분위 4ms/최대 5.7ms. 로컬 Chrome 측정값이며 모든 기기의 성능 보증으로 해석하지 않는다.
 - 검사 스크립트·보고서·PC/모바일 화면·실제 4초 모션 녹화는 로컬 `C:/Users/User/.codex/tmp/equipment-plus10-fx-20261019/energy-verified/`와 `check-energy.mjs`에 보존한다. 새 사용자 시각 승인으로 기록하지 않는다.
 - 캐시 버전 `enhanceGlow=20261019-energy-v3`. 동일한 공유 프리뷰와 라이브 장비 렌더러를 사용한다.
+
+### V3 운영 반영 완료
+
+- 코드 `4dd71d373`, Pages `ed9ccf7c`, API runtime `e8942072-9adf-4ddc-8342-57acfca1a3fb`, 스케줄러 `90a512fc-4671-45c8-84ad-725df47d50cd`.
+- scoped 검사 6건·출시/캐시 보호 통과, 배포 종료 코드 0. 2026-10-19 11:03:45 KST 운영 JS/CSS/로더 해시 3개 및 루트 캐시 링크 확인 완료.
+- 운영 공유 프리뷰 PC 1440px/모바일 390px에서 실제 Canvas 픽셀이 그려지고 +10에만 연결되며 가로 넘침·페이지 오류가 없음을 확인했다. 영수증 `energy-live-verification.json`, 배포 로그 `deploy-energy-v3.log`를 위 로컬 검수 폴더에 보존한다.
