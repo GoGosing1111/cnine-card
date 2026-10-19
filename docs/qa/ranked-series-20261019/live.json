@@ -1,0 +1,52 @@
+{
+  "release": "92130e29d935e3d916a8102f2f8118b5d5297c15",
+  "verifiedAt": "2026-10-19T02:45:07.023Z",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "60fbcb3a0599cbfb44f6f671d70d73342d1bc2b3e674eb611353ad66459d7d36",
+      "bytes": 31942
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "1d64f491cad5d7d5eaa0093b6bb9a55689074df148050961733c3183a7d6a937",
+      "bytes": 16139
+    },
+    {
+      "file": "js/ranked-series-ui-v1.js",
+      "status": 200,
+      "sha256": "0b38ebfb0d4645c12f85051fde7d4f9350dc75df70d7d9f5fdca599573d13b57",
+      "bytes": 9276
+    },
+    {
+      "file": "css/ranked-series-v1.css",
+      "status": 200,
+      "sha256": "5834fcac9f1bbfe4bab4c2409983bb053ec31676e89b684398d2d8604dc0fb53",
+      "bytes": 6164
+    },
+    {
+      "file": "assets/ui/ranked/series-20261019/console.webp",
+      "status": 200,
+      "sha256": "dd1b205c2f0dc3684602ba4c54299d742e5443b8c9d4ebfb2a105d2fea924da0",
+      "bytes": 58398
+    },
+    {
+      "file": "assets/ui/ranked/series-20261019/frame.webp",
+      "status": 200,
+      "sha256": "da6a40590d54a08b4cf6945a1a178fd830b5fd44aa9e7cac77fa3ef48aec8041",
+      "bytes": 25934
+    },
+    {
+      "file": "assets/ui/ranked/series-20261019/control.webp",
+      "status": 200,
+      "sha256": "d170f77fa83cb4dbba532483f29088d2f7841043a9bf560aa5a875e61f0018b5",
+      "bytes": 22750
+    },
+    {
+      "path": "api/pvp/series-roster",
+      "unauthenticatedStatus": 401
+    }
+  ]
+}

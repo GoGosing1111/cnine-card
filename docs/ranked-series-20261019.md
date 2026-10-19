@@ -30,4 +30,10 @@
 - 기존 매칭 범위·다양성·매칭권·트랜잭션 회귀는 변경된 경로만 실행한다.
 - `tests/ranked-series-20261019.browser.mjs`: 실제 index.html/V3 엔진, 모의 API. PC 1440px 2:0, 모바일 390px 2:1 재생 완료. 2종 보유 참가 차단, 중복 선택 차단, 앞/뒤 변경과 저장, 매칭 공개, 세트 결과, 행동력 부족, 영수증 복구, 가로 넘침/스크립트 오류 없음 확인. 운영 계정으로 시험 경기나 지급을 실행하지 않는다.
 
-배포 결과와 공개 정적 리소스 확인은 배포 완료 후 아래에 기록한다.
+## 라이브 반영
+
+- 출시 커밋 `92130e29d935e3d916a8102f2f8118b5d5297c15`, `npm run deploy:production -- --scoped` 완료. 관련 55개 검사 전체 통과 후 출시 게이트에서 새 삼연전·실제 API 분기 11개와 worker 컴파일을 확인했다.
+- API Worker `bc2930a3-c476-42b0-9cdd-1c215a9fb5bb`, Pages `https://d35def76.cnine-card.pages.dev`, 스케줄러 `d201c2a3-2bae-4eb1-bfa1-f74a19bdde09`.
+- Hyperdrive 조회 캐시 OFF 유지. 제작 원본과 랭크전 문서는 Git에 보존하고 운영 패키지에서는 제외해 Pages 19,990개 파일 한도를 지켰다. 실제 UI WebP·manifest·실행 코드는 배포한다.
+- 공개 `https://cnine-card.pages.dev`의 index, app.js, service-worker, 신규 JS/CSS, WebP 3개가 출시 파일과 SHA-256 일치. 로그인 없는 편성 저장 요청은 401로 거부됐다. 운영 계정의 편성·경기·재화·보유 카드를 시험 삼아 변경하지 않았다.
+- 운영 검사 기록은 `docs/qa/ranked-series-20261019/live.json`, 배포 출력은 같은 폴더의 `deploy.log`다. PC/모바일 실제 V3 재생은 모의 API로 검증했고 운영 사용자 경기 승률은 이번 검증 범위가 아니다.

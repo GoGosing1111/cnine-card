@@ -1,0 +1,79 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"41059d2e70fc12c0acde8ba8040444769a3a327a","reason":"Ranked-only best-of-three mercenary matches, explicit three-type eligibility, existing atomic one-set settlement, and dedicated matching UI; 55 scoped regressions plus desktop/mobile V3 replays verified.","changed":["AGENTS.md","assets/ui/ranked/series-20261019/console-source.png","assets/ui/ranked/series-20261019/console.webp","assets/ui/ranked/series-20261019/control.webp","assets/ui/ranked/series-20261019/frame-source.png","assets/ui/ranked/series-20261019/frame.webp","assets/ui/ranked/series-20261019/manifest.json","css/ranked-series-v1.css","docs/qa/ranked-series-20261019/browser-results.json","docs/qa/ranked-series-20261019/result-mobile.png","docs/qa/ranked-series-20261019/tests-final.log","docs/ranked-series-20261019.md","functions/_mercenary_account.js","functions/_ranked_series.js","functions/api/[[path]].js","index.html","js/app.js","js/ranked-series-ui-v1.js","scripts/prepare-production-assets.mjs","service-worker.js","shared/ranked-series-v1.mjs","tests/ranked-fight-performance-20260929.test.mjs","tests/ranked-matchmaking-20261007.test.mjs","tests/ranked-series-20261019.browser.mjs","tests/ranked-series-20261019.test.mjs"],"tests":["tests/ranked-series-20261019.test.mjs","tests/ranked-fight-performance-20260929.test.mjs"],"checks":["check:worker"]}
+✔ optimized ranked fight preserves win/loss energy, attacker-only coins, scores and reward ordering (7.3272ms)
+✔ stale scores and incomplete decks still stop before energy, scoring and rewards (0.4987ms)
+✔ concurrent duplicate tickets and replay do not enter reward work twice (0.8493ms)
+✔ a server-issued fallback ticket starts a third consecutive match and replay charges only once (0.6208ms)
+✔ repeat-opponent fallback still requires a valid ticket and current score and deck (0.5205ms)
+✔ ranked mercenary power is unchanged, order is frozen, and recalled ownership stops before charging (0.8729ms)
+✔ requires three distinct types; copies and malformed inputs cannot qualify (1.3129ms)
+✔ SQLite: ownership, frozen order, privacy, one set settlement and replay (37.9352ms)
+✔ PostgreSQL: ownership, frozen order, privacy, one set settlement and replay (1477.5948ms)
+✔ 2:0, 0:2 and 2:1 stop at two wins; every round gets new cards and mercenaries (0.4647ms)
+✔ real PVP engine runs distinct mercenaries with deterministic fresh battles each round (36.1084ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2114.8251
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19990 files; 3948 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.1)
+───────────────────────────────────────────────
+Total Upload: 7733.04 KiB / gzip: 1670.54 KiB
+Worker Startup Time: 40 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.29 sec)
+No targets deployed for cnine-card-api-runtime (0.56 sec)
+Current Version ID: bc2930a3-c476-42b0-9cdd-1c215a9fb5bb
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.1)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19977/19990)
+Uploading... (19981/19990)
+Uploading... (19986/19990)
+Uploading... (19990/19990)
+✨ Success! Uploaded 13 files (19977 already uploaded) (2.85 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://d35def76.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.1)
+───────────────────────────────────────────────
+Total Upload: 2679.53 KiB / gzip: 610.69 KiB
+Worker Startup Time: 47 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (2.95 sec)
+Deployed cnine-card-clan-draft triggers (1.53 sec)
+  schedule: * * * * *
+Current Version ID: d201c2a3-2bae-4eb1-bfa1-f74a19bdde09
