@@ -1,0 +1,46 @@
+{
+  "id": "WHITE_AURA_MANTLE_V1",
+  "url": "assets/appearance/white-mantle-v3.png",
+  "sha256": "d8e9f05019a9ae5371dfc66f9696b1ddc6834f9551d2c362e10a055583f16141",
+  "columns": 3,
+  "rows": 2,
+  "frameWidth": 512,
+  "frameHeight": 512,
+  "cycleSeconds": 2.8,
+  "capeHeightPixels": 375,
+  "attachPoints": [
+    [
+      424,
+      108
+    ],
+    [
+      388,
+      122
+    ],
+    [
+      426,
+      126
+    ],
+    [
+      413,
+      66
+    ],
+    [
+      404,
+      86
+    ],
+    [
+      409,
+      68
+    ]
+  ],
+  "color": "WHITE",
+  "generatedWith": "built-in image_gen",
+  "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-cd50788a-9797-4464-a56a-1ec46d23ae53.png",
+  "prompts": [
+    "prompt-white-mantle-v1.txt",
+    "prompt-white-mantle-v2.txt",
+    "prompt-white-mantle-v3.txt"
+  ],
+  "visualApproval": false
+}

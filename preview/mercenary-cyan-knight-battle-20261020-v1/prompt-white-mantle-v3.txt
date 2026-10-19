@@ -1,0 +1,4 @@
+Use case: precise-object-edit. This is a technical atlas padding correction only.
+Keep the same SIX white luminous cape designs and their poses, pure white/silver colors, semitransparent aura edges, and no helmet/no character.
+Reframe into a clean 3 columns × 2 rows transparent sprite sheet. Every cape must be scaled UNIFORMLY to 78% of its present size and centered INSIDE its own cell, including ALL light ribbons and the whole right-hand folded fabric. Each cell must have at least 10% fully transparent blank margin at left, right, top and bottom. In particular, no cloth may touch or cross the column edges. Do not crop or cut any cape.
+Use exactly six isolated capes, NO rectangular cell background, NO grey fog, NO gridlines, no text. All empty areas are transparent RGBA. Keep a consistent size and shoulder attachment position across the six cells. Preserve the ornate white aura cape; change only framing and safe padding.

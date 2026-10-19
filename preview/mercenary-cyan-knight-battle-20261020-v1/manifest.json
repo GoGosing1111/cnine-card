@@ -1,5 +1,5 @@
 {
-  "version": "CYAN_KNIGHT_BATTLE_REVIEW_20261020_ARRAY_V2",
+  "version": "CYAN_KNIGHT_WHITE_AURA_REVIEW_20261020_V1",
   "status": "USER_REVIEW_PENDING",
   "runtimeEnabled": false,
   "sourceArt": "assets/sources/source-art-v3.png",
@@ -232,7 +232,8 @@
             "redrawnPixels": 0
           },
           "sha256": "3d2a3cb1814fc75ab99fad6e144468560ebf66d10feac6219b4f9cac4db231a9",
-          "file": "assets/frames/idle-01.png"
+          "file": "assets/frames/idle-01.png",
+          "sourceUpright": 760
         },
         {
           "id": "idle-02",
@@ -273,7 +274,8 @@
             "redrawnPixels": 0
           },
           "sha256": "40abcaa24a91058d59a07dcf6dbc46a35b3c1dfb31f8801fcbe2402d8cf832da",
-          "file": "assets/frames/idle-02.png"
+          "file": "assets/frames/idle-02.png",
+          "sourceUpright": 760
         },
         {
           "id": "idle-03",
@@ -314,7 +316,8 @@
             "redrawnPixels": 0
           },
           "sha256": "8df1ce96d75b91352de501598acb3d0a1a9c98a382e503ac63eac0d6a32f3d2e",
-          "file": "assets/frames/idle-03.png"
+          "file": "assets/frames/idle-03.png",
+          "sourceUpright": 760
         },
         {
           "id": "idle-04",
@@ -355,7 +358,8 @@
             "redrawnPixels": 0
           },
           "sha256": "26da22681849b46fb12294ed074d6e12198e9fa85fa536bf72064b3a71c5eb91",
-          "file": "assets/frames/idle-04.png"
+          "file": "assets/frames/idle-04.png",
+          "sourceUpright": 760
         }
       ]
     },
@@ -407,7 +411,8 @@
             "redrawnPixels": 0
           },
           "sha256": "ed189c7c492649abfdd54144bfb72355d4fb117552a85bed346508f5d1e61e16",
-          "file": "assets/frames/dash-01.png"
+          "file": "assets/frames/dash-01.png",
+          "sourceUpright": 760
         },
         {
           "id": "dash-02",
@@ -448,7 +453,8 @@
             "redrawnPixels": 0
           },
           "sha256": "4b049c6de5faa96db6020269be74b002adef9973bd202200d64e0d7c50d1946d",
-          "file": "assets/frames/dash-02.png"
+          "file": "assets/frames/dash-02.png",
+          "sourceUpright": 760
         },
         {
           "id": "dash-03",
@@ -489,7 +495,8 @@
             "redrawnPixels": 0
           },
           "sha256": "e612e666ac5a18c25c271dabaf0d211a63c3978804d88c836d4bc6f344ec45fe",
-          "file": "assets/frames/dash-03.png"
+          "file": "assets/frames/dash-03.png",
+          "sourceUpright": 760
         },
         {
           "id": "dash-04",
@@ -530,7 +537,8 @@
             "redrawnPixels": 0
           },
           "sha256": "c52235c3d2819924df6ab2443ea181f3410c2ad00ab85f280f2dcc06f225c33b",
-          "file": "assets/frames/dash-04.png"
+          "file": "assets/frames/dash-04.png",
+          "sourceUpright": 760
         }
       ]
     },
@@ -582,7 +590,8 @@
             "redrawnPixels": 0
           },
           "sha256": "ecec8e0115a5686800aadc22a9f87961454173c254fcea3f362931c2da847e7e",
-          "file": "assets/frames/hit-01.png"
+          "file": "assets/frames/hit-01.png",
+          "sourceUpright": 760
         },
         {
           "id": "hit-02",
@@ -623,7 +632,8 @@
             "redrawnPixels": 0
           },
           "sha256": "5e0ae6e51e98ada2278494b5b14fa79f8ec518fab18a9a0f7830cfb4e0ecd54a",
-          "file": "assets/frames/hit-02.png"
+          "file": "assets/frames/hit-02.png",
+          "sourceUpright": 760
         },
         {
           "id": "hit-03",
@@ -664,7 +674,8 @@
             "redrawnPixels": 0
           },
           "sha256": "ebbf3d045afe073fe411a730783827e60577ad9e3bf9f4a10762d9b2e9d02c40",
-          "file": "assets/frames/hit-03.png"
+          "file": "assets/frames/hit-03.png",
+          "sourceUpright": 760
         },
         {
           "id": "hit-04",
@@ -705,7 +716,8 @@
             "redrawnPixels": 0
           },
           "sha256": "f2f94cc2283a157cffe4bb9516b79fdc745d0c00d65b3fe57f6fc771e4034370",
-          "file": "assets/frames/hit-04.png"
+          "file": "assets/frames/hit-04.png",
+          "sourceUpright": 760
         }
       ]
     },
@@ -757,7 +769,8 @@
             "redrawnPixels": 0
           },
           "sha256": "aeb4b5ce221f9916a9e5f169038b0222392ef284f7249799d8ba866bdecaeb0e",
-          "file": "assets/frames/defeat-01.png"
+          "file": "assets/frames/defeat-01.png",
+          "sourceUpright": 760
         },
         {
           "id": "defeat-02",
@@ -798,7 +811,8 @@
             "redrawnPixels": 0
           },
           "sha256": "1a09c4a21d64e2edb2d1944d3454b448310c9f3b4c5a89fd390f3cb944187ecb",
-          "file": "assets/frames/defeat-02.png"
+          "file": "assets/frames/defeat-02.png",
+          "sourceUpright": 760
         },
         {
           "id": "defeat-03",
@@ -839,7 +853,8 @@
             "redrawnPixels": 0
           },
           "sha256": "58b6a2122922a6e97112e1ec2ff87c99073ac9d39192f2c1862d96dffd37d32a",
-          "file": "assets/frames/defeat-03.png"
+          "file": "assets/frames/defeat-03.png",
+          "sourceUpright": 760
         },
         {
           "id": "defeat-04",
@@ -880,7 +895,8 @@
             "redrawnPixels": 0
           },
           "sha256": "6e061ac0a4f0300a5550f2d03dfeca838aae1199787fe3f5640c3f8d59ec8f00",
-          "file": "assets/frames/defeat-04.png"
+          "file": "assets/frames/defeat-04.png",
+          "sourceUpright": 760
         }
       ]
     },
@@ -932,7 +948,8 @@
             "redrawnPixels": 0
           },
           "sha256": "8baad0cf025e002be77f8a149d08e529cf39520394c0764374426113c264c934",
-          "file": "assets/frames/horizon-01.png"
+          "file": "assets/frames/horizon-01.png",
+          "sourceUpright": 625
         },
         {
           "id": "horizon-02",
@@ -973,7 +990,8 @@
             "redrawnPixels": 0
           },
           "sha256": "7b104b82c2c9b8146fbcee5c547bdd7d755e33d30037ea2306e8bb9d1788af23",
-          "file": "assets/frames/horizon-02.png"
+          "file": "assets/frames/horizon-02.png",
+          "sourceUpright": 625
         },
         {
           "id": "horizon-03",
@@ -1014,7 +1032,8 @@
             "redrawnPixels": 0
           },
           "sha256": "7980f6a2d1ec121dc49a5f1878288acc89f153c7a334f09b857304aa0c8ef5ba",
-          "file": "assets/frames/horizon-03.png"
+          "file": "assets/frames/horizon-03.png",
+          "sourceUpright": 625
         },
         {
           "id": "horizon-04",
@@ -1055,7 +1074,8 @@
             "redrawnPixels": 0
           },
           "sha256": "0b9def9d17e36f5cc872885b2adf5f00bbcb66193dee7701f63d1ac3fcc94be3",
-          "file": "assets/frames/horizon-04.png"
+          "file": "assets/frames/horizon-04.png",
+          "sourceUpright": 625
         },
         {
           "id": "horizon-05",
@@ -1096,7 +1116,8 @@
             "redrawnPixels": 0
           },
           "sha256": "23a7e1ab2a1159b0f9f35abc172b16cfc953ecd671a66ecaaaf36a0e5d3df286",
-          "file": "assets/frames/horizon-05.png"
+          "file": "assets/frames/horizon-05.png",
+          "sourceUpright": 653
         },
         {
           "id": "horizon-06",
@@ -1137,7 +1158,8 @@
             "redrawnPixels": 0
           },
           "sha256": "f288473e5df74c6e59ec60bd40b01e265f0c6e1ea921e6f6f2b193c63fa12722",
-          "file": "assets/frames/horizon-06.png"
+          "file": "assets/frames/horizon-06.png",
+          "sourceUpright": 653
         },
         {
           "id": "horizon-07",
@@ -1178,7 +1200,8 @@
             "redrawnPixels": 0
           },
           "sha256": "6c7b02e8a7aba26c16fc94ca55c83708a6e8225eed9a5be623136d33f7adf944",
-          "file": "assets/frames/horizon-07.png"
+          "file": "assets/frames/horizon-07.png",
+          "sourceUpright": 653
         },
         {
           "id": "horizon-08",
@@ -1219,7 +1242,8 @@
             "redrawnPixels": 0
           },
           "sha256": "873c35c96850eca99ce209c8e05a85deb014a1eeec3c8b231f9a98308272e8ee",
-          "file": "assets/frames/horizon-08.png"
+          "file": "assets/frames/horizon-08.png",
+          "sourceUpright": 653
         }
       ]
     },
@@ -1271,7 +1295,8 @@
             "redrawnPixels": 0
           },
           "sha256": "c772f08f0405259e10e32a39dbb0ffd8dffb468da21ef4912d4f134e622f2b6c",
-          "file": "assets/frames/flurry-01.png"
+          "file": "assets/frames/flurry-01.png",
+          "sourceUpright": 605
         },
         {
           "id": "flurry-02",
@@ -1312,7 +1337,8 @@
             "redrawnPixels": 0
           },
           "sha256": "277683cef64a4e7dd8b1b9a0f03ac59fd0168d0335dd78cf69edae023184c4fe",
-          "file": "assets/frames/flurry-02.png"
+          "file": "assets/frames/flurry-02.png",
+          "sourceUpright": 605
         },
         {
           "id": "flurry-03",
@@ -1353,7 +1379,8 @@
             "redrawnPixels": 0
           },
           "sha256": "0c136ae336820250738a0f79c1dbe6faf06b0d0a37fe9ebf4f16ccca1a8a4c74",
-          "file": "assets/frames/flurry-03.png"
+          "file": "assets/frames/flurry-03.png",
+          "sourceUpright": 605
         },
         {
           "id": "flurry-04",
@@ -1394,7 +1421,8 @@
             "redrawnPixels": 0
           },
           "sha256": "6dfd8b77e0b5e23c402fa54bf612733a10a9cb4a24c38a7e11666fa5e571813b",
-          "file": "assets/frames/flurry-04.png"
+          "file": "assets/frames/flurry-04.png",
+          "sourceUpright": 605
         },
         {
           "id": "flurry-05",
@@ -1435,7 +1463,8 @@
             "redrawnPixels": 0
           },
           "sha256": "11b8e134777f2f418742dd3931ae3064cdf6e58a1cc9f50f7c21a2235f3a57ca",
-          "file": "assets/frames/flurry-05.png"
+          "file": "assets/frames/flurry-05.png",
+          "sourceUpright": 635
         },
         {
           "id": "flurry-06",
@@ -1476,7 +1505,8 @@
             "redrawnPixels": 0
           },
           "sha256": "f4f43383335785587d454e1b565980d6235de56b902dfbe723b73a91223925ad",
-          "file": "assets/frames/flurry-06.png"
+          "file": "assets/frames/flurry-06.png",
+          "sourceUpright": 635
         },
         {
           "id": "flurry-07",
@@ -1517,7 +1547,8 @@
             "redrawnPixels": 0
           },
           "sha256": "0a9c1ed53ed5cfaa8eca7cb4c4478c174d8811452269d4ae4c58dfa1813ce99c",
-          "file": "assets/frames/flurry-07.png"
+          "file": "assets/frames/flurry-07.png",
+          "sourceUpright": 635
         },
         {
           "id": "flurry-08",
@@ -1558,7 +1589,8 @@
             "redrawnPixels": 0
           },
           "sha256": "58759f6eb5a6793fc28177b4126f83654b3a77ec927c7c4ec8249ec858ccbf3d",
-          "file": "assets/frames/flurry-08.png"
+          "file": "assets/frames/flurry-08.png",
+          "sourceUpright": 635
         }
       ]
     },
@@ -1610,7 +1642,8 @@
             "redrawnPixels": 0
           },
           "sha256": "882f8eddfc1ff487cb11eb976cabc0f8a0451cde2ef2956cc4a1a3323990235f",
-          "file": "assets/frames/meteor-01.png"
+          "file": "assets/frames/meteor-01.png",
+          "sourceUpright": 625
         },
         {
           "id": "meteor-02",
@@ -1651,7 +1684,8 @@
             "redrawnPixels": 0
           },
           "sha256": "ea983172bc1b1c610de175a6503bed2b41047b44b6141573bd3f5fc3b6224c36",
-          "file": "assets/frames/meteor-02.png"
+          "file": "assets/frames/meteor-02.png",
+          "sourceUpright": 625
         },
         {
           "id": "meteor-03",
@@ -1692,7 +1726,8 @@
             "redrawnPixels": 0
           },
           "sha256": "07c45cebbd3ab9eda619e874ccc03dd99082353fd17f81a60fee1037c0f7f550",
-          "file": "assets/frames/meteor-03.png"
+          "file": "assets/frames/meteor-03.png",
+          "sourceUpright": 625
         },
         {
           "id": "meteor-04",
@@ -1733,7 +1768,8 @@
             "redrawnPixels": 0
           },
           "sha256": "29200311182de0ceec44c3f5892be3f2456971c54e3e6fbff031b77c5222579b",
-          "file": "assets/frames/meteor-04.png"
+          "file": "assets/frames/meteor-04.png",
+          "sourceUpright": 625
         },
         {
           "id": "meteor-05",
@@ -1774,7 +1810,8 @@
             "redrawnPixels": 0
           },
           "sha256": "d710ac8a3588f9137f67f0e6f1af0e842abc8990e4e0d17569624376308cb569",
-          "file": "assets/frames/meteor-05.png"
+          "file": "assets/frames/meteor-05.png",
+          "sourceUpright": 620
         },
         {
           "id": "meteor-06",
@@ -1815,7 +1852,8 @@
             "redrawnPixels": 0
           },
           "sha256": "490efa5316b6b183e8b8096d1045e6caa5e1ee3ff5044315741aa782d2f75514",
-          "file": "assets/frames/meteor-06.png"
+          "file": "assets/frames/meteor-06.png",
+          "sourceUpright": 620
         },
         {
           "id": "meteor-07",
@@ -1856,7 +1894,8 @@
             "redrawnPixels": 0
           },
           "sha256": "fb0222decc40f854598bb76cc75eec6ce1aa6653b04ca4e406b34e16af76123e",
-          "file": "assets/frames/meteor-07.png"
+          "file": "assets/frames/meteor-07.png",
+          "sourceUpright": 620
         },
         {
           "id": "meteor-08",
@@ -1897,7 +1936,8 @@
             "redrawnPixels": 0
           },
           "sha256": "c2190a71b6dc1d94057a7ffd7123347b21653db5bb6107fa72749ebe4f3a9f7d",
-          "file": "assets/frames/meteor-08.png"
+          "file": "assets/frames/meteor-08.png",
+          "sourceUpright": 620
         }
       ]
     },
@@ -1949,7 +1989,8 @@
             "redrawnPixels": 0
           },
           "sha256": "a39ae80ea04a82c898b0c417561300a5d4741233406b5252bf03f19a57a4429b",
-          "file": "assets/frames/array-01.png"
+          "file": "assets/frames/array-01.png",
+          "sourceUpright": 615
         },
         {
           "id": "array-02",
@@ -1990,7 +2031,8 @@
             "redrawnPixels": 0
           },
           "sha256": "753184602c1e6796e3a7bfef718309b8af9348fdfe9ecc5e960abe94036470c3",
-          "file": "assets/frames/array-02.png"
+          "file": "assets/frames/array-02.png",
+          "sourceUpright": 615
         },
         {
           "id": "array-03",
@@ -2031,7 +2073,8 @@
             "redrawnPixels": 0
           },
           "sha256": "22c9bf2e860ad7d05c172a9134865be9071ca4eb7bb94576d7835346459f5f46",
-          "file": "assets/frames/array-03.png"
+          "file": "assets/frames/array-03.png",
+          "sourceUpright": 615
         },
         {
           "id": "array-04",
@@ -2072,7 +2115,8 @@
             "redrawnPixels": 0
           },
           "sha256": "631a32bafad301c30fe82ccd582375a137dbd5317d1833ebb59b60e6889b4681",
-          "file": "assets/frames/array-04.png"
+          "file": "assets/frames/array-04.png",
+          "sourceUpright": 615
         },
         {
           "id": "array-05",
@@ -2113,7 +2157,8 @@
             "redrawnPixels": 0
           },
           "sha256": "4062933bcaf3664b5580d57d6ff845c5f56997eff605b818e18dd671f5209e3a",
-          "file": "assets/frames/array-05.png"
+          "file": "assets/frames/array-05.png",
+          "sourceUpright": 600
         },
         {
           "id": "array-06",
@@ -2154,7 +2199,8 @@
             "redrawnPixels": 0
           },
           "sha256": "0061d6e3bc33440b62c5f3fc82010d9ad7eb1541200c95b544883087144e9fe5",
-          "file": "assets/frames/array-06.png"
+          "file": "assets/frames/array-06.png",
+          "sourceUpright": 600
         },
         {
           "id": "array-07",
@@ -2195,7 +2241,8 @@
             "redrawnPixels": 0
           },
           "sha256": "1f28d7a95c95b01bdf17f0b08760c29a8eb6ff08d00b64e7d5c47886dfd63eae",
-          "file": "assets/frames/array-07.png"
+          "file": "assets/frames/array-07.png",
+          "sourceUpright": 600
         },
         {
           "id": "array-08",
@@ -2236,7 +2283,8 @@
             "redrawnPixels": 0
           },
           "sha256": "8c478a4d841706ef6b2780f17f705dd76b9468525492a6fe876dc91bffcd9315",
-          "file": "assets/frames/array-08.png"
+          "file": "assets/frames/array-08.png",
+          "sourceUpright": 600
         },
         {
           "id": "array-09",
@@ -2277,7 +2325,8 @@
             "redrawnPixels": 0
           },
           "sha256": "7bbd1fc0e941bbe871e0ac35291ca3e8dd8a574ca33e17af1dbb19e8d6498553",
-          "file": "assets/frames/array-09.png"
+          "file": "assets/frames/array-09.png",
+          "sourceUpright": 628
         },
         {
           "id": "array-10",
@@ -2318,7 +2367,8 @@
             "redrawnPixels": 0
           },
           "sha256": "32d61e28e738d943f68aa6d93bc594a30610e6c6ccfe1929683c598ead85a5ca",
-          "file": "assets/frames/array-10.png"
+          "file": "assets/frames/array-10.png",
+          "sourceUpright": 628
         },
         {
           "id": "array-11",
@@ -2359,7 +2409,8 @@
             "redrawnPixels": 0
           },
           "sha256": "cd42c9a733f15998099d445ebc321687d5962420b4fbf2992de9207299854b26",
-          "file": "assets/frames/array-11.png"
+          "file": "assets/frames/array-11.png",
+          "sourceUpright": 628
         },
         {
           "id": "array-12",
@@ -2400,7 +2451,8 @@
             "redrawnPixels": 0
           },
           "sha256": "8d175c392702dd8f79c73a2492500f66400210a313662011d58da5d2a160cc7a",
-          "file": "assets/frames/array-12.png"
+          "file": "assets/frames/array-12.png",
+          "sourceUpright": 628
         }
       ]
     },
@@ -2452,7 +2504,8 @@
             "redrawnPixels": 0
           },
           "sha256": "e44bb6e2949c6efa25675c9113fb01349718d3f5e6a706f1f47b8ea1ea16c2c5",
-          "file": "assets/frames/zenith-01.png"
+          "file": "assets/frames/zenith-01.png",
+          "sourceUpright": 625
         },
         {
           "id": "zenith-02",
@@ -2493,7 +2546,8 @@
             "redrawnPixels": 0
           },
           "sha256": "8f950db5f5539f1edfd6bda6595d91fc8adbfc1e3aa1e74edec2f7f5111303a4",
-          "file": "assets/frames/zenith-02.png"
+          "file": "assets/frames/zenith-02.png",
+          "sourceUpright": 625
         },
         {
           "id": "zenith-03",
@@ -2534,7 +2588,8 @@
             "redrawnPixels": 0
           },
           "sha256": "99192f9e0aa51b803be57545d82ec4d7e68ae84e1113b446cc92c4f7d3661f02",
-          "file": "assets/frames/zenith-03.png"
+          "file": "assets/frames/zenith-03.png",
+          "sourceUpright": 625
         },
         {
           "id": "zenith-04",
@@ -2575,7 +2630,8 @@
             "redrawnPixels": 0
           },
           "sha256": "bd5a4d3acb74fe4d54ff9fff9e346d8a37166002b6a99c3374b8d6b71611d23a",
-          "file": "assets/frames/zenith-04.png"
+          "file": "assets/frames/zenith-04.png",
+          "sourceUpright": 625
         },
         {
           "id": "zenith-05",
@@ -2616,7 +2672,8 @@
             "redrawnPixels": 0
           },
           "sha256": "21f614f7f7292e2216594e61fd0c2047cd2c0a63edb29a550e32d80581c16bb7",
-          "file": "assets/frames/zenith-05.png"
+          "file": "assets/frames/zenith-05.png",
+          "sourceUpright": 650
         },
         {
           "id": "zenith-06",
@@ -2657,7 +2714,8 @@
             "redrawnPixels": 0
           },
           "sha256": "6e492e960f1a7389ccf85544ae86d3739fa62f26d3b6bac8adb424abc913a6f0",
-          "file": "assets/frames/zenith-06.png"
+          "file": "assets/frames/zenith-06.png",
+          "sourceUpright": 650
         },
         {
           "id": "zenith-07",
@@ -2698,7 +2756,8 @@
             "redrawnPixels": 0
           },
           "sha256": "70a8a1920386ee80ec9d9448c8675719da59a80c367f73c0da88102f3fcdc9a1",
-          "file": "assets/frames/zenith-07.png"
+          "file": "assets/frames/zenith-07.png",
+          "sourceUpright": 650
         },
         {
           "id": "zenith-08",
@@ -2739,7 +2798,8 @@
             "redrawnPixels": 0
           },
           "sha256": "f1239c28ee1122f91ca542314821b2caaaa4b9a1f0b929a709bc35614b26eb16",
-          "file": "assets/frames/zenith-08.png"
+          "file": "assets/frames/zenith-08.png",
+          "sourceUpright": 650
         },
         {
           "id": "zenith-09",
@@ -2780,7 +2840,8 @@
             "redrawnPixels": 0
           },
           "sha256": "aa78e697c0cda232e8162743854416412639175adee4548317d1d18f5c3a680b",
-          "file": "assets/frames/zenith-09.png"
+          "file": "assets/frames/zenith-09.png",
+          "sourceUpright": 650
         },
         {
           "id": "zenith-10",
@@ -2821,7 +2882,8 @@
             "redrawnPixels": 0
           },
           "sha256": "1434ad91d7b793b1fdf1597328fcee9158dde295f76521f0476ca369e5dc4ac1",
-          "file": "assets/frames/zenith-10.png"
+          "file": "assets/frames/zenith-10.png",
+          "sourceUpright": 650
         },
         {
           "id": "zenith-11",
@@ -2862,7 +2924,8 @@
             "redrawnPixels": 0
           },
           "sha256": "5a04e523df16366e930553eae20a49a17645fa292589dd54840c3b85bdff7f45",
-          "file": "assets/frames/zenith-11.png"
+          "file": "assets/frames/zenith-11.png",
+          "sourceUpright": 650
         },
         {
           "id": "zenith-12",
@@ -2903,7 +2966,8 @@
             "redrawnPixels": 0
           },
           "sha256": "49f663d274aab22a4b2d421bebf19f27a8058127c359f532958b00d908fb82d2",
-          "file": "assets/frames/zenith-12.png"
+          "file": "assets/frames/zenith-12.png",
+          "sourceUpright": 650
         }
       ]
     }
@@ -3985,12 +4049,59 @@
     "bodyFrames": 64,
     "effectFrames": 108,
     "weaponSources": 1,
-    "weaponRedraws": 0
+    "weaponRedraws": 0,
+    "appearanceFrames": 6
   },
   "rejectedVersions": [
     {
       "version": "ARRAY_V1",
       "reason": "User rejected weak multi-sword ultimate; V2 reauthors cutting trajectories, impact timing, painted effects and camera."
     }
-  ]
+  ],
+  "appearance": {
+    "id": "WHITE_AURA_MANTLE_V1",
+    "url": "assets/appearance/white-mantle-v3.png",
+    "sha256": "d8e9f05019a9ae5371dfc66f9696b1ddc6834f9551d2c362e10a055583f16141",
+    "columns": 3,
+    "rows": 2,
+    "frameWidth": 512,
+    "frameHeight": 512,
+    "cycleSeconds": 2.8,
+    "capeHeightPixels": 375,
+    "attachPoints": [
+      [
+        424,
+        108
+      ],
+      [
+        388,
+        122
+      ],
+      [
+        426,
+        126
+      ],
+      [
+        413,
+        66
+      ],
+      [
+        404,
+        86
+      ],
+      [
+        409,
+        68
+      ]
+    ],
+    "color": "WHITE",
+    "generatedWith": "built-in image_gen",
+    "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-cd50788a-9797-4464-a56a-1ec46d23ae53.png",
+    "prompts": [
+      "prompt-white-mantle-v1.txt",
+      "prompt-white-mantle-v2.txt",
+      "prompt-white-mantle-v3.txt"
+    ],
+    "visualApproval": false
+  }
 }

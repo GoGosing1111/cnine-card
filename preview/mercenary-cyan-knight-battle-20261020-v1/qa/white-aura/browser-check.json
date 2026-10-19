@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "visualApproval": false,
+  "devices": [
+    {
+      "device": "desktop",
+      "before": {
+        "enabled": true,
+        "behindBody": true,
+        "capeFrames": 6,
+        "bodyAlpha": 1,
+        "originalTexture": 332,
+        "rimColor": "WHITE",
+        "destroyed": false
+      },
+      "effectsOffHidden": true,
+      "poseParentCorrect": true,
+      "afterCancelVisible": true,
+      "bodyScale": {
+        "x": 1,
+        "y": 1
+      },
+      "overflow": false
+    },
+    {
+      "device": "mobile",
+      "before": {
+        "enabled": true,
+        "behindBody": true,
+        "capeFrames": 6,
+        "bodyAlpha": 1,
+        "originalTexture": 277,
+        "rimColor": "WHITE",
+        "destroyed": false
+      },
+      "effectsOffHidden": true,
+      "poseParentCorrect": true,
+      "afterCancelVisible": true,
+      "bodyScale": {
+        "x": 1,
+        "y": 1
+      },
+      "overflow": false,
+      "cleanup": {
+        "destroyed": true,
+        "rootDestroyed": true
+      }
+    }
+  ],
+  "errors": []
+}

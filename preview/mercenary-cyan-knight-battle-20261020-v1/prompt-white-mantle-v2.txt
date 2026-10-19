@@ -1,0 +1,7 @@
+Use case: precise-object-edit.
+Edit target: the provided 3×2 sheet of six capes. Keep the six existing cape poses, their individual cell positions, the long sweeping silhouettes, and all full transparent margins.
+Required corrections in ALL SIX cells:
+1. DELETE the entire helmet / head / armor crest at the top of each cape. It must have absolutely no helmet, face, eyes, creature, armor, spikes or bust attached. Replace each top with a small simple tapered shoulder attachment made ONLY of luminous folds, which will be hidden behind the existing separate character.
+2. Change all gold outlines and ornaments to brilliant PURE WHITE and pearl SILVER WHITE glowing filigree. This is a WHITE AURA mantle, not a gold fabric cape. Let the light fabric be partially transparent, with white-hot fine outlines, elegant luminous folds and trailing white light ribbons.
+3. Preserve true semitransparent RGBA; empty space must be genuinely transparent, not grey or black paint, not checkerboard. Remove diffuse background fog beyond the actual cape.
+No character or body anywhere. No helmet in any of the six frames. No gold, orange, yellow or cyan ornaments. No background, no text, no grid lines, no crop. Same 3 columns × 2 rows.

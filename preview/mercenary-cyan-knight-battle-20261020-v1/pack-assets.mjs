@@ -55,7 +55,7 @@ for(const [key,def]of Object.entries(definitions)){
   const frame=await sharp({create:{width:768,height:768,channels:4,background:'#00000000'}}).composite([{input:await sharp(trimmed.data).resize(tw,th).png().toBuffer(),left:px,top:py}]).png().toBuffer();
   const group=key.split('-')[0],index=rows[group].length,id=group+'-'+String(index+1).padStart(2,'0');
   const pivot={x:px+(origin.x-trimLeft)*pack,y:py+(origin.y-trimTop)*pack};
-  const entry={id,index,pivot,grip:{x:px+(origin.x+grip.x-trimLeft)*pack,y:py+(origin.y+grip.y-trimTop)*pack},tip:{x:px+(weaponLeft+tip.x-trimLeft)*pack,y:py+(weaponTop+tip.y-trimTop)*pack},bodyPixels:360,source:'assets/sources/body-'+key+'.png',sourceSha256:hash(source),componentBox:b,sourceFoot:def.feet[i],sourceGrip:def.grips[i],weapon:{sourceSha256:locked.sha256,rotationDegrees:rotation,uniformScale:factor*pack,redrawnPixels:0},sha256:hash(frame),file:'assets/frames/'+id+'.png'};
+  const entry={id,index,pivot,grip:{x:px+(origin.x+grip.x-trimLeft)*pack,y:py+(origin.y+grip.y-trimTop)*pack},tip:{x:px+(weaponLeft+tip.x-trimLeft)*pack,y:py+(weaponTop+tip.y-trimTop)*pack},bodyPixels:360,source:'assets/sources/body-'+key+'.png',sourceSha256:hash(source),componentBox:b,sourceUpright:def.upright,sourceFoot:def.feet[i],sourceGrip:def.grips[i],weapon:{sourceSha256:locked.sha256,rotationDegrees:rotation,uniformScale:factor*pack,redrawnPixels:0},sha256:hash(frame),file:'assets/frames/'+id+'.png'};
   await fs.writeFile(file(entry.file),frame);await sharp(frame).trim({threshold:0}).resize({width:300,height:300,fit:'contain',background:'#00000000'}).png().toFile(file('assets/thumbs/'+id+'.png'));rows[group].push({entry,frame});
  }
 }
@@ -68,5 +68,6 @@ for(const [key,grid]of Object.entries({dash:[4,3],horizon:[4,3],flurry:[4,3],met
  manifest.effects[key]={url,columns:grid[0],rows:grid[1],width:m.width,height:m.height,sha256:hash(bytes),frames:Array.from({length:grid[0]*grid[1]},(_,i)=>{const x=Math.round(i%grid[0]*m.width/grid[0]),y=Math.round(Math.floor(i/grid[0])*m.height/grid[1]);return{index:i,rect:{x,y,width:Math.round((i%grid[0]+1)*m.width/grid[0])-x,height:Math.round((Math.floor(i/grid[0])+1)*m.height/grid[1])-y}};})};
 }
 manifest.summary={bodyFrames:Object.values(rows).reduce((n,s)=>n+s.length,0),effectFrames:Object.values(manifest.effects).reduce((n,s)=>n+s.frames.length,0),weaponSources:1,weaponRedraws:0};
+try{manifest.appearance=JSON.parse(await fs.readFile(file('white-aura-appearance.json')));manifest.summary.appearanceFrames=manifest.appearance.columns*manifest.appearance.rows;}catch(error){if(error.code!=='ENOENT')throw error;}
 await fs.writeFile(file('manifest.json'),JSON.stringify(manifest,null,2)+'\n');
 console.log(JSON.stringify(manifest.summary));
