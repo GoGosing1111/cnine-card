@@ -1,0 +1,308 @@
+{
+  "status": "PASS",
+  "source": "f64ad50d5050fbc0671984a3d58cbd4df54b2b2a",
+  "verifiedAt": "2026-10-19T20:08:26.381Z",
+  "card": {
+    "code": "V-976",
+    "name": "제로",
+    "title": "백금 검익",
+    "rank": "SSS",
+    "edition": "LIMITED",
+    "role": "VANGUARD",
+    "position": "FRONT",
+    "artOnly": false,
+    "releaseStatus": "BATTLE_RELEASED_ACQUISITION_LOCKED",
+    "acquisition": "LOCKED",
+    "sourceArt": "assets/ui/project-v/mercenaries/zero-20261020/source-art.png",
+    "sourceArtSha256": "D9EBF2DD04DE55D7EBA230617BBE81B11C1EAF6E728D61BB32D892ECC82D0159",
+    "battleSprite": "assets/ui/project-v/mercenaries/zero-20261020/idle.png",
+    "battleSpriteSha256": "3D2A3CB1814FC75AB99FAD6E144468560EBF66D10FEAC6219B4F9CAC4DB231A9",
+    "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+    "artWindow": {
+      "left": 5.957,
+      "top": 5.794,
+      "width": 88.086,
+      "height": 88.086
+    },
+    "accent": "#a8ecff",
+    "basePower": 2300000,
+    "skills": [
+      {
+        "id": "MS-972",
+        "name": "청광 횡단",
+        "visualMode": "horizon",
+        "mechanic": "ZERO_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "일반 공격이 세 동작으로 순환합니다. 여러 검격도 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 청광 횡단 → 섬광 연참 → 용궤 검격",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-973",
+        "name": "섬광 연참",
+        "visualMode": "flurry",
+        "mechanic": "ZERO_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "일반 공격이 세 동작으로 순환합니다. 여러 검격도 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 청광 횡단 → 섬광 연참 → 용궤 검격",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-974",
+        "name": "용궤 검격",
+        "visualMode": "meteor",
+        "mechanic": "ZERO_BASIC_FORM",
+        "target": "적 1명",
+        "basicForm": true,
+        "balance": {
+          "damageRatio": 1,
+          "cooldownTurns": 0,
+          "cost": 0
+        },
+        "ready": true,
+        "effect": "일반 공격이 세 동작으로 순환합니다. 여러 검격도 일반 공격 한 번의 피해를 적용합니다.",
+        "trigger": "일반 공격 · 청광 횡단 → 섬광 연참 → 용궤 검격",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-976",
+        "name": "천검 포위",
+        "visualMode": "array",
+        "mechanic": "PLATINUM_WINGS_SWORD_DOMAIN",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "damageRatio": 15.12,
+          "cooldownTurns": 5,
+          "cost": 35
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 1,512% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 35 · 두 광역기 공통 재사용 5행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      },
+      {
+        "id": "MS-975",
+        "name": "창천 종단",
+        "visualMode": "zenith",
+        "mechanic": "PLATINUM_WINGS_SWORD_DOMAIN",
+        "target": "적 전체",
+        "pveOnly": true,
+        "balance": {
+          "damageRatio": 15.12,
+          "cooldownTurns": 5,
+          "cost": 35
+        },
+        "ready": true,
+        "effect": "생존한 적 전체에 총 1,512% 피해를 나누어 대상당 한 번 적용합니다.",
+        "trigger": "PVE · 에너지 35 · 두 광역기 공통 재사용 5행동",
+        "counterplay": "방어·보호막에 대응됩니다.",
+        "bossRule": "서버 전투 규칙 적용",
+        "procRule": "한 행동당 한 번 적용"
+      }
+    ],
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false,
+    "deploymentEnabled": true,
+    "combatLinkDescription": "기본 전투력 2,300,000. 레오넬과 동일한 공격·생존·속도·연계 기준. 개인 피해 80% 경감, 상태이상·반격 보호. 청광 횡단·섬광 연참·용궤 검격이 일반 공격마다 순환합니다. PVE 천검 포위·창천 종단은 교대로 발동하며, 각 시전의 총 1,512% 피해를 생존한 적 전체에 나누어 적용합니다. 두 광역기는 에너지 35·재사용 5행동을 공유합니다. 백금 검익·흰 망토·흰 네온 윤곽. 현재 획득 불가.",
+    "deploymentVersion": "20261012-helios-deployment-v1"
+  },
+  "backdrop": "ZERO_BLADE_WINGS_V1",
+  "files": [
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "1997fed4c105e81948a02a329259109267a74131793f340fc430a3cd7cb66d55",
+      "match": true,
+      "bytes": 29442
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "6f6152862fb7fe84d9e47dc2ce1592f13c29247a660273552da54865d84d0730",
+      "match": true,
+      "bytes": 4778
+    },
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "5fa4f5746790f3be5902a7dc614d51df76adda9acc91e3d130634d1fc4095d98",
+      "match": true,
+      "bytes": 8251
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "sha256": "8762750ca841824517121c68412e0a26475aa97bdea6b336c81925b81c70dec6",
+      "match": true,
+      "bytes": 82760
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/zero-20261020/source-art.png",
+      "sha256": "d9ebf2dd04de55d7eba230617bbe81b11c1eaf6e728d61bb32d892ecc82d0159",
+      "match": true,
+      "bytes": 2873380
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/zero-20261020/idle.png",
+      "sha256": "3d2a3cb1814fc75ab99fad6e144468560ebf66d10feac6219b4f9cac4db231a9",
+      "match": true,
+      "bytes": 131018
+    },
+    {
+      "file": "assets/ui/project-v/mercenaries/codex-v1/v-976-art-320.webp",
+      "sha256": "5b1209bd766955d135976680a0b30ac24cccf2da5c705985cdb9fa5cf1a4d00f",
+      "match": true,
+      "bytes": 76002
+    },
+    {
+      "file": "preview/mercenary-cyan-knight-battle-20261020-v1/manifest.json",
+      "sha256": "fb1244b3d1f448584c7a37fa89fe340f4f6765032a729e03dbaf8bbe70d53749",
+      "match": true,
+      "bytes": 138919
+    },
+    {
+      "file": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/appearance/zero-blade-wings-v1.png",
+      "sha256": "d51165ba29ac71b56865772b2b2a893bf9c66fef2b6255f759ddff567f2f9541",
+      "match": true,
+      "bytes": 2015412
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "sha256": "b641272d7b0f28724e3bb649250369d0b4e01c4a57b13c35738a3b61b2bf7ce4",
+      "match": true,
+      "bytes": 2226178
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "sha256": "c1714d1e2badc5625a7fe6f925dc11c077f5ef1d2eda44f2ece0962c48a4878e",
+      "match": true,
+      "bytes": 2353859
+    }
+  ],
+  "resources": [
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/atlases/idle.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/atlases/dash.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/atlases/hit.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/atlases/defeat.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/atlases/horizon.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/atlases/flurry.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/atlases/meteor.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/atlases/array.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/atlases/zenith.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-dash.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-horizon.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-flurry.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-meteor.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-array.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-rift.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-ground.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-orbit.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-vortex-v2.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-dragon-v3-padded.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-cleave-v3-padded.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-burst-v3-padded.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/fx-flight-v3-padded.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/rail-v4.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/snap-v4.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/appearance/white-mantle-v3.png",
+      "status": 200
+    },
+    {
+      "path": "preview/mercenary-cyan-knight-battle-20261020-v1/assets/sources/summoned-blades-v4.png",
+      "status": 200
+    }
+  ],
+  "productionAccountWrites": 0
+}
