@@ -14,7 +14,7 @@ const offlineSkillPreview=new Set([
 ]);
 const limitedPackView='js/mercenary-limited-pack-live.mjs';
 const limitedPackBrowser='tests/mercenary-limited-shop-20261006.browser.mjs';
-const gateTestPath=path=>/^(?:tests\/[^/]+\.mjs|preview\/[a-zA-Z0-9_-]+\/qa\.test\.mjs)$/.test(path);
+const gateTestPath=path=>/^(?:tests\/[^/]+\.mjs|preview\/(?:[a-zA-Z0-9_-]+\/)+qa\.test\.mjs)$/.test(path);
 // A newly approved card may lack its read-only thumbnails. Preserve every
 // existing entry and source byte; this narrowly scoped repair has no game state.
 export function codexCompatibilityRepair({changed,base,git,read,readBytes}){
@@ -93,10 +93,15 @@ export function fullGateResumePlan({env,git,scripts,logText,read=path=>readFileS
   for(let i=0;i<names.length-1;i++)for(const file of scripts[names[i]].split(/\s+/).filter(p=>/^(?:tests|preview)\/.*\.mjs$/.test(p))){
     if(!gateInputs.has(file))gateInputs.set(file,[]);gateInputs.get(file).push(i);
   }
-  for(const helper of changed.filter(p=>/^tests\/helpers\/[a-zA-Z0-9_-]+\.mjs$/.test(p))){
-    const leaf=helper.split('/').at(-1),stages=new Set();
+  for(const helper of changed.filter(p=>/^tests\/helpers\/[a-zA-Z0-9_-]+\.mjs$/.test(p)||(/^preview\/(?:[a-zA-Z0-9_-]+\/)+check\.mjs$/.test(p)&&gateInputs.has(p)))){
+    const checker=helper.startsWith('preview/'),leaf=helper.split('/').at(-1),stages=new Set(checker?gateInputs.get(helper):[]);
     const sources=git('ls-files','*.js','*.mjs','*.cjs','*.html').split('\n').filter(Boolean);
-    for(const source of sources){if(source===helper||!read(source).includes(leaf))continue;
+    for(const source of sources){if(source===helper)continue;
+      const text=read(source);
+      // A directly registered standalone checker is test tooling only when all
+      // static import consumers are also directly registered gate inputs.
+      const referenced=checker?[...text.matchAll(/(?:\bfrom\s*|\bimport\s*(?:\(\s*)?)['"]([^'"]+)['"]/g)].some(m=>new URL(m[1],'file:///'+source).pathname.slice(1)===helper):text.includes(leaf);
+      if(!referenced)continue;
       const localFixtureServer=(source==='scripts/serve-joint-account-qa.mjs'&&read(source).includes("server.listen(port,'127.0.0.1'"))||(source==='tests/qa-seal-master-star-20260925.mjs'&&read(source).includes("server.listen(0,'127.0.0.1'"));
       if(localFixtureServer&&!changed.includes(source)&&read(source).includes("from 'node:http'")){fixtureChecks.add('node --check '+source);continue;}
       if(!gateInputs.has(source))throw Error(`Shared fixture consumer (${source}): run a fresh full gate.`);

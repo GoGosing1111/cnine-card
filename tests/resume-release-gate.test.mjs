@@ -46,6 +46,21 @@ test('full gate resumes a proven prefix and retains failed, remaining and final 
   assert.match(plan.commands[0],/resume-release-gate\.test\.mjs/);
 });
 
+test('registered preview checkers rerun their owning stage and reject runtime or unregistered consumers',()=>{
+ const checker='preview/example/release/check.mjs',qa='preview/example/release/qa.test.mjs';
+ const f=fixture({changed:[checker,qa]});
+ f.scripts['test:a']=`node --test ${qa} && node ${checker}`;
+ const git=f.git;f.git=(...a)=>a[0]==='ls-files'&&a[1]==='*.js'?[checker,qa].join('\n'):git(...a);
+ f.read=p=>p===qa?"import {check} from './check.mjs';":'';
+ const plan=fullGateResumePlan(f);assert.equal(plan.reused,0);assert.equal(plan.commands[1],'npm run test:a');
+ for(const consumer of ['js/live.mjs','tests/unregistered.test.mjs']){
+   const input={...f,git:(...a)=>a[0]==='ls-files'&&a[1]==='*.js'?[checker,qa,consumer].join('\n'):git(...a),read:p=>p===consumer?`import '../${checker}';`:f.read(p)};
+   assert.throws(()=>fullGateResumePlan(input),/Shared fixture consumer/);
+ }
+ f.scripts['test:a']=`node --test ${qa}`;
+ assert.throws(()=>fullGateResumePlan(f),/Runtime\/shared helper changed/);
+});
+
 test('an upload failure reuses only a complete successful gate and rechecks changed deployment contracts',()=>{
  const f=fixture(),log=`> release:gate\n> ${f.scripts['release:gate']}\n> test:a\nℹ fail 0\n> test:b\nℹ fail 0\n> test:c\nℹ fail 0\n[PRODUCTION RELEASE OK] candidate\nX [ERROR] Pages upload failed\n`;
  const input=fixture({changed:['scripts/deploy-production.mjs','tests/a.test.mjs'],log});

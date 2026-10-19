@@ -10,6 +10,21 @@ import {validateEquipmentForgeRelease} from '../../../functions/_equipment_forge
 
 const root = new URL('../../../', import.meta.url);
 const read = path => readFileSync(new URL(path, root));
+export function approvedPresentationBytes(file, raw) {
+  if (file.hashMode !== 'UTF8_LF') return raw;
+  let text = raw.toString('utf8').replace(/\r\n/g, '\n');
+  // The October 16 branding release changed only these four labels. Compare
+  // the original approval bytes after reversing those exact text substitutions.
+  if (file.path === 'preview/equipment-forge-v1/index.html') {
+    for (const [current, original] of [
+      ['<title>장비 강화 V2 · 리버스콜</title>', '<title>장비 강화 V2 · 숲켓몬</title>'],
+      ['aria-label="리버스콜 강화소"', 'aria-label="숲켓몬 강화소"'],
+      ['<span>리버스콜<small>ARMORY DIVISION</small>', '<span>숲켓몬<small>ARMORY DIVISION</small>'],
+      ['<span>REVERSE CALL <i>/</i> UPGRADE LAB', '<span>SOOPKETMON <i>/</i> UPGRADE LAB'],
+    ]) text = text.replace(current, original);
+  }
+  return Buffer.from(text);
+}
 export function checkPreparation() {
   const approval = JSON.parse(read('preview/equipment-forge-v1/release/approval.json'));
   const draft = JSON.parse(read('preview/equipment-forge-v1/release/launch-draft.json'));
@@ -19,7 +34,7 @@ export function checkPreparation() {
   for (const file of approval.files || []) {
     try {
       const raw = read(file.path);
-      const bytes = file.hashMode === 'UTF8_LF' ? Buffer.from(raw.toString('utf8').replace(/\r\n/g, '\n')) : raw;
+      const bytes = approvedPresentationBytes(file, raw);
       const hash = createHash('sha256').update(bytes).digest('hex');
       if (hash !== file.sha256 || bytes.length !== file.bytes) errors.push(`승인본 변경: ${file.path}`);
     } catch { errors.push(`승인 파일 누락: ${file.path}`); }

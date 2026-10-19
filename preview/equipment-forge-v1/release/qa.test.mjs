@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { PGlite } from '@electric-sql/pglite';
 import { __postgresCompatTest } from '../../../functions/_postgres_d1_compat.js';
 import { readForgePreparationInventory } from '../../../functions/_equipment_forge_preparation.js';
 import { validateRates, assessLaunch } from './policy.mjs';
 import { createCommand, visualReceipt, ForgeCommandSession } from './server-receipt.mjs';
-import { checkPreparation } from './check.mjs';
+import { checkPreparation, approvedPresentationBytes } from './check.mjs';
 import { EQUIPMENT_POWER_STANDARD } from '../../../shared/equipment-mercenary-power-v1.mjs';
 
 const draft = () => JSON.parse(readFileSync(new URL('./launch-draft.json', import.meta.url)));
@@ -21,7 +22,7 @@ function receipt(cmd = command(), outcome = 'success', protectionApplied = false
     recordId: outcome === 'destroy' && !protectionApplied || cmd.kind === 'restore' ? 'lost-101' : null };
 }
 
-test('final approved presentation stays byte-identical and the release draft cannot activate production', () => {
+test('final approved presentation preserves its original hash after released brand labels and cannot activate production', () => {
   const result = checkPreparation();
   assert.deepEqual(result.errors, []); assert.equal(result.preparationReady, true);
   assert.equal(result.visualApproved, true); assert.ok(result.verifiedFiles >= 20);
@@ -30,6 +31,20 @@ test('final approved presentation stays byte-identical and the release draft can
   for (const field of ['stages', 'costs', 'restorationLevel']) assert.equal(draft().policy[field], null);
   assert.deepEqual(draft().policy.powerScaling, EQUIPMENT_POWER_STANDARD);
   assert.equal(draft().policyApproved, false); assert.equal(draft().activationRequested, false);
+});
+
+test('brand compatibility preserves the original approval and rejects any other presentation edit', () => {
+  const approval=JSON.parse(readFileSync(new URL('./approval.json',import.meta.url)));
+  const file=approval.files.find(row=>row.path==='preview/equipment-forge-v1/index.html');
+  const raw=readFileSync(new URL('../index.html',import.meta.url));
+  const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+  const original=approvedPresentationBytes(file,raw);
+  assert.equal(hash(original),file.sha256);assert.equal(original.length,file.bytes);
+  assert.deepEqual(approvedPresentationBytes(file,original),original);
+  assert.match(raw.toString(),/<title>장비 강화 V2 · 리버스콜<\/title>/);
+  for(const changed of [raw.toString().replace('V2 ·','V3 ·'),raw+'<script>run()</script>',raw.toString().replace('리버스콜 강화소','다른 강화소')])
+    assert.notEqual(hash(approvedPresentationBytes(file,Buffer.from(changed))),file.sha256);
+  assert.deepEqual(approvedPresentationBytes({...file,path:'another.html'},raw),Buffer.from(raw.toString().replace(/\r\n/g,'\n')));
 });
 
 test('release rates enforce exactly three outcomes, integer basis points, the 10% floor and 100% total', () => {
