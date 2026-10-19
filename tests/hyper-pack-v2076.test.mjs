@@ -70,7 +70,8 @@ test('public preview returns to the game lobby in the same tab and exposes no CM
   assert.doesNotMatch(html,/<a\b[^>]*href="\/\?screen=home"[^>]*target=/);
 });
 test('original artwork preserved; lightweight shared Pixi/GSAP preview, live does not load renderer',()=>{
-  const image=readFileSync(new URL('../'+HYPER_PACK_IMAGE,import.meta.url));assert.equal(createHash('sha256').update(image).digest('hex'),'b23ba9f88b98a17f400a96cb7bcf19c82933c4d66275d6f96c3c6d1bab74a80c');
+  const image=readFileSync(new URL('../'+HYPER_PACK_IMAGE,import.meta.url));assert.equal(createHash('sha256').update(image).digest('hex'),'871334757ed88d949e75cca3cf2d07bacdc2550f7d883d26e45948ef2da11668','released Reverse Call pack artwork');
+  assert.equal(createHash('sha256').update(readFileSync(new URL('../assets/ui/packs/hyper-pack-v2076.png',import.meta.url))).digest('hex'),'b23ba9f88b98a17f400a96cb7bcf19c82933c4d66275d6f96c3c6d1bab74a80c','original artwork stays preserved');
   const runtime=read('js/hyper-pack-fx-v2076.src.js'),preview=read('preview/hyper-pack-v1/preview.js'),index=read('index.html');
   assert.match(runtime,/new Application/);assert.match(runtime,/gsap\.timeline/);assert.match(runtime,/resolveSegment\?\.\(\)/);assert.match(runtime,/observer\?\.disconnect/);
   assert.doesNotMatch(runtime+preview,/\/api\/.*(?:draw|open)|user_cards|fetch\(/);assert.doesNotMatch(index,/<script[^>]+hyper-pack-fx/);
