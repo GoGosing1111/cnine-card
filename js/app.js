@@ -4004,7 +4004,6 @@ function showAccountPanel() {
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
 const ACCOUNT_RANK_QUIET_MUTATIONS=/^(?:battle\/apocalypse-challenge\/(?:open|answer|pulse|status|abandon)|draw|draw\/ack|superstar-pack\/draw|equipment\/supply-box\/(?:open|purchase)|equipment\/prime-supply-box\/(?:open|purchase)|vehicle-draw\/(?:open|purchase)|vehicle-draw\/prime\/(?:open|purchase))(?:\?|$)/;
-let MULTI_CLIENT_TERMINATING=false,MULTI_CLIENT_LAST_TOKEN='',MULTI_CLIENT_LAST_AT=0,MULTI_CLIENT_STRIKES=0;
 let PLAYER_STATE_MUTATION_EPOCH=0;
 // The Cloudflare account migration creates a brand-new Hyperdrive pool. Letting a
 // lobby render fire dozens of reads at once makes every request wait for a new
@@ -4721,13 +4720,6 @@ async function apiRequest(path, options={}, config={}) {
       if(String(data.code||'').toUpperCase()==='MAINTENANCE'||(response.status===503&&data.maintenance?.active)){
         API_GET_CACHE.clear();API_INFLIGHT.clear();stopRuntimeCommandPoll();
         renderMaintenance(data.maintenance||{},data);
-      }
-      const multiBlocked=String(data.code||'').toUpperCase()==='MULTI_CLIENT_BLOCKED'&&requestToken&&requestToken===API_TOKEN;
-      if(multiBlocked){const elapsed=Date.now()-MULTI_CLIENT_LAST_AT,same=MULTI_CLIENT_LAST_TOKEN===requestToken;if(!same||elapsed>=10000){MULTI_CLIENT_STRIKES=1;MULTI_CLIENT_LAST_TOKEN=requestToken;MULTI_CLIENT_LAST_AT=Date.now()}else if(elapsed>=1000){MULTI_CLIENT_STRIKES++;MULTI_CLIENT_LAST_AT=Date.now()}}
-      if(multiBlocked&&MULTI_CLIENT_STRIKES>=3&&!playerSessionRecoveryPromise&&!MULTI_CLIENT_TERMINATING){
-        MULTI_CLIENT_TERMINATING=true;API_GET_CACHE.clear();API_INFLIGHT.clear();stopRuntimeCommandPoll();
-        alert('다중 클라이언트 접속이 감지되었습니다.\n\n리버스콜은 계정당 1개의 클라이언트만 이용할 수 있습니다.\n다른 클라이언트에서 로그인되어 현재 접속을 종료합니다.');
-        clearPlayerLogin();window.location.replace('/');
       }
       const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;
     }

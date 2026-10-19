@@ -3863,22 +3863,22 @@ async function authenticate(request,env){
   requestAuthenticationCache.set(request,authentication);
   return authentication;
 }
-let singleClientSessionSchemaPromise=null;
+let clientSessionSchemaPromise=null;
 let revokedSessionCleanupAt=0;
-async function ensureSingleClientSessionSchema(env){
-  if(singleClientSessionSchemaPromise)return singleClientSessionSchemaPromise;
-  singleClientSessionSchemaPromise=(async()=>{
+async function ensureClientSessionSchema(env){
+  if(clientSessionSchemaPromise)return clientSessionSchemaPromise;
+  clientSessionSchemaPromise=(async()=>{
     const columns=await env.DB.prepare('PRAGMA table_info(sessions)').all();
     if(!(columns.results||[]).some(row=>String(row.name)==='client_id')){
       try{await env.DB.prepare("ALTER TABLE sessions ADD COLUMN client_id TEXT NOT NULL DEFAULT ''").run()}
       catch(error){if(!/duplicate column/i.test(String(error?.message||error)))throw error}
     }
     return true;
-  })().catch(error=>{singleClientSessionSchemaPromise=null;throw error});
-  return singleClientSessionSchemaPromise;
+  })().catch(error=>{clientSessionSchemaPromise=null;throw error});
+  return clientSessionSchemaPromise;
 }
 async function makeSession(env,userId,requestedClientId=''){
-  await ensureSingleClientSessionSchema(env);
+  await ensureClientSessionSchema(env);
   const clientId=String(requestedClientId||'').trim().replace(/[^a-zA-Z0-9:_-]/g,'').slice(0,120);
   const raw=createToken();
   const tokenHash=await hash(raw);
@@ -3889,11 +3889,13 @@ async function makeSession(env,userId,requestedClientId=''){
     token_hash TEXT PRIMARY KEY,user_id INTEGER NOT NULL,reason TEXT NOT NULL,revoked_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
   )`).run();
   await env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at,client_id) VALUES(?,?,?,?)').bind(tokenHash,userId,expiresAt,clientId).run();
-  if(operator)await env.DB.prepare("DELETE FROM sessions WHERE user_id=? AND expires_at<=datetime('now')").bind(userId).run();
-  else{
-    await env.DB.prepare("INSERT OR REPLACE INTO revoked_player_sessions_v1533(token_hash,user_id,reason,revoked_at) SELECT token_hash,user_id,CASE WHEN client_id='' OR (?<>'' AND client_id=?) THEN 'SAME_CLIENT_REFRESHED' ELSE 'MULTI_CLIENT_REPLACED' END,CURRENT_TIMESTAMP FROM sessions WHERE user_id=? AND token_hash<>?").bind(clientId,clientId,userId,tokenHash).run();
-    await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND token_hash<>?').bind(userId,tokenHash).run();
-    // Session replacement must stay synchronous; global retention cleanup does
+  await env.DB.prepare("DELETE FROM sessions WHERE user_id=? AND expires_at<=datetime('now')").bind(userId).run();
+  // PC, mobile and installed clients keep independent sessions. Only rotate a
+  // known browser's previous token; legacy tokens without a client ID stay valid.
+  if(!operator&&clientId){
+    await env.DB.prepare("INSERT OR REPLACE INTO revoked_player_sessions_v1533(token_hash,user_id,reason,revoked_at) SELECT token_hash,user_id,'SAME_CLIENT_REFRESHED',CURRENT_TIMESTAMP FROM sessions WHERE user_id=? AND client_id=? AND token_hash<>?").bind(userId,clientId,tokenHash).run();
+    await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND client_id=? AND token_hash<>?').bind(userId,clientId,tokenHash).run();
+    // Same-client rotation must stay synchronous; global retention cleanup does
     // not. Limit it to once per isolate/hour and let the indexed predicate do a
     // bounded delete instead of scanning the entire revocation table on login.
     if(Date.now()>=revokedSessionCleanupAt){
@@ -6463,14 +6465,14 @@ async function handleRequest(context){
       return json({ok:true,deck:[]});
     }
     if(path==='battle/auto/status'&&request.method==='POST'){
-      const user=await authenticate(request,env);if(!user)return json({error:'다른 기기 또는 창에서 다시 로그인되어 현재 로그인이 종료되었습니다.',code:'SESSION_REPLACED'},401);
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인 세션이 만료되었습니다. 다시 로그인해 주세요.',code:'SESSION_EXPIRED'},401);
       const payload=await readBody(request),requestId=String(payload.requestId||'').trim();
       if(!/^[a-zA-Z0-9-]{16,80}$/.test(requestId))return json({error:'소탕 요청 정보가 올바르지 않습니다.'},400);
       const receipt=await env.DB.prepare('SELECT user_id,status,response_json,error_message,created_at,updated_at FROM pve_auto_runs WHERE request_id=?').bind(requestId).first();
       return pveSweepReceiptResponse(env,user,requestId,receipt);
     }
     if(path==='battle/auto'&&request.method==='POST'){
-      const user=await authenticate(request,env);if(!user)return json({error:'다른 기기 또는 창에서 다시 로그인되어 현재 로그인이 종료되었습니다.',code:'SESSION_REPLACED'},401);
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인 세션이 만료되었습니다. 다시 로그인해 주세요.',code:'SESSION_EXPIRED'},401);
       const payload=await readBody(request),requestId=String(payload.requestId||'').trim(),monsterId=Number(payload.monsterId),requestedBattles=Math.floor(Number(payload.requestedBattles)),sweepProtocolVersion=Math.max(1,Math.floor(Number(payload.protocolVersion||1))),ids=[...new Set((payload.cardIds||[]).map(String))];
       if(!/^[a-zA-Z0-9-]{16,80}$/.test(requestId))return json({error:'소탕 요청 정보가 올바르지 않습니다.'},400);
       const previous=await env.DB.prepare('SELECT user_id,status,response_json,error_message,created_at,updated_at FROM pve_auto_runs WHERE request_id=?').bind(requestId).first();
@@ -9301,15 +9303,6 @@ async function handleRequestWithDatabase(context){
   if(response.ok&&!['GET','HEAD','OPTIONS'].includes(request.method)&&!actionPath.startsWith('sync/')){
     const syncJob=Promise.resolve(requestAuthenticationCache.get(request)).then(user=>publishAccountSync(context.env,user?.id)).catch(()=>console.warn('ACCOUNT_SYNC_PUBLICATION_RETRY'));
     if(context.waitUntil)context.waitUntil(syncJob);else await syncJob;
-  }
-  if(response.status===401){
-    const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
-    if(raw){
-      try{
-        const tokenHash=await hash(raw),revoked=await context.env.DB.prepare("SELECT reason FROM revoked_player_sessions_v1533 WHERE token_hash=? AND reason='MULTI_CLIENT_REPLACED'").bind(tokenHash).first();
-        if(revoked)response=json({error:'다른 클라이언트에서 로그인되어 현재 접속이 종료되었습니다. 리버스콜은 계정당 1개의 클라이언트만 이용할 수 있습니다.',code:'MULTI_CLIENT_BLOCKED',sessionEnded:true},401);
-      }catch(_){}
-    }
   }
   const durationMs=Math.max(0,Date.now()-startedAt),headers=new Headers(response.headers);
   pvpTiming?.mark('response');
