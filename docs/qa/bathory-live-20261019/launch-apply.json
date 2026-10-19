@@ -1,0 +1,322 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bathory-halloween-launch:20261019:v1",
+    "completedAt": "2026-10-19T08:54:07.258Z",
+    "approvalReference": "user:2026-10-19:bathory-live-half-odds-restock1",
+    "bathoryRatePpm": 5000,
+    "existingRatesUnchanged": true,
+    "addedPerSoldOutCharacter": 1,
+    "totalAdded": 7,
+    "grants": 0,
+    "before": {
+      "revision": 14,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 100,
+          "V-989": 50,
+          "V-996": 100,
+          "V-977": 0
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 10,
+          "V-981": 10,
+          "V-982": 10,
+          "V-983": 10,
+          "V-984": 10,
+          "V-985": 10,
+          "V-986": 10,
+          "V-999": null,
+          "V-989": 3,
+          "V-996": null,
+          "V-977": 10
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 929750
+      },
+      "updatedAt": "2026-10-19T08:53:29.733Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:bathory-halloween-registration:20261019:v1"
+    },
+    "after": {
+      "revision": 15,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 100,
+          "V-989": 50,
+          "V-996": 100,
+          "V-977": 5000
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 11,
+          "V-981": 11,
+          "V-982": 11,
+          "V-983": 11,
+          "V-984": 11,
+          "V-985": 11,
+          "V-986": 11,
+          "V-999": null,
+          "V-989": 3,
+          "V-996": null,
+          "V-977": 10
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 924750
+      },
+      "updatedAt": "2026-10-19T08:54:07.258Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:bathory-halloween-launch:20261019:v1"
+    },
+    "beforeStock": [
+      {
+        "code": "V-977",
+        "stock_limit": 10,
+        "issued": 0,
+        "revision": 0
+      },
+      {
+        "code": "V-980",
+        "stock_limit": 10,
+        "issued": 10,
+        "revision": 11
+      },
+      {
+        "code": "V-981",
+        "stock_limit": 10,
+        "issued": 10,
+        "revision": 11
+      },
+      {
+        "code": "V-982",
+        "stock_limit": 10,
+        "issued": 10,
+        "revision": 11
+      },
+      {
+        "code": "V-983",
+        "stock_limit": 10,
+        "issued": 10,
+        "revision": 11
+      },
+      {
+        "code": "V-984",
+        "stock_limit": 10,
+        "issued": 10,
+        "revision": 11
+      },
+      {
+        "code": "V-985",
+        "stock_limit": 10,
+        "issued": 10,
+        "revision": 11
+      },
+      {
+        "code": "V-986",
+        "stock_limit": 10,
+        "issued": 10,
+        "revision": 11
+      },
+      {
+        "code": "V-989",
+        "stock_limit": 3,
+        "issued": 0,
+        "revision": 0
+      },
+      {
+        "code": "V-996",
+        "stock_limit": 15,
+        "issued": 14,
+        "revision": 22
+      },
+      {
+        "code": "V-999",
+        "stock_limit": 8,
+        "issued": 7,
+        "revision": 12
+      }
+    ],
+    "afterStock": [
+      {
+        "code": "V-977",
+        "stock_limit": 10,
+        "issued": 0,
+        "revision": 0
+      },
+      {
+        "code": "V-980",
+        "stock_limit": 11,
+        "issued": 10,
+        "revision": 12
+      },
+      {
+        "code": "V-981",
+        "stock_limit": 11,
+        "issued": 10,
+        "revision": 12
+      },
+      {
+        "code": "V-982",
+        "stock_limit": 11,
+        "issued": 10,
+        "revision": 12
+      },
+      {
+        "code": "V-983",
+        "stock_limit": 11,
+        "issued": 10,
+        "revision": 12
+      },
+      {
+        "code": "V-984",
+        "stock_limit": 11,
+        "issued": 10,
+        "revision": 12
+      },
+      {
+        "code": "V-985",
+        "stock_limit": 11,
+        "issued": 10,
+        "revision": 12
+      },
+      {
+        "code": "V-986",
+        "stock_limit": 11,
+        "issued": 10,
+        "revision": 12
+      },
+      {
+        "code": "V-989",
+        "stock_limit": 3,
+        "issued": 0,
+        "revision": 0
+      },
+      {
+        "code": "V-996",
+        "stock_limit": 15,
+        "issued": 14,
+        "revision": 22
+      },
+      {
+        "code": "V-999",
+        "stock_limit": 8,
+        "issued": 7,
+        "revision": 12
+      }
+    ],
+    "adminLogId": "48358"
+  },
+  "stock": [
+    {
+      "code": "V-977",
+      "stock_limit": 10,
+      "issued": 0,
+      "revision": 0
+    },
+    {
+      "code": "V-980",
+      "stock_limit": 11,
+      "issued": 10,
+      "revision": 12
+    },
+    {
+      "code": "V-981",
+      "stock_limit": 11,
+      "issued": 10,
+      "revision": 12
+    },
+    {
+      "code": "V-982",
+      "stock_limit": 11,
+      "issued": 10,
+      "revision": 12
+    },
+    {
+      "code": "V-983",
+      "stock_limit": 11,
+      "issued": 10,
+      "revision": 12
+    },
+    {
+      "code": "V-984",
+      "stock_limit": 11,
+      "issued": 10,
+      "revision": 12
+    },
+    {
+      "code": "V-985",
+      "stock_limit": 11,
+      "issued": 10,
+      "revision": 12
+    },
+    {
+      "code": "V-986",
+      "stock_limit": 11,
+      "issued": 10,
+      "revision": 12
+    },
+    {
+      "code": "V-989",
+      "stock_limit": 3,
+      "issued": 0,
+      "revision": 0
+    },
+    {
+      "code": "V-996",
+      "stock_limit": 15,
+      "issued": 14,
+      "revision": 22
+    },
+    {
+      "code": "V-999",
+      "stock_limit": 8,
+      "issued": 7,
+      "revision": 12
+    }
+  ],
+  "currentRevision": 15,
+  "dryRun": false,
+  "replayed": false
+}

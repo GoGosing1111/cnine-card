@@ -1,0 +1,121 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:bathory-halloween-registration:20261019:v1",
+    "completedAt": "2026-10-19T08:53:29.733Z",
+    "code": "V-977",
+    "serverLimit": 10,
+    "grants": 0,
+    "otherStockChanged": false,
+    "probabilityAssigned": false,
+    "approvalReference": "user:2026-10-19:bathory-live-half-odds-restock1",
+    "before": {
+      "revision": 13,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 100,
+          "V-989": 50,
+          "V-996": 100
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 10,
+          "V-981": 10,
+          "V-982": 10,
+          "V-983": 10,
+          "V-984": 10,
+          "V-985": 10,
+          "V-986": 10,
+          "V-999": null,
+          "V-989": 3,
+          "V-996": null
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 929750
+      },
+      "updatedAt": "2026-10-17T18:05:35.684Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:halloween-valter-addition:20261018:v1"
+    },
+    "after": {
+      "revision": 14,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 100,
+          "V-989": 50,
+          "V-996": 100,
+          "V-977": 0
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 10,
+          "V-981": 10,
+          "V-982": 10,
+          "V-983": 10,
+          "V-984": 10,
+          "V-985": 10,
+          "V-986": 10,
+          "V-999": null,
+          "V-989": 3,
+          "V-996": null,
+          "V-977": 10
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 929750
+      },
+      "updatedAt": "2026-10-19T08:53:29.733Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:bathory-halloween-registration:20261019:v1"
+    },
+    "adminLogId": "48356"
+  },
+  "stock": {
+    "code": "V-977",
+    "stock_limit": "10",
+    "issued": "0"
+  },
+  "currentRevision": 14,
+  "dryRun": false,
+  "replayed": false
+}

@@ -1,0 +1,272 @@
+{
+  "verifiedAt": "2026-10-19T09:01:06.503Z",
+  "releaseCommit": "74c0478903a82a86a71efb95790edc6967851aec",
+  "status": "LIVE_VERIFIED",
+  "card": {
+    "code": "V-977",
+    "name": "바토리",
+    "rank": "SS",
+    "power": 297000,
+    "serverLimit": 10
+  },
+  "pack": {
+    "revision": 15,
+    "mode": "ON",
+    "openingEnabled": true,
+    "prices": {
+      "single": 1000000000,
+      "ten": 10000000000
+    },
+    "firstStageSssRatePpm": 500,
+    "bathoryConditionalRatePpm": 5000,
+    "bathoryAbsolutePercent": "0.00025",
+    "originalAbsolutePercent": "0.0005",
+    "stock": [
+      {
+        "code": "V-980",
+        "limit": 11,
+        "issued": 10,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-981",
+        "limit": 11,
+        "issued": 10,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-982",
+        "limit": 11,
+        "issued": 10,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-983",
+        "limit": 11,
+        "issued": 10,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-984",
+        "limit": 11,
+        "issued": 10,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-985",
+        "limit": 11,
+        "issued": 10,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-986",
+        "limit": 11,
+        "issued": 10,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-977",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      {
+        "code": "V-999",
+        "limit": 8,
+        "issued": 7,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      },
+      {
+        "code": "V-989",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      },
+      {
+        "code": "V-996",
+        "limit": 15,
+        "issued": 14,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/battle.html",
+      "status": 200,
+      "sha256": "284542ee7f2f068592a18f082f9c5658987e27b2d1e021e37bc9ea032b9b4036"
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/release-plan.json",
+      "status": 200,
+      "sha256": "531810f9b30ee2fb2cb124f2fd71087cfd1459bb6453ecc2da99ec80617c0b0b"
+    },
+    {
+      "path": "shared/mercenary-bathory-v1.mjs",
+      "status": 200,
+      "sha256": "01da79c6e72b160fc590f8895df0d8e1b2e3d826f930b603d2ffbd46ccc5cfc7"
+    },
+    {
+      "path": "shared/mercenary-halloween-pack-v1.mjs",
+      "status": 200,
+      "sha256": "ca8f069528579fa9efdb453df6d4d1406351cf8aec0c091a29cae17959351d7c"
+    },
+    {
+      "path": "shared/mercenary-halloween-catalog-v1.mjs",
+      "status": 200,
+      "sha256": "8eefca3b62ebedd40b1e0a9d974dc739296b359fed7edd89c861b87543f7bbdf"
+    },
+    {
+      "path": "js/battle-v3-live.js",
+      "status": 200,
+      "sha256": "36d8218cef5247cf3eae1e45c43dfa73696a2202b3603eb23f8ab6606b34814d"
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "sha256": "5ae0948b4141b40298988c05e3debf1cb4ca8673f70041838d9a98f77d1635c1"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bathory-halloween-20261019/source-art.png",
+      "status": 200,
+      "sha256": "ba3f9ba6f60b0b90eea9e27b66ada65c3c329ded136dc115d4a449290235e761"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/bathory-halloween-20261019/sd.png",
+      "status": 200,
+      "sha256": "fd33330b76a8381ed76e0e33144fe3e8835dc74c2ed0c5d941f2c63c7a411906"
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/preview.bundle.js",
+      "status": 200,
+      "sha256": "9fbe894e64ddd4669b4df09d86d05592a04f8d86461fa0a461f2185eee5b9972"
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/assets/atlases/idle.png",
+      "status": 200,
+      "sha256": "7133a7e3dbf62854c80d38f52841109a48093b83b8074e102dd02f517f6592e3"
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/assets/atlases/dash.png",
+      "status": 200,
+      "sha256": "db6cc8f31af22eaf1e5e3d78f179a549ca9790e8648da7458a25ea99df87b3d9"
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/assets/atlases/attack.png",
+      "status": 200,
+      "sha256": "33b442942f31e505580d901d7b815bba6c1e871d378a30e7ea9afe90ac941f4a"
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/assets/atlases/skill.png",
+      "status": 200,
+      "sha256": "df96e7bb05d5852f95d6fd23cc895e364a74f0c23f8b49622d59d9edc360e6a5"
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/assets/atlases/hit.png",
+      "status": 200,
+      "sha256": "83cbb1ce3de293c674729f364b4a455dd8753dd0e92e9b364e4c5658ad2f80d3"
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/assets/atlases/defeat.png",
+      "status": 200,
+      "sha256": "455a5406ea925c22a71ee1ebc52235f31edd82dd875994dbc1fb7fdeff3dd422"
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/assets/effects/drive-v1.png",
+      "status": 200,
+      "sha256": "be24626af0043852ef3eea092a9a7b3d213720228e11c0c1eebf8c05e8c133e8"
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/assets/effects/cut-v2.png",
+      "status": 200,
+      "sha256": "7212f3ce343b0902243d6533138d1b40b82b580f4246c2286bff0ddf9dc92a16"
+    },
+    {
+      "path": "preview/mercenary-bathory-halloween-20261019-v1/assets/effects/rupture-v2.png",
+      "status": 200,
+      "sha256": "221d348b5c8c39860e40873a8376340679a6cc123f9f5ab8dd0e89159e00a060"
+    }
+  ],
+  "browser": {
+    "errors": [],
+    "missing": [],
+    "contact": {
+      "ready": true,
+      "mode": "skill",
+      "time": 1.5,
+      "playing": false,
+      "speed": 1,
+      "phase": "핏빛 만찬 · 마무리",
+      "pose": {
+        "at": 1.4,
+        "bank": "skill",
+        "index": 5,
+        "facing": 1
+      },
+      "contactCount": 2,
+      "bladeContact": {
+        "u": 0.46927758342836867,
+        "distance": 8.434251877213574,
+        "intersects": true,
+        "tipDistance": 63.53476231093338
+      },
+      "groundError": 0,
+      "visibleEffects": 0,
+      "visibleGhosts": 0,
+      "registeredTimelines": 0,
+      "bodyFrames": 22,
+      "effectFrames": 36,
+      "weaponSources": 1,
+      "weaponRedraws": 0,
+      "weaponSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+      "clock": "V3_REGISTERED_GSAP",
+      "liveEnabled": false,
+      "actor": {
+        "x": 1089.0500978470366,
+        "y": 592
+      },
+      "target": {
+        "x": 1220,
+        "y": 517.9
+      }
+    },
+    "previewHtmlOverride": false
+  },
+  "deployment": {
+    "Id": "f0b67fe1-a9f2-4d4e-97ef-d9ad403545aa",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "74c0478",
+    "Deployment": "https://f0b67fe1.cnine-card.pages.dev",
+    "Status": "1 minute ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/f0b67fe1-a9f2-4d4e-97ef-d9ad403545aa"
+  },
+  "workerVersions": {
+    "apiRuntime": "fd6b4164-9e00-4604-a443-1c0b1bc35dff",
+    "clanDraft": "44ae39d1-e77e-4363-9924-eeb6392bef5f"
+  },
+  "scopedTestsPassed": 22,
+  "pathPatchEntryChecksPassed": 9
+}
