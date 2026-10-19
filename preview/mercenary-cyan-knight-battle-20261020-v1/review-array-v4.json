@@ -1,0 +1,46 @@
+{
+  "status": "PREVIEW_ONLY_REVIEW_PENDING",
+  "scope": "천검 포위 소환검·개별 경로·효과만",
+  "visualApproval": false,
+  "approvedAppearance": true,
+  "offbeatTimingPreserved": true,
+  "autoZoom": false,
+  "sourceTool": "built-in image_gen",
+  "newWeaponDesigns": 5,
+  "newEffectFrames": 24,
+  "reference": {
+    "url": "https://www.youtube.com/watch?v=hsbDPa9ViY8&t=30s",
+    "observed": "30초부터 0.4배속 재생 및 30~31초대 프레임 단위 검수",
+    "observations": [
+      "사선 관통",
+      "외곽으로 휘는 되돌림",
+      "다른 검이 끼어드는 엇박자"
+    ]
+  },
+  "choreography": {
+    "duration": 4.55,
+    "visualContacts": 20,
+    "curvedLegs": 34,
+    "diagonalLegs": 29,
+    "orthogonalLegs": 16,
+    "minimumImpactGap": 0.11999999999999988,
+    "maximumImpactGap": 0.18000000000000016
+  },
+  "preservation": {
+    "files": 24,
+    "otherSkillSamples": 222
+  },
+  "checks": [
+    "qa/array-v4/checks.json",
+    "qa/array-v4/final-cleanup.json"
+  ],
+  "evidence": [
+    "review-array-v4.webm",
+    "review-array-v4-slow.webm",
+    "qa/array-v4/ui-preview.png",
+    "qa/array-v4/desktop-curve.png",
+    "qa/array-v4/mobile-curve.png"
+  ],
+  "bundleSha256": "987575c94fe7f954e96740ef306f3b68b602418e49f27b1b77bb2741614bca79",
+  "liveEnabled": false
+}

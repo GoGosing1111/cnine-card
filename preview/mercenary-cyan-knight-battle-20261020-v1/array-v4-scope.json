@@ -1,0 +1,109 @@
+{
+  "commit": "d0afb5a41",
+  "userPermission": "천검포위는 굳이 지금 캐릭터가 쓰는 칼 아니여도 되는데",
+  "scope": "천검 포위의 소환검·궤적·전용 효과만 재작업. 손에 든 원본 검, 승인 외형, 다른 스킬, 자동 확대 OFF 유지.",
+  "files": [
+    {
+      "file": "assets/locked/approved-blade.png",
+      "sha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69"
+    },
+    {
+      "file": "source/WhiteAuraAppearance.js",
+      "sha256": "216931ff68cd41fff8dffb2b1a6aac905e5213d4b4b190362a5f348cf141b764"
+    },
+    {
+      "file": "assets/atlases/idle.png",
+      "sha256": "c7011ebc52ee5e7f8e693a8d188a4ff02df3d91e01d562e902c77da6496a1d09"
+    },
+    {
+      "file": "assets/atlases/dash.png",
+      "sha256": "ae80f59054ac0d98e4c2e567fef7b64e9c3608e19ebe973d17ec57aba3d89229"
+    },
+    {
+      "file": "assets/atlases/hit.png",
+      "sha256": "b717395d2dad27a1ff86f8c9d84959ac4507a3281dad947e229bbfdb42c420f0"
+    },
+    {
+      "file": "assets/atlases/defeat.png",
+      "sha256": "2d2ce94fe5f7faa4a1f8ce2993abdf4ea4b18fa599f2ba2cb7644ee214f93e4b"
+    },
+    {
+      "file": "assets/atlases/horizon.png",
+      "sha256": "c475277ceda903e7c15375dcf752c0b19e5a93def4dda69d2288f6f60eab0985"
+    },
+    {
+      "file": "assets/atlases/flurry.png",
+      "sha256": "6d416e73ef053df4bc26840b01836fbb28020ebf5a17251ae4c8f49d0e25bbf7"
+    },
+    {
+      "file": "assets/atlases/meteor.png",
+      "sha256": "cdf8e045b8984e7174a8775d7a402204a810cca71bc5bfb6ddcafaa654c4f79c"
+    },
+    {
+      "file": "assets/atlases/array.png",
+      "sha256": "bc1ee0d532d4b5bc6061122c5e6f6e9ce340236ebc30f0b4939591cf599edb34"
+    },
+    {
+      "file": "assets/atlases/zenith.png",
+      "sha256": "e6db1263e3eda5270ea9f16febdb817fafcc9cc887603ef2121d196844a7ec6a"
+    },
+    {
+      "file": "assets/sources/fx-dash.png",
+      "sha256": "c395b2a44c216df4c246f171d599c3e5cc94757ac94d721495ed3b2a82b64b66"
+    },
+    {
+      "file": "assets/sources/fx-horizon.png",
+      "sha256": "a9b392aa2e46e60fa6a59bcac5e16c3bbe66080c4c60660248d3ab37665fd048"
+    },
+    {
+      "file": "assets/sources/fx-flurry.png",
+      "sha256": "aebabad5ab2bc5e93061ef857a4c08a4bd424580901fe0c9e44b41d031bb013f"
+    },
+    {
+      "file": "assets/sources/fx-meteor.png",
+      "sha256": "38891bc211a0a16396a71644afcaf8cc4380daa1775320d86c4c61eb63ea396d"
+    },
+    {
+      "file": "assets/sources/fx-array.png",
+      "sha256": "414b20d5b21736ded7f37163cf6b949c34de9dc0bdef2915c7e59bc1aa7b1336"
+    },
+    {
+      "file": "assets/sources/fx-rift.png",
+      "sha256": "a4f8a7d1b93f756ae0f9bfeaf21ed7ec46e6892699692cdfa0b03dcfecef149e"
+    },
+    {
+      "file": "assets/sources/fx-ground.png",
+      "sha256": "4a673a5b55a4df6040ddc22dec3c011d8b9fcdd9453566d860a0f70f742666af"
+    },
+    {
+      "file": "assets/sources/fx-orbit.png",
+      "sha256": "71b66548a57921ff245786ddf3f082fc7c25c5f156796aff7862efbacc0000be"
+    },
+    {
+      "file": "assets/sources/fx-vortex-v2.png",
+      "sha256": "2e8abf828f7f229e1ac45204be839531fdaadd8e0a5f35f63871147a177079af"
+    },
+    {
+      "file": "assets/sources/fx-dragon-v3-padded.png",
+      "sha256": "249f2b69a794a7b2e87ffb32c2eb3324f763c3965a4e28cae309213956c432f3"
+    },
+    {
+      "file": "assets/sources/fx-cleave-v3-padded.png",
+      "sha256": "c32d050edabfa765a882db5663ab2668128d2b7ba2da02186f024b2af7849977"
+    },
+    {
+      "file": "assets/sources/fx-burst-v3-padded.png",
+      "sha256": "0d73ed8e5e5ae3a7dab394cd92a0752d5c47d8d1f933f6177bf49bdabe8de23f"
+    },
+    {
+      "file": "assets/sources/fx-flight-v3-padded.png",
+      "sha256": "62e26469de8a9d6c321d5749a2f05312de19037553b11ece06a1363b845fec36"
+    }
+  ],
+  "followups": [
+    "칼이 엇박자로 서로 다르게 나가면서 타격을줘야지 동시에 똑같은 위치로 타는게 아니고",
+    "좋아 근데 직각으로만 가지말고 좀 다양한 루트를 구사해볼까 ㅎㅎ? 뭔 죄다 90도로 꺽이노",
+    "모르겠으면 영상 다시 확인해 30초부터"
+  ],
+  "acceptedTiming": "20 interleaved impacts retained; latest mixed route visual approval pending"
+}

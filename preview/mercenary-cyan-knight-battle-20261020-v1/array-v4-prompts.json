@@ -1,0 +1,31 @@
+{
+  "tool": "built-in image_gen",
+  "specs": [
+    {
+      "key": "summoned-blades-v4",
+      "prompt": "Use case: stylized-concept. Asset type: five premium summoned sword sprite assets for a high-end 2D action RPG. A single landscape 1536x1024 transparent RGBA atlas, FIVE EQUAL VERTICAL COLUMNS, one COMPLETE sword in each column, all tip UP, all straight vertical, orthographic 3/4 bevel illustration, NO foreshortening. Exactly five clearly distinct elite celestial execution blades designed as a coherent set for a white/cyan armored knight. Each has a SOLID BROAD tapered white-silver crystal/metal cutting blade with a vivid cyan luminous core, dark midnight-blue internal spine, sharp blue edge bevels and tiny rich gold mechanical filigree. Strong elegant readable silhouettes, not thin blue wireframe lines, not generic cheap steel swords. Elaborate compact wing-like platinum guards, short dark hilt and crystalline pommel; blade occupies about 78% weapon length. First sword spear-sharp symmetrical diamond profile, second powerful broad taper with inset gold channel, third long double-edge crystalline central ridge, fourth architectural stepped shoulders tapering to needle point, fifth dominant regal long-sword with split silver guard. All FIVE same coherent premium style with real dimensional facets and strong cyan-white edge glow. Main weapon bodies sharp and opaque, subtle aura only along the edges, absolutely no fire or large surrounding explosion to obscure blade shapes. Entire weapon in each column must fit within 18% horizontal side margins, 12% top margin and 12% bottom margin. Fully transparent gutters between all five. No cropped tips or guards, no connecting shadows, no text, no lettering, no labels, no grid borders, no background, no character or hands. These are a new magical summoned-weapon design, not copies of a held weapon. Clean alpha transparency including empty space between guard branches."
+    },
+    {
+      "key": "rail-v4",
+      "prompt": "Use case: stylized-concept. Asset type: 12-frame animated sword travel ribbon atlas for a 2D action RPG. Genuine transparent RGBA, landscape1536x1024, EXACT FOUR equal columns and THREE equal rows. All 12 frames have the same horizontal alignment and framing. Each frame contains ONE narrow straight horizontal luminous sword trace pointing LEFT TO RIGHT: an intense WHITE CYAN sharp central stroke with layered cobalt-blue energy fringes, a few needle-thin gold parallel streaks, very small crystalline flecks streaming behind it. A beautiful concentrated high-speed sword-cut trace, not a wide fan, cone, crescent, ellipse, ring or rainbow burst. It will be mapped onto straight segments of a path with sharp 90-degree turns; therefore the main spine must be perfectly HORIZONTAL and straight in every frame. Full ribbon fits inside x=15..85% and y=35..65% of each cell. Transparent margins on all sides in EACH cell, nothing crosses a cell boundary. Twelve genuinely changing consecutive drawings: frames1-4 powerful coherent straight bright cutting strip with differently moving internal light filaments; frames5-8 progressively splitting into parallel fine glowing lines and little speed sparks; frames9-12 scattered receding streaks and pointed fading fragments. Do NOT shrink the effect's overall length frame by frame; fade and fragment its form. No weapon, no background glow rectangle, no typography, no grid or panel outlines. Crisp premium anime-game painted VFX, forceful line of flight visible even at small battle scale."
+    },
+    {
+      "key": "snap-v4",
+      "prompt": "Use case: stylized-concept. Asset type: 12-frame turning/impact light crack animation atlas for an elite summoned-sword skill. Genuine transparent RGBA, landscape1536x1024, EXACT FOUR equal columns and THREE equal rows. Fixed pivot at exact center of each cell. 15 percent fully transparent padding on all four sides of EACH cell. One brilliant WHITE CYAN DIAMOND-SHAPED shock with FOUR axial knife-like rays at RIGHT ANGLES, a handful of cobalt crystalline shrapnel slivers and subtle gold sparks; strongly angular, precise lethal sword magic. It is the visible corner where a flying sword brakes and snaps from horizontal motion into vertical drop. Main form is a compact shattering prism and four narrow sharp beams, NOT a circular rune, big cloud, radial firework or a thick opaque ball. Twelve consecutive drawings, not duplicated effects: tiny compression core frames1-2, sharp prismatic snap and perpendicular spikes frames3-5, split jagged white/cyan fragments frames6-8, fading four-direction line remnants and sparks frames9-12. Every ray tapers cleanly to nothing well before cell edges. Small high-energy graphic punctuation that stays readable against dark battle scenery. No letters, numbers, borders, grid lines, characters, weapons or opaque background."
+    }
+  ],
+  "outputs": [
+    {
+      "key": "summoned-blades-v4",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-7ef2d4f0-6d75-4929-af23-28aeffd025d9.png"
+    },
+    {
+      "key": "rail-v4",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-a3789284-a8ee-45cf-99d9-302b5a4430b1.png"
+    },
+    {
+      "key": "snap-v4",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-3038b501-9c21-4b71-89ce-62b51be382aa.png"
+    }
+  ]
+}

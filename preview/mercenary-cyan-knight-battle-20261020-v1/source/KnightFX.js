@@ -1,14 +1,16 @@
 import {Assets,Container,Sprite,Texture,Rectangle,Graphics} from 'pixi.js';
 import {gsap} from 'gsap';
+import {SummonedSwordArray} from './SummonedSwordArray.js';
 import {WhiteAuraAppearance} from './WhiteAuraAppearance.js';
-import {MODES,sample,phantomSample,bladeContact,smooth,PHANTOM_COUNT} from '../motion.mjs';
+import {MODES,sample,bladeContact,smooth} from '../motion.mjs';
 const ROOT='/preview/mercenary-cyan-knight-battle-20261020-v1/',HEIGHT=360,mix=(a,b,t)=>a+(b-a)*t;
 export async function loadKnightAssets(m){
- const out={motion:{},effects:{},appearance:[],blade:await Assets.load(ROOT+m.weapon.url)};
+ const out={motion:{},effects:{},appearance:[],summoned:[],blade:await Assets.load(ROOT+m.weapon.url)};
  await Promise.all([
  ...Object.entries(m.motion).map(async([k,s])=>{const a=await Assets.load(ROOT+s.url);out.motion[k]=s.frames.map((f,i)=>new Texture({source:a.source,frame:new Rectangle(i%s.columns*s.frameWidth,Math.floor(i/s.columns)*s.frameHeight,s.frameWidth,s.frameHeight)}));}),
  ...Object.entries(m.effects).map(async([k,s])=>{const a=await Assets.load(ROOT+s.url);out.effects[k]=s.frames.map(f=>new Texture({source:a.source,frame:new Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));})
  ]);
+ if(m.summonedWeapons){const a=await Assets.load(ROOT+m.summonedWeapons.url);out.summoned=m.summonedWeapons.frames.map(f=>new Texture({source:a.source,frame:new Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));}
  if(m.appearance){const a=await Assets.load(ROOT+m.appearance.url),s=m.appearance;out.appearance=Array.from({length:s.columns*s.rows},(_,i)=>new Texture({source:a.source,frame:new Rectangle(i%s.columns*s.frameWidth,Math.floor(i/s.columns)*s.frameHeight,s.frameWidth,s.frameHeight)}));}
  return out;
 }
@@ -19,13 +21,9 @@ export class KnightFX{
   this.back=new Container({label:'CyanKnightBackFX'});this.back.eventMode='none';engine.backgroundLayer.addChild(this.back);
   this.front=new Container({label:'CyanKnightFrontFX'});this.front.eventMode='none';engine.effectLayer.addChild(this.front);
   this.shade=new Graphics();this.back.addChild(this.shade);
-  this.swordTrails=new Graphics();this.front.addChild(this.swordTrails);
   this.ghostPool=Array.from({length:4},()=>{const s=new Sprite();s.visible=false;this.back.addChild(s);return s;});
-  this.flightPool=Array.from({length:PHANTOM_COUNT},()=>{const s=new Sprite();s.visible=false;this.front.addChild(s);return s;});
   this.pool=Array.from({length:24},()=>{const s=new Sprite();s.visible=false;this.front.addChild(s);return s;});
-  // The five physical blades remain visible when the VFX overlay is disabled.
-  this.swords=new Container({label:'CyanKnightFiveOriginalSwords'});this.swords.eventMode='none';engine.effectLayer.addChild(this.swords);
-  this.swordPool=Array.from({length:PHANTOM_COUNT},()=>{const s=new Sprite(assets.blade);s.visible=false;this.swords.addChild(s);return s;});
+  this.array=new SummonedSwordArray(this);this.swords=this.array.root;this.swordPool=this.array.swordPool;
   this.appearance=manifest.appearance?new WhiteAuraAppearance(unit,assets.appearance,manifest.appearance):null;
   this.capture();this.makeTimeline();this.render(0);
  }
@@ -66,42 +64,7 @@ export class KnightFX{
    const q=this.layerPoint(r,this.back);s.position.set(q.x,q.y);s.tint=0x8de7ff;s.alpha=[.23,.16,.1,.05][i];s.blendMode='add';s.visible=true;
   });
  }
- drawSwords(state,size){
-  this.swordPool.forEach(s=>s.visible=false);this.phantomContacts=[];
-  this.flightPool.forEach(s=>s.visible=false);
-  this.swordTrails.clear();
-  const w=this.manifest.weapon,mid={x:mix(w.grip.x,w.tip.x,.52),y:mix(w.grip.y,w.tip.y,.52)},baseAngle=Math.atan2(w.tip.y-w.grip.y,w.tip.x-w.grip.x),scale=size/w.standingHelmetToSole*1.16;
-  const geometry=f=>{const target=this.targets[f.targetIndex%this.targets.length],torso=this.contact(target),center={x:torso.x+f.x*size,y:torso.y+f.y*size},rotation=f.angle-baseAngle;
-   const point=p=>{const x=(p.x-mid.x)*scale,y=(p.y-mid.y)*scale;return{x:center.x+x*Math.cos(rotation)-y*Math.sin(rotation),y:center.y+x*Math.sin(rotation)+y*Math.cos(rotation)};};return{target,torso,center,rotation,grip:point(w.grip),tip:point(w.tip)};};
-  // Painted wakes attach to actual blade tips and point along measured travel, on the same clock.
-  const prior=phantomSample(Math.max(0,state.time-.018));
-  if(this.mode==='array'&&state.time>.72)for(const f of state.phantoms){
-   const old=prior.find(x=>x.index===f.index);if(!old)continue;
-   const now=geometry(f),before=geometry(old),dx=now.center.x-before.center.x,dy=now.center.y-before.center.y;
-   const speed=Math.hypot(dx,dy)/(.018*size);if(speed<2.4||f.alpha<.1)continue;
-   const frame=3+Math.floor(state.time*72+f.index)%5,s=this.flightPool[f.index],art=this.manifest.effects['flight-v3'].frames[frame];
-   s.texture=this.assets.effects['flight-v3'][frame];s.anchor.set(art.pivot.x,art.pivot.y);s.rotation=Math.atan2(dy,dx);
-   s.scale.set(size*Math.min(2.25,1.25+speed*.024)/s.texture.width*(this.manifest.effects['flight-v3'].displayScale||1));s.alpha=Math.min(.95,speed/12)*f.alpha;s.blendMode='normal';s.visible=true;
-   const point=this.layerPoint(now.tip);s.position.set(point.x,point.y);
-  }
-  // Fine afterimages retain the exact physical sword trajectory beneath the painted wake.
-  if(this.mode==='array'&&state.time>.72&&state.time<3.3){
-   const history=Array.from({length:15},(_,k)=>phantomSample(Math.max(0,state.time-k*.009)));
-   for(let k=history.length-2;k>=0;k--)for(const f of history[k]){
-    const old=history[k+1].find(x=>x.index===f.index);if(!old||f.alpha<.1)continue;
-    const a=geometry(f),b=geometry(old);if(Math.hypot(a.tip.x-b.tip.x,a.tip.y-b.tip.y)<1.2)continue;
-    const q=this.layerPoint(a.tip),r=this.layerPoint(b.tip);this.swordTrails.moveTo(q.x,q.y).lineTo(r.x,r.y).stroke({color:f.index%2?0x42baff:0xffb23d,width:Math.max(.5,(1-k/15)*size*.035),alpha:(1-k/15)*.55});
-   }
-  }
-  for(const f of state.phantoms){
-   const {target,torso,center,rotation}=geometry(f),s=this.swordPool[f.index];
-   s.anchor.set(mid.x/w.width,mid.y/w.height);s.scale.set(scale);s.rotation=rotation;s.alpha=f.alpha;s.visible=f.alpha>.015;s.blendMode='normal';
-   const q=this.layerPoint(center,this.swords);s.position.set(q.x,q.y);
-   const point=p=>{const x=(p.x-mid.x)*scale,y=(p.y-mid.y)*scale;return{x:center.x+x*Math.cos(rotation)-y*Math.sin(rotation),y:center.y+x*Math.sin(rotation)+y*Math.cos(rotation)};};
-   const grip=point(w.grip),tip=point(w.tip),h=(target.fullBodyHeight||300)*target.root.scale.y;
-   this.phantomContacts.push({index:f.index,targetIndex:f.targetIndex%this.targets.length,grip,tip,...bladeContact(grip,tip,torso,h*.27)});
-  }
- }
+ drawSwords(state,size){this.array.draw(state,size);this.phantomContacts=this.array.contacts;}
  render(t){
   if(this.disposed)return;
   const u=this.unit,e=this.engine,state=this.state=sample(this.mode,t),size=HEIGHT*u.root.scale.x;
@@ -136,6 +99,6 @@ export class KnightFX{
   this.onUpdate(this);
  }
  cancel(){this.removeTimeline();this.clock.time=0;if(!this.disposed)this.render(0);}
- diagnostics(){return{ready:!this.disposed,appearance:this.appearance?.diagnostics(),version:this.manifest.version,mode:this.mode,time:this.time,playing:this.playing,speed:this.speed,pose:this.state?.pose,phase:this.state?.phase,contactCount:this.state?.contactCount,bladeContact:this.collision,phantomContacts:this.phantomContacts,groundError:this.groundError,airborne:this.state?.lift>0,visibleEffects:this.effectsEnabled?this.pool.filter(s=>s.visible).length:0,visibleGhosts:this.effectsEnabled?this.ghostPool.filter(s=>s.visible).length:0,visibleSwords:this.swordPool.filter(s=>s.visible).length,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,...this.manifest.summary,weaponSha256:this.manifest.weapon.sha256,regularAllies:this.engine.allies.length,targets:this.targets.length,clock:'V3_REGISTERED_GSAP',liveEnabled:false,actor:{x:this.unit.root.x,y:this.unit.root.y,height:HEIGHT*this.unit.root.scale.y},contact:this.contact(),ground:this.targetFeet()};}
- destroy(){if(this.disposed)return;this.cancel();this.disposed=true;this.appearance?.destroy();this.engine.camera.reset(true);this.targets.forEach(t=>t.view.position.set(0,0));this.front.destroy({children:true});this.back.destroy({children:true});this.swords.destroy({children:true});for(const frames of[...Object.values(this.assets.motion),...Object.values(this.assets.effects),this.assets.appearance])for(const t of frames)t.destroy(false);}
+ diagnostics(){return{ready:!this.disposed,appearance:this.appearance?.diagnostics(),version:this.manifest.version,summonedArray:this.array.diagnostics(),mode:this.mode,time:this.time,playing:this.playing,speed:this.speed,pose:this.state?.pose,phase:this.state?.phase,contactCount:this.state?.contactCount,bladeContact:this.collision,phantomContacts:this.phantomContacts,groundError:this.groundError,airborne:this.state?.lift>0,visibleEffects:this.effectsEnabled?this.pool.filter(s=>s.visible).length:0,visibleGhosts:this.effectsEnabled?this.ghostPool.filter(s=>s.visible).length:0,visibleSwords:this.swordPool.filter(s=>s.visible).length,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,...this.manifest.summary,weaponSha256:this.manifest.weapon.sha256,regularAllies:this.engine.allies.length,targets:this.targets.length,clock:'V3_REGISTERED_GSAP',liveEnabled:false,actor:{x:this.unit.root.x,y:this.unit.root.y,height:HEIGHT*this.unit.root.scale.y},contact:this.contact(),ground:this.targetFeet()};}
+ destroy(){if(this.disposed)return;this.cancel();this.disposed=true;this.appearance?.destroy();this.engine.camera.reset(true);this.targets.forEach(t=>t.view.position.set(0,0));this.front.destroy({children:true});this.back.destroy({children:true});this.array.destroy();for(const frames of[...Object.values(this.assets.motion),...Object.values(this.assets.effects),this.assets.appearance,this.assets.summoned])for(const t of frames)t.destroy(false);}
 }

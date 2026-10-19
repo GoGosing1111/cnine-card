@@ -23,6 +23,6 @@ for(const f of frames){
  for(let y=0;y<info.height;y++)assert.equal(Math.max(data[y*info.width*4+3],data[(y*info.width+info.width-1)*4+3]),0,'Clipped side');
 }
 for(const bank of [...Object.values(m.motion),...Object.values(m.effects)])assert.equal(hash(await read(bank.url)),bank.sha256);
-assert.equal(frames.length,64);assert.equal(Object.values(m.effects).reduce((n,s)=>n+s.frames.length,0),156);
-const report={status:'PASS',sourcePixelEquality:true,originalSwordPixels:copied,redrawnSwordPixels:0,bodyFrames:frames.length,canonicalBodyHeight:360,weaponUniformScale:scale,clippedFrameEdges:0,effectFrames:156,visualApproval:false};
+assert.equal(frames.length,64);assert.equal(Object.values(m.effects).reduce((n,s)=>n+s.frames.length,0),180);
+const report={status:'PASS',sourcePixelEquality:true,originalSwordPixels:copied,redrawnSwordPixels:0,bodyFrames:frames.length,canonicalBodyHeight:360,weaponUniformScale:scale,clippedFrameEdges:0,effectFrames:180,visualApproval:false};
 await fs.writeFile(new URL('qa/asset-check.json',root),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));

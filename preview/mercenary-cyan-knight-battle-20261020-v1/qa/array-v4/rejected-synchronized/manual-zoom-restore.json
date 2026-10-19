@@ -1,0 +1,14 @@
+[
+  {
+    "name": "desktop",
+    "fitRestored": true,
+    "positionsRestored": true,
+    "zoom": false
+  },
+  {
+    "name": "mobile",
+    "fitRestored": true,
+    "positionsRestored": true,
+    "zoom": false
+  }
+]

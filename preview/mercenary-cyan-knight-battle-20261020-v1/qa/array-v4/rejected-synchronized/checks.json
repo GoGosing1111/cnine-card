@@ -1,0 +1,835 @@
+{
+  "status": "PASS",
+  "visualApproval": false,
+  "preservedFiles": 24,
+  "preservedOtherSkillSamples": 222,
+  "flightLegs": 76,
+  "cornerBrakes": 71,
+  "impacts": 20,
+  "solidSwordBounds": [
+    {
+      "x": 30,
+      "y": 12,
+      "right": 269,
+      "bottom": 963
+    },
+    {
+      "x": 45,
+      "y": 12,
+      "right": 265,
+      "bottom": 963
+    },
+    {
+      "x": 54,
+      "y": 12,
+      "right": 254,
+      "bottom": 963
+    },
+    {
+      "x": 32,
+      "y": 12,
+      "right": 281,
+      "bottom": 963
+    },
+    {
+      "x": 39,
+      "y": 12,
+      "right": 281,
+      "bottom": 963
+    }
+  ],
+  "devices": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "contacts": [
+        {
+          "time": 0.8900000000000001,
+          "index": 0,
+          "intersects": true,
+          "distance": 25.200000000000045,
+          "groundError": 0
+        },
+        {
+          "time": 0.96,
+          "index": 2,
+          "intersects": true,
+          "distance": 0,
+          "groundError": 0
+        },
+        {
+          "time": 1.03,
+          "index": 4,
+          "intersects": true,
+          "distance": 27,
+          "groundError": 0
+        },
+        {
+          "time": 1.1,
+          "index": 1,
+          "intersects": true,
+          "distance": 23.40000000000009,
+          "groundError": 0
+        },
+        {
+          "time": 1.1700000000000002,
+          "index": 3,
+          "intersects": true,
+          "distance": 18,
+          "groundError": 0
+        },
+        {
+          "time": 1.6349999999999998,
+          "index": 3,
+          "intersects": true,
+          "distance": 23.04589718144325,
+          "groundError": 0
+        },
+        {
+          "time": 1.6699999999999997,
+          "index": 1,
+          "intersects": true,
+          "distance": 21.600000000000023,
+          "groundError": 0
+        },
+        {
+          "time": 1.7049999999999998,
+          "index": 4,
+          "intersects": true,
+          "distance": 27,
+          "groundError": 0
+        },
+        {
+          "time": 1.7399999999999998,
+          "index": 2,
+          "intersects": true,
+          "distance": 0,
+          "groundError": 0
+        },
+        {
+          "time": 1.775,
+          "index": 0,
+          "intersects": true,
+          "distance": 18.436717745154624,
+          "groundError": 0
+        },
+        {
+          "time": 2.442,
+          "index": 2,
+          "intersects": true,
+          "distance": 18,
+          "groundError": 0
+        },
+        {
+          "time": 2.482,
+          "index": 0,
+          "intersects": true,
+          "distance": 18,
+          "groundError": 0
+        },
+        {
+          "time": 2.5220000000000002,
+          "index": 3,
+          "intersects": true,
+          "distance": 18,
+          "groundError": 0
+        },
+        {
+          "time": 2.5620000000000003,
+          "index": 4,
+          "intersects": true,
+          "distance": 18,
+          "groundError": 0
+        },
+        {
+          "time": 2.6020000000000003,
+          "index": 1,
+          "intersects": true,
+          "distance": 18,
+          "groundError": 0
+        },
+        {
+          "time": 3.2849999999999997,
+          "index": 0,
+          "intersects": true,
+          "distance": 25.200000000000045,
+          "groundError": 0
+        },
+        {
+          "time": 3.31,
+          "index": 1,
+          "intersects": true,
+          "distance": 21.600000000000023,
+          "groundError": 0
+        },
+        {
+          "time": 3.31,
+          "index": 4,
+          "intersects": true,
+          "distance": 27,
+          "groundError": 0
+        },
+        {
+          "time": 3.335,
+          "index": 2,
+          "intersects": true,
+          "distance": 0,
+          "groundError": 0
+        },
+        {
+          "time": 3.335,
+          "index": 3,
+          "intersects": true,
+          "distance": 23.04589718144325,
+          "groundError": 0
+        }
+      ],
+      "clipped": [],
+      "cameraChanges": [],
+      "maxRails": 20,
+      "maxSnaps": 15,
+      "overflow": false,
+      "autoZoom": false,
+      "effectsOff": {
+        "ready": true,
+        "appearance": {
+          "enabled": false,
+          "behindBody": true,
+          "capeFrames": 6,
+          "bodyAlpha": 1,
+          "originalTexture": 338,
+          "rimColor": "WHITE",
+          "destroyed": false
+        },
+        "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4",
+        "summonedArray": {
+          "designs": 5,
+          "heldWeaponReused": false,
+          "routeFit": {
+            "left": 1,
+            "right": 1,
+            "up": 0.853551747460861,
+            "down": 1
+          },
+          "paintedRailSegments": 0,
+          "activeCorners": 0,
+          "activeSwordEchoes": 0,
+          "visibleEffects": 0
+        },
+        "mode": "array",
+        "time": 2.4,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "at": 2.1,
+          "bank": "array",
+          "index": 7,
+          "facing": 1
+        },
+        "phase": "계단 궤적 · 변칙 연격",
+        "contactCount": 10,
+        "bladeContact": {
+          "u": 1,
+          "distance": 129.1269924266657,
+          "intersects": false
+        },
+        "phantomContacts": [
+          {
+            "index": 0,
+            "targetIndex": 0,
+            "grip": {
+              "x": 965.2848735753017,
+              "y": 222.27131658079594
+            },
+            "tip": {
+              "x": 1122.0726896370475,
+              "y": 356.18076199512933
+            },
+            "u": 0.5417065349425852,
+            "distance": 61.92621294148354,
+            "intersects": false
+          },
+          {
+            "index": 1,
+            "targetIndex": 0,
+            "grip": {
+              "x": 1085.6,
+              "y": 145.53188539665075
+            },
+            "tip": {
+              "x": 1085.6,
+              "y": 362.41281760004057
+            },
+            "u": 0.9054189900806782,
+            "distance": 75.59999999999991,
+            "intersects": false
+          },
+          {
+            "index": 2,
+            "targetIndex": 0,
+            "grip": {
+              "x": 1028,
+              "y": 205.96492119098835
+            },
+            "tip": {
+              "x": 1028,
+              "y": 415.2092008520053
+            },
+            "u": 0.6496477658994129,
+            "distance": 18,
+            "intersects": true
+          },
+          {
+            "index": 3,
+            "targetIndex": 0,
+            "grip": {
+              "x": 1128.399576271187,
+              "y": 275.8350947465293
+            },
+            "tip": {
+              "x": 916.1006355932209,
+              "y": 275.8350947465293
+            },
+            "u": 0.5577021528844367,
+            "distance": 66.06490525347067,
+            "intersects": false
+          },
+          {
+            "index": 4,
+            "targetIndex": 0,
+            "grip": {
+              "x": 876.4717658355772,
+              "y": 208.0098469094482
+            },
+            "tip": {
+              "x": 1021.2923512466341,
+              "y": 377.5729665021509
+            },
+            "u": 0.8454653001094751,
+            "distance": 14.580967219378143,
+            "intersects": true
+          }
+        ],
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "visibleSwords": 5,
+        "registeredTimelines": 0,
+        "bodyFrames": 64,
+        "effectFrames": 180,
+        "weaponSources": 6,
+        "weaponRedraws": 0,
+        "appearanceFrames": 6,
+        "newV3EffectFrames": 48,
+        "summonedWeaponDesigns": 5,
+        "heldWeaponSources": 1,
+        "newV4EffectFrames": 24,
+        "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 806.6,
+          "y": 416,
+          "height": 180
+        },
+        "contact": {
+          "x": 1010,
+          "y": 341.9
+        },
+        "ground": {
+          "x": 1010,
+          "y": 416
+        }
+      },
+      "cancel": {
+        "ready": true,
+        "appearance": {
+          "enabled": true,
+          "behindBody": true,
+          "capeFrames": 6,
+          "bodyAlpha": 1,
+          "originalTexture": 300,
+          "rimColor": "WHITE",
+          "destroyed": false
+        },
+        "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4",
+        "summonedArray": {
+          "designs": 5,
+          "heldWeaponReused": false,
+          "routeFit": {
+            "left": 1,
+            "right": 1,
+            "up": 0.853551747460861,
+            "down": 1
+          },
+          "paintedRailSegments": 0,
+          "activeCorners": 0,
+          "activeSwordEchoes": 0,
+          "visibleEffects": 0
+        },
+        "mode": "array",
+        "time": 0,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "at": 0,
+          "bank": "dash",
+          "index": 0,
+          "facing": 1
+        },
+        "phase": "오성 소환검 전개",
+        "contactCount": 0,
+        "bladeContact": {
+          "u": 1,
+          "distance": 531.1409848116378,
+          "intersects": false
+        },
+        "phantomContacts": [],
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "visibleSwords": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 64,
+        "effectFrames": 180,
+        "weaponSources": 6,
+        "weaponRedraws": 0,
+        "appearanceFrames": 6,
+        "newV3EffectFrames": 48,
+        "summonedWeaponDesigns": 5,
+        "heldWeaponSources": 1,
+        "newV4EffectFrames": 24,
+        "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 380,
+          "y": 416,
+          "height": 180
+        },
+        "contact": {
+          "x": 1010,
+          "y": 341.9
+        },
+        "ground": {
+          "x": 1010,
+          "y": 416
+        }
+      },
+      "pausePassed": true,
+      "slowPassed": true,
+      "normalSpeedCompleted": true,
+      "cleanup": {
+        "disposed": true,
+        "frontDestroyed": true,
+        "swordsDestroyed": true,
+        "backDestroyed": true,
+        "timelineRemoved": true
+      },
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "contacts": [
+        {
+          "time": 0.8900000000000001,
+          "index": 0,
+          "intersects": true,
+          "distance": 32.75999999999999,
+          "groundError": 0
+        },
+        {
+          "time": 0.96,
+          "index": 2,
+          "intersects": true,
+          "distance": 0,
+          "groundError": 0
+        },
+        {
+          "time": 1.03,
+          "index": 4,
+          "intersects": true,
+          "distance": 18.887092171456516,
+          "groundError": 0
+        },
+        {
+          "time": 1.1,
+          "index": 1,
+          "intersects": true,
+          "distance": 16.36881321526232,
+          "groundError": 0
+        },
+        {
+          "time": 1.1700000000000002,
+          "index": 3,
+          "intersects": true,
+          "distance": 23.399999999999977,
+          "groundError": 0
+        },
+        {
+          "time": 1.6349999999999998,
+          "index": 3,
+          "intersects": true,
+          "distance": 35.10000000000002,
+          "groundError": 0
+        },
+        {
+          "time": 1.6699999999999997,
+          "index": 1,
+          "intersects": true,
+          "distance": 28.08000000000004,
+          "groundError": 0
+        },
+        {
+          "time": 1.7049999999999998,
+          "index": 4,
+          "intersects": true,
+          "distance": 35.10000000000002,
+          "groundError": 0
+        },
+        {
+          "time": 1.7399999999999998,
+          "index": 2,
+          "intersects": true,
+          "distance": 0,
+          "groundError": 0
+        },
+        {
+          "time": 1.775,
+          "index": 0,
+          "intersects": true,
+          "distance": 28.079999999999984,
+          "groundError": 0
+        },
+        {
+          "time": 2.442,
+          "index": 2,
+          "intersects": true,
+          "distance": 12.591394780970973,
+          "groundError": 0
+        },
+        {
+          "time": 2.482,
+          "index": 0,
+          "intersects": true,
+          "distance": 12.591394780970973,
+          "groundError": 0
+        },
+        {
+          "time": 2.5220000000000002,
+          "index": 3,
+          "intersects": true,
+          "distance": 23.399999999999977,
+          "groundError": 0
+        },
+        {
+          "time": 2.5620000000000003,
+          "index": 4,
+          "intersects": true,
+          "distance": 12.591394780970973,
+          "groundError": 0
+        },
+        {
+          "time": 2.6020000000000003,
+          "index": 1,
+          "intersects": true,
+          "distance": 23.399999999999977,
+          "groundError": 0
+        },
+        {
+          "time": 3.2849999999999997,
+          "index": 0,
+          "intersects": true,
+          "distance": 32.75999999999999,
+          "groundError": 0
+        },
+        {
+          "time": 3.31,
+          "index": 1,
+          "intersects": true,
+          "distance": 28.08000000000004,
+          "groundError": 0
+        },
+        {
+          "time": 3.31,
+          "index": 4,
+          "intersects": true,
+          "distance": 18.887092171456516,
+          "groundError": 0
+        },
+        {
+          "time": 3.335,
+          "index": 2,
+          "intersects": true,
+          "distance": 0,
+          "groundError": 0
+        },
+        {
+          "time": 3.335,
+          "index": 3,
+          "intersects": true,
+          "distance": 35.10000000000002,
+          "groundError": 0
+        }
+      ],
+      "clipped": [],
+      "cameraChanges": [],
+      "maxRails": 20,
+      "maxSnaps": 15,
+      "overflow": false,
+      "autoZoom": false,
+      "effectsOff": {
+        "ready": true,
+        "appearance": {
+          "enabled": false,
+          "behindBody": true,
+          "capeFrames": 6,
+          "bodyAlpha": 1,
+          "originalTexture": 295,
+          "rimColor": "WHITE",
+          "destroyed": false
+        },
+        "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4",
+        "summonedArray": {
+          "designs": 5,
+          "heldWeaponReused": false,
+          "routeFit": {
+            "left": 1,
+            "right": 0.5380937940585893,
+            "up": 1,
+            "down": 1
+          },
+          "paintedRailSegments": 0,
+          "activeCorners": 0,
+          "activeSwordEchoes": 0,
+          "visibleEffects": 0
+        },
+        "mode": "array",
+        "time": 2.4,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "at": 2.1,
+          "bank": "array",
+          "index": 7,
+          "facing": 1
+        },
+        "phase": "계단 궤적 · 변칙 연격",
+        "contactCount": 10,
+        "bladeContact": {
+          "u": 1,
+          "distance": 167.8650901546654,
+          "intersects": false
+        },
+        "phantomContacts": [
+          {
+            "index": 0,
+            "targetIndex": 0,
+            "grip": {
+              "x": 722.4715664944371,
+              "y": 361.68553100749745
+            },
+            "tip": {
+              "x": 926.2957273747064,
+              "y": 535.7678100461308
+            },
+            "u": 0.6080716966446016,
+            "distance": 84.6895050249321,
+            "intersects": false
+          },
+          {
+            "index": 1,
+            "targetIndex": 0,
+            "grip": {
+              "x": 844.293694145652,
+              "y": 252.21035787718745
+            },
+            "tip": {
+              "x": 844.293694145652,
+              "y": 534.1555697415943
+            },
+            "u": 0.9921363193083422,
+            "distance": 52.8838580800782,
+            "intersects": false
+          },
+          {
+            "index": 2,
+            "targetIndex": 0,
+            "grip": {
+              "x": 804.0012308465448,
+              "y": 343.5714171992217
+            },
+            "tip": {
+              "x": 804.0012308465448,
+              "y": 615.5889807585437
+            },
+            "u": 0.6924811139360483,
+            "distance": 12.591394780970973,
+            "intersects": true
+          },
+          {
+            "index": 3,
+            "targetIndex": 0,
+            "grip": {
+              "x": 925.2252795107225,
+              "y": 431.3184426229508
+            },
+            "tip": {
+              "x": 649.2366566293666,
+              "y": 431.31844262295084
+            },
+            "u": 0.4848585497767941,
+            "distance": 100.62,
+            "intersects": false
+          },
+          {
+            "index": 4,
+            "targetIndex": 0,
+            "grip": {
+              "x": 617.8231316518243,
+              "y": 343.1456204347454
+            },
+            "tip": {
+              "x": 806.0898926861981,
+              "y": 563.5776759052588
+            },
+            "u": 0.8841184407831952,
+            "distance": 9.385235676189126,
+            "intersects": true
+          }
+        ],
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "visibleSwords": 5,
+        "registeredTimelines": 0,
+        "bodyFrames": 64,
+        "effectFrames": 180,
+        "weaponSources": 6,
+        "weaponRedraws": 0,
+        "appearanceFrames": 6,
+        "newV3EffectFrames": 48,
+        "summonedWeaponDesigns": 5,
+        "heldWeaponSources": 1,
+        "newV4EffectFrames": 24,
+        "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 526.9898360655739,
+          "y": 628.2684426229508,
+          "height": 234
+        },
+        "contact": {
+          "x": 791.4098360655738,
+          "y": 531.9384426229508
+        },
+        "ground": {
+          "x": 791.4098360655738,
+          "y": 628.2684426229508
+        }
+      },
+      "cancel": {
+        "ready": true,
+        "appearance": {
+          "enabled": true,
+          "behindBody": true,
+          "capeFrames": 6,
+          "bodyAlpha": 1,
+          "originalTexture": 248,
+          "rimColor": "WHITE",
+          "destroyed": false
+        },
+        "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4",
+        "summonedArray": {
+          "designs": 5,
+          "heldWeaponReused": false,
+          "routeFit": {
+            "left": 1,
+            "right": 0.5380937940585893,
+            "up": 1,
+            "down": 1
+          },
+          "paintedRailSegments": 0,
+          "activeCorners": 0,
+          "activeSwordEchoes": 0,
+          "visibleEffects": 0
+        },
+        "mode": "array",
+        "time": 0,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "at": 0,
+          "bank": "dash",
+          "index": 0,
+          "facing": 1
+        },
+        "phase": "오성 소환검 전개",
+        "contactCount": 0,
+        "bladeContact": {
+          "u": 1,
+          "distance": 303.7603514033906,
+          "intersects": false
+        },
+        "phantomContacts": [],
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "visibleSwords": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 64,
+        "effectFrames": 180,
+        "weaponSources": 6,
+        "weaponRedraws": 0,
+        "appearanceFrames": 6,
+        "newV3EffectFrames": 48,
+        "summonedWeaponDesigns": 5,
+        "heldWeaponSources": 1,
+        "newV4EffectFrames": 24,
+        "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 359.40983606557376,
+          "y": 628.2684426229508,
+          "height": 234
+        },
+        "contact": {
+          "x": 791.4098360655738,
+          "y": 531.9384426229508
+        },
+        "ground": {
+          "x": 791.4098360655738,
+          "y": 628.2684426229508
+        }
+      },
+      "pausePassed": true,
+      "slowPassed": true,
+      "normalSpeedCompleted": true,
+      "cleanup": {
+        "disposed": true,
+        "frontDestroyed": true,
+        "swordsDestroyed": true,
+        "backDestroyed": true,
+        "timelineRemoved": true
+      },
+      "errors": []
+    }
+  ]
+}

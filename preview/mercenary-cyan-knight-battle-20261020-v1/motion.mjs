@@ -1,3 +1,5 @@
+import {ARRAY_DURATION,PHANTOM_COUNT,phantomTracks,phantomSample,impactEvents} from './array-motion-v4.mjs';
+export {PHANTOM_COUNT,phantomTracks,phantomSample};
 // Preview choreography. One V3/GSAP clock drives body art, fixed swords and authored effect frames.
 const p=(at,bank,index,facing=1)=>({at,bank,index,facing}),path=(at,anchor,lift=0)=>({at,anchor,lift});
 const sequence=(bank,times)=>times.map((t,i)=>p(t,bank,i));
@@ -14,46 +16,16 @@ export const MODES={
  meteor:{label:'용궤 검격',type:'skill',duration:2.7,contacts:[.64],
   poses:sequence('horizon',[0,.15,.29,.56,.72,1.10,1.65,2.20]),
   path:[path(0,'home'),path(.2,'home'),path(.56,'hit0'),path(.86,'hit0'),path(1.25,'finish'),path(2.4,'home'),path(2.7,'home')]},
- array:{label:'천검 포위',type:'area',duration:3.8,contacts:[],poses:[p(0,'dash',0),p(.12,'dash',1),p(.24,'dash',2),...sequence('array',[.35,.48,.60,.72,.84,1.16,1.52,1.9,2.25,2.94,3.2,3.51])],
-  path:[path(0,'home'),path(.35,'command'),path(2.7,'command'),path(2.94,'finish'),path(3.12,'finish'),path(3.6,'home'),path(3.8,'home')]},
+ array:{label:'천검 포위',type:'area',duration:ARRAY_DURATION,contacts:[],poses:[p(0,'dash',0),p(.12,'dash',1),p(.24,'dash',2),...sequence('array',[.35,.48,.60,.74,.90,1.30,1.70,2.10,2.60,3.05,3.50,3.93])],
+  path:[path(0,'home'),path(.35,'command'),path(3.0,'command'),path(3.30,'finish'),path(3.70,'finish'),path(4.30,'home'),path(4.55,'home')]},
  zenith:{label:'창천 종단',type:'area',duration:4.0,contacts:[.72,1.48,2.65],
   poses:[p(0,'flurry',0),p(.22,'horizon',1),p(.42,'dash',2),p(.65,'horizon',3),p(.88,'horizon',4),p(1.15,'flurry',0,-1),p(1.43,'flurry',1,-1),p(1.72,'flurry',2),p(2,'array',8),p(2.28,'horizon',2),p(2.60,'flurry',3),p(2.85,'horizon',5),p(3.25,'horizon',6),p(3.75,'idle',0)],
   path:[path(0,'home'),path(.37,'home'),path(.65,'hit0'),path(.85,'hit0'),path(1.43,'hit1'),path(1.62,'hit1'),path(2.1,'command'),path(2.60,'hit2'),path(2.9,'hit2'),path(3.8,'home'),path(4,'home')]}
 };
 export const clamp=n=>Math.max(0,Math.min(1,n)),smooth=n=>{n=clamp(n);return n*n*(3-2*n);};
 const mix=(a,b,t)=>a+(b-a)*t;
-export const PHANTOM_COUNT=5;
-export const phantomTracks=Array.from({length:PHANTOM_COUNT},(_,i)=>{
- const fan={x:(i-2)*.32,y:-.7-Math.sin(i/4*Math.PI)*.22};
- const track=[{at:.18+i*.035,...fan,angle:-Math.PI/2,alpha:0},{at:.48+i*.025,...fan,angle:-Math.PI/2,alpha:1},{at:.64+i*.018,...fan,angle:-Math.PI/2,alpha:1}];
- for(let pass=0;pass<4;pass++){
-  const at=.84+i*.024+pass*.32,travel=(i*72+pass*61)*Math.PI/180,edge=travel+Math.PI/2;
-  const start={x:-Math.cos(travel)*1.18,y:-Math.sin(travel)*.73,angle:edge-.65,alpha:1};
-  track.push({at:at-.095,...start},{at:at-.040,...start});
-  // Forty milliseconds into contact, eight milliseconds at contact, then a 39 ms cut-through.
-  track.push({at,x:0,y:0,angle:edge,alpha:1,hit:true});
-  track.push({at:at+.008,x:Math.cos(travel)*.045,y:Math.sin(travel)*.028,angle:edge+.12,alpha:1});
-  track.push({at:at+.047,x:Math.cos(travel)*1.22,y:Math.sin(travel)*.76,angle:edge+.67,alpha:1});
- }
- const high={x:(i-2)*.30,y:-1.08,angle:Math.PI/2,alpha:1},drop=2.45+i*.052;
- track.push({at:2.08+i*.02,...high},{at:drop-.040,...high});
- track.push({at:drop,x:0,y:0,angle:Math.PI/2,alpha:1,hit:true});
- track.push({at:drop+.040,x:(i-2)*.10,y:.50,angle:Math.PI/2,alpha:1});
- const a=i/5*Math.PI*2,pre={x:-Math.cos(a)*1.2,y:-Math.sin(a)*.78,angle:a,alpha:1};
- track.push({at:2.87,...pre},{at:3.02,...pre},{at:3.06,x:0,y:0,angle:a,alpha:1,hit:true},{at:3.075,x:0,y:0,angle:a,alpha:1});
- track.push({at:3.24,x:Math.cos(a)*.9,y:Math.sin(a)*.6,angle:a,alpha:0});
- return track;
-});
-MODES.array.contacts=[...new Set(phantomTracks.flatMap(s=>s.filter(p=>p.hit).map(p=>Number(p.at.toFixed(3)))))].sort((a,b)=>a-b);
+MODES.array.contacts=[...new Set(impactEvents.map(e=>Number(e.at.toFixed(6))))].sort((a,b)=>a-b);
 for(const s of Object.values(MODES))s.steps=s.poses.map(p=>p.at);
-export function phantomSample(t){
- return phantomTracks.map((track,i)=>{
-  if(t<track[0].at||t>=track.at(-1).at)return null;
-  const n=Math.max(0,track.findLastIndex(p=>p.at<=t)),a=track[n],b=track[Math.min(n+1,track.length-1)],q=b.at===a.at?1:smooth((t-a.at)/(b.at-a.at));
-  let da=b.angle-a.angle;while(da>Math.PI)da-=Math.PI*2;while(da<-Math.PI)da+=Math.PI*2;
-  return{index:i,targetIndex:i%3,x:mix(a.x,b.x,q),y:mix(a.y,b.y,q),angle:a.angle+da*q,alpha:mix(a.alpha,b.alpha,q)};
- }).filter(Boolean);
-}
 export function sample(mode,time){
  const s=MODES[mode],t=Math.max(0,Math.min(s.duration,time)),frame=Math.max(0,s.poses.findLastIndex(p=>p.at<=t)),pose=s.poses[frame];
  const n=Math.max(0,s.path.findLastIndex(p=>p.at<=t)),a=s.path[n],b=s.path[Math.min(n+1,s.path.length-1)],q=b.at===a.at?1:smooth((t-a.at)/(b.at-a.at));
@@ -76,17 +48,9 @@ export function sample(mode,time){
   add('ground',.65,2.0,{width:2.75,anchor:'ground',alpha:.80});
  }
  if(mode==='array'){
-  for(let pass=0;pass<4;pass++){
-   add('cleave-v3',.76+pass*.32,1.10+pass*.32,{width:2.8,angle:pass*.72,alpha:.92});
-   for(let i=0;i<5;i++){
-    const at=.84+i*.024+pass*.32;
-    add('burst-v3',at-.008,at+.14,{width:1.65,angle:(i*72+pass*61)*Math.PI/180,alpha:.78});
-   }
-  }
-  for(let i=0;i<5;i++){const at=2.45+i*.052;add('cleave-v3',at-.035,at+.20,{width:2.55,angle:Math.PI/2+(i-2)*.11,alpha:.82});add('burst-v3',at,at+.18,{width:1.85,alpha:.85});}
-  add('cleave-v3',3.00,3.40,{width:3.9,angle:-.22});
-  add('burst-v3',3.035,3.69,{width:4.25,alpha:1});
-  add('ground',3.06,3.75,{width:3.3,anchor:'ground',alpha:.95});
+  // Per-sword rails and corner snaps are rendered by SummonedSwordArray, not central slash stamps.
+  add('burst-v3',3.60,4.13,{width:2.85,alpha:.92});
+  add('ground',3.62,4.25,{width:2.75,anchor:'ground',alpha:.75});
  }
  if(mode==='zenith'){
   add('orbit',.12,.67,{width:1.55,anchor:'actor',alpha:.65});
@@ -102,7 +66,7 @@ export function sample(mode,time){
  }
  const impact=s.contacts.reduce((m,at)=>Math.max(m,t>=at&&t<at+.16?(1-(t-at)/.16)*(mode==='array'&&at<3?.38:1):0),0);
  let phase=s.label;
- if(mode==='array')phase=t<.70?'다섯 검 전개':t<2.04?'고속 관통 · 교차 연격':t<2.84?'회수 · 연속 관통':t<3.30?'다섯 검 수렴 · 검광 폭쇄':'회복 · 잔향';
+ if(mode==='array')phase=t<.48?'오성 소환검 전개':t<1.58?'엇박자 출격 · 독립 타격':t<2.9?'곡선 재진입 · 사선 관통':t<3.65?'변칙 추격 · 순차 관통':'최후 일격 · 검광 소멸';
  else if(mode==='zenith')phase=t<.43?'검압 응축':t<1.9?'지상 교차 검격':t<2.6?'용 형상 검기 전개':t<3.1?'지면 횡단 · 종단 폭쇄':'검기 소멸 · 회복';
  else if(mode==='meteor')phase=t<.43?'지상 발도 준비':t<.8?'용궤 형성 · 횡베기':t<1.8?'지면을 휘감는 용 검기':'검기 잔향 · 회복';
  else if(s.type==='skill')phase=t<s.contacts[0]?'준비 · 접근':t<s.contacts.at(-1)+.3?'검격 · 적중':'자세 회복';
