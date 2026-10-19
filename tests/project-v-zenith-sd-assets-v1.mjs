@@ -335,6 +335,13 @@ for(const file of productionFiles){
   // 덱/도감/뽑기 렌더러는 계속 전면 금지한다.
   if(approvedBattleConsumers.has(file))continue;
   const source=await readFile(file,'utf8');
+  if(file===resolve(rootPath,'functions/_monster_defense_roster.js')){
+    // Defense is a battle consumer. Its card portrait remains separate from
+    // the battlefield SD; the ordinary deck/dex routes remain prohibited.
+    assert.match(source,/sourceArt:url\(c\.image\|\|art\.sourceArt\|\|art\.battleSprite\),battleSprite:url\(art\.battleSprite\)/);
+    assert.match(source,/statMode:'DEFENSE_ROLE'/);
+    continue;
+  }
   if(file===resolve(rootPath,'js/image-delivery-map-20261015.js')){
     const literal=source.match(/^globalThis\.CNineImageDeliveryMap=(\{[^]*\});\s*$/);
     assert(literal,'delivery index must contain only a JSON assignment, never rendering code');
