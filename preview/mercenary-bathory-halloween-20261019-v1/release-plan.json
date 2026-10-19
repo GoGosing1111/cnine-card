@@ -1,7 +1,7 @@
 {
   "version": 1,
   "preparedAt": "2026-10-19T06:26:44.371Z",
-  "status": "USER_APPROVED_FOR_RELEASE",
+  "status": "LIVE",
   "name": "바토리",
   "code": "V-977",
   "rank": "SS",
@@ -10,8 +10,8 @@
   "serverLimit": 10,
   "userVisualApproval": "라이브 반영하고 할로윈팩에서 기존 할로윈 리미티드보다 2배 덜나오게 해 할로윈 리미티드 품절된것들 1장씩 한도 늘려",
   "userReleaseApproval": "라이브 반영하고 할로윈팩에서 기존 할로윈 리미티드보다 2배 덜나오게 해 할로윈 리미티드 품절된것들 1장씩 한도 늘려",
-  "liveDeployed": false,
-  "liveDatabaseMutated": false,
+  "liveDeployed": true,
+  "liveDatabaseMutated": true,
   "grants": 0,
   "authorization": {
     "request": "라이브 반영하고 할로윈팩에서 기존 할로윈 리미티드보다 2배 덜나오게 해 할로윈 리미티드 품절된것들 1장씩 한도 늘려",
@@ -110,5 +110,15 @@
     "launchRunner": "scripts/ops/run-halloween-bathory-launch-20261019.mjs",
     "launchKey": "ops:bathory-halloween-launch:20261019:v1"
   },
-  "approvalRecordedAt": "2026-10-19T08:46:56.927Z"
+  "approvalRecordedAt": "2026-10-19T08:46:56.927Z",
+  "execution": {
+    "releaseCommit": "f68d754637773154d3651e8c90d9bf8716d59a8a",
+    "registeredAt": "2026-10-19T08:53:29.733Z",
+    "launchedAt": "2026-10-19T08:54:07.258Z",
+    "packRevision": 15,
+    "bathoryRatePpm": 5000,
+    "bathoryAbsolutePercent": "0.00025",
+    "originalHalloweenSlotsAdded": 7,
+    "grants": 0
+  }
 }
