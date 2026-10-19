@@ -1,0 +1,158 @@
+{
+  "verifiedAt": "2026-10-19T10:57:06.451Z",
+  "phase": "LIVE_V4",
+  "site": "https://cnine-card.pages.dev",
+  "sourceCommit": "b49720f45f9f42c7743b20a768f81df05d926cba",
+  "halloweenPolicyVersion": 4,
+  "checks": [
+    "PUBLIC_CODEX_STATS_AND_SKILLS",
+    "PUBLIC_POLICY_SOURCE_SHA256_LF_NORMALIZED",
+    "BONGSOON_GUARD_DESCRIPTION",
+    "KANGYUN_UNCHANGED"
+  ],
+  "policySha256": "2817dfc8ad56981f88805846e818db08f38b3383eeeb8152329d5b9d30382c15",
+  "apiCacheControl": "no-store",
+  "cards": [
+    {
+      "code": "V-980",
+      "basePower": 237600,
+      "skills": [
+        {
+          "id": "MS-980",
+          "balance": {
+            "damageRatio": 8.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      ],
+      "description": "할로윈 SS 리미티드 · 기본 전투력 237,600(기존 SS 리미티드 대비 32% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 1161.6%·체력 1478.4%·전용 방벽 792%. 자연 행동 속도 2.5배, 아군 카드 4행동마다 용병 12회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 840%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 2.4배입니다. 기본 공격 상한은 1.35배입니다. PVP에서 받는 피해가 15% 감소합니다. 방벽과 HP에 피해를 나누기 전에 적용하며, 상대 용병의 성장에 따른 피해 감소 관통은 기존 규칙을 따릅니다. PVE에는 적용하지 않습니다."
+    },
+    {
+      "code": "V-981",
+      "basePower": 237600,
+      "skills": [
+        {
+          "id": "MS-981",
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      ],
+      "description": "할로윈 SS 리미티드 · 기본 전투력 237,600(기존 SS 리미티드 대비 32% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 726%·체력 924%·전용 방벽 495%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 672%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 1.8배입니다."
+    },
+    {
+      "code": "V-982",
+      "basePower": 237600,
+      "skills": [
+        {
+          "id": "MS-982",
+          "balance": {
+            "damageRatio": 7.56,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      ],
+      "description": "할로윈 SS 리미티드 · 기본 전투력 237,600(기존 SS 리미티드 대비 32% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 762.3%·체력 970.2%·전용 방벽 519.75%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 756%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 2.2배입니다."
+    },
+    {
+      "code": "V-983",
+      "basePower": 237600,
+      "skills": [
+        {
+          "id": "MS-983",
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 3,
+            "cost": 20
+          }
+        }
+      ],
+      "description": "할로윈 SS 리미티드 · 기본 전투력 237,600(기존 SS 리미티드 대비 32% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 677.6%·체력 862.4%·전용 방벽 462%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 672%·비용 20·재사용 3행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 1.6배입니다."
+    },
+    {
+      "code": "V-984",
+      "basePower": 237600,
+      "skills": [
+        {
+          "id": "MS-984",
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      ],
+      "description": "할로윈 SS 리미티드 · 기본 전투력 237,600(기존 SS 리미티드 대비 32% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 532.4%·체력 677.6%·전용 방벽 363%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 672%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 1.8배입니다. 성야의 방패는 PVP에서 부여량이 40% 감소하여 공격력 403.2%를 전열에 나눠 부여합니다. 시작 방벽에는 이 감소를 적용하지 않으며 PVE는 672% 방벽을 부여합니다."
+    },
+    {
+      "code": "V-985",
+      "basePower": 237600,
+      "skills": [
+        {
+          "id": "MS-985",
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      ],
+      "description": "할로윈 SS 리미티드 · 기본 전투력 237,600(기존 SS 리미티드 대비 32% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 701.8%·체력 893.2%·전용 방벽 478.5%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 672%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 1.75배입니다."
+    },
+    {
+      "code": "V-986",
+      "basePower": 237600,
+      "skills": [
+        {
+          "id": "MS-986",
+          "balance": {
+            "damageRatio": 6.72,
+            "cooldownTurns": 1,
+            "cost": 20
+          }
+        }
+      ],
+      "description": "할로윈 SS 리미티드 · 기본 전투력 237,600(기존 SS 리미티드 대비 32% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 1137.4%·체력 1447.6%·전용 방벽 775.5%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 672%·비용 20·재사용 1행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 2.15배입니다."
+    }
+  ],
+  "kangyun": {
+    "code": "V-057",
+    "basePower": 324000,
+    "skills": [
+      {
+        "id": "MS-059",
+        "balance": {
+          "damageRatio": 8.4,
+          "cooldownTurns": 2,
+          "cost": 25
+        }
+      },
+      {
+        "id": "MS-060",
+        "balance": {
+          "damageRatio": 12,
+          "cooldownTurns": 4,
+          "cost": 35
+        }
+      }
+    ]
+  },
+  "deployment": {
+    "baseCommit": "3366ec78ddd997bd1421214151740f113f882ba0",
+    "sourceCommit": "b49720f45f9f42c7743b20a768f81df05d926cba",
+    "pages": "https://3f1dc8eb.cnine-card.pages.dev",
+    "apiRuntimeVersion": "7b97c7eb-a72c-4cf3-a342-dcbf1ac715e4",
+    "scheduledWorkerVersion": "d4253093-b209-4923-bb0b-a9a31de0ef7c",
+    "command": "npm run deploy:production -- --scoped",
+    "relatedTestsPassed": 15,
+    "checks": [
+      "WORKER_SYNTAX",
+      "PRODUCTION_RELEASE_FLAGS_AND_CACHE",
+      "HYPERDRIVE_QUERY_CACHE_DISABLED"
+    ]
+  }
+}
