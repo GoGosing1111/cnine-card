@@ -1,0 +1,24 @@
+{
+  "source": "e3905780a",
+  "pages": "https://1be13de2.cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "/mercenary-codex/",
+      "status": 200,
+      "contentMatches": true
+    },
+    {
+      "path": "/mercenary-codex/deployment.css",
+      "status": 200,
+      "contentMatches": true
+    }
+  ],
+  "zero": {
+    "code": "V-976",
+    "title": "백금 검익",
+    "basePower": 2300000,
+    "acquisitionEnabled": false,
+    "packAcquisitionEnabled": false
+  },
+  "liveAccountWrites": 0
+}
