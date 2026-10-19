@@ -1,0 +1,54 @@
+{
+  "operationKey": "ops:spirit-letter:playdk:1314390:20261019:v1",
+  "title": "신령님에게 보내는 편지 4편 선정 보상",
+  "source": "https://www.playdk.kr/board/skm/1314390",
+  "authorization": "지급해",
+  "delivery": "DIRECT",
+  "recipients": [
+    {
+      "commentName": "의지",
+      "providerUserId": "cfd8587e",
+      "reward": {
+        "kind": "COIN",
+        "amount": "10000000000000"
+      },
+      "userId": "4641",
+      "nickname": "의지",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerName": "의지"
+    },
+    {
+      "commentName": "[C9]가시",
+      "providerUserId": "f4345135",
+      "reward": {
+        "kind": "EQUIPMENT",
+        "code": "BATTLE_SUIT_S_BODY",
+        "id": "47",
+        "name": "S-BODY",
+        "quantity": 1
+      },
+      "userId": "4866",
+      "nickname": "[C9]가시",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerName": "[C9]가시"
+    },
+    {
+      "commentName": "제롬",
+      "providerUserId": "b15e1ffc",
+      "reward": {
+        "kind": "EQUIPMENT",
+        "code": "BATTLE_SUIT_S_BODY",
+        "id": "47",
+        "name": "S-BODY",
+        "quantity": 1
+      },
+      "userId": "4625",
+      "nickname": "제롬",
+      "role": "USER",
+      "provider": "PLAYDK",
+      "providerName": "제롬"
+    }
+  ]
+}

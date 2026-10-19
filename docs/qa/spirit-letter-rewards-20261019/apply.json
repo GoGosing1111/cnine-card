@@ -1,0 +1,17 @@
+{
+  "operationKey": "ops:spirit-letter:playdk:1314390:20261019:v1",
+  "planHash": "106a1e1a44678db1d867ed7fda3a88792e1e39f771bb34b737dd0911f1025345",
+  "implementationHash": "2bdba61eba7e3baf1876947d6989ece6a33b74c710ed448b1fcc419817469d7b",
+  "checkedAt": "2026-10-19T04:30:04.983Z",
+  "status": "VERIFIED",
+  "replayed": false,
+  "recipients": 3,
+  "coinRecipients": 1,
+  "coinAmount": "10000000000000",
+  "equipmentRecipients": 2,
+  "sBodyQuantity": 2,
+  "coinLogs": 1,
+  "equipmentInstances": 2,
+  "auditRecords": 1,
+  "operationReceipts": 1
+}
