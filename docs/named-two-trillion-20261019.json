@@ -1,0 +1,15 @@
+{
+  "status": "VERIFIED",
+  "recipientCount": 39,
+  "amountEach": "2000000000000",
+  "totalCoin": "78000000000000",
+  "coinLogs": 39,
+  "mild7Included": true,
+  "missing": 0,
+  "duplicates": 0,
+  "auditId": "48529",
+  "completedAt": "2026-10-19T14:30:56.841Z",
+  "independentReadOnlyConnection": true,
+  "verifiedAt": "2026-10-19T14:31:07.641Z",
+  "sourceSha256": "2820de79410a21f69ba1e75a66ff89a9e40f93f86b45dcc8fa67cce97d000123"
+}
