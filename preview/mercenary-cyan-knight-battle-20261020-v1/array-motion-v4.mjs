@@ -11,24 +11,31 @@ export const attackPlans=[
  [{at:1.29,kind:'crescent-rise'},{at:1.98,kind:'hook-loop'},{at:2.51,kind:'diagonal-dive'},{at:3.09,kind:'zigzag-up'}]
 ];
 const aimPoints=[{x:-.16,y:-.18},{x:.15,y:.10},{x:-.10,y:.17},{x:.18,y:-.06},{x:0,y:-.22}];
-// Expand the outer formation and return arcs, leaving the target's contact zone intact.
+// Expand the outer formation and approach curves, leaving the target's contact zone intact.
 const spreadAxis=(value,gain)=>Math.sign(value)*(Math.min(Math.abs(value),.25)+Math.max(0,Math.abs(value)-.25)*gain);
 const spreadPoint=p=>({...p,x:spreadAxis(p.x,1.35),y:spreadAxis(p.y,1.18)});
+const entryRing=[{x:-1.22,y:-.58},{x:-.84,y:-1.10},{x:.66,y:-1.18},{x:1.22,y:-.56},{x:1.20,y:.34},{x:.48,y:.60},{x:-.62,y:.57},{x:-1.20,y:.24}];
+const nextEntry=(index,pass,exit)=>{
+ for(let step=0;step<entryRing.length;step++){
+  const p=entryRing[(index*3+pass*5+step*3)%entryRing.length];if(Math.hypot(p.x-exit.x,p.y-exit.y)>=1.15)return p;
+ }
+ throw Error('No separated sword reentry');
+};
 export const phantomTracks=attackPlans.map((plans,i)=>{
  const fanX=[-1.25,-.62,0,.62,1.25][i],fanY=[-.80,-1.12,-1.22,-1.12,-.80][i];
- const track=[{at:.12+i*.026,x:fanX,y:fanY,angle:-Math.PI/2,alpha:0,phase:'summon'},{at:.34+i*.026,x:fanX,y:fanY,angle:-Math.PI/2,alpha:1,phase:'summon'}];
+ const track=[{at:.12+i*.026,x:fanX,y:fanY,angle:-Math.PI/2,alpha:0,phase:'summon',pass:0},{at:.34+i*.026,x:fanX,y:fanY,angle:-Math.PI/2,alpha:1,phase:'summon',pass:0}];
  const last=()=>track.at(-1);
  const hold=(until,angle=last().angle,phase=last().phase)=>{
   if(until<last().at-1e-6)throw Error('Nonmonotonic sword track '+i+' at '+until);
-  track.push({...last(),at:until,angle,phase,hit:false,curve:null});
+  track.push({...last(),at:until,angle,phase,hit:false,curve:null,teleport:false});
  };
  const fly=(seconds,p,phase,hit=false)=>{
   const a=last(),curve=p.c1?{c1:p.c1,c2:p.c2}:null,start=curve?curve.c1:p,end=curve?curve.c2:a;
   a.angle=Math.atan2(start.y-a.y,start.x-a.x);
-  track.push({at:a.at+seconds,x:p.x,y:p.y,angle:Math.atan2(p.y-end.y,p.x-end.x),alpha:1,phase,hit,curve});
+  track.push({at:a.at+seconds,x:p.x,y:p.y,angle:Math.atan2(p.y-end.y,p.x-end.x),alpha:1,phase,hit,curve,pass:a.pass,teleport:false});
  };
  plans.forEach((plan,j)=>{
-  const base=aimPoints[(i+j*2)%5],aim={x:base.x+(j%2?.015:-.015),y:base.y+(i%2?.012:-.012)},p=last();
+  const base=aimPoints[(i+j*2)%5],aim={x:base.x+(j%2?.015:-.015),y:base.y+(i%2?.012:-.012)},p=j?nextEntry(i,j,last()):last();
   const high=-.83-((i+j)%3)*.12,low=.40+((i+j)%3)*.07,side=(i+j)%2?1:-1;
   const arc=(end,c1,c2)=>({...end,c1,c2});
   let points;
@@ -50,20 +57,23 @@ export const phantomTracks=attackPlans.map((plans,i)=>{
   points=points.filter(q=>{if(Math.hypot(q.x-previous.x,q.y-previous.y)<1e-6)return false;previous=q;return true;});
   previous=p;
   const legs=points.map((q,k)=>{const a=previous;previous=q;const direction=q.c1||q,length=q.c1?Math.hypot(q.c1.x-a.x,q.c1.y-a.y)+Math.hypot(q.c2.x-q.c1.x,q.c2.y-q.c1.y)+Math.hypot(q.x-q.c2.x,q.y-q.c2.y):Math.hypot(q.x-a.x,q.y-a.y);return{point:q,angle:Math.atan2(direction.y-a.y,direction.x-a.x),duration:Math.max(q.c1?.11:.035,Math.min(q.c1?.23:.075,length/24)),brake:k===0?.022:q.c1?.012:.032};});
-  const total=legs.reduce((n,l)=>n+l.duration+l.brake,0),tempo=Math.min(1,(plan.at-last().at-.015)/total),start=plan.at-total*tempo;
+  const reentryLead=j?.145:0,total=legs.reduce((n,l)=>n+l.duration+l.brake,0),tempo=Math.min(1,(plan.at-last().at-.015-reentryLead)/total),start=plan.at-total*tempo;
   if(tempo<=0)throw Error('Overlapping sword schedule');
-  hold(start,last().angle,'waiting-'+plan.kind);
+  if(j){
+   hold(start-.055,last().angle,'absent');
+   track.push({...last(),x:p.x,y:p.y,angle:legs[0].angle,phase:'reappear',pass:j,teleport:true});
+   hold(start,legs[0].angle,'waiting-'+plan.kind);last().alpha=1;
+  }else hold(start,last().angle,'waiting-'+plan.kind);
   for(const [k,leg]of legs.entries()){hold(last().at+leg.brake*tempo,leg.angle,plan.kind);fly(leg.duration*tempo,leg.point,plan.kind,k===legs.length-1);}
-  // Follow the actual impact tangent, then curl around outside before the next independent approach.
+  // Pierce through once, fade out, and stay absent until the next independent entry.
   const bound=p=>({x:Math.max(-1.28,Math.min(1.28,p.x)),y:Math.max(-1.20,Math.min(.62,p.y))}),angle=last().angle,dx=Math.cos(angle),dy=Math.sin(angle),exit=bound({x:aim.x+dx*.82,y:aim.y+dy*.82});
   hold(last().at+.018+(i%2)*.006,angle,'follow-through');fly(.045,exit,'follow-through');
-  if(j===plans.length-1){hold(last().at+.035,angle,'dissolve');track.push({...last(),at:last().at+.18,alpha:0,phase:'dissolve',hit:false,curve:null});}
-  else{const turn=bound({x:exit.x-dy*.30,y:exit.y+dx*.30});fly(.085,arc(turn,bound({x:exit.x+dx*.23,y:exit.y+dy*.23}),bound({x:turn.x+dx*.23,y:turn.y+dy*.23})),'return-arc');}
+  track.push({...last(),at:last().at+.040,alpha:0,phase:'absent',hit:false,curve:null,teleport:false});
  });
  const expanded=track.map(p=>({...spreadPoint(p),curve:p.curve?{c1:spreadPoint(p.curve.c1),c2:spreadPoint(p.curve.c2)}:null}));
  // Rebuild flight tangents after expanding the Bezier controls; stationary turns remain continuous.
  for(let k=0;k<expanded.length-1;k++){
-  const a=expanded[k],b=expanded[k+1];if(!b.curve&&Math.hypot(b.x-a.x,b.y-a.y)<1e-8)continue;
+  const a=expanded[k],b=expanded[k+1];if(b.teleport||(!b.curve&&Math.hypot(b.x-a.x,b.y-a.y)<1e-8))continue;
   const start=segmentTangent(a,b,0),end=segmentTangent(a,b,1);
   a.angle=Math.atan2(start.y,start.x);b.angle=Math.atan2(end.y,end.x);
  }
@@ -72,16 +82,18 @@ export const phantomTracks=attackPlans.map((plans,i)=>{
 const routePoints=phantomTracks.flatMap(track=>track.flatMap(p=>p.curve?[p,p.curve.c1,p.curve.c2]:[p]));
 export const ARRAY_ROUTE_EXTENTS={left:Math.max(...routePoints.map(p=>-p.x))+.04,right:Math.max(...routePoints.map(p=>p.x))+.04,up:Math.max(...routePoints.map(p=>-p.y))+.04,down:Math.max(...routePoints.map(p=>p.y))+.04};
 export const impactEvents=phantomTracks.flatMap((track,index)=>track.filter(p=>p.hit).map(p=>({...p,index,targetIndex:index%3}))).sort((a,b)=>a.at-b.at);
+export const reentryEvents=phantomTracks.flatMap((track,index)=>track.flatMap((p,k)=>p.teleport?[{...p,index,from:{x:track[k-1].x,y:track[k-1].y},absentAt:track.slice(0,k).findLast(n=>n.phase==='absent'&&n.at<track[k-1].at)?.at}]:[]));
 export const cornerEvents=phantomTracks.flatMap((track,index)=>track.flatMap((a,k)=>{
- const b=track[k+1];if(!b||b.curve||a.at<.45||Math.hypot(a.x-b.x,a.y-b.y)>.00001||Math.abs(delta(a.angle,b.angle))<Math.PI/4)return[];
+ const b=track[k+1];if(!b||b.teleport||b.curve||a.alpha<=.01||b.alpha<=.01||a.at<.45||Math.hypot(a.x-b.x,a.y-b.y)>.00001||Math.abs(delta(a.angle,b.angle))<Math.PI/4)return[];
  return[{at:a.at+(b.at-a.at)*.55,x:a.x,y:a.y,angle:b.angle,index,targetIndex:index%3}];
 }));
 export function phantomSample(t){
  return phantomTracks.map((track,index)=>{
   if(t<track[0].at||t>=track.at(-1).at)return null;
   const n=Math.max(0,track.findLastIndex(p=>p.at<=t)),a=track[n],b=track[Math.min(n+1,track.length-1)],q=b.at===a.at?1:clamp((t-a.at)/(b.at-a.at));
+  if(b.teleport||(a.alpha===0&&b.alpha===0))return null;
   const held=!b.curve&&Math.hypot(b.x-a.x,b.y-a.y)<1e-5,p=segmentPoint(a,b,q),d=segmentTangent(a,b,q);
-  return{index,targetIndex:index%3,x:p.x,y:p.y,angle:held?a.angle+delta(a.angle,b.angle)*q:Math.atan2(d.y,d.x),alpha:mix(a.alpha,b.alpha,q),phase:a.phase,held,curved:!!b.curve,velocity:held?0:Math.hypot(d.x,d.y)/(b.at-a.at)};
+  return{index,targetIndex:index%3,x:p.x,y:p.y,angle:held?a.angle+delta(a.angle,b.angle)*q:Math.atan2(d.y,d.x),alpha:mix(a.alpha,b.alpha,q),phase:a.phase,pass:a.pass,held,curved:!!b.curve,velocity:held?0:Math.hypot(d.x,d.y)/(b.at-a.at)};
  }).filter(Boolean);
 }
 export function segmentPoint(a,b,t){
@@ -92,17 +104,17 @@ export function segmentTangent(a,b,t){
  if(!b.curve)return{x:b.x-a.x,y:b.y-a.y};
  const {c1,c2}=b.curve,u=1-t;return{x:3*u*u*(c1.x-a.x)+6*u*t*(c2.x-c1.x)+3*t*t*(b.x-c2.x),y:3*u*u*(c1.y-a.y)+6*u*t*(c2.y-c1.y)+3*t*t*(b.y-c2.y)};
 }
-// The painted ribbon follows the same curved/straight path as its sword, including the return arc.
+// Only physical flight paints a ribbon. Invisible relocation never connects two entry points.
 export function traceSegments(t,lifetime=.28){
  const out=[];
  phantomTracks.forEach((track,index)=>{
   for(let k=0;k<track.length-1;k++){
    const a=track[k],b=track[k+1],dx=b.x-a.x,dy=b.y-a.y;
-   if(a.at<.45||t<a.at||b.at<t-lifetime||(!b.curve&&Math.hypot(dx,dy)<.015))continue;
+   if(b.teleport||(a.alpha===0&&b.alpha===0)||a.at<.45||t<a.at||b.at<t-lifetime||(!b.curve&&Math.hypot(dx,dy)<.015))continue;
    const from=Math.max(a.at,t-lifetime),to=Math.min(b.at,t);if(to<=from)continue;
    const u=clamp((from-a.at)/(b.at-a.at)),v=clamp((to-a.at)/(b.at-a.at));
    const points=Array.from({length:24},(_,k)=>segmentPoint(a,b,mix(u,v,k/23)));
-   out.push({index,targetIndex:index%3,from:points[0],to:points.at(-1),points,curved:!!b.curve,age:t-to,tailAge:t-from,lifetime});
+   out.push({index,targetIndex:index%3,pass:a.pass,from:points[0],to:points.at(-1),points,curved:!!b.curve,age:t-to,tailAge:t-from,lifetime});
   }
  });
  return out;

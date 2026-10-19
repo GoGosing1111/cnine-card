@@ -6,7 +6,7 @@ import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
 import sharp from 'sharp';
 import {MODES,sample} from './motion.mjs';
-import {impactEvents,phantomTracks,traceSegments,cornerEvents} from './array-motion-v4.mjs';
+import {impactEvents,phantomTracks,phantomSample,traceSegments,cornerEvents,reentryEvents} from './array-motion-v4.mjs';
 const require=createRequire(import.meta.url),{chromium}=require('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const root=new URL('./',import.meta.url),qa=new URL('qa/array-v4/',root),hash=b=>createHash('sha256').update(b).digest('hex');
 await fs.mkdir(qa,{recursive:true});
@@ -19,10 +19,10 @@ for(const mode of ['horizon','flurry','meteor','zenith'])for(let t=0;t<=MODES[mo
 let flightLegs=0,curvedLegs=0,diagonalLegs=0,orthogonalLegs=0;
 for(const track of phantomTracks)for(let i=1;i<track.length;i++){
  const a=track[i-1],b=track[i];assert.ok(b.at>=a.at,'Monotonic track');
- const dx=Math.abs(b.x-a.x),dy=Math.abs(b.y-a.y);if(dx+dy<1e-8&&!b.curve)continue;
+ const dx=Math.abs(b.x-a.x),dy=Math.abs(b.y-a.y);if(b.teleport||(dx+dy<1e-8&&!b.curve))continue;
  if(b.curve){assert.ok(Object.values(b.curve).every(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)));curvedLegs++;}else if(dx>1e-8&&dy>1e-8)diagonalLegs++;else orthogonalLegs++;flightLegs++;
 }
-assert.ok(curvedLegs>=20&&diagonalLegs>=10&&orthogonalLegs>0,'Mix curved, diagonal and selected sharp routes');
+assert.ok(curvedLegs>=12&&diagonalLegs>=10&&orthogonalLegs>0&&curvedLegs+diagonalLegs>orthogonalLegs,'Mix curved, diagonal and selected sharp approaches');
 assert.equal(impactEvents.length,20);assert.equal(traceSegments(MODES.array.duration,.31).length,0);
 const impactGaps=impactEvents.slice(1).map((e,i)=>e.at-impactEvents[i].at);
 assert.ok(Math.min(...impactGaps)>=.119,'Every sword has a separate impact beat');
@@ -30,6 +30,14 @@ assert.ok(impactEvents.slice(1).every((e,i)=>e.index!==impactEvents[i].index),'I
 assert.ok(new Set(impactEvents.map(e=>e.x.toFixed(3)+','+e.y.toFixed(3))).size>=16,'Different points on the target');
 const offbeat=JSON.parse(await fs.readFile(new URL('orthogonal-offbeat/checks.json',qa)));
 impactEvents.forEach((e,i)=>{assert.equal(e.index,offbeat.impactOrder[i].index);assert.ok(Math.abs(e.at-offbeat.impactOrder[i].time)<1e-8,'Preserve accepted offbeat timing');});
+const vanishEvents=phantomTracks.flatMap((track,index)=>track.flatMap((p,k)=>p.phase==='absent'&&track[k-1]?.alpha>0?[{at:p.at,index,pass:p.pass}]:[]));
+assert.equal(vanishEvents.length,20,'Every pass disappears after piercing');assert.equal(reentryEvents.length,15,'Three new entries per sword');
+for(const e of vanishEvents)assert.ok(!phantomSample(e.at+.03).some(p=>p.index===e.index),'Fully invisible after each pass');
+for(const e of reentryEvents){
+ assert.ok(e.at-e.absentAt>=.09,'Visible gap before the next entry');assert.ok(Math.hypot(e.x-e.from.x,e.y-e.from.y)>1.15,'Reappear at a different outer position');
+ const p=phantomSample(e.at+.03).find(p=>p.index===e.index);assert.ok(p?.alpha>0&&p.pass===e.pass);assert.equal(p.x,e.x);assert.equal(p.y,e.y);
+ assert.ok(!traceSegments(e.at,.001).some(p=>p.index===e.index),'No trail across invisible relocation');
+}
 const bounds=[];
 for(const w of m.summonedWeapons.frames){
  const {data,info}=await sharp(fileURLToPath(new URL(m.summonedWeapons.url,root))).extract({left:w.rect.x,top:w.rect.y,width:w.rect.width,height:w.rect.height}).ensureAlpha().raw().toBuffer({resolveWithObject:true});
@@ -38,17 +46,17 @@ for(const w of m.summonedWeapons.frames){
  assert.ok(b.x>1&&b.y>1&&b.right<info.width-2&&b.bottom<info.height-2,'Solid sword silhouette has alpha margin');bounds.push(b);
 }
 for(const a of [m.summonedWeapons,m.effects['rail-v4'],m.effects['snap-v4']])assert.equal(hash(await fs.readFile(new URL(a.url,root))),a.sha256,'Registered new asset hash');
-const report={status:'PASS',visualApproval:false,preservedFiles:scope.files.length,preservedOtherSkillSamples:preservedSamples,flightLegs,curvedLegs,diagonalLegs,orthogonalLegs,preservedOffbeatTiming:true,cornerBrakes:cornerEvents.length,impacts:impactEvents.length,impactGaps,impactOrder:impactEvents.map(e=>({time:e.at,index:e.index,x:e.x,y:e.y,route:e.phase})),solidSwordBounds:bounds,devices:[]};
+const report={status:'PASS',visualApproval:false,preservedFiles:scope.files.length,preservedOtherSkillSamples:preservedSamples,flightLegs,curvedLegs,diagonalLegs,orthogonalLegs,preservedOffbeatTiming:true,cornerBrakes:cornerEvents.length,impacts:impactEvents.length,impactGaps,impactOrder:impactEvents.map(e=>({time:e.at,index:e.index,x:e.x,y:e.y,route:e.phase})),vanishEvents,reentryEvents,solidSwordBounds:bounds,devices:[]};
 const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--disable-background-timer-throttling','--disable-renderer-backgrounding']});
 try{
  for(const device of [{name:'desktop',width:1440,height:1000},{name:'mobile',width:390,height:844}]){
   const page=await browser.newPage({viewport:{width:device.width,height:device.height},isMobile:device.name==='mobile',hasTouch:device.name==='mobile'}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto('http://127.0.0.1:8991/preview/mercenary-cyan-knight-battle-20261020-v1/');await page.waitForFunction(()=>window.CyanKnightPreview);
-  const checks=await page.evaluate(({hits,bounds})=>{
+  const checks=await page.evaluate(({hits,bounds,vanishes,entries})=>{
    const {fx:f,engine:e}=CyanKnightPreview;f.setMode('array');
    const camera=()=>[e.stage.x,e.stage.y,e.stage.pivot.x,e.stage.pivot.y,e.stage.scale.x,e.stage.scale.y];
-   const out={contacts:[],clipped:[],cameraChanges:[],maxRails:0,maxSnaps:0,overflow:document.documentElement.scrollWidth>innerWidth,autoZoom:f.zoom};
+   const out={contacts:[],clipped:[],cameraChanges:[],vanished:[],reentries:[],maxRails:0,maxSnaps:0,overflow:document.documentElement.scrollWidth>innerWidth,autoZoom:f.zoom};
    for(const hit of hits){f.seek(hit.at);const d=f.diagnostics(),c=d.phantomContacts.find(c=>c.index===hit.index);out.contacts.push({time:hit.at,index:hit.index,intersects:!!c?.intersects,distance:c?.distance,groundError:d.groundError});}
    f.seek(0);const base=JSON.stringify(camera());
    for(let t=.10;t<4.56;t+=.01){
@@ -58,12 +66,15 @@ try{
      if(points.some(p=>p.x<0||p.x>e.app.screen.width||p.y<0||p.y>e.app.screen.height))out.clipped.push({time:Number(t.toFixed(2)),index:i});
     });
    }
-   f.seek(2.4);f.setEffects(false);out.effectsOff=f.diagnostics();f.setEffects(true);f.cancel();out.cancel=f.diagnostics();return out;
-  },{hits:impactEvents,bounds});
+   for(const v of vanishes){f.seek(v.at+.03);out.vanished.push({index:v.index,time:v.at,hidden:!f.swordPool[v.index].visible&&!f.array.haloPool[v.index].visible&&[0,1,2].every(k=>!f.array.echoPool[k*5+v.index].visible)});}
+   for(const entry of entries){f.seek(entry.absentAt-.001);const before=f.swordPool[entry.index].getGlobalPosition();f.seek(entry.at+.03);const after=f.swordPool[entry.index].getGlobalPosition();out.reentries.push({index:entry.index,time:entry.at,visible:f.swordPool[entry.index].visible,distance:Math.hypot(after.x-before.x,after.y-before.y)});}
+   f.seek(2.4);out.visibleBeforeEffectsOff=f.diagnostics().visibleSwords;f.setEffects(false);out.effectsOff=f.diagnostics();f.setEffects(true);f.cancel();out.cancel=f.diagnostics();return out;
+  },{hits:impactEvents,bounds,vanishes:vanishEvents,entries:reentryEvents});
   assert.equal(checks.overflow,false);assert.equal(checks.autoZoom,false);assert.deepEqual(checks.clipped,[],'Physical swords must fit fixed camera');assert.deepEqual(checks.cameraChanges,[]);
   assert.ok(checks.contacts.every(c=>c.intersects&&c.groundError<1e-8),'Each striking sword crosses the actual target');
+  assert.ok(checks.vanished.every(v=>v.hidden),'No sword, halo or sword echo during absence');assert.ok(checks.reentries.every(v=>v.visible&&v.distance>40),'Visible reentry at a separated screen position');
   assert.ok(checks.maxRails<32&&checks.maxSnaps<40,'Pools fit simultaneous effects');
-  assert.equal(checks.effectsOff.visibleEffects+checks.effectsOff.summonedArray.visibleEffects+checks.effectsOff.visibleGhosts,0);assert.equal(checks.effectsOff.visibleSwords,5);
+  assert.equal(checks.effectsOff.visibleEffects+checks.effectsOff.summonedArray.visibleEffects+checks.effectsOff.visibleGhosts,0);assert.equal(checks.effectsOff.visibleSwords,checks.visibleBeforeEffectsOff);
   assert.equal(checks.cancel.registeredTimelines+checks.cancel.visibleEffects+checks.cancel.summonedArray.visibleEffects+checks.cancel.visibleSwords,0);
   await page.evaluate(()=>{const f=CyanKnightPreview.fx;f.setSpeed(2);f.play();});await page.waitForTimeout(350);
   const paused=await page.evaluate(()=>{CyanKnightPreview.fx.pause();return CyanKnightPreview.fx.time});await page.waitForTimeout(180);
@@ -72,7 +83,7 @@ try{
   const slow=await page.evaluate(()=>CyanKnightPreview.fx.time);assert.ok(slow>.70&&slow<.91,'Slow clock');
   await page.evaluate(()=>{const f=CyanKnightPreview.fx;f.setSpeed(1);f.seek(0);f.play();});await page.waitForTimeout(4850);
   assert.equal(await page.evaluate(()=>CyanKnightPreview.fx.playing),false);
-  for(const [label,time]of [['fan',.45],['drop',.83],['reverse',1.41],['curve',1.91],['diagonal',2.58],['stairs',2.24],['execution',3.09],['finish',3.76]]){
+  for(const [label,time]of [['fan',.45],['drop',.88],['vanished',vanishEvents[0].at+.03],['reentry',reentryEvents[0].at+.03],['reverse',1.46],['curve',1.91],['diagonal',2.58],['stairs',2.29],['execution',3.14],['finish',3.76]]){
    await page.evaluate(t=>CyanKnightPreview.fx.seek(t),time);await page.waitForTimeout(60);
    await page.locator('.battle-viewport').screenshot({path:fileURLToPath(new URL(device.name+'-'+label+'.png',qa))});
   }

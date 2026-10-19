@@ -55,13 +55,13 @@ export class SummonedSwordArray{
    this.core.moveTo(a.x,a.y);points.slice(1).forEach(p=>this.core.lineTo(p.x,p.y));this.core.stroke({color:0xe7ffff,width:size*.013,alpha:alpha*.82});
   });
   [.022,.049,.083].forEach((ago,k)=>{
-   for(const f of phantomSample(Math.max(0,t-ago))){if(f.velocity<3||t<.68)continue;const s=this.echoPool[k*5+f.index];this.blade(s,f,size,[.23,.13,.065][k]);s.tint=0x83dfff;s.blendMode='add';}
+   for(const f of phantomSample(Math.max(0,t-ago))){const current=state.phantoms.find(p=>p.index===f.index);if(!current||current.alpha<=.01||current.pass!==f.pass||f.velocity<3||t<.68)continue;const s=this.echoPool[k*5+f.index];this.blade(s,f,size,[.23,.13,.065][k]);s.tint=0x83dfff;s.blendMode='add';}
   });
   const events=[...cornerEvents.filter(e=>t>=e.at&&t<e.at+.21).map(e=>({...e,life:.21,kind:'corner'})),...impactEvents.filter(e=>t>=e.at&&t<e.at+.25).map(e=>({...e,life:.25,kind:'hit'}))];
   this.activeCorners=events.filter(e=>e.kind==='corner').length;
   events.forEach((ev,i)=>{
    const progress=(t-ev.at)/ev.life,frame=Math.min(11,Math.floor(progress*12)),art=o.manifest.effects['snap-v4'].frames[frame],s=this.snapPool[i],target=o.targets[ev.targetIndex%o.targets.length],center=o.contact(target);
-   const q=this.point(this.routePoint(center,ev,size));s.texture=o.assets.effects['snap-v4'][frame];s.anchor.set(art.pivot.x,art.pivot.y);s.position.set(q.x,q.y);s.scale.set(size*(ev.kind==='hit'?1.10:.70)/s.texture.width);s.rotation=0;s.alpha=ev.kind==='hit'?1:.83;s.visible=true;s.blendMode='normal';
+   const q=this.point(this.routePoint(center,ev,size));s.texture=o.assets.effects['snap-v4'][frame];s.anchor.set(art.pivot.x,art.pivot.y);s.position.set(q.x,q.y);s.scale.set(size*(ev.kind==='hit'?1.95:.70)/s.texture.width);s.rotation=0;s.alpha=ev.kind==='hit'?1:.83;s.visible=true;s.blendMode='normal';
   });
   for(const f of state.phantoms){
    const halo=this.haloPool[f.index];this.blade(halo,f,size,.65);halo.tint=0x48d5ff;halo.blendMode='add';halo.scale.set(halo.scale.x*1.04);

@@ -3,33 +3,33 @@
   "visualApproval": false,
   "preservedFiles": 24,
   "preservedOtherSkillSamples": 222,
-  "flightLegs": 79,
-  "curvedLegs": 34,
+  "flightLegs": 64,
+  "curvedLegs": 19,
   "diagonalLegs": 29,
   "orthogonalLegs": 16,
   "preservedOffbeatTiming": true,
-  "cornerBrakes": 32,
+  "cornerBrakes": 20,
   "impacts": 20,
   "impactGaps": [
     0.16000000000000003,
     0.13,
     0.16999999999999993,
-    0.11999999999999988,
-    0.15000000000000013,
-    0.12999999999999945,
-    0.13000000000000056,
-    0.16000000000000014,
-    0.11999999999999988,
+    0.1200000000000001,
+    0.1499999999999999,
+    0.12999999999999967,
+    0.13000000000000034,
+    0.15999999999999992,
+    0.1200000000000001,
     0.14000000000000057,
     0.1399999999999988,
     0.13000000000000034,
-    0.15000000000000036,
+    0.1499999999999999,
+    0.14000000000000012,
     0.13999999999999968,
-    0.13999999999999968,
     0.15000000000000036,
-    0.1599999999999997,
-    0.17000000000000037,
-    0.18000000000000016
+    0.16000000000000014,
+    0.16999999999999993,
+    0.17999999999999972
   ],
   "impactOrder": [
     {
@@ -61,7 +61,7 @@
       "route": "crescent-rise"
     },
     {
-      "time": 1.41,
+      "time": 1.4100000000000001,
       "index": 0,
       "x": -0.085,
       "y": 0.158,
@@ -75,7 +75,7 @@
       "route": "s-cross"
     },
     {
-      "time": 1.6899999999999995,
+      "time": 1.6899999999999997,
       "index": 3,
       "x": -0.14500000000000002,
       "y": -0.16799999999999998,
@@ -89,7 +89,7 @@
       "route": "s-rise"
     },
     {
-      "time": 1.9800000000000002,
+      "time": 1.98,
       "index": 4,
       "x": 0.16499999999999998,
       "y": 0.08800000000000001,
@@ -124,7 +124,7 @@
       "route": "diagonal-dive"
     },
     {
-      "time": 2.66,
+      "time": 2.6599999999999997,
       "index": 3,
       "x": -0.115,
       "y": 0.18200000000000002,
@@ -152,7 +152,7 @@
       "route": "zigzag-up"
     },
     {
-      "time": 3.2499999999999996,
+      "time": 3.25,
       "index": 1,
       "x": -0.085,
       "y": 0.18200000000000002,
@@ -166,11 +166,385 @@
       "route": "bow-sweep"
     },
     {
-      "time": 3.6,
+      "time": 3.5999999999999996,
       "index": 3,
       "x": 0.015,
       "y": -0.208,
       "route": "crescent-dive"
+    }
+  ],
+  "vanishEvents": [
+    {
+      "at": 0.9330000000000002,
+      "index": 0,
+      "pass": 0
+    },
+    {
+      "at": 1.5130000000000001,
+      "index": 0,
+      "pass": 1
+    },
+    {
+      "at": 2.3430000000000004,
+      "index": 0,
+      "pass": 2
+    },
+    {
+      "at": 3.0429999999999993,
+      "index": 0,
+      "pass": 3
+    },
+    {
+      "at": 1.229,
+      "index": 1,
+      "pass": 0
+    },
+    {
+      "at": 1.929,
+      "index": 1,
+      "pass": 1
+    },
+    {
+      "at": 2.488999999999999,
+      "index": 1,
+      "pass": 2
+    },
+    {
+      "at": 3.3589999999999995,
+      "index": 1,
+      "pass": 3
+    },
+    {
+      "at": 1.663,
+      "index": 2,
+      "pass": 0
+    },
+    {
+      "at": 2.203,
+      "index": 2,
+      "pass": 1
+    },
+    {
+      "at": 2.9029999999999996,
+      "index": 2,
+      "pass": 2
+    },
+    {
+      "at": 3.5229999999999997,
+      "index": 2,
+      "pass": 3
+    },
+    {
+      "at": 1.099,
+      "index": 3,
+      "pass": 0
+    },
+    {
+      "at": 1.7989999999999997,
+      "index": 3,
+      "pass": 1
+    },
+    {
+      "at": 2.7689999999999992,
+      "index": 3,
+      "pass": 2
+    },
+    {
+      "at": 3.708999999999999,
+      "index": 3,
+      "pass": 3
+    },
+    {
+      "at": 1.393,
+      "index": 4,
+      "pass": 0
+    },
+    {
+      "at": 2.083,
+      "index": 4,
+      "pass": 1
+    },
+    {
+      "at": 2.6129999999999995,
+      "index": 4,
+      "pass": 2
+    },
+    {
+      "at": 3.1929999999999996,
+      "index": 4,
+      "pass": 3
+    }
+  ],
+  "reentryEvents": [
+    {
+      "at": 1.1469993112883992,
+      "x": -1.5595,
+      "y": -0.6394,
+      "angle": -1.7315590674207315,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 1,
+      "teleport": true,
+      "index": 0,
+      "from": {
+        "x": 0.5353077673489742,
+        "y": 0.33870944993725094
+      },
+      "absentAt": 0.9330000000000002
+    },
+    {
+      "at": 1.841041666666667,
+      "x": 0.8035000000000001,
+      "y": -1.3474,
+      "angle": 1.5707963267948966,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 2,
+      "teleport": true,
+      "index": 0,
+      "from": {
+        "x": -0.8512367502120268,
+        "y": 0.6866
+      },
+      "absentAt": 1.5130000000000001
+    },
+    {
+      "at": 2.605601279123249,
+      "x": -1.5325,
+      "y": 0.24,
+      "angle": 1.5707963267948966,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 3,
+      "teleport": true,
+      "index": 0,
+      "from": {
+        "x": -0.01499999999999995,
+        "y": 0.6488399999999999
+      },
+      "absentAt": 2.3430000000000004
+    },
+    {
+      "at": 1.4705154139827414,
+      "x": 1.5595,
+      "y": -0.6158000000000001,
+      "angle": 1.5707963267948966,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 1,
+      "teleport": true,
+      "index": 1,
+      "from": {
+        "x": -0.7706629852059333,
+        "y": -0.16810366512782415
+      },
+      "absentAt": 1.229
+    },
+    {
+      "at": 2.117530162915981,
+      "x": 0.5605,
+      "y": 0.663,
+      "angle": -2.447999196583851,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 2,
+      "teleport": true,
+      "index": 1,
+      "from": {
+        "x": -0.4920988093468487,
+        "y": -0.6389395758893892
+      },
+      "absentAt": 1.929
+    },
+    {
+      "at": 2.8499966879537975,
+      "x": 0.8035000000000001,
+      "y": -1.3474,
+      "angle": 3.023586780077008,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 3,
+      "teleport": true,
+      "index": 1,
+      "from": {
+        "x": 0.6895819550947787,
+        "y": 0.16211395861144628
+      },
+      "absentAt": 2.488999999999999
+    },
+    {
+      "at": 1.8387916666666668,
+      "x": 1.5595,
+      "y": -0.6158000000000001,
+      "angle": -1.5707963267948966,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 1,
+      "teleport": true,
+      "index": 2,
+      "from": {
+        "x": -1.1169211627977793,
+        "y": -0.10356526949828801
+      },
+      "absentAt": 1.663
+    },
+    {
+      "at": 2.470124877260561,
+      "x": -1.5595,
+      "y": -0.6394,
+      "angle": 1.464060654145761,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 2,
+      "teleport": true,
+      "index": 2,
+      "from": {
+        "x": 0.01500000000000005,
+        "y": 0.6488399999999999
+      },
+      "absentAt": 2.203
+    },
+    {
+      "at": 3.113,
+      "x": 0.5605,
+      "y": 0.663,
+      "angle": -2.3824275379675366,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 3,
+      "teleport": true,
+      "index": 2,
+      "from": {
+        "x": -0.3507168596330371,
+        "y": -0.6524861489368049
+      },
+      "absentAt": 2.9029999999999996
+    },
+    {
+      "at": 1.2710416666666666,
+      "x": -0.7495,
+      "y": 0.6275999999999999,
+      "angle": -1.5707963267948966,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 1,
+      "teleport": true,
+      "index": 3,
+      "from": {
+        "x": 1.18825366057628,
+        "y": 0.20497385239069793
+      },
+      "absentAt": 1.099
+    },
+    {
+      "at": 2.4040724404877674,
+      "x": 1.5595,
+      "y": -0.6158000000000001,
+      "angle": -1.4536875822280322,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 2,
+      "teleport": true,
+      "index": 3,
+      "from": {
+        "x": -0.14499999999999996,
+        "y": 0.6866
+      },
+      "absentAt": 1.7989999999999997
+    },
+    {
+      "at": 3.413,
+      "x": -1.5595,
+      "y": -0.6394,
+      "angle": -1.5137155443886319,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 3,
+      "teleport": true,
+      "index": 3,
+      "from": {
+        "x": 0.7866350987764901,
+        "y": -0.11963279342089903
+      },
+      "absentAt": 2.7689999999999992
+    },
+    {
+      "at": 1.5913848677420888,
+      "x": 1.5325,
+      "y": 0.3562,
+      "angle": -1.5141195031628618,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 1,
+      "teleport": true,
+      "index": 4,
+      "from": {
+        "x": -0.6979547864215915,
+        "y": -0.9279704376976246
+      },
+      "absentAt": 1.393
+    },
+    {
+      "at": 2.2344776807849813,
+      "x": -0.7495,
+      "y": 0.6275999999999999,
+      "angle": -1.5707963267948966,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 2,
+      "teleport": true,
+      "index": 4,
+      "from": {
+        "x": 1.1652672318896131,
+        "y": 0.41336675246924004
+      },
+      "absentAt": 2.083
+    },
+    {
+      "at": 2.735381069727824,
+      "x": -0.7495,
+      "y": 0.6275999999999999,
+      "angle": -0.017440092075702202,
+      "alpha": 0,
+      "phase": "reappear",
+      "hit": false,
+      "curve": null,
+      "pass": 3,
+      "teleport": true,
+      "index": 4,
+      "from": {
+        "x": 1.053305481810665,
+        "y": 0.4107119638852553
+      },
+      "absentAt": 2.6129999999999995
     }
   ],
   "solidSwordBounds": [
@@ -240,7 +614,7 @@
           "groundError": 0
         },
         {
-          "time": 1.41,
+          "time": 1.4100000000000001,
           "index": 0,
           "intersects": true,
           "distance": 12.72030625814215,
@@ -254,7 +628,7 @@
           "groundError": 0
         },
         {
-          "time": 1.6899999999999995,
+          "time": 1.6899999999999997,
           "index": 3,
           "intersects": true,
           "distance": 26.100000000000023,
@@ -268,7 +642,7 @@
           "groundError": 0
         },
         {
-          "time": 1.9800000000000002,
+          "time": 1.98,
           "index": 4,
           "intersects": true,
           "distance": 5.590641288554358,
@@ -303,7 +677,7 @@
           "groundError": 0
         },
         {
-          "time": 2.66,
+          "time": 2.6599999999999997,
           "index": 3,
           "intersects": true,
           "distance": 24.10269521816177,
@@ -331,7 +705,7 @@
           "groundError": 0
         },
         {
-          "time": 3.2499999999999996,
+          "time": 3.25,
           "index": 1,
           "intersects": true,
           "distance": 25.80636379892815,
@@ -345,7 +719,7 @@
           "groundError": 0
         },
         {
-          "time": 3.6,
+          "time": 3.5999999999999996,
           "index": 3,
           "intersects": true,
           "distance": 25.25283866828461,
@@ -354,10 +728,205 @@
       ],
       "clipped": [],
       "cameraChanges": [],
-      "maxRails": 17,
-      "maxSnaps": 8,
+      "vanished": [
+        {
+          "index": 0,
+          "time": 0.9330000000000002,
+          "hidden": true
+        },
+        {
+          "index": 0,
+          "time": 1.5130000000000001,
+          "hidden": true
+        },
+        {
+          "index": 0,
+          "time": 2.3430000000000004,
+          "hidden": true
+        },
+        {
+          "index": 0,
+          "time": 3.0429999999999993,
+          "hidden": true
+        },
+        {
+          "index": 1,
+          "time": 1.229,
+          "hidden": true
+        },
+        {
+          "index": 1,
+          "time": 1.929,
+          "hidden": true
+        },
+        {
+          "index": 1,
+          "time": 2.488999999999999,
+          "hidden": true
+        },
+        {
+          "index": 1,
+          "time": 3.3589999999999995,
+          "hidden": true
+        },
+        {
+          "index": 2,
+          "time": 1.663,
+          "hidden": true
+        },
+        {
+          "index": 2,
+          "time": 2.203,
+          "hidden": true
+        },
+        {
+          "index": 2,
+          "time": 2.9029999999999996,
+          "hidden": true
+        },
+        {
+          "index": 2,
+          "time": 3.5229999999999997,
+          "hidden": true
+        },
+        {
+          "index": 3,
+          "time": 1.099,
+          "hidden": true
+        },
+        {
+          "index": 3,
+          "time": 1.7989999999999997,
+          "hidden": true
+        },
+        {
+          "index": 3,
+          "time": 2.7689999999999992,
+          "hidden": true
+        },
+        {
+          "index": 3,
+          "time": 3.708999999999999,
+          "hidden": true
+        },
+        {
+          "index": 4,
+          "time": 1.393,
+          "hidden": true
+        },
+        {
+          "index": 4,
+          "time": 2.083,
+          "hidden": true
+        },
+        {
+          "index": 4,
+          "time": 2.6129999999999995,
+          "hidden": true
+        },
+        {
+          "index": 4,
+          "time": 3.1929999999999996,
+          "hidden": true
+        }
+      ],
+      "reentries": [
+        {
+          "index": 0,
+          "time": 1.1469993112883992,
+          "visible": true,
+          "distance": 260.3301765618251
+        },
+        {
+          "index": 0,
+          "time": 1.841041666666667,
+          "visible": true,
+          "distance": 273.3629135734255
+        },
+        {
+          "index": 0,
+          "time": 2.605601279123249,
+          "visible": true,
+          "distance": 182.15337332610437
+        },
+        {
+          "index": 1,
+          "time": 1.4705154139827414,
+          "visible": true,
+          "distance": 272.771298247679
+        },
+        {
+          "index": 1,
+          "time": 2.117530162915981,
+          "visible": true,
+          "distance": 179.36085995815375
+        },
+        {
+          "index": 1,
+          "time": 2.8499966879537975,
+          "visible": true,
+          "distance": 134.65350642074915
+        },
+        {
+          "index": 2,
+          "time": 1.8387916666666668,
+          "visible": true,
+          "distance": 313.2808215434303
+        },
+        {
+          "index": 2,
+          "time": 2.470124877260561,
+          "visible": true,
+          "distance": 223.9865840484734
+        },
+        {
+          "index": 2,
+          "time": 3.113,
+          "visible": true,
+          "distance": 169.54795009537858
+        },
+        {
+          "index": 3,
+          "time": 1.2710416666666666,
+          "visible": true,
+          "distance": 229.86998578684384
+        },
+        {
+          "index": 3,
+          "time": 2.4040724404877674,
+          "visible": true,
+          "distance": 237.7276059611214
+        },
+        {
+          "index": 3,
+          "time": 3.413,
+          "visible": true,
+          "distance": 275.5310321008456
+        },
+        {
+          "index": 4,
+          "time": 1.5913848677420888,
+          "visible": true,
+          "distance": 285.27666392663883
+        },
+        {
+          "index": 4,
+          "time": 2.2344776807849813,
+          "visible": true,
+          "distance": 223.31093007057777
+        },
+        {
+          "index": 4,
+          "time": 2.735381069727824,
+          "visible": true,
+          "distance": 210.45623555112786
+        }
+      ],
+      "maxRails": 13,
+      "maxSnaps": 7,
       "overflow": false,
       "autoZoom": false,
+      "visibleBeforeEffectsOff": 2,
       "effectsOff": {
         "ready": true,
         "appearance": {
@@ -365,7 +934,7 @@
           "behindBody": true,
           "capeFrames": 6,
           "bodyAlpha": 1,
-          "originalTexture": 377,
+          "originalTexture": 311,
           "rimColor": "WHITE",
           "destroyed": false
         },
@@ -403,21 +972,6 @@
         },
         "phantomContacts": [
           {
-            "index": 0,
-            "targetIndex": 0,
-            "grip": {
-              "x": 949.205,
-              "y": 541.1670474576272
-            },
-            "tip": {
-              "x": 949.205,
-              "y": 334.9774288135593
-            },
-            "u": 0.9664261894853655,
-            "distance": 60.79499999999996,
-            "intersects": false
-          },
-          {
             "index": 1,
             "targetIndex": 0,
             "grip": {
@@ -433,48 +987,18 @@
             "intersects": true
           },
           {
-            "index": 2,
-            "targetIndex": 0,
-            "grip": {
-              "x": 956.495,
-              "y": 542.3889118644067
-            },
-            "tip": {
-              "x": 956.495,
-              "y": 333.14463220338985
-            },
-            "u": 0.9581571940184261,
-            "distance": 53.504999999999995,
-            "intersects": false
-          },
-          {
-            "index": 3,
-            "targetIndex": 0,
-            "grip": {
-              "x": 832.6954237288136,
-              "y": 465.48799999999994
-            },
-            "tip": {
-              "x": 1044.9943644067796,
-              "y": 465.48799999999994
-            },
-            "u": 0.8351646772469666,
-            "distance": 123.58799999999997,
-            "intersects": false
-          },
-          {
             "index": 4,
             "targetIndex": 0,
             "grip": {
-              "x": 882.5659251434492,
-              "y": 197.79823196044953
+              "x": 856.8925672615171,
+              "y": 167.82159468648354
             },
             "tip": {
-              "x": 662.3381183493096,
-              "y": 232.78918221124314
+              "x": 661.0755055329882,
+              "y": 274.50023275810463
             },
             "u": 0,
-            "distance": 192.36622101260235,
+            "distance": 231.83006094177253,
             "intersects": false
           }
         ],
@@ -482,7 +1006,7 @@
         "airborne": false,
         "visibleEffects": 0,
         "visibleGhosts": 0,
-        "visibleSwords": 5,
+        "visibleSwords": 2,
         "registeredTimelines": 0,
         "bodyFrames": 64,
         "effectFrames": 180,
@@ -519,7 +1043,7 @@
           "behindBody": true,
           "capeFrames": 6,
           "bodyAlpha": 1,
-          "originalTexture": 281,
+          "originalTexture": 255,
           "rimColor": "WHITE",
           "destroyed": false
         },
@@ -637,7 +1161,7 @@
           "groundError": 0
         },
         {
-          "time": 1.41,
+          "time": 1.4100000000000001,
           "index": 0,
           "intersects": true,
           "distance": 16.53639813556793,
@@ -651,7 +1175,7 @@
           "groundError": 0
         },
         {
-          "time": 1.6899999999999995,
+          "time": 1.6899999999999997,
           "index": 3,
           "intersects": true,
           "distance": 33.92999999999995,
@@ -665,7 +1189,7 @@
           "groundError": 0
         },
         {
-          "time": 1.9800000000000002,
+          "time": 1.98,
           "index": 4,
           "intersects": true,
           "distance": 6.007739723069509,
@@ -700,7 +1224,7 @@
           "groundError": 0
         },
         {
-          "time": 2.66,
+          "time": 2.6599999999999997,
           "index": 3,
           "intersects": true,
           "distance": 31.333503783605813,
@@ -728,7 +1252,7 @@
           "groundError": 0
         },
         {
-          "time": 3.2499999999999996,
+          "time": 3.25,
           "index": 1,
           "intersects": true,
           "distance": 33.5482729386082,
@@ -742,7 +1266,7 @@
           "groundError": 0
         },
         {
-          "time": 3.6,
+          "time": 3.5999999999999996,
           "index": 3,
           "intersects": true,
           "distance": 24.369408926436932,
@@ -751,10 +1275,205 @@
       ],
       "clipped": [],
       "cameraChanges": [],
-      "maxRails": 17,
-      "maxSnaps": 8,
+      "vanished": [
+        {
+          "index": 0,
+          "time": 0.9330000000000002,
+          "hidden": true
+        },
+        {
+          "index": 0,
+          "time": 1.5130000000000001,
+          "hidden": true
+        },
+        {
+          "index": 0,
+          "time": 2.3430000000000004,
+          "hidden": true
+        },
+        {
+          "index": 0,
+          "time": 3.0429999999999993,
+          "hidden": true
+        },
+        {
+          "index": 1,
+          "time": 1.229,
+          "hidden": true
+        },
+        {
+          "index": 1,
+          "time": 1.929,
+          "hidden": true
+        },
+        {
+          "index": 1,
+          "time": 2.488999999999999,
+          "hidden": true
+        },
+        {
+          "index": 1,
+          "time": 3.3589999999999995,
+          "hidden": true
+        },
+        {
+          "index": 2,
+          "time": 1.663,
+          "hidden": true
+        },
+        {
+          "index": 2,
+          "time": 2.203,
+          "hidden": true
+        },
+        {
+          "index": 2,
+          "time": 2.9029999999999996,
+          "hidden": true
+        },
+        {
+          "index": 2,
+          "time": 3.5229999999999997,
+          "hidden": true
+        },
+        {
+          "index": 3,
+          "time": 1.099,
+          "hidden": true
+        },
+        {
+          "index": 3,
+          "time": 1.7989999999999997,
+          "hidden": true
+        },
+        {
+          "index": 3,
+          "time": 2.7689999999999992,
+          "hidden": true
+        },
+        {
+          "index": 3,
+          "time": 3.708999999999999,
+          "hidden": true
+        },
+        {
+          "index": 4,
+          "time": 1.393,
+          "hidden": true
+        },
+        {
+          "index": 4,
+          "time": 2.083,
+          "hidden": true
+        },
+        {
+          "index": 4,
+          "time": 2.6129999999999995,
+          "hidden": true
+        },
+        {
+          "index": 4,
+          "time": 3.1929999999999996,
+          "hidden": true
+        }
+      ],
+      "reentries": [
+        {
+          "index": 0,
+          "time": 1.1469993112883992,
+          "visible": true,
+          "distance": 161.46104541348618
+        },
+        {
+          "index": 0,
+          "time": 1.841041666666667,
+          "visible": true,
+          "distance": 186.90708483095065
+        },
+        {
+          "index": 0,
+          "time": 2.605601279123249,
+          "visible": true,
+          "distance": 124.62863272204606
+        },
+        {
+          "index": 1,
+          "time": 1.4705154139827414,
+          "visible": true,
+          "distance": 118.81176317227673
+        },
+        {
+          "index": 1,
+          "time": 2.117530162915981,
+          "visible": true,
+          "distance": 118.32689566830123
+        },
+        {
+          "index": 1,
+          "time": 2.8499966879537975,
+          "visible": true,
+          "distance": 119.7653359132816
+        },
+        {
+          "index": 2,
+          "time": 1.8387916666666668,
+          "visible": true,
+          "distance": 146.58243356858407
+        },
+        {
+          "index": 2,
+          "time": 2.470124877260561,
+          "visible": true,
+          "distance": 160.79367103637608
+        },
+        {
+          "index": 2,
+          "time": 3.113,
+          "visible": true,
+          "distance": 114.25255803216574
+        },
+        {
+          "index": 3,
+          "time": 1.2710416666666666,
+          "visible": true,
+          "distance": 104.76729292915566
+        },
+        {
+          "index": 3,
+          "time": 2.4040724404877674,
+          "visible": true,
+          "distance": 121.3805497755302
+        },
+        {
+          "index": 3,
+          "time": 3.413,
+          "visible": true,
+          "distance": 155.5927782162938
+        },
+        {
+          "index": 4,
+          "time": 1.5913848677420888,
+          "visible": true,
+          "distance": 147.50568956664222
+        },
+        {
+          "index": 4,
+          "time": 2.2344776807849813,
+          "visible": true,
+          "distance": 99.94618059551351
+        },
+        {
+          "index": 4,
+          "time": 2.735381069727824,
+          "visible": true,
+          "distance": 96.28765067755371
+        }
+      ],
+      "maxRails": 13,
+      "maxSnaps": 7,
       "overflow": false,
       "autoZoom": false,
+      "visibleBeforeEffectsOff": 2,
       "effectsOff": {
         "ready": true,
         "appearance": {
@@ -762,7 +1481,7 @@
           "behindBody": true,
           "capeFrames": 6,
           "bodyAlpha": 1,
-          "originalTexture": 273,
+          "originalTexture": 354,
           "rimColor": "WHITE",
           "destroyed": false
         },
@@ -800,21 +1519,6 @@
         },
         "phantomContacts": [
           {
-            "index": 0,
-            "targetIndex": 0,
-            "grip": {
-              "x": 712.3763360655738,
-              "y": 790.985604317866
-            },
-            "tip": {
-              "x": 712.3763360655738,
-              "y": 522.9391000805779
-            },
-            "u": 0.9664261894853653,
-            "distance": 79.0335,
-            "intersects": false
-          },
-          {
             "index": 1,
             "targetIndex": 0,
             "grip": {
@@ -830,48 +1534,18 @@
             "intersects": true
           },
           {
-            "index": 2,
-            "targetIndex": 0,
-            "grip": {
-              "x": 721.8533360655738,
-              "y": 792.5740280466796
-            },
-            "tip": {
-              "x": 721.8533360655738,
-              "y": 520.5564644873575
-            },
-            "u": 0.9581571940184256,
-            "distance": 69.55650000000003,
-            "intersects": false
-          },
-          {
-            "index": 3,
-            "targetIndex": 0,
-            "grip": {
-              "x": 560.9138869130314,
-              "y": 692.6028426229508
-            },
-            "tip": {
-              "x": 836.9025097943874,
-              "y": 692.6028426229508
-            },
-            "u": 0.8351646772469665,
-            "distance": 160.6644,
-            "intersects": false
-          },
-          {
             "index": 4,
             "targetIndex": 0,
             "grip": {
-              "x": 624.5831078417641,
-              "y": 278.27168373447626
+              "x": 583.8249481530572,
+              "y": 231.51047930733296
             },
             "tip": {
-              "x": 341.1930362851169,
-              "y": 339.3022640401549
+              "x": 350.625831287192,
+              "y": 403.71046851264646
             },
-            "u": 0,
-            "distance": 303.60827033340894,
+            "u": 0.03956795125188165,
+            "distance": 364.98887688243104,
             "intersects": false
           }
         ],
@@ -879,7 +1553,7 @@
         "airborne": false,
         "visibleEffects": 0,
         "visibleGhosts": 0,
-        "visibleSwords": 5,
+        "visibleSwords": 2,
         "registeredTimelines": 0,
         "bodyFrames": 64,
         "effectFrames": 180,
@@ -916,7 +1590,7 @@
           "behindBody": true,
           "capeFrames": 6,
           "bodyAlpha": 1,
-          "originalTexture": 248,
+          "originalTexture": 306,
           "rimColor": "WHITE",
           "destroyed": false
         },

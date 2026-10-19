@@ -20,11 +20,13 @@
   "choreography": {
     "duration": 4.55,
     "visualContacts": 20,
-    "curvedLegs": 34,
+    "curvedLegs": 19,
     "diagonalLegs": 29,
     "orthogonalLegs": 16,
-    "minimumImpactGap": 0.11999999999999988,
-    "maximumImpactGap": 0.18000000000000016
+    "minimumImpactGap": 0.1200000000000001,
+    "maximumImpactGap": 0.17999999999999972,
+    "vanishCount": 20,
+    "reentryCount": 15
   },
   "preservation": {
     "files": 24,
@@ -39,10 +41,12 @@
     "review-array-v4.webm",
     "review-array-v4-slow.webm",
     "qa/array-v4/ui-preview.png",
-    "qa/array-v4/desktop-curve.png",
-    "qa/array-v4/mobile-curve.png"
+    "qa/array-v4/desktop-drop.png",
+    "qa/array-v4/desktop-vanished.png",
+    "qa/array-v4/desktop-reentry.png",
+    "qa/array-v4/mobile-reentry.png"
   ],
-  "bundleSha256": "5f84ee170b6a97494e18595fddb85657014efb2c50080a752d58ca3305b4db75",
+  "bundleSha256": "f00284395db77b4f366537066c7a779abdb8808abc14c19b6c82835cbc71d3f0",
   "liveEnabled": false,
   "spreadRevision": {
     "request": "조금 범위 더 넓게 칼이 더 넓게 퍼진상태에서 공격하게 해라",
@@ -55,6 +59,21 @@
     },
     "impactCoordinatesAndTimesPreserved": true,
     "allTrackTimesPreserved": true,
+    "visualApproval": false
+  },
+  "vanishRevision": {
+    "request": "타격이펙트 더 크게하고 한번 뚫고 갔으면 사라졌다가 다른곳에서 다시 나와야함",
+    "baselineCommit": "053f01bd6",
+    "hitEffectSizeBefore": 1.1,
+    "hitEffectSizeAfter": 1.95,
+    "hitEffectLinearScaleRatio": 1.7727272727272725,
+    "fadeOutSeconds": 0.04,
+    "minimumInvisibleSeconds": 0.09,
+    "fadeInSeconds": 0.055,
+    "hiddenRelocationTrails": false,
+    "swordEchoesWhileAbsent": false,
+    "offbeatImpactTimesPreserved": true,
+    "wideInitialFormationPreserved": true,
     "visualApproval": false
   }
 }
