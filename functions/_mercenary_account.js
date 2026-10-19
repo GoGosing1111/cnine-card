@@ -45,6 +45,27 @@ export async function releasedMercenarySnapshots(env,userIds,mode='PVE'){
   return attachMercenaryEquipment(env,await attachReleasedMercenaryLevels(env,new Map(rows.filter(r=>exclusiveAccountAllowed(r.user_id,r.mercenary_code,packOwners)).map(r=>[Number(r.user_id),{...battleConfig(document,r.mercenary_code,Number(r.level)),combat:runtime.combat,cmsRevision:revision,policyVersion:runtime.version}]))),mode);
 }
 export const mercenarySnapshotPower=m=>m?(m.statMode==='RANK_FIXED'?(limitedDeploymentSnapshot(m.code)?.basePower??mercenaryBasePower(m.rank,m.code)):Math.round(m.basePower*(1+(m.combat?.powerGrowthPercentPerLevel||0)*(m.level-1)/100)))+mercenaryEquipmentPower(m):0;
+// Ranked-only selection. Does not read or write the ordinary PVE/PVP single slot.
+export async function rankedOwnedMercenaries(env,userIds){
+  const ids=[...new Set(userIds.map(Number))];
+  if(ids.some(id=>!Number.isSafeInteger(id)||id<1)||ids.length>200)throw jointError('MERCENARY_USERS','계정 범위를 확인하세요.');
+  const result=new Map(ids.map(id=>[id,[]]));if(!ids.length||!MERCENARY_DEPLOYMENT_RELEASE_ENABLED)return result;
+  const [{document},owned]=await Promise.all([readMercenaryDocument(env),env.DB.prepare(`SELECT user_id,mercenary_code FROM user_mercenary_cards_v1 WHERE user_id IN (${ids.map(()=>'?').join(',')}) AND total_copies>0`).bind(...ids).all()]);
+  const packOwners=await readJinmuPackOwners(env,owned.results.filter(r=>r.mercenary_code===JINMU_CODE).map(r=>Number(r.user_id)));
+  for(const row of owned.results){
+    if(!exclusiveAccountAllowed(row.user_id,row.mercenary_code,packOwners))continue;
+    try{result.get(Number(row.user_id)).push(battleConfig(document,row.mercenary_code,1));}catch(error){if(error.code!=='MERCENARY_STATS_PENDING')throw error;}
+  }
+  return result;
+}
+export async function rankedSelectedMercenaries(env,selections){
+  const ids=[...selections.keys()],[owned,runtime,equipment]=await Promise.all([rankedOwnedMercenaries(env,ids),readMercenaryRuntime(env),mercenaryEquipmentRuntimes(env,ids,'PVP')]);
+  const rounds=await Promise.all([0,1,2].map(async index=>{
+    const snapshots=new Map(ids.map(id=>{const code=selections.get(id)[index],snapshot=owned.get(id).find(m=>m.code===code);if(!snapshot)throw jointError('PVP_SERIES_ROSTER','보유한 서로 다른 용병 3종이 필요합니다.',409);return [id,{...snapshot,combat:runtime.combat,policyVersion:runtime.version}];}));
+    return attachReleasedMercenaryLevels(env,snapshots);
+  }));
+  return new Map(ids.map(id=>[id,rounds.map(round=>equipment.get(id)?.items.length?{...round.get(id),equipment:equipment.get(id)}:round.get(id))]));
+}
 const mercenaryBasePower=(rank,code)=>code===KANGYUN_CODE?IMPERIAL_ARCHER_COMBAT.basePower:MERCENARY_POWER_STANDARD.basePowerByRank[rank];
 export const MERCENARY_RUNTIME_DRAFT=Object.freeze({revision:0,version:'mercenary-runtime-draft-20260913',mode:'OFF',approved:false,
   opening:{paymentKind:'UNSET',coinPerOpen:null,itemCode:null,itemsPerOpen:null,maxBatch:10},training:{itemCode:null,experiencePerItem:null},statMode:'RANK_FIXED',upgrade:MERCENARY_UPGRADE_PLAN,combat:MERCENARY_COMBAT_DRAFT});

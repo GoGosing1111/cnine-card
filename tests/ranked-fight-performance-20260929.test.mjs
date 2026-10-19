@@ -1,3 +1,4 @@
+import {simulateRankedSeries,rankedSeriesReceipt} from '../shared/ranked-series-v1.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -5,7 +6,7 @@ import {createPvpTimings} from '../functions/_pvp_performance.js';
 
 const source=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const fight=source.slice(source.indexOf("if(path==='pvp/fight'&&request.method==='POST')"),source.indexOf("if(path==='pvp/history')"));
-function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=false,mercenaryPowers={},ticketMercenaryPowers=mercenaryPowers}={}){
+function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=false,mercenaryPowers={},invalidRoster=false,missingSeries=false,outcomes=null}={}){
   const users={1:{id:1,nickname:'a',role:'USER',coin:300},2:{id:2,nickname:'b',role:'USER',coin:900}};
   const profiles={1:{season_score:1000,highest_score:1000,wins:0,losses:0},2:{season_score:1000,highest_score:1000,wins:0,losses:0}};
   let energy=5,claimed=false,receipt=null;const effects=[],queries=[],combatInputs=[],settings={enabled:true,winCoin:50,loseCoin:25};
@@ -22,10 +23,13 @@ function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=fals
     async batch(statements){for(const statement of statements)await statement.run();}
   }};
   const reward=name=>async()=>{effects.push(name);return null;};
-  const deps={
+  const selectedCodes=['V-001','V-002','V-003'];
+  const deps={simulateRankedSeries,rankedSeriesReceipt,rankedOwnershipGuard:()=>[],
+    readRankedSeriesTicket:async()=>missingSeries?null:{A:selectedCodes,B:[...selectedCodes].reverse()},
+    rankedSelectedMercenaries:async(_,selections)=>{if(invalidRoster)throw Object.assign(Error('ownership changed'),{status:409});return new Map([...selections].map(([id,codes])=>[id,codes.map(code=>({code,basePower:mercenaryPowers[id]||100}))]));},
     ensureRankedPvpFoundation:async()=>{},rankedFightReceipt:async()=>receipt?{...receipt,replayed:true}:null,utcMs:()=>0,authenticate:async()=>users[1],readBody:async()=>({requestId:'ranked-performance-request',matchToken:'ticket'}),
     advancePvpSeasonLifecycle:async()=>({settings,settling:false}),burningEventSettings:async()=>({}),applyBurningPvpSettings:s=>s,isAdminRole:()=>false,
-    claimRankedMatchTicket:async()=>{if(claimed||invalidTicket)throw Object.assign(Error('invalid or used'),{status:409});claimed=true;return {token:'ticket',defender_id:2,attacker_score:stale?999:1000,defender_score:1000,attacker_power:500+(ticketMercenaryPowers[1]||0),defender_power:500+(ticketMercenaryPowers[2]||0)};},
+    claimRankedMatchTicket:async()=>{if(claimed||invalidTicket)throw Object.assign(Error('invalid or used'),{status:409});claimed=true;return {token:'ticket',defender_id:2,attacker_score:stale?999:1000,defender_score:1000,attacker_power:500,defender_power:500};},
     ensurePvpProfile:async(_,user)=>({...profiles[user.id]}),
     pvpDeckSnapshot:async(_,id)=>Array.from({length:id===1?deckLength:5},(_,i)=>({id:String(i+1),rarity:'C',base_power:100,breakthrough_level:0})),
     battleSettings:async()=>({}),publicEquippedTitleMap:async()=>({}),cardBattlePower:()=>100,
@@ -34,8 +38,8 @@ function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=fals
     cardUniqueDeckStates:async(_,entries)=>entries.map(x=>({enabled:false,power:500,cards:x.cards})),
     userEquipmentBonuses:async()=>({pvp:0}),magicBattleLoadout:async()=>({cards:[]}),equippedAvatarEffect:async()=>null,
     releasedMercenarySnapshot:async(_,user)=>mercenaryPowers[user.id]?{code:'mercenary-'+user.id,basePower:mercenaryPowers[user.id]}:null,mercenarySnapshotPower:m=>m?.basePower??0,loadPetBattleSnapshot:async()=>null,
-    battleEngineState:()=>({active:true}),drawIntegrityHash:()=> 'abc123',
-    createPvpBattleV2:input=>{combatInputs.push(input);return {result:{winner:win?'A':'B',reason:'ELIMINATION',actions:5,final:{A:[],B:[]}},teams:{A:{summary:{power:500}},B:{summary:{power:500}}}};},
+    battleEngineState:()=>({active:true}),drawIntegrityHash:()=> 'abc123',avatarScaledPower:n=>n,
+    createPvpBattleV2:input=>{combatInputs.push(input);return {result:{winner:outcomes?.[combatInputs.length-1]||(win?'A':'B'),reason:'ELIMINATION',actions:5,final:{A:[],B:[]}},teams:{A:{summary:{power:500}},B:{summary:{power:500}}}};},
     pvpSeasonScoreAdjustment:w=>({change:24}),consumePvpEnergy:async()=>{effects.push('energy');return {state:{energy}};},commitRankedFight:async(_,options)=>{await env.DB.batch(options.writes);receipt={...options.response,energy:{energy:--energy}};return receipt;},
     burningRewardAmount:amount=>amount,applyAvatarCoinGain:base=>({base,total:base,bonus:0,percent:0}),
     collectionRewardCoin:async(_env,userId,base,source)=>{assert.equal(userId,1);assert.equal(source,'PVP');return base;}, // This fixture has no collection bonuses.
@@ -51,7 +55,7 @@ function fixture({win=true,deckLength=5,stale=false,recent=[],invalidTicket=fals
 test('optimized ranked fight preserves win/loss energy, attacker-only coins, scores and reward ordering',async()=>{
   for(const win of [true,false]){
     const f=fixture({win}),r=await f.call();
-    assert.equal(r.status,200);assert.equal(r.data.result,win?'WIN':'LOSE');assert.equal(f.energy(),4);
+    assert.equal(r.status,200);assert.equal(f.combatInputs.length,2);assert.equal(r.data.rankedSeries.rounds.length,2);assert.equal(r.data.result,win?'WIN':'LOSE');assert.equal(f.energy(),4);
     assert.equal(f.users[1].coin,win?350:325);assert.equal(f.users[2].coin,900);
     assert.equal(r.data.coinAfter,f.users[1].coin);assert.equal(f.profiles[2].season_score,1000);assert.equal(f.profiles[2].wins+f.profiles[2].losses,0);assert.equal(r.data.scoreAfter,win?1024:976);
     assert.deepEqual(f.effects,['energy','history','audit','coin_log',...(win?['reroll','magic','equipment','black','unified']:[])]);
@@ -89,10 +93,9 @@ test('repeat-opponent fallback still requires a valid ticket and current score a
   }
 });
 
-test('different mercenary power reaches combat unchanged and cannot be swapped after a ticket',async()=>{
- const f=fixture({mercenaryPowers:{1:1080000,2:180000}}),r=await f.call();
- assert.equal(r.status,200);assert.equal(f.combatInputs[0].attackerMercenary.basePower,1080000);assert.equal(f.combatInputs[0].defenderMercenary.basePower,180000);assert.equal(f.energy(),4);
- for(const options of [{mercenaryPowers:{1:1080000},ticketMercenaryPowers:{}},{mercenaryPowers:{2:180000},ticketMercenaryPowers:{2:1080000}}]){
-  const stale=fixture(options),response=await stale.call();assert.equal(response.status,409);assert.equal(response.data.code,'PVP_MATCH_FORMATION_CHANGED');assert.equal(stale.energy(),5);assert.deepEqual(stale.effects,[]);assert.deepEqual(stale.combatInputs,[]);
- }
+test('ranked mercenary power is unchanged, order is frozen, and recalled ownership stops before charging',async()=>{
+ const f=fixture({mercenaryPowers:{1:1080000,2:180000},outcomes:['A','B','A']}),r=await f.call();
+ assert.equal(r.status,200);assert.equal(f.combatInputs.length,3);assert.equal(f.combatInputs[0].attackerMercenary.basePower,1080000);assert.equal(f.combatInputs[0].defenderMercenary.basePower,180000);assert.equal(f.energy(),4);
+ assert.deepEqual(f.combatInputs.map(c=>c.attackerMercenary.code),['V-001','V-002','V-003']);assert.deepEqual(r.data.rankedSeries.score,{A:2,B:1});assert.equal(f.effects.filter(x=>x==='history').length,1);
+ for(const options of [{invalidRoster:true},{missingSeries:true}]){const bad=fixture(options),response=await bad.call();assert.equal(response.status,409);assert.equal(bad.energy(),5);assert.deepEqual(bad.effects,[]);assert.deepEqual(bad.combatInputs,[]);}
 });

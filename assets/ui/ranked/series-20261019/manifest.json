@@ -1,0 +1,41 @@
+{
+  "version": "ranked-series-20261019",
+  "purpose": "랭크전 매칭 전용 배경·용병 선택 프레임·조작 버튼",
+  "generator": "image_gen.imagegen",
+  "visualApproval": "PENDING_USER_REVIEW",
+  "prompts": {
+    "console": "Create a polished bitmap UI background for a Korean fantasy tactical card RPG ranked matchmaking console. Wide landscape 3:2 aspect image, no text no letters no numbers no logos no characters no cards. Refined dark midnight navy brushed metal command table with extremely subtle cyan etched circuitry and faint smoky blue light, tailored rather than generic. Slim precisely beveled irregular chamfered outer metal rim, restrained silver cyan corners, quiet low contrast center taking 80% of area for readable DOM content. A cinematic ghosted colosseum corridor visible only across the top 20%, with three subtle light rays suggesting three duels. Bottom and middle remain nearly black navy. Not ornate gold, not loud cyberpunk, not gradients-only. Material texture, exquisite clean edge treatment suitable for a serious established game. Do not include UI controls or pretend text. Single continuous background, no panels collage.",
+    "frame": "One empty game UI selection card frame asset, portrait aspect 3:4, isolated on transparent background. For a refined midnight navy and cyan ranked duel console in a Korean fantasy tactical card RPG. Very thin dark brushed steel metal edging, chamfered corners, delicate silver bevel highlights, extremely restrained cyan inlaid edge lights. Wide transparent center (at least 88% of total area) for separately composited character art. A small flat dark blue brushed metal nameplate integrated along bottom 12% with no text. Frame is a physically crafted material, no bulky gold ornaments, no gems, no symbols, no letters, no numbers, no characters, no shadows outside frame, no extra UI elements, no variations, no collage. Straight-on orthographic front facing. High contrast alpha edges, professional production sprite."
+  },
+  "derivation": {
+    "console.webp": "1200px quality85",
+    "frame.webp": "480px quality85 RGBA",
+    "control.webp": "frame source crop x28 y1240 width1030 height178, 700px quality90"
+  },
+  "sources": [
+    "exec-4b840d4d-78d8-447f-88c4-187ef09fa186.png",
+    "exec-61cf38f7-0586-47d8-bb9a-1ff09aac0af0.png"
+  ],
+  "files": {
+    "console-source.png": {
+      "sha256": "b6e97c6bdc022a8b53792a160ad3ec1af85e27114a865d6fbc63828bc9d09245",
+      "bytes": 2098089
+    },
+    "console.webp": {
+      "sha256": "dd1b205c2f0dc3684602ba4c54299d742e5443b8c9d4ebfb2a105d2fea924da0",
+      "bytes": 58398
+    },
+    "control.webp": {
+      "sha256": "d170f77fa83cb4dbba532483f29088d2f7841043a9bf560aa5a875e61f0018b5",
+      "bytes": 22750
+    },
+    "frame-source.png": {
+      "sha256": "bcc5707b9f6672d10e0e0e8369c3ffa305905ace60d73c9cf5c566afa7fa097e",
+      "bytes": 664234
+    },
+    "frame.webp": {
+      "sha256": "da6a40590d54a08b4cf6945a1a178fd830b5fd44aa9e7cac77fa3ef48aec8041",
+      "bytes": 25934
+    }
+  }
+}

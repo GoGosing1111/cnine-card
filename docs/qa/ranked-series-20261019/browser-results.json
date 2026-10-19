@@ -1,0 +1,36 @@
+[
+  {
+    "width": 1440,
+    "rounds": 2,
+    "overflow": false,
+    "errors": [],
+    "requests": [
+      "pvp/config",
+      "pvp/config",
+      "pvp/series-roster",
+      "pvp/match",
+      "pvp/fight",
+      "pvp/config",
+      "pvp/config",
+      "pvp/config",
+      "pvp/fight"
+    ]
+  },
+  {
+    "width": 390,
+    "rounds": 3,
+    "overflow": false,
+    "errors": [],
+    "requests": [
+      "pvp/config",
+      "pvp/config",
+      "pvp/series-roster",
+      "pvp/match",
+      "pvp/fight",
+      "pvp/config",
+      "pvp/config",
+      "pvp/config",
+      "pvp/fight"
+    ]
+  }
+]

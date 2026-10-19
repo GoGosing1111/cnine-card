@@ -22,7 +22,7 @@ async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true,myMe
  const raw=async(sql,values=[])=>postgres?(await pg.query(sql,values)).rows:sqlite.prepare(sql).all(...values);
  if(postgres){t.after(()=>pg.close());await pg.exec(readFileSync(new URL('../scripts/postgres-runtime-compat.sql',import.meta.url),'utf8'));await pg.exec(schema+"CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$ SELECT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD HH24:MI:SS') $$;");}
  else{sqlite.exec(schema);t.after(()=>sqlite.close());}
- const queries=[],writes=[],batches=[],mercenaryBatches=[],mercenaries=new Map([{id:1,mercenaryPower:myMercenaryPower},...rows].map(row=>[row.id,{power:row.mercenaryPower??0}])),powers=new Map(rows.map(row=>[row.id,{power:row.power??1000,matchPower:rankedMatchPower(row.power??1000,row.mercenaryPower??0),deckReady:row.deckReady!==false}]));
+ const queries=[],writes=[],batches=[],mercenaryBatches=[],mercenaries=new Map([{id:1,mercenaryPower:myMercenaryPower},...rows].map(row=>[row.id,{power:row.mercenaryPower??0}])),powers=new Map(rows.map(row=>[row.id,{power:rankedMatchPower(row.power??1000,row.mercenaryPower??0),matchPower:rankedMatchPower(row.power??1000,row.mercenaryPower??0),deckReady:row.deckReady!==false}]));
  let db;
  if(postgres)db=new __postgresCompatTest.PostgresD1Database({async query(q){const result=await pg.query(typeof q==='string'?q:q.text,typeof q==='string'?[]:q.values);return {...result,rowCount:result.affectedRows??result.rows.length};}});
  else db={prepare(sql){let values=[];return {bind(...v){values=v;return this;},all:async()=>({results:sqlite.prepare(sql).all(...values)}),first:async()=>sqlite.prepare(sql).get(...values)||null,run:async()=>({meta:{changes:Number(sqlite.prepare(sql).run(...values).changes)}})};}};
@@ -33,10 +33,16 @@ async function fixture(t,{rows=[],recent=[],postgres=false,myDeckReady=true,myMe
  }
  for(let i=0;i<recent.length;i++)await db.prepare('INSERT INTO pvp_match_history VALUES(?,?,?)').bind(recent.length-i,1,recent[i]).run();
  const env={DB:{prepare(sql){let values=[];return {bind(...v){values=v;return this;},all:async()=>{queries.push({sql,values});return db.prepare(sql).bind(...values).all();},first:async()=>{queries.push({sql,values});return db.prepare(sql).bind(...values).first();},run:async()=>{writes.push(sql);return db.prepare(sql).bind(...values).run();}};}}};
- const deps={RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchPower,rankedMatchBands,rankedMatchBand,
+ const ticketPayloads=new Map(),rosterCodes=['V-001','V-002','V-003'];
+ const deps={
+  readRankedRosters:async(_,ids)=>new Map(ids.map(id=>[Number(id),{ready:rows.find(row=>row.id===Number(id))?.rosterReady!==false,codes:rosterCodes}])),
+  saveRankedSeriesTicket:async(_,{insert,ticket,attacker,defender})=>{const r=await insert.run();if(Number(r.meta.changes)!==1)return null;const payload={token:ticket.token,attacker,defender,A:rosterCodes,B:rosterCodes};ticketPayloads.set(ticket.token,payload);return payload;},
+  readRankedSeriesTicket:async(_,token)=>ticketPayloads.get(token)||null,
+  rankedTicketPreview:async()=>({opponentOrderHidden:true,attacker:[],opponent:[]}),
+  RANKED_MATCH_BATCH_SIZE,RANKED_MATCH_CANDIDATE_LIMIT,RANKED_MATCH_MIN_POOL_SIZE,RANKED_MATCH_HISTORY_LIMIT,rankedMatchPower,rankedMatchBands,rankedMatchBand,
   selectRankedCandidate:(rows,settings,options)=>selectRankedCandidate(rows,settings,{...options,random}),rankedPowerDifference,
   ensureRankedPvpFoundation:async()=>{},pvpSeasonKey:()=> 'fixture-season',publicEquippedTitleMap:async()=>({}),resolvePvpTier:()=>({name:'test'}),pvpChallengerRank:async()=>0,pvpTierIndex:()=>0,
-  pvpSeasonScoreAdjustment:()=>({change:24}),ensurePvpProfile:async()=>({season_score:1000}),battleSettings:async()=>({}),pvpFormationPower:async()=>({power:100+myMercenaryPower,matchPower:100,deckReady:myDeckReady}),
+  pvpSeasonScoreAdjustment:()=>({change:24}),ensurePvpProfile:async()=>({season_score:1000}),battleSettings:async()=>({}),pvpFormationPower:async()=>({power:100,matchPower:100,deckReady:myDeckReady}),
   releasedMercenarySnapshots:async(_,ids,mode)=>{assert.equal(mode,'PVP');assert.equal(ids.length,2);mercenaryBatches.push(ids);return new Map(ids.map(id=>[id,mercenaries.get(id)]));},mercenarySnapshotPower:m=>m?.power??0,
   pvpDefenseFormationPowers:async(_,ids)=>{assert.ok(ids.length<=96);batches.push(ids);return new Map(ids.map(id=>[Number(id),powers.get(Number(id))]));},
   PVP_RANKED_ROLE_SQL:"UPPER(TRIM(COALESCE(u.role,'USER'))) <> 'OWNER'",pvpSqlUtc:ms=>new Date(ms).toISOString().replace('T',' ').slice(0,19)
@@ -115,12 +121,12 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: refr
  assert.equal(refresh.token,a.token);assert.equal(refresh.opponent.id,a.opponent.id);assert.equal(draws,before,'An existing ticket must not redraw');
 });
 
-for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: mercenary advantage does not isolate matching and full-power tickets survive refresh`,async t=>{
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: mercenary advantage does not isolate matching and card-power tickets survive refresh`,async t=>{
  const f=await fixture(t,{postgres,myMercenaryPower:200,rows:[{id:2,power:110},{id:3,power:300,mercenaryPower:200}]});
  const result=await f.call();assert.equal(result.opponent.id,2);assert.equal(result.opponent.balance.powerDifferencePercent,10);
  const [ticket]=await f.raw('SELECT attacker_power,defender_power FROM pvp_ranked_match_tickets_v1671');
- assert.equal(Number(ticket.attacker_power),300);assert.equal(Number(ticket.defender_power),110);
- const again=await f.call();assert.equal(again.token,result.token);assert.equal(again.opponent.balance.powerDifferencePercent,10);assert.equal(f.batches.length,1);assert.deepEqual(f.mercenaryBatches,[[1,2]]);
+ assert.equal(Number(ticket.attacker_power),100);assert.equal(Number(ticket.defender_power),110);
+ const again=await f.call();assert.equal(again.token,result.token);assert.equal(again.opponent.balance.powerDifferencePercent,10);assert.equal(f.batches.length,1);assert.deepEqual(f.mercenaryBatches,[]);
  const same=await fixture(t,{postgres,myMercenaryPower:200,rows:[{id:2,power:300,mercenaryPower:200}]});assert.equal((await same.call()).opponent.id,2,'same mercenaries remain eligible');
 });
 
@@ -129,4 +135,9 @@ test('matching keeps card/equipment and season caps even when mercenaries hide t
  await assert.rejects(f.call(),e=>e.status===409);assert.ok(!f.writes.some(sql=>sql.startsWith('INSERT')));
  await f.db.prepare('INSERT INTO pvp_ranked_match_tickets_v1671(token,attacker_id,defender_id,season_key,attacker_score,defender_score,attacker_power,defender_power,expires_at) VALUES(?,?,?,?,?,?,?,?,?)').bind('legacy-full-power',1,2,'fixture-season',1000,1000,300,300,'2999-01-01 00:00:00').run();
  await assert.rejects(f.call(),e=>e.status===409);assert.equal((await f.raw('SELECT token FROM pvp_ranked_match_tickets_v1671')).length,0);
+});
+
+test('an otherwise suitable defender without three saved owned types never enters the pool',async t=>{
+ const f=await fixture(t,{rows:[{id:2,power:100,rosterReady:false},{id:3,power:105}]});
+ assert.equal((await f.call()).opponent.id,3);assert.ok(!f.batches.flat().includes(2));
 });
