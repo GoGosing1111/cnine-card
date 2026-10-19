@@ -11,6 +11,7 @@ import {V3_JOINT_RELEASE_ENABLED} from '../shared/v3-joint-release-v1.mjs';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {MERCENARY_EQUIPMENT_SQL_CODES} from '../shared/mercenary-equipment-v1.mjs';
 import {rankedMatchPower} from '../shared/ranked-matchmaking-v2.mjs';
+import {avatarScaledPower} from '../shared/avatar-power-v1.mjs';
 
 const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
 const api=read('functions/api/[[path]].js'),app=read('js/app.js'),pve=read('js/pve-command-v2-live.js');
@@ -29,6 +30,7 @@ function constantSource(source,name){
 function server(overrides={}){
   const context=vm.createContext({
     releasedMercenarySnapshots,mercenarySnapshotPower,forgeEquipmentBonuses,V3_JOINT_RELEASE_ENABLED,FORGE_RUNTIME_RELEASE_ENABLED,FUR_MAX_ENHANCEMENT,extendFurHighBreakthrough,MERCENARY_EQUIPMENT_SQL_CODES,rankedMatchPower,
+    avatarScaledPower,avatarBattlePowerPercents:async()=>new Map(), // These deck fixtures have no equipped avatars.
     normalizeBattleEngineSettings:x=>x||{},normalizeNightmareSettings:x=>x||{},normalizeApocalypseSettings:x=>x||{},normalizeUltimateRequiredGrade:x=>x,
     async pvpDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},
     async pveDeckCards(env,id){return JSON.parse(env.sqlite.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').get(id)?.card_ids||'[]')},...overrides
@@ -206,13 +208,13 @@ test('ranked matchmaking batch excludes invalid defenders before creating a matc
     assert.ok(result.get(1).power>0);
   }finally{db.close()}
 });
-test('joint matchmaking adds mercenary and forge power once in batches without making an invalid five-card deck eligible',async()=>{
+test('series matchmaking adds forge power once without reading the legacy mercenary slot or admitting invalid decks',async()=>{
  const {db,env}=database(),calls=[];
  try{
   const base=await server().pvpDefenseFormationPowers(env,[1,2],server().defaultBattleSettings());
-  const s=server({FORGE_RUNTIME_RELEASE_ENABLED:true,releasedMercenarySnapshots:async(_env,ids)=>{calls.push(['mercenary',...ids]);return new Map([[1,{basePower:10000,level:1,combat:{powerGrowthPercentPerLevel:1}}],[2,{basePower:180000,level:1,combat:{powerGrowthPercentPerLevel:1}}]]);},forgeEquipmentBonuses:async(_env,ids)=>{calls.push(['forge',...ids]);return new Map([[1,{pvp:1234}],[2,{pvp:9000}]]);}});
+  const s=server({FORGE_RUNTIME_RELEASE_ENABLED:true,releasedMercenarySnapshots:async()=>{throw Error('Three-mercenary series must not read the legacy single slot');},forgeEquipmentBonuses:async(_env,ids)=>{calls.push(['forge',...ids]);return new Map([[1,{pvp:1234}],[2,{pvp:9000}]]);}});
   const result=await s.pvpDefenseFormationPowers(env,[1,2,1],s.defaultBattleSettings());
-  assert.equal(result.get(1).power,base.get(1).power+11234);assert.equal(result.get(2).deckReady,false);assert.deepEqual(plain(calls),[['mercenary',1,2],['forge',1,2]]);
+  assert.equal(result.get(1).power,base.get(1).power+1234);assert.equal(result.get(2).deckReady,false);assert.deepEqual(plain(calls),[['forge',1,2]]);
   assert.equal(result.get(1).matchPower,base.get(1).matchPower+1234,'mercenary power does not raise opponent-selection power');
  }finally{db.close();}
 });
