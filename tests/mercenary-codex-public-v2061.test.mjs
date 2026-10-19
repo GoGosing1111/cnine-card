@@ -38,13 +38,7 @@ test('public document uses the native forge-inspired archive with game links and
   assert.equal(html.split(limitedTab).length,2);assert.equal(html.split(limitedCss).length,2);
   assert.equal(html.split(deploymentCss).length,2);
   assert.equal(html.split('&amp;mine=20261003').length,3);
-  const withoutReleaseCache=markup=>markup.replaceAll('\r\n','\n').replace(/((?:src|href)=")([^"\n]*\?[^"\n]+)(")/g,(_,start,src,end)=>{
-    const url=new URL(src.replaceAll('&amp;','&'),'https://test.invalid');
-    for(const key of ['mine','limited','balance','helios','deployment','loadoutModes','petCodex','jokgakCity','bathory','leonel','deploymentVisibility','halloween','fusion'])url.searchParams.delete(key);
-    if(['/mercenary-codex/style.css','/mercenary-codex/limited.css'].includes(url.pathname))url.searchParams.delete('v');
-    return start+url.pathname+url.search.replaceAll('&','&amp;')+end;
-  });
-  assert.equal(withoutReleaseCache(html.replace(deploymentCss,'')),withoutReleaseCache(publicCodexHtml()));
+  assert.equal(html.replaceAll('\r\n','\n'),publicCodexHtml().replaceAll('\r\n','\n'),'rebuilding the public archive must preserve every live stylesheet and release hook');
   assert.match(html, /data-codex-mode="public"/);
   assert.match(html, /내 용병 확인 중/);
   assert.doesNotMatch(html, /검수용 프리뷰|유저 미공개|메뉴 배치입니다|target="_blank"/);
