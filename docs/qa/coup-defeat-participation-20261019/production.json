@@ -1,0 +1,50 @@
+{
+  "roundId": "68f4947a-af39-4be2-934b-191bb9df4594",
+  "settlement": {
+    "operationKey": "ops:coup-defeat-release:20261019:v1",
+    "completedAt": "2026-10-19T14:27:43.131Z",
+    "verifiedAt": "2026-10-19T14:27:56.100Z",
+    "status": "FINISHED",
+    "winner": "CHIEF",
+    "rebelCount": 59,
+    "releasedCount": 58,
+    "keptUserId": 5426,
+    "jailedUntil": "2026-10-19 22:27:43",
+    "nuclearEnabled": false,
+    "eligibleCount": 97,
+    "auditId": "48522"
+  },
+  "rewards": {
+    "operationKey": "ops:coup-participation20:20261019:v1",
+    "recipientHash": "c1c9da9ea814abc803b8ca11fdf29e600d9cfbd2081e5a33476e9f72f7f4068b",
+    "implementationHash": "d70235839f9b59cebbc21c6fdd6fee3fe89d4116625645b6ed549293207e9035",
+    "checkedAt": "2026-10-19T14:46:25.091Z",
+    "status": "VERIFIED",
+    "replayed": true,
+    "recipientCount": 97,
+    "chiefRecipients": 48,
+    "rebelRecipients": 49,
+    "coinPerUser": "600000000000",
+    "totalCoin": "58200000000000",
+    "itemCode": "MERCENARY_SSS_CARD_SHARD",
+    "itemPerUser": 2,
+    "totalItems": 194,
+    "coinLogs": 97,
+    "inventoryLogs": 97,
+    "auditRecords": 1,
+    "completionReceipts": 1,
+    "duplicates": 0,
+    "missing": 0,
+    "auditId": "48547",
+    "completedAt": "2026-10-19T14:46:17.930Z"
+  },
+  "validation": {
+    "status": "DRY_RUN_ROLLED_BACK",
+    "wrongRosterBlocked": true,
+    "partialFailureRolledBack": true,
+    "replayPerformedNoWrites": true,
+    "stateRestored": true
+  },
+  "delivery": "DIRECT",
+  "siteRedeployed": false
+}
