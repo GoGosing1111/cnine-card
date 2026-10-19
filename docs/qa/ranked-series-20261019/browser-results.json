@@ -24,6 +24,7 @@
     "requests": [
       "pvp/config",
       "pvp/config",
+      "pvp/config",
       "pvp/series-roster",
       "pvp/match",
       "pvp/fight",
