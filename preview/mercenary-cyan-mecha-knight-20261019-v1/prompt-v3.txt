@@ -1,0 +1,20 @@
+Use case: precise-object-edit
+Asset: full-body mercenary illustration, corrected proportions V3.
+Input 1 is V2, the EDIT TARGET, rejected for an excessively thin body and a disproportionately large head.
+Input 2 is V1, a BODY-MASS COMPARISON ONLY, rejected for looking short and squat.
+Input 3 is the original CHARACTER-DESIGN reference. All three show the same character.
+User's latest instruction: "또 너무 과하게 얇아져서 머리가 대두됨, 다시 확인해서 키를 늘리면서 몸 비율을 수정해야될듯". Correct the actual head-to-body proportions; do not just make the body thinner.
+
+ONE COHERENT PROPORTION REBUILD:
+- Make the ENTIRE helmet noticeably smaller, approximately 25% smaller than V2 relative to the body. Scale the faceplate, skull, crown, horns and all swept fins together as one complete design; keeping oversized fins would still make the head look huge. Keep their shapes and cyan V visor identity. Head size is explicitly NOT an invariant.
+- Restore a strong athletic chest, shoulders, arms and legs between the two earlier versions: about halfway between V1's bulk and V2's excessive thinness, slightly closer to V1 for the ribcage and shoulders. A powerful tall armored warrior, not a narrow-waisted mannequin. Restore the ribcage and pelvis structure, a normal tapered waist, solid thighs and substantial articulated calves. No wasp waist, pencil limbs or inflated round armor.
+- Increase apparent stature through longer anatomically connected legs and an upright uncompressed torso. Use balanced heroic approximately 9-head proportions, counting the physical head rather than the decorative crest. The entire helmet INCLUDING crest should occupy only about one seventh of total standing height, and its complete horizontal fin span should be clearly under half the armored shoulder span. The shoulder armor must visibly frame a compact head.
+- Keep upper/lower leg lengths harmonious, knees and ankles placed naturally, and enough muscle/armor volume to support the height. Do not merely stretch the shins. Do not compress the waist. Hands and boots remain proportionate.
+- Stand upright in a confident slight three-quarter frontal stance with both feet on the floor, one foot modestly forward, knees almost straight. Moderate foot spacing; no squat stance and no extremely narrow fashion pose.
+
+DESIGN INVARIANTS:
+The same ivory-white angular armored knight, thin warm-gold edging, navy/black mechanical joints, cyan V visor, original pointed crown/fins at the new smaller head scale, layered V chest and articulated gauntlets. Keep the exact recognizable character design and high-end crisp 2D anime mecha rendering of the original, with coherent painterly metal highlights. No bare face, hair, cape, wings, additional weapons or new accessories.
+One long rigid straight cyan energy sword with the same black/gold mechanical hilt and luminous circuitry, naturally held by the hand near the viewer-left hip, blade ascending diagonally toward the upper right. Preserve the straight continuous hilt-to-tip axis and correct fingers.
+Same dark blue industrial sci-fi hall, subdued structural lighting, small sparks, atmospheric depth and grounded floor. Body/armor corrections only; background and palette stay consistent.
+Exactly 2:3 vertical, native at least 1024x1536. Full head-to-toe figure filling about 90% of image height. All helmet fins, sword tip, both hands and complete feet comfortably inside frame. Small breathing margins. No cropped body parts. No text, logos, frame, watermarks or UI.
+Before finishing, visually check that V3 has a genuinely smaller complete helmet than V2, a stronger chest and limbs than V2, and a taller, better-balanced silhouette than V1. Deliver one finished image.

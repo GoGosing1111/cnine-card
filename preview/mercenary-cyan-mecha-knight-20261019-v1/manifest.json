@@ -1,0 +1,76 @@
+{
+  "id": "mercenary-cyan-mecha-knight-20261019-v1",
+  "createdDate": "2026-10-19",
+  "updatedDate": "2026-10-20",
+  "timezone": "Asia/Seoul",
+  "assetType": "sourceArt",
+  "productionMethod": "built-in image_gen",
+  "status": "USER_REVIEW_PENDING",
+  "currentVersion": "v3",
+  "request": "그대로 반영해서 전신 일러스트 만들어봐 용병으로 쓰게",
+  "latestFeedback": "또 너무 과하게 얇아져서 머리가 대두됨, 다시 확인해서 키를 늘리면서 몸 비율을 수정해야될듯",
+  "sourceReference": {
+    "path": "assets/user-reference-original.png",
+    "originalFilename": "codex-clipboard-fac001d3-4644-46d4-9e89-026d7c3accf0.png",
+    "width": 736,
+    "height": 920,
+    "sha256": "FA74A062E7865D8A1ABD34061DEF8F809DC86D6FB9752038F51A51D7691638E8",
+    "preservedByteForByte": true
+  },
+  "versions": [
+    {
+      "version": "v1",
+      "path": "assets/mercenary-cyan-mecha-knight-fullbody-v1.png",
+      "prompt": "prompt-v1.txt",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "AE9CB3C64CF1BD6C03B7DEE28FC5A5C18128A0B827D736478C8272892C08167E",
+      "status": "REJECTED_PROPORTIONS",
+      "feedback": "키가 짧고 뚱뚱해짐"
+    },
+    {
+      "version": "v2",
+      "path": "assets/mercenary-cyan-mecha-knight-fullbody-v2.png",
+      "prompt": "prompt-v2.txt",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "E0AF780AA0E480140E25D4E99854997DAEC3AA694347CE9870ED0E28B439B315",
+      "status": "REJECTED_PROPORTIONS",
+      "feedback": "과하게 얇아지고 머리가 상대적으로 커 보임"
+    },
+    {
+      "version": "v3",
+      "path": "assets/mercenary-cyan-mecha-knight-fullbody-v3.png",
+      "prompt": "prompt-v3.txt",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "D9EBF2DD04DE55D7EBA230617BBE81B11C1EAF6E728D61BB32D892ECC82D0159",
+      "status": "USER_REVIEW_PENDING",
+      "changes": [
+        "투구 전체 크기를 몸 대비 축소",
+        "V2의 가슴·어깨·팔·다리 볼륨 보완",
+        "긴 다리와 곧게 선 전신 비율 조정"
+      ]
+    }
+  ],
+  "visualReview": {
+    "performedBy": "assistant",
+    "method": "Direct inspection of the generated full-resolution image and comparison with prior versions",
+    "visible": [
+      "투구·바이저·흰색/금색/청색 배색 유지",
+      "검끝 및 양쪽 발을 포함한 전신 표시",
+      "V2보다 작아진 투구와 보완된 상체 볼륨"
+    ],
+    "userApproval": false,
+    "format": "Native 1024x1536 RGB PNG; exact 2:3; generated original copied without recompression",
+    "frameCompositeReview": "Not performed; no rank/frame assigned"
+  },
+  "registration": {
+    "name": null,
+    "rank": null,
+    "mercenaryCode": null,
+    "sourceArtApproved": false,
+    "battleSpriteCreated": false,
+    "liveConnected": false
+  }
+}
