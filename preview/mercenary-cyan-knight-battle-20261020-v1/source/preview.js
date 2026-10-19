@@ -13,7 +13,7 @@ async function boot(){
  // Reuse the real V3 hunt target and card formation; this page only previews choreography.
  await new Promise(r=>document.readyState==='complete'?r():window.addEventListener('load',r,{once:true}));
  const api=window.ProjectVPixiBattle,mount=api.mountForBattle;api.mountForBattle=async(...args)=>{engine=await mount(...args);return engine;};
- try{const prepared=window.ProjectVBattleV3Live.prepareLoading({modal:document.getElementById('modal'),mode:'HUNT',playerName:'청광 기사 연출 검수',opponentName:payload.monster.name});await window.ProjectVBattleV3Live.createRenderer({...prepared,modal:document.getElementById('modal'),data:payload,mode:'HUNT',playerName:'청광 기사'});}finally{api.mountForBattle=mount;}
+ try{const prepared=window.ProjectVBattleV3Live.prepareLoading({modal:document.getElementById('modal'),mode:'HUNT',playerName:manifest.displayName+' 연출 검수',opponentName:payload.monster.name});await window.ProjectVBattleV3Live.createRenderer({...prepared,modal:document.getElementById('modal'),data:payload,mode:'HUNT',playerName:manifest.displayName});}finally{api.mountForBattle=mount;}
  await engine.deployCards({instant:true,force:true});engine.audio?.stop?.();engine.accountBattleUnitIsPaused=()=>true;document.getElementById('pvBattleStatus').style.display='none';
  const unit=engine.accountBattleUnit,targets=engine.enemies.filter(e=>e.battleActive!==false&&e.root.visible);if(!unit||!targets.length)throw Error('공용 V3 유닛이 준비되지 않았습니다.');
  const assets=await loadKnightAssets(manifest);fx=new KnightFX(engine,unit,targets,assets,manifest,update);

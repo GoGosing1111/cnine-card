@@ -46,7 +46,7 @@
     "qa/array-v4/desktop-reentry.png",
     "qa/array-v4/mobile-reentry.png"
   ],
-  "bundleSha256": "f00284395db77b4f366537066c7a779abdb8808abc14c19b6c82835cbc71d3f0",
+  "bundleSha256": "539d8ee3774787fde398b3f0c4ff8316c2abb0987bc6199ce7598a7c2b7f1992",
   "liveEnabled": false,
   "spreadRevision": {
     "request": "조금 범위 더 넓게 칼이 더 넓게 퍼진상태에서 공격하게 해라",
@@ -75,5 +75,7 @@
     "offbeatImpactTimesPreserved": true,
     "wideInitialFormationPreserved": true,
     "visualApproval": false
-  }
+  },
+  "displayName": "제로",
+  "nameConfirmation": "name-confirmation-20261020.json"
 }
