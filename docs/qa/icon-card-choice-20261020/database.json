@@ -1,0 +1,30 @@
+{
+  "verifiedAt": "2026-10-19T19:13:06.771Z",
+  "item": {
+    "code": "ICON_CARD_CHOICE_TICKET",
+    "name": "아이콘 카드 선택권",
+    "image_url": "assets/items/icon-card-choice-20261020/ticket.webp",
+    "rarity": "ICON",
+    "category": "EVENT",
+    "is_active": "1"
+  },
+  "catalogEntry": {
+    "code": "INVENTORY_ITEM:ICON_CARD_CHOICE_TICKET",
+    "type": "INVENTORY_ITEM",
+    "ref": "ICON_CARD_CHOICE_TICKET",
+    "name": "아이콘 카드 선택권",
+    "image": "/assets/items/icon-card-choice-20261020/ticket.webp",
+    "rarity": "ICON",
+    "tier": "normal",
+    "maxQuantity": 1000000,
+    "available": true,
+    "unavailableReason": ""
+  },
+  "choices": 8,
+  "passHash": "c2c9b0932ffe5bfc30334d6a76be5e6c8d0186f5c91278bcc6ad5168a5028617",
+  "passUnchanged": true,
+  "granted": 0,
+  "inventoryLogs": 0,
+  "operationKey": "ops:icon-card-choice:20261020:v1",
+  "auditId": "48682"
+}

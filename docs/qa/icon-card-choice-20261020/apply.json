@@ -1,0 +1,12 @@
+{
+  "operationKey": "ops:icon-card-choice:20261020:v1",
+  "completedAt": "2026-10-19T19:13:01.374Z",
+  "itemCode": "ICON_CARD_CHOICE_TICKET",
+  "name": "아이콘 카드 선택권",
+  "choices": 8,
+  "passUnchanged": true,
+  "passHash": "c2c9b0932ffe5bfc30334d6a76be5e6c8d0186f5c91278bcc6ad5168a5028617",
+  "granted": 0,
+  "committed": true,
+  "auditId": "48682"
+}
