@@ -75,7 +75,7 @@ test('PostgreSQL operational reset is audited, rollback-safe, preserves settings
 
 test('approved player and CMS flows use the same isolated renderer with refreshed caches',()=>{
   const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
-  for(const file of ['js/core-protocol-raid-v1924.js','admin/core-raid-rewards-v1.mjs'])assert.match(read(file),/core-raid-reward-picker-v2\.mjs\?v=20260925-live/);
+  for(const file of ['js/core-protocol-raid-v1924.js','admin/core-raid-rewards-v1.mjs'])assert.match(read(file),/core-raid-reward-picker-v2\.mjs\?v=20261016-reveal1/);
   assert.match(read('admin/core-raid-rewards-v1.mjs'),/showCoreRewardPicker\(\{preview:true/);
   assert.match(read('js/core-raid-reward-picker-v2.mjs'),/preview=false/);
   assert.match(read('js/core-raid-reward-picker-v2.mjs'),/주간 최대 3회/);
