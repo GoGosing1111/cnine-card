@@ -1,0 +1,808 @@
+{
+  "source": "278efb819",
+  "scope": "OFFLINE_CANDIDATE_SELECTION_NOT_LIVE_WIN_RATE",
+  "selection": {
+    "pvpIncomingDamageScale": 0.85
+  },
+  "method": "Separate Node processes load source with an in-memory profile replacement or incoming-damage multiplier before growth mitigation bypass. No account or opponent-based runtime adjustment.",
+  "candidates": [
+    {
+      "candidate": {
+        "label": "cap-2.4",
+        "patch": {
+          "pvpSkillCapScale": 2.4
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "cap-2.5",
+        "patch": {
+          "pvpSkillCapScale": 2.5
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "cap-2.6",
+        "patch": {
+          "pvpSkillCapScale": 2.6
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "cap-2.7",
+        "patch": {
+          "pvpSkillCapScale": 2.7
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "cap-2.8",
+        "patch": {
+          "pvpSkillCapScale": 2.8
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "cap-3",
+        "patch": {
+          "pvpSkillCapScale": 3
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "ratio-8.8",
+        "patch": {
+          "damageRatio": 8.8
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "ratio-9.2",
+        "patch": {
+          "damageRatio": 9.2
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "ratio-9.6",
+        "patch": {
+          "damageRatio": 9.6
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "ratio-10",
+        "patch": {
+          "damageRatio": 10
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "ratio-10.5",
+        "patch": {
+          "damageRatio": 10.5
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "tempo-0",
+        "patch": {
+          "actionCredit": 3.05
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "tempo-1",
+        "patch": {
+          "actionCredit": 3.1
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "tempo-2",
+        "patch": {
+          "actionCredit": 3.2
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 222,
+          "total": 504,
+          "winRate": 0.44047619047619047
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "tempo-3",
+        "patch": {
+          "actionCredit": 3.3
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 229,
+          "total": 504,
+          "winRate": 0.45436507936507936
+        },
+        {
+          "opponent": "V-985",
+          "wins": 246,
+          "total": 504,
+          "winRate": 0.4880952380952381
+        },
+        {
+          "opponent": "V-057",
+          "wins": 136,
+          "total": 504,
+          "winRate": 0.2698412698412698
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "tempo-4",
+        "patch": {
+          "speedScale": 2.6
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 225,
+          "total": 504,
+          "winRate": 0.44642857142857145
+        },
+        {
+          "opponent": "V-985",
+          "wins": 239,
+          "total": 504,
+          "winRate": 0.4742063492063492
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "tempo-5",
+        "patch": {
+          "speedScale": 2.75
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 227,
+          "total": 504,
+          "winRate": 0.4503968253968254
+        },
+        {
+          "opponent": "V-985",
+          "wins": 240,
+          "total": 504,
+          "winRate": 0.47619047619047616
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "tempo-6",
+        "patch": {
+          "cooldownTurns": 1
+        }
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 304,
+          "total": 504,
+          "winRate": 0.6031746031746031
+        },
+        {
+          "opponent": "V-985",
+          "wins": 354,
+          "total": 504,
+          "winRate": 0.7023809523809523
+        },
+        {
+          "opponent": "V-057",
+          "wins": 226,
+          "total": 504,
+          "winRate": 0.44841269841269843
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "guard-0.98",
+        "patch": {},
+        "incoming": 0.98
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 224,
+          "total": 504,
+          "winRate": 0.4444444444444444
+        },
+        {
+          "opponent": "V-985",
+          "wins": 242,
+          "total": 504,
+          "winRate": 0.4801587301587302
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "guard-0.95",
+        "patch": {},
+        "incoming": 0.95
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 227,
+          "total": 504,
+          "winRate": 0.4503968253968254
+        },
+        {
+          "opponent": "V-985",
+          "wins": 248,
+          "total": 504,
+          "winRate": 0.49206349206349204
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "guard-0.92",
+        "patch": {},
+        "incoming": 0.92
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 231,
+          "total": 504,
+          "winRate": 0.4583333333333333
+        },
+        {
+          "opponent": "V-985",
+          "wins": 253,
+          "total": 504,
+          "winRate": 0.501984126984127
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "guard-0.9",
+        "patch": {},
+        "incoming": 0.9
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 233,
+          "total": 504,
+          "winRate": 0.4623015873015873
+        },
+        {
+          "opponent": "V-985",
+          "wins": 255,
+          "total": 504,
+          "winRate": 0.5059523809523809
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "guard-0.85",
+        "patch": {},
+        "incoming": 0.85
+      },
+      "count": 12,
+      "start": 291001,
+      "total": 1512,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 247,
+          "total": 504,
+          "winRate": 0.49007936507936506
+        },
+        {
+          "opponent": "V-985",
+          "wins": 263,
+          "total": 504,
+          "winRate": 0.5218253968253969
+        },
+        {
+          "opponent": "V-057",
+          "wins": 131,
+          "total": 504,
+          "winRate": 0.25992063492063494
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "guard-training-1",
+        "patch": {},
+        "incoming": 1
+      },
+      "count": 64,
+      "start": 291001,
+      "total": 8064,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 1145,
+          "total": 2688,
+          "winRate": 0.4259672619047619
+        },
+        {
+          "opponent": "V-985",
+          "wins": 1271,
+          "total": 2688,
+          "winRate": 0.4728422619047619
+        },
+        {
+          "opponent": "V-057",
+          "wins": 725,
+          "total": 2688,
+          "winRate": 0.2697172619047619
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "guard-training-0.85",
+        "patch": {},
+        "incoming": 0.85
+      },
+      "count": 64,
+      "start": 291001,
+      "total": 8064,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 1291,
+          "total": 2688,
+          "winRate": 0.4802827380952381
+        },
+        {
+          "opponent": "V-985",
+          "wins": 1386,
+          "total": 2688,
+          "winRate": 0.515625
+        },
+        {
+          "opponent": "V-057",
+          "wins": 728,
+          "total": 2688,
+          "winRate": 0.2708333333333333
+        }
+      ]
+    },
+    {
+      "candidate": {
+        "label": "guard-training-0.8",
+        "patch": {},
+        "incoming": 0.8
+      },
+      "count": 64,
+      "start": 291001,
+      "total": 8064,
+      "rows": [
+        {
+          "opponent": "V-983",
+          "wins": 1378,
+          "total": 2688,
+          "winRate": 0.5126488095238095
+        },
+        {
+          "opponent": "V-985",
+          "wins": 1440,
+          "total": 2688,
+          "winRate": 0.5357142857142857
+        },
+        {
+          "opponent": "V-057",
+          "wins": 728,
+          "total": 2688,
+          "winRate": 0.2708333333333333
+        }
+      ]
+    }
+  ]
+}
