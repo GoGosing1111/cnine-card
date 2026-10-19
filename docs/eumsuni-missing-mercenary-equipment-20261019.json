@@ -1,0 +1,480 @@
+{
+  "authorization": "음순이 계정에 용병장비 빠진거있으면 다지급해",
+  "sourceHash": "7117dcafec03851047f4fd0d63e10a41405aaba96b6574a04a48943423254864",
+  "dryRun": {
+    "rollbackVerified": true,
+    "protectedStateUnchanged": true
+  },
+  "replay": {
+    "duplicateGrants": 0,
+    "replayed": true,
+    "auditId": "48323"
+  },
+  "verification": {
+    "verifiedAt": "2026-10-19T04:07:13.550Z",
+    "independentConnection": true,
+    "status": "VERIFIED",
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:eumsuni-missing-mercenary-equipment:20261019:v1",
+      "authorization": "음순이 계정에 용병장비 빠진거있으면 다지급해",
+      "target": {
+        "id": 65,
+        "nickname": "음순이"
+      },
+      "completedAt": "2026-10-19T04:06:29.129Z",
+      "quantity": 24,
+      "quantityPerType": 1,
+      "enhancementLevel": 0,
+      "cost": 0,
+      "automaticLoadout": false,
+      "totalTypes": 30,
+      "ownedTypesBefore": 6,
+      "ownedTypesAfter": 30,
+      "items": [
+        {
+          "equipmentId": "87",
+          "code": "HUNT_COAST_WEAPON",
+          "name": "난파왕 무기",
+          "slot": "WEAPON",
+          "quantity": 1,
+          "instanceId": "2426751573"
+        },
+        {
+          "equipmentId": "88",
+          "code": "HUNT_COAST_TOP",
+          "name": "난파왕 상의",
+          "slot": "TOP",
+          "quantity": 1,
+          "instanceId": "2426751574"
+        },
+        {
+          "equipmentId": "89",
+          "code": "HUNT_COAST_BOTTOM",
+          "name": "난파왕 하의",
+          "slot": "BOTTOM",
+          "quantity": 1,
+          "instanceId": "2426751575"
+        },
+        {
+          "equipmentId": "90",
+          "code": "HUNT_COAST_SHOES",
+          "name": "난파왕 신발",
+          "slot": "SHOES",
+          "quantity": 1,
+          "instanceId": "2426751576"
+        },
+        {
+          "equipmentId": "91",
+          "code": "HUNT_COAST_ACCESSORY",
+          "name": "난파왕 장신구",
+          "slot": "ACCESSORY",
+          "quantity": 1,
+          "instanceId": "2426751577"
+        },
+        {
+          "equipmentId": "92",
+          "code": "HUNT_COAST_UNIQUE",
+          "name": "흑조의 작살총",
+          "slot": "WEAPON",
+          "quantity": 1,
+          "instanceId": "2426751578"
+        },
+        {
+          "equipmentId": "93",
+          "code": "HUNT_DESERT_WEAPON",
+          "name": "유리 사냥꾼 무기",
+          "slot": "WEAPON",
+          "quantity": 1,
+          "instanceId": "2426751579"
+        },
+        {
+          "equipmentId": "94",
+          "code": "HUNT_DESERT_TOP",
+          "name": "유리 사냥꾼 상의",
+          "slot": "TOP",
+          "quantity": 1,
+          "instanceId": "2426751580"
+        },
+        {
+          "equipmentId": "95",
+          "code": "HUNT_DESERT_BOTTOM",
+          "name": "유리 사냥꾼 하의",
+          "slot": "BOTTOM",
+          "quantity": 1,
+          "instanceId": "2426751581"
+        },
+        {
+          "equipmentId": "96",
+          "code": "HUNT_DESERT_SHOES",
+          "name": "유리 사냥꾼 신발",
+          "slot": "SHOES",
+          "quantity": 1,
+          "instanceId": "2426751582"
+        },
+        {
+          "equipmentId": "97",
+          "code": "HUNT_DESERT_ACCESSORY",
+          "name": "유리 사냥꾼 장신구",
+          "slot": "ACCESSORY",
+          "quantity": 1,
+          "instanceId": "2426751583"
+        },
+        {
+          "equipmentId": "98",
+          "code": "HUNT_DESERT_UNIQUE",
+          "name": "태양송곳",
+          "slot": "WEAPON",
+          "quantity": 1,
+          "instanceId": "2426751584"
+        },
+        {
+          "equipmentId": "99",
+          "code": "HUNT_THEATRE_WEAPON",
+          "name": "마리오네트 무기",
+          "slot": "WEAPON",
+          "quantity": 1,
+          "instanceId": "2426751585"
+        },
+        {
+          "equipmentId": "100",
+          "code": "HUNT_THEATRE_TOP",
+          "name": "마리오네트 상의",
+          "slot": "TOP",
+          "quantity": 1,
+          "instanceId": "2426751586"
+        },
+        {
+          "equipmentId": "101",
+          "code": "HUNT_THEATRE_BOTTOM",
+          "name": "마리오네트 하의",
+          "slot": "BOTTOM",
+          "quantity": 1,
+          "instanceId": "2426751587"
+        },
+        {
+          "equipmentId": "102",
+          "code": "HUNT_THEATRE_SHOES",
+          "name": "마리오네트 신발",
+          "slot": "SHOES",
+          "quantity": 1,
+          "instanceId": "2426751588"
+        },
+        {
+          "equipmentId": "103",
+          "code": "HUNT_THEATRE_ACCESSORY",
+          "name": "마리오네트 장신구",
+          "slot": "ACCESSORY",
+          "quantity": 1,
+          "instanceId": "2426751589"
+        },
+        {
+          "equipmentId": "104",
+          "code": "HUNT_THEATRE_UNIQUE",
+          "name": "단장의 가면",
+          "slot": "ACCESSORY",
+          "quantity": 1,
+          "instanceId": "2426751590"
+        },
+        {
+          "equipmentId": "105",
+          "code": "HUNT_VISCERA_WEAPON",
+          "name": "포식자 무기",
+          "slot": "WEAPON",
+          "quantity": 1,
+          "instanceId": "2426751591"
+        },
+        {
+          "equipmentId": "106",
+          "code": "HUNT_VISCERA_TOP",
+          "name": "포식자 상의",
+          "slot": "TOP",
+          "quantity": 1,
+          "instanceId": "2426751592"
+        },
+        {
+          "equipmentId": "107",
+          "code": "HUNT_VISCERA_BOTTOM",
+          "name": "포식자 하의",
+          "slot": "BOTTOM",
+          "quantity": 1,
+          "instanceId": "2426751593"
+        },
+        {
+          "equipmentId": "108",
+          "code": "HUNT_VISCERA_SHOES",
+          "name": "포식자 신발",
+          "slot": "SHOES",
+          "quantity": 1,
+          "instanceId": "2426751594"
+        },
+        {
+          "equipmentId": "109",
+          "code": "HUNT_VISCERA_ACCESSORY",
+          "name": "포식자 장신구",
+          "slot": "ACCESSORY",
+          "quantity": 1,
+          "instanceId": "2426751595"
+        },
+        {
+          "equipmentId": "110",
+          "code": "HUNT_VISCERA_UNIQUE",
+          "name": "여왕의 생체갑",
+          "slot": "TOP",
+          "quantity": 1,
+          "instanceId": "2426751596"
+        }
+      ],
+      "countsBefore": [
+        {
+          "code": "HUNT_COAST_WEAPON",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_COAST_TOP",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_COAST_BOTTOM",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_COAST_SHOES",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_COAST_ACCESSORY",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_COAST_UNIQUE",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_DESERT_WEAPON",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_DESERT_TOP",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_DESERT_BOTTOM",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_DESERT_SHOES",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_DESERT_ACCESSORY",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_DESERT_UNIQUE",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_THEATRE_WEAPON",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_THEATRE_TOP",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_THEATRE_BOTTOM",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_THEATRE_SHOES",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_THEATRE_ACCESSORY",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_THEATRE_UNIQUE",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_VISCERA_WEAPON",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_VISCERA_TOP",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_VISCERA_BOTTOM",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_VISCERA_SHOES",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_VISCERA_ACCESSORY",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_VISCERA_UNIQUE",
+          "quantity": "0"
+        },
+        {
+          "code": "HUNT_SKY_WEAPON",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_SKY_TOP",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_SKY_BOTTOM",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_SKY_SHOES",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_SKY_ACCESSORY",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_SKY_UNIQUE",
+          "quantity": "1"
+        }
+      ],
+      "countsAfter": [
+        {
+          "code": "HUNT_COAST_WEAPON",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_COAST_TOP",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_COAST_BOTTOM",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_COAST_SHOES",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_COAST_ACCESSORY",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_COAST_UNIQUE",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_DESERT_WEAPON",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_DESERT_TOP",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_DESERT_BOTTOM",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_DESERT_SHOES",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_DESERT_ACCESSORY",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_DESERT_UNIQUE",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_THEATRE_WEAPON",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_THEATRE_TOP",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_THEATRE_BOTTOM",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_THEATRE_SHOES",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_THEATRE_ACCESSORY",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_THEATRE_UNIQUE",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_VISCERA_WEAPON",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_VISCERA_TOP",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_VISCERA_BOTTOM",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_VISCERA_SHOES",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_VISCERA_ACCESSORY",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_VISCERA_UNIQUE",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_SKY_WEAPON",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_SKY_TOP",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_SKY_BOTTOM",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_SKY_SHOES",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_SKY_ACCESSORY",
+          "quantity": "1"
+        },
+        {
+          "code": "HUNT_SKY_UNIQUE",
+          "quantity": "1"
+        }
+      ],
+      "protectedBefore": "af52d89309b360313330bfe80c8defdcbd3d2ffdcdb7c3242c4751640e9ecf70",
+      "protectedAfter": "af52d89309b360313330bfe80c8defdcbd3d2ffdcdb7c3242c4751640e9ecf70",
+      "adminLogId": "48323"
+    },
+    "ownedTypes": 30,
+    "totalTypes": 30,
+    "missing": []
+  }
+}
