@@ -1,8 +1,8 @@
 {
   "file": "review-array-v4-slow.webm",
   "speed": 0.4,
-  "duration": 11.87169999998808,
-  "bytes": 12536795,
+  "duration": 11.867700000047684,
+  "bytes": 12787671,
   "mime": "video/webm;codecs=vp9",
   "source": "actual V3 canvas / GSAP clock",
   "autoZoom": false,

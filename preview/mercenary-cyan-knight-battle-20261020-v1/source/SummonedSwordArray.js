@@ -1,5 +1,5 @@
 import{Container,Sprite,Graphics,BlurFilter,MeshRope,Point}from'pixi.js';
-import{phantomSample,traceSegments,cornerEvents,impactEvents,PHANTOM_COUNT}from'../array-motion-v4.mjs';
+import{phantomSample,traceSegments,cornerEvents,impactEvents,PHANTOM_COUNT,ARRAY_ROUTE_EXTENTS}from'../array-motion-v4.mjs';
 import{bladeContact}from'../motion.mjs';
 const mix=(a,b,t)=>a+(b-a)*t;
 export class SummonedSwordArray{
@@ -25,7 +25,7 @@ export class SummonedSwordArray{
   }))+12;
   const centers=o.targets.map(t=>o.contact(t)),limit=(space,extent)=>Math.max(.1,Math.min(1,(space-radius)/(extent*size)));
   // Fit only route extents to the available margins. Sword scale and the fixed camera never change.
-  this.fit={left:limit(Math.min(...centers.map(c=>c.x-topLeft.x)),1.32),right:limit(Math.min(...centers.map(c=>bottomRight.x-c.x)),1.32),up:limit(Math.min(...centers.map(c=>c.y-topLeft.y)),1.24),down:limit(Math.min(...centers.map(c=>bottomRight.y-c.y)),.65)};
+  this.fit={left:limit(Math.min(...centers.map(c=>c.x-topLeft.x)),ARRAY_ROUTE_EXTENTS.left),right:limit(Math.min(...centers.map(c=>bottomRight.x-c.x)),ARRAY_ROUTE_EXTENTS.right),up:limit(Math.min(...centers.map(c=>c.y-topLeft.y)),ARRAY_ROUTE_EXTENTS.up),down:limit(Math.min(...centers.map(c=>bottomRight.y-c.y)),ARRAY_ROUTE_EXTENTS.down)};
  }
  routePoint(torso,p,size){return{x:torso.x+p.x*size*this.fit[p.x<0?'left':'right'],y:torso.y+p.y*size*this.fit[p.y<0?'up':'down']};}
  geometry(f,size){

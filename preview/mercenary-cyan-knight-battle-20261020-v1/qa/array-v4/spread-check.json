@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "baselineCommit": "ec6a13bc7",
+  "impactCoordinatesAndTimesPreserved": true,
+  "allTrackTimesPreserved": true,
+  "contactDeadZone": 0.25,
+  "horizontalOuterGain": 1.35,
+  "verticalOuterGain": 1.18,
+  "routeExtents": {
+    "left": 1.6805,
+    "right": 1.6805,
+    "up": 1.4345999999999999,
+    "down": 0.7266
+  },
+  "devices": [
+    {
+      "device": "desktop",
+      "formationWidthBefore": 2.5,
+      "formationWidthAfter": 3.2,
+      "formationWidthIncreasePercent": 28.000000000000004,
+      "contactsPassed": 20,
+      "clipped": 0,
+      "cameraChanges": 0
+    },
+    {
+      "device": "mobile",
+      "formationWidthBefore": 1.9226172425732366,
+      "formationWidthAfter": 2.276259501964737,
+      "formationWidthIncreasePercent": 18.393794228027648,
+      "contactsPassed": 20,
+      "clipped": 0,
+      "cameraChanges": 0
+    }
+  ],
+  "visualApproval": false
+}

@@ -32,7 +32,8 @@
   },
   "checks": [
     "qa/array-v4/checks.json",
-    "qa/array-v4/final-cleanup.json"
+    "qa/array-v4/final-cleanup.json",
+    "qa/array-v4/spread-check.json"
   ],
   "evidence": [
     "review-array-v4.webm",
@@ -41,6 +42,19 @@
     "qa/array-v4/desktop-curve.png",
     "qa/array-v4/mobile-curve.png"
   ],
-  "bundleSha256": "987575c94fe7f954e96740ef306f3b68b602418e49f27b1b77bb2741614bca79",
-  "liveEnabled": false
+  "bundleSha256": "5f84ee170b6a97494e18595fddb85657014efb2c50080a752d58ca3305b4db75",
+  "liveEnabled": false,
+  "spreadRevision": {
+    "request": "조금 범위 더 넓게 칼이 더 넓게 퍼진상태에서 공격하게 해라",
+    "baselineCommit": "ec6a13bc7",
+    "horizontalOuterGain": 1.35,
+    "verticalOuterGain": 1.18,
+    "formationWidthIncreasePercent": {
+      "desktop": 28,
+      "mobile": 18.393794228027648
+    },
+    "impactCoordinatesAndTimesPreserved": true,
+    "allTrackTimesPreserved": true,
+    "visualApproval": false
+  }
 }

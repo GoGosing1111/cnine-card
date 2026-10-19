@@ -215,42 +215,42 @@
           "time": 0.8300000000000001,
           "index": 0,
           "intersects": true,
-          "distance": 6.282946962089264,
+          "distance": 7.778535529084566,
           "groundError": 0
         },
         {
           "time": 0.9900000000000001,
           "index": 3,
           "intersects": true,
-          "distance": 15.031152208537732,
+          "distance": 12.378307311403564,
           "groundError": 0
         },
         {
           "time": 1.12,
           "index": 1,
           "intersects": true,
-          "distance": 10.646725426579243,
+          "distance": 12.105061363881381,
           "groundError": 0
         },
         {
           "time": 1.29,
           "index": 4,
           "intersects": true,
-          "distance": 24.79815576873195,
+          "distance": 24.056808986418154,
           "groundError": 0
         },
         {
           "time": 1.41,
           "index": 0,
           "intersects": true,
-          "distance": 10.9517741264569,
+          "distance": 12.72030625814215,
           "groundError": 0
         },
         {
           "time": 1.56,
           "index": 2,
           "intersects": true,
-          "distance": 33.557244197017624,
+          "distance": 33.28509589241671,
           "groundError": 0
         },
         {
@@ -264,14 +264,14 @@
           "time": 1.82,
           "index": 1,
           "intersects": true,
-          "distance": 26.601353133738126,
+          "distance": 21.51945649967446,
           "groundError": 0
         },
         {
           "time": 1.9800000000000002,
           "index": 4,
           "intersects": true,
-          "distance": 3.856435889049744,
+          "distance": 5.590641288554358,
           "groundError": 0
         },
         {
@@ -292,63 +292,63 @@
           "time": 2.3799999999999994,
           "index": 1,
           "intersects": true,
-          "distance": 13.09460283705721,
+          "distance": 12.960932979972709,
           "groundError": 0
         },
         {
           "time": 2.51,
           "index": 4,
           "intersects": true,
-          "distance": 24.395920759608675,
+          "distance": 21.159533945641392,
           "groundError": 0
         },
         {
           "time": 2.66,
           "index": 3,
           "intersects": true,
-          "distance": 22.848714926629082,
+          "distance": 24.10269521816177,
           "groundError": 0
         },
         {
           "time": 2.8,
           "index": 2,
           "intersects": true,
-          "distance": 11.246026173265268,
+          "distance": 10.289125900571158,
           "groundError": 0
         },
         {
           "time": 2.9399999999999995,
           "index": 0,
           "intersects": true,
-          "distance": 27.40480303183643,
+          "distance": 26.931047538040147,
           "groundError": 0
         },
         {
           "time": 3.09,
           "index": 4,
           "intersects": true,
-          "distance": 35.61373739338625,
+          "distance": 35.23601673493584,
           "groundError": 0
         },
         {
           "time": 3.2499999999999996,
           "index": 1,
           "intersects": true,
-          "distance": 24.065837423254028,
+          "distance": 25.80636379892815,
           "groundError": 0
         },
         {
           "time": 3.42,
           "index": 2,
           "intersects": true,
-          "distance": 15.109258108543107,
+          "distance": 11.486513606725424,
           "groundError": 0
         },
         {
           "time": 3.6,
           "index": 3,
           "intersects": true,
-          "distance": 27.59377099554083,
+          "distance": 25.25283866828461,
           "groundError": 0
         }
       ],
@@ -365,18 +365,18 @@
           "behindBody": true,
           "capeFrames": 6,
           "bodyAlpha": 1,
-          "originalTexture": 289,
+          "originalTexture": 377,
           "rimColor": "WHITE",
           "destroyed": false
         },
-        "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4",
+        "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4_MIXED_ROUTES",
         "summonedArray": {
           "designs": 5,
           "heldWeaponReused": false,
           "routeFit": {
             "left": 1,
             "right": 1,
-            "up": 0.853551747460861,
+            "up": 0.7377695293820353,
             "down": 1
           },
           "paintedRailSegments": 0,
@@ -406,75 +406,75 @@
             "index": 0,
             "targetIndex": 0,
             "grip": {
-              "x": 953.3,
-              "y": 530.2158474576271
+              "x": 949.205,
+              "y": 541.1670474576272
             },
             "tip": {
-              "x": 953.3,
-              "y": 324.02622881355927
+              "x": 949.205,
+              "y": 334.9774288135593
             },
-            "u": 0.9133139131641003,
-            "distance": 56.700000000000045,
+            "u": 0.9664261894853655,
+            "distance": 60.79499999999996,
             "intersects": false
           },
           {
             "index": 1,
             "targetIndex": 0,
             "grip": {
-              "x": 897.2814805997058,
-              "y": 285.6004612852287
+              "x": 894.9944630113941,
+              "y": 296.07816100231634
             },
             "tip": {
-              "x": 1100.3277791004414,
-              "y": 361.8207959641158
+              "x": 1103.7583054829088,
+              "y": 354.85738207524355
             },
-            "u": 0.5778015623353866,
-            "distance": 13.09460283705721,
+            "u": 0.5676845357182877,
+            "distance": 12.938008272539596,
             "intersects": true
           },
           {
             "index": 2,
             "targetIndex": 0,
             "grip": {
-              "x": 958.7,
-              "y": 531.4377118644068
+              "x": 956.495,
+              "y": 542.3889118644067
             },
             "tip": {
-              "x": 958.7,
-              "y": 322.19343220338976
+              "x": 956.495,
+              "y": 333.14463220338985
             },
-            "u": 0.9058202793952812,
-            "distance": 51.299999999999955,
+            "u": 0.9581571940184261,
+            "distance": 53.504999999999995,
             "intersects": false
           },
           {
             "index": 3,
             "targetIndex": 0,
             "grip": {
-              "x": 844.9804237288135,
-              "y": 453.5
+              "x": 832.6954237288136,
+              "y": 465.48799999999994
             },
             "tip": {
-              "x": 1057.2793644067797,
-              "y": 453.5
+              "x": 1044.9943644067796,
+              "y": 465.48799999999994
             },
-            "u": 0.7772981614708233,
-            "distance": 111.60000000000002,
+            "u": 0.8351646772469666,
+            "distance": 123.58799999999997,
             "intersects": false
           },
           {
             "index": 4,
             "targetIndex": 0,
             "grip": {
-              "x": 927.5434473778848,
-              "y": 192.3422155921116
+              "x": 882.5659251434492,
+              "y": 197.79823196044953
             },
             "tip": {
-              "x": 708.2454295540601,
-              "y": 232.7530169124497
+              "x": 662.3381183493096,
+              "y": 232.78918221124314
             },
             "u": 0,
-            "distance": 170.78235841948097,
+            "distance": 192.36622101260235,
             "intersects": false
           }
         ],
@@ -519,18 +519,18 @@
           "behindBody": true,
           "capeFrames": 6,
           "bodyAlpha": 1,
-          "originalTexture": 245,
+          "originalTexture": 281,
           "rimColor": "WHITE",
           "destroyed": false
         },
-        "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4",
+        "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4_MIXED_ROUTES",
         "summonedArray": {
           "designs": 5,
           "heldWeaponReused": false,
           "routeFit": {
             "left": 1,
             "right": 1,
-            "up": 0.853551747460861,
+            "up": 0.7377695293820353,
             "down": 1
           },
           "paintedRailSegments": 0,
@@ -598,7 +598,8 @@
         "frontDestroyed": true,
         "swordsDestroyed": true,
         "backDestroyed": true,
-        "timelineRemoved": true
+        "timelineRemoved": true,
+        "ribbonBuffersDisposed": true
       },
       "errors": []
     },
@@ -611,42 +612,42 @@
           "time": 0.8300000000000001,
           "index": 0,
           "intersects": true,
-          "distance": 9.037833993371637,
+          "distance": 12.598577902318816,
           "groundError": 0
         },
         {
           "time": 0.9900000000000001,
           "index": 3,
           "intersects": true,
-          "distance": 20.34449778686498,
+          "distance": 18.45362345192512,
           "groundError": 0
         },
         {
           "time": 1.12,
           "index": 1,
           "intersects": true,
-          "distance": 12.203579922699662,
+          "distance": 13.303804678547934,
           "groundError": 0
         },
         {
           "time": 1.29,
           "index": 4,
           "intersects": true,
-          "distance": 34.989732156207296,
+          "distance": 37.75162125523766,
           "groundError": 0
         },
         {
           "time": 1.41,
           "index": 0,
           "intersects": true,
-          "distance": 14.237306364388832,
+          "distance": 16.53639813556793,
           "groundError": 0
         },
         {
           "time": 1.56,
           "index": 2,
           "intersects": true,
-          "distance": 43.62441745612289,
+          "distance": 43.270624660134615,
           "groundError": 0
         },
         {
@@ -660,21 +661,21 @@
           "time": 1.82,
           "index": 1,
           "intersects": true,
-          "distance": 26.75633142398525,
+          "distance": 22.311119446044714,
           "groundError": 0
         },
         {
           "time": 1.9800000000000002,
           "index": 4,
           "intersects": true,
-          "distance": 4.348116928645163,
+          "distance": 6.007739723069509,
           "groundError": 0
         },
         {
           "time": 2.1,
           "index": 2,
           "intersects": true,
-          "distance": 1.8887092171456743,
+          "distance": 1.4835442824351048,
           "groundError": 0
         },
         {
@@ -688,63 +689,63 @@
           "time": 2.3799999999999994,
           "index": 1,
           "intersects": true,
-          "distance": 19.500073081984635,
+          "distance": 22.169517380209626,
           "groundError": 0
         },
         {
           "time": 2.51,
           "index": 4,
           "intersects": true,
-          "distance": 26.747878733605628,
+          "distance": 22.94580903189107,
           "groundError": 0
         },
         {
           "time": 2.66,
           "index": 3,
           "intersects": true,
-          "distance": 29.703329404618607,
+          "distance": 31.333503783605813,
           "groundError": 0
         },
         {
           "time": 2.8,
           "index": 2,
           "intersects": true,
-          "distance": 8.925726411880708,
+          "distance": 6.68821198974244,
           "groundError": 0
         },
         {
           "time": 2.9399999999999995,
           "index": 0,
           "intersects": true,
-          "distance": 29.223414208008485,
+          "distance": 25.91396420240419,
           "groundError": 0
         },
         {
           "time": 3.09,
           "index": 4,
           "intersects": true,
-          "distance": 47.30598403157726,
+          "distance": 48.52833325633495,
           "groundError": 0
         },
         {
           "time": 3.2499999999999996,
           "index": 1,
           "intersects": true,
-          "distance": 31.28558865023788,
+          "distance": 33.5482729386082,
           "groundError": 0
         },
         {
           "time": 3.42,
           "index": 2,
           "intersects": true,
-          "distance": 14.11655268839137,
+          "distance": 10.315561946362038,
           "groundError": 0
         },
         {
           "time": 3.6,
           "index": 3,
           "intersects": true,
-          "distance": 27.95961391054616,
+          "distance": 24.369408926436932,
           "groundError": 0
         }
       ],
@@ -761,17 +762,17 @@
           "behindBody": true,
           "capeFrames": 6,
           "bodyAlpha": 1,
-          "originalTexture": 300,
+          "originalTexture": 273,
           "rimColor": "WHITE",
           "destroyed": false
         },
-        "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4",
+        "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4_MIXED_ROUTES",
         "summonedArray": {
           "designs": 5,
           "heldWeaponReused": false,
           "routeFit": {
             "left": 1,
-            "right": 0.5380937940585893,
+            "right": 0.42266218872796063,
             "up": 1,
             "down": 1
           },
@@ -802,75 +803,75 @@
             "index": 0,
             "targetIndex": 0,
             "grip": {
-              "x": 717.6998360655738,
-              "y": 776.749044317866
+              "x": 712.3763360655738,
+              "y": 790.985604317866
             },
             "tip": {
-              "x": 717.6998360655738,
-              "y": 508.7025400805779
+              "x": 712.3763360655738,
+              "y": 522.9391000805779
             },
-            "u": 0.9133139131641002,
-            "distance": 73.71000000000004,
+            "u": 0.9664261894853653,
+            "distance": 79.0335,
             "intersects": false
           },
           {
             "index": 1,
             "targetIndex": 0,
             "grip": {
-              "x": 647.2243915242228,
-              "y": 447.2244670131595
+              "x": 645.0940339238172,
+              "y": 452.41519869856273
             },
             "tip": {
-              "x": 905.3130028776002,
-              "y": 560.7294060376378
+              "x": 908.5085392782087,
+              "y": 552.9433085095328
             },
-            "u": 0.5890835094670578,
-            "distance": 19.500073081984635,
+            "u": 0.5854096089456302,
+            "distance": 22.127437087787605,
             "intersects": true
           },
           {
             "index": 2,
             "targetIndex": 0,
             "grip": {
-              "x": 724.7198360655739,
-              "y": 778.3374680466796
+              "x": 721.8533360655738,
+              "y": 792.5740280466796
             },
             "tip": {
-              "x": 724.7198360655739,
-              "y": 506.3199044873576
+              "x": 721.8533360655738,
+              "y": 520.5564644873575
             },
-            "u": 0.9058202793952814,
-            "distance": 66.68999999999994,
+            "u": 0.9581571940184256,
+            "distance": 69.55650000000003,
             "intersects": false
           },
           {
             "index": 3,
             "targetIndex": 0,
             "grip": {
-              "x": 576.8843869130314,
-              "y": 677.0184426229508
+              "x": 560.9138869130314,
+              "y": 692.6028426229508
             },
             "tip": {
-              "x": 852.8730097943874,
-              "y": 677.0184426229508
+              "x": 836.9025097943874,
+              "y": 692.6028426229508
             },
-            "u": 0.7772981614708234,
-            "distance": 145.08000000000004,
+            "u": 0.8351646772469665,
+            "distance": 160.6644,
             "intersects": false
           },
           {
             "index": 4,
             "targetIndex": 0,
             "grip": {
-              "x": 683.5249692721062,
-              "y": 304.30406291556096
+              "x": 624.5831078417641,
+              "y": 278.27168373447626
             },
             "tip": {
-              "x": 400.1659170629292,
-              "y": 365.47850137188425
+              "x": 341.1930362851169,
+              "y": 339.3022640401549
             },
             "u": 0,
-            "distance": 251.90584611678307,
+            "distance": 303.60827033340894,
             "intersects": false
           }
         ],
@@ -915,17 +916,17 @@
           "behindBody": true,
           "capeFrames": 6,
           "bodyAlpha": 1,
-          "originalTexture": 253,
+          "originalTexture": 248,
           "rimColor": "WHITE",
           "destroyed": false
         },
-        "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4",
+        "version": "CYAN_KNIGHT_ARRAY_REVIEW_20261020_V4_MIXED_ROUTES",
         "summonedArray": {
           "designs": 5,
           "heldWeaponReused": false,
           "routeFit": {
             "left": 1,
-            "right": 0.5380937940585893,
+            "right": 0.42266218872796063,
             "up": 1,
             "down": 1
           },
@@ -994,7 +995,8 @@
         "frontDestroyed": true,
         "swordsDestroyed": true,
         "backDestroyed": true,
-        "timelineRemoved": true
+        "timelineRemoved": true,
+        "ribbonBuffersDisposed": true
       },
       "errors": []
     }

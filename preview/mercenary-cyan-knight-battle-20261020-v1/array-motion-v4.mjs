@@ -11,6 +11,9 @@ export const attackPlans=[
  [{at:1.29,kind:'crescent-rise'},{at:1.98,kind:'hook-loop'},{at:2.51,kind:'diagonal-dive'},{at:3.09,kind:'zigzag-up'}]
 ];
 const aimPoints=[{x:-.16,y:-.18},{x:.15,y:.10},{x:-.10,y:.17},{x:.18,y:-.06},{x:0,y:-.22}];
+// Expand the outer formation and return arcs, leaving the target's contact zone intact.
+const spreadAxis=(value,gain)=>Math.sign(value)*(Math.min(Math.abs(value),.25)+Math.max(0,Math.abs(value)-.25)*gain);
+const spreadPoint=p=>({...p,x:spreadAxis(p.x,1.35),y:spreadAxis(p.y,1.18)});
 export const phantomTracks=attackPlans.map((plans,i)=>{
  const fanX=[-1.25,-.62,0,.62,1.25][i],fanY=[-.80,-1.12,-1.22,-1.12,-.80][i];
  const track=[{at:.12+i*.026,x:fanX,y:fanY,angle:-Math.PI/2,alpha:0,phase:'summon'},{at:.34+i*.026,x:fanX,y:fanY,angle:-Math.PI/2,alpha:1,phase:'summon'}];
@@ -57,8 +60,17 @@ export const phantomTracks=attackPlans.map((plans,i)=>{
   if(j===plans.length-1){hold(last().at+.035,angle,'dissolve');track.push({...last(),at:last().at+.18,alpha:0,phase:'dissolve',hit:false,curve:null});}
   else{const turn=bound({x:exit.x-dy*.30,y:exit.y+dx*.30});fly(.085,arc(turn,bound({x:exit.x+dx*.23,y:exit.y+dy*.23}),bound({x:turn.x+dx*.23,y:turn.y+dy*.23})),'return-arc');}
  });
- return track;
+ const expanded=track.map(p=>({...spreadPoint(p),curve:p.curve?{c1:spreadPoint(p.curve.c1),c2:spreadPoint(p.curve.c2)}:null}));
+ // Rebuild flight tangents after expanding the Bezier controls; stationary turns remain continuous.
+ for(let k=0;k<expanded.length-1;k++){
+  const a=expanded[k],b=expanded[k+1];if(!b.curve&&Math.hypot(b.x-a.x,b.y-a.y)<1e-8)continue;
+  const start=segmentTangent(a,b,0),end=segmentTangent(a,b,1);
+  a.angle=Math.atan2(start.y,start.x);b.angle=Math.atan2(end.y,end.x);
+ }
+ return expanded;
 });
+const routePoints=phantomTracks.flatMap(track=>track.flatMap(p=>p.curve?[p,p.curve.c1,p.curve.c2]:[p]));
+export const ARRAY_ROUTE_EXTENTS={left:Math.max(...routePoints.map(p=>-p.x))+.04,right:Math.max(...routePoints.map(p=>p.x))+.04,up:Math.max(...routePoints.map(p=>-p.y))+.04,down:Math.max(...routePoints.map(p=>p.y))+.04};
 export const impactEvents=phantomTracks.flatMap((track,index)=>track.filter(p=>p.hit).map(p=>({...p,index,targetIndex:index%3}))).sort((a,b)=>a.at-b.at);
 export const cornerEvents=phantomTracks.flatMap((track,index)=>track.flatMap((a,k)=>{
  const b=track[k+1];if(!b||b.curve||a.at<.45||Math.hypot(a.x-b.x,a.y-b.y)>.00001||Math.abs(delta(a.angle,b.angle))<Math.PI/4)return[];
