@@ -1,8 +1,15 @@
-import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as RULES} from '../shared/organization-faction-v1.mjs';
+import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as RULES,FACTION_RULES,SQUADS} from '../shared/organization-faction-v1.mjs';
 import {factionDayKey,factionTime} from '../shared/clan-faction-sessions-v1.mjs';
-import {newFactionState,advanceFactionState,factionEvent} from './_clan_faction_model.js';
+import {newFactionState,advanceFactionState,factionEvent,validateFormation} from './_clan_faction_model.js';
 import {reconcilePauses,closeSession,sessionView} from './_clan_faction_sessions.js';
 export const ORGANIZATION_SESSION_POLICY=Object.freeze({recipients:'PARTICIPANTS',interruption:'PAUSE',overlap:'DEFER',mapPolicy:'KEEP',rewardRules:RULES});
+export function validateOrganizationFormation(formation,memberIds){
+ for(const squad of SQUADS){
+  const ids=formation?.[squad.id];
+  if(!Array.isArray(ids)||ids.length>FACTION_RULES.squadSize)throw Object.assign(Error(`각 부대는 최대 ${FACTION_RULES.squadSize}명까지 편성할 수 있습니다.`),{status:400});
+ }
+ return validateFormation(formation,memberIds);
+}
 export function newOrganizationFactionState(now){
  const state=newFactionState(now);
  state.districts=ORGANIZATION_DISTRICTS.map(d=>({id:d.id,owner:0,protectedUntil:0,defense:'',taxAt:now,taxRemainder:0}));

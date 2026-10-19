@@ -1,8 +1,8 @@
 import {ORGANIZATIONS,orgAssert} from '../shared/organization-system-v1.mjs';
 import {ORGANIZATION_DISTRICTS,ORGANIZATION_SESSION_RULES as FACTION_SESSION_RULES,organizationDistrictById,defaultOrganizationFactionPolicy,validateOrganizationFactionPolicy,FACTION_RULES as R,SQUADS} from '../shared/organization-faction-v1.mjs';
 import {createFactionDay,factionDayKey} from '../shared/clan-faction-sessions-v1.mjs';
-import {validateFormation,factionCaptains,validateFactionCaptains,factionEvent,finishFactionBattle,factionStrikeDamage} from './_clan_faction_model.js';
-import {newOrganizationFactionState,advanceOrganizationFaction} from './_organization_faction_model.js';
+import {factionCaptains,validateFactionCaptains,factionEvent,finishFactionBattle,factionStrikeDamage} from './_clan_faction_model.js';
+import {newOrganizationFactionState,advanceOrganizationFaction,validateOrganizationFormation as validateFormation} from './_organization_faction_model.js';
 import {buildClanBattle} from './_clan.js';
 import {readJointBody} from './_joint_request.js';
 import {jointHash} from './_joint_transactions.js';
@@ -113,7 +113,7 @@ async function sync(q,r,row,roster,policy,now,deps){
  if(before!==JSON.stringify(row.state)){await saveState(q,r,row.state);row.revision++;}
  return result.view;
 }
-const formationOf=(state,roster,id)=>Object.fromEntries(SQUADS.map(s=>[s.id,(state.formations[id]?.[s.id]||[]).filter(userId=>roster.some(m=>m.userId===userId&&m.clanId===id))]));
+const formationOf=(state,roster,id)=>Object.fromEntries(SQUADS.map(s=>[s.id,(state.formations[id]?.[s.id]||[]).filter(userId=>roster.some(m=>m.userId===userId&&m.clanId===id)).slice(0,R.squadSize)]));
 const sideOf=(b,id,userId)=>b?(b.attacker===id&&b.attackers.includes(userId)?'ATTACK':b.defender===id&&b.defenders.includes(userId)?'DEFENSE':''):'';
 function alertsFor(state,id,userId,sessions){return sessions.active?state.battles.filter(b=>b.status==='ACTIVE'&&sideOf(b,id,userId)).map(b=>({id:b.id,districtId:b.districtId,districtName:organizationDistrictById(b.districtId)?.name,side:sideOf(b,id,userId),attackerClan:b.attackerName,attackerName:b.initiatorName,startedAt:b.startedAt,endsAt:b.endsAt,attackerHp:b.attackerHp,defenderHp:b.defenderHp})):[];}
 async function treasuryFor(q,r,roster,state,policy){

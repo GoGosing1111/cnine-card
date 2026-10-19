@@ -4,8 +4,24 @@ import {organizationFixture} from './helpers/organization-fixture.mjs';
 import {installOrganizationFactionSchema,handleOrganizationFaction,tickOrganizationFaction} from '../functions/_organization_faction.js';
 import {ORGANIZATION_DISTRICTS,validateOrganizationFactionPolicy} from '../shared/organization-faction-v1.mjs';
 import {organizationFactionFixture as fixture} from './helpers/organization-faction-fixture.mjs';
+import {validateFormation as validateClanFormation} from '../functions/_clan_faction_model.js';
 
 const empty={attack1:[],attack2:[],defense1:[],defense2:[]};
+test('organization attack and defense squads allow three, reject four atomically, and leave clan capacity unchanged',async t=>{
+ const f=await fixture(t);assert.equal((await f.overview()).data.rules.squadSize,3);
+ assert.equal(validateClanFormation({...empty,attack1:[2,3,4,5,6]},[2,3,4,5,6]).attack1.length,5);
+ for(const squad of Object.keys(empty)){
+  const formation={...empty,[squad]:[2,3,4]};assert.equal((await f.post('organization/faction/formation',{formation})).status,200);
+  const rejected=await f.post('organization/faction/formation',{formation:{...empty,[squad]:[2,3,4,5]}});assert.equal(rejected.status,400);assert.match(rejected.data.error,/최대 3명/);
+  assert.deepEqual((await f.overview()).data.formation,formation,'over-capacity request must not change saved squads');
+ }
+});
+test('old five-member formations expose and launch only the first three on each side',async t=>{
+ const f=await fixture(t);await f.mutateState(s=>{s.formations[1]={...empty,attack1:[2,3,4,5,6]};s.formations[2]={...empty,defense1:[7,8,9,10,11]};const d=s.districts.find(d=>d.id==='41110');d.owner=2;d.defense='defense1';});
+ const overview=(await f.overview()).data;assert.deepEqual(overview.formation.attack1,[2,3,4]);assert.equal(overview.districts.find(d=>d.id==='41110').defenders.length,3);
+ const result=await f.post('organization/faction/launch',{districtId:'41110',squad:'attack1'});assert.equal(result.status,200);const b=(await f.overview()).data.battles.find(b=>b.id===result.data.battleId);
+ assert.deepEqual(b.attackers,[2,3,4]);assert.deepEqual(b.defenders,[7,8,9]);assert.equal((await f.post('organization/faction/enter',{battleId:b.id},5)).status,403);assert.equal((await f.post('organization/faction/enter',{battleId:b.id},10)).status,403);
+});
 test('46 districts, policy nulls, own-member authority and no clan data writes',async t=>{
  assert.equal(ORGANIZATION_DISTRICTS.length,46);assert.equal(new Set(ORGANIZATION_DISTRICTS.map(x=>x.id)).size,46);
  assert.throws(()=>validateOrganizationFactionPolicy({revision:0,mode:'ON',fundsPerRegion:0,upgradeCosts:[0,null,null,null,null]}));

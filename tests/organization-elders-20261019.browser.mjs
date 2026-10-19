@@ -29,6 +29,9 @@ test('three elder names and equal formation controls render on PC/mobile before 
    const write=page.waitForResponse(r=>r.url().includes('/api/organization/faction/formation')&&r.request().method()==='POST');await page.locator('[data-fw-save]').click();assert.equal((await write).status(),200);
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   }
+  user=4;
+  assert.deepEqual(await page.locator('.fw-squad-card').evaluateAll(cards=>cards.map(c=>c.querySelectorAll('.fw-member-slot').length)),[3,3,3,3]);
+  await page.locator('[data-fw-add="5"]').click();await page.getByText('부대당 최대 3명까지 편성할 수 있습니다.',{exact:true}).waitFor();assert.equal(await page.locator('[data-fw-formation-squad="attack1"] .filled').count(),3);
   await page.screenshot({path:join(out,width+'-elder-formation.png'),fullPage:true});assert.deepEqual(errors,[]);await page.close();
  }
 });
