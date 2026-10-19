@@ -81,3 +81,10 @@ PVE 별도 **360회**(15종 × 3조건 × 8난수): 모두 8/8 클리어. 강윤
 - 관련 범위: `tests/mercenary-ss-balance-20261019.test.mjs`, `tests/mercenary-halloween-diim-barrier-20261018.test.mjs`, `tests/pve-battlefield-entry-v2117.test.mjs`, `check:worker`. 전수 검사·이미지 재생성·CMS DB 수정은 포함하지 않는다.
 
 자료: `docs/qa/ss-halloween-uplift-20261019/{holdout,pve}.json`. 공식 scoped 배포 및 공개 API 확인 영수증은 후속 기록에 남긴다.
+
+### V3 라이브 완료
+
+- 소스 `95efaf0b3567afdfb0bddf4a0f7fa23c2f115b7b`, 직전 운영 `4dd71d373b8cf642b124f95f2e5200699fc62e66` 기준 공식 scoped 배포 한 번으로 완료했다. 관련 21개 검사, Worker 구문·출시·캐시·Hyperdrive 검사를 통과했다.
+- Pages <https://15405ba0.cnine-card.pages.dev>, API Runtime `2337fa48-9b4a-42cf-b0ab-e37136a4d8c1`, Scheduler `d7698f9e-1eb4-4721-a006-a97ec980a43c`.
+- 공개 운영 API에서 7종 모두 237,600, 새 연계 배율, 기존 스킬·디임 PVP 40% 감소 규칙을 확인했다. 강윤 324,000과 두 기술은 그대로다. 공개 공통 정책 파일의 SHA-256도 배포 소스와 일치한다. 검수 5항목 통과, `production.json`에 기록했다.
+- 계정·재화·보유·CMS DB 변경 없이 읽기 전용으로 운영 확인했다. 이 완료 기록과 영수증은 문서로만 커밋하고 재배포하지 않는다.
