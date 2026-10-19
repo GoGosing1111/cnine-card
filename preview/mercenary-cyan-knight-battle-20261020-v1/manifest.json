@@ -5368,5 +5368,22 @@
     ],
     "routeModule": "array-motion-v4.mjs",
     "routeRevision": "independent-offbeat-curved-diagonal-sharp-mix"
+  },
+  "backdrop": {
+    "id": "ZERO_BLADE_WINGS_V1",
+    "url": "assets/appearance/zero-blade-wings-v1.png",
+    "sha256": "d51165ba29ac71b56865772b2b2a893bf9c66fef2b6255f759ddff567f2f9541",
+    "width": 1536,
+    "height": 1024,
+    "anchor": {
+      "x": 0.6,
+      "y": 0.78
+    },
+    "heightInBodies": 1.02,
+    "attachHeight": 0.66,
+    "generatedWith": "built-in image_gen",
+    "promptFile": "prompt-zero-blade-wings-v1.json",
+    "visualApproval": false,
+    "reviewRecord": "zero-blade-wings-review-v1.json"
   }
 }

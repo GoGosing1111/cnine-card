@@ -1,0 +1,79 @@
+{
+  "status": "PASS",
+  "visualApproval": false,
+  "preservedApprovedFiles": 13,
+  "preservedScopeFiles": 24,
+  "generatedAssetSha256": "d51165ba29ac71b56865772b2b2a893bf9c66fef2b6255f759ddff567f2f9541",
+  "boundaries": [
+    {
+      "device": "desktop",
+      "samples": 443,
+      "clipped": [],
+      "cameraChanges": []
+    },
+    {
+      "device": "mobile",
+      "samples": 443,
+      "clipped": [],
+      "cameraChanges": []
+    }
+  ],
+  "contacts": [
+    {
+      "device": "desktop",
+      "passed": 20,
+      "total": 20
+    },
+    {
+      "device": "mobile",
+      "passed": 20,
+      "total": 20
+    }
+  ],
+  "controls": [
+    {
+      "device": "desktop",
+      "off": true,
+      "on": true,
+      "reducedMotionStable": true,
+      "defeatAlpha": 0,
+      "cancel": true,
+      "zoom": false,
+      "overflow": false
+    },
+    {
+      "device": "mobile",
+      "off": true,
+      "on": true,
+      "reducedMotionStable": true,
+      "defeatAlpha": 0,
+      "cancel": true,
+      "zoom": false,
+      "overflow": false
+    }
+  ],
+  "disposal": [
+    {
+      "device": "desktop",
+      "rootDestroyed": true,
+      "spriteDestroyed": true,
+      "componentDestroyed": true
+    },
+    {
+      "device": "mobile",
+      "rootDestroyed": true,
+      "spriteDestroyed": true,
+      "componentDestroyed": true
+    }
+  ],
+  "errors": {
+    "desktop": [],
+    "mobile": []
+  },
+  "screenshots": [
+    "desktop-idle.png",
+    "desktop-array.png",
+    "mobile-idle.png",
+    "mobile-flurry.png"
+  ]
+}

@@ -22,7 +22,7 @@ async function boot(){
  $('effects').onchange=()=>fx.setEffects($('effects').checked);
  for(const b of doc.querySelectorAll('[data-mode]'))b.onclick=()=>{fx.setMode(b.dataset.mode);gallery(fx.mode);fx.play();};
  for(const b of doc.querySelectorAll('button,select,input'))b.disabled=false;
- $('status').textContent='일반 기술 3개 · 광역기 2개 준비됨';gallery('array');fx.seek(.55);
+ $('status').textContent='백금 검익 시안 · 일반 기술 3개 · 광역기 2개';fx.setMode('idle');gallery('idle');fx.seek(.3);
  const review={fx,engine,manifest,modes:MODES,diagnostics:()=>fx.diagnostics(),dispose:()=>{fx.destroy();engine.destroy();}};window.CyanKnightPreview=review;parent.CyanKnightPreview=review;
  engine.app.renderer.on('resize',()=>{fx.pause();fx.capture();fx.render(fx.time);});
  window.addEventListener('pagehide',()=>review.dispose(),{once:true});document.addEventListener('visibilitychange',()=>{if(document.hidden)fx.cancel();});
