@@ -1,0 +1,402 @@
+{
+  "screens": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "overflow": false,
+      "contacts": [
+        {
+          "ready": true,
+          "mode": "attack",
+          "time": 0.4,
+          "playing": false,
+          "speed": 1,
+          "phase": "혈광 참격",
+          "pose": {
+            "at": 0.32,
+            "bank": "attack",
+            "index": 1,
+            "facing": 1
+          },
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.48386675939956525,
+            "distance": 7.337331792337189,
+            "intersects": true,
+            "tipDistance": 61.67935933995629
+          },
+          "groundError": 0,
+          "visibleEffects": 2,
+          "visibleGhosts": 1,
+          "registeredTimelines": 0,
+          "bodyFrames": 22,
+          "effectFrames": 36,
+          "weaponSources": 1,
+          "weaponRedraws": 0,
+          "weaponSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 1097.373949511191,
+            "y": 592
+          },
+          "target": {
+            "x": 1220,
+            "y": 517.8999999999999
+          },
+          "requestedTime": 0.4
+        },
+        {
+          "ready": true,
+          "mode": "skill",
+          "time": 0.66,
+          "playing": false,
+          "speed": 1,
+          "phase": "첫 번째 검격",
+          "pose": {
+            "at": 0.57,
+            "bank": "skill",
+            "index": 2,
+            "facing": 1
+          },
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.4832829318753916,
+            "distance": 6.229495536778457,
+            "intersects": true,
+            "tipDistance": 61.62631877375113
+          },
+          "groundError": 0,
+          "visibleEffects": 2,
+          "visibleGhosts": 1,
+          "registeredTimelines": 0,
+          "bodyFrames": 22,
+          "effectFrames": 36,
+          "weaponSources": 1,
+          "weaponRedraws": 0,
+          "weaponSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 1093.766449511191,
+            "y": 592
+          },
+          "target": {
+            "x": 1220,
+            "y": 517.8999999999999
+          },
+          "requestedTime": 0.66
+        },
+        {
+          "ready": true,
+          "mode": "skill",
+          "time": 1.5,
+          "playing": false,
+          "speed": 1,
+          "phase": "핏빛 만찬 · 마무리",
+          "pose": {
+            "at": 1.4,
+            "bank": "skill",
+            "index": 5,
+            "facing": 1
+          },
+          "contactCount": 2,
+          "bladeContact": {
+            "u": 0.46927758342836867,
+            "distance": 8.434251877213574,
+            "intersects": true,
+            "tipDistance": 63.53476231093338
+          },
+          "groundError": 0,
+          "visibleEffects": 2,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyFrames": 22,
+          "effectFrames": 36,
+          "weaponSources": 1,
+          "weaponRedraws": 0,
+          "weaponSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 1089.0500978470366,
+            "y": 592
+          },
+          "target": {
+            "x": 1220,
+            "y": 517.9
+          },
+          "requestedTime": 1.5
+        }
+      ],
+      "seeks": [
+        {
+          "speed": 0.25,
+          "time": 0.8,
+          "frame": 4
+        },
+        {
+          "speed": 0.5,
+          "time": 0.8,
+          "frame": 4
+        },
+        {
+          "speed": 1,
+          "time": 0.8,
+          "frame": 4
+        },
+        {
+          "speed": 2,
+          "time": 0.8,
+          "frame": 4
+        }
+      ],
+      "pauseStable": true,
+      "effectsHidden": true,
+      "cancel": {
+        "ready": true,
+        "mode": "idle",
+        "time": 0,
+        "playing": false,
+        "speed": 1,
+        "phase": "대기",
+        "pose": {
+          "at": 0,
+          "bank": "idle",
+          "index": 0,
+          "facing": 1
+        },
+        "contactCount": 0,
+        "bladeContact": {
+          "u": 1,
+          "distance": 750.6883137328442,
+          "intersects": false,
+          "tipDistance": 750.6883137328442
+        },
+        "groundError": 0,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 22,
+        "effectFrames": 36,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 380,
+          "y": 240
+        },
+        "target": {
+          "x": 1219.9999999999998,
+          "y": 517.9
+        }
+      },
+      "playbackAt1x": true
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "contacts": [
+        {
+          "ready": true,
+          "mode": "attack",
+          "time": 0.4,
+          "playing": false,
+          "speed": 1,
+          "phase": "혈광 참격",
+          "pose": {
+            "at": 0.32,
+            "bank": "attack",
+            "index": 1,
+            "facing": 1
+          },
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.4838667593995645,
+            "distance": 9.538531330038511,
+            "intersects": true,
+            "tipDistance": 80.18316714194327
+          },
+          "groundError": 0,
+          "visibleEffects": 2,
+          "visibleGhosts": 1,
+          "registeredTimelines": 0,
+          "bodyFrames": 22,
+          "effectFrames": 36,
+          "weaponSources": 1,
+          "weaponRedraws": 0,
+          "weaponSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 850.0427817633928,
+            "y": 1230.708092485549
+          },
+          "target": {
+            "x": 1009.4566473988441,
+            "y": 1134.3780924855491
+          },
+          "requestedTime": 0.4
+        },
+        {
+          "ready": true,
+          "mode": "skill",
+          "time": 0.66,
+          "playing": false,
+          "speed": 1,
+          "phase": "첫 번째 검격",
+          "pose": {
+            "at": 0.57,
+            "bank": "skill",
+            "index": 2,
+            "facing": 1
+          },
+          "contactCount": 1,
+          "bladeContact": {
+            "u": 0.4832829318753913,
+            "distance": 8.098344197812015,
+            "intersects": true,
+            "tipDistance": 80.11421440587657
+          },
+          "groundError": 0,
+          "visibleEffects": 2,
+          "visibleGhosts": 1,
+          "registeredTimelines": 0,
+          "bodyFrames": 22,
+          "effectFrames": 36,
+          "weaponSources": 1,
+          "weaponRedraws": 0,
+          "weaponSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 845.3530317633927,
+            "y": 1230.708092485549
+          },
+          "target": {
+            "x": 1009.4566473988441,
+            "y": 1134.3780924855491
+          },
+          "requestedTime": 0.66
+        },
+        {
+          "ready": true,
+          "mode": "skill",
+          "time": 1.5,
+          "playing": false,
+          "speed": 1,
+          "phase": "핏빛 만찬 · 마무리",
+          "pose": {
+            "at": 1.4,
+            "bank": "skill",
+            "index": 5,
+            "facing": 1
+          },
+          "contactCount": 2,
+          "bladeContact": {
+            "u": 0.46927758342836895,
+            "distance": 10.964527440377443,
+            "intersects": true,
+            "tipDistance": 82.59519100421335
+          },
+          "groundError": 0,
+          "visibleEffects": 2,
+          "visibleGhosts": 0,
+          "registeredTimelines": 0,
+          "bodyFrames": 22,
+          "effectFrames": 36,
+          "weaponSources": 1,
+          "weaponRedraws": 0,
+          "weaponSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+          "clock": "V3_REGISTERED_GSAP",
+          "liveEnabled": false,
+          "actor": {
+            "x": 839.2217745999918,
+            "y": 1230.708092485549
+          },
+          "target": {
+            "x": 1009.4566473988441,
+            "y": 1134.3780924855491
+          },
+          "requestedTime": 1.5
+        }
+      ],
+      "seeks": [
+        {
+          "speed": 0.25,
+          "time": 0.8,
+          "frame": 4
+        },
+        {
+          "speed": 0.5,
+          "time": 0.8,
+          "frame": 4
+        },
+        {
+          "speed": 1,
+          "time": 0.8,
+          "frame": 4
+        },
+        {
+          "speed": 2,
+          "time": 0.8,
+          "frame": 4
+        }
+      ],
+      "pauseStable": true,
+      "effectsHidden": true,
+      "cancel": {
+        "ready": true,
+        "mode": "idle",
+        "time": 0,
+        "playing": false,
+        "speed": 1,
+        "phase": "대기",
+        "pose": {
+          "at": 0,
+          "bank": "idle",
+          "index": 0,
+          "facing": 1
+        },
+        "contactCount": 0,
+        "bladeContact": {
+          "u": 1,
+          "distance": 955.6900162001933,
+          "intersects": false,
+          "tipDistance": 955.6900162001933
+        },
+        "groundError": 0,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 22,
+        "effectFrames": 36,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 361.4566473988439,
+          "y": 330.7080924855492
+        },
+        "target": {
+          "x": 1009.456647398844,
+          "y": 1134.3780924855491
+        }
+      },
+      "playbackAt1x": true
+    }
+  ],
+  "errors": [],
+  "requests": []
+}

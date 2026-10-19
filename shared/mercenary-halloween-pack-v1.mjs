@@ -11,7 +11,7 @@ export {HALLOWEEN_SERVER_LIMIT};
 export const HALLOWEEN_PACK=Object.freeze({id:'mercenary-halloween-ss-limited',name:'할로윈 리미티드 용병팩',rank:'SSS',edition:'HALLOWEEN_LIMITED',maxBatch:10,featurePath:'mercenary-halloween-pack/config',openPath:'mercenary-halloween-pack/open',receiptPath:'mercenary-halloween-pack/receipt',adminPath:'admin/mercenaries/halloween-pack',image:'assets/ui/packs/reverse-call-20261016/halloween-768.webp'});
 export const HALLOWEEN_NORMAL_RANKS=MERCENARY_RANKS;
 export const HALLOWEEN_OPEN_KIND='MERCENARY_HALLOWEEN_OPEN';
-const legacyCodes=HALLOWEEN_MERCENARIES.map(c=>c.code),codes=HALLOWEEN_PACK_CARDS.map(c=>c.code);
+const legacyCodes=['V-980','V-981','V-982','V-983','V-984','V-985','V-986'],codes=HALLOWEEN_PACK_CARDS.map(c=>c.code);
 const exact=(value,keys)=>value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).sort().join(',')===[...keys].sort().join(',');
 function legacyHalloweenPackDraft(){
  return {format:'MERCENARY_HALLOWEEN_SS_PACK_V1',mode:'OFF',prices:{single:null,ten:null},cardRatesPpm:Object.fromEntries(legacyCodes.map(code=>[code,null])),missRatePpm:null,stockLimits:Object.fromEntries(legacyCodes.map(code=>[code,5]))};
@@ -31,7 +31,7 @@ export function halloweenPackDraft(){
 export function validateHalloweenPack(raw,{releaseEnabled=HALLOWEEN_PACK_RELEASE_ENABLED,allowLegacyStock=false}={}){
  if(!exact(raw,['format','mode','prices','normalRankRatesPpm','cardRatesPpm','normalSssRatePpm','missRatePpm','stockLimits'])||raw.format!=='MERCENARY_HALLOWEEN_SS_PACK_V3'||!['OFF','ON'].includes(raw.mode)||!releaseEnabled&&raw.mode!=='OFF')throw Error('할로윈 팩은 출시 준비 중입니다. OFF 초안만 저장할 수 있습니다.');
  if(!exact(raw.prices,['single','ten'])||Object.values(raw.prices).some(n=>n!==null&&(!Number.isSafeInteger(n)||n<1||n>100000000000000)))throw Error('가격은 미정 또는 1~100조 코인 정수로 입력하세요.');
- if(!exact(raw.normalRankRatesPpm,MERCENARY_RANKS)||!exact(raw.cardRatesPpm,codes))throw Error('일반 6등급·할로윈 SS 7종·SSS 리미티드 3종의 확률을 확인하세요.');
+ if(!exact(raw.normalRankRatesPpm,MERCENARY_RANKS)||!exact(raw.cardRatesPpm,codes))throw Error('일반 6등급·할로윈 SS 8종·SSS 리미티드 3종의 확률을 확인하세요.');
  const first=[...Object.values(raw.normalRankRatesPpm),raw.missRatePpm],second=[...Object.values(raw.cardRatesPpm),raw.normalSssRatePpm];
  for(const rates of [first,second]){
   if(rates.some(n=>n!==null&&!isLimitedRate(n)))throw Error('확률은 미정 또는 0~100%, 소수점 8자리까지 입력하세요.');
@@ -46,9 +46,11 @@ export function validateHalloweenPack(raw,{releaseEnabled=HALLOWEEN_PACK_RELEASE
 export function readHalloweenPackSettings(raw=halloweenPackDraft(),options){
  // Old V3 remains usable while the new member is deployed. Only the explicit
  // operational settings change assigns its probability; loading never does.
- const previousCodes=codes.filter(code=>code!=='V-996');
- if(raw.format==='MERCENARY_HALLOWEEN_SS_PACK_V3'&&exact(raw.cardRatesPpm,previousCodes)&&exact(raw.stockLimits,previousCodes)){
-  return validateHalloweenPack({...raw,cardRatesPpm:{...raw.cardRatesPpm,'V-996':0},stockLimits:{...raw.stockLimits,'V-996':null}},{...options,allowLegacyStock:true});
+ for(const added of [['V-977'],['V-996','V-977'],['V-996']]){
+  const previousCodes=codes.filter(code=>!added.includes(code));
+  if(raw.format==='MERCENARY_HALLOWEEN_SS_PACK_V3'&&exact(raw.cardRatesPpm,previousCodes)&&exact(raw.stockLimits,previousCodes)){
+   return validateHalloweenPack({...raw,cardRatesPpm:{...raw.cardRatesPpm,...Object.fromEntries(added.map(code=>[code,0]))},stockLimits:{...raw.stockLimits,...Object.fromEntries(added.map(code=>[code,halloweenStockLimit(code)]))}},{...options,allowLegacyStock:true});
+  }
  }
  if(raw.format==='MERCENARY_HALLOWEEN_SS_PACK_V2'){
   if(!exact(raw.cardRatesPpm,legacyCodes)||!exact(raw.stockLimits,legacyCodes)||Object.values(raw.stockLimits).some(n=>n!==5))throw Error('이전 할로윈 초안의 대상과 수량을 확인하세요.');
@@ -64,7 +66,7 @@ export function halloweenPackReadiness(settings,stock=[],normalCards=[]){
  const blockers=[],first=[...Object.values(settings.normalRankRatesPpm),settings.missRatePpm],second=[...Object.values(settings.cardRatesPpm),settings.normalSssRatePpm];
  if(Object.values(settings.prices).some(n=>n===null))blockers.push('1회·10회 가격을 설정하세요.');
  if(first.some(n=>n===null)||first.reduce((s,n)=>s+(limitedRateUnits(n)||0),0)!==LIMITED_RATE_TOTAL)blockers.push('1단계 일반 등급·꽝 확률 합계를 100%로 설정하세요.');
- if(second.some(n=>n===null)||second.reduce((s,n)=>s+(limitedRateUnits(n)||0),0)!==LIMITED_RATE_TOTAL)blockers.push('SSS 내부의 할로윈 SS 7종·SSS 리미티드 3종·일반 SSS 확률 합계를 100%로 설정하세요.');
+ if(second.some(n=>n===null)||second.reduce((s,n)=>s+(limitedRateUnits(n)||0),0)!==LIMITED_RATE_TOTAL)blockers.push('SSS 내부의 할로윈 SS 8종·SSS 리미티드 3종·일반 SSS 확률 합계를 100%로 설정하세요.');
  for(const rank of MERCENARY_RANKS){
   // Ordinary SSS is also the destination of every exhausted limited interval.
   const needed=settings.normalRankRatesPpm[rank]>0;
@@ -104,7 +106,7 @@ export function halloweenPackState(settings=halloweenPackDraft(),stockRows=[],no
 export function halloweenPackCatalogRow(settings=halloweenPackDraft(),stockRows=[]){
  settings=readHalloweenPackSettings(settings);
  const enabled=HALLOWEEN_PACK_RELEASE_ENABLED&&settings.mode==='ON',stock=halloweenPackState(settings,stockRows).stock;
- return {id:HALLOWEEN_PACK.id,name:HALLOWEEN_PACK.name,subtitle:'HALLOWEEN LIMITED',theme:'halloween',description:'할로윈 SS 7종 · SSS 리미티드 헬리오스·진무·발테르',range:'일반 C~SSS · SS·SSS 리미티드',price:settings.prices.single,prices:settings.prices,allowed:[],drawMode:'MERCENARY_HALLOWEEN',drawEnabled:enabled,ownerDrawEnabled:false,maxDrawCount:10,imageUrl:HALLOWEEN_PACK.image,revealMode:'HALLOWEEN_FAST_GRID',comingSoon:!enabled,previewCards:HALLOWEEN_PACK_CARDS.map(({code,name,rank,thumbnailArt,group})=>({code,name,rank,thumbnailArt,group,...stock.find(s=>s.code===code)}))};
+ return {id:HALLOWEEN_PACK.id,name:HALLOWEEN_PACK.name,subtitle:'HALLOWEEN LIMITED',theme:'halloween',description:'할로윈 SS 8종 · SSS 리미티드 헬리오스·진무·발테르',range:'일반 C~SSS · SS·SSS 리미티드',price:settings.prices.single,prices:settings.prices,allowed:[],drawMode:'MERCENARY_HALLOWEEN',drawEnabled:enabled,ownerDrawEnabled:false,maxDrawCount:10,imageUrl:HALLOWEEN_PACK.image,revealMode:'HALLOWEEN_FAST_GRID',comingSoon:!enabled,previewCards:HALLOWEEN_PACK_CARDS.map(({code,name,rank,thumbnailArt,group})=>({code,name,rank,thumbnailArt,group,...stock.find(s=>s.code===code)}))};
 }
 export function halloweenPackPrice(settings,count){
  if(![1,10].includes(count))throw Error('1회 또는 10회를 선택하세요.');

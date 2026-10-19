@@ -1,9 +1,10 @@
 import {HALLOWEEN_COMBAT} from './mercenary-halloween-combat-v1.mjs';
+import {BATHORY_ART} from './mercenary-bathory-v1.mjs';
 import {HALLOWEEN_VISUALS} from './mercenary-halloween-visual-v1.mjs';
 import {HARLEQUIN_SKILL} from './mercenary-harlequin-skill-v1.mjs';
 export const HALLOWEEN_SERVER_LIMIT=10;
 // Approved PNG originals are preserved; WebP derivatives are for display only.
-export const HALLOWEEN_MERCENARIES=Object.freeze([
+const ORIGINAL_HALLOWEEN_MERCENARIES=Object.freeze([
   {
     "code": "V-980",
     "name": "나무늘봉순",
@@ -259,4 +260,5 @@ export const HALLOWEEN_MERCENARIES=Object.freeze([
     "displayArt": "assets/ui/project-v/mercenaries/halloween-approved-20261014/media/v-986-640.webp"
   }
 ].map(card=>{const combat=HALLOWEEN_COMBAT[card.code],visual=HALLOWEEN_VISUALS.find(c=>c.code===card.code);return Object.freeze({...card,...(visual?{battleSprite:visual.sprite.slice(1),battleSpriteSha256:visual.spriteSha256}:{}),basePower:combat.basePower,skills:[combat.skill],deploymentEnabled:true,releaseStatus:'OWNER_PACK_CONTROLLED',resourceStatus:'BATTLE_RESOURCES_TECHNICALLY_REVIEWED',acquisitionPackName:'할로윈 리미티드 용병팩'});}));
+export const HALLOWEEN_MERCENARIES=Object.freeze([...ORIGINAL_HALLOWEEN_MERCENARIES,BATHORY_ART]);
 export const isHalloweenMercenary=code=>HALLOWEEN_MERCENARIES.some(card=>card.code===code);

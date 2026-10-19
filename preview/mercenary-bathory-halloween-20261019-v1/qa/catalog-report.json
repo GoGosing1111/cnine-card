@@ -1,0 +1,33 @@
+{
+  "screens": [
+    {
+      "name": "desktop",
+      "catalog": "PASS",
+      "cms": "PASS",
+      "stock": {
+        "code": "V-977",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      "rate": 0
+    },
+    {
+      "name": "mobile",
+      "catalog": "PASS",
+      "cms": "PASS",
+      "stock": {
+        "code": "V-977",
+        "limit": 10,
+        "issued": 0,
+        "remaining": 10,
+        "prepared": true,
+        "scope": "SEASONAL"
+      },
+      "rate": 0
+    }
+  ],
+  "errors": []
+}

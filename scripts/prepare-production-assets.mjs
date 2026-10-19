@@ -30,7 +30,16 @@ const equipmentSetAuthoringOnly=file=>file.startsWith('preview/emperor-set-v3-20
 // Ranked design/verification notes and exact art originals stay in Git; the
 // runtime uses the WebPs and manifest. No game imports these authoring files.
 const rankedAuthoringOnly=file=>/^docs\/ranked-[^/]+\.md$/.test(file)||/^assets\/ui\/ranked\/series-20261019\/(?:console|frame)-source\.png$/.test(file);
-export const isProductionFile=file=>!rankedAuthoringOnly(file)&&!equipmentSetAuthoringOnly(file)&&!leonelAuthoringOnly(file)&&! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&! /^scripts\/qa-[^/]+\.[cm]?js$/.test(file)&&!file.startsWith('scripts/ops/')&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/')&&!file.startsWith('preview/mercenary-jokro-iaido-20261017-v1/assets/frames/')&&!martialAuthoringOnly.has(file)&&!isolatedQaFixtures.has(file);
+// Bathory's body drawings, source prompts and packing/QA scripts stay in Git.
+// Combat loads packed atlases; the codex and review use only the idle frame.
+const bathoryAuthoringOnly=file=>file.startsWith('preview/mercenary-bathory-halloween-20261019-v1/')&&(
+ /\/(?:qa|assets\/body|assets\/thumbs)\//.test(file)||/\/assets\/frames\/(?!idle-01\.png$)/.test(file)||
+ /\/(?:build|pack-assets|components|extract-approved-blade|inspect-assets|inspect-reference|measure-balance|read-live-preflight|qa-[^/]+)\.mjs$/.test(file)||
+ /\/(?:cut|rupture)-v1\.png$/.test(file)||/\.prompt\.json$/.test(file));
+// Node-only build and simulation commands have no browser imports. Keep all
+// their outputs and source history; do not spend the Pages file budget on CLIs.
+const nodeBuildCommand=file=>/^scripts\/(?:build|measure)-[^/]+\.mjs$/.test(file);
+export const isProductionFile=file=>!nodeBuildCommand(file)&&!bathoryAuthoringOnly(file)&&!rankedAuthoringOnly(file)&&!equipmentSetAuthoringOnly(file)&&!leonelAuthoringOnly(file)&&! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&! /^scripts\/qa-[^/]+\.[cm]?js$/.test(file)&&!file.startsWith('scripts/ops/')&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/')&&!file.startsWith('preview/mercenary-jokro-iaido-20261017-v1/assets/frames/')&&!martialAuthoringOnly.has(file)&&!isolatedQaFixtures.has(file);
 export async function prepareProductionAssets({root=process.cwd(),files,tempRoot=tmpdir(),dependencies}={}){
  files||=execFileSync('git',['ls-files','-z'],{cwd:root,maxBuffer:40e6}).toString().split('\0').filter(Boolean);
  const selected=files.filter(isProductionFile),assetCount=selected.filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;

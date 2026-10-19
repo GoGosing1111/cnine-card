@@ -1,0 +1,28 @@
+{
+  "speeds": [
+    {
+      "speed": 0.25,
+      "time": 0.04575,
+      "expected": 0.045
+    },
+    {
+      "speed": 0.5,
+      "time": 0.0915,
+      "expected": 0.09
+    },
+    {
+      "speed": 1,
+      "time": 0.184,
+      "expected": 0.18
+    },
+    {
+      "speed": 2,
+      "time": 0.366,
+      "expected": 0.36
+    }
+  ],
+  "video": "review-1x.webm",
+  "bytes": 4213682,
+  "rate": 1,
+  "framesPerSecond": 30
+}

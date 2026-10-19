@@ -1,0 +1,36 @@
+{
+ "idle": [
+  {"source":"idle-v2","cell":0,"upright":577,"foot":[438,631],"grip":[501,324],"angle":22},
+  {"source":"idle-v2","cell":3,"upright":558,"foot":[1064,1221],"grip":[1118,930],"angle":22}
+ ],
+ "dash": [
+  {"source":"dash","cell":0,"upright":603,"foot":[410,616],"grip":[412,268],"angle":0},
+  {"source":"dash","cell":1,"upright":603,"foot":[1050,609],"grip":[1093,258],"angle":0},
+  {"source":"dash","cell":2,"upright":603,"foot":[493,1227],"grip":[572,862],"angle":-8},
+  {"source":"dash","cell":3,"upright":603,"foot":[1030,1232],"grip":[1120,951],"angle":22}
+ ],
+ "attack": [
+  {"source":"attack","cell":0,"upright":590,"foot":[425,624],"grip":[307,48],"angle":-52},
+  {"source":"contacts","cell":0,"upright":610,"foot":[420,642],"grip":[551,310],"angle":5},
+  {"source":"attack","cell":2,"upright":590,"foot":[470,1208],"grip":[588,943],"angle":32},
+  {"source":"attack","cell":3,"upright":590,"foot":[1010,1216],"grip":[1114,939],"angle":22}
+ ],
+ "skill": [
+  {"source":"skill_a","cell":0,"upright":580,"foot":[430,604],"grip":[474,392],"angle":30},
+  {"source":"skill_a","cell":1,"upright":580,"foot":[1000,608],"grip":[831,302],"angle":32},
+  {"source":"contacts","cell":1,"upright":610,"foot":[1020,630],"grip":[1164,302],"angle":5},
+  {"source":"skill_a","cell":3,"upright":580,"foot":[1030,1230],"grip":[994,619],"angle":-38},
+  {"source":"skill_b","cell":0,"upright":580,"foot":[438,589],"grip":[327,25],"angle":-145},
+  {"source":"contacts","cell":2,"upright":610,"foot":[460,1210],"grip":[625,909],"angle":10},
+  {"source":"skill_b","cell":2,"upright":580,"foot":[490,1147],"grip":[486,896],"angle":35},
+  {"source":"skill_b","cell":3,"upright":580,"foot":[1086,1165],"grip":[1041,852],"angle":35}
+ ],
+ "hit": [
+  {"source":"reactions","cell":0,"upright":675,"foot":[451,710],"grip":[290,306],"angle":18},
+  {"source":"reactions","cell":1,"upright":675,"foot":[1017,712],"grip":[993,303],"angle":22}
+ ],
+ "defeat": [
+  {"source":"reactions","cell":2,"upright":675,"foot":[485,1208],"grip":[521,865],"angle":0},
+  {"source":"reactions","cell":3,"upright":675,"foot":[1050,1205],"grip":[1014,1076],"angle":8}
+ ]
+}

@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
-import {HALLOWEEN_MERCENARIES} from '../../shared/mercenary-halloween-catalog-v1.mjs';
 import {HALLOWEEN_PACK_KEY,validateHalloweenPack,readHalloweenPackSettings} from '../../shared/mercenary-halloween-pack-v1.mjs';
 
 export const HALLOWEEN_SS_STOCK_PLUS5_KEY='ops:halloween-ss-stock:20261017:plus5-v1';
-const codes=HALLOWEEN_MERCENARIES.map(c=>c.code),allCodes=[...codes,'V-989','V-999'].sort();
+// Freeze this completed operation's original seven identities as new cards arrive.
+const codes=['V-980','V-981','V-982','V-983','V-984','V-985','V-986'],allCodes=[...codes,'V-989','V-999'].sort();
 const stockView=rows=>rows.map(s=>({code:s.code,limit:Number(s.stock_limit),issued:Number(s.issued),remaining:Number(s.stock_limit)-Number(s.issued)}));
 
 // Explicit user request: add five slots to each seasonal SS, preserving issues,

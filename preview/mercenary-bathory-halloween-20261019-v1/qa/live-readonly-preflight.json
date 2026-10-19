@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-10-19T06:01:22.878Z",
+  "transaction": "READ ONLY",
+  "code": "V-977",
+  "stock": [],
+  "owned": 0,
+  "issued": 0,
+  "cms": [],
+  "codeAvailable": true,
+  "pack": {
+    "revision": 13,
+    "mode": "ON",
+    "documentHash": "8b3bc5ecdc490cbbb6d194e332734a846f854cf976e61db486c58616d2d65ec3",
+    "existingCodes": [
+      "V-980",
+      "V-981",
+      "V-982",
+      "V-983",
+      "V-984",
+      "V-985",
+      "V-986",
+      "V-999",
+      "V-989",
+      "V-996"
+    ],
+    "bathoryRate": null
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "attack.png": {
+    "width": 1254,
+    "height": 1254,
+    "components": [
+      {
+        "pixels": 183866,
+        "left": 39,
+        "top": 22,
+        "width": 574,
+        "height": 604
+      },
+      {
+        "pixels": 172206,
+        "left": 638,
+        "top": 45,
+        "width": 605,
+        "height": 579
+      },
+      {
+        "pixels": 159296,
+        "left": 38,
+        "top": 660,
+        "width": 575,
+        "height": 549
+      },
+      {
+        "pixels": 169531,
+        "left": 658,
+        "top": 628,
+        "width": 544,
+        "height": 589
+      }
+    ]
+  },
+  "dash.png": {
+    "width": 1254,
+    "height": 1254,
+    "components": [
+      {
+        "pixels": 168274,
+        "left": 55,
+        "top": 40,
+        "width": 529,
+        "height": 577
+      },
+      {
+        "pixels": 153260,
+        "left": 681,
+        "top": 60,
+        "width": 548,
+        "height": 550
+      },
+      {
+        "pixels": 161140,
+        "left": 54,
+        "top": 653,
+        "width": 547,
+        "height": 575
+      },
+      {
+        "pixels": 177065,
+        "left": 701,
+        "top": 630,
+        "width": 533,
+        "height": 603
+      }
+    ]
+  },
+  "idle-v1-edge-rejected.png": {
+    "width": 1254,
+    "height": 1254,
+    "components": [
+      {
+        "pixels": 155990,
+        "left": 53,
+        "top": 4,
+        "width": 551,
+        "height": 621
+      },
+      {
+        "pixels": 161552,
+        "left": 661,
+        "top": 3,
+        "width": 541,
+        "height": 622
+      },
+      {
+        "pixels": 186467,
+        "left": 44,
+        "top": 628,
+        "width": 586,
+        "height": 625
+      },
+      {
+        "pixels": 165897,
+        "left": 696,
+        "top": 628,
+        "width": 539,
+        "height": 625
+      }
+    ]
+  },
+  "idle-v2.png": {
+    "width": 1254,
+    "height": 1254,
+    "components": [
+      {
+        "pixels": 140538,
+        "left": 89,
+        "top": 56,
+        "width": 502,
+        "height": 577
+      },
+      {
+        "pixels": 150693,
+        "left": 692,
+        "top": 68,
+        "width": 485,
+        "height": 566
+      },
+      {
+        "pixels": 148966,
+        "left": 80,
+        "top": 673,
+        "width": 526,
+        "height": 548
+      },
+      {
+        "pixels": 144694,
+        "left": 708,
+        "top": 665,
+        "width": 497,
+        "height": 558
+      }
+    ]
+  },
+  "reactions.png": {
+    "width": 1254,
+    "height": 1254,
+    "components": [
+      {
+        "pixels": 204951,
+        "left": 62,
+        "top": 46,
+        "width": 562,
+        "height": 665
+      },
+      {
+        "pixels": 198021,
+        "left": 657,
+        "top": 38,
+        "width": 552,
+        "height": 675
+      },
+      {
+        "pixels": 184574,
+        "left": 17,
+        "top": 712,
+        "width": 633,
+        "height": 497
+      },
+      {
+        "pixels": 142084,
+        "left": 669,
+        "top": 739,
+        "width": 568,
+        "height": 467
+      }
+    ]
+  },
+  "skill_a.png": {
+    "width": 1254,
+    "height": 1254,
+    "components": [
+      {
+        "pixels": 175561,
+        "left": 47,
+        "top": 86,
+        "width": 591,
+        "height": 519
+      },
+      {
+        "pixels": 178621,
+        "left": 680,
+        "top": 54,
+        "width": 554,
+        "height": 555
+      },
+      {
+        "pixels": 193567,
+        "left": 38,
+        "top": 653,
+        "width": 607,
+        "height": 566
+      },
+      {
+        "pixels": 204848,
+        "left": 681,
+        "top": 604,
+        "width": 555,
+        "height": 627
+      }
+    ]
+  },
+  "skill_b.png": {
+    "width": 1330,
+    "height": 1182,
+    "components": [
+      {
+        "pixels": 185065,
+        "left": 58,
+        "top": 6,
+        "width": 613,
+        "height": 584
+      },
+      {
+        "pixels": 160428,
+        "left": 682,
+        "top": 81,
+        "width": 616,
+        "height": 502
+      },
+      {
+        "pixels": 191061,
+        "left": 65,
+        "top": 622,
+        "width": 634,
+        "height": 526
+      },
+      {
+        "pixels": 172090,
+        "left": 737,
+        "top": 586,
+        "width": 536,
+        "height": 580
+      }
+    ]
+  }
+}

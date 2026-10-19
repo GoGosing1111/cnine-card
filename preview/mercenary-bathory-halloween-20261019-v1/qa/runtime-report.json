@@ -1,0 +1,342 @@
+{
+  "errors": [],
+  "missing": [],
+  "cases": [
+    {
+      "name": "desktop",
+      "mode": "PVE",
+      "mounted": {
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-977",
+            "code": "V-977",
+            "team": "ALLY",
+            "bodyHeight": 333,
+            "hud": true
+          }
+        ],
+        "events": 6,
+        "states": 1,
+        "overflow": false
+      },
+      "playback": {
+        "rows": [
+          {
+            "side": "ALLY",
+            "count": 1,
+            "hp": [
+              {
+                "id": "B:0:MONSTER:1",
+                "hp": 82.142976
+              }
+            ],
+            "expected": 82.142976,
+            "last": {
+              "code": "V-977",
+              "eventType": "MERCENARY_HIT",
+              "mode": "skill",
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": 1.5,
+              "durationSeconds": 2.6
+            },
+            "cameraPreserved": true,
+            "recoilPreserved": true,
+            "home": true,
+            "hud": true
+          }
+        ],
+        "basicHits": 1,
+        "cancel": {
+          "hits": 0,
+          "states": [
+            {
+              "busy": false,
+              "stopped": true,
+              "ambient": false,
+              "fx": 0
+            }
+          ],
+          "clocks": 0
+        },
+        "resumed": true
+      },
+      "cleanup": {
+        "states": 0,
+        "loads": 0
+      }
+    },
+    {
+      "name": "desktop",
+      "mode": "PVP",
+      "mounted": {
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-977",
+            "code": "V-977",
+            "team": "ALLY",
+            "bodyHeight": 333,
+            "hud": true
+          },
+          {
+            "id": "B:MERCENARY:V-977",
+            "code": "V-977",
+            "team": "ENEMY",
+            "bodyHeight": 333,
+            "hud": true
+          }
+        ],
+        "events": 9,
+        "states": 2,
+        "overflow": false
+      },
+      "playback": {
+        "rows": [
+          {
+            "side": "ALLY",
+            "count": 1,
+            "hp": [
+              {
+                "id": "B:3:CN-23EB4B19986D4818",
+                "hp": 0
+              }
+            ],
+            "expected": 0,
+            "last": {
+              "code": "V-977",
+              "eventType": "MERCENARY_HIT",
+              "mode": "skill",
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": 1.5,
+              "durationSeconds": 2.6
+            },
+            "cameraPreserved": true,
+            "recoilPreserved": true,
+            "home": true,
+            "hud": true
+          },
+          {
+            "side": "ENEMY",
+            "count": 1,
+            "hp": [
+              {
+                "id": "A:3:CN-23EB4B19986D4818",
+                "hp": 0
+              }
+            ],
+            "expected": 0,
+            "last": {
+              "code": "V-977",
+              "eventType": "MERCENARY_HIT",
+              "mode": "skill",
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": 1.5,
+              "durationSeconds": 2.6
+            },
+            "cameraPreserved": true,
+            "recoilPreserved": true,
+            "home": true,
+            "hud": true
+          }
+        ],
+        "basicHits": 1,
+        "cancel": {
+          "hits": 0,
+          "states": [
+            {
+              "busy": false,
+              "stopped": true,
+              "ambient": false,
+              "fx": 0
+            },
+            {
+              "busy": false,
+              "stopped": true,
+              "ambient": false,
+              "fx": 0
+            }
+          ],
+          "clocks": 0
+        },
+        "resumed": true
+      },
+      "cleanup": {
+        "states": 0,
+        "loads": 0
+      }
+    },
+    {
+      "name": "mobile",
+      "mode": "PVE",
+      "mounted": {
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-977",
+            "code": "V-977",
+            "team": "ALLY",
+            "bodyHeight": 333,
+            "hud": true
+          }
+        ],
+        "events": 6,
+        "states": 1,
+        "overflow": false
+      },
+      "playback": {
+        "rows": [
+          {
+            "side": "ALLY",
+            "count": 1,
+            "hp": [
+              {
+                "id": "B:0:MONSTER:1",
+                "hp": 82.142976
+              }
+            ],
+            "expected": 82.142976,
+            "last": {
+              "code": "V-977",
+              "eventType": "MERCENARY_HIT",
+              "mode": "skill",
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": 1.5,
+              "durationSeconds": 2.6
+            },
+            "cameraPreserved": true,
+            "recoilPreserved": true,
+            "home": true,
+            "hud": true
+          }
+        ],
+        "basicHits": 1,
+        "cancel": {
+          "hits": 0,
+          "states": [
+            {
+              "busy": false,
+              "stopped": true,
+              "ambient": false,
+              "fx": 0
+            }
+          ],
+          "clocks": 0
+        },
+        "resumed": true
+      },
+      "cleanup": {
+        "states": 0,
+        "loads": 0
+      }
+    },
+    {
+      "name": "mobile",
+      "mode": "PVP",
+      "mounted": {
+        "actors": [
+          {
+            "id": "A:MERCENARY:V-977",
+            "code": "V-977",
+            "team": "ALLY",
+            "bodyHeight": 333,
+            "hud": true
+          },
+          {
+            "id": "B:MERCENARY:V-977",
+            "code": "V-977",
+            "team": "ENEMY",
+            "bodyHeight": 333,
+            "hud": true
+          }
+        ],
+        "events": 9,
+        "states": 2,
+        "overflow": false
+      },
+      "playback": {
+        "rows": [
+          {
+            "side": "ALLY",
+            "count": 1,
+            "hp": [
+              {
+                "id": "B:3:CN-23EB4B19986D4818",
+                "hp": 0
+              }
+            ],
+            "expected": 0,
+            "last": {
+              "code": "V-977",
+              "eventType": "MERCENARY_HIT",
+              "mode": "skill",
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": 1.5,
+              "durationSeconds": 2.6
+            },
+            "cameraPreserved": true,
+            "recoilPreserved": true,
+            "home": true,
+            "hud": true
+          },
+          {
+            "side": "ENEMY",
+            "count": 1,
+            "hp": [
+              {
+                "id": "A:3:CN-23EB4B19986D4818",
+                "hp": 0
+              }
+            ],
+            "expected": 0,
+            "last": {
+              "code": "V-977",
+              "eventType": "MERCENARY_HIT",
+              "mode": "skill",
+              "clockOwner": "V3_REGISTERED_GSAP",
+              "authoritative": true,
+              "damageApplications": 1,
+              "contactSeconds": 1.5,
+              "durationSeconds": 2.6
+            },
+            "cameraPreserved": true,
+            "recoilPreserved": true,
+            "home": true,
+            "hud": true
+          }
+        ],
+        "basicHits": 1,
+        "cancel": {
+          "hits": 0,
+          "states": [
+            {
+              "busy": false,
+              "stopped": true,
+              "ambient": false,
+              "fx": 0
+            },
+            {
+              "busy": false,
+              "stopped": true,
+              "ambient": false,
+              "fx": 0
+            }
+          ],
+          "clocks": 0
+        },
+        "resumed": true
+      },
+      "cleanup": {
+        "states": 0,
+        "loads": 0
+      }
+    }
+  ]
+}

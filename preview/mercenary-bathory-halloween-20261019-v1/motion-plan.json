@@ -1,0 +1,24 @@
+{
+  "name": "바토리",
+  "rank": "SS",
+  "edition": "LIMITED",
+  "season": "HALLOWEEN",
+  "serverLimit": 10,
+  "source": "assets/sources/bathory-source-v2.png",
+  "sourceSha256": "ba3f9ba6f60b0b90eea9e27b66ada65c3c329ded136dc115d4a449290235e761",
+  "weaponPolicy": "ORIGINAL_PIXEL_SELECTION_ONLY_UNIFORM_RIGID_TRANSFORM",
+  "sourceSelection": "User requested battle production from the mature crimson-eye revision and named her Bathory.",
+  "visualApproval": "USER_REVIEW_PENDING",
+  "moves": {
+    "idle": {"seconds": 2.8, "poses": 2, "beats": "two selected quiet breathing drawings; feet planted, wrists quiet"},
+    "dash": {"seconds": 0.8, "poses": 4, "beats": "knee compression, forward drive, low travel, grounded catch"},
+    "attack": {"seconds": 1.05, "poses": 4, "contacts": [0.40], "beats": "hip windup, forward waist-height cut, weight transfer, controlled recovery"},
+    "skill": {"seconds": 2.6, "poses": 8, "contacts": [0.66, 1.50], "beats": "crimson focus, shoulder coil, ascending cleave, lifted weapon, overhead reversal, heavy grounded finish, recoil, ready recovery"},
+    "hit": {"seconds": 0.65, "poses": 2, "beats": "braced shoulder recoil, bent knees, recover"},
+    "defeat": {"seconds": 1.2, "poses": 2, "beats": "one knee drops, exhausted kneel; no body dismemberment"}
+  },
+  "effects": {"drive": 12, "prismaticCut": 12, "crimsonRupture": 12},
+  "serverDamage": "Two visual contacts share one server-authoritative skill event; visuals never recalculate HP.",
+  "ui": "Reuse approved slim V3 limited frame, no battle skill buttons in the mercenary preview. Playback controls in review drawer only.",
+  "sound": "silent"
+}

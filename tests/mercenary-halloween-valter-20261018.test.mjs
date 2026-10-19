@@ -10,7 +10,7 @@ import {OPERATION_KEY,addValterToHalloweenSettings,documentHash,applyHalloweenVa
 async function previousSettings(t){
  const f=await halloweenFixture(t);
  await f.pg.exec("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'USER'; ALTER TABLE users ADD COLUMN status TEXT DEFAULT 'ACTIVE'; UPDATE users SET role='OWNER' WHERE id=1; ALTER TABLE app_meta ADD COLUMN updated_at TEXT;");
- f.settings.cardRatesPpm=Object.fromEntries(HALLOWEEN_PACK_CARDS.filter(c=>c.code!=='V-996').map(c=>[c.code,c.rank==='SS'?10000:c.code==='V-999'?100:50]));
+ f.settings.cardRatesPpm=Object.fromEntries(HALLOWEEN_PACK_CARDS.filter(c=>c.code!=='V-996').map(c=>[c.code,c.code==='V-977'?0:c.rank==='SS'?10000:c.code==='V-999'?100:50]));
  delete f.settings.stockLimits['V-996'];f.settings.normalSssRatePpm=929850;
  await f.configure(12);return f;
 }
@@ -26,7 +26,7 @@ test('existing ON document is readable with Valter zero; equal Helios odds move 
   for(const ticket of [start,start+size-1]){const samples=[0,ticket];assert.equal(pickHalloweenBatch(state,1,()=>samples.shift())[0].mercenaryCode,code);}
  }
  const markup=halloweenCollectionMarkup(state.cards,state.stock)+halloweenRoomMarkup(state.pack);
- assert.match(markup,/발테르/);assert.equal((markup.match(/data-hwp-stock-code=/g)||[]).length,10);assert.match(markup,/남은 \d+장/);assert.equal((markup.match(/data-code="V-996"/g)||[]).length,1);
+ assert.match(markup,/발테르/);assert.equal((markup.match(/data-hwp-stock-code=/g)||[]).length,HALLOWEEN_PACK_CARDS.length);assert.match(markup,/남은 \d+장/);assert.equal((markup.match(/data-code="V-996"/g)||[]).length,1);
 });
 
 test('settings operation rolls back every write, preserves inventory/stock, and replays without writes',async t=>{

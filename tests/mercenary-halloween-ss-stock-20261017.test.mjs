@@ -5,7 +5,7 @@ import {HALLOWEEN_MERCENARIES} from '../shared/mercenary-halloween-catalog-v1.mj
 import {halloweenPackDraft,readHalloweenPackSettings,validateHalloweenPack,halloweenPackState,HALLOWEEN_PACK_KEY} from '../shared/mercenary-halloween-pack-v1.mjs';
 import {halloweenStockText,halloweenCollectionMarkup} from '../js/mercenary-halloween-presentation-v2.mjs';
 import {increaseHalloweenSsStock,HALLOWEEN_SS_STOCK_PLUS5_KEY} from '../scripts/ops/halloween-ss-stock-plus5-20261017.mjs';
-const codes=HALLOWEEN_MERCENARIES.map(c=>c.code);
+const codes=['V-980','V-981','V-982','V-983','V-984','V-985','V-986'];
 async function original(t){
  const f=await halloweenFixture(t);
  await f.pg.exec("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'USER'; UPDATE users SET role='OWNER' WHERE id=1");
@@ -24,7 +24,7 @@ test('new SS limits are ten; the prior five-copy state stays readable during rol
  assert.equal(halloweenStockText({code:'V-980'},{prepared:true,limit:10,remaining:8}),'남은 8장');
  assert.equal(halloweenStockText({code:'V-980'},{prepared:true,limit:10,remaining:0}),'남은 0장 · 소진');
  for(const row of [undefined,{prepared:false,remaining:null},{prepared:true,remaining:-1}])assert.equal(halloweenStockText({code:'V-980'},row),'수량 확인 중');
- assert.match(halloweenCollectionMarkup(HALLOWEEN_MERCENARIES,codes.map(code=>({code,prepared:true,limit:10,remaining:8}))),/SS LIMITED · 7/);
+ assert.match(halloweenCollectionMarkup(HALLOWEEN_MERCENARIES,codes.map(code=>({code,prepared:true,limit:10,remaining:8}))),/SS LIMITED · 8/);
  assert.equal(current.stockLimits['V-989'],3);assert.equal(current.stockLimits['V-999'],null);
 });
 

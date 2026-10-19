@@ -260,7 +260,9 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
   if(!living(t))return {hit:false};const pvpScale=rangedMercenaryPvpScale(a,s,tierScale(a)),offensiveScale=offensiveSkillScale(a,s,opts.followup),capWeaken=a.battleMode==='PVP'?offensiveScale:1;
   const scale=Number(s.balance.damageRatio)*multiplier*pvpScale*offensiveScale;
   if(scale<=0)return effect(a,s,t,0,phase);
-  const ranged=isRangedMercenarySkill(a,s);
+  // Bathory's prismatic blade uses the existing PVE skill minimum-damage
+  // budget against very high defense; it remains melee with unchanged PVP rules.
+  const ranged=isRangedMercenarySkill(a,s)||(a.battleMode==='PVE'&&ssLimitedProfile(a)?.pveSkillMinimumDamage===true);
   const h=hit(a,t,scale,{rangedSkill:ranged,castShare:(opts.castShare??1)*pvpScale,capScale:mercenarySkillCapActions(a,s,ranged,opts.capCount)*(opts.capShare??1)*pvpScale*capWeaken});if(h.dodge){send(a,s,phase,t,{dodge:true,damage:0,targetHpAfter:t.hp,targetShieldAfter:t.shield});return {hit:false};}
   // Only direct single-target skill impacts can consume the link. Area skills,
   // poison, counters and fixed boss effects retain their own damage paths.

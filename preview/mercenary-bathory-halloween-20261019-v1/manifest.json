@@ -1,0 +1,1930 @@
+{
+  "version": "BATHORY_HALLOWEEN_REVIEW_20261019_V1",
+  "name": "바토리",
+  "title": "핏빛 만찬",
+  "code": "V-977",
+  "rank": "SS",
+  "edition": "LIMITED",
+  "season": "HALLOWEEN",
+  "serverLimit": 10,
+  "status": "USER_REVIEW_PENDING",
+  "runtimeEnabled": false,
+  "sourceArt": "preview/mercenary-bathory-halloween-20261019-v1/assets/sources/bathory-source-v2.png",
+  "sourceArtSha256": "ba3f9ba6f60b0b90eea9e27b66ada65c3c329ded136dc115d4a449290235e761",
+  "weapon": {
+    "source": "assets/sources/bathory-source-v2.png",
+    "sha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+    "sourceGrip": {
+      "x": 216,
+      "y": 421
+    },
+    "sourceBladeStart": {
+      "x": 301,
+      "y": 641
+    },
+    "sourceTip": {
+      "x": 730,
+      "y": 1446
+    },
+    "standingHelmetToSole": 1280,
+    "rect": {
+      "left": 95,
+      "top": 420,
+      "width": 640,
+      "height": 1031
+    },
+    "polygons": [
+      [
+        [
+          208,
+          420
+        ],
+        [
+          233,
+          421
+        ],
+        [
+          243,
+          444
+        ],
+        [
+          252,
+          453
+        ],
+        [
+          254,
+          466
+        ],
+        [
+          271,
+          469
+        ],
+        [
+          289,
+          464
+        ],
+        [
+          302,
+          466
+        ],
+        [
+          326,
+          462
+        ],
+        [
+          349,
+          462
+        ],
+        [
+          365,
+          460
+        ],
+        [
+          383,
+          453
+        ],
+        [
+          391,
+          452
+        ],
+        [
+          395,
+          464
+        ],
+        [
+          397,
+          488
+        ],
+        [
+          391,
+          495
+        ],
+        [
+          374,
+          491
+        ],
+        [
+          359,
+          496
+        ],
+        [
+          347,
+          505
+        ],
+        [
+          344,
+          517
+        ],
+        [
+          337,
+          516
+        ],
+        [
+          330,
+          512
+        ],
+        [
+          324,
+          518
+        ],
+        [
+          323,
+          531
+        ],
+        [
+          329,
+          548
+        ],
+        [
+          342,
+          561
+        ],
+        [
+          355,
+          566
+        ],
+        [
+          366,
+          565
+        ],
+        [
+          362,
+          578
+        ],
+        [
+          362,
+          594
+        ],
+        [
+          372,
+          620
+        ],
+        [
+          399,
+          671
+        ],
+        [
+          443,
+          763
+        ],
+        [
+          489,
+          857
+        ],
+        [
+          533,
+          949
+        ],
+        [
+          578,
+          1044
+        ],
+        [
+          623,
+          1137
+        ],
+        [
+          666,
+          1228
+        ],
+        [
+          705,
+          1310
+        ],
+        [
+          730,
+          1447
+        ],
+        [
+          575,
+          1330
+        ],
+        [
+          565,
+          1300
+        ],
+        [
+          516,
+          1200
+        ],
+        [
+          468,
+          1100
+        ],
+        [
+          419,
+          1000
+        ],
+        [
+          370,
+          900
+        ],
+        [
+          321,
+          800
+        ],
+        [
+          273,
+          700
+        ],
+        [
+          254,
+          661
+        ],
+        [
+          230,
+          630
+        ],
+        [
+          210,
+          613
+        ],
+        [
+          241,
+          601
+        ],
+        [
+          242,
+          584
+        ],
+        [
+          236,
+          569
+        ],
+        [
+          223,
+          559
+        ],
+        [
+          210,
+          555
+        ],
+        [
+          200,
+          559
+        ],
+        [
+          194,
+          571
+        ],
+        [
+          181,
+          566
+        ],
+        [
+          172,
+          558
+        ],
+        [
+          166,
+          558
+        ],
+        [
+          163,
+          565
+        ],
+        [
+          151,
+          559
+        ],
+        [
+          143,
+          563
+        ],
+        [
+          135,
+          572
+        ],
+        [
+          129,
+          585
+        ],
+        [
+          113,
+          575
+        ],
+        [
+          101,
+          558
+        ],
+        [
+          97,
+          544
+        ],
+        [
+          109,
+          542
+        ],
+        [
+          120,
+          530
+        ],
+        [
+          126,
+          518
+        ],
+        [
+          131,
+          525
+        ],
+        [
+          149,
+          515
+        ],
+        [
+          164,
+          500
+        ],
+        [
+          172,
+          487
+        ],
+        [
+          177,
+          494
+        ],
+        [
+          192,
+          486
+        ],
+        [
+          203,
+          476
+        ],
+        [
+          210,
+          462
+        ],
+        [
+          213,
+          448
+        ],
+        [
+          216,
+          437
+        ]
+      ]
+    ],
+    "policy": "Visible original blade, guard and exposed lower grip only. The body supplies the occluding hand and tiny grip. No generated weapon pixels.",
+    "transformsAllowed": [
+      "uniformScale",
+      "rotation",
+      "translation"
+    ],
+    "sourceSha256": "ba3f9ba6f60b0b90eea9e27b66ada65c3c329ded136dc115d4a449290235e761",
+    "width": 640,
+    "height": 1031,
+    "grip": {
+      "x": 121,
+      "y": 1
+    },
+    "bladeStart": {
+      "x": 206,
+      "y": 221
+    },
+    "tip": {
+      "x": 635,
+      "y": 1026
+    },
+    "copiedPixels": 135863,
+    "operation": "ORIGINAL_PIXEL_SELECTION_ONLY",
+    "redrawnPixels": 0,
+    "url": "assets/locked/approved-blade.png",
+    "drawingPolicy": "ONE_IMMUTABLE_ORIGINAL_RASTER"
+  },
+  "frame": "assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png",
+  "motion": {
+    "idle": {
+      "url": "assets/atlases/idle.png",
+      "columns": 4,
+      "rows": 1,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "referenceHeight": 360,
+      "sha256": "7133a7e3dbf62854c80d38f52841109a48093b83b8074e102dd02f517f6592e3",
+      "frames": [
+        {
+          "id": "idle-01",
+          "index": 0,
+          "pivot": {
+            "x": 324.6,
+            "y": 562.5999999999999
+          },
+          "grip": {
+            "x": 363.90675909878684,
+            "y": 371.05753899480055
+          },
+          "bladeStart": {
+            "x": 422.8530392274766,
+            "y": 401.99219830639674
+          },
+          "tip": {
+            "x": 663.0333016034053,
+            "y": 492.1651558277902
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/idle-v2.png",
+          "sourceSha256": "0431e2323e2d9ac2825783f857eb46d213f7ab88eb83014a52477d6082516891",
+          "componentBox": {
+            "left": 85,
+            "top": 52,
+            "width": 510,
+            "height": 585
+          },
+          "sourceFoot": [
+            438,
+            631
+          ],
+          "sourceGrip": [
+            501,
+            324
+          ],
+          "sourceComponent": 0,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -41.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "fd33330b76a8381ed76e0e33144fe3e8835dc74c2ed0c5d941f2c63c7a411906",
+          "file": "assets/frames/idle-01.png"
+        },
+        {
+          "id": "idle-02",
+          "index": 1,
+          "pivot": {
+            "x": 332,
+            "y": 562
+          },
+          "grip": {
+            "x": 366.83870967741933,
+            "y": 374.25806451612897
+          },
+          "bladeStart": {
+            "x": 425.4530392274766,
+            "y": 404.99219830639674
+          },
+          "tip": {
+            "x": 665.6333016034054,
+            "y": 495.1651558277902
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/idle-v2.png",
+          "sourceSha256": "0431e2323e2d9ac2825783f857eb46d213f7ab88eb83014a52477d6082516891",
+          "componentBox": {
+            "left": 704,
+            "top": 661,
+            "width": 505,
+            "height": 566
+          },
+          "sourceFoot": [
+            1064,
+            1221
+          ],
+          "sourceGrip": [
+            1118,
+            930
+          ],
+          "sourceComponent": 3,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -41.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "ca3d9c15f757642d5c507675c13e263de63fbfca6408f787b78dfd1eb04506af",
+          "file": "assets/frames/idle-02.png"
+        }
+      ]
+    },
+    "dash": {
+      "url": "assets/atlases/dash.png",
+      "columns": 4,
+      "rows": 1,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "referenceHeight": 360,
+      "sha256": "db6cc8f31af22eaf1e5e3d78f179a549ca9790e8648da7458a25ea99df87b3d9",
+      "frames": [
+        {
+          "id": "dash-01",
+          "index": 0,
+          "pivot": {
+            "x": 328.6,
+            "y": 555.5999999999999
+          },
+          "grip": {
+            "x": 329.79402985074626,
+            "y": 347.83880597014934
+          },
+          "bladeStart": {
+            "x": 395.6627571389377,
+            "y": 354.27007746072275
+          },
+          "tip": {
+            "x": 652.1334030348406,
+            "y": 347.90387789870886
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/dash.png",
+          "sourceSha256": "df995870ec7e7cd61a3b5af47ef554f855fcc7ffd2adb14da760b4c4ea12f92b",
+          "componentBox": {
+            "left": 51,
+            "top": 36,
+            "width": 537,
+            "height": 585
+          },
+          "sourceFoot": [
+            410,
+            616
+          ],
+          "sourceGrip": [
+            412,
+            268
+          ],
+          "sourceComponent": 0,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -63.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "1bb6c4b1724526f78f15228c277328943ddb0f070f089873aa8bf7116bffad4b",
+          "file": "assets/frames/dash-01.png"
+        },
+        {
+          "id": "dash-02",
+          "index": 1,
+          "pivot": {
+            "x": 321,
+            "y": 547.4
+          },
+          "grip": {
+            "x": 346.67164179104486,
+            "y": 337.8477611940299
+          },
+          "bladeStart": {
+            "x": 412.6627571389377,
+            "y": 344.27007746072275
+          },
+          "tip": {
+            "x": 669.1334030348406,
+            "y": 337.90387789870886
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/dash.png",
+          "sourceSha256": "df995870ec7e7cd61a3b5af47ef554f855fcc7ffd2adb14da760b4c4ea12f92b",
+          "componentBox": {
+            "left": 677,
+            "top": 56,
+            "width": 556,
+            "height": 558
+          },
+          "sourceFoot": [
+            1050,
+            609
+          ],
+          "sourceGrip": [
+            1093,
+            258
+          ],
+          "sourceComponent": 1,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -63.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "2e64bd7647a825a3222e1872c8185a0e597d18c3020c40900e2453765cfce3c7",
+          "file": "assets/frames/dash-02.png"
+        },
+        {
+          "id": "dash-03",
+          "index": 2,
+          "pivot": {
+            "x": 333,
+            "y": 555.4
+          },
+          "grip": {
+            "x": 380.16417910447757,
+            "y": 337.4895522388059
+          },
+          "bladeStart": {
+            "x": 446.54923065337647,
+            "y": 334.6462849066253
+          },
+          "tip": {
+            "x": 699.6379181192393,
+            "y": 292.64822566656267
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/dash.png",
+          "sourceSha256": "df995870ec7e7cd61a3b5af47ef554f855fcc7ffd2adb14da760b4c4ea12f92b",
+          "componentBox": {
+            "left": 50,
+            "top": 649,
+            "width": 555,
+            "height": 583
+          },
+          "sourceFoot": [
+            493,
+            1227
+          ],
+          "sourceGrip": [
+            572,
+            862
+          ],
+          "sourceComponent": 2,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -71.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "d1a92bd3019c2e67c0a61e61c332f248017c8cd3b09e8e406417ffdd18c9ce70",
+          "file": "assets/frames/dash-03.png"
+        },
+        {
+          "id": "dash-04",
+          "index": 3,
+          "pivot": {
+            "x": 306,
+            "y": 563.2
+          },
+          "grip": {
+            "x": 359.7313432835821,
+            "y": 395.43880597014925
+          },
+          "bladeStart": {
+            "x": 418.6530392274766,
+            "y": 425.99219830639674
+          },
+          "tip": {
+            "x": 658.8333016034054,
+            "y": 516.1651558277902
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/dash.png",
+          "sourceSha256": "df995870ec7e7cd61a3b5af47ef554f855fcc7ffd2adb14da760b4c4ea12f92b",
+          "componentBox": {
+            "left": 697,
+            "top": 626,
+            "width": 541,
+            "height": 611
+          },
+          "sourceFoot": [
+            1030,
+            1232
+          ],
+          "sourceGrip": [
+            1120,
+            951
+          ],
+          "sourceComponent": 3,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -41.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "ec7c273c8c984977a1edc33a0f6b25a8e3f561f44572324ab9ea27209b14c2b1",
+          "file": "assets/frames/dash-04.png"
+        }
+      ]
+    },
+    "attack": {
+      "url": "assets/atlases/attack.png",
+      "columns": 4,
+      "rows": 1,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "referenceHeight": 360,
+      "sha256": "33b442942f31e505580d901d7b815bba6c1e871d378a30e7ea9afe90ac941f4a",
+      "frames": [
+        {
+          "id": "attack-01",
+          "index": 0,
+          "pivot": {
+            "x": 439,
+            "y": 685.4
+          },
+          "grip": {
+            "x": 367,
+            "y": 333.94237288135594
+          },
+          "bladeStart": {
+            "x": 412.47129312093523,
+            "y": 286.020718771073
+          },
+          "tip": {
+            "x": 565.353755636458,
+            "y": 79.99966800607294
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/attack.png",
+          "sourceSha256": "665c347a40635571c61bd4cd813b448ed190136a462548fb43d0424ec3278de0",
+          "componentBox": {
+            "left": 35,
+            "top": 18,
+            "width": 582,
+            "height": 612
+          },
+          "sourceFoot": [
+            425,
+            624
+          ],
+          "sourceGrip": [
+            307,
+            48
+          ],
+          "sourceComponent": 0,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -115.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "42f11f282bff929d09d3cf35a370da12e451c4eb43c2e4217ee684120eeee02a",
+          "file": "assets/frames/attack-01.png"
+        },
+        {
+          "id": "attack-02",
+          "index": 1,
+          "pivot": {
+            "x": 289.4,
+            "y": 553.2
+          },
+          "grip": {
+            "x": 366.711475409836,
+            "y": 357.26557377049176
+          },
+          "bladeStart": {
+            "x": 431.6336231779829,
+            "y": 369.4030578472117
+          },
+          "tip": {
+            "x": 687.6831716869539,
+            "y": 385.4139732325684
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/contacts.png",
+          "sourceSha256": "c5397140be417ab00d16da319477a0f456b635931e4dd5b07981bc53eb46ecb6",
+          "componentBox": {
+            "left": 64,
+            "top": 55,
+            "width": 567,
+            "height": 602
+          },
+          "sourceFoot": [
+            420,
+            642
+          ],
+          "sourceGrip": [
+            551,
+            310
+          ],
+          "sourceComponent": 0,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -58.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "517a3e810f20a2c2801237c1d5812f4f8034e0905431e07f6da66915227ee071",
+          "file": "assets/frames/attack-02.png"
+        },
+        {
+          "id": "attack-03",
+          "index": 2,
+          "pivot": {
+            "x": 344.2,
+            "y": 547
+          },
+          "grip": {
+            "x": 416.2,
+            "y": 385.30508474576277
+          },
+          "bladeStart": {
+            "x": 468.7529477215252,
+            "y": 425.5394134984957
+          },
+          "tip": {
+            "x": 689.6259624814186,
+            "y": 556.0493060507496
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/attack.png",
+          "sourceSha256": "665c347a40635571c61bd4cd813b448ed190136a462548fb43d0424ec3278de0",
+          "componentBox": {
+            "left": 34,
+            "top": 656,
+            "width": 583,
+            "height": 557
+          },
+          "sourceFoot": [
+            470,
+            1208
+          ],
+          "sourceGrip": [
+            588,
+            943
+          ],
+          "sourceComponent": 2,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -31.367910109934158,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "eb2a99fc834557a4cf0efc4e2ef6c4e193772def1e2d631cf17882013f8ba7db",
+          "file": "assets/frames/attack-03.png"
+        },
+        {
+          "id": "attack-04",
+          "index": 3,
+          "pivot": {
+            "x": 310,
+            "y": 562.4
+          },
+          "grip": {
+            "x": 373.4576271186441,
+            "y": 393.38305084745764
+          },
+          "bladeStart": {
+            "x": 432.2530392274766,
+            "y": 423.99219830639674
+          },
+          "tip": {
+            "x": 672.4333016034053,
+            "y": 514.1651558277902
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/attack.png",
+          "sourceSha256": "665c347a40635571c61bd4cd813b448ed190136a462548fb43d0424ec3278de0",
+          "componentBox": {
+            "left": 654,
+            "top": 624,
+            "width": 552,
+            "height": 597
+          },
+          "sourceFoot": [
+            1010,
+            1216
+          ],
+          "sourceGrip": [
+            1114,
+            939
+          ],
+          "sourceComponent": 3,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -41.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "31bc25d2d9c37620d0dfa22f727cabc90fed44b5575ef9de846223cbedcdd771",
+          "file": "assets/frames/attack-04.png"
+        }
+      ]
+    },
+    "skill": {
+      "url": "assets/atlases/skill.png",
+      "columns": 4,
+      "rows": 2,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "referenceHeight": 360,
+      "sha256": "df96e7bb05d5852f95d6fd23cc895e364a74f0c23f8b49622d59d9edc360e6a5",
+      "frames": [
+        {
+          "id": "skill-01",
+          "index": 0,
+          "pivot": {
+            "x": 349.79999999999995,
+            "y": 530.4
+          },
+          "grip": {
+            "x": 377.1103448275861,
+            "y": 398.81379310344823
+          },
+          "bladeStart": {
+            "x": 431.1126648516833,
+            "y": 437.53085149851967
+          },
+          "tip": {
+            "x": 656.4058593035453,
+            "y": 560.2528839002057
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/skill_a.png",
+          "sourceSha256": "eab06a59dd521259e5052e2c7dd02530d5ecbd02b9eddd9d11869f9e7e462496",
+          "componentBox": {
+            "left": 43,
+            "top": 82,
+            "width": 599,
+            "height": 527
+          },
+          "sourceFoot": [
+            430,
+            604
+          ],
+          "sourceGrip": [
+            474,
+            392
+          ],
+          "sourceComponent": 0,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -33.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "eed807190a4f3ac62841d1c9e7dab8b57c0dc4c8136abfa9a1c6ac31abd5662c",
+          "file": "assets/frames/skill-01.png"
+        },
+        {
+          "id": "skill-02",
+          "index": 1,
+          "pivot": {
+            "x": 399.79999999999995,
+            "y": 555.5999999999999
+          },
+          "grip": {
+            "x": 294.9034482758621,
+            "y": 365.6689655172413
+          },
+          "bladeStart": {
+            "x": 347.3529477215252,
+            "y": 405.9394134984957
+          },
+          "tip": {
+            "x": 568.2259624814186,
+            "y": 536.4493060507496
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/skill_a.png",
+          "sourceSha256": "eab06a59dd521259e5052e2c7dd02530d5ecbd02b9eddd9d11869f9e7e462496",
+          "componentBox": {
+            "left": 676,
+            "top": 50,
+            "width": 562,
+            "height": 563
+          },
+          "sourceFoot": [
+            1000,
+            608
+          ],
+          "sourceGrip": [
+            831,
+            302
+          ],
+          "sourceComponent": 1,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -31.367910109934158,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "8b33c2fc0f79315509f912a926d1cdd945635c4c94ed30230b638475d6ccbab6",
+          "file": "assets/frames/skill-02.png"
+        },
+        {
+          "id": "skill-03",
+          "index": 2,
+          "pivot": {
+            "x": 284.79999999999995,
+            "y": 564.4
+          },
+          "grip": {
+            "x": 369.783606557377,
+            "y": 370.8262295081968
+          },
+          "bladeStart": {
+            "x": 434.8336231779829,
+            "y": 383.00305784721166
+          },
+          "tip": {
+            "x": 690.8831716869539,
+            "y": 399.01397323256845
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/contacts.png",
+          "sourceSha256": "c5397140be417ab00d16da319477a0f456b635931e4dd5b07981bc53eb46ecb6",
+          "componentBox": {
+            "left": 665,
+            "top": 10,
+            "width": 539,
+            "height": 630
+          },
+          "sourceFoot": [
+            1020,
+            630
+          ],
+          "sourceGrip": [
+            1164,
+            302
+          ],
+          "sourceComponent": 1,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -58.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "09792a1f9870d22e03e60f76c2fd3d0497b6235e8689c09b766f06aaf1c564f0",
+          "file": "assets/frames/skill-03.png"
+        },
+        {
+          "id": "skill-04",
+          "index": 3,
+          "pivot": {
+            "x": 377,
+            "y": 672
+          },
+          "grip": {
+            "x": 354.655172413793,
+            "y": 292.7586206896551
+          },
+          "bladeStart": {
+            "x": 410.49932413410187,
+            "y": 256.8429676530203
+          },
+          "tip": {
+            "x": 608.681527269968,
+            "y": 93.92723770855089
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/skill_a.png",
+          "sourceSha256": "eab06a59dd521259e5052e2c7dd02530d5ecbd02b9eddd9d11869f9e7e462496",
+          "componentBox": {
+            "left": 677,
+            "top": 600,
+            "width": 563,
+            "height": 635
+          },
+          "sourceFoot": [
+            1030,
+            1230
+          ],
+          "sourceGrip": [
+            994,
+            619
+          ],
+          "sourceComponent": 3,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -101.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "5b224b38968d2756457f8fc69948fa6dc584cb2abd0ffe8fdc761cb5a22e2981",
+          "file": "assets/frames/skill-04.png"
+        },
+        {
+          "id": "skill-05",
+          "index": 4,
+          "pivot": {
+            "x": 478,
+            "y": 650.8
+          },
+          "grip": {
+            "x": 409.1034482758621,
+            "y": 300.7310344827586
+          },
+          "bladeStart": {
+            "x": 358.6264281476981,
+            "y": 257.77354923857183
+          },
+          "tip": {
+            "x": 144.8864722040717,
+            "y": 115.88291552252403
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/skill_b.png",
+          "sourceSha256": "ef6025dc540bd74e69fa1e22beb3518c90faad7eb41329f3639f2f8dea385647",
+          "componentBox": {
+            "left": 54,
+            "top": 2,
+            "width": 621,
+            "height": 592
+          },
+          "sourceFoot": [
+            438,
+            589
+          ],
+          "sourceGrip": [
+            327,
+            25
+          ],
+          "sourceComponent": 0,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -208.36791010993414,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "384f18de3b55608cbc07ae4a81e007433b37044aaa6a24084c2f285f43e56840",
+          "file": "assets/frames/skill-05.png"
+        },
+        {
+          "id": "skill-06",
+          "index": 5,
+          "pivot": {
+            "x": 296.4,
+            "y": 544.4
+          },
+          "grip": {
+            "x": 393.7770491803278,
+            "y": 366.76065573770484
+          },
+          "bladeStart": {
+            "x": 457.7686390375225,
+            "y": 384.25854568308284
+          },
+          "tip": {
+            "x": 711.4483984884639,
+            "y": 422.52472328207267
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/contacts.png",
+          "sourceSha256": "c5397140be417ab00d16da319477a0f456b635931e4dd5b07981bc53eb46ecb6",
+          "componentBox": {
+            "left": 53,
+            "top": 656,
+            "width": 618,
+            "height": 566
+          },
+          "sourceFoot": [
+            460,
+            1210
+          ],
+          "sourceGrip": [
+            625,
+            909
+          ],
+          "sourceComponent": 2,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -53.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "bd1d3f3a0a7ff100429005c0d00288ce3e9718c242f800c1d7baa22c46e77dce",
+          "file": "assets/frames/skill-06.png"
+        },
+        {
+          "id": "skill-07",
+          "index": 6,
+          "pivot": {
+            "x": 386.2,
+            "y": 532.5999999999999
+          },
+          "grip": {
+            "x": 383.71724137931034,
+            "y": 376.8068965517242
+          },
+          "bladeStart": {
+            "x": 434.17357185230185,
+            "y": 419.8264507614282
+          },
+          "tip": {
+            "x": 647.9135277959283,
+            "y": 561.7170844774757
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/skill_b.png",
+          "sourceSha256": "ef6025dc540bd74e69fa1e22beb3518c90faad7eb41329f3639f2f8dea385647",
+          "componentBox": {
+            "left": 61,
+            "top": 618,
+            "width": 642,
+            "height": 534
+          },
+          "sourceFoot": [
+            490,
+            1147
+          ],
+          "sourceGrip": [
+            486,
+            896
+          ],
+          "sourceComponent": 2,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -28.367910109934158,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "9cf48cfbf01b93934e363b4eeae7a098b15085f4330b3244c15989a0cb7fb9e7",
+          "file": "assets/frames/skill-07.png"
+        },
+        {
+          "id": "skill-08",
+          "index": 7,
+          "pivot": {
+            "x": 374.79999999999995,
+            "y": 564.2
+          },
+          "grip": {
+            "x": 346.86896551724146,
+            "y": 369.92413793103447
+          },
+          "bladeStart": {
+            "x": 397.5735718523018,
+            "y": 413.0264507614281
+          },
+          "tip": {
+            "x": 611.3135277959284,
+            "y": 554.9170844774758
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/skill_b.png",
+          "sourceSha256": "ef6025dc540bd74e69fa1e22beb3518c90faad7eb41329f3639f2f8dea385647",
+          "componentBox": {
+            "left": 733,
+            "top": 582,
+            "width": 544,
+            "height": 588
+          },
+          "sourceFoot": [
+            1086,
+            1165
+          ],
+          "sourceGrip": [
+            1041,
+            852
+          ],
+          "sourceComponent": 3,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -28.367910109934158,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "a5e4c91b7e4778610601174247fabf4830e4850ff8b25373659eca5131afeaec",
+          "file": "assets/frames/skill-08.png"
+        }
+      ]
+    },
+    "hit": {
+      "url": "assets/atlases/hit.png",
+      "columns": 4,
+      "rows": 1,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "referenceHeight": 360,
+      "sha256": "83cbb1ce3de293c674729f364b4a455dd8753dd0e92e9b364e4c5658ad2f80d3",
+      "frames": [
+        {
+          "id": "hit-01",
+          "index": 0,
+          "pivot": {
+            "x": 377.79999999999995,
+            "y": 561.4
+          },
+          "grip": {
+            "x": 291.93333333333334,
+            "y": 345.93333333333334
+          },
+          "bladeStart": {
+            "x": 352.7912788713404,
+            "y": 372.1849579568617
+          },
+          "tip": {
+            "x": 598.6766217433103,
+            "y": 445.38413051952625
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/reactions.png",
+          "sourceSha256": "40d7fe4f6d001358d6c5037157d056c5497f881f7dff1461433a985b9eb932ad",
+          "componentBox": {
+            "left": 58,
+            "top": 42,
+            "width": 570,
+            "height": 673
+          },
+          "sourceFoot": [
+            451,
+            710
+          ],
+          "sourceGrip": [
+            290,
+            306
+          ],
+          "sourceComponent": 0,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -45.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "16d3c4c6bcf5190625d0052bb7861ea1e8b001e7ddf97e69efdae243beb75fb1",
+          "file": "assets/frames/hit-01.png"
+        },
+        {
+          "id": "hit-02",
+          "index": 1,
+          "pivot": {
+            "x": 337.79999999999995,
+            "y": 563.8
+          },
+          "grip": {
+            "x": 325,
+            "y": 345.66666666666663
+          },
+          "bladeStart": {
+            "x": 383.85303922747664,
+            "y": 376.1921983063968
+          },
+          "tip": {
+            "x": 624.0333016034053,
+            "y": 466.36515582779026
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/reactions.png",
+          "sourceSha256": "40d7fe4f6d001358d6c5037157d056c5497f881f7dff1461433a985b9eb932ad",
+          "componentBox": {
+            "left": 653,
+            "top": 34,
+            "width": 560,
+            "height": 683
+          },
+          "sourceFoot": [
+            1017,
+            712
+          ],
+          "sourceGrip": [
+            993,
+            303
+          ],
+          "sourceComponent": 1,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -41.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "533dc10ffcedabf93c8132c9cce87f70185bd0b04dc562f7657bcbb5acd2104b",
+          "file": "assets/frames/hit-02.png"
+        }
+      ]
+    },
+    "defeat": {
+      "url": "assets/atlases/defeat.png",
+      "columns": 4,
+      "rows": 1,
+      "frameWidth": 768,
+      "frameHeight": 768,
+      "referenceHeight": 360,
+      "sha256": "455a5406ea925c22a71ee1ebc52235f31edd82dd875994dbc1fb7fdeff3dd422",
+      "frames": [
+        {
+          "id": "defeat-01",
+          "index": 0,
+          "pivot": {
+            "x": 338.79999999999995,
+            "y": 515.8
+          },
+          "grip": {
+            "x": 358,
+            "y": 332.8666666666667
+          },
+          "bladeStart": {
+            "x": 423.86275713893775,
+            "y": 339.0700774607227
+          },
+          "tip": {
+            "x": 680.3334030348407,
+            "y": 332.7038778987088
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/reactions.png",
+          "sourceSha256": "40d7fe4f6d001358d6c5037157d056c5497f881f7dff1461433a985b9eb932ad",
+          "componentBox": {
+            "left": 13,
+            "top": 708,
+            "width": 641,
+            "height": 505
+          },
+          "sourceFoot": [
+            485,
+            1208
+          ],
+          "sourceGrip": [
+            521,
+            865
+          ],
+          "sourceComponent": 2,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -63.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "8fa385f326364153153579ee315ca1ebcda894a13fde3c2a906cc7f12d154d3a",
+          "file": "assets/frames/defeat-01.png"
+        },
+        {
+          "id": "defeat-02",
+          "index": 1,
+          "pivot": {
+            "x": 336.6,
+            "y": 508.2
+          },
+          "grip": {
+            "x": 317.4,
+            "y": 439.4
+          },
+          "bladeStart": {
+            "x": 381.69566757466526,
+            "y": 454.8579488681523
+          },
+          "tip": {
+            "x": 636.5563625092802,
+            "y": 484.24751981721715
+          },
+          "bodyPixels": 360,
+          "source": "assets/body/reactions.png",
+          "sourceSha256": "40d7fe4f6d001358d6c5037157d056c5497f881f7dff1461433a985b9eb932ad",
+          "componentBox": {
+            "left": 665,
+            "top": 735,
+            "width": 576,
+            "height": 475
+          },
+          "sourceFoot": [
+            1050,
+            1205
+          ],
+          "sourceGrip": [
+            1014,
+            1076
+          ],
+          "sourceComponent": 3,
+          "weapon": {
+            "sourceSha256": "1a789e149ac78d934252d85bf503ef424b3e5db852bbb6173242513a29195cbd",
+            "rotationDegrees": -55.36791010993416,
+            "uniformScale": 0.28125,
+            "redrawnPixels": 0
+          },
+          "sha256": "60614bdc379be4fa121d9fe7eba8623afb26986b1a3d771680de90f58de33139",
+          "file": "assets/frames/defeat-02.png"
+        }
+      ]
+    }
+  },
+  "effects": {
+    "drive": {
+      "url": "assets/effects/drive-v1.png",
+      "columns": 4,
+      "rows": 3,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "be24626af0043852ef3eea092a9a7b3d213720228e11c0c1eebf8c05e8c133e8",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        }
+      ]
+    },
+    "cut": {
+      "url": "assets/effects/cut-v2.png",
+      "columns": 4,
+      "rows": 3,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "7212f3ce343b0902243d6533138d1b40b82b580f4246c2286bff0ddf9dc92a16",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": null
+        }
+      ]
+    },
+    "rupture": {
+      "url": "assets/effects/rupture-v2.png",
+      "columns": 4,
+      "rows": 3,
+      "width": 1448,
+      "height": 1086,
+      "sha256": "221d348b5c8c39860e40873a8376340679a6cc123f9f5ab8dd0e89159e00a060",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": {
+            "x": 181,
+            "y": 311.32
+          }
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": {
+            "x": 181,
+            "y": 311.32
+          }
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": {
+            "x": 181,
+            "y": 311.32
+          }
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": {
+            "x": 181,
+            "y": 311.32
+          }
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": {
+            "x": 181,
+            "y": 311.32
+          }
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 362,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": {
+            "x": 181,
+            "y": 311.32
+          }
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 724,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": {
+            "x": 181,
+            "y": 311.32
+          }
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1086,
+            "y": 362,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": {
+            "x": 181,
+            "y": 311.32
+          }
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": {
+            "x": 181,
+            "y": 311.32
+          }
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 362,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": {
+            "x": 181,
+            "y": 311.32
+          }
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 724,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": {
+            "x": 181,
+            "y": 311.32
+          }
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1086,
+            "y": 724,
+            "width": 362,
+            "height": 362
+          },
+          "groundAnchor": {
+            "x": 181,
+            "y": 311.32
+          }
+        }
+      ]
+    }
+  },
+  "referenceHeight": 360,
+  "displaySizing": {
+    "physicalBodyHeight": 333,
+    "fullBodyHeight": 710.4
+  },
+  "runtime": {
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+    "clock": "V3_REGISTERED_GSAP"
+  },
+  "audio": {
+    "enabled": false
+  },
+  "battleSprite": "preview/mercenary-bathory-halloween-20261019-v1/assets/frames/idle-01.png",
+  "battleSpriteSha256": "fd33330b76a8381ed76e0e33144fe3e8835dc74c2ed0c5d941f2c63c7a411906",
+  "battleSpriteFootAnchor": {
+    "x": 0.42265625,
+    "y": 0.7325520833333332
+  },
+  "summary": {
+    "bodyFrames": 22,
+    "effectFrames": 36,
+    "weaponSources": 1,
+    "weaponRedraws": 0
+  }
+}

@@ -5,6 +5,7 @@
     "shared/equipment-set-visual-v1.mjs",
     "preview/project-v-v3/source/battle/EquipmentSetFX.js",
     "shared/mercenary-halloween-combat-v1.mjs",
+    "shared/mercenary-bathory-v1.mjs",
     "shared/mercenary-halloween-visual-v1.mjs",
     "shared/mercenary-harlequin-skill-v1.mjs",
     "shared/mercenary-halloween-catalog-v1.mjs",
@@ -101,6 +102,9 @@
     "preview/project-v-v3/source/battle/FormationLayout.mjs",
     "preview/project-v-v3/source/battle/ViewportLayout.mjs",
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
+    "preview/mercenary-bathory-halloween-20261019-v1/motion.mjs",
+    "preview/mercenary-bathory-halloween-20261019-v1/source/BathoryFX.js",
+    "preview/project-v-v3/source/battle/BathoryCombatPlayback.js",
     "shared/mercenary-leonel-v1.mjs",
     "preview/mercenary-leonel-sss-limited-20261018-v2/motion.mjs",
     "preview/mercenary-leonel-sss-limited-20261018-v2/source/LeonelWhiteRig.js",
@@ -225,5 +229,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2146407
+  "outputBytes": 2166053
 }

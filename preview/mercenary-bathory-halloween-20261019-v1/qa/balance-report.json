@@ -1,0 +1,695 @@
+{
+  "scope": "CANONICAL_SIMULATION_NOT_PLAYER_WIN_RATE",
+  "profile": {
+    "version": 1,
+    "code": "V-977",
+    "position": "FRONT",
+    "role": "VANGUARD",
+    "attackStyle": "MELEE",
+    "basePower": 297000,
+    "scale": 6.6,
+    "speedScale": 2.75,
+    "actionCredit": 3.25,
+    "actionEnergy": 10,
+    "pvpSkillCapScale": 2.7,
+    "basicCapScale": 1.5,
+    "pveSkillMinimumDamage": true,
+    "link": {
+      "attackPercent": 1452,
+      "hpPercent": 1848,
+      "shieldPercent": 990
+    },
+    "skill": {
+      "id": "MS-977",
+      "name": "핏빛 만찬",
+      "mechanic": "WOUNDED_MOON_DRAW",
+      "target": "적 표적",
+      "effect": "붉은 눈으로 약해진 적을 포착하고 대검으로 베어냅니다. 잃은 체력에 따라 피해가 증가합니다.",
+      "trigger": "에너지와 재사용 조건을 충족한 자기 행동",
+      "counterplay": "회피·방어·보호막 및 행동 순서의 영향을 받습니다.",
+      "bossRule": "동일한 피해·보호막 규칙을 사용합니다.",
+      "procRule": "두 시각적 검격은 한 번의 서버 피해를 표현하며 추가 비용이나 재귀 시전을 만들지 않습니다.",
+      "ready": true,
+      "balance": {
+        "damageRatio": 10.08,
+        "cooldownTurns": 1,
+        "cost": 20
+      }
+    }
+  },
+  "seedsPerSide": 8,
+  "formations": [
+    {
+      "id": "basic-10000-balanced",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-balanced",
+      "level": 1
+    },
+    {
+      "id": "basic-2000000000-balanced",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-attack",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-defense",
+      "level": 1
+    },
+    {
+      "id": "basic-20000000-speed",
+      "level": 1
+    },
+    {
+      "id": "equipped-F01",
+      "level": 5
+    },
+    {
+      "id": "equipped-F23",
+      "level": 10
+    },
+    {
+      "id": "level20-balanced-250000",
+      "level": 20
+    }
+  ],
+  "pvp": [
+    {
+      "opponent": "V-980",
+      "total": 144,
+      "wins": 110,
+      "draws": 0,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "total": 16,
+          "wins": 13,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "total": 16,
+          "wins": 10,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "total": 16,
+          "wins": 12,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F01",
+          "total": 16,
+          "wins": 9,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F23",
+          "total": 16,
+          "wins": 2,
+          "draws": 0
+        },
+        {
+          "id": "level20-balanced-250000",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        }
+      ],
+      "winRate": 0.7638888888888888
+    },
+    {
+      "opponent": "V-981",
+      "total": 144,
+      "wins": 136,
+      "draws": 0,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "total": 16,
+          "wins": 15,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "total": 16,
+          "wins": 15,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "total": 16,
+          "wins": 13,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F01",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F23",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "level20-balanced-250000",
+          "total": 16,
+          "wins": 13,
+          "draws": 0
+        }
+      ],
+      "winRate": 0.9444444444444444
+    },
+    {
+      "opponent": "V-982",
+      "total": 144,
+      "wins": 125,
+      "draws": 0,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "total": 16,
+          "wins": 12,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "total": 16,
+          "wins": 11,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "total": 16,
+          "wins": 12,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F01",
+          "total": 16,
+          "wins": 14,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F23",
+          "total": 16,
+          "wins": 13,
+          "draws": 0
+        },
+        {
+          "id": "level20-balanced-250000",
+          "total": 16,
+          "wins": 15,
+          "draws": 0
+        }
+      ],
+      "winRate": 0.8680555555555556
+    },
+    {
+      "opponent": "V-983",
+      "total": 144,
+      "wins": 133,
+      "draws": 0,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "total": 16,
+          "wins": 12,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "total": 16,
+          "wins": 13,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F01",
+          "total": 16,
+          "wins": 15,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F23",
+          "total": 16,
+          "wins": 13,
+          "draws": 0
+        },
+        {
+          "id": "level20-balanced-250000",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        }
+      ],
+      "winRate": 0.9236111111111112
+    },
+    {
+      "opponent": "V-984",
+      "total": 144,
+      "wins": 138,
+      "draws": 0,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "total": 16,
+          "wins": 15,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "total": 16,
+          "wins": 15,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F01",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F23",
+          "total": 16,
+          "wins": 14,
+          "draws": 0
+        },
+        {
+          "id": "level20-balanced-250000",
+          "total": 16,
+          "wins": 14,
+          "draws": 0
+        }
+      ],
+      "winRate": 0.9583333333333334
+    },
+    {
+      "opponent": "V-985",
+      "total": 144,
+      "wins": 128,
+      "draws": 0,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "total": 16,
+          "wins": 15,
+          "draws": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "total": 16,
+          "wins": 15,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "total": 16,
+          "wins": 11,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "total": 16,
+          "wins": 9,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F01",
+          "total": 16,
+          "wins": 15,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F23",
+          "total": 16,
+          "wins": 15,
+          "draws": 0
+        },
+        {
+          "id": "level20-balanced-250000",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        }
+      ],
+      "winRate": 0.8888888888888888
+    },
+    {
+      "opponent": "V-986",
+      "total": 144,
+      "wins": 128,
+      "draws": 0,
+      "formations": [
+        {
+          "id": "basic-10000-balanced",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-balanced",
+          "total": 16,
+          "wins": 15,
+          "draws": 0
+        },
+        {
+          "id": "basic-2000000000-balanced",
+          "total": 16,
+          "wins": 15,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-attack",
+          "total": 16,
+          "wins": 10,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-defense",
+          "total": 16,
+          "wins": 13,
+          "draws": 0
+        },
+        {
+          "id": "basic-20000000-speed",
+          "total": 16,
+          "wins": 11,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F01",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "equipped-F23",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        },
+        {
+          "id": "level20-balanced-250000",
+          "total": 16,
+          "wins": 16,
+          "draws": 0
+        }
+      ],
+      "winRate": 0.8888888888888888
+    }
+  ],
+  "pve": [
+    {
+      "code": "V-977",
+      "rows": [
+        {
+          "id": "basic-20000000-balanced",
+          "total": 4,
+          "clears": 4,
+          "turns": 9,
+          "damage": 44804111382,
+          "averageTurns": 2.25
+        },
+        {
+          "id": "equipped-F23",
+          "total": 4,
+          "clears": 4,
+          "turns": 4,
+          "damage": 456456000000,
+          "averageTurns": 1
+        }
+      ]
+    },
+    {
+      "code": "V-980",
+      "rows": [
+        {
+          "id": "basic-20000000-balanced",
+          "total": 4,
+          "clears": 4,
+          "turns": 96,
+          "damage": 39177600000,
+          "averageTurns": 24
+        },
+        {
+          "id": "equipped-F23",
+          "total": 4,
+          "clears": 4,
+          "turns": 260,
+          "damage": 293554704766,
+          "averageTurns": 65
+        }
+      ]
+    },
+    {
+      "code": "V-981",
+      "rows": [
+        {
+          "id": "basic-20000000-balanced",
+          "total": 4,
+          "clears": 4,
+          "turns": 56,
+          "damage": 41395200000,
+          "averageTurns": 14
+        },
+        {
+          "id": "equipped-F23",
+          "total": 4,
+          "clears": 4,
+          "turns": 49,
+          "damage": 422345616000,
+          "averageTurns": 12.25
+        }
+      ]
+    },
+    {
+      "code": "V-982",
+      "rows": [
+        {
+          "id": "basic-20000000-balanced",
+          "total": 4,
+          "clears": 4,
+          "turns": 157,
+          "damage": 33125797102,
+          "averageTurns": 39.25
+        },
+        {
+          "id": "equipped-F23",
+          "total": 4,
+          "clears": 4,
+          "turns": 261,
+          "damage": 254905280195,
+          "averageTurns": 65.25
+        }
+      ]
+    },
+    {
+      "code": "V-983",
+      "rows": [
+        {
+          "id": "basic-20000000-balanced",
+          "total": 4,
+          "clears": 4,
+          "turns": 188,
+          "damage": 27742634831,
+          "averageTurns": 47
+        },
+        {
+          "id": "equipped-F23",
+          "total": 4,
+          "clears": 4,
+          "turns": 264,
+          "damage": 208568003472,
+          "averageTurns": 66
+        }
+      ]
+    },
+    {
+      "code": "V-984",
+      "rows": [
+        {
+          "id": "basic-20000000-balanced",
+          "total": 4,
+          "clears": 4,
+          "turns": 261,
+          "damage": 31783715642,
+          "averageTurns": 65.25
+        },
+        {
+          "id": "equipped-F23",
+          "total": 4,
+          "clears": 4,
+          "turns": 257,
+          "damage": 326818746567,
+          "averageTurns": 64.25
+        }
+      ]
+    },
+    {
+      "code": "V-985",
+      "rows": [
+        {
+          "id": "basic-20000000-balanced",
+          "total": 4,
+          "clears": 4,
+          "turns": 32,
+          "damage": 40656000000,
+          "averageTurns": 8
+        },
+        {
+          "id": "equipped-F23",
+          "total": 4,
+          "clears": 4,
+          "turns": 24,
+          "damage": 416169600000,
+          "averageTurns": 6
+        }
+      ]
+    },
+    {
+      "code": "V-986",
+      "rows": [
+        {
+          "id": "basic-20000000-balanced",
+          "total": 4,
+          "clears": 4,
+          "turns": 84,
+          "damage": 36960000000,
+          "averageTurns": 21
+        },
+        {
+          "id": "equipped-F23",
+          "total": 4,
+          "clears": 4,
+          "turns": 262,
+          "damage": 201386032937,
+          "averageTurns": 65.5
+        }
+      ]
+    }
+  ],
+  "totalPvp": 1008,
+  "totalPve": 64,
+  "strongestHalloweenInMeasuredPvp": true
+}

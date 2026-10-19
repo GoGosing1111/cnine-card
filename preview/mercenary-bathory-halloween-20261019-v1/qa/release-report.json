@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-10-19T06:28:03.234Z",
+  "status": "READY_FOR_USER_REVIEW",
+  "productionDeployed": false,
+  "productionDatabaseMutated": false,
+  "assetCount": 19933,
+  "excluded": 4173,
+  "requiredResources": 23,
+  "cacheTagsMatch": true,
+  "hyperdrive": {
+    "id": "12ed48b0fb374f82a610cc1daba92e95",
+    "cachingDisabled": true
+  },
+  "workerDryRun": "PASS",
+  "approvalGate": "Waiting for user visual/release approval; origin/main and live state are rechecked at release."
+}
