@@ -31,21 +31,24 @@ function navigationRuntime() {
 
 test('public document uses the native forge-inspired archive with game links and CMS information', () => {
   const limitedTab='<button id="limitedView" type="button" role="tab" data-view="limited" aria-controls="cardGrid" aria-selected="false">리미티드 <b id="limitedCount">—</b></button>';
-  const limitedCss='<link rel="stylesheet" href="/mercenary-codex/limited.css?v=20261015-shiranui-fit-v1">';
+  const limitedCss='<link rel="stylesheet" href="/mercenary-codex/limited.css?v=20261017-halloween-ready-v1">';
+  const deploymentCss='<link rel="stylesheet" href="/mercenary-codex/deployment.css?v=20261017-visible-v1">';
   const levelingLink='<a id="openLeveling" class="fusion-entry" href="/mercenary-codex/leveling/">용병 성장</a>';
   assert.equal(html.split(levelingLink).length,2,'the read-only growth entry is publicly visible');
   assert.equal(html.split(limitedTab).length,2);assert.equal(html.split(limitedCss).length,2);
+  assert.equal(html.split(deploymentCss).length,2);
   assert.equal(html.split('&amp;mine=20261003').length,3);
   const withoutReleaseCache=markup=>markup.replaceAll('\r\n','\n').replace(/((?:src|href)=")([^"\n]*\?[^"\n]+)(")/g,(_,start,src,end)=>{
     const url=new URL(src.replaceAll('&amp;','&'),'https://test.invalid');
-    for(const key of ['mine','limited','balance','helios','deployment','loadoutModes','petCodex','jokgakCity'])url.searchParams.delete(key);
+    for(const key of ['mine','limited','balance','helios','deployment','loadoutModes','petCodex','jokgakCity','bathory','leonel','deploymentVisibility','halloween','fusion'])url.searchParams.delete(key);
+    if(['/mercenary-codex/style.css','/mercenary-codex/limited.css'].includes(url.pathname))url.searchParams.delete('v');
     return start+url.pathname+url.search.replaceAll('&','&amp;')+end;
   });
-  assert.equal(withoutReleaseCache(html),withoutReleaseCache(publicCodexHtml()));
+  assert.equal(withoutReleaseCache(html.replace(deploymentCss,'')),withoutReleaseCache(publicCodexHtml()));
   assert.match(html, /data-codex-mode="public"/);
   assert.match(html, /내 용병 확인 중/);
   assert.doesNotMatch(html, /검수용 프리뷰|유저 미공개|메뉴 배치입니다|target="_blank"/);
-  assert.match(html, /class="brand" href="\/\?screen=home" aria-label="숲켓몬 로비로 돌아가기"/);
+  assert.match(html, /class="brand" href="\/\?screen=home" aria-label="리버스콜 로비로 돌아가기"/);
   assert.match(html, /id="lobbyReturn" class="lobby-return" href="\/\?screen=home">/);
   assert.match(html, /로비로 돌아가기 ↗/);
   assert.match(html, /archive-workspace/);
@@ -100,8 +103,8 @@ test('native desktop, mobile and old subtab fallbacks redirect without mounting 
 test('codex keeps public catalog browsing while account writes are limited to the existing loadout route', () => {
   const roster = JSON.parse(read('assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json'));
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
-  assert.equal(roster.cards.length,56);
-  assert.ok(roster.cards.filter(c=>!['V-044','V-045','V-047','V-048','V-050','V-051','V-052','V-053','V-054'].includes(c.code)).every(card => ['V-021','V-046','V-049','V-055','V-056'].includes(card.code)? card.rank === 'SSS' && card.rankStatus === 'USER_ASSIGNED_RANK' : card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
+  assert.equal(roster.cards.length,57);
+  assert.ok(roster.cards.filter(c=>!['V-044','V-045','V-047','V-048','V-050','V-051','V-052','V-053','V-054'].includes(c.code)).every(card => ['V-021','V-046','V-049','V-055','V-056','V-057'].includes(card.code)? card.rank === 'SSS' && card.rankStatus === 'USER_ASSIGNED_RANK' : card.rank === null && card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
   for(const match of html.matchAll(/src="([^"\n]+)"/g))assert.doesNotMatch(new URL(match[1].replaceAll('&amp;','&'),'https://test.invalid').pathname, /runtime-router|battle-engine|loadout|gsap|pixi/i);
   assert.match(client, /api\('mercenaries\/v3\/state'/);
   assert.match(client, /api\(`mercenaries\/v3\/\$\{pending\.action\}`/);
@@ -126,9 +129,17 @@ test('public page and live entry use synchronized cache tags and revalidation he
   assert.equal(codexCache.get('balance'),'20261009-ss-limited-tempo');
   assert.ok(codexCache.getAll('limited').includes('20261004-approved'));
   assert.equal(codexCache.get('v'),'2133');
-  assert.match(html, /mercenary-codex\/style\.css\?v=2133/);
+  const styleSource=html.match(/href="([^"\n]*mercenary-codex\/style\.css\?[^"\n]+)"/)?.[1];
+  assert.ok(styleSource);
+  const styleCache=new URL(styleSource.replaceAll('&amp;','&'),'https://test.invalid').searchParams;
+  assert.equal(styleCache.get('v'),'20261017-halloween-ready');
+  assert.equal(styleCache.get('singleDeployment'),'20261018-v1');
   assert.match(read('mercenary-codex/style.css'), /search-field input\{height:44px/);
-  assert.match(client, /model\.mjs\?v=20261014-halloween-art/);
+  const modelSource=client.match(/from '([^']*model\.mjs\?[^']+)'/)?.[1];
+  assert.ok(modelSource);
+  const modelCache=new URL(modelSource,'https://test.invalid/mercenary-codex/').searchParams;
+  assert.equal(modelCache.get('v'),'20261017-halloween-ready');
+  assert.equal(modelCache.get('leonel'),'20261018-live-v1');
   assert.match(read('_headers'), /\/mercenary-codex\/\r?\n  Cache-Control: no-cache, must-revalidate, max-age=0/);
 });
 
