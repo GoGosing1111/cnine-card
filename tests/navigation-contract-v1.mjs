@@ -222,7 +222,7 @@ for (const requestedRoute of ['inventory', 'pvp', 'hunt']) {
 console.log('navigation contract v1: PASS');
 
 // Direct shortcuts must select their destination on both cold and warm shells.
-assert.ok(Array.from(navigation.groups.pvp.routes).includes('clanWar'));
+assert.ok(!Array.from(navigation.groups.pvp.routes).includes('clanWar'),'retired clan-war menu remains hidden while organization entries stay available');
 assert.ok(Array.from(navigation.groups.pvp.routes).includes('clanFaction'));
 assert.equal(navigation.routes.clanWar.title,'클랜전');
 assert.equal(navigation.routes.clanFaction.title,'세력전');
