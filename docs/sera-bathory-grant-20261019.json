@@ -1,0 +1,49 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:sera-bathory-grant:20261019:v1",
+    "planHash": "ce1983484924e9b73170905b4d47971be1376aab5432f140ae8e0ce6153f514f",
+    "authorization": "박세라-ㅂ-에게 바토리 1장 지급하고 한정판 잔여 수량에서 1장 차감. 기존 보유 용병은 차감하지 않음.",
+    "target": {
+      "id": 45,
+      "nickname": "박세라-ㅂ-",
+      "code": "V-977",
+      "name": "바토리",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "quantity": 1
+    },
+    "completedAt": "2026-10-19T09:10:09.842Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "serial": 2,
+    "stockBefore": {
+      "limit": 10,
+      "issued": 1,
+      "remaining": 9
+    },
+    "stockAfter": {
+      "limit": 10,
+      "issued": 2,
+      "remaining": 8
+    },
+    "protectedBefore": "25eb5c81d89d76ed49853308fd738f179bfbb0438d43d4563d8bb59c10305be4",
+    "protectedAfter": "25eb5c81d89d76ed49853308fd738f179bfbb0438d43d4563d8bb59c10305be4",
+    "permanent": true,
+    "automaticLoadout": false,
+    "cost": 0,
+    "adminLogId": "48369"
+  },
+  "currentCopies": 1,
+  "stock": {
+    "limit": 10,
+    "issued": 2,
+    "remaining": 8
+  },
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "sourceSha256": "5c5e1347dd633fae2ed8a19d704f3b837c4ca9fb7677640d66d693514bbd2e41",
+  "verifiedAt": "2026-10-19T09:10:18.219Z",
+  "independentConnection": true
+}
