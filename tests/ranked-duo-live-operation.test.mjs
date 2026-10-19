@@ -38,12 +38,12 @@ test('duo failures do not suppress other content, and the existing cache avoids 
 });
 
 test('duo recruitment has a real countdown and opens the existing duo screen',()=>{
- const app=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8'),routes=[];
- const ctx=vm.createContext({Date,escapeHtml:s=>String(s),renderShell:s=>routes.push(s)});
+ const app=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8'),routes=[];let closed=0;
+ const ctx=vm.createContext({Date,document:{getElementById:id=>id==='liveOperationsDialog'?{close:()=>closed++}:null},escapeHtml:s=>String(s),renderShell:s=>routes.push(s)});
  vm.runInContext(app.slice(app.indexOf('const LIVE_OPERATION_META='),app.indexOf('function liveBurningOperationHtml()')),ctx);
  const html=ctx.liveOperationCardHtml({kind:'RANKED_DUO',phase:'RECRUITING',title:'랭크 듀오 시즌 1',deadlineAt:new Date(Date.now()+60000).toISOString()});
  assert.match(html,/랭크 듀오 모집중/);assert.match(html,/모집 마감/);assert.match(html,/data-live-operation-deadline/);
  const extra=ctx.liveOperationCardHtml({kind:'RANKED_DUO',phase:'ACTIVE',additionalRecruiting:true,title:'랭크 듀오 시즌 1',deadlineAt:new Date(Date.now()+60000).toISOString()});
  assert.match(extra,/추가모집중/);assert.match(extra,/모집 마감/);
- ctx.openLiveOperation('RANKED_DUO');assert.deepEqual(routes,['duo']);
+ ctx.openLiveOperation('RANKED_DUO');assert.equal(closed,1);assert.deepEqual(routes,['duo']);
 });
