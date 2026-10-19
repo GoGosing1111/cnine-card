@@ -35,13 +35,13 @@ Pages delivery: 19990 files; 3948 test runners kept in the repository.
 Total Upload: 7733.04 KiB / gzip: 1670.54 KiB
 Worker Startup Time: 40 ms
 Your Worker has access to the following bindings:
-Binding                                                                   Resource               
-env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
-env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
-env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
-env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
-env.DB (cnine-card-db)                                                    D1 Database            
-env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
 
 Uploaded cnine-card-api-runtime (4.29 sec)
 No targets deployed for cnine-card-api-runtime (0.56 sec)
@@ -68,10 +68,10 @@ Uploading... (19990/19990)
 Total Upload: 2679.53 KiB / gzip: 610.69 KiB
 Worker Startup Time: 47 ms
 Your Worker has access to the following bindings:
-Binding                                                      Resource               
-env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
-env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
-env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
 
 Uploaded cnine-card-clan-draft (2.95 sec)
 Deployed cnine-card-clan-draft triggers (1.53 sec)

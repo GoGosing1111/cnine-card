@@ -47,6 +47,11 @@
     {
       "path": "api/pvp/series-roster",
       "unauthenticatedStatus": 401
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "102e2b4393ebf0c2b796e525a12ca836ddf9c77d11f39dca9f9ffc4830017dab"
     }
   ]
 }
