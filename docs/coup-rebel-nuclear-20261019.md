@@ -19,4 +19,12 @@
 
 ## 운영 상태
 
-구현·관련 검사·운영 롤백 검증 완료. 공식 scoped 배포 후 해당 회차 설정을 적용하고 실제 권한을 재확인한다.
+2026-10-19 **22:33:49 KST** 현재 회차 반란군 원자폭탄 ON 적용 완료. 별도 읽기 전용 거래로 **22:33:57 KST** 재확인했다.
+
+- 배포 소스: `4552318e361e28825e1afdaa8d5b0673ce06a048`. 직전 운영 기준: `b49720f45f9f42c7743b20a768f81df05d926cba`.
+- 공식 `npm run deploy:production -- --scoped` 경로에서 관련 72개 검사·Worker 구문·출시/캐시·Hyperdrive 캐시 OFF 검사를 통과했다.
+- Pages: <https://c7ee4744.cnine-card.pages.dev>. 운영 별칭과 이 배포 주소의 공통 정책 파일 해시가 소스와 일치했다.
+- API 런타임: `82333077-68a1-4b66-a795-beff75d5d117`. 예약 워커: `be3a611b-aac3-4a39-9544-605eb1d37956`.
+- 운영 영수증 `ops:coup-rebel-nuclear:20261019:v1`, 감사 로그 **48514**. 원폭은 반란군 지휘관 나무늘봉순 ON·족장팀 OFF, 전역 OFF이며 적용 시 재사용 대기는 없었다.
+- 참가자·전선/체력·행동력·기존 스킬 대기·전투 영수증·전역 설정 보존을 확인했다. 스킬을 실제 발동하지 않았다.
+- 근거: `docs/qa/coup-rebel-nuclear-20261019/production.json`. 로컬 실행기와 상세 검증 기록은 `C:/Users/User/.codex/tmp/coup-rebel-nuclear-20261019/`에 보존한다.

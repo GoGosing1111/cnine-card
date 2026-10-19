@@ -1,0 +1,72 @@
+{
+  "release": {
+    "sourceCommit": "4552318e361e28825e1afdaa8d5b0673ce06a048",
+    "verifiedAt": "2026-10-19T13:33:46.958Z",
+    "pages": "https://c7ee4744.cnine-card.pages.dev",
+    "apiRuntimeVersion": "82333077-68a1-4b66-a795-beff75d5d117",
+    "scheduledWorkerVersion": "be3a611b-aac3-4a39-9544-605eb1d37956",
+    "policyHash": "92ed92128b424eabd96ab38059578281bd3b544999f79188561a021129ac84b0",
+    "checks": [
+      {
+        "site": "https://cnine-card.pages.dev",
+        "status": 200,
+        "policyHash": "92ed92128b424eabd96ab38059578281bd3b544999f79188561a021129ac84b0"
+      },
+      {
+        "site": "https://c7ee4744.cnine-card.pages.dev",
+        "status": 200,
+        "policyHash": "92ed92128b424eabd96ab38059578281bd3b544999f79188561a021129ac84b0"
+      }
+    ],
+    "relatedTestsPassed": 72
+  },
+  "operation": {
+    "operationKey": "ops:coup-rebel-nuclear:20261019:v1",
+    "roundId": "68f4947a-af39-4be2-934b-191bb9df4594",
+    "auditId": "48514",
+    "appliedAt": "2026-10-19T13:33:49.665Z",
+    "verifiedAt": "2026-10-19T13:33:57.674Z",
+    "side": "REBEL",
+    "commanderId": 5426,
+    "enabled": true,
+    "expiresWithRound": true,
+    "globalNuclearEnabled": false,
+    "previousRevision": 4220,
+    "revision": 4221,
+    "preserved": {
+      "frontAndHp": true,
+      "participants": true,
+      "energy": true,
+      "cooldowns": true,
+      "combatReceipts": true,
+      "globalSettings": true
+    }
+  },
+  "states": [
+    {
+      "userId": 45,
+      "side": "CHIEF",
+      "canUseCommandSkills": true,
+      "nuclearEnabled": false,
+      "cooldownMs": 1800000,
+      "nextUseAt": 0,
+      "label": "반란군 최대 50명"
+    },
+    {
+      "userId": 5426,
+      "side": "REBEL",
+      "canUseCommandSkills": true,
+      "nuclearEnabled": true,
+      "cooldownMs": 1800000,
+      "nextUseAt": 0,
+      "label": "이번 회차 · 족장팀 최대 50명"
+    }
+  ],
+  "validation": {
+    "runtimeHash": "4b3fcf7ae7776ccedb1a6d9893097e90281598ad2172830fbad1f5d846099d32",
+    "rollbackVerified": true,
+    "retrySafe": true,
+    "commandAuthorityVerified": true,
+    "actualSkillCast": false
+  }
+}
