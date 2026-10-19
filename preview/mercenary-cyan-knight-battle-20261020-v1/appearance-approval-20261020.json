@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-20",
+  "userQuote": "ㅇㅋ일단여기까지 승인 근데 문제가 스킬이 여전히 부족함",
+  "approvedScope": [
+    "현재 캐릭터 전신 비율과 파지",
+    "등 뒤 흰색 아우라 망토",
+    "캐릭터 흰색 네온 윤곽"
+  ],
+  "excludedScope": [
+    "부족하다고 지적한 스킬 이펙트",
+    "서버 피해·밸런스·등급·획득·라이브 활성화"
+  ],
+  "commit": "9b50a8b91",
+  "files": [
+    {
+      "file": "assets/sources/source-art-v3.png",
+      "sha256": "d9ebf2dd04de55d7eba230617bbe81b11c1eaf6e728d61bb32d892ecc82d0159"
+    },
+    {
+      "file": "assets/locked/approved-blade.png",
+      "sha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69"
+    },
+    {
+      "file": "assets/appearance/white-mantle-v3.png",
+      "sha256": "d8e9f05019a9ae5371dfc66f9696b1ddc6834f9551d2c362e10a055583f16141"
+    },
+    {
+      "file": "source/WhiteAuraAppearance.js",
+      "sha256": "216931ff68cd41fff8dffb2b1a6aac905e5213d4b4b190362a5f348cf141b764"
+    },
+    {
+      "file": "assets/atlases/idle.png",
+      "sha256": "c7011ebc52ee5e7f8e693a8d188a4ff02df3d91e01d562e902c77da6496a1d09"
+    },
+    {
+      "file": "assets/atlases/dash.png",
+      "sha256": "ae80f59054ac0d98e4c2e567fef7b64e9c3608e19ebe973d17ec57aba3d89229"
+    },
+    {
+      "file": "assets/atlases/hit.png",
+      "sha256": "b717395d2dad27a1ff86f8c9d84959ac4507a3281dad947e229bbfdb42c420f0"
+    },
+    {
+      "file": "assets/atlases/defeat.png",
+      "sha256": "2d2ce94fe5f7faa4a1f8ce2993abdf4ea4b18fa599f2ba2cb7644ee214f93e4b"
+    },
+    {
+      "file": "assets/atlases/horizon.png",
+      "sha256": "c475277ceda903e7c15375dcf752c0b19e5a93def4dda69d2288f6f60eab0985"
+    },
+    {
+      "file": "assets/atlases/flurry.png",
+      "sha256": "6d416e73ef053df4bc26840b01836fbb28020ebf5a17251ae4c8f49d0e25bbf7"
+    },
+    {
+      "file": "assets/atlases/meteor.png",
+      "sha256": "cdf8e045b8984e7174a8775d7a402204a810cca71bc5bfb6ddcafaa654c4f79c"
+    },
+    {
+      "file": "assets/atlases/array.png",
+      "sha256": "bc1ee0d532d4b5bc6061122c5e6f6e9ce340236ebc30f0b4939591cf599edb34"
+    },
+    {
+      "file": "assets/atlases/zenith.png",
+      "sha256": "e6db1263e3eda5270ea9f16febdb817fafcc9cc887603ef2121d196844a7ec6a"
+    }
+  ]
+}

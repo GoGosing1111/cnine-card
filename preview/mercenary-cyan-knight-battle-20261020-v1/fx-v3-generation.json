@@ -1,0 +1,55 @@
+{
+  "tool": "built-in image_gen",
+  "outputs": [
+    {
+      "key": "dragon-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-1b1e448f-fd68-45f9-803b-14c6ab96b8b3.png",
+      "workspace": "assets/sources/fx-dragon-v3-padded.png",
+      "status": "Current review candidate"
+    },
+    {
+      "key": "cleave-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-46d5cf7a-6214-4661-ba86-f32eb7ae7ec8.png",
+      "workspace": "assets/sources/fx-cleave-v3-padded.png",
+      "status": "Current review candidate"
+    },
+    {
+      "key": "burst-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-8e95d783-d1db-4ac9-9ad9-368a804193a1.png",
+      "workspace": "assets/sources/fx-burst-v3-padded.png",
+      "status": "Current review candidate"
+    },
+    {
+      "key": "flight-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-9f043e74-69a2-4609-b87b-723190962ec7.png",
+      "workspace": "assets/sources/fx-flight-v3-padded.png",
+      "status": "Current review candidate"
+    }
+  ],
+  "initialOutputs": [
+    {
+      "key": "dragon-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-f2c74c28-3482-4e4e-9ccd-f3eef6179d12.png",
+      "workspace": "assets/sources/fx-dragon-v3.png",
+      "status": "Rejected for cell-edge clipping; archived"
+    },
+    {
+      "key": "cleave-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-eb13e237-635f-4f24-be6e-04c4c2778934.png",
+      "workspace": "assets/sources/fx-cleave-v3.png",
+      "status": "Rejected for cell-edge clipping; archived"
+    },
+    {
+      "key": "burst-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-e6077fee-cc16-4707-bbbc-a2a07562674f.png",
+      "workspace": "assets/sources/fx-burst-v3.png",
+      "status": "Rejected for cell-edge clipping; archived"
+    },
+    {
+      "key": "flight-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-6e71b17e-535c-40ea-8117-4529e00b4e25.png",
+      "workspace": "assets/sources/fx-flight-v3.png",
+      "status": "Rejected for cell-edge clipping; archived"
+    }
+  ]
+}

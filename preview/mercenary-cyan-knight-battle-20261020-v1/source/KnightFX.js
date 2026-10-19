@@ -14,14 +14,15 @@ export async function loadKnightAssets(m){
 }
 export class KnightFX{
  constructor(engine,unit,targets,assets,manifest,onUpdate){
-  Object.assign(this,{engine,unit,targets,assets,manifest,onUpdate,mode:'array',speed:1,zoom:true,disposed:false,effectsEnabled:true,clock:{time:0}});
+  Object.assign(this,{engine,unit,targets,assets,manifest,onUpdate,mode:'array',speed:1,zoom:false,disposed:false,effectsEnabled:true,clock:{time:0}});
   unit.cancelFire();unit.stopIdle();unit.swordAnimation?.cancel();unit.nameHud.visible=false;
   this.back=new Container({label:'CyanKnightBackFX'});this.back.eventMode='none';engine.backgroundLayer.addChild(this.back);
   this.front=new Container({label:'CyanKnightFrontFX'});this.front.eventMode='none';engine.effectLayer.addChild(this.front);
   this.shade=new Graphics();this.back.addChild(this.shade);
   this.swordTrails=new Graphics();this.front.addChild(this.swordTrails);
   this.ghostPool=Array.from({length:4},()=>{const s=new Sprite();s.visible=false;this.back.addChild(s);return s;});
-  this.pool=Array.from({length:12},()=>{const s=new Sprite();s.visible=false;this.front.addChild(s);return s;});
+  this.flightPool=Array.from({length:PHANTOM_COUNT},()=>{const s=new Sprite();s.visible=false;this.front.addChild(s);return s;});
+  this.pool=Array.from({length:24},()=>{const s=new Sprite();s.visible=false;this.front.addChild(s);return s;});
   // The five physical blades remain visible when the VFX overlay is disabled.
   this.swords=new Container({label:'CyanKnightFiveOriginalSwords'});this.swords.eventMode='none';engine.effectLayer.addChild(this.swords);
   this.swordPool=Array.from({length:PHANTOM_COUNT},()=>{const s=new Sprite(assets.blade);s.visible=false;this.swords.addChild(s);return s;});
@@ -67,18 +68,29 @@ export class KnightFX{
  }
  drawSwords(state,size){
   this.swordPool.forEach(s=>s.visible=false);this.phantomContacts=[];
+  this.flightPool.forEach(s=>s.visible=false);
   this.swordTrails.clear();
   const w=this.manifest.weapon,mid={x:mix(w.grip.x,w.tip.x,.52),y:mix(w.grip.y,w.tip.y,.52)},baseAngle=Math.atan2(w.tip.y-w.grip.y,w.tip.x-w.grip.x),scale=size/w.standingHelmetToSole*1.16;
   const geometry=f=>{const target=this.targets[f.targetIndex%this.targets.length],torso=this.contact(target),center={x:torso.x+f.x*size,y:torso.y+f.y*size},rotation=f.angle-baseAngle;
    const point=p=>{const x=(p.x-mid.x)*scale,y=(p.y-mid.y)*scale;return{x:center.x+x*Math.cos(rotation)-y*Math.sin(rotation),y:center.y+x*Math.sin(rotation)+y*Math.cos(rotation)};};return{target,torso,center,rotation,grip:point(w.grip),tip:point(w.tip)};};
-  // Tapered ribbons follow actual past blade segments. Painted slash/impact frames remain the main VFX.
-  if(state.time>.72&&state.time<3.3){
+  // Painted wakes attach to actual blade tips and point along measured travel, on the same clock.
+  const prior=phantomSample(Math.max(0,state.time-.018));
+  if(this.mode==='array'&&state.time>.72)for(const f of state.phantoms){
+   const old=prior.find(x=>x.index===f.index);if(!old)continue;
+   const now=geometry(f),before=geometry(old),dx=now.center.x-before.center.x,dy=now.center.y-before.center.y;
+   const speed=Math.hypot(dx,dy)/(.018*size);if(speed<2.4||f.alpha<.1)continue;
+   const frame=3+Math.floor(state.time*72+f.index)%5,s=this.flightPool[f.index],art=this.manifest.effects['flight-v3'].frames[frame];
+   s.texture=this.assets.effects['flight-v3'][frame];s.anchor.set(art.pivot.x,art.pivot.y);s.rotation=Math.atan2(dy,dx);
+   s.scale.set(size*Math.min(2.25,1.25+speed*.024)/s.texture.width*(this.manifest.effects['flight-v3'].displayScale||1));s.alpha=Math.min(.95,speed/12)*f.alpha;s.blendMode='normal';s.visible=true;
+   const point=this.layerPoint(now.tip);s.position.set(point.x,point.y);
+  }
+  // Fine afterimages retain the exact physical sword trajectory beneath the painted wake.
+  if(this.mode==='array'&&state.time>.72&&state.time<3.3){
    const history=Array.from({length:15},(_,k)=>phantomSample(Math.max(0,state.time-k*.009)));
    for(let k=history.length-2;k>=0;k--)for(const f of history[k]){
     const old=history[k+1].find(x=>x.index===f.index);if(!old||f.alpha<.1)continue;
     const a=geometry(f),b=geometry(old);if(Math.hypot(a.tip.x-b.tip.x,a.tip.y-b.tip.y)<1.2)continue;
-    // No broad polygon fill: the painted VFX supplies the slash surface.
-    const q=this.layerPoint(a.tip),r=this.layerPoint(b.tip);this.swordTrails.moveTo(q.x,q.y).lineTo(r.x,r.y).stroke({color:f.index%2?0xa8edff:0xffe1a3,width:Math.max(.35,(1-k/15)*size*.018),alpha:(1-k/15)*.6});
+    const q=this.layerPoint(a.tip),r=this.layerPoint(b.tip);this.swordTrails.moveTo(q.x,q.y).lineTo(r.x,r.y).stroke({color:f.index%2?0x42baff:0xffb23d,width:Math.max(.5,(1-k/15)*size*.035),alpha:(1-k/15)*.55});
    }
   }
   for(const f of state.phantoms){
@@ -101,24 +113,25 @@ export class KnightFX{
   this.collision=bladeContact(bp.grip,bp.tip,torso,height*.3);this.groundError=Math.abs(r.y+state.lift*size-r.groundY);
   this.drawGhosts(state);this.drawSwords(state,size);
   const points={body:this.layerPoint(torso),ground:this.layerPoint(feet),actor:this.layerPoint({x:r.x,y:r.y-size*.56}),actorGround:this.layerPoint(r),wake:this.layerPoint({x:r.x-size*.04*state.pose.facing,y:r.y-size*.46})};
-  state.effects.forEach((fx,i)=>{const s=this.pool[i];s.texture=this.assets.effects[fx.key][fx.frame];s.visible=true;s.alpha=fx.alpha;s.blendMode=fx.anchor==='wake'?'add':'normal';s.rotation=fx.angle;s.anchor.set(.5);
-   if(fx.anchor==='ground'||fx.anchor==='actorGround')s.anchor.set(.5,fx.key==='ground'?.89:.91);
+  state.effects.forEach((fx,i)=>{const s=this.pool[i],art=this.manifest.effects[fx.key].frames[fx.frame],layer=fx.anchor==='ground'||fx.anchor==='actorGround'?this.back:this.front;if(s.parent!==layer)layer.addChild(s);s.texture=this.assets.effects[fx.key][fx.frame];s.visible=true;s.alpha=fx.alpha;s.blendMode=fx.anchor==='wake'?'add':'normal';s.rotation=fx.angle;s.anchor.set(art.pivot?.x??.5,art.pivot?.y??.5);
+   if((fx.anchor==='ground'||fx.anchor==='actorGround')&&!art.pivot)s.anchor.set(.5,fx.key==='ground'?.89:.91);
    if(fx.anchor==='wake')s.anchor.set(.8,.5);
-   s.scale.set(size*fx.width/s.texture.width);if(fx.anchor==='wake')s.scale.x*=state.pose.facing;
-   const q=points[fx.anchor];s.position.set(q.x,q.y);
+   s.scale.set(size*fx.width/s.texture.width*(this.manifest.effects[fx.key].displayScale||1));if(fx.anchor==='wake')s.scale.x*=state.pose.facing;if(fx.flip)s.scale.x*=fx.flip;
+   const q=points[fx.anchor],drift=fx.fromX===undefined?0:mix(fx.fromX,fx.toX,smooth(fx.progress)),point=layer.toLocal(this.front.toGlobal({x:q.x+drift*size,y:q.y}));s.position.set(point.x,point.y);
   });
   if(MODES[this.mode].type==='area'&&t>.15&&!state.done){const opacity=Math.min(.31,smooth((t-.15)/.22)*.31,smooth((MODES[this.mode].duration-t)/.45)*.31);this.shade.rect(-2000,-2000,6000,6000).fill({color:0x030b16,alpha:opacity});}
   this.targets.forEach((target,i)=>{const active=MODES[this.mode].type==='area'||i===0;target.view.x=active?state.impact*Math.sin(t*97+i)*4:0;target.view.y=active?-state.impact*2:0;});
   if(this.zoom){
    const all=this.targets.map(x=>this.contact(x)),xs=all.map(x=>x.x),ys=this.targets.map(x=>this.targetFeet(x).y);
-   const cinematic=this.mode==='array'?smooth((t-.16)/.48)*(1-smooth((t-3.43)/.37)):0;
+   const cinematic=['array','meteor','zenith'].includes(this.mode)?smooth((t-.16)/.48)*(1-smooth((t-(MODES[this.mode].duration-.37))/.37)):0;
    const leftWide=Math.min(this.home.x-size*(this.appearance?1.2:.65),...xs.map(x=>x-size*1.15));
-   const left=mix(leftWide,Math.min(...xs)-size*(this.appearance?2.2:2.05),cinematic),right=Math.max(...xs.map(x=>x+size*(this.appearance?1.65:1.5)));
+   const groundWave=this.mode==='meteor'||this.mode==='zenith';
+   const left=mix(leftWide,Math.min(...xs)-size*(this.appearance?2.2:2.05),cinematic),right=Math.max(...xs.map(x=>x+size*(groundWave?2.0:2.12)));
    const fan=this.mode==='array'?1-smooth((t-.64)/.23)+smooth((t-2.15)/.18)*(1-smooth((t-2.65)/.2)):0;
-   const top=Math.min(...ys)-size*(this.mode==='zenith'||this.mode==='meteor'?2.8:this.mode==='array'?mix(1.57,2.2,Math.min(1,fan)):1.8),bottom=Math.max(...ys)+size*.12;
+   const top=Math.min(...ys)-size*(this.mode==='array'?mix(1.9,2.2,Math.min(1,fan)):this.mode==='zenith'?2.35:this.mode==='meteor'?2.05:1.8),bottom=Math.max(...ys)+size*.22;
    const zoom=Math.min(e.mobile?2.9:mix(2.25,2.5,cinematic),e.scene.width*.90/(right-left),e.scene.height*.90/(bottom-top));
    e.camera.focusAt({x:(left+right)/2,y:(top+bottom)/2+e.scene.height*.10/zoom},zoom);
-   const shake=state.impact*(this.mode==='zenith'?4:1.5);e.stage.position.set(e.camera.base.x+Math.sin(t*112)*shake,e.camera.base.y+Math.cos(t*97)*shake*.5);
+   const shake=e.reducedMotion?0:state.impact*(this.mode==='zenith'||(this.mode==='array'&&t>3)?4.5:2.1);e.stage.position.set(e.camera.base.x+Math.sin(t*112)*shake,e.camera.base.y+Math.cos(t*97)*shake*.5);
   }else e.camera.reset(true);
   this.onUpdate(this);
  }

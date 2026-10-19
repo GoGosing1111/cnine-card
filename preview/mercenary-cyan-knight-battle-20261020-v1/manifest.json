@@ -1,5 +1,5 @@
 {
-  "version": "CYAN_KNIGHT_WHITE_AURA_REVIEW_20261020_V1",
+  "version": "CYAN_KNIGHT_VFX_REVIEW_20261020_V3",
   "status": "USER_REVIEW_PENDING",
   "runtimeEnabled": false,
   "sourceArt": "assets/sources/source-art-v3.png",
@@ -4034,6 +4034,778 @@
           }
         }
       ]
+    },
+    "dragon-v3": {
+      "url": "assets/sources/fx-dragon-v3-padded.png",
+      "displayScale": 1.34,
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1024,
+      "sha256": "249f2b69a794a7b2e87ffb32c2eb3324f763c3965a4e28cae309213956c432f3",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 2,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.8338278931750742
+          },
+          "nontransparent": 25554,
+          "solidFraction": 0.13873965328752147
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 386,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.8367952522255193
+          },
+          "nontransparent": 36091,
+          "solidFraction": 0.2083086053412463
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 770,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.8397626112759644
+          },
+          "nontransparent": 35710,
+          "solidFraction": 0.2088552241136967
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1154,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.8456973293768546
+          },
+          "nontransparent": 45181,
+          "solidFraction": 0.27177104482273934
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 2,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.7633136094674556
+          },
+          "nontransparent": 43536,
+          "solidFraction": 0.27237620678916225
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 386,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.7692307692307693
+          },
+          "nontransparent": 46166,
+          "solidFraction": 0.2870756773590782
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 770,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.7692307692307693
+          },
+          "nontransparent": 45609,
+          "solidFraction": 0.26003581438804113
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1154,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.7662721893491125
+          },
+          "nontransparent": 47627,
+          "solidFraction": 0.26228589224540644
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 2,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.6676557863501483
+          },
+          "nontransparent": 43347,
+          "solidFraction": 0.24950804310479463
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 386,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.6617210682492581
+          },
+          "nontransparent": 39333,
+          "solidFraction": 0.20261596126815556
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 770,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.6676557863501483
+          },
+          "nontransparent": 34289,
+          "solidFraction": 0.160190535686397
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1154,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.6617210682492581
+          },
+          "nontransparent": 23798,
+          "solidFraction": 0.0894034046540684
+        }
+      ],
+      "tool": "built-in image_gen",
+      "promptFile": "fx-v3-prompts.json"
+    },
+    "cleave-v3": {
+      "url": "assets/sources/fx-cleave-v3-padded.png",
+      "displayScale": 1.2,
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1024,
+      "sha256": "c32d050edabfa765a882db5663ab2668128d2b7ba2da02186f024b2af7849977",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 2,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.61
+          },
+          "nontransparent": 39482,
+          "solidFraction": 0.1508823988755271
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 386,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.61
+          },
+          "nontransparent": 56555,
+          "solidFraction": 0.23299234733718568
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 770,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.61
+          },
+          "nontransparent": 58934,
+          "solidFraction": 0.2638294549429955
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1154,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.61
+          },
+          "nontransparent": 70297,
+          "solidFraction": 0.33315633296892083
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 2,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.52
+          },
+          "nontransparent": 69173,
+          "solidFraction": 0.3414123326066646
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 386,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.52
+          },
+          "nontransparent": 82741,
+          "solidFraction": 0.423006851448147
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 770,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.52
+          },
+          "nontransparent": 80631,
+          "solidFraction": 0.39540641544690125
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1154,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.52
+          },
+          "nontransparent": 70255,
+          "solidFraction": 0.32306135160386173
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 2,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.43
+          },
+          "nontransparent": 57786,
+          "solidFraction": 0.24198813056379823
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 386,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.43
+          },
+          "nontransparent": 59500,
+          "solidFraction": 0.2347805716070592
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 770,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.43
+          },
+          "nontransparent": 53229,
+          "solidFraction": 0.19183976261127597
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1154,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.43
+          },
+          "nontransparent": 40153,
+          "solidFraction": 0.0932297360612213
+        }
+      ],
+      "tool": "built-in image_gen",
+      "promptFile": "fx-v3-prompts.json"
+    },
+    "burst-v3": {
+      "url": "assets/sources/fx-burst-v3-padded.png",
+      "displayScale": 1.23,
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1024,
+      "sha256": "0d73ed8e5e5ae3a7dab394cd92a0752d5c47d8d1f933f6177bf49bdabe8de23f",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 2,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.55
+          },
+          "nontransparent": 6331,
+          "solidFraction": 0.023278150866781196
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 386,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.55
+          },
+          "nontransparent": 25239,
+          "solidFraction": 0.09735280337341871
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 770,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.55
+          },
+          "nontransparent": 38584,
+          "solidFraction": 0.16964704044978915
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1154,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.55
+          },
+          "nontransparent": 49817,
+          "solidFraction": 0.2238013431204123
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 2,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.52
+          },
+          "nontransparent": 49899,
+          "solidFraction": 0.24348333852382437
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 386,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.52
+          },
+          "nontransparent": 56220,
+          "solidFraction": 0.28364216754905014
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 770,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.52
+          },
+          "nontransparent": 59267,
+          "solidFraction": 0.2904079725942074
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1154,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.52
+          },
+          "nontransparent": 57362,
+          "solidFraction": 0.2483572095920274
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 2,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.48
+          },
+          "nontransparent": 49215,
+          "solidFraction": 0.2067468374199594
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 386,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.48
+          },
+          "nontransparent": 44503,
+          "solidFraction": 0.1365531781977198
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 770,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.48
+          },
+          "nontransparent": 41072,
+          "solidFraction": 0.0868655317819772
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1154,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.48
+          },
+          "nontransparent": 35371,
+          "solidFraction": 0.049679837576136185
+        }
+      ],
+      "tool": "built-in image_gen",
+      "promptFile": "fx-v3-prompts.json"
+    },
+    "flight-v3": {
+      "url": "assets/sources/fx-flight-v3-padded.png",
+      "displayScale": 1.32,
+      "columns": 4,
+      "rows": 3,
+      "width": 1536,
+      "height": 1024,
+      "sha256": "62e26469de8a9d6c321d5749a2f05312de19037553b11ece06a1363b845fec36",
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 2,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.8078947368421052,
+            "y": 0.671667216177602
+          },
+          "nontransparent": 13725,
+          "solidFraction": 0.04945338122754959
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 386,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.8105263157894737,
+            "y": 0.6609792284866469
+          },
+          "nontransparent": 20054,
+          "solidFraction": 0.07900203029829768
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 770,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.781578947368421,
+            "y": 0.6569586401436055
+          },
+          "nontransparent": 27067,
+          "solidFraction": 0.12353584257379353
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1154,
+            "y": 2,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.7710526315789473,
+            "y": 0.6585504654282346
+          },
+          "nontransparent": 33454,
+          "solidFraction": 0.16257223176635952
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 2,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.8763157894736842,
+            "y": 0.5270655270655271
+          },
+          "nontransparent": 35542,
+          "solidFraction": 0.17412021177203363
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 386,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.8473684210526315,
+            "y": 0.5317268763625039
+          },
+          "nontransparent": 39259,
+          "solidFraction": 0.18832918094051698
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 770,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.8157894736842105,
+            "y": 0.5304412917943965
+          },
+          "nontransparent": 38337,
+          "solidFraction": 0.18248209280597943
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1154,
+            "y": 343,
+            "width": 380,
+            "height": 338
+          },
+          "pivot": {
+            "x": 0.8026315789473685,
+            "y": 0.5434629473091012
+          },
+          "nontransparent": 41461,
+          "solidFraction": 0.1997430706944877
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 2,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.8473684210526315,
+            "y": 0.43112855365176606
+          },
+          "nontransparent": 24099,
+          "solidFraction": 0.09417460565359988
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 386,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.8289473684210527,
+            "y": 0.4312067260138477
+          },
+          "nontransparent": 24049,
+          "solidFraction": 0.08053256286115883
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 770,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.7868421052631579,
+            "y": 0.43268118493185137
+          },
+          "nontransparent": 20911,
+          "solidFraction": 0.06447758863032953
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1154,
+            "y": 685,
+            "width": 380,
+            "height": 337
+          },
+          "pivot": {
+            "x": 0.7868421052631579,
+            "y": 0.4330664576451487
+          },
+          "nontransparent": 17547,
+          "solidFraction": 0.03670935498984851
+        }
+      ],
+      "tool": "built-in image_gen",
+      "promptFile": "fx-v3-prompts.json"
     }
   },
   "runtime": {
@@ -4047,15 +4819,20 @@
   },
   "summary": {
     "bodyFrames": 64,
-    "effectFrames": 108,
+    "effectFrames": 156,
     "weaponSources": 1,
     "weaponRedraws": 0,
-    "appearanceFrames": 6
+    "appearanceFrames": 6,
+    "newV3EffectFrames": 48
   },
   "rejectedVersions": [
     {
       "version": "ARRAY_V1",
       "reason": "User rejected weak multi-sword ultimate; V2 reauthors cutting trajectories, impact timing, painted effects and camera."
+    },
+    {
+      "version": "ARRAY_V2",
+      "reason": "2026-10-20 user approved appearance but rejected weak skill VFX, slow sword projectiles and aerial ground slam."
     }
   ],
   "appearance": {
@@ -4102,6 +4879,8 @@
       "prompt-white-mantle-v2.txt",
       "prompt-white-mantle-v3.txt"
     ],
-    "visualApproval": false
-  }
+    "visualApproval": true,
+    "approvalRecord": "appearance-approval-20261020.json"
+  },
+  "appearanceApproval": "appearance-approval-20261020.json"
 }

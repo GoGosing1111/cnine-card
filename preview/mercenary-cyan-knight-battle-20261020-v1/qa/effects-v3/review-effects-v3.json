@@ -1,0 +1,31 @@
+{
+  "file": "review-effects-v3.webm",
+  "speed": 1,
+  "events": [
+    {
+      "mode": "horizon",
+      "at": 0.19379999995231628
+    },
+    {
+      "mode": "flurry",
+      "at": 2.322399999976158
+    },
+    {
+      "mode": "meteor",
+      "at": 5.3685
+    },
+    {
+      "mode": "array",
+      "at": 8.522899999976158
+    },
+    {
+      "mode": "zenith",
+      "at": 12.799599999964236
+    }
+  ],
+  "duration": 17.280599999964238,
+  "bytes": 15218078,
+  "mime": "video/webm;codecs=vp9",
+  "source": "actual V3 canvas / GSAP clock",
+  "visualApproval": false
+}

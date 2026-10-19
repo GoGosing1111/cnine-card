@@ -1,4 +1,4 @@
-// Visual choreography only. All drawings, flying swords and contacts use the V3 GSAP clock.
+// Preview choreography. One V3/GSAP clock drives body art, fixed swords and authored effect frames.
 const p=(at,bank,index,facing=1)=>({at,bank,index,facing}),path=(at,anchor,lift=0)=>({at,anchor,lift});
 const sequence=(bank,times)=>times.map((t,i)=>p(t,bank,i));
 export const MODES={
@@ -10,32 +10,38 @@ export const MODES={
  flurry:{label:'섬광 연참',type:'skill',duration:2.6,contacts:[.46,.78,1.1,1.42,1.72],
   poses:[p(0,'flurry',0),p(.28,'flurry',2),p(.43,'flurry',1),p(.64,'flurry',0,-1),p(.73,'flurry',1,-1),p(.96,'flurry',2),p(1.05,'flurry',3),p(1.28,'flurry',0,-1),p(1.37,'flurry',3,-1),p(1.60,'flurry',2),p(1.67,'flurry',1),p(1.81,'flurry',4),p(1.94,'flurry',5),p(2.08,'flurry',6),p(2.30,'flurry',7)],
   path:[path(0,'home'),path(.23,'home'),path(.43,'hit0'),path(.56,'hit0'),path(.73,'hit1'),path(.87,'hit1'),path(1.05,'hit2'),path(1.19,'hit2'),path(1.37,'hit3'),path(1.51,'hit3'),path(1.67,'hit4'),path(1.81,'hit4'),path(2.35,'home'),path(2.6,'home')]},
- meteor:{label:'낙성 검격',type:'skill',duration:2.7,contacts:[1.65],poses:sequence('meteor',[0,.22,.52,.86,1.12,1.58,1.83,2.21]),
-  path:[path(0,'home'),path(.22,'approach'),path(.68,'air',.5),path(1.1,'air',.68),path(1.48,'hit0',.5),path(1.65,'hit0',.28),path(1.83,'hit0'),path(2.5,'home'),path(2.7,'home')]},
+ // Reuse registered grounded body drawings, never pin an airborne pose to the floor.
+ meteor:{label:'용궤 검격',type:'skill',duration:2.7,contacts:[.64],
+  poses:sequence('horizon',[0,.15,.29,.56,.72,1.10,1.65,2.20]),
+  path:[path(0,'home'),path(.2,'home'),path(.56,'hit0'),path(.86,'hit0'),path(1.25,'finish'),path(2.4,'home'),path(2.7,'home')]},
  array:{label:'천검 포위',type:'area',duration:3.8,contacts:[],poses:[p(0,'dash',0),p(.12,'dash',1),p(.24,'dash',2),...sequence('array',[.35,.48,.60,.72,.84,1.16,1.52,1.9,2.25,2.94,3.2,3.51])],
   path:[path(0,'home'),path(.35,'command'),path(2.7,'command'),path(2.94,'finish'),path(3.12,'finish'),path(3.6,'home'),path(3.8,'home')]},
- zenith:{label:'창천 종단',type:'area',duration:4.6,contacts:[.72,2.85],poses:sequence('zenith',[0,.22,.52,.84,1.14,1.48,1.93,2.40,2.78,3.0,3.48,4.05]),
-  path:[path(0,'home'),path(.37,'home'),path(.67,'hit0'),path(.77,'hit0'),path(.85,'air',.15),path(1.25,'air',.62),path(1.9,'air',.9),path(2.4,'hit1',.78),path(2.85,'hit1',.2),path(3.0,'hit1'),path(4.25,'home'),path(4.6,'home')]}
+ zenith:{label:'창천 종단',type:'area',duration:4.0,contacts:[.72,1.48,2.65],
+  poses:[p(0,'flurry',0),p(.22,'horizon',1),p(.42,'dash',2),p(.65,'horizon',3),p(.88,'horizon',4),p(1.15,'flurry',0,-1),p(1.43,'flurry',1,-1),p(1.72,'flurry',2),p(2,'array',8),p(2.28,'horizon',2),p(2.60,'flurry',3),p(2.85,'horizon',5),p(3.25,'horizon',6),p(3.75,'idle',0)],
+  path:[path(0,'home'),path(.37,'home'),path(.65,'hit0'),path(.85,'hit0'),path(1.43,'hit1'),path(1.62,'hit1'),path(2.1,'command'),path(2.60,'hit2'),path(2.9,'hit2'),path(3.8,'home'),path(4,'home')]}
 };
 export const clamp=n=>Math.max(0,Math.min(1,n)),smooth=n=>{n=clamp(n);return n*n*(3-2*n);};
 const mix=(a,b,t)=>a+(b-a)*t;
 export const PHANTOM_COUNT=5;
 export const phantomTracks=Array.from({length:PHANTOM_COUNT},(_,i)=>{
  const fan={x:(i-2)*.32,y:-.7-Math.sin(i/4*Math.PI)*.22};
- const track=[{at:.18+i*.035,...fan,angle:-Math.PI/2,alpha:0},{at:.48+i*.025,...fan,angle:-Math.PI/2,alpha:1},{at:.65+i*.025,...fan,angle:-Math.PI/2,alpha:1}];
+ const track=[{at:.18+i*.035,...fan,angle:-Math.PI/2,alpha:0},{at:.48+i*.025,...fan,angle:-Math.PI/2,alpha:1},{at:.64+i*.018,...fan,angle:-Math.PI/2,alpha:1}];
  for(let pass=0;pass<4;pass++){
-  const at=.86+i*.028+pass*.36,travel=(i*72+pass*61)*Math.PI/180,edge=travel+Math.PI/2;
-  // The blade sweeps sideways through the target, then brakes outside the torso.
-  track.push({at:at-.105,x:-Math.cos(travel)*1.04,y:-Math.sin(travel)*.66,angle:edge-.78,alpha:1});
+  const at=.84+i*.024+pass*.32,travel=(i*72+pass*61)*Math.PI/180,edge=travel+Math.PI/2;
+  const start={x:-Math.cos(travel)*1.18,y:-Math.sin(travel)*.73,angle:edge-.65,alpha:1};
+  track.push({at:at-.095,...start},{at:at-.040,...start});
+  // Forty milliseconds into contact, eight milliseconds at contact, then a 39 ms cut-through.
   track.push({at,x:0,y:0,angle:edge,alpha:1,hit:true});
-  track.push({at:at+.028,x:Math.cos(travel)*.035,y:Math.sin(travel)*.025,angle:edge+.16,alpha:1});
-  track.push({at:at+.12,x:Math.cos(travel)*1.07,y:Math.sin(travel)*.69,angle:edge+.84,alpha:1});
+  track.push({at:at+.008,x:Math.cos(travel)*.045,y:Math.sin(travel)*.028,angle:edge+.12,alpha:1});
+  track.push({at:at+.047,x:Math.cos(travel)*1.22,y:Math.sin(travel)*.76,angle:edge+.67,alpha:1});
  }
- track.push({at:2.36+i*.025,x:(i-2)*.3,y:-1.05,angle:Math.PI/2,alpha:1});
- track.push({at:2.64+i*.05,x:0,y:0,angle:Math.PI/2,alpha:1,hit:true});
- track.push({at:2.82+i*.025,x:(i-2)*.31,y:.44,angle:Math.PI/2,alpha:1});
- track.push({at:3.08,x:0,y:0,angle:((i/5)*Math.PI*2),alpha:1,hit:true});
- track.push({at:3.29,x:Math.cos(i/5*Math.PI*2)*.75,y:Math.sin(i/5*Math.PI*2)*.5,angle:i/5*Math.PI*2,alpha:0});
+ const high={x:(i-2)*.30,y:-1.08,angle:Math.PI/2,alpha:1},drop=2.45+i*.052;
+ track.push({at:2.08+i*.02,...high},{at:drop-.040,...high});
+ track.push({at:drop,x:0,y:0,angle:Math.PI/2,alpha:1,hit:true});
+ track.push({at:drop+.040,x:(i-2)*.10,y:.50,angle:Math.PI/2,alpha:1});
+ const a=i/5*Math.PI*2,pre={x:-Math.cos(a)*1.2,y:-Math.sin(a)*.78,angle:a,alpha:1};
+ track.push({at:2.87,...pre},{at:3.02,...pre},{at:3.06,x:0,y:0,angle:a,alpha:1,hit:true},{at:3.075,x:0,y:0,angle:a,alpha:1});
+ track.push({at:3.24,x:Math.cos(a)*.9,y:Math.sin(a)*.6,angle:a,alpha:0});
  return track;
 });
 MODES.array.contacts=[...new Set(phantomTracks.flatMap(s=>s.filter(p=>p.hit).map(p=>Number(p.at.toFixed(3)))))].sort((a,b)=>a-b);
@@ -43,7 +49,7 @@ for(const s of Object.values(MODES))s.steps=s.poses.map(p=>p.at);
 export function phantomSample(t){
  return phantomTracks.map((track,i)=>{
   if(t<track[0].at||t>=track.at(-1).at)return null;
-  const n=Math.max(0,track.findLastIndex(p=>p.at<=t)),a=track[n],b=track[Math.min(n+1,track.length-1)],q=smooth((t-a.at)/(b.at-a.at));
+  const n=Math.max(0,track.findLastIndex(p=>p.at<=t)),a=track[n],b=track[Math.min(n+1,track.length-1)],q=b.at===a.at?1:smooth((t-a.at)/(b.at-a.at));
   let da=b.angle-a.angle;while(da>Math.PI)da-=Math.PI*2;while(da<-Math.PI)da+=Math.PI*2;
   return{index:i,targetIndex:i%3,x:mix(a.x,b.x,q),y:mix(a.y,b.y,q),angle:a.angle+da*q,alpha:mix(a.alpha,b.alpha,q)};
  }).filter(Boolean);
@@ -51,29 +57,54 @@ export function phantomSample(t){
 export function sample(mode,time){
  const s=MODES[mode],t=Math.max(0,Math.min(s.duration,time)),frame=Math.max(0,s.poses.findLastIndex(p=>p.at<=t)),pose=s.poses[frame];
  const n=Math.max(0,s.path.findLastIndex(p=>p.at<=t)),a=s.path[n],b=s.path[Math.min(n+1,s.path.length-1)],q=b.at===a.at?1:smooth((t-a.at)/(b.at-a.at));
- const effects=[],add=(key,start,end,opt={})=>{if(t<start||t>=end)return;const f=(t-start)/(end-start),first=opt.first??0,last=opt.last??11;effects.push({key,frame:Math.min(last,Math.floor(first+f*(last-first+1))),alpha:1,anchor:'body',angle:0,width:1.7,...opt});};
+ const effects=[],add=(key,start,end,opt={})=>{if(t<start||t>=end)return;const f=(t-start)/(end-start),first=opt.first??0,last=opt.last??11;effects.push({key,frame:Math.min(last,Math.floor(first+f*(last-first+1))),progress:f,alpha:1,anchor:'body',angle:0,width:1.7,...opt});};
  if(mode==='dash')add('dash',.17,.72,{anchor:'wake',width:1.9});
- if(mode==='horizon'){add('dash',.28,.6,{anchor:'wake',width:1.8,alpha:.65});add('horizon',.36,.99,{width:1.95});}
- if(mode==='flurry'){for(let i=0;i<5;i++){const hit=s.contacts[i];add(i%2?'flurry':'horizon',hit-.12,hit+.27,{width:1.8,angle:i%2?.18:-.1});}add('dash',.28,1.85,{anchor:'wake',alpha:.45,width:1.8});}
- if(mode==='meteor'){add('meteor',1.30,2.18,{width:1.2,anchor:'ground'});add('ground',1.81,2.6,{width:2.05,anchor:'ground'});add('dash',.45,1.1,{anchor:'wake',angle:-.8,width:1.35,alpha:.5});}
- if(mode==='array'){
-  for(let pass=0;pass<4;pass++)add('vortex-v2',.72+pass*.36,1.10+pass*.36,{width:2.05,alpha:.83,first:0,last:6,angle:pass*.37});
-  for(let pass=0;pass<4;pass++)for(let i=0;i<5;i++){
-   const at=.86+i*.028+pass*.36;
-   add('horizon',at-.065,at+.125,{width:1.65,angle:(i*72+pass*61)*Math.PI/180,alpha:.55});
-  }
-  add('vortex-v2',2.30,3.07,{width:2.10,alpha:.95,first:7,last:8});
-  add('vortex-v2',3.07,3.64,{width:2.15,alpha:.94,first:9,last:11});
-  add('rift',3.0,3.48,{width:2.8,angle:-.7,alpha:.94});
-  add('flurry',3.04,3.39,{width:1.55,alpha:.85});
-  add('ground',3.07,3.72,{width:2.5,anchor:'ground',alpha:.85});
+ if(mode==='horizon'){
+  add('dash',.28,.6,{anchor:'wake',width:2.15,alpha:.75});
+  add('cleave-v3',.40,1.02,{width:2.65,angle:-.08});
+  add('burst-v3',.53,.91,{width:1.55,alpha:.90});
+  add('ground',.55,1.10,{width:2.15,anchor:'ground',alpha:.85});
  }
- if(mode==='zenith'){add('ground',.32,.98,{width:1.6,anchor:'actorGround'});add('dash',.43,1.26,{width:2.8,anchor:'wake'});add('horizon',.59,1.04,{width:2.5});add('orbit',1.20,2.45,{width:1.9,anchor:'actor',alpha:.55});add('rift',2.42,3.5,{width:3.6});add('ground',2.94,4.3,{width:3.15,anchor:'ground'});}
- const impact=s.contacts.reduce((m,at)=>Math.max(m,t>=at&&t<at+.14?(1-(t-at)/.14)*(mode==='array'&&at<3?.3:1):0),0);
+ if(mode==='flurry'){
+  for(let i=0;i<5;i++){const hit=s.contacts[i];add('cleave-v3',hit-.075,hit+.24,{width:i===4?2.8:2.35,angle:i%2?.55:-.45,flip:i%2?-1:1});add('burst-v3',hit-.012,hit+.16,{width:i===4?2.45:1.5,alpha:.90});}
+  add('dash',.28,1.85,{anchor:'wake',alpha:.65,width:2.1});
+ }
+ if(mode==='meteor'){
+  add('dragon-v3',.43,1.80,{width:3.05,anchor:'ground',fromX:-.85,toX:.35});
+  add('cleave-v3',.56,.94,{width:2.4,angle:-.2});
+  add('burst-v3',.63,.98,{width:1.75,alpha:.90});
+  add('ground',.65,2.0,{width:2.75,anchor:'ground',alpha:.80});
+ }
+ if(mode==='array'){
+  for(let pass=0;pass<4;pass++){
+   add('cleave-v3',.76+pass*.32,1.10+pass*.32,{width:2.8,angle:pass*.72,alpha:.92});
+   for(let i=0;i<5;i++){
+    const at=.84+i*.024+pass*.32;
+    add('burst-v3',at-.008,at+.14,{width:1.65,angle:(i*72+pass*61)*Math.PI/180,alpha:.78});
+   }
+  }
+  for(let i=0;i<5;i++){const at=2.45+i*.052;add('cleave-v3',at-.035,at+.20,{width:2.55,angle:Math.PI/2+(i-2)*.11,alpha:.82});add('burst-v3',at,at+.18,{width:1.85,alpha:.85});}
+  add('cleave-v3',3.00,3.40,{width:3.9,angle:-.22});
+  add('burst-v3',3.035,3.69,{width:4.25,alpha:1});
+  add('ground',3.06,3.75,{width:3.3,anchor:'ground',alpha:.95});
+ }
+ if(mode==='zenith'){
+  add('orbit',.12,.67,{width:1.55,anchor:'actor',alpha:.65});
+  add('dash',.43,.91,{width:2.8,anchor:'wake'});
+  add('cleave-v3',.60,1.11,{width:2.95,angle:-.2});
+  add('burst-v3',.71,1.05,{width:1.9,alpha:.95});
+  add('cleave-v3',1.36,1.91,{width:3.10,angle:.52,flip:-1});
+  add('burst-v3',1.47,1.82,{width:2.0,alpha:.95});
+  add('dragon-v3',2.02,3.48,{width:3.9,anchor:'ground',fromX:-.9,toX:.40});
+  add('cleave-v3',2.56,3.10,{width:3.8,angle:-.2});
+  add('burst-v3',2.63,3.42,{width:3.9,alpha:.95});
+  add('ground',2.65,3.75,{width:3.5,anchor:'ground',alpha:.95});
+ }
+ const impact=s.contacts.reduce((m,at)=>Math.max(m,t>=at&&t<at+.16?(1-(t-at)/.16)*(mode==='array'&&at<3?.38:1):0),0);
  let phase=s.label;
- if(mode==='array')phase=t<.65?'다섯 검 전개':t<2.3?'교차 회전 · 연속 베기':t<2.94?'상공 재정렬 · 내려찍기':t<3.3?'다섯 검 수렴 · 마지막 검격':'회복 · 잔향';
- else if(mode==='zenith')phase=t<.43?'검압 응축':t<1.14?'고속 횡단':t<2.42?'도약 · 공중 준비':t<3?'대각 절단':'착지 · 검기 잔향';
- else if(mode==='meteor')phase=t<.5?'도약 준비':t<1.58?'공중 준비':t<1.83?'내려베기':'착지 · 회복';
+ if(mode==='array')phase=t<.70?'다섯 검 전개':t<2.04?'고속 관통 · 교차 연격':t<2.84?'회수 · 연속 관통':t<3.30?'다섯 검 수렴 · 검광 폭쇄':'회복 · 잔향';
+ else if(mode==='zenith')phase=t<.43?'검압 응축':t<1.9?'지상 교차 검격':t<2.6?'용 형상 검기 전개':t<3.1?'지면 횡단 · 종단 폭쇄':'검기 소멸 · 회복';
+ else if(mode==='meteor')phase=t<.43?'지상 발도 준비':t<.8?'용궤 형성 · 횡베기':t<1.8?'지면을 휘감는 용 검기':'검기 잔향 · 회복';
  else if(s.type==='skill')phase=t<s.contacts[0]?'준비 · 접근':t<s.contacts.at(-1)+.3?'검격 · 적중':'자세 회복';
  return{mode,time:t,frame,pose,phase,effects,impact,lift:mix(a.lift,b.lift,q),path:{from:a.anchor,to:b.anchor,mix:q},done:t>=s.duration,contactCount:s.contacts.filter(at=>at<=t).length,phantoms:mode==='array'?phantomSample(t):[],ghosts:['dash','flurry','zenith'].includes(mode)&&t>.2&&t<(mode==='zenith'?3:1.9)};
 }

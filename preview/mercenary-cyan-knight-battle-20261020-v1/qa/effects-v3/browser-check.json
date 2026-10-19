@@ -1,0 +1,872 @@
+{
+  "status": "PASS",
+  "visualApproval": false,
+  "devices": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "contacts": [
+        {
+          "mode": "horizon",
+          "time": 0.55,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 0.46,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 0.78,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 1.1,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 1.42,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 1.72,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "meteor",
+          "time": 0.64,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.84,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.864,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.888,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.912,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.936,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.16,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.184,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.208,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.232,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.256,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.48,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.504,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.528,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.552,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.576,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.8,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.824,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.848,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.872,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.896,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.45,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.502,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.554,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.606,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.658,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 3.06,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "zenith",
+          "time": 0.72,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "zenith",
+          "time": 1.48,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "zenith",
+          "time": 2.65,
+          "intersects": true,
+          "groundError": 0
+        }
+      ],
+      "effectsOff": {
+        "ready": true,
+        "appearance": {
+          "enabled": false,
+          "behindBody": true,
+          "capeFrames": 6,
+          "bodyAlpha": 1,
+          "originalTexture": 309,
+          "rimColor": "WHITE",
+          "destroyed": false
+        },
+        "version": "CYAN_KNIGHT_VFX_REVIEW_20261020_V3",
+        "mode": "array",
+        "time": 1.05,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "at": 0.84,
+          "bank": "array",
+          "index": 4,
+          "facing": 1
+        },
+        "phase": "고속 관통 · 교차 연격",
+        "contactCount": 5,
+        "bladeContact": {
+          "u": 0,
+          "distance": 254.73692311873435,
+          "intersects": false
+        },
+        "phantomContacts": [
+          {
+            "index": 0,
+            "targetIndex": 0,
+            "grip": {
+              "x": 943.8793760727601,
+              "y": 161.24670153841416
+            },
+            "tip": {
+              "x": 885.4815556755509,
+              "y": 292.09111925320246
+            },
+            "u": 0.9632551917962079,
+            "distance": 134.00764007356156,
+            "intersects": false
+          },
+          {
+            "index": 1,
+            "targetIndex": 0,
+            "grip": {
+              "x": 1219.2484722343436,
+              "y": 283.41745327810605
+            },
+            "tip": {
+              "x": 1077.2080522622107,
+              "y": 264.5737230633411
+            },
+            "u": 1,
+            "distance": 102.45133183011778,
+            "intersects": false
+          },
+          {
+            "index": 2,
+            "targetIndex": 0,
+            "grip": {
+              "x": 1106.637939273981,
+              "y": 478.3505486242558
+            },
+            "tip": {
+              "x": 1086.594023929688,
+              "y": 336.4745163568656
+            },
+            "u": 1,
+            "distance": 76.78593865092456,
+            "intersects": false
+          },
+          {
+            "index": 3,
+            "targetIndex": 0,
+            "grip": {
+              "x": 842.2883799302078,
+              "y": 399.77878513674716
+            },
+            "tip": {
+              "x": 974.0126227288141,
+              "y": 343.3935837679435
+            },
+            "u": 1,
+            "distance": 36.0183580321276,
+            "intersects": false
+          },
+          {
+            "index": 4,
+            "targetIndex": 0,
+            "grip": {
+              "x": 943.7247075466626,
+              "y": 202.70461410618958
+            },
+            "tip": {
+              "x": 1032.470617453305,
+              "y": 315.19786078841855
+            },
+            "u": 1,
+            "distance": 34.89889521471206,
+            "intersects": false
+          }
+        ],
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "visibleSwords": 5,
+        "registeredTimelines": 0,
+        "bodyFrames": 64,
+        "effectFrames": 156,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "appearanceFrames": 6,
+        "newV3EffectFrames": 48,
+        "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 806.6,
+          "y": 416.00000000000006,
+          "height": 180
+        },
+        "contact": {
+          "x": 1010,
+          "y": 341.9
+        },
+        "ground": {
+          "x": 1010,
+          "y": 415.99999999999994
+        }
+      },
+      "cancel": {
+        "ready": true,
+        "appearance": {
+          "enabled": true,
+          "behindBody": true,
+          "capeFrames": 6,
+          "bodyAlpha": 1,
+          "originalTexture": 245,
+          "rimColor": "WHITE",
+          "destroyed": false
+        },
+        "version": "CYAN_KNIGHT_VFX_REVIEW_20261020_V3",
+        "mode": "array",
+        "time": 0,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "at": 0,
+          "bank": "dash",
+          "index": 0,
+          "facing": 1
+        },
+        "phase": "다섯 검 전개",
+        "contactCount": 0,
+        "bladeContact": {
+          "u": 1,
+          "distance": 531.1409848116378,
+          "intersects": false
+        },
+        "phantomContacts": [],
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "visibleSwords": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 64,
+        "effectFrames": 156,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "appearanceFrames": 6,
+        "newV3EffectFrames": 48,
+        "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 380,
+          "y": 416,
+          "height": 180
+        },
+        "contact": {
+          "x": 1010,
+          "y": 341.90000000000003
+        },
+        "ground": {
+          "x": 1010,
+          "y": 416.00000000000006
+        }
+      },
+      "overflow": false,
+      "pausePassed": true,
+      "slowPassed": true,
+      "normalSpeedCompleted": true,
+      "cleanup": {
+        "disposed": true,
+        "frontDestroyed": true,
+        "swordsDestroyed": true,
+        "backDestroyed": true,
+        "timelineRemoved": true
+      },
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "contacts": [
+        {
+          "mode": "horizon",
+          "time": 0.55,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 0.46,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 0.78,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 1.1,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 1.42,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 1.72,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "meteor",
+          "time": 0.64,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.84,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.864,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.888,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.912,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.936,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.16,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.184,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.208,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.232,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.256,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.48,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.504,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.528,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.552,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.576,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.8,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.824,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.848,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.872,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.896,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.45,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.502,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.554,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.606,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.658,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 3.06,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "zenith",
+          "time": 0.72,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "zenith",
+          "time": 1.48,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "zenith",
+          "time": 2.65,
+          "intersects": true,
+          "groundError": 0
+        }
+      ],
+      "effectsOff": {
+        "ready": true,
+        "appearance": {
+          "enabled": false,
+          "behindBody": true,
+          "capeFrames": 6,
+          "bodyAlpha": 1,
+          "originalTexture": 329,
+          "rimColor": "WHITE",
+          "destroyed": false
+        },
+        "version": "CYAN_KNIGHT_VFX_REVIEW_20261020_V3",
+        "mode": "array",
+        "time": 1.05,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "at": 0.84,
+          "bank": "array",
+          "index": 4,
+          "facing": 1
+        },
+        "phase": "고속 관통 · 교차 연격",
+        "contactCount": 5,
+        "bladeContact": {
+          "u": 0,
+          "distance": 331.15800005435466,
+          "intersects": false
+        },
+        "phantomContacts": [
+          {
+            "index": 0,
+            "targetIndex": 0,
+            "grip": {
+              "x": 705.453024960162,
+              "y": 297.0891546228892
+            },
+            "tip": {
+              "x": 629.53585844379,
+              "y": 467.186897652114
+            },
+            "u": 0.9632551917962071,
+            "distance": 174.20993209563014,
+            "intersects": false
+          },
+          {
+            "index": 1,
+            "targetIndex": 0,
+            "grip": {
+              "x": 1063.4328499702203,
+              "y": 455.91113188448867
+            },
+            "tip": {
+              "x": 878.7803040064475,
+              "y": 431.4142826052943
+            },
+            "u": 1,
+            "distance": 133.18673137915295,
+            "intersects": false
+          },
+          {
+            "index": 2,
+            "targetIndex": 0,
+            "grip": {
+              "x": 917.0391571217491,
+              "y": 709.3241558344833
+            },
+            "tip": {
+              "x": 890.9820671741684,
+              "y": 524.885313886876
+            },
+            "u": 1,
+            "distance": 99.82172024620198,
+            "intersects": false
+          },
+          {
+            "index": 3,
+            "targetIndex": 0,
+            "grip": {
+              "x": 573.3847299748439,
+              "y": 607.1808633007222
+            },
+            "tip": {
+              "x": 744.626245613032,
+              "y": 533.8801015212774
+            },
+            "u": 1,
+            "distance": 46.82386544176607,
+            "intersects": false
+          },
+          {
+            "index": 4,
+            "targetIndex": 0,
+            "grip": {
+              "x": 705.2519558762352,
+              "y": 350.9844409609973
+            },
+            "tip": {
+              "x": 820.6216387548703,
+              "y": 497.2256616478949
+            },
+            "u": 1,
+            "distance": 45.368563779125644,
+            "intersects": false
+          }
+        ],
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "visibleSwords": 5,
+        "registeredTimelines": 0,
+        "bodyFrames": 64,
+        "effectFrames": 156,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "appearanceFrames": 6,
+        "newV3EffectFrames": 48,
+        "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 526.9898360655739,
+          "y": 628.2684426229508,
+          "height": 234
+        },
+        "contact": {
+          "x": 791.4098360655737,
+          "y": 531.9384426229508
+        },
+        "ground": {
+          "x": 791.4098360655737,
+          "y": 628.2684426229508
+        }
+      },
+      "cancel": {
+        "ready": true,
+        "appearance": {
+          "enabled": true,
+          "behindBody": true,
+          "capeFrames": 6,
+          "bodyAlpha": 1,
+          "originalTexture": 258,
+          "rimColor": "WHITE",
+          "destroyed": false
+        },
+        "version": "CYAN_KNIGHT_VFX_REVIEW_20261020_V3",
+        "mode": "array",
+        "time": 0,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "at": 0,
+          "bank": "dash",
+          "index": 0,
+          "facing": 1
+        },
+        "phase": "다섯 검 전개",
+        "contactCount": 0,
+        "bladeContact": {
+          "u": 1,
+          "distance": 303.7603514033906,
+          "intersects": false
+        },
+        "phantomContacts": [],
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "visibleSwords": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 64,
+        "effectFrames": 156,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "appearanceFrames": 6,
+        "newV3EffectFrames": 48,
+        "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 359.40983606557376,
+          "y": 628.2684426229508,
+          "height": 234
+        },
+        "contact": {
+          "x": 791.4098360655737,
+          "y": 531.9384426229508
+        },
+        "ground": {
+          "x": 791.4098360655737,
+          "y": 628.2684426229509
+        }
+      },
+      "overflow": false,
+      "pausePassed": true,
+      "slowPassed": true,
+      "normalSpeedCompleted": true,
+      "cleanup": {
+        "disposed": true,
+        "frontDestroyed": true,
+        "swordsDestroyed": true,
+        "backDestroyed": true,
+        "timelineRemoved": true
+      },
+      "errors": []
+    }
+  ]
+}

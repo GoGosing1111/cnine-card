@@ -1,0 +1,78 @@
+{
+  "appearanceUnchanged": true,
+  "files": [
+    {
+      "file": "assets/sources/source-art-v3.png",
+      "unchanged": true
+    },
+    {
+      "file": "assets/locked/approved-blade.png",
+      "unchanged": true
+    },
+    {
+      "file": "assets/appearance/white-mantle-v3.png",
+      "unchanged": true
+    },
+    {
+      "file": "source/WhiteAuraAppearance.js",
+      "unchanged": true
+    },
+    {
+      "file": "assets/atlases/idle.png",
+      "unchanged": true
+    },
+    {
+      "file": "assets/atlases/dash.png",
+      "unchanged": true
+    },
+    {
+      "file": "assets/atlases/hit.png",
+      "unchanged": true
+    },
+    {
+      "file": "assets/atlases/defeat.png",
+      "unchanged": true
+    },
+    {
+      "file": "assets/atlases/horizon.png",
+      "unchanged": true
+    },
+    {
+      "file": "assets/atlases/flurry.png",
+      "unchanged": true
+    },
+    {
+      "file": "assets/atlases/meteor.png",
+      "unchanged": true
+    },
+    {
+      "file": "assets/atlases/array.png",
+      "unchanged": true
+    },
+    {
+      "file": "assets/atlases/zenith.png",
+      "unchanged": true
+    }
+  ],
+  "newEffects": [
+    {
+      "key": "dragon-v3",
+      "sha256Matches": true
+    },
+    {
+      "key": "cleave-v3",
+      "sha256Matches": true
+    },
+    {
+      "key": "burst-v3",
+      "sha256Matches": true
+    },
+    {
+      "key": "flight-v3",
+      "sha256Matches": true
+    }
+  ],
+  "bodyAndWeaponCheck": "qa/asset-check.json; unchanged since full pixel verification",
+  "alphaEdges": "qa/effects-v3/alpha-edges.json",
+  "effectFrames": 156
+}

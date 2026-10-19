@@ -1,60 +1,64 @@
-# 청광 기사 전투 연출 — 천검 포위 V2 검수 시안
+# 청광 기사 — V3 스킬 이펙트 검수
 
-## 최신 외형 수정 — 흰색 아우라 망토 · 흰색 네온
+2026-10-20 사용자 “ㅇㅋ일단여기까지 승인 근데 문제가 스킬이 여전히 부족함”에 따라 **현재 캐릭터·흰빛 망토·흰 네온 외형은 승인**으로 고정했다. 스킬 이펙트는 별도 수정 시안이다. 승인 범위와 13개 원본/코드/몸 아틀라스의 해시는 [appearance-approval-20261020.json](appearance-approval-20261020.json)에 있다. 원본 검과 몸 64프레임, 망토 6프레임을 다시 그리거나 몸·무기 비율을 바꾸지 않았다.
 
-2026-10-20 사용자 요청으로 흰빛 망토와 흰 네온 외곽선을 실제 전투 프리뷰에 추가했다. 망토는 전용 ImageGen 6프레임 RGBA 시트를 등 뒤에 배치하고, 실제 몸 자세·좌우 방향·이동을 따른다. 밝은 외곽선과 부드러운 흰 빛 번짐은 원본 몸의 알파 윤곽에서 생성하며 원본 갑옷·얼굴·칼 픽셀, 몸 비율과 기술 경로는 유지한다. 공격 이펙트를 끄면 외형 광원도 숨겨 비교할 수 있다.
+## 이번 변경
 
-- [현재 외형 확대](qa/white-aura/appearance-preview.png), [흰빛 망토 1배속 영상](review-white-aura-v1.webm), [PC/모바일 확인](qa/white-aura/browser-check.json).
-- 최종 생성 리소스: `assets/appearance/white-mantle-v3.png`. **built-in ImageGen** 사용. [프롬프트 1](prompt-white-mantle-v1.txt) → [투구 제거·흰색 보정](prompt-white-mantle-v2.txt) → [프레임 여백 보정](prompt-white-mantle-v3.txt). 생성 원본과 해시·부착점은 `white-aura-appearance.json`에 보존한다. 최초 투구가 섞인 초안은 사용하지 않는다.
-- `source/WhiteAuraAppearance.js`는 기존 V3 유닛의 몸 뒤에서만 렌더링한다. 기존 GSAP 시간으로 망토 프레임을 재생하며 종료 시 새 필터와 레이어도 정리한다. 몸 64프레임과 원본 검 55,824픽셀 동일성을 다시 확인했다.
-- 상태: 외형 수정 시안, 사용자 시각 승인 대기. 아래 V2 영상은 이번 외형 추가 전의 기술 연출 기록이다.
+- 후속 사용자 지시로 **스킬 자동 확대를 기본 OFF**로 변경했다. 기술 전환·재생 중 전장 카메라를 고정한다. 확대 보기 버튼을 직접 켰을 때만 기존 확대를 사용할 수 있다.
 
-사용자가 첫 천검 포위의 연출 품질을 반려했다. V2에서는 원본 검 다섯 자루의 횡방향 베기, 회전, 짧은 적중 정지, 상공 재정렬, 연속 내려찍기, 마지막 동시 수렴을 다시 구성했다. 얇은 원형 궤적 중심이던 효과를 새로 생성한 청색·금색 연속 검격으로 교체하고, 전개와 공격 구간의 카메라 거리를 분리했다. 모바일에서는 뒤로 뻗은 실제 검날까지 화면 안에 들어오도록 여백을 확보했다.
+- **청광 횡단 / 섬광 연참:** 가는 선 중심 효과를 두꺼운 청색·금색 참격, 적중 파열과 여러 크기의 파편으로 교체했다.
+- **용궤 검격:** 이전 낙성 검격의 공중 낙하를 제거했다. 등록된 지상 횡베기 포즈를 사용하고, 지면에서 용의 머리와 나선 몸통을 이루는 검기가 앞으로 흐른다. 돌과 용 검기는 몸 뒤에, 타격 파열은 앞에 놓는다.
+- **천검 포위:** 원본 칼 다섯 자루를 유지한다. 각 교차 베기의 진입/적중/통과 구간은 225ms에서 87ms로 줄이고 이동 거리도 늘렸다. 진입 속도는 약 3배다. 실제 칼끝과 이동 방향에 새 전용 잔상 원화를 붙이고, 4차 교차 → 빠른 연속 관통 → 5검 수렴 폭쇄로 연결한다.
+- **창천 종단:** 지상 교차 검격 2회 → 크게 펼쳐지는 용 검기 → 종단 폭쇄로 변경했다. 발을 지면에 둔 몸 포즈를 사용한다.
+- 새 효과 4종 × 12프레임 = 48프레임, 총 효과 156프레임. 원화 시트에서 실제 형태·파편·흐름이 바뀐다. 큰 효과 끝이 셀 경계에서 잘리던 초기 V3 시트는 보존하고, ImageGen으로 여백을 다시 만든 시트를 사용한다.
+- 재생 속도 선택에 0.4×를 추가했다. 승인 외형, 기존 공용 V3/PixiJS/GSAP 및 카드 도크를 사용한다.
 
-**새 시안은 사용자 시각 승인 대기다.** 기존 V1을 승인본으로 간주하지 않는다. 이 폴더는 실제 공용 V3 전장에서 재생하는 시각 프리뷰이며, 이름은 가칭이다. 등급·피해·쿨다운·대상 수·획득·편성·운영 전투 활성화는 지정하거나 배포하지 않았다. 무음이다. 현재 확인 대상은 공용 토벌 몬스터 1체이며 다수 적에 대한 서버 피해 검증을 뜻하지 않는다.
+## 확인할 결과
 
-- 프리뷰: `http://127.0.0.1:8991/preview/mercenary-cyan-knight-battle-20261020-v1/`
-- 천검 포위 1배속: [review-array-v2.webm](review-array-v2.webm)
-- 일반 기술 3개 + 광역기 2개 1배속: [review-all-skills-v2.webm](review-all-skills-v2.webm)
-- 비교 검수: [PC 교차 베기](qa/desktop-array-cross.png), [모바일 검 전개](qa/mobile-array-fan.png), [모바일 효과 OFF](qa/mobile-array-effects-off.png)
+- [프리뷰](http://127.0.0.1:8991/preview/mercenary-cyan-knight-battle-20261020-v1/)
+- [5개 스킬 실제 1배속](review-effects-v3.webm)
+- [용궤 검격·천검 포위 실제 0.4배속](review-effects-v3-slow.webm)
+- [자동 확대 OFF 최종 화면](qa/effects-v3/ui-camera-fixed.png), [카메라 고정 검사](qa/effects-v3/camera-fixed.json)
+- 아래 확대 상세 캡처는 효과 검수용이다. 기본 프리뷰와 최종 영상은 자동 확대 OFF 상태다.
+- [지면 용 검기](qa/effects-v3/desktop-dragon.png), [PC 수렴 폭쇄](qa/effects-v3/desktop-array-finish.png), [모바일 수렴 폭쇄](qa/effects-v3/mobile-array-finish.png)
+- [자산 검증](qa/asset-check.json), [PC·모바일 접점과 제어](qa/effects-v3/browser-check.json)
 
-## 제작 기준과 참고
+기술명은 시안용 가칭이다. 이 결과는 공용 토벌 몬스터 1체를 사용한 **전투 연출 프리뷰**이며, 서버 피해·쿨다운·등급·획득·편성·운영 전투 활성화는 변경하지 않았다. 무음이다. 기능 검사 결과는 새 스킬의 사용자 시각 승인이 아니다.
 
-사용자 제공 V3 전신을 기준으로 긴 다리·작은 헬멧·몸통 비율을 유지했다. 목을 약 15–20% 줄이고 손가락이 손잡이를 감싸도록 새 대기 작화를 만들었다. V3는 후속 전투 제작 지시의 기준이며 신규 전투 작화 전체의 승인으로 확대하지 않는다.
+## 실제 참고와 제작 기록
 
-[던파TV의 참고 영상](https://www.youtube.com/watch?v=hsbDPa9ViY8)의 실제 화면을 브라우저에서 확인했다. 다중 검 장면은 12.6–15.8초를 0.4초 간격으로 다시 확인했고 29–31초 반복도 확인했다. 다섯 검의 전개 → 빠른 교차 베기 → 위로 회수 → 하강과 수렴이라는 흐름을 반영했다. 영상의 그림·음원·게임 리소스를 결과물에 복사하지 않았다. 원본 메카와 검, 새로 생성한 몸·효과를 사용한다. 상세 관찰과 기술 구성은 [production-plan.json](production-plan.json)에 있다.
+사용자가 열어둔 [던파TV 영상](https://www.youtube.com/watch?v=hsbDPa9ViY8)은 6.058초에서 일시정지, 0.4× 상태였다. 실제 0.4×로 5.56–7.10초의 지면 회전 검기와 12.60–15.58초의 5검 연격을 재생하여 확인한 뒤 원래 위치·속도·일시정지 상태로 복원했다. 사용자 첨부의 큰 다색 파열과 지면 검기 이미지는 [assets/references/vfx-v3](assets/references/vfx-v3)에 무가공 보존했다.
 
-이미지는 **built-in ImageGen**으로 생성했다. 전체 입력과 출력 이력은 [generation-provenance.json](generation-provenance.json), 몸 프롬프트는 [body-prompts-revision-v2.json](body-prompts-revision-v2.json), 목·파지 수정은 [prompt-idle-neck-grip-v2.txt](prompt-idle-neck-grip-v2.txt), 효과는 [fx-prompts.json](fx-prompts.json), 궁극기 V2 효과는 [prompt-vortex-v2.txt](prompt-vortex-v2.txt)에 보존한다. 원본 파일과 SHA-256은 [manifest.json](manifest.json)에 연결한다.
+영상의 그림·음원·게임 리소스는 결과물에 복사하지 않았다. 새 주 효과는 **built-in ImageGen**으로 제작했다. 프롬프트/참고 시각은 [fx-v3-prompts.json](fx-v3-prompts.json), 여백 수정 프롬프트는 [fx-v3-padding-prompts.json](fx-v3-padding-prompts.json), 생성 출처는 [fx-v3-generation.json](fx-v3-generation.json), 최종 파일·프레임·피벗·해시는 [manifest.json](manifest.json)에 있다.
 
 ## 11단계 증빙
 
-| 단계 | 실행 및 근거 |
+| 단계 | 이번 적용 |
 | --- | --- |
-| 01 원본과 범위 고정 | `assets/sources/source-art-v3.png`, `sword-lock.json`, `production-plan.json`. 원화 SHA-256 `D9EBF2DD04DE55D7EBA230617BBE81B11C1EAF6E728D61BB32D892ECC82D0159`. |
-| 02 동작 설계 | `motion.mjs`의 준비·접근·타격·회복 시간과 지상/공중 경로. 일반 3종 1.65/2.6/2.7초, 광역 2종 3.8/4.6초. 천검 포위는 5검·4차 교차 베기·재정렬·하강·수렴. |
-| 03 몸 연속 작화 | `assets/sources/body-*.png` 16시트, 64개 고유 몸 그림. 대기/대시/피격/퇴장 각 4, 일반 기술 각 8, 광역기 각 12. `qa/source-report.json`의 4개 몸 분리와 가장자리 잘림 검사. 잘린 연참/검진 시트는 재생성하고 반려본도 보존했다. |
-| 04 원본 무기 합성 | `extract-approved-blade.mjs`, `assets/locked/blade-provenance.json`, `pack-assets.mjs`. 원화의 55,824개 RGBA 픽셀을 그대로 선택했다. 단일 검에 이동·회전·균일 배율만 적용하고 손가락 원화가 파지부 앞에 오도록 합성했다. `qa/asset-check.json`에서 원화 픽셀 일치 확인. |
-| 05 단계별 효과 작화 | 9시트, 108프레임. 참격·연참·낙하·지면·분열·잔향을 분리했다. V2는 `fx-vortex-v2.png`를 새로 생성해 반복 베기/상승/하강/수렴 구간에 연결했다. 이전 원형 궤적은 천검 포위의 주 효과에서 제거했다. |
-| 06 알파·피벗·패킹 | `pose-registration.json`에 64개 발·파지점·칼 각도 등록. `pack-assets.mjs`가 768px 셀과 동작별 아틀라스를 만든다. 모든 몸의 물리 기준 높이 360, 모든 손의 무기 배율 동일. 웅크린 포즈를 바운딩 박스 높이로 늘이지 않는다. V2 효과 셀 가장자리 구분선은 3px 거터로 제외했다. |
-| 07 접점·지면 검증 | 실제 V3 적 몸통과 검날 선분을 검사한다. 횡베기 각도, 연참의 준비/타격 포즈 순서, 창천 종단의 첫 타격 위치를 수정했다. PC·모바일 각각 35개 시점에서 타격 통과 및 지면 기준 오차 확인. 도약은 명시적인 lift 경로다. |
-| 08 공용 V3 실제 재생 | `source/preview.js`, `source/KnightFX.js`, `battle.html`. 기존 BattleEngine·카드 도크·계정 전투 유닛 슬롯·전장·몬스터를 사용한다. 별도 전투 렌더러 없이 PixiJS 8.20.0 1개, GSAP 3.13.0 1개. 타임라인을 공용 엔진에 등록하고 정리한다. `build-report.json` 참조. |
-| 09 PC·모바일 검수 | `qa-browser.mjs`, `qa/browser-check.json`, `qa/*-array-*.png`. PC 1440×1000, 모바일 390×844에서 1배속 종료, 0.25배속, 2배속 중 일시정지, 시크, 효과 OFF, 중단, 페이지 종료를 확인했다. 효과 OFF에서도 원본 5검은 남겨 접점을 볼 수 있다. |
-| 10 결과·증빙 보존 | 본 README, 모든 원본/프롬프트/해시/반려 이력, 재현 스크립트, 1배속 WebM 2개와 검수 PNG. `review-v2.json`에 변경과 상태를 기록한다. |
-| 11 사용자 시각 승인 | **대기.** 첫 천검 포위는 반려됐으며 V2도 기능 검사 통과를 시각 승인으로 기록하지 않는다. 사용자 확인 전 운영 연결·승인본 잠금 없음. |
+| 01 원본과 범위 고정 | appearance-approval-20261020.json. 승인 외형과 원본 칼을 해시로 잠금. 스킬 시각 승인 제외. |
+| 02 동작 설계 | motion.mjs. 지상 횡베기/용궤, 빠른 5검 4차 연격/관통/수렴, 지상 광역 마무리. 일반 1.65/2.6/2.7초, 광역 3.8/4.0초. |
+| 03 몸 연속 작화 | 기존 생성·등록된 64프레임 보존. 지상 기술에는 horizon/flurry/array의 실제 지상 자세를 재배열. 공중 포즈를 땅에 붙여 사용하지 않음. 기존 body-prompts-revision-v2.json, pose-registration.json 참조. |
+| 04 원본 무기 합성 | sword-lock.json, assets/locked/blade-provenance.json. 55,824개 원화 RGBA 픽셀 동일. 5검도 같은 단일 래스터와 균일 배율. |
+| 05 단계별 효과 | dragon-v3 / cleave-v3 / burst-v3 / flight-v3 각 12개 새 작화. 불꽃 부피·검궤적·충돌·흩어짐 변화. flight는 실제 칼끝과 이동 방향을 추적. |
+| 06 알파·피벗·패킹 | register-effects-v3.mjs, qa/effects-v3/registration.json. 4×3 시트, 투명 여백, 용 지면 피벗과 투사체 선두 피벗 등록. 셀 여백 수정 전 원본 별도 보존. |
+| 07 접점·지면 | PC·모바일 각 36개 시각 적중에서 실제 검날/적 몸통 교차. 새 용궤와 창천 동작은 지상 높이 0. 서버 타격 횟수를 재정의한 것이 아님. |
+| 08 공용 V3 | source/KnightFX.js / source/preview.js. 단일 Pixi 렌더러와 GSAP 시계. 같은 시각으로 몸·검·잔상·용·충돌·카메라 재생. |
+| 09 실제 검수 | PC 1440×1000, 모바일 390×844. 1× 완료, 0.4×, 2×/일시정지, 시크, 효과 OFF, 취소, 페이지 이탈과 콘솔 오류 확인. 큰 파열 셀 경계 잘림을 실제 모바일 검수에서 발견하고 원화 수정. |
+| 10 결과 보존 | 이 문서, 생성 프롬프트·원본·해시·초기 잘림 이력, 재현 코드, 최종 WebM과 PNG. |
+| 11 사용자 시각 승인 | 캐릭터·흰빛 망토·흰 네온은 승인. **V3 스킬은 사용자 확인 대기.** |
 
 ## 재현
 
-프로젝트 루트에서 실행한다. `setup-pipeline.mjs`는 최초 복제 이력이며 이후 수정을 덮어쓰므로 다시 실행하지 않는다.
+프로젝트 루트에서 실행한다. 외형이 바뀌지 않았으므로 body 재생성/재패킹은 필요 없다. setup-pipeline.mjs는 최초 복제 이력이며 다시 실행하면 현재 수정을 덮어쓴다.
 
-```powershell
+~~~powershell
 node preview/mercenary-cyan-knight-battle-20261020-v1/serve.mjs
-# 자산 수정 시에만 재패킹
-node preview/mercenary-cyan-knight-battle-20261020-v1/pack-assets.mjs
-node preview/mercenary-cyan-knight-battle-20261020-v1/add-vortex.mjs
+node preview/mercenary-cyan-knight-battle-20261020-v1/register-effects-v3.mjs
 node preview/mercenary-cyan-knight-battle-20261020-v1/build.mjs
 node preview/mercenary-cyan-knight-battle-20261020-v1/verify-assets.mjs
-node preview/mercenary-cyan-knight-battle-20261020-v1/qa-browser.mjs
-node preview/mercenary-cyan-knight-battle-20261020-v1/record-review.mjs
-```
+node preview/mercenary-cyan-knight-battle-20261020-v1/qa-browser-v3.mjs
+node preview/mercenary-cyan-knight-battle-20261020-v1/record-review-v3.mjs
+node preview/mercenary-cyan-knight-battle-20261020-v1/record-review-v3.mjs --slow
+~~~
 
-미리보기 조작부는 기존 X 프리뷰를 유지했다. 전투 모션 요청 때 별도 미리보기 UI 이미지 제작으로 범위를 확장하지 않는 `docs/project-ui-image-art-standard.md`의 2026-10-18 규정을 적용했다. 이 시안용 기술을 게임 피해 판정에 연결하는 코드는 포함하지 않는다.
+기존 이력: [V2 기록](review-v2.json), [V2 1배속](review-all-skills-v2.webm), [흰빛 망토 기록](white-aura-appearance.json), [흰빛 망토 영상](review-white-aura-v1.webm). 기존 버튼·조작부는 유지했다. 모션 요청에 별도 미리보기 UI 이미지 제작을 추가하지 않는 docs/project-ui-image-art-standard.md의 2026-10-18 규정을 적용한다.

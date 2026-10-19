@@ -42,5 +42,6 @@
     "prompt-white-mantle-v2.txt",
     "prompt-white-mantle-v3.txt"
   ],
-  "visualApproval": false
+  "visualApproval": true,
+  "approvalRecord": "appearance-approval-20261020.json"
 }

@@ -1,0 +1,44 @@
+{
+  "tool": "built-in image_gen",
+  "reason": "Initial peak frames clipped at cell edges during mobile visual review",
+  "specs": [
+    {
+      "key": "dragon-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-f2c74c28-3482-4e4e-9ccd-f3eef6179d12.png",
+      "prompt": "Edit target: the supplied 12-frame 4-column by 3-row TRANSPARENT game VFX atlas. This is a technical framing correction, not a redesign. Preserve the same colors, visual richness, animation sequence, forms, impact direction and transparent background. CRITICAL: the current effects touch cell edges and are clipped during sprite extraction. Redraw/reframe EACH of the twelve effects much smaller INSIDE ITS OWN EQUAL CELL, about 65 percent of the present extent. Leave a continuous fully transparent margin of at least 15 percent of cell width and height on ALL FOUR SIDES of EACH cell, including the brightest peak frames. Every tip, spark, horn, coil, stone, glow and fading tail must end softly well inside that safe inner rectangle. Keep all twelve separate consecutive drawings, exact FOUR equal columns and THREE equal rows on a 1536x1024 landscape canvas. Absolutely no border, grid line, letters, background color or checkerboard. Do not put one large margin around the whole sheet while keeping cells touching: EACH CELL individually needs its own clean padding. All frame centers aligned, scale constant across animation except the effect's natural expansion/contraction. Pure transparent RGBA outside each isolated effect. Do not crop or erase the tips to gain padding, reveal the complete tapered ends. For the ground dragon keep the rock footprint on the same within-cell groundline; for the flying wake keep its white leading point at the same relative position in every cell."
+    },
+    {
+      "key": "cleave-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-eb13e237-635f-4f24-be6e-04c4c2778934.png",
+      "prompt": "Edit target: the supplied 12-frame 4-column by 3-row TRANSPARENT game VFX atlas. This is a technical framing correction, not a redesign. Preserve the same colors, visual richness, animation sequence, forms, impact direction and transparent background. CRITICAL: the current effects touch cell edges and are clipped during sprite extraction. Redraw/reframe EACH of the twelve effects much smaller INSIDE ITS OWN EQUAL CELL, about 65 percent of the present extent. Leave a continuous fully transparent margin of at least 15 percent of cell width and height on ALL FOUR SIDES of EACH cell, including the brightest peak frames. Every tip, spark, horn, coil, stone, glow and fading tail must end softly well inside that safe inner rectangle. Keep all twelve separate consecutive drawings, exact FOUR equal columns and THREE equal rows on a 1536x1024 landscape canvas. Absolutely no border, grid line, letters, background color or checkerboard. Do not put one large margin around the whole sheet while keeping cells touching: EACH CELL individually needs its own clean padding. All frame centers aligned, scale constant across animation except the effect's natural expansion/contraction. Pure transparent RGBA outside each isolated effect. Do not crop or erase the tips to gain padding, reveal the complete tapered ends. For the ground dragon keep the rock footprint on the same within-cell groundline; for the flying wake keep its white leading point at the same relative position in every cell."
+    },
+    {
+      "key": "burst-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-e6077fee-cc16-4707-bbbc-a2a07562674f.png",
+      "prompt": "Edit target: the supplied 12-frame 4-column by 3-row TRANSPARENT game VFX atlas. This is a technical framing correction, not a redesign. Preserve the same colors, visual richness, animation sequence, forms, impact direction and transparent background. CRITICAL: the current effects touch cell edges and are clipped during sprite extraction. Redraw/reframe EACH of the twelve effects much smaller INSIDE ITS OWN EQUAL CELL, about 65 percent of the present extent. Leave a continuous fully transparent margin of at least 15 percent of cell width and height on ALL FOUR SIDES of EACH cell, including the brightest peak frames. Every tip, spark, horn, coil, stone, glow and fading tail must end softly well inside that safe inner rectangle. Keep all twelve separate consecutive drawings, exact FOUR equal columns and THREE equal rows on a 1536x1024 landscape canvas. Absolutely no border, grid line, letters, background color or checkerboard. Do not put one large margin around the whole sheet while keeping cells touching: EACH CELL individually needs its own clean padding. All frame centers aligned, scale constant across animation except the effect's natural expansion/contraction. Pure transparent RGBA outside each isolated effect. Do not crop or erase the tips to gain padding, reveal the complete tapered ends. For the ground dragon keep the rock footprint on the same within-cell groundline; for the flying wake keep its white leading point at the same relative position in every cell."
+    },
+    {
+      "key": "flight-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-6e71b17e-535c-40ea-8117-4529e00b4e25.png",
+      "prompt": "Edit target: the supplied 12-frame 4-column by 3-row TRANSPARENT game VFX atlas. This is a technical framing correction, not a redesign. Preserve the same colors, visual richness, animation sequence, forms, impact direction and transparent background. CRITICAL: the current effects touch cell edges and are clipped during sprite extraction. Redraw/reframe EACH of the twelve effects much smaller INSIDE ITS OWN EQUAL CELL, about 65 percent of the present extent. Leave a continuous fully transparent margin of at least 15 percent of cell width and height on ALL FOUR SIDES of EACH cell, including the brightest peak frames. Every tip, spark, horn, coil, stone, glow and fading tail must end softly well inside that safe inner rectangle. Keep all twelve separate consecutive drawings, exact FOUR equal columns and THREE equal rows on a 1536x1024 landscape canvas. Absolutely no border, grid line, letters, background color or checkerboard. Do not put one large margin around the whole sheet while keeping cells touching: EACH CELL individually needs its own clean padding. All frame centers aligned, scale constant across animation except the effect's natural expansion/contraction. Pure transparent RGBA outside each isolated effect. Do not crop or erase the tips to gain padding, reveal the complete tapered ends. For the ground dragon keep the rock footprint on the same within-cell groundline; for the flying wake keep its white leading point at the same relative position in every cell."
+    }
+  ],
+  "outputs": [
+    {
+      "key": "dragon-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-1b1e448f-fd68-45f9-803b-14c6ab96b8b3.png"
+    },
+    {
+      "key": "cleave-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-46d5cf7a-6214-4661-ba86-f32eb7ae7ec8.png"
+    },
+    {
+      "key": "burst-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-8e95d783-d1db-4ac9-9ad9-368a804193a1.png"
+    },
+    {
+      "key": "flight-v3",
+      "path": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-9f043e74-69a2-4609-b87b-723190962ec7.png"
+    }
+  ]
+}

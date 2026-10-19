@@ -1,0 +1,30 @@
+[
+  {
+    "name": "desktop",
+    "base": [
+      1,
+      1,
+      800,
+      410,
+      800,
+      410
+    ],
+    "stable": true,
+    "samples": 46,
+    "button": "false"
+  },
+  {
+    "name": "mobile",
+    "base": [
+      1,
+      1,
+      575.4098360655737,
+      861.639344262295,
+      575.4098360655737,
+      861.639344262295
+    ],
+    "stable": true,
+    "samples": 46,
+    "button": "false"
+  }
+]

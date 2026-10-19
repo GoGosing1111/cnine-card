@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-20",
+  "version": "CYAN_KNIGHT_VFX_REVIEW_20261020_V3",
+  "appearanceApproval": "appearance-approval-20261020.json",
+  "skillVisualApproval": false,
+  "userRequests": [
+    "압도적인 이펙트",
+    "검 투사체 속도와 궤적 보강",
+    "공중 강타 대신 지상 용 궤적",
+    "스킬 사용 시 자동 확대 OFF"
+  ],
+  "defaultCamera": "FIXED_FULL_BATTLEFIELD",
+  "newEffectFrames": 48,
+  "totalEffectFrames": 156,
+  "groundedSkills": [
+    "meteor",
+    "zenith"
+  ],
+  "originalWeaponPreserved": true,
+  "checks": {
+    "contactAndControls": "qa/effects-v3/browser-check.json",
+    "finalAssetHashes": "qa/effects-v3/final-assets.json",
+    "cellEdges": "qa/effects-v3/alpha-edges.json",
+    "fixedCamera": "qa/effects-v3/camera-fixed.json"
+  },
+  "videos": [
+    "review-effects-v3.webm",
+    "review-effects-v3-slow.webm"
+  ],
+  "liveEnabled": false
+}

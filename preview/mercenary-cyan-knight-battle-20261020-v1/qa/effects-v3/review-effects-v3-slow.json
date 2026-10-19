@@ -1,0 +1,19 @@
+{
+  "file": "review-effects-v3-slow.webm",
+  "speed": 0.4,
+  "events": [
+    {
+      "mode": "meteor",
+      "at": 0.199
+    },
+    {
+      "mode": "array",
+      "at": 7.412
+    }
+  ],
+  "duration": 17.408800000011922,
+  "bytes": 15033956,
+  "mime": "video/webm;codecs=vp9",
+  "source": "actual V3 canvas / GSAP clock",
+  "visualApproval": false
+}
