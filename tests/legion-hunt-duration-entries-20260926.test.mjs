@@ -90,13 +90,15 @@ test('unlimited entry depends only on the authenticated OWNER role; ordinary dai
 test('every difficulty includes its boss within 7 minutes; strong accounts cannot acknowledge it at 2x speed',async()=>{
   const f=await legionFixture({withMercenary:true});
   try{
-    const snapshot=(await f.call('legion-hunt/bootstrap')).body.loadout;
+    const loadout=(await f.call('legion-hunt/bootstrap')).body.loadout;
+    // A deliberately strong account isolates the authoritative clock from
+    // win-rate balance. Enemy attack percentages cannot be reduced below 100.
+    const snapshot={...loadout,cards:loadout.cards.map(card=>({...card,power:100000000,effectivePower:100000000}))};
     for(const d of DIFFICULTIES){
-      // Keep this timing fixture alive until the boss without asserting a
-      // particular account's win rate after unrelated combat balance updates.
-      let now=1000;const start=performance.now(),s=createHuntSession({snapshot,difficulty:d.id,dropPolicy:{attack:1},seed:1731,now:()=>now});
+      let now=1000;const start=performance.now(),s=createHuntSession({snapshot,difficulty:d.id,seed:1731,now:()=>now});
       const p=s.payload,t=p.battleV2.result.timeline,boss=t.find(e=>e.finalBoss),saved=s.exportState();
       assert.equal(d.huntDurationMs+d.bossLimitMs,420000);assert.equal(d.limitMs,420000);
+      assert.ok(boss,'strong timing fixture reaches the final boss');
       assert.equal(boss.combatAtMs,d.huntDurationMs);assert.equal(t.filter(e=>e.finalBoss).length,1);
       assert.ok(!t.some(e=>e.type==='RESULT'&&e.combatAtMs<d.huntDurationMs));
       assert.ok(t.every(e=>e.combatAtMs<=420000));
