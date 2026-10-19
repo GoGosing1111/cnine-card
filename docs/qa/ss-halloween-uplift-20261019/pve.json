@@ -1,0 +1,439 @@
+{
+  "scope": "CANONICAL_PVE_SIMULATION_NOT_LIVE_PLAYER_STATISTICS",
+  "policyFingerprint": "d9f534f06d904122aaac588d1dab7f07e716dfb65237d5a91f9b745d3d49a3bf",
+  "cases": [
+    {
+      "id": "entry",
+      "power": 250000,
+      "boss": 2000000,
+      "level": 1
+    },
+    {
+      "id": "high",
+      "power": 20000000,
+      "boss": 5000000000,
+      "level": 1
+    },
+    {
+      "id": "grown",
+      "power": 20000000,
+      "boss": 50000000000,
+      "level": 10
+    }
+  ],
+  "count": 8,
+  "total": 192,
+  "rows": [
+    {
+      "code": "V-057",
+      "scenario": "entry",
+      "total": 8,
+      "clears": 8,
+      "damage": 36368640,
+      "shieldGranted": 0,
+      "casts": 24,
+      "turns": 8,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+        "MERCENARY_END",
+        "MERCENARY_IMPERIAL_ARROW_RAIN"
+      ],
+      "averageDamage": 4546080,
+      "averageTurns": 1
+    },
+    {
+      "code": "V-057",
+      "scenario": "high",
+      "total": 8,
+      "clears": 8,
+      "damage": 87964800000,
+      "shieldGranted": 0,
+      "casts": 48,
+      "turns": 41,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+        "MERCENARY_END",
+        "MERCENARY_IMPERIAL_ARROW_RAIN"
+      ],
+      "averageDamage": 10995600000,
+      "averageTurns": 5.125
+    },
+    {
+      "code": "V-057",
+      "scenario": "grown",
+      "total": 8,
+      "clears": 8,
+      "damage": 879648000000,
+      "shieldGranted": 0,
+      "casts": 48,
+      "turns": 33,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_IMPERIAL_ARROW_VOLLEY",
+        "MERCENARY_END",
+        "MERCENARY_IMPERIAL_ARROW_RAIN"
+      ],
+      "averageDamage": 109956000000,
+      "averageTurns": 4.125
+    },
+    {
+      "code": "V-980",
+      "scenario": "entry",
+      "total": 8,
+      "clears": 8,
+      "damage": 36368640,
+      "shieldGranted": 0,
+      "casts": 16,
+      "turns": 16,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 4546080,
+      "averageTurns": 2
+    },
+    {
+      "code": "V-980",
+      "scenario": "high",
+      "total": 8,
+      "clears": 8,
+      "damage": 77800800000,
+      "shieldGranted": 0,
+      "casts": 118,
+      "turns": 190,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 9725100000,
+      "averageTurns": 23.75
+    },
+    {
+      "code": "V-980",
+      "scenario": "grown",
+      "total": 8,
+      "clears": 8,
+      "damage": 712446581224,
+      "shieldGranted": 0,
+      "casts": 174,
+      "turns": 295,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 89055822653,
+      "averageTurns": 36.875
+    },
+    {
+      "code": "V-981",
+      "scenario": "entry",
+      "total": 8,
+      "clears": 8,
+      "damage": 36368640,
+      "shieldGranted": 0,
+      "casts": 16,
+      "turns": 16,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 4546080,
+      "averageTurns": 2
+    },
+    {
+      "code": "V-981",
+      "scenario": "high",
+      "total": 8,
+      "clears": 8,
+      "damage": 82051200000,
+      "shieldGranted": 0,
+      "casts": 64,
+      "turns": 112,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 10256400000,
+      "averageTurns": 14
+    },
+    {
+      "code": "V-981",
+      "scenario": "grown",
+      "total": 8,
+      "clears": 8,
+      "damage": 820512000000,
+      "shieldGranted": 0,
+      "casts": 57,
+      "turns": 112,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 102564000000,
+      "averageTurns": 14
+    },
+    {
+      "code": "V-982",
+      "scenario": "entry",
+      "total": 8,
+      "clears": 8,
+      "damage": 36368640,
+      "shieldGranted": 0,
+      "casts": 16,
+      "turns": 16,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 4546080,
+      "averageTurns": 2
+    },
+    {
+      "code": "V-982",
+      "scenario": "high",
+      "total": 8,
+      "clears": 8,
+      "damage": 66249951907,
+      "shieldGranted": 0,
+      "casts": 160,
+      "turns": 310,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 8281243988.375,
+      "averageTurns": 38.75
+    },
+    {
+      "code": "V-982",
+      "scenario": "grown",
+      "total": 8,
+      "clears": 8,
+      "damage": 587646260365,
+      "shieldGranted": 0,
+      "casts": 203,
+      "turns": 401,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 73455782545.625,
+      "averageTurns": 50.125
+    },
+    {
+      "code": "V-983",
+      "scenario": "entry",
+      "total": 8,
+      "clears": 8,
+      "damage": 35640265,
+      "shieldGranted": 0,
+      "casts": 17,
+      "turns": 26,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 4455033.125,
+      "averageTurns": 3.25
+    },
+    {
+      "code": "V-983",
+      "scenario": "high",
+      "total": 8,
+      "clears": 8,
+      "damage": 55144173115,
+      "shieldGranted": 0,
+      "casts": 153,
+      "turns": 369,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 6893021639.375,
+      "averageTurns": 46.125
+    },
+    {
+      "code": "V-983",
+      "scenario": "grown",
+      "total": 8,
+      "clears": 8,
+      "damage": 480338404131,
+      "shieldGranted": 0,
+      "casts": 183,
+      "turns": 440,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 60042300516.375,
+      "averageTurns": 55
+    },
+    {
+      "code": "V-984",
+      "scenario": "entry",
+      "total": 8,
+      "clears": 8,
+      "damage": 32692157,
+      "shieldGranted": 200554644,
+      "casts": 68,
+      "turns": 190,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_BUFF",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 4086519.625,
+      "averageTurns": 23.75
+    },
+    {
+      "code": "V-984",
+      "scenario": "high",
+      "total": 8,
+      "clears": 8,
+      "damage": 63014933461,
+      "shieldGranted": 41998555320,
+      "casts": 178,
+      "turns": 517,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_BUFF",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 7876866682.625,
+      "averageTurns": 64.625
+    },
+    {
+      "code": "V-984",
+      "scenario": "grown",
+      "total": 8,
+      "clears": 8,
+      "damage": 630166133461,
+      "shieldGranted": 198443174688,
+      "casts": 178,
+      "turns": 517,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_BUFF",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 78770766682.625,
+      "averageTurns": 64.625
+    },
+    {
+      "code": "V-985",
+      "scenario": "entry",
+      "total": 8,
+      "clears": 8,
+      "damage": 35714369,
+      "shieldGranted": 0,
+      "casts": 17,
+      "turns": 16,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 4464296.125,
+      "averageTurns": 2
+    },
+    {
+      "code": "V-985",
+      "scenario": "high",
+      "total": 8,
+      "clears": 8,
+      "damage": 80572800000,
+      "shieldGranted": 0,
+      "casts": 72,
+      "turns": 64,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 10071600000,
+      "averageTurns": 8
+    },
+    {
+      "code": "V-985",
+      "scenario": "grown",
+      "total": 8,
+      "clears": 8,
+      "damage": 805728000000,
+      "shieldGranted": 0,
+      "casts": 66,
+      "turns": 64,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 100716000000,
+      "averageTurns": 8
+    },
+    {
+      "code": "V-986",
+      "scenario": "entry",
+      "total": 8,
+      "clears": 8,
+      "damage": 36368640,
+      "shieldGranted": 0,
+      "casts": 24,
+      "turns": 8,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 4546080,
+      "averageTurns": 1
+    },
+    {
+      "code": "V-986",
+      "scenario": "high",
+      "total": 8,
+      "clears": 8,
+      "damage": 74044012920,
+      "shieldGranted": 0,
+      "casts": 170,
+      "turns": 161,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 9255501615,
+      "averageTurns": 20.125
+    },
+    {
+      "code": "V-986",
+      "scenario": "grown",
+      "total": 8,
+      "clears": 8,
+      "damage": 632802499324,
+      "shieldGranted": 0,
+      "casts": 255,
+      "turns": 265,
+      "skillTypes": [
+        "MERCENARY_WINDUP",
+        "MERCENARY_HIT",
+        "MERCENARY_END"
+      ],
+      "averageDamage": 79100312415.5,
+      "averageTurns": 33.125
+    }
+  ]
+}

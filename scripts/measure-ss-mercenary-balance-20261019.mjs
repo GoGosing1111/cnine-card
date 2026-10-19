@@ -29,11 +29,11 @@ export function balanceSnapshot(code,level=1){
 const tally=()=>({wins:0,draws:0,total:0});
 const add=(r,winner,side)=>{r.total++;r.wins+=Number(winner===side);r.draws+=Number(!['A','B'].includes(winner));};
 const finish=r=>{const n=r.total,p=r.wins/n,z=1.96,d=1+z*z/n,c=(p+z*z/(2*n))/d,m=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/d;return {...r,losses:n-r.wins-r.draws,winRate:p,wilson95:[c-m,c+m]};};
-export function measureBalance({count=12,start=19001,scope='all',onProgress=()=>{}}={}){
+export function measureBalance({count=12,start=19001,scope='all',seasonalOnly=false,onProgress=()=>{}}={}){
  if(!Number.isSafeInteger(count)||count<1||!Number.isSafeInteger(start)||start<1)throw Error('Invalid seeds');
  const pairs=[];
  if(scope!=='kangyun')for(const [i,a]of halloweenCodes.entries())for(const b of halloweenCodes.slice(i+1))pairs.push([a,b]);
- if(scope!=='halloween')for(const code of ssCodes)pairs.push(['V-057',code]);
+ if(scope!=='halloween')for(const code of seasonalOnly?halloweenCodes:ssCodes)pairs.push(['V-057',code]);
  const summaries=Object.fromEntries(['V-057',...halloweenCodes].map(code=>[code,{code,name:balanceSnapshot(code).name,...tally(),sides:{A:tally(),B:tally()},opponents:{},formations:{}}]));
  const rows=[];
  for(const [a,b]of pairs){
@@ -64,9 +64,9 @@ export function measureBalance({count=12,start=19001,scope='all',onProgress=()=>
   formations:balanceFormations.map(({id,group,level})=>({id,group,level})),total:rows.reduce((n,r)=>n+r.total,0),
   summaries:Object.values(summaries).filter(r=>r.total).map(r=>({...r,...finish(r),sides:Object.fromEntries(Object.entries(r.sides).map(([k,v])=>[k,finish(v)])),opponents:Object.fromEntries(Object.entries(r.opponents).map(([k,v])=>[k,finish(v)])),formations:Object.fromEntries(Object.entries(r.formations).map(([k,v])=>[k,finish(v)]))})),matches:rows};
 }
-export function measurePveBalance(){
+export function measurePveBalance({seasonalOnly=false}={}){
  const cases=[{id:'entry',power:250000,boss:2e6,level:1},{id:'high',power:2e7,boss:5e9,level:1},{id:'grown',power:2e7,boss:5e10,level:10}],rows=[];
- for(const code of ['V-057',...ssCodes])for(const c of cases){
+ for(const code of ['V-057',...(seasonalOnly?halloweenCodes:ssCodes)])for(const c of cases){
   const row={code,scenario:c.id,total:0,clears:0,damage:0,shieldGranted:0,casts:0,turns:0,skillTypes:new Set()};
   for(let i=0;i<8;i++){
    const b=createPveBattleV2({cards:tierCards(c.power),mercenary:balanceSnapshot(code,c.level),monster:{id:1,name:'QA',battle_power:c.boss},seed:1901901+i*7919});
@@ -84,7 +84,8 @@ export function measurePveBalance(){
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
  const args=process.argv.slice(2),v=(k,d)=>{const i=args.indexOf(k);return i<0?d:args[i+1];};
- const report=args.includes('--pve')?measurePveBalance():measureBalance({count:Number(v('--count',12)),start:Number(v('--start',19001)),scope:v('--scope','all'),onProgress:r=>console.log(JSON.stringify(r))});
+ const seasonalOnly=args.includes('--seasonal-only');
+ const report=args.includes('--pve')?measurePveBalance({seasonalOnly}):measureBalance({count:Number(v('--count',12)),start:Number(v('--start',19001)),scope:v('--scope','all'),seasonalOnly,onProgress:r=>console.log(JSON.stringify(r))});
  const out=v('--out',null);if(out){fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n');}
  console.log(JSON.stringify({total:report.total,summary:report.summaries?.map(({code,name,winRate,draws,total,opponents})=>({code,name,winRate,draws,total,opponents:Object.fromEntries(Object.entries(opponents).map(([k,v])=>[k,v.winRate]))}))||report.rows.map(({code,scenario,clears,averageDamage,averageTurns,casts})=>({code,scenario,clears,averageDamage,averageTurns,casts}))}));
 }
