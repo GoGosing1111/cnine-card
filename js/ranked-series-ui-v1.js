@@ -34,6 +34,7 @@
     modal.className='modal';modal.innerHTML='';
   }
   function summary(series){return series?`<div class="rs-final-score"><b>세트 결과 ${series.score.A} : ${series.score.B}</b><span>${series.rounds.map(r=>`${r.number}차전 ${r.winner==='A'?'승':'패'}`).join(' · ')}</span></div>`:'';}
+  function decorateResult(report,series){return series?report.replace('<div class="v3-report-body">','<div class="v3-report-body">'+summary(series)).replace('전투 상세','마지막 차전 상세').replace(/(<h2 id="v3ReportTitle">[^<]+<\/h2><p>)[^<]*/, '$1두 차전 승리로 세트 종료'):report;}
   async function play({modal,data,playerName,opponentName,onView}){
     const rounds=data.rankedSeries?.rounds||[{number:1,battleV2:data.battleV2}],series=data.rankedSeries;let live;
     for(const round of rounds){
@@ -42,9 +43,10 @@
       onView?.(live);
       if(series){const bar=document.createElement('div');bar.className='rs-battle-progress';bar.setAttribute('role','status');bar.textContent=`${round.number}차전 · ${round.score.A-(round.winner==='A'?1:0)} : ${round.score.B-(round.winner==='B'?1:0)} · 2선승`;live.stage.append(bar);}
       await window.playPvpBattleV2Live({...live,modal,data:{...data,battleV2:round.battleV2,result:round.winner?(round.winner==='A'?'WIN':'LOSE'):data.result}});
+      const progress=live.stage.querySelector('.rs-battle-progress');if(progress)progress.textContent=`${round.number}차전 종료 · ${round.score.A} : ${round.score.B}`;
       if(series&&round.number<rounds.length){live.msg.innerHTML=`<strong>${round.number}차전 ${round.winner==='A'?'승리':'패배'}</strong><span>${round.score.A} : ${round.score.B} · 다음 용병 출전</span>`;live.msg.classList.add('is-visible');await battleSleep(1400);}
     }
     return live;
   }
-  window.CNineRankedSeries={render,bind,ready,dirty,preview,summary,play};
+  window.CNineRankedSeries={render,bind,ready,dirty,preview,summary,decorateResult,play};
 })();

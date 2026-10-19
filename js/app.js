@@ -5778,7 +5778,7 @@ async function savePvpDeck(){
 }
 function pvpResultSafeNumber(value,fallback=0){const number=Number(value);return Number.isFinite(number)?number:fallback}
 function buildPvpV2ResultHtml(d,myWin,attackerPower,defenderPower,pvpV2Detail=''){
-  if(window.ProjectVBattleV3Live?.resultHtml)return (window.CNineRankedSeries?.summary(d.rankedSeries)||'')+window.ProjectVBattleV3Live.resultHtml({data:d,mode:'PVP',win:myWin,playerPower:attackerPower,opponentPower:defenderPower});
+  if(window.ProjectVBattleV3Live?.resultHtml){const report=window.ProjectVBattleV3Live.resultHtml({data:d,mode:'PVP',win:myWin,playerPower:attackerPower,opponentPower:defenderPower});return window.CNineRankedSeries?.decorateResult(report,d.rankedSeries)||report;}
   const scoreChange=pvpResultSafeNumber(d?.scoreChange,0),coinReward=Math.max(0,pvpResultSafeNumber(d?.coinReward,0)),magicReward=Math.max(0,pvpResultSafeNumber(d?.magicReward?.amount,0));
   const multiplier=Number(d?.scoreAdjustment?.multiplier),adjustmentLabel=String(d?.scoreAdjustment?.label||'').trim();
   const adjustmentHtml=adjustmentLabel&&Number.isFinite(multiplier)?`<div class="pvp-result-adjustment"><span>${escapeHtml(adjustmentLabel)}</span><b>${multiplier>0?'+':''}${multiplier.toLocaleString(undefined,{maximumFractionDigits:1})}%</b></div>`:'';

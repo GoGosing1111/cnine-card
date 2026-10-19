@@ -27,7 +27,10 @@ const leonelAuthoringOnly=file=>file.startsWith('preview/mercenary-leonel-sss-li
 // Keep that review and exact PNG authoring originals in Git; ship the six WebPs
 // and combined browser preview within Pages' existing 20,000-file budget.
 const equipmentSetAuthoringOnly=file=>file.startsWith('preview/emperor-set-v3-20261019/')||/^assets\/effects\/equipment-sets-20261019\/(?:emperor|arden)\/source\//.test(file)||['preview/equipment-sets-v3-20261019/build-fixture.mjs','preview/equipment-sets-v3-20261019/serve.mjs','scripts/build-equipment-set-fx-20261019.mjs'].includes(file);
-export const isProductionFile=file=>!equipmentSetAuthoringOnly(file)&&!leonelAuthoringOnly(file)&&! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&! /^scripts\/qa-[^/]+\.[cm]?js$/.test(file)&&!file.startsWith('scripts/ops/')&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/')&&!file.startsWith('preview/mercenary-jokro-iaido-20261017-v1/assets/frames/')&&!martialAuthoringOnly.has(file)&&!isolatedQaFixtures.has(file);
+// Ranked design/verification notes and exact art originals stay in Git; the
+// runtime uses the WebPs and manifest. No game imports these authoring files.
+const rankedAuthoringOnly=file=>/^docs\/ranked-[^/]+\.md$/.test(file)||/^assets\/ui\/ranked\/series-20261019\/(?:console|frame)-source\.png$/.test(file);
+export const isProductionFile=file=>!rankedAuthoringOnly(file)&&!equipmentSetAuthoringOnly(file)&&!leonelAuthoringOnly(file)&&! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&! /^scripts\/qa-[^/]+\.[cm]?js$/.test(file)&&!file.startsWith('scripts/ops/')&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/')&&!file.startsWith('preview/mercenary-jokro-iaido-20261017-v1/assets/frames/')&&!martialAuthoringOnly.has(file)&&!isolatedQaFixtures.has(file);
 export async function prepareProductionAssets({root=process.cwd(),files,tempRoot=tmpdir(),dependencies}={}){
  files||=execFileSync('git',['ls-files','-z'],{cwd:root,maxBuffer:40e6}).toString().split('\0').filter(Boolean);
  const selected=files.filter(isProductionFile),assetCount=selected.filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;
