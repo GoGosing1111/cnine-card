@@ -1,0 +1,56 @@
+{
+  "verifiedAt": "2026-10-19T10:06:18.523Z",
+  "mode": "READ_ONLY_NO_DEPLOYMENT",
+  "site": "https://cnine-card.pages.dev",
+  "policySha256": "5406e2b0d9a754f515384ce50f3adbc0f347f564f87122bdf6d605c3b2287d0a",
+  "checks": [
+    "PUBLIC_HALLOWEEN_POLICY_MATCHES_SOURCE",
+    "V980_RELEASED_V3",
+    "KANGYUN_UNCHANGED"
+  ],
+  "cards": [
+    {
+      "code": "V-980",
+      "name": "나무늘봉순",
+      "rank": "SS",
+      "basePower": 237600,
+      "deploymentEnabled": true,
+      "skills": [
+        {
+          "id": "MS-980",
+          "balance": {
+            "damageRatio": 8.4,
+            "cooldownTurns": 2,
+            "cost": 20
+          }
+        }
+      ],
+      "combatLinkDescription": "할로윈 SS 리미티드 · 기본 전투력 237,600(기존 SS 리미티드 대비 32% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 1161.6%·체력 1478.4%·전용 방벽 792%. 자연 행동 속도 2.5배, 아군 카드 4행동마다 용병 12회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 840%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 2.4배입니다. 기본 공격 상한은 1.35배입니다."
+    },
+    {
+      "code": "V-057",
+      "name": "신궁 강윤",
+      "rank": "SSS",
+      "basePower": 324000,
+      "skills": [
+        {
+          "id": "MS-059",
+          "balance": {
+            "damageRatio": 8.4,
+            "cooldownTurns": 2,
+            "cost": 25
+          }
+        },
+        {
+          "id": "MS-060",
+          "balance": {
+            "damageRatio": 12,
+            "cooldownTurns": 4,
+            "cost": 35
+          }
+        }
+      ],
+      "combatLinkDescription": "아군 일반 카드 5명의 평균 공격력 1210%를 최소 공격력, 평균 최대 체력 1540%를 최소 최대 체력으로 사용합니다. 전투 시작 시 평균 최대 체력 825%의 기본 전용 방벽을 얻습니다. 신궁 강윤은 자연 행동 속도 3배, 아군 카드 행동당 3회 추가 행동하며 자기 행동마다 에너지 10를 회복합니다. PVP 기본 공격 피해는 90%, 기본 공격 피해 상한은 1.5배, 연환 파갑 피해 상한은 2.7배입니다. 후열 핵심 적 한 명을 집중 공격하고 PVE에서는 천궁 멸진으로 적 전체에 화살비를 내립니다. PVP에서 아군 일반 카드가 모두 전투 불능이면 적 일반 카드 행동마다 반격 행동을 이어갑니다. 기본 공격과 피해·회복·보호 스킬 모두 연계 공격력을 사용합니다. PVP에서 S·SS·SSS 상대 용병보다 등급이 높으면 전투 시작 시 등급 차이 1단계마다 연계 공격·피해 상한 100%, 연계 체력·방벽 500%를 추가합니다. 동일 등급과 PVE에는 이 등급 차이 보정을 적용하지 않습니다."
+    }
+  ]
+}

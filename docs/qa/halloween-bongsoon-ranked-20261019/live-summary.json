@@ -1,0 +1,186 @@
+{
+  "sourceCommit": "5f5fcd053",
+  "asOf": "2026-10-19T09:56:59.767Z",
+  "since": "2026-10-19 02:20:00",
+  "timeZone": "UTC",
+  "scope": "Read-only sample of current V-980 owners, last 200 attack and 200 defense histories per owner since the V3 rollout. Battle-round results, not ranked set win rates. Excludes V-980 mirrors from comparisons.",
+  "historyCount": 986,
+  "auditCount": 824,
+  "currentHolderCount": 11,
+  "observedHolderCount": 9,
+  "nonMirror": {
+    "n": 841,
+    "w": 611,
+    "l": 230,
+    "winRate": 72.7
+  },
+  "halloween": {
+    "n": 272,
+    "w": 146,
+    "l": 126,
+    "winRate": 53.7
+  },
+  "opponents": [
+    {
+      "key": "베르칸 V-055",
+      "n": 213,
+      "w": 213,
+      "l": 0,
+      "winRate": 100
+    },
+    {
+      "key": "아잔트 V-056",
+      "n": 100,
+      "w": 100,
+      "l": 0,
+      "winRate": 100
+    },
+    {
+      "key": "디임 V-984",
+      "n": 89,
+      "w": 46,
+      "l": 43,
+      "winRate": 51.7
+    },
+    {
+      "key": "크라이베른 V-049",
+      "n": 63,
+      "w": 63,
+      "l": 0,
+      "winRate": 100
+    },
+    {
+      "key": "나무늘봉순 V-990",
+      "n": 47,
+      "w": 43,
+      "l": 4,
+      "winRate": 91.5
+    },
+    {
+      "key": "발테르 V-996",
+      "n": 47,
+      "w": 6,
+      "l": 41,
+      "winRate": 12.8
+    },
+    {
+      "key": "하이희야 V-982",
+      "n": 46,
+      "w": 28,
+      "l": 18,
+      "winRate": 60.9
+    },
+    {
+      "key": "남수댕 V-986",
+      "n": 45,
+      "w": 37,
+      "l": 8,
+      "winRate": 82.2
+    },
+    {
+      "key": "오리꿍 V-983",
+      "n": 39,
+      "w": 13,
+      "l": 26,
+      "winRate": 33.3
+    },
+    {
+      "key": "조은 V-981",
+      "n": 36,
+      "w": 17,
+      "l": 19,
+      "winRate": 47.2
+    },
+    {
+      "key": "신궁 강윤 V-057",
+      "n": 28,
+      "w": 3,
+      "l": 25,
+      "winRate": 10.7
+    },
+    {
+      "key": "헬리오스 V-999",
+      "n": 26,
+      "w": 0,
+      "l": 26,
+      "winRate": 0
+    },
+    {
+      "key": "아윤 V-985",
+      "n": 17,
+      "w": 5,
+      "l": 12,
+      "winRate": 29.4
+    },
+    {
+      "key": "라그니엘 V-046",
+      "n": 13,
+      "w": 13,
+      "l": 0,
+      "winRate": 100
+    },
+    {
+      "key": "조은 V-991",
+      "n": 10,
+      "w": 10,
+      "l": 0,
+      "winRate": 100
+    },
+    {
+      "key": "카이론 V-988",
+      "n": 7,
+      "w": 0,
+      "l": 7,
+      "winRate": 0
+    },
+    {
+      "key": "디임 V-994",
+      "n": 4,
+      "w": 3,
+      "l": 1,
+      "winRate": 75
+    },
+    {
+      "key": "오메가-X V-021",
+      "n": 4,
+      "w": 4,
+      "l": 0,
+      "winRate": 100
+    },
+    {
+      "key": "오리꿍 V-993",
+      "n": 3,
+      "w": 3,
+      "l": 0,
+      "winRate": 100
+    },
+    {
+      "key": "아윤 V-997",
+      "n": 2,
+      "w": 2,
+      "l": 0,
+      "winRate": 100
+    },
+    {
+      "key": "하이희야 V-998",
+      "n": 2,
+      "w": 2,
+      "l": 0,
+      "winRate": 100
+    }
+  ],
+  "latest200": {
+    "total": 200,
+    "wins": 129
+  },
+  "latest200Halloween": {
+    "total": 200,
+    "wins": 91
+  },
+  "roundWinButSetLoss": 151,
+  "limitations": [
+    "Repeated players and unequal card, equipment and mercenary growth: observational outcomes are not causal mercenary strength estimates.",
+    "Only final rounds retain complete actor snapshots; earlier series rounds retain outcome and mercenary codes. No full historical replay or live skill-cast frequency claim.",
+    "Latest 200 peer results are a subset of the complete 272-peer sample, not an independent holdout."
+  ]
+}

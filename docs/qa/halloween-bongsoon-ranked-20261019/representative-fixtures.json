@@ -1,0 +1,1222 @@
+{
+  "source": "Four most frequent ordered role layouts among saved final rounds containing V-980. Gear rounded to 10,000; no magic, pet, avatar or mercenary gear. Not exact historical replays.",
+  "fixtures": [
+    {
+      "id": "ranked-layout-1",
+      "group": "RANKED_REPRESENTATIVE",
+      "observations": 42,
+      "layout": "ICON:ICON-DIIM:-|ZENITH:HP:IMMORTAL|ICON:ICON-NAMUNEUL-BONGSOON:-|FUR:SPEED:AFTERIMAGE|FUR:DEFENSE:RIPOSTE",
+      "equipment": 150000,
+      "magic": [],
+      "cards": [
+        {
+          "id": "CN-1C000001",
+          "title": "디임",
+          "rarity": "ICON",
+          "power": 180000,
+          "power_type": "NONE",
+          "breakthrough_level": 0,
+          "iconRole": {
+            "version": 1,
+            "code": "ICON-DIIM",
+            "role": "ASSASSIN",
+            "revision": 4,
+            "tuning": {
+              "firstAction": 2,
+              "cooldownActions": 4,
+              "maxCasts": 6,
+              "pveScale": 100,
+              "pvpScale": 90,
+              "damagePercent": 180,
+              "damageCapPercent": 46,
+              "executePercent": 60,
+              "takedownGauge": 25,
+              "maxTakedowns": 2
+            },
+            "supremacy": {
+              "version": "20261005-fur15-v1",
+              "power": 198200,
+              "cardCount": 20,
+              "CAPTAIN": {
+                "attack": {
+                  "base": 546560,
+                  "perPower": 2.8
+                },
+                "maxHp": {
+                  "base": 488000,
+                  "perPower": 2.5
+                },
+                "defense": {
+                  "base": 295,
+                  "perPower": 0
+                },
+                "speed": {
+                  "base": 250,
+                  "perPower": 0
+                }
+              },
+              "PVE": {
+                "maxHp": {
+                  "base": 456768,
+                  "perPower": 2.340001
+                },
+                "attack": {
+                  "base": 220230,
+                  "perPower": 1.128226
+                },
+                "defense": {
+                  "base": 134499,
+                  "perPower": 0.689032
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              },
+              "PVP": {
+                "maxHp": {
+                  "base": 507520,
+                  "perPower": 2.600001
+                },
+                "attack": {
+                  "base": 207317,
+                  "perPower": 1.062076
+                },
+                "defense": {
+                  "base": 130455,
+                  "perPower": 0.668313
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              }
+            }
+          },
+          "uniqueAdvancement": null,
+          "uniqueAbility": null
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "title": "오조은",
+          "rarity": "ZENITH",
+          "power": 75625,
+          "power_type": "HP",
+          "breakthrough_level": 13,
+          "iconRole": null,
+          "uniqueAdvancement": {
+            "active": true,
+            "classCode": "IMMORTAL",
+            "dominantType": "HP",
+            "configVersion": "1",
+            "modifiers": {
+              "criticalChancePoints": 0,
+              "penetrationPoints": 0,
+              "openingGaugePoints": 0,
+              "dodgeChancePoints": 0,
+              "dodgeCapPoints": 0,
+              "counterChancePoints": 0,
+              "counterMultiplierPoints": 0,
+              "unshieldedCounterChancePoints": 0,
+              "maxHpPercent": 27,
+              "damageDealtPercent": 0,
+              "damageCapPoints": 0,
+              "lastStandHealPoolPercent": 35,
+              "sealedLastStandHealPoolPercent": 25,
+              "healPoolBonusPercent": 35
+            }
+          },
+          "uniqueAbility": {
+            "effectName": "생명형",
+            "effectDescription": "",
+            "attackPercent": 16,
+            "defensePercent": 16,
+            "hpPercent": 48,
+            "speedPercent": 0,
+            "dominantType": "HP"
+          }
+        },
+        {
+          "id": "CN-1C000003",
+          "title": "나무늘봉순",
+          "rarity": "ICON",
+          "power": 180000,
+          "power_type": "NONE",
+          "breakthrough_level": 0,
+          "iconRole": {
+            "version": 1,
+            "code": "ICON-NAMUNEUL-BONGSOON",
+            "role": "MAGIC",
+            "revision": 4,
+            "tuning": {
+              "firstAction": 2,
+              "cooldownActions": 4,
+              "maxCasts": 6,
+              "pveScale": 100,
+              "pvpScale": 90,
+              "damagePercent": 180,
+              "damageCapPercent": 46,
+              "maxTargets": 3,
+              "focusPercent": 20,
+              "penetrationPercent": 25
+            },
+            "supremacy": {
+              "version": "20261005-fur15-v1",
+              "power": 198200,
+              "cardCount": 20,
+              "CAPTAIN": {
+                "attack": {
+                  "base": 546560,
+                  "perPower": 2.8
+                },
+                "maxHp": {
+                  "base": 488000,
+                  "perPower": 2.5
+                },
+                "defense": {
+                  "base": 295,
+                  "perPower": 0
+                },
+                "speed": {
+                  "base": 250,
+                  "perPower": 0
+                }
+              },
+              "PVE": {
+                "maxHp": {
+                  "base": 456768,
+                  "perPower": 2.340001
+                },
+                "attack": {
+                  "base": 220230,
+                  "perPower": 1.128226
+                },
+                "defense": {
+                  "base": 134499,
+                  "perPower": 0.689032
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              },
+              "PVP": {
+                "maxHp": {
+                  "base": 507520,
+                  "perPower": 2.600001
+                },
+                "attack": {
+                  "base": 207317,
+                  "perPower": 1.062076
+                },
+                "defense": {
+                  "base": 130455,
+                  "perPower": 0.668313
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              }
+            }
+          },
+          "uniqueAdvancement": null,
+          "uniqueAbility": null
+        },
+        {
+          "id": "CN-5D0E2E4D58C9416F",
+          "title": "치타구",
+          "rarity": "FUR",
+          "power": 195200,
+          "power_type": "SPEED",
+          "breakthrough_level": 15,
+          "iconRole": null,
+          "uniqueAdvancement": {
+            "active": true,
+            "classCode": "AFTERIMAGE",
+            "dominantType": "SPEED",
+            "configVersion": "1",
+            "modifiers": {
+              "criticalChancePoints": 0,
+              "penetrationPoints": 18,
+              "openingGaugePoints": 0,
+              "dodgeChancePoints": 10,
+              "dodgeCapPoints": 10,
+              "counterChancePoints": 0,
+              "counterMultiplierPoints": 0,
+              "unshieldedCounterChancePoints": 0,
+              "maxHpPercent": -3,
+              "damageDealtPercent": 0,
+              "damageCapPoints": 0,
+              "lastStandHealPoolPercent": 0,
+              "sealedLastStandHealPoolPercent": 0,
+              "healPoolBonusPercent": 0
+            }
+          },
+          "uniqueAbility": {
+            "effectName": "속도형",
+            "effectDescription": "",
+            "attackPercent": 90,
+            "defensePercent": 90,
+            "hpPercent": 0,
+            "speedPercent": 150,
+            "dominantType": "SPEED"
+          }
+        },
+        {
+          "id": "CN-47AD4B47B6A7452C",
+          "title": "아이젠 족스케",
+          "rarity": "FUR",
+          "power": 195200,
+          "power_type": "DEFENSE",
+          "breakthrough_level": 15,
+          "iconRole": null,
+          "uniqueAdvancement": {
+            "active": true,
+            "classCode": "RIPOSTE",
+            "dominantType": "DEFENSE",
+            "configVersion": "1",
+            "modifiers": {
+              "criticalChancePoints": 0,
+              "penetrationPoints": 0,
+              "openingGaugePoints": 0,
+              "dodgeChancePoints": 0,
+              "dodgeCapPoints": 0,
+              "counterChancePoints": 11,
+              "counterMultiplierPoints": 13,
+              "unshieldedCounterChancePoints": 5,
+              "maxHpPercent": 0,
+              "damageDealtPercent": 2,
+              "damageCapPoints": 0,
+              "lastStandHealPoolPercent": 0,
+              "sealedLastStandHealPoolPercent": 0,
+              "healPoolBonusPercent": 0
+            }
+          },
+          "uniqueAbility": {
+            "effectName": "방어형",
+            "effectDescription": "",
+            "attackPercent": 120,
+            "defensePercent": 195,
+            "hpPercent": 150,
+            "speedPercent": 0,
+            "dominantType": "DEFENSE"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ranked-layout-2",
+      "group": "RANKED_REPRESENTATIVE",
+      "observations": 40,
+      "layout": "FUR:DEFENSE:RIPOSTE|ZENITH:HP:IMMORTAL|FUR:SPEED:AFTERIMAGE|ICON:ICON-DIIM:-|ICON:ICON-NAMUNEUL-BONGSOON:-",
+      "equipment": 190000,
+      "magic": [],
+      "cards": [
+        {
+          "id": "CN-47AD4B47B6A7452C",
+          "title": "아이젠 족스케",
+          "rarity": "FUR",
+          "power": 195200,
+          "power_type": "DEFENSE",
+          "breakthrough_level": 15,
+          "iconRole": null,
+          "uniqueAdvancement": {
+            "active": true,
+            "classCode": "RIPOSTE",
+            "dominantType": "DEFENSE",
+            "configVersion": "1",
+            "modifiers": {
+              "criticalChancePoints": 0,
+              "penetrationPoints": 0,
+              "openingGaugePoints": 0,
+              "dodgeChancePoints": 0,
+              "dodgeCapPoints": 0,
+              "counterChancePoints": 11,
+              "counterMultiplierPoints": 13,
+              "unshieldedCounterChancePoints": 5,
+              "maxHpPercent": 0,
+              "damageDealtPercent": 2,
+              "damageCapPoints": 0,
+              "lastStandHealPoolPercent": 0,
+              "sealedLastStandHealPoolPercent": 0,
+              "healPoolBonusPercent": 0
+            }
+          },
+          "uniqueAbility": {
+            "effectName": "방어형",
+            "effectDescription": "",
+            "attackPercent": 120,
+            "defensePercent": 195,
+            "hpPercent": 150,
+            "speedPercent": 0,
+            "dominantType": "DEFENSE"
+          }
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "title": "오조은",
+          "rarity": "ZENITH",
+          "power": 75625,
+          "power_type": "HP",
+          "breakthrough_level": 13,
+          "iconRole": null,
+          "uniqueAdvancement": {
+            "active": true,
+            "classCode": "IMMORTAL",
+            "dominantType": "HP",
+            "configVersion": "1",
+            "modifiers": {
+              "criticalChancePoints": 0,
+              "penetrationPoints": 0,
+              "openingGaugePoints": 0,
+              "dodgeChancePoints": 0,
+              "dodgeCapPoints": 0,
+              "counterChancePoints": 0,
+              "counterMultiplierPoints": 0,
+              "unshieldedCounterChancePoints": 0,
+              "maxHpPercent": 27,
+              "damageDealtPercent": 0,
+              "damageCapPoints": 0,
+              "lastStandHealPoolPercent": 35,
+              "sealedLastStandHealPoolPercent": 25,
+              "healPoolBonusPercent": 35
+            }
+          },
+          "uniqueAbility": {
+            "effectName": "생명형",
+            "effectDescription": "",
+            "attackPercent": 16,
+            "defensePercent": 16,
+            "hpPercent": 48,
+            "speedPercent": 0,
+            "dominantType": "HP"
+          }
+        },
+        {
+          "id": "CN-5D0E2E4D58C9416F",
+          "title": "치타구",
+          "rarity": "FUR",
+          "power": 195200,
+          "power_type": "SPEED",
+          "breakthrough_level": 15,
+          "iconRole": null,
+          "uniqueAdvancement": {
+            "active": true,
+            "classCode": "AFTERIMAGE",
+            "dominantType": "SPEED",
+            "configVersion": "1",
+            "modifiers": {
+              "criticalChancePoints": 0,
+              "penetrationPoints": 18,
+              "openingGaugePoints": 0,
+              "dodgeChancePoints": 10,
+              "dodgeCapPoints": 10,
+              "counterChancePoints": 0,
+              "counterMultiplierPoints": 0,
+              "unshieldedCounterChancePoints": 0,
+              "maxHpPercent": -3,
+              "damageDealtPercent": 0,
+              "damageCapPoints": 0,
+              "lastStandHealPoolPercent": 0,
+              "sealedLastStandHealPoolPercent": 0,
+              "healPoolBonusPercent": 0
+            }
+          },
+          "uniqueAbility": {
+            "effectName": "속도형",
+            "effectDescription": "",
+            "attackPercent": 90,
+            "defensePercent": 90,
+            "hpPercent": 0,
+            "speedPercent": 150,
+            "dominantType": "SPEED"
+          }
+        },
+        {
+          "id": "CN-1C000001",
+          "title": "디임",
+          "rarity": "ICON",
+          "power": 180000,
+          "power_type": "NONE",
+          "breakthrough_level": 0,
+          "iconRole": {
+            "version": 1,
+            "code": "ICON-DIIM",
+            "role": "ASSASSIN",
+            "revision": 4,
+            "tuning": {
+              "firstAction": 2,
+              "cooldownActions": 4,
+              "maxCasts": 6,
+              "pveScale": 100,
+              "pvpScale": 90,
+              "damagePercent": 180,
+              "damageCapPercent": 46,
+              "executePercent": 60,
+              "takedownGauge": 25,
+              "maxTakedowns": 2
+            },
+            "supremacy": {
+              "version": "20261005-fur15-v1",
+              "power": 198200,
+              "cardCount": 20,
+              "CAPTAIN": {
+                "attack": {
+                  "base": 546560,
+                  "perPower": 2.8
+                },
+                "maxHp": {
+                  "base": 488000,
+                  "perPower": 2.5
+                },
+                "defense": {
+                  "base": 295,
+                  "perPower": 0
+                },
+                "speed": {
+                  "base": 250,
+                  "perPower": 0
+                }
+              },
+              "PVE": {
+                "maxHp": {
+                  "base": 456768,
+                  "perPower": 2.340001
+                },
+                "attack": {
+                  "base": 220230,
+                  "perPower": 1.128226
+                },
+                "defense": {
+                  "base": 134499,
+                  "perPower": 0.689032
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              },
+              "PVP": {
+                "maxHp": {
+                  "base": 507520,
+                  "perPower": 2.600001
+                },
+                "attack": {
+                  "base": 207317,
+                  "perPower": 1.062076
+                },
+                "defense": {
+                  "base": 130455,
+                  "perPower": 0.668313
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              }
+            }
+          },
+          "uniqueAdvancement": null,
+          "uniqueAbility": null
+        },
+        {
+          "id": "CN-1C000003",
+          "title": "나무늘봉순",
+          "rarity": "ICON",
+          "power": 180000,
+          "power_type": "NONE",
+          "breakthrough_level": 0,
+          "iconRole": {
+            "version": 1,
+            "code": "ICON-NAMUNEUL-BONGSOON",
+            "role": "MAGIC",
+            "revision": 4,
+            "tuning": {
+              "firstAction": 2,
+              "cooldownActions": 4,
+              "maxCasts": 6,
+              "pveScale": 100,
+              "pvpScale": 90,
+              "damagePercent": 180,
+              "damageCapPercent": 46,
+              "maxTargets": 3,
+              "focusPercent": 20,
+              "penetrationPercent": 25
+            },
+            "supremacy": {
+              "version": "20261005-fur15-v1",
+              "power": 198200,
+              "cardCount": 20,
+              "CAPTAIN": {
+                "attack": {
+                  "base": 546560,
+                  "perPower": 2.8
+                },
+                "maxHp": {
+                  "base": 488000,
+                  "perPower": 2.5
+                },
+                "defense": {
+                  "base": 295,
+                  "perPower": 0
+                },
+                "speed": {
+                  "base": 250,
+                  "perPower": 0
+                }
+              },
+              "PVE": {
+                "maxHp": {
+                  "base": 456768,
+                  "perPower": 2.340001
+                },
+                "attack": {
+                  "base": 220230,
+                  "perPower": 1.128226
+                },
+                "defense": {
+                  "base": 134499,
+                  "perPower": 0.689032
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              },
+              "PVP": {
+                "maxHp": {
+                  "base": 507520,
+                  "perPower": 2.600001
+                },
+                "attack": {
+                  "base": 207317,
+                  "perPower": 1.062076
+                },
+                "defense": {
+                  "base": 130455,
+                  "perPower": 0.668313
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              }
+            }
+          },
+          "uniqueAdvancement": null,
+          "uniqueAbility": null
+        }
+      ]
+    },
+    {
+      "id": "ranked-layout-3",
+      "group": "RANKED_REPRESENTATIVE",
+      "observations": 37,
+      "layout": "FUR:DEFENSE:RIPOSTE|ZENITH:HP:IMMORTAL|FUR:SPEED:AFTERIMAGE|ICON:ICON-DIIM:-|ICON:ICON-OH-JOEUN:-",
+      "equipment": 180000,
+      "magic": [],
+      "cards": [
+        {
+          "id": "CN-47AD4B47B6A7452C",
+          "title": "아이젠 족스케",
+          "rarity": "FUR",
+          "power": 195200,
+          "power_type": "DEFENSE",
+          "breakthrough_level": 15,
+          "iconRole": null,
+          "uniqueAdvancement": {
+            "active": true,
+            "classCode": "RIPOSTE",
+            "dominantType": "DEFENSE",
+            "configVersion": "1",
+            "modifiers": {
+              "criticalChancePoints": 0,
+              "penetrationPoints": 0,
+              "openingGaugePoints": 0,
+              "dodgeChancePoints": 0,
+              "dodgeCapPoints": 0,
+              "counterChancePoints": 11,
+              "counterMultiplierPoints": 13,
+              "unshieldedCounterChancePoints": 5,
+              "maxHpPercent": 0,
+              "damageDealtPercent": 2,
+              "damageCapPoints": 0,
+              "lastStandHealPoolPercent": 0,
+              "sealedLastStandHealPoolPercent": 0,
+              "healPoolBonusPercent": 0
+            }
+          },
+          "uniqueAbility": {
+            "effectName": "방어형",
+            "effectDescription": "",
+            "attackPercent": 120,
+            "defensePercent": 195,
+            "hpPercent": 150,
+            "speedPercent": 0,
+            "dominantType": "DEFENSE"
+          }
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "title": "오조은",
+          "rarity": "ZENITH",
+          "power": 75625,
+          "power_type": "HP",
+          "breakthrough_level": 13,
+          "iconRole": null,
+          "uniqueAdvancement": {
+            "active": true,
+            "classCode": "IMMORTAL",
+            "dominantType": "HP",
+            "configVersion": "1",
+            "modifiers": {
+              "criticalChancePoints": 0,
+              "penetrationPoints": 0,
+              "openingGaugePoints": 0,
+              "dodgeChancePoints": 0,
+              "dodgeCapPoints": 0,
+              "counterChancePoints": 0,
+              "counterMultiplierPoints": 0,
+              "unshieldedCounterChancePoints": 0,
+              "maxHpPercent": 27,
+              "damageDealtPercent": 0,
+              "damageCapPoints": 0,
+              "lastStandHealPoolPercent": 35,
+              "sealedLastStandHealPoolPercent": 25,
+              "healPoolBonusPercent": 35
+            }
+          },
+          "uniqueAbility": {
+            "effectName": "생명형",
+            "effectDescription": "",
+            "attackPercent": 16,
+            "defensePercent": 16,
+            "hpPercent": 48,
+            "speedPercent": 0,
+            "dominantType": "HP"
+          }
+        },
+        {
+          "id": "CN-5D0E2E4D58C9416F",
+          "title": "치타구",
+          "rarity": "FUR",
+          "power": 195200,
+          "power_type": "SPEED",
+          "breakthrough_level": 15,
+          "iconRole": null,
+          "uniqueAdvancement": {
+            "active": true,
+            "classCode": "AFTERIMAGE",
+            "dominantType": "SPEED",
+            "configVersion": "1",
+            "modifiers": {
+              "criticalChancePoints": 0,
+              "penetrationPoints": 18,
+              "openingGaugePoints": 0,
+              "dodgeChancePoints": 10,
+              "dodgeCapPoints": 10,
+              "counterChancePoints": 0,
+              "counterMultiplierPoints": 0,
+              "unshieldedCounterChancePoints": 0,
+              "maxHpPercent": -3,
+              "damageDealtPercent": 0,
+              "damageCapPoints": 0,
+              "lastStandHealPoolPercent": 0,
+              "sealedLastStandHealPoolPercent": 0,
+              "healPoolBonusPercent": 0
+            }
+          },
+          "uniqueAbility": {
+            "effectName": "속도형",
+            "effectDescription": "",
+            "attackPercent": 90,
+            "defensePercent": 90,
+            "hpPercent": 0,
+            "speedPercent": 150,
+            "dominantType": "SPEED"
+          }
+        },
+        {
+          "id": "CN-1C000001",
+          "title": "디임",
+          "rarity": "ICON",
+          "power": 180000,
+          "power_type": "NONE",
+          "breakthrough_level": 0,
+          "iconRole": {
+            "version": 1,
+            "code": "ICON-DIIM",
+            "role": "ASSASSIN",
+            "revision": 4,
+            "tuning": {
+              "firstAction": 2,
+              "cooldownActions": 4,
+              "maxCasts": 6,
+              "pveScale": 100,
+              "pvpScale": 90,
+              "damagePercent": 180,
+              "damageCapPercent": 46,
+              "executePercent": 60,
+              "takedownGauge": 25,
+              "maxTakedowns": 2
+            },
+            "supremacy": {
+              "version": "20261005-fur15-v1",
+              "power": 198200,
+              "cardCount": 20,
+              "CAPTAIN": {
+                "attack": {
+                  "base": 546560,
+                  "perPower": 2.8
+                },
+                "maxHp": {
+                  "base": 488000,
+                  "perPower": 2.5
+                },
+                "defense": {
+                  "base": 295,
+                  "perPower": 0
+                },
+                "speed": {
+                  "base": 250,
+                  "perPower": 0
+                }
+              },
+              "PVE": {
+                "maxHp": {
+                  "base": 456768,
+                  "perPower": 2.340001
+                },
+                "attack": {
+                  "base": 220230,
+                  "perPower": 1.128226
+                },
+                "defense": {
+                  "base": 134499,
+                  "perPower": 0.689032
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              },
+              "PVP": {
+                "maxHp": {
+                  "base": 507520,
+                  "perPower": 2.600001
+                },
+                "attack": {
+                  "base": 207317,
+                  "perPower": 1.062076
+                },
+                "defense": {
+                  "base": 130455,
+                  "perPower": 0.668313
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              }
+            }
+          },
+          "uniqueAdvancement": null,
+          "uniqueAbility": null
+        },
+        {
+          "id": "CN-1C000004",
+          "title": "오조은",
+          "rarity": "ICON",
+          "power": 180000,
+          "power_type": "NONE",
+          "breakthrough_level": 0,
+          "iconRole": {
+            "version": 1,
+            "code": "ICON-OH-JOEUN",
+            "role": "SUPPORT",
+            "revision": 4,
+            "tuning": {
+              "firstAction": 1,
+              "cooldownActions": 3,
+              "maxCasts": 8,
+              "pveScale": 125,
+              "pvpScale": 150,
+              "healPercent": 30,
+              "resonancePercent": 3,
+              "maxStacks": 8,
+              "healBudgetPercent": 225,
+              "nextAttackPercent": 35,
+              "durationActions": 3
+            },
+            "supremacy": {
+              "version": "20261005-fur15-v1",
+              "power": 198200,
+              "cardCount": 20,
+              "CAPTAIN": {
+                "attack": {
+                  "base": 546560,
+                  "perPower": 2.8
+                },
+                "maxHp": {
+                  "base": 488000,
+                  "perPower": 2.5
+                },
+                "defense": {
+                  "base": 295,
+                  "perPower": 0
+                },
+                "speed": {
+                  "base": 250,
+                  "perPower": 0
+                }
+              },
+              "PVE": {
+                "maxHp": {
+                  "base": 456768,
+                  "perPower": 2.340001
+                },
+                "attack": {
+                  "base": 220230,
+                  "perPower": 1.128226
+                },
+                "defense": {
+                  "base": 134499,
+                  "perPower": 0.689032
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              },
+              "PVP": {
+                "maxHp": {
+                  "base": 507520,
+                  "perPower": 2.600001
+                },
+                "attack": {
+                  "base": 207317,
+                  "perPower": 1.062076
+                },
+                "defense": {
+                  "base": 130455,
+                  "perPower": 0.668313
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              }
+            }
+          },
+          "uniqueAdvancement": null,
+          "uniqueAbility": null
+        }
+      ]
+    },
+    {
+      "id": "ranked-layout-4",
+      "group": "RANKED_REPRESENTATIVE",
+      "observations": 32,
+      "layout": "ICON:ICON-DIIM:-|ICON:ICON-ZEUS-CHEOLGU:-|FUR:SPEED:AFTERIMAGE|ZENITH:HP:IMMORTAL|FUR:DEFENSE:RIPOSTE",
+      "equipment": 180000,
+      "magic": [],
+      "cards": [
+        {
+          "id": "CN-1C000001",
+          "title": "디임",
+          "rarity": "ICON",
+          "power": 180000,
+          "power_type": "NONE",
+          "breakthrough_level": 0,
+          "iconRole": {
+            "version": 1,
+            "code": "ICON-DIIM",
+            "role": "ASSASSIN",
+            "revision": 4,
+            "tuning": {
+              "firstAction": 2,
+              "cooldownActions": 4,
+              "maxCasts": 6,
+              "pveScale": 100,
+              "pvpScale": 90,
+              "damagePercent": 180,
+              "damageCapPercent": 46,
+              "executePercent": 60,
+              "takedownGauge": 25,
+              "maxTakedowns": 2
+            },
+            "supremacy": {
+              "version": "20261005-fur15-v1",
+              "power": 198200,
+              "cardCount": 20,
+              "CAPTAIN": {
+                "attack": {
+                  "base": 546560,
+                  "perPower": 2.8
+                },
+                "maxHp": {
+                  "base": 488000,
+                  "perPower": 2.5
+                },
+                "defense": {
+                  "base": 295,
+                  "perPower": 0
+                },
+                "speed": {
+                  "base": 250,
+                  "perPower": 0
+                }
+              },
+              "PVE": {
+                "maxHp": {
+                  "base": 456768,
+                  "perPower": 2.340001
+                },
+                "attack": {
+                  "base": 220230,
+                  "perPower": 1.128226
+                },
+                "defense": {
+                  "base": 134499,
+                  "perPower": 0.689032
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              },
+              "PVP": {
+                "maxHp": {
+                  "base": 507520,
+                  "perPower": 2.600001
+                },
+                "attack": {
+                  "base": 207317,
+                  "perPower": 1.062076
+                },
+                "defense": {
+                  "base": 130455,
+                  "perPower": 0.668313
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              }
+            }
+          },
+          "uniqueAdvancement": null,
+          "uniqueAbility": null
+        },
+        {
+          "id": "CN-1C000008",
+          "title": "제우스 철구",
+          "rarity": "ICON",
+          "power": 180000,
+          "power_type": "NONE",
+          "breakthrough_level": 0,
+          "iconRole": {
+            "version": 1,
+            "code": "ICON-ZEUS-CHEOLGU",
+            "role": "MAGIC",
+            "revision": 4,
+            "tuning": {
+              "firstAction": 1,
+              "cooldownActions": 4,
+              "maxCasts": 6,
+              "pveScale": 100,
+              "pvpScale": 90,
+              "damagePercent": 220,
+              "damageCapPercent": 46,
+              "maxTargets": 3,
+              "focusPercent": 25,
+              "penetrationPercent": 30
+            },
+            "supremacy": {
+              "version": "20261005-fur15-v1",
+              "power": 198200,
+              "cardCount": 20,
+              "CAPTAIN": {
+                "attack": {
+                  "base": 546560,
+                  "perPower": 2.8
+                },
+                "maxHp": {
+                  "base": 488000,
+                  "perPower": 2.5
+                },
+                "defense": {
+                  "base": 295,
+                  "perPower": 0
+                },
+                "speed": {
+                  "base": 250,
+                  "perPower": 0
+                }
+              },
+              "PVE": {
+                "maxHp": {
+                  "base": 456768,
+                  "perPower": 2.340001
+                },
+                "attack": {
+                  "base": 220230,
+                  "perPower": 1.128226
+                },
+                "defense": {
+                  "base": 134499,
+                  "perPower": 0.689032
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              },
+              "PVP": {
+                "maxHp": {
+                  "base": 507520,
+                  "perPower": 2.600001
+                },
+                "attack": {
+                  "base": 207317,
+                  "perPower": 1.062076
+                },
+                "defense": {
+                  "base": 130455,
+                  "perPower": 0.668313
+                },
+                "speed": {
+                  "base": 17011,
+                  "perPower": 0.086251
+                }
+              }
+            }
+          },
+          "uniqueAdvancement": null,
+          "uniqueAbility": null
+        },
+        {
+          "id": "CN-5D0E2E4D58C9416F",
+          "title": "치타구",
+          "rarity": "FUR",
+          "power": 195200,
+          "power_type": "SPEED",
+          "breakthrough_level": 15,
+          "iconRole": null,
+          "uniqueAdvancement": {
+            "active": true,
+            "classCode": "AFTERIMAGE",
+            "dominantType": "SPEED",
+            "configVersion": "1",
+            "modifiers": {
+              "criticalChancePoints": 0,
+              "penetrationPoints": 18,
+              "openingGaugePoints": 0,
+              "dodgeChancePoints": 10,
+              "dodgeCapPoints": 10,
+              "counterChancePoints": 0,
+              "counterMultiplierPoints": 0,
+              "unshieldedCounterChancePoints": 0,
+              "maxHpPercent": -3,
+              "damageDealtPercent": 0,
+              "damageCapPoints": 0,
+              "lastStandHealPoolPercent": 0,
+              "sealedLastStandHealPoolPercent": 0,
+              "healPoolBonusPercent": 0
+            }
+          },
+          "uniqueAbility": {
+            "effectName": "속도형",
+            "effectDescription": "",
+            "attackPercent": 90,
+            "defensePercent": 90,
+            "hpPercent": 0,
+            "speedPercent": 150,
+            "dominantType": "SPEED"
+          }
+        },
+        {
+          "id": "CN-BA6BDEC789144D00",
+          "title": "오조은",
+          "rarity": "ZENITH",
+          "power": 75625,
+          "power_type": "HP",
+          "breakthrough_level": 13,
+          "iconRole": null,
+          "uniqueAdvancement": {
+            "active": true,
+            "classCode": "IMMORTAL",
+            "dominantType": "HP",
+            "configVersion": "1",
+            "modifiers": {
+              "criticalChancePoints": 0,
+              "penetrationPoints": 0,
+              "openingGaugePoints": 0,
+              "dodgeChancePoints": 0,
+              "dodgeCapPoints": 0,
+              "counterChancePoints": 0,
+              "counterMultiplierPoints": 0,
+              "unshieldedCounterChancePoints": 0,
+              "maxHpPercent": 27,
+              "damageDealtPercent": 0,
+              "damageCapPoints": 0,
+              "lastStandHealPoolPercent": 35,
+              "sealedLastStandHealPoolPercent": 25,
+              "healPoolBonusPercent": 35
+            }
+          },
+          "uniqueAbility": {
+            "effectName": "생명형",
+            "effectDescription": "",
+            "attackPercent": 16,
+            "defensePercent": 16,
+            "hpPercent": 48,
+            "speedPercent": 0,
+            "dominantType": "HP"
+          }
+        },
+        {
+          "id": "CN-47AD4B47B6A7452C",
+          "title": "아이젠 족스케",
+          "rarity": "FUR",
+          "power": 195200,
+          "power_type": "DEFENSE",
+          "breakthrough_level": 15,
+          "iconRole": null,
+          "uniqueAdvancement": {
+            "active": true,
+            "classCode": "RIPOSTE",
+            "dominantType": "DEFENSE",
+            "configVersion": "1",
+            "modifiers": {
+              "criticalChancePoints": 0,
+              "penetrationPoints": 0,
+              "openingGaugePoints": 0,
+              "dodgeChancePoints": 0,
+              "dodgeCapPoints": 0,
+              "counterChancePoints": 11,
+              "counterMultiplierPoints": 13,
+              "unshieldedCounterChancePoints": 5,
+              "maxHpPercent": 0,
+              "damageDealtPercent": 2,
+              "damageCapPoints": 0,
+              "lastStandHealPoolPercent": 0,
+              "sealedLastStandHealPoolPercent": 0,
+              "healPoolBonusPercent": 0
+            }
+          },
+          "uniqueAbility": {
+            "effectName": "방어형",
+            "effectDescription": "",
+            "attackPercent": 120,
+            "defensePercent": 195,
+            "hpPercent": 150,
+            "speedPercent": 0,
+            "dominantType": "DEFENSE"
+          }
+        }
+      ]
+    }
+  ]
+}
