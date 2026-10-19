@@ -116,3 +116,12 @@ test('gift recovery only offers the signed-in account receipts and tolerates una
   assert.deepEqual(m.opened,[['RECRUITMENT_GIFT_BOX',0],['TOURNAMENT_GIFT_BOX',0]]);
   m.ctx.localStorage.getItem=()=>{throw Error('blocked storage');};await m.ctx.loadInventory();assert.equal(m.recovery.hidden,true);
 });
+
+test('ICON choice receipt recovery remains reachable after the last ticket was consumed',async()=>{
+  const m=recoveryModel();m.store.set('cnine.icon-choice.v1:8','other-account');
+  await m.ctx.loadInventory();assert.equal(m.recovery.hidden,true);
+  m.store.set('cnine.icon-choice.v1:7',JSON.stringify({requestId:'lost-response-receipt',targetCode:'ICON-OH-JOEUN',version:1}));
+  await m.ctx.loadInventory();assert.deepEqual(m.opened,[]);assert.match(m.recovery.innerHTML,/data-inventory-recover="ICON_CARD_CHOICE_TICKET"/);assert.match(m.recovery.innerHTML,/icon-card-choice-20261020\/ticket.webp/);
+  m.click('ICON_CARD_CHOICE_TICKET');assert.deepEqual(m.opened,[['ICON_CARD_CHOICE_TICKET',0]]);
+  m.store.delete('cnine.icon-choice.v1:7');m.ctx.inventoryRenderGiftRecovery();assert.equal(m.recovery.hidden,true);
+});

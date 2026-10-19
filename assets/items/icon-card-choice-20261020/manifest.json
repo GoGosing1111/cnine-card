@@ -1,0 +1,97 @@
+{
+  "generatedAt": "2026-10-19T18:47:05.913Z",
+  "generator": "image_gen.imagegen (built-in)",
+  "promptFile": "assets/items/icon-card-choice-20261020/prompts.json",
+  "status": "IMPLEMENTED_FOR_REVIEW_NOT_USER_APPROVED",
+  "derivation": "Aspect-preserving resize and WebP encoding; source PNG bytes retained.",
+  "assets": [
+    {
+      "name": "ticket",
+      "source": "assets/items/icon-card-choice-20261020/ticket-source.png",
+      "output": "assets/items/icon-card-choice-20261020/ticket.webp",
+      "sha256": "c90c56712ee4bd0c4b3210c852f95ff85e2f4db8d9e9f13da187d57af6999cb2",
+      "outputSha256": "c5c7050c3227a36ecf1cce93966f54fa3104e257b1676968a5a2e49a88c11a92",
+      "width": 1254,
+      "height": 1254,
+      "alpha": true,
+      "alphaMin": 0
+    },
+    {
+      "name": "panel",
+      "source": "assets/items/icon-card-choice-20261020/panel-source.png",
+      "output": "assets/items/icon-card-choice-20261020/panel.webp",
+      "sha256": "72dae7373b4dbfa7b6b37867543a107bc4c75846c1ffb8d3dca4019b3bc45caf",
+      "outputSha256": "e12c418a4490b38cdc007ecbc88c0cdfaa48030809f8c085fdb8715382ba321d",
+      "width": 1536,
+      "height": 1024,
+      "alpha": true,
+      "alphaMin": 0
+    }
+  ],
+  "portraits": [
+    {
+      "code": "ICON-DIIM",
+      "source": "assets/cards/ICON/diim-source-v1.png",
+      "sourceSha256": "0ce2f08b452464f1f22eb91d9ac9737dd6c6447faa1285f21e152378012be7cd",
+      "output": "assets/items/icon-card-choice-20261020/icon-diim.webp",
+      "sha256": "f26bc71e6a1cfa05d9de576257f1c14ec5352eaed83055febf434a3d66a9a55e",
+      "bytes": 37878
+    },
+    {
+      "code": "ICON-HI-HEEYA",
+      "source": "assets/cards/ICON/hi-heeya-source-v1.png",
+      "sourceSha256": "3e62a900879231cef996154f986db2e9d09f2aec0e9e5abdfe3c2ef888db66ff",
+      "output": "assets/items/icon-card-choice-20261020/icon-hi-heeya.webp",
+      "sha256": "3f7720a3f9557d498ee39daef8b7e776ee47c43491192d458c54a4d44ecdd6e0",
+      "bytes": 35706
+    },
+    {
+      "code": "ICON-NAMUNEUL-BONGSOON",
+      "source": "assets/cards/ICON/namuneul-bongsoon-source-v2.jpg",
+      "sourceSha256": "b056757989c7f4e5fed48668ae4fa46c2276598b7fb6e8c1a655c265e8b2856e",
+      "output": "assets/items/icon-card-choice-20261020/icon-namuneul-bongsoon.webp",
+      "sha256": "5610d03f9f9328ee0b488bcd0b66b6ee959debcdd4e62ee7cb104816073d6016",
+      "bytes": 21140
+    },
+    {
+      "code": "ICON-OH-JOEUN",
+      "source": "assets/cards/ICON/oh-joeun-medic-art-approved-20261006.png",
+      "sourceSha256": "64c78ba6cf48413b9992752a5ce2bfaf6db7a107b55f08132e7f690c0dd82e17",
+      "output": "assets/items/icon-card-choice-20261020/icon-oh-joeun.webp",
+      "sha256": "fa9239a33a588dfaa30ee8851fcdedbb114308ff453b44dac2145ed82dcf7096",
+      "bytes": 70230
+    },
+    {
+      "code": "ICON-ORIKKUNG",
+      "source": "assets/cards/ICON/orikkung-source-v1.png",
+      "sourceSha256": "6562acf5b146cb621487955a62729bdac84d2760ab237b0205a9665e40935bc6",
+      "output": "assets/items/icon-card-choice-20261020/icon-orikkung.webp",
+      "sha256": "19c301d01890fc55a41519aa86b042a162bbcb6b991c3e5303b4dd2c382197f0",
+      "bytes": 44666
+    },
+    {
+      "code": "ICON-KANGGUYEOL",
+      "source": "assets/cards/ICON/kangguyeol-source-v1.png",
+      "sourceSha256": "34bcbf7b62535d2590727205aaec3a1f848323044f17ec7b07778332c295812e",
+      "output": "assets/items/icon-card-choice-20261020/icon-kangguyeol.webp",
+      "sha256": "dff1f0d927b25e82f3c1ebac286be7226f3201d76424c0804cfb84dc4bfcf436",
+      "bytes": 19082
+    },
+    {
+      "code": "ICON-AYOON",
+      "source": "assets/cards/ICON/ayoon-source-v1.png",
+      "sourceSha256": "e98f29f7e04fce948d5c27cd46cdfd5f5b6a704045ead46b129087cb97a557ab",
+      "output": "assets/items/icon-card-choice-20261020/icon-ayoon.webp",
+      "sha256": "3a2e95c784b2b273425436b8717273a8788e9a070ce66f3fc10beb9c55de17ca",
+      "bytes": 32772
+    },
+    {
+      "code": "ICON-GUSUDAENG",
+      "source": "assets/cards/ICON/gusudaeng-source-20261013.webp",
+      "sourceSha256": "934db48547d9858a470e3aabccf801c8299688ba55e8280099b655a4d19a7fb0",
+      "output": "assets/items/icon-card-choice-20261020/icon-gusudaeng.webp",
+      "sha256": "8291989e97cbb3ab312d54a108a745abd15484564b0be9abbf607838e25f3485",
+      "bytes": 6716
+    }
+  ]
+}

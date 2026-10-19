@@ -78,6 +78,7 @@ import {handleJokgakCity} from '../_jokgak_city.js';
 import {handlePetPotential,ensurePetPotentialItem} from '../_pet_potential.js';
 import {handlePetOpening,ensurePetOpeningItems,openPetSeal} from '../_pet_opening.js';
 import {handleIconFusion} from '../_icon_fusion.js';
+import {handleIconCardChoice} from '../_icon_card_choice.js';
 import {handleMercenaryCodex} from '../_mercenary_codex.js';
 import {handleMercenaryAccount,mercenaryUsesInnerLock} from '../_mercenary_account_routes.js';
 import {handleMiracleCube,openMiracleCube,presentMiracleInventory,ensureMiracleCubeCatalog} from '../_miracle_cube.js';
@@ -5175,6 +5176,7 @@ async function handleRequest(context){
     const petGrantsResponse=await handlePetGrants({path,request,env,deps:{requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petGrantsResponse)return petGrantsResponse;
     const petPotentialResponse=await handlePetPotential({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petPotentialResponse)return petPotentialResponse;
     const petOpeningResponse=await handlePetOpening({path,request,env,deps:{authenticate,requirePermission,json,withUserMutationLock:withJointUserMutationLock}});if(petOpeningResponse)return petOpeningResponse;
+    const iconChoiceResponse=await handleIconCardChoice({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(iconChoiceResponse)return iconChoiceResponse;
     const iconFusionResponse=await handleIconFusion({path,request,env,deps:{requirePermission,json,authenticate,withUserMutationLock:withJointUserMutationLock}});if(iconFusionResponse)return iconFusionResponse;
     const avatarResponse=await handleAvatar({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(avatarResponse)return avatarResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;

@@ -1,0 +1,33 @@
+{
+  "checks": [
+    {
+      "viewportWidth": 1440,
+      "viewportHeight": 1000,
+      "overflow": false,
+      "width": 1040,
+      "frame": "url(\"http://127.0.0.1:9201/assets/items/icon-card-choice-20261020/panel.webp\")",
+      "recoveryWithoutSecondPost": true,
+      "errors": []
+    },
+    {
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "overflow": false,
+      "width": 390,
+      "frame": "url(\"http://127.0.0.1:9201/assets/items/icon-card-choice-20261020/panel.webp\")",
+      "recoveryWithoutSecondPost": true,
+      "errors": []
+    },
+    {
+      "viewportWidth": 320,
+      "viewportHeight": 740,
+      "overflow": false,
+      "width": 320,
+      "frame": "url(\"http://127.0.0.1:9201/assets/items/icon-card-choice-20261020/panel.webp\")",
+      "recoveryWithoutSecondPost": true,
+      "errors": []
+    }
+  ],
+  "cmsSavedTicket": true,
+  "cmsRemainsOff": true
+}
