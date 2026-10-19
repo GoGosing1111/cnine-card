@@ -1,0 +1,329 @@
+{
+  "version": "20261019-v3",
+  "generator": "built-in image_gen",
+  "original": "assets/ui/organization/emblem-concepts-20261012.png",
+  "originalSha256": "322036e48e664ca54e87b60bdf2cfdabcd6788cbc4b89da7d69074dfd6f0c6ff",
+  "visualApproval": "pending-user-review",
+  "assets": [
+    {
+      "id": 1,
+      "name": "도끼파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-01.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-01.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "917e7d2a4dd5c5ec8441098f6a029b821c5dc3177977cfd0f2da3170cc846ab7",
+      "webpSha256": "d884b5e07ed7bb0b3fb2f3584a6aa244578c35038db2e3779730d3251c99369b",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 1, 도끼파, in row 1, column 1: red shield and single ornate axe. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        0,
+        0,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 2,
+      "name": "쌍칼파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-02.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-02.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "8fdb907cbf33b8b8b291344d0249c0750289ba0898c0cf2e2b1f9638f4d7f757",
+      "webpSha256": "0a94d7c67cba12f596cdc5678573de39a65447e8506d3fdc4df0c9042c1515b9",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 2, 쌍칼파, in row 1, column 2: blue shield and two crossed silver knives. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        384,
+        0,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 3,
+      "name": "독사파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-03.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-03.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "4df6772afb343a2e26a6f87dd95055ba8f51d0f254651f5f8c0ea331e1dffea7",
+      "webpSha256": "524797acb8a197a03fa11262c79301647b21d3bfc5bd675b595b58bab06ede22",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 3, 독사파, in row 1, column 3: green shield and golden S-shaped cobra. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        768,
+        0,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 4,
+      "name": "불곰파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-04.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-04.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "cc8078747c5bfb1b359a4819a8fd441ffca2fa687d83ebbe7c431615c3714f12",
+      "webpSha256": "f0622ec7720e1ceffb1c7f942825ae0335d349a3978085f22cf0a676774ab122",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 4, 불곰파, in row 2, column 1: amber shield and roaring brown bear head. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        0,
+        384,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 5,
+      "name": "백상어파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-05.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-05.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "353991f02c24c5193ef75d5320c6eaf5350fd0350fc41364938988eddefabefe",
+      "webpSha256": "652e55971633b73948cd367735fd04bbfbc5bbe48939d51b5f4d5140b6c9f4dd",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 5, 백상어파, in row 2, column 2: blue shield and great white shark with waves. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        384,
+        384,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 6,
+      "name": "까마귀파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-06.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-06.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "980caea0a3b4df660930de4ec7a74f37997234c0549125a58a01929a80d57e6e",
+      "webpSha256": "591e00e0c46e6b657463f4e66911816da68805bab56dd90318f03b46cce6919b",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 6, 까마귀파, in row 2, column 3: purple shield and black raven with spread wings. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        768,
+        384,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 7,
+      "name": "들개파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-07.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-07.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "942787c00b8f68a00a75b541e79507416916a58be262236aa3b6841c054999b3",
+      "webpSha256": "e3971713a1accf21e2621fd1eada9a55d6966809e68207c7b0abaccf7447a1f7",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 7, 들개파, in row 3, column 1: red shield and gray dog/wolf head looking right. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        0,
+        768,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 8,
+      "name": "철권파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-08.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-08.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "c178cf7b359545cebcc90cc360dab9cbff98e88e3e4ad413676db0d470e62442",
+      "webpSha256": "61c387a13ead98bc63b51e7ea2289992abfcec4786b44550d016636a97ceb43a",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 8, 철권파, in row 3, column 2: steel gray shield and silver armored fist. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        384,
+        768,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 9,
+      "name": "쇠망치파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-09.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-09.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "5fd59cb6427b1d7aeabfdfbd709a764a07df09e80cc45e978fef0b27a605fc1f",
+      "webpSha256": "9c8212a02de7b0c025db517a599255f1c47741ada027bc836a360f221910cf11",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 9, 쇠망치파, in row 3, column 3: amber shield and single hammer. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        768,
+        768,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 10,
+      "name": "흑표파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-10.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-10.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "5d83fd2b56b07fc0ad31900afabcf30ef658927a7eabcf89ce655d96ec3d6855",
+      "webpSha256": "7dc6745dd9ad087e258ff10a6f84ce86b957a8eccaa18cae4b922ef5bb1f38ec",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 10, 흑표파, in row 4, column 1: teal shield and black panther head. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        0,
+        1152,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 11,
+      "name": "검은손파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-11.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-11.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "6d07b888bec764bbb681e9d25202da2b333b7606115e0a4790d045fb835e35a3",
+      "webpSha256": "6687b10065632b7d093c4ba2b1c6bffe2759135d29d214211b004eff4cd8fd37",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 11, 검은손파, in row 4, column 2: purple shield and raised black metal hand with golden star at wrist. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        384,
+        1152,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 12,
+      "name": "황금니파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-12.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-12.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "62fd596c60384cd541a8a688cf6620893cb8748ec63e57618721593d05a71f7c",
+      "webpSha256": "e543f4d0e88721138627fbf50c304dcf30f843c8eb4235bcb28fe5c7aee0bf86",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 12, 황금니파, in row 4, column 3: golden amber shield and golden fang. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        768,
+        1152,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 13,
+      "name": "밤안개파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-13.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-13.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "727c4f36014fed01e18587030a357a88916d17190a00888da9b69239e62fd7b1",
+      "webpSha256": "08f0a0c827ebc9d64c85011fb7795e480a86a092a192588953dae971292e5097",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 13, 밤안개파, in row 5, column 1: blue shield and silver crescent moon with clouds. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        0,
+        1536,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 14,
+      "name": "무쇠파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-14.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-14.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "678da40ed0b5578554a4a5b0c09d08cad4a2c009b9ff05e8056e4b84ac2aaed0",
+      "webpSha256": "4c470a8bcebc7ee339b0e272bba01bbaac7aed3e35d717f5f9dde38516782626",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 14, 무쇠파, in row 5, column 2: gray shield and iron anvil. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        384,
+        1536,
+        384,
+        384
+      ]
+    },
+    {
+      "id": 15,
+      "name": "야차파",
+      "kind": "emblem",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/organization-15.png",
+      "file": "docs/qa/organization-faction-ui-20261019/extracted/organization-15.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "2b44e81b8c01ebd319ee88578a2732914ad2adaa6218291ea848040e4ec5dd98",
+      "webpSha256": "d1382b1afeb5f86599fb5f0c7b83c17c36a51fa31325e175551d1bf868527844",
+      "prompt": "Use case: background-extraction. Input image is the EDIT TARGET, an existing 3-column by 5-row poster of organization emblems. Extract ONLY emblem 15, 야차파, in row 5, column 3: red shield and silver horned demon face. Preserve this exact existing emblem's design, silhouette, colors, metalwork, subject pose and shield. Remove everything outside this one emblem: all poster background, city, map lines, dividers, all Korean text and other emblems. The output is one complete isolated emblem on true transparent alpha, centered with modest even transparent padding (about 7%). Preserve all protruding wings, horns, weapon parts and shield edges, do not crop them. Do not add text, new elements, borders, a backdrop rectangle, checkerboard or drop shadow. The colored interior of this shield must stay opaque. This is faithful background removal of the supplied artwork, not a redesign. Square image, clean antialiased edges, readable at 64px.",
+      "atlasRect": [
+        768,
+        1536,
+        384,
+        384
+      ]
+    },
+    {
+      "id": "terrain",
+      "name": "terrain",
+      "kind": "map",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/terrain.png",
+      "file": "assets/ui/organization/faction-v3-20261019/terrain.webp",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": false,
+      "sha256": "5cfa0e723ba2d11d35cca0dd232da959e7892162c95b402c4fa41abbfb9be457",
+      "webpSha256": "0477568ddabfd340ffd53265dfd45958cfb95e70d96b354c6fa08983345dc11f",
+      "prompt": "Create a premium game tactical-map terrain texture for a modern Korean metropolitan faction war UI. Orthographic straight top-down, NO perspective tilt. A continuous detailed urban region: small dense charcoal slate city blocks and networks of softly illuminated narrow ivory/teal roads, industrial blocks, quieter wooded hills and fine topographic relief toward outskirts. Polished high-end strategy game map, restrained desaturated graphite/blue-green palette, visible road hierarchy, gentle relief shadows, tiny amber street light accents. Clear mid-dark value range, texture readable behind pale map labels. The texture will be clipped underneath exact administrative SVG boundaries, so NO province boundaries, NO labels, NO characters, NO city names, NO lettering, NO symbols, NO UI panels, NO giant hero buildings, NO strong colored faction patches, NO space/neon sci-fi. Wide landscape composition 3:2, seamless continuous terrain extending to edges. Not a finished interface, only a finely crafted game terrain image."
+    },
+    {
+      "id": "clash",
+      "name": "clash",
+      "kind": "map",
+      "source": "docs/qa/organization-faction-ui-20261019/sources/clash.png",
+      "file": "assets/ui/organization/faction-v3-20261019/clash.webp",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sha256": "88849c41a5625d7713f8f3108c986f8f7d3f39c37c2e18cc992b1a221d87b865",
+      "webpSha256": "69e61fb6c6ecd02a5557f0aa351c5616ef1ed358b2fc4156efbd37afad781607",
+      "prompt": "Create ONE transparent game map marker for a contemporary Korean organization territory war. Two crossed short brushed-steel combat blades striking at the center with a concentrated warm amber impact spark, a few small red-orange ember streaks and wisps of dark smoke. Strong compact silhouette readable at 48 pixels; complete blades and handles with breathing room; metallic silver edges with amber reflection, charcoal handles. Premium painted 2D game UI asset, restrained and crisp, no shield, no enclosing disk, no ornamental frame, no text, no letters, no background rectangle. All surrounding area true transparent alpha. Square composition. It will be used as the animated ACTIVE combat pin on a dark tactical city map."
+    }
+  ],
+  "runtimeAtlas": {
+    "file": "assets/ui/organization/faction-v3-20261019/emblems.webp",
+    "width": 1152,
+    "height": 1920,
+    "tileSize": 384,
+    "columns": 3,
+    "sha256": "41cf6cee43fcc2bef1f55ee63ddd4620de85c3ca8dadf30fcb77daca4331deda",
+    "note": "Complete separately extracted transparent emblems. Source and individual review WebPs are preserved in docs/qa. No poster background or text is part of this atlas."
+  }
+}

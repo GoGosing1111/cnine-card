@@ -1,4 +1,4 @@
-import {mount} from './organization-faction-v1.mjs?v=20261019-squad3';
+import {mount} from './organization-faction-v1.mjs?v=20261019-war-room';
 import {observeOrganizationHeight} from './organization-embed-size-v1.mjs?v=20261018-map-stable';
 const root=document.getElementById('organizationFactionRoot');
 const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
@@ -20,6 +20,7 @@ async function loadLocalBattle(){
  return battleLoading;
 }
 function battleHost(){
+ if(new URL(location.href).searchParams.get('window')==='1')return window;
  let current=window;
  for(let i=0;i<4;i++){try{if(current.ensureFeatureResources)return current;if(current.parent===current)break;current=current.parent;}catch{break;}}
  return window;
@@ -40,4 +41,8 @@ async function playFactionBattle(data){
  }catch(error){close();throw error;}
 }
 mount(root,{apiRequest,ensureFeatureResources:ensureBattle,playFactionBattle});
-observeOrganizationHeight(root,'organization:faction:height');
+if(new URL(location.href).searchParams.get('window')!=='1')observeOrganizationHeight(root,'organization:faction:height');
+const leave=()=>{if(document.querySelector('#modal.show,dialog[open]'))return;try{if(window.parent!==window&&parent.location.origin===location.origin){parent.postMessage({type:'organization:faction:close'},location.origin);return;}}catch{}location.href='/organization/';};
+root.addEventListener('click',event=>{if(event.target.closest('[data-fw-leave]'))leave();});
+window.addEventListener('message',event=>{if(event.origin===location.origin&&event.source===parent&&event.data?.type==='organization:faction:escape')leave();});
+window.addEventListener('keydown',event=>{if(event.key==='Escape'&&!event.defaultPrevented)leave();});

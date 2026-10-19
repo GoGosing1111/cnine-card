@@ -1,0 +1,101 @@
+{
+  "checks": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "overflow": false,
+      "map": {
+        "x": 23,
+        "y": 174,
+        "width": 1456,
+        "height": 885,
+        "top": 174,
+        "right": 1479,
+        "bottom": 1059,
+        "left": 23
+      },
+      "emblems": [
+        {
+          "loaded": true,
+          "src": "/assets/ui/organization/faction-v3-20261019/emblems.webp"
+        }
+      ],
+      "animation": "fw-front-clash",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 1366,
+      "height": 900,
+      "overflow": false,
+      "map": {
+        "x": 23,
+        "y": 174,
+        "width": 942,
+        "height": 705,
+        "top": 174,
+        "right": 965,
+        "bottom": 879,
+        "left": 23
+      },
+      "emblems": [
+        {
+          "loaded": true,
+          "src": "/assets/ui/organization/faction-v3-20261019/emblems.webp"
+        }
+      ],
+      "animation": "fw-front-clash",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "map": {
+        "x": 9,
+        "y": 484,
+        "width": 372,
+        "height": 440,
+        "top": 484,
+        "right": 381,
+        "bottom": 924,
+        "left": 9
+      },
+      "emblems": [
+        {
+          "loaded": true,
+          "src": "/assets/ui/organization/faction-v3-20261019/emblems.webp"
+        }
+      ],
+      "animation": "fw-front-clash",
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "overflow": false,
+      "map": {
+        "x": 9,
+        "y": 594,
+        "width": 302,
+        "height": 440,
+        "top": 594,
+        "right": 311,
+        "bottom": 1034,
+        "left": 9
+      },
+      "emblems": [
+        {
+          "loaded": true,
+          "src": "/assets/ui/organization/faction-v3-20261019/emblems.webp"
+        }
+      ],
+      "animation": "fw-front-clash",
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "endedBattleRemoved": true
+}

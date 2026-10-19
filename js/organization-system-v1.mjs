@@ -1,3 +1,4 @@
+import {openOrganizationFaction} from './organization-faction-window-v1.mjs?v=20261019-war-room';
 import {currentOrganization,organizationRosterView,organizationHideoutView} from './organization-headquarters-v1.mjs?v=20261019-elders';
 import {createOrganizationAdmission} from './organization-admission-v1.mjs?v=20261017-additional-recruitment-v1';
 import {organizationDashboardHeader,organizationDashboardView} from './organization-dashboard-v1.mjs?v=20261018-dashboard';
@@ -55,7 +56,7 @@ export async function mountOrganization({root,api,isOwner=false}){
     root.querySelector('[data-org-refresh]')?.addEventListener('click',()=>run(async()=>{},'조직 현황을 갱신했습니다.'));
     root.querySelector('[data-org-upgrade]')?.addEventListener('click',()=>run(()=>post('organization/faction/upgrade',{roundId:state.round.id,expectedStage:state.faction.treasury.stage,policyRevision:state.faction.policy.revision}),'조직 자금으로 아지트를 한 단계 업그레이드했습니다.'));
     if(tab==='survey')admission.bind(root,{repaint:render,submit:({answers,preferredOrganizationId})=>state.admissionEnabled===false||state.membership||!recruitmentOpen()?message('입단 심사와 모집은 추후 시작됩니다.'):run(()=>post('organization/survey',{roundId:state.round.id,revision:state.survey?.revision||0,answers,preferredOrganizationId}),'입단 지원서를 접수했습니다.'),withdraw:()=>run(()=>post('organization/withdraw',{roundId:state.round.id,revision:state.survey.revision}),'입단 지원을 철회했습니다.')});
-    root.querySelectorAll('[data-tab]').forEach(button=>button.onclick=()=>{tab=button.dataset.tab;if(tab==='mine'||tab==='hideout')stage=null;render();root.querySelector(`[data-tab="${tab}"]`)?.focus();});
+    root.querySelectorAll('[data-tab]').forEach(button=>button.onclick=()=>{if(button.dataset.tab==='faction'){openOrganizationFaction({roundId:state.round?.id,onClose:()=>button.focus({preventScroll:true})});return;}tab=button.dataset.tab;if(tab==='mine'||tab==='hideout')stage=null;render();root.querySelector(`[data-tab="${tab}"]`)?.focus();});
     root.querySelectorAll('[data-stage]').forEach(button=>button.onclick=()=>{stage=Number(button.dataset.stage);render();root.querySelector(`[data-stage="${stage}"]`)?.focus({preventScroll:true});});
     root.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>{
       const action=button.dataset.action,roundId=state.round?.id;
