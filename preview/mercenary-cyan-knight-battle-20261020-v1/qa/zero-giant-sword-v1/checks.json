@@ -1,0 +1,250 @@
+{
+  "status": "PASS",
+  "visualApproval": false,
+  "preservedAppearanceFiles": 13,
+  "preservedScopeFiles": 24,
+  "swordSolidBounds": {
+    "x": 239,
+    "y": 30,
+    "right": 784,
+    "bottom": 1506
+  },
+  "transparentPixels": 1188831,
+  "baselineChecks": [
+    {
+      "device": "desktop",
+      "samples": 443,
+      "rearClipped": [],
+      "sweepClipped": [],
+      "cameraChanges": [],
+      "contacts": [
+        {
+          "mode": "array",
+          "u": 0.6239390995922602,
+          "distance": 0,
+          "intersects": true,
+          "grip": {
+            "x": 780.3199999999999,
+            "y": 432.98
+          },
+          "tip": {
+            "x": 1148.4328497157724,
+            "y": 287.0042147678833
+          },
+          "target": {
+            "x": 1010,
+            "y": 341.9
+          },
+          "atFinalHit": true
+        },
+        {
+          "mode": "zenith",
+          "u": 0.6239390995922602,
+          "distance": 0,
+          "intersects": true,
+          "grip": {
+            "x": 780.3199999999999,
+            "y": 432.98
+          },
+          "tip": {
+            "x": 1148.4328497157724,
+            "y": 287.0042147678833
+          },
+          "target": {
+            "x": 1010,
+            "y": 341.9
+          },
+          "atFinalHit": true
+        }
+      ],
+      "overflow": false,
+      "autoZoom": false,
+      "effectsOff": true,
+      "cancelled": true,
+      "reducedMotionStable": true,
+      "defeatHidden": true,
+      "behindBody": true
+    },
+    {
+      "device": "mobile",
+      "samples": 443,
+      "rearClipped": [],
+      "sweepClipped": [],
+      "cameraChanges": [],
+      "contacts": [
+        {
+          "mode": "array",
+          "u": 0.6239390995922599,
+          "distance": 1.1368683772161603e-13,
+          "intersects": true,
+          "grip": {
+            "x": 492.82583606557375,
+            "y": 650.3424426229508
+          },
+          "tip": {
+            "x": 971.3725406960782,
+            "y": 460.573921821199
+          },
+          "target": {
+            "x": 791.4098360655738,
+            "y": 531.9384426229508
+          },
+          "atFinalHit": true
+        },
+        {
+          "mode": "zenith",
+          "u": 0.6239390995922599,
+          "distance": 1.1368683772161603e-13,
+          "intersects": true,
+          "grip": {
+            "x": 492.82583606557375,
+            "y": 650.3424426229508
+          },
+          "tip": {
+            "x": 971.3725406960782,
+            "y": 460.573921821199
+          },
+          "target": {
+            "x": 791.4098360655738,
+            "y": 531.9384426229508
+          },
+          "atFinalHit": true
+        }
+      ],
+      "overflow": false,
+      "autoZoom": false,
+      "effectsOff": true,
+      "cancelled": true,
+      "reducedMotionStable": true,
+      "defeatHidden": true,
+      "behindBody": true
+    }
+  ],
+  "finalCutChecks": [
+    {
+      "device": "desktop",
+      "sampled": 196,
+      "clipped": [],
+      "contacts": [
+        {
+          "mode": "array",
+          "u": 0.6239390995922602,
+          "distance": 0,
+          "intersects": true,
+          "grip": {
+            "x": 780.3199999999999,
+            "y": 432.98
+          },
+          "tip": {
+            "x": 1148.4328497157724,
+            "y": 287.0042147678833
+          },
+          "target": {
+            "x": 1010,
+            "y": 341.9
+          },
+          "atFinalHit": true
+        },
+        {
+          "mode": "zenith",
+          "u": 0.6239390995922602,
+          "distance": 0,
+          "intersects": true,
+          "grip": {
+            "x": 780.3199999999999,
+            "y": 432.98
+          },
+          "tip": {
+            "x": 1148.4328497157724,
+            "y": 287.0042147678833
+          },
+          "target": {
+            "x": 1010,
+            "y": 341.9
+          },
+          "atFinalHit": true
+        }
+      ],
+      "cameraChanges": []
+    },
+    {
+      "device": "mobile",
+      "sampled": 196,
+      "clipped": [],
+      "contacts": [
+        {
+          "mode": "array",
+          "u": 0.6239390995922599,
+          "distance": 1.1368683772161603e-13,
+          "intersects": true,
+          "grip": {
+            "x": 492.82583606557375,
+            "y": 650.3424426229508
+          },
+          "tip": {
+            "x": 971.3725406960782,
+            "y": 460.573921821199
+          },
+          "target": {
+            "x": 791.4098360655738,
+            "y": 531.9384426229508
+          },
+          "atFinalHit": true
+        },
+        {
+          "mode": "zenith",
+          "u": 0.6239390995922599,
+          "distance": 1.1368683772161603e-13,
+          "intersects": true,
+          "grip": {
+            "x": 492.82583606557375,
+            "y": 650.3424426229508
+          },
+          "tip": {
+            "x": 971.3725406960782,
+            "y": 460.573921821199
+          },
+          "target": {
+            "x": 791.4098360655738,
+            "y": 531.9384426229508
+          },
+          "atFinalHit": true
+        }
+      ],
+      "cameraChanges": []
+    }
+  ],
+  "controlsAndDisposal": [
+    {
+      "device": "desktop",
+      "arrayContacts": 20,
+      "effectsOff": true,
+      "cancel": true,
+      "reducedMotionStable": true,
+      "rearDestroyed": true,
+      "frontDestroyed": true,
+      "frameTexturesDestroyed": true
+    },
+    {
+      "device": "mobile",
+      "arrayContacts": 20,
+      "effectsOff": true,
+      "cancel": true,
+      "reducedMotionStable": true,
+      "rearDestroyed": true,
+      "frontDestroyed": true,
+      "frameTexturesDestroyed": true
+    }
+  ],
+  "previousVariant": {
+    "id": "ZERO_BLADE_WINGS_V1",
+    "label": "백금 검익 시안 · 일반 기술 3개 · 광역기 2개",
+    "behindBody": true,
+    "autoZoom": false
+  },
+  "errors": {
+    "desktop": [],
+    "mobile": []
+  },
+  "note": "Initial release clip corrected by interpolating from the resting sword scale; finalCutChecks are the post-fix result."
+}

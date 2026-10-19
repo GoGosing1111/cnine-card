@@ -3,10 +3,11 @@ import {gsap} from 'gsap';
 import {SummonedSwordArray} from './SummonedSwordArray.js';
 import {WhiteAuraAppearance} from './WhiteAuraAppearance.js';
 import {ZeroBladeWings} from './ZeroBladeWings.js';
+import {ZeroGiantSwordEcho} from './ZeroGiantSwordEcho.js';
 import {MODES,sample,bladeContact,smooth} from '../motion.mjs';
 const ROOT='/preview/mercenary-cyan-knight-battle-20261020-v1/',HEIGHT=360,mix=(a,b,t)=>a+(b-a)*t;
 export async function loadKnightAssets(m){
- const out={motion:{},effects:{},appearance:[],summoned:[],blade:await Assets.load(ROOT+m.weapon.url)};
+ const out={motion:{},effects:{},appearance:[],summoned:[],backdropEffects:[],blade:await Assets.load(ROOT+m.weapon.url)};
  await Promise.all([
  ...Object.entries(m.motion).map(async([k,s])=>{const a=await Assets.load(ROOT+s.url);out.motion[k]=s.frames.map((f,i)=>new Texture({source:a.source,frame:new Rectangle(i%s.columns*s.frameWidth,Math.floor(i/s.columns)*s.frameHeight,s.frameWidth,s.frameHeight)}));}),
  ...Object.entries(m.effects).map(async([k,s])=>{const a=await Assets.load(ROOT+s.url);out.effects[k]=s.frames.map(f=>new Texture({source:a.source,frame:new Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));})
@@ -14,6 +15,7 @@ export async function loadKnightAssets(m){
  if(m.summonedWeapons){const a=await Assets.load(ROOT+m.summonedWeapons.url);out.summoned=m.summonedWeapons.frames.map(f=>new Texture({source:a.source,frame:new Rectangle(f.rect.x,f.rect.y,f.rect.width,f.rect.height)}));}
  if(m.appearance){const a=await Assets.load(ROOT+m.appearance.url),s=m.appearance;out.appearance=Array.from({length:s.columns*s.rows},(_,i)=>new Texture({source:a.source,frame:new Rectangle(i%s.columns*s.frameWidth,Math.floor(i/s.columns)*s.frameHeight,s.frameWidth,s.frameHeight)}));}
  if(m.backdrop)out.backdrop=await Assets.load(ROOT+m.backdrop.url);
+ if(m.backdrop?.effect){const s=m.backdrop.effect,a=await Assets.load(ROOT+s.url);out.backdropEffects=Array.from({length:s.columns*s.rows},(_,i)=>new Texture({source:a.source,frame:new Rectangle(i%s.columns*s.frameWidth,Math.floor(i/s.columns)*s.frameHeight,s.frameWidth,s.frameHeight)}));}
  return out;
 }
 export class KnightFX{
@@ -27,7 +29,7 @@ export class KnightFX{
   this.pool=Array.from({length:24},()=>{const s=new Sprite();s.visible=false;this.front.addChild(s);return s;});
   this.array=new SummonedSwordArray(this);this.swords=this.array.root;this.swordPool=this.array.swordPool;
   this.appearance=manifest.appearance?new WhiteAuraAppearance(unit,assets.appearance,manifest.appearance):null;
-  this.backdrop=manifest.backdrop?new ZeroBladeWings(unit,assets.backdrop,manifest.backdrop):null;
+  this.backdrop=manifest.backdrop?(manifest.backdrop.kind==='giant-sword'?new ZeroGiantSwordEcho(this,assets.backdrop,assets.backdropEffects,manifest.backdrop):new ZeroBladeWings(unit,assets.backdrop,manifest.backdrop)):null;
   this.capture();this.makeTimeline();this.render(0);
  }
  capture(){this.home={x:this.unit.root.baseX,y:this.unit.root.baseY};}
@@ -74,8 +76,8 @@ export class KnightFX{
   this.pool.forEach(s=>s.visible=false);this.shade.clear();
   const visualPose=state.done&&this.mode!=='defeat'?{bank:'idle',index:0,facing:1}:state.pose;this.applyPose(visualPose);
   this.appearance?.update(t,visualPose,this.pose(visualPose),this.effectsEnabled,e.reducedMotion);
-  this.backdrop?.update(t,visualPose,this.pose(visualPose),this.effectsEnabled,e.reducedMotion);
   const r=this.rootFor(state);u.root.position.set(r.x,r.y);u.root.depthSortY=r.groundY;e.sortCombatDepth();
+  this.backdrop?.update(t,visualPose,this.pose(visualPose),this.effectsEnabled,e.reducedMotion);
   const torso=this.contact(),feet=this.targetFeet(),bp=this.bladePoints(state,r),height=(this.targets[0].fullBodyHeight||300)*this.targets[0].root.scale.y;
   this.collision=bladeContact(bp.grip,bp.tip,torso,height*.3);this.groundError=Math.abs(r.y+state.lift*size-r.groundY);
   this.drawGhosts(state);this.drawSwords(state,size);
@@ -105,5 +107,5 @@ export class KnightFX{
  }
  cancel(){this.removeTimeline();this.clock.time=0;if(!this.disposed)this.render(0);}
  diagnostics(){return{ready:!this.disposed,appearance:this.appearance?.diagnostics(),backdrop:this.backdrop?.diagnostics(),version:this.manifest.version,summonedArray:this.array.diagnostics(),mode:this.mode,time:this.time,playing:this.playing,speed:this.speed,pose:this.state?.pose,phase:this.state?.phase,contactCount:this.state?.contactCount,bladeContact:this.collision,phantomContacts:this.phantomContacts,groundError:this.groundError,airborne:this.state?.lift>0,visibleEffects:this.effectsEnabled?this.pool.filter(s=>s.visible).length:0,visibleGhosts:this.effectsEnabled?this.ghostPool.filter(s=>s.visible).length:0,visibleSwords:this.swordPool.filter(s=>s.visible).length,registeredTimelines:this.registration&&this.engine.simpleTimelines.has(this.registration)?1:0,...this.manifest.summary,weaponSha256:this.manifest.weapon.sha256,regularAllies:this.engine.allies.length,targets:this.targets.length,clock:'V3_REGISTERED_GSAP',liveEnabled:false,actor:{x:this.unit.root.x,y:this.unit.root.y,height:HEIGHT*this.unit.root.scale.y},contact:this.contact(),ground:this.targetFeet()};}
- destroy(){if(this.disposed)return;this.cancel();this.disposed=true;this.backdrop?.destroy();this.appearance?.destroy();this.engine.camera.reset(true);this.targets.forEach(t=>t.view.position.set(0,0));this.front.destroy({children:true});this.back.destroy({children:true});this.array.destroy();for(const frames of[...Object.values(this.assets.motion),...Object.values(this.assets.effects),this.assets.appearance,this.assets.summoned])for(const t of frames)t.destroy(false);}
+ destroy(){if(this.disposed)return;this.cancel();this.disposed=true;this.backdrop?.destroy();this.appearance?.destroy();this.engine.camera.reset(true);this.targets.forEach(t=>t.view.position.set(0,0));this.front.destroy({children:true});this.back.destroy({children:true});this.array.destroy();for(const frames of[...Object.values(this.assets.motion),...Object.values(this.assets.effects),this.assets.appearance,this.assets.summoned,this.assets.backdropEffects])for(const t of frames)t.destroy(false);}
 }

@@ -10,6 +10,8 @@ function update(f){
 function gallery(mode){$('frames').innerHTML=MODES[mode].poses.map((p,i)=>'<button class="frame-card" data-frame="'+i+'"><img loading="lazy" src="assets/thumbs/'+p.bank+'-'+String(p.index+1).padStart(2,'0')+'.png" alt="'+(i+1)+'번 동작"'+(p.facing<0?' style="transform:scaleX(-1)"':'')+'><span>'+p.at.toFixed(2)+'s</span></button>').join('');for(const b of doc.querySelectorAll('[data-frame]'))b.onclick=()=>fx.seek(MODES[mode].steps[Number(b.dataset.frame)]);}
 async function boot(){
  const [manifest,payload]=await Promise.all([fetch(ROOT+'manifest.json').then(r=>r.json()),fetch('/preview/z-body-live-v1/fixture.json').then(r=>r.json())]);window.cnineCardCatalog=()=>payload.cards;
+ const variant=new URLSearchParams(parent.location.search).get('backdrop');if(variant&&Object.hasOwn(manifest.backdropVariants||{},variant))manifest.backdrop=manifest.backdropVariants[variant];
+ if(manifest.backdrop?.intro)doc.querySelector('.intro').textContent=manifest.backdrop.intro;
  // Reuse the real V3 hunt target and card formation; this page only previews choreography.
  await new Promise(r=>document.readyState==='complete'?r():window.addEventListener('load',r,{once:true}));
  const api=window.ProjectVPixiBattle,mount=api.mountForBattle;api.mountForBattle=async(...args)=>{engine=await mount(...args);return engine;};
@@ -22,7 +24,7 @@ async function boot(){
  $('effects').onchange=()=>fx.setEffects($('effects').checked);
  for(const b of doc.querySelectorAll('[data-mode]'))b.onclick=()=>{fx.setMode(b.dataset.mode);gallery(fx.mode);fx.play();};
  for(const b of doc.querySelectorAll('button,select,input'))b.disabled=false;
- $('status').textContent='백금 검익 시안 · 일반 기술 3개 · 광역기 2개';fx.setMode('idle');gallery('idle');fx.seek(.3);
+ $('status').textContent=(manifest.backdrop?.label||'백금 검익')+' 시안 · 일반 기술 3개 · 광역기 2개';fx.setMode('idle');gallery('idle');fx.seek(.3);
  const review={fx,engine,manifest,modes:MODES,diagnostics:()=>fx.diagnostics(),dispose:()=>{fx.destroy();engine.destroy();}};window.CyanKnightPreview=review;parent.CyanKnightPreview=review;
  engine.app.renderer.on('resize',()=>{fx.pause();fx.capture();fx.render(fx.time);});
  window.addEventListener('pagehide',()=>review.dispose(),{once:true});document.addEventListener('visibilitychange',()=>{if(document.hidden)fx.cancel();});

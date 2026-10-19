@@ -1,10 +1,22 @@
-# 제로 — 백금 검익 시안 / 천검 포위 V4
+# 제로 — 거신 검영 · 백금 검익 / 천검 포위 V4
+
+## 거신 검영 — 두 번째 배후 효과 시안
+
+사용자 “거신 검영 좋다 한개 더 보여줘 프리뷰적용해서” 요청으로 **거신 검영을 기본 프리뷰**에 적용했다. 반투명 백금 대검이 등 뒤에 떠 있다가 천검 포위 3.60초·창천 종단 2.65초의 기존 마지막 타격에 맞춰 실체를 드러내고 내려벤다. 전용 대검 PNG와 6프레임 백색 참격 시트를 built-in ImageGen으로 제작했으며 원본 알파·프롬프트·출처·해시를 보존했다.
+
+- [거신 검영 프리뷰](http://127.0.0.1:8991/preview/mercenary-cyan-knight-battle-20261020-v1/?backdrop=giant) / [이전 백금 검익 비교](http://127.0.0.1:8991/preview/mercenary-cyan-knight-battle-20261020-v1/?backdrop=wings)
+- [실제 대기·궁극기·0.4배속 마무리 녹화](review-zero-giant-sword-v1.webm)
+- [PC 대기](qa/zero-giant-sword-v1/desktop-idle.png) / [PC 마지막 타격](qa/zero-giant-sword-v1/desktop-final-hit.png) / [모바일 마지막 타격](qa/zero-giant-sword-v1/mobile-final-hit.png)
+- 원화: [대검](assets/appearance/zero-giant-sword-v1.png) · [참격 시트](assets/appearance/zero-giant-sweep-v1.png) · [프롬프트·출처·해시](prompt-zero-giant-sword-v1.json)
+- [시안 기록](zero-giant-sword-review-v1.json) / [관련 검증 기록](qa/zero-giant-sword-v1/checks.json)
+
+공용 PixiJS 8.20.0·GSAP 3.13.0 시계를 사용한다. 자동 확대는 OFF이며 캐릭터 비율·손에 든 검·흰 망토·네온·기존 스킬 경로와 타격 시점은 그대로다. 백금 검익 원화와 구현도 보존해 하단 링크로 비교한다. PC·모바일에서 검영의 후면 배치, 궁극기 두 접점, 천검 포위 20접점, 화면 경계, 효과 OFF, 동작 줄이기, 중단·퇴장·자원 정리를 확인했다. 승인 외형 13개 및 V4 범위 24개 파일 해시는 동일하다. **거신 검영 제작 결과는 사용자 시각 검수 대기**이며 라이브·피해·등급·획득은 변경하지 않았다.
 
 ## 백금 검익 — 실제 화면 적용 시안
 
 사용자가 원형 검륜 단독 이미지를 반려하고 다른 구상을 실제 화면에 적용해 달라고 요청했다. 새 시안은 **좌측 세 개·우측 두 개의 길고 날카로운 백금 검날이 등 뒤로 펼쳐지는 비대칭 검익**이다. built-in ImageGen으로 전용 투명 리소스를 만들고 공용 V3 전투 유닛의 망토와 몸 뒤에 연결했다. 대기·이동·스킬에 따라 함께 움직이고 약하게 부유한다.
 
-프리뷰는 검익이 보이는 대기 상태로 열린다. 자동 확대는 OFF이며 모바일 가장자리에서는 분리된 검익만 안쪽으로 이동한다. 몸 비율·손에 든 칼·흰빛 망토와 네온, 천검 포위의 궤적·엇박자·소멸·재등장·타격 크기는 유지한다.
+백금 검익 비교 링크는 검익이 보이는 대기 상태로 열린다. 자동 확대는 OFF이며 모바일 가장자리에서는 분리된 검익만 안쪽으로 이동한다. 몸 비율·손에 든 칼·흰빛 망토와 네온, 천검 포위의 궤적·엇박자·소멸·재등장·타격 크기는 유지한다.
 
 - [실제 전투 프리뷰](http://127.0.0.1:8991/preview/mercenary-cyan-knight-battle-20261020-v1/) / [대기·천검 포위·창천 종단 녹화](review-zero-blade-wings-v1.webm)
 - [PC 적용 화면](qa/zero-blade-wings-v1/desktop-idle.png) / [모바일 적용 화면](qa/zero-blade-wings-v1/mobile-idle.png)

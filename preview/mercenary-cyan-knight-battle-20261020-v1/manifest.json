@@ -5370,20 +5370,143 @@
     "routeRevision": "independent-offbeat-curved-diagonal-sharp-mix"
   },
   "backdrop": {
-    "id": "ZERO_BLADE_WINGS_V1",
-    "url": "assets/appearance/zero-blade-wings-v1.png",
-    "sha256": "d51165ba29ac71b56865772b2b2a893bf9c66fef2b6255f759ddff567f2f9541",
-    "width": 1536,
-    "height": 1024,
-    "anchor": {
-      "x": 0.6,
-      "y": 0.78
+    "id": "ZERO_GIANT_SWORD_ECHO_V1",
+    "kind": "giant-sword",
+    "label": "거신 검영",
+    "intro": "거신 검영 · 거대한 대검의 잔상과 최후의 내려베기",
+    "url": "assets/appearance/zero-giant-sword-v1.png",
+    "sha256": "80e3c1e9f7fa239fda8b6d593ca4d1557c697de6dab26f7e850adf3853b4d7c5",
+    "width": 1024,
+    "height": 1536,
+    "grip": {
+      "x": 512,
+      "y": 1260
     },
-    "heightInBodies": 1.02,
-    "attachHeight": 0.66,
+    "tip": {
+      "x": 512,
+      "y": 32
+    },
+    "bladePixels": 1468,
+    "lengthInBodies": 2.25,
+    "finishReachInBodies": 2.2,
+    "effect": {
+      "url": "assets/appearance/zero-giant-sweep-v1.png",
+      "sha256": "9bd56084c6523b8b6671c3c2bd2cc2fd4dfdb7c1d4a8b0778294c23ef5d95066",
+      "columns": 3,
+      "rows": 2,
+      "frameWidth": 512,
+      "frameHeight": 512,
+      "pivots": [
+        {
+          "x": 0.82,
+          "y": 0.82
+        },
+        {
+          "x": 0.82,
+          "y": 0.82
+        },
+        {
+          "x": 0.82,
+          "y": 0.82
+        },
+        {
+          "x": 0.75,
+          "y": 0.75
+        },
+        {
+          "x": 0.85,
+          "y": 0.77
+        },
+        {
+          "x": 0.85,
+          "y": 0.8
+        }
+      ]
+    },
     "generatedWith": "built-in image_gen",
-    "promptFile": "prompt-zero-blade-wings-v1.json",
+    "promptFile": "prompt-zero-giant-sword-v1.json",
     "visualApproval": false,
-    "reviewRecord": "zero-blade-wings-review-v1.json"
+    "reviewRecord": "zero-giant-sword-review-v1.json"
+  },
+  "backdropVariants": {
+    "wings": {
+      "id": "ZERO_BLADE_WINGS_V1",
+      "url": "assets/appearance/zero-blade-wings-v1.png",
+      "sha256": "d51165ba29ac71b56865772b2b2a893bf9c66fef2b6255f759ddff567f2f9541",
+      "width": 1536,
+      "height": 1024,
+      "anchor": {
+        "x": 0.6,
+        "y": 0.78
+      },
+      "heightInBodies": 1.02,
+      "attachHeight": 0.66,
+      "generatedWith": "built-in image_gen",
+      "promptFile": "prompt-zero-blade-wings-v1.json",
+      "visualApproval": false,
+      "reviewRecord": "zero-blade-wings-review-v1.json",
+      "kind": "blade-wings",
+      "label": "백금 검익",
+      "intro": "백금 검익 · 등 뒤로 펼쳐지는 다섯 검날"
+    },
+    "giant": {
+      "id": "ZERO_GIANT_SWORD_ECHO_V1",
+      "kind": "giant-sword",
+      "label": "거신 검영",
+      "intro": "거신 검영 · 거대한 대검의 잔상과 최후의 내려베기",
+      "url": "assets/appearance/zero-giant-sword-v1.png",
+      "sha256": "80e3c1e9f7fa239fda8b6d593ca4d1557c697de6dab26f7e850adf3853b4d7c5",
+      "width": 1024,
+      "height": 1536,
+      "grip": {
+        "x": 512,
+        "y": 1260
+      },
+      "tip": {
+        "x": 512,
+        "y": 32
+      },
+      "bladePixels": 1468,
+      "lengthInBodies": 2.25,
+      "finishReachInBodies": 2.2,
+      "effect": {
+        "url": "assets/appearance/zero-giant-sweep-v1.png",
+        "sha256": "9bd56084c6523b8b6671c3c2bd2cc2fd4dfdb7c1d4a8b0778294c23ef5d95066",
+        "columns": 3,
+        "rows": 2,
+        "frameWidth": 512,
+        "frameHeight": 512,
+        "pivots": [
+          {
+            "x": 0.82,
+            "y": 0.82
+          },
+          {
+            "x": 0.82,
+            "y": 0.82
+          },
+          {
+            "x": 0.82,
+            "y": 0.82
+          },
+          {
+            "x": 0.75,
+            "y": 0.75
+          },
+          {
+            "x": 0.85,
+            "y": 0.77
+          },
+          {
+            "x": 0.85,
+            "y": 0.8
+          }
+        ]
+      },
+      "generatedWith": "built-in image_gen",
+      "promptFile": "prompt-zero-giant-sword-v1.json",
+      "visualApproval": false,
+      "reviewRecord": "zero-giant-sword-review-v1.json"
+    }
   }
 }

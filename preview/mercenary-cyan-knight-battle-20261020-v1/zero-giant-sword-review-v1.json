@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-20",
+  "status": "USER_REVIEW_PENDING",
+  "visualApproval": false,
+  "userQuote": "거신 검영 좋다 한개 더 보여줘 프리뷰적용해서",
+  "concept": "거신 검영 — 등 뒤의 반투명 대검이 궁극기 최후의 일격에서 실체를 드러내며 내려벤다.",
+  "conceptSelected": true,
+  "defaultPreview": "http://127.0.0.1:8991/preview/mercenary-cyan-knight-battle-20261020-v1/?backdrop=giant",
+  "comparisonPreview": "http://127.0.0.1:8991/preview/mercenary-cyan-knight-battle-20261020-v1/?backdrop=wings",
+  "assets": [
+    {
+      "file": "assets/appearance/zero-giant-sword-v1.png",
+      "sourcePath": "C:/Users/User/.codex/generated_images/01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad/exec-38f87830-f7d3-4e89-a692-1799d892d625.png",
+      "sha256": "80e3c1e9f7fa239fda8b6d593ca4d1557c697de6dab26f7e850adf3853b4d7c5",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true
+    },
+    {
+      "file": "assets/appearance/zero-giant-sweep-v1.png",
+      "sourcePath": "C:/Users/User/.codex/generated_images/01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad/exec-34e4f091-b99b-4baf-ba2c-aa06b587dbed.png",
+      "sha256": "9bd56084c6523b8b6671c3c2bd2cc2fd4dfdb7c1d4a8b0778294c23ef5d95066",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true
+    }
+  ],
+  "promptFile": "prompt-zero-giant-sword-v1.json",
+  "generatedWith": "built-in image_gen",
+  "source": "source/ZeroGiantSwordEcho.js",
+  "recording": "review-zero-giant-sword-v1.webm",
+  "qa": "qa/zero-giant-sword-v1/checks.json",
+  "finalHits": {
+    "array": 3.6,
+    "zenith": 2.65
+  },
+  "runtimeEnabled": false,
+  "notes": [
+    "Uses the existing shared V3 PixiJS renderer and registered GSAP clock.",
+    "Rear blade is below the approved mantle/body; its orientation remains steady through alternating body-facing poses.",
+    "Final cut releases from the existing rear blade, accelerates through the actual target, then dissolves; original 20 sword-array impacts remain unchanged.",
+    "Painted six-frame descending sweep is anchored to the target and fits the fixed viewport without moving or scaling the character or camera.",
+    "Effects OFF, reduced motion, cancel, defeat fade and disposal are supported.",
+    "Concept selection does not approve the newly generated artwork or enable live combat."
+  ]
+}

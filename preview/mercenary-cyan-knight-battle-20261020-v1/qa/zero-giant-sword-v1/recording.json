@@ -1,0 +1,14 @@
+{
+  "file": "review-zero-giant-sword-v1.webm",
+  "source": "Actual V3 canvas and registered GSAP timeline",
+  "duration": 15.582399999976158,
+  "bytes": 15281202,
+  "autoZoom": false,
+  "visualApproval": false,
+  "segments": [
+    "idle 1x",
+    "array 1x",
+    "zenith 1x",
+    "array final cut 0.4x"
+  ]
+}
