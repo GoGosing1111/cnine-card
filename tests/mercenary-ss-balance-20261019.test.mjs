@@ -1,15 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {createHash} from 'node:crypto';
 import {buildFighter,createPveBattleV2,createPvpBattleV2,createDuoBattleV2} from '../functions/_battle_v2_preview.js';
 import {buildMercenaryFighter,mercenaryCombat,mercenaryTurnCadence} from '../functions/_mercenary_combat.js';
 import {MERCENARY_CMS_SEED as seed} from '../functions/_mercenary_cms_seed.js';
 import {expandMercenarySkillCatalog} from '../shared/mercenary-cms-model-v1.mjs';
 import {mercenaryCodexDocument} from '../functions/_mercenary_codex.js';
 import {battleConfig,mercenarySnapshotPower} from '../functions/_mercenary_account.js';
-import {HALLOWEEN_COMBAT,HALLOWEEN_COMBAT_VERSION} from '../shared/mercenary-halloween-combat-v1.mjs';
+import {HALLOWEEN_COMBAT,HALLOWEEN_COMBAT_VERSION,HALLOWEEN_DIIM_PVP_BARRIER} from '../shared/mercenary-halloween-combat-v1.mjs';
 import {IMPERIAL_ARCHER_COMBAT as archer,IMPERIAL_ARCHER_SKILLS,imperialArcherCredit} from '../shared/mercenary-kangyun-v1.mjs';
-import {balanceSnapshot,balanceFingerprint,halloweenCodes,balanceFormations} from '../scripts/measure-ss-mercenary-balance-20261019.mjs';
+import {balanceSnapshot,halloweenCodes,balanceFormations} from '../scripts/measure-ss-mercenary-balance-20261019.mjs';
 import {tierCards} from './helpers/mercenary-operating-roster-v2144.mjs';
 
 function harness(code,mode='PVP'){
@@ -22,16 +23,21 @@ function harness(code,mode='PVP'){
  return {actor,targets,ally,hits,events,runtime,act(){actor.actions++;return runtime.beforeAction(actor);}};
 }
 
-test('independent mirrored holdout has no globally dominant seasonal fighter and Kangyun beats every Halloween matchup overall',()=>{
+// V4 adds only Bongsoon's PvP incoming-damage modifier. Preserve the V3
+// historical datasets; the new matched holdout has its own regression file.
+function v3Policies(){const policies=structuredClone(HALLOWEEN_COMBAT);delete policies['V-980'].pvpIncomingDamageScale;return policies;}
+const v3Fingerprint=()=>createHash('sha256').update(JSON.stringify({HALLOWEEN_COMBAT:v3Policies(),HALLOWEEN_DIIM_PVP_BARRIER,IMPERIAL_ARCHER_COMBAT:archer,IMPERIAL_ARCHER_SKILLS})).digest('hex');
+
+test('historical V3 holdout is preserved and unchanged Kangyun matchups still replay',()=>{
  const r=JSON.parse(fs.readFileSync('docs/qa/ss-halloween-uplift-20261019/holdout.json'));
- assert.equal(r.policyFingerprint,balanceFingerprint());assert.equal(r.total,8064);assert.equal(r.count,16);assert.equal(r.start,1091901);
+ assert.equal(r.policyFingerprint,v3Fingerprint());assert.equal(r.total,8064);assert.equal(r.count,16);assert.equal(r.start,1091901);
  assert.equal(r.formations.length,9);assert.equal(r.matches.length,28);
  for(const row of r.summaries){assert.equal(row.draws,0);assert.equal(row.sides.A.total,row.sides.B.total);
   if(row.code==='V-057'){assert.ok(row.winRate>.85);for(const matchup of Object.values(row.opponents))assert.ok(matchup.winRate>.65);}
   else {assert.ok(row.winRate>=.4&&row.winRate<=.6,`${row.code}: ${row.winRate}`);assert.equal(Object.keys(row.opponents).length,6);}
  }
  // Replay a small independent slice through the current server, not just JSON.
- for(const m of r.matches.filter(m=>['V-980','V-057'].includes(m.a))){const s=m.samples[0],f=balanceFormations[1];
+ for(const m of r.matches.filter(m=>m.a==='V-057'&&m.b!=='V-980')){const s=m.samples[0],f=balanceFormations[1];
   const battle=createPvpBattleV2({attackerCards:f.cards,defenderCards:f.cards,attackerMercenary:balanceSnapshot(m.a),defenderMercenary:balanceSnapshot(m.b),seed:s.seed});
   assert.equal(battle.result.winner,s.winner);assert.equal(battle.result.timeline.length,s.events);
  }
@@ -45,7 +51,7 @@ test('Halloween uplift reaches codex, account power and authoritative PVE/PVP fi
   assert.equal(p.basePower,237600);assert.equal(p.basePower,Math.round(previous.basePower*1.1));
   assert.equal(p.scale,Number((previous.scale*1.1).toFixed(3)));
   for(const [key,value]of Object.entries(previous.link))assert.equal(p.link[key],Number((value*1.1).toFixed(2)));
-  assert.deepEqual({...p,basePower:previous.basePower,scale:previous.scale,link:previous.link},previous,'no tempo, cap, cost or specialty changes');
+  assert.deepEqual({...v3Policies()[code],basePower:previous.basePower,scale:previous.scale,link:previous.link},previous,'no tempo, cap, cost or specialty changes');
   assert.equal(snapshot.halloweenPolicyVersion,HALLOWEEN_COMBAT_VERSION);assert.equal(publicCard.basePower,237600);assert.equal(mercenarySnapshotPower(snapshot),237600);
   assert.deepEqual(publicCard.skills[0].balance,snapshot.skills[0].balance);
   assert.match(publicCard.combatLinkDescription,/기본 전투력 237,600/);
@@ -122,7 +128,7 @@ test('canonical PVE and duo paths execute each seasonal specialty and Kangyun ra
 
 test('PVE comparison preserves the ranged skill floor without multiplying one cast per arrow',()=>{
  const r=JSON.parse(fs.readFileSync('docs/qa/ss-halloween-uplift-20261019/pve.json'));
- assert.equal(r.policyFingerprint,balanceFingerprint());assert.equal(r.total,192);
+ assert.equal(r.policyFingerprint,v3Fingerprint());assert.equal(r.total,192);
  for(const c of r.cases){const own=r.rows.find(row=>row.code==='V-057'&&row.scenario===c.id);
   for(const other of r.rows.filter(row=>row.code!=='V-057'&&row.scenario===c.id)){
    assert.ok(c.id==='entry'?own.averageTurns<=other.averageTurns:own.averageTurns<other.averageTurns);assert.ok(own.averageDamage>=other.averageDamage);assert.ok(own.clears>=other.clears);

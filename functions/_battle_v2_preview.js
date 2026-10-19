@@ -35,6 +35,7 @@ import {valterIncomingDamage,valterActionCredit} from '../shared/mercenary-valte
 import {kaironIncomingDamage,kaironActionCredit} from '../shared/mercenary-kairon-v1.mjs';
 import {jinmuIncomingDamage,jinmuActionCredit} from '../shared/mercenary-jinmu-v1.mjs';
 import {heliosIncomingDamage,heliosActionCredit} from '../shared/mercenary-helios-v1.mjs';
+import {halloweenIncomingDamage} from '../shared/mercenary-halloween-combat-v1.mjs';
 
 // =====================================================================
 // V1936: 계열 개편 (S1)
@@ -578,6 +579,7 @@ function applyCanonicalDamage(target, incoming, options = {}) {
     incoming = incoming + Math.min(target.shield, incoming * options.shieldBonus);
   }
   const beforeMercenaryMitigation=incoming;
+  incoming = halloweenIncomingDamage(target,incoming);
   incoming = valterIncomingDamage(target,incoming,options.actor);
   incoming = heliosIncomingDamage(target,incoming,options.actor);
   incoming = jinmuIncomingDamage(target,incoming,options.actor);
