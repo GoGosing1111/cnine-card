@@ -70,3 +70,9 @@
 - `js/character-loadout-v2.js`, `css/character-loadout-v2.css`는 최초 보강 이전 Git 원본과 차이가 없음을 확인했다. 추가 SVG·불꽃·Canvas 아우라·아이템 금빛 처리·광원 생명주기 코드를 모두 제거하고 원래 +8/+9/+10 표현으로 복원한다.
 - 해당 기능의 기존 검사도 최초 버전으로 복원하고 운영 로더·루트 HTML·공유 프리뷰의 캐시만 `enhanceGlow=20261019-original-rollback`으로 새로 지정한다. 다른 콘텐츠의 최신 변경을 되돌리는 전체 배포 롤백이나 DB 변경은 하지 않는다.
 - 공식 scoped 배포에서 기존 관련 검사 6건만 수행하고, 운영 JS/CSS의 Git 원본 일치와 PC/모바일의 추가 이펙트 제거·장착 동작을 확인한다. 이전 시안과 원본 자료는 실행되지 않는 제작 이력으로만 보존한다.
+
+### 최초 상태 복원 완료
+
+- 롤백 코드 `af6db7a11`, Pages `95f91d56`, API runtime `444a5015-b1b2-4358-a811-a01fcfd62a43`, 스케줄러 `7eb6b549-6140-4bc5-b835-bf84f244b299`. 관련 검사 6건 통과, 배포 종료 코드 0.
+- 2026-10-19 11:36:22 KST 운영 JS/CSS/로더 해시와 새 캐시 연결을 확인했다. 장비 렌더러·CSS는 `eca72db6e` 원본과 일치하며 PC 1440px/모바일 390px 모두 추가 Canvas/SVG 이펙트 0개, 최초 +10 표현 복원, 장착·해제 정상, 가로 넘침·페이지 오류 0건이다.
+- 영수증 `original-rollback-live-verification.json`, 배포 로그 `deploy-original-rollback.log`, 운영 확인 화면 `original-rollback-live-1440.png`/`original-rollback-live-390.png`을 위 로컬 검수 폴더에 보존한다. 이 완료 기록만 별도 커밋한다.
