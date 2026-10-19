@@ -34,6 +34,7 @@ test('Bathory is one SS seasonal identity, canonical power/skill, with original 
 test('old ON pack config gains only Bathory 0% and ten stock, no implicit opening or price/rate changes',()=>{
  for(const mode of ['OFF','ON']){
   const original=halloweenPackDraft();original.mode=mode;original.prices={single:100,ten:900};delete original.cardRatesPpm[CODE];delete original.stockLimits[CODE];
+  for(const code of Object.keys(HALLOWEEN_COMBAT))original.stockLimits[code]=10;
   original.cardRatesPpm=Object.fromEntries(Object.keys(original.cardRatesPpm).map(code=>[code,code==='V-980'?1000000:0]));original.normalSssRatePpm=0;
   original.normalRankRatesPpm={C:0,B:0,A:0,S:0,SS:0,SSS:1000000};original.missRatePpm=0;
   const frozen=structuredClone(original),next=readHalloweenPackSettings(original);

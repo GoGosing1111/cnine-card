@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-19T06:01:22.878Z",
+  "checkedAt": "2026-10-19T08:40:08.287Z",
   "transaction": "READ ONLY",
   "code": "V-977",
   "stock": [],
@@ -7,6 +7,68 @@
   "issued": 0,
   "cms": [],
   "codeAvailable": true,
+  "halloweenStock": [
+    {
+      "code": "V-980",
+      "stock_limit": "10",
+      "issued": "10",
+      "revision": "11"
+    },
+    {
+      "code": "V-981",
+      "stock_limit": "10",
+      "issued": "10",
+      "revision": "11"
+    },
+    {
+      "code": "V-982",
+      "stock_limit": "10",
+      "issued": "10",
+      "revision": "11"
+    },
+    {
+      "code": "V-983",
+      "stock_limit": "10",
+      "issued": "10",
+      "revision": "11"
+    },
+    {
+      "code": "V-984",
+      "stock_limit": "10",
+      "issued": "10",
+      "revision": "11"
+    },
+    {
+      "code": "V-985",
+      "stock_limit": "10",
+      "issued": "10",
+      "revision": "11"
+    },
+    {
+      "code": "V-986",
+      "stock_limit": "10",
+      "issued": "10",
+      "revision": "11"
+    },
+    {
+      "code": "V-989",
+      "stock_limit": "3",
+      "issued": "0",
+      "revision": "0"
+    },
+    {
+      "code": "V-996",
+      "stock_limit": "15",
+      "issued": "14",
+      "revision": "22"
+    },
+    {
+      "code": "V-999",
+      "stock_limit": "8",
+      "issued": "7",
+      "revision": "12"
+    }
+  ],
   "pack": {
     "revision": 13,
     "mode": "ON",
@@ -23,6 +85,48 @@
       "V-989",
       "V-996"
     ],
-    "bathoryRate": null
+    "bathoryRate": null,
+    "settings": {
+      "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+      "mode": "ON",
+      "prices": {
+        "single": 1000000000,
+        "ten": 10000000000
+      },
+      "cardRatesPpm": {
+        "V-980": 10000,
+        "V-981": 10000,
+        "V-982": 10000,
+        "V-983": 10000,
+        "V-984": 10000,
+        "V-985": 10000,
+        "V-986": 10000,
+        "V-999": 100,
+        "V-989": 50,
+        "V-996": 100
+      },
+      "missRatePpm": 800000,
+      "stockLimits": {
+        "V-980": 10,
+        "V-981": 10,
+        "V-982": 10,
+        "V-983": 10,
+        "V-984": 10,
+        "V-985": 10,
+        "V-986": 10,
+        "V-999": null,
+        "V-989": 3,
+        "V-996": null
+      },
+      "normalRankRatesPpm": {
+        "C": 104500,
+        "B": 30000,
+        "A": 30000,
+        "S": 30000,
+        "SS": 5000,
+        "SSS": 500
+      },
+      "normalSssRatePpm": 929750
+    }
   }
 }

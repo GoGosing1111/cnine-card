@@ -1,4 +1,4 @@
-import {HALLOWEEN_PACK_CARDS,halloweenStockLimit} from './mercenary-halloween-pool-v3.mjs?v=20261018-valter-v1';
+import {HALLOWEEN_PACK_CARDS,halloweenStockLimit} from './mercenary-halloween-pool-v3.mjs?v=20261019-bathory-live-v1';
 import {HALLOWEEN_MERCENARIES,HALLOWEEN_SERVER_LIMIT} from './mercenary-halloween-catalog-v1.mjs';
 import {isLimitedRate,limitedRateUnits,LIMITED_RATE_TOTAL,LIMITED_RATE_SCALE} from './mercenary-limited-rates-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
@@ -37,10 +37,11 @@ export function validateHalloweenPack(raw,{releaseEnabled=HALLOWEEN_PACK_RELEASE
   if(rates.some(n=>n!==null&&!isLimitedRate(n)))throw Error('확률은 미정 또는 0~100%, 소수점 8자리까지 입력하세요.');
   if(rates.reduce((sum,n)=>sum+(n===null?0:limitedRateUnits(n)),0)>LIMITED_RATE_TOTAL)throw Error('각 단계 확률 합계는 100%를 초과할 수 없습니다.');
  }
- // Read the original five-copy document during rollout; new saves require ten.
+ // Keep complete previous five/ten-copy documents readable during rollout.
+ // The approved save policy is eleven original SS copies and ten Bathory copies.
  const approvedLimits=exact(raw.stockLimits,codes)&&codes.every(code=>raw.stockLimits[code]===halloweenStockLimit(code));
- const legacyLimits=allowLegacyStock&&exact(raw.stockLimits,codes)&&codes.every(code=>raw.stockLimits[code]===(legacyCodes.includes(code)?5:halloweenStockLimit(code)));
- if(!approvedLimits&&!legacyLimits)throw Error('할로윈 SS는 각 10장, 진무는 전용 지급분 외 팩 3장, 헬리오스·발테르는 기존 공용 잔여 수량을 사용합니다.');
+ const legacyLimits=allowLegacyStock&&exact(raw.stockLimits,codes)&&[5,10].some(limit=>codes.every(code=>raw.stockLimits[code]===(legacyCodes.includes(code)?limit:halloweenStockLimit(code))));
+ if(!approvedLimits&&!legacyLimits)throw Error('기존 할로윈 SS 7종은 각 11장, 바토리는 10장, 진무는 팩 3장, 헬리오스·발테르는 기존 공용 잔여 수량을 사용합니다.');
  return structuredClone(raw);
 }
 export function readHalloweenPackSettings(raw=halloweenPackDraft(),options){

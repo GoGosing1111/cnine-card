@@ -7,8 +7,8 @@
   "edition": "LIMITED",
   "season": "HALLOWEEN",
   "serverLimit": 10,
-  "status": "USER_REVIEW_PENDING",
-  "runtimeEnabled": false,
+  "status": "USER_APPROVED_FOR_RELEASE",
+  "runtimeEnabled": true,
   "sourceArt": "preview/mercenary-bathory-halloween-20261019-v1/assets/sources/bathory-source-v2.png",
   "sourceArtSha256": "ba3f9ba6f60b0b90eea9e27b66ada65c3c329ded136dc115d4a449290235e761",
   "weapon": {

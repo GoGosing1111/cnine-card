@@ -37,7 +37,7 @@ async function boot(){
   $('mode').onchange=()=>{stopQueue();fx.setMode($('mode').value);fx.play();};$('seek').oninput=()=>{stopQueue();fx.seek(Number($('seek').value));};$('speed').onchange=()=>fx.setSpeed(Number($('speed').value));$('effects').onchange=()=>fx.setEffects($('effects').checked);
   $('contact').onclick=()=>{stopQueue();fx.seek(MODES[fx.mode].contacts.find(t=>t>fx.time+.005)??MODES[fx.mode].contacts[0]??0);};
   for(const c of doc.querySelectorAll('button,select,input'))c.disabled=false;
-  $('status').textContent='기본 전투력 '+BATHORY_COMBAT.basePower.toLocaleString('ko-KR')+' · 서버 한정 10장 · 승인 대기';
+  $('status').textContent='기본 전투력 '+BATHORY_COMBAT.basePower.toLocaleString('ko-KR')+' · 서버 한정 10장 · SS 할로윈 리미티드';
   const review={engine,merc,fx,manifest,queue,dispose,diagnostics:()=>fx.diagnostics()};window.BathoryPreview=review;parent.BathoryPreview=review;
   engine.app.renderer.on('resize',resize);window.addEventListener('pagehide',dispose,{once:true});document.addEventListener('visibilitychange',()=>{if(document.hidden){stopQueue();fx.cancel();}});
   if(!engine.reducedMotion){queue.active=true;queue.index=0;next();}

@@ -10,4 +10,4 @@ export const HALLOWEEN_SSS_CARDS=Object.freeze([
  Object.freeze({...LIMITED_MERCENARIES.find(c=>c.code==='V-996'),group:'SSS_LIMITED',stockPolicy:'EXISTING_SHARED',serverLimit:null,thumbnailArt:'assets/ui/packs/limited-v1/v-996-640.webp',displayArt:'assets/ui/packs/limited-v1/v-996-640.webp'})
 ]);
 export const HALLOWEEN_PACK_CARDS=Object.freeze([...HALLOWEEN_MERCENARIES,...HALLOWEEN_SSS_CARDS]);
-export const halloweenStockLimit=code=>['V-999','V-996'].includes(code)?null:code===JINMU_CODE?3:HALLOWEEN_SERVER_LIMIT;
+export const halloweenStockLimit=code=>['V-999','V-996'].includes(code)?null:code===JINMU_CODE?3:HALLOWEEN_MERCENARIES.find(c=>c.code===code)?.serverLimit??HALLOWEEN_SERVER_LIMIT;

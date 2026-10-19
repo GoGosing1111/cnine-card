@@ -14,8 +14,9 @@ async function original(t){
 }
 const snapshot=async f=>({stock:(await f.pg.query('SELECT * FROM mercenary_limited_stock_v1 ORDER BY code')).rows,meta:(await f.pg.query('SELECT * FROM app_meta ORDER BY key')).rows,audit:(await f.pg.query('SELECT * FROM admin_logs ORDER BY id')).rows,holdings:(await f.pg.query('SELECT * FROM user_mercenary_cards_v1')).rows});
 
-test('new SS limits are ten; the prior five-copy state stays readable during rollout, while saves reject it',()=>{
- const current=halloweenPackDraft();assert.ok(codes.every(code=>current.stockLimits[code]===10));
+test('original SS limits are eleven; prior five/ten-copy states stay readable during rollout, while saves reject them',()=>{
+ const current=halloweenPackDraft();assert.ok(codes.every(code=>current.stockLimits[code]===11));assert.equal(current.stockLimits['V-977'],10);
+ const ten=structuredClone(current);for(const code of codes)ten.stockLimits[code]=10;assert.deepEqual(readHalloweenPackSettings(ten),ten);assert.throws(()=>validateHalloweenPack(ten));
  const old=structuredClone(current);for(const code of codes)old.stockLimits[code]=5;
  assert.deepEqual(readHalloweenPackSettings(old),old);assert.throws(()=>validateHalloweenPack(old));
  const rows=codes.map(code=>({code,stock_limit:5,issued:2}));assert.equal(halloweenPackState(old,rows).stock[0].remaining,3);

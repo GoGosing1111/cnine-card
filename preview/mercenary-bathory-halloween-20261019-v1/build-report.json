@@ -4,7 +4,7 @@
   "gsapCopies": 1,
   "pixiVersion": "8.20.0",
   "gsapVersion": "3.13.0",
-  "bundleSha256": "2e7f1d8a997761cc77ea0f841a5802ead42aca47b50b226e3493208bc7e5e042",
+  "bundleSha256": "9fbe894e64ddd4669b4df09d86d05592a04f8d86461fa0a461f2185eee5b9972",
   "sharedRuntime": [
     "preview/project-v-v3/source/battle/EquipmentSetFX.js",
     "preview/project-v-v3/source/battle/BattleGroundStyle.mjs",

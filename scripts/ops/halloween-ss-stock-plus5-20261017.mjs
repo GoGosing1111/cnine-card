@@ -36,7 +36,7 @@ export async function increaseHalloweenSsStock(db,{dryRun=false}={}){
    }
    const next=structuredClone(before),at=new Date().toISOString();
    for(const code of codes)next.settings.stockLimits[code]=10;
-   validateHalloweenPack(next.settings);
+   validateHalloweenPack(next.settings,{allowLegacyStock:true});
    next.revision++;next.updatedAt=at;next.updatedBy=1;next.lastRequestId='halloween-ss-plus5-20261017-v1';
    const changed=await db.query('UPDATE mercenary_limited_stock_v1 SET stock_limit=10,revision=revision+1 WHERE code=ANY($1::text[]) AND stock_limit=5 RETURNING code',[codes]);
    assert.equal(changed.rows.length,7);

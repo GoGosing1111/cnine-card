@@ -4,10 +4,11 @@ const connectionString=raw.trim().replace(/^['"]|['"]$/g,''),url=new URL(connect
 const db=new pg.Client({connectionString,application_name:'bathory-readonly-release-preparation',connectionTimeoutMillis:10000});
 try{await db.connect();await db.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');const code='V-977';
 const stock=(await db.query('SELECT code,stock_limit,issued FROM mercenary_limited_stock_v1 WHERE code=$1',[code])).rows;
+const halloweenStock=(await db.query('SELECT code,stock_limit,issued,revision FROM mercenary_limited_stock_v1 WHERE code=ANY($1::text[]) ORDER BY code',[['V-977','V-980','V-981','V-982','V-983','V-984','V-985','V-986','V-989','V-996','V-999']])).rows;
 const owned=(await db.query('SELECT count(*)::int AS count FROM user_mercenary_cards_v1 WHERE mercenary_code=$1',[code])).rows[0].count;
 const issued=(await db.query('SELECT count(*)::int AS count FROM mercenary_limited_issues_v1 WHERE code=$1',[code])).rows[0].count;
 const cms=(await db.query('SELECT doc_key FROM mercenary_cms_documents_v1 WHERE payload_json LIKE $1',['%'+code+'%'])).rows;
 const value=(await db.query('SELECT value FROM app_meta WHERE key=$1',['mercenary_halloween_ss_pack_v1'])).rows[0].value;
-const doc=JSON.parse(value);const report={checkedAt:new Date().toISOString(),transaction:'READ ONLY',code,stock,owned,issued,cms,codeAvailable:!stock.length&&!owned&&!issued&&!cms.length,pack:{revision:doc.revision,mode:doc.settings.mode,documentHash:createHash('sha256').update(value).digest('hex'),existingCodes:Object.keys(doc.settings.cardRatesPpm),bathoryRate:doc.settings.cardRatesPpm[code]??null}};
+const doc=JSON.parse(value);const report={checkedAt:new Date().toISOString(),transaction:'READ ONLY',code,stock,owned,issued,cms,codeAvailable:!stock.length&&!owned&&!issued&&!cms.length,halloweenStock,pack:{revision:doc.revision,mode:doc.settings.mode,documentHash:createHash('sha256').update(value).digest('hex'),existingCodes:Object.keys(doc.settings.cardRatesPpm),bathoryRate:doc.settings.cardRatesPpm[code]??null,settings:doc.settings}};
 await db.query('ROLLBACK');await fs.writeFile(new URL('qa/live-readonly-preflight.json',import.meta.url),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
 }catch(e){await db.query('ROLLBACK').catch(()=>{});console.error(String(e.message).replace(/postgres(?:ql)?:\/\/\S+/g,'[withheld]'));process.exitCode=1;}finally{await db.end();}

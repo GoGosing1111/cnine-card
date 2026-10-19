@@ -1,4 +1,4 @@
-// Prepared for user visual approval. This branch has not been released.
+// User approved production release on 2026-10-19; acquisition is pack-controlled.
 export const BATHORY_CODE='V-977';
 export const BATHORY_SERVER_LIMIT=10;
 export const BATHORY_RESOURCE_ROOT='preview/mercenary-bathory-halloween-20261019-v1/';
@@ -24,9 +24,9 @@ export const BATHORY_ART=Object.freeze({
  battleSpriteSha256:'FD33330B76A8381ED76E0E33144FE3E8835DC74C2ED0C5D941F2C63C7A411906',
  frame:'assets/ui/project-v/mercenaries/limited-20261002/frame-valter-slim-v3.png',frameSha256:'F5F636CAC672A485F19CE4ED484ECB2798217D365A4D31B2C6C7FABB878189EA',
  artWindow:Object.freeze({left:5.957,top:5.794,width:88.086,height:88.086}),accent:'#e94d70',basePower:BATHORY_COMBAT.basePower,
- skills:Object.freeze([BATHORY_SKILL]),acquisitionEnabled:false,packAcquisitionEnabled:false,deploymentEnabled:true,
+ skills:Object.freeze([BATHORY_SKILL]),acquisitionEnabled:false,packAcquisitionEnabled:true,deploymentEnabled:true,
  acquisitionPackId:'mercenary-halloween-ss-limited',acquisitionPackName:'할로윈 리미티드 용병팩',serverLimit:BATHORY_SERVER_LIMIT,
  thumbnailArt:BATHORY_CATALOG_ROOT+'art-320.webp',displayArt:BATHORY_CATALOG_ROOT+'art-640.webp',
- resourceStatus:'USER_REVIEW_PENDING',sourceApprovalRecord:BATHORY_RESOURCE_ROOT+'release-plan.json',combatLinkDescription:BATHORY_DESCRIPTION
+ resourceStatus:'USER_APPROVED_FOR_RELEASE',sourceApprovalRecord:BATHORY_RESOURCE_ROOT+'release-plan.json',combatLinkDescription:BATHORY_DESCRIPTION
 });
 export function bathoryDeploymentSnapshot(){return{...BATHORY_ART,actorKind:'MERCENARY',level:1,statMode:'RANK_FIXED',attackStyle:'MELEE',skills:[structuredClone(BATHORY_SKILL)],pendingSkillIds:[],bathoryPolicyVersion:1,deploymentVersion:'20261019-bathory-v1'};}
