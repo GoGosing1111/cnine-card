@@ -1,0 +1,114 @@
+{
+  "id": "mercenary-cyan-knight-battle-20261020-v1",
+  "status": "V2_USER_REVIEW_PENDING",
+  "date": "2026-10-20",
+  "sourceArt": "../mercenary-cyan-mecha-knight-20261019-v1/assets/mercenary-cyan-mecha-knight-fullbody-v3.png",
+  "sourceSha256": "D9EBF2DD04DE55D7EBA230617BBE81B11C1EAF6E728D61BB32D892ECC82D0159",
+  "sourceSelection": "User requested battle resources after V3; use V3 as the production basis. New battle drawings require separate visual review.",
+  "reference": {
+    "url": "https://www.youtube.com/watch?v=hsbDPa9ViY8",
+    "title": "[던파] 진(眞) 웨펀마스터",
+    "channel": "던파TV(던전앤파이터)",
+    "duration": 52.121,
+    "inspection": "Browser video frames inspected at 1-second intervals from 0 to 47 seconds, plus full-size frames at 4, 11, 18, 25, 32, 41 and 48 seconds. Multi-sword sequence rechecked at 12.6, 13.0, 13.4, 13.8, 14.2, 14.6, 15.0, 15.4 and 15.8 seconds, plus repeat at 29–31 seconds.",
+    "assetsCopied": false
+  },
+  "skills": [
+    {
+      "id": "horizon",
+      "label": "청광 횡단",
+      "type": "skill",
+      "duration": 1.65,
+      "referenceSeconds": [
+        4,
+        5
+      ],
+      "action": "몸을 낮춰 준비 → 긴 전진 보폭 → 넓은 횡베기 → 검기 잔향 → 자세 복귀",
+      "bodyFrames": 8,
+      "effect": "sharply edged horizontal cyan crescent"
+    },
+    {
+      "id": "flurry",
+      "label": "섬광 연참",
+      "type": "skill",
+      "duration": 2.6,
+      "referenceSeconds": [
+        8,
+        12
+      ],
+      "action": "접근 → 좌우 교차 5연격 → 검을 들어 회수 → 후퇴 복귀",
+      "bodyFrames": 8,
+      "effect": "alternating intersecting slash trails and distinct hit bursts"
+    },
+    {
+      "id": "meteor",
+      "label": "낙성 검격",
+      "type": "skill",
+      "duration": 2.7,
+      "referenceSeconds": [
+        24,
+        28
+      ],
+      "action": "상향 베기 → 도약 → 검을 든 공중 준비 → 수직 낙하 → 지면 파열 → 일어서기",
+      "bodyFrames": 8,
+      "effect": "descending streak, vertical slash and material ground shock"
+    },
+    {
+      "id": "array",
+      "label": "천검 포위",
+      "type": "area",
+      "duration": 3.8,
+      "referenceSeconds": [
+        13,
+        16,
+        29,
+        32
+      ],
+      "action": "빠른 접근 → 원본 검 다섯 자루 전개 → 4차 교차 회전 베기 → 상공 재정렬 → 연속 내려찍기 → 다섯 검 동시 수렴 · 마지막 검격 → 잔향",
+      "bodyFrames": 12,
+      "effect": "original locked sword silhouettes in a cyan array, crossing trajectories and collapse"
+    },
+    {
+      "id": "zenith",
+      "label": "창천 종단",
+      "type": "area",
+      "duration": 4.6,
+      "referenceSeconds": [
+        42,
+        47
+      ],
+      "action": "발진 준비 → 고속 횡단 → 도약 회전 → 공중 검압 응축 → 전장 대각 절단 → 착지 충격과 잔광 → 복귀",
+      "bodyFrames": 12,
+      "effect": "wide diagonal spatial cut followed by separated ground fracture and dissipating ribbons"
+    }
+  ],
+  "baseMotions": {
+    "idle": 4,
+    "dash": 4,
+    "hit": 4,
+    "defeat": 4
+  },
+  "bodyTotal": 64,
+  "weaponPolicy": "Select visible original sword blade and guard pixels from V3; one immutable raster; only translation, rotation, uniform scale and horizontal facing reflection; short grip is drawn with the hands. Never resize weapon independently per pose.",
+  "proportions": "Adult heroic body, compact complete helmet, athletic torso, long thighs/shins; no chibi or SD proportion change; canonical physical height shared across all actions; crouched/jumping bounds never normalize apparent stature.",
+  "runtime": "Existing common V3 BattleEngine, one PixiJS and one GSAP clock; visual events only.",
+  "liveEnabled": false,
+  "serverDamageAssigned": false,
+  "rank": null,
+  "name": null,
+  "effectFrames": 108,
+  "ultimateRevision": {
+    "version": "ARRAY_V2",
+    "previousRejected": true,
+    "userFeedback": "천검포위 연출 품질이 매우 낮음",
+    "changes": [
+      "실제 검날의 횡방향 통과 및 회전 궤적",
+      "짧은 적중 정지와 가속/감속",
+      "새로 생성한 청색·금색 연속 검격 효과",
+      "상공 재정렬과 하강 공격",
+      "전개 때 넓게, 연참 때 가깝게 조정하는 카메라",
+      "모바일 검날 여백 확보"
+    ],
+    "userApproval": false
+  }
+}

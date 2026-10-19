@@ -1,0 +1,150 @@
+{
+  "reason": "User requested shorter neck and corrected grip. Widen 2x2 motion cells to keep extended limbs inside transparent padding.",
+  "common": "Use case: stylized-concept. Production asset: a genuinely transparent RGBA 2x2 sheet of FOUR consecutive hand-painted body animation frames for the SAME tall armored mercenary.\nThe attached full-body V3 is the character identity and body-proportion authority. Keep the smaller complete helmet, tall adult heroic proportions, solid athletic chest, long thighs/shins, and ivory white / narrow gold edging / dark navy mechanical armor / cyan V visor. This is FULL-PROPORTION battle art, NEVER chibi, SD, dwarf, squat, oversized-head or ultra-thin mannequin. Render the whole body consistently in premium crisp 2D anime mecha painterly style.\nCanvas SQUARE 2048x2048 preferred (minimum 1024x1024), precisely two columns and two rows, four equal independent square cells. The wide square cells are necessary to leave room for extended limbs. Leave at least 6% completely transparent padding on every side of EACH cell. Each cell is a single full-body figure with clear transparent margins, no touching/overlap between cells, no cropped helmet fins, hands or boots. Same orthographic-like combat camera, three-quarter view facing screen RIGHT, no perspective scale change. Each character has the SAME actual skeletal scale and armor proportions. Upright height occupies about 82% of one cell; crouching reduces visible height naturally, do not enlarge crouches or shrink standing poses to their bounds.\nWEAPON LOCK: do not draw any sword blade, guard, long weapon or glowing slash. Draw only the closed weapon hand gripping a short neutral dark handle 8–10 cm long; the exact original sword will be composited afterwards. Keep that gripping hand fully readable and leave ample space where the blade will be. No floating blade or leftover weapon fragment. No shield.\nActual articulated animation: change torso rotation, shoulder, elbow, wrist, pelvis, knees and feet according to the frame directions below; do not repeat a static pose with image shifts. Maintain exactly two arms, two legs and coherent hands, accurate mechanical joints and armor panel identity.\nNo text, labels, numerals, grid lines, floor, background, contact shadow, glow aura, smoke, decorative FX or opaque black/white matte. Only four clean character bodies on true transparent alpha. The ordered four frames are:\nUSER CORRECTION FOR EVERY FRAME: keep the neck compact, helmet seated in the collar with no long thin exposed neck. Match the corrected idle reference's slightly shorter neck. Use a firm anatomical power grip around the short handle: four armored fingers wrapped, thumb closing across index side, wrist aligned to forearm, not pinching or floating. Preserve the corrected reference's tall physical stature and compact head.",
+  "sheets": [
+    {
+      "id": "idle",
+      "poses": [
+        "Top-left: upright alert ready stance, right hand with handle relaxed near front hip, left hand open slightly away, compact helmet looking right.",
+        "Top-right: subtle inhale and weight shift onto the front leg, shoulders open a few degrees, left hand closes halfway.",
+        "Bottom-left: settle onto rear leg with a small bend in elbows and knees, helmet tracking right; full same height.",
+        "Bottom-right: recover toward the first ready stance, armored fingers relaxed, no attack."
+      ]
+    },
+    {
+      "id": "dash",
+      "poses": [
+        "Top-left: spring preparation, right foot planted behind, hips flexed slightly, long torso still intact, handle hand beside hip.",
+        "Top-right: launch forward right, forward knee leading, rear leg extending back; shoulders and pelvis driving forward.",
+        "Bottom-left: fast full running stride right, legs alternating, long limbs visible, handle carried alongside waist.",
+        "Bottom-right: controlled landing and braking on forward boot, rear foot catches up, hips and chest rise to full ready height."
+      ]
+    },
+    {
+      "id": "hit",
+      "poses": [
+        "Top-left: upright braced guard preparing for an impact from the right, handle hand close to torso.",
+        "Top-right: recoil impact, chest twists backward, left forearm raised, knees flex but body proportions preserved.",
+        "Bottom-left: rear foot catches the recoil, torso beginning to regain vertical, helmet still facing right.",
+        "Bottom-right: recover to strong upright guard, weight rebalanced."
+      ]
+    },
+    {
+      "id": "defeat",
+      "poses": [
+        "Top-left: staggering backward after a heavy impact, handle hand loosening, chest dips.",
+        "Top-right: dropping onto one knee, one hand reaches toward the ground, leg segments remain full length.",
+        "Bottom-left: supported kneeling with head lowered, shoulders losing tension, torso tilts sideways.",
+        "Bottom-right: collapsed on side with long legs folded naturally and both arms visible, fully contained within cell, no dismemberment or broken armor."
+      ]
+    },
+    {
+      "id": "horizon-a",
+      "poses": [
+        "Top-left: right-facing upright ready stance, handle hand low near left side of waist preparing a drawn sweeping cut.",
+        "Top-right: wind-up with torso coiling away and hip rotation; handle hand pulled back, elbow flexed.",
+        "Bottom-left: initiate forward step, hips uncoil, handle hand begins to swing outward to the right at waist height.",
+        "Bottom-right: decisive mid-swing, right arm extends horizontally toward screen right at chest height, wrist aligned for a rightward blade; rear heel pivots."
+      ]
+    },
+    {
+      "id": "horizon-b",
+      "poses": [
+        "Top-left: full horizontal slash follow-through to the right; strong shoulder rotation and extended handle hand at chest height.",
+        "Top-right: weight transfers over front leg, handle hand passes the torso in follow-through, left arm counterbalances.",
+        "Bottom-left: decelerate with knees stable and long torso upright, right elbow bends to retract handle.",
+        "Bottom-right: return to tall ready stance, handle at front hip, compact head and fully extended legs."
+      ]
+    },
+    {
+      "id": "flurry-a",
+      "poses": [
+        "Top-left: rapid entry stance, forward long stride, handle hand drawn back high near shoulder.",
+        "Top-right: first diagonal downward cross cut, handle hand thrust toward screen right and slightly down, chest rotates.",
+        "Bottom-left: reverse rising cut with handle near forward chest, elbow lifted, pelvis counter-rotating; blade direction up-right.",
+        "Bottom-right: broad lateral second cut toward screen right, arm extends across torso, rear boot pivots decisively."
+      ]
+    },
+    {
+      "id": "flurry-b",
+      "poses": [
+        "Top-left: reverse cross cut, handle hand drawn across the front of the chest with strong opposite shoulder rotation.",
+        "Top-right: low-to-high rising finisher, hips extend, handle hand reaches above front shoulder, body almost upright.",
+        "Bottom-left: small backward recovery step, right forearm lowers, left arm steadies balance.",
+        "Bottom-right: full-height battle-ready stance with handle near hip; no crouching idle."
+      ]
+    },
+    {
+      "id": "meteor-a",
+      "poses": [
+        "Top-left: gather jump energy with a moderate knee bend and handle held low, long limbs unchanged.",
+        "Top-right: powerful rising slash and push-off, forward knee drives up, handle hand rises in front of the face toward upper-right.",
+        "Bottom-left: airborne ascent, legs extend naturally beneath the torso with one knee slightly bent; handle above shoulder.",
+        "Bottom-right: airborne apex, both hands gathered near the right shoulder holding the same short handle, elbows bent for overhead strike; full long body clearly articulated."
+      ]
+    },
+    {
+      "id": "meteor-b",
+      "poses": [
+        "Top-left: overhead strike windup in midair, hands above head holding short handle, long legs drawn back slightly.",
+        "Top-right: downward stroke, shoulders and torso drive forward, handle hand extends forward/down; feet nearing landing.",
+        "Bottom-left: landing impact with one boot firmly under the torso and rear knee flexed, handle hand down-forward; not a tiny squashed body.",
+        "Bottom-right: stand back to full height, retract handle beside waist, all armor and limbs unchanged."
+      ]
+    },
+    {
+      "id": "array-a",
+      "poses": [
+        "Top-left: upright focused stance, feet shoulder width, short handle held vertically before chest.",
+        "Top-right: bring handle toward face level while the free left palm opens forward to command energy.",
+        "Bottom-left: turn shoulders slightly, handle hand raised near temple, left palm sweeps outward.",
+        "Bottom-right: tall commanding stance, handle held raised in front-right and free arm extended toward enemies."
+      ]
+    },
+    {
+      "id": "array-b",
+      "poses": [
+        "Top-left: firm upright stance, right hand with handle makes a sharp forward directing motion, left palm open.",
+        "Top-right: torso shifts left, free hand traces a short outward gesture, handle remains gripped near shoulder.",
+        "Bottom-left: torso shifts back right, handle hand presses forward and down to command another volley.",
+        "Bottom-right: both arms draw toward chest to gather finishing energy, handle clearly visible."
+      ]
+    },
+    {
+      "id": "array-c",
+      "poses": [
+        "Top-left: gathering stance, handle hand lifted high and left palm drawn inward, chest expands.",
+        "Top-right: decisive finishing slash gesture down-right with full shoulder rotation and strong front leg.",
+        "Bottom-left: follow-through, right elbow retracts and left hand lowers; no emitted FX.",
+        "Bottom-right: return to relaxed tall guard, feet planted, compact helmet."
+      ]
+    },
+    {
+      "id": "zenith-a",
+      "poses": [
+        "Top-left: full-height still stance, handle held close to waist, helmet intent on the enemy right.",
+        "Top-right: low spring-ready stance with hips loaded and rear foot firm, shoulders turned for explosive acceleration.",
+        "Bottom-left: fully extended forward launch right, long rear leg trails, handle pulled back beside shoulder.",
+        "Bottom-right: powerful diagonal upward transition into a leap, front knee rises and torso rotates, handle hand crosses above chest."
+      ]
+    },
+    {
+      "id": "zenith-b",
+      "poses": [
+        "Top-left: airborne half-turn with shoulders rotated toward viewer, legs separated naturally, handle hand beside shoulder.",
+        "Top-right: long airborne arch preparing the finishing cut, both hands together around short handle above head.",
+        "Bottom-left: apex of overhead wind-up, athletic torso extended and full long legs visible below, small helmet.",
+        "Bottom-right: start the overwhelming diagonal down-right strike, hands drive across front of torso, pelvis and legs counterbalance."
+      ]
+    },
+    {
+      "id": "zenith-c",
+      "poses": [
+        "Top-left: diagonal cutting contact, long right arm with handle extends toward screen right/down, torso twists strongly, feet approaching ground.",
+        "Top-right: heavy grounded follow-through, planted forward boot and flexed rear knee, handle low-forward, full armor structure clear.",
+        "Bottom-left: rise from landing, retract handle toward hip and bring torso upright.",
+        "Bottom-right: composed full-height ending stance, shoulders level, long legs straight and small helmet, handle resting near hip."
+      ]
+    }
+  ]
+}

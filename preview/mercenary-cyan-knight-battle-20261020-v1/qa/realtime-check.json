@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "speed": 1,
+  "observedTimes": [
+    0.376,
+    0.734,
+    1.093,
+    1.451,
+    1.805,
+    2.164
+  ],
+  "source": "Live V3 clock sampled every 350ms; actor moves from home to attack and generated effects advance.",
+  "recordedDuration": 4.432466,
+  "recordedSequenceInspected": [
+    0.85,
+    1.25,
+    1.8,
+    2.75,
+    3.15,
+    3.5
+  ],
+  "visualApproval": false
+}

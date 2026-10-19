@@ -1,0 +1,34 @@
+{
+  "tool": "builtin_image_gen",
+  "common": "Use case: stylized-concept. Asset type: production VFX spritesheet for an original cyan/ivory/gold armored swordsman in a 2D collectible RPG. Create exactly 12 consecutive animation frames in a precise 4-column by 3-row equally-spaced grid, read left to right then top to bottom. Landscape canvas 1536 x 1024, each frame in its own equal cell, transparent background with actual RGBA alpha, no grid lines, text, labels, characters, UI, weapons or background. Keep 10% transparent padding inside every cell. Same fixed center and camera in all cells; actual shape evolution, no identical repeated stamps. Draw sharp elegant painterly anime VFX with restrained bloom, brilliant cyan cutting edge and thin white core, faint deep-blue fringe, tiny gold sparks only. Each sequence develops from small anticipation through distinct emission/contact into broken fading fragments. Leave the transparent hollow space visible. No opaque white blob, no square background or massive full-screen flash. Do not draw a physical sword; the game composites one immutable sword raster separately.",
+  "specs": [
+    {
+      "id": "dash",
+      "detail": "A short left-to-right acceleration wake, thin stretched cyan ribbons and displaced air, low center. Frames 1-2 small ignition, 3-4 a tight wedge of air, 5-7 fast separated streamlined filaments pointing right and narrow trailing streaks left, 8-10 torn filaments, 11-12 sparse vanishing sparks. No circle or explosion."
+    },
+    {
+      "id": "horizon",
+      "detail": "A broad horizontal sword crescent sweeping from left to right. Frames1-2 thin starting arc;3-4 opening curved cyan edge;5-6 extended clean crescent with a large hollow center and a sharp forward leading point;7-8 crescent breaks into three layered curved filaments;9-10 fragments trail away;11-12 near-empty glowing dust. Stay inside cells. The main arc is horizontal/diagonal, no full circular ring."
+    },
+    {
+      "id": "flurry",
+      "detail": "Rapid crossing sword cuts. Frames1-2 a narrow descending diagonal line;3-4 another rising diagonal intercepts;5-6 four staggered crossing light cuts with tiny angular cyan contact sparks and open transparent gaps;7-8 intersecting strokes fragment at their ends;9-10 short falling slash shards;11-12 sparse sparks. Dynamic angular cuts, not a circular explosion, not a recolor of a crescent."
+    },
+    {
+      "id": "meteor",
+      "detail": "A vertical descending sword strike: frames1-2 a fine suspended cyan filament in upper cell;3-4 descending curved blue wake;5-6 long narrow top-to-bottom comet stroke with a sharp low point;7-8 a small low flat contact flare and split vertical trails;9-10 broken downward streaks;11-12 tiny dissipating filaments. No ground or rocks; those are a separate material layer. Lower contact point must stay inside cell."
+    },
+    {
+      "id": "array",
+      "detail": "Eight optical sword launch sockets and convergence filaments only, NO swords. Frames1-2 eight tiny cyan sigils in a wide shallow ellipse;3-4 thin cyan angular sockets brighten;5-6 eight curved filament paths converge at center leaving open hollow space;7-8 a focused small crossed contact spark;9-10 broken filament fragments;11-12 vanish. Elegant precise angular geometric energy, not magic runes or text and not a solid disk."
+    },
+    {
+      "id": "rift",
+      "detail": "A huge diagonal planar sword rupture descending upper-left to lower-right. Frames1-2 thin hairline diagonal seam;3-4 seam opens as two razor-sharp blue edges with transparent slit between;5-6 long tapered diagonal rupture with separated cyan edge ribbons and small angular shards;7-8 sheet folds and breaks into parallel filaments;9-10 drifting shards;11-12 almost gone. Strong final-cut shape, hollow transparent middle, no opaque beam rectangle or giant white flash."
+    },
+    {
+      "id": "ground",
+      "detail": "Material ground-impact debris and pressure roll, no cyan lightwash. Frames1-2 small slate-grey chips spring from lower center;3-4 split dark stone fragments with tiny cyan glints, horizontal dust skirt;5-6 fragments spread in low ballistic arcs and translucent grey-brown dust rolls outward;7-8 stones descend, dust spreads low;9-10 fine dust settles;11-12 a few faint dust wisps. Fully isolated on transparency, no permanent floor patch. More natural stone/dust pigment than additive light, pale stone edges visible against dark background."
+    }
+  ]
+}

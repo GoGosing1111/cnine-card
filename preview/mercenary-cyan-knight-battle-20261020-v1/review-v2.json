@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-20",
+  "version": "CYAN_KNIGHT_BATTLE_REVIEW_20261020_ARRAY_V2",
+  "status": "USER_REVIEW_PENDING",
+  "visualApproval": false,
+  "previousUltimateRejected": true,
+  "referenceBladeCount": 5,
+  "ultimateDurationSeconds": 3.8,
+  "changes": [
+    "Sideways cutting passes through the actual target rather than decorative orbiting",
+    "Four accelerating crossing passes with short contact holds",
+    "New ImageGen blue/gold cutting sequence and tip-history trails",
+    "Overhead regroup, downward strikes, and simultaneous convergence",
+    "Wide deployment framing and closer attack framing with mobile weapon margins",
+    "Removed center status message covering the attack",
+    "Corrected regular skill contact poses without changing body or sword scale"
+  ],
+  "evidence": ["qa/asset-check.json", "qa/browser-check.json", "review-array-v2.webm", "review-all-skills-v2.webm"],
+  "liveEnabled": false,
+  "serverDamageAssigned": false,
+  "audioEnabled": false
+}

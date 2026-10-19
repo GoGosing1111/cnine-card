@@ -1,0 +1,111 @@
+{
+  "body": {
+    "idle": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-34b00df8-bd7a-470e-9f07-9e12714f36a8.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-idle.png",
+      "revision": "neck-grip-v2"
+    },
+    "dash": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-2c37b2fe-2bfa-4771-8413-643c65ddb5ad.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-dash.png"
+    },
+    "hit": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-c035befc-7084-4ded-93d9-1363deb9d2bf.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-hit.png"
+    },
+    "defeat": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-7eb49856-c9ad-4c07-ac80-568af4b1bbb6.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-defeat.png"
+    },
+    "horizon-a": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-8416fe89-7bc5-4de8-b311-ba47d66209a7.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-horizon-a.png"
+    },
+    "horizon-b": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-37332916-c4bf-4010-ad46-0c2f506b0557.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-horizon-b.png"
+    },
+    "flurry-a": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-3e35bb05-7c59-4579-a26b-a7215b7d9779.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-flurry-a.png",
+      "revision": "padding-v2"
+    },
+    "flurry-b": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-ff038a29-220a-4098-b045-81eaf36045f3.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-flurry-b.png"
+    },
+    "meteor-a": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-b7bfab2c-2701-477f-95d3-1906ae5447e4.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-meteor-a.png"
+    },
+    "meteor-b": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-1c0a27fb-7155-4f3e-bced-d5089336b4ea.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-meteor-b.png"
+    },
+    "array-a": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-6b15132c-b5be-45c7-bf42-fc404f0daf05.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-array-a.png"
+    },
+    "array-b": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-1e443877-0b6a-451c-992e-46c03b9e6be0.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-array-b.png",
+      "revision": "padding-v2"
+    },
+    "array-c": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-25e2e624-2779-451f-a24d-7b1c27b1e895.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-array-c.png"
+    },
+    "zenith-a": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-94a9f089-0177-4d6f-98b4-09e424f325ec.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-zenith-a.png"
+    },
+    "zenith-b": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-17fe6725-9002-4a5e-a132-7b3b064cbbd9.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-zenith-b.png"
+    },
+    "zenith-c": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-e021b5d7-75ef-4aaa-ae96-99444f63232f.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\body-zenith-c.png"
+    }
+  },
+  "effects": {
+    "dash": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-da861a4c-647e-4ee2-82b9-9165ed93ddc3.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\fx-dash.png"
+    },
+    "horizon": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-66043627-cf43-4365-96c2-34833b35ad06.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\fx-horizon.png"
+    },
+    "flurry": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-6fd430a7-697a-4e83-9719-d4e71528ba9e.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\fx-flurry.png"
+    },
+    "meteor": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-ad7fff78-5a05-46b5-9d64-85b80960a833.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\fx-meteor.png"
+    },
+    "array": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-638c36f0-1399-4f2f-8c04-c8d5fe77c50b.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\fx-array.png"
+    },
+    "rift": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-d28a1c20-ea49-4f32-ad93-c0146740d30c.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\fx-rift.png"
+    },
+    "ground": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-508315b7-b641-469f-950a-a0f5895f618a.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\fx-ground.png"
+    },
+    "orbit": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-a4d70a0a-3788-4e40-827a-6cb493612378.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\fx-orbit.png"
+    },
+    "vortex-v2": {
+      "source": "C:\\Users\\User\\.codex\\generated_images\\01a14f76-c4e3-7b60-bf8f-d33bb4ad17ad\\exec-0049143e-7f87-4d22-b328-6aa5a38f96c4.png",
+      "path": "C:\\Users\\User\\.codex\\worktrees\\world-novel-refinement\\cnine-card\\preview\\mercenary-cyan-knight-battle-20261020-v1\\assets\\sources\\fx-vortex-v2.png"
+    }
+  },
+  "tool": "builtin_image_gen",
+  "visualApproval": false
+}

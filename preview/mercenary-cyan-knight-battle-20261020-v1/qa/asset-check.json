@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "sourcePixelEquality": true,
+  "originalSwordPixels": 55824,
+  "redrawnSwordPixels": 0,
+  "bodyFrames": 64,
+  "canonicalBodyHeight": 360,
+  "weaponUniformScale": 0.25034770514603616,
+  "clippedFrameEdges": 0,
+  "effectFrames": 108,
+  "visualApproval": false
+}

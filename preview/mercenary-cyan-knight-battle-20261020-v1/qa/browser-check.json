@@ -1,0 +1,816 @@
+{
+  "status": "PASS",
+  "visualApproval": false,
+  "devices": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "contacts": [
+        {
+          "mode": "horizon",
+          "time": 0.55,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 0.46,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 0.78,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 1.1,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 1.42,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 1.72,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "meteor",
+          "time": 1.65,
+          "intersects": true,
+          "groundError": 5.684341886080802e-14
+        },
+        {
+          "mode": "array",
+          "time": 0.86,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.888,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.916,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.944,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.972,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.22,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.248,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.276,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.304,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.332,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.58,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.608,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.636,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.664,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.692,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.94,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.968,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.996,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.024,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.052,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.64,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.69,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.74,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.79,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.84,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 3.08,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "zenith",
+          "time": 0.72,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "zenith",
+          "time": 2.85,
+          "intersects": true,
+          "groundError": 0
+        }
+      ],
+      "effectsOff": {
+        "ready": true,
+        "version": "CYAN_KNIGHT_BATTLE_REVIEW_20261020_ARRAY_V2",
+        "mode": "array",
+        "time": 1.05,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "at": 0.84,
+          "bank": "array",
+          "index": 4,
+          "facing": 1
+        },
+        "phase": "교차 회전 · 연속 베기",
+        "contactCount": 5,
+        "bladeContact": {
+          "u": 0,
+          "distance": 254.7369231187344,
+          "intersects": false
+        },
+        "phantomContacts": [
+          {
+            "index": 0,
+            "targetIndex": 0,
+            "grip": {
+              "x": 1091.8021601437729,
+              "y": 223.42244818203292
+            },
+            "tip": {
+              "x": 1017.2872531717125,
+              "y": 345.8074787748792
+            },
+            "u": 1,
+            "distance": 8.268763460443454,
+            "intersects": false
+          },
+          {
+            "index": 1,
+            "targetIndex": 0,
+            "grip": {
+              "x": 1153.885461231555,
+              "y": 441.71959154565
+            },
+            "tip": {
+              "x": 1021.8016310088691,
+              "y": 386.1819568465428
+            },
+            "u": 1,
+            "distance": 45.82761390939507,
+            "intersects": false
+          },
+          {
+            "index": 2,
+            "targetIndex": 0,
+            "grip": {
+              "x": 849.52094427225,
+              "y": 487.3143168227034
+            },
+            "tip": {
+              "x": 877.2851549896209,
+              "y": 346.74506101792883
+            },
+            "u": 1,
+            "distance": 132.80325561670696,
+            "intersects": false
+          },
+          {
+            "index": 3,
+            "targetIndex": 0,
+            "grip": {
+              "x": 789.8646416431664,
+              "y": 284.04938334824976
+            },
+            "tip": {
+              "x": 931.6474560630465,
+              "y": 263.356374638917
+            },
+            "u": 1,
+            "distance": 110.9424275300229,
+            "intersects": false
+          },
+          {
+            "index": 4,
+            "targetIndex": 0,
+            "grip": {
+              "x": 995.774373807341,
+              "y": 216.90641046328523
+            },
+            "tip": {
+              "x": 1089.4329497391602,
+              "y": 325.3436652638857
+            },
+            "u": 0.7250804887233705,
+            "distance": 70.93652317166736,
+            "intersects": false
+          }
+        ],
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "visibleSwords": 5,
+        "registeredTimelines": 0,
+        "bodyFrames": 64,
+        "effectFrames": 108,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 806.6,
+          "y": 415.99999999999994,
+          "height": 180
+        },
+        "contact": {
+          "x": 1010.0000000000002,
+          "y": 341.9000000000001
+        },
+        "ground": {
+          "x": 1010.0000000000002,
+          "y": 416.0000000000001
+        }
+      },
+      "cancel": {
+        "ready": true,
+        "version": "CYAN_KNIGHT_BATTLE_REVIEW_20261020_ARRAY_V2",
+        "mode": "array",
+        "time": 0,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "at": 0,
+          "bank": "dash",
+          "index": 0,
+          "facing": 1
+        },
+        "phase": "다섯 검 전개",
+        "contactCount": 0,
+        "bladeContact": {
+          "u": 1,
+          "distance": 531.1409848116381,
+          "intersects": false
+        },
+        "phantomContacts": [],
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "visibleSwords": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 64,
+        "effectFrames": 108,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 380,
+          "y": 416,
+          "height": 180
+        },
+        "contact": {
+          "x": 1010.0000000000001,
+          "y": 341.90000000000003
+        },
+        "ground": {
+          "x": 1010.0000000000001,
+          "y": 416
+        }
+      },
+      "overflow": false,
+      "pausePassed": true,
+      "slowPassed": true,
+      "normalSpeedCompleted": true,
+      "cleanup": {
+        "disposed": true,
+        "frontDestroyed": true,
+        "swordsDestroyed": true,
+        "backDestroyed": true,
+        "timelineRemoved": true
+      },
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "contacts": [
+        {
+          "mode": "horizon",
+          "time": 0.55,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 0.46,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 0.78,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 1.1,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 1.42,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "flurry",
+          "time": 1.72,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "meteor",
+          "time": 1.65,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.86,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.888,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.916,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.944,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 0.972,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.22,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.248,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.276,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.304,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.332,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.58,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.608,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.636,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.664,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.692,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.94,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.968,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 1.996,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.024,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.052,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.64,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.69,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.74,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.79,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 2.84,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "array",
+          "time": 3.08,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "zenith",
+          "time": 0.72,
+          "intersects": true,
+          "groundError": 0
+        },
+        {
+          "mode": "zenith",
+          "time": 2.85,
+          "intersects": true,
+          "groundError": 0
+        }
+      ],
+      "effectsOff": {
+        "ready": true,
+        "version": "CYAN_KNIGHT_BATTLE_REVIEW_20261020_ARRAY_V2",
+        "mode": "array",
+        "time": 1.05,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "at": 0.84,
+          "bank": "array",
+          "index": 4,
+          "facing": 1
+        },
+        "phase": "교차 회전 · 연속 베기",
+        "contactCount": 5,
+        "bladeContact": {
+          "u": 0,
+          "distance": 331.15800005435466,
+          "intersects": false
+        },
+        "phantomContacts": [
+          {
+            "index": 0,
+            "targetIndex": 0,
+            "grip": {
+              "x": 897.7526442524786,
+              "y": 377.9176252595937
+            },
+            "tip": {
+              "x": 800.8832651888,
+              "y": 537.0181650302939
+            },
+            "u": 1,
+            "distance": 10.749392498576583,
+            "intersects": false
+          },
+          {
+            "index": 1,
+            "targetIndex": 0,
+            "grip": {
+              "x": 978.4609356665951,
+              "y": 661.7039116322959
+            },
+            "tip": {
+              "x": 806.7519563771037,
+              "y": 589.5049865234565
+            },
+            "u": 1,
+            "distance": 59.57589808221361,
+            "intersects": false
+          },
+          {
+            "index": 2,
+            "targetIndex": 0,
+            "grip": {
+              "x": 582.7870636194987,
+              "y": 720.9770544924653
+            },
+            "tip": {
+              "x": 618.8805375520809,
+              "y": 538.2370219462584
+            },
+            "u": 1,
+            "distance": 172.644232301719,
+            "intersects": false
+          },
+          {
+            "index": 3,
+            "targetIndex": 0,
+            "grip": {
+              "x": 505.2338702016899,
+              "y": 456.7326409756757
+            },
+            "tip": {
+              "x": 689.5515289475343,
+              "y": 429.831729653543
+            },
+            "u": 1,
+            "distance": 144.2251557890297,
+            "intersects": false
+          },
+          {
+            "index": 4,
+            "targetIndex": 0,
+            "grip": {
+              "x": 772.9165220151169,
+              "y": 369.44677622522175
+            },
+            "tip": {
+              "x": 894.6726707264821,
+              "y": 510.4152074660023
+            },
+            "u": 0.7250804887233697,
+            "distance": 92.2174801231676,
+            "intersects": false
+          }
+        ],
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "visibleSwords": 5,
+        "registeredTimelines": 0,
+        "bodyFrames": 64,
+        "effectFrames": 108,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 526.9898360655737,
+          "y": 628.2684426229509,
+          "height": 234
+        },
+        "contact": {
+          "x": 791.4098360655737,
+          "y": 531.9384426229508
+        },
+        "ground": {
+          "x": 791.4098360655737,
+          "y": 628.2684426229509
+        }
+      },
+      "cancel": {
+        "ready": true,
+        "version": "CYAN_KNIGHT_BATTLE_REVIEW_20261020_ARRAY_V2",
+        "mode": "array",
+        "time": 0,
+        "playing": false,
+        "speed": 1,
+        "pose": {
+          "at": 0,
+          "bank": "dash",
+          "index": 0,
+          "facing": 1
+        },
+        "phase": "다섯 검 전개",
+        "contactCount": 0,
+        "bladeContact": {
+          "u": 1,
+          "distance": 303.7603514033905,
+          "intersects": false
+        },
+        "phantomContacts": [],
+        "groundError": 0,
+        "airborne": false,
+        "visibleEffects": 0,
+        "visibleGhosts": 0,
+        "visibleSwords": 0,
+        "registeredTimelines": 0,
+        "bodyFrames": 64,
+        "effectFrames": 108,
+        "weaponSources": 1,
+        "weaponRedraws": 0,
+        "weaponSha256": "6feb218224d4a8192dd4476da22639897d99664d2bd0c23d25fb47f27559dd69",
+        "regularAllies": 5,
+        "targets": 1,
+        "clock": "V3_REGISTERED_GSAP",
+        "liveEnabled": false,
+        "actor": {
+          "x": 359.40983606557376,
+          "y": 628.2684426229508,
+          "height": 234
+        },
+        "contact": {
+          "x": 791.4098360655738,
+          "y": 531.9384426229508
+        },
+        "ground": {
+          "x": 791.4098360655738,
+          "y": 628.2684426229508
+        }
+      },
+      "overflow": false,
+      "pausePassed": true,
+      "slowPassed": true,
+      "normalSpeedCompleted": true,
+      "cleanup": {
+        "disposed": true,
+        "frontDestroyed": true,
+        "swordsDestroyed": true,
+        "backDestroyed": true,
+        "timelineRemoved": true
+      },
+      "errors": []
+    }
+  ]
+}
