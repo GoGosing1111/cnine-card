@@ -1,0 +1,58 @@
+{
+  "verifiedAt": "2026-10-20T15:21:02.768Z",
+  "source": "4ee7021ef511812d3b491d79d8045c5401f87dcf",
+  "origin": "https://cnine-card.pages.dev",
+  "deploymentUrl": "https://d0813b09.cnine-card.pages.dev",
+  "scopedTests": 10,
+  "staticChecks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "9b8de0febeff54f9475c4c31b27d8b7c092c2d07fba08b0560cc99cbb85d052d"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "c7a26132f94c8aeb7420856dbc33540de99be5dad2ff7733b9596f8e47c52c1d"
+    },
+    {
+      "file": "js/madara-raid-entry-v1.js",
+      "status": 200,
+      "sha256": "fe1c704d96069831e9dac329cd8424c589faadcf162f5e9cdda3672409002c30"
+    },
+    {
+      "file": "raid/madara/fragment.html",
+      "status": 200,
+      "sha256": "fe78e542c100ee407d748560362393e689a76dc534708c0e15ab99fe829330b5"
+    },
+    {
+      "file": "raid/madara/live.css",
+      "status": 200,
+      "sha256": "397b4ad6fa3306107e6613074a584d4bd0cbad06aaefb292bc92f0ce40e2e735"
+    },
+    {
+      "file": "raid/madara/runtime.mjs",
+      "status": 200,
+      "sha256": "8b04f7b62eaad0f3b61ddd535527c02c7df79ae4d2d289b7ec5441ff94bdc791"
+    },
+    {
+      "file": "raid/madara/inline.mjs",
+      "status": 200,
+      "sha256": "e1ee520d99c3cfe5b554072dd3c85745c3661c07e8f4758abc260470faf98b2f"
+    },
+    {
+      "file": "admin/madara-raid-admin-v1.mjs",
+      "status": 200,
+      "sha256": "d4999e672bd1a6f3fe68e58a2d7ca15440780bfe106582006ae72b348fd1fe70"
+    }
+  ],
+  "approvedSpriteSha256": "82A11B55463D262FD21E9153EB124D77EACE5B7C6D9AD812E5744612C1CA4278",
+  "unauthenticatedApiStatus": 401,
+  "catalog": {
+    "code": "MADARA_RAID_ENTRY_TICKET",
+    "name": "바르센 레이드 입장권",
+    "subtitle": "VARSEN RAID ENTRY",
+    "image_url": "/preview/monster-original-ip-sd-20261013-v1/assets/raid-madara-vaelun-sd-v1.png"
+  },
+  "productionGrantOrBattleActions": 0
+}

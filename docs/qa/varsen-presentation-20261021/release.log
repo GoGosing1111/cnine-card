@@ -1,0 +1,78 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"c22fe8108b2837d976d2b7bb9fd8620653fee523","reason":"Varsen raid dialogue, approved portrait and existing inventory ticket presentation only; saved-response and ownership preservation regressions plus PC/mobile screens verified.","changed":["AGENTS.md","admin/index.html","admin/madara-raid-admin-v1.mjs","docs/qa/fortress-rewards-20261020/README.md","docs/qa/fortress-rewards-20261020/preflight.json","docs/qa/fortress-rewards-20261020/tests.log","docs/qa/fortress-rewards-20261020/verification.json","docs/qa/kairon-craft-stock-20261020/README.md","docs/qa/kairon-craft-stock-20261020/after.json","docs/qa/kairon-craft-stock-20261020/release.json","docs/qa/kairon-craft-stock-20261020/scoped-release.log","docs/qa/varsen-presentation-20261021/README.md","docs/qa/varsen-presentation-20261021/dialogue-1440.png","docs/qa/varsen-presentation-20261021/dialogue-390.png","docs/qa/varsen-presentation-20261021/inventory-1440.png","docs/qa/varsen-presentation-20261021/inventory-390.png","docs/qa/varsen-presentation-20261021/verification.json","docs/qa/verified-raid-tickets-ten-20261020/README.md","docs/qa/verified-raid-tickets-ten-20261020/preflight.json","docs/qa/verified-raid-tickets-ten-20261020/production.json","docs/qa/verified-raid-tickets-ten-20261020/tests.log","docs/qa/verified-raid-tickets-ten-20261020/verification.json","docs/qa/yunaieun-bathory-exception-20261020/README.md","docs/qa/yunaieun-bathory-exception-20261020/verification.json","functions/_raid_madara.js","functions/_raid_madara_live.js","functions/_raid_madara_rewards.js","functions/api/[[path]].js","index.html","js/madara-raid-entry-v1.js","raid/madara/fragment.html","raid/madara/inline.mjs","raid/madara/live.css","raid/madara/runtime.mjs","scripts/build-madara-live.mjs","scripts/ops/fortress-rewards-20261020-plan.json","scripts/ops/fortress-rewards-20261020.mjs","scripts/ops/verified-raid-tickets-ten-20261020.mjs","scripts/ops/yunaieun-bathory-exception-20261020.mjs","service-worker.js","shared/monster-original-ip-presentation-v1.mjs","tests/fortress-rewards-20261020.test.mjs","tests/varsen-presentation-20261021.test.mjs","tests/verified-raid-tickets-ten-20261020.test.mjs","tests/yunaieun-bathory-exception-20261020.test.mjs"],"tests":["tests/varsen-presentation-20261021.test.mjs","tests/monster-original-ip-live-20261013.test.mjs"],"checks":["check:worker"]}
+✔ 36 exact approved source/SD pairs and every hunt alias; excluded SD entries stay byte-equivalent (205.3216ms)
+✔ only content presentation changes; no player nickname/card, request or combat result rewriting (2.2906ms)
+✔ NORMAL and Big Seal keep their names, source, SD and ultimate contract (0.5142ms)
+✔ active weekly raid snapshots, minions and title aliases use current approved art; inactive boss untouched (0.2907ms)
+✔ saved special raid boss/card projections replace old form sprites without changing phase or fighter IDs (0.5758ms)
+✔ server projection and V3 existing atlas are wired, and Madara never loads old body frames (7.2662ms)
+✔ saved raid cues, phase and result labels update without changing players or receipts (2.9661ms)
+✔ owned legacy tickets use Varsen name, art and help while preserving balances (0.2518ms)
+✔ live catalog refresh updates only existing ticket display fields (26.4263ms)
+✔ raid regeneration keeps approved portraits, new labels and existing reward reveal lifecycle (170.069ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 551.0112
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 5169 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 7916.72 KiB / gzip: 1711.49 KiB
+Worker Startup Time: 57 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.71 sec)
+No targets deployed for cnine-card-api-runtime (0.73 sec)
+Current Version ID: 812cb0a1-f321-4586-9a4f-8d92b9f64850
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19988/20000)
+Uploading... (19992/20000)
+Uploading... (19996/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 12 files (19988 already uploaded) (2.83 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://d0813b09.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2741.09 KiB / gzip: 625.04 KiB
+Worker Startup Time: 44 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (4.25 sec)
+Deployed cnine-card-clan-draft triggers (1.17 sec)
+  schedule: * * * * *
+Current Version ID: 7aa7c94f-8bad-455c-a9f1-58908cd3921f
