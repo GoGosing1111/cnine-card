@@ -19,3 +19,5 @@
 최종 scoped 기준은 직전 운영 소스 `a8870d47ee458a3400fb7fce4df8ec82e3ad197d` (Pages `a7681bf6`)로 갱신했다. 그 이후 실행 코드 변경은 메시지 UI·정리 API뿐이다. 기존 공개 자산 한도 내 예상 19,999개이며 범위 검사는 `message-cleanup-20261020`, `message-reward-client-parity-v1929`, `message-gift-rewards-v2044`, `pig-coin-message-reward`, `supporter-application-20261011`, `support-package-prediction-20261020` 및 `check:worker`다.
 
 첫 scoped 검사 73개 중 72개 통과. 남은 1개는 기존 수령 UI 검사에서 모든 버튼 ID를 동일한 빈 객체로 반환하던 테스트 DOM이 새 버튼의 dataset 접근을 지원하지 못한 문제였다. 실제 화면/서버 검사는 통과했으며 해당 가짜 DOM을 실제 ID에 맞게 보완했다. 런타임 코드는 그대로이므로 완료한 72개 검사는 반복하지 않고 실패한 `pig-coin-message-reward.test.mjs`와 필수 Worker 컴파일부터 재개한다. 최초 결과는 `initial-checks.log`에 보존한다.
+
+운영 반영 완료: 소스 `727bdde04`, Pages `e7b137e0`, API 런타임 `0ce5dfe3-7aa1-4a54-a1d9-084303bec424`. 관련 73개 검사를 모두 통과했다(최초 72개 + 보정한 검사 포함 재개 파일 12/12). PC/모바일 검수 및 2026-10-20 13:52:24 KST 운영 파일 6종 해시 일치, 인증 없는 GET/PATCH 401을 확인했다. 사용자 메시지를 대신 일괄삭제하지 않았으며 새 버튼을 누를 때만 실행된다. 최종 기록은 `release.json`, `live.json`, `scoped-deploy.log`다.

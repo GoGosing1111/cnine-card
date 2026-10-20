@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-10-20T04:52:24.320Z",
+  "site": "https://cnine-card.pages.dev",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "f8896e2c25db3cb3db7b486eba0a590a07d1f8221b3370b80a51c9f31858512b"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "43d9b343c37f7ba46835b25529ba45b762b5ece5ae91f87dd029147e32e2ba86"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "c887780b6f4b247c2d913e2b330979d0f9c53cf7449ded82598a5d7f9a9f6c68"
+    },
+    {
+      "file": "css/soopketmon-v21-messages-attendance.css",
+      "status": 200,
+      "sha256": "a91964f1d5b817a3c507fa608d579a85f9609dad331c018f74a5fee8c0acc762"
+    },
+    {
+      "file": "js/soopketmon-v21-rewards-presentation.js",
+      "status": 200,
+      "sha256": "85778e4c8ed50f669e1629afa30cd7453189c051d8598e8ea03613d2483cf3ab"
+    },
+    {
+      "file": "assets/ui/message-center/completed-cleanup-20261020.webp",
+      "status": 200,
+      "sha256": "9688c1a20f75ee6f729d22f88a01922bff021bc8b3c2f1923734b1fabc6e68af"
+    }
+  ],
+  "authentication": [
+    {
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "method": "PATCH",
+      "status": 401
+    }
+  ],
+  "productionMessagesModified": false
+}

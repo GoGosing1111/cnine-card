@@ -1,0 +1,80 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"a8870d47ee458a3400fb7fce4df8ec82e3ad197d","reason":"Inbox cleanup: 72 focused checks already passed with unchanged runtime; rerun corrected reward DOM fixture only, then required worker and production checks. Evidence docs/qa/message-cleanup-20261020/initial-checks.log.","changed":["AGENTS.md","assets/ui/message-center/completed-cleanup-20261020.webp","css/soopketmon-v21-messages-attendance.css","docs/qa/axe-elders-20261020/README.md","docs/qa/axe-elders-20261020/apply.json","docs/qa/axe-elders-20261020/dry-run.json","docs/qa/axe-elders-20261020/inspection.json","docs/qa/axe-elders-20261020/verification.json","docs/qa/message-cleanup-20261020/README.md","docs/qa/message-cleanup-20261020/art-manifest.json","docs/qa/message-cleanup-20261020/browser.json","docs/qa/message-cleanup-20261020/cleaned-1440.png","docs/qa/message-cleanup-20261020/cleaned-390.png","docs/qa/message-cleanup-20261020/cleanup-button-source.png","docs/qa/message-cleanup-20261020/inbox-1440.png","docs/qa/message-cleanup-20261020/inbox-390.png","docs/qa/message-cleanup-20261020/initial-checks.log","docs/qa/message-cleanup-20261020/prompt.txt","docs/qa/support-package-cms-recovery-20261020/live.json","docs/qa/support-package-cms-recovery-20261020/scoped-deploy.log","docs/support-package-cms-recovery-20261020.md","functions/_message_cleanup.js","functions/api/[[path]].js","index.html","js/app.js","js/soopketmon-v21-rewards-presentation.js","scripts/ops/axe-elders-20261020.mjs","service-worker.js","tests/helpers/supporter-application-fixture.mjs","tests/message-cleanup-20261020.browser.mjs","tests/message-cleanup-20261020.test.mjs","tests/message-gift-rewards-v2044.test.mjs","tests/message-reward-client-parity-v1929.test.mjs","tests/pig-coin-message-reward.test.mjs"],"tests":["tests/pig-coin-message-reward.test.mjs"],"checks":["check:worker"]}
+✔ SQLite: real message claim credits only Pig Coin and an owned receipt exactly once (5.402ms)
+✔ SQLite: ledger, wallet or message failures roll back fully and permit retry (2.5981ms)
+✔ SQLite: concurrent duplicate and different message claims keep exact wallet deltas (2.7774ms)
+✔ SQLite: mixed bulk rewards support Pig Coin and keep ordinary coin accounting (2.2756ms)
+✔ SQLite: uncertain commit can be retried and wallet overflow never consumes message (1.9708ms)
+✔ PostgreSQL: real message claim credits only Pig Coin and an owned receipt exactly once (1283.0416ms)
+✔ PostgreSQL: ledger, wallet or message failures roll back fully and permit retry (940.9946ms)
+✔ PostgreSQL: concurrent duplicate and different message claims keep exact wallet deltas (1020.6913ms)
+✔ PostgreSQL: mixed bulk rewards support Pig Coin and keep ordinary coin accounting (1086.9321ms)
+✔ PostgreSQL: uncertain commit can be retried and wallet overflow never consumes message (1127.7219ms)
+✔ Pig Coin appears in claim-all and invalidates the real loot-shop balances (22.8541ms)
+✔ server reward metadata keeps the real inbox claim controls visible without a local reward type (2.9135ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5790.1131
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19999 files; 4923 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7872.01 KiB / gzip: 1701.29 KiB
+Worker Startup Time: 37 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (4.11 sec)
+No targets deployed for cnine-card-api-runtime (0.58 sec)
+Current Version ID: 0ce5dfe3-7aa1-4a54-a1d9-084303bec424
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19986/19999)
+Uploading... (19990/19999)
+Uploading... (19994/19999)
+Uploading... (19999/19999)
+✨ Success! Uploaded 13 files (19986 already uploaded) (2.40 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://e7b137e0.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2723.30 KiB / gzip: 621.00 KiB
+Worker Startup Time: 41 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (3.23 sec)
+Deployed cnine-card-clan-draft triggers (1.08 sec)
+  schedule: * * * * *
+Current Version ID: 035c93e7-bd08-480f-95ef-6f1adf7fe278

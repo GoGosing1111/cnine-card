@@ -1,0 +1,13 @@
+{
+  "source": "727bdde04",
+  "pages": "https://e7b137e0.cnine-card.pages.dev",
+  "apiRuntime": "0ce5dfe3-7aa1-4a54-a1d9-084303bec424",
+  "scheduler": "035c93e7-bd08-480f-95ef-6f1adf7fe278",
+  "focusedTests": 73,
+  "focusedPassed": 73,
+  "publicFiles": 19999,
+  "liveAssetHashes": 6,
+  "unauthenticatedGetAndPatch": 401,
+  "checkedAt": "2026-10-20T04:52:24.320Z",
+  "productionMessagesModified": false
+}
