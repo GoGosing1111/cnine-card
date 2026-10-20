@@ -1,5 +1,6 @@
 import {collectionRewardCoin} from '../functions/_collection_bonuses.js';
 import {accountRankAward} from '../functions/_account_rank.js';
+import {ensureRankRewardFixture} from './helpers/rank-reward-schema.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
@@ -62,6 +63,7 @@ async function fixture(overrides={}){
     raidDeckPower:async()=>({power:20_000,basePower:20_000,cards:[],ids:[1,2,3,4,5]})
   };
   const env={DB};await api.ensureFoundation(env,deps);
+  await ensureRankRewardFixture(env);
   const settings={...configured(),...overrides};await api.saveSettings(env,settings);
   const event=await api.adminStart(env,settings,owner);
   return {api,db,env,deps,user,settings,event,setFailure:pattern=>{failurePattern=pattern}};
@@ -113,12 +115,15 @@ test('승패·역할 합산은 완료 전투만 집계하며 요청 재전송·�
     assert.equal(result.body.reward.coin,5_000_000_000,'per-attempt reward unchanged');
     const replay=await f.api.participate(f.env,f.deps,f.user,f.settings,f.event,request);
     assert.equal(replay.body.replayed,true);assert.equal(replay.body.state.progress.totalAttempts,24);
+    assert.equal(f.db.prepare('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=2').get().total_ticks,40*600);
+    assert.equal(f.db.prepare('SELECT COUNT(*) n FROM account_rank_receipts_v1 WHERE user_id=2').get().n,1);
     const invalid=await f.api.participate(f.env,f.deps,f.user,f.settings,f.event,{requestId:'seal-min-invalid-0001',role:'INVALID'});
     assert.equal(invalid.status,400);
     f.deps.raidDeckPower=async()=>({power:1,basePower:1,cards:[],ids:[1,2,3,4,5]});
     const loss=await f.api.participate(f.env,f.deps,f.user,f.settings,f.event,{requestId:'seal-min-purify-loss-0001',role:'PURIFY'});
     assert.equal(loss.body.result,'LOSE');assert.equal(loss.body.state.progress.totalAttempts,25);
     assert.equal(loss.body.state.rewardEligibility.eligible,true);
+    assert.equal(f.db.prepare('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=2').get().total_ticks,80*600);
   }finally{f.db.close()}
 });
 
