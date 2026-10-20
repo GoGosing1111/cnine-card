@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,mkdirSync,copyFileSync,mkdtempSync,rmSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
+import {join,dirname,resolve} from 'node:path';
+import {tmpdir} from 'node:os';
 import {originalRaidPresentation,presentOriginalIpResponse} from '../shared/monster-original-ip-presentation-v1.mjs';
 import {MADARA_LINES,MADARA_PLANS} from '../functions/_raid_madara.js';
 import {madaraLiveFixture} from './helpers/madara-live-fixture.mjs';
@@ -70,8 +72,16 @@ test('raid regeneration keeps approved portraits, new labels and existing reward
   const files=['raid/madara/fragment.html','raid/madara/live.css','raid/madara/runtime.mjs'];
   const read=file=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
   const before=files.map(read);
-  execFileSync(process.execPath,['scripts/build-madara-live.mjs'],{stdio:'pipe'});
-  files.forEach((file,i)=>assert.equal(read(file),before[i],file+' is reproducible'));
+  const staging=mkdtempSync(join(tmpdir(),'varsen-build-test-'));
+  try{
+    const inputs=['index.html','madara.css','mechanics.css','madara.js','presentation.js','battle.js','mechanics-ui.js'].map(file=>'preview/madara-raid-v1/'+file).concat(['raid/madara/runtime-scope.mjs','raid/madara/combat-screen.css']);
+    for(const file of inputs){mkdirSync(dirname(join(staging,file)),{recursive:true});copyFileSync(file,join(staging,file));}
+    execFileSync(process.execPath,[resolve('scripts/build-madara-live.mjs')],{stdio:'pipe',cwd:staging});
+    files.forEach((file,i)=>assert.equal(read(join(staging,file)),before[i],file+' is reproducible'));
+  }finally{
+    assert.equal(dirname(resolve(staging)),resolve(tmpdir()));
+    rmSync(staging,{recursive:true,force:true});
+  }
   assert.doesNotMatch(before[0],/마다라|화둔|완전체|>忍</);
   assert.ok(before[1].includes("url('"+varsen.battleSprite+"')"));
   assert.doesNotMatch(before[1],/assets\/madara-battle-v1\.png/);
