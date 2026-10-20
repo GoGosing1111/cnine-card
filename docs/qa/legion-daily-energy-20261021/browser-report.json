@@ -1,0 +1,38 @@
+[
+  {
+    "width": 1440,
+    "maximum": 10,
+    "empty": "행동력 0 / 10 · 다음 충전 02:59:00 · 3시간마다 1회 · 매일 0시 최대 회복",
+    "full": "행동력 10 / 10 · 충전 완료 · 3시간마다 1회 · 매일 0시 최대 회복",
+    "entryEnabledAtMidnight": true,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "maximum": 13,
+    "empty": "행동력 0 / 13 · 다음 충전 02:59:00 · 3시간마다 1회 · 매일 0시 최대 회복",
+    "full": "행동력 13 / 13 · 충전 완료 · 3시간마다 1회 · 매일 0시 최대 회복",
+    "entryEnabledAtMidnight": true,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "maximum": 10,
+    "empty": "행동력 0 / 10 · 다음 충전 02:59:00 · 3시간마다 1회 · 매일 0시 최대 회복",
+    "full": "행동력 10 / 10 · 충전 완료 · 3시간마다 1회 · 매일 0시 최대 회복",
+    "entryEnabledAtMidnight": true,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "maximum": 13,
+    "empty": "행동력 0 / 13 · 다음 충전 02:59:00 · 3시간마다 1회 · 매일 0시 최대 회복",
+    "full": "행동력 13 / 13 · 충전 완료 · 3시간마다 1회 · 매일 0시 최대 회복",
+    "entryEnabledAtMidnight": true,
+    "overflow": false,
+    "errors": []
+  }
+]

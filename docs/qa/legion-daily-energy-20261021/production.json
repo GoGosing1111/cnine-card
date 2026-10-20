@@ -1,0 +1,71 @@
+{
+  "verifiedAt": "2026-10-20T16:48:42.231Z",
+  "source": "f2c9b3491ae34eda42cb0c26bc8ff73cab20c538",
+  "productionBase": "2d2f2ec4d2f0f2a4e04b4cef647bf85a07d7e76d",
+  "pages": {
+    "id": "c88839e6-d47c-463d-bc5b-5c9731058693",
+    "url": "https://c88839e6.cnine-card.pages.dev",
+    "status": "success",
+    "assetCount": 19997
+  },
+  "files": [
+    {
+      "file": "shared/legion-hunt-energy-v1.mjs",
+      "sha256": "0ee0fbbc131ed38f798b306086d61092ca3cc0352824624b208002b42814b0f8"
+    },
+    {
+      "file": "shared/content-energy-v1.mjs",
+      "sha256": "8b2be3dbcb42bc255db42fd98507b52575cbba0258febf63eb944d2c42e8b535"
+    },
+    {
+      "file": "js/legion-hunt-entry-v1.mjs",
+      "sha256": "ded2baa1c1d834bea28f1cf1b6b66f7bfce9c82fbf854bd1544cab5741adc8bd"
+    },
+    {
+      "file": "index.html",
+      "sha256": "96fa40fee0ec46215f00a4a71c31985d09c21a518724487a5e7dc0dc493a2036"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "480a91b6b24d2efb9ea3e4e53408bd62f4d96eb353fe23705bccfb571af8b15f"
+    }
+  ],
+  "downloadedPolicyChecks": [
+    {
+      "maximum": 10,
+      "midnightRefill": true,
+      "threeHourRecharge": true
+    },
+    {
+      "maximum": 13,
+      "midnightRefill": true,
+      "threeHourRecharge": true
+    }
+  ],
+  "apiWorker": {
+    "name": "cnine-card-api-runtime",
+    "dailyRefillFunctionPresent": true,
+    "serverUsesDailyRefill": true,
+    "version": "e8bee146-74b2-4a10-9794-ce7984b3649c"
+  },
+  "unauthenticatedStatus": 401,
+  "productionAccountMutations": 0,
+  "schedulerWorkerVersion": "34279d72-9466-4c13-804c-7ff006f2f086",
+  "validation": {
+    "regressions": 45,
+    "deliveryChecks": 1,
+    "browserCases": 4,
+    "runtimeValidatedSource": "a6a799916",
+    "scopedCommand": "npm run deploy:production -- --scoped",
+    "logs": [
+      {
+        "file": "deploy.log",
+        "sha256": "7afbef08c79122925c1db064b1a87ec2243647b14d037683b32ae55afa075f41"
+      },
+      {
+        "file": "deploy-resume.log",
+        "sha256": "2f1ba87e5caf37d1e8d41ce6b40a1d13cbd3dc4cc6e7afe71ff6c2dd263d0451"
+      }
+    ]
+  }
+}
