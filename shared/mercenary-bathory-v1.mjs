@@ -12,7 +12,7 @@ export const BATHORY_SKILL=Object.freeze({
 });
 export const BATHORY_COMBAT=Object.freeze({
  version:1,code:BATHORY_CODE,position:'FRONT',role:'VANGUARD',attackStyle:'MELEE',basePower:297000,
- scale:6.6,speedScale:2.75,actionCredit:3.25,actionEnergy:10,pvpSkillCapScale:2.7,basicCapScale:1.5,pveSkillMinimumDamage:true,
+ scale:6.6,speedScale:2.75,actionCredit:3.25,actionEnergy:10,pvpSkillCapScale:2.7,basicCapScale:1.5,pveSkillMinimumDamage:false,
  link:Object.freeze({attackPercent:1452,hpPercent:1848,shieldPercent:990}),skill:BATHORY_SKILL
 });
 export const BATHORY_DESCRIPTION='SS 할로윈 리미티드 · 서버 전체 10장 한정. 기본 전투력 297,000. 전열 대검형으로 핏빛 만찬 1,008%·비용 20·재사용 1행동을 사용하며 대상의 잃은 체력에 따라 피해가 증가합니다. 자연 행동 속도 2.75배, 아군 카드 4행동마다 용병 13회 추가 행동, 자기 행동마다 에너지 10 회복. 연계 공격 1,452%·체력 1,848%·방벽 990%. PVP 스킬 상한 2.7배·기본 공격 상한 1.5배. 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다.';
