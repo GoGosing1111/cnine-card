@@ -1,0 +1,133 @@
+{
+  "checkedAt": "2026-10-20T03:26:27.272Z",
+  "policy": [
+    {
+      "value": "{\"enabled\":true,\"quantity\":10,\"couponUses\":150,\"startsOn\":\"2026-10-20\"}"
+    }
+  ],
+  "receipt": [
+    {
+      "value": "{\"status\":\"COMPLETED\",\"operation\":\"ops:reverse-land-daily:20261020:v1\",\"completedAt\":\"2026-10-20T03:24:17.549Z\",\"archiveKey\":\"ops:reverse-land-daily:20261020:v1:before\",\"resetAccounts\":10,\"resetTickets\":251,\"resetLots\":10,\"policy\":{\"enabled\":true,\"quantity\":10,\"couponUses\":150,\"startsOn\":\"2026-10-20\"},\"daily\":{\"enabled\":true,\"day\":\"2026-10-20\",\"quantity\":10,\"couponUses\":150,\"issued\":9},\"after\":[{\"id\":1,\"nickname\":\"핑크빛유두\",\"tickets\":0,\"lot_remaining\":0},{\"id\":2,\"nickname\":\"Inception\",\"tickets\":0,\"lot_remaining\":0},{\"id\":4718,\"nickname\":\"강구열\",\"tickets\":10,\"lot_remaining\":10},{\"id\":4754,\"nickname\":\"조은\",\"tickets\":10,\"lot_remaining\":10},{\"id\":4773,\"nickname\":\"진짜디임\",\"tickets\":10,\"lot_remaining\":10},{\"id\":4913,\"nickname\":\"오리꿍\",\"tickets\":10,\"lot_remaining\":10},{\"id\":4977,\"nickname\":\"하이희야♡\",\"tickets\":10,\"lot_remaining\":10},{\"id\":5209,\"nickname\":\"김아윤\",\"tickets\":10,\"lot_remaining\":10},{\"id\":5393,\"nickname\":\"주성\",\"tickets\":10,\"lot_remaining\":10},{\"id\":5399,\"nickname\":\"초초\",\"tickets\":0,\"lot_remaining\":0},{\"id\":5426,\"nickname\":\"나무늘봉순\",\"tickets\":10,\"lot_remaining\":10},{\"id\":5950,\"nickname\":\"남수댕ㅗ\",\"tickets\":10,\"lot_remaining\":10}],\"auditId\":\"48784\"}"
+    }
+  ],
+  "balances": [
+    {
+      "id": 1,
+      "nickname": "핑크빛유두",
+      "tickets": 0,
+      "lot_remaining": 0
+    },
+    {
+      "id": 4718,
+      "nickname": "강구열",
+      "tickets": 10,
+      "lot_remaining": 10
+    },
+    {
+      "id": 4754,
+      "nickname": "조은",
+      "tickets": 10,
+      "lot_remaining": 10
+    },
+    {
+      "id": 4773,
+      "nickname": "진짜디임",
+      "tickets": 10,
+      "lot_remaining": 10
+    },
+    {
+      "id": 4913,
+      "nickname": "오리꿍",
+      "tickets": 10,
+      "lot_remaining": 10
+    },
+    {
+      "id": 4977,
+      "nickname": "하이희야♡",
+      "tickets": 10,
+      "lot_remaining": 10
+    },
+    {
+      "id": 5209,
+      "nickname": "김아윤",
+      "tickets": 10,
+      "lot_remaining": 10
+    },
+    {
+      "id": 5393,
+      "nickname": "주성",
+      "tickets": 10,
+      "lot_remaining": 10
+    },
+    {
+      "id": 5399,
+      "nickname": "초초",
+      "tickets": 0,
+      "lot_remaining": 0
+    },
+    {
+      "id": 5426,
+      "nickname": "나무늘봉순",
+      "tickets": 10,
+      "lot_remaining": 10
+    },
+    {
+      "id": 5950,
+      "nickname": "남수댕ㅗ",
+      "tickets": 10,
+      "lot_remaining": 10
+    }
+  ],
+  "daily": [
+    {
+      "request_id": "land-daily:2026-10-20:5950",
+      "user_id": 5950,
+      "plan_json": "{\"day\":\"2026-10-20\",\"quantity\":10,\"couponUses\":150}"
+    },
+    {
+      "request_id": "land-daily:2026-10-20:5426",
+      "user_id": 5426,
+      "plan_json": "{\"day\":\"2026-10-20\",\"quantity\":10,\"couponUses\":150}"
+    },
+    {
+      "request_id": "land-daily:2026-10-20:5393",
+      "user_id": 5393,
+      "plan_json": "{\"day\":\"2026-10-20\",\"quantity\":10,\"couponUses\":150}"
+    },
+    {
+      "request_id": "land-daily:2026-10-20:5209",
+      "user_id": 5209,
+      "plan_json": "{\"day\":\"2026-10-20\",\"quantity\":10,\"couponUses\":150}"
+    },
+    {
+      "request_id": "land-daily:2026-10-20:4977",
+      "user_id": 4977,
+      "plan_json": "{\"day\":\"2026-10-20\",\"quantity\":10,\"couponUses\":150}"
+    },
+    {
+      "request_id": "land-daily:2026-10-20:4913",
+      "user_id": 4913,
+      "plan_json": "{\"day\":\"2026-10-20\",\"quantity\":10,\"couponUses\":150}"
+    },
+    {
+      "request_id": "land-daily:2026-10-20:4773",
+      "user_id": 4773,
+      "plan_json": "{\"day\":\"2026-10-20\",\"quantity\":10,\"couponUses\":150}"
+    },
+    {
+      "request_id": "land-daily:2026-10-20:4754",
+      "user_id": 4754,
+      "plan_json": "{\"day\":\"2026-10-20\",\"quantity\":10,\"couponUses\":150}"
+    },
+    {
+      "request_id": "land-daily:2026-10-20:4718",
+      "user_id": 4718,
+      "plan_json": "{\"day\":\"2026-10-20\",\"quantity\":10,\"couponUses\":150}"
+    }
+  ],
+  "settings": [
+    {
+      "value": "{\"weights\":{\"COIN\":12600,\"EMPEROR_ENERGY\":1500,\"MASTER_STAR\":12600,\"STARLIGHT_ARMOR_CORE\":3000,\"PINGDU_THANKS_GIFT_BOX\":300}}"
+    }
+  ]
+}
