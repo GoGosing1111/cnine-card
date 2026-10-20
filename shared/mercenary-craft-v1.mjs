@@ -1,7 +1,7 @@
 import {KAIRON_CODE,KAIRON_ART,KAIRON_COMBAT} from './mercenary-kairon-v1.mjs';
 export const KAIRON_CRAFT_KEY='mercenary_kairon_craft_v1';
 export const KAIRON_RECIPE_CODE='WORKSHOP_KAIRON';
-export const KAIRON_CRAFT_LIMIT=5;
+export const KAIRON_CRAFT_LIMIT=8;
 export function kaironCraftStock(crafted=0){
  const count=Number(crafted);if(!Number.isSafeInteger(count)||count<0)throw Error('카이론 제작 수량을 확인할 수 없습니다.');
  return {limit:KAIRON_CRAFT_LIMIT,crafted:count,remaining:Math.max(0,KAIRON_CRAFT_LIMIT-count),soldOut:count>=KAIRON_CRAFT_LIMIT};

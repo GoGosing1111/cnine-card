@@ -2,7 +2,7 @@ import {KAIRON_CODE} from '../shared/mercenary-kairon-v1.mjs';
 import {KAIRON_CRAFT_KEY,KAIRON_RECIPE_CODE,KAIRON_CRAFT_LIMIT,kaironCraftStock,kaironCraftDraft,validateKaironCraft,kaironCraftReady,kaironCraftRecipe,isMercenaryCraft} from '../shared/mercenary-craft-v1.mjs';
 import {MERCENARY_ACCOUNTING_SCHEMA} from './_mercenary_draw_accounting.js';
 // Successful, committed workshop outputs are the lifetime craft count. Failures,
-// pending requests and explicit direct gifts do not consume the five craft slots.
+// pending requests and explicit direct gifts do not consume the craft slots.
 const CRAFTED_SQL="SELECT COALESCE(SUM(output_quantity),0) crafted FROM workshop_craft_logs_v1668 WHERE output_type='MERCENARY' AND output_ref=? AND success=1";
 export async function readKaironCraftStock(env){
  const row=await env.DB.prepare(CRAFTED_SQL).bind(KAIRON_CODE).first();return kaironCraftStock(row?.crafted);
