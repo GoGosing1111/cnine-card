@@ -1,0 +1,12 @@
+✔ all active verified roles/providers beyond a CMS page get exactly 10 of each ticket with other holdings preserved (1761.4974ms)
+✔ dry run, missing second ticket, audit failure and receipt failure roll both item grants back (1149.6802ms)
+✔ changed roster, inactive second item or unsafe second-item quantity prevents either grant (1206.5183ms)
+✔ lost commit reply, later spending and eligibility changes cannot duplicate either ticket (1140.5802ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5427.1392

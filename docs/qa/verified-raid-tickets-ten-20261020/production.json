@@ -1,0 +1,44 @@
+{
+  "status": "VERIFIED",
+  "operationKey": "ops:verified-raid-tickets-ten:20261020:v1",
+  "delivery": "DIRECT",
+  "recipientCount": 588,
+  "roles": {
+    "OWNER": 2,
+    "USER": 583,
+    "ADMIN": 3
+  },
+  "providerCounts": {
+    "PLAYDK": 587,
+    "WAGO": 1
+  },
+  "items": [
+    {
+      "code": "LICH_KING_ENTRY_TICKET",
+      "name": "이스겐 정벌 입장권"
+    },
+    {
+      "code": "MADARA_RAID_ENTRY_TICKET",
+      "name": "바르센 레이드 입장권"
+    }
+  ],
+  "amountEach": 10,
+  "totalPerItem": 5880,
+  "totalItems": 11760,
+  "inventoryLogs": 1176,
+  "missing": 0,
+  "duplicates": 0,
+  "auditId": "49194",
+  "completedAt": "2026-10-20T15:06:32.328Z",
+  "sourceHash": "b9272a19e2fe3e5bc256e35a09f5079a8ee10c08a08b5a7d09bc2a69670b6c1c",
+  "recipientHash": "ae8b397d19b0190ec0b06a238308f1b1c845abb16c821b6041cec5b313bac175",
+  "excludedInactive": [
+    {
+      "status": "BANNED",
+      "count": 1
+    }
+  ],
+  "commitConfirmed": true,
+  "replayVerified": true,
+  "replayAdditionalGrants": 0
+}
