@@ -68,6 +68,7 @@ try{
   for(const mode of (process.argv.includes('--codex-only')||process.argv.includes('--remaining')&&label==='desktop')?[]:label==='mobile'?['area']:['area','enemy','single']){
    const p=await browser.newPage({viewport,serviceWorkers:'block'});p.on('pageerror',e=>errors.push(label+' '+mode+': '+e.message));
    await p.goto(base+'/qa/battle?mode='+mode);await p.waitForFunction(()=>window.PrimeQA?.ready||window.qaError,null,{timeout:60000});assert.equal(await p.evaluate(()=>window.qaError),undefined);
+   await p.waitForFunction(()=>window.PrimeQA?.engine.primeStates?.size>0,null,{timeout:60000});
    const idle=await p.evaluate(()=>{
     const q=window.PrimeQA,e=q.engine,a=e.mercenaries[0],s=e.primeStates.get(a);q.actor=a;s.ambient?.instance.pause();
     s.fx.updateIdle(1.9);q.hpCalls=[];q.damageCalls=[];

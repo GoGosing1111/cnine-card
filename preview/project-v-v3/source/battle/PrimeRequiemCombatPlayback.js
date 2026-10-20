@@ -68,11 +68,23 @@ export async function setupPrimeActor(engine,actor){
  if(engine.primeLoads.has(actor))return engine.primeLoads.get(actor);
  const epoch=engine.mercenaryEpoch,pending=(async()=>{
   const m=await manifest(),assets=await loadPrimeAssets(m,ROOT);
-  if(engine.mercenaryDisposed||actor.root.destroyed||epoch!==engine.mercenaryEpoch){disposeAssets(assets);return null;}
-  const target=(actor.team==='ENEMY'?engine.allies:engine.enemies).find(a=>!a.root.destroyed)||actor;
+  const valid=()=>!engine.mercenaryDisposed&&!actor.root.destroyed&&epoch===engine.mercenaryEpoch;
+  // Finishing a download must not replace a body halfway through a normal V3
+  // strike. Its pending return tail owns the pose until that action settles.
+  while(valid()&&(engine.pendingTails?.has(actor)||actor.state==='ATTACK'||actor.state==='MOVE')){
+   await new Promise(resolve=>setTimeout(resolve,32));
+  }
+  if(!valid()){disposeAssets(assets);return null;}
+  const target=(actor.team==='ENEMY'?engine.allies:engine.enemies).find(a=>engine.isAlive(a))||actor;
   const fx=new PrimeLiveFX(engine,actor,[target],assets,m),state={engine,actor,fx,busy:false,stopped:false,basicCount:0};
   engine.primeStates.set(actor,state);startAmbient(state);return state;
  })().finally(()=>engine.primeLoads.delete(actor));engine.primeLoads.set(actor,pending);return pending;
+}
+export function warmPrimeActor(engine,actor){
+ const epoch=engine.mercenaryEpoch;
+ void setupPrimeActor(engine,actor).catch(error=>{
+  if(!engine.mercenaryDisposed&&epoch===engine.mercenaryEpoch)console.warn('[Prime Requiem] 효과 준비 지연; 기본 전투를 유지합니다.',error);
+ });
 }
 export function resumePrimePlayback(engine){for(const s of engine.primeStates?.values()||[]){if(s.busy||s.actor.hp<=0)continue;s.stopped=false;startAmbient(s);}}
 export function cancelPrimePlayback(engine){for(const s of engine.primeStates?.values()||[]){s.stopped=true;stopAmbient(s);s.fx.cancel();}}
@@ -95,8 +107,11 @@ async function playback(engine,actor,targets,mode,apply){
   durationSeconds:duration,playbackRate:PRIME_PLAYBACK_RATE,cameraZoom:false};
  return result&&valid();
 }
-export function playPrimeBasic(engine,{attacker:actor,target,damage=0,targetHp=null,targetShield=null,onImpact=()=>{}}={}){
+export function playPrimeBasic(engine,{attacker:actor,target,damage=0,targetHp=null,targetShield=null,onImpact=()=>{}}={},fallback=()=>false){
  if(!engine.isAlive(actor)||!engine.isAlive(target))return false;
+ // Never await cold optional FX inside a server event. The normal V3 strike
+ // retains the exact HP/shield receipt while the approved atlases warm up.
+ if(!engine.primeStates?.has(actor))return fallback();
  return playback(engine,actor,[target],'basic',()=>{
   if(targetHp!==null&&Number.isFinite(Number(targetHp)))engine.syncTargetHp(target,Number(targetHp));
   if(targetShield!==null&&Number.isFinite(Number(targetShield)))engine.syncTargetShield(target,Number(targetShield));
@@ -108,10 +123,13 @@ export function playPrimeArea(engine,event){
  if(actor?.cardId!==PRIME_CODE||event.type!==PRIME_AREA_EVENT||event.battleMode!=='PVE'||!skill)return true;
  const rows=[...new Map((event.hits||[]).map(hit=>[hit.targetId,hit])).values()].map(hit=>({hit,target:engine.combatantById(hit.targetId)})).filter(r=>r.target&&!r.target.root.destroyed);
  if(!rows.length)return true;
- return playback(engine,actor,rows.map(r=>r.target),skill.visualMode,()=>{for(const {hit,target}of rows){
+ const apply=()=>{for(const {hit,target}of rows){
   if(Number.isFinite(hit.targetHpAfter))engine.syncTargetHp(target,engine.eventHpPercent(target,hit.targetHpAfter,hit.targetMaxHp));
   if(Number.isFinite(hit.targetShieldAfter))engine.syncTargetShield(target,hit.targetShieldAfter,hit.targetMaxShield);
   if(hit.dodge)engine.queueBanner('빗나감',actor.accent,target.name);
   else engine.showAccountBattleUnitDamage(target,{damage:(hit.damage||0)+(hit.absorbed||0),compactArea:rows.length>1});
- }});
+ }};
+ // A delayed/failed image request must not suppress authoritative area damage.
+ if(!engine.primeStates?.has(actor)){apply();return true;}
+ return playback(engine,actor,rows.map(r=>r.target),skill.visualMode,apply);
 }

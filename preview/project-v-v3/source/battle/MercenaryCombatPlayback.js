@@ -1,5 +1,5 @@
 import {PRIME_CODE,PRIME_AREA_EVENT} from '../../../../shared/mercenary-prime-requiem-v1.mjs';
-import {primeBattleArt,setupPrimeActor,clearPrimeActors,cancelPrimePlayback,resumePrimePlayback,playPrimeBasic,playPrimeArea} from './PrimeRequiemCombatPlayback.js';
+import {primeBattleArt,warmPrimeActor,clearPrimeActors,cancelPrimePlayback,resumePrimePlayback,playPrimeBasic,playPrimeArea} from './PrimeRequiemCombatPlayback.js';
 import {ZERO_CODE,ZERO_AREA_EVENT} from '../../../../shared/mercenary-zero-v1.mjs';
 import {zeroBattleArt,setupZeroActor,clearZeroActors,cancelZeroPlayback,resumeZeroPlayback,playZeroBasic,playZeroArea} from './ZeroCombatPlayback.js';
 import {BATHORY_CODE} from '../../../../shared/mercenary-bathory-v1.mjs';
@@ -59,7 +59,7 @@ export async function setupV3MercenaryActor(engine,a){
  if(a.cardId===BERKAN_CODE)return setupBerkanActor(engine,a);
  if(limitedVisual(a.cardId))return setupLimitedActor(engine,a);
  if(a.cardId===BATHORY_CODE)return setupBathoryActor(engine,a);
- if(a.cardId===PRIME_CODE)return setupPrimeActor(engine,a);
+ if(a.cardId===PRIME_CODE)return warmPrimeActor(engine,a);
  if(a.cardId===ZERO_CODE)return setupZeroActor(engine,a);
  if(a.cardId===LEONEL_CODE)return setupLeonelActor(engine,a);
  if(a.cardId===JOKRO_CODE)return setupJokroActor(engine,a);
@@ -84,7 +84,7 @@ export const withMercenaryBattle=Base=>class extends Base{
  syncTargetShield(target,value,maxValue=null){const before=target?.shield,result=super.syncTargetShield(target,value,maxValue);showCryvernShieldImpact(this,target,before,target?.shield);return result;}
  normalAttack(index,options){
   if(options?.attacker?.isMercenary&&options.attacker.cardId===BATHORY_CODE)return playBathoryBasic(this,options);
-  if(options?.attacker?.isMercenary&&options.attacker.cardId===PRIME_CODE)return playPrimeBasic(this,options);
+  if(options?.attacker?.isMercenary&&options.attacker.cardId===PRIME_CODE)return playPrimeBasic(this,options,()=>super.normalAttack(index,options));
   if(options?.attacker?.isMercenary&&options.attacker.cardId===ZERO_CODE)return playZeroBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId===LEONEL_CODE)return playLeonelBasic(this,options);
   if(options?.attacker?.isMercenary&&options.attacker.cardId===JOKRO_CODE)return playJokroBasic(this,options);
@@ -131,7 +131,9 @@ export const withMercenaryBattle=Base=>class extends Base{
   await Promise.all(this.mercenaries.filter(a=>a.cardId===BERKAN_CODE).map(a=>setupBerkanActor(this,a)));
   await Promise.all(this.mercenaries.filter(a=>limitedVisual(a.cardId)).map(a=>setupLimitedActor(this,a)));
   await Promise.all(this.mercenaries.filter(a=>a.cardId===BATHORY_CODE).map(a=>setupBathoryActor(this,a)));
-  await Promise.all(this.mercenaries.filter(a=>a.cardId===PRIME_CODE).map(a=>setupPrimeActor(this,a)));
+  // The approved Prime atlases total ~23 MB. They are optional presentation
+  // assets, not a first-frame dependency of the 14s live-entry watchdog.
+  for(const a of this.mercenaries.filter(a=>a.cardId===PRIME_CODE))warmPrimeActor(this,a);
   await Promise.all(this.mercenaries.filter(a=>a.cardId===ZERO_CODE).map(a=>setupZeroActor(this,a)));
   await Promise.all(this.mercenaries.filter(a=>a.cardId===LEONEL_CODE).map(a=>setupLeonelActor(this,a)));
   await Promise.all(this.mercenaries.filter(a=>a.cardId===JOKRO_CODE).map(a=>setupJokroActor(this,a)));
