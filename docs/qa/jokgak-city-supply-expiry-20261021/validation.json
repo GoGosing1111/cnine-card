@@ -15,7 +15,7 @@
     "errors": [],
     "visualReview": "Countdown fits existing dedicated supply art; detail and inventory remain scrollable on mobile; expired loadout returns to bare hands."
   },
-  "preReleaseBase": "ee3f41fd9775611058067a47fb3b2667bb395c52",
+  "preReleaseBase": "f846239df58cc4a44ecb39ff42b97766c12f6f44",
   "files": [
     {
       "file": "functions/_jokgak_city.js",
@@ -49,5 +49,11 @@
       "file": "js/jokgak-city-exploration-ui-v2.mjs",
       "sha256": "c78911595bb6f2259e317d54cb90636bae1d33c61f0465e80134e6229c39c28c"
     }
-  ]
+  ],
+  "preflight": {
+    "checkedAt": "2026-10-20T18:47:04.914Z",
+    "id": "7d0666bd-86fa-471f-a9a2-1136740500eb",
+    "source": "f846239df58cc4a44ecb39ff42b97766c12f6f44",
+    "status": "success"
+  }
 }
