@@ -1,6 +1,6 @@
 import {BERKAN_CODE} from './mercenary-berkan-v1.mjs';
 
-// Direct grants: original owner and Inception (explicit 2026-10-20 approval).
+// Direct grants: original owner, Inception and Bichon (2026-10-20 approvals).
 // The recalled Heeya grant remains invalid. Authenticated Halloween pack
 // recipients may also use one of three separate public copies.
 // Keep this identity out of the ordinary and old limited acquisition pools.
@@ -20,7 +20,7 @@ export const JINMU_COMBAT=Object.freeze({
  basicCapScale:2.88,damageTakenScale:.25,hardCounter:BERKAN_CODE
 });
 export const isJinmu=actor=>actor?.isMercenary===true&&(actor.code||actor.cardId)===JINMU_CODE;
-export const jinmuAccountAllowed=(userId,code,hasPackIssue=false)=>code!==JINMU_CODE||Number(userId)===JINMU_OWNER_ID||Number(userId)===2||hasPackIssue===true;
+export const jinmuAccountAllowed=(userId,code,hasPackIssue=false)=>code!==JINMU_CODE||Number(userId)===JINMU_OWNER_ID||Number(userId)===2||Number(userId)===5663||hasPackIssue===true;
 export const jinmuActionCredit=actors=>actors.some(a=>isJinmu(a)&&a.alive!==false&&a.hp>0)?JINMU_COMBAT.actionCredit:1;
 export function jinmuIncomingDamage(target,incoming,source){
  if(!isJinmu(target))return incoming;
