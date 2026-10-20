@@ -1,0 +1,56 @@
+{
+  "checkedAt": "2026-10-20T22:19:22.520Z",
+  "source": "666b7636e0a3558d875fdff004e1cbeb66333e02",
+  "pages": "20215d45",
+  "files": [
+    {
+      "file": "mercenary-codex/index.html",
+      "sha256": "641c19010d7b39bb66e81ee39760d5afff9fd253b2eed0e4cd7b4994f02b5121"
+    },
+    {
+      "file": "mercenary-codex/app.mjs",
+      "sha256": "7029269fd28346ade918d8752497c63208813920c29aa6740fe2bffbc8e21f59"
+    },
+    {
+      "file": "mercenary-codex/model.mjs",
+      "sha256": "3da7b6c74d1252966b5cf395d9fdf14e7b91b5490cfee017aeb9c020008b8526"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "e4efc5c4f75e3ce0e9306d4011adc2712d2cb0fe90f3be446c199a558472ad3e"
+    }
+  ],
+  "packRevision": 18,
+  "stock": [
+    {
+      "code": "V-977",
+      "limit": 15,
+      "issued": 15,
+      "remaining": 0
+    },
+    {
+      "code": "V-999",
+      "limit": 8,
+      "issued": 8,
+      "remaining": 0
+    },
+    {
+      "code": "V-989",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3
+    },
+    {
+      "code": "V-996",
+      "limit": 15,
+      "issued": 14,
+      "remaining": 1
+    },
+    {
+      "code": "V-979",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3
+    }
+  ]
+}

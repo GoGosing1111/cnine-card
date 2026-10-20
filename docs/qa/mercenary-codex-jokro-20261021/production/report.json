@@ -1,0 +1,37 @@
+{
+  "origin": "https://cnine-card.pages.dev",
+  "catalogSource": "production public GET",
+  "accountSource": "isolated PGlite owner holding; no production login",
+  "reports": [
+    {
+      "width": 1440,
+      "catalogCards": 81,
+      "ownedCards": 2,
+      "tabs": [
+        "owned",
+        "all",
+        "limited"
+      ],
+      "jokroSkill": true,
+      "approvedArtAndSdLoaded": true,
+      "horizontalOverflow": false,
+      "errors": [],
+      "writes": []
+    },
+    {
+      "width": 390,
+      "catalogCards": 81,
+      "ownedCards": 2,
+      "tabs": [
+        "owned",
+        "all",
+        "limited"
+      ],
+      "jokroSkill": true,
+      "approvedArtAndSdLoaded": true,
+      "horizontalOverflow": false,
+      "errors": [],
+      "writes": []
+    }
+  ]
+}
