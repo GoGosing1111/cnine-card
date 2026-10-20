@@ -1,3 +1,4 @@
+import {PRIME_CODE} from '../../../shared/mercenary-prime-requiem-v1.mjs';
 import {ZERO_CODE} from '../../../shared/mercenary-zero-v1.mjs';
 import {resumeZeroPlayback} from '../../project-v-v3/source/battle/ZeroCombatPlayback.js';
 import {LEONEL_CODE} from '../../../shared/mercenary-leonel-v1.mjs';
@@ -46,7 +47,7 @@ export function defenseMercenaryPresentation(engine,actor){
   let done=false;const finish=value=>{if(done)return;done=true;ctx.simpleTimelines.delete(entry);ctx.activeTimelines.delete(entry);cleanup();resolve(value);};
   const instance=gsap.timeline({paused:true,onComplete:()=>finish(true),onInterrupt:()=>finish(false)}),entry={instance,settle:finish};
   ctx.simpleTimelines.add(entry);ctx.activeTimelines.add(entry);build(instance);
-  const speed=[ZERO_CODE,LEONEL_CODE].includes(actor.cardId)?(Number(fixedTimeScale)||1):ctx.basic?Math.max(Number(fixedTimeScale)||1,instance.duration()/Math.max(.4,(actor.unitData.interval||1200)/1000*.88)):Number(fixedTimeScale)||1.3;
+  const speed=[PRIME_CODE,ZERO_CODE,LEONEL_CODE].includes(actor.cardId)?(Number(fixedTimeScale)||1):ctx.basic?Math.max(Number(fixedTimeScale)||1,instance.duration()/Math.max(.4,(actor.unitData.interval||1200)/1000*.88)):Number(fixedTimeScale)||1.3;
   instance.timeScale(engine.reducedMotion?Math.max(speed,8):speed);instance.play(0);
  });
  const states=()=>['cryvernStates','berkanStates','limitedStates','heliosStates','jinmuStates','jokroStates','zeroStates','leonelStates','kaironStates','shiranuiStates','azantStates'].flatMap(k=>[...(ctx[k]?.values()||[])]);

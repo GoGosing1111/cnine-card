@@ -1,0 +1,5 @@
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080609}#lab-modal{display:block}
+.battle-v3-header,.battle-v3-status,.battle-v3-dock,.battle-v3-header button{background:none!important;border:12px solid transparent!important;border-radius:0!important;border-image:url("assets/ui-blood-forged-frame.png") 170 fill / 14px / 0 stretch!important;box-shadow:none!important;color:#f0d7de!important}
+.battle-v3-header{padding:5px 12px!important;min-height:54px}.battle-v3-status{max-width:65%;padding:3px 12px!important;font-size:11px!important}
+.battle-v3-dock{padding:7px 12px!important}.battle-v3-header button{min-height:36px}
+@media(max-width:600px){.battle-v3-header{padding:2px 6px!important;font-size:10px}.battle-v3-status{font-size:9px!important;max-width:90%}.battle-v3-dock{padding:4px!important}}

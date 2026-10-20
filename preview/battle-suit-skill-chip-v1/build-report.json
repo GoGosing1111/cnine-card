@@ -104,6 +104,13 @@
     "preview/project-v-v3/source/battle/OccupiedGridLayout.js",
     "shared/mercenary-leonel-v1.mjs",
     "shared/mercenary-zero-v1.mjs",
+    "shared/mercenary-prime-requiem-v1.mjs",
+    "preview/prime-requiem-blood-skills-20261021-v1/source/MotionAtlas.mjs",
+    "preview/prime-requiem-blood-skills-20261021-v1/source/SkillPlan.mjs",
+    "preview/prime-requiem-blood-skills-20261021-v1/source/PrimeNeonRim.js",
+    "preview/prime-requiem-blood-skills-20261021-v1/source/PrimeIdleAura.js",
+    "preview/prime-requiem-blood-skills-20261021-v1/source/PrimeRequiemFX.js",
+    "preview/project-v-v3/source/battle/PrimeRequiemCombatPlayback.js",
     "preview/mercenary-cyan-knight-battle-20261020-v1/array-motion-v4.mjs",
     "preview/mercenary-cyan-knight-battle-20261020-v1/motion.mjs",
     "preview/mercenary-cyan-knight-battle-20261020-v1/source/SummonedSwordArray.js",
@@ -240,5 +247,5 @@
     "preview/project-v-v3/source/project-v-pixi-battle.src.js",
     "preview/battle-suit-skill-chip-v1/source/skill-chip-lab.src.js"
   ],
-  "outputBytes": 2228335
+  "outputBytes": 2264001
 }

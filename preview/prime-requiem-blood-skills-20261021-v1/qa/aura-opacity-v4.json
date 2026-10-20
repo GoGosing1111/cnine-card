@@ -1,0 +1,35 @@
+{
+  "status": "PASS_SCOPED_AURA_OPACITY_CHECK",
+  "userVisualApproval": false,
+  "bundleSha256": "BC5ACE4AE9F6F8B7772790E284D816859B8172778D8ED847C415AB732614523F",
+  "results": [
+    {
+      "surface": "desktop",
+      "state": {
+        "pose": 0,
+        "front": 0.527,
+        "back": 0.8075,
+        "body": 1,
+        "neon": 1,
+        "outer": 0.9299999999999999,
+        "opacity": 0.85,
+        "speed": 2
+      },
+      "errors": []
+    },
+    {
+      "surface": "mobile",
+      "state": {
+        "pose": 0,
+        "front": 0.527,
+        "back": 0.8075,
+        "body": 1,
+        "neon": 1,
+        "outer": 0.9299999999999999,
+        "opacity": 0.85,
+        "speed": 2
+      },
+      "errors": []
+    }
+  ]
+}

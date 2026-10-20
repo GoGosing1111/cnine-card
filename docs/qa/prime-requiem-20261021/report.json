@@ -1,0 +1,426 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "desktop",
+      "mode": "codex",
+      "unowned": true,
+      "locked": true,
+      "overflow": false
+    },
+    {
+      "label": "mobile",
+      "mode": "area",
+      "idle": {
+        "d": {
+          "ready": true,
+          "skill": "blood-dash",
+          "time": 0,
+          "playing": false,
+          "speed": 2,
+          "pose": 0,
+          "activeSheet": "motion-user-eight-v2",
+          "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+          "mode": "ambient",
+          "effectFrame": null,
+          "phase": "전투 준비",
+          "visibleEffects": 0,
+          "effectFrames": [],
+          "auraFrame": 3,
+          "auraVisible": true,
+          "auraAsset": "fx-idle-shattered-moon-v7",
+          "idleAura": {
+            "visible": true,
+            "alpha": 1,
+            "pulse": 0.645142338627231,
+            "moonAsset": "fx-idle-shattered-moon-v7",
+            "moonX": 9.989406779661017,
+            "moonRotation": 0,
+            "moonFrame": 2,
+            "moonNext": 3,
+            "moonBlend": 0.37500000000000044,
+            "flameFrame": 9,
+            "flameNext": 10,
+            "flameBlend": 0.49999999999999645,
+            "renderedSprites": 4,
+            "reducedMotion": false
+          },
+          "bloodAuraVisible": false,
+          "auraFrontAlpha": 0,
+          "neonLayers": 2,
+          "neonInnerAlpha": 1,
+          "neonContourAlpha": 0.9574170806352678,
+          "neonOuterAlpha": 0.9219313144979908,
+          "neonRim": "SOURCE_ALPHA_CONTOUR",
+          "neonRimWidth": 2.25,
+          "neonAboveAura": true,
+          "registeredTimelines": 0,
+          "ownTimelines": 0,
+          "regularAllies": 5,
+          "mercenaryInRegularArray": false,
+          "effectLayers": 1,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expectedScale": 0.8686440677966102,
+          "contactDistance": 387.84330984618697,
+          "rendererResolution": 1,
+          "clock": "ONE_V3_REGISTERED_GSAP",
+          "damageAuthority": "SERVER_ONLY",
+          "liveEnabled": true,
+          "cameraZoom": false,
+          "playbackRate": 2
+        },
+        "camera": {
+          "x": 575.4098360655737,
+          "y": 1156.7213114754097,
+          "sx": 1,
+          "sy": 1
+        },
+        "actorScale": {
+          "x": 0.65,
+          "y": 0.65
+        },
+        "facing": 1
+      },
+      "outcomes": [
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "ATTACK",
+            "mode": "blood-dash",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 0.99,
+            "durationSeconds": 2,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "ATTACK",
+            "mode": "blood-echo",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 1.76,
+            "durationSeconds": 2.65,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        {
+          "skill": "basic",
+          "done": true,
+          "hpCalls": 1,
+          "unique": 1,
+          "playback": {
+            "code": "V-975",
+            "eventType": "ATTACK",
+            "mode": "blood-frenzy",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 1,
+            "contactSeconds": 2.16,
+            "durationSeconds": 2.85,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        {
+          "skill": "MS-963",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-tiger",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 1.28,
+            "durationSeconds": 2.5,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        {
+          "skill": "MS-964",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-execution",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 3.05,
+            "durationSeconds": 3.85,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        {
+          "skill": "MS-965",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-cataclysm",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 2.82,
+            "durationSeconds": 4.5,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        },
+        {
+          "skill": "MS-966",
+          "done": true,
+          "hpCalls": 12,
+          "unique": 12,
+          "playback": {
+            "code": "V-975",
+            "eventType": "MERCENARY_PRIME_REQUIEM_AREA",
+            "mode": "blood-moonfall",
+            "clockOwner": "V3_REGISTERED_GSAP",
+            "authoritative": true,
+            "damageApplications": 12,
+            "contactSeconds": 3.62,
+            "durationSeconds": 4.95,
+            "playbackRate": 2,
+            "cameraZoom": false
+          },
+          "pose": 0,
+          "scaleX": 0.8686440677966102,
+          "scaleY": 0.8686440677966102,
+          "expected": 0.8686440677966102,
+          "returned": 0,
+          "effects": 0,
+          "camera": {
+            "x": 575.4098360655737,
+            "y": 1156.7213114754097,
+            "sx": 1,
+            "sy": 1
+          },
+          "actorScale": {
+            "x": 0.65,
+            "y": 0.65
+          }
+        }
+      ],
+      "contact": {
+        "ready": true,
+        "skill": "blood-moonfall",
+        "time": 3.65,
+        "playing": false,
+        "speed": 2,
+        "pose": 5,
+        "activeSheet": "motion-user-eight-v2",
+        "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+        "mode": "attack",
+        "effectFrame": 11,
+        "phase": "13 / 13 연속 타격",
+        "visibleEffects": 6,
+        "effectFrames": [
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 4
+          },
+          {
+            "key": "sword-afterimage",
+            "frame": 5
+          },
+          {
+            "key": "fx-blood-mooncleave-v3",
+            "frame": 9
+          }
+        ],
+        "auraFrame": 4,
+        "auraVisible": true,
+        "auraAsset": "fx-blood-mantle-v3",
+        "idleAura": {
+          "visible": false,
+          "alpha": 0,
+          "pulse": 0.9519946465617217,
+          "moonAsset": "fx-idle-shattered-moon-v7",
+          "moonX": -38.22033898305085,
+          "moonRotation": 0,
+          "moonFrame": 4,
+          "moonNext": 5,
+          "moonBlend": 0.5625,
+          "flameFrame": 2,
+          "flameNext": 3,
+          "flameBlend": 0.24999999999999867,
+          "renderedSprites": 4,
+          "reducedMotion": false
+        },
+        "bloodAuraVisible": true,
+        "auraFrontAlpha": 0.557735635966197,
+        "neonLayers": 2,
+        "neonInnerAlpha": 1,
+        "neonContourAlpha": 0.9942393575874067,
+        "neonOuterAlpha": 0.9894388222435788,
+        "neonRim": "SOURCE_ALPHA_CONTOUR",
+        "neonRimWidth": 2.25,
+        "neonAboveAura": true,
+        "registeredTimelines": 0,
+        "ownTimelines": 0,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "effectLayers": 1,
+        "scaleX": 0.8686440677966102,
+        "scaleY": 0.8686440677966102,
+        "expectedScale": 0.8686440677966102,
+        "contactDistance": 1.1368683772161603e-13,
+        "rendererResolution": 1,
+        "clock": "ONE_V3_REGISTERED_GSAP",
+        "damageAuthority": "SERVER_ONLY",
+        "liveEnabled": true,
+        "cameraZoom": false,
+        "playbackRate": 2
+      },
+      "cancel": {
+        "stopped": true,
+        "ambient": false,
+        "effects": false,
+        "resumed": true,
+        "states": 0,
+        "destroyed": true
+      }
+    },
+    {
+      "label": "mobile",
+      "mode": "codex",
+      "unowned": true,
+      "locked": true,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

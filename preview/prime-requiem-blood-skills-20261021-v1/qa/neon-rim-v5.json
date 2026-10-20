@@ -1,0 +1,286 @@
+{
+  "status": "PASS_SCOPED_NEON_RIM_CHECK",
+  "userVisualApproval": false,
+  "bundleSha256": "75819F9233E1027D0C055A1670D350911FD9DC1D7677BE735D20F5CAC7B302EA",
+  "results": [
+    {
+      "surface": "desktop",
+      "state": {
+        "ready": true,
+        "skill": "blood-dash",
+        "time": 0,
+        "playing": false,
+        "speed": 2,
+        "pose": 0,
+        "activeSheet": "motion-user-eight-v2",
+        "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+        "mode": "ambient",
+        "effectFrame": null,
+        "phase": "전투 준비",
+        "visibleEffects": 0,
+        "effectFrames": [],
+        "auraFrame": 8,
+        "auraVisible": true,
+        "auraAsset": "fx-blood-mantle-v3",
+        "auraFrontAlpha": 0.527,
+        "neonLayers": 2,
+        "neonInnerAlpha": 1,
+        "neonOuterAlpha": 0.9299999999999999,
+        "neonRim": "SOURCE_ALPHA_CONTOUR",
+        "neonRimWidth": 2.25,
+        "neonAboveAura": true,
+        "registeredTimelines": 1,
+        "ownTimelines": 1,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "effectLayers": 1,
+        "scaleX": 0.8686440677966102,
+        "scaleY": 0.8686440677966102,
+        "expectedScale": 0.8686440677966102,
+        "contactDistance": 866.249147771519,
+        "rendererResolution": 2,
+        "clock": "ONE_V3_REGISTERED_GSAP",
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "disposed": false,
+        "sequence": false,
+        "bodyAlpha": 1,
+        "bodyFilters": 0,
+        "auraOpacity": 0.85
+      },
+      "poses": [
+        {
+          "index": 0,
+          "aligned": true,
+          "width": 502,
+          "height": 894,
+          "brightRedPixels": 21126,
+          "transparentFraction": 0.8143421838373575,
+          "opaquePixels": 21126
+        },
+        {
+          "index": 1,
+          "aligned": true,
+          "width": 570,
+          "height": 712,
+          "brightRedPixels": 21652,
+          "transparentFraction": 0.7825226690321309,
+          "opaquePixels": 21652
+        },
+        {
+          "index": 2,
+          "aligned": true,
+          "width": 714,
+          "height": 666,
+          "brightRedPixels": 22383,
+          "transparentFraction": 0.8146907411613294,
+          "opaquePixels": 22383
+        },
+        {
+          "index": 3,
+          "aligned": true,
+          "width": 956,
+          "height": 668,
+          "brightRedPixels": 20377,
+          "transparentFraction": 0.8704729662014883,
+          "opaquePixels": 20377
+        },
+        {
+          "index": 4,
+          "aligned": true,
+          "width": 766,
+          "height": 856,
+          "brightRedPixels": 24072,
+          "transparentFraction": 0.847351516556453,
+          "opaquePixels": 24072
+        },
+        {
+          "index": 5,
+          "aligned": true,
+          "width": 750,
+          "height": 762,
+          "brightRedPixels": 22379,
+          "transparentFraction": 0.8385441819772529,
+          "opaquePixels": 22379
+        },
+        {
+          "index": 6,
+          "aligned": true,
+          "width": 808,
+          "height": 580,
+          "brightRedPixels": 19496,
+          "transparentFraction": 0.8332365995220211,
+          "opaquePixels": 19496
+        },
+        {
+          "index": 7,
+          "aligned": true,
+          "width": 514,
+          "height": 848,
+          "brightRedPixels": 21152,
+          "transparentFraction": 0.8100795646428309,
+          "opaquePixels": 21152
+        }
+      ],
+      "controls": {
+        "played": true,
+        "pauseStable": true,
+        "attackPose": 3,
+        "attackRim": "SOURCE_ALPHA_CONTOUR",
+        "cancelledPose": 0,
+        "remainingEffects": 0
+      },
+      "layout": {
+        "width": 1440,
+        "scrollWidth": 1440
+      },
+      "cleanup": {
+        "destroyed": true,
+        "layerDestroyed": true,
+        "rimDestroyed": true,
+        "ownTimeline": false
+      },
+      "errors": [],
+      "failed": []
+    },
+    {
+      "surface": "mobile",
+      "state": {
+        "ready": true,
+        "skill": "blood-dash",
+        "time": 0,
+        "playing": false,
+        "speed": 2,
+        "pose": 0,
+        "activeSheet": "motion-user-eight-v2",
+        "motionSourceSha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+        "mode": "ambient",
+        "effectFrame": null,
+        "phase": "전투 준비",
+        "visibleEffects": 0,
+        "effectFrames": [],
+        "auraFrame": 8,
+        "auraVisible": true,
+        "auraAsset": "fx-blood-mantle-v3",
+        "auraFrontAlpha": 0.527,
+        "neonLayers": 2,
+        "neonInnerAlpha": 1,
+        "neonOuterAlpha": 0.9299999999999999,
+        "neonRim": "SOURCE_ALPHA_CONTOUR",
+        "neonRimWidth": 2.25,
+        "neonAboveAura": true,
+        "registeredTimelines": 1,
+        "ownTimelines": 1,
+        "regularAllies": 5,
+        "mercenaryInRegularArray": false,
+        "effectLayers": 1,
+        "scaleX": 0.8686440677966102,
+        "scaleY": 0.8686440677966102,
+        "expectedScale": 0.8686440677966102,
+        "contactDistance": 554.8574519771071,
+        "rendererResolution": 2,
+        "clock": "ONE_V3_REGISTERED_GSAP",
+        "damageAuthority": "NONE_VISUAL_PREVIEW",
+        "disposed": false,
+        "sequence": false,
+        "bodyAlpha": 1,
+        "bodyFilters": 0,
+        "auraOpacity": 0.85
+      },
+      "poses": [
+        {
+          "index": 0,
+          "aligned": true,
+          "width": 502,
+          "height": 894,
+          "brightRedPixels": 21126,
+          "transparentFraction": 0.8143421838373575,
+          "opaquePixels": 21126
+        },
+        {
+          "index": 1,
+          "aligned": true,
+          "width": 570,
+          "height": 712,
+          "brightRedPixels": 21652,
+          "transparentFraction": 0.7825226690321309,
+          "opaquePixels": 21652
+        },
+        {
+          "index": 2,
+          "aligned": true,
+          "width": 714,
+          "height": 666,
+          "brightRedPixels": 22383,
+          "transparentFraction": 0.8146907411613294,
+          "opaquePixels": 22383
+        },
+        {
+          "index": 3,
+          "aligned": true,
+          "width": 956,
+          "height": 668,
+          "brightRedPixels": 20377,
+          "transparentFraction": 0.8704729662014883,
+          "opaquePixels": 20377
+        },
+        {
+          "index": 4,
+          "aligned": true,
+          "width": 766,
+          "height": 856,
+          "brightRedPixels": 24072,
+          "transparentFraction": 0.847351516556453,
+          "opaquePixels": 24072
+        },
+        {
+          "index": 5,
+          "aligned": true,
+          "width": 750,
+          "height": 762,
+          "brightRedPixels": 22379,
+          "transparentFraction": 0.8385441819772529,
+          "opaquePixels": 22379
+        },
+        {
+          "index": 6,
+          "aligned": true,
+          "width": 808,
+          "height": 580,
+          "brightRedPixels": 19496,
+          "transparentFraction": 0.8332365995220211,
+          "opaquePixels": 19496
+        },
+        {
+          "index": 7,
+          "aligned": true,
+          "width": 514,
+          "height": 848,
+          "brightRedPixels": 21152,
+          "transparentFraction": 0.8100795646428309,
+          "opaquePixels": 21152
+        }
+      ],
+      "controls": {
+        "played": true,
+        "pauseStable": true,
+        "attackPose": 3,
+        "attackRim": "SOURCE_ALPHA_CONTOUR",
+        "cancelledPose": 0,
+        "remainingEffects": 0
+      },
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      },
+      "cleanup": {
+        "destroyed": true,
+        "layerDestroyed": true,
+        "rimDestroyed": true,
+        "ownTimeline": false
+      },
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "problems": []
+}

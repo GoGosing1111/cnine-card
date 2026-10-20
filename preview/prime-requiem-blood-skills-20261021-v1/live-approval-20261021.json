@@ -1,0 +1,79 @@
+{
+  "status": "USER_APPROVED",
+  "dateKST": "2026-10-21",
+  "code": "V-975",
+  "name": "프라임 레퀴엠",
+  "grade": "SSS LIMITED",
+  "userRequest": "좋네 승인해 제로랑 밸런스는 동급으로 만들어 현재 획득불가 다 하고 핑크빛유두 지급",
+  "appearance": "idle-eclipse-7",
+  "balanceReference": "V-976",
+  "basePower": 2300000,
+  "acquisitionEnabled": false,
+  "packAcquisitionEnabled": false,
+  "deploymentEnabled": true,
+  "gameplayPolicy": "shared/mercenary-prime-requiem-v1.mjs",
+  "grant": {
+    "nickname": "핑크빛유두",
+    "quantity": 1,
+    "automaticLoadout": false,
+    "receipt": "docs/pingdu-prime-requiem-grant-20261021.json"
+  },
+  "files": [
+    {
+      "file": "sources/prime-requiem-fantasy-reference.png",
+      "sha256": "b2d1c5df8553370ec9ff90d72e27562c404c24dcecf33935bb74f0edc13d2fdc"
+    },
+    {
+      "file": "assets/battle-ready-v2.png",
+      "sha256": "ea00ecb24265dcf168f139361ff09d538486048a384a3bff872e174479116830"
+    },
+    {
+      "file": "sources/user-motion-sheet-v2.png",
+      "sha256": "3edc3e6ae57d0032cd63912927b47d57008e1c2d35719491245fc8a4f42f26b9"
+    },
+    {
+      "file": "assets/fx-blood-dash.png",
+      "sha256": "f6628fabbb1da9d467935636051db35249a608af49c8f86d494693e93b6ef892"
+    },
+    {
+      "file": "assets/fx-blood-echo.png",
+      "sha256": "d4e08437e820f3cde73bae2ec0b035fc94eb5f09ee77ffa5c67646cb25ad7072"
+    },
+    {
+      "file": "assets/fx-blood-frenzy-v2.png",
+      "sha256": "52c0708604dfb29ae736979fe4e9f8034cf221d88b552a4659f312c187bd5930"
+    },
+    {
+      "file": "assets/fx-blood-tiger-burst.png",
+      "sha256": "3b3a2a91e583662ea666a06cad88d1f2d5eaf39efa0a79afd4ab0464ce6cc2ef"
+    },
+    {
+      "file": "assets/fx-blood-execution-v2.png",
+      "sha256": "dce7b85e5ee94227e5244c81cd114c845bb394c90e5eaa59d4f581ba311afa38"
+    },
+    {
+      "file": "assets/fx-blood-mantle-v3.png",
+      "sha256": "27852ac96740b37d411b2812e9eb23ec2641f776098e2006514bce329bbb5e2f"
+    },
+    {
+      "file": "assets/fx-blood-titanblade-v3.png",
+      "sha256": "43a8688db7309f195c16e8c69b8c5ffae64ce4528019eb0458ce917f64c9a415"
+    },
+    {
+      "file": "assets/fx-blood-cataclysm-v3.png",
+      "sha256": "a63b0470a462030498b0f615ba7e77a154127e56794fddbff12eba9870a01290"
+    },
+    {
+      "file": "assets/fx-blood-mooncleave-v3.png",
+      "sha256": "3909371726b2ee17387e26397ca75bff5bca5bd39aa153320767935fdd11bb5a"
+    },
+    {
+      "file": "assets/fx-idle-blackflame-v6.png",
+      "sha256": "8c04d9ef7943eb9533e79079f609d81d4fd48411133762ce58283416ed85e42e"
+    },
+    {
+      "file": "assets/fx-idle-shattered-moon-v7.png",
+      "sha256": "3503a2bd0ca5e7ce842782fdfa2c946b2f0af9df272c3eaceae05059814c6e56"
+    }
+  ]
+}

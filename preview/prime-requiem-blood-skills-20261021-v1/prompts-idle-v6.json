@@ -1,0 +1,40 @@
+{
+  "dateKST": "2026-10-21",
+  "tool": "BUILT_IN_IMAGE_GEN",
+  "status": "USER_VISUAL_REVIEW_PENDING",
+  "purpose": "STANDING_IDLE_PRESENCE",
+  "userCorrections": [
+    "Focus on standing presence; attack effects are not the priority.",
+    "Replace standing blood ribbons with a shattered oblique crimson moon and long rising black killing-intent flames.",
+    "Keep face, green core, slim proportions and the current red neon contour clearly visible.",
+    "Approved proposed direction with user instruction: 시작해"
+  ],
+  "assets": [
+    {
+      "key": "fx-idle-shattered-moon-v6",
+      "grid": [
+        4,
+        2
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: production 2D fantasy action RPG IDLE aura animation sprite atlas, true transparent RGBA. Create exactly 4 columns and 2 rows, eight equally sized square animation cells on a 2:1 landscape canvas. Effect ONLY, no person or armor, no weapons, scenery, floor, lettering, cell borders, checkerboard or colored backdrop. An imposing SHATTERED CRIMSON MOON floats upright behind a slender red-white berserker knight. Design a large oblique crescent of dark volcanic moonstone, rugged lunar craters and chipped obsidian facets, molten deep crimson fissures, a razor thin incandescent scarlet edge. Its circular body is broken into five major asymmetric curved pieces, separated by clear transparent gaps, with only a few tiny suspended rock shards. This must read as an ancient broken BLOOD MOON, not a magic diagram, a gear, a portal, a spiky sun, a smooth neon ring or liquid blood. Rich almost-black stone interiors give weight; intensely saturated crimson edges give threatening premium boss presence. A broad hollow center stays completely transparent for the existing character's head and chest. Crescent horns angle toward upper right; same fixed tilt, pivot and size in every cell. Eight adjacent coherent looping states: pieces gently separate along their radial fracture lines, reach about 7 percent more separation at frame 5, then settle inward by frame 8; small molten veins brighten and recede slowly. NO rotation across frames, no growth/shrinking of the whole moon. Every whole effect and its tight glow must fit inside x.13..87 y.13..87 of each square cell, all eight cell centers identical, clean transparent spacing. High-end crisp hand-painted anime dark fantasy illustration, restrained sharp glow, dark cherry red and obsidian, no orange/yellow fire. Genuine empty alpha between and within the crescent pieces. The last state rejoins the first without a burst or fade out.",
+      "output": {
+        "path": "assets/fx-idle-shattered-moon-v6.png",
+        "builtInOriginal": "C:/Users/User/.codex/generated_images/01a158f4-980e-73d3-87a5-707379b55b0e/exec-c29b6ee8-a389-4d7a-bd72-92c3498f3953.png",
+        "sha256": "62544BD1154AD9709EBC06CCB43813048E62B4DF5C316FA70AD6BB75B379F791"
+      }
+    },
+    {
+      "key": "fx-idle-blackflame-v6",
+      "grid": [
+        4,
+        4
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: original high-end 2D anime dark fantasy IDLE aura animation atlas, true transparent RGBA. Exact 4 columns by 4 rows, sixteen equal square frames in reading order. Effect only, no person, armor, weapon, lettering, cell borders or environment. A terrifying but elegant BLACK FLAME MANTLE designed to rise from both shoulders and flank an invisible slender standing berserker. Two asymmetric long jets of near-black smoke-flame start at lower left/right of an EMPTY central body space and rise like torn ink into three or four tall razor-tapered tongues above the shoulders. Deep charcoal and obsidian flame interiors are mostly solid, with very narrow vivid scarlet-red torn edges and a few red cinders lifting upward. It feels like heavy supernatural killing intent, dignified and menacing while standing still. NOT a fireball, wings, feathers, horns, a crown, blood ribbons, circular vortex or generic glowing cloud. Keep the entire central vertical channel x.40..60 fully transparent so the existing face and chest stay visible. Strong distinct silhouette and long upward flow; matte inky dark areas contrast with thin red light, no orange, yellow or white flame. Sixteen coherent successive frames form a slow continuous upward curl: tongues bend and split very slightly, narrow ash tips detach and rise, new tips replace them at the base, returning smoothly to frame 1. Keep base anchors fixed and same overall size in every frame. Every effect including embers and glow stays inside x.12..88 y.12..88 of EACH cell, ample empty transparent margin. Small ember count, no full-screen fog, no floor shadow, no background-colored rectangles, no opaque haze in the central opening. Premium hand-painted sharp 2D game illustration, exactly consistent linework and lighting over the full loop. True alpha transparency.",
+      "output": {
+        "path": "assets/fx-idle-blackflame-v6.png",
+        "builtInOriginal": "C:/Users/User/.codex/generated_images/01a158f4-980e-73d3-87a5-707379b55b0e/exec-219b49eb-55ff-404c-a9a6-167408c77e51.png",
+        "sha256": "8C04D9EF7943EB9533E79079F609D81D4FD48411133762CE58283416ED85E42E"
+      }
+    }
+  ]
+}

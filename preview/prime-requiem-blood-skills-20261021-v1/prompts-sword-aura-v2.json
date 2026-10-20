@@ -1,0 +1,53 @@
+{
+  "dateKST": "2026-10-21",
+  "tool": "BUILT_IN_IMAGE_GEN",
+  "status": "USER_VISUAL_REVIEW_PENDING",
+  "userCorrections": [
+    "Use the attached eight-pose sheet; remove the old waiting pose and all alternate sixteen-frame body sheets.",
+    "Attack playback defaults to two times speed.",
+    "Remove the running white tiger; begin the area attack with the roaring tiger head.",
+    "Reject blood-core and requiem; replace both with sword-driven berserker multi-hit attacks.",
+    "Add red neon light and animated blood ribbons wrapping the entire body."
+  ],
+  "assets": [
+    {
+      "key": "fx-blood-wrap-v2",
+      "prompt": "Use case: stylized-concept. Asset type: transparent 2D game VFX animation sprite atlas for a slim crimson-and-white fantasy berserker knight, Prime Requiem. Create ONE exact 4-column by 4-row atlas, sixteen consecutive frames read left to right then top to bottom, preferably 2048x2048. Every square cell has identical camera, scale and center; allow 18 percent empty transparent padding on ALL four sides of EVERY cell. No cell borders, text, labels, characters, armor, weapons, background, or floor. The effect is a tall narrow open helix of flowing magical liquid blood wrapping an invisible standing humanoid from ankles to above the helmet. Thin glossy deep crimson ribbons coil in three dimensions with intense hot scarlet neon edges and sparse fine sparks. The center stays largely transparent so the wearer remains sharply readable. Not fire, not smoke, not a filled red blob, not a giant magic circle. Give the ribbons a coherent continuous 360 degree orbit over the sixteen frames: front arcs slide smoothly sideways and become rear arcs, droplets follow the current, and the last frame connects naturally to the first. Use elegant sharp 2D anime painterly skill-effect linework, bright thin white-red highlights, dark wine-red liquid interiors, smooth real alpha falloff. Frame shapes must genuinely change across the sequence. Keep every ribbon and glow inside its cell, never touch or cross cell boundaries. Real transparent background.",
+      "output": {
+        "path": "assets/fx-blood-wrap-v2.png",
+        "sha256": "F541B6512CE66B8A4547D1ECEF983C62EC417F97F6238F53DA0EA023B4305109",
+        "builtInOriginal": "C:/Users/User/.codex/generated_images/01a158f4-980e-73d3-87a5-707379b55b0e/exec-318bfb08-b631-49ab-9491-004e5301584a.png"
+      }
+    },
+    {
+      "key": "fx-blood-frenzy-v2",
+      "prompt": "Use case: stylized-concept. Asset type: transparent 2D action RPG sword-skill animation atlas, Prime Requiem BLOOD BLADE FRENZY. ONE exact 4-column by 4-row atlas, sixteen consecutive frames read left to right then top to bottom, preferably 2048x2048. Exact equal square cells with identical center and scale and 18 percent transparent padding on each edge of EVERY cell. No text, no cell borders, no character, no physical sword, no background. Draw a ferocious close-combat sword combo made of razor-thin incandescent white-scarlet blade trails edged with glossy crimson liquid blood and fine blade sparks. Four distinct directional sword cuts in one coherent continuous sequence: frames 1-4 fast low-to-high diagonal crescent with small contact spark and fading torn droplets; frames 5-8 reverse descending diagonal cut; frames 9-12 tight broad horizontal blade sweep with a bright blade impact star; frames 13-16 piercing forward sword thrust, powerful white-hot central cut then fine shattered blood ribbons dissipating. Dynamic clean tapered edges like a high-end hand-drawn anime action game, blood berserker energy, readable sword trajectories, no round fireball, no circular spell seal, no giant smoke cloud. Each four-frame group evolves from a small razor line into the cut, its contact and disappearing fragments. Distinct frame-to-frame deformation, consistent origin and scale. All effects and soft glow contained within the safe cell padding; true alpha transparency.",
+      "output": {
+        "path": "assets/fx-blood-frenzy-v2.png",
+        "sha256": "52C0708604DFB29AE736979FE4E9F8034CF221D88B552A4659F312C187BD5930",
+        "builtInOriginal": "C:/Users/User/.codex/generated_images/01a158f4-980e-73d3-87a5-707379b55b0e/exec-12f95287-337d-4f0d-a68e-c85eb97870b0.png"
+      }
+    },
+    {
+      "key": "fx-blood-execution-v2",
+      "prompt": "Use case: stylized-concept. Asset type: transparent 2D action RPG ultimate sword-combo VFX atlas, Prime Requiem BLOODSHADOW EXECUTION. ONE exact 4-column by 4-row atlas, sixteen consecutive animation frames read left to right then top to bottom, preferably 2048x2048. Equal square cells; fixed center and scale; 18 percent transparent empty margin on every edge inside every cell. No text, borders, character, physical weapons, scenery, circles or spell seals. This must read as direct extremely fast berserker SWORD CUTS, not a casted magic explosion. Frames 1-4: several thin curved crimson blade aftertrails gathering into the first diagonal cut. Frames 5-8: intersecting upward and downward white-hot scarlet sword trails with sharp impact stars and trailing blood ribbons, progressively more cuts, a ferocious continuous multi-hit combo. Frames 9-12: a decisive enormous X-shaped cross-cut, brilliant narrow white cores edged in dark crimson blood, with sliced angular fragments and a shockwave made of blade-shaped streaks. Frames 13-16: cross-cut remnants separate into very fine fading red ribbons and sparks, final frame almost empty. Elegant high-detail 2D anime illustration VFX, powerful and luminous but crisp, plenty of negative space between sword traces, not a filled opaque blast. Every frame genuinely evolves and all effects and glow fit within the safe cell padding. Real transparent alpha background.",
+      "output": {
+        "path": "assets/fx-blood-execution-v2.png",
+        "sha256": "DCE7B85E5EE94227E5244C81CD114C845BB394C90E5EAA59D4F581BA311AFA38",
+        "builtInOriginal": "C:/Users/User/.codex/generated_images/01a158f4-980e-73d3-87a5-707379b55b0e/exec-4d1c08dd-deb8-4cd6-86e4-4b94b2dc5385.png"
+      }
+    }
+  ],
+  "videoReference": {
+    "url": "https://youtu.be/vfBuylrhTFc",
+    "title": "[던파] 진(眞) 버서커",
+    "inspectedPlaybackRate": 0.4,
+    "applied": [
+      "sword-first close combat",
+      "alternating cuts",
+      "brief impact holds",
+      "delayed blood trails",
+      "short final cross-cut"
+    ]
+  }
+}

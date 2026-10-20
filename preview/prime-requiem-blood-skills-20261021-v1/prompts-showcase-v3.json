@@ -1,0 +1,104 @@
+{
+  "dateKST": "2026-10-21",
+  "tool": "BUILT_IN_IMAGE_GEN",
+  "status": "USER_VISUAL_REVIEW_PENDING",
+  "userCorrections": [
+    "Preserve the liked five skills and add two spectacular sword-based showcases with visible video choreography.",
+    "Start upright with both feet planted using original pose 0.",
+    "Make red silhouette neon and full-body winding blood aura unmistakably visible."
+  ],
+  "referenceVideo": {
+    "url": "https://youtu.be/vfBuylrhTFc",
+    "title": "[던파] 진(眞) 버서커",
+    "rate": 0.4,
+    "observedTimes": [
+      15.868783,
+      17.880249,
+      19.387065,
+      20.282383,
+      20.901127,
+      22.480493,
+      24.982514,
+      25.543128,
+      26.684021,
+      28.480305,
+      30.982933,
+      32.686583
+    ]
+  },
+  "assets": [
+    {
+      "key": "fx-blood-titanblade-v3",
+      "grid": [
+        4,
+        2
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: high-end hand-painted 2D action RPG VFX sprite atlas on true transparent alpha. Create an exact 4 columns by 2 rows atlas, eight consecutive equal square cells, landscape 2:1 canvas. No characters, no letters, no cell borders, no scenery. Primary effect: a colossal magical BLOOD SWORD coating for an existing slim fantasy berserker's forearm blade. A long straight razor-tipped crimson blade of liquid blood and white-hot scarlet energy, sharp graphite-red interior, flowing upward blood ribbons, intense thin white edge, no physical hilt or guard. In EVERY cell its base is exactly at normalized x0.5 y0.82 and its tip points straight up toward y0.16, its widest part stays within x0.25..0.75. Eight genuinely different animation frames: 1 sparse droplets and inward flowing filaments; 2 blood gathering into a slender blade outline; 3 half formed jagged energy blade; 4 blade almost complete and longer; 5 full powerful blade and curling liquid veins; 6 brightest charged blade with a few fine lightning-like scarlet strands; 7 blade pulsing with rising blood flakes; 8 stable colossal blade with a different liquid flow ready to be swung. The blade stays rooted to exactly the same base point, overall art inside the central 70 percent of each cell, ample transparent spacing on all edges. Elegant forceful anime blood-berserker effect, detailed liquid specular streaks and crisp cutting edge, premium illustration VFX, not a laser beam or a fireball. Real transparent background, smooth real alpha falloff. Keep glow fully inside each cell.",
+      "output": {
+        "path": "assets/fx-blood-titanblade-v3.png",
+        "builtInOriginal": "C:/Users/User/.codex/generated_images/01a158f4-980e-73d3-87a5-707379b55b0e/exec-d3641326-8bff-45ef-94af-25b5ea5c871b.png",
+        "sha256": "43A8688DB7309F195C16E8C69B8C5FFAE64CE4528019EB0458CE917F64C9A415"
+      },
+      "superseded": false
+    },
+    {
+      "key": "fx-blood-cataclysm-v3",
+      "grid": [
+        4,
+        4
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: original transparent 2D action RPG ultimate blood-sword SLAM VFX animation atlas, high-end anime illustration. One exact 4-column 4-row square atlas, 16 equal square frames in reading order, fixed center and camera. No character, physical sword, letters, borders, scenery or magic circles. All art and glow must remain within the central 74 percent of EACH cell, leaving generous transparent gaps. Effect: a colossal sword impact splits the ground and releases a towering geyser of liquid crimson blood with a white-hot cutting core, black-red sharp fragments and ribbon-like shockwaves. This is a ferocious sword-caused detonation, very grand and forceful with clear sharp silhouette. Frames1-4: a narrow descending slash lands near x.5 y.78, a brilliant compressed star hits the ground, long blood fissures fan outward. Frames5-8: the initial ground splash violently rises into a tall irregular blood column, sharp upward streaks and liquid sheets, thin white scarlet core. Frames9-12: the column reaches its largest stage, opens like torn blood wings, white-red cutting shards and crimson liquid shockwaves spreading sideways across the ground. Frames13-16: the column collapses into spiraling blood ribbons and small sparks, progressive dissolution with a mostly empty final frame. The contact base stays centered at x.5 y.78 throughout, top never above y.13, edges inside x.13..87. Each frame visibly evolves, no repeated static images. Rich dark wine-red liquid interiors, luminous scarlet edges and selective white-hot accents, crisp dramatic hand-drawn game animation, no orange flame, no opaque smoke cloud. Genuine transparent alpha.",
+      "output": {
+        "path": "assets/fx-blood-cataclysm-v3.png",
+        "builtInOriginal": "C:/Users/User/.codex/generated_images/01a158f4-980e-73d3-87a5-707379b55b0e/exec-a792d768-38bf-452c-a5a3-20d8a1e14974.png",
+        "sha256": "A63B0470A462030498B0F615BA7E77A154127E56794FDDBFF12EBA9870A01290"
+      },
+      "superseded": false
+    },
+    {
+      "key": "fx-blood-mooncleave-v3",
+      "grid": [
+        4,
+        4
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: premium hand-painted 2D anime action RPG ultimate blood sword attack sprite atlas. True transparent background. One exact 4-column by 4-row atlas, 16 identical square cells in reading order, fixed centers. No text, labels, borders, characters, physical swords, background, magic seals. Every effect including glow fully contained inside x.12..88 y.12..88 of every cell. A magnificent CRIMSON MOON CLEAVE: a wide razor sharp crescent of liquid blood with a narrow incandescent white core, black-cherry inner edge, fine scarlet splinters and secondary blade aftertrails, superlative berserker sword force. Frames1-4: accelerating rising diagonal sword arc develops from a thin curve into a broad tilted crescent with multiple slim parallel cutting traces. Frames5-8: return descending diagonal arc, sharper and brighter, tearing blood ribbons follow behind its path. Frames9-12: a devastating wide horizontal blood-moon sword cleave, luminous large sweeping crescent with a sharp bright contact burst in its center; the crescent opens forward like a long falchion slash, not a full ring and not an X; its width nearly fills the safe cell area, with diagonal blade-shaped splinters extending outward. Frames13-16: the broad crescent shatters into long slender blood ribbons and scattered glowing flakes, all fade progressively to near-empty last frame. Genuine consecutive deformation rather than repeated stamps. Spectacular highly detailed flowing liquid edges and fierce white-scarlet contact core, strong silhouette and negative space, no big filled fireball, no mechanical geometry. Real alpha transparency.",
+      "output": {
+        "path": null,
+        "builtInOriginal": "C:/Users/User/.codex/generated_images/01a158f4-980e-73d3-87a5-707379b55b0e/exec-cadba74f-222b-4d7c-bd0c-8dd114b2d22a.png",
+        "sha256": "EF4C909C14ED3D1AC6B020BE8D27AA7986C48221BA4BB1C11CA79F029127E2EE"
+      },
+      "superseded": true
+    },
+    {
+      "key": "fx-blood-mantle-v3",
+      "grid": [
+        4,
+        4
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: transparent hand-painted 2D game VFX sprite animation atlas. ONE precise 4 columns by 4 rows, 16 equal cells. A POWERFUL FULL-BODY BLOOD MANTLE for a standing slender berserker knight: three substantial fluid dark crimson ribbons wind around an invisible upright human, one from the ankles across the shins, one spiraling across waist and chest, one around the shoulders and above helmet. The ribbons coil in real depth, alternating in front and behind the unseen figure. Bright thin white-scarlet neon rims, deep red glossy liquid interiors, long trailing pointed tails, sparse fine droplets and a crown of rising crimson streaks around shoulders. Rich decisive shapes clearly visible at small game size; far stronger than wispy mist. Leave the inner central area mostly transparent so armor and face are readable. Effect ONLY, no person, no armor, no sword, no floor or scenery, no letters, no cell boundaries. Consistent upright center, coherent continuous spiral over sixteen consecutive unique frames, not repeated static illustrations. Each effect is about twice as tall as it is wide, completely contained inside the central 72 percent height of EACH cell, with genuinely empty transparent margins on all sides. The last frame smoothly rejoins the first. Beautiful fierce premium anime illustration, blood-red energy and fluid blood rather than smoke or flame. Genuine transparent alpha background with empty alpha between every sprite; absolutely no red rectangle, colored background, gradient backdrop, checkerboard, black background or opaque haze.",
+      "output": {
+        "path": "assets/fx-blood-mantle-v3.png",
+        "builtInOriginal": "C:/Users/User/.codex/generated_images/01a158f4-980e-73d3-87a5-707379b55b0e/exec-0b069402-2a2f-479d-ba62-74365ab5a71d.png",
+        "sha256": "27852AC96740B37D411B2812E9EB23EC2641F776098E2006514BCE329BBB5E2F"
+      },
+      "superseded": false
+    },
+    {
+      "key": "fx-blood-mooncleave-v3",
+      "grid": [
+        4,
+        4
+      ],
+      "repair": true,
+      "prompt": "Use case: background-extraction. EDIT the attached sword-effect atlas. Preserve the exact sixteen distinct sword-cut effects, order, 4-column by 4-row arrangement, shapes and vivid red-white liquid details. Remove the entire flat and gradient red BACKGROUND so this is a genuinely transparent alpha sprite atlas; every empty area between effects and the inside hollow of every crescent must be truly transparent. Preserve the solid blood ribbons and white luminous blade edges, keep only a small transparent feathered glow hugging them. No opaque colored cell rectangles, no haze covering empty space, no replacement background. Do not crop the atlas or change any frame's shape or order. Output real RGBA transparency.",
+      "output": {
+        "path": "assets/fx-blood-mooncleave-v3.png",
+        "builtInOriginal": "C:/Users/User/.codex/generated_images/01a158f4-980e-73d3-87a5-707379b55b0e/exec-b0e49ddb-6f78-4d66-a60a-1d9977786645.png",
+        "sha256": "3909371726B2EE17387E26397CA75BFF5BCA5BD39AA153320767935FDD11BB5A"
+      },
+      "superseded": false,
+      "referenceImage": "C:/Users/User/.codex/generated_images/01a158f4-980e-73d3-87a5-707379b55b0e/exec-cadba74f-222b-4d7c-bd0c-8dd114b2d22a.png"
+    }
+  ],
+  "unchangedMotionSource": "sources/user-motion-sheet-v2.png"
+}

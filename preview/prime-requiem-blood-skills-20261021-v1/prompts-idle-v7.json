@@ -1,0 +1,37 @@
+{
+  "dateKST": "2026-10-21",
+  "tool": "BUILT_IN_IMAGE_GEN",
+  "status": "USER_VISUAL_REVIEW_PENDING",
+  "purpose": "STANDING_IDLE_REAR_AURA_CORRECTION",
+  "userCorrections": [
+    "Keep the dark crimson moon and blackflame mood.",
+    "Replace the horn-like rear crescent tips with blunt fractured circular moon slabs.",
+    "Center the aura on the standing figure; reduce rightward visual bias."
+  ],
+  "input": {
+    "path": "assets/fx-idle-shattered-moon-v6.png",
+    "sha256": "62544BD1154AD9709EBC06CCB43813048E62B4DF5C316FA70AD6BB75B379F791",
+    "role": "EDIT_TARGET"
+  },
+  "assets": [
+    {
+      "key": "fx-idle-shattered-moon-v7",
+      "grid": [
+        4,
+        2
+      ],
+      "prompt": "Use case: precise-object-edit.\nAsset type: 8-frame transparent game VFX sprite atlas for the idle rear aura of Prime Requiem.\nImage 1 is the EDIT TARGET: keep its obsidian lunar stone material, crater detail, deep scarlet glowing cracks, hot crimson rim light and dark fantasy illustration finish. Revise the silhouette in ALL eight cells.\nPrimary change: remove the long hooked crescent tips that look like horns. Replace the horn-shaped crescent with a broken circular eclipse made of six broad, detached curved lunar-stone slabs, with short blunt chipped fracture ends. The pieces form a nearly complete round annulus with an empty transparent center and narrow irregular gaps. Especially the upper-left and upper-right ends must be flat broken stone ends with no upward horn, no hook, no spear point. Equal visual weight and outer reach on both sides; symmetrically centered overall, while individual fractures remain organic.\nAnimation: exactly FOUR columns and TWO rows of equal square cells, eight sequential frames. Identical fixed center and size in every cell. A restrained slow red-light breathing cycle and tiny changes in floating dust and fissure glow; no violent explosion. The final frame transitions naturally to the first. Preserve a generous clear margin in every cell, no cross-cell bleed.\nPalette: black-charcoal obsidian, dark crimson, saturated scarlet rim and fissures. Dark opaque stone, translucent light only at its edges.\nConstraints: only the isolated rear aura. No character, helmet, weapon, blood stream, text, labels, border, grid lines, watermark, background plate, floor, lens flare or white backdrop. No mechanical gear, magic lettering or generic neon tube ring. True transparent alpha outside and in the large hollow center. Keep the same richly painted dark moon feeling as the input. The silhouette must read as broken eclipse slabs, NEVER horns.",
+      "output": {
+        "path": "assets/fx-idle-shattered-moon-v7.png",
+        "builtInOriginal": "C:/Users/User/.codex/generated_images/01a158f4-980e-73d3-87a5-707379b55b0e/exec-d7f01aca-7475-41bf-871b-522492e7f80f.png",
+        "sha256": "3503A2BD0CA5E7CE842782FDFA2C946B2F0AF9DF272C3EACEAE05059814C6E56"
+      }
+    }
+  ],
+  "preservedAssets": [
+    {
+      "key": "fx-idle-blackflame-v6",
+      "source": "prompts-idle-v6.json"
+    }
+  ]
+}

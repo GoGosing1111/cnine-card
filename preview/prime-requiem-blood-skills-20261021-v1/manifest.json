@@ -1,0 +1,5746 @@
+{
+  "format": "PROJECT_V_PRIME_REQUIEM_BLOOD_SKILLS_PREVIEW_V3",
+  "createdKST": "2026-10-21",
+  "status": "USER_APPROVED_V7_BATTLE_RELEASED_ACQUISITION_LOCKED",
+  "character": {
+    "slug": "prime-requiem",
+    "name": "프라임 레퀴엠",
+    "englishName": "PRIME REQUIEM",
+    "grade": "SSS",
+    "limited": true,
+    "nameAndGradeAuthority": "USER_EXPLICIT_2026-10-20",
+    "rosterCode": "V-975"
+  },
+  "sourceArt": {
+    "path": "sources/prime-requiem-fantasy-reference.png",
+    "width": 1024,
+    "height": 1536,
+    "sha256": "B2D1C5DF8553370EC9FF90D72E27562C404C24DCECF33935BB74F0EDC13D2FDC",
+    "bytes": 2790142,
+    "hasAlpha": false
+  },
+  "approvedOriginal": {
+    "path": "sources/approved-berserker-original.png",
+    "width": 1024,
+    "height": 1536,
+    "sha256": "8F4ACE03384289F09508368030DE3F7B4E7BF5C31BA63517674827921086604A",
+    "bytes": 2792404,
+    "hasAlpha": false
+  },
+  "battleSprite": {
+    "path": "assets/battle-ready-v2.png",
+    "width": 290,
+    "height": 515,
+    "sha256": "EA00ECB24265DCF168F139361FF09D538486048A384A3BFF872E174479116830",
+    "bytes": 246386,
+    "hasAlpha": true,
+    "footAnchor": {
+      "x": 0.5206896551724138,
+      "y": 0.9766990291262136
+    },
+    "derivation": "LOSSLESS_RECTANGLE_EXTRACTION_RUNTIME_UV_CLIP"
+  },
+  "sheets": {
+    "motion-user-eight-v2": {
+      "path": "sources/user-motion-sheet-v2.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "3EDC3E6AE57D0032CD63912927B47D57008E1C2D35719491245FC8A4F42F26B9",
+      "bytes": 1843700,
+      "hasAlpha": true,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 290,
+            "height": 515
+          },
+          "bounds": [
+            30,
+            34,
+            268,
+            503
+          ],
+          "clearRatio": 0.5801673920321393,
+          "borderPixels": 0,
+          "pixelSha256": "733FD00CD6171F5F66BACC08363BCACB6C3A0638184607280F8320E06B53093A",
+          "foot": {
+            "x": 151,
+            "y": 503
+          },
+          "emitter": {
+            "x": 83,
+            "y": 52
+          },
+          "visibleHeight": 470,
+          "grip": {
+            "x": 65,
+            "y": 293
+          },
+          "core": {
+            "x": 175,
+            "y": 149
+          },
+          "crown": {
+            "x": 150,
+            "y": 40
+          },
+          "clip": [
+            -151,
+            -503,
+            139,
+            -503,
+            139,
+            12,
+            -151,
+            12
+          ]
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 285,
+            "y": 105,
+            "width": 329,
+            "height": 410
+          },
+          "bounds": [
+            13,
+            8,
+            328,
+            398
+          ],
+          "clearRatio": 0.5719400993402032,
+          "borderPixels": 2,
+          "pixelSha256": "056256CC286C26C244A82F205686465E3880A7586CE393D5A675B4C06F03936F",
+          "foot": {
+            "x": 177,
+            "y": 395
+          },
+          "emitter": {
+            "x": 146,
+            "y": 34
+          },
+          "visibleHeight": 391,
+          "grip": {
+            "x": 96,
+            "y": 189
+          },
+          "core": {
+            "x": 231,
+            "y": 126
+          },
+          "crown": {
+            "x": 215,
+            "y": 21
+          },
+          "clip": [
+            -177,
+            -395,
+            152,
+            -395,
+            152,
+            -185,
+            143,
+            -155,
+            152,
+            -120,
+            152,
+            15,
+            -177,
+            15
+          ]
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 605,
+            "y": 125,
+            "width": 412,
+            "height": 384
+          },
+          "bounds": [
+            0,
+            15,
+            411,
+            370
+          ],
+          "clearRatio": 0.6491959951456311,
+          "borderPixels": 153,
+          "pixelSha256": "94814174C41FCE792638E30DFBE9521376528F94905F8C893A62E5DD8261DD8C",
+          "foot": {
+            "x": 207,
+            "y": 371
+          },
+          "emitter": {
+            "x": 7,
+            "y": 224
+          },
+          "visibleHeight": 356,
+          "grip": {
+            "x": 246,
+            "y": 108
+          },
+          "core": {
+            "x": 320,
+            "y": 123
+          },
+          "crown": {
+            "x": 320,
+            "y": 15
+          },
+          "clip": [
+            -177,
+            -371,
+            205,
+            -371,
+            205,
+            -86,
+            133,
+            -30,
+            108,
+            13,
+            -207,
+            13,
+            -207,
+            -143,
+            -175,
+            -172
+          ]
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 985,
+            "y": 124,
+            "width": 551,
+            "height": 385
+          },
+          "bounds": [
+            0,
+            11,
+            538,
+            368
+          ],
+          "clearRatio": 0.7650835552831923,
+          "borderPixels": 146,
+          "pixelSha256": "4AAAD8DF5FA9F6384326246059E098840941316F075F0263945F7DBF1A324949",
+          "foot": {
+            "x": 197,
+            "y": 372
+          },
+          "emitter": {
+            "x": 537,
+            "y": 93
+          },
+          "visibleHeight": 358,
+          "grip": {
+            "x": 349,
+            "y": 96
+          },
+          "core": {
+            "x": 296,
+            "y": 99
+          },
+          "crown": {
+            "x": 268,
+            "y": 20
+          },
+          "clip": [
+            -139,
+            -372,
+            354,
+            -372,
+            354,
+            -166,
+            218,
+            -131,
+            -48,
+            13,
+            -197,
+            13,
+            -197,
+            -49,
+            -162,
+            -98,
+            -142,
+            -169
+          ]
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 515,
+            "width": 442,
+            "height": 493
+          },
+          "bounds": [
+            20,
+            7,
+            441,
+            467
+          ],
+          "clearRatio": 0.7267675052545594,
+          "borderPixels": 188,
+          "pixelSha256": "AC352939AB64F0FC6D1659F76F470EC4817916748BAAF5EBC9672A4435C24FD2",
+          "foot": {
+            "x": 218,
+            "y": 469
+          },
+          "emitter": {
+            "x": 69,
+            "y": 7
+          },
+          "visibleHeight": 461,
+          "grip": {
+            "x": 218,
+            "y": 155
+          },
+          "core": {
+            "x": 251,
+            "y": 196
+          },
+          "crown": {
+            "x": 229,
+            "y": 85
+          },
+          "clip": [
+            -218,
+            -469,
+            224,
+            -469,
+            224,
+            -209,
+            204,
+            -184,
+            184,
+            -136,
+            198,
+            -84,
+            204,
+            -49,
+            202,
+            -25,
+            182,
+            -17,
+            197,
+            24,
+            -218,
+            24
+          ]
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 407,
+            "y": 565,
+            "width": 432,
+            "height": 439
+          },
+          "bounds": [
+            0,
+            27,
+            431,
+            416
+          ],
+          "clearRatio": 0.6951404707668944,
+          "borderPixels": 189,
+          "pixelSha256": "9FEDD3E797A3B06442A058507A1055BA6D79574FC605D1176366844088274507",
+          "foot": {
+            "x": 207,
+            "y": 416
+          },
+          "emitter": {
+            "x": 417,
+            "y": 218
+          },
+          "visibleHeight": 390,
+          "grip": {
+            "x": 203,
+            "y": 175
+          },
+          "core": {
+            "x": 168,
+            "y": 140
+          },
+          "crown": {
+            "x": 158,
+            "y": 25
+          },
+          "clip": [
+            -159,
+            -416,
+            225,
+            -416,
+            225,
+            -188,
+            165,
+            -177,
+            147,
+            -135,
+            225,
+            3,
+            -207,
+            23,
+            -188,
+            -10,
+            -169,
+            -34,
+            -164,
+            -95,
+            -184,
+            -152,
+            -152,
+            -241
+          ]
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 783,
+            "y": 670,
+            "width": 493,
+            "height": 334
+          },
+          "bounds": [
+            0,
+            19,
+            492,
+            311
+          ],
+          "clearRatio": 0.6527674873376978,
+          "borderPixels": 143,
+          "pixelSha256": "F31F99C3019C43379D8067BCFC6AA16563FEC7F37EB3B9E93465467167619C18",
+          "foot": {
+            "x": 208,
+            "y": 311
+          },
+          "emitter": {
+            "x": 484,
+            "y": 227
+          },
+          "visibleHeight": 293,
+          "grip": {
+            "x": 254,
+            "y": 144
+          },
+          "core": {
+            "x": 232,
+            "y": 124
+          },
+          "crown": {
+            "x": 187,
+            "y": 24
+          },
+          "clip": [
+            -126,
+            -311,
+            249,
+            -311,
+            249,
+            -131,
+            285,
+            -81,
+            169,
+            -13,
+            112,
+            23,
+            -181,
+            23,
+            -181,
+            -56,
+            -176,
+            -116,
+            -179,
+            -157,
+            -146,
+            -223
+          ]
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1240,
+            "y": 515,
+            "width": 296,
+            "height": 489
+          },
+          "bounds": [
+            0,
+            7,
+            282,
+            466
+          ],
+          "clearRatio": 0.5706903222240646,
+          "borderPixels": 27,
+          "pixelSha256": "4710E551CE4D8CDF639F4C8F2F093BCA44795EFFDC4B80DB32B97C43FCD9E9A9",
+          "foot": {
+            "x": 153,
+            "y": 466
+          },
+          "emitter": {
+            "x": 100,
+            "y": 29
+          },
+          "visibleHeight": 460,
+          "grip": {
+            "x": 90,
+            "y": 257
+          },
+          "core": {
+            "x": 186,
+            "y": 135
+          },
+          "crown": {
+            "x": 175,
+            "y": 35
+          },
+          "clip": [
+            -105,
+            -466,
+            143,
+            -466,
+            143,
+            23,
+            -153,
+            23,
+            -153,
+            -57,
+            -108,
+            -76,
+            -108,
+            -90,
+            -153,
+            -108,
+            -153,
+            -167,
+            -110,
+            -222
+          ]
+        }
+      ],
+      "columns": 4,
+      "rows": 2,
+      "frameCount": 8,
+      "uniqueFrameCount": 8,
+      "bodyPixels": 472,
+      "label": "사용자 첨부 원본 · 8동작",
+      "readyPose": 0,
+      "frameConsumption": "ORIGINAL_TEXTURE_UV_POLYGON_CLIP_NO_PIXEL_EDIT"
+    },
+    "fx-blood-dash": {
+      "path": "assets/fx-blood-dash.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "F6628FABBB1DA9D467935636051DB35249A608AF49C8F86D494693E93B6EF892",
+      "bytes": 1128268,
+      "hasAlpha": true,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            58,
+            142,
+            242,
+            223
+          ],
+          "clearRatio": 0.9457787334171772,
+          "borderPixels": 0,
+          "pixelSha256": "3DEC58EAFD8629880E7F373AB83C05577AA752644887DDCB9A59CC008E015E56"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 314,
+            "y": 0,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            23,
+            107,
+            247,
+            237
+          ],
+          "clearRatio": 0.8937343562402068,
+          "borderPixels": 0,
+          "pixelSha256": "55FA825BAE6B028FEE46D1F970E7D11F199205AC1DE43CF437F046D9CC07FA38"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 627,
+            "y": 0,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            0,
+            89,
+            313,
+            248
+          ],
+          "clearRatio": 0.8325489877885512,
+          "borderPixels": 37,
+          "pixelSha256": "85A2BEB45AFB83DADA3F9DB20401FB347216DFE6CC4242A4A6B444EEEBD32F5F"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 941,
+            "y": 0,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            0,
+            94,
+            293,
+            268
+          ],
+          "clearRatio": 0.8028530147941637,
+          "borderPixels": 51,
+          "pixelSha256": "E93454BCBF01AFC0BBE753D1570076262FB50CB8C39428165078E90513F480B9"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 314,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            11,
+            100,
+            313,
+            236
+          ],
+          "clearRatio": 0.8521397610956228,
+          "borderPixels": 8,
+          "pixelSha256": "FEEB77023EFD006C1BB2E0AF02BFFE776226E3289FF667EEE7AC8BAEFF44BC1F"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 314,
+            "y": 314,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            0,
+            88,
+            304,
+            244
+          ],
+          "clearRatio": 0.8000796170217109,
+          "borderPixels": 25,
+          "pixelSha256": "012942EF6B2A88FAA7B29BA01C046D85AEE3CD8F52C7E569278B1067ED944D88"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 627,
+            "y": 314,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            0,
+            80,
+            313,
+            266
+          ],
+          "clearRatio": 0.7402881504242893,
+          "borderPixels": 103,
+          "pixelSha256": "FD1D9F335ED4DD7327B8637228AB2E348EBCC2E3A2B07DCADF65FD6A2EA2EDA5"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 941,
+            "y": 314,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            0,
+            90,
+            295,
+            255
+          ],
+          "clearRatio": 0.7748165235941982,
+          "borderPixels": 56,
+          "pixelSha256": "6A38CF24C9B2CBC4499A7C5076A15593D9F92CD93E9EAF3D1C6AB7D38C37AE24"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 627,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            26,
+            37,
+            305,
+            281
+          ],
+          "clearRatio": 0.7657410036918333,
+          "borderPixels": 0,
+          "pixelSha256": "BE1FB56CA7340F91D7D55E2D80BC094C0AD7C401D64B98949F731D59A1F1E75C"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 314,
+            "y": 627,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            4,
+            28,
+            306,
+            303
+          ],
+          "clearRatio": 0.6880812356280906,
+          "borderPixels": 0,
+          "pixelSha256": "A38A9762D6A65020A6FD2904C979F577A66A7EFBC0D1E06056EA70A0734E67A1"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 627,
+            "y": 627,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            1,
+            42,
+            289,
+            300
+          ],
+          "clearRatio": 0.818400340784616,
+          "borderPixels": 1,
+          "pixelSha256": "13DF29DE205DA61609CB9EE220EBECE09D2A0107BDA6EFF77F957FFFFBA54DBB"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 941,
+            "y": 627,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            7,
+            38,
+            260,
+            275
+          ],
+          "clearRatio": 0.8848924523310474,
+          "borderPixels": 0,
+          "pixelSha256": "9439B96AE11825694B5B104CF7FBD7515ED8EE60718DC87F568D97BEA45EA514"
+        },
+        {
+          "index": 12,
+          "rect": {
+            "x": 0,
+            "y": 941,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            42,
+            69,
+            294,
+            251
+          ],
+          "clearRatio": 0.8893490160965385,
+          "borderPixels": 0,
+          "pixelSha256": "94C3C68C8A839C5C32738BF11247F1EFCC45F16936D1E654F7768ED6903068CB"
+        },
+        {
+          "index": 13,
+          "rect": {
+            "x": 314,
+            "y": 941,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            13,
+            73,
+            296,
+            232
+          ],
+          "clearRatio": 0.9177494921863039,
+          "borderPixels": 0,
+          "pixelSha256": "5AA36DBE9862669BFA90C114F61B37B4D2C4DA007F3E2784403ECEAA468E0543"
+        },
+        {
+          "index": 14,
+          "rect": {
+            "x": 627,
+            "y": 941,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            16,
+            82,
+            289,
+            238
+          ],
+          "clearRatio": 0.9606743859506318,
+          "borderPixels": 0,
+          "pixelSha256": "74712D54371443C252D5398D79046DD90E4EC599979C79FBA1F4FB24A128C925"
+        },
+        {
+          "index": 15,
+          "rect": {
+            "x": 941,
+            "y": 941,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            37,
+            112,
+            254,
+            211
+          ],
+          "clearRatio": 0.9947024058630791,
+          "borderPixels": 0,
+          "pixelSha256": "70D818A3002156DD4444219419C594A72286173D498B22533C7C55784348DF45"
+        }
+      ],
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "uniqueFrameCount": 16,
+      "label": "혈섬 돌진"
+    },
+    "fx-blood-echo": {
+      "path": "assets/fx-blood-echo.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "D4E08437E820F3CDE73BAE2EC0B035FC94EB5F09EE77FFA5C67646CB25AD7072",
+      "bytes": 2341975,
+      "hasAlpha": true,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            21,
+            67,
+            281,
+            287
+          ],
+          "clearRatio": 0.9412247961377743,
+          "borderPixels": 0,
+          "pixelSha256": "87CB373F30E98FA5483B8DE5E1E31D2E170A27242FF861E1CDBAD9B08E4B7F10"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 314,
+            "y": 0,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            9,
+            45,
+            284,
+            294
+          ],
+          "clearRatio": 0.8728047862273866,
+          "borderPixels": 0,
+          "pixelSha256": "D7F24381E0C666723CA0F4890D70E22D1B07A405F7F2595B3F9E966FACD10665"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 627,
+            "y": 0,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            5,
+            19,
+            298,
+            300
+          ],
+          "clearRatio": 0.7959044991683233,
+          "borderPixels": 0,
+          "pixelSha256": "D04CE225F5F7ED3CE4CC1FFF1BCFEA3E8D5C3CC0A0F595BC5B2CC5551E3B0C11"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 941,
+            "y": 0,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            12,
+            17,
+            297,
+            294
+          ],
+          "clearRatio": 0.7076575568262754,
+          "borderPixels": 0,
+          "pixelSha256": "1EAAE60B11A2C3A3493F2CCD8BA212559FD9A64B7CEC493D95C21EDBE5AF88F1"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 314,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            15,
+            23,
+            296,
+            288
+          ],
+          "clearRatio": 0.7763985266885086,
+          "borderPixels": 0,
+          "pixelSha256": "AE76850CB8B59DA880D2FE6EF559BCEA31B7406AEB0A7D7F08D10653AAD0CABF"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 314,
+            "y": 314,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            15,
+            20,
+            303,
+            298
+          ],
+          "clearRatio": 0.7094591146178894,
+          "borderPixels": 0,
+          "pixelSha256": "3EEA063A56C12C513CA13790F59749980209295B0412A26F698F98D1656BD0A3"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 627,
+            "y": 314,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            11,
+            15,
+            300,
+            300
+          ],
+          "clearRatio": 0.6332797460369142,
+          "borderPixels": 0,
+          "pixelSha256": "BC99993A8939BBB7929273902B94304C6EF0587FD93DEEBA7CEE1F501062D02B"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 941,
+            "y": 314,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            12,
+            8,
+            298,
+            295
+          ],
+          "clearRatio": 0.5623717706621483,
+          "borderPixels": 0,
+          "pixelSha256": "DFBBBD6DECB2458927CF2B11ECE9A2251847DF4B27089ABEE79E48D8CB67F2EC"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 627,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            14,
+            17,
+            297,
+            300
+          ],
+          "clearRatio": 0.6858391821169216,
+          "borderPixels": 0,
+          "pixelSha256": "8CE58A2E5D2651A7116E03FA35BBAC2BE186577AD338421CF901DE722C9823E7"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 314,
+            "y": 627,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            8,
+            19,
+            304,
+            293
+          ],
+          "clearRatio": 0.6032132028245254,
+          "borderPixels": 0,
+          "pixelSha256": "F9AB6D643EE1223EFD0A1F95C2BB4B4B725746CD44EB3EFD4779EC4BDFE0E488"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 627,
+            "y": 627,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            10,
+            11,
+            305,
+            300
+          ],
+          "clearRatio": 0.5025153150229218,
+          "borderPixels": 0,
+          "pixelSha256": "A011BE9DC7E10D0B3E165786BBC66B29B9868B9256C40F626DA810F8F03C6A6D"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 941,
+            "y": 627,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            11,
+            11,
+            302,
+            297
+          ],
+          "clearRatio": 0.5240837589792637,
+          "borderPixels": 0,
+          "pixelSha256": "BC905648F24DB95ED9B932AA031DE2729ECCA6F7B55AA6E0723E76CB81DF84BC"
+        },
+        {
+          "index": 12,
+          "rect": {
+            "x": 0,
+            "y": 941,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            13,
+            10,
+            311,
+            297
+          ],
+          "clearRatio": 0.5506298203129769,
+          "borderPixels": 0,
+          "pixelSha256": "809B345EE5F375D552497057ABD0E1CD4C38B3665701795A778F01A0A2C87CC4"
+        },
+        {
+          "index": 13,
+          "rect": {
+            "x": 314,
+            "y": 941,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            19,
+            13,
+            299,
+            290
+          ],
+          "clearRatio": 0.6943318804928089,
+          "borderPixels": 0,
+          "pixelSha256": "849E1A4F80A01B66D278C047FA69F0874C92F1C2CFD642712CA7061344EEF7D8"
+        },
+        {
+          "index": 14,
+          "rect": {
+            "x": 627,
+            "y": 941,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            15,
+            10,
+            292,
+            295
+          ],
+          "clearRatio": 0.7994342809466637,
+          "borderPixels": 0,
+          "pixelSha256": "BF6FDEBCBF2BC01E6A0B32A402064E61469787D66D988EFEF3541844195C241B"
+        },
+        {
+          "index": 15,
+          "rect": {
+            "x": 941,
+            "y": 941,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            32,
+            23,
+            292,
+            282
+          ],
+          "clearRatio": 0.954955138870459,
+          "borderPixels": 0,
+          "pixelSha256": "22709F0209E5B78D6278087D00711C774A176839DCB8AE81B3801849BC34BC0F"
+        }
+      ],
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "uniqueFrameCount": 16,
+      "label": "혈영 연참"
+    },
+    "fx-blood-frenzy-v2": {
+      "path": "assets/fx-blood-frenzy-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "52C0708604DFB29AE736979FE4E9F8034CF221D88B552A4659F312C187BD5930",
+      "bytes": 1446974,
+      "hasAlpha": true,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            31,
+            109,
+            253,
+            282
+          ],
+          "clearRatio": 0.9394194490648707,
+          "borderPixels": 0,
+          "pixelSha256": "3EDEC6A59BAE83A7D4348A9AC209D145FDCC759435E9D62EFEE32D5F9BB50A77"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 314,
+            "y": 0,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            13,
+            42,
+            296,
+            280
+          ],
+          "clearRatio": 0.8309252965955108,
+          "borderPixels": 0,
+          "pixelSha256": "E38EB68ADEFED308690BAD3D48BED5F171DFE755A0D229BB3D2FCF5BB9658CC1"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 627,
+            "y": 0,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            8,
+            26,
+            306,
+            290
+          ],
+          "clearRatio": 0.6842772526268814,
+          "borderPixels": 0,
+          "pixelSha256": "C146F3528A4AD375C40C0EB0CE83B0E0FAA060CC38727D8D8C890BBD99AFD147"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 941,
+            "y": 0,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            16,
+            37,
+            302,
+            289
+          ],
+          "clearRatio": 0.818328890335972,
+          "borderPixels": 0,
+          "pixelSha256": "295ABB33440F288F320437C0D26F54A292DCA24AA28184B71D73BAB3339D230B"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 314,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            39,
+            57,
+            258,
+            261
+          ],
+          "clearRatio": 0.9407317718402148,
+          "borderPixels": 0,
+          "pixelSha256": "B5FA055404B015E6BF752F898793C97DBBCCA231EC62017B68BD9748E50278B6"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 314,
+            "y": 314,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            23,
+            38,
+            299,
+            279
+          ],
+          "clearRatio": 0.8346007410507406,
+          "borderPixels": 0,
+          "pixelSha256": "5587A1C9103B5582CD9678F00EF3AF399598767DB68DA23C7E5624FEB3B8E4E8"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 627,
+            "y": 314,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            1,
+            24,
+            306,
+            295
+          ],
+          "clearRatio": 0.7110661158706579,
+          "borderPixels": 2,
+          "pixelSha256": "938671DBE664DE1C7F09B7129E3230E6EA891F66FFDB0DEEE32FF95EA3ACC93A"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 941,
+            "y": 314,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            8,
+            53,
+            300,
+            289
+          ],
+          "clearRatio": 0.8198613847237392,
+          "borderPixels": 0,
+          "pixelSha256": "78EB6136CB07AEF4329720CDF389212B88A3793AD9AA32AA985064FF15283808"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 627,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            15,
+            118,
+            305,
+            189
+          ],
+          "clearRatio": 0.9125725181548947,
+          "borderPixels": 0,
+          "pixelSha256": "4E98D3F1F6B47579AE49C1D9EB0C2FA9AA52A4D52F9D729CB5439492F2F6A598"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 314,
+            "y": 627,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            0,
+            87,
+            309,
+            222
+          ],
+          "clearRatio": 0.7317107913961864,
+          "borderPixels": 23,
+          "pixelSha256": "A160B43385B80924EEA8E1CF501ECCD86503850D3DC8BF20EAECBC2B8244CBE5"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 627,
+            "y": 627,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            2,
+            61,
+            310,
+            244
+          ],
+          "clearRatio": 0.6600470607326869,
+          "borderPixels": 0,
+          "pixelSha256": "5E022083FF10E30E17E51C0E23B132E75EDD056DC7DCAAB66E6993123CD1AF0E"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 941,
+            "y": 627,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            13,
+            76,
+            302,
+            222
+          ],
+          "clearRatio": 0.8557925154148267,
+          "borderPixels": 0,
+          "pixelSha256": "8FD3DAFC880FD3379D954A926DB23BE5504A1588DA690C6D274006A1BD5F7587"
+        },
+        {
+          "index": 12,
+          "rect": {
+            "x": 0,
+            "y": 941,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            29,
+            85,
+            274,
+            175
+          ],
+          "clearRatio": 0.9174925215197086,
+          "borderPixels": 0,
+          "pixelSha256": "4DFA0A397AA03225CD13C64337CFDC330A54A65BC3AECAEA51DAA2623DA6AC68"
+        },
+        {
+          "index": 13,
+          "rect": {
+            "x": 314,
+            "y": 941,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            0,
+            47,
+            309,
+            236
+          ],
+          "clearRatio": 0.7316906368341006,
+          "borderPixels": 5,
+          "pixelSha256": "72CB21EE7A9E05E518E2E864FD72A2EE83925536DDFF35542D910DECA5E1F96F"
+        },
+        {
+          "index": 14,
+          "rect": {
+            "x": 627,
+            "y": 941,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            3,
+            28,
+            307,
+            241
+          ],
+          "clearRatio": 0.6860666246108138,
+          "borderPixels": 0,
+          "pixelSha256": "C979E9211A198D371D030DB7922B6706BF8838ED343E3BB1499AD5CB77B43CCB"
+        },
+        {
+          "index": 15,
+          "rect": {
+            "x": 941,
+            "y": 941,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            13,
+            47,
+            299,
+            239
+          ],
+          "clearRatio": 0.8261082587349059,
+          "borderPixels": 0,
+          "pixelSha256": "0B5724CA4F0597F8C8B3FA6474A5BE2CACF6ADA3F0DFB1CFDB2B44B0699D18C1"
+        }
+      ],
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "uniqueFrameCount": 16,
+      "label": "혈검 난무 · 검격 4방향"
+    },
+    "fx-blood-tiger-burst": {
+      "path": "assets/fx-blood-tiger-burst.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "3B3A2A91E583662EA666A06CAD88D1F2D5EAF39EFA0A79AFD4AB0464CE6CC2EF",
+      "bytes": 2901568,
+      "hasAlpha": true,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 314,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            14,
+            40,
+            303,
+            291
+          ],
+          "clearRatio": 0.45775421745589223,
+          "borderPixels": 0,
+          "pixelSha256": "1E19CB277A9A08F931D278A2D5834066EA60597A24D0DB1DC49A0256CBCBCC1C",
+          "sourceIndex": 4
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 314,
+            "y": 314,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            13,
+            36,
+            302,
+            292
+          ],
+          "clearRatio": 0.45599118088374896,
+          "borderPixels": 0,
+          "pixelSha256": "EC2959EA196644ED07A35570ABA3F62641EB89404A63F5F49534A940CEF031E3",
+          "sourceIndex": 5
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 627,
+            "y": 314,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            11,
+            39,
+            301,
+            290
+          ],
+          "clearRatio": 0.42841008526485014,
+          "borderPixels": 0,
+          "pixelSha256": "8DC3256FA23CD6E26F228009EB998F5A27A95220CC009E8B5EFB2F426913B90D",
+          "sourceIndex": 6
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 941,
+            "y": 314,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            7,
+            12,
+            300,
+            305
+          ],
+          "clearRatio": 0.3061682777205034,
+          "borderPixels": 0,
+          "pixelSha256": "1FE34C496D9C95262E5B46AADB8BEC3095C0E557867F578E40E84B6EF45E154F",
+          "sourceIndex": 7
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 627,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            15,
+            20,
+            305,
+            292
+          ],
+          "clearRatio": 0.42718771552598483,
+          "borderPixels": 0,
+          "pixelSha256": "7A9EA5AC6A613114C058BB46ACBCCB83A5B2A3099F0C9763162A6E3BC3E780DB",
+          "sourceIndex": 8
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 314,
+            "y": 627,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            13,
+            28,
+            303,
+            297
+          ],
+          "clearRatio": 0.4499908426771942,
+          "borderPixels": 0,
+          "pixelSha256": "F25D1AF4CE1150AE16BAFB257648AD85044174BCFEC6B814232B5EF4F414A1AD",
+          "sourceIndex": 9
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 627,
+            "y": 627,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            12,
+            17,
+            299,
+            295
+          ],
+          "clearRatio": 0.5262383869528175,
+          "borderPixels": 0,
+          "pixelSha256": "75A4C5ABB19938D9E25E70AACED286793367A1B002185A349CB4B709CA72B24B",
+          "sourceIndex": 10
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 941,
+            "y": 627,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            13,
+            29,
+            289,
+            292
+          ],
+          "clearRatio": 0.6313160090352252,
+          "borderPixels": 0,
+          "pixelSha256": "EEFF7CAAB5D95681CC5B6A1C83D324768B1A22C6919F892353405368F6052278",
+          "sourceIndex": 11
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 941,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            22,
+            23,
+            300,
+            278
+          ],
+          "clearRatio": 0.7650637960155471,
+          "borderPixels": 0,
+          "pixelSha256": "AFFDA977E7A7F92B67B030C7A14A216EEF48D651AB991D2E9521124E6DE30F2B",
+          "sourceIndex": 12
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 314,
+            "y": 941,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            25,
+            31,
+            289,
+            275
+          ],
+          "clearRatio": 0.8767671406261164,
+          "borderPixels": 0,
+          "pixelSha256": "E163BCFADAF4F220E626F35D8969F1086E07ED7D5B80D423FCBFCD1ABBA0476B",
+          "sourceIndex": 13
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 627,
+            "y": 941,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            21,
+            35,
+            290,
+            267
+          ],
+          "clearRatio": 0.9705337701715472,
+          "borderPixels": 0,
+          "pixelSha256": "999D0AF3A565E51C4570F7DC98730F2C27938F9D08330D222FE423720F353D0E",
+          "sourceIndex": 14
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 941,
+            "y": 941,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            90,
+            101,
+            219,
+            234
+          ],
+          "clearRatio": 0.9791975012503955,
+          "borderPixels": 0,
+          "pixelSha256": "30F0D20412AA0488597901E13479C621494AC6BDAB7557F38EE9FEF09AFD90DE",
+          "sourceIndex": 15
+        }
+      ],
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 12,
+      "uniqueFrameCount": 12,
+      "label": "혈호 강림 · 머리 응축부터 폭발",
+      "sourceStartFrame": 4
+    },
+    "fx-blood-execution-v2": {
+      "path": "assets/fx-blood-execution-v2.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "DCE7B85E5EE94227E5244C81CD114C845BB394C90E5EAA59D4F581BA311AFA38",
+      "bytes": 2366883,
+      "hasAlpha": true,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            35,
+            65,
+            295,
+            263
+          ],
+          "clearRatio": 0.9203821656050956,
+          "borderPixels": 0,
+          "pixelSha256": "DAFBA7A78379CBB4FA69A5CA04EFA44E59326B1B794F6441D300487918D9B6B1"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 314,
+            "y": 0,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            17,
+            57,
+            301,
+            268
+          ],
+          "clearRatio": 0.8389023422396776,
+          "borderPixels": 0,
+          "pixelSha256": "726B499148CAC85CFCE7627E95334B3E80E66C7B25305684124946C8871A1B8A"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 627,
+            "y": 0,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            23,
+            41,
+            309,
+            286
+          ],
+          "clearRatio": 0.7898292019960241,
+          "borderPixels": 0,
+          "pixelSha256": "EC0B1D7FCA9EA1D3757179DF3E9616FC6723C71B0192BE54DDE43706B24FDAD6"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 941,
+            "y": 0,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            16,
+            35,
+            282,
+            285
+          ],
+          "clearRatio": 0.7243951079546611,
+          "borderPixels": 0,
+          "pixelSha256": "B88EBAF209BE7DA0ACC309040334740BAC78D269529073C8AD73E1758813F22F"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 314,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            24,
+            16,
+            305,
+            292
+          ],
+          "clearRatio": 0.7687470747441038,
+          "borderPixels": 0,
+          "pixelSha256": "F7CD84B1D7B3C56C4C076653511D53E95DF2861632C8E6C92133F5BC823664C9"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 314,
+            "y": 314,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            20,
+            17,
+            301,
+            312
+          ],
+          "clearRatio": 0.5951882738417255,
+          "borderPixels": 5,
+          "pixelSha256": "3BFB39372721655712EEDAD02BDA91606A9954051467C3BD42E3177A57A2A5EF"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 627,
+            "y": 314,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            10,
+            14,
+            303,
+            293
+          ],
+          "clearRatio": 0.5299647951812132,
+          "borderPixels": 0,
+          "pixelSha256": "885CA2D132BC4DDFD1F3E2138461C3EB8F9C88F9E19634F6A9E19B49207F9F30"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 941,
+            "y": 314,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            11,
+            8,
+            293,
+            312
+          ],
+          "clearRatio": 0.5160407884126611,
+          "borderPixels": 14,
+          "pixelSha256": "BC6A3850E83D4AD0E4A4EDD9CB26F97646E285CE863D7B9B5BCEC1761322B0F5"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 627,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            29,
+            4,
+            312,
+            313
+          ],
+          "clearRatio": 0.5921335551137977,
+          "borderPixels": 42,
+          "pixelSha256": "E1F1380A98BDFAB58CA8D44636ADE75858D2FFCD358449468B7DD50054DDD6CD"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 314,
+            "y": 627,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            6,
+            0,
+            310,
+            290
+          ],
+          "clearRatio": 0.4553427891170306,
+          "borderPixels": 13,
+          "pixelSha256": "43365BE91A08F441A74340907F89679F28BB8F66A78BD8511792F7E19C5EA754"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 627,
+            "y": 627,
+            "width": 314,
+            "height": 314
+          },
+          "bounds": [
+            4,
+            5,
+            306,
+            288
+          ],
+          "clearRatio": 0.5093817193395269,
+          "borderPixels": 0,
+          "pixelSha256": "527974459D206898D8908AC9663B23E8E3FAC6E6AEBF5609A9197B43B407B815"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 941,
+            "y": 627,
+            "width": 313,
+            "height": 314
+          },
+          "bounds": [
+            11,
+            0,
+            292,
+            283
+          ],
+          "clearRatio": 0.6296778657332981,
+          "borderPixels": 26,
+          "pixelSha256": "C9DC69683D68A32FA6949310808D12A5130F05287A3036D4EA833A7632C4EE01"
+        },
+        {
+          "index": 12,
+          "rect": {
+            "x": 0,
+            "y": 941,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            35,
+            0,
+            313,
+            271
+          ],
+          "clearRatio": 0.7733867849657109,
+          "borderPixels": 55,
+          "pixelSha256": "B117C19A7E828C39B7A5F90354989C28307B441BDC7EDC6EE7B17BB990B88720"
+        },
+        {
+          "index": 13,
+          "rect": {
+            "x": 314,
+            "y": 941,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            30,
+            5,
+            304,
+            272
+          ],
+          "clearRatio": 0.8635486735600036,
+          "borderPixels": 0,
+          "pixelSha256": "6C9C658BA43DF4E738C16CEBCC45B544243366B8D5EC9AC5968F6B35A39575DF"
+        },
+        {
+          "index": 14,
+          "rect": {
+            "x": 627,
+            "y": 941,
+            "width": 314,
+            "height": 313
+          },
+          "bounds": [
+            22,
+            21,
+            300,
+            272
+          ],
+          "clearRatio": 0.9398160395596346,
+          "borderPixels": 0,
+          "pixelSha256": "4FE9255AC408A07047C0DD002708C2FD26921619FDDA34CC0C5382232228D5E4"
+        },
+        {
+          "index": 15,
+          "rect": {
+            "x": 941,
+            "y": 941,
+            "width": 313,
+            "height": 313
+          },
+          "bounds": [
+            37,
+            35,
+            275,
+            259
+          ],
+          "clearRatio": 0.9862609600996234,
+          "borderPixels": 0,
+          "pixelSha256": "A4A7A32F1EF333066C6624101FEECF7F4EE9A98E57030CA9542E28B616C641D2"
+        }
+      ],
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "uniqueFrameCount": 16,
+      "label": "혈영섬 · 참형"
+    },
+    "fx-blood-mantle-v3": {
+      "path": "assets/fx-blood-mantle-v3.png",
+      "width": 1309,
+      "height": 1202,
+      "sha256": "27852AC96740B37D411B2812E9EB23EC2641F776098E2006514BCE329BBB5E2F",
+      "bytes": 2334005,
+      "hasAlpha": true,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 327,
+            "height": 301
+          },
+          "bounds": [
+            68,
+            16,
+            250,
+            289
+          ],
+          "clearRatio": 0.7103741859449135,
+          "borderPixels": 0,
+          "pixelSha256": "2CEFE732E6AC63DB3AD0ED97FF5721E7F91CD8B0DDB77200077036FDD5C3C47B"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 327,
+            "y": 0,
+            "width": 328,
+            "height": 301
+          },
+          "bounds": [
+            58,
+            10,
+            276,
+            290
+          ],
+          "clearRatio": 0.6951016935418524,
+          "borderPixels": 0,
+          "pixelSha256": "5717F0ADEB56828F9E4A41A14CB428D98E8179D3E7FB806C774BB94BA26339B6"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 655,
+            "y": 0,
+            "width": 327,
+            "height": 301
+          },
+          "bounds": [
+            51,
+            13,
+            283,
+            291
+          ],
+          "clearRatio": 0.6644823066841415,
+          "borderPixels": 0,
+          "pixelSha256": "A9DA1C0F9B94F563F148A88BDED34290620861002DFC5C3D9940A6D229ABEF40"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 982,
+            "y": 0,
+            "width": 327,
+            "height": 301
+          },
+          "bounds": [
+            59,
+            16,
+            265,
+            291
+          ],
+          "clearRatio": 0.6699381267335183,
+          "borderPixels": 0,
+          "pixelSha256": "C19C31A78A182DF3499F28C6F8A6B2A5930978930373D43D0282F8B454267AE8"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 301,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            53,
+            14,
+            284,
+            291
+          ],
+          "clearRatio": 0.642782874617737,
+          "borderPixels": 0,
+          "pixelSha256": "F1DE563E69B6AFA0B6F431E746F4E86D9B11F0165491F7CBB6AD784FDE9B8922"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 327,
+            "y": 301,
+            "width": 328,
+            "height": 300
+          },
+          "bounds": [
+            52,
+            8,
+            292,
+            291
+          ],
+          "clearRatio": 0.6145426829268292,
+          "borderPixels": 0,
+          "pixelSha256": "5D981CFBF202E0E339D8652970F61950F9AF24536E146C391230F1D088F36A46"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 655,
+            "y": 301,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            29,
+            14,
+            246,
+            291
+          ],
+          "clearRatio": 0.6344444444444445,
+          "borderPixels": 0,
+          "pixelSha256": "6E79307E5E7EC6028991D6982AB0B3D01DD7E59FD16B6851B91196750E54B509"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 982,
+            "y": 301,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            34,
+            15,
+            256,
+            291
+          ],
+          "clearRatio": 0.648572884811417,
+          "borderPixels": 0,
+          "pixelSha256": "E6F38046430A3193101CC5114738F917BB1EC011DDF81CD2EAFD277D0A67F0C3"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 601,
+            "width": 327,
+            "height": 301
+          },
+          "bounds": [
+            36,
+            15,
+            274,
+            288
+          ],
+          "clearRatio": 0.6592804819815701,
+          "borderPixels": 0,
+          "pixelSha256": "D90E6BAE8AFEC106A98B8DE6553FC9ADA9CA5EB75C7C4778F63FCC293C4B3461"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 327,
+            "y": 601,
+            "width": 328,
+            "height": 301
+          },
+          "bounds": [
+            36,
+            12,
+            257,
+            289
+          ],
+          "clearRatio": 0.6538165464711125,
+          "borderPixels": 0,
+          "pixelSha256": "2AA910564F480B22472D2B695FCB6E2D7B6FE46A914EAA83C98FEFE76E7C4FD4"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 655,
+            "y": 601,
+            "width": 327,
+            "height": 301
+          },
+          "bounds": [
+            27,
+            9,
+            274,
+            290
+          ],
+          "clearRatio": 0.6249301512796286,
+          "borderPixels": 0,
+          "pixelSha256": "89C5D787A5FE071E3B427DFD4D7F105D4857CD9E9E63A215426F4A333183F231"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 982,
+            "y": 601,
+            "width": 327,
+            "height": 301
+          },
+          "bounds": [
+            35,
+            10,
+            256,
+            288
+          ],
+          "clearRatio": 0.6782793339226025,
+          "borderPixels": 0,
+          "pixelSha256": "5C389020EE45E372509EBBAD88708AB859F8F13DB75DDC4E0922CE53CAFF2DE1"
+        },
+        {
+          "index": 12,
+          "rect": {
+            "x": 0,
+            "y": 902,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            45,
+            7,
+            258,
+            285
+          ],
+          "clearRatio": 0.6795616717635067,
+          "borderPixels": 0,
+          "pixelSha256": "018E3F69AA6925CCD2ACC09E6E62725D9800288244CDB0072BDFA6203D206148"
+        },
+        {
+          "index": 13,
+          "rect": {
+            "x": 327,
+            "y": 902,
+            "width": 328,
+            "height": 300
+          },
+          "bounds": [
+            32,
+            10,
+            271,
+            285
+          ],
+          "clearRatio": 0.6358943089430894,
+          "borderPixels": 0,
+          "pixelSha256": "D442EE504619FA43620004F1417296A7C1E1FE1CA6BB7BFE04DDC473942EA351"
+        },
+        {
+          "index": 14,
+          "rect": {
+            "x": 655,
+            "y": 902,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            42,
+            12,
+            263,
+            286
+          ],
+          "clearRatio": 0.6782772680937819,
+          "borderPixels": 0,
+          "pixelSha256": "6D3CE414959ADD09F3B9D268CA0428929085F4A8656FFFED530FCD95FACBD732"
+        },
+        {
+          "index": 15,
+          "rect": {
+            "x": 982,
+            "y": 902,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            52,
+            11,
+            251,
+            285
+          ],
+          "clearRatio": 0.6694495412844037,
+          "borderPixels": 0,
+          "pixelSha256": "EA7D9A9AAC03BE2613470D4A3016510A5DDDEEAAFD92131324FF172A1C9102A6"
+        }
+      ],
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "uniqueFrameCount": 16,
+      "label": "전신 혈갑 · 굵은 혈류 나선"
+    },
+    "fx-blood-titanblade-v3": {
+      "path": "assets/fx-blood-titanblade-v3.png",
+      "width": 1774,
+      "height": 887,
+      "sha256": "43A8688DB7309F195C16E8C69B8C5FFAE64CE4528019EB0458CE917F64C9A415",
+      "bytes": 1403738,
+      "hasAlpha": true,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 444,
+            "height": 444
+          },
+          "bounds": [
+            111,
+            19,
+            339,
+            432
+          ],
+          "clearRatio": 0.8413481048616184,
+          "borderPixels": 0,
+          "pixelSha256": "B92F8837D088FC5EBEC94DC78AF725E3B453A15C120EF653D44DB508A08F9D2F"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 444,
+            "y": 0,
+            "width": 443,
+            "height": 444
+          },
+          "bounds": [
+            126,
+            18,
+            327,
+            432
+          ],
+          "clearRatio": 0.8018831472556077,
+          "borderPixels": 0,
+          "pixelSha256": "946B5039470A38A85A23C55A6DDF317F9DEB0B64CF714806866C0A0945D64A58"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 887,
+            "y": 0,
+            "width": 444,
+            "height": 444
+          },
+          "bounds": [
+            117,
+            15,
+            322,
+            432
+          ],
+          "clearRatio": 0.7827692557422287,
+          "borderPixels": 0,
+          "pixelSha256": "6920F19A92B3654AE432E5C218B6F53E5622C7C3AE643182AC942EB5721C90E6"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1331,
+            "y": 0,
+            "width": 443,
+            "height": 444
+          },
+          "bounds": [
+            115,
+            14,
+            318,
+            432
+          ],
+          "clearRatio": 0.7742206088707217,
+          "borderPixels": 0,
+          "pixelSha256": "9856CDFE3033AA3ED348300648AC915538E14581AF3CA67E3AF6EF55F18E037B"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 444,
+            "width": 444,
+            "height": 443
+          },
+          "bounds": [
+            102,
+            9,
+            342,
+            427
+          ],
+          "clearRatio": 0.7236593252394606,
+          "borderPixels": 0,
+          "pixelSha256": "04281C9ABE1F0A26338C6E92A422D7BAEA2636CC0A9C6B8036CB2319C32FAC34"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 444,
+            "y": 444,
+            "width": 443,
+            "height": 443
+          },
+          "bounds": [
+            92,
+            8,
+            349,
+            427
+          ],
+          "clearRatio": 0.664003383456731,
+          "borderPixels": 0,
+          "pixelSha256": "31A78825A303FA9CE90860D02570A39B84AE2BF51B1CE2F5958F978F40014D1A"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 887,
+            "y": 444,
+            "width": 444,
+            "height": 443
+          },
+          "bounds": [
+            103,
+            9,
+            334,
+            427
+          ],
+          "clearRatio": 0.715631545766986,
+          "borderPixels": 0,
+          "pixelSha256": "ED02AF2B8D2572C484FD71217F3760094CEA34F079F539A0F6F6B57D5120BE96"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1331,
+            "y": 444,
+            "width": 443,
+            "height": 443
+          },
+          "bounds": [
+            99,
+            9,
+            346,
+            427
+          ],
+          "clearRatio": 0.71896417306585,
+          "borderPixels": 0,
+          "pixelSha256": "5436CACBDF8C19604B311454F24E96A9023EFB14BE2835FD4EFEE57D37C8DC68"
+        }
+      ],
+      "columns": 4,
+      "rows": 2,
+      "frameCount": 8,
+      "uniqueFrameCount": 8,
+      "label": "혈천개벽 · 거대 혈검 응축"
+    },
+    "fx-blood-cataclysm-v3": {
+      "path": "assets/fx-blood-cataclysm-v3.png",
+      "width": 1310,
+      "height": 1200,
+      "sha256": "A63B0470A462030498B0F615BA7E77A154127E56794FDDBFF12EBA9870A01290",
+      "bytes": 1821472,
+      "hasAlpha": true,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 328,
+            "height": 300
+          },
+          "bounds": [
+            107,
+            16,
+            220,
+            262
+          ],
+          "clearRatio": 0.9410467479674797,
+          "borderPixels": 0,
+          "pixelSha256": "431DC73699264AFF55E4CC6451C9E85512B311F5CF3CDB40D10564C353615354"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 328,
+            "y": 0,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            36,
+            9,
+            260,
+            258
+          ],
+          "clearRatio": 0.8616106014271152,
+          "borderPixels": 0,
+          "pixelSha256": "871BDDF5269CAC723D5444BFD1502AC6E27637369FEA87B5DA22103E9CC03A81"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 655,
+            "y": 0,
+            "width": 328,
+            "height": 300
+          },
+          "bounds": [
+            21,
+            12,
+            311,
+            299
+          ],
+          "clearRatio": 0.7582926829268293,
+          "borderPixels": 5,
+          "pixelSha256": "C73B981BD1E13BB88B14E7B72C6550C66B923D6F4485CACA0EDBDE8C52D583CE"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 983,
+            "y": 0,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            30,
+            24,
+            311,
+            277
+          ],
+          "clearRatio": 0.7736391437308868,
+          "borderPixels": 0,
+          "pixelSha256": "CA31F95D9EEAD0B9FB9DE76D6AD2DA4E562BD9DB7FBB0C6FAD92534EC1D97046"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 300,
+            "width": 328,
+            "height": 300
+          },
+          "bounds": [
+            21,
+            17,
+            297,
+            287
+          ],
+          "clearRatio": 0.7667378048780488,
+          "borderPixels": 0,
+          "pixelSha256": "A9EF677BC63F249B88F1081B64884FAE1A5747AFB4F0EC5A0EDAC4AEB95F0CD2"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 328,
+            "y": 300,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            17,
+            4,
+            304,
+            291
+          ],
+          "clearRatio": 0.676605504587156,
+          "borderPixels": 0,
+          "pixelSha256": "8B1628BA973EDE65F6DD2DF6AB454EF0B686ADA19C5B8E2DAC27224C4D65A054"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 655,
+            "y": 300,
+            "width": 328,
+            "height": 300
+          },
+          "bounds": [
+            18,
+            0,
+            314,
+            292
+          ],
+          "clearRatio": 0.5979471544715447,
+          "borderPixels": 6,
+          "pixelSha256": "9333B4728AEA5D211D865C6F03893223C4CA3D8AA7213B7F08DE44CE52218826"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 983,
+            "y": 300,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            21,
+            4,
+            313,
+            291
+          ],
+          "clearRatio": 0.6075025484199796,
+          "borderPixels": 0,
+          "pixelSha256": "4045EE7A9C649096AB894272D502F6700D3ED56EBDA8CF3CCFB4294193882DA3"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 600,
+            "width": 328,
+            "height": 300
+          },
+          "bounds": [
+            5,
+            6,
+            327,
+            286
+          ],
+          "clearRatio": 0.4917682926829268,
+          "borderPixels": 54,
+          "pixelSha256": "C96A0C7E7A60D1AC2D95E4D5E88294CA206722BE5350A6DF8B575A4E18711DE7"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 328,
+            "y": 600,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            0,
+            7,
+            326,
+            295
+          ],
+          "clearRatio": 0.3498470948012232,
+          "borderPixels": 88,
+          "pixelSha256": "5287D2938035DE9A3A4A80676CEBBB3E2601B49E9191F06372FA7A48FC3305BC"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 655,
+            "y": 600,
+            "width": 328,
+            "height": 300
+          },
+          "bounds": [
+            0,
+            7,
+            327,
+            292
+          ],
+          "clearRatio": 0.4328252032520325,
+          "borderPixels": 153,
+          "pixelSha256": "AF61D52E4E518829F447D9F7C3D397B3C957B95A4C4BF6704C0E11BD049119AF"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 983,
+            "y": 600,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            0,
+            8,
+            316,
+            296
+          ],
+          "clearRatio": 0.5999898063200816,
+          "borderPixels": 137,
+          "pixelSha256": "7F82D3DD2EF2F6BD78343ECD0471329A2EC734BBF1E8FD3ACBCFAA7FA77A61B6"
+        },
+        {
+          "index": 12,
+          "rect": {
+            "x": 0,
+            "y": 900,
+            "width": 328,
+            "height": 300
+          },
+          "bounds": [
+            30,
+            2,
+            306,
+            271
+          ],
+          "clearRatio": 0.7146747967479675,
+          "borderPixels": 0,
+          "pixelSha256": "78506D15FECAE7F4BA17FF3AC41C19F1E77B87C6EE9311DF4364DA8A377C4DE6"
+        },
+        {
+          "index": 13,
+          "rect": {
+            "x": 328,
+            "y": 900,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            54,
+            18,
+            282,
+            268
+          ],
+          "clearRatio": 0.8123445463812436,
+          "borderPixels": 0,
+          "pixelSha256": "54FA5E17747934A9B1F9445228AAF370C98ECD66D2CA791651A5A6F9D6838E57"
+        },
+        {
+          "index": 14,
+          "rect": {
+            "x": 655,
+            "y": 900,
+            "width": 328,
+            "height": 300
+          },
+          "bounds": [
+            22,
+            24,
+            309,
+            267
+          ],
+          "clearRatio": 0.8770833333333333,
+          "borderPixels": 0,
+          "pixelSha256": "57BFAB5DEF876A61C395A6F8A71D17ABF2D08FB7D8AF4639C5AAA933AC4342DC"
+        },
+        {
+          "index": 15,
+          "rect": {
+            "x": 983,
+            "y": 900,
+            "width": 327,
+            "height": 300
+          },
+          "bounds": [
+            61,
+            83,
+            285,
+            267
+          ],
+          "clearRatio": 0.9293068297655454,
+          "borderPixels": 0,
+          "pixelSha256": "21CADA8E8A19FAE29E207BB4BE040968EC0D2903B3E61117A1B276E3281C9362"
+        }
+      ],
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "uniqueFrameCount": 16,
+      "label": "혈천개벽 · 혈류 기둥"
+    },
+    "fx-blood-mooncleave-v3": {
+      "path": "assets/fx-blood-mooncleave-v3.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "3909371726B2EE17387E26397CA75BFF5BCA5BD39AA153320767935FDD11BB5A",
+      "bytes": 2276742,
+      "hasAlpha": true,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            37,
+            41,
+            343,
+            222
+          ],
+          "clearRatio": 0.9473470052083334,
+          "borderPixels": 0,
+          "pixelSha256": "0DE9CD1A5FE5241BEFB42897F4B19C3FEBD1303BBB41310F3FD8E69CC5838906"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 384,
+            "y": 0,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            17,
+            26,
+            356,
+            229
+          ],
+          "clearRatio": 0.8576151529947916,
+          "borderPixels": 0,
+          "pixelSha256": "A5FFFC0F8E66976E4F4E648C42FB876947F6D9D0A455C3F23D96E7A76C186674"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            1,
+            13,
+            366,
+            231
+          ],
+          "clearRatio": 0.759979248046875,
+          "borderPixels": 5,
+          "pixelSha256": "BD0FA225590DBD62061B7B6178FBCE3EBB4401399362AEEE1C0D30CB9F48964B"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1152,
+            "y": 0,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            4,
+            14,
+            368,
+            243
+          ],
+          "clearRatio": 0.65618896484375,
+          "borderPixels": 0,
+          "pixelSha256": "C4AA9DE8955FAA61EB69F6F37FA10634EDB200F72E6B6188EF600483529F30E3"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 256,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            25,
+            0,
+            371,
+            226
+          ],
+          "clearRatio": 0.8289693196614584,
+          "borderPixels": 19,
+          "pixelSha256": "FB089769D2F5BD6C962494E7960DCC1413DDE4E7D951E1CBD62B9EF3FE1DC980"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 384,
+            "y": 256,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            11,
+            0,
+            375,
+            233
+          ],
+          "clearRatio": 0.729248046875,
+          "borderPixels": 26,
+          "pixelSha256": "EB89406AF3C733ED74F2166A29982695EAA95D0FEC769A72550E48BC09975AA0"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 768,
+            "y": 256,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            15,
+            1,
+            383,
+            238
+          ],
+          "clearRatio": 0.6601053873697916,
+          "borderPixels": 29,
+          "pixelSha256": "0FC7CE3904B0A3FB51EF9A7A2518B3B506FC28DE7A57BE7E49A02CF6D73E6758"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1152,
+            "y": 256,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            5,
+            2,
+            373,
+            237
+          ],
+          "clearRatio": 0.6868693033854166,
+          "borderPixels": 0,
+          "pixelSha256": "9B8B99833C0C7A0DDB076D0653CD446299D95E7EE3CA324C17DDF93A11A36CD3"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 512,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            16,
+            10,
+            379,
+            225
+          ],
+          "clearRatio": 0.6068827311197916,
+          "borderPixels": 0,
+          "pixelSha256": "456FD1A40A02D79C36E42478F2E5F3AA99424D6DB2D76E13C2DE0953EF7B0198"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 384,
+            "y": 512,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            14,
+            1,
+            372,
+            237
+          ],
+          "clearRatio": 0.5375874837239584,
+          "borderPixels": 3,
+          "pixelSha256": "50BB47A410E411798DC5269309B06FB48A7B8E23B383DAFD534951B9476C0C17"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 768,
+            "y": 512,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            10,
+            8,
+            374,
+            239
+          ],
+          "clearRatio": 0.563446044921875,
+          "borderPixels": 0,
+          "pixelSha256": "6F8E43C268282D557F52098C0FCA921C9A6DD158CE32CE1F174160C135138B02"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1152,
+            "y": 512,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            7,
+            11,
+            372,
+            241
+          ],
+          "clearRatio": 0.682464599609375,
+          "borderPixels": 0,
+          "pixelSha256": "4AA4DF953E8314CA07799E6AB10A1D0F4FA7ED6EC9BE20D30FB112AD1DCF4DD9"
+        },
+        {
+          "index": 12,
+          "rect": {
+            "x": 0,
+            "y": 768,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            19,
+            7,
+            378,
+            227
+          ],
+          "clearRatio": 0.7136739095052084,
+          "borderPixels": 0,
+          "pixelSha256": "AB47FB7C17AA8268070DFF2EC4A2CCCE0F8723268412C0F5924F12CA86EC3F97"
+        },
+        {
+          "index": 13,
+          "rect": {
+            "x": 384,
+            "y": 768,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            17,
+            22,
+            366,
+            223
+          ],
+          "clearRatio": 0.8359578450520834,
+          "borderPixels": 0,
+          "pixelSha256": "73A37E2CBB94D4AD49F6A9A96CD3ABD1D45A3FDE3F2F996052B375A35EA03460"
+        },
+        {
+          "index": 14,
+          "rect": {
+            "x": 768,
+            "y": 768,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            16,
+            24,
+            367,
+            221
+          ],
+          "clearRatio": 0.919403076171875,
+          "borderPixels": 0,
+          "pixelSha256": "A8B566D7FACDFC2074E5EAA6CB9F8F96E70ED1BCF3333DB06A5E05D4B1582E83"
+        },
+        {
+          "index": 15,
+          "rect": {
+            "x": 1152,
+            "y": 768,
+            "width": 384,
+            "height": 256
+          },
+          "bounds": [
+            33,
+            26,
+            342,
+            206
+          ],
+          "clearRatio": 0.9794718424479166,
+          "borderPixels": 0,
+          "pixelSha256": "2AF1CA7AB4B2C0EF9805FFB5C48BC56581C2351529BC4311EFBBA0320FA48A1F"
+        }
+      ],
+      "columns": 4,
+      "rows": 4,
+      "frameCount": 16,
+      "uniqueFrameCount": 16,
+      "label": "적월 무간참 · 혈월 참격"
+    },
+    "fx-idle-blackflame-v6": {
+      "path": "assets/fx-idle-blackflame-v6.png",
+      "label": "정자세 · 검은 살기",
+      "width": 1448,
+      "height": 1086,
+      "sha256": "8C04D9EF7943EB9533E79079F609D81D4FD48411133762CE58283416ED85E42E",
+      "bytes": 1602779,
+      "hasAlpha": true,
+      "columns": 4,
+      "rows": 4,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 362,
+            "height": 272
+          },
+          "bounds": [
+            42,
+            18,
+            322,
+            259
+          ],
+          "clearRatio": 0.7021347903802405,
+          "borderPixels": 0,
+          "pixelSha256": "F0E75A17D362BEFB4A6AC95F188579675B98B9148F6F12577AA33C066782DC2B"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 362,
+            "y": 0,
+            "width": 362,
+            "height": 272
+          },
+          "bounds": [
+            42,
+            15,
+            321,
+            259
+          ],
+          "clearRatio": 0.6906686707832305,
+          "borderPixels": 0,
+          "pixelSha256": "5CDA2CB0439B8D9F9F0AA8AF4ABF129114F05CDD21C7AB506C2CE811BD3A44C7"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 724,
+            "y": 0,
+            "width": 362,
+            "height": 272
+          },
+          "bounds": [
+            40,
+            11,
+            321,
+            259
+          ],
+          "clearRatio": 0.677293223919402,
+          "borderPixels": 0,
+          "pixelSha256": "8E2AD304294C22804292C48C406983760AD6FE040EE8851A44A7D8A92E388B7E"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1086,
+            "y": 0,
+            "width": 362,
+            "height": 272
+          },
+          "bounds": [
+            39,
+            10,
+            321,
+            259
+          ],
+          "clearRatio": 0.6745003249918752,
+          "borderPixels": 0,
+          "pixelSha256": "A8DB44A3F208F861E8A5F9ECB75C37D7EE7E0E0FA497320E64E23DC2C56D4663"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 272,
+            "width": 362,
+            "height": 271
+          },
+          "bounds": [
+            40,
+            12,
+            322,
+            259
+          ],
+          "clearRatio": 0.6709139467085279,
+          "borderPixels": 0,
+          "pixelSha256": "CC1E5DFAD9F1C24F633B5E2F24BB51BB4BD33E774997BEBAB474F0AA4ADF15B9"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 362,
+            "y": 272,
+            "width": 362,
+            "height": 271
+          },
+          "bounds": [
+            39,
+            12,
+            321,
+            258
+          ],
+          "clearRatio": 0.6686917697906261,
+          "borderPixels": 0,
+          "pixelSha256": "3810A703B85653DBB36C89834023534BC148820DA85E4B8E9A10E360CD5A1972"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 724,
+            "y": 272,
+            "width": 362,
+            "height": 271
+          },
+          "bounds": [
+            39,
+            13,
+            321,
+            258
+          ],
+          "clearRatio": 0.6715459419787568,
+          "borderPixels": 0,
+          "pixelSha256": "0BEB91A492D731408B8E25AE1E5935BAE671C629E3EE9FF0A3EAA0047D7C1CC2"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1086,
+            "y": 272,
+            "width": 362,
+            "height": 271
+          },
+          "bounds": [
+            39,
+            12,
+            321,
+            258
+          ],
+          "clearRatio": 0.6755519765142403,
+          "borderPixels": 0,
+          "pixelSha256": "CB1EDD7567608C5E6711F9596124AD286C8C51A58C39144EE1544E62B106D1B4"
+        },
+        {
+          "index": 8,
+          "rect": {
+            "x": 0,
+            "y": 543,
+            "width": 362,
+            "height": 272
+          },
+          "bounds": [
+            39,
+            11,
+            322,
+            258
+          ],
+          "clearRatio": 0.6827368378290543,
+          "borderPixels": 0,
+          "pixelSha256": "E1FB86F594A47BAABD9590AFC6752F7BB80B4EBA001D491B51F143C1D1942DA8"
+        },
+        {
+          "index": 9,
+          "rect": {
+            "x": 362,
+            "y": 543,
+            "width": 362,
+            "height": 272
+          },
+          "bounds": [
+            40,
+            10,
+            322,
+            258
+          ],
+          "clearRatio": 0.6784713194670133,
+          "borderPixels": 0,
+          "pixelSha256": "83D1CFD4088071BCA5E680DC24F8BBD1B524E3B97E7709A9BB683FE007918F58"
+        },
+        {
+          "index": 10,
+          "rect": {
+            "x": 724,
+            "y": 543,
+            "width": 362,
+            "height": 272
+          },
+          "bounds": [
+            39,
+            10,
+            321,
+            258
+          ],
+          "clearRatio": 0.6831532336691583,
+          "borderPixels": 0,
+          "pixelSha256": "C6011CDC7A90617B76B47B6B79FD333CC842C96D3A464FC02C93CED230E93D7A"
+        },
+        {
+          "index": 11,
+          "rect": {
+            "x": 1086,
+            "y": 543,
+            "width": 362,
+            "height": 272
+          },
+          "bounds": [
+            38,
+            10,
+            321,
+            258
+          ],
+          "clearRatio": 0.681457182320442,
+          "borderPixels": 0,
+          "pixelSha256": "071F782E99DCEEB16022D3D183ADCEF7ABDC49330F0C3B29363CE8B60E390FE6"
+        },
+        {
+          "index": 12,
+          "rect": {
+            "x": 0,
+            "y": 815,
+            "width": 362,
+            "height": 271
+          },
+          "bounds": [
+            42,
+            16,
+            322,
+            258
+          ],
+          "clearRatio": 0.695959307659375,
+          "borderPixels": 0,
+          "pixelSha256": "8CAA288F06E2B60F3DC9F294605766402821F27D2814AB74BAF2B1BA695BE80C"
+        },
+        {
+          "index": 13,
+          "rect": {
+            "x": 362,
+            "y": 815,
+            "width": 362,
+            "height": 271
+          },
+          "bounds": [
+            43,
+            15,
+            321,
+            258
+          ],
+          "clearRatio": 0.6981203237446739,
+          "borderPixels": 0,
+          "pixelSha256": "B550E905E308803FB306376AEC091B58CA74F5DB6F9DD870A7C9AB1EBA376CBD"
+        },
+        {
+          "index": 14,
+          "rect": {
+            "x": 724,
+            "y": 815,
+            "width": 362,
+            "height": 271
+          },
+          "bounds": [
+            42,
+            16,
+            321,
+            258
+          ],
+          "clearRatio": 0.6968359462600151,
+          "borderPixels": 0,
+          "pixelSha256": "3A6B4626F19A4D9F8938CF1F97F208A2E3546D3C55E799F62AFAB8ABDBC5B9D1"
+        },
+        {
+          "index": 15,
+          "rect": {
+            "x": 1086,
+            "y": 815,
+            "width": 362,
+            "height": 271
+          },
+          "bounds": [
+            41,
+            18,
+            321,
+            258
+          ],
+          "clearRatio": 0.6992212187315243,
+          "borderPixels": 0,
+          "pixelSha256": "A95648186831C98E46F2EE3670C716A712A421A9B2A3379CC251075F1FEF58DA"
+        }
+      ],
+      "frameCount": 16,
+      "uniqueFrameCount": 16,
+      "artHeight": 250,
+      "frameConsumption": "ORIGINAL_RGBA_ATLAS_WITH_INTERPOLATED_FRAME_BLEND"
+    },
+    "fx-idle-shattered-moon-v7": {
+      "path": "assets/fx-idle-shattered-moon-v7.png",
+      "label": "정자세 · 부서진 원형 적월",
+      "width": 1774,
+      "height": 887,
+      "sha256": "3503A2BD0CA5E7CE842782FDFA2C946B2F0AF9DF272C3EACEAE05059814C6E56",
+      "bytes": 1834966,
+      "hasAlpha": true,
+      "columns": 4,
+      "rows": 2,
+      "frames": [
+        {
+          "index": 0,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 444,
+            "height": 444
+          },
+          "bounds": [
+            46,
+            43,
+            432,
+            404
+          ],
+          "clearRatio": 0.5884719178638097,
+          "borderPixels": 0,
+          "pixelSha256": "B3FC730698427734E12F5515795C7E0355465F01C6016EA3BE00AC5E9A702CE2"
+        },
+        {
+          "index": 1,
+          "rect": {
+            "x": 444,
+            "y": 0,
+            "width": 443,
+            "height": 444
+          },
+          "bounds": [
+            44,
+            43,
+            429,
+            404
+          ],
+          "clearRatio": 0.5884784332865597,
+          "borderPixels": 0,
+          "pixelSha256": "5465DB2A788CC9244B470373B546E9294E527F533414DD5425A7ECF0234B758F"
+        },
+        {
+          "index": 2,
+          "rect": {
+            "x": 887,
+            "y": 0,
+            "width": 444,
+            "height": 444
+          },
+          "bounds": [
+            44,
+            43,
+            429,
+            404
+          ],
+          "clearRatio": 0.5877414576738901,
+          "borderPixels": 0,
+          "pixelSha256": "9631DDDF63EE7A9CAFFF7FB8D9A80B1B9C0AA4A58169A9E7B2481D7A94524F7C"
+        },
+        {
+          "index": 3,
+          "rect": {
+            "x": 1331,
+            "y": 0,
+            "width": 443,
+            "height": 444
+          },
+          "bounds": [
+            43,
+            42,
+            428,
+            404
+          ],
+          "clearRatio": 0.5871769060256645,
+          "borderPixels": 0,
+          "pixelSha256": "3AA9C216A825FD673AC534731AFAB69CFB2F38B8F7AAF346D769462A9E899DD3"
+        },
+        {
+          "index": 4,
+          "rect": {
+            "x": 0,
+            "y": 444,
+            "width": 444,
+            "height": 443
+          },
+          "bounds": [
+            45,
+            41,
+            432,
+            406
+          ],
+          "clearRatio": 0.586282106033799,
+          "borderPixels": 0,
+          "pixelSha256": "50A9AB73BDFD32F03DFF40FB1BBED0C0854C6D35D4614DB6CBAE6B11DCE2FBA7"
+        },
+        {
+          "index": 5,
+          "rect": {
+            "x": 444,
+            "y": 444,
+            "width": 443,
+            "height": 443
+          },
+          "bounds": [
+            44,
+            41,
+            429,
+            405
+          ],
+          "clearRatio": 0.5831010603875688,
+          "borderPixels": 0,
+          "pixelSha256": "B578A1201D903BF5B22983E60EC591ACB38BE5564D887E360A69641AF705FAF1"
+        },
+        {
+          "index": 6,
+          "rect": {
+            "x": 887,
+            "y": 444,
+            "width": 444,
+            "height": 443
+          },
+          "bounds": [
+            43,
+            41,
+            429,
+            406
+          ],
+          "clearRatio": 0.5869786264820125,
+          "borderPixels": 0,
+          "pixelSha256": "BC36D1D35CFDF1AFAD8BD7D8D81FA37AFB7F7D74CB7ECBCECBBC27301C60C5CA"
+        },
+        {
+          "index": 7,
+          "rect": {
+            "x": 1331,
+            "y": 444,
+            "width": 443,
+            "height": 443
+          },
+          "bounds": [
+            43,
+            41,
+            429,
+            405
+          ],
+          "clearRatio": 0.585557123857956,
+          "borderPixels": 0,
+          "pixelSha256": "687789037A90B7A9FC893CF78E57FBC8B3A2854EB5439DF9D888720B1155130F"
+        }
+      ],
+      "frameCount": 8,
+      "uniqueFrameCount": 8,
+      "artHeight": 366,
+      "frameConsumption": "ORIGINAL_RGBA_ATLAS_WITH_INTERPOLATED_FRAME_BLEND"
+    }
+  },
+  "skills": [
+    {
+      "id": "blood-dash",
+      "name": "혈섬 돌진",
+      "subtitle": "BLOOD FLASH",
+      "type": "일반기",
+      "kind": "dash",
+      "description": "낮게 파고들어 검끝으로 관통하고, 몸을 틀어 한 번 더 벤다. 혈광과 잔상이 돌진 궤적을 뒤따른다.",
+      "duration": 2,
+      "phases": [
+        0.1,
+        0.3,
+        0.64,
+        1.24,
+        1.78
+      ],
+      "hits": [
+        {
+          "time": 0.64,
+          "pose": 3,
+          "group": 0,
+          "target": 0
+        },
+        {
+          "time": 0.99,
+          "pose": 5,
+          "group": 1,
+          "target": 0
+        }
+      ],
+      "effect": "fx-blood-dash",
+      "targetMode": "single",
+      "previewTargetCount": 1,
+      "sheet": "motion-user-eight-v2",
+      "poses": [
+        [
+          0,
+          0
+        ],
+        [
+          0.2,
+          2
+        ],
+        [
+          0.585,
+          3
+        ],
+        [
+          0.725,
+          6
+        ],
+        [
+          0.85,
+          4
+        ],
+        [
+          0.9349999999999999,
+          5
+        ],
+        [
+          1.075,
+          2
+        ],
+        [
+          1.76,
+          0
+        ]
+      ],
+      "contacts": [
+        0.64,
+        0.99
+      ],
+      "nameStatus": "USER_APPROVED_20261021",
+      "runtimeEnabled": true,
+      "damage": null,
+      "cooldown": null,
+      "range": null,
+      "gameplayTargetCount": null,
+      "bloodCost": null,
+      "contactAuthority": "VISUAL_CUE_ONLY_SERVER_RECEIPT",
+      "gameplayPolicy": "shared/mercenary-prime-requiem-v1.mjs"
+    },
+    {
+      "id": "blood-echo",
+      "name": "혈영 연참",
+      "subtitle": "SCARLET ECHO",
+      "type": "일반기",
+      "kind": "echo",
+      "description": "횡베기와 내려베기를 연이어 꽂은 뒤, 검을 내질러 마무리한다. 네 번의 검격마다 혈영이 한 박자 늦게 겹친다.",
+      "duration": 2.65,
+      "phases": [
+        0.1,
+        0.34,
+        0.68,
+        1.98,
+        2.44
+      ],
+      "hits": [
+        {
+          "time": 0.68,
+          "pose": 5,
+          "group": 0,
+          "target": 0
+        },
+        {
+          "time": 1.04,
+          "pose": 6,
+          "group": 1,
+          "target": 0
+        },
+        {
+          "time": 1.4,
+          "pose": 5,
+          "group": 2,
+          "target": 0
+        },
+        {
+          "time": 1.76,
+          "pose": 3,
+          "group": 3,
+          "target": 0
+        }
+      ],
+      "effect": "fx-blood-echo",
+      "targetMode": "single",
+      "previewTargetCount": 1,
+      "sheet": "motion-user-eight-v2",
+      "poses": [
+        [
+          0,
+          0
+        ],
+        [
+          0.2,
+          2
+        ],
+        [
+          0.625,
+          5
+        ],
+        [
+          0.765,
+          2
+        ],
+        [
+          0.9,
+          4
+        ],
+        [
+          0.985,
+          6
+        ],
+        [
+          1.125,
+          2
+        ],
+        [
+          1.2599999999999998,
+          4
+        ],
+        [
+          1.345,
+          5
+        ],
+        [
+          1.4849999999999999,
+          2
+        ],
+        [
+          1.62,
+          2
+        ],
+        [
+          1.705,
+          3
+        ],
+        [
+          1.845,
+          6
+        ],
+        [
+          2.41,
+          0
+        ]
+      ],
+      "contacts": [
+        0.68,
+        1.04,
+        1.4,
+        1.76
+      ],
+      "nameStatus": "USER_APPROVED_20261021",
+      "runtimeEnabled": true,
+      "damage": null,
+      "cooldown": null,
+      "range": null,
+      "gameplayTargetCount": null,
+      "bloodCost": null,
+      "contactAuthority": "VISUAL_CUE_ONLY_SERVER_RECEIPT",
+      "gameplayPolicy": "shared/mercenary-prime-requiem-v1.mjs"
+    },
+    {
+      "id": "blood-frenzy",
+      "name": "혈검 난무",
+      "subtitle": "BLOOD BLADE FRENZY",
+      "type": "일반기",
+      "kind": "frenzy",
+      "description": "올려베기·내려베기·횡베기를 일곱 번 몰아친다. 검이 맞는 순간 짧게 멈추고, 다음 혈검을 즉시 이어 넣는다.",
+      "duration": 2.85,
+      "phases": [
+        0.08,
+        0.3,
+        0.56,
+        2.36,
+        2.68
+      ],
+      "hits": [
+        {
+          "time": 0.56,
+          "pose": 5,
+          "group": 0,
+          "target": 0
+        },
+        {
+          "time": 0.82,
+          "pose": 6,
+          "group": 1,
+          "target": 0
+        },
+        {
+          "time": 1.08,
+          "pose": 5,
+          "group": 2,
+          "target": 0
+        },
+        {
+          "time": 1.34,
+          "pose": 3,
+          "group": 3,
+          "target": 0
+        },
+        {
+          "time": 1.6,
+          "pose": 5,
+          "group": 0,
+          "target": 0
+        },
+        {
+          "time": 1.86,
+          "pose": 6,
+          "group": 1,
+          "target": 0
+        },
+        {
+          "time": 2.16,
+          "pose": 3,
+          "group": 3,
+          "target": 0,
+          "heavy": true
+        }
+      ],
+      "effect": "fx-blood-frenzy-v2",
+      "targetMode": "single",
+      "previewTargetCount": 1,
+      "replaces": "blood-core",
+      "sheet": "motion-user-eight-v2",
+      "poses": [
+        [
+          0,
+          0
+        ],
+        [
+          0.2,
+          2
+        ],
+        [
+          0.505,
+          5
+        ],
+        [
+          0.645,
+          2
+        ],
+        [
+          0.6799999999999999,
+          4
+        ],
+        [
+          0.7649999999999999,
+          6
+        ],
+        [
+          0.9049999999999999,
+          2
+        ],
+        [
+          0.9400000000000001,
+          4
+        ],
+        [
+          1.0250000000000001,
+          5
+        ],
+        [
+          1.165,
+          2
+        ],
+        [
+          1.2000000000000002,
+          2
+        ],
+        [
+          1.2850000000000001,
+          3
+        ],
+        [
+          1.425,
+          6
+        ],
+        [
+          1.46,
+          4
+        ],
+        [
+          1.5450000000000002,
+          5
+        ],
+        [
+          1.685,
+          2
+        ],
+        [
+          1.7200000000000002,
+          4
+        ],
+        [
+          1.8050000000000002,
+          6
+        ],
+        [
+          1.945,
+          2
+        ],
+        [
+          2.02,
+          2
+        ],
+        [
+          2.105,
+          3
+        ],
+        [
+          2.245,
+          6
+        ],
+        [
+          2.6100000000000003,
+          0
+        ]
+      ],
+      "contacts": [
+        0.56,
+        0.82,
+        1.08,
+        1.34,
+        1.6,
+        1.86,
+        2.16
+      ],
+      "nameStatus": "USER_APPROVED_20261021",
+      "runtimeEnabled": true,
+      "damage": null,
+      "cooldown": null,
+      "range": null,
+      "gameplayTargetCount": null,
+      "bloodCost": null,
+      "contactAuthority": "VISUAL_CUE_ONLY_SERVER_RECEIPT",
+      "gameplayPolicy": "shared/mercenary-prime-requiem-v1.mjs"
+    },
+    {
+      "id": "blood-tiger",
+      "name": "혈호 강림",
+      "subtitle": "SANGUINE WHITE TIGER",
+      "type": "광역기",
+      "kind": "tiger",
+      "description": "검을 내리긋는 순간 적진에 포효하는 혈백호의 머리가 나타난다. 응축된 혈기가 즉시 터져 전열을 덮친다.",
+      "duration": 2.5,
+      "phases": [
+        0.1,
+        0.42,
+        1.02,
+        1.48,
+        2.28
+      ],
+      "hits": [
+        {
+          "time": 1.02,
+          "pose": 6,
+          "group": 0,
+          "target": 0,
+          "area": true
+        },
+        {
+          "time": 1.28,
+          "pose": 6,
+          "group": 0,
+          "target": 0,
+          "area": true,
+          "heavy": true
+        }
+      ],
+      "poses": [
+        [
+          0,
+          0
+        ],
+        [
+          0.24,
+          4
+        ],
+        [
+          0.55,
+          5
+        ],
+        [
+          0.94,
+          6
+        ],
+        [
+          1.48,
+          5
+        ],
+        [
+          1.92,
+          0
+        ]
+      ],
+      "effect": "fx-blood-tiger-burst",
+      "effectStartFrame": 4,
+      "targetMode": "area",
+      "previewTargetCount": 5,
+      "sheet": "motion-user-eight-v2",
+      "contacts": [
+        1.02,
+        1.28
+      ],
+      "nameStatus": "USER_APPROVED_20261021",
+      "runtimeEnabled": true,
+      "damage": null,
+      "cooldown": null,
+      "range": null,
+      "gameplayTargetCount": null,
+      "bloodCost": null,
+      "contactAuthority": "VISUAL_CUE_ONLY_SERVER_RECEIPT",
+      "gameplayPolicy": "shared/mercenary-prime-requiem-v1.mjs"
+    },
+    {
+      "id": "blood-execution",
+      "name": "혈영섬 · 참형",
+      "subtitle": "BLOODSHADOW EXECUTION",
+      "type": "광역기",
+      "kind": "execution",
+      "description": "적진 사이를 연속 돌파하며 열 번 벤다. 마지막 검격에 모든 혈영이 교차해 거대한 십자 참격을 남긴다.",
+      "duration": 3.85,
+      "phases": [
+        0.08,
+        0.34,
+        0.62,
+        3.2,
+        3.65
+      ],
+      "hits": [
+        {
+          "time": 0.62,
+          "pose": 3,
+          "group": 0,
+          "target": 0
+        },
+        {
+          "time": 0.88,
+          "pose": 5,
+          "group": 1,
+          "target": 1
+        },
+        {
+          "time": 1.14,
+          "pose": 6,
+          "group": 0,
+          "target": 2
+        },
+        {
+          "time": 1.4,
+          "pose": 3,
+          "group": 1,
+          "target": 3
+        },
+        {
+          "time": 1.66,
+          "pose": 5,
+          "group": 0,
+          "target": 4
+        },
+        {
+          "time": 1.92,
+          "pose": 6,
+          "group": 1,
+          "target": 3
+        },
+        {
+          "time": 2.18,
+          "pose": 3,
+          "group": 0,
+          "target": 2
+        },
+        {
+          "time": 2.44,
+          "pose": 5,
+          "group": 1,
+          "target": 1
+        },
+        {
+          "time": 2.7,
+          "pose": 6,
+          "group": 0,
+          "target": 0
+        },
+        {
+          "time": 3.05,
+          "pose": 5,
+          "group": 2,
+          "target": 2,
+          "area": true,
+          "heavy": true
+        }
+      ],
+      "effect": "fx-blood-execution-v2",
+      "targetMode": "area",
+      "previewTargetCount": 5,
+      "replaces": "requiem",
+      "sheet": "motion-user-eight-v2",
+      "poses": [
+        [
+          0,
+          0
+        ],
+        [
+          0.2,
+          2
+        ],
+        [
+          0.565,
+          3
+        ],
+        [
+          0.705,
+          6
+        ],
+        [
+          0.74,
+          4
+        ],
+        [
+          0.825,
+          5
+        ],
+        [
+          0.965,
+          2
+        ],
+        [
+          0.9999999999999999,
+          4
+        ],
+        [
+          1.085,
+          6
+        ],
+        [
+          1.2249999999999999,
+          2
+        ],
+        [
+          1.2599999999999998,
+          2
+        ],
+        [
+          1.345,
+          3
+        ],
+        [
+          1.4849999999999999,
+          6
+        ],
+        [
+          1.52,
+          4
+        ],
+        [
+          1.605,
+          5
+        ],
+        [
+          1.7449999999999999,
+          2
+        ],
+        [
+          1.7799999999999998,
+          4
+        ],
+        [
+          1.865,
+          6
+        ],
+        [
+          2.005,
+          2
+        ],
+        [
+          2.04,
+          2
+        ],
+        [
+          2.125,
+          3
+        ],
+        [
+          2.265,
+          6
+        ],
+        [
+          2.3,
+          4
+        ],
+        [
+          2.385,
+          5
+        ],
+        [
+          2.525,
+          2
+        ],
+        [
+          2.56,
+          4
+        ],
+        [
+          2.645,
+          6
+        ],
+        [
+          2.785,
+          2
+        ],
+        [
+          2.9099999999999997,
+          4
+        ],
+        [
+          2.9949999999999997,
+          5
+        ],
+        [
+          3.135,
+          2
+        ],
+        [
+          3.6100000000000003,
+          0
+        ]
+      ],
+      "contacts": [
+        0.62,
+        0.88,
+        1.14,
+        1.4,
+        1.66,
+        1.92,
+        2.18,
+        2.44,
+        2.7,
+        3.05
+      ],
+      "nameStatus": "USER_APPROVED_20261021",
+      "runtimeEnabled": true,
+      "damage": null,
+      "cooldown": null,
+      "range": null,
+      "gameplayTargetCount": null,
+      "bloodCost": null,
+      "contactAuthority": "VISUAL_CUE_ONLY_SERVER_RECEIPT",
+      "gameplayPolicy": "shared/mercenary-prime-requiem-v1.mjs"
+    },
+    {
+      "id": "blood-cataclysm",
+      "name": "혈천개벽",
+      "subtitle": "SANGUINE CATACLYSM",
+      "type": "특수 광역기",
+      "kind": "cataclysm",
+      "showcase": true,
+      "description": "검에 혈기를 끌어모아 거대 혈검으로 응축한다. 도약 내려베기로 대지를 가르고, 적진 전체에 혈류 기둥을 연쇄 분출시킨다.",
+      "duration": 4.5,
+      "phases": [
+        0.22,
+        0.7,
+        1.68,
+        3.2,
+        4.16
+      ],
+      "phaseNames": [
+        "혈기 흡수",
+        "거대 혈검 · 도약",
+        "대지 절단 · 연쇄 분출",
+        "혈류 소멸"
+      ],
+      "hits": [
+        {
+          "time": 1.68,
+          "pose": 6,
+          "group": 0,
+          "target": 1,
+          "area": true,
+          "heavy": true
+        },
+        {
+          "time": 1.96,
+          "pose": 6,
+          "group": 0,
+          "target": 0,
+          "area": true,
+          "heavy": false,
+          "contactMode": "effect"
+        },
+        {
+          "time": 2.15,
+          "pose": 6,
+          "group": 1,
+          "target": 1,
+          "area": true,
+          "heavy": false,
+          "contactMode": "effect"
+        },
+        {
+          "time": 2.34,
+          "pose": 6,
+          "group": 2,
+          "target": 2,
+          "area": true,
+          "heavy": false,
+          "contactMode": "effect"
+        },
+        {
+          "time": 2.53,
+          "pose": 6,
+          "group": 3,
+          "target": 3,
+          "area": true,
+          "heavy": false,
+          "contactMode": "effect"
+        },
+        {
+          "time": 2.82,
+          "pose": 6,
+          "group": 4,
+          "target": 4,
+          "area": true,
+          "heavy": true,
+          "contactMode": "effect"
+        }
+      ],
+      "poses": [
+        [
+          0,
+          0
+        ],
+        [
+          0.28,
+          1
+        ],
+        [
+          0.64,
+          4
+        ],
+        [
+          1.35,
+          4
+        ],
+        [
+          1.48,
+          5
+        ],
+        [
+          1.625,
+          6
+        ],
+        [
+          3.2,
+          6
+        ],
+        [
+          3.75,
+          1
+        ],
+        [
+          4.15,
+          0
+        ]
+      ],
+      "effect": "fx-blood-cataclysm-v3",
+      "targetMode": "area",
+      "previewTargetCount": 5,
+      "iconFrame": 9,
+      "videoReference": {
+        "url": "https://youtu.be/vfBuylrhTFc",
+        "range": [
+          15.3,
+          22.5
+        ],
+        "playbackRate": 0.4,
+        "choreography": "INWARD_BLOOD_GATHER_SWORD_RELEASE_THEN_TOWERING_GROUND_ERUPTION"
+      },
+      "sheet": "motion-user-eight-v2",
+      "contacts": [
+        1.68,
+        1.96,
+        2.15,
+        2.34,
+        2.53,
+        2.82
+      ],
+      "nameStatus": "USER_APPROVED_20261021",
+      "runtimeEnabled": true,
+      "damage": null,
+      "cooldown": null,
+      "range": null,
+      "gameplayTargetCount": null,
+      "bloodCost": null,
+      "contactAuthority": "VISUAL_CUE_ONLY_SERVER_RECEIPT",
+      "gameplayPolicy": "shared/mercenary-prime-requiem-v1.mjs"
+    },
+    {
+      "id": "blood-moonfall",
+      "name": "적월 무간참",
+      "subtitle": "CRIMSON MOON ONSLAUGHT",
+      "type": "특수 광역기",
+      "kind": "moonfall",
+      "showcase": true,
+      "description": "열두 번의 검격으로 적진을 꿰뚫고 혈영을 남긴다. 잠깐의 정적 뒤 거대한 혈월 참격이 전장을 가르며 모든 혈흔을 터뜨린다.",
+      "duration": 4.95,
+      "phases": [
+        0.12,
+        0.34,
+        0.68,
+        3.7,
+        4.65
+      ],
+      "phaseNames": [
+        "혈검 해방",
+        "혈영 돌파",
+        "열두 연참 · 적월 절단",
+        "핏빛 잔상"
+      ],
+      "hits": [
+        {
+          "time": 0.68,
+          "pose": 3,
+          "group": 0,
+          "target": 0
+        },
+        {
+          "time": 0.88,
+          "pose": 5,
+          "group": 1,
+          "target": 1
+        },
+        {
+          "time": 1.08,
+          "pose": 6,
+          "group": 0,
+          "target": 3
+        },
+        {
+          "time": 1.28,
+          "pose": 5,
+          "group": 1,
+          "target": 4
+        },
+        {
+          "time": 1.48,
+          "pose": 3,
+          "group": 0,
+          "target": 2
+        },
+        {
+          "time": 1.68,
+          "pose": 5,
+          "group": 1,
+          "target": 4
+        },
+        {
+          "time": 1.88,
+          "pose": 6,
+          "group": 0,
+          "target": 3
+        },
+        {
+          "time": 2.08,
+          "pose": 5,
+          "group": 1,
+          "target": 1
+        },
+        {
+          "time": 2.28,
+          "pose": 3,
+          "group": 0,
+          "target": 0
+        },
+        {
+          "time": 2.48,
+          "pose": 5,
+          "group": 1,
+          "target": 1
+        },
+        {
+          "time": 2.68,
+          "pose": 6,
+          "group": 0,
+          "target": 3
+        },
+        {
+          "time": 2.88,
+          "pose": 5,
+          "group": 1,
+          "target": 2
+        },
+        {
+          "time": 3.62,
+          "pose": 5,
+          "group": 2,
+          "target": 1,
+          "area": true,
+          "heavy": true
+        }
+      ],
+      "effect": "fx-blood-mooncleave-v3",
+      "targetMode": "area",
+      "previewTargetCount": 5,
+      "iconFrame": 10,
+      "videoReference": {
+        "url": "https://youtu.be/vfBuylrhTFc",
+        "range": [
+          24.5,
+          28.5
+        ],
+        "playbackRate": 0.4,
+        "choreography": "FAST_SWORD_RUSH_LIQUID_AFTERTRAILS_BRIEF_HOLD_THEN_OVERSIZED_FINISHER"
+      },
+      "sheet": "motion-user-eight-v2",
+      "poses": [
+        [
+          0,
+          0
+        ],
+        [
+          0.2,
+          2
+        ],
+        [
+          0.625,
+          3
+        ],
+        [
+          0.74,
+          4
+        ],
+        [
+          0.765,
+          6
+        ],
+        [
+          0.825,
+          5
+        ],
+        [
+          0.9400000000000001,
+          4
+        ],
+        [
+          0.965,
+          2
+        ],
+        [
+          1.0250000000000001,
+          6
+        ],
+        [
+          1.1400000000000001,
+          4
+        ],
+        [
+          1.165,
+          2
+        ],
+        [
+          1.225,
+          5
+        ],
+        [
+          1.3399999999999999,
+          2
+        ],
+        [
+          1.365,
+          2
+        ],
+        [
+          1.425,
+          3
+        ],
+        [
+          1.54,
+          4
+        ],
+        [
+          1.565,
+          6
+        ],
+        [
+          1.625,
+          5
+        ],
+        [
+          1.7399999999999998,
+          4
+        ],
+        [
+          1.765,
+          2
+        ],
+        [
+          1.825,
+          6
+        ],
+        [
+          1.94,
+          4
+        ],
+        [
+          1.9649999999999999,
+          2
+        ],
+        [
+          2.025,
+          5
+        ],
+        [
+          2.1399999999999997,
+          2
+        ],
+        [
+          2.165,
+          2
+        ],
+        [
+          2.2249999999999996,
+          3
+        ],
+        [
+          2.34,
+          4
+        ],
+        [
+          2.3649999999999998,
+          6
+        ],
+        [
+          2.425,
+          5
+        ],
+        [
+          2.54,
+          4
+        ],
+        [
+          2.565,
+          2
+        ],
+        [
+          2.625,
+          6
+        ],
+        [
+          2.7399999999999998,
+          4
+        ],
+        [
+          2.765,
+          2
+        ],
+        [
+          2.8249999999999997,
+          5
+        ],
+        [
+          2.965,
+          2
+        ],
+        [
+          3.08,
+          4
+        ],
+        [
+          3.48,
+          4
+        ],
+        [
+          3.565,
+          5
+        ],
+        [
+          3.705,
+          2
+        ],
+        [
+          4.71,
+          0
+        ]
+      ],
+      "contacts": [
+        0.68,
+        0.88,
+        1.08,
+        1.28,
+        1.48,
+        1.68,
+        1.88,
+        2.08,
+        2.28,
+        2.48,
+        2.68,
+        2.88,
+        3.62
+      ],
+      "nameStatus": "USER_APPROVED_20261021",
+      "runtimeEnabled": true,
+      "damage": null,
+      "cooldown": null,
+      "range": null,
+      "gameplayTargetCount": null,
+      "bloodCost": null,
+      "contactAuthority": "VISUAL_CUE_ONLY_SERVER_RECEIPT",
+      "gameplayPolicy": "shared/mercenary-prime-requiem-v1.mjs"
+    }
+  ],
+  "generatedUI": {
+    "path": "assets/ui-blood-forged-frame.png",
+    "width": 1254,
+    "height": 1254,
+    "sha256": "BB2215B385CFC647F30835BBB7AC105F2500C9BF14731938809D8702571C3E73",
+    "bytes": 2363802,
+    "hasAlpha": true
+  },
+  "battlefield": {
+    "path": "assets/blood-sanctum.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "EA499AD26A0517827733024768A71A945D1E8E72E6B1AA29789DA8303B328F42",
+    "bytes": 2891421,
+    "hasAlpha": false
+  },
+  "renderer": {
+    "engine": "preview/project-v-v3/source/battle/BattleEngine.js",
+    "entry": "source/battle-preview.js",
+    "effects": "source/PrimeRequiemFX.js",
+    "cardDock": "js/battle-v3-live.js",
+    "adapter": "js/project-v-mercenary-battle-art-adapter-v1.js",
+    "pixi": "8.20.0",
+    "gsap": "3.13.0",
+    "clock": "ONE_V3_REGISTERED_GSAP_TIMELINE",
+    "layers": [
+      "combatLayer",
+      "effectLayer"
+    ],
+    "proceduralFX": false,
+    "newSound": false,
+    "idleEffects": "source/PrimeIdleAura.js"
+  },
+  "permissions": {
+    "liveEnabled": false,
+    "acquisitionEnabled": false,
+    "gameplaySkillsAssigned": false,
+    "visualApproval": false,
+    "price": null,
+    "dropProbability": null
+  },
+  "assetPolicy": {
+    "originalPixelsPreserved": true,
+    "sourceArtIsNotBattleSprite": true,
+    "frameConsumption": "PIXI_TEXTURE_RECTANGLES_WITH_SOURCE_UV_CLIPS",
+    "normalCards": 5,
+    "mercenarySlot": 1,
+    "bodyScale": "ONE_FIXED_UNIFORM_SCALE_FOR_ALL_EIGHT_POSES",
+    "automaticApproval": false
+  },
+  "revision": {
+    "defaultAttackSpeed": 2,
+    "rejectedSkills": [
+      "blood-core",
+      "requiem"
+    ],
+    "replacementSkills": [
+      "blood-frenzy",
+      "blood-execution"
+    ],
+    "preservedSkills": [
+      "blood-dash",
+      "blood-echo",
+      "blood-frenzy",
+      "blood-tiger",
+      "blood-execution"
+    ],
+    "addedShowcases": [
+      "blood-cataclysm",
+      "blood-moonfall"
+    ],
+    "oldBodySheetsLoaded": false,
+    "runningTigerLoaded": false,
+    "tigerFirstSourceFrame": 4,
+    "readyPose": 0,
+    "readyPoseAuthority": "USER_20261021_UPRIGHT_BOTH_FEET_PLANTED",
+    "aura": "fx-blood-mantle-v3",
+    "neon": "SOURCE_ALPHA_CONTOUR_OVER_AURA_AND_RED_OUTER_GLOW",
+    "neonRimWidth": 2.25,
+    "referenceVideo": {
+      "url": "https://youtu.be/vfBuylrhTFc",
+      "title": "[던파] 진(眞) 버서커",
+      "inspectedPlaybackRate": 0.4,
+      "applied": [
+        "sword-first close combat",
+        "alternating cuts",
+        "brief impact holds",
+        "delayed blood trails",
+        "blood gather then large ground eruption",
+        "fast rush into oversized crescent finisher"
+      ]
+    },
+    "auraOpacity": 0.85,
+    "auraOpacityReason": "USER_SLIGHT_TRANSPARENCY_20261021",
+    "idleAura": {
+      "name": "부서진 원형 적월 · 검은 살기",
+      "moon": "fx-idle-shattered-moon-v7",
+      "blackflame": "fx-idle-blackflame-v6",
+      "duration": 6.4,
+      "standingBloodVisible": false,
+      "bodyPixelsChanged": false,
+      "motion": "SLOW_FRAME_BLEND_AND_NEON_BREATH",
+      "source": "prompts-idle-v7.json",
+      "alignment": "MIDPOINT_OF_HELMET_AND_CHEST_AXIS_NO_RIGHT_OFFSET",
+      "silhouette": "BLUNT_FRACTURED_CIRCULAR_MOON_WITHOUT_HORN_TIPS",
+      "previousSource": "prompts-idle-v6.json"
+    }
+  },
+  "validation": {
+    "uniqueFrames": true,
+    "trueAlpha": true,
+    "generatedCellWarnings": [
+      {
+        "sheet": "motion-user-eight-v2",
+        "frame": 1,
+        "borderPixels": 2,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "motion-user-eight-v2",
+        "frame": 2,
+        "borderPixels": 153,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "motion-user-eight-v2",
+        "frame": 3,
+        "borderPixels": 146,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "motion-user-eight-v2",
+        "frame": 4,
+        "borderPixels": 188,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "motion-user-eight-v2",
+        "frame": 5,
+        "borderPixels": 189,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "motion-user-eight-v2",
+        "frame": 6,
+        "borderPixels": 143,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "motion-user-eight-v2",
+        "frame": 7,
+        "borderPixels": 27,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-dash",
+        "frame": 2,
+        "borderPixels": 37,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-dash",
+        "frame": 3,
+        "borderPixels": 51,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-dash",
+        "frame": 4,
+        "borderPixels": 8,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-dash",
+        "frame": 5,
+        "borderPixels": 25,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-dash",
+        "frame": 6,
+        "borderPixels": 103,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-dash",
+        "frame": 7,
+        "borderPixels": 56,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-dash",
+        "frame": 10,
+        "borderPixels": 1,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-frenzy-v2",
+        "frame": 6,
+        "borderPixels": 2,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-frenzy-v2",
+        "frame": 9,
+        "borderPixels": 23,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-frenzy-v2",
+        "frame": 13,
+        "borderPixels": 5,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-execution-v2",
+        "frame": 5,
+        "borderPixels": 5,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-execution-v2",
+        "frame": 7,
+        "borderPixels": 14,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-execution-v2",
+        "frame": 8,
+        "borderPixels": 42,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-execution-v2",
+        "frame": 9,
+        "borderPixels": 13,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-execution-v2",
+        "frame": 11,
+        "borderPixels": 26,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-execution-v2",
+        "frame": 12,
+        "borderPixels": 55,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-cataclysm-v3",
+        "frame": 2,
+        "borderPixels": 5,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-cataclysm-v3",
+        "frame": 6,
+        "borderPixels": 6,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-cataclysm-v3",
+        "frame": 8,
+        "borderPixels": 54,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-cataclysm-v3",
+        "frame": 9,
+        "borderPixels": 88,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-cataclysm-v3",
+        "frame": 10,
+        "borderPixels": 153,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-cataclysm-v3",
+        "frame": 11,
+        "borderPixels": 137,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-mooncleave-v3",
+        "frame": 2,
+        "borderPixels": 5,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-mooncleave-v3",
+        "frame": 4,
+        "borderPixels": 19,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-mooncleave-v3",
+        "frame": 5,
+        "borderPixels": 26,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-mooncleave-v3",
+        "frame": 6,
+        "borderPixels": 29,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      },
+      {
+        "sheet": "fx-blood-mooncleave-v3",
+        "frame": 9,
+        "borderPixels": 3,
+        "reason": "GENERATED_CELL_EDGE_VISUAL_REVIEW_REQUIRED"
+      }
+    ],
+    "visualApproval": "USER_REVIEW_PENDING",
+    "browser": "PASS_SCOPED_RUNTIME_CHECKS",
+    "browserReport": "qa/browser-report.json",
+    "operatorVisualReview": {
+      "surfaces": [
+        "desktop",
+        "mobile"
+      ],
+      "sourcePoseReview": "qa/v2-eight-poses-review.png",
+      "body": "USER_EIGHT_POSES_FIXED_UNIFORM_SCALE_UV_GUTTERS_REVIEWED",
+      "aura": "V3_THICK_FULL_BODY_BLOOD_MANTLE_FRONT_REAR_AND_TWO_RED_NEON_SILHOUETTES_SHARP_BODY",
+      "standingPose": "ORIGINAL_POSE_0_BOTH_FEET_PLANTED_USER_REQUEST",
+      "showcaseScreens": [
+        "qa/desktop-blood-cataclysm-charge-v3.png",
+        "qa/desktop-blood-cataclysm-eruption-v3.png",
+        "qa/desktop-blood-moonfall-combo-v3.png",
+        "qa/desktop-blood-moonfall-crescent-v3.png",
+        "qa/mobile-blood-cataclysm-charge-v3.png",
+        "qa/mobile-blood-cataclysm-eruption-v3.png",
+        "qa/mobile-blood-moonfall-combo-v3.png",
+        "qa/mobile-blood-moonfall-crescent-v3.png"
+      ],
+      "tiger": "NO_RUNNING_ASSET_HEAD_FROM_SOURCE_FRAME_4",
+      "swordContacts": [
+        {
+          "surface": "desktop",
+          "skill": "blood-dash",
+          "time": 0.64,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-dash",
+          "time": 0.64,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-dash",
+          "time": 0.99,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-echo",
+          "time": 0.68,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-echo",
+          "time": 0.68,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-echo",
+          "time": 1.04,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-echo",
+          "time": 1.4,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-echo",
+          "time": 1.76,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-frenzy",
+          "time": 0.56,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-frenzy",
+          "time": 0.56,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-frenzy",
+          "time": 0.82,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-frenzy",
+          "time": 1.08,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-frenzy",
+          "time": 1.34,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-frenzy",
+          "time": 1.6,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-frenzy",
+          "time": 1.86,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-frenzy",
+          "time": 2.16,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-execution",
+          "time": 0.62,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-execution",
+          "time": 0.62,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-execution",
+          "time": 0.88,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-execution",
+          "time": 1.14,
+          "distance": 2.3437142008433856e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-execution",
+          "time": 1.4,
+          "distance": 5.684341886080802e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-execution",
+          "time": 1.66,
+          "distance": 2.3437142008433856e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-execution",
+          "time": 1.92,
+          "distance": 5.684341886080802e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-execution",
+          "time": 2.18,
+          "distance": 5.684341886080802e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-execution",
+          "time": 2.44,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-execution",
+          "time": 2.7,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-execution",
+          "time": 3.05,
+          "distance": 2.3437142008433856e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-cataclysm",
+          "time": 1.68,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-cataclysm",
+          "time": 1.68,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-cataclysm",
+          "time": 1.68,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 0.68,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 0.68,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 0.88,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 1.08,
+          "distance": 5.684341886080802e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 1.28,
+          "distance": 2.3437142008433856e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 1.48,
+          "distance": 5.684341886080802e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 1.68,
+          "distance": 2.3437142008433856e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 1.88,
+          "distance": 5.684341886080802e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 2.08,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 2.28,
+          "distance": 2.2914314707516465e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 2.48,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 2.68,
+          "distance": 5.684341886080802e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 2.88,
+          "distance": 2.3437142008433856e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 3.62,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 0.88,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 1.28,
+          "distance": 2.3437142008433856e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 1.68,
+          "distance": 2.3437142008433856e-13
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 2.08,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 2.48,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "desktop",
+          "skill": "blood-moonfall",
+          "time": 2.88,
+          "distance": 2.3437142008433856e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-dash",
+          "time": 0.64,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-dash",
+          "time": 0.64,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-dash",
+          "time": 0.99,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-echo",
+          "time": 0.68,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-echo",
+          "time": 0.68,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-echo",
+          "time": 1.04,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-echo",
+          "time": 1.4,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-echo",
+          "time": 1.76,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-frenzy",
+          "time": 0.56,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-frenzy",
+          "time": 0.56,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-frenzy",
+          "time": 0.82,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-frenzy",
+          "time": 1.08,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-frenzy",
+          "time": 1.34,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-frenzy",
+          "time": 1.6,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-frenzy",
+          "time": 1.86,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-frenzy",
+          "time": 2.16,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-execution",
+          "time": 0.62,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-execution",
+          "time": 0.62,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-execution",
+          "time": 0.88,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-execution",
+          "time": 1.14,
+          "distance": 1.1368683772161603e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-execution",
+          "time": 1.4,
+          "distance": 1.6077746776921858e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-execution",
+          "time": 1.66,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-execution",
+          "time": 1.92,
+          "distance": 1.1368683772161603e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-execution",
+          "time": 2.18,
+          "distance": 1.6077746776921858e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-execution",
+          "time": 2.44,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-execution",
+          "time": 2.7,
+          "distance": 2.842170943040401e-14
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-execution",
+          "time": 3.05,
+          "distance": 1.6077746776921858e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-cataclysm",
+          "time": 1.68,
+          "distance": 1.1368683772161603e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-cataclysm",
+          "time": 1.68,
+          "distance": 1.1368683772161603e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-cataclysm",
+          "time": 1.68,
+          "distance": 1.1368683772161603e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 0.68,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 0.68,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 0.88,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 1.08,
+          "distance": 1.1368683772161603e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 1.28,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 1.48,
+          "distance": 1.6077746776921858e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 1.68,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 1.88,
+          "distance": 1.1368683772161603e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 2.08,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 2.28,
+          "distance": 1.1718571004216928e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 2.48,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 2.68,
+          "distance": 1.1368683772161603e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 2.88,
+          "distance": 1.6077746776921858e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 3.62,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 0.88,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 1.28,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 1.68,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 2.08,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 2.48,
+          "distance": 2.5421149729252077e-13
+        },
+        {
+          "surface": "mobile",
+          "skill": "blood-moonfall",
+          "time": 2.88,
+          "distance": 1.6077746776921858e-13
+        }
+      ],
+      "reference": {
+        "url": "https://youtu.be/vfBuylrhTFc",
+        "rate": 0.4,
+        "observedComboTimes": [
+          10.517788,
+          11.284559,
+          12.029405,
+          12.772752,
+          13.515689
+        ],
+        "observedShowcaseTimes": [
+          15.868783,
+          17.880249,
+          19.387065,
+          20.282383,
+          20.901127,
+          22.480493,
+          24.982514,
+          25.543128,
+          26.684021,
+          28.480305,
+          30.982933,
+          32.686583
+        ]
+      },
+      "originalEffectCellWarningsRetained": true,
+      "userApproval": false
+    },
+    "auraOpacityAdjustment": {
+      "status": "PASS_SCOPED_AURA_OPACITY_CHECK",
+      "report": "qa/aura-opacity-v4.json",
+      "screens": [
+        "qa/desktop-aura-soft-v4.png",
+        "qa/mobile-aura-soft-v4.png"
+      ]
+    },
+    "neonContourAdjustment": {
+      "status": "PASS_SCOPED_NEON_RIM_CHECK",
+      "report": "qa/neon-rim-v5.json",
+      "screens": [
+        "qa/desktop-neon-rim-v5.png",
+        "qa/mobile-neon-rim-v5.png"
+      ],
+      "visuallyInspected": true,
+      "userVisualApproval": false
+    },
+    "idleAuraAdjustment": {
+      "status": "PASS_SCOPED_IDLE_AURA_CHECK",
+      "report": "qa/idle-aura-v6.json",
+      "screens": [
+        "qa/desktop-idle-rest-v6.png",
+        "qa/desktop-idle-open-v6.png",
+        "qa/mobile-idle-rest-v6.png",
+        "qa/mobile-idle-open-v6.png",
+        "qa/desktop-idle-controls-v6.png",
+        "qa/mobile-idle-controls-v6.png",
+        "qa/idle-closeup-v6.png"
+      ],
+      "visuallyInspected": true,
+      "userVisualApproval": false
+    },
+    "idleAuraSilhouetteV7": {
+      "status": "PASS_SCOPED_V7_ASSET_ALIGNMENT_CHECK",
+      "report": "qa/idle-aura-v7.json",
+      "scope": "REAR_MOON_SHAPE_AND_CENTERING",
+      "screenshots": [
+        "qa/desktop-idle-rest-v7.png",
+        "qa/desktop-idle-open-v7.png",
+        "qa/mobile-idle-rest-v7.png",
+        "qa/mobile-idle-open-v7.png",
+        "qa/idle-closeup-v7.png"
+      ],
+      "visuallyInspected": true,
+      "userVisualApproval": false
+    }
+  },
+  "video": {
+    "path": "prime-requiem-showcase-v3.webm",
+    "sha256": "0417090EBBBBAC09E54845ADE0F9742307BE17912EF552B1D6D0B1300111E852",
+    "bytes": 1646533,
+    "source": "ACTUAL_V3_BROWSER_PLAYBACK",
+    "playbackSpeed": 2,
+    "skills": [
+      "blood-cataclysm",
+      "blood-moonfall"
+    ],
+    "includesUprightAuraLeadIn": true,
+    "audio": false
+  },
+  "archivedVideo": {
+    "path": "prime-requiem-five-skills.webm",
+    "revision": "SWORD_AURA_V2_BEFORE_UPRIGHT_MANTLE_CORRECTION",
+    "sha256": "2A3AE0C8097B1AF209B290AC8F9AA7223F7567EC55A24DA5B36676A222C1979C",
+    "bytes": 1683594
+  },
+  "idleVideo": {
+    "path": "prime-requiem-idle-v7.webm",
+    "sha256": "B1F10182BED51E700ABCE8B615125FAD3857DCD6DB10F2E93639F18A0676033C",
+    "bytes": 3462096,
+    "durationSeconds": 8.373894,
+    "width": 2492,
+    "height": 1356,
+    "source": "ACTUAL_V3_CANVAS_CAPTURE",
+    "audio": false,
+    "playbackVerified": true,
+    "report": "qa/idle-video-v7.json"
+  },
+  "archivedIdleVideo": {
+    "path": "prime-requiem-idle-v6.webm",
+    "sha256": "7AA7F741FFA53275D0959916FA9F297349B9CABD810839EAE2222898FC05D405",
+    "bytes": 4175148,
+    "durationSeconds": 8.468596,
+    "width": 2492,
+    "height": 1356,
+    "source": "ACTUAL_V3_CANVAS_CAPTURE",
+    "audio": false,
+    "playbackVerified": true
+  },
+  "liveApproval": {
+    "userVisualApproval": true,
+    "authority": "USER_EXPLICIT_20261021",
+    "record": "live-approval-20261021.json",
+    "balanceReference": "V-976",
+    "acquisitionEnabled": false,
+    "deploymentEnabled": true
+  }
+}

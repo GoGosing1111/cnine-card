@@ -1,0 +1,7 @@
+{
+  "status": "PASS_LOCAL_BROWSER_CONTROL_CHECK",
+  "showcaseButton": {"startedSkill":"blood-cataclysm","sequence":"showcase","finishedSkill":"blood-moonfall","sequenceAfterCompletion":false,"finishedPose":0},
+  "baseButton": {"startedSkill":"blood-dash","sequence":"base"},
+  "cancel": {"pose":0,"visibleAttackEffects":0,"registeredTimelines":0,"ownedTimelines":0},
+  "userVisualApproval":false
+}

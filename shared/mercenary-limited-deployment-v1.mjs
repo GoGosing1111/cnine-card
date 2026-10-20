@@ -1,3 +1,4 @@
+import {PRIME_CODE,primeDeploymentSnapshot} from './mercenary-prime-requiem-v1.mjs';
 import {ZERO_CODE,zeroDeploymentSnapshot} from './mercenary-zero-v1.mjs';
 import {LEONEL_CODE,leonelDeploymentSnapshot} from './mercenary-leonel-v1.mjs';
 import {BATHORY_CODE,bathoryDeploymentSnapshot} from './mercenary-bathory-v1.mjs';
@@ -17,6 +18,7 @@ import {KAIRON_CODE,kaironDeploymentSnapshot} from './mercenary-kairon-v1.mjs';
 // Artwork provenance, acquisition and pack release remain separate contracts.
 export const LIMITED_DEPLOYMENT_VERSION='20261012-helios-deployment-v1';
 export function limitedDeploymentSnapshot(code){
+ if(code===PRIME_CODE)return primeDeploymentSnapshot();
  if(code===ZERO_CODE)return zeroDeploymentSnapshot();
  if(code===BATHORY_CODE)return bathoryDeploymentSnapshot();
  if(code===LEONEL_CODE)return leonelDeploymentSnapshot();

@@ -1,0 +1,11 @@
+{
+  "name": "프라임 레퀴엠",
+  "grade": "SSS",
+  "limited": true,
+  "userInstruction": "SSS리미티드로 프라임 레퀴엠 이라고 명명하고",
+  "confirmed": true,
+  "scope": "NAME_AND_GRADE_ONLY",
+  "sourceArt": "B2D1C5DF8553370EC9FF90D72E27562C404C24DCECF33935BB74F0EDC13D2FDC",
+  "approvedBaseline": "8F4ACE03384289F09508368030DE3F7B4E7BF5C31BA63517674827921086604A",
+  "liveEnabled": false
+}
