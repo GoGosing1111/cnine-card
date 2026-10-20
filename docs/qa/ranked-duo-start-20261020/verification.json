@@ -1,0 +1,69 @@
+{
+  "verifiedAt": "2026-10-20T05:56:07.371Z",
+  "source": "a7c9a06f823a743bd8de8fa0b03dc9859a082c28",
+  "domainStatus": {
+    "readOnly": true,
+    "seasonId": "4e49efa4-7a36-4848-ac85-7ca6606b5b6f",
+    "status": "ACTIVE",
+    "entryMode": "RANKED_POOL",
+    "joined": true,
+    "hasSeasonRecord": false,
+    "energy": 10,
+    "existingEntries": 38,
+    "poolCount": 694
+  },
+  "matches": [
+    {
+      "status": "COMPLETED",
+      "count": 107
+    }
+  ],
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "ea06b25d71dd6fc9dd475e8354c377fe365d7ebe68dac3e27185f469eb7bd8fa",
+      "match": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "935836679badf45c1f2787d084fdb93ada40bf547894c719184cb787db720d0b",
+      "match": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "f0ba43f678342ca1b34e9f9b7861b75daf5e92eda086effe59de4f44e89cf567",
+      "match": true
+    },
+    {
+      "file": "js/ranked-duo-v1.mjs",
+      "status": 200,
+      "sha256": "2bdcca2fad953c3d6878fa567f7ad7764740805ef8486d3bf1137e2c5a376e5a",
+      "match": true
+    },
+    {
+      "file": "js/ranked-duo-random-v4.mjs",
+      "status": 200,
+      "sha256": "f1d93680f10d35b1b1864cc884432afa47be3df9269e0aa0617baba9b5ff0abb",
+      "match": true
+    },
+    {
+      "file": "shared/ranked-duo-random-v4.mjs",
+      "status": 200,
+      "sha256": "a083cc7c98da42d7880dc01bea47fd10d60392f58383e4add6f0f0d945ba7064",
+      "match": true
+    }
+  ],
+  "publicStatus": {
+    "kind": "RANKED_DUO",
+    "phase": "ACTIVE",
+    "additionalRecruiting": false,
+    "entityId": "4e49efa4-7a36-4848-ac85-7ca6606b5b6f",
+    "title": "랭크 듀오 시즌 5",
+    "detail": "상시 랜덤 2대2 · 랭크전 덱으로 바로 출전",
+    "deadlineAt": "2026-10-27T05:39:18.892Z",
+    "sortOrder": 0
+  }
+}

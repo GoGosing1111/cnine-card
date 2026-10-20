@@ -1,0 +1,138 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"e83df6f9ade4a0cf20bdd908fdc07e46a05d9f34","reason":"Fix ranked duo start on cached clients using backward-compatible open-pool status and explicit start label; validate only duo regressions and worker.","changed":["AGENTS.md","docs/qa/rank-exp-potion-distribution-20261020/production.json","docs/qa/rank-exp-potion-distribution-20261020/scoped-deploy.log","docs/qa/ranked-duo-start-20261020/battle-1440.png","docs/qa/ranked-duo-start-20261020/battle-390.png","docs/qa/ranked-duo-start-20261020/browser.json","docs/qa/ranked-duo-start-20261020/result-1440.png","docs/qa/ranked-duo-start-20261020/result-390.png","docs/qa/ranked-duo-start-20261020/start-cached-1440.png","docs/qa/ranked-duo-start-20261020/start-cached-390.png","docs/qa/ranked-duo-start-20261020/start-current-1440.png","docs/qa/ranked-duo-start-20261020/start-current-390.png","docs/rank-exp-potion-distribution-20261020.md","docs/ranked-duo-start-20261020.md","functions/_ranked_duo.js","index.html","js/app.js","js/ranked-duo-random-v4.mjs","js/ranked-duo-v1.mjs","scripts/ops/equipment-power-20261020.mjs","service-worker.js","tests/equipment-power-20261020.test.mjs","tests/ranked-duo-open-pool-20261020.browser.mjs","tests/ranked-duo-open-pool-20261020.test.mjs","tests/ranked-duo-start-20261020.browser.mjs"],"tests":["tests/ranked-duo-open-pool-20261020.test.mjs","tests/ranked-duo-random-20261020.test.mjs"],"checks":["check:worker"]}
+✔ SQLite no enrollment: all ranked decks can fight and only the initiator gains a record (109.7384ms)
+✔ true no enrollment: all ranked decks can fight and only the initiator gains a record (2240.2205ms)
+✔ pipeline no enrollment: all ranked decks can fight and only the initiator gains a record (1821.2301ms)
+✔ SQLite expiry opens the next week immediately while old rewards settle independently (71.839ms)
+✔ pipeline expiry opens the next week immediately while old rewards settle independently (1808.8161ms)
+✔ simultaneous first matches create one personal row and one ticket (1838.9494ms)
+✔ concurrent rollover creates one active season and retains the old receipt (1584.7431ms)
+✔ invalid saved decks, restricted accounts and owner never enter the global pool (46.0923ms)
+✔ offline deck changes invalidate a ticket without debiting the requester (30.8203ms)
+✔ automatic operation OFF does not reopen a season (12.713ms)
+✔ the former recruitment capacity cannot prevent a new player from matching (23.9972ms)
+✔ a manually configured open season starts without a recruitment or pairing step (24.0388ms)
+✔ the global pool includes late saved decks and excludes deleted decks without enrollment (18.6964ms)
+✔ new weekly policies use random matchmaking; unversioned season configurations remain legacy (11.9835ms)
+✔ SQLite random four-player fight changes only the initiator and replays exactly once (123.7694ms)
+✔ true random four-player fight changes only the initiator and replays exactly once (2463.9414ms)
+✔ pipeline random four-player fight changes only the initiator and replays exactly once (1962.8886ms)
+✔ odd participants and late entries are usable immediately; active cancellation cannot reset points (58.6178ms)
+✔ recruitment cancellation is atomic, and fewer than four participants never consume energy (31.0292ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:265:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:323:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:351:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/ranked-duo-random-20261020.test.mjs:65:48)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ SQLite a failed personal settlement is recovered with one debit and one reward (58.6078ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at Object.query (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:41:177)
+    at PostgresD1Database.batchPipelined (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_postgres_d1_compat.js:882:31)
+    at async file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_postgres_d1_compat.js:905:27
+✔ pipeline a failed personal settlement is recovered with one debit and one reward (1784.2387ms)
+✔ simultaneous tickets and duplicate fight requests retain one roster and receipt (2052.5921ms)
+✔ invalidated offline decks and banned accounts reject a ticket without charging (44.2601ms)
+✔ inventory and season fences roll back ticket, energy, membership and receipt together (40.1704ms)
+✔ SQLite season settlement ranks and rewards only completed personal starts; OFF stays OFF (59.5658ms)
+✔ pipeline season settlement ranks and rewards only completed personal starts; OFF stays OFF (1638.9393ms)
+✔ matchmaking work stays bounded and random trials can choose all available partners (145.8723ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:265:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:323:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:351:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/ranked-duo-random-20261020.test.mjs:121:51)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ pending receipts settle after closure with the original roster and immutable combat snapshot (51.3553ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:265:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:323:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:351:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/ranked-duo-random-20261020.test.mjs:133:51)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+[ranked-duo simulation cancelled] 20a43789-fd9e-4229-9054-36a58ce45a67 전투 기준이 변경됐습니다.
+✔ unsupported random combat receipts refund once without changing anyone's points (40.124ms)
+✔ banning a participant between profile loading and admission rolls back all four memberships (30.5248ms)
+✔ two initiators sharing a roster accumulate independent personal results (1386.1392ms)
+✔ a random season with no personal starts has no final rewards or trophies (46.2488ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12375.1949
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 5006 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7894.04 KiB / gzip: 1705.77 KiB
+Worker Startup Time: 57 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (3.99 sec)
+No targets deployed for cnine-card-api-runtime (0.52 sec)
+Current Version ID: 09fdbacf-7395-4042-87b5-83d1c6b8f456
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19992/20000)
+Uploading... (19994/20000)
+Uploading... (19997/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 8 files (19992 already uploaded) (2.77 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://49b0073b.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2728.87 KiB / gzip: 622.24 KiB
+Worker Startup Time: 40 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.07 sec)
+Deployed cnine-card-clan-draft triggers (0.97 sec)
+  schedule: * * * * *
+Current Version ID: dcf257b2-78da-4ba3-8a86-b118ee18a949
