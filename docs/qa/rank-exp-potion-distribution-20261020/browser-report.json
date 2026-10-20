@@ -1,0 +1,56 @@
+{
+  "status": "PASSED",
+  "scope": "Real CMS with isolated API responses",
+  "reports": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "coupon": {
+        "code": "EXP2-UI-QA",
+        "rewardType": "RANK_EXP_POTION_2X_60M",
+        "rewardAmount": 2,
+        "maxUses": 100
+      },
+      "grant": {
+        "userId": 1,
+        "action": "INVENTORY",
+        "itemCode": "RANK_EXP_POTION_2X_60M",
+        "amount": 3,
+        "reason": "경험치 물약 검수 지급",
+        "requestId": "994f264e-f638-4ac1-bc3e-72648bebe885"
+      },
+      "grantRequests": 2,
+      "retryKeyPreserved": true,
+      "mobileAccountEntry": null,
+      "artLoaded": true,
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "coupon": {
+        "code": "EXP2-UI-QA",
+        "rewardType": "RANK_EXP_POTION_2X_60M",
+        "rewardAmount": 2,
+        "maxUses": 100
+      },
+      "grant": {
+        "userId": 1,
+        "action": "INVENTORY",
+        "itemCode": "RANK_EXP_POTION_2X_60M",
+        "amount": 3,
+        "reason": "경험치 물약 검수 지급",
+        "requestId": "a0ca503a-a32f-4980-975f-db0a3d7f067e"
+      },
+      "grantRequests": 1,
+      "retryKeyPreserved": null,
+      "mobileAccountEntry": "keyboard (existing sticky sidebar overlap)",
+      "artLoaded": true,
+      "overflow": false,
+      "errors": []
+    }
+  ]
+}

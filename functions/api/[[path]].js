@@ -130,6 +130,7 @@ import {TOURNAMENT_GIFT,ensureTournamentGiftCatalog,openTournamentGift,grantTour
 import {ensureFundingGiftCatalog,openFundingGift,grantFundingGift} from '../_funding_gift.js';
 import {ensureRecruitmentGiftCatalog,openRecruitmentGift,grantRecruitmentGift} from '../_recruitment_gift.js';
 import {ensurePingduThanksGiftCatalog,openPingduThanksGift,grantPingduThanksGift} from '../_pingdu_thanks_gift.js';
+import {grantRankExpPotion,redeemRankExpPotionCoupon} from '../_rank_exp_potion_grant.js';
 import {isForgeTicketGrant,grantForgeTickets} from '../_admin_forge_ticket_grant.js';
 import { EMPEROR_ENERGY_ITEM, ensureEmperorEnergyCatalog } from '../_emperor_energy.js';
 import { readRuntimeData, cacheRuntimeData } from '../_runtime_data_cache.js';
@@ -592,8 +593,8 @@ function presentMessageReward(message){
   const spec=verifiedMessageRewardSpec(message.reward_type),amount=Number(message.reward_amount);
   return {...message,reward_type:spec?.type||message.reward_type,reward_label:spec?.label||'',reward_icon:spec?.icon||'🎁',reward_supported:Boolean(spec&&Number.isSafeInteger(amount)&&amount>0)};
 }
-const COUPON_REWARD_MAX={COIN:30000000000,MASTER_STAR:1000000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_OLD_AXE:100000,PINGDU_BAEMIN_TICKET:100000,MIRACLE_CUBE:100000};
-function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='PINGDU_BAEMIN_TICKET'?{type,label:'핑두의 배민권',inventory:true}:type==='MIRACLE_CUBE'?{type,label:'미라클 큐브',inventory:true}:type==='PINGDU_OLD_AXE'?{type,label:'낡은도끼',inventory:true}:verifiedMessageRewardSpec(type);return spec&&!spec.messageOnly?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
+const COUPON_REWARD_MAX={RANK_EXP_POTION_2X_60M:9999,COIN:30000000000,MASTER_STAR:1000000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_OLD_AXE:100000,PINGDU_BAEMIN_TICKET:100000,MIRACLE_CUBE:100000};
+function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='RANK_EXP_POTION_2X_60M'?{type,label:'계급 경험치 2배 물약 (60분)',inventory:true}:type==='PINGDU_BAEMIN_TICKET'?{type,label:'핑두의 배민권',inventory:true}:type==='MIRACLE_CUBE'?{type,label:'미라클 큐브',inventory:true}:type==='PINGDU_OLD_AXE'?{type,label:'낡은도끼',inventory:true}:verifiedMessageRewardSpec(type);return spec&&!spec.messageOnly?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
 let verifiedRewardMessageV1276ReadyPromise=null;
 async function ensureVerifiedRewardMessageV1276(env){
   if(verifiedRewardMessageV1276ReadyPromise)return verifiedRewardMessageV1276ReadyPromise;
@@ -7601,6 +7602,7 @@ async function handleRequest(context){
       const landCoupon=await redeemLandCoupon({env,user,body:payload,deps:{json,profile,isRandomDrawExcluded}});if(landCoupon)return landCoupon;
       const coupon=await env.DB.prepare(`SELECT * FROM coupons WHERE code=?`).bind(code).first();
       if(!coupon) return json({error:'존재하지 않거나 삭제된 쿠폰입니다.'},404);
+      if(String(coupon.reward_type||'').toUpperCase()==='RANK_EXP_POTION_2X_60M')return redeemRankExpPotionCoupon({env,user,coupon,body:payload,deps:{json,profile}});
       if(String(coupon.reward_type||'').toUpperCase()==='MIRACLE_CUBE')return redeemMiracleCubeCoupon({env,user,coupon,body:payload,deps:{json,profile}});
       if(String(coupon.reward_type||'').toUpperCase()==='PINGDU_BAEMIN_TICKET')return redeemChickenTicketCoupon({env,user,coupon,body:payload,deps:{json,profile}});
       const wishCoupon=await redeemWishTicketCoupon({env,user,coupon,body:payload,deps:{json,profile}});if(wishCoupon)return wishCoupon;
@@ -8041,6 +8043,7 @@ async function handleRequest(context){
       if(rewardType==='MIRACLE_CUBE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureMiracleCubeCatalog(env)}
       if(rewardType==='PINGDU_BAEMIN_TICKET'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);const ticket=await env.DB.prepare('SELECT is_active FROM inventory_items WHERE code=?').bind('PINGDU_BAEMIN_TICKET').first();if(Number(ticket?.is_active)!==1)return json({error:'핑두의 배민권 지급이 준비되지 않았거나 중지되어 있습니다.'},409)}
       if(rewardType==='PINGDU_OLD_AXE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureGoldenAxe(env)}
+      if(rewardType==='RANK_EXP_POTION_2X_60M'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);const item=await env.DB.prepare('SELECT is_active FROM inventory_items WHERE code=?').bind(rewardType).first();if(Number(item?.is_active)!==1)return json({error:'경험치 2배 물약 지급이 준비되지 않았거나 중지되어 있습니다.'},409)}
       await releaseDeletedCouponCode(env,code,admin.id);
       const exists=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
       if(exists)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
@@ -8069,13 +8072,14 @@ async function handleRequest(context){
         if(rewardType==='PINGDU_BAEMIN_TICKET'&&!canIssueChickenTicketCoupon(admin))return json({error:'핑두의 배민권 쿠폰은 핑크빛유두 계정만 발급할 수 있습니다.',code:'CHICKEN_COUPON_OPERATOR_ONLY'},403);
         if(rewardType==='MIRACLE_CUBE'&&!canIssueMiracleCubeCoupon(admin))return json({error:'미라클 큐브 쿠폰은 OWNER 핑크빛유두 계정만 발행할 수 있습니다.',code:'MIRACLE_CUBE_COUPON_OPERATOR_ONLY'},403);
         if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
-        if(!spec||!['COIN','MASTER_STAR','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET','PINGDU_OLD_AXE','PINGDU_BAEMIN_TICKET','MIRACLE_CUBE'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
+        if(!spec||!['COIN','MASTER_STAR','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET','PINGDU_OLD_AXE','PINGDU_BAEMIN_TICKET','MIRACLE_CUBE','RANK_EXP_POTION_2X_60M'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
         if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>Number(spec.max||10000000))return json({error:'쿠폰 보상 수량을 확인하세요.'},400);
         if(!Number.isInteger(max)||max<1||max>1000000)return json({error:'총 사용 한도를 확인하세요.'},400);
         if(rewardType==='MIRACLE_CUBE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureMiracleCubeCatalog(env)}
         if(rewardType==='PINGDU_BAEMIN_TICKET'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);const ticket=await env.DB.prepare('SELECT is_active FROM inventory_items WHERE code=?').bind('PINGDU_BAEMIN_TICKET').first();if(Number(ticket?.is_active)!==1)return json({error:'핑두의 배민권 지급이 준비되지 않았거나 중지되어 있습니다.'},409)}
       if(rewardType==='PINGDU_OLD_AXE'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);await ensureGoldenAxe(env)}
-        await releaseDeletedCouponCode(env,code,admin.id);
+        if(rewardType==='RANK_EXP_POTION_2X_60M'){if(code.startsWith('SLD-'))return json({error:'SLD-는 리버스랜드 전용 접두어입니다. 다른 쿠폰 코드를 입력하세요.'},400);const item=await env.DB.prepare('SELECT is_active FROM inventory_items WHERE code=?').bind(rewardType).first();if(Number(item?.is_active)!==1)return json({error:'경험치 2배 물약 지급이 준비되지 않았거나 중지되어 있습니다.'},409)}
+      await releaseDeletedCouponCode(env,code,admin.id);
         const before=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
         if(before)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
         try{
@@ -8280,6 +8284,7 @@ async function handleRequest(context){
           try{return json(await withJointUserMutationLock(env,userId,'admin/forge-tickets/grant',()=>grantForgeTickets(env,admin,{userId,itemCode,amount,reason:p.reason,requestId:p.requestId})));}
           catch(error){return json({error:error.status?error.message:'지급 결과를 확인하지 못했습니다. 같은 내용으로 다시 시도하세요.'},error.status||409);}
         }
+        if(itemCode==='RANK_EXP_POTION_2X_60M'){try{return json(await withJointUserMutationLock(env,userId,'admin/rank-exp-potion/grant',()=>grantRankExpPotion(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급 결과를 확인하지 못했습니다. 같은 내용으로 다시 시도하세요.'},error.status||409);}}
         if(itemCode==='WORM_CONTEST_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/worm-contest-gift/grant',()=>grantWormContestGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='FUNDING_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/funding-gift/grant',()=>grantFundingGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
         if(itemCode==='PINGDU_THANKS_GIFT_BOX'){try{return json(await withJointUserMutationLock(env,userId,'admin/pingdu-thanks-gift/grant',()=>grantPingduThanksGift(env,admin,{userId,amount,reason:p.reason,requestId:p.requestId})));}catch(error){return json({error:error.status?error.message:'지급을 완료하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||409);}}
