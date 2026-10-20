@@ -1,0 +1,407 @@
+{
+  "scope": "CONTROLLED_SIMULATIONS_NOT_REPORTED_PLAYER_BATTLE",
+  "checkedAt": "2026-10-20T16:14:52.150Z",
+  "liveConfigurationAt": "2026-10-20T16:07:26.410Z",
+  "counterfactual": "disable Bathory-only pveSkillMinimumDamage in an in-memory module; no source or operational changes",
+  "conditions": {
+    "cooperative": "fixture ICON +13 balanced cards, card gear 2300000, identical first squad, live combat/growth policies, no personal mercenary equipment",
+    "apocalypse": "ordinary cards each 2000000, boss id75 with synthetic 120000000 power / 1200% HP; not live encounter reproduction"
+  },
+  "coopParity": 8,
+  "pvpParity": 2,
+  "cases": [
+    {
+      "mode": "COOPERATIVE_EXTREME",
+      "stage": "V3_ALL_WAVES",
+      "code": "V-977",
+      "level": 1,
+      "floorRemovalIdentical": true,
+      "casts": 26,
+      "hits": 26,
+      "maxHit": 365370121,
+      "firstHits": [
+        {
+          "damage": 18982734,
+          "absorbed": 0,
+          "targetId": "B:1:COOP3:1:WATCHER",
+          "targetMaxHp": 112266000,
+          "targetHpAfter": 0
+        },
+        {
+          "damage": 57380400,
+          "absorbed": 0,
+          "targetId": "B:0:COOP3:1:STALKER",
+          "targetMaxHp": 124740000,
+          "targetHpAfter": 24936920
+        },
+        {
+          "damage": 24936920,
+          "absorbed": 0,
+          "targetId": "B:0:COOP3:1:STALKER",
+          "targetMaxHp": 124740000,
+          "targetHpAfter": 0
+        }
+      ],
+      "totalDamage": 4917536942
+    },
+    {
+      "mode": "COOPERATIVE_EXTREME",
+      "stage": "ISOLATED_FINAL_BOSS",
+      "code": "V-977",
+      "level": 1,
+      "floorRemovalIdentical": true,
+      "casts": 11,
+      "hits": 11,
+      "maxHit": 283005262,
+      "firstHits": [
+        {
+          "damage": 173981789,
+          "absorbed": 0,
+          "targetId": "B:0:MONSTER:COOP_ARKE",
+          "targetMaxHp": 5677320000,
+          "targetHpAfter": 5307282260
+        },
+        {
+          "damage": 176964221,
+          "absorbed": 0,
+          "targetId": "B:0:MONSTER:COOP_ARKE",
+          "targetMaxHp": 5677320000,
+          "targetHpAfter": 5130318039
+        },
+        {
+          "damage": 178771667,
+          "absorbed": 0,
+          "targetId": "B:0:MONSTER:COOP_ARKE",
+          "targetMaxHp": 5677320000,
+          "targetHpAfter": 4951546372
+        }
+      ],
+      "totalDamage": 2007653988
+    },
+    {
+      "mode": "COOPERATIVE_EXTREME",
+      "stage": "V3_ALL_WAVES",
+      "code": "V-977",
+      "level": 10,
+      "floorRemovalIdentical": true,
+      "casts": 9,
+      "hits": 9,
+      "maxHit": 1061225585,
+      "firstHits": [
+        {
+          "damage": 50207850,
+          "absorbed": 0,
+          "targetId": "B:2:COOP3:1:IRONHOUND",
+          "targetMaxHp": 109147500,
+          "targetHpAfter": 43684726
+        },
+        {
+          "damage": 43684726,
+          "absorbed": 0,
+          "targetId": "B:2:COOP3:1:IRONHOUND",
+          "targetMaxHp": 109147500,
+          "targetHpAfter": 0
+        },
+        {
+          "damage": 246818348,
+          "absorbed": 236315439,
+          "targetId": "B:1:COOP3:2:BASTION",
+          "targetMaxHp": 1312863552,
+          "targetHpAfter": 1066045204
+        }
+      ],
+      "totalDamage": 4666300315
+    },
+    {
+      "mode": "COOPERATIVE_EXTREME",
+      "stage": "ISOLATED_FINAL_BOSS",
+      "code": "V-977",
+      "level": 10,
+      "floorRemovalIdentical": true,
+      "casts": 5,
+      "hits": 5,
+      "maxHit": 1140545058,
+      "firstHits": [
+        {
+          "damage": 872051643,
+          "absorbed": 0,
+          "targetId": "B:0:MONSTER:COOP_ARKE",
+          "targetMaxHp": 5677320000,
+          "targetHpAfter": 3906842932
+        },
+        {
+          "damage": 936029535,
+          "absorbed": 0,
+          "targetId": "B:0:MONSTER:COOP_ARKE",
+          "targetMaxHp": 5677320000,
+          "targetHpAfter": 2970813397
+        },
+        {
+          "damage": 997962809,
+          "absorbed": 0,
+          "targetId": "B:0:MONSTER:COOP_ARKE",
+          "targetMaxHp": 5677320000,
+          "targetHpAfter": 1972850588
+        }
+      ],
+      "totalDamage": 4008440942
+    },
+    {
+      "mode": "COOPERATIVE_EXTREME",
+      "stage": "V3_ALL_WAVES",
+      "code": "V-989",
+      "level": 1,
+      "floorRemovalIdentical": true,
+      "casts": 11,
+      "hits": 13,
+      "maxHit": 307594930,
+      "firstHits": [
+        {
+          "damage": 57380400,
+          "absorbed": 0,
+          "targetId": "B:0:COOP3:1:STALKER",
+          "targetMaxHp": 124740000,
+          "targetHpAfter": 24936920
+        },
+        {
+          "damage": 18982734,
+          "absorbed": 0,
+          "targetId": "B:1:COOP3:1:WATCHER",
+          "targetMaxHp": 112266000,
+          "targetHpAfter": 0
+        },
+        {
+          "damage": 50207850,
+          "absorbed": 0,
+          "targetId": "B:2:COOP3:1:IRONHOUND",
+          "targetMaxHp": 109147500,
+          "targetHpAfter": 46060245
+        }
+      ],
+      "totalDamage": 2187592474
+    },
+    {
+      "mode": "COOPERATIVE_EXTREME",
+      "stage": "ISOLATED_FINAL_BOSS",
+      "code": "V-989",
+      "level": 1,
+      "floorRemovalIdentical": true,
+      "casts": 7,
+      "hits": 7,
+      "maxHit": 285504529,
+      "firstHits": [
+        {
+          "damage": 206975826,
+          "absorbed": 0,
+          "targetId": "B:0:MONSTER:COOP_ARKE",
+          "targetMaxHp": 5677320000,
+          "targetHpAfter": 5274288223
+        },
+        {
+          "damage": 203769049,
+          "absorbed": 0,
+          "targetId": "B:0:MONSTER:COOP_ARKE",
+          "targetMaxHp": 5677320000,
+          "targetHpAfter": 4763426556
+        },
+        {
+          "damage": 203552931,
+          "absorbed": 0,
+          "targetId": "B:0:MONSTER:COOP_ARKE",
+          "targetMaxHp": 5677320000,
+          "targetHpAfter": 3837577985
+        }
+      ],
+      "totalDamage": 1540557314
+    },
+    {
+      "mode": "COOPERATIVE_EXTREME",
+      "stage": "V3_ALL_WAVES",
+      "code": "V-989",
+      "level": 10,
+      "floorRemovalIdentical": true,
+      "casts": 3,
+      "hits": 3,
+      "maxHit": 898221805,
+      "firstHits": [
+        {
+          "damage": 50207850,
+          "absorbed": 0,
+          "targetId": "B:2:COOP3:1:IRONHOUND",
+          "targetMaxHp": 109147500,
+          "targetHpAfter": 43684726
+        },
+        {
+          "damage": 489650670,
+          "absorbed": 0,
+          "targetId": "B:1:COOP3:2:BASTION",
+          "targetMaxHp": 1312863552,
+          "targetHpAfter": 0
+        },
+        {
+          "damage": 898221805,
+          "absorbed": 0,
+          "targetId": "B:1:COOP3:3:ARKE",
+          "targetMaxHp": 5677320000,
+          "targetHpAfter": 2144707904
+        }
+      ],
+      "totalDamage": 1438080325
+    },
+    {
+      "mode": "COOPERATIVE_EXTREME",
+      "stage": "ISOLATED_FINAL_BOSS",
+      "code": "V-989",
+      "level": 10,
+      "floorRemovalIdentical": true,
+      "casts": 2,
+      "hits": 2,
+      "maxHit": 977960774,
+      "firstHits": [
+        {
+          "damage": 977960774,
+          "absorbed": 0,
+          "targetId": "B:0:MONSTER:COOP_ARKE",
+          "targetMaxHp": 5677320000,
+          "targetHpAfter": 3800933801
+        },
+        {
+          "damage": 962808750,
+          "absorbed": 0,
+          "targetId": "B:0:MONSTER:COOP_ARKE",
+          "targetMaxHp": 5677320000,
+          "targetHpAfter": 1440835544
+        }
+      ],
+      "totalDamage": 1940769524
+    },
+    {
+      "mode": "APOCALYPSE_CONTROLLED_HP",
+      "code": "V-977",
+      "level": 1,
+      "monsterHp": 4007520000,
+      "original": {
+        "casts": 28,
+        "hits": 28,
+        "maxHit": 365764444,
+        "firstHits": [
+          {
+            "damage": 10200960,
+            "absorbed": 0,
+            "targetId": "B:1:ESCORT:75:0",
+            "targetMaxHp": 22176000,
+            "targetHpAfter": 11679529
+          },
+          {
+            "damage": 10200960,
+            "absorbed": 0,
+            "targetId": "B:1:ESCORT:75:0",
+            "targetMaxHp": 22176000,
+            "targetHpAfter": 1478569
+          },
+          {
+            "damage": 1478569,
+            "absorbed": 0,
+            "targetId": "B:1:ESCORT:75:0",
+            "targetMaxHp": 22176000,
+            "targetHpAfter": 0
+          }
+        ],
+        "totalDamage": 3810767050
+      },
+      "floorDisabled": {
+        "casts": 58,
+        "hits": 58,
+        "maxHit": 120159870,
+        "firstHits": [
+          {
+            "damage": 10200960,
+            "absorbed": 0,
+            "targetId": "B:1:ESCORT:75:0",
+            "targetMaxHp": 22176000,
+            "targetHpAfter": 11679529
+          },
+          {
+            "damage": 10200960,
+            "absorbed": 0,
+            "targetId": "B:1:ESCORT:75:0",
+            "targetMaxHp": 22176000,
+            "targetHpAfter": 1478569
+          },
+          {
+            "damage": 1478569,
+            "absorbed": 0,
+            "targetId": "B:1:ESCORT:75:0",
+            "targetMaxHp": 22176000,
+            "targetHpAfter": 0
+          }
+        ],
+        "totalDamage": 3195211978
+      }
+    },
+    {
+      "mode": "APOCALYPSE_CONTROLLED_HP",
+      "code": "V-977",
+      "level": 10,
+      "monsterHp": 4007520000,
+      "original": {
+        "casts": 24,
+        "hits": 24,
+        "maxHit": 533742310,
+        "firstHits": [
+          {
+            "damage": 10200960,
+            "absorbed": 0,
+            "targetId": "B:1:ESCORT:75:0",
+            "targetMaxHp": 22176000,
+            "targetHpAfter": 11679529
+          },
+          {
+            "damage": 10200960,
+            "absorbed": 0,
+            "targetId": "B:1:ESCORT:75:0",
+            "targetMaxHp": 22176000,
+            "targetHpAfter": 1478569
+          },
+          {
+            "damage": 1478569,
+            "absorbed": 0,
+            "targetId": "B:1:ESCORT:75:0",
+            "targetMaxHp": 22176000,
+            "targetHpAfter": 0
+          }
+        ],
+        "totalDamage": 3885201471
+      },
+      "floorDisabled": {
+        "casts": 24,
+        "hits": 24,
+        "maxHit": 533180578,
+        "firstHits": [
+          {
+            "damage": 10200960,
+            "absorbed": 0,
+            "targetId": "B:1:ESCORT:75:0",
+            "targetMaxHp": 22176000,
+            "targetHpAfter": 11679529
+          },
+          {
+            "damage": 10200960,
+            "absorbed": 0,
+            "targetId": "B:1:ESCORT:75:0",
+            "targetMaxHp": 22176000,
+            "targetHpAfter": 1478569
+          },
+          {
+            "damage": 1478569,
+            "absorbed": 0,
+            "targetId": "B:1:ESCORT:75:0",
+            "targetMaxHp": 22176000,
+            "targetHpAfter": 0
+          }
+        ],
+        "totalDamage": 3885201471
+      }
+    }
+  ]
+}

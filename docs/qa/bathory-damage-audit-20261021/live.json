@@ -1,0 +1,418 @@
+{
+  "readOnly": true,
+  "checkedAt": "2026-10-20T16:07:26.410Z",
+  "runtime": {
+    "revision": 1,
+    "combat": {
+      "energyMax": 100,
+      "energyPerBasic": 10,
+      "windupTurns": 1,
+      "statusTurns": 2,
+      "armorReductionPercent": 20,
+      "interceptPercent": 40,
+      "parryPercent": 40,
+      "orderPercent": 15,
+      "veilPercent": 25,
+      "finisherHpPercent": 30,
+      "finisherBonusPercent": 50,
+      "focusBonusPercent": 40,
+      "poisonPercent": 40,
+      "restraintHits": 2,
+      "restraintPercent": 25,
+      "suppressGauge": 20,
+      "reloadGauge": 20,
+      "powerGrowthPercentPerLevel": 0
+    }
+  },
+  "growth": {
+    "version": "mercenary-level-20261015-v2",
+    "revision": 1,
+    "mode": "ON",
+    "growth": {
+      "version": "mercenary-growth-v2-20261015",
+      "perLevel": {
+        "hpPercent": 25,
+        "attackPercent": 25,
+        "defensePercent": 6,
+        "speedPercent": 1
+      },
+      "milestones": [
+        {
+          "level": 5,
+          "hpPercent": 100,
+          "attackPercent": 125,
+          "defensePercent": 15,
+          "speedPercent": 2,
+          "skillPowerPercent": 5,
+          "mitigationBypassPercent": 12.5,
+          "actionCatchupPercent": 10,
+          "actionCreditPercent": 10
+        },
+        {
+          "level": 10,
+          "hpPercent": 100,
+          "attackPercent": 125,
+          "defensePercent": 15,
+          "speedPercent": 2,
+          "skillPowerPercent": 5,
+          "mitigationBypassPercent": 12.5,
+          "actionCatchupPercent": 15,
+          "actionCreditPercent": 15
+        },
+        {
+          "level": 15,
+          "hpPercent": 100,
+          "attackPercent": 125,
+          "defensePercent": 15,
+          "speedPercent": 2,
+          "skillPowerPercent": 5,
+          "mitigationBypassPercent": 12.5,
+          "actionCatchupPercent": 20,
+          "actionCreditPercent": 20
+        },
+        {
+          "level": 20,
+          "hpPercent": 100,
+          "attackPercent": 125,
+          "defensePercent": 15,
+          "speedPercent": 2,
+          "skillPowerPercent": 5,
+          "mitigationBypassPercent": 12.5,
+          "actionCatchupPercent": 25,
+          "actionCreditPercent": 30
+        }
+      ]
+    },
+    "sameCardMultiplier": 3,
+    "xpPerCard": {
+      "C": 100,
+      "B": 100,
+      "A": 100,
+      "S": 100,
+      "SS": 100,
+      "SSS": 100
+    },
+    "levels": [
+      {
+        "level": 1,
+        "requiredXp": 750
+      },
+      {
+        "level": 2,
+        "requiredXp": 900
+      },
+      {
+        "level": 3,
+        "requiredXp": 1050
+      },
+      {
+        "level": 4,
+        "requiredXp": 1200
+      },
+      {
+        "level": 5,
+        "requiredXp": 1350
+      },
+      {
+        "level": 6,
+        "requiredXp": 1500
+      },
+      {
+        "level": 7,
+        "requiredXp": 1650
+      },
+      {
+        "level": 8,
+        "requiredXp": 1800
+      },
+      {
+        "level": 9,
+        "requiredXp": 1950
+      },
+      {
+        "level": 10,
+        "requiredXp": 2100
+      },
+      {
+        "level": 11,
+        "requiredXp": 2250
+      },
+      {
+        "level": 12,
+        "requiredXp": 2400
+      },
+      {
+        "level": 13,
+        "requiredXp": 2550
+      },
+      {
+        "level": 14,
+        "requiredXp": 2700
+      },
+      {
+        "level": 15,
+        "requiredXp": 2850
+      },
+      {
+        "level": 16,
+        "requiredXp": 3000
+      },
+      {
+        "level": 17,
+        "requiredXp": 3150
+      },
+      {
+        "level": 18,
+        "requiredXp": 3300
+      },
+      {
+        "level": 19,
+        "requiredXp": 3450
+      },
+      {
+        "level": 20,
+        "requiredXp": 3600
+      }
+    ],
+    "milestones": [
+      {
+        "level": 5,
+        "successChancePpm": 100000,
+        "bonus": {
+          "type": null,
+          "value": null
+        }
+      },
+      {
+        "level": 10,
+        "successChancePpm": 100000,
+        "bonus": {
+          "type": null,
+          "value": null
+        }
+      },
+      {
+        "level": 15,
+        "successChancePpm": 100000,
+        "bonus": {
+          "type": null,
+          "value": null
+        }
+      },
+      {
+        "level": 20,
+        "successChancePpm": 100000,
+        "bonus": {
+          "type": null,
+          "value": null
+        }
+      }
+    ]
+  },
+  "cooperative": {
+    "revision": 9,
+    "encounterVersion": 3,
+    "combat": {
+      "lobbySeconds": 900,
+      "maxBattleSeconds": 180,
+      "patterns": {
+        "firstSeconds": 10,
+        "intervalSeconds": 30,
+        "count": 6,
+        "rupturePercent": 8
+      },
+      "stages": [
+        {
+          "wave": 1,
+          "name": "제련소 외곽",
+          "hint": "서로 다른 몬스터 3종을 격파하세요. 방벽·독·약화에 대응할 조합을 준비하세요."
+        },
+        {
+          "wave": 2,
+          "name": "노심 관문",
+          "hint": "준보스의 특성을 확인하고 방벽 파괴·약화·보호·회복 효과를 연결하세요."
+        },
+        {
+          "wave": 3,
+          "name": "심층 노심",
+          "hint": "최종 보스를 제한 시간 안에 격파하세요. 전투는 편성한 스킬로 자동 진행됩니다."
+        }
+      ],
+      "difficulties": [
+        {
+          "id": "NORMAL",
+          "recommendation": "SS 용병 · 강화 카드와 보호·회복을 함께 준비",
+          "forcedEvery": 6,
+          "responseSeconds": 9,
+          "overloadPercent": 12,
+          "focusPercent": 40,
+          "monsters": [
+            {
+              "key": "STALKER_A",
+              "power": 240000,
+              "hpPercent": 200,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 1
+            },
+            {
+              "key": "STALKER_B",
+              "power": 240000,
+              "hpPercent": 200,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 1
+            },
+            {
+              "key": "WATCHER",
+              "power": 240000,
+              "hpPercent": 200,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 1
+            },
+            {
+              "key": "WARDEN",
+              "power": 1000000,
+              "hpPercent": 500,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 1
+            },
+            {
+              "key": "ARKE",
+              "power": 2000000,
+              "hpPercent": 1200,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 1
+            }
+          ]
+        },
+        {
+          "id": "HARD",
+          "recommendation": "SS 리미티드·SSS 중심 · 보스별 약화와 생존 조합",
+          "forcedEvery": 4,
+          "responseSeconds": 8,
+          "overloadPercent": 18,
+          "focusPercent": 50,
+          "monsters": [
+            {
+              "key": "STALKER_A",
+              "power": 4200000,
+              "hpPercent": 200,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 1
+            },
+            {
+              "key": "STALKER_B",
+              "power": 4200000,
+              "hpPercent": 200,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 1
+            },
+            {
+              "key": "WATCHER",
+              "power": 4200000,
+              "hpPercent": 200,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 1
+            },
+            {
+              "key": "WARDEN",
+              "power": 17500000,
+              "hpPercent": 500,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 2
+            },
+            {
+              "key": "ARKE",
+              "power": 35000000,
+              "hpPercent": 1200,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 2
+            }
+          ]
+        },
+        {
+          "id": "EXTREME",
+          "recommendation": "SSS 리미티드·최상위 성장 · 분대별 화력과 팀 보호·정화",
+          "forcedEvery": 3,
+          "responseSeconds": 7,
+          "overloadPercent": 24,
+          "focusPercent": 60,
+          "monsters": [
+            {
+              "key": "STALKER_A",
+              "power": 21600000,
+              "hpPercent": 250,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 2
+            },
+            {
+              "key": "STALKER_B",
+              "power": 21600000,
+              "hpPercent": 250,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 2
+            },
+            {
+              "key": "WATCHER",
+              "power": 18000000,
+              "hpPercent": 250,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 2
+            },
+            {
+              "key": "WARDEN",
+              "power": 100800000,
+              "hpPercent": 600,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 3
+            },
+            {
+              "key": "ARKE",
+              "power": 170000000,
+              "hpPercent": 1200,
+              "attackPercent": 100,
+              "defensePercent": 100,
+              "shieldPercent": 0,
+              "attackCount": 3
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "monsters": [
+    {
+      "id": 75,
+      "name": "격리 검증 보스",
+      "is_boss": 1,
+      "pve_tab": "APOCALYPSE"
+    }
+  ]
+}
