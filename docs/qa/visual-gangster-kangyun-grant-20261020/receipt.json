@@ -1,0 +1,25 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:visual-gangster-kangyun-grant:20261020:v1",
+  "planHash": "6861c3709100ae3984456bd753986530e20fc14689c2be4f9a17918c91061fa2",
+  "target": {
+    "id": 81,
+    "nickname": "비쥬얼깡패",
+    "provider": "PLAYDK",
+    "providerUserId": "03320b3e",
+    "code": "V-057",
+    "name": "신궁 강윤",
+    "rank": "SSS",
+    "quantity": 1
+  },
+  "authorization": "비쥬얼깡패 계정에 강윤 지급해",
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "cost": 0,
+  "permanent": true,
+  "automaticLoadout": false,
+  "protectedBefore": "4bcdb21c67f948fa060cca6b21ea58478f6b269eaebd97dbeb9a3e34ee4b65d0",
+  "protectedAfter": "4bcdb21c67f948fa060cca6b21ea58478f6b269eaebd97dbeb9a3e34ee4b65d0",
+  "completedAt": "2026-10-20T03:27:47.694Z",
+  "auditId": "48787"
+}
