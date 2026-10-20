@@ -1,0 +1,97 @@
+{
+  "sourceCommit": "f713f4a900c64c4b4e7473cae6109794f4a595fd",
+  "checkedAt": "2026-10-20T01:45:45.457Z",
+  "pages": {
+    "id": "72e305b2-dcff-4105-9f67-1f23643a1388",
+    "url": "https://72e305b2.cnine-card.pages.dev",
+    "createdOn": "2026-10-20T01:45:25.612973Z",
+    "status": "success",
+    "stage": "deploy",
+    "commit": "f713f4a900c64c4b4e7473cae6109794f4a595fd"
+  },
+  "runtime": {
+    "id": "277bb302-9ff0-448d-98b9-0b5f10e51589",
+    "createdOn": "2026-10-20T01:44:09.435755Z",
+    "versions": [
+      {
+        "version_id": "b90fc8c9-5077-484f-ada9-8e8bb9f802b5",
+        "percentage": 100
+      }
+    ]
+  },
+  "scopedTestsPassed": 14,
+  "browser": [
+    {
+      "width": 1440,
+      "current": 2,
+      "roomCreated": true,
+      "roomJoined": true,
+      "memberUpdate": true,
+      "clock": {
+        "samples": 6,
+        "bestRtt": 10.700000047683716,
+        "correctionMs": 0
+      },
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "current": 0,
+      "roomCreated": true,
+      "roomJoined": true,
+      "memberUpdate": true,
+      "clock": {
+        "samples": 6,
+        "bestRtt": 25.899999976158142,
+        "correctionMs": 0
+      },
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "live": {
+    "checkedAt": "2026-10-20T01:45:45.457Z",
+    "sourceCommit": "f713f4a900c64c4b4e7473cae6109794f4a595fd",
+    "files": [
+      {
+        "path": "shared/content-energy-v1.mjs",
+        "status": 200,
+        "sha256": "8b2be3dbcb42bc255db42fd98507b52575cbba0258febf63eb944d2c42e8b535"
+      },
+      {
+        "path": "raid/cooperative/live.mjs",
+        "status": 200,
+        "sha256": "7269d51b6081ad738e83d0429af16730e641e4a7c0f17eabc8b0198d640eec02"
+      },
+      {
+        "path": "js/cooperative-battleground-entry.js",
+        "status": 200,
+        "sha256": "5e9000b04874aeae0536767fb5d66da0c14d96a7c159110a5da4999fb0f7f27c"
+      },
+      {
+        "path": "js/legion-hunt-entry-v1.mjs",
+        "status": 200,
+        "sha256": "2ecdc5f4ea84ddabd45be28dc71284c041de615a0d92906a7f7c40d3b1609763"
+      },
+      {
+        "path": "index.html",
+        "status": 200,
+        "sha256": "39b41a2e00ca0e01b5375f67dbae4dd72e29dc7f7b1ed606d183d341bce3007c"
+      },
+      {
+        "path": "service-worker.js",
+        "status": 200,
+        "sha256": "7d93c011429c45370b9d5d30163874bbe10ae872f9647b1ea6965f9ce3a44fdf"
+      }
+    ],
+    "fractionalClockDisplay": "행동력 2 / 3 · 다음 충전 03:00:00 · 3시간마다 1회",
+    "earlyRecharge": false,
+    "policy": {
+      "cooperativeMaximum": 3,
+      "legionMaximum": 10,
+      "rechargeMs": 10800000
+    }
+  },
+  "playerBalanceMutationsPerformed": false
+}
