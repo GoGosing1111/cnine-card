@@ -1,0 +1,46 @@
+{
+  "verifiedAt": "2026-10-20T15:46:45.470Z",
+  "source": "b0fd3bfa6757ece76d6e8434a9f5ca035160d9f8",
+  "origin": "https://cnine-card.pages.dev",
+  "deploymentUrl": "https://57ff7595.cnine-card.pages.dev",
+  "staticChecks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "6eb6c3b11c190efc826c8e225afbf58eab2f1a3de3012d75bbb7f5fe1e8f37e0"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "c1925a2286a0a7a3405e281f6e11ea577423c2a497a4fbb447ce2e4d211e6f85"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "c4df11efb9055c12fc6dc3cbd2b21c1dc903b6625375761999b044e85d4bdc5c"
+    },
+    {
+      "file": "js/mercenary-halloween-pack-live.mjs",
+      "status": 200,
+      "sha256": "13d07656113c66c3286ef35b8537db526b956a8eb268634648f95d082c5e3b71"
+    },
+    {
+      "file": "shared/mercenary-halloween-session-v2.mjs",
+      "status": 200,
+      "sha256": "17c3347f8c36c431e99b8a10a66723b9a7ab41ae79b35b074a74a5e6e90ec8ce"
+    }
+  ],
+  "config": {
+    "revision": 16,
+    "mode": "ON",
+    "userOpeningEnabled": true,
+    "prices": {
+      "single": 1000000000,
+      "ten": 10000000000
+    }
+  },
+  "scopedTests": 17,
+  "browserScenarios": 6,
+  "productionAccountWrites": 0,
+  "userDeviceVerified": false
+}
