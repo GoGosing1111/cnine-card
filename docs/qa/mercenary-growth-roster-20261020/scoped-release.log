@@ -1,0 +1,102 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"8d25020835097dc2ea8e37a372e357f69a626b73","reason":"All mercenary PvP growth: preserve capped basic damage, HP durability and natural gauge; direct 12 regressions already passed, verify adjacent growth/skills/barriers and live PVE/PVP loader once.","changed":["AGENTS.md","docs/mercenary-diim-growth-duo-20261020.md","docs/qa/mercenary-diim-growth-20261020/live-growth.json","docs/qa/mercenary-diim-growth-20261020/release.json","docs/qa/mercenary-diim-growth-20261020/scoped-final.log","docs/qa/mercenary-diim-growth-20261020/scoped-initial.log","docs/qa/mercenary-growth-roster-20261020/README.md","docs/qa/mercenary-growth-roster-20261020/after.json","docs/qa/mercenary-growth-roster-20261020/before.json","docs/qa/mercenary-growth-roster-20261020/focused-regression.log","docs/qa/mercenary-growth-roster-20261020/unchanged-baseline.json","functions/_battle_v2_preview.js","functions/_mercenary_codex.js","functions/_mercenary_combat.js","scripts/measure-mercenary-growth-roster-20261020.mjs","shared/mercenary-combat-link-v2103.mjs","shared/mercenary-growth-review-v2.mjs","shared/mercenary-halloween-combat-v1.mjs","shared/mercenary-level-v1.mjs","tests/helpers/mercenary-growth-roster-20261020.json","tests/mercenary-diim-growth-20261020.test.mjs","tests/mercenary-growth-roster-20261020.test.mjs"],"tests":["tests/mercenary-growth-v2-20261015.test.mjs","tests/mercenary-halloween-diim-barrier-20261018.test.mjs","tests/mercenary-ss-balance-20261019.test.mjs","tests/mercenary-halloween-bongsoon-matchups-20261019.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["check:worker"]}
+✔ unconfigured and partial V2 policies stay OFF and cannot enter battle (5.1179ms)
+✔ all 20 levels and four breakthroughs have explicit additive, monotonic totals (2.6831ms)
+✔ growth scales effective stats once, keeps wounds, original shield and power (1.5593ms)
+✔ failure preserves all earned growth; successful final breakthrough grants the last package only (1.1238ms)
+✔ conditional speed floor uses frozen pre-growth opponent speed and never compounds (2.4802ms)
+✔ gap mastery restores bounded lost damage, including Berkan immunity, without globally changing it (0.4115ms)
+✔ PVP mastery adds 0.75 credit instead of multiplying innate cadence; PVE and legacy unchanged (1.7827ms)
+✔ level-1 V2 and legacy battle paths are identical; high-level formation can overturn a low-level limited (51.0874ms)
+✔ 0.01 percent action credit accumulates exactly and duo owners earn only their own credit (66.1179ms)
+✔ action response closes only the frozen opportunity gap and subtracts own innate plus growth credit (2.3133ms)
+✔ separate mirrored holdout puts both requested matchups near half while preserving Kangyun superiority (4.1539ms)
+✔ only Halloween Bongsoon receives the intrinsic PvP guard; PVE and all released offensive policies stay unchanged (24.4457ms)
+✔ canonical damage applies the guard once before splitting shield absorption and HP loss, with no extra action (24.6874ms)
+✔ only Halloween Diim PvP barriers lose 40%; other shield skills and PvE keep the full budget (7.6905ms)
+✔ absorbed shield is spent and a recast never heals HP or accumulates the previous barrier (0.8751ms)
+✔ the last surviving Diim keeps a finite reduced shield and cannot buff dead allies (0.4831ms)
+✔ canonical PvP can break the reduced shield in the reported Ayoon 5 versus Diim 2 matchup (22.2499ms)
+✔ the public codex explains the PvP-only amount without changing other seasonal skills (27.1091ms)
+✔ historical V3 holdout is preserved and unchanged Kangyun matchups still replay (45.9381ms)
+✔ Halloween uplift reaches codex, account power and authoritative PVE/PVP fighters while preserving role and skill cadence (22.7873ms)
+✔ seasonal skills retain their distinct targets, one paid budget and continued action sequence in PVE and PVP (4.0786ms)
+✔ Kangyun skill default migration is read-only, idempotent and preserves manual CMS changes and assignments (7.3433ms)
+✔ Kangyun equipment scaling and action credit stay intrinsic, finite and owner-scoped (2.3401ms)
+✔ canonical PVE and duo paths execute each seasonal specialty and Kangyun rain is PVE-only (62.8319ms)
+✔ PVE comparison preserves the ranged skill floor without multiplying one cast per arrow (2.1243ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (1284.326ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (10.0028ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (3.4518ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (8.5254ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (10.705ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (55.6449ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (3.7384ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (2.7589ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (1.0307ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3761.5335
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 5132 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7914.76 KiB / gzip: 1710.98 KiB
+Worker Startup Time: 56 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.17 sec)
+No targets deployed for cnine-card-api-runtime (0.68 sec)
+Current Version ID: 6ab9c1f8-4be6-469f-83e4-a9dbc1a63983
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19995/20000)
+Uploading... (19996/20000)
+Uploading... (19998/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 5 files (19995 already uploaded) (2.73 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://1da0e968.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2740.83 KiB / gzip: 624.97 KiB
+Worker Startup Time: 33 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.65 sec)
+Deployed cnine-card-clan-draft triggers (1.08 sec)
+  schedule: * * * * *
+Current Version ID: f9975867-7c2c-4e8f-95b1-94633ed366ca

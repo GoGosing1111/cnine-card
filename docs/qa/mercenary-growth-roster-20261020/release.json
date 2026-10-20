@@ -1,0 +1,37 @@
+{
+  "verifiedAt": "2026-10-20T10:52:29.805Z",
+  "source": "d58ace6c54b46813fe0a3be663e244d04c00ca90",
+  "base": "8d25020835097dc2ea8e37a372e357f69a626b73",
+  "pages": "https://1da0e968.cnine-card.pages.dev",
+  "pagesDeploymentId": "1da0e968-5302-48df-b92f-2e394ac0f941",
+  "apiVersion": "6ab9c1f8-4be6-469f-83e4-a9dbc1a63983",
+  "schedulerVersion": "f9975867-7c2c-4e8f-95b1-94633ed366ca",
+  "scoped": true,
+  "directTestsPassed": 12,
+  "releaseTestsPassed": 34,
+  "uniqueTestsPassed": 46,
+  "workerSyntaxChecked": true,
+  "workerBundlesDeployed": true,
+  "hyperdriveQueryCacheDisabled": true,
+  "assetCount": 20000,
+  "publicApiStatus": 200,
+  "publicCodexGrowthDescriptions": 79,
+  "sourceHashes": {
+    "shared/mercenary-halloween-combat-v1.mjs": {
+      "sha256": "2817dfc8ad56981f88805846e818db08f38b3383eeeb8152329d5b9d30382c15",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    "shared/mercenary-level-v1.mjs": {
+      "sha256": "797f2be2f90b43d539c0b53c09cd1b199acaf545cadb3e7ad964fa0651e24cda",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    "shared/mercenary-combat-link-v2103.mjs": {
+      "sha256": "bc38f1666c8702f3cb150fad322108cab6e525e89e4fb2800d83513597c13fbe",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    },
+    "shared/mercenary-growth-review-v2.mjs": {
+      "sha256": "b964200b5f726fe82e94849340c229f3e7cea1507b01509510fa03f1389517b3",
+      "cacheControl": "public, max-age=0, must-revalidate"
+    }
+  }
+}
