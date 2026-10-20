@@ -3,6 +3,7 @@ import {gsap} from 'gsap';
 
 const HYPER='SOOPKETLAND_HYPER_BURNING_TICKET';
 const ART='/assets/ui/soopketland/cabinet-v1.webp';
+const PRIZE_ART={PINGDU_REPAIR_COUPON:'/assets/items/pingdu-repair-coupon-v1.webp'};
 const FONT='Pretendard, Noto Sans KR, Arial, sans-serif';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num=n=>Number(n||0).toLocaleString('ko-KR');
@@ -23,6 +24,11 @@ export class PachinkoStage{
     this.host.replaceChildren(app.canvas);app.canvas.setAttribute('aria-label','구슬 충돌과 3개 릴이 움직이는 리버스랜드 기계');app.canvas.setAttribute('role','img');
     const root=this.root=new Container();app.stage.addChild(root);
     const texture=await Assets.load(ART);if(this.dead)return;
+    this.prizeTextures={};
+    await Promise.all(Object.entries(PRIZE_ART).filter(([key])=>this.prizes.some(p=>p.key===key)).map(async([key,url])=>{
+      try{this.prizeTextures[key]=await Assets.load(url)}catch{/* The labeled symbol remains usable if item art is unavailable. */}
+    }));
+    if(this.dead)return;
     const cabinet=new Sprite(texture);cabinet.width=768;cabinet.height=1152;root.addChild(cabinet);
     const stage=this.playfield=new Container();root.addChild(stage);
     // A physical board: staggered steel pins, a gold landing gate and glass reels.
@@ -60,6 +66,8 @@ export class PachinkoStage{
   }
   symbol(prize){
     const node=new Container(),color=prize.color||0xf1cf83;
+    const texture=this.prizeTextures?.[prize.key];
+    if(texture){const art=new Sprite(texture);art.anchor.set(.5);art.scale.set(Math.min(110/texture.width,100/texture.height));node.addChild(art);return node;}
     node.addChild(circle(0,0,43,0x090d11),new Graphics().circle(0,0,42).stroke({color,width:2}).circle(0,0,36).stroke({color,width:1,alpha:.3}));
     const crest=new Graphics().moveTo(-29,26).lineTo(-37,-13).lineTo(-17,-3).lineTo(0,-31).lineTo(17,-3).lineTo(37,-13).lineTo(29,26).stroke({color,width:2,alpha:.42});node.addChild(crest);
     centered(node,prize.symbol,0,-2,prize.symbol==='15'?38:48,color);
@@ -156,10 +164,10 @@ function ownerPending(){try{return JSON.parse(localStorage.getItem(`${ticketKey(
 const stamp=value=>{const d=new Date(value);return Number.isFinite(d.getTime())?d.toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}):''};
 
 function view(){return `<section class="sl-land" data-soopketland><header class="sl-top"><div><span>행정부 / STREAMER EXCLUSIVE</span><h1>리버스랜드<i>LIVE EVENT ARCADE</i></h1></div><button type="button" data-sl-refresh>새로고침 ↻</button></header><div class="sl-body" data-sl-body aria-live="polite"><div class="sl-empty">전용 이용권과 방송 이벤트 정보를 확인하고 있습니다.</div></div></section>`}
-function prizeTile(p){return `<article class="sl-prize"><span class="sl-symbol" style="--prize-color:#${Number(p.color).toString(16).padStart(6,'0')}">${esc(p.symbol)}</span><div><strong>${esc(p.label)}</strong><p>${esc(p.range)}</p></div><small>${Number(p.percent||0).toFixed(2)}%</small></article>`}
+function prizeTile(p){return `<article class="sl-prize">${PRIZE_ART[p.key]?`<img class="sl-symbol is-art" src="${PRIZE_ART[p.key]}" alt="">`:`<span class="sl-symbol" style="--prize-color:#${Number(p.color).toString(16).padStart(6,'0')}">${esc(p.symbol)}</span>`}<div><strong>${esc(p.label)}</strong><p>${esc(p.range)}</p></div><small>${Number(p.percent||0).toFixed(2)}%</small></article>`}
 function resultHtml(result,compact=false){
   const p=result.prize;
-  return `<article class="sl-receipt ${p.jackpot?'is-jackpot':''} ${compact?'is-compact':''}"><div class="sl-receipt-heading"><span>${result.delivery==='VIEWER_COUPON'?'VIEWER GIFT / 공유용 쿠폰':'STREAMER GIFT / 지급 완료'}</span>${result.createdAt?`<time>${stamp(result.createdAt)}</time>`:''}</div><h3>${esc(p.label)} <b>${esc(prizeAmount(p))}</b></h3>${result.code?`<p>선착순 ${num(result.couponUses)}명 · 계정당 1회 · 시청자에게 코드를 공유하세요</p><div class="sl-code"><input readonly aria-label="시청자 공유용 쿠폰 코드" value="${esc(result.code)}"><button type="button" data-sl-copy="${esc(result.code)}">코드 복사</button><button type="button" data-sl-fill-coupon="${esc(result.code)}">내 쿠폰 입력</button></div>`:'<p>인벤토리 → 하이퍼버닝 발동권에서 사용하세요.<br>서버 전체 ×15 · 60분, 기존 버닝 종료 후 발동 가능합니다.</p>'}</article>`;
+  return `<article class="sl-receipt ${p.jackpot?'is-jackpot':''} ${compact?'is-compact':''}"><div class="sl-receipt-heading"><span>${result.delivery==='VIEWER_COUPON'?'VIEWER GIFT / 공유용 쿠폰':'STREAMER GIFT / 지급 완료'}</span>${result.createdAt?`<time>${stamp(result.createdAt)}</time>`:''}</div>${PRIZE_ART[p.key]?`<img class="sl-reward-art" src="${PRIZE_ART[p.key]}" alt="">`:''}<h3>${esc(p.label)} <b>${esc(prizeAmount(p))}</b></h3>${result.code?`<p>선착순 ${num(result.couponUses)}명 · 계정당 1회 · 시청자에게 코드를 공유하세요</p><div class="sl-code"><input readonly aria-label="시청자 공유용 쿠폰 코드" value="${esc(result.code)}"><button type="button" data-sl-copy="${esc(result.code)}">코드 복사</button><button type="button" data-sl-fill-coupon="${esc(result.code)}">내 쿠폰 입력</button></div>`:'<p>인벤토리 → 하이퍼버닝 발동권에서 사용하세요.<br>서버 전체 ×15 · 60분, 기존 버닝 종료 후 발동 가능합니다.</p>'}</article>`;
 }
 function couponPanel(){return '<section class="sl-coupon"><header><span>MY COUPON</span><h3>내 계정 쿠폰 사용</h3><p>방송을 이어가면서 여기서 바로 보상을 받으세요.</p></header><form data-sl-coupon-form><label for="slCouponCode">쿠폰 코드</label><div><input id="slCouponCode" name="code" maxlength="40" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" placeholder="쿠폰 코드 입력" required><button type="submit">쿠폰 사용</button></div><p data-sl-coupon-status role="status" aria-live="polite"></p></form></section>'}
 async function redeemLandCoupon(s){

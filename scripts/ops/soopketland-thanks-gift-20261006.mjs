@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import {storedLandWeights,validateLandWeights} from '../../functions/_soopket_land.js';
 export const OPERATION_KEY='ops:soopketland-stars1m-thanks1:20261006:v1';
 export const SETTINGS_KEY='soopketland_settings_v2039';
-export const TARGET_WEIGHTS=Object.freeze({COIN:12600,EMPEROR_ENERGY:1500,MASTER_STAR:12600,STARLIGHT_ARMOR_CORE:3000,PINGDU_THANKS_GIFT_BOX:300});
-const EXPECTED_WEIGHTS={COIN:12750,EMPEROR_ENERGY:1500,MASTER_STAR:12750,STARLIGHT_ARMOR_CORE:3000,PINGDU_THANKS_GIFT_BOX:0};
+export const TARGET_WEIGHTS=Object.freeze({COIN:12600,EMPEROR_ENERGY:1500,MASTER_STAR:12600,STARLIGHT_ARMOR_CORE:3000,PINGDU_THANKS_GIFT_BOX:300,PINGDU_REPAIR_COUPON:0});
+const EXPECTED_WEIGHTS={COIN:12750,EMPEROR_ENERGY:1500,MASTER_STAR:12750,STARLIGHT_ARMOR_CORE:3000,PINGDU_THANKS_GIFT_BOX:0,PINGDU_REPAIR_COUPON:0};
 export async function applyLandGiftPolicy(client,{commit=false}={}){
  await client.query('BEGIN');
  try{
