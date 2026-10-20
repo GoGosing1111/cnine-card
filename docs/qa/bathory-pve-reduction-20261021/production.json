@@ -1,0 +1,41 @@
+{
+  "verifiedAt": "2026-10-20T16:39:39.744Z",
+  "source": "2d2f2ec4d2f0f2a4e04b4cef647bf85a07d7e76d",
+  "previousProductionSource": "99d9e0c7c4094de6b7e75ee9848262891372bd02",
+  "origin": "https://cnine-card.pages.dev",
+  "deploymentUrl": "https://1d508465.cnine-card.pages.dev",
+  "deploymentId": "1d508465-883c-4f8c-86d6-0acbfa5e6922",
+  "apiVersion": "b7aba494-2665-4ab1-be9d-8f6d941a650c",
+  "clanDraftVersion": "c63d63c6-a458-47c8-bd96-dbf6c6bcf91b",
+  "scopedTests": 6,
+  "compile": true,
+  "hyperdriveCacheDisabled": true,
+  "identicalWholeBattleComparisons": {
+    "cooperativeExtreme": 8,
+    "pvp": 4,
+    "otherMercenariesPve": 3
+  },
+  "pveSkillMinimumDamage": {
+    "before": true,
+    "after": false
+  },
+  "staticModule": {
+    "path": "shared/mercenary-bathory-v1.mjs",
+    "status": 200,
+    "sha256": "7632bc82ae16c40befcc37af58cd71f4ec78853d751eb740ff57bfd2ea6a7b2d",
+    "localBytesMatch": true
+  },
+  "codex": {
+    "status": 200,
+    "revision": 61,
+    "basePower": 297000,
+    "skill": {
+      "damageRatio": 10.08,
+      "cooldownTurns": 1,
+      "cost": 20
+    },
+    "displayedCombatPolicyUnchanged": true
+  },
+  "productionAccountWrites": 0,
+  "reportedPlayerBattleReproduced": false
+}
