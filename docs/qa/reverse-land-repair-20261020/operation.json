@@ -1,0 +1,31 @@
+{
+  "operationKey": "ops:reverse-land-repair:20261020:v1",
+  "status": "APPLIED",
+  "before": {
+    "weights": {
+      "COIN": 12600,
+      "EMPEROR_ENERGY": 1500,
+      "MASTER_STAR": 12600,
+      "STARLIGHT_ARMOR_CORE": 3000,
+      "PINGDU_THANKS_GIFT_BOX": 300
+    }
+  },
+  "after": {
+    "weights": {
+      "COIN": 18000,
+      "EMPEROR_ENERGY": 1500,
+      "MASTER_STAR": 4200,
+      "STARLIGHT_ARMOR_CORE": 3000,
+      "PINGDU_THANKS_GIFT_BOX": 300,
+      "PINGDU_REPAIR_COUPON": 3000
+    }
+  },
+  "repairAmount": 1,
+  "repairPercent": 10,
+  "coinPercent": 60,
+  "starPercent": 14,
+  "createdAt": "2026-10-20T06:20:40.501Z",
+  "authorization": "리버스랜드 코인을 60프로로 맞추고 마별 낮춰 그리고 핑두의 리페어 쿠폰 1개도 추가해 10%정도로 해서",
+  "auditId": "49035",
+  "committed": true
+}

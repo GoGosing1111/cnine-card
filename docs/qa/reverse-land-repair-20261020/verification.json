@@ -1,0 +1,27 @@
+{
+  "verifiedAt": "2026-10-20T06:20:51.414Z",
+  "weights": {
+    "COIN": 18000,
+    "EMPEROR_ENERGY": 1500,
+    "MASTER_STAR": 4200,
+    "STARLIGHT_ARMOR_CORE": 3000,
+    "PINGDU_THANKS_GIFT_BOX": 300,
+    "PINGDU_REPAIR_COUPON": 3000
+  },
+  "percent": [
+    60,
+    5,
+    14,
+    10,
+    1,
+    10
+  ],
+  "repairAmount": 1,
+  "auditId": "49035",
+  "daily": {
+    "enabled": true,
+    "quantity": 10,
+    "couponUses": 150,
+    "startsOn": "2026-10-20"
+  }
+}
