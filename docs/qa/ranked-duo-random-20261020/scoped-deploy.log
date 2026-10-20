@@ -1,0 +1,141 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"0388f8e63dc2d944d9e8c1197331e5cd6e1ebf12","reason":"Duo-only random squads and requester-only personal scores. No shared DB/auth/engine changes or existing data migration. Reuse unchanged 101 passing duo cases; unrelated unchanged V3 banner-count assertion documented; verify entry, asset packaging, release guards and worker compilation.","changed":["AGENTS.md","admin/index.html","admin/ranked-duo-v1.css","admin/ranked-duo-v1.mjs","assets/ui/ranked-duo/random-20261020/control-source.png","assets/ui/ranked-duo/random-20261020/control.webp","assets/ui/ranked-duo/random-20261020/manifest.json","assets/ui/ranked-duo/random-20261020/panel-source.png","assets/ui/ranked-duo/random-20261020/panel.webp","assets/ui/ranked-duo/random-20261020/prompts.json","css/ranked-duo-random-v4.css","docs/qa/ranked-duo-random-20261020/battle-1440.png","docs/qa/ranked-duo-random-20261020/battle-390.png","docs/qa/ranked-duo-random-20261020/browser-results.json","docs/qa/ranked-duo-random-20261020/cms-1440.png","docs/qa/ranked-duo-random-20261020/cms-390.png","docs/qa/ranked-duo-random-20261020/cms-recruit-1440.png","docs/qa/ranked-duo-random-20261020/cms-recruit-390.png","docs/qa/ranked-duo-random-20261020/duo-browser.log","docs/qa/ranked-duo-random-20261020/duo-final-tests.log","docs/qa/ranked-duo-random-20261020/duo-random-tests.log","docs/qa/ranked-duo-random-20261020/duo-regressions.log","docs/qa/ranked-duo-random-20261020/error-390.png","docs/qa/ranked-duo-random-20261020/full-gate-initial.log","docs/qa/ranked-duo-random-20261020/full-gate-resume.log","docs/qa/ranked-duo-random-20261020/guide-1440.png","docs/qa/ranked-duo-random-20261020/guide-390.png","docs/qa/ranked-duo-random-20261020/history-1440.png","docs/qa/ranked-duo-random-20261020/history-390.png","docs/qa/ranked-duo-random-20261020/home-1440.png","docs/qa/ranked-duo-random-20261020/home-390.png","docs/qa/ranked-duo-random-20261020/joined-1440.png","docs/qa/ranked-duo-random-20261020/joined-390.png","docs/qa/ranked-duo-random-20261020/match-1440.png","docs/qa/ranked-duo-random-20261020/match-390.png","docs/qa/ranked-duo-random-20261020/off-1440.png","docs/qa/ranked-duo-random-20261020/off-390.png","docs/qa/ranked-duo-random-20261020/ranking-1440.png","docs/qa/ranked-duo-random-20261020/ranking-390.png","docs/qa/ranked-duo-random-20261020/result-1440.png","docs/qa/ranked-duo-random-20261020/result-390.png","docs/qa/ranked-duo-random-20261020/tiers-1440.png","docs/qa/ranked-duo-random-20261020/tiers-390.png","docs/qa/reverse-land-daily-20261020/README.md","docs/qa/reverse-land-daily-20261020/apply.json","docs/qa/reverse-land-daily-20261020/deploy-result.json","docs/qa/reverse-land-daily-20261020/live.json","docs/qa/reverse-land-daily-20261020/verify.json","docs/qa/visual-gangster-kangyun-grant-20261020/README.md","docs/qa/visual-gangster-kangyun-grant-20261020/apply.json","docs/qa/visual-gangster-kangyun-grant-20261020/dry-run.json","docs/qa/visual-gangster-kangyun-grant-20261020/receipt.json","docs/qa/visual-gangster-kangyun-grant-20261020/verify.json","docs/ranked-duo-random-20261020.md","functions/_ranked_duo.js","functions/_ranked_duo_economy.js","functions/_ranked_duo_live_operation.js","functions/_ranked_duo_random.js","functions/_ranked_duo_seasons.js","index.html","js/app.js","js/ranked-duo-random-v4.mjs","js/ranked-duo-v1.mjs","package.json","scripts/build-ranked-duo-random-art.mjs","scripts/ops/visual-gangster-kangyun-grant-20261020.mjs","scripts/prepare-production-assets.mjs","service-worker.js","shared/ranked-duo-random-v4.mjs","shared/ranked-duo-v1.mjs","shared/ranked-duo-weekly-v3.mjs","tests/helpers/ranked-duo-db.mjs","tests/helpers/ranked-duo-weekly.mjs","tests/image-delivery-20261015.test.mjs","tests/ranked-duo-random-20261020.browser.mjs","tests/ranked-duo-random-20261020.test.mjs"],"tests":["tests/ranked-duo-direct-entry-20260927.test.mjs","tests/image-delivery-20261015.test.mjs","tests/pve-battlefield-entry-v2117.test.mjs"],"checks":["test:release-policy","check:worker"]}
+✔ overlapping Pages image rules emit one cache lifetime and keep immutable limited to hashed derivatives (3.379ms)
+✔ all delivery mappings preserve their originals and resolve to verified smaller derivatives (5022.4112ms)
+✔ Pages staging preserves fixture imports and images and generates a desktop resource manifest (50.652ms)
+✔ the real lobby feature loader accepts the shipped PVE/PVP engine and rejects older runtimes (11.0138ms)
+✔ the lobby loader refreshes an already loaded stale engine before its final readiness check (9.1025ms)
+✔ legacy string getter cannot mask the battlefield selector during construction or loading (3.7535ms)
+✔ already loaded obsolete runtime is replaced once before mounting; current runtime is reused (10.2858ms)
+✔ raid effects refresh an older same-version runtime once to share native Pixi objects (11.9715ms)
+✔ service worker refreshes the historical versioned battle script /js/app.js (24.5285ms)
+✔ service worker refreshes the historical versioned battle script /preview/sustained-hunt-v2/battle.bundle.js (2.675ms)
+✔ real continuous constructors, payload binding and texture loading use the shared battlefield method (2.5494ms)
+✔ ordinary PVE/PVP/raid/escort/siege and palace scenes still select their own backgrounds (0.7461ms)
+✔ one matching action immediately submits a fight; version contention reuses the same request (2.9491ms)
+✔ pending settlement and a lost response recover automatically without new matching or payment requests (0.4648ms)
+✔ a saved paid match resumes on entry, and terminal errors are not retried (0.8773ms)
+✔ retry budget is finite and unmounting never sends a new fight (1.6166ms)
+✔ overlapping profile builds finish without duplicate inventory scans false (102.6234ms)
+ℹ overlap: 45 bounded statements; 2 inventory batches for 3 changed accounts; 1 cache wait; 7.2ms fixture elapsed
+✔ overlapping profile builds finish without duplicate inventory scans pipeline (1804.6559ms)
+ℹ overlap: 21 bounded statements; 2 inventory batches for 3 changed accounts; 1 cache wait; 29.8ms fixture elapsed
+✔ an inventory change during rebuilding is retried and publishes only the current version (71.61ms)
+✔ automatic entry survives the admission fence with one energy debit and one result (97.1936ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:252:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:309:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:335:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async entryHarness.now (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/ranked-duo-direct-entry-20260927.test.mjs:95:11)
+    at async enterRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/js/ranked-duo-entry-v1.mjs:20:15)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/ranked-duo-direct-entry-20260927.test.mjs:98:15)
+✔ automatic recovery waits out a failed settlement lease and charges only once (54.4978ms)
+✔ the deployed lobby uses automatic entry and has no second fight confirmation (0.7906ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5180.2544
+
+> test:release-policy
+> node --test tests/scoped-release-policy-20260923.test.mjs tests/hyperdrive-cache-deploy-guard.test.mjs && node --test --test-name-pattern="30s defaults, public countdown and scheduled deployment" tests/clan-draft-timeouts-20260915.test.mjs
+
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (0.8173ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (2.1103ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.3011ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (2.5855ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (3.0425ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.6362ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.5016ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.5101ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1801ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.4757ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (4.1885ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.4127ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 116.1821
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+✔ 30s defaults, public countdown and scheduled deployment are included in the release (8.936ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 282.6481
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19997 files; 4890 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7869.27 KiB / gzip: 1700.79 KiB
+Worker Startup Time: 52 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.53 sec)
+No targets deployed for cnine-card-api-runtime (0.63 sec)
+Current Version ID: 4fd45cbb-d028-4e17-9c5e-a9c4e503873b
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19979/19997)
+Uploading... (19985/19997)
+Uploading... (19991/19997)
+Uploading... (19997/19997)
+✨ Success! Uploaded 18 files (19979 already uploaded) (3.15 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://bdfb0d03.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2723.07 KiB / gzip: 621.00 KiB
+Worker Startup Time: 41 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (2.82 sec)
+Deployed cnine-card-clan-draft triggers (1.28 sec)
+  schedule: * * * * *
+Current Version ID: 06c9b862-afce-42dd-a4eb-c8d70dcb0837

@@ -1,0 +1,39 @@
+{
+  "verifiedAt": "2026-10-20T04:39:53.520Z",
+  "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+  "operationKey": "ops:axe-elders:exclude-streamers:20261020:v1",
+  "auditId": "48870",
+  "permissions": [
+    {
+      "userId": 5426,
+      "nickname": "나무늘봉순",
+      "isElder": false
+    },
+    {
+      "userId": 4754,
+      "nickname": "조은",
+      "isElder": false
+    },
+    {
+      "userId": 4582,
+      "nickname": "족단",
+      "isElder": true
+    },
+    {
+      "userId": 4391,
+      "nickname": "더듬이구",
+      "isElder": true
+    },
+    {
+      "userId": 2333,
+      "nickname": "구와함",
+      "isElder": true
+    }
+  ],
+  "commanderCompatibilityId": 4582,
+  "rosterUnchanged": true,
+  "otherFactionStateUnchanged": true,
+  "treasuryUnchanged": true,
+  "replacementsRegisteredAsStreamers": false,
+  "replayed": true
+}

@@ -1,6 +1,7 @@
 import {DUO_WEEKLY_POLICY_KEY,DUO_REWARD_BATCH,validateDuoPolicy} from '../shared/ranked-duo-weekly-v3.mjs';
 import {resolveDuoTier} from '../shared/ranked-duo-season-v2.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
+import {isRandomDuo} from '../shared/ranked-duo-random-v4.mjs';
 
 export const DUO_WEEKLY_SCHEMA_KEY='ranked_duo_weekly_schema_v3';
 export const DUO_WEEKLY_SCHEMA=[
@@ -30,14 +31,14 @@ export function duoVictoryWrites(env,userId,amount,matchId){
   jointGuardEnd(env.DB,token)];
 }
 export async function deliverDuoTierRewards(env,s,core,progress,now){
- const q=p(env),cursor=Number(progress.last_rank),rows=(await q('SELECT * FROM ranked_duo_final_v2 WHERE season_id=? AND final_rank>? AND final_rank<=? ORDER BY final_rank LIMIT ?',s.id,cursor,cursor+DUO_REWARD_BATCH,DUO_REWARD_BATCH).all()).results;
+ const q=p(env),cursor=Number(progress.last_rank),random=isRandomDuo(s.config),table=random?'ranked_duo_final_v4':'ranked_duo_final_v2',rows=(await q(`SELECT * FROM ${table} WHERE season_id=? AND final_rank>? AND final_rank<=? ORDER BY final_rank LIMIT ?`,s.id,cursor,cursor+DUO_REWARD_BATCH,DUO_REWARD_BATCH).all()).results;
  if(!rows.length){
   await env.DB.batch(core.seasonWrite(env,s,[q("UPDATE ranked_duo_seasons_v1 SET status='CLOSED',revision=revision+1 WHERE id=?",s.id)]));
   return {phase:'CLOSED',seasonId:s.id,changed:true,nextCheckAt:iso(now+1000)};
  }
  const last=Number(rows.at(-1).final_rank),members=rows.flatMap(row=>{
   const tier=resolveDuoTier(Number(row.score),s.config,Number(row.final_rank)),enabled=s.config.rewards.tierEnabled;
-  return [row.user_a,row.user_b].map(id=>({userId:Number(id),row,tier,coin:enabled?tier.rewardCoin||0:0,shards:enabled?tier.rewardShards||0:0}));
+  return (random?[row.user_id]:[row.user_a,row.user_b]).map(id=>({userId:Number(id),row:{...row,id:random?'random-player:'+row.user_id:row.id},tier,coin:enabled?tier.rewardCoin||0:0,shards:enabled?tier.rewardShards||0:0}));
  }).sort((a,b)=>a.userId-b.userId);
  const ids=members.map(m=>m.userId),marks=ids.map(()=>'?').join(','),has="r.season_id=? AND r.final_rank>? AND r.final_rank<=?";
  // Locks cover at most 40 recipients, never the full population.

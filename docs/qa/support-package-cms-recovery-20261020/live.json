@@ -1,0 +1,28 @@
+{
+  "verifiedAt": "2026-10-20T04:42:06.635Z",
+  "commit": "a8870d47ee458a3400fb7fce4df8ec82e3ad197d",
+  "base": "https://cnine-card.pages.dev",
+  "assets": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "a3da234ac7171198dc240628c43fda1f4534c011cbd12c9a9b9b32c9119dfb38"
+    },
+    {
+      "file": "admin/server-support-admin-v1.mjs",
+      "status": 200,
+      "sha256": "63d632aba740d4145f9f8ebbaece6030ed68515ae60ac585b8898a9a18181a40"
+    }
+  ],
+  "unauthenticatedEndpoints": [
+    {
+      "path": "admin/server-support",
+      "status": 401
+    },
+    {
+      "path": "admin/server-support/package",
+      "status": 401
+    }
+  ],
+  "productionPaymentRequests": 0
+}

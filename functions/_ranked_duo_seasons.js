@@ -4,6 +4,8 @@ import {duoAutomaticConfig,duoSourceKey,duoUtcMs,DUO_CHALLENGER} from '../shared
 import {validateDuoConfig} from '../shared/ranked-duo-v1.mjs';
 import {duoWeeklyConfig,DUO_WEEKLY_POLICY_KEY} from '../shared/ranked-duo-weekly-v3.mjs';
 import {readDuoPolicy,prepareDuoEconomy,deliverDuoTierRewards} from './_ranked_duo_economy.js';
+import {isRandomDuo} from '../shared/ranked-duo-random-v4.mjs';
+import {prepareDuoRandom,randomDuoFinalWrites} from './_ranked_duo_random.js';
 
 import {DUO_AUTO_SCHEMA_KEY,readDuoHonors} from './_ranked_duo_honors.js';
 export {DUO_AUTO_SCHEMA_KEY,readDuoHonors};
@@ -40,7 +42,7 @@ async function finish(env,s,deps,now){
  }
  // Admission is already closed. The guard also protects an in-flight reservation.
  // One indexed season snapshot, bounded by the 10,000 participant / 5,000 team cap.
- const writes=s.config.competitionStartedAt?[
+ const writes=s.config.competitionStartedAt?(isRandomDuo(s.config)?randomDuoFinalWrites(env,s,now):[
   p(env)(`INSERT INTO ranked_duo_final_v2(season_id,id,user_a,user_b,name_a,name_b,final_rank,score,wins,losses,completed_at)
     SELECT t.season_id,t.id,t.user_a,t.user_b,a.nickname,b.nickname,ROW_NUMBER() OVER (ORDER BY t.score DESC,t.id DESC),t.score,t.wins,t.losses,?
     FROM ranked_duo_teams_v1 t JOIN users a ON a.id=t.user_a JOIN users b ON b.id=t.user_b WHERE t.season_id=?
@@ -50,7 +52,7 @@ async function finish(env,s,deps,now){
   ...['user_a','user_b'].map(column=>p(env)(`INSERT INTO ranked_duo_trophies_v2(season_id,user_id,team_id,final_rank,acquired_at)
     SELECT season_id,${column},id,final_rank,completed_at FROM ranked_duo_final_v2 WHERE season_id=? AND final_rank BETWEEN 1 AND ?
     ON CONFLICT(season_id,user_id) DO NOTHING`,s.id,DUO_CHALLENGER.rankLimit))
- ]:[];
+ ]):[];
  await env.DB.batch(core.seasonWrite(env,s,core.guard(env,"NOT EXISTS(SELECT 1 FROM ranked_duo_matches_v1 WHERE season_id=? AND status='PENDING')",[s.id],[
   ...writes,
   ...(s.config.weekly&&s.config.competitionStartedAt?[
@@ -63,6 +65,7 @@ async function finish(env,s,deps,now){
 }
 
 async function advanceAdditionalRecruitment(env,s,deps,now){
+ if(isRandomDuo(s.config))return null;
  const extra=s.config.additionalRecruitment;
  if(s.status!=='ACTIVE'||!extra||extra.phase==='CLOSED'||now>=Date.parse(s.config.endsAt))return null;
  if(extra.phase==='RECRUITING'&&now<Date.parse(extra.until))return {phase:'ACTIVE',additionalPhase:'RECRUITING',nextCheckAt:iso(Math.min(now+60000,Date.parse(extra.until),Date.parse(s.config.endsAt)))};
@@ -90,9 +93,9 @@ export async function reconcileDuoSeason(env,{settings,deps={},now=Date.now()}){
    ]);
    s=await core.currentSeason(env);
   }
-  if(s?.config.automatic&&s.status!=='CLOSED'){
-   const weekly=Boolean(s.config.weekly),sameSource=weekly||s.config.rankedSeason.name===settings.seasonName&&duoUtcMs(settings.startsAt)===duoUtcMs(s.config.rankedSeason.startsAt);
-   if(!weekly&&sameSource&&Number.isFinite(duoUtcMs(settings.endsAt))&&s.config.endsAt!==iso(duoUtcMs(settings.endsAt))&&s.status!=='SETTLING'){
+  if((s?.config.automatic||isRandomDuo(s?.config)&&['ACTIVE','SETTLING'].includes(s?.status))&&s.status!=='CLOSED'){
+   const random=isRandomDuo(s.config),weekly=Boolean(s.config.weekly),sameSource=random||weekly||s.config.rankedSeason.name===settings.seasonName&&duoUtcMs(settings.startsAt)===duoUtcMs(s.config.rankedSeason.startsAt);
+   if(!random&&!weekly&&sameSource&&Number.isFinite(duoUtcMs(settings.endsAt))&&s.config.endsAt!==iso(duoUtcMs(settings.endsAt))&&s.status!=='SETTLING'){
     const endsAt=iso(duoUtcMs(settings.endsAt)),noCompetitionWindow=endsAt<=s.config.startsAt;
     const config={...s.config,startsAt:noCompetitionWindow?null:s.config.startsAt,endsAt,rankedSeason:{...s.config.rankedSeason,key:duoSourceKey(settings),endsAt}};
     await change(env,s,noCompetitionWindow?'SETTLING':s.status,config,[p(env)('UPDATE ranked_duo_auto_v2 SET source_key=? WHERE season_id=?',duoSourceKey(settings),s.id)]);
@@ -104,15 +107,15 @@ export async function reconcileDuoSeason(env,{settings,deps={},now=Date.now()}){
    if(s.status==='SETTLING')return await finish(env,s,deps,now);
    const additional=await advanceAdditionalRecruitment(env,s,deps,now);if(additional)return additional;
    if(s.status==='RECRUITING'&&now>=Date.parse(s.recruit_until)){
-    await core.adminChange(env,actor,s,{},'pair',now);return {phase:'PAIRING',nextCheckAt:iso(now+1000)};
+    await core.adminChange(env,actor,s,{},'pair',now);return {phase:random?'READY':'PAIRING',nextCheckAt:iso(now+1000)};
    }
    if(['PAIRING','PUBLISHING'].includes(s.status)){
     const result=await core.pairStep(env,actor,s,deps,now);
     return {phase:result.phase,nextCheckAt:iso(now+1000)};
    }
    if(s.status==='READY'&&now>=Date.parse(s.config.startsAt)&&(weekly||settings.enabled!==false)){
-    const teams=(await p(env)('SELECT id FROM ranked_duo_teams_v1 WHERE season_id=? LIMIT 2',s.id).all()).results;
-    if(teams.length<2)return {phase:'INSUFFICIENT_TEAMS',nextCheckAt:iso(now+60000)};
+    if(!random){const teams=(await p(env)('SELECT id FROM ranked_duo_teams_v1 WHERE season_id=? LIMIT 2',s.id).all()).results;
+    if(teams.length<2)return {phase:'INSUFFICIENT_TEAMS',nextCheckAt:iso(now+60000)};}
     await change(env,s,'ACTIVE',{...s.config,competitionStartedAt:iso(now)});
     return {phase:'ACTIVE',seasonId:s.id,changed:true,nextCheckAt:iso(Math.min(now+60000,Date.parse(s.config.endsAt)))};
    }
@@ -124,6 +127,7 @@ export async function reconcileDuoSeason(env,{settings,deps={},now=Date.now()}){
   if(!config)return {phase:policy?'WAITING_DUO_POLICY':'WAITING_RANKED_SEASON',nextCheckAt:iso(now+60000)};
   if(await p(env)('SELECT season_id FROM ranked_duo_auto_v2 WHERE source_key=?',config.rankedSeason.key).first())return {phase:'CLOSED',nextCheckAt:iso(now+60000)};
   const id=crypto.randomUUID(),valid=validateDuoConfig(config);
+  if(isRandomDuo(valid))await prepareDuoRandom(env);
   await env.DB.batch(core.guard(env,s?'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)':'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',s?[DUO_CURRENT_KEY,s.id]:[DUO_CURRENT_KEY],[
    ...(policy&&env.DB.dialect==='postgres'?[p(env)('SELECT key FROM app_meta WHERE key=? FOR SHARE',DUO_WEEKLY_POLICY_KEY)]:[]),
    ...(policy?core.guard(env,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[DUO_WEEKLY_POLICY_KEY,policySnapshot.value],[]):[]),

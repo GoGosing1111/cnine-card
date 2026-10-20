@@ -41,10 +41,48 @@ export function mountSupportAdmin(root,{request=jointAdminRequest,initial=null}=
 function install(){
   const nav=document.getElementById('nav'),cms=document.getElementById('cms');if(!nav||!cms)return;
   const button=document.createElement('button'),panel=document.createElement('section');button.type='button';button.textContent='후원 관리';button.dataset.view='server-support';button.hidden=true;panel.id='view-server-support';panel.className='view';panel.hidden=true;nav.append(button);cms.append(panel);
-  let mounted=null,initial=null,epoch=0,alerts=null;
+  let mounted=null,initial=null,epoch=0,alerts=null,identity=null,identityKey=null,loading=false,blocked=false,retryTimer=null,retryCount=0,needsRetry=false,controller=null,openedFromLink=false;
+  const sessionKey=value=>{let credential='';try{credential=localStorage.getItem('cnine_admin_token')||sessionStorage.getItem('cnine_admin_token')||'';}catch{}return JSON.stringify([value?.role,value?.id,value?.nickname,credential]);};
+  const clearView=()=>{button.hidden=true;panel.hidden=true;alerts?.dispose();alerts=null;mounted?.dispose();mounted=null;initial=null;button.textContent='후원 관리';};
   const openPackages=()=>{button.click();panel.querySelector('[data-support-package-admin]')?.scrollIntoView({block:'start'});};
-  const sync=async event=>{const turn=++epoch,identity=event?.detail||globalThis.__SOOP_CMS_IDENTITY__;button.hidden=true;panel.hidden=true;alerts?.dispose();alerts=null;mounted?.dispose();mounted=null;initial=null;if(identity?.role!=='OWNER')return;try{const value=await jointAdminRequest('admin/server-support');if(turn!==epoch||value.adminId!==1)return;initial=value;button.hidden=false;alerts=mountPackageAlerts({root:document.body,request:jointAdminRequest,canReceive:()=>!button.hidden,onOpen:openPackages,onCount:n=>{button.textContent=n?'후원 관리 · 패키지 '+n+'건':'후원 관리';}});if(new URL(location.href).searchParams.has('supportPackage'))openPackages();}catch{}};
+  async function loadAccess(){
+    if(identity?.role!=='OWNER'||blocked||loading)return;
+    clearTimeout(retryTimer);retryTimer=null;
+    const turn=epoch;loading=true;controller=new AbortController();
+    try{
+      const value=await jointAdminRequest('admin/server-support',{signal:controller.signal});
+      if(turn!==epoch)return;
+      if(value.adminId!==1){blocked=true;clearView();return;}
+      initial=value;button.hidden=false;retryCount=0;needsRetry=false;
+      alerts||=mountPackageAlerts({root:document.body,request:jointAdminRequest,canReceive:()=>!button.hidden,onOpen:openPackages,onCount:n=>{button.textContent=n?'후원 관리 · 패키지 '+n+'건':'후원 관리';}});
+      if(!openedFromLink&&new URL(location.href).searchParams.has('supportPackage')){openedFromLink=true;openPackages();}
+    }catch(error){
+      if(turn!==epoch)return;
+      if(error.code==='ACCOUNT_RESPONSE_STALE'){identityKey=null;sync();return;}
+      if([401,403].includes(error.status)){blocked=true;clearView();return;}
+      // A transient read failure is not a permission denial. Keep a verified
+      // operator's open form intact and retry only this read, never a payment.
+      needsRetry=true;
+      if(retryCount<3)retryTimer=setTimeout(()=>{retryTimer=null;void loadAccess();},[1000,3000,10000][retryCount++]);
+    }finally{if(turn===epoch){loading=false;controller=null;}}
+  }
+  function sync(event){
+    const next=event?.detail||globalThis.__SOOP_CMS_IDENTITY__,key=sessionKey(next);
+    if(key!==identityKey){
+      epoch++;controller?.abort();controller=null;clearTimeout(retryTimer);retryTimer=null;
+      loading=false;blocked=false;needsRetry=false;retryCount=0;openedFromLink=false;
+      identity=next;identityKey=key;clearView();
+    }
+    // The CMS shell may re-show navigation while refreshing identity.
+    button.hidden=identity?.role!=='OWNER'||blocked||!initial;
+    if(identity?.role==='OWNER'&&!blocked)void loadAccess();
+  }
+  const wake=()=>{
+    if(document.visibilityState==='hidden')return;
+    if(sessionKey(globalThis.__SOOP_CMS_IDENTITY__)!==identityKey){sync();return;}
+    if(needsRetry&&!blocked){retryCount=0;void loadAccess();}
+  };
   button.addEventListener('click',event=>{event.stopImmediatePropagation();if(button.hidden)return;document.querySelectorAll('.view').forEach(v=>v.hidden=v!==panel);document.querySelectorAll('#nav [data-view]').forEach(b=>b.classList.toggle('active',b===button));document.getElementById('pageTitle').textContent='후원 관리';mounted||=mountSupportAdmin(panel,{initial});if(matchMedia('(max-width:800px)').matches)window.scrollTo(0,0);},true);
-  window.addEventListener('soop:cms-identity',sync);void sync();
+  window.addEventListener('soop:cms-identity',sync);window.addEventListener('online',wake);window.addEventListener('focus',wake);document.addEventListener('visibilitychange',wake);sync();
 }
 if(typeof document!=='undefined'){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();}

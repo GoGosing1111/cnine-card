@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-10-20T03:23:51.431Z",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "expected": "add7ba85867d45adab24754aec9e9a671fb4c7ca42a9be28eebf4f9bf287694f",
+      "actual": "add7ba85867d45adab24754aec9e9a671fb4c7ca42a9be28eebf4f9bf287694f",
+      "matched": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "expected": "11ea85799e162266ad2cd30a4ae3a4caf025ba6f4612c62819eac84fc22e9b1f",
+      "actual": "11ea85799e162266ad2cd30a4ae3a4caf025ba6f4612c62819eac84fc22e9b1f",
+      "matched": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "expected": "96b57ec583da77442445cebd3462cf0324c50cbec071c234cec56ef98199f265",
+      "actual": "96b57ec583da77442445cebd3462cf0324c50cbec071c234cec56ef98199f265",
+      "matched": true
+    },
+    {
+      "file": "js/soopketland-v2039.bundle.js",
+      "status": 200,
+      "expected": "af1e86507544483fd9a677c253c43255d75dd97c0505d52ab65de541ab7d52e4",
+      "actual": "af1e86507544483fd9a677c253c43255d75dd97c0505d52ab65de541ab7d52e4",
+      "matched": true
+    },
+    {
+      "file": "preview/soopketland-v2039/preview.js",
+      "status": 200,
+      "expected": "c917b0686f55ed8bbc76284f663e00d2d024ac28aea1257c39492f90051cfc17",
+      "actual": "c917b0686f55ed8bbc76284f663e00d2d024ac28aea1257c39492f90051cfc17",
+      "matched": true
+    }
+  ],
+  "anonymousState": {
+    "status": 401,
+    "cacheControl": "no-store"
+  },
+  "ok": true
+}

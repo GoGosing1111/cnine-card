@@ -1,0 +1,72 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:axe-elders:exclude-streamers:20261020:v1",
+  "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+  "organizationId": 1,
+  "organizationName": "도끼파",
+  "authorization": "도끼파 조은 봉순 원로 내리고 다른 상위2명으로 대체해 스트리머라 안됨",
+  "basis": "Saved seed_power DESC, slot ASC, user_id ASC; exclude current elders and registered streamers",
+  "removed": [
+    {
+      "userId": 5426,
+      "nickname": "나무늘봉순",
+      "seedPower": 6638,
+      "slot": 1
+    },
+    {
+      "userId": 4754,
+      "nickname": "조은",
+      "seedPower": 2417,
+      "slot": 2
+    }
+  ],
+  "appointed": [
+    {
+      "userId": 4391,
+      "nickname": "더듬이구",
+      "seedPower": 2328,
+      "slot": 4
+    },
+    {
+      "userId": 2333,
+      "nickname": "구와함",
+      "seedPower": 2255,
+      "slot": 5
+    }
+  ],
+  "elders": [
+    {
+      "userId": 4582,
+      "nickname": "족단",
+      "seedPower": 2363,
+      "slot": 3
+    },
+    {
+      "userId": 4391,
+      "nickname": "더듬이구",
+      "seedPower": 2328,
+      "slot": 4
+    },
+    {
+      "userId": 2333,
+      "nickname": "구와함",
+      "seedPower": 2255,
+      "slot": 5
+    }
+  ],
+  "kept": {
+    "userId": 4582,
+    "nickname": "족단",
+    "seedPower": 2363,
+    "slot": 3
+  },
+  "rosterHash": "9e2ecb99407badd53bc81e445d24d07745be424ec208467f3474f29e0e00b702",
+  "protectedStateHash": "769906f127104f2935f70a543f42dd869a9d5e51a07971e06d48424b89be001b",
+  "treasuryHash": "95a940e9aff1da018f9b9929b23ef24f9dd359158a51c12a71d3ae05c3addb2a",
+  "beforeRevision": 1714,
+  "afterRevision": 1715,
+  "completedAt": "2026-10-20T04:39:28.071Z",
+  "committed": true,
+  "auditId": "48870",
+  "replayed": false
+}
