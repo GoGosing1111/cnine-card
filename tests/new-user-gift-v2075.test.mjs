@@ -465,8 +465,8 @@ test('route permissions block anonymous/users before schema work and reject unsu
 
 test('client/CMS integrations load versioned assets and generic inventory grant cannot bypass the dedicated route',()=>{
   const read=file=>readFileSync(new URL('../'+file,import.meta.url),'utf8');
-  assert.match(read('index.html'),/js\/new-user-gift-v2075\.js\?v=20261004-first-verify-14days/);
-  assert.match(read('admin/index.html'),/\.\.\/js\/new-user-gift-v2075\.js\?v=20261004-first-verify-14days/);
+  assert.match(read('index.html'),/js\/new-user-gift-v2075\.js\?v=20261020-gift-v3/);
+  assert.match(read('admin/index.html'),/\.\.\/js\/new-user-gift-v2075\.js\?v=20261020-gift-v3/);
   assert.match(read('js/app.js'),/itemCode==='NEW_USER_GIFT_BOX'.*NewUserGiftV2075.open/);
   assert.match(read('functions/api/[[path]].js'),/if\(itemCode===NEW_USER_GIFT_CODE\)return json/);
   assert.match(read('admin/new-user-gift-v2075.js'),/USER|userDialog/);
