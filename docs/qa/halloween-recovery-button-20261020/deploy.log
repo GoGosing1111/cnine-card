@@ -1,0 +1,119 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"727bdde04850e3488d7ec975b90bed48a2d0cbd4","reason":"Halloween pending receipt recovery remains clickable during stalled requests; preserve request identity, prevent extra purchases and ignore retired-view responses. Browser recovery validated at 1440 and 390 pixels.","changed":["docs/qa/halloween-recovery-button-20261020/README.md","docs/qa/halloween-recovery-button-20261020/account-verification.json","docs/qa/halloween-recovery-button-20261020/auto-recovered-390.png","docs/qa/halloween-recovery-button-20261020/auto-waiting-390.png","docs/qa/halloween-recovery-button-20261020/read-recovered-1440.png","docs/qa/halloween-recovery-button-20261020/report.json","docs/qa/message-cleanup-20261020/README.md","docs/qa/message-cleanup-20261020/live.json","docs/qa/message-cleanup-20261020/release.json","docs/qa/message-cleanup-20261020/scoped-deploy.log","index.html","js/app.js","js/mercenary-halloween-pack-live.mjs","service-worker.js","shared/mercenary-halloween-session-v2.mjs","tests/mercenary-halloween-recovery-button-20261020.browser.mjs","tests/mercenary-halloween-recovery-button-20261020.test.mjs"],"tests":["tests/mercenary-halloween-auto-20261017.test.mjs","tests/mercenary-halloween-recovery-button-20261020.test.mjs"],"checks":["test:release-policy","check:worker"]}
+✔ bounded automatic quote includes exact maximum cost and rejects malformed counts (1.1544ms)
+✔ a mixed confirmed batch shows SS then SSS once per grade, never previews or gate ranks (1.2277ms)
+✔ automatic batches wait for presentation and hold the account lock across the entire sequence (2.1456ms)
+✔ stop during a paid request finishes that receipt and never starts another request (0.8006ms)
+✔ OFF, changed revision, unavailable stock and network errors halt before another charge (0.9472ms)
+✔ lost response never becomes a fresh lottery; explicit recovery stays outside automation (0.5634ms)
+✔ account changes and background transitions halt before the next request (0.6064ms)
+✔ insufficient next-batch funds and terminal server failures do not retry automatically (0.8815ms)
+✔ two tabs cannot own an automatic sequence simultaneously (0.3958ms)
+✔ three automatic ten-batches use the production service, separate receipts and exact coin debits (1873.0127ms)
+✔ the recovery control is notified after the durable request is saved and before the network can stall (4.777ms)
+✔ a retired room cannot accept a late completed response or clear a newer pending request (1.0465ms)
+✔ a reopened room checks only the saved receipt and never purchases until explicit recovery (0.6913ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2651.3549
+
+> test:release-policy
+> node --test tests/scoped-release-policy-20260923.test.mjs tests/hyperdrive-cache-deploy-guard.test.mjs && node --test --test-name-pattern="30s defaults, public countdown and scheduled deployment" tests/clan-draft-timeouts-20260915.test.mjs
+
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (2.6357ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (3.6046ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.4672ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (5.1819ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (3.1728ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.511ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.4034ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.6294ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.2381ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.702ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (4.8037ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (3.3702ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 137.6916
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+✔ 30s defaults, public countdown and scheduled deployment are included in the release (30.9426ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1012.8733
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19999 files; 4934 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7872.01 KiB / gzip: 1701.29 KiB
+Worker Startup Time: 52 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.06 sec)
+No targets deployed for cnine-card-api-runtime (0.77 sec)
+Current Version ID: 50cb7035-1571-4a80-ac5c-74d5f2d69182
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19993/19999)
+Uploading... (19995/19999)
+Uploading... (19997/19999)
+Uploading... (19999/19999)
+✨ Success! Uploaded 6 files (19993 already uploaded) (2.85 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://466e49bf.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2723.30 KiB / gzip: 621.00 KiB
+Worker Startup Time: 48 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (2.69 sec)
+Deployed cnine-card-clan-draft triggers (1.59 sec)
+  schedule: * * * * *
+Current Version ID: 7e5662f8-155b-425f-9514-ba94938d4b81

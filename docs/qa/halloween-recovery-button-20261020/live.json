@@ -1,0 +1,42 @@
+{
+  "verifiedAt": "2026-10-20T04:59:12.212Z",
+  "commit": "a69e4a366b5869f38cc63d7ea0684cfc7c8a0be3",
+  "base": "https://cnine-card.pages.dev",
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "ba0c0382b6c5420ededcc35888eb27006b95329bd9b0eecbe385323b98efef49"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "5de87ed420eafed3b5d6174dafc05fdc18ae28b98d8a8c91faacd3bb6ef4e15d"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "097e66df1b8fce8dd0cebd4cba8760c2a6a6b830541c740950cd0b4049d4b200"
+    },
+    {
+      "file": "js/mercenary-halloween-pack-live.mjs",
+      "status": 200,
+      "sha256": "5d1e4160a3e6ba6e1d03b1123199c029d4f2f4f9e7b498a38e64d0e537116a24"
+    },
+    {
+      "file": "shared/mercenary-halloween-session-v2.mjs",
+      "status": 200,
+      "sha256": "a28db72c033d546727d8603b7f2763ab53bab496fe2d80ef631df09f0a629818"
+    }
+  ],
+  "pack": {
+    "mode": "ON",
+    "revision": 15,
+    "openingEnabled": true,
+    "prices": {
+      "single": 1000000000,
+      "ten": 10000000000
+    }
+  },
+  "productionOpeningPosts": 0
+}

@@ -1,0 +1,16 @@
+{
+  "startedAt": "2026-10-20T04:54:22.227Z",
+  "base": "727bdde04850e3488d7ec975b90bed48a2d0cbd4",
+  "commit": "a69e4a366b5869f38cc63d7ea0684cfc7c8a0be3",
+  "previousPages": "https://e7b137e0.cnine-card.pages.dev",
+  "tests": [
+    "tests/mercenary-halloween-auto-20261017.test.mjs",
+    "tests/mercenary-halloween-recovery-button-20261020.test.mjs"
+  ],
+  "checks": [
+    "test:release-policy",
+    "check:worker"
+  ],
+  "finishedAt": "2026-10-20T04:57:45.812Z",
+  "exitCode": 0
+}
