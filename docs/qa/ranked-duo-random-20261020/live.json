@@ -1,0 +1,83 @@
+{
+  "verifiedAt": "2026-10-20T04:13:18.127Z",
+  "commit": "f33ada9e8c68d6164bc63d6119db16878e478e18",
+  "base": "https://cnine-card.pages.dev",
+  "assets": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "28ae0a7e727416f63a6829dca9565f10d404002fa70a498f1007ea5c6f0a5e2a"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "6d31a6afdac65bba569405b5f60d4e3d7b4215b8f77aa5b2caa2f062d158c2a0"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "e75bbc51ff48a57502270bc81aa35296f4e33069184b73dbbd1581051d75ad00"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "edcc0cf74afd00b688ee84baa656f561e4bf0a1aa0e03a2d7a152a2e0d8f2bf5"
+    },
+    {
+      "file": "admin/ranked-duo-v1.mjs",
+      "status": 200,
+      "sha256": "ef53172baf9acf3152c316e2213f1790344bb25bf02f6f9f71388488cad26048"
+    },
+    {
+      "file": "admin/ranked-duo-v1.css",
+      "status": 200,
+      "sha256": "2f9a5dde629c9778797a892841b4470876246a486bc2a54a83a0ebbd56cbe8e4"
+    },
+    {
+      "file": "js/ranked-duo-v1.mjs",
+      "status": 200,
+      "sha256": "8499fff22149b3cbdc09f442346944ef682d19181593182555b881ec4806eaee"
+    },
+    {
+      "file": "js/ranked-duo-random-v4.mjs",
+      "status": 200,
+      "sha256": "7fc3cd3a76b6777086caf0ae66e430f00642771032ae459310fb1e441d903dcf"
+    },
+    {
+      "file": "css/ranked-duo-random-v4.css",
+      "status": 200,
+      "sha256": "3b22a917302a8b985d9bdbcdf12c8e7a58743855ffa42711c290fe7c3152c4f1"
+    },
+    {
+      "file": "shared/ranked-duo-v1.mjs",
+      "status": 200,
+      "sha256": "dcbfe4eacb05adc87aab48a5d3171648cb44e3da842a18418450505afd9f14da"
+    },
+    {
+      "file": "shared/ranked-duo-weekly-v3.mjs",
+      "status": 200,
+      "sha256": "e2f3026ff91291cb1a2811786634cceb45081cc0320e85c5f0f1cfa1e3451fa2"
+    },
+    {
+      "file": "shared/ranked-duo-random-v4.mjs",
+      "status": 200,
+      "sha256": "20aa97828d4e7f8afec7c4a8374d46eb25a9f427919940310801de79b2531bce"
+    },
+    {
+      "file": "assets/ui/ranked-duo/random-20261020/control.webp",
+      "status": 200,
+      "sha256": "c8221bad057cf489e6c2070fc0ad06df719527e04dae58133aabf0a47c2067cb"
+    },
+    {
+      "file": "assets/ui/ranked-duo/random-20261020/panel.webp",
+      "status": 200,
+      "sha256": "f5556d3b4de18bbb95a0613616211f7663118dd04f19a7f58acea50719c4c274"
+    }
+  ],
+  "unauthenticatedStatus": 401,
+  "publicOperations": {
+    "status": 200,
+    "rankedDuoPresent": false
+  },
+  "runtimeWritesPerformed": false
+}
