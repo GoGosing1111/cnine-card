@@ -1,0 +1,34 @@
+{
+  "verifiedAt": "2026-10-20T18:23:18.474Z",
+  "independentConnection": true,
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:pingdu-prime-requiem-grant:20261021:v1",
+    "authorization": "좋네 승인해 제로랑 밸런스는 동급으로 만들어 현재 획득불가 다 하고 핑크빛유두 지급 — 프라임 레퀴엠 V-975 1장 영구 직접 지급",
+    "target": {
+      "id": 1,
+      "nickname": "핑크빛유두",
+      "code": "V-975",
+      "quantity": 1
+    },
+    "completedAt": "2026-10-20T18:23:11.911Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "protectedBefore": "83460605a5b6558603d826eedb633ef76b86d9caf1306e9e1519ecb7be449948",
+    "protectedAfter": "83460605a5b6558603d826eedb633ef76b86d9caf1306e9e1519ecb7be449948",
+    "automaticLoadout": false,
+    "cost": 0,
+    "permanent": true,
+    "adminLogId": "49252"
+  },
+  "currentCopies": 1,
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "productionDeployment": "https://5c4aed88.cnine-card.pages.dev",
+  "releaseCommit": "ee3f41fd9775611058067a47fb3b2667bb395c52",
+  "dryRunRollbackVerified": true,
+  "protectedStateUnchanged": true,
+  "noWriteReplayVerified": true,
+  "leasesReleased": true
+}

@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-10-20T18:22:45.967Z",
+  "production": "https://cnine-card.pages.dev",
+  "code": "V-975",
+  "name": "프라임 레퀴엠",
+  "basePower": 2300000,
+  "skills": [
+    {
+      "id": "MS-960",
+      "name": "혈섬 돌진",
+      "balance": {
+        "damageRatio": 1,
+        "cooldownTurns": 0,
+        "cost": 0
+      }
+    },
+    {
+      "id": "MS-961",
+      "name": "혈영 연참",
+      "balance": {
+        "damageRatio": 1,
+        "cooldownTurns": 0,
+        "cost": 0
+      }
+    },
+    {
+      "id": "MS-962",
+      "name": "혈검 난무",
+      "balance": {
+        "damageRatio": 1,
+        "cooldownTurns": 0,
+        "cost": 0
+      }
+    },
+    {
+      "id": "MS-963",
+      "name": "혈호 강림",
+      "balance": {
+        "damageRatio": 15.12,
+        "cooldownTurns": 5,
+        "cost": 35
+      }
+    },
+    {
+      "id": "MS-964",
+      "name": "혈영섬 · 참형",
+      "balance": {
+        "damageRatio": 15.12,
+        "cooldownTurns": 5,
+        "cost": 35
+      }
+    },
+    {
+      "id": "MS-965",
+      "name": "혈천개벽",
+      "balance": {
+        "damageRatio": 15.12,
+        "cooldownTurns": 5,
+        "cost": 35
+      }
+    },
+    {
+      "id": "MS-966",
+      "name": "적월 무간참",
+      "balance": {
+        "damageRatio": 15.12,
+        "cooldownTurns": 5,
+        "cost": 35
+      }
+    }
+  ],
+  "acquisitionEnabled": false,
+  "packAcquisitionEnabled": false,
+  "deploymentEnabled": true,
+  "approvedV7": true,
+  "hashes": [
+    {
+      "path": "assets/ui/project-v/mercenaries/prime-requiem-20261021/source-art.png",
+      "bytes": 2790142,
+      "sha256": "b2d1c5df8553370ec9ff90d72e27562c404c24dcecf33935bb74f0edc13d2fdc"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/prime-requiem-20261021/idle.png",
+      "bytes": 246386,
+      "sha256": "ea00ecb24265dcf168f139361ff09d538486048a384a3bff872e174479116830"
+    },
+    {
+      "path": "assets/ui/project-v/mercenaries/codex-v1/v-975-art-320.webp",
+      "bytes": 69544,
+      "sha256": "f2dbca7a2f26950c85f719b0d5f16173d6116f9035191eb391894196af822328"
+    },
+    {
+      "path": "preview/prime-requiem-blood-skills-20261021-v1/assets/fx-idle-shattered-moon-v7.png",
+      "bytes": 1834966,
+      "sha256": "3503a2bd0ca5e7ce842782fdfa2c946b2f0af9df272c3eaceae05059814c6e56"
+    },
+    {
+      "path": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 2262652,
+      "sha256": "337e212840a42a38d1e9593a87cb7bf8069b57599a058c123ce3fc9d221fcb57"
+    },
+    {
+      "path": "preview/coop-defense-v1/defense.bundle.js",
+      "bytes": 2394045,
+      "sha256": "db8b9c6680f7a86c639a9c0264fcce2c3cd0a47bb18768351d5a8aa2ef41e0e4"
+    }
+  ],
+  "readOnly": true
+}
