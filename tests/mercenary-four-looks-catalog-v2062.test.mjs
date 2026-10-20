@@ -66,7 +66,7 @@ test('outfit and weapon concepts remain searchable after the four SDs are connec
   assert.equal(filterCards(roster.cards, { sort: 'newest' })[0].code, 'V-057');
 });
 
-test('catalog release uses current CMS data and preserves all 58 separate art and SD resources', () => {
+test('catalog release uses current CMS data and preserves all 60 separate art and SD resources', () => {
   assert.equal(ROSTER_URL.searchParams.get('v'), '20260911-omega-ranks');
   const html = read('mercenary-codex/index.html').toString();
   const codexSource=html.match(/src="([^"\n]*mercenary-codex\/app\.mjs\?[^"\n]+)"/)?.[1];
@@ -76,8 +76,8 @@ test('catalog release uses current CMS data and preserves all 58 separate art an
   assert.ok(codexCache.getAll('limited').includes('20261004-approved'));
   assert.equal(codexCache.get('v'),'2133');
   const published = mercenaryCodexDocument({payload_json:JSON.stringify(MERCENARY_CMS_SEED.document),revision:1}).cards;
-  assert.equal(published.filter(card=>!card.artOnly).length,58);
-  assert.equal(published.filter(card=>!card.artOnly && card.sourceArt && card.battleSprite && card.sourceArt!==card.battleSprite).length,58);
+  assert.equal(published.filter(card=>!card.artOnly).length,60);
+  assert.equal(published.filter(card=>!card.artOnly && card.sourceArt && card.battleSprite && card.sourceArt!==card.battleSprite).length,60);
   assert.doesNotMatch(html, /신규 6종의 SD는 제작 대기/);
   assert.match(read('preview/mercenary-codex-v1/codex.js').toString(), /의상 콘셉트/);
   const generation = json('preview/mercenary-four-looks-v1/generation.json');
