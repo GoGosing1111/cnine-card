@@ -1,0 +1,39 @@
+{
+  "isolatedDatabase": true,
+  "productionWrites": 0,
+  "posts": 0,
+  "reports": [
+    {
+      "surface": "shop",
+      "width": 1440,
+      "sssCards": 4,
+      "jokroRemaining": 3,
+      "heliosRemaining": 0,
+      "horizontalOverflow": false
+    },
+    {
+      "surface": "room",
+      "width": 1440,
+      "sssCards": 4,
+      "jokroRemaining": 3,
+      "heliosRemaining": 0,
+      "horizontalOverflow": false
+    },
+    {
+      "surface": "shop",
+      "width": 390,
+      "sssCards": 4,
+      "jokroRemaining": 3,
+      "heliosRemaining": 0,
+      "horizontalOverflow": false
+    },
+    {
+      "surface": "room",
+      "width": 390,
+      "sssCards": 4,
+      "jokroRemaining": 3,
+      "heliosRemaining": 0,
+      "horizontalOverflow": false
+    }
+  ]
+}

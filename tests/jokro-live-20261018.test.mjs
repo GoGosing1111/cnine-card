@@ -8,6 +8,7 @@ import {mercenaryAccountState,saveMercenaryLoadout,loadMercenaryBattleSnapshot,r
 import {LIMITED_MERCENARIES} from '../shared/mercenary-limited-catalog-v1.mjs';
 import {JOKRO_CODE,JOKRO_ART,JOKRO_COMBAT,JOKRO_AREA_SKILL} from '../shared/mercenary-jokro-v1.mjs';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
+import {ensureLimitedPackSchema} from '../functions/_mercenary_limited_pack.js';
 const rid=()=>crypto.randomUUID();
 test('approved art, thumbnail, shipped bundles and live cache tags are connected',()=>{
  for(const [file,expected]of [[JOKRO_ART.sourceArt,JOKRO_ART.sourceArtSha256],[JOKRO_ART.battleSprite,JOKRO_ART.battleSpriteSha256]])assert.equal(createHash('sha256').update(fs.readFileSync(file)).digest('hex').toUpperCase(),expected);
@@ -24,8 +25,9 @@ test('approved art, thumbnail, shipped bundles and live cache tags are connected
  const approved=JSON.parse(fs.readFileSync('preview/mercenary-jokro-iaido-20261017-v1/live-approval-20261018.json'));
  assert.equal(approved.identity.code,JOKRO_CODE);assert.equal(approved.acquisition.public,false);
 });
-test('only the designated owner may load or deploy Jokro; public pools and LIMITED counts exclude him',async t=>{
+test('designated owner retains exclusive metadata; stray holdings and ordinary limited pools stay restricted',async t=>{
  const f=await mercenaryFixture(t,{postgres:true}),allowed=[{id:1,role:'OWNER'}],blocked=[{...f.user,role:'OWNER'},{id:4977,role:'USER'},{id:4824,role:'USER'}];
+ await ensureLimitedPackSchema(f.env);
  for(const [id,name]of [[1,'핑크빛유두'],[4977,'하이희야♡'],[4824,'헬로희야']])await f.p('INSERT INTO users(id,nickname) VALUES(?,?)',id,name).run();
  assert(!LIMITED_MERCENARIES.some(c=>c.code===JOKRO_CODE));
  assert(!MERCENARY_CMS_SEED.catalog.cards.some(c=>c.code===JOKRO_CODE));

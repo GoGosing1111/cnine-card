@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {mercenaryFixture} from './helpers/mercenary-db.mjs';
 import {mercenaryAccountState,saveMercenaryLoadout,loadMercenaryBattleSnapshot,releasedMercenarySnapshots} from '../functions/_mercenary_account.js';
 import {JOKRO_CODE,JOKRO_LOAN,jokroAccountAllowed} from '../shared/mercenary-jokro-v1.mjs';
+import {ensureLimitedPackSchema} from '../functions/_mercenary_limited_pack.js';
 
 test('loan closes exactly at 04:00 KST without changing owner or other account access',()=>{
  for(const time of [JOKRO_LOAN.expiresAt-1,JOKRO_LOAN.expiresAt,JOKRO_LOAN.expiresAt+1]){
@@ -14,6 +15,7 @@ test('loan closes exactly at 04:00 KST without changing owner or other account a
 });
 test('loan ownership, PVE/PVP selection and single/batch snapshots expire together',async t=>{
  const f=await mercenaryFixture(t,{postgres:true}),user={id:5950,role:'USER'},oldNow=Date.now;
+ await ensureLimitedPackSchema(f.env);
  t.after(()=>{Date.now=oldNow;});Date.now=()=>JOKRO_LOAN.expiresAt-60000;
  await f.p('INSERT INTO users(id,nickname) VALUES(?,?)',user.id,'남수댕ㅗ').run();
  await assert.rejects(saveMercenaryLoadout(f.env,user,{requestId:crypto.randomUUID(),mode:'PVE',mercenaryCode:JOKRO_CODE,revision:0}),{code:'MERCENARY_NOT_OWNED'});
