@@ -1,0 +1,20 @@
+✔ Diim QA stays in the repository while its live battle modules still ship (2.4532ms)
+✔ Diim real capped basic damage still improves under common opponent growth (0.3476ms)
+✔ the grown guard survives the first Kangyun cast aimed at it; refreshed barrier remains finite (0.4178ms)
+✔ additional turns preserve learned initiative and natural turns still spend their gauge (0.2606ms)
+✔ current PvP growth keeps Diim mastery idempotent and excludes level one/PvE (4.8806ms)
+✔ duo uses the same growth rules separately for the two owners (15.6959ms)
+✔ all 79 operating mercenaries gain real basic damage and durability across levels 1/10/11 (48.607ms)
+✔ 163 complete PvE, level-one PvP/duo and legacy battle returns are unchanged (405.7197ms)
+✔ growth is applied after the innate basic cap; skills and counters retain their budgets (1.2497ms)
+✔ max-level growth stays bounded, applies once and keeps opening shields out of the HP divisor (17.2677ms)
+✔ reserved turns preserve all earned gauge, natural turns spend 100 and duo clocks stay owner-local (19.005ms)
+✔ codex publishes the common rule for combat-ready fighters and QA stays outside Pages (33.7112ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 939.0237

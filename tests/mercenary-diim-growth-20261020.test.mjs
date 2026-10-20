@@ -5,7 +5,7 @@ import {createPvpBattleV2,createDuoBattleV2,buildFighter} from '../functions/_ba
 import {buildMercenaryFighter} from '../functions/_mercenary_combat.js';
 import {applyMercenaryCombatLink,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
 import {applyMercenaryLevelStats} from '../shared/mercenary-level-v1.mjs';
-import {halloweenGrowthBasicCapScale,halloweenGrowthOpeningGauge,halloweenGrowthKeepsNaturalGauge} from '../shared/mercenary-halloween-combat-v1.mjs';
+import {mercenaryGrowthBasicCapScale,mercenaryGrowthOpeningGauge,mercenaryGrowthKeepsNaturalGauge} from '../shared/mercenary-growth-review-v2.mjs';
 import {balanceSnapshot} from '../scripts/measure-ss-mercenary-balance-20261019.mjs';
 import {tierCards} from './helpers/mercenary-operating-roster-v2144.mjs';
 import {isProductionFile} from '../scripts/prepare-production-assets.mjs';
@@ -23,11 +23,13 @@ test('Diim QA stays in the repository while its live battle modules still ship',
  }
  for(const file of ['shared/mercenary-halloween-combat-v1.mjs','shared/mercenary-level-v1.mjs','shared/mercenary-combat-link-v2103.mjs','functions/_battle_v2_preview.js','functions/_mercenary_combat.js','functions/_ranked_duo_profiles.js','tests/fixtures/live.json'])assert.equal(isProductionFile(file),true);
 });
-test('growth increases real capped basic damage without rewriting the level-one matchup',()=>{
+test('Diim real capped basic damage still improves under common opponent growth',()=>{
  const low=battles.get(1),high=battles.get(11),target='B:0:CN-47AD4B47B6A7452C',a=attack(low,target),b=attack(high,target);
  assert.equal(a.damage+a.absorbed,500759);assert.ok(a.targetHpAfter>0);
  assert.ok(b.damage+b.absorbed>a.damage+a.absorbed);assert.equal(b.targetHpAfter,0);
- assert.equal(low.result.winner,'B');assert.equal(low.result.actions,6);
+ // Kangyun is Lv.4 here and now receives the same common growth correction.
+ // The all-Lv.1 battle contract is covered by the roster baseline regression.
+ assert.equal(low.result.winner,'B');
  assert.equal(low.teams.A.mercenaries[0].mercenaryLink.attackFloor,1233348);
 });
 test('the grown guard survives the first Kangyun cast aimed at it; refreshed barrier remains finite',()=>{
@@ -48,19 +50,19 @@ test('additional turns preserve learned initiative and natural turns still spend
  assert.ok(es[0].actorGaugeAfter>90);assert.equal(es[1].actorGaugeAfter,es[0].actorGaugeAfter);
  assert.equal(es[2].actorGaugeAfter,0);
 });
-test('only current growing Diim PvP snapshots get the guard mastery; level application is idempotent',()=>{
- for(const [code,mode,level]of [['V-984','PVP',1],['V-984','PVE',11],['V-985','PVP',11]]){
+test('current PvP growth keeps Diim mastery idempotent and excludes level one/PvE',()=>{
+ for(const [code,mode,level]of [['V-984','PVP',1],['V-984','PVE',11],['V-985','PVE',11]]){
   const actor=buildMercenaryFighter(snapshot(code,level),'A',mode,buildFighter),cards=tierCards(250000).map((c,i)=>buildFighter(c,i,'A',null,mode));
   applyMercenaryCombatLink([[...cards,actor]]);
-  assert.equal(halloweenGrowthBasicCapScale(actor),1);assert.equal(halloweenGrowthOpeningGauge(actor),0);assert.equal(halloweenGrowthKeepsNaturalGauge(actor),false);
+  assert.equal(mercenaryGrowthBasicCapScale(actor),1);assert.equal(mercenaryGrowthOpeningGauge(actor),0);assert.equal(mercenaryGrowthKeepsNaturalGauge(actor),false);
   assert.equal(mercenaryDamageCapHp(actor),(actor.maxHp+actor.mercenaryLink.openingShield)/(actor.mercenaryLink.tierGuard||1));
  }
  for(const level of [6,11,16,20]){
   const actor=buildMercenaryFighter(snapshot('V-984',level),'A','PVP',buildFighter),cards=tierCards(250000).map((c,i)=>buildFighter(c,i,'A',null,'PVP'));
   applyMercenaryCombatLink([[...cards,actor]]);const once=structuredClone(actor);applyMercenaryLevelStats(actor);assert.deepEqual(actor,once);
-  assert.ok(actor.gauge>0&&actor.gauge<=75);assert.ok(halloweenGrowthBasicCapScale(actor)>1&&halloweenGrowthBasicCapScale(actor)<=3);
+  assert.ok(actor.gauge>0&&actor.gauge<=75);assert.ok(mercenaryGrowthBasicCapScale(actor)>1&&mercenaryGrowthBasicCapScale(actor)<=3);
   assert.ok(mercenaryDamageCapHp(actor)<actor.maxHp+actor.mercenaryLink.openingShield);
-  const legacy={...actor,mercenaryLevel:{version:1,level}};assert.equal(halloweenGrowthBasicCapScale(legacy),1);assert.equal(halloweenGrowthOpeningGauge(legacy),0);
+  const legacy={...actor,mercenaryLevel:{version:1,level}};assert.equal(mercenaryGrowthBasicCapScale(legacy),1);assert.equal(mercenaryGrowthOpeningGauge(legacy),0);
  }
 });
 test('duo uses the same growth rules separately for the two owners',()=>{
@@ -68,7 +70,7 @@ test('duo uses the same growth rules separately for the two owners',()=>{
  const battle=createDuoBattleV2({attackerSquads:squads(1,[['V-984',11],['V-985',4]]),defenderSquads:squads(3,[['V-057',4],['V-981',4]]),seed:203001});
  const diim=battle.teams.A.mercenaries.find(m=>m.code==='V-984'),ally=battle.teams.A.mercenaries.find(m=>m.code==='V-985');
  assert.equal(diim.mercenaryLevel.level,11);assert.equal(diim.mercenaryLevelApplied,true);assert.equal(ally.mercenaryLevel.level,4);
- assert.equal(halloweenGrowthKeepsNaturalGauge(ally),false);
+ assert.equal(mercenaryGrowthKeepsNaturalGauge(ally),true);
  assert.ok(battle.result.timeline.some(e=>e.actorId===diim.id&&e.type==='MERCENARY_BUFF'&&e.amount>0));
  assert.ok(Number.isFinite(battle.result.actions));
 });

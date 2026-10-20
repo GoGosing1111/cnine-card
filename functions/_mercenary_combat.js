@@ -39,7 +39,7 @@ import {resolveHeliosArea} from './_mercenary_helios.js';
 import {AZANT_CODE,AZANT_VOLLEY_SKILL,AZANT_VOLLEY_MECHANIC,AZANT_AREA_MECHANIC,AZANT_COMBAT,azantActionCredit,azantPvpBasicDamageScale,azantVolleyCapScale} from '../shared/mercenary-azant-v1.mjs';
 import {resolveAzantCast} from './_mercenary_azant.js';
 import {SS_LIMITED_COMBAT,SS_LIMITED_BALANCE_VERSION,SS_LIMITED_TEMPO,ssLimitedActionCredit,ssLimitedProfile} from '../shared/mercenary-ss-limited-v1.mjs';
-import {halloweenBarrierScale,halloweenGrowthBasicCapScale} from '../shared/mercenary-halloween-combat-v1.mjs';
+import {halloweenBarrierScale} from '../shared/mercenary-halloween-combat-v1.mjs';
 import {ssRearPveInterval,ssRearPveHealing} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 const living=x=>x?.alive!==false&&x?.hp>0&&!x?.untargetable&&!x?.isBattleSuit;
 const sovereign=a=>isZero(a)||isLeonel(a)||isJokro(a)||isValter(a)||isHelios(a)||isJinmu(a)||isKairon(a)||isShiranui(a);
@@ -483,7 +483,7 @@ export function mercenaryCombat({teams,hit,damage,knockout,emit,clock,season2=nu
    }return false;
   },
   basicMultiplier(a){const b=table(buffs,a),d=table(debuffs,a);let factor=state(a).guardBasicAction===a.actions?MERCENARY_GUARD_BASIC_SCALE:1;if(b.order){factor*=1+b.order.percent/100;delete b.order;}if(d.restraint){if(a.actions<d.restraint.expires)factor*=1-d.restraint.percent/100;else delete d.restraint;}return factor*tierScale(a);},
-  basicDamageCapScale(a){return tierScale(a)*mercenaryPvpTierOffense(a)*halloweenGrowthBasicCapScale(a)*(isImperialArcher(a)?IMPERIAL_ARCHER_COMBAT.basicCapScale:isZero(a)?ZERO_COMBAT.basicCapScale:isLeonel(a)?LEONEL_COMBAT.basicCapScale:isJokro(a)?JOKRO_COMBAT.basicCapScale:isValter(a)?VALTER_COMBAT.basicCapScale:isHelios(a)?HELIOS_COMBAT.basicCapScale:isShiranui(a)?SHIRANUI_COMBAT.basicCapScale:isKairon(a)?KAIRON_COMBAT.basicCapScale:isJinmu(a)?JINMU_COMBAT.basicCapScale:ssLimitedProfile(a)?.basicCapScale??1);},
+  basicDamageCapScale(a){return tierScale(a)*mercenaryPvpTierOffense(a)*(isImperialArcher(a)?IMPERIAL_ARCHER_COMBAT.basicCapScale:isZero(a)?ZERO_COMBAT.basicCapScale:isLeonel(a)?LEONEL_COMBAT.basicCapScale:isJokro(a)?JOKRO_COMBAT.basicCapScale:isValter(a)?VALTER_COMBAT.basicCapScale:isHelios(a)?HELIOS_COMBAT.basicCapScale:isShiranui(a)?SHIRANUI_COMBAT.basicCapScale:isKairon(a)?KAIRON_COMBAT.basicCapScale:isJinmu(a)?JINMU_COMBAT.basicCapScale:ssLimitedProfile(a)?.basicCapScale??1);},
   beforeBasicDamage(a,t,amount){const buff=table(buffs,t),d=table(debuffs,a);
    const basicScale=imperialArcherBasicScale(a)*azantPvpBasicDamageScale(a)*berkanPvpBasicDamageScale(a)*cryvernPvpBasicDamageScale(a);if(basicScale!==1)amount=Math.floor(amount*basicScale);
    if(d.oath){const oath=d.oath;delete d.oath;if(oath.actorId===t.id&&a.actions<oath.expires)amount=Math.floor(amount*(1-oath.percent/100));}

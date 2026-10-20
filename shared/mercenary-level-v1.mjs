@@ -2,13 +2,12 @@ import {ZERO_CODE} from './mercenary-zero-v1.mjs';
 import {LEONEL_CODE} from './mercenary-leonel-v1.mjs';
 import {JOKRO_CODE} from './mercenary-jokro-v1.mjs';
 export {mercenaryGrowthDraft,mercenaryGrowthSummary,mercenaryGrowthStatPreview,mercenaryGrowthLevelTable,mercenaryGrowthReadiness,MERCENARY_GROWTH_VERSION,MERCENARY_GROWTH_REVIEW} from './mercenary-growth-review-v2.mjs';
-import {validateMercenaryGrowth,mercenaryGrowthSummary,mercenaryGrowthStatPreview,mercenaryGrowthReadiness} from './mercenary-growth-review-v2.mjs';
+import {validateMercenaryGrowth,mercenaryGrowthSummary,mercenaryGrowthStatPreview,mercenaryGrowthReadiness,mercenaryGrowthOpeningGauge} from './mercenary-growth-review-v2.mjs';
 import {SHIRANUI_CODE} from './mercenary-shiranui-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 import {ALL_LIMITED_MERCENARIES as LIMITED_MERCENARIES} from './mercenary-limited-catalog-v1.mjs';
 import {KAIRON_CODE} from './mercenary-kairon-v1.mjs';
 import {JINMU_CODE} from './mercenary-jinmu-v1.mjs';
-import {halloweenGrowthOpeningGauge} from './mercenary-halloween-combat-v1.mjs';
 
 // 2026-10-16 joint release approved. A complete, explicitly saved ON policy is
 // still required; missing configuration never inherits a sample/default profile.
@@ -135,6 +134,6 @@ function applyMercenaryGrowthV2(actor){
  if(actor.mercenaryLink)actor.mercenaryLink={...actor.mercenaryLink,attackFloor:Math.floor(actor.mercenaryLink.attackFloor*(1+summary.total.attackPercent/100)),hpFloor:Math.floor(actor.mercenaryLink.hpFloor*(1+summary.total.hpPercent/100))};
  actor.skills=(actor.skills||[]).map(skill=>({...skill,balance:{...skill.balance,damageRatio:Math.min(10000,skill.balance.damageRatio*(1+summary.total.skillPowerPercent/100))}}));
  actor.level=g.level;actor.mercenaryGrowth=summary;actor.mercenaryLevelApplied=true;
- const openingGauge=halloweenGrowthOpeningGauge(actor);
+ const openingGauge=mercenaryGrowthOpeningGauge(actor);
  if(openingGauge)actor.gauge=Math.min(95,Math.max(0,Number(actor.gauge)||0)+openingGauge);
 }

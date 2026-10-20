@@ -7,29 +7,6 @@ export const HALLOWEEN_BASE_POWER=237600;
 // linkage, basic attacks, cadence and the original PvE skill budget.
 export const HALLOWEEN_DIIM_PVP_BARRIER=Object.freeze({version:1,amountScale:.6});
 export const halloweenBarrierScale=actor=>actor?.isMercenary===true&&actor.code==='V-984'&&actor.battleMode==='PVP'?HALLOWEEN_DIIM_PVP_BARRIER.amountScale:1;
-// Growth must improve the guard's actual basic damage and durability. Keep
-// Lv.1, the 40% barrier reduction and every other fighter's hit budgets intact.
-export const HALLOWEEN_DIIM_PVP_GROWTH=Object.freeze({version:1,maxBasicCapScale:3,maxDurabilityCapScale:3,maxOpeningGauge:75});
-const diimPvpGrowth=actor=>actor?.isMercenary===true&&actor.code==='V-984'&&actor.statMode==='RANK_FIXED'&&actor.battleMode==='PVP'&&actor.mercenaryLevelApplied&&actor.mercenaryLevel?.version===2?actor.mercenaryGrowth?.total:null;
-export function halloweenGrowthBasicCapScale(actor){
- const growth=diimPvpGrowth(actor);
- return growth?Math.min(HALLOWEEN_DIIM_PVP_GROWTH.maxBasicCapScale,Math.sqrt(1+Math.max(0,growth.attackPercent)/100)):1;
-}
-export function halloweenGrowthDamageCapHp(actor){
- const growth=diimPvpGrowth(actor);
- // Soften the incoming cap using only learned HP growth. The square-root
- // curve gives durability a real gain while retaining a growing, bounded hit
- // budget; gear, team linkage and later HP buffs still affect that budget.
- const scale=growth?Math.min(HALLOWEEN_DIIM_PVP_GROWTH.maxDurabilityCapScale,Math.sqrt(1+Math.max(0,growth.hpPercent)/100)):1;
- return actor.maxHp/scale;
-}
-export function halloweenGrowthOpeningGauge(actor){
- const growth=diimPvpGrowth(actor);
- // Learned action mastery must also help a front guard take its first action;
- // otherwise losing fast allies before entry removes its reserved-action clock.
- return growth?Math.min(HALLOWEEN_DIIM_PVP_GROWTH.maxOpeningGauge,Math.max(0,growth.actionCatchupPercent)+Math.max(0,growth.actionCreditPercent)):0;
-}
-export const halloweenGrowthKeepsNaturalGauge=actor=>!!diimPvpGrowth(actor)&&actor.mercenaryLevel.level>1;
 const rows=[
  ['V-980','FRONT','VANGUARD','MELEE','카니발 브레이크','WOUNDED_MOON_DRAW','약해진 적 하나를 몽둥이로 강타합니다. 대상의 잃은 체력에 따라 피해가 증가합니다.'],
  ['V-981','BACK','RANGED','RANGED','유령 탄막','DISTRIBUTED_CORAL_VOLLEY','적 진형에 세 차례의 유령 탄막을 나누어 발사합니다.'],
@@ -68,6 +45,6 @@ export function halloweenCombatDescription(code){
  const percent=Number((p.skill.balance.damageRatio*100).toFixed(2));
  const basic=p.basicCapScale>1?` 기본 공격 상한은 ${p.basicCapScale}배입니다.`:'';
  const guard=p.pvpIncomingDamageScale?` PVP에서 받는 피해가 ${Math.round((1-p.pvpIncomingDamageScale)*100)}% 감소합니다. 방벽과 HP에 피해를 나누기 전에 적용하며, 상대 용병의 성장에 따른 피해 감소 관통은 기존 규칙을 따릅니다. PVE에는 적용하지 않습니다.`:'';
- const barrier=code==='V-984'?` 성야의 방패는 PVP에서 부여량이 ${Math.round((1-HALLOWEEN_DIIM_PVP_BARRIER.amountScale)*100)}% 감소하여 공격력 ${(percent*HALLOWEEN_DIIM_PVP_BARRIER.amountScale).toFixed(1)}%를 전열에 나눠 부여합니다. 시작 방벽에는 이 감소를 적용하지 않으며 PVE는 ${percent}% 방벽을 부여합니다. PVP 기본 공격 피해 상한은 성장 공격력 배율의 제곱근만큼 증가합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눠 생존력을 보강합니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않습니다.`:'';
+ const barrier=code==='V-984'?` 성야의 방패는 PVP에서 부여량이 ${Math.round((1-HALLOWEEN_DIIM_PVP_BARRIER.amountScale)*100)}% 감소하여 공격력 ${(percent*HALLOWEEN_DIIM_PVP_BARRIER.amountScale).toFixed(1)}%를 전열에 나눠 부여합니다. 시작 방벽에는 이 감소를 적용하지 않으며 PVE는 ${percent}% 방벽을 부여합니다.`:'';
  return `할로윈 SS 리미티드 · 기본 전투력 ${p.basePower.toLocaleString('en-US')}(기존 SS 리미티드 대비 32% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 ${p.link.attackPercent}%·체력 ${p.link.hpPercent}%·전용 방벽 ${p.link.shieldPercent}%. 자연 행동 속도 ${p.speedScale}배, 아군 카드 4행동마다 용병 ${p.actionCredit*4}회 추가 행동. 자기 행동마다 에너지 ${p.actionEnergy} 회복, 스킬 효과 ${percent}%·비용 ${p.skill.balance.cost}·재사용 ${p.skill.balance.cooldownTurns}행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 ${p.pvpSkillCapScale}배입니다.${basic}${barrier}${guard}`;
 }

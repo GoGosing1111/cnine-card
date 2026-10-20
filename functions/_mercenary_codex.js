@@ -18,13 +18,14 @@ import {limitedDeploymentSnapshot,LIMITED_DEPLOYMENT_VERSION} from '../shared/me
 import {ssRearPveSkillText} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 import {ssLimitedCombatDescription,SS_LIMITED_BALANCE_VERSION} from '../shared/mercenary-ss-limited-v1.mjs';
 import {HELIOS_CODE,HELIOS_COMBAT_DESCRIPTION} from '../shared/mercenary-helios-v1.mjs';
+import {MERCENARY_PVP_GROWTH_DESCRIPTION} from '../shared/mercenary-growth-review-v2.mjs';
 
 // Public, read-only projection. Never publish operator notes, audit records,
 // account ownership, acquisition drafts, or unassigned skill associations.
 export function mercenaryCodexDocument(row){
   const document=expandMercenarySkillCatalog(JSON.parse(row.payload_json),seed.document,seed.catalog);
   const skills=new Map(document.skills.map(skill=>[skill.id,skill]));
-  return {version:'mercenary-codex-2098',revision:Number(row.revision),updatedAt:row.updated_at,artReleaseVersion:MERCENARY_ART_RELEASE_VERSION,rangedBalanceVersion:MERCENARY_RANGED_BALANCE_VERSION,guardBalanceVersion:MERCENARY_GUARD_BALANCE_VERSION,moonDrawVersion:MERCENARY_MOON_DRAW_VERSION,ssLimitedBalanceVersion:SS_LIMITED_BALANCE_VERSION,
+  const projection={version:'mercenary-codex-2098',revision:Number(row.revision),updatedAt:row.updated_at,artReleaseVersion:MERCENARY_ART_RELEASE_VERSION,rangedBalanceVersion:MERCENARY_RANGED_BALANCE_VERSION,guardBalanceVersion:MERCENARY_GUARD_BALANCE_VERSION,moonDrawVersion:MERCENARY_MOON_DRAW_VERSION,ssLimitedBalanceVersion:SS_LIMITED_BALANCE_VERSION,
     formation:{regularCardSlots:5,mercenarySlots:1,maxDeployedUnits:6},
     combatLink:MERCENARY_COMBAT_LINK,
     ranks:seed.catalog.ranks,positions:seed.catalog.positions,roles:{...Object.fromEntries(Object.entries(seed.catalog.roles).map(([key,value])=>[key,{label:value.label}])),LIMITED:{label:'리미티드'}},
@@ -42,6 +43,10 @@ export function mercenaryCodexDocument(row){
             trigger:s.trigger,effect:s.effect,counterplay:s.counterplay,bossRule:s.bossRule,procRule:s.procRule,balance:{...s.balance},...(s.pveBalance?{pveBalance:{...s.pveBalance}}:{}),ready};
         })};
     }).concat(MERCENARY_ART_RELEASES.filter(art=>!document.mercenaries.some(c=>c.code===art.code)).map(art=>({...art,skills:[]})),[ZERO_ART,SHIRANUI_ART,LEONEL_ART,...LIMITED_MERCENARIES,...HALLOWEEN_SSS_CARDS.filter(c=>!LIMITED_MERCENARIES.some(a=>a.code===c.code)),{...KAIRON_ART,artOnly:true,basePower:null,skills:[],releaseStatus:'LIMITED_PREVIEW',acquisitionEnabled:false}].map(art=>({...art,...(art.code===ZERO_CODE?{skills:zeroCodexSkills()}:{}),...([LEONEL_CODE,SHIRANUI_ART.code].includes(art.code)?{skills:art.skills.map(s=>({...s,ready:true,target:'적 전체',effect:art.code===SHIRANUI_ART.code?'망령 포대가 생존한 적 전체에 총 560% 피해를 나눠 적용합니다.':'검압이 전장을 가르며 생존한 적 전체에 피해를 한 번씩 나눠 적용합니다.',trigger:'PVE · 에너지 35 · 재사용 5행동',counterplay:'방어·보호막에 대응됩니다.',bossRule:'서버 전투 규칙 적용',procRule:'한 시전당 한 번 적용'}))}:{}),...(art.season==='HALLOWEEN'||art.code==='V-989'?{releaseStatus:'OWNER_PACK_CONTROLLED',basePower:limitedDeploymentSnapshot(art.code)?.basePower??null,skills:(limitedDeploymentSnapshot(art.code)?.skills||[]).map(s=>({...s,ready:true,target:s.target||'적 전체',effect:s.effect||(s.pveOnly?'PVE에서 적 전체에 피해를 나눠 적용합니다.':'고유 기술'),trigger:'자기 행동 · 에너지 및 재사용 충족',counterplay:s.counterplay||'방어·보호막에 대응됩니다.',bossRule:s.bossRule||'서버 전투 규칙 적용',procRule:s.procRule||'한 시전당 한 번 적용'}))}:{}),deploymentEnabled:Boolean(limitedDeploymentSnapshot(art.code)),deploymentVersion:LIMITED_DEPLOYMENT_VERSION,...(art.code===HELIOS_CODE?{combatLinkDescription:HELIOS_COMBAT_DESCRIPTION}:ssLimitedCombatDescription(art.code)?{combatLinkDescription:ssLimitedCombatDescription(art.code)}:{})})))};
+  for(const card of projection.cards)if(card.deploymentEnabled||document.mercenaries.some(c=>c.code===card.code)){
+    card.combatLinkDescription=[card.combatLinkDescription,MERCENARY_PVP_GROWTH_DESCRIPTION].filter(Boolean).join(' ');
+  }
+  return projection;
 }
 
 export async function handleMercenaryCodex({path,request,env,deps}){

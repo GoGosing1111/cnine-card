@@ -12,7 +12,7 @@ import {isHelios,HELIOS_COMBAT} from './mercenary-helios-v1.mjs';
 import {mercenaryCombatRank,ssLimitedProfile,ssLimitedPvpLinkScale} from './mercenary-ss-limited-v1.mjs';
 import {rearPveCurrentPolicy} from './mercenary-ss-rear-pve-v1.mjs';
 import {mercenaryEquipmentPower} from './mercenary-equipment-v1.mjs';
-import {halloweenGrowthDamageCapHp} from './mercenary-halloween-combat-v1.mjs';
+import {mercenaryGrowthDamageCapHp} from './mercenary-growth-review-v2.mjs';
 // Ordinary rank base power stays fixed; limited fighters have explicit policies.
 // Combat linkage is an explicit additional
 // ability, frozen from this side's five ordinary fighters at battle start.
@@ -54,7 +54,7 @@ export const mercenaryEffectiveAttack=actor=>Math.max(Number(actor.attack)||0,ac
 export const mercenaryPvpTierOffense=actor=>actor.isMercenary&&actor.battleMode==='PVP'?Math.max(1,Number(actor.mercenaryLink?.tierOffense)||1):1;
 // Tier durability must not increase the incoming hit budget by the same factor;
 // otherwise a lower-rank capped skill erases the entire defensive correction.
-export const mercenaryDamageCapHp=target=>(halloweenGrowthDamageCapHp(target)+(target.isMercenary?Number(target.mercenaryLink?.openingShield)||0:0))/(target.isMercenary?Math.max(1,Number(target.mercenaryLink?.tierGuard)||1):1);
+export const mercenaryDamageCapHp=target=>(mercenaryGrowthDamageCapHp(target)+(target.isMercenary?Number(target.mercenaryLink?.openingShield)||0:0))/(target.isMercenary?Math.max(1,Number(target.mercenaryLink?.tierGuard)||1):1);
 
 export function applyMercenaryCombatLink(teams,{regularCardsPerOwner=5}={}){
  const formations=teams.flatMap(team=>team.some(c=>c.ownerId)?[...new Set(team.map(c=>c.ownerId))].map(ownerId=>team.filter(c=>c.ownerId===ownerId)):[team]);

@@ -2,7 +2,7 @@ import {zeroIncomingDamage,zeroActionCredit} from '../shared/mercenary-zero-v1.m
 import {leonelIncomingDamage,leonelActionCredit} from '../shared/mercenary-leonel-v1.mjs';
 import {jokroIncomingDamage,jokroActionCredit} from '../shared/mercenary-jokro-v1.mjs';
 import {avatarPoweredCard,avatarScaledPower,avatarPowerScale} from '../shared/avatar-power-v1.mjs';
-import {mercenaryGrowthIncomingDamage,applyMercenaryGrowthMatchups,mercenaryGrowthActionCredit} from '../shared/mercenary-growth-review-v2.mjs';
+import {mercenaryGrowthIncomingDamage,applyMercenaryGrowthMatchups,mercenaryGrowthActionCredit,mercenaryGrowthBasicCapScale,mercenaryGrowthKeepsNaturalGauge} from '../shared/mercenary-growth-review-v2.mjs';
 import {shiranuiIncomingDamage,shiranuiActionCredit} from '../shared/mercenary-shiranui-v1.mjs';
 import {PVP_POWER_BALANCE,pvpPowerEnabled,PVP_POWER_BALANCE_REVIEW,applyPvpPowerBalance,pvpPowerDamageMultiplier} from '../shared/pvp-power-balance-v1.mjs';
 import {Z_BODY_AREA_RELEASE_ENABLED,Z_BODY_AREA_REVIEW,isZBodyAreaActor,createBattleSuitCombatSchedule} from '../shared/z-body-area-skill.mjs';
@@ -18,7 +18,6 @@ import {COMPANION_PREPARATION_REVIEW} from '../shared/companion-loadout-v2.mjs';
 import {applyPetOpeningBuff,preparedMercenaryCadence} from '../shared/companion-opening-v1.mjs';
 import {createMagicSeason2Runtime} from './_magic_season2.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
-import {halloweenGrowthKeepsNaturalGauge} from '../shared/mercenary-halloween-combat-v1.mjs';
 import {ssRearPvePriorityTargets} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 import {validateDuoDeck} from '../shared/ranked-duo-v1.mjs';
 import {sustainedEncounterPlan} from './_sustained_encounter.js';
@@ -559,7 +558,11 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   // cap so a tiny fixed base HP cannot make a large ward nearly unbreakable.
   // Berkan's PVP volley keeps the same already-rolled variance when capped;
   // otherwise a tiny cap edit flips every shielded rear target at once.
-  const hitCap=actor.isMonster&&actor.statCapsUnlocked?Infinity:mercenaryDamageCapHp(target)*capPct*clamp(Number(options.damageCapScale??1),0,4)*(options.varyDamageCap?variance:1);
+  // Clamp the intrinsic budget first: putting learned growth inside that clamp
+  // erases upgrades again for fighters whose innate cap is already high.
+  // Skills/counters retain their own budgets; this is only the basic packet.
+  const growthCapScale=options.basicAttack&&!counter?mercenaryGrowthBasicCapScale(actor):1;
+  const hitCap=actor.isMonster&&actor.statCapsUnlocked?Infinity:mercenaryDamageCapHp(target)*capPct*clamp(Number(options.damageCapScale??1),0,4)*growthCapScale*(options.varyDamageCap?variance:1);
   const capped = Math.min(raw * (1 - reduction), hitCap);
   // V1902: 반격과 호송작전은 제외한다. 반격까지 올리면 카드가 훨씬 빨리 죽고,
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.
@@ -1498,9 +1501,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if (repeatMonsterActions > 0) emitTimeline(timeline, clock, 'MONSTER_MULTI_ATTACK_READY', { actorId: actor.id, attackCount, label: `몬스터 ${attackCount}연속 공격` });
       }
     }
-    // A grown Diim's card-funded extra turn must not erase the independent
+    // A grown mercenary's card-funded extra turn must not erase the independent
     // speed/catch-up gauge it has earned. A natural turn still spends 100.
-    if(!independentAction&&!(actor===reservedMercenary&&halloweenGrowthKeepsNaturalGauge(actor)))actor.gauge = Math.max(0, actor.gauge - 100);
+    if(!independentAction&&!(actor===reservedMercenary&&mercenaryGrowthKeepsNaturalGauge(actor)))actor.gauge = Math.max(0, actor.gauge - 100);
     actor.actions += 1;
     actionActor=actor;
     if (partyCadenceBoss && !independentAction) {
@@ -1590,7 +1593,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const speedCombo=isPvpSpeedCard(actor)&&!apocalypseSealed(actor);
     if(speedCombo)actor.speedBasicAttacks=(actor.speedBasicAttacks||0)+1;
     const s2Attack=!independentAction&&season2Runtime?(!actor.isMercenary&&!actor.isMonster?season2Runtime.beforeAttack(actor,target):season2Runtime.defenseOptions(target)):{};
-    const hit = hitResult(actor, target, random, isBattleSuitSupport(actor)?Math.max(.1,Number(actor.independentAttackMultiplier||1)):(mercenaryRuntime?.basicMultiplier(actor)??1)*(iconRuntime?.basicMultiplier(actor)??1), false, {...hitOptions,...s2Attack,damageCapScale:mercenaryRuntime?.basicDamageCapScale(actor)??1});
+    const hit = hitResult(actor, target, random, isBattleSuitSupport(actor)?Math.max(.1,Number(actor.independentAttackMultiplier||1)):(mercenaryRuntime?.basicMultiplier(actor)??1)*(iconRuntime?.basicMultiplier(actor)??1), false, {...hitOptions,...s2Attack,basicAttack:true,damageCapScale:mercenaryRuntime?.basicDamageCapScale(actor)??1});
     if(isBattleSuitSupport(actor)){
       // V1990: 기준 사이클(0.018) 동안의 배틀슈트 총 타격이
       //   "배틀슈트 전투력만큼의 카드 1장이 1회 공격" 과 같도록 발당 피해를 나눈다.
