@@ -1,0 +1,50 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:yunaieun-bathory-exception:20261020:v1",
+    "planHash": "204401dc3a151307e4b94c20cc9667bffb4818d00d8a3cc4d066bc656718e169",
+    "authorization": "유나이은 계정에 바토리 남은한도 0이여도 그냥 예외처리해서 지급해",
+    "target": {
+      "id": 236,
+      "nickname": "유나이은",
+      "code": "V-977",
+      "name": "바토리",
+      "rank": "SS",
+      "edition": "LIMITED",
+      "quantity": 1
+    },
+    "completedAt": "2026-10-20T11:49:51.005Z",
+    "copiesBefore": 0,
+    "copiesAfter": 1,
+    "stockBefore": {
+      "limit": 10,
+      "issued": 10,
+      "remaining": 0
+    },
+    "stockAfter": {
+      "limit": 10,
+      "issued": 10,
+      "remaining": 0
+    },
+    "protectedBefore": "549ffd9a8381e07c8a934c71e80aede8eae04b93134f17e57629557e7a65736d",
+    "protectedAfter": "549ffd9a8381e07c8a934c71e80aede8eae04b93134f17e57629557e7a65736d",
+    "permanent": true,
+    "automaticLoadout": false,
+    "cost": 0,
+    "countedInLimited": false,
+    "purchaseCountDelta": 0,
+    "adminLogId": "49168"
+  },
+  "currentCopies": 1,
+  "stock": {
+    "limit": 10,
+    "issued": 10,
+    "remaining": 0
+  },
+  "missing": 0,
+  "duplicateOperationGrants": 0,
+  "sourceSha256": "c0ed5f3ac6062d57e92a88c8d72e53c773d901c260e8685e8f1b306c43ef27ed",
+  "verifiedAt": "2026-10-20T11:49:59.283Z",
+  "independentConnection": true
+}
