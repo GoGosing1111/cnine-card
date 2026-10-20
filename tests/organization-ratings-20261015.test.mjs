@@ -10,7 +10,7 @@ test('organization account rating consumes real profile cache, permits OWNER onl
  const f=await organizationFixture(t,{people:2}),now=f.clock();
  await f.pg.exec("CREATE FUNCTION sqlite_now() RETURNS TEXT LANGUAGE SQL AS 'SELECT CURRENT_TIMESTAMP::text'");
  await f.pg.exec("CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);CREATE TABLE ranked_duo_accounts_v1(user_id BIGINT PRIMARY KEY,source_version BIGINT NOT NULL DEFAULT 1);CREATE TABLE ranked_duo_policy_version_v1(id BIGINT PRIMARY KEY,revision BIGINT);INSERT INTO ranked_duo_policy_version_v1 VALUES(1,4);CREATE TABLE ranked_duo_profiles_v1(user_id BIGINT PRIMARY KEY,source_version BIGINT,policy_revision BIGINT,config_hash TEXT,payload_json TEXT,expires_at TEXT);");
- const hash=await jointHash({weights:{},mercenaryLoadoutMode:'PVP-v1',mercenaryEquipment:'20261011',equipmentSetVisualVersion:1,advancedForgeRevision:0});
+ const hash=await jointHash({weights:{},mercenaryLoadoutMode:'PVP-v1',mercenaryEquipment:'20261011',mercenaryGrowth:'20261020-v1',equipmentSetVisualVersion:1,advancedForgeRevision:0});
  for(const userId of [1,2]){
   const profile={userId,power:userId===1?9000:3000,sourceVersion:1,policyRevision:4,expiresAt:new Date(now+300000).toISOString(),breakdown:{cardPower:100,equipmentPower:50},attack:{cards:[]},defense:{cards:[]}};
   await f.pg.query('INSERT INTO ranked_duo_accounts_v1 VALUES($1,1)',[userId]);
