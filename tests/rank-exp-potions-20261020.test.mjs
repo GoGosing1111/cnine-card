@@ -9,8 +9,17 @@ import {useRankExpPotion,readRankExpPotion,rankPotionOptions,rankPotionReceipt,r
 import {accountRankAward,readAccountRank,MAX_RANK_TICKS} from '../functions/_account_rank.js';
 import {ensureJointTransactionSchema} from '../functions/_joint_transactions.js';
 import {registerRankPotions,OPERATION_KEY} from '../scripts/ops/rank-exp-potions-20261020.mjs';
+import {isProductionFile} from '../scripts/prepare-production-assets.mjs';
 const request=(multiplier=2,revision=0)=>({requestId:crypto.randomUUID(),itemCode:'RANK_EXP_POTION_'+multiplier+'X_60M',version:1,expectedRevision:revision});
 const epoch=Date.parse('2026-10-20T01:00:00Z');
+
+test('bounded delivery retains runtime potion art and keeps only its authoring sources in Git',()=>{
+ const root='assets/items/rank-exp-potions-20261020/';
+ for(const file of ['2x.webp','3x.webp','panel.webp'])assert.equal(isProductionFile(root+file),true);
+ for(const file of ['2x-source.png','3x-source.png','panel-source.png','prompts.json','manifest.json'])assert.equal(isProductionFile(root+file),false);
+ assert.equal(isProductionFile('docs/rank-exp-potions-20261020.md'),false);
+ for(const file of ['js/rank-exp-potion-v1.mjs','shared/rank-exp-potion-v1.mjs','css/rank-exp-potion-v1.css','assets/items/icon-card-choice-20261020/ticket.webp'])assert.equal(isProductionFile(file),true);
+});
 
 test('60 minutes, extension, replacement in both directions, exact expiry and malformed/future state',()=>{
  const one=nextRankPotion(null,2,epoch);assert.equal(Date.parse(one.expiresAt),epoch+HOUR);assert.equal(one.action,'START');
