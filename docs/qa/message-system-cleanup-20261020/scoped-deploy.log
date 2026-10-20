@@ -1,0 +1,74 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"a69e4a366b5869f38cc63d7ea0684cfc7c8a0be3","reason":"Include unread system, coupon issuance and purchase notices in bulk inbox cleanup; preserve pending rewards and verify SQLite/PostgreSQL ownership, receipts, retries and atomic failure behavior.","changed":["docs/qa/halloween-recovery-button-20261020/README.md","docs/qa/halloween-recovery-button-20261020/deploy-result.json","docs/qa/halloween-recovery-button-20261020/deploy.log","docs/qa/halloween-recovery-button-20261020/live.json","docs/qa/message-system-cleanup-20261020/README.md","docs/qa/message-system-cleanup-20261020/browser.json","docs/qa/message-system-cleanup-20261020/cleaned-1440.png","docs/qa/message-system-cleanup-20261020/cleaned-390.png","docs/qa/message-system-cleanup-20261020/inbox-1440.png","docs/qa/message-system-cleanup-20261020/inbox-390.png","functions/_message_cleanup.js","index.html","js/app.js","service-worker.js","tests/message-cleanup-20261020.browser.mjs","tests/message-cleanup-20261020.test.mjs"],"tests":["tests/message-cleanup-20261020.test.mjs"],"checks":["check:worker"]}
+✔ SQLite: cleanup includes unread system, coupon and purchase notices while preserving pending rewards (26.9285ms)
+✔ SQLite: reading does not gate cleanup; pagination and repeated requests preserve pending rewards (10.3168ms)
+✔ SQLite: failed archive rolls back every affected message and a retry succeeds (5.4764ms)
+✔ PostgreSQL: cleanup includes unread system, coupon and purchase notices while preserving pending rewards (1450.4423ms)
+✔ PostgreSQL: reading does not gate cleanup; pagination and repeated requests preserve pending rewards (1185.819ms)
+✔ PostgreSQL: failed archive rolls back every affected message and a retry succeeds (1308.9735ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4327.9404
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19999 files; 4943 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7871.67 KiB / gzip: 1701.25 KiB
+Worker Startup Time: 52 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (4.15 sec)
+No targets deployed for cnine-card-api-runtime (0.57 sec)
+Current Version ID: a7e6d7c0-9167-4678-8d9e-51e6a71a2f83
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19995/19999)
+Uploading... (19996/19999)
+Uploading... (19997/19999)
+Uploading... (19999/19999)
+✨ Success! Uploaded 4 files (19995 already uploaded) (2.63 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://eb425a42.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2723.30 KiB / gzip: 621.00 KiB
+Worker Startup Time: 36 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (3.48 sec)
+Deployed cnine-card-clan-draft triggers (0.99 sec)
+  schedule: * * * * *
+Current Version ID: 7d2abdca-4632-46a4-ad21-4488b82715b9

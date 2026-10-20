@@ -1,0 +1,16 @@
+{
+  "source": "1b99e84efb6e1db58cc24d7210d62000ec0ead41",
+  "base": "a69e4a366b5869f38cc63d7ea0684cfc7c8a0be3",
+  "pages": "https://eb425a42.cnine-card.pages.dev",
+  "apiVersion": "a7e6d7c0-9167-4678-8d9e-51e6a71a2f83",
+  "schedulerVersion": "7d2abdca-4632-46a4-ad21-4488b82715b9",
+  "scopedTests": [
+    "tests/message-cleanup-20261020.test.mjs"
+  ],
+  "testsPassed": 6,
+  "testsFailed": 0,
+  "workerCompilation": true,
+  "hyperdriveQueryCacheDisabled": true,
+  "publicFiles": 19999,
+  "productionMessagesModified": false
+}

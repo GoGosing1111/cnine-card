@@ -1,0 +1,32 @@
+{
+  "checkedAt": "2026-10-20T05:07:27.830Z",
+  "site": "https://cnine-card.pages.dev",
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "c77dcb0f25db3459782e4954ab1197a2953b1f9ffbd0fe1d6a21548a08fd25d4"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "ddc2b29bf4b1e7a2d95bdca506fbb05247ed2a527f5ad63676a5d0b0f1120caf"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "54776a161a8a91a120467e66bd17e148c43c07021085eb404e4879e84d4916ba"
+    }
+  ],
+  "authentication": [
+    {
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "method": "PATCH",
+      "status": 401
+    }
+  ],
+  "productionMessagesModified": false
+}
