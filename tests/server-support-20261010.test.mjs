@@ -88,11 +88,11 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 후�
   });
 });
 
-test('군단토벌 기본 10회 + 후원 3회, 만료 후 행동력 보존, 자정 충전 없음',()=>{
+test('군단토벌 기본 10회 + 후원 3회, 만료 시점의 자정 회복은 기본 한도 적용',()=>{
   const at=Date.parse('2026-10-10T23:59:59+09:00'),support=supportBenefits({...emptySupport(),startsAt:at-1000,endsAt:at+1000},at),user={id:2,role:'USER'},run={daily:{day:'2026-10-10',used:12}};
   assert.equal(legionHuntEntries(run,at,user,support).remaining,1);
   assert.equal(legionHuntEntries(run,at,user).remaining,0);assert.equal(legionHuntEntries(run,at,user).current,0);run.energy=legionHuntEntries(run,at,user,support);
-  assert.equal(legionHuntEntries(run,at+1000,user,support).limit,10);assert.equal(legionHuntEntries(run,at+1000,user,support).current,1);
+  assert.equal(legionHuntEntries(run,at+1000,user,support).limit,10);assert.equal(legionHuntEntries(run,at+1000,user,support).current,10);
   assert.equal(legionHuntEntries(run,at,{id:1,role:'OWNER'},support).unlimited,true);
   assert.throws(()=>legionHuntEntries({daily:{day:'2026-10-10',used:14}},at,user));
 });
@@ -113,8 +113,8 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 실�
   await f.DB.prepare('UPDATE app_meta SET value=? WHERE key=?').bind(JSON.stringify({...support,endsAt:f.clock.now}),supportKey(2)).run();
   const expired=(await f.call('legion-hunt/bootstrap')).body.entries;assert.equal(expired.limit,10);assert.equal(expired.current,0);assert.equal(expired.remaining,0);
   await f.DB.prepare('UPDATE app_meta SET value=? WHERE key=?').bind(JSON.stringify({...support,endsAt:200000000}),supportKey(2)).run();assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.remaining,0);
-  f.clock.now=86400000;const start=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(start.status,200);assert.equal((await f.call('legion-hunt/begin',{id:start.body.id})).body.entries.current,6);
-  const cancel=await f.call('legion-hunt/cancel',{id:start.body.id});assert.equal(cancel.status,200);assert.equal(cancel.body.entries.current,7);assert.equal((await f.call('legion-hunt/recover',{})).body.entries.current,7);
+  f.clock.now=86400000;const start=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(start.status,200);assert.equal((await f.call('legion-hunt/begin',{id:start.body.id})).body.entries.current,12);
+  const cancel=await f.call('legion-hunt/cancel',{id:start.body.id});assert.equal(cancel.status,200);assert.equal(cancel.body.entries.current,13);assert.equal((await f.call('legion-hunt/recover',{})).body.entries.current,13);
 });
 
 test('실제 로더·CMS·API가 후원 모듈에 연결되어 있다',()=>{

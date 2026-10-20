@@ -76,6 +76,7 @@ for(const postgres of [false,true]){
   }finally{await f.close();}
  });
  test(`${engine}: legion energy persists, regenerates, refunds once before coins, and keeps supporter capacity`,async()=>{
+  const at=Date.parse('2026-10-21T09:00:00+09:00');
   const f=await legionFixture({postgres});try{
    const cfg=await f.configure();cfg.mode='ON';await f.call('admin/legion-hunt',{policy:cfg},{method:'PATCH'});f.setUser(f.player);f.clock.now=at;
    const key='legion_hunt_owner_session_v1:2';

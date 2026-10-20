@@ -1,4 +1,4 @@
-import {contentEnergyText,contentEnergyView} from '../shared/content-energy-v1.mjs?v=20261020-clock-fix-v1';
+import {legionHuntEnergyText,legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs?v=20261021-daily-reset-v1';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
 
@@ -17,7 +17,7 @@ export function createHuntEntry({request=jointAccountRequest,render,enter,dispos
   const update=next=>{state={...state,...next};render(state);};
   return {
     get state(){return state;},
-    energy(){const e=state.data?.entries;return e?.maximum?{...e,...contentEnergyView(e,{at:Date.now()+serverOffset,maximum:e.maximum})}:e;},
+    energy(){const e=state.data?.entries;return e?.maximum?{...e,...legionHuntEnergyView(e,{at:Date.now()+serverOffset,maximum:e.maximum})}:e;},
     async refresh(priorRecovery=null){
       const token=++revision;update({phase:'loading',data:null,error:''});
       try{
@@ -130,7 +130,7 @@ export function openLegionHunt(button){
     find('[data-hunt-coin-note]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?(data.coinEntries?.remaining===0?'코인 수급 행동력 충전 대기 · 3시간마다 1회 충전':'처치 즉시 자동 습득 · 보너스 포함 상한'):'TEST · 실제 코인은 지급되지 않습니다.';
     find('.legion-limit').textContent=selected?'보스전 포함 총 7분':'';
     if(selected)find('[data-hunt-boss-at]').textContent=Math.floor(selected.huntDurationMs/60000)+':'+String(selected.huntDurationMs/1000%60).padStart(2,'0')+' · 최종 보스';
-    find('.legion-entries').textContent=unlimited?'무제한':data?.entries?contentEnergyText(data.entries,data.entries.serverNow):'';
+    find('.legion-entries').textContent=unlimited?'무제한':data?.entries?legionHuntEnergyText(data.entries,data.entries.serverNow):'';
     find('[data-hunt-entry-limit]').textContent=unlimited?'무제한':data?.entries?data.entries.limit+'회':'—';
     dialog.dataset.difficulty=state.difficulty;
   };
@@ -141,7 +141,7 @@ export function openLegionHunt(button){
   energyTimer=setInterval(()=>{
     const state=controller.state;if(state.phase!=='lobby'||!state.data)return;
     const energy=controller.energy();if(!energy?.maximum)return;
-    find('.legion-entries').textContent=energy.unlimited?'OWNER 무제한 · 코인 '+energy.current+' / '+energy.maximum:contentEnergyText(energy,energy.serverNow);
+    find('.legion-entries').textContent=energy.unlimited?'OWNER 무제한 · 코인 '+energy.current+' / '+energy.maximum:legionHuntEnergyText(energy,energy.serverNow);
     const exhausted=!energy.unlimited&&energy.current===0;
     find('[data-hunt-enter]').disabled=!state.data.loadout||!!state.error||exhausted;
     find('[data-hunt-enter]').textContent=exhausted?'행동력 충전 대기':'토벌 입장';

@@ -5,7 +5,8 @@ import {loadScrapyardV3Snapshot} from './_scrapyard_v3.js';
 import {legionHuntAccess,canAccessLegionHunt,legionHuntCatalog,legionHuntTestUsers,searchLegionHuntTestUsers,readLegionHuntPolicy,saveLegionHuntPolicy} from './_legion_hunt_settings.js';
 import {claimLegionHuntReward,settleLegionHuntRewards} from './_legion_hunt_rewards.js';
 import {readJointBody,jointError,jointResponseError} from './_joint_request.js';
-import {contentEnergy,contentEnergyView,LEGION_ENERGY_MAXIMUM} from '../shared/content-energy-v1.mjs';
+import {contentEnergy,LEGION_ENERGY_MAXIMUM} from '../shared/content-energy-v1.mjs';
+import {legionHuntEnergyView} from '../shared/legion-hunt-energy-v1.mjs';
 import {readMiracleDropPercent,applyMiracleDropChance} from './_miracle_burning.js';
 import {readRegionPolicy,saveRegionPolicy,regionAccess,regionBootstrap,regionRewardCatalog} from './_legion_regions.js';
 import {regionalDifficulty,regionById} from '../shared/legion-regions-v1.mjs';
@@ -21,7 +22,7 @@ export function legionHuntEnergy(run,at,support=null,user=null){
   const day=new Date(at+9*3600000).toISOString().slice(0,10),legacy=user?.role==='OWNER'?run?.coinDaily:run?.daily;
   const used=legacy?.day===day?Number(legacy.used):0;
   if(!Number.isSafeInteger(used)||used<0||used>LEGION_ENERGY_MAXIMUM+SUPPORT_PLAN.extraLegionEntries)throw jointError('HUNT_ENTRIES_UNAVAILABLE','행동력 기록을 확인할 수 없습니다.',503);
-  return contentEnergyView(run?.energy,{at,maximum,initial:Math.max(0,maximum-used)});
+  return legionHuntEnergyView(run?.energy,{at,maximum,initial:Math.max(0,maximum-used)});
 }
 export function legionHuntEntries(run,at,user,support=null){
   const energy=legionHuntEnergy(run,at,support,user),unlimited=user?.role==='OWNER';
