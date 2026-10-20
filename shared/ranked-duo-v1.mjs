@@ -1,10 +1,10 @@
 import {DUO_RECRUIT_HOURS,duoTiers} from './ranked-duo-season-v2.mjs';
 import {validateDuoPolicy} from './ranked-duo-weekly-v3.mjs';
-import {DUO_RANDOM_MODE,duoMatchmaking} from './ranked-duo-random-v4.mjs';
+import {DUO_RANDOM_MODE,DUO_RANKED_POOL,duoMatchmaking,duoEntryMode,isOpenDuo} from './ranked-duo-random-v4.mjs';
 export const DUO_VERSION='duo-20260925-v1';
 export const DUO_ADDITIONAL_RECRUIT_HOURS=12;
 export const DUO_LIMITS=Object.freeze({participants:10000,refreshBatch:12,candidates:24,history:30,logBytes:1500000,grade:{PRESTIGE:2,FUR:2,ZENITH:2,SUPERSTAR:1,ICON:2}});
-export const DUO_DEFAULTS=Object.freeze({revision:0,name:'랭크 듀오 시즌 1',matchmaking:DUO_RANDOM_MODE,visible:false,recruitHours:DUO_RECRUIT_HOURS,startsAt:null,endsAt:null,energy:{maximum:null,dailyGrant:null,cost:null},score:{initial:1000,win:24,loss:16},mercenaryWeights:{}});
+export const DUO_DEFAULTS=Object.freeze({revision:0,name:'랭크 듀오 시즌 1',matchmaking:DUO_RANDOM_MODE,entryMode:DUO_RANKED_POOL,visible:false,recruitHours:0,startsAt:null,endsAt:null,energy:{maximum:null,dailyGrant:null,cost:null},score:{initial:1000,win:24,loss:16},mercenaryWeights:{}});
 export const duoError=(code,message,status=409)=>Object.assign(new Error(message),{code:`DUO_${code}`,status});
 const integer=(n,min,max,label)=>{if(!Number.isSafeInteger(n)||n<min||n>max)throw duoError('CONFIG',`${label} 설정을 확인하세요.`,400);return n;};
 export function validateDuoConfig(raw){
@@ -14,7 +14,8 @@ export function validateDuoConfig(raw){
  if(energy.maximum!==null&&(energy.dailyGrant>energy.maximum||energy.cost>energy.maximum))throw duoError('CONFIG','지급량과 비용은 행동력 최대치를 넘을 수 없습니다.',400);
  if(raw.energy?.mode==='RANKED'){energy.mode='RANKED';energy.rechargeMinutes=integer(raw.energy.rechargeMinutes,1,1440,'행동력 충전 간격');}
  const weights={};for(const [code,value]of Object.entries(raw.mercenaryWeights||{})){if(!/^V-\d{3}$/.test(code)||!Number.isFinite(value)||value<.1||value>10)throw duoError('CONFIG','용병 평가 배율을 확인하세요.',400);weights[code]=value;}
- const result={revision:integer(raw.revision??0,0,2147483646,'설정 버전'),name:raw.name.trim(),visible:raw.visible===true,recruitHours:integer(raw.recruitHours??DUO_RECRUIT_HOURS,1,720,'모집 시간'),startsAt:date(raw.startsAt),endsAt:date(raw.endsAt),energy,score:{initial:integer(raw.score?.initial??1000,0,raw.automatic?1000000:100000,'시작 점수'),win:integer(raw.score?.win??24,raw.automatic?0:1,raw.automatic?100000:1000,'승리 점수'),loss:integer(raw.score?.loss??16,0,raw.automatic?100000:1000,'패배 점수')},mercenaryWeights:weights};
+ const open=isOpenDuo(raw);
+ const result={revision:integer(raw.revision??0,0,2147483646,'설정 버전'),name:raw.name.trim(),visible:raw.visible===true,recruitHours:open?0:integer(raw.recruitHours??DUO_RECRUIT_HOURS,1,720,'모집 시간'),startsAt:date(raw.startsAt),endsAt:date(raw.endsAt),energy,score:{initial:integer(raw.score?.initial??1000,0,raw.automatic?1000000:100000,'시작 점수'),win:integer(raw.score?.win??24,raw.automatic?0:1,raw.automatic?100000:1000,'승리 점수'),loss:integer(raw.score?.loss??16,0,raw.automatic?100000:1000,'패배 점수')},mercenaryWeights:weights};
  if(result.startsAt&&result.endsAt&&result.endsAt<=result.startsAt)throw duoError('CONFIG','종료일은 시작일 이후여야 합니다.',400);
  if(raw.automatic===true||raw.weekly){
   if(!raw.rankedSeason?.key||!raw.rankedSeason.name)throw duoError('CONFIG','연동한 랭크전 시즌을 확인하세요.',400);
@@ -34,6 +35,8 @@ export function validateDuoConfig(raw){
   result.additionalRecruitment={phase:r.phase,hours:integer(r.hours,1,720,'추가모집 시간'),openedAt:date(r.openedAt),until:date(r.until),completedAt:date(r.completedAt??null)};
  }
  result.matchmaking=duoMatchmaking(raw.matchmaking);
+ result.entryMode=duoEntryMode(raw.entryMode);
+ if(result.entryMode===DUO_RANKED_POOL&&!open)throw duoError('CONFIG','상시 매칭은 랜덤 듀오에서만 사용할 수 있습니다.',400);
  if(result.matchmaking===DUO_RANDOM_MODE)result.competitionStartedAt=date(raw.competitionStartedAt??null);
  return result;
 }

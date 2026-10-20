@@ -1,8 +1,9 @@
-import {DUO_RANDOM_MODE,duoRandomInt,shuffleDuo} from '../shared/ranked-duo-random-v4.mjs';
+import {DUO_RANDOM_MODE,duoRandomInt,shuffleDuo,isOpenDuo} from '../shared/ranked-duo-random-v4.mjs';
 import {duoError,duoEnergy,DUO_LIMITS} from '../shared/ranked-duo-v1.mjs';
 import {resolveDuoTier,DUO_CHALLENGER} from '../shared/ranked-duo-season-v2.mjs';
 import {loadDuoProfiles} from './_ranked_duo_profiles.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
+import {rankedDuoPoolCandidates,trackDuoProfileVersions} from './_ranked_duo_pool.js';
 
 export const DUO_RANDOM_SCHEMA_KEY='ranked_duo_random_schema_v4';
 export const DUO_RANDOM_SCHEMA=[
@@ -52,6 +53,21 @@ export async function matchRandomDuo(env,user,s,mine,deps,now){
  if(duoEnergy(mine,s.config,now).current<s.config.energy.cost)throw duoError('ENERGY','듀오 행동력이 부족합니다.');
  const old=await q('SELECT * FROM ranked_duo_tickets_v4 WHERE season_id=? AND user_id=? AND used_at IS NULL AND expires_at>?',s.id,user.id,iso(now)).first();
  if(old)return publicTicket(env,s,old);
+ let profiles;
+ if(isOpenDuo(s.config)){
+  const ids=await rankedDuoPoolCandidates(env,Number(user.id),now);
+  if(ids.length<3)throw duoError('NO_OPPONENT','랭크전 공격·방어 덱이 준비된 서로 다른 이용자 4명이 필요합니다.');
+  profiles=[];
+  const selected=[Number(user.id),...ids];
+  for(let offset=0;offset<selected.length;offset+=DUO_LIMITS.refreshBatch){
+   const batch=selected.slice(offset,offset+DUO_LIMITS.refreshBatch);
+   await trackDuoProfileVersions(env,batch);
+   profiles.push(...await loadDuoProfiles(env,batch,s.config,deps,{now}));
+   if(!profiles[0].attackReady)throw duoError('DECK','내 랭크전 공격 덱을 확인하세요.');
+   const ready=profiles.slice(1);
+   if(ready.some(r=>r.attackReady&&ready.filter(o=>o.userId!==r.userId&&o.defenseReady).length>=2))break;
+  }
+ }else{
  // Two index range reads, each with a hard 12-row budget. Never sort the
  // entire population randomly or rebuild all inventories on a match request.
  const pivot=duoRandomInt(4294967296),half=DUO_LIMITS.candidates/2;
@@ -63,7 +79,9 @@ export async function matchRandomDuo(env,user,s,mine,deps,now){
  if(ids.length<3)throw duoError('NO_OPPONENT','서로 다른 참가자 4명이 필요합니다. 참가자가 모이면 다시 시도하세요.');
  const available=(await q(`SELECT u.id FROM users u WHERE u.id IN(${ids.map(()=>'?').join(',')}) AND ${eligible}`,...ids,stamp(now)).all()).results.map(r=>Number(r.id));
  if(available.length<3)throw duoError('NO_OPPONENT','매칭 가능한 참가자가 부족합니다. 잠시 후 다시 시도하세요.');
- const profiles=await loadDuoProfiles(env,[Number(user.id),...available],s.config,deps,{now}),own=profiles[0];
+ profiles=await loadDuoProfiles(env,[Number(user.id),...available],s.config,deps,{now});
+ }
+ const own=profiles[0];
  if(!own.attackReady)throw duoError('DECK','내 랭크전 공격 덱을 확인하세요.');
  const candidates=shuffleDuo(profiles.slice(1)),partner=candidates.find(r=>r.attackReady&&candidates.filter(other=>other.userId!==r.userId&&other.defenseReady).length>=2);
  const opponents=partner?shuffleDuo(candidates.filter(r=>r.userId!==partner.userId&&r.defenseReady)).slice(0,2):[];
@@ -92,7 +110,7 @@ export function randomDuoFinalWrites(env,s,now){
  return [p(env)(`INSERT INTO ranked_duo_final_v4(season_id,user_id,nickname,final_rank,score,wins,losses,completed_at)
   SELECT r.season_id,r.user_id,u.nickname,ROW_NUMBER() OVER (ORDER BY r.score DESC,r.user_id DESC),r.score,r.wins,r.losses,?
   FROM ranked_duo_players_v4 r JOIN users u ON u.id=r.user_id WHERE r.season_id=? AND r.wins+r.losses>0 AND ${eligible}
-  ORDER BY r.score DESC,r.user_id DESC LIMIT ?`,iso(now),s.id,stamp(now),DUO_LIMITS.participants),
+  ORDER BY r.score DESC,r.user_id DESC${isOpenDuo(s.config)?'':' LIMIT ?'}`,iso(now),s.id,stamp(now),...(isOpenDuo(s.config)?[]:[DUO_LIMITS.participants])),
   p(env)(`INSERT INTO ranked_duo_trophies_v2(season_id,user_id,team_id,final_rank,acquired_at) SELECT season_id,user_id,'random-player:' || CAST(user_id AS TEXT),final_rank,completed_at FROM ranked_duo_final_v4 WHERE season_id=? AND final_rank BETWEEN 1 AND ? ON CONFLICT(season_id,user_id) DO NOTHING`,s.id,DUO_CHALLENGER.rankLimit)
  ];
 }

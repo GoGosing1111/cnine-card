@@ -9,7 +9,7 @@ export async function weeklyFixture(t,options={}){
   energy:{maxEnergy:10,costPerBattle:1,rechargeMinutes:5},winCoin:250000,initialScore:1000,winScore:24,loseScore:16,
   tiers:duoTiers().tiers.map((t,i)=>({...t,rewardCoin:100*(i+1),rewardShards:i})),challengerTier:{rewardCoin:5000000000,rewardShards:30}};
  // Legacy seasons remain covered; new random-season tests opt in explicitly.
- const policy={...copyRankedDuoPolicy(settings,new Date(f.clock()).toISOString()),matchmaking:options.matchmaking||'FIXED'};
+ const policy={...copyRankedDuoPolicy(settings,new Date(f.clock()).toISOString()),matchmaking:options.matchmaking||'FIXED',entryMode:options.entryMode||'ENROLLMENT'};
  await prepareDuoAutomation(f.env);await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',DUO_WEEKLY_POLICY_KEY,JSON.stringify(policy)).run();
  const tick=()=>reconcileDuoSeason(f.env,{settings,deps:f.deps,now:f.clock()}),season=()=>duoLifecycle.currentSeason(f.env);
  return {...f,policy,settings,tick,season,async active(){

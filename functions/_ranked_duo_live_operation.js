@@ -11,5 +11,5 @@ export async function rankedDuoLiveOperation(env,now=Date.now()){
  if(row.status==='ACTIVE'&&Date.parse(config.endsAt)<=now)return null;
  if(!Number.isFinite(Date.parse(deadline))||Date.parse(deadline)<=now||!recruiting&&Date.parse(config.startsAt)>now)return null;
  return {kind:'RANKED_DUO',phase:row.status,additionalRecruiting:additional,entityId:String(row.id),title:String(config.name||'랭크 듀오'),
-  detail:random?(recruiting?'매 경기 랜덤 듀오 · 시즌 참가 신청':'랜덤 2대2 · 요청자 개인 점수 · 비동기 대전'):recruiting?'2인 1팀 · 시즌 참가 신청':additional?'추가모집 중 · 기존 팀 대전 가능':'2인 1팀 · 비동기 랭크 대전',deadlineAt:deadline,sortOrder:0};
+  detail:random?(config.entryMode==='RANKED_POOL'?'상시 랜덤 2대2 · 랭크전 덱으로 바로 출전':recruiting?'매 경기 랜덤 듀오 · 시즌 참가 신청':'랜덤 2대2 · 요청자 개인 점수 · 비동기 대전'):recruiting?'2인 1팀 · 시즌 참가 신청':additional?'추가모집 중 · 기존 팀 대전 가능':'2인 1팀 · 비동기 랭크 대전',deadlineAt:deadline,sortOrder:0};
 }

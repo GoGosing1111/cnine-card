@@ -1,0 +1,112 @@
+[
+  {
+    "width": 1440,
+    "home": {
+      "width": 1440,
+      "scroll": 1440,
+      "missing": [],
+      "buttons": [
+        {
+          "label": "새로고침",
+          "height": 48,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        },
+        {
+          "label": "매칭 로비",
+          "height": 52,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        },
+        {
+          "label": "개인 랭킹",
+          "height": 52,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        },
+        {
+          "label": "전투 기록",
+          "height": 52,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        },
+        {
+          "label": "티어·보상",
+          "height": 52,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        },
+        {
+          "label": "랜덤 매칭 · 바로 출전",
+          "height": 54,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        },
+        {
+          "label": "공격·방어 덱 확인",
+          "height": 54,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        }
+      ]
+    },
+    "joinedBefore": false,
+    "poolCount": 6,
+    "energyBefore": 10,
+    "energyAfter": 9,
+    "actions": [
+      "/api/ranked-duo/match",
+      "/api/ranked-duo/fight"
+    ],
+    "errors": [],
+    "httpErrors": []
+  },
+  {
+    "width": 390,
+    "home": {
+      "width": 390,
+      "scroll": 390,
+      "missing": [],
+      "buttons": [
+        {
+          "label": "새로고침",
+          "height": 44,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        },
+        {
+          "label": "매칭 로비",
+          "height": 46,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        },
+        {
+          "label": "개인 랭킹",
+          "height": 46,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        },
+        {
+          "label": "전투 기록",
+          "height": 46,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        },
+        {
+          "label": "티어·보상",
+          "height": 46,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        },
+        {
+          "label": "랜덤 매칭 · 바로 출전",
+          "height": 54,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        },
+        {
+          "label": "공격·방어 덱 확인",
+          "height": 54,
+          "skin": "url(\"http://127.0.0.1:8923/assets/ui/ranked-duo/random-20261020/control.webp\")"
+        }
+      ]
+    },
+    "joinedBefore": true,
+    "poolCount": 6,
+    "energyBefore": 9,
+    "energyAfter": 8,
+    "actions": [
+      "/api/ranked-duo/match",
+      "/api/ranked-duo/fight"
+    ],
+    "errors": [],
+    "httpErrors": []
+  }
+]

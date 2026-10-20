@@ -1,5 +1,5 @@
 import {duoTiers,DUO_RECRUIT_HOURS} from './ranked-duo-season-v2.mjs';
-import {DUO_RANDOM_MODE,duoMatchmaking} from './ranked-duo-random-v4.mjs';
+import {DUO_RANDOM_MODE,DUO_RANKED_POOL,duoMatchmaking,duoEntryMode,isOpenDuo} from './ranked-duo-random-v4.mjs';
 
 export const DUO_WEEKLY_POLICY_KEY='ranked_duo_weekly_policy_v3';
 export const DUO_BATTLE_DAYS=7;
@@ -16,7 +16,9 @@ export function validateDuoPolicy(raw){
  const tiers=duoTiers(raw).tiers;
  if(tiers.length!==7||new Set(tiers.map(t=>t.id)).size!==7||!['bronze','silver','gold','platinum','diamond','master','grandmaster'].every(id=>tiers.some(t=>t.id===id)))throw invalid('티어');
  for(const tier of tiers){integer(tier.min,0,100000000,'티어 점수');Object.assign(tier,duoRewardAmounts(raw.tiers.find(t=>t.id===tier.id)));}
- return {revision:integer(raw.revision??0,0,2147483646,'운영 버전'),matchmaking:duoMatchmaking(raw.matchmaking,DUO_RANDOM_MODE),enabled:raw.enabled!==false,anchor:iso(Date.parse(raw.anchor)),
+ const matchmaking=duoMatchmaking(raw.matchmaking,DUO_RANDOM_MODE),entryMode=duoEntryMode(raw.entryMode);
+ if(entryMode===DUO_RANKED_POOL&&matchmaking!==DUO_RANDOM_MODE)throw invalid('상시 랜덤 매칭');
+ return {revision:integer(raw.revision??0,0,2147483646,'운영 버전'),matchmaking,entryMode,enabled:raw.enabled!==false,anchor:iso(Date.parse(raw.anchor)),
   energy:{mode:'RANKED',maximum,dailyGrant:maximum,cost:integer(raw.energy.cost,1,maximum,'공격 비용'),rechargeMinutes:integer(raw.energy.rechargeMinutes,1,1440,'충전 간격')},
   score:{initial:integer(raw.score?.initial,0,1000000,'시작 점수'),win:integer(raw.score?.win,0,100000,'승리 점수'),loss:integer(raw.score?.loss,0,100000,'패배 점수')},
   rewards:{winCoin:integer(raw.rewards?.winCoin,0,Number.MAX_SAFE_INTEGER,'승리 코인'),tierEnabled:raw.rewards?.tierEnabled!==false},
@@ -29,8 +31,8 @@ export function copyRankedDuoPolicy(settings,anchor){
   rewards:{winCoin:Number(settings.winCoin),tierEnabled:settings.tierRewardsEnabled!==false},source:{name:settings.seasonName,copiedAt:anchor}});
 }
 export function duoWeeklyConfig(raw,recruitStart,sequence=1){
- const policy=validateDuoPolicy(raw),startsAt=iso(recruitStart+DUO_RECRUIT_HOURS*3600000),endsAt=iso(Date.parse(startsAt)+DUO_BATTLE_DAYS*86400000);
- return {revision:0,name:'랭크 듀오 시즌 '+sequence,matchmaking:policy.matchmaking,visible:true,automatic:true,recruitHours:DUO_RECRUIT_HOURS,startsAt,endsAt,competitionStartedAt:null,
+ const policy=validateDuoPolicy(raw),open=isOpenDuo(policy),startsAt=iso(recruitStart+(open?0:DUO_RECRUIT_HOURS*3600000)),endsAt=iso(Date.parse(startsAt)+DUO_BATTLE_DAYS*86400000);
+ return {revision:0,name:'랭크 듀오 시즌 '+sequence,matchmaking:policy.matchmaking,entryMode:policy.entryMode,visible:true,automatic:true,recruitHours:open?0:DUO_RECRUIT_HOURS,startsAt,endsAt,competitionStartedAt:open?startsAt:null,
   energy:policy.energy,score:policy.score,tiers:policy.tiers,challenger:policy.challenger,rewards:policy.rewards,mercenaryWeights:policy.mercenaryWeights,
   weekly:{sequence,policyRevision:policy.revision,recruitStartsAt:iso(recruitStart)},
   rankedSeason:{key:'duo-weekly|'+sequence+'|'+iso(recruitStart),name:policy.source.name||'독립 시즌',startsAt:iso(recruitStart),endsAt,recruitStartsAt:iso(recruitStart)}};

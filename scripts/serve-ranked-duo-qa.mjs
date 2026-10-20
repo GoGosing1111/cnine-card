@@ -9,7 +9,7 @@ import {duoFixture} from '../tests/helpers/ranked-duo-db.mjs';
 import {MERCENARY_CMS_SEED} from '../functions/_mercenary_cms_seed.js';
 import {operatingMercenaries} from '../tests/helpers/mercenary-operating-roster-v2144.mjs';
 import {createDuoBattleV2,createPvpBattleV2,createPveBattleV2} from '../functions/_battle_v2_preview.js';
-const root=path.resolve(fileURLToPath(new URL('..',import.meta.url))),port=Number(process.env.DUO_QA_PORT||8917);
+const root=path.resolve(fileURLToPath(new URL('..',import.meta.url))),port=Number(process.env.DUO_QA_PORT||8917),openPool=process.env.DUO_QA_OPEN==='1';
 const f=await duoFixture({after(){}}),cards=JSON.parse(fs.readFileSync(path.join(root,'preview/mercenary-ice-crystal-dual-sword-v1/release/combat-payloads.json'))).cards;
 const fur=JSON.parse(fs.readFileSync(path.join(root,'assets/ui/project-v/characters/fur/manifest-v2.json'))).characters.find(c=>c.cardId==='CN-346F8DB0DEB84D41');
 cards[4]={id:fur.cardId,cardId:fur.cardId,title:fur.title,name:fur.member,rarity:'FUR',image:fur.sourceArt,sourceArt:fur.sourceArt,power_type:'ATTACK',power:20000000};
@@ -27,11 +27,13 @@ const scenarios={active:f,empty:await duoFixture({after(){}}),recruit:await duoF
 for(const [id,nickname]of [[2,'별의수호자'],[3,'붉은달'],[4,'새벽을걷는여행자'],[5,'밤하늘'],[6,'은빛유성'],[7,'달빛기사']])await f.p('UPDATE users SET nickname=? WHERE id=?',nickname,id).run();
 const qaSettings=local=>({enabled:true,seasonName:'시즌 99',startsAt:new Date(local.clock()).toISOString(),endsAt:new Date(local.clock()+5*86400000).toISOString(),energy:{maxEnergy:10,rechargeMinutes:5,costPerBattle:1},winCoin:250000,initialScore:1000,winScore:24,loseScore:16,tiers:duoTiers().tiers.map((t,i)=>({...t,rewardCoin:[100,3009,5009,10000000,750000000,1000000000,3000000000][i],rewardShards:0})),challengerTier:{rewardCoin:5000000000,rewardShards:0}});
 const settings=qaSettings(f);
-for(const local of [f,scenarios.recruit])await local.p('INSERT INTO app_meta(key,value) VALUES(?,?)',DUO_WEEKLY_POLICY_KEY,JSON.stringify(copyRankedDuoPolicy(qaSettings(local),new Date(local.clock()).toISOString()))).run();
+for(const local of [f,scenarios.recruit])await local.p('INSERT INTO app_meta(key,value) VALUES(?,?)',DUO_WEEKLY_POLICY_KEY,JSON.stringify({...copyRankedDuoPolicy(qaSettings(local),new Date(local.clock()).toISOString()),entryMode:openPool&&local===f?'RANKED_POOL':'ENROLLMENT'})).run();
 await reconcileDuoSeason(f.env,{settings,deps:f.deps,now:f.clock()});
 await reconcileDuoSeason(scenarios.recruit.env,{settings:qaSettings(scenarios.recruit),deps:scenarios.recruit.deps,now:scenarios.recruit.clock()});
-for(const user of [2,3,4,5,6,7])await f.call('ranked-duo/join',{user,method:'POST'});
-f.advance(24*3600000);for(let i=0;i<8;i++)await reconcileDuoSeason(f.env,{settings,deps:f.deps,now:f.clock()});
+if(!openPool){
+ for(const user of [2,3,4,5,6,7])await f.call('ranked-duo/join',{user,method:'POST'});
+ f.advance(24*3600000);for(let i=0;i<8;i++)await reconcileDuoSeason(f.env,{settings,deps:f.deps,now:f.clock()});
+}
 const resources=fs.readFileSync(path.join(root,'js/app.js'),'utf8').match(/battleV2:\{([\s\S]*?)\n  \}/)[1];
 const scripts=[...resources.matchAll(/'(js\/[^']+|preview\/[^']+)'/g)].map(m=>m[1]);
 const styles=['css/style.css','css/adventure-navigation-standalone.css','css/card.css','css/battle-v2-live.css','css/battle-v3-live.css','css/ranked-duo-v1.css','admin/ranked-duo-v1.css'];

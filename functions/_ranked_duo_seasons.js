@@ -4,8 +4,9 @@ import {duoAutomaticConfig,duoSourceKey,duoUtcMs,DUO_CHALLENGER} from '../shared
 import {validateDuoConfig} from '../shared/ranked-duo-v1.mjs';
 import {duoWeeklyConfig,DUO_WEEKLY_POLICY_KEY} from '../shared/ranked-duo-weekly-v3.mjs';
 import {readDuoPolicy,prepareDuoEconomy,deliverDuoTierRewards} from './_ranked_duo_economy.js';
-import {isRandomDuo} from '../shared/ranked-duo-random-v4.mjs';
+import {isRandomDuo,isOpenDuo} from '../shared/ranked-duo-random-v4.mjs';
 import {prepareDuoRandom,randomDuoFinalWrites} from './_ranked_duo_random.js';
+import {ensureOpenDuoWindow} from './_ranked_duo_open.js';
 
 import {DUO_AUTO_SCHEMA_KEY,readDuoHonors} from './_ranked_duo_honors.js';
 export {DUO_AUTO_SCHEMA_KEY,readDuoHonors};
@@ -87,6 +88,12 @@ export async function reconcileDuoSeason(env,{settings,deps={},now=Date.now()}){
  if(!Number(claimed.meta?.changes))return {phase:'BUSY',nextCheckAt:iso(now+5000)};
  try{
   let s=await core.currentSeason(env);
+  if(isOpenDuo(s?.config)){
+   s=await ensureOpenDuoWindow(env,s,now);
+   // Settlement of a previous week never holds the current week's matches.
+   const previous=await p(env)("SELECT * FROM ranked_duo_seasons_v1 WHERE status='SETTLING' AND id<>? ORDER BY created_at LIMIT 1",s.id).first();
+   if(previous)await finish(env,{...previous,revision:Number(previous.revision),config:validateDuoConfig(JSON.parse(previous.config_json))},deps,now);
+  }
   if(s?.config.weekly&&!s.config.automatic&&policy&&s.status==='RECRUITING'){
    await change(env,s,s.status,{...s.config,automatic:true},[
     p(env)('INSERT INTO ranked_duo_auto_v2(source_key,season_id,created_at) VALUES(?,?,?) ON CONFLICT(source_key) DO NOTHING',s.config.rankedSeason.key,s.id,iso(now))
@@ -131,10 +138,10 @@ export async function reconcileDuoSeason(env,{settings,deps={},now=Date.now()}){
   await env.DB.batch(core.guard(env,s?'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)':'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)',s?[DUO_CURRENT_KEY,s.id]:[DUO_CURRENT_KEY],[
    ...(policy&&env.DB.dialect==='postgres'?[p(env)('SELECT key FROM app_meta WHERE key=? FOR SHARE',DUO_WEEKLY_POLICY_KEY)]:[]),
    ...(policy?core.guard(env,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[DUO_WEEKLY_POLICY_KEY,policySnapshot.value],[]):[]),
-   p(env)("INSERT INTO ranked_duo_seasons_v1(id,status,config_json,recruit_until,created_at) VALUES(?,'RECRUITING',?,?,?)",id,JSON.stringify(valid),valid.startsAt,iso(now)),
+   p(env)("INSERT INTO ranked_duo_seasons_v1(id,status,config_json,recruit_until,created_at) VALUES(?,?,?,?,?)",id,isOpenDuo(valid)?'ACTIVE':'RECRUITING',JSON.stringify(valid),isOpenDuo(valid)?null:valid.startsAt,iso(now)),
    p(env)('INSERT INTO ranked_duo_auto_v2(source_key,season_id,created_at) VALUES(?,?,?)',valid.rankedSeason.key,id,iso(now)),
    p(env)('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP',DUO_CURRENT_KEY,id)
   ]));
-  return {phase:'RECRUITING',seasonId:id,changed:true,recruitUntil:valid.startsAt,endsAt:valid.endsAt,nextCheckAt:iso(Math.min(now+60000,Date.parse(valid.startsAt)))};
+  return {phase:isOpenDuo(valid)?'ACTIVE':'RECRUITING',seasonId:id,changed:true,recruitUntil:isOpenDuo(valid)?null:valid.startsAt,endsAt:valid.endsAt,nextCheckAt:iso(isOpenDuo(valid)?now+60000:Math.min(now+60000,Date.parse(valid.startsAt)))};
  }finally{await p(env)('DELETE FROM ranked_duo_scheduler_v2 WHERE id=1 AND token=?',token).run();}
 }
