@@ -1,0 +1,63 @@
+{
+  "checkedAt": "2026-10-20T05:16:01.133Z",
+  "endpoint": "https://cnine-card.pages.dev/api/mercenary-halloween-pack/config",
+  "revision": 16,
+  "mode": "ON",
+  "prices": {
+    "single": 1000000000,
+    "ten": 10000000000
+  },
+  "sssEntryPercent": 0.05,
+  "normalSssConditionalPercent": 92.45,
+  "rows": [
+    {
+      "code": "V-989",
+      "name": "진무",
+      "conditionalPercent": 0.01,
+      "effectivePercent": "0.000005",
+      "meanPulls": 20000000,
+      "meanCoins": "20000000000000000",
+      "stock": {
+        "code": "V-989",
+        "limit": 3,
+        "issued": 0,
+        "remaining": 3,
+        "prepared": true,
+        "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+      }
+    },
+    {
+      "code": "V-999",
+      "name": "헬리오스",
+      "conditionalPercent": 0.02,
+      "effectivePercent": "0.00001",
+      "meanPulls": 10000000,
+      "meanCoins": "10000000000000000",
+      "stock": {
+        "code": "V-999",
+        "limit": 8,
+        "issued": 7,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      }
+    },
+    {
+      "code": "V-996",
+      "name": "발테르",
+      "conditionalPercent": 0.02,
+      "effectivePercent": "0.00001",
+      "meanPulls": 10000000,
+      "meanCoins": "10000000000000000",
+      "stock": {
+        "code": "V-996",
+        "limit": 15,
+        "issued": 14,
+        "remaining": 1,
+        "prepared": true,
+        "scope": "EXISTING_SHARED"
+      }
+    }
+  ],
+  "productionPurchasesPerformed": 0
+}

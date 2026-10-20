@@ -1,0 +1,140 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:halloween-sss-odds:20261020:v1",
+    "authorization": "절반씩 올려라 진무2경 헬리오스 발테르 1경",
+    "completedAt": "2026-10-20T05:15:45.252Z",
+    "before": {
+      "revision": 15,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 100,
+          "V-989": 50,
+          "V-996": 100,
+          "V-977": 5000
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 11,
+          "V-981": 11,
+          "V-982": 11,
+          "V-983": 11,
+          "V-984": 11,
+          "V-985": 11,
+          "V-986": 11,
+          "V-999": null,
+          "V-989": 3,
+          "V-996": null,
+          "V-977": 10
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 924750
+      },
+      "updatedAt": "2026-10-19T08:54:07.258Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:bathory-halloween-launch:20261019:v1"
+    },
+    "after": {
+      "revision": 16,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 200,
+          "V-989": 100,
+          "V-996": 200,
+          "V-977": 5000
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 11,
+          "V-981": 11,
+          "V-982": 11,
+          "V-983": 11,
+          "V-984": 11,
+          "V-985": 11,
+          "V-986": 11,
+          "V-999": null,
+          "V-989": 3,
+          "V-996": null,
+          "V-977": 10
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 924500
+      },
+      "updatedAt": "2026-10-20T05:15:45.252Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:halloween-sss-odds:20261020:v1"
+    },
+    "stock": [
+      {
+        "code": "V-989",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0"
+      },
+      {
+        "code": "V-996",
+        "stock_limit": "15",
+        "issued": "14",
+        "revision": "22"
+      },
+      {
+        "code": "V-999",
+        "stock_limit": "8",
+        "issued": "7",
+        "revision": "12"
+      }
+    ],
+    "stockChanged": false,
+    "grants": 0,
+    "effectivePercents": {
+      "V-989": "0.000005",
+      "V-996": "0.00001",
+      "V-999": "0.00001"
+    },
+    "adminLogId": "48883"
+  },
+  "currentRevision": 16,
+  "independentConnection": true,
+  "verifiedAt": "2026-10-20T05:16:03.630Z"
+}
