@@ -1,7 +1,9 @@
 import {createRoom,joinRoom,leaveRoom,commandRoom,advanceRoom,publicSnapshot,defaultLoadout,selectDefenseLoadout} from '../../../preview/coop-defense-v1/source/defense-model.mjs';
 import {DEFENSE_RULES} from '../../../shared/monster-defense-v1.mjs';
 import {readJointBody} from '../../../functions/_joint_request.js';
-import {DEFENSE_DIRECTORY,defenseRoomListing} from '../../../shared/monster-defense-room-list-v1.mjs';
+import {defenseDirectory,defenseRoomListing} from '../../../shared/monster-defense-room-list-v1.mjs';
+import {defenseUnpaidRewards,settleDefenseRewards} from '../../../functions/_monster_defense_rewards.js';
+import {createPostgresD1Compat} from '../../../functions/_postgres_d1_compat.js';
 const terminal=room=>['VICTORY','DEFEAT'].includes(room.phase);
 const fail=(message,status=400)=>{throw Object.assign(Error(message),{status});};
 // Only namespaced defense rooms call this host. Existing cooperative rooms and
@@ -11,12 +13,13 @@ export class MonsterDefenseHost{
  read(){const value=this.ctx.storage.sql.exec('SELECT json FROM room WHERE id=1').toArray()[0]?.json;return value?JSON.parse(value):null;}
  save(room){this.ctx.storage.sql.exec('INSERT INTO room(id,json) VALUES(1,?) ON CONFLICT(id) DO UPDATE SET json=excluded.json',JSON.stringify(room));}
  advance(room,now=Date.now()){
-  if(now-room.createdAt>=DEFENSE_RULES.roomMs||(!terminal(room)&&room.time>=DEFENSE_RULES.battleMs)){
+  if(!terminal(room)&&(now-room.createdAt>=DEFENSE_RULES.roomMs||room.time>=DEFENSE_RULES.battleMs)){
    room.phase='DEFEAT';room.completedAt=room.time;room.spawnQueue=[];room.players.forEach(p=>p.reviveAt=0);
   }
   const delta=Math.min(DEFENSE_RULES.maxCatchupMs,Math.max(0,now-room.serverAt)),steps=Math.floor(delta/100)*100;
   if(room.phase==='LOBBY'||terminal(room))room.serverAt=now;
   else if(steps){advanceRoom(room,steps);room.serverAt+=steps;}
+  if(terminal(room)&&!room.finishedAt)room.finishedAt=now;
   for(const p of room.players)if(!p.bot)p.connected=now-(p.lastSeen||0)<8000;
  }
  async publishListing(room){
@@ -25,13 +28,31 @@ export class MonsterDefenseHost{
   if(signature===this.publishedSignature&&(!listing||now-this.publishedAt<20000))return true;
   const revision=(room.directoryRevision||0)+1;room.directoryRevision=revision;this.save(room);
   try{
-   await this.env.COOP_PLAYERS.getByName(DEFENSE_DIRECTORY).publishDefenseRoom({id:room.id,revision,listing,retireAt:room.createdAt+DEFENSE_RULES.roomMs+3600000});
+   await this.env.COOP_PLAYERS.getByName(defenseDirectory(room.operatingMode)).publishDefenseRoom({id:room.id,revision,listing,retireAt:room.createdAt+DEFENSE_RULES.roomMs+3600000});
    if(revision>=(this.publishedRevision||0)){this.publishedRevision=revision;this.publishedSignature=signature;this.publishedAt=now;}return true;
   }catch{console.warn('Defense room listing will retry');return false;}
  }
  async schedule(room){
-  const published=await this.publishListing(room),current=this.read();if(!current)return;
-  await this.ctx.storage.setAlarm(!published?Date.now()+5000:terminal(current)?Math.max(Date.now()+1000,current.createdAt+DEFENSE_RULES.roomMs):Date.now()+(current.phase==='LOBBY'?6000:1000));
+  const published=await this.publishListing(room);
+  const settled=!terminal(room)||await this.settleRewards(room),current=this.read();if(!current)return;
+  await this.ctx.storage.setAlarm(!settled?this.rewardRetryAt||Date.now()+15000:!published?Date.now()+5000:terminal(current)?Math.max(Date.now()+1000,current.createdAt+DEFENSE_RULES.roomMs):Date.now()+(current.phase==='LOBBY'?6000:1000));
+ }
+ async settleRewards(room){
+  if(room.clearRewards)return true;
+  const unpaid=defenseUnpaidRewards(room);
+  if(unpaid){room.clearRewards=unpaid;this.save(room);return true;}
+  if(Date.now()<(this.rewardRetryAt||0))return false;
+  this.rewardSettlement??=(async()=>{
+   let connection;
+   try{
+    if(this.env.HYPERDRIVE)connection=await createPostgresD1Compat(this.env.HYPERDRIVE.connectionString);
+    const rewards=await settleDefenseRewards({...this.env,DB:connection?.db||this.env.DB},room);
+    const fresh=this.read();if(fresh){fresh.clearRewards=rewards;this.save(fresh);}this.rewardFailures=0;return rewards;
+   }finally{await connection?.close();}
+  })();
+  try{room.clearRewards=await this.rewardSettlement;return true;}
+  catch{this.rewardFailures=(this.rewardFailures||0)+1;this.rewardRetryAt=Date.now()+Math.min(300000,15000*2**Math.min(5,this.rewardFailures-1));console.warn('Defense reward settlement pending; terminal room retained');return false;}
+  finally{this.rewardSettlement=null;}
  }
  member(room,id){const p=room.players.find(p=>p.id===String(id));if(!p)fail('이 방의 대원이 아닙니다.',403);return p;}
  async ticket(room,user){
@@ -49,6 +70,7 @@ export class MonsterDefenseHost{
    if(action==='create'){
     if(room){if(room.creationRequest!==input.requestId||room.hostId!==String(user.id))fail('이미 사용 중인 대기방입니다.',409);return await this.ticket(room,user);}
     room=createRoom({...input,now:Date.now()});room.kind='MONSTER_DEFENSE_V1';room.serverAt=Date.now();room.creationRequest=input.requestId;room.receipts=[];room.settingsRevision=input.settingsRevision;
+    room.operatingMode=input.operatingMode||'TEST';room.rewardPolicy=input.rewardPolicy||null;room.rewardsEnabled=room.rewardPolicy?.enabled===true;
     joinRoom(room,{id:String(user.id),name:user.nickname,loadout:input.loadout,roster:input.roster});
     if(room.practice)for(let i=1;i<room.capacity;i++)joinRoom(room,{id:'bot-'+i,name:'자동 대원 '+i,bot:true,loadout:i===1?{mercenaries:['V-001','V-004'],card:'BONGJUN'}:defaultLoadout()});
     return await this.ticket(room,user);
@@ -57,6 +79,7 @@ export class MonsterDefenseHost{
    this.advance(room);this.save(room);
    if(action==='inspect'){this.member(room,user.id);return {ok:true,roomId:room.id,terminal:terminal(room),phase:room.phase};}
    if(action==='join'){
+    if(!room.players.some(p=>p.id===String(user.id))&&(room.operatingMode||'TEST')!==(input.operatingMode||'TEST'))fail('운영 상태가 다른 방입니다. 현재 방 목록에서 다시 선택하세요.',409);
     if(!room.players.some(p=>!p.bot))fail('이 대기방은 해산됐습니다. 방 목록을 새로고침하세요.',404);
     if(!room.players.some(p=>p.id===String(user.id))){if(room.practice)fail('연습 방에는 참가할 수 없습니다.');joinRoom(room,{id:String(user.id),name:user.nickname,loadout:input.loadout,roster:input.roster});}
     return await this.ticket(room,user);
@@ -104,7 +127,9 @@ export class MonsterDefenseHost{
    if(room.receipts.length>=4096)fail('이번 방의 명령 한도에 도달했습니다.',429);
    const now=Date.now();if(now-(p.rateAt||0)>1000){p.rateAt=now;p.requests=0;}p.requests=(p.requests||0)+1;
    this.save(room);if(p.requests>15)fail('명령을 너무 빠르게 보냈습니다.',429);
-   commandRoom(room,p.id,body.command);room.receipts.push({key,fingerprint});this.save(room);await this.schedule(room);
+   commandRoom(room,p.id,body.command);
+   if(body.command.type==='START'&&!room.startedAt){room.startedAt=Date.now();room.rewardParticipants=room.players.filter(p=>!p.bot).map(p=>p.id);}
+   room.receipts.push({key,fingerprint});this.save(room);await this.schedule(room);
    return Response.json({ok:true,seq:room.seq},{headers:{'cache-control':'no-store'}});
   }catch(e){return Response.json({ok:false,error:e instanceof SyntaxError?'올바른 JSON 명령을 보내세요.':e.message},{status:e.status||400,headers:{'cache-control':'no-store'}});}
  }
@@ -115,5 +140,12 @@ export class MonsterDefenseHost{
   if(!room.players.some(p=>!p.bot)){this.save(room);if(await this.publishListing(room)){await this.ctx.storage.deleteAll();await this.ctx.storage.deleteAlarm();}else await this.ctx.storage.setAlarm(Date.now()+5000);}
   else{this.save(room);await this.schedule(room);}return {ok:true};
  }
- async alarm(){const room=this.read();if(!room)return;this.advance(room);this.save(room);if(Date.now()-room.createdAt>=DEFENSE_RULES.roomMs||!room.players.some(p=>!p.bot)){if(await this.publishListing(room))await this.ctx.storage.deleteAll();else await this.ctx.storage.setAlarm(Date.now()+5000);return;}await this.schedule(room);}
+ async alarm(){
+  const room=this.read();if(!room)return;this.advance(room);this.save(room);
+  if(Date.now()-room.createdAt>=DEFENSE_RULES.roomMs||!room.players.some(p=>!p.bot)){
+   if(terminal(room)&&!await this.settleRewards(room)){await this.ctx.storage.setAlarm(this.rewardRetryAt||Date.now()+15000);return;}
+   if(await this.publishListing(room))await this.ctx.storage.deleteAll();else await this.ctx.storage.setAlarm(Date.now()+5000);return;
+  }
+  await this.schedule(room);
+ }
 }

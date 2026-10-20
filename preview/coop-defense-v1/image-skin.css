@@ -106,6 +106,7 @@
 #defense-app .result-panel{padding:45px 30px}
 #defense-app [id="leave-dialog"]{padding:30px}
 #defense-app .result-overlay{background:#06101de6}
+#defense-app .result-overlay{align-items:safe center}
 #defense-app .battle{background:#08121e}
 #defense-app .battle-header{padding-inline:20px}
 #defense-app .lane-navigation{padding-inline:16px}
@@ -316,3 +317,5 @@
  #defense-app .wave-banner span{font-size:11px}
  .dw .dw-footer [data-footer-note]{font-size:11px;line-height:1.5}
 }
+
+.defense-clear-reward{margin:18px 0;text-align:left}.defense-clear-reward h2{font-size:16px;margin:0 0 8px}.defense-clear-reward ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px}.defense-clear-reward li{display:flex;align-items:center;gap:8px;padding:12px 48px;background:transparent var(--defense-plate) center/100% 150% no-repeat;color:#e1f5fc;font-size:13px}.defense-clear-reward li span{min-width:0;overflow-wrap:anywhere}.defense-clear-reward li img{flex-shrink:0;width:36px;height:36px;object-fit:contain}.mission-rewards .mission-popover{max-width:min(360px,calc(100vw - 36px))}#clear-reward-preview{overflow-wrap:anywhere}@media(max-width:600px){.defense-clear-reward li{width:100%;box-sizing:border-box}.mission-tools{flex-wrap:wrap}}

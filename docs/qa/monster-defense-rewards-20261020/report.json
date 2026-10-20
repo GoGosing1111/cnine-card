@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "checks": [
+    "OWNER CMS saves and reloads ON, five independent coin/star/item amounts, multiple items and unsaved toggle",
+    "390px touch CMS removes item and persists exact configuration",
+    "desktop/mobile ON entry and selected difficulty reward preview",
+    "actual server victory pays both participants, shows receipt on PC/mobile and does not repay on reload",
+    "practice result explicitly displays no account reward"
+  ],
+  "errors": [],
+  "failed": [],
+  "productionWrites": 0
+}

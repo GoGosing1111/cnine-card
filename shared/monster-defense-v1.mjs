@@ -1,4 +1,5 @@
 import {ROGUE_ENEMIES,defaultDefenseGrowth,validateDefenseGrowth} from './monster-defense-growth-v2.mjs';
+import {defaultDefenseReward,validateDefenseReward,hasDefenseReward} from './monster-defense-rewards-v1.mjs';
 export const DEFENSE_KEY='monster_defense_settings_v1';
 export const DEFENSE_RULES=Object.freeze({sessionMs:120000,roomMs:7200000,battleMs:5400000,pollMs:300,maxCatchupMs:5000});
 // Existing approved originals: no recolouring or replacement of source art.
@@ -30,20 +31,21 @@ export const DEFENSE_ENEMIES=ROGUE_ENEMIES;
 export const DEFENSE_DIFFICULTIES=Object.freeze(LEGACY_DEFENSE_DIFFICULTIES.map(d=>({...d,waves:30,subtitle:{GUIDE:'흑철 병단의 전초전',NORMAL:'기계 병단의 행군',HARD:'장갑 전선 돌파',NIGHTMARE:'침묵한 코어',CATACLYSM:'노크스의 최후 명령'}[d.id],pool:['RIVET','HOUND','VEIL','WEAVER'],elite:'BASTION',midBoss:'NOX',boss:'NOX'})));
 export const defenseEnemy=id=>DEFENSE_ENEMIES.find(e=>e.id===id)||LEGACY_DEFENSE_ENEMIES.find(e=>e.id===id);
 export const defenseDifficulty=id=>DEFENSE_DIFFICULTIES.find(d=>d.id===id);
-export const defaultDefenseSettings=()=>({mode:'TEST',revision:0,testUserIds:[],rewardsEnabled:false,growth:defaultDefenseGrowth(),difficulties:DEFENSE_DIFFICULTIES.map(d=>({id:d.id,enabled:true,hpPercent:d.hpPercent,attackPercent:d.attackPercent,speedPercent:d.speedPercent,spawnPercent:d.spawnPercent,coreHp:d.coreHp}))});
+export const defaultDefenseSettings=()=>({mode:'TEST',revision:0,testUserIds:[],rewardsEnabled:false,growth:defaultDefenseGrowth(),difficulties:DEFENSE_DIFFICULTIES.map(d=>({id:d.id,enabled:true,hpPercent:d.hpPercent,attackPercent:d.attackPercent,speedPercent:d.speedPercent,spawnPercent:d.spawnPercent,coreHp:d.coreHp,clearReward:defaultDefenseReward()}))});
 export function validateDefenseSettings(raw){
  const bad=message=>{throw Object.assign(Error(message),{status:400,code:'DEFENSE_SETTINGS'});};
- if(!raw||!['OFF','TEST'].includes(raw.mode)||!Number.isSafeInteger(raw.revision)||raw.revision<0||raw.revision>2147483640||raw.rewardsEnabled!==false)bad('디펜스는 OFF 또는 TEST로 설정하며 계정 보상은 비활성입니다.');
+ if(!raw||!['OFF','TEST','ON'].includes(raw.mode)||!Number.isSafeInteger(raw.revision)||raw.revision<0||raw.revision>2147483640||typeof raw.rewardsEnabled!=='boolean')bad('운영 상태와 클리어 보상 사용 여부를 확인하세요.');
  if(!Array.isArray(raw.testUserIds)||raw.testUserIds.length>100||new Set(raw.testUserIds).size!==raw.testUserIds.length||raw.testUserIds.some(id=>!Number.isSafeInteger(id)||id<1))bad('테스트 계정 ID를 확인하세요.');
  if(!Array.isArray(raw.difficulties)||raw.difficulties.length!==5)bad('난이도 5개를 모두 설정하세요.');
  const difficulties=raw.difficulties.map((d,i)=>{
   if(d?.id!==DEFENSE_DIFFICULTIES[i].id||typeof d.enabled!=='boolean')bad('난이도 종류와 순서를 확인하세요.');
-  const out={id:d.id,enabled:d.enabled};
+  const out={id:d.id,enabled:d.enabled,clearReward:validateDefenseReward(d.clearReward??defaultDefenseReward())};
   for(const [key,min,max] of [['hpPercent',25,400],['attackPercent',25,400],['speedPercent',50,180],['spawnPercent',50,160],['coreHp',500,5000]]){
    if(!Number.isSafeInteger(d[key])||d[key]<min||d[key]>max)bad(`${d.id} ${key}: ${min}~${max} 정수를 입력하세요.`);out[key]=d[key];
   }return out;
  });
- return {mode:raw.mode,revision:raw.revision,testUserIds:[...raw.testUserIds],rewardsEnabled:false,difficulties,growth:validateDefenseGrowth(raw.growth)};
+ if(raw.rewardsEnabled&&!difficulties.some(d=>d.enabled&&hasDefenseReward(d.clearReward)))bad('보상을 켜려면 사용 중인 난이도에 지급할 보상을 입력하세요.');
+ return {mode:raw.mode,revision:raw.revision,testUserIds:[...raw.testUserIds],rewardsEnabled:raw.rewardsEnabled,difficulties,growth:validateDefenseGrowth(raw.growth)};
 }
-export const defenseAccess=(user,settings)=>Boolean(user)&&settings.mode==='TEST'&&(user.role==='OWNER'||settings.testUserIds.includes(Number(user.id)));
+export const defenseAccess=(user,settings)=>Boolean(user)&&(settings.mode==='ON'||settings.mode==='TEST'&&(user.role==='OWNER'||settings.testUserIds.includes(Number(user.id))));
 export const validDefenseRoom=id=>typeof id==='string'&&/^[A-F0-9]{12}$/.test(id);

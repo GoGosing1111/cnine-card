@@ -10,10 +10,10 @@
   <link rel="stylesheet" href="/preview/coop-defense-v1/defense.css?v=20261017-defense-v3-merc1">
   <link rel="stylesheet" href="/preview/coop-defense-v1/workshop.css?v=20261017-defense-v3-merc1">
   <link rel="stylesheet" href="/preview/coop-defense-v1/staging.css?v=20261017-defense-v3-merc1">
-  <link rel="stylesheet" href="/preview/coop-defense-v1/image-skin.css?v=20261017-defense-v3-merc1">
+  <link rel="stylesheet" href="/preview/coop-defense-v1/image-skin.css?v=defense-rewards-20261020-v1">
   <link rel="stylesheet" href="/preview/coop-defense-v1/formation.css?v=20261017-defense-v3-merc1">
   <link rel="stylesheet" href="/preview/coop-defense-v1/rooms.css?v=20261017-defense-v3-merc1">
-  <script defer src="/preview/coop-defense-v1/defense.bundle.js?v=20261019-leonel-forward-guard-v3-zero-live-20261020-v1-zero-body-2x-calm-idle-v1"></script>
+  <script defer src="/preview/coop-defense-v1/defense.bundle.js?v=20261019-leonel-forward-guard-v3-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1"></script>
 </head>
 <body>
   <main id="defense-app">
@@ -24,12 +24,12 @@
           <p class="eyebrow">협동 디펜스 · 출전 준비</p><h1 id="lobby-title">최후의 방어선</h1>
           <div class="mission-meta"><span>2–3인 협동</span><span><b id="mission-waves">30</b> 웨이브</span><span>수호석 공동 방어</span></div>
         </div>
-        <div class="mission-tools"><details class="encounter-preview"><summary>출현 적 정보 <span aria-hidden="true">＋</span></summary><div class="mission-popover"><p id="difficulty-title"></p><div class="boss-preview"><img id="boss-preview" alt=""><div><span class="boss-label">최종 보스</span><h2 id="boss-preview-name"></h2><p id="boss-preview-hint"></p></div></div><p id="mid-boss-name"></p><div class="enemy-heading">출현 병단</div><div id="enemy-lineup" class="enemy-lineup"></div></div></details><details class="mission-guide"><summary>방어 규칙 <span aria-hidden="true">＋</span></summary><div class="mission-popover"><h2>끝까지 함께 지켜내세요</h2><p>용병 2명과 카드 1장으로 나만의 분대를 편성합니다.</p><p>공세 통과 후 확률로 강화 포인트를 얻습니다. 강화 실패 시 단계는 유지되고 포인트는 소모됩니다.</p><p>일반 정비는 8초, 5웨이브마다 특성 정비 시간을 제공합니다. 공세 예고를 확인하고 전술 사거리 안에서 스킬을 사용하세요.</p><p>전멸할수록 15 → 30 → 45 → 60초로 복귀 대기가 늘어납니다. 체력 50%로 복귀합니다.</p></div></details></div>
+        <div class="mission-tools"><details class="encounter-preview"><summary>출현 적 정보 <span aria-hidden="true">＋</span></summary><div class="mission-popover"><p id="difficulty-title"></p><div class="boss-preview"><img id="boss-preview" alt=""><div><span class="boss-label">최종 보스</span><h2 id="boss-preview-name"></h2><p id="boss-preview-hint"></p></div></div><p id="mid-boss-name"></p><div class="enemy-heading">출현 병단</div><div id="enemy-lineup" class="enemy-lineup"></div></div></details><details class="mission-rewards"><summary>클리어 보상 <span aria-hidden="true">＋</span></summary><div class="mission-popover"><h2>난이도별 클리어 보상</h2><p id="clear-reward-preview">보상 설정을 확인하고 있습니다.</p><p>마지막 웨이브 클리어 시 자동 지급합니다. TEST·혼자 연습은 보상을 지급하지 않습니다.</p></div></details><details class="mission-guide"><summary>방어 규칙 <span aria-hidden="true">＋</span></summary><div class="mission-popover"><h2>끝까지 함께 지켜내세요</h2><p>용병 2명과 카드 1장으로 나만의 분대를 편성합니다.</p><p>공세 통과 후 확률로 강화 포인트를 얻습니다. 강화 실패 시 단계는 유지되고 포인트는 소모됩니다.</p><p>일반 정비는 8초, 5웨이브마다 특성 정비 시간을 제공합니다. 공세 예고를 확인하고 전술 사거리 안에서 스킬을 사용하세요.</p><p>전멸할수록 15 → 30 → 45 → 60초로 복귀 대기가 늘어납니다. 체력 50%로 복귀합니다.</p></div></details></div>
         <div class="lobby-console">
           <fieldset class="difficulty-field"><legend>작전 난이도</legend><div id="difficulty-list" class="difficulty-list"></div></fieldset>
           <div class="console-heading"><h2>나의 출전 분대</h2><span>용병 2명 · 카드 1장</span></div>
           <div class="loadout-grid" id="loadout-grid"></div>
-          <footer class="deployment-dock"><div class="dock-setup"><div class="squad-settings"><label class="field-label" for="nickname">대장<input id="nickname" maxlength="16" autocomplete="nickname" placeholder="사용할 이름" value="원정대장"></label><fieldset class="capacity-field"><legend>분대 인원</legend><button type="button" class="capacity-option" data-capacity="2" aria-pressed="false">2인</button><button type="button" class="capacity-option" data-capacity="3" aria-pressed="true">3인</button></fieldset></div><div class="room-discovery"><button type="button" id="find-rooms">방 찾아 참가 <span aria-hidden="true">↗</span></button><small>함께할 대원 찾기</small></div></div><div class="deploy-actions"><p id="access-status" class="access-status" role="status">보유 용병 2명과 카드 1장을 선택해 주세요. · TEST 보상 없음</p><div class="lobby-actions"><button id="practice" class="secondary" type="button">혼자 연습</button><button id="create-room" class="primary" type="button"><b>대기실 만들기 <span aria-hidden="true">›</span></b></button></div><button id="resume-battle" class="secondary resume-battle" type="button" hidden>진행 중인 전투로 돌아가기</button></div></footer>
+          <footer class="deployment-dock"><div class="dock-setup"><div class="squad-settings"><label class="field-label" for="nickname">대장<input id="nickname" maxlength="16" autocomplete="nickname" placeholder="사용할 이름" value="원정대장"></label><fieldset class="capacity-field"><legend>분대 인원</legend><button type="button" class="capacity-option" data-capacity="2" aria-pressed="false">2인</button><button type="button" class="capacity-option" data-capacity="3" aria-pressed="true">3인</button></fieldset></div><div class="room-discovery"><button type="button" id="find-rooms">방 찾아 참가 <span aria-hidden="true">↗</span></button><small>함께할 대원 찾기</small></div></div><div class="deploy-actions"><p id="access-status" class="access-status" role="status">보유 용병 2명과 카드 1장을 선택해 주세요.</p><div class="lobby-actions"><button id="practice" class="secondary" type="button">혼자 연습</button><button id="create-room" class="primary" type="button"><b>대기실 만들기 <span aria-hidden="true">›</span></b></button></div><button id="resume-battle" class="secondary resume-battle" type="button" hidden>진행 중인 전투로 돌아가기</button></div></footer>
         </div>
       </div>
     </section>
@@ -83,7 +83,7 @@
         <div class="dock-tip"><span id="control-hint">유닛 선택 → 방어선 선택으로 지원 이동</span><span id="sync-state">서버 연결됨</span></div>
       </footer>
       <div id="result" class="result-overlay" hidden>
-        <div class="result-panel"><p class="eyebrow" id="result-eyebrow">MISSION COMPLETE</p><h1 id="result-title">수호석을 지켜냈습니다</h1><p id="result-summary"></p><div id="result-stats" class="result-stats"></div><p class="muted">검수 전투 · 계정 보상 없음</p><button class="primary" id="return-lobby" type="button">대기실로</button></div>
+        <div class="result-panel"><p class="eyebrow" id="result-eyebrow">MISSION COMPLETE</p><h1 id="result-title">수호석을 지켜냈습니다</h1><p id="result-summary"></p><div id="result-stats" class="result-stats"></div><section class="defense-clear-reward"><h2>클리어 보상</h2><p id="result-reward-status" class="muted" role="status"></p><ul id="result-reward-items"></ul></section><button class="primary" id="return-lobby" type="button">대기실로</button></div>
       </div>
     </section>
     <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>

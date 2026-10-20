@@ -163,6 +163,8 @@ function receive(snapshot) {
   const previous = state.snapshot;
   if(previous?.id===snapshot.id&&(snapshot.seq<previous.seq||snapshot.time<previous.time))return;
   state.snapshot = snapshot;
+  document.querySelectorAll('.review-tag').forEach(el=>el.textContent=snapshot.operatingMode==='ON'?'LIVE':'TEST');
+  document.querySelector('.battle-title .eyebrow').textContent='리버스콜 · 디펜스 '+(snapshot.operatingMode==='ON'?'LIVE':'TEST');
   for(const player of snapshot.players)mergeRoster(player.roster);
   const own=snapshot.players.find(p=>p.id===state.session.playerId);if(own)state.loadout=structuredClone(own.loadout);
   if(snapshot.phase!=='LOBBY'&&formation?.dialog.open&&!formation.busy)formation.close();
@@ -399,8 +401,18 @@ function showPhase(snapshot) {
   if(snapshot.waveBrief){const b=snapshot.waveBrief;banner.querySelector('b').textContent=`${b.kind==='NORMAL'?'전 전선':LANES[b.focus]+' 전선'} · ${b.name}`;banner.querySelector('span').textContent=b.hint;}
   bannerTimer = setTimeout(() => { banner.hidden = true; }, 2800);
 }
+function rewardLines(reward,items=state.feature?.rewardItems||[]){
+ if(!reward)return [];
+ const names=new Map(items.map(i=>[i.code,i.name]));
+ return [...(reward.coin?[{text:reward.coin.toLocaleString()+' 코인'}]:[]),...(reward.masterStars?[{text:'마스터의 별 '+reward.masterStars.toLocaleString()+'개'}]:[]),...(reward.items||[]).map(i=>({text:(i.name||names.get(i.code)||'아이템 보상')+' '+i.quantity.toLocaleString()+'개',image:i.image}))];
+}
+function renderRewards(snapshot){
+ const reward=snapshot.clearRewards?.[state.session.playerId],status=$('result-reward-status'),list=$('result-reward-items');list.replaceChildren();
+ status.textContent=reward?.granted?'클리어 보상이 지급되었습니다.':reward?.status==='DEFEAT'?'클리어 시 보상을 받을 수 있습니다.':reward?.status==='PRACTICE'||snapshot.practice?'혼자 연습은 계정 보상을 지급하지 않습니다.':reward?.status==='TEST'||snapshot.operatingMode!=='ON'?'TEST 전투는 계정 보상을 지급하지 않습니다.':reward?.status==='DISABLED'||!snapshot.rewardsEnabled?'이 방의 클리어 보상 지급이 비활성입니다.':'클리어 보상을 정산 중입니다. 연결이 끊겨도 서버에서 이어서 처리합니다.';
+ if(reward?.granted)for(const line of rewardLines(reward)){const li=document.createElement('li');if(line.image){const img=document.createElement('img');img.src=/^(https?:\/\/|\/)/.test(line.image)?line.image:'/'+line.image;img.alt='';li.append(img);}const text=document.createElement('span');text.textContent=line.text;li.append(text);list.append(li);}
+}
 function renderResult(snapshot) {
-  const won = snapshot.phase === 'VICTORY'; $('result').hidden = false;
+  const won = snapshot.phase === 'VICTORY'; $('result').hidden = false;renderRewards(snapshot);
   $('result-eyebrow').textContent = won ? 'MISSION COMPLETE' : 'DEFENSE FAILED';
   $('result-title').textContent = won ? '수호석을 지켜냈습니다' : '방어선이 무너졌습니다';
   $('result-summary').textContent = `${snapshot.wave}웨이브 · 거점 체력 ${snapshot.coreHp} · ${Math.floor(snapshot.time / 60000)}분 ${Math.floor(snapshot.time / 1000 % 60)}초`;
@@ -486,8 +498,9 @@ async function main() {
   roomBrowser=new DefenseRoomBrowser({request,canEnter:()=>state.access&&!state.pending&&completeLoadout(),onJoin:id=>joinOrCreate('join',id),onCreate:()=>void joinOrCreate('create'),onFormation:()=>openFormation()});
   if(LIVE){
     try{const feature=await request('feature');state.access=feature.accessible;state.feature=feature;$('nickname').value=feature.user.nickname;$('nickname').readOnly=true;
-      $('access-status').textContent=feature.accessible?'보유 용병 2명 + 카드 1장 · 디펜스 역할 능력치 적용 · TEST 보상 없음':feature.mode==='OFF'?'현재 디펜스 테스트가 중지돼 있습니다.':'OWNER와 지정 테스트 계정만 입장할 수 있습니다.';buildDifficulties();
+      $('access-status').textContent=feature.accessible?'보유 용병 2명 + 카드 1장 · '+(feature.mode==='TEST'?'TEST · 계정 보상 없음':feature.rewardsEnabled?'실전 클리어 보상 지급':'실전 · 클리어 보상 미설정'):feature.mode==='OFF'?'현재 디펜스 입장이 중지돼 있습니다.':'OWNER와 지정 테스트 계정만 입장할 수 있습니다.';buildDifficulties();
     }catch(e){state.access=false;$('access-status').textContent=e.message;}
+    document.querySelectorAll('.review-tag').forEach(el=>el.textContent=state.feature?.mode==='ON'?'LIVE':state.feature?.mode||'OFF');
     updateEntryButtons();buildLoadout();
     if(!state.access)return;
   }
@@ -521,6 +534,8 @@ function buildDifficulties(){
   button.onclick=()=>{state.difficulty=d.id;buildDifficulties();};list.append(button);
  }
  const selected=defenseDifficulty(state.difficulty),boss=defenseEnemy(selected.boss),mid=defenseEnemy(selected.midBoss);
+ const reward=state.feature?.difficulties.find(d=>d.id===state.difficulty)?.clearReward;
+ const lines=rewardLines(reward);$('clear-reward-preview').textContent=state.feature?.mode!=='ON'?'TEST · 계정 보상 없음':!state.feature?.rewardsEnabled||!lines.length?'이 난이도에 설정된 클리어 보상이 없습니다.':selected.name+' 클리어 · 참가자마다 '+lines.map(l=>l.text).join(' / ');
  $('mission-waves').textContent=state.feature?.growth?.waves||selected.waves;$('difficulty-title').textContent=selected.subtitle;
  $('boss-preview').src='/'+boss.asset;$('boss-preview').alt=boss.name;$('boss-preview-name').textContent=boss.name;$('boss-preview-hint').textContent=boss.hint;
  $('mid-boss-name').textContent=`10W마다 ${mid.name} · 최종 ${state.feature?.growth?.waves||selected.waves}W`;

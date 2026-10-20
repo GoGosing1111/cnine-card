@@ -49,7 +49,7 @@ test('defense CMS: OWNER CAS, exact retry, validation, nickname lookup and froze
  try{
   const initial=await h.api(1,'admin/defense/settings');assert.equal(initial.settings.mode,'TEST');assert.equal(initial.settings.difficulties.length,5);
   const users=await h.api(1,'admin/defense/test-users?q='+encodeURIComponent('분대 2'));assert.deepEqual(users.users,[{id:2,nickname:'분대 2'}]);
-  for(const patch of [{mode:'ON'},{rewardsEnabled:true},{testUserIds:[9999]},{testUserIds:[2,2]}])assert.equal((await h.api(1,'admin/defense/settings',{settings:{...initial.settings,...patch},requestId:id()})).status,400);
+  for(const patch of [{mode:'INVALID'},{rewardsEnabled:true},{testUserIds:[9999]},{testUserIds:[2,2]}])assert.equal((await h.api(1,'admin/defense/settings',{settings:{...initial.settings,...patch},requestId:id()})).status,400);
   const next=structuredClone(initial.settings);next.difficulties[0].hpPercent=70;const payload={settings:next,requestId:id()};const saved=await h.api(1,'admin/defense/settings',payload);assert.equal(saved.status,200,JSON.stringify(saved));assert.equal(saved.settings.revision,1);assert.equal((await h.api(1,'admin/defense/settings',payload)).replayed,true);
   assert.equal((await h.api(1,'admin/defense/settings',{...payload,settings:{...next,mode:'OFF'}})).status,409);assert.equal((await h.api(1,'admin/defense/settings',{settings:next,requestId:id()})).status,409);
   const room=await h.api(2,'defense/create',{capacity:2,difficulty:'GUIDE',loadout:defaultLoadout(),practice:true,requestId:id()});assert.equal(room.status,200);assert.equal((await h.room(room.roomId)).encounter.hpPercent,70);

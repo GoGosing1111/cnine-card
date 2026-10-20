@@ -2,3 +2,12 @@
 @media(max-width:800px){body:has(#view-monster-defense:not([hidden])) .layout{grid-template-columns:minmax(0,1fr)}body:has(#view-monster-defense:not([hidden])) aside{height:auto;min-height:0;max-height:none;min-width:0;width:100%;overflow:hidden}body:has(#view-monster-defense:not([hidden])) #nav{min-width:0;max-width:100%}body:has(#view-monster-defense:not([hidden])) main{min-width:0}.md-admin input,.md-admin button,.md-admin select{scroll-margin-block:90px 150px}}
 
 .md-growth{margin-top:28px}.md-growth-basics{display:flex;flex-wrap:wrap;gap:16px}.md-growth-basics label{display:flex;flex:1;min-width:130px;flex-direction:column;gap:8px;font-size:12px}.md-growth h4{margin:24px 0 12px}.md-growth input{max-width:100%;width:120px}.md-growth table{min-width:340px}
+
+/* Reuse this content's authored guardian panel and command art. */
+.md-reward-toggle{display:flex!important;align-items:center;gap:10px!important}.md-reward-toggle input{width:20px;height:20px}
+.md-admin [data-clear-rewards]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:20px}
+.md-reward-tier{min-width:0;margin:0;padding:22px;border:16px solid transparent;border-image:url('/preview/coop-defense-v1/assets/ui-v5/guardian-panel.png') 220 fill / 20px stretch;background:none}
+.md-reward-tier legend{padding:0 10px;font-size:16px;font-weight:700;color:#d3e9ef}.md-reward-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.md-reward-values input{width:100%;box-sizing:border-box}
+.md-reward-items [data-item-row]{display:grid;grid-template-columns:minmax(100px,1fr) 90px auto;gap:8px;margin:12px 0}.md-reward-items input{width:100%;box-sizing:border-box}.md-reward-items select{width:100%}
+.md-reward-tier button{border:0;border-radius:0;background:transparent url('/preview/coop-defense-v1/assets/lobby-v4/ready-command-button.png') center/100% 100% no-repeat;padding:10px 20px}
+@media(max-width:1100px){.md-admin [data-clear-rewards]{grid-template-columns:1fr}}@media(max-width:600px){.md-reward-tier{padding:14px;border-width:8px}.md-reward-items [data-item-row]{grid-template-columns:minmax(80px,1fr) 65px auto;gap:5px}.md-reward-tier button{padding-inline:14px}.md-reward-values{grid-template-columns:1fr}}

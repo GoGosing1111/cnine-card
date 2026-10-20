@@ -2,6 +2,7 @@ import {DEFENSE_RULES} from './monster-defense-v1.mjs';
 
 // Separate reserved instance: defense listings never enter the battleground list.
 export const DEFENSE_DIRECTORY='defense:public-lobbies-v1';
+export const defenseDirectory=mode=>mode==='ON'?DEFENSE_DIRECTORY+':ON':DEFENSE_DIRECTORY;
 export const DEFENSE_LIST_LIMIT=50,DEFENSE_LIST_REFRESH_MS=10000,DEFENSE_LIST_LEASE_MS=45000;
 export function defenseRoomListing(room,now=Date.now()){
  const humans=room.players.filter(p=>!p.bot),expiresAt=room.createdAt+DEFENSE_RULES.roomMs;

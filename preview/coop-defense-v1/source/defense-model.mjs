@@ -483,5 +483,5 @@ export function publicSnapshot(room, after = 0) {
     difficulty:room.difficulty,difficultyName:room.encounter.name,time: room.time, wave: room.wave, totalWaves: room.encounter.waves, phaseUntil: room.phaseUntil, prepStartedAt:room.prepStartedAt,
     coreHp: room.coreHp, coreMaxHp: room.coreMaxHp, units: structuredClone(room.units), enemies: structuredClone(room.enemies),
     players: room.players.map(player=>{const p=structuredClone(player);if(p.growth){p.growth.draws=p.growth.draws.slice(-6);p.growth.attempts=p.growth.attempts.slice(-4);}return p;}), seq: room.seq, events: structuredClone(room.events.filter(e => e.seq > after)),
-    waitingEnemies: room.spawnQueue.length, rewardsEnabled: false, completedAt: room.completedAt };
+    waitingEnemies: room.spawnQueue.length, operatingMode:room.operatingMode||'TEST',rewardsEnabled:room.rewardsEnabled===true,clearRewards:structuredClone(room.clearRewards||null),rewardPolicy:room.rewardPolicy?{coin:room.rewardPolicy.coin,masterStars:room.rewardPolicy.masterStars,items:structuredClone(room.rewardPolicy.items)}:null,completedAt: room.completedAt };
 }
