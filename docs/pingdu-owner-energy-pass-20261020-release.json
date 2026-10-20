@@ -1,0 +1,191 @@
+{
+  "sourceCommit": "14fb741d21d9a0c0e41892cdab36b44d9b9fd8b0",
+  "production": {
+    "checkedAt": "2026-10-20T02:42:48.808Z",
+    "pages": [
+      {
+        "id": "6f3812a6-1b8c-4f5c-9049-ea15140a332a",
+        "url": "https://6f3812a6.cnine-card.pages.dev",
+        "createdOn": "2026-10-20T02:41:59.178567Z",
+        "status": "success",
+        "stage": "deploy",
+        "commit": "14fb741d21d9a0c0e41892cdab36b44d9b9fd8b0"
+      },
+      {
+        "id": "d7e4253f-8103-4cc1-a84b-2e195a29ddad",
+        "url": "https://d7e4253f.cnine-card.pages.dev",
+        "createdOn": "2026-10-20T02:13:58.871675Z",
+        "status": "success",
+        "stage": "deploy",
+        "commit": "e59314403a162a74b7abada9b63968cea52f8631"
+      },
+      {
+        "id": "107ee518-65e4-42eb-b25d-4ffa00a828ca",
+        "url": "https://107ee518.cnine-card.pages.dev",
+        "createdOn": "2026-10-20T02:08:45.253217Z",
+        "status": "success",
+        "stage": "deploy",
+        "commit": "6b37183a041155e84dc96efcbd1ed86a0231e253"
+      }
+    ],
+    "runtime": [
+      {
+        "id": "02417644-7508-4556-a6a2-5de767c6eca8",
+        "createdOn": "2026-10-20T02:40:43.764894Z",
+        "versions": [
+          {
+            "version_id": "d6acbe36-42a5-4e9d-9768-84380afacb3f",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "id": "fce05eff-b7d7-49b6-902a-8c33c3032e72",
+        "createdOn": "2026-10-20T02:13:04.250933Z",
+        "versions": [
+          {
+            "version_id": "845afa8b-8285-4620-86f1-b78709503773",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "liveFiles": {
+    "checkedAt": "2026-10-20T02:42:47.324Z",
+    "sourceCommit": "14fb741d21d9a0c0e41892cdab36b44d9b9fd8b0",
+    "files": [
+      {
+        "path": "raid/cooperative/live.mjs",
+        "status": 200,
+        "sha256": "031c0e46505925d75703fec317c5d371d6de58858f5e532d61f7d16c3fd79820"
+      },
+      {
+        "path": "js/cooperative-battleground-entry.js",
+        "status": 200,
+        "sha256": "e43e44ee8db6ced6c01d69b172b276feaeef9d403e6e72524019afa357ce11d0"
+      },
+      {
+        "path": "index.html",
+        "status": 200,
+        "sha256": "329a8545c8d6656a440aac1f2067a6a5c21d630f37da9f48f618f356129e37a4"
+      },
+      {
+        "path": "service-worker.js",
+        "status": 200,
+        "sha256": "56ca09113873323ba52a7929b027feb664c60b2e8861f8c81c48547e978f82ef"
+      }
+    ]
+  },
+  "account": {
+    "checkedAt": "2026-10-20T02:43:00.064Z",
+    "verification": "Production data through shipped handlers inside a read-only transaction",
+    "target": {
+      "id": 1,
+      "nickname": "핑크빛유두",
+      "role": "OWNER"
+    },
+    "energy": {
+      "current": 0,
+      "maximum": 3,
+      "unlimited": true
+    },
+    "pass": {
+      "visible": true,
+      "active": true,
+      "previewOnly": false,
+      "startsAt": 1792464165619,
+      "endsAt": 1795056165619,
+      "currentDay": 1,
+      "claimableCount": 1
+    },
+    "mutations": false
+  },
+  "grantVerification": {
+    "receipt": {
+      "status": "COMPLETED",
+      "operationKey": "ops:pingdu-owner-season-pass:20261020:v1",
+      "target": {
+        "id": 1,
+        "nickname": "핑크빛유두",
+        "role": "OWNER"
+      },
+      "subscription": {
+        "version": 1,
+        "revision": 1,
+        "startsAt": 1792464165619,
+        "endsAt": 1795056165619,
+        "magnetPetCode": null,
+        "revokedAt": null
+      },
+      "amountWon": 0,
+      "verifiedBefore": false,
+      "adminLogId": "48758",
+      "audit": {
+        "operationKey": "ops:pingdu-owner-season-pass:20261020:v1",
+        "actor": "CODEX_OPERATIONS",
+        "target": {
+          "id": 1,
+          "nickname": "핑크빛유두",
+          "role": "OWNER"
+        },
+        "authorization": "핑크빛유두 OWNER 계정이라 예외처리하고 시즌패스 적용해",
+        "durationDays": 30,
+        "amountWon": 0,
+        "subscription": {
+          "version": 1,
+          "revision": 1,
+          "startsAt": 1792464165619,
+          "endsAt": 1795056165619,
+          "magnetPetCode": null,
+          "revokedAt": null
+        },
+        "petGranted": false,
+        "rewardsClaimed": false
+      },
+      "completedAt": "2026-10-20T02:42:45.619Z"
+    },
+    "active": true,
+    "pass": {
+      "enabled": true,
+      "revision": 16,
+      "configuredDays": 30
+    },
+    "sourceSha256": "931247fed4493d1f60da23084ea99e8200119788efa00c862fadbecdf58634fa",
+    "verifiedAt": "2026-10-20T02:42:50.217Z",
+    "independentConnection": true
+  },
+  "replay": {
+    "verified": true,
+    "operationKey": "ops:pingdu-owner-season-pass:20261020:v1"
+  },
+  "browser": [
+    {
+      "width": 1440,
+      "zeroEnergyCreate": true,
+      "zeroEnergyJoinEnabled": true,
+      "ownerLabel": true,
+      "energyUnchanged": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "zeroEnergyCreate": true,
+      "zeroEnergyJoinEnabled": true,
+      "ownerLabel": true,
+      "energyUnchanged": true,
+      "errors": []
+    }
+  ],
+  "checks": {
+    "zeroReady": 2,
+    "worker": true,
+    "ordinaryEnergy": 10,
+    "seasonPassMenu": 2,
+    "owner": 3,
+    "supporter": 17,
+    "cooperativeReveal": 2,
+    "hyperdriveCacheDisabled": true,
+    "rollbackVerified": true
+  }
+}
