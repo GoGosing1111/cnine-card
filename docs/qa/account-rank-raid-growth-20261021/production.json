@@ -1,0 +1,139 @@
+{
+  "verifiedAt": "2026-10-20T16:33:22.636Z",
+  "source": "99d9e0c7c4094de6b7e75ee9848262891372bd02",
+  "deploymentId": "db614b8f-2162-4d62-88ad-3a03236e70f5",
+  "deploymentUrl": "https://db614b8f.cnine-card.pages.dev",
+  "runtimeRuleChecks": {
+    "seal40": true,
+    "coreExactThird": true,
+    "isgenExactThird": true,
+    "barsenExactThird": true,
+    "strongGrowth": true,
+    "curveHelper": true
+  },
+  "runtimeBundleSha256": "d3ed28a197c14e47945995dd287beeece4f0300c81d9c6cf5d276f61605ae40c",
+  "staticChecks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "245812d453464cf31002c31740a4b2c997b8ff32f82357db45fcd2b7d9ed7c59"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "1ebca360fc3d28c173076b513d27b9119d8b1f8f7bf7e55e93e9ef51c7e54e8e"
+    }
+  ],
+  "unauthenticatedRankStatus": 401,
+  "runtimeHeader": "regional-v1",
+  "productionTestAwards": 0,
+  "completedAt": "2026-10-20T16:33:44.396Z",
+  "workers": {
+    "apiRuntime": "be939b17-3e0c-4ee9-8034-5cde9012974f",
+    "clanDraft": "0157bd72-b7b2-4e70-bffa-c868a0715bcd"
+  },
+  "awards": {
+    "seal": {
+      "baseExp": 40
+    },
+    "core": {
+      "baseTicks": 200000,
+      "weeklyLimit": 3
+    },
+    "isgen": {
+      "baseTicks": 100000,
+      "weeklyLimit": 7
+    },
+    "barsen": {
+      "baseTicks": 100000,
+      "weeklyLimit": 5
+    },
+    "ticksPerExp": 600,
+    "weeklyBaseExpTotal": 3000
+  },
+  "growth": {
+    "firstLevel": 185,
+    "percentagePointsPerLevel": 5,
+    "existingLevelAndProgressPreserved": true
+  },
+  "migration": {
+    "operationKey": "ops:account-rank-raid-growth:20261021:v1",
+    "capKey": "ops:account-rank-raid-growth:20261021:cap-v1",
+    "capPreparedAt": "2026-10-20T15:50:08.557Z",
+    "accounts": 462,
+    "changed": 1,
+    "levelsPreserved": true,
+    "progressPreservedWithinOneTick": true,
+    "beforeSha256": "5b9b2410bc8a45e0d7cc0b203ea6ebe6c2d5694f1ba307acfdb809d0aa251af3",
+    "afterSha256": "7cf0838eff53efd544a153f36015c49abef5e05642c8f661d2100735199694c1",
+    "awardReceiptsRewritten": 0,
+    "replayed": true,
+    "replayChangedNothing": true,
+    "auditId": "49200",
+    "separateConnectionVerifiedAt": "2026-10-20T16:33:52.956Z",
+    "changedAccountLevels": [
+      250
+    ]
+  },
+  "validation": {
+    "fullReleaseGatePassed": true,
+    "baseCandidate": "f039e8dadfa502e40369b503e6c4633a7b14748b",
+    "initialLogSha256": "2d9c57850bf2c294a9a0c98eb9791c66e6715241a5e732e1ac49218c415722c0",
+    "continuations": [
+      {
+        "candidate": "c948cc18e2423c7e2e340b88cea0884d1b21bb67",
+        "logSha256": "d40473354a391a026b23c5be288ab224f3c20c1267055a7cfcb47d5b696d72c5"
+      },
+      {
+        "candidate": "357906d9f06df48274babf4ca66118e76edb8154",
+        "logSha256": "7128c95bc26c7f0590e344c087f04fdf748e39d5f811572837e66446b86518d4"
+      },
+      {
+        "candidate": "ef450743026c969243c824ce4648f46669e9c838",
+        "logSha256": "507271ebd8435846fd29e30d3d4508e46e41f617ea91310f99529dd592833b19"
+      },
+      {
+        "candidate": "e22af1f44a68cd42314c380f8bb3ed0ab07044a2",
+        "logSha256": "4d622334719ed59c340e2543ea3515ce62e2fc3fa600efadaa27fb6dca3debf4"
+      },
+      {
+        "candidate": "2b5b1e630359675f3a71671910258b5efd8b49b7",
+        "logSha256": "b4ebcc1f4518f64c324e29e6565a187911d3321ad6255c37462c3dfaf7103fce"
+      },
+      {
+        "candidate": "4b4aa7463168be776a6b2313162f49c4f318a02e",
+        "logSha256": "adaf3e84d95a8d6951491063b479e0cd00d1cabebaed03e49fab386822876076"
+      },
+      {
+        "candidate": "936f81cd55618fbd4d18bb7afa641ba74448388b",
+        "logSha256": "f373ddde7dbf372e902506ef0569b5f83b3707766ea4b227d211b33546de4df5"
+      },
+      {
+        "candidate": "99d9e0c7c4094de6b7e75ee9848262891372bd02",
+        "logSha256": "0577f0d8c17e63b4241a82f0adfb5ccd987aa32c25e27cfd62088e880d25d37f"
+      }
+    ],
+    "hyperdriveQueryCacheDisabled": true
+  },
+  "liveSettings": [
+    {
+      "key": "raid_core_protocol_settings_v2024",
+      "revision": null,
+      "mode": "ON",
+      "storedWeeklyLimit": 3
+    },
+    {
+      "key": "raid_lich_settings_v1",
+      "revision": 7,
+      "mode": "ON",
+      "storedWeeklyLimit": 3
+    },
+    {
+      "key": "raid_madara_settings_v1",
+      "revision": 7,
+      "mode": "ON",
+      "storedWeeklyLimit": 5
+    }
+  ],
+  "publicNoticesSent": 0
+}
