@@ -1,0 +1,154 @@
+{
+  "sourceCommit": "9b6162d9edd4bea1aba63373f8ac77e513d64e0f",
+  "checkedAt": "2026-10-20T02:06:56.360Z",
+  "pages": {
+    "id": "95265fc6-4390-4aa8-8920-d2d73696cfb9",
+    "url": "https://95265fc6.cnine-card.pages.dev",
+    "status": "success",
+    "createdOn": "2026-10-20T02:06:02.314902Z",
+    "commit": "9b6162d9edd4bea1aba63373f8ac77e513d64e0f"
+  },
+  "runtime": {
+    "id": "d4bb2349-27cf-48a2-bffa-789d921cf2d2",
+    "createdOn": "2026-10-20T02:04:51.321697Z",
+    "versions": [
+      {
+        "version_id": "d845edc7-0383-40cd-ba37-9e09084598d9",
+        "percentage": 100
+      }
+    ]
+  },
+  "scopedTestsPassed": 33,
+  "browser": [
+    {
+      "width": 1440,
+      "equalButtonSize": {
+        "width": 680,
+        "height": 132
+      },
+      "inactiveHidden": true,
+      "ordinaryNoAlertPolling": true,
+      "imagesLoaded": true,
+      "lostResponseRecovery": true,
+      "ownerPopupOnce": true,
+      "cmsPopupAndPayment": true,
+      "errors": [],
+      "failed": []
+    },
+    {
+      "width": 390,
+      "equalButtonSize": {
+        "width": 328,
+        "height": 112
+      },
+      "inactiveHidden": true,
+      "ordinaryNoAlertPolling": true,
+      "imagesLoaded": true,
+      "lostResponseRecovery": true,
+      "ownerPopupOnce": true,
+      "cmsPopupAndPayment": true,
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "catalog": {
+    "mode": "register",
+    "checkedAt": "2026-10-20T02:06:53.800Z",
+    "before": {
+      "code": "MERCENARY_SSS_LIMITED_SHARD",
+      "name": "SSS 리미티드 조각",
+      "category": "MATERIAL",
+      "rarity": "SSS",
+      "image_url": "assets/items/sss-limited-shard-20261020/item.webp",
+      "is_active": 1
+    },
+    "after": {
+      "code": "MERCENARY_SSS_LIMITED_SHARD",
+      "name": "SSS 리미티드 조각",
+      "category": "MATERIAL",
+      "rarity": "SSS",
+      "image_url": "assets/items/sss-limited-shard-20261020/item.webp",
+      "is_active": 1
+    },
+    "balanceGrants": 0
+  },
+  "live": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 32145,
+      "sha256": "569c5adcf7a4cb50eeeff523cea09336b846da1bd4e45be68d88eb2e96153d32"
+    },
+    {
+      "path": "js/adventure-lobby-v2107.js",
+      "status": 200,
+      "bytes": 101276,
+      "sha256": "34d4877dbe92cbc56478a4c21ad55f5116340bc12dc0c270cf17cd163828456d"
+    },
+    {
+      "path": "js/server-support-v1.mjs",
+      "status": 200,
+      "bytes": 19270,
+      "sha256": "fe5bf0b1e05f3aeb98f70c70cabd3d92f10e45180fda8ac265c2f9afe03b02a9"
+    },
+    {
+      "path": "js/support-package-v1.mjs",
+      "status": 200,
+      "bytes": 4372,
+      "sha256": "64670a48e1852abbe657b467492cb0a6a75a9638f87b10bb0b9cca7e94c772b8"
+    },
+    {
+      "path": "js/support-package-alerts-v1.mjs",
+      "status": 200,
+      "bytes": 3272,
+      "sha256": "eb4725e7f5e1414cfcbca326c74f52f7126cef29fced7ee6b457270a9786ea0a"
+    },
+    {
+      "path": "css/support-package-v1.css",
+      "status": 200,
+      "bytes": 4716,
+      "sha256": "de5d306d70d82bb479d846ed6687a21858de487bacf296234b524463923aaae1"
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "bytes": 80262,
+      "sha256": "b145730251fe20f580c9a3854d86c5af5f4be59d5c36a3ac5d27d4ff6800de2f"
+    },
+    {
+      "path": "admin/server-support-admin-v1.mjs",
+      "status": 200,
+      "bytes": 11712,
+      "sha256": "481d699b69cd18f835c398f8c2ff32c196feaa36ad3eaaec8148f9f97692e3d2"
+    },
+    {
+      "path": "admin/support-package-admin-v1.mjs",
+      "status": 200,
+      "bytes": 4930,
+      "sha256": "40420ee6995b61ad3cfc2b1fec0baaa8227873619e0cc46c33fffe0edec42cf6"
+    },
+    {
+      "path": "shared/support-package-v1.mjs",
+      "status": 200,
+      "bytes": 865,
+      "sha256": "fd74751bd67b772c8fd4ffb29dfc7f465e92a48baa57761a81ae0fe7b864fa2e"
+    },
+    {
+      "path": "assets/items/sss-limited-shard-20261020/item.webp",
+      "status": 200,
+      "bytes": 94910,
+      "sha256": "039fe271970db624790cfb83b059dfb25cc032a59244ab1bfa16d7a9b2c271b3"
+    }
+  ],
+  "unauthenticatedApi": [
+    {
+      "path": "server-support/package",
+      "status": 401
+    },
+    {
+      "path": "admin/server-support/package/alerts",
+      "status": 401
+    }
+  ],
+  "productionPurchaseOrGrantTests": 0
+}

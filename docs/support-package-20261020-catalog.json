@@ -1,0 +1,21 @@
+{
+  "mode": "register",
+  "checkedAt": "2026-10-20T02:06:53.800Z",
+  "before": {
+    "code": "MERCENARY_SSS_LIMITED_SHARD",
+    "name": "SSS 리미티드 조각",
+    "category": "MATERIAL",
+    "rarity": "SSS",
+    "image_url": "assets/items/sss-limited-shard-20261020/item.webp",
+    "is_active": 1
+  },
+  "after": {
+    "code": "MERCENARY_SSS_LIMITED_SHARD",
+    "name": "SSS 리미티드 조각",
+    "category": "MATERIAL",
+    "rarity": "SSS",
+    "image_url": "assets/items/sss-limited-shard-20261020/item.webp",
+    "is_active": 1
+  },
+  "balanceGrants": 0
+}
