@@ -30,4 +30,11 @@
 
 ## 운영 반영
 
-관련 검사 6개와 Worker 구문 검사, 기존 scoped 배포의 소스·캐시·Hyperdrive 보호를 적용한다. UI/리소스 변경이 없어 이미지 제작이나 전투 연출 재생 검수는 이번 범위에 없다. 별도 계급 변경의 운영 배포와 겹치지 않게 순서를 확인한 뒤 `npm run deploy:production -- --scoped`로 배포한다. 배포 식별자와 읽기 전용 운영 확인은 완료 후 이 문서와 `production.json`에 기록한다.
+관련 검사 6개와 Worker 구문 검사, 기존 scoped 배포의 소스·캐시·Hyperdrive 보호를 통과했다. UI/리소스 변경이 없어 이미지 제작이나 전투 연출 재생 검수는 이번 범위에 없다. 별도 계급 변경 배포 `99d9e0c7c`의 완료를 확인한 뒤 이를 기준으로 `npm run deploy:production -- --scoped`를 실행했다. 전체 검사를 추가 실행하지 않았다.
+
+- 2026-10-21 **01:39 KST 운영 확인 완료**. 소스 `2d2f2ec4d2f0f2a4e04b4cef647bf85a07d7e76d`.
+- Pages `1d508465-883c-4f8c-86d6-0acbfa5e6922`, URL `https://1d508465.cnine-card.pages.dev`.
+- API Worker `b7aba494-2665-4ab1-be9d-8f6d941a650c`, clan-draft `c63d63c6-a458-47c8-bd96-dbf6c6bcf91b`.
+- 운영 공유 모듈의 `pveSkillMinimumDamage:false`와 로컬 배포 파일 SHA-256 일치 확인. 공개 도감 API 200, 기본 전투력 297,000 및 스킬 10.08/비용 20/재사용 1·기존 설명 동일.
+- 격전지 8조건·PVP 4조건·다른 용병 PVE 3조건의 전체 반환값은 이전과 동일하다. 실제 제보 계정 전투를 소비하거나 재화를 변경하지 않았다.
+- 증거는 `production.json`과 `release.log`다. 완료 기록만 추가 커밋하며 같은 코드로 재배포하지 않는다.

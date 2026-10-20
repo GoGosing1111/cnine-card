@@ -1,0 +1,74 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"99d9e0c7c4094de6b7e75ee9848262891372bd02","reason":"User approved Bathory PVE reduction: remove only the boss HP minimum-damage opt-in; focused real-cast, Apocalypse, cooperative, PVP and other-mercenary regressions.","changed":["AGENTS.md","docs/qa/bathory-pve-reduction-20261021/README.md","functions/_mercenary_combat.js","shared/mercenary-bathory-v1.mjs","tests/mercenary-bathory-pve-20261021.test.mjs"],"tests":["tests/mercenary-bathory-pve-20261021.test.mjs"],"checks":["check:worker"]}
+✔ actual Bathory cast follows attack strength instead of increasing with boss maximum HP (9.805ms)
+✔ Apocalypse HP floor is removed without removing missing-HP bonus, growth or one-hit cost (3.4694ms)
+✔ full PVE and Apocalypse battles reduce the first boss skill hit; exposing calculation changes nothing (65.0736ms)
+✔ cooperative Extreme remains identical through V3 waves and an isolated final boss at levels 1/10 (157.0229ms)
+✔ Bathory PVP is identical at levels 1/10 on either side (21.1643ms)
+✔ Jinmu, a melee limited and a ranged limited keep their existing PVE results (16.514ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 661.918
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 5191 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 7918.42 KiB / gzip: 1711.92 KiB
+Worker Startup Time: 57 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (5.19 sec)
+No targets deployed for cnine-card-api-runtime (0.68 sec)
+Current Version ID: b7aba494-2665-4ab1-be9d-8f6d941a650c
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19997/20000)
+Uploading... (19998/20000)
+Uploading... (19999/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 3 files (19997 already uploaded) (2.83 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://1d508465.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2742.08 KiB / gzip: 625.27 KiB
+Worker Startup Time: 45 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (3.86 sec)
+Deployed cnine-card-clan-draft triggers (1.01 sec)
+  schedule: * * * * *
+Current Version ID: c63d63c6-a458-47c8-bd96-dbf6c6bcf91b
