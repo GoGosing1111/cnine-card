@@ -1,0 +1,25 @@
+{
+  "status": "COMPLETED",
+  "operationKey": "ops:sera-kangyun-grant:20261021:v1",
+  "planHash": "2a6fbe5cba32506c7eed3bb808abb5cccb803b48551af58309e67910a0f6cca4",
+  "target": {
+    "id": 45,
+    "nickname": "박세라-ㅂ-",
+    "provider": "PLAYDK",
+    "providerUserId": "0ab57d26",
+    "code": "V-057",
+    "name": "신궁 강윤",
+    "rank": "SSS",
+    "quantity": 1
+  },
+  "authorization": "박세라-ㅂ- 강윤 지급",
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "cost": 0,
+  "permanent": true,
+  "automaticLoadout": false,
+  "protectedBefore": "7e79e21d5180d94af2dbf736df9cc1f59c6c8943a61774546a189039fa02c8b9",
+  "protectedAfter": "7e79e21d5180d94af2dbf736df9cc1f59c6c8943a61774546a189039fa02c8b9",
+  "completedAt": "2026-10-20T18:38:31.051Z",
+  "auditId": "49258"
+}
