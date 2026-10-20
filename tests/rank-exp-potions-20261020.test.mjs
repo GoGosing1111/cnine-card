@@ -18,6 +18,7 @@ test('bounded delivery retains runtime potion art and keeps only its authoring s
  for(const file of ['2x.webp','3x.webp','panel.webp'])assert.equal(isProductionFile(root+file),true);
  for(const file of ['2x-source.png','3x-source.png','panel-source.png','prompts.json','manifest.json'])assert.equal(isProductionFile(root+file),false);
  assert.equal(isProductionFile('docs/rank-exp-potions-20261020.md'),false);
+ for(const file of ['docs/cooperative-energy-entry-20261020-release.json','docs/support-package-20261020-catalog.json','docs/support-package-20261020-release.json'])assert.equal(isProductionFile(file),false);
  for(const file of ['js/rank-exp-potion-v1.mjs','shared/rank-exp-potion-v1.mjs','css/rank-exp-potion-v1.css','assets/items/icon-card-choice-20261020/ticket.webp'])assert.equal(isProductionFile(file),true);
 });
 
