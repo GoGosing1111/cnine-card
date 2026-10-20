@@ -30,4 +30,9 @@
 ## 운영 기록
 
 - 사전 dry-run: 미개봉 V2 21개 전환 가능. 롤백 후 ISSUED V2 21 / OPENED V1 19 / OPENED V2 41로 동일, 아이템 활성 1. 상세 `dry-run.json`의 감사 ID는 롤백된 테스트 ID다.
-- 배포 및 실제 적용은 아래 후속 기록으로 확정한다.
+- 2026-10-20 15:55 KST 운영 반영 완료. 배포 커밋 `b45677e30ad39ff4b75c6a7b7d2fed91b372fe04`, 실제 직전 Pages 기준 `89243c844397d970f42c94eb12005c7c70e785e0`에서 scoped 배포했다.
+- 최종 관련 회귀 **26/26 통과**, Worker 검사·출시 검사·Hyperdrive 캐시 OFF 확인 통과. 초기 배포 검사는 이전 JS 버전을 기대하던 테스트 1건으로 실제 배포 전에 중단됐으며, 기대 버전을 수정한 뒤 최종 검사를 통과했다. 기능 범위 밖 검사를 추가하지 않았다.
+- Pages `9d3af1b7-167b-4fa6-9125-48f38c1a4beb`, API Runtime `bdfc1dcc-61f7-40e4-930f-1254987ef2a6`, clan-draft `15d680da-05c3-4d55-8fd9-b82b53b0f782`. 로그는 `scoped-deploy.log`다.
+- 실제 일회 거래: 미개봉 V2 **21개 → V3 21개**, 감사 **49077**, 활성 **1 유지**. `apply.json` 참고. 재실행은 모든 INSERT/UPDATE/DELETE를 금지한 클라이언트에서도 이전 감사 결과를 반환했으며 변경 0건이다(`replay.json`).
+- 독립 읽기 전용 거래에서 모든 미개봉 서명·3,000억·카드별 강화·마법 +9·구성 수량을 확인했다. 이전 OPENED V1 19개/V2 41개 **총 60개의 영수증 및 결과 해시가 동일**했다(`verification.json`).
+- 운영 `https://cnine-card.pages.dev`의 index, CMS index, 공통 gift JS, 서비스 워커 4개 파일 모두 HTTP 200 및 로컬 SHA-256 일치(`assets-verification.json`). 일반 새로고침으로 새 구성 파일을 받도록 버전·서비스 워커 최신 요청 목록을 갱신했다.

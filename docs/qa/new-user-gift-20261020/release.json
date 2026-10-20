@@ -1,0 +1,20 @@
+{
+  "sourceCommit": "b45677e30ad39ff4b75c6a7b7d2fed91b372fe04",
+  "baseCommit": "89243c844397d970f42c94eb12005c7c70e785e0",
+  "pagesId": "9d3af1b7-167b-4fa6-9125-48f38c1a4beb",
+  "pagesUrl": "https://9d3af1b7.cnine-card.pages.dev",
+  "apiRuntimeVersion": "bdfc1dcc-61f7-40e4-930f-1254987ef2a6",
+  "clanRuntimeVersion": "15d680da-05c3-4d55-8fd9-b82b53b0f782",
+  "regressions": { "passed": 26, "failed": 0 },
+  "workerCheck": true,
+  "releaseCheck": true,
+  "hyperdriveQueryCache": "disabled",
+  "operationKey": "ops:new-user-gift-contents:20261020:v1",
+  "auditId": 49077,
+  "upgradedUnopened": 21,
+  "unchangedOpened": 60,
+  "replayWrites": 0,
+  "uiViewports": [1280, 390],
+  "uiSurfaces": ["player", "cms"],
+  "liveAssetsVerified": 4
+}

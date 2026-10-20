@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-10-20T06:55:29.757Z",
+  "base": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 32498,
+      "sha256": "9d528faad98a9426b30d67ea52f5102cfae723e0e13b3d54a164d94bb6335048"
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "bytes": 80711,
+      "sha256": "c36e5618dc3e9d0174d2a3a6e6c69bc845ad77657472eed0038e214359d26991"
+    },
+    {
+      "path": "js/new-user-gift-v2075.js",
+      "status": 200,
+      "bytes": 6224,
+      "sha256": "c223c281142b45a3e500c4d6ef1a58d868daa8216fde3b15dc52d93533ef14f0"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "bytes": 17250,
+      "sha256": "dc6b3872602be1990a4db6ce46e3e7564ba5ea40985ccaf5fe9648f37628fe0c"
+    }
+  ]
+}

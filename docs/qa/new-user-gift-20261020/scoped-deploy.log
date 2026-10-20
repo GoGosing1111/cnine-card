@@ -1,0 +1,94 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"89243c844397d970f42c94eb12005c7c70e785e0","reason":"신규유저 기프트 박스 V3 구성 상향과 미개봉 영수증 전환, 플레이어 및 CMS 공통 구성 표시 변경: 관련 지급·수령·개봉·롤백 회귀와 Worker 컴파일 검사","changed":["AGENTS.md","admin/index.html","docs/qa/new-user-gift-20261020/README.md","docs/qa/new-user-gift-20261020/browser.json","docs/qa/new-user-gift-20261020/catalog.json","docs/qa/new-user-gift-20261020/cms-1280.png","docs/qa/new-user-gift-20261020/cms-390.png","docs/qa/new-user-gift-20261020/dry-run.json","docs/qa/new-user-gift-20261020/opened-1280.png","docs/qa/new-user-gift-20261020/opened-390.png","docs/qa/new-user-gift-20261020/player-1280.png","docs/qa/new-user-gift-20261020/player-390.png","docs/qa/prediction-large-wallet-20261020/README.md","docs/qa/prediction-large-wallet-20261020/release.json","functions/_new_user_gift.js","index.html","js/new-user-gift-v2075.js","scripts/ops/new-user-gift-contents-20261020.mjs","service-worker.js","tests/new-user-gift-20261020.browser.mjs","tests/new-user-gift-v2075.test.mjs"],"tests":["tests/new-user-gift-v2075.test.mjs"],"checks":["check:worker"]}
+✔ first verification atomically sends one claimable box, claims once then opens the unchanged full contents (1495.4356ms)
+✔ over 14 days and invalid/future signup still verify successfully without sending a box (3041.6581ms)
+✔ catalog/message/audit failure rolls back verification and entitlement together and permits retry (4373.6882ms)
+✔ same identity, unlink/relink, concurrent first verification and old manual grants never issue a second box (2071.9644ms)
+✔ failed or forged message claims cannot create extra boxes and genuine claim can retry (1129.173ms)
+✔ disabled gift preserves verification; preexisting verification is not retroactively mailed (1048.3916ms)
+✔ 14 days uses the real UTC signup timestamp, accepts exactly 336 hours and rejects one second over (0.9068ms)
+✔ CMS checks actual signup and verified status; request fields cannot alter reward contents (1016.9065ms)
+✔ whole box grants 300 billion, SUPERSTAR +13, Iyejun FUR +15, other FUR/ZENITH +13 and magic +9 atomically (1030.0726ms)
+✔ rapid duplicate issue/open requests and lost responses replay one persisted entitlement (1028.4511ms)
+✔ unverified, old, disabled and forged boxes cannot be issued/opened (1141.8812ms)
+✔ verification unlink/account deletion/relink cannot reset once-only identity entitlement (1035.5334ms)
+✔ issued box is not silently expired after day 7; new catalog additions do not change its snapshot (1019.5765ms)
+✔ every public Iyejun FUR uses +15 by member identity, while same-title other-member and future cards stay scoped (1007.0436ms)
+✔ unclaimed V2 message keeps its identifiers through upgrade, claims once, and opens V3 (1074.1343ms)
+✔ V2 migration rejects changed hash and rolls back conversion when opening fails (1078.5309ms)
+✔ bulk V2 upgrade dry run, audit failure and apply are atomic; replay preserves later operator settings (1046.5141ms)
+✔ completed V2 results and their historical 100-eok reward stay immutable (1011.4474ms)
+✔ unopened legacy box upgrades once, snapshots new contents and replays without duplicate grants (1036.1133ms)
+✔ direct legacy opening rolls back contents upgrade on failure; completed old boxes stay unchanged (1041.9154ms)
+✔ missing superstar catalog and tampered legacy receipts cannot be silently upgraded (1013.1825ms)
+✔ shared player/CMS reward view matches the issued manifest including historical +10 boxes (16.8766ms)
+✔ missing/private/retired reward, depleted limited stock and corrupt manifest fail without consumption (5309.0703ms)
+✔ audit failures, zero-row equipment grants and final receipt failures roll back every write (4089.3961ms)
+✔ route permissions block anonymous/users before schema work and reject unsupported methods (1015.3536ms)
+✔ client/CMS integrations load versioned assets and generic inventory grant cannot bypass the dedicated route (100.3925ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 38586.8053
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 5065 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7905.40 KiB / gzip: 1708.70 KiB
+Worker Startup Time: 39 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (3.98 sec)
+No targets deployed for cnine-card-api-runtime (0.59 sec)
+Current Version ID: bdfc1dcc-61f7-40e4-930f-1254987ef2a6
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19994/20000)
+Uploading... (19996/20000)
+Uploading... (19998/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 6 files (19994 already uploaded) (2.16 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://9d3af1b7.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2730.85 KiB / gzip: 622.72 KiB
+Worker Startup Time: 38 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (2.73 sec)
+Deployed cnine-card-clan-draft triggers (0.95 sec)
+  schedule: * * * * *
+Current Version ID: 15d680da-05c3-4d55-8fd9-b82b53b0f782

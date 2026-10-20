@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-10-20T06:55:21.158Z",
+  "readOnly": true,
+  "counts": {
+    "OPENED:V1": 19,
+    "OPENED:V2": 41,
+    "ISSUED:V3": 21
+  },
+  "verifiedUnopened": 21,
+  "unchangedOpened": 60,
+  "active": 1,
+  "description": "3,000억 코인 · 공개 슈퍼스타 전체 각 1장 +13 · FUR 전체 각 1장 +13(이예준 관련 FUR +15) · 제니스 전체 각 1장 +13 · 미스틱 장비 4종과 소버린 SKS 각 1개 · 활성 마법카드 전체 각 1장 최고 강화 +9. 가입 14일 이내 첫 PLAY DK 2차 인증 완료 시 메시지 자동 지급, 계정·2차 인증 계정당 1회.",
+  "coin": 300000000000,
+  "superstarLevel": 13,
+  "iyejunFurLevel": 15,
+  "otherFurLevel": 13,
+  "zenithLevel": 13,
+  "magicLevel": 9
+}
