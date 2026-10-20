@@ -1,0 +1,42 @@
+[
+  {
+    "mode": "player",
+    "width": 1280,
+    "dimensions": {
+      "width": 1280,
+      "scroll": 1280,
+      "missing": []
+    },
+    "errors": []
+  },
+  {
+    "mode": "cms",
+    "width": 1280,
+    "dimensions": {
+      "width": 1280,
+      "scroll": 1280,
+      "missing": []
+    },
+    "errors": []
+  },
+  {
+    "mode": "player",
+    "width": 390,
+    "dimensions": {
+      "width": 390,
+      "scroll": 390,
+      "missing": []
+    },
+    "errors": []
+  },
+  {
+    "mode": "cms",
+    "width": 390,
+    "dimensions": {
+      "width": 390,
+      "scroll": 390,
+      "missing": []
+    },
+    "errors": []
+  }
+]

@@ -4,10 +4,11 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { PGlite } from '@electric-sql/pglite';
 import { __postgresCompatTest } from '../functions/_postgres_d1_compat.js';
-import { refreshIssuedNewUserGiftContents } from '../scripts/ops/new-user-gift-contents-20261001.mjs';
+import { refreshNewUserGiftContents,NEW_USER_GIFT_UPDATE_KEY } from '../scripts/ops/new-user-gift-contents-20261020.mjs';
+import { defaultMagicSettings } from '../functions/_magic.js';
 import { giftEligibility, giftTimestamp, NEW_USER_GIFT_CODE, NEW_USER_GIFT_COIN, NEW_USER_GIFT_EQUIPMENT,
   ensureNewUserGift, newUserGiftStatus, issueNewUserGift, openNewUserGift, handleNewUserGift,
-  completePlaydkVerificationWithGift, claimNewUserGiftMessage } from '../functions/_new_user_gift.js';
+  completePlaydkVerificationWithGift, claimNewUserGiftMessage,NEW_USER_GIFT_MAGIC_LEVEL } from '../functions/_new_user_gift.js';
 
 const admin = { id: 99, role: 'OWNER' };
 async function autoFixture() {
@@ -43,7 +44,7 @@ test('first verification atomically sends one claimable box, claims once then op
     assert.equal(Number((await f.row('SELECT COUNT(*) n FROM inventory_logs')).n),1);
     assert.equal((await f.status()).canOpen,true);
     const opened=await f.open();assert.equal(opened.coin,NEW_USER_GIFT_COIN);
-    assert.deepEqual(opened.rewards.cardLevels,{SUPERSTAR:11,FUR:13,ZENITH:13});
+    assert.deepEqual(opened.rewards.cardLevels,{SUPERSTAR:13,FUR:13,ZENITH:13});
     assert.equal((await f.claim()).duplicate,true);assert.equal((await f.open()).replayed,true);
     assert.equal(Number((await f.row('SELECT quantity FROM cnine_user_inventory')).quantity),0);
   }finally{await f.close();}
@@ -123,6 +124,7 @@ async function fixture() {
   await pg.exec(`
     CREATE FUNCTION sqlite_now() RETURNS text LANGUAGE SQL STABLE AS $$SELECT to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')$$;
     CREATE TABLE users(id BIGINT PRIMARY KEY,nickname TEXT,status TEXT,role TEXT,coin BIGINT,created_at TEXT);
+    CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT);
     INSERT INTO users VALUES(1,'신규QA','ACTIVE','USER',3000,sqlite_now()),(2,'다른QA','ACTIVE','USER',0,sqlite_now()),(99,'운영자','ACTIVE','OWNER',0,'2020-01-01 00:00:00');
     CREATE TABLE user_second_verifications(user_id BIGINT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,provider TEXT,provider_user_id TEXT,verified_at TEXT,UNIQUE(provider,provider_user_id));
     INSERT INTO user_second_verifications VALUES(1,'PLAYDK','uuid-1',sqlite_now());
@@ -132,11 +134,11 @@ async function fixture() {
     CREATE TABLE admin_logs(id BIGINT GENERATED ALWAYS AS IDENTITY,admin_id BIGINT,action_type TEXT,target_type TEXT,target_id TEXT,before_data TEXT,after_data TEXT);
     CREATE TABLE coin_logs(id BIGINT GENERATED ALWAYS AS IDENTITY,user_id BIGINT,change_amount BIGINT,balance_after BIGINT,reason TEXT,admin_id BIGINT);
     CREATE TABLE members(id BIGINT PRIMARY KEY,name TEXT,is_active BIGINT);
-    INSERT INTO members VALUES(1,'활성',1),(2,'비활성',0);
+    INSERT INTO members VALUES(1,'활성',1),(2,'비활성',0),(111,'이예준',1);
     CREATE TABLE cards(id TEXT PRIMARY KEY,title TEXT,rarity TEXT,is_active BIGINT,card_status TEXT,member_id BIGINT,limited_total BIGINT,issued_count BIGINT DEFAULT 0);
     INSERT INTO cards(id,title,rarity,is_active,card_status,member_id) VALUES
       ('S1','슈퍼스타 A','SUPERSTAR',1,'PUBLIC',1),('S2','슈퍼스타 B','SUPERSTAR',1,'PUBLIC',1),
-      ('F1','FUR A','FUR',1,'PUBLIC',1),('F2','FUR B','FUR',1,'PUBLIC',1),('Z1','제니스 A','ZENITH',1,'PUBLIC',1),
+      ('F1','FUR A','FUR',1,'PUBLIC',111),('F2','철구','FUR',1,'PUBLIC',1),('Z1','제니스 A','ZENITH',1,'PUBLIC',1),
       ('retired','삭제카드','FUR',0,'RETIRED',1),('hidden','비공개','ZENITH',1,'PRIVATE',1),('offmember','비활성멤버','FUR',1,'PUBLIC',2),('limited','제외등급','LIMITED',1,'PUBLIC',1);
     CREATE VIEW cards_effective_v1210 AS SELECT * FROM cards;
     CREATE TABLE user_cards(user_id BIGINT,card_id TEXT,quantity BIGINT,breakthrough_level BIGINT,breakthrough_fail_count BIGINT,last_obtained_at TEXT,PRIMARY KEY(user_id,card_id));
@@ -181,7 +183,7 @@ test('CMS checks actual signup and verified status; request fields cannot alter 
   const f=await fixture();try{
     const s=await f.status();assert.equal(s.canIssue,true);assert.equal(s.rewards.cards.length,5);assert.equal(s.rewards.magic.length,2);assert.equal(s.rewards.equipment.length,5);
     const granted=await f.issue(1,{coin:999999999999999,cardLevel:99,days:999});
-    assert.equal(granted.rewards.coin,10000000000);assert.deepEqual(granted.rewards.cardLevels,{SUPERSTAR:11,FUR:13,ZENITH:13});
+    assert.equal(granted.rewards.coin,300000000000);assert.deepEqual(granted.rewards.cardLevels,{SUPERSTAR:13,FUR:13,ZENITH:13});
     assert.deepEqual(granted.rewards.equipment.map(e=>e.name).sort(),['미스틱 슈트','미스틱 레깅스','미스틱 슈즈','미스틱 듀얼디스크','소버린 SKS'].sort());
     assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin),3000);
     assert.equal(Number((await f.row('SELECT quantity FROM cnine_user_inventory')).quantity),1);
@@ -191,25 +193,25 @@ test('CMS checks actual signup and verified status; request fields cannot alter 
   }finally{await f.close();}
 });
 
-test('whole box grants SUPERSTAR +11, FUR/ZENITH +13, magic +5 and five new equipment instances atomically',async()=>{
+test('whole box grants 300 billion, SUPERSTAR +13, Iyejun FUR +15, other FUR/ZENITH +13 and magic +9 atomically',async()=>{
   const f=await fixture();try{
-    await f.pg.exec("INSERT INTO user_cards VALUES(1,'F1',2,13,6,NULL),(1,'F2',1,4,3,NULL),(1,'S1',1,13,4,NULL),(1,'S2',0,13,4,NULL); INSERT INTO user_magic_cards VALUES(1,1,2,7,NULL),(1,2,0,9,NULL)");
+    await f.pg.exec("INSERT INTO user_cards VALUES(1,'F1',2,17,6,NULL),(1,'F2',1,4,3,NULL),(1,'S1',1,13,4,NULL),(1,'S2',0,13,4,NULL); INSERT INTO user_magic_cards VALUES(1,1,2,9,NULL),(1,2,0,9,NULL)");
     await f.issue();const r=await f.open();
-    assert.equal(r.coin,NEW_USER_GIFT_COIN);assert.equal(r.coinAfter,10000003000);assert.deepEqual(r.summary,{superstar:2,fur:2,zenith:1,magic:2,equipment:5});
-    assert.equal(Number((await f.row("SELECT breakthrough_level FROM user_cards WHERE card_id='F1'")).breakthrough_level),13);
+    assert.equal(r.coin,NEW_USER_GIFT_COIN);assert.equal(r.coinAfter,300000003000);assert.deepEqual(r.summary,{superstar:2,fur:2,zenith:1,magic:2,equipment:5});
+    assert.equal(Number((await f.row("SELECT breakthrough_level FROM user_cards WHERE card_id='F1'")).breakthrough_level),17);
     assert.equal(Number((await f.row("SELECT breakthrough_fail_count FROM user_cards WHERE card_id='F1'")).breakthrough_fail_count),6);
     assert.equal(Number((await f.row("SELECT quantity FROM user_cards WHERE card_id='F1'")).quantity),3);
     for(const cardId of ['F2','Z1','S1'])assert.equal(Number((await f.row('SELECT breakthrough_level FROM user_cards WHERE card_id=$1',[cardId])).breakthrough_level),13);
     assert.equal(Number((await f.row("SELECT breakthrough_fail_count FROM user_cards WHERE card_id='S1'")).breakthrough_fail_count),4);
-    assert.equal(Number((await f.row("SELECT breakthrough_level FROM user_cards WHERE card_id='S2'")).breakthrough_level),11);
+    assert.equal(Number((await f.row("SELECT breakthrough_level FROM user_cards WHERE card_id='S2'")).breakthrough_level),13);
     assert.equal(Number((await f.row("SELECT breakthrough_fail_count FROM user_cards WHERE card_id='S2'")).breakthrough_fail_count),0);
     assert.equal(Number((await f.row("SELECT breakthrough_fail_count FROM user_cards WHERE card_id='F2'")).breakthrough_fail_count),0);
-    assert.equal(Number((await f.row('SELECT enhancement_level FROM user_magic_cards WHERE magic_card_id=1')).enhancement_level),7);
-    assert.equal(Number((await f.row('SELECT enhancement_level FROM user_magic_cards WHERE magic_card_id=2')).enhancement_level),5);
+    assert.equal(Number((await f.row('SELECT enhancement_level FROM user_magic_cards WHERE magic_card_id=1')).enhancement_level),9);
+    assert.equal(Number((await f.row('SELECT enhancement_level FROM user_magic_cards WHERE magic_card_id=2')).enhancement_level),9);
     assert.equal(Number((await f.row('SELECT COUNT(*) n FROM user_equipment_instances')).n),5);
     assert.equal(Number((await f.row('SELECT instance_id FROM user_equipment_loadout')).instance_id),77);
     assert.equal((await f.row('SELECT card_ids FROM decks')).card_ids,'old deck unchanged');
-    assert.equal(Number((await f.row('SELECT change_amount FROM coin_logs')).change_amount),10000000000);
+    assert.equal(Number((await f.row('SELECT change_amount FROM coin_logs')).change_amount),300000000000);
     assert.equal((await f.row('SELECT status FROM new_user_gift_receipts_v1')).status,'OPENED');
     assert.equal((await f.status()).canOpen,false);
   }finally{await f.close();}
@@ -238,7 +240,7 @@ test('unverified, old, disabled and forged boxes cannot be issued/opened',async(
     await ensureNewUserGift(f.env);assert.equal(Number((await f.row('SELECT is_active FROM inventory_items')).is_active),0);
     await ensureNewUserGift({DB:new __postgresCompatTest.PostgresD1Database(f.env.DB.client)});
     assert.equal(Number((await f.row('SELECT is_active FROM inventory_items')).is_active),0);
-    assert.match((await f.row('SELECT description FROM inventory_items')).description,/슈퍼스타 전체 각 1장 \+11.*미스틱 장비 4종과 소버린 SKS/);
+    assert.match((await f.row('SELECT description FROM inventory_items')).description,/3,000억.*슈퍼스타 전체 각 1장 \+13.*이예준 관련 FUR \+15.*미스틱 장비 4종과 소버린 SKS.*최고 강화 \+9/);
     assert.equal(Number((await f.row('SELECT COUNT(*) n FROM new_user_gift_receipts_v1')).n),0);
   }finally{await f.close();}
 });
@@ -263,7 +265,7 @@ test('issued box is not silently expired after day 7; new catalog additions do n
 
 async function makeLegacyReceipt(f) {
   const {rewards}=await f.issue();
-  const legacy={version:1,coin:NEW_USER_GIFT_COIN,cardLevel:10,magicLevel:5,
+  const legacy={version:1,coin:10000000000,cardLevel:10,magicLevel:5,
     cards:rewards.cards.filter(c=>c.grade!=='SUPERSTAR').map(({level,...c})=>c),magic:rewards.magic,
     equipment:['EQ_1785961398598','EQ_1785961420255','EQ_1785961440314','EQ_1786908918550','EQ_1785961300455'].map((code,i)=>({id:101+i,code,name:'이전 장비'}))};
   const manifest=JSON.stringify(legacy),hash=Buffer.from(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(manifest))).toString('hex');
@@ -271,13 +273,99 @@ async function makeLegacyReceipt(f) {
   return {legacy,manifest,hash};
 }
 
+async function makeV2Receipt(f) {
+  const row=await f.row('SELECT * FROM new_user_gift_receipts_v1 WHERE user_id=1'),current=JSON.parse(row.manifest_json);
+  const levels={SUPERSTAR:11,FUR:13,ZENITH:13};
+  const previous={...current,version:2,coin:10000000000,cardLevels:levels,magicLevel:5,
+    cards:current.cards.map(({memberId,...c})=>({...c,level:levels[c.grade]}))};
+  const manifest=JSON.stringify(previous),hash=Buffer.from(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(manifest))).toString('hex');
+  await f.pg.query('UPDATE new_user_gift_receipts_v1 SET manifest_json=$1,manifest_hash=$2 WHERE user_id=1',[manifest,hash]);
+  return {previous,manifest,hash};
+}
+
+test('every public Iyejun FUR uses +15 by member identity, while same-title other-member and future cards stay scoped',async()=>{
+  const f=await fixture();try{
+    await f.pg.exec("INSERT INTO cards(id,title,rarity,is_active,card_status,member_id) VALUES('IY2','아이젠 족스케','FUR',1,'PUBLIC',111),('IY3','치타구','FUR',1,'PUBLIC',111),('IYH','비공개 이예준','FUR',1,'PRIVATE',111)");
+    const issued=await f.issue();
+    assert.deepEqual(issued.rewards.cards.filter(c=>c.grade==='FUR'&&c.level===15).map(c=>c.id).sort(),['F1','IY2','IY3']);
+    assert.equal(issued.rewards.cards.find(c=>c.id==='F2').level,13);assert.ok(!issued.rewards.cards.some(c=>c.id==='IYH'));
+    assert.equal(issued.rewards.magicLevel,defaultMagicSettings().enhancement.maxLevel);
+    assert.equal(NEW_USER_GIFT_MAGIC_LEVEL,9);
+    const result=await f.open();
+    assert.equal(result.cards.find(c=>c.card_id==='F1').breakthrough_level,15);
+    assert.equal(result.cards.find(c=>c.card_id==='IY2').breakthrough_level,15);
+    assert.equal(result.cards.find(c=>c.card_id==='IY3').breakthrough_level,15);
+    assert.equal(result.cards.find(c=>c.card_id==='F2').breakthrough_level,13);
+  }finally{await f.close();}
+});
+
+test('unclaimed V2 message keeps its identifiers through upgrade, claims once, and opens V3',async()=>{
+  const f=await autoFixture();try{
+    await f.verify();const before=await makeV2Receipt(f);
+    const status=await f.status();
+    assert.equal(status.rewards.version,3);assert.equal(status.rewards.previousManifestHash,before.hash);
+    assert.equal(status.pendingMessageId,before.previous.messageId);assert.equal(status.rewards.rewardId,before.previous.rewardId);
+    assert.equal(status.rewards.delivery,'MESSAGE');assert.equal(status.canOpen,false);
+    assert.equal((await f.claim()).credited,true);assert.equal((await f.claim()).duplicate,true);
+    const result=await f.open();assert.equal(result.coin,300000000000);assert.equal(result.rewards.magicLevel,9);
+    assert.equal(result.cards.find(c=>c.card_id==='F1').breakthrough_level,15);
+    assert.equal((await f.open()).replayed,true);
+  }finally{await f.close();}
+});
+
+test('V2 migration rejects changed hash and rolls back conversion when opening fails',async()=>{
+  const f=await fixture();try{
+    await f.issue();const old=await makeV2Receipt(f);
+    await f.pg.exec("UPDATE new_user_gift_receipts_v1 SET manifest_hash='bad'");await assert.rejects(f.status(),e=>e.code==='RECEIPT_INVALID');
+    await f.pg.query('UPDATE new_user_gift_receipts_v1 SET manifest_hash=$1',[old.hash]);
+    f.setFault('INSERT INTO coin_logs');await assert.rejects(f.open(),/injected/);f.setFault(null);
+    assert.equal((await f.row('SELECT manifest_hash FROM new_user_gift_receipts_v1')).manifest_hash,old.hash);
+    assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin),3000);
+    assert.equal(Number((await f.row('SELECT quantity FROM cnine_user_inventory')).quantity),1);
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM user_cards')).n),0);
+  }finally{await f.close();}
+});
+
+test('bulk V2 upgrade dry run, audit failure and apply are atomic; replay preserves later operator settings',async()=>{
+  const f=await fixture();try{
+    await f.issue();const old=await makeV2Receipt(f);
+    await f.pg.exec("UPDATE inventory_items SET is_active=0,description='prior description' WHERE code='NEW_USER_GIFT_BOX'");
+    const run=dryRun=>refreshNewUserGiftContents(f.env.DB.client,{actorId:99,dryRun});
+    const before=await f.row('SELECT * FROM new_user_gift_receipts_v1');
+    assert.equal((await run(true)).updated,1);assert.deepEqual(await f.row('SELECT * FROM new_user_gift_receipts_v1'),before);
+    assert.equal((await f.row('SELECT description FROM inventory_items')).description,'prior description');
+    assert.equal(Number((await f.row('SELECT COUNT(*) n FROM app_meta')).n),0);
+    f.setFault('INSERT INTO admin_logs');await assert.rejects(run(false),/injected/);f.setFault(null);
+    assert.deepEqual(await f.row('SELECT * FROM new_user_gift_receipts_v1'),before);
+    const applied=await run(false);assert.equal(applied.updated,1);assert.equal(applied.changes[0].beforeHash,old.hash);
+    assert.equal(applied.active,0);assert.equal((await f.row('SELECT status FROM new_user_gift_receipts_v1')).status,'ISSUED');
+    assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin),3000);assert.equal(Number((await f.row('SELECT quantity FROM cnine_user_inventory')).quantity),1);
+    for(const table of ['user_cards','user_magic_cards','user_equipment_instances','coin_logs'])assert.equal(Number((await f.row(`SELECT COUNT(*) n FROM ${table}`)).n),0);
+    assert.ok(await f.row('SELECT value FROM app_meta WHERE key=$1',[NEW_USER_GIFT_UPDATE_KEY]));
+    await f.pg.exec("UPDATE inventory_items SET description='later operator copy'");
+    const replay=await run(false);assert.equal(replay.replayed,true);assert.equal(replay.auditId,applied.auditId);
+    assert.equal((await f.row('SELECT description FROM inventory_items')).description,'later operator copy');
+  }finally{await f.close();}
+});
+
+test('completed V2 results and their historical 100-eok reward stay immutable',async()=>{
+  const f=await fixture();try{
+    await f.issue();const old=await makeV2Receipt(f),historical={ok:true,replayed:false,coin:10000000000,rewards:old.previous};
+    await f.pg.query("UPDATE new_user_gift_receipts_v1 SET status='OPENED',result_json=$1",[JSON.stringify(historical)]);
+    const before=await f.row('SELECT * FROM new_user_gift_receipts_v1');
+    assert.equal((await refreshNewUserGiftContents(f.env.DB.client,{actorId:99,dryRun:false})).updated,0);
+    assert.equal((await f.status()).rewards.version,2);assert.deepEqual(await f.open(),{...historical,replayed:true});
+    assert.deepEqual(await f.row('SELECT * FROM new_user_gift_receipts_v1'),before);
+  }finally{await f.close();}
+});
+
 test('unopened legacy box upgrades once, snapshots new contents and replays without duplicate grants',async()=>{
   const f=await fixture();try{
     const old=await makeLegacyReceipt(f);
-    assert.equal((await refreshIssuedNewUserGiftContents(f.env)).updated,1);
-    assert.equal((await refreshIssuedNewUserGiftContents(f.env)).updated,0);
+    assert.equal((await refreshNewUserGiftContents(f.env.DB.client,{actorId:99,dryRun:false})).updated,1);
+    assert.equal((await refreshNewUserGiftContents(f.env.DB.client,{actorId:99,dryRun:false})).replayed,true);
     const status=await f.status();
-    assert.equal(status.rewards.version,2);assert.equal(status.rewards.previousManifestHash,old.hash);
+    assert.equal(status.rewards.version,3);assert.equal(status.rewards.previousManifestHash,old.hash);
     assert.equal(status.rewards.cards.length,5);assert.equal(status.canOpen,true);
     const upgraded=await f.row('SELECT manifest_json,manifest_hash,issued_at,request_id FROM new_user_gift_receipts_v1');
     await f.pg.exec("INSERT INTO cards(id,title,rarity,is_active,card_status,member_id) VALUES('S3','나중 추가','SUPERSTAR',1,'PUBLIC',1)");
@@ -325,6 +413,10 @@ test('shared player/CMS reward view matches the issued manifest including histor
   assert.match(html,/미스틱 장비 4종 \+ 소버린 SKS/);assert.match(html,/\[FUR\] 불 \+13/);assert.doesNotMatch(html,/\+10|프라임|M200/);
   const old=rewardsHtml({version:1,coin:NEW_USER_GIFT_COIN,cardLevel:10,magicLevel:5,cards:cards.slice(1).map(({level,...c})=>c),magic:[],equipment:[]});
   assert.match(old,/프라임 방어구 4종 \+ M200/);assert.match(old,/\[FUR\] 불 \+10/);assert.doesNotMatch(old,/슈퍼스타|undefined/);
+  const latest=rewardsHtml({version:3,coin:300000000000,cardLevels:{SUPERSTAR:13,FUR:13,ZENITH:13},magicLevel:9,
+    cards:[{grade:'SUPERSTAR',title:'별',level:13},{grade:'FUR',title:'철구',level:15,memberId:111},{grade:'FUR',title:'다른 FUR',level:13,memberId:1},{grade:'ZENITH',title:'빛',level:13}],magic:[{name:'마법'}],equipment:NEW_USER_GIFT_EQUIPMENT});
+  assert.match(latest,/3,000억/);assert.match(latest,/슈퍼스타 전체 1종.*각 1장 · \+13/);
+  assert.match(latest,/이예준 FUR 1종.*각 1장 · \+15/);assert.match(latest,/그 외 FUR 1종.*각 1장 · \+13/);assert.match(latest,/마법카드 전체 1종.*각 1장 · \+9/);
 });
 
 test('missing/private/retired reward, depleted limited stock and corrupt manifest fail without consumption',async()=>{

@@ -1,0 +1,363 @@
+{
+  "mode": "dry-run",
+  "before": [
+    {
+      "status": "ISSUED",
+      "version": "2",
+      "count": "21"
+    },
+    {
+      "status": "OPENED",
+      "version": "1",
+      "count": "19"
+    },
+    {
+      "status": "OPENED",
+      "version": "2",
+      "count": "41"
+    }
+  ],
+  "result": {
+    "key": "ops:new-user-gift-contents:20261020:v1",
+    "appliedAt": "2026-10-20T06:43:35.569Z",
+    "updated": 21,
+    "active": 1,
+    "changes": [
+      {
+        "userId": 5614,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "98037ae1a8586a11f04b3ad7fd6351d514fe06384fb2d3471128460c063d846d",
+        "afterHash": "e870eadaca38d7e9a20c9b9909ef60cdf9879ab899544cb11e06769afa81c41b",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5621,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "98037ae1a8586a11f04b3ad7fd6351d514fe06384fb2d3471128460c063d846d",
+        "afterHash": "e870eadaca38d7e9a20c9b9909ef60cdf9879ab899544cb11e06769afa81c41b",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5624,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "98037ae1a8586a11f04b3ad7fd6351d514fe06384fb2d3471128460c063d846d",
+        "afterHash": "e870eadaca38d7e9a20c9b9909ef60cdf9879ab899544cb11e06769afa81c41b",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5771,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "b5a9fbf6eb7d969c8875b2e51c0e49051dfc7e15fd03821e13fa0633976b039e",
+        "afterHash": "618ffff5114e7448b62e6f8983c53940cd5aef68912f4569cb968176c803c90b",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5823,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "8ff0096446c8574e75d5c81ff2c31e3d6d74e6951cfd3a12de02d9c865ed7ed9",
+        "afterHash": "ffab4c2b399ffb8995fc4d7994df008ae63924e64b098594ba4601f4bf4ee1ec",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5828,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "6d72d2e9a30c6a05c2c3d7b27fc27404643472923e41d4ae7cf3ff0199e4c60b",
+        "afterHash": "7261826281d0014e136584123862a45a5c0211b1f6e226faa2743a1934c7cc65",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5834,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "6e7dfaff9671fac36da29446e79013acc38c6c66d69fa2a333819c6f5e3bbb00",
+        "afterHash": "0d162ea1b9cab2c6e54ac4cb420ef8f3a31b3b064584ea5510850201c4ca649d",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5841,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "cf94ae050a906dbe7a5044ab026c66f4a454bcb30a567d22ee2c94ea39a70fb5",
+        "afterHash": "30e74dd4163d92a302f3bfcb81c4597f1a6f5db7ee6abb7556b9d0c325142d81",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5842,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "607b61b0464552a463e76ea7e54346e54a5145ad5ee5f8736d0dd4cb2c3661f6",
+        "afterHash": "ff7e31e978010f9c519b2131c66b6269fae6cace714ac8a1839b5ed927d828c6",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5861,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "7bffae6af121523f574cd0147fdab847c0002468cac36d864310c2b1b1762249",
+        "afterHash": "556be073747ad871138bd272ca3992d801dd1cd414eafe00f2292e32b5fc6697",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5882,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "2a41df59de7c49db161e656cebe8ee428fcdb0fc0243ec53be1d7bf418de512f",
+        "afterHash": "2c23820551f8db495371fb601053fc29ea8155f684bf40881ec7087277472837",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5901,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "984554c9e7fced9d7e6e960c57f621b5ef39ce2c2f1da8679934056e625688d2",
+        "afterHash": "04c11f86a597b30c14ebc6ae4dbe874370ccb3ed93b80c21874afdee6aae8010",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5914,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "6117f3a00903efa51b6b15cf24b5d98b4fe6ff389f0691cc739981a05bba2c90",
+        "afterHash": "7e844b84905ec43885ede2b4f5c2b5ca3c9704e800bc5613384d8160422976fa",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5918,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "e56e34081451fd5ed988f35a035d72d83da28b39d23bb28f4fd68fa9e0dadc17",
+        "afterHash": "dbbd4717037f3bbd3237e1661d36d5cd6a5cd45acec85a6accf1a1f37a10a2de",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5930,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "66b0c657fd55b5f5269e9566fcd14baeb82416534551a6e63f83b10d8c6164ed",
+        "afterHash": "7d3d153b0b94b8bd4c53c9765666bbce314f7e584f79685a96271a26d59f3cf3",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5942,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "5991532c8dd0bf512c6655c60bca2c0a93ecef1fecd2fc5c4e67ee1459d1cd50",
+        "afterHash": "21d21608eb20399dd35b16fdfd06e0b23d7c307014080812b181e4bc5cd9ec7f",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5944,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "df4a7f769b4224c31e2b777e61b51c8d0f612af1233be85d3f983db7b206790c",
+        "afterHash": "5855d943b44eb20bf0dc76168a945895428bd840a5b8941061f6a442833779ae",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5971,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "ad3c8be779db77b9ab3a9033a7ba4909b324b60b7ca443a1822aa61c779d3315",
+        "afterHash": "0b5c21b7fa7cb0f7f5c86bdb42612db28b55de1c2299357a2fdaa33350b9b902",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 5988,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "d3029c5582cfc785a34ca55a1c53c4544150773c94d0acee7b605d59c3921345",
+        "afterHash": "70f6ae56aea03224a3a5e1e97a5371c5895d011b5fd50d6e95f19e66dec3a89d",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 6011,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "9b828ff203260c298a2749325a6fb8839a8ea3848091e34e1a945f91b3e6a60d",
+        "afterHash": "4026d4836485c471cc3b6cc8ae718c9d874c590695668bd1f991a95efeba22d1",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      },
+      {
+        "userId": 6015,
+        "fromVersion": 2,
+        "toVersion": 3,
+        "beforeHash": "388f8f48e4418299fd930edce34487ded3074414b1267c828d4fc0ba841d20cf",
+        "afterHash": "f0834a908e76994ebe2df2ca8485244882ae978fefead3dd496b9545e889837b",
+        "coin": 300000000000,
+        "cards": 40,
+        "fur15": [
+          "CN-346F8DB0DEB84D41",
+          "CN-47AD4B47B6A7452C",
+          "CN-5D0E2E4D58C9416F"
+        ],
+        "magicLevel": 9
+      }
+    ],
+    "auditId": 49072,
+    "dryRun": true,
+    "replayed": false
+  },
+  "after": [
+    {
+      "status": "ISSUED",
+      "version": "2",
+      "count": "21"
+    },
+    {
+      "status": "OPENED",
+      "version": "1",
+      "count": "19"
+    },
+    {
+      "status": "OPENED",
+      "version": "2",
+      "count": "41"
+    }
+  ]
+}

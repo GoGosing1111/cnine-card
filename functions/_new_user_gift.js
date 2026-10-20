@@ -2,9 +2,16 @@
 export const NEW_USER_GIFT_CODE = 'NEW_USER_GIFT_BOX';
 export const NEW_USER_GIFT_DAYS = 14;
 export const NEW_USER_GIFT_MESSAGE_CAMPAIGN = 'new-user-gift:first-verification:v1';
-export const NEW_USER_GIFT_COIN = 10_000_000_000;
-export const NEW_USER_GIFT_CARD_LEVELS = Object.freeze({ SUPERSTAR: 11, FUR: 13, ZENITH: 13 });
-export const NEW_USER_GIFT_DESCRIPTION = '100억 코인 · 공개 슈퍼스타 전체 각 1장 +11 · FUR·제니스 전체 각 1장 +13 · 미스틱 장비 4종과 소버린 SKS 각 1개 · 활성 마법카드 전체 각 1장 +5. 가입 14일 이내 첫 PLAY DK 2차 인증 완료 시 메시지 자동 지급, 계정·2차 인증 계정당 1회.';
+export const NEW_USER_GIFT_VERSION = 3;
+export const NEW_USER_GIFT_COIN = 300_000_000_000;
+export const NEW_USER_GIFT_MAGIC_LEVEL = 9;
+export const NEW_USER_GIFT_CARD_LEVELS = Object.freeze({ SUPERSTAR: 13, FUR: 13, ZENITH: 13 });
+// Match the stable member identity, not titles shared with retired 철구 cards.
+export const NEW_USER_GIFT_FUR_MEMBER_ID = 111;
+const cardLevel = card => card.grade === 'FUR' && Number(card.member_id) === NEW_USER_GIFT_FUR_MEMBER_ID ? 15 : NEW_USER_GIFT_CARD_LEVELS[card.grade];
+const PREVIOUS_COIN = 10_000_000_000;
+const PREVIOUS_CARD_LEVELS = Object.freeze({ SUPERSTAR: 11, FUR: 13, ZENITH: 13 });
+export const NEW_USER_GIFT_DESCRIPTION = '3,000억 코인 · 공개 슈퍼스타 전체 각 1장 +13 · FUR 전체 각 1장 +13(이예준 관련 FUR +15) · 제니스 전체 각 1장 +13 · 미스틱 장비 4종과 소버린 SKS 각 1개 · 활성 마법카드 전체 각 1장 최고 강화 +9. 가입 14일 이내 첫 PLAY DK 2차 인증 완료 시 메시지 자동 지급, 계정·2차 인증 계정당 1회.';
 export const NEW_USER_GIFT_EQUIPMENT = Object.freeze([
   { code: 'EQ_1787156691265', name: '미스틱 슈트', slot: 'TOP', subtype: 'TOP' },
   { code: 'EQ_1787156640727', name: '미스틱 레깅스', slot: 'BOTTOM', subtype: 'BOTTOM' },
@@ -110,15 +117,15 @@ async function transaction(env, operation) {
   });
 }
 async function catalog(q) {
-  const cards = await q(`SELECT c.id,c.title,UPPER(c.rarity) AS grade FROM cards_effective_v1210 c
+  const cards = await q(`SELECT c.id,c.title,c.member_id,UPPER(c.rarity) AS grade FROM cards_effective_v1210 c
     JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC'
     AND m.is_active=1 AND UPPER(c.rarity) IN ('SUPERSTAR','FUR','ZENITH') ORDER BY c.rarity,c.id LIMIT 1001`);
   const magic = await q('SELECT id,code,name FROM magic_cards WHERE is_active=1 ORDER BY id LIMIT 501');
   const equipment = await q('SELECT id,code,name,slot,subtype FROM character_equipment_items WHERE code=ANY($1::text[]) AND is_active=1 AND is_public=1 ORDER BY code', [NEW_USER_GIFT_EQUIPMENT.map(e => e.code)]);
   if (!Object.keys(NEW_USER_GIFT_CARD_LEVELS).every(grade => cards.some(c => c.grade === grade)) || cards.length > 1000 || !magic.length || magic.length > 500) fail('CATALOG_INVALID', '슈퍼스타·FUR·제니스·마법카드 보상 목록을 확인해야 합니다. 지급하지 않았습니다.');
   if (equipment.length !== 5 || !NEW_USER_GIFT_EQUIPMENT.every(expected => equipment.some(row => row.code === expected.code && row.slot === expected.slot && row.subtype === expected.subtype && row.name === expected.name))) fail('EQUIPMENT_INVALID', '미스틱 장비 4종과 소버린 SKS의 공개·활성 상태를 확인하세요. 지급하지 않았습니다.');
-  return { version: 2, coin: NEW_USER_GIFT_COIN, cardLevels: NEW_USER_GIFT_CARD_LEVELS, magicLevel: 5,
-    cards: cards.map(c => ({ ...c, level: NEW_USER_GIFT_CARD_LEVELS[c.grade] })),
+  return { version: NEW_USER_GIFT_VERSION, coin: NEW_USER_GIFT_COIN, cardLevels: NEW_USER_GIFT_CARD_LEVELS, magicLevel: NEW_USER_GIFT_MAGIC_LEVEL,
+    cards: cards.map(({member_id,...c}) => ({ ...c, memberId: Number(member_id), level: cardLevel({...c,member_id}) })),
     magic: magic.map(m => ({ ...m, id: Number(m.id) })), equipment: equipment.map(e => ({ ...e, id: Number(e.id) })) };
 }
 function receiptSummary(row) {
@@ -209,18 +216,22 @@ export async function claimNewUserGiftMessage(env, user, reward, messageId) {
     return { credited: true, duplicate: false, updated: account, receipt: claim, balanceBefore: 0, balanceAfter: 1, itemCode: NEW_USER_GIFT_CODE, rewardLabel: '신규유저 기프트 박스' };
   });
 }
-// Explicit 2026-10-01 contents replacement applies to unopened boxes too.
+// The 2026-10-20 contents replacement applies to unopened V1/V2 boxes too.
 // Call only with this receipt row locked. Completed rewards are immutable.
-async function receiptRewards(q, row) {
+export async function upgradeNewUserGiftReceipt(q, row) {
   const previous = parseManifest(row);
-  if (row.status !== 'ISSUED' || previous.version !== 1) return previous;
-  if (await digest(row.manifest_json) !== row.manifest_hash || previous.coin !== NEW_USER_GIFT_COIN
-    || previous.cardLevel !== 10 || previous.magicLevel !== 5
+  if (row.status !== 'ISSUED' || ![1,2].includes(previous.version)) return previous;
+  const legacy = previous.version === 1, equipmentCodes = legacy ? LEGACY_EQUIPMENT_CODES : NEW_USER_GIFT_EQUIPMENT.map(e=>e.code);
+  if (await digest(row.manifest_json) !== row.manifest_hash || previous.coin !== PREVIOUS_COIN
+    || previous.magicLevel !== 5 || (legacy ? previous.cardLevel !== 10 : !Object.entries(PREVIOUS_CARD_LEVELS).every(([grade,level])=>previous.cardLevels?.[grade]===level))
     || !Array.isArray(previous.cards) || !previous.cards.length || !Array.isArray(previous.magic) || !previous.magic.length
-    || !previous.cards.every(c => ['FUR', 'ZENITH'].includes(c.grade))
-    || previous.equipment?.length !== 5 || !LEGACY_EQUIPMENT_CODES.every(code => previous.equipment.some(e => e.code === code)))
+    || new Set(previous.cards.map(c=>c.id)).size !== previous.cards.length || new Set(previous.magic.map(c=>c.id)).size !== previous.magic.length
+    || !previous.cards.every(c => legacy ? ['FUR', 'ZENITH'].includes(c.grade) : c.level===PREVIOUS_CARD_LEVELS[c.grade] && Number.isInteger(c.level))
+    || previous.equipment?.length !== 5 || !equipmentCodes.every(code => previous.equipment.some(e => e.code === code)))
     fail('RECEIPT_INVALID', '기존 박스의 보상 구성 검증에 실패했습니다.');
-  const rewards = { ...await catalog(q), previousManifestHash: row.manifest_hash };
+  // Preserve message delivery identifiers so unclaimed verification gifts remain claimable.
+  const rewards = { ...previous, ...await catalog(q), previousManifestHash: row.manifest_hash, previousManifestVersion: previous.version };
+  delete rewards.cardLevel;
   const manifest = JSON.stringify(rewards), hash = await digest(manifest);
   const saved = await q(`UPDATE ${TABLE} SET manifest_json=$2,manifest_hash=$3
     WHERE user_id=$1 AND status='ISSUED' AND manifest_hash=$4 RETURNING user_id`, [row.user_id, manifest, hash, row.manifest_hash]);
@@ -244,7 +255,7 @@ export async function newUserGiftStatus(env, userId, admin = null) {
     }
     const [item] = await q('SELECT is_active FROM inventory_items WHERE code=$1', [NEW_USER_GIFT_CODE]);
     const [inventory] = await q('SELECT quantity FROM cnine_user_inventory WHERE user_id=$1 AND item_code=$2', [id, NEW_USER_GIFT_CODE]);
-    let rewards = receipt ? await receiptRewards(q, receipt) : null;
+    let rewards = receipt ? await upgradeNewUserGiftReceipt(q, receipt) : null;
     let catalogError = '';
     if (admin && !receipt) {
       try { rewards = await catalog(q); } catch (error) { if (!(error instanceof GiftError)) throw error; catalogError = error.message; }
@@ -267,7 +278,7 @@ export async function issueNewUserGift(env, { userId, requestId, reason }, admin
     if (!user) fail('USER_NOT_FOUND', '유저를 찾을 수 없습니다.', 404);
     if (user.role === 'OWNER' && admin.role !== 'OWNER') fail('OWNER_ONLY', 'OWNER 계정은 수정할 수 없습니다.', 403);
     const [prior] = await q(`SELECT * FROM ${TABLE} WHERE user_id=$1 FOR UPDATE`, [id]);
-    if (prior) return { ok: true, replayed: true, receipt: receiptSummary(prior), rewards: await receiptRewards(q, prior) };
+    if (prior) return { ok: true, replayed: true, receipt: receiptSummary(prior), rewards: await upgradeNewUserGiftReceipt(q, prior) };
     const [verification] = await q('SELECT provider,provider_user_id,verified_at FROM user_second_verifications WHERE user_id=$1 FOR SHARE', [id]);
     const [{ now }] = await q('SELECT CURRENT_TIMESTAMP AS now');
     const eligible = giftEligibility(user, verification, now);
@@ -308,12 +319,12 @@ export async function openNewUserGift(env, userId) {
     const [item] = await q('SELECT is_active FROM inventory_items WHERE code=$1 FOR SHARE', [NEW_USER_GIFT_CODE]);
     if (Number(item?.is_active) !== 1) fail('GIFT_DISABLED', '기프트 박스 사용이 중지되어 있습니다.');
     if (await digest(receipt.manifest_json) !== receipt.manifest_hash) fail('RECEIPT_INVALID', '보상 구성 검증에 실패했습니다.');
-    const rewards = await receiptRewards(q, receipt), current = await catalog(q);
-    if (rewards.version !== 2 || rewards.coin !== NEW_USER_GIFT_COIN || rewards.magicLevel !== 5
+    const rewards = await upgradeNewUserGiftReceipt(q, receipt), current = await catalog(q);
+    if (rewards.version !== NEW_USER_GIFT_VERSION || rewards.coin !== NEW_USER_GIFT_COIN || rewards.magicLevel !== NEW_USER_GIFT_MAGIC_LEVEL
       || !Object.entries(NEW_USER_GIFT_CARD_LEVELS).every(([grade, level]) => rewards.cardLevels?.[grade] === level)
       || !Array.isArray(rewards.cards) || !rewards.cards.length || !Array.isArray(rewards.magic) || !rewards.magic.length || rewards.equipment?.length !== 5
       || new Set(rewards.cards.map(c => c.id)).size !== rewards.cards.length || new Set(rewards.magic.map(c => c.id)).size !== rewards.magic.length
-      || !rewards.cards.every(c => c.level === NEW_USER_GIFT_CARD_LEVELS[c.grade] && current.cards.some(r => r.id === c.id && r.grade === c.grade))
+      || !rewards.cards.every(c => current.cards.some(r => r.id === c.id && r.grade === c.grade && r.memberId === c.memberId && r.level === c.level))
       || !rewards.magic.every(c => current.magic.some(r => r.id === c.id && r.code === c.code))
       || new Set(rewards.equipment.map(e => e.id)).size !== 5
       || !rewards.equipment.every(e => current.equipment.some(r => r.id === e.id && r.code === e.code))) fail('REWARD_CHANGED', '지급받은 보상 중 삭제·비공개된 항목이 있습니다. 박스는 차감하지 않았습니다. 관리자에게 문의하세요.');
@@ -343,10 +354,10 @@ export async function openNewUserGift(env, userId) {
         breakthrough_fail_count=CASE WHEN user_cards.quantity<=0 OR user_cards.breakthrough_level<EXCLUDED.breakthrough_level THEN 0 ELSE user_cards.breakthrough_fail_count END,
         last_obtained_at=${STAMP} RETURNING card_id,quantity,breakthrough_level`, [id, cardIds, rewards.cards.map(c => c.level)]);
     const magic = await q(`INSERT INTO user_magic_cards(user_id,magic_card_id,quantity,enhancement_level)
-      SELECT $1,id,1,5 FROM magic_cards WHERE id=ANY($2::bigint[]) AND is_active=1
+      SELECT $1,id,1,$3 FROM magic_cards WHERE id=ANY($2::bigint[]) AND is_active=1
       ON CONFLICT(user_id,magic_card_id) DO UPDATE SET quantity=GREATEST(user_magic_cards.quantity,0)+1,
-        enhancement_level=CASE WHEN user_magic_cards.quantity<=0 THEN 5 ELSE GREATEST(user_magic_cards.enhancement_level,5) END,
-        updated_at=${STAMP} RETURNING magic_card_id,quantity,enhancement_level`, [id, rewards.magic.map(c => c.id)]);
+        enhancement_level=CASE WHEN user_magic_cards.quantity<=0 THEN EXCLUDED.enhancement_level ELSE GREATEST(user_magic_cards.enhancement_level,EXCLUDED.enhancement_level) END,
+        updated_at=${STAMP} RETURNING magic_card_id,quantity,enhancement_level`, [id, rewards.magic.map(c => c.id), rewards.magicLevel]);
     const equipment = await q(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id)
       SELECT $1,id,'NEW_USER_GIFT',$2,$2||':'||id::text FROM character_equipment_items
       WHERE id=ANY($3::bigint[]) AND is_active=1 AND is_public=1 RETURNING id,equipment_id`, [id, `newgift:${id}`, rewards.equipment.map(e => e.id)]);
