@@ -4,6 +4,7 @@ import {jointFixture} from './helpers/joint-db.mjs';
 import {accountRankAward,accountRankBenefits,accountRankIdleSettlement,ensureAccountRank,readAccountRank,publicAccountRank,levelFromTicks,MAX_RANK_TICKS,rankCards,rankCoin,settleRankedHunt,handleAccountRank} from '../functions/_account_rank.js';
 import {buildFighter} from '../functions/_battle_v2_preview.js';
 import {RANKS} from '../shared/account-ranks-v1.mjs';
+import {rankLevelTicks} from '../functions/_account_rank_curve.js';
 import {onRequest as docsPrivacy} from '../functions/docs/_middleware.js';
 import {onRequest as scriptsPrivacy} from '../functions/scripts/_middleware.js';
 import {onRequest as testsPrivacy} from '../functions/tests/_middleware.js';
@@ -18,7 +19,7 @@ test('growth documents and settlement code are private; rank art remains public'
 
 test('all 250 levels have one rank; boundaries, max and defaults are exact',()=>{
   for(let l=1;l<=250;l++){
-    const n=l-1,ticks=(2*n*n+62*n)*600*8;
+    const ticks=rankLevelTicks(l);
     assert.equal(levelFromTicks(ticks),l);
     if(l>1)assert.equal(levelFromTicks(ticks-1),l-1);
     assert.equal(RANKS.filter(r=>r.min<=l&&r.max>=l).length,1);
@@ -35,7 +36,7 @@ test('public EXP progress resets at level-up, preserves fractions and ends at MA
   assert.deepEqual(publicAccountRank(512*600).progress,{current:0,required:544,percent:0,maxed:false});
   assert.equal(publicAccountRank(301).progress.current,0.501);
   for(let l=1;l<250;l++){
-    const n=l-1,start=(2*n*n+62*n)*600*8,end=start+(4*n+64)*600*8;
+    const start=rankLevelTicks(l),end=rankLevelTicks(l+1);
     assert.equal(publicAccountRank(start).progress.percent,0);
     assert.ok(publicAccountRank(end-1).progress.percent<100);
     assert.equal(publicAccountRank(end).level,l+1);
@@ -59,7 +60,8 @@ for(const postgres of [false,true]){
     const f=await jointFixture(t,{postgres});await ensureAccountRank(f.env);
     assert.equal((await readAccountRank(f.env,7)).level,1);
     assert.equal(Number((await f.p('SELECT COUNT(*) n FROM account_rank_progress_v1').first()).n),0,'reads do not create account progress');
-    const sources={HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:160,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30};
+    const sources={HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:40,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30,
+      CORE_RAID_WEEKLY:1000/3,LICH_RAID_WEEKLY:500/3,MADARA_RAID_WEEKLY:500/3};
     let expected=0;
     for(const [source,xp] of Object.entries(sources)){
       await f.env.DB.batch(await accountRankAward(f.env,7,source,'one'));expected+=xp*600;

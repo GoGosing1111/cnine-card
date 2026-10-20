@@ -1,4 +1,5 @@
 import {DatabaseSync} from 'node:sqlite';
+import {ensureRankRewardFixture} from './rank-reward-schema.mjs';
 import fs from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../../functions/_postgres_d1_compat.js';
@@ -46,6 +47,7 @@ export async function coreLifecycleFixture(dialect='sqlite') {
     }};
   }
   const env={DB},settings={...defaultCoreRaidSettings(),mode:'TEST',coreCombatPower:500000,bossCombatPower:750000};
+  await ensureRankRewardFixture(env);
   const cards=Array.from({length:5},(_,i)=>({id:'QA-'+i,title:'합성 카드 '+i,grade:'SSR',power:100000,power_type:'ATTACK',image:'/test-card.png'}));
   const deps={authenticate:async request=>({id:Number(request.headers.get('x-qa-user')||1),role:'OWNER',nickname:'합성 검수 계정'}),
     readBody:request=>request.json(),json:(body,status=200)=>({body,status}),writeAdminLog:async()=>{},

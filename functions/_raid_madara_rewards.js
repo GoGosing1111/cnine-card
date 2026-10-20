@@ -1,4 +1,5 @@
 import {collectionRewardCoin} from './_collection_bonuses.js';
+import {accountRankAward} from './_account_rank.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {prepareRewardRevealContext,prepareRewardRevealOffer} from './_reward_reveal.js';
@@ -43,7 +44,9 @@ export async function prepareMadaraRewards(env,row,room){
     }
     if(p.coin)plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(coin,uid),
       env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin,`바르센 레이드 클리어 [${room.id}]`,uid));
-    plan.statements.push(jointGuardEnd(env.DB,token+':user'),jointGuardEnd(env.DB,token));
+    plan.statements.push(...await accountRankAward(env,uid,'MADARA_RAID_WEEKLY',room.id,{
+      guard:'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',values:[before.key,raw]
+    }),jointGuardEnd(env.DB,token+':user'),jointGuardEnd(env.DB,token));
     room.clearRewards[member.id].weeklyReward={...before.weekly,used:before.weekly.used+1,remaining:before.weekly.remaining-1};
     const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin,masterStars:p.masterStars,petEssence:p.petEssence},quota:{...room.clearRewards[member.id].weeklyReward,period:'week'},finishedAt:room.finishedAt});
     if(choice.offer){plan.statements.push(...choice.statements);room.clearRewards[member.id].choiceOffer=choice.offer;}

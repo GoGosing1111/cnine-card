@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {rankLevelTicks} from '../functions/_account_rank_curve.js';
 import assert from 'node:assert/strict';
 import {cooperativeMiniflare} from './helpers/cooperative-miniflare.mjs';
 import {coopSquads} from './helpers/cooperative-fixture.mjs';
@@ -9,7 +10,7 @@ test('each authenticated participant carries their own server rank through ready
  const cmd=(id,kind,extra={})=>h.request(id,kind,{roomId,clientId:'rank-regression-client-'+id,requestId:crypto.randomUUID(),...extra});
  try{
   await h.db.exec(ACCOUNT_RANK_SCHEMA.join(';'));
-  await h.db.batch(levels.map((l,i)=>({sql:'INSERT INTO account_rank_progress_v1(user_id,total_ticks) VALUES(?,?)',args:[i+1,(2*(l-1)**2+62*(l-1))*600*8]})));
+  await h.db.batch(levels.map((l,i)=>({sql:'INSERT INTO account_rank_progress_v1(user_id,total_ticks) VALUES(?,?)',args:[i+1,rankLevelTicks(l)]})));
   const created=await cmd(1,'create',{difficulty:'NORMAL'});assert.equal(created.status,200,JSON.stringify(created));roomId=created.roomId;
   for(const id of [2,3])assert.equal((await cmd(id,'join')).status,200);
   for(const id of [1,2,3]){

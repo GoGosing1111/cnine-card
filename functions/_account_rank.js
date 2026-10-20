@@ -4,13 +4,16 @@ import {RANKS,rankForLevel} from '../shared/account-ranks-v1.mjs';
 import {SHIRANUI_MIN_ACCOUNT_LEVEL} from '../shared/mercenary-shiranui-v1.mjs';
 import {shiranuiRankRewardStatements,shiranuiRankRewardKey} from './_account_rank_shiranui.js';
 import {readRankExpPotion} from './_rank_exp_potion.js';
+import {MAX_RANK_TICKS,levelFromTicks,rankLevelTicks,rankNextTicks} from './_account_rank_curve.js';
+export {MAX_RANK_TICKS,RANK_XP_MULTIPLIER,levelFromTicks} from './_account_rank_curve.js';
 
 // Server-only. Never return the curve, payout rules or receipt ledger to clients.
-const PAYOUT = Object.freeze({HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:160,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30});
+const PAYOUT = Object.freeze({HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:40,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30,
+  CORE_RAID_WEEKLY:1000/3,LICH_RAID_WEEKLY:500/3,MADARA_RAID_WEEKLY:500/3});
+// Keep thirds exact in the ledger; displayed EXP may have recurring decimals.
+const WEEKLY_PAYOUT_TICKS=Object.freeze({CORE_RAID_WEEKLY:200000,LICH_RAID_WEEKLY:100000,MADARA_RAID_WEEKLY:100000});
 export const LEGACY_MAX_RANK_TICKS=139440*600;
-export const RANK_XP_MULTIPLIER=8;
-export const MAX_RANK_TICKS=LEGACY_MAX_RANK_TICKS*RANK_XP_MULTIPLIER;
-export const SHIRANUI_MIN_RANK_TICKS=(2*(SHIRANUI_MIN_ACCOUNT_LEVEL-1)**2+62*(SHIRANUI_MIN_ACCOUNT_LEVEL-1))*600*RANK_XP_MULTIPLIER;
+export const SHIRANUI_MIN_RANK_TICKS=rankLevelTicks(SHIRANUI_MIN_ACCOUNT_LEVEL);
 const PROGRESS='account_rank_progress_v1',LEDGER='account_rank_receipts_v1';
 export const ACCOUNT_RANK_SCHEMA=[
   `CREATE TABLE IF NOT EXISTS ${PROGRESS}(user_id INTEGER PRIMARY KEY,total_ticks INTEGER NOT NULL DEFAULT 0 CHECK(total_ticks>=0 AND total_ticks<=${MAX_RANK_TICKS}),updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
@@ -31,14 +34,9 @@ export async function ensureAccountRank(env){
   })().catch(e=>{delete env[READY];throw e;});
   return env[READY];
 }
-export function levelFromTicks(value){
-  const xp=Math.max(0,Math.min(MAX_RANK_TICKS,Math.floor(Number(value)||0)))/(600*RANK_XP_MULTIPLIER);
-  // XP(L) = 2*(L-1)^2 + 62*(L-1).
-  return Math.min(250,1+Math.floor((-62+Math.sqrt(3844+8*xp))/4));
-}
 export function publicAccountRank(ticks=0){
-  const total=Math.max(0,Math.min(MAX_RANK_TICKS,Math.floor(Number(ticks)||0))),level=levelFromTicks(total),r=rankForLevel(level),n=level-1;
-  const currentTicks=total-(2*n*n+62*n)*600*RANK_XP_MULTIPLIER,requiredTicks=(4*n+64)*600*RANK_XP_MULTIPLIER,maxed=level===250;
+  const total=Math.max(0,Math.min(MAX_RANK_TICKS,Math.floor(Number(ticks)||0))),level=levelFromTicks(total),r=rankForLevel(level);
+  const currentTicks=total-rankLevelTicks(level),requiredTicks=rankNextTicks(level),maxed=level===250;
   // Only this level's progress is public; payout rules and the full curve stay server-side.
   const progress={current:maxed?0:Math.floor(currentTicks/600*1000)/1000,required:maxed?0:requiredTicks/600,percent:maxed?100:Math.floor(currentTicks/requiredTicks*10000)/100,maxed};
   return {level,code:r.code,name:r.name,icon:`/assets/ui/account-ranks-v2/${r.code.toLowerCase()}-96.webp`,group:r.group,tone:r.tone,
@@ -51,7 +49,7 @@ export async function readAccountRank(env,userId){
 }
 export async function accountRankAward(env,userId,source,eventId,{quantity=1,ticks,guard='1=1',values=[]}={}){
   if(!Number.isSafeInteger(Number(userId))||Number(userId)<=0||typeof eventId!=='string'||!eventId||eventId.length>200)throw new Error('Invalid account rank event');
-  const base=source==='IDLE'?ticks:(PAYOUT[source]||0)*600*quantity;
+  const base=source==='IDLE'?ticks:(WEEKLY_PAYOUT_TICKS[source]??(PAYOUT[source]||0)*600)*quantity;
   if(!Number.isSafeInteger(base)||base<=0||base>MAX_RANK_TICKS)throw new Error('Invalid account rank award');
   const [collection,potion]=await Promise.all([readCollectionBonuses(env,userId),readRankExpPotion(env,userId)]);
   const amount=Math.min(MAX_RANK_TICKS,rewardAmountWithBonus(base,collection.totals.accountXpPercent,MAX_RANK_TICKS)*(potion.active?potion.multiplier:1));

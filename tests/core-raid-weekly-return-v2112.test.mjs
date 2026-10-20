@@ -8,6 +8,8 @@ import { handleRaidCoreProtocol, defaultCoreRaidSettings, cleanCoreRaidSettings,
   coreRaidRewardWeek, coreRaidWeeklyReward, CORE_RAID_MAX_REWARD_COIN } from '../functions/_raid_core_protocol.js';
 import {ensureLootShopSchema,LOOT_SHOP_KEY} from '../functions/_loot_shop.js';
 import {LOOT_SHOP_DEFAULTS} from '../shared/loot-shop-policy-v1.mjs';
+import {ensureRankRewardFixture} from './helpers/rank-reward-schema.mjs';
+import {ensureAccountRank} from '../functions/_account_rank.js';
 
 const ROOMS = 'raid_core_rooms_v2024', MEMBERS = 'raid_core_members_v2024';
 const RECEIPTS = 'raid_core_reward_receipts_v2024', WEEKLY = 'raid_core_weekly_rewards_v2112';
@@ -64,6 +66,7 @@ async function fixture(dialect = 'sqlite',pigRewards=false) {
     close = () => sqlite.close();
   }
   const env = { DB };
+  await ensureRankRewardFixture(env);
   const row = (sql, ...values) => DB.prepare(sql).bind(...values).first();
   const run = (sql, ...values) => DB.prepare(sql).bind(...values).run();
   const call = async (path, body = null, userId = 1) => {
@@ -123,6 +126,20 @@ test('weekly rewards reset Monday at midnight in Korea, including year boundary'
 });
 
 for (const dialect of ['sqlite', 'postgres']) {
+  test(`${dialect}: Core TEST, failed rooms and historical completed receipts cannot grant XP`,async()=>{
+    const f=await fixture(dialect);
+    try{
+      await ensureAccountRank(f.env);
+      await f.configure({mode:'TEST',rewardLocked:false});
+      assert.equal((await f.claim(await f.seedRoom())).status,200);
+      await f.configure();
+      assert.equal((await f.claim(await f.seedRoom('FAILED'))).status,409);
+      const old=await f.seedRoom();
+      await f.run(`INSERT INTO ${RECEIPTS}(room_id,user_id,request_id,status,response_json) VALUES(?,1,'pre-xp-receipt','COMPLETED','{}')`,old);
+      assert.equal((await f.claim(old)).body.replayed,true);
+      assert.equal(Number((await f.row('SELECT COUNT(*) n FROM account_rank_receipts_v1')).n),0);
+    }finally{await f.close();}
+  });
   test(`${dialect}: CMS persists 100/300 eok and rejects invalid coins without overwriting settings`, async () => {
     const f = await fixture(dialect);
     try {
@@ -158,6 +175,7 @@ for (const dialect of ['sqlite', 'postgres']) {
           assert.equal(paid.body.reward.coin, rewardCoin);
           assert.equal(Number(paid.body.user.coin), rewardCoin * n);
           assert.equal(paid.body.weeklyReward.used, n);
+          assert.equal(Number((await f.row('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=1')).total_ticks),200000*n);
           assert.equal(Number((await f.row(`SELECT reward_coin FROM ${RECEIPTS} WHERE room_id=?`, ids.at(-1))).reward_coin), rewardCoin);
         }
         assert.equal((await f.claim(await f.seedRoom())).body.code, 'CORE_RAID_WEEKLY_LIMIT');
@@ -167,6 +185,7 @@ for (const dialect of ['sqlite', 'postgres']) {
         assert.equal(replay.body.replayed, true);
         assert.equal(replay.body.reward.coin, rewardCoin, 'already paid receipt must keep its original reward');
         assert.equal(Number(replay.body.user.coin), rewardCoin * 3);
+        assert.equal(Number((await f.row('SELECT SUM(ticks) ticks FROM account_rank_receipts_v1 WHERE user_id=1')).ticks),600000);
         const logs = await f.row('SELECT COUNT(*) n,SUM(change_amount) total,MAX(balance_after) balance FROM coin_logs');
         assert.equal(Number(logs.n), 3);
         assert.equal(Number(logs.total), rewardCoin * 3);
@@ -181,7 +200,7 @@ for (const dialect of ['sqlite', 'postgres']) {
     try {
       await f.configure({ rewardCoin: CORE_RAID_MAX_REWARD_COIN });
       const room = await f.seedRoom();
-      for (const pattern of ['INSERT INTO coin_logs', 'INSERT INTO shard_logs', `UPDATE ${RECEIPTS} SET status='COMPLETED'`]) {
+      for (const pattern of ['INSERT INTO coin_logs', 'INSERT INTO shard_logs', 'UPDATE account_rank_progress_v1', `UPDATE ${RECEIPTS} SET status='COMPLETED'`]) {
         f.fail(pattern);
         assert.equal((await f.claim(room)).status, 503);
         assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin), 0);
@@ -194,6 +213,8 @@ for (const dialect of ['sqlite', 'postgres']) {
       assert.equal(Number((await f.row('SELECT coin FROM users WHERE id=1')).coin), CORE_RAID_MAX_REWARD_COIN);
       assert.equal(Number((await f.row('SELECT COUNT(*) n FROM coin_logs')).n), 1);
       assert.equal((await coreRaidWeeklyReward(f.env, 1)).used, 1);
+      assert.equal(Number((await f.row('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=1')).total_ticks),200000);
+      assert.equal(Number((await f.row('SELECT COUNT(*) n FROM account_rank_receipts_v1 WHERE user_id=1')).n),1);
     } finally { await f.close(); }
   });
 

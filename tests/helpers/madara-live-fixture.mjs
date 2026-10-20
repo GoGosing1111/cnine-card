@@ -1,4 +1,5 @@
 import {DatabaseSync} from 'node:sqlite';
+import {ensureRankRewardFixture} from './rank-reward-schema.mjs';
 import {readFileSync} from 'node:fs';
 import {handleMadaraRaid,MADARA_TICKET} from '../../functions/_raid_madara_live.js';
 import {REVIEW_DECK} from '../../preview/lich-king-raid-v1/fixture.mjs';
@@ -37,6 +38,7 @@ export async function madaraLiveFixture({postgres=false}={}){
     DB={prepare:q=>new Statement(q),async batch(statements){sql.exec('BEGIN');try{const result=statements.map(s=>s.execute());sql.exec('COMMIT');return result;}catch(error){sql.exec('ROLLBACK');throw error;}}};
   }
   const env={DB},locks=new Map(),decks=new Map();
+  await ensureRankRewardFixture(env);
   async function withLock(_env,userId,_path,work){
     const prior=locks.get(userId)||Promise.resolve(),next=prior.catch(()=>{}).then(work);
     locks.set(userId,next);try{return await next;}finally{if(locks.get(userId)===next)locks.delete(userId);}

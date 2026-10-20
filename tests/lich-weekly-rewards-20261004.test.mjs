@@ -29,6 +29,7 @@ for(const postgres of [false,true])test('seven weekly rewards per account; mixed
   assert.equal((await h.call('status?roomId='+eighth.roomId,{user:6})).body.state.clearReward.granted,true);
   for(const [uid,times]of [[1,7],[2,7],[3,7],[6,1]]){
     assert.equal(Number((await h.one('SELECT coin FROM users WHERE id=?',uid)).coin),times*1000000000);
+    assert.equal(Number((await h.one('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=?',uid)).total_ticks),times*100000);
     for(const [code,amount]of [['MASTER_STAR',1000],['PET_ESSENCE',5]])assert.equal(Number((await h.one('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',uid,code)).quantity),times*amount);
   }
   assert.equal((await h.all('SELECT * FROM coin_logs')).length,22);
@@ -84,6 +85,7 @@ test('concurrent clears reserve the final weekly slot once and still settle elig
   assert.deepEqual(results.map(r=>r.body.state.clearReward.status).sort(),['GRANTED','WEEKLY_LIMIT']);
   assert.equal((await lichWeeklyReward(h.env,1)).used,7);
   assert.equal(Number((await h.one('SELECT coin FROM users WHERE id=1')).coin),7000000000);
+  assert.equal(Number((await h.one('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=1')).total_ticks),700000);
 });
 
 test('CMS defaults are backwards compatible; amounts and fixed cap are validated',async t=>{

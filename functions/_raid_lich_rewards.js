@@ -1,4 +1,5 @@
 import {collectionRewardCoin} from './_collection_bonuses.js';
+import {accountRankAward} from './_account_rank.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {PET_ESSENCE} from '../shared/pet-opening-v1.mjs';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
@@ -77,7 +78,9 @@ export async function prepareLichClearRewards(env,row,room){
       plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(coin,uid),
         env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin,'리치왕 정벌 클리어 ['+room.id+']',uid));
     }
-    plan.statements.push(jointGuardEnd(env.DB,token));
+    plan.statements.push(...await accountRankAward(env,uid,'LICH_RAID_WEEKLY',room.id,{
+      guard:'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',values:[before.key,raw]
+    }),jointGuardEnd(env.DB,token));
     reward.grantedIds.push(userId);reward.weeklyByUser[userId]=quota(before.weekly,before.weekly.used+1);
     const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin:reward.coinByUser?.[userId]??reward.coin,masterStars:reward.masterStars,petEssence:reward.petEssence},quota:{...reward.weeklyByUser[userId],period:'week'},finishedAt:room.finishedAt});
     if(choice.offer){plan.statements.push(...choice.statements);(reward.choiceOffers||={})[userId]=choice.offer;}

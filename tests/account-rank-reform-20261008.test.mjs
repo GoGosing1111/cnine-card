@@ -7,12 +7,12 @@ import {LEGACY_MAX_RANK_TICKS,MAX_RANK_TICKS,publicAccountRank,ensureAccountRank
 import {withAvatarDropScope,resolveAvatarDropRate,rankDropIncreasePercent} from '../functions/_avatar_drop.js';
 import {__avatarDropPoolTest} from '../functions/_drop_pool.js';
 import {migrateRankCap,publishRankNotice,inspectRankReform,MIGRATION_KEY,NOTICE_KEY,CAMPAIGN} from '../scripts/ops/account-rank-reform-20261008.mjs';
-const ticks=level=>(2*(level-1)**2+62*(level-1))*600*8;
+import {rankLevelTicks as ticks} from '../functions/_account_rank_curve.js';
 
 test('approved reform keeps old Marshal at Master Sergeant and every next-level cost increases',()=>{
  const old=publicAccountRank(LEGACY_MAX_RANK_TICKS);
  assert.equal(old.level,80);assert.equal(old.code,'MASTER_SERGEANT');assert.deepEqual(old.progress,{current:400,required:3040,percent:13.15,maxed:false});
- assert.equal(MAX_RANK_TICKS,669312000);
+ assert.equal(MAX_RANK_TICKS,1169026800);
  let previous=0;
  for(let level=1;level<250;level++){const cost=publicAccountRank(ticks(level)).progress.required;assert.ok(cost>previous);previous=cost;}
  for(const r of RANKS){
@@ -21,7 +21,7 @@ test('approved reform keeps old Marshal at Master Sergeant and every next-level 
   assert.equal(policy.dropBp,r.min<215?0:(r.index-15)*100);
   if(r.min>=80){assert.equal(policy.attackBp,1000);assert.equal(policy.hpBp,1500);assert.equal(policy.presetSlots,5);}
  }
- assert.equal(publicAccountRank(ticks(249)).progress.required,8448);
+ assert.equal(publicAccountRank(ticks(249)).progress.required,35904);
 });
 
 test('old capped XP continues with only new receipts, atomically and once per event',async t=>{

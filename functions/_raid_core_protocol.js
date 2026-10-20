@@ -1,4 +1,5 @@
 import {collectionRewardCoin} from './_collection_bonuses.js';
+import {accountRankAward} from './_account_rank.js';
 import {pigCoinRewardStatements,pigCoinRewardAmount} from './_loot_shop.js';
 import {pigCoinRewardWeek} from '../shared/loot-shop-policy-v1.mjs';
 import {CORE_MECHANIC_VERSION,createCoreMechanicPlans,coreMechanicPlans,coreMechanicEvents,verifyScreenMechanic,MECHANIC_NAMES} from '../shared/core-raid-mechanics-v2086.js';
@@ -2145,6 +2146,7 @@ async function claimCoreReward(env, user, cfg, body = {}, profile = null) {
     " reset_receipt WHERE reset_receipt.user_id=pig_coin_ledger_v1.user_id AND reset_receipt.room_id=pig_coin_ledger_v1.reference_id AND " +
     "json_extract(reset_receipt.response_json,'$.weeklyRewardReset') IS NOT NULL)";
   statements.push(...await pigCoinRewardStatements(env,{userId:Number(user.id),source:'CORE_RAID',referenceId:String(roomId),guardSql:guard,guardBindings:guardBind,weeklyLedgerFilter,at:rewardAt}));
+  if(cfg.mode==='ON')statements.push(...await accountRankAward(env,user.id,'CORE_RAID_WEEKLY',roomId,{guard,values:guardBind}));
   if (choice) {
     const choiceGuard=crypto.randomUUID();
     statements.push(jointGuard(env.DB,choiceGuard,guard,guardBind),...choice.statements,jointGuardEnd(env.DB,choiceGuard));
