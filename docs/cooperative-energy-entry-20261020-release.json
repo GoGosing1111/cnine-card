@@ -1,0 +1,117 @@
+{
+  "sourceCommit": "6b37183a041155e84dc96efcbd1ed86a0231e253",
+  "scopedBase": "9b6162d9edd4bea1aba63373f8ac77e513d64e0f",
+  "production": {
+    "checkedAt": "2026-10-20T02:09:09.601Z",
+    "pages": [
+      {
+        "id": "107ee518-65e4-42eb-b25d-4ffa00a828ca",
+        "url": "https://107ee518.cnine-card.pages.dev",
+        "createdOn": "2026-10-20T02:08:45.253217Z",
+        "status": "success",
+        "stage": "deploy",
+        "commit": "6b37183a041155e84dc96efcbd1ed86a0231e253"
+      },
+      {
+        "id": "95265fc6-4390-4aa8-8920-d2d73696cfb9",
+        "url": "https://95265fc6.cnine-card.pages.dev",
+        "createdOn": "2026-10-20T02:06:02.314902Z",
+        "status": "success",
+        "stage": "deploy",
+        "commit": "9b6162d9edd4bea1aba63373f8ac77e513d64e0f"
+      },
+      {
+        "id": "72e305b2-dcff-4105-9f67-1f23643a1388",
+        "url": "https://72e305b2.cnine-card.pages.dev",
+        "createdOn": "2026-10-20T01:45:25.612973Z",
+        "status": "success",
+        "stage": "deploy",
+        "commit": "f713f4a900c64c4b4e7473cae6109794f4a595fd"
+      }
+    ],
+    "runtime": [
+      {
+        "id": "75297fba-46c1-435f-aad5-e1bccbac0094",
+        "createdOn": "2026-10-20T02:07:41.598381Z",
+        "versions": [
+          {
+            "version_id": "6506a4e3-10d7-475a-9dfe-372f11cbf909",
+            "percentage": 100
+          }
+        ]
+      },
+      {
+        "id": "d4bb2349-27cf-48a2-bffa-789d921cf2d2",
+        "createdOn": "2026-10-20T02:04:51.321697Z",
+        "versions": [
+          {
+            "version_id": "d845edc7-0383-40cd-ba37-9e09084598d9",
+            "percentage": 100
+          }
+        ]
+      }
+    ]
+  },
+  "liveVerification": {
+    "checkedAt": "2026-10-20T02:09:08.667Z",
+    "sourceCommit": "6b37183a041155e84dc96efcbd1ed86a0231e253",
+    "files": [
+      {
+        "path": "raid/cooperative/live.mjs",
+        "status": 200,
+        "sha256": "d10b6b988e4eee791b932eaf7b7bcf64f45587a14917a92721d39f377daf7cba"
+      },
+      {
+        "path": "js/cooperative-battleground-entry.js",
+        "status": 200,
+        "sha256": "d055bf2279eac0fb1e40acf4d2b77afae9910c3e2800c9ee7a46d041c2465224"
+      },
+      {
+        "path": "index.html",
+        "status": 200,
+        "sha256": "b17079d8814cdff822dd405bddcc2fcfc7584bd4a647339efd057f8a1b2e44b5"
+      },
+      {
+        "path": "service-worker.js",
+        "status": 200,
+        "sha256": "6153314111d8f98349ba2b505e0e9143392919cf77173dcbdc5e5e52d7aa9921"
+      }
+    ],
+    "anonymousApiStatus": 401
+  },
+  "browser": [
+    {
+      "width": 1440,
+      "emptyCreateBlocked": true,
+      "emptyJoinBlocked": true,
+      "rechargedButtonsEnabled": true,
+      "legacyZeroReadyReasonVisible": true,
+      "leaveAllowed": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "emptyCreateBlocked": true,
+      "emptyJoinBlocked": true,
+      "rechargedButtonsEnabled": true,
+      "legacyZeroReadyReasonVisible": true,
+      "leaveAllowed": true,
+      "errors": []
+    }
+  ],
+  "regressionTests": {
+    "failed": 0,
+    "files": [
+      "tests/zero-cooperative-ready-20261020.test.mjs",
+      "tests/cooperative-room-list.test.mjs",
+      "tests/cooperative-rewards-live-20261013.test.mjs"
+    ],
+    "passed": 6
+  },
+  "checks": [
+    "check:worker",
+    "production release/cache contract",
+    "Hyperdrive query cache disabled"
+  ],
+  "productionAccountMutated": false
+}
