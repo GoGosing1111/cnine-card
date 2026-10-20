@@ -1,0 +1,1039 @@
+{
+  "alreadyApplied": false,
+  "dryRun": false,
+  "receipt": {
+    "operationKey": "ops:supporter-pass-sales-start:20261020:v1",
+    "status": "COMPLETED",
+    "authorization": [
+      "패스 첫 개방 시점부터 현재까지 수령",
+      "패스판매일 기준"
+    ],
+    "salesStartsAt": 1791647946414,
+    "salesAuditId": 44138,
+    "before": {
+      "version": 1,
+      "revision": 16,
+      "writeToken": "c5f246af-a60b-4fdb-a661-9c1df1b0cedb",
+      "title": "리버스콜 시즌패스",
+      "enabled": true,
+      "days": [
+        {
+          "day": 1,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:EMPEROR_ENERGY",
+              "type": "INVENTORY_ITEM",
+              "ref": "EMPEROR_ENERGY",
+              "name": "엠퍼러 에너지",
+              "image": "/assets/items/emperor-energy-v1.webp",
+              "rarity": "EMPEROR",
+              "quantity": 40
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PET_ESSENCE",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_ESSENCE",
+              "name": "펫 정수",
+              "image": "/assets/items/pet-opening-v1/pet-essence.webp",
+              "rarity": "SPECIAL",
+              "quantity": 100
+            },
+            {
+              "code": "INVENTORY_ITEM:PET_SEAL_ORB",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_SEAL_ORB",
+              "name": "펫 봉인구",
+              "image": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+              "rarity": "SPECIAL",
+              "quantity": 10
+            }
+          ]
+        },
+        {
+          "day": 7,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:MERCENARY_SSS_REROLL_TICKET",
+              "type": "INVENTORY_ITEM",
+              "ref": "MERCENARY_SSS_REROLL_TICKET",
+              "name": "SSS 재뽑기권",
+              "image": "/assets/ui/sss-reroll-v1/ticket-256.webp",
+              "rarity": "SSS",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 8,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 9,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 10,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 11,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 12,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:ICON_CARD_CHOICE_TICKET",
+              "type": "INVENTORY_ITEM",
+              "ref": "ICON_CARD_CHOICE_TICKET",
+              "name": "아이콘 카드 선택권",
+              "image": "/assets/items/icon-card-choice-20261020/ticket.webp",
+              "rarity": "ICON",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 13,
+          "rewards": [
+            {
+              "code": "EQUIPMENT:41",
+              "type": "EQUIPMENT",
+              "ref": "41",
+              "name": "東方軍火商(동방무기상)",
+              "image": "/assets/items/gilded-dragon-ar-mythic-v1.png",
+              "rarity": "MYTHIC",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 14,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:VEHICLE_PARTS_150_CHOICE",
+              "type": "INVENTORY_ITEM",
+              "ref": "VEHICLE_PARTS_150_CHOICE",
+              "name": "차량부품 150개 선택권",
+              "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            },
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 15,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:VEHICLE_PARTS_150_CHOICE",
+              "type": "INVENTORY_ITEM",
+              "ref": "VEHICLE_PARTS_150_CHOICE",
+              "name": "차량부품 150개 선택권",
+              "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            },
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 16,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:VEHICLE_PARTS_150_CHOICE",
+              "type": "INVENTORY_ITEM",
+              "ref": "VEHICLE_PARTS_150_CHOICE",
+              "name": "차량부품 150개 선택권",
+              "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            },
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 17,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:VEHICLE_PARTS_150_CHOICE",
+              "type": "INVENTORY_ITEM",
+              "ref": "VEHICLE_PARTS_150_CHOICE",
+              "name": "차량부품 150개 선택권",
+              "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            },
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 18,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PINGDU_REPAIR_COUPON",
+              "type": "INVENTORY_ITEM",
+              "ref": "PINGDU_REPAIR_COUPON",
+              "name": "핑두 리페어 쿠폰",
+              "image": "/assets/items/pingdu-repair-coupon-v1.webp",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 19,
+          "rewards": [
+            {
+              "code": "VEHICLE:33",
+              "type": "VEHICLE",
+              "ref": "33",
+              "name": "비전 마이바흐 6",
+              "image": "/assets/tire/crimson-aura-gullwing-v4.webp",
+              "rarity": "MYTHIC",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 20,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PET_SEAL_ORB",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_SEAL_ORB",
+              "name": "펫 봉인구",
+              "image": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+              "rarity": "SPECIAL",
+              "quantity": 10
+            },
+            {
+              "code": "INVENTORY_ITEM:PET_ESSENCE",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_ESSENCE",
+              "name": "펫 정수",
+              "image": "/assets/items/pet-opening-v1/pet-essence.webp",
+              "rarity": "SPECIAL",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "day": 21,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PET_SEAL_ORB",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_SEAL_ORB",
+              "name": "펫 봉인구",
+              "image": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+              "rarity": "SPECIAL",
+              "quantity": 10
+            },
+            {
+              "code": "INVENTORY_ITEM:PET_ESSENCE",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_ESSENCE",
+              "name": "펫 정수",
+              "image": "/assets/items/pet-opening-v1/pet-essence.webp",
+              "rarity": "SPECIAL",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "day": 22,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PET_SEAL_ORB",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_SEAL_ORB",
+              "name": "펫 봉인구",
+              "image": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+              "rarity": "SPECIAL",
+              "quantity": 10
+            },
+            {
+              "code": "INVENTORY_ITEM:PET_ESSENCE",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_ESSENCE",
+              "name": "펫 정수",
+              "image": "/assets/items/pet-opening-v1/pet-essence.webp",
+              "rarity": "SPECIAL",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "day": 23,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PET_SEAL_ORB",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_SEAL_ORB",
+              "name": "펫 봉인구",
+              "image": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+              "rarity": "SPECIAL",
+              "quantity": 10
+            },
+            {
+              "code": "INVENTORY_ITEM:PET_ESSENCE",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_ESSENCE",
+              "name": "펫 정수",
+              "image": "/assets/items/pet-opening-v1/pet-essence.webp",
+              "rarity": "SPECIAL",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "day": 24,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:ICON_CARD_CHOICE_TICKET",
+              "type": "INVENTORY_ITEM",
+              "ref": "ICON_CARD_CHOICE_TICKET",
+              "name": "아이콘 카드 선택권",
+              "image": "/assets/items/icon-card-choice-20261020/ticket.webp",
+              "rarity": "ICON",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 25,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:MINE_GOLDEN_DRILL",
+              "type": "INVENTORY_ITEM",
+              "ref": "MINE_GOLDEN_DRILL",
+              "name": "황금드릴",
+              "image": "/assets/ui/master-star-mine-v1/golden-drill.webp",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 26,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 27,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 28,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 29,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 30,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PINGDU_REPAIR_COUPON",
+              "type": "INVENTORY_ITEM",
+              "ref": "PINGDU_REPAIR_COUPON",
+              "name": "핑두 리페어 쿠폰",
+              "image": "/assets/items/pingdu-repair-coupon-v1.webp",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    "after": {
+      "version": 1,
+      "revision": 17,
+      "writeToken": "3e7d31b5-2599-48e2-ad16-e60d4aba699b",
+      "title": "리버스콜 시즌패스",
+      "enabled": true,
+      "days": [
+        {
+          "day": 1,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:EMPEROR_ENERGY",
+              "type": "INVENTORY_ITEM",
+              "ref": "EMPEROR_ENERGY",
+              "name": "엠퍼러 에너지",
+              "image": "/assets/items/emperor-energy-v1.webp",
+              "rarity": "EMPEROR",
+              "quantity": 40
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PET_ESSENCE",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_ESSENCE",
+              "name": "펫 정수",
+              "image": "/assets/items/pet-opening-v1/pet-essence.webp",
+              "rarity": "SPECIAL",
+              "quantity": 100
+            },
+            {
+              "code": "INVENTORY_ITEM:PET_SEAL_ORB",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_SEAL_ORB",
+              "name": "펫 봉인구",
+              "image": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+              "rarity": "SPECIAL",
+              "quantity": 10
+            }
+          ]
+        },
+        {
+          "day": 7,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:MERCENARY_SSS_REROLL_TICKET",
+              "type": "INVENTORY_ITEM",
+              "ref": "MERCENARY_SSS_REROLL_TICKET",
+              "name": "SSS 재뽑기권",
+              "image": "/assets/ui/sss-reroll-v1/ticket-256.webp",
+              "rarity": "SSS",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 8,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 9,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 10,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 11,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 12,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:ICON_CARD_CHOICE_TICKET",
+              "type": "INVENTORY_ITEM",
+              "ref": "ICON_CARD_CHOICE_TICKET",
+              "name": "아이콘 카드 선택권",
+              "image": "/assets/items/icon-card-choice-20261020/ticket.webp",
+              "rarity": "ICON",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 13,
+          "rewards": [
+            {
+              "code": "EQUIPMENT:41",
+              "type": "EQUIPMENT",
+              "ref": "41",
+              "name": "東方軍火商(동방무기상)",
+              "image": "/assets/items/gilded-dragon-ar-mythic-v1.png",
+              "rarity": "MYTHIC",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 14,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:VEHICLE_PARTS_150_CHOICE",
+              "type": "INVENTORY_ITEM",
+              "ref": "VEHICLE_PARTS_150_CHOICE",
+              "name": "차량부품 150개 선택권",
+              "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            },
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 15,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:VEHICLE_PARTS_150_CHOICE",
+              "type": "INVENTORY_ITEM",
+              "ref": "VEHICLE_PARTS_150_CHOICE",
+              "name": "차량부품 150개 선택권",
+              "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            },
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 16,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:VEHICLE_PARTS_150_CHOICE",
+              "type": "INVENTORY_ITEM",
+              "ref": "VEHICLE_PARTS_150_CHOICE",
+              "name": "차량부품 150개 선택권",
+              "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            },
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 17,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:VEHICLE_PARTS_150_CHOICE",
+              "type": "INVENTORY_ITEM",
+              "ref": "VEHICLE_PARTS_150_CHOICE",
+              "name": "차량부품 150개 선택권",
+              "image": "/assets/ui/workshop/vehicle-part-engine-v1668.png",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            },
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 18,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PINGDU_REPAIR_COUPON",
+              "type": "INVENTORY_ITEM",
+              "ref": "PINGDU_REPAIR_COUPON",
+              "name": "핑두 리페어 쿠폰",
+              "image": "/assets/items/pingdu-repair-coupon-v1.webp",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 19,
+          "rewards": [
+            {
+              "code": "VEHICLE:33",
+              "type": "VEHICLE",
+              "ref": "33",
+              "name": "비전 마이바흐 6",
+              "image": "/assets/tire/crimson-aura-gullwing-v4.webp",
+              "rarity": "MYTHIC",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 20,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PET_SEAL_ORB",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_SEAL_ORB",
+              "name": "펫 봉인구",
+              "image": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+              "rarity": "SPECIAL",
+              "quantity": 10
+            },
+            {
+              "code": "INVENTORY_ITEM:PET_ESSENCE",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_ESSENCE",
+              "name": "펫 정수",
+              "image": "/assets/items/pet-opening-v1/pet-essence.webp",
+              "rarity": "SPECIAL",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "day": 21,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PET_SEAL_ORB",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_SEAL_ORB",
+              "name": "펫 봉인구",
+              "image": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+              "rarity": "SPECIAL",
+              "quantity": 10
+            },
+            {
+              "code": "INVENTORY_ITEM:PET_ESSENCE",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_ESSENCE",
+              "name": "펫 정수",
+              "image": "/assets/items/pet-opening-v1/pet-essence.webp",
+              "rarity": "SPECIAL",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "day": 22,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PET_SEAL_ORB",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_SEAL_ORB",
+              "name": "펫 봉인구",
+              "image": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+              "rarity": "SPECIAL",
+              "quantity": 10
+            },
+            {
+              "code": "INVENTORY_ITEM:PET_ESSENCE",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_ESSENCE",
+              "name": "펫 정수",
+              "image": "/assets/items/pet-opening-v1/pet-essence.webp",
+              "rarity": "SPECIAL",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "day": 23,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PET_SEAL_ORB",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_SEAL_ORB",
+              "name": "펫 봉인구",
+              "image": "/assets/items/pet-opening-v1/pet-seal-orb.webp",
+              "rarity": "SPECIAL",
+              "quantity": 10
+            },
+            {
+              "code": "INVENTORY_ITEM:PET_ESSENCE",
+              "type": "INVENTORY_ITEM",
+              "ref": "PET_ESSENCE",
+              "name": "펫 정수",
+              "image": "/assets/items/pet-opening-v1/pet-essence.webp",
+              "rarity": "SPECIAL",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "day": 24,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:ICON_CARD_CHOICE_TICKET",
+              "type": "INVENTORY_ITEM",
+              "ref": "ICON_CARD_CHOICE_TICKET",
+              "name": "아이콘 카드 선택권",
+              "image": "/assets/items/icon-card-choice-20261020/ticket.webp",
+              "rarity": "ICON",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 25,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:MINE_GOLDEN_DRILL",
+              "type": "INVENTORY_ITEM",
+              "ref": "MINE_GOLDEN_DRILL",
+              "name": "황금드릴",
+              "image": "/assets/ui/master-star-mine-v1/golden-drill.webp",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "day": 26,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 27,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 28,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 29,
+          "rewards": [
+            {
+              "code": "COIN:",
+              "type": "COIN",
+              "ref": "",
+              "name": "코인",
+              "image": "assets/ui/icon-fusion-20261004/coin.webp",
+              "rarity": "SPECIAL",
+              "quantity": 500000000000
+            }
+          ]
+        },
+        {
+          "day": 30,
+          "rewards": [
+            {
+              "code": "INVENTORY_ITEM:PINGDU_REPAIR_COUPON",
+              "type": "INVENTORY_ITEM",
+              "ref": "PINGDU_REPAIR_COUPON",
+              "name": "핑두 리페어 쿠폰",
+              "image": "/assets/items/pingdu-repair-coupon-v1.webp",
+              "rarity": "SPECIAL",
+              "quantity": 1
+            }
+          ]
+        }
+      ],
+      "salesStartsAt": 1791647946414
+    },
+    "adminLogId": "49097",
+    "completedAt": "2026-10-20T07:22:23.759Z",
+    "subscriptionsModified": false,
+    "rewardsGranted": false
+  }
+}

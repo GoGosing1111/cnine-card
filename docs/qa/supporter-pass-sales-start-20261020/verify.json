@@ -1,0 +1,820 @@
+{
+  "verified": true,
+  "checkedAt": "2026-10-20T07:23:57.995Z",
+  "salesStartsAt": 1791647946414,
+  "revision": 17,
+  "enabled": true,
+  "adminLogId": "49097",
+  "currentKstDate": "2026-10-20",
+  "activeAccountsChecked": 101,
+  "accounts": [
+    {
+      "userId": 1,
+      "purchaseDate": "2026-10-20",
+      "paidUntil": "2026-11-19T02:42:45.619Z",
+      "currentDay": 10,
+      "claimedCount": 1,
+      "claimableCount": 9
+    },
+    {
+      "userId": 115,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T14:00:54.529Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 1195,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:09:41.886Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 1255,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T09:27:16.578Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 130,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T17:28:31.353Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 1301,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:59:05.768Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 1421,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:42:10.760Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 148,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:45:31.321Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 1545,
+      "purchaseDate": "2026-10-20",
+      "paidUntil": "2026-11-19T05:27:37.758Z",
+      "currentDay": 10,
+      "claimedCount": 1,
+      "claimableCount": 9
+    },
+    {
+      "userId": 162,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T18:50:46.361Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 164,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T21:48:14.382Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 1768,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:29:45.701Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 218,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T18:03:50.817Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 22,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:19:33.046Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 2246,
+      "purchaseDate": "2026-10-12",
+      "paidUntil": "2026-11-11T07:11:16.204Z",
+      "currentDay": 10,
+      "claimedCount": 9,
+      "claimableCount": 1
+    },
+    {
+      "userId": 2333,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T18:46:42.484Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 236,
+      "purchaseDate": "2026-10-20",
+      "paidUntil": "2026-11-19T03:18:51.391Z",
+      "currentDay": 10,
+      "claimedCount": 1,
+      "claimableCount": 9
+    },
+    {
+      "userId": 2420,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:42:01.051Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 25,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T07:06:59.693Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 277,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:12:34.107Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 289,
+      "purchaseDate": "2026-10-12",
+      "paidUntil": "2026-11-11T07:11:08.990Z",
+      "currentDay": 10,
+      "claimedCount": 9,
+      "claimableCount": 1
+    },
+    {
+      "userId": 29,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:41:56.875Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 290,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T17:47:22.649Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 295,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:25:53.735Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 297,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T11:50:00.201Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 3,
+      "purchaseDate": "2026-10-20",
+      "paidUntil": "2026-11-19T00:29:16.313Z",
+      "currentDay": 10,
+      "claimedCount": 1,
+      "claimableCount": 9
+    },
+    {
+      "userId": 3011,
+      "purchaseDate": "2026-10-12",
+      "paidUntil": "2026-11-11T06:42:32.379Z",
+      "currentDay": 10,
+      "claimedCount": 9,
+      "claimableCount": 1
+    },
+    {
+      "userId": 303,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:26:50.171Z",
+      "currentDay": 10,
+      "claimedCount": 9,
+      "claimableCount": 1
+    },
+    {
+      "userId": 315,
+      "purchaseDate": "2026-10-20",
+      "paidUntil": "2026-11-19T00:27:37.508Z",
+      "currentDay": 10,
+      "claimedCount": 1,
+      "claimableCount": 9
+    },
+    {
+      "userId": 360,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:12:38.540Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 3867,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:37:14.710Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 3884,
+      "purchaseDate": "2026-10-14",
+      "paidUntil": "2026-11-12T21:35:36.710Z",
+      "currentDay": 10,
+      "claimedCount": 7,
+      "claimableCount": 3
+    },
+    {
+      "userId": 3974,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:15:37.201Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4084,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:19:36.757Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4111,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-12-10T06:40:31.795Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4199,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T08:17:26.363Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4209,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T12:32:57.689Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4222,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T12:33:01.636Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4235,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:27:06.226Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4371,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T14:50:52.305Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4391,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:46:20.047Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4408,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:40:06.564Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4415,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:40:47.550Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4479,
+      "purchaseDate": "2026-10-12",
+      "paidUntil": "2026-11-11T10:36:49.549Z",
+      "currentDay": 10,
+      "claimedCount": 9,
+      "claimableCount": 1
+    },
+    {
+      "userId": 45,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:29:50.328Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4501,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:40:23.799Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4504,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T08:17:22.009Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4540,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:41:48.268Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4562,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T18:53:18.706Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4570,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T08:17:30.319Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4572,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T17:11:34.798Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4582,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T20:17:22.225Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4583,
+      "purchaseDate": "2026-10-12",
+      "paidUntil": "2026-11-10T16:40:05.358Z",
+      "currentDay": 10,
+      "claimedCount": 0,
+      "claimableCount": 10
+    },
+    {
+      "userId": 4595,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:46:05.996Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4597,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T18:22:46.537Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4598,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T11:50:21.746Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4609,
+      "purchaseDate": "2026-10-17",
+      "paidUntil": "2026-11-15T23:30:47.977Z",
+      "currentDay": 10,
+      "claimedCount": 4,
+      "claimableCount": 6
+    },
+    {
+      "userId": 4610,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:26:35.398Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4614,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:25:13.676Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4615,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:40:01.774Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4625,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T17:07:44.955Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4627,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:59:13.978Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4628,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:37:23.966Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4651,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T11:50:17.578Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4693,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:05:49.334Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4705,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:26:11.351Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4754,
+      "purchaseDate": "2026-10-12",
+      "paidUntil": "2026-11-10T17:09:52.699Z",
+      "currentDay": 10,
+      "claimedCount": 6,
+      "claimableCount": 4
+    },
+    {
+      "userId": 4757,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T11:50:13.443Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4772,
+      "purchaseDate": "2026-10-18",
+      "paidUntil": "2026-11-17T08:31:33.648Z",
+      "currentDay": 10,
+      "claimedCount": 3,
+      "claimableCount": 7
+    },
+    {
+      "userId": 4773,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:37:31.672Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4774,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:39:54.705Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4817,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T19:37:20.084Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4836,
+      "purchaseDate": "2026-10-12",
+      "paidUntil": "2026-11-10T15:25:22.422Z",
+      "currentDay": 10,
+      "claimedCount": 9,
+      "claimableCount": 1
+    },
+    {
+      "userId": 4866,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:18:04.414Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4908,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:15:32.678Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4913,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:37:35.343Z",
+      "currentDay": 10,
+      "claimedCount": 4,
+      "claimableCount": 6
+    },
+    {
+      "userId": 493,
+      "purchaseDate": "2026-10-20",
+      "paidUntil": "2026-11-19T07:14:06.915Z",
+      "currentDay": 10,
+      "claimedCount": 1,
+      "claimableCount": 9
+    },
+    {
+      "userId": 4933,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T11:50:08.775Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4965,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T07:46:51.620Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 4977,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:37:50.550Z",
+      "currentDay": 10,
+      "claimedCount": 1,
+      "claimableCount": 9
+    },
+    {
+      "userId": 4981,
+      "purchaseDate": "2026-10-17",
+      "paidUntil": "2026-11-15T18:38:58.541Z",
+      "currentDay": 10,
+      "claimedCount": 4,
+      "claimableCount": 6
+    },
+    {
+      "userId": 5147,
+      "purchaseDate": "2026-10-14",
+      "paidUntil": "2026-11-12T16:14:20.643Z",
+      "currentDay": 10,
+      "claimedCount": 7,
+      "claimableCount": 3
+    },
+    {
+      "userId": 52,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-12-10T06:41:44.192Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 521,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:40:41.456Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 525,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:40:11.380Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 5393,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:37:42.032Z",
+      "currentDay": 10,
+      "claimedCount": 2,
+      "claimableCount": 8
+    },
+    {
+      "userId": 5426,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:37:39.179Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 5598,
+      "purchaseDate": "2026-10-13",
+      "paidUntil": "2026-11-11T17:05:44.287Z",
+      "currentDay": 10,
+      "claimedCount": 8,
+      "claimableCount": 2
+    },
+    {
+      "userId": 5877,
+      "purchaseDate": "2026-10-14",
+      "paidUntil": "2026-11-12T18:43:40.675Z",
+      "currentDay": 10,
+      "claimedCount": 7,
+      "claimableCount": 3
+    },
+    {
+      "userId": 5996,
+      "purchaseDate": "2026-10-20",
+      "paidUntil": "2026-11-19T02:57:34.442Z",
+      "currentDay": 10,
+      "claimedCount": 1,
+      "claimableCount": 9
+    },
+    {
+      "userId": 62,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:41:53.243Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 65,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:17:50.163Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 681,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:40:54.123Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 71,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:12:42.900Z",
+      "currentDay": 10,
+      "claimedCount": 9,
+      "claimableCount": 1
+    },
+    {
+      "userId": 73,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:41:11.078Z",
+      "currentDay": 10,
+      "claimedCount": 9,
+      "claimableCount": 1
+    },
+    {
+      "userId": 750,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:59:10.134Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 76,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T13:00:11.325Z",
+      "currentDay": 10,
+      "claimedCount": 9,
+      "claimableCount": 1
+    },
+    {
+      "userId": 787,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:40:18.021Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 81,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:40:28.134Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 850,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-10T06:42:06.539Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    },
+    {
+      "userId": 88,
+      "purchaseDate": "2026-10-11",
+      "paidUntil": "2026-11-09T16:37:03.106Z",
+      "currentDay": 10,
+      "claimedCount": 10,
+      "claimableCount": 0
+    }
+  ]
+}

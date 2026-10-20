@@ -1,0 +1,43 @@
+{
+  "verified": true,
+  "verifiedAt": "2026-10-20T07:21:54.382Z",
+  "commit": "b426c8b7a364b1194d7947bd8eb5cfe240cac148",
+  "base": "421ef0a8ff0ceabd83a0a7145731a9a92813ddf3",
+  "pages": {
+    "Id": "03030d3f-76d6-4ad8-875e-3b2aee587411",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "b426c8b",
+    "Deployment": "https://03030d3f.cnine-card.pages.dev",
+    "Status": "58 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/03030d3f-76d6-4ad8-875e-3b2aee587411"
+  },
+  "apiVersion": "c5838dbe-d2c1-45ee-a2db-8111400b044f",
+  "schedulerVersion": "70706a88-1058-4d9e-ade1-ece0b17a5f94",
+  "assets": [
+    {
+      "path": "index.html",
+      "sha256": "9984cc28d5c74ea5dafc3bc05c5bcd4c5a3a9e9ba2a8158058adfb3f1ad0e862"
+    },
+    {
+      "path": "service-worker.js",
+      "sha256": "ca16f084aac88862432b0e669af835f3f7e90d8a8d747265400c172b6712e4d3"
+    },
+    {
+      "path": "js/adventure-lobby-v2107.js",
+      "sha256": "863e5b511fd4592c90b190b4fc5b4f5538f50d733668acb6c186d907fdcf1e2d"
+    },
+    {
+      "path": "js/server-support-v1.mjs",
+      "sha256": "4ab8fcf61bdf739d50857f04a0793c702061b1da9bd273b2ce8611b275654242"
+    },
+    {
+      "path": "js/supporter-season-pass-v1.mjs",
+      "sha256": "86c68f995a787b8a6020ef6bb686a252d154df2ab1bd46c6f8a64b12ee2a661f"
+    },
+    {
+      "path": "shared/supporter-season-pass-v1.mjs",
+      "sha256": "de0ae8002f7eebc4b20d431da3eb3d5ab3f7b186ab81425030617231713ce97c"
+    }
+  ]
+}
