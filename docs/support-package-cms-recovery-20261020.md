@@ -20,4 +20,8 @@ PC 1440×1000과 모바일 390×844 모두 최초 조회 자동 복귀, 패키�
 
 ## 배포
 
-범위 검사 및 운영 확인 결과는 적용 후 기록한다.
+- 2026-10-20 13:42 KST 운영 확인 완료. 소스 `a8870d47ee458a3400fb7fce4df8ec82e3ad197d`, Pages [a7681bf6](https://a7681bf6.cnine-card.pages.dev).
+- API 런타임 `276f9c2a-36ec-4668-b14d-5fde684e863a`, 기존 시즌 스케줄러 `1af9d0b3-88c9-4dee-bcb4-ec030bf08efe`. 운영 설정·계정 데이터는 변경하지 않았다.
+- `npm run deploy:production -- --scoped`에서 직접 복구 회귀 1개(PC·모바일 모든 실패/복구 시나리오)와 Worker 문법, 깨끗한 소스·원격 일치·캐시 호환·Hyperdrive 캐시 OFF를 통과했다. 전체 게임 검사는 실행하지 않았다.
+- 운영 도메인 CMS HTML과 수정 모듈은 HTTP 200 및 소스 SHA-256 일치. 후원·패키지 CMS 미인증 API는 모두 401. 운영 지급 요청은 0건이다.
+- 배포 로그 `docs/qa/support-package-cms-recovery-20261020/scoped-deploy.log`, 운영 확인 `live.json`. 후속 기록만 원격 반영하고 재배포하지 않는다.

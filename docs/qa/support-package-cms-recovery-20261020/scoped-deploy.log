@@ -1,0 +1,70 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"f33ada9e8c68d6164bc63d6119db16878e478e18","reason":"Only support CMS read recovery and view preservation change; verify transient failure retry, payment form retention, and denied/account-switch clearing without changing authentication, DB, or payment transactions.","changed":["AGENTS.md","admin/index.html","admin/server-support-admin-v1.mjs","docs/qa/ranked-duo-on-20261020/README.md","docs/qa/ranked-duo-on-20261020/apply.json","docs/qa/ranked-duo-on-20261020/dry-run.json","docs/qa/ranked-duo-on-20261020/inspection.json","docs/qa/ranked-duo-on-20261020/replay.json","docs/qa/ranked-duo-on-20261020/verification.json","docs/qa/ranked-duo-random-20261020/live.json","docs/qa/ranked-duo-random-20261020/scoped-deploy.log","docs/qa/support-package-cms-recovery-20261020/browser-results.json","docs/qa/support-package-cms-recovery-20261020/recovered-1440.png","docs/qa/support-package-cms-recovery-20261020/recovered-390.png","docs/ranked-duo-random-20261020.md","docs/support-package-cms-recovery-20261020.md","scripts/ops/ranked-duo-on-20261020.mjs","tests/support-package-cms-recovery-20261020.test.mjs"],"tests":["tests/support-package-cms-recovery-20261020.test.mjs"],"checks":["check:worker"]}
+{"out":"C:/Users/User/.codex/worktrees/ranked-duo-random/support-cms-recovery-20261020/release-check","reports":[{"width":1440,"initialReadRetry":true,"openFormPreserved":true,"packageReadNotRepeated":true,"sessionSwitchClears":true,"forbiddenNotRetried":true,"mutations":0,"errors":[]},{"width":390,"initialReadRetry":true,"openFormPreserved":true,"packageReadNotRepeated":true,"sessionSwitchClears":true,"forbiddenNotRetried":true,"mutations":0,"errors":[]}]}
+✔ support CMS recovers reads, preserves open payment forms and clears revoked or changed sessions (8616.4984ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8967.4255
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19998 files; 4903 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7869.27 KiB / gzip: 1700.79 KiB
+Worker Startup Time: 94 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (5.47 sec)
+No targets deployed for cnine-card-api-runtime (1.57 sec)
+Current Version ID: 276f9c2a-36ec-4668-b14d-5fde684e863a
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19994/19998)
+Uploading... (19995/19998)
+Uploading... (19996/19998)
+Uploading... (19998/19998)
+✨ Success! Uploaded 4 files (19994 already uploaded) (2.39 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://a7681bf6.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2723.07 KiB / gzip: 621.00 KiB
+Worker Startup Time: 42 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (2.84 sec)
+Deployed cnine-card-clan-draft triggers (1.08 sec)
+  schedule: * * * * *
+Current Version ID: 1af9d0b3-88c9-4dee-bcb4-ec030bf08efe
