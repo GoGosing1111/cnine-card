@@ -7,6 +7,9 @@ const read=async(env,key)=>(await p(env,'SELECT value FROM app_meta WHERE key=?'
 export const coopEnergyKey=id=>'coop_energy_v1:'+Number(id);
 export const coopEntryKey=id=>'coop_entry_energy_v1:'+id;
 const fail=(code,message)=>{throw Object.assign(Error(message),{code:'COOP_'+code,status:409});};
+async function ownerExempt(env,id){
+ return Number(id)===1&&Boolean(await p(env,"SELECT id FROM users WHERE id=? AND role='OWNER' AND status='ACTIVE'",1).first());
+}
 async function load(env,id,at){
  const key=coopEnergyKey(id);let raw=await read(env,key);
  if(raw===null){
@@ -20,7 +23,7 @@ async function load(env,id,at){
  return {key,raw,energy:contentEnergy(JSON.parse(raw),{at,maximum:COOP_ENERGY_MAXIMUM})};
 }
 export async function coopEnergy(env,id,at=Date.now()){
- return contentEnergyView((await load(env,id,at)).energy,{at,maximum:COOP_ENERGY_MAXIMUM});
+ return {...contentEnergyView((await load(env,id,at)).energy,{at,maximum:COOP_ENERGY_MAXIMUM}),unlimited:await ownerExempt(env,id)};
 }
 export async function readCoopEntry(env,room){
  const raw=await read(env,coopEntryKey(room.id));if(raw===null)return null;
@@ -44,16 +47,21 @@ export async function spendCoopEnergy(env,room,at=Date.now()){
   const balances=[];
   if(charged)for(const id of userIds){
    const before=await load(env,id,at);
-   if(before.energy.current<1)fail('ENERGY_EMPTY',`${room.members.find(m=>m.id===id)?.name||'참가자'}님의 행동력이 부족합니다. 3시간마다 1회 충전됩니다.`);
-   balances.push({id,...before});
+   const unlimited=await ownerExempt(env,id);
+   if(!unlimited&&before.energy.current<1)fail('ENERGY_EMPTY',`${room.members.find(m=>m.id===id)?.name||'참가자'}님의 행동력이 부족합니다. 3시간마다 1회 충전됩니다.`);
+   balances.push({id,...before,unlimited});
   }
   const token=crypto.randomUUID(),energies={},statements=[];
   for(const before of balances){
+   if(before.unlimited){
+    statements.push(jointGuard(env.DB,token+':owner',"EXISTS(SELECT 1 FROM users WHERE id=? AND role='OWNER' AND status='ACTIVE')",[before.id]),jointGuardEnd(env.DB,token+':owner'));
+    energies[before.id]={...contentEnergyView(before.energy,{at,maximum:COOP_ENERGY_MAXIMUM}),unlimited:true};continue;
+   }
    const next={...before.energy,current:before.energy.current-1},raw=JSON.stringify({...next,token});
    statements.push(p(env,'UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?',raw,before.key,before.raw),jointGuard(env.DB,token+':'+before.id,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[before.key,raw]),jointGuardEnd(env.DB,token+':'+before.id));
    energies[before.id]=contentEnergyView(next,{at,maximum:COOP_ENERGY_MAXIMUM});
   }
-  const receipt={version:1,roomId:room.id,creationRequest:room.creationRequest,userIds,charged,at,energies};
+  const receipt={version:1,roomId:room.id,creationRequest:room.creationRequest,userIds,charged,at,energies,exemptUserIds:balances.filter(b=>b.unlimited).map(b=>b.id)};
   try{
    await env.DB.batch([p(env,'INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',coopEntryKey(room.id),JSON.stringify(receipt)),jointGuard(env.DB,token,configRaw===null?'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)':'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',configRaw===null?[COOP_SETTINGS_KEY]:[COOP_SETTINGS_KEY,configRaw]),...statements,jointGuardEnd(env.DB,token)]);
    return receipt;

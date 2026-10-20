@@ -79,6 +79,9 @@ for(const dialect of ['sqlite','postgres']){
  });
  test(`${dialect}: cooperative clear snapshots offers with its energy entry and OFF/TEST prevents new offers`,async t=>{
   const f=await coreRewardFixture(dialect);t.after(()=>f.close());const rewards=defaultCoopRewards(),cfg={mode:'ON',revision:1,rewards};
+  if(dialect==='postgres')await f.db.exec("ALTER TABLE users ADD COLUMN status TEXT DEFAULT 'ACTIVE'");
+  else await f.run("ALTER TABLE users ADD COLUMN status TEXT DEFAULT 'ACTIVE'");
+  await f.run("UPDATE users SET role='USER' WHERE id=1"); // This case exercises ordinary paid energy, not the ID 1 OWNER exception.
   await f.run('INSERT INTO app_meta(key,value) VALUES(?,?)',COOP_SETTINGS_KEY,JSON.stringify(cfg));await setPolicy(f,'COOP_NORMAL');
   await f.run("INSERT INTO users(id,nickname,role) VALUES(3,'세 번째 분대','USER')");
   const at=Date.now();

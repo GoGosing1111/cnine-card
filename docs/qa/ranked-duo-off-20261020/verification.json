@@ -1,0 +1,73 @@
+{
+  "verifiedAt": "2026-10-20T02:30:44.281Z",
+  "operationKey": "ops:ranked-duo-off:20261020:v1",
+  "auditId": "48750",
+  "seasonStatus": "CLOSED",
+  "visible": false,
+  "policyEnabled": false,
+  "participantsPreserved": 73,
+  "entriesHash": "9bf21c8160b0bb31adc6b06618ad0332",
+  "normalRankedUnchanged": true,
+  "publicFeed": {
+    "status": 200,
+    "rankedDuoPresent": false
+  },
+  "readOnlyDomainChecks": {
+    "status": {
+      "data": {
+        "season": null,
+        "notice": "듀오 시즌을 준비 중입니다."
+      },
+      "status": 200
+    },
+    "join": {
+      "data": {
+        "error": "현재 참가 모집 기간이 아닙니다.",
+        "code": "DUO_RECRUIT_CLOSED"
+      },
+      "status": 409
+    },
+    "match": {
+      "data": {
+        "error": "현재 듀오 대전 기간이 아닙니다.",
+        "code": "DUO_NOT_ACTIVE"
+      },
+      "status": 409
+    },
+    "fight": {
+      "data": {
+        "error": "현재 듀오 대전 기간이 아닙니다.",
+        "code": "DUO_NOT_ACTIVE"
+      },
+      "status": 409
+    }
+  },
+  "lobbyOperation": null,
+  "replayed": true,
+  "pastSeasons": [
+    {
+      "id": "66824884-833a-4132-bf20-65bea5bd11de",
+      "status": "CLOSED",
+      "participant_count": "118",
+      "final_teams": "59",
+      "reward_receipts": "118",
+      "trophies": "20"
+    },
+    {
+      "id": "7efd3f56-4ac2-4bf2-a275-78daea6456f9",
+      "status": "CLOSED",
+      "participant_count": "134",
+      "final_teams": "67",
+      "reward_receipts": "134",
+      "trophies": "20"
+    },
+    {
+      "id": "duo-weekly-20260925-134825",
+      "status": "CLOSED",
+      "participant_count": "154",
+      "final_teams": "76",
+      "reward_receipts": "152",
+      "trophies": "20"
+    }
+  ]
+}

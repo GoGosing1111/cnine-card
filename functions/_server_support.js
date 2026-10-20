@@ -122,15 +122,16 @@ export async function handleServerSupport({path,request,env,deps}){
         return reply(await deps.withUserMutationLock(env,body.userId,path,()=>changeSupport(env,user,body,(deps.now||Date.now)())));
       }
     }else{
-      // The existing CMS operator can preview the page without changing verification.
-      const row=await account(env,user.id),eligible=supportAccountEligible(row,now);
+      // The explicitly authorized ID 1 OWNER can use their registered pass
+      // without creating or changing the account's second-verification record.
+      const row=await account(env,user.id),paidEligible=supportAccountEligible(row,now),eligible=paidEligible||row?.status==='ACTIVE'&&canManageSupport(user);
       const previewOnly=!eligible&&row?.status==='ACTIVE'&&canManageSupport(user),visible=eligible||previewOnly;
       if(path==='server-support/status'&&request.method==='GET')return reply({visible,seasonPassVisible:eligible});
       if(!visible)return reply({error:'페이지를 찾을 수 없습니다.'},404);
       if(['server-support/pass/claim','server-support/pass/claim-all'].includes(path))return reply(await handleSeasonPass({path,request,env,user,deps,now,eligible}));
       if(path==='server-support/info'&&request.method==='GET'){
         const info=await supporterPage(env,user,now);
-        return reply({...info,previewOnly,seasonPassVisible:eligible,packageVisible:eligible&&info.subscription.active&&info.seasonPass.enabled});
+        return reply({...info,application:{...info.application,enabled:paidEligible&&info.application.enabled},previewOnly,seasonPassVisible:eligible,packageVisible:paidEligible&&info.subscription.active&&info.seasonPass.enabled});
       }
       if(['server-support/package','server-support/package/apply'].includes(path))return reply(await handleSupportPackage({path,request,env,user,deps,now}));
       if(path==='server-support/apply'&&request.method==='POST'){

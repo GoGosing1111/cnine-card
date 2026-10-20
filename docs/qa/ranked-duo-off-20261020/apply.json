@@ -1,0 +1,21 @@
+{
+  "operationKey": "ops:ranked-duo-off:20261020:v1",
+  "completedAt": "2026-10-20T02:29:50.908Z",
+  "seasonId": "587a5e01-65e3-4f20-ac6e-abfd08e2c344",
+  "seasonName": "랭크 듀오 시즌 4",
+  "status": "CLOSED",
+  "visible": false,
+  "automaticRecruitment": false,
+  "reason": "개편 준비",
+  "participantsPreserved": 73,
+  "teams": 0,
+  "matches": 0,
+  "rewardsPaid": 0,
+  "trophiesIssued": 0,
+  "seasonRevision": 1,
+  "policyRevision": 2,
+  "entriesHash": "9bf21c8160b0bb31adc6b06618ad0332",
+  "normalRankedSettingsHash": "5b10c2b39f57ea4dba0436b1b0f91537ac35d2e7cab7c16e1c90a5a23811ff9e",
+  "committed": true,
+  "auditId": "48750"
+}
