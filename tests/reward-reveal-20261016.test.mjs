@@ -4,7 +4,8 @@ import {coreRewardFixture} from './helpers/core-reward-fixture.mjs';
 import {CORE_REWARD_DEFAULT,validateCoreRewardPolicy,drawCoreRewards} from '../shared/core-raid-reward-policy-v1.mjs';
 import {REWARD_REVEAL_CONTENTS} from '../shared/reward-reveal-contents-v1.mjs';
 import {handleRewardReveal,readRewardRevealPolicy,prepareRewardRevealContext,prepareRewardRevealOffer,claimRewardReveal} from '../functions/_reward_reveal.js';
-import {settleCoopRewards,coopDailyReward} from '../functions/_cooperative_rewards.js';
+import {settleCoopRewards} from '../functions/_cooperative_rewards.js';
+import {coopEnergy,spendCoopEnergy} from '../functions/_cooperative_energy.js';
 import {defaultCoopRewards,freezeCoopReward,COOP_SETTINGS_KEY} from '../shared/cooperative-rewards-v1.mjs';
 import {prepareMadaraRewards} from '../functions/_raid_madara_rewards.js';
 import {lichLiveFixture} from './helpers/lich-live-fixture.mjs';
@@ -76,16 +77,21 @@ for(const dialect of ['sqlite','postgres']){
   assert.equal(Number((await f.row("SELECT quantity FROM cnine_user_inventory WHERE item_code='MAT'")).quantity),7);
   assert.equal((await request(f,'rewards/reveal/pending')).offers.length,0);
  });
- test(`${dialect}: cooperative clear snapshots offers with its daily quota and OFF/TEST prevents new offers`,async t=>{
+ test(`${dialect}: cooperative clear snapshots offers with its energy entry and OFF/TEST prevents new offers`,async t=>{
   const f=await coreRewardFixture(dialect);t.after(()=>f.close());const rewards=defaultCoopRewards(),cfg={mode:'ON',revision:1,rewards};
   await f.run('INSERT INTO app_meta(key,value) VALUES(?,?)',COOP_SETTINGS_KEY,JSON.stringify(cfg));await setPolicy(f,'COOP_NORMAL');
-  const make=(n,mode='ON')=>({id:String(n).padStart(10,'0'),createdAt:Date.now()-10000,finishedAt:Date.now(),creationRequest:'choice-test-'+n,status:'VICTORY',difficulty:'NORMAL',members:[1,2].map(id=>({id,result:'VICTORY'})),rewardPolicy:{...freezeCoopReward({...cfg,mode},'NORMAL'),revealPolicy:policy()}});
-  const room=make(1),first=await settleCoopRewards(f.env,room);assert.ok(first[1].choiceOffer);assert.equal(first[1].coin,0);assert.equal((await coopDailyReward(f.env,1)).used,1);
+  await f.run("INSERT INTO users(id,nickname,role) VALUES(3,'세 번째 분대','USER')");
+  const at=Date.now();
+  const make=(n,mode='ON')=>({id:String(n).padStart(10,'0'),createdAt:at-10000,finishedAt:at+1000,creationRequest:'choice-test-'+n,status:'VICTORY',difficulty:'NORMAL',members:[1,2,3].map(id=>({id,result:'VICTORY'})),rewardPolicy:{...freezeCoopReward({...cfg,mode},'NORMAL'),revealPolicy:policy()}});
+  const room=make(1);await spendCoopEnergy(f.env,room,at);
+  const first=await settleCoopRewards(f.env,room);assert.ok(first[1].choiceOffer);assert.equal(first[1].coin,0);assert.equal((await coopEnergy(f.env,1,at)).current,2);
   assert.deepEqual(await settleCoopRewards(f.env,room),first);assert.equal((await request(f,'rewards/reveal/pending')).offers.length,1);
-  await claimRewardReveal(f.env,{id:1},{offerId:first[1].choiceOffer.offerId,selectedIndex:0});assert.equal((await coopDailyReward(f.env,1)).used,1,'selection must not consume a second clear');
-  await settleCoopRewards(f.env,make(2));await settleCoopRewards(f.env,make(3));assert.equal((await settleCoopRewards(f.env,make(4)))[1].status,'DAILY_LIMIT');
+  await claimRewardReveal(f.env,{id:1},{offerId:first[1].choiceOffer.offerId,selectedIndex:0});assert.equal((await coopEnergy(f.env,1,at)).current,2,'selection must not consume a second charge');
+  for(const n of [2,3]){const r=make(n);await spendCoopEnergy(f.env,r,at);await settleCoopRewards(f.env,r);}
+  await assert.rejects(spendCoopEnergy(f.env,make(4),at),{code:'COOP_ENERGY_EMPTY'});
   assert.equal((await settleCoopRewards(f.env,make(5,'TEST')))[1].granted,false);
-  await setPolicy(f,'COOP_NORMAL',{...policy(),enabled:false});assert.equal((await settleCoopRewards(f.env,make(6)))[1].granted,false);
+  const next=make(6);next.finishedAt=at+10800001;await spendCoopEnergy(f.env,next,at+10800000);
+  await setPolicy(f,'COOP_NORMAL',{...policy(),enabled:false});assert.equal((await settleCoopRewards(f.env,next))[1].granted,false);
  });
  test(`${dialect}: zero-row vehicle delivery cannot complete a receipt; simultaneous choices keep one slot`,async t=>{
   const f=await coreRewardFixture(dialect);t.after(()=>f.close());await f.run("INSERT INTO character_garage_items VALUES(1,'검수 차량','MYTHIC','',0,1,1)");

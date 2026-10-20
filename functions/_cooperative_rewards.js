@@ -20,7 +20,7 @@ export function coopUnpaidRewards(room){
 }
 
 // Called only with the private Durable Object's terminal room, never client data.
-// PostgreSQL/D1 batch commits the receipt, entry proof, balances, balances and logs
+// After checking the immutable entry receipt, the batch commits balances and logs
 // together. The DO may lose its acknowledgement and safely retry after restart.
 export async function settleCoopRewards(env,room){
  if(!['VICTORY','DEFEAT','CANCELLED'].includes(room.status))throw Error('Cooperative room is not terminal');

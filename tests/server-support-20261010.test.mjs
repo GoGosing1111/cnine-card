@@ -88,11 +88,11 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 후�
   });
 });
 
-test('군단토벌 기본 10회 + 후원 3회, 만료 후 사용 이력 보존, KST 자정 초기화',()=>{
+test('군단토벌 기본 10회 + 후원 3회, 만료 후 행동력 보존, 자정 충전 없음',()=>{
   const at=Date.parse('2026-10-10T23:59:59+09:00'),support=supportBenefits({...emptySupport(),startsAt:at-1000,endsAt:at+1000},at),user={id:2,role:'USER'},run={daily:{day:'2026-10-10',used:12}};
   assert.equal(legionHuntEntries(run,at,user,support).remaining,1);
-  assert.equal(legionHuntEntries(run,at,user).remaining,0);assert.equal(legionHuntEntries(run,at,user).used,12);
-  assert.equal(legionHuntEntries(run,at+1000,user,support).limit,10);assert.equal(legionHuntEntries(run,at+1000,user,support).used,0);
+  assert.equal(legionHuntEntries(run,at,user).remaining,0);assert.equal(legionHuntEntries(run,at,user).current,0);run.energy=legionHuntEntries(run,at,user,support);
+  assert.equal(legionHuntEntries(run,at+1000,user,support).limit,10);assert.equal(legionHuntEntries(run,at+1000,user,support).current,1);
   assert.equal(legionHuntEntries(run,at,{id:1,role:'OWNER'},support).unlimited,true);
   assert.throws(()=>legionHuntEntries({daily:{day:'2026-10-10',used:14}},at,user));
 });
@@ -105,16 +105,16 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 실�
   await f.DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').bind(supportKey(2),JSON.stringify(support)).run();f.setUser(f.player);
   for(let i=0;i<13;i++){
     const start=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(start.status,200,JSON.stringify(start.body));const id=start.body.id;
-    assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.used,i+1);assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.used,i+1);
+    assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.current,12-i);assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.current,12-i);
     f.clock.now+=101;assert.equal((await f.call('legion-hunt/finish',{id,seq:1})).status,200);
   }
-  assert.equal((await f.call('legion-hunt/start',{difficulty:'normal'})).body.code,'HUNT_DAILY_LIMIT');
-  const before=(await f.call('legion-hunt/bootstrap')).body.entries;assert.equal(before.limit,13);assert.equal(before.used,13);
+  assert.equal((await f.call('legion-hunt/start',{difficulty:'normal'})).body.code,'HUNT_ENERGY_EMPTY');
+  const before=(await f.call('legion-hunt/bootstrap')).body.entries;assert.equal(before.limit,13);assert.equal(before.current,0);
   await f.DB.prepare('UPDATE app_meta SET value=? WHERE key=?').bind(JSON.stringify({...support,endsAt:f.clock.now}),supportKey(2)).run();
-  const expired=(await f.call('legion-hunt/bootstrap')).body.entries;assert.equal(expired.limit,10);assert.equal(expired.used,13);assert.equal(expired.remaining,0);
+  const expired=(await f.call('legion-hunt/bootstrap')).body.entries;assert.equal(expired.limit,10);assert.equal(expired.current,0);assert.equal(expired.remaining,0);
   await f.DB.prepare('UPDATE app_meta SET value=? WHERE key=?').bind(JSON.stringify({...support,endsAt:200000000}),supportKey(2)).run();assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.remaining,0);
-  f.clock.now=86400000;const start=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(start.status,200);assert.equal((await f.call('legion-hunt/begin',{id:start.body.id})).body.entries.used,1);
-  const cancel=await f.call('legion-hunt/cancel',{id:start.body.id});assert.equal(cancel.status,200);assert.equal(cancel.body.entries.used,0);assert.equal((await f.call('legion-hunt/recover',{})).body.entries.used,0);
+  f.clock.now=86400000;const start=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(start.status,200);assert.equal((await f.call('legion-hunt/begin',{id:start.body.id})).body.entries.current,6);
+  const cancel=await f.call('legion-hunt/cancel',{id:start.body.id});assert.equal(cancel.status,200);assert.equal(cancel.body.entries.current,7);assert.equal((await f.call('legion-hunt/recover',{})).body.entries.current,7);
 });
 
 test('실제 로더·CMS·API가 후원 모듈에 연결되어 있다',()=>{

@@ -38,7 +38,7 @@ for(const postgres of [false,true]){
       assert.equal((await f.call('admin/legion-hunt',{policy},{method:'PATCH'})).status,200);
       f.setUser({id:3,role:'ADMIN'});assert.equal((await f.call('legion-hunt/bootstrap')).status,403);
       f.setUser(f.player);const run=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(run.status,200);const id=run.body.id;
-      assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.used,1);
+      assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.current,9);
       f.clock.now+=101;const d=(await f.call('legion-hunt/reveal',{id,seq:1})).body.drop;assert.ok(d);
       const claim={id,dropId:d.id,token:d.token,...d.position};
       const picked=await f.call('legion-hunt/claim',claim);assert.equal(picked.status,200);assert.equal(picked.body.liveRewards,false);

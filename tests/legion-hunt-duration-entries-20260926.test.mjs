@@ -21,30 +21,30 @@ for(const postgres of [false,true]){
       const entries=async()=>(await f.call('legion-hunt/bootstrap')).body.entries;
       const start=async difficulty=>{const r=await f.call('legion-hunt/start',{difficulty});assert.equal(r.status,200);return r.body.id;};
       const begin=id=>f.call('legion-hunt/begin',{id});
-      const day=(await entries()).day,daily={day,used:2};
-      await f.DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').bind('legion_hunt_owner_session_v1:1',JSON.stringify({daily})).run();
+      const day=new Date(f.clock.now+9*3600000).toISOString().slice(0,10),daily={day,used:2};
+      await f.DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').bind('legion_hunt_owner_session_v1:1',JSON.stringify({daily,coinDaily:daily})).run();
       const unlimited=await entries();
-      assert.equal(unlimited.unlimited,true);assert.equal(unlimited.limit,null);assert.equal(unlimited.remaining,null);assert.equal(unlimited.used,2);
+      assert.equal(unlimited.unlimited,true);assert.equal(unlimited.limit,null);assert.equal(unlimited.remaining,null);assert.equal(unlimited.current,8);
       f.resetQueries();assert.equal((await f.call('legion-hunt/start',{difficulty:'normal',version:1})).body.code,'HUNT_CLIENT_UPDATE');
       assert.equal((await f.call('legion-hunt/start',{difficulty:'normal',version:2})).body.code,'HUNT_CLIENT_UPDATE');
       assert.equal(f.queries.length,0,'stale 2x clients cannot consume entries');
-      const unbegun=await start('normal');assert.equal((await entries()).used,2);
-      await f.call('legion-hunt/cancel',{id:unbegun});assert.equal((await entries()).used,2);
+      const unbegun=await start('normal');assert.equal((await entries()).current,8);
+      await f.call('legion-hunt/cancel',{id:unbegun});assert.equal((await entries()).current,8);
       const id=await start('hard');f.fail('UPDATE app_meta');assert.equal((await begin(id)).status,503);f.fail('');
-      assert.equal((await entries()).used,2);
+      assert.equal((await entries()).current,8);
       f.loseReply();assert.equal((await begin(id)).status,503);
-      const retry=await begin(id);assert.equal(retry.status,200);assert.equal(retry.body.entries.used,2);
+      const retry=await begin(id);assert.equal(retry.status,200);assert.equal(retry.body.entries.current,8);
       assert.equal(retry.body.entries.unlimited,true);assert.equal(retry.body.entries.remaining,null);
       assert.deepEqual((await begin(id)).body,retry.body);
-      await f.call('legion-hunt/cancel',{id});assert.equal((await entries()).used,2,'retreat preserves the pre-existing daily record');
-      const second=await start('inferno');assert.equal((await begin(second)).body.entries.used,2);
-      assert.equal((await begin(second)).body.entries.used,2);
+      await f.call('legion-hunt/cancel',{id});assert.equal((await entries()).current,8,'retreat preserves the pre-existing daily record');
+      const second=await start('inferno');assert.equal((await begin(second)).body.entries.current,8);
+      assert.equal((await begin(second)).body.entries.current,8);
       assert.equal((await begin(id)).body.code,'HUNT_SESSION_EXPIRED');
       for(const difficulty of DIFFICULTIES.map(d=>d.id)){
         const next=await start(difficulty);f.resetQueries();
         const result=await begin(next);assert.equal(result.status,200);assert.equal(result.body.entries.unlimited,true);
         assert.equal(f.queries.length,4,'entry reads current ON/TEST/OFF policy, the indexed session and supporter benefits, then performs one CAS write');
-        assert.equal(result.body.entries.used,2);assert.equal(result.body.entries.remaining,null);
+        assert.equal(result.body.entries.current,8);assert.equal(result.body.entries.remaining,null);
       }
       const saved=await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first();
       assert.deepEqual(JSON.parse(saved.value).daily,daily,'no counter reset, increment, or separate quota row');
@@ -59,16 +59,16 @@ for(const postgres of [false,true]){
       assert.ok(results.some(r=>r.status===200));assert.ok(results.every(r=>[200,409].includes(r.status)));
       const begun=(await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first()).value;
       assert.equal(JSON.parse(begun).state.startedAt,f.clock.now);assert.equal(JSON.parse(begun).daily,null);
-      assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.used,0);
+      assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.current,10);
       f.clock.now=Date.parse('2026-09-26T23:59:59.999+09:00');
-      assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.day,'2026-09-26');
+      assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.current,10);
       f.clock.now++;
       const fresh=(await f.call('legion-hunt/bootstrap')).body.entries;
-      assert.equal(fresh.day,'2026-09-27');assert.equal(fresh.remaining,null);assert.equal(fresh.unlimited,true);
-      assert.equal(fresh.resetsAt,Date.parse('2026-09-28T00:00:00+09:00'));
-      assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.used,0,'old begin retry belongs to yesterday');
+      assert.equal(fresh.current,10);assert.equal(fresh.remaining,null);assert.equal(fresh.unlimited,true);
+      assert.equal(fresh.nextRechargeAt,null,'full energy has no midnight reset');
+      assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.current,10,'old begin retry belongs to yesterday');
       const next=(await f.call('legion-hunt/start',{difficulty:'hard'})).body.id;
-      assert.equal((await f.call('legion-hunt/begin',{id:next})).body.entries.used,0);
+      assert.equal((await f.call('legion-hunt/begin',{id:next})).body.entries.current,10);
       f.clock.now+=31*60000;
       assert.equal((await f.call('legion-hunt/begin',{id:next})).body.code,'HUNT_SESSION_EXPIRED');
       assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.unlimited,true,'expiry never removes the OWNER exemption');
@@ -76,7 +76,7 @@ for(const postgres of [false,true]){
   });
 }
 
-test('unlimited entry depends only on the authenticated OWNER role; ordinary daily policy grants ten entries',()=>{
+test('unlimited entry depends only on the authenticated OWNER role; ordinary energy capacity is ten',()=>{
   const at=Date.parse('2026-09-27T12:00:00+09:00'),daily={day:'2026-09-27',used:2};
   for(const user of [undefined,null,{role:'USER'},{role:'ADMIN'},{role:'OWNER '},{role:'owner'},{unlimited:true}]){
     const entries=legionHuntEntries({daily},at,user);
@@ -84,7 +84,7 @@ test('unlimited entry depends only on the authenticated OWNER role; ordinary dai
     assert.equal(legionHuntEntries({daily},at+86400000,user).remaining,10);
   }
   assert.equal(legionHuntEntries({daily},at,{role:'OWNER'}).unlimited,true);
-  assert.throws(()=>legionHuntEntries({daily:{...daily,used:-1}},at,{role:'OWNER'}),/입장 기록/);
+  assert.throws(()=>legionHuntEntries({coinDaily:{...daily,used:-1}},at,{role:'OWNER'}),/행동력 기록/);
 });
 
 test('every difficulty includes its boss within 7 minutes; strong accounts cannot acknowledge it at 2x speed',async()=>{
