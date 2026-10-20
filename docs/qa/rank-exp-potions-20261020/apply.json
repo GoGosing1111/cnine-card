@@ -1,0 +1,16 @@
+{
+  "operationKey": "ops:rank-exp-potions:20261020:v1",
+  "completedAt": "2026-10-20T02:14:42.931Z",
+  "itemCodes": [
+    "RANK_EXP_POTION_2X_60M",
+    "RANK_EXP_POTION_3X_60M"
+  ],
+  "durationMinutes": 60,
+  "sameMultiplier": "EXTEND",
+  "differentMultiplier": "REPLACE",
+  "passUnchanged": true,
+  "passHash": "f5944405e6a4a92e2b10b8b7362b5960612dd29ff8356797a1c742496ff76f47",
+  "granted": 0,
+  "committed": true,
+  "auditId": "48745"
+}

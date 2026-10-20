@@ -1,0 +1,21 @@
+{
+  "startedAt": "2026-10-20T02:11:29.938Z",
+  "finishedAt": "2026-10-20T02:14:14.604Z",
+  "base": "6b37183a041155e84dc96efcbd1ed86a0231e253",
+  "commit": "e59314403a162a74b7abada9b63968cea52f8631",
+  "tests": [
+    "tests/rank-exp-potions-20261020.test.mjs",
+    "tests/account-rank-live-v1.test.mjs",
+    "tests/account-rank-preview-v1.test.mjs",
+    "tests/account-rank-reform-20261008.test.mjs",
+    "tests/shiranui-rank-reward-20261020.test.mjs",
+    "tests/inventory-ui-v2125.test.mjs",
+    "tests/live-operations-v1868.mjs",
+    "tests/coup-live-operation.test.mjs"
+  ],
+  "checks": [
+    "test:release-policy",
+    "check:worker"
+  ],
+  "exitCode": 0
+}

@@ -1,0 +1,58 @@
+{
+  "verifiedAt": "2026-10-20T02:14:33.575Z",
+  "deployment": {
+    "id": "d7e4253f-8103-4cc1-a84b-2e195a29ddad",
+    "url": "https://d7e4253f.cnine-card.pages.dev",
+    "commit": "e59314403a162a74b7abada9b63968cea52f8631",
+    "status": "success",
+    "createdOn": "2026-10-20T02:13:58.871675Z"
+  },
+  "checks": [
+    {
+      "path": "index.html",
+      "sha256": "98e88107ddc1b24ae17ab0734c642f0511f723d9a67678c6b394fa75b9d076bf"
+    },
+    {
+      "path": "js/app.js",
+      "sha256": "ca4ee6764dfa271144be382f26fb71565a609e17491a7319a5cf8154f93d3442"
+    },
+    {
+      "path": "js/rank-exp-potion-v1.mjs",
+      "sha256": "aa37ee2b9bc1dfab66ed2d36b776aed6c5d22578e5e93b53b48a251fd044b137"
+    },
+    {
+      "path": "css/rank-exp-potion-v1.css",
+      "sha256": "e6e5cc724a22d8f2e6200f596bcd975d60572108b7d00504b0de0e486a052afd"
+    },
+    {
+      "path": "shared/rank-exp-potion-v1.mjs",
+      "sha256": "01878469a1082de446b5ccdb6755c187d671491088daf3887324140631fc1ad7"
+    },
+    {
+      "path": "assets/items/rank-exp-potions-20261020/2x.webp",
+      "sha256": "d23042685c2a317d03cb66b1a4e92a51ad9c06503fbb25bfdc63fee7101b857c"
+    },
+    {
+      "path": "assets/items/rank-exp-potions-20261020/3x.webp",
+      "sha256": "649ad438e235615b92c2d1e1ee330776b2d1653c75bb361828af478db92263ea"
+    },
+    {
+      "path": "assets/items/rank-exp-potions-20261020/panel.webp",
+      "sha256": "734e27ef1a2289d2cadfacf362b8d1f372e20fb1dab63ab62eb06b70b972fbcb"
+    }
+  ],
+  "routes": [
+    {
+      "path": "status",
+      "status": 401,
+      "code": "RANK_POTION_AUTH",
+      "cache": "private, no-store"
+    },
+    {
+      "path": "options",
+      "status": 401,
+      "code": "RANK_POTION_AUTH",
+      "cache": "private, no-store"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "verifiedAt": "2026-10-20T02:14:51.112Z",
+  "items": [
+    {
+      "code": "RANK_EXP_POTION_2X_60M",
+      "name": "계급 경험치 2배 물약",
+      "image_url": "assets/items/rank-exp-potions-20261020/2x.webp",
+      "rarity": "SPECIAL",
+      "category": "EVENT",
+      "is_active": "1"
+    },
+    {
+      "code": "RANK_EXP_POTION_3X_60M",
+      "name": "계급 경험치 3배 물약",
+      "image_url": "assets/items/rank-exp-potions-20261020/3x.webp",
+      "rarity": "SPECIAL",
+      "category": "EVENT",
+      "is_active": "1"
+    }
+  ],
+  "catalogEntries": [
+    {
+      "code": "INVENTORY_ITEM:RANK_EXP_POTION_2X_60M",
+      "type": "INVENTORY_ITEM",
+      "ref": "RANK_EXP_POTION_2X_60M",
+      "name": "계급 경험치 2배 물약",
+      "image": "/assets/items/rank-exp-potions-20261020/2x.webp",
+      "rarity": "SPECIAL",
+      "tier": "normal",
+      "maxQuantity": 1000000,
+      "available": true,
+      "unavailableReason": ""
+    },
+    {
+      "code": "INVENTORY_ITEM:RANK_EXP_POTION_3X_60M",
+      "type": "INVENTORY_ITEM",
+      "ref": "RANK_EXP_POTION_3X_60M",
+      "name": "계급 경험치 3배 물약",
+      "image": "/assets/items/rank-exp-potions-20261020/3x.webp",
+      "rarity": "SPECIAL",
+      "tier": "normal",
+      "maxQuantity": 1000000,
+      "available": true,
+      "unavailableReason": ""
+    }
+  ],
+  "passHash": "f5944405e6a4a92e2b10b8b7362b5960612dd29ff8356797a1c742496ff76f47",
+  "passUnchanged": true,
+  "granted": 0,
+  "inventoryLogs": 0,
+  "operationKey": "ops:rank-exp-potions:20261020:v1",
+  "auditId": "48745"
+}
