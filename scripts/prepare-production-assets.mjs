@@ -56,6 +56,9 @@ const rankPotionAuthoringOnly=file=>['docs/rank-exp-potions-20261020.md','docs/r
 // They have no browser/preview imports; preserve them in Git with the QA records.
 // Land's scheduler ships in its Worker bundle, not as a Pages browser asset.
 const operationAuditOnly=new Set(['docs/equipment-power-20261020.md','docs/equipment-power-double-20261020.md','docs/equipment-power-double-notice-20261020.txt','docs/support-package-prediction-20261020.md','docs/support-package-20261020.md','docs/cooperative-energy-entry-20261020-release.json','docs/support-package-20261020-catalog.json','docs/support-package-20261020-release.json','docs/pingdu-owner-energy-pass-20261020.md','docs/pingdu-owner-energy-pass-20261020-release.json','workers/clan-draft/src/land-daily.js']);
+// Energy implementation notes and deployment receipts have no browser imports.
+// Preserve them in Git; ship the shared policy modules within the Pages limit.
+for(const file of ['docs/content-energy-20261020.md','docs/content-energy-20261020-release.json','docs/content-energy-clock-fix-20261020.md','docs/content-energy-clock-fix-20261020-release.json','docs/legion-hunt-daily-energy-20261021.md'])operationAuditOnly.add(file);
 // Helpers are Node-only database/simulation fixtures. Browser previews consume
 // their generated JSON payloads, never the test helper modules themselves.
 // Dragon Slayer uses the 512px WebP. Keep the exact PNG and prompt/hash record in Git.
