@@ -80,14 +80,14 @@ for(const postgres of [false,true]){
   test(dialect+': paid retreat/disconnect consumes entries and keeps coins; zero-kill interruption refunds once',async()=>{
     const f=await fixture(postgres);try{
       const id=await start(f);f.clock.now+=1000;await f.call('legion-hunt/reveal',{id,seqs:[1]});const paid=await wallet(f);
-      const cancel=await f.call('legion-hunt/cancel',{id});assert.equal(cancel.body.recovery.refunded,false);assert.equal(cancel.body.entries.used,1);
-      assert.equal((await read(f)).coinDaily.used,1);assert.equal(await wallet(f),paid);
+      const cancel=await f.call('legion-hunt/cancel',{id});assert.equal(cancel.body.recovery.refunded,false);assert.equal(cancel.body.entries.current,9);
+      assert.equal((await read(f)).energy.current,9);assert.equal(await wallet(f),paid);
       assert.equal((await f.call('legion-hunt/finish',{id,seq:3})).status,409);
-      const empty=await start(f);assert.equal((await f.call('legion-hunt/cancel',{id:empty})).body.entries.used,1);
-      assert.equal((await read(f)).coinDaily.used,1);assert.equal((await f.call('legion-hunt/cancel',{id:empty})).body.entries.used,1);
+      const empty=await start(f);assert.equal((await f.call('legion-hunt/cancel',{id:empty})).body.entries.current,9);
+      assert.equal((await read(f)).energy.current,9);assert.equal((await f.call('legion-hunt/cancel',{id:empty})).body.entries.current,9);
       const retreat=await start(f);f.clock.now+=1000;const result=await f.call('legion-hunt/finish',{id:retreat,seq:2});
       assert.equal(result.body.reason,'RETREAT');assert.equal(result.body.earnedCoins,Math.floor(1e9*4/653));
-      assert.equal(await wallet(f),paid+result.body.earnedCoins);assert.equal((await read(f)).daily.used,2);
+      assert.equal(await wallet(f),paid+result.body.earnedCoins);assert.equal((await read(f)).energy.current,8);
     }finally{await f.close();}
   });
   test(dialect+': TEST/legacy do not pay; live OFF pauses uncredited kills; OWNER has finite coin runs',async()=>{
@@ -97,9 +97,9 @@ for(const postgres of [false,true]){
       const id=await start(f);f.clock.now+=1000;await liveMode(f,'TEST');
       assert.equal((await f.call('legion-hunt/reveal',{id,seqs:[1]})).status,423);assert.equal(await wallet(f,1),0);
       await liveMode(f,'ON');assert.equal((await f.call('legion-hunt/reveal',{id,seqs:[1]})).status,200);
-      let run=await read(f,1);run.coinDaily.used=10;await write(f,run,1);
+      let run=await read(f,1);run.energy.current=0;await write(f,run,1);
       const limited=await start(f);f.clock.now+=1000;const limitedKill=await f.call('legion-hunt/reveal',{id:limited,seqs:[1]});
-      assert.equal(limitedKill.body.coinEligible,false);assert.equal(limitedKill.body.earnedCoins,0);assert.equal((await read(f,1)).coinDaily.used,10);
+      assert.equal(limitedKill.body.coinEligible,false);assert.equal(limitedKill.body.earnedCoins,0);assert.equal((await read(f,1)).energy.current,0);
       f.setUser(f.player);const legacy=await start(f);run=await read(f);delete run.coins;await write(f,run);f.clock.now+=1000;
       assert.equal((await f.call('legion-hunt/reveal',{id:legacy,seqs:[1]})).body.earnedCoins,0);assert.equal(await wallet(f),0);
     }finally{await f.close();}
@@ -119,21 +119,21 @@ for(const postgres of [false,true]){
       const r=await f.call('legion-hunt/reveal',{id,seqs:[800]});assert.equal(r.status,200,JSON.stringify(r.body));
       assert.equal(r.body.earnedCoins,30_000_000_000);assert.equal(await wallet(f),30_000_000_000);
       assert.equal((await f.call('legion-hunt/reveal',{id,seqs:[800]})).body.coinDelta,0);assert.equal(await balanceLogs(f),30_000_000_000);
-      assert.equal((await read(f)).coinDaily.used,1);
+      assert.equal((await read(f)).energy.current,9);
     }finally{await f.close();}
   });
-  test(dialect+': supporter 13-run coin quota is reserved once, survives disconnect and resets at KST midnight',async()=>{
+  test(dialect+': supporter 13 energy capacity survives disconnect and recharges after three hours',async()=>{
     const f=await fixture(postgres);try{
       f.setUser(f.owner);
       await put(f,supportKey(1),{...emptySupport(),revision:1,startsAt:f.clock.now-1000,endsAt:f.clock.now+3*86400000});
-      const id=await start(f);let run=await read(f,1);run.coinDaily.used=13;await write(f,run,1);
+      const id=await start(f);let run=await read(f,1);run.energy.current=0;await write(f,run,1);
       assert.equal((await f.call('legion-hunt/begin',{id})).body.coinEligible,true,'repeated begin preserves reserved eligibility');
-      assert.equal((await read(f,1)).coinDaily.used,13);f.clock.now+=1000;
+      assert.equal((await read(f,1)).energy.current,0);f.clock.now+=1000;
       await f.call('legion-hunt/reveal',{id,seqs:[1]});await f.call('legion-hunt/recover',{});
-      assert.equal((await read(f,1)).coinDaily.used,13);
+      assert.equal((await read(f,1)).energy.current,0);
       const extra=await start(f);f.clock.now+=1000;assert.equal((await f.call('legion-hunt/reveal',{id:extra,seqs:[1]})).body.coinEligible,false);
-      f.clock.now=Date.parse('2026-10-19T00:00:01+09:00');
-      const fresh=await start(f);assert.equal((await read(f,1)).coinDaily.used,1);f.clock.now+=1000;
+      f.clock.now+=3*3600000;
+      const fresh=await start(f);assert.equal((await read(f,1)).energy.current,0);f.clock.now+=1000;
       assert.ok((await f.call('legion-hunt/reveal',{id:fresh,seqs:[1]})).body.coinDelta>0);
     }finally{await f.close();}
   });

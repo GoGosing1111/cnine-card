@@ -31,9 +31,9 @@ test('live cooperative API + Durable Object automatically commits rewards and re
   }
   timer=setInterval(()=>sockets.forEach(ws=>ws.readyState===1&&ws.send(JSON.stringify({type:'ping'}))),2000);
   await wait(()=>messages.every(list=>list.some(v=>v.state?.clearReward?.granted)));
-  const end=await h.request(1,'current');assert.equal(end.state.status,'VICTORY');assert.equal(end.state.clearReward.coin,456);assert.equal(end.state.clearReward.items.length,2);assert.equal(end.state.clearReward.dailyReward.used,1);
-  assert.equal((await h.request(1,'current')).state.clearReward.dailyReward.used,1);
-  assert.equal((await h.request(1,'feature')).dailyReward.used,1);
+  const end=await h.request(1,'current');assert.equal(end.state.status,'VICTORY');assert.equal(end.state.clearReward.coin,456);assert.equal(end.state.clearReward.items.length,2);assert.equal(end.state.clearReward.energy.current,2);
+  assert.equal((await h.request(1,'current')).state.clearReward.energy.current,2);
+  assert.equal((await h.request(1,'feature')).energy.current,2);
   const balances=await h.db.batch([{sql:'SELECT coin FROM users WHERE id=1'},{sql:"SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='EMPEROR_ENERGY'"}]);
   assert.equal(balances[0].results[0].coin,12345678+456);assert.equal(balances[1].results[0].quantity,2);
   assert.equal((await command(1,'leave')).status,200);assert.equal((await h.request(1,'current')).state,null);

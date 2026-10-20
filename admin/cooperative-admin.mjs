@@ -2,8 +2,8 @@ import {COOP_SPECIES} from '../shared/cooperative-roster-v3.mjs?v=20261012-rando
 import {jointAdminRequest as api} from '../js/joint-account-transport.mjs';
 import {COOP_MONSTERS,validateCoopCombat,validateCoopEconomy} from '../shared/cooperative-settings-v1.mjs?v=20261002-cms1';
 import {COOP_DIFFICULTIES} from '../shared/cooperative-battleground-v1.mjs?v=20261002-cms1';
-import {validateCoopRewards} from '../shared/cooperative-rewards-v1.mjs?v=20261013-rewards1';
-import {cooperativeRewardsMarkup} from './cooperative-rewards.mjs?v=20261013-rewards1';
+import {validateCoopRewards} from '../shared/cooperative-rewards-v1.mjs?v=20261020-energy-v1';
+import {cooperativeRewardsMarkup} from './cooperative-rewards.mjs?v=20261020-energy-v1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const n=(path,label,value,min,max)=>`<label>${label}<input type="number" name="${path}" value="${value}" min="${min}" max="${max}" step="1" required></label>`;
 const t=(path,label,value,max)=>`<label>${label}${max>=180?`<textarea name="${path}" maxlength="${max}" rows="3" required>${esc(value)}</textarea>`:`<input name="${path}" value="${esc(value)}" maxlength="${max}" required>`}</label>`;

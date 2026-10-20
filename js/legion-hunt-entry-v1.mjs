@@ -1,3 +1,4 @@
+import {contentEnergyText,contentEnergyView} from '../shared/content-energy-v1.mjs?v=20261020-v1';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
 
@@ -11,11 +12,12 @@ const imagePath=value=>{
 };
 const power=value=>Math.round(Number(value)||0).toLocaleString('ko-KR');
 export function createHuntEntry({request=jointAccountRequest,render,enter,dispose}){
-  let state={phase:'loading',difficulty:'normal',regionId:undefined,data:null,error:''},revision=0;
+  let state={phase:'loading',difficulty:'normal',regionId:undefined,data:null,error:''},revision=0,serverOffset=0;
   const difficulties=()=>state.regionId?state.data?.regionExpansion?.difficulties:state.data?.difficulties;
   const update=next=>{state={...state,...next};render(state);};
   return {
     get state(){return state;},
+    energy(){const e=state.data?.entries;return e?.maximum?{...e,...contentEnergyView(e,{at:Date.now()+serverOffset,maximum:e.maximum})}:e;},
     async refresh(priorRecovery=null){
       const token=++revision;update({phase:'loading',data:null,error:''});
       try{
@@ -23,6 +25,7 @@ export function createHuntEntry({request=jointAccountRequest,render,enter,dispos
         if(token!==revision)return;
         const data=await request('legion-hunt/bootstrap');
         if(token===revision){
+          serverOffset=(data.entries?.serverNow??Date.now())-Date.now();
           const regions=data.regionExpansion?.regions||[];
           const regionId=state.regionId===undefined?regions[0]?.id||null:state.regionId&&regions.some(r=>r.id===state.regionId)?state.regionId:null;
           update({phase:'lobby',regionId,difficulty:regionId||state.difficulty!=='calamity'?state.difficulty:'normal',data:{...data,recovery:recovered?.recovery||priorRecovery},error:data.loadoutError||''});
@@ -33,7 +36,7 @@ export function createHuntEntry({request=jointAccountRequest,render,enter,dispos
     select(id){if(state.phase==='lobby'&&difficulties()?.some(d=>d.id===id))update({difficulty:id});},
     selectRegion(id){if(state.phase==='lobby'&&(id===null||state.data?.regionExpansion?.regions.some(r=>r.id===id)))update({regionId:id,difficulty:!id&&state.difficulty==='calamity'?'normal':state.difficulty});},
     enter(){
-      if(state.phase!=='lobby'||!state.data?.loadout||state.error||(!state.data.entries?.unlimited&&state.data.entries?.remaining===0))return;
+      if(state.phase!=='lobby'||!state.data?.loadout||state.error||(!state.data.entries?.unlimited&&this.energy()?.remaining===0))return;
       update({phase:'battle'});enter(state.difficulty,state.regionId);
     },
     close(){++revision;state={...state,phase:'closed'};dispose();}
@@ -50,7 +53,7 @@ export function openLegionHunt(button){
       <section class="legion-intro" aria-labelledby="legion-island-title">
         <div class="legion-hero-halo" aria-hidden="true"></div><img class="legion-guardian" src="${art}monsters/ancient-forge-warden-boss-sd-v2.png" alt="섬의 최종 보스 태고의 수호자">
         <div class="legion-intro-copy"><p class="legion-kicker"><span></span> LEGION HUNT · CHAPTER 01</p><h1 id="legion-island-title">잊혀진 섬</h1><p class="legion-intro-text">길은 끊겼다.<br>돌아갈 방법은, 끝까지 돌파하는 것.</p>
-        <div class="legion-facts"><span><b>7분</b> 연속 토벌</span><span><b>1</b> 최종 보스</span><span><b data-hunt-entry-limit>—</b> 하루 입장</span></div></div>
+        <div class="legion-facts"><span><b>7분</b> 연속 토벌</span><span><b>1</b> 최종 보스</span><span><b data-hunt-entry-limit>—</b> 행동력 최대</span></div></div>
         <div class="legion-guardian-caption"><span>FINAL TARGET</span><strong>태고의 수호자</strong></div>
       </section>
       <nav class="legion-route" aria-label="토벌 진행 경로">
@@ -65,7 +68,7 @@ export function openLegionHunt(button){
       <section class="legion-region-loot" hidden aria-label="용병장비"></section>
       <aside class="legion-select"><div class="legion-section-heading"><div><span>SELECT DIFFICULTY</span><h2>난이도 선택</h2></div></div>
         <div class="legion-difficulties" role="group" aria-label="사냥 난이도"></div>
-        <div class="legion-conditions"><span>토벌 진행 <strong class="legion-limit"></strong></span><span>오늘 입장 <b class="legion-entries"></b></span><span>판당 최대 코인 <strong data-hunt-coin-cap>—</strong></span></div>
+        <div class="legion-conditions"><span>토벌 진행 <strong class="legion-limit"></strong></span><span>행동력 <b class="legion-entries"></b></span><span>판당 최대 코인 <strong data-hunt-coin-cap>—</strong></span></div>
         <p class="legion-coin-note" data-hunt-coin-note>몬스터를 잡을 때마다 코인을 자동 습득합니다. 보너스를 포함한 상한입니다.</p>
         <div class="legion-drop-guide"><div class="legion-pickup-symbol" aria-hidden="true"><i></i><svg viewBox="0 0 32 40"><path d="M6 2v28l7-7 7 12 5-3-7-12h11z"/></svg></div><div><b>전리품은 직접 눌러 획득</b><p>필드에 나타난 아이템을<br>사라지기 전에 챙기세요.</p></div></div>
         <button class="legion-poster-link" data-hunt-poster type="button"><img src="${art}posters/legion-hunt-forgotten-island-v3.png" alt="군단토벌 공식 포스터"><span><small>군단토벌 · 잊혀진 섬</small><b>콘텐츠 소개 보기</b></span><span aria-hidden="true">↗</span></button>
@@ -73,7 +76,7 @@ export function openLegionHunt(button){
       </aside>
     </div></div><div class="legion-play" hidden></div><dialog class="legion-poster-view" aria-label="군단토벌 콘텐츠 소개"><button type="button" data-hunt-poster-close aria-label="소개 닫기">닫기 ×</button><img src="${art}posters/legion-hunt-forgotten-island-v3.png" alt="군단토벌 · 잊혀진 섬 콘텐츠 소개 포스터"></dialog>`;
   const find=s=>dialog.querySelector(s);
-  let frame=null,session=null,rewardsChanged=false,recoveryWait=Promise.resolve();
+  let frame=null,session=null,rewardsChanged=false,recoveryWait=Promise.resolve(),energyTimer;
   const clearFrame=()=>{
     if(session){recoveryWait=jointAccountRequest('legion-hunt/cancel',{method:'POST',body:{id:session}}).catch(()=>{});session=null;}
     if(frame){frame.src='about:blank';frame.remove();frame=null;}
@@ -107,10 +110,10 @@ export function openLegionHunt(button){
     }
     const unlimited=data?.entries?.unlimited===true,exhausted=!unlimited&&data?.entries?.remaining===0;
     find('[data-hunt-enter]').disabled=loading||!loadout||!!state.error||exhausted;
-    find('[data-hunt-enter]').textContent=loading?'편성 불러오는 중':exhausted?'오늘 입장 횟수 소진':'토벌 입장';
+    find('[data-hunt-enter]').textContent=loading?'편성 불러오는 중':exhausted?'행동력 충전 대기':'토벌 입장';
     find('[data-hunt-refresh]').disabled=loading;
-    const recoveryNotice=data?.recovery?.kind==='SETTLED'?'이전 원정의 전리품 정산을 완료했습니다.':data?.recovery?.refunded?'중단된 원정의 입장 1회를 복구했습니다.':'';
-    find('.legion-entry-status').textContent=state.error||recoveryNotice||(loading?'저장된 편성을 불러오는 중입니다.':unlimited?'OWNER 계정 · 입장 횟수 제한 없음':exhausted?'한국시간 자정에 입장 횟수가 초기화됩니다.':'코인 수급 후 중단 시 횟수 사용 · 매일 한국시간 자정 초기화');
+    const recoveryNotice=data?.recovery?.kind==='SETTLED'?'이전 원정의 전리품 정산을 완료했습니다.':data?.recovery?.refunded?'중단된 원정의 행동력 1회를 복구했습니다.':'';
+    find('.legion-entry-status').textContent=state.error||recoveryNotice||(loading?'저장된 편성을 불러오는 중입니다.':unlimited?'OWNER 계정 · 입장 횟수 제한 없음':exhausted?'3시간마다 행동력이 1회 충전됩니다.':'코인 수급 후 중단 시 행동력 사용 · 3시간마다 1회 충전');
     find('.legion-entry-status').classList.toggle('error',!!state.error);
     find('[data-hunt-reward-mode]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?'코인은 사냥 중 자동 지급 · 아이템은 종료 정산':data?.access?.mode==='TEST'||region&&expansion.mode==='TEST'?'TEST · 지정 참여자 검수 · 계정 보상 미지급':'';
     find('.legion-account').textContent=loadout?loadout.accountNickname+' · 편성 전투력 '+power(Object.values(loadout.power).reduce((a,b)=>a+Number(b||0),0)):'';
@@ -124,17 +127,26 @@ export function openLegionHunt(button){
     const selected=choices.find(d=>d.id===state.difficulty);
     const coinCap=data?.coinCaps?.[region?'regions':'island']?.[state.difficulty];
     find('[data-hunt-coin-cap]').textContent=coinCap?power(coinCap)+' 코인':'—';
-    find('[data-hunt-coin-note]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?(data.coinEntries?.remaining===0?'오늘 코인 수급 횟수를 모두 사용했습니다.':'처치 즉시 자동 습득 · 보너스 포함 상한'):'TEST · 실제 코인은 지급되지 않습니다.';
+    find('[data-hunt-coin-note]').textContent=data?.access?.liveRewards&&(!region||expansion.mode==='ON')?(data.coinEntries?.remaining===0?'코인 수급 행동력 충전 대기 · 3시간마다 1회 충전':'처치 즉시 자동 습득 · 보너스 포함 상한'):'TEST · 실제 코인은 지급되지 않습니다.';
     find('.legion-limit').textContent=selected?'보스전 포함 총 7분':'';
     if(selected)find('[data-hunt-boss-at]').textContent=Math.floor(selected.huntDurationMs/60000)+':'+String(selected.huntDurationMs/1000%60).padStart(2,'0')+' · 최종 보스';
-    find('.legion-entries').textContent=unlimited?'무제한':data?.entries?data.entries.remaining+' / '+data.entries.limit+'회 남음':'';
+    find('.legion-entries').textContent=unlimited?'무제한':data?.entries?contentEnergyText(data.entries,data.entries.serverNow):'';
     find('[data-hunt-entry-limit]').textContent=unlimited?'무제한':data?.entries?data.entries.limit+'회':'—';
     dialog.dataset.difficulty=state.difficulty;
   };
   const controller=createHuntEntry({render,enter:()=>{
     find('.legion-lobby').hidden=true;find('.legion-play').hidden=false;
     frame=document.createElement('iframe');frame.title='군단토벌 전투';frame.src='/pve/legion-hunt/?v=20261018-coins-paced-v2';frame.allow='autoplay; fullscreen';find('.legion-play').append(frame);
-  },dispose:()=>{clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus();}});
+  },dispose:()=>{clearInterval(energyTimer);clearFrame();window.removeEventListener('message',onMessage);dialog.close();dialog.remove();active=null;button?.focus();}});
+  energyTimer=setInterval(()=>{
+    const state=controller.state;if(state.phase!=='lobby'||!state.data)return;
+    const energy=controller.energy();if(!energy?.maximum)return;
+    find('.legion-entries').textContent=energy.unlimited?'OWNER 무제한 · 코인 '+energy.current+' / '+energy.maximum:contentEnergyText(energy,energy.serverNow);
+    const exhausted=!energy.unlimited&&energy.current===0;
+    find('[data-hunt-enter]').disabled=!state.data.loadout||!!state.error||exhausted;
+    find('[data-hunt-enter]').textContent=exhausted?'행동력 충전 대기':'토벌 입장';
+    if(energy.current>0&&state.data.access?.liveRewards)find('[data-hunt-coin-note]').textContent='처치 즉시 자동 습득 · 보너스 포함 상한';
+  },1000);
   const onMessage=event=>{
     if(event.origin!==location.origin||event.source!==frame?.contentWindow)return;
     if(event.data?.type==='legion-hunt-ready')frame.contentWindow.postMessage({type:'legion-hunt-enter',difficulty:controller.state.difficulty,regionId:controller.state.regionId},location.origin);

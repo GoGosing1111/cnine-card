@@ -33,17 +33,17 @@ for(const postgres of [false,true]){
   test(dialect+': unfinished items never pay; already-paid coins consume the entry through recovery and repeated cancel',async()=>{
     const f=await fixture(postgres);try{
       const id=await start(f),claim=await pick(f,id);
-      const run=await saved(f);run.daily.used=2;await write(f,run);
+      const run=await saved(f);run.energy.current=8;await write(f,run);
       assert.equal(await count(f),0);f.loseReply();assert.equal((await recover(f)).status,503);
-      const r=await recover(f);assert.equal(r.status,200);assert.equal(r.body.entries.used,2);
+      const r=await recover(f);assert.equal(r.status,200);assert.equal(r.body.entries.current,8);
       assert.equal((await saved(f)).interruption.refunded,false);assert.equal((await saved(f)).state.receipt,null);
-      assert.equal((await f.call('legion-hunt/cancel',{id})).body.entries.used,2);
+      assert.equal((await f.call('legion-hunt/cancel',{id})).body.entries.current,8);
       assert.equal((await f.call('legion-hunt/finish',{id,seq:2})).status,409);
       assert.equal((await f.call('legion-hunt/claim',claim)).status,409);assert.equal(await count(f),0);
-      const next=await start(f);assert.equal((await saved(f)).daily.used,3);
-      const replacement=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(replacement.status,200);assert.equal(replacement.body.entries.used,2);
+      const next=await start(f);assert.equal((await saved(f)).energy.current,7);
+      const replacement=await f.call('legion-hunt/start',{difficulty:'normal'});assert.equal(replacement.status,200);assert.equal(replacement.body.entries.current,8);
       assert.equal((await f.call('legion-hunt/cancel',{id:next})).status,409);
-      assert.equal((await recover(f)).body.entries.used,2,'unbegun run never refunds a completed entry');
+      assert.equal((await recover(f)).body.entries.current,8,'unbegun run never refunds a completed entry');
     }finally{await f.close();}
   });
   test(dialect+': clear, defeat, timeout and explicit retreat pay the exact picked bag and consume one entry',async()=>{
@@ -52,9 +52,9 @@ for(const postgres of [false,true]){
         f.clock.now+=86400000;f.outcome={winner,reason};const id=await start(f);await pick(f,id);
         const before=await count(f),r=await f.call('legion-hunt/finish',{id,seq});assert.equal(r.status,200,JSON.stringify(r.body));
         assert.equal(r.body.reason,expected);assert.equal(r.body.inventory[0].quantity,3);assert.equal(r.body.liveRewards,true);
-        assert.equal(await count(f),before+3);assert.equal((await recover(f)).body.entries.used,1);
+        assert.equal(await count(f),before+3);assert.equal((await recover(f)).body.entries.current,9);
         assert.deepEqual((await f.call('legion-hunt/finish',{id,seq})).body,r.body);
-        assert.equal((await f.call('legion-hunt/cancel',{id})).body.entries.used,1);
+        assert.equal((await f.call('legion-hunt/cancel',{id})).body.entries.current,9);
         assert.equal(await count(f),before+3);
       }
     }finally{await f.close();}
@@ -67,18 +67,18 @@ for(const postgres of [false,true]){
       assert.equal((await f.call('legion-hunt/start',{difficulty:'normal'})).status,503,'new start cannot overwrite pending rewards');
       assert.equal((await saved(f)).state.id,id);f.fail('');f.clock.now+=31*60000;
       const r=await f.call('legion-hunt/cancel',{id});assert.equal(r.status,200,JSON.stringify(r.body));
-      assert.equal(r.body.cancelled,false);assert.equal(r.body.recovery.kind,'SETTLED');assert.equal(r.body.entries.used,1);
+      assert.equal(r.body.cancelled,false);assert.equal(r.body.recovery.kind,'SETTLED');assert.equal(r.body.entries.current,9);
       assert.equal(await count(f),3);assert.equal((await saved(f)).rewardStatus,'SETTLED');
-      assert.equal((await recover(f)).body.entries.used,1);assert.equal((await f.call('legion-hunt/finish',{id,seq:2})).body.liveRewards,true);assert.equal(await count(f),3);
+      assert.equal((await recover(f)).body.entries.current,9);assert.equal((await f.call('legion-hunt/finish',{id,seq:2})).body.liveRewards,true);assert.equal(await count(f),3);
     }finally{await f.close();}
   });
-  test(dialect+': interrupted recovery is atomic, works when operation is OFF, and never refunds a different KST day',async()=>{
+  test(dialect+': interrupted recovery is atomic and works when operation is OFF across midnight',async()=>{
     const f=await fixture(postgres);try{
       const id=await start(f);f.fail('UPDATE app_meta');assert.equal((await recover(f)).status,503);f.fail('');
-      assert.equal((await saved(f)).daily.used,1);assert.equal((await saved(f)).interruption,undefined);
+      assert.equal((await saved(f)).energy.current,9);assert.equal((await saved(f)).interruption,undefined);
       f.setUser(f.owner);const {body}=await f.call('admin/legion-hunt');body.policy.mode='OFF';await f.call('admin/legion-hunt',{policy:body.policy},{method:'PATCH'});f.setUser(f.player);
       const run=await saved(f);run.daily={day:'2026-10-04',used:1};await write(f,run);f.clock.now=Date.parse('2026-10-04T00:00:01+09:00');
-      const r=await recover(f);assert.equal(r.status,200);assert.equal(r.body.entries.used,1);assert.equal(r.body.recovery.refunded,false);
+      const r=await recover(f);assert.equal(r.status,200);assert.equal(r.body.entries.current,10);assert.equal(r.body.recovery.refunded,true);
       assert.equal((await saved(f)).state.id,id);assert.equal(await count(f),0);
       f.setUser(null);assert.equal((await recover(f)).status,401);
     }finally{await f.close();}
@@ -87,9 +87,9 @@ for(const postgres of [false,true]){
     const f=await fixture(postgres);try{
       let id=await start(f),run=await saved(f);delete run.rewardTiming;delete run.entry;await write(f,run);
       await pick(f,id);assert.equal(await count(f),3);
-      assert.equal((await f.call('legion-hunt/finish',{id,seq:2})).status,200);assert.equal(await count(f),3);assert.equal((await recover(f)).body.entries.used,1);
+      assert.equal((await f.call('legion-hunt/finish',{id,seq:2})).status,200);assert.equal(await count(f),3);assert.equal((await recover(f)).body.entries.current,9);
       id=await start(f);run=await saved(f);delete run.rewardTiming;delete run.entry;run.state.ended=true;await write(f,run);f.clock.now+=31*60000;
-      const r=await recover(f);assert.equal(r.body.recovery.refunded,true);assert.equal(r.body.entries.used,1);assert.equal((await recover(f)).body.entries.used,1);assert.equal(await count(f),3);
+      const r=await recover(f);assert.equal(r.body.recovery.refunded,true);assert.equal(r.body.entries.current,9);assert.equal((await recover(f)).body.entries.current,9);assert.equal(await count(f),3);
       assert.equal((await f.call('legion-hunt/start',{difficulty:'normal',version:3})).body.code,'HUNT_CLIENT_UPDATE');
     }finally{await f.close();}
   });
