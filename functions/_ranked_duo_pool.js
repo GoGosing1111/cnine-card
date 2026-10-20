@@ -3,16 +3,29 @@ import {duoRandomInt,shuffleDuo} from '../shared/ranked-duo-random-v4.mjs';
 
 const p=env=>(sql,...args)=>env.DB.prepare(sql).bind(...args);
 const stamp=now=>new Date(now).toISOString().replace('T',' ').slice(0,19);
-// Use the same saved attack preset and defense deck as loadDuoProfiles.
+// Use the same saved attack preset, defense deck and PVP mercenary as loadDuoProfiles.
 // No enrollment, online-state or current season score is required.
 const source=`FROM pvp_decks d JOIN users u ON u.id=d.user_id
  LEFT JOIN pvp_active_presets a ON a.user_id=d.user_id
- LEFT JOIN pvp_deck_presets pr ON pr.user_id=a.user_id AND pr.preset_no=a.preset_no`;
+ LEFT JOIN pvp_deck_presets pr ON pr.user_id=a.user_id AND pr.preset_no=a.preset_no
+ LEFT JOIN user_mercenary_loadout_v1 ml ON ml.user_id=d.user_id
+ LEFT JOIN app_meta mp ON mp.key='mercenary_pvp_loadout_v1:' || CAST(d.user_id AS TEXT)
+ JOIN user_mercenary_cards_v1 mc ON mc.user_id=d.user_id AND mc.total_copies>0
+  AND mc.mercenary_code=CASE WHEN mp.value IS NULL THEN ml.mercenary_code
+   WHEN json_valid(mp.value) THEN json_extract(mp.value,'$.mercenaryCode') END`;
 const attack=`CASE WHEN COALESCE(a.preset_no,1)=1 THEN COALESCE(pr.card_ids,d.card_ids) ELSE pr.card_ids END`;
 const valid=column=>`CASE WHEN json_valid(${column}) THEN json_array_length(${column}) ELSE 0 END=5`;
 const eligible=`u.status='ACTIVE' AND u.role<>'OWNER'
  AND (u.banned_until IS NULL OR SUBSTR(REPLACE(u.banned_until,'T',' '),1,19)<=?)
  AND ${valid('d.card_ids')} AND ${valid(attack)}`;
+
+// An explicit empty PVP slot never falls back to the PVE selection. Legacy
+// accounts without a PVP override still inherit their established shared slot.
+export const rankedDuoPoolMemberCountSql=count=>`SELECT COUNT(*) AS n ${source} WHERE ${eligible} AND d.user_id IN (${Array(count).fill('?').join(',')})`;
+export async function rankedDuoPoolContains(env,ids,now){
+ return Number((await p(env)(rankedDuoPoolMemberCountSql(ids.length),stamp(now),...ids).first())?.n||0)===ids.length;
+}
+export const hasRankedDuoMercenary=profile=>Boolean(profile?.attack?.mercenary?.code&&profile?.defense?.mercenary?.code);
 
 export async function rankedDuoPoolCount(env,now=Date.now()){
  return Number((await p(env)(`SELECT COUNT(*) AS n ${source} WHERE ${eligible}`,stamp(now)).first())?.n||0);

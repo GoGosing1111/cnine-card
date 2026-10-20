@@ -12,7 +12,7 @@ import {DUO_WEEKLY_POLICY_KEY,DUO_BATTLE_DAYS,validateDuoPolicy} from '../shared
 import {readDuoPolicy,duoVictoryWrites,DUO_WEEKLY_SCHEMA_KEY} from './_ranked_duo_economy.js';
 import {DUO_RANDOM_MODE,isRandomDuo,isOpenDuo} from '../shared/ranked-duo-random-v4.mjs';
 import {prepareDuoRandom,randomDuoJoinWrites,randomDuoStandings,publicDuoPlayer,randomDuoPlayer,matchRandomDuo,randomTicketIds,randomDuoMemberWrites,randomDuoHistory} from './_ranked_duo_random.js';
-import {rankedDuoPoolCount} from './_ranked_duo_pool.js';
+import {rankedDuoPoolCount,rankedDuoPoolContains,rankedDuoPoolMemberCountSql,hasRankedDuoMercenary} from './_ranked_duo_pool.js';
 import {ensureOpenDuoWindow} from './_ranked_duo_open.js';
 
 const iso=now=>new Date(now).toISOString();
@@ -291,8 +291,10 @@ async function fight(env,user,s,body,deps,now){
  const [a,b]=random?[{id:ticket.token+':A',user_a:Number(user.id),user_b:Number(ticket.partner_id)},{id:ticket.token+':B',user_a:Number(ticket.opponent_a),user_b:Number(ticket.opponent_b)}]:await Promise.all([team(env,ticket.team_id),team(env,ticket.opponent_id)]);if(!a||!b||a.id===b.id)throw duoError('TEAM','참가 팀을 확인하세요.');
  let profiles;
  try{
+  if(isOpenDuo(s.config)&&!await rankedDuoPoolContains(env,randomTicketIds(ticket),now))throw duoError('DECK','PVP 용병 또는 랭크전 덱 편성이 변경되었습니다.');
   profiles=await loadDuoProfiles(env,[a.user_a,a.user_b,b.user_a,b.user_b],s.config,deps,{now});
   if(profiles.some((profile,i)=>!(i<2?profile.attackReady:profile.defenseReady)))throw duoError('DECK','출전 덱이 변경됐습니다. 편성을 확인하세요.');
+  if(isOpenDuo(s.config)&&profiles.some(profile=>!hasRankedDuoMercenary(profile)))throw duoError('DECK','PVP 용병 편성이 변경되었습니다.');
  }catch(error){
   if(random&&['DUO_ACCOUNT','DUO_DECK'].includes(error.code)){await p('UPDATE ranked_duo_tickets_v4 SET used_at=? WHERE token=? AND used_at IS NULL',iso(now),ticket.token).run();throw duoError('TICKET','참가자의 덱 또는 상태가 변경되었습니다. 다시 매칭하세요.');}
   throw error;
@@ -306,8 +308,8 @@ async function fight(env,user,s,body,deps,now){
  const newEnergy=Math.max(0,energy.current-energy.cost);
  active(s,deps.now?.()??Date.now());
  const open=isOpenDuo(s.config);
- const randomFence=random?` AND (SELECT COUNT(*) FROM ${open?'users u':'ranked_duo_players_v4 r JOIN ranked_duo_entries_v1 e ON e.season_id=r.season_id AND e.user_id=r.user_id JOIN users u ON u.id=r.user_id'} WHERE ${open?'':'r.season_id=? AND '}u.id IN(?,?,?,?) AND u.status='ACTIVE' AND u.role<>'OWNER' AND (u.banned_until IS NULL OR SUBSTR(REPLACE(u.banned_until,'T',' '),1,19)<=?))=4`:'';
- const randomArgs=random?[...(open?[]:[s.id]),...ids,iso(now).replace('T',' ').slice(0,19)]:[];
+ const randomFence=random?open?` AND (${rankedDuoPoolMemberCountSql(4)})=4`:` AND (SELECT COUNT(*) FROM ranked_duo_players_v4 r JOIN ranked_duo_entries_v1 e ON e.season_id=r.season_id AND e.user_id=r.user_id JOIN users u ON u.id=r.user_id WHERE r.season_id=? AND u.id IN(?,?,?,?) AND u.status='ACTIVE' AND u.role<>'OWNER' AND (u.banned_until IS NULL OR SUBSTR(REPLACE(u.banned_until,'T',' '),1,19)<=?))=4`:'';
+ const stamp=iso(now).replace('T',' ').slice(0,19),randomArgs=random?open?[stamp,...ids]:[s.id,...ids,stamp]:[];
  try{await env.DB.batch([
   ...lock(env,'SELECT id FROM ranked_duo_seasons_v1 WHERE id=? FOR SHARE',s.id),
   ...lock(env,'SELECT id FROM ranked_duo_policy_version_v1 WHERE id=1 FOR SHARE'),

@@ -3,7 +3,7 @@ import {duoError,duoEnergy,DUO_LIMITS} from '../shared/ranked-duo-v1.mjs';
 import {resolveDuoTier,DUO_CHALLENGER} from '../shared/ranked-duo-season-v2.mjs';
 import {loadDuoProfiles} from './_ranked_duo_profiles.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
-import {rankedDuoPoolCandidates,trackDuoProfileVersions} from './_ranked_duo_pool.js';
+import {rankedDuoPoolCandidates,rankedDuoPoolContains,hasRankedDuoMercenary,trackDuoProfileVersions} from './_ranked_duo_pool.js';
 
 export const DUO_RANDOM_SCHEMA_KEY='ranked_duo_random_schema_v4';
 export const DUO_RANDOM_SCHEMA=[
@@ -52,11 +52,14 @@ export async function matchRandomDuo(env,user,s,mine,deps,now){
  if(pending)return {pendingMatchId:pending.id};
  if(duoEnergy(mine,s.config,now).current<s.config.energy.cost)throw duoError('ENERGY','듀오 행동력이 부족합니다.');
  const old=await q('SELECT * FROM ranked_duo_tickets_v4 WHERE season_id=? AND user_id=? AND used_at IS NULL AND expires_at>?',s.id,user.id,iso(now)).first();
- if(old)return publicTicket(env,s,old);
+ if(old){
+  if(!isOpenDuo(s.config)||await rankedDuoPoolContains(env,randomTicketIds(old),now))return publicTicket(env,s,old);
+  await q('UPDATE ranked_duo_tickets_v4 SET used_at=? WHERE token=? AND used_at IS NULL',iso(now),old.token).run();
+ }
  let profiles;
  if(isOpenDuo(s.config)){
   const ids=await rankedDuoPoolCandidates(env,Number(user.id),now);
-  if(ids.length<3)throw duoError('NO_OPPONENT','랭크전 공격·방어 덱이 준비된 서로 다른 이용자 4명이 필요합니다.');
+  if(ids.length<3)throw duoError('NO_OPPONENT','랭크전 공격·방어 덱과 PVP 용병을 편성한 서로 다른 이용자 4명이 필요합니다.');
   profiles=[];
   const selected=[Number(user.id),...ids];
   for(let offset=0;offset<selected.length;offset+=DUO_LIMITS.refreshBatch){
@@ -64,7 +67,8 @@ export async function matchRandomDuo(env,user,s,mine,deps,now){
    await trackDuoProfileVersions(env,batch);
    profiles.push(...await loadDuoProfiles(env,batch,s.config,deps,{now}));
    if(!profiles[0].attackReady)throw duoError('DECK','내 랭크전 공격 덱을 확인하세요.');
-   const ready=profiles.slice(1);
+   if(!hasRankedDuoMercenary(profiles[0]))throw duoError('MERCENARY','PVP 용병을 편성한 뒤 랭크 듀오를 시작하세요.');
+   const ready=profiles.slice(1).filter(hasRankedDuoMercenary);
    if(ready.some(r=>r.attackReady&&ready.filter(o=>o.userId!==r.userId&&o.defenseReady).length>=2))break;
   }
  }else{
@@ -83,7 +87,7 @@ export async function matchRandomDuo(env,user,s,mine,deps,now){
  }
  const own=profiles[0];
  if(!own.attackReady)throw duoError('DECK','내 랭크전 공격 덱을 확인하세요.');
- const candidates=shuffleDuo(profiles.slice(1)),partner=candidates.find(r=>r.attackReady&&candidates.filter(other=>other.userId!==r.userId&&other.defenseReady).length>=2);
+ const candidates=shuffleDuo(profiles.slice(1).filter(r=>!isOpenDuo(s.config)||hasRankedDuoMercenary(r))),partner=candidates.find(r=>r.attackReady&&candidates.filter(other=>other.userId!==r.userId&&other.defenseReady).length>=2);
  const opponents=partner?shuffleDuo(candidates.filter(r=>r.userId!==partner.userId&&r.defenseReady)).slice(0,2):[];
  if(!partner||opponents.length!==2)throw duoError('NO_OPPONENT','유효한 공격·방어 덱을 가진 참가자를 찾지 못했습니다. 다시 시도하세요.');
  const token=crypto.randomUUID(),expiresAt=iso(now+90000),at=deps.now?.()??Date.now();

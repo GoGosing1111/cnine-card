@@ -3,22 +3,39 @@ import assert from 'node:assert/strict';
 import {weeklyFixture,day} from './helpers/ranked-duo-weekly.mjs';
 import {duoFixture} from './helpers/ranked-duo-db.mjs';
 import {DUO_WEEKLY_POLICY_KEY} from '../shared/ranked-duo-weekly-v3.mjs';
-import {rankedDuoPoolCandidates} from '../functions/_ranked_duo_pool.js';
+import {rankedDuoPoolCandidates,rankedDuoPoolCount} from '../functions/_ranked_duo_pool.js';
+import {readMercenaryModes,mercenaryModeStatements,mercenaryPvpLoadoutKey} from '../functions/_mercenary_loadout_modes.js';
 
+async function equipMercenaries(f){
+ const schema='ALTER TABLE user_mercenary_loadout_v1 ADD COLUMN revision INTEGER DEFAULT 0; ALTER TABLE user_mercenary_loadout_v1 ADD COLUMN updated_at TEXT';
+ if(f.pg)await f.pg.exec(schema);else f.native.exec(schema);
+ const document=JSON.parse((await f.p("SELECT payload_json FROM mercenary_cms_documents_v1 WHERE doc_key='config'").first()).payload_json);
+ document.mercenaries.find(c=>c.code==='V-001').rank='C';
+ await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(document)).run();
+ for(let user=1;user<=7;user++){
+  await f.p("INSERT INTO user_mercenary_cards_v1 VALUES(?,'V-001',1)",user).run();
+  await f.p("INSERT INTO user_mercenary_loadout_v1(user_id,mercenary_code) VALUES(?,'V-001')",user).run();
+ }
+}
+async function saveMercenary(f,user,code,mode='PVP'){
+ const record=(await readMercenaryModes(f.env,[user])).get(user);
+ await f.DB.batch(mercenaryModeStatements(f.DB,user,record,mode,{mercenaryCode:code,revision:record.loadouts[mode].revision+1}));
+}
 async function fixture(t,options={}){
  const f=await weeklyFixture(t,{...options,matchmaking:'RANDOM_ASYNC',entryMode:'RANKED_POOL'});
  if(f.pg)await f.pg.exec(`
   CREATE FUNCTION sqlite_json_valid(text) RETURNS boolean LANGUAGE plpgsql IMMUTABLE AS $$BEGIN PERFORM $1::jsonb; RETURN true; EXCEPTION WHEN OTHERS THEN RETURN false; END$$;
   CREATE FUNCTION sqlite_json_array_length(text) RETURNS integer LANGUAGE SQL IMMUTABLE AS $$SELECT jsonb_array_length($1::jsonb)$$;
+  CREATE FUNCTION sqlite_json_extract(text,text) RETURNS text LANGUAGE SQL IMMUTABLE AS $$SELECT $1::jsonb->>substring($2 from 3)$$;
  `);
- await f.tick();return f;
+ await equipMercenaries(f);await f.tick();return f;
 }
 const count=async(f,table,where='',args=[])=>Number((await f.p(`SELECT COUNT(*) n FROM ${table} ${where}`,...args).first()).n);
 const match=(f,user=2)=>f.call('ranked-duo/match',{user,method:'POST'});
 const fight=(f,ticket,user=2,id='open-duo-fight-0001')=>f.call('ranked-duo/fight',{user,method:'POST',body:{matchToken:ticket.token,requestId:id}});
 const roster=ticket=>[...ticket.team.members,...ticket.opponent.members].map(m=>m.userId);
 
-for(const postgres of [false,true,'pipeline'])test(`${postgres||'SQLite'} no enrollment: all ranked decks can fight and only the initiator gains a record`,async t=>{
+for(const postgres of [false,true,'pipeline'])test(`${postgres||'SQLite'} no enrollment: ranked decks with equipped mercenaries fight and only the initiator gains a record`,async t=>{
  const f=await fixture(t,{postgres}),s=await f.season();
  assert.equal(s.status,'ACTIVE');assert.equal(s.recruit_until,null);assert.equal(s.config.recruitHours,0);
  assert.equal(Date.parse(s.config.startsAt),f.clock());assert.equal(Date.parse(s.config.endsAt)-f.clock(),7*day);
@@ -30,6 +47,7 @@ for(const postgres of [false,true,'pipeline'])test(`${postgres||'SQLite'} no enr
  assert.equal(await count(f,'ranked_duo_entries_v1'),1);assert.equal(await count(f,'ranked_duo_players_v4'),1);
  const result=await fight(f,ticket.data);assert.equal(result.status,200,JSON.stringify(result));assert.equal(result.data.status,'COMPLETED');
  assert.equal(result.data.scoreScope,'INITIATOR');assert.equal(result.data.battleV2.teams.A.cards.length,10);assert.equal(result.data.battleV2.teams.B.cards.length,10);
+ assert.equal(result.data.battleV2.teams.A.mercenaries.length,2);assert.equal(result.data.battleV2.teams.B.mercenaries.length,2);
  const after=(await f.call('ranked-duo/status',{user:2})).data;
  assert.equal(after.energy.current,9);assert.equal(after.joined,true);assert.equal(after.hasSeasonRecord,true);
  for(const user of roster(ticket.data).filter(id=>id!==2)){
@@ -121,6 +139,7 @@ test('the former recruitment capacity cannot prevent a new player from matching'
 
 test('a manually configured open season starts without a recruitment or pairing step',async t=>{
  const f=await duoFixture(t),config={...f.config,matchmaking:'RANDOM_ASYNC',entryMode:'RANKED_POOL',startsAt:new Date(f.clock()).toISOString()};
+ await equipMercenaries(f);
  assert.equal((await f.call('admin/ranked-duo/create',{method:'POST',body:{config}})).status,200);
  const started=await f.call('admin/ranked-duo/start',{method:'POST'});assert.equal(started.status,200,JSON.stringify(started));
  assert.equal(started.data.season.status,'ACTIVE');assert.equal(started.data.season.visible,true);
@@ -138,3 +157,65 @@ test('the global pool includes late saved decks and excludes deleted decks witho
  assert.equal(await count(f,'ranked_duo_entries_v1'),0);
  assert.ok(!f.queries().some(sql=>/ORDER BY RANDOM|ORDER BY RAND\(/i.test(sql)));
 });
+
+for(const postgres of [false,true,'pipeline']){
+ test(`${postgres||'SQLite'} pool requires ownership and the effective PVP slot, including legacy inheritance`,async t=>{
+  const f=await fixture(t);
+  await f.p('DELETE FROM user_mercenary_loadout_v1 WHERE user_id=3').run(); // Owned, never equipped.
+  await saveMercenary(f,5,null); // PVE remains equipped; explicit empty PVP must win.
+  await saveMercenary(f,6,'V-001');await saveMercenary(f,6,null,'PVE'); // PVP-only is eligible.
+  await f.p('UPDATE user_mercenary_cards_v1 SET total_copies=0 WHERE user_id=7').run();
+  assert.deepEqual((await rankedDuoPoolCandidates(f.env,2,f.clock())).sort(),[4,6]);
+  assert.equal(await rankedDuoPoolCount(f.env,f.clock()),3);
+  assert.equal((await match(f)).data.code,'DUO_NO_OPPONENT');
+  assert.equal((await f.call('ranked-duo/status',{user:2})).data.energy.current,10);
+  await saveMercenary(f,5,'V-001');
+  assert.deepEqual((await rankedDuoPoolCandidates(f.env,2,f.clock())).sort(),[4,5,6]);
+  const ticket=await match(f);assert.equal(ticket.status,200,JSON.stringify(ticket));assert.deepEqual(roster(ticket.data).sort(),[2,4,5,6]);
+  await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',mercenaryPvpLoadoutKey(4),'broken json').run();
+  assert.deepEqual((await rankedDuoPoolCandidates(f.env,2,f.clock())).sort(),[5,6]);
+  assert.equal(await count(f,'ranked_duo_matches_v1'),0);
+ });
+
+ test(`${postgres||'SQLite'} cached tickets are replaced when a selected account unequips its PVP mercenary`,async t=>{
+  const f=await fixture(t),ticket=(await match(f)).data,partner=ticket.team.members[1].userId;
+  await saveMercenary(f,partner,null);
+  const replacement=await match(f);assert.equal(replacement.status,200,JSON.stringify(replacement));
+  assert.notEqual(replacement.data.token,ticket.token);assert.ok(!roster(replacement.data).includes(partner));
+  assert.equal((await fight(f,ticket)).data.code,'DUO_TICKET');
+  assert.equal((await f.call('ranked-duo/status',{user:2})).data.energy.current,10);
+  const result=await fight(f,replacement.data);assert.equal(result.data.status,'COMPLETED',JSON.stringify(result));
+  assert.deepEqual((await fight(f,replacement.data)).data,result.data);
+  assert.equal(await count(f,'ranked_duo_matches_v1'),1);
+ });
+
+ test(`${postgres||'SQLite'} unequipping any of the four PVP mercenaries blocks admission without spending energy`,async t=>{
+  const f=await fixture(t);
+  for(let index=0;index<4;index++){
+   const response=await match(f);assert.equal(response.status,200,JSON.stringify(response));
+   const ticket=response.data,user=roster(ticket)[index];await saveMercenary(f,user,null);
+   assert.equal((await fight(f,ticket)).data.code,'DUO_TICKET');
+   assert.equal((await f.call('ranked-duo/status',{user:2})).data.energy.current,10);
+   assert.equal(await count(f,'ranked_duo_matches_v1'),0);assert.equal(await count(f,'ranked_duo_match_members_v4'),0);
+   if(index===0)assert.equal((await match(f)).data.code,'DUO_MERCENARY');
+   await saveMercenary(f,user,'V-001');
+  }
+ });
+
+ test(`${postgres||'SQLite'} mercenary removal at admission rolls back ticket, energy and match together`,async t=>{
+  const f=await fixture(t),ticket=(await match(f)).data,batch=f.DB.batch.bind(f.DB);let injected=false;
+  f.DB.batch=async statements=>{
+   if(!injected&&statements.some(s=>s.source.includes('INSERT INTO ranked_duo_matches_v1'))){
+    injected=true;
+    // No profile-version change: the admission query must independently reject
+    // the now-empty PVP override, even with an otherwise current cached profile.
+    await f.p('INSERT INTO app_meta(key,value) VALUES(?,?)',mercenaryPvpLoadoutKey(ticket.opponent.members[0].userId),JSON.stringify({mercenaryCode:null,revision:1})).run();
+   }
+   return batch(statements);
+  };
+  assert.equal((await fight(f,ticket)).data.code,'DUO_CONFLICT');assert.equal(injected,true);
+  assert.equal((await f.call('ranked-duo/status',{user:2})).data.energy.current,10);
+  assert.equal((await f.p('SELECT used_at FROM ranked_duo_tickets_v4 WHERE token=?',ticket.token).first()).used_at,null);
+  assert.equal(await count(f,'ranked_duo_matches_v1'),0);assert.equal(await count(f,'ranked_duo_match_members_v4'),0);
+ });
+}

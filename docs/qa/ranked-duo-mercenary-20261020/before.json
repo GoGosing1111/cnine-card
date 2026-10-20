@@ -1,0 +1,15 @@
+{
+  "phase": "before",
+  "checkedAt": "2026-10-20T08:18:14.512Z",
+  "source": "8800ea528a7f7ae50e9b816b285ddd5eb84dded7",
+  "readOnly": true,
+  "oldPoolCount": 694,
+  "poolCount": 315,
+  "excludedWithoutOwnedPvpMercenary": 379,
+  "sampled": 23,
+  "allSampledHaveOwnedPvpMercenary": true,
+  "seasonId": "4e49efa4-7a36-4848-ac85-7ca6606b5b6f",
+  "status": "ACTIVE",
+  "entryMode": "RANKED_POOL",
+  "gameplayActions": 0
+}
