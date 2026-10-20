@@ -1,0 +1,221 @@
+{
+  "checkedAt": "2026-10-20T10:08:24.157Z",
+  "scope": "CANONICAL_CONTROLLED_COMPARISON_NOT_LIVE_PLAYER_WIN_RATE",
+  "conditions": "Current cached role/card inputs, current magic and pet snapshots, fixed equipment. Only Diim level changes across paired seeds and mirrored sides. Current-input controlled comparison, not exact historical replay. Shield assigned is refreshed budget, not measured damage absorbed.",
+  "baseline": [
+    {
+      "opponent": "V-057",
+      "opponentLevel": 4,
+      "level": 1,
+      "battles": 64,
+      "wins": 0,
+      "castsPerBattle": 1,
+      "damagePerHit": 248053.2578125
+    },
+    {
+      "opponent": "V-057",
+      "opponentLevel": 4,
+      "level": 10,
+      "battles": 64,
+      "wins": 0,
+      "castsPerBattle": 1,
+      "damagePerHit": 248053.2578125
+    },
+    {
+      "opponent": "V-057",
+      "opponentLevel": 4,
+      "level": 11,
+      "battles": 64,
+      "wins": 0,
+      "castsPerBattle": 1.03125,
+      "damagePerHit": 248792.63846153847
+    },
+    {
+      "opponent": "V-985",
+      "opponentLevel": 4,
+      "level": 1,
+      "battles": 64,
+      "wins": 64,
+      "castsPerBattle": 8.046875,
+      "damagePerHit": 928409.411700975
+    },
+    {
+      "opponent": "V-985",
+      "opponentLevel": 4,
+      "level": 10,
+      "battles": 64,
+      "wins": 64,
+      "castsPerBattle": 6.046875,
+      "damagePerHit": 1417205.292792793
+    },
+    {
+      "opponent": "V-985",
+      "opponentLevel": 4,
+      "level": 11,
+      "battles": 64,
+      "wins": 64,
+      "castsPerBattle": 6.09375,
+      "damagePerHit": 1411031.7936046512
+    }
+  ],
+  "after": [
+    {
+      "opponent": "V-057",
+      "opponentLevel": 4,
+      "level": 1,
+      "battles": 64,
+      "wins": 0,
+      "castsPerBattle": 1,
+      "damagePerHit": 248053.2578125
+    },
+    {
+      "opponent": "V-057",
+      "opponentLevel": 4,
+      "level": 10,
+      "battles": 64,
+      "wins": 0,
+      "castsPerBattle": 1.28125,
+      "damagePerHit": 402922.4383561644
+    },
+    {
+      "opponent": "V-057",
+      "opponentLevel": 4,
+      "level": 11,
+      "battles": 64,
+      "wins": 0,
+      "castsPerBattle": 2,
+      "damagePerHit": 461140.6804123711
+    },
+    {
+      "opponent": "V-985",
+      "opponentLevel": 4,
+      "level": 1,
+      "battles": 64,
+      "wins": 64,
+      "castsPerBattle": 8.046875,
+      "damagePerHit": 928409.411700975
+    },
+    {
+      "opponent": "V-985",
+      "opponentLevel": 4,
+      "level": 10,
+      "battles": 64,
+      "wins": 64,
+      "castsPerBattle": 4.671875,
+      "damagePerHit": 2010919.2116504854
+    },
+    {
+      "opponent": "V-985",
+      "opponentLevel": 4,
+      "level": 11,
+      "battles": 64,
+      "wins": 64,
+      "castsPerBattle": 4.421875,
+      "damagePerHit": 2059799.2831683168
+    }
+  ],
+  "fixedSeed": 101316460,
+  "fixedSample": {
+    "before": {
+      "winner": "B",
+      "reason": "ELIMINATION",
+      "basic": {
+        "damage": 210725,
+        "absorbed": 290034,
+        "total": 500759,
+        "targetHpAfter": 623874
+      },
+      "firstKangyunCast": {
+        "damage": 26379639,
+        "absorbed": 13831326,
+        "targetHpAfter": 0
+      },
+      "casts": 1
+    },
+    "after": {
+      "winner": "B",
+      "reason": "ELIMINATION",
+      "basic": {
+        "damage": 834599,
+        "absorbed": 290034,
+        "total": 1124633,
+        "targetHpAfter": 0
+      },
+      "firstKangyunCast": {
+        "damage": 9069786,
+        "absorbed": 13934437,
+        "targetHpAfter": 17309853
+      },
+      "casts": 2
+    }
+  },
+  "equalConditions": {
+    "conditions": "Identical five-card 250000-power balanced formation, equal mercenary levels, eight paired seeds with mirrored sides; bounded guard and high-growth checks.",
+    "rows": [
+      {
+        "level": 1,
+        "opponent": "V-057",
+        "opponentLevel": 1,
+        "battles": 16,
+        "wins": 0,
+        "draws": 0,
+        "maxActions": 6
+      },
+      {
+        "level": 1,
+        "opponent": "V-980",
+        "opponentLevel": 1,
+        "battles": 16,
+        "wins": 0,
+        "draws": 0,
+        "maxActions": 12
+      },
+      {
+        "level": 11,
+        "opponent": "V-057",
+        "opponentLevel": 11,
+        "battles": 16,
+        "wins": 1,
+        "draws": 0,
+        "maxActions": 12
+      },
+      {
+        "level": 11,
+        "opponent": "V-980",
+        "opponentLevel": 11,
+        "battles": 16,
+        "wins": 16,
+        "draws": 0,
+        "maxActions": 9
+      },
+      {
+        "level": 20,
+        "opponent": "V-057",
+        "opponentLevel": 20,
+        "battles": 16,
+        "wins": 1,
+        "draws": 0,
+        "maxActions": 13
+      },
+      {
+        "level": 20,
+        "opponent": "V-980",
+        "opponentLevel": 20,
+        "battles": 16,
+        "wins": 16,
+        "draws": 0,
+        "maxActions": 8
+      }
+    ]
+  },
+  "sourceHashes": {
+    "functions/_battle_v2_preview.js": "1dc1c97bd13a73d5aa0c5d913e2c248f42cca1fc19aecb6ec1e8a801ff831e4c",
+    "functions/_mercenary_combat.js": "aebf1e20aa2431a730c4787e98bc106a926b79016ae9b23a106587336f67e729",
+    "functions/_mercenary_level_policy.js": "b625ed7e8d707e9f967964d447bc1db0d3d11f84aed3c4921b4721df66a66ad9",
+    "functions/_ranked_duo_profiles.js": "3f7d9e21fc1eb601726c3c27d352cd65ffa65ee114244e28489970a6b89d4a15",
+    "functions/_ranked_duo_schema.js": "f75341615cf3196abcad3edb9aa19db7f7cd3a70948041ad3198f6575a80d6da",
+    "shared/mercenary-halloween-combat-v1.mjs": "c6ad5cd8efa36aa21d9edc033ab307f24d016a83542752ee5f6528f75a587bf2",
+    "shared/mercenary-combat-link-v2103.mjs": "6a417db36c8299f5e400dcca9656f6fad38ca9f00754177fe554b655ef914eb4",
+    "shared/mercenary-level-v1.mjs": "6646a08e7fdf2f614618ebb22213c3c3abe5bb4d9014094bf79e9d0cef6cffff"
+  }
+}

@@ -1,0 +1,866 @@
+{
+  "description": "Anonymous fixed combat inputs for the reported Diim growth failure. No account IDs, nicknames, records, secrets or mutable account state.",
+  "seed": 101316460,
+  "combat": {
+    "energyMax": 100,
+    "energyPerBasic": 10,
+    "windupTurns": 1,
+    "statusTurns": 2,
+    "armorReductionPercent": 20,
+    "interceptPercent": 40,
+    "parryPercent": 40,
+    "orderPercent": 15,
+    "veilPercent": 25,
+    "finisherHpPercent": 30,
+    "finisherBonusPercent": 50,
+    "focusBonusPercent": 40,
+    "poisonPercent": 40,
+    "restraintHits": 2,
+    "restraintPercent": 25,
+    "suppressGauge": 20,
+    "reloadGauge": 20,
+    "powerGrowthPercentPerLevel": 0
+  },
+  "A": {
+    "cards": [
+      {
+        "id": "CN-47AD4B47B6A7452C",
+        "title": "아이젠 족스케",
+        "rarity": "FUR",
+        "power": 195200,
+        "power_type": "FIXED",
+        "breakthrough_level": 15,
+        "uniqueAbility": {
+          "cardId": "CN-47AD4B47B6A7452C",
+          "attackPercent": 120,
+          "defensePercent": 195,
+          "hpPercent": 150,
+          "speedPercent": 0,
+          "effectName": "",
+          "effectDescription": "",
+          "effectType": "NONE",
+          "triggerType": "PASSIVE",
+          "effectValue": 0,
+          "triggerChance": 100,
+          "maxActivations": 1,
+          "dominantType": "DEFENSE",
+          "dominantKey": "defensePercent",
+          "dominantLabel": "방어",
+          "dominantValue": 195,
+          "highBoostPercent": 200
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "RIPOSTE",
+          "dominantType": "DEFENSE",
+          "configVersion": 1,
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 0,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 11,
+            "counterMultiplierPoints": 13,
+            "unshieldedCounterChancePoints": 5,
+            "maxHpPercent": 0,
+            "damageCapPoints": 0,
+            "damageDealtPercent": 2,
+            "lastStandHealPoolPercent": 0,
+            "sealedLastStandHealPoolPercent": 0,
+            "healPoolBonusPercent": 0
+          },
+          "activatedAt": "2026-09-18T08:05:04.793Z"
+        },
+        "iconRole": null
+      },
+      {
+        "id": "CN-BA6BDEC789144D00",
+        "title": "오조은",
+        "rarity": "ZENITH",
+        "power": 75625,
+        "power_type": "FIXED",
+        "breakthrough_level": 13,
+        "uniqueAbility": {
+          "cardId": "CN-BA6BDEC789144D00",
+          "attackPercent": 16,
+          "defensePercent": 16,
+          "hpPercent": 48,
+          "speedPercent": 0,
+          "effectName": "",
+          "effectDescription": "",
+          "effectType": "NONE",
+          "triggerType": "PASSIVE",
+          "effectValue": 0,
+          "triggerChance": 100,
+          "maxActivations": 1,
+          "dominantType": "HP",
+          "dominantKey": "hpPercent",
+          "dominantLabel": "HP",
+          "dominantValue": 48,
+          "highBoostPercent": 60
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "IMMORTAL",
+          "dominantType": "HP",
+          "configVersion": 1,
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 0,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 0,
+            "counterMultiplierPoints": 0,
+            "unshieldedCounterChancePoints": 0,
+            "maxHpPercent": 27,
+            "damageCapPoints": 0,
+            "damageDealtPercent": 0,
+            "lastStandHealPoolPercent": 35,
+            "sealedLastStandHealPoolPercent": 25,
+            "healPoolBonusPercent": 35
+          },
+          "activatedAt": "2026-09-06T17:06:24.599Z"
+        },
+        "iconRole": null
+      },
+      {
+        "id": "CN-5D0E2E4D58C9416F",
+        "title": "치타구",
+        "rarity": "FUR",
+        "power": 195200,
+        "power_type": "FIXED",
+        "breakthrough_level": 15,
+        "uniqueAbility": {
+          "cardId": "CN-5D0E2E4D58C9416F",
+          "attackPercent": 90,
+          "defensePercent": 90,
+          "hpPercent": 0,
+          "speedPercent": 150,
+          "effectName": "",
+          "effectDescription": "",
+          "effectType": "NONE",
+          "triggerType": "PASSIVE",
+          "effectValue": 0,
+          "triggerChance": 100,
+          "maxActivations": 1,
+          "dominantType": "SPEED",
+          "dominantKey": "speedPercent",
+          "dominantLabel": "속도",
+          "dominantValue": 150,
+          "highBoostPercent": 200
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "AFTERIMAGE",
+          "dominantType": "SPEED",
+          "configVersion": 1,
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 18,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 10,
+            "dodgeCapPoints": 10,
+            "counterChancePoints": 0,
+            "counterMultiplierPoints": 0,
+            "unshieldedCounterChancePoints": 0,
+            "maxHpPercent": -3,
+            "damageCapPoints": 0,
+            "damageDealtPercent": 0,
+            "lastStandHealPoolPercent": 0,
+            "sealedLastStandHealPoolPercent": 0,
+            "healPoolBonusPercent": 0
+          },
+          "activatedAt": "2026-08-30T16:49:50.779Z"
+        },
+        "iconRole": null
+      },
+      {
+        "id": "CN-1C000008",
+        "title": "제우스 철구",
+        "rarity": "ICON",
+        "power": 180000,
+        "power_type": null,
+        "breakthrough_level": 0,
+        "uniqueAbility": null,
+        "uniqueAdvancement": null,
+        "iconRole": {
+          "version": 1,
+          "code": "ICON-ZEUS-CHEOLGU",
+          "role": "MAGIC",
+          "revision": 4,
+          "tuning": {
+            "firstAction": 1,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 220,
+            "damageCapPercent": 46,
+            "maxTargets": 3,
+            "focusPercent": 25,
+            "penetrationPercent": 30
+          },
+          "supremacy": {
+            "version": "20261005-fur15-v1",
+            "power": 198200,
+            "cardCount": 20,
+            "CAPTAIN": {
+              "attack": {
+                "base": 546560,
+                "perPower": 2.8
+              },
+              "maxHp": {
+                "base": 488000,
+                "perPower": 2.5
+              },
+              "defense": {
+                "base": 295,
+                "perPower": 0
+              },
+              "speed": {
+                "base": 250,
+                "perPower": 0
+              }
+            },
+            "PVE": {
+              "maxHp": {
+                "base": 456768,
+                "perPower": 2.340001
+              },
+              "attack": {
+                "base": 220230,
+                "perPower": 1.128226
+              },
+              "defense": {
+                "base": 134499,
+                "perPower": 0.689032
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            },
+            "PVP": {
+              "maxHp": {
+                "base": 507520,
+                "perPower": 2.600001
+              },
+              "attack": {
+                "base": 207317,
+                "perPower": 1.062076
+              },
+              "defense": {
+                "base": 130455,
+                "perPower": 0.668313
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "CN-1C000007",
+        "title": "아윤",
+        "rarity": "ICON",
+        "power": 180000,
+        "power_type": null,
+        "breakthrough_level": 0,
+        "uniqueAbility": null,
+        "uniqueAdvancement": null,
+        "iconRole": {
+          "version": 1,
+          "code": "ICON-AYOON",
+          "role": "ASSAULT",
+          "revision": 4,
+          "tuning": {
+            "firstAction": 1,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 140,
+            "damageCapPercent": 46,
+            "shieldPercent": 18,
+            "shieldBreakPercent": 65,
+            "gaugeDelay": 12,
+            "bossVulnerabilityPercent": 8,
+            "durationActions": 2
+          },
+          "supremacy": {
+            "version": "20261005-fur15-v1",
+            "power": 198200,
+            "cardCount": 20,
+            "CAPTAIN": {
+              "attack": {
+                "base": 546560,
+                "perPower": 2.8
+              },
+              "maxHp": {
+                "base": 488000,
+                "perPower": 2.5
+              },
+              "defense": {
+                "base": 295,
+                "perPower": 0
+              },
+              "speed": {
+                "base": 250,
+                "perPower": 0
+              }
+            },
+            "PVE": {
+              "maxHp": {
+                "base": 456768,
+                "perPower": 2.340001
+              },
+              "attack": {
+                "base": 220230,
+                "perPower": 1.128226
+              },
+              "defense": {
+                "base": 134499,
+                "perPower": 0.689032
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            },
+            "PVP": {
+              "maxHp": {
+                "base": 507520,
+                "perPower": 2.600001
+              },
+              "attack": {
+                "base": 207317,
+                "perPower": 1.062076
+              },
+              "defense": {
+                "base": 130455,
+                "perPower": 0.668313
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            }
+          }
+        }
+      }
+    ],
+    "equipmentBonus": 384100,
+    "magicCards": [
+      {
+        "id": 4,
+        "slotNo": 1,
+        "code": "V2_CRISIS_HEAL",
+        "name": "긴급 치유의 빛",
+        "imageUrl": "assets/ui/magic-cards/crisis-heal-768-v1500.webp",
+        "effectType": "CRISIS_HEAL",
+        "effectValue": 28,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 6,
+        "slotNo": 2,
+        "code": "V2_ARCANE_COUNTER",
+        "name": "비전 반격",
+        "imageUrl": "assets/ui/magic-cards/arcane-counter-768-v1500.webp",
+        "effectType": "ARCANE_COUNTER",
+        "effectValue": 16,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 7,
+        "slotNo": 3,
+        "code": "V2_FOLLOWUP_HASTE",
+        "name": "질풍의 연계",
+        "imageUrl": "assets/ui/magic-cards/followup-haste-768-v1500.webp",
+        "effectType": "FOLLOWUP_HASTE",
+        "effectValue": 22,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 14,
+        "slotNo": 4,
+        "code": "V2_CHAIN_ECHO",
+        "name": "연쇄의 잔영",
+        "imageUrl": "assets/ui/magic-cards/chain-echo-768-v1665.webp",
+        "effectType": "CHAIN_ECHO",
+        "effectValue": 45,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 11,
+        "slotNo": 5,
+        "code": "V2_TIME_DISTORTION",
+        "name": "시간의 족쇄",
+        "imageUrl": "assets/ui/magic-cards/time-distortion-768-v1665.webp",
+        "effectType": "TIME_DISTORTION",
+        "effectValue": 30,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      }
+    ],
+    "pet": {
+      "definition": {
+        "code": "PET-GILDED-DRAGON",
+        "name": "흑금 영룡",
+        "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-gilded-spirit-dragon-v2.png",
+        "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-gilded-spirit-dragon-v2.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "SPEED_PERCENT",
+            "percent": 30
+          }
+        ],
+        "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+        "liveEnabled": true
+      },
+      "magnet": true,
+      "cmsRevision": 29,
+      "loadoutRevision": 6,
+      "ownerId": 1
+    }
+  },
+  "B": {
+    "cards": [
+      {
+        "id": "CN-47AD4B47B6A7452C",
+        "title": "아이젠 족스케",
+        "rarity": "FUR",
+        "power": 195200,
+        "power_type": "FIXED",
+        "breakthrough_level": 15,
+        "uniqueAbility": {
+          "cardId": "CN-47AD4B47B6A7452C",
+          "attackPercent": 120,
+          "defensePercent": 195,
+          "hpPercent": 150,
+          "speedPercent": 0,
+          "effectName": "",
+          "effectDescription": "",
+          "effectType": "NONE",
+          "triggerType": "PASSIVE",
+          "effectValue": 0,
+          "triggerChance": 100,
+          "maxActivations": 1,
+          "dominantType": "DEFENSE",
+          "dominantKey": "defensePercent",
+          "dominantLabel": "방어",
+          "dominantValue": 195,
+          "highBoostPercent": 200
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "RIPOSTE",
+          "dominantType": "DEFENSE",
+          "configVersion": 1,
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 0,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 11,
+            "counterMultiplierPoints": 13,
+            "unshieldedCounterChancePoints": 5,
+            "maxHpPercent": 0,
+            "damageCapPoints": 0,
+            "damageDealtPercent": 2,
+            "lastStandHealPoolPercent": 0,
+            "sealedLastStandHealPoolPercent": 0,
+            "healPoolBonusPercent": 0
+          },
+          "activatedAt": "2026-09-22T07:16:11.671Z"
+        },
+        "iconRole": null
+      },
+      {
+        "id": "CN-25F931CE393D474E",
+        "title": "꽃보다디임",
+        "rarity": "ZENITH",
+        "power": 75625,
+        "power_type": "FIXED",
+        "breakthrough_level": 13,
+        "uniqueAbility": {
+          "cardId": "CN-25F931CE393D474E",
+          "attackPercent": 16,
+          "defensePercent": 16,
+          "hpPercent": 48,
+          "speedPercent": 0,
+          "effectName": "",
+          "effectDescription": "",
+          "effectType": "NONE",
+          "triggerType": "PASSIVE",
+          "effectValue": 0,
+          "triggerChance": 100,
+          "maxActivations": 1,
+          "dominantType": "HP",
+          "dominantKey": "hpPercent",
+          "dominantLabel": "HP",
+          "dominantValue": 48,
+          "highBoostPercent": 60
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "IMMORTAL",
+          "dominantType": "HP",
+          "configVersion": 1,
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 0,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 0,
+            "dodgeCapPoints": 0,
+            "counterChancePoints": 0,
+            "counterMultiplierPoints": 0,
+            "unshieldedCounterChancePoints": 0,
+            "maxHpPercent": 27,
+            "damageCapPoints": 0,
+            "damageDealtPercent": 0,
+            "lastStandHealPoolPercent": 35,
+            "sealedLastStandHealPoolPercent": 25,
+            "healPoolBonusPercent": 35
+          },
+          "activatedAt": "2026-09-05T14:02:23.624Z"
+        },
+        "iconRole": null
+      },
+      {
+        "id": "CN-1C000001",
+        "title": "디임",
+        "rarity": "ICON",
+        "power": 180000,
+        "power_type": null,
+        "breakthrough_level": 0,
+        "uniqueAbility": null,
+        "uniqueAdvancement": null,
+        "iconRole": {
+          "version": 1,
+          "code": "ICON-DIIM",
+          "role": "ASSASSIN",
+          "revision": 4,
+          "tuning": {
+            "firstAction": 2,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 180,
+            "damageCapPercent": 46,
+            "executePercent": 60,
+            "takedownGauge": 25,
+            "maxTakedowns": 2
+          },
+          "supremacy": {
+            "version": "20261005-fur15-v1",
+            "power": 198200,
+            "cardCount": 20,
+            "CAPTAIN": {
+              "attack": {
+                "base": 546560,
+                "perPower": 2.8
+              },
+              "maxHp": {
+                "base": 488000,
+                "perPower": 2.5
+              },
+              "defense": {
+                "base": 295,
+                "perPower": 0
+              },
+              "speed": {
+                "base": 250,
+                "perPower": 0
+              }
+            },
+            "PVE": {
+              "maxHp": {
+                "base": 456768,
+                "perPower": 2.340001
+              },
+              "attack": {
+                "base": 220230,
+                "perPower": 1.128226
+              },
+              "defense": {
+                "base": 134499,
+                "perPower": 0.689032
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            },
+            "PVP": {
+              "maxHp": {
+                "base": 507520,
+                "perPower": 2.600001
+              },
+              "attack": {
+                "base": 207317,
+                "perPower": 1.062076
+              },
+              "defense": {
+                "base": 130455,
+                "perPower": 0.668313
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "CN-5D0E2E4D58C9416F",
+        "title": "치타구",
+        "rarity": "FUR",
+        "power": 195200,
+        "power_type": "FIXED",
+        "breakthrough_level": 15,
+        "uniqueAbility": {
+          "cardId": "CN-5D0E2E4D58C9416F",
+          "attackPercent": 90,
+          "defensePercent": 90,
+          "hpPercent": 0,
+          "speedPercent": 150,
+          "effectName": "",
+          "effectDescription": "",
+          "effectType": "NONE",
+          "triggerType": "PASSIVE",
+          "effectValue": 0,
+          "triggerChance": 100,
+          "maxActivations": 1,
+          "dominantType": "SPEED",
+          "dominantKey": "speedPercent",
+          "dominantLabel": "속도",
+          "dominantValue": 150,
+          "highBoostPercent": 200
+        },
+        "uniqueAdvancement": {
+          "active": true,
+          "classCode": "AFTERIMAGE",
+          "dominantType": "SPEED",
+          "configVersion": 1,
+          "modifiers": {
+            "criticalChancePoints": 0,
+            "penetrationPoints": 18,
+            "openingGaugePoints": 0,
+            "dodgeChancePoints": 10,
+            "dodgeCapPoints": 10,
+            "counterChancePoints": 0,
+            "counterMultiplierPoints": 0,
+            "unshieldedCounterChancePoints": 0,
+            "maxHpPercent": -3,
+            "damageCapPoints": 0,
+            "damageDealtPercent": 0,
+            "lastStandHealPoolPercent": 0,
+            "sealedLastStandHealPoolPercent": 0,
+            "healPoolBonusPercent": 0
+          },
+          "activatedAt": "2026-09-09T17:07:52.499Z"
+        },
+        "iconRole": null
+      },
+      {
+        "id": "CN-1C000008",
+        "title": "제우스 철구",
+        "rarity": "ICON",
+        "power": 180000,
+        "power_type": null,
+        "breakthrough_level": 0,
+        "uniqueAbility": null,
+        "uniqueAdvancement": null,
+        "iconRole": {
+          "version": 1,
+          "code": "ICON-ZEUS-CHEOLGU",
+          "role": "MAGIC",
+          "revision": 4,
+          "tuning": {
+            "firstAction": 1,
+            "cooldownActions": 4,
+            "maxCasts": 6,
+            "pveScale": 100,
+            "pvpScale": 90,
+            "damagePercent": 220,
+            "damageCapPercent": 46,
+            "maxTargets": 3,
+            "focusPercent": 25,
+            "penetrationPercent": 30
+          },
+          "supremacy": {
+            "version": "20261005-fur15-v1",
+            "power": 198200,
+            "cardCount": 20,
+            "CAPTAIN": {
+              "attack": {
+                "base": 546560,
+                "perPower": 2.8
+              },
+              "maxHp": {
+                "base": 488000,
+                "perPower": 2.5
+              },
+              "defense": {
+                "base": 295,
+                "perPower": 0
+              },
+              "speed": {
+                "base": 250,
+                "perPower": 0
+              }
+            },
+            "PVE": {
+              "maxHp": {
+                "base": 456768,
+                "perPower": 2.340001
+              },
+              "attack": {
+                "base": 220230,
+                "perPower": 1.128226
+              },
+              "defense": {
+                "base": 134499,
+                "perPower": 0.689032
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            },
+            "PVP": {
+              "maxHp": {
+                "base": 507520,
+                "perPower": 2.600001
+              },
+              "attack": {
+                "base": 207317,
+                "perPower": 1.062076
+              },
+              "defense": {
+                "base": 130455,
+                "perPower": 0.668313
+              },
+              "speed": {
+                "base": 17011,
+                "perPower": 0.086251
+              }
+            }
+          }
+        }
+      }
+    ],
+    "equipmentBonus": 354100,
+    "magicCards": [
+      {
+        "id": 5,
+        "slotNo": 1,
+        "code": "V2_PUNISH_TRAP",
+        "name": "응징의 마법진",
+        "imageUrl": "assets/ui/magic-cards/punish-trap-768-v1500.webp",
+        "effectType": "PUNISH_TRAP",
+        "effectValue": 14,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 4,
+        "slotNo": 2,
+        "code": "V2_CRISIS_HEAL",
+        "name": "긴급 치유의 빛",
+        "imageUrl": "assets/ui/magic-cards/crisis-heal-768-v1500.webp",
+        "effectType": "CRISIS_HEAL",
+        "effectValue": 28,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 1,
+        "slotNo": 3,
+        "code": "V2_OPENING_ATTACK",
+        "name": "선봉의 마력검",
+        "imageUrl": "assets/ui/magic-cards/opening-attack-768-v1500.webp",
+        "effectType": "OPENING_ATTACK",
+        "effectValue": 18,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 1
+      },
+      {
+        "id": 7,
+        "slotNo": 4,
+        "code": "V2_FOLLOWUP_HASTE",
+        "name": "질풍의 연계",
+        "imageUrl": "assets/ui/magic-cards/followup-haste-768-v1500.webp",
+        "effectType": "FOLLOWUP_HASTE",
+        "effectValue": 22,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      },
+      {
+        "id": 6,
+        "slotNo": 5,
+        "code": "V2_ARCANE_COUNTER",
+        "name": "비전 반격",
+        "imageUrl": "assets/ui/magic-cards/arcane-counter-768-v1500.webp",
+        "effectType": "ARCANE_COUNTER",
+        "effectValue": 16,
+        "triggerChance": 50,
+        "enhancementLevel": 9,
+        "maxActivations": 2
+      }
+    ],
+    "pet": {
+      "definition": {
+        "code": "PET-GILDED-DRAGON",
+        "name": "흑금 영룡",
+        "sourceArt": "assets/ui/pets/approved-nine-20261014/pet-gilded-spirit-dragon-v2.png",
+        "battleSprite": "assets/ui/pets/approved-nine-20261014/pet-gilded-spirit-dragon-v2.png",
+        "enabled": true,
+        "modes": [
+          "PVE",
+          "PVP"
+        ],
+        "target": "ALL_ALLIES",
+        "buffs": [
+          {
+            "type": "SPEED_PERCENT",
+            "percent": 30
+          }
+        ],
+        "notes": "2026-10-14 사용자 9종 전체 라이브 반영 승인 / 원본 보존",
+        "liveEnabled": true
+      },
+      "magnet": true,
+      "cmsRevision": 29,
+      "loadoutRevision": 10,
+      "ownerId": 2
+    }
+  }
+}

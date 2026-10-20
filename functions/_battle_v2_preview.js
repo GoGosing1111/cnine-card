@@ -18,6 +18,7 @@ import {COMPANION_PREPARATION_REVIEW} from '../shared/companion-loadout-v2.mjs';
 import {applyPetOpeningBuff,preparedMercenaryCadence} from '../shared/companion-opening-v1.mjs';
 import {createMagicSeason2Runtime} from './_magic_season2.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack,mercenaryDamageCapHp} from '../shared/mercenary-combat-link-v2103.mjs';
+import {halloweenGrowthKeepsNaturalGauge} from '../shared/mercenary-halloween-combat-v1.mjs';
 import {ssRearPvePriorityTargets} from '../shared/mercenary-ss-rear-pve-v1.mjs';
 import {validateDuoDeck} from '../shared/ranked-duo-v1.mjs';
 import {sustainedEncounterPlan} from './_sustained_encounter.js';
@@ -1497,7 +1498,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if (repeatMonsterActions > 0) emitTimeline(timeline, clock, 'MONSTER_MULTI_ATTACK_READY', { actorId: actor.id, attackCount, label: `몬스터 ${attackCount}연속 공격` });
       }
     }
-    if(!independentAction)actor.gauge = Math.max(0, actor.gauge - 100);
+    // A grown Diim's card-funded extra turn must not erase the independent
+    // speed/catch-up gauge it has earned. A natural turn still spends 100.
+    if(!independentAction&&!(actor===reservedMercenary&&halloweenGrowthKeepsNaturalGauge(actor)))actor.gauge = Math.max(0, actor.gauge - 100);
     actor.actions += 1;
     actionActor=actor;
     if (partyCadenceBoss && !independentAction) {

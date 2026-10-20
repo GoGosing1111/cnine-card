@@ -10,6 +10,7 @@ import {forgePower} from '../shared/equipment-forge-policy-v1.mjs';
 import {readForgeAdvancedPolicy} from './_equipment_forge_advanced.js';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../shared/equipment-forge-release-v1.mjs';
 import {readMercenaryDocument,readMercenaryRuntime,battleConfig,mercenarySnapshotPower} from './_mercenary_account.js';
+import {attachReleasedMercenaryLevels} from './_mercenary_level_policy.js';
 import {buildFighter,distributeEquipment} from './_battle_v2_preview.js';
 import {buildMercenaryFighter,MERCENARY_SKILL_CAP_SCALE} from './_mercenary_combat.js';
 import {applyMercenaryCombatLink,mercenaryEffectiveAttack} from '../shared/mercenary-combat-link-v2103.mjs';
@@ -50,6 +51,9 @@ async function rebuild(env,versions,config,deps,hash,now,advanced){
  const rankEligible=await readShiranuiEligibleUsers(env,mercRows.results.filter(r=>r.mercenary_code===SHIRANUI_CODE).map(r=>r.user_id));
  const baseline=deps.cardBattlePower({rarity:'FUR'},13,battle),profiles=[];
  const byUser=(rows,id)=>rows.results.filter(r=>Number(r.user_id)===id);
+ const mercsByUser=await attachReleasedMercenaryLevels(env,new Map(ids.map(userId=>[userId,
+  byUser(mercRows,userId).filter(r=>r.mercenary_code!==SHIRANUI_CODE||rankEligible.has(userId)).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),...(mercGear.get(userId)?.items.length?{equipment:mercGear.get(userId)}:{}),combat:mercRuntime.combat,equipped:mercLoadouts.get(userId).loadouts.PVP.mercenaryCode===r.mercenary_code,cmsRevision:mercDocument.revision}))
+ ])));
  for(const version of versions){
   const userId=Number(version.user_id),user={id:userId,role:version.role,nickname:version.nickname},cards=byUser(owned,userId).map(c=>({...c,id:String(c.id),power:deps.cardBattlePower(c,Number(c.breakthrough_level||0),battle)})),cardMap=new Map(cards.map(c=>[c.id,c])),best=strongestDuoCards(cards);
   const saved=decks.results.find(d=>Number(d.user_id)===userId),select=raw=>{const value=parsed(raw);return Array.isArray(value)?value.map(id=>cardMap.get(String(id))).filter(Boolean):[];};
@@ -57,7 +61,7 @@ async function rebuild(env,versions,config,deps,hash,now,advanced){
   for(const item of byUser(gear,userId)){const power=FORGE_RUNTIME_RELEASE_ENABLED&&Number(item.level)>0?forgePower(Number(item.total_power),Number(item.level),advanced).pvp:Number(item.pvp_power);slotBest.set(item.slot,Math.max(slotBest.get(item.slot)||0,power));equipment+=power*Number(item.equipped_count||0);}
   let potentialEquipment=[...slotBest.values()].reduce((s,n)=>s+n,0),expires=now+300000;
   for(const source of [vehicles,titles]){const list=byUser(source,userId);potentialEquipment+=Math.max(0,...list.map(r=>Number(r.pvp_power)));equipment+=list.filter(r=>r.equipped).reduce((s,r)=>s+Number(r.pvp_power),0);for(const r of list)if(r.expires_at)expires=Math.min(expires,Date.parse(String(r.expires_at).includes('T')?r.expires_at:r.expires_at.replace(' ','T')+'Z'));}
-  const mercs=byUser(mercRows,userId).filter(r=>r.mercenary_code!==SHIRANUI_CODE||rankEligible.has(userId)).map(r=>({...battleConfig(mercDocument.document,r.mercenary_code,1),...(mercGear.get(userId)?.items.length?{equipment:mercGear.get(userId)}:{}),combat:mercRuntime.combat,equipped:mercLoadouts.get(userId).loadouts.PVP.mercenaryCode===r.mercenary_code,cmsRevision:mercDocument.revision}));
+  const mercs=mercsByUser.get(userId);
   const mercenary=mercs.find(m=>m.equipped)||null,mercenaryPower=best.length===5?Math.max(0,...mercs.map(m=>duoMercenaryRating(m,best,potentialEquipment,config.mercenaryWeights[m.code]??1))):0;
   const cardPower=best.reduce((s,c)=>s+c.power,0),power=Math.max(1,Math.round(100*(cardPower+potentialEquipment+mercenaryPower)/Math.max(1,baseline)));
   const valid=deck=>{try{validateDuoDeck(deck);return true;}catch{return false;}};
@@ -86,7 +90,7 @@ const validateAccounts=(versions,count,now,allowOwner=false)=>{
 export async function loadDuoProfiles(env,userIds,config,deps,{now=Date.now(),wait=profileWait,allowOwner=false,minimumValidityMs=0}={}){
  const ids=[...new Set(userIds.map(numeric))];if(!ids.length)return [];if(ids.length>DUO_LIMITS.refreshBatch||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw duoError('PROFILE_USERS','전력 평가 범위를 확인하세요.');
  const advanced=await readForgeAdvancedPolicy(env.DB);
- const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:'PVP-v1',mercenaryEquipment:'20261011',equipmentSetVisualVersion:1,advancedForgeRevision:advanced.revision}),started=Date.now();
+ const hash=await jointHash({weights:config.mercenaryWeights,mercenaryLoadoutMode:'PVP-v1',mercenaryEquipment:'20261011',mercenaryGrowth:'20261020-v1',equipmentSetVisualVersion:1,advancedForgeRevision:advanced.revision}),started=Date.now();
  for(let attempt=0;attempt<=profileRetryDelays.length;attempt++){
   const at=now+Math.max(0,Date.now()-started),versions=await duoVersions(env,ids),profiles=new Map();
   validateAccounts(versions,ids.length,at,allowOwner);

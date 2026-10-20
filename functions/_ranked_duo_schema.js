@@ -20,8 +20,19 @@ export const DUO_SCHEMA=[
 ];
 // Only participants have a version row. Nonparticipants incur an indexed miss;
 // inventory mutations do not enqueue jobs or rewrite a shared global counter.
-export const DUO_ACCOUNT_SOURCES=['user_cards','pvp_decks','pvp_deck_presets','pvp_active_presets','pvp_magic_presets','magic_card_loadouts','user_magic_cards','user_equipment_instances','user_equipment_loadout','equipment_forge_states_v1','user_garage_loadout','user_garage_vehicles','user_title_loadout','user_character_titles','user_mercenary_loadout_v1','user_mercenary_cards_v1','user_mercenary_growth_v1','card_unique_advancements_v1937'];
+export const DUO_ACCOUNT_SOURCES=['user_cards','pvp_decks','pvp_deck_presets','pvp_active_presets','pvp_magic_presets','magic_card_loadouts','user_magic_cards','user_equipment_instances','user_equipment_loadout','equipment_forge_states_v1','user_garage_loadout','user_garage_vehicles','user_title_loadout','user_character_titles','user_mercenary_loadout_v1','user_mercenary_cards_v1','user_mercenary_growth_v1','user_mercenary_levels_v1','card_unique_advancements_v1937'];
 export const DUO_POLICY_SOURCES=['cards','card_unique_effects','magic_cards','character_equipment_items','character_garage_items','character_titles','mercenary_cms_documents_v1'];
+// Reused by the narrow production repair so existing policy keys remain
+// covered when the already-installed triggers gain level-policy invalidation.
+export function duoConfigVersionStatements(dialect){
+ const keys="'battle_settings_v1','fur_master_star_breakthrough_v1802','zenith_master_star_breakthrough_v1802','card_unique_effect_settings_v1','card_unique_advancement_settings_v1937_release','magic_card_settings_v1','mercenary_runtime_policy_v1','mercenary_level_policy_v1','v3_joint_release_20260913-joint1','equipment_forge_release_20260922_v1','equipment_forge_runtime_v1'";
+ return ['INSERT','UPDATE','DELETE'].flatMap(event=>{
+  const row=event==='DELETE'?'OLD':'NEW',name=`ranked_duo_config_${event.toLowerCase()}_v1`;
+  return [`DROP TRIGGER IF EXISTS ${name}${dialect==='postgres'?' ON app_meta':''}`,
+   dialect==='postgres'?`CREATE TRIGGER ${name} AFTER ${event} ON app_meta FOR EACH ROW WHEN (${row}.key IN (${keys})) EXECUTE FUNCTION ranked_duo_touch_policy_v1()`:
+    `CREATE TRIGGER ${name} AFTER ${event} ON app_meta WHEN ${row}.key IN (${keys}) BEGIN UPDATE ranked_duo_policy_version_v1 SET revision=revision+1 WHERE id=1; END`];
+ });
+}
 export async function prepareDuoSchema(env){
  await ensureJointAtomicSchema(env);
  const DB=env.DB;
@@ -48,12 +59,7 @@ export async function prepareDuoSchema(env){
   }
  }
  // Configuration writes are infrequent. Exclude operational leases/counters.
- const keys="'battle_settings_v1','fur_master_star_breakthrough_v1802','zenith_master_star_breakthrough_v1802','card_unique_effect_settings_v1','card_unique_advancement_settings_v1937_release','magic_card_settings_v1','mercenary_runtime_policy_v1','v3_joint_release_20260913-joint1','equipment_forge_release_20260922_v1','equipment_forge_runtime_v1'";
- if(tables.has('app_meta'))for(const event of ['INSERT','UPDATE','DELETE']){
-  const row=event==='DELETE'?'OLD':'NEW',name=`ranked_duo_config_${event.toLowerCase()}_v1`;
-  if(DB.dialect==='postgres'){ddl.push(`DROP TRIGGER IF EXISTS ${name} ON app_meta`);ddl.push(`CREATE TRIGGER ${name} AFTER ${event} ON app_meta FOR EACH ROW WHEN (${row}.key IN (${keys})) EXECUTE FUNCTION ranked_duo_touch_policy_v1()`);}
-  else ddl.push(`CREATE TRIGGER IF NOT EXISTS ${name} AFTER ${event} ON app_meta WHEN ${row}.key IN (${keys}) BEGIN UPDATE ranked_duo_policy_version_v1 SET revision=revision+1 WHERE id=1; END`);
- }
+ if(tables.has('app_meta'))ddl.push(...duoConfigVersionStatements(DB.dialect));
  if(DB.execSchema)await DB.execSchema(ddl);else for(const sql of ddl)await DB.prepare(sql).run();
  return {accountSources:DUO_ACCOUNT_SOURCES.filter(t=>tables.has(t)),policySources:DUO_POLICY_SOURCES.filter(t=>tables.has(t))};
 }
