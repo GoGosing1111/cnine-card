@@ -55,8 +55,8 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': í›„ì
     const permanent={revision:1,pets:{[f.pets[1].code]:{potential:'MAGNET',attempts:7}}};await f.run('INSERT INTO app_meta(key,value) VALUES(?,?)','pet_potentials_v1:1',JSON.stringify(permanent));
     const end=(await sub(1)).endsAt,petBody={petCode:f.pets[0].code,expectedRevision:2,requestId:crypto.randomUUID()};
     await f.run('DELETE FROM user_second_verifications WHERE user_id=1');
-    assert.equal((await f.call('server-support/pet',{body:petBody})).body.code,'SUPPORT_ELIGIBILITY');
-    assert.equal((await sub(1)).revision,2);
+    assert.equal((await f.call('server-support/pet',{body:petBody})).status,200,'designated active OWNER may use the registered pass benefit without second verification');
+    assert.equal((await sub(1)).revision,3);
     await f.run('INSERT INTO user_second_verifications VALUES(1,?)','2026-01-02 00:00:00');
     const first=await f.call('server-support/pet',{body:petBody});assert.equal(first.status,200,JSON.stringify(first.body));assert.equal(first.body.subscription.magnetPetCode,f.pets[0].code);
     assert.equal((await f.call('server-support/pet',{body:petBody})).body.replayed,true);
