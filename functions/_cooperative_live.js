@@ -86,7 +86,10 @@ export async function handleCooperative({path,request,env,deps}){
   if(!validCoopClient(body.clientId)||typeof body.requestId!=='string'||!/^[-a-zA-Z0-9_]{8,100}$/.test(body.requestId))fail('INPUT','접속과 요청 정보를 확인하세요.',400);
   if(kind!=='create'&&!validCoopRoom(body.roomId))fail('ROOM','목록에서 참가할 대기방을 선택하세요.',400);
   return await deps.withUserMutationLock(env,user.id,path,async()=>{
-   if(['create','join','ready'].includes(kind)&&config.mode==='ON'&&(await coopEnergy(env,user.id)).current<1)fail('ENERGY_EMPTY','행동력이 부족합니다. 3시간마다 1회 충전 후 입장할 수 있습니다.');
+   if(['create','join','ready'].includes(kind)&&config.mode==='ON'){
+    const energy=await coopEnergy(env,user.id);
+    if(!energy.unlimited&&energy.current<1)fail('ENERGY_EMPTY','행동력이 부족합니다. 3시간마다 1회 충전 후 입장할 수 있습니다.');
+   }
    if(kind==='create'||kind==='join'){
     const digest=kind==='create'?await crypto.subtle.digest('SHA-256',new TextEncoder().encode(user.id+':'+body.requestId)):null;
     const target=kind==='create'?Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,10).toUpperCase():body.roomId;

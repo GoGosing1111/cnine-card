@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {supportFixture} from './helpers/server-support-fixture.mjs';
 
-for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: 시즌패스 메뉴는 2차 인증과 가입 72시간을 모두 요구한다`,async t=>{
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: 시즌패스 메뉴는 지정 OWNER만 예외이며 일반 계정은 2차 인증과 가입 72시간을 요구한다`,async t=>{
   const f=await supportFixture({postgres});t.after(()=>f.close());
   for(const user of [1,2,3]){
     const status=await f.call('server-support/status',{user});
@@ -22,15 +22,15 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: 시�
   assert.equal((await f.call('server-support/info',{user:4})).body.seasonPassVisible,true);
   f.clock.now-=1;
   await f.run('DELETE FROM user_second_verifications WHERE user_id=1');
-  assert.deepEqual((await f.call('server-support/status')).body,{visible:true,seasonPassVisible:false});
+  assert.deepEqual((await f.call('server-support/status')).body,{visible:true,seasonPassVisible:true});
   const preview=await f.call('server-support/info');
-  assert.equal(preview.body.previewOnly,true);assert.equal(preview.body.seasonPassVisible,false);
-  assert.equal((await f.call('server-support/pass/claim',{body:{}})).status,403);
-  assert.equal((await f.call('server-support/pass/claim-all',{body:{}})).status,403);
+  assert.equal(preview.body.previewOnly,false);assert.equal(preview.body.seasonPassVisible,true);
+  assert.equal((await f.call('server-support/pass/claim',{body:{}})).status,400);
+  assert.equal((await f.call('server-support/pass/claim-all',{body:{}})).status,400);
   await f.run('INSERT INTO user_second_verifications VALUES(1,?)','2026-01-02 00:00:00');
   await f.run('UPDATE users SET created_at=? WHERE id=1',new Date(f.clock.now-3*86400000+1).toISOString());
-  assert.deepEqual((await f.call('server-support/status')).body,{visible:true,seasonPassVisible:false});
-  assert.equal((await f.call('server-support/info')).body.seasonPassVisible,false);
+  assert.deepEqual((await f.call('server-support/status')).body,{visible:true,seasonPassVisible:true});
+  assert.equal((await f.call('server-support/info')).body.seasonPassVisible,true);
   assert.equal((await f.call('server-support/status',{user:0})).status,401);
   assert.equal((await f.call('server-support/pass/claim-all',{user:0,body:{}})).status,401);
 });

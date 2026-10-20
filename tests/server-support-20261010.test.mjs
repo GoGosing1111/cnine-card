@@ -29,14 +29,14 @@ for(const postgres of [false,true])test((postgres?'PostgreSQL':'SQLite')+': 후�
     assert.equal((await f.call('admin/server-support')).body.pageAccess,'VERIFIED_3_DAYS');
     assert.equal((await f.call('server-support/status',{user:0})).status,401);
     await f.run('DELETE FROM user_second_verifications WHERE user_id=1');assert.equal((await f.call('server-support/status')).body.visible,true);
-    assert.equal((await f.call('server-support/info')).body.previewOnly,true);
+    assert.equal((await f.call('server-support/info')).body.previewOnly,false);
     assert.equal((await post(body('GRANT',1))).status,403);
     await f.run("UPDATE users SET role='USER' WHERE id=1");assert.equal((await f.call('server-support/status')).body.visible,false);
     await f.run("UPDATE users SET role='OWNER',status='SUSPENDED' WHERE id=1");assert.equal((await f.call('server-support/status')).body.visible,false);
     await f.run("UPDATE users SET status='ACTIVE' WHERE id=1");
     await f.run('INSERT INTO user_second_verifications VALUES(1,?)','2026-01-02 00:00:00');
     const original=(await f.one('SELECT created_at FROM users WHERE id=1')).created_at;
-    await f.run('UPDATE users SET created_at=? WHERE id=1',new Date(f.clock.now-3*86400000+1).toISOString());assert.equal((await f.call('server-support/info')).body.previewOnly,true);
+    await f.run('UPDATE users SET created_at=? WHERE id=1',new Date(f.clock.now-3*86400000+1).toISOString());assert.equal((await f.call('server-support/info')).body.previewOnly,false);
     await f.run('UPDATE users SET created_at=? WHERE id=1',original);
     const r=await f.call('server-support/info');assert.match(r.headers.get('cache-control'),/no-store/);assert.equal(r.body.plan.priceWon,29800);assert.match(r.body.notice,/서버 운영비.*개발/);
     for(const userId of [4,5,6])assert.equal((await post(body('GRANT',userId))).status,403);

@@ -44,7 +44,7 @@ export async function mountCooperative(root){
  <dialog class="coop-dialog" data-guide-dialog><header><div><small>격전지 공략 지침</small><h3 data-guide-title></h3></div><button class="coop-quiet" data-close-guide aria-label="공략 닫기">닫기 ×</button></header><nav>${GUIDE.map(([name],i)=>`<button data-chapter="${i}">${i+1}. ${name}</button>`).join('')}</nav><article data-guide-content></article></dialog>
  <dialog class="coop-dialog" data-settings-dialog><header><h3>운영 테스트 설정</h3><button class="coop-quiet" data-close-settings>닫기 ×</button></header><form data-settings-form><label>공개 상태<select name="mode"><option value="TEST">테스트 참여자만</option><option value="OFF">운영 중지</option><option value="ON">전체 공개</option></select></label><label>테스트 계정 ID<input name="users" placeholder="예: 12, 34" /></label><p>OWNER는 자동으로 참여할 수 있습니다. 보상은 CMS의 클리어 보상 탭에서 설정합니다.</p><button class="coop-primary">설정 저장</button><p role="status" data-settings-message></p></form></dialog>`;
  function currentEnergy(){return feature?.energy?contentEnergyView(feature.energy,{at:Date.now()+serverOffset,maximum:feature.energy.maximum}):null;}
- function energyEmpty(){return feature?.mode==='ON'&&currentEnergy()?.current===0;}
+ function energyEmpty(){return feature?.mode==='ON'&&!feature?.energy?.unlimited&&currentEnergy()?.current===0;}
  function drawReadyControls(){
   const mine=state?.members.find(m=>m.id===you),complete=selected.cardIds.length===2&&!!selected.mercenaryCode,waiting=!mine?.ready&&energyEmpty(),ready=$('[data-ready]');
   $('[data-ready-summary]').textContent=mine?.ready?'준비 완료 · 동료를 기다립니다':waiting?'행동력이 부족해 준비할 수 없습니다':complete?'편성 완료 · 준비할 수 있습니다':'출전 편성을 완성하세요';
@@ -52,7 +52,7 @@ export async function mountCooperative(root){
   ready.innerHTML=mine?.ready?'준비 취소':waiting?'행동력 충전 대기':'출전 준비 <span>→</span>';
   ready.disabled=busy||!complete||waiting;
  }
- function drawRewardSummary(){const energy=currentEnergy();$('[data-reward-summary]').textContent=energy?contentEnergyText(energy,Date.now()+serverOffset)+(feature.mode==='TEST'?' · TEST 소모 없음':feature.rewardLocked?' · 현재 기본 보상 지급 OFF':''):'';
+ function drawRewardSummary(){const energy=currentEnergy();$('[data-reward-summary]').textContent=energy?(feature.energy.unlimited?'OWNER · 행동력 소모 없이 입장 가능':contentEnergyText(energy,Date.now()+serverOffset))+(feature.mode==='TEST'?' · TEST 소모 없음':feature.rewardLocked?' · 현재 기본 보상 지급 OFF':''):'';
   if(state?.status==='LOBBY')drawReadyControls();else if(!state)drawRooms();
  }
  function rewardMarkup(reward,won){
