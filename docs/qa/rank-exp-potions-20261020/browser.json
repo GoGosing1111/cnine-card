@@ -1,0 +1,70 @@
+{
+  "checks": [
+    {
+      "statusLayout": {
+        "overflow": false,
+        "width": 680
+      },
+      "cancelWithoutConsumption": true,
+      "sameExtends": true,
+      "differentReplaces": true,
+      "zeroStockReceiptRecovery": true,
+      "reloadRestoresPersonalStatus": true,
+      "miracleCoexists": true,
+      "expiryHides": true,
+      "accountIsolation": true,
+      "errors": [],
+      "viewportWidth": 1440,
+      "viewportHeight": 1000,
+      "dialog": {
+        "width": 600,
+        "overflow": false,
+        "frame": "url(\"http://127.0.0.1:14412/assets/items/rank-exp-potions-20261020/panel.webp\")"
+      }
+    },
+    {
+      "statusLayout": {
+        "overflow": false,
+        "width": 370
+      },
+      "cancelWithoutConsumption": true,
+      "sameExtends": true,
+      "differentReplaces": true,
+      "zeroStockReceiptRecovery": true,
+      "reloadRestoresPersonalStatus": true,
+      "miracleCoexists": true,
+      "expiryHides": true,
+      "accountIsolation": true,
+      "errors": [],
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "dialog": {
+        "width": 390,
+        "overflow": false,
+        "frame": "url(\"http://127.0.0.1:14412/assets/items/rank-exp-potions-20261020/panel.webp\")"
+      }
+    },
+    {
+      "statusLayout": {
+        "overflow": false,
+        "width": 300
+      },
+      "cancelWithoutConsumption": true,
+      "sameExtends": true,
+      "differentReplaces": true,
+      "zeroStockReceiptRecovery": true,
+      "reloadRestoresPersonalStatus": true,
+      "miracleCoexists": true,
+      "expiryHides": true,
+      "accountIsolation": true,
+      "errors": [],
+      "viewportWidth": 320,
+      "viewportHeight": 740,
+      "dialog": {
+        "width": 320,
+        "overflow": false,
+        "frame": "url(\"http://127.0.0.1:14412/assets/items/rank-exp-potions-20261020/panel.webp\")"
+      }
+    }
+  ]
+}

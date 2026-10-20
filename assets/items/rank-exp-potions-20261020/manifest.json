@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-20",
+  "mode": "built-in image_gen",
+  "prompts": "prompts.json",
+  "userVisualApproval": false,
+  "derivation": "Unmodified generated originals; proportion-preserving resize and WebP encoding only.",
+  "consumers": [
+    "inventory",
+    "season-pass catalog",
+    "rank-potion confirmation",
+    "live-operations personal status"
+  ],
+  "assets": [
+    {
+      "source": "2x-source.png",
+      "runtime": "2x.webp",
+      "sourceSha256": "86af18f4f41deb0054115571bdda3a5f85962c1602742eb2d29ed0ac302aa027",
+      "runtimeSha256": "d23042685c2a317d03cb66b1a4e92a51ad9c06503fbb25bfdc63fee7101b857c",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "transparentPixels": true,
+      "bytes": 57700
+    },
+    {
+      "source": "3x-source.png",
+      "runtime": "3x.webp",
+      "sourceSha256": "23cb14aa068e9f4fa383502b703df63de2329bf53a09421badfe341b471c3b32",
+      "runtimeSha256": "649ad438e235615b92c2d1e1ee330776b2d1653c75bb361828af478db92263ea",
+      "width": 1223,
+      "height": 1286,
+      "hasAlpha": true,
+      "transparentPixels": true,
+      "bytes": 53066
+    },
+    {
+      "source": "panel-source.png",
+      "runtime": "panel.webp",
+      "sourceSha256": "7dcb98a0c0b5ba1732aaa28f353e45726a13e8042b341a5941e25132ef4127fc",
+      "runtimeSha256": "734e27ef1a2289d2cadfacf362b8d1f372e20fb1dab63ab62eb06b70b972fbcb",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true,
+      "transparentPixels": true,
+      "bytes": 37112
+    }
+  ]
+}

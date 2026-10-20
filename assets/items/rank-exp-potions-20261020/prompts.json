@@ -1,0 +1,19 @@
+{
+  "mode": "built-in image_gen",
+  "date": "2026-10-20",
+  "userVisualApproval": false,
+  "prompts": [
+    {
+      "key": "2x",
+      "prompt": "Create one premium RPG inventory potion icon on a truly transparent background. Single upright compact octagonal crystal flask, luminous sapphire-blue elixir and a small suspended silver ascending chevron insignia within the glass. Precision brushed platinum neck, deep blue enamel accents, small brass stopper, restrained pale gold edge highlights. Modern military-fantasy rank advancement theme for a Korean collectible RPG, polished painterly 3D game-item rendering, readable bold silhouette at 48 pixels, bright clear faceted glass, three-quarter front view, complete flask fully visible and centered with 12 percent empty transparent padding. No scenery, no pedestal, no cast ground shadow, no text, no letters, no numerals, no UI labels or badge. Only this one item, no duplicate bottles. Preserve clean alpha edges."
+    },
+    {
+      "key": "3x",
+      "prompt": "Create one premium RPG inventory potion icon on a truly transparent background. Single upright compact octagonal crystal flask, luminous royal-violet elixir and a small suspended gold ascending chevron insignia within the glass. Precision brushed platinum neck, violet enamel accents, sculpted gold stopper, restrained radiant pale gold edge highlights. Modern military-fantasy rank advancement theme for a Korean collectible RPG, polished painterly 3D game-item rendering, readable bold silhouette at 48 pixels, bright clear faceted glass, three-quarter front view, complete flask fully visible and centered with 12 percent empty transparent padding. No scenery, no pedestal, no cast ground shadow, no text, no letters, no numerals, no UI labels or badge. Only this one item, no duplicate bottles. Preserve clean alpha edges. This is the higher-tier sibling of a sapphire potion with the same compact octagonal platinum and gold design vocabulary."
+    },
+    {
+      "key": "panel",
+      "prompt": "Create a dedicated game UI material panel for rank experience booster potions, landscape ratio 3:2. Extremely restrained modern military-fantasy collectible RPG interface. One continuous rectangular dark midnight navy enamel inset with very thin brushed platinum metal perimeter, small angular precision metal corners, delicate cool-blue and violet optical highlights along the rim. Deep navy interior must remain uniformly quiet and empty for dynamic interface text, no pattern in central area. Tiny engraved ascending chevron detail only at the top center rim, extremely subtle. This asset will be scaled with CSS nine-slice into a small confirmation modal, buttons and a horizontal status row, so keep ornament within the outermost 7 percent border and make all four sides straight and clean. No words, letters, numerals, icons in the center, gems, giant crest, scene, bottle, illustration, shadow outside frame. Transparent outside the crisp frame. Premium precise realistic game UI material, no rounded pill shape."
+    }
+  ]
+}

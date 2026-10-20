@@ -125,3 +125,12 @@ test('ICON choice receipt recovery remains reachable after the last ticket was c
   m.click('ICON_CARD_CHOICE_TICKET');assert.deepEqual(m.opened,[['ICON_CARD_CHOICE_TICKET',0]]);
   m.store.delete('cnine.icon-choice.v1:7');m.ctx.inventoryRenderGiftRecovery();assert.equal(m.recovery.hidden,true);
 });
+
+test('rank potion recovery is account-specific, works at zero stock and ignores malformed potion storage',async()=>{
+  const m=recoveryModel();m.store.set('cnine.rank-potion.v1:8',JSON.stringify({itemCode:'RANK_EXP_POTION_3X_60M',requestId:'other'}));
+  await m.ctx.loadInventory();assert.equal(m.recovery.hidden,true);
+  m.store.set('cnine.rank-potion.v1:7',JSON.stringify({itemCode:'RANK_EXP_POTION_3X_60M',requestId:'saved-before-spending'}));
+  await m.ctx.loadInventory();assert.deepEqual(m.opened,[]);m.click('RANK_EXP_POTION_3X_60M');assert.deepEqual(m.opened,[['RANK_EXP_POTION_3X_60M',0]]);
+  m.store.set('cnine.rank-potion.v1:7','invalid json');m.store.set('cnine:funding-gift:7:pending','existing-gift');
+  await m.ctx.loadInventory();assert.match(m.recovery.innerHTML,/FUNDING_GIFT_BOX/);assert.doesNotMatch(m.recovery.innerHTML,/RANK_EXP_POTION/);
+});

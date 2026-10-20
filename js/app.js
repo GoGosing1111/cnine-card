@@ -1518,6 +1518,27 @@ const LIVE_OPERATION_META=Object.freeze({
 });
 let liveOperationsServerOffset=0,liveOperationsClockTimer=0,liveOperationsRefreshTimer=0;
 let liveOperationsItems=[],liveOperationsFailed=false,liveOperationsReady=false;
+let rankExpPotionState=null,rankExpPotionServerOffset=0;
+function setRankExpPotionState(buff){
+  const owner=loadUser()?.serverUserId;if(!owner||Number(buff?.userId)!==Number(owner))return;
+  if(Number(rankExpPotionState?.userId)===Number(owner)&&Number(rankExpPotionState?.revision)>Number(buff.revision))return;
+  rankExpPotionState=buff;const serverAt=Date.parse(buff.serverNow);if(Number.isFinite(serverAt))rankExpPotionServerOffset=serverAt-Date.now();
+}
+function rankExpPotionRemaining(){
+  if(!rankExpPotionState?.active||Number(rankExpPotionState.userId)!==Number(loadUser()?.serverUserId))return 0;
+  return Math.max(0,Math.ceil((Date.parse(rankExpPotionState.expiresAt)-(Date.now()+rankExpPotionServerOffset))/1000))||0;
+}
+function rankExpPotionClock(){const n=rankExpPotionRemaining();return [Math.floor(n/3600),Math.floor(n%3600/60),n%60].map(x=>String(x).padStart(2,'0')).join(':');}
+function liveRankExpPotionHtml(){
+  if(!rankExpPotionRemaining())return '';
+  const multiplier=rankExpPotionState.multiplier;if(![2,3].includes(multiplier))return '';
+  return `<article class="live-operation-card live-operation-event kind-rank-exp-potion" role="group" aria-label="계급 경험치 ${multiplier}배 물약 적용 중"><span class="live-operation-icon"><img src="assets/items/rank-exp-potions-20261020/${multiplier}x.webp" alt="" width="44" height="52"></span><span class="live-operation-copy"><small>개인 버프<em>적용 중</em></small><b>계급 경험치 ×${multiplier}</b><span>계급 경험치 물약</span></span><strong><small>남은 시간</small><b data-rank-potion-countdown>${rankExpPotionClock()}</b></strong></article>`;
+}
+async function loadRankExpPotionStatus(){
+  const owner=loadUser()?.serverUserId;if(!owner||!API_TOKEN){rankExpPotionState=null;return;}
+  try{const data=await apiRequest('rank-exp-potion/status',{}, {ttl:0,timeoutMs:7000});if(Number(loadUser()?.serverUserId)===Number(owner))setRankExpPotionState(data.buff);}
+  catch(error){if([401,403].includes(Number(error.status)))rankExpPotionState=null;}
+}
 function liveOperationTimestamp(value){const raw=String(value||'').trim();if(!raw)return NaN;return Date.parse(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(raw)?`${raw.replace(' ','T')}Z`:raw)}
 function liveOperationClock(value){const ms=liveOperationTimestamp(value)-(Date.now()+liveOperationsServerOffset);if(!Number.isFinite(ms))return '진행 중';if(ms<=0)return '상태 갱신 중';const seconds=Math.ceil(ms/1000),hours=Math.floor(seconds/3600),minutes=Math.floor((seconds%3600)/60),secs=seconds%60;if(hours>=24)return `${Math.floor(hours/24)}일 ${String(hours%24).padStart(2,'0')}:${String(minutes).padStart(2,'0')}`;return `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`}
 function liveOperationIcon(kind){return ({
@@ -1533,7 +1554,12 @@ function liveOperationCardHtml(item){
   const kind=String(item?.kind||'').toUpperCase(),phase=String(item?.phase||'').toUpperCase(),base=LIVE_OPERATION_META[kind]||{label:'콘텐츠',state:'진행 중',deadline:'종료까지'},organizationPhase=kind==='ORGANIZATION'?({FORMATION:{state:'입단 모집',deadline:'모집 마감'},PREPARING:{state:'균등 배정 중',deadline:'배정 진행'},ACTIVE:{state:'세력전',deadline:'다음 정산'}}[phase]||null):null,raidLobby=kind==='RAID'&&phase==='LOBBY',territoryPhase=kind==='TERRITORY'?({FORMATION:{state:'편성 접수',deadline:'편성 마감'},PREPARING:{state:'개전 준비',deadline:'개전까지'},BATTLE:{state:'공성 진행',deadline:'종료까지'},ACTIVE:{state:'공성 진행',deadline:'종료까지'}}[phase]||null):null,coupRecruiting=kind==='COUP'&&phase==='RECRUITING',duoAdditional=kind==='RANKED_DUO'&&phase==='ACTIVE'&&item.additionalRecruiting===true,duoRecruiting=kind==='RANKED_DUO'&&(phase==='RECRUITING'||duoAdditional),state=organizationPhase?.state||(duoAdditional?'추가모집중':duoRecruiting?'모집중':coupRecruiting?'참가 모집':raidLobby?'참가 대기':territoryPhase?.state||base.state),deadline=organizationPhase?.deadline||(duoRecruiting?'모집 마감':coupRecruiting?'모집 상태':raidLobby?'전투 시작':territoryPhase?.deadline||base.deadline),title=String(item?.title||base.label),detail=String(item?.detail||'참여 가능한 콘텐츠');
   return `<button type="button" class="live-operation-card kind-${escapeHtml(kind.toLowerCase())}" data-live-operation-kind="${escapeHtml(kind)}" aria-label="${escapeHtml(base.label)} ${escapeHtml(state)}"><span class="live-operation-icon">${liveOperationIcon(kind)}</span><span class="live-operation-copy"><small><i aria-hidden="true"></i>${escapeHtml(base.label)}<em>${escapeHtml(state)}</em></small><b>${escapeHtml(title)}</b><span>${escapeHtml(detail)}</span></span><strong><small>${escapeHtml(deadline)}</small><b ${coupRecruiting?'':`data-live-operation-deadline="${escapeHtml(item?.deadlineAt||'')}"`}>${coupRecruiting?'개전 대기':liveOperationClock(item?.deadlineAt)}</b></strong><i class="live-operation-enter" aria-hidden="true">›</i></button>`;
 }
-function updateLiveOperationClocks(){const nodes=document.querySelectorAll('[data-live-operation-deadline]');if(!nodes.length){if(liveOperationsClockTimer)clearInterval(liveOperationsClockTimer);liveOperationsClockTimer=0;return}nodes.forEach(node=>{node.textContent=liveOperationClock(node.dataset.liveOperationDeadline)})}
+function updateLiveOperationClocks(){
+  const nodes=document.querySelectorAll('[data-live-operation-deadline]'),potions=document.querySelectorAll('[data-rank-potion-countdown]');
+  if(potions.length&&!rankExpPotionRemaining()){if(rankExpPotionState)rankExpPotionState={...rankExpPotionState,active:false};renderLiveOperations();return;}
+  if(!nodes.length&&!potions.length){if(liveOperationsClockTimer)clearInterval(liveOperationsClockTimer);liveOperationsClockTimer=0;return;}
+  nodes.forEach(node=>{node.textContent=liveOperationClock(node.dataset.liveOperationDeadline)});potions.forEach(node=>{node.textContent=rankExpPotionClock()});
+}
 function openLiveOperation(kind){
   document.getElementById('liveOperationsDialog')?.close();
   const key=String(kind||'').toUpperCase();
@@ -1589,7 +1615,7 @@ function renderLiveOperations(payload=null){
     liveOperationsItems=(Array.isArray(payload.items)?payload.items:[]).filter(item=>LIVE_OPERATION_META[String(item?.kind||'').toUpperCase()]);
     liveOperationsFailed=false;liveOperationsReady=true;
   }
-  const items=liveOperationsFailed?[]:liveOperationsItems,eventHtml=liveBurningOperationHtml(),count=items.length+(eventHtml?1:0);
+  const items=liveOperationsFailed?[]:liveOperationsItems,eventHtml=liveBurningOperationHtml(),potionHtml=liveRankExpPotionHtml(),count=items.length+(eventHtml?1:0)+(potionHtml?1:0);
   const errorHtml='<div class="live-operation-empty error"><span aria-hidden="true"></span><b>운영 상태 갱신 대기</b><small>잠시 후 자동으로 다시 확인합니다.</small></div>';
   lists.forEach(list=>{
     const all=list.dataset.liveOperationsList==='all';
@@ -1598,7 +1624,7 @@ function renderLiveOperations(payload=null){
     const loading='<div class="live-operation-empty loading"><b>콘텐츠 상태 확인 중</b><small>현재 진행 상황을 불러오고 있습니다.</small></div>';
     const focused=list.contains(document.activeElement)?document.activeElement.dataset.liveOperationKind:null;
     const left=list.scrollLeft,top=list.scrollTop;
-    list.innerHTML=eventHtml+(liveOperationsFailed?errorHtml:!liveOperationsReady?loading:visible.length?visible.map(liveOperationCardHtml).join(''):eventHtml?'':empty);
+    list.innerHTML=eventHtml+potionHtml+(liveOperationsFailed?errorHtml:!liveOperationsReady?loading:visible.length?visible.map(liveOperationCardHtml).join(''):eventHtml||potionHtml?'':empty);
     list.scrollLeft=left;list.scrollTop=top;
     if(focused){
       const next=[...list.querySelectorAll('[data-live-operation-kind]')].find(button=>button.dataset.liveOperationKind===focused);
@@ -1614,7 +1640,8 @@ async function loadLiveOperations(fresh=false){
   bindLiveOperationsControls();
   const lists=document.querySelectorAll('[data-live-operations-list]');if(!lists.length)return;
   if(!API_MODE){renderLiveOperations({items:[]});return}
-  try{if(fresh)clearApiCache('live-operations');const data=await apiRequest('live-operations',{}, {ttl:fresh?0:15000,timeoutMs:7000});renderLiveOperations(data);scheduleLiveOperationsRefresh(data.pollSeconds)}catch(error){liveOperationsFailed=true;renderLiveOperations();scheduleLiveOperationsRefresh(20)}
+  const personalStatus=loadRankExpPotionStatus();
+  try{if(fresh)clearApiCache('live-operations');const data=await apiRequest('live-operations',{}, {ttl:fresh?0:15000,timeoutMs:7000});await personalStatus;renderLiveOperations(data);scheduleLiveOperationsRefresh(data.pollSeconds)}catch(error){await personalStatus;liveOperationsFailed=true;renderLiveOperations();scheduleLiveOperationsRefresh(20)}
 }
 
 function packImagePath(pack) {
@@ -4182,13 +4209,14 @@ function inventoryView(){
 const inventoryUiState={owner:null,items:[],filter:'ALL',query:'',sort:'DEFAULT',ownedOnly:true,newOnly:false,selectedCode:'',request:0};
 function inventoryPendingGifts(){
   const owner=loadUser()?.serverUserId;if(!owner)return [];
-  try{return [
+  try{const potionKey=`cnine.rank-potion.v1:${owner}`,potion=(()=>{try{return JSON.parse(localStorage.getItem(potionKey)||'null');}catch{return null;}})(),multiplier=({'RANK_EXP_POTION_2X_60M':2,'RANK_EXP_POTION_3X_60M':3})[potion?.itemCode];return [
     {code:'WORM_CONTEST_GIFT_BOX',key:'worm-contest-gift',name:'지렁이대회 사은품'},
     {code:'FUNDING_GIFT_BOX',key:'funding-gift',name:'펀딩 사은품'},
     {code:'RECRUITMENT_GIFT_BOX',key:'recruitment-gift',name:'영입전 사은품'},
     {code:'PINGDU_THANKS_GIFT_BOX',key:'pingdu-thanks-gift',name:'핑두의 감사 선물'},
     {code:'TOURNAMENT_GIFT_BOX',key:'tournament-gift',name:'대회 사은품'},
-    {code:'ICON_CARD_CHOICE_TICKET',storageKey:`cnine.icon-choice.v1:${owner}`,name:'아이콘 카드 선택권',image:'assets/items/icon-card-choice-20261020/ticket.webp'}
+    {code:'ICON_CARD_CHOICE_TICKET',storageKey:`cnine.icon-choice.v1:${owner}`,name:'아이콘 카드 선택권',image:'assets/items/icon-card-choice-20261020/ticket.webp'},
+    ...(multiplier?[{code:potion.itemCode,storageKey:potionKey,name:`계급 경험치 ${multiplier}배 물약`,image:`assets/items/rank-exp-potions-20261020/${multiplier}x.webp`}]:[])
   ].filter(gift=>localStorage.getItem(gift.storageKey||`cnine:${gift.key}:${owner}:pending`));}catch{return [];}
 }
 function inventoryRenderGiftRecovery(){
@@ -4332,6 +4360,12 @@ async function activateLandHyperTicket(){
   }catch(error){if([400,403,409].includes(Number(error.status)))localStorage.removeItem(key);alert(error.message)}finally{landHyperBusy=false}
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
+  if(['RANK_EXP_POTION_2X_60M','RANK_EXP_POTION_3X_60M'].includes(itemCode)){
+    const dialog=document.getElementById('inventoryDetailDialog'),body=document.getElementById('inventoryDialogContent');
+    if(!dialog||!body)return renderShell('inventory');
+    try{const {openRankExpPotion}=await import('/js/rank-exp-potion-v1.mjs?v=20261020-v1');await openRankExpPotion({itemCode,userId:loadUser()?.serverUserId,dialog,body,token:()=>API_TOKEN,onClose:inventoryRenderGiftRecovery,onApplied:buff=>{setRankExpPotionState(buff);renderLiveOperations();},refresh:async()=>{clearApiCache('inventory');clearApiCache('account-rank/status');clearApiCache('rank-exp-potion/status');await loadInventory();}});}catch(error){alert(error.message)}
+    return;
+  }
   if(itemCode==='ICON_CARD_CHOICE_TICKET'){
     const dialog=document.getElementById('inventoryDetailDialog'),body=document.getElementById('inventoryDialogContent');
     if(!dialog||!body)return renderShell('inventory');

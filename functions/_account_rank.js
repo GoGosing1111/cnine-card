@@ -3,6 +3,7 @@ import {rewardAmountWithBonus} from '../shared/collection-bonuses-v1.mjs';
 import {RANKS,rankForLevel} from '../shared/account-ranks-v1.mjs';
 import {SHIRANUI_MIN_ACCOUNT_LEVEL} from '../shared/mercenary-shiranui-v1.mjs';
 import {shiranuiRankRewardStatements,shiranuiRankRewardKey} from './_account_rank_shiranui.js';
+import {readRankExpPotion} from './_rank_exp_potion.js';
 
 // Server-only. Never return the curve, payout rules or receipt ledger to clients.
 const PAYOUT = Object.freeze({HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:160,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30});
@@ -52,7 +53,8 @@ export async function accountRankAward(env,userId,source,eventId,{quantity=1,tic
   if(!Number.isSafeInteger(Number(userId))||Number(userId)<=0||typeof eventId!=='string'||!eventId||eventId.length>200)throw new Error('Invalid account rank event');
   const base=source==='IDLE'?ticks:(PAYOUT[source]||0)*600*quantity;
   if(!Number.isSafeInteger(base)||base<=0||base>MAX_RANK_TICKS)throw new Error('Invalid account rank award');
-  const amount=rewardAmountWithBonus(base,(await readCollectionBonuses(env,userId)).totals.accountXpPercent,MAX_RANK_TICKS);
+  const [collection,potion]=await Promise.all([readCollectionBonuses(env,userId),readRankExpPotion(env,userId)]);
+  const amount=Math.min(MAX_RANK_TICKS,rewardAmountWithBonus(base,collection.totals.accountXpPercent,MAX_RANK_TICKS)*(potion.active?potion.multiplier:1));
   if(!Number.isSafeInteger(amount)||amount<=0||amount>MAX_RANK_TICKS)throw new Error('Invalid account rank award');
   await ensureAccountRank(env);
   const token=crypto.randomUUID();
