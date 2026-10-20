@@ -10,11 +10,12 @@ const prizes=[
 const select=document.querySelector('#previewPrize');select.innerHTML=prizes.map(p=>`<option value="${p.key}">${p.label}</option>`).join('');
 const history=[],receipts=new Map();let tickets=12;
 const transport=async(path,body)=>{
-  if(path==='state')return {access:{allowed:true,isOwner:false},dailyAllowance:{enabled:true,quantity:10,couponUses:150},defaultCouponUses:150,tickets,nextCouponUses:150,prizes,history};
+  if(path==='state')return {serverNow:new Date().toISOString(),couponTtlHours:8,access:{allowed:true,isOwner:false},dailyAllowance:{enabled:true,quantity:10,couponUses:150},defaultCouponUses:150,tickets,nextCouponUses:150,prizes,history};
   if(path==='spin'){
     if(receipts.has(body.requestId))return {...receipts.get(body.requestId),replayed:true};
     const prize={...prizes.find(p=>p.key===select.value),jackpot:select.value!=='PINGDU_REPAIR_COUPON'};
-    const result={ok:true,requestId:body.requestId,prize,delivery:'VIEWER_COUPON',code:'DEMO-NOT-A-VALID-COUPON',couponUses:150,createdAt:new Date().toISOString()};
+    const createdAt=new Date().toISOString(),expiresAt=new Date(Date.parse(createdAt)+8*60*60*1000).toISOString();
+    const result={ok:true,requestId:body.requestId,prize,delivery:'VIEWER_COUPON',code:'DEMO-NOT-A-VALID-COUPON',couponUses:150,createdAt,expiresAt,expired:false};
     tickets--;history.unshift(result);receipts.set(body.requestId,result);return result;
   }
   throw new Error('프리뷰에서는 운영 설정을 변경할 수 없습니다.');

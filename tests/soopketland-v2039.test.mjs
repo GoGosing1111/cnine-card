@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import fs from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
-import {handleSoopketLand,redeemLandCoupon,landAccess,LAND_TICKET,HYPER_TICKET,SUPERSTAR_TICKET,EMPEROR_ENERGY,LAND_THANKS_GIFT,LAND_REPAIR_COUPON,LAND_PRIZES,LAND_STREAMERS,LAND_IYEJUN_PRIZE,LAND_IYEJUN_CARD_ID,pickLandPrize,validateLandWeights,storedLandWeights,issueDailyLandTickets,landDayKey,LAND_DAILY_POLICY} from '../functions/_soopket_land.js';
+import {handleSoopketLand,redeemLandCoupon,landAccess,LAND_TICKET,HYPER_TICKET,SUPERSTAR_TICKET,EMPEROR_ENERGY,LAND_THANKS_GIFT,LAND_REPAIR_COUPON,LAND_PRIZES,LAND_STREAMERS,LAND_IYEJUN_PRIZE,LAND_IYEJUN_CARD_ID,pickLandPrize,validateLandWeights,storedLandWeights,issueDailyLandTickets,landDayKey,LAND_DAILY_POLICY,LAND_COUPON_TTL_MS,landCouponTiming} from '../functions/_soopket_land.js';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
 test('new land policy assigns 60% coins, 14% stars, 10% single repair and 1% thanks gifts and preserves explicit OWNER weights',async()=>{
  const weights=storedLandWeights(null);
@@ -60,6 +60,57 @@ test('repair prize always grants one actual coupon per viewer and preserves disa
  assert.equal((await f.redeem(roll.code,21)).body.rewardAmount,1);
  assert.equal((await f.redeem(roll.code,22)).body.code,'LAND_COUPON_EXHAUSTED');
  assert.equal(f.qty(LAND_REPAIR_COUPON,20),1);assert.equal(f.qty(LAND_REPAIR_COUPON,21),1);
+});
+
+test('coupon deadline is exactly eight hours, inclusive at expiry, and independent of timestamp timezone',()=>{
+ const issued='2026-10-20T06:00:00.000Z',end=Date.parse(issued)+LAND_COUPON_TTL_MS;
+ assert.deepEqual(landCouponTiming(issued,end-1),{expiresAt:'2026-10-20T14:00:00.000Z',expired:false});
+ assert.equal(landCouponTiming(issued,end).expired,true);
+ assert.equal(landCouponTiming(issued,end+1).expired,true);
+ assert.deepEqual(landCouponTiming('2026-10-20 06:00:00',end),landCouponTiming(issued,end));
+ assert.deepEqual(landCouponTiming('2026-10-20T15:00:00+09:00',end),landCouponTiming(issued,end));
+ assert.deepEqual(landCouponTiming('bad',end),{expiresAt:null,expired:true});
+});
+test('new coupon stores one issue time and replay never restarts the eight-hour clock',async t=>{
+ const f=await fixture();await f.force(LAND_REPAIR_COUPON);await f.grant(1);f.current.id=2;
+ const id=crypto.randomUUID(),first=(await f.spin(id)).body;
+ assert.equal(Date.parse(first.expiresAt)-Date.parse(first.createdAt),LAND_COUPON_TTL_MS);
+ assert.equal(first.expired,false);
+ assert.equal(f.sqlite.prepare('SELECT created_at FROM soopketland_coupons WHERE code=?').get(first.code).created_at,first.createdAt);
+ t.mock.method(Date,'now',()=>Date.parse(first.expiresAt));
+ const replay=(await f.spin(id)).body;assert.equal(replay.replayed,true);assert.equal(replay.expired,true);
+ assert.equal(replay.createdAt,first.createdAt);assert.equal(replay.expiresAt,first.expiresAt);assert.equal(f.qty(LAND_TICKET),0);
+});
+test('previously issued codes expire after eight hours while claimed rewards and receipt replay survive',async()=>{
+ const f=await fixture(),code=issuedCoupon(f,LAND_REPAIR_COUPON,1,2,new Date(Date.now()-LAND_COUPON_TTL_MS+60000).toISOString()),key=crypto.randomUUID();
+ assert.equal((await f.redeem(code,20,key)).body.rewardAmount,1);
+ f.sqlite.prepare('UPDATE soopketland_coupons SET created_at=? WHERE code=?').run(new Date(Date.now()-LAND_COUPON_TTL_MS-60000).toISOString(),code);
+ assert.equal((await f.redeem(code,21)).body.code,'LAND_COUPON_EXPIRED');
+ assert.equal((await f.redeem(code,20,key)).body.replayed,true);
+ assert.equal(f.qty(LAND_REPAIR_COUPON,20),1);assert.equal(f.qty(LAND_REPAIR_COUPON,21),0);
+ assert.equal(f.sqlite.prepare('SELECT used_count FROM soopketland_coupons WHERE code=?').get(code).used_count,1);
+ assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM soopketland_redemptions WHERE code=?').get(code).n,1);
+});
+test('history and OWNER state derive expired codes without deleting prizes, receipts or inventory',async()=>{
+ const f=await fixture(),createdAt=new Date(Date.now()-LAND_COUPON_TTL_MS-60000).toISOString(),code=issuedCoupon(f,'COIN',100000000,150,createdAt);
+ const coupon=f.sqlite.prepare('SELECT * FROM soopketland_coupons WHERE code=?').get(code);
+ f.sqlite.prepare('INSERT INTO soopketland_rolls VALUES(?,?,?,?,?)').run(coupon.request_id,2,'old-lot',JSON.stringify({code,requestId:coupon.request_id,prize:{key:'COIN',amount:100000000},couponUses:150}),createdAt);
+ const ownerState=(await f.call()).body;assert.equal(ownerState.couponTtlHours,8);assert.ok(Number.isFinite(Date.parse(ownerState.serverNow)));
+ assert.equal(ownerState.owner.coupons[0].expired,true);
+ f.current.id=2;const history=(await f.call()).body.history[0];assert.equal(history.expired,true);assert.equal(history.prize.amount,100000000);
+ assert.equal(history.expiresAt,new Date(Date.parse(createdAt)+LAND_COUPON_TTL_MS).toISOString());
+ assert.deepEqual(f.sqlite.prepare('SELECT * FROM soopketland_coupons WHERE code=?').get(code),coupon);
+});
+test('database deadline is checked again after a redemption request has read the coupon',async t=>{
+ const f=await fixture(),code=issuedCoupon(f,'COIN',100000000,2),batch=f.db.batch.bind(f.db);
+ t.mock.method(f.db,'batch',list=>{
+  if(list.some(s=>s.sql.startsWith('INSERT INTO soopketland_redemptions')))f.sqlite.prepare('UPDATE soopketland_coupons SET created_at=? WHERE code=?').run(new Date(Date.now()-LAND_COUPON_TTL_MS-1).toISOString(),code);
+  return batch(list);
+ });
+ assert.equal((await f.redeem(code)).body.code,'LAND_COUPON_EXPIRED');
+ assert.equal(f.sqlite.prepare('SELECT coin FROM users WHERE id=20').get().coin,0);
+ assert.equal(f.sqlite.prepare('SELECT used_count FROM soopketland_coupons WHERE code=?').get(code).used_count,0);
+ assert.equal(f.sqlite.prepare('SELECT COUNT(*) n FROM soopketland_redemptions').get().n,0);
 });
 
 class Statement{
@@ -258,9 +309,9 @@ test('PostgreSQL translates every captured statement with matched binds; new tra
   const source=fs.readFileSync(new URL('../functions/_soopket_land.js',import.meta.url),'utf8');assert.match(source,/SELECT code FROM soopketland_coupons WHERE code=\? FOR UPDATE/);assert.match(source,/SELECT key FROM app_meta WHERE key IN/);
 });
 
-function issuedCoupon(f,key,amount=1,uses=1){
+function issuedCoupon(f,key,amount=1,uses=1,createdAt=new Date(Date.now()-3600000).toISOString()){
   const code='SLD-'+crypto.randomUUID().replaceAll('-','').slice(0,24).toUpperCase();
-  f.sqlite.prepare('INSERT INTO soopketland_coupons(code,issuer_id,request_id,reward_json,max_uses,created_at) VALUES(?,2,?,?,?,?)').run(code,crypto.randomUUID(),JSON.stringify({key,label:key,amount}),uses,'2026-09-12T12:00:00Z');
+  f.sqlite.prepare('INSERT INTO soopketland_coupons(code,issuer_id,request_id,reward_json,max_uses,created_at) VALUES(?,2,?,?,?,?)').run(code,crypto.randomUUID(),JSON.stringify({key,label:key,amount}),uses,createdAt);
   return code;
 }
 function couponAmount(f,code,amount){
@@ -381,7 +432,7 @@ test('old issued one-card coupons retain their amount and amounts above new caps
 test('client formats named cards as 장, uses server coin cap, and loads the new versioned bundle',()=>{
   const live=fs.readFileSync(new URL('../js/soopketland-v2039.src.js',import.meta.url),'utf8'),app=fs.readFileSync(new URL('../js/app.js',import.meta.url),'utf8');
   assert.match(live,/endsWith\('_CARD'\)/);assert.match(live,/s\.data\.prizes\.find\(p=>p\.key==='COIN'\)\?\.max/);assert.doesNotMatch(live,/couponUses\*500000000|7종 동일 가중치/);
-  assert.match(app,/soopketland-v2039\.bundle\.js\?v=20261020-land-repair10/);
+  assert.match(app,/soopketland-v2039\.bundle\.js\?v=20261020-land-coupon8h/);
 });
 
 test('legacy Hyper conversion precedes Black Miracle retirement and never redistributes twice',async()=>{
@@ -437,7 +488,7 @@ test('the four-prize Superstar replacement preserves custom weights, subsequent 
  assert.deepEqual((await f.call()).body.owner.weights,edited);
  const requestId=crypto.randomUUID(),code=issuedCoupon(f,SUPERSTAR_TICKET),prior={ok:true,requestId,prize:{key:SUPERSTAR_TICKET,label:'슈퍼스타팩 확정권',amount:1},code,delivery:'VIEWER_COUPON',couponUses:1};
  f.sqlite.prepare('INSERT INTO soopketland_rolls(request_id,user_id,lot_id,response_json,created_at) VALUES(?,2,?,?,?)').run(requestId,'old-lot',JSON.stringify(prior),'2026-09-29T00:00:00Z');
- f.current.id=2;assert.deepEqual((await f.spin(requestId)).body,{...prior,replayed:true});assert.equal(f.qty(LAND_TICKET),0);
+ f.current.id=2;const replay=(await f.spin(requestId)).body;assert.deepEqual(replay.prize,prior.prize);assert.equal(replay.code,prior.code);assert.equal(replay.replayed,true);assert.equal(Date.parse(replay.expiresAt)-Date.parse(replay.createdAt),LAND_COUPON_TTL_MS);assert.equal(f.qty(LAND_TICKET),0);
 });
 
 test('maximum Emperor, stars and mystic spins persist coupons; failed delivery and replay cannot consume or grant twice',async t=>{
@@ -487,5 +538,13 @@ test('PostgreSQL credits expanded maximum rewards once, including 2,500억 BIGIN
       assert.equal(Number(row.quantity),amount);
     }
     const audit=(await pg.query('SELECT change_amount,balance_after FROM coin_logs WHERE user_id=20')).rows;assert.equal(audit.length,1);assert.equal(Number(audit[0].change_amount),250000000000);assert.equal(Number(audit[0].balance_after),250000000000);
+    const expiring='SLD-'+crypto.randomUUID().replaceAll('-','').slice(0,24).toUpperCase();
+    await pg.query('INSERT INTO soopketland_coupons(code,issuer_id,request_id,reward_json,max_uses,created_at) VALUES($1,2,$2,$3,150,$4)',[expiring,crypto.randomUUID(),JSON.stringify({key:LAND_REPAIR_COUPON,label:'핑두 리페어 쿠폰',amount:1}),new Date().toISOString()]);
+    const batch=DB.batch.bind(DB);let changed=false;
+    DB.batch=async list=>{if(!changed){changed=true;await pg.query('UPDATE soopketland_coupons SET created_at=$1 WHERE code=$2',[new Date(Date.now()-LAND_COUPON_TTL_MS-60000).toISOString(),expiring]);}return batch(list);};
+    const denied=await redeemLandCoupon({env:{DB},user:{id:21,status:'ACTIVE'},body:{code:expiring,operationKey:crypto.randomUUID()},deps:f.deps});
+    assert.equal(changed,true);assert.equal(denied.body.code,'LAND_COUPON_EXPIRED',JSON.stringify(denied));
+    assert.equal(Number((await pg.query('SELECT used_count FROM soopketland_coupons WHERE code=$1',[expiring])).rows[0].used_count),0);
+    assert.equal((await pg.query('SELECT * FROM cnine_user_inventory WHERE user_id=21')).rows.length,0);
   }finally{await pg.close();f.sqlite.close();}
 });

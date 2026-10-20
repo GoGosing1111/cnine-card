@@ -996,8 +996,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{
-    styles:['css/soopketland-v2039.css?v=20261020-land-repair10&suggestions=20261005'],
-    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=20261020-land-repair10&suggestions=20261005&apocalypseCompletion=20261005-settlement3'],
+    styles:['css/soopketland-v2039.css?v=20261020-land-coupon8h&suggestions=20261005'],
+    scripts:['js/ui-fx-vendor-v2045.bundle.js?v=2045','js/soopketland-v2039.bundle.js?v=20261020-land-coupon8h&suggestions=20261005&apocalypseCompletion=20261005-settlement3'],
     ready:()=>typeof window.soopketLandView==='function'&&typeof window.bindSoopketLandView==='function'
   },
   primeDraw:{
