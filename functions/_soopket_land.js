@@ -2,8 +2,11 @@ import { readRuntimeData, cacheRuntimeData } from './_runtime_data_cache.js';
 import {ensureEmperorEnergyCatalog} from './_emperor_energy.js';
 import {ensurePingduThanksGiftCatalog,PINGDU_THANKS_GIFT} from './_pingdu_thanks_gift.js';
 // Streamer event rewards are committed before the client starts its pachinko show.
-// No daily allowance, client-side prize selection, or nickname-based ongoing access.
+// Daily passes and prizes are server-authoritative and keyed by stable account ID.
 export const LAND_TICKET='SOOPKETLAND_TICKET';
+export const LAND_DAILY_POLICY='soopketland_daily_policy_v1';
+export const LAND_DAILY_QUANTITY=10;
+export const LAND_COUPON_USES=150;
 export const HYPER_TICKET='SOOPKETLAND_HYPER_BURNING_TICKET';
 export const SUPERSTAR_TICKET='SUPERSTAR_GUARANTEED_PACK';
 export const EMPEROR_ENERGY='EMPEROR_ENERGY';
@@ -12,15 +15,16 @@ export const LAND_IYEJUN_PRIZE='IYEJUN_CARD';
 export const LAND_IYEJUN_CARD_ID='CN-346F8DB0DEB84D41';
 export const LAND_STREAMERS=Object.freeze(['진짜디임','조은','오리꿍','강구열','하이희야♡']);
 export const LAND_PRIZES=Object.freeze([
-  {key:'COIN',label:'코인',range:'1억 ~ 500억',min:1,max:500,unit:100000000,symbol:'C',color:0xffd477},
-  {key:EMPEROR_ENERGY,label:'엠퍼러 에너지',range:'1 ~ 5개',min:1,max:5,unit:1,symbol:'E',color:0xffdf91},
-  {key:'MASTER_STAR',label:'마스터의 별',range:'1,000 ~ 1,000,000개',min:1,max:1000,unit:1000,symbol:'S',color:0xffe7a6},
-  {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'1 ~ 1,000개',min:1,max:1000,unit:1,symbol:'M',color:0xc5a5ff},
-  {key:LAND_THANKS_GIFT,label:PINGDU_THANKS_GIFT.name,range:'1개',min:1,max:1,unit:1,symbol:'G',color:0xff91c2}
+  {key:'COIN',label:'코인',range:'5억 ~ 2,500억',min:1,max:500,unit:500000000,symbol:'C',color:0xffd477},
+  {key:EMPEROR_ENERGY,label:'엠퍼러 에너지',range:'5 ~ 25개',min:1,max:5,unit:5,symbol:'E',color:0xffdf91},
+  {key:'MASTER_STAR',label:'마스터의 별',range:'5,000 ~ 5,000,000개',min:1,max:1000,unit:5000,symbol:'S',color:0xffe7a6},
+  {key:'STARLIGHT_ARMOR_CORE',label:'미스틱 에너지',range:'5 ~ 5,000개',min:1,max:1000,unit:5,symbol:'M',color:0xc5a5ff},
+  {key:LAND_THANKS_GIFT,label:PINGDU_THANKS_GIFT.name,range:'5개',min:1,max:1,unit:5,symbol:'G',color:0xff91c2}
 ]);
 // Existing issued coupons remain redeemable; retired prizes cannot be spun again.
-// The 1,000,000-star ceiling also accepts previously issued 30,000/100,000/300,000 coupons.
-const REDEEM_PRIZES=[...LAND_PRIZES,
+// New draws multiply the original amount, not the odds. Redemption retains old
+// minimums and steps so already-issued coupons keep their exact stored reward.
+const REDEEM_PRIZES=[...LAND_PRIZES.map(p=>({...p,unit:p.unit/5,max:p.max*5})),
  {key:SUPERSTAR_TICKET,min:1,max:1,unit:1},
  {key:'ZENITH_RANDOM_CARD',min:1,max:3,unit:1},
  {key:'FUR_RANDOM_CARD',min:1,max:5,unit:1},
@@ -133,7 +137,7 @@ export async function ensureLand(db,env={DB:db}){
   await db.batch([
     stmt(db,"INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING",SETTINGS,JSON.stringify(defaults())),
     ...[
-      [LAND_TICKET,'리버스랜드 이용권','STREAMER EVENT PASS','OWNER가 지급하는 방송 이벤트 전용 이용권. 리버스랜드에서 1개를 사용합니다.','assets/ui/soopketland/event-ticket-v1.svg'],
+      [LAND_TICKET,'리버스랜드 이용권','STREAMER EVENT PASS','등록 스트리머에게 매일 10장 자동 발급하는 방송 이벤트 이용권. 1회에 1장을 사용하며 당첨 쿠폰은 150명이 사용할 수 있습니다.','assets/ui/soopketland/event-ticket-v1.svg'],
       [HYPER_TICKET,'하이퍼버닝 발동권 ×15','SERVER HYPER BURNING','스트리머가 사용하면 서버 전체에 ×15 하이퍼버닝이 60분간 적용됩니다. 기존 버닝 진행 중에는 사용할 수 없습니다.','assets/ui/soopketland/hyper-ticket-v1.svg'],
       [SUPERSTAR_TICKET,'슈퍼스타팩 확정권','GUARANTEED SUPERSTAR','사용 시 활성·공개 슈퍼스타 카드 중 1장을 100% 획득합니다. 중복도 카드 1장으로 지급됩니다.','assets/ui/soopketland/superstar-guaranteed-v2065.svg']
     ].map(([code,name,subtitle,description,image])=>stmt(db,"INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,'ENTRY_TICKET','SPECIAL',?,125,1) ON CONFLICT(code) DO NOTHING",code,name,subtitle,description,image)),
@@ -186,14 +190,35 @@ async function commit(db,list,replay){
   try{await db.batch(list)}catch(error){const prior=await replay();if(prior)return prior;if(/CHECK|verified|deadlock|serialize/i.test(String(error?.message)))throw fail('상태가 변경되어 처리하지 않았습니다. 같은 요청으로 다시 확인하세요.',409,'LAND_STATE_CHANGED');throw error}
   return null;
 }
+export const landDayKey=timestamp=>new Date(Number(timestamp)+9*3600000).toISOString().slice(0,10);
+export async function issueDailyLandTickets(db,{userId=null,timestamp=Date.now()}={}){
+  const day=landDayKey(timestamp),policyRow=await one(db,'SELECT value FROM app_meta WHERE key=?',LAND_DAILY_POLICY),policy=parse(policyRow?.value);
+  if(policy?.enabled!==true||policy.quantity!==LAND_DAILY_QUANTITY||policy.couponUses!==LAND_COUPON_USES||!/^\d{4}-\d{2}-\d{2}$/.test(policy.startsOn||'')||day<policy.startsOn)return {enabled:false,day,issued:0};
+  const candidates=await rows(db,`SELECT u.id FROM soopketland_accounts a JOIN users u ON u.id=a.user_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=CURRENT_TIMESTAMP)${userId===null?'':' AND u.id=?'} ORDER BY u.id`,...(userId===null?[]:[userId]));
+  let issued=0;
+  for(const user of candidates){
+    const id=`land-daily:${day}:${user.id}`,plan={day,quantity:LAND_DAILY_QUANTITY,couponUses:LAND_COUPON_USES},read=()=>replayAction(db,user,id,'DAILY_GRANT',plan);
+    if(await read())continue;
+    const response={ok:true,...plan,userId:Number(user.id)},list=[];
+    lockUser(db,list,user.id);
+    guardUser(db,list,user.id);
+    guard(db,list,'EXISTS(SELECT 1 FROM soopketland_accounts WHERE user_id=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?)',[user.id,LAND_DAILY_POLICY,policyRow.value]);
+    list.push(stmt(db,'INSERT INTO soopketland_ticket_lots(id,user_id,issued_by,quantity,remaining,coupon_uses,plan_json,created_at) VALUES(?,?,?,?,?,?,?,?)',id,user.id,user.id,LAND_DAILY_QUANTITY,LAND_DAILY_QUANTITY,LAND_COUPON_USES,JSON.stringify({...plan,source:'SYSTEM_DAILY'}),now()));
+    inventoryGrant(db,list,user.id,LAND_TICKET,LAND_DAILY_QUANTITY,id);
+    actionReceipt(db,list,user,id,'DAILY_GRANT',plan,response);
+    const replay=await commit(db,list,read);if(!replay)issued++;
+  }
+  return {enabled:true,day,quantity:LAND_DAILY_QUANTITY,couponUses:LAND_COUPON_USES,issued};
+}
 async function state(db,user,access){
+  const dailyAllowance=await issueDailyLandTickets(db,{userId:user.id});
   const settingsRow=await one(db,'SELECT value FROM app_meta WHERE key=?',SETTINGS),settings=parse(settingsRow?.value,defaults());
   settings.weights=storedLandWeights(settings.weights);
   const tickets=await one(db,'SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?',user.id,LAND_TICKET);
   const lots=await rows(db,'SELECT coupon_uses,remaining FROM soopketland_ticket_lots WHERE user_id=? AND remaining>0 ORDER BY created_at,id',user.id);
   const history=await rows(db,'SELECT response_json,created_at FROM soopketland_rolls WHERE user_id=? ORDER BY created_at DESC LIMIT 30',user.id);
   const total=Object.values(settings.weights).reduce((a,b)=>a+b,0);
-  return {access,tickets:Math.min(Number(tickets?.quantity||0),lots.reduce((n,l)=>n+Number(l.remaining),0)),nextCouponUses:Number(lots[0]?.coupon_uses||0),prizes:LAND_PRIZES.map(p=>({...p,weight:settings.weights[p.key],percent:settings.weights[p.key]/total*100})),history:history.map(r=>({...parse(r.response_json),createdAt:r.created_at})),
+  return {access,dailyAllowance,defaultCouponUses:LAND_COUPON_USES,tickets:Math.min(Number(tickets?.quantity||0),lots.reduce((n,l)=>n+Number(l.remaining),0)),nextCouponUses:Number(lots[0]?.coupon_uses||0),prizes:LAND_PRIZES.map(p=>({...p,weight:settings.weights[p.key],percent:settings.weights[p.key]/total*100})),history:history.map(r=>({...parse(r.response_json),createdAt:r.created_at})),
     ...(access.isOwner?{owner:{accounts:await rows(db,'SELECT a.slot,a.user_id,u.nickname,u.status,COALESCE(i.quantity,0) tickets FROM soopketland_accounts a JOIN users u ON u.id=a.user_id LEFT JOIN cnine_user_inventory i ON i.user_id=a.user_id AND i.item_code=?',LAND_TICKET),missing:[],self:{id:Number(user.id),nickname:user.nickname},weights:settings.weights,coupons:await rows(db,'SELECT code,issuer_id,reward_json,max_uses,used_count,is_active,created_at FROM soopketland_coupons ORDER BY created_at DESC LIMIT 40')}}:{})};
 }
 
@@ -257,8 +282,9 @@ async function grant(db,user,body){
 async function spin(db,user,body){
   const read=async()=>{const r=await one(db,'SELECT user_id,response_json FROM soopketland_rolls WHERE request_id=?',body.requestId);if(!r)return null;if(Number(r.user_id)!==Number(user.id))throw fail('다른 계정의 요청 번호입니다.',409);return {...parse(r.response_json),replayed:true}};
   const prior=await read();if(prior)return prior;
+  await issueDailyLandTickets(db,{userId:user.id});
   const lot=await one(db,'SELECT * FROM soopketland_ticket_lots WHERE user_id=? AND remaining>0 ORDER BY created_at,id LIMIT 1',user.id);
-  if(!lot)throw fail('OWNER가 지급한 이용권이 필요합니다.',409,'LAND_NO_TICKET');
+  if(!lot)throw fail('사용 가능한 리버스랜드 이용권이 없습니다. 등록 스트리머는 매일 이용권 10장을 자동 발급받습니다.',409,'LAND_NO_TICKET');
   const cfg=await one(db,'SELECT value FROM app_meta WHERE key=?',SETTINGS),prize=pickLandPrize(storedLandWeights(parse(cfg?.value)?.weights));
   const code=`SLD-${crypto.randomUUID().replaceAll('-','').slice(0,24).toUpperCase()}`;
   const response={ok:true,requestId:body.requestId,prize,delivery:'VIEWER_COUPON',code,couponUses:Number(lot.coupon_uses)};
