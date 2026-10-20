@@ -1,0 +1,82 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"1b99e84efb6e1db58cc24d7210d62000ec0ead41","reason":"Ranked duo only: remove enrollment, match all saved ranked decks, and roll weeks without recruitment; existing 101 duo regressions and PC/mobile QA passed, new pool and guarded operation regressions cover changed paths. Common DB/auth/engine unchanged; intervening Halloween odds work is operations documentation only.","changed":["AGENTS.md","admin/index.html","admin/ranked-duo-v1.mjs","docs/qa/halloween-sss-odds-20261020/README.md","docs/qa/halloween-sss-odds-20261020/apply.json","docs/qa/halloween-sss-odds-20261020/dry-run.json","docs/qa/halloween-sss-odds-20261020/live.json","docs/qa/halloween-sss-odds-20261020/read.json","docs/qa/halloween-sss-odds-20261020/verify.json","docs/qa/message-system-cleanup-20261020/README.md","docs/qa/message-system-cleanup-20261020/live.json","docs/qa/message-system-cleanup-20261020/release.json","docs/qa/message-system-cleanup-20261020/scoped-deploy.log","docs/qa/ranked-duo-open-pool-20261020/README.md","docs/qa/ranked-duo-open-pool-20261020/battle-1440.png","docs/qa/ranked-duo-open-pool-20261020/battle-390.png","docs/qa/ranked-duo-open-pool-20261020/browser.json","docs/qa/ranked-duo-open-pool-20261020/cms-1440.png","docs/qa/ranked-duo-open-pool-20261020/cms-390.png","docs/qa/ranked-duo-open-pool-20261020/dry-run.json","docs/qa/ranked-duo-open-pool-20261020/guide-1440.png","docs/qa/ranked-duo-open-pool-20261020/guide-390.png","docs/qa/ranked-duo-open-pool-20261020/home-1440.png","docs/qa/ranked-duo-open-pool-20261020/home-390.png","docs/qa/ranked-duo-open-pool-20261020/match-1440.png","docs/qa/ranked-duo-open-pool-20261020/match-390.png","docs/qa/ranked-duo-open-pool-20261020/ranking-1440.png","docs/qa/ranked-duo-open-pool-20261020/ranking-390.png","docs/qa/ranked-duo-open-pool-20261020/result-1440.png","docs/qa/ranked-duo-open-pool-20261020/result-390.png","docs/ranked-duo-open-pool-20261020.md","functions/_ranked_duo.js","functions/_ranked_duo_live_operation.js","functions/_ranked_duo_open.js","functions/_ranked_duo_pool.js","functions/_ranked_duo_random.js","functions/_ranked_duo_seasons.js","index.html","js/app.js","js/ranked-duo-random-v4.mjs","js/ranked-duo-v1.mjs","package.json","scripts/ops/halloween-sss-odds-20261020.mjs","scripts/ops/ranked-duo-open-pool-20261020.mjs","scripts/ops/run-halloween-sss-odds-20261020.mjs","scripts/serve-ranked-duo-qa.mjs","service-worker.js","shared/ranked-duo-random-v4.mjs","shared/ranked-duo-v1.mjs","shared/ranked-duo-weekly-v3.mjs","tests/helpers/ranked-duo-db.mjs","tests/helpers/ranked-duo-weekly.mjs","tests/mercenary-halloween-sss-odds-20261020.test.mjs","tests/ranked-duo-open-pool-20261020.browser.mjs","tests/ranked-duo-open-pool-20261020.test.mjs","tests/ranked-duo-open-pool-operation-20261020.test.mjs"],"tests":["tests/ranked-duo-open-pool-20261020.test.mjs","tests/ranked-duo-open-pool-operation-20261020.test.mjs"],"checks":["check:worker"]}
+✔ SQLite no enrollment: all ranked decks can fight and only the initiator gains a record (124.5766ms)
+✔ true no enrollment: all ranked decks can fight and only the initiator gains a record (2385.8301ms)
+✔ pipeline no enrollment: all ranked decks can fight and only the initiator gains a record (1718.483ms)
+✔ SQLite expiry opens the next week immediately while old rewards settle independently (57.3734ms)
+✔ pipeline expiry opens the next week immediately while old rewards settle independently (1628.2325ms)
+✔ simultaneous first matches create one personal row and one ticket (1660.8063ms)
+✔ concurrent rollover creates one active season and retains the old receipt (1444.6221ms)
+✔ invalid saved decks, restricted accounts and owner never enter the global pool (49.5326ms)
+✔ offline deck changes invalidate a ticket without debiting the requester (30.6206ms)
+✔ automatic operation OFF does not reopen a season (14.0462ms)
+✔ the former recruitment capacity cannot prevent a new player from matching (24.7675ms)
+✔ a manually configured open season starts without a recruitment or pairing step (22.1271ms)
+✔ the global pool includes late saved decks and excludes deleted decks without enrollment (13.2887ms)
+✔ opening the unplayed current season preserves existing entries, economics and normal ranked settings; dry run and replay are safe (2292.2307ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9637.9934
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-open-pool-20261020-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19999 files; 4977 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7881.47 KiB / gzip: 1703.52 KiB
+Worker Startup Time: 38 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.87 sec)
+No targets deployed for cnine-card-api-runtime (0.74 sec)
+Current Version ID: c82911c5-bad7-4358-a071-88bb883b0057
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19986/19999)
+Uploading... (19990/19999)
+Uploading... (19994/19999)
+Uploading... (19999/19999)
+✨ Success! Uploaded 13 files (19986 already uploaded) (2.32 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://12d1d494.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2728.34 KiB / gzip: 622.14 KiB
+Worker Startup Time: 36 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (2.79 sec)
+Deployed cnine-card-clan-draft triggers (0.86 sec)
+  schedule: * * * * *
+Current Version ID: 6c5e230a-4c1e-4365-9380-bde10becfd17

@@ -1,0 +1,20 @@
+{
+  "alreadyApplied": true,
+  "operationKey": "ops:ranked-duo-open-pool:20261020:v1",
+  "appliedAt": "2026-10-20T05:39:18.892Z",
+  "seasonId": "4e49efa4-7a36-4848-ac85-7ca6606b5b6f",
+  "status": "ACTIVE",
+  "entryMode": "RANKED_POOL",
+  "matchmaking": "RANDOM_ASYNC",
+  "scoreScope": "INITIATOR",
+  "startsAt": "2026-10-20T05:39:18.892Z",
+  "endsAt": "2026-10-27T05:39:18.892Z",
+  "policyRevision": 4,
+  "preservedEntries": 28,
+  "entriesHash": "24d149ea57b5c7a48619959d7848a33a",
+  "economyHash": "75632f5a24b5227dd4061602590fdfe516272027549c3d5737cbc5d463784cd5",
+  "normalRankedHash": "ac41411532ff975dd96b20f08e91e34988a9882a5b2f1257a226929952518cf9",
+  "battlesCreated": 0,
+  "rewardsIssued": 0,
+  "auditId": "48916"
+}

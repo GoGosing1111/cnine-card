@@ -1,0 +1,91 @@
+{
+  "verifiedAt": "2026-10-20T05:39:39.457Z",
+  "policy": {
+    "enabled": true,
+    "entryMode": "RANKED_POOL",
+    "revision": 4
+  },
+  "season": {
+    "id": "4e49efa4-7a36-4848-ac85-7ca6606b5b6f",
+    "status": "ACTIVE",
+    "entryMode": "RANKED_POOL",
+    "scoreScope": "INITIATOR",
+    "startsAt": "2026-10-20T05:39:18.892Z",
+    "endsAt": "2026-10-27T05:39:18.892Z",
+    "recruitUntil": null
+  },
+  "savedRankedDeckAccounts": 694,
+  "sampledAccounts": 23,
+  "existingPersonalEntries": 28,
+  "domainStatusReadOnly": true,
+  "withoutEnrollment": {
+    "joined": false,
+    "energy": 10,
+    "score": 1000
+  },
+  "matches": [],
+  "personalScoreMismatches": 0,
+  "operationAuditId": "48916",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "0095497ba0f5b1f613987935a5ff65691a1503e8186b5fb207ab6bd8bf9e0840"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "sha256": "91ac7291d386ddfcab2b96c057db017ea5f8541b1ec7c9d801cf020ccb2af5af"
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sha256": "c88915246fe0e88cd27001f378d5311ad202d6d73b3939d380f4df5fbbb69ef9"
+    },
+    {
+      "path": "js/ranked-duo-v1.mjs",
+      "status": 200,
+      "sha256": "e9580aaf223ceac794a3032a5cc2714452eca06c92b73127f4cdbf4f85dfdc02"
+    },
+    {
+      "path": "js/ranked-duo-random-v4.mjs",
+      "status": 200,
+      "sha256": "ee774e3d325fe926fec98059a899802ba6ede19ba5def218c718db9838a9248e"
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "sha256": "e643bbb76aed77aeeac84e2be0301170c159dd29321b65ceb33a858f668d3761"
+    },
+    {
+      "path": "admin/ranked-duo-v1.mjs",
+      "status": 200,
+      "sha256": "b26f112a45a3a28dd3a657dc9d335f5d03f2fe199eedce27a5c4ed23e94abb1e"
+    },
+    {
+      "path": "shared/ranked-duo-v1.mjs",
+      "status": 200,
+      "sha256": "dd200c9d6aba44dd787f0da5006ba15c3d93f1cb2425c4f52a317b271f0a4279"
+    },
+    {
+      "path": "shared/ranked-duo-weekly-v3.mjs",
+      "status": 200,
+      "sha256": "d9bf9fcbd1bddd1a3a89c81e087fd717c33e2ec45d334dca2848d3db1e5bb4f5"
+    },
+    {
+      "path": "shared/ranked-duo-random-v4.mjs",
+      "status": 200,
+      "sha256": "a083cc7c98da42d7880dc01bea47fd10d60392f58383e4add6f0f0d945ba7064"
+    }
+  ],
+  "publicDuo": {
+    "kind": "RANKED_DUO",
+    "phase": "ACTIVE",
+    "additionalRecruiting": false,
+    "entityId": "4e49efa4-7a36-4848-ac85-7ca6606b5b6f",
+    "title": "랭크 듀오 시즌 5",
+    "detail": "상시 랜덤 2대2 · 랭크전 덱으로 바로 출전",
+    "deadlineAt": "2026-10-27T05:39:18.892Z",
+    "sortOrder": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source": "b84dd7ba5f7977024e5a187093c58ffb561bdd2d",
+  "base": "1b99e84efb6e1db58cc24d7210d62000ec0ead41",
+  "pages": "https://12d1d494.cnine-card.pages.dev",
+  "apiVersion": "c82911c5-bad7-4358-a071-88bb883b0057",
+  "schedulerVersion": "6c5e230a-4c1e-4365-9380-bde10becfd17",
+  "existingDuoRegressionsPassed": 101,
+  "scopedRegressionsPassed": 14,
+  "scopedRegressionsFailed": 0,
+  "workerCompilation": true,
+  "hyperdriveQueryCacheDisabled": true,
+  "publicFiles": 19999,
+  "browserWidths": [
+    1440,
+    390
+  ],
+  "operationAuditId": "48916"
+}
