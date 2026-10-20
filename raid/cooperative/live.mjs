@@ -1,4 +1,4 @@
-import {contentEnergyText,contentEnergyView} from '/shared/content-energy-v1.mjs?v=20261020-v1';
+import {contentEnergyText,contentEnergyView} from '/shared/content-energy-v1.mjs?v=20261020-clock-fix-v1';
 import {mountRewardRevealButton,mountRewardRevealInbox} from '/js/content-reward-reveal-v1.mjs?v=20261016-reveal1';
 import {rosterMarkup,automaticGuide} from './roster.mjs?v=20261012-random-v3';
 import {jointAccountRequest} from '/js/joint-account-transport.mjs';

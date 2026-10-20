@@ -12,14 +12,17 @@ export function contentEnergy(record,{at=Date.now(),maximum,initial=maximum}={})
  const available=Math.min(maximum,current+steps),updatedAt=available===maximum?now:source.updatedAt+steps*CONTENT_ENERGY_RECHARGE_MS;
  return {version:1,current:available,maximum,updatedAt};
 }
-export function contentEnergyView(record,options){
- const energy=contentEnergy(record,options);
- return {...energy,remaining:energy.current,limit:energy.maximum,rechargeMs:CONTENT_ENERGY_RECHARGE_MS,nextRechargeAt:energy.current<energy.maximum?energy.updatedAt+CONTENT_ENERGY_RECHARGE_MS:null,serverNow:options.at??Date.now()};
+export function contentEnergyView(record,{at=Date.now(),...options}={}){
+ // Synchronized browser clocks include sub-millisecond values. Round down only
+ // at the display boundary; persisted balances and policy checks remain strict.
+ const milliseconds=typeof at==='number'?Math.floor(at):at;
+ const energy=contentEnergy(record,{...options,at:milliseconds});
+ return {...energy,remaining:energy.current,limit:energy.maximum,rechargeMs:CONTENT_ENERGY_RECHARGE_MS,nextRechargeAt:energy.current<energy.maximum?energy.updatedAt+CONTENT_ENERGY_RECHARGE_MS:null,serverNow:milliseconds};
 }
 export function contentEnergyText(view,at=Date.now()){
  if(!view)return '';
  const energy=contentEnergyView(view,{at,maximum:view.maximum});
- const seconds=energy.nextRechargeAt===null?0:Math.max(0,Math.ceil((energy.nextRechargeAt-at)/1000));
+ const seconds=energy.nextRechargeAt===null?0:Math.max(0,Math.ceil((energy.nextRechargeAt-energy.serverNow)/1000));
  const time=[Math.floor(seconds/3600),Math.floor(seconds%3600/60),seconds%60].map(n=>String(n).padStart(2,'0')).join(':');
  return `행동력 ${energy.current} / ${energy.maximum} · ${seconds?'다음 충전 '+time:'충전 완료'} · 3시간마다 1회`;
 }
