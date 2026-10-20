@@ -5,6 +5,7 @@ import {readRuntimeData,cacheRuntimeData} from './_runtime_data_cache.js';
 import {ensurePetOpeningItems} from './_pet_opening.js';
 import {readRewardRevealPolicy} from './_reward_reveal.js';
 import {madaraWeeklyReward,madaraRewardFor,prepareMadaraRewards,madaraCounterChanged} from './_raid_madara_rewards.js';
+import {originalRaidPresentation,presentVarsenTicket} from '../shared/monster-original-ip-presentation-v1.mjs';
 
 export const MADARA_TICKET='MADARA_RAID_ENTRY_TICKET',MADARA_SETTINGS='raid_madara_settings_v1';
 const ROOMS='raid_madara_rooms_v1',ACTIVE='raid_madara_active_v1',RECEIPTS='raid_madara_receipts_v1';
@@ -20,7 +21,7 @@ export function validateMadaraSettings(raw){
   return next;
 }
 export function madaraAccess(user,cfg){const accessible=Boolean(user)&&(cfg.mode==='ON'||cfg.mode==='TEST'&&(owner(user)||cfg.testUserIds.includes(Number(user.id))));return {mode:cfg.mode,accessible,visible:accessible,owner:owner(user)};}
-function requireAccess(user,cfg){if(cfg.mode==='OFF')fail('OFF','마다라 레이드는 현재 운영 중지 상태입니다.',423);if(!madaraAccess(user,cfg).accessible)fail('TEST_ONLY','지정된 마다라 테스트 참여자만 입장할 수 있습니다.',403);}
+function requireAccess(user,cfg){if(cfg.mode==='OFF')fail('OFF','바르센 레이드는 현재 운영 중지 상태입니다.',423);if(!madaraAccess(user,cfg).accessible)fail('TEST_ONLY','지정된 바르센 테스트 참여자만 입장할 수 있습니다.',403);}
 export async function ensureMadaraLive(env){
   if(readRuntimeData(env,'madara-live-schema-v1'))return;
   const sql=[
@@ -38,15 +39,16 @@ export async function ensureMadaraLive(env){
     AND to_regclass('idx_madara_active_room_v1') IS NOT NULL`).first();
   if(!ready){if(typeof env.DB.execSchema==='function')await env.DB.execSchema(sql);else await env.DB.batch(sql.map(q=>env.DB.prepare(q)));}
   await ensureJointAtomicSchema(env);await ensurePetOpeningItems(env);
-  await env.DB.prepare('INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,?,?,?,?,1) ON CONFLICT(code) DO NOTHING')
-    .bind(MADARA_TICKET,'마다라 레이드 입장권','MADARA RAID ENTRY','공대 생성 시 설정된 수량을 사용합니다. 참가자는 무료이며 생성 후 반환되지 않습니다.','ENTRY_TICKET','ZENITH','preview/madara-raid-v1/assets/animation/cast-03.png',128).run();
+  const ticket=presentVarsenTicket({code:MADARA_TICKET,image_url:''});
+  await env.DB.prepare('INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,?,?,?,?,1) ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,image_url=excluded.image_url')
+    .bind(MADARA_TICKET,ticket.name,ticket.subtitle,'공대 생성 시 설정된 수량을 사용합니다. 참가자는 무료이며 생성 후 반환되지 않습니다.','ENTRY_TICKET','ZENITH',ticket.image_url,128).run();
   await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING').bind(MADARA_SETTINGS,JSON.stringify(defaultMadaraSettings())).run();
   cacheRuntimeData(env,'madara-live-schema-v1',true,1800000);
 }
 export async function madaraSettingsRow(env){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(MADARA_SETTINGS).first();
   if(!row)return {raw:null,settings:defaultMadaraSettings()};
-  try{return {raw:row.value,settings:validateMadaraSettings(JSON.parse(row.value))};}catch{fail('SETTINGS_UNAVAILABLE','마다라 운영 설정을 불러오지 못했습니다.',503);}
+  try{return {raw:row.value,settings:validateMadaraSettings(JSON.parse(row.value))};}catch{fail('SETTINGS_UNAVAILABLE','바르센 운영 설정을 불러오지 못했습니다.',503);}
 }
 async function selectedUsers(env,ids){if(!ids.length)return [];const r=await env.DB.prepare('SELECT id,nickname,role,status,banned_until FROM users WHERE id IN ('+ids.map(()=>'?').join(',')+') ORDER BY id').bind(...ids).all();return r.results.map(u=>({...u,id:Number(u.id)}));}
 async function saveSettings(env,user,body,before){
@@ -85,7 +87,8 @@ async function advanceRoom(env,roomId,now){
   }fail('BUSY','공대 전황이 갱신 중입니다. 같은 요청으로 다시 시도하세요.');
 }
 async function currentRoom(env,user,now){const row=await env.DB.prepare(`SELECT room_id FROM ${ACTIVE} WHERE user_id=?`).bind(user.id).first();if(!row)return null;const loaded=await advanceRoom(env,row.room_id,now);return ['LOBBY','ACTIVE'].includes(loaded.room.status)?loaded:null;}
-const boss=power=>({id:'MADARA',name:'마다라',isBoss:true,is_boss:1,battle_power:power,pve_hp_percent:250,pve_attack_percent:100,pve_defense_percent:100,pve_speed_percent:100,pve_forced_action_every:5,image:'/preview/madara-raid-v1/assets/madara-source-reference.png',battleSprite:'/preview/madara-raid-v1/assets/madara-battle-v1.png',spiritSprite:'/preview/madara-raid-v1/assets/azure-spirit-v1.png'});
+const varsen=originalRaidPresentation('MADARA');
+const boss=power=>({id:'MADARA',name:varsen.name,isBoss:true,is_boss:1,battle_power:power,pve_hp_percent:250,pve_attack_percent:100,pve_defense_percent:100,pve_speed_percent:100,pve_forced_action_every:5,image:varsen.sourceArt,battleSprite:varsen.battleSprite,spiritSprite:'/preview/madara-raid-v1/assets/azure-spirit-v1.png'});
 const entryCost=cfg=>cfg.mode==='TEST'&&cfg.testEntryFree?0:cfg.entryTicketCost;
 async function account(env,user,cfg,roomId){const row=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,MADARA_TICKET).first();return {id:id(user.id),name:user.nickname,tickets:Math.max(0,Number(row?.quantity||0)),cost:entryCost(cfg),temporary:false,roomId};}
 function resultFor(room,user,cfg,{payload=false,since=0}={}){
@@ -102,10 +105,10 @@ async function openRoom(env,user,cfg,body,deps,now){
   const cost=entryCost(cfg),token=crypto.randomUUID(),response=resultFor(room,user,cfg);response.entryReceipt={cost,roomId};
   const extra=cost?[jointGuard(env.DB,token+':ticket','EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)',[user.id,MADARA_TICKET,cost]),
     env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=CASE WHEN unseen_quantity>quantity-? THEN quantity-? ELSE unseen_quantity END,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=?').bind(cost,cost,cost,user.id,MADARA_TICKET,cost),
-    env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'마다라 공대 생성','MADARA_RAID_OPEN',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(-cost,roomId,user.id,MADARA_TICKET),jointGuardEnd(env.DB,token+':ticket')]:[];
+    env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'바르센 공대 생성','MADARA_RAID_OPEN',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(-cost,roomId,user.id,MADARA_TICKET),jointGuardEnd(env.DB,token+':ticket')]:[];
   try{await env.DB.batch([env.DB.prepare(`INSERT INTO ${ACTIVE}(user_id,room_id) VALUES(?,?)`).bind(user.id,roomId),...extra,
     env.DB.prepare(`INSERT INTO ${ROOMS}(room_id,host_id,host_name,status,state_json,version,created_at,expires_at) VALUES(?,?,?,?,?,0,?,?)`).bind(roomId,user.id,user.nickname,room.status,JSON.stringify(room),now,room.lobbyEndsAt),receiptWrite(env,user,'create',prior,roomId,response)]);}
-  catch(error){const replay=await receipt(env,user,'create',body);if(replay.result)return replay.result;if((await account(env,user,cfg,null)).tickets<cost)fail('TICKET_REQUIRED',`마다라 레이드 입장권 ${cost}장이 필요합니다.`);if(await currentRoom(env,user,now))fail('ALREADY_JOINED','이미 참가 중인 공대가 있습니다.');throw error;}
+  catch(error){const replay=await receipt(env,user,'create',body);if(replay.result)return replay.result;if((await account(env,user,cfg,null)).tickets<cost)fail('TICKET_REQUIRED',`바르센 레이드 입장권 ${cost}장이 필요합니다.`);if(await currentRoom(env,user,now))fail('ALREADY_JOINED','이미 참가 중인 공대가 있습니다.');throw error;}
   return response;
 }
 async function roomCommand(env,user,cfg,kind,body,deps,now,since){

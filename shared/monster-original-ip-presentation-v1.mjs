@@ -11,6 +11,15 @@ const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
 export const originalHuntPresentation=id=>hunt.get(Number(id))||null;
 export const originalRaidPresentation=id=>raids.get(Number(id))||codes.get(String(id))||raidNames.get(String(id))||null;
 export const originalSkillLabel=text=>skills.reduce((s,[a,b])=>s.replaceAll(a,b),String(text??''));
+// Only authored Varsen text may pass here; player names and stored codes stay intact.
+export const varsenRaidLabel=text=>String(text??'').replaceAll('마다라가','바르센이').replaceAll('마다라','바르센').replaceAll('화둔','업화').replaceAll('완전체 · 거신 강림','거신 강림 · 봉인 해방').replaceAll('완전체를','거신을').replaceAll('완전체','거신');
+export function presentVarsenTicket(item){
+  if(item?.code!=='MADARA_RAID_ENTRY_TICKET')return item;
+  const out={...item,name:'바르센 레이드 입장권',subtitle:'VARSEN RAID ENTRY'};
+  for(const key of ['image','image_url'])if(own(item,key))out[key]=codes.get('MADARA').battleSprite;
+  if(own(item,'useDisabledMessage'))out.useDisabledMessage='바르센 레이드 공대 생성 시 사용';
+  return out;
+}
 export function originalMonsterPresentation(unit={},kind=''){
   if(!unit||typeof unit!=='object')return null;
   if(unit.originalIpKey)return ORIGINAL_IP_MONSTERS.find(e=>e.key===unit.originalIpKey)||null;
@@ -45,6 +54,7 @@ export function presentOriginalMonster(unit,entry=originalMonsterPresentation(un
 // This projection is installed only at the selected content response boundary.
 // Old saved rooms/receipts receive current art without mutating their gameplay snapshot.
 export function presentOriginalIpResponse(path,data){
+  if(path==='inventory'&&Array.isArray(data?.items))return {...data,items:data.items.map(presentVarsenTicket)};
   if(path==='live-operations'&&Array.isArray(data?.items))return {...data,items:data.items.map(item=>{
     if(item.kind!=='RAID')return item;
     const entry=originalRaidPresentation(item.title);
@@ -92,6 +102,16 @@ export function presentOriginalIpResponse(path,data){
       if(key==='bossUltimate')out.presentation='V3_EXISTING_EFFECT';
     }
     if(owner&&value.type==='BOSS_ULTIMATE'&&own(out,'label'))out.label=originalSkillLabel(out.label);
+    if(special?.raidCode==='MADARA'){
+      if(key==='presentation'){
+        for(const k of ['title','line'])if(typeof out[k]==='string')out[k]=varsenRaidLabel(out[k]);
+      }
+      if(typeof out.phaseName==='string')out.phaseName=varsenRaidLabel(out.phaseName);
+      if(key==='failure'&&typeof out.reason==='string')out.reason=varsenRaidLabel(out.reason);
+      if(['MADARA_PHASE','MADARA_RESULT','BOSS_ULTIMATE'].includes(value.type)&&typeof out.label==='string')out.label=varsenRaidLabel(out.label);
+      if(['마다라 격파','마다라 공략'].includes(out.label))out.label=varsenRaidLabel(out.label);
+      if(key===''&&typeof out.error==='string')out.error=varsenRaidLabel(out.error);
+    }
     return out;
   }
   return visit(data);

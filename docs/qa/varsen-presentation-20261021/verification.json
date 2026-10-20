@@ -1,0 +1,26 @@
+[
+  {
+    "width": 1440,
+    "height": 1000,
+    "inventoryName": true,
+    "inventoryImage": true,
+    "quantity": 7,
+    "disabledUse": true,
+    "dialogueName": true,
+    "approvedPortrait": true,
+    "overflow": false,
+    "pageErrors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "inventoryName": true,
+    "inventoryImage": true,
+    "quantity": 7,
+    "disabledUse": true,
+    "dialogueName": true,
+    "approvedPortrait": true,
+    "overflow": false,
+    "pageErrors": []
+  }
+]

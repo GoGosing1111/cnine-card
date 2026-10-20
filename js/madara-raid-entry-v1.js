@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION = '20261016-reveal1';
+  const VERSION = '20261021-varsen1';
   let checkedAt = 0, visible = false, featureRequest = null, controller = null, activeRoot = null, revision = 0;
   const host = () => document.getElementById('pveMadaraRaidView');
   async function refresh() {
@@ -14,7 +14,7 @@
       try {
         const result = await bridge.apiRequest('raid/madara/feature', {}, { ttl: 0, microcache: false });
         visible = result.visible === true;
-        tab.querySelector('small').textContent = result.mode + ' · MADARA';
+        tab.querySelector('small').textContent = result.mode + ' · VARSEN';
         checkedAt = Date.now();
       } catch { visible = false; }
       finally { tab.hidden = !visible; tab.setAttribute('aria-hidden', String(!visible)); featureRequest = null; }
@@ -47,7 +47,7 @@
       if (version !== revision || !root.isConnected) return;
       root.innerHTML = '<div class="core-raid-loading" role="status"><b>바르센 레이드를 불러오지 못했습니다.</b><button type="button">다시 시도</button></div>';
       root.querySelector('button').onclick = () => void open();
-      console.warn('[MADARA RAID] inline entry failed', error);
+      console.warn('[VARSEN RAID] inline entry failed', error);
     }
   }
   function wire() {

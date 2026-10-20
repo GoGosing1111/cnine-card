@@ -8,9 +8,9 @@ export const MADARA_RUNES = Object.freeze(['화', '월', '뇌', '풍']);
 export const MADARA_LINES = Object.freeze({
   ILLUSION:{title:'눈앞의 진실을 의심하라',line:'네 눈에 보이는 것이, 과연 진실일까?',effect:'illusion'},
   CLONES:{title:'끝없이 갈라지는 그림자',line:'몇 명을 상대하는지조차 모르겠느냐.',effect:'clones'},
-  FIRE:{title:'화둔 · 타오르는 전장',line:'살아남을 곳은 단 하나. 찾아 보아라.',effect:'fire'},
+  FIRE:{title:'업화 · 타오르는 전장',line:'살아남을 곳은 단 하나. 찾아 보아라.',effect:'fire'},
   METEOR:{title:'하늘이 무너진다',line:'이 절망을, 너희의 힘으로 막아 보아라.',effect:'meteor'},
-  FINAL:{title:'완전체 · 거신 강림',line:'이제 보여 주마. 진정한 힘이라는 것을.',effect:'awakening'},
+  FINAL:{title:'거신 강림 · 봉인 해방',line:'이제 보여 주마. 진정한 힘이라는 것을.',effect:'awakening'},
   EXPOSE:{title:'방벽 붕괴 · 전원 공격',line:'제법이군. 그 틈을 놓치지 마라.',effect:'expose'},
   GAZE:{title:'거신의 시선',line:'다음은… 너다.',effect:'gaze'},
   MISTAKE:{title:'환술의 역류',line:'판단이 흐려졌구나.',effect:'illusion'},
@@ -21,9 +21,9 @@ export const MADARA_LINES = Object.freeze({
 export const MADARA_PLANS = Object.freeze([
   {kind:'ILLUSION', name:'환술 판별', floor:.78, duration:35000},
   {kind:'CLONES', name:'분신 대응', floor:.55, duration:40000},
-  {kind:'FIRE', name:'화둔 결계', floor:.32, duration:36000},
+  {kind:'FIRE', name:'업화 결계', floor:.32, duration:36000},
   {kind:'METEOR', name:'운석 저지', floor:.10, duration:35000},
-  {kind:'FINAL', name:'완전체 강림', floor:0, duration:55000}
+  {kind:'FINAL', name:'거신 강림', floor:0, duration:55000}
 ]);
 const copy = value => structuredClone(value);
 const fail = (code,message,status=409) => {throw Object.assign(new Error(message),{code,status});};
@@ -218,7 +218,7 @@ export function tickMadaraRoom(room,now) {
   for(let guard=0;room.status==='ACTIVE'&&guard<100;guard++){
     const at=schedule(room);if(at>now)break;room.clock=at;
     const q=room.challenge;
-    if(at>=room.endsAt){finish(room,'FAILED','ENRAGE',`${room.settings?.enrageSeconds||360}초 경과 · 마다라가 전장을 붕괴시켰습니다.`);break;}
+    if(at>=room.endsAt){finish(room,'FAILED','ENRAGE',`${room.settings?.enrageSeconds||360}초 경과 · 바르센이 전장을 붕괴시켰습니다.`);break;}
     if(room.step==='TRANSITION'){openPhase(room,room.phase+1);continue;}
     for(const t of q.tasks){
       if(room.status!=='ACTIVE')break;
@@ -266,12 +266,12 @@ function strike(room,actor,burst) {
   const total=packets.reduce((sum,e)=>sum+e.damage,0);
   const budget=Math.min(remaining,room.boss.hp-floor,total,Math.ceil(share/3*(burst?1.8:1)));
   let used=0,weight=0;
-  for(const e of packets){weight+=e.damage;const next=total?Math.round(weight*budget/total):0,damage=next-used;used=next;if(!damage)continue;room.boss.hp-=damage;log(room,e.type,e.label||'마다라 공략',{...e,damage,absorbed:0,targetHpAfter:room.boss.hp,targetMaxHp:room.boss.maxHp,targetShieldAfter:0});}
+  for(const e of packets){weight+=e.damage;const next=total?Math.round(weight*budget/total):0,damage=next-used;used=next;if(!damage)continue;room.boss.hp-=damage;log(room,e.type,e.label||'바르센 공략',{...e,damage,absorbed:0,targetHpAfter:room.boss.hp,targetMaxHp:room.boss.maxHp,targetShieldAfter:0});}
   q.damageBy[actor.id]=(q.damageBy[actor.id]||0)+budget;room.statistics.damage+=budget;
   if(room.boss.hp<=floor){
-    if(room.phase===MADARA_PLANS.length-1){log(room,'KO','마다라 격파',{targetId:room.boss.id});finish(room,'CLEAR','VICTORY','마다라 레이드 공략 성공');}
+    if(room.phase===MADARA_PLANS.length-1){log(room,'KO','바르센 격파',{targetId:room.boss.id});finish(room,'CLEAR','VICTORY','바르센 레이드 공략 성공');}
     else{room.step='TRANSITION';q.deadline=room.clock+2500;log(room,'MADARA_PHASE_CLEAR','다음 작전 준비');}
-  }else wound(room,.015+room.strain*.005,'마다라 반격',actor.id);
+  }else wound(room,.015+room.strain*.005,'바르센 반격',actor.id);
 }
 export function actMadaraRoom(room,requesterId,input={},now=room.clock) {
   const actor=actingMember(room,requesterId,input.actorId);

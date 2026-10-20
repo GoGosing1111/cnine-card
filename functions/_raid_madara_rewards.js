@@ -39,10 +39,10 @@ export async function prepareMadaraRewards(env,row,room){
       const guard=crypto.randomUUID();
       plan.statements.push(jointGuard(env.DB,guard,'EXISTS(SELECT 1 FROM inventory_items WHERE code=? AND is_active=1)',[code]),
         env.DB.prepare('INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP').bind(uid,code,amount,amount),
-        env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'마다라 레이드 클리어','MADARA_RAID_CLEAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(amount,room.id,uid,code),jointGuardEnd(env.DB,guard));
+        env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT user_id,item_code,?,quantity,'바르센 레이드 클리어','MADARA_RAID_CLEAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(amount,room.id,uid,code),jointGuardEnd(env.DB,guard));
     }
     if(p.coin)plan.statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(coin,uid),
-      env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin,`마다라 레이드 클리어 [${room.id}]`,uid));
+      env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(coin,`바르센 레이드 클리어 [${room.id}]`,uid));
     plan.statements.push(jointGuardEnd(env.DB,token+':user'),jointGuardEnd(env.DB,token));
     room.clearRewards[member.id].weeklyReward={...before.weekly,used:before.weekly.used+1,remaining:before.weekly.remaining-1};
     const choice=prepareRewardRevealOffer(env,reveal,{userId:uid,roomId:room.id,baseReward:{coin,masterStars:p.masterStars,petEssence:p.petEssence},quota:{...room.clearRewards[member.id].weeklyReward,period:'week'},finishedAt:room.finishedAt});

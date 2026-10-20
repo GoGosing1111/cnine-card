@@ -403,7 +403,7 @@ export function mountMadara(root){
     }
     if(['CLEAR','FAILED'].includes(state.status)&&!resultShown){
       resultShown=true;$('resultTitle').textContent=state.status==='CLEAR'?'바르센 격파':'공대 작전 실패';
-      $('resultReason').textContent=state.failure?.reason||'세 역할의 협동으로 완전체를 저지했습니다.';
+      $('resultReason').textContent=state.failure?.reason||'세 역할의 협동으로 거신을 저지했습니다.';
       const seconds=Math.round((state.finishedAt-state.startedAt)/1000);
       $('resultStats').innerHTML=`<span><b>${seconds}</b>전투 시간, 초</span><span><b>${state.statistics.tasks}</b>완료 임무</span><span><b>${state.statistics.mistakes}</b>실수</span>`;
       const reward=state.clearReward;$('resultDialog').querySelector('.mr-muted').textContent=reward?.granted?('클리어 보상 · '+Number(reward.coin).toLocaleString()+' 코인 / 마별 '+reward.masterStars+' / 펫 정수 '+reward.petEssence):reward?.status==='WEEKLY_LIMIT'?'이번 주 보상 수령 한도에 도달했습니다.':'TEST 또는 보상 미설정 공대 · 보상 지급 없음';$('resultDialog').showModal();
@@ -463,7 +463,7 @@ export function mountMadara(root){
     const dead=state.members.filter(m=>m.downCount>0),reviveOptions=dead.map(m=>`<option value="${escape(m.id)}">${escape(m.name)}</option>`).join('');
     if($('reviveTarget').dataset.options!==reviveOptions){$('reviveTarget').innerHTML=reviveOptions||'<option value="">대상 없음</option>';$('reviveTarget').dataset.options=reviveOptions;}
     $('operationHint').textContent=state.step==='TRANSITION'?'다음 작전으로 이동합니다.':state.mode==='COMMAND'?'단독 지휘: 담당자 선택으로 다른 역할을 조작하세요.':'나의 임무를 완료한 뒤 동료의 공유 정보와 체력을 확인하세요.';
-    $('battleNote').textContent=state.phase===5?'완전체 강림 · 거신의 시선을 확인하세요':'내 편성 · 공용 V3 전장';
+    $('battleNote').textContent=state.phase===5?'거신 강림 · 거신의 시선을 확인하세요':'내 편성 · 공용 V3 전장';
     $('partyStrip').innerHTML=state.members.map(m=>`<div class="mr-party-chip"><strong>${escape(m.name)}</strong>${roles[m.role]} · ${m.tasksDone}/${m.tasksTotal}<meter min="0" max="${m.maxHp}" value="${m.hp}" aria-label="${escape(m.name)} 체력"></meter></div>`).join('');
     for(const event of state.events)if(event.type.startsWith('MADARA_'))journal.set(event.seq,event);
     while(journal.size>80)journal.delete(journal.keys().next().value);
