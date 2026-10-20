@@ -1,5 +1,5 @@
 import {duoTiers} from '../shared/ranked-duo-season-v2.mjs';
-import {isOpenDuo} from '../shared/ranked-duo-random-v4.mjs';
+import {isOpenDuo} from '../shared/ranked-duo-random-v4.mjs?v=20261020-start2';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=v=>Number(v||0).toLocaleString('ko-KR');
 const date=v=>v?new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(v)):'일정 준비 중';
@@ -22,7 +22,7 @@ function slot(member,role,{self=false,enemy=false}={}){
 }
 export function randomDuoHome(state,userId,pending){
  const s=state?.season,p=state?.player,e=state?.energy,open=isOpenDuo(s),now=Date.parse(state?.serverNow),active=s?.status==='ACTIVE'&&Date.parse(s.startsAt)<=now&&now<Date.parse(s.endsAt),recruiting=!open&&s?.status==='RECRUITING'&&now<Date.parse(s.recruitUntil),canJoin=!open&&!state?.joined&&(active||recruiting),low=e&&Number(e.current)<Number(e.cost),canMatch=active&&(open||state?.joined);
- const action=pending?button('recover','진행 중인 경기 이어보기',{primary:true}):canJoin?button('join','시즌 참가하기',{primary:true}):canMatch?button('match',low?'행동력 충전 대기':'랜덤 매칭 · 바로 출전',{primary:true,disabled:low}):button('match',state?.joined?'대전 시작을 기다리는 중':'시즌 재개 준비 중',{disabled:true});
+ const action=pending?button('recover','진행 중인 경기 이어보기',{primary:true}):canJoin?button('join','시즌 참가하기',{primary:true}):canMatch?button('match',low?'행동력 충전 대기':'랭크 듀오 시작',{primary:true,disabled:low}):button('match',state?.joined?'대전 시작을 기다리는 중':'시즌 재개 준비 중',{disabled:true});
  return `<div class="rd-season-line"><p>${esc(s?.name||'랜덤 듀오 개편 준비')}</p><span>${s?open?`상시 매칭 · 랭크전 저장 덱 ${fmt(state.poolCount)}명 · 시즌 정산 ${date(s.endsAt)}`:`참가 ${fmt(state.participants)}명 · ${recruiting?'모집 마감':'전투 종료'} ${date(recruiting?s.recruitUntil:s.endsAt)}`:'운영 재개 시 바로 매칭할 수 있습니다.'}</span></div>
  <div class="rd-layout"><section class="rd-panel rd-team"><header><div><p class="rd-kicker">A NEW PARTNER. EVERY MATCH.</p><h2>이번 승부의 동료는?</h2></div><span class="rd-format">2 <small>VS</small> 2</span></header>
  <div class="rd-pair">${slot(p||{userId,nickname:'나'},'PLAYER 01',{self:true})}${slot(null,'PLAYER 02')}</div><p class="rd-team-caption">매칭할 때 파트너 1명과 상대 2명을 뽑습니다.<br><strong>네 사람의 저장된 덱이 한 전장에서 맞붙습니다.</strong></p>

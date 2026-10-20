@@ -57,7 +57,9 @@ export async function duoStatus(env,user,s,now){
  const [mine,pending,leaders]=await Promise.all([entry(env,s,user.id),statement(env)("SELECT id FROM ranked_duo_matches_v1 WHERE user_id=? AND status='PENDING'",user.id).first(),standings(env,s,DUO_CHALLENGER.rankLimit,now)]);
  if(isRandomDuo(s.config)){
   const open=isOpenDuo(s.config),player=mine?await randomDuoPlayer(env,s,user.id,leaders):open?publicDuoPlayer({user_id:user.id,nickname:user.nickname,score:s.config.score.initial,wins:0,losses:0},s.config):null;
-  return {season:publicSeason(s),matchmaking:DUO_RANDOM_MODE,participants:Number(s.participant_count),...(open?{poolCount:await rankedDuoPoolCount(env,now)}:{}),pendingMatchId:pending?.id||null,joined:Boolean(mine),waiting:false,team:null,player,energy:mine||open?duoEnergy(mine,s.config,now):null,wallet:{userId:Number(user.id),coin:Number(user.coin),cardShards:Number(user.card_shards)},serverNow:iso(now)};
+  // Older open tabs use joined to choose join versus match. Open-pool players
+  // need no enrollment; keep persisted personal history explicit and read-only.
+  return {season:publicSeason(s),matchmaking:DUO_RANDOM_MODE,participants:Number(s.participant_count),...(open?{poolCount:await rankedDuoPoolCount(env,now)}:{}),pendingMatchId:pending?.id||null,joined:open||Boolean(mine),hasSeasonRecord:Boolean(mine),waiting:false,team:null,player,energy:mine||open?duoEnergy(mine,s.config,now):null,wallet:{userId:Number(user.id),coin:Number(user.coin),cardShards:Number(user.card_shards)},serverNow:iso(now)};
  }
  const ownTeam=mine?.team_id&&!['PAIRING','PUBLISHING'].includes(s.status)?await team(env,mine.team_id):null;
  return {season:publicSeason(s),participants:Number(s.participant_count),pendingMatchId:pending?.id||null,joined:Boolean(mine),waiting:Boolean(mine&&!ownTeam),team:publicTeam(ownTeam,s.config,leaders.findIndex(t=>t.id===ownTeam?.id)+1),energy:mine?duoEnergy(mine,s.config,now):null,seed:mine?.seed_json?JSON.parse(mine.seed_json):null,wallet:{userId:Number(user.id),coin:Number(user.coin),cardShards:Number(user.card_shards)},serverNow:iso(now)};

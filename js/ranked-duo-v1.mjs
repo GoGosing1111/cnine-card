@@ -1,6 +1,6 @@
 import {duoTiers} from '../shared/ranked-duo-season-v2.mjs';
 import {enterRankedDuo} from './ranked-duo-entry-v1.mjs?v=20260927-1';
-import {randomDuoShell,randomDuoRanking,randomDuoHistoryView,randomDuoTiers,randomDuoMatch,randomDuoStyle} from './ranked-duo-random-v4.mjs?v=20261020-open-pool1';
+import {randomDuoShell,randomDuoRanking,randomDuoHistoryView,randomDuoTiers,randomDuoMatch,randomDuoStyle} from './ranked-duo-random-v4.mjs?v=20261020-start2';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=v=>Number(v||0).toLocaleString('ko-KR');
 const date=v=>v?new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(v)):'추후 안내';

@@ -23,20 +23,21 @@ for(const postgres of [false,true,'pipeline'])test(`${postgres||'SQLite'} no enr
  assert.equal(s.status,'ACTIVE');assert.equal(s.recruit_until,null);assert.equal(s.config.recruitHours,0);
  assert.equal(Date.parse(s.config.startsAt),f.clock());assert.equal(Date.parse(s.config.endsAt)-f.clock(),7*day);
  const status=(await f.call('ranked-duo/status',{user:2})).data;
- assert.equal(status.joined,false);assert.equal(status.poolCount,6);assert.equal(status.player.score,1000);assert.equal(status.energy.current,10);
+ assert.equal(status.joined,true,'cached clients must offer match without enrollment');assert.equal(status.hasSeasonRecord,false);assert.equal(status.poolCount,6);assert.equal(status.player.score,1000);assert.equal(status.energy.current,10);
  assert.equal(await count(f,'ranked_duo_entries_v1'),0,'status must not enroll anyone');
  const ticket=await match(f);assert.equal(ticket.status,200,JSON.stringify(ticket));assert.equal(new Set(roster(ticket.data)).size,4);
  assert.deepEqual((await match(f)).data,ticket.data);
  assert.equal(await count(f,'ranked_duo_entries_v1'),1);assert.equal(await count(f,'ranked_duo_players_v4'),1);
  const result=await fight(f,ticket.data);assert.equal(result.status,200,JSON.stringify(result));assert.equal(result.data.status,'COMPLETED');
  assert.equal(result.data.scoreScope,'INITIATOR');assert.equal(result.data.battleV2.teams.A.cards.length,10);assert.equal(result.data.battleV2.teams.B.cards.length,10);
- assert.equal((await f.call('ranked-duo/status',{user:2})).data.energy.current,9);
+ const after=(await f.call('ranked-duo/status',{user:2})).data;
+ assert.equal(after.energy.current,9);assert.equal(after.joined,true);assert.equal(after.hasSeasonRecord,true);
  for(const user of roster(ticket.data).filter(id=>id!==2)){
   assert.equal(await count(f,'ranked_duo_entries_v1','WHERE user_id=?',[user]),0);
   assert.equal(await count(f,'ranked_duo_players_v4','WHERE user_id=?',[user]),0);
   assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=?',user).first()).coin),0);
   const other=(await f.call('ranked-duo/status',{user})).data;
-  assert.equal(other.player.score,1000);assert.equal(other.energy.current,10);assert.equal(other.joined,false);
+  assert.equal(other.player.score,1000);assert.equal(other.energy.current,10);assert.equal(other.joined,true);assert.equal(other.hasSeasonRecord,false);
   assert.equal((await f.call('ranked-duo/history',{user})).data.history[0].scoreApplied,false);
   assert.equal((await f.call('ranked-duo/replay?id='+result.data.matchId,{user})).status,200);
  }

@@ -20,17 +20,17 @@ try{
    assert.ok(dimensions.buttons.every(b=>b.height>=44&&b.skin.includes('random-20261020/control.webp')),JSON.stringify(dimensions));
    await page.screenshot({path:path.join(out,`${name}-${width}.png`),fullPage:true});return dimensions;
   };
-  await page.goto(base+'/__duo');await page.getByRole('button',{name:'랜덤 매칭 · 바로 출전',exact:true}).waitFor();
+  await page.goto(base+'/__duo');await page.getByRole('button',{name:'랭크 듀오 시작',exact:true}).waitFor();
   const before=await page.request.get(base+'/api/ranked-duo/status').then(r=>r.json());
   assert.equal(before.season.entryMode,'RANKED_POOL');assert.equal(before.poolCount,6);
-  if(width===1440)assert.equal(before.joined,false);
+  assert.equal(before.joined,true);if(width===1440)assert.equal(before.hasSeasonRecord,false);
   assert.equal(await page.locator('[data-duo="join"],[data-duo="cancel"]').count(),0);
   const home=await inspect('home');await page.locator('.rd-guide summary').click();
   assert.match(await page.locator('.rd-guide').innerText(),/참가 신청 없이.*전체 이용자/);
   assert.doesNotMatch(await page.locator('.duo-random').innerText(),/24시간 모집|참가 모집 중/);
   await inspect('guide');
   await page.route('**/api/ranked-duo/fight',async route=>{await page.waitForTimeout(1000);await route.continue();});
-  await page.getByRole('button',{name:'랜덤 매칭 · 바로 출전',exact:true}).click();
+  await page.getByRole('button',{name:'랭크 듀오 시작',exact:true}).click();
   await page.locator('.rd-match').waitFor();await inspect('match');
   await page.locator('#modal.show').waitFor();await page.screenshot({path:path.join(out,`battle-${width}.png`)});
   const skip=page.getByRole('button',{name:/스킵|건너뛰기|결과 보기/}).first();if(await skip.count()&&await skip.isVisible())await skip.click();
@@ -46,7 +46,7 @@ try{
   const cms=await page.locator('.duo-admin').innerText();
   assert.match(cms,/모집 없는 상시 랜덤 듀오/);assert.doesNotMatch(cms,/24시간|모집 시간|참가 모집 마감|자동 모집/);
   assert.equal(await page.locator('[name="recruitHours"],[data-action="recruit"]').count(),0);await inspect('cms');
-  reports.push({width,home,joinedBefore:before.joined,poolCount:before.poolCount,energyBefore:before.energy.current,energyAfter:after.energy.current,actions,errors,httpErrors});
+  reports.push({width,home,joinedBefore:before.joined,hasSeasonRecordBefore:before.hasSeasonRecord,poolCount:before.poolCount,energyBefore:before.energy.current,energyAfter:after.energy.current,actions,errors,httpErrors});
   await page.close();
  }
  await fs.writeFile(path.join(out,'browser.json'),JSON.stringify(reports,null,2)+'\n');

@@ -1,0 +1,80 @@
+[
+  {
+    "width": 1440,
+    "stale": true,
+    "joined": true,
+    "hasSeasonRecord": false,
+    "label": "랜덤 매칭 · 바로 출전",
+    "size": {
+      "width": 1440,
+      "scroll": 1440,
+      "missing": [],
+      "buttonHeight": 54
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "stale": false,
+    "joined": true,
+    "hasSeasonRecord": false,
+    "label": "랭크 듀오 시작",
+    "size": {
+      "width": 1440,
+      "scroll": 1440,
+      "missing": [],
+      "buttonHeight": 54
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "stale": true,
+    "joined": true,
+    "hasSeasonRecord": false,
+    "label": "랜덤 매칭 · 바로 출전",
+    "size": {
+      "width": 390,
+      "scroll": 390,
+      "missing": [],
+      "buttonHeight": 54
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "stale": false,
+    "joined": true,
+    "hasSeasonRecord": false,
+    "label": "랭크 듀오 시작",
+    "size": {
+      "width": 390,
+      "scroll": 390,
+      "missing": [],
+      "buttonHeight": 54
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "stale": false,
+    "actions": [
+      "/api/ranked-duo/match",
+      "/api/ranked-duo/fight"
+    ],
+    "energyBefore": 10,
+    "energyAfter": 9,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "stale": true,
+    "actions": [
+      "/api/ranked-duo/match",
+      "/api/ranked-duo/fight"
+    ],
+    "energyBefore": 9,
+    "energyAfter": 8,
+    "errors": []
+  }
+]
