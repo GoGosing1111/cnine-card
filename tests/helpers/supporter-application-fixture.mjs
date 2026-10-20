@@ -1,3 +1,4 @@
+import {presentBrandedSystemMessage} from '../../shared/brand-presentation-20261016.mjs';
 import {supportFixture} from './server-support-fixture.mjs';
 import {readFileSync} from 'node:fs';
 import * as expiry from '../../functions/_supporter_message_expiry.js';
@@ -10,8 +11,8 @@ export async function addApplicationFixture(f,{postgres=false}={}){
   // Exercise the live inbox route with its SQL, while stubbing unrelated schema/reward setup.
   const source=readFileSync(new URL('../../functions/api/[[path]].js',import.meta.url),'utf8');
   const route=source.slice(source.indexOf("    if(path==='messages'){"),source.indexOf("    if(path==='messages/claim-batch'"));
-  const inbox=new Function('deps',`return async function(request,env){const {authenticate,ensureMessageRewardClaimV1222,readBody,json,presentMessageReward,liveSupportMessageSql,supportMessageCutoff,presentSupportMessage,deleteExpiredSupportMessages,Date}=deps;const path='messages';${route}}`)({
-    ...expiry,supportMessageCutoff:()=>expiry.supportMessageCutoff(f.clock.now),authenticate:f.deps.authenticate,ensureMessageRewardClaimV1222:async()=>{},readBody:r=>r.json(),json:(data,status=200,headers)=>Response.json(data,{status,headers}),presentMessageReward:m=>m,Date:{now:()=>f.clock.now}
+  const inbox=new Function('deps',`return async function(request,env){const {authenticate,ensureMessageRewardClaimV1222,ensureShiranuiRankReward,readBody,json,presentMessageReward,presentBrandedSystemMessage,liveSupportMessageSql,supportMessageCutoff,presentSupportMessage,deleteExpiredSupportMessages,Date}=deps;const path='messages';${route}}`)({
+    ...expiry,presentBrandedSystemMessage,supportMessageCutoff:()=>expiry.supportMessageCutoff(f.clock.now),authenticate:f.deps.authenticate,ensureMessageRewardClaimV1222:async()=>{},ensureShiranuiRankReward:async()=>{},readBody:r=>r.json(),json:(data,status=200,headers)=>Response.json(data,{status,headers}),presentMessageReward:m=>m,Date:{now:()=>f.clock.now}
   });
   const supportHandle=f.handle;
   f.handle=request=>new URL(request.url).pathname==='/api/messages'?inbox(request,f.env):supportHandle(request);

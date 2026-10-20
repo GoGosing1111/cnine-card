@@ -1,5 +1,6 @@
 import {SUPPORT_PLAN,SUPPORT_NOTICE,SUPPORT_DURATION_MS,canManageSupport,supportAccountEligible,supportBenefits} from '../shared/server-support-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
+import {handleSupportPackage} from './_support_package.js';
 import {prepareSupporterPetReward} from './_supporter_pet_reward.js';
 import {readSeasonPass,handleSeasonPass} from './_supporter_season_pass.js';
 import {readSupportApplication,issueSupportApplication,readSupportApplicationConfig,saveSupportApplicationConfig} from './_supporter_application.js';
@@ -90,6 +91,7 @@ export async function handleServerSupport({path,request,env,deps}){
     const now=(deps.now||Date.now)();
     if(admin){
       if(!canManageSupport(user))return reply({error:'후원 관리는 핑크빛유두 전용입니다.'},403);
+      if(['admin/server-support/package','admin/server-support/package/alerts'].includes(path))return reply(await handleSupportPackage({path,request,env,user,deps,now}));
       if(path==='admin/server-support/application'){
         if(request.method==='GET')return reply({config:await readSupportApplicationConfig(env)});
         if(request.method==='POST'){
@@ -126,7 +128,11 @@ export async function handleServerSupport({path,request,env,deps}){
       if(path==='server-support/status'&&request.method==='GET')return reply({visible,seasonPassVisible:eligible});
       if(!visible)return reply({error:'페이지를 찾을 수 없습니다.'},404);
       if(['server-support/pass/claim','server-support/pass/claim-all'].includes(path))return reply(await handleSeasonPass({path,request,env,user,deps,now,eligible}));
-      if(path==='server-support/info'&&request.method==='GET')return reply({...await supporterPage(env,user,now),previewOnly,seasonPassVisible:eligible});
+      if(path==='server-support/info'&&request.method==='GET'){
+        const info=await supporterPage(env,user,now);
+        return reply({...info,previewOnly,seasonPassVisible:eligible,packageVisible:eligible&&info.subscription.active&&info.seasonPass.enabled});
+      }
+      if(['server-support/package','server-support/package/apply'].includes(path))return reply(await handleSupportPackage({path,request,env,user,deps,now}));
       if(path==='server-support/apply'&&request.method==='POST'){
         if(!eligible)fail('ELIGIBILITY','가입 3일 경과와 2차 인증 완료 후 신청할 수 있습니다.',403);
         const body=await readJointBody(request,{fields:['requestId']});

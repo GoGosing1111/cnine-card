@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-20",
+  "itemCode": "MERCENARY_SSS_LIMITED_SHARD",
+  "tool": "image_gen.imagegen (built-in)",
+  "prompt": "Use case: stylized-concept. Asset type: premium fantasy RPG inventory material icon, SSS LIMITED MERCENARY SHARD. Create a brand-new original icon, centered on a genuinely transparent background, square composition with 8% transparent safety margin. A large broken fragment of an ornate platinum-and-antique-gold mercenary contract plaque, rich polished midnight obsidian face, iridescent pale violet and cyan crystal veins. The plaque has a prestigious engraved winged crown and crossed slender swords relief, a broken lower-right edge with two tiny floating chips. Highly legible simple overall silhouette, exquisite collectible RPG 2D painted metal and gemstone details, controlled luminous edges, crisp at 80px. Clearly rarer than a normal red-and-gold SSS card shard. Static embossed title 'SSS' across upper third only; no other text, no quantities, no prices, no label banner, no full outer inventory frame. Slight three-quarter tilt, front face fully readable. No characters, no hands, no background scene, no black background, no checkerboard drawn into the art, no watermark. This must be an actual isolated transparent game item ready to composite into a dark navy and muted gold interface.",
+  "source": "source.png",
+  "derivative": "item.webp",
+  "transparent": true,
+  "status": "integrated; PC/mobile technical verification passed; user visual approval not recorded",
+  "uses": [
+    "shared/support-package-v1.mjs",
+    "js/support-package-v1.mjs",
+    "inventory_items"
+  ],
+  "sha256": {
+    "source.png": "b425bd64efddc7f90eec62f7a8ab44f4b93cceb5c183dc47dfe5440a581f86c7",
+    "item.webp": "039fe271970db624790cfb83b059dfb25cc032a59244ab1bfa16d7a9b2c271b3"
+  }
+}
