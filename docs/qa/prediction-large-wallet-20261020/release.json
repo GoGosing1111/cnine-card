@@ -1,0 +1,56 @@
+{
+  "checkedAt": "2026-10-20T06:43:23.262Z",
+  "sourceCommit": "89243c844397d970f42c94eb12005c7c70e785e0",
+  "baseCommit": "a608d992234b5658b8c3e5500a341c33e899d92e",
+  "pages": {
+    "id": "c9860fe8-7037-4433-a5bf-fd7c18ab3e41",
+    "url": "https://c9860fe8.cnine-card.pages.dev",
+    "createdOn": "2026-10-20T06:42:47.594032Z",
+    "status": "success",
+    "stage": "deploy",
+    "commit": "89243c844397d970f42c94eb12005c7c70e785e0"
+  },
+  "runtime": {
+    "id": "e341d028-801a-495f-b65a-6b84ecc4faaf",
+    "createdOn": "2026-10-20T06:41:34.624202Z",
+    "versions": [
+      {
+        "version_id": "e4ddf76d-8011-49de-8632-faa9335bf5bf",
+        "percentage": 100
+      }
+    ]
+  },
+  "clanRuntime": "6aee5238-605b-4c5a-8c00-271261b46f9f",
+  "validation": {
+    "newRegressionTests": 3,
+    "relatedExistingTests": 38,
+    "failed": 0,
+    "workerCheck": true,
+    "productionReleaseCheck": true,
+    "hyperdriveQueryCache": "disabled",
+    "pagesAssets": 20000,
+    "unauthenticatedPublicState": 401,
+    "unauthenticatedAdminState": 401
+  },
+  "accountVerification": {
+    "checkedAt": "2026-10-20T06:42:07.741Z",
+    "readOnly": true,
+    "verification": "Production data through the shipped prediction state handler; unchanged foundation warmed only in an isolated fixture; no production session or mutation used",
+    "account": {
+      "id": 5849,
+      "nickname": "족다니",
+      "role": "ADMIN"
+    },
+    "status": 200,
+    "totalExact": "50001400006005009",
+    "availableExact": "50001400006005009",
+    "restricted": 0,
+    "eventsReturned": 12,
+    "counts": {
+      "active": 53,
+      "history": 46
+    },
+    "walletPreserved": true
+  },
+  "verificationNote": "First read-only verification hit its 15-second statement budget; an identical bounded retry succeeded. No production mutations or extra schema changes were used."
+}
