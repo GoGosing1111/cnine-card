@@ -1,0 +1,154 @@
+{
+  "verifiedAt": "2026-10-20T04:28:55.022Z",
+  "operationKey": "ops:ranked-duo-on:20261020:v1",
+  "auditId": "48865",
+  "policyEnabled": true,
+  "policyRevision": 3,
+  "season": {
+    "id": "4e49efa4-7a36-4848-ac85-7ca6606b5b6f",
+    "status": "RECRUITING",
+    "name": "랭크 듀오 시즌 5",
+    "matchmaking": "RANDOM_ASYNC",
+    "scoreScope": "INITIATOR",
+    "visible": true,
+    "revision": 0,
+    "recruitUntil": "2026-10-21T04:27:57.293Z",
+    "additionalRecruitment": null,
+    "startsAt": "2026-10-21T04:27:57.293Z",
+    "endsAt": "2026-10-28T04:27:57.293Z",
+    "energy": {
+      "maximum": 10,
+      "dailyGrant": 10,
+      "cost": 1,
+      "mode": "RANKED",
+      "rechargeMinutes": 5
+    },
+    "score": {
+      "initial": 1000,
+      "win": 24,
+      "loss": 16
+    },
+    "automatic": true,
+    "rankedSeason": {
+      "key": "duo-weekly|5|2026-10-20T04:27:57.293Z",
+      "name": "시즌 17",
+      "startsAt": "2026-10-20T04:27:57.293Z",
+      "endsAt": "2026-10-28T04:27:57.293Z",
+      "recruitStartsAt": "2026-10-20T04:27:57.293Z"
+    },
+    "weekly": {
+      "sequence": 5,
+      "policyRevision": 3,
+      "recruitStartsAt": "2026-10-20T04:27:57.293Z"
+    },
+    "rewards": {
+      "winCoin": 50000000,
+      "tierEnabled": true
+    },
+    "tiers": [
+      {
+        "id": "bronze",
+        "name": "브론즈",
+        "min": 0,
+        "color": "#b87333",
+        "art": "/assets/ui/ranked-duo/bronze-v2.webp",
+        "rewardCoin": 100,
+        "rewardShards": 0
+      },
+      {
+        "id": "silver",
+        "name": "실버",
+        "min": 1100,
+        "color": "#c9d4e3",
+        "art": "/assets/ui/ranked-duo/silver-v2.webp",
+        "rewardCoin": 3009,
+        "rewardShards": 0
+      },
+      {
+        "id": "gold",
+        "name": "골드",
+        "min": 2000,
+        "color": "#ffd15c",
+        "art": "/assets/ui/ranked-duo/gold-v2.webp",
+        "rewardCoin": 5009,
+        "rewardShards": 0
+      },
+      {
+        "id": "platinum",
+        "name": "플래티넘",
+        "min": 3000,
+        "color": "#5ff0df",
+        "art": "/assets/ui/ranked-duo/platinum-v2.webp",
+        "rewardCoin": 10000000,
+        "rewardShards": 0
+      },
+      {
+        "id": "diamond",
+        "name": "다이아",
+        "min": 4000,
+        "color": "#69cfff",
+        "art": "/assets/ui/ranked-duo/diamond-v2.webp",
+        "rewardCoin": 750000000,
+        "rewardShards": 0
+      },
+      {
+        "id": "master",
+        "name": "마스터",
+        "min": 5000,
+        "color": "#bd7cff",
+        "art": "/assets/ui/ranked-duo/master-v2.webp",
+        "rewardCoin": 1000000000,
+        "rewardShards": 0
+      },
+      {
+        "id": "grandmaster",
+        "name": "그랜드마스터",
+        "min": 6500,
+        "color": "#ff6f91",
+        "art": "/assets/ui/ranked-duo/grandmaster-v2.webp",
+        "rewardCoin": 3000000000,
+        "rewardShards": 0
+      }
+    ],
+    "challenger": {
+      "id": "challenger",
+      "name": "챌린저",
+      "rankLimit": 10,
+      "color": "#79c8ef",
+      "art": "/assets/ui/ranked-duo/challenger-v2.webp",
+      "rewardCoin": 5000000000,
+      "rewardShards": 0
+    },
+    "version": "duo-20260925-v1"
+  },
+  "recruitOpenedAt": "2026-10-20T04:27:57.293Z",
+  "participants": 0,
+  "randomTables": [
+    "ranked_duo_final_v4",
+    "ranked_duo_match_members_v4",
+    "ranked_duo_players_v4",
+    "ranked_duo_tickets_v4"
+  ],
+  "oldSeasonAnd73EntriesUnchanged": true,
+  "economyUnchanged": true,
+  "normalRankedUnchanged": true,
+  "readOnlyDomainStatus": {
+    "matchmaking": "RANDOM_ASYNC",
+    "scoreScope": "INITIATOR",
+    "joined": false
+  },
+  "publicFeed": {
+    "status": 200,
+    "duo": {
+      "kind": "RANKED_DUO",
+      "phase": "RECRUITING",
+      "additionalRecruiting": false,
+      "entityId": "4e49efa4-7a36-4848-ac85-7ca6606b5b6f",
+      "title": "랭크 듀오 시즌 5",
+      "detail": "매 경기 랜덤 듀오 · 시즌 참가 신청",
+      "deadlineAt": "2026-10-21T04:27:57.293Z",
+      "sortOrder": 0
+    }
+  },
+  "unauthenticatedStatus": 401
+}
