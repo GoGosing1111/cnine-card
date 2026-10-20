@@ -1,0 +1,248 @@
+{
+  "sourceCommit": "49ec8b39cee60b2f20683feb831bcaee2a595353",
+  "checkedAt": "2026-10-20T08:33:58.216Z",
+  "supportCheckedAt": "2026-10-20T08:40:33.652Z",
+  "readOnly": true,
+  "scope": "Requested account only; 40 attacker and 40 defender audits, last 12 duo records. Private raw inputs are excluded from Git.",
+  "observed": {
+    "historyCount": 80,
+    "auditCount": 80,
+    "diimLevel": 11,
+    "breakthroughMask": 3,
+    "levelUpdatedAt": "2026-10-20 17:13:13",
+    "rounds": [
+      {
+        "atKst": "2026-10-20 17:33:23",
+        "round": 2,
+        "opponent": "V-057",
+        "won": false,
+        "seriesWon": true,
+        "actions": 17
+      },
+      {
+        "atKst": "2026-10-20 17:32:57",
+        "round": 2,
+        "opponent": "V-985",
+        "won": true,
+        "seriesWon": true,
+        "actions": 7
+      },
+      {
+        "atKst": "2026-10-20 17:21:12",
+        "round": 2,
+        "opponent": "V-057",
+        "won": false,
+        "seriesWon": true,
+        "actions": 17
+      },
+      {
+        "atKst": "2026-10-20 17:20:44",
+        "round": 2,
+        "opponent": "V-985",
+        "won": true,
+        "seriesWon": true,
+        "actions": 7
+      },
+      {
+        "atKst": "2026-10-20 17:19:46",
+        "round": 2,
+        "opponent": "V-057",
+        "won": false,
+        "seriesWon": true,
+        "actions": 16
+      },
+      {
+        "atKst": "2026-10-20 17:19:26",
+        "round": 2,
+        "opponent": "V-985",
+        "won": true,
+        "seriesWon": true,
+        "actions": 6
+      }
+    ],
+    "confirmedFinal": {
+      "atKst": "2026-10-20 17:32:57",
+      "level": 11,
+      "levelApplied": true,
+      "growth": {
+        "hpPercent": 450,
+        "attackPercent": 500,
+        "defensePercent": 90,
+        "speedPercent": 14,
+        "skillPowerPercent": 10,
+        "mitigationBypassPercent": 25,
+        "actionCatchupPercent": 25,
+        "actionCreditPercent": 25
+      },
+      "effectiveAttack": 7400088,
+      "maxHp": 26379639,
+      "openingShield": 2994147
+    }
+  },
+  "controlled": {
+    "conditions": "Current cached role/card inputs, current magic and pet snapshots, fixed equipment. Only Diim level changes across paired seeds and mirrored sides. Current-input controlled comparison, not exact historical replay. Shield assigned is refreshed budget, not measured damage absorbed.",
+    "seedsPerCase": 32,
+    "mirroredSides": 2,
+    "total": 384,
+    "reports": [
+      {
+        "opponent": "V-057",
+        "opponentLevel": 4,
+        "level": 1,
+        "battles": 64,
+        "wins": 0,
+        "casts": 64,
+        "shieldAssigned": 318262848,
+        "damage": 31750817,
+        "attackEvents": 128,
+        "winRate": 0,
+        "castsPerBattle": 1,
+        "damagePerHit": 248053.2578125,
+        "averageShieldPerCast": 4972857
+      },
+      {
+        "opponent": "V-057",
+        "opponentLevel": 4,
+        "level": 10,
+        "battles": 64,
+        "wins": 0,
+        "casts": 64,
+        "shieldAssigned": 1503792576,
+        "damage": 31750817,
+        "attackEvents": 128,
+        "winRate": 0,
+        "castsPerBattle": 1,
+        "damagePerHit": 248053.2578125,
+        "averageShieldPerCast": 23496759
+      },
+      {
+        "opponent": "V-057",
+        "opponentLevel": 4,
+        "level": 11,
+        "battles": 64,
+        "wins": 0,
+        "casts": 66,
+        "shieldAssigned": 2166177420,
+        "damage": 32343043,
+        "attackEvents": 130,
+        "winRate": 0,
+        "castsPerBattle": 1.03125,
+        "damagePerHit": 248792.63846153847,
+        "averageShieldPerCast": 32820870
+      },
+      {
+        "opponent": "V-985",
+        "opponentLevel": 4,
+        "level": 1,
+        "battles": 64,
+        "wins": 64,
+        "casts": 515,
+        "shieldAssigned": 2561021446,
+        "damage": 856921887,
+        "attackEvents": 923,
+        "winRate": 1,
+        "castsPerBattle": 8.046875,
+        "damagePerHit": 928409.411700975,
+        "averageShieldPerCast": 4972857.176699029
+      },
+      {
+        "opponent": "V-985",
+        "opponentLevel": 4,
+        "level": 10,
+        "battles": 64,
+        "wins": 64,
+        "casts": 387,
+        "shieldAssigned": 9093245733,
+        "damage": 943858725,
+        "attackEvents": 666,
+        "winRate": 1,
+        "castsPerBattle": 6.046875,
+        "damagePerHit": 1417205.292792793,
+        "averageShieldPerCast": 23496759
+      },
+      {
+        "opponent": "V-985",
+        "opponentLevel": 4,
+        "level": 11,
+        "battles": 64,
+        "wins": 64,
+        "casts": 390,
+        "shieldAssigned": 12800139300,
+        "damage": 970789874,
+        "attackEvents": 688,
+        "winRate": 1,
+        "castsPerBattle": 6.09375,
+        "damagePerHit": 1411031.7936046512,
+        "averageShieldPerCast": 32820870
+      }
+    ],
+    "fixedSeed": 101316460,
+    "firstHitExamples": [
+      {
+        "level": 1,
+        "effectiveAttack": 1233348,
+        "totalHit": 500759,
+        "targetMaxHp": 834599,
+        "hpBasedCap": 500759
+      },
+      {
+        "level": 10,
+        "effectiveAttack": 5550066,
+        "totalHit": 500759,
+        "targetMaxHp": 834599,
+        "hpBasedCap": 500759
+      },
+      {
+        "level": 11,
+        "effectiveAttack": 7400088,
+        "totalHit": 500759,
+        "targetMaxHp": 834599,
+        "hpBasedCap": 500759
+      }
+    ],
+    "lv11FatalCast": {
+      "skill": "MS-059",
+      "hpDamage": 26379639,
+      "shieldAbsorbed": 13831326,
+      "hpAfter": 0,
+      "shieldAfter": 0,
+      "diimCasts": 1
+    },
+    "lastRoundCrossCheck": {
+      "winner": "A",
+      "observedActions": "7",
+      "simulatedActions": 7,
+      "cardDifferences": {
+        "A": [],
+        "B": []
+      }
+    }
+  },
+  "adjacentDuoFinding": {
+    "code": "V-999",
+    "savedLevel": 3,
+    "levelUpdatedAt": "2026-10-20T07:24:01.004Z",
+    "battles": [
+      {
+        "atKst": "2026-10-20 17:31:26",
+        "snapshotLevel": 1,
+        "growthSnapshotPresent": false
+      },
+      {
+        "atKst": "2026-10-20 17:31:13",
+        "snapshotLevel": 1,
+        "growthSnapshotPresent": false
+      }
+    ],
+    "limitation": "These recent duo snapshots contain Helios, not Diim. Do not attribute the regular Diim vs Kangyun losses to this separate omission."
+  },
+  "codeSha256": {
+    "functions/_battle_v2_preview.js": "c8fe75f3a56b4c5c589db5c1703c21e6ee71a0c1410f3210e7b38b3a36c70da4",
+    "functions/_mercenary_combat.js": "11aa732ad6495d670287a6b0ab748cce6180cdc6eb8407e8fe2404a8aaf8ef1b",
+    "shared/mercenary-halloween-combat-v1.mjs": "2817dfc8ad56981f88805846e818db08f38b3383eeeb8152329d5b9d30382c15",
+    "shared/mercenary-kangyun-v1.mjs": "2f912ac96bbb3c55ee87d15eb6e5fb1e42568540d63b7a71e0ec714aa6dc4dcc",
+    "shared/mercenary-combat-link-v2103.mjs": "47c83f8e99f2ebb274341d623d154ab9486073b50cbe9f5966369734d2ae18d8",
+    "shared/mercenary-growth-review-v2.mjs": "a75b5a6564c5a330252be6f8a8fb0acd6d83f5290512bef702743c6b3d089382"
+  },
+  "productionChanges": false
+}
