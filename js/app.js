@@ -1777,7 +1777,7 @@ document.addEventListener('click',event=>{
 });
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-halloween-pack-enter]');if(!button||button.disabled)return;
- button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=bathory-20261019-v1').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
+ button.disabled=true;import('/js/mercenary-halloween-pack-live.mjs?v=20261020-recovery-button-v1').then(module=>module.openHalloweenPack()).catch(error=>alert(error.message)).finally(()=>{if(button.isConnected)button.disabled=false;});
 });
 function halloweenShopStockText(stock){
  if(!stock?.prepared||!Number.isSafeInteger(stock.remaining)||stock.remaining<0)return '수량 확인 중';

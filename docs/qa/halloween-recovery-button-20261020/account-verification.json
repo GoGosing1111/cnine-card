@@ -1,0 +1,132 @@
+{
+  "account": {
+    "id": 4111,
+    "nickname": "족게이다"
+  },
+  "inspectedAt": "2026-10-20T04:26:57.512Z",
+  "verifiedAt": "2026-10-20T04:30:21.076Z",
+  "database": [
+    {
+      "database": "cnine",
+      "recovery": false
+    }
+  ],
+  "pending": 0,
+  "mutationLocks": 0,
+  "completedReceipts": [
+    {
+      "requestId": "e09344b9-81da-4c3f-89a9-1defb1520d89",
+      "status": "COMPLETED",
+      "count": 10,
+      "coinCost": 10000000000,
+      "acquisitionCount": 2,
+      "durationMs": 265
+    },
+    {
+      "requestId": "116ecbd4-6e12-4990-864e-9460a45aaa47",
+      "status": "COMPLETED",
+      "count": 10,
+      "coinCost": 10000000000,
+      "acquisitionCount": 5,
+      "durationMs": 253
+    },
+    {
+      "requestId": "9280f64f-77f2-4953-a43c-14ce3890fb8e",
+      "status": "COMPLETED",
+      "count": 10,
+      "coinCost": 10000000000,
+      "acquisitionCount": 1,
+      "durationMs": 252
+    },
+    {
+      "requestId": "f24b250b-9af6-4f86-ac1c-b21e5fb90406",
+      "status": "COMPLETED",
+      "count": 10,
+      "coinCost": 10000000000,
+      "acquisitionCount": 3,
+      "durationMs": 252
+    },
+    {
+      "requestId": "058cc7ba-e249-47cc-aef5-dff74cda265d",
+      "status": "COMPLETED",
+      "count": 10,
+      "coinCost": 10000000000,
+      "acquisitionCount": 3,
+      "durationMs": 255
+    },
+    {
+      "requestId": "b551075a-0c5b-43da-8113-1768381c175c",
+      "status": "COMPLETED",
+      "count": 10,
+      "coinCost": 10000000000,
+      "acquisitionCount": 4,
+      "durationMs": 253
+    },
+    {
+      "requestId": "c2427bc7-f211-48d0-8daa-17ac3b2afae1",
+      "status": "COMPLETED",
+      "count": 10,
+      "coinCost": 10000000000,
+      "acquisitionCount": 1,
+      "durationMs": 251
+    },
+    {
+      "requestId": "4957e368-ecda-4b6e-ae52-7e1d2f5bd629",
+      "status": "COMPLETED",
+      "count": 10,
+      "coinCost": 10000000000,
+      "acquisitionCount": 1,
+      "durationMs": 251
+    },
+    {
+      "requestId": "ac3b6506-e77c-4ea6-a7bc-0cb88a7ef7b4",
+      "status": "COMPLETED",
+      "count": 10,
+      "coinCost": 10000000000,
+      "acquisitionCount": 2,
+      "durationMs": 251
+    },
+    {
+      "requestId": "db855d04-22fd-4893-bcb0-4bfbbf243a83",
+      "status": "COMPLETED",
+      "count": 10,
+      "coinCost": 10000000000,
+      "acquisitionCount": 1,
+      "durationMs": 251
+    },
+    {
+      "requestId": "7c628364-a752-48a4-b4c8-4badfb9381d8",
+      "status": "COMPLETED",
+      "count": 10,
+      "coinCost": 10000000000,
+      "acquisitionCount": 4,
+      "durationMs": 250
+    },
+    {
+      "requestId": "43560f9f-0b44-4a2d-999d-64fcb960aadf",
+      "status": "COMPLETED",
+      "count": 10,
+      "coinCost": 10000000000,
+      "acquisitionCount": 3,
+      "durationMs": 251
+    }
+  ],
+  "debitCount": 12,
+  "debitedAmounts": [
+    "-10000000000",
+    "-10000000000",
+    "-10000000000",
+    "-10000000000",
+    "-10000000000",
+    "-10000000000",
+    "-10000000000",
+    "-10000000000",
+    "-10000000000",
+    "-10000000000",
+    "-10000000000",
+    "-10000000000"
+  ],
+  "productionWrites": 0,
+  "accountRefunds": 0,
+  "extraGrants": 0
+}

@@ -2,8 +2,8 @@ import {HALLOWEEN_PACK,validateHalloweenOpeningBody,halloweenReceiptResults} fro
 const fail=(message,code)=>Object.assign(Error(message),{code});
 const terminal=new Set(['MERCENARY_HALLOWEEN_CLOSED','MERCENARY_HALLOWEEN_CHANGED','MERCENARY_HALLOWEEN_NOT_READY','MERCENARY_HALLOWEEN_FUNDS','MERCENARY_HALLOWEEN_INPUT','MERCENARY_HALLOWEEN_SOLD_OUT','MERCENARY_HALLOWEEN_NORMAL_POOL','JOINT_OPERATION_SUPERSEDED']);
 export class HalloweenOpeningSession{
- constructor({api,accountId,getAccountId,storage,present,lock=async(_key,work)=>work(),onConfirmed=()=>{},makeId=()=>crypto.randomUUID()}){
-  Object.assign(this,{api,accountId,getAccountId,storage,present,lock,onConfirmed,makeId});this.busy=false;
+ constructor({api,accountId,getAccountId,storage,present,lock=async(_key,work)=>work(),onConfirmed=()=>{},onPending=()=>{},makeId=()=>crypto.randomUUID()}){
+  Object.assign(this,{api,accountId,getAccountId,storage,present,lock,onConfirmed,onPending,makeId});this.busy=false;
   this.pendingKey='cnine.halloween-pack.pending:'+accountId;this.receiptKey='cnine.halloween-pack.receipt:'+accountId;
  }
  assertAccount(){if(!this.accountId||Number(this.getAccountId())!==this.accountId)throw fail('계정이 변경됐습니다. 할로윈팩을 다시 열어 주세요.','HALLOWEEN_ACCOUNT_CHANGED');}
@@ -34,7 +34,7 @@ export class HalloweenOpeningSession{
   if(!config.userOpeningEnabled)throw fail('할로윈팩은 출시 준비 중입니다.','MERCENARY_HALLOWEEN_CLOSED');
   if(this.read(this.pendingKey))throw fail('이전 개봉 결과부터 확인해 주세요.','HALLOWEEN_RECOVERY_REQUIRED');
   const body=validateHalloweenOpeningBody({requestId:this.makeId(),count,expectedRevision:config.revision});
-  this.storage.setItem(this.pendingKey,JSON.stringify({accountId:this.accountId,body}));return this.accept(await this.submit(body),onReceipt);
+  this.storage.setItem(this.pendingKey,JSON.stringify({accountId:this.accountId,body}));this.onPending();return this.accept(await this.submit(body),onReceipt);
  }
  // On entry, reconcile only the saved request. Never POST or resume automation
  // without the player's explicit recovery/opening action.
