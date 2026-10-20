@@ -1,0 +1,27 @@
+{
+  "status": "COMPLETED",
+  "countedInLimited": false,
+  "purchaseCountDelta": 0,
+  "operationKey": "ops:bichon-jinmu-grant:20261020:v1",
+  "planHash": "e27a8a5d196df3f1220fff0583d88eeb64a759bdac4bf09848411d3f8f0bb6ee",
+  "target": {
+    "id": 5663,
+    "nickname": "비숑",
+    "provider": null,
+    "providerUserId": null,
+    "code": "V-989",
+    "name": "천룡검황 진무",
+    "rank": "SSS",
+    "quantity": 1
+  },
+  "authorization": "연두 관리자 계정에 차감없이 진무 지급 / 비숑에다 지급해",
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "cost": 0,
+  "permanent": true,
+  "automaticLoadout": false,
+  "protectedBefore": "6f0328381f30ae6f3ce9fe9a7d263b26fd2b28236a4c321ab3314fda64d22088",
+  "protectedAfter": "6f0328381f30ae6f3ce9fe9a7d263b26fd2b28236a4c321ab3314fda64d22088",
+  "completedAt": "2026-10-20T07:42:45.860Z",
+  "auditId": "49102"
+}

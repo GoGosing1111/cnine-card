@@ -1,0 +1,44 @@
+{
+  "operationKey": "ops:bichon-jinmu-grant:20261020:v1",
+  "checkedAt": "2026-10-20T07:43:00.407Z",
+  "status": "VERIFIED",
+  "recipient": "비숑",
+  "userId": 5663,
+  "code": "V-989",
+  "name": "천룡검황 진무",
+  "rank": "SSS",
+  "quantity": 1,
+  "countedInLimited": false,
+  "purchaseCountDelta": 0,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "currentCopies": 1,
+  "cost": 0,
+  "permanent": true,
+  "automaticLoadout": false,
+  "acquisitions": 1,
+  "auditRecords": 1,
+  "completionReceipts": 1,
+  "duplicateOperationGrants": 0,
+  "preservedStateVerified": true,
+  "auditId": "49102",
+  "completedAt": "2026-10-20T07:42:45.860Z",
+  "stock": {
+    "code": "V-989",
+    "stock_limit": "3",
+    "issued": "0",
+    "revision": "0"
+  },
+  "remainingPackCopies": 3,
+  "packIssuesForTarget": 0,
+  "livePolicy": {
+    "url": "https://cnine-card.pages.dev/shared/mercenary-jinmu-v1.mjs?verify=bichon-20261020",
+    "status": 200,
+    "sha256": "6aa20cd3536891897dc7db68e5f625dd34d720b55ee2d249cedc189cabcaaa57",
+    "matchesCommittedSource": true
+  },
+  "checks": {
+    "directRecipientAllowed": true,
+    "ordinaryYeonduAccountsExcluded": true
+  }
+}
