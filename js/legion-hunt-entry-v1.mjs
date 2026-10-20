@@ -1,4 +1,4 @@
-import {contentEnergyText,contentEnergyView} from '../shared/content-energy-v1.mjs?v=20261020-v1';
+import {contentEnergyText,contentEnergyView} from '../shared/content-energy-v1.mjs?v=20261020-clock-fix-v1';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {equipmentEffectText} from '../shared/equipment-growth-text-v1.mjs';
 
