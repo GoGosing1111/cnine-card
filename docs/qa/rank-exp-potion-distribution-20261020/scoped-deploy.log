@@ -1,0 +1,91 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"b84dd7ba5f7977024e5a187093c58ffb561bdd2d","reason":"Add existing rank EXP 2x potion to coupon issuance and user-management grants; verify atomic receipts, permission and quantity guards, existing coin coupons and adjacent inventory grants.","changed":["AGENTS.md","admin/admin-v1062-coupon-bulk-delete.js","admin/admin-v1276.js","admin/index.html","docs/qa/rank-exp-potion-distribution-20261020/browser-report.json","docs/qa/rank-exp-potion-distribution-20261020/desktop-coupon.png","docs/qa/rank-exp-potion-distribution-20261020/desktop-grant.png","docs/qa/rank-exp-potion-distribution-20261020/desktop-issued.png","docs/qa/rank-exp-potion-distribution-20261020/mobile-coupon.png","docs/qa/rank-exp-potion-distribution-20261020/mobile-grant.png","docs/qa/rank-exp-potion-distribution-20261020/mobile-issued.png","docs/qa/ranked-duo-open-pool-20261020/README.md","docs/qa/ranked-duo-open-pool-20261020/apply.json","docs/qa/ranked-duo-open-pool-20261020/release.json","docs/qa/ranked-duo-open-pool-20261020/replay.json","docs/qa/ranked-duo-open-pool-20261020/scoped-deploy.log","docs/qa/ranked-duo-open-pool-20261020/verification.json","docs/rank-exp-potion-distribution-20261020.md","docs/ranked-duo-open-pool-20261020.md","functions/_rank_exp_potion_grant.js","functions/api/[[path]].js","tests/rank-exp-potion-distribution-20261020.browser.mjs","tests/rank-exp-potion-distribution-20261020.test.mjs"],"tests":["tests/rank-exp-potion-distribution-20261020.test.mjs","tests/coupon-reward-cap-v1997.test.mjs","tests/admin-forge-ticket-grant-20260929.test.mjs"],"checks":["check:worker"]}
+✔ PINGDU_REPAIR_COUPON: route credits the target once, records the admin, and returns the balance (2532.9327ms)
+ℹ {"itemCode":"PINGDU_REPAIR_COUPON","sqlStatements":27,"elapsedMs":64}
+✔ EQUIPMENT_PROTECTION_TICKET: route credits the target once, records the admin, and returns the balance (1390.7877ms)
+ℹ {"itemCode":"EQUIPMENT_PROTECTION_TICKET","sqlStatements":25,"elapsedMs":32}
+✔ permissions: unauthenticated, USER and admin without USER_MANAGE are denied; non-owner cannot change OWNER (1408.771ms)
+✔ invalid item, quantity, request ID, account and disabled catalog never grant (1422.6416ms)
+✔ same request cannot change recipient, admin, item, quantity or reason (1382.5006ms)
+✔ inventory ledger, audit and completion failures roll back and retry without double credit; lost acknowledgement recovers (1411.2464ms)
+✔ concurrent identical requests credit once; inventory overflow is rejected (1037.8157ms)
+✔ UI: both options and balances, exact confirmation, retry ID reuse after lost response and upper-bound validation (24.093ms)
+✔ 코인 쿠폰 300억과 인증 메시지 50억 한도는 분리 유지한다 (1.4391ms)
+✔ 신규·호환 쿠폰 발급 라우트가 모두 쿠폰 전용 한도를 사용한다 (1.2626ms)
+✔ CMS도 보상 종류별 최대값을 즉시 표시하고 300억 초과 입력을 차단한다 (0.2881ms)
+✔ 쿠폰 한도 회귀 검사가 운영 출시 게이트에 포함된다 (0.1604ms)
+✔ CMS 발급은 300억을 그대로 전송하고 300억+1은 요청 전에 거부한다 (16.6199ms)
+✔ PostgreSQL에서 모든 발급 경로의 300억 저장·수령·재시도와 초과 차단을 검증한다 (2425.8198ms)
+✔ only 2X joins coupon rewards; CMS uses the same quantity limit (18.2755ms)
+✔ all issue routes enforce permissions, amount, active catalog, prefix and duplicate code (2419.8318ms)
+✔ redemption adds inventory once; retry/last-use competition and disabled replay preserve receipts (1365.5246ms)
+✔ coupon failure rolls inventory, counter and audit back together; committed response loss replays (1453.0845ms)
+✔ redemption refuses inactive/missing items, inactive accounts and invalid inventory without consumption (1411.6151ms)
+✔ user-management permission/OWNER protection and idempotent grant keep inventory/audits atomic (1374.7369ms)
+✔ admin audit failure rolls back, retry grants once and item disabling never gets overwritten (1365.9896ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10822.9355
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-open-pool-20261020-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 4991 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7894.24 KiB / gzip: 1705.75 KiB
+Worker Startup Time: 39 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (5.02 sec)
+No targets deployed for cnine-card-api-runtime (0.60 sec)
+Current Version ID: 6da283c7-b61d-42eb-b452-2408bc398fa5
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19994/20000)
+Uploading... (19996/20000)
+Uploading... (19998/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 6 files (19994 already uploaded) (2.23 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://26b651a1.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2729.10 KiB / gzip: 622.25 KiB
+Worker Startup Time: 31 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (2.94 sec)
+Deployed cnine-card-clan-draft triggers (0.91 sec)
+  schedule: * * * * *
+Current Version ID: 79724020-a3ff-4ec4-81f2-73c1ff23354b

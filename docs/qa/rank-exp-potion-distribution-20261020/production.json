@@ -1,0 +1,53 @@
+{
+  "verifiedAt": "2026-10-20T05:52:20.843Z",
+  "source": "e83df6f9ade4a0cf20bdd908fdc07e46a05d9f34",
+  "pages": "https://26b651a1.cnine-card.pages.dev",
+  "apiVersion": "6da283c7-b61d-42eb-b452-2408bc398fa5",
+  "schedulerVersion": "79724020-a3ff-4ec4-81f2-73c1ff23354b",
+  "tests": 21,
+  "files": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "17a7c808dc6e598fbc3e973ced9858680cfaa6e187e5e44c75cb54bcba1d9cfe",
+      "match": true
+    },
+    {
+      "file": "admin/admin-v1276.js",
+      "status": 200,
+      "sha256": "31dfd7dc35c6d274caf69174c4a6b2501523b2b91363a6f3b8c1e2bca5dd71b9",
+      "match": true
+    },
+    {
+      "file": "admin/admin-v1062-coupon-bulk-delete.js",
+      "status": 200,
+      "sha256": "2ea435e979ac9b04e32d759487bca3cf998a3b1a61d9edb0300221f384ed6c77",
+      "match": true
+    },
+    {
+      "file": "assets/items/rank-exp-potions-20261020/2x.webp",
+      "status": 200,
+      "sha256": "d23042685c2a317d03cb66b1a4e92a51ad9c06503fbb25bfdc63fee7101b857c",
+      "match": true
+    }
+  ],
+  "anonymousRoutes": [
+    {
+      "route": "admin/coupon-create-permanent-v3",
+      "status": 401,
+      "error": "관리자 로그인이 필요합니다."
+    },
+    {
+      "route": "admin/users/action",
+      "status": 401,
+      "error": "관리자 로그인이 필요합니다."
+    },
+    {
+      "route": "coupon/redeem",
+      "status": 401,
+      "error": "로그인이 필요합니다."
+    }
+  ],
+  "productionCouponIssued": false,
+  "productionAccountGrant": false
+}

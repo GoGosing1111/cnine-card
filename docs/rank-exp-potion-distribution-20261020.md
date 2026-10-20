@@ -23,3 +23,10 @@
 ## 배포
 
 직전 운영 Pages `12d1d494`, 소스 `b84dd7ba5f7977024e5a187093c58ffb561bdd2d`를 조회했다. 관련 검사와 `check:worker`를 선택해 `npm run deploy:production -- --scoped`로 배포한다. 관리자 스크립트 캐시는 `rankPotion=20261020-v1`이다. 배포 식별자와 운영 확인은 완료 후 별도 기록한다.
+
+### 완료
+
+- 2026-10-20 14:52 KST 운영 확인. 소스 `e83df6f9ade4a0cf20bdd908fdc07e46a05d9f34`, Pages `26b651a1`, API Runtime `6da283c7-b61d-42eb-b452-2408bc398fa5`, 스케줄러 `79724020-a3ff-4ec4-81f2-73c1ff23354b`.
+- 관련 검사 21/21, Worker 컴파일·출시 설정·Hyperdrive 캐시 OFF 검사 통과. Pages 20,000개 파일, 변경 파일 6개 업로드.
+- 운영 주소의 CMS HTML·관리자 스크립트 2개·물약 원화 1개가 로컬 소스와 SHA-256 일치. 쿠폰 발급·유저관리 지급·쿠폰 사용은 익명 요청을 모두 401로 차단했다.
+- `production.json`, `scoped-deploy.log`에 확인 결과를 보존했다. 운영 쿠폰 발급이나 계정 지급은 수행하지 않았다.
