@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-10-20T18:52:50.174Z",
+  "production": "https://cnine-card.pages.dev",
+  "sourceCommit": "57f2de401a75158c7d4f9bd3ceda5d7abaeee14c",
+  "runtime": "prime-requiem-20261021-v2",
+  "readOnly": true,
+  "files": [
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "bytes": 2264972,
+      "sha256": "4946b6e1a38262d54380b57cf219fcf1c6b9a03f956ab641afe075b86baaeaab"
+    },
+    {
+      "file": "preview/sustained-hunt-v2/battle.bundle.js",
+      "bytes": 2288491,
+      "sha256": "ad6c9b4754d89ca1d00891a72c3c1416897a6265f0a881bd39cafd435e54addb"
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "bytes": 82844,
+      "sha256": "a200f0ddeb3d805d31443eaeb2214203d67febc2eb47226b622f378ef395b61f"
+    },
+    {
+      "file": "js/app.js",
+      "bytes": 773608,
+      "sha256": "9773b3846941e0446e1c9e02502aa31217f2fe58715d750288918074ae84226d"
+    },
+    {
+      "file": "service-worker.js",
+      "bytes": 17489,
+      "sha256": "e7506a8afc848178513f13a2baaae7a433d7016fd91cfccea97dc1917a63cc7b"
+    }
+  ]
+}
