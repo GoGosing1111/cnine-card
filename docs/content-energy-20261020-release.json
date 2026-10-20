@@ -1,0 +1,161 @@
+{
+  "sourceCommit": "ab3dc06be9570218b48fcd6d52c8718f16ece738",
+  "checkedAt": "2026-10-20T01:27:40.149Z",
+  "pages": {
+    "id": "d030d8f3-7b77-4f8a-91ec-8ef9d6ddbc53",
+    "url": "https://d030d8f3.cnine-card.pages.dev",
+    "createdOn": "2026-10-20T01:27:00.949924Z",
+    "status": "success",
+    "stage": "deploy",
+    "commit": "ab3dc06be9570218b48fcd6d52c8718f16ece738"
+  },
+  "runtime": {
+    "id": "be572a83-d6d0-48dd-9db4-93cf9a9884b5",
+    "createdOn": "2026-10-20T01:25:44.950666Z",
+    "versions": [
+      {
+        "version_id": "5d2466a3-2c28-4b04-97bb-a32f79e1c12d",
+        "percentage": 100
+      }
+    ]
+  },
+  "scopedTestsPassed": 51,
+  "browserCasesPassed": 8,
+  "workerSyntaxPassed": true,
+  "live": {
+    "checkedAt": "2026-10-20T01:27:40.149Z",
+    "files": [
+      {
+        "path": "shared/content-energy-v1.mjs",
+        "status": 200,
+        "bytes": 1951,
+        "sha256": "9c0308af77370c668ebbe23c78ce46f2992a39ca38eb3b95f60a1df467cc4a95"
+      },
+      {
+        "path": "shared/cooperative-rewards-v1.mjs",
+        "status": 200,
+        "bytes": 3044,
+        "sha256": "81a7ed16b812dfe91b695b1217ae0a5dcaf598ee2a2f3ab2a68ee0e467f9f4ed"
+      },
+      {
+        "path": "shared/reward-reveal-contents-v1.mjs",
+        "status": 200,
+        "bytes": 912,
+        "sha256": "2e726d22b083706e15f171fbbe247418871256b236bcf39b6986d18592518cde"
+      },
+      {
+        "path": "raid/cooperative/live.mjs",
+        "status": 200,
+        "bytes": 46819,
+        "sha256": "22623395f8febfa97e5a657e14053ce9babba7a4ea467d27ce79cbf04d7fc3d5"
+      },
+      {
+        "path": "js/cooperative-battleground-entry.js",
+        "status": 200,
+        "bytes": 2589,
+        "sha256": "49dd2f9439780d36828d82ec218628a3e8217cc00104691c4f908716fa00ba94"
+      },
+      {
+        "path": "js/legion-hunt-entry-v1.mjs",
+        "status": 200,
+        "bytes": 21323,
+        "sha256": "7da78b8cca8015d8920a85cc204e1299a731f32399e8413bd19d2eb9e71027b3"
+      },
+      {
+        "path": "js/server-support-v1.mjs",
+        "status": 200,
+        "bytes": 17806,
+        "sha256": "c277950db280d4470628ff83a36b99af4b51528a4f1efabc2c638456d300b571"
+      },
+      {
+        "path": "admin/cooperative-rewards.mjs",
+        "status": 200,
+        "bytes": 3006,
+        "sha256": "89955409690895d159e78c7ee9d5e040e3b21e65309d7ff46da3ca5bdc5dc57a"
+      },
+      {
+        "path": "admin/legion-hunt-admin-v1.mjs",
+        "status": 200,
+        "bytes": 15209,
+        "sha256": "64dc4c628870ed7f830742d18cc9fa9c80a8c8bc8bf705450ecaf82819a3986b"
+      },
+      {
+        "path": "admin/server-support-admin-v1.mjs",
+        "status": 200,
+        "bytes": 10868,
+        "sha256": "57be06a6f6a2b013b0b507b00c46ee27f13ee1bb0d74351e7df58319669166eb"
+      },
+      {
+        "path": "index.html",
+        "status": 200,
+        "bytes": 31866,
+        "sha256": "e69be477af048b2a7f8d571a732532ea2f50f6563a2f16d0d48f0c6e7780a867"
+      },
+      {
+        "path": "service-worker.js",
+        "status": 200,
+        "bytes": 16390,
+        "sha256": "7479e34736a71fafdf0485acb318b51c4a894c5bdc392ac6b3a3633e13e34caa"
+      }
+    ],
+    "unauthenticatedRoutes": [
+      {
+        "path": "coop/feature",
+        "status": 401
+      },
+      {
+        "path": "legion-hunt/bootstrap",
+        "status": 401
+      }
+    ],
+    "shippedPolicy": {
+      "cooperativeMaximum": 3,
+      "legionMaximum": 10,
+      "rechargeMs": 10800000,
+      "midnightReset": false
+    }
+  },
+  "settingsUnchanged": true,
+  "settings": [
+    {
+      "key": "legion_hunt_settings_v1",
+      "mode": "ON",
+      "revision": 29
+    },
+    {
+      "key": "cooperative_battleground_settings_v1",
+      "mode": "ON",
+      "revision": 9,
+      "rewardsEnabled": true,
+      "legacyDailyLimit": 3
+    },
+    {
+      "key": "legion_hunt_regions_v1",
+      "mode": "ON",
+      "revision": 7,
+      "regions": [
+        {
+          "id": "coast",
+          "enabled": true
+        },
+        {
+          "id": "desert",
+          "enabled": true
+        },
+        {
+          "id": "theatre",
+          "enabled": true
+        },
+        {
+          "id": "viscera",
+          "enabled": true
+        },
+        {
+          "id": "sky",
+          "enabled": true
+        }
+      ]
+    }
+  ],
+  "livePlayerMutationsPerformed": false
+}
