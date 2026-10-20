@@ -14,6 +14,7 @@ import {isPvePublicPath} from '../shared/pve-public-release-v2092.mjs';
 import forgeRelease from '../docs/releases/equipment-forge-approved-20260922.json' with {type:'json'};
 import {EQUIPMENT_FORGE_RELEASE_KEY} from '../shared/equipment-forge-release-v1.mjs';
 import {jointHash} from '../functions/_joint_transactions.js';
+import {ensureRankRewardFixture} from './helpers/rank-reward-schema.mjs';
 
 const read=path=>fs.readFileSync(new URL('../'+path,import.meta.url),'utf8');
 const user={id:7,nickname:'LOCAL QA',role:'USER'};
@@ -54,7 +55,7 @@ async function fixture(t,postgres=false){
   invalidateUnifiedDropPoolCache();
   const schema=[...__scrapyardTest.FOUNDATION_SQL,...__dropPoolTest.FOUNDATION_SQL,
     'CREATE TABLE users(id INTEGER PRIMARY KEY,nickname TEXT,role TEXT DEFAULT \'USER\',coin INTEGER DEFAULT 10,card_shards INTEGER DEFAULT 0,magic_crystals INTEGER DEFAULT 0)',
-    'CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT)',
+    'CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT)',
     'CREATE TABLE avatar_catalog_v1(code TEXT PRIMARY KEY,effect_type TEXT,effect_value INTEGER,is_active INTEGER,is_public INTEGER)',
     'CREATE TABLE avatar_user_ownership_v1(user_id INTEGER,avatar_code TEXT,expires_at TEXT,PRIMARY KEY(user_id,avatar_code))',
     'CREATE TABLE avatar_user_loadout_v1(user_id INTEGER PRIMARY KEY,avatar_code TEXT)',
@@ -77,6 +78,7 @@ async function fixture(t,postgres=false){
       const r=await pg.query(source,typeof input==='string'?[]:input.values||[]);return {...r,rowCount:r.affectedRows??r.rows.length};}});
   }else{DB=new SQLiteDB();t.after(()=>DB.sql.close());DB.sql.exec(schema.join(';'));}
   const env={DB},p=(sql,...values)=>DB.prepare(sql).bind(...values);
+  await ensureRankRewardFixture(env);
   await ensureScrapyardV3Schema(env);await ensureScrapyardV3Schema(env);
   await p("INSERT INTO users(id,nickname,coin) VALUES(7,'LOCAL QA',10)").run();
   for(const item of ['SCRAPYARD_ENTRY_TICKET','VEHICLE_PART_TIRE'])await p('INSERT INTO inventory_items(code,name,rarity,image_url) VALUES(?,?,?,?)',item,item,'SPECIAL','/test.png').run();
