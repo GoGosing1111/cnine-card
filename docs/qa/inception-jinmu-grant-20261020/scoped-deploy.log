@@ -1,0 +1,70 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"b45677e30ad39ff4b75c6a7b7d2fed91b372fe04","reason":"Inception ID 2 direct Jinmu access only; exact-account, ownership, PVE/PVP, ranked and growth checks. Four pack regressions already passed; unrelated old draft fixture is recorded.","changed":["AGENTS.md","docs/qa/inception-jinmu-grant-20261020/README.md","docs/qa/inception-jinmu-grant-20261020/dry-run.json","docs/qa/new-user-gift-20261020/README.md","docs/qa/new-user-gift-20261020/apply.json","docs/qa/new-user-gift-20261020/assets-verification.json","docs/qa/new-user-gift-20261020/release.json","docs/qa/new-user-gift-20261020/replay.json","docs/qa/new-user-gift-20261020/scoped-deploy.log","docs/qa/new-user-gift-20261020/verification.json","preview/project-v-v3/grid-build-report.json","scripts/ops/inception-jinmu-grant-20261020.mjs","shared/mercenary-jinmu-v1.mjs","tests/inception-jinmu-grant-20261020.test.mjs"],"tests":["tests/inception-jinmu-grant-20261020.test.mjs"],"checks":["check:worker"]}
+✔ Inception exact account is a direct Jinmu recipient; other owners, lowercase account and recalled user stay blocked (0.6098ms)
+✔ Inception must own Jinmu, then can view, equip PVE/PVP, enter ranked selection and growth without using pack stock (1749.8199ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2099.2651
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 5075 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7905.65 KiB / gzip: 1708.70 KiB
+Worker Startup Time: 51 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.29 sec)
+No targets deployed for cnine-card-api-runtime (0.59 sec)
+Current Version ID: ee6f66c5-00c5-499c-abff-59442f42a93b
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19996/20000)
+Uploading... (19997/20000)
+Uploading... (19998/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 4 files (19996 already uploaded) (3.04 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://ac71d753.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2731.08 KiB / gzip: 622.73 KiB
+Worker Startup Time: 38 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.90 sec)
+Deployed cnine-card-clan-draft triggers (1.44 sec)
+  schedule: * * * * *
+Current Version ID: 663f3512-1767-4de3-b886-debaeae48565

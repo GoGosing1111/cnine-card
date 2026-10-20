@@ -1,0 +1,27 @@
+{
+  "status": "COMPLETED",
+  "countedInLimited": false,
+  "purchaseCountDelta": 0,
+  "operationKey": "ops:inception-jinmu-grant:20261020:v1",
+  "planHash": "79f6e075f9f5f43553ed070225fb6fde354ae0a52cd2ac8f4dcb76601d841e4d",
+  "target": {
+    "id": 2,
+    "nickname": "Inception",
+    "provider": "PLAYDK",
+    "providerUserId": "05373db7",
+    "code": "V-989",
+    "name": "천룡검황 진무",
+    "rank": "SSS",
+    "quantity": 1
+  },
+  "authorization": "Inception 횟수차감없이 진무 지급",
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "cost": 0,
+  "permanent": true,
+  "automaticLoadout": false,
+  "protectedBefore": "df796ae08a399772021eb5c6d47aaca835297c29aa7ce953bb59ffd219916efd",
+  "protectedAfter": "df796ae08a399772021eb5c6d47aaca835297c29aa7ce953bb59ffd219916efd",
+  "completedAt": "2026-10-20T07:03:37.460Z",
+  "auditId": "49087"
+}

@@ -1,0 +1,25 @@
+{
+  "verifiedAt": "2026-10-20T07:04:22.808Z",
+  "source": "421ef0a8ff0ceabd83a0a7145731a9a92813ddf3",
+  "base": "b45677e30ad39ff4b75c6a7b7d2fed91b372fe04",
+  "previousDeployment": "9d3af1b7-167b-4fa6-9125-48f38c1a4beb",
+  "deployment": {
+    "Id": "ac71d753-8d34-4392-b396-161dea8b74ed",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "421ef0a",
+    "Deployment": "https://ac71d753.cnine-card.pages.dev",
+    "Status": "3 minutes ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/ac71d753-8d34-4392-b396-161dea8b74ed"
+  },
+  "apiRuntimeVersion": "ee6f66c5-00c5-499c-abff-59442f42a93b",
+  "schedulerVersion": "663f3512-1767-4de3-b886-debaeae48565",
+  "assets": 20000,
+  "scopedTestsPassed": 2,
+  "workerCheckPassed": true,
+  "hyperdriveCacheDisabled": true,
+  "priorPassedRegressions": {
+    "halloweenStockAndRecipients": 4,
+    "starterGift": 26
+  }
+}

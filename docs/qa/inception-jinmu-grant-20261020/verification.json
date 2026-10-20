@@ -1,0 +1,44 @@
+{
+  "operationKey": "ops:inception-jinmu-grant:20261020:v1",
+  "checkedAt": "2026-10-20T07:03:52.208Z",
+  "status": "VERIFIED",
+  "recipient": "Inception",
+  "userId": 2,
+  "code": "V-989",
+  "name": "천룡검황 진무",
+  "rank": "SSS",
+  "quantity": 1,
+  "countedInLimited": false,
+  "purchaseCountDelta": 0,
+  "copiesBefore": 0,
+  "copiesAfter": 1,
+  "currentCopies": 1,
+  "cost": 0,
+  "permanent": true,
+  "automaticLoadout": false,
+  "acquisitions": 1,
+  "auditRecords": 1,
+  "completionReceipts": 1,
+  "duplicateOperationGrants": 0,
+  "preservedStateVerified": true,
+  "auditId": "49087",
+  "completedAt": "2026-10-20T07:03:37.460Z",
+  "stock": {
+    "code": "V-989",
+    "stock_limit": "3",
+    "issued": "0",
+    "revision": "0"
+  },
+  "remainingPackCopies": 3,
+  "packIssuesForTarget": 0,
+  "livePolicy": {
+    "url": "https://cnine-card.pages.dev/shared/mercenary-jinmu-v1.mjs?verify=inception-20261020",
+    "status": 200,
+    "sha256": "8b9103a508a7f396be5aba0f08a18a81332d501dcfa8b857d9772d91bb0647e6",
+    "matchesCommittedSource": true
+  },
+  "checks": {
+    "directRecipientAllowed": true,
+    "lowercaseAccountExcluded": true
+  }
+}
