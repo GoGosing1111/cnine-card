@@ -2,7 +2,7 @@ import {openSupportApplication} from './supporter-application-v1.mjs?v=20261011-
 import {mountSupportPackage} from './support-package-v1.mjs?v=20261020-package2';
 import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261020-package2';
 import {jointAccountRequest} from './joint-account-transport.mjs';
-import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261017-pass-catchup-v1';
+import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261020-pass-sales-start-v1';
 import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=v=>v?new Date(v).toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';

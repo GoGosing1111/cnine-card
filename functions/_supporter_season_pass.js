@@ -1,4 +1,4 @@
-import {PASS_KEY,PASS_DAYS,DAY_MS,kstDay,dayDate,claimKey,dailyKey,emptyPass,passCycle,passWindow,passEntitlement} from '../shared/supporter-season-pass-v1.mjs';
+import {PASS_KEY,PASS_DAYS,DAY_MS,kstDay,dayDate,claimKey,dailyKey,salesDailyKey,salesReceiptDay,emptyPass,passCycle,passWindow,passEntitlement} from '../shared/supporter-season-pass-v1.mjs';
 import {canManageSupport,supportBenefits} from '../shared/server-support-v1.mjs';
 import {readSupportRecord} from './_supporter_benefits.js';
 import {legionHuntCatalog} from './_legion_hunt_settings.js';
@@ -14,6 +14,7 @@ export async function readPassConfig(env){
   const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(PASS_KEY).first();
   const state=row?JSON.parse(row.value):emptyPass();
   if(state.version!==1||!safe(state.revision)||!Array.isArray(state.days)||state.days.length!==30)throw Error('Invalid season pass configuration');
+  if(state.salesStartsAt!==undefined&&!safe(state.salesStartsAt,1))throw Error('Invalid season pass sales start');
   return {raw:row?.value??null,state};
 }
 export async function passCatalog(env){
@@ -51,7 +52,7 @@ export async function savePassConfig(env,admin,body,now=Date.now()){
   if(prior){const saved=JSON.parse(prior.value);if(saved.payload!==payload)fail('REQUEST','같은 요청 번호의 내용이 다릅니다.',409);return {...saved.result,replayed:true};}
   const [record,catalog]=await Promise.all([readPassConfig(env),passCatalog(env)]);
   if(record.state.revision!==body.expectedRevision)fail('REVISION','다른 창에서 보상을 변경했습니다. 새로 불러와 주세요.',409);
-  const state={version:1,revision:record.state.revision+1,writeToken:body.requestId,...normalizePass(body.document,catalog)},raw=JSON.stringify(state);
+  const state={version:1,revision:record.state.revision+1,writeToken:body.requestId,...normalizePass(body.document,catalog),...(record.state.salesStartsAt?{salesStartsAt:record.state.salesStartsAt}:{})},raw=JSON.stringify(state);
   if(!safe(state.revision))fail('LIMIT','설정 변경 한도를 초과했습니다.',409);
   const token=crypto.randomUUID(),DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v),result={ok:true,config:state,serverNow:now,replayed:false};
   await ensureJointAtomicSchema(env);
@@ -68,29 +69,43 @@ export async function savePassConfig(env,admin,body,now=Date.now()){
   }
   return result;
 }
-async function passLedger(env,userId,subscription,now){
-  const window=passWindow(subscription,now);
+const calendarDailyKey=(userId,date,salesStartsAt)=>salesStartsAt?salesDailyKey(userId,salesStartsAt,date):dailyKey(userId,date);
+async function passLedger(env,userId,subscription,now,salesStartsAt=0){
+  const window=passWindow(subscription,now,salesStartsAt);
   if(!window||window.endDay<window.startDay)return {window,saved:new Map(),due:[]};
-  const rows=(await env.DB.prepare('SELECT key,value FROM app_meta WHERE key LIKE ? OR (key>=? AND key<=?)')
-    .bind('supporter_pass_claim_v1:'+Number(userId)+':'+subscription.startsAt+'-%',dailyKey(userId,dayDate(window.startDay)),dailyKey(userId,dayDate(window.endDay))).all()).results;
-  const saved=new Map(rows.map(r=>[r.key,JSON.parse(r.value)])),due=[];
+  let saved;
+  if(salesStartsAt){
+    const prefix='supporter_pass_claim_v1:'+Number(userId)+':';
+    const rows=(await env.DB.prepare('SELECT key,value FROM app_meta WHERE key>=? AND key<? ORDER BY key').bind(prefix,prefix+'~').all()).results;
+    saved=new Map();
+    for(const row of rows){
+      const receipt=JSON.parse(row.value),day=salesReceiptDay(window,receipt);
+      if(day){const key=claimKey(userId,day.cycle,day.day);if(!saved.has(key)||row.key===key)saved.set(key,receipt);}
+    }
+  }else{
+    const rows=(await env.DB.prepare('SELECT key,value FROM app_meta WHERE key LIKE ? OR (key>=? AND key<=?)')
+      .bind('supporter_pass_claim_v1:'+Number(userId)+':'+subscription.startsAt+'-%',dailyKey(userId,dayDate(window.startDay)),dailyKey(userId,dayDate(window.endDay))).all()).results;
+    saved=new Map(rows.map(r=>[r.key,JSON.parse(r.value)]));
+  }
+  const due=[];
   for(let calendarDay=window.startDay;calendarDay<=window.endDay;calendarDay++){
     const day=passEntitlement(window,calendarDay);
-    if(!saved.has(claimKey(userId,day.cycle,day.day))&&!saved.has(dailyKey(userId,day.date)))due.push(day);
+    if(!saved.has(claimKey(userId,day.cycle,day.day))&&!saved.has(calendarDailyKey(userId,day.date,salesStartsAt)))due.push(day);
   }
   return {window,saved,due};
 }
 export async function readSeasonPass(env,userId,subscription,now){
-  const {state:config}=await readPassConfig(env),cycle=passCycle(subscription,now),today=dayDate(kstDay(now));
-  const {window,saved,due}=await passLedger(env,userId,subscription,now);
+  const {state:config}=await readPassConfig(env),cycle=passCycle(subscription,now,config.salesStartsAt),today=dayDate(kstDay(now));
+  const {window,saved,due}=await passLedger(env,userId,subscription,now,config.salesStartsAt);
   const days=config.days.map(d=>{
     const receipt=saved.get(claimKey(userId,cycle.cycle,d.day)),calendarDay=cycle.startDay===null?null:cycle.startDay+d.day-1,date=calendarDay===null?null:dayDate(calendarDay);
-    const status=receipt?'CLAIMED':!config.enabled?'CLOSED':!subscription.active?'INACTIVE':!window||calendarDay>window.endDay?'UPCOMING':saved.has(dailyKey(userId,date))?'DAILY_LIMIT':d.rewards.length?'AVAILABLE':'EMPTY';
+    const status=receipt?'CLAIMED':!config.enabled?'CLOSED':!subscription.active?'INACTIVE':!window||calendarDay>window.endDay?'UPCOMING':saved.has(calendarDailyKey(userId,date,config.salesStartsAt))?'DAILY_LIMIT':d.rewards.length?'AVAILABLE':'EMPTY';
     return {...d,rewards:receipt?.rewards??d.rewards,date,status,claimedAt:receipt?.claimedAt??null};
   });
   const claimable=config.enabled&&subscription.active?due.filter(d=>config.days[d.day-1].rewards.length):[];
   return {title:config.title,enabled:config.enabled,revision:config.revision,cycle:cycle.cycle,currentDay:cycle.currentDay,startDate:cycle.startDay===null?null:dayDate(cycle.startDay),endDate:cycle.startDay===null?null:dayDate(cycle.startDay+29),today,serverNow:now,nextResetAt:(kstDay(now)+1)*DAY_MS-9*3600000,claimedCount:days.filter(d=>d.status==='CLAIMED').length,days,
     claimableCount:claimable.length,claimableFrom:claimable[0]?.date??null,claimableTo:claimable.at(-1)?.date??null,accrualStartDate:window?dayDate(window.startDay):null,
+    ...(config.salesStartsAt?{salesStartsAt:config.salesStartsAt,salesStartDate:dayDate(kstDay(config.salesStartsAt)),calendarBasis:'FIRST_SALE'}:{}),
     claimAll:window?{startsAt:window.startsAt,throughDay:window.endDay,expectedRevision:config.revision}:null};
 }
 const availability=item=>{
@@ -122,14 +137,14 @@ async function commitPassDays(env,user,{days,support,config,now,requestId,batch=
   const receipts=days.map(d=>({ok:true,cycle:d.cycle,day:d.day,date:d.date,claimedAt:now,rewards:config.state.days[d.day-1].rewards,refreshAccount:true,replayed:false,...(batch?{batchRequestId:batch.requestId}:{})}));
   const result=batch?{ok:true,requestId:batch.requestId,startsAt:batch.startsAt,throughDay:batch.throughDay,days:receipts,dayCount:days.length,rewards,remainingCount,claimedAt:now,refreshAccount:true,replayed:false}:receipts[0];
   const DB=env.DB,token=crypto.randomUUID(),p=(sql,...v)=>DB.prepare(sql).bind(...v);
-  const receiptKeys=days.flatMap(d=>[claimKey(user.id,d.cycle,d.day),dailyKey(user.id,d.date)]);
+  const receiptKeys=days.flatMap(d=>[claimKey(user.id,d.cycle,d.day),calendarDailyKey(user.id,d.date,config.state.salesStartsAt)]);
   const absent=[...receiptKeys,...(batch?[batch.key]:[])];
   await ensureJointAtomicSchema(env);
   try{await DB.batch([
     ...(DB.dialect==='postgres'?[p('SELECT id FROM users WHERE id=? FOR UPDATE',user.id),p('SELECT key FROM app_meta WHERE key IN (?,?) ORDER BY key FOR UPDATE',support.key,PASS_KEY)]:[]),
     jointGuard(DB,token,'EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND EXISTS(SELECT 1 FROM app_meta WHERE key=? AND value=?) AND '+absent.map(()=> 'NOT EXISTS(SELECT 1 FROM app_meta WHERE key=?)').join(' AND '),[support.key,support.raw,PASS_KEY,config.raw,...absent]),
     ...guards.map((g,i)=>jointGuard(DB,token+'g'+i,g.sql,g.values)),
-    ...receipts.flatMap(r=>[p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',claimKey(user.id,r.cycle,r.day),JSON.stringify(r)),p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',dailyKey(user.id,r.date),JSON.stringify({cycle:r.cycle,day:r.day,date:r.date,claimedAt:now}))]),
+    ...receipts.flatMap(r=>[p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',claimKey(user.id,r.cycle,r.day),JSON.stringify(r)),p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',calendarDailyKey(user.id,r.date,config.state.salesStartsAt),JSON.stringify({cycle:r.cycle,day:r.day,date:r.date,claimedAt:now}))]),
     ...grants.statements,
     jointGuard(DB,token+'p',grants.proofs.map(x=>'('+x.sql+')').join(' AND ')||'1=0',grants.proofs.flatMap(x=>x.values)),
     ...(batch?[p('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)',batch.key,JSON.stringify({payload:batch.payload,result}))]:[]),
@@ -147,14 +162,15 @@ export async function claimSeasonPass(env,user,body,now=Date.now()){
   if(typeof body.cycle!=='string'||!/^\d{1,16}-\d{1,6}$/.test(body.cycle)||!safe(body.day,1,30)||!safe(body.expectedRevision))fail('INPUT','수령할 날짜를 다시 선택하세요.');
   const key=claimKey(user.id,body.cycle,body.day),prior=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first();
   if(prior)return {...JSON.parse(prior.value),replayed:true};
-  const [support,config]=await Promise.all([readSupportRecord(env,user.id),readPassConfig(env)]),subscription=supportBenefits(support.state,now),window=passWindow(subscription,now);
+  const [support,config]=await Promise.all([readSupportRecord(env,user.id),readPassConfig(env)]),subscription=supportBenefits(support.state,now),ledger=await passLedger(env,user.id,subscription,now,config.state.salesStartsAt),window=ledger.window;
   if(!subscription.active)fail('INACTIVE','후원 혜택 적용 기간에 수령할 수 있습니다.',403);
   if(!config.state.enabled)fail('CLOSED','시즌패스 보상을 준비하고 있습니다.',409);
   const [startsAt,index]=body.cycle.split('-').map(Number),calendarDay=(window?.startDay??0)+index*PASS_DAYS+body.day-1;
   const day=window?passEntitlement(window,calendarDay):null;
-  if(startsAt!==subscription.startsAt||!day||day.cycle!==body.cycle||calendarDay>window.endDay)fail('DAY','후원 적용일부터 오늘까지 열린 보상만 수령할 수 있습니다.',409);
+  if(startsAt!==window?.startsAt||!day||day.cycle!==body.cycle||calendarDay>window.endDay)fail('DAY','현재 패스 기준일부터 오늘까지 열린 보상만 수령할 수 있습니다.',409);
   if(body.expectedRevision!==config.state.revision)fail('REVISION','보상표가 변경됐습니다. 다시 확인하고 수령하세요.',409);
-  if(await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(dailyKey(user.id,day.date)).first())fail('DAILY','해당 날짜 보상은 이미 수령했습니다.',409);
+  if(ledger.saved.has(key))return {...ledger.saved.get(key),replayed:true};
+  if(await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(calendarDailyKey(user.id,day.date,config.state.salesStartsAt)).first())fail('DAILY','해당 날짜 보상은 이미 수령했습니다.',409);
   return commitPassDays(env,user,{days:[day],support,config,now,requestId:'SUPPORT_PASS:'+user.id+':'+body.cycle+':'+body.day});
 }
 export async function claimSeasonPassBatch(env,user,body,now=Date.now()){
@@ -166,8 +182,8 @@ export async function claimSeasonPassBatch(env,user,body,now=Date.now()){
   if(!subscription.active)fail('INACTIVE','후원 혜택 적용 기간에 수령할 수 있습니다.',403);
   if(!config.state.enabled)fail('CLOSED','시즌패스 보상을 준비하고 있습니다.',409);
   if(body.expectedRevision!==config.state.revision)fail('REVISION','보상표가 변경됐습니다. 다시 확인하고 수령하세요.',409);
-  const {window,due}=await passLedger(env,user.id,subscription,now);
-  if(body.startsAt!==subscription.startsAt||!window||body.throughDay<window.startDay||body.throughDay>window.endDay)fail('DAY','후원 적용일부터 오늘까지 열린 보상만 수령할 수 있습니다.',409);
+  const {window,due}=await passLedger(env,user.id,subscription,now,config.state.salesStartsAt);
+  if(body.startsAt!==window?.startsAt||!window||body.throughDay<window.startDay||body.throughDay>window.endDay)fail('DAY','현재 패스 기준일부터 오늘까지 열린 보상만 수령할 수 있습니다.',409);
   const available=due.filter(d=>d.calendarDay<=body.throughDay),days=[];let equipment=0,entries=0;
   for(const day of available){const rewards=config.state.days[day.day-1].rewards,extra=rewards.filter(r=>r.type==='EQUIPMENT').reduce((n,r)=>n+r.quantity,0);
     if(days.length&&(days.length>=30||equipment+extra>50||entries+rewards.length>60))break;

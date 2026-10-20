@@ -1,0 +1,29 @@
+[
+  {
+    "width": 1440,
+    "missedDaysClaimed": 9,
+    "oldRewardExcluded": true,
+    "lostResponseRecoveredOnce": true,
+    "reloadDidNotSubmit": true,
+    "doubleClickSingleRequest": true,
+    "imageButton": true,
+    "errors": [],
+    "failed": []
+  },
+  {
+    "width": 390,
+    "missedDaysClaimed": 9,
+    "oldRewardExcluded": true,
+    "lostResponseRecoveredOnce": true,
+    "reloadDidNotSubmit": true,
+    "doubleClickSingleRequest": true,
+    "imageButton": true,
+    "errors": [],
+    "failed": []
+  },
+  {
+    "boundedBatches": 2,
+    "oneClick": true,
+    "equipment": 80
+  }
+]
