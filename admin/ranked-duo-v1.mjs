@@ -9,6 +9,7 @@ const random=c=>c?.matchmaking==='RANDOM_ASYNC';
 const personalCopy=html=>html.replaceAll('미편성 0명','매 경기 랜덤 편성').replaceAll('팀원 각각 지급','개인별 지급').replaceAll('최종 팀 점수','최종 개인 점수').replaceAll('상위 10팀','상위 10명').replaceAll('초기 팀 점수','초기 개인 점수').replaceAll('모집 종료 후 팀 편성','모집 종료 · 대전 준비').replaceAll('24시간 모집 → 자동 팀 편성 → 대전','24시간 모집 → 매 경기 랜덤 매칭 → 대전').replaceAll('최종 1~10위 팀원','최종 개인 1~10위 참가자');
 function recruitmentForm(s){
  if(random(s)&&s.status==='ACTIVE')return '<fieldset><legend>매 경기 랜덤 편성 · 비동기 전투</legend><p>대전 기간 내내 참가할 수 있습니다. 매칭 요청자 + 무작위 파트너 1명 대 상대 2명을 구성합니다. 요청자만 점수·행동력·승리 보상을 반영하며 홀수 인원도 대기 없이 참여합니다.</p></fieldset>';
+ if(random(s)&&['RECRUITING','READY'].includes(s.status))return '<fieldset class="duo-admin-recruit"><legend>참가 모집 · 매 경기 랜덤 편성</legend><div class="duo-admin-recruit-controls"><label>모집 시간 · 시간 단위<input name="recruitHours" type="number" min="1" max="720" step="1" required value="24"></label><button type="button" data-action="recruit">모집 시간 설정</button></div><p>마감 후 대전을 준비합니다. 시즌 고정 팀을 만들지 않으며, 대전 기간에도 새로운 참가자가 바로 합류할 수 있습니다. 시간 변경 시 저장 시점부터 다시 계산합니다.</p></fieldset>';
  if(!s||!['DRAFT','READY','RECRUITING','PAIRING','ACTIVE'].includes(s.status))return '';
  if(s.status==='DRAFT')return '<div class="duo-admin-actions"><button type="button" data-action="recruit">24시간 참가 모집 시작</button></div>';
  const extra=s.additionalRecruitment,active=s.status==='ACTIVE',pairing=active&&['PAIRING','PUBLISHING'].includes(extra?.phase),open=active&&extra?.phase==='RECRUITING';
