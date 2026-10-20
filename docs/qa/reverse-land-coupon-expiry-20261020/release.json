@@ -1,0 +1,58 @@
+{
+  "verifiedAt": "2026-10-20T06:37:46.664Z",
+  "deployment": {
+    "id": "23a3c827-bcfe-443a-8e2d-a8fc078e2901",
+    "url": "https://23a3c827.cnine-card.pages.dev",
+    "commit": "a608d992234b5658b8c3e5500a341c33e899d92e",
+    "status": "success",
+    "createdOn": "2026-10-20T06:37:21.004166Z"
+  },
+  "checks": [
+    {
+      "path": "index.html",
+      "sha256": "364cf46d46f2f4e30d9e908c0a0b4587865a3d97f13a6afbbbac4d8d2608f637"
+    },
+    {
+      "path": "js/app.js",
+      "sha256": "ce9e53b4b0625a85010866098629d50159a563f302c6708f9620eee5aed8b4dc"
+    },
+    {
+      "path": "js/soopketland-v2039.bundle.js",
+      "sha256": "83d9a959cd9c59b7d940cb6cd93a1b3372832ae182de157f03fc2e023d859cfc"
+    },
+    {
+      "path": "css/soopketland-v2039.css",
+      "sha256": "0d22b45843768b4170d701d1780adae4309f3973ebaf5aa17d88012a9ce353fb"
+    },
+    {
+      "path": "assets/items/pingdu-repair-coupon-v1.webp",
+      "sha256": "d554d9cd1bf2c29f2b9b1ad6bdaeb935156bd42a7af9e60d7a1ed09a1cc6f447"
+    }
+  ],
+  "unauthenticatedState": 401,
+  "apiWorker": "693cf0e7-b25b-48bb-8676-d1c375db9012",
+  "schedulerWorker": "b942fcbd-f4c8-48fd-81ee-6cf011404d64",
+  "tests": {
+    "related": 53,
+    "passed": 53,
+    "releasePolicy": 13,
+    "workerSyntax": true
+  },
+  "browser": {
+    "ok": true,
+    "viewports": [
+      1440,
+      390
+    ],
+    "checks": [
+      "8-hour notice",
+      "server-clock countdown",
+      "automatic expiry without refresh",
+      "copy and use disabled",
+      "expired OWNER controls",
+      "no overflow",
+      "no page errors"
+    ]
+  },
+  "pagesAssetCount": 20000
+}

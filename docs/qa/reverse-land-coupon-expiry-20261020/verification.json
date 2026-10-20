@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-20T06:37:52.542Z",
+  "counts": {
+    "total": "2962",
+    "elapsed_unclaimed_codes": "2675",
+    "usable_codes": "0",
+    "oldest": "2026-09-05T10:33:26.178Z",
+    "newest": "2026-10-19T17:12:46.863Z"
+  },
+  "settings": [
+    {
+      "key": "soopketland_daily_policy_v1",
+      "value": "{\"enabled\":true,\"quantity\":10,\"couponUses\":150,\"startsOn\":\"2026-10-20\"}"
+    },
+    {
+      "key": "soopketland_settings_v2039",
+      "value": "{\"weights\":{\"COIN\":18000,\"EMPEROR_ENERGY\":1500,\"MASTER_STAR\":4200,\"STARLIGHT_ARMOR_CORE\":3000,\"PINGDU_THANKS_GIFT_BOX\":300,\"PINGDU_REPAIR_COUPON\":3000}}"
+    }
+  ],
+  "redemptionsLast24Hours": "11382",
+  "ttlHours": 8,
+  "expiredRedemption": {
+    "status": 409,
+    "code": "LAND_COUPON_EXPIRED",
+    "readOnly": true,
+    "source": "Local handler from the deployed commit against live PostgreSQL in a read-only transaction. Not an authenticated HTTP redemption; writes blocked and coupon code omitted."
+  },
+  "storagePolicy": "Retain coupon and redemption receipts; reject new redemption at issue time + eight hours."
+}
