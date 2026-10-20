@@ -45,8 +45,15 @@ export async function mountCooperative(root){
  <dialog class="coop-dialog" data-settings-dialog><header><h3>운영 테스트 설정</h3><button class="coop-quiet" data-close-settings>닫기 ×</button></header><form data-settings-form><label>공개 상태<select name="mode"><option value="TEST">테스트 참여자만</option><option value="OFF">운영 중지</option><option value="ON">전체 공개</option></select></label><label>테스트 계정 ID<input name="users" placeholder="예: 12, 34" /></label><p>OWNER는 자동으로 참여할 수 있습니다. 보상은 CMS의 클리어 보상 탭에서 설정합니다.</p><button class="coop-primary">설정 저장</button><p role="status" data-settings-message></p></form></dialog>`;
  function currentEnergy(){return feature?.energy?contentEnergyView(feature.energy,{at:Date.now()+serverOffset,maximum:feature.energy.maximum}):null;}
  function energyEmpty(){return feature?.mode==='ON'&&currentEnergy()?.current===0;}
+ function drawReadyControls(){
+  const mine=state?.members.find(m=>m.id===you),complete=selected.cardIds.length===2&&!!selected.mercenaryCode,waiting=!mine?.ready&&energyEmpty(),ready=$('[data-ready]');
+  $('[data-ready-summary]').textContent=mine?.ready?'준비 완료 · 동료를 기다립니다':waiting?'행동력이 부족해 준비할 수 없습니다':complete?'편성 완료 · 준비할 수 있습니다':'출전 편성을 완성하세요';
+  $('.coop-readybar>div>span').textContent=waiting?contentEnergyText(currentEnergy(),Date.now()+serverOffset):'3명 모두 준비 완료 시 편성 잠금 · 동시 출전';
+  ready.innerHTML=mine?.ready?'준비 취소':waiting?'행동력 충전 대기':'출전 준비 <span>→</span>';
+  ready.disabled=busy||!complete||waiting;
+ }
  function drawRewardSummary(){const energy=currentEnergy();$('[data-reward-summary]').textContent=energy?contentEnergyText(energy,Date.now()+serverOffset)+(feature.mode==='TEST'?' · TEST 소모 없음':feature.rewardLocked?' · 현재 기본 보상 지급 OFF':''):'';
-  const ready=$('[data-ready]');if(state?.status==='LOBBY'&&!state.members.find(m=>m.id===you)?.ready)ready.disabled=busy||selected.cardIds.length!==2||!selected.mercenaryCode||energyEmpty();
+  if(state?.status==='LOBBY')drawReadyControls();else if(!state)drawRooms();
  }
  function rewardMarkup(reward,won){
   if(!won)return '<small>패배 · 출전 시 사용한 행동력은 반환되지 않습니다.</small>';
@@ -57,17 +64,21 @@ export async function mountCooperative(root){
  const rewardInbox=mountRewardRevealInbox(root,{signal:lifecycle.signal});
  function alert(message){$('[data-alert]').hidden=!message;$('[data-alert]').textContent=message||'';}
  function drawRooms(){
+  const waiting=energyEmpty(),create=$('[data-create]');create.disabled=busy||waiting;
+  create.innerHTML=waiting?'행동력 충전 대기':'대기방 만들기 <span>→</span>';
+  if(waiting)$('.coop-create-note').textContent=contentEnergyText(currentEnergy(),Date.now()+serverOffset);
+  else $('.coop-create-note').innerHTML='생성한 방은 모집 목록에 바로 표시됩니다.<br>3명이 모두 준비하면 함께 출전합니다.';
   $('[data-room-list-count]').textContent=String(rooms.length)+(hasMore?'+':'');
   $('[data-refresh-rooms]').disabled=listLoading||busy;
   $('[data-refresh-rooms]').textContent=listLoading?'조회 중…':'새로고침 ↻';
-  $('[data-room-list-status]').textContent=listLoading?'목록 갱신 중':hasMore?'최근 대기방 50개 · 난이도로 좁혀보세요':'최근 생성순 · 10초마다 갱신';
+  $('[data-room-list-status]').textContent=waiting?'행동력 부족 · 충전 후 참가 가능':listLoading?'목록 갱신 중':hasMore?'최근 대기방 50개 · 난이도로 좁혀보세요':'최근 생성순 · 10초마다 갱신';
   $('[data-room-list-message]').hidden=!listError;$('[data-room-list-message]').textContent=listError;
   const list=$('[data-room-list]');list.setAttribute('aria-busy',String(listLoading));
-  const signature=JSON.stringify([rooms,busy,listLoaded,!!listError]);if(signature===listSignature)return;listSignature=signature;
+  const signature=JSON.stringify([rooms,busy,waiting,listLoaded,!!listError]);if(signature===listSignature)return;listSignature=signature;
   const focused=document.activeElement?.dataset?.joinRoom;
   list.innerHTML=rooms.length?rooms.map(r=>{
-   const d=COOP_DIFFICULTIES.find(d=>d.id===r.difficulty),full=!r.joinable;
-   return `<article class="coop-lobby-row ${full?'is-full':''}" data-lobby="${esc(r.id)}"><span class="coop-lobby-rank" data-rank="${esc(r.difficulty)}">${esc(d?.name||r.difficulty)}</span><div class="coop-lobby-info"><h4>${esc(r.hostName)}<span>의 대기방</span></h4><p>준비 <b>${r.ready} / ${r.maxMembers}</b><i>·</i>${r.power?'분대 전투력 '+number(r.power):'출전 편성 중'}</p></div><div class="coop-lobby-capacity"><span aria-hidden="true">${Array.from({length:r.maxMembers},(_,i)=>`<i class="${i<r.members?'filled':''}"></i>`).join('')}</span><b>${r.members}<small> / ${r.maxMembers}명</small></b></div><button class="${full?'coop-quiet':'coop-primary'}" data-join-room="${esc(r.id)}" ${full||busy?'disabled':''} aria-label="${esc(r.hostName)}의 ${esc(d?.name||r.difficulty)} 대기방 ${full?'모집 완료':'참가'}">${full?'모집 완료':'참가 →'}</button></article>`;
+   const d=COOP_DIFFICULTIES.find(d=>d.id===r.difficulty),full=!r.joinable,blocked=full||busy||waiting,label=full?'모집 완료':waiting?'행동력 부족':'참가 →';
+   return `<article class="coop-lobby-row ${full?'is-full':''}" data-lobby="${esc(r.id)}"><span class="coop-lobby-rank" data-rank="${esc(r.difficulty)}">${esc(d?.name||r.difficulty)}</span><div class="coop-lobby-info"><h4>${esc(r.hostName)}<span>의 대기방</span></h4><p>준비 <b>${r.ready} / ${r.maxMembers}</b><i>·</i>${r.power?'분대 전투력 '+number(r.power):'출전 편성 중'}</p></div><div class="coop-lobby-capacity"><span aria-hidden="true">${Array.from({length:r.maxMembers},(_,i)=>`<i class="${i<r.members?'filled':''}"></i>`).join('')}</span><b>${r.members}<small> / ${r.maxMembers}명</small></b></div><button class="${full?'coop-quiet':'coop-primary'}" data-join-room="${esc(r.id)}" ${blocked?'disabled':''} aria-label="${esc(r.hostName)}의 ${esc(d?.name||r.difficulty)} 대기방 ${full?'모집 완료':waiting?'행동력 부족':'참가'}">${label}</button></article>`;
   }).join(''):`<div class="coop-room-list-empty">${shield}<b>${listError?'대기방 목록을 불러오지 못했습니다':!listLoaded?'함께할 분대를 찾는 중…':'모집 중인 방이 없습니다'}</b><p>${listError?'새로고침을 눌러 다시 확인하세요.':!listLoaded?'잠시만 기다려주세요.':roomFilter?'다른 난이도를 선택하거나 새 대기방을 만들어보세요.':'대기방을 만들고 함께 출전할 동료를 모집하세요.'}</p></div>`;
   if(focused)[...list.querySelectorAll('[data-join-room]')].find(b=>b.dataset.joinRoom===focused)?.focus({preventScroll:true});
  }
@@ -98,7 +109,7 @@ export async function mountCooperative(root){
   for(const d of c.difficulties)root.querySelector(`[data-difficulty="${d.id}"] span`).textContent=d.recommendation;
   if($('[data-guide-dialog]').open)openGuide(guideChapter);
  }
- function lock(value){busy=value;$('[data-create]').disabled=value;$('[data-ready]').disabled=value||selected.cardIds.length!==2||!selected.mercenaryCode||(!state?.members.find(m=>m.id===you)?.ready&&energyEmpty());root.classList.toggle('is-busy',value);drawRooms();}
+ function lock(value){busy=value;drawReadyControls();root.classList.toggle('is-busy',value);drawRooms();}
  async function command(kind,extra={}){
   const body={roomId,clientId,requestId:crypto.randomUUID(),...extra};
   return api(kind,{method:'POST',body});
@@ -111,10 +122,7 @@ export async function mountCooperative(root){
    const m=state.members[i],sel=m?.selection;
    return `<article class="coop-squad ${m?.id===you?'is-mine':''} ${m?.ready?'is-ready':''}"><header><span>분대 0${i+1}${m?.id===you?' · 나':''}</span><b>${m?esc(m.name):'동료를 기다리는 중'}</b><small>${m?(m.result==='DEFEAT'?'이탈 · 패배':m.ready?'준비 완료':'편성 중'):'빈 자리'}</small></header><div class="coop-squad-art">${sel?`<img src="${esc(sel.mercenary.sourceArt)}" alt="${esc(sel.mercenary.name)}"><div><small>${esc(sel.mercenary.rank)} 용병</small><b>${esc(sel.mercenary.name)}</b></div>`:`<span class="coop-empty">${shield}<b>${m?'용병을 선택하세요':'모집 목록에서 동료가 합류합니다'}</b></span>`}</div><div class="coop-squad-cards">${[0,1].map(j=>sel?`<div><img src="${esc(sel.cards[j].image)}" alt=""><span><small>${esc(sel.cards[j].grade)}</small><b>${esc(sel.cards[j].title)}</b></span></div>`:'<div class="coop-card-empty">카드 선택 대기</div>').join('')}</div><footer>${sel?'분대 전투력 <b>'+number(sel.power)+'</b>':'용병 1명 + 카드 2장'}</footer></article>`;
   }).join('');
-  const mine=state.members.find(m=>m.id===you);
-  $('[data-ready-summary]').textContent=mine?.ready?'준비 완료 · 동료를 기다립니다':selected.cardIds.length===2&&selected.mercenaryCode?'편성 완료 · 준비할 수 있습니다':'출전 편성을 완성하세요';
-  $('[data-ready]').innerHTML=mine?.ready?'준비 취소':'출전 준비 <span>→</span>';
-  $('[data-ready]').disabled=busy||selected.cardIds.length!==2||!selected.mercenaryCode||(!mine?.ready&&energyEmpty());
+  drawReadyControls();
  }
  function drawInventory(){
   const all=picker==='mercenary'?options.mercenaries:options.cards;

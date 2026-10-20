@@ -10,7 +10,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mut
 try{
  const cfg=(await h.request(1,'settings')).settings;cfg.mode='ON';assert.equal((await h.request(1,'settings',{settings:cfg})).status,200);
  for(const width of [1440,390]){
-  const current=width===1440?2:0,energy={version:1,current,maximum:3,updatedAt:Date.now()};
+  const current=width===1440?2:1,energy={version:1,current,maximum:3,updatedAt:Date.now()};
   await h.db.batch([{sql:'INSERT INTO app_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',args:['coop_energy_v1:2',JSON.stringify(energy)]}]);
   const page=await browser.newPage({viewport:{width,height:960},isMobile:width===390,hasTouch:width===390,serviceWorkers:'block'}),errors=[];
   await page.context().grantPermissions(['local-network-access'],{origin:h.origin});
