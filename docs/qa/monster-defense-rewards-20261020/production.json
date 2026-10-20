@@ -1,0 +1,98 @@
+{
+  "ok": true,
+  "checkedAt": "2026-10-20T01:23:07.638Z",
+  "source": "2b1ad749fa4e24d4ba751de4c6e0e83290f4878a",
+  "pages": "https://a6954d17.cnine-card.pages.dev",
+  "apiVersion": "eecb7f0a-3abf-4226-afea-e8d5ac0dd4b0",
+  "clanVersion": "aebecb07-73c1-47a3-bda4-fc02c0675244",
+  "files": [
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "bytes": 80186,
+      "sha256": "52400001454d486c64982aa4f4bd6637e9d4250fb7e8e1a06d5b9a1c390731b1"
+    },
+    {
+      "file": "admin/monster-defense.mjs",
+      "status": 200,
+      "bytes": 13569,
+      "sha256": "c4f6ec05b88c260b250f161d9d19a30390e4ff0f28d868d7723f989c6226ba8a"
+    },
+    {
+      "file": "admin/monster-defense.css",
+      "status": 200,
+      "bytes": 4862,
+      "sha256": "3abb02ec39fd513f6c715a90ae7cf1c1c6ac704378eec514564c05d4f2afbec3"
+    },
+    {
+      "file": "defense/index.html",
+      "status": 200,
+      "bytes": 12519,
+      "sha256": "cd90e8276ad5be9ea642c5066df43683cff87c35c72211ec474d7296a20a20f1"
+    },
+    {
+      "file": "preview/coop-defense-v1/defense.bundle.js",
+      "status": 200,
+      "bytes": 2360015,
+      "sha256": "a7ea5efe5d883f88785bf9ca3c5bba950264884f9873c066a59c1af5341c5dff"
+    },
+    {
+      "file": "preview/coop-defense-v1/image-skin.css",
+      "status": 200,
+      "bytes": 24639,
+      "sha256": "104409ee3af13fb1322ebd1aa2e9ad2825b35e4d4960bace612c9b391a303d51"
+    },
+    {
+      "file": "shared/monster-defense-v1.mjs",
+      "status": 200,
+      "bytes": 7272,
+      "sha256": "ac6e8db8c3bb8abc23cc7793464e9c84ddcefe64c630828c5d8a47497bc86b1c"
+    },
+    {
+      "file": "shared/monster-defense-rewards-v1.mjs",
+      "status": 200,
+      "bytes": 1779,
+      "sha256": "1617128f95031568c762fd788ba91913f8674e4bdc99fbb892028ba8f17d91f7"
+    },
+    {
+      "file": "shared/monster-defense-room-list-v1.mjs",
+      "status": 200,
+      "bytes": 1075,
+      "sha256": "a70c7f1ee6eb4b5ced5ccf9bd11f863de579dfd734d7e109691f4ad66e90b509"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 32101,
+      "sha256": "2c8288a7d9893bd13bd49347c53fb7086fd15efee707410b5f96f84af661e53d"
+    },
+    {
+      "file": "js/adventure-lobby-v2107.js",
+      "status": 200,
+      "bytes": 101275,
+      "sha256": "18be0342a66a4c67c502c94ec04e2cc55960bf0360ffe70666700d8ec345416e"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "bytes": 16296,
+      "sha256": "7884ae1db4127f530ed15f41771098ba558f22fee2e5f1e84ee0292e435e0bb6"
+    }
+  ],
+  "api": [
+    {
+      "path": "/api/defense/feature",
+      "status": 401
+    },
+    {
+      "path": "/api/admin/defense/settings",
+      "status": 401
+    },
+    {
+      "path": "/api/defense/live/state?room=AAAAAAAAAAAA",
+      "status": 401
+    }
+  ],
+  "productionSettingsWrites": 0,
+  "productionRewardGrants": 0
+}

@@ -35,4 +35,6 @@ OWNER CMS → **디펜스**에서 운영 상태를 OFF / TEST / ON으로 선택�
 
 직전 실제 운영 소스 `d37f3e1fb646ad8711acb83d7a339da6f353acd0` / Pages `5a6fc66b`. 위 5개 테스트 파일(총 14개)과 Worker 검사를 선정한다. 단일 디펜스 콘텐츠를 기존 인증·DO·DB 기반으로 연결하므로 `npm run deploy:production -- --scoped`를 사용한다. 운영 CMS 보상/모드 변경이나 일회 지급 스크립트는 실행하지 않는다.
 
-배포 결과와 읽기 전용 운영 확인은 완료 후 아래에 기록한다.
+- **라이브 반영 완료:** 소스 `2b1ad749fa4e24d4ba751de4c6e0e83290f4878a`, Pages `a6954d17`, API runtime `eecb7f0a-3abf-4226-afea-e8d5ac0dd4b0`, clan worker `aebecb07-73c1-47a3-bda4-fc02c0675244`.
+- 지정 검사 **14/14 통과**, Worker 컴파일·출시 잠금/캐시 호환·Hyperdrive 쿼리 캐시 OFF 확인. 기존 원격 문서 변경을 보존하여 재배치한 커밋으로 배포했다. Pages 자산 19,979개이며 검사/QA 파일은 기존 배포 제외 정책을 따른다.
+- 운영 주소의 CMS·디펜스·공유 보상 정의·메뉴·캐시 등 **12개 파일 SHA-256 일치**, 비로그인 feature/CMS/방 상태 요청 401을 확인했다. 증빙 `docs/qa/monster-defense-rewards-20261020/production.json`. 운영 설정 저장 **0회**, 실제 계정 보상 지급 **0회**로 기존 운영 값을 유지했다. 실제 지급 검증은 격리된 서버/DB에서 수행했다.
