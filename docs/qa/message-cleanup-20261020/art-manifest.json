@@ -1,0 +1,14 @@
+{
+  "generator": "built-in image_gen",
+  "userVisualApproval": false,
+  "source": "docs/qa/message-cleanup-20261020/cleanup-button-source.png",
+  "sourceHash": "f1fbfdc1ace6389cbfee909cc73139095cd41db717f4736bb77b4e05c1ef0bdb",
+  "asset": "assets/ui/message-center/completed-cleanup-20261020.webp",
+  "assetHash": "9688c1a20f75ee6f729d22f88a01922bff021bc8b3c2f1923734b1fabc6e68af",
+  "prompt": "docs/qa/message-cleanup-20261020/prompt.txt",
+  "packaging": "Transparent outer margin trimmed; uniformly resized to 960px; WebP alpha preserved.",
+  "dimensions": {
+    "width": 960,
+    "height": 167
+  }
+}

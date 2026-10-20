@@ -89,7 +89,7 @@ for(const postgres of [false,true]){
 }
 test('Pig Coin appears in claim-all and invalidates the real loot-shop balances',async()=>{
  const alerts=[],cache=[],messages=[{id:1,reward_type:'PIG_COIN',reward_amount:50}];
- const ctx=vm.createContext({document:{querySelectorAll:()=>[]},apiRequest:async()=>({results:[{ok:true,rewardType:'PIG_COIN',rewardAmount:50}],user:{}}),apiUserToLocal:v=>v,saveUser:()=>{},clearApiCache:k=>cache.push(k),alert:v=>alerts.push(v),renderShell:()=>{}});
+ const ctx=vm.createContext({document:{querySelectorAll:()=>[],getElementById:()=>null},apiRequest:async()=>({results:[{ok:true,rewardType:'PIG_COIN',rewardAmount:50}],user:{}}),apiUserToLocal:v=>v,saveUser:()=>{},clearApiCache:k=>cache.push(k),alert:v=>alerts.push(v),renderShell:()=>{}});
  vm.runInContext(app.slice(app.indexOf('const MESSAGE_REWARD_META='),app.indexOf('async function loadMessages()'))+'\nthis.claim=claimAllMessageRewards;this.queue=claimableMessageRewards;',ctx);
  assert.equal(ctx.queue(messages).length,1);await ctx.claim(messages,{});assert.match(alerts[0],/피그코인 50개/);
  assert.ok(cache.includes('loot-shop/balance'));assert.ok(cache.includes('loot-shop/state'));

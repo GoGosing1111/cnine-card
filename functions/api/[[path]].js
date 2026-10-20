@@ -1,4 +1,5 @@
 import {deleteReadPackageNotice,presentPackageNotice} from '../_support_package_notice.js';
+import {messageCleanupEligibleSql,messageCleanupAfterReadSql,countCompletedMessages,hideCompletedMessages} from '../_message_cleanup.js';
 import {readRankedRosters,rankedRosterState,saveRankedRoster,saveRankedSeriesTicket,readRankedSeriesTicket,rankedTicketPreview,rankedOwnershipGuard} from '../_ranked_series.js';
 import {simulateRankedSeries,rankedSeriesReceipt} from '../../shared/ranked-series-v1.mjs';
 import {presentBrandedSystemMessage} from '../../shared/brand-presentation-20261016.mjs';
@@ -7251,7 +7252,9 @@ async function handleRequest(context){
       await ensureShiranuiRankReward(env,user.id);
       await deleteExpiredSupportMessages(env,Date.now(),user.id);
       if(request.method==='GET'){
-        const rows=await env.DB.prepare(`SELECT m.id,m.sender_type,m.title,m.body,m.message_type,m.campaign_key,m.coupon_code,m.is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,0 AS needs_recovery
+        const rows=await env.DB.prepare(`SELECT m.id,m.sender_type,m.title,m.body,m.message_type,m.campaign_key,m.coupon_code,m.is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,0 AS needs_recovery,
+          CASE WHEN ${messageCleanupEligibleSql('m')} THEN 1 ELSE 0 END AS "cleanupEligible",
+          CASE WHEN ${messageCleanupAfterReadSql('m')} THEN 1 ELSE 0 END AS "cleanupEligibleOnRead"
           FROM user_messages m LEFT JOIN user_message_rewards r ON r.message_id=m.id AND r.user_id=m.user_id
           WHERE m.user_id=? AND m.hidden_at IS NULL AND ${liveSupportMessageSql('m.')} ORDER BY m.id DESC LIMIT 100`).bind(user.id,supportMessageCutoff()).all();
         let recoveryRows=[];
@@ -7270,10 +7273,13 @@ async function handleRequest(context){
           recoveryRows=recovery.results||[];
         }catch{}
         const serverNow=Date.now(),messages=[...recoveryRows,...(rows.results||[])].map(presentMessageReward).map(presentSupportMessage).map(presentBrandedSystemMessage).map(presentPackageNotice).filter(m=>!m.expiresAt||m.expiresAt>serverNow);
-        return json({messages,unread:messages.filter(x=>!x.is_read).length,recoveryCount:recoveryRows.length,serverNow},200,{'Cache-Control':'private, no-store','Vary':'Authorization'});
+        const cleanupCount=await countCompletedMessages(env,user.id);
+        return json({messages,unread:messages.filter(x=>!x.is_read).length,recoveryCount:recoveryRows.length,cleanupCount,serverNow},200,{'Cache-Control':'private, no-store','Vary':'Authorization'});
       }
       if(request.method==='PATCH'){
-        const body=await readBody(request),id=Number(body.id);if(!id)return json({error:'메시지 정보가 올바르지 않습니다.'},400);
+        const body=await readBody(request);
+        if(String(body.action||'').toUpperCase()==='HIDE_COMPLETED')return json(await hideCompletedMessages(env,user.id),200,{'Cache-Control':'private, no-store'});
+        const id=Number(body.id);if(!id)return json({error:'메시지 정보가 올바르지 않습니다.'},400);
         if(String(body.action||'').toUpperCase()==='HIDE'){
           const hidden=await env.DB.prepare('UPDATE user_messages SET hidden_at=CURRENT_TIMESTAMP,is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP) WHERE id=? AND user_id=? AND hidden_at IS NULL').bind(id,user.id).run();
           if(!hidden.meta.changes)return json({error:'메시지를 찾을 수 없거나 이미 삭제했습니다.'},404);

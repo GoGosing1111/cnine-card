@@ -4565,7 +4565,7 @@ async function openPrimeDrawPack(kind,ownedQuantity=null,suppliedConfig=null,aut
   if(Number(autoOpenCount)>0)queueMicrotask(()=>document.getElementById('primeDrawConfirm')?.click());
 }
 
-function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">REVERSE CALL MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><div class="message-head-actions"><button class="btn message-claim-all" id="claimAllMessages" type="button" disabled aria-live="polite">보상 일괄 수령</button><button class="btn secondary" id="openWagoVerify" type="button">2차 인증</button></div></div><div id="wagoVerifyPanel" class="wago-verify-panel secondary-verification-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
+function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">REVERSE CALL MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><div class="message-head-actions"><button class="btn message-claim-all" id="claimAllMessages" type="button" disabled aria-live="polite">보상 일괄 수령</button><button class="btn secondary" id="openWagoVerify" type="button">2차 인증</button><button class="message-cleanup-all" id="deleteCompletedMessages" type="button" disabled aria-describedby="messageCleanupHint">수령·읽음 일괄삭제</button><small id="messageCleanupHint" class="message-cleanup-hint">읽은 안내·수령 완료만 삭제합니다.<br>미수령 보상·쿠폰·계좌 안내는 유지됩니다.</small></div></div><div id="wagoVerifyPanel" class="wago-verify-panel secondary-verification-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
 const MESSAGE_REWARD_META={JOKGAK_CITY_REWARD:{label:'족각도시 보상',icon:'🏙️'},MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️'},LICH_KING_ENTRY_TICKET:{label:'이스겐 정벌 입장권',icon:'🎟️'},PINGDU_THANKS_GIFT_BOX:{label:'핑두의 감사 선물',icon:'🎁'},MERCENARY_SHIRANUI:{label:'시라누이 SSS 리미티드',icon:'🃏'},MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏'},TOURNAMENT_GIFT_BOX:{label:'대회 사은품',icon:'🎁'},RECRUITMENT_GIFT_BOX:{label:'영입전 사은품',icon:'🎁'},FUNDING_GIFT_BOX:{label:'펀딩 사은품',icon:'🎁'},PIG_COIN:{label:'피그코인',icon:'🐷'},COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'},UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️'},STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮'},PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️'}};
 function messageRewardMeta(message){
   const type=String(message?.reward_type||'').trim().toUpperCase();
@@ -4586,7 +4586,7 @@ async function requestMessageRewardBatch(messageIds){
 async function claimAllMessageRewards(messages,button){
   const queue=claimableMessageRewards(messages);if(!queue.length)return;
   const totals=new Map(),failures=[];let claimedCount=0,alreadyCount=0,lastResult=null;
-  button.disabled=true;document.querySelectorAll('[data-claim-message]').forEach(control=>{control.disabled=true});
+  button.disabled=true;document.getElementById('deleteCompletedMessages')?.setAttribute('disabled','');document.querySelectorAll('[data-claim-message]').forEach(control=>{control.disabled=true});
   for(let index=0;index<queue.length;index+=20){
     const chunk=queue.slice(index,index+20);
     button.textContent=`수령 중 ${Math.min(index+20,queue.length)} / ${queue.length}`;
@@ -4612,7 +4612,27 @@ async function claimAllMessageRewards(messages,button){
   const status=[`보상 ${claimedCount.toLocaleString()}건을 일괄 수령했습니다.`,rewardSummary,alreadyCount?`이미 처리된 보상 ${alreadyCount.toLocaleString()}건은 중복 지급하지 않았습니다.`:'',failures.length?`일부 지급 결과는 재확인이 필요합니다. 메시지함을 새로 확인합니다. 중복 지급되지 않으니 남은 보상은 다시 수령하세요.\n${failures[0]}`:''].filter(Boolean).join('\n\n');
   alert(status);renderShell('messages');
 }
-let supportMessageExpiryView=null,supportMessageLoadEpoch=0;
+let supportMessageExpiryView=null,supportMessageLoadEpoch=0,messageCleanupPending=false;
+function updateMessageCleanupButton(count){
+  const button=document.getElementById('deleteCompletedMessages');if(!button)return;
+  const total=Math.max(0,Number(count??button.dataset.count)||0);button.dataset.count=String(total);
+  button.disabled=messageCleanupPending||total===0;
+  button.textContent=messageCleanupPending?'메시지 정리 중…':('수령·읽음 일괄삭제'+(total?' · '+total.toLocaleString()+'건':''));
+  button.onclick=deleteCompletedMessages;
+}
+async function deleteCompletedMessages(){
+  const button=document.getElementById('deleteCompletedMessages');
+  if(!button||messageCleanupPending||!Number(button.dataset.count))return;
+  if(!confirm('읽은 안내와 보상 수령이 완료된 메시지를 일괄삭제할까요?\n미수령 보상·쿠폰·계좌 안내는 유지됩니다.'))return;
+  messageCleanupPending=true;updateMessageCleanupButton();
+  document.querySelectorAll('#claimAllMessages,[data-claim-message],[data-hide-message]').forEach(control=>{control.disabled=true});
+  try{
+    const result=await apiRequest('messages',{method:'PATCH',body:JSON.stringify({action:'HIDE_COMPLETED'})});
+    clearApiCache('messages');clearApiCache('shell/summary');
+    alert(Number(result.deletedCount)>0?Number(result.deletedCount).toLocaleString()+'건의 메시지를 삭제했습니다.':'삭제할 수령 완료·읽은 메시지가 없습니다.');
+  }catch(error){alert(error.message||'메시지를 정리하지 못했습니다. 다시 시도해 주세요.');}
+  finally{messageCleanupPending=false;await loadMessages();}
+}
 async function loadMessages(){
   const box=document.getElementById('messageList');if(!box)return;
   try{
@@ -4624,8 +4644,9 @@ async function loadMessages(){
     d.messages=d.messages.filter(m=>!m.expiresAt||m.expiresAt>serverNow+elapsed);
     d.unread=d.messages.filter(m=>!m.is_read).length;
     updateMessageNewBadges(d.unread||0);
+    updateMessageCleanupButton(d.cleanupCount||0);
     const claimable=claimableMessageRewards(d.messages),claimAllButton=document.getElementById('claimAllMessages');
-    if(claimAllButton){claimAllButton.disabled=!claimable.length;claimAllButton.textContent=claimable.length?`보상 일괄 수령 · ${claimable.length.toLocaleString()}건`:'수령할 보상 없음';claimAllButton.onclick=()=>claimAllMessageRewards(claimable,claimAllButton)}
+    if(claimAllButton){claimAllButton.disabled=messageCleanupPending||!claimable.length;claimAllButton.textContent=claimable.length?`보상 일괄 수령 · ${claimable.length.toLocaleString()}건`:'수령할 보상 없음';claimAllButton.onclick=()=>claimAllMessageRewards(claimable,claimAllButton)}
     supportMessageExpiryView?.dispose();supportMessageExpiryView=null;
     box.innerHTML=d.messages.length?d.messages.map(m=>{
       const rewardType=String(m.reward_type||'').trim().toUpperCase(),rewardMeta=messageRewardMeta(m),messageReward=Boolean(rewardMeta)&&Number(m.reward_amount)>0;
@@ -4642,12 +4663,19 @@ async function loadMessages(){
         if(result.messageDeleted||notice?.deleteOnRead===true){
           x.remove();if(!box.querySelector('.user-message'))box.innerHTML='<div class="empty-recent">도착한 메시지가 없습니다.</div>';
         }else{x.classList.remove('unread');x.classList.add('read');}
+        const cleanupButton=document.getElementById('deleteCompletedMessages');
+        if(notice){
+          const wasEligible=Number(notice.cleanupEligible)===1,removed=Boolean(result.messageDeleted||notice.deleteOnRead);
+          const nowEligible=!removed&&(wasEligible||Number(notice.cleanupEligibleOnRead)===1);
+          notice.is_read=1;notice.cleanupEligible=nowEligible?1:0;
+          updateMessageCleanupButton(Number(cleanupButton?.dataset.count||0)+Number(nowEligible)-Number(wasEligible));
+        }
         clearApiCache('messages');clearApiCache('shell/summary');updateMessageNewBadges(messageUnreadCount-1);
       }catch(error){alert(error.message||'메시지를 읽음 처리하지 못했습니다. 다시 눌러 주세요.');}
       finally{delete x.dataset.readPending;}
     });
     box.querySelectorAll('[data-claim-message]').forEach(b=>b.onclick=async e=>{
-      e.stopPropagation();b.disabled=true;
+      e.stopPropagation();b.disabled=true;document.getElementById('deleteCompletedMessages')?.setAttribute('disabled','');
       try{
         const d=await apiRequest('messages/claim',{method:'POST',body:JSON.stringify({messageId:Number(b.dataset.claimMessage)})});
         const nextUser=messageClaimUser(d);
@@ -4660,10 +4688,10 @@ async function loadMessages(){
         else detail=`\n현재 보유 수량: ${Number((d.inventoryBalanceAfter??d.balanceAfter) || 0).toLocaleString()}개`;
         alert(`${d.recovered?'이전 실패 지급을 복구했습니다.\n':''}${meta.label} ${Number(d.rewardAmount).toLocaleString()}${d.rewardType==='JOKGAK_CITY_REWARD'?'건을':'개를'} 수령했습니다.${detail}`);
         const card=b.closest('.user-message');if(card?.classList.contains('unread'))updateMessageNewBadges(messageUnreadCount-1);if(card){card.classList.add('message-removing');setTimeout(()=>renderShell('messages'),220)}else renderShell('messages');
-      }catch(err){b.disabled=false;alert(err.message)}
+      }catch(err){b.disabled=false;updateMessageCleanupButton();alert(err.message)}
     });
     box.querySelectorAll('[data-use-coupon]').forEach(b=>b.onclick=async e=>{e.stopPropagation();const code=b.dataset.useCoupon;try{const d=await redeemCouponApi(code);saveUser(apiUserToLocal(d.user));alert(`쿠폰 사용 완료! ${d.message||`${Number(d.rewardAmount||d.rewardCoin||0).toLocaleString()} ${d.rewardLabel||'보상'}을 받았습니다.`}`);renderShell('messages')}catch(err){alert(err.message)}});
-    box.querySelectorAll('[data-hide-message]').forEach(b=>b.onclick=async e=>{e.stopPropagation();if(!confirm('이 메시지를 받은 편지함에서 삭제할까요?\n쿠폰을 사용하지 않았더라도 메시지는 사라집니다.'))return;b.disabled=true;try{await apiRequest('messages',{method:'PATCH',body:JSON.stringify({id:Number(b.dataset.hideMessage),action:'HIDE'})});const card=b.closest('.user-message');if(card?.classList.contains('unread'))updateMessageNewBadges(messageUnreadCount-1);clearApiCache('shell/summary');if(card){card.classList.add('message-removing');setTimeout(()=>{card.remove();if(!box.querySelector('.user-message'))box.innerHTML='<div class="empty-recent">도착한 메시지가 없습니다.</div>'},220)}else loadMessages()}catch(err){b.disabled=false;alert(err.message)}})
+    box.querySelectorAll('[data-hide-message]').forEach(b=>b.onclick=async e=>{e.stopPropagation();if(!confirm('이 메시지를 받은 편지함에서 삭제할까요?\n쿠폰을 사용하지 않았더라도 메시지는 사라집니다.'))return;b.disabled=true;try{await apiRequest('messages',{method:'PATCH',body:JSON.stringify({id:Number(b.dataset.hideMessage),action:'HIDE'})});const notice=d.messages.find(m=>Number(m.id)===Number(b.dataset.hideMessage));if(Number(notice?.cleanupEligible)===1){notice.cleanupEligible=0;updateMessageCleanupButton(Number(document.getElementById('deleteCompletedMessages')?.dataset.count||0)-1);}clearApiCache('messages');const card=b.closest('.user-message');if(card?.classList.contains('unread'))updateMessageNewBadges(messageUnreadCount-1);clearApiCache('shell/summary');if(card){card.classList.add('message-removing');setTimeout(()=>{card.remove();if(!box.querySelector('.user-message'))box.innerHTML='<div class="empty-recent">도착한 메시지가 없습니다.</div>'},220)}else loadMessages()}catch(err){b.disabled=false;alert(err.message)}})
   }catch(e){box.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}
 }
 

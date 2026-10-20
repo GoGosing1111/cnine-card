@@ -516,6 +516,44 @@
   opacity: 1;
 }
 
+.message-center .message-cleanup-all,
+.v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-head .message-cleanup-all {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+  min-height: 54px;
+  margin: 0;
+  padding: 10px 18px 10px 64px;
+  border: 0;
+  border-radius: 0;
+  background: transparent url("/assets/ui/message-center/completed-cleanup-20261020.webp") center / 100% 100% no-repeat;
+  box-shadow: none;
+  color: #dceaf0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.message-center .message-cleanup-all:disabled {
+  opacity: .45;
+  cursor: default;
+}
+.message-center .message-cleanup-all:not(:disabled):hover {
+  filter: brightness(1.15);
+}
+.message-center .message-cleanup-all:focus-visible {
+  outline: 2px solid #9cecf7;
+  outline-offset: 3px;
+}
+.message-center .message-cleanup-hint {
+  grid-column: 1 / -1;
+  color: #93a6ac;
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: center;
+}
+
 .v21-production-shell[data-soopketmon-v21-shell="approved-v21"] .message-list {
   display: grid;
   gap: 8px;

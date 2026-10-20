@@ -123,7 +123,7 @@ for(const [code,amount,label] of [...gifts,['WORM_CONTEST_GIFT_BOX',1,'지렁이
 test('separate gift messages both enter serialized bulk claim with correct labels and cache refresh',async()=>{
   const messages=gifts.map(([reward_type,reward_amount],i)=>({id:i+1,reward_type,reward_amount}));
   const sent=[],alerts=[],cache=[];let active=0;
-  const context=vm.createContext({document:{querySelectorAll:()=>[]},apiRequest:async(path,{body})=>{
+  const context=vm.createContext({document:{querySelectorAll:()=>[],getElementById:()=>null},apiRequest:async(path,{body})=>{
     assert.equal(path,'messages/claim-batch');assert.equal(active,0);active++;const ids=JSON.parse(body).messageIds;sent.push(...ids);await Promise.resolve();active--;
     return {results:ids.map(id=>{const m=messages.find(x=>x.id===id);return {ok:true,rewardType:m.reward_type,rewardAmount:m.reward_amount}}),user:{}};
   },apiUserToLocal:value=>value,saveUser:()=>{},clearApiCache:key=>cache.push(key),alert:message=>alerts.push(message),renderShell:()=>{}});
