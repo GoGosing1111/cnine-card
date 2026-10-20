@@ -1,0 +1,53 @@
+{
+  "checkedAt": "2026-10-20T18:45:29.812Z",
+  "expiryRegressions": {
+    "uniquePassed": 17,
+    "failed": 0,
+    "initialRun": 15,
+    "afterDelayedDuplicateFix": 8,
+    "rerunReason": "Delayed duplicate settlement order changed; reran duplicate, offline expiry and delayed settlement cases in both database engines."
+  },
+  "browser": {
+    "widths": [
+      1440,
+      390
+    ],
+    "errors": [],
+    "visualReview": "Countdown fits existing dedicated supply art; detail and inventory remain scrollable on mobile; expired loadout returns to bare hands."
+  },
+  "preReleaseBase": "ee3f41fd9775611058067a47fb3b2667bb395c52",
+  "files": [
+    {
+      "file": "functions/_jokgak_city.js",
+      "sha256": "a252a07b6cbec1dc2132e1d7bfacdf39cb9db8006cc70ed991aa9499886f44e0"
+    },
+    {
+      "file": "functions/_jokgak_city_supply.js",
+      "sha256": "15f614ec260bb36436117edd36e4aea723f508e0440b1cad8f8675369e17770a"
+    },
+    {
+      "file": "shared/jokgak-city-supply-v1.mjs",
+      "sha256": "ce2ca0ab84b7de224725f536020801d0a5770efeac4ce16752d4b8edf81d0670"
+    },
+    {
+      "file": "shared/jokgak-city-expansion-v1.mjs",
+      "sha256": "4b80e59989eac786ef2ae9348d732e8ae8c02c6b732291f3f0f388672f923d21"
+    },
+    {
+      "file": "shared/jokgak-city-exploration-v1.mjs",
+      "sha256": "a7c3afa93914b18b58fd6cc732637d297075392ec26b9f22038381c02a97e56c"
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "sha256": "f7747e7827d35f0f143d8fe620ba1d394f128eaa130f3e6be9070da19abc3146"
+    },
+    {
+      "file": "js/jokgak-city-supply-ui-v1.mjs",
+      "sha256": "1f6c4aebd779e29ee956e588b1ceb462c6510ab0be53cda1a31a8a1655754ff3"
+    },
+    {
+      "file": "js/jokgak-city-exploration-ui-v2.mjs",
+      "sha256": "c78911595bb6f2259e317d54cb90636bae1d33c61f0465e80134e6229c39c28c"
+    }
+  ]
+}

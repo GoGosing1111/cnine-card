@@ -1,6 +1,8 @@
 import {cityShift,CITY_PLACES} from './jokgak-city-v1.mjs';
 
 export const CITY_SUPPLY_DURATION_MS=10*60*1000;
+export const CITY_SUPPLY_WEAPON_DURATION_MS=45*60*1000;
+export const citySupplyWeaponExpiresAt=awardedAt=>Math.min(awardedAt+CITY_SUPPLY_WEAPON_DURATION_MS,cityShift(awardedAt).endsAt);
 export const CITY_SUPPLY_WEAPONS=Object.freeze([
   {code:'GROZA',name:'그로자',power:700000,enabled:true,tier:5,kind:'weapon',supplyOnly:true},
   {code:'GOLDEN_AKS',name:'황금 AKS',power:700000,enabled:true,tier:5,kind:'weapon',supplyOnly:true}
@@ -35,5 +37,5 @@ export function citySupplyPublic(records,mode,now){
     {id:d.id+':drop',kind:'DROP',epoch,mode,location:d.location,createdAt:d.dropsAt,endsAt:d.endsAt},
     ...(d.settledAt?[{id:d.id+':end',kind:d.status,epoch,mode,location:d.location,createdAt:d.settledAt,winner:d.winner,weapon:d.weapon}]:[])
   ]).filter(n=>n.createdAt>=now-120000).sort((a,b)=>a.createdAt-b.createdAt);
-  return {epoch,mode,durationMs:CITY_SUPPLY_DURATION_MS,minDrops:2,maxDrops:3,weapons:CITY_SUPPLY_WEAPONS.map(w=>({...w,chance:50})),drops,notices};
+  return {epoch,mode,durationMs:CITY_SUPPLY_DURATION_MS,weaponDurationMs:CITY_SUPPLY_WEAPON_DURATION_MS,minDrops:2,maxDrops:3,weapons:CITY_SUPPLY_WEAPONS.map(w=>({...w,chance:50})),drops,notices};
 }

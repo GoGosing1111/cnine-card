@@ -60,7 +60,7 @@ export function cityExplorationBag(life,mode,now=life.at){
   let bag=life.exploration[mode];const epoch=cityShift(now).id;
   if(!bag||bag.epoch!==epoch){
     // First adoption preserves the current round's already purchased weapons.
-    if(bag&&life.armory?.[mode])Object.assign(life.armory[mode],{owned:[],equipped:null});
+    if(bag&&life.armory?.[mode])Object.assign(life.armory[mode],{owned:[],equipped:null,supplyExpiresAt:{}});
     bag=life.exploration[mode]={epoch,ownedArmor:[],equippedArmor:null,nextAt:0};
   }
   return bag;

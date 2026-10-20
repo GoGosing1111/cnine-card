@@ -21,17 +21,25 @@ export function validateCityExpansion(arsenal=defaultCityArsenal(),facilities=de
   normalized.facilities.hospital.maxStayMs=Math.min(CITY_HOSPITAL_MAX_STAY_MS,facilities.hospital.maxStayMs);
   return normalized;
 }
-export function cityArmory(life,mode){
+export function cityArmory(life,mode,now=life.at){
   life.armory??={TEST:{owned:[],equipped:null},ON:{owned:[],equipped:null}};
-  return life.armory[mode]||{owned:[],equipped:null};
+  const bag=life.armory[mode]||{owned:[],equipped:null};
+  for(const [code,expiresAt] of Object.entries(bag.supplyExpiresAt||{})){
+    if(expiresAt>now)continue;
+    bag.owned=bag.owned.filter(owned=>owned!==code);
+    if(bag.equipped===code)bag.equipped=null;
+    delete bag.supplyExpiresAt[code];
+  }
+  return bag;
 }
 export function cityWeapon(life,policy){
   const bag=cityArmory(life,policy.mode),cfg=policy.arsenal||defaultCityArsenal(),code=bag.owned.includes(bag.equipped)?bag.equipped:null;
   const w=[...cfg.weapons,...(policy.exploration||defaultCityExploration()).weapons,...CITY_SUPPLY_WEAPONS].find(w=>w.code===code&&w.enabled);
-  return w?{...[...CITY_WEAPONS,...CITY_FOUND_WEAPONS,...CITY_SUPPLY_WEAPONS].find(x=>x.code===w.code),...w}:{code:null,name:'맨손',power:cfg.basePower,icon:'person'};
+  return w?{...[...CITY_WEAPONS,...CITY_FOUND_WEAPONS,...CITY_SUPPLY_WEAPONS].find(x=>x.code===w.code),...w,...(bag.supplyExpiresAt?.[w.code]?{expiresAt:bag.supplyExpiresAt[w.code]}:{})}:{code:null,name:'맨손',power:cfg.basePower,icon:'person'};
 }
 export function validateCityFacilitiesState(life){
   for(const bag of Object.values(life.armory||{}))if(!Array.isArray(bag.owned)||new Set(bag.owned).size!==bag.owned.length||bag.owned.some(code=>![...CITY_WEAPONS,...CITY_FOUND_WEAPONS,...CITY_SUPPLY_WEAPONS].some(w=>w.code===code))||bag.equipped!=null&&!bag.owned.includes(bag.equipped))throw Error('CITY_ARMORY');
+  for(const bag of Object.values(life.armory||{}))if(bag.supplyExpiresAt!==undefined&&(!object(bag.supplyExpiresAt,CITY_SUPPLY_WEAPONS.map(w=>w.code))||Object.values(bag.supplyExpiresAt).some(at=>!integer(at,1,Number.MAX_SAFE_INTEGER))))throw Error('CITY_SUPPLY_EXPIRY');
   if(life.armory&&(!life.armory.TEST||!life.armory.ON||Object.keys(life.armory).some(m=>!['TEST','ON'].includes(m))))throw Error('CITY_ARMORY_MODE');
   if(life.motel&&!['until','nextAt'].every(k=>integer(life.motel[k],0,Number.MAX_SAFE_INTEGER)))throw Error('CITY_MOTEL');
   if(life.hospital&&!['enteredAt','leaveAt','autoReturnAfter'].every(k=>integer(life.hospital[k],0,Number.MAX_SAFE_INTEGER)))throw Error('CITY_HOSPITAL');
@@ -64,6 +72,7 @@ export function applyCityExpansionView(state,life,policy){
   const cfg=policy.facilities||defaultCityFacilities();
   const exploration=cityExplorationBag(life,policy.mode);
   state.weapon=cityWeapon(life,policy);state.ownedWeapons=[...cityArmory(life,policy.mode).owned];
+  state.supplyWeaponExpiresAt={...cityArmory(life,policy.mode).supplyExpiresAt};
   state.armor=cityArmor(life,policy);state.ownedArmors=[...exploration.ownedArmor];state.exploreNextAt=exploration.nextAt;
   state.cityPower=state.weapon.power+state.armor.power;
   state.hospitalTransfer=life.hospital?.transfer?.epoch===cityShift(life.at).id?{...life.hospital.transfer}:null;

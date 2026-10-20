@@ -1,6 +1,6 @@
 import {CITY_FOUND_WEAPONS,CITY_ARMORS,CITY_SEARCH_AREAS,defaultCityExploration,citySearchPool} from '../shared/jokgak-city-exploration-v1.mjs';
 import {CITY_SUPPLY_WEAPONS} from '../shared/jokgak-city-supply-v1.mjs';
-import {citySupplyArt,citySupplyGearDetail} from './jokgak-city-supply-ui-v1.mjs?v=20261018-supply1';
+import {citySupplyArt,citySupplyGearDetail,citySupplyExpiryLabel} from './jokgak-city-supply-ui-v1.mjs?v=20261021-supply-expiry1';
 import {CITY_WEAPONS} from '../shared/jokgak-city-expansion-v1.mjs';
 import {cityPlace} from '../shared/jokgak-city-v1.mjs';
 import {cityItemArt} from './jokgak-city-item-art-v1.mjs?v=20261011-items1';
@@ -35,7 +35,7 @@ export function cityEquipmentSummary(state){
 }
 export function cityEquipmentCard(state,rule,meta,locked){
  const m=state.mine,isArmor=armor(meta),isEquipped=equipped(m,meta),action=isArmor?'Armor':'Weapon';
- return `<article class="jc-kit-card ${meta.supplyOnly?'jc-supply-gear':''} ${isEquipped?'is-equipped':''}" data-tier="${tier(meta)}"><span class="jc-kit-badge">${isEquipped?'✓ 장착 중':tierNames[tier(meta)]}</span><button class="jc-kit-inspect" data-city-gear="${meta.code}" aria-label="${meta.name} 장비 정보">${cityGearArt(meta.code,true)}</button><b>${meta.name}</b><small>${isArmor?'추가 전투력':'도시 전투력'} <strong>${isArmor?'+':''}${money(rule.power)}</strong></small><button class="jc-kit-equip" data-city-action="${isEquipped?'unequip':'equip'}${action}" ${isEquipped?'':`data-city-product="${meta.code}"`} ${locked||!rule.enabled?'disabled':''}>${isEquipped?'장착 해제':'장착하기'}</button></article>`;
+ return `<article class="jc-kit-card ${meta.supplyOnly?'jc-supply-gear':''} ${isEquipped?'is-equipped':''}" data-tier="${tier(meta)}"><span class="jc-kit-badge">${isEquipped?'✓ 장착 중':tierNames[tier(meta)]}</span><button class="jc-kit-inspect" data-city-gear="${meta.code}" aria-label="${meta.name} 장비 정보">${cityGearArt(meta.code,true)}</button><b>${meta.name}</b><small>${isArmor?'추가 전투력':'도시 전투력'} <strong>${isArmor?'+':''}${money(rule.power)}</strong></small>${meta.supplyOnly?citySupplyExpiryLabel(state,meta.code):''}<button class="jc-kit-equip" data-city-action="${isEquipped?'unequip':'equip'}${action}" ${isEquipped?'':`data-city-product="${meta.code}"`} ${locked||!rule.enabled?'disabled':''}>${isEquipped?'장착 해제':'장착하기'}</button></article>`;
 }
 export function cityArmorInventory(state,now,busy){
  const m=state?.mine;if(!m?.active)return '';

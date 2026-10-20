@@ -1,5 +1,5 @@
 import {cityShift,cityState} from '../shared/jokgak-city-v1.mjs';
-import {createCitySupplyPlan,citySupplyEligible,citySupplyPublic,citySupplyWeapon} from '../shared/jokgak-city-supply-v1.mjs';
+import {createCitySupplyPlan,citySupplyEligible,citySupplyPublic,citySupplyWeapon,citySupplyWeaponExpiresAt} from '../shared/jokgak-city-supply-v1.mjs';
 import {CITY_SETTINGS_KEY,cityCanAccess,cityRolePolicy} from '../shared/jokgak-city-settings-v1.mjs';
 import {readCityLife,projectCityLife,cityLifeKey} from '../shared/jokgak-city-life-v1.mjs';
 import {cityExplorationBag} from '../shared/jokgak-city-exploration-v1.mjs';
@@ -63,10 +63,44 @@ function lockHolder(env,row,token){
   // Same player -> life -> crate lock order as city actions; no lost inventory writes.
   return [p(env,'UPDATE jokgak_city_players_v1 SET revision=revision+1,last_token=? WHERE user_id=? AND revision=?',token,row.user_id,row.revision),cityGuard(env,tag,'EXISTS(SELECT 1 FROM jokgak_city_players_v1 WHERE user_id=? AND last_token=?)',[row.user_id,token]),cityGuardEnd(env,tag)];
 }
+async function syncAwardedWeapons(env,records,policy,policyRaw,now,expiryTime=now){
+  const awards=records.map(r=>r.drop).filter(d=>d.status==='AWARDED'&&d.winner).sort((a,b)=>a.endsAt-b.endsAt);
+  for(const id of new Set(awards.map(d=>d.winner.userId))){
+    for(let attempt=0;attempt<3;attempt++){
+      const row=await p(env,`SELECT c.*,life.value AS life_raw FROM jokgak_city_players_v1 c LEFT JOIN app_meta life ON life.key=? WHERE c.user_id=?`,cityLifeKey(id),id).first();
+      if(!row||Number(row.epoch)!==cityShift(now).id)break;
+      const life=readCityLife(row.life_raw,now),bag=life.armory?.[policy.mode];
+      if(!bag)break;
+      const before=JSON.stringify(bag);
+      // Old grants have no timer. Recover their original award deadline once,
+      // never from deployment/login time and never resurrect a removed weapon.
+      for(const d of awards.filter(d=>d.winner.userId===id)){
+        if(!bag.owned.includes(d.weaponCode)||bag.supplyExpiresAt?.[d.weaponCode])continue;
+        (bag.supplyExpiresAt??={})[d.weaponCode]=citySupplyWeaponExpiresAt(d.endsAt);
+      }
+      cityArmory(life,policy.mode,expiryTime);
+      if(JSON.stringify(bag)===before)break;
+      const token='city-supply-expiry:'+crypto.randomUUID();
+      try{
+        await env.DB.batch([...citySupplyPolicyGuards(env,policyRaw,token,now),...lockHolder(env,row,token),...cityLifeClaim(env,row,life,token)]);
+        break;
+      }catch(error){
+        // Read back after a lost commit response as well as a competing action.
+        const saved=await p(env,'SELECT value FROM app_meta WHERE key=?',cityLifeKey(id)).first();
+        if(saved?.value===JSON.stringify(life))break;
+        if(!conflict(error)||attempt===2)throw error;
+      }
+    }
+  }
+}
 export async function processCitySupply(env,{policy,policyRaw,now=Date.now(),roll=random}={}){
   if(!policy){const saved=await readCitySettings(env);policy=await cityCareerPolicy(env,saved.policy,now);policyRaw=saved.raw;}
   if(!['ON','TEST'].includes(policy.mode))return {records:[],world:citySupplyPublic([],policy.mode,now)};
   let records=await readRecords(env,policy,policyRaw,now,roll),changed=false;
+  // Settle delayed contests in award-time order before removing their prior
+  // prizes, so a late duplicate cannot incorrectly restart a lifetime.
+  const firstDue=Math.min(now,...records.filter(r=>r.drop.status==='OPEN'&&r.drop.endsAt<=now).map(r=>r.drop.endsAt));
+  await syncAwardedWeapons(env,records,policy,policyRaw,now,firstDue);
   for(const initial of records){
     for(let attempt=0;attempt<3;attempt++){
       const record=attempt?await p(env,'SELECT value FROM app_meta WHERE key=?',initial.key).first().then(r=>r?{key:initial.key,raw:r.value,drop:JSON.parse(r.value)}:null):initial;
@@ -80,11 +114,12 @@ export async function processCitySupply(env,{policy,policyRaw,now=Date.now(),rol
         next.status=owner?.eligible?'AWARDED':'EXPIRED';next.settledAt=d.endsAt;
         if(owner?.eligible){
           const {row,life,state}=owner,weapon=citySupplyWeapon(d.weaponCode),id=Number(row.user_id);
-          cityExplorationBag(life,policy.mode,d.endsAt);const armory=cityArmory(life,policy.mode),duplicate=armory.owned.includes(weapon.code);
-          if(!duplicate)armory.owned.push(weapon.code);
+          cityExplorationBag(life,policy.mode,d.endsAt);const armory=cityArmory(life,policy.mode,d.endsAt),duplicate=armory.owned.includes(weapon.code);
+          if(!duplicate){armory.owned.push(weapon.code);(armory.supplyExpiresAt??={})[weapon.code]=citySupplyWeaponExpiresAt(d.endsAt);}
+          const expiresAt=(armory.supplyExpiresAt??={})[weapon.code]??=citySupplyWeaponExpiresAt(d.endsAt);
           next.winner={userId:id,nickname:row.nickname};
-          const requestId='city-supply-award:'+d.id,supply={kind:'AWARDED',dropId:d.id,location:d.location,weapon,duplicate,winner:next.winner,endsAt:d.endsAt};
-          const result={ok:true,requestId,action:'rewardSupply',epoch:d.epoch,mode:d.mode,cityMode:d.mode,createdAt:d.endsAt,location:d.location,mine:{...state,ownedWeapons:[...armory.owned]},target:null,supply};
+          const requestId='city-supply-award:'+d.id,supply={kind:'AWARDED',dropId:d.id,location:d.location,weapon,duplicate,winner:next.winner,endsAt:d.endsAt,expiresAt};
+          const result={ok:true,requestId,action:'rewardSupply',epoch:d.epoch,mode:d.mode,cityMode:d.mode,createdAt:d.endsAt,location:d.location,mine:{...state,ownedWeapons:[...armory.owned],supplyWeaponExpiresAt:{...armory.supplyExpiresAt}},target:null,supply};
           statements.push(...cityLifeClaim(env,row,life,token),p(env,'INSERT INTO jokgak_city_actions_v1(request_id,user_id,action,fingerprint,result_json,created_at) VALUES(?,?,?,?,?,?)',requestId,id,'rewardSupply',JSON.stringify({dropId:d.id}),JSON.stringify(result),d.endsAt),
             p(env,'INSERT INTO jokgak_city_notifications_v1(id,user_id,request_id,created_at,summary_json) VALUES(?,?,?,?,?)',requestId+':notice',id,requestId,d.endsAt,JSON.stringify({requestId,action:'rewardSupply',actorName:'도시 관제',location:d.location,mode:d.mode,createdAt:d.endsAt,supply})));
         }
@@ -97,7 +132,10 @@ export async function processCitySupply(env,{policy,policyRaw,now=Date.now(),rol
       }
     }
   }
-  if(changed)records=await readRecords(env,policy,policyRaw,now,roll);
+  if(changed){
+    records=await readRecords(env,policy,policyRaw,now,roll);
+    await syncAwardedWeapons(env,records,policy,policyRaw,now);
+  }
   return {records,world:citySupplyPublic(records,policy.mode,now)};
 }
 export function requireCitySupply(records,id,now){

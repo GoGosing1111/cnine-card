@@ -1,0 +1,26 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "countdown": true,
+      "artLoaded": true,
+      "detail45Minutes": true,
+      "autoExpiredWithoutRefresh": true,
+      "unequipped": true,
+      "reloadStaysExpired": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "countdown": true,
+      "artLoaded": true,
+      "detail45Minutes": true,
+      "autoExpiredWithoutRefresh": true,
+      "unequipped": true,
+      "reloadStaysExpired": true,
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "accounts": "isolated fixtures; actual HTTP handler and city UI"
+}

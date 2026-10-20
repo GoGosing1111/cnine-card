@@ -91,7 +91,7 @@ export async function cityStatus(env,user,location='HOME',after=0,now=Date.now()
   const mine=await syncCityPlayer(env,user,policy,weights,now,policyRaw);
   const roster=await p(env,`SELECT c.*,u.nickname,life.value AS life_raw FROM jokgak_city_players_v1 c JOIN users u ON u.id=c.user_id ${lifeJoin} WHERE c.active=1 AND c.epoch=? AND c.location=? AND c.user_id>? AND ${activeUserSql}${testerFilter} ORDER BY c.user_id LIMIT 11`,cityShift(now).id,location,after,...(policy.mode==='TEST'?policy.testUserIds:[])).all();
   const rows=roster.results||[];
-  const people=(await Promise.all(rows.slice(0,10).map(row=>publicPlayer(env,row,now,policy,weights)))).filter(row=>row.active&&row.location===location&&(!row.restUntil||row.userId===Number(user.id))).map(({bag,ownedWeapons,ownedArmors,exploreNextAt,hospitalTransfer,cash,cashMode,cashUnit,career,megaphoneCount,megaphoneNextAt,...row})=>row);
+  const people=(await Promise.all(rows.slice(0,10).map(row=>publicPlayer(env,row,now,policy,weights)))).filter(row=>row.active&&row.location===location&&(!row.restUntil||row.userId===Number(user.id))).map(({bag,ownedWeapons,supplyWeaponExpiresAt,ownedArmors,exploreNextAt,hospitalTransfer,cash,cashMode,cashUnit,career,megaphoneCount,megaphoneNextAt,...row})=>row);
   const [noticePreferences,unreadCount,broadcasts,conflicts]=await Promise.all([cityNoticePreferences(env,user.id),cityNoticeCount(env,user.id,now),cityBroadcasts(env,policy.mode,now),cityConflictWorld(env,policy,now)]);
   return {ok:true,serverNow:now,shift:cityShift(now),...cityPublicPolicy(policy),places:CITY_PLACES,mine,location,people,noticePreferences,unreadCount,broadcasts,conflicts,supply:supply.world,beggingOffers:await cityBeggingOffers(env,user,mine,now,policy),nextCursor:rows.length>10?Number(rows[9].user_id):null};
 }
@@ -110,7 +110,7 @@ async function receipt(env,user,requestId,fingerprint=null,includeTarget=false){
   if(fingerprint&&row.fingerprint!==fingerprint)fail('REQUEST_REUSED','같은 요청 번호에 다른 행동을 보낼 수 없습니다.');
   const result={...parse(row.result_json),replayed:true};
   if(Number(row.user_id)!==Number(user.id)){
-    const {cash,cashMode,cashUnit,bag,ownedWeapons,ownedArmors,exploreNextAt,hospitalTransfer,career,megaphoneCount,megaphoneNextAt,...visibleMine}=result.mine||{};
+    const {cash,cashMode,cashUnit,bag,ownedWeapons,supplyWeaponExpiresAt,ownedArmors,exploreNextAt,hospitalTransfer,career,megaphoneCount,megaphoneNextAt,...visibleMine}=result.mine||{};
     result.mine=visibleMine;
     // A defender may inspect the fight, but not the attacker's private wallet
     // balance embedded in activity/service reward receipts.
@@ -243,6 +243,7 @@ export async function cityAction(env,deps,user,action,body){
   if(['move','leave','rest','claimSupply'].includes(action)||isFight)cancelCityWork(myLife,policy.mode);
   if(isFight)cancelCityWork(targetLife,policy.mode);
   const committedAt=clock();if(cityShift(committedAt).id!==epoch)fail('SHIFT','역할이 교대되었습니다. 새 역할을 확인한 뒤 다시 행동하세요.');
+  if(isFight&&[me,target].some(s=>s.weapon?.expiresAt&&s.weapon.expiresAt<=committedAt)||action==='equipWeapon'&&myLife.armory?.[policy.mode]?.supplyExpiresAt?.[product]<=committedAt)fail('SUPPLY_WEAPON_EXPIRED','보급 무기의 사용 시간이 끝났습니다. 전황을 새로 확인하세요.');
   const elapsed=committedAt-now;
   if(action==='leave'||action==='claimSupply'||needsTarget||isService||isBeg)me.nextActionAt+=elapsed;
   if(donation&&donation.endsAt<=committedAt)fail('BEGGING','동냥 시간이 끝났습니다.');
@@ -263,7 +264,7 @@ export async function cityAction(env,deps,user,action,body){
   const supply=prepareCitySupplyChanges(env,{records:supplyState.records,action,dropId:body.dropId,me,target,winner,now:committedAt,requestId:body.requestId});
   if(cityShift(clock()).id!==epoch)fail('SHIFT','역할이 교대되었습니다. 현황을 다시 확인하세요.');
   if(comms?.kind==='broadcast')comms.createdAt=committedAt;
-  const {cash:targetCash,cashMode:targetCashMode,cashUnit:targetCashUnit,bag:targetBag,ownedWeapons:targetWeapons,ownedArmors:targetArmors,exploreNextAt:targetExplore,hospitalTransfer:targetTransfer,career:targetCareer,megaphoneCount:targetMegaphones,megaphoneNextAt:targetMegaphoneNext,...visibleTarget}=target||{};
+  const {cash:targetCash,cashMode:targetCashMode,cashUnit:targetCashUnit,bag:targetBag,ownedWeapons:targetWeapons,supplyWeaponExpiresAt:targetSupplyExpiry,ownedArmors:targetArmors,exploreNextAt:targetExplore,hospitalTransfer:targetTransfer,career:targetCareer,megaphoneCount:targetMegaphones,megaphoneNextAt:targetMegaphoneNext,...visibleTarget}=target||{};
   const result={ok:true,requestId:body.requestId,action,epoch,mode:policy.mode,policyRevision:policy.revision,createdAt:committedAt,location:mine?.location||me.location,mine:me,target:targetId?visibleTarget:null,inspection,...simulation,reward:reward.result,theft,donation:donation?.result||null,service:service?.result||null,
     cityMode:policy.mode,expansion,exploration,work,comms,supply:supply.result,bounty:conflict.result,effects:{damageToMine:Math.max(0,(healthBefore??me.health)-me.health),damageToTarget:Math.max(0,(targetHealthBefore??0)-(target?.health??0)),healed:action==='heal'?target.health-targetHealthBefore:0,jailMs:action==='arrest'&&simulation?.battleV2?.result?.winner==='A'?role.arrestMs:0}};
   if(simulation)result.result=simulation.battleV2.result.winner==='A'?'WIN':simulation.battleV2.result.winner==='B'?'LOSE':'DRAW';
