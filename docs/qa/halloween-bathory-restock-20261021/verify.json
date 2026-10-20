@@ -1,0 +1,469 @@
+{
+  "status": "VERIFIED",
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:halloween-bathory-restock:20261021:five-v1",
+    "completedAt": "2026-10-20T19:02:16.262Z",
+    "approvalReference": "User: 바토리 5장 한정수량 추가해",
+    "stockAdded": 5,
+    "grants": 0,
+    "ratesUnchanged": true,
+    "issuedUnchanged": true,
+    "before": {
+      "revision": 17,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 200,
+          "V-989": 100,
+          "V-996": 200,
+          "V-977": 5000,
+          "V-979": 100
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 11,
+          "V-981": 11,
+          "V-982": 11,
+          "V-983": 11,
+          "V-984": 11,
+          "V-985": 11,
+          "V-986": 11,
+          "V-999": null,
+          "V-989": 3,
+          "V-996": null,
+          "V-977": 10,
+          "V-979": 3
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 924400
+      },
+      "updatedAt": "2026-10-20T18:46:20.917Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:halloween-jokro-launch:20261021:v1"
+    },
+    "after": {
+      "revision": 18,
+      "settings": {
+        "format": "MERCENARY_HALLOWEEN_SS_PACK_V3",
+        "mode": "ON",
+        "prices": {
+          "single": 1000000000,
+          "ten": 10000000000
+        },
+        "cardRatesPpm": {
+          "V-980": 10000,
+          "V-981": 10000,
+          "V-982": 10000,
+          "V-983": 10000,
+          "V-984": 10000,
+          "V-985": 10000,
+          "V-986": 10000,
+          "V-999": 200,
+          "V-989": 100,
+          "V-996": 200,
+          "V-977": 5000,
+          "V-979": 100
+        },
+        "missRatePpm": 800000,
+        "stockLimits": {
+          "V-980": 11,
+          "V-981": 11,
+          "V-982": 11,
+          "V-983": 11,
+          "V-984": 11,
+          "V-985": 11,
+          "V-986": 11,
+          "V-999": null,
+          "V-989": 3,
+          "V-996": null,
+          "V-977": 15,
+          "V-979": 3
+        },
+        "normalRankRatesPpm": {
+          "C": 104500,
+          "B": 30000,
+          "A": 30000,
+          "S": 30000,
+          "SS": 5000,
+          "SSS": 500
+        },
+        "normalSssRatePpm": 924400
+      },
+      "updatedAt": "2026-10-20T19:02:16.262Z",
+      "updatedBy": 1,
+      "lastRequestId": "ops:halloween-bathory-restock:20261021:five-v1"
+    },
+    "beforeStock": [
+      {
+        "code": "V-977",
+        "stock_limit": 10,
+        "issued": 10,
+        "revision": 10
+      },
+      {
+        "code": "V-979",
+        "stock_limit": 3,
+        "issued": 0,
+        "revision": 0
+      },
+      {
+        "code": "V-980",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-981",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-982",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-983",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-984",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-985",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-986",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-989",
+        "stock_limit": 3,
+        "issued": 0,
+        "revision": 0
+      },
+      {
+        "code": "V-990",
+        "stock_limit": 15,
+        "issued": 13,
+        "revision": 20
+      },
+      {
+        "code": "V-991",
+        "stock_limit": 10,
+        "issued": 8,
+        "revision": 17
+      },
+      {
+        "code": "V-992",
+        "stock_limit": 10,
+        "issued": 5,
+        "revision": 14
+      },
+      {
+        "code": "V-993",
+        "stock_limit": 10,
+        "issued": 8,
+        "revision": 17
+      },
+      {
+        "code": "V-994",
+        "stock_limit": 12,
+        "issued": 8,
+        "revision": 17
+      },
+      {
+        "code": "V-996",
+        "stock_limit": 15,
+        "issued": 14,
+        "revision": 22
+      },
+      {
+        "code": "V-997",
+        "stock_limit": 10,
+        "issued": 6,
+        "revision": 15
+      },
+      {
+        "code": "V-998",
+        "stock_limit": 10,
+        "issued": 8,
+        "revision": 17
+      },
+      {
+        "code": "V-999",
+        "stock_limit": 8,
+        "issued": 8,
+        "revision": 13
+      }
+    ],
+    "afterStock": [
+      {
+        "code": "V-977",
+        "stock_limit": 15,
+        "issued": 10,
+        "revision": 11
+      },
+      {
+        "code": "V-979",
+        "stock_limit": 3,
+        "issued": 0,
+        "revision": 0
+      },
+      {
+        "code": "V-980",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-981",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-982",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-983",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-984",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-985",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-986",
+        "stock_limit": 11,
+        "issued": 11,
+        "revision": 13
+      },
+      {
+        "code": "V-989",
+        "stock_limit": 3,
+        "issued": 0,
+        "revision": 0
+      },
+      {
+        "code": "V-990",
+        "stock_limit": 15,
+        "issued": 13,
+        "revision": 20
+      },
+      {
+        "code": "V-991",
+        "stock_limit": 10,
+        "issued": 8,
+        "revision": 17
+      },
+      {
+        "code": "V-992",
+        "stock_limit": 10,
+        "issued": 5,
+        "revision": 14
+      },
+      {
+        "code": "V-993",
+        "stock_limit": 10,
+        "issued": 8,
+        "revision": 17
+      },
+      {
+        "code": "V-994",
+        "stock_limit": 12,
+        "issued": 8,
+        "revision": 17
+      },
+      {
+        "code": "V-996",
+        "stock_limit": 15,
+        "issued": 14,
+        "revision": 22
+      },
+      {
+        "code": "V-997",
+        "stock_limit": 10,
+        "issued": 6,
+        "revision": 15
+      },
+      {
+        "code": "V-998",
+        "stock_limit": 10,
+        "issued": 8,
+        "revision": 17
+      },
+      {
+        "code": "V-999",
+        "stock_limit": 8,
+        "issued": 8,
+        "revision": 13
+      }
+    ],
+    "adminLogId": "49265"
+  },
+  "stock": [
+    {
+      "code": "V-977",
+      "stock_limit": 15,
+      "issued": 10,
+      "revision": 11
+    },
+    {
+      "code": "V-979",
+      "stock_limit": 3,
+      "issued": 0,
+      "revision": 0
+    },
+    {
+      "code": "V-980",
+      "stock_limit": 11,
+      "issued": 11,
+      "revision": 13
+    },
+    {
+      "code": "V-981",
+      "stock_limit": 11,
+      "issued": 11,
+      "revision": 13
+    },
+    {
+      "code": "V-982",
+      "stock_limit": 11,
+      "issued": 11,
+      "revision": 13
+    },
+    {
+      "code": "V-983",
+      "stock_limit": 11,
+      "issued": 11,
+      "revision": 13
+    },
+    {
+      "code": "V-984",
+      "stock_limit": 11,
+      "issued": 11,
+      "revision": 13
+    },
+    {
+      "code": "V-985",
+      "stock_limit": 11,
+      "issued": 11,
+      "revision": 13
+    },
+    {
+      "code": "V-986",
+      "stock_limit": 11,
+      "issued": 11,
+      "revision": 13
+    },
+    {
+      "code": "V-989",
+      "stock_limit": 3,
+      "issued": 0,
+      "revision": 0
+    },
+    {
+      "code": "V-990",
+      "stock_limit": 15,
+      "issued": 13,
+      "revision": 20
+    },
+    {
+      "code": "V-991",
+      "stock_limit": 10,
+      "issued": 8,
+      "revision": 17
+    },
+    {
+      "code": "V-992",
+      "stock_limit": 10,
+      "issued": 5,
+      "revision": 14
+    },
+    {
+      "code": "V-993",
+      "stock_limit": 10,
+      "issued": 8,
+      "revision": 17
+    },
+    {
+      "code": "V-994",
+      "stock_limit": 12,
+      "issued": 8,
+      "revision": 17
+    },
+    {
+      "code": "V-996",
+      "stock_limit": 15,
+      "issued": 14,
+      "revision": 22
+    },
+    {
+      "code": "V-997",
+      "stock_limit": 10,
+      "issued": 6,
+      "revision": 15
+    },
+    {
+      "code": "V-998",
+      "stock_limit": 10,
+      "issued": 8,
+      "revision": 17
+    },
+    {
+      "code": "V-999",
+      "stock_limit": 8,
+      "issued": 8,
+      "revision": 13
+    }
+  ],
+  "currentRevision": 18,
+  "independentConnection": true,
+  "verifiedAt": "2026-10-20T19:02:48.606Z"
+}
