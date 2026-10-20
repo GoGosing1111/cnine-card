@@ -1,0 +1,42 @@
+{
+  "verifiedAt": "2026-10-20T10:20:19.384Z",
+  "source": "8d25020835097dc2ea8e37a372e357f69a626b73",
+  "base": "a788d2c66d5d2a2ae7f3148f9f99cfd02cbe83f7",
+  "pages": "https://998a53dc.cnine-card.pages.dev",
+  "pagesDeploymentId": "998a53dc-65ab-48ff-9d57-30bbb83afbca",
+  "apiVersion": "8fbbb44a-dcb8-439b-9865-8e1cd92b09cd",
+  "schedulerVersion": "0b3e7eb8-5636-466a-9e8f-a1d0b834b397",
+  "scoped": true,
+  "uniqueTestsPassed": 74,
+  "retainedPassingTests": 73,
+  "finalPassingTests": 6,
+  "workerCompiled": true,
+  "hyperdriveQueryCacheDisabled": true,
+  "assetCount": 20000,
+  "publicApiStatus": 200,
+  "publicDuo": {
+    "kind": "RANKED_DUO",
+    "phase": "ACTIVE",
+    "additionalRecruiting": false,
+    "entityId": "4e49efa4-7a36-4848-ac85-7ca6606b5b6f",
+    "title": "랭크 듀오 시즌 5",
+    "detail": "상시 랜덤 2대2 · 랭크전 덱으로 바로 출전",
+    "deadlineAt": "2026-10-27T05:39:18.892Z",
+    "sortOrder": 0
+  },
+  "diimDescription": "할로윈 SS 리미티드 · 기본 전투력 237,600(기존 SS 리미티드 대비 32% 증가). 표시·성장 등급은 SS, 전투 등급 보정은 일반 SSS 기준입니다. 연계 공격 532.4%·체력 677.6%·전용 방벽 363%. 자연 행동 속도 2.25배, 아군 카드 4행동마다 용병 9회 추가 행동. 자기 행동마다 에너지 10 회복, 스킬 효과 672%·비용 20·재사용 2행동이며 다단 기술은 후속타까지 나누어 적용합니다. PVP 스킬 상한 보정은 1.8배입니다. 성야의 방패는 PVP에서 부여량이 40% 감소하여 공격력 403.2%를 전열에 나눠 부여합니다. 시작 방벽에는 이 감소를 적용하지 않으며 PVE는 672% 방벽을 부여합니다. PVP 기본 공격 피해 상한은 성장 공격력 배율의 제곱근만큼 증가합니다(최대 3배). 받는 타격 상한의 체력 기준은 성장 HP 배율의 제곱근으로 나눠 생존력을 보강합니다(최대 3배 보정, 시작 방벽 제외). 돌파의 행동 대응·추가 행동 숙련 합계만큼 시작 행동 게이지를 얻습니다(최대 75). Lv.2부터 추가 행동은 자연 행동 게이지를 소모하지 않습니다.",
+  "sourceHashes": {
+    "shared/mercenary-halloween-combat-v1.mjs": "c6ad5cd8efa36aa21d9edc033ab307f24d016a83542752ee5f6528f75a587bf2",
+    "shared/mercenary-combat-link-v2103.mjs": "6a417db36c8299f5e400dcca9656f6fad38ca9f00754177fe554b655ef914eb4",
+    "shared/mercenary-level-v1.mjs": "6646a08e7fdf2f614618ebb22213c3c3abe5bb4d9014094bf79e9d0cef6cffff"
+  },
+  "databaseOperation": {
+    "operationKey": "ops:ranked-duo-growth-tracking:20261020:v1",
+    "appliedAt": "2026-10-20T10:14:05.538Z",
+    "policyRevision": 335339,
+    "growthRowsChanged": 0,
+    "battlesChanged": 0,
+    "rewardsIssued": 0,
+    "verified": true
+  }
+}

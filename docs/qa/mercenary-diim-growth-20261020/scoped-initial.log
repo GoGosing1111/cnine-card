@@ -1,0 +1,139 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"a788d2c66d5d2a2ae7f3148f9f99cfd02cbe83f7","reason":"Halloween Diim PvP growth cap and initiative correction, actual duo growth snapshots and duo-only cache invalidation hooks; verify direct growth/barrier and profile/random/open-pool regressions. No common DB, session, permission or dependency restructuring.","changed":["AGENTS.md","docs/mercenary-diim-growth-duo-20261020.md","docs/mercenary-halloween-diim-level11-review-20261020.md","docs/qa/halloween-diim-level11-20261020/summary.json","docs/qa/mercenary-diim-growth-20261020/comparison.json","docs/qa/ranked-duo-mercenary-20261020/after.json","docs/qa/ranked-duo-mercenary-20261020/release.json","docs/qa/ranked-duo-mercenary-20261020/scoped-deploy.log","docs/qa/ranked-duo-mercenary-20261020/verify-release.mjs","docs/ranked-duo-mercenary-20261020.md","functions/_battle_v2_preview.js","functions/_mercenary_combat.js","functions/_mercenary_level_policy.js","functions/_ranked_duo_profiles.js","functions/_ranked_duo_schema.js","scripts/ops/ranked-duo-growth-20261020.mjs","shared/mercenary-combat-link-v2103.mjs","shared/mercenary-halloween-combat-v1.mjs","shared/mercenary-level-v1.mjs","tests/fixtures/mercenary-diim-growth-20261020.json","tests/mercenary-diim-growth-20261020.test.mjs","tests/ranked-duo-growth-20261020.test.mjs"],"tests":["tests/mercenary-diim-growth-20261020.test.mjs","tests/ranked-duo-growth-20261020.test.mjs","tests/mercenary-halloween-diim-barrier-20261018.test.mjs","tests/mercenary-growth-v2-20261015.test.mjs","tests/ranked-duo-partial-profile-20261005.test.mjs","tests/ranked-duo-random-20261020.test.mjs","tests/ranked-duo-open-pool-20261020.test.mjs"],"checks":["check:worker"]}
+✔ growth increases real capped basic damage without rewriting the level-one matchup (1.3115ms)
+✔ the grown guard survives the first Kangyun cast aimed at it; refreshed barrier remains finite (0.4279ms)
+✔ additional turns preserve learned initiative and natural turns still spend their gauge (0.282ms)
+✔ only current growing Diim PvP snapshots get the guard mastery; level application is idempotent (5.6262ms)
+✔ duo uses the same growth rules separately for the two owners (22.0325ms)
+✔ unconfigured and partial V2 policies stay OFF and cannot enter battle (8.2954ms)
+✔ all 20 levels and four breakthroughs have explicit additive, monotonic totals (5.1827ms)
+✔ growth scales effective stats once, keeps wounds, original shield and power (2.7673ms)
+✔ failure preserves all earned growth; successful final breakthrough grants the last package only (2.0442ms)
+✔ conditional speed floor uses frozen pre-growth opponent speed and never compounds (3.9682ms)
+✔ gap mastery restores bounded lost damage, including Berkan immunity, without globally changing it (2.0817ms)
+✔ PVP mastery adds 0.75 credit instead of multiplying innate cadence; PVE and legacy unchanged (3.9561ms)
+✔ level-1 V2 and legacy battle paths are identical; high-level formation can overturn a low-level limited (90.2929ms)
+✔ 0.01 percent action credit accumulates exactly and duo owners earn only their own credit (90.7335ms)
+✔ action response closes only the frozen opportunity gap and subtracts own innate plus growth credit (1.866ms)
+✔ only Halloween Diim PvP barriers lose 40%; other shield skills and PvE keep the full budget (8.573ms)
+✔ absorbed shield is spent and a recast never heals HP or accumulates the previous barrier (0.6992ms)
+✔ the last surviving Diim keeps a finite reduced shield and cannot buff dead allies (0.5219ms)
+✔ canonical PvP can break the reduced shield in the reported Ayoon 5 versus Diim 2 matchup (41.3769ms)
+✔ the public codex explains the PvP-only amount without changing other seasonal skills (49.0491ms)
+✔ SQLite levels reach both duo lineups and invalidate cached power immediately (141.1954ms)
+✔ pipeline levels reach both duo lineups and invalidate cached power immediately (3336.2959ms)
+✔ a level change during projection cannot cache the stale snapshot (2435.8517ms)
+✔ the battle receipt freezes all four real growth snapshots and retries do not consume energy again (2167.5929ms)
+✔ the production hook repair rolls back dry runs, installs once and preserves growth and receipts (2012.6159ms)
+✔ SQLite no enrollment: ranked decks with equipped mercenaries fight and only the initiator gains a record (168.4406ms)
+✔ true no enrollment: ranked decks with equipped mercenaries fight and only the initiator gains a record (3621.9802ms)
+✔ pipeline no enrollment: ranked decks with equipped mercenaries fight and only the initiator gains a record (2551.5624ms)
+✔ SQLite expiry opens the next week immediately while old rewards settle independently (88.1282ms)
+✔ pipeline expiry opens the next week immediately while old rewards settle independently (2223.9841ms)
+✔ simultaneous first matches create one personal row and one ticket (2065.9001ms)
+✔ concurrent rollover creates one active season and retains the old receipt (1665.8675ms)
+✔ invalid saved decks, restricted accounts and owner never enter the global pool (41.9809ms)
+✔ offline deck changes invalidate a ticket without debiting the requester (31.4596ms)
+✔ automatic operation OFF does not reopen a season (18.1915ms)
+✔ the former recruitment capacity cannot prevent a new player from matching (31.0359ms)
+✔ a manually configured open season starts without a recruitment or pairing step (29.8919ms)
+✔ the global pool includes late saved decks and excludes deleted decks without enrollment (19.1594ms)
+✔ SQLite pool requires ownership and the effective PVP slot, including legacy inheritance (38.9245ms)
+✔ SQLite cached tickets are replaced when a selected account unequips its PVP mercenary (55.6373ms)
+✔ SQLite unequipping any of the four PVP mercenaries blocks admission without spending energy (67.743ms)
+✔ SQLite mercenary removal at admission rolls back ticket, energy and match together (33.8819ms)
+✔ true pool requires ownership and the effective PVP slot, including legacy inheritance (33.6622ms)
+✔ true cached tickets are replaced when a selected account unequips its PVP mercenary (54.8069ms)
+✔ true unequipping any of the four PVP mercenaries blocks admission without spending energy (69.0307ms)
+✔ true mercenary removal at admission rolls back ticket, energy and match together (31.5827ms)
+✔ pipeline pool requires ownership and the effective PVP slot, including legacy inheritance (29.0709ms)
+✔ pipeline cached tickets are replaced when a selected account unequips its PVP mercenary (47.0178ms)
+✔ pipeline unequipping any of the four PVP mercenaries blocks admission without spending energy (61.5363ms)
+✔ pipeline mercenary removal at admission rolls back ticket, energy and match together (30.8173ms)
+✔ SQLite one changing account cannot discard the other completed duo ratings (111.946ms)
+✔ SQLite an account that never stabilizes remains blocked and its stale rating is never cached (56.983ms)
+✔ pipeline one changing account cannot discard the other completed duo ratings (3251.8611ms)
+✔ pipeline an account that never stabilizes remains blocked and its stale rating is never cached (2414.7045ms)
+✔ new weekly policies use random matchmaking; unversioned season configurations remain legacy (14.0085ms)
+✔ SQLite random four-player fight changes only the initiator and replays exactly once (156.6569ms)
+✔ true random four-player fight changes only the initiator and replays exactly once (3748.24ms)
+✔ pipeline random four-player fight changes only the initiator and replays exactly once (2562.7667ms)
+✔ odd participants and late entries are usable immediately; active cancellation cannot reset points (61.6227ms)
+✔ recruitment cancellation is atomic, and fewer than four participants never consume energy (36.5776ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:265:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:325:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:353:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/ranked-duo-random-20261020.test.mjs:65:48)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ SQLite a failed personal settlement is recovered with one debit and one reward (89.4002ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at Object.query (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:41:177)
+    at PostgresD1Database.batchPipelined (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_postgres_d1_compat.js:882:31)
+    at async file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_postgres_d1_compat.js:905:27
+✔ pipeline a failed personal settlement is recovered with one debit and one reward (2066.2268ms)
+✔ simultaneous tickets and duplicate fight requests retain one roster and receipt (2125.9724ms)
+✔ invalidated offline decks and banned accounts reject a ticket without charging (81.3446ms)
+✔ inventory and season fences roll back ticket, energy, membership and receipt together (56.9691ms)
+✔ SQLite season settlement ranks and rewards only completed personal starts; OFF stays OFF (77.8319ms)
+✔ pipeline season settlement ranks and rewards only completed personal starts; OFF stays OFF (1837.9204ms)
+✔ matchmaking work stays bounded and random trials can choose all available partners (113.914ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:265:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:325:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:353:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/ranked-duo-random-20261020.test.mjs:121:51)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ pending receipts settle after closure with the original roster and immutable combat snapshot (60.7769ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:265:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:325:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:353:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/ranked-duo-random-20261020.test.mjs:133:51)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+[ranked-duo simulation cancelled] 8f094841-1bc0-4004-9064-966e82fe1745 전투 기준이 변경됐습니다.
+✔ unsupported random combat receipts refund once without changing anyone's points (55.6383ms)
+✔ banning a participant between profile loading and admission rolls back all four memberships (38.9955ms)
+✔ two initiators sharing a roster accumulate independent personal results (1438.5896ms)
+✔ a random season with no personal starts has no final rewards or trophies (24.5739ms)
+ℹ tests 73
+ℹ suites 0
+ℹ pass 73
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15284.1005
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/scripts/prepare-production-assets.mjs:67
+ if(assetCount>20000)throw Error('Pages asset count exceeds the verified 20,000-file limit: '+assetCount);
+                           ^
+
+Error: Pages asset count exceeds the verified 20,000-file limit: 20003
+    at prepareProductionAssets (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/scripts/prepare-production-assets.mjs:67:28)
+    at file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/scripts/deploy-production.mjs:66:20
+
+Node.js v24.18.0

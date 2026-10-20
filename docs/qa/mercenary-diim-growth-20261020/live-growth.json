@@ -1,0 +1,377 @@
+{
+  "checkedAt": "2026-10-20T10:19:33.266Z",
+  "readOnly": true,
+  "trackingReady": true,
+  "receipt": {
+    "operationKey": "ops:ranked-duo-growth-tracking:20261020:v1",
+    "appliedAt": "2026-10-20T10:14:05.538Z",
+    "policyRevision": 335339,
+    "growthRowsChanged": 0,
+    "battlesChanged": 0,
+    "rewardsIssued": 0
+  },
+  "audits": [
+    {
+      "id": "49136",
+      "created_at": "2026-10-20 10:14:04"
+    }
+  ],
+  "matches": [
+    {
+      "createdAt": "2026-10-20T10:19:28.896Z",
+      "status": "COMPLETED",
+      "squads": [
+        {
+          "code": "V-986",
+          "level": 5,
+          "growthLevel": 5,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-021",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-055",
+          "level": 3,
+          "growthLevel": 3,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-055",
+          "level": 4,
+          "growthLevel": 4,
+          "growthVersion": 2
+        }
+      ]
+    },
+    {
+      "createdAt": "2026-10-20T10:19:23.445Z",
+      "status": "COMPLETED",
+      "squads": [
+        {
+          "code": "V-986",
+          "level": 5,
+          "growthLevel": 5,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-029",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-056",
+          "level": 2,
+          "growthLevel": 2,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-984",
+          "level": 5,
+          "growthLevel": 5,
+          "growthVersion": 2
+        }
+      ]
+    },
+    {
+      "createdAt": "2026-10-20T10:19:19.489Z",
+      "status": "COMPLETED",
+      "squads": [
+        {
+          "code": "V-986",
+          "level": 5,
+          "growthLevel": 5,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-055",
+          "level": 3,
+          "growthLevel": 3,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-009",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-021",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        }
+      ]
+    },
+    {
+      "createdAt": "2026-10-20T10:19:15.521Z",
+      "status": "COMPLETED",
+      "squads": [
+        {
+          "code": "V-986",
+          "level": 5,
+          "growthLevel": 5,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-021",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-021",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-042",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        }
+      ]
+    },
+    {
+      "createdAt": "2026-10-20T10:19:11.487Z",
+      "status": "COMPLETED",
+      "squads": [
+        {
+          "code": "V-986",
+          "level": 5,
+          "growthLevel": 5,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-057",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-985",
+          "level": 3,
+          "growthLevel": 3,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-046",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        }
+      ]
+    },
+    {
+      "createdAt": "2026-10-20T10:19:07.325Z",
+      "status": "COMPLETED",
+      "squads": [
+        {
+          "code": "V-986",
+          "level": 5,
+          "growthLevel": 5,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-055",
+          "level": 3,
+          "growthLevel": 3,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-057",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-005",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        }
+      ]
+    },
+    {
+      "createdAt": "2026-10-20T10:19:02.576Z",
+      "status": "COMPLETED",
+      "squads": [
+        {
+          "code": "V-986",
+          "level": 5,
+          "growthLevel": 5,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-011",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-999",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-035",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        }
+      ]
+    },
+    {
+      "createdAt": "2026-10-20T10:18:57.884Z",
+      "status": "COMPLETED",
+      "squads": [
+        {
+          "code": "V-986",
+          "level": 5,
+          "growthLevel": 5,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-044",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-005",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-041",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        }
+      ]
+    },
+    {
+      "createdAt": "2026-10-20T10:18:51.903Z",
+      "status": "COMPLETED",
+      "squads": [
+        {
+          "code": "V-986",
+          "level": 5,
+          "growthLevel": 5,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-025",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-056",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        },
+        {
+          "code": "V-046",
+          "level": 1,
+          "growthLevel": 1,
+          "growthVersion": 2
+        }
+      ]
+    },
+    {
+      "createdAt": "2026-10-20T10:18:02.077Z",
+      "status": "COMPLETED",
+      "squads": [
+        {
+          "code": "V-982",
+          "level": 1
+        },
+        {
+          "code": "V-008",
+          "level": 1
+        },
+        {
+          "code": "V-055",
+          "level": 1
+        },
+        {
+          "code": "V-999",
+          "level": 1
+        }
+      ]
+    },
+    {
+      "createdAt": "2026-10-20T10:17:57.311Z",
+      "status": "COMPLETED",
+      "squads": [
+        {
+          "code": "V-982",
+          "level": 1
+        },
+        {
+          "code": "V-046",
+          "level": 1
+        },
+        {
+          "code": "V-057",
+          "level": 1
+        },
+        {
+          "code": "V-055",
+          "level": 1
+        }
+      ]
+    },
+    {
+      "createdAt": "2026-10-20T10:17:49.505Z",
+      "status": "COMPLETED",
+      "squads": [
+        {
+          "code": "V-982",
+          "level": 1
+        },
+        {
+          "code": "V-046",
+          "level": 1
+        },
+        {
+          "code": "V-056",
+          "level": 1
+        },
+        {
+          "code": "V-996",
+          "level": 1
+        }
+      ]
+    }
+  ],
+  "targetAccount": {
+    "levels": [
+      {
+        "mercenary_code": "V-984",
+        "level": 11,
+        "breakthrough_mask": 3
+      },
+      {
+        "mercenary_code": "V-999",
+        "level": 3,
+        "breakthrough_mask": 0
+      }
+    ],
+    "cached": {
+      "code": "V-999",
+      "level": 1,
+      "expiresAt": "2026-10-20T10:21:09.792Z",
+      "policyRevision": "335339"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"a788d2c66d5d2a2ae7f3148f9f99cfd02cbe83f7","reason":"The unchanged Diim/duo runtime passed all 73 scoped regressions, worker compilation and release protections at 42b28280f; deployment stopped before upload at 20003 assets. Only exclude three unused Diim QA files, verify delivery and the direct Diim regression, then resume without repeating unchanged duo/growth tests.","changed":["AGENTS.md","docs/mercenary-diim-growth-duo-20261020.md","docs/mercenary-halloween-diim-level11-review-20261020.md","docs/qa/halloween-diim-level11-20261020/summary.json","docs/qa/mercenary-diim-growth-20261020/comparison.json","docs/qa/ranked-duo-mercenary-20261020/after.json","docs/qa/ranked-duo-mercenary-20261020/release.json","docs/qa/ranked-duo-mercenary-20261020/scoped-deploy.log","docs/qa/ranked-duo-mercenary-20261020/verify-release.mjs","docs/ranked-duo-mercenary-20261020.md","functions/_battle_v2_preview.js","functions/_mercenary_combat.js","functions/_mercenary_level_policy.js","functions/_ranked_duo_profiles.js","functions/_ranked_duo_schema.js","scripts/ops/ranked-duo-growth-20261020.mjs","scripts/prepare-production-assets.mjs","shared/mercenary-combat-link-v2103.mjs","shared/mercenary-halloween-combat-v1.mjs","shared/mercenary-level-v1.mjs","tests/fixtures/mercenary-diim-growth-20261020.json","tests/mercenary-diim-growth-20261020.test.mjs","tests/ranked-duo-growth-20261020.test.mjs"],"tests":["tests/mercenary-diim-growth-20261020.test.mjs"],"checks":["check:worker"]}
+✔ Diim QA stays in the repository while its live battle modules still ship (1.7324ms)
+✔ growth increases real capped basic damage without rewriting the level-one matchup (0.17ms)
+✔ the grown guard survives the first Kangyun cast aimed at it; refreshed barrier remains finite (0.2166ms)
+✔ additional turns preserve learned initiative and natural turns still spend their gauge (0.1279ms)
+✔ only current growing Diim PvP snapshots get the guard mastery; level application is idempotent (2.6743ms)
+✔ duo uses the same growth rules separately for the two owners (8.1617ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 231.912
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 5120 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7914.19 KiB / gzip: 1710.76 KiB
+Worker Startup Time: 44 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.41 sec)
+No targets deployed for cnine-card-api-runtime (0.59 sec)
+Current Version ID: 8fbbb44a-dcb8-439b-9865-8e1cd92b09cd
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19994/20000)
+Uploading... (19996/20000)
+Uploading... (19998/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 6 files (19994 already uploaded) (2.80 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://998a53dc.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2740.83 KiB / gzip: 624.98 KiB
+Worker Startup Time: 37 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.00 sec)
+Deployed cnine-card-clan-draft triggers (1.47 sec)
+  schedule: * * * * *
+Current Version ID: 0b3e7eb8-5636-466a-9e8f-a1d0b834b397
