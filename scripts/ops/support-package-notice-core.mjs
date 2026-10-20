@@ -1,9 +1,10 @@
 import {PACKAGE_NOTICE_CAMPAIGN,PACKAGE_NOTICE_RECEIPT,PACKAGE_NOTICE_TITLE,PACKAGE_NOTICE_BODY} from '../../shared/support-package-notice-v1.mjs';
 import {ensureJointAtomicSchema,jointGuard,jointGuardEnd} from '../../functions/_joint_atomic.js';
+import {supportAccountEligible,supportBenefits} from '../../shared/server-support-v1.mjs';
 
 export async function packageNoticeRecipients(env,now=Date.now()){
-  const rows=await env.DB.prepare("SELECT u.id,m.value FROM app_meta m JOIN users u ON m.key='server_support_v1:'||u.id WHERE u.status='ACTIVE'").all();
-  return rows.results.filter(row=>{const s=JSON.parse(row.value);return s.revokedAt===null&&s.startsAt>0&&s.startsAt<=now&&s.endsAt>s.startsAt;}).map(row=>Number(row.id)).sort((a,b)=>a-b);
+  const rows=await env.DB.prepare("SELECT u.id,u.status,u.created_at,v.verified_at,m.value FROM app_meta m JOIN users u ON m.key='server_support_v1:'||u.id LEFT JOIN user_second_verifications v ON v.user_id=u.id WHERE u.status='ACTIVE'").all();
+  return rows.results.filter(row=>supportAccountEligible(row,now)&&supportBenefits(JSON.parse(row.value),now).active).map(row=>Number(row.id)).sort((a,b)=>a-b);
 }
 export async function sendPackageNotice(env,{adminId=1,now=Date.now()}={}){
   const DB=env.DB,prior=await DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(PACKAGE_NOTICE_RECEIPT).first();
