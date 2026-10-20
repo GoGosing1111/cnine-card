@@ -1,0 +1,73 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"d58ace6c54b46813fe0a3be663e244d04c00ca90","reason":"Kairon lifetime crafting cap 5 to 8; verify added slots, eighth/ninth boundary, concurrency, rollback and receipt replay without changing economy settings.","changed":["AGENTS.md","docs/qa/kairon-craft-stock-20261020/README.md","docs/qa/kairon-craft-stock-20261020/before.json","docs/qa/kairon-craft-stock-20261020/browser.json","docs/qa/kairon-craft-stock-20261020/desktop-remaining.png","docs/qa/kairon-craft-stock-20261020/desktop-sold-out.png","docs/qa/kairon-craft-stock-20261020/mobile-remaining.png","docs/qa/kairon-craft-stock-20261020/mobile-sold-out.png","docs/qa/mercenary-growth-roster-20261020/README.md","docs/qa/mercenary-growth-roster-20261020/release.json","docs/qa/mercenary-growth-roster-20261020/scoped-release.log","functions/_mercenary_craft.js","shared/mercenary-craft-v1.mjs","tests/kairon-craft-stock-20261018.browser.mjs","tests/kairon-craft-stock-20261018.test.mjs"],"tests":["tests/kairon-craft-stock-20261018.test.mjs"],"checks":["check:worker"]}
+✔ eight lifetime craft slots include historical success, exclude failed attempts and direct exceptions (2236.5615ms)
+✔ five prior successes leave three added slots; the eighth exhausts crafting and receipt replay stays free (2089.4897ms)
+✔ different accounts racing the last slot yield one success and no charge for the losing request (52.3941ms)
+✔ an acquisition failure rolls back costs and keeps the last craft slot available (1850.0463ms)
+✔ existing excess successes display zero and stay locked without rewriting prior records (0.4096ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6662.4739
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 5141 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7914.76 KiB / gzip: 1710.98 KiB
+Worker Startup Time: 42 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.81 sec)
+No targets deployed for cnine-card-api-runtime (0.89 sec)
+Current Version ID: 55f34107-e95c-4760-b571-b8eecf92074d
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19997/20000)
+Uploading... (19998/20000)
+Uploading... (19999/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 3 files (19997 already uploaded) (2.29 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://7c233574.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2740.83 KiB / gzip: 624.97 KiB
+Worker Startup Time: 32 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.04 sec)
+Deployed cnine-card-clan-draft triggers (0.95 sec)
+  schedule: * * * * *
+Current Version ID: f38b29cc-378c-48c9-abac-6f57dafeea95

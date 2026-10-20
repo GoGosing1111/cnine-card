@@ -1,0 +1,56 @@
+{
+  "checkedAt": "2026-10-20T11:43:00.290Z",
+  "sourceCommit": "c22fe8108b2837d976d2b7bb9fd8620653fee523",
+  "pages": {
+    "Id": "7c233574-22e8-4955-802d-3c072cb11df9",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "c22fe81",
+    "Deployment": "https://7c233574.cnine-card.pages.dev",
+    "Status": "26 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/7c233574-22e8-4955-802d-3c072cb11df9"
+  },
+  "apiVersion": "55f34107-e95c-4760-b571-b8eecf92074d",
+  "schedulerVersion": "f38b29cc-378c-48c9-abac-6f57dafeea95",
+  "regression": {
+    "passed": 5,
+    "failed": 0
+  },
+  "browser": {
+    "status": "PASS",
+    "checks": [
+      {
+        "label": "desktop",
+        "overflow": 0,
+        "stockOverflow": 0,
+        "artLoaded": true,
+        "remainingVisible": 7,
+        "updatedAfterCraft": 6,
+        "soldOutVisible": 0,
+        "exhaustedReplayRecovered": true,
+        "crafted": 8
+      },
+      {
+        "label": "mobile",
+        "overflow": 0,
+        "stockOverflow": 0,
+        "artLoaded": true,
+        "remainingVisible": 7,
+        "updatedAfterCraft": 6,
+        "soldOutVisible": 0,
+        "exhaustedReplayRecovered": true,
+        "crafted": 8
+      }
+    ],
+    "errors": []
+  },
+  "live": {
+    "limit": 8,
+    "crafted": 3,
+    "remaining": 5,
+    "policyRevision": 3,
+    "policyUnchanged": true,
+    "moduleHash": "4f1cfd69abb13a4582ea09e0d929b29a5afd271c74f17f8248657be12737e3b4"
+  },
+  "productionDataWrites": 0
+}

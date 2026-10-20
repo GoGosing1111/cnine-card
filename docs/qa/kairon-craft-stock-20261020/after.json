@@ -1,0 +1,36 @@
+{
+  "checkedAt": "2026-10-20T11:43:00.290Z",
+  "readOnly": true,
+  "liveLimit": 8,
+  "crafted": 3,
+  "liveRemaining": 5,
+  "failed": 65,
+  "policy": {
+    "revision": 3,
+    "coinCost": 1000000000000,
+    "masterStarCost": 1000000,
+    "successRate": 2,
+    "materials": [
+      {
+        "itemCode": "MERCENARY_SSS_CARD_SHARD",
+        "quantity": 5
+      }
+    ],
+    "isActive": true,
+    "isPublic": true
+  },
+  "policyHash": "1aff0fe5d6fea093a77c3090fc2a94762005bd80730d0d76675b7ffe87213aed",
+  "computedRecipe": {
+    "stock": {
+      "limit": 8,
+      "crafted": 3,
+      "remaining": 5,
+      "soldOut": false
+    },
+    "isActive": 1,
+    "locked": false,
+    "lockReason": ""
+  },
+  "liveModuleHash": "4f1cfd69abb13a4582ea09e0d929b29a5afd271c74f17f8248657be12737e3b4",
+  "cacheControl": "public, max-age=0, must-revalidate"
+}
