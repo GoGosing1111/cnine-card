@@ -1,0 +1,310 @@
+{
+  "inspectedAt": "2026-10-20T04:38:02.481Z",
+  "round": {
+    "id": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "scope": "LIVE",
+    "phase": "ASSIGNED"
+  },
+  "revision": 1714,
+  "elderIds": [
+    5426,
+    4754,
+    4582
+  ],
+  "commanderId": 5426,
+  "members": [
+    {
+      "user_id": "5426",
+      "organization_id": 1,
+      "slot": 1,
+      "seed_power": "6638",
+      "nickname": "나무늘봉순",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "4754",
+      "organization_id": 1,
+      "slot": 2,
+      "seed_power": "2417",
+      "nickname": "조은",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "4582",
+      "organization_id": 1,
+      "slot": 3,
+      "seed_power": "2363",
+      "nickname": "족단",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "4391",
+      "organization_id": 1,
+      "slot": 4,
+      "seed_power": "2328",
+      "nickname": "더듬이구",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "2333",
+      "organization_id": 1,
+      "slot": 5,
+      "seed_power": "2255",
+      "nickname": "구와함",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "4572",
+      "organization_id": 1,
+      "slot": 6,
+      "seed_power": "2255",
+      "nickname": "응맨",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "525",
+      "organization_id": 1,
+      "slot": 7,
+      "seed_power": "2231",
+      "nickname": "족구조아",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "1255",
+      "organization_id": 1,
+      "slot": 8,
+      "seed_power": "2208",
+      "nickname": "전게씹선미아웃",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "4408",
+      "organization_id": 1,
+      "slot": 9,
+      "seed_power": "2206",
+      "nickname": "레가파",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "4479",
+      "organization_id": 1,
+      "slot": 10,
+      "seed_power": "2194",
+      "nickname": "대지",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "4504",
+      "organization_id": 1,
+      "slot": 11,
+      "seed_power": "2185",
+      "nickname": "깜찍소녀",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "218",
+      "organization_id": 1,
+      "slot": 12,
+      "seed_power": "2182",
+      "nickname": "현하루",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "4084",
+      "organization_id": 1,
+      "slot": 13,
+      "seed_power": "2169",
+      "nickname": "게임닉네임",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "5008",
+      "organization_id": 1,
+      "slot": 14,
+      "seed_power": "2162",
+      "nickname": "나무",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "4209",
+      "organization_id": 1,
+      "slot": 15,
+      "seed_power": "2157",
+      "nickname": "#유나랜드",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "3867",
+      "organization_id": 1,
+      "slot": 16,
+      "seed_power": "2142",
+      "nickname": "레드클라우드",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "76",
+      "organization_id": 1,
+      "slot": 17,
+      "seed_power": "2126",
+      "nickname": "랄네미탱탱",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "197",
+      "organization_id": 1,
+      "slot": 18,
+      "seed_power": "2046",
+      "nickname": "무버지",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "29",
+      "organization_id": 1,
+      "slot": 19,
+      "seed_power": "1947",
+      "nickname": "엑셀괴물",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "5773",
+      "organization_id": 1,
+      "slot": 20,
+      "seed_power": "1912",
+      "nickname": "빛빛",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "162",
+      "organization_id": 1,
+      "slot": 21,
+      "seed_power": "1565",
+      "nickname": "차단하다",
+      "status": "ACTIVE",
+      "role": "USER"
+    },
+    {
+      "user_id": "5972",
+      "organization_id": 1,
+      "slot": 22,
+      "seed_power": "748",
+      "nickname": "아까르씨",
+      "status": "ACTIVE",
+      "role": "USER"
+    }
+  ],
+  "rosterHash": "9e2ecb99407badd53bc81e445d24d07745be424ec208467f3474f29e0e00b702",
+  "landAccounts": [
+    {
+      "slot": "강구열",
+      "user_id": "4718",
+      "nickname": "강구열"
+    },
+    {
+      "slot": "김아윤",
+      "user_id": "5209",
+      "nickname": "김아윤"
+    },
+    {
+      "slot": "나무늘봉순",
+      "user_id": "5426",
+      "nickname": "나무늘봉순"
+    },
+    {
+      "slot": "남수댕ㅗ",
+      "user_id": "5950",
+      "nickname": "남수댕ㅗ"
+    },
+    {
+      "slot": "오리꿍",
+      "user_id": "4913",
+      "nickname": "오리꿍"
+    },
+    {
+      "slot": "조은",
+      "user_id": "4754",
+      "nickname": "조은"
+    },
+    {
+      "slot": "주성",
+      "user_id": "5393",
+      "nickname": "주성"
+    },
+    {
+      "slot": "진짜디임",
+      "user_id": "4773",
+      "nickname": "진짜디임"
+    },
+    {
+      "slot": "하이희야♡",
+      "user_id": "4977",
+      "nickname": "하이희야♡"
+    }
+  ],
+  "loungeProfiles": [
+    {
+      "name": "디임",
+      "id": "qpqpro"
+    },
+    {
+      "name": "조은",
+      "id": "zalalz"
+    },
+    {
+      "name": "하이희야",
+      "id": "jkmjkm1236"
+    },
+    {
+      "name": "강구열",
+      "id": "kuyol"
+    },
+    {
+      "name": "오리꿍",
+      "id": "imducko3o"
+    },
+    {
+      "name": "주성",
+      "id": "ddaggida3"
+    },
+    {
+      "name": "나무늘봉순",
+      "id": "yjk011599"
+    },
+    {
+      "name": "아윤♡",
+      "id": "ayoona"
+    },
+    {
+      "name": "남수댕",
+      "id": "mew030709"
+    }
+  ],
+  "userFlagColumns": [
+    {
+      "column_name": "role"
+    }
+  ],
+  "policy": {
+    "revision": 5,
+    "policy_json": "{\"revision\":5,\"mode\":\"ON\",\"fundsPerRegion\":1000000,\"upgradeCosts\":[0,10000000,10000000,100000000,700000000]}"
+  }
+}
