@@ -103,7 +103,7 @@ test('server reward metadata keeps the real inbox claim controls visible without
  const message=server.present(raw);assert.equal(message.reward_supported,true);assert.equal(message.reward_label,'피그코인');
  for(const invalid of [{reward_type:'UNKNOWN',reward_amount:50},{reward_type:'PIG_COIN',reward_amount:0},{reward_type:'PIG_COIN',reward_amount:1.5}])assert.equal(server.present(invalid).reward_supported,false);
  const box={innerHTML:'',isConnected:true,querySelectorAll:()=>[],querySelector:()=>null,ownerDocument:{defaultView:{performance,addEventListener(){}},addEventListener(){}}},all={};
- const context=vm.createContext({supportExpiry,document:{getElementById:id=>id==='messageList'?box:all},apiRequest:async()=>({messages:[message],unread:1}),updateMessageNewBadges:()=>{},escapeHtml:s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')});
+ const context=vm.createContext({supportExpiry,document:{getElementById:id=>id==='messageList'?box:id==='claimAllMessages'?all:null},apiRequest:async()=>({messages:[message],unread:1}),updateMessageNewBadges:()=>{},escapeHtml:s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')});
  const start=app.indexOf('const MESSAGE_REWARD_META='),end=app.indexOf('// V1799: 2차 인증',start);
  // VM resolves the browser module URL to the same real module imported above.
  const source=app.slice(start,end).replace(/await import\('\/js\/supporter-message-expiry-v1\.mjs\?v=[^']+'\)/,'supportExpiry');

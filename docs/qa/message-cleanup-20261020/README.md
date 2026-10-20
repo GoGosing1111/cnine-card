@@ -17,3 +17,5 @@
 운영 배포 전 확인한 직전 Pages 소스는 `f33ada9e8c68d6164bc63d6119db16878e478e18` (`bdfb0d03`)이다. 최종 배포 직전에 최신 운영 소스와 원격 변경을 다시 확인하고 scoped 배포 결과를 별도 기록한다.
 
 최종 scoped 기준은 직전 운영 소스 `a8870d47ee458a3400fb7fce4df8ec82e3ad197d` (Pages `a7681bf6`)로 갱신했다. 그 이후 실행 코드 변경은 메시지 UI·정리 API뿐이다. 기존 공개 자산 한도 내 예상 19,999개이며 범위 검사는 `message-cleanup-20261020`, `message-reward-client-parity-v1929`, `message-gift-rewards-v2044`, `pig-coin-message-reward`, `supporter-application-20261011`, `support-package-prediction-20261020` 및 `check:worker`다.
+
+첫 scoped 검사 73개 중 72개 통과. 남은 1개는 기존 수령 UI 검사에서 모든 버튼 ID를 동일한 빈 객체로 반환하던 테스트 DOM이 새 버튼의 dataset 접근을 지원하지 못한 문제였다. 실제 화면/서버 검사는 통과했으며 해당 가짜 DOM을 실제 ID에 맞게 보완했다. 런타임 코드는 그대로이므로 완료한 72개 검사는 반복하지 않고 실패한 `pig-coin-message-reward.test.mjs`와 필수 Worker 컴파일부터 재개한다. 최초 결과는 `initial-checks.log`에 보존한다.

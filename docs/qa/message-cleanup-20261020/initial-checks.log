@@ -1,0 +1,107 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"a8870d47ee458a3400fb7fce4df8ec82e3ad197d","reason":"Inbox completed-message cleanup only: protect pending rewards and receipts, preserve read notices and bank expiry behavior, verify desktop/mobile and compile the worker.","changed":["AGENTS.md","assets/ui/message-center/completed-cleanup-20261020.webp","css/soopketmon-v21-messages-attendance.css","docs/qa/axe-elders-20261020/README.md","docs/qa/axe-elders-20261020/apply.json","docs/qa/axe-elders-20261020/dry-run.json","docs/qa/axe-elders-20261020/inspection.json","docs/qa/axe-elders-20261020/verification.json","docs/qa/message-cleanup-20261020/README.md","docs/qa/message-cleanup-20261020/art-manifest.json","docs/qa/message-cleanup-20261020/browser.json","docs/qa/message-cleanup-20261020/cleaned-1440.png","docs/qa/message-cleanup-20261020/cleaned-390.png","docs/qa/message-cleanup-20261020/cleanup-button-source.png","docs/qa/message-cleanup-20261020/inbox-1440.png","docs/qa/message-cleanup-20261020/inbox-390.png","docs/qa/message-cleanup-20261020/prompt.txt","docs/qa/support-package-cms-recovery-20261020/live.json","docs/qa/support-package-cms-recovery-20261020/scoped-deploy.log","docs/support-package-cms-recovery-20261020.md","functions/_message_cleanup.js","functions/api/[[path]].js","index.html","js/app.js","js/soopketmon-v21-rewards-presentation.js","scripts/ops/axe-elders-20261020.mjs","service-worker.js","tests/helpers/supporter-application-fixture.mjs","tests/message-cleanup-20261020.browser.mjs","tests/message-cleanup-20261020.test.mjs","tests/message-gift-rewards-v2044.test.mjs","tests/message-reward-client-parity-v1929.test.mjs","tests/pig-coin-message-reward.test.mjs"],"tests":["tests/message-cleanup-20261020.test.mjs","tests/message-reward-client-parity-v1929.test.mjs","tests/message-gift-rewards-v2044.test.mjs","tests/pig-coin-message-reward.test.mjs","tests/supporter-application-20261011.test.mjs","tests/support-package-prediction-20261020.test.mjs"],"checks":["check:worker"]}
+✔ SQLite: authenticated cleanup archives only owned read notices and receipted rewards (31.7288ms)
+✔ SQLite: reads enable cleanup; pagination and repeated requests cannot leave eligible mail or remove pending rewards (13.3837ms)
+✔ SQLite: failed archive rolls back every affected message and a retry succeeds (7.3165ms)
+✔ PostgreSQL: authenticated cleanup archives only owned read notices and receipted rewards (2666.8751ms)
+✔ PostgreSQL: reads enable cleanup; pagination and repeated requests cannot leave eligible mail or remove pending rewards (1773.2302ms)
+✔ PostgreSQL: failed archive rolls back every affected message and a retry succeeds (1640.6278ms)
+✔ 1500억 COIN: claim and concurrent retry credit the full amount exactly once (6.0337ms)
+✔ 1500억 COIN: failed wallet write rolls back the claim and can retry (2.8465ms)
+✔ 대회 성황리 기념: 150만 MASTER_STAR claim and concurrent retries credit the full amount once (3.9904ms)
+✔ 대회 성황리 기념: two-message bulk claim recovers failed stars without paying 1500억 COIN twice (3.6548ms)
+✔ UNIQUE_ADVANCEMENT_PASS: supported inventory reward credits exactly once and never spends it (2.3896ms)
+✔ UNIQUE_ADVANCEMENT_PASS: failed write rolls back reward, receipt, and message then can retry (1.9864ms)
+✔ UNIQUE_ADVANCEMENT_PASS: concurrent retries only grant one reward (1.9239ms)
+✔ STARLIGHT_ARMOR_CORE: supported inventory reward credits exactly once and never spends it (1.484ms)
+✔ STARLIGHT_ARMOR_CORE: failed write rolls back reward, receipt, and message then can retry (3.2455ms)
+✔ STARLIGHT_ARMOR_CORE: concurrent retries only grant one reward (2.0472ms)
+✔ WORM_CONTEST_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.6297ms)
+✔ WORM_CONTEST_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (2.064ms)
+✔ WORM_CONTEST_GIFT_BOX: concurrent retries only grant one reward (1.9536ms)
+✔ MERCENARY_SSS_CARD_SHARD: supported inventory reward credits exactly once and never spends it (1.6481ms)
+✔ MERCENARY_SSS_CARD_SHARD: failed write rolls back reward, receipt, and message then can retry (2.1271ms)
+✔ MERCENARY_SSS_CARD_SHARD: concurrent retries only grant one reward (2.1684ms)
+✔ EMPEROR_ENERGY: supported inventory reward credits exactly once and never spends it (1.6782ms)
+✔ EMPEROR_ENERGY: failed write rolls back reward, receipt, and message then can retry (1.489ms)
+✔ EMPEROR_ENERGY: concurrent retries only grant one reward (2.6331ms)
+✔ TOURNAMENT_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.3112ms)
+✔ TOURNAMENT_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (1.6521ms)
+✔ TOURNAMENT_GIFT_BOX: concurrent retries only grant one reward (1.4767ms)
+✔ FUNDING_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.3812ms)
+✔ FUNDING_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (1.4261ms)
+✔ FUNDING_GIFT_BOX: concurrent retries only grant one reward (1.7133ms)
+✔ RECRUITMENT_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.5628ms)
+✔ RECRUITMENT_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (1.4296ms)
+✔ RECRUITMENT_GIFT_BOX: concurrent retries only grant one reward (1.7803ms)
+✔ PINGDU_THANKS_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.4736ms)
+✔ PINGDU_THANKS_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (1.8198ms)
+✔ PINGDU_THANKS_GIFT_BOX: concurrent retries only grant one reward (1.9121ms)
+✔ separate gift messages both enter serialized bulk claim with correct labels and cache refresh (17.3488ms)
+✔ batch retains atomic receipts, isolates another account and resumes failed items (3.1084ms)
+✔ 오리꿍 사은품: 5000억 coin, 500만 stars and 5 emperor energy resume a failed energy claim without duplicates (3.444ms)
+✔ gift rewards are allowed by verified sending route and use a fresh paired client cache (1.2653ms)
+✔ every server-supported message reward renders a client claim control (103.2679ms)
+✔ message center offers a serialized one-click bulk reward claim (3.8446ms)
+✔ mobile reward presentation keeps the generated claim control full width (1.2301ms)
+✔ message presentation cache version matches the inbox cleanup release (1.1923ms)
+✔ SQLite: real message claim credits only Pig Coin and an owned receipt exactly once (6.3633ms)
+✔ SQLite: ledger, wallet or message failures roll back fully and permit retry (2.7684ms)
+✔ SQLite: concurrent duplicate and different message claims keep exact wallet deltas (2.8204ms)
+✔ SQLite: mixed bulk rewards support Pig Coin and keep ordinary coin accounting (2.6429ms)
+✔ SQLite: uncertain commit can be retried and wallet overflow never consumes message (2.2023ms)
+✔ PostgreSQL: real message claim credits only Pig Coin and an owned receipt exactly once (2632.7459ms)
+✔ PostgreSQL: ledger, wallet or message failures roll back fully and permit retry (1645.3461ms)
+✔ PostgreSQL: concurrent duplicate and different message claims keep exact wallet deltas (1633.0129ms)
+✔ PostgreSQL: mixed bulk rewards support Pig Coin and keep ordinary coin accounting (1464.3532ms)
+✔ PostgreSQL: uncertain commit can be retried and wallet overflow never consumes message (1375.8108ms)
+✔ Pig Coin appears in claim-all and invalidates the real loot-shop balances (14.5803ms)
+✖ server reward metadata keeps the real inbox claim controls visible without a local reward type (3.5821ms)
+✔ package principal cannot be bet, even by OWNER; valid bets and refunds preserve origin (SQLite) (146.7403ms)
+✔ package principal cannot be bet, even by OWNER; valid bets and refunds preserve origin (PostgreSQL) (2974.922ms)
+✔ ordinary spending, earned coins, repeated packages and auction refunds retain the correct balance (1837.2246ms)
+✔ stale balance and ledger snapshots fail atomically; retry never double debits (1695.7105ms)
+✔ legacy 50-trillion grants are protected; missing debit log cannot release restricted funds (1426.8457ms)
+✔ the announcement is atomic, deletes only on its recipient read and never resends after deletion (1448.0459ms)
+✔ SQLite: OFF default, owner CMS switch, origin/eligibility and idempotent configuration (60.1739ms)
+✔ SQLite: personal account message, retry, three daily issues and KST midnight (40.9912ms)
+✔ SQLite: insert/receipt failure rolls back count and message, including silent insert loss (11.5325ms)
+✔ SQLite: racing issue retries preserve quota; same request creates one message (16.0631ms)
+✔ SQLite: five-minute boundary, unread counts, offline deletion and scheduler deadlines (17.1293ms)
+✔ PostgreSQL: OFF default, owner CMS switch, origin/eligibility and idempotent configuration (2765.694ms)
+✔ PostgreSQL: personal account message, retry, three daily issues and KST midnight (1881.7997ms)
+✔ PostgreSQL: insert/receipt failure rolls back count and message, including silent insert loss (1667.7313ms)
+✔ PostgreSQL: racing issue retries preserve quota; same request creates one message (1502.377ms)
+✔ PostgreSQL: five-minute boundary, unread counts, offline deletion and scheduler deadlines (1497.7009ms)
+ℹ tests 73
+ℹ suites 0
+ℹ pass 72
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10459.3277
+
+✖ failing tests:
+
+test at tests\pig-coin-message-reward.test.mjs:100:1
+✖ server reward metadata keeps the real inbox claim controls visible without a local reward type (3.5821ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + undefined
+  - false
+
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/world-novel-refinement/cnine-card/tests/pig-coin-message-reward.test.mjs:111:30)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
