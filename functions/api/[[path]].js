@@ -32,6 +32,7 @@ import {handleRankedDuo} from '../_ranked_duo.js';
 import {reconcileDuoSeason,readDuoHonors} from '../_ranked_duo_seasons.js';
 import {duoMagicLoadouts} from '../_magic.js';
 import {accountRankAward,accountRankBenefits,rankCards,rankCoin,readAccountRank,ensureShiranuiRankReward,handleAccountRank,settleRankedHunt} from '../_account_rank.js';
+import {prepareWorldRaidClearStatements} from '../_world_raid_trophy.js';
 import {handleLootShop} from '../_loot_shop.js';
 import {handleLegionHunt} from '../_legion_hunt.js';
 import {claimPigCoinMessageReward} from '../_pig_coin_message_reward.js';
@@ -1429,7 +1430,8 @@ async function refreshRaidForOwner(env,instance,cfg){
       const finishedAt=new Date(startMs+snapshot.elapsedMs).toISOString();
       const rankWrites=[];
       for(const participant of rows)if(Number(participant.totalPower)>0)rankWrites.push(...await accountRankAward(env,Number(participant.userId),'RAID',String(instance.id),{guard:"EXISTS(SELECT 1 FROM raid_instances WHERE id=? AND status='BATTLE')",values:[instance.id]}));
-      const endedBatch=await env.DB.batch([...rankWrites,env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(finishedAt,snapshot.bossHp,instance.id)]);
+      const trophyWrites=await prepareWorldRaidClearStatements(env,{instanceId:instance.id,settings:cfg,snapshot,finishedAt});
+      const endedBatch=await env.DB.batch([...rankWrites,...trophyWrites,env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(finishedAt,snapshot.bossHp,instance.id)]);
       const ended=endedBatch[endedBatch.length-1];
       if(Number(ended?.meta?.changes||0)===1)await finalizeRaidV1293(env,instance.id,snapshot);
       instance.status='ENDED';instance.ends_at=finishedAt;instance.current_hp=snapshot.bossHp;
@@ -6155,7 +6157,9 @@ async function handleRequest(context){
       const allDefeated=combat.allDefeated,cleared=combat.cleared;
       if(current.status==='BATTLE'&&(allDefeated||cleared||now>=endMs)){
         const finishedAt=new Date(startMs+combat.elapsedMs).toISOString();
-        const ended=await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(finishedAt,hp,current.id).run();
+        const trophyWrites=await prepareWorldRaidClearStatements(env,{instanceId:current.id,settings:instanceCfg,snapshot:combat,finishedAt});
+        const endedBatch=await env.DB.batch([...trophyWrites,env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(finishedAt,hp,current.id)]);
+        const ended=endedBatch[endedBatch.length-1];
         if(Number(ended?.meta?.changes||0)===1)await finalizeRaidV1293(env,current.id,combat);
         current.status='ENDED';current.ends_at=finishedAt;current.current_hp=hp;
       }

@@ -51,14 +51,16 @@ const zeroRuntimeFiles=new Set(['index.html','battle.html','preview.css','previe
 const zeroAuthoringOnly=file=>file.startsWith(zeroRoot)&&!file.startsWith(zeroRoot+'source/')&&!zeroRuntimeFiles.has(file);
 // Rank potions load only three WebPs. Keep exact PNG originals, prompts and
 // provenance/implementation notes in Git without spending Pages asset slots.
-const rankPotionAuthoringOnly=file=>file==='docs/rank-exp-potions-20261020.md'||/^assets\/items\/rank-exp-potions-20261020\/(?:.*-source\.png|prompts\.json|manifest\.json)$/.test(file);
+const rankPotionAuthoringOnly=file=>['docs/rank-exp-potions-20261020.md','docs/rank-exp-potion-distribution-20261020.md'].includes(file)||/^assets\/items\/rank-exp-potions-20261020\/(?:.*-source\.png|prompts\.json|manifest\.json)$/.test(file);
 // Concurrent releases added these audit receipts after their runtime deploys.
 // They have no browser/preview imports; preserve them in Git with the QA records.
 // Land's scheduler ships in its Worker bundle, not as a Pages browser asset.
 const operationAuditOnly=new Set(['docs/support-package-prediction-20261020.md','docs/support-package-20261020.md','docs/cooperative-energy-entry-20261020-release.json','docs/support-package-20261020-catalog.json','docs/support-package-20261020-release.json','docs/pingdu-owner-energy-pass-20261020.md','docs/pingdu-owner-energy-pass-20261020-release.json','workers/clan-draft/src/land-daily.js']);
 // Helpers are Node-only database/simulation fixtures. Browser previews consume
 // their generated JSON payloads, never the test helper modules themselves.
-export const isProductionFile=file=>!file.startsWith('tests/helpers/')&&!zeroAuthoringOnly(file)&&!rankPotionAuthoringOnly(file)&&!operationAuditOnly.has(file)&&!nodeBuildCommand(file)&&!bathoryAuthoringOnly(file)&&!rankedAuthoringOnly(file)&&!equipmentSetAuthoringOnly(file)&&!leonelAuthoringOnly(file)&&! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&! /^scripts\/qa-[^/]+\.[cm]?js$/.test(file)&&!file.startsWith('scripts/ops/')&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/')&&!file.startsWith('preview/mercenary-jokro-iaido-20261017-v1/assets/frames/')&&!martialAuthoringOnly.has(file)&&!isolatedQaFixtures.has(file);
+// Dragon Slayer uses the 512px WebP. Keep the exact PNG and prompt/hash record in Git.
+const dragonSlayerAuthoringOnly=file=>/^assets\/ui\/player-card\/dragon-slayer-20261020\/(?:dragon-slayer-v1\.png|prompts\.json|manifest\.json)$/.test(file);
+export const isProductionFile=file=>!dragonSlayerAuthoringOnly(file)&&!file.startsWith('tests/helpers/')&&!zeroAuthoringOnly(file)&&!rankPotionAuthoringOnly(file)&&!operationAuditOnly.has(file)&&!nodeBuildCommand(file)&&!bathoryAuthoringOnly(file)&&!rankedAuthoringOnly(file)&&!equipmentSetAuthoringOnly(file)&&!leonelAuthoringOnly(file)&&! /^(?:tests|preview)\/.*(?:\.test\.[cm]?js|\.browser\.mjs)$/.test(file)&&! /^scripts\/qa-[^/]+\.[cm]?js$/.test(file)&&!file.startsWith('scripts/ops/')&&!file.startsWith('packaging/windows-client/')&&!file.startsWith('docs/qa/')&&!file.startsWith('preview/mercenary-jokro-iaido-20261017-v1/assets/frames/')&&!martialAuthoringOnly.has(file)&&!isolatedQaFixtures.has(file);
 export async function prepareProductionAssets({root=process.cwd(),files,tempRoot=tmpdir(),dependencies}={}){
  files||=execFileSync('git',['ls-files','-z'],{cwd:root,maxBuffer:40e6}).toString().split('\0').filter(Boolean);
  const selected=files.filter(isProductionFile),assetCount=selected.filter(f=>!f.startsWith('functions/')&&!['_headers','_redirects','_routes.json','_worker.js'].includes(f)).length+1;

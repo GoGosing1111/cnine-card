@@ -17,10 +17,10 @@ try{
   try{
    await page.goto(origin+'/preview/player-calling-card-v2052/index.html');await page.locator('.pc-card').waitFor();await page.evaluate(()=>document.fonts.ready);
    const count=page.locator('[data-pc-shelf-count]'),next=page.locator('[data-pc-page=next]'),prev=page.locator('[data-pc-page=prev]');
-   assert.equal(await count.textContent(),'1 / 2');assert.equal(await prev.isDisabled(),true);
+   assert.equal(await count.textContent(),'1 / 3');assert.equal(await prev.isDisabled(),true);
    assert.equal(await page.locator('[data-pc-shelf]:not([hidden]) [data-pc-trophy]').count(),4);
    await page.screenshot({path:path.join(out,width+'-page1.png')});
-   await next.click();assert.equal(await count.textContent(),'2 / 2');assert.equal(await next.isDisabled(),true);
+   await next.click();assert.equal(await count.textContent(),'2 / 3');assert.equal(await next.isDisabled(),false);
    const shelf=page.locator('[data-pc-shelf]:not([hidden])');assert.equal(await shelf.locator('[data-pc-trophy]').count(),4);
    assert.equal(await shelf.locator('img').evaluateAll(imgs=>imgs.every(i=>i.complete&&i.naturalWidth===512)),true);
    const outlaw=shelf.locator('[data-pc-trophy="6"]'),sword=shelf.locator('[data-pc-trophy="7"]');
@@ -31,15 +31,15 @@ try{
    const fits=await shelf.evaluate(el=>{const d=document.querySelector('#player-card-dialog'),r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth+1&&d.scrollWidth<=d.clientWidth+1;});assert.equal(fits,true);
    checks.push(width+': four trophies per page; both new illustrations, progress, acquired date and correct detail; no horizontal clipping');
    await page.locator('[data-pc-tab=history]').click();assert.equal(await page.locator('#pc-history-panel').isVisible(),true);
-   await page.locator('[data-pc-tab=honors]').click();assert.equal(await count.textContent(),'2 / 2');
-   await prev.focus();await page.keyboard.press('Enter');assert.equal(await count.textContent(),'1 / 2');assert.equal(await prev.isDisabled(),true);
+   await page.locator('[data-pc-tab=honors]').click();assert.equal(await count.textContent(),'2 / 3');
+   await prev.focus();await page.keyboard.press('Enter');assert.equal(await count.textContent(),'1 / 3');assert.equal(await prev.isDisabled(),true);
    assert.match(await page.locator('#pc-trophy-detail').textContent(),/기록으로 증명/);
    checks.push(width+': keyboard previous navigation, disabled end buttons and season tab preserve valid page/selection state');
-   await page.locator('[data-pc-close]').click();await page.locator('#newcomer').click();assert.equal(await count.textContent(),'1 / 2');await next.click();
+   await page.locator('[data-pc-close]').click();await page.locator('#newcomer').click();assert.equal(await count.textContent(),'1 / 3');await next.click();
    assert.equal(await shelf.locator('.is-locked').count(),4);assert.match(await shelf.locator('[data-pc-trophy="6"]').textContent(),/누적 0 \/ 25회/);
    await shelf.locator('[data-pc-trophy="7"]').click();assert.match(await page.locator('#pc-trophy-detail').textContent(),/미획득[\s\S]*누적 0 \/ 1,000회/);
    await shelf.scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,width+'-locked.png')});
-   await page.keyboard.press('Escape');assert.equal(await page.locator('#player-card-dialog').isVisible(),false);await page.locator('#veteran').click();assert.equal(await count.textContent(),'1 / 2');
+   await page.keyboard.press('Escape');assert.equal(await page.locator('#player-card-dialog').isVisible(),false);await page.locator('#veteran').click();assert.equal(await count.textContent(),'1 / 3');
    checks.push(width+': locked achievements show real zero progress; close, account change and reopen reset to the first page');
   }catch(e){await page.screenshot({path:path.join(out,width+'-failure.png'),fullPage:true});throw e;}finally{await page.close();}
  }

@@ -79,7 +79,8 @@ test('explicit trophy grant appears in the card and bonuses without changing rec
   await f.pg.query('INSERT INTO app_meta VALUES($1,$2)',[TROPHY_BONUSES_KEY,JSON.stringify({revision:1,audit:[],document:bonus})]);
   const result=await grantPinkAllTrophies(f.opsDb);assert.equal(result.added.length,8);
   const card=await f.call('userId=1'),honors=await readTrophyHonors({DB:f.db},1),effects=await readCollectionBonuses({DB:f.db},1);
-  assert.equal(card.status,200);assert.ok(card.body.trophies.every(t=>t.owned&&t.count===1&&t.adminGranted&&t.officialCount===0));
+  assert.equal(card.status,200);assert.ok(card.body.trophies.filter(t=>t.code!=='WORLD_RAID_CLEAR_5000').every(t=>t.owned&&t.count===1&&t.adminGranted&&t.officialCount===0));
+  assert.equal(trophy(card,'WORLD_RAID_CLEAR_5000').owned,false,'Historical eight-trophy authorization never grants future additions');
   assert.deepEqual(card.body.ranked,before.body.ranked);assert.deepEqual(card.body.clanHistory,before.body.clanHistory);
   assert.deepEqual(card.body.trophyBonuses,{coinPercent:8,accountXpPercent:16,dropPercent:24});assert.deepEqual(effects.totals,card.body.trophyBonuses);
   for(const t of card.body.trophies){assert.equal(t.count,honors[t.code].count);assert.equal(t.progress,before.body.trophies.find(b=>b.code===t.code).progress);}
@@ -126,6 +127,22 @@ test('city and Lich milestones share permanent counts, earned date and collectio
   await f.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({count:1001,acquiredAt:at}),'trophy_lich_clear_v1:2']);
   const after=await f.call(),honors=await readTrophyHonors({DB:f.db},2);assert.equal(trophy(after,'LICH_KING_CLEAR_1000').count,1);assert.equal(honors.LICH_KING_CLEAR_1000.progress,1001);assert.equal(honors.CITY_TOP_25.count,1);assert.equal(trophy(await f.call('userId=3'),'CITY_TOP_25').owned,false);
   assert.ok(f.sql.every(s=>/^\s*(SELECT|WITH)\b/i.test(s)));
+ }finally{await f.close();}
+});
+
+test('Dragon Slayer appears at 5000 clears with the same progress in public card and collection honors, without read-time writes',async()=>{
+ const f=await fixture();try{
+  const key='trophy_world_raid_clear_v1:2',at='2026-10-20T05:00:00.000Z';
+  await f.pg.query('INSERT INTO app_meta VALUES($1,$2)',[key,JSON.stringify({count:4999,acquiredAt:null})]);
+  const before=await f.call();assert.equal(trophy(before,'WORLD_RAID_CLEAR_5000').owned,false);assert.equal(trophy(before,'WORLD_RAID_CLEAR_5000').progress,4999);
+  await f.pg.query('UPDATE app_meta SET value=$1 WHERE key=$2',[JSON.stringify({count:5000,acquiredAt:at}),key]);
+  f.sql.length=0;const after=await f.call(),honors=await readTrophyHonors({DB:f.db},2),earned=trophy(after,'WORLD_RAID_CLEAR_5000');
+  assert.equal(after.status,200);assert.equal(earned.owned,true);assert.equal(earned.progress,5000);assert.equal(earned.goal,5000);assert.equal(earned.acquiredAt,at);
+  assert.equal(honors.WORLD_RAID_CLEAR_5000.count,1);assert.equal(trophy(await f.call('userId=3'),'WORLD_RAID_CLEAR_5000').count,0);
+  assert.equal(f.sql.some(sql=>/^\s*(?:INSERT|UPDATE|DELETE)/i.test(sql)),false);
+  const window={location:{origin:'https://game.test'}};vm.runInNewContext(read('js/player-card-v2052.js'),{window,URL,Intl,AbortController});
+  assert.match(window.PlayerCallingCard.render(after.body),/누적 <b>5,000<\/b> \/ 5,000회/);
+  assert.match(window.PlayerCallingCard.detail(earned),/드래곤 슬레이어[\s\S]*월드레이드[\s\S]*5,000/);
  }finally{await f.close();}
 });
 

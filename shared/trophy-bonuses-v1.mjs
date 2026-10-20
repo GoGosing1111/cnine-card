@@ -2,13 +2,20 @@ import {TROPHY_CATALOG} from '../js/player-card-model-v2052.js';
 import {ZERO_REWARD_BONUSES,validateRewardBonuses,hasRewardBonuses,rewardBonusDescription,sumRewardBonuses} from './collection-bonuses-v1.mjs';
 export const TROPHY_BONUSES_KEY='trophy_reward_bonuses_v1';
 export function emptyTrophyBonuses(){return {version:1,trophies:TROPHY_CATALOG.map(t=>({code:t.code,rewardBonuses:{...ZERO_REWARD_BONUSES}}))};}
-export function validateTrophyBonuses(raw){
-  if(!raw||Object.keys(raw).sort().join(',')!=='trophies,version'||raw.version!==1||!Array.isArray(raw.trophies)||raw.trophies.length!==TROPHY_CATALOG.length)throw Error('전체 트로피의 보너스 설정을 확인해 주세요.');
+export function validateTrophyBonuses(raw,{allowLegacy=false}={}){
+  if(!raw||Object.keys(raw).sort().join(',')!=='trophies,version'||raw.version!==1||!Array.isArray(raw.trophies))throw Error('전체 트로피의 보너스 설정을 확인해 주세요.');
   const codes=new Set();
   const trophies=raw.trophies.map(row=>{
     if(!row||Object.keys(row).sort().join(',')!=='code,rewardBonuses'||!TROPHY_CATALOG.some(t=>t.code===row.code)||codes.has(row.code))throw Error('알 수 없거나 중복된 트로피입니다.');
     codes.add(row.code);return {code:row.code,rewardBonuses:validateRewardBonuses(row.rewardBonuses)};
   });
+  const missing=TROPHY_CATALOG.filter(t=>!codes.has(t.code));
+  // Reads of the existing eight-trophy CMS document preserve every saved rate.
+  // Saving still requires the full catalog; no new economic reward is implied.
+  if(missing.length){
+    if(!allowLegacy||missing.length!==1||missing[0].code!=='WORLD_RAID_CLEAR_5000')throw Error('전체 트로피의 보너스 설정을 확인해 주세요.');
+    trophies.push({code:missing[0].code,rewardBonuses:{...ZERO_REWARD_BONUSES}});
+  }
   return {version:1,trophies};
 }
 export function trophyBonusProjection(document,honors){

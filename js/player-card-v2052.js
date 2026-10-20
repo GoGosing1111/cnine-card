@@ -43,7 +43,7 @@
       </span><span class="pc-trophy-arrow" aria-hidden="true">↗</span>
     </button>`;
   }
-  const milestone=t=>['CITY_TOP_25','LICH_KING_CLEAR_1000'].includes(t.code);
+  const milestone=t=>['CITY_TOP_25','LICH_KING_CLEAR_1000','WORLD_RAID_CLEAR_5000'].includes(t.code);
   const defaultDetail='<span class="pc-detail-icon" aria-hidden="true">✦</span><p><b>기록으로 증명하는 명예</b><span>트로피를 선택하면 획득 조건과 달성 기록을 확인할 수 있습니다.</span></p>';
   function shelves(rows){
     const pages=[];for(let i=0;i<rows.length;i+=4)pages.push(rows.slice(i,i+4));

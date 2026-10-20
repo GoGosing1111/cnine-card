@@ -12,7 +12,7 @@ export const TARGET={id:1,nickname:'핑크빛유두'};
 export const TROPHY_CODES=Object.freeze(['DUO_CHALLENGER','CLAN_CHAMPION','CHALLENGER_STREAK_3','RANKED_CHAMPION','CLAN_CHAMPIONS_TROPHY','PREDICTION_STAKE_300T','CITY_TOP_25','LICH_KING_CLEAR_1000']);
 
 export async function grantPinkAllTrophies(db,{dryRun=false}={}){
-  assert.deepEqual(TROPHY_CATALOG.map(t=>t.code),TROPHY_CODES,'Recheck authorization if the trophy catalog changes');
+  assert.ok(TROPHY_CODES.every(code=>TROPHY_CATALOG.some(t=>t.code===code)),'Every historically authorized trophy must still exist');
   await db.query('BEGIN');
   try{
     const user=(await db.query('SELECT id,nickname,role,status FROM users WHERE id=$1 FOR UPDATE',[TARGET.id])).rows[0];

@@ -1,0 +1,28 @@
+{
+  "name": "드래곤 슬레이어",
+  "code": "WORLD_RAID_CLEAR_5000",
+  "createdAt": "2026-10-20",
+  "generator": "built-in image_gen",
+  "prompt": "prompts.json",
+  "sourcePreserved": true,
+  "derivative": "Proportional 464px resize, 24px transparent safety margin, 512px WebP",
+  "visualApproval": "Pending user review; implementation verification is separate",
+  "files": [
+    {
+      "file": "dragon-slayer-v1.png",
+      "sha256": "bfa607fc59a6f7115fc3845a96ce48be7e197053cfc139574d06298c1e49a321",
+      "bytes": 1952560,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true
+    },
+    {
+      "file": "dragon-slayer-v1.webp",
+      "sha256": "347d2c443013a2c54c639cd53fdcb664300bbcafafd42f8625da5a2fb04020cb",
+      "bytes": 95678,
+      "width": 512,
+      "height": 512,
+      "hasAlpha": true
+    }
+  ]
+}

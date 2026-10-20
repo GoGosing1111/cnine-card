@@ -14,7 +14,7 @@ export async function readTrophyBonusSettings(env){
   if(!row)return {raw:null,revision:0,document:emptyTrophyBonuses(),audit:[]};
   const state=JSON.parse(row.value);
   if(!Number.isSafeInteger(state.revision)||state.revision<1||!Array.isArray(state.audit)||state.audit.length>50)throw Error('Invalid trophy bonus record');
-  return {...state,raw:row.value,document:validateTrophyBonuses(state.document)};
+  return {...state,raw:row.value,document:validateTrophyBonuses(state.document,{allowLegacy:true})};
 }
 export async function readCollectionBonuses(env,userId){
   const uid=Number(userId);
@@ -26,7 +26,7 @@ export async function readCollectionBonuses(env,userId){
     const code=map.get(petLoadoutKey(uid))?.petCode,quantity=map.get(petCollectionKey(uid))?.pets?.[code];
     const pet=COMPANION_RELEASE.pets&&Number.isSafeInteger(quantity)&&quantity>0?pets.find(p=>p.code===code&&p.liveEnabled!==false):null;
     const petBonuses=pet?.rewardBonuses||ZERO_REWARD_BONUSES;
-    const trophyDocument=map.has(TROPHY_BONUSES_KEY)?validateTrophyBonuses(map.get(TROPHY_BONUSES_KEY).document):emptyTrophyBonuses();
+    const trophyDocument=map.has(TROPHY_BONUSES_KEY)?validateTrophyBonuses(map.get(TROPHY_BONUSES_KEY).document,{allowLegacy:true}):emptyTrophyBonuses();
     // Zero defaults avoid querying season history on every reward request.
     const honors=trophyDocument.trophies.some(t=>hasRewardBonuses(t.rewardBonuses))?await readTrophyHonors(env,uid):{};
     const projection=trophyBonusProjection(trophyDocument,honors);
