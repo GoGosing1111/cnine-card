@@ -1,0 +1,392 @@
+{
+  "verified": true,
+  "checkedAt": "2026-10-20T05:51:16.580Z",
+  "items": [
+    {
+      "id": "32",
+      "code": "EQ_1787156640727",
+      "name": "미스틱 레깅스",
+      "totalPower": 65000,
+      "pvePower": 58500,
+      "pvpPower": 6500
+    },
+    {
+      "id": "33",
+      "code": "EQ_1787156667357",
+      "name": "미스틱 슈즈",
+      "totalPower": 65000,
+      "pvePower": 58500,
+      "pvpPower": 6500
+    },
+    {
+      "id": "34",
+      "code": "EQ_1787156691265",
+      "name": "미스틱 슈트",
+      "totalPower": 65000,
+      "pvePower": 58500,
+      "pvpPower": 6500
+    },
+    {
+      "id": "35",
+      "code": "EQ_1787156718021",
+      "name": "미스틱 듀얼디스크",
+      "totalPower": 65000,
+      "pvePower": 58500,
+      "pvpPower": 6500
+    },
+    {
+      "id": "40",
+      "code": "EQ_1788486888336",
+      "name": "東方軍火商(동방무기상)",
+      "totalPower": 234000,
+      "pvePower": 210600,
+      "pvpPower": 23400
+    },
+    {
+      "id": "41",
+      "code": "EQ_1788486929132",
+      "name": "東方軍火商(동방무기상)",
+      "totalPower": 234000,
+      "pvePower": 210600,
+      "pvpPower": 23400
+    },
+    {
+      "id": "43",
+      "code": "EMPEROR_TOP",
+      "name": "엠퍼러 슈트",
+      "totalPower": 130000,
+      "pvePower": 117000,
+      "pvpPower": 13000
+    },
+    {
+      "id": "44",
+      "code": "EMPEROR_BOTTOM",
+      "name": "엠퍼러 레깅스",
+      "totalPower": 130000,
+      "pvePower": 117000,
+      "pvpPower": 13000
+    },
+    {
+      "id": "45",
+      "code": "EMPEROR_SHOES",
+      "name": "엠퍼러 슈즈",
+      "totalPower": 130000,
+      "pvePower": 117000,
+      "pvpPower": 13000
+    },
+    {
+      "id": "46",
+      "code": "EMPEROR_DUAL_DISK",
+      "name": "엠퍼러 듀얼디스크",
+      "totalPower": 130000,
+      "pvePower": 117000,
+      "pvpPower": 13000
+    },
+    {
+      "id": "53",
+      "code": "EASTERN_WEAPON_DRAFT_01",
+      "name": "P90 · 東方軍火商(동방무기상)",
+      "totalPower": 455000,
+      "pvePower": 409500,
+      "pvpPower": 45500
+    },
+    {
+      "id": "54",
+      "code": "EASTERN_WEAPON_DRAFT_02",
+      "name": "SCAR-東方軍火商(동방무기상)",
+      "totalPower": 455000,
+      "pvePower": 409500,
+      "pvpPower": 45500
+    },
+    {
+      "id": "55",
+      "code": "EASTERN_WEAPON_DRAFT_03",
+      "name": "M14-EBR-東方軍火商(동방무기상)",
+      "totalPower": 455000,
+      "pvePower": 409500,
+      "pvpPower": 45500
+    },
+    {
+      "id": "117",
+      "code": "ARDEN_TOP",
+      "name": "아르덴 아머",
+      "totalPower": 390000,
+      "pvePower": 351000,
+      "pvpPower": 39000
+    },
+    {
+      "id": "118",
+      "code": "ARDEN_BOTTOM",
+      "name": "아르덴 그리브",
+      "totalPower": 390000,
+      "pvePower": 351000,
+      "pvpPower": 39000
+    },
+    {
+      "id": "119",
+      "code": "ARDEN_SHOES",
+      "name": "아르덴 부츠",
+      "totalPower": 390000,
+      "pvePower": 351000,
+      "pvpPower": 39000
+    },
+    {
+      "id": "120",
+      "code": "ARDEN_DUAL_DISK",
+      "name": "아르덴 듀얼디스크",
+      "totalPower": 390000,
+      "pvePower": 351000,
+      "pvpPower": 39000
+    }
+  ],
+  "adminLogIds": [
+    "48945",
+    "48946",
+    "48947",
+    "48948",
+    "48949",
+    "48950",
+    "48951",
+    "48952",
+    "48953",
+    "48954",
+    "48955",
+    "48956",
+    "48957",
+    "48958",
+    "48959",
+    "48960",
+    "48961"
+  ],
+  "equippedTargetInstances": 1187,
+  "runtimeSamples": [
+    {
+      "userId": 1,
+      "singleAndBulkMatch": true,
+      "items": [
+        {
+          "code": "EASTERN_WEAPON_DRAFT_03",
+          "level": 10,
+          "before": {
+            "total": 770000,
+            "pve": 693000,
+            "pvp": 77000
+          },
+          "after": {
+            "total": 1001000,
+            "pve": 900900,
+            "pvp": 100100
+          }
+        },
+        {
+          "code": "ARDEN_TOP",
+          "level": 0,
+          "before": {
+            "total": 300000,
+            "pve": 270000,
+            "pvp": 30000
+          },
+          "after": {
+            "total": 390000,
+            "pve": 351000,
+            "pvp": 39000
+          }
+        },
+        {
+          "code": "ARDEN_BOTTOM",
+          "level": 0,
+          "before": {
+            "total": 300000,
+            "pve": 270000,
+            "pvp": 30000
+          },
+          "after": {
+            "total": 390000,
+            "pve": 351000,
+            "pvp": 39000
+          }
+        },
+        {
+          "code": "ARDEN_SHOES",
+          "level": 0,
+          "before": {
+            "total": 300000,
+            "pve": 270000,
+            "pvp": 30000
+          },
+          "after": {
+            "total": 390000,
+            "pve": 351000,
+            "pvp": 39000
+          }
+        },
+        {
+          "code": "ARDEN_DUAL_DISK",
+          "level": 0,
+          "before": {
+            "total": 300000,
+            "pve": 270000,
+            "pvp": 30000
+          },
+          "after": {
+            "total": 390000,
+            "pve": 351000,
+            "pvp": 39000
+          }
+        }
+      ]
+    },
+    {
+      "userId": 2,
+      "singleAndBulkMatch": true,
+      "items": [
+        {
+          "code": "EASTERN_WEAPON_DRAFT_03",
+          "level": 10,
+          "before": {
+            "total": 770000,
+            "pve": 693000,
+            "pvp": 77000
+          },
+          "after": {
+            "total": 1001000,
+            "pve": 900900,
+            "pvp": 100100
+          }
+        },
+        {
+          "code": "ARDEN_TOP",
+          "level": 10,
+          "before": {
+            "total": 660000,
+            "pve": 594000,
+            "pvp": 66000
+          },
+          "after": {
+            "total": 858000,
+            "pve": 772200,
+            "pvp": 85800
+          }
+        },
+        {
+          "code": "ARDEN_BOTTOM",
+          "level": 10,
+          "before": {
+            "total": 660000,
+            "pve": 594000,
+            "pvp": 66000
+          },
+          "after": {
+            "total": 858000,
+            "pve": 772200,
+            "pvp": 85800
+          }
+        },
+        {
+          "code": "ARDEN_SHOES",
+          "level": 10,
+          "before": {
+            "total": 660000,
+            "pve": 594000,
+            "pvp": 66000
+          },
+          "after": {
+            "total": 858000,
+            "pve": 772200,
+            "pvp": 85800
+          }
+        },
+        {
+          "code": "ARDEN_DUAL_DISK",
+          "level": 10,
+          "before": {
+            "total": 660000,
+            "pve": 594000,
+            "pvp": 66000
+          },
+          "after": {
+            "total": 858000,
+            "pve": 772200,
+            "pvp": 85800
+          }
+        }
+      ]
+    },
+    {
+      "userId": 3,
+      "singleAndBulkMatch": true,
+      "items": [
+        {
+          "code": "EQ_1786966923833",
+          "level": 10,
+          "before": {
+            "total": 253000,
+            "pve": 227700,
+            "pvp": 25300
+          },
+          "after": {
+            "total": 253000,
+            "pve": 227700,
+            "pvp": 25300
+          }
+        },
+        {
+          "code": "EMPEROR_TOP",
+          "level": 10,
+          "before": {
+            "total": 220000,
+            "pve": 198000,
+            "pvp": 22000
+          },
+          "after": {
+            "total": 286000,
+            "pve": 257400,
+            "pvp": 28600
+          }
+        },
+        {
+          "code": "EMPEROR_BOTTOM",
+          "level": 8,
+          "before": {
+            "total": 148000,
+            "pve": 133200,
+            "pvp": 14800
+          },
+          "after": {
+            "total": 192400,
+            "pve": 173160,
+            "pvp": 19240
+          }
+        },
+        {
+          "code": "EMPEROR_SHOES",
+          "level": 10,
+          "before": {
+            "total": 220000,
+            "pve": 198000,
+            "pvp": 22000
+          },
+          "after": {
+            "total": 286000,
+            "pve": 257400,
+            "pvp": 28600
+          }
+        },
+        {
+          "code": "EMPEROR_DUAL_DISK",
+          "level": 6,
+          "before": {
+            "total": 136000,
+            "pve": 122400,
+            "pvp": 13600
+          },
+          "after": {
+            "total": 176800,
+            "pve": 159120,
+            "pvp": 17680
+          }
+        }
+      ]
+    }
+  ]
+}
