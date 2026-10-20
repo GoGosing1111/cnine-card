@@ -1,0 +1,136 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"80657de722ef2b171832215af03c297a585c0fdc","reason":"Ranked duo PVP mercenary pool filter; open-pool regression 25/25 passed, verify adjacent random matchmaking and profile cache plus Worker compilation","changed":["AGENTS.md","docs/qa/bichon-jinmu-grant-20261020/README.md","docs/qa/bichon-jinmu-grant-20261020/apply.json","docs/qa/bichon-jinmu-grant-20261020/receipt.json","docs/qa/bichon-jinmu-grant-20261020/release.json","docs/qa/bichon-jinmu-grant-20261020/scoped-deploy.log","docs/qa/bichon-jinmu-grant-20261020/verification.json","docs/qa/ranked-duo-mercenary-20261020/before.json","docs/qa/ranked-duo-mercenary-20261020/read-live.mjs","docs/ranked-duo-mercenary-20261020.md","functions/_ranked_duo.js","functions/_ranked_duo_pool.js","functions/_ranked_duo_random.js","tests/ranked-duo-open-pool-20261020.test.mjs"],"tests":["tests/ranked-duo-random-20261020.test.mjs","tests/ranked-duo-batch.test.mjs"],"checks":["check:worker"]}
+✔ SQLite batched magic preserves ownership, enhancement and each preset in four queries (8.0823ms)
+✔ Postgres batched magic preserves ownership, enhancement and each preset in four queries (2331.5882ms)
+✔ advancement reads all owners once, keeps ownership and uses current unique stats (9.8958ms)
+✔ missing selected attack preset cannot silently substitute the defense deck (186.2061ms)
+✔ 24 duo stations are distinct, mirrored and bounded without altering normal stations (1.0598ms)
+✔ potential counts owned unequipped mercenary and best gear per slot; actual combat counts equipped gear once (75.8408ms)
+✔ odd roster waits the latest applicant regardless of strength (0.3129ms)
+✔ SQLite duo combat and cache follow PVP changes while PVE remains separate (107.1026ms)
+✔ Postgres duo combat and cache follow PVP changes while PVE remains separate (2653.4458ms)
+✔ SQLite duo gear follows PVP saves and never enters ordinary equipment power (96.5603ms)
+✔ Postgres duo gear follows PVP saves and never enters ordinary equipment power (2150.0125ms)
+✔ new weekly policies use random matchmaking; unversioned season configurations remain legacy (13.4545ms)
+✔ SQLite random four-player fight changes only the initiator and replays exactly once (136.0017ms)
+✔ true random four-player fight changes only the initiator and replays exactly once (3537.965ms)
+✔ pipeline random four-player fight changes only the initiator and replays exactly once (2308.9801ms)
+✔ odd participants and late entries are usable immediately; active cancellation cannot reset points (50.2581ms)
+✔ recruitment cancellation is atomic, and fewer than four participants never consume energy (40.0619ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:265:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:325:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:353:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/ranked-duo-random-20261020.test.mjs:65:48)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ SQLite a failed personal settlement is recovered with one debit and one reward (63.0673ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at Object.query (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:41:177)
+    at PostgresD1Database.batchPipelined (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_postgres_d1_compat.js:882:31)
+    at async file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_postgres_d1_compat.js:905:27
+✔ pipeline a failed personal settlement is recovered with one debit and one reward (2028.1454ms)
+✔ simultaneous tickets and duplicate fight requests retain one roster and receipt (1953.3808ms)
+✔ invalidated offline decks and banned accounts reject a ticket without charging (68.6169ms)
+✔ inventory and season fences roll back ticket, energy, membership and receipt together (82.4076ms)
+✔ SQLite season settlement ranks and rewards only completed personal starts; OFF stays OFF (107.151ms)
+✔ pipeline season settlement ranks and rewards only completed personal starts; OFF stays OFF (1907.5576ms)
+✔ matchmaking work stays bounded and random trials can choose all available partners (206.6646ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:265:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:325:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:353:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/ranked-duo-random-20261020.test.mjs:121:51)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ pending receipts settle after closure with the original roster and immutable combat snapshot (76.2068ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:265:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:325:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/functions/_ranked_duo.js:353:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-mercenary/cnine-card/tests/ranked-duo-random-20261020.test.mjs:133:51)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+[ranked-duo simulation cancelled] 72b640df-86bd-4159-9012-90bc92f3923d 전투 기준이 변경됐습니다.
+✔ unsupported random combat receipts refund once without changing anyone's points (64.097ms)
+✔ banning a participant between profile loading and admission rolls back all four memberships (49.9241ms)
+✔ two initiators sharing a roster accumulate independent personal results (1655.7583ms)
+✔ a random season with no personal starts has no final rewards or trophies (52.6712ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14908.7056
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 5108 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 7910.82 KiB / gzip: 1709.92 KiB
+Worker Startup Time: 48 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.04 sec)
+No targets deployed for cnine-card-api-runtime (0.66 sec)
+Current Version ID: 36862e96-2e24-475d-8ee2-1b1cb8467519
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19997/20000)
+Uploading... (19998/20000)
+Uploading... (19999/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 3 files (19997 already uploaded) (1.86 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://739cdeb3.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.2)
+───────────────────────────────────────────────
+Total Upload: 2731.08 KiB / gzip: 622.73 KiB
+Worker Startup Time: 46 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.04 sec)
+Deployed cnine-card-clan-draft triggers (1.36 sec)
+  schedule: * * * * *
+Current Version ID: 1f116216-063e-4113-aaca-db7723c856f1

@@ -1,0 +1,31 @@
+{
+  "verifiedAt": "2026-10-20T08:23:38.144Z",
+  "source": "a788d2c66d5d2a2ae7f3148f9f99cfd02cbe83f7",
+  "base": "80657de722ef2b171832215af03c297a585c0fdc",
+  "pages": "https://739cdeb3.cnine-card.pages.dev",
+  "pagesDeploymentId": "739cdeb3-1a20-4fc3-a261-b2e94c03ece2",
+  "apiVersion": "36862e96-2e24-475d-8ee2-1b1cb8467519",
+  "schedulerVersion": "1f116216-063e-4113-aaca-db7723c856f1",
+  "scoped": true,
+  "openPoolTests": 25,
+  "adjacentTests": 30,
+  "uniqueTestsPassed": 55,
+  "workerCompiled": true,
+  "hyperdriveQueryCacheDisabled": true,
+  "publicApiStatus": 200,
+  "publicDuo": {
+    "kind": "RANKED_DUO",
+    "phase": "ACTIVE",
+    "additionalRecruiting": false,
+    "entityId": "4e49efa4-7a36-4848-ac85-7ca6606b5b6f",
+    "title": "랭크 듀오 시즌 5",
+    "detail": "상시 랜덤 2대2 · 랭크전 덱으로 바로 출전",
+    "deadlineAt": "2026-10-27T05:39:18.892Z",
+    "sortOrder": 0
+  },
+  "sourceHashes": {
+    "functions/_ranked_duo_pool.js": "9c51b02452ab326552956f9bebb72837643fb3d6883a468c3a744e152952a6ac",
+    "functions/_ranked_duo_random.js": "4987b6ce7408ce441b82da83d4ea408b2237a871ef8974114a4ce05e0cd7ce3e",
+    "functions/_ranked_duo.js": "c846f933223d0bfd046a18ecddb135a234403bc076f68b38f9cf809c985c69c4"
+  }
+}

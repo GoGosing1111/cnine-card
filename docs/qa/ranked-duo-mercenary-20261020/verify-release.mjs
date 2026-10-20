@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {createRequire} from 'node:module';
+import {dirname,join} from 'node:path';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+
+const source=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+const wrangler=join(dirname(createRequire(import.meta.url).resolve('wrangler/package.json')),'bin/wrangler.js');
+const deployments=JSON.parse(execFileSync(process.execPath,[wrangler,'pages','deployment','list','--project-name','cnine-card','--environment','production','--json'],{encoding:'utf8',timeout:30000,windowsHide:true,stdio:['ignore','pipe','pipe']}));
+const latest=deployments[0];assert.equal(latest.Source,source.slice(0,7));
+const response=await fetch('https://cnine-card.pages.dev/api/live-operations',{signal:AbortSignal.timeout(20000)});
+assert.equal(response.status,200);const payload=await response.json(),duo=payload.items.find(item=>item.kind==='RANKED_DUO');
+assert.equal(duo?.phase,'ACTIVE');
+const log=readFileSync(new URL('./scoped-deploy.log',import.meta.url),'utf8');
+const versions=[...log.matchAll(/Current Version ID: ([a-f0-9-]+)/g)].map(match=>match[1]);
+assert.equal(versions.length,2);assert(log.includes('tests 30')&&log.includes('pass 30')&&log.includes('fail 0'));
+const files=['functions/_ranked_duo_pool.js','functions/_ranked_duo_random.js','functions/_ranked_duo.js'];
+const result={verifiedAt:new Date().toISOString(),source,base:'80657de722ef2b171832215af03c297a585c0fdc',pages:latest.Deployment,pagesDeploymentId:latest.Id,apiVersion:versions[0],schedulerVersion:versions[1],scoped:true,openPoolTests:25,adjacentTests:30,uniqueTestsPassed:55,workerCompiled:true,hyperdriveQueryCacheDisabled:log.includes('[HYPERDRIVE OK]'),publicApiStatus:response.status,publicDuo:duo,sourceHashes:Object.fromEntries(files.map(file=>[file,createHash('sha256').update(readFileSync(file)).digest('hex')]))};
+assert.equal(result.hyperdriveQueryCacheDisabled,true);
+writeFileSync(new URL('./release.json',import.meta.url),JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify(result));
