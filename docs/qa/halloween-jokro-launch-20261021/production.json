@@ -1,0 +1,62 @@
+{
+  "checkedAt": "2026-10-20T18:47:46.219Z",
+  "sourceCommit": "f846239df",
+  "deployment": "https://7d0666bd.cnine-card.pages.dev",
+  "apiVersion": "4045d9b4-8601-4ae6-8cbf-68fc2cb3d0c8",
+  "revision": 17,
+  "mode": "ON",
+  "openingEnabled": true,
+  "prices": {
+    "single": 1000000000,
+    "ten": 10000000000
+  },
+  "stock": [
+    {
+      "code": "V-999",
+      "limit": 8,
+      "issued": 8,
+      "remaining": 0,
+      "prepared": true,
+      "scope": "EXISTING_SHARED"
+    },
+    {
+      "code": "V-989",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    },
+    {
+      "code": "V-996",
+      "limit": 15,
+      "issued": 14,
+      "remaining": 1,
+      "prepared": true,
+      "scope": "EXISTING_SHARED"
+    },
+    {
+      "code": "V-979",
+      "limit": 3,
+      "issued": 0,
+      "remaining": 3,
+      "prepared": true,
+      "scope": "PACK_ONLY_EXCLUDING_EXCLUSIVE"
+    }
+  ],
+  "cardRatesPpm": {
+    "V-979": 100,
+    "V-989": 100,
+    "V-999": 200,
+    "V-996": 200
+  },
+  "effectiveCardPercents": {
+    "V-979": "0.000005",
+    "V-989": "0.000005",
+    "V-999": "0",
+    "V-996": "0.00001"
+  },
+  "soldOutPolicy": "STANDARD_SSS",
+  "appCacheAndCollectionVerified": true,
+  "livePurchaseRequests": 0
+}

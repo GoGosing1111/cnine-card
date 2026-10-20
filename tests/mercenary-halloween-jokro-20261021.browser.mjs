@@ -9,8 +9,13 @@ import {halloweenEscape,halloweenStockText} from '../js/mercenary-halloween-pres
 const root=process.cwd(),out=process.env.QA_OUT||'C:/Users/User/.codex/tmp/halloween-jokro-20261021/qa';
 fs.mkdirSync(out,{recursive:true});
 const cleanups=[],f=await halloweenFixture({after:fn=>cleanups.push(fn)});
+const reviewed=JSON.parse(fs.readFileSync('docs/qa/halloween-jokro-launch-20261021/dry-run.json','utf8'));
+f.settings.prices=reviewed.receipt.after.settings.prices;
 f.settings.cardRatesPpm=Object.fromEntries(Object.keys(f.settings.cardRatesPpm).map(code=>[code,code==='V-979'?1000000:0]));
-await f.configure();await f.pg.exec("UPDATE mercenary_limited_stock_v1 SET issued=stock_limit WHERE code='V-999'");
+await f.configure();
+// Mirror reviewed production quantities in visual QA, including Valter 14/15.
+for(const row of reviewed.stock)if(Object.hasOwn(f.settings.cardRatesPpm,row.code))
+ await f.pg.query('UPDATE mercenary_limited_stock_v1 SET stock_limit=$2,issued=$3 WHERE code=$1',[row.code,row.stock_limit,row.issued]);
 const app=fs.readFileSync('js/app.js','utf8'),heroSource=app.match(/function halloweenPackHero\(pack\) \{[\s\S]*?\r?\n\}/)?.[0]||'';
 assert(heroSource.startsWith('function halloweenPackHero(pack)')&&heroSource.length<6000);
 const renderHero=new Function('escapeHtml','packResponsiveImage','halloweenShopStockText','pack',heroSource+'\nreturn halloweenPackHero(pack);');
@@ -49,6 +54,7 @@ try{
    assert.equal(await roster.locator('[data-rank="SSS"]').count(),4);
    assert.equal(await page.locator('[data-hwp-stock-code="V-979"]').innerText(),'남은 3장');
    assert.equal(await page.locator('[data-hwp-stock-code="V-999"]').innerText(),'남은 0장 · 소진');
+   assert.equal(await page.locator('[data-hwp-stock-code="V-996"]').innerText(),'남은 1장');
    assert.match(await page.locator('.hwp-legend-collection').innerText(),/네 명의 SSS/);
    const target=page.locator(surface==='room'?'.hwp-dialog':'body');
    assert.equal(await target.evaluate(e=>e.scrollWidth>e.clientWidth+1),false);
@@ -56,7 +62,7 @@ try{
    if(surface==='room')await target.evaluate(e=>{e.scrollTop=e.scrollHeight;});
    else await page.locator('[data-code="V-979"]').scrollIntoViewIfNeeded();
    await page.screenshot({path:path.join(out,`${surface}-${width}.png`)});
-   reports.push({surface,width,sssCards:4,jokroRemaining:3,heliosRemaining:0,horizontalOverflow:false});
+   reports.push({surface,width,sssCards:4,jokroRemaining:3,heliosRemaining:0,valterLimit:15,valterRemaining:1,horizontalOverflow:false});
   }
   assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);await context.close();
  }
