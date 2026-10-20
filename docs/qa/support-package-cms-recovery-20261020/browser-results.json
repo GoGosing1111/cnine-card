@@ -1,0 +1,22 @@
+[
+  {
+    "width": 1440,
+    "initialReadRetry": true,
+    "openFormPreserved": true,
+    "packageReadNotRepeated": true,
+    "sessionSwitchClears": true,
+    "forbiddenNotRetried": true,
+    "mutations": 0,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "initialReadRetry": true,
+    "openFormPreserved": true,
+    "packageReadNotRepeated": true,
+    "sessionSwitchClears": true,
+    "forbiddenNotRetried": true,
+    "mutations": 0,
+    "errors": []
+  }
+]
