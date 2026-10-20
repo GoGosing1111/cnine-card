@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import {PGlite} from '@electric-sql/pglite';
 import {__postgresCompatTest} from '../functions/_postgres_d1_compat.js';
-import {settleCoopRewards,coopDailyReward} from '../functions/_cooperative_rewards.js';
+import {settleCoopRewards} from '../functions/_cooperative_rewards.js';
 import {defaultCoopRewards,validateCoopRewards,freezeCoopReward,coopRewardDay,COOP_SETTINGS_KEY} from '../shared/cooperative-rewards-v1.mjs';
 
 const at=Date.parse('2026-10-13T23:59:58+09:00');
@@ -12,7 +12,8 @@ const settings=()=>{
  for(const row of rewards.difficulties)Object.assign(row,{coin:100,masterStars:7,items:[{code:'EMPEROR_ENERGY',quantity:2},{code:'PET_ESSENCE',quantity:3}]});
  return {mode:'ON',revision:9,rewards};
 };
-const room=(n,{config=settings(),finishedAt=at,difficulty='NORMAL',defeat=[],status='VICTORY'}={})=>({id:String(n).padStart(10,'0'),creationRequest:'qa-clear-'+n,createdAt:finishedAt-60000,finishedAt,status,difficulty,rewardPolicy:freezeCoopReward(config,difficulty),members:[1,2,3].map(id=>({id,result:defeat.includes(id)?'DEFEAT':status}))});
+const legacyPolicy=(config,difficulty)=>{const p=freezeCoopReward(config,difficulty);delete p.entryEnergy;return p;};
+const room=(n,{config=settings(),finishedAt=at,difficulty='NORMAL',defeat=[],status='VICTORY'}={})=>({id:String(n).padStart(10,'0'),creationRequest:'qa-clear-'+n,createdAt:finishedAt-60000,finishedAt,status,difficulty,rewardPolicy:legacyPolicy(config,difficulty),members:[1,2,3].map(id=>({id,result:defeat.includes(id)?'DEFEAT':status}))});
 async function fixture(postgres=false){
  let pg,sqlite,DB;
  if(postgres){
@@ -28,7 +29,7 @@ async function fixture(postgres=false){
  await writeSettings(settings());
  return {env,writeSettings,first:sql=>DB.prepare(sql).first(),run:sql=>DB.prepare(sql).run(),close:()=>pg?pg.close():sqlite.close()};
 }
-test('three per KST day, validated multi-item rewards, no implicit draft activation',()=>{
+test('legacy daily document compatibility, validated rewards and no implicit draft activation',()=>{
  assert.equal(defaultCoopRewards().enabled,false);assert.equal(defaultCoopRewards().dailyLimit,3);
  assert.equal(freezeCoopReward({mode:'ON',revision:0,economyDraft:{coin:999999}},'NORMAL').enabled,false);
  assert.equal(coopRewardDay(at).day,'2026-10-13');assert.equal(coopRewardDay(at+2000).day,'2026-10-14');assert.equal(coopRewardDay(at).resetAt,at+2000);
@@ -37,16 +38,16 @@ test('three per KST day, validated multi-item rewards, no implicit draft activat
  const empty=defaultCoopRewards();empty.enabled=true;assert.throws(()=>validateCoopRewards(empty));
  const cfg=settings(),snapshot=freezeCoopReward(cfg,'NORMAL');cfg.rewards.difficulties[0].coin=999;assert.equal(snapshot.coin,100);
 });
-for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} atomic reward receipt: quota, midnight, snapshot, OFF, no duplicate grants`,async()=>{
+for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} legacy running rooms settle once across midnight without a new daily limit`,async()=>{
  const f=await fixture(postgres);try{
   const first=await settleCoopRewards(f.env,room(1,{defeat:[3]}));assert.equal(first[1].status,'GRANTED');assert.equal(first[3].status,'DEFEAT');assert.equal(first[1].items[0].name,'엠퍼러 에너지');
   assert.deepEqual(await settleCoopRewards(f.env,room(1,{defeat:[3]})),first,'lost DO acknowledgement replays exact receipt');
   await settleCoopRewards(f.env,room(2,{difficulty:'HARD'}));await settleCoopRewards(f.env,room(3,{difficulty:'EXTREME'}));
-  const fourth=await settleCoopRewards(f.env,room(4));assert.equal(fourth[1].status,'DAILY_LIMIT');assert.equal(fourth[2].status,'DAILY_LIMIT');assert.equal(fourth[3].status,'GRANTED');
-  assert.equal((await coopDailyReward(f.env,1,at)).used,3);assert.equal(Number((await f.first('SELECT coin FROM users WHERE id=1')).coin),1300);
-  assert.equal(Number((await f.first("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='MASTER_STAR'")).quantity),21);
-  assert.equal(Number((await f.first("SELECT COUNT(*) n FROM inventory_logs WHERE user_id=1")).n),9);
-  const nextDay=await settleCoopRewards(f.env,room(5,{finishedAt:at+2000}));assert.equal(nextDay[1].dailyReward.used,1);assert.equal(nextDay[1].dailyReward.day,'2026-10-14');
+  const fourth=await settleCoopRewards(f.env,room(4));assert.equal(fourth[1].status,'GRANTED');assert.equal(fourth[2].status,'GRANTED');assert.equal(fourth[3].status,'GRANTED');
+  assert.equal(Number((await f.first('SELECT coin FROM users WHERE id=1')).coin),1400);
+  assert.equal(Number((await f.first("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='MASTER_STAR'")).quantity),28);
+  assert.equal(Number((await f.first("SELECT COUNT(*) n FROM inventory_logs WHERE user_id=1")).n),12);
+  const nextDay=await settleCoopRewards(f.env,room(5,{finishedAt:at+2000}));assert.equal(nextDay[1].status,'GRANTED');
   const changed=settings();changed.rewards.difficulties[0].coin=500;await f.writeSettings(changed);
   assert.equal((await settleCoopRewards(f.env,room(6,{finishedAt:at+3000})))[1].coin,100,'existing room freezes original quantities');
   changed.rewards.enabled=false;await f.writeSettings(changed);
@@ -54,7 +55,7 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} atomi
   changed.rewards.enabled=true;await f.writeSettings(changed);
   assert.equal((await settleCoopRewards(f.env,room(7,{finishedAt:at+4000})))[1].status,'DISABLED','OFF receipt cannot become payable after ON');
   for(const r of [room(8,{config:{...settings(),mode:'TEST'}}),room(9,{status:'DEFEAT'})])assert.equal((await settleCoopRewards(f.env,r))[1].granted,false);
-  assert.equal((await coopDailyReward(f.env,1,at+4000)).used,2);
+
   const legacy=room(10);delete legacy.rewardPolicy;assert.equal((await settleCoopRewards(f.env,legacy))[1].status,'DISABLED');
   await assert.rejects(settleCoopRewards(f.env,{...room(11),status:'ACTIVE'}));
  }finally{await f.close();}
@@ -64,19 +65,20 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'} later
   await f.run('DELETE FROM users WHERE id=3');
   await assert.rejects(settleCoopRewards(f.env,room(21)));
   assert.equal(Number((await f.first('SELECT coin FROM users WHERE id=1')).coin),1000);
-  assert.equal((await coopDailyReward(f.env,1,at)).used,0);assert.equal(Number((await f.first('SELECT COUNT(*) n FROM inventory_logs')).n),0);
+  assert.equal(Number((await f.first('SELECT COUNT(*) n FROM inventory_logs')).n),0);
   assert.equal(await f.first("SELECT value FROM app_meta WHERE key='coop_reward_receipt_v1:0000000021'"),null);
   await f.run('INSERT INTO users VALUES(3,1000)');assert.equal((await settleCoopRewards(f.env,room(21)))[1].status,'GRANTED');
   await f.run("UPDATE inventory_items SET is_active=0 WHERE code='PET_ESSENCE'");await assert.rejects(settleCoopRewards(f.env,room(22)));
-  assert.equal((await coopDailyReward(f.env,1,at)).used,1);
+
  }finally{await f.close();}
 });
-test('concurrent rooms cannot exceed the shared daily limit or duplicate a room',async()=>{
+test('concurrent legacy terminal rooms cannot duplicate a reward receipt',async()=>{
  const f=await fixture();try{
   const rooms=[room(31),room(32),room(33),room(34)];
   await Promise.all(rooms.map(r=>settleCoopRewards(f.env,r)));
-  assert.equal((await coopDailyReward(f.env,1,at)).used,3);assert.equal(Number((await f.first('SELECT coin FROM users WHERE id=1')).coin),1300);
+  assert.equal(Number((await f.first('SELECT coin FROM users WHERE id=1')).coin),1400);
   const r=room(35,{finishedAt:at+2000});await Promise.all([settleCoopRewards(f.env,r),settleCoopRewards(f.env,r)]);
-  assert.equal((await coopDailyReward(f.env,1,at+2000)).used,1);
+  assert.equal(Number((await f.first('SELECT coin FROM users WHERE id=1')).coin),1500);
+
  }finally{await f.close();}
 });

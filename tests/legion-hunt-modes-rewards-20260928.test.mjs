@@ -35,7 +35,7 @@ const finish=(f,id)=>f.call('legion-hunt/finish',{id,seq:1});
 
 for(const postgres of [false,true]){
   const dialect=postgres?'PostgreSQL':'SQLite';
-  test(dialect+': legacy defaults to TEST; OFF blocks everyone; ON opens ordinary daily entries without granting CMS access',async()=>{
+  test(dialect+': legacy defaults to TEST; OFF blocks everyone; ON opens ordinary energy entries without granting CMS access',async()=>{
     const f=await fixture(postgres);try{
       const initial=(await f.call('admin/legion-hunt')).body.policy;delete initial.mode;
       await f.DB.prepare('INSERT INTO app_meta(key,value) VALUES(?,?)').bind(LEGION_HUNT_SETTINGS_KEY,JSON.stringify(initial)).run();
@@ -48,14 +48,14 @@ for(const postgres of [false,true]){
       assert.equal((await f.call('admin/legion-hunt')).status,403);
       assert.equal((await f.call('admin/legion-hunt',{policy:initial},{method:'PATCH'})).status,403);
       const id=await start(f);f.loseReply();assert.equal((await f.call('legion-hunt/begin',{id})).status,503);
-      assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.used,1);
+      assert.equal((await f.call('legion-hunt/begin',{id})).body.entries.current,9);
       f.clock.now+=101;await finish(f,id);const second=await start(f);f.clock.now+=101;await finish(f,second);
       for(let used=2;used<10;used++){const next=await start(f);f.clock.now+=101;await finish(f,next);}
-      assert.equal((await f.call('legion-hunt/start',{difficulty:'normal'})).body.code,'HUNT_DAILY_LIMIT');
-      assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.used,10);
+      assert.equal((await f.call('legion-hunt/start',{difficulty:'normal'})).body.code,'HUNT_ENERGY_EMPTY');
+      assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.current,0);
       for(let i=0;i<3;i++)await start(f,f.owner);
       assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.unlimited,true);
-      f.clock.now=Date.parse('2026-09-29T00:00:00+09:00');await start(f);assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.used,1);
+      f.clock.now=Date.parse('2026-09-29T00:00:00+09:00');await start(f);assert.equal((await f.call('legion-hunt/bootstrap')).body.entries.current,9);
     }finally{await f.close();}
   });
 

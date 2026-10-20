@@ -3,6 +3,7 @@ import {createCooperativeBattle} from './_cooperative_battle.js';
 import {advanceCoopPatterns,coopPatternInput} from './_cooperative_patterns.js';
 import {defaultCoopCombat,validateCoopCombat,coopCombatSummary} from '../shared/cooperative-settings-v1.mjs';
 import {rollCoopRoster,coopRosterSummary} from '../shared/cooperative-roster-v3.mjs';
+import {contentEnergyView,COOP_ENERGY_MAXIMUM} from '../shared/content-energy-v1.mjs';
 const fail=(code,message,status=409)=>{throw Object.assign(Error(message),{code:'COOP_'+code,status});};
 const fighting=s=>s==='LOADING'||s==='ACTIVE';
 export const coopTerminal=state=>!state||!['LOBBY','LOADING','ACTIVE'].includes(state.status);
@@ -21,6 +22,7 @@ function forfeit(room,m,now,reason){
  battle(room);
 }
 export function advanceCoopRoom(room,now){
+ if(room.entryPending)return room;
  if(room.status==='LOBBY'&&now>=room.expiresAt){room.status='CANCELLED';room.reason='모집 시간이 끝났습니다.';}
  if(room.status==='LOBBY'){
   room.members=room.members.filter(m=>now-m.lastSeen<COOP_RULES.disconnectMs);
@@ -100,7 +102,7 @@ export function coopView(room,user,now,revision=-1){
  const stage=room.payload?.cooperativeEncounter?{wave,total:3,cleared:frame?.B.filter(f=>f.hp<=0).length||0,totalEnemies:5,bossAtMs:room.bossAtMs}:null;
  const fighters=frame?{A:frame.A.map(f=>room.withdrawals.some(w=>w.ownerId===f.ownerId)?{...f,hp:0,shield:0}:f),B:frame.B}:null;
  return {ok:true,serverNow:now,state:{id:room.id,hostId:room.hostId,status:room.status,difficulty:room.difficulty,expiresAt:room.expiresAt,loadingEndsAt:room.loadingEndsAt,startsAt:room.startsAt,durationMs:room.durationMs,finishedAt:room.finishedAt,reason:room.reason,
-  stage,encounter:coopRosterSummary(room.encounter),configuration:coopCombatSummary(room.combat,room.settingsRevision||0),version:room.version,battleRevision:room.battleRevision,rewardLocked:!room.rewardPolicy?.enabled&&!(room.rewardPolicy?.mode==='ON'&&room.rewardPolicy?.revealPolicy?.enabled),rewardPolicy:room.rewardPolicy||null,clearReward:room.clearRewards?.[String(user.id)]||null,myResult:m.result||null,encounterVersion:room.encounterVersion||1,pattern:room.pattern||null,patternHistory:room.patternHistory||[],
+  energy:room.energyEntry?.energies?.[user.id]?contentEnergyView(room.energyEntry.energies[user.id],{at:now,maximum:COOP_ENERGY_MAXIMUM}):null,entryError:room.entryError||null,stage,encounter:coopRosterSummary(room.encounter),configuration:coopCombatSummary(room.combat,room.settingsRevision||0),version:room.version,battleRevision:room.battleRevision,rewardLocked:!room.rewardPolicy?.enabled&&!(room.rewardPolicy?.mode==='ON'&&room.rewardPolicy?.revealPolicy?.enabled),rewardPolicy:room.rewardPolicy||null,clearReward:room.clearRewards?.[String(user.id)]||null,myResult:m.result||null,encounterVersion:room.encounterVersion||1,pattern:room.pattern||null,patternHistory:room.patternHistory||[],
   members:room.members.map(x=>({id:x.id,name:x.name,ready:x.ready,loaded:x.loaded,result:x.result||null,reason:x.reason||null,connected:now-x.lastSeen<COOP_RULES.disconnectMs,
    selection:x.loadout?{cards:x.loadout.cards.map(c=>({id:c.id,title:c.title,grade:c.grade||c.rarity,image:c.image,power:c.power,uniqueAbility:c.uniqueAbility})),mercenary:{code:x.loadout.mercenary.code,name:x.loadout.mercenary.name,rank:x.loadout.mercenary.rank,sourceArt:x.loadout.mercenary.sourceArt},power:x.loadout.power}:null})),fighters},
   ...(room.payload&&revision!==room.battleRevision?{payload:room.payload}:{}),you:Number(user.id)};

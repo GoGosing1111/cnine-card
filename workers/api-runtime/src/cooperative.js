@@ -7,6 +7,7 @@ import {COOP_DIRECTORY,COOP_LIST_LIMIT,COOP_LIST_LEASE_MS,coopRoomListing} from 
 import {nextCoopPatternAt} from '../../../functions/_cooperative_patterns.js';
 import {coopUnpaidRewards,settleCoopRewards} from '../../../functions/_cooperative_rewards.js';
 import {createPostgresD1Compat} from '../../../functions/_postgres_d1_compat.js';
+import {spendCoopEnergy} from '../../../functions/_cooperative_energy.js';
 
 // Per-player routing and one reserved public directory; no new binding/migration.
 // Directory writes happen on lobby changes and a coarse lease renewal, never per
@@ -54,6 +55,28 @@ export class CooperativeRoom extends DurableObject{
  constructor(ctx,env){super(ctx,env);ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS room (id INTEGER PRIMARY KEY,json TEXT NOT NULL)');ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS tickets(token TEXT PRIMARY KEY,user_id INTEGER,client TEXT,expires INTEGER)');}
  read(){const raw=this.ctx.storage.sql.exec('SELECT json FROM room WHERE id=1').toArray()[0]?.json;return raw?JSON.parse(raw):null;}
  save(room){this.ctx.storage.sql.exec('INSERT INTO room(id,json) VALUES(1,?) ON CONFLICT(id) DO UPDATE SET json=excluded.json',JSON.stringify(room));}
+ async completeEntry(room){
+  if(!room.entryPending)return true;
+  let connection;
+  try{
+   if(this.env.HYPERDRIVE)connection=await createPostgresD1Compat(this.env.HYPERDRIVE.connectionString);
+   room.energyEntry=await spendCoopEnergy({...this.env,DB:connection?.db||this.env.DB},room);
+   delete room.entryPending;delete room.entryError;
+   room.loadingEndsAt=Date.now()+COOP_RULES.loadingMs;
+   for(const member of room.members)member.lastSeen=Date.now();
+   this.save(room);return true;
+  }catch(error){
+   if(['COOP_ENERGY_EMPTY','COOP_CLOSED'].includes(error.code)){
+    const requestKey=room.entryPending.requestKey;
+    room.status='LOBBY';room.entryError=error.message;room.receipts=room.receipts.filter(r=>r.id!==requestKey);
+    for(const key of ['entryPending','payload','states','durationMs','loadingEndsAt','bossAtMs'])delete room[key];
+    for(const member of room.members){member.ready=false;member.loaded=false;}
+    room.version++;this.save(room);return false;
+   }
+   await this.ctx.storage.setAlarm(Date.now()+5000);
+   throw Object.assign(Error('출전 행동력 확인 중입니다. 잠시 후 다시 연결해 주세요.'),{code:'COOP_ENERGY_PENDING',status:503});
+  }finally{await connection?.close();}
+ }
  async settleRewards(room){
   if(room.clearRewards)return true;
   const unpaid=coopUnpaidRewards(room);
@@ -111,12 +134,20 @@ export class CooperativeRoom extends DurableObject{
   room.creationRequest=input.requestId;this.save(room);await this.schedule(room);return {ok:true,roomId:room.id};
  }
  async state(user,revision=-1){
+  return this.ctx.blockConcurrencyWhile(()=>this.stateLocked(user,revision));
+ }
+ async stateLocked(user,revision=-1){
   const room=this.read();if(!room)return {ok:false,status:404,code:'COOP_MISSING',error:'대기방을 찾을 수 없습니다.'};
+  await this.completeEntry(room);
   advanceCoopRoom(room,Date.now());this.save(room);await this.schedule(room);
   try{return coopView(room,user,Date.now(),revision);}catch(e){return {ok:false,status:e.status||400,code:e.code,error:e.message};}
  }
  async command(user,kind,input){
+  return this.ctx.blockConcurrencyWhile(()=>this.commandLocked(user,kind,input));
+ }
+ async commandLocked(user,kind,input){
   const room=this.read();if(!room)return {ok:false,status:404,code:'COOP_MISSING',error:'대기방을 찾을 수 없습니다.'};
+  await this.completeEntry(room);
   // Persist timeouts even if the submitted command is rejected.
   const beforeSignal=JSON.stringify([room.status,room.battleRevision,room.pattern?.id,room.pattern?.status,room.members.map(m=>m.result)]);
   advanceCoopRoom(room,Date.now());this.save(room);
@@ -124,12 +155,20 @@ export class CooperativeRoom extends DurableObject{
   const prior=input.requestId&&room.receipts.find(r=>r.id===user.id+':'+input.requestId);
   if(prior&&prior.signature!==signature)return {ok:false,status:409,code:'COOP_REQUEST_CONFLICT',error:'같은 요청으로 다른 작업을 할 수 없습니다.'};
   try{
-   if(!prior){coopCommand(room,user,kind,input,Date.now());room.version++;if(input.requestId){room.receipts.push({id:user.id+':'+input.requestId,signature});room.receipts=room.receipts.slice(-100);}}
+   if(!prior){
+    const wasLobby=room.status==='LOBBY';
+    coopCommand(room,user,kind,input,Date.now());room.version++;
+    if(input.requestId){room.receipts.push({id:user.id+':'+input.requestId,signature});room.receipts=room.receipts.slice(-100);}
+    if(wasLobby&&room.status==='LOADING'&&room.rewardPolicy?.entryEnergy){
+     room.entryPending={requestKey:user.id+':'+input.requestId};this.save(room);
+     await this.completeEntry(room);
+    }
+   }
    this.save(room);await this.schedule(room);
    const afterSignal=JSON.stringify([room.status,room.battleRevision,room.pattern?.id,room.pattern?.status,room.members.map(m=>m.result)]);
    if(kind!=='ping'||beforeSignal!==afterSignal)this.broadcast(room);
    return kind==='leave'?{ok:true}:coopView(room,user,Date.now(),input.revision??-1);
-  }catch(e){const saved=this.read();await this.schedule(saved);this.broadcast(saved);return {ok:false,status:e.status||400,code:e.code||'COOP_ERROR',error:e.code?e.message:'전투 편성을 확인하지 못했습니다.'};}
+  }catch(e){const saved=this.read();if(!saved.entryPending){await this.schedule(saved);this.broadcast(saved);}return {ok:false,status:e.status||400,code:e.code||'COOP_ERROR',error:e.code?e.message:'전투 편성을 확인하지 못했습니다.'};}
  }
  async issueTicket(user,clientId){
   const result=await this.command(user,'connect',{clientId});
@@ -170,8 +209,12 @@ export class CooperativeRoom extends DurableObject{
  async webSocketClose(ws,code,reason){try{ws.close(code,reason);}catch{}}
  async webSocketError(ws){try{ws.close(1011,'연결 오류');}catch{}}
  async alarm(){
+  return this.ctx.blockConcurrencyWhile(()=>this.alarmLocked());
+ }
+ async alarmLocked(){
   const room=this.read();if(!room)return;
   if(room.kind==='MONSTER_DEFENSE_V1')return this.defenseHost().alarm();
+  try{await this.completeEntry(room);}catch{return;}
   if(coopTerminal(room)&&room.clearRewards&&Date.now()>(room.finishedAt||room.expiresAt)+3600000){for(const ws of this.ctx.getWebSockets())try{ws.close(1000,'대기방 종료');}catch{}await this.ctx.storage.deleteAll();return;}
   advanceCoopRoom(room,Date.now());this.save(room);await this.schedule(room);this.broadcast(room);
  }

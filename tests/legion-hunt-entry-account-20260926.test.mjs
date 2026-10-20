@@ -60,7 +60,8 @@ test('bootstrap and actual entry use the authenticated saved deck, refreshing ch
   try{
     const before=await f.call('legion-hunt/bootstrap');assert.equal(before.status,200);
     assert.equal(before.body.loadout.cards.length,5);assert.equal(before.body.loadout.mercenary.code,'V-050');
-    assert.ok(!f.queries.some(q=>/INSERT INTO app_meta|UPDATE app_meta/.test(q)),'opening must not create a run');
+    assert.equal((await before.body).entries.current,10,'opening only initializes energy without spending');
+    const record=await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first();assert.equal(JSON.parse(record.value).state,undefined,'opening does not create a battle');
     const deck=f.getDeck();deck.ids.reverse();deck.cards[0].power=312345;deck.characterBonus.pve+=50000;f.setDeck(deck);
     const started=await f.call('legion-hunt/start',{difficulty:'hard'});assert.equal(started.status,200,JSON.stringify(started.body));
     const p=started.body.payload;assert.equal(p.previewOnly,false);assert.equal(p.loadoutSource,'LATEST_SAVED_PVE_DECK');
@@ -105,7 +106,7 @@ test('missing saved cards is recoverable in lobby but cannot start or overwrite 
     const bootstrap=await f.call('legion-hunt/bootstrap');assert.equal(bootstrap.status,200);
     assert.equal(bootstrap.body.loadout,null);assert.match(bootstrap.body.loadoutError,/덱 5장/);
     assert.equal((await f.call('legion-hunt/start',{difficulty:'normal'})).status,409);
-    assert.ok(!f.queries.some(q=>/INSERT INTO app_meta|UPDATE app_meta/.test(q)));
+    const record=await f.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind('legion_hunt_owner_session_v1:1').first();assert.equal(JSON.parse(record.value).state,undefined);assert.equal(JSON.parse(record.value).energy.current,10);
   }finally{await f.close();}
 });
 for(const postgres of [false,true]){
