@@ -1,0 +1,18 @@
+{
+  "startedAt": "2026-10-20T02:49:45.447Z",
+  "finishedAt": "2026-10-20T02:53:00.020Z",
+  "base": "14fb741d21d9a0c0e41892cdab36b44d9b9fd8b0",
+  "commit": "f737c54c5ffbf37fbc8561e708070571520694cb",
+  "tests": [
+    "tests/support-package-20261020.test.mjs",
+    "tests/support-package-prediction-20261020.test.mjs",
+    "tests/coin-prediction-matchday-v2033.test.mjs",
+    "tests/coin-prediction-refund-bigint-v2042.test.mjs",
+    "tests/message-reward-client-parity-v1929.test.mjs"
+  ],
+  "checks": [
+    "check:worker"
+  ],
+  "exitCode": 0,
+  "log": "C:\\Users\\User\\AppData\\Local\\Temp\\cnine-package-prediction-release-20261020-0250.log"
+}

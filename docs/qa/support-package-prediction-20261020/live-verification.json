@@ -1,0 +1,77 @@
+{
+  "checkedAt": "2026-10-20T02:53:36.495Z",
+  "sourceCommit": "f737c54c5ffbf37fbc8561e708070571520694cb",
+  "pages": "https://ed629b3a.cnine-card.pages.dev",
+  "runtimeVersion": "620baca1-7c06-49e4-8746-a910529f45bb",
+  "scopedTestsPassed": 42,
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sourceMatch": true,
+      "sha256": "2732824a540d80dfdeb03ec14a736a579baf454c9a1a21b7e65c5382cfcc7586"
+    },
+    {
+      "path": "js/app.js",
+      "status": 200,
+      "sourceMatch": true,
+      "sha256": "75bcf3d0b2c9fa1b9744f6b64c46a157cc873d948ab15b67c70c6643c5f42ef1"
+    },
+    {
+      "path": "js/server-support-v1.mjs",
+      "status": 200,
+      "sourceMatch": true,
+      "sha256": "d48bc31d520eb75cedeeceb1159da3f6ef9031bcc46920684c72ab725bafc080"
+    },
+    {
+      "path": "js/support-package-v1.mjs",
+      "status": 200,
+      "sourceMatch": true,
+      "sha256": "af09a57fa43056f059d0aa713d8488af01f6acba155f86e869468c7c1d08ee6b"
+    },
+    {
+      "path": "js/support-package-alerts-v1.mjs",
+      "status": 200,
+      "sourceMatch": true,
+      "sha256": "76690a040ad72d0fea199fa2b9a70a8e9c0364d285f649b93c1b386285984dfe"
+    },
+    {
+      "path": "js/coin-prediction-v2033.js",
+      "status": 200,
+      "sourceMatch": true,
+      "sha256": "f1de2ca1cd87c06d9ceb52f30960644471f18c8c5126b4569f1c127b282a70c6"
+    },
+    {
+      "path": "css/coin-prediction-v2033.css",
+      "status": 200,
+      "sourceMatch": true,
+      "sha256": "4087972d888b794b98a24216633988257419702cbec49f3b29cfca4bed82fd11"
+    },
+    {
+      "path": "shared/support-package-v1.mjs",
+      "status": 200,
+      "sourceMatch": true,
+      "sha256": "7f60dafcebd0ecbc487e6cb67f8f29c5234df9b1ca0b7dd2e11c6d865cbdf717"
+    },
+    {
+      "path": "admin/support-package-admin-v1.mjs",
+      "status": 200,
+      "sourceMatch": true,
+      "sha256": "e04c9869e7017a5d962c1d8a3e9c1f1f11a5c30bea3bd348771c2fc270bb77f4"
+    }
+  ],
+  "apis": [
+    {
+      "path": "server-support/package",
+      "status": 401
+    },
+    {
+      "path": "coin-prediction/state",
+      "status": 401
+    },
+    {
+      "path": "messages",
+      "status": 401
+    }
+  ]
+}
