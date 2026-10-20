@@ -1,3 +1,4 @@
+import {deleteReadPackageNotice,presentPackageNotice} from '../_support_package_notice.js';
 import {readRankedRosters,rankedRosterState,saveRankedRoster,saveRankedSeriesTicket,readRankedSeriesTicket,rankedTicketPreview,rankedOwnershipGuard} from '../_ranked_series.js';
 import {simulateRankedSeries,rankedSeriesReceipt} from '../../shared/ranked-series-v1.mjs';
 import {presentBrandedSystemMessage} from '../../shared/brand-presentation-20261016.mjs';
@@ -5187,7 +5188,7 @@ async function handleRequest(context){
     const avatarResponse=await handleAvatar({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(avatarResponse)return avatarResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;
     const rerollResponse=await handleHighGradeReroll({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(rerollResponse)return rerollResponse;
-    const coinPredictionResponse=await handleCoinPrediction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,requirePermission,writeAdminLog}});if(coinPredictionResponse)return coinPredictionResponse;
+    const coinPredictionResponse=await handleCoinPrediction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,requirePermission,writeAdminLog,withUserMutationLock:withJointUserMutationLock}});if(coinPredictionResponse)return coinPredictionResponse;
     const dropPoolResponse=await handleDropPool({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(dropPoolResponse)return dropPoolResponse;
     const workshopResponse=await handleWorkshop({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,withUserMutationLock:withJointUserMutationLock}});if(workshopResponse)return workshopResponse;
     const alchemyResponse=await handleAlchemy({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(alchemyResponse)return alchemyResponse;
@@ -7250,12 +7251,12 @@ async function handleRequest(context){
       await ensureShiranuiRankReward(env,user.id);
       await deleteExpiredSupportMessages(env,Date.now(),user.id);
       if(request.method==='GET'){
-        const rows=await env.DB.prepare(`SELECT m.id,m.sender_type,m.title,m.body,m.message_type,m.coupon_code,m.is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,0 AS needs_recovery
+        const rows=await env.DB.prepare(`SELECT m.id,m.sender_type,m.title,m.body,m.message_type,m.campaign_key,m.coupon_code,m.is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,0 AS needs_recovery
           FROM user_messages m LEFT JOIN user_message_rewards r ON r.message_id=m.id AND r.user_id=m.user_id
           WHERE m.user_id=? AND m.hidden_at IS NULL AND ${liveSupportMessageSql('m.')} ORDER BY m.id DESC LIMIT 100`).bind(user.id,supportMessageCutoff()).all();
         let recoveryRows=[];
         try{
-          const recovery=await env.DB.prepare(`SELECT m.id,m.sender_type,m.title,m.body,m.message_type,m.coupon_code,1 AS is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,1 AS needs_recovery
+          const recovery=await env.DB.prepare(`SELECT m.id,m.sender_type,m.title,m.body,m.message_type,m.campaign_key,m.coupon_code,1 AS is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at,1 AS needs_recovery
             FROM user_messages m
             JOIN user_message_rewards r ON r.message_id=m.id AND r.user_id=m.user_id
             JOIN wago_extension_reward_receipts w ON w.message_id=m.id AND w.user_id=m.user_id
@@ -7268,7 +7269,7 @@ async function handleRequest(context){
             ORDER BY m.id DESC LIMIT 5`).bind(user.id).all();
           recoveryRows=recovery.results||[];
         }catch{}
-        const serverNow=Date.now(),messages=[...recoveryRows,...(rows.results||[])].map(presentMessageReward).map(presentSupportMessage).map(presentBrandedSystemMessage).filter(m=>!m.expiresAt||m.expiresAt>serverNow);
+        const serverNow=Date.now(),messages=[...recoveryRows,...(rows.results||[])].map(presentMessageReward).map(presentSupportMessage).map(presentBrandedSystemMessage).map(presentPackageNotice).filter(m=>!m.expiresAt||m.expiresAt>serverNow);
         return json({messages,unread:messages.filter(x=>!x.is_read).length,recoveryCount:recoveryRows.length,serverNow},200,{'Cache-Control':'private, no-store','Vary':'Authorization'});
       }
       if(request.method==='PATCH'){
@@ -7278,6 +7279,7 @@ async function handleRequest(context){
           if(!hidden.meta.changes)return json({error:'메시지를 찾을 수 없거나 이미 삭제했습니다.'},404);
           return json({ok:true,messageDeleted:true});
         }
+        if(await deleteReadPackageNotice(env,user.id,id))return json({ok:true,messageDeleted:true});
         await env.DB.prepare('UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP) WHERE id=? AND user_id=?').bind(id,user.id).run();return json({ok:true});
       }
     }

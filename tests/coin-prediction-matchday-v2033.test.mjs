@@ -177,7 +177,7 @@ test('경기당 누적 500억 허용, 초과 요청과 중복 재시도는 추�
   const eventId=created.body.id,optionId=db.prepare('SELECT id FROM coin_prediction_options WHERE event_id=? ORDER BY id').get(eventId).id;
   assert.equal(db.prepare('SELECT max_bet FROM coin_prediction_events WHERE id=?').get(eventId).max_bet,50000000000);
   assert.equal(created.body.state.settings.maxBetPerEvent,50000000000);
-  assert.equal(created.body.state.terms.version,'2026-10-01');
+  assert.equal(created.body.state.terms.version,'2026-10-20-package-coins');
   assert.ok(created.body.state.terms.items.some(x=>x.includes('50,000,000,000코인')));
   const submit=(amount,requestId)=>request('coin-prediction/bet',{eventId,optionId,amount,requestId},'USER');
   assert.equal((await submit(50000000001,'five-hundred-over-single')).status,400);
@@ -199,7 +199,7 @@ test('1회 500억 차감 중 실패는 전체 롤백, 재시도와 응답 재조
   const payload={eventId,optionId,amount:50000000000,requestId:'fifty-atomic-retry'};
   const beforeLogs=db.prepare('SELECT COUNT(*) n FROM coin_logs WHERE user_id=2').get().n;
   db.exec("CREATE TEMP TRIGGER fail_fifty_bet BEFORE INSERT ON coin_logs WHEN NEW.user_id=2 AND NEW.change_amount=-50000000000 BEGIN SELECT RAISE(ABORT,'INJECTED_BET_LOG_FAILURE'); END");
-  try{await assert.rejects(()=>request('coin-prediction/bet',payload,'USER'),/INJECTED_BET_LOG_FAILURE/)}finally{db.exec('DROP TRIGGER fail_fifty_bet')}
+  try{const failed=await request('coin-prediction/bet',payload,'USER');assert.equal(failed.status,503);assert.equal(failed.body.retryable,true)}finally{db.exec('DROP TRIGGER fail_fifty_bet')}
   assert.equal(db.prepare('SELECT coin FROM users WHERE id=2').get().coin,100000000000);
   assert.equal(db.prepare('SELECT COUNT(*) n FROM coin_prediction_bets WHERE event_id=?').get(eventId).n,0);
   assert.equal(db.prepare('SELECT COUNT(*) n FROM coin_prediction_receipts WHERE request_id=?').get(payload.requestId).n,0);
@@ -228,7 +228,7 @@ test('기존 50억 설정과 DRAFT/OPEN 경기는 500억으로 이관하고 마�
   const response=await freshHandler({path:'coin-prediction/state',request:new Request('https://prediction.test/api/coin-prediction/state'),env,deps:{authenticate:async()=>null,json:(data,status)=>Response.json(data,{status})}});
   assert.equal(response.status,401);
   const migrated=JSON.parse(db.prepare("SELECT value FROM app_meta WHERE key='coin_prediction_settings_v1'").get().value);
-  assert.equal(migrated.maxBetPerEvent,50000000000);assert.equal(migrated.termsVersion,'2026-10-01');
+  assert.equal(migrated.maxBetPerEvent,50000000000);assert.equal(migrated.termsVersion,'2026-10-20-package-coins');
   assert.equal(migrated.enabled,false);assert.equal(migrated.pollSeconds,30);
   assert.equal(db.prepare("SELECT COUNT(*) n FROM coin_prediction_events WHERE status IN ('DRAFT','OPEN') AND max_bet<>50000000000").get().n,0);
   assert.deepEqual(db.prepare("SELECT id,max_bet FROM coin_prediction_events WHERE status NOT IN ('DRAFT','OPEN') ORDER BY id").all(),closed);

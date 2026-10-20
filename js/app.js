@@ -991,8 +991,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.auctionHouseView==='function'&&typeof window.bindAuctionHouseView==='function'
   },
   prediction:{
-    styles:['css/coin-prediction-v2033.css?v=20261011-subsidy-option'],
-    scripts:['js/coin-prediction-model-v2033.js?v=20261011-subsidy-option','js/coin-prediction-v2033.js?v=20261011-subsidy-option'],
+    styles:['css/coin-prediction-v2033.css?v=20261020-package2'],
+    scripts:['js/coin-prediction-model-v2033.js?v=20261011-subsidy-option','js/coin-prediction-v2033.js?v=20261020-package2'],
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{
@@ -4633,7 +4633,19 @@ async function loadMessages(){
     }).join(''):'<div class="empty-recent">도착한 메시지가 없습니다.</div>';
     supportMessageExpiryView=mountSupportMessageExpiry(box,{serverNow,requestElapsed:elapsed,onRemove:unread=>{clearApiCache('messages');clearApiCache('shell/summary');updateMessageNewBadges(messageUnreadCount-unread);}});
     box.querySelectorAll('[data-copy-event-coupon]').forEach(b=>b.onclick=async e=>{e.stopPropagation();try{await navigator.clipboard.writeText(b.dataset.copyEventCoupon);b.textContent='복사 완료'}catch{prompt('방송 공유용 쿠폰 코드를 복사하세요.',b.dataset.copyEventCoupon)}});
-    box.querySelectorAll('.user-message').forEach(x=>x.onclick=async()=>{if(!x.classList.contains('unread'))return;await apiRequest('messages',{method:'PATCH',body:JSON.stringify({id:Number(x.dataset.id)})});x.classList.remove('unread');x.classList.add('read');clearApiCache('shell/summary');updateMessageNewBadges(messageUnreadCount-1)});
+    box.querySelectorAll('.user-message').forEach(x=>x.onclick=async()=>{
+      if(!x.classList.contains('unread')||x.dataset.readPending)return;
+      x.dataset.readPending='1';
+      try{
+        const result=await apiRequest('messages',{method:'PATCH',body:JSON.stringify({id:Number(x.dataset.id)})});
+        const notice=d.messages.find(m=>Number(m.id)===Number(x.dataset.id));
+        if(result.messageDeleted||notice?.deleteOnRead===true){
+          x.remove();if(!box.querySelector('.user-message'))box.innerHTML='<div class="empty-recent">도착한 메시지가 없습니다.</div>';
+        }else{x.classList.remove('unread');x.classList.add('read');}
+        clearApiCache('messages');clearApiCache('shell/summary');updateMessageNewBadges(messageUnreadCount-1);
+      }catch(error){alert(error.message||'메시지를 읽음 처리하지 못했습니다. 다시 눌러 주세요.');}
+      finally{delete x.dataset.readPending;}
+    });
     box.querySelectorAll('[data-claim-message]').forEach(b=>b.onclick=async e=>{
       e.stopPropagation();b.disabled=true;
       try{

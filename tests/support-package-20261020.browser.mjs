@@ -4,7 +4,7 @@ import http from 'node:http';
 import assert from 'node:assert/strict';
 import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
 import {packageFixture} from './helpers/support-package-fixture.mjs';
-const root=process.cwd(),out=path.join(root,'docs/qa/support-package-20261020');fs.mkdirSync(out,{recursive:true});
+const root=process.cwd(),out=path.join(root,'docs/qa/support-package-prediction-20261020');fs.mkdirSync(out,{recursive:true});
 let f,lose=false,posts=0,alerts=0;
 const mime={'.html':'text/html; charset=utf-8','.mjs':'text/javascript','.js':'text/javascript','.css':'text/css','.json':'application/json','.webp':'image/webp','.png':'image/png','.svg':'image/svg+xml'};
 const styles='<link rel="stylesheet" href="/css/server-support-v1.css"><link rel="stylesheet" href="/css/supporter-season-pass-v1.css"><link rel="stylesheet" href="/css/support-package-v1.css">';
@@ -42,7 +42,7 @@ try{for(const width of [1440,390]){
  const support=await page.locator('[data-ss-support]').boundingBox(),pkg=await page.locator('[data-ss-package]').boundingBox();assert.equal(pkg.width,support.width);assert.equal(pkg.height,support.height);assert.equal(alerts,alertsBefore);
  await page.locator('.ss-dialog').screenshot({path:path.join(out,'server-info-'+width+'.png')});
  await page.locator('[data-ss-package]').click();await page.locator('[data-package-apply]').waitFor();await page.locator('.ss-dialog').screenshot({path:path.join(out,'package-'+width+'.png')});
- assert.match(await page.locator('.spkg-rewards').innerText(),/50조/);assert.equal(await page.locator('.spkg-rewards img').evaluateAll(imgs=>imgs.every(i=>i.complete&&i.naturalWidth>0)),true);
+ assert.match(await page.locator('.spkg-rewards').innerText(),/100조/);assert.equal(await page.locator('.spkg-rewards img').evaluateAll(imgs=>imgs.every(i=>i.complete&&i.naturalWidth>0)),true);
  lose=true;await page.locator('[data-package-apply]').click();await page.getByText('검수 응답 유실',{exact:true}).waitFor();const onePost=posts;
  await page.reload();await page.getByRole('button',{name:'서버 안내',exact:true}).click();await page.locator('[data-ss-package]').click();await page.getByRole('button',{name:'이전 신청 결과 확인'}).waitFor();assert.equal(posts,onePost);await page.getByRole('button',{name:'이전 신청 결과 확인'}).click();await page.getByText('저장된 신청 결과를 확인했습니다.',{exact:true}).waitFor();
  assert.equal(Number((await f.one("SELECT COUNT(*) n FROM user_messages WHERE campaign_key LIKE 'support_package_owner_alert_v1:%'")).n),1);
@@ -52,8 +52,8 @@ try{for(const width of [1440,390]){
  await owner.getByRole('button',{name:'확인 · 닫기'}).click();await owner.reload();await owner.getByRole('button',{name:'서버 안내',exact:true}).waitFor();assert.equal(await owner.locator('.spkg-alert').count(),0);
  await owner.evaluate(()=>localStorage.removeItem('cnine_support_package_alert_seen_v1:1'));
  const admin=await context.newPage();admin.on('pageerror',e=>errors.push(e.message));await admin.goto(base+'/qa-admin');await admin.getByRole('dialog',{name:'패키지 구매 접수 알림'}).waitFor();await admin.getByRole('button',{name:'CMS 접수 내역 보기'}).click();await admin.locator('[data-package-order]:not([disabled])').waitFor();
- await admin.locator('[data-package-order]').click();await admin.locator('[data-package-admin-form] input[name=note]').fill('검수 입금 내역');await admin.locator('[data-package-admin-form] input[name=paid]').check();await admin.locator('[data-package-admin-form]').screenshot({path:path.join(out,'cms-confirm-'+width+'.png')});await admin.locator('[data-package-process=FULFILL]').click();await admin.getByText('50조 코인 · 엠퍼러 에너지 200개 · SSS 리미티드 조각 5개 지급 완료',{exact:true}).waitFor();
- assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),50000000001234);
+ await admin.locator('[data-package-order]').click();await admin.locator('[data-package-admin-form] input[name=note]').fill('검수 입금 내역');await admin.locator('[data-package-admin-form] input[name=paid]').check();await admin.locator('[data-package-admin-form]').screenshot({path:path.join(out,'cms-confirm-'+width+'.png')});await admin.locator('[data-package-process=FULFILL]').click();await admin.getByText('100조 코인 · 엠퍼러 에너지 200개 · SSS 리미티드 조각 5개 지급 완료',{exact:true}).waitFor();
+ assert.equal(Number((await f.one('SELECT coin FROM users WHERE id=2')).coin),100000000001234);
  await page.goto(base+'/qa?u=3');await page.getByRole('button',{name:'서버 안내',exact:true}).click();await page.locator('[data-ss-support]').waitFor();assert.equal(await page.locator('[data-ss-package]').count(),0);
  assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);reports.push({width,equalButtonSize:{width:pkg.width,height:pkg.height},inactiveHidden:true,ordinaryNoAlertPolling:true,imagesLoaded:true,lostResponseRecovery:true,ownerPopupOnce:true,cmsPopupAndPayment:true,errors,failed});await context.close();await f.close();f=null;
 }fs.writeFileSync(path.join(out,'browser-report.json'),JSON.stringify(reports,null,2)+'\n');console.log(JSON.stringify(reports));}finally{await browser.close();await new Promise(r=>server.close(r));if(f)await f.close();}

@@ -1,0 +1,26 @@
+[
+  {
+    "width": 1440,
+    "predictionAvailable": 1000000000,
+    "packageExcluded": 100000000000000,
+    "quickMaxUsesAvailable": true,
+    "overspendDisabled": true,
+    "noticeReadDeletes": true,
+    "otherMessagePreserved": true,
+    "noResend": true,
+    "noHorizontalOverflow": true,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "predictionAvailable": 1000000000,
+    "packageExcluded": 100000000000000,
+    "quickMaxUsesAvailable": true,
+    "overspendDisabled": true,
+    "noticeReadDeletes": true,
+    "otherMessagePreserved": true,
+    "noResend": true,
+    "noHorizontalOverflow": true,
+    "errors": []
+  }
+]

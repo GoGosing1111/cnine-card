@@ -1,4 +1,5 @@
 /* MATCHDAY — isolated from the game shell, V3, and the retired cp/cp2 themes. */
+.cp3-wallet #cpPackageCoin{display:block;font-size:11px;letter-spacing:normal;white-space:normal;margin-top:4px}
 .cp3-shell,.cp3-dialog{--cp3-ink:#172231;--cp3-muted:#617083;--cp3-line:#d9e1eb;--cp3-blue:#174fde;--cp3-blue-light:#edf2ff;--cp3-paper:#fff;--cp3-navy:#101c30;--cp3-green:#12744c;font-family:inherit;color:var(--cp3-ink);font-size:14px;line-height:1.5;letter-spacing:normal;text-align:left;font-variant-numeric:tabular-nums}
 .cp3-shell *,.cp3-dialog *{box-sizing:border-box;min-width:0}
 .cp3-shell{background:#edf1f7;border:1px solid #29364a;border-radius:18px;overflow:hidden;isolation:isolate;box-shadow:0 24px 64px #0002;margin:4px 0 24px}

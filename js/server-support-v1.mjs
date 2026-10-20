@@ -1,6 +1,6 @@
 import {openSupportApplication} from './supporter-application-v1.mjs?v=20261011-apply2';
-import {mountSupportPackage} from './support-package-v1.mjs?v=20261020-package1';
-import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261020-package1';
+import {mountSupportPackage} from './support-package-v1.mjs?v=20261020-package2';
+import {mountPackageAlerts} from './support-package-alerts-v1.mjs?v=20261020-package2';
 import {jointAccountRequest} from './joint-account-transport.mjs';
 import {mountSeasonPass} from './supporter-season-pass-v1.mjs?v=20261017-pass-catchup-v1';
 import {mountSupportScreenGuard} from './supporter-screen-guard-v1.mjs?v=20261011-guard1';
@@ -25,7 +25,7 @@ export function mountServerSupportNavigation({root,getUser,signal,request=jointA
   const menu=root.getElementById('menu-dialog');if(!menu)return {dispose(){}};
   const doc=menu.ownerDocument,link=doc.createElement('link');link.rel='stylesheet';link.href='/css/server-support-v1.css?v=20261011-apply1';root.append(link);
   const passStyle=doc.createElement('link');passStyle.rel='stylesheet';passStyle.href='/css/supporter-season-pass-v1.css?v=20261017-pass-catchup-v1';root.append(passStyle);
-  const packageStyle=doc.createElement('link');packageStyle.rel='stylesheet';packageStyle.href='/css/support-package-v1.css?v=20261020-package1';root.append(packageStyle);
+  const packageStyle=doc.createElement('link');packageStyle.rel='stylesheet';packageStyle.href='/css/support-package-v1.css?v=20261020-package2';root.append(packageStyle);
   const packageAlerts=mountPackageAlerts({root,request,canReceive:()=>Number(getUser()?.serverUserId||getUser()?.id)===1,onOpen:()=>window.open('/admin/?supportPackage=1','_blank','noopener')});
   let passView=null,passVisible=false,screenGuard=null,applicationView=null;
   const setPassVisible=value=>{const visible=value===true;if(visible!==passVisible){passVisible=visible;onSeasonPassVisibilityChange(visible);}};

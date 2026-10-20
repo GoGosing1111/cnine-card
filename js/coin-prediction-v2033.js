@@ -5,7 +5,7 @@
   const model = window.CoinPredictionModel;
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
   const fmt = value => Number(value || 0).toLocaleString('ko-KR');
-  const short = value => { const n=Number(value||0); return Math.abs(n)>=1e8?`${Number((n/1e8).toFixed(2))}억`:Math.abs(n)>=1e4?`${Number((n/1e4).toFixed(1))}만`:fmt(n); };
+  const short = value => { const n=Number(value||0); return Math.abs(n)>=1e12?`${Number((n/1e12).toFixed(2))}조`:Math.abs(n)>=1e8?`${Number((n/1e8).toFixed(2))}억`:Math.abs(n)>=1e4?`${Number((n/1e4).toFixed(1))}만`:fmt(n); };
   const signed = value => `${Number(value)>0?'+':''}${fmt(value)}`;
   const api = (path, options = {}, control = {}) => window.apiRequest(path, options, control);
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -56,7 +56,7 @@
     if(accountId!==nextAccount){accountId=nextAccount;retryPayload=null;state=null;selectedOptions.clear();drafts.clear();acceptedVersion='';selectedEventId=0;}
     return `<section id="coinPredictionRoot" class="cp3-shell" aria-label="코인 승부예측">
       <header class="cp3-hero"><div class="cp3-wordmark"><span class="cp3-logo" aria-hidden="true">M<span>↗</span></span><div><p class="cp3-overline">REVERSE CALL / MATCHDAY</p><h1>승부예측<span>.</span></h1><p class="cp3-hero-copy">당신의 선택, 다음 승부의 주인공.</p></div></div>
-        <div class="cp3-hero-side"><div class="cp3-wallet"><span>내 보유 코인</span><strong id="cpWallet">—</strong><small>GAME COIN</small></div><div class="cp3-champion" id="cpDailyChampion">${icon('crown')}<div><span>오늘의 적중왕</span><b>정산 대기</b></div></div></div>
+        <div class="cp3-hero-side"><div class="cp3-wallet"><span>승부예측 가능 코인</span><strong id="cpWallet">—</strong><small id="cpPackageCoin">패키지 코인 제외</small></div><div class="cp3-champion" id="cpDailyChampion">${icon('crown')}<div><span>오늘의 적중왕</span><b>정산 대기</b></div></div></div>
       </header>
       <nav class="cp3-categories" aria-label="경기 카테고리">${categoriesMarkup()}</nav>
       <div class="cp3-controlbar"><nav class="cp3-views" aria-label="진행 상태"><button type="button" data-cp-view="active" class="is-active" aria-pressed="true">진행 중 <b id="cpActiveCount">0</b></button><button type="button" data-cp-view="history" aria-pressed="false">종료된 경기 <b id="cpHistoryCount">0</b></button></nav>
@@ -134,6 +134,7 @@
     const priorBoard=root.querySelector('[data-cp-event]'),ledgerOpen=Boolean(priorBoard?.querySelector('[data-cp-ledger][open]'));
     if(!events.some(e=>Number(e.id)===selectedEventId))selectedEventId=Number(events[0]?.id||0);
     root.querySelector('#cpWallet').textContent=fmt(state.walletCoin);
+    root.querySelector('#cpPackageCoin').textContent=Number(state.packageCoin)>0?'패키지 '+short(state.packageCoin)+' 코인 제외':'패키지 코인 사용 불가';
     const king=state.settings?.todayChampion;
     root.querySelector('#cpDailyChampion').innerHTML=`${icon('crown')}<div><span>오늘의 적중왕 · KST 00시 기준</span><b>${esc(king?.nickname||'정산 대기')}</b>${king?`<small>순이익 +${fmt(king.netProfit)} 코인</small>`:''}</div>`;
     root.querySelectorAll('[data-cp-category]').forEach(b=>{const a=b.dataset.cpCategory===selectedCategory;b.classList.toggle('is-active',a);b.setAttribute('aria-pressed',String(a));b.querySelector('b').textContent=fmt(nav.categoryCounts?.[b.dataset.cpCategory]);});
