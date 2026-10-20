@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-10-20T14:48:12.872Z",
+  "planHash": "f78b653b82c03bb105e0fd07ee5cb5b28572d7b2423ca8af6ca459c491b2733c",
+  "recipients": 55,
+  "tiers": {
+    "PARTICIPANT": {
+      "count": 49,
+      "amount": "300000000000"
+    },
+    "WINNER": {
+      "count": 3,
+      "amount": "10000000000000"
+    },
+    "RUNNER_UP": {
+      "count": 3,
+      "amount": "5000000000000"
+    }
+  },
+  "totalCoin": "59700000000000",
+  "held": [
+    {
+      "inputNickname": "철줌마효진",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "reason": "USER_REQUESTED_HOLD_IDENTITY_UNRESOLVED"
+    }
+  ],
+  "existing": [],
+  "saved": [],
+  "walletRangeVerified": true
+}

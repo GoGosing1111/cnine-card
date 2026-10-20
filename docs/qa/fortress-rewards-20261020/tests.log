@@ -1,0 +1,11 @@
+✔ 49 participant, three winner and three runner-up messages total 59.7 trillion; held user is excluded and replay does not resend (1665.8233ms)
+✔ identity/plan mismatch, unsupported balance, duplicate delivery and partial writes roll back the entire batch (1289.4611ms)
+✔ actual claim credits all three amounts once, rolls back a failed ledger and recovers a lost send response (1419.033ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4559.1711

@@ -1,0 +1,638 @@
+{
+  "operationKey": "ops:fortress-rewards:20261020:v1",
+  "campaignKey": "fortress-rewards-20261020-v1",
+  "title": "포트리스 보상",
+  "delivery": "MESSAGE",
+  "authorization": "사용자 지정 포트리스 참가자 50명 3천억씩, 우승 의지·쁴로리·음주플레이어 10조씩, 준우승 망순이ෆ·ShowMaker·여우 5조씩. 포트리스 보상 메시지 발송. 후속: 철줌마효진 보류 후 나머지 지급.",
+  "tiers": {
+    "PARTICIPANT": {
+      "count": 49,
+      "amount": "300000000000"
+    },
+    "WINNER": {
+      "count": 3,
+      "amount": "10000000000000"
+    },
+    "RUNNER_UP": {
+      "count": 3,
+      "amount": "5000000000000"
+    }
+  },
+  "held": [
+    {
+      "inputNickname": "철줌마효진",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "reason": "USER_REQUESTED_HOLD_IDENTITY_UNRESOLVED"
+    }
+  ],
+  "recipientCount": 55,
+  "totalCoin": "59700000000000",
+  "recipients": [
+    {
+      "order": 1,
+      "inputNickname": "씨나인택갓",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "1195",
+      "nickname": "씨나인택갓",
+      "role": "USER",
+      "identityHash": "31e682d06f6ed77147fe67a1a52f46675dd967d5adbbb827abc566b55dc85708",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 2,
+      "inputNickname": "#유나랜드",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4209",
+      "nickname": "#유나랜드",
+      "role": "USER",
+      "identityHash": "ff116f763d95e0e54e0ea800739f9f4055be73f89365a3a18cfd655812d718ab",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 3,
+      "inputNickname": "#크레파스",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4222",
+      "nickname": "#크레파스",
+      "role": "USER",
+      "identityHash": "07e7f8553ab0287d0872f1c03bee0225cc6327e77445f07043ad6b32c6031949",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 4,
+      "inputNickname": "핫시",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "1768",
+      "nickname": "핫시",
+      "role": "USER",
+      "identityHash": "763fdc56bff90762f3920c1af49d6862aaa62060f243c2ba7bab15a3ee8c719d",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 5,
+      "inputNickname": "오일바른가지",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "3011",
+      "nickname": "오일바른가지",
+      "role": "USER",
+      "identityHash": "82af0dd6d82e225e93e8794ee7e2a8779a585597f8b6caf398ac3fce9c531c23",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 6,
+      "inputNickname": "zkzk9999",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "3884",
+      "nickname": "zkzk9999",
+      "role": "USER",
+      "identityHash": "6ce62c14ae1c1bce2c9c66c638653b45f3b4390901001af3bafa21aed4da963e",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 7,
+      "inputNickname": "깅더듬",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "5877",
+      "nickname": "깅더듬",
+      "role": "USER",
+      "identityHash": "0d9a41996e3c299a45c66a32be42db0d5b466f9663564d33b938c9155dcfdd4e",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 8,
+      "inputNickname": "커피마시는철구",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "22",
+      "nickname": "커피먹는철구",
+      "role": "USER",
+      "identityHash": "ff5b3221912889760bcdae0ffabdbb7beaf6826a90a1abfe7cb5999860be34c3",
+      "matchEvidence": "docs/room-sponsor-rewards-20261018.md; scripts/ops/room-sponsor-rewards-20261018-plan.json"
+    },
+    {
+      "order": 9,
+      "inputNickname": "x수댕",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "216",
+      "nickname": "x수댕",
+      "role": "USER",
+      "identityHash": "492bd63ad3bd63919314d58b49239d2d3f85e448855d8400644e6700b07ec142",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 10,
+      "inputNickname": "0수표",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "88",
+      "nickname": "0수표",
+      "role": "USER",
+      "identityHash": "655b466801591a494cbe5ba9d2cf41a5db1e6192359c78b0c34c7d2bb42618f8",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 11,
+      "inputNickname": "Veil",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4629",
+      "nickname": "Veil",
+      "role": "USER",
+      "identityHash": "718d72afd75455ae8b5acd3d2d2b04dfb1969f94cf3d6137420b5cc38eed77a6",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 12,
+      "inputNickname": "공단",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4614",
+      "nickname": "공단",
+      "role": "USER",
+      "identityHash": "777eec5fa4936e49854b8c98026a0c3a0d0e62258a009d5ab1a1b6a56678ae3b",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 13,
+      "inputNickname": "레드클라우드",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "3867",
+      "nickname": "레드클라우드",
+      "role": "USER",
+      "identityHash": "e44044aba865fbd64ae491d53e588d5359d23802b23a6a4e611540876933f16b",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 14,
+      "inputNickname": "구와함",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "2333",
+      "nickname": "구와함",
+      "role": "USER",
+      "identityHash": "a82ddb98ac40012bb011d6a3ae96a4b169af91a5aae883dbc03dafb7e526df73",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 15,
+      "inputNickname": "족단",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4582",
+      "nickname": "족단",
+      "role": "USER",
+      "identityHash": "680294eab1e690cdcfe645062fecce8fd71f930e281e18fb19d5948c36c92231",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 16,
+      "inputNickname": "암살자..",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4598",
+      "nickname": "암살자..",
+      "role": "USER",
+      "identityHash": "1ac7f2fa0fc31e3d6616865720319321e8ccefa3b60d26d136a4815f8db5943a",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 17,
+      "inputNickname": "응멘",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4572",
+      "nickname": "응맨",
+      "role": "USER",
+      "identityHash": "74b0acf70d681fc0edaef2ed49d50be2e6fe5a0b33b7909a939beadff3618141",
+      "matchEvidence": "docs/heeya-room-thanks-gift-20261003.md — previous user-confirmed alias"
+    },
+    {
+      "order": 18,
+      "inputNickname": "남수단",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "6",
+      "nickname": "남수단",
+      "role": "OWNER",
+      "identityHash": "c08024bb34837ca7b5f1dfe88f7773f08be7e689467160fe93488feefc456251",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 19,
+      "inputNickname": "폭군",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "52",
+      "nickname": "폭군#",
+      "role": "USER",
+      "identityHash": "879b67109259d62324c3c9500e395539cc3a445eda0e6716abb6a165083ea812",
+      "matchEvidence": "current PLAY DK verified name 폭군; docs/team-event-diim-rewards-20261014.md"
+    },
+    {
+      "order": 20,
+      "inputNickname": "최성수",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "8",
+      "nickname": "최성수",
+      "role": "USER",
+      "identityHash": "1496ecd09906dd8912a618f60afc56c5aac6001bf74020e709ed184ee1442c7d",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 21,
+      "inputNickname": "전게씹선미아웃",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "1255",
+      "nickname": "전게씹선미아웃",
+      "role": "USER",
+      "identityHash": "7455865e84dc6dfd8a9f6bb1d1623fc35f0d040cff8bfa2fe0ade7eb3b4ed11a",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 22,
+      "inputNickname": "센텀신사",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "792",
+      "nickname": "센텀신사",
+      "role": "USER",
+      "identityHash": "508174ca04ac36090a11e6ee29a06c372c8b9e0d4e4a23ef58c1d42a49d66e1a",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 23,
+      "inputNickname": "우회하세요",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "3974",
+      "nickname": "우회하세요",
+      "role": "USER",
+      "identityHash": "bdfbc579a8e6a053203daf2d077d624cf32788a09b597f8baea7521bfb90a220",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 24,
+      "inputNickname": "찬호",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4597",
+      "nickname": "찬호",
+      "role": "USER",
+      "identityHash": "b312788ae6bb739cf582f6fd6465883cd06972a80473ac050ad06e60ec41fdfc",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 25,
+      "inputNickname": "[C9]족쪽이",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "303",
+      "nickname": "[C9]족쪽이",
+      "role": "USER",
+      "identityHash": "ae0c0ca17b60705b6a66d8de9bdd0b422ca54f9b96eae300ef05bb17a837ca94",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 26,
+      "inputNickname": "유나이은",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "236",
+      "nickname": "유나이은",
+      "role": "USER",
+      "identityHash": "77e699ad865f1501ecd05487fed9783090c0a073493efb47a88e3e4e5838dbff",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 27,
+      "inputNickname": "청라배달맨",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4616",
+      "nickname": "청라배달맨",
+      "role": "USER",
+      "identityHash": "e4658186a3ee973dbb1d6d731030fad305be6fb4a689d07ec036b99ca2d7093f",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 28,
+      "inputNickname": "비니",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4595",
+      "nickname": "비니",
+      "role": "USER",
+      "identityHash": "96d4946ca800d765afa3fc948ce374491805f9774f08db0ee27feca0719601c8",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 29,
+      "inputNickname": "족짜미♡",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "3480",
+      "nickname": "족짜미♡",
+      "role": "USER",
+      "identityHash": "1f4b52d21004fa2c53d59d75859b2385f5a0d14a8c82ba2e48a93a3b22c8cf41",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 30,
+      "inputNickname": "랄네미탱탱",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "76",
+      "nickname": "랄네미탱탱",
+      "role": "USER",
+      "identityHash": "4fbe9fd2ff31efaced7a70bd3d89d963df36e0cdc88fe5b1b2e51c506f98062e",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 31,
+      "inputNickname": "ε연두з",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "3",
+      "nickname": "ε연두з",
+      "role": "USER",
+      "identityHash": "4b426f4e85f51ddbe880ed6e7eda26015b4cf1c95a4664e68023aaadb6cc4f56",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 32,
+      "inputNickname": "˚쟁이。",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4705",
+      "nickname": "˚쟁이。",
+      "role": "USER",
+      "identityHash": "f1db5957cf05bb005cec01fcb6f74276c873084ccfb15a1795a8027dc7cc09a8",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 33,
+      "inputNickname": "스루형2↑",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4910",
+      "nickname": "스루형2↑",
+      "role": "USER",
+      "identityHash": "009eaebf8cf28efdee15fd5c9c671e4c1edb89cb4da345bdead9de8a2d74a605",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 34,
+      "inputNickname": "모래",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "295",
+      "nickname": "모래",
+      "role": "USER",
+      "identityHash": "baeb494c77d22d676921168f90c8961131f25e8b912e4ed0dd0cff642bb14861",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 35,
+      "inputNickname": "족구조아",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "525",
+      "nickname": "족구조아",
+      "role": "USER",
+      "identityHash": "804c3251775caf2d62eb411e9a8b2a040ff2d16132731541bece6d6f5fad79fb",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 36,
+      "inputNickname": "치타구",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "493",
+      "nickname": "치타구",
+      "role": "USER",
+      "identityHash": "a988a51995f63072a02bd06a60366ddedf1394fffa36f4ac8ee76ef775bd6a76",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 37,
+      "inputNickname": "박세라-ㅂ-",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "45",
+      "nickname": "박세라-ㅂ-",
+      "role": "USER",
+      "identityHash": "08c49a1c0cd16d9bc09716431a002e6c4205b2b0c7fb513a462eb9667cf6acea",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 38,
+      "inputNickname": "옹가망함1",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "2246",
+      "nickname": "옹가망함1",
+      "role": "USER",
+      "identityHash": "67ead2160f6f23f198c22e8a5db522e668d70b0d33a33f6e07aee306459f816a",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 39,
+      "inputNickname": "박사",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "164",
+      "nickname": "박사",
+      "role": "USER",
+      "identityHash": "bc9ac30c712efc51ff5ab914c0029a14dffbad1844bb45f07a98bcf94f7fdf5e",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 40,
+      "inputNickname": "[C9]가시",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4866",
+      "nickname": "[C9]가시",
+      "role": "USER",
+      "identityHash": "01cc8dbfff65fb3e490487d9c5237cb424677940c32b37357df2559061ce6602",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 41,
+      "inputNickname": "족알못",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "220",
+      "nickname": "족알못",
+      "role": "USER",
+      "identityHash": "ffb8c73e5c7ad0808d40416ab74e913fa2a4557fcfee28b37fa83f712a55d93a",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 42,
+      "inputNickname": "세라네꼬라지",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4651",
+      "nickname": "세라네꼬라지",
+      "role": "USER",
+      "identityHash": "0986b57525f134251b2896606a1ade009a8e20d274822c1158a2613eb40af274",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 43,
+      "inputNickname": "게임닉네임",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4084",
+      "nickname": "게임닉네임",
+      "role": "USER",
+      "identityHash": "a5502ef92442669c21b958e770c9b99450edda7a0e72a1aa35c07e7934c0819e",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 44,
+      "inputNickname": "Moo날두",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4415",
+      "nickname": "Moo날두",
+      "role": "USER",
+      "identityHash": "54f88b1f6fc823737412c99508e4ba0769417b4b13b2ae8d042a461b8fed3ec1",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 45,
+      "inputNickname": "좋은하루",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "1545",
+      "nickname": "좋은하루",
+      "role": "USER",
+      "identityHash": "6d0b8e8bd8bb5e3bd696b291073cce5fdafd5a7568a8b0139fc32302d3fec925",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 46,
+      "inputNickname": "베베킹",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "289",
+      "nickname": "베베킹",
+      "role": "USER",
+      "identityHash": "9b712fffb3dc6d72856875ac7e288c6f0bb9b6f749398965a0bee0419911ddaa",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 47,
+      "inputNickname": "현하루",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "218",
+      "nickname": "현하루",
+      "role": "USER",
+      "identityHash": "1243cc7fb8bb06d9135ac8dc7b979f7236d4248a019edc42f29917229037996b",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 48,
+      "inputNickname": "제롬",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4625",
+      "nickname": "제롬",
+      "role": "USER",
+      "identityHash": "784d8db3d7d57a2d4473d96c747a1ca38565ee7200de0d2819a15bb1bfdd2146",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 49,
+      "inputNickname": "택신",
+      "tier": "PARTICIPANT",
+      "amount": "300000000000",
+      "userId": "4199",
+      "nickname": "택신",
+      "role": "USER",
+      "identityHash": "dc4de36334b2d724aca0203acf7c5de2b800799a00081381a35f1fe8917dd27a",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 50,
+      "inputNickname": "의지",
+      "tier": "WINNER",
+      "amount": "10000000000000",
+      "userId": "4641",
+      "nickname": "의지",
+      "role": "USER",
+      "identityHash": "189f9071cff9d8a994a233bf8f948735803c6ca031f1cd8b8f06ae10144e31ce",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 51,
+      "inputNickname": "쁴로리",
+      "tier": "WINNER",
+      "amount": "10000000000000",
+      "userId": "4965",
+      "nickname": "쁴로리",
+      "role": "USER",
+      "identityHash": "78a05479f11982737c855309ba28eb9b272acaf51fc2a67de8a473745a65ceac",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 52,
+      "inputNickname": "음주플레이어",
+      "tier": "WINNER",
+      "amount": "10000000000000",
+      "userId": "4757",
+      "nickname": "음주플레이어",
+      "role": "USER",
+      "identityHash": "565db1eb781fb3bc85030ca17298e541a76b094c4a19c0b3e459d565e0feb81f",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 53,
+      "inputNickname": "망순이ෆ",
+      "tier": "RUNNER_UP",
+      "amount": "5000000000000",
+      "userId": "4628",
+      "nickname": "망순이ෆ",
+      "role": "USER",
+      "identityHash": "33c5efe7b1d8d4caac98a0630211d0478caf72f93b1c6e493f08cdfa93b80b6e",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 54,
+      "inputNickname": "ShowMaker",
+      "tier": "RUNNER_UP",
+      "amount": "5000000000000",
+      "userId": "233",
+      "nickname": "ShowMaker",
+      "role": "USER",
+      "identityHash": "f9faaecd8ebc030f473899049c2fa62a5b450dc63d0f582a42740de0403d5d43",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    },
+    {
+      "order": 55,
+      "inputNickname": "여우",
+      "tier": "RUNNER_UP",
+      "amount": "5000000000000",
+      "userId": "25",
+      "nickname": "여우",
+      "role": "USER",
+      "identityHash": "9483d83050434cb2abdbfbdb096ad071bfcf81367ce9de5aec7f90f4b01f3ce8",
+      "matchEvidence": "EXACT_CURRENT_NICKNAME"
+    }
+  ]
+}
