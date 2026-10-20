@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'file:///C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
 import {applicationFixture} from './helpers/supporter-application-fixture.mjs';
 
-const root=process.cwd(),out=path.join(root,'docs/qa/message-cleanup-20261020');
+const root=process.cwd(),out=path.join(root,'docs/qa/message-system-cleanup-20261020');
 fs.mkdirSync(out,{recursive:true});
 const app=fs.readFileSync('js/app.js','utf8');
 const source=app.slice(app.indexOf('function messagesView()'),app.indexOf('// V1799: 2차 인증은 PLAY DK 단독 운영.'));
@@ -48,7 +48,9 @@ try{
       [1,'확인한 운영 안내',1,'NOTICE',null],[2,'새로운 운영 안내',0,'NOTICE',null],
       [3,'아직 받지 않은 코인 보상',0,'ITEM_REWARD',null],[4,'수령 완료한 보상',1,'ITEM_REWARD',null],
       [5,'보관 중인 쿠폰',1,'NOTICE','KEEP-COUPON'],[6,'계좌 안내',1,'SUPPORT_BANK_ACCOUNT',null],
-      [7,'지급 기록 확인이 필요한 보상',1,'ITEM_REWARD',null]
+      [7,'지급 기록 확인이 필요한 보상',1,'ITEM_REWARD',null],
+      [8,'패키지 구매 접수',0,'SYSTEM',null],[9,'패키지 구매 처리 완료',1,'SYSTEM',null],
+      [10,'리버스랜드 쿠폰 발급',0,'SOOPKETLAND_COUPON','ISSUED-COUPON']
     ])await fixture.run('INSERT INTO user_messages(id,user_id,title,body,message_type,is_read,coupon_code,created_at) VALUES(?,2,?,?,?,?,?,?)',id,title,'메시지의 내용을 확인하고 필요한 보상을 수령하세요.',type,isRead,coupon,now);
     for(const id of [3,4,7])await fixture.run("INSERT INTO user_message_rewards VALUES(?,?,2,'COIN',50,?)",id,id,id===3?null:now);
     await fixture.run("INSERT INTO user_message_reward_claim_receipts_v1222 VALUES(4,4,2,'COIN',50,?)",now);
@@ -59,11 +61,12 @@ try{
     page.on('dialog',async dialog=>{dialogs.push(dialog.message());if(dialog.type()==='confirm'&&!acceptConfirm)await dialog.dismiss();else await dialog.accept();});
     await page.goto(base+'/qa');
     const button=page.locator('#deleteCompletedMessages');
-    await page.waitForFunction(()=>document.getElementById('deleteCompletedMessages')?.dataset.count==='2');
+    await page.waitForFunction(()=>document.getElementById('deleteCompletedMessages')?.dataset.count==='8');
     await page.locator('.user-message[data-id="2"] p').click();
-    await page.waitForFunction(()=>document.getElementById('deleteCompletedMessages')?.dataset.count==='3');
+    await page.locator('.user-message[data-id="2"].read').waitFor();
+    assert.equal(await button.getAttribute('data-count'),'8');
     acceptConfirm=false;await button.click();assert.equal(cleanupRequests,0);
-    assert.equal(await page.locator('.user-message').count(),7);
+    assert.equal(await page.locator('.user-message').count(),10);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
     const rect=await button.boundingBox();assert(rect.height>=44&&rect.x>=0&&rect.x+rect.width<=width);
     assert.match(await button.evaluate(e=>getComputedStyle(e).backgroundImage),/completed-cleanup-20261020.webp/);
@@ -71,18 +74,29 @@ try{
     await page.keyboard.press('Tab');await button.focus();assert.equal(await button.evaluate(e=>getComputedStyle(e).outlineStyle),'solid');
     await page.screenshot({path:path.join(out,'inbox-'+width+'.png'),fullPage:true});
     acceptConfirm=true;failOnce=true;await button.press('Enter');
-    await page.waitForFunction(()=>document.getElementById('deleteCompletedMessages')?.dataset.count==='3'&&!document.getElementById('deleteCompletedMessages').disabled);
-    assert.equal(cleanupRequests,1);assert.equal(await page.locator('.user-message').count(),7);
+    await page.waitForFunction(()=>document.getElementById('deleteCompletedMessages')?.dataset.count==='8'&&!document.getElementById('deleteCompletedMessages').disabled);
+    assert.equal(cleanupRequests,1);assert.equal(await page.locator('.user-message').count(),10);
     await button.click();
     await button.evaluate(e=>e.click());
     await page.waitForFunction(()=>document.getElementById('deleteCompletedMessages')?.dataset.count==='0');
     assert.equal(cleanupRequests,2);assert.equal(await button.isDisabled(),true);
-    assert.deepEqual(await page.locator('.user-message').evaluateAll(elements=>elements.map(e=>Number(e.dataset.id)).sort((a,b)=>a-b)),[3,5,6,7]);
+    assert.deepEqual(await page.locator('.user-message').evaluateAll(elements=>elements.map(e=>Number(e.dataset.id)).sort((a,b)=>a-b)),[3,7]);
     await page.reload();await page.locator('.user-message[data-id="3"]').waitFor();
     assert.equal(await button.isDisabled(),true);assert.deepEqual(errors,[]);
-    assert(dialogs.some(message=>message.includes('3건의 메시지를 삭제')));
+    assert(dialogs.some(message=>message.includes('8건의 메시지를 삭제')));
+    assert(dialogs.some(message=>message.includes('읽음 여부와 관계없이')));
     await page.screenshot({path:path.join(out,'cleaned-'+width+'.png'),fullPage:true});
-    reports.push({width,buttonHeight:rect.height,readEnablesCleanup:true,cancelPreserves:true,errorRetry:true,doubleClickSingleRequest:true,protectedMessagesPreserved:true,receiptPreserved:true,emptyDisabled:true,imageLoaded:true,keyboardFocus:true,horizontalOverflow:false,errors});
+    // Bank instructions now count as eligible; their existing five-minute expiry
+    // must remove that count as well, without leaving an enabled empty action.
+    await fixture.run("INSERT INTO user_messages(id,user_id,title,body,message_type,is_read,created_at) VALUES(11,2,'새 계좌 안내','검수','SUPPORT_BANK_ACCOUNT',0,?)",now);
+    await page.clock.install();
+    await page.reload();
+    await page.waitForFunction(()=>document.getElementById('deleteCompletedMessages')?.dataset.count==='1');
+    fixture.clock.now+=301000;await page.clock.fastForward(301000);
+    await page.waitForFunction(()=>!document.querySelector('.user-message[data-id="11"]'));
+    assert.equal(await button.getAttribute('data-count'),'0');assert.equal(await button.isDisabled(),true);
+    assert.deepEqual(errors,[]);
+    reports.push({width,buttonHeight:rect.height,unreadSystemIncluded:true,couponIncluded:true,purchaseIncluded:true,readCountStable:true,cancelPreserves:true,errorRetry:true,doubleClickSingleRequest:true,protectedMessagesPreserved:true,receiptPreserved:true,emptyDisabled:true,expiryCountUpdated:true,imageLoaded:true,keyboardFocus:true,horizontalOverflow:false,errors});
     await context.close();await fixture.close();fixture=null;
   }
   fs.writeFileSync(path.join(out,'browser.json'),JSON.stringify(reports,null,2)+'\n');console.log(JSON.stringify(reports));

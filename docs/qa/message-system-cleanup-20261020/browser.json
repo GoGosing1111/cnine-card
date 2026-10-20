@@ -1,0 +1,40 @@
+[
+  {
+    "width": 1440,
+    "buttonHeight": 54,
+    "unreadSystemIncluded": true,
+    "couponIncluded": true,
+    "purchaseIncluded": true,
+    "readCountStable": true,
+    "cancelPreserves": true,
+    "errorRetry": true,
+    "doubleClickSingleRequest": true,
+    "protectedMessagesPreserved": true,
+    "receiptPreserved": true,
+    "emptyDisabled": true,
+    "expiryCountUpdated": true,
+    "imageLoaded": true,
+    "keyboardFocus": true,
+    "horizontalOverflow": false,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "buttonHeight": 54,
+    "unreadSystemIncluded": true,
+    "couponIncluded": true,
+    "purchaseIncluded": true,
+    "readCountStable": true,
+    "cancelPreserves": true,
+    "errorRetry": true,
+    "doubleClickSingleRequest": true,
+    "protectedMessagesPreserved": true,
+    "receiptPreserved": true,
+    "emptyDisabled": true,
+    "expiryCountUpdated": true,
+    "imageLoaded": true,
+    "keyboardFocus": true,
+    "horizontalOverflow": false,
+    "errors": []
+  }
+]

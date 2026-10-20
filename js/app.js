@@ -4565,7 +4565,7 @@ async function openPrimeDrawPack(kind,ownedQuantity=null,suppliedConfig=null,aut
   if(Number(autoOpenCount)>0)queueMicrotask(()=>document.getElementById('primeDrawConfirm')?.click());
 }
 
-function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">REVERSE CALL MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><div class="message-head-actions"><button class="btn message-claim-all" id="claimAllMessages" type="button" disabled aria-live="polite">보상 일괄 수령</button><button class="btn secondary" id="openWagoVerify" type="button">2차 인증</button><button class="message-cleanup-all" id="deleteCompletedMessages" type="button" disabled aria-describedby="messageCleanupHint">수령·읽음 일괄삭제</button><small id="messageCleanupHint" class="message-cleanup-hint">읽은 안내·수령 완료만 삭제합니다.<br>미수령 보상·쿠폰·계좌 안내는 유지됩니다.</small></div></div><div id="wagoVerifyPanel" class="wago-verify-panel secondary-verification-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
+function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">REVERSE CALL MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><div class="message-head-actions"><button class="btn message-claim-all" id="claimAllMessages" type="button" disabled aria-live="polite">보상 일괄 수령</button><button class="btn secondary" id="openWagoVerify" type="button">2차 인증</button><button class="message-cleanup-all" id="deleteCompletedMessages" type="button" disabled aria-describedby="messageCleanupHint">메시지 일괄삭제</button><small id="messageCleanupHint" class="message-cleanup-hint">시스템·쿠폰·구매 안내도 함께 삭제합니다.<br>미수령·지급 확인 중인 보상만 남습니다.</small></div></div><div id="wagoVerifyPanel" class="wago-verify-panel secondary-verification-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
 const MESSAGE_REWARD_META={JOKGAK_CITY_REWARD:{label:'족각도시 보상',icon:'🏙️'},MINE_ELECTRIC_DRILL:{label:'전동드릴',icon:'🛠️'},LICH_KING_ENTRY_TICKET:{label:'이스겐 정벌 입장권',icon:'🎟️'},PINGDU_THANKS_GIFT_BOX:{label:'핑두의 감사 선물',icon:'🎁'},MERCENARY_SHIRANUI:{label:'시라누이 SSS 리미티드',icon:'🃏'},MERCENARY_OMEGA_X:{label:'오메가-X SSS',icon:'🃏'},TOURNAMENT_GIFT_BOX:{label:'대회 사은품',icon:'🎁'},RECRUITMENT_GIFT_BOX:{label:'영입전 사은품',icon:'🎁'},FUNDING_GIFT_BOX:{label:'펀딩 사은품',icon:'🎁'},PIG_COIN:{label:'피그코인',icon:'🐷'},COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'},UNIQUE_ADVANCEMENT_PASS:{label:'전직 패스권',icon:'🎟️'},STARLIGHT_ARMOR_CORE:{label:'미스틱 에너지',icon:'🔮'},PINGDU_REPAIR_COUPON:{label:'핑두 리페어 쿠폰',icon:'🎟️'}};
 function messageRewardMeta(message){
   const type=String(message?.reward_type||'').trim().toUpperCase();
@@ -4617,19 +4617,19 @@ function updateMessageCleanupButton(count){
   const button=document.getElementById('deleteCompletedMessages');if(!button)return;
   const total=Math.max(0,Number(count??button.dataset.count)||0);button.dataset.count=String(total);
   button.disabled=messageCleanupPending||total===0;
-  button.textContent=messageCleanupPending?'메시지 정리 중…':('수령·읽음 일괄삭제'+(total?' · '+total.toLocaleString()+'건':''));
+  button.textContent=messageCleanupPending?'메시지 정리 중…':('메시지 일괄삭제'+(total?' · '+total.toLocaleString()+'건':''));
   button.onclick=deleteCompletedMessages;
 }
 async function deleteCompletedMessages(){
   const button=document.getElementById('deleteCompletedMessages');
   if(!button||messageCleanupPending||!Number(button.dataset.count))return;
-  if(!confirm('읽은 안내와 보상 수령이 완료된 메시지를 일괄삭제할까요?\n미수령 보상·쿠폰·계좌 안내는 유지됩니다.'))return;
+  if(!confirm('시스템·쿠폰 발급·구매 처리 안내를 읽음 여부와 관계없이 일괄삭제할까요?\n미사용 쿠폰 안내도 삭제됩니다. 미수령·지급 확인 중인 보상은 남습니다.'))return;
   messageCleanupPending=true;updateMessageCleanupButton();
   document.querySelectorAll('#claimAllMessages,[data-claim-message],[data-hide-message]').forEach(control=>{control.disabled=true});
   try{
     const result=await apiRequest('messages',{method:'PATCH',body:JSON.stringify({action:'HIDE_COMPLETED'})});
     clearApiCache('messages');clearApiCache('shell/summary');
-    alert(Number(result.deletedCount)>0?Number(result.deletedCount).toLocaleString()+'건의 메시지를 삭제했습니다.':'삭제할 수령 완료·읽은 메시지가 없습니다.');
+    alert(Number(result.deletedCount)>0?Number(result.deletedCount).toLocaleString()+'건의 메시지를 삭제했습니다.':'삭제할 메시지가 없습니다.');
   }catch(error){alert(error.message||'메시지를 정리하지 못했습니다. 다시 시도해 주세요.');}
   finally{messageCleanupPending=false;await loadMessages();}
 }
@@ -4641,6 +4641,8 @@ async function loadMessages(){
     const {mountSupportMessageExpiry}=await import('/js/supporter-message-expiry-v1.mjs?v=20261011-apply1');
     const elapsed=Date.now()-started,serverNow=Number(d.serverNow)||Date.now();
     if(turn!==supportMessageLoadEpoch||!box.isConnected)return;
+    const expiredMessages=d.messages.filter(m=>m.expiresAt&&m.expiresAt<=serverNow+elapsed);
+    d.cleanupCount=Math.max(0,Number(d.cleanupCount||0)-expiredMessages.filter(m=>Number(m.cleanupEligible)===1).length);
     d.messages=d.messages.filter(m=>!m.expiresAt||m.expiresAt>serverNow+elapsed);
     d.unread=d.messages.filter(m=>!m.is_read).length;
     updateMessageNewBadges(d.unread||0);
@@ -4652,7 +4654,16 @@ async function loadMessages(){
       const rewardType=String(m.reward_type||'').trim().toUpperCase(),rewardMeta=messageRewardMeta(m),messageReward=Boolean(rewardMeta)&&Number(m.reward_amount)>0;
       return `<article class="user-message ${m.is_read?'read':'unread'} ${m.needs_recovery?'reward-recovery':''}" data-id="${m.id}" ${m.expiresAt?`data-support-message-expires="${Number(m.expiresAt)}"`:""}>${m.needs_recovery?'<span class="message-recovery-label">지급 누락 감지</span>':`<button type="button" class="message-delete" data-hide-message="${m.id}" aria-label="메시지 삭제">삭제</button>`}<div><span>${messageReward?'보상 메시지':m.message_type==='SUPPORT_BANK_ACCOUNT'?'후원 신청 · 계좌 안내':escapeHtml(m.message_type)}</span><h3>${escapeHtml(m.title)}</h3><p>${escapeHtml(m.body)}</p>${m.expiresAt?'<small data-support-message-countdown role="timer"></small><br>':''}${messageReward?`<div class="message-reward"><strong>${escapeHtml(rewardMeta.icon)} ${Number(m.reward_amount).toLocaleString()} ${escapeHtml(rewardMeta.label)}</strong><button type="button" data-claim-message="${m.id}" ${m.claimed_at&&!m.needs_recovery?'disabled':''}>${m.needs_recovery?'지급 재확인':(m.claimed_at?'수령 완료':'보상 받기')}</button></div>`:''}${m.coupon_code?`<div class="message-coupon"><code>${escapeHtml(m.coupon_code)}</code><button type="button" ${m.message_type==='SOOPKETLAND_COUPON'?'data-copy-event-coupon':'data-use-coupon'}="${escapeHtml(m.coupon_code)}">${m.message_type==='SOOPKETLAND_COUPON'?'코드 복사':'쿠폰 사용'}</button></div>`:''}<small>${escapeHtml(String(m.created_at||'').replace('T',' ').slice(0,16))}</small></div></article>`;
     }).join(''):'<div class="empty-recent">도착한 메시지가 없습니다.</div>';
-    supportMessageExpiryView=mountSupportMessageExpiry(box,{serverNow,requestElapsed:elapsed,onRemove:unread=>{clearApiCache('messages');clearApiCache('shell/summary');updateMessageNewBadges(messageUnreadCount-unread);}});
+    supportMessageExpiryView=mountSupportMessageExpiry(box,{serverNow,requestElapsed:elapsed,onRemove:unread=>{
+      let removedCount=0;
+      for(const notice of d.messages){
+        if(notice.expiresAt&&Number(notice.cleanupEligible)===1&&!box.querySelector(`[data-id="${Number(notice.id)}"]`)){
+          notice.cleanupEligible=0;removedCount++;
+        }
+      }
+      updateMessageCleanupButton(Number(document.getElementById('deleteCompletedMessages')?.dataset.count||0)-removedCount);
+      clearApiCache('messages');clearApiCache('shell/summary');updateMessageNewBadges(messageUnreadCount-unread);
+    }});
     box.querySelectorAll('[data-copy-event-coupon]').forEach(b=>b.onclick=async e=>{e.stopPropagation();try{await navigator.clipboard.writeText(b.dataset.copyEventCoupon);b.textContent='복사 완료'}catch{prompt('방송 공유용 쿠폰 코드를 복사하세요.',b.dataset.copyEventCoupon)}});
     box.querySelectorAll('.user-message').forEach(x=>x.onclick=async()=>{
       if(!x.classList.contains('unread')||x.dataset.readPending)return;
