@@ -1,0 +1,80 @@
+[
+  {
+    "width": 1440,
+    "mode": "full",
+    "posts": 1,
+    "reads": 1,
+    "confirmed": 2,
+    "filled": 5242725,
+    "walletCacheFailures": 2,
+    "oneEnabled": true,
+    "tenEnabled": true,
+    "pending": null,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "mode": "history-denied",
+    "posts": 0,
+    "reads": 2,
+    "confirmed": 2,
+    "filled": 0,
+    "walletCacheFailures": 2,
+    "oneEnabled": true,
+    "tenEnabled": true,
+    "pending": null,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "mode": "pending-write-denied",
+    "posts": 0,
+    "reads": 0,
+    "confirmed": 0,
+    "filled": 0,
+    "walletCacheFailures": 0,
+    "oneEnabled": true,
+    "tenEnabled": true,
+    "pending": null,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "full",
+    "posts": 1,
+    "reads": 1,
+    "confirmed": 2,
+    "filled": 5242725,
+    "walletCacheFailures": 2,
+    "oneEnabled": true,
+    "tenEnabled": true,
+    "pending": null,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "history-denied",
+    "posts": 0,
+    "reads": 2,
+    "confirmed": 2,
+    "filled": 0,
+    "walletCacheFailures": 2,
+    "oneEnabled": true,
+    "tenEnabled": true,
+    "pending": null,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "mode": "pending-write-denied",
+    "posts": 0,
+    "reads": 0,
+    "confirmed": 0,
+    "filled": 0,
+    "walletCacheFailures": 0,
+    "oneEnabled": true,
+    "tenEnabled": true,
+    "pending": null,
+    "errors": []
+  }
+]

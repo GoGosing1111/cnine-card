@@ -1,6 +1,6 @@
 import {jointAccountRequest} from './joint-account-transport.mjs?v=20260924-response';
 import {HALLOWEEN_PACK,halloweenReceiptResults,halloweenPackPrice} from '../shared/mercenary-halloween-pack-v1.mjs?v=bathory-20261019-v1';
-import {HalloweenOpeningSession} from '../shared/mercenary-halloween-session-v2.mjs?v=20261020-recovery-button-v1';
+import {HalloweenOpeningSession} from '../shared/mercenary-halloween-session-v2.mjs?v=20261021-storage-recovery-v1';
 import {HalloweenAutoOpening,halloweenAutoQuote} from '../shared/mercenary-halloween-auto-v1.mjs?v=20261017-auto-v1';
 import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=2145';
 import {halloweenStockText,halloweenCollectionMarkup,halloweenResultsMarkup,halloweenRoomMarkup} from './mercenary-halloween-presentation-v2.mjs?v=bathory-20261019-v1';
@@ -73,7 +73,11 @@ export async function mountHalloweenPack({api=jointAccountRequest,accountId=curr
   }
  }
  session=new HalloweenOpeningSession({api:request,accountId,getAccountId:()=>disposed?0:getAccountId(),storage,lock,present,onPending:sync,onConfirmed:receipt=>{
-  if(disposed)return;const user=globalThis.loadUser?.();if(Number(user?.serverUserId)===accountId&&globalThis.saveUser){user.coin=Number(receipt.coin);globalThis.saveUser(user,{source:'draw'});}
+  if(disposed)return;const user=globalThis.loadUser?.();if(Number(user?.serverUserId)===accountId&&globalThis.saveUser){
+   user.coin=Number(receipt.coin);
+   // A failed wallet cache must not hide the confirmed result or stop its event.
+   try{globalThis.saveUser(user,{source:'draw'});}catch{}
+  }
   sync();
   window.dispatchEvent(new CustomEvent('limited-pack:receipt',{detail:{coin:receipt.coin,accountId,requestId:receipt.requestId}}));
  }});

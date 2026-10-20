@@ -14,7 +14,12 @@ export class HalloweenOpeningSession{
   if(Number(receipt.accountId)!==this.accountId)throw fail('계정의 개봉 영수증이 일치하지 않습니다.','HALLOWEEN_RECEIPT_INVALID');
   const pending=this.read(this.pendingKey);
   if(pending&&(pending.accountId!==this.accountId||pending.body.requestId!==receipt.requestId||pending.body.count!==receipt.count))throw fail('요청과 개봉 결과가 일치하지 않습니다.','HALLOWEEN_RECEIPT_INVALID');
-  this.storage.setItem(this.receiptKey,JSON.stringify(receipt));this.storage.removeItem(this.pendingKey);this.onConfirmed(receipt);onReceipt(receipt);await this.present(receipt);return receipt;
+  // The server has confirmed this exact request. Optional history storage must
+  // not leave it pending when a large receipt exceeds the browser's quota.
+  this.storage.removeItem(this.pendingKey);
+  this.lastReceipt={requestId:receipt.requestId,accountId:this.accountId,count:receipt.count,revision:receipt.revision};
+  try{this.storage.setItem(this.receiptKey,JSON.stringify(this.lastReceipt));}catch{}
+  this.onConfirmed(receipt);onReceipt(receipt);await this.present(receipt);return receipt;
  }
  async submit(body){
   try{return await this.api(HALLOWEEN_PACK.openPath,{method:'POST',body});}
@@ -34,7 +39,19 @@ export class HalloweenOpeningSession{
   if(!config.userOpeningEnabled)throw fail('할로윈팩은 출시 준비 중입니다.','MERCENARY_HALLOWEEN_CLOSED');
   if(this.read(this.pendingKey))throw fail('이전 개봉 결과부터 확인해 주세요.','HALLOWEEN_RECOVERY_REQUIRED');
   const body=validateHalloweenOpeningBody({requestId:this.makeId(),count,expectedRevision:config.revision});
-  this.storage.setItem(this.pendingKey,JSON.stringify({accountId:this.accountId,body}));this.onPending();return this.accept(await this.submit(body),onReceipt);
+  const pending=JSON.stringify({accountId:this.accountId,body});
+  try{this.storage.setItem(this.pendingKey,pending);}
+  catch(error){
+   const unavailable=()=>fail('브라우저에 개봉 요청을 저장할 수 없습니다. 저장 공간과 브라우저 설정을 확인해 주세요.','HALLOWEEN_STORAGE_UNAVAILABLE');
+   if(error?.name!=='QuotaExceededError')throw unavailable();
+   // Reclaim only this pack's optional history pointer. A durable request is
+   // still mandatory before any purchase; never clear other browser data.
+   try{
+    this.lastReceipt??=this.read(this.receiptKey);
+    this.storage.removeItem(this.receiptKey);this.storage.setItem(this.pendingKey,pending);
+   }catch{throw unavailable();}
+  }
+  this.onPending();return this.accept(await this.submit(body),onReceipt);
  }
  // On entry, reconcile only the saved request. Never POST or resume automation
  // without the player's explicit recovery/opening action.
@@ -42,7 +59,7 @@ export class HalloweenOpeningSession{
  recover(){return this.exclusive(()=>this.#recover(false));}
  async #recover(readOnly){
   const pending=this.read(this.pendingKey);if(readOnly&&!pending)return null;
-  const saved=pending?null:this.read(this.receiptKey),requestId=pending?.body.requestId??saved?.requestId;
+  const saved=pending?null:this.lastReceipt??this.read(this.receiptKey),requestId=pending?.body.requestId??saved?.requestId;
   if(!requestId)throw fail('이 계정의 이전 개봉 기록이 없습니다.','HALLOWEEN_NO_RECEIPT');
   if(pending&&pending.accountId!==this.accountId)throw fail('저장된 요청의 계정이 다릅니다.','HALLOWEEN_ACCOUNT_CHANGED');
   let receipt;try{receipt=await this.api(HALLOWEEN_PACK.receiptPath+'?requestId='+encodeURIComponent(requestId));}catch(error){

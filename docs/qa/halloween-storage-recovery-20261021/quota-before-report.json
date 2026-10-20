@@ -1,0 +1,42 @@
+[
+  {
+    "width": 1440,
+    "mode": "quota",
+    "before": {
+      "oneDisabled": true,
+      "tenDisabled": true,
+      "pending": true,
+      "status": "The quota has been exceeded.",
+      "reads": 1,
+      "posts": 0
+    },
+    "after": {
+      "oneDisabled": true,
+      "tenDisabled": true,
+      "pending": true,
+      "status": "The quota has been exceeded.",
+      "reads": 2,
+      "posts": 0
+    }
+  },
+  {
+    "width": 390,
+    "mode": "quota",
+    "before": {
+      "oneDisabled": true,
+      "tenDisabled": true,
+      "pending": true,
+      "status": "The quota has been exceeded.",
+      "reads": 1,
+      "posts": 0
+    },
+    "after": {
+      "oneDisabled": true,
+      "tenDisabled": true,
+      "pending": true,
+      "status": "The quota has been exceeded.",
+      "reads": 2,
+      "posts": 0
+    }
+  }
+]
