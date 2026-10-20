@@ -1,0 +1,37 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "owned": true,
+      "locked": true,
+      "alphaAssetLoaded": true,
+      "pagination": 3,
+      "noHorizontalOverflow": true,
+      "touchTarget": true,
+      "keyboard": true
+    },
+    {
+      "width": 390,
+      "owned": true,
+      "locked": true,
+      "alphaAssetLoaded": true,
+      "pagination": 3,
+      "noHorizontalOverflow": true,
+      "touchTarget": true,
+      "keyboard": true
+    },
+    {
+      "width": 340,
+      "owned": true,
+      "locked": true,
+      "alphaAssetLoaded": true,
+      "pagination": 3,
+      "noHorizontalOverflow": true,
+      "touchTarget": true,
+      "keyboard": true
+    }
+  ],
+  "errors": [],
+  "responses": [],
+  "environment": "Chrome / actual player-card UI / isolated preview profiles; user visual approval remains separate"
+}

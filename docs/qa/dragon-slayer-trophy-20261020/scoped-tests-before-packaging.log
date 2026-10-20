@@ -1,0 +1,171 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"e83df6f9ade4a0cf20bdd908fdc07e46a05d9f34","reason":"Add Dragon Slayer transparent trophy for 5000 official World Raid clear participations, durable atomic counters, verified historic baseline, and backwards-compatible zero bonus defaults. Verify affected trophy, bonus and raid paths plus existing release safeguards; preserve source art and authoring notes in Git outside the Pages file cap.","changed":["AGENTS.md","assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.png","assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp","assets/ui/player-card/dragon-slayer-20261020/manifest.json","assets/ui/player-card/dragon-slayer-20261020/prompts.json","docs/equipment-power-20261020.md","docs/qa/dragon-slayer-trophy-20261020/README.md","docs/qa/equipment-power-20261020/apply.json","docs/qa/equipment-power-20261020/dry-run.json","docs/qa/equipment-power-20261020/verify.json","docs/qa/rank-exp-potion-distribution-20261020/production.json","docs/qa/rank-exp-potion-distribution-20261020/scoped-deploy.log","docs/qa/ranked-duo-start-20261020/battle-1440.png","docs/qa/ranked-duo-start-20261020/battle-390.png","docs/qa/ranked-duo-start-20261020/browser.json","docs/qa/ranked-duo-start-20261020/result-1440.png","docs/qa/ranked-duo-start-20261020/result-390.png","docs/qa/ranked-duo-start-20261020/start-cached-1440.png","docs/qa/ranked-duo-start-20261020/start-cached-390.png","docs/qa/ranked-duo-start-20261020/start-current-1440.png","docs/qa/ranked-duo-start-20261020/start-current-390.png","docs/rank-exp-potion-distribution-20261020.md","docs/ranked-duo-start-20261020.md","functions/_collection_bonuses.js","functions/_player_card.js","functions/_ranked_duo.js","functions/_trophy_honors.js","functions/_world_raid_trophy.js","functions/api/[[path]].js","index.html","js/app.js","js/player-card-model-v2052.js","js/player-card-v2052.js","js/ranked-duo-random-v4.mjs","js/ranked-duo-v1.mjs","preview/player-calling-card-v2052/index.html","preview/player-calling-card-v2052/preview.js","scripts/ops/equipment-power-20261020.mjs","scripts/ops/pink-all-trophies-20261014.mjs","scripts/ops/world-raid-trophy-baseline-20261020.mjs","scripts/prepare-production-assets.mjs","service-worker.js","shared/trophy-bonuses-v1.mjs","tests/equipment-power-20261020.test.mjs","tests/player-card-v2052.test.mjs","tests/ranked-duo-open-pool-20261020.browser.mjs","tests/ranked-duo-open-pool-20261020.test.mjs","tests/ranked-duo-start-20261020.browser.mjs","tests/trophy-milestones-20261011.browser.mjs","tests/world-raid-trophy-20261020.browser.mjs","tests/world-raid-trophy-20261020.test.mjs"],"tests":["tests/world-raid-trophy-20261020.test.mjs","tests/player-card-v2052.test.mjs","tests/collection-bonuses-20261014.test.mjs","tests/world-raid-combat-v2.test.mjs","tests/raid-reward-client-state-20261011.test.mjs","tests/raid-mystic-clear-bonus-v2067.test.mjs","tests/ranked-duo-open-pool-20261020.test.mjs"],"checks":["test:release-policy","check:worker"]}
+✔ neutral defaults, strict percentages, decimal sums, relative drop cap and exact safe-integer coin math (3.7374ms)
+✔ SQLite: only owned equipped live pet + earned distinct trophies; request scope refreshes on next request (35.372ms)
+✔ SQLite: account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive (19.4282ms)
+✔ SQLite: OWNER CMS validates all three values, saves once, rejects stale/forged requests and reads do not grant (62.6732ms)
+✔ SQLite: portal bonus freezes rate on first roll; no retry reroll after unequip (10.2889ms)
+✔ SQLite: boosted coin drops roll back with logs, replay unchanged and stop at the daily limit (37.5307ms)
+✔ SQLite: core reward seals freeze boosted choices and minimum without repricing old offers (24.3966ms)
+✔ Postgres: only owned equipped live pet + earned distinct trophies; request scope refreshes on next request (4326.9317ms)
+✔ Postgres: account XP, coins and percentage drops use one combined bonus; rollback/replay and level cap survive (2513.5215ms)
+✔ Postgres: OWNER CMS validates all three values, saves once, rejects stale/forged requests and reads do not grant (2208.1793ms)
+✔ Postgres: portal bonus freezes rate on first roll; no retry reroll after unequip (2530.0125ms)
+✔ Postgres: boosted coin drops roll back with logs, replay unchanged and stop at the daily limit (2352.0406ms)
+✔ Postgres: core reward seals freeze boosted choices and minimum without repricing old offers (3216.5815ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/functions/_ranked_duo.js:265:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/functions/_ranked_duo.js:323:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/functions/_ranked_duo.js:351:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/tests/collection-bonuses-20261014.test.mjs:118:49)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ SQLite: duo bonus freezes on admission and survives failed settlement, unequip and retry (173.2515ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at Object.query (file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/tests/helpers/ranked-duo-db.mjs:41:177)
+    at PostgresD1Database.batchPipelined (file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/functions/_postgres_d1_compat.js:882:31)
+    at async file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/functions/_postgres_d1_compat.js:905:27
+✔ pipeline: duo bonus freezes on admission and survives failed settlement, unequip and retry (2997.1714ms)
+✔ weighted item odds consume only empty outcomes, preserve coin odds and one reward; quantities/daily budgets remain separate (3.272ms)
+✔ fixed raid plan applies owned bonuses without a second roll; independent of the joint mercenary growth release (1.3067ms)
+✔ explicit trophy grant appears in the card and bonuses without changing records; replay and other users stay unchanged (4430.5268ms)
+{"event":"player_card_read_failed","message":"INVALID_TROPHY_GRANTS"}
+✔ manual grant dry run, audit failure, and receipt failure roll back; identity and corrupt records fail closed (2319.0988ms)
+✔ existing trophies and first dates are preserved; manual grants validate only known unique trophy kinds (2097.8719ms)
+✔ city and Lich milestones share permanent counts, earned date and collection honors; the public card remains read-only (2350.3373ms)
+✔ Dragon Slayer appears at 5000 clears with the same progress in public card and collection honors, without read-time writes (2229.4408ms)
+{"event":"player_card_read_failed","message":"relation \"coin_prediction_bets\" does not exist"}
+✔ prediction appreciation trophy is the same settled milestone in the public card and collection honors (2882.5789ms)
+✔ duo challenger trophy is projected only from each owner’s permanent season receipts (2057.2492ms)
+✔ official records: historical clan affiliation, all three trophies, public-only read with no side effects (2301.0023ms)
+✔ missing participation, non-challenger final tier and rank 21 all break consecutive official seasons (2057.7292ms)
+✔ rank first-place trophy is only one per completed season, never for another player or a live first place (1368.9239ms)
+✔ champions trophy requires a delivered receipt and frozen winner membership, distinct from regular first place (1299.003ms)
+✔ unfinished settlements and expired season never claim current challenger; hidden/expired appearance stays private (1554.2323ms)
+✔ GET/auth/identity validation and inactive target guards fail closed (1249.3529ms)
+✔ history is bounded but all-time honors survive outside the displayed 12 seasons (1262.7684ms)
+{"event":"player_card_read_failed","message":"relation \"clan_season_settlements\" does not exist"}
+✔ unavailable source records return a retryable error, not invented zero awards (1216.0046ms)
+✔ nickname renderer escapes text and attributes; only local asset images allowed (3.0634ms)
+✔ live Hi Heeya and Cheon portrait paths render without widening trophy image access (1243.8502ms)
+✔ portrait preview exception rejects foreign origins, credentials, documents, APIs and traversal (1.6257ms)
+✔ live connections use exact user IDs; FX remains lazy, cancellable and non-blocking (9.309ms)
+✔ all trophy assets are real transparent production assets with preserved high-resolution originals (414.5053ms)
+✔ rapid user switching ignores stale responses and closing restores focus/scroll without late-close races (3.2162ms)
+✔ WebGL startup failure does not hide the card and a late renderer is destroyed after close (3.9808ms)
+✔ request error has retry and close controls, not an infinite loader (2.4269ms)
+✔ a request stuck in the read queue has a total deadline, retry and stale-response protection (8.973ms)
+✔ empty trophy shelves keep border FX without creating an empty GSAP tween (3.481ms)
+✔ legacy raid adds three energy without replacing any existing reward or rare roll (24.3519ms)
+✔ failed clears never grant the energy bonus and do not remove participation rewards (0.6198ms)
+✔ saved legacy CMS settings get only the new default; custom rewards remain intact (1.7906ms)
+✔ CMS quantities survive roundtrip, support zero, and are clamped to whole items (3.0379ms)
+✔ new room snapshots freeze the configured bonus while old snapshots are not backfilled (8.8127ms)
+✔ retrying or rereading a completed reward keeps the single confirmed plan unchanged (16.2322ms)
+✔ energy grants use the existing material code, inventory counters and raid audit log (6.9658ms)
+✔ failed reward transaction rolls back the extra inventory and its audit log together (7.0201ms)
+✔ CMS renders and reads default, edited and disabled bonus without losing zero (3.8404ms)
+✔ result display and current CMS resources keep the mystic bonus exclusive to legacy raid (4.2899ms)
+✔ unclaimed server reward survives obsolete local claimed marker (number) (30.3504ms)
+✔ unclaimed server reward survives obsolete local claimed marker (string) (1.6742ms)
+✔ result continue advances despite an obsolete browser claimed marker (1.6114ms)
+✔ server participant settlement still prevents a second reward button (0.9394ms)
+✔ server receipt settlement still prevents a second reward button (1.3208ms)
+✔ server last raid settlement still prevents a second reward button (0.9335ms)
+✔ another instance receipt cannot hide the current unclaimed reward (0.98ms)
+✔ settled result provides a way back to a fresh room list (1.4712ms)
+✔ SQLite no enrollment: all ranked decks can fight and only the initiator gains a record (175.01ms)
+✔ true no enrollment: all ranked decks can fight and only the initiator gains a record (4953.2725ms)
+✔ pipeline no enrollment: all ranked decks can fight and only the initiator gains a record (2847.9623ms)
+✔ SQLite expiry opens the next week immediately while old rewards settle independently (86.3007ms)
+✔ pipeline expiry opens the next week immediately while old rewards settle independently (3050.798ms)
+✔ simultaneous first matches create one personal row and one ticket (2951.9658ms)
+✔ concurrent rollover creates one active season and retains the old receipt (3259.4684ms)
+✔ invalid saved decks, restricted accounts and owner never enter the global pool (51.8924ms)
+✔ offline deck changes invalidate a ticket without debiting the requester (47.003ms)
+✔ automatic operation OFF does not reopen a season (17.07ms)
+✔ the former recruitment capacity cannot prevent a new player from matching (28.3408ms)
+✔ a manually configured open season starts without a recruitment or pairing step (26.7885ms)
+✔ the global pool includes late saved decks and excludes deleted decks without enrollment (26.7889ms)
+✔ countdowns use immutable room rules, clamp pending ticks and show authoritative party status (4.6813ms)
+✔ poll events do not replay historical casts on entry, duplicates or old responses (1.8657ms)
+✔ new difficulty uses the same server engine and leaves prior saved room rules intact (9.2789ms)
+✔ world raid contribution playback cannot invent victory and uses the approved boss sprite (4.5051ms)
+✔ SQLite: 5000th official clear is atomic, permanent and once per participant despite competing polls (11.1039ms)
+✔ SQLite: legacy proof excludes failed, cancelled, TEST, departed, zero-power and unverifiable rooms; next settlement includes history (3.9527ms)
+✔ SQLite: real raid refresh uses saved room settings and commits the trophy together with the end state (3.4267ms)
+✔ SQLite: reading the saved eight-trophy CMS document adds only a zero default; incomplete saves remain invalid (2.1234ms)
+✔ Postgres: 5000th official clear is atomic, permanent and once per participant despite competing polls (3669.4199ms)
+✔ Postgres: legacy proof excludes failed, cancelled, TEST, departed, zero-power and unverifiable rooms; next settlement includes history (2361.9127ms)
+✔ Postgres: real raid refresh uses saved room settings and commits the trophy together with the end state (2092.807ms)
+✔ Postgres: reading the saved eight-trophy CMS document adds only a zero default; incomplete saves remain invalid (2007.812ms)
+✔ historical baseline rolls back on dry run, preserves live counts, replays without writes, and freezes after source cleanup (2143.9155ms)
+✔ historical threshold date is the 5000th actual UTC clear, with no duplicate trophy after further clears (21.3145ms)
+ℹ tests 87
+ℹ suites 0
+ℹ pass 87
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 33161.7361
+
+> test:release-policy
+> node --test tests/scoped-release-policy-20260923.test.mjs tests/hyperdrive-cache-deploy-guard.test.mjs && node --test --test-name-pattern="30s defaults, public countdown and scheduled deployment" tests/clan-draft-timeouts-20260915.test.mjs
+
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+✔ production deployment checks fresh Hyperdrive before uploading Pages, including assets-only (1.2778ms)
+✔ Pages and clan-draft bindings match and mismatches fail closed (4.996ms)
+✔ only explicit boolean disabled true passes; enabled, missing and malformed states block (0.5026ms)
+✔ inspection uses read-only CLI and blocks failed inspection without printing secrets (5.3574ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.7821ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.6431ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.492ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.6802ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.1926ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.803ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (6.3708ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.8888ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 134.3736
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+Pages delivery: 100 files; 2 test runners kept in the repository.
+✔ 30s defaults, public countdown and scheduled deployment are included in the release (10.9014ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 740.9245
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/scripts/prepare-production-assets.mjs:67
+ if(assetCount>20000)throw Error('Pages asset count exceeds the verified 20,000-file limit: '+assetCount);
+                           ^
+
+Error: Pages asset count exceeds the verified 20,000-file limit: 20001
+    at prepareProductionAssets (file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/scripts/prepare-production-assets.mjs:67:28)
+    at file:///C:/Users/User/.codex/worktrees/organization-faction-ui/cnine-card/scripts/deploy-production.mjs:66:20
+
+Node.js v24.18.0

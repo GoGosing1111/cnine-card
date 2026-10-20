@@ -1,0 +1,139 @@
+{
+  "completedAt": "2026-10-20T06:01:58.056Z",
+  "changeCommit": "43d8d2cb3c921ac1b1de1181081235014b81a2b0",
+  "deployedCommit": "904dc0db3b7d33d3f9fe6bf6b1a3bb26ed57766f",
+  "deployment": {
+    "id": "5f213b16-ad50-47f7-8e9a-3827e029caae",
+    "url": "https://5f213b16.cnine-card.pages.dev",
+    "commit": "904dc0db3b7d33d3f9fe6bf6b1a3bb26ed57766f",
+    "status": "success",
+    "createdOn": "2026-10-20T06:00:29.537235Z"
+  },
+  "workerVersions": [
+    "564676fe-5b55-485a-8c4f-1eee456a993e",
+    "2898a973-11ff-4252-9a78-293cbb3e46c1"
+  ],
+  "assetCount": 20000,
+  "tests": {
+    "scopedFunctional": 87,
+    "releaseSafeguards": 13,
+    "packagingRetry": 8,
+    "priorChecksPreserved": "scoped-tests-passed-asset-cap.log; only packaging and operation documentation changed thereafter"
+  },
+  "visual": {
+    "checks": [
+      {
+        "width": 1440,
+        "owned": true,
+        "locked": true,
+        "alphaAssetLoaded": true,
+        "pagination": 3,
+        "noHorizontalOverflow": true,
+        "touchTarget": true,
+        "keyboard": true
+      },
+      {
+        "width": 390,
+        "owned": true,
+        "locked": true,
+        "alphaAssetLoaded": true,
+        "pagination": 3,
+        "noHorizontalOverflow": true,
+        "touchTarget": true,
+        "keyboard": true
+      },
+      {
+        "width": 340,
+        "owned": true,
+        "locked": true,
+        "alphaAssetLoaded": true,
+        "pagination": 3,
+        "noHorizontalOverflow": true,
+        "touchTarget": true,
+        "keyboard": true
+      }
+    ],
+    "errors": [],
+    "responses": [],
+    "environment": "Chrome / actual player-card UI / isolated preview profiles; user visual approval remains separate"
+  },
+  "baseline": {
+    "dryRun": false,
+    "replayed": false,
+    "version": 1,
+    "completedAt": "2026-10-20T06:01:19.348Z",
+    "rooms": 3863,
+    "participations": 71393,
+    "accounts": 356,
+    "inserted": 356,
+    "preserved": 0,
+    "qualified": 0
+  },
+  "baselineReplay": true,
+  "database": {
+    "verifiedAt": "2026-10-20T06:01:30.697Z",
+    "baseline": {
+      "version": 1,
+      "completedAt": "2026-10-20T06:01:19.348Z",
+      "rooms": 3863,
+      "participations": 71393,
+      "accounts": 356,
+      "inserted": 356,
+      "preserved": 0,
+      "qualified": 0
+    },
+    "summary": {
+      "accounts": "356",
+      "participations": "71393",
+      "best": "780",
+      "qualified": "0"
+    },
+    "topProgress": {
+      "count": 0,
+      "acquiredAt": null,
+      "progress": 780,
+      "goal": 5000
+    },
+    "bonusRevision": 1,
+    "storedBonusCount": 8,
+    "projectedBonusCount": 9,
+    "newBonus": {
+      "dropPercent": 0,
+      "accountXpPercent": 0,
+      "coinPercent": 0
+    },
+    "readOnly": true
+  },
+  "productionChecks": [
+    {
+      "path": "index.html",
+      "sha256": "2e52acdc4d9a1ffc5653a9928ca4cdad93371e2455e9bf72a5b5e76b3770ef9e"
+    },
+    {
+      "path": "js/player-card-v2052.js",
+      "sha256": "7a027b17a219e7480f7ed4b36c7a6260e53efc19f4942bbaef0c99a2d9849226"
+    },
+    {
+      "path": "js/player-card-model-v2052.js",
+      "sha256": "86c291b5249047c854e1bd15c6673fb925f5ad5b1c148c7ab558c148045c7821"
+    },
+    {
+      "path": "assets/ui/player-card/dragon-slayer-20261020/dragon-slayer-v1.webp",
+      "sha256": "347d2c443013a2c54c639cd53fdcb664300bbcafafd42f8625da5a2fb04020cb"
+    }
+  ],
+  "protectedRoutes": [
+    {
+      "path": "player-card?userId=1",
+      "status": 401,
+      "cache": "no-store"
+    },
+    {
+      "path": "admin/trophy-bonuses",
+      "status": 401,
+      "cache": "no-store"
+    }
+  ],
+  "art": "assets/ui/player-card/dragon-slayer-20261020/manifest.json",
+  "userVisualApproval": "Not claimed"
+}
