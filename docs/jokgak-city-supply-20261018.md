@@ -11,6 +11,8 @@
 - 검수: `tests/jokgak-city-supply-expiry-20261021.test.mjs`의 SQLite/PostgreSQL 17개 사례, `tests/jokgak-city-supply-expiry-20261021.browser.mjs`의 PC 1440px/모바일 390px 실제 HTTP 처리기·UI. 증빙은 `docs/qa/jokgak-city-supply-expiry-20261021/`에 보존한다.
 - scoped 배포 기준은 운영 Pages `7d0666bd`의 실제 소스 `f846239df58cc4a44ecb39ff42b97766c12f6f44`다. 배포 단계에서는 기존 보급·탐색 회귀와 Worker 컴파일을 실행하며 무관한 전체 검사는 실행하지 않는다.
 
+- 운영 반영 완료: 2026-10-21 03:51 KST, 소스 `14d97aecf188840936a6e60a7a604c88891a76b9`, Pages `0e01fc71-c7ba-4b46-89af-b7adcb1ea46b`. 관련 고유 검사 50개·PC/모바일 2종·Worker 문법·Hyperdrive 캐시 OFF 통과. 운영 파일 10개 SHA-256 일치, API와 1분 스케줄러의 45분 만료 처리·API 교전 만료 가드·미인증 401을 확인했다. 운영 검수에서 수동 계정 변경은 하지 않았다. 배포/검증 증빙은 같은 QA 폴더 `production.json`이다.
+
 ## 확정 범위
 
 - 사용자 지정: 6시간 회차에 무작위 2~3회 낙하, 지도 표식과 확성기 형식의 위치 속보, 10분 동안 빼앗기, 종료 시 보유자 획득.

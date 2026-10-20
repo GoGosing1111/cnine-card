@@ -1,0 +1,101 @@
+{
+  "verifiedAt": "2026-10-20T18:51:45.361Z",
+  "source": "14d97aecf188840936a6e60a7a604c88891a76b9",
+  "productionBase": "f846239df58cc4a44ecb39ff42b97766c12f6f44",
+  "pages": {
+    "id": "0e01fc71-c7ba-4b46-89af-b7adcb1ea46b",
+    "url": "https://0e01fc71.cnine-card.pages.dev",
+    "status": "success"
+  },
+  "files": [
+    {
+      "file": "shared/jokgak-city-supply-v1.mjs",
+      "sha256": "ce2ca0ab84b7de224725f536020801d0a5770efeac4ce16752d4b8edf81d0670"
+    },
+    {
+      "file": "shared/jokgak-city-expansion-v1.mjs",
+      "sha256": "4b80e59989eac786ef2ae9348d732e8ae8c02c6b732291f3f0f388672f923d21"
+    },
+    {
+      "file": "shared/jokgak-city-exploration-v1.mjs",
+      "sha256": "a7c3afa93914b18b58fd6cc732637d297075392ec26b9f22038381c02a97e56c"
+    },
+    {
+      "file": "js/jokgak-city-supply-ui-v1.mjs",
+      "sha256": "1f6c4aebd779e29ee956e588b1ceb462c6510ab0be53cda1a31a8a1655754ff3"
+    },
+    {
+      "file": "js/jokgak-city-exploration-ui-v1.mjs",
+      "sha256": "1376a8fff2848c02bca69fac4087778b52e8b7346cc7d99a7d943b8bb54fea1d"
+    },
+    {
+      "file": "js/jokgak-city-exploration-ui-v2.mjs",
+      "sha256": "c78911595bb6f2259e317d54cb90636bae1d33c61f0465e80134e6229c39c28c"
+    },
+    {
+      "file": "js/jokgak-city-expansion-ui-v1.mjs",
+      "sha256": "79c2f7b85edd530dc247040d26c019bd7d62817107c23bdf2a3d88a76d492948"
+    },
+    {
+      "file": "js/jokgak-city-v1.js",
+      "sha256": "f7747e7827d35f0f143d8fe620ba1d394f128eaa130f3e6be9070da19abc3146"
+    },
+    {
+      "file": "index.html",
+      "sha256": "4e406d53d435fe67d2620c98b55b62f5e7a5e9a676d257f8f4305b6c362c72c0"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "7f0bb8c4221f873c11716229ba80f9fd9cb95497c279437018c98bd194349ecc"
+    }
+  ],
+  "workers": [
+    {
+      "name": "cnine-card-api-runtime",
+      "expirySync": true,
+      "lifetimeMinutes": 45,
+      "combatExpiryGuard": true,
+      "deployment": {
+        "id": "26dde95d-2456-4eb2-91d1-d359ae6771c0",
+        "versions": [
+          {
+            "version_id": "4ab0de57-ea9e-4a41-bd17-3da7e3bcc169",
+            "percentage": 100
+          }
+        ],
+        "createdOn": "2026-10-20T18:50:41.644182Z"
+      }
+    },
+    {
+      "name": "cnine-card-clan-draft",
+      "expirySync": true,
+      "lifetimeMinutes": 45,
+      "deployment": {
+        "id": "e376f5bc-0885-468f-a435-ac328085a3de",
+        "versions": [
+          {
+            "version_id": "0f5dbd18-45ef-465d-893a-0b56056aac05",
+            "percentage": 100
+          }
+        ],
+        "createdOn": "2026-10-20T18:51:33.765886Z"
+      }
+    }
+  ],
+  "unauthenticatedStatus": 401,
+  "manualAccountMutations": 0,
+  "validation": {
+    "regressions": 50,
+    "expiryCases": 17,
+    "existingSupplyAndExplorationCases": 33,
+    "browserWidths": [
+      1440,
+      390
+    ],
+    "workerSyntax": true,
+    "hyperdriveCacheDisabled": true,
+    "assetCount": 19946,
+    "command": "npm run deploy:production -- --scoped",
+    "deployLogSha256": "53ef3feb225c82f1e7b8b7a37c1975a4ec1a4d454ce834e2b93073e2a23dcd5c"
+  }
+}
