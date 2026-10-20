@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-20",
+  "generator": "built-in image_gen",
+  "approval": "TECHNICAL_QA_PENDING_USER_VISUAL_APPROVAL_NOT_ASSUMED",
+  "prompts": "prompts.json",
+  "consumers": [
+    "css/ranked-duo-random-v4.css",
+    "js/ranked-duo-random-v4.mjs",
+    "admin/ranked-duo-v1.css"
+  ],
+  "assets": [
+    {
+      "name": "panel",
+      "source": "panel-source.png",
+      "sourceSha256": "916e61517d640a85dcbf9e6149530143eab77966c587abd498cc56db3ba21d54",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "sourceHasAlpha": true,
+      "webp": "panel.webp",
+      "sha256": "f5556d3b4de18bbb95a0613616211f7663118dd04f19a7f58acea50719c4c274",
+      "size": [
+        1516,
+        820
+      ],
+      "hasAlpha": true,
+      "processing": "crop exterior margins, WebP export"
+    },
+    {
+      "name": "control",
+      "source": "control-source.png",
+      "sourceSha256": "0fff11e9d43ff730004051820880e336476f11b5114f13b6feafe5c82bf8ecc8",
+      "sourceSize": [
+        2146,
+        733
+      ],
+      "sourceHasAlpha": true,
+      "webp": "control.webp",
+      "sha256": "c8221bad057cf489e6c2070fc0ad06df719527e04dae58133aabf0a47c2067cb",
+      "size": [
+        2131,
+        426
+      ],
+      "hasAlpha": true,
+      "processing": "trim transparent margins, WebP export"
+    }
+  ]
+}

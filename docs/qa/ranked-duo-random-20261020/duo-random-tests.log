@@ -1,0 +1,37 @@
+✔ new weekly policies use random matchmaking; unversioned season configurations remain legacy (17.6244ms)
+✔ SQLite random four-player fight changes only the initiator and replays exactly once (173.2758ms)
+✔ true random four-player fight changes only the initiator and replays exactly once (2632.8819ms)
+✔ pipeline random four-player fight changes only the initiator and replays exactly once (1921.5581ms)
+✔ odd participants and late entries are usable immediately; active cancellation cannot reset points (55.8962ms)
+✔ recruitment cancellation is atomic, and fewer than four participants never consume energy (34.1186ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:251:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:308:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:334:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/ranked-duo-random-20261020.test.mjs:65:48)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ SQLite a failed personal settlement is recovered with one debit and one reward (64.6638ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at Object.query (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:41:177)
+    at PostgresD1Database.batchPipelined (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_postgres_d1_compat.js:882:31)
+    at async file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_postgres_d1_compat.js:905:27
+✔ pipeline a failed personal settlement is recovered with one debit and one reward (1796.9178ms)
+✔ simultaneous tickets and duplicate fight requests retain one roster and receipt (2045.1602ms)
+✔ invalidated offline decks and banned accounts reject a ticket without charging (49.5232ms)
+✔ inventory and season fences roll back ticket, energy, membership and receipt together (54.0802ms)
+✔ SQLite season settlement ranks and rewards only completed personal starts; OFF stays OFF (63.8838ms)
+✔ pipeline season settlement ranks and rewards only completed personal starts; OFF stays OFF (1862.4626ms)
+✔ matchmaking work stays bounded and random trials can choose all available partners (131.5497ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12432.9117

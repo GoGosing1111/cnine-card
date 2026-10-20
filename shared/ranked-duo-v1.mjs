@@ -1,9 +1,10 @@
 import {DUO_RECRUIT_HOURS,duoTiers} from './ranked-duo-season-v2.mjs';
 import {validateDuoPolicy} from './ranked-duo-weekly-v3.mjs';
+import {DUO_RANDOM_MODE,duoMatchmaking} from './ranked-duo-random-v4.mjs';
 export const DUO_VERSION='duo-20260925-v1';
 export const DUO_ADDITIONAL_RECRUIT_HOURS=12;
 export const DUO_LIMITS=Object.freeze({participants:10000,refreshBatch:12,candidates:24,history:30,logBytes:1500000,grade:{PRESTIGE:2,FUR:2,ZENITH:2,SUPERSTAR:1,ICON:2}});
-export const DUO_DEFAULTS=Object.freeze({revision:0,name:'랭크 듀오 시즌 1',visible:false,recruitHours:DUO_RECRUIT_HOURS,startsAt:null,endsAt:null,energy:{maximum:null,dailyGrant:null,cost:null},score:{initial:1000,win:24,loss:16},mercenaryWeights:{}});
+export const DUO_DEFAULTS=Object.freeze({revision:0,name:'랭크 듀오 시즌 1',matchmaking:DUO_RANDOM_MODE,visible:false,recruitHours:DUO_RECRUIT_HOURS,startsAt:null,endsAt:null,energy:{maximum:null,dailyGrant:null,cost:null},score:{initial:1000,win:24,loss:16},mercenaryWeights:{}});
 export const duoError=(code,message,status=409)=>Object.assign(new Error(message),{code:`DUO_${code}`,status});
 const integer=(n,min,max,label)=>{if(!Number.isSafeInteger(n)||n<min||n>max)throw duoError('CONFIG',`${label} 설정을 확인하세요.`,400);return n;};
 export function validateDuoConfig(raw){
@@ -32,6 +33,8 @@ export function validateDuoConfig(raw){
   if(!['RECRUITING','PAIRING','PUBLISHING','CLOSED'].includes(r.phase)||!r.openedAt||!r.until)throw duoError('CONFIG','추가모집 상태를 확인하세요.',400);
   result.additionalRecruitment={phase:r.phase,hours:integer(r.hours,1,720,'추가모집 시간'),openedAt:date(r.openedAt),until:date(r.until),completedAt:date(r.completedAt??null)};
  }
+ result.matchmaking=duoMatchmaking(raw.matchmaking);
+ if(result.matchmaking===DUO_RANDOM_MODE)result.competitionStartedAt=date(raw.competitionStartedAt??null);
  return result;
 }
 export function validateDuoDeck(cards){

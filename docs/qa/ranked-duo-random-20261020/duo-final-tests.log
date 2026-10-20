@@ -1,0 +1,65 @@
+✔ new weekly policies use random matchmaking; unversioned season configurations remain legacy (10.9156ms)
+✔ SQLite random four-player fight changes only the initiator and replays exactly once (133.2828ms)
+✔ true random four-player fight changes only the initiator and replays exactly once (1796.6617ms)
+✔ pipeline random four-player fight changes only the initiator and replays exactly once (1343.7398ms)
+✔ odd participants and late entries are usable immediately; active cancellation cannot reset points (39.0905ms)
+✔ recruitment cancellation is atomic, and fewer than four participants never consume energy (27.3191ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:252:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:309:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:335:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/ranked-duo-random-20261020.test.mjs:65:48)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ SQLite a failed personal settlement is recovered with one debit and one reward (51.2697ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at Object.query (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:41:177)
+    at PostgresD1Database.batchPipelined (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_postgres_d1_compat.js:882:31)
+    at async file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_postgres_d1_compat.js:905:27
+✔ pipeline a failed personal settlement is recovered with one debit and one reward (1385.7042ms)
+✔ simultaneous tickets and duplicate fight requests retain one roster and receipt (1385.9353ms)
+✔ invalidated offline decks and banned accounts reject a ticket without charging (35.4612ms)
+✔ inventory and season fences roll back ticket, energy, membership and receipt together (27.9508ms)
+✔ SQLite season settlement ranks and rewards only completed personal starts; OFF stays OFF (47.2543ms)
+✔ pipeline season settlement ranks and rewards only completed personal starts; OFF stays OFF (1483.1639ms)
+✔ matchmaking work stays bounded and random trials can choose all available partners (97.7013ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:252:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:309:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:335:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/ranked-duo-random-20261020.test.mjs:121:51)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+✔ pending receipts settle after closure with the original roster and immutable combat snapshot (40.3775ms)
+[ranked-duo] Error: INJECTED_DUO_FAILURE
+    at execute (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:44:87)
+    at Array.map (<anonymous>)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:45:278)
+    at settle (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:252:19)
+    at fight (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:309:9)
+    at async handleRankedDuo (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/functions/_ranked_duo.js:335:67)
+    at async Object.call (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/helpers/ranked-duo-db.mjs:59:76)
+    at async TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/ranked-duo-random/cnine-card/tests/ranked-duo-random-20261020.test.mjs:133:51)
+    at async Test.run (node:internal/test_runner/test:1332:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:911:7)
+[ranked-duo simulation cancelled] ecbba99c-c0d8-4a56-b206-d1148f5c1740 전투 기준이 변경됐습니다.
+✔ unsupported random combat receipts refund once without changing anyone's points (39.1073ms)
+✔ banning a participant between profile loading and admission rolls back all four memberships (27.7897ms)
+✔ two initiators sharing a roster accumulate independent personal results (1300.0507ms)
+✔ a random season with no personal starts has no final rewards or trophies (26.0441ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9686.9169

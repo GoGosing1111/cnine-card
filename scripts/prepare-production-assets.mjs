@@ -30,7 +30,10 @@ const leonelAuthoringOnly=file=>file.startsWith('preview/mercenary-leonel-sss-li
 const equipmentSetAuthoringOnly=file=>file.startsWith('preview/emperor-set-v3-20261019/')||/^assets\/effects\/equipment-sets-20261019\/(?:emperor|arden)\/source\//.test(file)||['preview/equipment-sets-v3-20261019/build-fixture.mjs','preview/equipment-sets-v3-20261019/serve.mjs','scripts/build-equipment-set-fx-20261019.mjs'].includes(file);
 // Ranked design/verification notes and exact art originals stay in Git; the
 // runtime uses the WebPs and manifest. No game imports these authoring files.
-const rankedAuthoringOnly=file=>/^docs\/ranked-[^/]+\.md$/.test(file)||/^assets\/ui\/ranked\/series-20261019\/(?:console|frame)-source\.png$/.test(file);
+// Duo originals, DB benchmark reports and Node-only QA entry points stay in
+// Git. The live UI consumes the two WebPs; no browser imports these sources.
+const duoAuthoringOnly=file=>/^assets\/ui\/ranked-duo\/random-20261020\/(?:.*-source\.png|prompts\.json|manifest\.json)$/.test(file)||/^docs\/benchmarks\/ranked-duo-[^/]+\.json$/.test(file)||/^docs\/ranked-duo-(?:start|background)-recovery-[^/]+\.json$/.test(file)||/^scripts\/(?:bench-ranked-duo(?:-weekly|-seasons)?|serve-ranked-duo-qa)\.mjs$/.test(file);
+const rankedAuthoringOnly=file=>duoAuthoringOnly(file)||/^docs\/ranked-[^/]+\.md$/.test(file)||/^assets\/ui\/ranked\/series-20261019\/(?:console|frame)-source\.png$/.test(file);
 // Bathory's body drawings, source prompts and packing/QA scripts stay in Git.
 // Combat loads packed atlases; the codex and review use only the idle frame.
 const bathoryAuthoringOnly=file=>file.startsWith('preview/mercenary-bathory-halloween-20261019-v1/')&&(

@@ -1,0 +1,126 @@
+[
+  {
+    "width": 1440,
+    "home": {
+      "width": 1440,
+      "scroll": 1440,
+      "missing": [],
+      "buttons": [
+        {
+          "label": "새로고침",
+          "height": 48,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "매칭 로비",
+          "height": 52,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "개인 랭킹",
+          "height": 52,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "전투 기록",
+          "height": 52,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "티어·보상",
+          "height": 52,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "랜덤 매칭 · 바로 출전",
+          "height": 54,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "공격·방어 덱 확인",
+          "height": 54,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        }
+      ]
+    },
+    "cms": {
+      "width": 1440,
+      "scroll": 1440,
+      "body": "RANKED DUO · SEASON CONTROL\n\n듀오 시즌 운영\n\n매 경기 무작위 편성 · 요청자만 개인 점수 반영. 다음 시즌 자동 모집 ON\n\n24H RECRUITMENT · 7D BATTLE\n\n랭크 듀오 시즌 1\n진행 중 · 참가 6명 · 매 경기 랜덤 편성\n새로고침\n참가 모집 마감\n9월 26일 09:00\n7일 전투 종료 · 자동 정산\n10월 3일 09:00\n정산 후 다음 시즌\n다시 24시간 모집\n매 경기 랜덤 편성 · 비동기 전투\n\n대전 기간 내내 참가할 수 있습니다. 매칭 요청자 + 무작위 파트너 1명 대 상대 2명을 구성합니다. 요청자만 점수·행동력·승리 보상을 반영하며 홀수 인원도 대기 없이 참여합니다.\n\n개인 행동력\n최대 행동력\n1 AP 충전 간격 · 분\n대전 1회 소모량\n\n일반 랭크전과 별도의 개인 행동력입니다. 공격한 사람의 행동력만 사용합니다.\n\n승리 보상과 자동 운영\n공격 승리 코인 · 1회\n시즌 티어 보상 지급\n정산 후 다음 시즌 자동 모집\n\n승리 코인은 행동력을 사용한 공격자에게 지급합니다. 팀원·방어팀에 별도 승리 코인을 지급하지 않습니다.\n\n시즌 티어 보상 · 개인별 지급\n\n최종 개인 점수로 티어를 확정합니다. 상위 10명은 챌린저 보상과 전용 트로피를 받습니다. 코인·카드조각은 정산 시 계정에 자동 지급됩니다.\n\n브론즈\n0 PT 이상\n브론즈 코인\n브론즈 카드조각\n실버\n1,100 PT 이상\n실버 코인\n실버 카드조각\n골드\n1,250 PT 이상\n골드 코인\n골드 카드조각\n플래티넘\n1,450 PT 이상\n플래티넘 코인\n플래티넘 카드조각\n다이아\n1,700 PT 이상\n다이아 코인\n다이아 카드조각\n마스터\n2,050 PT 이상\n마스터 코인\n마스터 카드조각\n그랜드마스터\n2,500 PT 이상\n그랜드마스터 코인\n그랜드마스터 카드조각\n챌린저\n최종 상위 10명\n챌린저 코인\n챌린저 카드조각\n저장한 설정 적용 시점\n다음 시즌부터\n운영 설정 저장\n\n대전이 시작되면 해당 시즌의 행동력·보상 설정을 고정합니다. 현재 시즌 적용 버전 0 · 다음 시즌 운영 버전 0. 최초 일반 랭크전 복사 이후에는 이 화면의 설정을 사용합니다.\n\n시즌 조기 종료·정산\n\n랜덤 듀오: 내가 시작해 완료한 경기의 개인 점수로 순위·보상을 정산합니다. 파트너와 상대에게는 점수·행동력·보상이 반영되지 않습니다. 자동 모집 OFF는 설정 저장으로 바뀌지 않으며, 운영자가 체크해 저장한 경우에만 재개됩니다.",
+      "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/panel.webp\")"
+    },
+    "errors": [],
+    "responses": [],
+    "energyBefore": 8,
+    "energyAfter": 7
+  },
+  {
+    "width": 390,
+    "home": {
+      "width": 390,
+      "scroll": 390,
+      "missing": [],
+      "buttons": [
+        {
+          "label": "새로고침",
+          "height": 44,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "매칭 로비",
+          "height": 46,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "개인 랭킹",
+          "height": 46,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "전투 기록",
+          "height": 46,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "티어·보상",
+          "height": 46,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "랜덤 매칭 · 바로 출전",
+          "height": 54,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        },
+        {
+          "label": "공격·방어 덱 확인",
+          "height": 54,
+          "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/control.webp\")",
+          "disabled": false
+        }
+      ]
+    },
+    "cms": {
+      "width": 390,
+      "scroll": 390,
+      "body": "RANKED DUO · SEASON CONTROL\n\n듀오 시즌 운영\n\n매 경기 무작위 편성 · 요청자만 개인 점수 반영. 다음 시즌 자동 모집 ON\n\n24H RECRUITMENT · 7D BATTLE\n\n랭크 듀오 시즌 1\n진행 중 · 참가 6명 · 매 경기 랜덤 편성\n새로고침\n참가 모집 마감\n9월 26일 09:00\n7일 전투 종료 · 자동 정산\n10월 3일 09:00\n정산 후 다음 시즌\n다시 24시간 모집\n매 경기 랜덤 편성 · 비동기 전투\n\n대전 기간 내내 참가할 수 있습니다. 매칭 요청자 + 무작위 파트너 1명 대 상대 2명을 구성합니다. 요청자만 점수·행동력·승리 보상을 반영하며 홀수 인원도 대기 없이 참여합니다.\n\n개인 행동력\n최대 행동력\n1 AP 충전 간격 · 분\n대전 1회 소모량\n\n일반 랭크전과 별도의 개인 행동력입니다. 공격한 사람의 행동력만 사용합니다.\n\n승리 보상과 자동 운영\n공격 승리 코인 · 1회\n시즌 티어 보상 지급\n정산 후 다음 시즌 자동 모집\n\n승리 코인은 행동력을 사용한 공격자에게 지급합니다. 팀원·방어팀에 별도 승리 코인을 지급하지 않습니다.\n\n시즌 티어 보상 · 개인별 지급\n\n최종 개인 점수로 티어를 확정합니다. 상위 10명은 챌린저 보상과 전용 트로피를 받습니다. 코인·카드조각은 정산 시 계정에 자동 지급됩니다.\n\n브론즈\n0 PT 이상\n브론즈 코인\n브론즈 카드조각\n실버\n1,100 PT 이상\n실버 코인\n실버 카드조각\n골드\n1,250 PT 이상\n골드 코인\n골드 카드조각\n플래티넘\n1,450 PT 이상\n플래티넘 코인\n플래티넘 카드조각\n다이아\n1,700 PT 이상\n다이아 코인\n다이아 카드조각\n마스터\n2,050 PT 이상\n마스터 코인\n마스터 카드조각\n그랜드마스터\n2,500 PT 이상\n그랜드마스터 코인\n그랜드마스터 카드조각\n챌린저\n최종 상위 10명\n챌린저 코인\n챌린저 카드조각\n저장한 설정 적용 시점\n다음 시즌부터\n운영 설정 저장\n\n대전이 시작되면 해당 시즌의 행동력·보상 설정을 고정합니다. 현재 시즌 적용 버전 0 · 다음 시즌 운영 버전 0. 최초 일반 랭크전 복사 이후에는 이 화면의 설정을 사용합니다.\n\n시즌 조기 종료·정산\n\n랜덤 듀오: 내가 시작해 완료한 경기의 개인 점수로 순위·보상을 정산합니다. 파트너와 상대에게는 점수·행동력·보상이 반영되지 않습니다. 자동 모집 OFF는 설정 저장으로 바뀌지 않으며, 운영자가 체크해 저장한 경우에만 재개됩니다.",
+      "skin": "url(\"http://127.0.0.1:8921/assets/ui/ranked-duo/random-20261020/panel.webp\")"
+    },
+    "errors": [],
+    "responses": [],
+    "energyBefore": 7,
+    "energyAfter": 6
+  }
+]
