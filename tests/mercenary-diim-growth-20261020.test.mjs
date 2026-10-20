@@ -8,6 +8,7 @@ import {applyMercenaryLevelStats} from '../shared/mercenary-level-v1.mjs';
 import {halloweenGrowthBasicCapScale,halloweenGrowthOpeningGauge,halloweenGrowthKeepsNaturalGauge} from '../shared/mercenary-halloween-combat-v1.mjs';
 import {balanceSnapshot} from '../scripts/measure-ss-mercenary-balance-20261019.mjs';
 import {tierCards} from './helpers/mercenary-operating-roster-v2144.mjs';
+import {isProductionFile} from '../scripts/prepare-production-assets.mjs';
 
 const f=JSON.parse(fs.readFileSync(new URL('./fixtures/mercenary-diim-growth-20261020.json',import.meta.url)));
 const snapshot=(code,level)=>({...balanceSnapshot(code,level),combat:f.combat});
@@ -16,6 +17,12 @@ const options=level=>({attackerCards:f.A.cards,defenderCards:f.B.cards,attackerE
  attackerMercenary:snapshot('V-984',level),defenderMercenary:snapshot('V-057',4),seed:f.seed});
 const battles=new Map([1,10,11].map(level=>[level,createPvpBattleV2(options(level))]));
 const attack=(b,id)=>b.result.timeline.find(e=>e.type==='TURN'&&e.actorId==='A:MERCENARY:V-984'&&e.targetId===id);
+test('Diim QA stays in the repository while its live battle modules still ship',()=>{
+ for(const file of ['docs/mercenary-halloween-diim-level11-review-20261020.md','docs/mercenary-diim-growth-duo-20261020.md','tests/fixtures/mercenary-diim-growth-20261020.json']){
+  assert.equal(isProductionFile(file),false);assert.ok(fs.existsSync(new URL('../'+file,import.meta.url)));
+ }
+ for(const file of ['shared/mercenary-halloween-combat-v1.mjs','shared/mercenary-level-v1.mjs','shared/mercenary-combat-link-v2103.mjs','functions/_battle_v2_preview.js','functions/_mercenary_combat.js','functions/_ranked_duo_profiles.js','tests/fixtures/live.json'])assert.equal(isProductionFile(file),true);
+});
 test('growth increases real capped basic damage without rewriting the level-one matchup',()=>{
  const low=battles.get(1),high=battles.get(11),target='B:0:CN-47AD4B47B6A7452C',a=attack(low,target),b=attack(high,target);
  assert.equal(a.damage+a.absorbed,500759);assert.ok(a.targetHpAfter>0);
