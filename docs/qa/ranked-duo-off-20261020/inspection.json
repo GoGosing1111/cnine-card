@@ -1,0 +1,608 @@
+{
+  "inspectedAt": "2026-10-20T02:27:50.090Z",
+  "currentSeasonId": "587a5e01-65e3-4f20-ac6e-abfd08e2c344",
+  "policy": {
+    "revision": 1,
+    "enabled": true,
+    "anchor": "2026-09-25T13:48:25.000Z",
+    "energy": {
+      "mode": "RANKED",
+      "maximum": 10,
+      "dailyGrant": 10,
+      "cost": 1,
+      "rechargeMinutes": 5
+    },
+    "score": {
+      "initial": 1000,
+      "win": 24,
+      "loss": 16
+    },
+    "rewards": {
+      "winCoin": 50000000,
+      "tierEnabled": true
+    },
+    "tiers": [
+      {
+        "id": "bronze",
+        "name": "브론즈",
+        "min": 0,
+        "color": "#b87333",
+        "art": "/assets/ui/ranked-duo/bronze-v2.webp",
+        "rewardCoin": 100,
+        "rewardShards": 0
+      },
+      {
+        "id": "silver",
+        "name": "실버",
+        "min": 1100,
+        "color": "#c9d4e3",
+        "art": "/assets/ui/ranked-duo/silver-v2.webp",
+        "rewardCoin": 3009,
+        "rewardShards": 0
+      },
+      {
+        "id": "gold",
+        "name": "골드",
+        "min": 2000,
+        "color": "#ffd15c",
+        "art": "/assets/ui/ranked-duo/gold-v2.webp",
+        "rewardCoin": 5009,
+        "rewardShards": 0
+      },
+      {
+        "id": "platinum",
+        "name": "플래티넘",
+        "min": 3000,
+        "color": "#5ff0df",
+        "art": "/assets/ui/ranked-duo/platinum-v2.webp",
+        "rewardCoin": 10000000,
+        "rewardShards": 0
+      },
+      {
+        "id": "diamond",
+        "name": "다이아",
+        "min": 4000,
+        "color": "#69cfff",
+        "art": "/assets/ui/ranked-duo/diamond-v2.webp",
+        "rewardCoin": 750000000,
+        "rewardShards": 0
+      },
+      {
+        "id": "master",
+        "name": "마스터",
+        "min": 5000,
+        "color": "#bd7cff",
+        "art": "/assets/ui/ranked-duo/master-v2.webp",
+        "rewardCoin": 1000000000,
+        "rewardShards": 0
+      },
+      {
+        "id": "grandmaster",
+        "name": "그랜드마스터",
+        "min": 6500,
+        "color": "#ff6f91",
+        "art": "/assets/ui/ranked-duo/grandmaster-v2.webp",
+        "rewardCoin": 3000000000,
+        "rewardShards": 0
+      }
+    ],
+    "challenger": {
+      "id": "challenger",
+      "name": "챌린저",
+      "rankLimit": 10,
+      "color": "#79c8ef",
+      "art": "/assets/ui/ranked-duo/challenger-v2.webp",
+      "rewardCoin": 5000000000,
+      "rewardShards": 0
+    },
+    "mercenaryWeights": {},
+    "source": {
+      "name": "시즌 17",
+      "copiedAt": "2026-09-25T13:48:25.000Z"
+    }
+  },
+  "seasons": [
+    {
+      "id": "587a5e01-65e3-4f20-ac6e-abfd08e2c344",
+      "status": "RECRUITING",
+      "revision": "0",
+      "participant_count": "73",
+      "recruit_until": "2026-10-20T13:48:47.597Z",
+      "created_at": "2026-10-19T13:48:47.597Z",
+      "config": {
+        "revision": 0,
+        "name": "랭크 듀오 시즌 4",
+        "visible": true,
+        "recruitHours": 24,
+        "startsAt": "2026-10-20T13:48:47.597Z",
+        "endsAt": "2026-10-27T13:48:47.597Z",
+        "energy": {
+          "maximum": 10,
+          "dailyGrant": 10,
+          "cost": 1,
+          "mode": "RANKED",
+          "rechargeMinutes": 5
+        },
+        "score": {
+          "initial": 1000,
+          "win": 24,
+          "loss": 16
+        },
+        "mercenaryWeights": {},
+        "automatic": true,
+        "rankedSeason": {
+          "key": "duo-weekly|4|2026-10-19T13:48:47.597Z",
+          "name": "시즌 17",
+          "startsAt": "2026-10-19T13:48:47.597Z",
+          "endsAt": "2026-10-27T13:48:47.597Z",
+          "recruitStartsAt": "2026-10-19T13:48:47.597Z"
+        },
+        "competitionStartedAt": null,
+        "tiers": [
+          {
+            "id": "bronze",
+            "name": "브론즈",
+            "min": 0,
+            "color": "#b87333",
+            "art": "/assets/ui/ranked-duo/bronze-v2.webp",
+            "rewardCoin": 100,
+            "rewardShards": 0
+          },
+          {
+            "id": "silver",
+            "name": "실버",
+            "min": 1100,
+            "color": "#c9d4e3",
+            "art": "/assets/ui/ranked-duo/silver-v2.webp",
+            "rewardCoin": 3009,
+            "rewardShards": 0
+          },
+          {
+            "id": "gold",
+            "name": "골드",
+            "min": 2000,
+            "color": "#ffd15c",
+            "art": "/assets/ui/ranked-duo/gold-v2.webp",
+            "rewardCoin": 5009,
+            "rewardShards": 0
+          },
+          {
+            "id": "platinum",
+            "name": "플래티넘",
+            "min": 3000,
+            "color": "#5ff0df",
+            "art": "/assets/ui/ranked-duo/platinum-v2.webp",
+            "rewardCoin": 10000000,
+            "rewardShards": 0
+          },
+          {
+            "id": "diamond",
+            "name": "다이아",
+            "min": 4000,
+            "color": "#69cfff",
+            "art": "/assets/ui/ranked-duo/diamond-v2.webp",
+            "rewardCoin": 750000000,
+            "rewardShards": 0
+          },
+          {
+            "id": "master",
+            "name": "마스터",
+            "min": 5000,
+            "color": "#bd7cff",
+            "art": "/assets/ui/ranked-duo/master-v2.webp",
+            "rewardCoin": 1000000000,
+            "rewardShards": 0
+          },
+          {
+            "id": "grandmaster",
+            "name": "그랜드마스터",
+            "min": 6500,
+            "color": "#ff6f91",
+            "art": "/assets/ui/ranked-duo/grandmaster-v2.webp",
+            "rewardCoin": 3000000000,
+            "rewardShards": 0
+          }
+        ],
+        "weekly": {
+          "sequence": 4,
+          "policyRevision": 1,
+          "recruitStartsAt": "2026-10-19T13:48:47.597Z"
+        },
+        "rewards": {
+          "winCoin": 50000000,
+          "tierEnabled": true
+        },
+        "challenger": {
+          "id": "challenger",
+          "name": "챌린저",
+          "rankLimit": 10,
+          "color": "#79c8ef",
+          "art": "/assets/ui/ranked-duo/challenger-v2.webp",
+          "rewardCoin": 5000000000,
+          "rewardShards": 0
+        }
+      }
+    },
+    {
+      "id": "66824884-833a-4132-bf20-65bea5bd11de",
+      "status": "CLOSED",
+      "revision": "21",
+      "participant_count": "118",
+      "recruit_until": "2026-10-12T13:48:42.569Z",
+      "created_at": "2026-10-11T13:48:42.569Z",
+      "config": {
+        "revision": 0,
+        "name": "랭크 듀오 시즌 3",
+        "visible": true,
+        "recruitHours": 24,
+        "startsAt": "2026-10-12T13:48:42.569Z",
+        "endsAt": "2026-10-19T13:48:42.569Z",
+        "energy": {
+          "maximum": 10,
+          "dailyGrant": 10,
+          "cost": 1,
+          "mode": "RANKED",
+          "rechargeMinutes": 5
+        },
+        "score": {
+          "initial": 1000,
+          "win": 24,
+          "loss": 16
+        },
+        "mercenaryWeights": {},
+        "automatic": true,
+        "rankedSeason": {
+          "key": "duo-weekly|3|2026-10-11T13:48:42.569Z",
+          "name": "시즌 17",
+          "startsAt": "2026-10-11T13:48:42.569Z",
+          "endsAt": "2026-10-19T13:48:42.569Z",
+          "recruitStartsAt": "2026-10-11T13:48:42.569Z"
+        },
+        "competitionStartedAt": "2026-10-12T13:48:57.266Z",
+        "tiers": [
+          {
+            "id": "bronze",
+            "name": "브론즈",
+            "min": 0,
+            "color": "#b87333",
+            "art": "/assets/ui/ranked-duo/bronze-v2.webp",
+            "rewardCoin": 100,
+            "rewardShards": 0
+          },
+          {
+            "id": "silver",
+            "name": "실버",
+            "min": 1100,
+            "color": "#c9d4e3",
+            "art": "/assets/ui/ranked-duo/silver-v2.webp",
+            "rewardCoin": 3009,
+            "rewardShards": 0
+          },
+          {
+            "id": "gold",
+            "name": "골드",
+            "min": 2000,
+            "color": "#ffd15c",
+            "art": "/assets/ui/ranked-duo/gold-v2.webp",
+            "rewardCoin": 5009,
+            "rewardShards": 0
+          },
+          {
+            "id": "platinum",
+            "name": "플래티넘",
+            "min": 3000,
+            "color": "#5ff0df",
+            "art": "/assets/ui/ranked-duo/platinum-v2.webp",
+            "rewardCoin": 10000000,
+            "rewardShards": 0
+          },
+          {
+            "id": "diamond",
+            "name": "다이아",
+            "min": 4000,
+            "color": "#69cfff",
+            "art": "/assets/ui/ranked-duo/diamond-v2.webp",
+            "rewardCoin": 750000000,
+            "rewardShards": 0
+          },
+          {
+            "id": "master",
+            "name": "마스터",
+            "min": 5000,
+            "color": "#bd7cff",
+            "art": "/assets/ui/ranked-duo/master-v2.webp",
+            "rewardCoin": 1000000000,
+            "rewardShards": 0
+          },
+          {
+            "id": "grandmaster",
+            "name": "그랜드마스터",
+            "min": 6500,
+            "color": "#ff6f91",
+            "art": "/assets/ui/ranked-duo/grandmaster-v2.webp",
+            "rewardCoin": 3000000000,
+            "rewardShards": 0
+          }
+        ],
+        "weekly": {
+          "sequence": 3,
+          "policyRevision": 1,
+          "recruitStartsAt": "2026-10-11T13:48:42.569Z"
+        },
+        "rewards": {
+          "winCoin": 50000000,
+          "tierEnabled": true
+        },
+        "challenger": {
+          "id": "challenger",
+          "name": "챌린저",
+          "rankLimit": 10,
+          "color": "#79c8ef",
+          "art": "/assets/ui/ranked-duo/challenger-v2.webp",
+          "rewardCoin": 5000000000,
+          "rewardShards": 0
+        }
+      }
+    },
+    {
+      "id": "7efd3f56-4ac2-4bf2-a275-78daea6456f9",
+      "status": "CLOSED",
+      "revision": "137",
+      "participant_count": "134",
+      "recruit_until": "2026-10-04T13:48:31.048Z",
+      "created_at": "2026-10-03T13:48:31.048Z",
+      "config": {
+        "revision": 0,
+        "name": "랭크 듀오 시즌 2",
+        "visible": true,
+        "recruitHours": 24,
+        "startsAt": "2026-10-04T13:48:31.048Z",
+        "endsAt": "2026-10-11T13:48:31.048Z",
+        "energy": {
+          "maximum": 10,
+          "dailyGrant": 10,
+          "cost": 1,
+          "mode": "RANKED",
+          "rechargeMinutes": 5
+        },
+        "score": {
+          "initial": 1000,
+          "win": 24,
+          "loss": 16
+        },
+        "mercenaryWeights": {},
+        "automatic": true,
+        "rankedSeason": {
+          "key": "duo-weekly|2|2026-10-03T13:48:31.048Z",
+          "name": "시즌 17",
+          "startsAt": "2026-10-03T13:48:31.048Z",
+          "endsAt": "2026-10-11T13:48:31.048Z",
+          "recruitStartsAt": "2026-10-03T13:48:31.048Z"
+        },
+        "competitionStartedAt": "2026-10-04T15:34:45.129Z",
+        "tiers": [
+          {
+            "id": "bronze",
+            "name": "브론즈",
+            "min": 0,
+            "color": "#b87333",
+            "art": "/assets/ui/ranked-duo/bronze-v2.webp",
+            "rewardCoin": 100,
+            "rewardShards": 0
+          },
+          {
+            "id": "silver",
+            "name": "실버",
+            "min": 1100,
+            "color": "#c9d4e3",
+            "art": "/assets/ui/ranked-duo/silver-v2.webp",
+            "rewardCoin": 3009,
+            "rewardShards": 0
+          },
+          {
+            "id": "gold",
+            "name": "골드",
+            "min": 2000,
+            "color": "#ffd15c",
+            "art": "/assets/ui/ranked-duo/gold-v2.webp",
+            "rewardCoin": 5009,
+            "rewardShards": 0
+          },
+          {
+            "id": "platinum",
+            "name": "플래티넘",
+            "min": 3000,
+            "color": "#5ff0df",
+            "art": "/assets/ui/ranked-duo/platinum-v2.webp",
+            "rewardCoin": 10000000,
+            "rewardShards": 0
+          },
+          {
+            "id": "diamond",
+            "name": "다이아",
+            "min": 4000,
+            "color": "#69cfff",
+            "art": "/assets/ui/ranked-duo/diamond-v2.webp",
+            "rewardCoin": 750000000,
+            "rewardShards": 0
+          },
+          {
+            "id": "master",
+            "name": "마스터",
+            "min": 5000,
+            "color": "#bd7cff",
+            "art": "/assets/ui/ranked-duo/master-v2.webp",
+            "rewardCoin": 1000000000,
+            "rewardShards": 0
+          },
+          {
+            "id": "grandmaster",
+            "name": "그랜드마스터",
+            "min": 6500,
+            "color": "#ff6f91",
+            "art": "/assets/ui/ranked-duo/grandmaster-v2.webp",
+            "rewardCoin": 3000000000,
+            "rewardShards": 0
+          }
+        ],
+        "weekly": {
+          "sequence": 2,
+          "policyRevision": 1,
+          "recruitStartsAt": "2026-10-03T13:48:31.048Z"
+        },
+        "rewards": {
+          "winCoin": 50000000,
+          "tierEnabled": true
+        },
+        "challenger": {
+          "id": "challenger",
+          "name": "챌린저",
+          "rankLimit": 10,
+          "color": "#79c8ef",
+          "art": "/assets/ui/ranked-duo/challenger-v2.webp",
+          "rewardCoin": 5000000000,
+          "rewardShards": 0
+        }
+      }
+    },
+    {
+      "id": "duo-weekly-20260925-134825",
+      "status": "CLOSED",
+      "revision": "37",
+      "participant_count": "154",
+      "recruit_until": "2026-09-26T13:48:25.000Z",
+      "created_at": "2026-09-25T13:48:25.000Z",
+      "config": {
+        "revision": 1,
+        "name": "랭크 듀오 시즌 1",
+        "visible": true,
+        "recruitHours": 24,
+        "startsAt": "2026-09-26T13:48:25.000Z",
+        "endsAt": "2026-10-03T13:48:25.000Z",
+        "energy": {
+          "maximum": 10,
+          "dailyGrant": 10,
+          "cost": 1,
+          "mode": "RANKED",
+          "rechargeMinutes": 5
+        },
+        "score": {
+          "initial": 1000,
+          "win": 24,
+          "loss": 16
+        },
+        "mercenaryWeights": {},
+        "automatic": true,
+        "rankedSeason": {
+          "key": "duo-weekly|1|2026-09-25T13:48:25.000Z",
+          "name": "시즌 17",
+          "startsAt": "2026-09-25T13:48:25.000Z",
+          "endsAt": "2026-10-03T13:48:25.000Z",
+          "recruitStartsAt": "2026-09-25T13:48:25.000Z"
+        },
+        "competitionStartedAt": "2026-09-26T13:52:46.989Z",
+        "tiers": [
+          {
+            "id": "bronze",
+            "name": "브론즈",
+            "min": 0,
+            "color": "#b87333",
+            "art": "/assets/ui/ranked-duo/bronze-v2.webp",
+            "rewardCoin": 100,
+            "rewardShards": 0
+          },
+          {
+            "id": "silver",
+            "name": "실버",
+            "min": 1100,
+            "color": "#c9d4e3",
+            "art": "/assets/ui/ranked-duo/silver-v2.webp",
+            "rewardCoin": 3009,
+            "rewardShards": 0
+          },
+          {
+            "id": "gold",
+            "name": "골드",
+            "min": 2000,
+            "color": "#ffd15c",
+            "art": "/assets/ui/ranked-duo/gold-v2.webp",
+            "rewardCoin": 5009,
+            "rewardShards": 0
+          },
+          {
+            "id": "platinum",
+            "name": "플래티넘",
+            "min": 3000,
+            "color": "#5ff0df",
+            "art": "/assets/ui/ranked-duo/platinum-v2.webp",
+            "rewardCoin": 10000000,
+            "rewardShards": 0
+          },
+          {
+            "id": "diamond",
+            "name": "다이아",
+            "min": 4000,
+            "color": "#69cfff",
+            "art": "/assets/ui/ranked-duo/diamond-v2.webp",
+            "rewardCoin": 750000000,
+            "rewardShards": 0
+          },
+          {
+            "id": "master",
+            "name": "마스터",
+            "min": 5000,
+            "color": "#bd7cff",
+            "art": "/assets/ui/ranked-duo/master-v2.webp",
+            "rewardCoin": 1000000000,
+            "rewardShards": 0
+          },
+          {
+            "id": "grandmaster",
+            "name": "그랜드마스터",
+            "min": 6500,
+            "color": "#ff6f91",
+            "art": "/assets/ui/ranked-duo/grandmaster-v2.webp",
+            "rewardCoin": 3000000000,
+            "rewardShards": 0
+          }
+        ],
+        "weekly": {
+          "sequence": 1,
+          "policyRevision": 1,
+          "recruitStartsAt": "2026-09-25T13:48:25.000Z"
+        },
+        "rewards": {
+          "winCoin": 50000000,
+          "tierEnabled": true
+        },
+        "challenger": {
+          "id": "challenger",
+          "name": "챌린저",
+          "rankLimit": 10,
+          "color": "#79c8ef",
+          "art": "/assets/ui/ranked-duo/challenger-v2.webp",
+          "rewardCoin": 5000000000,
+          "rewardShards": 0
+        },
+        "additionalRecruitment": {
+          "phase": "CLOSED",
+          "hours": 12,
+          "openedAt": "2026-09-28T02:02:31.149Z",
+          "until": "2026-09-28T14:02:31.149Z",
+          "completedAt": "2026-09-28T14:02:35.176Z"
+        }
+      }
+    }
+  ],
+  "matches": [],
+  "pending": [],
+  "counts": {
+    "entries": "73",
+    "teams": "0",
+    "rewards": "0",
+    "trophies": "0",
+    "finals": "0"
+  },
+  "scheduler": [],
+  "normalRankedSettingsHash": "5b10c2b39f57ea4dba0436b1b0f91537ac35d2e7cab7c16e1c90a5a23811ff9e"
+}
