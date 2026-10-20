@@ -68,7 +68,7 @@ export function openLegionHunt(button){
       <section class="legion-region-loot" hidden aria-label="용병장비"></section>
       <aside class="legion-select"><div class="legion-section-heading"><div><span>SELECT DIFFICULTY</span><h2>난이도 선택</h2></div></div>
         <div class="legion-difficulties" role="group" aria-label="사냥 난이도"></div>
-        <div class="legion-conditions"><span>토벌 진행 <strong class="legion-limit"></strong></span><span>행동력 <b class="legion-entries"></b></span><span>판당 최대 코인 <strong data-hunt-coin-cap>—</strong></span></div>
+        <div class="legion-conditions"><span>토벌 진행 <strong class="legion-limit"></strong></span><span><b class="legion-entries"></b></span><span>판당 최대 코인 <strong data-hunt-coin-cap>—</strong></span></div>
         <p class="legion-coin-note" data-hunt-coin-note>몬스터를 잡을 때마다 코인을 자동 습득합니다. 보너스를 포함한 상한입니다.</p>
         <div class="legion-drop-guide"><div class="legion-pickup-symbol" aria-hidden="true"><i></i><svg viewBox="0 0 32 40"><path d="M6 2v28l7-7 7 12 5-3-7-12h11z"/></svg></div><div><b>전리품은 직접 눌러 획득</b><p>필드에 나타난 아이템을<br>사라지기 전에 챙기세요.</p></div></div>
         <button class="legion-poster-link" data-hunt-poster type="button"><img src="${art}posters/legion-hunt-forgotten-island-v3.png" alt="군단토벌 공식 포스터"><span><small>군단토벌 · 잊혀진 섬</small><b>콘텐츠 소개 보기</b></span><span aria-hidden="true">↗</span></button>
