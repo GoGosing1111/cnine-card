@@ -1,5 +1,5 @@
 import {jointAccountRequest} from './joint-account-transport.mjs?v=20260924-response';
-import {HALLOWEEN_PACK,halloweenReceiptResults,halloweenPackPrice} from '../shared/mercenary-halloween-pack-v1.mjs?v=jokro-pack-20261021-v1';
+import {HALLOWEEN_PACK,halloweenReceiptResults,halloweenPackPrice} from '../shared/mercenary-halloween-pack-v1.mjs?v=bathory-stock5-20261021-v1';
 import {HalloweenOpeningSession} from '../shared/mercenary-halloween-session-v2.mjs?v=20261021-storage-recovery-v1';
 import {HalloweenAutoOpening,halloweenAutoQuote} from '../shared/mercenary-halloween-auto-v1.mjs?v=20261017-auto-v1';
 import {MercenaryAcquisitionVideo,mercenaryCinematicFor} from './mercenary-acquisition-video.mjs?v=2145';

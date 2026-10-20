@@ -20,7 +20,8 @@ export function prepareHalloweenJokroLaunch(raw,stock){
  assert(remainder>=reference,'Not enough ordinary SSS remainder');
  next.cardRatesPpm[JOKRO_CODE]=reference/LIMITED_RATE_SCALE;
  next.normalSssRatePpm=(remainder-reference)/LIMITED_RATE_SCALE;
- return validateHalloweenPack(next);
+ // Historical receipts retain the stock limits approved when they were issued.
+ return validateHalloweenPack(next,{allowLegacyStock:true});
 }
 export async function verifyHalloweenJokroLaunch(db){
  const receipt=JSON.parse(one(await query(db,'SELECT value FROM app_meta WHERE key=$1',[OPERATION_KEY])).value);

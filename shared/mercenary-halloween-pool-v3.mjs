@@ -1,4 +1,4 @@
-import {HALLOWEEN_MERCENARIES,HALLOWEEN_SERVER_LIMIT} from './mercenary-halloween-catalog-v1.mjs';
+import {HALLOWEEN_MERCENARIES,HALLOWEEN_SERVER_LIMIT} from './mercenary-halloween-catalog-v1.mjs?v=20261021-bathory-stock5-v1';
 import {LIMITED_MERCENARIES} from './mercenary-limited-catalog-v1.mjs';
 import {JINMU_ART,JINMU_CODE} from './mercenary-jinmu-v1.mjs';
 import {JOKRO_ART,JOKRO_CODE} from './mercenary-jokro-v1.mjs';

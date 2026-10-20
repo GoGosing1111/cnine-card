@@ -11,6 +11,7 @@ fs.mkdirSync(out,{recursive:true});
 const cleanups=[],f=await halloweenFixture({after:fn=>cleanups.push(fn)});
 const reviewed=JSON.parse(fs.readFileSync('docs/qa/halloween-jokro-launch-20261021/dry-run.json','utf8'));
 f.settings.prices=reviewed.receipt.after.settings.prices;
+f.settings.stockLimits=reviewed.receipt.after.settings.stockLimits;
 f.settings.cardRatesPpm=Object.fromEntries(Object.keys(f.settings.cardRatesPpm).map(code=>[code,code==='V-979'?1000000:0]));
 await f.configure();
 // Mirror reviewed production quantities in visual QA, including Valter 14/15.

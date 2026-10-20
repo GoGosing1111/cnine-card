@@ -1,5 +1,5 @@
-import {HALLOWEEN_PACK_CARDS,halloweenStockLimit} from './mercenary-halloween-pool-v3.mjs?v=20261021-jokro-pack-v1';
-import {HALLOWEEN_MERCENARIES,HALLOWEEN_SERVER_LIMIT} from './mercenary-halloween-catalog-v1.mjs';
+import {HALLOWEEN_PACK_CARDS,halloweenStockLimit} from './mercenary-halloween-pool-v3.mjs?v=20261021-bathory-stock5-v1';
+import {HALLOWEEN_MERCENARIES,HALLOWEEN_SERVER_LIMIT} from './mercenary-halloween-catalog-v1.mjs?v=20261021-bathory-stock5-v1';
 import {isLimitedRate,limitedRateUnits,LIMITED_RATE_TOTAL,LIMITED_RATE_SCALE} from './mercenary-limited-rates-v1.mjs';
 import {MERCENARY_RANKS} from './mercenary-ranks-v1.mjs';
 
@@ -38,10 +38,10 @@ export function validateHalloweenPack(raw,{releaseEnabled=HALLOWEEN_PACK_RELEASE
   if(rates.reduce((sum,n)=>sum+(n===null?0:limitedRateUnits(n)),0)>LIMITED_RATE_TOTAL)throw Error('각 단계 확률 합계는 100%를 초과할 수 없습니다.');
  }
  // Keep complete previous five/ten-copy documents readable during rollout.
- // The approved save policy is eleven original SS copies and ten Bathory copies.
+ // The approved save policy is eleven original SS copies and fifteen Bathory copies.
  const approvedLimits=exact(raw.stockLimits,codes)&&codes.every(code=>raw.stockLimits[code]===halloweenStockLimit(code));
- const legacyLimits=allowLegacyStock&&exact(raw.stockLimits,codes)&&[5,10].some(limit=>codes.every(code=>raw.stockLimits[code]===(legacyCodes.includes(code)?limit:halloweenStockLimit(code))));
- if(!approvedLimits&&!legacyLimits)throw Error('기존 할로윈 SS 7종은 각 11장, 바토리는 10장, 진무·족로는 각각 팩 3장, 헬리오스·발테르는 기존 공용 잔여 수량을 사용합니다.');
+ const legacyLimits=allowLegacyStock&&exact(raw.stockLimits,codes)&&[5,10,11].some(limit=>[10,15].some(bathoryLimit=>codes.every(code=>raw.stockLimits[code]===(legacyCodes.includes(code)?limit:code==='V-977'?bathoryLimit:halloweenStockLimit(code)))));
+ if(!approvedLimits&&!legacyLimits)throw Error('기존 할로윈 SS 7종은 각 11장, 바토리는 15장, 진무·족로는 각각 팩 3장, 헬리오스·발테르는 기존 공용 잔여 수량을 사용합니다.');
  return structuredClone(raw);
 }
 export function readHalloweenPackSettings(raw=halloweenPackDraft(),options){
