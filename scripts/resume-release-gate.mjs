@@ -23,7 +23,7 @@ export function codexCompatibilityRepair({changed,base,git,read,readBytes}){
   // unchanged, already-tested public HTML. No browser markup or code may change.
   const shell='mercenary-codex/shell.mjs',page='mercenary-codex/index.html';
   if(changed.includes(shell)){
-    const normalize=value=>value.replace(/\r\n/g,'\n');
+    const normalize=value=>value.replace(/\r\n/g,'\n').trim();
     const before=normalize(git('show',`${base}:${shell}`)),after=normalize(read(shell));
     const needle='/mercenary-codex/app.mjs?command=',replacement='/mercenary-codex/app.mjs?jinmuStock=20261022-v1&amp;command=';
     const html=normalize(read(page)),previousHtml=normalize(git('show',`${base}:${page}`));
