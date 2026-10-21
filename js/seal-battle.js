@@ -18,7 +18,7 @@
 
   function journey(event) {
     const step=event.status==='CLEARED'?3:bossPhase(event)?2:1;
-    return `<ol class="seal-journey" aria-label="봉인전 진행 단계">${[['세 봉인 해제','ATTACK'],['용 보스 본체전','GUARD'],['공동 완료 보상','PURIFY']].map(([label,key],index)=>`<li ${step===index+1?'aria-current="step"':''} class="${step>index+1?'done':''}"><img src="${roleImage(key)}" alt="" width="44" height="44"><span><small>0${index+1}</small>${label}</span></li>`).join('')}</ol>`;
+    return `<ol class="seal-journey" aria-label="봉인전 진행 단계">${[['세 봉인 해제','ATTACK'],['용 보스 본체전','GUARD'],['공동 완료 보상','PURIFY']].map(([label,key],index)=>`<li ${step===index+1?'aria-current="step"':''} class="${step>index+1?'done':''}"><span class="seal-journey-marker"><img src="${roleImage(key)}" alt="" width="32" height="32"><small>0${index+1}</small></span><span class="seal-journey-label">${label}</span></li>`).join('')}</ol>`;
   }
 
   function dragonHero(data) {

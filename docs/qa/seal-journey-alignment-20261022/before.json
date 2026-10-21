@@ -1,0 +1,249 @@
+[
+  {
+    "tag": "OL",
+    "text": "01세 봉인 해제02용 보스 본체전03공동 완료 보상",
+    "r": {
+      "x": 20,
+      "y": 185.09375,
+      "width": 800,
+      "height": 60,
+      "top": 185.09375,
+      "right": 820,
+      "bottom": 245.09375,
+      "left": 20
+    },
+    "display": "grid",
+    "direction": "row",
+    "font": "16px \"Noto Sans KR\", sans-serif",
+    "padding": "0px",
+    "margin": "0px"
+  },
+  {
+    "tag": "LI",
+    "text": "01세 봉인 해제",
+    "r": {
+      "x": 20,
+      "y": 185.09375,
+      "width": 258.65625,
+      "height": 60,
+      "top": 185.09375,
+      "right": 278.65625,
+      "bottom": 245.09375,
+      "left": 20
+    },
+    "display": "flex",
+    "direction": "row",
+    "font": "13px \"Noto Sans KR\", sans-serif",
+    "padding": "8px 16px",
+    "margin": "0px"
+  },
+  {
+    "tag": "IMG",
+    "text": "http://127.0.0.1:8916/assets/ui/seal-battle/ritual-20261021/attack-seal.webp",
+    "r": {
+      "x": 87.78125,
+      "y": 193.09375,
+      "width": 44,
+      "height": 44,
+      "top": 193.09375,
+      "right": 131.78125,
+      "bottom": 237.09375,
+      "left": 87.78125
+    },
+    "display": "block",
+    "direction": "row",
+    "font": "13px \"Noto Sans KR\", sans-serif",
+    "padding": "0px",
+    "margin": "0px"
+  },
+  {
+    "tag": "SPAN",
+    "text": "01세 봉인 해제",
+    "r": {
+      "x": 143.78125,
+      "y": 198.09375,
+      "width": 67.09375,
+      "height": 34,
+      "top": 198.09375,
+      "right": 210.875,
+      "bottom": 232.09375,
+      "left": 143.78125
+    },
+    "display": "block",
+    "direction": "row",
+    "font": "13px \"Noto Sans KR\", sans-serif",
+    "padding": "0px",
+    "margin": "0px"
+  },
+  {
+    "tag": "SMALL",
+    "text": "01",
+    "r": {
+      "x": 143.78125,
+      "y": 198.09375,
+      "width": 67.09375,
+      "height": 15,
+      "top": 198.09375,
+      "right": 210.875,
+      "bottom": 213.09375,
+      "left": 143.78125
+    },
+    "display": "block",
+    "direction": "row",
+    "font": "10px \"Noto Sans KR\", sans-serif",
+    "padding": "0px",
+    "margin": "0px"
+  },
+  {
+    "tag": "LI",
+    "text": "02용 보스 본체전",
+    "r": {
+      "x": 290.65625,
+      "y": 185.09375,
+      "width": 258.671875,
+      "height": 60,
+      "top": 185.09375,
+      "right": 549.328125,
+      "bottom": 245.09375,
+      "left": 290.65625
+    },
+    "display": "flex",
+    "direction": "row",
+    "font": "13px \"Noto Sans KR\", sans-serif",
+    "padding": "8px 16px",
+    "margin": "0px"
+  },
+  {
+    "tag": "IMG",
+    "text": "http://127.0.0.1:8916/assets/ui/seal-battle/ritual-20261021/guard-seal.webp",
+    "r": {
+      "x": 352.46875,
+      "y": 193.09375,
+      "width": 44,
+      "height": 44,
+      "top": 193.09375,
+      "right": 396.46875,
+      "bottom": 237.09375,
+      "left": 352.46875
+    },
+    "display": "block",
+    "direction": "row",
+    "font": "13px \"Noto Sans KR\", sans-serif",
+    "padding": "0px",
+    "margin": "0px"
+  },
+  {
+    "tag": "SPAN",
+    "text": "02용 보스 본체전",
+    "r": {
+      "x": 408.46875,
+      "y": 198.09375,
+      "width": 79.046875,
+      "height": 34,
+      "top": 198.09375,
+      "right": 487.515625,
+      "bottom": 232.09375,
+      "left": 408.46875
+    },
+    "display": "block",
+    "direction": "row",
+    "font": "13px \"Noto Sans KR\", sans-serif",
+    "padding": "0px",
+    "margin": "0px"
+  },
+  {
+    "tag": "SMALL",
+    "text": "02",
+    "r": {
+      "x": 408.46875,
+      "y": 198.09375,
+      "width": 79.046875,
+      "height": 15,
+      "top": 198.09375,
+      "right": 487.515625,
+      "bottom": 213.09375,
+      "left": 408.46875
+    },
+    "display": "block",
+    "direction": "row",
+    "font": "10px \"Noto Sans KR\", sans-serif",
+    "padding": "0px",
+    "margin": "0px"
+  },
+  {
+    "tag": "LI",
+    "text": "03공동 완료 보상",
+    "r": {
+      "x": 561.328125,
+      "y": 185.09375,
+      "width": 258.65625,
+      "height": 60,
+      "top": 185.09375,
+      "right": 819.984375,
+      "bottom": 245.09375,
+      "left": 561.328125
+    },
+    "display": "flex",
+    "direction": "row",
+    "font": "13px \"Noto Sans KR\", sans-serif",
+    "padding": "8px 16px",
+    "margin": "0px"
+  },
+  {
+    "tag": "IMG",
+    "text": "http://127.0.0.1:8916/assets/ui/seal-battle/ritual-20261021/purify-seal.webp",
+    "r": {
+      "x": 623.125,
+      "y": 193.09375,
+      "width": 44,
+      "height": 44,
+      "top": 193.09375,
+      "right": 667.125,
+      "bottom": 237.09375,
+      "left": 623.125
+    },
+    "display": "block",
+    "direction": "row",
+    "font": "13px \"Noto Sans KR\", sans-serif",
+    "padding": "0px",
+    "margin": "0px"
+  },
+  {
+    "tag": "SPAN",
+    "text": "03공동 완료 보상",
+    "r": {
+      "x": 679.125,
+      "y": 198.09375,
+      "width": 79.046875,
+      "height": 34,
+      "top": 198.09375,
+      "right": 758.171875,
+      "bottom": 232.09375,
+      "left": 679.125
+    },
+    "display": "block",
+    "direction": "row",
+    "font": "13px \"Noto Sans KR\", sans-serif",
+    "padding": "0px",
+    "margin": "0px"
+  },
+  {
+    "tag": "SMALL",
+    "text": "03",
+    "r": {
+      "x": 679.125,
+      "y": 198.09375,
+      "width": 79.046875,
+      "height": 15,
+      "top": 198.09375,
+      "right": 758.171875,
+      "bottom": 213.09375,
+      "left": 679.125
+    },
+    "display": "block",
+    "direction": "row",
+    "font": "10px \"Noto Sans KR\", sans-serif",
+    "padding": "0px",
+    "margin": "0px"
+  }
+]
