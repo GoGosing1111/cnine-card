@@ -1,0 +1,49 @@
+{
+  "status": "VERIFIED",
+  "target": {
+    "id": 4977,
+    "nickname": "하이희야♡"
+  },
+  "guaranteeStatus": "ARMED",
+  "remaining": 1,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:heeya-halloween-jinmu-once:20261022:v1",
+    "authorization": "하이희야♡ 할로윈팩 개봉중에 sss 진무 1회 뜨게 해 지금 돌리는중임",
+    "target": {
+      "id": 4977,
+      "nickname": "하이희야♡"
+    },
+    "completedAt": "2026-10-21T17:02:21.753Z",
+    "entitlementKey": "mercenary_halloween_ss_once_v1:4977",
+    "quantity": 1,
+    "mercenaryCode": "V-989",
+    "name": "천룡검황 진무",
+    "rank": "SSS",
+    "appliesTo": "NEXT_NEW_VALID_SINGLE_OR_TEN_OPEN_INCLUDING_AUTO",
+    "subsequent": "NORMAL_PROBABILITY",
+    "protectedBefore": "5a55a67b033aea89f91c4bc05ac37810167012d9b662cee6325179fcc92d6e45",
+    "protectedAfter": "5a55a67b033aea89f91c4bc05ac37810167012d9b662cee6325179fcc92d6e45",
+    "grantsDuringArming": 0,
+    "costDuringArming": 0,
+    "adminLogId": "49628"
+  },
+  "once": {
+    "version": 2,
+    "status": "ARMED",
+    "remaining": 1,
+    "userId": 4977,
+    "actorId": 1,
+    "operationId": "ops:heeya-halloween-jinmu-once:20261022:v1",
+    "packId": "mercenary-halloween-ss-limited",
+    "rank": "SSS",
+    "edition": "SSS_LIMITED",
+    "mercenaryCode": "V-989",
+    "createdAt": "2026-10-21T17:02:21.753Z",
+    "reason": "하이희야♡ 할로윈팩 개봉중에 sss 진무 1회 뜨게 해 지금 돌리는중임"
+  },
+  "acquisition": null,
+  "dryRun": false,
+  "replayed": false,
+  "sourceSha256": "b8a5f2000bf16bb4709a1a498e36dc50e1ba23839c45c658b2493ea61188fc99"
+}
