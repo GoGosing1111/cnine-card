@@ -1,0 +1,12 @@
+{
+  "generator": "built-in image_gen",
+  "visualApproval": "PENDING_USER_REVIEW",
+  "source": "docs/qa/miracle-burning-10min-300x-20261021/frame-source.png",
+  "sourceSha256": "139aa8dfb9726971a60ae93f5155e18a6a20dc777b08f31515bb80e6b9d2bacc",
+  "runtime": "assets/ui/burning-miracle-v1/celestial-control-frame-20261021.webp",
+  "runtimeSha256": "3d8f6b35801c1edf33a2fc40df9848e6c5f21f1e538bcd7767d14e2dec39f9a6",
+  "width": 1774,
+  "height": 887,
+  "hasAlpha": true,
+  "usage": "Miracle Burning CMS panel, inputs, status and action controls using 9-slice; live values remain DOM text."
+}

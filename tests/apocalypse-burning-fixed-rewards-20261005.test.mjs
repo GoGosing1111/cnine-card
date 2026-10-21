@@ -21,7 +21,7 @@ const planRewards=vm.runInNewContext(source.slice(source.indexOf('const p='),sou
   resolveAvatarDropRate:async()=>{throw Error('Unexpected unrelated drop roll')},
   planUnifiedDropRoll:async()=>({pools:[],rewards:[]})
 });
-const modes=[['OFF',1],['BURNING',1.5],['BURNING',10],['HYPER',2.5],['HYPER',30],['MIRACLE',1],['MIRACLE',100]];
+const modes=[['OFF',1],['BURNING',1.5],['BURNING',10],['HYPER',2.5],['HYPER',30],['MIRACLE',1],['MIRACLE',100],['MIRACLE',300]];
 const bonuses={75:{coinPercent:25,masterStars:300,mysticEnergy:4},76:{coinPercent:10,masterStars:1200,mysticEnergy:9}};
 
 for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: every Burning mode preserves boss-specific star and mystic quantities through completion and replay`,async t=>{
