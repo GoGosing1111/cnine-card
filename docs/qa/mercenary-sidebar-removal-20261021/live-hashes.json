@@ -1,0 +1,17 @@
+[
+  {
+    "file": "js/adventure-lobby-v2107.js",
+    "sha256": "863e5b511fd4592c90b190b4fc5b4f5538f50d733668acb6c186d907fdcf1e2d",
+    "match": true
+  },
+  {
+    "file": "mercenary-codex/index.html",
+    "sha256": "6087e13fde630401a66adf5bafed79a970033430ddc2a04ed010a9a5d826d403",
+    "match": true
+  },
+  {
+    "file": "index.html",
+    "sha256": "f14c343eff5f97a65949e256c69fa75e0b81527f5ea0a8216a14913a48c63fe0",
+    "match": true
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-21T03:27:42.665Z",
+  "origin": "https://cnine-card.pages.dev",
+  "reports": [
+    {
+      "width": 1440,
+      "duplicateSidebarEntries": 0,
+      "groupedEntryCount": 1,
+      "groupHighlighted": true,
+      "navigationUrl": "https://cnine-card.pages.dev/mercenary-codex/?mode=PVE",
+      "pageErrors": [],
+      "operationalWrites": []
+    },
+    {
+      "width": 390,
+      "duplicateSidebarEntries": 0,
+      "groupedEntryCount": 1,
+      "groupHighlighted": true,
+      "navigationUrl": "https://cnine-card.pages.dev/mercenary-codex/?mode=PVE",
+      "pageErrors": [],
+      "operationalWrites": []
+    }
+  ]
+}
