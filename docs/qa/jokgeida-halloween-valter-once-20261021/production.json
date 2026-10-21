@@ -1,0 +1,46 @@
+{
+  "deploymentVerified": true,
+  "sourceCommit": "bff9114f3c2b1b0c9b0f095cee7b5b3223b294d1",
+  "verifiedAt": "2026-10-21T02:04:20.424Z",
+  "deployment": {
+    "Id": "c43c8bf3-71ed-4376-80f7-c770dcd0050c",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "bff9114",
+    "Deployment": "https://c43c8bf3.cnine-card.pages.dev",
+    "Status": "56 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/c43c8bf3-71ed-4376-80f7-c770dcd0050c"
+  },
+  "apiVersion": "d14abaf9-1727-4a12-8e48-53a6908a74c4",
+  "clanVersion": "eb21f8cb-dcba-4650-ba8a-5aaa567f9d29",
+  "tests": {
+    "passed": 22,
+    "failed": 0,
+    "workerSyntax": true,
+    "productionRelease": true,
+    "hyperdriveCacheDisabled": true
+  },
+  "sharedModuleSha256": "0e9b3974de2cefbd58b9fe905b10f234cb385877d926a7728716adef2068aaae",
+  "publicConfigHttpStatus": 200,
+  "paidOpenRequests": 0,
+  "publicConfig": {
+    "revision": 18,
+    "mode": "ON",
+    "prices": {
+      "single": 1000000000,
+      "ten": 10000000000
+    },
+    "ready": true,
+    "cardRatePpm": 200,
+    "sssGatePpm": 500,
+    "targetStock": {
+      "code": "V-996",
+      "limit": 15,
+      "issued": 14,
+      "remaining": 1,
+      "prepared": true,
+      "scope": "EXISTING_SHARED"
+    },
+    "capturedResponseSha256": "653751d214885ac58e5b936a2abbb66a418e3d6a482c0f65a879ce96dece6731"
+  }
+}

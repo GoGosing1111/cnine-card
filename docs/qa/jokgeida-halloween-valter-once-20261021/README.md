@@ -14,4 +14,13 @@
 - 기존 SS 1회 및 자동 개봉 회귀, Worker 컴파일. 새 UI·공통 스키마·인증 변경은 없다.
 - 기존 `mercenary-halloween-pack-20261017.test.mjs`의 3개 실패는 변경 전 HEAD 코드를 로더로 주입해 같은 실패를 확인했다. 과거 7종/10장 카탈로그를 가정하는 legacy 확률·구간·잔여 1장 fixture 문제이며 이번 특정 SSS 확장과 무관하다. 해당 fixture나 다른 기능을 수정하지 않고 scoped 검사를 적용한다.
 
-운영 순서: scoped 배포·운영 코드 확인 → USER_LOCK/DB 보조 잠금 아래 등록 dry-run 원복 → 1회 등록·재실행 무변경 → 별도 읽기 전용 연결 검증. 실제 유료 개봉은 대신 실행하지 않는다. 완료 증빙은 배포 및 등록 후 이 폴더에 추가한다.
+운영 순서: scoped 배포·운영 코드 확인 → USER_LOCK/DB 보조 잠금 아래 등록 dry-run 원복 → 1회 등록·재실행 무변경 → 별도 읽기 전용 연결 검증. 실제 유료 개봉은 대신 실행하지 않는다.
+
+## 운영 완료
+
+- 2026-10-21 **11:05:01 KST** 등록 완료. 감사 **49384**, 고정 일회 키 `ops:jokgeida-halloween-valter-once:20261021:v1`.
+- 11:05:24 KST 별도 읽기 전용 연결에서 족게이다 ID 4111 / V-996 발테르 / `ARMED` / **remaining 1**을 확인했다. 등록 전후 보호 대상 해시가 같으며, 등록 시 카드 지급 0·코인 차감 0이다. 실제 개봉은 사용자가 진행한다.
+- 운영 dry-run 원복과 등록 후 같은 키 재실행 시 무변경을 확인했다. 실패·재시도나 추가 문의를 이유로 키를 바꾸거나 확정을 재충전하지 않는다. 발테르 발행 한도 15장·기존 발행 14장은 유지하며 재고 예약은 하지 않았다.
+- 관련 검사 **22개 통과**, Worker 구문 검사, scoped production release 및 Hyperdrive 캐시 비활성 검사를 통과했다. 런타임 소스 `bff9114f3c2b1b0c9b0f095cee7b5b3223b294d1`.
+- Pages [c43c8bf3](https://c43c8bf3.cnine-card.pages.dev), API runtime `d14abaf9-1727-4a12-8e48-53a6908a74c4`, clan-draft `eb21f8cb-dcba-4650-ba8a-5aaa567f9d29` 배포 완료. 운영 공유 모듈 SHA-256이 로컬과 같으며 공개 설정 API 200 / revision 18 / ON / 기존 가격 / 발테르 14/15를 확인했다.
+- 증빙: `production.json`, `dry-run.json`, `apply.json`, `verify.json`. 이 완료 기록만을 위한 추가 런타임 배포는 하지 않는다.

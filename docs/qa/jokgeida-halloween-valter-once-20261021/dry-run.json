@@ -1,0 +1,51 @@
+{
+  "status": "VERIFIED",
+  "target": {
+    "id": 4111,
+    "nickname": "족게이다"
+  },
+  "guaranteeStatus": "ARMED",
+  "remaining": 1,
+  "receipt": {
+    "status": "COMPLETED",
+    "operationKey": "ops:jokgeida-halloween-valter-once:20261021:v1",
+    "authorization": "족게이다 계정에 할로윈팩 개봉할때 1번 발테르 뜨게 해놔",
+    "target": {
+      "id": 4111,
+      "nickname": "족게이다"
+    },
+    "entitlementKey": "mercenary_halloween_ss_once_v1:4111",
+    "quantity": 1,
+    "mercenaryCode": "V-996",
+    "name": "발테르",
+    "rank": "SSS",
+    "appliesTo": "NEXT_NEW_VALID_SINGLE_OR_TEN_OPEN_INCLUDING_AUTO",
+    "subsequent": "NORMAL_PROBABILITY",
+    "protectedBefore": "b6ea551f3babf1f7252bf856cdd017f0188bfa555e22844589fdc35f67f8e9ae",
+    "protectedAfter": "b6ea551f3babf1f7252bf856cdd017f0188bfa555e22844589fdc35f67f8e9ae",
+    "grantsDuringArming": 0,
+    "costDuringArming": 0
+  },
+  "once": {
+    "version": 2,
+    "status": "ARMED",
+    "remaining": 1,
+    "userId": 4111,
+    "actorId": 1,
+    "operationId": "ops:jokgeida-halloween-valter-once:20261021:v1",
+    "packId": "mercenary-halloween-ss-limited",
+    "rank": "SSS",
+    "edition": "SSS_LIMITED",
+    "mercenaryCode": "V-996",
+    "createdAt": "2026-10-21T02:04:36.933Z",
+    "reason": "족게이다 계정에 할로윈팩 개봉할때 1번 발테르 뜨게 해놔"
+  },
+  "acquisition": null,
+  "dryRun": true,
+  "replayed": false,
+  "operationKey": "ops:jokgeida-halloween-valter-once:20261021:v1",
+  "entitlementKey": "mercenary_halloween_ss_once_v1:4111",
+  "implementationHash": "d941a0e0b06be38a3522f7950376f230c25bbfe3a201f4765d1360325eeb2ed3",
+  "checkedAt": "2026-10-21T02:04:38.396Z",
+  "rollbackVerified": true
+}
