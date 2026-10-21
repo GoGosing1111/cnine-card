@@ -1,0 +1,8 @@
+{
+  "mode": "built-in imagegen",
+  "generatedAt": "2026-10-22",
+  "prompts": {
+    "icon": "Use case: stylized-concept. Asset type: premium inventory reward-box icon for a Korean collectible action RPG, named Sig Hunter Box. A single closed hunter's treasure case, three-quarter frontal view, compact reinforced obsidian metal body, crisp antique gold corner armor, a sculpted winged crosshair emblem on the lid, violet crystal energy shining through narrow seals. Strong luxurious silhouette, tactile finely painted metal, refined high-end 2D game illustration with consistent lighting. Centered with ample transparent padding, square composition. No scenery, no people, no gun, no text, no letters, no numbers, no logos, no watermark. This is a fictional game reward container, not a real branded product. The reward amounts and name will be separate DOM text. True transparent background with clean alpha.",
+    "panel": "Use case: stylized-concept. Asset type: blank premium game UI panel frame for the Sig Hunter Box reward opening screen. One centered square frame viewed perfectly straight-on, designed for nine-slice resizing: a restrained antique-gold metal border with small beveled corner armor, tiny violet crystal corner inlays, a dark obsidian textured interior with very subtle violet illumination. Border thickness about 8 percent of canvas, straight uninterrupted sides, quiet uniform center with ample space for dynamic DOM labels and reward rows. Fine tactile hand-painted 2D collectible RPG aesthetic. No chest, no people, no icons, no emblem intruding into center, no letters, no text, no numbers, no watermark. Exterior outside the silhouette transparent, interior opaque deep charcoal. Symmetric geometry, clean alpha."
+  }
+}

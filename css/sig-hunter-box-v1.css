@@ -1,0 +1,55 @@
+
+.sig-hunter-box-modal{position:fixed;inset:0;z-index:1500;display:flex!important;align-items:center;justify-content:center;padding:24px;background:rgb(4 3 9 / .9);overflow-y:auto;overscroll-behavior:contain}
+.sig-hunter-box-modal *{box-sizing:border-box}
+.sighunter-panel,.sighunter-reward,.sighunter-panel button,.sighunter-grant-note{border:solid transparent;border-image-source:url('/assets/ui/packs/sig-hunter-box-20261022/panel.webp');border-image-slice:165 fill;border-image-repeat:stretch}
+.sighunter-panel{width:min(880px,100%);max-height:calc(100dvh - 48px);overflow-y:auto;color:#f8efd9;border-width:38px;padding:8px 12px 16px;font-family:'Pretendard Variable','Pretendard','Noto Sans KR',sans-serif}
+.sighunter-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
+.sighunter-heading p{margin:0 0 9px;color:#c5addf;letter-spacing:.14em;font-size:10px;font-weight:650}
+.sighunter-heading h2{font-size:30px;letter-spacing:-.045em;line-height:1.25;margin:0;color:#fff2ca;font-weight:800;word-break:keep-all}
+.sighunter-body{display:grid;grid-template-columns:.9fr 1.1fr;align-items:center;gap:22px}
+.sighunter-art{margin:0;min-width:0;text-align:center}
+.sighunter-art>img{display:block;width:100%;height:300px;object-fit:contain}
+.sighunter-art figcaption{color:#c9bed4;font-size:12px;line-height:1.6;margin-top:12px;word-break:keep-all}
+.sighunter-contents{min-width:0}
+.sighunter-label{font-size:14px;line-height:1.6;font-weight:600;margin:0 0 12px;color:#e7d7fa;text-align:center;word-break:keep-all}
+.sighunter-rewards{display:grid;gap:7px}
+.sighunter-reward{min-height:61px;display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:9px;border-width:12px;padding:0 2px}
+.sighunter-reward>img{width:36px;height:34px;object-fit:contain}
+.sighunter-reward>span{font-size:13px;font-weight:650;letter-spacing:-.035em;word-break:keep-all}
+.sighunter-reward strong{color:#ffe1a2;font-size:24px;line-height:1.15;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:-.035em}
+.sighunter-reward small{font-size:11px;margin-left:3px}
+.sighunter-panel button{cursor:pointer;appearance:none;background:none;color:#ffe5a9;border-width:15px;font:inherit;font-weight:800;transition:filter .16s}
+.sighunter-panel button:hover{filter:brightness(1.3)}
+.sighunter-panel button:focus-visible{outline:2px solid #ffe4a5;outline-offset:3px}
+.sighunter-panel button:disabled{cursor:wait;filter:grayscale(.55);opacity:.68}
+.sighunter-panel .sighunter-confirm{width:100%;min-height:60px;padding:2px 10px;font-size:16px;letter-spacing:-.025em}
+.sighunter-panel .sighunter-close{flex:none;min-width:74px;min-height:44px;border-width:10px;padding:2px 5px;font-size:12px}
+.sighunter-status{min-height:20px;margin:10px 0 6px;color:#e2baff;font-size:12px;text-align:center;line-height:1.5;word-break:keep-all}
+.sighunter-balance{color:#bbb2c7;font-size:11px;line-height:1.6;margin:10px 0 0;text-align:center;word-break:keep-all}
+.sighunter-grant-note{display:flex;align-items:center;gap:16px;padding:6px 10px;border-width:22px;line-height:1.7;color:#f4e7ce!important;font-size:13px}
+.sighunter-grant-note[hidden]{display:none!important}
+.sighunter-grant-note img{object-fit:contain;flex:none;max-width:30%}
+.sighunter-grant-note b{color:#ffe4ad}
+@media(max-width:640px){
+ .sig-hunter-box-modal{padding:8px}
+ .sighunter-panel{max-height:calc(100dvh - 16px);border-width:23px;padding:5px 0 9px}
+ .sighunter-heading{gap:6px;margin-bottom:5px;align-items:flex-start}
+ .sighunter-heading h2{font-size:23px}
+ .sighunter-heading p{font-size:8px;letter-spacing:.08em;line-height:1.5;margin-bottom:6px}
+ .sighunter-panel .sighunter-close{min-width:53px;min-height:44px;padding:0;font-size:11px;border-width:9px}
+ .sighunter-body{grid-template-columns:1fr;gap:10px}
+ .sighunter-art>img{height:142px}
+ .sighunter-art figcaption{font-size:10px;margin-top:3px}
+ .sighunter-label{font-size:12px;margin-bottom:7px}
+ .sighunter-reward{min-height:54px;gap:6px;border-width:10px;grid-template-columns:28px minmax(0,1fr) auto}
+ .sighunter-reward>img{width:28px;height:28px}
+ .sighunter-reward>span{font-size:11px}
+ .sighunter-reward strong{font-size:21px}
+ .sighunter-reward small{font-size:10px}
+ .sighunter-panel .sighunter-confirm{min-height:55px;font-size:15px}
+ .sighunter-status{margin:6px 0 4px;min-height:17px;font-size:11px}
+ .sighunter-balance{font-size:10px;margin-top:6px}
+ .sighunter-grant-note{gap:7px;border-width:15px;padding:4px 0;font-size:11px;word-break:keep-all}
+ .sighunter-grant-note img{width:60px;height:70px}
+}
+@media(prefers-reduced-motion:reduce){.sighunter-panel button{transition:none}}

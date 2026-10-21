@@ -1,0 +1,35 @@
+{
+  "name": "시그헌터 박스",
+  "itemCode": "SIG_HUNTER_BOX",
+  "mode": "built-in imagegen",
+  "artStatus": "generated; user visual approval not claimed",
+  "prompts": "preview/sig-hunter-box-20261022/prompts.json",
+  "assets": [
+    {
+      "kind": "icon",
+      "original": "preview/sig-hunter-box-20261022/icon-source.png",
+      "sourceSha256": "320c55ff8f53cdaa1c8e226fa3f1042d7b3cad173d73d2308c0c75e8d6b3ed5e",
+      "outputs": [
+        {
+          "file": "assets/ui/packs/sig-hunter-box-20261022/gift-768.webp",
+          "sha256": "388b6eac49f5d214197928589605019f8b04aa9b9418261703e311fb127f605d"
+        },
+        {
+          "file": "assets/ui/packs/sig-hunter-box-20261022/gift-256.webp",
+          "sha256": "7a297869629b5be2eee8051aed39cdcaecc7b352425cffd25221adfb21447522"
+        }
+      ]
+    },
+    {
+      "kind": "panel",
+      "original": "preview/sig-hunter-box-20261022/panel-source.png",
+      "sourceSha256": "6069c75770fceb0fa768524f3b53a62d8771677a7ee2e42c370e53d688c7b3a9",
+      "outputs": [
+        {
+          "file": "assets/ui/packs/sig-hunter-box-20261022/panel.webp",
+          "sha256": "04b2f2f0463580e81e9f5d867cb19b960bd093a358c1b7e3a9f7f2013db3f27e"
+        }
+      ]
+    }
+  ]
+}
