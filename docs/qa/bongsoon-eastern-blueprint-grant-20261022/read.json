@@ -1,0 +1,25 @@
+{
+  "mode": "read",
+  "sourceSha256": "c47c5eaab038458fb479a9dee4da510cc68d5b3027e6e8ab943b6ca85336d5f5",
+  "checkedAt": "2026-10-21T20:55:47.020Z",
+  "user": {
+    "id": 5426,
+    "nickname": "나무늘봉순",
+    "status": "ACTIVE"
+  },
+  "items": [
+    {
+      "code": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+      "name": "동방무기상 무기설계도",
+      "is_active": 1
+    }
+  ],
+  "inventory": [
+    {
+      "item_code": "EASTERN_ARMS_WEAPON_BLUEPRINT",
+      "quantity": 0,
+      "unseen_quantity": 0
+    }
+  ],
+  "operationExists": false
+}
