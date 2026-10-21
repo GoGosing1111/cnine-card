@@ -1,0 +1,65 @@
+{
+  "checkedAt": "2026-10-21T17:06:51.514Z",
+  "once": {
+    "version": 2,
+    "status": "CONSUMED",
+    "remaining": 0,
+    "userId": 4977,
+    "actorId": 1,
+    "operationId": "ops:heeya-halloween-jinmu-once:20261022:v1",
+    "packId": "mercenary-halloween-ss-limited",
+    "rank": "SSS",
+    "edition": "SSS_LIMITED",
+    "mercenaryCode": "V-989",
+    "createdAt": "2026-10-21T17:02:21.753Z",
+    "reason": "하이희야♡ 할로윈팩 개봉중에 sss 진무 1회 뜨게 해 지금 돌리는중임",
+    "consumedAt": "2026-10-21T17:04:19.538Z",
+    "requestId": "9d83ee76-cff9-4dd2-bd47-692495b77d38",
+    "acquisitionId": "9d83ee76-cff9-4dd2-bd47-692495b77d38:0"
+  },
+  "acquisition": {
+    "mercenary_code": "V-989",
+    "total_copies_after": 1,
+    "serial": "1"
+  },
+  "stock": [
+    {
+      "code": "V-989",
+      "stock_limit": "3",
+      "issued": "1",
+      "revision": "1",
+      "last_token": "20a8266b-a2cc-42f8-823e-a9006f8ed06c"
+    }
+  ],
+  "owned": [
+    {
+      "mercenary_code": "V-989",
+      "total_copies": 1,
+      "duplicate_count": 0,
+      "first_obtained_at": "2026-10-21T17:04:19.526Z",
+      "last_obtained_at": "2026-10-21T17:04:19.526Z"
+    }
+  ],
+  "issue": [
+    {
+      "acquisition_id": "9d83ee76-cff9-4dd2-bd47-692495b77d38:0",
+      "request_id": "9d83ee76-cff9-4dd2-bd47-692495b77d38",
+      "user_id": "4977",
+      "code": "V-989",
+      "serial": "1",
+      "created_at": "2026-10-21T17:04:19.526Z"
+    }
+  ],
+  "settings": [
+    {
+      "key": "mercenary_halloween_ss_pack_v1",
+      "revision": 20,
+      "limit": 3,
+      "rate": 300
+    },
+    {
+      "key": "mercenary_limited_pack_v1",
+      "revision": 20
+    }
+  ]
+}

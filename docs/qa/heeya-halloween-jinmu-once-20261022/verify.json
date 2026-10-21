@@ -4,8 +4,8 @@
     "id": 4977,
     "nickname": "하이희야♡"
   },
-  "guaranteeStatus": "ARMED",
-  "remaining": 1,
+  "guaranteeStatus": "CONSUMED",
+  "remaining": 0,
   "receipt": {
     "status": "COMPLETED",
     "operationKey": "ops:heeya-halloween-jinmu-once:20261022:v1",
@@ -30,8 +30,8 @@
   },
   "once": {
     "version": 2,
-    "status": "ARMED",
-    "remaining": 1,
+    "status": "CONSUMED",
+    "remaining": 0,
     "userId": 4977,
     "actorId": 1,
     "operationId": "ops:heeya-halloween-jinmu-once:20261022:v1",
@@ -40,10 +40,17 @@
     "edition": "SSS_LIMITED",
     "mercenaryCode": "V-989",
     "createdAt": "2026-10-21T17:02:21.753Z",
-    "reason": "하이희야♡ 할로윈팩 개봉중에 sss 진무 1회 뜨게 해 지금 돌리는중임"
+    "reason": "하이희야♡ 할로윈팩 개봉중에 sss 진무 1회 뜨게 해 지금 돌리는중임",
+    "consumedAt": "2026-10-21T17:04:19.538Z",
+    "requestId": "9d83ee76-cff9-4dd2-bd47-692495b77d38",
+    "acquisitionId": "9d83ee76-cff9-4dd2-bd47-692495b77d38:0"
   },
-  "acquisition": null,
+  "acquisition": {
+    "mercenary_code": "V-989",
+    "total_copies_after": 1,
+    "serial": "1"
+  },
   "sourceSha256": "b8a5f2000bf16bb4709a1a498e36dc50e1ba23839c45c658b2493ea61188fc99",
-  "verifiedAt": "2026-10-21T17:03:13.211Z",
+  "verifiedAt": "2026-10-21T17:06:24.987Z",
   "independentConnection": true
 }
