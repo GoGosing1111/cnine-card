@@ -715,6 +715,10 @@
 
   function sealPayload({ data = {}, roleKey = 'ATTACK', roleLabel = '파괴 봉인' } = {}) {
     const allies = (Array.isArray(data.cards) ? data.cards : []).slice(0, 5).map(normalizeTowerCard);
+    // Use the server's saved PvE fighter, including its native motion/level/equipment.
+    // Do not infer a mercenary from the current account when replaying a receipt.
+    const mercenary = data.mercenary?.isMercenary === true ? { ...data.mercenary } : null;
+    const actors = [...allies, ...(mercenary ? [mercenary] : [])];
     const dragon=data.battlePhase==='BOSS'&&roleKey==='BOSS';
     const orb=sealOrbArt(roleKey);
     const monster = {
@@ -739,36 +743,47 @@
     }
     const win = String(data.result || '').toUpperCase() === 'WIN';
     const steps = win ? [16, 18, 19, 21, 26] : [8, 10, 12, 14, 16];
+    const stepTotal = allies.reduce((sum, _, index) => sum + steps[index], 0) || 1;
+    const mercenaryShare = mercenary ? Math.max(0, Math.min(1, Number(data.mercenaryBattlePower ?? data.mercenaryPower ?? mercenary.power ?? 0) / Math.max(1, Number(data.totalBattleDamage || data.playerPower || 1)))) : 0;
+    const recordedDamage = Math.max(0, Number(data.contribution ?? data.totalBattleDamage ?? data.playerPower ?? 0));
     let enemyHp = dragon?Number(data.bossHpBefore):100;
-    let distributed=0;
+    let distributed=0, fraction=0;
     const timeline = [];
-    allies.forEach((card, index) => {
+    actors.forEach((card, index) => {
+      const isMercenary = card === mercenary;
+      const actorId = isMercenary ? card.id : card.cardId;
       const damagePercent = steps[Math.min(index, steps.length - 1)];
-      const share=dragon?(index===allies.length-1?Number(data.contribution)-distributed:Math.floor(Number(data.contribution)/Math.max(1,allies.length))):0;
+      const weight = mercenary ? (isMercenary ? mercenaryShare : (1 - mercenaryShare) * damagePercent / stepTotal) : 1 / Math.max(1, actors.length);
+      fraction = Math.min(1, fraction + weight);
+      const share = dragon || mercenary ? Math.max(0, (index === actors.length - 1 ? recordedDamage : Math.floor(recordedDamage * fraction)) - distributed) : 0;
       distributed+=share;
-      enemyHp = dragon?Math.max(0,Number(data.bossHpBefore)-distributed):Math.max(win && index === allies.length - 1 ? 0 : win ? 3 : 26, enemyHp - damagePercent);
+      enemyHp = dragon ? Math.max(0, Number(data.bossHpBefore) - distributed)
+        : mercenary ? Math.max(win && index === actors.length - 1 ? 0 : win ? 1 : 40, Math.round(100 - fraction * (win ? 100 : 60)))
+        : Math.max(win && index === allies.length - 1 ? 0 : win ? 3 : 26, enemyHp - damagePercent);
       timeline.push({
-        type: index === 2 || index === 4 ? 'SKILL' : 'TURN',
-        actorId: card.cardId,
+        type: !isMercenary && (index === 2 || index === 4) ? 'SKILL' : 'TURN',
+        actorId,
+        ...(isMercenary ? { actorKind: 'MERCENARY' } : {}),
         targetId: monster.cardId,
-        damage: dragon?share:Math.max(1, Math.round(Number(data.totalBattleDamage || data.playerPower || 1000) * damagePercent / 100)),
+        damage: dragon || mercenary ? share : Math.max(1, Math.round(Number(data.totalBattleDamage || data.playerPower || 1000) * damagePercent / 100)),
         targetHpAfter: enemyHp,
         ...(dragon?{targetMaxHp:monster.maxHp}:{}),
-        critical: index === 2 || index === 4,
-        label: `${roleLabel} 타격`
+        critical: !isMercenary && (index === 2 || index === 4),
+        label: isMercenary ? `${card.name} 합류 공격` : `${roleLabel} 타격`
       });
       if (enemyHp > 0 && (win ? index === 1 || index === 3 : true)) {
         const allyHp = win ? Math.max(24, 78 - index * 14) : 0;
         timeline.push({
           type: 'COUNTER',
           actorId: monster.cardId,
-          targetId: card.cardId,
+          targetId: actorId,
           damage: Math.max(1, Math.round(Number(data.bossPower || 1000) * (win ? .13 : .24))),
-          targetHpAfter: allyHp,
+          targetHpAfter: isMercenary ? Math.round(card.maxHp * allyHp / 100) : allyHp,
+          ...(isMercenary ? { targetMaxHp: card.maxHp } : {}),
           critical: !win,
           label: dragon?'봉인룡의 청염':'봉인 역류'
         });
-        if (!win) timeline.push({ type: 'KO', targetId: card.cardId });
+        if (!win) timeline.push({ type: 'KO', targetId: actorId });
       }
     });
     if (dragon?data.bossDefeated:win) timeline.push({ type: 'KO', targetId: monster.cardId });
@@ -782,7 +797,7 @@
       monster,
       playUltimateCinematics: false,
       battleV2: {
-        teams: { A: { cards: allies }, B: { cards: [monster] } },
+        teams: { A: { cards: allies, mercenaries: mercenary ? [mercenary] : [] }, B: { cards: [monster] } },
         result: { timeline, winner: win ? 'A' : 'B', actions: timeline.length }
       }
     };

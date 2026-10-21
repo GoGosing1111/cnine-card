@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {sealStarFixture} from './helpers/seal-star-fixture.mjs';
 import {ensureRankRewardFixture} from './helpers/rank-reward-schema.mjs';
+import {limitedDeploymentSnapshot} from '../shared/mercenary-limited-deployment-v1.mjs';
+import {mercenarySnapshotPower} from '../functions/_mercenary_account.js';
 import {configureSealDragonHard,OPERATION_KEY,BOSS_STAGE} from '../scripts/ops/seal-dragon-hard-20261022.mjs';
 const table='seal_battle_dragon_events_v20261022';
 let serial=0;
@@ -43,6 +45,41 @@ test('postgres: hard difficulty operation is dry by default and cannot reset lat
  }finally{await f.close();}
 });
 for(const dialect of ['sqlite','postgres']){
+ test(`${dialect}: saved PvE mercenary powers seals and dragon, and receipts retain the original fighter`,async()=>{
+  const f=await fixture(dialect);try{
+   const mercenary={...limitedDeploymentSnapshot('V-999'),mercenaryLevel:{version:2,level:6}};
+   const mercenaryPower=mercenarySnapshotPower(mercenary);
+   const cards=Array.from({length:5},(_,i)=>({id:'qa-'+i,title:'카드 '+i,grade:'SS',power:4000}));
+   const expected=Math.round((20000*1.3+1000+mercenaryPower)*1.2);
+   let selected={power:expected,basePower:20000,cards,ids:cards.map(c=>c.id),mercenary,mercenaryPower,
+    characterBonus:{pve:1000,avatarPowerPercent:20},synergy:{totals:{attackPercent:20,bossDamagePercent:10}}};
+   f.deps.raidDeckPower=async(_env,userId,ids,mode)=>{assert.equal(mode,'PVE');assert.equal(ids,null);return selected;};
+   const ready=await f.api.statusPayload(f.env,f.deps,f.user);
+   assert.equal(ready.deck.power,expected);assert.equal(ready.deck.mercenary.code,'V-999');
+   assert.equal(ready.deck.mercenary.mercenaryLevel.level,6);
+   const id='seal-mercenary-'+serial;
+   const seal=await f.hit('ATTACK',{requestId:id,mercenary:{code:'V-998'},mercenaryPower:999999999});
+   assert.equal(seal.status,200);assert.equal(seal.body.playerPower,expected);assert.equal(seal.body.totalBattleDamage,expected);
+   assert.equal(seal.body.cardPower,26000);assert.equal(seal.body.mercenaryPower,mercenaryPower);
+   assert.equal(seal.body.mercenaryBattlePower,Math.round(mercenaryPower*1.2));
+   assert.equal(seal.body.cards.length,5);assert.equal(seal.body.mercenary.id,'A:MERCENARY:V-999');
+   const paid=await f.row('SELECT coin FROM users WHERE id=2'),progress=await f.progress();
+   selected={power:20000,basePower:20000,cards,ids:cards.map(c=>c.id)};
+   const replay=await f.hit('ATTACK',{requestId:id});
+   assert.equal(replay.body.replayed,true);assert.deepEqual(replay.body.mercenary,seal.body.mercenary);
+   assert.equal(replay.body.playerPower,expected);assert.equal(replay.body.state.deck.mercenary,null);
+   assert.equal((await f.progress()).attempt_charges,progress.attempt_charges);
+   assert.equal((await f.row('SELECT coin FROM users WHERE id=2')).coin,paid.coin);
+   const unassigned=await f.hit('GUARD',{mercenary,mercenaryPower});
+   assert.equal(unassigned.body.mercenary,null);assert.equal(unassigned.body.playerPower,20000);
+   await f.hit('PURIFY');
+   selected={...selected,mercenary,mercenaryPower,power:20000+mercenaryPower};
+   const boss=await f.hit('BOSS');assert.equal(boss.status,200);
+   assert.equal(boss.body.mercenary.code,'V-999');assert.equal(boss.body.playerPower,20000+mercenaryPower);
+   assert.equal(boss.body.contribution,25000);assert.equal(boss.body.bossHpAfter,0);
+   assert.equal(Number((await f.row('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=2')).total_ticks),4*100*600);
+  }finally{await f.close();}
+ });
  test(`${dialect}: last seal opens once, boss damage clips, combined attempts unlock one clear reward`,async()=>{
   const f=await fixture(dialect);try{
    assert.equal(f.round.phase,'SEALS');

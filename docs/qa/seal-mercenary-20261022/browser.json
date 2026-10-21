@@ -1,0 +1,216 @@
+{
+  "at": "2026-10-21T22:12:38.762Z",
+  "base": "http://127.0.0.1:8916",
+  "evidence": [
+    {
+      "width": 1440,
+      "scenario": "active",
+      "attacks": 1,
+      "seen": [
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true,
+          "hp": 100,
+          "bounds": {
+            "x": 230.94556009615383,
+            "y": 170.3247596153846,
+            "width": 222.10887980769235,
+            "height": 227.41329807692307
+          },
+          "native": true
+        }
+      ],
+      "mercenaries": [
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true
+        }
+      ],
+      "cards": 5
+    },
+    {
+      "width": 1440,
+      "scenario": "boss",
+      "attacks": 2,
+      "seen": [
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true,
+          "hp": 100,
+          "bounds": {
+            "x": 230.94556009615383,
+            "y": 170.3247596153846,
+            "width": 222.10887980769235,
+            "height": 227.41329807692307
+          },
+          "native": true
+        },
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true,
+          "hp": 100,
+          "bounds": {
+            "x": 230.94556009615383,
+            "y": 170.3247596153846,
+            "width": 222.10887980769235,
+            "height": 227.41329807692307
+          },
+          "native": true
+        }
+      ],
+      "mercenaries": [
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true
+        }
+      ],
+      "cards": 5
+    },
+    {
+      "width": 1440,
+      "scenario": "no-mercenary",
+      "attacks": 2,
+      "seen": [
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true,
+          "hp": 100,
+          "bounds": {
+            "x": 230.94556009615383,
+            "y": 170.3247596153846,
+            "width": 222.10887980769235,
+            "height": 227.41329807692307
+          },
+          "native": true
+        },
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true,
+          "hp": 100,
+          "bounds": {
+            "x": 230.94556009615383,
+            "y": 170.3247596153846,
+            "width": 222.10887980769235,
+            "height": 227.41329807692307
+          },
+          "native": true
+        }
+      ],
+      "mercenaries": [],
+      "cards": 5
+    },
+    {
+      "width": 390,
+      "scenario": "active",
+      "attacks": 1,
+      "seen": [
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true,
+          "hp": 100,
+          "bounds": {
+            "x": 67.43816614583332,
+            "y": 147.71923263888885,
+            "width": 108.72366770833335,
+            "height": 111.57353263888888
+          },
+          "native": true
+        }
+      ],
+      "mercenaries": [
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true
+        }
+      ],
+      "cards": 5
+    },
+    {
+      "width": 390,
+      "scenario": "boss",
+      "attacks": 2,
+      "seen": [
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true,
+          "hp": 100,
+          "bounds": {
+            "x": 67.43816614583332,
+            "y": 147.71923263888885,
+            "width": 108.72366770833335,
+            "height": 111.57353263888888
+          },
+          "native": true
+        },
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true,
+          "hp": 100,
+          "bounds": {
+            "x": 67.43816614583332,
+            "y": 147.71923263888885,
+            "width": 108.72366770833335,
+            "height": 111.57353263888888
+          },
+          "native": true
+        }
+      ],
+      "mercenaries": [
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true
+        }
+      ],
+      "cards": 5
+    },
+    {
+      "width": 390,
+      "scenario": "no-mercenary",
+      "attacks": 2,
+      "seen": [
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true,
+          "hp": 100,
+          "bounds": {
+            "x": 67.43816614583332,
+            "y": 147.71923263888885,
+            "width": 108.72366770833335,
+            "height": 111.57353263888888
+          },
+          "native": true
+        },
+        {
+          "id": "A:MERCENARY:V-999",
+          "cardId": "V-999",
+          "visible": true,
+          "hp": 100,
+          "bounds": {
+            "x": 67.43816614583332,
+            "y": 147.71923263888885,
+            "width": 108.72366770833335,
+            "height": 111.57353263888888
+          },
+          "native": true
+        }
+      ],
+      "mercenaries": [],
+      "cards": 5
+    }
+  ],
+  "liveAccountWrites": 0,
+  "visualApproval": "USER_REVIEW_PENDING"
+}

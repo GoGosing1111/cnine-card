@@ -1,5 +1,7 @@
 import {collectionRewardCoin} from '../functions/_collection_bonuses.js';
 import {accountRankAward} from '../functions/_account_rank.js';
+import {buildAvatarMercenaryFighter,publicFighter} from '../functions/_battle_v2_preview.js';
+import {avatarScaledPower} from '../shared/avatar-power-v1.mjs';
 import {ensureRankRewardFixture} from './helpers/rank-reward-schema.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -12,11 +14,11 @@ const read = path => readFileSync(new URL('../'+path,import.meta.url),'utf8');
 const server = read('functions/_seal_battle.js');
 const admin = read('admin/seal-battle-admin.js');
 const copy = value => JSON.parse(JSON.stringify(value));
-const createModule = () => Function('accountRankAward','collectionRewardCoin',server.replace(/^import .*;\r?\n/gm,'').replace(/^export /gm,'')+`;return {
+const createModule = () => Function('accountRankAward','collectionRewardCoin','buildAvatarMercenaryFighter','publicFighter','avatarScaledPower',server.replace(/^import .*;\r?\n/gm,'').replace(/^export /gm,'')+`;return {
   cleanSettings,normalizeEvent,saveSettings,loadSettings,adminStart,ensureFoundation,
   participate,claimClearReward,claimRankReward,handleSealBattle,SEAL_COIN_REWARD_MAX,
   rewardEligibility,statusPayload,rankRewardPreview,ensureRewardAttemptsSchema
-};`)(accountRankAward,collectionRewardCoin);
+};`)(accountRankAward,collectionRewardCoin,buildAvatarMercenaryFighter,publicFighter,avatarScaledPower);
 const mod = createModule();
 const configured = () => mod.cleanSettings({
   format:'CLASSIC', mode:'ON', title:'보상 검증', bossName:'테스트 봉인', minRewardAttempts:1,

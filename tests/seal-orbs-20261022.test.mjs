@@ -46,6 +46,30 @@ test('orb preload shares work, supports the matching PNG, and retries after tota
   assert(player.indexOf('await globalThis.ProjectVBattleV3Live.prepareSealOrb(roleKey)')<player.indexOf("await api('seal-battle/participate'"));
 });
 
+test('seal and dragon playback include the saved mercenary attack and exactly the committed damage',()=>{
+  const api=bridge(),cards=Array.from({length:5},(_,i)=>({id:'qa-'+i,title:'카드 '+i,grade:'SS'}));
+  const mercenary={id:'A:MERCENARY:V-999',cardId:'V-999',code:'V-999',name:'헬리오스',isMercenary:true,actorKind:'MERCENARY',hp:50000,maxHp:50000,power:30000};
+  for(const roleKey of ['ATTACK','GUARD','PURIFY','BOSS'])for(const result of ['WIN','LOSE']){
+    const data={cards,mercenary,result,playerPower:50000,totalBattleDamage:50000,mercenaryBattlePower:30000,
+      contribution:17,battlePhase:roleKey==='BOSS'?'BOSS':'SEALS',bossHpBefore:17,bossHpAfter:0,bossMaxHp:200000,bossDefeated:roleKey==='BOSS'};
+    const payload=api.sealPayload({roleKey,data}),team=payload.battleV2.teams.A,timeline=payload.battleV2.result.timeline;
+    assert.equal(team.cards.length,5);assert.equal(team.mercenaries.length,1);assert.equal(team.mercenaries[0].id,mercenary.id);
+    const hits=timeline.filter(e=>e.targetId===payload.monster.cardId&&['TURN','SKILL'].includes(e.type));
+    assert.equal(hits.length,6);assert.equal(hits.reduce((n,e)=>n+e.damage,0),17);
+    const hit=hits.find(e=>e.actorId===mercenary.id);assert.equal(hit.type,'TURN');assert.equal(hit.actorKind,'MERCENARY');assert(hit.damage>0);
+    assert.equal(payload.playUltimateCinematics,false);
+    if(roleKey==='BOSS'){assert.equal(hits.at(-1).targetHpAfter,0);assert(hits.every(e=>e.targetMaxHp===200000));}
+    if(result==='LOSE'&&roleKey!=='BOSS'){
+      const counter=timeline.find(e=>e.type==='COUNTER'&&e.targetId===mercenary.id);
+      assert.equal(counter.targetHpAfter,0);assert.equal(counter.targetMaxHp,50000);
+      assert(timeline.some(e=>e.type==='KO'&&e.targetId===mercenary.id));
+    }
+    assert.equal(mercenary.hp,50000,'playback must not mutate the receipt');
+  }
+  const unassigned=api.sealPayload({data:{cards,result:'WIN',mercenary:null}});
+  assert.equal(unassigned.battleV2.teams.A.mercenaries.length,0);
+});
+
 test('all six runtime orb files retain alpha and ship within the Pages cap; exact sources remain in Git',async()=>{
   const manifest=JSON.parse(fs.readFileSync('docs/qa/seal-orbs-20261022/manifest.json','utf8'));
   const hash=b=>createHash('sha256').update(b).digest('hex');
