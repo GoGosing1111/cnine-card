@@ -1,0 +1,145 @@
+{
+  "checkedAt": "2026-10-21T21:48:28.880Z",
+  "releaseCommit": "955597b36cec37ce85c9a1aee523c8f9494d8874",
+  "deployedCommit": "955597b36cec37ce85c9a1aee523c8f9494d8874",
+  "pages": {
+    "id": "9a879e0f-b6c8-453b-871c-6526abaae2c2",
+    "url": "https://9a879e0f.cnine-card.pages.dev",
+    "status": "success"
+  },
+  "config": {
+    "enabled": true,
+    "protocol": "TOWER_ABYSS_20261022"
+  },
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "0f497cd9d7986434c9fdc45588125379964ab3dc60d58746cb9071767ef4b00f",
+      "sourceCommit": "955597b36cec37ce85c9a1aee523c8f9494d8874"
+    },
+    {
+      "file": "js/tower-v1038.js",
+      "sha256": "5735eca06c7e10795baa00a4e1a4f9f84a6a28b76c0cc0b1c0150ce9c323a395",
+      "sourceCommit": "955597b36cec37ce85c9a1aee523c8f9494d8874"
+    },
+    {
+      "file": "js/tower-abyss-ui.js",
+      "sha256": "9a0c2ad6bd03825f925e667860c27194a741831bdc2713ae012c294137f89a4e",
+      "sourceCommit": "955597b36cec37ce85c9a1aee523c8f9494d8874"
+    },
+    {
+      "file": "css/tower-abyss-ui.css",
+      "sha256": "98e11dc61d70da8ce242c7b628dc104ad157dc10e41a6abbbe1fccb8eacff744",
+      "sourceCommit": "955597b36cec37ce85c9a1aee523c8f9494d8874"
+    },
+    {
+      "file": "shared/v3-live-connections.mjs",
+      "sha256": "e617daef385d380e0479482806917c93a83f62a029d2ad6a07fa6a3783a79bd9",
+      "sourceCommit": "955597b36cec37ce85c9a1aee523c8f9494d8874"
+    }
+  ],
+  "legacyRoute": {
+    "status": 409,
+    "code": "TOWER_CLIENT_UPDATE"
+  },
+  "unauthenticatedPending": 401,
+  "dryRunRollbackConfirmed": true,
+  "replayAdditionalWrites": 0,
+  "verified": {
+    "checkedAt": "2026-10-21T21:48:28.806Z",
+    "receipt": {
+      "actor": "CODEX_OPERATIONS",
+      "operationKey": "ops:tower-abyss-growth:20261022:v1",
+      "status": "COMPLETED",
+      "completedAt": "2026-10-21T21:48:24.356Z",
+      "releaseCommit": "955597b36cec37ce85c9a1aee523c8f9494d8874",
+      "version": "TOWER_ABYSS_20261022",
+      "seasonId": 1,
+      "maxFloor": 120,
+      "beforeHash": "e7362c3f5d405d6ab5e2eee15015e791b819fad9927e45c5dca8f804b553f0a6",
+      "planHash": "5f41c2bab098cf7d32523898d5249be55ed2b8c6665a338f1ba3f5caca811b8e",
+      "previous100Coin": 1815250000000,
+      "new20Coin": 2390000000000,
+      "totalCoin": 4205250000000,
+      "accountWrites": 0,
+      "progressReset": false,
+      "retroactiveGrant": false,
+      "adminLogId": "49796"
+    },
+    "maxFloor": 120,
+    "totalCoin": 4205250000000,
+    "gateways": [
+      {
+        "floor": 10,
+        "power": 30000,
+        "coin": 500000000
+      },
+      {
+        "floor": 20,
+        "power": 50000,
+        "coin": 1000000000
+      },
+      {
+        "floor": 30,
+        "power": 250000,
+        "coin": 3000000000
+      },
+      {
+        "floor": 40,
+        "power": 1000000,
+        "coin": 5000000000
+      },
+      {
+        "floor": 50,
+        "power": 5000000,
+        "coin": 10000000000
+      },
+      {
+        "floor": 60,
+        "power": 15000000,
+        "coin": 45000000000
+      },
+      {
+        "floor": 70,
+        "power": 30000000,
+        "coin": 75000000000
+      },
+      {
+        "floor": 80,
+        "power": 60000000,
+        "coin": 150000000000
+      },
+      {
+        "floor": 90,
+        "power": 160000000,
+        "coin": 300000000000
+      },
+      {
+        "floor": 100,
+        "power": 400000000,
+        "coin": 400000000000
+      },
+      {
+        "floor": 110,
+        "power": 900000000,
+        "coin": 600000000000
+      },
+      {
+        "floor": 120,
+        "power": 1800000000,
+        "coin": 800000000000
+      }
+    ]
+  },
+  "validation": {
+    "tests": 48,
+    "failed": 0,
+    "workerSyntax": "passed",
+    "workerBundle": "compiled and deployed",
+    "runtimeVersion": "ec70dc19-939f-4358-9404-a8f5cabb0b59",
+    "pagesAssetCount": 20000,
+    "desktopWidth": 1440,
+    "mobileWidth": 390,
+    "productionAccountWrites": 0
+  }
+}
