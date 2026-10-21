@@ -2,7 +2,7 @@
   "checks": [
     "check:worker"
   ],
-  "status": "retry_after_unrelated_baseline_failure",
+  "status": "retry_delivery_only_after_passed_runtime_checks",
   "scope": "Local mercenary breakthrough pity using existing completed receipts; no schema, shared transaction, economy profile or dependency changes",
   "base": "267da6bfe35a5a9d7da73b9ffcc9b8a7c70e9b94",
   "developmentChecks": {
@@ -15,7 +15,7 @@
     "newPityTests": 10
   },
   "tests": [
-    "tests/mercenary-level-preparation-20261005.test.mjs"
+    "tests/mercenary-pity-delivery-20261021.test.mjs"
   ],
   "initialGate": {
     "failed": 2,
@@ -26,5 +26,11 @@
       "tests/mercenary-level-v2-integration-20261015.test.mjs",
       "tests/mercenary-level-ui-20261006.test.mjs"
     ]
+  },
+  "transactionGate": {
+    "passed": 22,
+    "workerSyntax": "passed",
+    "resolution": "Move this task engineering document into existing Git-only docs/qa directory; expected asset count 20000",
+    "assetCountBlocked": 20001
   }
 }

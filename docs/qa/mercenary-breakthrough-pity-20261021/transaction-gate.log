@@ -1,0 +1,50 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"267da6bfe35a5a9d7da73b9ffcc9b8a7c70e9b94","reason":"Mercenary pity transaction checks; new pity tests, V2 and UI checks already passed; unrelated preexisting Halloween count mismatch recorded and baseline reproduced","changed":["AGENTS.md","admin/index.html","admin/mercenary-admin-v1.js","admin/mercenary-level-admin-v1.mjs","docs/jokro-craft-20261021.md","docs/mercenary-breakthrough-pity-20261021.md","docs/qa/jokro-craft-20261021/operations-applied.json","docs/qa/jokro-craft-20261021/operations-dry-run.json","docs/qa/jokro-craft-20261021/production.json","docs/qa/mercenary-breakthrough-pity-20261021/action-visible-1440.png","docs/qa/mercenary-breakthrough-pity-20261021/action-visible-390.png","docs/qa/mercenary-breakthrough-pity-20261021/baseline-halloween.log","docs/qa/mercenary-breakthrough-pity-20261021/browser-report.json","docs/qa/mercenary-breakthrough-pity-20261021/guaranteed-1440.png","docs/qa/mercenary-breakthrough-pity-20261021/guaranteed-390.png","docs/qa/mercenary-breakthrough-pity-20261021/history-before.json","docs/qa/mercenary-breakthrough-pity-20261021/http-validation.log","docs/qa/mercenary-breakthrough-pity-20261021/initial-gate.log","docs/qa/mercenary-breakthrough-pity-20261021/level20-before-1440.png","docs/qa/mercenary-breakthrough-pity-20261021/level20-before-390.png","docs/qa/mercenary-breakthrough-pity-20261021/pity-tests.log","docs/qa/mercenary-breakthrough-pity-20261021/release-plan.json","docs/qa/mercenary-breakthrough-pity-20261021/success-1440.png","docs/qa/mercenary-breakthrough-pity-20261021/success-390.png","functions/_mercenary_level.js","functions/_mercenary_level_pity.js","mercenary-codex/leveling/app.mjs","mercenary-codex/leveling/breakthrough.mjs","mercenary-codex/leveling/index.html","shared/mercenary-breakthrough-pity-v1.mjs","shared/mercenary-level-v1.mjs","tests/helpers/mercenary-pity-fixture.mjs","tests/mercenary-breakthrough-pity-20261021.browser.mjs","tests/mercenary-breakthrough-pity-20261021.test.mjs"],"tests":["tests/mercenary-level-preparation-20261005.test.mjs"],"checks":["check:worker"]}
+✔ live draft fixes the approved multiplier and leaves remaining economy values unset (5.803ms)
+✔ same mercenary earns the multiplier; only same-rank mercenary extras are accepted (2.0945ms)
+✔ ordinary levels carry XP but every milestone caps XP and reports exact overflow (2.3513ms)
+✔ all four failures retain level and earlier effects; success is once, exact odds, max 20 (3.4088ms)
+✔ invalid persisted states cannot skip gates, retain EXP after final completion, or exceed new XP policy (0.5156ms)
+✔ SQLite: atomic consumption, replay, account isolation, no wallet/loadout change (57.0198ms)
+✔ SQLite: failed writes roll back materials and XP; stale other request is cancelled (52.578ms)
+✔ SQLite: overflow requires explicit consent; failed breakthrough retry keeps its first random draw (74.5752ms)
+✔ SQLite: policy revision and CMS revision races cannot spend stale materials (51.4898ms)
+✔ SQLite: final success persists level 20 and its bonus exactly once without spending more cards (25.5139ms)
+✔ Postgres: atomic consumption, replay, account isolation, no wallet/loadout change (2835.9649ms)
+✔ Postgres: failed writes roll back materials and XP; stale other request is cancelled (1705.7926ms)
+✔ Postgres: overflow requires explicit consent; failed breakthrough retry keeps its first random draw (1638.2505ms)
+✔ Postgres: policy revision and CMS revision races cannot spend stale materials (1788.5377ms)
+✔ Postgres: final success persists level 20 and its bonus exactly once without spending more cards (1379.2369ms)
+✔ lost commit acknowledgement and serialized concurrent requests never double consume (37.5559ms)
+✔ batch predicate rejects inventory or policy changes after the preparation reads (22.5389ms)
+✔ released routes require authentication before any growth database access (26.0838ms)
+✔ OFF needs no new schema, ignores legacy growth, and CMS saves cannot activate it (26.8588ms)
+✔ battle bonuses apply once after linkage, preserve wounds and base rank power, and freeze skill effects (3.1493ms)
+✔ PVE, PVP and two-card co-op linkage carry server-frozen growth without changing historical snapshots (24.2279ms)
+✔ client retains request through timeout and reload; receipt recovery sends no new POST (1.0288ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10264.091
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+file:///C:/Users/User/.codex/worktrees/prime-requiem-live/cnine-card/scripts/prepare-production-assets.mjs:80
+ if(assetCount>20000)throw Error('Pages asset count exceeds the verified 20,000-file limit: '+assetCount);
+                           ^
+
+Error: Pages asset count exceeds the verified 20,000-file limit: 20001
+    at prepareProductionAssets (file:///C:/Users/User/.codex/worktrees/prime-requiem-live/cnine-card/scripts/prepare-production-assets.mjs:80:28)
+    at file:///C:/Users/User/.codex/worktrees/prime-requiem-live/cnine-card/scripts/deploy-production.mjs:66:20
+
+Node.js v24.18.0
