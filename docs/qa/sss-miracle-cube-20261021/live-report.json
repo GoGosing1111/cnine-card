@@ -1,0 +1,105 @@
+{
+  "checkedAt": "2026-10-21T04:21:33.586Z",
+  "files": [
+    {
+      "url": "/sss-miracle-cube/",
+      "status": 200,
+      "sha256": "b5c98889f8f4be65c6953220232567e406679b9a1074f210d7b2d91716b8d485",
+      "cache": "no-cache, must-revalidate, max-age=0, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "url": "/sss-miracle-cube/app.mjs",
+      "status": 200,
+      "sha256": "0799a2cecf871390a092c0dc43d165cbc8f931c98c97053e7b553d9c000cbfb0",
+      "cache": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "url": "/sss-miracle-cube/style.css",
+      "status": 200,
+      "sha256": "c7667f367344edf6f75ac08d0893deb64764fbd4bc14fb2935dd56b7e88f503c",
+      "cache": "no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "url": "/admin/sss-miracle-cube.html",
+      "status": 200,
+      "sha256": "f2e94477e2a8fb6a6e4b90a1e71c9dd5ebe701ce563acde886908f1ce90ec7fe",
+      "cache": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "url": "/admin/sss-miracle-cube.mjs",
+      "status": 200,
+      "sha256": "7d8e67654747e4499549008ad5d7fabd5b94954bddb64316fdc1de07faad3114",
+      "cache": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "url": "/admin/sss-miracle-cube-entry.mjs",
+      "status": 200,
+      "sha256": "7bf58c6c0bc10522ca9667d6137fcb7189c2e725452578ff3d811b20ee51a6ff",
+      "cache": "no-store, no-cache, must-revalidate, max-age=0"
+    },
+    {
+      "url": "/shared/sss-miracle-cube-v1.mjs",
+      "status": 200,
+      "sha256": "07da367b088e0f6bf5a329cc26c596857073d01d5cb4a3cd73528bb699e677b6",
+      "cache": "public, max-age=0, must-revalidate"
+    },
+    {
+      "url": "/assets/ui/sss-miracle-cube-20261021/cube-768.webp",
+      "status": 200,
+      "sha256": "8dc35f6b3fa7e419ec37bd8f3bd71c0d3d247d7efd5023bfcf6f273f7e35b954",
+      "cache": "public, max-age=86400, stale-while-revalidate=604800"
+    },
+    {
+      "url": "/assets/ui/sss-miracle-cube-20261021/cube-320.webp",
+      "status": 200,
+      "sha256": "2538a4af315ce88e93756f6885fd778493f49cd8d83a6159c13335e3e3b616d1",
+      "cache": "public, max-age=86400, stale-while-revalidate=604800"
+    },
+    {
+      "url": "/assets/ui/sss-miracle-cube-20261021/cube-open-768.webp",
+      "status": 200,
+      "sha256": "d472492b73a65902e7aea47f2a0681381ecfeb79da24e54e7bf01588072db63d",
+      "cache": "public, max-age=86400, stale-while-revalidate=604800"
+    },
+    {
+      "url": "/assets/ui/sss-miracle-cube-20261021/panel.webp",
+      "status": 200,
+      "sha256": "6257b055cb1a7059794a7dddf1b98f4b95504e37eb65a74894c542ed8b7990f9",
+      "cache": "public, max-age=86400, stale-while-revalidate=604800"
+    }
+  ],
+  "auth": [
+    {
+      "url": "/api/sss-miracle-cube/state",
+      "status": 401,
+      "code": "SSS_CUBE_AUTH",
+      "cache": "no-store"
+    },
+    {
+      "url": "/api/admin/sss-miracle-cube",
+      "status": 401,
+      "cache": "no-store"
+    }
+  ],
+  "screens": [
+    {
+      "width": 1440,
+      "OFF": true,
+      "unsetRates": true,
+      "imagesLoaded": true,
+      "noOverflow": true,
+      "errors": [],
+      "blockedWrites": []
+    },
+    {
+      "width": 390,
+      "OFF": true,
+      "unsetRates": true,
+      "imagesLoaded": true,
+      "noOverflow": true,
+      "errors": [],
+      "blockedWrites": []
+    }
+  ],
+  "scope": "Production static assets and anonymous API auth. Browser state is the read-only production catalog snapshot with synthetic account 0; all browser API requests intercepted, no production writes."
+}

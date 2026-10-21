@@ -1,0 +1,93 @@
+{
+  "checkedAt": "2026-10-21T04:03:55.452Z",
+  "result": {
+    "createdCatalog": true,
+    "createdPolicy": true,
+    "revision": 0,
+    "mode": "OFF",
+    "configuredCards": 0,
+    "granted": 0,
+    "stockChanges": 0,
+    "at": "2026-10-21T04:03:54.067Z",
+    "auditId": "49408",
+    "dryRun": true
+  },
+  "repeated": null,
+  "before": {
+    "setting": null,
+    "catalog": [],
+    "stock": [
+      {
+        "code": "V-979",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0"
+      },
+      {
+        "code": "V-989",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0"
+      },
+      {
+        "code": "V-996",
+        "stock_limit": "15",
+        "issued": "15",
+        "revision": "23"
+      },
+      {
+        "code": "V-999",
+        "stock_limit": "8",
+        "issued": "8",
+        "revision": "13"
+      }
+    ],
+    "holders": {
+      "accounts": "0",
+      "cubes": "0"
+    },
+    "audits": {
+      "count": "0",
+      "last_id": null
+    }
+  },
+  "after": {
+    "setting": null,
+    "catalog": [],
+    "stock": [
+      {
+        "code": "V-979",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0"
+      },
+      {
+        "code": "V-989",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0"
+      },
+      {
+        "code": "V-996",
+        "stock_limit": "15",
+        "issued": "15",
+        "revision": "23"
+      },
+      {
+        "code": "V-999",
+        "stock_limit": "8",
+        "issued": "8",
+        "revision": "13"
+      }
+    ],
+    "holders": {
+      "accounts": "0",
+      "cubes": "0"
+    },
+    "audits": {
+      "count": "0",
+      "last_id": null
+    }
+  },
+  "independentConnection": true
+}

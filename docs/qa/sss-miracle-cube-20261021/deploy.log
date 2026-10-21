@@ -1,0 +1,99 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"63f48b789b776d76cdd9b68fee14f6ec7e22c045","reason":"Separate SSS cube and OWNER probability CMS using existing stock and atomic transactions; no schema, shared auth or transaction engine changes. Focused cube, legacy cube, limited entitlement and public codex regressions; desktop/mobile browser checks already passed.","changed":["AGENTS.md","_headers","admin/index.html","admin/sss-miracle-cube-entry.mjs","admin/sss-miracle-cube.html","admin/sss-miracle-cube.mjs","assets/ui/sss-miracle-cube-20261021/cube-320.webp","assets/ui/sss-miracle-cube-20261021/cube-768.webp","assets/ui/sss-miracle-cube-20261021/cube-open-768.webp","assets/ui/sss-miracle-cube-20261021/cube-open-source.png","assets/ui/sss-miracle-cube-20261021/cube-source.png","assets/ui/sss-miracle-cube-20261021/manifest.json","assets/ui/sss-miracle-cube-20261021/panel-source.png","assets/ui/sss-miracle-cube-20261021/panel.webp","assets/ui/sss-miracle-cube-20261021/prompts.json","docs/qa/reversecall-streamer-gift-20261021/catalog-live.json","docs/qa/reversecall-streamer-gift-20261021/deploy.log","docs/qa/reversecall-streamer-gift-20261021/live-files.json","docs/qa/sss-miracle-cube-20261021/cms-390.png","docs/qa/sss-miracle-cube-20261021/ready-1440.png","docs/qa/sss-miracle-cube-20261021/report.json","docs/reversecall-streamer-gift-20261021.md","docs/sss-miracle-cube-20261021.md","functions/_mercenary_jinmu_access.js","functions/_mercenary_jokro_access.js","functions/_sss_miracle_cube.js","functions/api/[[path]].js","index.html","js/app.js","scripts/build-sss-miracle-cube-assets-20261021.mjs","scripts/ops/sss-miracle-cube-prepare-20261021.mjs","service-worker.js","shared/sss-miracle-cube-v1.mjs","sss-miracle-cube/app.mjs","sss-miracle-cube/index.html","sss-miracle-cube/style.css","tests/sss-miracle-cube-20261021.browser.mjs","tests/sss-miracle-cube-20261021.test.mjs"],"tests":["tests/sss-miracle-cube-20261021.test.mjs","tests/miracle-cube-20261003.test.mjs","tests/mercenary-halloween-jokro-20261021.test.mjs","tests/mercenary-codex-public-v2061.test.mjs"],"checks":["check:worker"]}
+✔ public document uses the native forge-inspired archive with game links and CMS information (1.6771ms)
+✔ shared desktop, mobile and cards hub menu includes exactly one codex beside dex (4.1345ms)
+✔ public codex uses a fixed same-tab document route, not a deck or battle shell (2.491ms)
+✔ native desktop, mobile and old subtab fallbacks redirect without mounting a new game view (1.2312ms)
+✔ codex keeps public catalog browsing while account writes are limited to the existing loadout route (1.8309ms)
+✔ public page and live entry use synchronized cache tags and revalidation headers (2.3257ms)
+✔ visiting public codex never overwrites the game index, including offline return (38.0513ms)
+✔ codex cache cannot become an offline game fallback and cache quota does not hide valid responses (6.6426ms)
+✔ old production settings stay open with zero Jokro odds until explicit activation (2509.7066ms)
+✔ Jokro launch changes only its public stock and odds, rolls back atomically and replays without writes (1753.8116ms)
+✔ expired loan is not extended by the new pack path; a completed pack issue is independent (0.42ms)
+✔ concurrent requests for the last Jokro slot issue serial three only once (1574.1602ms)
+✔ three Jokro pack serials exclude the owner copy; rollback and lost acknowledgement never consume an extra slot (1547.2338ms)
+✔ a completed Jokro pack recipient can view, equip, battle and train; stray/recalled ownership stays blocked (1566.8802ms)
+✔ exact two-stage odds use all ranks, explicit within-rank percentages, zero exclusions and precise boundaries (1.5482ms)
+✔ OFF defaults and incomplete drafts cannot consume cubes; only OWNER can save; ON requires ready odds (53.2892ms)
+✔ cube debit, ten mercenary grants, duplicates and replay are atomic (SQLite) (29.934ms)
+✔ cube debit, ten mercenary grants, duplicates and replay are atomic (Postgres) (2802.4831ms)
+✔ grant failure rolls debit back and resumes the fixed draw; OFF and policy changes block pending commits (34.1071ms)
+✔ global acquisition lock cancels a prepared grant and does not change independent cube percentages (29.0102ms)
+✔ only new miracle cubes are consumed and revision conflicts never overwrite settings (23.2131ms)
+✔ inventory presentation routes only the new cube and preserves every quantity (0.3974ms)
+✔ production preparation is OFF, dry-run-safe, transactional and never overrides existing policy (1795.9054ms)
+✔ SSS-only direct percentages preserve exact eight-decimal boundaries and explicit exclusions (2.5804ms)
+✔ OFF/null defaults, SS exclusion, unreleased and sold-out locks, OWNER authorization and version checks (62.3893ms)
+✔ normal/limited debit, shared last serial, duplicate and replay accounting (SQLite) (33.401ms)
+✔ normal/limited debit, shared last serial, duplicate and replay accounting (Postgres) (2995.1338ms)
+✔ failed payment/grant rolls back, retry reuses draw; changed settings cancel without debit (1911.5521ms)
+✔ another pack consuming the last stock during commit cannot over-issue or debit a cube (19.956ms)
+✔ Jinmu/Jokro entitlement requires a completed cube receipt, acquisition and one of the existing three serials (1735.8369ms)
+✔ preparation is OFF, no grants or stock changes, dry-run-safe and preserves later CMS settings (1522.7429ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9487.0791
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19989 files; 5551 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 7988.12 KiB / gzip: 1723.63 KiB
+Worker Startup Time: 45 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object
+env.DB (cnine-card-db)                                                    D1 Database
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config
+
+Uploaded cnine-card-api-runtime (8.82 sec)
+No targets deployed for cnine-card-api-runtime (0.74 sec)
+Current Version ID: 2835612d-49be-43e3-b939-21861fb954f7
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19958/19989)
+Uploading... (19968/19989)
+Uploading... (19978/19989)
+Uploading... (19989/19989)
+✨ Success! Uploaded 31 files (19958 already uploaded) (2.58 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://d79ced16.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2776.07 KiB / gzip: 631.10 KiB
+Worker Startup Time: 76 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config
+
+Uploaded cnine-card-clan-draft (3.65 sec)
+Deployed cnine-card-clan-draft triggers (0.94 sec)
+  schedule: * * * * *
+Current Version ID: 1e71dba2-aa1d-4cbe-9bb0-578bcb30f952

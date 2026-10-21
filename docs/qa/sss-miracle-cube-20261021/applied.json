@@ -1,0 +1,121 @@
+{
+  "checkedAt": "2026-10-21T04:12:59.815Z",
+  "result": {
+    "createdCatalog": true,
+    "createdPolicy": true,
+    "revision": 0,
+    "mode": "OFF",
+    "configuredCards": 0,
+    "granted": 0,
+    "stockChanges": 0,
+    "at": "2026-10-21T04:12:56.938Z",
+    "auditId": "49411",
+    "dryRun": false
+  },
+  "repeated": {
+    "createdCatalog": false,
+    "createdPolicy": false,
+    "revision": 0,
+    "mode": "OFF",
+    "configuredCards": 0,
+    "granted": 0,
+    "stockChanges": 0,
+    "at": "2026-10-21T04:12:58.504Z",
+    "dryRun": false
+  },
+  "before": {
+    "setting": null,
+    "catalog": [],
+    "stock": [
+      {
+        "code": "V-979",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0"
+      },
+      {
+        "code": "V-989",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0"
+      },
+      {
+        "code": "V-996",
+        "stock_limit": "15",
+        "issued": "15",
+        "revision": "23"
+      },
+      {
+        "code": "V-999",
+        "stock_limit": "8",
+        "issued": "8",
+        "revision": "13"
+      }
+    ],
+    "holders": {
+      "accounts": "0",
+      "cubes": "0"
+    },
+    "audits": {
+      "count": "0",
+      "last_id": null
+    }
+  },
+  "after": {
+    "setting": {
+      "revision": 0,
+      "policy": {
+        "mode": "OFF",
+        "cards": {},
+        "notes": ""
+      },
+      "updatedAt": "2026-10-21T04:12:56.938Z",
+      "updatedBy": 1
+    },
+    "catalog": [
+      {
+        "code": "SSS_MIRACLE_CUBE",
+        "name": "SSS 미라클큐브",
+        "category": "CUBE",
+        "rarity": "MIRACLE",
+        "image_url": "/assets/ui/sss-miracle-cube-20261021/cube-768.webp",
+        "is_active": "1"
+      }
+    ],
+    "stock": [
+      {
+        "code": "V-979",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0"
+      },
+      {
+        "code": "V-989",
+        "stock_limit": "3",
+        "issued": "0",
+        "revision": "0"
+      },
+      {
+        "code": "V-996",
+        "stock_limit": "15",
+        "issued": "15",
+        "revision": "23"
+      },
+      {
+        "code": "V-999",
+        "stock_limit": "8",
+        "issued": "8",
+        "revision": "13"
+      }
+    ],
+    "holders": {
+      "accounts": "0",
+      "cubes": "0"
+    },
+    "audits": {
+      "count": "1",
+      "last_id": "49411"
+    }
+  },
+  "independentConnection": true
+}

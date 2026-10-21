@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-10-21T04:14:16.571Z",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256": "d679075f6ce66a4a34b1feb49775ad5a9f71ed207a188cb052de4ad535064dfe"
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "sha256": "b7a69e4fcc517276bdd2fa1c253961b348f2882db6822daf74d9b2aca9ceee93"
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "sha256": "d8bb39d518e1a983ca9b3b781d6542bcd5eb4eb62c8337d64926caee553b2d09"
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "sha256": "33a6cee529a68e26f74ea09772bbcbdad0ac07a2dcb360fbb3da02ce35b1ac7c"
+    }
+  ]
+}
