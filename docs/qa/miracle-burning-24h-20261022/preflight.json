@@ -1,0 +1,48 @@
+{
+  "checkedAt": "2026-10-21T22:03:10.440Z",
+  "httpStatus": 200,
+  "burningEvent": {
+    "mode": "MIRACLE",
+    "theme": "SKY",
+    "enabled": true,
+    "generation": 77,
+    "activatedAt": "2026-10-21T21:49:21.000Z",
+    "updatedAt": "2026-10-21T21:49:21.000Z",
+    "endsAt": "2026-10-21T22:49:21.000Z",
+    "durationMinutes": 60,
+    "title": "리버스콜 미라클 버닝이 발동되었습니다",
+    "pve": {
+      "maxEnergy": 30,
+      "rechargeMinutes": 1
+    },
+    "pvp": {
+      "maxEnergy": 30,
+      "rechargeMinutes": 1
+    },
+    "apocalypse": {
+      "maxEnergy": 10,
+      "rechargeMinutes": 5
+    },
+    "dropIncreasePercent": 30,
+    "duplicateShardMultiplier": 1,
+    "packDiscountPercent": 0,
+    "equipmentBoxDiscountPercent": 0,
+    "battleRewardMultiplier": 50,
+    "martialLaw": {
+      "version": 1,
+      "enabled": false,
+      "revision": 2,
+      "generation": 1,
+      "activatedAt": "2026-10-18T04:52:37.000Z",
+      "endsAt": null,
+      "updatedAt": "2026-10-18T04:53:54.000Z",
+      "durationMinutes": 30,
+      "title": "리버스콜 계엄령이 선포되었습니다",
+      "coinMultiplier": 0.9,
+      "rechargeMultiplier": 3
+    },
+    "effectiveBattleRewardMultiplier": 50
+  },
+  "serverNow": "2026-10-21T22:03:09.328Z",
+  "readOnly": true
+}

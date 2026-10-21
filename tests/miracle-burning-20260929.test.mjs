@@ -111,18 +111,22 @@ test('activation persists fixed effects and ends other modes atomically; OFF and
     assert.equal(f.read(miracle.MIRACLE_BURNING_META_KEY).enabled,false);
   }finally{f.sqlite.close()}
 });
-test('Miracle permits ten minutes and 300x through saved state, public state and expiry; other modes keep their limits',async()=>{
+test('Miracle permits ten/thirty minutes and every hour through 24h with 300x through saved state, public state and expiry; other modes keep their limits',async()=>{
   const f=fixture();try{
     const initial=await f.request(owner);
-    assert.deepEqual(initial.body.allowedDurations,[10,30,60,120]);
+    const durations=[10,30,...Array.from({length:24},(_,hour)=>(hour+1)*60)];
+    assert.deepEqual(initial.body.allowedDurations,durations);
     assert.equal(initial.body.settings.durationMinutes,60);assert.equal(initial.body.settings.battleRewardMultiplier,100);
-    for(const durationMinutes of [10,30,60,120]){
+    for(const durationMinutes of durations){
       const saved=await f.request(owner,'PATCH',{enabled:true,durationMinutes,battleRewardMultiplier:300});
       assert.equal(saved.status,200);const s=saved.body.settings;
       assert.equal(s.durationMinutes,durationMinutes);assert.equal(s.battleRewardMultiplier,300);
       assert.equal(Date.parse(s.endsAt)-Date.parse(s.activatedAt),durationMinutes*60_000);
       assert.equal(f.read(miracle.MIRACLE_BURNING_META_KEY).battleRewardMultiplier,300);
-      assert.equal((await f.request(owner)).body.settings.battleRewardMultiplier,300);
+      const reloaded=(await f.request(owner)).body.settings;
+      assert.equal(reloaded.battleRewardMultiplier,300);assert.equal(reloaded.durationMinutes,durationMinutes);assert.equal(reloaded.endsAt,s.endsAt);
+      assert.equal(access.burningEventIsLive(reloaded,Date.parse(s.endsAt)-1),true);
+      assert.equal(access.burningEventIsLive(reloaded,Date.parse(s.endsAt)),false);
       assert.equal(saved.body.activeEvent.battleRewardMultiplier,300);
       assert.equal(saved.body.activeEvent.durationMinutes,durationMinutes);
       assert.equal(f.runtime.burningRewardAmount(1234,s),370200);
@@ -131,14 +135,14 @@ test('Miracle permits ten minutes and 300x through saved state, public state and
     const saved=await f.request(owner,'PATCH',{enabled:true,durationMinutes:10,battleRewardMultiplier:100.1});
     assert.equal(saved.status,200);assert.equal(saved.body.settings.battleRewardMultiplier,100.1);
     const previous=f.read(miracle.MIRACLE_BURNING_META_KEY);
-    for(const durationMinutes of [0,9,10.5,11,31,180])assert.equal((await f.request(owner,'PATCH',{enabled:true,durationMinutes,battleRewardMultiplier:300})).status,400);
+    for(const durationMinutes of [0,9,10.5,11,31,90,1439,1440.1,1441,1500,2880,'bad',Infinity])assert.equal((await f.request(owner,'PATCH',{enabled:true,durationMinutes,battleRewardMultiplier:300})).status,400);
     for(const battleRewardMultiplier of [0,300.1,301,'bad'])assert.equal((await f.request(owner,'PATCH',{enabled:true,durationMinutes:10,battleRewardMultiplier})).status,400);
     assert.deepEqual(f.read(miracle.MIRACLE_BURNING_META_KEY),previous);
     assert.equal(access.burningEventIsLive(previous,Date.parse(previous.endsAt)-1),true);
     assert.equal(access.burningEventIsLive(previous,Date.parse(previous.endsAt)),false);
     const expired=f.runtime.cleanBurningEventSettings({...previous,endsAt:'2000-01-01T00:00:00Z'},'MIRACLE');
     assert.equal(expired.enabled,false);assert.equal(f.runtime.burningRewardAmount(1234,expired),1234);
-    for(const path of ['admin/burning-event','admin/hyper-burning-event'])assert.equal((await f.normalRequest(owner,path,{enabled:true,durationMinutes:10})).status,400);
+    for(const path of ['admin/burning-event','admin/hyper-burning-event'])for(const durationMinutes of [10,180,1440])assert.equal((await f.normalRequest(owner,path,{enabled:true,durationMinutes})).status,400);
     for(const [mode,cap] of [['BURNING',10],['HYPER',30],['MIRACLE',300]])assert.equal(f.runtime.cleanBurningEventSettings({...previous,battleRewardMultiplier:301},mode).battleRewardMultiplier,cap);
   }finally{f.sqlite.close()}
 });

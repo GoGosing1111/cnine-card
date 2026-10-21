@@ -15,7 +15,7 @@ window.fetch=async(url,options={})=>{
     const draft=JSON.parse(options.body).settings,now=Date.now();
     previewSettings={...previewSettings,...draft,generation:previewSettings.generation+1,activatedAt:new Date(now).toISOString(),endsAt:draft.enabled?new Date(now+draft.durationMinutes*60000).toISOString():null};
   }
-  return new Response(JSON.stringify({settings:previewSettings,serverNow:new Date().toISOString(),activeMode:previewSettings.enabled?'MIRACLE':'NONE'}),{headers:{'content-type':'application/json'}});
+  return new Response(JSON.stringify({settings:previewSettings,allowedDurations:[10,30,...Array.from({length:24},(_,hour)=>(hour+1)*60)],serverNow:new Date().toISOString(),activeMode:previewSettings.enabled?'MIRACLE':'NONE'}),{headers:{'content-type':'application/json'}});
 };
 function previewIdentity(nickname){window.__SOOP_CMS_IDENTITY__={role:'OWNER',nickname};window.dispatchEvent(new CustomEvent('soop:cms-identity',{detail:window.__SOOP_CMS_IDENTITY__}))}
 </script>

@@ -1,0 +1,31 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "options": 26,
+      "durationMinutes": 1440,
+      "durationMs": 86400000,
+      "countdown": "ON · 24:00:00",
+      "save": true,
+      "reload": true,
+      "preview": "24시간",
+      "horizontalOverflow": 0,
+      "frame": "url(\"http://127.0.0.1:13642/assets/ui/burning-miracle-v1/celestial-control-frame-20261021.webp\")",
+      "actualServerWrites": 0
+    },
+    {
+      "width": 390,
+      "options": 26,
+      "durationMinutes": 1440,
+      "durationMs": 86400000,
+      "countdown": "ON · 24:00:00",
+      "save": true,
+      "reload": true,
+      "preview": "24시간",
+      "horizontalOverflow": 0,
+      "frame": "url(\"http://127.0.0.1:13642/assets/ui/burning-miracle-v1/celestial-control-frame-20261021.webp\")",
+      "actualServerWrites": 0
+    }
+  ],
+  "errors": []
+}

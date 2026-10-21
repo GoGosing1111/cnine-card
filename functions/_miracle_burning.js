@@ -1,9 +1,9 @@
-import { BURNING_EVENT_DEFAULT_DURATION_MINUTES, BURNING_EVENT_DURATION_MINUTES, burningEventIsLive } from './_burning_event_access.js';
+import { BURNING_EVENT_DEFAULT_DURATION_MINUTES, burningEventIsLive } from './_burning_event_access.js';
 
 export const MIRACLE_BURNING_META_KEY = 'miracle_burning_event_settings_v1';
 export const MIRACLE_BURNING_OPERATOR = '핑크빛유두';
 export const MIRACLE_BURNING_DROP_PERCENT = 30;
-export const MIRACLE_BURNING_DURATION_MINUTES = Object.freeze([10, ...BURNING_EVENT_DURATION_MINUTES]);
+export const MIRACLE_BURNING_DURATION_MINUTES = Object.freeze([10, 30, ...Array.from({length:24},(_,hour)=>(hour+1)*60)]);
 
 export function canManageMiracleBurning(user) {
   return String(user?.role || '').trim().toUpperCase() === 'OWNER'
@@ -49,7 +49,7 @@ export async function handleMiracleBurningAdmin({request,env,deps}) {
   if(request.method==='GET')return json(response(beforePair));
   const body=await readBody(request),payload=body.settings||body;
   const durationMinutes=Number(payload.durationMinutes??before.durationMinutes),multiplier=Number(payload.battleRewardMultiplier??before.battleRewardMultiplier);
-  if(!MIRACLE_BURNING_DURATION_MINUTES.includes(durationMinutes))return json({error:'진행 시간은 10분, 30분, 1시간, 2시간 중 선택하세요.',code:'INVALID_BURNING_DURATION'},400);
+  if(!MIRACLE_BURNING_DURATION_MINUTES.includes(durationMinutes))return json({error:'진행 시간은 10분·30분 또는 1~24시간(1시간 단위) 중 선택하세요.',code:'INVALID_BURNING_DURATION',allowedDurations:MIRACLE_BURNING_DURATION_MINUTES},400);
   if(!Number.isFinite(multiplier)||multiplier<1||multiplier>300)return json({error:'코인 보상 배율은 1~300배로 입력하세요.',code:'INVALID_MIRACLE_MULTIPLIER'},400);
   // Energy pools persist second precision; align activation to prevent a refill
   // after every debit during the first fractional second of the event.
