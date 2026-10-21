@@ -1,0 +1,201 @@
+{
+  "at": "2026-10-21T21:53:35.114Z",
+  "sourceCommit": "59e06042e907ef9d12e518d142250cf07925e5c7",
+  "pagesDeployment": "https://c7a2e880.cnine-card.pages.dev",
+  "resources": [
+    {
+      "file": "css/seal-battle.css",
+      "sha256": "5c20d2cdba43ccf9e45f547739fb61a677f68ad022c2e583c480fb0fd4177878"
+    },
+    {
+      "file": "js/seal-battle.js",
+      "sha256": "857e5049918e6a9a13d21737f89873f8f5b512b37f8dfff54de5aa0d5686f7a0"
+    },
+    {
+      "file": "index.html",
+      "sha256": "8a22620a62c626d617fc76312a4e7493c329627d3cd570934567849b39a9f909"
+    },
+    {
+      "file": "service-worker.js",
+      "sha256": "5393b5e3a3697dc6978908c74a983db82ac89b2f1c49c49939df74f5634e0f4d"
+    },
+    {
+      "file": "preview/seal-battle-rework-20261021/index.html",
+      "sha256": "65e62f5b95048ecf178bdd575329c248ca86baf0f924be18e4ef6b093f39f87c"
+    }
+  ],
+  "publicPreview": {
+    "at": "2026-10-21T21:53:34.953Z",
+    "passed": true,
+    "base": "https://cnine-card.pages.dev",
+    "results": [
+      {
+        "width": 390,
+        "metrics": [
+          {
+            "card": {
+              "x": 10,
+              "y": 185.890625,
+              "width": 120.65625,
+              "height": 79.625,
+              "top": 185.890625,
+              "right": 130.65625,
+              "bottom": 265.515625,
+              "left": 10
+            },
+            "img": {
+              "x": 46.828125,
+              "y": 187.890625,
+              "width": 32,
+              "height": 32,
+              "top": 187.890625,
+              "right": 78.828125,
+              "bottom": 219.890625,
+              "left": 46.828125
+            },
+            "label": {
+              "x": 10,
+              "y": 223.890625,
+              "width": 120.65625,
+              "height": 41.625,
+              "top": 223.890625,
+              "right": 130.65625,
+              "bottom": 265.515625,
+              "left": 10
+            },
+            "text": {
+              "x": 44.15625,
+              "y": 237.125,
+              "width": 52.328125,
+              "height": 15,
+              "top": 237.125,
+              "right": 96.484375,
+              "bottom": 252.125,
+              "left": 44.15625
+            },
+            "marker": {
+              "x": 46.828125,
+              "y": 185.890625,
+              "width": 47,
+              "height": 36,
+              "top": 185.890625,
+              "right": 93.828125,
+              "bottom": 221.890625,
+              "left": 46.828125
+            },
+            "imageLoaded": true
+          },
+          {
+            "card": {
+              "x": 134.65625,
+              "y": 185.890625,
+              "width": 120.671875,
+              "height": 79.625,
+              "top": 185.890625,
+              "right": 255.328125,
+              "bottom": 265.515625,
+              "left": 134.65625
+            },
+            "img": {
+              "x": 171.484375,
+              "y": 187.890625,
+              "width": 32,
+              "height": 32,
+              "top": 187.890625,
+              "right": 203.484375,
+              "bottom": 219.890625,
+              "left": 171.484375
+            },
+            "label": {
+              "x": 134.65625,
+              "y": 223.890625,
+              "width": 120.671875,
+              "height": 41.625,
+              "top": 223.890625,
+              "right": 255.328125,
+              "bottom": 265.515625,
+              "left": 134.65625
+            },
+            "text": {
+              "x": 164.15625,
+              "y": 237.125,
+              "width": 61.65625,
+              "height": 15,
+              "top": 237.125,
+              "right": 225.8125,
+              "bottom": 252.125,
+              "left": 164.15625
+            },
+            "marker": {
+              "x": 171.484375,
+              "y": 185.890625,
+              "width": 47,
+              "height": 36,
+              "top": 185.890625,
+              "right": 218.484375,
+              "bottom": 221.890625,
+              "left": 171.484375
+            },
+            "imageLoaded": true
+          },
+          {
+            "card": {
+              "x": 259.328125,
+              "y": 185.890625,
+              "width": 120.65625,
+              "height": 79.625,
+              "top": 185.890625,
+              "right": 379.984375,
+              "bottom": 265.515625,
+              "left": 259.328125
+            },
+            "img": {
+              "x": 296.15625,
+              "y": 187.890625,
+              "width": 32,
+              "height": 32,
+              "top": 187.890625,
+              "right": 328.15625,
+              "bottom": 219.890625,
+              "left": 296.15625
+            },
+            "label": {
+              "x": 259.328125,
+              "y": 223.890625,
+              "width": 120.65625,
+              "height": 41.625,
+              "top": 223.890625,
+              "right": 379.984375,
+              "bottom": 265.515625,
+              "left": 259.328125
+            },
+            "text": {
+              "x": 288.828125,
+              "y": 237.125,
+              "width": 61.65625,
+              "height": 15,
+              "top": 237.125,
+              "right": 350.484375,
+              "bottom": 252.125,
+              "left": 288.828125
+            },
+            "marker": {
+              "x": 296.15625,
+              "y": 185.890625,
+              "width": 47,
+              "height": 36,
+              "top": 185.890625,
+              "right": 343.15625,
+              "bottom": 221.890625,
+              "left": 296.15625
+            },
+            "imageLoaded": true
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "liveAccountWrites": 0
+  },
+  "liveAccountWrites": 0
+}

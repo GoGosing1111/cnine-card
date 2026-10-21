@@ -1,0 +1,14 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/scoped-release-checks.mjs:13
+ if(git('rev-parse','HEAD')!==git('rev-parse','origin/main'))throw Error('Push the scoped release to origin/main first');
+                                                                   ^
+
+Error: Push the scoped release to origin/main first
+    at scopedReleasePlan (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/scoped-release-checks.mjs:13:68)
+    at runScopedReleaseChecks (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/scoped-release-checks.mjs:43:13)
+    at file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/scripts/deploy-production.mjs:59:3
+
+Node.js v24.18.0

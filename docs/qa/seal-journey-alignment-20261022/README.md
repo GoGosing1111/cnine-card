@@ -7,4 +7,8 @@
 - 캐시: 운영과 프리뷰의 CSS/컨트롤러에 `sealLayout=20261022-v2`, 앱/서비스 워커에 `seal-journey-aligned-20261022-v1`을 추가했다.
 - `layout-verification.json`: 1440/840/761/760/390/320px에서 세 이미지 크기·칸 높이·텍스트 기준선 일치, 가로 넘침 없음, 단계 1/2/3 상태 전환, JS 오류 0건을 확인했다. PC와 모바일 캡처를 직접 확인했다. 기술 검수는 사용자 시각 승인과 구분한다.
 
-국소 UI 정렬 수정이며 서버·전투·보상을 바꾸지 않는다. 기존 봉인전 전달 검사만 scoped 배포에서 실행한다. 운영 소스와 최종 배포 결과는 완료 후 기록한다.
+국소 UI 정렬 수정이며 서버·전투·보상을 바꾸지 않는다. 기존 봉인전 전달 검사 1개가 scoped 배포에서 통과했다. 직전 운영 소스는 `450b18ae4adc5e77dc048660e9a324c914205b4a`(Pages `8c9dd763`)이며, 수정 소스는 `22ac24c72`다. 첫 배포 시도는 동시 작업의 문서 커밋으로 원격 HEAD가 이동해 실행 전에 차단됐다. 해당 문서를 fast-forward한 `59e06042e907ef9d12e518d142250cf07925e5c7`로 정상 배포했다.
+
+운영 Pages: `https://c7a2e880.cnine-card.pages.dev`. `production-verification.json`에서 실제 공개 도메인의 CSS·컨트롤러·메인 HTML·서비스 워커·프리뷰 HTML 총 5개 해시가 배포 소스와 일치함을 확인했다. 공개 프리뷰 390px의 단계 1/2/3 전환과 정렬·이미지 로딩·가로 넘침 없음·JS 오류 0건을 재확인했다. `live-390.png`를 직접 확인했으며 운영 계정 쓰기는 0건이다.
+
+검수 주소: `https://cnine-card.pages.dev/preview/seal-battle-rework-20261021/?review=seal-journey-aligned-20261022-v1`.

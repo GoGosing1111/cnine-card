@@ -1,0 +1,66 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"450b18ae4adc5e77dc048660e9a324c914205b4a","reason":"Seal journey image alignment only: responsive frame sizing and text placement, with existing UI delivery regression and six viewport browser checks.","changed":["AGENTS.md","css/seal-battle.css","docs/qa/seal-journey-alignment-20261022/README.md","docs/qa/seal-journey-alignment-20261022/after-1440-page.png","docs/qa/seal-journey-alignment-20261022/after-1440.png","docs/qa/seal-journey-alignment-20261022/after-320.png","docs/qa/seal-journey-alignment-20261022/after-390-page.png","docs/qa/seal-journey-alignment-20261022/after-390.png","docs/qa/seal-journey-alignment-20261022/after-760.png","docs/qa/seal-journey-alignment-20261022/after-761.png","docs/qa/seal-journey-alignment-20261022/after-840.png","docs/qa/seal-journey-alignment-20261022/before.json","docs/qa/seal-journey-alignment-20261022/before.png","docs/qa/seal-journey-alignment-20261022/check-layout.mjs","docs/qa/seal-journey-alignment-20261022/layout-verification.json","docs/qa/seal-journey-alignment-20261022/user-reference.png","docs/qa/tower-abyss-growth-20261022/README.md","docs/qa/tower-abyss-growth-20261022/live-verification.json","index.html","js/seal-battle.js","preview/seal-battle-rework-20261021/index.html","service-worker.js"],"tests":["tests/seal-ui-delivery-20261021.test.mjs"],"checks":[]}
+Seal delivery: 20000 / 20000 assets; authoring files retained in Git.
+✔ Seal UI ships all six images, player/CMS modules and browser fixtures within Pages cap; exact authoring assets remain in Git (202.6293ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 295.6217
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1-seal-journey-aligned-20261022-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 6030 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 8035.80 KiB / gzip: 1734.31 KiB
+Worker Startup Time: 56 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.30 sec)
+No targets deployed for cnine-card-api-runtime (0.76 sec)
+Current Version ID: 34494609-ca8a-448a-834e-e95daca1af53
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19993/20000)
+Uploading... (19995/20000)
+Uploading... (19997/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 7 files (19993 already uploaded) (2.99 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://c7a2e880.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2788.80 KiB / gzip: 634.88 KiB
+Worker Startup Time: 48 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.29 sec)
+Deployed cnine-card-clan-draft triggers (0.83 sec)
+  schedule: * * * * *
+Current Version ID: 6f7c2fe0-9af3-481c-9c53-7197690725f2
