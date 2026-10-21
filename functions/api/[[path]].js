@@ -87,6 +87,7 @@ import {handleRankExpPotion} from '../_rank_exp_potion.js';
 import {handleMercenaryCodex} from '../_mercenary_codex.js';
 import {handleMercenaryAccount,mercenaryUsesInnerLock} from '../_mercenary_account_routes.js';
 import {handleMiracleCube,openMiracleCube,presentMiracleInventory,ensureMiracleCubeCatalog} from '../_miracle_cube.js';
+import {handleSssCube,presentSssCubeInventory} from '../_sss_miracle_cube.js';
 import {handleSssReroll,presentSssRerollInventory,ensureSssRerollCatalog} from '../_mercenary_sss_reroll.js';
 import {canIssueMiracleCubeCoupon,redeemMiracleCubeCoupon} from '../_miracle_cube_coupon.js';
 import {handleMasterStarMine} from '../_master_star_mine.js';
@@ -5107,6 +5108,7 @@ async function handleRequest(context){
     const lootShopResponse=await handleLootShop({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(lootShopResponse)return lootShopResponse;
     const sssRerollResponse=await handleSssReroll({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(sssRerollResponse)return sssRerollResponse;
     const miracleCubeResponse=await handleMiracleCube({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(miracleCubeResponse)return miracleCubeResponse;
+    const sssCubeResponse=await handleSssCube({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(sssCubeResponse)return sssCubeResponse;
     const mineResponse=await handleMasterStarMine({path,request,env,deps:{authenticate,json,withUserMutationLock:withJointUserMutationLock}});if(mineResponse)return mineResponse;
     const halloweenPackResponse=await handleHalloweenPack({path,request,env,deps:{json,requirePermission,authenticate,withUserMutationLock:withJointUserMutationLock}});if(halloweenPackResponse)return halloweenPackResponse;
     const limitedPackResponse=await handleLimitedPack({path,request,env,deps:{authenticate,json,requirePermission,withUserMutationLock:withJointUserMutationLock}});if(limitedPackResponse)return limitedPackResponse;
@@ -5342,7 +5344,7 @@ async function handleRequest(context){
           AND (i.code NOT IN ('MADARA_RAID_ENTRY_TICKET','SOOPKETLAND_TICKET','SOOPKETLAND_HYPER_BURNING_TICKET','NEW_USER_GIFT_BOX','CHUSEOK_COIN','PINGDU_WISH_TICKET','PINGDU_BAEMIN_TICKET','PINGDU_OLD_AXE','SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE') OR COALESCE(ui.quantity,0)>0)
         ORDER BY i.sort_order,i.code`).bind(blackMiracleUseEnabled?1:0,user.id).all();
       const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.code===FORGE_REPAIR_ITEM.code?'장비 강화 센터 → 파괴 기록에서 복구할 장비를 선택하세요.':x.code===FORGE_PROTECTION_ITEM.code?'장비 강화에서 보호권 사용을 선택하세요.':x.code==='PINGDU_BAEMIN_TICKET'?'종료된 치킨집 이벤트 참가권':x.code==='PINGDU_OLD_AXE'?'종료된 금도끼 은도끼 이벤트 참가권':x.category==='SKILL_CHIP'?'장비 → 스킬칩 탭에서 장착':x.code===UNIQUE_ADVANCEMENT_PASS_CODE?'카드 상세 전직 시 자동 사용':x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code===MADARA_TICKET?'바르센 레이드 공대 생성 시 사용':x.code===LICH_TICKET?'리치왕 정벌 공대 생성 시 사용':x.code==='CORE_RAID_ENTRY_TICKET'?'붕괴 코어 공대 생성 시 사용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
-      const presented=presentSssRerollInventory(presentMiracleInventory(items));
+      const presented=presentSssRerollInventory(presentSssCubeInventory(presentMiracleInventory(items)));
       return json({items:presented,totalQuantity:presented.reduce((n,x)=>n+x.quantity,0),ownedTypes:presented.filter(x=>x.quantity>0).length,unseenTotal:presented.reduce((n,x)=>n+x.unseenQuantity,0)});
     }
     if(path==='inventory/seen'&&request.method==='POST'){
@@ -5358,6 +5360,7 @@ async function handleRequest(context){
         try{return json(await openPetSeal(env,user,{requestId:body.requestId,count:body.count,expectedRevision:body.expectedRevision}));}catch(error){return json({code:error.code||'PET_OPEN_RETRYABLE',error:error.status?error.message:'개봉 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.',retryable:!error.status||error.status>=500},error.status||503);}
       }
       if(itemCode==='MERCENARY_SSS_REROLL_TICKET')return json({code:'SSS_REROLL_SELECTION_REQUIRED',error:'SSS 재계약의 방에서 소모할 용병을 먼저 선택하세요.',url:'/mercenary-codex/sss-reroll/'},400);
+      if(itemCode==='SSS_MIRACLE_CUBE')return json({code:'SSS_CUBE_PAGE_REQUIRED',error:'SSS 미라클큐브 화면에서 구성과 확률을 확인한 뒤 개봉하세요.',url:'/sss-miracle-cube/'},400);
       if(itemCode==='MIRACLE_CUBE'){
         try{return json(await openMiracleCube(env,user,{requestId:body.requestId,count:openCount}));}catch(error){return json({code:error.code||'MIRACLE_FAILED',error:error.status?error.message:'개봉 결과를 확인하지 못했습니다. 같은 요청으로 다시 확인하세요.'},error.status||503);}
       }

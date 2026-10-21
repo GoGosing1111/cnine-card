@@ -1,0 +1,30 @@
+{
+  "reports": [
+    {
+      "width": 1440,
+      "cmsSaved": true,
+      "noOverflow": true,
+      "cubeImageLoaded": true,
+      "previewWithoutGrant": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "cmsSaved": true,
+      "noOverflow": true,
+      "cubeImageLoaded": true,
+      "previewWithoutGrant": true,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "cmsSaved": true,
+      "noOverflow": true,
+      "cubeImageLoaded": true,
+      "previewWithoutGrant": true,
+      "errors": []
+    }
+  ],
+  "checkedAt": "2026-10-21T03:56:06.914Z",
+  "scope": "isolated DB and account; no production writes"
+}

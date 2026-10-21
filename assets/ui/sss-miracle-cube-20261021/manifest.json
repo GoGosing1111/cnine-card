@@ -1,0 +1,60 @@
+{
+  "version": "20261021-v1",
+  "generator": "built-in image_gen",
+  "prompts": "prompts.json",
+  "assets": [
+    {
+      "source": "cube-source.png",
+      "sha256": "1c96fa9c970ac73b3857c4bdca56fe1533c6053f83a96c3d54871091515d7d38",
+      "width": 1312,
+      "height": 1199,
+      "hasAlpha": true,
+      "derivatives": [
+        {
+          "path": "cube-768.webp",
+          "sha256": "8dc35f6b3fa7e419ec37bd8f3bd71c0d3d247d7efd5023bfcf6f273f7e35b954"
+        },
+        {
+          "path": "cube-320.webp",
+          "sha256": "2538a4af315ce88e93756f6885fd778493f49cd8d83a6159c13335e3e3b616d1"
+        }
+      ]
+    },
+    {
+      "source": "cube-open-source.png",
+      "sha256": "ad5564cd65d5b03c240331e9d9d6f245eb1220298f1c00b7a1a9accab0fc708c",
+      "width": 1312,
+      "height": 1199,
+      "hasAlpha": true,
+      "derivatives": [
+        {
+          "path": "cube-open-768.webp",
+          "sha256": "d472492b73a65902e7aea47f2a0681381ecfeb79da24e54e7bf01588072db63d"
+        }
+      ]
+    },
+    {
+      "source": "panel-source.png",
+      "sha256": "199e9d99cb6462b2b471dd71c5e738fba0fff9164761b6bb882ac316a83944d7",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true,
+      "derivatives": [
+        {
+          "path": "panel.webp",
+          "sha256": "6257b055cb1a7059794a7dddf1b98f4b95504e37eb65a74894c542ed8b7990f9"
+        }
+      ]
+    }
+  ],
+  "consumers": [
+    "sss-miracle-cube/index.html",
+    "sss-miracle-cube/app.mjs",
+    "sss-miracle-cube/style.css",
+    "admin/sss-miracle-cube.html",
+    "admin/sss-miracle-cube-entry.mjs",
+    "shared/sss-miracle-cube-v1.mjs"
+  ],
+  "sourcePolicy": "Originals retained byte-for-byte. Derivatives resize/encode only; alpha preserved.",
+  "visualApproval": "User review pending; functional checks are not visual approval."
+}

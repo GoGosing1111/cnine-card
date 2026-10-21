@@ -4387,6 +4387,7 @@ async function openInventoryPack(itemCode,ownedQuantity=0){
   if(itemCode==='PET_SEAL_ORB'){location.assign('/pets/opening/');return;}
   if(itemCode==='MERCENARY_SSS_REROLL_TICKET'){location.assign('/mercenary-codex/sss-reroll/');return;}
   if(itemCode==='MIRACLE_CUBE'){location.assign('/miracle-cube/');return;}
+  if(itemCode==='SSS_MIRACLE_CUBE'){location.assign('/sss-miracle-cube/');return;}
   if(['SUPERSTAR_UPGRADE_13_TICKET','VEHICLE_PARTS_150_CHOICE'].includes(itemCode)){
     const dialog=document.getElementById('inventoryDetailDialog'),body=document.getElementById('inventoryDialogContent');
     if(!dialog||!body)return renderShell('inventory');
