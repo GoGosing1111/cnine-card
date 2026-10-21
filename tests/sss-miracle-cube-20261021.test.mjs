@@ -12,7 +12,7 @@ async function setup(t,postgres=false){
  f.document.mercenaries.find(c=>c.code==='V-021').rank='SSS';
  await f.p("UPDATE mercenary_cms_documents_v1 SET payload_json=? WHERE doc_key='config'",JSON.stringify(f.document)).run();
  await f.p("INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,'SSS_MIRACLE_CUBE',13,13)").run();
- for(const [code,cap,issued] of [['V-996',15,14],['V-999',8,8],['V-989',3,0],['V-979',3,0]])await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,issued) VALUES(?,?,?)',code,cap,issued).run();
+ for(const [code,cap,issued] of [['V-996',15,14],['V-999',8,8],['V-989',4,0],['V-979',3,0]])await f.p('INSERT INTO mercenary_limited_stock_v1(code,stock_limit,issued) VALUES(?,?,?)',code,cap,issued).run();
  const state=await sssCubeState(f.env,f.user),normal=state.catalog.find(c=>!c.limited&&c.available),policy={...emptySssCubePolicy(),mode:'ON',cards:{[normal.code]:SSS_CUBE_TOTAL}};
  const save=(policy,revision=0)=>saveSssCubePolicy(f.env,f.user,{requestId:crypto.randomUUID(),revision,policy});
  const open=(options={})=>openSssCube(f.env,f.user,{requestId:crypto.randomUUID(),count:1,expectedRevision:1,...options},{randomInt:()=>0});
@@ -86,9 +86,10 @@ test('another pack consuming the last stock during commit cannot over-issue or d
  await assert.rejects(f.open(),{code:'SSS_CUBE_STOCK'});assert.equal(await f.quantity(),13);
  assert.equal(Number((await f.p('SELECT COUNT(*) n FROM mercenary_limited_issues_v1').first()).n),0);
 });
-test('Jinmu/Jokro entitlement requires a completed cube receipt, acquisition and one of the existing three serials',async t=>{
+test('Jinmu/Jokro entitlement requires a completed cube receipt, acquisition and a valid serial within each approved limit',async t=>{
  const f=await setup(t,true);
- await f.save({...f.policy,cards:{'V-989':SSS_CUBE_TOTAL}});await f.open();assert.equal((await readJinmuPackOwners(f.env,[7])).has(7),true);
+ await f.p("UPDATE mercenary_limited_stock_v1 SET issued=3 WHERE code='V-989'").run();
+ await f.save({...f.policy,cards:{'V-989':SSS_CUBE_TOTAL}});const jinmu=await f.open();assert.equal(jinmu.draws[0].serial,4);assert.equal((await readJinmuPackOwners(f.env,[7])).has(7),true);
  await f.save({...f.policy,cards:{'V-979':SSS_CUBE_TOTAL}},1);await f.open({expectedRevision:2});assert.equal((await readJokroPackOwners(f.env,[7])).has(7),true);
  await f.p("UPDATE joint_operations_v1 SET status='PENDING' WHERE kind='SSS_MIRACLE_CUBE_OPEN'").run();
  assert.equal((await readJinmuPackOwners(f.env,[7])).size,0);assert.equal((await readJokroPackOwners(f.env,[7])).size,0);

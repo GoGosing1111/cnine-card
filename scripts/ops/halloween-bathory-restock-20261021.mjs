@@ -11,7 +11,7 @@ export function prepareBathoryRestock(raw){
  assert.equal(next.mode,'ON','Do not reopen an operator-disabled pack');
  assert.equal(next.stockLimits['V-977'],10,'Reviewed Bathory limit changed');
  next.stockLimits['V-977']=15;
- return validateHalloweenPack(next);
+ return validateHalloweenPack(next,{allowLegacyStock:true});
 }
 export async function verifyBathoryRestock(db){
  const receipt=JSON.parse(one(await query(db,'SELECT value FROM app_meta WHERE key=$1',[OPERATION_KEY])).value);
