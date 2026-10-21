@@ -1,0 +1,31 @@
+(node:21780) ExperimentalWarning: `--experimental-loader` may be removed in the future; instead use `register()`:
+--import 'data:text/javascript,import { register } from "node:module"; import { pathToFileURL } from "node:url"; register("file%3A///C%3A/Users/User/.codex/tmp/mercenary-pity-20261021/baseline-loader.mjs", pathToFileURL("./")); register("file%3A///C%3A/Users/User/.codex/tmp/mercenary-pity-20261021/baseline-loader.mjs", pathToFileURL("./"));'
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ SQLite: 할로윈 7종 성장 목록·전수·돌파 (114.8074ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 756.9377
+
+✖ failing tests:
+
+test at tests\mercenary-halloween-level-20261017.test.mjs:13:36
+✖ SQLite: 할로윈 7종 성장 목록·전수·돌파 (114.8074ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  696 !== 734
+
+      at TestContext.<anonymous> (file:///C:/Users/User/.codex/worktrees/prime-requiem-live/cnine-card/tests/mercenary-halloween-level-20261017.test.mjs:29:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 696,
+    expected: 734,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

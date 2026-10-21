@@ -1,0 +1,18 @@
+✔ exact 10/20 failed-attempt boundary; base 10% chance and XP cost stay unchanged (12.0508ms)
+✔ SQLite: legacy failures are retroactive for each milestone, and guarantee commits only once (185.2244ms)
+✔ SQLite: tenth failure, XP refill and guaranteed eleventh attempt preserve counters and materials (65.3419ms)
+✔ SQLite: rollback, cancelled/pending/test requests, other users and mercenaries cannot inflate pity (56.7672ms)
+✔ SQLite: old completed receipts stay frozen; pre-release pending failure cannot bypass new guarantee (44.4939ms)
+✔ PostgreSQL: legacy failures are retroactive for each milestone, and guarantee commits only once (2826.5407ms)
+✔ PostgreSQL: tenth failure, XP refill and guaranteed eleventh attempt preserve counters and materials (2199.1237ms)
+✔ PostgreSQL: rollback, cancelled/pending/test requests, other users and mercenaries cannot inflate pity (2180.2763ms)
+✔ PostgreSQL: old completed receipts stay frozen; pre-release pending failure cannot bypass new guarantee (2290.6306ms)
+✔ history uses receipt revision, deduplicates IDs, resets after success and ignores later snapshots (21.4767ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10539.55
