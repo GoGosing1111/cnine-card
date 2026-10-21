@@ -55,3 +55,14 @@
 두 작업을 합친 운영 파일이 20,005개가 되어 Pages 제한을 초과했다. 런타임에서 참조하지 않는 Tower 작성용 문서 4개와 이미 번들된 `source/app.mjs` 1개만 배포 대상에서 제외해 정확히 20,000개로 맞췄다. 다섯 원본은 Git에 보존한다. 실제 연결된 기획 문서, 기존 프리뷰의 HTML/번들, 새 이미지 4개는 계속 배포한다. `tests/tower-abyss-delivery-20261021.test.mjs`가 원본·파생 해시, 런타임 포함, 작성 파일 보존, 스크립트 순서와 전체 파일 수를 확인한다.
 
 무한의탑의 국소 UI 개편이고 공통 엔진 변경은 Tower 배경 연결/캐시 버전뿐이다. DB·인증·정산 정책·의존성 변경 없이 `npm run deploy:production -- --scoped`를 사용한다. 원본/QA는 docs/qa 아래에 보존하고 운영 파일은 새 WebP 4개와 JS/CSS 2개만 추가한다. 배포 완료 후 실제 소스·파일 해시를 아래에 기록한다.
+
+### 운영 반영 완료
+
+- 운영 소스: `dc7e290c83cae57d7ecbccc5f152174cb9a7edf8`.
+- Cloudflare Pages: `b34750f7-3feb-4f72-a10f-5aaf3a5c9de5`, `https://b34750f7.cnine-card.pages.dev`.
+- API runtime: `d2bedc1f-8658-4fcb-9b2a-cfa8d9eb3fcc`; scheduler: `456cfeb6-cd87-4c7c-af59-d900d46c208a`.
+- 최종 scoped 검사 16개 전부 통과. 운영 release guard와 Hyperdrive 캐시 검사 통과.
+- 최초 배포 전 검사에서 `app.js` 캐시 파라미터 순서가 기존 release guard와 맞지 않아 차단됐다. `v`를 첫 파라미터로 보존하고 Tower 갱신 키를 뒤에 붙여 수정했다. guard를 완화하지 않았고 실패 시점에는 운영 배포가 시작되지 않았다.
+- `https://cnine-card.pages.dev`에서 index/app, Tower UI/controller/CSS, 공통 전투 연결·번들, 전용 이미지 4개, 봉인전 JS/CSS 등 16개 파일이 로컬 검수본 SHA-256과 모두 일치했다. 익명 `GET /api/tower/status`는 401로 인증을 유지했다.
+- 최종 390×844 결과 화면은 가로 넘침 없이 374×503px 안에 표시되고 버튼 높이는 48.8px 이상이다. `mobile-390-result.png`는 스크롤 잠금·하단 준비 문구 숨김을 포함한 최종 증빙으로 교체했다.
+- 상세 운영 확인: `live-verification.json`. 사용자 시각 승인 상태는 계속 `PENDING_USER_REVIEW`다.

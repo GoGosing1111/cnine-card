@@ -1,0 +1,170 @@
+{
+  "checkedAt": "2026-10-21T14:56:06.168Z",
+  "source": "dc7e290c83cae57d7ecbccc5f152174cb9a7edf8",
+  "base": "https://cnine-card.pages.dev",
+  "deployment": {"pagesId":"b34750f7-3feb-4f72-a10f-5aaf3a5c9de5","url":"https://b34750f7.cnine-card.pages.dev","apiRuntimeVersion":"d2bedc1f-8658-4fcb-9b2a-cfa8d9eb3fcc","schedulerVersion":"456cfeb6-cd87-4c7c-af59-d900d46c208a"},
+  "scopedTests": {
+    "passed": 16,
+    "failed": 0
+  },
+  "browserQa": {
+    "desktop": "1264x720",
+    "mobile": [
+      "390x844",
+      "320x740"
+    ],
+    "source": "isolated SQLite route responses with shipping UI/renderer",
+    "userVisualApproval": "PENDING_USER_REVIEW"
+  },
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 33360,
+      "localSha256": "2082c1629ff05eb558e3c9e68bd45dbe754f507370a939e52ea6809282623fc9",
+      "liveSha256": "2082c1629ff05eb558e3c9e68bd45dbe754f507370a939e52ea6809282623fc9",
+      "match": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 776927,
+      "localSha256": "d554f0ba569d4546ee81dcc673c7cf81761defe5b28365544596495b3344ae37",
+      "liveSha256": "d554f0ba569d4546ee81dcc673c7cf81761defe5b28365544596495b3344ae37",
+      "match": true
+    },
+    {
+      "file": "js/tower-v1038.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 13047,
+      "localSha256": "0d7decad108acf6fc2afca470f749fffe06df4467ae47cc99101e0b9b6c4bfee",
+      "liveSha256": "0d7decad108acf6fc2afca470f749fffe06df4467ae47cc99101e0b9b6c4bfee",
+      "match": true
+    },
+    {
+      "file": "js/tower-abyss-ui.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 20809,
+      "localSha256": "895b202d5f312c2063734cfc7a750d938e9aa8c02b4bdf91b383549c70fc31b7",
+      "liveSha256": "895b202d5f312c2063734cfc7a750d938e9aa8c02b4bdf91b383549c70fc31b7",
+      "match": true
+    },
+    {
+      "file": "css/tower-abyss-ui.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 25840,
+      "localSha256": "98e11dc61d70da8ce242c7b628dc104ad157dc10e41a6abbbe1fccb8eacff744",
+      "liveSha256": "98e11dc61d70da8ce242c7b628dc104ad157dc10e41a6abbbe1fccb8eacff744",
+      "match": true
+    },
+    {
+      "file": "js/battle-v3-live.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 82968,
+      "localSha256": "6244271a8577431632bc6f784110af06b20af8b218d231fa5a300fea3ca8d8f6",
+      "liveSha256": "6244271a8577431632bc6f784110af06b20af8b218d231fa5a300fea3ca8d8f6",
+      "match": true
+    },
+    {
+      "file": "js/pve-continuous-battle-live.mjs",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 4821,
+      "localSha256": "c91a433355b679cbfe90ff395d08028a0ff2fca85a605214277a042ce1037fd8",
+      "liveSha256": "c91a433355b679cbfe90ff395d08028a0ff2fca85a605214277a042ce1037fd8",
+      "match": true
+    },
+    {
+      "file": "preview/project-v-v3/project-v-pixi-battle.bundle.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 2268877,
+      "localSha256": "ff611bea0d1a86a99e5a966d5d9bbc306e7bf3f620415b5226c80e85fe2eb716",
+      "liveSha256": "ff611bea0d1a86a99e5a966d5d9bbc306e7bf3f620415b5226c80e85fe2eb716",
+      "match": true
+    },
+    {
+      "file": "pve-v3/BattleEngine.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 623,
+      "localSha256": "247264895b02bb8901879b7090741f4cc8be5c5269a49cab3198a05930f021bd",
+      "liveSha256": "247264895b02bb8901879b7090741f4cc8be5c5269a49cab3198a05930f021bd",
+      "match": true
+    },
+    {
+      "file": "pve-v3/battle.bundle.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 2268851,
+      "localSha256": "f0aa844fb208604ebc9e41eea0b41e635b1037c96c7692aed185d413fd7a9303",
+      "liveSha256": "f0aa844fb208604ebc9e41eea0b41e635b1037c96c7692aed185d413fd7a9303",
+      "match": true
+    },
+    {
+      "file": "assets/ui/tower-abyss-20261021/sanctum.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "bytes": 358298,
+      "localSha256": "1160562bf3bf16445a888132f4912895e71d97cd81871e137fca07bcc9dde924",
+      "liveSha256": "1160562bf3bf16445a888132f4912895e71d97cd81871e137fca07bcc9dde924",
+      "match": true
+    },
+    {
+      "file": "assets/ui/tower-abyss-20261021/frame.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "bytes": 155062,
+      "localSha256": "814007bad78cffd0101409a030c58b48e6dd18eed29987cb5abb816010fbfc37",
+      "liveSha256": "814007bad78cffd0101409a030c58b48e6dd18eed29987cb5abb816010fbfc37",
+      "match": true
+    },
+    {
+      "file": "assets/ui/tower-abyss-20261021/button.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "bytes": 226294,
+      "localSha256": "fba5eae9f7e0013d8c29c472d0ee1ad13a8e21e148b88a2e9ac25881c7dd57af",
+      "liveSha256": "fba5eae9f7e0013d8c29c472d0ee1ad13a8e21e148b88a2e9ac25881c7dd57af",
+      "match": true
+    },
+    {
+      "file": "assets/ui/tower-abyss-20261021/seal.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "bytes": 403542,
+      "localSha256": "c670aec2e2f31921ef0d6f157470d204083503c5a7de34fce8efd3148befca8f",
+      "liveSha256": "c670aec2e2f31921ef0d6f157470d204083503c5a7de34fce8efd3148befca8f",
+      "match": true
+    },
+    {
+      "file": "js/seal-battle.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 29854,
+      "localSha256": "187c5d938ac9a092964bae462079a89fc77686557d29971a746851411ee48127",
+      "liveSha256": "187c5d938ac9a092964bae462079a89fc77686557d29971a746851411ee48127",
+      "match": true
+    },
+    {
+      "file": "css/seal-battle.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "bytes": 16982,
+      "localSha256": "f443e43f67f87fae4b458be9de8c1556f600a8e965d09361d4cb0663b1fb5a31",
+      "liveSha256": "f443e43f67f87fae4b458be9de8c1556f600a8e965d09361d4cb0663b1fb5a31",
+      "match": true
+    }
+  ],
+  "anonymousTowerStatus": {
+    "path": "/api/tower/status",
+    "status": 401,
+    "requiresAuthentication": true
+  }
+}
