@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-21T04:07:14.375Z",
+  "rows": [
+    {
+      "status": 200,
+      "headersMs": 251,
+      "totalMs": 265,
+      "bytes": 35559,
+      "revision": 19,
+      "enabled": true,
+      "normalCards": 57,
+      "cfRay": "a4dd64e25ca1ea25-ICN"
+    },
+    {
+      "status": 200,
+      "headersMs": 220,
+      "totalMs": 236,
+      "bytes": 35559,
+      "revision": 19,
+      "enabled": true,
+      "normalCards": 57,
+      "cfRay": "a4dd64e38849ea25-ICN"
+    },
+    {
+      "status": 200,
+      "headersMs": 171,
+      "totalMs": 188,
+      "bytes": 35559,
+      "revision": 19,
+      "enabled": true,
+      "normalCards": 57,
+      "cfRay": "a4dd64e4fcc4ea25-ICN"
+    },
+    {
+      "status": 200,
+      "headersMs": 204,
+      "totalMs": 221,
+      "bytes": 35559,
+      "revision": 19,
+      "enabled": true,
+      "normalCards": 57,
+      "cfRay": "a4dd64e638dfea25-ICN"
+    }
+  ]
+}

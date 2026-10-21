@@ -1,0 +1,38 @@
+[
+  {
+    "injectedStatus": 409,
+    "injectedCode": "JOINT_LOCK_BUSY",
+    "shownCode": "HALLOWEEN_RECOVERY_REQUIRED",
+    "shownMessage": "이전 결과 확인으로 같은 개봉 요청을 복구해 주세요.",
+    "pendingRemains": true,
+    "calls": [
+      {
+        "path": "mercenary-halloween-pack/open",
+        "method": "POST"
+      },
+      {
+        "path": "mercenary-halloween-pack/receipt",
+        "method": "GET"
+      }
+    ],
+    "productionWrites": 0
+  },
+  {
+    "injectedStatus": 409,
+    "injectedCode": "USER_ACTION_IN_PROGRESS",
+    "shownCode": "HALLOWEEN_RECOVERY_REQUIRED",
+    "shownMessage": "이전 결과 확인으로 같은 개봉 요청을 복구해 주세요.",
+    "pendingRemains": true,
+    "calls": [
+      {
+        "path": "mercenary-halloween-pack/open",
+        "method": "POST"
+      },
+      {
+        "path": "mercenary-halloween-pack/receipt",
+        "method": "GET"
+      }
+    ],
+    "productionWrites": 0
+  }
+]
