@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "report": [
+    {
+      "name": "desktop",
+      "roles": [
+        "ATTACK",
+        "GUARD",
+        "PURIFY"
+      ],
+      "resources": [
+        "http://127.0.0.1:8916/assets/ui/seal-battle/orbs-20261022/attack.webp",
+        "http://127.0.0.1:8916/assets/ui/seal-battle/orbs-20261022/guard.webp",
+        "http://127.0.0.1:8916/assets/ui/seal-battle/orbs-20261022/purify.webp"
+      ],
+      "errors": [],
+      "failures": []
+    },
+    {
+      "name": "mobile",
+      "roles": [
+        "ATTACK",
+        "GUARD",
+        "PURIFY"
+      ],
+      "resources": [
+        "http://127.0.0.1:8916/assets/ui/seal-battle/orbs-20261022/attack.webp",
+        "http://127.0.0.1:8916/assets/ui/seal-battle/orbs-20261022/guard.webp",
+        "http://127.0.0.1:8916/assets/ui/seal-battle/orbs-20261022/purify.webp"
+      ],
+      "errors": [],
+      "failures": []
+    }
+  ],
+  "preloadFailureNoPost": true,
+  "smallViewport": 320,
+  "keyboardSelection": true
+}

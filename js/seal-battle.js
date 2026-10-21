@@ -4,7 +4,7 @@
     GUARD: { label: '수호 봉인', icon: '◆', description: '보스의 광역 공격을 억제합니다.' },
     PURIFY: { label: '정화 봉인', icon: '✦', description: '오염된 마력을 정화합니다.' }
   };
-  const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
+  const SEAL_ORB_IMAGE = key => `/assets/ui/seal-battle/orbs-20261022/${({ATTACK:'attack',GUARD:'guard',PURIFY:'purify'})[key]||'attack'}.webp`;
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[char]));
@@ -141,7 +141,7 @@
 
   function roleTab(key, data) {
     const role=data.event.roles[key], selected=key===selectedRole, support=(data.lowestRoleKeys||[]).includes(key)&&!role.completed;
-    return `<button type="button" role="tab" id="sealTab${key}" aria-selected="${selected}" aria-controls="sealRoleDetail" tabindex="${selected?0:-1}" data-seal-select="${key}" class="seal-sigil-tab role-${key.toLowerCase()} ${selected?'selected':''} ${role.completed?'completed':''}"><img src="${roleImage(key)}" width="112" height="112" alt=""><strong>${ROLE[key].label}</strong><span>${role.completed?'봉인 완료':`${percent(role.percent).toFixed(1)}%`}</span><small>${support?`지원 +${number(data.event.lowestRoleBonusPercent)}%`:role.completed?'공동 목표 달성':'공동 봉인 진행'}</small></button>`;
+    return `<button type="button" role="tab" id="sealTab${key}" aria-selected="${selected}" aria-controls="sealRoleDetail" tabindex="${selected?0:-1}" data-seal-select="${key}" class="seal-sigil-tab role-${key.toLowerCase()} ${selected?'selected':''} ${role.completed?'completed':''}"><img src="${SEAL_ORB_IMAGE(key)}" width="112" height="112" alt=""><strong>${ROLE[key].label}</strong><span>${role.completed?'봉인 완료':`${percent(role.percent).toFixed(1)}%`}</span><small>${support?`지원 +${number(data.event.lowestRoleBonusPercent)}%`:role.completed?'공동 목표 달성':'공동 봉인 진행'}</small></button>`;
   }
 
   function roleDetail(data) {
@@ -149,7 +149,7 @@
     const attempts=Number(data.progress?.availableAttempts??data.progress?.remainingAttempts??0);
     const canAct=Boolean(data.availability?.open&&data.deck?.ready&&attempts>0&&!role.completed);
     const disabledReason=role.completed?'이 봉인은 완성되었습니다.':!data.availability?.open?data.availability?.message||'지금은 참여할 수 없습니다.':!data.deck?.ready?'PvE 덱에 카드 5장을 편성해 주세요.':attempts<=0?'도전 횟수가 충전되면 참여할 수 있습니다.':'';
-    return `<section id="sealRoleDetail" class="seal-role-detail seal-tablet role-${key.toLowerCase()}" role="tabpanel" aria-labelledby="sealTab${key}"><header><div><small>선택한 봉인</small><h3>${meta.label}</h3><p>${meta.description}</p></div><img src="${roleImage(key)}" alt="" width="72" height="72"></header><div class="seal-progress-caption"><span>서버 공동 진행도</span><strong>${percent(role.percent).toFixed(2)}<small>%</small></strong></div><div class="seal-progress-track" role="progressbar" aria-label="${meta.label} 공동 진행도" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percent(role.percent)}"><i style="width:${percent(role.percent)}%"></i></div><div class="seal-progress-values"><b>${number(role.progress)}</b><span>/ ${number(role.target)}</span></div><dl class="seal-combat-facts"><div><dt>상대 전투력</dt><dd>${number(role.battlePower)}</dd></div><div><dt>패배 시 공헌</dt><dd>${number(data.event.defeatContributionPercent??10)}%</dd></div><div><dt>궁극기</dt><dd>사용 불가</dd></div></dl>${buttonHtml(role.completed?'봉인 완료':`${meta.label} 전투 시작`,`data-seal-role="${key}" ${canAct?'':'disabled'} aria-describedby="sealActionHint"`)}<p id="sealActionHint" class="seal-action-hint">${esc(disabledReason||'도전 횟수 1회 사용 · 저장된 PvE 덱으로 출전')}</p></section>`;
+    return `<section id="sealRoleDetail" class="seal-role-detail seal-tablet role-${key.toLowerCase()}" role="tabpanel" aria-labelledby="sealTab${key}"><header><div><small>선택한 봉인</small><h3>${meta.label}</h3><p>${meta.description}</p></div><img class="seal-orb-portrait" src="${SEAL_ORB_IMAGE(key)}" alt="${meta.label} 봉인구" width="176" height="176"></header><div class="seal-progress-caption"><span>서버 공동 진행도</span><strong>${percent(role.percent).toFixed(2)}<small>%</small></strong></div><div class="seal-progress-track" role="progressbar" aria-label="${meta.label} 공동 진행도" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percent(role.percent)}"><i style="width:${percent(role.percent)}%"></i></div><div class="seal-progress-values"><b>${number(role.progress)}</b><span>/ ${number(role.target)}</span></div><dl class="seal-combat-facts"><div><dt>상대 전투력</dt><dd>${number(role.battlePower)}</dd></div><div><dt>패배 시 공헌</dt><dd>${number(data.event.defeatContributionPercent??10)}%</dd></div><div><dt>궁극기</dt><dd>사용 불가</dd></div></dl>${buttonHtml(role.completed?'봉인 완료':`${meta.label} 전투 시작`,`data-seal-role="${key}" ${canAct?'':'disabled'} aria-describedby="sealActionHint"`)}<p id="sealActionHint" class="seal-action-hint">${esc(disabledReason||'도전 횟수 1회 사용 · 저장된 PvE 덱으로 출전')}</p></section>`;
   }
 
   function bindRoleControls(root) {
@@ -232,7 +232,7 @@
       return;
     }
     modal.className = `modal show battle-modal seal-combat-modal role-${roleKey.toLowerCase()}`;
-    modal.innerHTML = `<div class="modal-panel seal-v3-preflight seal-tablet"><img src="${isBoss?DRAGON_ART+'/portrait.webp':SEAL_ORB_IMAGE}" alt="${isBoss?esc(round.bossName):'봉인 수정구'}"><small>봉인전 출전 준비</small><b>${isBoss?'용 보스':'봉인 수정구'}와 전장을 연결하고 있습니다.</b></div>`;
+    modal.innerHTML = `<div class="modal-panel seal-v3-preflight seal-tablet"><img src="${isBoss?DRAGON_ART+'/portrait.webp':SEAL_ORB_IMAGE(roleKey)}" alt="${isBoss?esc(round.bossName):'봉인 수정구'}"><small>봉인전 출전 준비</small><b>${isBoss?'용 보스':'봉인 수정구'}와 전장을 연결하고 있습니다.</b></div>`;
     let renderer = null;
     try {
       const resourcePromise = typeof globalThis.ensureFeatureResources === 'function'
@@ -243,11 +243,12 @@
         throw new Error('V3 봉인전 렌더러를 불러오지 못했습니다. 다시 시도해 주세요.');
       }
       if(isBoss) await globalThis.ProjectVBattleV3Live.prepareSealDragon();
+      else await globalThis.ProjectVBattleV3Live.prepareSealOrb(roleKey);
       globalThis.ProjectVBattleV3Live.prepareLoading({
         modal,
         mode: 'SEAL',
         playerName: '봉인 원정대',
-        opponentName: isBoss?round.bossName:'봉인 수정구',
+        opponentName: isBoss?round.bossName:meta.label+'구',
         autoText: '상대와 저장된 PvE 덱을 동기화하고 있습니다.'
       });
       const result = await api('seal-battle/participate', {

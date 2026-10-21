@@ -9,7 +9,7 @@
   let loadSequence = 0;
   let formDirty = false;
   let savingSettings = false;
-  const roleImage = key => `<img src="/assets/ui/seal-battle/ritual-20261021/${key}-seal.webp" width="56" height="56" alt="">`;
+  const roleImage = key => `<img src="/assets/ui/seal-battle/orbs-20261022/${key}.webp" width="56" height="56" alt="">`;
 
   const defaults = {
     format:'SEALS_BOSS',bossStage:{name:'봉인룡 네르가온',hp:null,battlePower:null},

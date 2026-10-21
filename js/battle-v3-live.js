@@ -25,8 +25,36 @@
   }
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
-  const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
-  const SEAL_ORB_PNG = '/assets/ui/project-v/monsters/seal-crystal-orb-sd-v1.png?v=550486A8E35C9935';
+  const SEAL_ORB_ART = '/assets/ui/seal-battle/orbs-20261022';
+  const SEAL_ORB_ROLES = Object.freeze({ATTACK:{file:'attack',name:'파괴 봉인구'},GUARD:{file:'guard',name:'수호 봉인구'},PURIFY:{file:'purify',name:'정화 봉인구'}});
+  const sealOrbLoads = new Map();
+  function sealOrbArt(roleKey='ATTACK') {
+    const key=Object.hasOwn(SEAL_ORB_ROLES,roleKey)?roleKey:'ATTACK',row=SEAL_ORB_ROLES[key];
+    return {scope:'BATTLE_ENGINE_ONLY',kind:'SEAL_CRYSTAL_ORB_SD',sealRole:key,name:row.name,
+      primaryUrl:`${SEAL_ORB_ART}/${row.file}.webp`,pngFallbackUrl:`${SEAL_ORB_ART}/${row.file}.png`,
+      footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:1.04,
+      approved:false,technicalPass:true};
+  }
+  function prepareSealOrb(roleKey) {
+    const art=sealOrbArt(roleKey);
+    if(!sealOrbLoads.has(art.primaryUrl)){
+      const pending=(async()=>{
+        for(const url of [art.primaryUrl,art.pngFallbackUrl]){
+          try{
+            await new Promise((resolve,reject)=>{
+              const image=new root.Image(),timer=setTimeout(()=>finish(false),12000);
+              const finish=ok=>{clearTimeout(timer);image.onload=null;image.onerror=null;ok?resolve():reject(new Error('봉인구 이미지를 불러오지 못했습니다.'));};
+              image.onload=()=>finish(image.naturalWidth>0);image.onerror=()=>finish(false);image.src=url;
+            });
+            return art;
+          }catch{}
+        }
+        throw new Error('봉인구 이미지를 불러오지 못했습니다. 다시 시도해 주세요.');
+      })().catch(error=>{sealOrbLoads.delete(art.primaryUrl);throw error;});
+      sealOrbLoads.set(art.primaryUrl,pending);
+    }
+    return sealOrbLoads.get(art.primaryUrl);
+  }
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
   const withTimeout = (promise, ms, message, options = {}) => new Promise((resolve, reject) => {
     let settled = false;
@@ -688,31 +716,21 @@
   function sealPayload({ data = {}, roleKey = 'ATTACK', roleLabel = '파괴 봉인' } = {}) {
     const allies = (Array.isArray(data.cards) ? data.cards : []).slice(0, 5).map(normalizeTowerCard);
     const dragon=data.battlePhase==='BOSS'&&roleKey==='BOSS';
+    const orb=sealOrbArt(roleKey);
     const monster = {
       id: SEAL_ORB_ID,
       monsterId: SEAL_ORB_ID,
       cardId: `MONSTER:${SEAL_ORB_ID}`,
-      name: '봉인 수정구',
-      title: '봉인 수정구',
-      image: SEAL_ORB_IMAGE,
-      image_url: SEAL_ORB_IMAGE,
+      name: orb.name,
+      title: orb.name,
+      image: orb.primaryUrl,
+      image_url: orb.primaryUrl,
       grade: 'BOSS',
       isBoss: true,
       mode: 'SEAL',
       hp: 100,
       maxHp: 100,
-      projectVMonsterArt: {
-        scope: 'BATTLE_ENGINE_ONLY',
-        kind: 'SEAL_CRYSTAL_ORB_SD',
-        primaryUrl: SEAL_ORB_IMAGE,
-        pngFallbackUrl: SEAL_ORB_PNG,
-        footAnchor: { x: .5, y: .94 },
-        objectFit: 'contain',
-        objectPosition: '50% 100%',
-        scaleMultiplier: 1.04,
-        approved: true,
-        technicalPass: true
-      }
+      projectVMonsterArt: orb
     };
     if(dragon){
       const id='SEAL_DRAGON_NERGAON';
@@ -1364,6 +1382,8 @@
     ensureRuntime: ensureCurrentBattleRuntime,
     prepareLoading,
     prepareSealDragon: async()=>{await ensureCurrentBattleRuntime();return root.ProjectVPixiBattle.prepareSealDragon();},
+    prepareSealOrb,
+    sealOrbArt,
     createRenderer,
     playTower,
     towerPayload,

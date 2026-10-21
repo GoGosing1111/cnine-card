@@ -1,0 +1,12 @@
+{
+  "source": "actual createRenderer + sealPayload + DEPLOY; before attack effects; full battles separately verified",
+  "viewports": [
+    1440,
+    390
+  ],
+  "roles": [
+    "ATTACK",
+    "GUARD",
+    "PURIFY"
+  ]
+}

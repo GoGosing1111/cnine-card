@@ -1,0 +1,86 @@
+{
+  "tool": "built-in image_gen",
+  "visualApproval": "USER_REVIEW_PENDING",
+  "promptSet": "docs/qa/seal-orbs-20261022/prompts.json",
+  "processing": "proportional resize, transparent padding, PNG/WebP encoding only; no repainting or alpha reconstruction",
+  "assets": [
+    {
+      "role": "ATTACK",
+      "name": "파괴 봉인구",
+      "source": {
+        "file": "docs/qa/seal-orbs-20261022/sources/attack.png",
+        "sha256": "dfeee4c667d5c05bd99f4df4b809ba91f19d4f67bf9bd8086c52596bdc0b1bb1",
+        "width": 1254,
+        "height": 1254
+      },
+      "outputs": [
+        {
+          "file": "assets/ui/seal-battle/orbs-20261022/attack.png",
+          "sha256": "537e2b92b6b1b24e0d38c079ff39278bacb5bbc421d5228146b23142f6c277be",
+          "bytes": 919621,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "file": "assets/ui/seal-battle/orbs-20261022/attack.webp",
+          "sha256": "8b376be7e9b562fd5e6856e20514c26f818abd25da324f7fcfabccf6ac26668b",
+          "bytes": 209838,
+          "width": 768,
+          "height": 768
+        }
+      ]
+    },
+    {
+      "role": "GUARD",
+      "name": "수호 봉인구",
+      "source": {
+        "file": "docs/qa/seal-orbs-20261022/sources/guard.png",
+        "sha256": "824630225e4199b0a98175c1f368d74266ae270e4aaf84912844efa1652b2491",
+        "width": 1254,
+        "height": 1254
+      },
+      "outputs": [
+        {
+          "file": "assets/ui/seal-battle/orbs-20261022/guard.png",
+          "sha256": "a35ff94be830b253552e516b2088578a2d30b075f2c1fb30c2161438444509c7",
+          "bytes": 995034,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "file": "assets/ui/seal-battle/orbs-20261022/guard.webp",
+          "sha256": "61d5568f4cecc10d16863c654078c7f1ead15246c8153108bf30445dc9338e60",
+          "bytes": 207234,
+          "width": 768,
+          "height": 768
+        }
+      ]
+    },
+    {
+      "role": "PURIFY",
+      "name": "정화 봉인구",
+      "source": {
+        "file": "docs/qa/seal-orbs-20261022/sources/purify.png",
+        "sha256": "d880153311cbebc9c2d16f989b1139e0bdd47caa774d39ed03248357defb80a9",
+        "width": 1254,
+        "height": 1254
+      },
+      "outputs": [
+        {
+          "file": "assets/ui/seal-battle/orbs-20261022/purify.png",
+          "sha256": "f558562a8d7237c1c56c963cbae08afad4fe336f1feb4b2dae3f061f6a74d622",
+          "bytes": 690877,
+          "width": 768,
+          "height": 768
+        },
+        {
+          "file": "assets/ui/seal-battle/orbs-20261022/purify.webp",
+          "sha256": "8b2ceb5d48c74c50afd3e6d252df47eac45d8170aa465c9e03ec2d8747e89f57",
+          "bytes": 162682,
+          "width": 768,
+          "height": 768
+        }
+      ]
+    }
+  ]
+}
