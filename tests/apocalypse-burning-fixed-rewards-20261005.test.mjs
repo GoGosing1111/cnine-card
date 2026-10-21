@@ -41,17 +41,20 @@ for(const postgres of [false,true])test(`${postgres?'PostgreSQL':'SQLite'}: ever
       assert.equal(plan.bonuses.coin,Math.floor(400*multiplier*expected.coinPercent/100));
       assert.deepEqual(bonus,expected,'Burning settings cannot rewrite CMS item amounts');
       const beforeStars=await quantity('MASTER_STAR'),beforeMystic=await quantity('STARLIGHT_ARMOR_CORE');
+      const beforeCoin=Number((await f.p('SELECT coin FROM users WHERE id=?',f.user.id).first()).coin),expectedCoin=plan.reward+plan.bonuses.coin;
       await reserveApocalypseBattle(f.env,{userId:f.user.id,requestId,monsterId,runToken},now);
       await registerApocalypseChallenge(f.env,{userId:f.user.id,requestId,monsterId,runToken,won:true,battleV2:f.battle,plan,log:{ids:['A'],playerPower:1000,monsterPower:100}},now);
       const act=(action,extra={},at=now)=>apocalypseChallengeAction(f.env,f.user,action,{requestId,runToken,...extra},at);
       const opened=await act('open');await act('answer',{zone:opened.safeZone},now+500);
       const result=await act('claim',{played:true},now+8000);
       assert.equal(result.status,'CLAIMED');
+      assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=?',f.user.id).first()).coin)-beforeCoin,expectedCoin);
       assert.equal(await quantity('MASTER_STAR')-beforeStars,expected.masterStars);
       assert.equal(await quantity('STARLIGHT_ARMOR_CORE')-beforeMystic,expected.mysticEnergy);
       assert.equal(result.settlement.apocalypseBonus.rewards.masterStars,expected.masterStars);
       assert.equal(result.settlement.apocalypseBonus.rewards.mysticEnergy,expected.mysticEnergy);
       await act('claim',{played:true},now+9000);
+      assert.equal(Number((await f.p('SELECT coin FROM users WHERE id=?',f.user.id).first()).coin)-beforeCoin,expectedCoin,'retry cannot repeat coin grant');
       assert.equal(await quantity('MASTER_STAR')-beforeStars,expected.masterStars,'retry cannot multiply stars');
       assert.equal(await quantity('STARLIGHT_ARMOR_CORE')-beforeMystic,expected.mysticEnergy,'retry cannot multiply mystic');
     }
