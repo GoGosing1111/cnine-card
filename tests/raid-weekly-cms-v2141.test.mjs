@@ -36,19 +36,19 @@ for(const postgres of [false,true]){
     assert.equal(Number((await f.p('SELECT current_hp FROM raid_instances WHERE id=77').first()).current_hp),123456);
     await ensureWeeklyRaidBossesV1(f.env);assert.equal(Number((await f.p('SELECT COUNT(*) n FROM raid_bosses').first()).n),7);
   });
-  test(`${postgres?'PostgreSQL':'SQLite'}: CMS 저장·재조회가 요일·궁극기·쫄몹·100억 보상에 반영되고 이전 방은 고정된다`,async t=>{
+  test(`${postgres?'PostgreSQL':'SQLite'}: CMS 저장·재조회가 요일·궁극기·쫄몹·1,000억 보상에 반영되고 이전 방은 고정된다`,async t=>{
     const f=await fixture(t,postgres),before=await readWeeklyRaidCms(f.env),draft=structuredClone(before.config);
     const original=cleanRaidSettingsV1293(weeklyRaidBossSettings(defaultRaidSettingsV1293(),before.bosses[0]));
     draft.rotation[2]='ICHIGO';const edited=draft.bosses.ICHIGO;
     edited.bossAttackPower=9000;edited.bossAttackIntervalMs=2000;edited.ultimate={everyAttacks:2,multiplier:2.75};edited.minionGuardRatio=0;
     edited.minions[0].maxHp=333333;edited.minions[1].spawnAtHpPct=.4;
-    edited.rewards={participation:[{type:'COIN',amount:10000000000}],clear:[{type:'CORE_RAID_ENTRY_TICKET',amount:7}],minionClear:[{type:'MASTER_STAR',amount:4}],rareDrops:[{type:'CORE_RAID_ENTRY_TICKET',amount:2,chance:0}],damageMilestones:[],rankRewards:[]};
+    edited.rewards={participation:[{type:'COIN',amount:100000000000}],clear:[{type:'CORE_RAID_ENTRY_TICKET',amount:7}],minionClear:[{type:'MASTER_STAR',amount:4}],rareDrops:[{type:'CORE_RAID_ENTRY_TICKET',amount:2,chance:0}],damageMilestones:[],rankRewards:[]};
     const saved=await saveWeeklyRaidCms(f.env,owner,draft),loaded=await readWeeklyRaidCms(f.env);assert.deepEqual(saved,loaded);
     const today=weeklyRaidBossForKst(Date.parse('2026-09-22T12:00:00+09:00'),loaded.config.rotation,loaded.bosses);assert.equal(today.code,'ICHIGO');
     const cfg=cleanRaidSettingsV1293(weeklyRaidBossSettings(defaultRaidSettingsV1293(),today));
-    assert.equal(cfg.participationCoin,10000000000);assert.equal(cfg.clearCoin,0);assert.equal(cfg.rewardShards,0);
+    assert.equal(cfg.participationCoin,100000000000);assert.equal(cfg.clearCoin,0);assert.equal(cfg.rewardShards,0);
     assert.equal(cfg.bossAttackPower,9000);assert.equal(cfg.bossAttackIntervalMs,2000);assert.equal(cfg.bossProfile.ultimate.multiplier,2.75);assert.equal(cfg.bossProfile.minionGuardRatio,0);assert.equal(cfg.bossProfile.minions[0].maxHp,333333);
-    const plan=raidRewardPlanV1293({cfg,instanceId:8,userId:3,totalDamage:10,finalRank:1,cleared:true,minionsDefeated:2});assert.equal(plan.coin,10000000000);assert.equal(plan.inventoryRewards.find(r=>r.itemCode==='CORE_RAID_ENTRY_TICKET').amount,7);assert.equal(plan.inventoryRewards.find(r=>r.itemCode==='MASTER_STAR').amount,8);
+    const plan=raidRewardPlanV1293({cfg,instanceId:8,userId:3,totalDamage:10,finalRank:1,cleared:true,minionsDefeated:2});assert.equal(plan.coin,100000000000);assert.equal(plan.inventoryRewards.find(r=>r.itemCode==='CORE_RAID_ENTRY_TICKET').amount,7);assert.equal(plan.inventoryRewards.find(r=>r.itemCode==='MASTER_STAR').amount,8);
     assert.equal(original.bossAttackPower,Math.floor(5800000/2300));assert.equal(original.bossProfile.minions[0].maxHp,22000000);assert.equal(original.rewards.participation[0].amount,3000000);
     const snap=raidCombatSnapshotV1293([{userId:1,totalPower:10000000,totalDamage:100}],{max_hp:1,status:'BATTLE',starts_at:'2026-09-22T00:00:00Z'},cfg,Date.parse('2026-09-22T00:00:05Z'));
     assert.equal(snap.ultimateCasts,1);assert.ok(snap.bossHp>100000000);
@@ -60,7 +60,7 @@ for(const postgres of [false,true]){
     f.fail('INSERT INTO admin_logs');await assert.rejects(saveWeeklyRaidCms(f.env,owner,draft),/INJECTED_FAILURE/);f.fail('');assert.deepEqual((await readWeeklyRaidCms(f.env)).config,initial.config);
     await assert.rejects(saveWeeklyRaidCms(f.env,{id:2,role:'ADMIN'},draft),e=>e.status===403);
     draft.rotation[0]='HASHIRAMA';await assert.rejects(saveWeeklyRaidCms(f.env,owner,draft),e=>e.status===400);draft.rotation=[...initial.config.rotation];
-    draft.bosses.NAGATO.rewards.clear=[{type:'COIN',amount:10000000001}];await assert.rejects(saveWeeklyRaidCms(f.env,owner,draft),e=>e.status===400);
+    draft.bosses.NAGATO.rewards.clear=[{type:'COIN',amount:100000000001}];await assert.rejects(saveWeeklyRaidCms(f.env,owner,draft),e=>e.status===400);
     assert.equal((await f.p('SELECT value FROM app_meta WHERE key=?',WEEKLY_RAID_SETTINGS_KEY).first()).value,'{}');
   });
 }

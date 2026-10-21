@@ -114,6 +114,19 @@ test('retrying or rereading a completed reward keeps the single confirmed plan u
   }finally{db.close()}
 });
 
+test('1,000억 reward plans remain fixed across retries and preserve previously confirmed 100억 receipts',async()=>{
+  const {db,env,mod}=await fixture();
+  try{
+    const cfg=cleanRaidSettingsV1293({rewards:{participation:[],clear:[{type:'COIN',amount:100000000000}],minionClear:[],damageMilestones:[],rankRewards:[],rareDrops:[]}});
+    const first=await mod.ensureRaidUserRewardPlanV1293(env,{...input,cfg});assert.equal(first.plan.coin,100000000000);
+    db.prepare("UPDATE raid_user_reward_v1293 SET status='COMPLETED' WHERE instance_id=? AND user_id=?").run(input.instanceId,input.userId);
+    const retry=await mod.ensureRaidUserRewardPlanV1293(env,{...input,cfg:defaultRaidSettingsV1293()});assert.equal(retry.status,'COMPLETED');assert.deepEqual(retry.plan,first.plan);
+    const oldCfg=cleanRaidSettingsV1293({...cfg,rewards:{...cfg.rewards,clear:[{type:'COIN',amount:10000000000}]}}),oldPlan=raidRewardPlanV1293({...input,cfg:oldCfg});
+    db.prepare("INSERT INTO raid_user_reward_v1293(instance_id,user_id,status,reward_json) VALUES(71,9,'COMPLETED',?)").run(JSON.stringify(oldPlan));
+    const old=await mod.ensureRaidUserRewardPlanV1293(env,{...input,instanceId:71,cfg});assert.equal(old.plan.coin,10000000000);assert.equal(db.prepare('SELECT COUNT(*) n FROM raid_user_reward_v1293').get().n,2);
+  }finally{db.close()}
+});
+
 test('energy grants use the existing material code, inventory counters and raid audit log',async()=>{
   const {db,env,mod}=await fixture();
   try{

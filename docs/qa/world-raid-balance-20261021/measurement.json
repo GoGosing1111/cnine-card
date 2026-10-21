@@ -1,0 +1,593 @@
+{
+  "capturedAt": "2026-10-21T03:59:15.366Z",
+  "baselineAt": "2026-10-21T04:18:16.672Z",
+  "seed": 20261022,
+  "players": 138,
+  "historicalParties": 382,
+  "totalSimulations": 59135,
+  "method": "Unmodified authoritative server model and projected-damage function; latest observed power per ordinary player, deterministic samples without replacement. These are simulations, not future live win rates.",
+  "hashes": {
+    "functions/_raid_overhaul.js": "fe71552755f8b5f61843d9b9f641bf88b0fad69bb1ae1f9c82c3c80c47b8d9db",
+    "functions/_raid_weekly_cms_v2141.js": "267b827329051dea8d8b568c9a470103039cb2a9f56a4dcd95fef71db51de3b4",
+    "functions/_raid_weekly_bosses_v1.js": "449f34a03fc86c516a04a065b5ff57f0506f794791238b66d72688f5e018e7af",
+    "shared/world-raid-balance-20261021.mjs": "f21a3bd4d6cbd7a8f769204213d3085d5eca3118d5f5c3762376cd7bfc6bef5b",
+    "tests/fixtures/world-raid-cms-20261021.json": "4e1ac7e2141a22cf113da2cfe4ee74aec63fc3b5c5eef4c7e74e094a42ce92ff",
+    "tests/fixtures/world-raid-population-20261021.json": "07b338cb4f8c4b040526b7e70bb044cfa8e16fcabd097caff240ab3c25db3cae"
+  },
+  "projectedSourceHash": "6089c3a0b53a50012ac01e1a41d10c9e39faa47a466cf9ab4dece15d91bfea56",
+  "bosses": [
+    {
+      "code": "NAGATO",
+      "name": "오르제",
+      "before": {
+        "settings": {
+          "hp": 1600000000,
+          "defense": 22,
+          "attack": 5600000,
+          "interval": 25000,
+          "battleSeconds": 1000,
+          "clearCoin": 10000000000
+        },
+        "groups": {
+          "5": {
+            "trials": 1000,
+            "clears": 747,
+            "clearPercent": 74.7,
+            "medianClearSeconds": 343,
+            "medianSurvivors": 4,
+            "medianPartyHpLeftPercent": 30.96,
+            "medianUltimateCasts": 4
+          },
+          "10": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 180,
+            "medianSurvivors": 9,
+            "medianPartyHpLeftPercent": 57.71,
+            "medianUltimateCasts": 2
+          },
+          "12": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 149,
+            "medianSurvivors": 12,
+            "medianPartyHpLeftPercent": 71.94,
+            "medianUltimateCasts": 1
+          },
+          "15": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 118,
+            "medianSurvivors": 15,
+            "medianPartyHpLeftPercent": 77.31,
+            "medianUltimateCasts": 1
+          },
+          "20": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 89,
+            "medianSurvivors": 20,
+            "medianPartyHpLeftPercent": 77.76,
+            "medianUltimateCasts": 1
+          }
+        },
+        "historical": {
+          "trials": 171,
+          "clears": 153,
+          "clearPercent": 89.47,
+          "medianClearSeconds": 110,
+          "medianSurvivors": 20,
+          "medianPartyHpLeftPercent": 71.17,
+          "medianUltimateCasts": 1
+        },
+        "historical10to15": {
+          "trials": 28,
+          "clears": 28,
+          "clearPercent": 100,
+          "medianClearSeconds": 159,
+          "medianSurvivors": 12,
+          "medianPartyHpLeftPercent": 58.24,
+          "medianUltimateCasts": 2
+        },
+        "strongestSolo": {
+          "clear": true,
+          "seconds": 704,
+          "survivors": 1,
+          "hpLeftPercent": 45.43796416657657,
+          "bossHpPercent": 0,
+          "ultimateCasts": 9
+        },
+        "strongestDuo": {
+          "clear": true,
+          "seconds": 353,
+          "survivors": 2,
+          "hpLeftPercent": 67.14994144113614,
+          "bossHpPercent": 0,
+          "ultimateCasts": 4
+        },
+        "allObservedDuoPairs": null
+      },
+      "after": {
+        "settings": {
+          "hp": 1600000000,
+          "defense": 65,
+          "attack": 7000000,
+          "interval": 25000,
+          "battleSeconds": 720,
+          "clearCoin": 100000000000
+        },
+        "groups": {
+          "5": {
+            "trials": 1000,
+            "clears": 48,
+            "clearPercent": 4.8,
+            "medianClearSeconds": 598,
+            "medianSurvivors": 2,
+            "medianPartyHpLeftPercent": 12.06,
+            "medianUltimateCasts": 7
+          },
+          "10": {
+            "trials": 1000,
+            "clears": 545,
+            "clearPercent": 54.5,
+            "medianClearSeconds": 413,
+            "medianSurvivors": 3,
+            "medianPartyHpLeftPercent": 14.48,
+            "medianUltimateCasts": 5
+          },
+          "12": {
+            "trials": 1000,
+            "clears": 744,
+            "clearPercent": 74.4,
+            "medianClearSeconds": 337,
+            "medianSurvivors": 5,
+            "medianPartyHpLeftPercent": 19.38,
+            "medianUltimateCasts": 4
+          },
+          "15": {
+            "trials": 1000,
+            "clears": 958,
+            "clearPercent": 95.8,
+            "medianClearSeconds": 267,
+            "medianSurvivors": 11,
+            "medianPartyHpLeftPercent": 30.02,
+            "medianUltimateCasts": 3
+          },
+          "20": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 200,
+            "medianSurvivors": 17,
+            "medianPartyHpLeftPercent": 45.35,
+            "medianUltimateCasts": 2
+          }
+        },
+        "historical": {
+          "trials": 171,
+          "clears": 108,
+          "clearPercent": 63.16,
+          "medianClearSeconds": 223,
+          "medianSurvivors": 15,
+          "medianPartyHpLeftPercent": 32.45,
+          "medianUltimateCasts": 2
+        },
+        "historical10to15": {
+          "trials": 28,
+          "clears": 17,
+          "clearPercent": 60.71,
+          "medianClearSeconds": 389,
+          "medianSurvivors": 3,
+          "medianPartyHpLeftPercent": 11.89,
+          "medianUltimateCasts": 5
+        },
+        "strongestSolo": {
+          "clear": false,
+          "seconds": 720,
+          "survivors": 1,
+          "hpLeftPercent": 43.918942359065625,
+          "bossHpPercent": 70,
+          "ultimateCasts": 9
+        },
+        "strongestDuo": {
+          "clear": false,
+          "seconds": 720,
+          "survivors": 2,
+          "hpLeftPercent": 21.65072240270973,
+          "bossHpPercent": 12.24,
+          "ultimateCasts": 9
+        },
+        "allObservedDuoPairs": {
+          "trials": 9453,
+          "clears": 0
+        }
+      }
+    },
+    {
+      "code": "YORIICHI",
+      "name": "렌조",
+      "before": {
+        "settings": {
+          "hp": 1750000000,
+          "defense": 23,
+          "attack": 5600000,
+          "interval": 25000,
+          "battleSeconds": 1000,
+          "clearCoin": 10000000000
+        },
+        "groups": {
+          "5": {
+            "trials": 1000,
+            "clears": 641,
+            "clearPercent": 64.1,
+            "medianClearSeconds": 367,
+            "medianSurvivors": 3,
+            "medianPartyHpLeftPercent": 29.55,
+            "medianUltimateCasts": 4
+          },
+          "10": {
+            "trials": 1000,
+            "clears": 999,
+            "clearPercent": 99.9,
+            "medianClearSeconds": 200,
+            "medianSurvivors": 9,
+            "medianPartyHpLeftPercent": 55.25,
+            "medianUltimateCasts": 2
+          },
+          "12": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 166,
+            "medianSurvivors": 11,
+            "medianPartyHpLeftPercent": 59.96,
+            "medianUltimateCasts": 2
+          },
+          "15": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 131,
+            "medianSurvivors": 15,
+            "medianPartyHpLeftPercent": 71.73,
+            "medianUltimateCasts": 1
+          },
+          "20": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 99,
+            "medianSurvivors": 20,
+            "medianPartyHpLeftPercent": 77.64,
+            "medianUltimateCasts": 1
+          }
+        },
+        "historical": {
+          "trials": 104,
+          "clears": 92,
+          "clearPercent": 88.46,
+          "medianClearSeconds": 113,
+          "medianSurvivors": 20,
+          "medianPartyHpLeftPercent": 74.79,
+          "medianUltimateCasts": 1
+        },
+        "historical10to15": {
+          "trials": 8,
+          "clears": 8,
+          "clearPercent": 100,
+          "medianClearSeconds": 164,
+          "medianSurvivors": 11,
+          "medianPartyHpLeftPercent": 61.47,
+          "medianUltimateCasts": 2
+        },
+        "strongestSolo": {
+          "clear": true,
+          "seconds": 780,
+          "survivors": 1,
+          "hpLeftPercent": 39.361876936532795,
+          "bossHpPercent": 0,
+          "ultimateCasts": 10
+        },
+        "strongestDuo": {
+          "clear": true,
+          "seconds": 391,
+          "survivors": 2,
+          "hpLeftPercent": 64.20476377723799,
+          "bossHpPercent": 0,
+          "ultimateCasts": 5
+        },
+        "allObservedDuoPairs": null
+      },
+      "after": {
+        "settings": {
+          "hp": 1750000000,
+          "defense": 65,
+          "attack": 7000000,
+          "interval": 25000,
+          "battleSeconds": 720,
+          "clearCoin": 100000000000
+        },
+        "groups": {
+          "5": {
+            "trials": 1000,
+            "clears": 26,
+            "clearPercent": 2.6,
+            "medianClearSeconds": 636.5,
+            "medianSurvivors": 2,
+            "medianPartyHpLeftPercent": 13.66,
+            "medianUltimateCasts": 8
+          },
+          "10": {
+            "trials": 1000,
+            "clears": 452,
+            "clearPercent": 45.2,
+            "medianClearSeconds": 445,
+            "medianSurvivors": 3,
+            "medianPartyHpLeftPercent": 12.61,
+            "medianUltimateCasts": 5
+          },
+          "12": {
+            "trials": 1000,
+            "clears": 668,
+            "clearPercent": 66.8,
+            "medianClearSeconds": 378,
+            "medianSurvivors": 3.5,
+            "medianPartyHpLeftPercent": 15.39,
+            "medianUltimateCasts": 5
+          },
+          "15": {
+            "trials": 1000,
+            "clears": 913,
+            "clearPercent": 91.3,
+            "medianClearSeconds": 293,
+            "medianSurvivors": 9,
+            "medianPartyHpLeftPercent": 26.23,
+            "medianUltimateCasts": 3
+          },
+          "20": {
+            "trials": 1000,
+            "clears": 998,
+            "clearPercent": 99.8,
+            "medianClearSeconds": 219,
+            "medianSurvivors": 17,
+            "medianPartyHpLeftPercent": 44.41,
+            "medianUltimateCasts": 2
+          }
+        },
+        "historical": {
+          "trials": 104,
+          "clears": 68,
+          "clearPercent": 65.38,
+          "medianClearSeconds": 218,
+          "medianSurvivors": 17,
+          "medianPartyHpLeftPercent": 38.71,
+          "medianUltimateCasts": 2
+        },
+        "historical10to15": {
+          "trials": 8,
+          "clears": 5,
+          "clearPercent": 62.5,
+          "medianClearSeconds": 398,
+          "medianSurvivors": 4,
+          "medianPartyHpLeftPercent": 14.19,
+          "medianUltimateCasts": 5
+        },
+        "strongestSolo": {
+          "clear": false,
+          "seconds": 720,
+          "survivors": 1,
+          "hpLeftPercent": 43.918942359065625,
+          "bossHpPercent": 70,
+          "ultimateCasts": 9
+        },
+        "strongestDuo": {
+          "clear": false,
+          "seconds": 720,
+          "survivors": 2,
+          "hpLeftPercent": 29.10806328245182,
+          "bossHpPercent": 23.62,
+          "ultimateCasts": 9
+        },
+        "allObservedDuoPairs": {
+          "trials": 9453,
+          "clears": 0
+        }
+      }
+    },
+    {
+      "code": "ICHIGO",
+      "name": "제노",
+      "before": {
+        "settings": {
+          "hp": 1900000000,
+          "defense": 24,
+          "attack": 4800000,
+          "interval": 25000,
+          "battleSeconds": 1000,
+          "clearCoin": 10000000000
+        },
+        "groups": {
+          "5": {
+            "trials": 1000,
+            "clears": 692,
+            "clearPercent": 69.2,
+            "medianClearSeconds": 410,
+            "medianSurvivors": 4,
+            "medianPartyHpLeftPercent": 30.8,
+            "medianUltimateCasts": 5
+          },
+          "10": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 219,
+            "medianSurvivors": 9,
+            "medianPartyHpLeftPercent": 60.25,
+            "medianUltimateCasts": 2
+          },
+          "12": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 182,
+            "medianSurvivors": 11,
+            "medianPartyHpLeftPercent": 62.66,
+            "medianUltimateCasts": 2
+          },
+          "15": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 144,
+            "medianSurvivors": 15,
+            "medianPartyHpLeftPercent": 76.5,
+            "medianUltimateCasts": 1
+          },
+          "20": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 108,
+            "medianSurvivors": 20,
+            "medianPartyHpLeftPercent": 80.44,
+            "medianUltimateCasts": 1
+          }
+        },
+        "historical": {
+          "trials": 107,
+          "clears": 90,
+          "clearPercent": 84.11,
+          "medianClearSeconds": 129,
+          "medianSurvivors": 20,
+          "medianPartyHpLeftPercent": 70.33,
+          "medianUltimateCasts": 1
+        },
+        "historical10to15": {
+          "trials": 10,
+          "clears": 10,
+          "clearPercent": 100,
+          "medianClearSeconds": 188.5,
+          "medianSurvivors": 13.5,
+          "medianPartyHpLeftPercent": 56.37,
+          "medianUltimateCasts": 2
+        },
+        "strongestSolo": {
+          "clear": true,
+          "seconds": 858,
+          "survivors": 1,
+          "hpLeftPercent": 43.86852749388128,
+          "bossHpPercent": 0,
+          "ultimateCasts": 11
+        },
+        "strongestDuo": {
+          "clear": true,
+          "seconds": 430,
+          "survivors": 2,
+          "hpLeftPercent": 65.43461818633831,
+          "bossHpPercent": 0,
+          "ultimateCasts": 5
+        },
+        "allObservedDuoPairs": null
+      },
+      "after": {
+        "settings": {
+          "hp": 1900000000,
+          "defense": 65,
+          "attack": 6000000,
+          "interval": 25000,
+          "battleSeconds": 720,
+          "clearCoin": 100000000000
+        },
+        "groups": {
+          "5": {
+            "trials": 1000,
+            "clears": 22,
+            "clearPercent": 2.2,
+            "medianClearSeconds": 631,
+            "medianSurvivors": 2,
+            "medianPartyHpLeftPercent": 18.67,
+            "medianUltimateCasts": 8
+          },
+          "10": {
+            "trials": 1000,
+            "clears": 498,
+            "clearPercent": 49.8,
+            "medianClearSeconds": 482,
+            "medianSurvivors": 3,
+            "medianPartyHpLeftPercent": 14.5,
+            "medianUltimateCasts": 6
+          },
+          "12": {
+            "trials": 1000,
+            "clears": 721,
+            "clearPercent": 72.1,
+            "medianClearSeconds": 403,
+            "medianSurvivors": 4,
+            "medianPartyHpLeftPercent": 18.27,
+            "medianUltimateCasts": 5
+          },
+          "15": {
+            "trials": 1000,
+            "clears": 953,
+            "clearPercent": 95.3,
+            "medianClearSeconds": 318,
+            "medianSurvivors": 10,
+            "medianPartyHpLeftPercent": 27.28,
+            "medianUltimateCasts": 4
+          },
+          "20": {
+            "trials": 1000,
+            "clears": 1000,
+            "clearPercent": 100,
+            "medianClearSeconds": 238,
+            "medianSurvivors": 17,
+            "medianPartyHpLeftPercent": 41.65,
+            "medianUltimateCasts": 3
+          }
+        },
+        "historical": {
+          "trials": 107,
+          "clears": 68,
+          "clearPercent": 63.55,
+          "medianClearSeconds": 272,
+          "medianSurvivors": 16,
+          "medianPartyHpLeftPercent": 29.95,
+          "medianUltimateCasts": 3
+        },
+        "historical10to15": {
+          "trials": 10,
+          "clears": 4,
+          "clearPercent": 40,
+          "medianClearSeconds": 379,
+          "medianSurvivors": 5,
+          "medianPartyHpLeftPercent": 16.64,
+          "medianUltimateCasts": 4.5
+        },
+        "strongestSolo": {
+          "clear": false,
+          "seconds": 720,
+          "survivors": 1,
+          "hpLeftPercent": 51.93052202205626,
+          "bossHpPercent": 70,
+          "ultimateCasts": 9
+        },
+        "strongestDuo": {
+          "clear": false,
+          "seconds": 720,
+          "survivors": 2,
+          "hpLeftPercent": 40.853712299188444,
+          "bossHpPercent": 36.41,
+          "ultimateCasts": 9
+        },
+        "allObservedDuoPairs": {
+          "trials": 9453,
+          "clears": 0
+        }
+      }
+    }
+  ]
+}

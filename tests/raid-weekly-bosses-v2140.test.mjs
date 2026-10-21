@@ -40,7 +40,7 @@ test('쫄몹은 서버 타임라인에서 보스 피해를 차단하고 궁극�
   assert.equal(later.ultimateCasts,1);assert.equal(later.lastUltimate.name,'초신성 천도');assert.ok(later.minionsDefeated>=1);
 });
 
-test('보스별 보상 스냅샷은 분리되고 코인 항목은 100억까지 허용한다',()=>{
+test('보스별 보상 스냅샷은 분리되고 코인 항목은 1,000억까지 허용한다',()=>{
   const boss=WEEKLY_RAID_BOSSES_V1.find(x=>x.code==='ICHIGO'),cfg=weeklyRaidBossSettings(defaultRaidSettingsV1293(),boss),plan=raidRewardPlanV1293({cfg,instanceId:77,userId:9,totalDamage:40_000_000,finalRank:1,cleared:true,minionsDefeated:2});
   assert.ok(plan.inventoryRewards.some(x=>x.itemCode==='CORE_RAID_ENTRY_TICKET'));assert.ok(plan.entries.some(x=>x.source.includes('쫄몹 2기')));
   const capped=cleanRaidSettingsV1293({rewards:{participation:[{type:'COIN',amount:RAID_COIN_REWARD_CAP_V2140+1}],clear:[],minionClear:[],damageMilestones:[],rankRewards:[],rareDrops:[]}});assert.equal(capped.rewards.participation[0].amount,RAID_COIN_REWARD_CAP_V2140);

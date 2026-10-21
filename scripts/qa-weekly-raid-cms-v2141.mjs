@@ -34,13 +34,13 @@ async function verify(){try{
  const one=s=>document.querySelector(s);const form=one('[data-wk-boss="ICHIGO"]');form.open=true;
  one('[data-wk-day="2"]').value='ICHIGO';form.querySelector('[data-wk-field="attack"]').value='9123';
  form.querySelector('[data-wk-field="every"]').value='3';form.querySelector('[data-wk-field="hp0"]').value='333333';
- form.querySelector('[data-wk-bundle="participation"] [data-wk-field="COIN"]').value='10000000000';
+ form.querySelector('[data-wk-bundle="participation"] [data-wk-field="COIN"]').value='100000000000';
  form.querySelector('[data-wk-bundle="clear"] [data-wk-field="CORE_RAID_ENTRY_TICKET"]').value='7';
  const before=state.raidData.weekly.config.revision;one('[data-wk-save]').click();
  for(let i=0;i<100&&state.raidData.weekly.config.revision===before;i++)await new Promise(resolve=>setTimeout(resolve,100));
  const saved=state.raidData.weekly.config,ichigo=saved.bosses.ICHIGO;
  const result={saved:saved.revision!==before,rotation:saved.rotation[2],attack:ichigo.bossAttackPower,every:ichigo.ultimate.everyAttacks,minion:ichigo.minions[0].maxHp,coin:ichigo.rewards.participation.find(x=>x.type==='COIN').amount,core:ichigo.rewards.clear.find(x=>x.type==='CORE_RAID_ENTRY_TICKET').amount,bossCount:document.querySelectorAll('[data-wk-boss]').length,dayCount:document.querySelectorAll('[data-wk-day]').length,overflow:document.documentElement.scrollWidth>innerWidth,errors:qaErrors};
- const over=one('[data-wk-boss="ICHIGO"] [data-wk-bundle="participation"] [data-wk-field="COIN"]');over.value='10000000001';result.rejectsOverCap=!over.checkValidity();over.value='10000000000';
+ const over=one('[data-wk-boss="ICHIGO"] [data-wk-bundle="participation"] [data-wk-field="COIN"]');over.value='100000000001';result.rejectsOverCap=!over.checkValidity();over.value='100000000000';
  one('#qa-result').textContent=JSON.stringify(result);document.documentElement.dataset.qa='complete';
 }catch(e){document.querySelector('#qa-result').textContent=JSON.stringify({error:e.message});document.documentElement.dataset.qa='complete';}}
 setTimeout(verify,200);
@@ -77,7 +77,7 @@ try{
       const shot=await send('Page.captureScreenshot',{format:'png'});await writeFile(capture,Buffer.from(shot.data,'base64'));
     }finally{ws.close();child.kill();}
     assert.ok(result,'CMS verification did not finish');
-    assert.equal(result.saved,true,JSON.stringify(result));assert.equal(result.rotation,'ICHIGO');assert.equal(result.attack,9123);assert.equal(result.every,3);assert.equal(result.minion,333333);assert.equal(result.coin,10000000000);assert.equal(result.core,7);assert.equal(result.bossCount,3);assert.equal(result.dayCount,7);assert.equal(result.overflow,false);assert.equal(result.rejectsOverCap,true);assert.deepEqual(result.errors,[]);
+    assert.equal(result.saved,true,JSON.stringify(result));assert.equal(result.rotation,'ICHIGO');assert.equal(result.attack,9123);assert.equal(result.every,3);assert.equal(result.minion,333333);assert.equal(result.coin,100000000000);assert.equal(result.core,7);assert.equal(result.bossCount,3);assert.equal(result.dayCount,7);assert.equal(result.overflow,false);assert.equal(result.rejectsOverCap,true);assert.deepEqual(result.errors,[]);
     console.log(JSON.stringify({label,...result,capture}));
   }
   assert.equal(writes,2);

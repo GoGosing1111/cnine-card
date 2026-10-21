@@ -1,0 +1,54 @@
+{
+  "authorization": "보상 1000억으로 올리고 난이도 확실히 올려 10~15인이 힘들게 깨도록",
+  "scope": "Three weekly world bosses only. New rooms use the new configuration; existing room snapshots and confirmed rewards remain fixed.",
+  "changes": {
+    "clearCoinPerPlayer": 100000000000,
+    "bossDefensePercent": 65,
+    "bossAttack": {
+      "NAGATO": 7000000,
+      "YORIICHI": 7000000,
+      "ICHIGO": 6000000
+    },
+    "battleSeconds": 720
+  },
+  "preserved": [
+    "boss HP",
+    "25 second attack cadence",
+    "minions",
+    "ultimate rules",
+    "participation and minion rewards",
+    "noncoin clear rewards",
+    "entry costs and daily entries",
+    "rotation and open hours",
+    "user balances"
+  ],
+  "simulation": "measurement.json",
+  "browser": {
+    "desktop": {
+      "width": 1440,
+      "savedCoin": 100000000000,
+      "rejectsAboveCap": true,
+      "overflow": false,
+      "errors": []
+    },
+    "mobile": {
+      "width": 390,
+      "savedCoin": 100000000000,
+      "rejectsAboveCap": true,
+      "overflow": false,
+      "errors": []
+    }
+  },
+  "release": {
+    "method": "npm run deploy:production -- --scoped",
+    "reason": "World raid reward normalization/CMS validation cap, plus a separately audited settings transaction. No shared DB schema, authentication, dependencies, or battle algorithm changes.",
+    "tests": [
+      "tests/raid-weekly-cms-v2141.test.mjs",
+      "tests/raid-mystic-clear-bonus-v2067.test.mjs",
+      "tests/world-raid-balance-20261021.test.mjs"
+    ],
+    "checks": [
+      "check:worker"
+    ]
+  }
+}
