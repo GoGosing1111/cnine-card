@@ -21,7 +21,7 @@ test('ADMIN and ordinary accounts above Number precision can load prediction; be
   }
   assert.equal(await exactWallet(f),LARGE);
   assert.equal(await f.one('SELECT value FROM app_meta WHERE key=?',packageCoinKey(2)),null);
-  const requestId=crypto.randomUUID(),body={eventId:event.id,optionId:event.options[0].id,amount:50000000000,requestId};
+  const requestId=crypto.randomUUID(),body={eventId:event.id,optionId:event.options[0].id,amount:300000000000,requestId};
   const bet=await f.call('coin-prediction/bet',{user:2,body});
   assert.equal(bet.status,200,JSON.stringify(bet));
   assert.equal(await exactWallet(f),(BigInt(LARGE)-BigInt(body.amount)).toString());

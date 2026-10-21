@@ -601,7 +601,7 @@ function presentMessageReward(message){
   const spec=verifiedMessageRewardSpec(message.reward_type),amount=Number(message.reward_amount);
   return {...message,reward_type:spec?.type||message.reward_type,reward_label:spec?.label||'',reward_icon:spec?.icon||'🎁',reward_supported:Boolean(spec&&Number.isSafeInteger(amount)&&amount>0)};
 }
-const COUPON_REWARD_MAX={RANK_EXP_POTION_2X_60M:9999,COIN:30000000000,MASTER_STAR:1000000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_OLD_AXE:100000,PINGDU_BAEMIN_TICKET:100000,MIRACLE_CUBE:100000};
+const COUPON_REWARD_MAX={RANK_EXP_POTION_2X_60M:9999,COIN:100000000000,MASTER_STAR:1000000,EQUIPMENT_SUPPLY_BOX:100000,HIGH_GRADE_REROLL_TICKET:100000,PINGDU_OLD_AXE:100000,PINGDU_BAEMIN_TICKET:100000,MIRACLE_CUBE:100000};
 function couponRewardSpec(value){const type=String(value||'').trim().toUpperCase(),spec=type==='RANK_EXP_POTION_2X_60M'?{type,label:'계급 경험치 2배 물약 (60분)',inventory:true}:type==='PINGDU_BAEMIN_TICKET'?{type,label:'핑두의 배민권',inventory:true}:type==='MIRACLE_CUBE'?{type,label:'미라클 큐브',inventory:true}:type==='PINGDU_OLD_AXE'?{type,label:'낡은도끼',inventory:true}:verifiedMessageRewardSpec(type);return spec&&!spec.messageOnly?{...spec,max:Number(COUPON_REWARD_MAX[spec.type]||spec.max)}:null}
 let verifiedRewardMessageV1276ReadyPromise=null;
 async function ensureVerifiedRewardMessageV1276(env){

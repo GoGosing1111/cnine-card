@@ -1002,7 +1002,7 @@ const FEATURE_RESOURCE_MANIFEST={
   },
   prediction:{
     styles:['css/coin-prediction-v2033.css?v=20261020-package2'],
-    scripts:['js/coin-prediction-model-v2033.js?v=20261011-subsidy-option','js/coin-prediction-v2033.js?v=20261020-package2'],
+    scripts:['js/coin-prediction-model-v2033.js?v=20261011-subsidy-option','js/coin-prediction-v2033.js?v=20261022-bet-3000eok'],
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   soopketland:{
