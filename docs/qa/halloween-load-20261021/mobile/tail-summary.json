@@ -1,0 +1,76 @@
+{
+  "began": "2026-10-21T04:17:37.656Z",
+  "ended": "2026-10-21T04:18:37.667Z",
+  "totalEvents": 3484,
+  "code": null,
+  "groups": [
+    {
+      "device": "mobile",
+      "method": "GET",
+      "path": "/api/mercenary-halloween-pack/config",
+      "status": 200,
+      "count": 49,
+      "exceptions": 0,
+      "p50Ms": 77,
+      "p95Ms": 124,
+      "maxMs": 142
+    },
+    {
+      "device": "desktop-or-other",
+      "method": "GET",
+      "path": "/api/mercenary-halloween-pack/config",
+      "status": 200,
+      "count": 58,
+      "exceptions": 0,
+      "p50Ms": 90,
+      "p95Ms": 161,
+      "maxMs": 476
+    },
+    {
+      "device": "mobile",
+      "method": "POST",
+      "path": "/api/mercenary-halloween-pack/open",
+      "status": 200,
+      "count": 39,
+      "exceptions": 0,
+      "p50Ms": 371,
+      "p95Ms": 532,
+      "maxMs": 546
+    },
+    {
+      "device": "desktop-or-other",
+      "method": "POST",
+      "path": "/api/mercenary-halloween-pack/open",
+      "status": 200,
+      "count": 34,
+      "exceptions": 0,
+      "p50Ms": 453,
+      "p95Ms": 641,
+      "maxMs": 653
+    },
+    {
+      "device": "mobile",
+      "method": "GET",
+      "path": "/api/mercenary-halloween-pack/receipt",
+      "status": 404,
+      "count": 4,
+      "exceptions": 0,
+      "p50Ms": 47,
+      "p95Ms": 54,
+      "maxMs": 54
+    },
+    {
+      "device": "mobile",
+      "method": "POST",
+      "path": "/api/mercenary-halloween-pack/open",
+      "status": 409,
+      "count": 1,
+      "exceptions": 0,
+      "p50Ms": 132,
+      "p95Ms": 132,
+      "maxMs": 132
+    }
+  ],
+  "diagnostics": "",
+  "privacy": "Only aggregated device class retained; no raw User-Agent, IP, account, request ID, headers or bodies persisted."
+}

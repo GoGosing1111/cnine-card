@@ -1,0 +1,711 @@
+{
+  "kind": "Isolated actual-client Chromium reproduction; no live purchases or account writes",
+  "reports": [
+    {
+      "device": "mobile",
+      "mode": "slow-online",
+      "condition": {
+        "latencyMs": 350,
+        "downloadBytesPerSecond": 131072,
+        "uploadBytesPerSecond": 65536,
+        "cpuSlowdown": 4
+      },
+      "pending": false,
+      "confirmed": 3,
+      "onlineEvents": 0,
+      "visibilityEvents": 0,
+      "receiptAttempts": 0,
+      "postAttempts": 3,
+      "disabled": false,
+      "status": "10회 개봉 완료 · 획득한 용병을 확인하세요.",
+      "calls": [
+        {
+          "path": "/api/mercenary-halloween-pack/config",
+          "method": "GET",
+          "at": 2964.2000000476837,
+          "epoch": 0,
+          "status": 200
+        },
+        {
+          "path": "/api/mercenary-halloween-pack/open",
+          "method": "POST",
+          "at": 4904.700000047684,
+          "epoch": 0,
+          "status": 200
+        },
+        {
+          "path": "/api/mercenary-halloween-pack/config",
+          "method": "GET",
+          "at": 18196.400000095367,
+          "epoch": 1,
+          "status": 200
+        },
+        {
+          "path": "/api/mercenary-halloween-pack/open",
+          "method": "POST",
+          "at": 18327.200000047684,
+          "epoch": 1,
+          "status": 200
+        },
+        {
+          "path": "/api/mercenary-halloween-pack/config",
+          "method": "GET",
+          "at": 20085.800000071526,
+          "epoch": 1,
+          "status": 200
+        },
+        {
+          "path": "/api/mercenary-halloween-pack/open",
+          "method": "POST",
+          "at": 20202.400000095367,
+          "epoch": 1,
+          "status": 200
+        },
+        {
+          "path": "/api/mercenary-halloween-pack/config",
+          "method": "GET",
+          "at": 21988.600000023842,
+          "epoch": 1
+        }
+      ],
+      "serverPosts": 3,
+      "debits": 3,
+      "errors": [],
+      "elapsedMs": 22013
+    },
+    {
+      "device": "mobile",
+      "mode": "disconnect",
+      "before": {
+        "pending": true,
+        "confirmed": 0,
+        "onlineEvents": 0,
+        "visibilityEvents": 0,
+        "receiptAttempts": 1,
+        "postAttempts": 1,
+        "disabled": true,
+        "status": "이전 결과 확인으로 같은 개봉 요청을 복구해 주세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 125.39999997615814,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/open",
+            "method": "POST",
+            "at": 551,
+            "epoch": 0,
+            "error": "AbortError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 30553.800000071526,
+            "epoch": 1,
+            "error": "TypeError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 30557.600000023842,
+            "epoch": 1,
+            "error": "TypeError"
+          }
+        ]
+      },
+      "resumed": {
+        "pending": true,
+        "confirmed": 0,
+        "onlineEvents": 1,
+        "visibilityEvents": 1,
+        "receiptAttempts": 1,
+        "postAttempts": 1,
+        "disabled": true,
+        "status": "이전 결과 확인으로 같은 개봉 요청을 복구해 주세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 125.39999997615814,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/open",
+            "method": "POST",
+            "at": 551,
+            "epoch": 0,
+            "error": "AbortError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 30553.800000071526,
+            "epoch": 1,
+            "error": "TypeError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 30557.600000023842,
+            "epoch": 1,
+            "error": "TypeError"
+          }
+        ]
+      },
+      "manualRecovery": {
+        "pending": false,
+        "confirmed": 1,
+        "onlineEvents": 1,
+        "visibilityEvents": 1,
+        "receiptAttempts": 2,
+        "postAttempts": 1,
+        "disabled": false,
+        "status": "10회 개봉 완료 · 획득한 용병을 확인하세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 125.39999997615814,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/open",
+            "method": "POST",
+            "at": 551,
+            "epoch": 0,
+            "error": "AbortError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 30553.800000071526,
+            "epoch": 1,
+            "error": "TypeError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 30557.600000023842,
+            "epoch": 1,
+            "error": "TypeError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 34656.10000002384,
+            "epoch": 1,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 34669.10000002384,
+            "epoch": 1
+          }
+        ]
+      },
+      "serverPosts": 2,
+      "debits": 1,
+      "serverCompletedBeforeDisconnect": true,
+      "transportReplayedSameRequest": true,
+      "validation": "Captured actual-browser checkpoint; browser replayed the reset connection with the same request ID, so app POST attempts and unique debit are checked independently of server arrivals."
+    },
+    {
+      "device": "desktop",
+      "mode": "disconnect",
+      "before": {
+        "pending": true,
+        "confirmed": 0,
+        "onlineEvents": 0,
+        "visibilityEvents": 0,
+        "receiptAttempts": 1,
+        "postAttempts": 1,
+        "disabled": true,
+        "status": "이전 결과 확인으로 같은 개봉 요청을 복구해 주세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 167.70000004768372,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/open",
+            "method": "POST",
+            "at": 603.8999999761581,
+            "epoch": 0,
+            "error": "AbortError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 30604.300000071526,
+            "epoch": 1,
+            "error": "TypeError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 30608.600000023842,
+            "epoch": 1,
+            "error": "TypeError"
+          }
+        ]
+      },
+      "resumed": {
+        "pending": true,
+        "confirmed": 0,
+        "onlineEvents": 1,
+        "visibilityEvents": 1,
+        "receiptAttempts": 1,
+        "postAttempts": 1,
+        "disabled": true,
+        "status": "이전 결과 확인으로 같은 개봉 요청을 복구해 주세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 167.70000004768372,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/open",
+            "method": "POST",
+            "at": 603.8999999761581,
+            "epoch": 0,
+            "error": "AbortError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 30604.300000071526,
+            "epoch": 1,
+            "error": "TypeError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 30608.600000023842,
+            "epoch": 1,
+            "error": "TypeError"
+          }
+        ]
+      },
+      "manualRecovery": {
+        "pending": false,
+        "confirmed": 1,
+        "onlineEvents": 1,
+        "visibilityEvents": 1,
+        "receiptAttempts": 2,
+        "postAttempts": 1,
+        "disabled": false,
+        "status": "10회 개봉 완료 · 획득한 용병을 확인하세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 167.70000004768372,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/open",
+            "method": "POST",
+            "at": 603.8999999761581,
+            "epoch": 0,
+            "error": "AbortError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 30604.300000071526,
+            "epoch": 1,
+            "error": "TypeError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 30608.600000023842,
+            "epoch": 1,
+            "error": "TypeError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 34390.60000002384,
+            "epoch": 1,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 34404.5,
+            "epoch": 1
+          }
+        ]
+      },
+      "serverPosts": 2,
+      "debits": 1,
+      "serverCompletedBeforeDisconnect": true,
+      "transportReplayedSameRequest": true,
+      "errors": [],
+      "elapsedMs": 34417
+    },
+    {
+      "device": "mobile",
+      "mode": "late-receipt",
+      "before": {
+        "pending": true,
+        "confirmed": 0,
+        "onlineEvents": 0,
+        "visibilityEvents": 0,
+        "receiptAttempts": 1,
+        "postAttempts": 1,
+        "disabled": true,
+        "status": "이전 결과 확인으로 같은 개봉 요청을 복구해 주세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 120.5,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/open",
+            "method": "POST",
+            "at": 374.6999999284744,
+            "epoch": 0,
+            "status": 503
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 379.6999999284744,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 384.1999999284744,
+            "epoch": 0,
+            "status": 200
+          }
+        ]
+      },
+      "afterServerCompletion": {
+        "pending": true,
+        "confirmed": 0,
+        "onlineEvents": 0,
+        "visibilityEvents": 0,
+        "receiptAttempts": 1,
+        "postAttempts": 1,
+        "disabled": true,
+        "status": "이전 결과 확인으로 같은 개봉 요청을 복구해 주세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 120.5,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/open",
+            "method": "POST",
+            "at": 374.6999999284744,
+            "epoch": 0,
+            "status": 503
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 379.6999999284744,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 384.1999999284744,
+            "epoch": 0,
+            "status": 200
+          }
+        ]
+      },
+      "manualRecovery": {
+        "pending": false,
+        "confirmed": 1,
+        "onlineEvents": 0,
+        "visibilityEvents": 0,
+        "receiptAttempts": 2,
+        "postAttempts": 1,
+        "disabled": false,
+        "status": "10회 개봉 완료 · 획득한 용병을 확인하세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 120.5,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/open",
+            "method": "POST",
+            "at": 374.6999999284744,
+            "epoch": 0,
+            "status": 503
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 379.6999999284744,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 384.1999999284744,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 3919.899999976158,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 3929.100000023842,
+            "epoch": 0
+          }
+        ]
+      },
+      "serverPosts": 1,
+      "debits": 1,
+      "errors": [],
+      "elapsedMs": 3941
+    },
+    {
+      "device": "mobile",
+      "mode": "sync-race",
+      "injectedCondition": "A newer account sync snapshot during each of the two receipt GETs",
+      "rejected": {
+        "pending": true,
+        "confirmed": 0,
+        "onlineEvents": 0,
+        "visibilityEvents": 0,
+        "receiptAttempts": 2,
+        "postAttempts": 1,
+        "disabled": true,
+        "status": "이전 결과 확인으로 같은 개봉 요청을 복구해 주세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 94.30000007152557,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/open",
+            "method": "POST",
+            "at": 298.39999997615814,
+            "epoch": 0,
+            "status": 503
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 302.8000000715256,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 305.8000000715256,
+            "epoch": 1,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 309.39999997615814,
+            "epoch": 2,
+            "status": 200
+          }
+        ]
+      },
+      "manualRecovery": {
+        "pending": false,
+        "confirmed": 1,
+        "onlineEvents": 0,
+        "visibilityEvents": 0,
+        "receiptAttempts": 3,
+        "postAttempts": 1,
+        "disabled": false,
+        "status": "10회 개봉 완료 · 획득한 용병을 확인하세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 94.30000007152557,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/open",
+            "method": "POST",
+            "at": 298.39999997615814,
+            "epoch": 0,
+            "status": 503
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 302.8000000715256,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 305.8000000715256,
+            "epoch": 1,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 309.39999997615814,
+            "epoch": 2,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 359.60000002384186,
+            "epoch": 2,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 369.3000000715256,
+            "epoch": 2
+          }
+        ]
+      },
+      "serverPosts": 1,
+      "debits": 1,
+      "errors": [],
+      "elapsedMs": 382
+    },
+    {
+      "device": "mobile",
+      "mode": "pagehide",
+      "recovered": {
+        "pending": false,
+        "confirmed": 1,
+        "onlineEvents": 0,
+        "visibilityEvents": 0,
+        "receiptAttempts": 1,
+        "postAttempts": 0,
+        "disabled": false,
+        "status": "10회 개봉 완료 · 획득한 용병을 확인하세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 63.40000009536743,
+            "epoch": 1,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 76,
+            "epoch": 1,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 124.80000007152557,
+            "epoch": 1,
+            "status": 200
+          }
+        ]
+      },
+      "serverPosts": 1,
+      "serverReceiptReads": 2,
+      "debits": 1,
+      "realNavigation": true,
+      "errors": [],
+      "elapsedMs": 845
+    },
+    {
+      "device": "mobile",
+      "mode": "timeout",
+      "recovered": {
+        "pending": false,
+        "confirmed": 1,
+        "onlineEvents": 0,
+        "visibilityEvents": 0,
+        "receiptAttempts": 1,
+        "postAttempts": 1,
+        "disabled": false,
+        "status": "10회 개봉 완료 · 획득한 용병을 확인하세요.",
+        "calls": [
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 91.89999997615814,
+            "epoch": 0,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/open",
+            "method": "POST",
+            "at": 299.10000002384186,
+            "epoch": 0,
+            "error": "AbortError"
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/receipt",
+            "method": "GET",
+            "at": 30299.5,
+            "epoch": 1,
+            "status": 200
+          },
+          {
+            "path": "/api/mercenary-halloween-pack/config",
+            "method": "GET",
+            "at": 30309.899999976158,
+            "epoch": 1
+          }
+        ]
+      },
+      "serverPosts": 1,
+      "serverReceiptReads": 1,
+      "debits": 1,
+      "realTransportTimeoutMs": 30000,
+      "errors": [],
+      "elapsedMs": 30321
+    }
+  ]
+}
