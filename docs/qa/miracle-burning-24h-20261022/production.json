@@ -1,0 +1,108 @@
+{
+  "checkedAt": "2026-10-21T22:08:21.252Z",
+  "source": "cb45a21d10e22f78d4c765e4c1fc2e4fcd73126c",
+  "base": "59e06042e907ef9d12e518d142250cf07925e5c7",
+  "pages": {
+    "Id": "013a8505-b473-42cd-8c38-d2bb6fdcaf44",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "cb45a21",
+    "Deployment": "https://013a8505.cnine-card.pages.dev",
+    "Status": "32 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/013a8505-b473-42cd-8c38-d2bb6fdcaf44"
+  },
+  "workers": [
+    {
+      "config": "workers/api-runtime/wrangler.jsonc",
+      "deploymentId": "d3110720-4aef-475f-9017-f30ee6a3963f",
+      "createdAt": "2026-10-21T22:06:25.062362Z",
+      "versions": [
+        {
+          "version_id": "ed9b1cd5-ae42-4816-a19e-56b846c203b0",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "config": "workers/clan-draft/wrangler.jsonc",
+      "deploymentId": "54a6ed5c-5ee8-40d7-b262-962adc9b1285",
+      "createdAt": "2026-10-21T22:07:54.190823Z",
+      "versions": [
+        {
+          "version_id": "b838bd98-71e8-4b68-a7c4-05ee96b119b2",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "sha256": "49ab5ae5874c3b6579402d12c9b4ac3c5c9dad8cff65b61db641fa5ec97bb87a",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "admin/miracle-burning-admin.js",
+      "status": 200,
+      "sha256": "770e4521875939c3fdf5c0133702bfd3dff6c81f5c05e5cd3112cc9dbbcae8ff",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "preview/miracle-burning-v1/admin.html",
+      "status": 200,
+      "sha256": "c60921ebf2b2c40760820d715d74397804258a4c346e5b957be65b59dd902fbe",
+      "normalization": "CRLF to LF"
+    }
+  ],
+  "tests": 11,
+  "browserWidths": [
+    1440,
+    390
+  ],
+  "unauthenticatedAdminStatus": 401,
+  "publicEventUnchanged": true,
+  "burningEvent": {
+    "mode": "MIRACLE",
+    "theme": "SKY",
+    "enabled": true,
+    "generation": 77,
+    "activatedAt": "2026-10-21T21:49:21.000Z",
+    "updatedAt": "2026-10-21T21:49:21.000Z",
+    "endsAt": "2026-10-21T22:49:21.000Z",
+    "durationMinutes": 60,
+    "title": "리버스콜 미라클 버닝이 발동되었습니다",
+    "pve": {
+      "maxEnergy": 30,
+      "rechargeMinutes": 1
+    },
+    "pvp": {
+      "maxEnergy": 30,
+      "rechargeMinutes": 1
+    },
+    "apocalypse": {
+      "maxEnergy": 10,
+      "rechargeMinutes": 5
+    },
+    "dropIncreasePercent": 30,
+    "duplicateShardMultiplier": 1,
+    "packDiscountPercent": 0,
+    "equipmentBoxDiscountPercent": 0,
+    "battleRewardMultiplier": 50,
+    "martialLaw": {
+      "version": 1,
+      "enabled": false,
+      "revision": 2,
+      "generation": 1,
+      "activatedAt": "2026-10-18T04:52:37.000Z",
+      "endsAt": null,
+      "updatedAt": "2026-10-18T04:53:54.000Z",
+      "durationMinutes": 30,
+      "title": "리버스콜 계엄령이 선포되었습니다",
+      "coinMultiplier": 0.9,
+      "rechargeMultiplier": 3
+    },
+    "effectiveBattleRewardMultiplier": 50
+  },
+  "operationWrites": 0
+}
