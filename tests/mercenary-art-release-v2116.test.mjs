@@ -11,8 +11,8 @@ test('approved Hi Heeya artwork is promoted once into the SS gameplay catalog wi
   const saved=structuredClone(seed.document);saved.mercenaries[0].name='운영 저장 이름';saved.mercenaries[0].rank='SS';
   const before=structuredClone(saved),row={payload_json:JSON.stringify(saved),revision:54,updated_at:'2026-09-13'};
   const result=validateCatalog(mercenaryCodexDocument(row)),heeya=result.cards.find(c=>c.code==='V-044');
-  assert.equal(result.cards.length,79);assert.equal(result.cards.filter(card=>!card.artOnly).length,60);assert.equal(result.cards.filter(card=>card.artOnly).length,19);assert.equal(result.revision,54);assert.equal(result.artReleaseVersion,'20260919-ragniel-live-v1');
-  for(const code of ['V-976','V-987','V-978'])assert.ok(result.cards.some(c=>c.code===code&&!c.artOnly),'existing Zero, Shiranui and Leonel releases remain in the catalog');
+  assert.equal(result.cards.length,81);assert.equal(result.cards.filter(card=>!card.artOnly).length,62);assert.equal(result.cards.filter(card=>card.artOnly).length,19);assert.equal(result.revision,54);assert.equal(result.artReleaseVersion,'20260919-ragniel-live-v1');
+  for(const code of ['V-975','V-976','V-987','V-978','V-979'])assert.ok(result.cards.some(c=>c.code===code&&!c.artOnly),'existing Prime Requiem, Zero, Shiranui, Leonel and Jokro releases remain in the catalog');
   assert.ok(result.cards.some(c=>c.code==='V-055'),'registered Berkan remains in the catalog');
   assert.equal(heeya.name,'하이희야');assert.equal(heeya.rank,'SS');assert.notEqual(heeya.artOnly,true);
   assert.equal(heeya.basePower,120000);assert.ok(heeya.battleSprite.endsWith('mercenary-v044-hi-heeya-sd-v1.png'));assert.deepEqual(heeya.skills.map(s=>s.id),['MS-044']);

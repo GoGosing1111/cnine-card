@@ -3,6 +3,16 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {fullGateResumePlan,codexCompatibilityRepair} from '../scripts/resume-release-gate.mjs';
 
+test('codex authoring template can retain the cache token from unchanged public HTML only',()=>{
+ const shell='mercenary-codex/shell.mjs',page='mercenary-codex/index.html';
+ const old='export function publicCodexHtml(){return `/mercenary-codex/app.mjs?command=old`}',next=old.replace('?command=','?jinmuStock=20261022-v1&amp;command=');
+ const html='<script src="/mercenary-codex/app.mjs?jinmuStock=20261022-v1&amp;command=old"></script>';
+ const setup=()=>({base:'a'.repeat(40),changed:[shell],git:(cmd,arg)=>arg.endsWith(':'+shell)?old:html,read:p=>p===shell?next:html});
+ assert.deepEqual([...codexCompatibilityRepair(setup())],[shell]);
+ for(const bad of [next+';run()',next.replace('20261022-v1','changed'),next.replace('command=old','command=new')])assert.throws(()=>codexCompatibilityRepair({...setup(),read:p=>p===shell?bad:html}),/existing Jinmu/);
+ assert.throws(()=>codexCompatibilityRepair({...setup(),read:p=>p===shell?next:html+'new markup'}),/existing Jinmu/);
+});
+
 test('codex compatibility repair rejects any other model edit and binds additive thumbnails to unchanged approved sources',()=>{
  const model='preview/mercenary-codex-v1/model.js',dir='assets/ui/project-v/mercenaries/codex-v1/',manifest=dir+'manifest.json';
  const old="if(card.code==='V-049'?card.title!=='':!card.title)throw Error('invalid');",next=old.replace("card.code==='V-049'","['V-049','V-056'].includes(card.code)");

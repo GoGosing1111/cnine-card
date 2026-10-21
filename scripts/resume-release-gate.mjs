@@ -19,6 +19,17 @@ const gateTestPath=path=>/^(?:tests\/[^/]+\.mjs|preview\/(?:[a-zA-Z0-9_-]+\/)+qa
 // existing entry and source byte; this narrowly scoped repair has no game state.
 export function codexCompatibilityRepair({changed,base,git,read,readBytes}){
   const repaired=new Set(),model='preview/mercenary-codex-v1/model.js',directory='assets/ui/project-v/mercenaries/codex-v1/',manifest=directory+'manifest.json';
+  // Synchronize only the authoring template's missing cache token with the
+  // unchanged, already-tested public HTML. No browser markup or code may change.
+  const shell='mercenary-codex/shell.mjs',page='mercenary-codex/index.html';
+  if(changed.includes(shell)){
+    const normalize=value=>value.replace(/\r\n/g,'\n');
+    const before=normalize(git('show',`${base}:${shell}`)),after=normalize(read(shell));
+    const needle='/mercenary-codex/app.mjs?command=',replacement='/mercenary-codex/app.mjs?jinmuStock=20261022-v1&amp;command=';
+    const html=normalize(read(page)),previousHtml=normalize(git('show',`${base}:${page}`));
+    if(before.split(needle).length!==2||before.replace(needle,replacement)!==after||html!==previousHtml||!html.includes(replacement))throw Error('Codex template repair must only preserve the existing Jinmu cache token.');
+    repaired.add(shell);
+  }
   if(changed.includes(model)){
     const before=git('show',`${base}:${model}`).replace(/\r\n/g,'\n').trim(),after=read(model).replace(/\r\n/g,'\n').trim();
     const old="card.code==='V-049'?card.title!==''",next="['V-049','V-056'].includes(card.code)?card.title!==''";
