@@ -1,0 +1,47 @@
+{
+  "mode": "register",
+  "checkedAt": "2026-10-21T03:53:13.806Z",
+  "before": {
+    "item": {
+      "code": "REVERSECALL_STREAMER_GIFT_BOX",
+      "name": "리버스콜 스트리머 선물",
+      "description": "개봉 시 35조 코인, 핑두 리페어 쿠폰 3개, 슈트 코어 6 10개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+      "category": "GIFT_BOX",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/reversecall-streamer-gift-20261021/gift-768.webp",
+      "is_active": 1
+    },
+    "holdings": {
+      "accounts": 0,
+      "quantity": "0"
+    }
+  },
+  "after": {
+    "item": {
+      "code": "REVERSECALL_STREAMER_GIFT_BOX",
+      "name": "리버스콜 스트리머 선물",
+      "description": "개봉 시 35조 코인, 핑두 리페어 쿠폰 3개, 슈트 코어 6 10개를 모두 받습니다. 상자 1개당 확정 지급됩니다.",
+      "category": "GIFT_BOX",
+      "rarity": "SPECIAL",
+      "image_url": "assets/ui/packs/reversecall-streamer-gift-20261021/gift-768.webp",
+      "is_active": 1
+    },
+    "holdings": {
+      "accounts": 0,
+      "quantity": "0"
+    }
+  },
+  "materials": [
+    {
+      "code": "PINGDU_REPAIR_COUPON",
+      "name": "핑두 리페어 쿠폰",
+      "is_active": 1
+    },
+    {
+      "code": "SUIT_CORE_6",
+      "name": "슈트 코어 6",
+      "is_active": 1
+    }
+  ],
+  "accountGrantsExecuted": 0
+}

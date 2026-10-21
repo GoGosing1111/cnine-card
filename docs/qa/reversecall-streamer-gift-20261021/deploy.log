@@ -1,0 +1,111 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"cb4808ef3623b0035dbf5d94f611077d6be83cd8","reason":"Register Reversecall streamer gift and dedicated image UI; verify exact rewards, atomic opening, retry receipts and existing message inventory claims.","changed":["AGENTS.md","admin/admin-v1276.js","admin/index.html","admin/reversecall-streamer-gift-v1.css","assets/ui/packs/reversecall-streamer-gift-20261021/button.webp","assets/ui/packs/reversecall-streamer-gift-20261021/gift-256.webp","assets/ui/packs/reversecall-streamer-gift-20261021/gift-768.webp","assets/ui/packs/reversecall-streamer-gift-20261021/manifest.json","assets/ui/packs/reversecall-streamer-gift-20261021/panel.webp","assets/ui/packs/reversecall-streamer-gift-20261021/prompts.json","assets/ui/packs/reversecall-streamer-gift-20261021/reward.webp","assets/ui/packs/reversecall-streamer-gift-20261021/sources/gift-original.png","assets/ui/packs/reversecall-streamer-gift-20261021/sources/ui-original.png","css/reversecall-streamer-gift-v1.css","docs/mercenary-command-live-20261021.md","docs/qa/mercenary-sidebar-removal-20261021/live-hashes.json","docs/qa/mercenary-sidebar-removal-20261021/live.json","docs/qa/mercenary-sidebar-removal-20261021/mobile.png","docs/qa/mercenary-sidebar-removal-20261021/pc.png","docs/qa/reversecall-streamer-gift-20261021/1440-after.png","docs/qa/reversecall-streamer-gift-20261021/1440-before.png","docs/qa/reversecall-streamer-gift-20261021/1440-cms.png","docs/qa/reversecall-streamer-gift-20261021/390-after.png","docs/qa/reversecall-streamer-gift-20261021/390-before.png","docs/qa/reversecall-streamer-gift-20261021/390-cms.png","docs/qa/reversecall-streamer-gift-20261021/report.json","docs/reversecall-streamer-gift-20261021.md","functions/_reversecall_streamer_gift.js","functions/api/[[path]].js","index.html","js/app.js","js/reversecall-streamer-gift-v1.js","scripts/ops/reversecall-streamer-gift-catalog-20261021.mjs","service-worker.js","shared/reversecall-streamer-gift-v1.mjs","tests/helpers/reversecall-streamer-gift-fixture.mjs","tests/reversecall-streamer-gift-20261021.browser.mjs","tests/reversecall-streamer-gift-20261021.test.mjs"],"tests":["tests/reversecall-streamer-gift-20261021.test.mjs","tests/message-gift-rewards-v2044.test.mjs"],"checks":["check:worker"]}
+✔ 1500억 COIN: claim and concurrent retry credit the full amount exactly once (5.0297ms)
+✔ 1500억 COIN: failed wallet write rolls back the claim and can retry (2.4394ms)
+✔ 대회 성황리 기념: 150만 MASTER_STAR claim and concurrent retries credit the full amount once (3.1203ms)
+✔ 대회 성황리 기념: two-message bulk claim recovers failed stars without paying 1500억 COIN twice (2.5485ms)
+✔ UNIQUE_ADVANCEMENT_PASS: supported inventory reward credits exactly once and never spends it (2.1341ms)
+✔ UNIQUE_ADVANCEMENT_PASS: failed write rolls back reward, receipt, and message then can retry (2.321ms)
+✔ UNIQUE_ADVANCEMENT_PASS: concurrent retries only grant one reward (2.0847ms)
+✔ STARLIGHT_ARMOR_CORE: supported inventory reward credits exactly once and never spends it (1.4751ms)
+✔ STARLIGHT_ARMOR_CORE: failed write rolls back reward, receipt, and message then can retry (2.6677ms)
+✔ STARLIGHT_ARMOR_CORE: concurrent retries only grant one reward (1.6613ms)
+✔ WORM_CONTEST_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.5618ms)
+✔ WORM_CONTEST_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (1.4841ms)
+✔ WORM_CONTEST_GIFT_BOX: concurrent retries only grant one reward (1.9295ms)
+✔ MERCENARY_SSS_CARD_SHARD: supported inventory reward credits exactly once and never spends it (1.4228ms)
+✔ MERCENARY_SSS_CARD_SHARD: failed write rolls back reward, receipt, and message then can retry (1.4938ms)
+✔ MERCENARY_SSS_CARD_SHARD: concurrent retries only grant one reward (1.7903ms)
+✔ EMPEROR_ENERGY: supported inventory reward credits exactly once and never spends it (1.3016ms)
+✔ EMPEROR_ENERGY: failed write rolls back reward, receipt, and message then can retry (1.6883ms)
+✔ EMPEROR_ENERGY: concurrent retries only grant one reward (2.2476ms)
+✔ TOURNAMENT_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.3288ms)
+✔ TOURNAMENT_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (1.3989ms)
+✔ TOURNAMENT_GIFT_BOX: concurrent retries only grant one reward (1.3652ms)
+✔ FUNDING_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.4014ms)
+✔ FUNDING_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (1.5417ms)
+✔ FUNDING_GIFT_BOX: concurrent retries only grant one reward (1.3972ms)
+✔ RECRUITMENT_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.6023ms)
+✔ RECRUITMENT_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (1.7278ms)
+✔ RECRUITMENT_GIFT_BOX: concurrent retries only grant one reward (1.6521ms)
+✔ PINGDU_THANKS_GIFT_BOX: supported inventory reward credits exactly once and never spends it (1.6831ms)
+✔ PINGDU_THANKS_GIFT_BOX: failed write rolls back reward, receipt, and message then can retry (1.3768ms)
+✔ PINGDU_THANKS_GIFT_BOX: concurrent retries only grant one reward (1.9877ms)
+✔ separate gift messages both enter serialized bulk claim with correct labels and cache refresh (15.7424ms)
+✔ batch retains atomic receipts, isolates another account and resumes failed items (3.1663ms)
+✔ 오리꿍 사은품: 5000억 coin, 500만 stars and 5 emperor energy resume a failed energy claim without duplicates (2.8532ms)
+✔ gift rewards are allowed by verified sending route and use a fresh paired client cache (1.756ms)
+✔ catalog grants nothing; each gift pays exactly 35 trillion coins, 3 repairs, 10 core 6 (1583.2631ms)
+✔ same and distinct concurrent requests cannot double-spend the last box (2175.8326ms)
+✔ late inventory, coin-log and completion failures roll back every reward and box, then retry (3230.6866ms)
+✔ inactive contents, insufficient stock and balances exceeding safe integers reject without losing box (1125.1408ms)
+✔ admin grant receipts survive retries and lost acknowledgements, isolate users, and reject payload reuse (1161.0037ms)
+✔ grant audit failure rolls back the item and is retryable (1075.6001ms)
+✔ real user-management and use route require permission/authentication and use shared locks (1153.0924ms)
+✔ CMS retry preserves request ID only for the same account, amount and reason (2.089ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11735.2293
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] 20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 19972 files; 5541 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 7961.03 KiB / gzip: 1719.49 KiB
+Worker Startup Time: 80 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.49 sec)
+No targets deployed for cnine-card-api-runtime (0.58 sec)
+Current Version ID: 759f1072-1aae-4fed-abf4-7abd86003702
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19948/19972)
+Uploading... (19956/19972)
+Uploading... (19964/19972)
+Uploading... (19972/19972)
+✨ Success! Uploaded 24 files (19948 already uploaded) (2.36 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://3128b5ec.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2772.58 KiB / gzip: 630.78 KiB
+Worker Startup Time: 58 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.27 sec)
+Deployed cnine-card-clan-draft triggers (1.10 sec)
+  schedule: * * * * *
+Current Version ID: 82c911f8-d62a-4114-9868-66dce7eb04cd
