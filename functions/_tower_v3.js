@@ -69,7 +69,7 @@ export function buildTowerV3Battle({snapshot,tier,seed,config=TOWER_V3_DRAFT,ope
   const guardianArt=operatingFloor?monsterArt.sprites.find(row=>String(row.monsterId)===String(operatingFloor.id)&&row.qa?.visualApproval===true):null;
   // The live single-pass tower retains its CMS guardian and floor power. Only
   // its encounter uses the approved normal -> elite -> guardian composition.
-  if(operatingFloor&&(!Number.isSafeInteger(operatingFloor.power)||operatingFloor.power<1||operatingFloor.power>1e9))throw towerError('TOWER_V3_CONFIG','운영 층 전투력을 확인하세요.');
+  if(operatingFloor&&(!Number.isSafeInteger(operatingFloor.power)||operatingFloor.power<1||operatingFloor.power>1e10))throw towerError('TOWER_V3_CONFIG','운영 층 전투력을 확인하세요.');
   const base=operatingFloor?operatingFloor.power/c.guardianMultiplier:c.basePower*Math.pow(c.powerGrowth,tier-1), beforeBoss=c.normalCount+c.eliteCount;
   const instances=Array.from({length:beforeBoss+1},(_,i)=>{
     const boss=i===beforeBoss,elite=!boss&&i>=c.normalCount,offset=boss?3:0;

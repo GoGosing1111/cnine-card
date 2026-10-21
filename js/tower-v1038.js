@@ -1,5 +1,6 @@
 (()=>{
   'use strict';
+  const PROTOCOL='TOWER_ABYSS_20261022';
   const ui=()=>window.TowerAbyssUI,user=()=>typeof loadUser==='function'?loadUser():null;
   const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,tab:'challenge',filter:'all',request:0,battleGeneration:0,releaseFocus:null};
   let requestedTower=new URL(location.href).searchParams.get('pve')==='tower';
@@ -61,8 +62,9 @@
     const box=document.getElementById('pveTowerView');if(!box)return false;
     bindView(box);box.hidden=false;ui().state(box);
     try{
-      const data=await apiRequest('tower/status',{}, {ttl:0});
+      const [data,recovery]=await Promise.all([apiRequest('tower/status',{}, {ttl:0}),apiRequest('tower/pending',{}, {ttl:0})]);
       if(token!==S.request||!box.isConnected||box.hidden)return false;
+      if(recovery.pending){const old=pendingBattle();rememberBattle({requestId:recovery.pending.requestId,floorNo:recovery.pending.floorNo,result:recovery.pending,playbackComplete:old?.requestId===recovery.pending.requestId&&old?.playbackComplete===true});}
       S.data=data;render();
       if(restoreBattle&&pendingBattle()?.result&&!S.busy)void startFight();
       return true;
@@ -75,6 +77,19 @@
     if(d.configured===false||Number(d.maxFloor||0)<1){ui().state(box,{title:'첫 번째 봉인을 준비하고 있습니다',description:d.message||'아직 개방된 층이 없습니다. 운영 준비가 끝나면 이곳에서 도전할 수 있습니다.',error:true});return;}
     const deckCards=currentDeckCards();
     ui().render(box,{data:d,tab:S.tab,filter:S.filter,cards:deckCards,power:currentPower(deckCards),records:ui().readRecords(user()?.id),userId:user()?.id});
+  }
+  async function settleBattle(data,view,isCurrent){
+    for(let attempt=0;attempt<2;attempt++){
+      if(!isCurrent())return null;
+      ui().settling(view,0);
+      try{return await apiRequest('tower/finish',{method:'POST',body:JSON.stringify({requestId:data.requestId})});}
+      catch(error){
+        if(error.code!=='TOWER_PLAYBACK_PENDING'||attempt>0)throw error;
+        const remaining=Math.max(0,Math.min(240000,Number(error.retryAfterMs)||0)),until=performance.now()+remaining+150;
+        while(isCurrent()&&performance.now()<until){ui().settling(view,Math.ceil((until-performance.now())/1000));await new Promise(resolve=>setTimeout(resolve,500));}
+      }
+    }
+    return null;
   }
   function lockBattleFocus(stage){
     S.releaseFocus?.();
@@ -122,12 +137,18 @@
       window.ensureBattleSoundButton?.(view.stage);
       const ticket=pending||{requestId:crypto.randomUUID(),floorNo};
       if(!saved)rememberBattle(ticket,recordKey);
-      const data=saved||await apiRequest('tower/fight',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo})});
-      data.requestId||=ticket.requestId;rememberBattle({...ticket,result:data},recordKey);
+      let data=saved||await apiRequest('tower/start',{method:'POST',body:JSON.stringify({requestId:ticket.requestId,floorNo:ticket.floorNo,protocol:PROTOCOL})});
+      data.requestId||=ticket.requestId;rememberBattle({...ticket,requestId:data.requestId,floorNo:data.floorNo,result:data},recordKey);
       if(!isCurrent())return;
-      const renderer=await window.playTowerBattleV3Live({...view,modal,data,floor:f,cards:data.cards?.length?data.cards:deckCards,isActive:()=>isCurrent()&&view.stage.isConnected&&modal.classList.contains('show')});
+      const playbackComplete=Boolean(saved?.settlement?.protocol===PROTOCOL&&ticket.playbackComplete);
+      const renderer=playbackComplete?{showResult(){modal.classList.remove('battle-v3-preparing');view.stage.querySelector('.battle-v3-loader')?.remove();}}:await window.playTowerBattleV3Live({...view,modal,data,floor:{...f,floorNo:data.floorNo},cards:data.cards?.length?data.cards:deckCards,isActive:()=>isCurrent()&&view.stage.isConnected&&modal.classList.contains('show')});
       if(!renderer||!isCurrent()){if(isCurrent()){S.releaseFocus?.();S.busy=false;}return;}
       modal.__battleV2Renderer=renderer;
+      rememberBattle({requestId:data.requestId,floorNo:data.floorNo,result:data,playbackComplete:true},recordKey);
+      if(data.settlement?.protocol===PROTOCOL&&data.settlement.status!=='COMPLETED'){
+        data=await settleBattle(data,view,isCurrent);if(!data||!isCurrent())return;
+        rememberBattle({requestId:data.requestId,floorNo:data.floorNo,result:data,playbackComplete:true},recordKey);
+      }
       if(data.magicReward?.amount>0){const current=user();if(current){current.magicCrystals=Number(data.magicReward.balance??current.magicCrystals??0);saveUser(current);}}
       if(data.equipmentReward&&window.showEquipmentDropReward){
         S.releaseFocus?.();
@@ -144,7 +165,7 @@
       };
     }catch(error){
       if(!isCurrent())return;
-      const stale=['TOWER_FLOOR_CHANGED','TOWER_COMPLETED'].includes(error.code);
+      const stale=['TOWER_FLOOR_CHANGED','TOWER_COMPLETED','TOWER_CLIENT_UPDATE'].includes(error.code);
       if(stale)acknowledgeBattle();
       if(!view){disposeBattle();const box=document.getElementById('pveTowerView');if(box)ui().state(box,{title:'전장을 열지 못했습니다',description:error.message,error:true});return;}
       modal.classList.remove('battle-v3-preparing');view.stage.querySelector('.battle-v3-loader')?.remove();

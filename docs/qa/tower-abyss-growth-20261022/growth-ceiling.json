@@ -1,0 +1,89 @@
+{
+  "method": "Controlled level-20 mercenary and +25% equipment-support hypotheses for 10 current 100-floor completers; not max-everything or measured live win rates.",
+  "rows": [
+    {
+      "power": 900000000,
+      "growth": "current",
+      "trials": 80,
+      "winPercent": 10,
+      "guardianHpPercent": 85.25
+    },
+    {
+      "power": 900000000,
+      "growth": "mercenary20",
+      "trials": 80,
+      "winPercent": 90,
+      "guardianHpPercent": 10
+    },
+    {
+      "power": 900000000,
+      "growth": "mercenary20+equipment25",
+      "trials": 80,
+      "winPercent": 90,
+      "guardianHpPercent": 10
+    },
+    {
+      "power": 1200000000,
+      "growth": "current",
+      "trials": 80,
+      "winPercent": 0,
+      "guardianHpPercent": 99.75
+    },
+    {
+      "power": 1200000000,
+      "growth": "mercenary20",
+      "trials": 80,
+      "winPercent": 90,
+      "guardianHpPercent": 10
+    },
+    {
+      "power": 1200000000,
+      "growth": "mercenary20+equipment25",
+      "trials": 80,
+      "winPercent": 90,
+      "guardianHpPercent": 10
+    },
+    {
+      "power": 1500000000,
+      "growth": "current",
+      "trials": 80,
+      "winPercent": 0,
+      "guardianHpPercent": 100
+    },
+    {
+      "power": 1500000000,
+      "growth": "mercenary20",
+      "trials": 80,
+      "winPercent": 90,
+      "guardianHpPercent": 10
+    },
+    {
+      "power": 1500000000,
+      "growth": "mercenary20+equipment25",
+      "trials": 80,
+      "winPercent": 90,
+      "guardianHpPercent": 10
+    },
+    {
+      "power": 1800000000,
+      "growth": "current",
+      "trials": 80,
+      "winPercent": 0,
+      "guardianHpPercent": 100
+    },
+    {
+      "power": 1800000000,
+      "growth": "mercenary20",
+      "trials": 80,
+      "winPercent": 90,
+      "guardianHpPercent": 10
+    },
+    {
+      "power": 1800000000,
+      "growth": "mercenary20+equipment25",
+      "trials": 80,
+      "winPercent": 90,
+      "guardianHpPercent": 10
+    }
+  ]
+}

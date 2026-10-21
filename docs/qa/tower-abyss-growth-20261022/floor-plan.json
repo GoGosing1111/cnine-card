@@ -1,0 +1,968 @@
+{
+  "capturedAt": "2026-10-21T21:24:33.294Z",
+  "beforeHash": "e7362c3f5d405d6ab5e2eee15015e791b819fad9927e45c5dca8f804b553f0a6",
+  "source": "Current active tower CMS; existing account progress is not modified",
+  "rows": [
+    {
+      "floor": 1,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 10000,
+      "coin": 100000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 2,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 11300,
+      "coin": 100000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 3,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 12800,
+      "coin": 100000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 4,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 14400,
+      "coin": 100000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 5,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 16300,
+      "coin": 100000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 6,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 18400,
+      "coin": 100000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 7,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 20800,
+      "coin": 100000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 8,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 23500,
+      "coin": 100000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 9,
+      "monsterId": 17,
+      "boss": 0,
+      "power": 26600,
+      "coin": 100000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 10,
+      "monsterId": 18,
+      "boss": 1,
+      "power": 30000,
+      "coin": 500000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 11,
+      "monsterId": 19,
+      "boss": 0,
+      "power": 31600,
+      "coin": 200000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 12,
+      "monsterId": 19,
+      "boss": 0,
+      "power": 33200,
+      "coin": 200000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 13,
+      "monsterId": 19,
+      "boss": 0,
+      "power": 35000,
+      "coin": 200000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 14,
+      "monsterId": 19,
+      "boss": 0,
+      "power": 36800,
+      "coin": 200000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 15,
+      "monsterId": 19,
+      "boss": 0,
+      "power": 38700,
+      "coin": 200000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 16,
+      "monsterId": 19,
+      "boss": 0,
+      "power": 40800,
+      "coin": 200000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 17,
+      "monsterId": 19,
+      "boss": 0,
+      "power": 42900,
+      "coin": 200000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 18,
+      "monsterId": 19,
+      "boss": 0,
+      "power": 45100,
+      "coin": 200000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 19,
+      "monsterId": 19,
+      "boss": 0,
+      "power": 47500,
+      "coin": 200000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 20,
+      "monsterId": 20,
+      "boss": 1,
+      "power": 50000,
+      "coin": 1000000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 21,
+      "monsterId": 21,
+      "boss": 0,
+      "power": 58700,
+      "coin": 300000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 22,
+      "monsterId": 21,
+      "boss": 0,
+      "power": 69000,
+      "coin": 300000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 23,
+      "monsterId": 21,
+      "boss": 0,
+      "power": 81000,
+      "coin": 300000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 24,
+      "monsterId": 21,
+      "boss": 0,
+      "power": 95200,
+      "coin": 300000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 25,
+      "monsterId": 21,
+      "boss": 0,
+      "power": 111800,
+      "coin": 300000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 26,
+      "monsterId": 21,
+      "boss": 0,
+      "power": 131300,
+      "coin": 300000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 27,
+      "monsterId": 21,
+      "boss": 0,
+      "power": 154300,
+      "coin": 300000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 28,
+      "monsterId": 21,
+      "boss": 0,
+      "power": 181200,
+      "coin": 300000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 29,
+      "monsterId": 21,
+      "boss": 0,
+      "power": 212800,
+      "coin": 300000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 30,
+      "monsterId": 22,
+      "boss": 1,
+      "power": 250000,
+      "coin": 3000000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 31,
+      "monsterId": 24,
+      "boss": 0,
+      "power": 287200,
+      "coin": 400000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 32,
+      "monsterId": 24,
+      "boss": 0,
+      "power": 329900,
+      "coin": 400000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 33,
+      "monsterId": 24,
+      "boss": 0,
+      "power": 378900,
+      "coin": 400000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 34,
+      "monsterId": 24,
+      "boss": 0,
+      "power": 435300,
+      "coin": 400000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 35,
+      "monsterId": 24,
+      "boss": 0,
+      "power": 500000,
+      "coin": 400000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 36,
+      "monsterId": 24,
+      "boss": 0,
+      "power": 574300,
+      "coin": 400000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 37,
+      "monsterId": 24,
+      "boss": 0,
+      "power": 659800,
+      "coin": 400000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 38,
+      "monsterId": 24,
+      "boss": 0,
+      "power": 757900,
+      "coin": 400000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 39,
+      "monsterId": 24,
+      "boss": 0,
+      "power": 870600,
+      "coin": 400000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 40,
+      "monsterId": 23,
+      "boss": 1,
+      "power": 1000000,
+      "coin": 5000000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 41,
+      "monsterId": 27,
+      "boss": 0,
+      "power": 1174600,
+      "coin": 500000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 42,
+      "monsterId": 27,
+      "boss": 0,
+      "power": 1379700,
+      "coin": 500000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 43,
+      "monsterId": 27,
+      "boss": 0,
+      "power": 1620700,
+      "coin": 500000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 44,
+      "monsterId": 27,
+      "boss": 0,
+      "power": 1903700,
+      "coin": 500000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 45,
+      "monsterId": 27,
+      "boss": 0,
+      "power": 2236100,
+      "coin": 500000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 46,
+      "monsterId": 27,
+      "boss": 0,
+      "power": 2626500,
+      "coin": 500000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 47,
+      "monsterId": 27,
+      "boss": 0,
+      "power": 3085200,
+      "coin": 500000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 48,
+      "monsterId": 27,
+      "boss": 0,
+      "power": 3623900,
+      "coin": 500000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 49,
+      "monsterId": 27,
+      "boss": 0,
+      "power": 4256700,
+      "coin": 500000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 50,
+      "monsterId": 28,
+      "boss": 1,
+      "power": 5000000,
+      "coin": 10000000000,
+      "multiplier": 10
+    },
+    {
+      "floor": 51,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 5580600,
+      "coin": 1500000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 52,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 6228700,
+      "coin": 1500000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 53,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 6951900,
+      "coin": 1500000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 54,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 7759200,
+      "coin": 1500000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 55,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 8660300,
+      "coin": 1500000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 56,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 9665900,
+      "coin": 1500000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 57,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 10788300,
+      "coin": 1500000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 58,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 12041100,
+      "coin": 1500000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 59,
+      "monsterId": 64,
+      "boss": 0,
+      "power": 13439400,
+      "coin": 1500000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 60,
+      "monsterId": 67,
+      "boss": 1,
+      "power": 15000000,
+      "coin": 45000000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 61,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 16076600,
+      "coin": 3750000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 62,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 17230500,
+      "coin": 3750000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 63,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 18467200,
+      "coin": 3750000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 64,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 19792600,
+      "coin": 3750000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 65,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 21213200,
+      "coin": 3750000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 66,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 22735700,
+      "coin": 3750000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 67,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 24367600,
+      "coin": 3750000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 68,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 26116500,
+      "coin": 3750000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 69,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 27991000,
+      "coin": 3750000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 70,
+      "monsterId": 69,
+      "boss": 1,
+      "power": 30000000,
+      "coin": 75000000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 71,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 32153200,
+      "coin": 15000000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 72,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 34461000,
+      "coin": 15000000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 73,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 36934300,
+      "coin": 15000000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 74,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 39585200,
+      "coin": 15000000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 75,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 42426400,
+      "coin": 15000000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 76,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 45471500,
+      "coin": 15000000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 77,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 48735100,
+      "coin": 15000000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 78,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 52233000,
+      "coin": 15000000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 79,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 55982000,
+      "coin": 15000000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 80,
+      "monsterId": 69,
+      "boss": 1,
+      "power": 60000000,
+      "coin": 150000000000,
+      "multiplier": 15
+    },
+    {
+      "floor": 81,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 66183300,
+      "coin": 30000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 82,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 73003700,
+      "coin": 30000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 83,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 80527100,
+      "coin": 30000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 84,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 88825700,
+      "coin": 30000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 85,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 97979600,
+      "coin": 30000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 86,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 108076800,
+      "coin": 30000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 87,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 119214600,
+      "coin": 30000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 88,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 131500100,
+      "coin": 30000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 89,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 145051800,
+      "coin": 30000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 90,
+      "monsterId": 69,
+      "boss": 1,
+      "power": 160000000,
+      "coin": 300000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 91,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 175353300,
+      "coin": 40000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 92,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 192179900,
+      "coin": 40000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 93,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 210621200,
+      "coin": 40000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 94,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 230832000,
+      "coin": 40000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 95,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 252982200,
+      "coin": 40000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 96,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 277257900,
+      "coin": 40000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 97,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 303863100,
+      "coin": 40000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 98,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 333021300,
+      "coin": 40000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 99,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 364977400,
+      "coin": 40000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 100,
+      "monsterId": 69,
+      "boss": 1,
+      "power": 400000000,
+      "coin": 400000000000,
+      "multiplier": 20
+    },
+    {
+      "floor": 101,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 433788700,
+      "coin": 50000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 102,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 470431600,
+      "coin": 50000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 103,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 510169800,
+      "coin": 50000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 104,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 553264700,
+      "coin": 50000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 105,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 600000000,
+      "coin": 50000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 106,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 650683100,
+      "coin": 50000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 107,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 705647400,
+      "coin": 50000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 108,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 765254700,
+      "coin": 50000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 109,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 829897100,
+      "coin": 50000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 110,
+      "monsterId": 69,
+      "boss": 1,
+      "power": 900000000,
+      "coin": 600000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 111,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 964596100,
+      "coin": 60000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 112,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 1033828500,
+      "coin": 60000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 113,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 1108030000,
+      "coin": 60000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 114,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 1187557100,
+      "coin": 60000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 115,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 1272792200,
+      "coin": 60000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 116,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 1364144900,
+      "coin": 60000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 117,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 1462054300,
+      "coin": 60000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 118,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 1566991000,
+      "coin": 60000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 119,
+      "monsterId": 68,
+      "boss": 0,
+      "power": 1679459400,
+      "coin": 60000000000,
+      "multiplier": null
+    },
+    {
+      "floor": 120,
+      "monsterId": 69,
+      "boss": 1,
+      "power": 1800000000,
+      "coin": 800000000000,
+      "multiplier": null
+    }
+  ],
+  "totalCoin": 4205250000000
+}

@@ -144,6 +144,7 @@ import { handleScrapyard } from '../_scrapyard.js';
 import {handlePveV3,isPveV3Path} from '../_pve_v3_routes.js';
 import {loadScrapyardV3Snapshot} from '../_scrapyard_v3.js';
 import {buildTowerV3Battle,TOWER_V3_DRAFT} from '../_tower_v3.js';
+import {towerAbyssStart,towerAbyssFinish,towerAbyssPending,TOWER_ABYSS_PROTOCOL} from '../_tower_abyss.js';
 import {discoverCowPortal} from '../_cow_room_portal.js';
 import {V3_JOINT_RELEASE_ENABLED} from '../../shared/v3-joint-release-v1.mjs';
 import {FORGE_RUNTIME_RELEASE_ENABLED} from '../../shared/equipment-forge-release-v1.mjs';
@@ -4517,7 +4518,7 @@ function userMutationLeaseMs(actionPath){
   // V1803: 전투 요청의 리스가 8초였다. 락이 어떤 이유로든 고아가 되면
   // 그 유저는 8초 동안 전투를 시작할 수 없고, 클라이언트는 그동안 재시도만 돈다.
   // 전투 처리 자체는 실측 p50 0.1~0.4초라 3초면 충분히 넉넉하다.
-  const fastBattleAction=['battle/fight','tower/fight','escort/fight','pvp/match','pvp/fight','clan/war/fight'].includes(actionPath);
+  const fastBattleAction=['battle/fight','tower/fight','tower/start','tower/finish','escort/fight','pvp/match','pvp/fight','clan/war/fight'].includes(actionPath);
   return actionPath.startsWith('raid/')?20000:(fastBattleAction?3000:60000);
 }
 // V1784: USER_LOCK Durable Object 바인딩이 있으면 D1을 전혀 건드리지 않는다.
@@ -6699,7 +6700,7 @@ async function handleRequest(context){
     }
 
 
-    if(path==='tower/config'&&request.method==='GET'){const settings=await towerSettings(env);return json(settings);}
+    if(path==='tower/config'&&request.method==='GET'){const settings=await towerSettings(env);return json({...settings,protocol:TOWER_ABYSS_PROTOCOL});}
     if(path==='tower/status'&&request.method==='GET'){
       // V1803: 무한의탑 상태 조회는 왕복이 10회까지 늘어나 있었다.
       //  · 설정/시즌은 유저와 무관하므로 인증 왕복과 겹쳐 먼저 띄운다.
@@ -6739,8 +6740,26 @@ async function handleRequest(context){
       const rankRow=await towerRankPromise;
       return json({active:true,completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:Number(rankRow?.rank||1),completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:floorIsBoss}:null,deck,characterBonus,ranking});
     }
-    if(path==='tower/fight'&&request.method==='POST'){
+    if(path==='tower/fight'&&request.method==='POST')return json({error:'무한의탑 전투가 개편됐습니다. 새로고침 후 다시 도전하세요.',code:'TOWER_CLIENT_UPDATE'},409);
+    if(path==='tower/pending'&&request.method==='GET'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      return json(await towerAbyssPending(env,user));
+    }
+    if(path==='tower/finish'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const body=await readBody(request);
+      try{return json(await withJointUserMutationLock(env,user.id,path,async()=>{
+        const config=await towerSettings(env);if(!config.enabled&&!isAdminRole(user))throw Object.assign(new Error('현재 무한의탑이 운영 중지 상태입니다.'),{code:'TOWER_DISABLED',status:503});
+        return towerAbyssFinish(env,user,body,{
+          magicReward:plan=>resolveMagicCrystalReward(env,{userId:user.id,source:'TOWER_FIRST_CLEAR',referenceId:plan.seasonId+':'+plan.response.floorNo,enabled:plan.magic.enabled,chance:100,amount:plan.magic.amount,dailyLimit:0,reason:'무한의탑 '+plan.response.floorNo+'층 최초 클리어'}),
+          equipmentReward:(plan,rid)=>grantEquipmentDrop(env,{userId:user.id,sourceType:'TOWER',sourceId:String(plan.response.floorNo),requestId:rid}),
+          blackMiracleReward:(_plan,rid)=>rollBlackMiracleDrop(env,{userId:user.id,source:'TOWER',referenceId:rid})
+        });
+      }));}catch(error){return json({error:error.status?error.message:'전투 결과를 확정하지 못했습니다. 같은 결과를 다시 확인하세요.',code:error.code||'TOWER_SETTLEMENT_RETRY',...(error.retryAfterMs?{retryAfterMs:error.retryAfterMs}:{})},error.status||503);}
+    }
+    if(path==='tower/start'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const towerBody=await readBody(request),towerRequestId=String(towerBody.requestId||crypto.randomUUID()).slice(0,120);
+      try{return json(await withJointUserMutationLock(env,user.id,path,()=>towerAbyssStart(env,user,towerBody,async()=>{
       const towerConfig=await towerSettings(env);if(!towerConfig.enabled&&!isAdminRole(user))return json({error:'현재 무한의탑이 운영 중지 상태입니다.',code:'TOWER_DISABLED'},503);
       const season=await env.DB.prepare("SELECT * FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();if(!season)return json({error:'진행 중인 무한의탑 시즌이 없습니다.'},404);
       await env.DB.prepare('INSERT OR IGNORE INTO tower_user_progress(season_id,user_id,current_floor,highest_floor) VALUES(?,?,1,0)').bind(season.id,user.id).run();
@@ -6803,34 +6822,16 @@ async function handleRequest(context){
       }
       const towerSnapshot=await loadScrapyardV3Snapshot(env,user,{raidDeckPower:async()=>deckInfo,cardBattlePower,magicBattleLoadout,selectActivatedUltimate,loadMercenaryBattleSnapshot:releasedMercenarySnapshot},'TOWER');
       const towerBattle=buildTowerV3Battle({snapshot:towerSnapshot,tier:floorNo,seed:crypto.getRandomValues(new Uint32Array(1))[0],
-        config:{...TOWER_V3_DRAFT,mode:'ON',rulesVersion:'TOWER_LIVE_CMS_2094',maxTier:maxFloor,powerGrowth:1.001},
+        config:{...TOWER_V3_DRAFT,mode:'ON',rulesVersion:TOWER_ABYSS_PROTOCOL,maxTier:maxFloor,powerGrowth:1.001},
         operatingFloor:{id:floor.linked_battle_monster_id||floor.monster_id,name:floor.monster_name,image:floor.monster_image,power:monsterPower},
         bossUltimatePercent:Number(towerBossUltimate?.damagePercent||0)});
-      const result=towerBattle.success?'WIN':'LOSE';let reward=0;
-      let completed=false,nextFloor=floorNo;
-      let magicReward=null,equipmentReward=null,blackMiracleReward=null,forgeProtectionReward=null;
-      if(result==='WIN'){
-        reward=await collectionRewardCoin(env,user.id,Number(floor.reward_coin||Math.max(100,floorNo*100)),'TOWER');completed=floorNo>=maxFloor;nextFloor=completed?maxFloor+1:floorNo+1;
-        // V1785: 코인 지급과 층 진행도 갱신은 서로 독립적인 쓰기다. D1 배치 1회로 묶는다(왕복 2회 → 1회).
-        const towerClearWrites=[env.DB.prepare('UPDATE tower_user_progress SET current_floor=?,highest_floor=MAX(highest_floor,?),highest_reached_at=CASE WHEN ?>highest_floor THEN CURRENT_TIMESTAMP ELSE highest_reached_at END,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?').bind(nextFloor,floorNo,floorNo,season.id,user.id)];
-        if(reward)towerClearWrites.unshift(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id));
-        towerClearWrites.push(...await accountRankAward(env,user.id,'TOWER',`${season.id}:${floorNo}`));
-        const forgeProtection=await prepareTowerForgeProtectionClear(env,{userId:Number(user.id),seasonId:Number(season.id),floorNo});
-        towerClearWrites.push(...forgeProtection.statements);
-        await env.DB.batch(towerClearWrites);
-        forgeProtectionReward=forgeProtection.reward;
-        const magicCfg=await magicSettings(env),towerMagic=magicCfg.acquisition?.tower||{},magicAmount=magicRewardForTowerFloor(magicCfg,floorNo);
-        magicReward=await resolveMagicCrystalReward(env,{userId:user.id,source:'TOWER_FIRST_CLEAR',referenceId:`${season.id}:${floorNo}`,enabled:towerMagic.enabled===true,chance:100,amount:magicAmount,dailyLimit:0,reason:`무한의탑 ${floorNo}층 최초 클리어`});
-        equipmentReward=await safeEquipmentDrop(env,{userId:user.id,sourceType:'TOWER',sourceId:String(floorNo),requestId:towerRequestId});
-        blackMiracleReward=await rollBlackMiracleDrop(env,{userId:user.id,source:'TOWER',referenceId:towerRequestId});
-      }
-      // V1785: tower_clear_history 는 API 전체에서 어디서도 다시 읽지 않는 기록용 테이블이다
-      // (읽는 곳이 생기면 이 deferWrite 를 되돌려야 한다). 응답 지연 경로에서 제외.
-      deferWrite('tower_clear_history',()=>env.DB.prepare('INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)').bind(season.id,user.id,floorNo,playerPower,monsterPower,result).run());
+      const result=towerBattle.success?'WIN':'LOSE',completed=result==='WIN'&&floorNo>=maxFloor,nextFloor=result==='WIN'?floorNo+1:floorNo;
+      const rewardCoin=result==='WIN'?await collectionRewardCoin(env,user.id,Number(floor.reward_coin||Math.max(100,floorNo*100)),'TOWER'):0;
+      const magicCfg=await magicSettings(env),magic={enabled:magicCfg.acquisition?.tower?.enabled===true,amount:magicRewardForTowerFloor(magicCfg,floorNo)};
       const towerUniqueCardMap=new Map((deckInfo.unique?.cards||[]).map(card=>[String(card.id),card]));
       const towerBattleCards=owned.results.map(c=>{const uniqueCard=towerUniqueCardMap.get(String(c.id))||{};return {...c,...uniqueCard,id:String(c.id),title:c.title,image:c.image,grade:c.rarity,rarity:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)};});
-      if(result==='WIN')await grantHighGradeRerollDrop(env,{userId:user.id,content:'TOWER',referenceId:towerRequestId});
-      return json({...towerBattle,requestId:towerRequestId,result,completed,maxFloor,deckSynergy:towerSynergy,uniqueAbility:uniqueBattleResponsePayload(deckInfo.unique,towerUniqueRuntime),bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,equipmentReward,blackMiracleReward,forgeProtectionReward,characterBonus:deckInfo.characterBonus,towerCardPower,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:towerBattleCards});
+      return {seasonId:Number(season.id),rewardCoin,magic,response:{...towerBattle,requestId:towerRequestId,result,completed,maxFloor,deckSynergy:towerSynergy,uniqueAbility:uniqueBattleResponsePayload(deckInfo.unique,towerUniqueRuntime),bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,characterBonus:deckInfo.characterBonus,towerCardPower,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:towerBattleCards}};
+      })));}catch(error){return json({error:error.status?error.message:'전투를 준비하지 못했습니다. 같은 요청으로 다시 확인하세요.',code:error.code||'TOWER_START_RETRY'},error.status||503);}
     }
     if(path==='deck-synergy/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await deckSynergySettings(env);if(!settings.enabled&&String(user.role||'').toUpperCase()!=='OWNER')return json({enabled:false});const deck=await pveDeckCards(env,user.id);const evaluation=await evaluateDeckSynergies(env,user,deck,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'});return json({enabled:settings.enabled,ownerTest:evaluation.ownerTest,deck,evaluation});

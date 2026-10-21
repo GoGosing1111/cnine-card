@@ -1,0 +1,54 @@
+{
+  "width": 390,
+  "audit": {
+    "coin": 600010000000,
+    "progress": {
+      "current_floor": 111,
+      "highest_floor": 110
+    },
+    "grants": 1
+  },
+  "text": "THE ABYSS · 한계 돌파\n무한의 탑\n110\nFLOOR\n\nLIMIT SURPASSED\n\n한계를 넘어섰습니다\n\n110층 · 수호자 격파\n\n공식 공략 시간\n00:01\n수호자 잔여 체력\n0%\n첫 전투 불능\n없음\n최종 생존\n5 / 5\n이전의 나와 비교\n\n같은 층·같은 전투 조건의 기록이 쌓이면 성장 변화를 비교합니다.\n\n획득 코인\n600,000,000,000\n\n다음 층 확인\n편성 점검\n성장 기록",
+  "calls": [
+    {
+      "path": "tower/config",
+      "at": 1792618765306,
+      "status": 200
+    },
+    {
+      "path": "tower/status",
+      "at": 1792618765314,
+      "status": 200
+    },
+    {
+      "path": "tower/pending",
+      "at": 1792618765314,
+      "status": 200
+    },
+    {
+      "path": "tower/finish",
+      "body": "{\"requestId\":\"41c29dab-21df-4067-8779-f19f1f4f9f99\"}",
+      "at": 1792618807264,
+      "status": 200
+    },
+    {
+      "path": "tower/status",
+      "at": 1792618807732,
+      "status": 200
+    },
+    {
+      "path": "tower/pending",
+      "at": 1792618807732,
+      "status": 200
+    },
+    {
+      "path": "tower/finish",
+      "body": "{\"requestId\":\"41c29dab-21df-4067-8779-f19f1f4f9f99\"}",
+      "at": 1792618807744,
+      "status": 200
+    }
+  ],
+  "overflow": false,
+  "sound": "OFF",
+  "errors": []
+}

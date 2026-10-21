@@ -1,6 +1,6 @@
 (function(root){
   'use strict';
-  const VERSION='20261021-abyss-ui-v1',ART='/assets/ui/tower-abyss-20261021/',MAX_RECORDS=40;
+  const VERSION='20261022-abyss-settlement-v1',ART='/assets/ui/tower-abyss-20261021/',MAX_RECORDS=40;
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const num=value=>Number.isFinite(Number(value))?Number(value).toLocaleString('ko-KR'):'—';
   const finite=value=>value!==null&&value!==undefined&&value!==''&&Number.isFinite(Number(value))?Number(value):null;
@@ -90,6 +90,11 @@
     msg.innerHTML=`<div class="abyss-result-heading">${stamp(r.floor,true)}<div><p class="abyss-eyebrow">${win?'LIMIT SURPASSED':'YOUR NEXT BREAKTHROUGH'}</p><h2>${win?'한계를 넘어섰습니다':'다음 돌파를 위한 기록'}</h2><p>${r.floor}층 · ${esc(reason(r))}</p></div></div><div class="abyss-result-metrics"><div><small>공식 공략 시간</small><b>${clock(r.elapsed)}</b></div><div><small>수호자 잔여 체력</small><b>${r.guardianHp===null?'—':num(r.guardianHp)+'%'}</b></div><div><small>첫 전투 불능</small><b>${r.firstFall===null?'없음':clock(r.firstFall)}</b></div><div><small>최종 생존</small><b>${r.survivors===null?'—':r.survivors+' / '+r.total}</b></div></div><div class="abyss-result-comparison"><h3>이전의 나와 비교</h3>${comparison(r,previous)}</div>${win?`<p class="abyss-earned"><span>획득 코인</span><strong>${num(data.reward)}</strong>${data.magicReward?.amount>0?`<small>마법 결정 ${num(data.magicReward.amount)}</small>`:''}${data.forgeProtectionReward?`<small>장비 보호권 ${num(data.forgeProtectionReward.quantity)}</small>`:''}</p>`:'<p class="abyss-muted">최고층은 유지됩니다. 편성을 다듬고 같은 층에 다시 도전하세요.</p>'}<div class="abyss-result-actions">${button(win?'return':'retry',win?(data.completed?'돌파 기록 확인':'다음 층 확인'):'같은 층 재도전','','is-primary')}${button('formation','편성 점검')}${button('records','성장 기록')}</div>`;
     msg.querySelector('button')?.focus({preventScroll:true});
   }
+  function settling(view,seconds){
+    view.stage.classList.add('is-result-visible');view.stage.querySelector('[data-v3-verdict]')?.setAttribute('hidden','');
+    view.towerMsg.className='battle-message battle-v3-result tower-v3-result abyss-result abyss-frame';view.towerMsg.hidden=false;
+    view.towerMsg.innerHTML=`<p class="abyss-eyebrow">TRIAL IN PROGRESS</p><h2>도전 결과를 확정하고 있습니다</h2><p role="status">${seconds>0?'전투 완료까지 '+num(seconds)+'초':'보상과 층 진행도를 확인하고 있습니다.'}</p><p class="abyss-muted">완료 전에는 다음 층으로 넘어갈 수 없습니다. 연결이 끊겨도 같은 전투를 이어 확인합니다.</p>`;
+  }
   function errorResult(view,message,canResume){
     view.stage.classList.add('tower-abyss-battle','is-result-visible');
     view.towerMsg.className='battle-message battle-v3-result tower-v3-result abyss-result abyss-frame';view.towerMsg.hidden=false;
@@ -97,8 +102,8 @@
   }
   function guide(box){
     const details=box.querySelector('[data-abyss-guide]');if(details){details.remove();return;}
-    box.querySelector('.abyss-footer').insertAdjacentHTML('beforebegin',`<section class="abyss-guide abyss-frame" data-abyss-guide><h3>봉인문 앞에서</h3><ul><li>저장된 PVE 카드 5장으로 현재 도전층에 진입합니다.</li><li>일반 몬스터와 정예를 쓰러뜨리면 수호자가 등장합니다.</li><li>전투의 남은 시간과 소환 진행도는 실제 전투 기록을 따라 표시됩니다.</li><li>층 보상·최고층·순위는 현재 운영 설정과 계정 기록을 사용합니다.</li><li>성장 기록은 이 기기의 계정별 기록이며 다른 기기와 동기화되지 않습니다.</li></ul>${button('guide','안내 닫기','','is-quiet')}</section>`);
+    box.querySelector('.abyss-footer').insertAdjacentHTML('beforebegin',`<section class="abyss-guide abyss-frame" data-abyss-guide><h3>봉인문 앞에서</h3><ul><li>저장된 PVE 카드 5장으로 현재 도전층에 진입합니다.</li><li>일반 몬스터와 정예를 쓰러뜨리면 수호자가 등장합니다.</li><li>전투의 남은 시간과 소환 진행도는 실제 전투 기록을 따라 표시됩니다.</li><li>전투 전체 재생과 서버의 완료 시간 확인 후 보상과 다음 층이 확정됩니다. 새로고침해도 같은 전투를 복구합니다.</li><li>120층까지 도전하며 기존 진행도와 수령 이력은 유지됩니다. 상향 보상은 새로 완료한 층부터 적용됩니다.</li><li>성장 기록은 이 기기의 계정별 기록이며 다른 기기와 동기화되지 않습니다.</li></ul>${button('guide','안내 닫기','','is-quiet')}</section>`);
     box.querySelector('[data-abyss-guide]').scrollIntoView({block:'nearest'});
   }
-  root.TowerAbyssUI={VERSION,ART,render,state,prepareBattle,updateBattle,result,errorResult,readRecords,remember,summarize,previousFor,clock,guide};
+  root.TowerAbyssUI={VERSION,ART,render,state,prepareBattle,updateBattle,result,settling,errorResult,readRecords,remember,summarize,previousFor,clock,guide};
 })(typeof window==='undefined'?globalThis:window);

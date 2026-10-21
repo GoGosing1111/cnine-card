@@ -42,6 +42,14 @@ test('unavailable and malformed browser storage never prevent rendering a battle
  assert.equal(root.TowerAbyssUI.readRecords(7).length,0);assert.equal(root.TowerAbyssUI.remember(7,battle()).floor,30);
  const store={getItem:()=>'{bad json',setItem(){throw Error('quota');}};assert.equal(harness(store).readRecords(7).length,0);
 });
+test('server completion wait uses a local clock and one retry, then cancels cleanly on navigation',async()=>{
+ const source=fs.readFileSync(new URL('../js/tower-v1038.js',import.meta.url),'utf8');
+ const block=source.slice(source.indexOf('  async function settleBattle('),source.indexOf('  function lockBattleFocus('));
+ let clock=0,active=true,calls=0;const shown=[];
+ const run=vm.runInNewContext(block+'\nsettleBattle',{performance:{now:()=>clock},setTimeout:fn=>{clock+=500;fn();},ui:()=>({settling:(_v,s)=>shown.push(s)}),apiRequest:async path=>{assert.equal(path,'tower/finish');calls++;if(calls===1)throw Object.assign(Error('wait'),{code:'TOWER_PLAYBACK_PENDING',retryAfterMs:1200});return {settled:true};}});
+ assert.equal((await run({requestId:'same'}, {},()=>active)).settled,true);assert.equal(calls,2);assert.ok(shown.includes(2));
+ active=false;assert.equal(await run({requestId:'same'}, {},()=>active),null);assert.equal(calls,2);
+});
 test('only Tower removes early result controls while preserving pause and other continuous modes',async()=>{
  const source=fs.readFileSync(new URL('../js/pve-continuous-battle-live.mjs',import.meta.url),'utf8');
  const fn=vm.runInNewContext(source.replace('export async function','async function')+'\nplayContinuousBattle',{

@@ -12,7 +12,7 @@ const origin='https://game.example';
 const request=(path,body,method)=>new Request(origin+'/api/'+path,{method:method||(body?'POST':'GET'),headers:{authorization:'Bearer local-account-7',origin,'content-type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
 const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
 test('public release opens cow and legacy tower while new tower economy and other launches stay held',async()=>{
- const state=v3JointReleaseState();assert.equal(state.enabled,false);assert.equal(state.publicContent.COW_ROOM.enabled,true);assert.equal(state.publicContent.TOWER.policy,'LEGACY');assert.equal(state.publicContent.TOWER.reAscentEnabled,false);assert.equal(state.connections.TOWER.run,'tower/fight');assert.equal(state.connections.TOWER.url,TOWER_LIVE_URL);
+ const state=v3JointReleaseState();assert.equal(state.enabled,false);assert.equal(state.publicContent.COW_ROOM.enabled,true);assert.equal(state.publicContent.TOWER.policy,'LEGACY');assert.equal(state.publicContent.TOWER.reAscentEnabled,false);assert.equal(state.connections.TOWER.run,'tower/start');assert.equal(state.connections.TOWER.url,TOWER_LIVE_URL);
  const deps={json:(b,s=200)=>Response.json(b,{status:s}),authenticate:async()=>null},env={get DB(){throw Error('No anonymous DB access');}};
  for(const path of ['cow-room/v3/state','cow-room/v3/run','cow-room/v3/portals','scrapyard/v3/state','scrapyard/v3/run'])assert.equal((await handlePveV3({path,request:request(path),env,deps})).status,401);
  assert.equal((await handlePveV3({path:'tower/v3/run',request:request('tower/v3/run'),env,deps})).status,423);
@@ -27,7 +27,7 @@ test('legacy tower completion wins over absent next floor and never offers re-as
  const context=vm.createContext({S,document:{getElementById:()=>box},currentDeckCards:()=>[],currentPower:()=>0,user:()=>({id:7}),ui:()=>root.TowerAbyssUI});
  vm.runInContext(source.slice(start,end)+'\nrender();',context);
  assert.match(body.innerHTML,/현재 열린 모든 문을 돌파했습니다/);assert.doesNotMatch(body.innerHTML,/아직 열리지|다시 등반|재등반|data-abyss-action="fight"/);
- assert.match(source,/playTowerBattleV3Live/);assert.match(source,/apiRequest\('tower\/fight'/);
+ assert.match(source,/playTowerBattleV3Live/);assert.match(source,/apiRequest\('tower\/start'/);
 });
 for(const postgres of [false,true]){
  test(`${postgres?'PostgreSQL':'SQLite'}: ordinary user scrapyard admission uses one ticket and recovers the same receipt`,async t=>{
