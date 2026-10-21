@@ -37,7 +37,7 @@
 - `tests/tower-abyss-ui-20261021.test.mjs`: 실제 수치/누락값, 다른 계정 분리, 40회 한도, 영수증 중복, 비교 조건 분리, 저장소 차단, Tower만 결과 버튼 제거, 이중 클릭/늦은 입장 취소.
 - `tests/pve-combat-only-v2094.test.mjs`: SQLite/PostgreSQL 실제 운영 route의 한 층 진행·최고층 완료·실패 무보상·재요청 무중복·승인 몬스터/네이티브 진입.
 - `tests/pve-battlefield-entry-v2117.test.mjs`: 실제 빌드 버전/로더/재연결, Tower 연속 전투 배경과 다른 콘텐츠 배경 보존.
-- 관련 검사 총 20개. 최종 scoped 배포에서 변경한 UI와 엔진 연결 검사만 다시 실행한다.
+- 관련 기능 검사 총 20개와 Tower 배포 자산 검사 1개. 최종 scoped 배포에서 UI·엔진 연결·Tower/봉인전 파일 수 제한 검사를 실행한다.
 - Chrome 검사 도구의 기존 프로필 충돌로 내장 브라우저로 전환했다.
 - PC 기본 뷰포트 1264×720, 모바일 390×844·320×740에서 직접 확인했다.
 - 격리 SQLite에서 실제 `tower/status`와 `tower/fight` route로 만든 승/패 응답을 shipping UI/controller/V3 renderer에 연결했다. 운영 계정/재화를 변경하지 않았다.
@@ -50,6 +50,8 @@
 
 ## 배포
 
-준비 시 운영 소스 `99120149ff676e033c2fffb748ed9c1cb2bc390c` / Pages `ad516cc9`를 재확인했다. 원격 main은 후속 문서 커밋 `fc90ed470`이다.
+준비 시 운영 소스 `99120149ff676e033c2fffb748ed9c1cb2bc390c` / Pages `ad516cc9`를 재확인했다. 작업 중 먼저 반영된 봉인전 소스 `ea0affd78` / Pages `48e30697` 위로 재배치하고 봉인전의 코드·이미지·운영 정책을 보존했다.
+
+두 작업을 합친 운영 파일이 20,005개가 되어 Pages 제한을 초과했다. 런타임에서 참조하지 않는 Tower 작성용 문서 4개와 이미 번들된 `source/app.mjs` 1개만 배포 대상에서 제외해 정확히 20,000개로 맞췄다. 다섯 원본은 Git에 보존한다. 실제 연결된 기획 문서, 기존 프리뷰의 HTML/번들, 새 이미지 4개는 계속 배포한다. `tests/tower-abyss-delivery-20261021.test.mjs`가 원본·파생 해시, 런타임 포함, 작성 파일 보존, 스크립트 순서와 전체 파일 수를 확인한다.
 
 무한의탑의 국소 UI 개편이고 공통 엔진 변경은 Tower 배경 연결/캐시 버전뿐이다. DB·인증·정산 정책·의존성 변경 없이 `npm run deploy:production -- --scoped`를 사용한다. 원본/QA는 docs/qa 아래에 보존하고 운영 파일은 새 WebP 4개와 JS/CSS 2개만 추가한다. 배포 완료 후 실제 소스·파일 해시를 아래에 기록한다.
