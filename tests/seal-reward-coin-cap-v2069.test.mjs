@@ -69,13 +69,13 @@ async function fixture(overrides={}){
   return {api,db,env,deps,user,settings,event,setFailure:pattern=>{failurePattern=pattern}};
 }
 
-test('참여·완료·순위 코인은 기존 1억/10억 상한과 32비트 경계를 넘겨도 보존된다',()=>{
+test('참여·완료 코인은 기존 상한을 넘겨도 보존되고 폐지한 순위 보상은 읽지 않는다',()=>{
   assert.equal(mod.SEAL_COIN_REWARD_MAX,Number.MAX_SAFE_INTEGER);
   for(const coin of [100_000_001,1_000_000_001,2_147_483_648,5_000_000_000,10_000_000_000,Number.MAX_SAFE_INTEGER]){
     const settings=mod.cleanSettings({attemptReward:{coin},clearReward:{coin},rankRewards:{tiers:[{coin}]}});
     assert.equal(settings.attemptReward.coin,coin);
     assert.equal(settings.clearReward.coin,coin);
-    assert.equal(settings.rankRewards.tiers[0].coin,coin);
+    assert.deepEqual(settings.rankRewards,{enabled:false,rewardOnFailure:false,tiers:[]});
     assert.deepEqual(mod.cleanSettings(copy(settings)),settings);
   }
 });
@@ -91,15 +91,16 @@ test('25회 최소 보상: 0·24회 차단, 정확히 25·26회 지급, 공헌�
       const state=await f.api.statusPayload(f.env,f.deps,f.user);
       assert.equal(state.clearReward.eligible,attempts>=25);
       assert.equal(state.rewardEligibility.remainingAttempts,Math.max(0,25-attempts));
-      assert.equal(Boolean(state.rankReward),attempts>=25);
-      for(const claim of [f.api.claimClearReward,f.api.claimRankReward]){
+      assert.equal(state.rankReward,null);
+      assert.equal((await f.api.claimRankReward(f.env,f.deps,f.user,event)).status,410);
+      for(const claim of [f.api.claimClearReward]){
         const result=await claim(f.env,f.deps,f.user,event);
         assert.equal(result.status,attempts>=25?200:403);
         if(attempts<25)assert.equal(result.body.code,'SEAL_REWARD_MIN_ATTEMPTS');
         else assert.equal((await claim(f.env,f.deps,f.user,event)).status,409);
       }
-      assert.equal(f.db.prepare('SELECT coin FROM users WHERE id=2').get().coin,attempts>=25?22_500_001_000:1000);
-      assert.equal(f.db.prepare('SELECT COUNT(*) n FROM coin_logs').get().n,attempts>=25?2:0);
+      assert.equal(f.db.prepare('SELECT coin FROM users WHERE id=2').get().coin,attempts>=25?10_000_001_000:1000);
+      assert.equal(f.db.prepare('SELECT COUNT(*) n FROM coin_logs').get().n,attempts>=25?1:0);
     }finally{f.db.close()}
   }
 });
@@ -138,7 +139,7 @@ test('현재·지난 회차 보상 미리보기와 eventId 직접 청구가 회�
     f.db.prepare("UPDATE seal_battle_events SET status='CLEARED' WHERE id=?").run(blocked.id);
     await f.api.adminStart(f.env,f.settings,{id:1});
     const status=await f.api.statusPayload(f.env,f.deps,f.user);
-    assert.equal(status.pendingClearReward.eventId,old);assert.equal(status.pendingRankReward.eventId,old);
+    assert.equal(status.pendingClearReward.eventId,old);assert.equal(status.pendingRankReward,null);
     f.deps.authenticate=async()=>f.user;
     const claim=body=>f.api.handleSealBattle({path:'seal-battle/clear-reward',env:f.env,deps:f.deps,request:new Request('https://qa.test/api/seal-battle/clear-reward',{method:'POST',body:JSON.stringify(body)})});
     assert.equal((await claim({eventId:blocked.id})).status,403);
@@ -166,16 +167,16 @@ test('CMS 횟수 검증·권한·구형 저장 호환성과 회차 스냅샷을 
   }finally{f.db.close()}
 });
 
-test('실패 회차는 완료 보상을 지급하지 않고 순위 보상도 25회·실패 지급 설정을 함께 확인한다',async()=>{
+test('실패 회차는 완료 보상을 지급하지 않고 폐지한 순위 보상은 횟수와 무관하게 차단한다',async()=>{
   const f=await fixture({minRewardAttempts:25});
   try{
     f.db.prepare("INSERT INTO seal_battle_user_progress(event_id,user_id,day_key,total_attempts) VALUES(?,2,'2026-09-22',24)").run(f.event.id);
     const event={...f.event,status:'FAILED'};
     assert.equal((await f.api.claimClearReward(f.env,f.deps,f.user,event)).status,409);
-    assert.equal((await f.api.claimRankReward(f.env,f.deps,f.user,event)).status,403);
+    assert.equal((await f.api.claimRankReward(f.env,f.deps,f.user,event)).status,410);
     f.db.exec('UPDATE seal_battle_user_progress SET total_attempts=25');
-    assert.equal((await f.api.claimRankReward(f.env,f.deps,f.user,{...event,rankRewards:{...event.rankRewards,rewardOnFailure:false}})).status,409);
-    assert.equal((await f.api.claimRankReward(f.env,f.deps,f.user,event)).status,200);
+    assert.equal((await f.api.claimRankReward(f.env,f.deps,f.user,{...event,rankRewards:{...event.rankRewards,rewardOnFailure:false}})).status,410);
+    assert.equal((await f.api.claimRankReward(f.env,f.deps,f.user,event)).status,410);
     assert.equal(f.db.prepare('SELECT COUNT(*) n FROM seal_battle_clear_claims').get().n,0);
   }finally{f.db.close()}
 });
@@ -260,12 +261,12 @@ test('봉인 체력 20억 상한 해제: CMS API 저장·재조회·회차 스�
 test('코인은 음수·잘못된 수·정밀도 초과만 안전하게 정리하고 다른 보상 한도는 유지한다',()=>{
   for(const [input,expected] of [[-1,0],[1.9,1],['5000000000',5_000_000_000],[Number.MAX_VALUE,Number.MAX_SAFE_INTEGER]]){
     const s=mod.cleanSettings({attemptReward:{coin:input},clearReward:{coin:input},rankRewards:{tiers:[{coin:input}]}});
-    assert.equal(s.attemptReward.coin,expected);assert.equal(s.clearReward.coin,expected);assert.equal(s.rankRewards.tiers[0].coin,expected);
+    assert.equal(s.attemptReward.coin,expected);assert.equal(s.clearReward.coin,expected);assert.deepEqual(s.rankRewards.tiers,[]);
   }
   const s=mod.cleanSettings({attemptReward:{coin:NaN,shards:5_000_000},clearReward:{coin:Infinity,shards:5_000_000},rankRewards:{tiers:[{coin:'invalid',premiumCube:5_000_000,equipmentBox:5_000_000}]}});
-  assert.equal(s.attemptReward.coin,100);assert.equal(s.clearReward.coin,2000);assert.equal(s.rankRewards.tiers[0].coin,0);
+  assert.equal(s.attemptReward.coin,100);assert.equal(s.clearReward.coin,2000);assert.equal(s.rankRewards.enabled,false);
   assert.equal(s.attemptReward.shards,1_000_000);assert.equal(s.clearReward.shards,1_000_000);
-  assert.equal(s.rankRewards.tiers[0].premiumCube,undefined);assert.equal(s.rankRewards.tiers[0].equipmentBox,1_000_000);
+  assert.deepEqual(s.rankRewards.tiers,[]);
 });
 
 test('CMS API 저장·재조회와 새 회차 스냅샷에 큰 금액을 그대로 보존한다',async()=>{
@@ -279,11 +280,11 @@ test('CMS API 저장·재조회와 새 회차 스냅샷에 큰 금액을 그대�
     assert.equal(old.attempt_coin,5_000_000_000);assert.equal(old.clear_coin,10_000_000_000);
     const created=await f.api.adminStart(f.env,next,{id:1});
     assert.equal(created.attemptReward.coin,8_000_000_000);assert.equal(created.clearReward.coin,15_000_000_000);
-    assert.equal(created.rankRewards.tiers[0].coin,12_500_000_000);
+    assert.deepEqual(created.rankRewards.tiers,[]);
   }finally{f.db.close()}
 });
 
-test('큰 참여·완료·순위 보상은 지갑·로그·영수증에 일치하며 재시도는 중복 지급하지 않는다',async()=>{
+test('큰 참여·완료 보상은 지갑·로그·영수증에 일치하고 순위 보상은 추가 지급하지 않는다',async()=>{
   const f=await fixture();
   try{
     const request={requestId:'seal-reward-coin-v2069-0001',role:'ATTACK'};
@@ -296,14 +297,14 @@ test('큰 참여·완료·순위 보상은 지갑·로그·영수증에 일치�
     assert.equal(clear.status,200);assert.equal(clear.body.reward.coin,10_000_000_000);
     assert.equal((await f.api.claimClearReward(f.env,f.deps,f.user,event)).status,409);
     const rank=await f.api.claimRankReward(f.env,f.deps,f.user,event);
-    assert.equal(rank.status,200);assert.equal(rank.body.reward.coin,12_500_000_000);
-    assert.equal((await f.api.claimRankReward(f.env,f.deps,f.user,event)).status,409);
-    assert.equal(f.db.prepare('SELECT coin FROM users WHERE id=2').get().coin,27_500_001_000);
-    assert.deepEqual(f.db.prepare('SELECT change_amount FROM coin_logs ORDER BY id').all().map(x=>x.change_amount),[5_000_000_000,10_000_000_000,12_500_000_000]);
+    assert.equal(rank.status,410);assert.equal(rank.body.code,'SEAL_RANK_REWARDS_RETIRED');
+    assert.equal((await f.api.claimRankReward(f.env,f.deps,f.user,event)).status,410);
+    assert.equal(f.db.prepare('SELECT coin FROM users WHERE id=2').get().coin,15_000_001_000);
+    assert.deepEqual(f.db.prepare('SELECT change_amount FROM coin_logs ORDER BY id').all().map(x=>x.change_amount),[5_000_000_000,10_000_000_000]);
     const claim=f.db.prepare('SELECT * FROM seal_battle_clear_claims').get();assert.equal(claim.reward_coin,10_000_000_000);assert.equal(claim.status,'COMPLETED');
-    const rankClaim=f.db.prepare('SELECT * FROM seal_battle_rank_claims').get();assert.equal(JSON.parse(rankClaim.reward_json).coin,12_500_000_000);assert.equal(rankClaim.status,'COMPLETED');
+    assert.equal(f.db.prepare('SELECT COUNT(*) n FROM seal_battle_rank_claims').get().n,0);
     assert.equal(f.db.prepare('SELECT quantity FROM cnine_user_inventory WHERE item_code=?').get('PREMIUM_CUBE'),undefined);
-    assert.equal(f.db.prepare('SELECT quantity FROM cnine_user_inventory WHERE item_code=?').get('EQUIPMENT_SUPPLY_BOX').quantity,2);
+    assert.equal(f.db.prepare('SELECT quantity FROM cnine_user_inventory WHERE item_code=?').get('EQUIPMENT_SUPPLY_BOX'),undefined);
   }finally{f.db.close()}
 });
 
@@ -328,18 +329,12 @@ test('큰 완료 보상 지급 실패는 코인·로그를 롤백하고 다음 �
   }finally{f.db.close()}
 });
 
-test('CMS 참여·완료·순위 코인 입력만 max가 없고 안전 정수 검증·캐시·배포 게이트가 연결된다',()=>{
+test('CMS 참여·완료 코인 입력과 검증은 유지하고 순위 보상 편집은 제거한다',()=>{
   for(const id of ['sealAttemptCoin','sealClearCoin']){
     const input=admin.match(new RegExp('<input id="'+id+'"[^>]*>'))?.[0];
     assert.ok(input);assert.match(input,/step="1"/);assert.doesNotMatch(input,/\bmax=/);
   }
-  const start=admin.indexOf('  function rankTierCard('),end=admin.indexOf('  function renderRankTiers(',start);
-  const render=Function(admin.slice(start,end)+';return rankTierCard;')();
-  const html=render({startRank:1,endRank:1,coin:5_000_000_000,premiumCube:5,equipmentBox:2});
-  const coin=html.match(/<input[^>]*data-rank-reward-quantity="coin"[^>]*>/)?.[0];
-  assert.ok(coin);assert.doesNotMatch(coin,/\bmax=/);assert.match(coin,/value="5000000000"/);
-  assert.doesNotMatch(html,/data-rank-reward-quantity="premiumCube"/);
-  assert.match(html,/코인 · 한도 없음/);
+  assert.doesNotMatch(admin,/id="sealRankRewardsEnabled"|id="sealRankRewardTiers"|data-rank-reward-quantity/);
   const validateStart=admin.indexOf('  function validate('),validateEnd=admin.indexOf('  async function saveSettings(',validateStart);
   const validate=Function(admin.slice(validateStart,validateEnd)+';return validate;')();
   const cfg=configured();
@@ -348,7 +343,6 @@ test('CMS 참여·완료·순위 코인 입력만 max가 없고 안전 정수 �
   for(const value of [-1,NaN,Infinity,Number.MAX_SAFE_INTEGER+1]){
     assert.match(validate({...cfg,attemptReward:{coin:value}}),/코인 보상/);
     assert.match(validate({...cfg,clearReward:{coin:value}}),/코인 보상/);
-    assert.match(validate({...cfg,rankRewards:{...cfg.rankRewards,tiers:[{...cfg.rankRewards.tiers[0],coin:value}]}}),/코인 보상/);
   }
   assert.match(read('admin/index.html'),/seal-battle-admin\.js\?v=2069-coin-unlimited/);
   const scripts=JSON.parse(read('package.json')).scripts;

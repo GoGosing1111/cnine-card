@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-21T14:35:08.998Z",
+  "source": "Actual player/admin modules with isolated example API fixtures; no live account writes",
+  "visualApproval": "USER_REVIEW_PENDING",
+  "evidence": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "name": "desktop",
+      "checks": "role click/keyboard, confirm cancel, record scroll/filter, responsive images, eligibility states, clear reward notice, preflight no-charge, admin retired settings/save",
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "mobile",
+      "checks": "role click/keyboard, confirm cancel, record scroll/filter, responsive images, eligibility states, clear reward notice, preflight no-charge, admin retired settings/save",
+      "pageErrors": []
+    }
+  ]
+}

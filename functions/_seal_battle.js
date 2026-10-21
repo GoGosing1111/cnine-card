@@ -24,15 +24,7 @@ const DEFAULT_SETTINGS = {
   defeatContributionPercent: 10,
   attemptReward: { coin: 100, shards: 1 },
   clearReward: { coin: 2000, shards: 50, masterStar: 0 },
-  rankRewards: {
-    enabled: false,
-    rewardOnFailure: true,
-    tiers: [
-      { startRank: 1, endRank: 1, coin: 0, equipmentBox: 0 },
-      { startRank: 2, endRank: 3, coin: 0, equipmentBox: 0 },
-      { startRank: 4, endRank: 10, coin: 0, equipmentBox: 0 }
-    ]
-  },
+  rankRewards: { enabled: false, rewardOnFailure: false, tiers: [] },
   receiptRetentionDays: 14,
   progressRetentionDays: 90
 };
@@ -82,13 +74,9 @@ function cleanRankRewardTier(raw = {}, index = 0) {
 }
 
 function cleanRankRewards(raw = {}) {
-  const source = Array.isArray(raw.tiers) ? raw.tiers : DEFAULT_SETTINGS.rankRewards.tiers;
-  const tiers = source.slice(0, 50).map(cleanRankRewardTier).sort((a, b) => a.startRank - b.startRank || a.endRank - b.endRank);
-  return {
-    enabled: raw.enabled === true,
-    rewardOnFailure: raw.rewardOnFailure !== false,
-    tiers
-  };
+  // Retired by OWNER on 2026-10-21. Ignore old CMS payloads and round snapshots.
+  // Historical settings/receipts stay in storage; they can never reopen payouts.
+  return { enabled: false, rewardOnFailure: false, tiers: [] };
 }
 
 function rankRewardValue(tier = {}) {
@@ -594,44 +582,9 @@ async function finalRankForProgress(env, eventId, progress) {
   return Math.max(1, Number(row?.final_rank || 1));
 }
 
-async function rankRewardPreview(env, event, userId) {
-  if (!rankRewardEventEligible(event)) return null;
-  const progress = await userProgress(env, event.id, userId);
-  if (!rewardEligibility(event, progress?.total_attempts).eligible) return null;
-  const finalRank = await finalRankForProgress(env, event.id, progress);
-  const tier = rankRewardTierForRank(event, finalRank);
-  if (!tier) return null;
-  const claim = await env.DB.prepare('SELECT status,reward_json,final_rank,total_contribution FROM seal_battle_rank_claims WHERE event_id=? AND user_id=?')
-    .bind(event.id, userId).first();
-  const reward = claim?.reward_json ? publicRankReward(safeJson(claim.reward_json, tier)) : publicRankReward(tier);
-  return {
-    eventId: event.id,
-    eventKey: event.eventKey,
-    title: event.title,
-    bossName: event.bossName,
-    eventStatus: event.status,
-    finalRank: Number(claim?.final_rank || finalRank),
-    totalContribution: Number(claim?.total_contribution ?? progress.total_contribution ?? 0),
-    tier: { startRank: tier.startRank, endRank: tier.endRank },
-    reward,
-    eligible: true,
-    claimed: String(claim?.status || '') === 'COMPLETED',
-    processing: String(claim?.status || '') === 'CLAIMING'
-  };
-}
+async function rankRewardPreview() { return null; }
 
-async function pendingRankReward(env, userId, excludeEventId = 0) {
-  const rows = (await env.DB.prepare(`SELECT e.*,${eventStarColumn("e")} FROM seal_battle_events e
-    JOIN seal_battle_user_progress p ON p.event_id=e.id AND p.user_id=? AND p.total_attempts>=e.min_reward_attempts
-    LEFT JOIN seal_battle_rank_claims c ON c.event_id=e.id AND c.user_id=?
-    WHERE e.id<>? AND e.status IN ('CLEARED','FAILED','ENDED') AND COALESCE(c.status,'')<>'COMPLETED'
-    ORDER BY e.id DESC LIMIT 12`).bind(userId, userId, Number(excludeEventId || 0)).all()).results;
-  for (const row of rows) {
-    const preview = await rankRewardPreview(env, normalizeEvent(row), userId);
-    if (preview && !preview.claimed) return preview;
-  }
-  return null;
-}
+async function pendingRankReward() { return null; }
 
 function publicBattleCards(cards = []) {
   return (Array.isArray(cards) ? cards : []).map(card => ({
@@ -794,10 +747,6 @@ async function statusPayload(env, deps, user, settings = null, eventRow = null) 
   const progress = publicProgress(progressRow, dayKey, event);
   const eligibility = rewardEligibility(event, progress.totalAttempts);
   const availability = eventAvailability(event, settings, user);
-  const [rankReward, previousRankReward] = await Promise.all([
-    rankRewardPreview(env, event, user.id),
-    pendingRankReward(env, user.id, event.id)
-  ]);
   return {
     settings: { mode: settings.mode },
     event,
@@ -821,8 +770,8 @@ async function statusPayload(env, deps, user, settings = null, eventRow = null) 
       reward: { coin: Number(pendingClaim.clear_coin || 0), shards: Number(pendingClaim.clear_shards || 0), masterStar: Number(pendingClaim.clear_master_star || 0) },
       processing: ['PENDING', 'CLAIMING'].includes(String(pendingClaim.claim_status || ''))
     } : null,
-    rankReward,
-    pendingRankReward: previousRankReward,
+    rankReward: null,
+    pendingRankReward: null,
     serverNow: new Date().toISOString()
   };
 }
@@ -1136,84 +1085,8 @@ async function claimClearReward(env, deps, user, event) {
   });
 }
 
-async function claimRankReward(env, deps, user, event) {
-  if (!rankRewardEventEligible(event)) return deps.json({ error: '아직 공헌도 순위 보상을 받을 수 없습니다.' }, 409);
-  const progress = await userProgress(env, event.id, user.id);
-  const eligibility = rewardEligibility(event, progress?.total_attempts);
-  if (!eligibility.eligible) return deps.json({ error: `보상을 받으려면 이번 봉인전에서 ${eligibility.minimumAttempts}회 이상 공격해야 합니다. (현재 ${eligibility.completedAttempts}회)`, code: 'SEAL_REWARD_MIN_ATTEMPTS', rewardEligibility: eligibility }, 403);
-  const finalRank = await finalRankForProgress(env, event.id, progress);
-  const tier = rankRewardTierForRank(event, finalRank);
-  if (!tier) return deps.json({ error: '해당 순위에 설정된 공헌도 보상이 없습니다.' }, 403);
-  const reward = publicRankReward(tier);
-  const totalContribution = Number(progress.total_contribution ?? 0);
-  await env.DB.prepare(`INSERT OR IGNORE INTO seal_battle_rank_claims(
-    event_id,user_id,final_rank,total_contribution,reward_json,status
-  ) VALUES(?,?,?,?,?,'PENDING')`).bind(event.id, user.id, finalRank, totalContribution, JSON.stringify(reward)).run();
-
-  const reserved = await env.DB.prepare(`UPDATE seal_battle_rank_claims SET status='CLAIMING',updated_at=CURRENT_TIMESTAMP
-    WHERE event_id=? AND user_id=? AND (status='PENDING' OR (status='CLAIMING' AND updated_at<datetime('now','-5 minutes')))`)
-    .bind(event.id, user.id).run();
-  if (!Number(reserved?.meta?.changes || 0)) {
-    const row = await env.DB.prepare('SELECT status FROM seal_battle_rank_claims WHERE event_id=? AND user_id=?').bind(event.id, user.id).first();
-    if (row?.status === 'COMPLETED') return deps.json({ error: '이미 공헌도 순위 보상을 수령했습니다.' }, 409);
-    return deps.json({ error: '공헌도 순위 보상을 처리 중입니다.' }, 409);
-  }
-
-  const claimGate = `EXISTS(SELECT 1 FROM seal_battle_rank_claims WHERE event_id=? AND user_id=? AND status='CLAIMING')`;
-  const statements = [env.DB.prepare(`UPDATE seal_battle_rank_claims SET updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=? AND status='CLAIMING'`).bind(event.id, user.id)];
-  if (reward.coin > 0) {
-    statements.push(env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ${claimGate}`).bind(reward.coin, user.id, event.id, user.id));
-    statements.push(env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
-      SELECT id,?,coin,'SEAL_BATTLE_RANK' FROM users WHERE id=? AND ${claimGate}`).bind(reward.coin, user.id, event.id, user.id));
-  }
-  for (const [field, itemCode] of Object.entries(RANK_REWARD_CODES)) {
-    const quantity = Math.max(0, Number(reward[field] || 0));
-    if (!quantity) continue;
-    statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
-      SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ${claimGate}
-      ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,
-        unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`)
-      .bind(user.id, itemCode, quantity, quantity, event.id, user.id));
-    statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
-      SELECT ?,?,?,i.quantity,'SEAL_BATTLE_RANK','SEAL_BATTLE',? FROM cnine_user_inventory i
-      WHERE i.user_id=? AND i.item_code=? AND ${claimGate}`)
-      .bind(user.id, itemCode, quantity, event.eventKey, user.id, itemCode, event.id, user.id));
-  }
-  statements.push(env.DB.prepare(`UPDATE seal_battle_rank_claims SET status='COMPLETED',claimed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP
-    WHERE event_id=? AND user_id=? AND status='CLAIMING'`).bind(event.id, user.id));
-
-  let results;
-  try {
-    results = await env.DB.batch(statements);
-  } catch (error) {
-    try { await env.DB.prepare("UPDATE seal_battle_rank_claims SET status='PENDING',updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=? AND status='CLAIMING'").bind(event.id, user.id).run(); } catch {}
-    console.error('seal battle rank reward commit failed', error);
-    return deps.json({ error: '공헌도 순위 보상 지급에 실패했습니다.' }, 500);
-  }
-  if (!Number(results?.[0]?.meta?.changes || 0)) {
-    try { await env.DB.prepare("UPDATE seal_battle_rank_claims SET status='PENDING',updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=? AND status='CLAIMING'").bind(event.id, user.id).run(); } catch {}
-    return deps.json({ error: '공헌도 순위 보상 상태가 변경되어 지급되지 않았습니다.' }, 409);
-  }
-
-  let balance = null;
-  const itemBalances = {};
-  try {
-    balance = await env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first();
-    const codes = Object.values(RANK_REWARD_CODES).filter((code, index, array) => array.indexOf(code) === index);
-    const placeholders = codes.map(() => '?').join(',');
-    const rows = (await env.DB.prepare(`SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=? AND item_code IN (${placeholders})`).bind(user.id, ...codes).all()).results;
-    for (const row of rows) itemBalances[row.item_code] = Number(row.quantity || 0);
-  } catch (error) {
-    console.warn('seal battle rank reward balance refresh failed after commit', error);
-  }
-  return deps.json({
-    ok: true,
-    finalRank,
-    totalContribution,
-    reward,
-    itemBalances,
-    balances: balance ? { coin: Number(balance.coin || 0), cardShards: Number(balance.card_shards || 0) } : null
-  });
+async function claimRankReward(env, deps) {
+  return deps.json({ error: '봉인전 공헌도 순위 보상은 종료되었습니다.', code: 'SEAL_RANK_REWARDS_RETIRED' }, 410);
 }
 
 async function rankings(env, eventId, userId = 0) {
@@ -1336,12 +1209,7 @@ export async function handleSealBattle({ path, request, env, deps }) {
   }
 
   if (path === 'seal-battle/rank-reward' && request.method === 'POST') {
-    const body = await deps.readBody(request);
-    const requestedEventId = Math.max(0, Math.floor(Number(body.eventId || 0)));
-    const eventRow = requestedEventId
-      ? await env.DB.prepare(`SELECT *,${eventStarColumn()} FROM seal_battle_events WHERE id=?`).bind(requestedEventId).first()
-      : await currentEventRow(env);
-    return claimRankReward(env, deps, user, normalizeEvent(eventRow));
+    return claimRankReward(env, deps);
   }
 
   if (path === 'seal-battle/rankings' && request.method === 'GET') {

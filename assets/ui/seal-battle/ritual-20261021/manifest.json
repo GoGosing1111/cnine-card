@@ -1,0 +1,74 @@
+{
+  "version": "20261021-v1",
+  "generator": "built-in image_gen",
+  "visualApproval": "USER_REVIEW_PENDING",
+  "promptSet": "preview/seal-battle-rework-20261021/prompts.json",
+  "assets": [
+    {
+      "id": "sanctum",
+      "source": "preview/seal-battle-rework-20261021/sources/sanctum.png",
+      "sourceSha256": "77b61d1522dd80540c264c999e46777edeb7dfb3e0e453cd933372ad6f81aac0",
+      "runtime": "assets/ui/seal-battle/ritual-20261021/sanctum.webp",
+      "sha256": "971a9f7a942ded23bd9e1e619ae295c021d24f5a9508051ed6fe8fc18834bf27",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": false,
+      "opaque": true
+    },
+    {
+      "id": "panel",
+      "source": "preview/seal-battle-rework-20261021/sources/panel.png",
+      "sourceSha256": "766cd3d1a8814457ab27e62b35a11865806a6f1aad9d058fb5798f8baaba7c29",
+      "runtime": "assets/ui/seal-battle/ritual-20261021/panel.webp",
+      "sha256": "8ef926339acc9cda299026ade75fb9c93bcedf900779beb97bcc44388f1c1bd7",
+      "width": 960,
+      "height": 640,
+      "hasAlpha": true,
+      "opaque": false
+    },
+    {
+      "id": "button",
+      "source": "preview/seal-battle-rework-20261021/sources/button.png",
+      "sourceSha256": "d3008831d4217494ff4b6297b60866ea6960b559ade7339bbd499742fb4177a4",
+      "runtime": "assets/ui/seal-battle/ritual-20261021/button.webp",
+      "sha256": "e3c67423061bf53de02fdfee1d20f8006fbd188bd049c1fff6e63a3d489de2d9",
+      "width": 1000,
+      "height": 345,
+      "hasAlpha": true,
+      "opaque": false
+    },
+    {
+      "id": "attack-seal",
+      "source": "preview/seal-battle-rework-20261021/sources/attack-seal.png",
+      "sourceSha256": "2c7e80b0cdafaaa0d8f068b0f061a5608a3f077bb6dbdac86b68e5c2043ce9e7",
+      "runtime": "assets/ui/seal-battle/ritual-20261021/attack-seal.webp",
+      "sha256": "594327057b26527936176e52a0df7e8e0750758509a932a8405820b0435852c9",
+      "width": 320,
+      "height": 314,
+      "hasAlpha": true,
+      "opaque": false
+    },
+    {
+      "id": "guard-seal",
+      "source": "preview/seal-battle-rework-20261021/sources/guard-seal.png",
+      "sourceSha256": "d0945ea06beee249a773bfc3b711abbb0f4a6ce9d1d55873b6f152eb6a8ea5a8",
+      "runtime": "assets/ui/seal-battle/ritual-20261021/guard-seal.webp",
+      "sha256": "dc884a8fc830f2973908699760ae07691e61798ecab8223496ada4b7bc1ec534",
+      "width": 320,
+      "height": 316,
+      "hasAlpha": true,
+      "opaque": false
+    },
+    {
+      "id": "purify-seal",
+      "source": "preview/seal-battle-rework-20261021/sources/purify-seal.png",
+      "sourceSha256": "0d35a43050c0be186239e0ea39687cdac5cb90a27fa81b8fe838bac4c7845fb8",
+      "runtime": "assets/ui/seal-battle/ritual-20261021/purify-seal.webp",
+      "sha256": "7bb2a649091b8f83c6ef40c8743274f3c8698da839ac2c6c277c845f845123e8",
+      "width": 320,
+      "height": 320,
+      "hasAlpha": true,
+      "opaque": false
+    }
+  ]
+}

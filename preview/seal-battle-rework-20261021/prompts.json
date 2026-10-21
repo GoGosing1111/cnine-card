@@ -1,0 +1,42 @@
+{
+  "tool": "built-in image_gen",
+  "visualApproval": "USER_REVIEW_PENDING",
+  "assets": [
+    {
+      "id": "sanctum",
+      "transparent_background": false,
+      "prompt": "Use case: stylized-concept. Asset type: production background image for a dark fantasy Korean RPG cooperative SEAL BATTLE screen, landscape 3:2. Create an imposing ancient sealed sanctum: monumental circular gate of weathered black obsidian and old pale bronze, three carved arcane channels converging on a luminous icy-cyan crystalline core, fine chains and chiselled architectural relief, mist on the floor, subtle ember particles, painterly premium game environment. The gate dominates the RIGHT HALF, entire left 42 percent is quiet very dark stone and atmospheric shadow with minimal detail for live HTML headings. Center-right focal point at 70 percent x, 45 percent y. Restrained warm aged gold and cool teal light, crisp intricate material details, strong depth, no purple neon, no people, no bosses, no readable symbols, no text, no labels, no UI widgets, no watermarks. This is an original dedicated background for a seal ritual control screen, not a full UI screenshot. Keep outer edges dark enough for seamless page integration.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a15d0b-bcc3-7503-aa6e-8ba270c515bf\\exec-254aa5b2-2c45-4870-8d21-b840da5d6b3b.png"
+    },
+    {
+      "id": "panel",
+      "transparent_background": true,
+      "prompt": "Use case: ui-mockup. Asset type: single reusable production game UI panel skin with a transparent exterior for a Korean dark fantasy SEAL BATTLE screen. Draw ONE front-facing wide rectangular ancient obsidian command tablet, aspect approximately 3:2, perfectly axis aligned. Broad nearly black stone interior is opaque with extremely subtle worn texture and ample empty space for HTML text. Thin aged bronze edge with sculpted stepped bevels and small restrained rune engravings, distinctive symmetrical hooked corner caps and tiny cyan inset gems at the corners. No protruding ornament in middle of any edge: all detail confined to outer 12 percent so it can be nine-slice stretched without distortion. It must look like a tangible high-end carved relic, not a CSS box or a generic rounded rectangle. Entire object completely visible, centered, transparent background around perimeter; no shadow background, no checkerboard painted in, no words, no letters, no numbers, no icons or interior lines, no watermark. No multiple separate objects.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a15d0b-bcc3-7503-aa6e-8ba270c515bf\\exec-f178130b-7018-4996-9f20-b36448302b6b.png"
+    },
+    {
+      "id": "button",
+      "transparent_background": true,
+      "prompt": "Use case: ui-mockup. Asset type: ONE production horizontal button skin for an ancient sealing ritual RPG interface. Front view, very wide 5:1 metal command plaque, full object visible centered on transparent background. Antique brushed gold and dark bronze, chiselled spear-tip ends, layered mechanical stone mounting, extremely fine engraved linework at the ends, small icy cyan light seams, mostly clear dark charcoal central inset for a short live Korean HTML button label. Luxurious but restrained dark fantasy, realistically painted high resolution game UI sprite. A distinctive sharp carved silhouette, no rounded-pill or CSS-rectangle appearance. Central 60 percent smooth clean dark fill. No writing, no letters, no numbers, no watermark, no additional objects, preserve true transparency outside the plaque.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a15d0b-bcc3-7503-aa6e-8ba270c515bf\\exec-59bcdb74-f0b6-454c-86dd-5399970fb722.png"
+    },
+    {
+      "id": "attack-seal",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent cutout UI emblem for the DESTRUCTION SEAL in a dark fantasy Korean RPG. A perfectly front-facing circular ancient bronze and obsidian medallion, full medallion visible with generous transparent margin. In its center, a strong angular fractured sword blade rising through cracked crimson crystal, glowing dark red energy in the engraved circular channels. Fine hand-painted stone and metal textures, premium collectible RPG finish. Thin elegant outer ring, powerful easily readable silhouette at 100 pixels. No lettering, no number, no text, no watermark, no background scene, no additional objects. Palette antique bronze, charcoal, crimson. Symmetric frontal composition, true transparent background.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a15d0b-bcc3-7503-aa6e-8ba270c515bf\\exec-4255501c-faad-4134-bdc9-df057561a253.png"
+    },
+    {
+      "id": "guard-seal",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent cutout UI emblem for the GUARDIAN SEAL in a dark fantasy Korean RPG. A perfectly front-facing circular ancient bronze and obsidian medallion, full medallion visible with generous transparent margin. In its center, a tall sculpted sentinel shield and a luminous icy blue crystal core, engraved circular channels carrying blue protective energy. Fine hand-painted stone and metal textures, premium collectible RPG finish. Thin elegant outer ring, powerful easily readable silhouette at 100 pixels. No lettering, no number, no text, no watermark, no background scene, no additional objects. Palette antique bronze, charcoal, ice blue. Symmetric frontal composition, true transparent background.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a15d0b-bcc3-7503-aa6e-8ba270c515bf\\exec-99abf7cb-6d8f-4afe-a586-a2fbb66ccd8d.png"
+    },
+    {
+      "id": "purify-seal",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent cutout UI emblem for the PURIFICATION SEAL in a dark fantasy Korean RPG. A perfectly front-facing circular ancient bronze and obsidian medallion, full medallion visible with generous transparent margin. In its center, a delicate sculpted lotus-shaped flame holding an emerald-white crystal droplet, engraved circular channels carrying pale jade cleansing energy. Fine hand-painted stone and metal textures, premium collectible RPG finish. Thin elegant outer ring, powerful easily readable silhouette at 100 pixels. No lettering, no number, no text, no watermark, no background scene, no additional objects. Palette antique bronze, charcoal, jade and pale gold. Symmetric frontal composition, true transparent background.",
+      "sourcePath": "C:\\Users\\User\\.codex\\generated_images\\01a15d0b-bcc3-7503-aa6e-8ba270c515bf\\exec-b8929cab-df5b-4aec-acff-a524c4e979d5.png"
+    }
+  ]
+}
