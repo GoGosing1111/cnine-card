@@ -1,0 +1,114 @@
+{
+  "checkedAt": "2026-10-21T14:46:49.975Z",
+  "sourceCommit": "ea0affd78d8eb379cbd21c45e4916681bab7f38d",
+  "base": "https://cnine-card.pages.dev",
+  "apiRuntimeVersion": "ccf078b6-6a1a-46f8-8871-8f6d34fefe2d",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "12abe4f81c37f6c2ea960a4809b8fb3b48274121894ec5c5277c6dcd2030f5a9",
+      "matches": true,
+      "bytes": 32932
+    },
+    {
+      "path": "admin/index.html",
+      "status": 200,
+      "sha256": "bd183452d7e4396a0760173a9d13b022c5250a6c5b37bb378d0e9062672b4535",
+      "matches": true,
+      "bytes": 81114
+    },
+    {
+      "path": "js/seal-battle.js",
+      "status": 200,
+      "sha256": "5968b26162e548d6a16c52f627122a230c90ab345430e2277cf5aab1f8ba2a67",
+      "matches": true,
+      "bytes": 29481
+    },
+    {
+      "path": "css/seal-battle.css",
+      "status": 200,
+      "sha256": "bd3ec30832f06f694497f9a7f229e0d9942027a9c267f94927c945acfa939117",
+      "matches": true,
+      "bytes": 16928
+    },
+    {
+      "path": "admin/seal-battle-admin.js",
+      "status": 200,
+      "sha256": "47c579c8aef94e61c43e7210c8665f3f13e7fc7c53b47e72d862d61bffd0758b",
+      "matches": true,
+      "bytes": 25925
+    },
+    {
+      "path": "admin/seal-battle-admin.css",
+      "status": 200,
+      "sha256": "d27215ef8721c8c7c7348edc4c8fe4da5be1e75391b5a45b4c855cf0c56431a3",
+      "matches": true,
+      "bytes": 10087
+    },
+    {
+      "path": "assets/ui/seal-battle/ritual-20261021/sanctum.webp",
+      "status": 200,
+      "sha256": "971a9f7a942ded23bd9e1e619ae295c021d24f5a9508051ed6fe8fc18834bf27",
+      "matches": true,
+      "bytes": 324844
+    },
+    {
+      "path": "assets/ui/seal-battle/ritual-20261021/panel.webp",
+      "status": 200,
+      "sha256": "8ef926339acc9cda299026ade75fb9c93bcedf900779beb97bcc44388f1c1bd7",
+      "matches": true,
+      "bytes": 153324
+    },
+    {
+      "path": "assets/ui/seal-battle/ritual-20261021/button.webp",
+      "status": 200,
+      "sha256": "e3c67423061bf53de02fdfee1d20f8006fbd188bd049c1fff6e63a3d489de2d9",
+      "matches": true,
+      "bytes": 65152
+    },
+    {
+      "path": "assets/ui/seal-battle/ritual-20261021/attack-seal.webp",
+      "status": 200,
+      "sha256": "594327057b26527936176e52a0df7e8e0750758509a932a8405820b0435852c9",
+      "matches": true,
+      "bytes": 43684
+    },
+    {
+      "path": "assets/ui/seal-battle/ritual-20261021/guard-seal.webp",
+      "status": 200,
+      "sha256": "dc884a8fc830f2973908699760ae07691e61798ecab8223496ada4b7bc1ec534",
+      "matches": true,
+      "bytes": 45164
+    },
+    {
+      "path": "assets/ui/seal-battle/ritual-20261021/purify-seal.webp",
+      "status": 200,
+      "sha256": "7bb2a649091b8f83c6ef40c8743274f3c8698da839ac2c6c277c845f845123e8",
+      "matches": true,
+      "bytes": 42404
+    },
+    {
+      "path": "preview/seal-battle-rework-20261021/index.html",
+      "status": 200,
+      "sha256": "d6eef5dbdefe6fa764c9c7414252c9ac32748835b80435ff374660024c886a68",
+      "matches": true,
+      "bytes": 1668
+    },
+    {
+      "path": "preview/seal-battle-rework-20261021/admin.html",
+      "status": 200,
+      "sha256": "c90101b2bc1bb3621290f6153db24691f267aba6db7f0f431990aed05f16f31d",
+      "matches": true,
+      "bytes": 2175
+    },
+    {
+      "path": "preview/seal-battle-rework-20261021/fixture.js",
+      "status": 200,
+      "sha256": "162e1040103ef754327535acedaa0171a2c323ca7558db654f233268b6f1e448",
+      "matches": true,
+      "bytes": 2815
+    }
+  ],
+  "unauthenticatedRankStatus": 401
+}
