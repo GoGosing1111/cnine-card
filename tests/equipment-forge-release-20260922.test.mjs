@@ -34,7 +34,8 @@ test('actual live hooks use equipment-only readiness, not a global tower/re-asce
  const tower=api.slice(api.indexOf("if(path==='tower/fight'"),api.indexOf("if(path==='deck-synergy/status'"));
  assert.match(tower,/if\(result==='WIN'\)[\s\S]*prepareTowerForgeProtectionClear[\s\S]*towerClearWrites.push\(\.\.\.forgeProtection.statements\)[\s\S]*await env.DB.batch\(towerClearWrites\)/);
  assert.match(tower,/forgeProtectionReward/);
- assert.match(readFileSync(new URL('../js/tower-v1038.js',import.meta.url),'utf8'),/d.forgeProtectionReward.quantity/);
+ assert.match(readFileSync(new URL('../js/tower-v1038.js',import.meta.url),'utf8'),/ui\(\)\.result\(view,data,/);
+ assert.match(readFileSync(new URL('../js/tower-abyss-ui.js',import.meta.url),'utf8'),/data\.forgeProtectionReward\.quantity/);
 });
 test('unrelated rewards incur no forge lookup, but protected-item grants still fail closed',async()=>{
  const noDb={get DB(){throw Error('unrelated reward touched forge DB');}};
