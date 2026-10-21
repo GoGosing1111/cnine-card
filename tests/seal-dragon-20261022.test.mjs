@@ -59,6 +59,7 @@ for(const dialect of ['sqlite','postgres']){
    assert.equal(b.body.state.progress.totalContribution,25300);assert.equal(b.body.state.clearReward.eligible,true);
    const paid=await f.row('SELECT coin FROM users WHERE id=2'),charges=(await f.progress()).attempt_charges;
    const replay=await f.hit('BOSS',{requestId:id});assert.equal(replay.body.replayed,true);assert.equal(replay.body.bossHpBefore,5000);assert.equal((await f.row('SELECT coin FROM users WHERE id=2')).coin,paid.coin);assert.equal((await f.progress()).attempt_charges,charges);
+   assert.equal(Number((await f.row('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=2')).total_ticks),5*100*600,'each seal and boss attack awards base 100 EXP; replay awards none');
    assert.equal((await f.request('seal-battle/clear-reward',{eventId:f.round.id},'USER')).status,200);
    assert.equal((await f.request('seal-battle/clear-reward',{eventId:f.round.id},'USER')).status,409);
    assert.equal(Number((await f.row("SELECT quantity FROM cnine_user_inventory WHERE user_id=2 AND item_code='MASTER_STAR'")).quantity),7);
@@ -82,11 +83,13 @@ for(const dialect of ['sqlite','postgres']){
   const f=await fixture(dialect);try{
    f.fail('UPDATE users SET coin=coin+');const bad=await f.hit('ATTACK');assert.equal(bad.status,500);f.fail('');
    assert.equal((await f.progress()).total_attempts,0);assert.equal((await f.progress()).attempt_charges,30);
+   assert.equal(Number((await f.row('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=2'))?.total_ticks||0),0);
    assert.equal(Number((await f.row('SELECT attack_progress FROM seal_battle_events WHERE id=?',f.round.id)).attack_progress),0);
    // Trigger after the actual transaction, not schema/rank setup.
    const batch=f.DB.batch.bind(f.DB);let lose=true;
    f.DB.batch=async items=>{const out=await batch(items);if(lose&&items.some(s=>String(s.sql||s.source).includes("status='AUTHORIZED',deck_power"))){lose=false;throw Error('LOST_COMMIT_REPLY');}return out;};
    const good=await f.hit('ATTACK');assert.equal(good.status,200);assert.equal(good.body.replayed,true);assert.equal((await f.progress()).total_attempts,1);assert.equal((await f.progress()).attempt_charges,29);
+   assert.equal(Number((await f.row('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=2')).total_ticks),100*600);
    assert.equal(Number((await f.row("SELECT COUNT(*) AS n FROM coin_logs WHERE user_id=2 AND reason='SEAL_BATTLE_ATTEMPT'")).n),1);
   }finally{await f.close();}
  });

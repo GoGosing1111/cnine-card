@@ -1,0 +1,118 @@
+{
+  "result": {
+    "status": "COMPLETED",
+    "actor": "CODEX_OPERATIONS",
+    "operationKey": "ops:seal-clear-reward:20261022:500b-v1",
+    "scope": "NEXT_ROUND_ONLY",
+    "beforeCoin": 100000000000,
+    "clearReward": {
+      "coin": 500000000000,
+      "shards": 0,
+      "masterStar": 1000000
+    },
+    "otherSettingsPreserved": true,
+    "existingRoundsUnchanged": true,
+    "roundStarted": false,
+    "accountGrants": 0,
+    "at": "2026-10-21T20:53:35.959Z",
+    "adminLogId": "49719",
+    "committed": true,
+    "replayed": false
+  },
+  "verifiedAt": "2026-10-21T20:53:40.181Z",
+  "independentConnection": true,
+  "settings": {
+    "mode": "ON",
+    "title": "봉인전",
+    "bossName": "봉인전",
+    "bossImage": "/assets/tower/711494.jpg",
+    "description": "서버 전체가 파괴·수호·정화 역할을 나누어 세 개의 봉인을 완성하는 공동 보스 콘텐츠입니다.",
+    "startsAt": "2026-10-20T08:26:00.000Z",
+    "endsAt": "2026-10-21T16:00:00.000Z",
+    "dailyAttempts": 5,
+    "rechargeMinutes": 30,
+    "minRewardAttempts": 20,
+    "targets": {
+      "attack": 15000000000,
+      "guard": 15000000000,
+      "purify": 15000000000
+    },
+    "multipliers": {
+      "attack": 100,
+      "guard": 89,
+      "purify": 85
+    },
+    "battlePowers": {
+      "attack": 7450000,
+      "guard": 5500000,
+      "purify": 5500000
+    },
+    "lowestRoleBonusPercent": 10,
+    "defeatContributionPercent": 10,
+    "attemptReward": {
+      "coin": 100000000,
+      "shards": 0
+    },
+    "clearReward": {
+      "coin": 500000000000,
+      "shards": 0,
+      "masterStar": 1000000
+    },
+    "rankRewards": {
+      "enabled": true,
+      "rewardOnFailure": true,
+      "tiers": [
+        {
+          "startRank": 1,
+          "endRank": 1,
+          "coin": 100000,
+          "equipmentBox": 30
+        },
+        {
+          "startRank": 2,
+          "endRank": 3,
+          "coin": 90000,
+          "equipmentBox": 15
+        },
+        {
+          "startRank": 6,
+          "endRank": 10,
+          "coin": 50000,
+          "equipmentBox": 3
+        }
+      ]
+    },
+    "receiptRetentionDays": 14,
+    "progressRetentionDays": 90,
+    "format": "SEALS_BOSS",
+    "bossStage": {
+      "name": "봉인룡 네르가온",
+      "hp": 15000000000,
+      "battlePower": 18000000
+    }
+  },
+  "rounds": [
+    {
+      "id": "64",
+      "status": "CLEARED",
+      "clear_coin": "100000000000",
+      "clear_shards": "0",
+      "created_at": "2026-10-20 08:26:24"
+    },
+    {
+      "id": "63",
+      "status": "CLEARED",
+      "clear_coin": "7500000000",
+      "clear_shards": "0",
+      "created_at": "2026-10-18 11:09:44"
+    },
+    {
+      "id": "62",
+      "status": "CLEARED",
+      "clear_coin": "7500000000",
+      "clear_shards": "0",
+      "created_at": "2026-10-14 20:12:23"
+    }
+  ],
+  "retryNoChange": true
+}

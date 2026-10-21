@@ -116,7 +116,7 @@ test('승패·역할 합산은 완료 전투만 집계하며 요청 재전송·�
     assert.equal(result.body.reward.coin,5_000_000_000,'per-attempt reward unchanged');
     const replay=await f.api.participate(f.env,f.deps,f.user,f.settings,f.event,request);
     assert.equal(replay.body.replayed,true);assert.equal(replay.body.state.progress.totalAttempts,24);
-    assert.equal(f.db.prepare('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=2').get().total_ticks,40*600);
+    assert.equal(f.db.prepare('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=2').get().total_ticks,100*600);
     assert.equal(f.db.prepare('SELECT COUNT(*) n FROM account_rank_receipts_v1 WHERE user_id=2').get().n,1);
     const invalid=await f.api.participate(f.env,f.deps,f.user,f.settings,f.event,{requestId:'seal-min-invalid-0001',role:'INVALID'});
     assert.equal(invalid.status,400);
@@ -124,7 +124,7 @@ test('승패·역할 합산은 완료 전투만 집계하며 요청 재전송·�
     const loss=await f.api.participate(f.env,f.deps,f.user,f.settings,f.event,{requestId:'seal-min-purify-loss-0001',role:'PURIFY'});
     assert.equal(loss.body.result,'LOSE');assert.equal(loss.body.state.progress.totalAttempts,25);
     assert.equal(loss.body.state.rewardEligibility.eligible,true);
-    assert.equal(f.db.prepare('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=2').get().total_ticks,80*600);
+    assert.equal(f.db.prepare('SELECT total_ticks FROM account_rank_progress_v1 WHERE user_id=2').get().total_ticks,200*600);
   }finally{f.db.close()}
 });
 

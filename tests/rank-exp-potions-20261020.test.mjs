@@ -66,7 +66,7 @@ for(const postgres of [false,true]){
  test(label+': all existing rank sources multiply once, expire precisely and preserve level cap',async t=>{
   const f=await potionFixture(t,{postgres});let now=epoch;t.mock.method(Date,'now',()=>now);
   await useRankExpPotion(f.env,f.user,request(3));
-  const sources={HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:40,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30,
+  const sources={HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:100,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30,
     CORE_RAID_WEEKLY:1000/3,LICH_RAID_WEEKLY:500/3,MADARA_RAID_WEEKLY:500/3};
   let expected=0;
   for(const [source,xp] of Object.entries(sources)){await f.DB.batch(await accountRankAward(f.env,7,source,'potion-'+source));expected+=xp*600*3;}

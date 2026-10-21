@@ -8,7 +8,7 @@ import {MAX_RANK_TICKS,levelFromTicks,rankLevelTicks,rankNextTicks} from './_acc
 export {MAX_RANK_TICKS,RANK_XP_MULTIPLIER,levelFromTicks} from './_account_rank_curve.js';
 
 // Server-only. Never return the curve, payout rules or receipt ledger to clients.
-const PAYOUT = Object.freeze({HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:40,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30,
+const PAYOUT = Object.freeze({HUNT:8,APOCALYPSE:24,RAID:20,ESCORT:30,SIEGE:120,SEAL:100,TOWER:10,SCRAPYARD:20,COW_ROOM:30,RIFT:30,
   CORE_RAID_WEEKLY:1000/3,LICH_RAID_WEEKLY:500/3,MADARA_RAID_WEEKLY:500/3});
 // Keep thirds exact in the ledger; displayed EXP may have recurring decimals.
 const WEEKLY_PAYOUT_TICKS=Object.freeze({CORE_RAID_WEEKLY:200000,LICH_RAID_WEEKLY:100000,MADARA_RAID_WEEKLY:100000});
