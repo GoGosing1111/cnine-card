@@ -1,0 +1,86 @@
+{
+  "at": "2026-10-21T06:45:17.881Z",
+  "runtimeCommit": "c9236be33f72a83b054ad0b21c6e11ddaaf6c8a1",
+  "featureCommit": "c946836bc",
+  "productionOrigin": "https://cnine-card.pages.dev",
+  "pages": {
+    "id": "b9ee32c6-8da2-45ff-8a61-37caa0a7b5e2",
+    "url": "https://b9ee32c6.cnine-card.pages.dev",
+    "branch": "main"
+  },
+  "apiRuntimeVersion": "ab84c1fd-6e65-4e8a-8e76-169ffdd1246b",
+  "schedulerVersion": "72284bb4-8221-41ab-8b17-6a3e81232cfc",
+  "schedulerCron": "* * * * *",
+  "scoped": {
+    "base": "0a853ebf3c208769ca2bf501d3654ae0c00445db",
+    "tests": 13,
+    "passed": 13,
+    "failed": 0,
+    "workerSyntax": "PASS",
+    "releaseGate": "PASS",
+    "hyperdriveBindingAndCache": "PASS"
+  },
+  "deliveredAssetCount": 19989,
+  "productionFilesVerified": 19,
+  "productionFileHashesMatched": 19,
+  "publicLiveOperationsHttp": 200,
+  "actualLiveSession": "No ACTIVE faction session at verification. Prior SETTLED session remains unchanged; upcoming 17:39 and 20:54 KST sessions use eight-district rules. No forced production session or player mutations for verification.",
+  "popupPersistence": "Per account and round/session on this browser/device. localStorage with Web Locks; not a server-wide cross-device acknowledgment.",
+  "visualQa": {
+    "viewports": [
+      "1440x1000",
+      "390x844",
+      "320x740"
+    ],
+    "screens": "headquarters, roster, hideout, direct formation and save, Seoul map, reward, log, start popup; CMS 1440/390",
+    "horizontalOverflow": false,
+    "localImageFailures": 0,
+    "isolatedFixtures": true
+  },
+  "art": {
+    "method": "built-in ImageGen",
+    "source": "assets/ui/organization/command-20261021/seoul-source.png",
+    "promptSummary": "Seoul at night for a premium navy/silver/lime faction command UI, readable negative space, no baked-in text.",
+    "manifest": "assets/ui/organization/command-20261021/manifest.json",
+    "userVisualApproval": false
+  },
+  "liveReadback": {
+    "at": "2026-10-21T06:43:19.570Z",
+    "roundId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+    "phase": "ASSIGNED",
+    "revision": 1773,
+    "mode": "ON",
+    "districts": 25,
+    "occupied": 0,
+    "session": {
+      "key": "2026-10-20:1",
+      "status": "SETTLED",
+      "startsAt": 1792441560000,
+      "endsAt": 1792452360000,
+      "rules": {
+        "version": "20261019-six-organizations",
+        "timeZone": "Asia/Seoul",
+        "dailyCount": 2,
+        "durationMs": 10800000,
+        "requiredTerritories": 9,
+        "coinPerRecipient": 300000000000,
+        "masterStarsPerRecipient": 300000,
+        "mysticEnergyPerRecipient": 300
+      }
+    },
+    "schedule": [
+      {
+        "key": "2026-10-21:1",
+        "status": "SCHEDULED",
+        "startsAt": 1792571940000,
+        "endsAt": 1792582740000
+      },
+      {
+        "key": "2026-10-21:2",
+        "status": "SCHEDULED",
+        "startsAt": 1792583640000,
+        "endsAt": 1792594440000
+      }
+    ]
+  }
+}

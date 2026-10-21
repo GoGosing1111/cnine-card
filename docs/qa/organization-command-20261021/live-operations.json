@@ -1,0 +1,47 @@
+{
+  "at": "2026-10-21T06:44:09.208Z",
+  "status": 200,
+  "data": {
+    "items": [
+      {
+        "kind": "ORGANIZATION",
+        "phase": "ACTIVE",
+        "entityId": "e5421b84-8888-4027-8a36-f58d7f033ab1",
+        "title": "조직 본부",
+        "detail": "내 조직과 아지트 · 서울 25개 구 세력전",
+        "deadlineAt": null,
+        "sortOrder": 0
+      },
+      {
+        "kind": "RANKED_DUO",
+        "phase": "ACTIVE",
+        "additionalRecruiting": false,
+        "entityId": "4e49efa4-7a36-4848-ac85-7ca6606b5b6f",
+        "title": "랭크 듀오 시즌 5",
+        "detail": "상시 랜덤 2대2 · 랭크전 덱으로 바로 출전",
+        "deadlineAt": "2026-10-27T05:39:18.892Z",
+        "sortOrder": 0
+      },
+      {
+        "kind": "TERRITORY",
+        "phase": "FORMATION",
+        "entityId": 80,
+        "title": "타짜",
+        "detail": "전투단 편성 접수 중",
+        "deadlineAt": "2026-10-21T22:36:03.020Z",
+        "sortOrder": 1
+      },
+      {
+        "kind": "SEAL",
+        "phase": "ACTIVE",
+        "entityId": 64,
+        "title": "봉인전",
+        "detail": "봉인전",
+        "deadlineAt": "2026-10-21T16:00:00.000Z",
+        "sortOrder": 3
+      }
+    ],
+    "serverNow": "2026-10-21T06:44:08.487Z",
+    "pollSeconds": 30
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "at": "2026-10-21T06:44:08.945Z",
+  "origin": "https://cnine-card.pages.dev",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/?verify=org-command-1792565047745",
+      "localSha256": "b9542cccb6fbbfebe6eed8c55d0335c08829f378a535e765b72175112261bfa1",
+      "liveSha256": "b9542cccb6fbbfebe6eed8c55d0335c08829f378a535e765b72175112261bfa1",
+      "bytes": 33125,
+      "matches": true
+    },
+    {
+      "file": "service-worker.js",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/service-worker.js?verify=org-command-1792565047745",
+      "localSha256": "04cccbc46db3ea33e37073ab116bc86125908a5e9298e0b72117cc2bc974439a",
+      "liveSha256": "04cccbc46db3ea33e37073ab116bc86125908a5e9298e0b72117cc2bc974439a",
+      "bytes": 17983,
+      "matches": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/js/app.js?verify=org-command-1792565047745",
+      "localSha256": "c1c1cc63d0afe5692e2be36e6db750d3dcb992f06e3ba731dfc415e06b8a07d2",
+      "liveSha256": "c1c1cc63d0afe5692e2be36e6db750d3dcb992f06e3ba731dfc415e06b8a07d2",
+      "bytes": 776821,
+      "matches": true
+    },
+    {
+      "file": "js/organization-start-notice-20261021.mjs",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/js/organization-start-notice-20261021.mjs?verify=org-command-1792565047745",
+      "localSha256": "5808652aadd5254fdc6b397881cf503feffe6d0d96a89bc6b7bdb00f4d25209e",
+      "liveSha256": "5808652aadd5254fdc6b397881cf503feffe6d0d96a89bc6b7bdb00f4d25209e",
+      "bytes": 4264,
+      "matches": true
+    },
+    {
+      "file": "js/organization-dashboard-v1.mjs",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/js/organization-dashboard-v1.mjs?verify=org-command-1792565047745",
+      "localSha256": "0b07156fa759337ef1e9cb479177c7f2aeaf429534ff61d0ea98cd378420b35f",
+      "liveSha256": "0b07156fa759337ef1e9cb479177c7f2aeaf429534ff61d0ea98cd378420b35f",
+      "bytes": 6284,
+      "matches": true
+    },
+    {
+      "file": "js/organization-faction-v1.mjs",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/js/organization-faction-v1.mjs?verify=org-command-1792565047745",
+      "localSha256": "d1e1501ae785cd0dc74dc9a0e87de7af595b5709e1e1cd13f02800eb0939d2cb",
+      "liveSha256": "d1e1501ae785cd0dc74dc9a0e87de7af595b5709e1e1cd13f02800eb0939d2cb",
+      "bytes": 50923,
+      "matches": true
+    },
+    {
+      "file": "js/organization-faction-window-v1.mjs",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/js/organization-faction-window-v1.mjs?verify=org-command-1792565047745",
+      "localSha256": "e941df8e02db21afaabc327c8c425957e1e8abc58b471286d409a000aa6a37e2",
+      "liveSha256": "e941df8e02db21afaabc327c8c425957e1e8abc58b471286d409a000aa6a37e2",
+      "bytes": 2202,
+      "matches": true
+    },
+    {
+      "file": "js/organization-system-v1.mjs",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/js/organization-system-v1.mjs?verify=org-command-1792565047745",
+      "localSha256": "dbc0afbe8139ee2db2804bf430d5c110e67ae81cd14ed0c7059ae65c4abb24de",
+      "liveSha256": "dbc0afbe8139ee2db2804bf430d5c110e67ae81cd14ed0c7059ae65c4abb24de",
+      "bytes": 20155,
+      "matches": true
+    },
+    {
+      "file": "js/organization-headquarters-v1.mjs",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/js/organization-headquarters-v1.mjs?verify=org-command-1792565047745",
+      "localSha256": "89088ad95f014d64458b747a1adb13e02821d68d9124d8c09aa6f27176fe045f",
+      "liveSha256": "89088ad95f014d64458b747a1adb13e02821d68d9124d8c09aa6f27176fe045f",
+      "bytes": 6223,
+      "matches": true
+    },
+    {
+      "file": "js/organization-preparation-v1.js",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/js/organization-preparation-v1.js?verify=org-command-1792565047745",
+      "localSha256": "06075976cf71fde44dd9f0b2929215597f4e64cc8ab269f1f5fb672f9c6ed20a",
+      "liveSha256": "06075976cf71fde44dd9f0b2929215597f4e64cc8ab269f1f5fb672f9c6ed20a",
+      "bytes": 1505,
+      "matches": true
+    },
+    {
+      "file": "organization/index.html",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/organization/?verify=org-command-1792565047745",
+      "localSha256": "98bd4d89311a80117582d38078e133b480f23e92d342b53fb5cf00490ed938ec",
+      "liveSha256": "98bd4d89311a80117582d38078e133b480f23e92d342b53fb5cf00490ed938ec",
+      "bytes": 959,
+      "matches": true
+    },
+    {
+      "file": "organization/faction/index.html",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/organization/faction/?verify=org-command-1792565047745",
+      "localSha256": "bda5aaeb187b8fbc6f9faa0cad4cac6ae21237c307b4d7aca7a35f7d677bc2b7",
+      "liveSha256": "bda5aaeb187b8fbc6f9faa0cad4cac6ae21237c307b4d7aca7a35f7d677bc2b7",
+      "bytes": 766,
+      "matches": true
+    },
+    {
+      "file": "css/organization-command-20261021.css",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/css/organization-command-20261021.css?verify=org-command-1792565047745",
+      "localSha256": "1cdba50f2cf11777437087718720343c465191daa3d9cec20a80f4b37cbcc7c6",
+      "liveSha256": "1cdba50f2cf11777437087718720343c465191daa3d9cec20a80f4b37cbcc7c6",
+      "bytes": 40939,
+      "matches": true
+    },
+    {
+      "file": "shared/organization-faction-v1.mjs",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/shared/organization-faction-v1.mjs?verify=org-command-1792565047745",
+      "localSha256": "b295b21916f36feed7a346638123c38cfd84ebd3c33d40af093458694a554e2e",
+      "liveSha256": "b295b21916f36feed7a346638123c38cfd84ebd3c33d40af093458694a554e2e",
+      "bytes": 4762,
+      "matches": true
+    },
+    {
+      "file": "assets/ui/organization/command-20261021/seoul.webp",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/assets/ui/organization/command-20261021/seoul.webp?verify=org-command-1792565047745",
+      "localSha256": "18504b864311d97b6564bef862f6f74172808f15969b7db497dd6aebe76b1554",
+      "liveSha256": "18504b864311d97b6564bef862f6f74172808f15969b7db497dd6aebe76b1554",
+      "bytes": 220806,
+      "matches": true
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/panel-v3.webp",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/assets/ui/mercenary-codex/command-20261021/panel-v3.webp?verify=org-command-1792565047745",
+      "localSha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+      "liveSha256": "55eb415b28c41dbf34ec74c9ff2f855b860c6aff1a8b5007a8128164af7bb892",
+      "bytes": 5180,
+      "matches": true
+    },
+    {
+      "file": "assets/ui/mercenary-codex/command-20261021/action-user-approved.webp",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/assets/ui/mercenary-codex/command-20261021/action-user-approved.webp?verify=org-command-1792565047745",
+      "localSha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+      "liveSha256": "d7400c6be41938ced1d1d8915c9e74840af091ba1537c91b74057d2e0331b155",
+      "bytes": 4454,
+      "matches": true
+    },
+    {
+      "file": "admin/organization-admin-v1.mjs",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/admin/organization-admin-v1.mjs?verify=org-command-1792565047745",
+      "localSha256": "3c184491678dd5b71e06ea14750c577ffb84b51852a4848609b2b62b6f49fedf",
+      "liveSha256": "3c184491678dd5b71e06ea14750c577ffb84b51852a4848609b2b62b6f49fedf",
+      "bytes": 35783,
+      "matches": true
+    },
+    {
+      "file": "admin/index.html",
+      "status": 200,
+      "url": "https://cnine-card.pages.dev/admin/?verify=org-command-1792565047745",
+      "localSha256": "08010978129ec5f9d54bac8c894c29ac53bc68cafcfb33fde70f7d9e3c3b17c1",
+      "liveSha256": "08010978129ec5f9d54bac8c894c29ac53bc68cafcfb33fde70f7d9e3c3b17c1",
+      "bytes": 81138,
+      "matches": true
+    }
+  ]
+}

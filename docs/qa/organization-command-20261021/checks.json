@@ -1,0 +1,50 @@
+[
+  {
+    "width": 1440,
+    "height": 1000,
+    "pages": [
+      "headquarters",
+      "roster",
+      "hideout",
+      "formation",
+      "map",
+      "reward",
+      "log",
+      "start-popup"
+    ],
+    "errors": [],
+    "failed": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "pages": [
+      "headquarters",
+      "roster",
+      "hideout",
+      "formation",
+      "map",
+      "reward",
+      "log",
+      "start-popup"
+    ],
+    "errors": [],
+    "failed": []
+  },
+  {
+    "width": 320,
+    "height": 740,
+    "pages": [
+      "headquarters",
+      "roster",
+      "hideout",
+      "formation",
+      "map",
+      "reward",
+      "log",
+      "start-popup"
+    ],
+    "errors": [],
+    "failed": []
+  }
+]
