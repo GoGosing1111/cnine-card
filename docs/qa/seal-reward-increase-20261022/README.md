@@ -19,3 +19,11 @@
 서버 런타임 변경은 `functions/_account_rank.js`의 SEAL 기본 EXP 한 항목이다. UI·전투 계산·다른 콘텐츠의 EXP는 바꾸지 않는다. 런타임 검증은 계급 지급/물약, 봉인 승패, 세 봉인과 용 본체, 실패 원복과 응답 유실 재시도를 대상으로 한다.
 
 직전 운영 소스 `faf22092257918562268f8bdbbc726320066bcdc`에서 scoped 배포를 사용한다. 검사는 `account-rank-live-v1`, `rank-exp-potions-20261020`, `seal-reward-coin-cap-v2069`, `seal-dragon-20261022`와 Worker 컴파일이다. 배포 완료·버전은 후속 기록으로 확정한다.
+
+## 운영 반영 완료
+
+2026-10-22 **05:57 KST**, 소스 `ab12ecbd67000be091802d59122c710c004763fa`, Pages `2db5bd93-f6a8-4ed3-90ee-9f7b387aeeea`, API 버전 `4dc0aa61-5c5a-414c-9d6b-0af3b40f0bb2`. scoped 관련 검사 **54개 통과**, Worker 검사·출시 검사·Hyperdrive 캐시 OFF 확인 후 지정 배포 명령 정상 종료. 완료 보상 스크립트 검사 2개는 별도 사전 통과했으며 중복 실행하지 않았다.
+
+Cloudflare에 배포된 실제 API 번들을 읽어 SEAL 기본 EXP **100**을 확인하고 Pages 운영 커밋을 대조했다. 별도 DB 연결에서 완료 코인 **5천억**·별 **100만**·최소 공격 **20회**와 기존 64회차 보존을 확인했다. 운영 계정 전투/재화 쓰기 없이 검증했다. `live-verification.json`에 증빙을 보존한다.
+
+배포 원본 로그 SHA-256: `1647bdc22e66f66593504dd144e83fb99f48033b4db065b8be4c01350bfd619c`.

@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-21T20:57:50.454Z",
+  "sourceCommit": "ab12ecbd67000be091802d59122c710c004763fa",
+  "apiVersion": "4dc0aa61-5c5a-414c-9d6b-0af3b40f0bb2",
+  "clanVersion": "4fa0e687-705e-4d5b-840e-748313715494",
+  "pagesDeployment": "2db5bd93-f6a8-4ed3-90ee-9f7b387aeeea",
+  "pagesUrl": "https://2db5bd93.cnine-card.pages.dev",
+  "deployedSealBaseExp": 100,
+  "deployedApiBundleSha256": "66af812239a2181e2ef5a69a1fa066a81437bc67dcc24555f0cf179760f1b455",
+  "unauthenticatedApiStatus": 401,
+  "clearReward": {
+    "coin": 500000000000,
+    "shards": 0,
+    "masterStar": 1000000
+  },
+  "minRewardAttempts": 20,
+  "latestRoundPreserved": {
+    "id": "64",
+    "status": "CLEARED",
+    "clear_coin": "100000000000"
+  },
+  "accountWriteOperations": 0
+}

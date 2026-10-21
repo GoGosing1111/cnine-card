@@ -1,0 +1,161 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"faf22092257918562268f8bdbbc726320066bcdc","reason":"봉인전 계급 EXP 기본 지급량 40에서 100으로 조정. 봉인·본체 승패와 원자 적립·중복 방지·물약 배율 관련 회귀만 검사.","changed":["AGENTS.md","docs/qa/seal-dragon-20261022/.gitattributes","docs/qa/seal-dragon-20261022/README.md","docs/qa/seal-dragon-20261022/configuration-applied.json","docs/qa/seal-dragon-20261022/live-verification.json","docs/qa/seal-dragon-20261022/measure-request.mjs","docs/qa/seal-dragon-20261022/release-logs/production-release.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-1.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-10.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-11.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-12.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-13.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-14.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-15.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-2.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-3.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-4.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-5.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-6.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-7.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-8.log","docs/qa/seal-dragon-20261022/release-logs/production-resume-9.log","docs/qa/seal-dragon-20261022/release-logs/production-v2-0.log","docs/qa/seal-dragon-20261022/release-logs/production-v2-1.log","docs/qa/seal-dragon-20261022/release-logs/production-v2-2.log","docs/qa/seal-dragon-20261022/release-logs/production-v2-3.log","docs/qa/seal-dragon-20261022/release-proof.json","docs/qa/seal-dragon-20261022/request-measurement.json","docs/qa/seal-dragon-20261022/server-tests-final.log","docs/qa/seal-reward-increase-20261022/README.md","docs/qa/seal-reward-increase-20261022/applied.json","docs/qa/seal-reward-increase-20261022/dry-run.json","docs/qa/seal-reward-increase-20261022/inspection.json","functions/_account_rank.js","package.json","scripts/ops/seal-clear-reward-20261022.mjs","tests/account-rank-live-v1.test.mjs","tests/rank-exp-potions-20261020.test.mjs","tests/seal-clear-reward-20261022.test.mjs","tests/seal-dragon-20261022.test.mjs","tests/seal-reward-coin-cap-v2069.test.mjs"],"tests":["tests/account-rank-live-v1.test.mjs","tests/rank-exp-potions-20261020.test.mjs","tests/seal-reward-coin-cap-v2069.test.mjs","tests/seal-dragon-20261022.test.mjs"],"checks":["check:worker"]}
+✔ growth documents and settlement code are private; rank art remains public (31.4988ms)
+✔ all 250 levels have one rank; boundaries, max and defaults are exact (1.5683ms)
+✔ public EXP progress resets at level-up, preserves fractions and ends at MAX (2.9796ms)
+✔ combat applies attack/HP separately, preserves defense/speed and completely excludes PVP (1.3107ms)
+✔ SQLite: Lv.1 baseline, every source payout, replay, failed transaction and cap (34.4842ms)
+✔ SQLite: hunt coin and XP are atomic and replay-safe (16.5611ms)
+✔ SQLite: retired idle never awards XP or changes its historic cursor (10.2254ms)
+✔ SQLite: status authenticates, contains no growth details, locked presets cannot write (16.0199ms)
+✔ SQLite: presets use saved owned cards, revalidate ownership/rules and isolate accounts (11.2677ms)
+✔ SQLite: retired idle internal calls do not even read the database (0.306ms)
+✔ PostgreSQL: Lv.1 baseline, every source payout, replay, failed transaction and cap (3288.6688ms)
+✔ PostgreSQL: hunt coin and XP are atomic and replay-safe (1663.9637ms)
+✔ PostgreSQL: retired idle never awards XP or changes its historic cursor (1763.4427ms)
+✔ PostgreSQL: status authenticates, contains no growth details, locked presets cannot write (1569.2504ms)
+✔ PostgreSQL: presets use saved owned cards, revalidate ownership/rules and isolate accounts (1614.5489ms)
+✔ PostgreSQL: retired idle internal calls do not even read the database (0.2034ms)
+✔ bounded delivery retains runtime potion art and keeps only its authoring sources in Git (2.9719ms)
+✔ 60 minutes, extension, replacement in both directions, exact expiry and malformed/future state (2.4947ms)
+✔ SQLite: consume, extend, replace, stale confirmation, ownership and replay (43.1703ms)
+✔ SQLite: rollback, delayed recovery starts a full hour, disabled stock and superseded plans (25.1853ms)
+✔ SQLite: all existing rank sources multiply once, expire precisely and preserve level cap (22.1742ms)
+✔ SQLite: multiplier includes equipped pet and earned trophy XP bonuses (19.1404ms)
+✔ SQLite: season pass catalog, claim, use both potions and inactive item rejection (61.009ms)
+✔ PostgreSQL: consume, extend, replace, stale confirmation, ownership and replay (3224.2026ms)
+✔ PostgreSQL: rollback, delayed recovery starts a full hour, disabled stock and superseded plans (1832.06ms)
+✔ PostgreSQL: all existing rank sources multiply once, expire precisely and preserve level cap (2145.2798ms)
+✔ PostgreSQL: multiplier includes equipped pet and earned trophy XP bonuses (1652.2585ms)
+✔ PostgreSQL: season pass catalog, claim, use both potions and inactive item rejection (1685.0384ms)
+✔ routes authenticate, validate input/origin, isolate private status and serialize same/different requests (15.4224ms)
+✔ lost commit acknowledgement returns saved result without extending or consuming twice (19.0241ms)
+✔ one-time registration is atomic, does not grant or rewrite pass and preserves later CMS edits (1218.717ms)
+seal dragon transaction failed Error: table inventory_logs has no column named injected_missing_column
+    at Object.run (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:20:257)
+    at Object.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:20:470)
+    at async DB.batch (file:///C:/Users/User/.codex/worktrees/seal-battle-rework/cnine-card/tests/helpers/seal-star-fixture.mjs:43:191) {
+  code: 'ERR_SQLITE_ERROR',
+  errcode: 1,
+  errstr: 'SQL logic error'
+}
+✔ postgres: hard difficulty operation is dry by default and cannot reset later CMS edits (2950.7899ms)
+✔ sqlite: last seal opens once, boss damage clips, combined attempts unlock one clear reward (97.1081ms)
+✔ sqlite: concurrent final seal and boss never charge or pay a losing stale request (25.4293ms)
+✔ sqlite: rollback and lost COMMIT reply keep charge, ledger and progress atomic (13.2013ms)
+✔ sqlite: config locks start, snapshots survive edits, expiration and END cannot clear a living dragon (19.8412ms)
+✔ postgres: last seal opens once, boss damage clips, combined attempts unlock one clear reward (1990.974ms)
+✔ postgres: concurrent final seal and boss never charge or pay a losing stale request (2026.6693ms)
+seal dragon transaction failed error: column "injected_missing_column" of relation "inventory_logs" does not exist
+    at pe.Ue (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:17959)
+    at pe.tt (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:15347)
+    at pe.parse (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:14021)
+    at N.qe (file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/index.js:5:1762)
+    at file:///C:/Users/User/Downloads/upload/cnine-card/node_modules/@electric-sql/pglite/dist/index.js:5:1155
+    at wasm://wasm/0267bb86:wasm-function[10930]:0x5a5ccf
+    at wasm://wasm/0267bb86:wasm-function[3585]:0x27eaeb
+    at wasm://wasm/0267bb86:wasm-function[3627]:0x2869d1
+    at wasm://wasm/0267bb86:wasm-function[3637]:0x286c2d
+    at wasm://wasm/0267bb86:wasm-function[9914]:0x54fd4d {
+  length: 150,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '28',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_target.c',
+  line: '1073',
+  routine: 'checkInsertTargets',
+  query: 'INSERT INTO inventory_logs(injected_missing_column) VALUES(1) RETURNING *',
+  params: [],
+  queryOptions: undefined
+}
+✔ postgres: rollback and lost COMMIT reply keep charge, ledger and progress atomic (1685.9082ms)
+✔ postgres: config locks start, snapshots survive edits, expiration and END cannot clear a living dragon (1737.8678ms)
+✔ 참여·완료 코인은 기존 상한을 넘겨도 보존되고 폐지한 순위 보상은 읽지 않는다 (3.4635ms)
+✔ 25회 최소 보상: 0·24회 차단, 정확히 25·26회 지급, 공헌도가 높아도 우회 불가 (59.3609ms)
+✔ 승패·역할 합산은 완료 전투만 집계하며 요청 재전송·실패는 최소 횟수를 늘리지 않는다 (12.1097ms)
+✔ 현재·지난 회차 보상 미리보기와 eventId 직접 청구가 회차별 최소 횟수를 동일하게 적용한다 (35.0786ms)
+✔ CMS 횟수 검증·권한·구형 저장 호환성과 회차 스냅샷을 보존한다 (11.5029ms)
+✔ 실패 회차는 완료 보상을 지급하지 않고 폐지한 순위 보상은 횟수와 무관하게 차단한다 (3.9383ms)
+✔ 구형 초기화 마커가 있어도 최소 횟수 컬럼을 추가하며 기존 회차·운영 설정은 덮어쓰지 않는다 (7.4871ms)
+✔ PostgreSQL 실제 어댑터: 독립 DDL 게이트, 24회 거부·25회 100억 지급·중복 방지 (2922.5079ms)
+✔ 봉인 체력 20억 상한 해제: CMS API 저장·재조회·회차 스냅샷·실제 진행과 클리어 (21.9453ms)
+✔ 코인은 음수·잘못된 수·정밀도 초과만 안전하게 정리하고 다른 보상 한도는 유지한다 (0.4801ms)
+✔ CMS API 저장·재조회와 새 회차 스냅샷에 큰 금액을 그대로 보존한다 (6.0275ms)
+✔ 큰 참여·완료 보상은 지갑·로그·영수증에 일치하고 순위 보상은 추가 지급하지 않는다 (10.1548ms)
+✔ 큰 완료 보상 지급 실패는 코인·로그를 롤백하고 다음 시도에서 한 번만 지급한다 (7.9303ms)
+✔ CMS 참여·완료 코인 입력과 검증은 유지하고 순위 보상 편집은 제거한다 (3.4195ms)
+ℹ tests 54
+ℹ suites 0
+ℹ pass 54
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12512.6912
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 5900 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 8013.53 KiB / gzip: 1729.43 KiB
+Worker Startup Time: 42 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (5.28 sec)
+No targets deployed for cnine-card-api-runtime (0.74 sec)
+Current Version ID: 4dc0aa61-5c5a-414c-9d6b-0af3b40f0bb2
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19998/20000)
+Uploading... (19999/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 2 files (19998 already uploaded) (1.58 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://2db5bd93.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2785.82 KiB / gzip: 634.15 KiB
+Worker Startup Time: 71 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.31 sec)
+Deployed cnine-card-clan-draft triggers (1.09 sec)
+  schedule: * * * * *
+Current Version ID: 4fa0e687-705e-4d5b-840e-748313715494
