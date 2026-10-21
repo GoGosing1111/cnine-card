@@ -1,4 +1,5 @@
 import {resultStatsHtml} from './growth-view.mjs?v=20261015-v2';
+import {mercenaryPityResultLabel} from '../../shared/mercenary-breakthrough-pity-v1.mjs';
 // Presentation only: this module receives a completed, immutable result. It has
 // no API, random outcome, inventory or account mutation dependency.
 let active = null;
@@ -75,6 +76,7 @@ export function showBreakthrough({result, card, bonusLabel, preview = false}) {
     $('.break-result-level').innerHTML = receipt.success ? receipt.complete ? `<b>Lv.${receipt.after.level}</b><small>MAX</small>` : `<span>Lv.${receipt.before.level}</span><i>→</i><b>Lv.${receipt.after.level}</b>` : `<b>Lv.${receipt.after.level}</b><small>유지</small><i>·</i><span>경험치 0%</span>`;
     $('.break-result-effect').textContent = receipt.success ? bonusLabel : '기존 돌파 효과 유지';
     $('.break-result-note').textContent = receipt.success ? receipt.complete ? '20레벨 최종 돌파를 완료했습니다.' : '돌파 효과가 해금되었습니다. 다음 성장을 시작하세요.' : '용병은 보존됩니다. 현재 레벨의 경험치를 다시 채워 도전하세요.';
+    if(receipt.pity)$('.break-result-note').append(document.createElement('br'),document.createTextNode(mercenaryPityResultLabel(receipt)+'.'));
     $('.break-result-stats').innerHTML = resultStatsHtml(receipt);
     $('.break-preserved').hidden = receipt.success;
     $('.break-art').setAttribute('aria-hidden', 'false'); $('.break-art img').alt = `${identity.name} 원화`;

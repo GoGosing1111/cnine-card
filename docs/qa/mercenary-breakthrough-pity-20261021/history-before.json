@@ -1,0 +1,67 @@
+{
+  "checkedAt": "2026-10-21T05:45:49.165Z",
+  "readOnly": true,
+  "databaseWrites": 0,
+  "growthRows": 249,
+  "growthUsers": 127,
+  "completedGrowthReceipts": 2127,
+  "matchedAllRows": true,
+  "retroactiveUsers": 40,
+  "retroactiveMercenaries": 48,
+  "retroactiveFailures": 175,
+  "alreadyGuaranteed": [
+    {
+      "level": 15,
+      "failures": 10,
+      "threshold": 10
+    },
+    {
+      "level": 5,
+      "failures": 13,
+      "threshold": 10
+    },
+    {
+      "level": 15,
+      "failures": 37,
+      "threshold": 10
+    }
+  ],
+  "ledgerSha256": "ba87378dbec3014b7e28f9fbbff8d6570648c63c43dcbf71b80074c96e14be3f",
+  "stateSha256": "e57f71dcc88c8f042123277ac9ad41468cf9ff029e4e5e71d3af2a50a8f34c31",
+  "timing": [
+    {
+      "completedRows": 121,
+      "breakthroughRows": 32,
+      "queryMs": 87
+    },
+    {
+      "completedRows": 32,
+      "breakthroughRows": 13,
+      "queryMs": 76.87
+    },
+    {
+      "completedRows": 103,
+      "breakthroughRows": 46,
+      "queryMs": 82.43
+    }
+  ],
+  "queryPlan": [
+    {
+      "Plan": {
+        "Node Type": "Index Scan",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Scan Direction": "Forward",
+        "Index Name": "joint_operations_user_v1",
+        "Relation Name": "joint_operations_v1",
+        "Alias": "joint_operations_v1",
+        "Startup Cost": 0.55,
+        "Total Cost": 105.05,
+        "Plan Rows": 25,
+        "Plan Width": 1142,
+        "Index Cond": "((user_id = '289'::bigint) AND (kind = 'MERCENARY_LEVEL_V1'::text))",
+        "Filter": "(status = 'COMPLETED'::text)"
+      }
+    }
+  ]
+}

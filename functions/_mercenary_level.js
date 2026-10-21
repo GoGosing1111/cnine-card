@@ -16,6 +16,7 @@ import {mercenaryRandomInt} from './_mercenary_draw_accounting.js';
 import {runJointOperation,readJointOperation} from './_joint_transactions.js';
 import {jointGuard,jointGuardEnd} from './_joint_atomic.js';
 import {readJointBody,jointResponseError} from './_joint_request.js';
+import {readMercenaryBreakthroughHistory,mercenaryPityFromHistory} from './_mercenary_level_pity.js';
 
 const KIND='MERCENARY_LEVEL_V1';
 // Freeze growth effects in the same receipt as the material/XP change. Replaying
@@ -42,14 +43,15 @@ async function context(env,user,input){
  if(!(jinmuAccountAllowed(user.id,input.mercenaryCode,hasJinmuPackIssue)&&jokroAccountAllowed(user.id,input.mercenaryCode,Date.now(),hasJokroPackIssue))||!owned.results.some(r=>r.mercenary_code===input.mercenaryCode&&Number(r.total_copies)>0))throw levelError('MERCENARY_LEVEL_NOT_OWNED','보유한 용병만 성장시킬 수 있습니다.',403);
  const catalog=levelCatalog(document,user.id,hasJinmuPackIssue,hasJokroPackIssue),target=catalog.find(c=>c.code===input.mercenaryCode);
  if(!target?.rank)throw levelError('MERCENARY_LEVEL_RANK','성장 대상의 등급이 미정입니다.',409);
- return {policy,raw,cmsRevision,state,target,owned:owned.results,catalog};
+ const pity=input.action==='BREAKTHROUGH'?mercenaryPityFromHistory(await readMercenaryBreakthroughHistory(env,user.id),input.mercenaryCode,state):null;
+ return {policy,raw,cmsRevision,state,target,owned:owned.results,catalog,pity};
 }
 export async function previewMercenaryTraining(env,user,body){const input=normalize(body,'TRAIN'),ctx=await context(env,user,input);return captureGrowth(ctx.policy,planMercenaryTraining({...ctx,materials:input.materials}));}
 // Prepared core. Only the release-gated route and isolated transaction tests call it.
 export async function runPreparedMercenaryLevel(env,user,body,action,{randomInt=mercenaryRandomInt}={}){
  const input=normalize(body,action),DB=env.DB,p=(sql,...v)=>DB.prepare(sql).bind(...v);
  const op=await runJointOperation(env,user,{requestId:body.requestId,kind:KIND,input,prepare:async()=>{
-  const ctx=await context(env,user,input),result=action==='TRAIN'?planMercenaryTraining({...ctx,materials:input.materials}):planMercenaryBreakthrough({...ctx,roll:randomInt(1000000)});
+  const ctx=await context(env,user,input),result=action==='TRAIN'?planMercenaryTraining({...ctx,materials:input.materials}):planMercenaryBreakthrough({...ctx,roll:randomInt(1000000),pityFailures:ctx.pity?.failures??0});
   if(result.overflowXp&&!input.allowOverflow)throw levelError('MERCENARY_LEVEL_OVERFLOW','돌파 구간의 초과 경험치는 저장되지 않습니다. 재료를 줄이거나 초과 경험치 소멸에 동의하세요.',409);
   captureGrowth(ctx.policy,result);
   return {version:RULES.version,action,mercenaryCode:input.mercenaryCode,name:ctx.target.name,rank:ctx.target.rank,policyRevision:ctx.policy.revision,policyRaw:ctx.raw,cmsRevision:ctx.cmsRevision,result,createdAt:new Date().toISOString()};
@@ -59,6 +61,12 @@ export async function runPreparedMercenaryLevel(env,user,body,action,{randomInt=
   const consumed=plan.result.consumed||[],before=plan.result.before,after=plan.result.after;
   for(const m of consumed){const r=current.owned.find(c=>c.mercenary_code===m.code);if(Number(r?.total_copies)!==m.totalBefore||Number(r?.duplicate_count)!==m.duplicatesBefore)throw terminal('재료 수량이 변경되었습니다. 다시 선택하세요.');}
   if(JSON.stringify(current.state)!==JSON.stringify(before))throw terminal('성장 상태가 변경되었습니다. 다시 불러오세요.');
+  if(action==='BREAKTHROUGH'){
+   // Completed legacy receipts remain immutable. An uncommitted pre-pity failure
+   // must not consume the newly guaranteed attempt when recovered after release.
+   if(!plan.result.pity&&current.pity?.guaranteed&&!plan.result.success)throw terminal('돌파 천장이 적용되었습니다. 최신 상태에서 확정 돌파를 다시 시작하세요.');
+   if(plan.result.pity&&plan.result.pity.failuresBefore!==current.pity?.failures)throw terminal('돌파 실패 기록이 변경되었습니다. 다시 불러오세요.');
+  }
   const token=crypto.randomUUID(),list=[];
   // PostgreSQL share locks serialize policy/CMS edits with this commit; the account
   // row is already locked by runJointOperation. SQLite batches are write-serialized.
@@ -100,9 +108,10 @@ export async function handleMercenaryLevel({path,request,env,deps}){
     const [{policy},{document},owned]=await Promise.all([readMercenaryLevelPolicy(env),readMercenaryDocument(env),env.DB.prepare('SELECT mercenary_code,total_copies,duplicate_count FROM user_mercenary_cards_v1 WHERE user_id=?').bind(user.id).all()]);
     const configured=RELEASE&&mercenaryLevelReadiness(policy,{requireGrowth:true}).ready,enabled=configured&&policy.mode==='ON';
     const rows=configured?(await env.DB.prepare('SELECT * FROM user_mercenary_levels_v1 WHERE user_id=?').bind(user.id).all()).results:[];
+    const history=configured&&rows.length?await readMercenaryBreakthroughHistory(env,user.id):[];
     const [packOwners,jokroPackOwners]=await Promise.all([readJinmuPackOwners(env,owned.results.some(r=>r.mercenary_code===JINMU_CODE)?[user.id]:[]),readJokroPackOwners(env,owned.results.some(r=>r.mercenary_code===JOKRO_CODE)?[user.id]:[])]);
     const catalog=levelCatalog(document,user.id,packOwners.has(Number(user.id)),jokroPackOwners.has(Number(user.id)));
-    return reply({userId:Number(user.id),enabled,policy,rules:RULES,cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>({code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...catalog.find(c=>c.code===r.mercenary_code),growth:mercenaryLevelState(rows.find(s=>s.mercenary_code===r.mercenary_code))}))});
+    return reply({userId:Number(user.id),enabled,policy,rules:RULES,cards:owned.results.filter(r=>catalog.some(c=>c.code===r.mercenary_code)).map(r=>{const state=mercenaryLevelState(rows.find(s=>s.mercenary_code===r.mercenary_code));return {code:r.mercenary_code,totalCopies:Number(r.total_copies),duplicates:Number(r.duplicate_count),...catalog.find(c=>c.code===r.mercenary_code),growth:state,breakthroughPity:mercenaryPityFromHistory(history,r.mercenary_code,state)};})});
    }
   }
   if(request.method!==(admin?'PATCH':'POST'))throw levelError('MERCENARY_LEVEL_METHOD','지원하지 않는 요청입니다.',405);
