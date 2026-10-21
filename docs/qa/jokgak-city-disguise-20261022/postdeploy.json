@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-10-21T21:51:17.163Z",
+  "mode": "postdeploy",
+  "cityMode": "ON",
+  "policyRevision": 56,
+  "policySha256": "36ad869242cc158d5b7b3afa0869930ccb877ec3049a6316e574fa3190f5bdcf",
+  "readOnly": true,
+  "accountWrites": 0,
+  "policyUnchanged": true
+}

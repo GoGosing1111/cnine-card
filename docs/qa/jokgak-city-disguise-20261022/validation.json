@@ -14,6 +14,8 @@
   "browserErrors": 0,
   "visualReview": "Technical review completed; user visual approval not claimed",
   "sourceReview": "Server-authoritative price, eligibility and limit; original role authority retained; atomic life/player/receipt updates; no schema changes",
-  "deploymentBase": "fd7907c0c13394e82d8db307ebb3ba958ab5ee13",
-  "productionAssetCount": 20000
+  "deploymentBase": "955597b36cec37ce85c9a1aee523c8f9494d8874",
+  "productionAssetCount": 20000,
+  "productionVerification": "production.json",
+  "cityPolicyVerification": "postdeploy.json"
 }

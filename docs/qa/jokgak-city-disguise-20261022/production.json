@@ -1,0 +1,166 @@
+{
+  "checkedAt": "2026-10-21T21:51:21.164Z",
+  "source": "450b18ae4adc5e77dc048660e9a324c914205b4a",
+  "base": "955597b36cec37ce85c9a1aee523c8f9494d8874",
+  "pages": {
+    "Id": "8c9dd763-b161-44b7-876e-aeb50863ea68",
+    "Environment": "Production",
+    "Branch": "main",
+    "Source": "450b18a",
+    "Deployment": "https://8c9dd763.cnine-card.pages.dev",
+    "Status": "39 seconds ago",
+    "Build": "https://dash.cloudflare.com/1e7c59450a8b6e34a9d87f92ca02aeaa/pages/view/cnine-card/8c9dd763-b161-44b7-876e-aeb50863ea68"
+  },
+  "apiRuntimeVersion": "4b69b4df-1fb9-4e25-aa67-85c031a61bcc",
+  "clanDraftVersion": "ac125d8c-bd24-4968-8110-a3b08410dd27",
+  "activeWorkers": [
+    {
+      "config": "workers/api-runtime/wrangler.jsonc",
+      "deploymentId": "50d23925-8ce5-43bc-a2b7-f63051ca8e4a",
+      "createdAt": "2026-10-21T21:49:23.667773Z",
+      "versions": [
+        {
+          "version_id": "4b69b4df-1fb9-4e25-aa67-85c031a61bcc",
+          "percentage": 100
+        }
+      ]
+    },
+    {
+      "config": "workers/clan-draft/wrangler.jsonc",
+      "deploymentId": "b37f4e43-6c52-4c6b-ae14-a88bfcabacc2",
+      "createdAt": "2026-10-21T21:50:45.892386Z",
+      "versions": [
+        {
+          "version_id": "ac125d8c-bd24-4968-8110-a3b08410dd27",
+          "percentage": 100
+        }
+      ]
+    }
+  ],
+  "deployExit": 0,
+  "releaseTests": 18,
+  "relatedUniqueTests": 77,
+  "browserWidths": [
+    1440,
+    390,
+    320
+  ],
+  "productionAssetCount": 20000,
+  "checks": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "c9dd3360f26a5e1c3eef2fb801ac578f3ae34a05d4ca6b8b886f738df57bfe03",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "js/jokgak-city-v1.js",
+      "status": 200,
+      "sha256": "1131c94677139664c7c04fa7406caef3242747953276856444521d6f5b1bb4ac",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "js/jokgak-city-disguise-ui-v1.mjs",
+      "status": 200,
+      "sha256": "3124253d9677086be3c5a089fbd7cf841108558583736f6fa9f179b9dc691d2d",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "js/jokgak-city-item-art-v1.mjs",
+      "status": 200,
+      "sha256": "b3bf4ac0e94fdf3ba5e48753fdf26b2c097cc98801b7a8a2c69e607597028981",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "js/jokgak-city-life-ui-v1.mjs",
+      "status": 200,
+      "sha256": "7d6f5223a157e1d9f67910a7e173e185777b0d42e24630278885f44f222ca52d",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "js/jokgak-city-career-ui-v1.mjs",
+      "status": 200,
+      "sha256": "7b121f01043f969d02e5b94493e36f1d59ec8739728a351a3c065d0c2d536c6b",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "js/jokgak-city-expansion-ui-v1.mjs",
+      "status": 200,
+      "sha256": "45d7850029bb5aab6d119411b423c05ca99d67de0f28014b3ff6f197963877b6",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "js/adventure-navigation-standalone.js",
+      "status": 200,
+      "sha256": "95e81f42719b514931880687185f0964531400eac40b359c866a4d644df25ab3",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "css/jokgak-city-v1.css",
+      "status": 200,
+      "sha256": "e9f442e3a4ad7e4d336044bbbf79abf323ca8196056194ab3eaa2f058099b579",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "css/jokgak-city-disguise-v1.css",
+      "status": 200,
+      "sha256": "d20dd334e327e4cd11a7c8305a122c189d7b5a8e619f6eda38bc71731ca67cb2",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "shared/jokgak-city-v1.mjs",
+      "status": 200,
+      "sha256": "3c06fde4bd4e6eee0248eb736d306e5e9ebfb0306f2907210d11d94f8f82932f",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "shared/jokgak-city-life-v1.mjs",
+      "status": 200,
+      "sha256": "6070d446c8dda0ce034ade0b886eeac59c9bf76279d43983f4fceae4ab99c404",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "shared/jokgak-city-comms-v1.mjs",
+      "status": 200,
+      "sha256": "9b23d0fcfa4a9e839728ab1aae76fc7e9e6862b994e24baed29196a50afe3eeb",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "shared/jokgak-city-disguise-v1.mjs",
+      "status": 200,
+      "sha256": "5bc0e7032be5fcbfa516b835d40109e14fb74a40d6a2146ed192d19e95f28896",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "assets/ui/jokgak-city/disguise-v1/manifest.json",
+      "status": 200,
+      "sha256": "7367b0e7f1afd3e0187222f478cea77872acced29ffb59430afd56fb6b9d7584",
+      "normalization": "CRLF to LF"
+    },
+    {
+      "path": "assets/ui/jokgak-city/disguise-v1/identity-256.webp",
+      "status": 200,
+      "sha256": "42c169e37fbb8e464ca2dcd85c018704157bea78b568e158623b1a2d5dd59631",
+      "normalization": "binary"
+    },
+    {
+      "path": "assets/ui/jokgak-city/disguise-v1/identity-768.webp",
+      "status": 200,
+      "sha256": "48ee6df13c748b8fe8bc19bb7fa60c944532e466ae9c8273d0a1537e361e1b52",
+      "normalization": "binary"
+    },
+    {
+      "path": "assets/ui/jokgak-city/disguise-v1/panel.webp",
+      "status": 200,
+      "sha256": "d4b1ced1abef8dc92bbf2baed2baec28271aeaedebb949026f0432a257f8c714",
+      "normalization": "binary"
+    },
+    {
+      "path": "assets/ui/jokgak-city/disguise-v1/button.webp",
+      "status": 200,
+      "sha256": "465ba3bd8e6bd72bd905b044451f1dcbd1c72a00a389b2b213a98f8b1a1961d6",
+      "normalization": "binary"
+    }
+  ],
+  "liveAccountMutations": 0
+}

@@ -1,0 +1,86 @@
+
+> deploy:production
+> node scripts/deploy-production.mjs --scoped
+
+[SCOPED RELEASE] {"base":"955597b36cec37ce85c9a1aee523c8f9494d8874","reason":"족각도시 위장신분증의 거래·공개 표시·회차 제한을 관련 SQLite/PostgreSQL 검사로 확인하며 실제 배포 자산 한도와 병합한 배포 정책을 검증한다. 기존 생활·방송·보급·현상수배 59개 및 PC/모바일 검수는 이미 통과했다.","changed":["AGENTS.md","assets/ui/jokgak-city/disguise-v1/button.webp","assets/ui/jokgak-city/disguise-v1/identity-256.webp","assets/ui/jokgak-city/disguise-v1/identity-768.webp","assets/ui/jokgak-city/disguise-v1/manifest.json","assets/ui/jokgak-city/disguise-v1/panel.webp","css/jokgak-city-disguise-v1.css","css/jokgak-city-v1.css","docs/qa/jokgak-city-disguise-20261022/1440-expired.png","docs/qa/jokgak-city-disguise-20261022/1440-identity-active.png","docs/qa/jokgak-city-disguise-20261022/1440-identity-result.png","docs/qa/jokgak-city-disguise-20261022/1440-inventory-active.png","docs/qa/jokgak-city-disguise-20261022/1440-market.png","docs/qa/jokgak-city-disguise-20261022/1440-police-disabled.png","docs/qa/jokgak-city-disguise-20261022/1440-purchase-confirm.png","docs/qa/jokgak-city-disguise-20261022/320-expired.png","docs/qa/jokgak-city-disguise-20261022/320-identity-active.png","docs/qa/jokgak-city-disguise-20261022/320-identity-result.png","docs/qa/jokgak-city-disguise-20261022/320-inventory-active.png","docs/qa/jokgak-city-disguise-20261022/320-market.png","docs/qa/jokgak-city-disguise-20261022/320-police-disabled.png","docs/qa/jokgak-city-disguise-20261022/320-purchase-confirm.png","docs/qa/jokgak-city-disguise-20261022/390-expired.png","docs/qa/jokgak-city-disguise-20261022/390-identity-active.png","docs/qa/jokgak-city-disguise-20261022/390-identity-result.png","docs/qa/jokgak-city-disguise-20261022/390-inventory-active.png","docs/qa/jokgak-city-disguise-20261022/390-market.png","docs/qa/jokgak-city-disguise-20261022/390-police-disabled.png","docs/qa/jokgak-city-disguise-20261022/390-purchase-confirm.png","docs/qa/jokgak-city-disguise-20261022/README.md","docs/qa/jokgak-city-disguise-20261022/art/button-source.png","docs/qa/jokgak-city-disguise-20261022/art/icon-source.png","docs/qa/jokgak-city-disguise-20261022/art/panel-source.png","docs/qa/jokgak-city-disguise-20261022/browser.json","docs/qa/jokgak-city-disguise-20261022/development-1440-before-null-guard-fix.png","docs/qa/jokgak-city-disguise-20261022/preflight.json","docs/qa/jokgak-city-disguise-20261022/read-live.mjs","docs/qa/jokgak-city-disguise-20261022/validation.json","docs/qa/seal-orbs-20261022/.gitattributes","docs/qa/seal-orbs-20261022/README.md","docs/qa/seal-orbs-20261022/live-mobile-selection.png","docs/qa/seal-orbs-20261022/live-verification.json","docs/qa/seal-orbs-20261022/production-release-first-attempt.log","docs/qa/seal-orbs-20261022/production-release.log","functions/_jokgak_city.js","functions/_jokgak_city_begging.js","functions/_jokgak_city_comms.js","functions/_jokgak_city_conflict.js","functions/_jokgak_city_disguise.js","functions/_jokgak_city_supply.js","index.html","js/adventure-navigation-standalone.js","js/jokgak-city-career-ui-v1.mjs","js/jokgak-city-disguise-ui-v1.mjs","js/jokgak-city-expansion-ui-v1.mjs","js/jokgak-city-item-art-v1.mjs","js/jokgak-city-life-ui-v1.mjs","js/jokgak-city-v1.js","package.json","scripts/prepare-production-assets.mjs","shared/jokgak-city-comms-v1.mjs","shared/jokgak-city-disguise-v1.mjs","shared/jokgak-city-life-v1.mjs","shared/jokgak-city-v1.mjs","tests/jokgak-city-disguise-20261022.browser.mjs","tests/jokgak-city-disguise-20261022.test.mjs","tests/scoped-release-policy-20260923.test.mjs"],"tests":["tests/jokgak-city-disguise-20261022.test.mjs","tests/scoped-release-policy-20260923.test.mjs"],"checks":["check:worker"]}
+✔ production delivers every disguise asset and module within the Pages cap while preserving Node QA sources (93.1965ms)
+✔ sqlite: 3,000 cash purchase, random real participant identity, two uses, expiry, rejoin, and role permissions (111.0515ms)
+✔ sqlite: absent/ineligible source costs nothing; failure rollback and lost-response retries preserve one use (54.4109ms)
+✔ sqlite: TEST inventory/use limit are separate; mode access, combat receipts and notices use the alias (74.7413ms)
+✔ sqlite: market and cash checks, no purchase on insufficient funds, and round end caps the visible disguise deadline (51.9899ms)
+✔ postgres: 3,000 cash purchase, random real participant identity, two uses, expiry, rejoin, and role permissions (1941.3408ms)
+✔ postgres: absent/ineligible source costs nothing; failure rollback and lost-response retries preserve one use (1372.0912ms)
+✔ postgres: TEST inventory/use limit are separate; mode access, combat receipts and notices use the alias (1306.0019ms)
+✔ postgres: market and cash checks, no purchase on insufficient funds, and round end caps the visible disguise deadline (1328.0125ms)
+✔ focused selection stays small and deduplicates files without invoking the full gate (2.6803ms)
+✔ scoped deployment preserves clean commit, ignored-file, main and ancestor guards (0.4601ms)
+✔ selection rejects malformed arrays, traversal, glob, shell flags and non-test scripts (0.3955ms)
+✔ DB, auth, infrastructure and dependency changes retain the full-release requirement (0.5653ms)
+✔ small backend and V3 fixes automatically retain compilation and real loader regressions (0.172ms)
+✔ an unshipped QA Wrangler record does not classify an art release as production infrastructure (12.9144ms)
+✔ selected tests run once, guard follows them, and a failed test stops execution (0.5981ms)
+✔ actual deploy entry supports scoped checks and guards the regional service before Pages cutover (3.5138ms)
+✔ policy-only commits do not block the next asset release, while dependencies still do (2.1013ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6828.6161
+
+> check:worker
+> node --check functions/api/[[path]].js
+
+[PRODUCTION RELEASE OK] organization-command-20261021-v3-20261018-halloween-sss-fallback-v1-shiranui-silver-20261018-v2-coop-normal-view-20261018-v1-kangyun-live-20261018-v1-city-supply-20261018-v1-iyejun-avatar-20261018-v1-world-transparent-20261018-v1-martial-law-20261018-v1-loading-20261018-v1-world-nav-20261018-v2-world-expansion-20261018-v1-pet-icons-coins-paced-v2-operations-popup-20261018-v1-jinmu-jokro-v2-leonel-live-20261018-v1-white-crest-20261019-forward-guard-v3-equipment-set-fx-20261019-v1-content-removal-20261019-sahyeon-live-v1-ss-balance-20261019-v2-sahyeon-cadence-dialogue-20261019-v1-ranked-series-20261019-v2-wide-bathory-live-20261019-v1-multi-device-20261020-v1-shiranui-rank-20261020-v1-zero-live-20261020-v1-zero-body-2x-calm-idle-v1-prime-requiem-20261021-v2-defense-rewards-20261020-v1-content-energy-20261020-v1-energy-clock-fix-v1-coop-entry-gate-v1-owner-pass-v1-land-daily5x-20261020-v1-duo-random-20261020-v1-message-cleanup-20261020-v1-halloween-recovery-20261020-v1-system-cleanup-v2-duo-start-20261020-v2-new-gift-20261020-v3-pass-sales-start-20261020-v1-varsen-presentation-20261021-v1-halloween-storage-20261021-v1-legion-daily-energy-20261021-v1-jokro-pack-20261021-v1-city-supply-expiry-20261021-v1-bathory-stock5-20261021-v1-jokro-codex-20261021-v1-workshop-entry-20261021-v1-reversecall-gift-20261021-v1-valter-helios-parity-20261021-v1-jinmu-stock4-20261022-v1-seal-dragon-20261022-v1-seal-orbs-20261022-v1 · legacy raid preserved · Core TEST-gated · rewards locked
+[HYPERDRIVE OK] 12ed48b0fb374f82a610cc1daba92e95 · query cache disabled · Pages/clan-draft bindings match
+Pages delivery: 20000 files; 6015 test runners kept in the repository.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 8033.18 KiB / gzip: 1734.22 KiB
+Worker Startup Time: 55 ms
+Your Worker has access to the following bindings:
+Binding                                                                   Resource               
+env.USER_LOCK (UserMutationLock, defined in cnine-card-user-lock)         Durable Object         
+env.COOP_ROOMS (CooperativeRoom)                                          Durable Object         
+env.COOP_PLAYERS (CooperativePlayer)                                      Durable Object         
+env.ACCOUNT_SYNC (AccountSync)                                            Durable Object         
+env.DB (cnine-card-db)                                                    D1 Database            
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)                         Hyperdrive Config      
+
+Uploaded cnine-card-api-runtime (4.60 sec)
+No targets deployed for cnine-card-api-runtime (0.59 sec)
+Current Version ID: 4b69b4df-1fb9-4e25-aa67-85c031a61bcc
+[API RUNTIME OK] Private service credentials are present.
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Compiled Worker successfully
+Uploading... (19977/20000)
+Uploading... (19984/20000)
+Uploading... (19992/20000)
+Uploading... (20000/20000)
+✨ Success! Uploaded 23 files (19977 already uploaded) (2.74 sec)
+
+✨ Uploading _headers
+✨ Uploading _redirects
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://8c9dd763.cnine-card.pages.dev
+
+ ⛅️ wrangler 4.125.0 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 2786.18 KiB / gzip: 634.75 KiB
+Worker Startup Time: 58 ms
+Your Worker has access to the following bindings:
+Binding                                                      Resource               
+env.CLAN_DRAFT_ALARM (ClanDraftAlarm)                        Durable Object         
+env.RANKED_DUO_ALARM (RankedDuoAlarm)                        Durable Object         
+env.HYPERDRIVE (12ed48b0fb374f82a610cc1daba92e95)            Hyperdrive Config      
+
+Uploaded cnine-card-clan-draft (3.26 sec)
+Deployed cnine-card-clan-draft triggers (1.21 sec)
+  schedule: * * * * *
+Current Version ID: ac125d8c-bd24-4968-8110-a3b08410dd27
