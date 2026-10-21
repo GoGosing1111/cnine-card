@@ -33,7 +33,7 @@ test('anonymous login gate ignores old drafts; background clan refresh preserves
   // Only legacy feature modules are stubbed. The shipped ClanV1 polling/render path is real.
   if(/^\/js\/clan-(war-reform|faction)-v1\.mjs$/.test(requested)){res.writeHead(200,{'Content-Type':'text/javascript'}).end('export function connect(){}');return;}
   const file=resolve(root,'.'+(requested==='/organization/'?'/organization/index.html':requested)),rel=relative(root,file);
-  if(rel.startsWith('..')||isAbsolute(rel)||!/^\/(organization\/|js\/(?:organization-|clan-v1.js)|css\/organization-|shared\/(?:organization-|clan-faction-)|assets\/ui\/organization\/|assets\/fonts\/)/.test(requested)){res.writeHead(404).end();return;}
+  if(rel.startsWith('..')||isAbsolute(rel)||!/^\/(organization\/|js\/(?:organization-|clan-v1.js)|css\/organization-|shared\/(?:organization-|clan-faction-)|assets\/ui\/(?:organization|mercenary-codex)\/|assets\/fonts\/)/.test(requested)){res.writeHead(404).end();return;}
   res.setHeader('Content-Type',({'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.webp':'image/webp','.ttf':'font/ttf'})[extname(file)]||'application/octet-stream');
   res.end(await readFile(file));
  }catch{res.writeHead(404).end();}});
@@ -54,7 +54,7 @@ test('anonymous login gate ignores old drafts; background clan refresh preserves
   await ui.locator('a.admission-button').waitFor();
   await page.waitForFunction(()=>parseInt(document.querySelector('.org-live-frame').style.height)>300);
   const fits=async()=>{assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);assert.equal(await ui.locator('body').evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);};
-  const imageButtons=async()=>assert.deepEqual(await ui.locator('button').evaluateAll(bs=>bs.filter(b=>getComputedStyle(b).backgroundImage==='none').map(b=>b.textContent)),[]);
+  const imageButtons=async()=>assert.deepEqual(await ui.locator('button').evaluateAll(bs=>bs.filter(b=>getComputedStyle(b).backgroundImage==='none'&&getComputedStyle(b).borderImageSource==='none').map(b=>b.textContent)),[]);
   const closed=async()=>{
    assert.equal(await ui.locator('[data-admission="start"]').count(),0);
    assert.equal(await ui.locator('[data-answer], [data-admission-pick], .admission-dossier').count(),0);
@@ -97,9 +97,12 @@ test('anonymous login gate ignores old drafts; background clan refresh preserves
   const before=await page.locator('.org-live-frame').getAttribute('style');
   await page.evaluate(()=>window.dispatchEvent(new MessageEvent('message',{origin:location.origin,source:window,data:{type:'organization:height',height:29999}})));
   assert.equal(await page.locator('.org-live-frame').getAttribute('style'),before);
-  await page.locator('[data-clan-tab="champions"]').click();
-  assert.equal(await page.locator('.org-live-frame').count(),0);
-  await page.locator('[data-clan-tab="organization"]').click();await closed();
+  assert.equal(await page.locator('.org-archive-nav, [data-clan-tab="champions"], [data-clan-tab="organization"]').count(),0);
+  await page.evaluate(()=>{ClanV1.state.tab='champions';ClanV1.bind(ClanV1.state.ctx)});
+  await page.waitForFunction(()=>!ClanV1.state.loading&&ClanV1.state.tab==='organization');
+  assert.equal(await page.evaluate(()=>originalOrganizationFrame===document.querySelector('.org-live-frame')),true);
+  assert.equal(await page.locator('.org-archive-nav, .clan-champions').count(),0);
+  await page.evaluate(()=>ClanV1.stop());
   // Direct links and reloads require login, regardless of old drafts/query flags.
   await page.goto(origin+'/organization/?view=owner&admission=1');
   await page.locator('a.admission-button').waitFor();assert.match(await page.locator('.org-status').innerText(),/로그인 필요/);
